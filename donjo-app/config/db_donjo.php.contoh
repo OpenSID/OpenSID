@@ -1,0 +1,12 @@
+<?php
+// ------------------------------------------------------
+// FILE INI JANGAN DI-COMMIT KE GIT. TAMBAHKAN DI .gitignore
+// ------------------------------------------------------
+$config['base_url'] = 'http://localhost/sid3.04/';
+$config['license_key'] = 'setuju';
+
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
+$db['default']['database'] = 'sid3.04b';
+?>

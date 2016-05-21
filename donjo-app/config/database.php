@@ -2,10 +2,14 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'sid304';
+if(is_file('donjo-app/config/db_donjo.php')) {
+  include('db_donjo.php');
+}else{
+  $db['default']['hostname'] = 'localhost';
+  $db['default']['username'] = 'root';
+  $db['default']['password'] = '';
+  $db['default']['database'] = 'sid3.04b';
+}
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
