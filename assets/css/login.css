@@ -1,0 +1,211 @@
+*{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:#837a1b url(../images/background/login_bg3.jpg) no-repeat center top;
+  font-family:tahoma,verdana,arial,sans-serif;
+  font-size:11px;
+}
+
+a:link{
+  text-decoration:none;
+}
+a:visited{
+  text-decoration:none;
+}
+hr{
+    border:none;
+    margin:10px 0;
+    clear:both;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #fff;
+}
+#container{
+    padding:8px 1px 4px 1px;
+    margin: 300px auto 0;
+    background:#212620;
+    position:relative;
+    border:1px solid #271e16;
+    border-top:1px solid #63605b;
+    box-shadow:0px 0px 5px #000;
+    -moz-box-shadow:0px 0px 5px #000;
+    -webkit-box-shadow:0px 0px 5px #000;
+}
+
+#loginbox{
+    width:400px;
+    margin:0px 10px 0px 10px;
+    background:#f3e3c6;
+    overflow:hidden;
+}
+    #loginbox h4{
+		background:#212620;
+        border-bottom:1px solid #7b736b;
+        height:30px;
+        line-height:22px;
+        padding:0 10px;
+		text-shadow:-1px -1px 1px #484;
+		color:#eecc44;
+        font-size:18px;
+        text-align:center;
+        font-family:Arial,Tahoma,Verdana;
+        text-transform:uppercase;
+    }
+    #loginbox h5{
+		background:#212620;
+        height:26px;
+        line-height:21px;
+        padding:0 10px;
+		text-shadow:-1px -1px 1px #484;
+		color:#ffdd66;
+        font-size:13px;
+        text-align:center;
+        font-family:Tahoma,Verdana;
+    }
+    #loginbox #header{
+        margin:10px 10px 0px 10px;
+        padding:0px;
+        border:1px solid #ddd;
+        height:180px;
+        background:#293034;
+    }
+    #loginbox .box{
+        margin:10px;
+        background:#f9f4ea;
+        padding:10px;
+        border:1px solid #ffe;
+    }
+    
+    #loginbox .box .login-msg{
+        font-family:Tahoma,Verdana;
+		font-size:11px;
+		float:left;
+		color: #aa2211;
+		padding-left:2px;  
+        font-weight:bold;  
+		text-decoration: blink;
+    }
+	
+    #loginbox .box label{
+        display:block;
+        font-size:10px;
+        font-family:Tahoma;
+        text-transform:uppercase;
+        color:#666;
+        text-shadow:1px 1px 0px #fff;      
+        font-weight:bold;  
+    }
+    #loginbox .box .inputbox{
+        padding:4px;
+		margin-bottom:3px;
+        background:#fff;
+        width:250px;
+        border:1px solid #ddd;
+        color:#aaa;
+        display:block;
+    }
+    #loginbox .box .inputbox:focus{
+        background:#fffaee;
+        border:1px solid #f3dcac;
+        color:#555;
+    }
+ 
+.loadingbox{
+  position:relative;
+  overflow:hidden;
+}
+  .loadingbox .loadingbar{
+    background-color:#fdb44c;
+    border:1px solid #d47b1c;
+    position:absolute;
+    top:0;
+    left:0px;
+    z-index:10;
+    width:0px;
+    height:22px;
+    text-align:center;
+    display:none;
+    opacity:0.7;
+  }
+  .loadingbox .loadingbar span{
+    color:#222;
+    line-height:20px;
+    text-shadow:0px -1px 0px #888;
+    display:none;=
+  }
+#loadingbox{
+  position:absolute;
+  top:0;
+  left:145px;
+  overflow:hidden;
+  background:#eee;
+  width:310px;
+  height:40px;
+  z-index:100;
+  border:1px solid #ccc;
+}
+
+#loading-bar{
+  position:absolute;
+  top:3px;
+  left:0;
+  width:300px;
+  height:30px;
+  line-height:25px;
+  background:#d48318;
+  background: -moz-linear-gradient(top, #e39837, #d48318 100%);  
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#e39837), to(#d48318));
+  opacity:0.8;
+  margin:5px;
+  z-index:1;
+}
+  
+#notification{
+border:1px solid #d8e56c;
+    box-shadow:0px 0px 2px #c38d59;
+    -moz-box-shadow:0px 0px 2px #c38d59;
+    -webkit-box-shadow:0px 0px 2px #c38d59;
+  position:absolute;
+  bottom:55px;
+  left:35px;
+  width:230px;
+  text-align:left;
+  padding:3px;
+  color:#fff;
+  overflow:hidden;
+  opacity:0.8;
+}
+  #notification p img{
+    vertical-align:middle;
+    margin:-2px 5px 0 0;
+  }
+  #notification label{
+    position:relative;
+    z-index:2;
+  }
+  #notification.information{
+    background:#9595ff;
+  }
+  #notification.failed{
+    background:#ec3939;
+  }
+  
+#footer{
+    background:#212620;
+    height:40px;
+    line-height:40px;
+    padding:3 5px;
+    text-shadow:-1px -1px 0px #000;
+    color:#aaa;
+    font-size:10px;
+    text-align:center;
+    font-family:Arial,Tahoma,Verdana;
+    text-transform:uppercase;    
+}
+    #footer a{
+        text-decoration: none;
+        font-weight:bold;
+        color:#79b538;
+    }

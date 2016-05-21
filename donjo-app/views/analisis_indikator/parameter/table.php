@@ -1,0 +1,78 @@
+<script>
+	$(function() {
+		var keyword = <?=$keyword?> ;
+		$( "#cari" ).autocomplete({
+			source: keyword
+		});
+	});
+</script>
+
+<div id="pageC">
+	<table class="inner">
+<tr style="vertical-align:top">
+		<td style="background:#fff;padding:0px 10px;"> 
+<div class="content-header">
+</div>
+<div id="contentpane">    
+	<form id="mainform" name="mainform" action="" method="post">
+    <div class="ui-layout-north panel">
+    <h3>Manajemen Parameter Analisis</h3>
+	<p> &nbsp; Pertanyaan : <?=$analisis_indikator['pertanyaan']?></p>
+        <div class="left">
+            <div class="uibutton-group">
+               <?if($analisis_master['lock']==1){?> <a href="<?=site_url("analisis_indikator/form_parameter/$analisis_indikator[id]")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Parameter Baru</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("analisis_indikator/p_delete_all_parameter]")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data<?}?>
+            </div>
+        </div>
+    </div>
+    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
+        <div class="table-panel top">
+            <div class="left">
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <table class="list">
+		<thead>
+            <tr>
+                <th width="10">No</th>
+				<?if($analisis_master['lock']==1){?>
+                <th width="10"><input type="checkbox" class="checkall"/></th>
+                <th width="80">Aksi</th>
+				<?}?>
+                <th width="400">Jawaban</th>
+                <th width="20">Nilai</th>
+                <th></th>
+			</tr>
+		</thead>
+		<tbody>
+        <? foreach($main as $data): ?>
+		<tr>
+          <td align="center" width="2"><?=$data['no']?></td>
+		  <?if($analisis_master['lock']==1){?>
+			<td align="center" width="5">
+				<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+			</td>
+          <td><div class="uibutton-group">
+            <a href="<?=site_url("analisis_indikator/form_parameter/$analisis_indikator[id]/$data[id]")?>" class="uibutton tipsy south"  title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?=site_url("analisis_indikator/delete_parameter/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+			</div>
+          </td>
+		  <?}?>
+          <td><?=$data['jawaban']?></td>
+          <td><?=$data['nilai']?></td>
+          <td></td>
+		  </tr>
+        <? endforeach; ?>
+		</tbody>
+        </table>
+    </div>
+	</form>
+    <div class="ui-layout-south panel bottom">
+        <div class="left"> 
+<a href="<?=site_url()?>analisis_indikator" class="uibutton icon prev">Kembali</a>
+        <div class="right">
+        </div>
+    </div>
+</div>
+</td></tr></table>
+</div>

@@ -1,0 +1,80 @@
+body
+{
+font-family: 'Arial';
+color:black;
+background-color:white;
+margin-left:20px;
+margin-right:20px;
+font-size:17px;
+line-height:1;
+}
+hr{
+border: 2px solid #000000;
+height:4px;
+background-color:black;
+}
+table, tr, td
+{
+background-color:white;
+font-family: 'Arial';
+line-height:0.8;
+vertical-align: top;
+}
+
+.page {
+margin:18px;}
+
+.kop {
+font-size:24px; 
+text-align: center; 
+line-height:0.1;
+margin:22px;}
+
+.kop2 {
+font-size:16px; 
+font-weight:normal; 
+text-align: center; 
+line-height:0.1;
+margin:10px;}
+
+.header {
+padding-top:1px;
+text-align: center;
+height:100px;
+}
+
+.logo {
+float: left;
+margin-top:8px;
+margin-left:5px;
+width:90px;
+height:90px;
+}
+
+#isi {
+line-height:0.1;
+vertical-align: top;
+}
+
+#isi2 {
+line-height:0.8;
+vertical-align: top;
+}
+#isi3 {
+line-height:1;
+vertical-align: top;
+}
+
+#isi3 td{
+line-height:1.2;
+vertical-align: top;
+}
+
+.indentasi{
+text-indent:40px;
+line-height:1.2;
+text-align:justify;
+}
+
+.clear {clear: both;}
+
