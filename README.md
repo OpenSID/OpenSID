@@ -4,8 +4,8 @@ Sistem Informasi Desa CRI 3.04 yang disesuaikan untuk keperluan JMS
 Penyesuaian SID CRI ini dikelola di github untuk:
 - merekam semua perubahan yg dibuat dari versi asli yg diperoleh dari https://www.facebook.com/groups/sisteminformasidesa/ (21 Mei 2016)
 - memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
-- memudahkan kolaborasi antar tim JMS dan juga dengan desa dampingan dalam mengembangkan SIM
-- backup online source code SIM yg dapat diaskses setiap saat
+- memudahkan kolaborasi antar tim JMS dan juga dengan desa dampingan dalam mengembangkan SID
+- backup online source code SID yg dapat diaskses setiap saat
 	
 Wiki sid304-jms akan dikembangkan sesuai kebutuhan.
 
