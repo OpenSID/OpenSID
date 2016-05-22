@@ -1,5 +1,5 @@
 # sid304-jms
-Sistem Informasi Desa CRI 3.04 yang disesuaikan untuk keperluan JMS
+Aplikasi ini adalah Sistem Informasi Desa CRI 3.04 yang disesuaikan untuk keperluan JMS
 
 Penyesuaian SID CRI ini dikelola di github untuk:
 - merekam semua perubahan yg dibuat dari versi asli yg diperoleh dari https://www.facebook.com/groups/sisteminformasidesa/ (21 Mei 2016)
@@ -17,3 +17,6 @@ Catatan:
 
 Di mana perubahan dilakukan/diperlukan untuk mengatasi suatu permasalahan atau memenuhi suatu permintaan,
 kami akan usahakan untuk merekam masalahnya dan permintaannya di https://github.com/eddieridwan/sid304-jms/issues.
+
+## Demo
+Demo aplikasi SID 3.04-JMS dapat dilihat di http://sid.bangundesa.info. Kami usahakan agar versi yang terlihat di demo itu sesuai dengan status release terakhir repository ini.
