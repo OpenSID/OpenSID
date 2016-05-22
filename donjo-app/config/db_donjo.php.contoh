@@ -1,7 +1,9 @@
 <?php
-// ------------------------------------------------------
-// FILE INI JANGAN DI-COMMIT KE GIT. TAMBAHKAN DI .gitignore
-// ------------------------------------------------------
+// -------------------------------------------------------------------------
+// Copy file contoh ini ke donjo-app/config/db_donjo.php.
+// Letakkan username, password dan database sebetulnya di file db_donjo.php
+// FILE db_donjo.php JANGAN DI-COMMIT KE GIT. TAMBAHKAN DI .gitignore
+// -------------------------------------------------------------------------
 $config['base_url'] = 'http://localhost/sid3.04/';
 $config['license_key'] = 'setuju';
 
