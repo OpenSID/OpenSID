@@ -1,6 +1,10 @@
 # sid304-jms
 Aplikasi ini adalah Sistem Informasi Desa CRI 3.04 yang disesuaikan untuk keperluan JMS
 
+Tujuan penyesuaian SID CRI ini adalah untuk:
+- memudahkan JMS dalam melakukan pendampingan pada desa di lingkungan JMS untuk menerapkan SID
+- tetap konsisten dengan release SID CRI, supaya bisa senantiasa mengadopsi update dari CRI
+
 Penyesuaian SID CRI ini dikelola di github untuk:
 - merekam semua perubahan yg dibuat dari versi asli yg diperoleh dari https://www.facebook.com/groups/sisteminformasidesa/ (21 Mei 2016)
 - memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
