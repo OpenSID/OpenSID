@@ -1,4 +1,2 @@
 donjo-app/config/db_donjo.php
 backup/
-# Jangan simpan isi folder logo. Isinya khusus desa.
-assets/images/logo/*
