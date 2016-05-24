@@ -9,7 +9,7 @@
 <a href="<?=site_url('pengurus')?>">Pemerintah Desa</a>
 </li>
 <li <?if($act==2){?>class="selected"<?}?>>
-<a href="<?=site_url('hom_desa/about')?>">SID 3.04</a>
+<a href="<?=site_url('hom_desa/about')?>">SID</a>
 </li>
 </ul>
 </div>
