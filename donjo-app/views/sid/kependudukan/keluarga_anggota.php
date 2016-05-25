@@ -7,12 +7,12 @@
 </div> 
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
-    <h3>Daftar Anggota KK No.<?=$kepala_kk['no_kk']?> Keluarga : <?=unpenetration($kepala_kk['nama'])?></h3>
+    <h3>Daftar Anggota KK No.<?php echo $kepala_kk['no_kk']?> Keluarga : <?php echo unpenetration($kepala_kk['nama'])?></h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?=site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modalx" rel="window"><span class="icon-plus icon-large">&nbsp;</span>Tambah Anggota</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
-                <?/*<a href="<?=site_url("keluarga/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
+                <a href="<?php echo site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modalx" rel="window"><span class="icon-plus icon-large">&nbsp;</span>Tambah Anggota</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
+                <?php /*<a href="<?php echo site_url("keluarga/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
             </div>
         </div>
     </div>
@@ -37,40 +37,40 @@
 			</tr>
 		</thead>
 		<tbody>
-        <? foreach($main as $data): ?>
+        <?php  foreach($main as $data): ?>
 		<tr>
-          <td align="center" width="2"><?=$data['no']?></td>
+          <td align="center" width="2"><?php echo $data['no']?></td>
 			<td align="center" width="5">
-				<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
            <td>
  <div class="uibutton-group">
-<a href="<?=site_url("penduduk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
-<a href="<?=site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Pecah KK" target="confirm" message="Apakah Anda Yakin?" header="Pecah KK"><span class="icon-minus-sign icon-large"></span></a>
-<?if($data['kk_level']!=0){?>
-<a href="<?=site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Ubah Hubungan Keluarga" target="ajax-modal" rel="window" header="Ubah Data"><span class="icon-link icon-large"></span></a>
-          <?}?>
+<a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
+<a href="<?php echo site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Pecah KK" target="confirm" message="Apakah Anda Yakin?" header="Pecah KK"><span class="icon-minus-sign icon-large"></span></a>
+<?php if($data['kk_level']!=0){?>
+<a href="<?php echo site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Ubah Hubungan Keluarga" target="ajax-modal" rel="window" header="Ubah Data"><span class="icon-link icon-large"></span></a>
+          <?php }?>
 
 
 </div>
 </td>
-          <td><a href="<?=site_url("penduduk/detail/$p/$o/$data[id]")?>"><?=$data['nik']?></td>
-		  <td><a href="<?=site_url("penduduk/detail/$p/$o/$data[id]")?>"><?=strtoupper(unpenetration($data['nama']))?></a></td>
+          <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo $data['nik']?></td>
+		  <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
           
-          <td><?=unpenetration($data['alamat'])?></td>
-		  <td><?=$data['hubungan']?></td>
+          <td><?php echo unpenetration($data['alamat'])?></td>
+		  <td><?php echo $data['hubungan']?></td>
 		  </tr>
-        <? endforeach; ?>
+        <?php  endforeach; ?>
 		</tbody>
         </table>
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
         <div class="left"> 
-            <a href="<?=site_url("keluarga/index/$p/$o")?>" class="uibutton icon prev">Kembali</a>
+            <a href="<?php echo site_url("keluarga/index/$p/$o")?>" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">
-            <a href="<?=site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="uibutton confirm icon next">Kartu Keluarga</a>
+            <a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="uibutton confirm icon next">Kartu Keluarga</a>
         </div>
     </div>
 </div>

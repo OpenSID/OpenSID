@@ -1,4 +1,4 @@
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <table style="width:100%">
 <tr>
 <th align="left" width="120">Nama Kategori</th>

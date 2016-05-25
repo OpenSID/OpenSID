@@ -1,8 +1,4 @@
-
-
-<?php
-
-class Analisis_Laporan_Penduduk_Model extends CI_Model{
+<?php class Analisis_Laporan_Penduduk_Model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

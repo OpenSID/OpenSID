@@ -1,12 +1,12 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
 <script>
 $(function(){
     var nik = {};
     nik.results = [
-<?foreach($penduduk as $data){?>
-	   {id:'<?=$data['id']?>',name:"<?=$data['nik']." - ".$data['nama']?>"},
-<?}?>
+<?php foreach($penduduk as $data){?>
+	   {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".$data['nama']?>"},
+<?php }?>
     ];
 nik.total = nik.results.length;
 
@@ -18,7 +18,7 @@ $('#nik_kepala').flexbox(nik, {
 });
 });
 </script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <table class="list">
 <tr>
 <td align="left">NIK Kepala Rumah Tangga</td>
@@ -48,7 +48,7 @@ $('#nik_kepala').flexbox(nik, {
 </form>
 
 <tr>
-<?/*<th align="left">Nomor RTM</th>
+<?php /*<th align="left">Nomor RTM</th>
 	<td>
 		<input type="text" name="no_kk" class="inputbox required">
 	</td>

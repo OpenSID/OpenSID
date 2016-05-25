@@ -1,7 +1,7 @@
 
 
 
-<? if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<? if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Master_keluarga extends CI_Controller{
 

@@ -15,9 +15,9 @@ table.form.detail td{
 <legend>Menu Surat Keluar</legend>
 <div class="lmenu">
 <ul>
-<li ><a href="<?=site_url('keluar')?>">Surat Keluar</a></li>
-<li ><a href="<?=site_url('keluar/perorangan')?>">Rekam Surat Perorangan</a></li>
-<li class="selected"><a href="<?=site_url('keluar/graph')?>">Grafik surat keluar</a></li>
+<li ><a href="<?php echo site_url('keluar')?>">Surat Keluar</a></li>
+<li ><a href="<?php echo site_url('keluar/perorangan')?>">Rekam Surat Perorangan</a></li>
+<li class="selected"><a href="<?php echo site_url('keluar/graph')?>">Grafik surat keluar</a></li>
 </ul>
 </div>
 
@@ -71,11 +71,11 @@ $(function () {
                 type: 'pie',
                 name: 'Prosentase',
                 data: [
-                 				<? foreach($stat as $data){?>
-							<?if($data['jumlah'] != "-"){?>
-								['<?=$data['nama']?>',<?=$data['jumlah']?>],
-							<?}?>
-						<?}?>
+                 				<?php  foreach($stat as $data){?>
+							<?php if($data['jumlah'] != "-"){?>
+								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+							<?php }?>
+						<?php }?>
                 ]
             }]
         });
@@ -85,7 +85,7 @@ $(function () {
 		</script>
 	</head>
 	<body>
-<script type="text/javascript" src="<?=base_url()?>assets/js/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
 
 
 

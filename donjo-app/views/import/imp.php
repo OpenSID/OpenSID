@@ -14,7 +14,7 @@
 
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
             <div class="left">
-<form action="<?=$form_action?>" method="post" enctype="multipart/form-data">
+<form action="<?php echo $form_action?>" method="post" enctype="multipart/form-data">
                <table class="form">
 			   <tr>
 					<td width="500" colspan="3">
@@ -32,8 +32,8 @@
 					<li>Simpan (Save) file Excel sebagai .xls file (jika Anda memakai excel 2007 gunakan Save As pilih format .xls) </ul>
 					<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</ul>
 
-					<li>Data yang dibutuhkan untuk Import dengan memenuhi aturan data<a href="<?=base_url()?>assets/import/ATURANDATA.xls"> sebagai berikut</a><br>
-					<li>Contoh urutan format dapat dilihat pada <a href="<?=base_url()?>assets/import/ContohFormat.xls">tautan berikut</a><br>
+					<li>Data yang dibutuhkan untuk Import dengan memenuhi aturan data<a href="<?php echo base_url()?>assets/import/ATURANDATA.xls"> sebagai berikut</a><br>
+					<li>Contoh urutan format dapat dilihat pada <a href="<?php echo base_url()?>assets/import/ContohFormat.xls">tautan berikut</a><br>
 					</ol>
 					</p>
 					</td>
@@ -59,14 +59,14 @@
 &nbsp;
 </td>
 </tr>
-<?if(isset($_SESSION['gagal'])){?>
+<?php if(isset($_SESSION['gagal'])){?>
 	<tr>
 		<td width="150">
 		<p>Jumlah Data Gagal
 		</td>
 		<td colspan="3">
 		
-			<?=$_SESSION['gagal']?>
+			<?php echo $_SESSION['gagal']?>
 		</td>
 	</tr>
 	<tr>
@@ -75,7 +75,7 @@
 		</td>
 		<td colspan="3">
 		
-			<?=$_SESSION['baris']?>
+			<?php echo $_SESSION['baris']?>
 		</td>
 	</tr>
 	<tr>
@@ -84,10 +84,10 @@
 		</td>
 		<td colspan="3">
 		
-			<?=$_SESSION['sukses']?>
+			<?php echo $_SESSION['sukses']?>
 		</td>
 	</tr>
-<?}?>
+<?php }?>
 </table>
 </form>
             </div>
@@ -105,6 +105,6 @@
 </td></tr></table>
 </div>
 
-			<?unset($_SESSION['sukses']);?>
-			<?unset($_SESSION['baris']);?>
-			<?unset($_SESSION['gagal']);?>
+			<?php unset($_SESSION['sukses']);?>
+			<?php unset($_SESSION['baris']);?>
+			<?php unset($_SESSION['gagal']);?>

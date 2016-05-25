@@ -44,55 +44,55 @@ $(function(){
 <div class="content-header">
 </div>
 <div id="contentpane">
-<div class="ui-layout-north panel"><h3>Form Pendataan - <a href="<?=site_url()?>analisis_master/menu/<?=$_SESSION['analisis_master']?>"><?=$analisis_master['nama']?></a></h3>
-<h4> &nbsp; Kelompok - (<?=$subjek['nama']?>) <?=$subjek['nama']?></h4></br>
+<div class="ui-layout-north panel"><h3>Form Pendataan - <a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><?php echo $analisis_master['nama']?></a></h3>
+<h4> &nbsp; Kelompok - (<?php echo $subjek['nama']?>) <?php echo $subjek['nama']?></h4></br>
 <h4> &nbsp; Daftar pertanyaan dan jawaban.</h4>
 </div>
-    <form id="validasi" action="<?=$form_action?>" method="POST">
+    <form id="validasi" action="<?php echo $form_action?>" method="POST">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <input type="hidden" name="rt" value="">
 <table>
-	<?foreach($list_jawab AS $data){?>
-	<tr><td><label><?=$data['no']?>) <?=$data['pertanyaan']?></label></td></tr>
+	<?php foreach($list_jawab AS $data){?>
+	<tr><td><label><?php echo $data['no']?>) <?php echo $data['pertanyaan']?></label></td></tr>
 	
-	<?if($data['id_tipe']==1){?>
-	<?foreach($data['parameter_respon'] AS $data2){?>
+	<?php if($data['id_tipe']==1){?>
+	<?php foreach($data['parameter_respon'] AS $data2){?>
 	<tr><td id="skpd_select">
-	<div style="display:inline-block;"><input type="radio" class="required" name="rb[<?=$data['id']?>]" value="<?=$data['id']?>.<?=$data2['id_parameter']?>" <?if($data2['cek']){echo " checked";}?>><label><?=$data2['jawaban']?></label></div>
-	<?}?>
-	<?}elseif($data['id_tipe']==2){?>
+	<div style="display:inline-block;"><input type="radio" class="required" name="rb[<?php echo $data['id']?>]" value="<?php echo $data['id']?>.<?php echo $data2['id_parameter']?>" <?php if($data2['cek']){echo " checked";}?>><label><?php echo $data2['jawaban']?></label></div>
+	<?php }?>
+	<?php }elseif($data['id_tipe']==2){?>
 	
-	<?foreach($data['parameter_respon'] AS $data2){?>
+	<?php foreach($data['parameter_respon'] AS $data2){?>
 	<tr><td id="skpd_select">
-	<div style="display:inline-block;"><input type="checkbox" name="cb[<?=$data2['id_parameter']?>]" value="<?=$data2['id_parameter']?>.<?=$data['id']?>" <?if($data2['cek']){echo " checked";}?>><label><?=$data2['jawaban']?></label></div>
-	<?}?>
+	<div style="display:inline-block;"><input type="checkbox" name="cb[<?php echo $data2['id_parameter']?>]" value="<?php echo $data2['id_parameter']?>.<?php echo $data['id']?>" <?php if($data2['cek']){echo " checked";}?>><label><?php echo $data2['jawaban']?></label></div>
+	<?php }?>
 	
-	<?}elseif($data['id_tipe']==3){?>
-	<?if($data['parameter_respon']){?>
-	<?$data2=$data['parameter_respon'];?>
+	<?php }elseif($data['id_tipe']==3){?>
+	<?php if($data['parameter_respon']){?>
+	<?php $data2=$data['parameter_respon'];?>
 	<tr><td id="">
-	<div style="display:inline-block;"><input name="ia[<?=$data['id']?>]" type="text" class="inputbox number" size="10" value="<?=$data2['jawaban']?>"/></div>
-	<?}else{?>
+	<div style="display:inline-block;"><input name="ia[<?php echo $data['id']?>]" type="text" class="inputbox number" size="10" value="<?php echo $data2['jawaban']?>"/></div>
+	<?php }else{?>
 	<tr><td id="">
-	<div style="display:inline-block;"><input name="ia[<?=$data['id']?>]" type="text" class="inputbox number" size="10" value=""/></div>
-	<?}?>
-	<?}elseif($data['id_tipe']==4){?>
-	<?if($data['parameter_respon']){?>
-	<?$data2=$data['parameter_respon'];?>
+	<div style="display:inline-block;"><input name="ia[<?php echo $data['id']?>]" type="text" class="inputbox number" size="10" value=""/></div>
+	<?php }?>
+	<?php }elseif($data['id_tipe']==4){?>
+	<?php if($data['parameter_respon']){?>
+	<?php $data2=$data['parameter_respon'];?>
 	<tr><td id="">
-	<div style="display:inline-block;"><input name="it[<?=$data['id']?>]" type="text" class="inputbox" size="100" value="<?=$data2['jawaban']?>"/></div>
-	<?}else{?>
+	<div style="display:inline-block;"><input name="it[<?php echo $data['id']?>]" type="text" class="inputbox" size="100" value="<?php echo $data2['jawaban']?>"/></div>
+	<?php }else{?>
 	<tr><td id="">
-	<div style="display:inline-block;"><input name="it[<?=$data['id']?>]" type="text" class="inputbox" size="100" value=""/></div>
-	<?}?>
-	<?}?>
-	<?}?>
+	<div style="display:inline-block;"><input name="it[<?php echo $data['id']?>]" type="text" class="inputbox" size="100" value=""/></div>
+	<?php }?>
+	<?php }?>
+	<?php }?>
 </table>
     </div>
    
     <div class="ui-layout-south panel bottom">
         <div class="left">     
-            <a href="<?=site_url()?>analisis_respon_kelompok" class="uibutton icon prev">Kembali</a>
+            <a href="<?php echo site_url()?>analisis_respon_kelompok" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">
             <div class="uibutton-group">

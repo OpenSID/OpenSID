@@ -18,11 +18,7 @@
  * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
  * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
  */
-?>
-
-<?php
-
-class plan_polygon_model extends CI_Model{
+?><?php class plan_polygon_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

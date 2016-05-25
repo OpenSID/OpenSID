@@ -6,13 +6,13 @@
 		<legend>Statistik Keluarga</legend>
 			<div id="" class="lmenu">
 				<ul>
-				<a href="<?=site_url()?>statistik/index/22"><li <?if($lap==22){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/22"><li <?php if($lap==22){?>class="selected"<?php }?>>
 					Raskin</li></a>
-				<a href="<?=site_url()?>statistik/index/23"><li <?if($lap==23){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/23"><li <?php if($lap==23){?>class="selected"<?php }?>>
 					BLSM</li></a>
-				<a href="<?=site_url()?>statistik/index/25"><li <?if($lap==25){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/25"><li <?php if($lap==25){?>class="selected"<?php }?>>
 					PKH</li></a>
-				<a href="<?=site_url()?>statistik/index/27"><li <?if($lap==27){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/27"><li <?php if($lap==27){?>class="selected"<?php }?>>
 					Bedah Rumah</li></a>
 				</ul>
 			</div>
@@ -20,41 +20,41 @@
 		<legend>Statistik Penduduk</legend>
 			<div  id="sidecontent3" class="lmenu">
 				<ul>		
-				<a href="<?=site_url()?>statistik/index/15"><li <?if($lap==15){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/15"><li <?php if($lap==15){?>class="selected"<?php }?>>
 					Umur</li></a>	
-				<a href="<?=site_url()?>statistik/index/0"><li <?if($lap==0){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/0"><li <?php if($lap==0){?>class="selected"<?php }?>>
 					Pendidikan Dalam KK</li></a>
-				<a href="<?=site_url()?>statistik/index/14"><li <?if($lap==14){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/14"><li <?php if($lap==14){?>class="selected"<?php }?>>
 					Pendidikan Sedang Ditempuh</a></li>
-				<a href="<?=site_url()?>statistik/index/1"><li <?if($lap==1){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/1"><li <?php if($lap==1){?>class="selected"<?php }?>>
 					Pekerjaan</li></a>
-				<a href="<?=site_url()?>statistik/index/2"><li <?if($lap==2){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/2"><li <?php if($lap==2){?>class="selected"<?php }?>>
 					Status Perkawinan</li></a>
-				<a href="<?=site_url()?>statistik/index/3"><li <?if($lap==3){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/3"><li <?php if($lap==3){?>class="selected"<?php }?>>
 					Agama</li></a>
-				<a href="<?=site_url()?>statistik/index/4"><li <?if($lap==4){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/4"><li <?php if($lap==4){?>class="selected"<?php }?>>
 					Jenis Kelamin</li></a>
-				<a href="<?=site_url()?>statistik/index/5"><li <?if($lap==5){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/5"><li <?php if($lap==5){?>class="selected"<?php }?>>
 					Warga Negara</li></a>
-				<a href="<?=site_url()?>statistik/index/6"><li <?if($lap==6){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/6"><li <?php if($lap==6){?>class="selected"<?php }?>>
 					Status Penduduk</li></a>
-				<a href="<?=site_url()?>statistik/index/7"><li <?if($lap==7){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/7"><li <?php if($lap==7){?>class="selected"<?php }?>>
 					Golongan Darah</li></a>	
-				<a href="<?=site_url()?>statistik/index/9"><li <?if($lap==9){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/9"><li <?php if($lap==9){?>class="selected"<?php }?>>
 					Cacat</li></a>
-				<?/*<a href="<?=site_url()?>statistik/index/10"><li <?if($lap==10){?>class="selected"<?}?>>
+				<?php /*<a href="<?php echo site_url()?>statistik/index/10"><li <?php if($lap==10){?>class="selected"<?php }?>>
 					Sakit Menahun</li></a>
-				<a href="<?=site_url()?>statistik/index/13"><li <?if($lap==13){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/13"><li <?php if($lap==13){?>class="selected"<?php }?>>
 					Umur (Detail)</li></a>		*/?>	
-				<a href="<?=site_url()?>statistik/index/11"><li <?if($lap==11){?>class="selected"<?}?>>
+				<a href="<?php echo site_url()?>statistik/index/11"><li <?php if($lap==11){?>class="selected"<?php }?>>
 					Jamkesmas</li></a>	
 				</ul>
 			</div>
 		</td>
 <td style="background:#fff;padding:0px;"> 
-<script src="<?=base_url()?>assets/highchart/highcharts.js"></script>
-<script src="<?=base_url()?>assets/highchart/highcharts-more.js"></script>
-<script src="<?=base_url()?>assets/highchart/exporting.js"></script>
+<script src="<?php echo base_url()?>assets/highchart/highcharts.js"></script>
+<script src="<?php echo base_url()?>assets/highchart/highcharts-more.js"></script>
+<script src="<?php echo base_url()?>assets/highchart/exporting.js"></script>
 <script type="text/javascript">
 			var chart;
 			$(document).ready(function() {
@@ -64,16 +64,16 @@
 						defaultSeriesType: 'column'
 					},
 					title: {
-						text: 'Statistik <?=$stat?>'
+						text: 'Statistik <?php echo $stat?>'
 					},
 					xAxis: {
 						title: {
-							text: '<?=$stat?>'
+							text: '<?php echo $stat?>'
 						},
                         categories: [
-						<? $i=0;foreach($main as $data){$i++;?>
-						  <?if($data['jumlah'] != "-"){echo "'$i',";}?>
-						<?}?>
+						<?php  $i=0;foreach($main as $data){$i++;?>
+						  <?php if($data['jumlah'] != "-"){echo "'$i',";}?>
+						<?php }?>
 						]
 					},
 					yAxis: {
@@ -98,13 +98,13 @@
 						shadow:1,
 						border:1,
 						data: [
-						<? foreach($main as $data){?>
-						  <?if($data['nama'] != "TOTAL"){?>
-						  <?if($data['jumlah'] != "-"){?>
-								['<?=$data['nama']?>',<?=$data['jumlah']?>],
-							<?}?>
-							<?}?>
-						<?}?>]
+						<?php  foreach($main as $data){?>
+						  <?php if($data['nama'] != "TOTAL"){?>
+						  <?php if($data['jumlah'] != "-"){?>
+								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+							<?php }?>
+							<?php }?>
+						<?php }?>]
 				
 					}]
 				});
@@ -133,24 +133,24 @@ tr#total{
                 <th>No</th>
 				<th align="left" align="center">Jenis Kelompok</th>
 				<th align="left" align="center">Jumlah</th>
-				<? if($lap<20){?>
+				<?php  if($lap<20){?>
 				<th align="left" align="center" width="60">Laki-laki</th>
 				<th align="left" align="center" width="60">Perempuan</th>
-            	<?}?>
+            	<?php }?>
 			</tr>
 		</thead>
 		<tbody>
-        <? foreach($main as $data): ?>
+        <?php  foreach($main as $data): ?>
 		<tr>
-          <td align="center" width="2"><?=$data['no']?></td>
-          <td><?=$data['nama']?></td>
-          <td><?=$data['jumlah']?></td>
-		  <? if($lap<20){?>
-		  <td><?=$data['laki']?></td>
-          <td><?=$data['perempuan']?></td>
-		  <?}?>
+          <td align="center" width="2"><?php echo $data['no']?></td>
+          <td><?php echo $data['nama']?></td>
+          <td><?php echo $data['jumlah']?></td>
+		  <?php  if($lap<20){?>
+		  <td><?php echo $data['laki']?></td>
+          <td><?php echo $data['perempuan']?></td>
+		  <?php }?>
 		  </tr>
-        <? endforeach; ?>
+        <?php  endforeach; ?>
 		</tbody>
         </table>
     </div>

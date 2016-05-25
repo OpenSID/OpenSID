@@ -1,4 +1,4 @@
-<?php
+<?php php
 $q=$_GET["q"];
 
 $con = mysql_connect('localhost', 'root', '');

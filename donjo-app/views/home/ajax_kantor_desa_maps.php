@@ -2,27 +2,27 @@
 (function() {
 		var infoWindow;
         var mapOptions = {
-		<?if($desa['lat'] != ""){?>
-          center: new google.maps.LatLng(<?=$desa['lat']?>,<?=$desa['lng']?>),
-          zoom: <?=$desa['zoom']?>,
-          mapTypeId: google.maps.MapTypeId.<?=strtoupper($desa['map_tipe'])?>
-		<?}else{?>
+		<?php if($desa['lat'] != ""){?>
+          center: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
+          zoom: <?php echo $desa['zoom']?>,
+          mapTypeId: google.maps.MapTypeId.<?php echo strtoupper($desa['map_tipe'])?>
+		<?php }else{?>
           center: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
           zoom: 14,
           mapTypeId: google.maps.MapTypeId.ROADMAP
-		<?}?>
+		<?php }?>
 		  
         };
-        var map = new google.maps.Map(document.getElementById("map"),mapOptions);
+        var map = new google.maps.Map(document.getElementById("mapx"),mapOptions);
 		
-		var marker = new google.maps.Marker({<?if($desa['lat'] != ""){?>
-      		position: new google.maps.LatLng(<?=$desa['lat']?>,<?=$desa['lng']?>),
-		<?}else{?>
+		var marker = new google.maps.Marker({<?php if($desa['lat'] != ""){?>
+      		position: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
+		<?php }else{?>
       		position: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
-		<?}?>
+		<?php }?>
       		map: map,
 			draggable: true,
-      		title:"<?=$desa['nama_desa']?>"});
+      		title:"<?php echo $desa['nama_desa']?>"});
 
 		google.maps.event.addListener(marker, 'drag', function() {
 			document.getElementById('lat').value = marker.getPosition().lat();
@@ -36,8 +36,8 @@
 			infoWindow = new google.maps.InfoWindow();
 		  }
 		  var content = '<div id="info">' +
-			'<img src="<?=base_url()?>assets/images/logo/<?=$desa['logo']?>" alt="" width="50" height="60"/>' + 
-			'<h3><?=$desa['nama_desa']?></h3>' +
+			'<img src="<?php echo base_url()?>assets/images/logo/<?php echo $desa['logo']?>" alt="" width="50" height="60"/>' + 
+			'<h3><?php echo $desa['nama_desa']?></h3>' +
 			'<p>Sedangkan aku sedang bingung apa</p><p>yang harus ku lakukan</p>' +
 			'<p><a href="http://www.svennerberg.com">Info lebih lanjut.</a></p>' +
 			'</div>';
@@ -57,21 +57,20 @@
 })();
 </script>
 <style>
-#map {
+#mapx {
   width: 420px;
   height: 320px;
   border: 1px solid #000;
 }
 </style>
-<form action="<?=$form_action?>" method="post" id="validasi">
-<div id="map"></div>
-    <input type="hidden" name="lat" id="lat" value="<?=$desa['lat']?>"/>
-    <input type="hidden" name="lng" id="lng"  value="<?=$desa['lng']?>"/>
-    <input type="hidden" name="zoom" id="zoom"  value="<?=$desa['zoom']?>"/>
-    <input type="hidden" name="map_tipe" id="map_tipe"  value="<?=$desa['map_tipe']?>"/>
+<form action="<?php echo $form_action?>" method="post" id="validasi">
+<div id="mapx"></div>
+    <input type="hidden" name="lat" id="lat" value="<?php echo $desa['lat']?>"/>
+    <input type="hidden" name="lng" id="lng"  value="<?php echo $desa['lng']?>"/>
+    <input type="hidden" name="zoom" id="zoom"  value="<?php echo $desa['zoom']?>"/>
+    <input type="hidden" name="map_tipe" id="map_tipe"  value="<?php echo $desa['map_tipe']?>"/>
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
 <div class="uibutton-group">
-	<button class="uibutton" type="button" onclick="$('#window').dialog('close');">Close</button>
 		<input  class="uibutton confirm" id="showData"  value="Simpan" type="button"/>
 </div>
 </div>

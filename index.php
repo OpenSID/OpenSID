@@ -1,21 +1,7 @@
 <?php
 
-# If you have already installed then delete this
-if ( ! file_exists('donjo-app/config/database.php'))
-{
-	// Make sure we've not already tried this
-	if (strpos($_SERVER['REQUEST_URI'], 'installer/'))
-	{
-		header('Status: 404');
-		exit('SID 3.0 is missing donjo-app/config/database.php and cannot find the installer folder. Does your server have permission to access these files?');
-	}
-	
-	// Otherwise go to installer
-	header('Location: '.rtrim($_SERVER['REQUEST_URI'], '/').'/installer/');
-	exit;
-}
-	//define('ENVIRONMENT', 'development');
-	define('ENVIRONMENT', 'production');
+	define('ENVIRONMENT', 'development');
+	//define('ENVIRONMENT', 'production');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

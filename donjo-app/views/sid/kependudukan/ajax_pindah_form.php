@@ -36,7 +36,7 @@ function RWSel(dusun,str){
 	xmlhttp.send();
 }
 </script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <input type="hidden" name="rt" value="">
 <table>
 
@@ -45,9 +45,9 @@ function RWSel(dusun,str){
 	<td>Dusun</td>
 	<td><select name="dusun1" onchange="DusSel(this.value)">
 	<option value="">Pilih Dusun&nbsp;</option>
-	<?foreach($dusun as $data){?>
-		<option value="<?=($data['dusun'])?>"><?=ununderscore(unpenetration($data['dusun']))?></option>
-	<?}?></select>
+	<?php foreach($dusun as $data){?>
+		<option value="<?php echo ($data['dusun'])?>"><?php echo ununderscore(unpenetration($data['dusun']))?></option>
+	<?php }?></select>
 	</td>
 </tr>
 <tr id="rw"></tr>

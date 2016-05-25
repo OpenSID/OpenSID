@@ -5,9 +5,9 @@
 	<div class='entry'>
 		<p>
 		<ol>
-<?foreach($farsip AS $data){?>
-<li><?=$data['isi']?></li>
-<?}?>
+<?php foreach($farsip AS $data){?>
+<li><?php echo $data['isi']?></li>
+<?php }?>
 <ol>
 </p>
 </div>

@@ -1,5 +1,4 @@
 <?php
-
 class import_Model extends CI_Model{
 
 	function __construct(){
@@ -92,19 +91,29 @@ class import_Model extends CI_Model{
 			$agama_id= $data->val($i, 10);
 			$pendidikan_kk_id= $data->val($i, 11);
 			$pendidikan_sedang_id= $data->val($i, 12);
+			if($pendidikan_sedang_id=="")
+				$pendidikan_sedang_id=18;
+			
 			$pekerjaan_id= $data->val($i, 13);
 			$status_kawin= $data->val($i, 14);
 			$kk_level= $data->val($i, 15);
 			$warganegara_id= 1;
 			$nama_ayah= '"'.$data->val($i, 17).'"';
+			if($nama_ayah!=""){
+				$nama_ayah = '"'.$nama_ayah.'"';
+			}
 			$nama_ibu= '"'.$data->val($i, 18).'"';
+			if($nama_ibu!=""){
+				$nama_ibu = '"'.$nama_ibu.'"';
+			}
 			$golongan_darah_id= $data->val($i, 19);
 			$jamkesmas= $data->val($i, 20);
 			
 
 			 // masukin ke tabel impor
-			$query="INSERT INTO impor(dusun, rw,rt, nama, nik, sex, tempatlahir, tanggallahir, agama_id, pendidikan_kk_id,  pendidikan_sedang_id, pekerjaan_id, status_kawin, kk_level, warganegara_id, nama_ayah, nama_ibu, golongan_darah_id, jamkesmas,id_kk) VALUES ('$dusun','$rw','$rt',$nama,'$nik' ,'$sex','$tempatlahir','$tanggallahir','$agama_id','$pendidikan_kk_id','$pendidikan_sedang_id','$pekerjaan_id','$status_kawin','$kk_level','$warganegara_id',$nama_ayah,$nama_ibu,'$golongan_darah_id','$jamkesmas','$id_kk')";
+			$query="INSERT INTO impor(dusun, rw,rt, nama, nik, sex, tempatlahir, tanggallahir, agama_id, pendidikan_kk_id,  pendidikan_sedang_id, pekerjaan_id, status_kawin, kk_level, warganegara_id, nama_ayah, nama_ibu, golongan_darah_id, jamkesmas,id_kk) VALUES ('$dusun','$rw','$rt',$nama,'$nik' ,'$sex','$tempatlahir','$tanggallahir','$agama_id','$pendidikan_kk_id','$pendidikan_sedang_id','$pekerjaan_id','$status_kawin','$kk_level','$warganegara_id','$nama_ayah','$nama_ibu','$golongan_darah_id','$jamkesmas','$id_kk')";
 			
+			//echo $query;
 			if($nama!="" AND $nik!="" AND $id_kk!="" AND $dusun!=""){
 				$hasil = mysql_query($query);
 			}

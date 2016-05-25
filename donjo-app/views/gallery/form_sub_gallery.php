@@ -7,24 +7,24 @@
 <h3>Form Sub Gallery</h3>
 </div>
 <div id="contentpane">
-<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data">
+<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
 <tr>
 <th>Judul Gambar</th>
-<td><input name="nama" type="text" class="inputbox" size="60" value="<?=$gallery['nama']?>"/></td>
+<td><input name="nama" type="text" class="inputbox" size="60" value="<?php echo $gallery['nama']?>"/></td>
 </tr>
-<?if($gallery['gambar']){?>
+<?php if($gallery['gambar']){?>
 <tr>
 <th class="top">Judul Gambar</th>
 <td>
 <div class="gallerybox-avatar">
-<img src="<?=base_url()?>assets/front/gallery/sedang_<?=$gallery['gambar']?>" alt=""/>
+<img src="<?php echo base_url()?>assets/front/gallery/sedang_<?php echo $gallery['gambar']?>" alt=""/>
 </div>
 </td>
-<input type="hidden" name="old_gambar" value="<?=$gallery['gambar']?>">
+<input type="hidden" name="old_gambar" value="<?php echo $gallery['gambar']?>">
 </tr>
-<?}?>
+<?php }?>
 <tr>
 <th>Upload Gambar</th>
 <td><input type="file" name="gambar" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span></td>
@@ -34,7 +34,7 @@
    
 <div class="ui-layout-south panel bottom">
 <div class="left"> 
-<a href="<?=site_url()?>gallery" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>gallery" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">

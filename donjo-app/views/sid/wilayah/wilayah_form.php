@@ -2,9 +2,9 @@
 $(function(){
     var nik = {};
     nik.results = [
-		<?foreach($penduduk as $data){?>
-	   {id:'<?=$data['id']?>',name:"<?=$data['nik']." - ".($data['nama'])?>",info:"<?=($data['alamat'])?>"},
-		<?}?>
+		<?php foreach($penduduk as $data){?>
+	   {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
+		<?php }?>
 		    ];
 nik.total = nik.results.length;
 
@@ -25,23 +25,23 @@ $("#nik_detail").show();
 	<tr style="vertical-align:top">
 		<td style="background:#fff;padding:0px;"> 
 <div id="contentpane">
-    <form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data">
+    <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
     <h3>Form Data Dusun</h3>
         <table class="form">
             <tr>
                 <th width="160">Nama Dusun</th>
-                <td><input name="dusun" type="text" class="inputbox required" size="60" value="<?=unpenetration($dusun)?>"/></td>
+                <td><input name="dusun" type="text" class="inputbox required" size="60" value="<?php echo $dusun?>"/></td>
             </tr>
-			<?if($dusun){?>
+			<?php if($dusun){?>
 			<tr>
                 <th>Kepala Dusun Sebelumnya</th>
                 <td>
-                    <?=$individu['nama']?>
-					<br />NIK - <?=$individu['nik']?>
+                    <?php echo $individu['nama']?>
+					<br />NIK - <?php echo $individu['nik']?>
                 </td>
             </tr>
-			<?}?>
+			<?php }?>
 			<tr>
                 <th>NIK / Nama Kepala Dusun</th>
                 <td>
@@ -53,7 +53,7 @@ $("#nik_detail").show();
    
     <div class="ui-layout-south panel bottom">
         <div class="left">     
-            <a href="<?=site_url()?>sid_core" class="uibutton icon prev">Kembali</a>
+            <a href="<?php echo site_url()?>sid_core" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">
             <div class="uibutton-group">

@@ -1,26 +1,4 @@
 <?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php
 
 class User_Model extends CI_Model{
 
@@ -46,16 +24,14 @@ class User_Model extends CI_Model{
 		else{
 			$_SESSION['siteman']=-1;
 		}
-			login_auth($username,$password);
 	}
 	
 	function sesi_grup($sesi=''){
 		
 		$sql = "SELECT id_grup FROM user WHERE session=?";
 		$query=$this->db->query($sql,array($sesi));
-		$row=$query->row();
-			
-		return $row->id_grup;
+		$row=$query->row_array();
+		return $row['id_grup'];
 	}
 	
 	function login(){
@@ -108,6 +84,13 @@ class User_Model extends CI_Model{
 		unset($_SESSION['sesi']);
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
+		
+		$this->create_xml();
+		
+		if($this->sid_online())
+			$this->send_data();
+		
+		
 	}
 	
 	
@@ -338,6 +321,104 @@ class User_Model extends CI_Model{
 		return $query->result_array();
 	}
 
+	function sid_online(){
+		$q=$_GET["q"];
+		$q="sid.web.id";
+		$input="";
+		exec("ping -n 1 -w 1 $q", $input, $result);
+		if ($result == 0)
+			return true;
+		else return false;
+		
+
+	}
+	
+	function create_xml(){
+		$sql   = "SELECT * FROM config WHERE 1";
+		$query = $this->db->query($sql);
+		$desa = $query->row_array();
+		
+		
+		$nl="\r\n";
+		$string = "";
+		
+		//DESA
+		$string .= "<desa>".$nl;
+		$string .= "<nama>".$desa['nama_desa']."</nama>".$nl;
+		$string .= "<kode>".$desa['kode_kabupaten'].$desa['kode_kecamatan'].$desa['kode_desa']."</kode>".$nl;
+		$string .= "<lat>".$desa['lat']."</lat>".$nl;
+		$string .= "<lng>".$desa['lng']."</lng>".$nl;
+		
+		//.......
+		
+		$string .= "</desa>".$nl.$nl;
+		
+		//wilayah
+		$sql   = "SELECT DISTINCT(dusun) FROM tweb_wil_clusterdesa";
+		$query = $this->db->query($sql);
+		$wilayah = $query->result_array();
+		
+		$string .= "<wilayah>".$nl;
+		foreach($wilayah AS $wil){
+			
+			$string .= "<dusun>".$wil['dusun']."</dusun>".$nl;
+			
+		}
+		
+		$string .= "</wilayah>".$nl.$nl;
+		
+		//pendeuduk
+/*		
+		$sql   = "SELECT * FROM data_surat";
+		$query = $this->db->query($sql);
+		$penduduk = $query->result_array();
+		
+		$string .= "<penduduk>".$nl;
+		foreach($penduduk AS $pend){
+			
+			$string .= "<individu>".$nl;
+			$string .= "<nik>".$pend['nik']."</nik>".$nl;
+			$string .= "<nama>".$pend['nama']."</nama>".$nl;
+			$string .= "<pekerjaan>".$pend['pekerjaan']."</pekerjaan>".$nl;
+			$string .= "</individu>".$nl;
+			
+		}
+		
+		$string .= "</penduduk>".$nl.$nl;
+		
+*/		
+		$mypath="assets\\sync\\";
+		$path = "".str_replace("\\","/",$mypath)."/";
+		
+		$ccyymmdd = date("Y-m-d");
+		$handle = fopen($path."sycn_data_".$ccyymmdd.".xml",'w+');
+		fwrite($handle,$string);
+		fclose($handle);
+		
+		
+		//echo $string;
+		
+	}
+	
+	function send_data(){
+		//$ip = "sid.web.id";
+		
+		$ip = "127.0.0.1";
+		$Connect = fsockopen($ip,"80",$errno,$errstr,1);
+		if($Connect){
+			$soap_request="<GetAttLog><ArgComKey xsi:type=\"xsd:integer\">$key</ArgComKey><Arg><PIN xsi:type=\"xsd:integer\">$p[id]</PIN></Arg></GetAttLog>";		
+			fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
+			fputs($Connect, "Content-Type: text/xml".$newLine);
+			fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
+			fputs($Connect, $soap_request.$newLine); 
+			$buffer="";
+			while($Response=fgets($Connect, 8192)){
+				$buffer.=$Response;
+			}
+			echo $buffer;
+		}
+	}
+	
 }
 
 ?>

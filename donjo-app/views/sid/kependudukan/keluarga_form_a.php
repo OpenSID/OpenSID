@@ -18,36 +18,36 @@ table.form.detail td{
 <h3>Form Manajemen KK</h3>
 </div>
 <div id="contentpane">
-<form id="mainform" name="mainform" action="<?=$form_action?>" method="post" enctype="multipart/form-data">
+<form id="mainform" name="mainform" action="<?php echo $form_action?>" method="post" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 
 <table class="form">
-<input name="id_kk" type="hidden" value="<?=$id_kk?>">
+<input name="id_kk" type="hidden" value="<?php echo $id_kk?>">
 <input name="kk_level" type="hidden" value="0">
-<input name="id_cluster" type="hidden" value="<?=$kk['id_cluster']?>">
+<input name="id_cluster" type="hidden" value="<?php echo $kk['id_cluster']?>">
 <tr>
 <th width="150">No. KK</th>
-<td><?=$kk['no_kk']?></td>
+<td><?php echo $kk['no_kk']?></td>
 </tr>
 
 <tr>
 <th>Kepala KK</th>
-<td><?=unpenetration($kk['nama'])?></td>
+<td><?php echo unpenetration($kk['nama'])?></td>
 </tr>
 
 <tr>
 <th>Dusun</th>
-<td><?=ununderscore(unpenetration($kk['dusun']))?></td>
+<td><?php echo ununderscore(unpenetration($kk['dusun']))?></td>
 </tr>
 
 <tr>
 <th>RW</th>
-<td><?=$kk['rw']?></td>
+<td><?php echo $kk['rw']?></td>
 </tr>
 
 <tr>
 <th>RT</th>
-<td><?=$kk['rt']?></td>
+<td><?php echo $kk['rt']?></td>
 </tr>
 
 
@@ -55,7 +55,7 @@ table.form.detail td{
 <th class="top">Foto</th>
 <td>
 <div class="userbox-avatar">
-<img src="<?=base_url()?>assets/images/photo/kuser.png" alt=""/>
+<img src="<?php echo base_url()?>assets/images/photo/kuser.png" alt=""/>
 </div>
 </td>
 </tr>
@@ -101,9 +101,9 @@ table.form.detail td{
 <th>Agama</th>
 <td><select name="agama_id" class="required">
 <option value="">Pilih Agama</option>
-<?foreach($agama as $data){?>
-<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-<?}?></select>
+<?php foreach($agama as $data){?>
+<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+<?php }?></select>
 </td>
 </tr> 
 
@@ -111,9 +111,9 @@ table.form.detail td{
 <th>Pendidikan dalam KK</th>
 <td><select name="pendidikan_kk_id">
 <option value="">Pilih Pendidikan</option>
-<?foreach($pendidikan_kk as $data){?>
-<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-<?}?></select>
+<?php foreach($pendidikan_kk as $data){?>
+<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+<?php }?></select>
 </td>
 </tr>
 
@@ -121,9 +121,9 @@ table.form.detail td{
 <th>Pekerjaan</th>
 <td><select name="pekerjaan_id">
 <option value="">Pilih Pekerjaan</option>
-<?foreach($pekerjaan as $data){?>
-<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-<?}?></select>
+<?php foreach($pekerjaan as $data){?>
+<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+<?php }?></select>
 </td>
 </tr>
 
@@ -131,9 +131,9 @@ table.form.detail td{
 <th>Status Perkawinan</th>
 <td><select name="status_kawin">
 <option value="">Pilih Status</option>
-<?foreach($kawin as $data){?>
-<option value="<?=$data['id']?>"><?=strtoupper($data['nama'])?></option>
-<?}?></select>
+<?php foreach($kawin as $data){?>
+<option value="<?php echo $data['id']?>"><?php echo strtoupper($data['nama'])?></option>
+<?php }?></select>
 </td>
 </tr>
 
@@ -141,9 +141,9 @@ table.form.detail td{
 <th>Hubungan dalam Keluarga</th>
 <td><select name="kk_level">
 <option value="">Pilih Hubungan</option>
-<?foreach($hubungan as $data){?>
-<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-<?}?></select>
+<?php foreach($hubungan as $data){?>
+<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+<?php }?></select>
 </td>
 </tr>
 
@@ -151,9 +151,9 @@ table.form.detail td{
 <th>Kewarganegaraan</th>
 <td><select name="warganegara_id">
 <option value="">Pilih warganegara</option>
-<?foreach($warganegara as $data){?>
-<option value="<?=$data['id']?>"><?=strtoupper($data['nama'])?></option>
-<?}?></select>
+<?php foreach($warganegara as $data){?>
+<option value="<?php echo $data['id']?>"><?php echo strtoupper($data['nama'])?></option>
+<?php }?></select>
 </td>
 </tr>  
 
@@ -191,9 +191,9 @@ table.form.detail td{
 <th>Golongan Darah</th>
 <td><select name="golongan_darah_id" class="required">
 <option value="">Pilih Golongan Darah</option>
-<?foreach($golongan_darah as $data){?>
-<option value="<?=$data['id']?>"><?=strtoupper($data['nama'])?></option>
-<?}?></select>
+<?php foreach($golongan_darah as $data){?>
+<option value="<?php echo $data['id']?>"><?php echo strtoupper($data['nama'])?></option>
+<?php }?></select>
 </td>
 </tr>
 
@@ -214,7 +214,7 @@ table.form.detail td{
 
 <div class="ui-layout-south panel bottom">
 <div class="left">
-<a href="<?=site_url()?>keluarga" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>keluarga" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">

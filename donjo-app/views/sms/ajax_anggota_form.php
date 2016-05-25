@@ -1,6 +1,6 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
+<form action="<?php echo $form_action?>" method="post" id="validasi">
     <div class="ui-layout-north panel">
     </div>
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
@@ -18,18 +18,18 @@
 		   	 </tr>
 		</thead>
 		<tbody>
-        		<? $no=1; foreach($main as $data): ?>
+        		<?php  $no=1; foreach($main as $data): ?>
 			<tr>
-		  		<td align="center" width="2"><?=$no?></td>
+		  		<td align="center" width="2"><?php echo $no?></td>
 				<td align="center" width="5">
-					<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+					<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 				</td>
-				 <td><?=unpenetration($data['nama'])?></td>
-				 <td><?=$data['sex']?></td>
-				 <td><?=$data['alamat_sekarang']?></td>
-				 <td align="center"><?=$data['no_hp']?></td>
+				 <td><?php echo unpenetration($data['nama'])?></td>
+				 <td><?php echo $data['sex']?></td>
+				 <td><?php echo $data['alamat_sekarang']?></td>
+				 <td align="center"><?php echo $data['no_hp']?></td>
 			</tr>
-      			<? $no++; endforeach; ?>
+      			<?php  $no++; endforeach; ?>
 		</tbody>
         </table>
     	</div>

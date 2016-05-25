@@ -274,8 +274,14 @@ class First_Artikel_M extends CI_Model{
 	}
 	
 	function list_artikel($id=0){
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=? AND k.tipe = 1 ORDER BY a.tgl_upload DESC LIMIT 4";
-		$query = $this->db->query($sql,1);
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 ";
+		
+		if($id!=0)
+			$sql .= "AND id_kategori = $id OR parrent = $id";
+			
+		$sql .= " ORDER BY a.tgl_upload DESC LIMIT 4";
+		
+		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		
 			//$judul=str_split($data['nama'],15);

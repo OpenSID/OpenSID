@@ -21,7 +21,7 @@
 <td width="320">Export Data Dasar Kependudukan</td>
 <td width="70">
 <div class="uibutton-group">
-<a class="uibutton special" href="<?=site_url("database")?>/export_dasar">Download</a>
+<a class="uibutton special" href="<?php echo site_url("database")?>/export_dasar">Download</a>
 </div>
 </td>
 </tr>
@@ -29,7 +29,7 @@
 <td width="320">Export Data Analisis</td>
 <td width="70">
 <div class="uibutton-group">
-<a class="uibutton special" href="<?=site_url("database")?>/export_akp">Download</a>
+<a class="uibutton special" href="<?php echo site_url("database")?>/export_akp">Download</a>
 </div>
  </td>
 </tr>

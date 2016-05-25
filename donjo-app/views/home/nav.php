@@ -1,15 +1,15 @@
 <div id="nav">
 <ul>
-<?if($_SESSION['grup']==1){?>
-<li <?if($act==0){?>class="selected"<?}?>>
-<a href="<?=site_url('hom_desa')?>">Identitas Desa</a>
+<?php if($_SESSION['grup']==1){?>
+<li <?php if($act==0){?>class="selected"<?php }?>>
+<a href="<?php echo site_url('hom_desa')?>">Identitas Desa</a>
 </li>
-<?}?>
-<li <?if($act==1){?>class="selected"<?}?>>
-<a href="<?=site_url('pengurus')?>">Pemerintah Desa</a>
+<?php }?>
+<li <?php if($act==1){?>class="selected"<?php }?>>
+<a href="<?php echo site_url('pengurus')?>">Pemerintah Desa</a>
 </li>
-<li <?if($act==2){?>class="selected"<?}?>>
-<a href="<?=site_url('hom_desa/about')?>">SID</a>
+<li <?php if($act==2){?>class="selected"<?php }?>>
+<a href="<?php echo site_url('hom_desa/about')?>">SID</a>
 </li>
 </ul>
 </div>

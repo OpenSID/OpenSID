@@ -1,8 +1,4 @@
-
-
-<?php
-
-class Surat_Model extends CI_Model{
+<?php class Surat_Model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
@@ -223,9 +219,14 @@ class Surat_Model extends CI_Model{
 		return $query->row_array();
 	}
 	
-	function coba($tipe=0){
+	function get_surat($url=''){
+		$sql   = "SELECT * FROM tweb_surat_format WHERE url_surat = ?";
+		$query = $this->db->query($sql,$url);
+		return $query->row_array();
+	}
+		
+	function coba($url=''){
 	
-		$f=1;
 		$g=$_POST['pamong'];
 		$u=$_SESSION['user'];
 		$z=$_POST['nomor'];
@@ -236,22 +237,21 @@ class Surat_Model extends CI_Model{
 		$thn = date("Y");
 		$individu = $this->get_data_surat($id);
 		$config = $this->get_data_desa();
+		$surat = $this->get_surat($url);
 		
 		$tgllhr = strtoupper(tgl_indo($individu['tanggallahir']));
-	
-		$mypath="assets\\cetak\\";
-		$path = "".str_replace("\\","/",$mypath)."/";
+		$individu['nama'] = strtoupper($individu['nama']);
+		$individu['tempatlahir'] = strtoupper($individu['tempatlahir']);
 		
-		$individu[nama] = strtoupper($individu[nama]);
-		$individu[tempatlahir] = strtoupper($individu[tempatlahir]);
-		switch($tipe){
-			case 1:$file = $path.'skp1.rtf';break;
-			case 2:$file = $path.'skp2.rtf';break;
-			default:$file = $path.'skp1.rtf';break;
-		}
+		$mypath="surat\\$url\\";
+		$path = "".str_replace("\\","/",$mypath)."/";
+		$file = $path."$url.rtf";
 		
 		$handle = fopen($file,'r+');
 		$buffer = stream_get_contents($handle);
+		
+		$buffer=str_replace("[kode_surat]","$surat[kode_surat]",$buffer);
+		$buffer=str_replace("[judul_surat]",strtoupper("surat ".$surat['nama']),$buffer);
 		$buffer=str_replace("[mulai_berlaku]","$input[berlaku_dari]",$buffer);
 		$buffer=str_replace("[kode_desa]","$config[kode_desa]",$buffer);
 		$buffer=str_replace("[tahun]","$thn",$buffer);
@@ -267,22 +267,22 @@ class Surat_Model extends CI_Model{
 		$buffer=str_replace("[pekerjaan]","$individu[pekerjaan]",$buffer);
 		$buffer=str_replace("[warga_negara]","$individu[warganegara]",$buffer);
 		$buffer=str_replace("[no_ktp]","$individu[nik]",$buffer);
+		$buffer=str_replace("*usia","$individu[umur]",$buffer);
 		$buffer=str_replace("[no_kk]","$individu[no_kk]",$buffer);
-		$buffer=str_replace("[ttl]","$individu[tempatlahir]-$tgllhr",$buffer);
+		$buffer=str_replace("[ttl]","$individu[tempatlahir]/$tgllhr",$buffer);
 		$buffer=str_replace("[nomor_sorat]","$input[nomor]",$buffer);
 		$buffer=str_replace("[tgl_akhir]","$input[berlaku_sampai]",$buffer);
 		$buffer=str_replace("[keperluan]","$input[keperluan]",$buffer);
 		$buffer=str_replace("[jabatan]","$input[jabatan]",$buffer);
 		$buffer=str_replace("[nama_pamong]","$input[pamong]",$buffer);
 		$buffer=str_replace("[tgl_surat]","$tgl",$buffer);
-		$ccyymmdd = date("Ymd");
-		$handle = fopen($path."SKP".$ccyymmdd.".rtf",'w+');
+		
+		$ccyymmdd = date("Y-m-d");
+		$handle = fopen($path.$url."_".$ccyymmdd.".rtf",'w+');
 		fwrite($handle,$buffer);
 		fclose($handle);
 		$_SESSION['success']=8;
-		header("location:".base_url().$path."SKP".$ccyymmdd.".rtf");
+		header("location:".base_url().$path.$url."_".$ccyymmdd.".rtf");
 	}
 	
 }
-
-?>

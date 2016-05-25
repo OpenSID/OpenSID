@@ -1,11 +1,11 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <table style="width:100%">
 	<tr>
 		<th>Nama Group</th>
-		<td><input name="nama_grup" type="text" class="inputbox required"  size="30" maxlength='15' value="<?=$grup['nama_grup']?>"/>
-		<input name="nama_grup_awal" type="hidden" class="inputbox "  size="30" maxlength='15' value="<?=$grup['nama_grup']?>"/></td>
+		<td><input name="nama_grup" type="text" class="inputbox required"  size="30" maxlength='15' value="<?php echo $grup['nama_grup']?>"/>
+		<input name="nama_grup_awal" type="hidden" class="inputbox "  size="30" maxlength='15' value="<?php echo $grup['nama_grup']?>"/></td>
 	</tr>
 </table>
 

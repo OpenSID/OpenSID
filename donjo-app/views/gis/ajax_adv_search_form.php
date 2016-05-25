@@ -35,7 +35,7 @@ xmlhttp.open("GET","sid_penduduk/ajax_penduduk_pindah_rt/"+dusun+"/"+str,true);
 xmlhttp.send();
 }
 </script>
-<form method="post" action="<?=$form_action?>" >
+<form method="post" action="<?php echo $form_action?>" >
 <input type="hidden" name="rt" value="">
 <table>
 <tr>
@@ -48,9 +48,9 @@ xmlhttp.send();
 	<td>Dusun</td>
 	<td><select name="dusun" onchange="DusSel(this.value)">
 	<option value="">Pilih Dusun&nbsp;</option>
-	<?foreach($dusun as $data){?>
-		<option><?=$data['dusun']?></option>
-	<?}?></select>
+	<?php foreach($dusun as $data){?>
+		<option><?php echo $data['dusun']?></option>
+	<?php }?></select>
 	</td>
 </tr>
 <tr id="RW"></tr>
@@ -68,9 +68,9 @@ xmlhttp.send();
 <tr><td>Pekerjaan</td>
     <td><select name="pekerjaan_id">
       <option value=""> -- </option>
-	  <?foreach($pekerjaan AS $data){?>
-		<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-	  <?}?>
+	  <?php foreach($pekerjaan AS $data){?>
+		<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+	  <?php }?>
 	</select>
      </td>
 </tr>    
@@ -83,9 +83,9 @@ xmlhttp.send();
 <tr><td>Agama</td><td>
     <select name="agama">
     <option value=""> -- </option>
-	<?foreach($agama AS $data){?>
-		<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-	<?}?>
+	<?php foreach($agama AS $data){?>
+		<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+	<?php }?>
     </select>
 	</td>
 </tr>  
@@ -93,9 +93,9 @@ xmlhttp.send();
     <td>
 	<select name="pendidikan_id">
       <option value=""> -- </option>
-		<?foreach($pendidikan AS $data){?>
-			<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-		<?}?>
+		<?php foreach($pendidikan AS $data){?>
+			<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+		<?php }?>
 	  </select>
   </td>
 </tr>

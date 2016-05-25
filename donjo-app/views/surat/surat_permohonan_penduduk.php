@@ -17,9 +17,9 @@ table.form.detail td{
 <legend>Surat Administrasi</legend>
 <div  id="sidecontent2" class="lmenu">
 <ul>
-<?foreach($menu_surat AS $data){?>
-        <li <? if($data['url_surat']==$lap){?>class="selected"<? }?>><a href="<?=site_url()?>surat/<?=$data['url_surat']?>"><?=$data['nama']?></a></li>
-<?}?>
+<?php foreach($menu_surat AS $data){?>
+        <li <?php  if($data['url_surat']==$lap){?>class="selected"<?php  }?>><a href="<?php echo site_url()?>surat/<?php echo $data['url_surat']?>"><?php echo $data['nama']?></a></li>
+<?php }?>
 </ul>
 </div>
 </fieldset>
@@ -35,7 +35,7 @@ table.form.detail td{
 <h3>Surat Permohonan Penduduk</h3>
 </div>
 
-    <form id="validasi" action="<?=$form_action?>" method="POST" target="_blank">
+    <form id="validasi" action="<?php echo $form_action?>" method="POST" target="_blank">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <table class="form">
 		<tr>
@@ -80,9 +80,9 @@ table.form.detail td{
 <td>
 <select name="pamong"  class="inputbox required">
 <option value="">Pilih Staf Pemerintah Desa</option>
-<?foreach($pamong AS $data){?>
-<option value="<?=$data['pamong_id']?>"><font style="bold"><?=$data['pamong_nama']?></font> (<?=$data['jabatan']?>)</option>
-<?}?>
+<?php foreach($pamong AS $data){?>
+<option value="<?php echo $data['pamong_id']?>"><font style="bold"><?php echo $data['pamong_nama']?></font> (<?php echo $data['jabatan']?>)</option>
+<?php }?>
 </select>
 </td>
 </tr>
@@ -91,9 +91,9 @@ table.form.detail td{
 <td>
 <select name="jabatan"  class="inputbox required">
 <option value="">Pilih Jabatan</option>
-<?foreach($pamong AS $data){?>
-<option ><?=$data['jabatan']?></option>
-<?}?>
+<?php foreach($pamong AS $data){?>
+<option ><?php echo $data['jabatan']?></option>
+<?php }?>
 </select>
 </td>
 </tr>
@@ -103,7 +103,7 @@ table.form.detail td{
    
     <div class="ui-layout-south panel bottom">
         <div class="left">     
-            <a href="<?=site_url()?>surat" class="uibutton icon prev">Kembali</a>
+            <a href="<?php echo site_url()?>surat" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">
             <div class="uibutton-group">

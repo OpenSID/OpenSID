@@ -7,12 +7,12 @@
 </div> 
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
-    <h3>Daftar Anggota Rumah Tangga : <?=$kepala_kk['nama']?> - <?=$kepala_kk['no_kk']?></h3>
+    <h3>Daftar Anggota Rumah Tangga : <?php echo $kepala_kk['nama']?> - <?php echo $kepala_kk['no_kk']?></h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?=site_url("rtm/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modalx" rel="window"><span class="icon-plus icon-large">&nbsp;</span>Tambah Anggota</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("rtm/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
-                <?/*<a href="<?=site_url("rtm/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
+                <a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modalx" rel="window"><span class="icon-plus icon-large">&nbsp;</span>Tambah Anggota</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("rtm/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
+                <?php /*<a href="<?php echo site_url("rtm/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
             </div>
         </div>
     </div>
@@ -37,35 +37,35 @@
 			</tr>
 		</thead>
 		<tbody>
-        <? foreach($main as $data): ?>
+        <?php  foreach($main as $data): ?>
 		<tr>
-          <td align="center" width="2"><?=$data['no']?></td>
+          <td align="center" width="2"><?php echo $data['no']?></td>
 			<td align="center" width="5">
-				<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td>
 				<div class="uibutton-group">
-				<a href="<?=site_url("rtm/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Hapus dari Ruta" target="confirm" message="Apakah Anda Yakin?" header="Hapus"><span class="icon-minus-sign icon-large"></span> Hapus</a>
-				<a href="<?=site_url("rtm/edit_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Ubah Hubungan rtm" target="ajax-modal" rel="window" header="Ubah Data"><span class="icon-link icon-large"></span></a>
+				<a href="<?php echo site_url("rtm/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Hapus dari Ruta" target="confirm" message="Apakah Anda Yakin?" header="Hapus"><span class="icon-minus-sign icon-large"></span> Hapus</a>
+				<a href="<?php echo site_url("rtm/edit_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Ubah Hubungan rtm" target="ajax-modal" rel="window" header="Ubah Data"><span class="icon-link icon-large"></span></a>
 				</div>
 			</td>
-          <td><label><?=$data['nik']?></label></td>
-		  <td><label><?=strtoupper(unpenetration($data['nama']))?></label></td>
+          <td><label><?php echo $data['nik']?></label></td>
+		  <td><label><?php echo strtoupper(unpenetration($data['nama']))?></label></td>
           
-		  <td><?=$data['hubungan']?></td>
-          <td><?=unpenetration($data['alamat'])?></td>
+		  <td><?php echo $data['hubungan']?></td>
+          <td><?php echo unpenetration($data['alamat'])?></td>
 		  </tr>
-        <? endforeach; ?>
+        <?php  endforeach; ?>
 		</tbody>
         </table>
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
         <div class="left"> 
-            <a href="<?=site_url("rtm/index/$p/$o")?>" class="uibutton icon prev">Kembali</a>
+            <a href="<?php echo site_url("rtm/index/$p/$o")?>" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">
-            <a href="<?=site_url("rtm/kartu_rtm/$p/$o/$kk")?>" class="uibutton confirm icon next">Kartu rtm</a>
+            <a href="<?php echo site_url("rtm/kartu_rtm/$p/$o/$kk")?>" class="uibutton confirm icon next">Kartu rtm</a>
         </div>
     </div>
 </div>

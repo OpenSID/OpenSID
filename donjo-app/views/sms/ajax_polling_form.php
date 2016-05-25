@@ -1,15 +1,15 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <table style="width:100%">
 	<tr>
 		<th>Nama Polling</th>
-		<td><input name="nama_polling" type="text" class="inputbox required"  size="30" maxlength='20' value="<?  if ($main){ foreach($main as $data): echo $data['nama_polling'];  endforeach; }?>"/>
+		<td><input name="nama_polling" type="text" class="inputbox required"  size="30" maxlength='20' value="<?php   if ($main){ foreach($main as $data): echo $data['nama_polling'];  endforeach; }?>"/>
 </td>
 	</tr>
 	<tr>
 		<th>Keterangan</th>
-		<td><textarea name="ket_polling" class=" required" style="resize: none; height:100px; width:250px;" size="300" maxlength='200'><?  if ($main){ foreach($main as $data): echo $data['ket_polling'];  endforeach; }?></textarea>
+		<td><textarea name="ket_polling" class=" required" style="resize: none; height:100px; width:250px;" size="300" maxlength='200'><?php   if ($main){ foreach($main as $data): echo $data['ket_polling'];  endforeach; }?></textarea>
 </td>
 	</tr>
 </table>

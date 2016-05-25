@@ -1,9 +1,9 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jscolor/jscolor.js"></script>
-<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data">
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jscolor/jscolor.js"></script>
+<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <table style="width:100%">
 <tr>
 <th width="100">Nama line</th>
-<td><input class="inputbox" type="text" name="nama" value="<?=$line['nama']?>" size="40"/></td>
+<td><input class="inputbox" type="text" name="nama" value="<?php echo $line['nama']?>" size="40"/></td>
 </tr>
 <tr>
 	<th>Warna</th>
@@ -14,7 +14,7 @@
 <tr>
 	<th>Simbol</th>
 	<td>
-		<input class="inputbox" type="file" name="simbol" value="<?=$line['simbol']?>" size="20"/>
+		<input class="inputbox" type="file" name="simbol" value="<?php echo $line['simbol']?>" size="20"/>
 	</td>
 </tr>
 </table>

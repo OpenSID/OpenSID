@@ -15,24 +15,24 @@
 			</tr>
 		</thead>
 		<tbody>
-        <? foreach($main as $data): ?>
+        <?php  foreach($main as $data): ?>
 		<tr>
-          <td align="center" width="2"><?=$data['no']?></td>
+          <td align="center" width="2"><?php echo $data['no']?></td>
 			<td align="center" width="5">
-				<input type="checkbox" name="id_cb[]" value="<?=$data['dusun']?>" />
+				<input type="checkbox" name="id_cb[]" value="<?php echo $data['dusun']?>" />
 			</td>
 
-                <td><?=$data['dusun']?></td>
-	        <td><?=$data['nama_kadus']?></td> 
+                <td><?php echo $data['dusun']?></td>
+	        <td><?php echo $data['nama_kadus']?></td> 
 		
-               <td><a href="<?=site_url("sid_core/sub_rw/$p/$o/$data[dusun]")?>" title="Rincian Sub Wilayah"><?=$data['jumlah_rw']?></a></td>
-               <td><a href="<?=site_url("sid_core/list_dusun_rt/$p/$o/$data[dusun]")?>" title="Rincian Sub Wilayah"><?=$data['jumlah_rt']?></a></td>
-                <td><?=$data['jumlah_kk']?></td>
-                <td><?=$data['jumlah_warga']?></td>
-                <td><?=$data['jumlah_warga_l']?></td>
-                <td><?=$data['jumlah_warga_p']?></td>
+               <td><a href="<?php echo site_url("sid_core/sub_rw/$p/$o/$data[dusun]")?>" title="Rincian Sub Wilayah"><?php echo $data['jumlah_rw']?></a></td>
+               <td><a href="<?php echo site_url("sid_core/list_dusun_rt/$p/$o/$data[dusun]")?>" title="Rincian Sub Wilayah"><?php echo $data['jumlah_rt']?></a></td>
+                <td><?php echo $data['jumlah_kk']?></td>
+                <td><?php echo $data['jumlah_warga']?></td>
+                <td><?php echo $data['jumlah_warga_l']?></td>
+                <td><?php echo $data['jumlah_warga_p']?></td>
 		  </tr>
-        <? endforeach; ?>
+        <?php  endforeach; ?>
 		</tbody>
 		<thead>
             <tr>
@@ -41,12 +41,12 @@
                 <th width="50">Total</th>
 				<th align="left" align="center"></th>
 				<th align="left" align="center"></th>
-				<th align="left" align="center"><?=$total['total_rw']?></th>
-				<th align="left" align="center"><?=$total['total_rt']?></th>
-				<th align="left" align="center"><?=$total['total_kk']?></th>
-				<th align="left" align="center"><?=$total['total_warga']?></th>
-				<th align="left" align="center"><?=$total['total_warga_l']?></th>
-				<th align="left" align="center"><?=$total['total_warga_p']?></th>
+				<th align="left" align="center"><?php echo $total['total_rw']?></th>
+				<th align="left" align="center"><?php echo $total['total_rt']?></th>
+				<th align="left" align="center"><?php echo $total['total_kk']?></th>
+				<th align="left" align="center"><?php echo $total['total_warga']?></th>
+				<th align="left" align="center"><?php echo $total['total_warga_l']?></th>
+				<th align="left" align="center"><?php echo $total['total_warga_p']?></th>
 			</tr>
 		</thead>
 		

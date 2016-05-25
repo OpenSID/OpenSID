@@ -36,7 +36,7 @@ function RWSel(dusun,str){
 	xmlhttp.send();
 }
 </script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <input type="hidden" name="rt" value="">
 <table>
 
@@ -47,9 +47,9 @@ function RWSel(dusun,str){
 	<td>Dusun</td>
 	<td><select name="dusun1" onchange="DusSel(this.value)">
 	<option value="">Pilih Dusun&nbsp;</option>
-	<?foreach($dusun as $data){?>
-		<option value="<?=$data['dusun']?>"><?=ununderscore($data['dusun'])?></option>
-	<?}?></select>
+	<?php foreach($dusun as $data){?>
+		<option value="<?php echo $data['dusun']?>"><?php echo ununderscore($data['dusun'])?></option>
+	<?php }?></select>
 	</td>
 </tr>
 <tr id="RW"></tr>
@@ -67,9 +67,9 @@ function RWSel(dusun,str){
 <tr><td>Pekerjaan</td>
     <td><select name="pekerjaan1">
       <option value=""> -- </option>
-	  <?foreach($pekerjaan AS $data){?>
-		<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-	  <?}?>
+	  <?php foreach($pekerjaan AS $data){?>
+		<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+	  <?php }?>
 	</select>
      </td>
 </tr>    
@@ -82,9 +82,9 @@ function RWSel(dusun,str){
 <tr><td>Agama</td><td>
     <select name="agama1">
     <option value=""> -- </option>
-	<?foreach($agama AS $data){?>
-		<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-	<?}?>
+	<?php foreach($agama AS $data){?>
+		<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+	<?php }?>
     </select>
 	</td>
 </tr>  
@@ -93,9 +93,9 @@ function RWSel(dusun,str){
     <td>
 	<select name="pendidikan1">
       <option value=""> -- </option>
-		<?foreach($pendidikan AS $data){?>
-			<option value="<?=$data['id']?>"><?=$data['nama']?></option>
-		<?}?>
+		<?php foreach($pendidikan AS $data){?>
+			<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+		<?php }?>
 	  </select>
   </td>
 </tr>
@@ -110,9 +110,9 @@ function RWSel(dusun,str){
     <td>
 	<select name="grup1">
       <option value=""> -- </option>
-		<?foreach($grup AS $data){?>
-			<option value="<?=$data['nama_grup']?>"><?=$data['nama_grup']?></option>
-		<?}?>
+		<?php foreach($grup AS $data){?>
+			<option value="<?php echo $data['nama_grup']?>"><?php echo $data['nama_grup']?></option>
+		<?php }?>
 	  </select>
   </td>
 </tr>

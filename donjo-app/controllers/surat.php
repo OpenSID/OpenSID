@@ -1,10 +1,7 @@
-
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Surat extends CI_Controller{
 
-function __construct(){
+	function __construct(){
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
@@ -18,7 +15,7 @@ function __construct(){
 	}
 	
 
-function index($p=1,$o=0,$act=0,$id=''){
+	function index($p=1,$o=0,$act=0,$id=''){
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['act'] = $act;
@@ -64,8 +61,56 @@ function index($p=1,$o=0,$act=0,$id=''){
 		$this->load->view('surat/nav',$nav);
 		$this->load->view('surat/format_surat',$data);
 		$this->load->view('footer');
-}
+	}
+	
+	function form($url=''){
+		$data['lap']="surat_ket_pengantar";
+		if(isset($_POST['nik']))
+			$data['individu']=$this->surat_model->get_penduduk($_POST['nik']);
+		else
+		$data['individu']=NULL;
 		
+		$data['menu_surat'] = $this->surat_model->list_surat();
+		$data['penduduk'] = $this->surat_model->list_penduduk();
+		$data['pamong'] = $this->surat_model->list_pamong();
+		
+		$data['form_action'] = site_url("surat/cetak/$url");
+		$data['form_action2'] = site_url("surat/doc/$url");
+		$nav['act']= 1;
+		$header = $this->header_model->get_data();
+		$this->load->view('header',$header);
+		
+		$this->load->view('surat/nav',$nav);
+		$this->load->view("surat/$url",$data);
+		$this->load->view('footer');
+
+	}
+		
+	function cetak($url=''){
+		
+		$f=1;
+		$g=$_POST['pamong'];
+		$u=$_SESSION['user'];
+			$z=$_POST['nomor'];
+		
+		$data['menu_surat'] = $this->surat_model->list_surat();
+		$id = $_POST['nik'];
+		$data['input'] = $_POST;
+		$data['tanggal_sekarang'] = tgl_indo(date("Y m d"));
+		
+		$data['data'] = $this->surat_model->get_data_surat($id);
+		$data['desa'] = $this->surat_model->get_data_desa();
+		$data['pamong'] = $this->surat_model->get_pamong($_POST['pamong']);
+			
+		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z);
+		$this->load->view("surat/print_$url",$data);
+	}
+	
+	function doc($url=''){
+		$this->surat_model->coba($url);
+	}	
+	
+	
 function surat_ket_pengantar(){
 		$data['lap']="surat_ket_pengantar";
 		if(isset($_POST['nik']))
@@ -78,7 +123,7 @@ function surat_ket_pengantar(){
 		$data['pamong'] = $this->surat_model->list_pamong();
 		
 		$data['form_action'] = site_url("surat/print_surat_ket_pengantar");
-		$data['form_action2'] = site_url("surat/doc_kp");
+		$data['form_action2'] = site_url("surat/doc/$url");
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
@@ -88,6 +133,7 @@ function surat_ket_pengantar(){
 		$this->load->view('footer');
 
 }
+	
 	
 	
 function doc_kp(){

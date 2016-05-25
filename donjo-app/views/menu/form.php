@@ -3,9 +3,9 @@ $(function(){
 	$('#'+'manual').show();
     var link = {};
     link.results = [
-		<?foreach($link as $data){?>
-	   {id:'artikel/<?=$data['id']?>',name:'<?=$data['judul']?>',info:'Halaman Berisi <?=$data['judul']?>'},
-		<?}?>
+		<?php foreach($link as $data){?>
+	   {id:'artikel/<?php echo $data['id']?>',name:'<?php echo $data['judul']?>',info:'Halaman Berisi <?php echo $data['judul']?>'},
+		<?php }?>
 	   {id:'gallery',name:'Gallery',info:'Halaman Gallery'},
 		    ];
 link.total = link.results.length;
@@ -29,8 +29,8 @@ $('#link').flexbox(link, {
 <legend>Kategori Menu</legend>
 <div class="lmenu">
 <ul>
-<li <?if($tip==1)echo "class='selected'";?>><a href="<?=site_url("menu/index/1")?>">Statis</a></li>
-<li <?if($tip==2)echo "class='selected'";?>><a href="<?=site_url("menu/index/2")?>">Dinamis</a></li>
+<li <?php if($tip==1)echo "class='selected'";?>><a href="<?php echo site_url("menu/index/1")?>">Menu Statis</a></li>
+<li <?php if($tip==2)echo "class='selected'";?>><a href="<?php echo site_url("kategori")?>">Kategori / Menu Dinamis</a></li>
 
 
 </ul>
@@ -39,20 +39,20 @@ $('#link').flexbox(link, {
 </td>
 <td style="background:#fff;padding:0px;"> 
 <div id="contentpane">
-<form id="validasi" action="<?=$form_action?>" method="POST">
+<form id="validasi" action="<?php echo $form_action?>" method="POST">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
 <tr>
 <th>Nama Menu</th>
-<td><input class="inputbox" type="text" name="nama" value="<?=$menu['nama']?>" size="40"/></td>
+<td><input class="inputbox" type="text" name="nama" value="<?php echo $menu['nama']?>" size="40"/></td>
 </tr>
 
-<? if($menu){?>
+<?php  if($menu){?>
 <tr>
 <th>Link Sebelumnya</th>
-<td><?=$menu['link']?></td>
+<td><?php echo $menu['link']?></td>
 </tr>
-<? }?>
+<?php  }?>
 <tr>
 	<th>Auto Link</th>
 	<td>
@@ -61,14 +61,14 @@ $('#link').flexbox(link, {
 </tr>
 <tr id="manual">
 <th>Link Manual</th>
-<td><textarea name="manual_link" style="resize: none; height:100px; width:350px;" size="500" maxlength='500'><? if($menu['link_tipe']==1){echo $menu['link'];}?></textarea></td>
+<td><textarea name="manual_link" style="resize: none; height:100px; width:350px;" size="500" maxlength='500'><?php  if($menu['link_tipe']==1){echo $menu['link'];}?></textarea></td>
 </tr>
 </table>
 </div>
    
 <div class="ui-layout-south panel bottom">
 <div class="left">
-<a href="<?=site_url()?>menu/index/<?=$tip?>" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>menu/index/<?php echo $tip?>" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">

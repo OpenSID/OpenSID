@@ -1,8 +1,4 @@
-
-
-<?php
-
-class Surat_Keluar_Model extends CI_Model{
+<?php class Surat_Keluar_Model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
@@ -159,16 +155,17 @@ class Surat_Keluar_Model extends CI_Model{
 		$sql   = "SELECT pamong_id FROM tweb_desa_pamong WHERE pamong_nama = ?";
 		$query = $this->db->query($sql,$g);
 		$pam=$query->row_array();
-	if($pam){
-		$data['id_pamong']=$pam['pamong_id'];
-	}else{
-		$data['id_pamong']=$g;
-	}
+	
+	$data['id_pamong']=$pam['pamong_id'];
+	
+	if($data['id_pamong']=='')
+		$data['id_pamong'] = 1;
+		
 	$data['id_user']=$u;
 	$data['bulan']=date('m');
 	$data['tahun']=date('Y');
 	$data['no_surat']=$z;
-//	print_r($data);
+	//print_r($data);
 	$this->db->insert('log_surat',$data);
 		
 	}
