@@ -9,7 +9,7 @@
 <a href="<?php echo site_url('pengurus')?>">Pemerintah Desa</a>
 </li>
 <li <?php if($act==2){?>class="selected"<?php }?>>
-<a href="<?php echo site_url('hom_desa/about')?>">SID 3.04</a>
+<a href="<?php echo site_url('hom_desa/about')?>">SID</a>
 </li>
 </ul>
 </div>
