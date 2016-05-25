@@ -3,7 +3,7 @@ Anda sedang menggunakan aplikasi SID304JMS <?=AmbilVersi()?> berbasis Sistem Inf
 <br />
 <br />SID304JMS</b> <br />
 <br />
-Aplikasi ini berbasis SID 3.04 (versi tanggal 21 Mei 2016), yang telah disesuaikan untuk keperluan JMS. Namun perubahan yang dilakukan hanya bersifat teknis dan tidak mengubah konsep dasar SID CRI. Perubahan yang dilakukan dapat dilihat di <a href= https://github.com/eddieridwan/sid304-jms>https://github.com/eddieridwan/sid304-jms</a>.
+Aplikasi ini berbasis SID 3.04 (versi unduhan sid.web.id 24 Mei 2016), yang telah disesuaikan untuk keperluan JMS. Namun perubahan yang dilakukan hanya bersifat teknis dan tidak mengubah konsep dasar SID CRI. Perubahan yang dilakukan dapat dilihat di <a href= https://github.com/eddieridwan/sid304-jms>https://github.com/eddieridwan/sid304-jms</a>.
 <br />
 <br />
 <br /><b>APAKAH SISTEM INFORMASI (SID)?</b> <br />
