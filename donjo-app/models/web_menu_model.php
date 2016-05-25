@@ -68,8 +68,10 @@ class Web_Menu_Model extends CI_Model{
 		}
 	
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		
-		$sql   = "SELECT * FROM menu WHERE tipe =? ";
+		if($tip==1)
+			$sql   = "SELECT * FROM menu WHERE tipe =? ";
+		else
+			$sql   = "SELECT k.id,k.kategori AS nama FROM kategori k WHERE 1";
 			
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
@@ -201,6 +203,22 @@ class Web_Menu_Model extends CI_Model{
 		$i=0;
 		while($i<count($data)){
 			$data[$i]['no']=$i+1;
+			$i++;
+		}
+		return $data;
+	}
+
+	function list_kategori(){
+	
+		$sql   = "SELECT k.id,k.kategori AS nama FROM kategori k WHERE 1";
+			
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+		
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['no']=$i+1;
+			$data[$i]['judul']=$data[$i]['nama'];
 			$i++;
 		}
 		return $data;

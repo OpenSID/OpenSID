@@ -18,9 +18,7 @@
  * statistik Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
  * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
  */
-?>
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+?><?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Laporan_Rentan extends CI_Controller{
 

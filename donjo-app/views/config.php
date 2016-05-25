@@ -2,7 +2,7 @@
 
 $base=base_url();
 
-echo "<?xml version=\"1.0\"?>\n";
+echo "<?phpxml version=\"1.0\"?>\n";
 echo "<cu3er>
 	<settings>
 		<auto_play>

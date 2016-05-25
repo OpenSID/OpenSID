@@ -7,21 +7,21 @@
 
 </div>
 <div id="contentpane">
-<div class="ui-layout-north panel"><h3>Form Data Kategori - <a href="<?=site_url()?>analisis_master/menu/<?=$_SESSION['analisis_master']?>"><?=$analisis_master['nama']?></a></h3>
+<div class="ui-layout-north panel"><h3>Form Data Kategori - <a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><?php echo $analisis_master['nama']?></a></h3>
 </div>
-<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data">
+<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
 <tr>
 <th>Nama Kategori</th>
-<td><input name="kategori" type="text" class="inputbox" size="100" value="<?=$analisis_kategori['kategori']?>"/></td>
+<td><input name="kategori" type="text" class="inputbox" size="100" value="<?php echo $analisis_kategori['kategori']?>"/></td>
 </tr>
 </table>
 </div>
    
 <div class="ui-layout-south panel bottom">
 <div class="left"> 
-<a href="<?=site_url()?>analisis_kategori" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>analisis_kategori" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">

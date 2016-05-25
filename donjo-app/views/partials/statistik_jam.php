@@ -3,8 +3,8 @@
 <h2><a href="#">Statistik Kependudukan berdasarkan Penerimaan Jamkesmas</a></h2>
 </div>
 <div class='entry'>
-<link href="<?=base_url()?>assets/front/general.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<?=base_url()?>assets/js/highcharts/highcharts.js"></script>
+<link href="<?php echo base_url()?>assets/front/general.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
 <script type="text/javascript">
 			var chart;
 			$(document).ready(function() {
@@ -21,9 +21,9 @@
 							text: 'Kelompok Penerima Jamkesmas'
 						},
                         categories: [
-						<? $i=0;foreach($main as $data){$i++;?>
-						  <?echo "'$data[nama]',";?>
-						<?}?>
+						<?php  $i=0;foreach($main as $data){$i++;?>
+						  <?php echo "'$data[nama]',";?>
+						<?php }?>
 						]
 					},
 					yAxis: {
@@ -60,18 +60,18 @@
 				        series: [{
 						name: 'Jumlah Penduduk',
 						data: [
-						<? foreach($main as $data){?>
-						  <?echo $data['jumlah'].",";?>
-						<?}?>]
+						<?php  foreach($main as $data){?>
+						  <?php echo $data['jumlah'].",";?>
+						<?php }?>]
 				
 					},{
 						name: 'Penerima Jamkesmas',
 						colorByPoint: false,
 						color : '#5B2D1D',
 						data: [
-						<? foreach($main as $data){?>
-						  <?echo $data['jamkesmas'].",";?>
-						<?}?>]
+						<?php  foreach($main as $data){?>
+						  <?php echo $data['jamkesmas'].",";?>
+						<?php }?>]
 				
 					}]
 				});
@@ -95,16 +95,16 @@
 			</tr>
 		</thead>
 		<tbody>
-        <?  $i=0;$j=0;foreach($main as $data): ?>
+        <?php   $i=0;$j=0;foreach($main as $data): ?>
 		<tr>
-          <td align="center" width="2"><?=$data['id']?></td>
-          <td><?=$data['nama']?></td>
-          <td><?=$data['jumlah']?></td>
-		  </tr><? $i=$i+$data['jumlah'];?><? $j=$j+$data['jamkesmas'];?>
-        <? endforeach; ?>
+          <td align="center" width="2"><?php echo $data['id']?></td>
+          <td><?php echo $data['nama']?></td>
+          <td><?php echo $data['jumlah']?></td>
+		  </tr><?php  $i=$i+$data['jumlah'];?><?php  $j=$j+$data['jamkesmas'];?>
+        <?php  endforeach; ?>
 		<tr>
 			<td colspan="2"><b>Jumlah</b></td>
-			<td><b><? echo $i;?></b></td>
+			<td><b><?php  echo $i;?></b></td>
 		</tr>
 		</tbody>
         </table>

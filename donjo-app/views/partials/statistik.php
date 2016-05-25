@@ -1,14 +1,14 @@
 <div class="themes bigfull">
 <div class='title'>
-<h2>Statistik Kependudukan berdasarkan <?=$heading;?></h2>
+<h2>Statistik Kependudukan berdasarkan <?php echo $heading;?></h2>
 </div>
 <div style="position:absolute;right:25px;top:20px;">
-<a class="uibutton <?if($tipe==1){?>special<?}?> "href="<?=site_url("first/statistik/$st/1")?>">Bar Graph</a>
-<a class="uibutton <?if($tipe==0){?>special<?}?> "href="<?=site_url("first/statistik/$st/0")?>">Pie Cart</a>
+<a class="uibutton <?php if($tipe==1){?>special<?php }?> "href="<?php echo site_url("first/statistik/$st/1")?>">Bar Graph</a>
+<a class="uibutton <?php if($tipe==0){?>special<?php }?> "href="<?php echo site_url("first/statistik/$st/0")?>">Pie Cart</a>
 </div>
 <div class='entry'>
-<link href="<?=base_url()?>assets/front/general.css" rel="stylesheet" type="text/css" />
-<?if($tipe==1){?>
+<link href="<?php echo base_url()?>assets/front/general.css" rel="stylesheet" type="text/css" />
+<?php if($tipe==1){?>
 <script type="text/javascript">
 $(function () {
     var chart;
@@ -19,9 +19,9 @@ $(function () {
             title:0,
 					xAxis: {
                         categories: [
-						<? $i=0;foreach($stat as $data){$i++;?>
-						  <?if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){echo "'$i',";}?>
-						<?}?>
+						<?php  $i=0;foreach($stat as $data){$i++;?>
+						  <?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){echo "'$i',";}?>
+						<?php }?>
 						]
 					},
 				plotOptions: {
@@ -42,11 +42,11 @@ $(function () {
 				shadow:1,
 				border:1,
                 data: [
-						<? foreach($stat as $data){?>
-							<?if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){?>
-								['<?=$data['nama']?>',<?=$data['jumlah']?>],
-							<?}?>
-						<?}?>
+						<?php  foreach($stat as $data){?>
+							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){?>
+								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+							<?php }?>
+						<?php }?>
                 ]
             }]
         });
@@ -54,7 +54,7 @@ $(function () {
     
 });
 </script>
-<?}else{?>
+<?php }else{?>
 
 <script type="text/javascript">
 $(function () {
@@ -81,11 +81,11 @@ $(function () {
 				shadow:1,
 				border:1,
                 data: [
-						<? foreach($stat as $data){?>
-							<?if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){?>
-								['<?=$data['nama']?>',<?=$data['jumlah']?>],
-							<?}?>
-						<?}?>
+						<?php  foreach($stat as $data){?>
+							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){?>
+								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+							<?php }?>
+						<?php }?>
                 ]
             }]
         });
@@ -93,10 +93,10 @@ $(function () {
     
 });
 </script>
-<?}?>
-<script src="<?=base_url()?>assets/highchart/highcharts.js"></script>
-<script src="<?=base_url()?>assets/highchart/highcharts-more.js"></script>
-<script src="<?=base_url()?>assets/highchart/exporting.js"></script>
+<?php }?>
+<script src="<?php echo base_url()?>assets/highchart/highcharts.js"></script>
+<script src="<?php echo base_url()?>assets/highchart/highcharts-more.js"></script>
+<script src="<?php echo base_url()?>assets/highchart/exporting.js"></script>
 <div id="container" style="min-width: 550px; height: 700px; margin: 0 auto"></div><div id="contentpane">
     <div class="ui-layout-north panel top">
     </div>
@@ -119,21 +119,21 @@ $(function () {
 			</tr>
 		</thead>
 		<tbody>
-        <? $i=0; $l=0; $p=0; foreach($stat as $data): ?>
+        <?php  $i=0; $l=0; $p=0; foreach($stat as $data): ?>
 		<tr>
-          <td align="center" width="2"><?=$data['no']?></td>
-          <td><?=$data['nama']?></td>
-          <td><?=$data['jumlah']?></td>
-          <td><?=$data['persen']?></td>
-		  <td><?=$data['laki']?></td>
-          <td><?=$data['persen1']?></td>
-          <td><?=$data['perempuan']?></td>
-          <td><?=$data['persen2']?></td>
+          <td align="center" width="2"><?php echo $data['no']?></td>
+          <td><?php echo $data['nama']?></td>
+          <td><?php echo $data['jumlah']?></td>
+          <td><?php echo $data['persen']?></td>
+		  <td><?php echo $data['laki']?></td>
+          <td><?php echo $data['persen1']?></td>
+          <td><?php echo $data['perempuan']?></td>
+          <td><?php echo $data['persen2']?></td>
 		</tr>
-		  <? $i=$i+$data['jumlah'];?>
-		  <? $l=$l+$data['laki'];?>
-		  <? $p=$p+$data['perempuan'];?>
-        <? endforeach; ?>
+		  <?php  $i=$i+$data['jumlah'];?>
+		  <?php  $l=$l+$data['laki'];?>
+		  <?php  $p=$p+$data['perempuan'];?>
+        <?php  endforeach; ?>
 
 		</tbody>
         </table>

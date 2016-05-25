@@ -1,20 +1,20 @@
 <div id="nav">
 <ul>
-<li <?if($act==0){?>class="selected"<?}?>>
-<a href="<?=site_url('sid_core/clear')?>">Wilayah Administrasi</a>
+<li <?php if($act==0){?>class="selected"<?php }?>>
+<a href="<?php echo site_url('sid_core/clear')?>">Wilayah Administrasi</a>
 </li>
-<li <?if($act==1){?>class="selected"<?}?>>
-<a href="<?=site_url('keluarga/clear')?>">Keluarga</a>
+<li <?php if($act==1){?>class="selected"<?php }?>>
+<a href="<?php echo site_url('keluarga/clear')?>">Keluarga</a>
 </li>
-<li <?if($act==2){?>class="selected"<?}?>>
-<a href="<?=site_url('penduduk/clear')?>">Penduduk</a>
+<li <?php if($act==2){?>class="selected"<?php }?>>
+<a href="<?php echo site_url('penduduk/clear')?>">Penduduk</a>
 </li>
-<li <?if($act==3){?>class="selected"<?}?>>
-<a href="<?=site_url('rtm/clear')?>">Rumah Tangga</a>
+<li <?php if($act==3){?>class="selected"<?php }?>>
+<a href="<?php echo site_url('rtm/clear')?>">Rumah Tangga</a>
 </li>
 
-<li <?if($act==4){?>class="selected"<?}?>>
-<a href="<?=site_url('kelompok/clear')?>">Kelompok</a>
+<li <?php if($act==4){?>class="selected"<?php }?>>
+<a href="<?php echo site_url('kelompok/clear')?>">Kelompok</a>
 </li>
 
 

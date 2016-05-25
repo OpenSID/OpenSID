@@ -8,7 +8,7 @@
 <div id="contentpane">
 <div class="ui-layout-north panel"><h3>Upgrade</h3>
 </div>
-    <form action="<?=site_url("hom_desa/upgrader")?>" method="POST">
+    <form action="<?php echo site_url("hom_desa/upgrader")?>" method="POST">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <table class="form">
             <tr>

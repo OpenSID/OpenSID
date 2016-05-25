@@ -3,7 +3,7 @@
 <title>Cetak Laporan Kelompok Rentan</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="<?=base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+<link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="container">
@@ -11,9 +11,9 @@
 <!-- Print Body -->
 <div id="body">
 
-	   <table  width="100%"><?foreach($config as $data){?>	
+	   <table  width="100%"><?php foreach($config as $data){?>	
 				<tbody><tr>			
-				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?=unpenetration($data['nama_kabupaten'])?></h4></td>
+				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?php echo unpenetration($data['nama_kabupaten'])?></h4></td>
 																	
 				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>	
 				<tr>				
@@ -28,34 +28,34 @@
 				<tbody><tr>						
 					<td>Desa/Kelurahan</td>
 					<td width="3%">:</td>
-					<td width="38.5%"><?=unpenetration($data['nama_desa'])?></h4></td>
+					<td width="38.5%"><?php echo unpenetration($data['nama_desa'])?></h4></td>
 					<td></td>	
 
 				</tr>
 				<tr>					
 					<td>Kecamatan</td>
 					<td width="3%">:</td>
-					<td width="38.5%"><?=unpenetration($data['nama_kecamatan'])?></td>
+					<td width="38.5%"><?php echo unpenetration($data['nama_kecamatan'])?></td>
 					<td></td>	
-			<?}?>	
+			<?php }?>	
 				</tr>
 				<tr>						
 					<td>Laporan Bulan</td>
 					<td width="3%">:</td>
-			<?$bln = date("m");?>
-					<td><?=$bln?> </td>
+			<?php $bln = date("m");?>
+					<td><?php echo $bln?> </td>
 					<td width="40%"></td>	
 				</tr>
-				<?if($dusun){?>
+				<?php if($dusun){?>
 				<tr>						
 					<td>Dusun</td>
 					<td width="3%">:</td>
 					<td>
-					<?=$dusun?>
+					<?php echo $dusun?>
 					</td>
 					<td width="40%"></td>	
 				</tr>
-				<?}?>
+				<?php }?>
 		</tbody></table>
 		<br>
 	<table class="border thick">
@@ -84,7 +84,7 @@
 </tr>
 </thead>
 <tbody>
-<?
+<?php 
 	$bayi=0;
 	$balita=0;
 	$sd=0;
@@ -96,22 +96,22 @@
 	$sakit_P=0;
 	$hamil=0;
 ?>
-<?foreach($main as $data){?>
-<td align="right"><?=$data['rw']?></td>
-<td align="right"><?=$data['rt']?></td>
-<td align="right"><?=$data['L']?></td>
-<td align="right"><?=$data['P']?></td>
-<td width="13%" align="right"><?=$data['bayi']?></td>
-<td width="14%" align="right"><?=$data['balita']?></td>
-<td width="13%" align="right"><?=$data['sd']?></td>
-<td width="15%" align="right"><?=$data['smp']?></td>
-<td width="15%" align="right"><?=$data['sma']?></td>
-<td width="13%" align="right"><?=$data['lansia']?></td>
-<td align="right"><?=$data['cacat']?></td>
-<td align="right"><?=$data['sakit_L']?></td>
-<td align="right"><?=$data['sakit_P']?></td>
-<td align="right"><?=$data['hamil']?></td>
-<?
+<?php foreach($main as $data){?>
+<td align="right"><?php echo $data['rw']?></td>
+<td align="right"><?php echo $data['rt']?></td>
+<td align="right"><?php echo $data['L']?></td>
+<td align="right"><?php echo $data['P']?></td>
+<td width="13%" align="right"><?php echo $data['bayi']?></td>
+<td width="14%" align="right"><?php echo $data['balita']?></td>
+<td width="13%" align="right"><?php echo $data['sd']?></td>
+<td width="15%" align="right"><?php echo $data['smp']?></td>
+<td width="15%" align="right"><?php echo $data['sma']?></td>
+<td width="13%" align="right"><?php echo $data['lansia']?></td>
+<td align="right"><?php echo $data['cacat']?></td>
+<td align="right"><?php echo $data['sakit_L']?></td>
+<td align="right"><?php echo $data['sakit_P']?></td>
+<td align="right"><?php echo $data['hamil']?></td>
+<?php 
 	$bayi=$bayi+$data['bayi'];
 	$balita=$balita+$data['balita'];
 	$sd=$sd+$data['sd'];
@@ -124,22 +124,22 @@
 	$hamil=$hamil+$data['hamil'];
 ?>
 </tr>
-  <?}?>
+  <?php }?>
   </tbody>
   
 <thead>
 	<tr>
 		<th colspan="4" align="center"><div align="center">Total</div></th>
-		<th><div align="right"><? echo $bayi;?></div></th>
-		<th><div align="right"><? echo $balita;?></div></th>
-		<th><div align="right"><? echo $sd;?></div></th>
-		<th><div align="right"><? echo $smp;?></div></th>
-		<th><div align="right"><? echo $sma;?></div></th>
-		<th><div align="right"><? echo $lansia;?></div></th>
-		<th><div align="right"><? echo $cacat;?></div></th>
-		<th><div align="right"><? echo $sakit_L;?></div></th>
-		<th><div align="right"><? echo $sakit_P;?></div></th>
-		<th><div align="right"><? echo $hamil;?></div></th>
+		<th><div align="right"><?php  echo $bayi;?></div></th>
+		<th><div align="right"><?php  echo $balita;?></div></th>
+		<th><div align="right"><?php  echo $sd;?></div></th>
+		<th><div align="right"><?php  echo $smp;?></div></th>
+		<th><div align="right"><?php  echo $sma;?></div></th>
+		<th><div align="right"><?php  echo $lansia;?></div></th>
+		<th><div align="right"><?php  echo $cacat;?></div></th>
+		<th><div align="right"><?php  echo $sakit_L;?></div></th>
+		<th><div align="right"><?php  echo $sakit_P;?></div></th>
+		<th><div align="right"><?php  echo $hamil;?></div></th>
 	</tr>
 </thead>
 </table>   
@@ -151,7 +151,7 @@
 
     </div>
 	</div>
-   <label>Tanggal cetak : &nbsp; </label><?=tgl_indo(date("Y m d"))?>
+   <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>
 
 </body></html>

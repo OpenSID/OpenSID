@@ -2,9 +2,9 @@
 $(function(){
     var nik = {};
     nik.results = [
-<?foreach($penduduk as $data){?>
-	   {id:'<?=$data['id']?>',name:'<?=$data['nik']." - ".spaceunpenetration($data['nama'])?>',info:''},
-<?}?>
+<?php foreach($penduduk as $data){?>
+	   {id:'<?php echo $data['id']?>',name:'<?php echo $data['nik']." - ".spaceunpenetration($data['nama'])?>',info:''},
+<?php }?>
     ];
 nik.total = nik.results.length;
 
@@ -19,7 +19,7 @@ $('#'+'main').submit();
 });
 });
 </script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <table style="width:100%">
 <tr>
 <th align="left">NIK / Nama Penduduk</th>
@@ -37,14 +37,14 @@ $('#'+'main').submit();
 <th align="left">Hubungan</th>
 <td><select name="kk_level" class="required">
 <option value=""> --- </option>
-<?foreach($hubungan as $data){?>
-	<option value="<?=$data['id']?>"><?=$data['hubungan']?></option>
-<?}?></select>
+<?php foreach($hubungan as $data){?>
+	<option value="<?php echo $data['id']?>"><?php echo $data['hubungan']?></option>
+<?php }?></select>
 </td>
 	</tr>
 </table>
 <div class="content-header">
-    <h4>KK No.<?=$kepala_kk['no_kk']?> Keluarga : <?=$kepala_kk['nama']?></h4>
+    <h4>KK No.<?php echo $kepala_kk['no_kk']?> Keluarga : <?php echo $kepala_kk['nama']?></h4>
 </div>
 <table class="list"  style="width:95%">
 <thead>
@@ -57,14 +57,14 @@ $('#'+'main').submit();
 	</tr>
 </thead>
 <tbody>
-        <? foreach($main as $data): ?>
+        <?php  foreach($main as $data): ?>
 <tr>
-          <td align="center" width="2"><?=$data['no']?></td>
-          <td><?=$data['nik']?></td>
-          <td><?=unpenetration($data['nama'])?></td>
-          <td><?=$data['hubungan']?></td>
+          <td align="center" width="2"><?php echo $data['no']?></td>
+          <td><?php echo $data['nik']?></td>
+          <td><?php echo unpenetration($data['nama'])?></td>
+          <td><?php echo $data['hubungan']?></td>
   </tr>
-        <? endforeach; ?>
+        <?php  endforeach; ?>
 </tbody>
         </table>
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">

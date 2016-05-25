@@ -3,21 +3,21 @@
 	var infoWindow;
 	window.onload = function(){
 		var options = {
-		<?if($desa['lat']!=""){?>
-			center: new google.maps.LatLng(<?=$desa['lat']?>,<?=$desa['lng']?>),
-			zoom: <?=$desa['zoom']?>,
-			mapTypeId: google.maps.MapTypeId.<?=strtoupper($desa['map_tipe'])?>
-		<?}else{?>
+		<?php if($desa['lat']!=""){?>
+			center: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
+			zoom: <?php echo $desa['zoom']?>,
+			mapTypeId: google.maps.MapTypeId.<?php echo strtoupper($desa['map_tipe'])?>
+		<?php }else{?>
 			center: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
 			zoom: 14,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
-		<?}?>
+		<?php }?>
 		};
 		var map = new google.maps.Map(document.getElementById('map'), options);
 
 //WILAYAH DESA
-	<?if($layer_desa==1){?>
-	<?$path = preg_split("/\;/", $desa['path']);
+	<?php if($layer_desa==1){?>
+	<?php $path = preg_split("/\;/", $desa['path']);
 		echo "var path = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
 		
 		var desa = new google.maps.Polygon({
@@ -29,62 +29,62 @@
 			fillColor: '#8888dd',
 			fillOpacity: 0.05
 		});
-	<?}?>
+	<?php }?>
 
 //WILAYAH ADMINISTRATIF - DUSUN RW RT
-	<?if($layer_wilayah==1){?>
-	<?foreach($wilayah AS $wil){?>
-		<?$path = preg_split("/\;/", $wil['path']);
+	<?php if($layer_wilayah==1){?>
+	<?php foreach($wilayah AS $wil){?>
+		<?php $path = preg_split("/\;/", $wil['path']);
 		echo "var path_$wil[id] = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
 		
 		var wil = new google.maps.Polygon({
-			paths: path_<?=$wil['id']?>,
+			paths: path_<?php echo $wil['id']?>,
 			map: map,
 			strokeColor: '#00ff00',
 			strokeOpacity: 0.5,
 			strokeWeight: 2,
-		<?if($wil['rw']==0 AND $wil['rw']==0){?>
+		<?php if($wil['rw']==0 AND $wil['rw']==0){?>
 			fillColor: '#00ff00',
-		<?}elseif($wil['rw'] != 0 AND $wil['rt']==0){?>
+		<?php }elseif($wil['rw'] != 0 AND $wil['rt']==0){?>
 			fillColor: '#ffff00',
-		<?}else{?>
+		<?php }else{?>
 			fillColor: '#00ffff',
-		<?}?>
+		<?php }?>
 			fillOpacity: 0.22
 		});
-	<?}}?>	
+	<?php }}?>	
 
 //AREA POLIGON
-	<?if($layer_area==1){?>
-		<?foreach($area AS $area){?>
-			<?$path = preg_split("/\;/", $area['path']);
+	<?php if($layer_area==1){?>
+		<?php foreach($area AS $area){?>
+			<?php $path = preg_split("/\;/", $area['path']);
 			echo "var polygon_$area[id] = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
 			
-			var area_<?=$area['id']?> = new google.maps.Polygon({
-			  paths: polygon_<?=$area['id']?>,
+			var area_<?php echo $area['id']?> = new google.maps.Polygon({
+			  paths: polygon_<?php echo $area['id']?>,
 			  map: map,
 			  strokeColor: '#555555',
 			  strokeOpacity: 0.5,
 			  strokeWeight: 1,
-			  fillColor: '#<?=$area['color']?>',
+			  fillColor: '#<?php echo $area['color']?>',
 			  fillOpacity: 0.22,
-			  title:"<?=$area['nama']?>"
+			  title:"<?php echo $area['nama']?>"
 			});
 
-			google.maps.event.addListener(area_<?=$area['id']?>, 'click', showArrays<?=$area['id']?>);
+			google.maps.event.addListener(area_<?php echo $area['id']?>, 'click', showArrays<?php echo $area['id']?>);
 			if(!infoWindow){
 				infoWindow = new google.maps.InfoWindow();
 			}
 
-			function showArrays<?=$area['id']?>(event) {
+			function showArrays<?php echo $area['id']?>(event) {
 				var vertices = this.getPath();
 				var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
-        '<h1 id="firstHeading" class="firstHeading"><?=$area['nama']?></h1>'+
+        '<h1 id="firstHeading" class="firstHeading"><?php echo $area['nama']?></h1>'+
         '<div id="bodyContent">'+
-        '<img src="<?=base_url()?>assets/images/gis/area/sedang_<?=$area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
-        '<p><?=$area['desk']?></p>'+
+        '<img src="<?php echo base_url()?>assets/images/gis/area/sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
+        '<p><?php echo $area['desk']?></p>'+
         '</div>'+
         '</div>';
 				//for (var i =0; i < vertices.getLength(); i++) {
@@ -97,37 +97,37 @@
 			}
 
 
-		<?}?>	
-	<?}?>	
+		<?php }?>	
+	<?php }?>	
 
 //GARIS POLILINE
-	<?if($layer_line==1){?>
-		<?foreach($garis AS $garis){?>
-			<?$path = preg_split("/\;/", $garis['path']);
+	<?php if($layer_line==1){?>
+		<?php foreach($garis AS $garis){?>
+			<?php $path = preg_split("/\;/", $garis['path']);
 			echo "var line_$garis[id] = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
 			
-			var garis_<?=$garis['id']?> = new google.maps.Polyline({
-			  path: line_<?=$garis['id']?>,
+			var garis_<?php echo $garis['id']?> = new google.maps.Polyline({
+			  path: line_<?php echo $garis['id']?>,
 			  map: map,
 			  strokeColor: '#00bb00',
 			  strokeOpacity: 0.5,
 			  strokeWeight: 5
 			});
 
-			google.maps.event.addListener(garis_<?=$garis['id']?>, 'click', showArrays<?=$garis['id']?>);
+			google.maps.event.addListener(garis_<?php echo $garis['id']?>, 'click', showArrays<?php echo $garis['id']?>);
 			if(!infoWindow){
 				infoWindow = new google.maps.InfoWindow();
 			}
 
-			function showArrays<?=$garis['id']?>(event) {
+			function showArrays<?php echo $garis['id']?>(event) {
 				var vertices = this.getPath();
 				var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
-        '<h1 id="firstHeading" class="firstHeading"><?=$garis['nama']?></h1>'+
+        '<h1 id="firstHeading" class="firstHeading"><?php echo $garis['nama']?></h1>'+
         '<div id="bodyContent">'+
-        '<img src="<?=base_url()?>assets/images/gis/garis/sedang_<?=$garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
-        '<p><?=$garis['desk']?></p>'+
+        '<img src="<?php echo base_url()?>assets/images/gis/garis/sedang_<?php echo $garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
+        '<p><?php echo $garis['desk']?></p>'+
         '</div>'+
         '</div>';
         
@@ -141,76 +141,76 @@
 			}
 
 
-		<?}?>	
-	<?}?>	
+		<?php }?>	
+	<?php }?>	
 
 //PROPERTI DESA
-	<?if($layer_point==1){?>
+	<?php if($layer_point==1){?>
 	var shadow = new google.maps.MarkerImage(
-		'<?=base_url()?>assets/images/gis/point/shadow.png',
+		'<?php echo base_url()?>assets/images/gis/point/shadow.png',
 		null, 
 		null,
 		new google.maps.Point(16, 35)
 	);
 	
-	<?foreach($lokasi AS $data){if($data['lat'] != ""){?>
+	<?php foreach($lokasi AS $data){if($data['lat'] != ""){?>
 		
-		<?$simbol = base_url()."assets/images/gis/point/".$data['simbol'];?>
-		var cusicon_<?=$data['id']?> = new google.maps.MarkerImage("<?=$simbol?>");
+		<?php $simbol = base_url()."assets/images/gis/point/".$data['simbol'];?>
+		var cusicon_<?php echo $data['id']?> = new google.maps.MarkerImage("<?php echo $simbol?>");
 		
-		var prop_<?=$data['id']?> = new google.maps.Marker({
-			position: new google.maps.LatLng(<?=$data['lat']?>,<?=$data['lng']?>),
+		var prop_<?php echo $data['id']?> = new google.maps.Marker({
+			position: new google.maps.LatLng(<?php echo $data['lat']?>,<?php echo $data['lng']?>),
 			map: map,
-			icon: cusicon_<?=$data['id']?>,
+			icon: cusicon_<?php echo $data['id']?>,
 			shadow: shadow,
-			title:"<?=$data['nama']?>"
+			title:"<?php echo $data['nama']?>"
 		});
   
-		google.maps.event.addListener(prop_<?=$data['id']?>, 'click', function(){
+		google.maps.event.addListener(prop_<?php echo $data['id']?>, 'click', function(){
 			if(!infoWindow){
 				infoWindow = new google.maps.InfoWindow();
 			}
 			
 			var content = '<table border=0 style="width:400px"><tr>' +
-		<?if($data['foto']!=""){?>
-			'<td><img src="<?=base_url()?>assets/images/gis/lokasi/sedang_<?=$data['foto']?>" class="foto"/></td>' + 
-		<?}?>
-			'<td style="padding-left:3px"><font size="2.5" style="font-weight:bold;"><?=$data['nama']?></font>' +
-			'<p><?=$data['desk']?></p>'+
+		<?php if($data['foto']!=""){?>
+			'<td><img src="<?php echo base_url()?>assets/images/gis/lokasi/sedang_<?php echo $data['foto']?>" class="foto"/></td>' + 
+		<?php }?>
+			'<td style="padding-left:3px"><font size="2.5" style="font-weight:bold;"><?php echo $data['nama']?></font>' +
+			'<p><?php echo $data['desk']?></p>'+
 			'</tr><tr><td></td></tr></table>';
 			infoWindow.setContent(content);
-			infoWindow.open(map, prop_<?=$data['id']?>);
+			infoWindow.open(map, prop_<?php echo $data['id']?>);
 		});
 
-	<?}}}?>
+	<?php }}}?>
 
 //PENDUDUK
-	<?if($layer_penduduk==1 OR $layer_keluarga==1 ){?>
-	<?$pendc = base_url()."assets/images/gis/point/pend.png";?>
-	var pend_icon = new google.maps.MarkerImage("<?=$pendc?>");
+	<?php if($layer_penduduk==1 OR $layer_keluarga==1 ){?>
+	<?php $pendc = base_url()."assets/images/gis/point/pend.png";?>
+	var pend_icon = new google.maps.MarkerImage("<?php echo $pendc?>");
 	
-	<?foreach($penduduk AS $data){if($data['lat'] != ""){?>
-		var marker_<?=$data['id']?> = new google.maps.Marker({
-			position: new google.maps.LatLng(<?=$data['lat']?>,<?=$data['lng']?>),
+	<?php foreach($penduduk AS $data){if($data['lat'] != ""){?>
+		var marker_<?php echo $data['id']?> = new google.maps.Marker({
+			position: new google.maps.LatLng(<?php echo $data['lat']?>,<?php echo $data['lng']?>),
 			map: map,
-			title:"<?=$data['nama']?>"
+			title:"<?php echo $data['nama']?>"
 		});
   
-		google.maps.event.addListener(marker_<?=$data['id']?>, 'click', function(){
+		google.maps.event.addListener(marker_<?php echo $data['id']?>, 'click', function(){
 			if(!infoWindow){
 				infoWindow = new google.maps.InfoWindow();
 			}
 			var content = '<table border=0><tr>' +
-				'<td><img src="<?=base_url()?>assets/images/photo/kecil_<?=$data['foto']?>" class="foto_pend"/></td>' + 
-				'<td style="padding-left:2px"><font size="2.5" style="bold"><?=$data['nama']?></font> - <?=ucwords(strtolower($data['sex']))?>' +
-				'<p><?=$data['umur']?> Tahun (<?=$data['agama']?>)</p>'+
-				'<p><?=$data['alamat']?></p>'+
-				'<p><a href="<?=site_url("sid_penduduk/detail/1/0/$data[id]")?>" target="ajax-modalx" rel="content" header="Detail Data <?=$data['nama']?>" >Data Detail</a></p></td>'+
+				'<td><img src="<?php echo base_url()?>assets/images/photo/kecil_<?php echo $data['foto']?>" class="foto_pend"/></td>' + 
+				'<td style="padding-left:2px"><font size="2.5" style="bold"><?php echo $data['nama']?></font> - <?php echo ucwords(strtolower($data['sex']))?>' +
+				'<p><?php echo $data['umur']?> Tahun (<?php echo $data['agama']?>)</p>'+
+				'<p><?php echo $data['alamat']?></p>'+
+				'<p><a href="<?php echo site_url("sid_penduduk/detail/1/0/$data[id]")?>" target="ajax-modalx" rel="content" header="Detail Data <?php echo $data['nama']?>" >Data Detail</a></p></td>'+
 				'</tr></table>';
 			infoWindow.setContent(content);
-			infoWindow.open(map, marker_<?=$data['id']?>);
+			infoWindow.open(map, marker_<?php echo $data['id']?>);
 		});
-	<?}}}?>		
+	<?php }}}?>		
 	};  	
 	
 	})();
@@ -243,50 +243,50 @@
 		<table border="0" >
 		<h3>Legenda</h3>
 		<tr><td>
-			<input type="checkbox" name="layer_penduduk" value="1" onchange="handle_pend(this);" <?if($layer_penduduk==1){echo "checked";}?>> Penduduk
+			<input type="checkbox" name="layer_penduduk" value="1" onchange="handle_pend(this);" <?php if($layer_penduduk==1){echo "checked";}?>> Penduduk
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_keluarga" value="1" onchange="handle_kel(this);" <?if($layer_keluarga==1){echo "checked";}?>> Keluarga
+			<input type="checkbox" name="layer_keluarga" value="1" onchange="handle_kel(this);" <?php if($layer_keluarga==1){echo "checked";}?>> Keluarga
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?if($layer_desa==1){echo "checked";}?>> Desa 
+			<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if($layer_desa==1){echo "checked";}?>> Desa 
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_wilayah" value="1"onchange="handle_wil(this);" <?if($layer_wilayah==1){echo "checked";}?>> Wilayah Administratif
+			<input type="checkbox" name="layer_wilayah" value="1"onchange="handle_wil(this);" <?php if($layer_wilayah==1){echo "checked";}?>> Wilayah Administratif
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_area" value="1"onchange="handle_area(this);" <?if($layer_area==1){echo "checked";}?>> Area
+			<input type="checkbox" name="layer_area" value="1"onchange="handle_area(this);" <?php if($layer_area==1){echo "checked";}?>> Area
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_line" value="1"onchange="handle_line(this);" <?if($layer_line==1){echo "checked";}?>> Line
+			<input type="checkbox" name="layer_line" value="1"onchange="handle_line(this);" <?php if($layer_line==1){echo "checked";}?>> Line
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_point" value="1"onchange="handle_point(this);" <?if($layer_point==1){echo "checked";}?>> Point
+			<input type="checkbox" name="layer_point" value="1"onchange="handle_point(this);" <?php if($layer_point==1){echo "checked";}?>> Point
 		</td></tr>
 		</table>
    
     
     <script>
 function handle_pend(cb) {
-  formAction('mainform','<?=site_url('gis')?>/layer_penduduk');
+  formAction('mainform','<?php echo site_url('gis')?>/layer_penduduk');
 }
 function handle_kel(cb) {
-  formAction('mainform','<?=site_url('gis')?>/layer_keluarga');
+  formAction('mainform','<?php echo site_url('gis')?>/layer_keluarga');
 }
 function handle_desa(cb) {
-  formAction('mainform','<?=site_url('gis')?>/layer_desa');
+  formAction('mainform','<?php echo site_url('gis')?>/layer_desa');
 }
 function handle_wil(cb) {
-  formAction('mainform','<?=site_url('gis')?>/layer_wilayah');
+  formAction('mainform','<?php echo site_url('gis')?>/layer_wilayah');
 }
 function handle_area(cb) {
-  formAction('mainform','<?=site_url('gis')?>/layer_area');
+  formAction('mainform','<?php echo site_url('gis')?>/layer_area');
 }
 function handle_line(cb) {
-  formAction('mainform','<?=site_url('gis')?>/layer_line');
+  formAction('mainform','<?php echo site_url('gis')?>/layer_line');
 }
 function handle_point(cb) {
-  formAction('mainform','<?=site_url('gis')?>/layer_point');
+  formAction('mainform','<?php echo site_url('gis')?>/layer_point');
 }
 </script>
     
@@ -297,56 +297,56 @@ function handle_point(cb) {
 <div class="table-panel top">
 	<div class="left">
 		
-<select name="filter" onchange="formAction('mainform','<?=site_url('gis/filter')?>')" title="Cari Data">
+<select name="filter" onchange="formAction('mainform','<?php echo site_url('gis/filter')?>')" title="Cari Data">
 	<option value="">Status</option>
-	<option value="1" <?if($filter==1) :?>selected<?endif?>>Tetap</option>
-	<option value="2" <?if($filter==2) :?>selected<?endif?>>Pasif</option>
-	<option value="3" <?if($filter==3) :?>selected<?endif?>>Pendatang</option>
+	<option value="1" <?php if($filter==1) :?>selected<?php endif?>>Tetap</option>
+	<option value="2" <?php if($filter==2) :?>selected<?php endif?>>Pasif</option>
+	<option value="3" <?php if($filter==3) :?>selected<?php endif?>>Pendatang</option>
 </select>
 
-<select name="sex" onchange="formAction('mainform','<?=site_url('gis/sex')?>')">
+<select name="sex" onchange="formAction('mainform','<?php echo site_url('gis/sex')?>')">
 	<option value="">J. Kelamin</option>
-	<option value="1" <?if($sex==1) :?>selected<?endif?>>Laki-laki</option>
-	<option value="2" <?if($sex==2) :?>selected<?endif?>>Perempuan</option>
+	<option value="1" <?php if($sex==1) :?>selected<?php endif?>>Laki-laki</option>
+	<option value="2" <?php if($sex==2) :?>selected<?php endif?>>Perempuan</option>
 </select>
 
-<select name="dusun" onchange="formAction('mainform','<?=site_url('gis/dusun')?>')">
+<select name="dusun" onchange="formAction('mainform','<?php echo site_url('gis/dusun')?>')">
 	<option value="">Dusun</option>
-	<?foreach($list_dusun AS $data){?>
-	<option <?if($dusun==$data['dusun']) :?>selected<?endif?> value="<?=$data['dusun']?>"><?=$data['dusun']?></option>
-	<?}?>
+	<?php foreach($list_dusun AS $data){?>
+	<option <?php if($dusun==$data['dusun']) :?>selected<?php endif?> value="<?php echo $data['dusun']?>"><?php echo $data['dusun']?></option>
+	<?php }?>
 </select>
 
-<?if($dusun){?>
-<select name="rw" onchange="formAction('mainform','<?=site_url('gis/rw')?>')">
+<?php if($dusun){?>
+<select name="rw" onchange="formAction('mainform','<?php echo site_url('gis/rw')?>')">
 	<option value="">RW</option>
-	<?foreach($list_rw AS $data){?>
-	<option <?if($rw==$data['rw']) :?>selected<?endif?>><?=$data['rw']?></option>
-	<?}?>
+	<?php foreach($list_rw AS $data){?>
+	<option <?php if($rw==$data['rw']) :?>selected<?php endif?>><?php echo $data['rw']?></option>
+	<?php }?>
 </select>
 
-<?if($rw){?>
-	<select name="rt" onchange="formAction('mainform','<?=site_url('gis/rt')?>')">
+<?php if($rw){?>
+	<select name="rt" onchange="formAction('mainform','<?php echo site_url('gis/rt')?>')">
 		<option value="">RT</option>
-		<?foreach($list_rt AS $data){?>
-		<option <?if($rt==$data['rt']) :?>selected<?endif?>><?=$data['rt']?></option>
-		<?}?>
+		<?php foreach($list_rt AS $data){?>
+		<option <?php if($rt==$data['rt']) :?>selected<?php endif?>><?php echo $data['rt']?></option>
+		<?php }?>
 	</select>
-	<?}
+	<?php }
 }?>
 
-<select name="agama" onchange="formAction('mainform','<?=site_url('gis/agama')?>')">
+<select name="agama" onchange="formAction('mainform','<?php echo site_url('gis/agama')?>')">
 	<option value="">Agama</option>
-	<?foreach($list_agama AS $data){?>
-	<option value="<?=$data['id']?>" <?if($agama==$data['id']){?>selected<?}?>><?=$data['nama']?></option>
-	<?}?>
+	<?php foreach($list_agama AS $data){?>
+	<option value="<?php echo $data['id']?>" <?php if($agama==$data['id']){?>selected<?php }?>><?php echo $data['nama']?></option>
+	<?php }?>
 </select>
 
-<input name="cari" id="cari" type="text" class="inputbox2 help tipped" size="20" value="<?=$cari?>" title="Search.."/>
-<button type="button" onclick="$('#'+'mainform').attr('action','<?=site_url('gis/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
-<button href="<?=site_url("gis/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="ui-icon ui-icon-search">&nbsp;</span>Pencarian Spesifik</button>
+<input name="cari" id="cari" type="text" class="inputbox2 help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('gis/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+<button href="<?php echo site_url("gis/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="ui-icon ui-icon-search">&nbsp;</span>Pencarian Spesifik</button>
 
-<a href="<?=site_url("gis/clear")?>"  class="uibutton tipsy south"  title="Clear Pencarian" style=""><span class="ui-icon ui-icon-search">&nbsp;</span>Clear</a>
+<a href="<?php echo site_url("gis/clear")?>"  class="uibutton tipsy south"  title="Clear Pencarian" style=""><span class="ui-icon ui-icon-search">&nbsp;</span>Clear</a>
 		</form>
 	</div>
 </div>

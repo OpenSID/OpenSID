@@ -1,5 +1,5 @@
-<link rel="stylesheet" id="rps-style-css" href="<?=base_url()?>assets/front/css/slide.css" type="text/css" media="all">
-<script type="text/javascript" src="<?=base_url()?>assets/front/js/jquery_003.js"></script>
+<link rel="stylesheet" id="rps-style-css" href="<?php echo base_url()?>assets/front/css/slide.css" type="text/css" media="all">
+<script type="text/javascript" src="<?php echo base_url()?>assets/front/js/jquery_003.js"></script>
 <script type="text/javascript">
 $j = jQuery.noConflict();
 $j(document).ready(function() {$j("#rps .paging").show();$j("#rps .paging a:first").addClass("active");
@@ -68,18 +68,18 @@ return false; //Prevent browser jump to link anchor
 <div class="window">
 <div class="slider">
 <div class="slide">
-<? $j=1;foreach($slide AS $data){?>
+<?php  $j=1;foreach($slide AS $data){?>
 <div class="slider-content-img">
-<a href="<?=site_url("first/artikel/$data[id]")?>">
-<? if($data['gambar']!=''){?>
-		<? if(is_file("assets/front/artikel/kecil_".$data['gambar'])) {?>
-			<img src="<?=base_url()?>/assets/front/artikel/kecil_<?=$data['gambar']?>" width="120" height="90">
+<a href="<?php echo site_url("first/artikel/$data[id]")?>">
+<?php  if($data['gambar']!=''){?>
+		<?php  if(is_file("assets/front/artikel/kecil_".$data['gambar'])) {?>
+			<img src="<?php echo base_url()?>/assets/front/artikel/kecil_<?php echo $data['gambar']?>" width="120" height="90">
 		
-<? }?>
+<?php  }?>
 </a>
-	<? }?>
+	<?php  }?>
 </div>
-	<? }?>
+	<?php  }?>
 </div>
 </div>
 </div>

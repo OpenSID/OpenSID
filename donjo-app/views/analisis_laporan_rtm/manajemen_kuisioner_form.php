@@ -6,25 +6,25 @@
 <div class="content-header">
 </div>
 <div id="contentpane">
-<div class="ui-layout-north panel"><h3>Form Pendataan - <a href="<?=site_url()?>analisis_master/menu/<?=$_SESSION['analisis_master']?>"><?=$analisis_master['nama']?></a></h3>
-<h4> &nbsp;  Rumah Tangga - (<?=$subjek['no_kk']?>) <?=$subjek['nama']?></h4></br>
+<div class="ui-layout-north panel"><h3>Form Pendataan - <a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><?php echo $analisis_master['nama']?></a></h3>
+<h4> &nbsp;  Rumah Tangga - (<?php echo $subjek['no_kk']?>) <?php echo $subjek['nama']?></h4></br>
 <h4> &nbsp; Daftar pertanyaan dan jawaban.</h4>
 </div>
-    <form id="validasi" action="<?=$form_action?>" method="POST">
+    <form id="validasi" action="<?php echo $form_action?>" method="POST">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <input type="hidden" name="rt" value="">
 <table>
-	<?foreach($list_jawab AS $data){?>
-	<tr><td><?=$data['no']?>) <?=$data['pertanyaan']?></td></tr>
-	<tr><td> &nbsp; [v] <?=$data['parameter_laporan']?></div>
+	<?php foreach($list_jawab AS $data){?>
+	<tr><td><?php echo $data['no']?>) <?php echo $data['pertanyaan']?></td></tr>
+	<tr><td> &nbsp; [v] <?php echo $data['parameter_laporan']?></div>
 	
-	<?}?>
+	<?php }?>
 </table>
     </div>
    
     <div class="ui-layout-south panel bottom">
         <div class="left">     
-            <a href="<?=site_url()?>analisis_laporan_rtm" class="uibutton icon prev">Kembali</a>
+            <a href="<?php echo site_url()?>analisis_laporan_rtm" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">
             <div class="uibutton-group">

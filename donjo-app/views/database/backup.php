@@ -21,12 +21,12 @@
 <td width="320">Backup Seluruh Data SID</td>
 <td width="70">
 <div class="uibutton-group">
-<a class="uibutton special" href="<?=site_url("database")?>/exec_backup">Download</a>
+<a class="uibutton special" href="<?php echo site_url("database")?>/exec_backup">Download</a>
 </div>
 </td>
 </tr>
 		</table>
-<form action="<?=$form_action?>" method="post" enctype="multipart/form-data">
+<form action="<?php echo $form_action?>" method="post" enctype="multipart/form-data">
                <table class="form">
 			   <tr>
 					<td width="500" colspan="3">

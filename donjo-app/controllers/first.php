@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class First extends CI_Controller{
 
@@ -198,6 +198,22 @@ class First extends CI_Controller{
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 		$data['artikel'] = $this->first_artikel_m->peraturan_show();
+		$data['arsip'] = $this->first_artikel_m->arsip_show();
+		$data['komen'] = $this->first_artikel_m->komentar_show();
+		$data['agenda'] = $this->first_artikel_m->agenda_show();
+		$data['slide'] = $this->first_artikel_m->slide_show();
+		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
+		
+		$data['stat'] = $this->first_penduduk_m->list_data(4);
+		$this->load->view('layouts/main.tpl.php',$data);				
+	}
+		
+	function kategori($kat=0){
+		$data['desa'] = $this->first_m->get_data();
+		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
+		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
+		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
+		$data['artikel'] = $this->first_artikel_m->list_artikel($kat);
 		$data['arsip'] = $this->first_artikel_m->arsip_show();
 		$data['komen'] = $this->first_artikel_m->komentar_show();
 		$data['agenda'] = $this->first_artikel_m->agenda_show();

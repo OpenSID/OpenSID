@@ -1,27 +1,4 @@
- <?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Penduduk extends CI_Controller{
 
 	function __construct(){
@@ -151,7 +128,8 @@ class Penduduk extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']= 2;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
+
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk',$data);
 		$this->load->view('footer');
@@ -202,7 +180,8 @@ class Penduduk extends CI_Controller{
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		
 		$this->load->view('header', $header);
-		$nav['act']= 2;
+		$nav['act']= 2;
+
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_form',$data);
 		$this->load->view('footer');
@@ -216,7 +195,8 @@ class Penduduk extends CI_Controller{
 		$header = $this->header_model->get_data();
 		
 		$this->load->view('header', $header);
-		$nav['act']= 2;
+		$nav['act']= 2;
+
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_detail',$data);
 		$this->load->view('footer');
@@ -306,10 +286,6 @@ class Penduduk extends CI_Controller{
 		redirect("penduduk/index/$p/$o");
 	}
 	
-	function update_maps($p=1,$o=0,$id=''){
-		$this->penduduk_model->update_position($id);
-		redirect("penduduk/index/$p/$o");
-	}
 		
 	function delete_confirm($p=1,$o=0,$id=''){
 		$data['form_action'] = site_url("penduduk/index/$p/$o/$id");
@@ -429,7 +405,7 @@ class Penduduk extends CI_Controller{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
 		$data['desa'] = $this->penduduk_model->get_desa();
 		
 		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id");
@@ -437,6 +413,10 @@ class Penduduk extends CI_Controller{
 		$this->load->view("sid/kependudukan/maps", $data);
 	}
 			
+	function update_maps($p=1,$o=0,$id=''){
+		$this->penduduk_model->update_position($id);
+		redirect("penduduk/form/$p/$o/$id");
+	}
 	function wilayah_sel($p=1,$o=0,$id=''){
 
 		$data['p'] = $p;

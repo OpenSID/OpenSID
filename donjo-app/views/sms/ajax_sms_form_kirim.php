@@ -1,12 +1,12 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
 <script>
 $(function(){
     var nik = {};
     nik.results = [
-<?foreach($kontak as $data){?>
-	   {id:'<?=$data['no_hp']?>',name:'<?=$data['nik']." - ".spaceunpenetration($data['nama'])." - ".$data['no_hp'] ?>',info:'<?=$data['alamat']?>'},
-<?}?>
+<?php foreach($kontak as $data){?>
+	   {id:'<?php echo $data['no_hp']?>',name:'<?php echo $data['nik']." - ".spaceunpenetration($data['nama'])." - ".$data['no_hp'] ?>',info:'<?php echo $data['alamat']?>'},
+<?php }?>
     ];
 nik.total = nik.results.length;
 
@@ -21,7 +21,7 @@ $('#'+'main').submit();
 });
 });
 </script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <table>
 <tr>
 <th align="left">No HP Tujuan</th>

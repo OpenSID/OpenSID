@@ -3,16 +3,16 @@
 	<tr style="vertical-align:top">
 	<td class="side-menu">
 			<div class="lmenu">
-				<ul><a href="<?=site_url('sosmed')?>">
+				<ul><a href="<?php echo site_url('sosmed')?>">
 				<li  class="selected">Facebook</li></a>
 				</ul>
-				<ul><a href="<?=site_url('sosmed/twitter')?>">
+				<ul><a href="<?php echo site_url('sosmed/twitter')?>">
 				<li >Twitter</li></a>
 				</ul>
-				<ul><a href="<?=site_url('sosmed/goole')?>">
+				<ul><a href="<?php echo site_url('sosmed/goole')?>">
 				<li>Google</li></a>
 				</ul>
-				<ul><a href="<?=site_url('sosmed/youtube')?>">
+				<ul><a href="<?php echo site_url('sosmed/youtube')?>">
 				<li>Youtube</li></a>
 				</ul>
 			</div>
@@ -20,12 +20,12 @@
 	</td>
 		<td> 
 <div id="contentpane">
-    <form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data">
+    <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
     <div class="ui-layout-center" id="maincontent" style="padding-left: 5px;">
     <h3>Pengaturan Facebook</h3>
         <table class="form">
 		<tr>
-			<td width="150">Link Akun Facebook</td><td><textarea name="link" class=" required" style="resize: none; height:100px; width:250px;" size="300" maxlength='160'><? if($main){echo $main['link'];} ?></textarea></td>
+			<td width="150">Link Akun Facebook</td><td><textarea name="link" class=" required" style="resize: none; height:100px; width:250px;" size="300" maxlength='160'><?php  if($main){echo $main['link'];} ?></textarea></td>
 		</tr>
         </table>
     </div>

@@ -2,9 +2,9 @@
 $(function(){
     var link = {};
     link.results = [
-		<?foreach($link as $data){?>
-	   {id:'artikel/<?=$data['id']?>',name:'<?=$data['judul']?>',info:'Halaman Berisi <?=$data['judul']?>'},
-		<?}?>
+		<?php foreach($link as $data){?>
+	   {id:'artikel/<?php echo $data['id']?>',name:'<?php echo $data['judul']?>',info:'Halaman Berisi <?php echo $data['judul']?>'},
+		<?php }?>
 	   {id:'gallery',name:'Gallery',info:'Halaman Gallery'},
 		    ];
 link.total = link.results.length;
@@ -20,12 +20,12 @@ $('#link').flexbox(link, {
 });
 });
 </script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <table style="width:100%">
 <tr>
 <th align="left" width="120">Nama Sub Menu</th>
 <td>
-<input type="text" name="nama" class="inputbox2 required" size="20" value="<?=$submenu['nama']?>">
+<input type="text" name="nama" class="inputbox2 required" size="20" value="<?php echo $submenu['nama']?>">
 </td>
 </tr>
 <tr>
@@ -36,7 +36,7 @@ $('#link').flexbox(link, {
 </tr>
 <tr id="manual">
 <th>Link Manual</th>
-<td><textarea name="manual_link" style="resize: none; height:100px; width:350px;" size="500" maxlength='500'><?=$submenu['link']?></textarea></td>
+<td><textarea name="manual_link" style="resize: none; height:100px; width:350px;" size="500" maxlength='500'><?php echo $submenu['link']?></textarea></td>
 </tr>
 </table>
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">

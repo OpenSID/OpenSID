@@ -4,23 +4,23 @@
 <div id="content" class="container_12 clearfix">
 <div id="content-main" class="grid_7">
 
-<link href="<?=base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
 <div>
 <table width="100%">
 
-<tr> <img src="<?=base_url()?>assets/images/logo/<?=$desa['logo']?>" alt=""  class="logo"></tr>
+<tr> <img src="<?php echo base_url()?>assets/images/logo/<?php echo $desa['logo']?>" alt=""  class="logo"></tr>
 
 <div class="header">
-<h4 class="kop">PEMERINTAH KABUPATEN <?=strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
-<h4 class="kop">KECAMATAN <?=strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
-<h4 class="kop">DESA <?=strtoupper(unpenetration($desa['nama_desa']))?></h4>
-<h5 class="kop2"><?=(unpenetration($desa['alamat_kantor']))?> </h5>
+<h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
+<h4 class="kop">KECAMATAN <?php echo strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
+<h4 class="kop">DESA <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
+<h5 class="kop2"><?php echo (unpenetration($desa['alamat_kantor']))?> </h5>
 <div style="text-align: center;">
 <hr /></div></div>
 
 
 <div align="center"><u><h4 class="kop">SURAT KETERANGAN TENTANG ORANG TUA</h4></u></div>
-<div align="center"><h4 class="kop">NO: <?=$input['nomor']?></h4></div>
+<div align="center"><h4 class="kop">NO: <?php echo $input['nomor']?></h4></div>
 </table>
 <div class="clear"></div>
 
@@ -85,8 +85,8 @@
 </table>
 <table width="100%">
 <tr></tr>
-<tr><td width="10%"></td><td width="30%"></td><td  align="center"><?=unpenetration($desa['nama_desa'])?>, <?=$tanggal_sekarang?></td></tr>
-<tr><td width="10%"></td><td width="30%"></td><td align="center"><?=unpenetration($input['jabatan'])?> <?=unpenetration($desa['nama_desa'])?></td></tr>
+<tr><td width="10%"></td><td width="30%"></td><td  align="center"><?php echo unpenetration($desa['nama_desa'])?>, <?php echo $tanggal_sekarang?></td></tr>
+<tr><td width="10%"></td><td width="30%"></td><td align="center"><?php echo unpenetration($input['jabatan'])?> <?php echo unpenetration($desa['nama_desa'])?></td></tr>
 <tr></tr>
 <tr></tr>
 <tr></tr>
@@ -119,7 +119,7 @@
 <tr></tr>
 <tr></tr>
 <tr></tr>
-<tr><td><td></td><td td align="center">( <?=unpenetration($pamong['pamong_nama'])?> )</td></tr>
+<tr><td><td></td><td td align="center">( <?php echo unpenetration($pamong['pamong_nama'])?> )</td></tr>
 <tr><td colspan="3">*)nama lengkap<td></td>
 </table></div></div>
 <div id="aside">

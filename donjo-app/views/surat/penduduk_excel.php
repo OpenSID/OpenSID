@@ -1,4 +1,4 @@
-<?php
+<?php php
 header("Content-type: application/octet-stream");
 header("Content-Disposition: attachment; filename=Penduduk.xls");
 header("Pragma: no-cache");
@@ -10,12 +10,12 @@ header("Expires: 0");
 <title>Data Penduduk</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="<?=base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+<link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="container">
 
-<!-- Print Body --><div id="body"><div class="header" align="center"><label align="left"><?=get_identitas()?></label>
+<!-- Print Body --><div id="body"><div class="header" align="center"><label align="left"><?php echo get_identitas()?></label>
 <h3> DATA PENDUDUK </h3>
 </div>
 <br>
@@ -38,27 +38,27 @@ header("Expires: 0");
 		</tr>
 	</thead>
 	<tbody>
-		 <? foreach($main as $data): ?>
+		 <?php  foreach($main as $data): ?>
 		<tr>
-			<td  width="2"><?=$data['no']?></td>
-			<td><?=$data['nik']?></td>
-			<td><?=strtoupper($data['nama'])?></td>
-			<td><?=$data['no_kk']?> </td>
-			<td><?=strtoupper(ununderscore($data['dusun']))?></td>
-			<td><?=$data['rw']?></td>
-			<td><?=$data['rt']?></td>
-			<td><?=$data['pendidikan']?></td>
-			<td align="right"><?=$data['umur']?></td>
-			<td><?=$data['pekerjaan']?></td>
-			<td><?=$data['kawin']?></td>
-			<td><?if($data['status']==1){echo "Tetap";}else{echo "Pendatang";}?></td>
+			<td  width="2"><?php echo $data['no']?></td>
+			<td><?php echo $data['nik']?></td>
+			<td><?php echo strtoupper($data['nama'])?></td>
+			<td><?php echo $data['no_kk']?> </td>
+			<td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
+			<td><?php echo $data['rw']?></td>
+			<td><?php echo $data['rt']?></td>
+			<td><?php echo $data['pendidikan']?></td>
+			<td align="right"><?php echo $data['umur']?></td>
+			<td><?php echo $data['pekerjaan']?></td>
+			<td><?php echo $data['kawin']?></td>
+			<td><?php if($data['status']==1){echo "Tetap";}else{echo "Pendatang";}?></td>
 		</tr>
-		<? endforeach; ?>
+		<?php  endforeach; ?>
 	</tbody>
 </table>
 </div>
    
-   <label>Tanggal cetak : &nbsp; </label><?=tgl_indo(date("Y m d"))?>
+   <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>
 
 </body></html>

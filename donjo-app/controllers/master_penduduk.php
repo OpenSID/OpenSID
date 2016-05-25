@@ -1,6 +1,6 @@
 
 
-<? if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<? if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Master_Penduduk extends CI_Controller{
 

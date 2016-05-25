@@ -10,8 +10,8 @@
     <div class="ui-layout-north panel top">
         <div class="left">
             <div class="uibutton-group">
-			<a href="<?=site_url("laporan_rentan/cetak")?>" class="uibutton special tipsy south" title="Cetak" target="_blank"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</a>
-	<a href="<?=site_url("laporan_rentan/excel")?>" class="uibutton special tipsy south" title="Excel" target="_blank"><span class="ui-icon ui-icon-print">&nbsp;</span>Excel</a>
+			<a href="<?php echo site_url("laporan_rentan/cetak")?>" class="uibutton special tipsy south" title="Cetak" target="_blank"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</a>
+	<a href="<?php echo site_url("laporan_rentan/excel")?>" class="uibutton special tipsy south" title="Excel" target="_blank"><span class="ui-icon ui-icon-print">&nbsp;</span>Excel</a>
             </div>
         </div>
     </div>
@@ -25,9 +25,9 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 </style>
 
     
-	   <table  width="100%"><?foreach($config as $data){?>	
+	   <table  width="100%"><?php foreach($config as $data){?>	
 				<tbody><tr>			
-				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?=$data['nama_kabupaten']?></h4></td>
+				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?php echo $data['nama_kabupaten']?></h4></td>
 																	
 				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>	
 				<tr>				
@@ -41,33 +41,33 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 				<tbody><tr>						
 					<td>Kelurahan</td>
 					<td width="3%">:</td>
-					<td width="38.5%"><?=$data['nama_desa']?></h4></td>
+					<td width="38.5%"><?php echo $data['nama_desa']?></h4></td>
 					<td></td>	
 
 				</tr>
 				<tr>					
 					<td>Kecamatan</td>
 					<td width="3%">:</td>
-					<td width="38.5%"><?=$data['nama_kecamatan']?></td>
+					<td width="38.5%"><?php echo $data['nama_kecamatan']?></td>
 					<td></td>	
-<?}?>	
+<?php }?>	
 				</tr>
 				<tr>						
 					<td>Laporan Bulan</td>
 					<td width="3%">:</td>
-<?$bln = date("m");?>
-					<td><?=$bln?> </td>
+<?php $bln = date("m");?>
+					<td><?php echo $bln?> </td>
 					<td width="40%"></td>	
 				</tr>
 				 <tr>						
 					<td>Dusun</td>
 					<td width="3%">:</td>
 					<td>
-					<select name="dusun" onchange="formAction('mainform','<?=site_url('laporan_rentan/dusun')?>')" >
+					<select name="dusun" onchange="formAction('mainform','<?php echo site_url('laporan_rentan/dusun')?>')" >
 					<option value="">Pilih dusun</option>
-					<?foreach($list_dusun as $data){?>
-					<option value="<?=$data['dusun']?>" <?if($dusun==$data['dusun']){?>selected<?}?>><?=ununderscore($data['dusun'])?></option>
-					<?}?></select> 
+					<?php foreach($list_dusun as $data){?>
+					<option value="<?php echo $data['dusun']?>" <?php if($dusun==$data['dusun']){?>selected<?php }?>><?php echo ununderscore($data['dusun'])?></option>
+					<?php }?></select> 
 					</td>
 					<td width="40%"></td>	
 				</tr>
@@ -133,24 +133,24 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
  </tr>
 </thead>
 <tbody>
-<?foreach($main as $data){?>
-<td><?=$data['rw']?></td>
-<td><?=$data['rt']?></td>
-<td><?=$data['L']?></td>
-<td><?=$data['P']?></td>
-<td width="13%"><?=$data['bayi']?></td>
-<td width="14%"><?=$data['balita']?></td>
-<td width="13%"><?=$data['sd']?></td>
-<td width="15%"><?=$data['smp']?></td>
-<td width="15%"><?=$data['sma']?></td>
-<td width="13%"><?=$data['lansia']?></td>
-<td><?=$data['fisik']?></td>
-<td><?=$data['mental']?></td>
-<td><?=$data['sakit_L']?></td>
-<td><?=$data['sakit_P']?></td>
-<td><?=$data['hamil']?></td>
+<?php foreach($main as $data){?>
+<td><?php echo $data['rw']?></td>
+<td><?php echo $data['rt']?></td>
+<td><?php echo $data['L']?></td>
+<td><?php echo $data['P']?></td>
+<td width="13%"><?php echo $data['bayi']?></td>
+<td width="14%"><?php echo $data['balita']?></td>
+<td width="13%"><?php echo $data['sd']?></td>
+<td width="15%"><?php echo $data['smp']?></td>
+<td width="15%"><?php echo $data['sma']?></td>
+<td width="13%"><?php echo $data['lansia']?></td>
+<td><?php echo $data['fisik']?></td>
+<td><?php echo $data['mental']?></td>
+<td><?php echo $data['sakit_L']?></td>
+<td><?php echo $data['sakit_P']?></td>
+<td><?php echo $data['hamil']?></td>
 </tr>
-  <?}?>
+  <?php }?>
   </tbody>
 </table>   
 
@@ -163,7 +163,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 	</div>
 	<div class="ui-layout-south panel bottom">
 <div class="left">     
-<a href="<?=site_url()?>sid_wilayah" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>sid_wilayah" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">

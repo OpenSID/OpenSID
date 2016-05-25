@@ -1,16 +1,16 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <table style="width:100%">
 	<tr>
 		<th>Nama</th>
 		<td>
 		    <select name="id_pend">
 		   	 <option value=""> -- </option>
-			<?foreach($nama AS $data){
+			<?php foreach($nama AS $data){
 				?>
-				<option value="<?=$data['id'] ?>" ><?=unpenetration($data['nama'])?></option>
-			<?}?>
+				<option value="<?php echo $data['id'] ?>" ><?php echo unpenetration($data['nama'])?></option>
+			<?php }?>
 		    </select>
 		</td>
 	</tr>  	

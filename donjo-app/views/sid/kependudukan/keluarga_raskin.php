@@ -4,7 +4,7 @@
 	<tr style="vertical-align:top">
 
 	
-<td style="background:#fff;padding:0px;"> <script type="text/javascript" src="<?=base_url()?>assets/js/highcharts/highcharts.js"></script>
+<td style="background:#fff;padding:0px;"> <script type="text/javascript" src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
 <script type="text/javascript">
 			var chart;
 			$(document).ready(function() {
@@ -21,9 +21,9 @@
 							text: 'Kelas Sosial'
 						},
                         categories: [
-						<? $i=0;foreach($main as $data){$i++;?>
-						  <?echo "'$data[nama]',";?>
-						<?}?>
+						<?php  $i=0;foreach($main as $data){$i++;?>
+						  <?php echo "'$data[nama]',";?>
+						<?php }?>
 						]
 					},
 					yAxis: {
@@ -60,18 +60,18 @@
 				        series: [{
 						name: 'Populasi',
 						data: [
-						<? foreach($main as $data){?>
-						  <?echo $data['jumlah'].",";?>
-						<?}?>]
+						<?php  foreach($main as $data){?>
+						  <?php echo $data['jumlah'].",";?>
+						<?php }?>]
 				
 					},{
 						name: 'Memperoleh Raskin',
 						colorByPoint: false,
 						color:'#80699B',
 						data: [
-						<? foreach($main as $data){?>
-						  <?echo $data['raskin'].",";?>
-						<?}?>]
+						<?php  foreach($main as $data){?>
+						  <?php echo $data['raskin'].",";?>
+						<?php }?>]
 				
 					}]
 				});
@@ -88,36 +88,36 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-				<select name="dusun" onchange="formAction('mainform','<?=site_url('keluarga/dusun/2')?>')">
+				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('keluarga/dusun/2')?>')">
                     <option value="">Dusun</option>
-					<?foreach($list_dusun AS $data){?>
-                    <option value="<?=$data['dusun']?>" <?if($dusun == $data['dusun']) :?>selected<?endif?>><?=$data['dusun']?></option>
-					<?}?>
+					<?php foreach($list_dusun AS $data){?>
+                    <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo $data['dusun']?></option>
+					<?php }?>
                 </select>
 				
-				<?if($dusun){?>
-                <select name="rw" onchange="formAction('mainform','<?=site_url('keluarga/rw/2')?>')">
+				<?php if($dusun){?>
+                <select name="rw" onchange="formAction('mainform','<?php echo site_url('keluarga/rw/2')?>')">
                     <option value="">RW</option>
-					<?foreach($list_rw AS $data){?>
-                    <option value="<?=$data['rw']?>" <?if($rw == $data['rw']) :?>selected<?endif?>><?=$data['rw']?></option>
-					<?}?>
+					<?php foreach($list_rw AS $data){?>
+                    <option value="<?php echo $data['rw']?>" <?php if($rw == $data['rw']) :?>selected<?php endif?>><?php echo $data['rw']?></option>
+					<?php }?>
                 </select>
-				<?}?>
+				<?php }?>
 				
-				<?if($rw){?>
-                <select name="rt" onchange="formAction('mainform','<?=site_url('keluarga/rt/2')?>')">
+				<?php if($rw){?>
+                <select name="rt" onchange="formAction('mainform','<?php echo site_url('keluarga/rt/2')?>')">
                     <option value="">RT</option>
-					<?foreach($list_rt AS $data){?>
-                    <option value="<?=$data['rt']?>" <?if($rt == $data['rt']) :?>selected<?endif?>><?=$data['rt']?></option>
-					<?}?>
+					<?php foreach($list_rt AS $data){?>
+                    <option value="<?php echo $data['rt']?>" <?php if($rt == $data['rt']) :?>selected<?php endif?>><?php echo $data['rt']?></option>
+					<?php }?>
                 </select>
-				<?}?>
+				<?php }?>
 				
             </div>
         </div>
         <div class="right">
             <div class="uibutton-group">
-<a href="<?=site_url()?>keluarga/clear" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>keluarga/clear" class="uibutton icon prev">Kembali</a>
             </div>
         </div>
     </div>
@@ -136,14 +136,14 @@
 			</tr>
 		</thead>
 		<tbody>
-        <? foreach($main as $data): ?>
+        <?php  foreach($main as $data): ?>
 		<tr>
-          <td align="center" width="2"><?=$data['id']?></td>
-          <td><?=$data['nama']?></td>
-          <td><?=$data['jumlah']?></td>
-          <td><?=$data['raskin']?></td>
+          <td align="center" width="2"><?php echo $data['id']?></td>
+          <td><?php echo $data['nama']?></td>
+          <td><?php echo $data['jumlah']?></td>
+          <td><?php echo $data['raskin']?></td>
 		  </tr>
-        <? endforeach; ?>
+        <?php  endforeach; ?>
 		</tbody>
         </table>
     </div>

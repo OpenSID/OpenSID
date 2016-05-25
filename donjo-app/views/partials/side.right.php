@@ -2,28 +2,28 @@
 <div id="s-latest" class="blog widget">
 <h1>Agenda</h1>
 <ul class="sidebar-latest">
-	<? foreach ($agenda as $l){?>
-	<li><a href="<?=site_url("first/artikel/$l[id]")?>"><?=$l['judul']?></a></li>
-	<? }?>
+	<?php  foreach ($agenda as $l){?>
+	<li><a href="<?php echo site_url("first/artikel/$l[id]")?>"><?php echo $l['judul']?></a></li>
+	<?php  }?>
 </ul>
 </div>
 </div>
 
 <div class="block">
 <div id="s-latest" class="blog widget">
-<h1>Gallery</h1>
+<a href="<?php echo site_url();?>/first/gallery"><h1>Gallery</h1></a>
 <ul class="sidebar-latest">
-<? foreach($w_gal As $data){?>	
-	<a class="group3" href="<?=base_url()?>assets/front/gallery/sedang_<?=$data['gambar']?>">
-	<img src="<?=base_url()?>assets/front/gallery/kecil_<?=$data['gambar']?>" width="142" height="95">
+<?php  foreach($w_gal As $data){?>	
+	<a class="group3" href="<?php echo base_url()?>assets/front/gallery/sedang_<?php echo $data['gambar']?>">
+	<img src="<?php echo base_url()?>assets/front/gallery/kecil_<?php echo $data['gambar']?>" width="142" height="95">
 	</a>
-<? }?>
+<?php  }?>
 </ul>
 </div>
 </div>
 
 <div class="block">
-<a href="<?=site_url("first/statistik/1")?>"><div id="s-latest" class="blog widget">
+<a href="<?php echo site_url("first/statistik/1")?>"><div id="s-latest" class="blog widget">
 <h1>Statistik Desa</h1>
 <script type="text/javascript">
 $(function () {
@@ -66,11 +66,11 @@ $(function () {
             series: [{
                 type: 'column',
                 data: [
-						<? foreach($stat as $data){?>
-							<?if($data['jumlah'] != "-"){?>
-								['<?=$data['nama']?>',<?=$data['jumlah']?>],
-							<?}?>
-						<?}?>
+						<?php  foreach($stat as $data){?>
+							<?php if($data['jumlah'] != "-"){?>
+								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+							<?php }?>
+						<?php }?>
                 ]
             }]
         });
@@ -78,7 +78,7 @@ $(function () {
     
 });
 </script>
-<script src="<?=base_url()?>/assets/highchart/highcharts.js"></script>
+<script src="<?php echo base_url()?>/assets/highchart/highcharts.js"></script>
 <div id="container" style="width: 150px; height: 150px; margin: 0 auto"></div>
 </div>
 </a>
@@ -88,14 +88,14 @@ $(function () {
 <div id="s-latest" class="blog widget">
 <h1>Komentar Terkini</h1>
 <ul class="sidebar-latest">
-<? foreach($komen As $data){?>	
+<?php  foreach($komen As $data){?>	
 	<li>
-	<?=$data['komentar']?><br />
-	<small>Posting <?=tgl_indo2($data['tgl_upload'])?>  oleh : <?=$data['owner']?></small>
+	<?php echo $data['komentar']?><br />
+	<small>Posting <?php echo tgl_indo2($data['tgl_upload'])?>  oleh : <?php echo $data['owner']?></small>
 	<br />
 	<br />
 	</li>
-<? }?>
+<?php  }?>
 </ul>
 </div>
 </div>
@@ -104,17 +104,17 @@ $(function () {
 <div id="s-latest" class="blog widget">
 <h1>Media Sosial</h1>
 <ul class="sidebar-latest">
-<? foreach($sosmed As $data){?>	
-	<a href="<?=$data['link']?>" target="_blank">
-	<img src="<?=base_url()?>/assets/front/<?=$data['gambar']?>" width="55" height="55">
+<?php  foreach($sosmed As $data){?>	
+	<a href="<?php echo $data['link']?>" target="_blank">
+	<img src="<?php echo base_url()?>/assets/front/<?php echo $data['gambar']?>" width="55" height="55">
 	</a>
-<? }?>
+<?php  }?>
 </ul>
 </div>
 </div>
 
 <!--Tag FB------------------------------------------------------------------------------------------>
-<?/* $conn = @fsockopen("www.facebook.com", 80, $errno, $errstr, 30);
+<?php /* $conn = @fsockopen("www.facebook.com", 80, $errno, $errstr, 30);
     if ($conn)
     {
         fclose($conn);
@@ -122,44 +122,25 @@ $(function () {
    ?>
    
 	<div class="block">
-		<div class="fb-like-box" data-href="<?=$widget['fb_link'] ?>" data-width="292" data-show-faces="true" data-header="true" data-stream="true" data-show-border="true"></div>
+		<div class="fb-like-box" data-href="<?php echo $widget['fb_link'] ?>" data-width="292" data-show-faces="true" data-header="true" data-stream="true" data-show-border="true"></div>
 	</div>
- <? }}*/?>
+ <?php  }}*/?>
  
 <!--Tag Twitter------------------------------------------------------------------------------------------>
-<!--<? /*$conn = @fsockopen("www.twitter.com", 80, $errno, $errstr, 30);
+<!--<?php  /*$conn = @fsockopen("www.twitter.com", 80, $errno, $errstr, 30);
     if ($conn)
     {
         fclose($conn);*/
    ?>
 	<div class="block">
-		<a class="twitter-timeline"  href="<?//=$widget['twit_link'] ?>"  data-widget-id="<?//=$widget['twit_code'] ?>">Tweets by <?//=$widget['twit_et'] ?></a>
+		<a class="twitter-timeline"  href="<?php //=$widget['twit_link'] ?>"  data-widget-id="<?php //=$widget['twit_code'] ?>">Tweets by <?php //=$widget['twit_et'] ?></a>
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 	</div>
- <?// }?>-->
+ <?php // }?>-->
 
 <!--Counter pengunjung------------------------------------------------------------------------------------------>
 <div class="block">
-<?
-function num_toimage($tot,$jumlah){
-	$pattern='';
-	for($j=0;$j<$jumlah;$j++){
-		$pattern .= '0';
-	}
-	$len     = strlen($tot);
-	$length  = strlen($pattern)-$len;
-	$start   = substr($pattern,0,$length).substr($tot,0,$len-1);
-	$last    = substr($tot,$len-1,1);
-	$last_rpc= '<img src="_BASE_URL_/assets/images/counter/animasi/'.$last.'.gif" align="absmiddle" />'; 
-	$inc     = str_replace($last,$last_rpc,$last);
-	for($i=0;$i<=9;$i++){
-		$rpc ='<img src="_BASE_URL_/assets/images/counter/'.$i.'.gif" align="absmiddle"/>';
-		$start=str_replace($i,$rpc,$start);
-	}
-	$num = $start.$inc;
-	$num = str_replace('_BASE_URL_',base_url(),$num);
-	return $num;
-}
+<?php
 
 
 $ip = $_SERVER['REMOTE_ADDR']."{}";
@@ -234,17 +215,39 @@ $total 		= mysql_fetch_array(mysql_query('SELECT SUM(Jumlah) as Total FROM sys_t
 <div id="s-latest" class="blog widget">
 <h1>Arsip Artikel</h1>
 	<p style="padding-left:10px;line-height:16px;">
-	<? foreach ($arsip as $l){?>
-	<a href="<?=site_url("first/artikel/$l[id]")?>">- <?=$l['judul']?></a></br>
-	<? }?>
-	<a class="uibutton special" href="<?=site_url("first/arsip")?>">...Lihat Semua Arsip</a>
+	<?php  foreach ($arsip as $l){?>
+	<a href="<?php echo site_url("first/artikel/$l[id]")?>">- <?php echo $l['judul']?></a></br>
+	<?php  }?>
+	<a class="uibutton special" href="<?php echo site_url("first/arsip")?>">...Lihat Semua Arsip</a>
 	</p>
 </div>
 </div>
 
-<? foreach($w_cos As $data){?>
+<?php  foreach($w_cos As $data){?>
 <div class="block">
-<h1><?=$data['judul']?></h1>
-<div class="isi"><?=$data['isi']?></div>
+<h1><?php echo $data['judul']?></h1>
+<div class="isi"><?php echo $data['isi']?></div>
 </div>
-<? }?>
+<?php  }?>
+
+<?php 
+function num_toimage($tot,$jumlah){
+	$pattern='';
+	for($j=0;$j<$jumlah;$j++){
+		$pattern .= '0';
+	}
+	$len     = strlen($tot);
+	$length  = strlen($pattern)-$len;
+	$start   = substr($pattern,0,$length).substr($tot,0,$len-1);
+	$last    = substr($tot,$len-1,1);
+	$last_rpc= '<img src="_BASE_URL_/assets/images/counter/animasi/'.$last.'.gif" align="absmiddle" />'; 
+	$inc     = str_replace($last,$last_rpc,$last);
+	for($i=0;$i<=9;$i++){
+		$rpc ='<img src="_BASE_URL_/assets/images/counter/'.$i.'.gif" align="absmiddle"/>';
+		$start=str_replace($i,$rpc,$start);
+	}
+	$num = $start.$inc;
+	$num = str_replace('_BASE_URL_',base_url(),$num);
+	return $num;
+}
+?>

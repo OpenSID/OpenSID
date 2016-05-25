@@ -7,24 +7,24 @@
     <h3>Form Manajemen Dokumen</h3>
 </div>
 <div id="contentpane">
-    <form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data">
+    <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <table class="form">
             <tr>
                 <th>Judul Dokumen</th>
-                <td><input name="nama" type="text" class="inputbox" size="100" value="<?=$dokumen['nama']?>"/></td>
+                <td><input name="nama" type="text" class="inputbox" size="100" value="<?php echo $dokumen['nama']?>"/></td>
             </tr>
-				<?if($dokumen['satuan']){?>
+				<?php if($dokumen['satuan']){?>
             <tr>
                 <th class="top">Dokumen</th>
                 <td>
 				<div class="slidebox-avatar">
-					<img src="<?=base_url()?>assets/front/dokumen/<?=$dokumen['satuan']?>" alt=""/>
+					<img src="<?php echo base_url()?>assets/front/dokumen/<?php echo $dokumen['satuan']?>" alt=""/>
 				</div>
 				</td>
-				<input type="hidden" name="old_file" value="<?=$dokumen['satuan']?>">
+				<input type="hidden" name="old_file" value="<?php echo $dokumen['satuan']?>">
             </tr>
-				<?}?>
+				<?php }?>
             <tr>
                 <th>Upload Dokumen</th>
                 <td><input type="file" name="satuan" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah dokumen)</span></td>
@@ -34,7 +34,7 @@
    
     <div class="ui-layout-south panel bottom">
         <div class="left">     
-            <a href="<?=site_url()?>dokumen" class="uibutton icon prev">Kembali</a>
+            <a href="<?php echo site_url()?>dokumen" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">
             <div class="uibutton-group">

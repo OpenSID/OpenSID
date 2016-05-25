@@ -3,9 +3,9 @@
 	<table class="inner">
 	<tr style="vertical-align:top">
 <td style="background:#fff;padding:0px;"> 
-<script src="<?=base_url()?>assets/highchart/highcharts.js"></script>
-<script src="<?=base_url()?>assets/highchart/highcharts-more.js"></script>
-<script src="<?=base_url()?>assets/highchart/exporting.js"></script>
+<script src="<?php echo base_url()?>assets/highchart/highcharts.js"></script>
+<script src="<?php echo base_url()?>assets/highchart/highcharts-more.js"></script>
+<script src="<?php echo base_url()?>assets/highchart/exporting.js"></script>
 <script type="text/javascript">
 			var chart;
 			$(document).ready(function() {
@@ -16,16 +16,16 @@
 						defaultSeriesType: 'column'
 					},
 					title: {
-						text: 'Statistik <?//=$stat?>'
+						text: 'Statistik <?php //=$stat?>'
 					},
 					xAxis: {
 						title: {
-							text: '<?//=$stat?>'
+							text: '<?php //=$stat?>'
 						},
                         categories: [
-						<? $i=0;foreach($main as $data){$i++;?>
-						  <?if($data['jumlah'] != "-"){echo "'$i',";}?>
-						<?}?>
+						<?php  $i=0;foreach($main as $data){$i++;?>
+						  <?php if($data['jumlah'] != "-"){echo "'$i',";}?>
+						<?php }?>
 						]
 					},
 					yAxis: {
@@ -50,13 +50,13 @@
 						shadow:1,
 						border:0,
 						data: [
-						<? foreach($main as $data){?>
-						  <?if($data['nama'] != "TOTAL"){?>
-						  <?if($data['jumlah'] != "-"){?>
-								['<?=$data['nama']?>',<?=$data['jumlah']?>],
-							<?}?>
-							<?}?>
-						<?}?>]
+						<?php  foreach($main as $data){?>
+						  <?php if($data['nama'] != "TOTAL"){?>
+						  <?php if($data['jumlah'] != "-"){?>
+								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+							<?php }?>
+							<?php }?>
+						<?php }?>]
 				
 					}]
 				});
@@ -76,30 +76,30 @@ tr#total{
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel top">
             <div class="left">		
-                <select name="dusun" onchange="formAction('mainform','<?=site_url('analisis_grafik/dusun')?>')">
+                <select name="dusun" onchange="formAction('mainform','<?php echo site_url('analisis_grafik/dusun')?>')">
                     <option value="">Dusun</option>
-					<?foreach($list_dusun AS $data){?>
-                    <option value="<?=$data['dusun']?>" <?if($dusun == $data['dusun']) :?>selected<?endif?>><?=ununderscore(unpenetration($data['dusun']))?></option>
-					<?}?>
+					<?php foreach($list_dusun AS $data){?>
+                    <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo ununderscore(unpenetration($data['dusun']))?></option>
+					<?php }?>
                 </select>
 				
-				<?if($dusun){?>
-                <select name="rw" onchange="formAction('mainform','<?=site_url('analisis_grafik/rw')?>')">
+				<?php if($dusun){?>
+                <select name="rw" onchange="formAction('mainform','<?php echo site_url('analisis_grafik/rw')?>')">
                     <option value="">RW</option>
-					<?foreach($list_rw AS $data){?>
-                    <option value="<?=$data['rw']?>" <?if($rw == $data['rw']) :?>selected<?endif?>><?=$data['rw']?></option>
-					<?}?>
+					<?php foreach($list_rw AS $data){?>
+                    <option value="<?php echo $data['rw']?>" <?php if($rw == $data['rw']) :?>selected<?php endif?>><?php echo $data['rw']?></option>
+					<?php }?>
                 </select>
-				<?}?>
+				<?php }?>
 				
-				<?if($rw){?>
-                <select name="rt" onchange="formAction('mainform','<?=site_url('analisis_grafik/rt')?>')">
+				<?php if($rw){?>
+                <select name="rt" onchange="formAction('mainform','<?php echo site_url('analisis_grafik/rt')?>')">
                     <option value="">RT</option>
-					<?foreach($list_rt AS $data){?>
-                    <option value="<?=$data['rt']?>" <?if($rt == $data['rt']) :?>selected<?endif?>><?=$data['rt']?></option>
-					<?}?>
+					<?php foreach($list_rt AS $data){?>
+                    <option value="<?php echo $data['rt']?>" <?php if($rt == $data['rt']) :?>selected<?php endif?>><?php echo $data['rt']?></option>
+					<?php }?>
                 </select>
-				<?}?>
+				<?php }?>
 				
             </div>
     </div>
@@ -117,17 +117,17 @@ tr#total{
 			</tr>
 		</thead>
 		<tbody>
-        <? foreach($main as $data): ?>
+        <?php  foreach($main as $data): ?>
 		<tr>
-          <td align="center" width="2"><?=$data['no']?></td>
-          <td><?=$data['nama']?></td>
-          <td><?=$data['jumlah']?></td>
+          <td align="center" width="2"><?php echo $data['no']?></td>
+          <td><?php echo $data['nama']?></td>
+          <td><?php echo $data['jumlah']?></td>
 		  </tr>
-        <? endforeach; ?>
+        <?php  endforeach; ?>
 		</tbody>
         </table>
 <div class="left"> 
-<a href="<?=site_url()?>analisis_grafik/leave" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>analisis_grafik/leave" class="uibutton icon prev">Kembali</a>
 </div>
     </div>
 </div>

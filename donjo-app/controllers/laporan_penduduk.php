@@ -1,7 +1,4 @@
-
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Laporan_Penduduk extends CI_Controller{
 
 function __construct(){
