@@ -25,12 +25,14 @@ class BerkasDesa {
                   recurse_copy($src . '/' . $file,$dst . '/' . $file);
               }
               else {
-                  if (!file_exists($dst . '/' . $file . '.orig')) {
-                    if (file_exists($dst . '/' . $file)) {
-                      rename($dst . '/' . $file,$dst . '/' . $file . '.orig');
-                    }
-                    copy($src . '/' . $file,$dst . '/' . $file);
+                  // Simpan salinan file yang asli
+                  if (!file_exists($dst . '/' . $file . '.orig') && file_exists($dst . '/' . $file)) {
+                      $path_parts = pathinfo($file);
+                      // name.php --> name.orig.php
+                      rename($dst . '/' . $file,$dst . '/' . $path_parts['filename'] . '.orig.' . $path_parts['extension']);
                   }
+                  // Selalu copy file karena mungkin sudah berubah
+                  copy($src . '/' . $file,$dst . '/' . $file);
               }
           }
       }

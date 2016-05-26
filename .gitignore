@@ -8,3 +8,4 @@ assets/images/logo/*
 desa/*
 !desa/views/surat/.keep
 donjo-app/views/surat/.keep
+donjo-app/views/surat/.orig.keep
