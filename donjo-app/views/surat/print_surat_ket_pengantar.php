@@ -18,7 +18,7 @@
 <div style="text-align: center;">
 <hr></div></div>
 
-<div style='margin-top: 10px' align="center"><u><h4  class="kop">SURAT KETERANGAN</h4></u></div>
+<div style='margin-top: 40px' align="center"><u><h4  class="kop">SURAT KETERANGAN</h4></u></div>
 <div align="center"><h4  class="kop">Nomor : <?php echo $input['nomor']?></h4></div>
 </table>
 

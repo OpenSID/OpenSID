@@ -2,7 +2,7 @@
 <body>
 <div id="content" class="container_12 clearfix">
 <div id="content-main" class="grid_7">
-   
+
 <link href="<?php echo base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
 
 <div>
@@ -18,13 +18,13 @@
 <div style="text-align: center;">
 <hr></div></div>
 
-<div align="center"><u><h4  class="kop">SURAT KETERANGAN</h4></u></div>
+<div style='margin-top: 40px' align="center"><u><h4  class="kop">SURAT KETERANGAN</h4></u></div>
 <div align="center"><h4  class="kop">Nomor : <?php echo $input['nomor']?></h4></div>
 </table>
 
 <table width="100%">
 
-<td class="indentasi">Yang bertanda tangan dibawah ini <?php echo unpenetration($input['jabatan'])?> <?php echo unpenetration($desa['nama_desa'])?>, Kecamatan <?php echo unpenetration($desa['nama_kecamatan'])?>,
+<td class="indentasi">Yang bertanda tangan di bawah ini <?php echo unpenetration($input['jabatan'])?> <?php echo unpenetration($desa['nama_desa'])?>, Kecamatan <?php echo unpenetration($desa['nama_kecamatan'])?>,
 Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php echo unpenetration($desa['nama_propinsi'])?> menerangkan dengan sebenarnya bahwa:  </td></tr>
 </table>
 <div id="isi3">
@@ -98,11 +98,11 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 <tr></tr>
 <tr></tr>
 <tr><td> <td></td><td align="center">( <?php echo unpenetration($input['pamong'])?> )</td></tr>
-</table>  
+</table>
 
 </div>
-</div>     
-   
+</div>
+
 </div>
 <div id="aside">
 
