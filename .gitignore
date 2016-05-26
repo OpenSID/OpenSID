@@ -5,3 +5,6 @@ backup/
 # file logo contoh yg tersedia dalam release sid304 inti.
 assets/images/logo/*
 !assets/images/logo/gkk.png
+desa/*
+!desa/views/surat/.keep
+donjo-app/views/surat/.keep
