@@ -17,12 +17,5 @@ $hook['pre_system']  = array(
    'filepath'  => 'hooks'
 );
 
-$hook['post_controller']  = array(
-   'class'     => 'BerkasDesa',
-   'function'  => 'copy_berkas_desa',
-   'filename'  => 'berkas_desa.php',
-   'filepath'  => 'hooks'
-);
-
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */
