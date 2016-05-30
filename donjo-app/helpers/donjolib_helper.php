@@ -10,7 +10,7 @@
 				$hasil=substr($data,$awal+strlen($p1),$akhir-strlen($p1));
 			}
 		}
-		return $hasil;    
+		return $hasil;
 	}
 	function Rupiah($nil=0){
 		$nil = $nil + 0;
@@ -32,7 +32,7 @@
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != "" AND $rp > 0){return "Rp. $rp";}else{return "Rp. 0,00";}		 
+		if($rp != "" AND $rp > 0){return "Rp. $rp";}else{return "Rp. 0,00";}
 	}
 
 	function Rupiah2($nil=0){
@@ -55,9 +55,9 @@
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != "" AND $rp > 0){return "Rp.$rp";}else{return "-";}		 
+		if($rp != "" AND $rp > 0){return "Rp.$rp";}else{return "-";}
 	}
-	
+
 	function Rupiah3($nil=0){
 		$nil = $nil + 0;
 		if(($nil*100)%100 == 0){
@@ -78,15 +78,15 @@
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != 0){return "$rp";}else{return "-";}		 
+		if($rp != 0){return "$rp";}else{return "-";}
 	}
-	
+
 	function jecho($a,$b,$str){
 		if($a==$b){
 			echo $str;
 		}
 	}
-	
+
 	function selected($a,$b,$opt=0){
 		if($a==$b){
 			if($opt)
@@ -94,18 +94,18 @@
 			else echo "selected='selected'";
 		}
 	}
-	
+
 	function rev_tgl($tgl){
 		$ar=explode('-',$tgl);
 		$o=$ar[2].'-'.$ar[1].'-'.$ar[0];
 		return $o;
 	}
-	
+
 	function penetration($str){
 		$str = str_replace("'","-", $str);
 		return $str;
 	}
-	
+
 	function penetration1($str){
 		$str = str_replace("'"," ", $str);
 		return $str;
@@ -119,17 +119,17 @@
 		$str = str_replace("-"," ", $str);
 		return $str;
 	}
-	
+
 	function underscore($str){
 		$str = str_replace(" ","_", $str);
 		return $str;
 	}
-	
+
 	function ununderscore($str){
 		$str = str_replace("_"," ", $str);
 		return $str;
 	}
-	
+
 	function bulan($bln){
 		$nm = '';
 		switch($bln){
@@ -175,10 +175,10 @@
 		}
 		return $nm;
 	}
-	
+
 	function nama_bulan($tgl){
 		$ar=explode('-',$tgl);
-		
+
 		$nm = '';
 		switch($ar[1]){
 			case '01':
@@ -218,34 +218,34 @@
 				$nm = 'Desember';
 				break;
 		}
-		
+
 		$o = $ar[0] .' '. $nm .' '. $ar[2];
 		return $o;
 	}
-	
+
 	function dua_digit($i){
 		if($i<10) $o='0'.$i;
 			else $o=$i;
 		return $o;
 	}
-	
+
 	function tiga_digit($i){
 		if($i<10) $o='00'.$i;
 		else if($i<100) $o='0'.$i;
 			else $o=$i;
 		return $o;
 	}
-	
+
 	function to_rupiah($inp=''){
 		$outp = str_replace('.', '', $inp);
 		$outp = str_replace(',', '.', $outp);
 		return $outp;
 	}
-	
+
 	function rp($inp=0){
 		return number_format($inp, 2, ',', '.');
 	}
-	
+
 	function pertumbuhan($a=1,$b=1,$c=1,$d=1){
 		$x=0;
 		$y=0;
@@ -258,10 +258,10 @@
 		$outp = str_replace('.',',',$outp) . ' %';;
 		return $outp;
 	}
-	
+
 	function koma ($a=1) {
 	if(substr_count($a, '.'))
-	
+
 	$a = str_replace(".", ",",$a);
 	else $a = number_format($a,0, ',', '.');
 	return $a;
@@ -271,33 +271,33 @@
 			$jam = substr($tgl,11,8);
 			$bulan = getBulan(substr($tgl,5,2));
 			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';		 
-	}	
+			return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';
+	}
 
 	function tgl_indo($tgl){
 			$tanggal = substr($tgl,8,2);
 			$bulan = getBulan(substr($tgl,5,2));
 			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun;		 
+			return $tanggal.' '.$bulan.' '.$tahun;
 	}
 
 	function tgl_indo_out($tgl){
 			$tanggal = substr($tgl,8,2);
 			$bulan = substr($tgl,5,2);
 			$tahun = substr($tgl,0,4);
-			return $tanggal.'-'.$bulan.'-'.$tahun;		 
+			return $tanggal.'-'.$bulan.'-'.$tahun;
 	}
 
 	function tgl_indo_in($tgl){
 			$tanggal = substr($tgl,0,2);
 			$bulan = substr($tgl,3,2);
 			$tahun = substr($tgl,6,4);
-			return $tahun.'-'.$bulan.'-'.$tanggal;		 
+			return $tahun.'-'.$bulan.'-'.$tanggal;
 	}
-		
+
 	function getBulan($bln){
 				switch ($bln){
-					case 1: 
+					case 1:
 						return "Januari";
 						break;
 					case 2:
@@ -334,9 +334,9 @@
 						return "Desember";
 						break;
 				}
-	
+
 		}
-		
+
 //time out
 function timer(){
 	$time=2000;
@@ -361,5 +361,16 @@ function get_identitas(){
 	$string = "Desa : ".$hsl['nama_desa']." Kec : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
 }
+
+// Contoh: $jenis = 'surat_ket_pengantar', $nomor = '23/a/53-XYZ'
+// ==> 'surat_ket_pengantar_2016-05-29_23-a-53-XYZ.rtf'
+function nama_surat_download($jenis='', $nomor='') {
+	$non_alphanumeric = '/[^a-zA-Z0-9]+/';
+	$nomor_bersih = preg_replace($non_alphanumeric, '-', trim($nomor));
+	$ccyymmdd = date("Y-m-d");
+	$filename = $jenis . '_' . $ccyymmdd  . '_' . $nomor_bersih . '.rtf';
+	return $filename;
+}
+
 
 ?>

@@ -1,6 +1,7 @@
 # File ini untuk branch master, berisi source code inti sid304-jms
 donjo-app/config/db_donjo.php
 backup/
+assets/sync/
 # Jangan simpan isi folder logo. Isinya khusus desa, kecuali
 # file logo contoh yg tersedia dalam release sid304 inti.
 assets/images/logo/*
