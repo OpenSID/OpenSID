@@ -2,3 +2,4 @@ donjo-app/config/db_donjo.php
 backup/
 donjo-app/views/surat/.keep
 donjo-app/views/surat/.orig.keep
+assets/sync/
