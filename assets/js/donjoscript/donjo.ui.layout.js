@@ -29,6 +29,8 @@ var myLayout;
 		,	south__spacing_closed:	0		
   });
   $('#sidecontent2').css({'height':$_wrapperHeight-200});
+
+  $('#sidecontent3').css({'height':$_wrapperHeight-260});
   
   //innerLayout = $('#contentpane_map').css({'height':$_wrapperHeight}).layout({});
   

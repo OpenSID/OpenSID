@@ -86,7 +86,13 @@
 	
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
-		$sql   = "SELECT u.*,n.nama AS nama,k.nama AS format,s.pamong_nama AS pamong FROM log_surat u LEFT JOIN tweb_penduduk n ON u.id_pend = n.id LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id  WHERE 1 ";
+		$sql   = "SELECT u.*,n.nama AS nama,w.nama AS nama_user, n.nik AS nik,k.nama AS format, k.url_surat as berkas,s.pamong_nama AS pamong 
+			FROM log_surat u 
+			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id 
+			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id 
+			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
+			LEFT JOIN user w ON u.id_user = w.id 
+			WHERE 1 ";
 			
 		$sql .= $this->search_sql();
 		$sql .= $this->filterku_sql($nik);
@@ -99,7 +105,7 @@
 		$i=0;
 		$j=$offset;
 		while($i<count($data)){
-			$data[$i]['no']=$j+1;
+			$data[$i]['no']=$j+3;
 			$i++;
 			$j++;
 		}
@@ -120,7 +126,15 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
 		//Main Query
-		$sql   = "SELECT u.*,n.nama AS nama,k.nama AS format,s.pamong_nama AS pamong FROM log_surat u LEFT JOIN tweb_penduduk n ON u.id_pend = n.id LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id  WHERE 1 ";
+		 
+		$sql   = "SELECT u.*,n.nama AS nama,w.nama AS nama_user, n.nik AS nik,k.nama AS format, k.url_surat as berkas,s.pamong_nama AS pamong 
+			FROM log_surat u 
+			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id 
+			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id 
+			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id 
+			LEFT JOIN user w ON u.id_user = w.id 
+			WHERE 1 ";
+		 
 			
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
@@ -148,25 +162,38 @@
 		return $data;
 	}
 	
-	function log_surat($f='',$id='',$g='',$u='',$z=''){
-	$data['id_format_surat'] = $f;
-	$data['id_pend']=$id;
+	function log_surat($f=0,$id='',$g='',$u='',$z=''){
 	
-		$sql   = "SELECT pamong_id FROM tweb_desa_pamong WHERE pamong_nama = ?";
-		$query = $this->db->query($sql,$g);
-		$pam=$query->row_array();
-	
-	$data['id_pamong']=$pam['pamong_id'];
-	
-	if($data['id_pamong']=='')
-		$data['id_pamong'] = 1;
+		$data['id_pend']=$id;
 		
-	$data['id_user']=$u;
-	$data['bulan']=date('m');
-	$data['tahun']=date('Y');
-	$data['no_surat']=$z;
-	//print_r($data);
-	$this->db->insert('log_surat',$data);
+			$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
+			$query = $this->db->query($sql,$f);
+			if($query->num_rows() > 0){
+				$pam=$query->row_array();
+				$data['id_format_surat']=$pam['id'];
+			}else{
+				$data['id_format_surat'] = $f;
+			}
+		
+			$sql   = "SELECT pamong_id FROM tweb_desa_pamong WHERE pamong_nama = ?";
+			$query = $this->db->query($sql,$g);
+			if($query->num_rows() > 0){
+				$pam=$query->row_array();
+				$data['id_pamong']=$pam['pamong_id'];
+			}else{
+				$data['id_pamong'] = 1;
+			}
+		
+		
+		if($data['id_pamong']=='')
+			$data['id_pamong'] = 1;
+			
+		$data['id_user']=$u;
+		$data['bulan']=date('m');
+		$data['tahun']=date('Y');
+		$data['no_surat']=$z;
+		//print_r($data);
+		$this->db->insert('log_surat',$data);
 		
 	}
 	

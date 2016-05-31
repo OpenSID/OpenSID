@@ -250,7 +250,7 @@ table.list{
       color:#661c02!important;
 	padding:4px 5px;
     border:1px solid #ca9522;
-    background:url(images/loadingbar2.jpg) repeat-x #f6c864;
+    background:#f6c864;
     }
     table th a{
       color:#111!important;
@@ -328,4 +328,7 @@ a.sorting{
     box-shadow:inset 0px 0px 0px #e5e5e5;
     -moz-box-shadow:inset 0px 0px 0px #e5e5e5;
     -webkit-box-shadow:inset 0px 0px 0px #e5e5e5;
+}
+.table-info{
+width:300px;
 }

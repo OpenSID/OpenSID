@@ -1,15 +1,4 @@
-
 <div id="pageC"> 
-<!-- Start of Space Admin 	<td class="side-menu">
-		<legend>Laporan : </legend>
-			<div class="lmenu">
-				<ul>
-				<li ><a href="<?php echo site_url()?>laporan">Laporan Bulanan</a></li>
-				<li class="selected"><a href="<?php echo site_url()?>laporan_rentan">Data Kelompok Rentan</a></li>
-				
-				</ul>
-			</div>
-		</td>-->
 	<table class="inner">
 	<tr style="vertical-align:top">
 
@@ -75,6 +64,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 					<td>
 					<select name="dusun" onchange="formAction('mainform','<?php echo site_url('laporan_rentan/dusun')?>')" >
 
+					<option value="">--- Pilih Dusun ---</option>
 					<?php foreach($list_dusun as $data){?>
 					<option value="<?php echo $data['dusun']?>" <?php if($dusun==$data['dusun']){?>selected<?php }?>><?php echo ununderscore(unpenetration($data['dusun']))?></option>
 					<?php }?></select> 
@@ -85,10 +75,13 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 	<table width="100%" id="tfhover" class="tftable" border="1">
 	
 <thead>
+<?php if($dusun!=''){?>
 <tr>
-	<h3>DATA PILAH DUSUN  </h3>
+	<h3>DATA PILAH DUSUN <?php echo $dusun ?></h3>
 </tr>
+<?php } ?>
 <tr>
+	<th rowspan="2"><div align="center">DUSUN</div></th>
 	<th rowspan="2"><div align="center">RW</div></th>
 	<th rowspan="2"><div align="center">RT</div></th>
 	<th colspan="2"><div align="center">KK</div></th>
@@ -100,12 +93,12 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 <tr>
 	<th><div align="center">L</div></th>
 	<th><div align="center">P</div></th>
-	<th><div align="center">Bayi(<1thn)</div></th>
-	<th><div align="center">Balita(1-5thn)</div></th>
-	<th><div align="center">SD(6-12thn)</div></th>
-	<th><div align="center">SMP(13-15thn)</div></th>
-	<th><div align="center">SMA(16-18thn)</div></th>
-	<th><div align="center">Lansia(>60thn)</div></th>
+	<th><div align="center">Dibawah 1 Tahun</div></th>
+	<th><div align="center">1-5 Tahun</div></th>
+	<th><div align="center">6-12 Tahun</div></th>
+	<th><div align="center">13-15 Tahun</div></th>
+	<th><div align="center">16-18 Tahun</div></th>
+	<th><div align="center">Diatas 60 Tahun</div></th>
 	<th><div align="center">L</div></th>
 	<th><div align="center">P</div></th>
 </tr>
@@ -124,6 +117,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 	$hamil=0;
 ?>
 <?php  foreach($main as $data){ $id_cluster=$data['id_cluster'];?>
+<td align="right"><?php echo $data['dusunnya']?></td>
 <td align="right"><?php echo $data['rw']?></td>
 <td align="right"><?php echo $data['rt']?></td>
 <td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/1")?>"><?php echo $data['L']?></a></td>
@@ -156,7 +150,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
   
 <thead>
 	<tr>
-		<th colspan="4" align="center"><div align="center">Total</div></th>
+		<th colspan="5" align="center"><div align="center">Total</div></th>
 		<th><div align="right"><?php  echo $bayi;?></div></th>
 		<th><div align="right"><?php  echo $balita;?></div></th>
 		<th><div align="right"><?php  echo $sd;?></div></th>

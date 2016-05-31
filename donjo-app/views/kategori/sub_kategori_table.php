@@ -63,7 +63,7 @@
 </td>
 <td><?php echo $data['kategori']?></td>
 <td><?php echo $data['aktif']?></td>
-<td><?php echo $data['link']?></td>
+<td><?php echo "-"?></td>
 </tr>
 <?php }?>
 </tbody>

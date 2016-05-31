@@ -32,7 +32,7 @@
             <tr>
                 <th width="5">No</th>
                 <th width="5"><input type="checkbox" class="checkall"/></th>
-                <th width="100">Aksi</th>
+                <th width="120">Aksi</th>
 				<th width="50">RW</th>
 				<th width="150">NIK Ketua RW</th>
 				<th width="150">Nama Ketua RW</th>

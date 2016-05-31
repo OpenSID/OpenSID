@@ -9,5 +9,8 @@
 	<li <?php if($act==3){?>class="selected"<?php }?>>
 		<a href="<?php echo site_url('database/backup')?>">Backup/Restore</a>
 	</li>
+	<li <?php if($act==4){?>class="selected"<?php }?>>
+		<a href="<?php echo site_url('database/import_ppls')?>">Import PPLS</a>
+	</li>
 	</ul>
 </div>

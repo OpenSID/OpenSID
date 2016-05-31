@@ -62,7 +62,7 @@ class garis extends CI_Controller{
 		$header= $this->header_model->get_data();
 		$nav['act']=1;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('garis/table',$data);
@@ -88,7 +88,7 @@ class garis extends CI_Controller{
 		$header= $this->header_model->get_data();
 		
 		$nav['act']=1;
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('garis/form',$data);
@@ -107,7 +107,7 @@ class garis extends CI_Controller{
 		
 		$data['desa'] = $this->plan_garis_model->get_desa();
 		$data['form_action'] = site_url("garis/update_maps/$p/$o/$id");
-		$this->load->view("plan/garis/maps", $data);
+		$this->load->view("garis/maps", $data);
 	}
 			
 	function update_maps($p=1,$o=0,$id=''){

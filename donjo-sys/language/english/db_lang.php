@@ -1,7 +1,7 @@
 <?php
 
 $lang['db_invalid_connection_str'] = 'Unable to determine the database settings based on the connection string you submitted.';
-$lang['db_unable_to_connect'] = 'Haha.';
+$lang['db_unable_to_connect'] = 'Ada kesalahan dalam pemasangan SID. Aplikasi tidak bisa terhubung ke database. Silakan periksa pada berkas di donjo-app/config/database.php. Pastikan pada bagian "Data Konfigurasi MySQL yang disesuaikan" terisi dengan benar.';
 $lang['db_unable_to_select'] = 'Unable to Tabel';
 $lang['db_unable_to_create'] = 'Unable to create the specified database: %s';
 $lang['db_invalid_query'] = 'The query you submitted is not valid.';

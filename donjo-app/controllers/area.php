@@ -62,7 +62,7 @@ class area extends CI_Controller{
 		$header= $this->header_model->get_data();
 		$nav['act']=4;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('area/table',$data);
@@ -91,7 +91,7 @@ class area extends CI_Controller{
 		$header= $this->header_model->get_data();
 		
 		$nav['act']=4;
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('area/form',$data);
@@ -110,7 +110,7 @@ class area extends CI_Controller{
 		
 		$data['desa'] = $this->plan_area_model->get_desa();
 		$data['form_action'] = site_url("area/update_maps/$p/$o/$id");
-		$this->load->view("plan/area/maps", $data);
+		$this->load->view("area/maps", $data);
 	}
 			
 	function update_maps($p=1,$o=0,$id=''){

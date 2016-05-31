@@ -6,7 +6,7 @@ class gallery extends CI_Controller{
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
+		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('web_gallery_model');
 	}
@@ -41,7 +41,7 @@ class gallery extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=3;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('gallery/table',$data);
 		$this->load->view('footer');
@@ -64,7 +64,7 @@ class gallery extends CI_Controller{
 		$header = $this->header_model->get_data();
 		
 		$nav['act']=3;
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('gallery/form',$data);
 		$this->load->view('footer');
@@ -141,7 +141,7 @@ class gallery extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=3;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('gallery/sub_gallery_table',$data);
 		$this->load->view('footer');
@@ -163,7 +163,7 @@ class gallery extends CI_Controller{
 		$header = $this->header_model->get_data();
 		
 		$nav['act']=3;
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('gallery/form_sub_gallery',$data);
 		$this->load->view('footer');

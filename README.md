@@ -6,7 +6,7 @@ Tujuan penyesuaian SID CRI ini adalah untuk:
 - tetap konsisten dengan release SID CRI, supaya bisa senantiasa mengadopsi update dari CRI. Untuk itu, penyesuaian yang dilakukan diusahakan membuat perubahan yang se-minim mungkin
 
 Penyesuaian SID CRI ini dikelola di github untuk:
-- merekam semua perubahan yg dibuat dari versi asli yg diperoleh dari https://sid.web.id (24 Mei 2016)
+- merekam semua perubahan yg dibuat dari versi asli yg diperoleh dari Andi Anwar (30 Mei 2016)
 - memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
 - memudahkan kolaborasi antar tim JMS dan juga dengan desa dampingan dalam mengembangkan SID
 - backup online source code SID yg dapat diaskses setiap saat
@@ -16,7 +16,7 @@ Wiki sid304-jms (https://github.com/eddieridwan/sid304-jms/wiki) akan dikembangk
 Catatan:
 - sistem ini dikelola dengan merujuk pada lisensi GNU GENERAL PUBLIC LICENSE Version 3 (http://www.gnu.org/licenses/gpl.html)
 - pengembang dan pemegang hak cipta aslinya adalah Combine Resource Institution (http://lumbungkomunitas.net/)
-- SID 3.04 CRI terakhir yang telah digabung dengan sid304-jms diunduh dari http://sid.web.id pada 24 Mei 2016
+- SID 3.04 CRI terakhir yang telah digabung dengan sid304-jms di-share oleh Andi Anwar pada 30 Mei 2016
 - sid304-jms akan terus menggabung versi baru yang mungkin sewaktu-waktu direlease oleh CRI melalui portal mereka di http://sid.web.id.
 
 Di mana perubahan dilakukan/diperlukan untuk mengatasi suatu permasalahan atau memenuhi suatu permintaan,

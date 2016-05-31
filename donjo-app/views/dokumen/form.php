@@ -19,7 +19,7 @@
                 <th class="top">Dokumen</th>
                 <td>
 				<div class="slidebox-avatar">
-					<img src="<?php echo base_url()?>assets/front/dokumen/<?php echo $dokumen['satuan']?>" alt=""/>
+					<img src="<?php echo base_url()?>assets/files/dokumen/<?php echo $dokumen['satuan']?>" alt=""/>
 				</div>
 				</td>
 				<input type="hidden" name="old_file" value="<?php echo $dokumen['satuan']?>">

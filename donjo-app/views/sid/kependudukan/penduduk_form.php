@@ -1,3 +1,4 @@
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=2&sensor=false"></script>
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
@@ -49,9 +50,9 @@
 <td>
 <div class="userbox-avatar">
 <?php if($penduduk['foto']){?>
-<img src="<?php echo base_url()?>assets/images/photo/kecil_<?php echo $penduduk['foto']?>" alt=""/>
+<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $penduduk['foto']?>" alt=""/>
 <?php }else{?>
-<img src="<?php echo base_url()?>assets/images/photo/kuser.png" alt=""/>
+<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
 <?php }?>
 </div>
 </td>
@@ -219,9 +220,9 @@
 <td>
 <div class="uiradio">
 <?php $ch='checked';?>
-<input type="radio" id="group1" name="status" value="3" checked/<?php if($penduduk['status'] == '3' OR $penduduk['status'] == ''){echo $ch;}?>><label for="group1">Pendatang</label>
-<input type="radio" id="group2" name="status" value="1" checked><label for="group2">Tetap</label>
-<input type="radio" id="group3" name="status" value="2"><label for="group3">Tidak Aktif</label>
+<input type="radio" id="group2" name="status" value="1" <?php if($penduduk['status'] == "TETAP" OR $penduduk['status'] == ""){echo $ch;}?>><label for="group2">Tetap</label>
+<input type="radio" id="group3" name="status" value="2" <?php if($penduduk['status'] == "TIDAK AKTIF"){echo $ch;}?>><label for="group3">Tidak Aktif</label>
+<input type="radio" id="group1" name="status" value="3" <?php if($penduduk['status'] == "PENDATANG"){echo $ch;}?>><label for="group1">Pendatang</label>
 </div>
 </td>
 </tr>
@@ -298,4 +299,3 @@
 </div>
 </td></tr></table>
 </div>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>

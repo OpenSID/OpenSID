@@ -9,5 +9,8 @@
 <li <?php if($act==3){?>class="selected"<?php }?>>
 <a href="<?php echo site_url('surat_master/clear')?>">Master Surat</a>
 </li>
+<li <?php if($act==4){?>class="selected"<?php }?>>
+<a href="<?php echo site_url('surat/panduan')?>">Panduan</a>
+</li>
 </ul>
 </div>

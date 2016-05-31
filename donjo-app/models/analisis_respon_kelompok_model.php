@@ -70,14 +70,14 @@
 			case 4: $order_sql = ' ORDER BY u.id DESC'; break;
 			case 5: $order_sql = ' ORDER BY g.id'; break;
 			case 6: $order_sql = ' ORDER BY g.id DESC'; break;
-			default:$order_sql = ' ORDER BY u.id';
+			default:$order_sql = '';
 		}
 	
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
 		//Main Query
-		$sql   = "SELECT u.*,p.nama AS ketua,(SELECT count(id) FROM analisis_respon WHERE id_subjek = u.id AND id_periode=?) as cek FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id WHERE u.id_master = $kel ";
+		$sql   = "SELECT u.*,p.nama AS ketua,(SELECT id FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id WHERE u.id_master = $kel ";
 			
 		$sql .= $this->search_sql();
 		$sql .= $order_sql;

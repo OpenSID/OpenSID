@@ -8,7 +8,7 @@
 <a href="<?php echo site_url('laporan/clear')?>">Laporan Kependudukan Bulanan</a>
 </li>
 <li <?php if($act==2){?>class="selected"<?php }?>>
-<a href="<?php echo site_url('laporan_rentan/')?>">Laporan Kelompok Rentan</a>
+<a href="<?php echo site_url('laporan_rentan/clear')?>">Laporan Kelompok Rentan</a>
 </li>
 </ul>
 </div>

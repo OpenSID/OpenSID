@@ -6,6 +6,7 @@ class analisis_respon_rtm extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('analisis_respon_rtm_model');
+		$this->load->model('analisis_import_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
@@ -110,6 +111,16 @@ class analisis_respon_rtm extends CI_Controller{
 	function insert(){
 		$this->analisis_respon_rtm_model->insert();
 		redirect('analisis_respon_rtm');
+	}
+	
+	function import_respon(){
+		$this->analisis_import_model->import_respon();
+		redirect('analisis_respon_rtm');
+	}
+	
+	function import(){
+		$data['form_action'] = site_url("analisis_respon_rtm/import_respon");
+		$this->load->view('analisis_respon_rtm/import', $data);
 	}
 	
 	function update($p=1,$o=0,$id=''){

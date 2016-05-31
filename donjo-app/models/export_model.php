@@ -67,7 +67,6 @@
 
 
 	function export_akp(){
-	
 	$return = "";
 	$result = mysql_query('SELECT * FROM analisis_keluarga WHERE 1');
 	$num_fields = mysql_num_fields($result);
@@ -147,8 +146,6 @@
 	}
 	
 	function lombok(){
-		
-
 		$sql   = "SELECT * FROM sheet1 WHERE 1";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
@@ -242,17 +239,17 @@
 		$filename = $_FILES['userfile']['tmp_name'];
 		if ($filename!=''){	
 			$lines = file($filename);
-$query = "";
-foreach($lines as $sql_line){
-  if(trim($sql_line) != "" && strpos($sql_line, "--") === false){
-    $query .= $sql_line;
-    if (substr(rtrim($query), -1) == ';'){
-      echo $query;
-      $result = mysql_query($query)or die(mysql_error());
-      $query = "";
-    }
-  }
- }
+		$query = "";
+		foreach($lines as $sql_line){
+		  if(trim($sql_line) != "" && strpos($sql_line, "--") === false){
+			$query .= $sql_line;
+			if (substr(rtrim($query), -1) == ';'){
+			  echo $query;
+			  $result = mysql_query($query)or die(mysql_error());
+			  $query = "";
+			}
+		  }
+		 }
 			
 		$outp= mysql_query($data);
 			echo $data;

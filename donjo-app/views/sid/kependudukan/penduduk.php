@@ -96,7 +96,7 @@ source: keyword
 		<tr>
 			<th>No</th>
 			<th><input type="checkbox" class="checkall"/></th>
-			<th width="150">Aksi</th>
+			<th width="160">Aksi</th>
 			<?php  if($o==2): ?>
 			<th align="left" width='100'><a href="<?php echo site_url("penduduk/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-1-n"></span></a></th>
 			<?php  elseif($o==1): ?>

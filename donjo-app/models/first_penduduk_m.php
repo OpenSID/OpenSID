@@ -33,7 +33,11 @@ class First_Penduduk_M extends CI_Model{
 			
 			case 11: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 2) AS perempuan FROM ref_jamkesmas u WHERE 1 ORDER BY jumlah DESC"; break;
 			
-			case 12: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai AND sex=1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai AND sex=2) AS perempuan  FROM tweb_penduduk_umur u WHERE status = 1 ORDER BY u.id "; break;
+			case 12: $sql   = "SELECT u.*,
+			(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai) AS jumlah,
+			(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai AND sex=1) AS laki,
+			(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai AND sex=2) AS perempuan 
+			FROM tweb_penduduk_umur u WHERE status = 1 ORDER BY u.id "; break;
 			
 			case 13: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE warganegara_id = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE warganegara_id = u.id AND sex = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE warganegara_id = u.id AND sex = 2) AS perempuan FROM tweb_penduduk_warganegara u WHERE 1 ORDER BY jumlah DESC"; break;
 			
@@ -92,23 +96,24 @@ class First_Penduduk_M extends CI_Model{
 		
 				
 		$i=0;
-		while($i<count($data)){
-			$data[$i]['persen']=$data[$i]['jumlah']/$bel['jumlah']*100;
-			$data[$i]['persen']=number_format((float)$data[$i]['persen'], 2, '.', '');
-			$data[$i]['persen']=$data[$i]['persen']."%";
-			
-			$data[$i]['persen1']=$data[$i]['laki']/$bel['jumlah']*100;
-			$data[$i]['persen1']=number_format((float)$data[$i]['persen1'], 2, '.', '');
-			$data[$i]['persen1']=$data[$i]['persen1']."%";
-			
-			$data[$i]['persen2']=$data[$i]['perempuan']/$bel['jumlah']*100;
-			$data[$i]['persen2']=number_format((float)$data[$i]['persen2'], 2, '.', '');
-			$data[$i]['persen2']=$data[$i]['persen2']."%";
-			
-			
-			$i++;
-		}
-		
+		if($data[$i]['jumlah'] > 0){
+			while($i<count($data)){
+				$data[$i]['persen']=$data[$i]['jumlah']/$bel['jumlah']*100;
+				$data[$i]['persen']=number_format((float)$data[$i]['persen'], 2, '.', '');
+				$data[$i]['persen']=$data[$i]['persen']."%";
+				
+				$data[$i]['persen1']=$data[$i]['laki']/$bel['jumlah']*100;
+				$data[$i]['persen1']=number_format((float)$data[$i]['persen1'], 2, '.', '');
+				$data[$i]['persen1']=$data[$i]['persen1']."%";
+				
+				$data[$i]['persen2']=$data[$i]['perempuan']/$bel['jumlah']*100;
+				$data[$i]['persen2']=number_format((float)$data[$i]['persen2'], 2, '.', '');
+				$data[$i]['persen2']=$data[$i]['persen2']."%";
+				
+				
+				$i++;
+			}
+
 			$bel['persen']="100%";
 			
 			$bel['persen1']=$bel['laki']/$bel['jumlah']*100;
@@ -118,6 +123,32 @@ class First_Penduduk_M extends CI_Model{
 			$bel['persen2']=$bel['perempuan']/$bel['jumlah']*100;
 			$bel['persen2']=number_format((float)$bel['persen2'], 2, '.', '');
 			$bel['persen2']=$bel['persen2']."%";
+
+		}else{
+				$data[$i]['persen']=0;
+				$data[$i]['persen']=0;
+				$data[$i]['persen']=0;
+				
+				$data[$i]['persen1']=0;
+				$data[$i]['persen1']=0;
+				$data[$i]['persen1']=0;
+				
+				$data[$i]['persen2']=0;
+				$data[$i]['persen2']=0;
+				$data[$i]['persen2']=0;
+
+			$bel['persen']="100%";
+			
+			$bel['persen1']=0;
+			$bel['persen1']=0;
+			$bel['persen1']=0;
+			
+			$bel['persen2']=0;
+			$bel['persen2']=0;
+			$bel['persen2']=0;
+
+		}
+		
 			
 		$data['total']=$bel;
 		return $data;

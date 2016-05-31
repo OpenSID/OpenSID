@@ -85,10 +85,10 @@ class User_Model extends CI_Model{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		
-		$this->create_xml();
+		//$this->create_xml();
 		
-		if($this->sid_online())
-			$this->send_data();
+		//if($this->sid_online())
+		//	$this->send_data();
 		
 		
 	}
@@ -304,12 +304,17 @@ class User_Model extends CI_Model{
 		$row=$query->row();
 		
 		if($password==$row->password){
-			if($pass_baru == $pass_baru1){
-				$pass_baru = md5($pass_baru);
-				$sql  = "UPDATE user SET password=?,nama=? WHERE id=?";
-				$outp = $this->db->query($sql,array($pass_baru,$nama,$id));
+			if($pass_baru !=""){
+				if($pass_baru == $pass_baru1){
+					$pass_baru = md5($pass_baru);
+					$sql  = "UPDATE user SET password=? WHERE id=?";
+					$outp = $this->db->query($sql,array($pass_baru,$id));
+				}
 			}
 		}
+		
+		$sql  = "UPDATE user SET nama=? WHERE id=?";
+		$outp = $this->db->query($sql,array($nama,$id));
 		
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
@@ -368,7 +373,7 @@ class User_Model extends CI_Model{
 		$string .= "</wilayah>".$nl.$nl;
 		
 		//pendeuduk
-/*		
+		
 		$sql   = "SELECT * FROM data_surat";
 		$query = $this->db->query($sql);
 		$penduduk = $query->result_array();
@@ -386,7 +391,7 @@ class User_Model extends CI_Model{
 		
 		$string .= "</penduduk>".$nl.$nl;
 		
-*/		
+		
 		$mypath="assets\\sync\\";
 		$path = "".str_replace("\\","/",$mypath)."/";
 		

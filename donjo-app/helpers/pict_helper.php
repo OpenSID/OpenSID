@@ -1,7 +1,7 @@
 <?php
 
 function UploadFoto($fupload_name,$old_foto){
-  $vdir_upload = "assets/images/photo/";
+  $vdir_upload = "assets/files/user_pict/";
   if($old_foto!="")
 	unlink($vdir_upload."kecil_".$old_foto); 
 
@@ -70,7 +70,7 @@ function UploadGambar($fupload_name,$old_gambar){
 }
 
 function UploadGallery($fupload_name){
-  $vdir_upload = "assets/front/gallery/";
+  $vdir_upload = "assets/files/galeri/";
   //if($old_gambar!=""){
 //	unlink($vdir_upload."kecil_".$old_gambar); 
 //	unlink($vdir_upload.$old_gambar);
@@ -82,42 +82,42 @@ function UploadGallery($fupload_name){
   $im_src = imagecreatefromjpeg($vfile_upload);
   $src_width = imageSX($im_src);
   $src_height = imageSY($im_src);
-  if(($src_width * 20) < ($src_height * 44)){
+  if($src_width > $src_height){
 	  $dst_width = 440;
 	  $dst_height = ($dst_width/$src_width)*$src_height;
 	  $cut_height = $dst_height - 300;
 	  
-	  $im = imagecreatetruecolor(440,300);
-	  imagecopyresampled($im, $im_src, 0, 0, 0, $cut_height, $dst_width, $dst_height, $src_width, $src_height);
+	  $im = imagecreatetruecolor(440,$dst_height );
+	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
 	  
   }else{
-	  $dst_height = 300;
+	  $dst_height = 440;
 	  $dst_width = ($dst_height/$src_height)*$src_width;
 	  $cut_width = $dst_width - 440;
 	  
-	  $im = imagecreatetruecolor(440,300);
-	  imagecopyresampled($im, $im_src, 0, 0, $cut_width, 0, $dst_width, $dst_height, $src_width, $src_height);
+	  $im = imagecreatetruecolor($dst_width,440);
+	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
   }
   imagejpeg($im,$vdir_upload ."kecil_".$fupload_name);
     
 //  $im_src = imagecreatefromjpeg($vfile_upload);
   $src_width = imageSX($im_src);
   $src_height = imageSY($im_src);
-  if(($src_width / $src_height) < (44 / 30)){
+  if($src_width > $src_height){
 	  $dst_width = 880;
 	  $dst_height = ($dst_width/$src_width)*$src_height;
 	  $cut_height = $dst_height - 600;
 	  
-	  $im = imagecreatetruecolor(880,600);
-	  imagecopyresampled($im, $im_src, 0, 0, 0, $cut_height, $dst_width, $dst_height, $src_width, $src_height);
+	  $im = imagecreatetruecolor(880,$dst_height);
+	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
 	  
   }else{
-	  $dst_height = 600;
+	  $dst_height = 880;
 	  $dst_width = ($dst_height/$src_height)*$src_width;
 	  $cut_width = $dst_width - 880;
 	  
-	  $im = imagecreatetruecolor(880,600);
-	  imagecopyresampled($im, $im_src, 0, 0, $cut_width, 0, $dst_width, $dst_height, $src_width, $src_height);
+	  $im = imagecreatetruecolor($dst_width,880);
+	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
   }
   imagejpeg($im,$vdir_upload ."sedang_".$fupload_name);
   
@@ -166,8 +166,8 @@ function UploadSimbolx($fupload_name,$old_gambar){
   return true;
 }
 
-function UploadArtikel($fupload_name,$gambar){
-  $vdir_upload = "assets/front/artikel/";
+function UploadArtikel($fupload_name,$gambar,$fp){
+  $vdir_upload = "assets/files/artikel/";
   //if($old_gambar!=""){
 	//unlink($vdir_upload."kecil_".$old_gambar); 
 	//unlink($vdir_upload.$old_gambar);
@@ -179,23 +179,23 @@ function UploadArtikel($fupload_name,$gambar){
   $im_src = imagecreatefromjpeg($vfile_upload);
   $src_width = imageSX($im_src);
   $src_height = imageSY($im_src);
-  if(($src_width / $src_height) < (44 / 30)){
+  if($src_width > $src_height){
 	  $dst_width = 440;
 	  $dst_height = ($dst_width/$src_width)*$src_height;
 	  $cut_height = $dst_height - 300;
 	  
-	  $im = imagecreatetruecolor(440,300);
-	  imagecopyresampled($im, $im_src, 0, 0, 0, $cut_height, $dst_width, $dst_height, $src_width, $src_height);
+	  $im = imagecreatetruecolor(440,$dst_height);
+	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
 	  
   }else{
-	  $dst_height = 300;
+	  $dst_height = 440;
 	  $dst_width = ($dst_height/$src_height)*$src_width;
 	  $cut_width = $dst_width - 440;
 	  
-	  $im = imagecreatetruecolor(440,300);
-	  imagecopyresampled($im, $im_src, 0, 0, $cut_width, 0, $dst_width, $dst_height, $src_width, $src_height);
+	  $im = imagecreatetruecolor($dst_width,440);
+	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
   }
-  imagejpeg($im,$vdir_upload ."kecil_".$fupload_name);
+  imagejpeg($im,$vdir_upload ."kecil_".$fp.$fupload_name);
   
   imagedestroy($im_src);
   imagedestroy($im);
@@ -204,23 +204,23 @@ function UploadArtikel($fupload_name,$gambar){
   $im_src = imagecreatefromjpeg($vfile_upload);
   $src_width = imageSX($im_src);
   $src_height = imageSY($im_src);
-  if(($src_width / $src_height) < (44 / 30)){
+  if($src_width > $src_height){
 	  $dst_width = 880;
 	  $dst_height = ($dst_width/$src_width)*$src_height;
 	  $cut_height = $dst_height - 600;
 	  
-	  $im = imagecreatetruecolor(880,600);
-	  imagecopyresampled($im, $im_src, 0, 0, 0, $cut_height, $dst_width, $dst_height, $src_width, $src_height);
+	  $im = imagecreatetruecolor(880,$dst_height);
+	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
 	  
   }else{
-	  $dst_height = 600;
+	  $dst_height = 880;
 	  $dst_width = ($dst_height/$src_height)*$src_width;
 	  $cut_width = $dst_width - 880;
 	  
-	  $im = imagecreatetruecolor(880,600);
-	  imagecopyresampled($im, $im_src, 0, 0, $cut_width, 0, $dst_width, $dst_height, $src_width, $src_height);
+	  $im = imagecreatetruecolor($dst_width,880);
+	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
   }
-  imagejpeg($im,$vdir_upload ."sedang_".$fupload_name);
+  imagejpeg($im,$vdir_upload ."sedang_".$fp.$fupload_name);
   
   imagedestroy($im_src);
   imagedestroy($im);
@@ -230,8 +230,17 @@ function UploadArtikel($fupload_name,$gambar){
   return true;
 }
 
+function HapusArtikel($gambar){
+  $vdir_upload = "assets/files/artikel/";
+  $vfile_upload = $vdir_upload . "sedang_" . $gambar;
+  unlink($vfile_upload); 
+  $vfile_upload = $vdir_upload . "kecil_" . $gambar;
+  unlink($vfile_upload); 
+  return true;
+}
+
 function UploadLokasi($fupload_name){
-  $vdir_upload = "assets/images/gis/lokasi/";
+  $vdir_upload = "assets/files/gis/lokasi/";
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -292,7 +301,7 @@ function UploadLokasi($fupload_name){
 }
 
 function UploadGaris($fupload_name){
-  $vdir_upload = "assets/images/gis/garis/";
+  $vdir_upload = "assets/files/gis/garis/";
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -352,7 +361,7 @@ function UploadGaris($fupload_name){
   return true;
 }
 function UploadArea($fupload_name){
-  $vdir_upload = "assets/images/gis/area/";
+  $vdir_upload = "assets/files/gis/area/";
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -413,7 +422,7 @@ function UploadArea($fupload_name){
 }
 
 function UploadLogo($fupload_name,$old_foto,$tipe_file){
-  $vdir_upload = "assets/images/logo/";
+  $vdir_upload = "assets/files/logo/";
   unlink($vdir_upload.$old_foto); 
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -465,7 +474,7 @@ function UploadSimbol($fupload_name){
 }
 
 function UploadDocument($fupload_name){
-  $vdir_upload = "assets/front/dokumen/";
+  $vdir_upload = "assets/files/dokumen/";
   
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -475,8 +484,9 @@ function UploadDocument($fupload_name){
   //unlink($vfile_upload); 
   return true;
 }
+
 function UploadDocument2($fupload_name){
-  $vdir_upload = "assets/front/dokumen/";
+  $vdir_upload = "assets/files/dokumen/";
   
   $vfile_upload = $vdir_upload . $fupload_name;
 

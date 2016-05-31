@@ -22,7 +22,7 @@
 <tr>
 <td width="150">Nama</td><td width="1">:</td>
 <td><?php echo strtoupper($penduduk['nama'])?></td><td rowspan="18"><?php if($penduduk['foto']){?>
-<img src="<?php echo base_url()?>assets/images/photo/kecil_<?php echo $penduduk['foto']?>" alt=""/>
+<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $penduduk['foto']?>" alt=""/>
 <?php }?>
 <tr>
 <td>Akta lahir</td><td >:</td>

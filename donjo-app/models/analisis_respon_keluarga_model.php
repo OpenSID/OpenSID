@@ -105,7 +105,7 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
 		//Main Query
-		$sql   = "SELECT u.*,p.nama,c.dusun,c.rw,c.rt,(SELECT count(id) FROM analisis_respon WHERE id_subjek = u.id AND id_periode=?) as cek FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id  LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1 ";
+		$sql   = "SELECT u.*,p.nama,c.dusun,c.rw,c.rt,(SELECT id FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id  LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1 ";
 			
 		$sql .= $this->search_sql();
 		$sql     .= $this->dusun_sql(); 

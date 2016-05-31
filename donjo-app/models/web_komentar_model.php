@@ -56,7 +56,7 @@
 		return $this->paging;
 	}
 	
-	function list_data($o=0,$offset=0,$limit=500){
+	function list_data($o=0,$offset=0,$limit=500,$cas=0){
 	
 		switch($o){
 			case 1: $order_sql = ' ORDER BY tgl_upload DESC'; break;
@@ -70,6 +70,12 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
 		$sql   = "SELECT * FROM komentar WHERE 1 ";
+
+		if($cas==2)
+			$sql .= " AND id_artikel = 775";
+		else
+			$sql .= " AND id_artikel <> 775";
+			
 			
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();

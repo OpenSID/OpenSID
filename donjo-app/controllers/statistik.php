@@ -13,18 +13,11 @@ function __construct(){
 	
 	}	
 
-	function index($lap=0,$p=1,$o=0){
+	function index($lap=0,$o=0){
 	
-		$data['p']        = $p;
-		$data['o']        = $o;
-		
-		if(isset($_POST['per_page'])) 
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-		
-		$data['paging']  = $this->laporan_penduduk_model->paging($lap,$p,$o);
-		$data['main']    = $this->laporan_penduduk_model->list_data($lap,$o, $data['paging']->offset, $data['paging']->per_page);
+		$data['main']    = $this->laporan_penduduk_model->list_data($lap,$o);
 		$data['lap']=$lap;
+		$data['o']=$o;
 		
 		switch($lap){
 			case 0: $data['stat'] = "Pendidikan dalam KK"; break;
@@ -38,7 +31,6 @@ function __construct(){
 			case 9: $data['stat'] = "Cacat"; break;
 			case 10: $data['stat'] = "Sakit Menahun"; break;
 			case 11: $data['stat'] = "Jamkesmas"; break;
-			//case 12: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
 			case 13: $data['stat'] = "Umur (Detail)"; break;
 			case 15: $data['stat'] = "Umur"; break;
 			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;

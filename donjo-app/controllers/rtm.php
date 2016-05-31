@@ -96,7 +96,7 @@ function __construct(){
 
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/rtm',$data);
 		$this->load->view('footer');
@@ -248,7 +248,7 @@ function __construct(){
 
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/rtm_anggota',$data);
 		$this->load->view('footer');
@@ -304,7 +304,7 @@ function __construct(){
 		$nav['act']= 3;
 	
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$data['form_action'] = site_url("rtm/print");
 		

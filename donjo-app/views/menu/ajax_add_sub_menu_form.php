@@ -34,10 +34,6 @@ $('#link').flexbox(link, {
 		<div id="link" name="link"></div>
 	</td>
 </tr>
-<tr id="manual">
-<th>Link Manual</th>
-<td><textarea name="manual_link" style="resize: none; height:100px; width:350px;" size="500" maxlength='500'><?php echo $submenu['link']?></textarea></td>
-</tr>
 </table>
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
     <div class="uibutton-group">

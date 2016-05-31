@@ -20,6 +20,14 @@
 		return $outp;
 	}
 	
+	function sex_sql(){		
+		if(isset($_SESSION['sex'])){
+			$kf = $_SESSION['sex'];
+			$sex_sql= " AND t.sex = '$kf'";
+		return $sex_sql;
+		}
+	}
+	
 	function dusun_sql(){		
 		if(isset($_SESSION['dusun'])){
 			$kf = $_SESSION['dusun'];
@@ -51,8 +59,8 @@
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND t.nama LIKE '$kw'";
 			return $search_sql;
-			}
 		}
+	}
 		
 	function jenis_sql(){		
 		if(isset($_SESSION['jenis'])){
@@ -124,7 +132,8 @@
 		$sql     .= $this->search_sql();     
 		$sql     .= $this->dusun_sql();   
 		$sql     .= $this->rw_sql();  
-		$sql     .= $this->rt_sql();    
+		$sql     .= $this->rt_sql();  
+		$sql     .= $this->sex_sql();   
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
@@ -155,13 +164,14 @@
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
-		$sql   = "SELECT u.*,t.nama AS kepala_kk,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
+		$sql   = "SELECT u.*,t.nama AS kepala_kk,t.sex,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
 			
 		$sql .= $this->search_sql();
 		
 		$sql     .= $this->dusun_sql(); 
 		$sql     .= $this->rw_sql();  
 		$sql     .= $this->rt_sql(); 
+		$sql     .= $this->sex_sql(); 
 		$sql .= $order_sql; 
 		$sql .= $paging_sql;
 		
@@ -175,6 +185,11 @@
 			$data[$i]['no']=$j+1;
 			if($data[$i]['jumlah_anggota']==0)
 				$data[$i]['jumlah_anggota'] = "-";
+			
+			if($data[$i]['sex']==1)
+				$data[$i]['sex'] = "LAKI-LAKI";
+			else
+				$data[$i]['sex'] = "PEREMPUAN";
 			
 			$i++;
 			$j++;
@@ -726,6 +741,157 @@
 		$query = $this->db->query($sql,$nomor);
 		return $query->row_array();
 	}	
-}
 
-?>
+	function coba($data=''){
+		$mypath="surat\\kk\\";
+		$mypath_arsip="surat\\arsip\\";
+		
+		$path = "".str_replace("\\","/",$mypath);
+		$path_arsip = "".str_replace("\\","/",$mypath_arsip);
+		
+		$file = $path."kk.rtf";
+		if(is_file($file)){
+			$nama ="";
+			
+			$handle = fopen($file,'r');
+			$buffer = stream_get_contents($handle);
+			$i=0;
+			foreach($data['main'] AS $ranggota){
+				$i++;
+				$nama 			.= $ranggota['nama']."\line ";
+				$no 			.= $i."\line ";
+				$hubungan 		.= $ranggota['hubungan']."\line ";
+				$nik 			.= $ranggota['nik']."\line ";
+				$sex 			.= $ranggota['sex']."\line ";
+				$tempatlahir 	.= $ranggota['tempatlahir']."\line ";
+				$tanggallahir 	.= $ranggota['tanggallahir']."\line ";
+				$agama 			.= $ranggota['agama']."\line ";
+				$pendidikan 	.= $ranggota['pendidikan']."\line ";
+				$pekerjaan 		.= $ranggota['pekerjaan']."\line ";
+				$status_kawin 	.= $ranggota['status_kawin']."\line ";
+				$warganegara 	.= $ranggota['warganegara']."\line ";
+				$dokumen_pasport.= $ranggota['dokumen_pasport']."\line ";
+				$dokumen_kitas 	.= $ranggota['dokumen_kitas']."\line ";
+				$nama_ayah 		.= $ranggota['nama_ayah']."\line ";
+				$nama_ibu 		.= $ranggota['nama_ibu']."\line ";
+				
+				if($ranggota['golongan_darah']!="TIDAK TAHU")
+					$golongan_darah .= $ranggota['golongan_darah']."\line ";
+				else
+					$golongan_darah .= "- \line ";
+			}
+			
+			$buffer=str_replace("[no]","$no",$buffer);
+			$buffer=str_replace("[nama]","\caps $nama",$buffer);
+			$buffer=str_replace("[hubungan]","$hubungan",$buffer);
+			$buffer=str_replace("[nik]","$nik",$buffer);
+			$buffer=str_replace("[sex]","$sex",$buffer);
+			$buffer=str_replace("[agama]","$agama",$buffer);
+			$buffer=str_replace("[pendidikan]","$pendidikan",$buffer);
+			$buffer=str_replace("[pekerjaan]","$pekerjaan",$buffer);
+			$buffer=str_replace("[tempatlahir]","\caps $tempatlahir",$buffer);
+			$buffer=str_replace("[tanggallahir]","\caps $tanggallahir",$buffer);
+			$buffer=str_replace("[kawin]","$status_kawin",$buffer);
+			$buffer=str_replace("[warganegara]","$warganegara",$buffer);
+			$buffer=str_replace("[pasport]","$dokumen_pasport",$buffer);
+			$buffer=str_replace("[kitas]","$dokumen_kitas",$buffer);
+			$buffer=str_replace("[ayah]","\caps $nama_ayah",$buffer);
+			$buffer=str_replace("[ibu]","\caps $nama_ibu",$buffer);
+			$buffer=str_replace("[darah]","$golongan_darah",$buffer);
+			
+			$h = $data['desa'];
+			$k = $data['kepala_kk'];
+			$tertanda = tgl_indo(date("Y m d"));
+			$tertanda = $h['nama_desa'].", ".$tertanda;
+			$buffer=str_replace("desa","\caps $h[nama_desa]",$buffer);
+			$buffer=str_replace("dusun","\caps $k[dusun]",$buffer);
+			$buffer=str_replace("prop","\caps $h[nama_propinsi]",$buffer);
+			$buffer=str_replace("kab","\caps $h[nama_kabupaten]",$buffer);
+			$buffer=str_replace("kec","\caps $h[nama_kecamatan]",$buffer);
+			$buffer=str_replace("*camat","\caps $h[nama_kepala_camat]",$buffer);
+			$buffer=str_replace("*kades","\caps $h[nama_kepala_desa]",$buffer);
+			$buffer=str_replace("*rt","$k[rt]",$buffer);
+			$buffer=str_replace("*rw","$k[rw]",$buffer);
+			$buffer=str_replace("*kk","\caps $k[nama]",$buffer);
+			$buffer=str_replace("no_kk","$k[no_kk]",$buffer);
+			$buffer=str_replace("pos","$h[kode_pos]",$buffer);
+			$buffer=str_replace("*tertanda","\caps $tertanda",$buffer);
+			
+			$berkas_arsip = $path_arsip."kk_$k[no_kk].rtf";
+			$handle = fopen($berkas_arsip,'w+');
+			fwrite($handle,$buffer);
+			fclose($handle);
+			$_SESSION['success']=8;
+			header("location:".base_url($berkas_arsip));
+		}
+		
+	}
+	
+	function coba2(){
+		ini_set('memory_limit', '2048M');
+		$mypath="surat\\undangan\\";
+		$mypath_arsip="surat\\arsip\\";
+		
+		$path = "".str_replace("\\","/",$mypath);
+		$path_arsip = "".str_replace("\\","/",$mypath_arsip);
+		
+		$file = $path."apik.rtf";
+		if(is_file($file)){
+			$buffer2 ="";
+			
+			$handle = fopen($file,'r');
+			$b = stream_get_contents($handle);
+			
+			$c = Parse_Data($b,'\widowctrl','{\*\themedata');
+			$c = "\widowctrl".$c;
+			$awal = Parse_Data($b,'{','\widowctrl');
+			$awal = "{".$awal;
+			$akhir = strstr($b,'{\*\themedata');
+			
+			$data = $this->list_data();
+			$i=1;
+			$h = substr_count($c, 'fxnama');
+			$h =4;
+			$j=count($data);
+			$k =1;
+			$buffer=$c;
+			foreach($data AS $d){
+				if($d['sex']=="PEREMPUAN")
+					$sex = "IBU";
+				else
+					$sex = "BAPAK";
+				
+				$alamat = $d['dusun'].", RT ".$d['rt']."/RW ".$d['rw'];
+				$buffer=str_replace("fxnama$k","\caps $d[kepala_kk]",$buffer);
+				$buffer=str_replace("fxalamat$k","\caps $alamat",$buffer);
+				$buffer=str_replace("fxpre$k","\caps $sex",$buffer);
+				
+				if($k==$h){
+					$k=0;
+					
+					if($i>=$j)
+						$buffer2 .= $buffer;
+					else
+						$buffer2 .= $buffer." \page ";
+					
+					$buffer=$c;
+				}
+				
+				$k++;
+				$i++;
+			}
+	
+			$buffer2 .= $buffer;
+			
+			$buffers = $awal.$buffer2.$akhir;
+			
+			$berkas_arsip = $path_arsip."undangan.rtf";
+			$handle = fopen($berkas_arsip,'w+');
+			fwrite($handle,$buffers);
+			fclose($handle);
+			$_SESSION['success']=8;
+			header("location:".base_url($berkas_arsip));
+		}
+		
+	}
+}

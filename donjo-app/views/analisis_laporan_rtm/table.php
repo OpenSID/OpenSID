@@ -92,8 +92,9 @@
 	</form>
     <div class="ui-layout-south panel bottom">
         <div class="left"> 
+		<div class="table-info">
           <form id="paging" action="<?php echo site_url('analisis_laporan_rtm')?>" method="post">
-<a href="<?php echo site_url()?>analisis_laporan_rtm/leave" class="uibutton icon prev">Kembali</a>
+			<a href="<?php echo site_url()?>analisis_laporan_rtm/leave" class="uibutton icon prev">Kembali</a>
 		  <label></label>
             <select name="per_page" onchange="$('#paging').submit()" >
               <option value="20" <?php  selected($per_page,20); ?> >20</option>
@@ -104,6 +105,7 @@
             <label><?php echo $paging->num_rows?></label>
             <label>Total Data</label>
           </form>
+        </div>
         </div>
         <div class="right">
             <div class="uibutton-group">

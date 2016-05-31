@@ -51,7 +51,7 @@ class line extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=2;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('line/table',$data);
@@ -78,7 +78,7 @@ class line extends CI_Controller{
 		$header= $this->header_model->get_data();
 		
 		$nav['act']=2;
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('line/form',$data);
@@ -93,7 +93,7 @@ class line extends CI_Controller{
 		$header= $this->header_model->get_data();
 		$nav['act']=2;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('line/sub_line_table',$data);
@@ -116,7 +116,7 @@ class line extends CI_Controller{
 			$data['form_action'] = site_url("line/insert_sub_line/$line");
 		}
 
-		$this->load->view("plan/line/ajax_add_sub_line_form",$data);
+		$this->load->view("line/ajax_add_sub_line_form",$data);
 	}
 
 	function search(){

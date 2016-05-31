@@ -31,7 +31,7 @@
 			}
 		}
 
-	function paging($lap=0,$p=1,$o=0){
+	function paging($lap=0,$o=0){
 		
 		switch($lap){
 			case 0: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_pendidikan u WHERE 1 "; break;
@@ -76,27 +76,22 @@
 	}
 	
 	
-	function list_data($lap=0,$o=0,$offset=0,$limit=500){
-	
+	function list_data($lap=0,$o=0){
 		//Ordering SQL
 		switch($o){
 			case 1: $order_sql = ' ORDER BY u.id'; break;
 			case 2: $order_sql = ' ORDER BY u.id DESC'; break;
-			case 7: $order_sql = ' ORDER BY perempuan'; break;
-			case 8: $order_sql = ' ORDER BY perempuan DESC'; break;
 			case 3: $order_sql = ' ORDER BY laki'; break;
 			case 4: $order_sql = ' ORDER BY laki DESC'; break;
 			case 5: $order_sql = ' ORDER BY jumlah'; break;
 			case 6: $order_sql = ' ORDER BY jumlah DESC'; break;
-			default:$order_sql = ' ORDER BY u.id';
+			case 7: $order_sql = ' ORDER BY perempuan'; break;
+			case 8: $order_sql = ' ORDER BY perempuan DESC'; break;
+			default:$order_sql = '';
 		}
 	
-		//Paging SQL
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		
 		switch($lap){
-			case 12: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan u WHERE 1 "; 
-			break;
+			case 0: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan_kk u WHERE 1"; break;
 			
 			case 1: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pekerjaan_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pekerjaan_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pekerjaan_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pekerjaan u WHERE 1 "; break;
 			
@@ -118,7 +113,8 @@
 			
 			case 11: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM ref_jamkesmas u WHERE 1"; break;
 			
-			case 0: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan_kk u WHERE 1"; break;
+			case 12: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan u WHERE 1 "; 
+			break;
 			
 			case 13: $sql   = "SELECT u.*, concat( dari, ' - ', sampai) as nama, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND status_dasar = 1) AS jumlah, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 1 AND status_dasar = 1) AS laki, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_umur u WHERE status=1 "; break;
 			
@@ -138,10 +134,7 @@
 			default:$sql   = "SELECT u.* FROM tweb_penduduk_pendidikan u WHERE 1 ";
 		}
 			
-		//$sql .= $this->search_sql();
 		$sql .= $order_sql;
-		$sql .= $paging_sql;
-		
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 		
@@ -165,10 +158,9 @@
 		$bel['nama']="TOTAL";
 		$total['laki']=0;
 		$total['perempuan']=0;
-		$j=$offset;
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['no']=$j+1;
+			$data[$i]['no']=$i+1;
 			
 			//if($data[$i]['jumlah']<1)
 			//	$data[$i]['jumlah']="-";
@@ -186,7 +178,6 @@
 				$total['perempuan']+=$data[$i]['perempuan'];
 				
 			$i++;
-			$j++;
 		}
 
 		$data[$i]['no']="";

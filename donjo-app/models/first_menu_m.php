@@ -52,7 +52,7 @@ class First_Menu_M extends CI_Model{
 	function list_menu_kiri(){
 	
 
-		$sql   = "SELECT m.*,m.kategori AS nama FROM kategori m WHERE m.parrent =0 AND m.enabled = 1 ORDER BY id";
+		$sql   = "SELECT m.*,m.kategori AS nama FROM kategori m WHERE m.parrent =0 AND m.enabled = 1 AND m.kategori <> 'teks_berjalan' ORDER BY id";
 		
 		$query = $this->db->query($sql);
 		$data=$query->result_array();

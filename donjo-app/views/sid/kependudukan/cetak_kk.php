@@ -117,41 +117,27 @@
 <br>
 
 <table width="100%" cellpadding="3" cellspacing="4">
-
 <tr>
-<td width="100"></td>
-<td width="400"></td>
-<td align="center" width="150"><?php echo $desa['nama_desa'] ?>, <?php echo tgl_indo(date("Y m d"))?></td>
+	<td width="25%"></td>
+	<td width="50%"></td>
+	<td width="25%" align="center"><?php echo $desa['nama_desa'] ?>, <?php echo tgl_indo(date("Y m d"))?></td>
+	</tr>
 <tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-</tr><tr><td width="23%" align="center">KEPALA KELUARGA</td><td width="30%"></td>
-<td width="50"></td>
-</tr> 
-
 <tr>
-<td width="100"></td>
-<td width="400"></td>
-<td align="center" width="150">KEPALA DESA <?php echo strtoupper($desa['nama_desa']) ?></td>
-<td width="50"></td>
-</tr>
-
+	<td width="25%" align="center">KEPALA KELUARGA</td>
+	<td width="50%"></td>
+	<td align="center" width="150">KEPALA DESA <?php echo strtoupper($desa['nama_desa']) ?></td>
+	</tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
 <tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td  align="center"><?php echo strtoupper($kepala_kk['nama'])?></td></tr>
-
-<tr>
-<td width="100"></td>
-<td width="400"></td>
-<td align="center" width="150"><?php echo strtoupper($desa['nama_kepala_desa']) ?></td>
-<td width="50"></td>
-</tr>
-
+	<td width="25%" align="center"><?php echo strtoupper($kepala_kk['nama'])?></td>
+	<td width="50%"></td>
+	<td width="25%" align="center" width="150"><?php echo strtoupper($desa['nama_kepala_desa']) ?></td>
+	</tr>
 </table>
-
-<p style="font-family:verdana,arial,sans-serif;font-size:10px;"></p>
-
 </div>
    <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>

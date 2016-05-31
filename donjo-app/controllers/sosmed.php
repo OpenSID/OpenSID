@@ -19,7 +19,7 @@ class sosmed extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=6;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/facebook',$data);
 		$this->load->view('footer');
@@ -32,7 +32,7 @@ class sosmed extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=6;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/twitter',$data);
 		$this->load->view('footer');
@@ -44,7 +44,7 @@ class sosmed extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=6;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/instagram',$data);
 		$this->load->view('footer');
@@ -56,7 +56,7 @@ class sosmed extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=6;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/instagram',$data);
 		$this->load->view('footer');
@@ -68,7 +68,7 @@ class sosmed extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=6;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/youtube',$data);
 		$this->load->view('footer');

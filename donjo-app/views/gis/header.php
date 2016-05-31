@@ -12,22 +12,22 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style2.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/noJS.css" /></noscript> 
 
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-layout.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.formtips.1.2.2.packed.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.tipsy.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.elastic.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/autoNumeric.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.flexbox.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.easing-1.3.pack.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.fancybox-1.3.4.pack.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjoscript2.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.layout.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.mainmenu.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.dialog.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-layout.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.formtips.1.2.2.packed.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.tipsy.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.elastic.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.flexbox.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.easing-1.3.pack.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjoscript2.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.layout.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.mainmenu.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.dialog.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script><script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=4&sensor=false"></script>
 <!---->
 <!--[if lte IE 6]>
 <style type="text/css">
@@ -69,21 +69,21 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 </head>
 <body>
 <div class="ui-layout-north" id="header">
-    <div id="sid-logo"><img src="<?php echo base_url()?>assets/images/logo/<?php echo $desa['logo']?>" alt=""/></div>
-    <div id="sid-judul">SID Sistem Informasi Desa</div>
-    <div id="sid-info">Kab. <?php echo $desa['nama_kabupaten']?>, Kec. <?php echo $desa['nama_kecamatan']?>, Desa <?php echo $desa['nama_desa']?></div>
-<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
-        <div class="avatar">
+	<div id="sid-logo"><a href="<?php echo site_url()?>first" target="_blank"><img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt=""/></a></div>
+	<div id="sid-judul">SID Sistem Informasi Desa</div>
+	<div id="sid-info"><?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>,  <?php echo unpenetration($desa['nama_kabupaten'])?></div>
+	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
+  <div class="avatar">
 		<?php if($foto){?>
-			<img src="<?php echo base_url()?>assets/images/photo/kecil_<?php echo $foto?>" alt=""/>
+			<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $foto?>" alt=""/>
 		<?php }else{?>
-			<img src="<?php echo base_url()?>assets/images/photo/kuser.png" alt=""/>
+			<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
 		<?php }?>
-		</div>
-        <div class="info">
-            <div><strong>Anda Login sebagai</strong></div>
-            <div><?php echo $nama?></div>
-        </div>
+	</div>
+	<div class="info">
+		<div><strong>Anda Login sebagai</strong></div>
+		<div><?php echo $nama?></div>
+	</div>
 
 <ul class="dropdown" tabindex="1">
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>

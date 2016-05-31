@@ -19,7 +19,7 @@ class widget extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=5;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('web/widget/facebook',$data);
 		$this->load->view('footer');
@@ -32,7 +32,7 @@ class widget extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=5;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('web/widget/twitter',$data);
 		$this->load->view('footer');
