@@ -3,3 +3,5 @@ backup/
 donjo-app/views/surat/.keep
 donjo-app/views/surat/.orig.keep
 assets/sync/
+surat/arsip/
+!surat/arsip/.keep
