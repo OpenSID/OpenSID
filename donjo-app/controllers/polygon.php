@@ -50,7 +50,7 @@ class polygon extends CI_Controller{
 		$header= $this->header_model->get_data();
 		$nav['act']=5;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('polygon/table',$data);
@@ -77,7 +77,7 @@ class polygon extends CI_Controller{
 		$header= $this->header_model->get_data();
 		
 		$nav['act']=5;
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('polygon/form',$data);
@@ -92,7 +92,7 @@ class polygon extends CI_Controller{
 		$header= $this->header_model->get_data();
 		$nav['act']=5;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('polygon/sub_polygon_table',$data);
@@ -114,7 +114,7 @@ class polygon extends CI_Controller{
 		$header= $this->header_model->get_data();
 		
 		$nav['act']=5;
-		$this->load->view('header', $header);
+		$this->load->view('header-gis', $header);
 		
 		$this->load->view('plan/nav',$nav);
 		$this->load->view("polygon/ajax_add_sub_polygon_form",$data);

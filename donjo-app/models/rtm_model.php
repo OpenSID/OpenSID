@@ -5,14 +5,14 @@
 	}
 	
 	function autocomplete(){
-		$sql   = "SELECT t.nama FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
+		$sql   = "SELECT t.nama,t.kk_level FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		
 		$i=0;
 		$outp='';
 		while($i<count($data)){
-			$outp .= ',"'.$data[$i]['nama'].'"';
+			$outp .= ',"'.$data[$i]['nama'].' - '.$data[$i]['kk_level'].'"';
 			$i++;
 		}
 		$outp = strtolower(substr($outp, 1));
@@ -120,7 +120,7 @@
 
 	function paging($p=1,$o=0){
 	
-		$sql      = "SELECT COUNT(u.id) AS id FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
+		$sql      = "SELECT COUNT(u.id) AS id FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON t.id_rtm = u.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
 		$sql     .= $this->search_sql();     
 		$sql     .= $this->dusun_sql();   
 		$sql     .= $this->rw_sql();  
@@ -149,7 +149,7 @@
 			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
 			case 5: $order_sql = ' ORDER BY g.nama'; break;
 			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
-			default:$order_sql = ' ORDER BY u.tgl_daftar DESC';
+			default:$order_sql = ' ';
 		}
 	
 		//Paging SQL
@@ -325,7 +325,7 @@
 	}
 	
 	function get_anggota($id=0){
-		$sql   = "SELECT * FROM tweb_penduduk WHERE id=?";
+		$sql   = "SELECT * FROM tweb_penduduk WHERE id_rtm=?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		return $data;
@@ -341,7 +341,7 @@
 	}
 	
 	function list_penduduk_lepas(){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE (status = 1 OR status = 3) AND id_rtm = 0";
+		$sql   = "SELECT p.id,p.nik,p.nama,h.nama as kk_level FROM tweb_penduduk p LEFT JOIN tweb_penduduk_hubungan h ON p.kk_level=h.id WHERE (status = 1 OR status = 3) AND id_rtm = 0";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 		
@@ -349,14 +349,14 @@
 		$i=0;
 		while($i<count($data)){
 			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
-			$data[$i]['nama']=''.$data[$i]['nama'].'';
+			$data[$i]['nama']=''.$data[$i]['nama'].' - '.$data[$i]['kk_level'].'';
 			$i++;
 		}
 		return $data;
 	}
 	
 	function list_anggota($id=0){
-		$sql   = "SELECT b.dusun,b.rw,b.rt,u.id,nik,dokumen_pasport,dokumen_kitas,x.nama as sex,u.rtm_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan FROM tweb_penduduk u LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id WHERE status = 1 AND id_rtm = ? ORDER BY rtm_level";
+		$sql   = "SELECT b.dusun,b.rw,b.rt,u.id,nik,dokumen_pasport,dokumen_kitas,x.nama as sex,u.rtm_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan FROM tweb_penduduk u LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id WHERE id_rtm = ? ORDER BY rtm_level";
 		
 		$query = $this->db->query($sql,array($id));
 		$data=$query->result_array();

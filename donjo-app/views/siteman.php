@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div id="loginform">
-		<a href="<?php echo site_url()?>/index.php/first">
+		<a href="<?php echo site_url()?>first">
 		<div id="facebook">
 			<div id="sid">SID</div>
 			<div id="connect">ver.</div>
@@ -24,7 +24,7 @@
 		<input name="username" type="text" placeholder="username" value="" required>
 		<input name="password" type="password" placeholder="password" value="" required>
 		<button type="submit" id="but">LOGIN</button>
-			<?php if($_SESSION['siteman']==-1){ ?>
+			<?php  if($_SESSION['siteman']==-1){ ?>
 			<div id="note">
 				Login Gagal. Username atau Password yang Anda masukkan salah!
 			</div>

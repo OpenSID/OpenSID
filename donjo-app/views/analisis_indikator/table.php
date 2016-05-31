@@ -11,8 +11,6 @@
 	<table class="inner">
 <tr style="vertical-align:top">
 		<td style="background:#fff;padding:0px;"> 
-<div class="content-header">
-</div>
 <div id="contentpane">    
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
@@ -57,7 +55,7 @@
             <tr>
                 <th width="10">No</th>
                <?php if($analisis_master['lock']==1){?> <th><input type="checkbox" class="checkall"/></th>
-                <th width="140">Aksi</th><?php }?>
+                <th width="160">Aksi</th><?php }?>
 	 		<?php  if($o==2): ?>
 				<th align="left" width="10"><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Kode<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php  elseif($o==1): ?>
@@ -132,20 +130,19 @@
         </table>
     </div>
 	</form>
-    <div class="ui-layout-south panel bottom">
+    <div class="ui-layout-south panel">
         <div class="left"> 
+            <div class="uibutton-group">
+			<a href="<?php echo site_url()?>analisis_indikator/leave" class="uibutton icon prev">Kembali</a>
           <form id="paging" action="<?php echo site_url('analisis_indikator')?>" method="post">
-<a href="<?php echo site_url()?>analisis_indikator/leave" class="uibutton icon prev">Kembali</a>
-		  <label></label>
             <select name="per_page" onchange="$('#paging').submit()" >
               <option value="20" <?php  selected($per_page,20); ?> >20</option>
               <option value="50" <?php  selected($per_page,50); ?> >50</option>
               <option value="100" <?php  selected($per_page,100); ?> >100</option>
             </select>
-            <label>Dari</label>
-            <label><?php echo $paging->num_rows?></label>
-            <label>Total Data</label>
+            <label>Dari <?php echo $paging->num_rows?> Total Data</label>
           </form>
+        </div>
         </div>
         <div class="right">
             <div class="uibutton-group">

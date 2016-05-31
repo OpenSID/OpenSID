@@ -6,7 +6,7 @@ source: keyword
 });
 });
 </script>
-
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/chosen/chosen.jquery.js"></script>
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
@@ -32,8 +32,9 @@ source: keyword
 </td>
 */?>
 <td style="background:#fff;padding:0px;"> 
-<div class="content-header">
-<h3>Manajemen Properti / area</h3>
+<div class="content">
+	<h3>Manajemen Properti / area</h3>
+	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
 </div>
 <div id="contentpane">
 <form id="mainform" name="mainform" action="" method="post">
@@ -49,20 +50,20 @@ source: keyword
 <div class="table-panel top">
 <div class="left">
 		
-		<select name="filter" onchange="formAction('mainform','<?php echo site_url('area/filter')?>')">
+		<select name="filter" onchange="formAction('mainform','<?php echo site_url('plan/area/filter')?>')">
 			<option value="">Semua</option>
 			<option value="1" <?php if($filter==1) :?>selected<?php endif?>>Enabled</option>
 			<option value="2" <?php if($filter==2) :?>selected<?php endif?>>Disabled</option>
 		</select>
 
-		<select name="polygon" onchange="formAction('mainform','<?php echo site_url('area/polygon')?>')">
+		<select name="polygon" onchange="formAction('mainform','<?php echo site_url('plan/area/polygon')?>')">
 			<option value="">Kategori</option>
 			<?php foreach($list_polygon AS $data){?>
 			<option value="<?php echo $data['id']?>" <?php if($polygon == $data['id']) :?>selected<?php endif?>><?php echo $data['nama']?></option>
 			<?php }?>
 		</select>
 			
-		<select name="subpolygon" onchange="formAction('mainform','<?php echo site_url('area/subpolygon')?>')">
+		<select name="subpolygon" onchange="formAction('mainform','<?php echo site_url('plan/area/subpolygon')?>')">
 			<option value="">Jenis</option>
 			<?php foreach($list_subpolygon AS $data){?>
 			<option value="<?php echo $data['id']?>" <?php if($subpolygon == $data['id']) :?>selected<?php endif?>><?php echo $data['nama']?></option>
@@ -72,7 +73,7 @@ source: keyword
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('area/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('plan/area/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
 </div>
 </div>
 <table class="list">
@@ -80,7 +81,7 @@ source: keyword
 <tr>
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
-<th width="250">Aksi</th>
+<th width="50">Aksi</th>
 
  <?php  if($o==2): ?>
 <th align="left"><a href="<?php echo site_url("area/index/$p/1")?>">Kategori<span class="ui-icon ui-icon-triangle-1-n">
@@ -109,9 +110,9 @@ source: keyword
 <td align="center" width="5">
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
-<td><div class="uibutton-group">
-<a href="<?php echo site_url("area/form/$p/$o/$data[id]")?>" class="uibutton tipsy south"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("area/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a><?php /*if($data['enabled'] == '2'):?><a href="<?php echo site_url('area/area_lock/'.$data['id'])?>" class="ui-icons icon-lock tipsy south" title="Enable area"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('area/area_unlock/'.$data['id'])?>" class="ui-icons icon-unlock tipsy south" title="Disable area"></a>*/?><a href="<?php echo site_url("area/ajax_area_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="area <?php echo $data['nama']?>" class="uibutton tipsy south" title="area <?php echo $data['nama']?>"><span class="icon-plus icon-large"> Lokasi </span></a>
-</div>
+<td>
+<a href="<?php echo site_url("area/form/$p/$o/$data[id]")?>" class="ui-icons icon-edit tipsy south" title="Edit Data"></a><a href="<?php echo site_url("area/delete/$p/$o/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php /*if($data['enabled'] == '2'):?><a href="<?php echo site_url('plan/area/area_lock/'.$data['id'])?>" class="ui-icons icon-lock tipsy south" title="Enable area"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('plan/area/area_unlock/'.$data['id'])?>" class="ui-icons icon-unlock tipsy south" title="Disable area"></a>*/?><a href="<?php echo site_url("area/ajax_area_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="area <?php echo $data['nama']?>" class="ui-icons icon-maps tipsy south" title="area <?php echo $data['nama']?>"></a>
+
 </td>
 <td width="150"><?php echo $data['nama']?></td>
 <td width="50"><?php echo $data['aktif']?></td>
@@ -127,7 +128,7 @@ source: keyword
 <div class="ui-layout-south panel bottom">
 <div class="left"> 
 <div class="table-info">
-<form id="paging" action="<?php echo site_url('area')?>" method="post">
+<form id="paging" action="<?php echo site_url('plan/area')?>" method="post">
 <label>Tampilkan</label>
 <select name="per_page" onchange="$('#paging').submit()" >
 <option value="20" <?php  selected($per_page,20); ?> >20</option>

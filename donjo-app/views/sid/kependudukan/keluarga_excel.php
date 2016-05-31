@@ -1,4 +1,4 @@
-<?php php
+<?php
 header("Content-type: application/octet-stream");
 header("Content-Disposition: attachment; filename=print.xls");
 header("Pragma: no-cache");
@@ -26,6 +26,7 @@ header("Expires: 0");
 			<th width="150" >Nomor KK</th>
 			<th >Kepala Keluarga</th>
 			<th width="100"  >Jumlah Anggota</th>
+			<th   width="60">Jenis Kelamin</th>
 			<th   width="60">Dusun</th>
 			<th   width="30">RW</th>
 			<th   width="30">RT</th>
@@ -40,6 +41,7 @@ header("Expires: 0");
           <td><?php echo $data['no_kk']?></td>
 		  <td><?php echo strtoupper($data['kepala_kk'])?></td>
           <td><?php echo $data['jumlah_anggota']?></td>
+          <td><?php echo $data['sex']?></td>
           <td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
 		  <td><?php echo strtoupper($data['rw'])?></td>
           <td><?php echo strtoupper($data['rt'])?></td>

@@ -53,7 +53,8 @@ $('tr.uptd').hide();
 <div class="uiradio">
 <?php $ch='checked';?>
 <?php if($user['id_grup'] != '1'){?>
-<input type="radio" id="group3" name="id_grup" value="3"/<?php if($user['id_grup'] == '3' OR $user['id_grup'] == ''){echo $ch;}?>><label for="group3">Redaksi</label>
+<input type="radio" id="group4" name="id_grup" value="4"/<?php if($user['id_grup'] == '4' OR $user['id_grup'] == ''){echo $ch;}?>><label for="group4">Kontributor</label>
+<input type="radio" id="group3" name="id_grup" value="3"/<?php if($user['id_grup'] == '3'){echo $ch;}?>><label for="group3">Redaksi</label>
 <input type="radio" id="group2" name="id_grup" value="2"/<?php if($user['id_grup'] == '2'){echo $ch;}?>><label for="group2">Operator</label>
 <?php }?>
 <input type="radio" id="group1" name="id_grup" value="1"/<?php if($user['id_grup'] == '1'){echo $ch;}?>><label for="group1">Administrator</label>
@@ -86,9 +87,9 @@ $('tr.uptd').hide();
 <td>
 <div class="userbox-avatar">
 <?php if($user['foto']){?>
-<img src="<?php echo base_url()?>assets/images/photo/kecil_<?php echo $user['foto']?>" alt=""/>
+<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $user['foto']?>" alt=""/>
 <?php }else{?>
-<img src="<?php echo base_url()?>assets/images/photo/kuser.png" alt=""/>
+<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
 <?php }?>
 </div>
 </td>

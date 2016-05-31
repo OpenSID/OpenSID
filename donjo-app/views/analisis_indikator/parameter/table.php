@@ -40,6 +40,7 @@
                 <th width="10"><input type="checkbox" class="checkall"/></th>
                 <th width="80">Aksi</th>
 				<?php }?>
+                <th width="80">Kode</th>
                 <th width="400">Jawaban</th>
                 <th width="20">Nilai</th>
                 <th></th>
@@ -58,6 +59,7 @@
 			</div>
           </td>
 		  <?php }?>
+          <td><?php echo $data['kode_jawaban']?></td>
           <td><?php echo $data['jawaban']?></td>
           <td><?php echo $data['nilai']?></td>
           <td></td>

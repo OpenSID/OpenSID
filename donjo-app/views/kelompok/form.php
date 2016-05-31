@@ -60,64 +60,61 @@ $("#nik_detail").show();
 });
 </script>
 <div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
-
-<div class="content-header">
-
-</div>
-<div id="contentpane">
-<div class="ui-layout-north panel"><h3>Form Master kelompok</h3>
-</div>
-<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<table class="form">
-<tr>
-<th>Nama kelompok</th>
-<td><input name="nama" type="text" class="inputbox" size="80" value="<?php echo $kelompok['nama']?>"/></td>
-</tr>
-<tr>
-<th width="100">Master Kelompok</th>
-<td>
-                <select name="id_master" onchange="formAction('mainform','<?php echo site_url('kelompok/filter')?>')" class="required">	
-                    <option value="">-- Mater Kelompok --</option>				
-					<?php  foreach($list_master AS $data){?>
-					<option value="<?php echo $data['id']?>" <?php if($kelompok['id_master'] == $data['id']) :?>selected<?php endif?>><?php echo $data['kelompok']?></option>
-					<?php  }?>
-                </select>
-</td>
-</tr>
-<tr>
-			<tr>
-                <th>Nama/NIK Pimpinan</th>
-                <td>
-                    <div id="id_ketua" name="id_ketua"></div>
-                </td>
-            </tr>
-<th width="120" colspan="2">Deskripsi kelompok</th>
-</tr>
-<tr>
-<td colspan="2">
-<textarea  name="keterangan" style="width: 800px; height: 500px;">
-<?php echo $kelompok['keterangan']?>
-</textarea>
-</td>
-</tr> 
-</table>
-</div>
-   
-<div class="ui-layout-south panel bottom">
-<div class="left"> 
-<a href="<?php echo site_url()?>kelompok" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-<button class="uibutton" type="reset">Clear</button>
-<button class="uibutton confirm" type="submit" >Simpan</button>
-</div>
-</div>
-</div> </form>
-</div>
-</td></tr></table>
+	<table class="inner">
+		<tr style="vertical-align:top">
+			<td style="background:#fff;padding:0px;"> 
+				<div class="content-header"></div>
+				<div id="contentpane">
+					<div class="ui-layout-north panel"><h3>Form Master kelompok</h3></div>
+					<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
+						<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
+							<table class="form">
+								<tr>
+									<th>Nama kelompok</th>
+									<td><input name="nama" type="text" class="inputbox" size="80" value="<?php echo $kelompok['nama']?>"/></td>
+								</tr>
+								<tr>
+									<th width="100">Master Kelompok</th>
+									<td>
+										<select name="id_master" onchange="formAction('mainform','<?php echo site_url('kelompok/filter')?>')" class="required">	
+											<option value="">-- Mater Kelompok --</option>
+											<?php  foreach($list_master AS $data){?>
+												<option value="<?php echo $data['id']?>" <?php if($kelompok['id_master'] == $data['id']) :?>selected<?php endif?>><?php echo $data['kelompok']?></option>
+											<?php  }?>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>Nama/NIK Pimpinan</th>
+									<td>
+										<div id="id_ketua" name="id_ketua"></div>
+									</td>
+								</tr>
+								<th colspan="2">Deskripsi kelompok</th>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<textarea  name="keterangan" style="width: 800px; height: 500px;">
+											<?php echo $kelompok['keterangan']?>
+										</textarea>
+									</td>
+								</tr> 
+							</table>
+						</div>
+						<div class="ui-layout-south panel bottom">
+							<div class="left"> 
+								<a href="<?php echo site_url()?>kelompok" class="uibutton icon prev">Kembali</a>
+							</div>
+							<div class="right">
+								<div class="uibutton-group">
+									<button class="uibutton" type="reset">Clear</button>
+									<button class="uibutton confirm" type="submit" >Simpan</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</td>
+		</tr>
+	</table>
 </div>

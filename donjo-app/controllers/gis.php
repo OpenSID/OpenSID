@@ -119,7 +119,7 @@ function index(){
 			$data['layer_line']=$_SESSION['layer_line'];
 		else $data['layer_line']=0;
 		
-		$data['layer_point']=$_SESSION['layer_point'];
+		$data['layer_point']=@$_SESSION['layer_point'];
 		
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
@@ -129,7 +129,7 @@ function index(){
 		$data['lokasi']  = $this->plan_lokasi_model->list_data();
 		$data['garis']  = $this->plan_garis_model->list_data();
 		$data['area']  = $this->plan_area_model->list_data();
-		$data['penduduk'] = $this->penduduk_model->list_data();
+		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$header = $this->header_model->get_data();
 		//$header ['desa']= $this->header_model->get_data();

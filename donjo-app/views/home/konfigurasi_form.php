@@ -3,7 +3,7 @@
 	<tr style="vertical-align:top">
 <td style="background:#fff;padding:0px;"> 
 <div class="content-header">
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false"></script>
     
 </div>
 <div id="contentpane">
@@ -49,9 +49,9 @@
                 <td>
 				<div class="userbox-avatar">
 				<?php if($main['logo']){?>
-					<img src="<?php echo base_url()?>assets/images/logo/<?php echo $main['logo']?>" alt=""/>
+					<img src="<?php echo base_url()?>assets/files/logo/<?php echo $main['logo']?>" alt=""/>
 				<?php }else{?>
-					<img src="<?php echo base_url()?>assets/images/logo/home.png" alt=""/>
+					<img src="<?php echo base_url()?>assets/files/logo/home.png" alt=""/>
 				<?php }?>
 				</div>
 				</td>

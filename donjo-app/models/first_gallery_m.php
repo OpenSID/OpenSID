@@ -53,10 +53,10 @@ class First_Gallery_M extends CI_Model{
 	function sub_gallery_show($gal=0,$offset=0,$limit=50){
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
-		$sql   = "SELECT * FROM gambar_gallery WHERE enabled='1' AND parrent=?";
+		$sql   = "SELECT * FROM gambar_gallery WHERE ((enabled='1') AND ((parrent='".$gal."') OR (id='".$gal."'))) ";
 		$sql .= $paging_sql;
 		
-		$query = $this->db->query($sql,$gal);
+		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		return $data;
 	}
@@ -70,7 +70,7 @@ class First_Gallery_M extends CI_Model{
 	
 	function gallery_widget(){
 		
-		$sql   = "SELECT * FROM gambar_gallery WHERE enabled='1' ORDER BY RAND() LIMIT 6";
+		$sql   = "SELECT * FROM gambar_gallery WHERE enabled='1' ORDER BY RAND() LIMIT 4";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		return $data;

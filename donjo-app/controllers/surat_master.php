@@ -22,14 +22,7 @@ class surat_master extends CI_Controller{
 		redirect('surat_master');
 	}
 	
-	function leave(){
-		$id=$_SESSION['surat'];
-		unset($_SESSION['surat']);
-		redirect("surat/menu/$id");
-	}
-	
 	function index($p=1,$o=0){
-		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
 		
@@ -37,18 +30,6 @@ class surat_master extends CI_Controller{
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 		
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-	
-		if(isset($_SESSION['tipe']))
-			$data['tipe'] = $_SESSION['tipe'];
-		else $data['tipe'] = '';
-	
-		if(isset($_SESSION['kategori']))
-			$data['kategori'] = $_SESSION['kategori'];
-		else $data['kategori'] = '';
-	
 		if(isset($_POST['per_page'])) 
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
@@ -89,8 +70,12 @@ class surat_master extends CI_Controller{
 		$this->load->view('footer');
 	}
 	
-	function atribut($id=''){
+	function form_upload($p=1,$o=0,$url=''){
+		$data['form_action'] = site_url("surat_master/upload/$p/$o/$url");
+		$this->load->view('surat_master/ajax-upload',$data);
+	}
 	
+	function atribut($id=''){
 
 		$data['surat_master']        = $this->surat_master_model->get_surat_format($id);
 		$data['surat'] = $this->surat_master_model->get_surat_format();
@@ -178,6 +163,11 @@ class surat_master extends CI_Controller{
 	
 	function update($p=1,$o=0,$id=''){
 		$this->surat_master_model->update($id);
+		redirect("surat_master/index/$p/$o");
+	}
+	
+	function upload($p=1,$o=0,$url=''){
+		$this->surat_master_model->upload($url);
 		redirect("surat_master/index/$p/$o");
 	}
 	

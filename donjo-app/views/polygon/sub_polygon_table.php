@@ -53,7 +53,6 @@
 <th align="center">Nama</th>
 <th align="center">Enabled</th>
 <th width="100">Warna</th>
-<th>Simbol</th>
 <th></th>
 </tr>
 </thead>
@@ -70,7 +69,6 @@
 <td width="150"><?php echo $data['nama']?></td>
 <td width="50"><?php echo $data['aktif']?></td>
 <td ><div style="background-color:#<?php echo $data['color']?>">&nbsp;<div></td>
-<td align="center" width="50"><img src="<?php echo base_url("assets/images/gis/polygon")?>/<?php echo $data['simbol']?>"></td>
 <td></td>
 <?php }?>
 </tbody>

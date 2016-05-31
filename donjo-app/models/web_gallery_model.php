@@ -105,6 +105,11 @@
 				UploadGallery($nama_file);
 				$data = $_POST;
 				$data['gambar'] = $nama_file;
+				
+				if($_SESSION['grup'] == 4){
+					$data['enabled'] = 2;
+				}
+		
 				$outp = $this->db->insert('gambar_gallery',$data);
 				if($outp) $_SESSION['success']=1;
 			} else {
@@ -240,6 +245,11 @@
 				$data['gambar'] = $nama_file;
 				$data['parrent'] = $parrent;
 				$data['tipe'] = 2;
+				
+				if($_SESSION['grup'] == 4){
+					$data['enabled'] = 2;
+				}
+				
 				$outp = $this->db->insert('gambar_gallery',$data);
 				if($outp) $_SESSION['success']=1;
 			} else {

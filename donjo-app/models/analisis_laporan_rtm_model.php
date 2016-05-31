@@ -70,14 +70,14 @@
 			case 4: $order_sql = ' ORDER BY u.id DESC'; break;
 			case 5: $order_sql = ' ORDER BY cek'; break;
 			case 6: $order_sql = ' ORDER BY cek DESC'; break;
-			default:$order_sql = ' ORDER BY u.id';
+			default:$order_sql = '';
 		}
 	
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
 		//Main Query
-		$sql   = "SELECT u.*,p.nama,(SELECT SUM(i.bobot * nilai) FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = u.id AND i.act_analisis=1 AND r.id_periode=?)/$pembagi as cek FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id WHERE 1 ";
+		$sql   = "SELECT u.*,p.nama,(SELECT SUM(i.bobot * nilai) FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = u.id AND i.act_analisis=1 AND r.id_periode=?)/$pembagi as cek FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.id = p.id_rtm WHERE p.rtm_level = 1 ";
 			
 		$sql .= $this->search_sql();
 		$sql .= $order_sql;

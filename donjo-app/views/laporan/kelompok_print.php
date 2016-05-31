@@ -61,7 +61,13 @@
 	<table class="border thick">
 	
 <thead>
+<?php if($_SESSION['dusun']!=''){?>
+<tr>
+	<h3>DATA PILAH DUSUN <?php echo $_SESSION['dusun'] ?></h3>
+</tr>
+<?php } ?>
 <tr class="border thick">
+	<th rowspan="2"><div align="center">DUSUN</div></th>
 	<th rowspan="2"><div align="center">RW</div></th>
 	<th rowspan="2"><div align="center">RT</div></th>
 	<th colspan="2"><div align="center">KK</div></th>
@@ -73,12 +79,12 @@
 <tr>
 	<th><div align="center">L</div></th>
 	<th><div align="center">P</div></th>
-	<th><div align="center">Bayi(<1thn)</div></th>
-	<th><div align="center">Balita(1-5thn)</div></th>
-	<th><div align="center">SD(6-12thn)</div></th>
-	<th><div align="center">SMP(13-15thn)</div></th>
-	<th><div align="center">SMA(16-18thn)</div></th>
-	<th><div align="center">Lansia(>60thn)</div></th>
+	<th><div align="center">Dibawah 1 Tahun</div></th>
+	<th><div align="center">1-5 Tahun</div></th>
+	<th><div align="center">6-12 Tahun</div></th>
+	<th><div align="center">13-15 Tahun</div></th>
+	<th><div align="center">16-18 Tahun</div></th>
+	<th><div align="center">Diatas 60 Tahun</div></th>
 	<th><div align="center">L</div></th>
 	<th><div align="center">P</div></th>
 </tr>
@@ -97,6 +103,7 @@
 	$hamil=0;
 ?>
 <?php foreach($main as $data){?>
+<td align="right"><?php echo $data['dusunnya']?></td>
 <td align="right"><?php echo $data['rw']?></td>
 <td align="right"><?php echo $data['rt']?></td>
 <td align="right"><?php echo $data['L']?></td>
@@ -129,7 +136,7 @@
   
 <thead>
 	<tr>
-		<th colspan="4" align="center"><div align="center">Total</div></th>
+		<th colspan="5" align="center"><div align="center">Total</div></th>
 		<th><div align="right"><?php  echo $bayi;?></div></th>
 		<th><div align="right"><?php  echo $balita;?></div></th>
 		<th><div align="right"><?php  echo $sd;?></div></th>

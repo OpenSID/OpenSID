@@ -28,7 +28,7 @@ class Web_Menu_Model extends CI_Model{
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (nama LIKE '$kw')";
-			return $search_sql;
+			//return $search_sql;
 			}
 		}
 	
@@ -195,7 +195,7 @@ class Web_Menu_Model extends CI_Model{
 		
 	function list_link(){
 	
-		$sql   = "SELECT a.* FROM artikel a INNER JOIN kategori k ON a.id_kategori=k.id WHERE tipe ='2'";
+		$sql   = "SELECT a.id,a.judul FROM artikel a WHERE a.id_kategori ='999'";
 			
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
@@ -275,7 +275,9 @@ class Web_Menu_Model extends CI_Model{
 		}else{
 			$data['link_tipe'] = 0;
 		}
-		UNSET($data['manual_link']);
+		if($data['link']==""){
+			UNSET($data['link']);
+		}
 		
 		$this->db->where('id',$id);
 		$outp = $this->db->update('menu',$data);
@@ -329,70 +331,7 @@ class Web_Menu_Model extends CI_Model{
 		return $data;
 
 	}
-	
-	function list_menu_atas(){
-	
-		//$sql   = "SELECT m.*,s.nama as sub_menu,s.link as s_link FROM menu m LEFT JOIN menu s ON m.id = s.parrent WHERE m.parrent = 1 AND m.enabled = 1 AND (s.enabled = 1 OR s.enabled IS NULL) AND m.tipe = 1";
-			
-		$sql   = "SELECT m.* FROM menu m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 1";
-		
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
-		$url = site_url("first");
-		$i=0;
-		while($i<count($data)){
-				$data[$i]['menu'] = "<li><a href='$url/".$data[$i]['link']."'>".$data[$i]['nama']."</a>";
-				
-				$sql2   = "SELECT s.* FROM menu s WHERE s.parrent = ? AND s.enabled = 1 AND s.tipe = 3";
-				$query = $this->db->query($sql2,$data[$i]['id']);
-				$data2=$query->result_array();
-				
-				if($data2){
-					$data[$i]['menu'] = $data[$i]['menu']."<ul>";
-					$j=0;
-					while($j<count($data2)){
-						$data[$i]['menu'] = $data[$i]['menu']."<li><a href='$url/".$data2[$j]['link']."'>".$data2[$j]['nama']."</a></li>";
-						$j++;
-					}
-					$data[$i]['menu'] = $data[$i]['menu']."</ul>";
-				}
-				$data[$i]['menu'] = $data[$i]['menu']."</li>";
-			$i++;
-		}
-		return $data;
-	}
-	
-	function list_menu_kiri(){
-	
-		//$sql   = "SELECT m.*,s.nama as sub_menu,s.link as s_link FROM menu m LEFT JOIN menu s ON m.id = s.parrent WHERE m.parrent = 1 AND m.enabled = 1 AND (s.enabled = 1 OR s.enabled IS NULL) AND m.tipe = 1";
-			
-		$sql   = "SELECT m.* FROM menu m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 2";
-		
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
-		$url = site_url("first");
-		$i=0;
-		while($i<count($data)){
-				$data[$i]['menu'] = "<li><a href='$url/".$data[$i]['link']."'>".$data[$i]['nama']."</a>";
-				
-				$sql2   = "SELECT s.* FROM menu s WHERE s.parrent = ? AND s.enabled = 1 AND s.tipe = 3";
-				$query = $this->db->query($sql2,$data[$i]['id']);
-				$data2=$query->result_array();
-				
-				if($data2){
-					$data[$i]['menu'] = $data[$i]['menu']."<ul>";
-					$j=0;
-					while($j<count($data2)){
-						$data[$i]['menu'] = $data[$i]['menu']."<li><a href='$url/".$data2[$j]['link']."'>".$data2[$j]['nama']."</a></li>";
-						$j++;
-					}
-					$data[$i]['menu'] = $data[$i]['menu']."</ul>";
-				}
-				$data[$i]['menu'] = $data[$i]['menu']."</li>";
-			$i++;
-		}
-		return $data;
-	}
+
 
 }
 ?>

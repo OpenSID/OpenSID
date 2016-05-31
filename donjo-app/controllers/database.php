@@ -36,10 +36,24 @@ class Database extends CI_Controller{
 	
 		$nav['act']= 2;
 		$data['form_action'] = site_url("database/import_dasar");
+		$data['form_action2'] = site_url("database/import_siak");
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('import/imp',$data);
+		$this->load->view('footer');
+	}
+	
+	function import_ppls(){
+	
+		$nav['act']= 4;
+		$data['form_action3'] = site_url("database/ppls_individu");
+		$data['form_action2'] = site_url("database/ppls_rumahtangga");
+		$data['form_action'] = site_url("database/ppls_kuisioner");
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('import/ppls',$data);
 		$this->load->view('footer');
 	}
 	
@@ -100,6 +114,30 @@ class Database extends CI_Controller{
 		$this->import_model->import_excel();
 		redirect('database/import/1');
 		//import_das();
+	}
+
+	function ppls_kuisioner(){
+		$this->import_model->ppls_kuisioner();
+		redirect('database/import_ppls/1');
+		//import_das();
+	}
+
+	function ppls_individu(){
+		$this->import_model->ppls_individu();
+		redirect('database/import_ppls');
+		//import_das();
+	}
+
+	function ppls_rumahtangga(){
+		$this->import_model->ppls_rumahtangga();
+		redirect('database/import_ppls/1');
+		//import_das();
+	}
+
+	function import_siak(){
+		$data["siak"] = $this->import_model->import_siak();
+		$_SESSION["SIAK"] = $data["siak"];
+		redirect('database/import/3');
 	}
 	
 	function import_akp(){

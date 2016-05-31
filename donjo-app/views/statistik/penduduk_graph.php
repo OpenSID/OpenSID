@@ -52,9 +52,9 @@
 			</div>
 		</td>
 <td style="background:#fff;padding:0px;"> 
-<script src="<?php echo base_url()?>assets/highchart/highcharts.js"></script>
-<script src="<?php echo base_url()?>assets/highchart/highcharts-more.js"></script>
-<script src="<?php echo base_url()?>assets/highchart/exporting.js"></script>
+<script src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
+<script src="<?php echo base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+<script src="<?php echo base_url()?>assets/js/highcharts/exporting.js"></script>
 <script type="text/javascript">
 			var chart;
 			$(document).ready(function() {

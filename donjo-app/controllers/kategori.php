@@ -43,7 +43,7 @@ class kategori extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=1;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('kategori/table',$data);
 		$this->load->view('footer');
@@ -64,7 +64,7 @@ class kategori extends CI_Controller{
 		$header = $this->header_model->get_data();
 		
 		$nav['act']=1;
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('kategori/form',$data);
 		$this->load->view('footer');
@@ -78,7 +78,7 @@ class kategori extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=1;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('kategori/sub_kategori_table',$data);
 		$this->load->view('footer');

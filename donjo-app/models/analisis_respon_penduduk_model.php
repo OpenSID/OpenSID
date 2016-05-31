@@ -75,7 +75,7 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
 		//Main Query
-		$sql   = "SELECT u.id,u.nama,u.nik,(SELECT count(id) FROM analisis_respon WHERE id_subjek = u.id AND id_periode = ?) as cek FROM tweb_penduduk u WHERE 1 ";
+		$sql   = "SELECT u.id,u.nama,u.nik,(SELECT id FROM analisis_respon WHERE id_subjek = u.id AND id_periode = ? LIMIT 1) as cek FROM tweb_penduduk u WHERE 1 ";
 			
 		$sql .= $this->search_sql();
 		$sql .= $order_sql;

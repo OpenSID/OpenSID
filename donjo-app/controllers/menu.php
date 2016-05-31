@@ -43,7 +43,7 @@ class menu extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=1;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('menu/table',$data);
 		$this->load->view('footer');
@@ -69,7 +69,7 @@ class menu extends CI_Controller{
 		$data['tip'] = $tip; 
 		
 		$nav['act']=1;
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('menu/form',$data);
 		$this->load->view('footer');
@@ -83,7 +83,7 @@ class menu extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=1;
 		
-		$this->load->view('header', $header);
+		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('menu/sub_menu_table',$data);
 		$this->load->view('footer');

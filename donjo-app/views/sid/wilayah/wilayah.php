@@ -39,7 +39,7 @@
             <tr>
                 <th width="5">No</th>
                 <th width="5"><input type="checkbox" class="checkall"/></th>
-                <th width="100">Aksi</th>
+                <th width="120">Aksi</th>
 				<th width="200">Nama Dusun</th>
 				<th width="200">Nama Kepala Dusun</th>
 				<th width="50">RW</th>
@@ -52,7 +52,17 @@
 			</tr>
 		</thead>
 		<tbody>
-        <?php  foreach($main as $data): ?>
+        <?php 
+        $total = array();
+        
+        $total['total_rw'] = 0;
+        $total['total_rt'] = 0;
+        $total['total_kk'] = 0;
+        $total['total_warga'] = 0;
+        $total['total_warga_l'] = 0;
+        $total['total_warga_p'] = 0;
+        
+        foreach($main as $data): ?>
 		<tr>
           <td align="center" width="2"><?php echo $data['no']?></td>
 			<td align="center" width="5">
@@ -78,7 +88,16 @@
 			<td align="right"><a href="<?php echo site_url("sid_core/warga_p/$data[id]")?>"><?php echo $data['jumlah_warga_p']?></a></td>
 				<td></td>
 		</tr>
-        <?php  endforeach; ?>
+        <?php  
+        $total['total_rw'] += $data['jumlah_rw'];
+        $total['total_rt'] += $data['jumlah_rt'];
+        $total['total_kk'] += $data['jumlah_kk'];
+        $total['total_warga'] += $data['jumlah_warga'];
+        $total['total_warga_l'] += $data['jumlah_warga_l'];
+        $total['total_warga_p'] += $data['jumlah_warga_p'];
+        
+        
+        endforeach; ?>
 		</tbody>
 		
             <tr style="background-color:#BDD498;font-weight:bold;">

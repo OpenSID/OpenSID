@@ -10,6 +10,16 @@ $(function dialogClick(){
     dialog(id,title,message,url,width,height);
     return false;
   });
+  $('a[target=confirm2],button[target=confirm2]').click(function(){
+    var id = $(this).attr('target');
+    var title = $(this).attr('title') || $(this).attr('header');
+    var message = $(this).attr('message');
+    var url = $(this).attr('href');
+    var width = $(this).attr('modalWidth');
+    var height = $(this).attr('modalHeight');
+    dialog2(id,title,message,url,width,height);
+    return false;
+  });
   $('a[target=modal],button[target=modal]').click(function(){
     var id = $(this).attr('target');
     var title = $(this).attr('title');
@@ -35,6 +45,16 @@ $(function dialogClick(){
     var width = $(this).attr('modalWidth');
     var height = 400;
     ajaxModalx(id,title,url,width,height);
+    return false;
+  });
+  $('a[target=ajax-modalc],button[target=ajax-modalc]').click(function(){
+    var id = $(this).attr('rel');
+    var title = $(this).attr('header');
+    var url = $(this).attr('href');
+    var width = $(this).attr('modalWidth');
+    var height = 600;
+    var width = 420;
+    ajaxModal(id,title,url,width,height);
     return false;
   });
   $('a[target=ajax-modal-map],button[target=ajax-modalx]').click(function(){
@@ -79,6 +99,31 @@ function dialog(id,title,message,url,width,height){
 					$( this ).dialog( "close" );
 			}
       },
+      dragStart: function(event, ui) { 
+        $(this).parent().addClass('drag');
+      },
+      dragStop: function(event, ui) { 
+        $(this).parent().removeClass('drag');
+      }
+
+	});
+  $('#'+id+'').dialog('open');
+  }
+
+function dialog2(id,title,message,url,width,height){
+  if (width==null || height==null){
+    width='400';
+    height='auto';
+  }
+  $('#'+id+'').remove();
+  $('body').append('<div id="'+id+'" title="'+title+'" style="display:none;">'+message+'</div>');
+		$('#'+id+'').dialog({
+			resizable: false,
+			draggable: true,
+            width:width,
+            height:height,
+            autoOpen: false,
+            modal: true,	
       dragStart: function(event, ui) { 
         $(this).parent().addClass('drag');
       },

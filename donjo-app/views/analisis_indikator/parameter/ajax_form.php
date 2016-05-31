@@ -3,6 +3,10 @@
 <form action="<?php echo $form_action?>" method="post" id="validasi">
 <table class="form">
 <tr>
+<th>Kode</th>
+<td><input name="kode_jawaban" type="text" class="inputbox" size="5" value="<?php echo $analisis_parameter['kode_jawaban']?>"/></td>
+</tr>
+<tr>
 <th>Jawaban</th>
 <td><textarea name="jawaban" class="required" style="resize:none;width:300px;height:30px;"><?php echo $analisis_parameter['jawaban']?></textarea></td>
 </tr>

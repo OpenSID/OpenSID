@@ -20,7 +20,8 @@
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url('analisis_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Analisis Baru</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
+                <a href="<?php echo site_url('analisis_master/import_analisis')?>" class="uibutton special tipsy south" title="Import" ><span class="icon-plus icon-large">&nbsp;</span>Import Analisis</a>
             </div>
         </div>
     </div>
@@ -50,7 +51,7 @@
             <tr>
                 <th width="10">No</th>
                 <th><input type="checkbox" class="checkall"/></th>
-                <th width="130">Aksi</th>
+                <th width="150">Aksi</th>
 				
 	 		<?php  if($o==4): ?>
 				<th align="left"><a href="<?php echo site_url("analisis_master/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>

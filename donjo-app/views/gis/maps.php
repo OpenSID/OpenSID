@@ -71,19 +71,19 @@
 			  title:"<?php echo $area['nama']?>"
 			});
 
-			google.maps.event.addListener(area_<?php echo $area['id']?>, 'click', showArrays<?php echo $area['id']?>);
+			google.maps.event.addListener(area_<?php echo $area['id']?>, 'click', showArrays_area_<?php echo $area['id']?>);
 			if(!infoWindow){
 				infoWindow = new google.maps.InfoWindow();
 			}
 
-			function showArrays<?php echo $area['id']?>(event) {
+			function showArrays_area_<?php echo $area['id']?>(event) {
 				var vertices = this.getPath();
 				var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
         '<h1 id="firstHeading" class="firstHeading"><?php echo $area['nama']?></h1>'+
         '<div id="bodyContent">'+
-        '<img src="<?php echo base_url()?>assets/images/gis/area/sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
+        '<img src="<?php echo base_url()?>assets/files/gis/area/sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
         '<p><?php echo $area['desk']?></p>'+
         '</div>'+
         '</div>';
@@ -114,19 +114,19 @@
 			  strokeWeight: 5
 			});
 
-			google.maps.event.addListener(garis_<?php echo $garis['id']?>, 'click', showArrays<?php echo $garis['id']?>);
+			google.maps.event.addListener(garis_<?php echo $garis['id']?>, 'click', showArrays_line_<?php echo $garis['id']?>);
 			if(!infoWindow){
 				infoWindow = new google.maps.InfoWindow();
 			}
 
-			function showArrays<?php echo $garis['id']?>(event) {
+			function showArrays_line_<?php echo $garis['id']?>(event) {
 				var vertices = this.getPath();
 				var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
         '<h1 id="firstHeading" class="firstHeading"><?php echo $garis['nama']?></h1>'+
         '<div id="bodyContent">'+
-        '<img src="<?php echo base_url()?>assets/images/gis/garis/sedang_<?php echo $garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
+        '<img src="<?php echo base_url()?>assets/files/gis/garis/sedang_<?php echo $garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
         '<p><?php echo $garis['desk']?></p>'+
         '</div>'+
         '</div>';
@@ -173,7 +173,7 @@
 			
 			var content = '<table border=0 style="width:400px"><tr>' +
 		<?php if($data['foto']!=""){?>
-			'<td><img src="<?php echo base_url()?>assets/images/gis/lokasi/sedang_<?php echo $data['foto']?>" class="foto"/></td>' + 
+			'<td><img src="<?php echo base_url()?>assets/files/gis/lokasi/sedang_<?php echo $data['foto']?>" class="foto"/></td>' + 
 		<?php }?>
 			'<td style="padding-left:3px"><font size="2.5" style="font-weight:bold;"><?php echo $data['nama']?></font>' +
 			'<p><?php echo $data['desk']?></p>'+
@@ -200,12 +200,17 @@
 			if(!infoWindow){
 				infoWindow = new google.maps.InfoWindow();
 			}
-			var content = '<table border=0><tr>' +
-				'<td><img src="<?php echo base_url()?>assets/images/photo/kecil_<?php echo $data['foto']?>" class="foto_pend"/></td>' + 
+			<?php if($data['foto']!=''){ ?>
+				var poto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $data['foto']?>" class="foto_pend"/></td>';
+			<?php } else { ?>
+				var poto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
+			<?php } ?>
+			
+			var content = '<table border=0><tr>' + poto + 
 				'<td style="padding-left:2px"><font size="2.5" style="bold"><?php echo $data['nama']?></font> - <?php echo ucwords(strtolower($data['sex']))?>' +
 				'<p><?php echo $data['umur']?> Tahun (<?php echo $data['agama']?>)</p>'+
 				'<p><?php echo $data['alamat']?></p>'+
-				'<p><a href="<?php echo site_url("sid_penduduk/detail/1/0/$data[id]")?>" target="ajax-modalx" rel="content" header="Detail Data <?php echo $data['nama']?>" >Data Detail</a></p></td>'+
+				'<p><a href="<?php echo site_url("penduduk/detail/1/0/$data[id]")?>" target="ajax-modalx" rel="content" header="Detail Data <?php echo $data['nama']?>" >Data Detail</a></p></td>'+
 				'</tr></table>';
 			infoWindow.setContent(content);
 			infoWindow.open(map, marker_<?php echo $data['id']?>);

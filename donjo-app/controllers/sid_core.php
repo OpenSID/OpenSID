@@ -42,7 +42,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah',$data);
 		$this->load->view('footer');
@@ -88,7 +88,7 @@ function __construct(){
 		
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form',$data);
 		$this->load->view('footer');
@@ -134,7 +134,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_rw',$data);
 		$this->load->view('footer');
@@ -193,7 +193,7 @@ function __construct(){
 		
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form_rw',$data);
 		$this->load->view('footer');
@@ -232,7 +232,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_rt',$data);
 		$this->load->view('footer');
@@ -274,7 +274,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/list_dusun_rt',$data);
 		$this->load->view('footer');
@@ -311,7 +311,7 @@ function __construct(){
 		
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form_rt',$data);
 		$this->load->view('footer');
@@ -455,7 +455,7 @@ function __construct(){
 	function pre_migrate(){
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/mig');
 		$this->load->view('footer');

@@ -16,12 +16,6 @@
 		<input class="color inputbox" size="7" value="<?php echo $polygon['color']?>" name="color">
 	</td>
 </tr>
-<tr>
-	<th>Simbol</th>
-	<td>
-		<input class="inputbox" type="file" name="simbol" value="<?php echo $polygon['simbol']?>" size="20"/>
-	</td>
-</tr>
 </table>
 </div>
    

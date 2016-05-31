@@ -6,6 +6,7 @@ class analisis_master extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('analisis_master_model');
+		$this->load->model('analisis_import_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
@@ -82,8 +83,19 @@ class analisis_master extends CI_Controller{
 		$header = $this->header_model->get_data();
 		
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav2');
+		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_master/panduan');
+		$this->load->view('footer');
+	}
+	
+	function import_analisis(){
+	
+		$header = $this->header_model->get_data();
+		
+		$data['form_action'] = site_url("analisis_master/import");
+		$this->load->view('header', $header);
+		$this->load->view('analisis_master/nav');
+		$this->load->view('analisis_master/import', $data);
 		$this->load->view('footer');
 	}
 	
@@ -136,6 +148,11 @@ class analisis_master extends CI_Controller{
 	function insert(){
 		$this->analisis_master_model->insert();
 		redirect('analisis_master');
+	}
+	
+	function import(){
+		$this->analisis_import_model->import_excel();
+		//redirect('analisis_master/import_analisis');
 	}
 	
 	function update($p=1,$o=0,$id=''){

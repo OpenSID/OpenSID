@@ -9,6 +9,7 @@ class SMS extends CI_Controller{
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
+		$this->load->model('penduduk_model');
 	}
 	
 	function clear(){
@@ -260,7 +261,7 @@ class SMS extends CI_Controller{
 			$data['tipe']['tipe']=$tipe;
 			$data['grup'] = $this->sms_model->list_grup();
 			$data['kontak'] = $this->sms_model->list_kontak();
-			$this->load->view('sms/sms/ajax_sms_form',$data);
+			$this->load->view('sms/ajax_sms_form',$data);
 		}
 		else{
 			$data['sms']        = null;
@@ -268,7 +269,7 @@ class SMS extends CI_Controller{
 			$data['tipe']['tipe']=$tipe;
 			$data['grup'] = $this->sms_model->list_grup();
 			$data['kontak'] = $this->sms_model->list_kontak();
-			$this->load->view('sms/sms/ajax_sms_form_kirim',$data);
+			$this->load->view('sms/ajax_sms_form_kirim',$data);
 		}
 
 	}
@@ -379,7 +380,7 @@ class SMS extends CI_Controller{
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['grup'] = $this->sms_model->list_grup_kontak();
 		$data['form_action'] = site_url("sms/broadcast_proses");
-		$this->load->view('sms/sms/ajax_broadcast_form',$data);
+		$this->load->view('sms/ajax_broadcast_form',$data);
 	}
 	
 	function ajax_penduduk_rw($dusun=''){
@@ -525,10 +526,10 @@ class SMS extends CI_Controller{
 		$data['form_action'] = site_url("sms/kontak_insert");
 		$data['kontak']        = $this->sms_model->get_kontak($id);
 		if($id==0){
-			$this->load->view('sms/sms/ajax_kontak_form',$data);
+			$this->load->view('sms/ajax_kontak_form',$data);
 		}
 		else{
-			$this->load->view('sms/sms/ajax_kontak_form_edit',$data);
+			$this->load->view('sms/ajax_kontak_form_edit',$data);
 		}
 	}
 
@@ -583,7 +584,7 @@ class SMS extends CI_Controller{
 			$data['form_action'] = site_url("sms/grup_update");
 			$data['grup']        = $this->sms_model->get_grup($id);
 		}
-		$this->load->view('sms/sms/ajax_grup_form',$data);
+		$this->load->view('sms/ajax_grup_form',$data);
 	}
 
 	function grup_insert(){
@@ -636,7 +637,7 @@ class SMS extends CI_Controller{
 	function form_anggota($id=0){		
 		$data['form_action'] = site_url("sms/anggota_insert/$id");
 		$data['main']    = $this->sms_model->list_data_nama($id);
-		$this->load->view('sms/sms/ajax_anggota_form',$data);
+		$this->load->view('sms/ajax_anggota_form',$data);
 	}
 
 	function anggota_insert($id=0){

@@ -72,8 +72,8 @@ return false; //Prevent browser jump to link anchor
 <div class="slider-content-img">
 <a href="<?php echo site_url("first/artikel/$data[id]")?>">
 <?php  if($data['gambar']!=''){?>
-		<?php  if(is_file("assets/front/artikel/kecil_".$data['gambar'])) {?>
-			<img src="<?php echo base_url()?>/assets/front/artikel/kecil_<?php echo $data['gambar']?>" width="120" height="90">
+		<?php  if(is_file("assets/files/artikel/kecil_".$data['gambar'])) {?>
+			<img src="<?php echo base_url()?>/assets/files/artikel/kecil_<?php echo $data['gambar']?>" width="120" height="90">
 		
 <?php  }?>
 </a>

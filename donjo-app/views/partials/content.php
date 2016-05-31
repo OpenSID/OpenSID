@@ -1,47 +1,138 @@
+<?php
+if($headline){
+	echo "
+	<div class=\"box box-danger\">
+		<div class=\"box-header with-border\">
+			<h3 class=\"box-title\"><a href=\"". site_url("first/artikel/$headline[id]")."\">". $headline['judul'] ."</a></h3>
+			<div class=\"pull-right small\">". $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])."</div>
+		</div>
+		<div class=\"box-body\">";
+		if($headline["gambar"]!=""){
+			if(is_file("assets/files/artikel/sedang_".$headline['gambar'])){
+				echo "
+				<a class=\"group2\" href=\"". base_url()."assets/files/artikel/sedang_".$headline['gambar']."\" title=\"\">
+				<img width=\"600\" src=\"". base_url()."assets/files/artikel/sedang_". $headline['gambar']."\" /></a>";
+			}else{
+				echo "
+				<img style=\"margin-right: 10px; margin-bottom: 5px; float: left;\" src=\"". base_url() ."assets/images/404-image-not-found.jpg\" width=\"300\" height=\"180\"/>";
+			}
+		}
+		echo $headline['isi'];
+		
+		echo "
+		</div>
+	</div>";
 
+}
 
-<?php if($headline){?>
-<div class="themes nobig2">
-<div class='title'>
-<h2><a href="<?php echo site_url("first/artikel/$headline[id]")?>"><?php echo $headline['judul']?></a></h2>
-<label class="owner"><?php echo $headline['owner']?>, </label><label><?php echo tgl_indo2($headline['tgl_upload'])?></label>
-</div>
-<div class='entry'>
-<p>
-<?php  if($headline['gambar']!=''){?>
-		<?php  if(is_file("assets/front/artikel/sedang_".$headline['gambar'])) {?>
-			<a class="group2" href="<?php echo base_url()?>assets/front/artikel/sedang_<?php echo $headline['gambar']?>" title="">
-<img width="200" class="head" src="<?php echo base_url()?>assets/front/artikel/sedang_<?php echo $headline['gambar']?>" /></a>
-			<?php  }else{?>
-			<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?php echo base_url()?>assets/images/404-image-not-found.jpg" width="300" height="180"/>
-		<?php  }?>
+/*
+ * List Konten
+ * */
+$title = (!empty($judul_kategori))? $judul_kategori: "Artikel Terkini";
 
-<?php  }?><?php echo $headline['isi']?></p>
-</div>
-</div>
-<?php }?>
-<div class="new-artikel">
-<h1>Artikel Terkini</h1>
-</div>
-<?php foreach($artikel AS $data){?>
-<div class="themes nobig">
-<div class='title'>
-<h2><a href="<?php echo site_url("first/artikel/$data[id]")?>"><?php echo $data['judul']?></a></h2>
-<label class="owner"><?php echo $data['owner']?>, </label><label><?php echo tgl_indo2($data['tgl_upload'])?></label>
-</div>
+if(is_array($title)){
+	foreach($title as $item){
+		$title= $item;
+	}
+}
+echo "
+	<div class=\"box box-primary\" style=\"margin-left:.2	5em;\">
+		<div class=\"box-header with-border\">
+			<h3 class=\"box-title\">".$title."</h3>
+		</div>
+		<div class=\"box-body\">
+";
 
-<div class='entry'>
-<?php  if($data['gambar']!=''){?>
-	<?php  if(is_file("assets/front/artikel/kecil_".$data['gambar'])) {?>
-			<a class="group2" href="<?php echo base_url()?>assets/front/artikel/sedang_<?php echo $data['gambar']?>" title=""><img  style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?php echo base_url()?>assets/front/artikel/kecil_<?php echo $data['gambar']?>" /></a>
-			<?php  }else{?>
-			<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?php echo base_url()?>assets/images/404-image-not-found.jpg" width="120" height="90"/>
-		<?php  }?>
-<?php }?>
-<p style="text-align: justify;"><?php echo $data['isi']?></p>
-</div>
-</div>
-<?php }?>
+if($artikel){
+	echo "
+	<div>
+		<ul class=\"artikel-list artikel-list-in-box\">";
+			foreach($artikel as $data){
+				$teks = fixTag($data['isi']);
+				if(strlen($teks)>310){
+					$abstrak = substr($teks,0,strpos($teks," ",300));
+				}else{
+					$abstrak = $teks;
+				}
+				echo "
+				<li class=\"artikel\">
+					<h3 class=\"judul\"><a href=\"". site_url("first/artikel/$data[id]") ."\">". $data["judul"] ."</a></h3>
+					
+					<div class=\"teks\">
+						<div class=\"kecil\"><i class=\"fa fa-clock-o\"></i> ".tgl_indo2($data['tgl_upload'])." <i class=\"fa fa-user\"></i>  ".$data['owner']."</div>
+						<div class=\"img\">";
+							if($data['gambar']!=''){
+								if(is_file("assets/files/artikel/kecil_".$data['gambar'])) {
+									echo "<img src=\"".base_url()."assets/files/artikel/kecil_".$data['gambar']."\" alt=\"". $data["judul"] ."\"/>";
+								}else{
+									echo "<img src=\"".base_url()."assets/images/404-image-not-found.jpg\" alt=\"". $data["judul"] ."\" />";
+								}
+							}
+							echo "
+						</div>
+						".$abstrak." <a href=\"". site_url("first/artikel/".$data["id"]."") ."\">..selengkapnya</a>
+						
+					</div>
+					<br class=\"clearboth gb\"/>
+				</li>";
+			}
+			echo "
+		</ul>
+	</div>
+	";
+	/*
+	 * Pengaturan halaman
+	 * */
+	 
+}else{
+	echo "
+	<div class=\"artikel\" id=\"artikel-blank\">
+		<div class=\"box box-warning box-solid\">
+			<div class=\"box-header\"><h3 class=\"box-title\">Maaf, belum ada data</h3></div>
+			<div class=\"box-body\">
+				<p>Belum ada artikel yang dituliskan dalam ".$title.".</p>
+				<p>Silakan kunjungi situs web kami dalam waktu dekat.</p>
+			</div>
+		</div>
+	</div>
+	";
+}
+echo "
+		</div>";
+if($artikel){		
+	echo "
+	<div class=\"box-footer\">
+		<ul class=\"pagination pagination-sm no-margin\">";
+		if($paging->start_link){
+			echo "<li><a href=\"".site_url("first/index/$paging->start_link")."\" title=\"Halaman Pertama\"><i class=\"fa fa-fast-backward\"></i>&nbsp;</a></li>";
+		}
+		if($paging->prev){
+			echo "<li><a href=\"".site_url("first/index/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
+		}
+		
+		for($i=$paging->start_link;$i<=$paging->end_link;$i++){
+			$strC = ($p == $i)? "class=\"active\"":"";
+			echo "<li ".$strC."><a href=\"".site_url("first/index/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
+		}
+		
+		if($paging->next){
+			echo "<li><a href=\"".site_url("first/index/$paging->next")."\" title=\"Halaman Selanjutnya\"><i class=\"fa fa-forward\"></i>&nbsp;</a></li>";
+		}
+		if($paging->end_link){
+			echo "<li><a href=\"".site_url("first/index/$paging->end_link")."\" title=\"Halaman Terakhir\"><i class=\"fa fa-fast-forward\"></i>&nbsp;</a></li>";
+		}
+			echo "";
+		echo "
+		</ul>
+	</div>
+	";
+}
+		echo "
+	</div>
+";
+?>
+
+<!--
 <div class="themes nobig2">
 <div class="bleft">
             <label>Jumlah Total Artikel:</label>
@@ -72,3 +163,4 @@
             </div>
         </div>
 </div>
+-->

@@ -40,7 +40,7 @@
 					<dl>-> Tidak boleh menggunakan tanda ' (petik satu) dalam penggunaan nama, 
 					<br><dl>-> Format tanggal untuk terdeteksi dalam format date dalam database menggunakan tambahan ' (petik satu) di dalam excel. 
 					<br>Contoh :  '1988-09-15
-					<br><dl>-> Struktur RT RW, jika tidak ada dalam struktur wilayah desa diganti dengan tanda – (min/strip/dash)
+					<br><dl>-> Struktur RT RW, jika tidak ada dalam struktur wilayah desa diganti dengan tanda ï¿½ (min/strip/dash)
 					<br><dl>-> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah, Jamkesmas, raskin, klasifikasi sosial ekonomi) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2<br>
 					</dl>
 					</ol>

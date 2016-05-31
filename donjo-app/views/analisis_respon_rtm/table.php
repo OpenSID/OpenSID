@@ -21,6 +21,7 @@
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <div class="table-panel top">
             <div class="left">
+                <a href="<?php echo site_url('analisis_respon_rtm/import')?>" class="uibutton special tipsy south" target="ajax-modal" rel="window" header="Import Respon" title="Import" ><span class="icon-plus icon-large">&nbsp;</span>Import Responden</a>
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="40" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('analisis_respon_rtm/search')?>');$('#'+'mainform').submit();}" />
@@ -74,6 +75,7 @@
 	</form>
     <div class="ui-layout-south panel bottom">
         <div class="left"> 
+		<div class="table-info">
           <form id="paging" action="<?php echo site_url('analisis_respon_rtm')?>" method="post">
 <a href="<?php echo site_url()?>analisis_respon_rtm/leave" class="uibutton icon prev">Kembali</a>
 		  <label></label>
@@ -86,6 +88,7 @@
             <label><?php echo $paging->num_rows?></label>
             <label>Total Data</label>
           </form>
+        </div>
         </div>
         <div class="right">
             <div class="uibutton-group">

@@ -68,14 +68,14 @@
 			case 4: $order_sql = ' ORDER BY u.id DESC'; break;
 			case 5: $order_sql = ' ORDER BY g.id'; break;
 			case 6: $order_sql = ' ORDER BY g.id DESC'; break;
-			default:$order_sql = ' ORDER BY u.id';
+			default:$order_sql = '';
 		}
 	
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
 		//Main Query
-		$sql   = "SELECT u.*,p.nama,(SELECT count(id) FROM analisis_respon WHERE id_subjek = u.id AND id_periode=?) as cek FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.id = p.id_rtm WHERE p.rtm_level = 1 ";
+		$sql   = "SELECT u.*,p.nama,(SELECT id FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.id = p.id_rtm WHERE p.rtm_level = 1 ";
 			
 		$sql .= $this->search_sql();
 		$sql .= $order_sql;
@@ -233,6 +233,15 @@
 		return $data;
 	}
 	
+	function list_jawab4($id=0,$in=0){	
+		$per = $this->get_aktif_periode();
+		$sql   = "SELECT s.id as id_parameter,r.id_parameter as jawaban FROM analisis_respon r LEFT JOIN analisis_parameter s ON r.id_parameter = s.id WHERE r.id_indikator = ? AND r.id_subjek = ? AND r.id_periode=?";
+		$query = $this->db->query($sql,array($in,$id,$per));
+		$data = $query->row_array();
+		//Formating Output
+		return $data;
+	}
+	
 	function list_indikator($id=0){	
 		$sql   = "SELECT * FROM  analisis_indikator u WHERE 1 ";
 		$sql     .= $this->master_sql(); 
@@ -243,9 +252,9 @@
 		while($i<count($data)){
 			$data[$i]['no']=$i+1;
 			if($data[$i]['id_tipe']==1 OR $data[$i]['id_tipe']==2)
-			$data[$i]['parameter_respon'] = $this->list_jawab2($id,$data[$i]['id']);
+				$data[$i]['parameter_respon'] = $this->list_jawab2($id,$data[$i]['id']);
 			else
-			$data[$i]['parameter_respon'] = $this->list_jawab3($id,$data[$i]['id']);
+				$data[$i]['parameter_respon'] = $this->list_jawab4($id,$data[$i]['id']);
 			
 			$i++;
 		}

@@ -173,5 +173,3 @@ class analisis_master_model extends CI_Model{
 	}
 	
 }
-
-?>

@@ -101,8 +101,10 @@ input.angka{direction:rtl; font-size:20px}
 	text-shadow:1px 1px 1.1px #999;}
 #nav .alignright{float:right}
 #pageC{background:#fff; 
-    border-top:1px solid #e0dbc2;
+	border-top:1px solid #e0dbc2;
+	margin:auto 1em;
 	}
+.contentpane{padding:1em;color:#444;}
 
 div.tab{margin:auto; position:relative; float:inherit; background:#eee; padding:10px; color:#ccc; border:solid 1px #ccc}
 div.tabnav{border-bottom:1px solid #ccc}
@@ -172,6 +174,7 @@ div.lmenu ul li:hover,div.lmenu ul li ul li:hover{
 div.lmenu ul li.selected,div.lmenu ul li ul li.selected :link{
 	font-weight:bold;
 }
+div.lmenu ul li a{display:block;}
 
 div.scroll {overflow: auto;border: 1px solid #ccc;background-color: #fefefe;padding:1em;}
 
@@ -228,7 +231,7 @@ td.maincontent{
 		margin-top:1px
     }
 	
-        #sid-logo img{
-            width:46px;
-            height:46px;
-        }
+#sid-logo img{
+		width:46px;
+		height:46px;
+}
