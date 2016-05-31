@@ -4,9 +4,10 @@ backup/
 assets/sync/
 # Jangan simpan isi folder logo. Isinya khusus desa, kecuali
 # file logo contoh yg tersedia dalam release sid304 inti.
-assets/images/logo/*
-!assets/images/logo/gkk.png
+assets/files/logo/*
+!assets/files/logo/gkk.png
 desa/*
 !desa/views/surat/.keep
 donjo-app/views/surat/.keep
 donjo-app/views/surat/.orig.keep
+surat/arsip/
