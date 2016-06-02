@@ -31,3 +31,5 @@ Salah satu tujuan utama pengembangan sid304-jms adalah untuk memisahkan file SID
 
 ## Demo
 Demo aplikasi SID 3.04-JMS dapat dilihat di http://sid.bangundesa.info. Kami usahakan agar versi yang terlihat di demo itu sesuai dengan status release terakhir repository ini. Demo itu menampilkan aplikasi desa yang dikembangkan di cabang _desa_.
+
+Modul administrasi SID 3.04-JMS dapat diaskses pada http://sid.bangundesa.info/index.php/siteman. Masukkan Username = admin dan Password = sid304.
