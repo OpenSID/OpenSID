@@ -1,4 +1,7 @@
 <link type='text/css' href="<?php echo base_url()?>assets/front/css/default.css" rel='Stylesheet' />
+<?php if(is_file("desa/css/desa-default.css")): ?>
+  <link type='text/css' href="<?php echo base_url()?>desa/css/desa-default.css" rel='Stylesheet' />
+<?php endif; ?>
 
 <div id='cssmenu'>
 	<ul id="global-nav" class="top">
