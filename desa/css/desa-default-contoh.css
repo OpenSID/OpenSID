@@ -1,0 +1,10 @@
+/*
+ * Contoh perubahan css SID web yang diambil dari theme1.download di
+ * http://tambahrejo.web.id/first/artikel/201
+ * Oleh dan Augush Harry & Dwi Asih Wahyu Saptoto
+ *
+ */
+
+/* Subnavigation */
+#global-nav.top ul{background: #fc0202!important; opacity : 0.8; filter : apha(opacity=80);} /*warna background sub menu*/
+#global-nav.main ul{background: #fc0202!important; opacity : 0.8; filter : apha(opacity=80);}
