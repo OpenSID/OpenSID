@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>Website Desa <?php echo unpenetration($desa['nama_desa']);?></title>
@@ -6,6 +6,9 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
+		<?php if(is_file("desa/css/desa-web.css")): ?>
+			<link type='text/css' href="<?php echo base_url()?>desa/css/desa-web.css" rel='Stylesheet' />
+		<?php endif; ?>
 		<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
@@ -60,14 +63,14 @@
 						</div>
 						<br class="clearboth"/>
 					</div>
-					
+
 					<?php if(count($teks_berjalan)>0){
 						$this->load->view('layouts/teks_berjalan.php');
 					} ?>
-						
+
 					<div id="mainmenu">
 						<?php $this->load->view('partials/menu.left.php');?>
 					</div>
-					
+
 				</div>
 			</div>

@@ -6,17 +6,17 @@ class import_model extends CI_Model{
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
 	}
-	
+
 	function import_siak(){
-		
+
 		$_SESSION['success']=-1;
 		$vdir_upload = "surat/arsip/";
 		$vfile_upload_dk = $vdir_upload.$_FILES["file_dk"]["name"];
 		move_uploaded_file($_FILES["file_dk"]["tmp_name"], $vfile_upload_dk);
-		
+
 		$vfile_upload_bw = $vdir_upload.$_FILES["file_bw"]["name"];
 		move_uploaded_file($_FILES["file_bw"]["tmp_name"], $vfile_upload_bw);
-		
+
 		if(is_file($vfile_upload_dk)){
 			/*
 			 * Data Keluarga
@@ -31,19 +31,19 @@ class import_model extends CI_Model{
 				$this->db->query($strSQL);
 				$strSQL = "TRUNCATE tweb_wil_clusterdesa";
 				$this->db->query($strSQL);
-/**/				
+/**/
 				$kk = array();
 				$j=0;
 				$x="";
 				/*
 				 * Ekstrak data wilayah
-				 * 
+				 *
 				 * */
 				$dusun = 0;
 				$rw = 0;
 				$rt = 0;
 				$nKK = 0;
-				
+
 				$strSQLKK = "";
 				//echo "<ol>";
 				for ($i=0;$i<count($convert);$i++){
@@ -61,7 +61,7 @@ class import_model extends CI_Model{
 									$strDusun = str_replace("  "," ",trim($item[2]));
 								}
 							}
-							*/ 
+							*/
 							$strRT = trim($item[3]);
 							/*
 							 * Cek keberadaan dusun
@@ -78,7 +78,7 @@ class import_model extends CI_Model{
 								}
 							}
 							/*
-							 * Cek data RW - 
+							 * Cek data RW -
 							 * */
 							$strSQL = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun='".fixSQL($strDusun)."' AND rw='-' AND rt='0'";
 							$result = $this->db->query($strSQL);
@@ -109,11 +109,11 @@ class import_model extends CI_Model{
 									if($result->num_rows() > 0){
 										$rs =$result->row(0);
 										$id_wil = $rs->id;
-									}									
+									}
 								}
 								$rt++;
 							}
-							
+
 							if($id_wil > 0){
 								$post_data = array('tgl_daftar'=>"".date("Y-m-d")."",'no_kk'=>"".fixSQL($item[0])."",'nik_kepala'=>"".fixSQL($item[23])."");
 								$this->db->trans_start();
@@ -125,11 +125,11 @@ class import_model extends CI_Model{
 									if($result->num_rows() > 0){
 										$rs =$result->row(0);
 										$id_kk = $rs->id;
-									}									
+									}
 								}
 								$kk[$item[0]] = array($id_kk,"".$id_wil."","".$item[2]."");
 							}
-							
+
 						}
 					}
 					if(trim(strtolower($convert[$i]))=="begindata"){
@@ -152,11 +152,11 @@ class import_model extends CI_Model{
 				</div>
 				";
 // Entry data KK
-			
-			}			 
+
+			}
 
 		}
-		
+
 		if(is_file($vfile_upload_bw)){
 			//Data Penduduk
 			if(is_file($vfile_upload_bw)){
@@ -172,16 +172,16 @@ class import_model extends CI_Model{
 				$strSQL .= "`warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, ";
 				$strSQL .= "`ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, ";
 				$strSQL .= "`foto`, `golongan_darah_id`, `id_cluster`, `status`, ";
-				$strSQL .= "`alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`,"; 
+				$strSQL .= "`alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`,";
 				$strSQL .= "`hamil`, `cacat_id`, `sakit_menahun_id`, `jamkesmas`, ";
 				$strSQL .= "`akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, ";
 				$strSQL .= "`akta_perceraian`, `tanggalperceraian`) VALUES\n";
 				for ($i=0;$i<count($convert1);$i++){
-					
+
 					if($j>0){
 						if(strlen($convert1[$i])>25){
 							$item = explode(";",trim(str_replace("\"","",$convert1[$i])));
-							//echo "<br />".$convert1[$i];	
+							//echo "<br />".$convert1[$i];
 							// Entri data penduduk
 							if($j>0){
 								if($item[20]==1){
@@ -214,7 +214,7 @@ class import_model extends CI_Model{
 							}
 						}
 					}
-					
+
 					if(trim(strtolower($convert1[$i]))=="begindata"){
 						$j++;
 					}
@@ -232,10 +232,16 @@ class import_model extends CI_Model{
 			}
 		}
 	}
-		
+
 	function import_excel(){
 		//echo $_FILES['userfile']['type'];break;
-		if($_FILES['userfile']['type'] == "application/vnd.ms-excel"){
+		$_SESSION['error_msg'] = '';
+		$mime_type_excel = array("application/vnd.ms-excel", "application/octet-stream");
+		if(!in_array($_FILES['userfile']['type'], $mime_type_excel)){
+				$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
+				$_SESSION['success']=-1;
+		}else{
+
 		$gagal=0;
 		$baris2="";
 			$a="DROP TABLE IF EXISTS impor";
@@ -247,27 +253,27 @@ class import_model extends CI_Model{
 		$baris = $data->rowcount($sheet_index=0);
 
 		//buat tabel impor
-		$a="CREATE TABLE IF NOT EXISTS impor (   
+		$a="CREATE TABLE IF NOT EXISTS impor (
 		dusun varchar(50) NOT NULL DEFAULT 0,
-		rw varchar(10) NOT NULL DEFAULT 0, 
-		rt varchar(10) NOT NULL DEFAULT 0,  
-		nama varchar(50) NOT NULL,  
-		nik varchar(16) NOT NULL,   
-		sex tinyint(1) unsigned DEFAULT NULL,  
+		rw varchar(10) NOT NULL DEFAULT 0,
+		rt varchar(10) NOT NULL DEFAULT 0,
+		nama varchar(50) NOT NULL,
+		nik varchar(16) NOT NULL,
+		sex tinyint(1) unsigned DEFAULT NULL,
 		tempatlahir varchar(50) NOT NULL,
-		tanggallahir date NOT NULL,  
-		agama_id int(1) unsigned NOT NULL,  
+		tanggallahir date NOT NULL,
+		agama_id int(1) unsigned NOT NULL,
 		pendidikan_kk_id int(1) unsigned NOT NULL,
 		pendidikan_id int(1) unsigned NOT NULL,
 		pendidikan_sedang_id int(1) unsigned NOT NULL,
-		pekerjaan_id int(1) unsigned NOT NULL,  
-		status_kawin tinyint(1) unsigned NOT NULL,  
+		pekerjaan_id int(1) unsigned NOT NULL,
+		status_kawin tinyint(1) unsigned NOT NULL,
 		kk_level tinyint(1) NOT NULL DEFAULT 0,
-		warganegara_id int(1) unsigned NOT NULL,  
-		nama_ayah varchar(50) NOT NULL,  
+		warganegara_id int(1) unsigned NOT NULL,
+		nama_ayah varchar(50) NOT NULL,
 		nama_ibu varchar(50) NOT NULL,
-		golongan_darah_id int(1) NOT NULL,  
-		jamkesmas int(1) NOT NULL DEFAULT 2, 
+		golongan_darah_id int(1) NOT NULL,
+		jamkesmas int(1) NOT NULL DEFAULT 2,
 		id_kk varchar(16) NOT NULL DEFAULT '0') ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;";
 		$this->db->query($a);
 
@@ -290,46 +296,46 @@ class import_model extends CI_Model{
 			$dusun = $data->val($i, 1);
 			$rw = $data->val($i, 2);
 			$rt = $data->val($i, 3);
-			
+
 			$nama = $data->val($i, 4);
 			if($nama!=""){
 				$nama = '"'.$nama.'"';
 			}
-			
+
 			$id_kk= $data->val($i, 5);
 			$nik = $data->val($i, 6);
 			$sex = $data->val($i, 7);
 			$tempatlahir= $data->val($i, 8);
 			$tanggallahir= $data->val($i, 9);
-			
+
 			if(strlen($tanggallahir)>0){
 				$tanggallahir = date("Y-m-d",strtotime($tanggallahir));
 			}else{
 				$tanggallahir = date("Y-m-d");
 			}
-			
+
 			if($tanggallahir[2] == "/" OR $tanggallahir[4] == "/"){
 				$tanggallahir = str_replace('/','-', $tanggallahir);
 			}
-			
+
 			$dusun = str_replace('_',' ', $dusun);
 			$dusun = strtoupper($dusun);
 			$dusun = str_replace('DUSUN ','', $dusun);
 			if($tanggallahir[2] == "-"){
 				$tanggallahir = rev_tgl($tanggallahir);
 			}
-			
+
 			$agama_id= $data->val($i, 10);
 			$pendidikan_kk_id= $data->val($i, 11);
 			$pendidikan_sedang_id= $data->val($i, 12);
 			if($pendidikan_sedang_id=="")
 				$pendidikan_sedang_id=18;
-			
+
 			$pekerjaan_id= $data->val($i, 13);
 			$status_kawin= $data->val($i, 14);
 			$kk_level= $data->val($i, 15);
 			$warganegara_id= 1;
-			
+
 			$nama_ayah= $data->val($i,17);
 			if($nama_ayah!=""){
 				$nama_ayah = '"'.$nama_ayah.'"';
@@ -342,14 +348,14 @@ class import_model extends CI_Model{
 			}else{
 				$nama_ibu = '"-"';
 			}
-			
+
 			$golongan_darah_id= $data->val($i, 19);
 			//$jamkesmas= $data->val($i, 20);
-			
+
 
 			 // masukin ke tabel impor
 			$sql="INSERT INTO impor(dusun,rw,rt,nama,nik,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id, pendidikan_sedang_id,pekerjaan_id,status_kawin,kk_level,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,id_kk) VALUES ('$dusun','$rw','$rt',$nama,$nik,$sex,'$tempatlahir','$tanggallahir','$agama_id','$pendidikan_kk_id','$pendidikan_sedang_id','$pekerjaan_id','$status_kawin','$kk_level','$warganegara_id',$nama_ayah,$nama_ibu,'$golongan_darah_id','$id_kk');";
-			
+
 			//echo $query;
 			if($nama!="" AND $nik!="" AND $id_kk!="" AND $dusun!=""){
 				$h = $this->db->query($sql);
@@ -357,12 +363,13 @@ class import_model extends CI_Model{
 				$gagal++;
 				$baris2 .=$i.",";
 			}
-			$h = null;	
+			$h = null;
 			$sukses = $baris - $gagal - 1;
 			}
+
 			if($gagal==0)
 				$baris2 ="tidak ada data yang gagal di import.";
-				
+
 			// masukin ke tabel tweb_wil_clusterdesa
 				$query="INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) select * from (SELECT rt, rw, dusun from impor GROUP BY rt,rw,dusun
 						union SELECT '0' as rt, '0' as rw, dusun from impor GROUP BY dusun
@@ -408,25 +415,25 @@ class import_model extends CI_Model{
 
 			//$a="ALTER TABLE tweb_keluarga ENGINE = InnoDB ROW_FORMAT = DYNAMIC;";
 			//$this->db->query($a);
-			
+
 			$_SESSION['gagal']=$gagal;
 			$_SESSION['sukses']=$sukses;
 			$_SESSION['baris']=$baris2;
-			
+
 			if($gagal==0) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
-			
+
 			//return $main;
-		}else{$_SESSION['success']=-1;}
+		}
 	}
-	
+
 	function import_dasar(){
 
 		$data = "";
 		$in = "";
 		$outp = "";
 		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename!=''){	
+		if ($filename!=''){
 			$lines = file($filename);
 			foreach ($lines as $line){$data .= $line;}
 			$penduduk=Parse_Data($data,"<penduduk>","</penduduk>");
@@ -436,7 +443,7 @@ class import_model extends CI_Model{
 			$penduduk=explode("\r\n",$penduduk);
 			$keluarga=explode("\r\n",$keluarga);
 			$cluster=explode("\r\n",$cluster);
-			
+
 			$inset = "INSERT INTO tweb_penduduk VALUES ";
 			for($a=1;$a<(count($penduduk)-1);$a++){
 				$p = preg_split("/\+/", $penduduk[$a]);
@@ -450,7 +457,7 @@ class import_model extends CI_Model{
 			$in[$x-1] =";";
 			$outp = $this->db->query($inset.$in);
 			//echo $inset.$in;
-			
+
 			$in = "";
 			$inset = "INSERT INTO tweb_wil_clusterdesa VALUES ";
 			for($a=1;$a<(count($cluster)-1);$a++){
@@ -464,7 +471,7 @@ class import_model extends CI_Model{
 			$x = strlen($in);
 			$in[$x-1] =";";
 			$outp = $this->db->query($inset.$in);
-			
+
 			$in = "";
 			$inset = "INSERT INTO tweb_keluarga VALUES ";
 			for($a=1;$a<(count($keluarga)-1);$a++){
@@ -482,20 +489,20 @@ class import_model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 		else $_SESSION['success']=-1;
 	}
-	
+
 	function import_akp(){
 		$id_desa = $_SESSION['user'];
 		$data = "";
 		$in = "";
 		$outp = "";
 		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename!=''){	
+		if ($filename!=''){
 			$lines = file($filename);
 			foreach ($lines as $line){$data .= $line;}
 			$penduduk=Parse_Data($data,"<akpkeluarga>","</akpkeluarga>");
 			//echo $cluster;
 			$penduduk=explode("\r\n",$penduduk);
-			
+
 			$inset = "INSERT INTO analisis_keluarga VALUES ";
 			for($a=1;$a<(count($penduduk)-1);$a++){
 				$p = preg_split("/\+/", $penduduk[$a]);
@@ -508,28 +515,28 @@ class import_model extends CI_Model{
 			$x = strlen($in);
 			$in[$x-1] =";";
 			$outp = $this->db->query($inset.$in);
-			
+
 		}
 		if($outp) $_SESSION['success']=1;
 		else $_SESSION['success']=-1;
 	}
-	
-	
+
+
 	function ppls_individu(){
 		$a="DELETE FROM `tweb_penduduk` WHERE status=2; ";
 		$this->db->query($a);
-		
+
 		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
-		
+
 		//master
 		$sheet=0;
 		$baris = $data->rowcount($sheet_index=$sheet);
 		$kolom = $data->colcount($sheet_index=$sheet);
-		
+
 		//echo "<table>";
 		for ($i=2; $i<=$baris; $i++){
 			//echo "<tr>";
-			
+
 			for ($j=1; $j<=$kolom;$j++){
 				$rt = "";
 				$dusun = "";
@@ -538,31 +545,31 @@ class import_model extends CI_Model{
 				if($j==11){
 					$p = strlen($temp);
 					if(is_numeric($temp[$p-1])){
-						
+
 						$rt = $temp[$p-3].$temp[$p-2].$temp[$p-1];
 						$dusun = explode(" ",$temp);
 						$dusun2 = $dusun[0];if($dusun[1]!="RT"){$dusun2 = $dusun2." ".$dusun[1];}
-						
+
 					}else{
-						
+
 						$rt = $temp[3].$temp[4].$temp[5];
 						$dusun = explode(" ",$temp);
 						$dusun2 = $dusun[2];if(isset($dusun[3])){$dusun2 = $dusun2." ".$dusun[3];}
 					}
 					$rt2 = $rt*1;
 					//echo "<td>".$rt."</td><td>".$rt2."</td><td>".$dusun2."</td>";
-					
+
 				}elseif($j==17){
-					
+
 					$tlahir = $data->val($i,16,$sheet)."-".$data->val($i,17,$sheet)."-1";
 					//echo "<td>".$tlahir."</td>";
-					
+
 				}else{
-					
+
 					//echo "<td>".$temp."</td>";
-					
+
 				}
-				
+
 				if($j==1)
 					$j+=9;
 			}
@@ -585,38 +592,38 @@ class import_model extends CI_Model{
 				$penduduk['sex']			= $data->val($i,15,$sheet);
 				$penduduk['pendidikan_id']			= $data->val($i,22,$sheet);
 				$penduduk['pendidikan_kk_id']			= $data->val($i,22,$sheet);
-				
+
 				$outp = $this->db->insert('tweb_penduduk',$penduduk);
-				
+
 			//echo "</tr>";
 		}
 		//echo "</table>";
-		
+
 		$a="TRUNCATE tweb_rtm; ";
 		$this->db->query($a);
-		
+
 		$a="INSERT INTO tweb_rtm (no_kk) SELECT distinct(id_rtm) AS no_kk FROM tweb_penduduk WHERE tweb_penduduk.status=2 AND tweb_penduduk.id_rtm <> 0; ";
 		$this->db->query($a);
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function ppls_rumahtangga(){
 		//$a="TRUNCATE tweb_rtm; ";
 		//$this->db->query($a);
-		
+
 		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
-		
+
 		//master
 		$sheet=0;
 		$baris = $data->rowcount($sheet_index=$sheet);
 		$kolom = $data->colcount($sheet_index=$sheet);
-		
+
 		//echo "<table>";
 		for ($i=2; $i<=$baris; $i++){
 			//echo "<tr>";
-			
+
 
 				$penduduk = "";
 				//$penduduk['id_cluster']		= $id_cluster;
@@ -629,30 +636,30 @@ class import_model extends CI_Model{
 				//$penduduk['sex']			= $data->val($i,15,$sheet);
 				//$penduduk['pendidikan_id']			= $data->val($i,22,$sheet);
 				//$penduduk['pendidikan_kk_id']			= $data->val($i,22,$sheet);
-				
+
 				//$outp = $this->db->insert('tweb_penduduk',$penduduk);
 				$upd['rtm_level'] = 1;
-				
+
 			$this->db->where('id_rtm',$penduduk['id_rtm']	);
 			$this->db->where('nama',$penduduk['nama']	);
 			$outp = $this->db->update('tweb_penduduk',$upd);
-			
+
 			//echo "</tr>";
 		}
 		//echo "</table>";
-		
-		
+
+
 		//$a="INSERT INTO tweb_rtm (no_kk)SELECT distinct(id_rtm) AS no_kk FROM tweb_pendudukWHERE status=2 AND id_rtm <> 0; ";
 		//$this->db->query($a);
-		
+
 		//$a="UPDATE p SET p.id_rtm = r.id FROM tweb_penduduk p JOIN tweb_rtm r ON (p.id_rtm = r.no_kk); ";
 		//$this->db->query($a);
-		
+
 		$sql   = "SELECT id,no_kk FROM tweb_rtm WHERE 1 ";
-			
+
 		$query = $this->db->query($sql);
 		$rtm=$query->result_array();
-		
+
 		//Formating Output
 		$i=0;
 		while($i<count($rtm)){
@@ -662,19 +669,19 @@ class import_model extends CI_Model{
 			$this->db->query($a);
 			$i++;
 		}
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
-	
+
+
 	function persil(){
 		$data = new Spreadsheet_Excel_Reader($_FILES['persil']['tmp_name']);
-		
+
 		$sheet=0;
 		$baris = $data->rowcount($sheet_index=$sheet);
 		$kolom = $data->colcount($sheet_index=$sheet);
-									
+
 
 		for ($i=2; $i<=$baris; $i++){
 			$upd['nik'] = $data->val($i,2,$sheet);
@@ -685,10 +692,10 @@ class import_model extends CI_Model{
 			$upd['kelas'] = $data->val($i,7,$sheet);
 			$upd['no_sppt_pbb'] = $data->val($i,8,$sheet);
 			$upd['persil_peruntukan_id'] = $data->val($i,9,$sheet);
-			
+
 			$outp = $this->db->insert('data_persil',$upd);
 		}
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
@@ -726,7 +733,7 @@ function GetInt4d($data, $pos) {
 function gmgetdate($ts = null){
 	$k = array('seconds','minutes','hours','mday','wday','mon','year','yday','weekday','month',0);
 	return(array_comb($k,split(":",gmdate('s:i:G:j:w:n:Y:z:l:F:U',is_null($ts)?time():$ts))));
-	} 
+	}
 
 // Added for PHP4 compatibility
 function array_comb($array1, $array2) {
@@ -970,7 +977,7 @@ class Spreadsheet_Excel_Reader {
 		if ($d < 16) return "0" . dechex($d);
 		return dechex($d);
 	}
-	
+
 	function dumpHexData($data, $pos, $length) {
 		$info = "";
 		for ($i = 0; $i <= $length; $i++) {
@@ -1043,7 +1050,7 @@ class Spreadsheet_Excel_Reader {
 	}
 	function colwidth($col,$sheet=0) {
 		// Col width is actually the width of the number 0. So we have to estimate and come close
-		return $this->colInfo[$sheet][$col]['width']/9142*200; 
+		return $this->colInfo[$sheet][$col]['width']/9142*200;
 	}
 	function colhidden($col,$sheet=0) {
 		return !!$this->colInfo[$sheet][$col]['hidden'];
@@ -1054,7 +1061,7 @@ class Spreadsheet_Excel_Reader {
 	function rowhidden($row,$sheet=0) {
 		return !!$this->rowInfo[$sheet][$row]['hidden'];
 	}
-	
+
 	// GET THE CSS FOR FORMATTING
 	// ==========================
 	function style($row,$col,$sheet=0,$properties='') {
@@ -1116,10 +1123,10 @@ class Spreadsheet_Excel_Reader {
 		if ($bRight!="" && $bRightCol!="") { $css .= "border-right-color:" . $bRightCol .";"; }
 		if ($bTop!="" && $bTopCol!="") { $css .= "border-top-color:" . $bTopCol . ";"; }
 		if ($bBottom!="" && $bBottomCol!="") { $css .= "border-bottom-color:" . $bBottomCol .";"; }
-		
+
 		return $css;
 	}
-	
+
 	// FORMAT PROPERTIES
 	// =================
 	function format($row,$col,$sheet=0) {
@@ -1131,7 +1138,7 @@ class Spreadsheet_Excel_Reader {
 	function formatColor($row,$col,$sheet=0) {
 		return $this->info($row,$col,'formatColor',$sheet);
 	}
-	
+
 	// CELL (XF) PROPERTIES
 	// ====================
 	function xfRecord($row,$col,$sheet=0) {
@@ -1230,7 +1237,7 @@ class Spreadsheet_Excel_Reader {
 	function font($row,$col,$sheet=0) {
 		return $this->fontProperty($row,$col,$sheet,'font');
 	}
-	
+
 	// DUMP AN HTML TABLE OF THE ENTIRE XLS DATA
 	// =========================================
 	function dump($row_numbers=false,$col_letters=false,$sheet=0,$table_class='excel') {
@@ -1249,7 +1256,7 @@ class Spreadsheet_Excel_Reader {
 			}
 			$out .= "</tr></thead>\n";
 		}
-		
+
 		$out .= "<tbody>\n";
 		for($row=1;$row<=$this->rowcount($sheet);$row++) {
 			$rowheight = $this->rowheight($row,$sheet);
@@ -1280,8 +1287,8 @@ class Spreadsheet_Excel_Reader {
 					$out .= "\n\t\t<td style=\"$style\"" . ($colspan > 1?" colspan=$colspan":"") . ($rowspan > 1?" rowspan=$rowspan":"") . ">";
 					$val = $this->val($row,$col,$sheet);
 					if ($val=='') { $val="&nbsp;"; }
-					else { 
-						$val = htmlentities($val); 
+					else {
+						$val = htmlentities($val);
 						$link = $this->hyperlink($row,$col,$sheet);
 						if ($link!='') {
 							$val = "<a href=\"$link\">$val</a>";
@@ -1296,7 +1303,7 @@ class Spreadsheet_Excel_Reader {
 		$out .= "</tbody></table>";
 		return $out;
 	}
-	
+
 	// --------------
 	// END PUBLIC API
 
@@ -1307,7 +1314,7 @@ class Spreadsheet_Excel_Reader {
 	var $xfRecords = array();
 	var $colInfo = array();
    	var $rowInfo = array();
-	
+
 	var $sst = array();
 	var $sheets = array();
 
@@ -1456,36 +1463,36 @@ class Spreadsheet_Excel_Reader {
 		0x0B => "Thin dash-dot-dotted",
 		0x0C => "Medium dash-dot-dotted",
 		0x0D => "Slanted medium dash-dotted"
-	);	
+	);
 
 	var $lineStylesCss = array(
-		"Thin" => "1px solid", 
-		"Medium" => "2px solid", 
-		"Dashed" => "1px dashed", 
-		"Dotted" => "1px dotted", 
-		"Thick" => "3px solid", 
-		"Double" => "double", 
-		"Hair" => "1px solid", 
-		"Medium dashed" => "2px dashed", 
-		"Thin dash-dotted" => "1px dashed", 
-		"Medium dash-dotted" => "2px dashed", 
-		"Thin dash-dot-dotted" => "1px dashed", 
-		"Medium dash-dot-dotted" => "2px dashed", 
-		"Slanted medium dash-dotte" => "2px dashed" 
+		"Thin" => "1px solid",
+		"Medium" => "2px solid",
+		"Dashed" => "1px dashed",
+		"Dotted" => "1px dotted",
+		"Thick" => "3px solid",
+		"Double" => "double",
+		"Hair" => "1px solid",
+		"Medium dashed" => "2px dashed",
+		"Thin dash-dotted" => "1px dashed",
+		"Medium dash-dotted" => "2px dashed",
+		"Thin dash-dot-dotted" => "1px dashed",
+		"Medium dash-dot-dotted" => "2px dashed",
+		"Slanted medium dash-dotte" => "2px dashed"
 	);
-	
+
 	function read16bitstring($data, $start) {
 		$len = 0;
 		while (ord($data[$start + $len]) + ord($data[$start + $len + 1]) > 0) $len++;
 		return substr($data, $start, $len);
 	}
-	
+
 	// ADDED by Matt Kruse for better formatting
 	function _format_value($format,$num,$f) {
 		// 49==TEXT format
 		// http://code.google.com/p/php-excel-reader/issues/detail?id=7
-		if ( (!$f && $format=="%s") || ($f==49) || ($format=="GENERAL") ) { 
-			return array('string'=>$num, 'formatColor'=>null); 
+		if ( (!$f && $format=="%s") || ($f==49) || ($format=="GENERAL") ) {
+			return array('string'=>$num, 'formatColor'=>null);
 		}
 
 		// Custom pattern can be POSITIVE;NEGATIVE;ZERO
@@ -1509,13 +1516,13 @@ class Spreadsheet_Excel_Reader {
 			$color = strtolower($matches[1]);
 			$pattern = preg_replace($color_regex,"",$pattern);
 		}
-		
+
 		// In Excel formats, "_" is used to add spacing, which we can't do in HTML
 		$pattern = preg_replace("/_./","",$pattern);
-		
+
 		// Some non-number characters are escaped with \, which we don't need
 		$pattern = preg_replace("/\\\/","",$pattern);
-		
+
 		// Some non-number strings are quoted, so we'll get rid of the quotes
 		$pattern = preg_replace("/\"/","",$pattern);
 
@@ -1564,7 +1571,7 @@ class Spreadsheet_Excel_Reader {
 	function Spreadsheet_Excel_Reader($file='',$store_extended_info=true,$outputEncoding='') {
 		$this->_ole =& new OLERead();
 		$this->setUTFEncoder('iconv');
-		if ($outputEncoding != '') { 
+		if ($outputEncoding != '') {
 			$this->setOutputEncoding($outputEncoding);
 		}
 		for ($i=1; $i<245; $i++) {
@@ -1812,7 +1819,7 @@ class Spreadsheet_Excel_Reader {
 						    $font = substr($data, $pos+20, $numchars);
 						} else {
 						    $font = substr($data, $pos+20, $numchars*2);
-						    $font =  $this->_encodeUTF16($font); 
+						    $font =  $this->_encodeUTF16($font);
 						}
 						$this->fontRecords[] = array(
 								'height' => $height / 20,
@@ -1865,14 +1872,14 @@ class Spreadsheet_Excel_Reader {
 						$xf['borderRight'] = $this->lineStyles[($border & 0xF0) >> 4];
 						$xf['borderTop'] = $this->lineStyles[($border & 0xF00) >> 8];
 						$xf['borderBottom'] = $this->lineStyles[($border & 0xF000) >> 12];
-						
+
 						$xf['borderLeftColor'] = ($border & 0x7F0000) >> 16;
 						$xf['borderRightColor'] = ($border & 0x3F800000) >> 23;
 						$border = (ord($data[$pos+18]) | ord($data[$pos+19]) << 8);
 
 						$xf['borderTopColor'] = ($border & 0x7F);
 						$xf['borderBottomColor'] = ($border & 0x3F80) >> 7;
-												
+
 						if (array_key_exists($indexCode, $this->dateFormats)) {
 							$xf['type'] = 'date';
 							$xf['format'] = $this->dateFormats[$indexCode];
@@ -2202,24 +2209,24 @@ class Spreadsheet_Excel_Reader {
 					}
 					$linkdata['desc'] = $udesc;
 					$linkdata['link'] = $this->_encodeUTF16($ulink);
-					for ($r=$row; $r<=$row2; $r++) { 
+					for ($r=$row; $r<=$row2; $r++) {
 						for ($c=$column; $c<=$column2; $c++) {
 							$this->sheets[$this->sn]['cellsInfo'][$r+1][$c+1]['hyperlink'] = $linkdata;
 						}
 					}
 					break;
 				case SPREADSHEET_EXCEL_READER_TYPE_DEFCOLWIDTH:
-					$this->defaultColWidth  = ord($data[$spos+4]) | ord($data[$spos+5]) << 8; 
+					$this->defaultColWidth  = ord($data[$spos+4]) | ord($data[$spos+5]) << 8;
 					break;
 				case SPREADSHEET_EXCEL_READER_TYPE_STANDARDWIDTH:
-					$this->standardColWidth  = ord($data[$spos+4]) | ord($data[$spos+5]) << 8; 
+					$this->standardColWidth  = ord($data[$spos+4]) | ord($data[$spos+5]) << 8;
 					break;
 				case SPREADSHEET_EXCEL_READER_TYPE_COLINFO:
 					$colfrom = ord($data[$spos+0]) | ord($data[$spos+1]) << 8;
 					$colto = ord($data[$spos+2]) | ord($data[$spos+3]) << 8;
-					$cw = ord($data[$spos+4]) | ord($data[$spos+5]) << 8; 
-					$cxf = ord($data[$spos+6]) | ord($data[$spos+7]) << 8; 
-					$co = ord($data[$spos+8]); 
+					$cw = ord($data[$spos+4]) | ord($data[$spos+5]) << 8;
+					$cxf = ord($data[$spos+6]) | ord($data[$spos+7]) << 8;
+					$co = ord($data[$spos+8]);
 					for ($coli = $colfrom; $coli <= $colto; $coli++) {
 						$this->colInfo[$this->sn][$coli+1] = Array('width' => $cw, 'xf' => $cxf, 'hidden' => ($co & 0x01), 'collapsed' => ($co & 0x1000) >> 12);
 					}
