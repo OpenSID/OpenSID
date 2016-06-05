@@ -237,7 +237,11 @@ class import_model extends CI_Model{
 		//echo $_FILES['userfile']['type'];break;
 		$_SESSION['error_msg'] = '';
 		$mime_type_excel = array("application/vnd.ms-excel", "application/octet-stream");
-		if(in_array($_FILES['userfile']['type'], $mime_type_excel)){
+		if(!in_array($_FILES['userfile']['type'], $mime_type_excel)){
+				$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
+				$_SESSION['success']=-1;
+		}else{
+
 		$gagal=0;
 		$baris2="";
 			$a="DROP TABLE IF EXISTS impor";
@@ -362,6 +366,7 @@ class import_model extends CI_Model{
 			$h = null;
 			$sukses = $baris - $gagal - 1;
 			}
+
 			if($gagal==0)
 				$baris2 ="tidak ada data yang gagal di import.";
 
@@ -419,9 +424,6 @@ class import_model extends CI_Model{
 			else $_SESSION['success']=-1;
 
 			//return $main;
-		}else{
-			$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
-			$_SESSION['success']=-1;
 		}
 	}
 
