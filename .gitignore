@@ -6,11 +6,8 @@ assets/sync/
 # file logo contoh yg tersedia dalam release sid304 inti.
 assets/files/logo/*
 !assets/files/logo/gkk.png
+# Jangan simpan isi folder logo. Isinya khusus desa.
 desa/*
-!desa/views/surat/.keep
-!desa/css/desa-web-contoh.css
-!desa/css/desa-default-contoh.css
-!desa/css/images-contoh/
 donjo-app/views/surat/.keep
 donjo-app/views/surat/.orig.keep
 surat/arsip/
