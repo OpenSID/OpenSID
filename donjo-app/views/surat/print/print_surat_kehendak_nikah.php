@@ -8,7 +8,7 @@
 <div>
 <table width="100%">
 
-<tr> <img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt=""  class="logo"></tr>
+<tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 
 <div class="header">
 <h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
@@ -44,7 +44,7 @@
 <tr></tr>
 <tr></tr>
 </table>
-	
+
 <tr></tr>
 <tr></tr>
 <tr></tr>
@@ -118,11 +118,11 @@
 <tr></tr>
 <tr></tr>
 <tr></tr>
-<tr></tr>	
+<tr></tr>
 <tr><td align="center">*) coret yang tidak perlu </td><td ></td><td align="center"></td></tr>
 </table>  </div></div>
 <div id="aside">
 </div>
 </div>
 </body>
-</html>	
+</html>

@@ -11,7 +11,7 @@
 <link href="<?php echo base_url()?>assets/css/screen.css" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style-gis.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/noJS.css" /></noscript> 
+<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/noJS.css" /></noscript>
 
 
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
@@ -34,7 +34,7 @@
 </head>
 <body>
 <div class="ui-layout-north" id="header">
-<div id="sid-logo"><a href="<?php echo site_url()?>first" target="_blank"><img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt=""/></a></div>
+<div id="sid-logo"><a href="<?php echo site_url()?>first" target="_blank"><img src="<?php echo LogoDesa($desa['logo']);?>" alt=""/></a></div>
 <div id="sid-judul">SID Sistem Informasi Desa</div>
 <div id="sid-info">Kab. <?php echo unpenetration($desa['nama_kabupaten'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, Desa <?php echo unpenetration($desa['nama_desa'])?></div>
 <div id="userbox" class="wrapper-dropdown-3" tabindex="1">
@@ -59,7 +59,7 @@
 	<li><a href="<?php echo site_url()?>surat"><i class="icon-print icon-large"></i>Cetak Surat</a></li>
 	<li><a href="<?php echo site_url()?>analisis"><i class="icon-dashboard icon-large"></i>Analisis</a></li>
 <?php  }?>
-<?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>	
+<?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
 	<?php  if($_SESSION['grup']==1){?>
 		<li><a href="<?php echo site_url()?>man_user/clear"><i class="icon-user icon-large"></i>Pengguna</a></li>
 		<li><a href="<?php echo site_url()?>database"><i class="icon-hdd icon-large"></i>Database</a></li>
@@ -77,7 +77,7 @@
 <div class="ui-layout-center" id="wrapper">
 
 
-<!-- NOTIFICATION 
+<!-- NOTIFICATION
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>--><?php  if($_SESSION['success']==1): ?>
 <script type="text/javascript">
 $('document').ready(function(){
@@ -120,7 +120,7 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 		<a class="cpanel" href="<?php echo site_url()?>surat">
 			<img src="<?php echo base_url()?>assets/images/cpanel/applications-office-5.png" alt=""/>
 			<span>Cetak Surat</span>
-		</a> 
+		</a>
 		<a class="cpanel" href="<?php echo site_url()?>analisis_master/clear">
 			<img src="<?php echo base_url()?>assets/images/cpanel/analysis.png" alt=""/>
 		<span>Analisis</span>
@@ -133,7 +133,7 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 			<img src="<?php echo base_url()?>assets/images/cpanel/persil.png" alt=""/>
 		<span>Persil</span>
 		</a>
-		
+
 		<a class="cpanel" href="<?php echo site_url()?>plan">
 			<img src="<?php echo base_url()?>assets/images/cpanel/plan.png" alt=""/>
 			<span>Plan</span>

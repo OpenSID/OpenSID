@@ -8,7 +8,7 @@
 <div>
 <table width="100%">
 
-<tr> <img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt=""  class="logo"></tr>
+<tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 
 <div class="header">
 <h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
@@ -40,7 +40,7 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 <tr><td>Pendidikan</td><td>:</td><td><?php echo $data['pendidikan']?></td></tr>
 <tr><td>Pekerjaan</td><td>:</td><td><?php echo $data['pekerjaan']?></td></tr>
 <tr><td>Kewarganegaraan </td><td>:</td><td><?php echo $data['warganegara']?></td></tr>
-<tr><td class="indentasi" colspan="3">Bahwa yang tersebut namanya diatas, memang benar penduduk kami yang memiliki usaha <?php echo $input['usaha']?>, berlokasi di Dusun <?php echo unpenetration($data['dusun'])?>, Desa <?php echo unpenetration($desa['nama_desa'])?>, Kecamatan <?php echo unpenetration($desa['nama_kecamatan'])?>, Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>.</td></tr> 
+<tr><td class="indentasi" colspan="3">Bahwa yang tersebut namanya diatas, memang benar penduduk kami yang memiliki usaha <?php echo $input['usaha']?>, berlokasi di Dusun <?php echo unpenetration($data['dusun'])?>, Desa <?php echo unpenetration($desa['nama_desa'])?>, Kecamatan <?php echo unpenetration($desa['nama_kecamatan'])?>, Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>.</td></tr>
 
 <tr><td class="indentasi" colspan="3">Demikian surat keterangan ini dibuat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya.</td></tr>
 

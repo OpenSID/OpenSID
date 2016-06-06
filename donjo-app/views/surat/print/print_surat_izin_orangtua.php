@@ -8,7 +8,7 @@
 <div>
 <table width="100%">
 
-<tr> <img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt=""  class="logo"></tr>
+<tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 
 <div class="header">
 <h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
@@ -37,7 +37,7 @@
 <tr><td>Warganegara</td><td>:</td><td><?php echo $ayah['wn']; ?></td></tr>
 <tr><td>Agama</td><td>:</td><td><?php echo $ayah['agama']; ?></td></tr>
 <tr><td>Pekerjaan</td><td>:</td><td><?php echo $ayah['pek']; ?></td></tr>
-<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $ayah['rt']; ?>, RW. <?php echo $ayah['rw']; ?>, Dusun <?php echo unpenetration(ununderscore($ayah['dusun'])); ?>, Kel. <?php echo unpenetration($desa['nama_desa']); ?>, Kec. <?php echo unpenetration($desa['nama_kecamatan']); ?>, Kab. <?php echo unpenetration($desa['nama_kabupaten']); ?></td></tr>				
+<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $ayah['rt']; ?>, RW. <?php echo $ayah['rw']; ?>, Dusun <?php echo unpenetration(ununderscore($ayah['dusun'])); ?>, Kel. <?php echo unpenetration($desa['nama_desa']); ?>, Kec. <?php echo unpenetration($desa['nama_kecamatan']); ?>, Kab. <?php echo unpenetration($desa['nama_kabupaten']); ?></td></tr>
 <tr></tr>
 <tr><td width="30%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?php echo unpenetration($ibu['nama']); ?></td></tr>
 <tr><td>Tempat dan tanggal lahir</td><td>:</td><td><?php echo $ibu['tempatlahir']; ?>, <?php echo tgl_indo(($ibu['tanggallahir'])); ?></td></tr>
@@ -129,4 +129,4 @@
 </div>
 </div>
 </body>
-</html>	
+</html>

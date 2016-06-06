@@ -1,10 +1,10 @@
-<div id="pageC"> 
+<div id="pageC">
 	<table class="inner">
 	<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false"></script>
-    
+
 </div>
 <div id="contentpane">
 <div class="ui-layout-north panel"><h3>Konfigurasi</h3>
@@ -49,7 +49,7 @@
                 <td>
 				<div class="userbox-avatar">
 				<?php if($main['logo']){?>
-					<img src="<?php echo base_url()?>assets/files/logo/<?php echo $main['logo']?>" alt=""/>
+					<img src="<?php echo LogoDesa($main['logo'])?>" alt=""/>
 				<?php }else{?>
 					<img src="<?php echo base_url()?>assets/files/logo/home.png" alt=""/>
 				<?php }?>
@@ -67,9 +67,9 @@
             </tr>
         </table>
     </div>
-    
+
     <div class="ui-layout-south panel bottom">
-        <div class="left">     
+        <div class="left">
         </div>
         <div class="right">
             <div class="uibutton-group">
