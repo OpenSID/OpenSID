@@ -1,0 +1,9 @@
+*******************************
+Folder: desa/arsip
+*******************************
+
+Folder ini tempat menyimpan semua surat yang diunduh mempergunakan tombol Export Doc
+di fasilitas Cetak Surat di modul Administrasi SID.
+
+Surat yang tersimpan di folder ini dapat diunduh ulang melalui laman Surat Keluar di
+modul Administrasi (http://localhost:8080/index.php/keluar).

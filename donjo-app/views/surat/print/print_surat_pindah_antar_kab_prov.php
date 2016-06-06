@@ -8,7 +8,7 @@
 <div>
 <table width="100%">
 
-<tr> <img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt="" class="logo"></tr>
+<tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt="" class="logo"></tr>
 
 <div class="header">
 <h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
@@ -44,7 +44,7 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 <tr><td>Jumlah Keluarga yang Pindah</td><td>:</td><td><?php echo $input['jumlah']?> orang</td></tr>
 <table width="100%">
 <tr><td>Adapun Permohonan Pindah Penduduk WNI yang bersangkutan sebagaimana terlampir.</td></tr>
-	
+
 </table>
 
 <table width="100%">

@@ -8,7 +8,7 @@
 <div>
 <table width="100%">
 
-<tr> <img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt="" class="logo"></tr>
+<tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt="" class="logo"></tr>
 
 <div class="header">
 <h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
@@ -44,7 +44,7 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 <tr><td>Alasan </td><td>:</td><td> <?php echo $input['alasan']?></td></tr>
 
 <tr><td>Tanggal pindah </td><td>:</td><td> <?php echo tgl_indo(tgl_indo_in($input['awal']))?></td></tr>
-<?php  	
+<?php
 	$i=0;
 	if($pengikut){
 		foreach($pengikut AS $data1){
@@ -66,9 +66,9 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 			<th align="left" >Nama</th>
 			<th align="left" align="center">JK</th>
 			<th  align="left" >Umur</th>
-			<th align="left" >Status Kawin</th>      
+			<th align="left" >Status Kawin</th>
 		</tr>
-	
+
 
 	<tbody><?php  $i=0;?>
 		<?php  foreach($pengikut AS $data1){$i++;?>
@@ -79,7 +79,7 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 			<td><?php echo $data1['sex']?></td>
 			<td><?php echo $data1['umur']?></td>
 			<td><?php echo $data1['status_kawin']?></td>
-		</tr>  
+		</tr>
 		<?php  }?>
 	</tbody>
 </table>

@@ -8,7 +8,7 @@
 <div>
 <table width="100%">
 
-<tr> <img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt=""  class="logo"></tr>
+<tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 
 <div class="header">
 <h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
@@ -101,11 +101,11 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 <tr></tr>
 <tr></tr>
 <tr><td> <td></td><td align="center">( <?php echo unpenetration($input['pamong'])?> )</td></tr>
-</table>  
+</table>
 
 </div>
-</div>     
-   
+</div>
+
 </div>
 <div id="aside">
 

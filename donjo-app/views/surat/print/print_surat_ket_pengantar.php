@@ -7,7 +7,7 @@
 
 <div>
 <table width="100%">
-<tr> <img src="<?php echo base_url()?>assets/images/logo/<?php echo $desa['logo']?>" alt=""  width="100" height="80" class="logo"></tr>
+<tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  width="100" height="80" class="logo"></tr>
 
 <div class="header">
 <h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>

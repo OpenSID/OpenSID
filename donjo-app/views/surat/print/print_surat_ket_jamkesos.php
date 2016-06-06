@@ -8,7 +8,7 @@
 <div>
 <table width="100%">
 
-<tr> <img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt=""  class="logo"></tr>
+<tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 
 <div class="header">
 <h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
@@ -45,7 +45,7 @@
 <tr></tr>
 <tr>
 <td class="indentasi">  Menerangkan bahwa orang tersebut di atas benar benar keluarga kurang mampu
-     pemegang Kartu Peserta Jamkesos No.<?php echo $input['no_jamkesos']?> dan digunakan untuk keperluan 
+     pemegang Kartu Peserta Jamkesos No.<?php echo $input['no_jamkesos']?> dan digunakan untuk keperluan
      <?php echo $input['keterangan']?>.</td>
 </tr>
 <tr>

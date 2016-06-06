@@ -11,10 +11,10 @@
           zoom: 14,
           mapTypeId: google.maps.MapTypeId.ROADMAP
 		<?php }?>
-		  
+
         };
         var map = new google.maps.Map(document.getElementById("mapx"),mapOptions);
-		
+
 		var marker = new google.maps.Marker({<?php if($desa['lat'] != ""){?>
       		position: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
 		<?php }else{?>
@@ -29,30 +29,30 @@
 			document.getElementById('lng').value = marker.getPosition().lng();
 			document.getElementById('zoom').value = map.getZoom();
 			document.getElementById('map_tipe').value = map.getMapTypeId();
-		}); 
-			
+		});
+
 		google.maps.event.addListener(marker, 'click', function() {
 		  if (!infoWindow) {
 			infoWindow = new google.maps.InfoWindow();
 		  }
 		  var content = '<div id="info">' +
-			'<img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt="" width="50" height="60"/>' + 
+			'<img src="<?php echo LogoDesa($desa['logo']);?>" alt="" width="50" height="60"/>' +
 			'<h3><?php echo $desa['nama_desa']?></h3>' +
 			'<p>Lokasi Kantor Desa/Kelurahan</p>' +
 			'</div>';
-		  
+
 		  infoWindow.setContent(content);
-		  
+
 		  infoWindow.open(map, marker);
-		
+
 		});
-		
-		$('#showData').click(function(){ 
+
+		$('#showData').click(function(){
 				document.getElementById('zoom').value = map.getZoom();
 				document.getElementById('map_tipe').value = map.getMapTypeId();
 				this.form.submit();
 		 });
-		 
+
 })();
 </script>
 <style>

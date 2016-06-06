@@ -31,7 +31,7 @@
 	</head>
 <body>
 <div class="ui-layout-north" id="header">
-	<div id="sid-logo"><a href="<?php echo site_url()?>first" target="_blank"><img src="<?php echo base_url()?>assets/files/logo/<?php echo $desa['logo']?>" alt=""/></a></div>
+	<div id="sid-logo"><a href="<?php echo site_url()?>first" target="_blank"><img src="<?php echo LogoDesa($desa['logo']);?>" alt=""/></a></div>
 	<div id="sid-judul">SID Sistem Informasi Desa</div>
 	<div id="sid-info"><?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>,  <?php echo unpenetration($desa['nama_kabupaten'])?></div>
 	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
