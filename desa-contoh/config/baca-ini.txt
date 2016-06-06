@@ -1,0 +1,8 @@
+*******************************
+Folder: desa/config
+*******************************
+
+Folder ini tempat menyimpan file konfigurasi database yang dipergunakan desa.
+
+Konfigurasi database di folder ini akan menggantikan konfigurasi asli SID di
+file donjo-app/config/database.php.
