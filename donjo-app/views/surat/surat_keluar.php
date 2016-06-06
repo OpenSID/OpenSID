@@ -10,15 +10,15 @@
 				</ul>
 			</div>
 		</td>
-		<td style="background:#fff;padding:5px;"> 
+		<td style="background:#fff;padding:5px;">
 			<div class="content-header">
-					
+
 			</div>
 			<div id="contentpane">
 			<div class="ui-layout-north panel">
 			<h3>Manajemen Surat Keluar</h3>
 			</div>
-					
+
 			<div class="ui-layout-north panel">
 			</div>
 			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
@@ -59,16 +59,16 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php  
-						foreach($main as $data): 
+						<?php
+						foreach($main as $data):
 							$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
-							$theFile = str_replace("\\","/",FCPATH."surat\\arsip\\").$berkas; 
+							$theFile = FCPATH.LOKASI_ARSIP.$berkas;
 							?>
 							<tr>
 								<td align="center" width="2"><?php echo $data['no']?></td>
 								<?php
 								if(is_file($theFile)){
-									echo "<td><a target=\"_blank\" href=\"". base_url("surat/arsip/".$berkas."")."\">".$data['no_surat']." <span class=\"icon-download icon-large\"></span></a></td>";
+									echo "<td><a target=\"_blank\" href=\"". base_url(LOKASI_ARSIP.$berkas."")."\">".$data['no_surat']." <span class=\"icon-download icon-large\"></span></a></td>";
 								}else{
 									echo "<td>".$data['no_surat']."</td>";
 								}
@@ -79,14 +79,14 @@
 								<td><?php echo tgl_indo2($data['tanggal'])?></td>
 								<td><?php echo $data['nama_user']?></td>
 							</tr>
-						<?php 
-						endforeach; 
+						<?php
+						endforeach;
 						?>
 					</tbody>
 				</table>
 			</div>
 			<div class="ui-layout-south panel bottom">
-				<div class="left"> 
+				<div class="left">
 					<div class="table-info">
 					<form id="paging" action="<?php echo site_url('keluar')?>" method="post">
 						<label>Tampilkan</label>

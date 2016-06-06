@@ -10,7 +10,7 @@ class import_model extends CI_Model{
 	function import_siak(){
 
 		$_SESSION['success']=-1;
-		$vdir_upload = "surat/arsip/";
+		$vdir_upload = LOKASI_ARSIP;
 		$vfile_upload_dk = $vdir_upload.$_FILES["file_dk"]["name"];
 		move_uploaded_file($_FILES["file_dk"]["tmp_name"], $vfile_upload_dk);
 
