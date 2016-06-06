@@ -3,6 +3,7 @@
 define("VERSION", '0.4.1');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
+define("LOKASI_CONFIG_DESA", 'desa/config/');
 
 /**
  * Ambil Versi
@@ -31,4 +32,17 @@ define("LOKASI_ARSIP", 'desa/arsip/');
     return $logo_desa;
   }
 
+/**
+ * KonfigurasiDatabase
+ *
+ * Mengembalikan path file konfigurasi database desa
+ *
+ * @access  public
+ * @return  string
+ */
+  function KonfigurasiDatabase()
+  {
+    $konfigurasi_database = LOKASI_CONFIG_DESA . 'database.php';
+    return $konfigurasi_database;
+  }
 ?>
