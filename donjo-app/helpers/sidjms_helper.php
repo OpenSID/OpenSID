@@ -4,6 +4,7 @@ define("VERSION", '0.4.1');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
+define("LOKASI_SURAT_PRINT_DESA", 'desa/surat/print/');
 
 /**
  * Ambil Versi
