@@ -1,5 +1,5 @@
 *******************************
-Folder: desa/views/surat
+Folder: desa/surat/print
 *******************************
 
 Folder ini tempat menyimpan semua surat cetak yang telah disesuaikan
