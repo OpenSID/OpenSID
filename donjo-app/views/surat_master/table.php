@@ -9,7 +9,7 @@
 <div id="pageC">
 	<div>
 	</div>
-	<div id="contentpane">    
+	<div id="contentpane">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="ui-layout-north panel">
 				<div class="left">
@@ -74,11 +74,12 @@
 								<td>
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south" title="Upload Template" target="ajax-modal" rel="window" header="Upload Template"><span class="icon-upload-alt icon-large"> Upload </span></a>
-										
-										<?php if (file_exists("surat\\$data[url_surat]\\$data[url_surat].rtf")) { ?>
-										<a href="<?php echo base_url("surat/$data[url_surat]/$data[url_surat].rtf")?>" class="uibutton tipsy south" title="Upload Template"><span class="icon-download-alt icon-large"> Download </span></a>
+
+										<?php $surat = SuratExport($data[url_surat]); ?>
+										<?php if ($surat != "") { ?>
+										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south" title="Upload Template"><span class="icon-download-alt icon-large"> Download </span></a>
 										<?php } ?>
-										
+
 									</div>
 								</td>
 							</tr>
@@ -88,7 +89,7 @@
 				</div>
 			</form>
 			<div class="ui-layout-south panel bottom">
-				<div class="left"> 
+				<div class="left">
 					<div class="table-info">
 						<form id="paging" action="<?php echo site_url('surat_master')?>" method="post">
 							<label>Tampilkan </label>
@@ -113,7 +114,7 @@
 				<?php  endif; ?>
 							</div>
 							<div class="uibutton-group">
-									
+
 					<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 					<a href="<?php echo site_url("surat_master/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 					<?php  endfor; ?>

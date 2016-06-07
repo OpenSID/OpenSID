@@ -259,10 +259,13 @@
 		$individu['nama'] = strtoupper($individu['nama']);
 		$individu['tempatlahir'] = strtoupper($individu['tempatlahir']);
 
-		$mypath="surat\\$url\\";
-		$path = "".str_replace("\\","/",$mypath);
+		// Pakai surat ubahan desa apabila ada
+		$file = SuratExportDesa($url);
+		if($file == ""){
+			$file = "surat/$url/$url.rtf";
+		}
+
 		$path_arsip = LOKASI_ARSIP;
-		$file = $path."$url.rtf";
 		if(is_file($file)){
 			$handle = fopen($file,'r');
 			$buffer = stream_get_contents($handle);
