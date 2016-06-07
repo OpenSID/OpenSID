@@ -66,4 +66,26 @@ define("LOKASI_SURAT_EXPORT_DESA", 'desa/surat/export/');
     }
 
   }
+
+/**
+ * SuratExport
+ *
+ * Mengembalikan path surat export apabila ada, dengan prioritas:
+ *    1. surat export ubahan desa
+ *    2. surat export asli SID
+ *
+ * @access  public
+ * @return  string
+ */
+    function SuratExport($nama_surat)
+  {
+    if(SuratExportDesa($nama_surat) != ""){
+      return SuratExportDesa($nama_surat);
+    } elseif(is_file("surat/$nama_surat/$nama_surat.rtf")) {
+      return "surat/$nama_surat/$nama_surat.rtf";
+    } else {
+      return "";
+    }
+  }
+
 ?>
