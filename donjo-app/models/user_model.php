@@ -299,7 +299,7 @@ class User_Model extends CI_Model{
 		$pass_baru1 	= $this->input->post('pass_baru1');
 		$nama 			= $this->input->post('nama');
 
-		$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
+		$sql = "SELECT password,id_grup,foto,session FROM user WHERE id=?";
 		$query=$this->db->query($sql,array($id));
 		$row=$query->row();
 
@@ -313,8 +313,22 @@ class User_Model extends CI_Model{
 			}
 		}
 
-		$sql  = "UPDATE user SET nama=? WHERE id=?";
-		$outp = $this->db->query($sql,array($nama,$id));
+		// TODO : mestinya pake cara upload CI?
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file   = $_FILES['foto']['type'];
+		$nama_file   = $_FILES['foto']['name'];
+
+		//kalau nama file ada ( alias mengupload foto)
+		//dan tipe berkas foto memenuhi syarat
+		if (($nama_file != '') && ($tipe_file == "image/jpeg" or $tipe_file == "image/pjpeg" or $tipe_file == "image/png")) {
+			UploadFoto($nama_file, $row->foto);
+			$sql  = "UPDATE user SET nama=?, foto=? WHERE id=?";
+			$outp = $this->db->query($sql,array($nama, $nama_file, $id));
+
+		} else {
+			$sql  = "UPDATE user SET nama=? WHERE id=?";
+			$outp = $this->db->query($sql,array($nama,$id));
+		}
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
