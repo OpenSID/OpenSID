@@ -305,7 +305,7 @@ class import_model extends CI_Model{
 			$id_kk= $data->val($i, 5);
 			$nik = $data->val($i, 6);
 			$sex = $data->val($i, 7);
-			$tempatlahir= $data->val($i, 8);
+			$tempatlahir= $this->db->escape($data->val($i, 8));
 			$tanggallahir= $data->val($i, 9);
 
 			if(strlen($tanggallahir)>0){
@@ -354,7 +354,7 @@ class import_model extends CI_Model{
 
 
 			 // masukin ke tabel impor
-			$sql="INSERT INTO impor(dusun,rw,rt,nama,nik,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id, pendidikan_sedang_id,pekerjaan_id,status_kawin,kk_level,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,id_kk) VALUES ('$dusun','$rw','$rt',$nama,$nik,$sex,'$tempatlahir','$tanggallahir','$agama_id','$pendidikan_kk_id','$pendidikan_sedang_id','$pekerjaan_id','$status_kawin','$kk_level','$warganegara_id',$nama_ayah,$nama_ibu,'$golongan_darah_id','$id_kk');";
+			$sql="INSERT INTO impor(dusun,rw,rt,nama,nik,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id, pendidikan_sedang_id,pekerjaan_id,status_kawin,kk_level,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,id_kk) VALUES ('$dusun','$rw','$rt',$nama,$nik,$sex,$tempatlahir,'$tanggallahir','$agama_id','$pendidikan_kk_id','$pendidikan_sedang_id','$pekerjaan_id','$status_kawin','$kk_level','$warganegara_id',$nama_ayah,$nama_ibu,'$golongan_darah_id','$id_kk');";
 
 			//echo $query;
 			if($nama!="" AND $nik!="" AND $id_kk!="" AND $dusun!=""){
