@@ -69,11 +69,6 @@ if($single_artikel["id"]){
 				<div class=\"box-header\"><h3 class=\"box-title\">Komentar atas ".$single_artikel["judul"]."</h3></div>
 				<div class=\"box-body\">";
 
-				// tampilkan hanya jika 'flash_message' ada
-				if ($flash_message) {
-					echo "<div class='box-header label-warning'>$flash_message</div>";
-				}
-
 			foreach($komentar AS $data){
 				if($data['enabled']==1){
 					echo "
@@ -98,7 +93,13 @@ if($single_artikel["id"]){
 		</div>
 		<div class=\"form-group\">
 			<div class=\"box box-default\">
-				<div class=\"box-header\"><h3 class=\"box-title\">Formulir Penulisan Komentar</h3></div>
+				<div class=\"box-header\"><h3 class=\"box-title\">Formulir Penulisan Komentar</h3></div>";
+
+				// tampilkan hanya jika 'flash_message' ada
+				if ($flash_message) {
+					echo "<div class='box-header label-warning'>$flash_message</div>";
+				}
+		echo "
 				<div class=\"box-body\">
 					<form name=\"form\" action=\"".site_url("first/add_comment/".$single_artikel["id"])."\" method=POST onSubmit=\"return validasi(this)\">
 					<table width=100%>
