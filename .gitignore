@@ -11,10 +11,8 @@ assets/files/logo/*
 assets/files/user_pict/*
 !assets/files/user_pict/index.html
 !assets/files/user_pict/kuser.png
-# Jangan simpan isi folder logo. Isinya khusus desa.
+# Jangan simpan isi folder desa. Isinya khusus desa.
 desa/*
-donjo-app/views/surat/.keep
-donjo-app/views/surat/.orig.keep
 surat/arsip/
 !surat/arsip/.keep
 generatedata-3.2.4/
