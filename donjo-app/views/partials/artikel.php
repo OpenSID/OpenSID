@@ -6,7 +6,7 @@ echo "
 		<p>Kontent:</p>
 		<p>".$single_artikel["id"]."</p>
 	</div>
-	
+
 ";
 
 */
@@ -17,7 +17,7 @@ if($single_artikel["id"]){
 		<h2 class=\"judul\">".$single_artikel["judul"]."</h2>
 		<h3 class=\"kecil\"><i class=\"fa fa-user\"></i> ".$single_artikel['owner']." <i class=\"fa fa-clock-o\"></i> ".tgl_indo2($single_artikel['tgl_upload'])."</h3>
 		";
-		
+
 			if($single_artikel['gambar']!=''){
 				if(is_file("assets/files/artikel/kecil_".$single_artikel['gambar'])) {
 					echo "<div class=\"sampul\"><a class=\"group2\" href=\"".base_url()."assets/files/artikel/sedang_".$single_artikel['gambar']."\" title=\"\">
@@ -26,7 +26,7 @@ if($single_artikel["id"]){
 			}
 		echo "
 		<div class=\"teks\">".$single_artikel["isi"]."</div>";
-		
+
 			if($single_artikel['dokumen']!=''){
 				if(is_file("assets/files/dokumen/".$single_artikel['dokumen'])) {
 					echo "<p>Dokumen Lampiran : <a href=\"".base_url()."assets/files/dokumen/".$single_artikel['dokumen']."\" title=\"\">".$single_artikel['link_dokumen']."</a></p><br/>";
@@ -67,8 +67,13 @@ if($single_artikel["id"]){
 			echo "
 			<div class=\"box box-default box-solid\">
 				<div class=\"box-header\"><h3 class=\"box-title\">Komentar atas ".$single_artikel["judul"]."</h3></div>
-				<div class=\"box-body\">
-			";
+				<div class=\"box-body\">";
+
+				// tampilkan hanya jika 'flash_message' ada
+				if ($flash_message) {
+					echo "<div class='box-header label-warning'>$flash_message</div>";
+				}
+
 			foreach($komentar AS $data){
 				if($data['enabled']==1){
 					echo "
@@ -84,7 +89,7 @@ if($single_artikel["id"]){
 			}
 			echo "
 				</div>
-			</div>		
+			</div>
 			";
 		}else{
 			echo "<div>Belum ada komentar atas artikel ini, silakan tuliskan dalam formulir berikut ini</div>";
@@ -104,10 +109,10 @@ if($single_artikel["id"]){
 					</table>
 					</form>
 				</div>
-			</div>		
+			</div>
 		</div>
 	</div>
-	
+
 	";
 }else{
 	echo "
