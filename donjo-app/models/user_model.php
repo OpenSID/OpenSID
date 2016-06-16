@@ -294,30 +294,50 @@ class User_Model extends CI_Model{
 	}
 
 	function update_setting($id=0){
+		$_SESSION['success']=1;
+		$_SESSION['error_msg'] = '';
+
+		$data['nama'] = $this->input->post('nama');
+
 		$password 		= md5($this->input->post('pass_lama'));
 		$pass_baru 		= $this->input->post('pass_baru');
 		$pass_baru1 	= $this->input->post('pass_baru1');
-		$nama 			= $this->input->post('nama');
 
-		$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
-		$query=$this->db->query($sql,array($id));
-		$row=$query->row();
-
-		if($password==$row->password){
-			if($pass_baru !=""){
-				if($pass_baru == $pass_baru1){
-					$pass_baru = md5($pass_baru);
-					$sql  = "UPDATE user SET password=? WHERE id=?";
-					$outp = $this->db->query($sql,array($pass_baru,$id));
-				}
+		// Ganti password
+		if($this->input->post('pass_lama') != "" OR $pass_baru != "" OR $pass_baru1 != ""){
+			$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
+			$query=$this->db->query($sql,array($id));
+			$row=$query->row();
+			// Password baru tidak boleh kosong
+			if($password==$row->password AND $pass_baru != "" AND $pass_baru == $pass_baru1){
+				$data['password'] = md5($pass_baru);
+			} else {
+				$_SESSION['error_msg'].= " -> Kode pengaman salah";
+				$_SESSION['success']=-1;
 			}
 		}
 
-		$sql  = "UPDATE user SET nama=? WHERE id=?";
-		$outp = $this->db->query($sql,array($nama,$id));
+		// Update foto
+		// TODO : mestinya pake cara upload CI?
+		$mime_type_image = array("image/jpeg", "image/pjpeg", "image/png");
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file   = $_FILES['foto']['type'];
+		$nama_file   = $_FILES['foto']['name'];
+		$old_foto    = $this->input->post('old_foto');
+		if (!empty($lokasi_file)){
+			if(!in_array($tipe_file, $mime_type_image)){
+				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
+				$_SESSION['success']=-1;
+			} else {
+				UploadFoto($nama_file,$old_foto);
+				$data['foto'] = $nama_file;
+			}
+	  }
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$this->db->where('id',$id);
+		$outp = $this->db->update('user',$data);
+
+		if(!$outp) $_SESSION['success']=-1;
 	}
 
 	function list_grup(){
