@@ -1,4 +1,4 @@
-# File ini untuk branch master, berisi source code inti sid304-jms
+# File ini untuk branch master, berisi source code inti OpenSID
 donjo-app/config/db_donjo.php
 backup/
 assets/sync/

@@ -26,8 +26,8 @@ kami akan usahakan untuk merekam masalahnya dan permintaannya di https://github.
 
 ## SID Inti v SID Desa
 Repository ini mempunyai dua cabang (git branch):
-- cabang _master_, yang mengembangkan aplikasi sid304-jms inti, untuk di-release ke desa dampingan
-- cabang _desa_, yang mengembangkan contoh penerapan sid304-jms di desa
+- cabang _master_, yang mengembangkan aplikasi OpenSID inti, untuk di-release ke desa dampingan
+- cabang _desa_, yang mengembangkan contoh penerapan OpenSID di desa
 
 Salah satu tujuan utama pengembangan OpenSID adalah untuk memisahkan file SID inti dari file yang telah disesuaikan untuk keperluan desa. Pemisahan ini dimaksudkan untuk memudahkan upgrade SID di desa setiap kali ada release SID inti yang baru.
 
