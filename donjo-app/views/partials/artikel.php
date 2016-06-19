@@ -53,7 +53,7 @@ if($single_artikel["id"]){
 		echo "
 		<div class=\"form-group\" style=\"clear:both;\">
 			<ul id=\"pageshare\" title=\"bagikan ke teman anda\" class=\"pagination\">
-				<li class=\"sbutton\" id=\"fb\"><a name=\"fb_share\" href=\"http://www.facebook.com/sharer.php?u=".site_url()."first/artikel/".$single_artikel["id"]."\"><i class=\"fa fa-facebook-official\"></i>&nbsp;Share</a></li>
+				<li class=\"sbutton\" id=\"fb\"><a name=\"fb_share\" href=\"http://www.facebook.com/sharer.php?u=".site_url()."first/artikel/".$single_artikel["id"]."\"><i class=\"fa fa-facebook-square\"></i>&nbsp;Share</a></li>
 				<li class=\"sbutton\" id=\"rt\"><a href=\"http://twitter.com/share\" class=\"twitter-share-button\"><i class=\"fa fa-twitter\"></i>&nbsp;Tweet</a></li>
 			</ul>
 			<!--
