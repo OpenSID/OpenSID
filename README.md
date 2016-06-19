@@ -1,5 +1,5 @@
 # OpenSID
-Aplikasi ini adalah Sistem Informasi Desa CRI 3.04 yang disesuaikan supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
+OpenSID adalah Sistem Informasi Desa CRI 3.04 yang disesuaikan supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
 
 Tujuan penyesuaian SID-CRI ini adalah untuk:
 - memudahkan pengguna menyerap rilis SID baru
@@ -7,7 +7,7 @@ Tujuan penyesuaian SID-CRI ini adalah untuk:
 
 Untuk melihat perbedaan antara OpenSID dan SID-CRI, silakan klik [Tanya-Jawab OpenSID vs SID-CRI](Tanya-Jawab-OpenSID-vs-SID-CRI).
 
-OpenSID ini dikelola di Github untuk:
+OpenSID dikelola di Github untuk:
 - merekam semua perubahan yg dibuat dari versi asli SID-CRI yg diperoleh dari Andi Anwar (30 Mei 2016)
 - memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
 - memudahkan kolaborasi antar pegiat SID dan juga dengan desa dampingan dalam mengembangkan SID
