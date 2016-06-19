@@ -53,14 +53,15 @@ if($single_artikel["id"]){
 		echo "
 		<div class=\"form-group\" style=\"clear:both;\">
 			<ul id=\"pageshare\" title=\"bagikan ke teman anda\" class=\"pagination\">
-				<li class=\"sbutton\" id=\"fb\"><a name=\"fb_share\" href=\"http://www.facebook.com/sharer.php?u=\"".site_url()."first/artikel/".$single_artikel["id"]."\">Share</a></li>
-				<li class=\"sbutton\" id=\"rt\"><a href=\"http://twitter.com/share\" class=\"twitter-share-button\">Tweet</a></li>
+				<li class=\"sbutton\" id=\"fb\"><a name=\"fb_share\" href=\"http://www.facebook.com/sharer.php?u=".site_url()."first/artikel/".$single_artikel["id"]."\"><i class=\"fa fa-facebook-official\"></i>&nbsp;Share</a></li>
+				<li class=\"sbutton\" id=\"rt\"><a href=\"http://twitter.com/share\" class=\"twitter-share-button\"><i class=\"fa fa-twitter\"></i>&nbsp;Tweet</a></li>
 			</ul>
 			<!--
 			<script src=\"http://static.ak.fbcdn.net/connect.php/js/FB.Share\" type=\"text/javascript\"></script>
 			<script src=\"http://platform.twitter.com/widgets.js\" type=\"text/javascript\"></script>
 			-->
 		</div>
+
 		<div class=\"form-group\">
 		";
 		if(is_array($komentar)){
