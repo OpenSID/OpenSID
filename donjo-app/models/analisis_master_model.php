@@ -5,12 +5,12 @@ class analisis_master_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}
-	
+
 	function autocomplete(){
 		$sql   = "SELECT nama FROM analisis_master";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
-		
+
 		$i=0;
 		$outp='';
 		while($i<count($data)){
@@ -21,8 +21,8 @@ class analisis_master_model extends CI_Model{
 		$outp = '[' .$outp. ']';
 		return $outp;
 	}
-	
-	
+
+
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
 		$cari = $_SESSION['cari'];
@@ -32,70 +32,70 @@ class analisis_master_model extends CI_Model{
 			return $search_sql;
 			}
 		}
-	
-	function filter_sql(){		
+
+	function filter_sql(){
 		if(isset($_SESSION['filter'])){
 			$kf = $_SESSION['filter'];
 			$filter_sql= " AND u.id = $kf";
 		return $filter_sql;
 		}
 	}
-	
-	function state_sql(){		
+
+	function state_sql(){
 		if(isset($_SESSION['state'])){
 			$kf = $_SESSION['state'];
 			$filter_sql= " AND u.lock = $kf";
 		return $filter_sql;
 		}
 	}
-	
+
 	function paging($p=1,$o=0){
-	
+
 		$sql      = "SELECT COUNT(id) AS id FROM analisis_master u WHERE 1";
-		$sql     .= $this->search_sql();  
-		$sql .= $this->filter_sql();   
+		$sql     .= $this->search_sql();
+		$sql .= $this->filter_sql();
 		$sql .= $this->state_sql();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
-		
+
 		$this->load->library('paging');
 		$cfg['page']     = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
-		
+
 		return $this->paging;
 	}
-	
+
 	function list_data($o=0,$offset=0,$limit=500){
-	
+
 		//Ordering SQL
 		switch($o){
-			case 1: $order_sql = ' ORDER BY u.nama'; break;
-			case 2: $order_sql = ' ORDER BY u.nama DESC'; break;
+			case 1: $order_sql = ' ORDER BY u.lock'; break;
+			case 2: $order_sql = ' ORDER BY u.lock DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.nama'; break;
 			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY g.nama'; break;
-			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
+			case 5: $order_sql = ' ORDER BY s.subjek'; break;
+			case 6: $order_sql = ' ORDER BY s.subjek DESC'; break;
 			default:$order_sql = ' ORDER BY u.nama';
 		}
-	
+
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		
+
 		//Main Query
 		$sql   = "SELECT u.*,s.subjek FROM analisis_master u LEFT JOIN analisis_ref_subjek s ON u.subjek_tipe = s.id   WHERE 1 ";
-			
+
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $this->state_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
-		
+
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
-		
+
 		//Formating Output
 		$i=0;
 		$j=$offset;
@@ -105,21 +105,21 @@ class analisis_master_model extends CI_Model{
 			$data[$i]['lock'] = "<img src='".base_url()."assets/images/icon/unlock.png'>";
 			else
 			$data[$i]['lock'] = "<img src='".base_url()."assets/images/icon/lock.png'>";
-			
+
 			$i++;
 			$j++;
 		}
 		return $data;
 	}
-	
+
 	function insert(){
 		$data = $_POST;
 		$outp = $this->db->insert('analisis_master',$data);
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function update($id=0){
 		$data = $_POST;
 
@@ -129,18 +129,18 @@ class analisis_master_model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function delete($id=''){
 		$sql  = "DELETE FROM analisis_master WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function delete_all(){
 		$id_cb = $_POST['id_cb'];
-		
+
 		if(count($id_cb)){
 			foreach($id_cb as $id){
 				$sql  = "DELETE FROM analisis_master WHERE id=?";
@@ -148,28 +148,28 @@ class analisis_master_model extends CI_Model{
 			}
 		}
 		else $outp = false;
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function get_analisis_master($id=0){
 		$sql   = "SELECT * FROM analisis_master WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		return $data;
 	}
-	
+
 	function list_subjek(){
 		$sql   = "SELECT * FROM analisis_ref_subjek";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
-	
+
 	function list_kelompok(){
 		$sql   = "SELECT * FROM kelompok_master";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
-	
+
 }

@@ -1,9 +1,9 @@
 <div font-size="17px"><b>
-Anda sedang menggunakan aplikasi SID304JMS <?=AmbilVersi()?> berbasis Sistem Informasi Desa (SID) CRI versi 3.04<br />
+Anda sedang menggunakan aplikasi OpenSID <?=AmbilVersi()?> berbasis Sistem Informasi Desa (SID) CRI versi 3.04<br />
 <br />
-<br />SID304JMS</b> <br />
+<br />OpenSID</b> <br />
 <br />
-Aplikasi ini berbasis SID 3.04 (versi berbagi <a href= https://www.facebook.com/groups/sisteminformasidesa>www.facebook.com/groups/sisteminformasidesa</a> 30 Mei 2016), yang telah disesuaikan untuk keperluan JMS. Namun perubahan yang dilakukan hanya bersifat teknis dan tidak mengubah konsep dasar SID CRI. Perubahan yang dilakukan dapat dilihat di <a href= https://github.com/eddieridwan/sid304-jms>https://github.com/eddieridwan/sid304-jms</a>.
+Aplikasi ini berbasis SID 3.04 (versi berbagi <a href= https://www.facebook.com/groups/sisteminformasidesa>www.facebook.com/groups/sisteminformasidesa</a> 30 Mei 2016), yang disesuaikan supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.. Namun perubahan yang dilakukan hanya bersifat teknis dan tidak mengubah konsep dasar SID CRI. Perubahan yang dilakukan dapat dilihat di <a href= https://github.com/eddieridwan/opensid>https://github.com/eddieridwan/opensid</a>.
 <br />
 <br />
 <br /><b>APAKAH SISTEM INFORMASI (SID)?</b> <br />

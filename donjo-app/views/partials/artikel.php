@@ -6,7 +6,7 @@ echo "
 		<p>Kontent:</p>
 		<p>".$single_artikel["id"]."</p>
 	</div>
-	
+
 ";
 
 */
@@ -17,7 +17,7 @@ if($single_artikel["id"]){
 		<h2 class=\"judul\">".$single_artikel["judul"]."</h2>
 		<h3 class=\"kecil\"><i class=\"fa fa-user\"></i> ".$single_artikel['owner']." <i class=\"fa fa-clock-o\"></i> ".tgl_indo2($single_artikel['tgl_upload'])."</h3>
 		";
-		
+
 			if($single_artikel['gambar']!=''){
 				if(is_file("assets/files/artikel/kecil_".$single_artikel['gambar'])) {
 					echo "<div class=\"sampul\"><a class=\"group2\" href=\"".base_url()."assets/files/artikel/sedang_".$single_artikel['gambar']."\" title=\"\">
@@ -26,7 +26,7 @@ if($single_artikel["id"]){
 			}
 		echo "
 		<div class=\"teks\">".$single_artikel["isi"]."</div>";
-		
+
 			if($single_artikel['dokumen']!=''){
 				if(is_file("assets/files/dokumen/".$single_artikel['dokumen'])) {
 					echo "<p>Dokumen Lampiran : <a href=\"".base_url()."assets/files/dokumen/".$single_artikel['dokumen']."\" title=\"\">".$single_artikel['link_dokumen']."</a></p><br/>";
@@ -53,22 +53,24 @@ if($single_artikel["id"]){
 		echo "
 		<div class=\"form-group\" style=\"clear:both;\">
 			<ul id=\"pageshare\" title=\"bagikan ke teman anda\" class=\"pagination\">
-				<li class=\"sbutton\" id=\"fb\"><a name=\"fb_share\" href=\"http://www.facebook.com/sharer.php?u=\"".site_url()."first/artikel/".$single_artikel["id"]."\">Share</a></li>
-				<li class=\"sbutton\" id=\"rt\"><a href=\"http://twitter.com/share\" class=\"twitter-share-button\">Tweet</a></li>
+				<li class=\"sbutton\" id=\"fb\"><a name=\"fb_share\" href=\"http://www.facebook.com/sharer.php?u=".site_url()."first/artikel/".$single_artikel["id"]."\"><i class=\"fa fa-facebook-square\"></i>&nbsp;Share</a></li>
+				<li class=\"sbutton\" id=\"rt\"><a href=\"http://twitter.com/share\" class=\"twitter-share-button\"><i class=\"fa fa-twitter\"></i>&nbsp;Tweet</a></li>
+				<li class=\"sbutton\" id=\"gpshare\"><a href=\"https://plus.google.com/share?url=".site_url()."first/artikel/".$single_artikel["id"]."&hl=id"."\"><i class=\"fa fa-google-plus\" style=\"color:red\"></i>&nbsp;Bagikan</a></li>
 			</ul>
 			<!--
 			<script src=\"http://static.ak.fbcdn.net/connect.php/js/FB.Share\" type=\"text/javascript\"></script>
 			<script src=\"http://platform.twitter.com/widgets.js\" type=\"text/javascript\"></script>
 			-->
 		</div>
+
 		<div class=\"form-group\">
 		";
 		if(is_array($komentar)){
 			echo "
 			<div class=\"box box-default box-solid\">
 				<div class=\"box-header\"><h3 class=\"box-title\">Komentar atas ".$single_artikel["judul"]."</h3></div>
-				<div class=\"box-body\">
-			";
+				<div class=\"box-body\">";
+
 			foreach($komentar AS $data){
 				if($data['enabled']==1){
 					echo "
@@ -84,7 +86,7 @@ if($single_artikel["id"]){
 			}
 			echo "
 				</div>
-			</div>		
+			</div>
 			";
 		}else{
 			echo "<div>Belum ada komentar atas artikel ini, silakan tuliskan dalam formulir berikut ini</div>";
@@ -93,7 +95,13 @@ if($single_artikel["id"]){
 		</div>
 		<div class=\"form-group\">
 			<div class=\"box box-default\">
-				<div class=\"box-header\"><h3 class=\"box-title\">Formulir Penulisan Komentar</h3></div>
+				<div class=\"box-header\"><h3 class=\"box-title\">Formulir Penulisan Komentar</h3></div>";
+
+				// tampilkan hanya jika 'flash_message' ada
+				if ($flash_message) {
+					echo "<div class='box-header label-warning'>$flash_message</div>";
+				}
+		echo "
 				<div class=\"box-body\">
 					<form name=\"form\" action=\"".site_url("first/add_comment/".$single_artikel["id"])."\" method=POST onSubmit=\"return validasi(this)\">
 					<table width=100%>
@@ -104,10 +112,10 @@ if($single_artikel["id"]){
 					</table>
 					</form>
 				</div>
-			</div>		
+			</div>
 		</div>
 	</div>
-	
+
 	";
 }else{
 	echo "
