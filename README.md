@@ -35,3 +35,7 @@ Salah satu tujuan utama pengembangan OpenSID adalah untuk memisahkan file SID in
 Demo aplikasi OpenSID dapat dilihat di http://sid.bangundesa.info. Kami usahakan agar versi yang terlihat di demo itu sesuai dengan status release terakhir repository ini. Demo itu menampilkan aplikasi desa yang dikembangkan di cabang _desa_.
 
 Modul administrasi OpenSID dapat diaskses pada http://sid.bangundesa.info/index.php/siteman. Masukkan Username = admin dan Password = sid304.
+
+### Forum
+
+Group OpenSID di [Google Groups](https://groups.google.com/forum/?hl=id#!forum/opensid) adalah tempat berdiskusi penggunaan dan pengembangan aplikasi OpenSID. Silakan mempergunakan forum itu untuk bertanya mengenai OpenSID dan untuk memberi usulan. Tentunya pula, kami mengharapkan anda akan juga ikut menjawab pertanyaan dan menanggapi usulan.
