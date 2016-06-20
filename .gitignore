@@ -1,4 +1,8 @@
 backup/
 assets/sync/
+assets/files/user_pict/
+!assets/files/user_pict/index.html
+!assets/files/user_pict/kuser.png
 surat/arsip/
 desa/config/database.php
+generatedata-3.2.4/
