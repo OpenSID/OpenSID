@@ -6,6 +6,7 @@ define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
 define("LOKASI_SURAT_PRINT_DESA", 'desa/surat/print/');
 define("LOKASI_SURAT_EXPORT_DESA", 'desa/surat/export/');
+define("LOKASI_USER_PICT", 'desa/upload/user_pict/');
 
 /**
  * Ambil Versi

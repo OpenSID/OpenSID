@@ -37,7 +37,7 @@
 	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
   <div class="avatar">
 		<?php if($foto){?>
-			<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $foto?>" alt=""/>
+			<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
 		<?php }else{?>
 			<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
 		<?php }?>

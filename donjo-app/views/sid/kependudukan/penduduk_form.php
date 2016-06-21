@@ -2,7 +2,7 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 
 <div class="content-header">
 <h3>Form Data Penduduk</h3>
@@ -50,7 +50,7 @@
 <td>
 <div class="userbox-avatar">
 <?php if($penduduk['foto']){?>
-<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $penduduk['foto']?>" alt=""/>
+<img src="<?php echo AmbilFoto($penduduk['foto'])?>" alt=""/>
 <?php }else{?>
 <img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
 <?php }?>
@@ -95,12 +95,12 @@
 <tr>
 <th>Tempat Lahir</th>
 <td><input name="tempatlahir" type="text" class="inputbox" size="65"  value="<?php echo strtoupper($penduduk['tempatlahir'])?>"/></td>
-</tr>  
- 
+</tr>
+
 <tr>
 <th>Tanggal Lahir</th>
 <td><input name="tanggallahir" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggallahir']?>"/></td>
-</tr> 
+</tr>
 
 <tr>
 <th>Agama</th>
@@ -110,7 +110,7 @@
 <option value="<?php echo $data['id']?>" <?php if($penduduk['agama_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
-</tr> 
+</tr>
 
 <tr>
 <th>Pendidikan dalam KK</th>
@@ -140,8 +140,8 @@
 <option value="<?php echo $data['id']?>" <?php if($penduduk['pekerjaan_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
-</tr>  
- 
+</tr>
+
 <tr>
 <th>Status Kawin</th>
 <td><select name="status_kawin">
@@ -150,7 +150,7 @@
 <option value="<?php echo $data['id']?>" <?php if($penduduk['status_kawin']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
-</tr>  
+</tr>
 
 <tr>
 <th>Hubungan dalam Keluarga</th>
@@ -171,9 +171,9 @@
 <option value="<?php echo $data['id']?>" <?php if($penduduk['warganegara_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
-</tr>  
- 
- 
+</tr>
+
+
 <tr>
 <th>Dokumen Paspor</th>
 <td><input name="dokumen_pasport" type="text" class="inputbox" size="20"  value="<?php echo strtoupper($penduduk['dokumen_pasport'])?>"/></td>
@@ -187,8 +187,8 @@
 <tr>
 <th>NIK Ayah</th>
 <td><input name="ayah_nik" type="text" class="inputbox" size="30"  value="<?php echo $penduduk['ayah_nik']?>"/></td>
-</tr>  
- 
+</tr>
+
 <tr>
 <th>NIK Ibu</th>
 <td><input name="ibu_nik" type="text" class="inputbox" size="30"  value="<?php echo $penduduk['ibu_nik']?>"/></td>
@@ -197,8 +197,8 @@
 <tr>
 <th>Nama Ayah</th>
 <td><input name="nama_ayah" type="text" class="inputbox" size="60"  value="<?php echo strtoupper(unpenetration($penduduk['nama_ayah']))?>"/></td>
-</tr>  
- 
+</tr>
+
 <tr>
 <th>Nama Ibu</th>
 <td><input name="nama_ibu" type="text" class="inputbox" size="60"  value="<?php echo strtoupper(unpenetration($penduduk['nama_ibu']))?>"/></td>
@@ -213,7 +213,7 @@
 <option value="<?php echo $data['id']?>" <?php if($penduduk['golongan_darah_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
-</tr> 
+</tr>
 
 <tr>
 <th>Status</th>
@@ -245,7 +245,7 @@
 <option value="<?php echo $data['id']?>" <?php if($penduduk['cacat_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
-</tr>   
+</tr>
 
 <tr>
 <th>Status kehamilan</th>
@@ -284,9 +284,9 @@
 <?php }?>
 </table>
 </div>
-   
+
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <a href="<?php echo site_url()?>penduduk" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">

@@ -1,7 +1,12 @@
 <?php
 
+function AmbilFoto($foto){
+  $file_foto = base_url() . LOKASI_USER_PICT . "/kecil_" . $foto;
+  return $file_foto;
+}
+
 function UploadFoto($fupload_name,$old_foto){
-  $vdir_upload = "assets/files/user_pict/";
+  $vdir_upload = LOKASI_USER_PICT;
   if($old_foto!="")
 	unlink($vdir_upload."kecil_".$old_foto);
 
