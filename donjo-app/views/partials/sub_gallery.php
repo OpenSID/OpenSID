@@ -11,8 +11,8 @@
 					echo "
 					<li>
 						<div class=\"entry\">
-						<a class=\"group2\" href=\""AmbilGaleri($data['gambar'], 'sedang')"\" title=\"". $data['nama']."\">
-							<img src=\""AmbilGaleri($data['gambar'], 'kecil')."\" /></a>
+						<a class=\"group2\" href=\"".AmbilGaleri($data['gambar'], 'sedang')."\" title=\"". $data['nama']."\">
+							<img src=\"".AmbilGaleri($data['gambar'], 'kecil')."\" /></a>
 						</div>
 						<div class=\"title\">". $data["nama"]."</div>
 					</li>";
