@@ -75,7 +75,7 @@ function UploadGambar($fupload_name,$old_gambar){
 }
 
 function AmbilGaleri($foto, $ukuran){
-  $file_foto = base_url() . LOKASI_GALERI . "/". $ukuran ."_" . $foto;
+  $file_foto = base_url() . LOKASI_GALERI . $ukuran ."_" . $foto;
   return $file_foto;
 }
 
@@ -86,7 +86,6 @@ function UploadGallery($fupload_name){
 //	unlink($vdir_upload.$old_gambar);
  // }
   $vfile_upload = $vdir_upload . $fupload_name;
-
   move_uploaded_file($_FILES["gambar"]["tmp_name"], $vfile_upload);
 
   $im_src = imagecreatefromjpeg($vfile_upload);
