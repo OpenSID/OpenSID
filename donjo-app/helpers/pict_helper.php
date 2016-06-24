@@ -74,8 +74,13 @@ function UploadGambar($fupload_name,$old_gambar){
   return true;
 }
 
+function AmbilGaleri($foto, $ukuran){
+  $file_foto = base_url() . LOKASI_GALERI . "/". $ukuran ."_" . $foto;
+  return $file_foto;
+}
+
 function UploadGallery($fupload_name){
-  $vdir_upload = "assets/files/galeri/";
+  $vdir_upload = LOKASI_GALERI;
   //if($old_gambar!=""){
 //	unlink($vdir_upload."kecil_".$old_gambar);
 //	unlink($vdir_upload.$old_gambar);

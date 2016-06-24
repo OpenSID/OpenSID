@@ -11,8 +11,12 @@ assets/files/logo/*
 assets/files/user_pict/*
 !assets/files/user_pict/index.html
 !assets/files/user_pict/kuser.png
+# Jangan simpan isi folder galeri.
+assets/files/galeri/*
+!assets/files/galeri/index.html
 # Jangan simpan isi folder desa. Isinya khusus desa.
 desa/*
 surat/arsip/
 !surat/arsip/.keep
 generatedata-3.2.4/
+

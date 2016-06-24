@@ -16,11 +16,11 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-	<td style="background:#fff;padding:0px;"> 
+	<td style="background:#fff;padding:0px;">
 <div class="content-header">
     <h3>Manajemen Gallery</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
@@ -52,7 +52,7 @@
                 <th>No</th>
                 <th><input type="checkbox" class="checkall"/></th>
                 <th width="130">Aksi</th>
-			
+
 	 		<?php  if($o==2): ?>
 				<th align="left"><a href="<?php echo site_url("gallery/index/$p/1")?>">Nama Album<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==1): ?>
@@ -60,7 +60,7 @@
 			<?php  else: ?>
 				<th align="left"><a href="<?php echo site_url("gallery/index/$p/1")?>">Nama Album<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>&nbsp;</span></a></th>
-			
+
 			<?php  if($o==4): ?>
 				<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==3): ?>
@@ -68,7 +68,7 @@
 			<?php  else: ?>
 				<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>&nbsp;</span></a></th>
-			
+
 			<?php  if($o==6): ?>
 				<th align="left" width='150'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==5): ?>
@@ -76,7 +76,7 @@
 			<?php  else: ?>
 				<th align="left" width='150'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>&nbsp;</span></a></th>
-            
+
 			</tr>
 		</thead>
 		<tbody>
@@ -86,7 +86,7 @@
 			<td align="center" width="5">
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
-			<td> 
+			<td>
 				<div class="uibutton-group">
 					<a href="<?php echo site_url("gallery/sub_gallery/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Gallery"><span class="icon-zoom-in icon-large"> Rincian </span></a>
 					<a href="<?php echo site_url("gallery/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"></span></a>
@@ -97,10 +97,10 @@
 					<?php endif?>
 				<?php } ?>
 				</div>
-				
+
 			  </td>
 			  <td>
-				<label class="tipsy west" title="<img width=200 height=134 src=<?php echo base_url()?>assets/files/galeri/kecil_<?php echo $data['gambar']?>>"><?php echo $data['nama']?></label>
+				<label class="tipsy west" title="<img width=200 height=134 src=<?php echo AmbilGaleri($data['gambar'], 'kecil') ?>>"><?php echo $data['nama']?></label>
 			  </td>
 			  <td><?php echo $data['aktif']?></td>
 			  <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
@@ -111,7 +111,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('gallery')?>" method="post">
 		  <label>Tampilkan</label>
@@ -136,7 +136,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("gallery/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>
