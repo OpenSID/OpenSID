@@ -13,7 +13,7 @@ OpenSID dikelola di Github untuk:
 - memudahkan kolaborasi antar pegiat SID dan juga dengan desa dampingan dalam mengembangkan SID
 - backup online _source code_ SID yg dapat diaskses setiap saat
 
-Wiki OpenSID (https://github.com/eddieridwan/opensid/wiki) akan dikembangkan sesuai kebutuhan.
+Pedoman pemasangan dan penggunaan OpenSID dapat dilihat di wiki OpenSID di https://github.com/eddieridwan/opensid/wiki).
 
 Catatan:
 - sistem ini dikelola dengan merujuk pada lisensi GNU GENERAL PUBLIC LICENSE Version 3 (http://www.gnu.org/licenses/gpl.html)
