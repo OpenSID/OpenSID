@@ -173,7 +173,7 @@
 
 			var content = '<table border=0 style="width:400px"><tr>' +
 		<?php if($data['foto']!=""){?>
-			'<td><img src="<?php echo base_url()?>assets/files/gis/lokasi/sedang_<?php echo $data['foto']?>" class="foto"/></td>' +
+			'<td><img src="<?php echo base_url().LOKASI_FOTO_LOKASI?>sedang_<?php echo $data['foto']?>" class="foto"/></td>' +
 		<?php }?>
 			'<td style="padding-left:3px"><font size="2.5" style="font-weight:bold;"><?php echo $data['nama']?></font>' +
 			'<p><?php echo $data['desk']?></p>'+

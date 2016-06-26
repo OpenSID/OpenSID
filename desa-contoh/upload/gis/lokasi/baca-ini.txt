@@ -1,0 +1,5 @@
+*******************************
+Folder: desa/upload/gis/lokasi
+*******************************
+
+Folder ini tempat menyimpan semua gambar yang diunggah sebagai foto lokasi.

@@ -17,6 +17,9 @@ assets/files/galeri/*
 # Jangan simpan isi folder foto artikel.
 assets/files/artikel/*
 !assets/files/artikel/index.html
+# Jangan simpan isi folder gis/lokasi.
+assets/files/gis/lokasi/*
+!assets/files/gis/lokasi/index.html
 # Jangan simpan isi folder desa. Isinya khusus desa.
 desa/*
 surat/arsip/

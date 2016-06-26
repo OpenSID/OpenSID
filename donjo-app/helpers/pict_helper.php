@@ -254,7 +254,7 @@ function HapusArtikel($gambar){
 }
 
 function UploadLokasi($fupload_name){
-  $vdir_upload = "assets/files/gis/lokasi/";
+  $vdir_upload = LOKASI_FOTO_LOKASI;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
