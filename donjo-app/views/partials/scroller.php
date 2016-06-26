@@ -23,14 +23,14 @@ var triggerID = $active.attr("rel") - 1; //Get number of times to slide
 //alert(triggerID);
 var sliderPosition = triggerID * imageWidth; //Determines the distance the image reel needs to slide
 
-$j("#rps .paging a").removeClass("active"); 
+$j("#rps .paging a").removeClass("active");
 $active.addClass("active");
 
 //Slider Animation
-$j("#rps .slider").stop(true,false).animate({ 
+$j("#rps .slider").stop(true,false).animate({
 left: -sliderPosition
 }, 500 );
-}; 
+};
 var play;
 //Rotation + Timing Event
 rotateSwitch = function(){
@@ -72,9 +72,9 @@ return false; //Prevent browser jump to link anchor
 <div class="slider-content-img">
 <a href="<?php echo site_url("first/artikel/$data[id]")?>">
 <?php  if($data['gambar']!=''){?>
-		<?php  if(is_file("assets/files/artikel/kecil_".$data['gambar'])) {?>
-			<img src="<?php echo base_url()?>/assets/files/artikel/kecil_<?php echo $data['gambar']?>" width="120" height="90">
-		
+		<?php  if(is_file(LOKASI_FOTO_ARTIKEL."kecil_".$data['gambar'])) {?>
+			<img src="<?php echo AmbilFotoArtikel($data['gambar'],'kecil')?>" width="120" height="90">
+
 <?php  }?>
 </a>
 	<?php  }?>

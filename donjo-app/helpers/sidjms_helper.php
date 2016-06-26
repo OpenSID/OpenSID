@@ -8,6 +8,7 @@ define("LOKASI_SURAT_PRINT_DESA", 'desa/surat/print/');
 define("LOKASI_SURAT_EXPORT_DESA", 'desa/surat/export/');
 define("LOKASI_USER_PICT", 'desa/upload/user_pict/');
 define("LOKASI_GALERI", 'desa/upload/galeri/');
+define("LOKASI_FOTO_ARTIKEL", 'desa/upload/artikel/');
 
 /**
  * Ambil Versi

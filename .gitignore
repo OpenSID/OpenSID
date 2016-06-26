@@ -14,6 +14,9 @@ assets/files/user_pict/*
 # Jangan simpan isi folder galeri.
 assets/files/galeri/*
 !assets/files/galeri/index.html
+# Jangan simpan isi folder foto artikel.
+assets/files/artikel/*
+!assets/files/artikel/index.html
 # Jangan simpan isi folder desa. Isinya khusus desa.
 desa/*
 surat/arsip/

@@ -175,8 +175,13 @@ function UploadSimbolx($fupload_name,$old_gambar){
   return true;
 }
 
+function AmbilFotoArtikel($foto, $ukuran){
+  $file_foto = base_url() . LOKASI_FOTO_ARTIKEL . $ukuran ."_" . $foto;
+  return $file_foto;
+}
+
 function UploadArtikel($fupload_name,$gambar,$fp){
-  $vdir_upload = "assets/files/artikel/";
+  $vdir_upload = LOKASI_FOTO_ARTIKEL;
   //if($old_gambar!=""){
 	//unlink($vdir_upload."kecil_".$old_gambar);
 	//unlink($vdir_upload.$old_gambar);
@@ -240,7 +245,7 @@ function UploadArtikel($fupload_name,$gambar,$fp){
 }
 
 function HapusArtikel($gambar){
-  $vdir_upload = "assets/files/artikel/";
+  $vdir_upload = LOKASI_FOTO_ARTIKEL;
   $vfile_upload = $vdir_upload . "sedang_" . $gambar;
   unlink($vfile_upload);
   $vfile_upload = $vdir_upload . "kecil_" . $gambar;
