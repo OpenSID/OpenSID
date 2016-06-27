@@ -487,6 +487,24 @@ function UploadSimbol($fupload_name){
   move_uploaded_file($_FILES["simbol"]["tmp_name"], $vfile_upload);
 }
 
+define (MIME_TYPE_DOKUMEN, serialize (array(
+  "application/x-download",
+  "application/pdf",
+  "application/zip",
+  "application/ppt",
+  "application/pptx",
+  "application/rar",
+  "application/excel",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "text/rtf",
+  "application/powerpoint",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.ms-excel",
+  "application/msexcel",
+  "application/x-zip" )));
+
 function UploadDocument($fupload_name){
   $vdir_upload = "assets/files/dokumen/";
 
