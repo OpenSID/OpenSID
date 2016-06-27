@@ -1,4 +1,4 @@
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=2&sensor=false"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=2"></script>
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">

@@ -375,7 +375,7 @@ function UploadGaris($fupload_name){
   return true;
 }
 function UploadArea($fupload_name){
-  $vdir_upload = "assets/files/gis/area/";
+  $vdir_upload = LOKASI_FOTO_AREA;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 

@@ -83,7 +83,7 @@
         '</div>'+
         '<h1 id="firstHeading" class="firstHeading"><?php echo $area['nama']?></h1>'+
         '<div id="bodyContent">'+
-        '<img src="<?php echo base_url()?>assets/files/gis/area/sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
+        '<img src="<?php echo base_url().LOKASI_FOTO_AREA?>sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
         '<p><?php echo $area['desk']?></p>'+
         '</div>'+
         '</div>';

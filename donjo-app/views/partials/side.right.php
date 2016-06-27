@@ -272,7 +272,7 @@ if($data_config['lat']!= "0"){
 		</div>
 		<div class=\"box-body\">
 			<div id=\"map_canvas\" style=\"height:200px;\"></div>
-			<script type=\"text/javascript\" src=\"//maps.google.com/maps/api/js?sensor=false\"></script>";
+			<script type=\"text/javascript\" src=\"//maps.google.com/maps/api/js\"></script>";
 			?>
 			<script type="text/javascript">
 				var map;

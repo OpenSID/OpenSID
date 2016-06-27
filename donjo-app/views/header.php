@@ -76,7 +76,7 @@
 
 
 <!-- NOTIFICATION
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>--><?php  if(@$_SESSION['success']==1): ?>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>--><?php  if(@$_SESSION['success']==1): ?>
 <script type="text/javascript">
 $('document').ready(function(){
 notification('success','Data Berhasil Disimpan')();

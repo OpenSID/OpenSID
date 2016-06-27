@@ -10,6 +10,7 @@ define("LOKASI_USER_PICT", 'desa/upload/user_pict/');
 define("LOKASI_GALERI", 'desa/upload/galeri/');
 define("LOKASI_FOTO_ARTIKEL", 'desa/upload/artikel/');
 define("LOKASI_FOTO_LOKASI", 'desa/upload/gis/lokasi/');
+define("LOKASI_FOTO_AREA", 'desa/upload/gis/area/');
 
 /**
  * Ambil Versi
