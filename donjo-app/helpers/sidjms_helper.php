@@ -12,6 +12,7 @@ define("LOKASI_FOTO_ARTIKEL", 'desa/upload/artikel/');
 define("LOKASI_FOTO_LOKASI", 'desa/upload/gis/lokasi/');
 define("LOKASI_FOTO_AREA", 'desa/upload/gis/area/');
 define("LOKASI_FOTO_GARIS", 'desa/upload/gis/garis/');
+define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
 
 /**
  * Ambil Versi

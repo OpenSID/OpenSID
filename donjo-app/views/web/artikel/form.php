@@ -75,7 +75,7 @@ tinyMCE.init({
 <tr>
 <th class="top">Dokumen</th>
 <td>
-<a href="<?php echo base_url()?>assets/files/dokumen/<?php echo $artikel['dokumen']?>"/>Download</a>
+<a href="<?php echo base_url().LOKASI_DOKUMEN.$artikel['dokumen']?>"/>Download</a>
 </td>
 </tr>
 <?php }?>

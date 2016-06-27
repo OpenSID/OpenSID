@@ -28,8 +28,8 @@ if($single_artikel["id"]){
 		<div class=\"teks\">".$single_artikel["isi"]."</div>";
 
 			if($single_artikel['dokumen']!=''){
-				if(is_file("assets/files/dokumen/".$single_artikel['dokumen'])) {
-					echo "<p>Dokumen Lampiran : <a href=\"".base_url()."assets/files/dokumen/".$single_artikel['dokumen']."\" title=\"\">".$single_artikel['link_dokumen']."</a></p><br/>";
+				if(is_file(LOKASI_DOKUMEN.$single_artikel['dokumen'])) {
+					echo "<p>Dokumen Lampiran : <a href=\"".base_url().LOKASI_DOKUMEN.$single_artikel['dokumen']."\" title=\"\">".$single_artikel['link_dokumen']."</a></p><br/>";
 				}
 			}
 			if($single_artikel['gambar1']!=''){

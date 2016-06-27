@@ -506,7 +506,7 @@ define (MIME_TYPE_DOKUMEN, serialize (array(
   "application/x-zip" )));
 
 function UploadDocument($fupload_name){
-  $vdir_upload = "assets/files/dokumen/";
+  $vdir_upload = LOKASI_DOKUMEN;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -518,7 +518,7 @@ function UploadDocument($fupload_name){
 }
 
 function UploadDocument2($fupload_name){
-  $vdir_upload = "assets/files/dokumen/";
+  $vdir_upload = LOKASI_DOKUMEN;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
