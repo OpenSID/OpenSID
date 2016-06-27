@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
 <script>
 (function() {
         var mapOptions = {
@@ -18,17 +18,17 @@
 			  mapTypeId: google.maps.MapTypeId.ROADMAP // ROADMAP, TERRAIN, SATELLITE,HYBRID
 			<?php }
 		}?>
-		  
+
         }; // end options
         var map = new google.maps.Map(document.getElementById("map"),mapOptions);
-		
+
    // map = new google.maps.Map(document.getElementById('map'), options);
 		var marker = new google.maps.Marker({<?php if($penduduk['lat'] != ""){?>
       		position: new google.maps.LatLng(<?php echo $penduduk['lat']?>,<?php echo $penduduk['lng']?>),
 
 		<?php }else if($desa['lat'] != ""){?>
 			position: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
-		
+
 		<?php }else{?>
       		position: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
 		<?php }?>
@@ -42,8 +42,8 @@
 			document.getElementById('lng').value = marker.getPosition().lng();
 			document.getElementById('zoom').value = map.getZoom();
 			document.getElementById('map_tipe').value = map.getMapTypeId();
-        }); 
-  
+        });
+
 })();
 </script>
 <style>

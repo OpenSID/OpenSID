@@ -7,12 +7,12 @@
 				<ul class=\"thumbnail\">";
 			$i=1;
 			foreach($gallery AS $data){
-				if(is_file("assets/files/galeri/sedang_".$data['gambar'])) {
+				if(is_file(LOKASI_GALERI . "sedang_" . $data['gambar'])) {
 					echo "
 					<li>
 						<div class=\"entry\">
-						<a class=\"group2\" href=\"". base_url()."assets/files/galeri/sedang_". $data['gambar']."\" title=\"". $data['nama']."\">
-							<img src=\"". base_url()."assets/files/galeri/kecil_". $data['gambar']."\" /></a>
+						<a class=\"group2\" href=\"".AmbilGaleri($data['gambar'], 'sedang')."\" title=\"". $data['nama']."\">
+							<img src=\"".AmbilGaleri($data['gambar'], 'kecil')."\" /></a>
 						</div>
 						<div class=\"title\">". $data["nama"]."</div>
 					</li>";

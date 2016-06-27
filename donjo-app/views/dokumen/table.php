@@ -10,11 +10,11 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-	<td style="background:#fff;padding:0px;"> 
+	<td style="background:#fff;padding:0px;">
 <div class="content-header">
     <h3>Manajemen Dokumen</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
@@ -44,7 +44,7 @@
                 <th>No</th>
                 <th><input type="checkbox" class="checkall"/></th>
                 <th width="120">Aksi</th>
-			
+
 	 		<?php  if($o==2): ?>
 				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/1")?>">Judul Dokumen<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==1): ?>
@@ -52,7 +52,7 @@
 			<?php  else: ?>
 				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/1")?>">Judul Dokumen<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>&nbsp;</span></a></th>
-			
+
 			<?php  if($o==4): ?>
 				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==3): ?>
@@ -60,7 +60,7 @@
 			<?php  else: ?>
 				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>&nbsp;</span></a></th>
-			
+
 			<?php  if($o==6): ?>
 				<th align="left" width='150'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diupload pada<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==5): ?>
@@ -85,7 +85,7 @@
 			  <td><?php echo $data['nama']?></td>
 			  <td><?php echo $data['aktif']?></td>
 			  <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
-<td><a href="<?php echo base_url()?>assets/files/dokumen/<?php echo underscore($data['satuan'])?>" ><?php echo $data['satuan']?></a></td>
+<td><a href="<?php echo base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" ><?php echo $data['satuan']?></a></td>
 		</tr>
         <?php }?>
 		</tbody>
@@ -93,7 +93,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('dokumen')?>" method="post">
 		  <label>Tampilkan</label>
@@ -118,7 +118,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("dokumen/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>

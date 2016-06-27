@@ -29,7 +29,7 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jscolor/jscolor.js"></script>
 </head>
 <body>
@@ -40,7 +40,7 @@
 <div id="userbox" class="wrapper-dropdown-3" tabindex="1">
         <div class="avatar">
 		<?php if($foto){?>
-			<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $foto?>" alt=""/>
+			<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
 		<?php }else{?>
 			<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
 		<?php }?>
@@ -78,7 +78,7 @@
 
 
 <!-- NOTIFICATION
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>--><?php  if($_SESSION['success']==1): ?>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>--><?php  if($_SESSION['success']==1): ?>
 <script type="text/javascript">
 $('document').ready(function(){
 notification('success','Data Berhasil Disimpan')();

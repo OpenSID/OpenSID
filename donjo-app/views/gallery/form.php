@@ -1,7 +1,7 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 
 <div class="content-header">
 <h3>Form Manajemen Gallery</h3>
@@ -19,7 +19,7 @@
 <th class="top">Gambar</th>
 <td>
 <div>
-<img width="440" height="300" src="<?php echo base_url()?>assets/files/galeri/sedang_<?php echo $gallery['gambar']?>" alt=""/>
+<img width="440" height="300" src="<?php echo AmbilGaleri($gallery['gambar'], 'sedang') ?>" alt=""/>
 </div>
 </td>
 <input type="hidden" name="old_gambar" value="<?php echo $gallery['gambar']?>">
@@ -31,9 +31,9 @@
 </tr>
 </table>
 </div>
-   
+
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <a href="<?php echo site_url()?>gallery" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">

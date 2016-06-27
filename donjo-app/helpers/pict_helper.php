@@ -1,7 +1,12 @@
 <?php
 
+function AmbilFoto($foto){
+  $file_foto = base_url() . LOKASI_USER_PICT . "/kecil_" . $foto;
+  return $file_foto;
+}
+
 function UploadFoto($fupload_name,$old_foto){
-  $vdir_upload = "assets/files/user_pict/";
+  $vdir_upload = LOKASI_USER_PICT;
   if($old_foto!="")
 	unlink($vdir_upload."kecil_".$old_foto);
 
@@ -69,14 +74,18 @@ function UploadGambar($fupload_name,$old_gambar){
   return true;
 }
 
+function AmbilGaleri($foto, $ukuran){
+  $file_foto = base_url() . LOKASI_GALERI . $ukuran ."_" . $foto;
+  return $file_foto;
+}
+
 function UploadGallery($fupload_name){
-  $vdir_upload = "assets/files/galeri/";
+  $vdir_upload = LOKASI_GALERI;
   //if($old_gambar!=""){
 //	unlink($vdir_upload."kecil_".$old_gambar);
 //	unlink($vdir_upload.$old_gambar);
  // }
   $vfile_upload = $vdir_upload . $fupload_name;
-
   move_uploaded_file($_FILES["gambar"]["tmp_name"], $vfile_upload);
 
   $im_src = imagecreatefromjpeg($vfile_upload);
@@ -166,8 +175,13 @@ function UploadSimbolx($fupload_name,$old_gambar){
   return true;
 }
 
+function AmbilFotoArtikel($foto, $ukuran){
+  $file_foto = base_url() . LOKASI_FOTO_ARTIKEL . $ukuran ."_" . $foto;
+  return $file_foto;
+}
+
 function UploadArtikel($fupload_name,$gambar,$fp){
-  $vdir_upload = "assets/files/artikel/";
+  $vdir_upload = LOKASI_FOTO_ARTIKEL;
   //if($old_gambar!=""){
 	//unlink($vdir_upload."kecil_".$old_gambar);
 	//unlink($vdir_upload.$old_gambar);
@@ -231,7 +245,7 @@ function UploadArtikel($fupload_name,$gambar,$fp){
 }
 
 function HapusArtikel($gambar){
-  $vdir_upload = "assets/files/artikel/";
+  $vdir_upload = LOKASI_FOTO_ARTIKEL;
   $vfile_upload = $vdir_upload . "sedang_" . $gambar;
   unlink($vfile_upload);
   $vfile_upload = $vdir_upload . "kecil_" . $gambar;
@@ -240,7 +254,7 @@ function HapusArtikel($gambar){
 }
 
 function UploadLokasi($fupload_name){
-  $vdir_upload = "assets/files/gis/lokasi/";
+  $vdir_upload = LOKASI_FOTO_LOKASI;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -301,7 +315,7 @@ function UploadLokasi($fupload_name){
 }
 
 function UploadGaris($fupload_name){
-  $vdir_upload = "assets/files/gis/garis/";
+  $vdir_upload = LOKASI_FOTO_GARIS;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -361,7 +375,7 @@ function UploadGaris($fupload_name){
   return true;
 }
 function UploadArea($fupload_name){
-  $vdir_upload = "assets/files/gis/area/";
+  $vdir_upload = LOKASI_FOTO_AREA;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -473,8 +487,26 @@ function UploadSimbol($fupload_name){
   move_uploaded_file($_FILES["simbol"]["tmp_name"], $vfile_upload);
 }
 
+define (MIME_TYPE_DOKUMEN, serialize (array(
+  "application/x-download",
+  "application/pdf",
+  "application/zip",
+  "application/ppt",
+  "application/pptx",
+  "application/rar",
+  "application/excel",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "text/rtf",
+  "application/powerpoint",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.ms-excel",
+  "application/msexcel",
+  "application/x-zip" )));
+
 function UploadDocument($fupload_name){
-  $vdir_upload = "assets/files/dokumen/";
+  $vdir_upload = LOKASI_DOKUMEN;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 
@@ -486,7 +518,7 @@ function UploadDocument($fupload_name){
 }
 
 function UploadDocument2($fupload_name){
-  $vdir_upload = "assets/files/dokumen/";
+  $vdir_upload = LOKASI_DOKUMEN;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 

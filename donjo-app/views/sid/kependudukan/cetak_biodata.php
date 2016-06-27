@@ -12,8 +12,8 @@
 <div id="ktp">
 <div class="header" align="center">
 <h3>BIODATA PENDUDUK</h3>
-<h2><?php echo $desa['desa']['nama_kabupaten']?>, Kec. <?php echo $desa['desa']['nama_kecamatan']?>, Desa <?php echo $desa['desa']['nama_desa']?></h2> 
-<h5>No. <?php echo $penduduk['nik']?></h5> 
+<h2><?php echo $desa['desa']['nama_kabupaten']?>, Kec. <?php echo $desa['desa']['nama_kecamatan']?>, Desa <?php echo $desa['desa']['nama_desa']?></h2>
+<h5>No. <?php echo $penduduk['nik']?></h5>
 </div>
 <br>
 <br>
@@ -22,7 +22,7 @@
 <tr>
 <td width="150">Nama</td><td width="1">:</td>
 <td><?php echo strtoupper($penduduk['nama'])?></td><td rowspan="18"><?php if($penduduk['foto']){?>
-<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $penduduk['foto']?>" alt=""/>
+<img src="<?php echo AmbilFoto($penduduk['foto'])?>" alt=""/>
 <?php }?>
 <tr>
 <td>Akta lahir</td><td >:</td>
@@ -43,11 +43,11 @@
 
 <tr>
 <td>Tempat / Tanggal Lahir</td><td >:</td>
-<td><?php echo strtoupper($penduduk['tempatlahir'])?> / <?php echo strtoupper($penduduk['tanggallahir'])?></td></tr> 
+<td><?php echo strtoupper($penduduk['tempatlahir'])?> / <?php echo strtoupper($penduduk['tanggallahir'])?></td></tr>
 
 <tr>
 <td>Agama</td><td >:</td>
-<td><?php echo strtoupper($penduduk['agama'])?></td></tr> 
+<td><?php echo strtoupper($penduduk['agama'])?></td></tr>
 
 <tr>
 <td>Pendidikan</td><td >:</td>
@@ -55,16 +55,16 @@
 
 <tr>
 <td>Pekerjaan</td><td >:</td>
-<td><?php echo strtoupper($penduduk['pekerjaan'])?></td></tr> 
-  
+<td><?php echo strtoupper($penduduk['pekerjaan'])?></td></tr>
+
 <tr>
 <td>Status Kawin</td><td >:</td>
 <td><?php echo strtoupper($penduduk['kawin'])?></td></tr>
 
 <tr>
 <td>Warga Negara</td><td >:</td>
-<td><?php echo strtoupper($penduduk['warganegara'])?></td></tr>  
- 
+<td><?php echo strtoupper($penduduk['warganegara'])?></td></tr>
+
 <tr>
 <td>Dokumen Pasport</td><td >:</td>
 <td><?php echo strtoupper($penduduk['dokumen_pasport'])?></td></tr>
@@ -99,21 +99,21 @@
 </tr>
 
 <tr>
-<td>Data Orang Tua</td></tr> 
+<td>Data Orang Tua</td></tr>
 
 <tr>
 <td>NIK Ayah</td><td >:</td>
-<td><?php echo strtoupper($penduduk['ayah_nik'])?></td></tr> 
-  
+<td><?php echo strtoupper($penduduk['ayah_nik'])?></td></tr>
+
 <tr>
 <td>Nama Ayah</td><td >:</td>
-<td><?php echo strtoupper($penduduk['nama_ayah'])?></td></tr>   
-  
+<td><?php echo strtoupper($penduduk['nama_ayah'])?></td></tr>
+
 <tr>
 <td>NIK Ibu</td><td >:</td>
 <td><?php echo strtoupper($penduduk['ibu_nik'])?></td></tr>
 
-  
+
 <tr>
 <td>Nama Ibu</td><td >:</td>
 <td><?php echo strtoupper($penduduk['nama_ibu'])?></td></tr>
@@ -125,7 +125,7 @@
 </table>
 </div>
 </div>
-   
+
    <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>
 

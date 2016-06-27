@@ -1,11 +1,18 @@
 <?php
 
-define("VERSION", '0.5.1');
+define("VERSION", '0.5.2');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
 define("LOKASI_SURAT_PRINT_DESA", 'desa/surat/print/');
 define("LOKASI_SURAT_EXPORT_DESA", 'desa/surat/export/');
+define("LOKASI_USER_PICT", 'desa/upload/user_pict/');
+define("LOKASI_GALERI", 'desa/upload/galeri/');
+define("LOKASI_FOTO_ARTIKEL", 'desa/upload/artikel/');
+define("LOKASI_FOTO_LOKASI", 'desa/upload/gis/lokasi/');
+define("LOKASI_FOTO_AREA", 'desa/upload/gis/area/');
+define("LOKASI_FOTO_GARIS", 'desa/upload/gis/garis/');
+define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
 
 /**
  * Ambil Versi

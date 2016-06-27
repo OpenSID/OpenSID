@@ -1,7 +1,7 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 
 <div class="content-header">
 <h3>Form Data Penduduk</h3>
@@ -11,7 +11,7 @@
 
 <div align="center">
 <h3> BIODATA PENDUDUK</h3>
-<h4>No. <?php echo $penduduk['nik']?> </h4> 
+<h4>No. <?php echo $penduduk['nik']?> </h4>
 </div>
 
 <table class="form" >
@@ -20,7 +20,7 @@
 <td>
 <div class="userbox-avatar">
 <?php if($penduduk['foto']){?>
-<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $penduduk['foto']?>" alt=""/>
+<img src="<?php echo AmbilFoto($penduduk['foto'])?>" alt=""/>
 <?php }else{?>
 <img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
 <?php }?>
@@ -57,12 +57,12 @@
 <tr>
 <td>Tempat / Tanggal Lahir</td><td >:</td>
 <td><?php echo strtoupper($penduduk['tempatlahir'])?> / <?php echo strtoupper($penduduk['tanggallahir'])?></td>
-</tr> 
+</tr>
 
 <tr>
 <td>Agama</td><td >:</td>
 <td><?php echo strtoupper($penduduk['agama'])?></td>
-</tr> 
+</tr>
 
 <tr>
 <td>Pendidikan dalam KK</td><td >:</td>
@@ -77,8 +77,8 @@
 <tr>
 <td>Pekerjaan</td><td >:</td>
 <td><?php echo strtoupper($penduduk['pekerjaan'])?></td>
-</tr> 
-  
+</tr>
+
 <tr>
 <td>Status Kawin</td><td >:</td>
 <td><?php echo strtoupper($penduduk['kawin'])?></td>
@@ -87,8 +87,8 @@
 <tr>
 <td>Warga Negara</td><td >:</td>
 <td><?php echo strtoupper($penduduk['warganegara'])?></td>
-</tr>  
- 
+</tr>
+
 <tr>
 <td>Dokumen Paspor</td><td >:</td>
 <td><?php echo strtoupper($penduduk['dokumen_pasport'])?></td>
@@ -132,24 +132,24 @@
 
 <tr>
 <td>Data Orang Tua</td>
-</tr> 
+</tr>
 
 <tr>
 <td>NIK Ayah</td><td >:</td>
 <td><?php echo strtoupper($penduduk['ayah_nik'])?></td>
-</tr> 
-  
+</tr>
+
 <tr>
 <td>Nama Ayah</td><td >:</td>
 <td><?php echo strtoupper(unpenetration($penduduk['nama_ayah']))?></td>
-</tr>   
-  
+</tr>
+
 <tr>
 <td>NIK Ibu</td><td >:</td>
 <td><?php echo strtoupper($penduduk['ibu_nik'])?></td>
 </tr>
 
-  
+
 <tr>
 <td>Nama Ibu</td><td >:</td>
 <td><?php echo strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
@@ -168,9 +168,9 @@
 </tr>
 </table>
 </div>
-   
+
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <a href="<?php echo site_url()?>penduduk" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">

@@ -12,7 +12,7 @@ table.form.detail td{
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 
 <div class="content-header">
 <h3>Form Manajemen KK</h3>
@@ -96,7 +96,7 @@ table.form.detail td{
 <th>Tanggal Lahir</th>
 <td><input name="tanggallahir" type="text" class="inputbox datepicker" size="20"/></td>
 </tr>
- 
+
 <tr>
 <th>Agama</th>
 <td><select name="agama_id" class="required">
@@ -105,7 +105,7 @@ table.form.detail td{
 <option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
 <?php }?></select>
 </td>
-</tr> 
+</tr>
 
 <tr>
 <th>Pendidikan dalam KK</th>
@@ -155,7 +155,7 @@ table.form.detail td{
 <option value="<?php echo $data['id']?>"><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
-</tr>  
+</tr>
 
 <tr>
 <th>No Pasport</th>
@@ -222,8 +222,8 @@ table.form.detail td{
 <button class="uibutton confirm" type="submit" >Simpan</button>
 </div>
 </div>
-</div> 
-</form> 
+</div>
+</form>
 </div>
 </td></tr>
 </table>
