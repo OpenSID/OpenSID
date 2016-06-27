@@ -1,8 +1,28 @@
 backup/
 assets/sync/
-assets/files/user_pict/
+# Jangan simpan isi folder foto pengguna. Isinya khusus desa, kecuali
+# file foto contoh yg tersedia dalam release sid304 inti.
+assets/files/user_pict/*
 !assets/files/user_pict/index.html
 !assets/files/user_pict/kuser.png
+# Jangan simpan isi folder galeri.
+assets/files/galeri/*
+!assets/files/galeri/index.html
+# Jangan simpan isi folder foto artikel.
+assets/files/artikel/*
+!assets/files/artikel/index.html
+# Jangan simpan isi folder gis/lokasi.
+assets/files/gis/lokasi/*
+!assets/files/gis/lokasi/index.html
+# Jangan simpan isi folder gis/area.
+assets/files/gis/area/*
+!assets/files/gis/area/index.html
+# Jangan simpan isi folder gis/garis.
+assets/files/gis/garis/*
+!assets/files/gis/garis/index.html
+# Jangan simpan isi folder dokumen.
+assets/files/dokumen/*
+!assets/files/dokumen/index.html
 surat/arsip/
 desa/config/database.php
 generatedata-3.2.4/
