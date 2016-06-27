@@ -126,7 +126,7 @@
         '</div>'+
         '<h1 id="firstHeading" class="firstHeading"><?php echo $garis['nama']?></h1>'+
         '<div id="bodyContent">'+
-        '<img src="<?php echo base_url()?>assets/files/gis/garis/sedang_<?php echo $garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
+        '<img src="<?php echo base_url().LOKASI_FOTO_GARIS?>sedang_<?php echo $garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
         '<p><?php echo $garis['desk']?></p>'+
         '</div>'+
         '</div>';

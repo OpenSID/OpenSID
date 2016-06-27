@@ -315,7 +315,7 @@ function UploadLokasi($fupload_name){
 }
 
 function UploadGaris($fupload_name){
-  $vdir_upload = "assets/files/gis/garis/";
+  $vdir_upload = LOKASI_FOTO_GARIS;
 
   $vfile_upload = $vdir_upload . $fupload_name;
 

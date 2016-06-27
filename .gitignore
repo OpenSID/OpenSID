@@ -23,6 +23,9 @@ assets/files/gis/lokasi/*
 # Jangan simpan isi folder gis/area.
 assets/files/gis/area/*
 !assets/files/gis/area/index.html
+# Jangan simpan isi folder gis/garis.
+assets/files/gis/garis/*
+!assets/files/gis/garis/index.html
 # Jangan simpan isi folder desa. Isinya khusus desa.
 desa/*
 surat/arsip/
