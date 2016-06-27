@@ -124,27 +124,25 @@ class Web_Dokumen_Model extends CI_Model{
 	}
 
 	function update($id=0){
-		if(empty($_FILES['satuan']['tmp_name'])){
-			return false;
-		}
-
 		$_SESSION['error_msg'] = "";
 		$_SESSION['success'] = 1;
 	  $data = $_POST;
 	  $lokasi_file = $_FILES['satuan']['tmp_name'];
 	  $tipe_file   = $_FILES['satuan']['type'];
 	  $nama_file   = $_FILES['satuan']['name'];
-	  $old_file  = $data['old_file'];
 
-		if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN))){
-			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-			$_SESSION['success']=-1;
-			return false;
+		if(!empty($_FILES['satuan']['tmp_name'])){
+			if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN))){
+				unset($data['satuan']);
+				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
+				$_SESSION['success']=-1;
+			} else {
+				UploadDocument($nama_file);
+				$data['satuan'] = underscore($nama_file);
+			}
 		}
 
-		UploadDocument($nama_file);
 		unset($data['old_file']);
-		$data['satuan'] = underscore($nama_file);
 		$this->db->where('id',$id);
 		$outp = $this->db->update('dokumen',$data);
 		if(!$outp) $_SESSION['success']=-1;
