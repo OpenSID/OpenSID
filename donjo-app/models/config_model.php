@@ -3,19 +3,22 @@
 	function __construct(){
 		parent::__construct();
 	}
-	
+
 	function get_data(){
 		$sql   = "SELECT * FROM config WHERE 1";
 		$query = $this->db->query($sql);
 		return $query->row_array();
 	}
-	
+
 	function insert(){
-		$outp = $this->db->insert('config',$_POST);
+		$data = $_POST;
+		$data['id'] = 1; // Hanya ada satu row data desa
+		unset($data['old_logo']);
+		$outp = $this->db->insert('config',$data);
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function update($id=0){
 		$data = $_POST;
 		$lokasi_file = $_FILES['logo']['tmp_name'];
@@ -32,42 +35,42 @@
 		}else{
 			unset($data['logo']);
 		}
-		
+
 		unset($data['file_logo']);
 		unset($data['old_logo']);
-		
+
 		$this->db->where('id',$id);
 		$outp = $this->db->update('config',penetration($data));
-		
+
 		$pamong['pamong_nama'] = $data['nama_kepala_desa'];
 		$pamong['pamong_nip'] = $data['nip_kepala_desa'];
 		$this->db->where('pamong_id','707');
 		$outp = $this->db->update('tweb_desa_pamong',$pamong);
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-		
+
 	function update_kantor(){
 		$data = $_POST;
 		$id = "1";
 		$this->db->where('id',$id);
 		$outp = $this->db->update('config',$data);
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function update_wilayah(){
 		$data = $_POST;
 		$id = "1";
 		$this->db->where('id',$id);
 		$outp = $this->db->update('config',$data);
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function kosong_pend(){
 		$a="TRUNCATE tweb_wil_clusterdesa";
 		$b = mysql_query($a);
@@ -77,67 +80,67 @@
 
 		$a="TRUNCATE tweb_rtm";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE tweb_penduduk";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE log_penduduk";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE log_surat";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE log_perubahan_penduduk";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE log_bulanan";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE garis";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE lokasi";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE area";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE point";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE line";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE polygon";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE analisis_master";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE analisis_indikator";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE analisis_parameter";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE analisis_periode";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE analisis_respon";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE analisis_respon_hasil";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE analisis_klasifikasi";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE analisis_kategori_indikator";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE kelompok";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE kelompok_anggota";
 		$b = mysql_query($a);
 		$a="TRUNCATE data_persil";
@@ -147,7 +150,7 @@
 		$a="TRUNCATE sys_traffic";
 		$b = mysql_query($a);
 	}
-	
+
 	function kosong_web(){
 		$a="TRUNCATE tweb_wil_clusterdesa";
 		$b = mysql_query($a);
@@ -158,9 +161,9 @@
 		$a="TRUNCATE tweb_penduduk";
 		$b = mysql_query($a);
 	}
-	
+
 	function upgrade(){
-	
+
 		$a="DROP TABLE tweb_rtm";
 		$b = mysql_query($a);
 
@@ -169,25 +172,25 @@
 
 		$a="DROP TABLE analisis_keluarga";
 		$b = mysql_query($a);
-		
+
 		$a="DROP TABLE klasifikasi_analisis_keluarga";
 		$b = mysql_query($a);
-		
+
 		$a="DROP TABLE master_analisis_keluarga";
 		$b = mysql_query($a);
-		
+
 		$a="DROP TABLE sub_analisis_keluarga";
 		$b = mysql_query($a);
-		
+
 		$a="DROP TABLE tipe_analisis";
 		$b = mysql_query($a);
-		
+
 		$a="DROP TABLE tweb_rtm_hubungan";
 		$b = mysql_query($a);
-		
+
 		$a="UPDATE tweb_penduduk SET id_rtm = 0, rtm_level = 0 WHERE 1";
 		$b = mysql_query($a);
-		
+
 		$a="CREATE TABLE IF NOT EXISTS analisis_keluarga (
 			  id int(16) NOT NULL AUTO_INCREMENT,
 			  id_kel int(11) NOT NULL,
@@ -214,7 +217,7 @@
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 		$b = mysql_query($a);
 
-		
+
 		$a="CREATE TABLE IF NOT EXISTS klasifikasi_analisis_keluarga (
 			  id int(11) NOT NULL AUTO_INCREMENT,
 			  nama varchar(50) DEFAULT NULL,
@@ -506,10 +509,10 @@
 			(1, 'Kepala Rumah Tangga'),
 			(2, 'Anggota');";
 		$b = mysql_query($a);
-		
+
 		$a="ALTER TABLE tweb_penduduk ADD id_rtm INT NOT NULL AFTER kk_level, ADD rtm_level INT NOT NULL AFTER id_rtm;";
 		$b = mysql_query($a);
-		
+
 		$a="TRUNCATE tweb_rtm";
 		$b = mysql_query($a);
 
@@ -518,12 +521,12 @@
 
 		$a="TRUNCATE analisis_keluarga";
 		$b = mysql_query($a);
-		
-		
+
+
 		if($b) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 
 	}
-	
-	
+
+
 }

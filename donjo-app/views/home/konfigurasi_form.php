@@ -9,7 +9,7 @@
 <div id="contentpane">
 <div class="ui-layout-north panel"><h3>Konfigurasi</h3>
 </div>
-    <form action="<?php echo site_url("hom_desa/update/$main[id]")?>" method="POST" enctype="multipart/form-data">
+    <form action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <table class="form">
             <tr>
