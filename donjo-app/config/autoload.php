@@ -80,7 +80,7 @@ $autoload['helper'] = array('url','donjolib','date','pict','sidjms');
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array('sid_ini');
 
 
 /*
