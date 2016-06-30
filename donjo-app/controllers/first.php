@@ -133,6 +133,10 @@ class First extends CI_Controller{
 
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
+		// Validasi pengisian komentar di add_comment()
+		// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
+		if (!$_SESSION['validation_error']) $_SESSION['post'] = '';
+
 		$this->load->view('layouts/artikel.tpl.php',$data);
 	}
 
@@ -154,7 +158,6 @@ class First extends CI_Controller{
 		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
 		$data['data_config'] = $this->config_model->get_data();
-
 
 		$this->load->view('layouts/arsip.tpl.php',$data);
 	}
@@ -342,13 +345,24 @@ class First extends CI_Controller{
 	}
 
 	function add_comment($id=0) {
+		// Periksa isian captcha
+		include $_SERVER['DOCUMENT_ROOT'] . '/securimage/securimage.php';
+		$securimage = new Securimage();
+		$_SESSION['validation_error'] = false;
+		if ($securimage->check($_POST['captcha_code']) == false) {
+			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
+			$_SESSION['post'] = $_POST;
+			$_SESSION['validation_error'] = true;
+			redirect("first/artikel/$id");
+		}
+
 		$res = $this->first_artikel_m->insert_comment($id);
 		$data['data_config'] = $this->config_model->get_data();
 		// cek kalau berhasil disimpan dalam database
 		if ($res) {
-			$this->session->set_flashdata('flash_message', 'Komentar Anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
+			$this->session->set_flashdata('flash_message', 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
 		} else {
-			$this->session->set_flashdata('flash_message', 'Komentar Anda gagal dikirim. Silahkan ulangi lagi.');
+			$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
 		}
 
 		if ($id != 775) {
