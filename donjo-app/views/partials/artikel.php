@@ -98,8 +98,9 @@ if($single_artikel["id"]){
 				<div class=\"box-header\"><h3 class=\"box-title\">Formulir Penulisan Komentar</h3></div>";
 
 				// tampilkan hanya jika 'flash_message' ada
+				if ($_SESSION['validation_error']) $label = 'label-danger'; else $label = 'label-info';
 				if ($flash_message) {
-					echo "<div class='box-header label-warning'>$flash_message</div>";
+					echo "<div class='box-header ".$label."'>$flash_message</div>";
 				}
 		echo "
 				<div class=\"box-body\">
