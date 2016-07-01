@@ -1411,6 +1411,12 @@ blockquote p {
 #form-komentar td {
   padding-top: 5px;
 }
+#form-komentar .nama input {
+  width: 200px;
+}
+#form-komentar .alamat input {
+  width: 200px;
+}
 #form-komentar .pesan textarea {
   width: 300px; height: 100px;
 }
@@ -1422,6 +1428,9 @@ blockquote p {
 }
 #form-komentar .captcha a {
   margin-left:10px;
+}
+#form-komentar .captcha_code input {
+  width: 100px;
 }
 #form-komentar .submit input {
   font-size: 15px; padding: 3px 10px;

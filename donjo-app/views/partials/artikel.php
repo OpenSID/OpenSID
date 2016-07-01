@@ -106,8 +106,8 @@ if($single_artikel["id"]){
 				<div class=\"box-body\">
 					<form id=\"form-komentar\" name=\"form\" action=\"".site_url("first/add_comment/".$single_artikel["id"])."\" method=POST onSubmit=\"return validasi(this)\">
 					<table width=100%>
-						<tr class=\"komentar nama\"><td>Nama</td><td> <input type=text name=\"owner\" size=20 maxlength=30 value=\"".$_SESSION['post']['owner']."\"></td></tr>
-						<tr class=\"komentar alamat\"><td>Alamat e-mail</td><td> <input type=text name=\"email\" size=20 maxlength=30 value=\"".$_SESSION['post']['email']."\"></td></tr>
+						<tr class=\"komentar nama\"><td>Nama</td><td> <input type=text name=\"owner\" maxlength=30 value=\"".$_SESSION['post']['owner']."\"></td></tr>
+						<tr class=\"komentar alamat\"><td>Alamat e-mail</td><td> <input type=text name=\"email\" maxlength=30 value=\"".$_SESSION['post']['email']."\"></td></tr>
 						<tr class=\"komentar pesan\"><td valign=top>Komentar</td><td> <textarea name=\"komentar\">".$_SESSION['post']['komentar']."</textarea></td></tr>
 						<tr class=\"captcha\"><td>&nbsp;</td>
 							<td>
@@ -115,7 +115,7 @@ if($single_artikel["id"]){
 								<a href=\"#\" onclick=\"document.getElementById('captcha').src = '/securimage/securimage_show.php?' + Math.random(); return false\">[ Ganti gambar ]</a>
 							</td></tr>
 						<tr class=\"captcha_code\"><td>&nbsp;</td><td>
-								<input type=\"text\" name=\"captcha_code\" size=\"10\" maxlength=\"6\" value=\"".$_SESSION['post']['captcha_code']."\"/> Isikan kode di gambar
+								<input type=\"text\" name=\"captcha_code\" maxlength=\"6\" value=\"".$_SESSION['post']['captcha_code']."\"/> Isikan kode di gambar
 							</td></tr>
 						<tr class=\"submit\"><td>&nbsp;</td><td><input type=\"submit\" value=\"Kirim\"></td></tr>
 					</table>
