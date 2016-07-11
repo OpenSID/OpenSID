@@ -272,7 +272,7 @@ if($data_config['lat']!= "0"){
 		</div>
 		<div class=\"box-body\">
 			<div id=\"map_canvas\" style=\"height:200px;\"></div>
-			<script type=\"text/javascript\" src=\"http://maps.googleapis.com/maps/api/js?key=".$this->config->item('sid')['googlekey']."\"></script>";
+			<script type=\"text/javascript\" src=\"http://maps.googleapis.com/maps/api/js?key=". config_item('google_key') ."\"></script>";
 			?>
 			<script type="text/javascript">
 				var map;

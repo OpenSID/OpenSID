@@ -3,6 +3,12 @@
 // Ambil setting SID khusus desa
 define("LOKASI_SID_INI", 'desa/config/');
 
+// Konfigurasi tambahan untuk aplikasi
+$extra_app_config = LOKASI_SID_INI . 'config.php';
+if (is_file($extra_app_config)) {
+	require_once($extra_app_config);
+}
+
 $config['sid'] = parse_ini_file(LOKASI_SID_INI."sid.ini");
 
 
