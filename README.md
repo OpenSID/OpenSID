@@ -38,4 +38,6 @@ Modul administrasi OpenSID dapat diaskses pada http://sid.bangundesa.info/index.
 
 ### Forum
 
-Group OpenSID di [Google Groups](https://groups.google.com/forum/?hl=id#!forum/opensid) adalah tempat berdiskusi penggunaan dan pengembangan aplikasi OpenSID. Silakan mempergunakan forum itu untuk bertanya mengenai OpenSID dan untuk memberi usulan. Tentunya pula, kami mengharapkan anda akan juga ikut menjawab pertanyaan dan menanggapi usulan.
+Group OpenSID di [Google Groups](https://groups.google.com/forum/?hl=id#!forum/opensid) adalah tempat berdiskusi penggunaan dan pengembangan aplikasi OpenSID. Silakan mempergunakan forum itu untuk bertanya mengenai OpenSID dan untuk memberi usulan. 
+
+Anda dapat juga bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/opensid) di Facebook. Group ini bersifat lebih informal dan juga tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.
