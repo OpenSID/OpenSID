@@ -20,7 +20,7 @@ class Hom_Desa extends CI_Controller{
 		$this->load->view('header',$header);
 		$this->load->view('home/nav',$nav);
 		// Buat row data desa di konfigurasi_form apabila belum ada data desa
-		if ($data['main']) $data['form_action'] = site_url("hom_desa/update/$main[id]");
+		if ($data['main']) $data['form_action'] = site_url("hom_desa/update/1");
 			else $data['form_action'] = site_url("hom_desa/insert/");
 		$this->load->view('home/konfigurasi_form',$data);
 		$this->load->view('footer');
