@@ -371,7 +371,16 @@
 		return $data;
 	}
 
+	function validasi_data_penduduk($data){
+		$valid = array();
+		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
+			$valid = array("NIK panjangnya harus 16 atau 0");
+		return $valid;
+	}
+
 	function insert(){
+		$_SESSION['error_msg'] = '';
+
 		$data = $_POST;
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
@@ -402,6 +411,16 @@
 		$data['nama'] = penetration($data['nama']);
 		$data['nama_ayah'] = penetration($data['nama_ayah']);
 		$data['nama_ibu'] = penetration($data['nama_ibu']);
+
+		$error_validasi = $this->validasi_data_penduduk($data);
+		if (!empty($error_validasi)){
+			foreach ($error_validasi as $error) {
+				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+			}
+			$_SESSION['success']=-1;
+			return;
+		}
+
 		$outp = $this->db->insert('tweb_penduduk',$data);
 
 		$sql="SELECT MAX(id) as id FROM tweb_penduduk";
@@ -438,9 +457,11 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
+
 	}
 
 	function update($id=0){
+		$_SESSION['error_msg'] = '';
 		$data = $_POST;
 
 		$sql   = "SELECT id_kk FROM tweb_penduduk WHERE id=?";
@@ -481,6 +502,15 @@
 		$data['nama_ibu'] = $data['nama_ibu'];
 
 		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
+
+		$error_validasi = $this->validasi_data_penduduk($data);
+		if (!empty($error_validasi)){
+			foreach ($error_validasi as $error) {
+				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+			}
+			$_SESSION['success']=-1;
+			return;
+		}
 
 		$this->db->where('id',$id);
 		$outp = $this->db->update('tweb_penduduk',$data);
