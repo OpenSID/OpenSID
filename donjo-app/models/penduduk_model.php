@@ -373,12 +373,15 @@
 
 	function validasi_data_penduduk($data){
 		$valid = array();
+		if (!ctype_digit($data['nik']))
+			array_push($valid, "NIK hanya berisi angka");
 		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
-			$valid = array("NIK panjangnya harus 16 atau 0");
+			array_push($valid, "NIK panjangnya harus 16 atau 0");
 		return $valid;
 	}
 
 	function insert(){
+		unset($_SESSION['success']);
 		$_SESSION['error_msg'] = '';
 
 		$data = $_POST;
@@ -417,6 +420,7 @@
 			foreach ($error_validasi as $error) {
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
 			}
+			$_SESSION['post'] = $_POST;
 			$_SESSION['success']=-1;
 			return;
 		}
