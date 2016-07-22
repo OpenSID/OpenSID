@@ -377,10 +377,13 @@
 			array_push($valid, "NIK hanya berisi angka");
 		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
 			array_push($valid, "NIK panjangnya harus 16 atau 0");
+		if (!empty($valid))
+			$_SESSION['validation_error'] = true;
 		return $valid;
 	}
 
 	function insert(){
+		unset($_SESSION['validation_error']);
 		unset($_SESSION['success']);
 		$_SESSION['error_msg'] = '';
 
@@ -465,7 +468,9 @@
 	}
 
 	function update($id=0){
-		$_SESSION['error_msg'] = '';
+		unset($_SESSION['validation_error']);
+		unset($_SESSION['success']);
+		unset($_SESSION['error_msg']);
 		$data = $_POST;
 
 		$sql   = "SELECT id_kk FROM tweb_penduduk WHERE id=?";

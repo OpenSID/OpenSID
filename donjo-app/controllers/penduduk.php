@@ -137,6 +137,9 @@ class Penduduk extends CI_Controller{
 	}
 
 	function form($p=1,$o=0,$id=''){
+		// Form ini dipanggil berulang-ulang sewaktu meng-edit penduduk, setiap kali mengganti dusun, rw dan rt
+		// 999 menunjukkan dipanggil dari Menu (Penduduk > Penduduk Pendatang), bukan dari form itu sendiri
+		if ($p == 999) unset($_SESSION['validation_error']);
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -161,9 +164,16 @@ class Penduduk extends CI_Controller{
 			$data['form_action'] = site_url("penduduk/update/$p/$o/$id");
 		}
 		else{
-			if ($_SESSION['success'] == -1)
+			// Validasi dilakukan di penduduk_model sewaktu insert dan update
+			if ($_SESSION['validation_error']) {
 				$data['penduduk'] = $_SESSION['post'];
-			else
+				// Status 'edit' di-set pada form -- untuk menunjukkan pemanggilan kali ini pada saat mengganti dusun, rw atau rt
+				if (!$_SESSION['edit']) {
+					$data['dus_sel'] = $_SESSION['post']['dusun'];
+					$data['rw_sel'] = $_SESSION['post']['rw'];
+					$data['rt_sel'] = $_SESSION['post']['rt'];
+				}
+			} else
 				$data['penduduk'] = null;
 			$data['form_action'] = site_url("penduduk/insert");
 		}
@@ -190,7 +200,7 @@ class Penduduk extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-        function detail($p=1,$o=0,$id=''){
+	function detail($p=1,$o=0,$id=''){
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -205,7 +215,7 @@ class Penduduk extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-        function cetak_biodata($id=''){
+  function cetak_biodata($id=''){
 
 		$data['desa'] = $this->header_model->get_data();
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
@@ -280,6 +290,8 @@ class Penduduk extends CI_Controller{
 	}
 
 	function insert(){
+		// Menandakan bahwa edit di penduduk_form telah selesai
+		unset($_SESSION['edit']);
 		$this->penduduk_model->insert();
 		if ($_SESSION['success'] == -1) {
 			redirect("penduduk/form");

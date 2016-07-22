@@ -11,24 +11,24 @@ source: keyword
 <table class="inner">
 <tr style="vertical-align:top">
 
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
     <h3>Manajemen Penduduk</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 <form id="mainform" name="mainform" action="" method="post">
 <input type="hidden" name="rt" value="">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('penduduk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Penduduk Pendatang</a>
-                
+                <a href="<?php echo site_url('penduduk/form/999')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Penduduk Pendatang</a>
+
 				<?php  if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk/delete_all/$p/$o")?>')" class="uibutton chrome"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button><?php  }?>
-				
+
                 <a href="<?php echo site_url("penduduk/cetak/$o")?>" class="uibutton" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-				
+
 				<a href="<?php echo site_url("penduduk/excel/$o")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
-				
+
             </div>
         </div>
         <div class="right">
@@ -43,28 +43,28 @@ source: keyword
                     <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Tidak Aktif</option>
                     <option value="3" <?php if($filter==3) :?>selected<?php endif?>>Pendatang</option>
                 </select>
-				
+
                 <select name="sex" onchange="formAction('mainform','<?php echo site_url('penduduk/sex')?>')">
                     <option value="">Jenis Kelamin</option>
                     <option value="1" <?php if($sex==1 ) :?>selected<?php endif?>>Laki-Laki</option>
                     <option value="2" <?php if($sex==2 ) :?>selected<?php endif?>>Perempuan</option>
                 </select>
-				
-<!--               
+
+<!--
 				<strong style="padding-left:20px;font-size:14px;"><?php  echo $judul_statistik; ?></strong> <select name="agama" onchange="formAction('mainform','<?php //=site_url('penduduk/agama')?>')">
                     <option value="">Agama</option>
 					<?php foreach($list_agama AS $data){?>
                     <option value="<?php //=$data['id']?>" <?php if($agama == $data['id']) :?>selected<?php endif?>><?php //=$data['nama']?></option>
 					<?php }?>
                 </select>-->
-								
+
                 <select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk/dusun')?>')">
                     <option value="">Dusun</option>
 					<?php foreach($list_dusun AS $data){?>
                     <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo ununderscore(unpenetration($data['dusun']))?></option>
 					<?php }?>
                 </select>
-				
+
 				<?php if($dusun){?>
                 <select name="rw" onchange="formAction('mainform','<?php echo site_url('penduduk/rw')?>')">
                     <option value="">RW</option>
@@ -73,7 +73,7 @@ source: keyword
 					<?php }?>
                 </select>
 				<?php }?>
-				
+
 				<?php if($rw){?>
                 <select name="rt" onchange="formAction('mainform','<?php echo site_url('penduduk/rt')?>')">
                     <option value="">RT</option>
@@ -82,7 +82,7 @@ source: keyword
 					<?php }?>
                 </select>
 				<?php }?>
-				
+
 				<button href="<?php echo site_url("penduduk/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="icon-search icon-large">&nbsp;</span>Pencarian Spesifik</button><a href="<?php echo site_url("penduduk/clear")?>"  class="uibutton tipsy south"  title="Bersihkan Pencarian"><span class="icon-refresh icon-large">&nbsp;</span>Bersihkan</a>
 			  </div>
             <div class="right">
@@ -112,7 +112,7 @@ source: keyword
 			<?php  else: ?>
 			<th align="left"><a href="<?php echo site_url("penduduk/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php  endif; ?>
-			
+
 			<th width="100" align="left">
 			<?php  if($o==6): ?>
 			<a href="<?php echo site_url("penduduk/index/$p/5")?>">No. KK<span class="ui-icon ui-icon-triangle-1-n">
@@ -126,7 +126,7 @@ source: keyword
 			<th align="left" align="center">RW</th>
 			<th align="left" align="center">RT</th>
 			<th align="left" align="center">Pendidikan dalam KK</th>
-			
+
 			<th width="50" align="left">
 			<?php  if($o==8): ?>
 			<a href="<?php echo site_url("penduduk/index/$p/7")?>">Umur<span class="ui-icon ui-icon-triangle-1-n">
@@ -135,11 +135,11 @@ source: keyword
 			<?php  else: ?><a href="<?php echo site_url("penduduk/index/$p/7")?>">Umur<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
-			
+
 			<th align="left">Pekerjaan</th>
 			<th width="75" align="left">Kawin</th>
 			<th align="left">Status</th>
-							
+
 		</tr>
 </thead>
 <tbody>
@@ -168,7 +168,7 @@ source: keyword
 <td><?php echo $data['umur']?></td>
 <td><?php echo $data['pekerjaan']?></td>
 <td><?php echo $data['kawin']?></td>
-   
+
   <td><?php if($data['status']==1){echo "Tetap";}elseif($data['status']==2){echo "Tidak Aktif";}else{echo "Pendatang";}?></td>
   </tr>
         <?php  endforeach; ?>
@@ -177,7 +177,7 @@ source: keyword
     </div>
 </form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 <div class="table-info">
           <form id="paging" action="<?php echo site_url('penduduk')?>" method="post">
   <label>Tampilkan</label>
@@ -202,7 +202,7 @@ source: keyword
 <?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 <?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 <a href="<?php echo site_url("penduduk/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 <?php  endfor; ?>

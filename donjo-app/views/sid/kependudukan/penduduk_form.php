@@ -12,7 +12,8 @@
 <form id="mainform" name="mainform" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
-<?php if(empty($penduduk)){?>
+<?php if(empty($penduduk) OR $_SESSION['validation_error']){?>
+	<?php $_SESSION['edit'] = true; ?>
 <tr>
 <th width="100">Dusun</th>
 <td><select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk/form')?>')" <?php if($dusun){?>class="required"<?php }?>>
@@ -38,7 +39,7 @@
 <td><select name="rt" onchange="formAction('mainform','<?php echo site_url('penduduk/form')?>')" <?php if($rt){?>class="required"<?php }?>>
 <option value="">Pilih RT</option>
 <?php foreach($rt as $data){?>
-<option value="<?php echo $data['id']?>" <?php if($rt_sel==$data['id']){?>selected<?php }?>><?php echo $data['rt']?></option>
+<option value="<?php echo $data['rt']?>" <?php if($rt_sel==$data['rt']){?>selected<?php }?>><?php echo $data['rt']?></option>
 <?php }?></select>
 </td>
 </tr>
