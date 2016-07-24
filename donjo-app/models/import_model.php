@@ -238,9 +238,10 @@ class import_model extends CI_Model{
 		$_SESSION['error_msg'] = '';
 		$mime_type_excel = array("application/vnd.ms-excel", "application/octet-stream");
 		if(!in_array($_FILES['userfile']['type'], $mime_type_excel)){
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
-				$_SESSION['success']=-1;
-		}else{
+			$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
+			$_SESSION['success']=-1;
+			return;
+		}
 
 		$gagal=0;
 		$baris2="";
@@ -289,10 +290,24 @@ class import_model extends CI_Model{
 		// import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
 		$baris2 ="";
 		$j=0;
+		$baris_kosong = 0;
 		for ($i=2; $i<=$baris; $i++){
 			 // membaca data nim (kolom ke-n)
 
 			//$dusun = str_replace(" ","_",$data->val($i, 1));
+
+			// Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
+			if($data->val($i,1) == '###') {
+				$baris_data = $i-1;
+				break;
+			}
+
+			// Baris dengan dusun/rw/rt kosong menandakan baris tanpa data
+			if ($data->val($i,1) == '' AND $data->val($i,2) == '' AND $data->val($i,3) == '') {
+				$baris_kosong++;
+				continue;
+			}
+
 			$dusun = $data->val($i, 1);
 			$rw = $data->val($i, 2);
 			$rt = $data->val($i, 3);
@@ -364,67 +379,65 @@ class import_model extends CI_Model{
 				$baris2 .=$i.",";
 			}
 			$h = null;
-			$sukses = $baris - $gagal - 1;
-			}
-
-			if($gagal==0)
-				$baris2 ="tidak ada data yang gagal di import.";
-
-			// masukin ke tabel tweb_wil_clusterdesa
-				$query="INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) select * from (SELECT rt, rw, dusun from impor GROUP BY rt,rw,dusun
-						union SELECT '0' as rt, '0' as rw, dusun from impor GROUP BY dusun
-						union SELECT '0' as rt, '-' as rw, dusun from impor GROUP BY dusun
-						union SELECT '-' as rt, '-' as rw, dusun from impor GROUP BY dusun
-						union SELECT '-' as rt, rw as rw, dusun from impor GROUP BY dusun,rw
-						union SELECT '0' as rt, rw as rw, dusun from impor GROUP BY dusun,rw) as tb";
-				$hasil = $this->db->query($query);
-
-			// masukin ke tabel tweb_penduduk
-				$query="INSERT INTO tweb_keluarga(no_kk) SELECT DISTINCT(id_kk) AS no_kk FROM impor";
-				$hasil = $this->db->query($query);
-
-			// masukin ke tabel tweb_penduduk
-				$query="INSERT INTO tweb_penduduk(nama,nik,id_kk,kk_level,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id,pendidikan_sedang_id,pekerjaan_id,status_kawin,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,jamkesmas,id_cluster,status) SELECT nama,nik,(SELECT id FROM tweb_keluarga WHERE no_kk=a.id_kk) as id_kk,kk_level,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id,pendidikan_sedang_id,pekerjaan_id,status_kawin,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,jamkesmas,(SELECT id FROM tweb_wil_clusterdesa where dusun=a.dusun AND rw=a.rw AND rt=a.rt) as id_cluster,'1' as status from impor a;";
-				$hasil = $this->db->query($query);
-
-			// masukin ke tabel tweb_penduduk
-				$sql="SELECT id FROM tweb_keluarga";
-				if ($a=$this->db->query($sql)){
-						$hsl  = $a->result_array();
-						foreach($hsl AS $hsl2){
-							$idnya=($hsl2['id']);
-							$kirim = "UPDATE tweb_keluarga SET nik_kepala=(SELECT id FROM tweb_penduduk where kk_level='1' AND id_kk=$idnya LIMIT 1) WHERE id=$idnya";
-							$query=$this->db->query($kirim);
-						}
-					}
-
-			$a="DROP TABLE impor";
-			$this->db->query($a);
-
-			$a="DELETE FROM tweb_wil_clusterdesa WHERE dusun = '' OR rt = '' OR rw='';";
-			$this->db->query($a);
-
-			$a="DELETE FROM tweb_keluarga WHERE nik_kepala = '' OR nik_kepala is null;";
-			$this->db->query($a);
-
-			$a="DELETE FROM tweb_penduduk WHERE nama = '' AND nik = '';";
-			$this->db->query($a);
-
-			//$a="ALTER TABLE tweb_penduduk ENGINE = InnoDB ROW_FORMAT = DYNAMIC;";
-			//$this->db->query($a);
-
-			//$a="ALTER TABLE tweb_keluarga ENGINE = InnoDB ROW_FORMAT = DYNAMIC;";
-			//$this->db->query($a);
-
-			$_SESSION['gagal']=$gagal;
-			$_SESSION['sukses']=$sukses;
-			$_SESSION['baris']=$baris2;
-
-			if($gagal==0) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-
-			//return $main;
 		}
+
+		$sukses = $baris_data - $baris_kosong - $gagal - 1;
+		if($gagal==0)
+			$baris2 ="tidak ada data yang gagal di import.";
+
+		// masukin ke tabel tweb_wil_clusterdesa
+		$query="INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) select * from (SELECT rt, rw, dusun from impor GROUP BY rt,rw,dusun
+				union SELECT '0' as rt, '0' as rw, dusun from impor GROUP BY dusun
+				union SELECT '0' as rt, '-' as rw, dusun from impor GROUP BY dusun
+				union SELECT '-' as rt, '-' as rw, dusun from impor GROUP BY dusun
+				union SELECT '-' as rt, rw as rw, dusun from impor GROUP BY dusun,rw
+				union SELECT '0' as rt, rw as rw, dusun from impor GROUP BY dusun,rw) as tb";
+		$hasil = $this->db->query($query);
+
+		// masukin ke tabel tweb_penduduk
+		$query="INSERT INTO tweb_keluarga(no_kk) SELECT DISTINCT(id_kk) AS no_kk FROM impor";
+		$hasil = $this->db->query($query);
+
+		// masukin ke tabel tweb_penduduk
+		$query="INSERT INTO tweb_penduduk(nama,nik,id_kk,kk_level,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id,pendidikan_sedang_id,pekerjaan_id,status_kawin,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,jamkesmas,id_cluster,status) SELECT nama,nik,(SELECT id FROM tweb_keluarga WHERE no_kk=a.id_kk) as id_kk,kk_level,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id,pendidikan_sedang_id,pekerjaan_id,status_kawin,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,jamkesmas,(SELECT id FROM tweb_wil_clusterdesa where dusun=a.dusun AND rw=a.rw AND rt=a.rt) as id_cluster,'1' as status from impor a;";
+		$hasil = $this->db->query($query);
+
+		// masukin ke tabel tweb_penduduk
+		$sql="SELECT id FROM tweb_keluarga";
+		if ($a=$this->db->query($sql)){
+				$hsl  = $a->result_array();
+				foreach($hsl AS $hsl2){
+					$idnya=($hsl2['id']);
+					$kirim = "UPDATE tweb_keluarga SET nik_kepala=(SELECT id FROM tweb_penduduk where kk_level='1' AND id_kk=$idnya LIMIT 1) WHERE id=$idnya";
+					$query=$this->db->query($kirim);
+				}
+		}
+
+		$a="DROP TABLE impor";
+		$this->db->query($a);
+
+		$a="DELETE FROM tweb_wil_clusterdesa WHERE dusun = '' OR rt = '' OR rw='';";
+		$this->db->query($a);
+
+		$a="DELETE FROM tweb_keluarga WHERE nik_kepala = '' OR nik_kepala is null;";
+		$this->db->query($a);
+
+		$a="DELETE FROM tweb_penduduk WHERE nama = '' AND nik = '';";
+		$this->db->query($a);
+
+		//$a="ALTER TABLE tweb_penduduk ENGINE = InnoDB ROW_FORMAT = DYNAMIC;";
+		//$this->db->query($a);
+
+		//$a="ALTER TABLE tweb_keluarga ENGINE = InnoDB ROW_FORMAT = DYNAMIC;";
+		//$this->db->query($a);
+
+		$_SESSION['gagal']=$gagal;
+		$_SESSION['sukses']=$sukses;
+		$_SESSION['baris']=$baris2;
+
+		if($gagal==0) $_SESSION['success']=1;
+		else $_SESSION['success']=-1;
+
 	}
 
 	function import_dasar(){
