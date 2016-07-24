@@ -252,6 +252,7 @@ class import_model extends CI_Model{
 
 		// membaca jumlah baris dari data excel
 		$baris = $data->rowcount($sheet_index=0);
+		$baris_data = $baris;
 
 		//buat tabel impor
 		$a="CREATE TABLE IF NOT EXISTS impor (
