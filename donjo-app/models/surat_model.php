@@ -282,8 +282,8 @@
 			//DATA DARI FORM INPUT SURAT
 			$buffer=str_replace("[nomor_surat]","$input[nomor]",$buffer);
 			$buffer=str_replace("[nomor_sorat]","$input[nomor]",$buffer);
-			$buffer=str_replace("[mulai_berlaku]","$input[berlaku_dari]",$buffer);
-			$buffer=str_replace("[tgl_akhir]","$input[berlaku_sampai]",$buffer);
+			$buffer=str_replace("[mulai_berlaku]",tgl_indo(date('Y m d',strtotime($input[berlaku_dari]))),$buffer);
+			$buffer=str_replace("[tgl_akhir]",tgl_indo(date('Y m d',strtotime($input[berlaku_sampai]))),$buffer);
 			$buffer=str_replace("[jabatan]","$input[jabatan]",$buffer);
 			$buffer=str_replace("[nama_pamong]","$input[pamong]",$buffer);
 			$buffer=str_replace("[keterangan]","$input[keterangan]",$buffer);
