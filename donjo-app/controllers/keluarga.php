@@ -423,6 +423,8 @@ function __construct(){
 	}
 
 	function form_a($p=1,$o=0, $id=0){
+		// 999 menunjukkan dipanggil dari Menu (Keluarga > Tambah Anggota Keluarga), bukan dari hasil validasi
+		if ($p == 999) unset($_SESSION['validation_error']);
 
 		$data['id_kk']  	 = $id;
 		$data['kk']          = $this->keluarga_model->get_kepala_a($id);
@@ -440,6 +442,10 @@ function __construct(){
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 
+		// Validasi dilakukan di keluarga_model sewaktu insert dan update
+		if ($_SESSION['validation_error']) {
+			$data['penduduk_kk'] = $_SESSION['post'];
+		}
 
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
@@ -550,7 +556,12 @@ function __construct(){
 
 	function insert_a(){
 		$this->keluarga_model->insert_a();
-		redirect('keluarga');
+		if ($_SESSION['validation_error']) {
+			$id_kk = $this->input->post('id_kk');
+			redirect("keluarga/form_a/1/0/$id_kk");
+		} else {
+			redirect('keluarga');
+		}
 	}
 
 	function insert_new(){

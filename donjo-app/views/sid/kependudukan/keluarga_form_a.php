@@ -67,7 +67,7 @@ table.form.detail td{
 
 <tr>
 <th width="150">Nama</th>
-<td><input name="nama" type="text" class="inputbox required" size="60"/></td>
+<td><input name="nama" type="text" class="inputbox required" size="60" value="<?php echo strtoupper(unpenetration($penduduk_kk['nama']))?>"/></td>
 </tr>
 
 <tr>

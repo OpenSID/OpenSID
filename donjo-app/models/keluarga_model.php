@@ -626,6 +626,10 @@
 	}
 
 	function insert_a(){
+		unset($_SESSION['validation_error']);
+		$_SESSION['success'] = 1;
+		unset($_SESSION['error_msg']);
+
 		$data = $_POST;
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
@@ -658,7 +662,19 @@
 		$data['nama_ayah'] = penetration($data['nama_ayah']);
 		$data['nama_ibu'] = penetration($data['nama_ibu']);
 		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
+
+		$error_validasi = $this->validasi_data_penduduk($data);
+		if (!empty($error_validasi)){
+			foreach ($error_validasi as $error) {
+				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+			}
+			$_SESSION['post'] = $_POST;
+			$_SESSION['success'] = -1;
+			return;
+		}
+
 		$outp = $this->db->insert('tweb_penduduk',$data);
+		if (!$outp) $_SESSION = -1;
 
 		$sql="select max(id) as id_pend from tweb_penduduk";
 		$query = $this->db->query($sql);
@@ -667,9 +683,7 @@
 		$x['bulan']=$blnskrg;
 		$x['tahun']=$thnskrg;
 		$outp = $this->db->insert('log_penduduk',$x);
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 
 
