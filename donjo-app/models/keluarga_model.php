@@ -323,8 +323,22 @@
 			else $_SESSION['success']=-1;
 	}
 
+	function validasi_data_penduduk($data){
+		$valid = array();
+		if (!ctype_digit($data['nik']))
+			array_push($valid, "NIK hanya berisi angka");
+		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
+			array_push($valid, "NIK panjangnya harus 16 atau 0");
+		if (!empty($valid))
+			$_SESSION['validation_error'] = true;
+		return $valid;
+	}
 
 	function insert_new(){
+		unset($_SESSION['validation_error']);
+		unset($_SESSION['success']);
+		unset($_SESSION['error_msg']);
+
 		$data = $_POST;
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
@@ -351,6 +365,16 @@
 		UNSET($data['new']);
 
 		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
+
+		$error_validasi = $this->validasi_data_penduduk($data);
+		if (!empty($error_validasi)){
+			foreach ($error_validasi as $error) {
+				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+			}
+			$_SESSION['post'] = $_POST;
+			$_SESSION['success']=-1;
+			return;
+		}
 
 		$outp = $this->db->insert('tweb_penduduk',penetration($data));
 		if($outp) $_SESSION['success']=1;

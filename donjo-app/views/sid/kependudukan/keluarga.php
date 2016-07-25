@@ -7,29 +7,29 @@
 	});
 </script>
 
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
 
-	
-<td style="background:#fff;padding:0px;"> 
+
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
     <h3>Data Keluarga</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('keluarga/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Data Baru</a>
-                
+                <a href="<?php echo site_url('keluarga/form/999')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Data Baru</a>
+
                 <a href="<?php echo site_url('keluarga/form_old')?>" target="ajax-modal" rel="window" header="Tambah Data Keluarga" class="uibutton tipsy south" title="Tambah Data dari penduduk yang sudah ter-input" ><span class="icon-plus icon-large">&nbsp;</span>Tambah Data</a>
-                
+
                 <?php  if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button><?php  }?>
-				
+
 				<a href="<?php echo site_url("keluarga/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-		
+
 				<a href="<?php echo site_url("keluarga/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
 				&nbsp;
 				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('keluarga/dusun')?>')">
@@ -46,7 +46,7 @@
 					<?php }?>
                 </select>
 				<?php }?>
-				
+
 				<?php if($rw){?>
                 <select name="rt" onchange="formAction('mainform','<?php echo site_url('keluarga/rt')?>')">
                     <option value="">RT</option>
@@ -55,20 +55,20 @@
 					<?php }?>
                 </select>
 				<?php }?>
-				
+
                 <select name="sex" onchange="formAction('mainform','<?php echo site_url('keluarga/sex')?>')">
                     <option value="">Jenis Kelamin</option>
                     <option value="1" <?php if($sex==1 ) :?>selected<?php endif?>>Laki-Laki</option>
                     <option value="2" <?php if($sex==2 ) :?>selected<?php endif?>>Perempuan</option>
                 </select>
-				
+
             </div>
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('keluarga/search')?>');$('#'+'mainform').submit();}" />
                 <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('keluarga/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
             </div>
-			
+
     </div>
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <table class="list">
@@ -77,7 +77,7 @@
                 <th>No</th>
                 <th><input type="checkbox" class="checkall"/></th>
                 <th width="160">Aksi</th>
-				
+
 				<th width="150" align="left">
 				<?php  if($o==2): ?>
 				<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-n">
@@ -97,7 +97,7 @@
 				<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-2-n-s">
 				<?php  endif; ?>
 				&nbsp;</span></a></th>
-				
+
 				<th width="100" align="left" align="center">Jumlah Anggota</th>
 				<th align="left" align="center" width="120">Jenis Kelamin</th>
 				<th align="left" align="center" width="120">Dusun</th>
@@ -116,7 +116,7 @@
           <td width="5"><div class="uibutton-group">
 			<a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota Keluarga"><span class="icon-list icon-large"> Rincian </span></a>
             <a href="<?php echo site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modalx" rel="window" header="Ubah Data KK"><span class="icon-edit icon-large"></span></a>
-			
+
 			<a href="<?php echo site_url("keluarga/form_a/$p/$o/$data[id]")?>" header="Tambah Anggota Keluarga" class="uibutton tipsy south" title="Tambah Anggota Keluarga"><span  class="icon-plus-sign-alt  icon-large"></span></a>
 			<a href="<?php echo site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>"  class="uibutton tipsy south" title="Pindah Keluarga dalam Desa" target="ajax-modal" rel="window" header="Pindah Keluarga"><span class="icon-share icon-large"></span></a>
         <?php  if($grup==1){?><a href="<?php echo site_url("keluarga/delete/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span> </a><?php  } ?>
@@ -132,12 +132,12 @@
 		  </tr>
         <?php  endforeach; ?>
 		</tbody>
-		
+
         </table>
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('keluarga')?>" method="post">
 		  <label>Tampilkan</label>
@@ -162,7 +162,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("keluarga/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>
