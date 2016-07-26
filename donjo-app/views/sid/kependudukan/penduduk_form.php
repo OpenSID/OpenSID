@@ -12,7 +12,8 @@
 <form id="mainform" name="mainform" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
-<?php if(empty($penduduk) OR $_SESSION['validation_error']){?>
+<?php $edit_lokasi = ((empty($penduduk) OR $_SESSION['validation_error']) AND empty($id)); ?>
+<?php if($edit_lokasi) {?>
 	<?php $_SESSION['edit'] = true; ?>
 <tr>
 <th width="100">Dusun</th>

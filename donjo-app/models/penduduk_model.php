@@ -517,6 +517,7 @@
 			foreach ($error_validasi as $error) {
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
 			}
+			$_SESSION['post'] = $_POST;
 			$_SESSION['success']=-1;
 			return;
 		}

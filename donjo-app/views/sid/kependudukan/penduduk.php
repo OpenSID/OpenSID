@@ -151,7 +151,7 @@ source: keyword
 </td>
 <td> <div class="uibutton-group">
 <a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Rincian Data Penduduk"> <span  class="icon-zoom-in icon-large"> Rincian </span></a>
-<a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Ubah Data"> <span  class="icon-edit icon-large"></span> </a>
+<a href="<?php echo site_url("penduduk/form/999/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Ubah Data"> <span  class="icon-edit icon-large"></span> </a>
 
 
 <a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar"><span class="icon-wrench icon-large"></span></a>

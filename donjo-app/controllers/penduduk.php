@@ -158,10 +158,14 @@ class Penduduk extends CI_Controller{
 			$data['rt_sel'] = $_POST['rt'];
 		else
 			$data['rt_sel'] = '';
-
 		if($id){
-			$data['penduduk']        = $this->penduduk_model->get_penduduk($id);
-			$data['form_action'] = site_url("penduduk/update/$p/$o/$id");
+			$data['id'] = $id;
+			// Validasi dilakukan di penduduk_model sewaktu insert dan update
+			if ($_SESSION['validation_error']) {
+				$data['penduduk'] = $_SESSION['post'];
+			} else
+				$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
 		}
 		else{
 			// Validasi dilakukan di penduduk_model sewaktu insert dan update
