@@ -345,6 +345,10 @@ function __construct(){
 	}
 
 	function form($p=1,$o=0,$id=0,$new=1){
+		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
+		if (empty($_POST) AND !$_SESSION['dari_internal'])
+				unset($_SESSION['validation_error']);
+
 		if($new==1){
 
 			if(isset($_POST['dusun'])){
@@ -376,12 +380,14 @@ function __construct(){
 		}elseif($new>0){
 			// Validasi dilakukan di keluarga_model sewaktu insert dan update
 			if ($_SESSION['validation_error']) {
-				$data['penduduk_kk'] = $_SESSION['post'];
-				// Status 'edit' di-set pada form -- untuk menunjukkan pemanggilan kali ini pada saat mengganti dusun, rw atau rt
-				if (!$_SESSION['edit']) {
+				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
+				if ($_SESSION['dari_internal']) {
+					$data['penduduk_kk'] = $_SESSION['post'];
 					$data['dus_sel'] = $_SESSION['post']['dusun'];
 					$data['rw_sel'] = $_SESSION['post']['rw'];
 					$data['rt_sel'] = $_SESSION['post']['rt'];
+				} else {
+					$data['penduduk_kk'] = $_POST;
 				}
 			} else
 				$data['penduduk_kk'] = null;
@@ -410,7 +416,7 @@ function __construct(){
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 
-		unset($_SESSION['validation_error']);
+		unset($_SESSION['dari_internal']);
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
@@ -419,6 +425,10 @@ function __construct(){
 	}
 
 	function form_a($p=1,$o=0, $id=0){
+		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
+		if (empty($_POST) AND !$_SESSION['dari_internal'])
+				unset($_SESSION['validation_error']);
+		else unset($_SESSION['dari_internal']);
 
 		$data['id_kk']  	 = $id;
 		$data['kk']          = $this->keluarga_model->get_kepala_a($id);
@@ -435,13 +445,13 @@ function __construct(){
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
-
 		// Validasi dilakukan di keluarga_model sewaktu insert dan update
 		if ($_SESSION['validation_error']) {
+			$data['id_kk'] = $_SESSION['id_kk'];
+			$data['kk'] = $_SESSION['kk'];
 			$data['penduduk_kk'] = $_SESSION['post'];
 		}
 
-		unset($_SESSION['validation_error']);
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
@@ -553,6 +563,9 @@ function __construct(){
 		$this->keluarga_model->insert_a();
 		if ($_SESSION['validation_error']) {
 			$id_kk = $this->input->post('id_kk');
+			$_SESSION['id_kk'] = $id_kk;
+			$_SESSION['kk'] = $this->keluarga_model->get_kepala_a($id_kk);
+			$_SESSION['dari_internal'] = true;
 			redirect("keluarga/form_a/$p/0/$id_kk");
 		} else {
 			redirect('keluarga');
@@ -560,10 +573,9 @@ function __construct(){
 	}
 
 	function insert_new(){
-		// Menandakan bahwa edit di keluarga_form telah selesai
-		unset($_SESSION['edit']);
 		$this->keluarga_model->insert_new();
 		if ($_SESSION['success'] == -1) {
+			$_SESSION['dari_internal'] = true;
 			redirect("keluarga/form");
 		} else {
 			redirect('keluarga');

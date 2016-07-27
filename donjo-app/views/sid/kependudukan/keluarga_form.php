@@ -47,7 +47,6 @@ table.form.detail td{
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 
 <table class="form">
-<?php if($_SESSION['validation_error']){$_SESSION['edit'] = true;} ?>
 
 <?php if(empty($new)){?><tr>
 <th width="120">Nomor KK</th>
