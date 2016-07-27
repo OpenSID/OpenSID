@@ -35,7 +35,7 @@ $('#'+'main').submit();
         <div class="left">
             <div class="uibutton-group">
 <a href="<?php echo site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="uibutton icon prev">Daftar Anggota</a>
-<a href="<?php echo site_url("keluarga/form_a/999/$o/$id_kk")?>" class="uibutton icon next">Tambah Anggota</a>
+<a href="<?php echo site_url("keluarga/form_a/$p/$o/$id_kk")?>" class="uibutton icon next">Tambah Anggota</a>
 
 
 </div>

@@ -14,7 +14,6 @@
 <table class="form">
 <?php $edit_lokasi = ((empty($penduduk) OR $_SESSION['validation_error']) AND empty($id)); ?>
 <?php if($edit_lokasi) {?>
-	<?php $_SESSION['edit'] = true; ?>
 <tr>
 <th width="100">Dusun</th>
 <td><select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk/form')?>')" <?php if($dusun){?>class="required"<?php }?>>

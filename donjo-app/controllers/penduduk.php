@@ -137,9 +137,9 @@ class Penduduk extends CI_Controller{
 	}
 
 	function form($p=1,$o=0,$id=''){
-		// Form ini dipanggil berulang-ulang sewaktu meng-edit penduduk, setiap kali mengganti dusun, rw dan rt
-		// 999 menunjukkan dipanggil dari Menu (Penduduk > Penduduk Pendatang), bukan dari form itu sendiri
-		if ($p == 999) unset($_SESSION['validation_error']);
+		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
+		if (empty($_POST) AND !$_SESSION['dari_internal'])
+				unset($_SESSION['validation_error']);
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -162,20 +162,31 @@ class Penduduk extends CI_Controller{
 			$data['id'] = $id;
 			// Validasi dilakukan di penduduk_model sewaktu insert dan update
 			if ($_SESSION['validation_error']) {
-				$data['penduduk'] = $_SESSION['post'];
-			} else
+				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
+				if ($_SESSION['dari_internal']) {
+					$data['penduduk'] = $_SESSION['post'];
+				} else {
+					$data['penduduk'] = $_POST;
+				}
+				// penduduk_model->get_penduduk mengambil sebagai 'id_sex',
+				// tapi di penduduk_form memakai 'sex' sesuai dengan nama kolom
+				$data['penduduk']['id_sex'] = $data['penduduk']['sex'];
+			} else {
 				$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+			}
 			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
 		}
 		else{
 			// Validasi dilakukan di penduduk_model sewaktu insert dan update
 			if ($_SESSION['validation_error']) {
-				$data['penduduk'] = $_SESSION['post'];
-				// Status 'edit' di-set pada form -- untuk menunjukkan pemanggilan kali ini pada saat mengganti dusun, rw atau rt
-				if (!$_SESSION['edit']) {
+				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
+				if ($_SESSION['dari_internal']) {
+					$data['penduduk'] = $_SESSION['post'];
 					$data['dus_sel'] = $_SESSION['post']['dusun'];
 					$data['rw_sel'] = $_SESSION['post']['rw'];
 					$data['rt_sel'] = $_SESSION['post']['rt'];
+				} else {
+					$data['penduduk'] = $_POST;
 				}
 			} else
 				$data['penduduk'] = null;
@@ -199,6 +210,7 @@ class Penduduk extends CI_Controller{
 		$this->load->view('header', $header);
 		$nav['act']= 2;
 
+		unset($_SESSION['dari_internal']);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_form',$data);
 		$this->load->view('footer');
@@ -294,10 +306,9 @@ class Penduduk extends CI_Controller{
 	}
 
 	function insert(){
-		// Menandakan bahwa edit di penduduk_form telah selesai
-		unset($_SESSION['edit']);
 		$this->penduduk_model->insert();
 		if ($_SESSION['success'] == -1) {
+			$_SESSION['dari_internal'] = true;
 			redirect("penduduk/form");
 		} else {
 			redirect('penduduk');
@@ -307,6 +318,7 @@ class Penduduk extends CI_Controller{
 	function update($p=1,$o=0,$id=''){
 		$this->penduduk_model->update($id);
 		if ($_SESSION['success'] == -1) {
+			$_SESSION['dari_internal'] = true;
 			redirect("penduduk/form/$p/$o/$id");
 		} else {
 			redirect("penduduk");
