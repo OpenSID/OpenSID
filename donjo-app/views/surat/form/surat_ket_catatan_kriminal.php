@@ -14,7 +14,7 @@ width: 260,
 noResultsText :'Tidak ada no nik yang sesuai..',
 onSelect: function() {
 $('#'+'main').submit();
-}  
+}
 });
 
 });
@@ -36,7 +36,7 @@ padding:5px;
 	<table class="inner">
 	<tr style="vertical-align:top">
 
-	<td style="background:#fff;"> 
+	<td style="background:#fff;">
 		<div class="content-header">
 		</div>
 		<div id="contentpane">
@@ -93,9 +93,9 @@ padding:5px;
 	<input name="keterangan" type="text" class="inputbox required" size="40"/>
 </td>
 </tr>
-	
-	
-	
+
+
+
 <tr>
 <th>Staf Pemerintah Desa</th>
 <td>
@@ -120,21 +120,21 @@ padding:5px;
 </tr>
 </table>
 </div>
-   
+
 	<div class="ui-layout-south panel bottom">
-		<div class="left"> 
+		<div class="left">
 			<a href="<?php echo site_url()?>surat" class="uibutton icon prev">Kembali</a>
 		</div>
 		<div class="right">
 			<div class="uibutton-group">
 				<button class="uibutton" type="reset">Clear</button>
-				
+
 							<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
-							<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
-				<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+							<?php if (SuratExport($url)) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+				<?php if (SuratExport($url)) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
 			</div>
 		</div>
-	</div> 
+	</div>
 </form>
 </div>
 </td></tr></table>

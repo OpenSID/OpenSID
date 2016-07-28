@@ -6,7 +6,7 @@
 				{id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
 			<?php  }?>
 		];
-		
+
 		$('#nik').flexbox(nik, {
 			resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
 			watermark: <?php  if($individu){?>'<?php echo $individu['nik']?> - <?php echo ($individu['nama'])?>'<?php  }else{?>'Ketik no nik di sini..'<?php  }?>,
@@ -14,9 +14,9 @@
 			noResultsText :'Tidak ada no nik yang sesuai..',
 			onSelect: function() {
 				$('#'+'main').submit();
-		}  
+		}
 		});
-	
+
 	});
 </script>
 
@@ -36,7 +36,7 @@ table.form.detail td{
 	<table class="inner">
 	<tr style="vertical-align:top">
 
-	<td style="background:#fff;"> 
+	<td style="background:#fff;">
 		<div id="contentpane">
 			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 				<h3>Formulir Layanan: Surat Keterangan</h3>
@@ -56,8 +56,8 @@ table.form.detail td{
 					<form id="validasi" action="" method="POST" target="_blank">
 					<input type="hidden" name="nik" value="<?php echo $individu['id']?>" class="inputbox required" >
 					<table class="form">
-						<?php 
-						if($individu){ 
+						<?php
+						if($individu){
 							?>
 							<tr>
 								<th width="40%">Tempat Tanggal Lahir (Umur)</th>
@@ -77,7 +77,7 @@ table.form.detail td{
 								<th>Warganegara / Agama</th>
 								<td><?php echo $individu['warganegara']?> / <?php echo $individu['agama']?></td>
 							</tr>
-						<?php 
+						<?php
 						}
 						?>
 						<tr>
@@ -125,7 +125,7 @@ table.form.detail td{
 						<div class="uibutton-group">
 							<button class="uibutton" type="reset">Clear</button>
 							<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
-							<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+							<?php if (SuratExport($url)) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
 						</div>
 					</div>
 				</div>

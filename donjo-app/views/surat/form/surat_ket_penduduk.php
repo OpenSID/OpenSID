@@ -6,7 +6,7 @@
 				{id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
 			<?php  }?>
 		];
-		
+
 		$('#nik').flexbox(nik, {
 			resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
 			watermark: <?php  if($individu){?>'<?php echo $individu['nik']?> - <?php echo ($individu['nama'])?>'<?php  }else{?>'Ketik no nik di sini..'<?php  }?>,
@@ -14,9 +14,9 @@
 			noResultsText :'Tidak ada no nik yang sesuai..',
 			onSelect: function() {
 				$('#'+'main').submit();
-		}  
+		}
 		});
-	
+
 	});
 </script>
 
@@ -36,7 +36,7 @@ padding:5px;
 <tr style="vertical-align:top">
 <?php /*
 */?>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div id="contentpane">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <h3>Surat Keterangan</h3>
@@ -120,14 +120,14 @@ padding:5px;
 </table>
 </div>
 <div class="ui-layout-south panel bottom">
-<div class="left">     
+<div class="left">
 <a href="<?php echo site_url()?>surat" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">
 <button class="uibutton" type="reset">Clear</button>
 <button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
-<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+<?php if (SuratExport($url)) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
 </div>
 </div>
 </div></form>
