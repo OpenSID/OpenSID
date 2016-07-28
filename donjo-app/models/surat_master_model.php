@@ -207,7 +207,7 @@
 	function upload($url=""){
 		$_SESSION['error_msg'] = '';
 		$tipe_file   = $_FILES['foto']['type'];
-		$mime_type_rtf = array("application/rtf", "text/rtf");
+		$mime_type_rtf = array("application/rtf", "text/rtf", "application/msword");
 		if(!in_array($tipe_file, $mime_type_rtf)){
 			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 			$_SESSION['success']=-1;
