@@ -111,8 +111,8 @@ if($single_artikel["id"]){
 						<tr class=\"komentar pesan\"><td valign=top>Komentar</td><td> <textarea name=\"komentar\">".$_SESSION['post']['komentar']."</textarea></td></tr>
 						<tr class=\"captcha\"><td>&nbsp;</td>
 							<td>
-								<img id=\"captcha\" src=\"/securimage/securimage_show.php\" alt=\"CAPTCHA Image\"/>
-								<a href=\"#\" onclick=\"document.getElementById('captcha').src = '/securimage/securimage_show.php?' + Math.random(); return false\">[ Ganti gambar ]</a>
+								<img id=\"captcha\" src=\"".base_url()."securimage/securimage_show.php\" alt=\"CAPTCHA Image\"/>
+								<a href=\"#\" onclick=\"document.getElementById('captcha').src = '".base_url()."securimage/securimage_show.php?' + Math.random(); return false\">[ Ganti gambar ]</a>
 							</td></tr>
 						<tr class=\"captcha_code\"><td>&nbsp;</td><td>
 								<input type=\"text\" name=\"captcha_code\" maxlength=\"6\" value=\"".$_SESSION['post']['captcha_code']."\"/> Isikan kode di gambar
