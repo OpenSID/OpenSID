@@ -292,12 +292,16 @@
 			//DATA DARI KONFIGURASI DESA
 			$buffer=str_replace("[kode_desa]","$config[kode_desa]",$buffer);
 			$buffer=str_replace("[nama_kab]","$config[nama_kabupaten]",$buffer);
+			$buffer=str_replace("[nama_kabupaten]","$config[nama_kabupaten]",$buffer);
 			$buffer=str_replace("[nama_kec]","$config[nama_kecamatan]",$buffer);
+			$buffer=str_replace("[nama_kecamatan]","$config[nama_kecamatan]",$buffer);
 			$buffer=str_replace("[nama_kepala_camat]","$config[nama_kepala_camat]",$buffer);
 			$buffer=str_replace("[nip_kepala_camat]","$config[nip_kepala_camat]",$buffer);
 			$buffer=str_replace("[nama_des]","$config[nama_desa]",$buffer);
 			$buffer=str_replace("[pos]","$config[kode_pos]",$buffer);
+			$buffer=str_replace("[kode_pos]","$config[kode_pos]",$buffer);
 			$buffer=str_replace("[alamat_des]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
+			$buffer=str_replace("[alamat_desa]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
 
 			//DATA DARI TABEL PENDUDUK
 			//jika data kurang lengkap bisa di tambahkan dari fungsi "get_data_surat" pada file ini baris 151
@@ -315,6 +319,7 @@
 			$buffer=str_replace("[usia]","$individu[umur] Tahun",$buffer);
 			$buffer=str_replace("[no_kk]","$individu[no_kk]",$buffer);
 			$buffer=str_replace("[ttl]","$individu[tempatlahir]/$tgllhr",$buffer);
+			$buffer=str_replace("[tempat_tgl_lahir]","$individu[tempatlahir]/$tgllhr",$buffer);
 
 			foreach ($input as $key => $entry){
 				$buffer=str_replace("[$key]",$entry,$buffer);
