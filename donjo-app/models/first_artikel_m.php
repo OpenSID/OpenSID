@@ -168,10 +168,10 @@ class First_Artikel_M extends CI_Model{
 
 
 	function slide_show(){
-		$sql   = "SELECT gambar FROM artikel WHERE enabled=1
-		UNION SELECT gambar1 FROM artikel WHERE enabled=1
-		UNION SELECT gambar2 FROM artikel WHERE enabled=1
-		UNION SELECT gambar3 FROM artikel WHERE enabled=1
+		$sql   = "SELECT gambar FROM artikel WHERE (enabled=1 AND headline=3)
+		UNION SELECT gambar1 FROM artikel WHERE (enabled=1 AND headline=3)
+		UNION SELECT gambar2 FROM artikel WHERE (enabled=1 AND headline=3)
+		UNION SELECT gambar3 FROM artikel WHERE (enabled=1 AND headline=3)
 		ORDER BY RAND() LIMIT 10 ";
 		$query = $this->db->query($sql);
 		if($query->num_rows()>0){
