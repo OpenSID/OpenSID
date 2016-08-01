@@ -73,6 +73,7 @@
 								<td><?php echo $data['url_surat']?></td>
 								<td>
 									<div class="uibutton-group">
+										<a href="<?php echo site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Kode Isian"><span class="icon-code icon-large"> Kode Isian </span></a>
 										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south" title="Upload Template" target="ajax-modal" rel="window" header="Upload Template"><span class="icon-upload-alt icon-large"> Upload </span></a>
 
 										<?php $surat = SuratExport($data[url_surat]); ?>

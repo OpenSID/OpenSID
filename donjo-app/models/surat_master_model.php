@@ -289,6 +289,24 @@
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+  function get_kode_isian($surat) {
+    include $_SERVER['DOCUMENT_ROOT'] . '/simplehtmldom_1_5/simple_html_dom.php';
+    $html = file_get_html($_SERVER['DOCUMENT_ROOT'] . "/donjo-app/views/surat/form/".$surat['url_surat'].".php");
+
+    // Kumpulkan semua isian (tag input) di form surat
+    $inputs = array();
+    foreach($html->find('input') as $input) {
+      if ($input->type == 'hidden') {
+        continue;
+      }
+      $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
+    }
+    $html->clear();
+    unset($html);
+    return $inputs;
+  }
+
 }
 
 ?>
