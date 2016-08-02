@@ -89,13 +89,13 @@ if($single_artikel["id"]){
 			</div>
 			";
 		}else{
-			echo "<div>Belum ada komentar atas artikel ini, silakan tuliskan dalam formulir berikut ini</div>";
+			echo "<div>Silakan tulis komentar dalam formulir berikut ini (Gunakan bahasa yang santun)</div>";
 		}
 		echo "
 		</div>
 		<div class=\"form-group\">
 			<div class=\"box box-default\">
-				<div class=\"box-header\"><h3 class=\"box-title\">Formulir Penulisan Komentar</h3></div>";
+				<div class=\"box-header\"><h3 class=\"box-title\">Formulir Komentar (Komentar baru terbit setelah disetujui Admin)</h3></div>";
 
 				// tampilkan hanya jika 'flash_message' ada
 				if ($_SESSION['validation_error']) $label = 'label-danger'; else $label = 'label-info';
