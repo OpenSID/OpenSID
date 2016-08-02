@@ -88,7 +88,6 @@ class Surat extends CI_Controller{
 	}
 
 	function doc($url=''){
-
 		$format = $this->surat_model->get_surat($url);
 		$f = $format['id'];
 		$g=$_POST['pamong'];

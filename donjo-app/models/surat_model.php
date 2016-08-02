@@ -2,6 +2,7 @@
 
 	function __construct(){
 		parent::__construct();
+		$this->load->model('surat_master_model');
 	}
 
 	function list_surat(){
@@ -280,6 +281,14 @@
 			$buffer=str_replace("[tahun]","$thn",$buffer);
 
 			//DATA DARI FORM INPUT SURAT
+
+			// Secara otomatis mengambil kode isian untuk surat ini
+			$surat_master = $this->get_surat($url);
+			$inputs = $this->surat_master_model->get_kode_isian($surat_master);
+			foreach($inputs as $kode => $keterangan) {
+				$buffer=str_replace("[form_".$kode."]","$input[$kode]",$buffer);
+			}
+
 			$buffer=str_replace("[nomor_surat]","$input[nomor]",$buffer);
 			$buffer=str_replace("[nomor_sorat]","$input[nomor]",$buffer);
 			$buffer=str_replace("[mulai_berlaku]",tgl_indo(date('Y m d',strtotime($input[berlaku_dari]))),$buffer);
