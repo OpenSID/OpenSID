@@ -71,11 +71,12 @@ body{
 /*
  * Menampilkan Artikel mengganti background artikel dll
  * */
-.artikel{margin-top: 1em;padding:.8em 0 0 1em;background-color:#8abffb;}
+.artikel .sampul img {margin-left: auto; margin-right: auto;}
+.artikel{margin-top: 1em;padding:.8em 1em 1px 1em;background-color:#8abffb;}
 .artikel .judul{font-size:1.25em;color:#fd070d;line-height:1em;margin-bottom:.5em;}
 .artikel .kecil{font-size:.8em;color:#040404;font-style:italic;font-weight:400;margin-bottom:.5em;}
 .artikel .teks{font-size:1em; margin-right:.5em;}
-.artikel .sampul{margin: 1em 0; display:block;width:610px;}
+.artikel .sampul{margin: 1em 0; display:block;width:100%;}
 .artikel .teks img{margin-right: 7px; margin-bottom: 5px; float: left;width:260px;background:#ccc;border:solid 1px #aaa;padding:.5em;}
 .gb{border-bottom:solid 2px #eee;}
 
