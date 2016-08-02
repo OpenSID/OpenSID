@@ -291,12 +291,24 @@
 	}
 
   function get_kode_isian($surat) {
-    include $_SERVER['DOCUMENT_ROOT'] . '/simplehtmldom_1_5/simple_html_dom.php';
-    $html = file_get_html($_SERVER['DOCUMENT_ROOT'] . "/donjo-app/views/surat/form/".$surat['url_surat'].".php");
+		// Lokasi instalasi SID mungkin di sub-folder
+    include $_SERVER['DOCUMENT_ROOT'] . parse_url(base_url(),PHP_URL_PATH) . '/simplehtmldom_1_5/simple_html_dom.php';
+    $html = file_get_html($_SERVER['DOCUMENT_ROOT'] . parse_url(base_url(),PHP_URL_PATH) . "/donjo-app/views/surat/form/".$surat['url_surat'].".php");
 
     // Kumpulkan semua isian (tag input) di form surat
+    // Asumsi di form surat, struktur input seperti ini
+    // <tr>
+    // 		<th>Keterangan Isian</th>
+    // 		<td><input><td>
+    // </tr>
     $inputs = array();
     foreach($html->find('input') as $input) {
+      if ($input->type == 'hidden') {
+        continue;
+      }
+      $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
+    }
+    foreach($html->find('select') as $input) {
       if ($input->type == 'hidden') {
         continue;
       }
