@@ -1,7 +1,7 @@
 <?php
 if($headline){
 	echo "
-	<div class=\"box box-danger\">
+	<div id=\"headline\" class=\"box box-danger\">
 		<div class=\"box-header with-border\">
 			<h3 class=\"box-title\"><a href=\"". site_url("first/artikel/$headline[id]")."\">". $headline['judul'] ."</a></h3>
 			<div class=\"pull-right small\">". $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])."</div>
@@ -11,7 +11,7 @@ if($headline){
 			if(is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])){
 				echo "
 				<a class=\"group2\" href=\"".AmbilFotoArtikel($headline['gambar'],'sedang')."\" title=\"\">
-				<img style=\"display: block; margin-right: auto; margin-left: auto; width: 95%;\" src=\"".AmbilFotoArtikel($headline['gambar'],'sedang')."\" /></a>";
+				<img src=\"".AmbilFotoArtikel($headline['gambar'],'sedang')."\" /></a>";
 			}else{
 				echo "
 				<img style=\"margin-right: 10px; margin-bottom: 5px; float: left;\" src=\"". base_url() ."assets/images/404-image-not-found.jpg\" width=\"300\" height=\"180\"/>";
