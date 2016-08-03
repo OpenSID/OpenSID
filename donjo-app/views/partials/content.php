@@ -11,7 +11,7 @@ if($headline){
 			if(is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])){
 				echo "
 				<a class=\"group2\" href=\"".AmbilFotoArtikel($headline['gambar'],'sedang')."\" title=\"\">
-				<img width=\"600\" src=\"".AmbilFotoArtikel($headline['gambar'],'sedang')."\" /></a>";
+				<img style=\"display: block; margin-right: auto; margin-left: auto; width: 95%;\" src=\"".AmbilFotoArtikel($headline['gambar'],'sedang')."\" /></a>";
 			}else{
 				echo "
 				<img style=\"margin-right: 10px; margin-bottom: 5px; float: left;\" src=\"". base_url() ."assets/images/404-image-not-found.jpg\" width=\"300\" height=\"180\"/>";
