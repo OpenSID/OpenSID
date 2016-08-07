@@ -243,6 +243,9 @@ class import_model extends CI_Model{
 			return;
 		}
 
+		$this->db->query("SET character_set_connection = utf8");
+		$this->db->query("SET character_set_client = utf8");
+
 		$gagal=0;
 		$baris2="";
 			$a="DROP TABLE IF EXISTS impor";
@@ -276,7 +279,7 @@ class import_model extends CI_Model{
 		nama_ibu varchar(50) NOT NULL,
 		golongan_darah_id int(1) NOT NULL,
 		jamkesmas int(1) NOT NULL DEFAULT 2,
-		id_kk varchar(16) NOT NULL DEFAULT '0') ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;";
+		id_kk varchar(16) NOT NULL DEFAULT '0') ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;";
 		$this->db->query($a);
 
 		$a="TRUNCATE tweb_wil_clusterdesa";
@@ -320,6 +323,13 @@ class import_model extends CI_Model{
 
 			$id_kk= $data->val($i, 5);
 			$nik = $data->val($i, 6);
+
+			// Data contoh yang dibuat secara otomatis memakai library generatedata
+			// waktu dibaca oleh Excel tanda kutip awalnya dianggap character bukan penanda text,
+			// jadi perlu dibuang
+			if ($id_kk[0]=="'") $id_kk = substr($id_kk, 1, strlen($id_kk)-1);
+			if ($nik[0]=="'") $nik = substr($nik, 1, strlen($nik)-1);
+
 			$sex = $data->val($i, 7);
 			$tempatlahir= $this->db->escape($data->val($i, 8));
 			$tanggallahir= $data->val($i, 9);
@@ -370,7 +380,7 @@ class import_model extends CI_Model{
 
 
 			 // masukin ke tabel impor
-			$sql="INSERT INTO impor(dusun,rw,rt,nama,nik,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id, pendidikan_sedang_id,pekerjaan_id,status_kawin,kk_level,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,id_kk) VALUES ('$dusun','$rw','$rt',$nama,$nik,$sex,$tempatlahir,'$tanggallahir','$agama_id','$pendidikan_kk_id','$pendidikan_sedang_id','$pekerjaan_id','$status_kawin','$kk_level','$warganegara_id',$nama_ayah,$nama_ibu,'$golongan_darah_id','$id_kk');";
+			$sql="INSERT INTO impor(dusun,rw,rt,nama,nik,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id, pendidikan_sedang_id,pekerjaan_id,status_kawin,kk_level,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,id_kk) VALUES ('$dusun','$rw','$rt',$nama,'$nik',$sex,$tempatlahir,'$tanggallahir','$agama_id','$pendidikan_kk_id','$pendidikan_sedang_id','$pekerjaan_id','$status_kawin','$kk_level','$warganegara_id',$nama_ayah,$nama_ibu,'$golongan_darah_id','$id_kk');";
 
 			//echo $query;
 			if($nama!="" AND $nik!="" AND $id_kk!="" AND $dusun!=""){
