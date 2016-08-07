@@ -234,15 +234,27 @@ class import_model extends CI_Model{
 	}
 
 	function import_excel(){
-		//echo $_FILES['userfile']['type'];break;
 		$_SESSION['error_msg'] = '';
+		$_SESSION['success'] = 1;
+
+		// error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
+		// TODO: pakai cara upload yg disediakan Codeigniter
+		if ($_FILES['userfile']['error'] == 1) {
+			$max_upload = (int)(ini_get('upload_max_filesize'));
+			$max_post = (int)(ini_get('post_max_size'));
+			$memory_limit = (int)(ini_get('memory_limit'));
+			$upload_mb = min($max_upload, $max_post, $memory_limit);
+			$_SESSION['error_msg'].= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
+			$_SESSION['success']=-1;
+			return;
+		}
+
 		$mime_type_excel = array("application/vnd.ms-excel", "application/octet-stream");
 		if(!in_array($_FILES['userfile']['type'], $mime_type_excel)){
 			$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
 			$_SESSION['success']=-1;
 			return;
 		}
-
 		$this->db->query("SET character_set_connection = utf8");
 		$this->db->query("SET character_set_client = utf8");
 
@@ -446,8 +458,7 @@ class import_model extends CI_Model{
 		$_SESSION['sukses']=$sukses;
 		$_SESSION['baris']=$baris2;
 
-		if($gagal==0) $_SESSION['success']=1;
-		else $_SESSION['success']=-1;
+		if($gagal!=0) $_SESSION['success']=-1;
 
 	}
 
