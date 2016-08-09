@@ -233,7 +233,268 @@ class import_model extends CI_Model{
 		}
 	}
 
-	function import_excel(){
+	function file_import_valid() {
+		// error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
+		// TODO: pakai cara upload yg disediakan Codeigniter
+		if ($_FILES['userfile']['error'] == 1) {
+			$max_upload = (int)(ini_get('upload_max_filesize'));
+			$max_post = (int)(ini_get('post_max_size'));
+			$memory_limit = (int)(ini_get('memory_limit'));
+			$upload_mb = min($max_upload, $max_post, $memory_limit);
+			$_SESSION['error_msg'].= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
+			$_SESSION['success']=-1;
+			return false;
+		}
+
+		$mime_type_excel = array("application/vnd.ms-excel", "application/octet-stream");
+		if(!in_array($_FILES['userfile']['type'], $mime_type_excel)){
+			$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
+			$_SESSION['success']=-1;
+			return false;
+		}
+
+		return true;
+	}
+
+	function data_import_valid($isi_baris) {
+		if ($isi_baris['nama']=="" OR $isi_baris['nik']=="" OR $isi_baris['id_kk']=="" OR $isi_baris['dusun']=="" OR $isi_baris['rt']== "" OR $isi_baris['rw']=="")
+			return false;
+		else
+			return true;
+	}
+
+	function format_tanggallahir($tanggallahir) {
+		if(strlen($tanggallahir)>0){
+			$tanggallahir = date("Y-m-d",strtotime($tanggallahir));
+		}else{
+			$tanggallahir = date("Y-m-d");
+		}
+		if($tanggallahir[2] == "/" OR $tanggallahir[4] == "/"){
+			$tanggallahir = str_replace('/','-', $tanggallahir);
+		}
+		if($tanggallahir[2] == "-"){
+			$tanggallahir = rev_tgl($tanggallahir);
+		}
+		return $tanggallahir;
+	}
+
+	function get_isi_baris($data) {
+
+		$dusun = $data->val($i, 1);
+		$dusun = str_replace('_',' ', $dusun);
+		$dusun = strtoupper($dusun);
+		$dusun = str_replace('DUSUN ','', $dusun);
+		$isi_baris['dusun'] = $dusun;
+
+		$isi_baris['rw'] = $data->val($i, 2);
+		$isi_baris['rt'] = $data->val($i, 3);
+
+		$nama = $data->val($i, 4);
+		if($nama!=""){
+			$nama = '"'.$nama.'"';
+		}
+		$isi_baris['nama'] = $nama;
+
+		// Data contoh yang dibuat secara otomatis memakai library generatedata
+		// waktu dibaca oleh Excel tanda kutip awalnya dianggap character bukan penanda text,
+		// jadi perlu dibuang
+		$no_kk= $data->val($i, 5);
+		if ($no_kk[0]=="'") $no_kk = substr($no_kk, 1, strlen($no_kk)-1);
+		$isi_baris['no_kk'] = $no_kk;
+
+		$nik = $data->val($i, 6);
+		if ($nik[0]=="'") $nik = substr($nik, 1, strlen($nik)-1);
+		$isi_baris['nik'] = $nik;
+
+		$isi_baris['sex'] = $data->val($i, 7);
+		$isi_baris['tempatlahir']= $this->db->escape($data->val($i, 8));
+
+		$tanggallahir= $data->val($i, 9);
+		$isi_baris['tanggallahir'] = format_tanggallahir($tanggallahir);
+
+		$isi_baris['agama_id']= $data->val($i, 10);
+		$isi_baris['pendidikan_kk_id']= $data->val($i, 11);
+
+		$pendidikan_sedang_id= $data->val($i, 12);
+		if($pendidikan_sedang_id=="")
+			$pendidikan_sedang_id=18;
+		$isi_baris['pendidikan_sedang_id'] = $pendidikan_sedang_id;
+
+		$isi_baris['pekerjaan_id']= $data->val($i, 13);
+		$isi_baris['status_kawin']= $data->val($i, 14);
+		$isi_baris['kk_level']= $data->val($i, 15);
+		$isi_baris['warganegara_id']= $data->val($i, 16);
+
+		$nama_ayah= $data->val($i,17);
+		if($nama_ayah!=""){
+			$nama_ayah = '"'.$nama_ayah.'"';
+		}else{
+			$nama_ayah = '"-"';
+		}
+		$isi_baris['nama_ayah'] = $nama_ayah;
+
+		$nama_ibu= $data->val($i,18);
+		if($nama_ibu!=""){
+			$nama_ibu = '"'.$nama_ibu.'"';
+		}else{
+			$nama_ibu = '"-"';
+		}
+		$isi_baris['nama_ibu'] = $nama_ibu;
+
+		$isi_baris['golongan_darah_id']= $data->val($i, 19);
+		$isi_baris['jamkesmas']= $data->val($i, 20);
+
+		return $isi_baris;
+	}
+
+	function tulis_tweb_wil_clusterdesa(&$isi_baris) {
+		// Masukkan wilayah administratif ke tabel tweb_wil_clusterdesa apabila
+		// wilayah administratif ini belum ada
+		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE
+							dusun=$isi_baris['dusun'] AND rw=$isi_baris['rw'] AND rt=$isi_baris['rt']";
+		$hasil = $this->db->query($query);
+		if ($hasil) {
+			$isi_baris['id_cluster'] = $hasil->row_array();
+		} else {
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ($isi_baris['rt'],$isi_baris['rw'],$isi_baris['dusun'])";
+			$hasil = $this->db->query($query);
+			$isi_baris['id_cluster'] = $this->db->query("SELECT LAST_INSERT_ID()");
+		}
+	}
+
+	function tulis_tweb_keluarga(&$isi_baris) {
+		// Masukkan keluarga ke tabel tweb_keluarga apabila
+		// keluarga ini belum ada
+		$query = "SELECT id from tweb_keluarga WHERE no_kk=$isi_baris['no_kk]";
+		$hasil = $this->db->query($query);
+		if ($hasil) {
+			$isi_baris['id_kk'] = $hasil->row_array();
+		} else {
+			$query = "INSERT INTO tweb_keluarga(no_kk) VALUES ($isi_baris['no_kk'])";
+			$hasil = $this->db->query($query);
+			$isi_baris['id_kk'] = $this->db->query("SELECT LAST_INSERT_ID()");
+		}
+	}
+
+	function tulis_tweb_penduduk($isi_baris) {
+		// Siapkan data penduduk
+			$data['nama'] = $isi_baris['nama'];
+			$data['nik'] = $isi_baris['nik'];
+			$data['id_kk'] = $isi_baris['id_kk'];
+			$data['kk_level'] = $isi_baris['kk_level'];
+			$data['sex'] = $isi_baris['sex'];
+			$data['tempatlahir'] = $isi_baris['tempatlahir'];
+			$data['tanggallahir'] = $isi_baris['tanggallahir'];
+			$data['agama_id'] = $isi_baris['agama_id'];
+			$data['pendidikan_kk_id'] $isi_baris['pendidikan_kk_id'];
+			$data['pendidikan_sedang_id'] = $isi_baris['pendidikan_sedang_id'];
+			$data['pekerjaan_id'] = $isi_baris['pekerjaan_id'];
+			$data['status_kawin'] = $isi_baris['status_kawin'];
+			$data['warganegara_id'] = $isi_baris['warganegara_id'];
+			$data['nama_ayah'] = $isi_baris['nama_ayah'];
+			$data['nama_ibu'] = $isi_baris['nama_ibu'];
+			$data['golongan_darah_id'] = $isi_baris['golongan_darah_id'];
+			$data['jamkesmas'] = $isi_baris['jamkesmas'];
+			$data['id_cluster'] = $isi_baris['id_cluster'];
+			$data['status'] = '1';  // penduduk impor dianggap aktif
+		// Masukkan penduduk ke tabel tweb_penduduk apabila
+		// penduduk ini belum ada
+		// Penduduk dianggap baru apabila NIK tidak diketahui (nilai 0)
+		if ($isi_baris['nik'] != 0) {
+			// Update data penduduk yang sudah ada
+			$query = "SELECT id from tweb_penduduk WHERE nik=$isi_baris['nik]";
+			$id = $this->db->query($query);
+			$this->db->where('id',$id);
+			$hasil = $this->db->update('tweb_penduduk',$data);
+		} else {
+			$hasil = $this->db->insert('tweb_penduduk',$data);
+		}
+
+		// Update nik_kepala di keluarga apabila baris ini kepala keluarga
+		// dan sudah ada NIK
+		if ($data['kk_level'] == 1 AND $data['nik'] != 0) {
+			$query = "UPDATE tweb_keluarga SET nik_kepala=$data['nik'] WHERE id=$data['id_kk']";
+			$query=$this->db->query($query);
+		}
+	}
+
+	function hapus_data_penduduk() {
+		$a="TRUNCATE tweb_wil_clusterdesa";
+		$this->db->query($a);
+
+		$a="TRUNCATE tweb_keluarga";
+		$this->db->query($a);
+
+		$a="TRUNCATE tweb_penduduk";
+		$this->db->query($a);
+	}
+
+	function import_excel() {
+		$_SESSION['error_msg'] = '';
+		$_SESSION['success'] = 1;
+
+		if (file_import_valid() == false) {
+			$_SESSION['error_msg'].= " -> Data tidak valid";
+			$_SESSION['success']=-1;
+			return;
+		}
+
+		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
+
+		// membaca jumlah baris dari data excel
+		$baris = $data->rowcount($sheet_index=0);
+		if ($baris == 0) {
+			$_SESSION['error_msg'].= " -> Tidak ada data";
+			$_SESSION['success']=-1;
+			return;
+		}
+		$baris_data = $baris;
+
+		$this->db->query("SET character_set_connection = utf8");
+		$this->db->query("SET character_set_client = utf8");
+		hapus_data_penduduk();
+
+		$gagal=0;
+		$baris_gagal ="";
+		$baris_kosong = 0;
+		// Import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
+		for ($i=2; $i<=$baris; $i++){
+
+			// Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
+			if($data->val($i,1) == '###') {
+				$baris_data = $i-1;
+				break;
+			}
+
+			// Baris dengan dusun/rw/rt kosong menandakan baris tanpa data
+			if ($data->val($i,1) == '' AND $data->val($i,2) == '' AND $data->val($i,3) == '') {
+				$baris_kosong++;
+				continue;
+			}
+
+			$isi_baris = get_isi_baris($data);
+			if (data_import_valid($isi_baris)) {
+				tulis_tweb_wil_clusterdesa($isi_baris);
+				tulis_tweb_keluarga($isi_baris);
+				tulis_tweb_penduduk($isi_baris);
+			}else{
+				$gagal++;
+				$baris_gagal .=$i.",";
+			}
+		}
+
+		$sukses = $baris_data - $baris_kosong - $gagal - 1;
+
+		if($gagal==0)
+			$baris_gagal ="tidak ada data yang gagal di import.";
+		else $_SESSION['success']=-1;
+
+		$_SESSION['gagal']=$gagal;
+		$_SESSION['sukses']=$sukses;
+		$_SESSION['baris']=$baris_gagal;
+	}
+
+	function import_excel_lama(){
 		$_SESSION['error_msg'] = '';
 		$_SESSION['success'] = 1;
 
