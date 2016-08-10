@@ -384,6 +384,10 @@ class import_model extends CI_Model{
 	}
 
 	function tulis_tweb_keluarga(&$isi_baris) {
+		// Penduduk dengan no_kk adalah penduduk lepas
+		if ($isi_baris['no_kk'] == '') {
+			return;
+		}
 		// Masukkan keluarga ke tabel tweb_keluarga apabila
 		// keluarga ini belum ada
 		$query = "SELECT id from tweb_keluarga WHERE no_kk=?";
