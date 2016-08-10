@@ -233,6 +233,10 @@ class import_model extends CI_Model{
 		}
 	}
 
+/* 	========================================================
+		IMPORT EXCEL
+		========================================================
+*/
 	function file_import_valid() {
 		// error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
 		// TODO: pakai cara upload yg disediakan Codeigniter
@@ -257,7 +261,7 @@ class import_model extends CI_Model{
 	}
 
 	function data_import_valid($isi_baris) {
-		if ($isi_baris['nama']=="" OR $isi_baris['nik']=="" OR $isi_baris['id_kk']=="" OR $isi_baris['dusun']=="" OR $isi_baris['rt']== "" OR $isi_baris['rw']=="")
+		if ($isi_baris['nama']=="" OR $isi_baris['nik']=="" OR $isi_baris['dusun']=="" OR $isi_baris['rt']== "" OR $isi_baris['rw']=="")
 			return false;
 		else
 			return true;
@@ -278,8 +282,7 @@ class import_model extends CI_Model{
 		return $tanggallahir;
 	}
 
-	function get_isi_baris($data) {
-
+	function get_isi_baris($data, $i) {
 		$dusun = $data->val($i, 1);
 		$dusun = str_replace('_',' ', $dusun);
 		$dusun = strtoupper($dusun);
@@ -290,9 +293,6 @@ class import_model extends CI_Model{
 		$isi_baris['rt'] = $data->val($i, 3);
 
 		$nama = $data->val($i, 4);
-		if($nama!=""){
-			$nama = '"'.$nama.'"';
-		}
 		$isi_baris['nama'] = $nama;
 
 		// Data contoh yang dibuat secara otomatis memakai library generatedata
@@ -307,10 +307,10 @@ class import_model extends CI_Model{
 		$isi_baris['nik'] = $nik;
 
 		$isi_baris['sex'] = $data->val($i, 7);
-		$isi_baris['tempatlahir']= $this->db->escape($data->val($i, 8));
+		$isi_baris['tempatlahir']= $data->val($i, 8);
 
 		$tanggallahir= $data->val($i, 9);
-		$isi_baris['tanggallahir'] = format_tanggallahir($tanggallahir);
+		$isi_baris['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
 
 		$isi_baris['agama_id']= $data->val($i, 10);
 		$isi_baris['pendidikan_kk_id']= $data->val($i, 11);
@@ -326,18 +326,14 @@ class import_model extends CI_Model{
 		$isi_baris['warganegara_id']= $data->val($i, 16);
 
 		$nama_ayah= $data->val($i,17);
-		if($nama_ayah!=""){
-			$nama_ayah = '"'.$nama_ayah.'"';
-		}else{
-			$nama_ayah = '"-"';
+		if($nama_ayah==""){
+			$nama_ayah = "-";
 		}
 		$isi_baris['nama_ayah'] = $nama_ayah;
 
 		$nama_ibu= $data->val($i,18);
-		if($nama_ibu!=""){
-			$nama_ibu = '"'.$nama_ibu.'"';
-		}else{
-			$nama_ibu = '"-"';
+		if($nama_ibu==""){
+			$nama_ibu = "-";
 		}
 		$isi_baris['nama_ibu'] = $nama_ibu;
 
@@ -350,29 +346,54 @@ class import_model extends CI_Model{
 	function tulis_tweb_wil_clusterdesa(&$isi_baris) {
 		// Masukkan wilayah administratif ke tabel tweb_wil_clusterdesa apabila
 		// wilayah administratif ini belum ada
+
+		// --- Masukkan dusun apabila belum ada
+		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun=?";
+		$hasil = $this->db->query($query, $isi_baris['dusun']);
+		if (empty($hasil->row_array())) {
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,0,'".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,'-','".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('-','-','".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+		}
+
+		// --- Masukkan rw apabila belum ada
+		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun=? AND rw=?";
+		$hasil = $this->db->query($query, array($isi_baris['dusun'], $isi_baris['rw']));
+		if (empty($hasil->row_array())) {
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,".$isi_baris['rw'].",'".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('-',".$isi_baris['rw'].",'".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+			$isi_baris['id_cluster'] = $this->db->insert_id();
+		}
+
+		// --- Masukkan rt apabila belum ada
 		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE
-							dusun=$isi_baris['dusun'] AND rw=$isi_baris['rw'] AND rt=$isi_baris['rt']";
+							dusun='".$isi_baris['dusun']."' AND rw=".$isi_baris['rw']." AND rt=".$isi_baris['rt'];
 		$hasil = $this->db->query($query);
-		if ($hasil) {
+		if (!empty($hasil->row_array())) {
 			$isi_baris['id_cluster'] = $hasil->row_array();
 		} else {
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ($isi_baris['rt'],$isi_baris['rw'],$isi_baris['dusun'])";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (".$isi_baris['rt'].",".$isi_baris['rw'].",'".$isi_baris['dusun']."')";
 			$hasil = $this->db->query($query);
-			$isi_baris['id_cluster'] = $this->db->query("SELECT LAST_INSERT_ID()");
+			$isi_baris['id_cluster'] = $this->db->insert_id();
 		}
 	}
 
 	function tulis_tweb_keluarga(&$isi_baris) {
 		// Masukkan keluarga ke tabel tweb_keluarga apabila
 		// keluarga ini belum ada
-		$query = "SELECT id from tweb_keluarga WHERE no_kk=$isi_baris['no_kk]";
-		$hasil = $this->db->query($query);
-		if ($hasil) {
+		$query = "SELECT id from tweb_keluarga WHERE no_kk=?";
+		$hasil = $this->db->query($query, $isi_baris['no_kk']);
+		if (!empty($hasil->row_array())) {
 			$isi_baris['id_kk'] = $hasil->row_array();
 		} else {
-			$query = "INSERT INTO tweb_keluarga(no_kk) VALUES ($isi_baris['no_kk'])";
+			$query = "INSERT INTO tweb_keluarga (no_kk) VALUES (".$isi_baris['no_kk'].")";
 			$hasil = $this->db->query($query);
-			$isi_baris['id_kk'] = $this->db->query("SELECT LAST_INSERT_ID()");
+			$isi_baris['id_kk'] = $this->db->insert_id();
 		}
 	}
 
@@ -386,7 +407,7 @@ class import_model extends CI_Model{
 			$data['tempatlahir'] = $isi_baris['tempatlahir'];
 			$data['tanggallahir'] = $isi_baris['tanggallahir'];
 			$data['agama_id'] = $isi_baris['agama_id'];
-			$data['pendidikan_kk_id'] $isi_baris['pendidikan_kk_id'];
+			$data['pendidikan_kk_id'] = $isi_baris['pendidikan_kk_id'];
 			$data['pendidikan_sedang_id'] = $isi_baris['pendidikan_sedang_id'];
 			$data['pekerjaan_id'] = $isi_baris['pekerjaan_id'];
 			$data['status_kawin'] = $isi_baris['status_kawin'];
@@ -402,10 +423,15 @@ class import_model extends CI_Model{
 		// Penduduk dianggap baru apabila NIK tidak diketahui (nilai 0)
 		if ($isi_baris['nik'] != 0) {
 			// Update data penduduk yang sudah ada
-			$query = "SELECT id from tweb_penduduk WHERE nik=$isi_baris['nik]";
-			$id = $this->db->query($query);
-			$this->db->where('id',$id);
-			$hasil = $this->db->update('tweb_penduduk',$data);
+			$query = "SELECT id from tweb_penduduk WHERE nik=?";
+			$hasil = $this->db->query($query, $isi_baris['nik']);
+			if (!empty($hasil->row_array())) {
+				$id = $hasil->row_array();
+				$this->db->where('id',$id);
+				$hasil = $this->db->update('tweb_penduduk',$data);
+			} else {
+				$hasil = $this->db->insert('tweb_penduduk',$data);
+			}
 		} else {
 			$hasil = $this->db->insert('tweb_penduduk',$data);
 		}
@@ -413,8 +439,8 @@ class import_model extends CI_Model{
 		// Update nik_kepala di keluarga apabila baris ini kepala keluarga
 		// dan sudah ada NIK
 		if ($data['kk_level'] == 1 AND $data['nik'] != 0) {
-			$query = "UPDATE tweb_keluarga SET nik_kepala=$data['nik'] WHERE id=$data['id_kk']";
-			$query=$this->db->query($query);
+			$query = "UPDATE tweb_keluarga SET nik_kepala=? WHERE id=?";
+			$query=$this->db->query($query, array($data['nik'], $data['id_kk']));
 		}
 	}
 
@@ -429,13 +455,33 @@ class import_model extends CI_Model{
 		$this->db->query($a);
 	}
 
+	function cari_baris_pertama($data, $baris) {
+		if ($baris <=1 )
+			return 0;
+
+		$baris_pertama = 1;
+		for ($i=2; $i<=$baris; $i++){
+			// Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
+			if($data->val($i,1) == '###') {
+				$baris_pertama = $i-1;
+				break;
+			}
+			// Baris dengan dusun/rw/rt kosong menandakan baris tanpa data
+			if ($data->val($i,1) == '' AND $data->val($i,2) == '' AND $data->val($i,3) == '') {
+				continue;
+			} else {
+				// Ketemu baris data pertama
+				$baris_pertama = $i;
+				break;
+			}
+		}
+		return $baris_pertama;
+	}
+
 	function import_excel() {
 		$_SESSION['error_msg'] = '';
 		$_SESSION['success'] = 1;
-
-		if (file_import_valid() == false) {
-			$_SESSION['error_msg'].= " -> Data tidak valid";
-			$_SESSION['success']=-1;
+		if ($this->file_import_valid() == false) {
 			return;
 		}
 
@@ -443,7 +489,7 @@ class import_model extends CI_Model{
 
 		// membaca jumlah baris dari data excel
 		$baris = $data->rowcount($sheet_index=0);
-		if ($baris == 0) {
+		if ($this->cari_baris_pertama($data, $baris) <= 1) {
 			$_SESSION['error_msg'].= " -> Tidak ada data";
 			$_SESSION['success']=-1;
 			return;
@@ -452,7 +498,7 @@ class import_model extends CI_Model{
 
 		$this->db->query("SET character_set_connection = utf8");
 		$this->db->query("SET character_set_client = utf8");
-		hapus_data_penduduk();
+		$this->hapus_data_penduduk();
 
 		$gagal=0;
 		$baris_gagal ="";
@@ -472,11 +518,11 @@ class import_model extends CI_Model{
 				continue;
 			}
 
-			$isi_baris = get_isi_baris($data);
-			if (data_import_valid($isi_baris)) {
-				tulis_tweb_wil_clusterdesa($isi_baris);
-				tulis_tweb_keluarga($isi_baris);
-				tulis_tweb_penduduk($isi_baris);
+			$isi_baris = $this->get_isi_baris($data, $i);
+			if ($this->data_import_valid($isi_baris)) {
+				$this->tulis_tweb_wil_clusterdesa($isi_baris);
+				$this->tulis_tweb_keluarga($isi_baris);
+				$this->tulis_tweb_penduduk($isi_baris);
 			}else{
 				$gagal++;
 				$baris_gagal .=$i.",";
@@ -722,6 +768,10 @@ class import_model extends CI_Model{
 		if($gagal!=0) $_SESSION['success']=-1;
 
 	}
+	/* 	====================
+			Selesai IMPORT EXCEL
+			====================
+	*/
 
 	function import_dasar(){
 
