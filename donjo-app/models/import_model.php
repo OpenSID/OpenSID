@@ -375,7 +375,7 @@ class import_model extends CI_Model{
 							dusun='".$isi_baris['dusun']."' AND rw=".$isi_baris['rw']." AND rt=".$isi_baris['rt'];
 		$hasil = $this->db->query($query);
 		if (!empty($hasil->row_array())) {
-			$isi_baris['id_cluster'] = $hasil->row_array();
+			$isi_baris['id_cluster'] = $hasil->row_array()['id'];
 		} else {
 			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (".$isi_baris['rt'].",".$isi_baris['rw'].",'".$isi_baris['dusun']."')";
 			$hasil = $this->db->query($query);
@@ -389,7 +389,7 @@ class import_model extends CI_Model{
 		$query = "SELECT id from tweb_keluarga WHERE no_kk=?";
 		$hasil = $this->db->query($query, $isi_baris['no_kk']);
 		if (!empty($hasil->row_array())) {
-			$isi_baris['id_kk'] = $hasil->row_array();
+			$isi_baris['id_kk'] = $hasil->row_array()['id'];
 		} else {
 			$query = "INSERT INTO tweb_keluarga (no_kk) VALUES (".$isi_baris['no_kk'].")";
 			$hasil = $this->db->query($query);
@@ -426,21 +426,23 @@ class import_model extends CI_Model{
 			$query = "SELECT id from tweb_penduduk WHERE nik=?";
 			$hasil = $this->db->query($query, $isi_baris['nik']);
 			if (!empty($hasil->row_array())) {
-				$id = $hasil->row_array();
+				$id = $hasil->row_array()['id'];
 				$this->db->where('id',$id);
 				$hasil = $this->db->update('tweb_penduduk',$data);
 			} else {
 				$hasil = $this->db->insert('tweb_penduduk',$data);
+				$id = $this->db->insert_id();
 			}
 		} else {
 			$hasil = $this->db->insert('tweb_penduduk',$data);
+			$id = $this->db->insert_id();
 		}
 
 		// Update nik_kepala di keluarga apabila baris ini kepala keluarga
 		// dan sudah ada NIK
-		if ($data['kk_level'] == 1 AND $data['nik'] != 0) {
+		if ($data['kk_level'] == 1) {
 			$query = "UPDATE tweb_keluarga SET nik_kepala=? WHERE id=?";
-			$query=$this->db->query($query, array($data['nik'], $data['id_kk']));
+			$query=$this->db->query($query, array($id, $data['id_kk']));
 		}
 	}
 
