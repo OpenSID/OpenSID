@@ -268,11 +268,11 @@ class import_model extends CI_Model{
 	}
 
 	function format_tanggallahir($tanggallahir) {
-		if(strlen($tanggallahir)>0){
-			$tanggallahir = date("Y-m-d",strtotime($tanggallahir));
-		}else{
-			$tanggallahir = date("Y-m-d");
+		if(strlen($tanggallahir)==0){
+			return $tanggallahir;
 		}
+
+		$tanggallahir = date("Y-m-d",strtotime($tanggallahir));
 		if($tanggallahir[2] == "/" OR $tanggallahir[4] == "/"){
 			$tanggallahir = str_replace('/','-', $tanggallahir);
 		}
@@ -418,6 +418,12 @@ class import_model extends CI_Model{
 			$data['jamkesmas'] = $isi_baris['jamkesmas'];
 			$data['id_cluster'] = $isi_baris['id_cluster'];
 			$data['status'] = '1';  // penduduk impor dianggap aktif
+		// Jangan masukkan atau update isian yang kosong
+			foreach ($data as $key => $value) {
+				if ($value == "") {
+					unset($data[$key]);
+				}
+			}
 		// Masukkan penduduk ke tabel tweb_penduduk apabila
 		// penduduk ini belum ada
 		// Penduduk dianggap baru apabila NIK tidak diketahui (nilai 0)
@@ -542,234 +548,6 @@ class import_model extends CI_Model{
 		$_SESSION['baris']=$baris_gagal;
 	}
 
-	function import_excel_lama(){
-		$_SESSION['error_msg'] = '';
-		$_SESSION['success'] = 1;
-
-		// error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
-		// TODO: pakai cara upload yg disediakan Codeigniter
-		if ($_FILES['userfile']['error'] == 1) {
-			$max_upload = (int)(ini_get('upload_max_filesize'));
-			$max_post = (int)(ini_get('post_max_size'));
-			$memory_limit = (int)(ini_get('memory_limit'));
-			$upload_mb = min($max_upload, $max_post, $memory_limit);
-			$_SESSION['error_msg'].= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
-			$_SESSION['success']=-1;
-			return;
-		}
-
-		$mime_type_excel = array("application/vnd.ms-excel", "application/octet-stream");
-		if(!in_array($_FILES['userfile']['type'], $mime_type_excel)){
-			$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
-			$_SESSION['success']=-1;
-			return;
-		}
-		$this->db->query("SET character_set_connection = utf8");
-		$this->db->query("SET character_set_client = utf8");
-
-		$gagal=0;
-		$baris2="";
-			$a="DROP TABLE IF EXISTS impor";
-			$this->db->query($a);
-
-		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
-
-		// membaca jumlah baris dari data excel
-		$baris = $data->rowcount($sheet_index=0);
-		$baris_data = $baris;
-
-		//buat tabel impor
-		$a="CREATE TABLE IF NOT EXISTS impor (
-		dusun varchar(50) NOT NULL DEFAULT 0,
-		rw varchar(10) NOT NULL DEFAULT 0,
-		rt varchar(10) NOT NULL DEFAULT 0,
-		nama varchar(50) NOT NULL,
-		nik varchar(16) NOT NULL,
-		sex tinyint(1) unsigned DEFAULT NULL,
-		tempatlahir varchar(50) NOT NULL,
-		tanggallahir date NOT NULL,
-		agama_id int(1) unsigned NOT NULL,
-		pendidikan_kk_id int(1) unsigned NOT NULL,
-		pendidikan_id int(1) unsigned NOT NULL,
-		pendidikan_sedang_id int(1) unsigned NOT NULL,
-		pekerjaan_id int(1) unsigned NOT NULL,
-		status_kawin tinyint(1) unsigned NOT NULL,
-		kk_level tinyint(1) NOT NULL DEFAULT 0,
-		warganegara_id int(1) unsigned NOT NULL,
-		nama_ayah varchar(50) NOT NULL,
-		nama_ibu varchar(50) NOT NULL,
-		golongan_darah_id int(1) NOT NULL,
-		jamkesmas int(1) NOT NULL DEFAULT 2,
-		id_kk varchar(16) NOT NULL DEFAULT '0') ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;";
-		$this->db->query($a);
-
-		$a="TRUNCATE tweb_wil_clusterdesa";
-		$this->db->query($a);
-
-		$a="TRUNCATE tweb_keluarga";
-		$this->db->query($a);
-
-		$a="TRUNCATE tweb_penduduk";
-		$this->db->query($a);
-
-		// import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
-		$baris2 ="";
-		$j=0;
-		$baris_kosong = 0;
-		for ($i=2; $i<=$baris; $i++){
-			 // membaca data nim (kolom ke-n)
-
-			//$dusun = str_replace(" ","_",$data->val($i, 1));
-
-			// Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
-			if($data->val($i,1) == '###') {
-				$baris_data = $i-1;
-				break;
-			}
-
-			// Baris dengan dusun/rw/rt kosong menandakan baris tanpa data
-			if ($data->val($i,1) == '' AND $data->val($i,2) == '' AND $data->val($i,3) == '') {
-				$baris_kosong++;
-				continue;
-			}
-
-			$dusun = $data->val($i, 1);
-			$rw = $data->val($i, 2);
-			$rt = $data->val($i, 3);
-
-			$nama = $data->val($i, 4);
-			if($nama!=""){
-				$nama = '"'.$nama.'"';
-			}
-
-			$id_kk= $data->val($i, 5);
-			$nik = $data->val($i, 6);
-
-			// Data contoh yang dibuat secara otomatis memakai library generatedata
-			// waktu dibaca oleh Excel tanda kutip awalnya dianggap character bukan penanda text,
-			// jadi perlu dibuang
-			if ($id_kk[0]=="'") $id_kk = substr($id_kk, 1, strlen($id_kk)-1);
-			if ($nik[0]=="'") $nik = substr($nik, 1, strlen($nik)-1);
-
-			$sex = $data->val($i, 7);
-			$tempatlahir= $this->db->escape($data->val($i, 8));
-			$tanggallahir= $data->val($i, 9);
-
-			if(strlen($tanggallahir)>0){
-				$tanggallahir = date("Y-m-d",strtotime($tanggallahir));
-			}else{
-				$tanggallahir = date("Y-m-d");
-			}
-
-			if($tanggallahir[2] == "/" OR $tanggallahir[4] == "/"){
-				$tanggallahir = str_replace('/','-', $tanggallahir);
-			}
-
-			$dusun = str_replace('_',' ', $dusun);
-			$dusun = strtoupper($dusun);
-			$dusun = str_replace('DUSUN ','', $dusun);
-			if($tanggallahir[2] == "-"){
-				$tanggallahir = rev_tgl($tanggallahir);
-			}
-
-			$agama_id= $data->val($i, 10);
-			$pendidikan_kk_id= $data->val($i, 11);
-			$pendidikan_sedang_id= $data->val($i, 12);
-			if($pendidikan_sedang_id=="")
-				$pendidikan_sedang_id=18;
-
-			$pekerjaan_id= $data->val($i, 13);
-			$status_kawin= $data->val($i, 14);
-			$kk_level= $data->val($i, 15);
-			$warganegara_id= 1;
-
-			$nama_ayah= $data->val($i,17);
-			if($nama_ayah!=""){
-				$nama_ayah = '"'.$nama_ayah.'"';
-			}else{
-				$nama_ayah = '"-"';
-			}
-			$nama_ibu= $data->val($i,18);
-			if($nama_ibu!=""){
-				$nama_ibu = '"'.$nama_ibu.'"';
-			}else{
-				$nama_ibu = '"-"';
-			}
-
-			$golongan_darah_id= $data->val($i, 19);
-			//$jamkesmas= $data->val($i, 20);
-
-
-			 // masukin ke tabel impor
-			$sql="INSERT INTO impor(dusun,rw,rt,nama,nik,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id, pendidikan_sedang_id,pekerjaan_id,status_kawin,kk_level,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,id_kk) VALUES ('$dusun','$rw','$rt',$nama,'$nik',$sex,$tempatlahir,'$tanggallahir','$agama_id','$pendidikan_kk_id','$pendidikan_sedang_id','$pekerjaan_id','$status_kawin','$kk_level','$warganegara_id',$nama_ayah,$nama_ibu,'$golongan_darah_id','$id_kk');";
-
-			//echo $query;
-			if($nama!="" AND $nik!="" AND $id_kk!="" AND $dusun!=""){
-				$h = $this->db->query($sql);
-			}else{
-				$gagal++;
-				$baris2 .=$i.",";
-			}
-			$h = null;
-		}
-
-		$sukses = $baris_data - $baris_kosong - $gagal - 1;
-		if($gagal==0)
-			$baris2 ="tidak ada data yang gagal di import.";
-
-		// masukin ke tabel tweb_wil_clusterdesa
-		$query="INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) select * from (SELECT rt, rw, dusun from impor GROUP BY rt,rw,dusun
-				union SELECT '0' as rt, '0' as rw, dusun from impor GROUP BY dusun
-				union SELECT '0' as rt, '-' as rw, dusun from impor GROUP BY dusun
-				union SELECT '-' as rt, '-' as rw, dusun from impor GROUP BY dusun
-				union SELECT '-' as rt, rw as rw, dusun from impor GROUP BY dusun,rw
-				union SELECT '0' as rt, rw as rw, dusun from impor GROUP BY dusun,rw) as tb";
-		$hasil = $this->db->query($query);
-
-		// masukin ke tabel tweb_penduduk
-		$query="INSERT INTO tweb_keluarga(no_kk) SELECT DISTINCT(id_kk) AS no_kk FROM impor";
-		$hasil = $this->db->query($query);
-
-		// masukin ke tabel tweb_penduduk
-		$query="INSERT INTO tweb_penduduk(nama,nik,id_kk,kk_level,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id,pendidikan_sedang_id,pekerjaan_id,status_kawin,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,jamkesmas,id_cluster,status) SELECT nama,nik,(SELECT id FROM tweb_keluarga WHERE no_kk=a.id_kk) as id_kk,kk_level,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id,pendidikan_sedang_id,pekerjaan_id,status_kawin,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,jamkesmas,(SELECT id FROM tweb_wil_clusterdesa where dusun=a.dusun AND rw=a.rw AND rt=a.rt) as id_cluster,'1' as status from impor a;";
-		$hasil = $this->db->query($query);
-
-		// masukin ke tabel tweb_penduduk
-		$sql="SELECT id FROM tweb_keluarga";
-		if ($a=$this->db->query($sql)){
-				$hsl  = $a->result_array();
-				foreach($hsl AS $hsl2){
-					$idnya=($hsl2['id']);
-					$kirim = "UPDATE tweb_keluarga SET nik_kepala=(SELECT id FROM tweb_penduduk where kk_level='1' AND id_kk=$idnya LIMIT 1) WHERE id=$idnya";
-					$query=$this->db->query($kirim);
-				}
-		}
-
-		$a="DROP TABLE impor";
-		$this->db->query($a);
-
-		$a="DELETE FROM tweb_wil_clusterdesa WHERE dusun = '' OR rt = '' OR rw='';";
-		$this->db->query($a);
-
-		$a="DELETE FROM tweb_keluarga WHERE nik_kepala = '' OR nik_kepala is null;";
-		$this->db->query($a);
-
-		$a="DELETE FROM tweb_penduduk WHERE nama = '' AND nik = '';";
-		$this->db->query($a);
-
-		//$a="ALTER TABLE tweb_penduduk ENGINE = InnoDB ROW_FORMAT = DYNAMIC;";
-		//$this->db->query($a);
-
-		//$a="ALTER TABLE tweb_keluarga ENGINE = InnoDB ROW_FORMAT = DYNAMIC;";
-		//$this->db->query($a);
-
-		$_SESSION['gagal']=$gagal;
-		$_SESSION['sukses']=$sukses;
-		$_SESSION['baris']=$baris2;
-
-		if($gagal!=0) $_SESSION['success']=-1;
-
-	}
 	/* 	====================
 			Selesai IMPORT EXCEL
 			====================
