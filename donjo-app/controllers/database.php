@@ -13,17 +13,17 @@ class Database extends CI_Controller{
 		$this->load->model('header_model');
 		$this->load->model('import_model');
 		$this->load->model('export_model');
-		
+
 	}
-	
+
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		redirect('export');
 	}
-	
+
 	function index(){
-	
+
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
@@ -31,9 +31,9 @@ class Database extends CI_Controller{
 		$this->load->view('export/exp');
 		$this->load->view('footer');
 	}
-	
+
 	function import(){
-	
+
 		$nav['act']= 2;
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action2'] = site_url("database/import_siak");
@@ -43,9 +43,9 @@ class Database extends CI_Controller{
 		$this->load->view('import/imp',$data);
 		$this->load->view('footer');
 	}
-	
+
 	function import_ppls(){
-	
+
 		$nav['act']= 4;
 		$data['form_action3'] = site_url("database/ppls_individu");
 		$data['form_action2'] = site_url("database/ppls_rumahtangga");
@@ -56,9 +56,9 @@ class Database extends CI_Controller{
 		$this->load->view('import/ppls',$data);
 		$this->load->view('footer');
 	}
-	
+
 	function backup(){
-	
+
 		$nav['act']= 3;
 		$data['form_action'] = site_url("database/restore");
 		$header = $this->header_model->get_data();
@@ -67,16 +67,16 @@ class Database extends CI_Controller{
 		$this->load->view('database/backup',$data);
 		$this->load->view('footer');
 	}
-	
-	
+
+
 	function export_dasar(){
 		$this->export_model->export_dasar();
 	}
-	
+
 	function export_akp(){
 		$this->export_model->export_akp();
 	}
-	
+
 	function import2(){
 		$nav['act']= 2;
 		$data['form_action'] = site_url("database/import_dasar");
@@ -86,9 +86,9 @@ class Database extends CI_Controller{
 		$this->load->view('export/nav',$nav);
 		$this->load->view('export/imp',$data);
 		$this->load->view('footer');
-		
+
 	}
-	
+
 	function pre_migrate(){
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
@@ -97,10 +97,10 @@ class Database extends CI_Controller{
 		$this->load->view('export/mig');
 		$this->load->view('footer');
 	}
-	
+
 	function migrate(){
 		//$this->wilayah_model->migrate();
-		
+
 		$this->dbforge->drop_table('tweb_dusun_x');
 		$this->dbforge->drop_table('tweb_rw_x');
 		$this->dbforge->drop_table('tweb_rt_x');
@@ -111,7 +111,8 @@ class Database extends CI_Controller{
 	}
 
 	function import_dasar(){
-		$this->import_model->import_excel();
+		$hapus = isset($_POST['hapus_data']);
+		$this->import_model->import_excel($hapus);
 		redirect('database/import/1');
 		//import_das();
 	}
@@ -139,7 +140,7 @@ class Database extends CI_Controller{
 		$_SESSION["SIAK"] = $data["siak"];
 		redirect('database/import/3');
 	}
-	
+
 	function import_akp(){
 		$this->import_model->import_akp();
 		redirect('database/import');

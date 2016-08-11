@@ -504,7 +504,7 @@ class import_model extends CI_Model{
 		return $baris_pertama;
 	}
 
-	function import_excel() {
+	function import_excel($hapus=false) {
 		$_SESSION['error_msg'] = '';
 		$_SESSION['success'] = 1;
 		if ($this->file_import_valid() == false) {
@@ -524,7 +524,10 @@ class import_model extends CI_Model{
 
 		$this->db->query("SET character_set_connection = utf8");
 		$this->db->query("SET character_set_client = utf8");
-		$this->hapus_data_penduduk();
+
+		// Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
+		// atau tidak sebelum melakukan impor
+		if ($hapus) { $this->hapus_data_penduduk(); }
 
 		$gagal=0;
 		$baris_gagal ="";

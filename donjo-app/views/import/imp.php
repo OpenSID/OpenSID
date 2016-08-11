@@ -24,7 +24,9 @@
 										<li value="1">Pastikan format data yang akan diimport sudah sesuai dengan aturan import data:
 										<dl>
 										<dl>-> Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama,
-										<br><dl>-> Struktur RT RW, jika tidak ada dalam struktur wilayah desa diganti dengan tanda � (min/strip/dash)
+										<br><dl>-> Kolom Nama, Dusun, RW, RT dan NIK harus diisi,
+										<br><dl>-> NIK dan Nomor KK harus didahului dengan tanda ' (petik satu),
+										<br><dl>-> NIK harus bilangan dengan 16 angka atau 0 untuk menunjukkan belum ada NIK,
 										<br><dl>-> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah, Jamkesmas, raskin, klasifikasi sosial ekonomi) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2<br>
 										</dl>
 										<li>Simpan (Save) file Excel sebagai .xls file (jika Anda memakai excel 2007 gunakan Save As pilih format .xls) </ul>
@@ -46,6 +48,7 @@
 										<input name="userfile" type="file" />
 									<td>
 										<a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses import selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Import Sedang Berjalan.">Import</a>
+										<input type="checkbox" name="hapus_data" value='hapus' /> Hapus data penduduk sebelum import
 									</td>
 									<td>
 										&nbsp;
