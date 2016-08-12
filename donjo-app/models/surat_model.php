@@ -321,6 +321,8 @@
 			$buffer=str_replace("[sex]","$individu[sex]",$buffer);
 			$buffer=str_replace("[agama]","$individu[agama]",$buffer);
 			$buffer=str_replace("[gol_darah]","$individu[gol_darah]",$buffer);
+			$buffer=str_replace("[status]","$individu[status]",$buffer);
+			$buffer=str_replace("[pendidikan]","$individu[pendidikan]",$buffer);
 			$buffer=str_replace("[pekerjaan]","$individu[pekerjaan]",$buffer);
 			$buffer=str_replace("[warga_negara]","$individu[warganegara]",$buffer);
 			$buffer=str_replace("[no_ktp]","$individu[nik]",$buffer);
