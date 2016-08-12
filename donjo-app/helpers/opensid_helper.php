@@ -84,7 +84,7 @@ define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
  * @access  public
  * @return  string
  */
-    function SuratExport($nama_surat)
+  function SuratExport($nama_surat)
   {
     if(SuratExportDesa($nama_surat) != ""){
       return SuratExportDesa($nama_surat);
@@ -93,6 +93,16 @@ define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
     } else {
       return "";
     }
+  }
+
+/**
+ * SuratExport
+ *
+ * Mengembalikan root path untuk mengakses file, di mana root mungkin di sub-folder
+ */
+  function BasePath()
+  {
+    return $_SERVER['DOCUMENT_ROOT'] . parse_url(base_url(),PHP_URL_PATH);
   }
 
 ?>

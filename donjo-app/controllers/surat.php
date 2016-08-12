@@ -95,8 +95,9 @@ class Surat extends CI_Controller{
 		$z=$_POST['nomor'];
 
 		$id = $_POST['nik'];
-		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z);
+		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $id, $z);
+		$this->surat_model->coba($url, $nama_surat);
+		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z,$nama_surat);
 
-		$this->surat_model->coba($url);
 	}
 }

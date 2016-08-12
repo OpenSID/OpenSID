@@ -171,7 +171,17 @@
 		return $data;
 	}
 
-	function log_surat($f=0,$id='',$g='',$u='',$z=''){
+	function nama_surat_arsip($url,$nik,$nomor){
+		// Nama surat untuk surat keterangan di mana NIK = 1234567890123456 dan
+		// nomor surat = 503/V.58.IV.135/III pada tanggal 27 Juli 2016 akan seperti ini:
+		// surat_ket_pengantar_1234567890123456_2016-07-27_503-V.58.IV.135-III.rtf
+		$nomor_surat = str_replace("'", '', $nomor);
+		$nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
+		$nama_surat = $url."_".$nik."_".date("Y-m-d")."_".$nomor_surat.".rtf";
+		return $nama_surat;
+	}
+
+	function log_surat($f=0,$id='',$g='',$u='',$z='', $nama_surat){
 
 		$data['id_pend']=$id;
 
@@ -201,6 +211,7 @@
 		$data['bulan']=date('m');
 		$data['tahun']=date('Y');
 		$data['no_surat']=$z;
+		$data['nama_surat']=$nama_surat;
 		//print_r($data);
 		$this->db->insert('log_surat',$data);
 

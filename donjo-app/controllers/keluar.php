@@ -11,7 +11,7 @@ class Keluar extends CI_Controller{
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
-		
+
 	}
 
 	function clear(){
@@ -45,7 +45,7 @@ class Keluar extends CI_Controller{
 
 		$nav['act']= 2;
 		$this->load->view('header', $header);
-		
+
 		$this->load->view('surat/nav',$nav);
 		$this->load->view('surat/surat_keluar',$data);
 		$this->load->view('footer');
@@ -89,7 +89,7 @@ class Keluar extends CI_Controller{
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
-		
+
 		$this->load->view('surat/nav',$nav);
 		$this->load->view('surat/surat_keluar_perorangan',$data);
 		$this->load->view('footer');
@@ -101,7 +101,7 @@ class Keluar extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$data['stat']  = $this->surat_keluar_model->grafik();
 		$this->load->view('header',$header);
-		
+
 		$this->load->view('surat/nav',$nav);
 		$this->load->view('surat/surat_keluar_graph',$data);
 		$this->load->view('footer');
@@ -123,6 +123,4 @@ class Keluar extends CI_Controller{
 		else unset($_SESSION['nik']);
 		redirect('keluar/perorangan');
 	}
-
-
 }

@@ -242,7 +242,7 @@
 		return $query->row_array();
 	}
 
-	function coba($url=''){
+	function coba($url='', $nama_surat){
 
 		$g=$_POST['pamong'];
 		$u=$_SESSION['user'];
@@ -336,12 +336,7 @@
 				$buffer=str_replace("[$key]",$entry,$buffer);
 			}
 
-			// Nama surat untuk surat keterangan di mana NIK = 1234567890123456 dan
-			// nomor surat = 503/V.58.IV.135/III pada tanggal 27 Juli 2016 akan seperti ini:
-			// surat_ket_pengantar_1234567890123456_2016-07-27_503-V.58.IV.135-III.rtf
-			$nomor_surat = str_replace("'", '', $input['nomor']);
-			$nomor_surat = preg_replace('/[^a-zA-Z0-9.]/', '-', $nomor_surat);
-			$nama_surat = $url."_".$individu['nik']."_".date("Y-m-d")."_".$nomor_surat.".rtf";
+			// Simpan surat di folder arsip dan download
 			$berkas_arsip = $path_arsip.$nama_surat;
 			$handle = fopen($berkas_arsip,'w+');
 			fwrite($handle,$buffer);

@@ -78,7 +78,7 @@
 
 										<?php $surat = SuratExport($data[url_surat]); ?>
 										<?php if ($surat != "") { ?>
-										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south" title="Upload Template"><span class="icon-download-alt icon-large"> Download </span></a>
+										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south" title="Unduh Template"><span class="icon-download-alt icon-large"> Download </span></a>
 										<?php } ?>
 
 									</div>
