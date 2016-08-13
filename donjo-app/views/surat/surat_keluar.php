@@ -66,7 +66,7 @@
 							else:
 								$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
 							endif;
-							$theFile = BasePath().LOKASI_ARSIP.$berkas;
+							$theFile = FCPATH.LOKASI_ARSIP.$berkas;
 							?>
 							<tr>
 								<td align="center" width="2"><?php echo $data['no']?></td>

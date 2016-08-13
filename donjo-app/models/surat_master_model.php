@@ -292,8 +292,8 @@
 
   function get_kode_isian($surat) {
 		// Lokasi instalasi SID mungkin di sub-folder
-    include $_SERVER['DOCUMENT_ROOT'] . parse_url(base_url(),PHP_URL_PATH) . '/simplehtmldom_1_5/simple_html_dom.php';
-    $html = file_get_html($_SERVER['DOCUMENT_ROOT'] . parse_url(base_url(),PHP_URL_PATH) . "/donjo-app/views/surat/form/".$surat['url_surat'].".php");
+    include FCPATH . '/vendor/simple_html_dom.php';
+    $html = file_get_html(FCPATH . "/donjo-app/views/surat/form/".$surat['url_surat'].".php");
 
     // Kumpulkan semua isian (tag input) di form surat
     // Asumsi di form surat, struktur input seperti ini

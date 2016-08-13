@@ -95,14 +95,4 @@ define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
     }
   }
 
-/**
- * SuratExport
- *
- * Mengembalikan root path untuk mengakses file, di mana root mungkin di sub-folder
- */
-  function BasePath()
-  {
-    return $_SERVER['DOCUMENT_ROOT'] . parse_url(base_url(),PHP_URL_PATH);
-  }
-
 ?>
