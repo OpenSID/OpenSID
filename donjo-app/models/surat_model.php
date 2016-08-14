@@ -242,14 +242,9 @@
 		return $query->row_array();
 	}
 
-	function coba($url='', $nama_surat){
-
-		$g=$_POST['pamong'];
-		$u=$_SESSION['user'];
-		$z=$_POST['nomor'];
-
-		$id = $_POST['nik'];
-		$input = $_POST;
+	function surat_rtf($url='', $input){
+		// Ambil data
+		$id = $input['nik'];
 		$tgl = tgl_indo(date("Y m d"));
 		$thn = date("Y");
 		$individu = $this->get_data_surat($id);
@@ -266,7 +261,6 @@
 			$file = "surat/$url/$url.rtf";
 		}
 
-		$path_arsip = LOKASI_ARSIP;
 		if(is_file($file)){
 			$handle = fopen($file,'r');
 			$buffer = stream_get_contents($handle);
@@ -279,24 +273,6 @@
 			$buffer=str_replace("[judul_surat]",strtoupper("surat ".$surat['nama']),$buffer);
 			$buffer=str_replace("[tgl_surat]","$tgl",$buffer);
 			$buffer=str_replace("[tahun]","$thn",$buffer);
-
-			//DATA DARI FORM INPUT SURAT
-
-			// Secara otomatis mengambil kode isian untuk surat ini
-			$surat_master = $this->get_surat($url);
-			$inputs = $this->surat_master_model->get_kode_isian($surat_master);
-			foreach($inputs as $kode => $keterangan) {
-				$buffer=str_replace("[form_".$kode."]","$input[$kode]",$buffer);
-			}
-
-			$buffer=str_replace("[nomor_surat]","$input[nomor]",$buffer);
-			$buffer=str_replace("[nomor_sorat]","$input[nomor]",$buffer);
-			$buffer=str_replace("[mulai_berlaku]",tgl_indo(date('Y m d',strtotime($input[berlaku_dari]))),$buffer);
-			$buffer=str_replace("[tgl_akhir]",tgl_indo(date('Y m d',strtotime($input[berlaku_sampai]))),$buffer);
-			$buffer=str_replace("[jabatan]","$input[jabatan]",$buffer);
-			$buffer=str_replace("[nama_pamong]","$input[pamong]",$buffer);
-			$buffer=str_replace("[keterangan]","$input[keterangan]",$buffer);
-			$buffer=str_replace("[keperluan]","$input[keperluan]",$buffer);
 
 			//DATA DARI KONFIGURASI DESA
 			$buffer=str_replace("[kode_desa]","$config[kode_desa]",$buffer);
@@ -313,7 +289,7 @@
 			$buffer=str_replace("[alamat_desa]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
 
 			//DATA DARI TABEL PENDUDUK
-			//jika data kurang lengkap bisa di tambahkan dari fungsi "get_data_surat" pada file ini baris 151
+			//jika data kurang lengkap bisa di tambahkan dari fungsi "get_data_surat" pada file ini
 			$buffer=str_replace("[alamat]","RT $individu[rt] / RW $individu[rw] $individu[dusun]",$buffer);
 			$buffer=str_replace("[nama_ayah]","$individu[nama_ibu]",$buffer);
 			$buffer=str_replace("[nama_ibu]","$individu[nama_ibu]",$buffer);
@@ -332,18 +308,44 @@
 			$buffer=str_replace("[ttl]","$individu[tempatlahir]/$tgllhr",$buffer);
 			$buffer=str_replace("[tempat_tgl_lahir]","$individu[tempatlahir]/$tgllhr",$buffer);
 
+			//DATA DARI FORM INPUT SURAT
+			// Kode isian yang disediakan pada SID CRI 3.04
+			$buffer=str_replace("[nomor_surat]","$input[nomor]",$buffer);
+			$buffer=str_replace("[nomor_sorat]","$input[nomor]",$buffer);
+			$buffer=str_replace("[mulai_berlaku]",tgl_indo(date('Y m d',strtotime($input[berlaku_dari]))),$buffer);
+			$buffer=str_replace("[tgl_akhir]",tgl_indo(date('Y m d',strtotime($input[berlaku_sampai]))),$buffer);
+			$buffer=str_replace("[jabatan]","$input[jabatan]",$buffer);
+			$buffer=str_replace("[nama_pamong]","$input[pamong]",$buffer);
+			$buffer=str_replace("[keterangan]","$input[keterangan]",$buffer);
+			$buffer=str_replace("[keperluan]","$input[keperluan]",$buffer);
+			// $input adalah isian form surat. Kode isian dari form bisa berbentuk [form_isian]
+			// sesuai dengan panduan, atau boleh juga langsung [isian] saja
 			foreach ($input as $key => $entry){
+				$buffer=str_replace("[form_$key]",$entry,$buffer);
+				// Diletakkan di sini karena bisa sama dengan kode isian sebelumnya
+				// dan kalau masih ada dianggap sebagai kode dari form isian
 				$buffer=str_replace("[$key]",$entry,$buffer);
 			}
-
-			// Simpan surat di folder arsip dan download
-			$berkas_arsip = $path_arsip.$nama_surat;
-			$handle = fopen($berkas_arsip,'w+');
-			fwrite($handle,$buffer);
-			fclose($handle);
-			$_SESSION['success']=8;
-			header("location:".base_url($berkas_arsip));
 		}
+		return $buffer;
+	}
+
+	function coba($url='', $nama_surat){
+    include FCPATH . '/vendor/rtf-html-php/rtf-html-php.php';
+
+		$input = $_POST;
+		$rtf = $this->surat_rtf($url, $input);
+
+		// Simpan surat di folder arsip dan download
+		$path_arsip = LOKASI_ARSIP;
+		$berkas_arsip = $path_arsip.$nama_surat;
+		$handle = fopen($berkas_arsip,'w+');
+		fwrite($handle,$rtf);
+		fclose($handle);
+		$_SESSION['success']=8;
+		header("location:".base_url($berkas_arsip));
+
+
 
 	}
 
