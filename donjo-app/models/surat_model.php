@@ -330,23 +330,26 @@
 		return $buffer;
 	}
 
-	function coba($url='', $nama_surat){
-    include FCPATH . '/vendor/rtf-html-php/rtf-html-php.php';
-
+	function coba($url='', &$nama_surat){
 		$input = $_POST;
 		$rtf = $this->surat_rtf($url, $input);
-
 		// Simpan surat di folder arsip dan download
 		$path_arsip = LOKASI_ARSIP;
 		$berkas_arsip = $path_arsip.$nama_surat;
 		$handle = fopen($berkas_arsip,'w+');
 		fwrite($handle,$rtf);
 		fclose($handle);
+		// Untuk konversi rtf ke pdf, libreoffice harus terinstall
+		$cmd = "libreoffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
+		exec($cmd, $output, $return);
+		// Kalau berhasil, pakai pdf
+		if ($return==0) {
+			$nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME).".pdf";
+			$berkas_arsip = $path_arsip.$nama_surat;
+		}
+
 		$_SESSION['success']=8;
 		header("location:".base_url($berkas_arsip));
-
-
-
 	}
 
 }
