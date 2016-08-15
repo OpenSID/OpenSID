@@ -894,6 +894,7 @@ CREATE TABLE IF NOT EXISTS `log_surat` (
   `bulan` varchar(2) DEFAULT NULL,
   `tahun` varchar(4) DEFAULT NULL,
   `no_surat` varchar(20) DEFAULT NULL,
+  `nama_surat` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=102 ;
 
