@@ -346,7 +346,7 @@ class First extends CI_Controller{
 
 	function add_comment($id=0) {
 		// Periksa isian captcha
-		include $_SERVER['DOCUMENT_ROOT'] . '/securimage/securimage.php';
+		include FCPATH . 'securimage/securimage.php';
 		$securimage = new Securimage();
 		$_SESSION['validation_error'] = false;
 		if ($securimage->check($_POST['captcha_code']) == false) {
