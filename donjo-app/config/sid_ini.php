@@ -4,9 +4,12 @@
 define("LOKASI_SID_INI", 'desa/config/');
 
 // Konfigurasi tambahan untuk aplikasi
-$extra_app_config = LOKASI_SID_INI . 'config.php';
+$extra_app_config = FCPATH . LOKASI_SID_INI . 'config.php';
 if (is_file($extra_app_config)) {
 	require_once($extra_app_config);
+} else {
+  // Harus ada config. Config ini tidak dipakai.
+  $config['ini'] = '';
 }
 
 /* End of file sid_ini.php */
