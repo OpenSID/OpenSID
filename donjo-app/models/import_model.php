@@ -297,62 +297,62 @@ class import_model extends CI_Model{
 	}
 
 	function get_isi_baris($data, $i) {
-		$dusun = $data->val($i, 1);
+		$dusun = trim($data->val($i, 1));
 		$dusun = str_replace('_',' ', $dusun);
 		$dusun = strtoupper($dusun);
 		$dusun = str_replace('DUSUN ','', $dusun);
 		$isi_baris['dusun'] = $dusun;
 
-		$isi_baris['rw'] = $data->val($i, 2);
-		$isi_baris['rt'] = $data->val($i, 3);
+		$isi_baris['rw'] = trim($data->val($i, 2));
+		$isi_baris['rt'] = trim($data->val($i, 3));
 
-		$nama = $data->val($i, 4);
+		$nama = trim($data->val($i, 4));
 		$isi_baris['nama'] = $nama;
 
 		// Data contoh yang dibuat secara otomatis memakai library generatedata
 		// waktu dibaca oleh Excel tanda kutip awalnya dianggap character bukan penanda text,
 		// jadi perlu dibuang
-		$no_kk= $data->val($i, 5);
+		$no_kk= trim($data->val($i, 5));
 		if ($no_kk[0]=="'") $no_kk = substr($no_kk, 1, strlen($no_kk)-1);
 		$isi_baris['no_kk'] = $no_kk;
 
-		$nik = $data->val($i, 6);
+		$nik = trim($data->val($i, 6));
 		if ($nik[0]=="'") $nik = substr($nik, 1, strlen($nik)-1);
 		$isi_baris['nik'] = $nik;
 
-		$isi_baris['sex'] = $data->val($i, 7);
-		$isi_baris['tempatlahir']= $data->val($i, 8);
+		$isi_baris['sex'] = trim($data->val($i, 7));
+		$isi_baris['tempatlahir']= trim($data->val($i, 8));
 
-		$tanggallahir= $data->val($i, 9);
+		$tanggallahir= trim($data->val($i, 9));
 		$isi_baris['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
 
-		$isi_baris['agama_id']= $data->val($i, 10);
-		$isi_baris['pendidikan_kk_id']= $data->val($i, 11);
+		$isi_baris['agama_id']= trim($data->val($i, 10));
+		$isi_baris['pendidikan_kk_id']= trim($data->val($i, 11));
 
-		$pendidikan_sedang_id= $data->val($i, 12);
+		$pendidikan_sedang_id= trim($data->val($i, 12));
 		if($pendidikan_sedang_id=="")
 			$pendidikan_sedang_id=18;
 		$isi_baris['pendidikan_sedang_id'] = $pendidikan_sedang_id;
 
-		$isi_baris['pekerjaan_id']= $data->val($i, 13);
-		$isi_baris['status_kawin']= $data->val($i, 14);
-		$isi_baris['kk_level']= $data->val($i, 15);
-		$isi_baris['warganegara_id']= $data->val($i, 16);
+		$isi_baris['pekerjaan_id']= trim($data->val($i, 13));
+		$isi_baris['status_kawin']= trim($data->val($i, 14));
+		$isi_baris['kk_level']= trim($data->val($i, 15));
+		$isi_baris['warganegara_id']= trim($data->val($i, 16));
 
-		$nama_ayah= $data->val($i,17);
+		$nama_ayah= trim($data->val($i,17));
 		if($nama_ayah==""){
 			$nama_ayah = "-";
 		}
 		$isi_baris['nama_ayah'] = $nama_ayah;
 
-		$nama_ibu= $data->val($i,18);
+		$nama_ibu= trim($data->val($i,18));
 		if($nama_ibu==""){
 			$nama_ibu = "-";
 		}
 		$isi_baris['nama_ibu'] = $nama_ibu;
 
-		$isi_baris['golongan_darah_id']= $data->val($i, 19);
-		$isi_baris['jamkesmas']= $data->val($i, 20);
+		$isi_baris['golongan_darah_id']= trim($data->val($i, 19));
+		$isi_baris['jamkesmas']= trim($data->val($i, 20));
 
 		return $isi_baris;
 	}
