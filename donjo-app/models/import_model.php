@@ -386,12 +386,12 @@ class import_model extends CI_Model{
 
 		// --- Masukkan rt apabila belum ada
 		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE
-							dusun='".$isi_baris['dusun']."' AND rw=".$isi_baris['rw']." AND rt=".$isi_baris['rt'];
+							dusun='".$isi_baris['dusun']."' AND rw='".$isi_baris['rw']."' AND rt='".$isi_baris['rt']."'";
 		$hasil = $this->db->query($query);
 		if (!empty($hasil->row_array())) {
 			$isi_baris['id_cluster'] = $hasil->row_array()['id'];
 		} else {
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (".$isi_baris['rt'].",".$isi_baris['rw'].",'".$isi_baris['dusun']."')";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('".$isi_baris['rt']."','".$isi_baris['rw']."','".$isi_baris['dusun']."')";
 			$hasil = $this->db->query($query);
 			$isi_baris['id_cluster'] = $this->db->insert_id();
 		}
