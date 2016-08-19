@@ -149,7 +149,7 @@
 		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1 AND p.status_dasar=1) AS jumlah_warga_l,
 		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2 AND p.status_dasar=1) AS jumlah_warga_p,
 		(SELECT COUNT(p.id) FROM tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.kk_level = 1 AND p.status_dasar=1) AS jumlah_kk
-		FROM tweb_wil_clusterdesa u LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun' AND u.rw <> '-'";
+		FROM tweb_wil_clusterdesa u LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun'";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
