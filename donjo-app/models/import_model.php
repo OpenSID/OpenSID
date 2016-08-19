@@ -309,15 +309,15 @@ class import_model extends CI_Model{
 		$nama = trim($data->val($i, 4));
 		$isi_baris['nama'] = $nama;
 
-		// Data contoh yang dibuat secara otomatis memakai library generatedata
-		// waktu dibaca oleh Excel tanda kutip awalnya dianggap character bukan penanda text,
+		// Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
+		// yang tidak tampak (non-printable characters),
 		// jadi perlu dibuang
 		$no_kk= trim($data->val($i, 5));
-		if ($no_kk[0]=="'") $no_kk = substr($no_kk, 1, strlen($no_kk)-1);
+		$no_kk = preg_replace('/[^0-9]/', '', $no_kk);
 		$isi_baris['no_kk'] = $no_kk;
 
 		$nik = trim($data->val($i, 6));
-		if ($nik[0]=="'") $nik = substr($nik, 1, strlen($nik)-1);
+		$nik = preg_replace('/[^0-9]/', '', $nik);
 		$isi_baris['nik'] = $nik;
 
 		$isi_baris['sex'] = trim($data->val($i, 7));
