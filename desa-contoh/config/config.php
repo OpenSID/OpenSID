@@ -6,3 +6,4 @@
 
 // key dari layanan google map
 $config['google_key'] = 'ganti-dengan-google-api-key';
+$config['libreoffice_path'] = "C:/Program Files (x86)\LibreOffice 5\program";
