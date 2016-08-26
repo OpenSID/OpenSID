@@ -88,6 +88,9 @@ class penduduk_log extends CI_Controller{
 			$data['status_penduduk'] = $_SESSION['status_penduduk'];
 		else $data['status_penduduk'] = '';
 
+		// Hanya tampilkan penduduk yang status dasarnya bukan 'HIDUP'
+		$_SESSION['log'] = 1;
+
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
