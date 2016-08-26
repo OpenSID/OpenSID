@@ -244,4 +244,10 @@ td.maincontent{
 .kode-isian table.list th,
 .kode-isian table.list td { padding: 5px 10px; }
 
+/* Tabel Penduduk */
+
+#status-dasar th {
+  white-space: nowrap;
+  padding-right: 10px;
+}
 

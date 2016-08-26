@@ -264,7 +264,7 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-		$sql   = "SELECT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.no_kk AS no_kk,
+		$sql   = "SELECT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.no_kk AS no_kk,log.catatan as catatan,
 		(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,log.tgl_peristiwa
 		FROM tweb_penduduk u
 		LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
@@ -320,6 +320,9 @@
 			$data[$i]['no']=$j+1;
 			$data[$i]['alamat']='';
 
+			if($data[$i]['alamat_sekarang'] != "-")
+	      $data[$i]['alamat']="KP/JL-".$data[$i]['alamat_sekarang'];
+
 			if($data[$i]['rt'] != "-")
 				$data[$i]['alamat']="RT-".$data[$i]['rt'];
 
@@ -371,6 +374,9 @@
 		$i=0;
 		while($i<count($data)){
 			$data[$i]['alamat']='';
+
+			if($data[$i]['alamat_sekarang'] != "-")
+	      $data[$i]['alamat']="KP/JL-".$data[$i]['alamat_sekarang'];
 
 			if($data[$i]['rt'] != "-")
 				$data[$i]['alamat']="RT-".$data[$i]['rt'];
@@ -586,6 +592,7 @@
 		$log['id_detail'] = $data['status_dasar'];
 		$log['bulan'] = date("m");
 		$log['tahun'] = date("Y");
+		$log['catatan'] = $_POST['catatan'];
 		$outp = $this->db->insert('log_penduduk',$log);
 
 		if($outp) $_SESSION['success']=1;

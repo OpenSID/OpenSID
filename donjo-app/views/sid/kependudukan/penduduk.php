@@ -154,7 +154,7 @@ source: keyword
 <a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Ubah Data"> <span  class="icon-edit icon-large"></span> </a>
 
 
-<a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar"><span class="icon-wrench icon-large"></span></a>
+<a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar" modalWidth="auto" modalHeight="auto"><span class="icon-wrench icon-large"></span></a>
 <a href="<?php echo site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Pindah Penduduk dalam Desa" target="ajax-modal" rel="window" header="pindah penduduk"><span class="icon-share icon-large"></span></a>
 <?php  if($grup==1){?><a href="<?php echo site_url("penduduk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Hapus Data"  target="confirm" message="Apakah Anda Yakin?" rel="window" header="Hapus Data"><span class="icon-trash icon-large"></span></a><?php  }?></div>
 </td>
