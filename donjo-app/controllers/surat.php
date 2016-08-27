@@ -95,7 +95,12 @@ class Surat extends CI_Controller{
 		$z=$_POST['nomor'];
 
 		$id = $_POST['nik'];
-		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $id, $z);
+		$sql = "SELECT nik FROM tweb_penduduk WHERE id=?";
+		$query = $this->db->query($sql,$id);
+		$hasil  = $query->row_array();
+		$nik = $hasil['nik'];
+
+		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $nik, $z);
 		$this->surat_model->coba($url, $nama_surat);
 		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z,$nama_surat);
 
