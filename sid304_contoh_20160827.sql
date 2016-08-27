@@ -860,6 +860,7 @@ CREATE TABLE IF NOT EXISTS `log_penduduk` (
   `bulan` varchar(2) NOT NULL,
   `tahun` varchar(4) NOT NULL,
   `tgl_peristiwa` date NOT NULL,
+  `catatan` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_pend` (`id_pend`,`id_detail`,`tgl_peristiwa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
