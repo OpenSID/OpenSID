@@ -242,6 +242,43 @@
 		return $query->row_array();
 	}
 
+	function bersihkan_kode_isian($buffer_in){
+	  $buffer_out = "";
+	  $in = 0;
+	  while ($in < strlen($buffer_in)){
+	    switch ($buffer_in[$in]) {
+	      case "[":
+	        # Ambil kode isian, hilangkan karakter bukan alpha
+	        $kode_isian = $buffer_in[$in];
+	        $in++;
+	        while ($buffer_in[$in] != "]" AND $in < strlen($buffer_in)) {
+	          $kode_isian .= $buffer_in[$in];
+	          $in++;
+	        }
+	        if ($in < strlen($buffer_in)) {
+	          $kode_isian .= $buffer_in[$in];
+	          $in++;
+	        }
+	        // Ganti karakter non-alphanumerik supaya bisa di-cek
+	        $kode_isian = preg_replace('/[^a-zA-Z0-9_\{\}\[\]\-]/', '#', $kode_isian);
+	        // Regex ini untuk membersihkan kode isian dari karakter yang dimasukkan oleh Word
+	        // Regex ini disusun berdasarkan RTF yang dihasilkan oleh Word 2011 di Mac.
+	        // Perlu diverifikasi regex ini berlaku juga untuk RTF yang dihasilkan oleh versi Word lain.
+	        $regex = "/(\}.?#)|rtlch.?#|fcs.?#+|afs.?\d#+|f\d*?\d#|fs\d*?\d#|af\d*?\d#+|ltrch#+|insrsid\d*?\d#+|charrsid\d*?\d#+|#+/";
+	        $kode_isian = preg_replace($regex, "", $kode_isian);
+	        $buffer_out .= $kode_isian;
+	        break;
+
+	      default:
+	        # Ambil isi yang bukan bagian dari kode isian
+	        $buffer_out .= $buffer_in[$in];
+	        $in++;
+	        break;
+	    }
+	  }
+	  return $buffer_out;
+	}
+
 	function surat_rtf($url='', $input){
 		// Ambil data
 		$id = $input['nik'];
@@ -264,6 +301,7 @@
 		if(is_file($file)){
 			$handle = fopen($file,'r');
 			$buffer = stream_get_contents($handle);
+			$buffer = $this->bersihkan_kode_isian($buffer);
 
 			//PRINSIP FUNGSI
 			//-> [kata_template] -> akan digantikan dengan data di bawah ini (sebelah kanan)
