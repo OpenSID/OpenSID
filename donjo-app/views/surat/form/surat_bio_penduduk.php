@@ -141,6 +141,11 @@ padding:5px;
 	<td><input name="tgl_perceraian" type="text" class="inputbox  datepicker" size="20"/></td>
 </tr>
 
+<tr>
+	<th>Kelainan Fisik / Mental</th>
+	<td><textarea name="kelainan" style="resize:none;width:300px;height:30px;"></textarea></td>
+</tr>
+
 
 <tr>
 <th>Staf Pemerintah Desa</th>
