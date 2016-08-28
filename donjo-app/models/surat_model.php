@@ -150,7 +150,22 @@
 	}
 
 	function get_data_surat($id=0){
-		$sql   = "select `u`.*,g.nama AS gol_darah,`x`.`nama` AS `sex`,(select (date_format(from_days((to_days(now()) - to_days(`tweb_penduduk`.`tanggallahir`))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from `tweb_penduduk` where (`tweb_penduduk`.`id` = `u`.`id`)) AS `umur`,`w`.`nama` AS `status_kawin`,`f`.`nama` AS `warganegara`,`a`.`nama` AS `agama`,`d`.`nama` AS `pendidikan`,`j`.`nama` AS `pekerjaan`,`c`.`rt` AS `rt`,`c`.`rw` AS `rw`,`c`.`dusun` AS `dusun`,`k`.`no_kk` AS `no_kk`,(select `tweb_penduduk`.`nama` AS `nama` from `tweb_penduduk` where (`tweb_penduduk`.`id` = `k`.`nik_kepala`)) AS `kepala_kk` from ((((((((`tweb_penduduk` `u` left join `tweb_penduduk_sex` `x` on((`u`.`sex` = `x`.`id`))) left join `tweb_penduduk_kawin` `w` on((`u`.`status_kawin` = `w`.`id`))) left join `tweb_penduduk_agama` `a` on((`u`.`agama_id` = `a`.`id`))) left join `tweb_penduduk_pendidikan_kk` `d` on((`u`.`pendidikan_kk_id` = `d`.`id`))) left join `tweb_penduduk_pekerjaan` `j` on((`u`.`pekerjaan_id` = `j`.`id`))) left join `tweb_wil_clusterdesa` `c` on((`u`.`id_cluster` = `c`.`id`))) left join `tweb_keluarga` `k` on((`u`.`id_kk` = `k`.`id`))) left join `tweb_penduduk_warganegara` `f` on((`u`.`warganegara_id` = `f`.`id`))) left join tweb_golongan_darah g on u.golongan_darah_id=g.id WHERE u.id = ?";
+		$sql   = "SELECT u.*,g.nama AS gol_darah,x.nama AS sex,
+			(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
+			w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,h.nama AS hubungan,j.nama AS pekerjaan,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,
+			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
+			from tweb_penduduk u
+			left join tweb_penduduk_sex x on u.sex = x.id
+			left join tweb_penduduk_kawin w on u.status_kawin = w.id
+			left join tweb_penduduk_hubungan h on u.kk_level = h.id
+			left join tweb_penduduk_agama a on u.agama_id = a.id
+			left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
+			left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
+			left join tweb_wil_clusterdesa c on u.id_cluster = c.id
+			left join tweb_keluarga k on u.id_kk = k.id
+			left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
+			left join tweb_golongan_darah g on u.golongan_darah_id = g.id
+			WHERE u.id = ?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		return $data;
@@ -329,13 +344,15 @@
 			//DATA DARI TABEL PENDUDUK
 			//jika data kurang lengkap bisa di tambahkan dari fungsi "get_data_surat" pada file ini
 			$buffer=str_replace("[alamat]","RT $individu[rt] / RW $individu[rw] $individu[dusun]",$buffer);
-			$buffer=str_replace("[nama_ayah]","$individu[nama_ibu]",$buffer);
+			$buffer=str_replace("[nama_ayah]","$individu[nama_ayah]",$buffer);
 			$buffer=str_replace("[nama_ibu]","$individu[nama_ibu]",$buffer);
+			$buffer=str_replace("[kepala_kk]","$individu[kepala_kk]",$buffer);
 			$buffer=str_replace("[nama]","$individu[nama]",$buffer);
 			$buffer=str_replace("[sex]","$individu[sex]",$buffer);
 			$buffer=str_replace("[agama]","$individu[agama]",$buffer);
+			$buffer=str_replace("[hubungan]","$individu[hubungan]",$buffer);
 			$buffer=str_replace("[gol_darah]","$individu[gol_darah]",$buffer);
-			$buffer=str_replace("[status]","$individu[status]",$buffer);
+			$buffer=str_replace("[status]","$individu[status_kawin]",$buffer);
 			$buffer=str_replace("[pendidikan]","$individu[pendidikan]",$buffer);
 			$buffer=str_replace("[pekerjaan]","$individu[pekerjaan]",$buffer);
 			$buffer=str_replace("[warga_negara]","$individu[warganegara]",$buffer);
@@ -343,6 +360,10 @@
 			$buffer=str_replace("*usia","$individu[umur] Tahun",$buffer);
 			$buffer=str_replace("[usia]","$individu[umur] Tahun",$buffer);
 			$buffer=str_replace("[no_kk]","$individu[no_kk]",$buffer);
+			$buffer=str_replace("[ibu_nik]","$individu[ibu_nik]",$buffer);
+			$buffer=str_replace("[ayah_nik]","$individu[ayah_nik]",$buffer);
+			$buffer=str_replace("[tempatlahir]","$individu[tempatlahir]",$buffer);
+			$buffer=str_replace("[tanggallahir]","$tgllhr",$buffer);
 			$buffer=str_replace("[ttl]","$individu[tempatlahir]/$tgllhr",$buffer);
 			$buffer=str_replace("[tempat_tgl_lahir]","$individu[tempatlahir]/$tgllhr",$buffer);
 
@@ -360,7 +381,7 @@
 			// sesuai dengan panduan, atau boleh juga langsung [isian] saja
 			foreach ($input as $key => $entry){
 				$buffer=str_replace("[form_$key]",$entry,$buffer);
-				// Diletakkan di sini karena bisa sama dengan kode isian sebelumnya
+				// Diletakkan di bagian akhir karena bisa sama dengan kode isian sebelumnya
 				// dan kalau masih ada dianggap sebagai kode dari form isian
 				$buffer=str_replace("[$key]",$entry,$buffer);
 			}
