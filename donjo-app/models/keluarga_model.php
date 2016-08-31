@@ -581,7 +581,18 @@
 	}
 
 	function list_anggota($id=0){
-		$sql   = "SELECT b.dusun,b.rw,b.rt,u.id,nik,dokumen_pasport,dokumen_kitas,x.nama as sex,u.kk_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan FROM tweb_penduduk u LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id WHERE status = 1 AND id_kk = ? ORDER BY kk_level";
+		$sql   = "SELECT b.dusun,b.rw,b.rt,u.id,nik,dokumen_pasport,dokumen_kitas,x.nama as sex,u.kk_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
+			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
+			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
+			LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id
+			LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id
+			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
+			LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id
+			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
+			WHERE status = 1 AND status_dasar = 1 AND id_kk = ? ORDER BY kk_level";
 
 		$query = $this->db->query($sql,array($id));
 		$data=$query->result_array();
