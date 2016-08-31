@@ -333,6 +333,7 @@
 			$buffer=str_replace("[nama_kabupaten]","$config[nama_kabupaten]",$buffer);
 			$buffer=str_replace("[nama_kec]","$config[nama_kecamatan]",$buffer);
 			$buffer=str_replace("[nama_kecamatan]","$config[nama_kecamatan]",$buffer);
+			$buffer=str_replace("[nama_provinsi]","$config[nama_propinsi]",$buffer);
 			$buffer=str_replace("[nama_kepala_camat]","$config[nama_kepala_camat]",$buffer);
 			$buffer=str_replace("[nip_kepala_camat]","$config[nip_kepala_camat]",$buffer);
 			$buffer=str_replace("[nama_des]","$config[nama_desa]",$buffer);

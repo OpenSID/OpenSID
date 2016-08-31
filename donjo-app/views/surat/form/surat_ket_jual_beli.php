@@ -131,6 +131,10 @@ padding:5px;
 <th>Pekerjaan</th>
 <td><input name="pekerjaan" type="text" class="inputbox required" size="15"/></td>
 </tr>
+<tr>
+  <th>Keterangan</th>
+  <td><input name="keterangan" type="text" class="inputbox" size="40"/></td>
+</tr>
 
 <tr>
 <th>Nama ketua adat</th>
