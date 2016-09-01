@@ -97,49 +97,58 @@
 	}
 
 	function insert(){
-		  $lokasi_file = $_FILES['gambar']['tmp_name'];
-		  $tipe_file   = $_FILES['gambar']['type'];
-		  $nama_file   = urlencode($_FILES['gambar']['name']);
-		  if (!empty($lokasi_file)){
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
+
+	  $lokasi_file = $_FILES['gambar']['tmp_name'];
+	  $tipe_file   = $_FILES['gambar']['type'];
+	  $nama_file   = urlencode($_FILES['gambar']['name']);
+		$data = $_POST;
+
+	  if (!empty($lokasi_file)){
 			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
 				UploadGallery($nama_file);
-				$data = $_POST;
 				$data['gambar'] = $nama_file;
-
-				if($_SESSION['grup'] == 4){
-					$data['enabled'] = 2;
-				}
-
-				$outp = $this->db->insert('gambar_gallery',$data);
-				if($outp) $_SESSION['success']=1;
 			} else {
+				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 				$_SESSION['success']=-1;
 			}
-		  }
+		}
+		if($_SESSION['grup'] == 4){
+			$data['enabled'] = 2;
+		}
+
+		// Bolehkan gallery kosong, tidak ada gambarnya
+		$outp = $this->db->insert('gambar_gallery',$data);
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 
 	function update($id=0){
-		  $x = $_POST;
-		  $lokasi_file = $_FILES['gambar']['tmp_name'];
-		  $tipe_file   = $_FILES['gambar']['type'];
-		  $nama_file   = urlencode($_FILES['gambar']['name']);
-		  $old_gambar  = $x['old_gambar'];
-		  if (!empty($lokasi_file)){
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
+
+	  $x = $_POST;
+	  $lokasi_file = $_FILES['gambar']['tmp_name'];
+	  $tipe_file   = $_FILES['gambar']['type'];
+	  $nama_file   = urlencode($_FILES['gambar']['name']);
+	  $old_gambar  = $x['old_gambar'];
+
+	  if (!empty($lokasi_file)){
 			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
 				UploadGallery($nama_file,$old_gambar);
 				unset($x['old_gambar']);
-			}} else {
+			} else {
+				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 				$_SESSION['success']=-1;
 				$nama_file = $x['old_gambar'];
-
-		  }
+			}
+	  }
 
 		$data['gambar'] = $nama_file;
 		$data['nama'] = $_POST['nama'];
 		$this->db->where('id',$id);
 		$outp = $this->db->update('gambar_gallery',$data);
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 
 	function delete($id=''){
