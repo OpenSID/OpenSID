@@ -158,7 +158,8 @@ class Database extends CI_Controller{
 
 	function restore(){
 		$this->export_model->restore();
-	//	redirect('database/backup');
+		if ($_SESSION['success'] == 1)
+			redirect('database/backup');
 	}
 
 	function ces(){
