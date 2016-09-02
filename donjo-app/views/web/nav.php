@@ -11,7 +11,7 @@
 	<a href="<?php echo site_url('komentar')?>">Komentar</a>
 	</li>
 	<li <?php if($act==3){?>class="selected"<?php }?>>
-	<a href="<?php echo site_url('gallery')?>">Gallery</a>
+	<a href="<?php echo site_url('gallery')?>">Galeri</a>
 	</li>
 	<li <?php if($act==4){?>class="selected"<?php }?>>
 	<a href="<?php echo site_url('dokumen')?>">Dokumen</a>
@@ -25,7 +25,7 @@
 	<a href="<?php echo site_url('web/index/1')?>">Artikel</a>
 	</li>
 	<li <?php if($act==3){?>class="selected"<?php }?>>
-	<a href="<?php echo site_url('gallery')?>">Gallery</a>
+	<a href="<?php echo site_url('gallery')?>">Galeri</a>
 	</li>
 	<li <?php if($act==4){?>class="selected"<?php }?>>
 	<a href="<?php echo site_url('dokumen')?>">Dokumen</a>

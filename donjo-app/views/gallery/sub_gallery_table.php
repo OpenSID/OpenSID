@@ -16,7 +16,7 @@
 <div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
-    <h3>Manajemen Gallery Album <?php echo $sub['nama']?></h3>
+    <h3>Manajemen Galeri Album <?php echo $sub['nama']?></h3>
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url("gallery/form_sub_gallery/$gallery")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus icon-large">&nbsp;</span>Tambah Gambar Baru</a>
@@ -31,8 +31,8 @@
             <div class="left">
                 <select name="filter" onchange="formAction('mainform','<?php echo site_url('gallery/filter')?>')">
                     <option value="">Semua</option>
-                    <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Enabled</option>
-                    <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Disabled</option>
+                    <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Aktif</option>
+                    <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Non-aktif</option>
                 </select>
             </div>
             <div class="right">
@@ -56,11 +56,11 @@
 								<?php  endif; ?>&nbsp;</span></a></th>
 
 								<?php  if($o==4): ?>
-									<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
+									<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-1-n">
 								<?php  elseif($o==3): ?>
-									<th align="left"><a href="<?php echo site_url("gallery/index/$p/4")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-s">
+									<th align="left"><a href="<?php echo site_url("gallery/index/$p/4")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-1-s">
 								<?php  else: ?>
-									<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
+									<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-2-n-s">
 								<?php  endif; ?>&nbsp;</span></a></th>
 
 								<?php  if($o==6): ?>

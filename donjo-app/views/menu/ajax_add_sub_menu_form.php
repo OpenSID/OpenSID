@@ -5,7 +5,7 @@ $(function(){
 		<?php foreach($link as $data){?>
 	   {id:'artikel/<?php echo $data['id']?>',name:'<?php echo $data['judul']?>',info:'Halaman Berisi <?php echo $data['judul']?>'},
 		<?php }?>
-	   {id:'gallery',name:'Gallery',info:'Halaman Gallery'},
+	   {id:'gallery',name:'Gallery',info:'Halaman Galeri'},
 		    ];
 link.total = link.results.length;
 
@@ -16,7 +16,7 @@ $('#link').flexbox(link, {
     noResultsText :'Tidak ada no link yang sesuai..',
 	    onSelect: function() {
 		$('#'+'main').submit();
-    }  
+    }
 });
 });
 </script>

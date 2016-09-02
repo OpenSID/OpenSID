@@ -4,7 +4,7 @@
 <td style="background:#fff;padding:0px;">
 
 <div class="content-header">
-<h3>Form Manajemen Gallery</h3>
+<h3>Form Manajemen Galeri</h3>
 </div>
 <div id="contentpane">
 <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
