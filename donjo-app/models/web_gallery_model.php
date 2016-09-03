@@ -225,6 +225,9 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		$sql   = "SELECT * FROM gambar_gallery WHERE parrent = ? AND tipe = 2 ";
 
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+
 		$sql .= $paging_sql;
 		$query = $this->db->query($sql,$gal);
 		$data=$query->result_array();
