@@ -16,10 +16,10 @@
 </tr>
 <?php if($gallery['gambar']){?>
 <tr>
-<th class="top">Judul Gambar</th>
+<th class="top">Gambar</th>
 <td>
 <div class="gallerybox-avatar">
-<img src="<?php echo AmbilGaleri($gallery['gambar'], 'sedang') ?>" alt=""/>
+<img width="440" height="300" src="<?php echo AmbilGaleri($gallery['gambar'], 'sedang') ?>" alt=""/>
 </div>
 </td>
 <input type="hidden" name="old_gambar" value="<?php echo $gallery['gambar']?>">
