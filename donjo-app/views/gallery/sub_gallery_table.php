@@ -29,15 +29,15 @@
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <div class="table-panel top">
             <div class="left">
-                <select name="filter" onchange="formAction('mainform','<?php echo site_url('gallery/filter')?>')">
+                <select name="filter" onchange="formAction('mainform','<?php echo site_url("gallery/filter/$gallery")?>')">
                     <option value="">Semua</option>
                     <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Aktif</option>
                     <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Non-aktif</option>
                 </select>
             </div>
             <div class="right">
-                <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("gallery/sub_gallery_search/$gallery")?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("gallery/sub_gallery_search/$gallery")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Search</button>
+                <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("gallery/search/$gallery")?>');$('#'+'mainform').submit();}" />
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("gallery/search/$gallery")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Search</button>
             </div>
         </div>
         <table class="list">

@@ -71,20 +71,28 @@ class gallery extends CI_Controller{
 	}
 
 
-	function search(){
+	function search($gallery=''){
 		$cari = $this->input->post('cari');
 		if($cari!='')
 			$_SESSION['cari']=$cari;
 		else unset($_SESSION['cari']);
-		redirect('gallery');
+		if ($gallery != '') {
+			redirect("gallery/sub_gallery/$gallery");
+		} else {
+			redirect('gallery');
+		}
 	}
 
-	function filter(){
+	function filter($gallery=''){
 		$filter = $this->input->post('filter');
 		if($filter!=0)
 			$_SESSION['filter']=$filter;
 		else unset($_SESSION['filter']);
-		redirect('gallery');
+		if ($gallery != '') {
+			redirect("gallery/sub_gallery/$gallery");
+		} else {
+			redirect('gallery');
+		}
 	}
 
 	function insert(){
@@ -115,14 +123,6 @@ class gallery extends CI_Controller{
 	function gallery_unlock($id=''){
 		$this->web_gallery_model->gallery_lock($id,2);
 		redirect("gallery/index/$p/$o");
-	}
-
-	function sub_gallery_search($gallery){
-		$cari = $this->input->post('cari');
-		if($cari!='')
-			$_SESSION['cari']=$cari;
-		else unset($_SESSION['cari']);
-		redirect("gallery/sub_gallery/$gallery");
 	}
 
 	function sub_gallery($gal=0,$p=1){
