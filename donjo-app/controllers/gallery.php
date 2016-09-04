@@ -115,14 +115,22 @@ class gallery extends CI_Controller{
 		redirect("gallery/index/$p/$o");
 	}
 
-	function gallery_lock($id=''){
+	function gallery_lock($id='',$gallery=''){
 		$this->web_gallery_model->gallery_lock($id,1);
-		redirect("gallery/index/$p/$o");
+		if ($gallery != '') {
+			redirect("gallery/sub_gallery/$gallery/$p");
+		} else {
+			redirect("gallery/index/$p/$o");
+		}
 	}
 
-	function gallery_unlock($id=''){
+	function gallery_unlock($id='',$gallery=''){
 		$this->web_gallery_model->gallery_lock($id,2);
-		redirect("gallery/index/$p/$o");
+		if ($gallery != '') {
+			redirect("gallery/sub_gallery/$gallery/$p");
+		} else {
+			redirect("gallery/index/$p/$o");
+		}
 	}
 
 	function sub_gallery($gal=0,$p=1){
