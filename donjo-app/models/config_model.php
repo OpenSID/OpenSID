@@ -13,6 +13,11 @@
 	function insert(){
 		$data = $_POST;
 		$data['id'] = 1; // Hanya ada satu row data desa
+		// Data lokasi peta default. Diperlukan untuk menampilkan widget peta lokasi
+		$data['lat'] = '-8.488005310891758';
+		$data['lng'] = '116.0406072534065';
+		$data['zoom'] = '19';
+		$data['map_tipe'] = 'roadmap';
 		unset($data['old_logo']);
 		$outp = $this->db->insert('config',$data);
 		if($outp) $_SESSION['success']=1;
