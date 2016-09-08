@@ -16,24 +16,22 @@
 				<li><a href="<?php echo site_url('sosmed/youtube')?>">Youtube</a></li>
 				</ul>
 			</div>
-		
+
 	</td>
-		<td> 
-<div class="content-header">
-    <h3>Pengaturan Google</h3>
-</div>
+		<td>
 <div id="contentpane">
     <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
+    <h3>Pengaturan Google</h3>
         <table class="form">
 		<tr>
-			<td width="150">Link Akun Google</td><td><textarea name="link" class=" required" style="resize: none; height:100px; width:250px;" size="300" maxlength='160'><?php  if($main){echo $main['link'];} ?></textarea></td>
+			<td width="150">Link Akun Google</td><td><textarea name="link"  style="resize: none; height:100px; width:250px;" size="300" maxlength='160'><?php  if($main){echo $main['link'];} ?></textarea></td>
 		</tr>
         </table>
     </div>
-   
+
     <div class="ui-layout-south panel bottom">
-        
+
         <div class="right">
             <div class="uibutton-group">
                 <button class="uibutton" type="reset">Clear</button>

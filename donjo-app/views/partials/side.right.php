@@ -255,7 +255,9 @@ if($agenda){
 	<div class="box-body">
 <?php
 foreach($sosmed As $data){
-	echo "<a href=\"".$data["link"]."\" target=\"_blank\"><img src=\"".base_url()."assets/front/".$data["gambar"]."\" alt=\"".$data["nama"]."\" style=\"width:50px;height:50px;\"/></a>";
+	if ($data["link"] != ""):
+		echo "<a href=\"".$data["link"]."\" target=\"_blank\"><img src=\"".base_url()."assets/front/".$data["gambar"]."\" alt=\"".$data["nama"]."\" style=\"width:50px;height:50px;\"/></a>";
+	endif;
 }
 ?>
 	</div>
