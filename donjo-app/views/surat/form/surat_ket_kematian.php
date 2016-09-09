@@ -97,68 +97,73 @@ table.form.detail td{
 </tr>
 <?php }?>
 	<tr>
-	<th>Nomor Surat</th>
-	<td><input name="nomor" type="text" class="inputbox required" size="12"/>	</td>
+  	<th>Nomor Surat</th>
+  	<td><input name="nomor" type="text" class="inputbox required" size="12"/>	</td>
 	</tr>
-   	<tr>
-	<th>Hari/ Tanggal/ Jam</th>
-	<td><input name="hari" type="text" class="inputbox required" size="10"/>/
-	<input name="tanggal_mati" type="text" class="inputbox required datepicker" size="10"/>/
-	<input name="jam" type="text" class="inputbox required" size="10"/>	</td>
-	</tr>
-	<tr>
-	<th>Tempat Meninggal</th>
-	<td><input name="tempat_mati" type="text" class="inputbox required" size="20"/>	</td>
+ 	<tr>
+  	<th>Hari/ Tanggal/ Jam</th>
+  	<td><input name="hari" type="text" class="inputbox required" size="10"/>/
+  	<input name="tanggal_mati" type="text" class="inputbox required datepicker" size="10"/>/
+  	<input name="jam" type="text" class="inputbox required" size="10"/>	</td>
 	</tr>
 	<tr>
-	<th>Penyebab Kematian</th>
-	<td><input name="sebab" type="text" class="inputbox required" size="40"/>	</td>
+  	<th>Tempat Meninggal</th>
+  	<td><input name="tempat_mati" type="text" class="inputbox required" size="20"/>	</td>
 	</tr>
 	<tr>
-	<th>DATA PELAPOR</th>
-	<td></td>
+  	<th>Penyebab Kematian</th>
+  	<td><input name="sebab" type="text" class="inputbox required" size="40"/>	</td>
 	</tr>
 	<tr>
-	<th>Nama</th>
-	<td><input name="nama" type="text" class="inputbox required" size="30"/>	</td>
+  	<th>DATA PELAPOR</th>
+  	<td></td>
 	</tr>
-	<th>NIK</th>
-	<td><input name="nik_pelapor" type="text" class="inputbox required" size="15"/>	</td>
+	<tr>
+  	<th>Nama</th>
+  	<td><input name="nama" type="text" class="inputbox required" size="30"/>	</td>
 	</tr>
-	<th>Tanggal Lahir</th>
-	<td><input name="tgl_lahir" type="text" class="inputbox required datepicker" size="10"/>	</td>
+  <tr>
+  	<th>NIK</th>
+  	<td><input name="nik_pelapor" type="text" class="inputbox required" size="15"/>	</td>
 	</tr>
-	<th>Pekerjaan</th>
-	<td><input name="pekerjaan" type="text" class="inputbox required" size="15"/>	</td>
+  <tr>
+  	<th>Tanggal Lahir</th>
+  	<td><input name="tgl_lahir" type="text" class="inputbox required datepicker" size="10"/>	</td>
 	</tr>
-	<th>Alamat</th>
-	<td><input name="alamat" type="text" class="inputbox required" size="40"/>	</td>
+  <tr>
+  	<th>Pekerjaan</th>
+  	<td><input name="pekerjaan" type="text" class="inputbox required" size="15"/>	</td>
 	</tr>
-	<th>Hubungan dengan yang mati</th>
-	<td><input name="hubungan" type="text" class="inputbox required" size="15"/>	</td>
+  <tr>
+  	<th>Alamat</th>
+  	<td><input name="alamat" type="text" class="inputbox required" size="40"/>	</td>
 	</tr>
-<tr>
-<th>Staf Pemerintah Desa</th>
-<td>
-<select name="pamong"  class="inputbox required">
-<option value="">Pilih Staf Pemerintah Desa</option>
-<?php foreach($pamong AS $data){?>
-<option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
-<?php }?>
-</select>
-</td>
-</tr>
-<tr>
-<th>Sebagai</th>
-<td>
-<select name="jabatan"  class="inputbox required">
-<option value="">Pilih Jabatan</option>
-<?php foreach($pamong AS $data){?>
-<option ><?php echo unpenetration($data['jabatan'])?></option>
-<?php }?>
-</select>
-</td>
-</tr>
+  <tr>
+  	<th>Hubungan dengan yang mati</th>
+  	<td><input name="hubungan" type="text" class="inputbox required" size="15"/>	</td>
+	</tr>
+  <tr>
+    <th>Staf Pemerintah Desa</th>
+    <td>
+    <select name="pamong"  class="inputbox required">
+    <option value="">Pilih Staf Pemerintah Desa</option>
+    <?php foreach($pamong AS $data){?>
+    <option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
+    <?php }?>
+    </select>
+    </td>
+  </tr>
+  <tr>
+    <th>Sebagai</th>
+    <td>
+    <select name="jabatan"  class="inputbox required">
+    <option value="">Pilih Jabatan</option>
+    <?php foreach($pamong AS $data){?>
+    <option ><?php echo unpenetration($data['jabatan'])?></option>
+    <?php }?>
+    </select>
+    </td>
+  </tr>
         </table>
     </div>
 

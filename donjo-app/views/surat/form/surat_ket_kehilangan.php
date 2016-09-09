@@ -41,7 +41,7 @@ padding:5px;
 </div>
 <div id="contentpane">
 <div class="ui-layout-north panel">
-<h3>Surat Pengantar Keterangan Kehilangan</h3>
+<h3>Surat Pengantar Laporan Kehilangan</h3>
 </div>
 
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">

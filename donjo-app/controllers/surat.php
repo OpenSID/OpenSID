@@ -37,7 +37,14 @@ class Surat extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-	function form($url=''){
+	function form($url='',$clear=''){
+
+		// Ada surat yang memakai SESSION
+		if ($clear != '') {
+			unset($_SESSION['id_suami']);
+			unset($_SESSION['id_istri']);
+		}
+
 		$data['url']=$url;
 		if(isset($_POST['nik'])){
 			$data['individu']=$this->surat_model->get_penduduk($_POST['nik']);
@@ -46,9 +53,35 @@ class Surat extends CI_Controller{
 			$data['individu']=NULL;
 			$data['anggota']=NULL;
 		}
+
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
+		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
 
+		if ($url == 'surat_persetujuan_mempelai') {
+			// Perlu disimpan di SESSION karena belum ketemu cara
+			// memanggil flexbox memakai ajax atau menyimpan data
+			// TODO: cari pengganti flexbox yang sudah tidak di-support lagi
+			if($_POST['id_suami'] != ''){
+				$data['suami']=$this->surat_model->get_penduduk($_POST['id_suami']);
+				$_SESSION['id_suami'] = $_POST['id_suami'];
+			}elseif (isset($_SESSION['id_suami'])){
+				$data['suami']=$this->surat_model->get_penduduk($_SESSION['id_suami']);
+			}else{
+				unset($data['suami']);
+			}
+			if($_POST['id_istri'] != ''){
+				$data['istri']=$this->surat_model->get_penduduk($_POST['id_istri']);
+				$_SESSION['id_istri'] = $_POST['id_istri'];
+			}elseif (isset($_SESSION['id_istri'])){
+				$data['istri']=$this->surat_model->get_penduduk($_SESSION['id_istri']);
+			}else{
+				$data['istri']=NULL;
+			}
+			$data['laki'] = $this->surat_model->list_penduduk_laki();
+		}
+
+		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['form_action2'] = site_url("surat/doc/$url");
 		$nav['act']= 1;
@@ -69,6 +102,9 @@ class Surat extends CI_Controller{
 
 		//$data['menu_surat'] = $this->surat_model->list_surat();
 		$id = $_POST['nik'];
+		// surat_persetujuan_mempelai id-nya suami atau istri
+		if (!$id) $id = $_POST['id_suami'];
+		if (!$id) $id = $_POST['id_istri'];
 		$data['input'] = $_POST;
 		$data['tanggal_sekarang'] = tgl_indo(date("Y m d"));
 
@@ -76,6 +112,8 @@ class Surat extends CI_Controller{
 
 		$data['pribadi'] = $this->surat_model->get_data_pribadi($id);
 		$data['kk'] = $this->surat_model->get_data_kk($id);
+		$data['ayah'] = $this->surat_model->get_data_ayah($id);
+		$data['ibu'] = $this->surat_model->get_data_ibu($id);
 
 		$data['desa'] = $this->surat_model->get_data_desa();
 		$data['pamong'] = $this->surat_model->get_pamong($_POST['pamong']);
@@ -95,6 +133,9 @@ class Surat extends CI_Controller{
 		$z=$_POST['nomor'];
 
 		$id = $_POST['nik'];
+		// surat_persetujuan_mempelai id-nya suami atau istri
+		if (!$id) $id = $_POST['id_suami'];
+		if (!$id) $id = $_POST['id_istri'];
 		$sql = "SELECT nik FROM tweb_penduduk WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		$hasil  = $query->row_array();

@@ -60,94 +60,96 @@ table.form.detail td{
 <table class="form">
 
 <tr>
-<th>NIK / Nama kepala Keluarga</th>
-<td>
-<form action="" id="main" name="main" method="POST">
-<div id="nik" name="nik"></div>
-</form>
-
+  <th>NIK / Nama kepala Keluarga</th>
+  <td>
+  <form action="" id="main" name="main" method="POST">
+  <div id="nik" name="nik"></div>
+  </form>
 </tr>
+
 <form id="validasi" action="<?php echo $form_action?>" method="POST" target="_blank">
 <input type="hidden" name="nik" value="<?php echo $individu['id']?>"  class="inputbox required" >
 <?php if($individu){ //bagian info setelah terpilih?>
 <tr>
-<th>Tempat Tanggal Lahir (Umur)</th>
-<td>
-<?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
-</td>
+  <th>Tempat Tanggal Lahir (Umur)</th>
+  <td>
+    <?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
+  </td>
 </tr>
 <tr>
-<th>Alamat</th>
-<td>
-<?php echo unpenetration($individu['alamat']); ?>
-</td>
+  <th>Alamat</th>
+  <td>
+    <?php echo unpenetration($individu['alamat']); ?>
+  </td>
 </tr>
 <tr>
-<th>Pendidikan</th>
-<td>
-<?php echo $individu['pendidikan']?>
-</td>
+  <th>Pendidikan</th>
+  <td>
+    <?php echo $individu['pendidikan']?>
+  </td>
 </tr>
 <tr>
-<th>Warganegara / Agama</th>
-<td>
-<?php echo $individu['warganegara']?> / <?php echo $individu['agama']?>
-</td>
+  <th>Warganegara / Agama</th>
+  <td>
+    <?php echo $individu['warganegara']?> / <?php echo $individu['agama']?>
+  </td>
 </tr>
 <?php }?>
 
 <tr>
-<th>Nomor Surat</th>
-<td><input name="nomor" type="text" class="inputbox required" size="12"/></td>
+  <th>Nomor Surat</th>
+  <td><input name="nomor" type="text" class="inputbox required" size="12"/></td>
 </tr>
 <tr>
-<th>Nama Anak</th>
-<td><input name="nama_anak" type="text" class="inputbox required" size="30"/></td>
+  <th>Nama Anak</th>
+  <td><input name="nama_anak" type="text" class="inputbox required" size="30"/></td>
 </tr>
 <tr>
-<th>Tempat Tanggal lahir</th>
-<td><input name="tempatlahir_anak" type="text" class="inputbox required" size="10"/>
-<input name="tanggallahir_anak" type="text" class="inputbox required datepicker" size="10"/></td>
+  <th>Tempat Tanggal lahir</th>
+  <td><input name="tempatlahir_anak" type="text" class="inputbox required" size="10"/>
+  <input name="tanggallahir_anak" type="text" class="inputbox required datepicker" size="10"/></td>
 </tr>
 <tr>
-<th>Hari Lahir</th>
-<td><input name="harilahir_anak" type="text" class="inputbox required" size="5"/></td>
+  <th>Hari Lahir</th>
+  <td><input name="harilahir_anak" type="text" class="inputbox required" size="5"/></td>
 </tr>
 <tr>
-<th>Alamat</th>
-<td><input name="alamat_anak" type="text" class="inputbox required" size="40"/></td>
-</tr>
-<th>Nama Ayah</th>
-<td><input name="nama_ayah" type="text" class="inputbox required" size="30"/></td>
-</tr>
-<th>Nama Ibu</th>
-<td><input name="nama_ibu" type="text" class="inputbox required" size="30"/></td>
+  <th>Alamat</th>
+  <td><input name="alamat_anak" type="text" class="inputbox required" size="40"/></td>
 </tr>
 <tr>
-<th>Alamat</th>
-<td><input name="nama_ortu" type="text" class="inputbox required" size="40"/></td>
+  <th>Nama Ayah</th>
+  <td><input name="nama_ayah" type="text" class="inputbox required" size="30"/></td>
 </tr>
 <tr>
-<th>Staf Pemerintah Desa</th>
-<td>
-<select name="pamong"  class="inputbox required">
-<option value="">Pilih Staf Pemerintah Desa</option>
-<?php foreach($pamong AS $data){?>
-<option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
-<?php }?>
-</select>
-</td>
+  <th>Nama Ibu</th>
+  <td><input name="nama_ibu" type="text" class="inputbox required" size="30"/></td>
 </tr>
 <tr>
-<th>Sebagai</th>
-<td>
-<select name="jabatan"  class="inputbox required">
-<option value="">Pilih Jabatan</option>
-<?php foreach($pamong AS $data){?>
-<option ><?php echo unpenetration($data['jabatan'])?></option>
-<?php }?>
-</select>
-</td>
+  <th>Alamat</th>
+  <td><input name="nama_ortu" type="text" class="inputbox required" size="40"/></td>
+</tr>
+<tr>
+  <th>Staf Pemerintah Desa</th>
+  <td>
+    <select name="pamong"  class="inputbox required">
+    <option value="">Pilih Staf Pemerintah Desa</option>
+    <?php foreach($pamong AS $data){?>
+    <option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
+    <?php }?>
+    </select>
+  </td>
+</tr>
+<tr>
+  <th>Sebagai</th>
+  <td>
+    <select name="jabatan"  class="inputbox required">
+    <option value="">Pilih Jabatan</option>
+    <?php foreach($pamong AS $data){?>
+    <option ><?php echo unpenetration($data['jabatan'])?></option>
+    <?php }?>
+    </select>
+  </td>
 </tr>
 </table>
 </div>

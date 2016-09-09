@@ -93,7 +93,7 @@ padding:5px;
 <select name="pamong"  class="inputbox required">
 <option value="">Pilih Staf Pemerintah Desa</option>
 <?php foreach($pamong AS $data){?>
-<option value="<?php echo $data['pamong_id']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
+<option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
 <?php }?>
 </select>
 </td>
