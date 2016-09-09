@@ -874,11 +874,6 @@
 		fclose($handle);
 		$_SESSION['success']=8;
 		header("location:".base_url($berkas_arsip));
-
-		// Catat tanggal cetak kartu keluarga
-		$keluarga['tgl_cetak_kk'] = date("Y-m-d H:i:s");
-		$this->db->where("no_kk",$k["no_kk"]);
-		$this->db->update("tweb_keluarga",$keluarga);
 	}
 
 	function coba2(){
