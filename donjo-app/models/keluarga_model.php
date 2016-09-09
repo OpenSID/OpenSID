@@ -700,7 +700,7 @@
 
 	function update_nokk($id=0){
 		$data = $_POST;
-
+		$data['tgl_cetak_kk'] = date("Y-m-d H:i:s",strtotime($data['tgl_cetak_kk']));
 		$this->db->where("id",$id);
 		$outp=$this->db->update("tweb_keluarga",$data);
 
@@ -798,81 +798,87 @@
 		$path_arsip = LOKASI_ARSIP;
 
 		$file = $path."kk.rtf";
-		if(is_file($file)){
-			$nama ="";
-
-			$handle = fopen($file,'r');
-			$buffer = stream_get_contents($handle);
-			$i=0;
-			foreach($data['main'] AS $ranggota){
-				$i++;
-				$nama 			.= $ranggota['nama']."\line ";
-				$no 			.= $i."\line ";
-				$hubungan 		.= $ranggota['hubungan']."\line ";
-				$nik 			.= $ranggota['nik']."\line ";
-				$sex 			.= $ranggota['sex']."\line ";
-				$tempatlahir 	.= $ranggota['tempatlahir']."\line ";
-				$tanggallahir 	.= $ranggota['tanggallahir']."\line ";
-				$agama 			.= $ranggota['agama']."\line ";
-				$pendidikan 	.= $ranggota['pendidikan']."\line ";
-				$pekerjaan 		.= $ranggota['pekerjaan']."\line ";
-				$status_kawin 	.= $ranggota['status_kawin']."\line ";
-				$warganegara 	.= $ranggota['warganegara']."\line ";
-				$dokumen_pasport.= $ranggota['dokumen_pasport']."\line ";
-				$dokumen_kitas 	.= $ranggota['dokumen_kitas']."\line ";
-				$nama_ayah 		.= $ranggota['nama_ayah']."\line ";
-				$nama_ibu 		.= $ranggota['nama_ibu']."\line ";
-
-				if($ranggota['golongan_darah']!="TIDAK TAHU")
-					$golongan_darah .= $ranggota['golongan_darah']."\line ";
-				else
-					$golongan_darah .= "- \line ";
-			}
-
-			$buffer=str_replace("[no]","$no",$buffer);
-			$buffer=str_replace("[nama]","\caps $nama",$buffer);
-			$buffer=str_replace("[hubungan]","$hubungan",$buffer);
-			$buffer=str_replace("[nik]","$nik",$buffer);
-			$buffer=str_replace("[sex]","$sex",$buffer);
-			$buffer=str_replace("[agama]","$agama",$buffer);
-			$buffer=str_replace("[pendidikan]","$pendidikan",$buffer);
-			$buffer=str_replace("[pekerjaan]","$pekerjaan",$buffer);
-			$buffer=str_replace("[tempatlahir]","\caps $tempatlahir",$buffer);
-			$buffer=str_replace("[tanggallahir]","\caps $tanggallahir",$buffer);
-			$buffer=str_replace("[kawin]","$status_kawin",$buffer);
-			$buffer=str_replace("[warganegara]","$warganegara",$buffer);
-			$buffer=str_replace("[pasport]","$dokumen_pasport",$buffer);
-			$buffer=str_replace("[kitas]","$dokumen_kitas",$buffer);
-			$buffer=str_replace("[ayah]","\caps $nama_ayah",$buffer);
-			$buffer=str_replace("[ibu]","\caps $nama_ibu",$buffer);
-			$buffer=str_replace("[darah]","$golongan_darah",$buffer);
-
-			$h = $data['desa'];
-			$k = $data['kepala_kk'];
-			$tertanda = tgl_indo(date("Y m d"));
-			$tertanda = $h['nama_desa'].", ".$tertanda;
-			$buffer=str_replace("desa","\caps $h[nama_desa]",$buffer);
-			$buffer=str_replace("dusun","\caps $k[dusun]",$buffer);
-			$buffer=str_replace("prop","\caps $h[nama_propinsi]",$buffer);
-			$buffer=str_replace("kab","\caps $h[nama_kabupaten]",$buffer);
-			$buffer=str_replace("kec","\caps $h[nama_kecamatan]",$buffer);
-			$buffer=str_replace("*camat","\caps $h[nama_kepala_camat]",$buffer);
-			$buffer=str_replace("*kades","\caps $h[nama_kepala_desa]",$buffer);
-			$buffer=str_replace("*rt","$k[rt]",$buffer);
-			$buffer=str_replace("*rw","$k[rw]",$buffer);
-			$buffer=str_replace("*kk","\caps $k[nama]",$buffer);
-			$buffer=str_replace("no_kk","$k[no_kk]",$buffer);
-			$buffer=str_replace("pos","$h[kode_pos]",$buffer);
-			$buffer=str_replace("*tertanda","\caps $tertanda",$buffer);
-
-			$berkas_arsip = $path_arsip."kk_$k[no_kk].rtf";
-			$handle = fopen($berkas_arsip,'w+');
-			fwrite($handle,$buffer);
-			fclose($handle);
-			$_SESSION['success']=8;
-			header("location:".base_url($berkas_arsip));
+		if(!is_file($file)){
+			return;
 		}
 
+		$nama ="";
+
+		$handle = fopen($file,'r');
+		$buffer = stream_get_contents($handle);
+		$i=0;
+		foreach($data['main'] AS $ranggota){
+			$i++;
+			$nama 			.= $ranggota['nama']."\line ";
+			$no 			.= $i."\line ";
+			$hubungan 		.= $ranggota['hubungan']."\line ";
+			$nik 			.= $ranggota['nik']."\line ";
+			$sex 			.= $ranggota['sex']."\line ";
+			$tempatlahir 	.= $ranggota['tempatlahir']."\line ";
+			$tanggallahir 	.= $ranggota['tanggallahir']."\line ";
+			$agama 			.= $ranggota['agama']."\line ";
+			$pendidikan 	.= $ranggota['pendidikan']."\line ";
+			$pekerjaan 		.= $ranggota['pekerjaan']."\line ";
+			$status_kawin 	.= $ranggota['status_kawin']."\line ";
+			$warganegara 	.= $ranggota['warganegara']."\line ";
+			$dokumen_pasport.= $ranggota['dokumen_pasport']."\line ";
+			$dokumen_kitas 	.= $ranggota['dokumen_kitas']."\line ";
+			$nama_ayah 		.= $ranggota['nama_ayah']."\line ";
+			$nama_ibu 		.= $ranggota['nama_ibu']."\line ";
+
+			if($ranggota['golongan_darah']!="TIDAK TAHU")
+				$golongan_darah .= $ranggota['golongan_darah']."\line ";
+			else
+				$golongan_darah .= "- \line ";
+		}
+
+		$buffer=str_replace("[no]","$no",$buffer);
+		$buffer=str_replace("[nama]","\caps $nama",$buffer);
+		$buffer=str_replace("[hubungan]","$hubungan",$buffer);
+		$buffer=str_replace("[nik]","$nik",$buffer);
+		$buffer=str_replace("[sex]","$sex",$buffer);
+		$buffer=str_replace("[agama]","$agama",$buffer);
+		$buffer=str_replace("[pendidikan]","$pendidikan",$buffer);
+		$buffer=str_replace("[pekerjaan]","$pekerjaan",$buffer);
+		$buffer=str_replace("[tempatlahir]","\caps $tempatlahir",$buffer);
+		$buffer=str_replace("[tanggallahir]","\caps $tanggallahir",$buffer);
+		$buffer=str_replace("[kawin]","$status_kawin",$buffer);
+		$buffer=str_replace("[warganegara]","$warganegara",$buffer);
+		$buffer=str_replace("[pasport]","$dokumen_pasport",$buffer);
+		$buffer=str_replace("[kitas]","$dokumen_kitas",$buffer);
+		$buffer=str_replace("[ayah]","\caps $nama_ayah",$buffer);
+		$buffer=str_replace("[ibu]","\caps $nama_ibu",$buffer);
+		$buffer=str_replace("[darah]","$golongan_darah",$buffer);
+
+		$h = $data['desa'];
+		$k = $data['kepala_kk'];
+		$tertanda = tgl_indo(date("Y m d"));
+		$tertanda = $h['nama_desa'].", ".$tertanda;
+		$buffer=str_replace("desa","\caps $h[nama_desa]",$buffer);
+		$buffer=str_replace("dusun","\caps $k[dusun]",$buffer);
+		$buffer=str_replace("prop","\caps $h[nama_propinsi]",$buffer);
+		$buffer=str_replace("kab","\caps $h[nama_kabupaten]",$buffer);
+		$buffer=str_replace("kec","\caps $h[nama_kecamatan]",$buffer);
+		$buffer=str_replace("*camat","\caps $h[nama_kepala_camat]",$buffer);
+		$buffer=str_replace("*kades","\caps $h[nama_kepala_desa]",$buffer);
+		$buffer=str_replace("*rt","$k[rt]",$buffer);
+		$buffer=str_replace("*rw","$k[rw]",$buffer);
+		$buffer=str_replace("*kk","\caps $k[nama]",$buffer);
+		$buffer=str_replace("no_kk","$k[no_kk]",$buffer);
+		$buffer=str_replace("pos","$h[kode_pos]",$buffer);
+		$buffer=str_replace("*tertanda","\caps $tertanda",$buffer);
+
+		$berkas_arsip = $path_arsip."kk_$k[no_kk].rtf";
+		$handle = fopen($berkas_arsip,'w+');
+		fwrite($handle,$buffer);
+		fclose($handle);
+		$_SESSION['success']=8;
+		header("location:".base_url($berkas_arsip));
+
+		// Catat tanggal cetak kartu keluarga
+		$keluarga['tgl_cetak_kk'] = date("Y-m-d H:i:s");
+		$this->db->where("no_kk",$k["no_kk"]);
+		$this->db->update("tweb_keluarga",$keluarga);
 	}
 
 	function coba2(){

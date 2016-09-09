@@ -1,13 +1,21 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjoscript2.js"></script>
 <form action="<?php echo $form_action?>" method="post" id="validasi">
 <table style="width:100%">
-<tr>
-	<th align="left">Nomor KK</th>
-	<td>
-		<input type="text" name="no_kk" value="<?php echo $kk['no_kk']?>" class="inputbox required">
-	</td>
-</tr><?php /*
+	<tr>
+		<th align="left">Nomor KK</th>
+		<td>
+			<input type="text" name="no_kk" value="<?php echo $kk['no_kk']?>" class="inputbox required">
+		</td>
+	</tr>
+	<tr>
+		<th align="left">Tanggal Cetak Kartu Keluarga</th>
+		<td>
+			<input name="tgl_cetak_kk" type="text" value="<?php echo $kk['tgl_cetak_kk']?>" class="inputbox required datepicker" size="20">
+		</td>
+	</tr>
+<?php /*
 <tr>
 	<th align="left">Kelas Sosial</th>
 	<td>

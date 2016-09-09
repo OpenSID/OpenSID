@@ -71,69 +71,72 @@
 
     </div>
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-        <table class="list">
-		<thead>
-            <tr>
-                <th>No</th>
-                <th><input type="checkbox" class="checkall"/></th>
-                <th width="160">Aksi</th>
+      <table class="list">
+    		<thead>
+          <tr>
+            <th>No</th>
+            <th><input type="checkbox" class="checkall"/></th>
+            <th width="160">Aksi</th>
 
-				<th width="150" align="left">
-				<?php  if($o==2): ?>
-				<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-n">
-				<?php  elseif($o==1): ?>
-				<a href="<?php echo site_url("keluarga/index/$p/2")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-s">
-				<?php  else: ?>
-				<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK<span class="ui-icon ui-icon-triangle-2-n-s">
-				<?php  endif; ?>
-				&nbsp;</span></a></th>
+    				<th width="150" align="left">
+    				<?php  if($o==2): ?>
+    				<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-n">
+    				<?php  elseif($o==1): ?>
+    				<a href="<?php echo site_url("keluarga/index/$p/2")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-s">
+    				<?php  else: ?>
+    				<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK<span class="ui-icon ui-icon-triangle-2-n-s">
+    				<?php  endif; ?>
+    				&nbsp;</span></a></th>
 
-				<th align="left">
-				<?php  if($o==4): ?>
-				<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-1-n">
-				<?php  elseif($o==3): ?>
-				<a href="<?php echo site_url("keluarga/index/$p/4")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-1-s">
-				<?php  else: ?>
-				<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-2-n-s">
-				<?php  endif; ?>
-				&nbsp;</span></a></th>
+    				<th align="left">
+    				<?php  if($o==4): ?>
+    				<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-1-n">
+    				<?php  elseif($o==3): ?>
+    				<a href="<?php echo site_url("keluarga/index/$p/4")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-1-s">
+    				<?php  else: ?>
+    				<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-2-n-s">
+    				<?php  endif; ?>
+    				&nbsp;</span></a></th>
 
-				<th width="100" align="left" align="center">Jumlah Anggota</th>
-				<th align="left" align="center" width="120">Jenis Kelamin</th>
-				<th align="left" align="center" width="120">Dusun</th>
-				<th align="left" align="center" width="30">RW</th>
-				<th align="left" align="center" width="30">RT</th>
-				<th align="left" align="center" width="100">Tanggal Terdaftar</th>
-			</tr>
-		</thead>
-		<tbody>
-        <?php  foreach($main as $data): ?>
-		<tr>
-          <td align="center" width="2"><?php echo $data['no']?></td>
-			<td align="center" width="5">
-				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-			</td>
-          <td width="5"><div class="uibutton-group">
-			<a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota Keluarga"><span class="icon-list icon-large"> Rincian </span></a>
-            <a href="<?php echo site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modalx" rel="window" header="Ubah Data KK"><span class="icon-edit icon-large"></span></a>
+            <th width="100" align="left" align="center">NIK</th>
+    				<th width="100" align="left" align="center">Jumlah Anggota</th>
+    				<th align="left" align="center" width="120">Jenis Kelamin</th>
+    				<th align="left" align="center" width="120">Dusun</th>
+    				<th align="left" align="center" width="30">RW</th>
+    				<th align="left" align="center" width="30">RT</th>
+    				<th align="left" align="center" width="100">Tanggal Terdaftar</th>
+            <th align="left" align="center" width="100">Tanggal Cetak KK</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+          <?php  foreach($main as $data): ?>
+      		<tr>
+            <td align="center" width="2"><?php echo $data['no']?></td>
+      			<td align="center" width="5">
+      				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
+      			</td>
+            <td width="5"><div class="uibutton-group">
+          		<a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota Keluarga"><span class="icon-list icon-large"> Rincian </span></a>
+              <a href="<?php echo site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modalx" rel="window" header="Ubah Data KK"><span class="icon-edit icon-large"></span></a>
 
-			<a href="<?php echo site_url("keluarga/form_a/$p/$o/$data[id]")?>" header="Tambah Anggota Keluarga" class="uibutton tipsy south" title="Tambah Anggota Keluarga"><span  class="icon-plus-sign-alt  icon-large"></span></a>
-			<a href="<?php echo site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>"  class="uibutton tipsy south" title="Pindah Keluarga dalam Desa" target="ajax-modal" rel="window" header="Pindah Keluarga"><span class="icon-share icon-large"></span></a>
-        <?php  if($grup==1){?><a href="<?php echo site_url("keluarga/delete/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span> </a><?php  } ?>
-		</div> </td>
-          <td><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"> <?php echo $data['no_kk']?> </a></td>
-		  <td><?php echo strtoupper(unpenetration($data['kepala_kk']))?></td>
-          <td><a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?php echo $data['jumlah_anggota']?></a></td>
-          <td><?php echo strtoupper($data['sex'])?></td>
-          <td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
-		  <td><?php echo strtoupper($data['rw'])?></td>
-          <td><?php echo strtoupper($data['rt'])?></td>
-          <td><?php echo tgl_indo($data['tgl_daftar'])?></td>
-		  </tr>
-        <?php  endforeach; ?>
-		</tbody>
-
-        </table>
+        			<a href="<?php echo site_url("keluarga/form_a/$p/$o/$data[id]")?>" header="Tambah Anggota Keluarga" class="uibutton tipsy south" title="Tambah Anggota Keluarga"><span  class="icon-plus-sign-alt  icon-large"></span></a>
+        			<a href="<?php echo site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>"  class="uibutton tipsy south" title="Pindah Keluarga dalam Desa" target="ajax-modal" rel="window" header="Pindah Keluarga"><span class="icon-share icon-large"></span></a>
+                <?php  if($grup==1){?><a href="<?php echo site_url("keluarga/delete/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span> </a><?php  } ?>
+        		</td>
+            <td><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"> <?php echo $data['no_kk']?> </a></td>
+      		  <td><?php echo strtoupper(unpenetration($data['kepala_kk']))?></td>
+            <td><?php echo strtoupper(unpenetration($data['nik']))?></td>
+            <td><a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?php echo $data['jumlah_anggota']?></a></td>
+            <td><?php echo strtoupper($data['sex'])?></td>
+            <td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+        	  <td><?php echo strtoupper($data['rw'])?></td>
+            <td><?php echo strtoupper($data['rt'])?></td>
+            <td><?php echo tgl_indo($data['tgl_daftar'])?></td>
+            <td><?php echo tgl_indo($data['tgl_cetak_kk'])?></td>
+    		  </tr>
+          <?php  endforeach; ?>
+    		</tbody>
+      </table>
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
