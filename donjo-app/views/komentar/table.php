@@ -10,7 +10,7 @@ source: keyword
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 <h3>Manajemen Komentar</h3>
 </div>
@@ -53,6 +53,8 @@ source: keyword
 <th align="left"><a href="<?php echo site_url("komentar/index/$p/1")?>">Isi Komentar<span class="ui-icon ui-icon-triangle-2-n-s">
 <?php  endif; ?>&nbsp;</span></a></th>
 
+<th>Judul Artikel</th>
+
 <?php  if($o==0): ?>
 <th align="left" width="120"><a href="<?php echo site_url("komentar/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
 <?php  elseif($o==3): ?>
@@ -83,6 +85,9 @@ source: keyword
 <?php endif?></div>
 </td>
 <td><?php echo $data['komentar']?></td>
+<td>
+  <a href="<?php echo site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?php echo $data['artikel']?></a>
+</td>
 <td><?php echo $data['aktif']?></td>
 <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
 </tr>
@@ -92,7 +97,7 @@ source: keyword
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 <form id="paging" action="<?php echo site_url('komentar')?>" method="post">
 <label>Tampilkan</label>
