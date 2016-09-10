@@ -6,6 +6,7 @@
 --   2. menambah dan mengubah baris surat di tabel tweb_surat_format untuk menyesuaikan
 --     dengan perubahan yang dilakukan untuk membuat template surat Export Doc
 --   3. menambah kolom tgl_cetak_kk di tabel tweb_keluarga
+--   4. mengubah jenis data kolom tanggal_buat di tabel tweb_penduduk_mandiri
 -- --------------------------------------------------------
 --
 
@@ -55,6 +56,7 @@ ON DUPLICATE KEY UPDATE
 
 DROP INDEX migrasi_0_10_url_surat ON tweb_surat_format;
 
+CREATE UNIQUE INDEX kode_surat ON tweb_surat_format (kode_surat);
 ALTER TABLE tweb_keluarga ADD tgl_cetak_kk datetime;
 ALTER TABLE tweb_penduduk_mandiri MODIFY tanggal_buat datetime;
 
