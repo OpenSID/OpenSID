@@ -655,6 +655,15 @@
 		return  $this->db->get('tweb_penduduk');
 	}
 
+	function get_id_kk($id=0) {
+		$sql = "SELECT u.id_kk
+				FROM tweb_penduduk u
+				WHERE id = $id limit 1";
+		$query = $this->db->query($sql);
+		$data  = $query->row_array();
+		return $data['id_kk'];
+	}
+
 	function get_penduduk($id=0){
 		$sql   = "SELECT u.sex as id_sex,u.*,a.dusun,a.rw,a.rt,t.nama AS status,o.nama AS pendidikan_sedang,
 		b.nama AS pendidikan_kk,d.no_kk AS no_kk,

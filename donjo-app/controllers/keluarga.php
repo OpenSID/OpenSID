@@ -687,8 +687,12 @@ function __construct(){
 
 	}
 
-	function cetak_kk($id=0){
-
+	function cetak_kk($id=0, $penduduk=NULL){
+		// $penduduk tidak NULL apabila dipanggil dari layanan mandiri dengan id penduduk, bukan id_kk
+		// Jadi cari id_kk dulu
+		if ($penduduk) {
+			$id = $this->penduduk_model->get_id_kk($id);
+		}
 		$data['id_kk']    = $id;
 
 		$data['main']     = $this->keluarga_model->list_anggota($id);

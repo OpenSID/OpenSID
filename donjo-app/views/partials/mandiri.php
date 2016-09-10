@@ -1,4 +1,9 @@
 <div class="artikel">
+<h3> KARTU KELUARGA PENDUDUK</h3>
+
+<a href="<?php echo site_url("keluarga/cetak_kk/$penduduk[id]/1"); ?>" target="_blank" class="uibutton special"  >Cetak Kartu Keluarga</a>
+<p> &nbsp; </p>
+
 <h3> BIODATA PENDUDUK</h3>
 
 <a href="<?php echo site_url("first/cetak_biodata/$penduduk[id]"); ?>" target="_blank" class="uibutton special"  >Cetak Biodata</a>
@@ -42,12 +47,12 @@
 <tr>
 <td>Tempat / Tanggal Lahir</td><td >:</td>
 <td><?php echo strtoupper($penduduk['tempatlahir'])?> / <?php echo strtoupper($penduduk['tanggallahir'])?></td>
-</tr> 
+</tr>
 
 <tr>
 <td>Agama</td><td >:</td>
 <td><?php echo strtoupper($penduduk['agama'])?></td>
-</tr> 
+</tr>
 
 <tr>
 <td>Pendidikan dalam KK</td><td >:</td>
@@ -62,8 +67,8 @@
 <tr>
 <td>Pekerjaan</td><td >:</td>
 <td><?php echo strtoupper($penduduk['pekerjaan'])?></td>
-</tr> 
-  
+</tr>
+
 <tr>
 <td>Status Kawin</td><td >:</td>
 <td><?php echo strtoupper($penduduk['kawin'])?></td>
@@ -72,8 +77,8 @@
 <tr>
 <td>Warga Negara</td><td >:</td>
 <td><?php echo strtoupper($penduduk['warganegara'])?></td>
-</tr>  
- 
+</tr>
+
 <tr>
 <td>Dokumen Paspor</td><td >:</td>
 <td><?php echo strtoupper($penduduk['dokumen_pasport'])?></td>
@@ -117,24 +122,24 @@
 
 <tr>
 <td>Data Orang Tua</td>
-</tr> 
+</tr>
 
 <tr>
 <td>NIK Ayah</td><td >:</td>
 <td><?php echo strtoupper($penduduk['ayah_nik'])?></td>
-</tr> 
-  
+</tr>
+
 <tr>
 <td>Nama Ayah</td><td >:</td>
 <td><?php echo strtoupper(unpenetration($penduduk['nama_ayah']))?></td>
-</tr>   
-  
+</tr>
+
 <tr>
 <td>NIK Ibu</td><td >:</td>
 <td><?php echo strtoupper($penduduk['ibu_nik'])?></td>
 </tr>
 
-  
+
 <tr>
 <td>Nama Ibu</td><td >:</td>
 <td><?php echo strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
@@ -152,5 +157,5 @@
 <td><?php echo strtoupper($penduduk['status'])?></td>
 </tr>
 </table>
-   
+
 </div>
