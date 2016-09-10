@@ -32,11 +32,11 @@
 		}
 
 	function filter_sql(){
-		if(isset($_SESSION['nik'])){
-			$kf = $_SESSION['nik'];
+		if(isset($_SESSION['filter'])){
+			$kf = $_SESSION['filter'];
 			if($kf=="0"){
 			$filter_sql= "";} else {
-			$filter_sql= " AND n.id = '".$kf."'";}
+			$filter_sql= " AND n.nik = '".$kf."'";}
 		return $filter_sql;
 		}
 	}
@@ -93,7 +93,6 @@
 		$sql .= $this->filter_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
-
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
