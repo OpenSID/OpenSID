@@ -56,5 +56,6 @@ ON DUPLICATE KEY UPDATE
 DROP INDEX migrasi_0_10_url_surat ON tweb_surat_format;
 
 ALTER TABLE tweb_keluarga ADD tgl_cetak_kk datetime;
+ALTER TABLE tweb_penduduk_mandiri MODIFY tanggal_buat datetime;
 
 
