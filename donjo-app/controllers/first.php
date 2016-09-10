@@ -345,15 +345,18 @@ class First extends CI_Controller{
 	}
 
 	function add_comment($id=0) {
-		// Periksa isian captcha
-		include FCPATH . 'securimage/securimage.php';
-		$securimage = new Securimage();
-		$_SESSION['validation_error'] = false;
-		if ($securimage->check($_POST['captcha_code']) == false) {
-			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
-			$_SESSION['post'] = $_POST;
-			$_SESSION['validation_error'] = true;
-			redirect("first/artikel/$id");
+		// id = 775 dipakai untuk laporan mandiri, bukan komentar artikel
+		if ($id != 775) {
+			// Periksa isian captcha
+			include FCPATH . 'securimage/securimage.php';
+			$securimage = new Securimage();
+			$_SESSION['validation_error'] = false;
+			if ($securimage->check($_POST['captcha_code']) == false) {
+				$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
+				$_SESSION['post'] = $_POST;
+				$_SESSION['validation_error'] = true;
+				redirect("first/artikel/$id");
+			}
 		}
 
 		$res = $this->first_artikel_m->insert_comment($id);
