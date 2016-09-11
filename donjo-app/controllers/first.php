@@ -71,7 +71,11 @@ class First extends CI_Controller{
 		$this->load->view('layouts/main.tpl.php',$data);
 	}
 
-        function cetak_biodata($id=''){
+	function cetak_biodata($id=''){
+		if($_SESSION['mandiri']!=1){
+			redirect('first');
+			return;
+		}
 
 		$data['desa'] = $this->header_model->get_data();
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
