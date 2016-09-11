@@ -10,7 +10,7 @@ source: keyword
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 <h3>Manajemen Komentar</h3>
 </div>
@@ -56,11 +56,11 @@ source: keyword
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==0): ?>
-<th align="left" width="120"><a href="<?php echo site_url("lapor/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
+<th align="left" width="120"><a href="<?php echo site_url("lapor/index/$p/3")?>">Sudah Tindak Lanjut<span class="ui-icon ui-icon-triangle-1-n">
 <?php  elseif($o==3): ?>
-<th align="left" width="120"><a href="<?php echo site_url("lapor/index/$p/4")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-s">
+<th align="left" width="120"><a href="<?php echo site_url("lapor/index/$p/4")?>">Sudah Tindak Lanjut<span class="ui-icon ui-icon-triangle-1-s">
 <?php  else: ?>
-<th align="left" width="120"><a href="<?php echo site_url("lapor/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="left" width="120"><a href="<?php echo site_url("lapor/index/$p/3")?>">Sudah Tindak Lanjut<span class="ui-icon ui-icon-triangle-2-n-s">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==6): ?>
@@ -81,7 +81,7 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td> <div class="uibutton-group">
-<a href="<?php echo site_url("lapor/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"> Hapus</span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('lapor/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Verivikasi Laporan"><span class="icon-check icon-large"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('lapor/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Sanggah laporan"><span class="icon-unlock icon-large"></span></a>
+<a href="<?php echo site_url("lapor/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"> Hapus</span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('lapor/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Tindak-lanjuti laporan"><span class="icon-check icon-large"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('lapor/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Kembalikan ke status awal"><span class="icon-unlock icon-large"></span></a>
 <?php endif?></div>
 </td>
 <td><?php echo $data['owner']?></td>
@@ -96,7 +96,7 @@ source: keyword
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 <form id="paging" action="<?php echo site_url('komentar')?>" method="post">
 <label>Tampilkan</label>

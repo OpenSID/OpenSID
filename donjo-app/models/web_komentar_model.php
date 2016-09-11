@@ -33,14 +33,14 @@
 	function filter_sql(){
 		if(isset($_SESSION['filter'])){
 			$kf = $_SESSION['filter'];
-			$filter_sql= " AND enabled = $kf";
+			$filter_sql= " AND k.enabled = $kf";
 		return $filter_sql;
 		}
 	}
 
 	function paging($p=1,$o=0){
 
-		$sql      = "SELECT COUNT(id) AS id FROM komentar WHERE 1";
+		$sql      = "SELECT COUNT(id) AS id FROM komentar k WHERE 1";
 		$sql     .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$query    = $this->db->query($sql);
@@ -93,9 +93,9 @@
 			$data[$i]['no']=$j+1;
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 			$j++;
