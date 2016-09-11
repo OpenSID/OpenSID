@@ -137,9 +137,9 @@
 			return $rpin;
 	}
 
-	function delete($id=''){
-		$sql  = "DELETE FROM tweb_penduduk_mandiri WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
+	function delete($nik=''){
+		$sql  = "DELETE FROM tweb_penduduk_mandiri WHERE nik=?";
+		$outp = $this->db->query($sql,array($nik));
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
@@ -159,7 +159,6 @@
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-
 
 	function list_penduduk(){
 		$sql   = "SELECT nik AS id,nik,nama FROM tweb_penduduk WHERE status = 1 AND nik<>'' ";
