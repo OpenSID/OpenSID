@@ -82,18 +82,27 @@ if($_SESSION['mandiri']<>1){
 				Untuk keamanan silahkan ubah kode PIN Anda.
 			</div>
 			<div class="box-body">
-		<h4>Masukan PIN Baru</h4>
-		<form action="<?php echo site_url('first/ganti')?>" method="post">
-		<input name="pin1" type="password" placeholder="PIN" value="">
-		<input name="pin2" type="password" placeholder="Ulangi PIN" value="">
-		<button type="submit" id="but">Ganti</button>
-		</form>
-					<div id="note">
-						Silahkan coba login kembali setelah PIN baru disimpan.
-					</div>
+				<h4>Masukkan PIN Baru</h4>
+				<form action="<?php echo site_url('first/ganti')?>" method="post">
+					<input name="pin1" type="password" placeholder="PIN" value="">
+					<input name="pin2" type="password" placeholder="Ulangi PIN" value="">
+					<button type="submit" id="but">Ganti</button>
+				</form>
+				<?php if ($flash_message) { ?>
+					<div id="notification" class='box-header label-danger'><?php echo $flash_message ?></div>
+					<script type="text/javascript">
+					$('document').ready(function(){
+						$('#notification').delay(4000).fadeOut();
+					});
+					</script>
+				<?php } ?>
+
+				<div id="note">
+					Silahkan coba login kembali setelah PIN baru disimpan.
+				</div>
 			</div>
 		</div>
-	<?php }else if($_SESSION['lg']==1){?>
+	<?php }else if($_SESSION['lg']==2){?>
 
 
 		<div class="box box-primary box-solid">

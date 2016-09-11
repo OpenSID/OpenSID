@@ -68,7 +68,8 @@ class First extends CI_Controller{
 		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
 		$data['data_config'] = $this->config_model->get_data();
-;
+		$data['flash_message'] = $this->session->flashdata('flash_message');
+
 		$this->load->view('layouts/main.tpl.php',$data);
 	}
 
