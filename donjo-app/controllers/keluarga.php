@@ -687,18 +687,9 @@ function __construct(){
 
 	}
 
-	function cetak_kk($id=0, $penduduk=NULL){
-		// $penduduk tidak NULL apabila dipanggil dari layanan mandiri dengan id penduduk, bukan id_kk
-		// Jadi cari id_kk dulu
-		if ($penduduk) {
-			$id = $this->penduduk_model->get_id_kk($id);
-		}
-		$data['id_kk']    = $id;
+	function cetak_kk($id=0){
 
-		$data['main']     = $this->keluarga_model->list_anggota($id);
-		$kk 		  	  = $this->keluarga_model->get_kepala_kk($id);
-		$data['desa']     = $this->keluarga_model->get_desa();
-		$data['kepala_kk'] = $kk;
+		$data = $this->keluarga_model->get_data_cetak_kk($id);
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
 		$this->load->view("sid/kependudukan/cetak_kk", $data);

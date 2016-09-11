@@ -18,6 +18,7 @@ class First extends CI_Controller{
 		$this->load->model('first_penduduk_m');
 		$this->load->model('penduduk_model');
 		$this->load->model('surat_model');
+		$this->load->model('keluarga_model');
 
 	}
 
@@ -80,6 +81,19 @@ class First extends CI_Controller{
 		$data['desa'] = $this->header_model->get_data();
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$this->load->view('sid/kependudukan/cetak_biodata',$data);
+	}
+
+	function cetak_kk($id=''){
+		if($_SESSION['mandiri']!=1){
+			redirect('first');
+			return;
+		}
+		// $id adalah id penduduk. Cari id_kk dulu
+		$id_kk = $this->penduduk_model->get_id_kk($id);
+		$data = $this->keluarga_model->get_data_cetak_kk($id_kk);
+
+		$header = $this->header_model->get_data();
+		$this->load->view("sid/kependudukan/cetak_kk", $data);
 	}
 
 	function mandiri($p=1,$m=0){

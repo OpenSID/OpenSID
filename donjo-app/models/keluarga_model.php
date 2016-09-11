@@ -559,6 +559,15 @@
 		return $data;
 	}
 
+	function get_data_cetak_kk($id=0){
+		$data['id_kk'] = $id;
+
+		$data['main'] = $this->keluarga_model->list_anggota($id);
+		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
+		$data['desa'] = $this->keluarga_model->get_desa();
+		return $data;
+	}
+
 	function get_anggota($id=0){
 		$sql   = "SELECT * FROM tweb_penduduk WHERE id=?";
 		$query = $this->db->query($sql,$id);

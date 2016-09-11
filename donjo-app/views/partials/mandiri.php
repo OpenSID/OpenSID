@@ -1,7 +1,7 @@
 <div class="artikel">
 <h3> KARTU KELUARGA PENDUDUK</h3>
 
-<a href="<?php echo site_url("keluarga/cetak_kk/$penduduk[id]/1"); ?>" target="_blank" class="uibutton special"  >Cetak Kartu Keluarga</a>
+<a href="<?php echo site_url("first/cetak_kk/$penduduk[id]/1"); ?>" target="_blank" class="uibutton special"  >Cetak Kartu Keluarga</a>
 <p> &nbsp; </p>
 
 <h3> BIODATA PENDUDUK</h3>
