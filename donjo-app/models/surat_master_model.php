@@ -133,11 +133,10 @@
 		$data['url_surat'] = "surat_".$data['url_surat'];
 		$outp = $this->db->insert('tweb_surat_format',$data);
 
-		$mypath="surat\\".$data['url_surat']."\\";
-		$path = "".str_replace("\\","/",$mypath)."/";
+		$path="surat/".$data['url_surat']."/";
 
-		if (!file_exists($mypath)) {
-			mkdir($mypath, 0777, true);
+		if (!file_exists($path)) {
+			mkdir($path, 0777, true);
 		}
 
 		//doc
