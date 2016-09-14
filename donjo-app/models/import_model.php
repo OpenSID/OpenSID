@@ -286,13 +286,11 @@ class import_model extends CI_Model{
 			return $tanggallahir;
 		}
 
+		// Ganti separator tanggal supaya tanggal diproses sebagai dd-mm-YYYY.
+		// Kalau pakai '/', strtotime memrosesnya sebagai mm/dd/YYYY.
+		// Lihat panduan strtotime: http://php.net/manual/en/function.strtotime.php
+		$tanggallahir = str_replace('/', '-', $tanggallahir);
 		$tanggallahir = date("Y-m-d",strtotime($tanggallahir));
-		if($tanggallahir[2] == "/" OR $tanggallahir[4] == "/"){
-			$tanggallahir = str_replace('/','-', $tanggallahir);
-		}
-		if($tanggallahir[2] == "-"){
-			$tanggallahir = rev_tgl($tanggallahir);
-		}
 		return $tanggallahir;
 	}
 
