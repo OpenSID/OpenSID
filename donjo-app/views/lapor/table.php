@@ -45,8 +45,8 @@ source: keyword
 <th><input type="checkbox" class="checkall"/></th>
 <th width="120">Aksi</th>
 
-<th width="180">Pengirim</th>
-<th width="220">NIK</th>
+<th style="white-space: nowrap;">Pengirim</th>
+<th style="white-space: nowrap;">NIK</th>
  <?php  if($o==2): ?>
 <th align="left"><a href="<?php echo site_url("lapor/index/$p/1")?>">Isi Pesan<span class="ui-icon ui-icon-triangle-1-n">
 <?php  elseif($o==1): ?>
@@ -84,8 +84,8 @@ source: keyword
 <a href="<?php echo site_url("lapor/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"> Hapus</span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('lapor/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Tindak-lanjuti laporan"><span class="icon-check icon-large"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('lapor/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Kembalikan ke status awal"><span class="icon-unlock icon-large"></span></a>
 <?php endif?></div>
 </td>
-<td><?php echo $data['owner']?></td>
-<td><?php echo $data['email']?></td>
+<td style="white-space: nowrap;"><?php echo $data['owner']?></td>
+<td style="white-space: nowrap;"><?php echo $data['email']?></td>
 <td><?php echo $data['komentar']?></td>
 <td><?php echo $data['aktif']?></td>
 <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
