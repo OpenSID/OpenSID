@@ -198,26 +198,21 @@
 	function backup(){
 		$this->load->dbutil();
 
-        $prefs = array(
-                'format'      => 'sql',
-              );
+		// Tabel data_surat adalah view, tidak di-backup
+    $prefs = array(
+            'format'      => 'sql',
+            'ignore'			=> array('data_surat'),
+          );
 
-        $backup =& $this->dbutil->backup($prefs);
+    $backup =& $this->dbutil->backup($prefs);
 
-        $db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
-        $save = base_url().$db_name;
+    $db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
+    $save = base_url().$db_name;
 
-        $this->load->helper('file');
-        write_file($save, $backup);
-	$backup .= "i'); #END;";
-//echo $backup;
-
-			$b1=Parse_Data($backup,"# TABLE STRUCTURE FOR: analisis_indikator","# TABLE STRUCTURE FOR: data_surat");
-
-			$b2=Parse_Data($backup,"# TABLE STRUCTURE FOR: detail_log_penduduk","#END;");
-			$backup = $b1.$b2;
-        $this->load->helper('download');
-        force_download($db_name, $backup);
+    $this->load->helper('file');
+    write_file($save, $backup);
+    $this->load->helper('download');
+    force_download($db_name, $backup);
 
 		if($backup) $_SESSION['success']=1;
 		else $_SESSION['success']=-1;
