@@ -1,12 +1,12 @@
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
 
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 
     <div class="ui-layout-north panel">
     <h3>Full Backup / Restore Data SID</h3>
@@ -31,20 +31,16 @@
 			   <tr>
 					<td width="500" colspan="3">
 					<p font-size="14px";>
-					Mempersiapkan data dengan bentuk excel untuk import ke dalam database SID:
+					Proses <em>Download</em> akan mengunduh keseluruhan database SID anda.
+          </p>
+          <br>
+          <ul>
+          <li>Usahakan untuk melakukan backup secara rutin dan terjadwal.
+          <li>Backup yang dihasilkan sebaiknya disimpan di komputer terpisah dari server SID.</li>
+          </ul>
 					<br>
-					<ol>
-
-					<li value="1">Pastikan format data yang akan diimport sudah sesuai dengan aturan import data:
-					<dl>
-					<dl>-> Tidak boleh menggunakan tanda ' (petik satu) dalam penggunaan nama, 
-					<br><dl>-> Format tanggal untuk terdeteksi dalam format date dalam database menggunakan tambahan ' (petik satu) di dalam excel. 
-					<br>Contoh :  '1988-09-15
-					<br><dl>-> Struktur RT RW, jika tidak ada dalam struktur wilayah desa diganti dengan tanda � (min/strip/dash)
-					<br><dl>-> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah, Jamkesmas, raskin, klasifikasi sosial ekonomi) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2<br>
-					</dl>
-					</ol>
-					</p>
+          <p>Backup yang dibuat dapat dipergunakan untuk me-restore database SID anda apabila ada masalah. Klik tombol <em>Restore</em> di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.
+          </p>
 					</td>
 <td>
 &nbsp;
@@ -58,9 +54,9 @@
 <p>Pilih File .sql:
 </td>
 <td width="250">
-<input name="userfile" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+<input name="userfile" type="file" accept="application/sql"/>
 <td>
-<input type="submit" class="uibutton special" value="Restore" /> 
+<input type="submit" class="uibutton special" value="Restore" />
 </td>
 </p>
 </td>
@@ -69,12 +65,12 @@
 </td>
 </tr>
 </table>
-</form> 
+</form>
             </div>
         </div>
 
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           </div>
         </div>
