@@ -132,58 +132,32 @@
 		$data['url_surat'] = strtolower($data['url_surat']);
 		$data['url_surat'] = "surat_".$data['url_surat'];
 		$outp = $this->db->insert('tweb_surat_format',$data);
-
-		$path="surat/".$data['url_surat']."/";
-
-		if (!file_exists($path)) {
-			mkdir($path, 0777, true);
-		}
+		$raw_path="surat/raw/";
 
 		//doc
-		$raw="surat\\raw\\";
-		$raw_path = "".str_replace("\\","/",$raw);
 		$file = $raw_path."template.rtf";
 		$handle = fopen($file,'r');
-
 		$buffer = stream_get_contents($handle);
-		//$handle = fopen($path.$data['url_surat'],'w+');
-
-		$berkas = $path.$data['url_surat'].".rtf";
+		$berkas = LOKASI_SURAT_EXPORT_DESA.$data['url_surat'].".rtf";
 		$handle = fopen($berkas,'w+');
 		fwrite($handle,$buffer);
 		fclose($handle);
 
 		//form
-		$mypath="donjo-app\\views\\surat\\form\\";
-		$path_form = "".str_replace("\\","/",$mypath)."/";
-
-		$raw="surat\\raw\\";
-		$raw_path = "".str_replace("\\","/",$raw);
 		$file = $raw_path."form.raw";
 		$handle = fopen($file,'r');
-
 		$buffer = stream_get_contents($handle);
-		//$handle = fopen($path_form.$data['url_surat'],'w+');
-
-		$berkas = $path_form.$data['url_surat'].".php";
+		$berkas = LOKASI_SURAT_FORM_DESA.$data['url_surat'].".php";
 		$handle = fopen($berkas,'w+');
 		$buffer=str_replace("[nama_surat]","Surat $data[nama]",$buffer);
 		fwrite($handle,$buffer);
 		fclose($handle);
 
 		//cetak
-		$mypath="donjo-app\\views\\surat\\print\\";
-		$path_form = "".str_replace("\\","/",$mypath)."/";
-
-		$raw="surat\\raw\\";
-		$raw_path = "".str_replace("\\","/",$raw);
 		$file = $raw_path."print.raw";
 		$handle = fopen($file,'r');
-
 		$buffer = stream_get_contents($handle);
-		//$handle = fopen($path_form.$data['url_surat'],'w+');
-
-		$berkas = $path_form."print_".$data['url_surat'].".php";
+		$berkas = LOKASI_SURAT_PRINT_DESA."print_".$data['url_surat'].".php";
 		$handle = fopen($berkas,'w+');
 		$nama_surat = strtoupper($data['nama']);
 		$buffer=str_replace("[nama_surat]","SURAT $nama_surat",$buffer);
