@@ -89,7 +89,7 @@ class Surat extends CI_Controller{
 		$this->load->view('header',$header);
 
 		$this->load->view('surat/nav',$nav);
-		$this->load->view("surat/form/$url",$data);
+		$this->load->view("surat/form_surat",$data);
 		$this->load->view('footer');
 
 	}
