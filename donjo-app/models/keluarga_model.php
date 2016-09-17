@@ -601,7 +601,7 @@
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 			LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id
 			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
-			WHERE status = 1 AND status_dasar = 1 AND id_kk = ? ORDER BY kk_level";
+			WHERE status = 1 AND status_dasar = 1 AND id_kk = ? ORDER BY kk_level, tanggallahir";
 
 		$query = $this->db->query($sql,array($id));
 		$data=$query->result_array();
