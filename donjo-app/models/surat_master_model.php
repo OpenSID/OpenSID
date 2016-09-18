@@ -144,6 +144,9 @@
 		fclose($handle);
 
 		//form
+		if (!file_exists(LOKASI_SURAT_FORM_DESA)) {
+			mkdir(LOKASI_SURAT_FORM_DESA, 0777, true);
+		}
 		$file = $raw_path."form.raw";
 		$handle = fopen($file,'r');
 		$buffer = stream_get_contents($handle);
