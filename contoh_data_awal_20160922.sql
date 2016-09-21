@@ -1735,6 +1735,7 @@ INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES (85, 'PERANGKAT DESA')
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES (86, 'KEPALA DESA');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES (87, 'BIARAWATI');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES (88, 'WIRASWASTA');
+INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES (89, 'LAINNYA');
 
 
 #
