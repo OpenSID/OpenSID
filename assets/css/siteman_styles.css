@@ -251,3 +251,15 @@ td.maincontent{
   padding-right: 10px;
 }
 
+/* Laporan Bulanan */
+
+table.tftable.lap-bulanan th {
+  text-align: center;
+}
+table.tftable.lap-bulanan td.kosong {
+  background-color: #e6e6e6;
+}
+table.tftable.lap-bulanan th.kolom-data {
+  width: 8%;
+}
+

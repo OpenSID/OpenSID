@@ -318,6 +318,8 @@
 		$log['tanggal'] = date("m-d-y");
 		$outp = $this->db->insert('log_perubahan_penduduk',$log);
 
+		// Untuk statistik perkembangan keluarga
+		$this->log_keluarga($kk['id'], $data['nik_kepala'], 1);
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
@@ -421,6 +423,9 @@
 		$log['tanggal'] = date("m-d-y");
 		$outp = $this->db->insert('log_perubahan_penduduk',$log);
 
+		// Untuk statistik perkembangan keluarga
+		$this->log_keluarga($kk['id'], $data2['nik_kepala'], 1);
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
@@ -440,6 +445,9 @@
 		$sql  = "DELETE FROM tweb_keluarga WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
 
+		// Untuk statistik perkembangan keluarga
+		$this->log_keluarga($id, $temp['nik_kepala'], 2);
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
@@ -449,8 +457,14 @@
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
+				$this->db->select('nik_kepala');
+				$this->db->where('id',$id);
+				$q = $this->db->get('tweb_keluarga');
+				$keluarga = $q->row_array();
 				$sql  = "DELETE FROM tweb_keluarga WHERE id=?";
 				$outp = $this->db->query($sql,array($id));
+				// Untuk statistik perkembangan keluarga
+				$this->log_keluarga($id, $keluarga['nik_kepala'], 2);
 			}
 		}
 		else $outp = false;
@@ -459,6 +473,21 @@
 			else $_SESSION['success']=-1;
 	}
 
+	// Untuk statistik perkembangan keluarga
+	// id_peristiwa:
+	//       1 - keluarga baru
+	//       2 - keluarga dihapus
+	function log_keluarga($id, $kk, $id_peristiwa) {
+		$this->db->select('sex');
+		$this->db->where('id', $kk);
+		$q = $this->db->get('tweb_penduduk');
+		$penduduk = $q->row_array();
+		$log_keluarga['id_kk'] = $id;
+		$log_keluarga['kk_sex'] = $penduduk['sex'];
+		$log_keluarga['id_peristiwa'] = $id_peristiwa;
+		$log_keluarga['tgl_peristiwa'] = date('Y-m-d H:i:s');
+		$outp = $this->db->insert('log_keluarga',$log_keluarga);
+	}
 
 	function add_anggota($id=0){
 		$data = $_POST;

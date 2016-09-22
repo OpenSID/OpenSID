@@ -11,6 +11,7 @@
 		<link href="<?php echo base_url()?>assets/css/screen.css" rel="stylesheet" type="text/css" />
 
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style2.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/siteman_styles.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/noJS.css" />
 
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
