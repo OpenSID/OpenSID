@@ -198,13 +198,36 @@
 	function backup(){
 		$this->load->dbutil();
 
-		// Tabel data_surat adalah view, tidak di-backup
+		// Tabel data_surat adalah view, di-backup terpisah
     $prefs = array(
             'format'      => 'sql',
             'ignore'			=> array('data_surat'),
           );
-
     $backup =& $this->dbutil->backup($prefs);
+
+		// Tabel data_surat adalah view, di-backup terpisah
+    $prefs = array(
+            'format'      => 'sql',
+            'tables'			=> array('data_surat'),
+          );
+    $data_surat =& $this->dbutil->backup($prefs);
+    // Hilangkan ketentuan user untuk view data_surat dan baris-baris lain yang
+    // dihasilkan oleh dbutil->backup karena bermasalah
+    // pada waktu import dgn restore ataupun phpmyadmin
+    $data_surat = preg_replace("/DEFINER=`root`@`localhost`/", "", $data_surat);
+    $data_surat = preg_replace("/utf8_general_ci;/", "", $data_surat);
+    $baris_baris = explode("\n", $data_surat);
+    foreach ($baris_baris as $baris) {
+	    if (strpos($baris, 'INSERT INTO data_surat') !== FALSE) {
+	         continue;
+	    }
+	    $simpan[] = $baris;
+		}
+		$data_surat = implode("\n", $simpan);
+
+    // Tambahkan data_surat di ujung karena tergantung pada tabel lainnya
+    $backup = $backup . "DROP VIEW IF EXISTS data_surat;\n";
+    $backup = $backup . $data_surat;
 
     $db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
     $save = base_url().$db_name;
