@@ -2,6 +2,8 @@
 
 class User_Model extends CI_Model{
 
+	const GROUP_REDAKSI = 3;
+
 	function __construct(){
 		parent::__construct();
 	}
@@ -14,16 +16,24 @@ class User_Model extends CI_Model{
 		$query=$this->db->query($sql,array($username));
 		$row=$query->row();
 
-		if($password==$row->password){
+		// kalau dalam mode offline, redaksi tidak diijinkan login
+		if (($row->id_grup == self::GROUP_REDAKSI) && ($this->config->item("offline_mode")===TRUE)) {
+			$_SESSION['siteman']=-2;
+
+		} else if ($password==$row->password){
 			$_SESSION['siteman']    = 1;
 			$_SESSION['sesi']     = $row->session;
 			$_SESSION['user']     = $row->id;
 			$_SESSION['grup']     = $row->id_grup;
 			$_SESSION['per_page'] = 10;
-		}
-		else{
+
+			return TRUE;
+
+		} else {
 			$_SESSION['siteman']=-1;
 		}
+
+		return FALSE;
 	}
 
 	function sesi_grup($sesi=''){

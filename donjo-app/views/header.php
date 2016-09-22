@@ -63,7 +63,9 @@
 		<li><a href="<?php echo site_url()?>database"><i class="icon-hdd icon-large"></i>Database</a></li>
 	<?php  }?>
 	<li><a href="<?php echo site_url()?>sms"><i class="icon-envelope-alt icon-large"></i>SMS</a></li>
+	<?php if (config_item('offline_mode') !== TRUE) { ?>
 	<li><a href="<?php echo site_url()?>web"><i class="icon-cloud icon-large"></i>Admin Web</a></li>
+	<?php }?>
 <?php  }?>
 <li><a href="<?php echo site_url()?>siteman"><i class="icon-off icon-large"></i>Log Out</a></li>
 </ul>
@@ -136,10 +138,12 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 			<img src="<?php echo base_url()?>assets/images/cpanel/plan.png" alt=""/>
 			<span>Plan</span>
 		</a>
+		<?php if (config_item('offline_mode') !== TRUE) { ?>
 		<a class="cpanel" href="<?php echo site_url()?>gis">
 			<img src="<?php echo base_url()?>assets/images/cpanel/gis.png" alt=""/>
 			<span>Peta</span>
 		</a>
+		<?php }?>
 		<a class="cpanel" href="<?php echo site_url()?>sms">
 			<img src="<?php echo base_url()?>assets/images/cpanel/mail-send-receive.png" alt=""/>
 			<span>SMS</span>
@@ -155,10 +159,12 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 		</a>
 		<?php }?>
 		<?php }?>
+		<?php if (config_item('offline_mode') !== TRUE) { ?>
 		<a class="cpanel" href="<?php echo site_url()?>web">
 			<img src="<?php echo base_url()?>assets/images/cpanel/message-news.png" alt=""/>
 			<span>Admin Web</span>
 		</a>
+		<?php }?>
 		<?php if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
 		<a class="cpanel" href="<?php echo site_url()?>lapor">
 			<img src="<?php echo base_url()?>assets/images/cpanel/mail-reply-all.png" alt=""/>
