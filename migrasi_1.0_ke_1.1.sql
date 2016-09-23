@@ -4,7 +4,7 @@
 -- Mengubah struktur database SID:
 --   1. menambahkan kolom di tabel log_bulanan
 --   2. menambah tabel log_keluarga untuk mencatat perubahan keluarga
---   3. kembalikan view data_surats
+--   3. kembalikan view data_surat
 --
 -- --------------------------------------------------------
 --

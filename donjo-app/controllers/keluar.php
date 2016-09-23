@@ -51,7 +51,10 @@ class Keluar extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-
+	function delete($p=1,$o=0,$id=''){
+		$this->surat_keluar_model->delete($id);
+		redirect("keluar/index/$p/$o");
+	}
 
 	function search(){
 		$cari = $this->input->post('cari');

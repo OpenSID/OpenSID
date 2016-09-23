@@ -26,6 +26,7 @@
 					<thead>
 						<tr>
 							<th>No</th>
+							<th>Aksi</th>
 							<?php  if($o==2): ?>
 							<th align="left" width='100'>Nomor Surat</th>
 							<?php  elseif($o==1): ?>
@@ -44,7 +45,7 @@
 							<th align="left">Nama Penduduk</th>
 							<?php  endif; ?>
 
-							<th align="left" width='160'>Nama Staf Pemerintah Desa</th>
+							<th align="left" width='160'>Ditandatangani Oleh	</th>
 
 							<?php  if($o==6): ?>
 							<th align="left" width='160'>Tanggal</th>
@@ -70,13 +71,16 @@
 							?>
 							<tr>
 								<td align="center" width="2"><?php echo $data['no']?></td>
-								<?php
-								if(is_file($theFile)){
-									echo "<td><a target=\"_blank\" href=\"". base_url(LOKASI_ARSIP.$berkas."")."\">".$data['no_surat']." <span class=\"icon-download icon-large\"></span></a></td>";
-								}else{
-									echo "<td>".$data['no_surat']."</td>";
-								}
-								?>
+								<td>
+									<div class="uibutton-group">
+										<?php
+											if(is_file($theFile)){?>
+												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south" title="Cetak"><span class="icon-download icon-large"> Cetak </span></a>
+										<?php	}?>
+										<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+									</div>
+								</td>
+								<td><?php echo $data['no_surat']?></td>
 								<td><?php echo $data['format']?></td>
 								<td><?php echo unpenetration($data['nama'])?></td>
 								<td><?php echo $data['pamong']?></td>

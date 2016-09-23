@@ -232,11 +232,12 @@
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM log_surat WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$_SESSION['success'] = 1;
+		$this->db->where('id', $id);
+		$this->db->delete('log_surat');
+		if ($this->db->_error_message()) {
+			$_SESSION['success'] = -1;
+		}
 	}
 
 	function delete_all(){
