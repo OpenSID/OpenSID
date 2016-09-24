@@ -148,7 +148,8 @@ class web extends CI_Controller{
 
 	function update($cat=0,$id='',$p=1,$o=0){
 		$this->web_artikel_model->update($id);
-		redirect("web/index/$cat/$p/$o");
+		if ($cat == 1003) redirect("web/widget");
+		else redirect("web/index/$cat/$p/$o");
 	}
 
 	function delete($cat=1,$p=1,$o=0,$id=''){

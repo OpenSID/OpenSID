@@ -97,7 +97,7 @@
 
 <div class="ui-layout-south panel bottom">
 <div class="left">
-<a href="<?php echo site_url()?>web/index/<?php echo $cat?>" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>web/widget/1" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">
