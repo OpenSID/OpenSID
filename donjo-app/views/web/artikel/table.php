@@ -44,11 +44,6 @@ source: keyword
 </div><legend>Artikel Statis</legend>
 <div class="lmenu" >
 <ul>
-	<li <?php if($cat == 1003)echo "class='selected'";?>>
-		<a href="<?php echo site_url("web/index/1003")?>">
-		Coztumizable Widget
-		</a>
-	</li>
 	<li <?php if($cat == 999)echo "class='selected'";?>>
 		<a href="<?php echo site_url("web/index/999")?>">
 		Halaman Statis

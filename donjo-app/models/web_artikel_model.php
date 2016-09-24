@@ -67,7 +67,10 @@
 
 	function list_data($cat=0,$o=0,$offset=0,$limit=500){
 
-		switch($o){
+		if ($cat == 1003) {
+			$order_sql = ' ORDER BY urut';
+		} else {
+			switch($o){
 			case 1: $order_sql = ' ORDER BY judul'; break;
 			case 2: $order_sql = ' ORDER BY judul DESC'; break;
 			case 3: $order_sql = ' ORDER BY enabled'; break;
@@ -75,6 +78,7 @@
 			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
 			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
 			default:$order_sql = ' ORDER BY id DESC';
+			}
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
@@ -319,6 +323,35 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
+	}
+
+	// $arah:
+	//		1 - turun
+	// 		2 - naik
+	function widget_urut($id, $arah){
+		$this->db->where('id', $id);
+		$q = $this->db->get('artikel');
+		$widget1 = $q->row_array();
+
+		if ($widget1['urut'] == 1 AND $arah == 2) return;
+
+		if ($arah == 1) $urut2 = $widget1['urut'] + 1;
+		else $urut2 = $widget1['urut'] - 1;
+
+		$data = array('id_kategori' => 1003, 'urut' => $urut2);
+		$this->db->where($data);
+		$q = $this->db->get('artikel');
+		$widget2 = $q->row_array();
+
+		// Tukar urutan
+		if ($widget2) {
+			$this->db->where('id', $widget2['id']);
+			$data = array('urut' => $widget1['urut']);
+			$this->db->update('artikel', $data);
+			$this->db->where('id', $widget1['id']);
+			$data = array('urut' => $urut2);
+			$this->db->update('artikel', $data);
+		}
 	}
 
 	function artikel_lock($id='',$val=0){

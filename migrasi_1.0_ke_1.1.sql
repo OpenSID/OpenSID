@@ -13,6 +13,9 @@ ALTER TABLE log_bulanan
   ADD COLUMN kk_lk int(11),
   ADD COLUMN kk_pr int(11);
 
+ALTER TABLE artikel
+  ADD COLUMN urut int(5);
+
 CREATE TABLE `log_keluarga` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `id_kk` int(11) NOT NULL,
