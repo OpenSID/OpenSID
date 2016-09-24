@@ -142,7 +142,8 @@ class web extends CI_Controller{
 
 	function insert($cat=1){
 		$this->web_artikel_model->insert($cat);
-		redirect("web/index/$cat");
+		if ($cat == 1003) redirect("web/widget");
+		else redirect("web/index/$cat");
 	}
 
 	function update($cat=0,$id='',$p=1,$o=0){
@@ -152,17 +153,20 @@ class web extends CI_Controller{
 
 	function delete($cat=1,$p=1,$o=0,$id=''){
 		$this->web_artikel_model->delete($id);
-		redirect("web/index/$cat/$p/$o");
+		if ($cat == 1003) redirect("web/widget");
+		else redirect("web/index/$cat/$p/$o");
 	}
 
 	function hapus($cat=1,$p=1,$o=0){
 		$this->web_artikel_model->hapus($cat);
-		redirect("web/index/1/$p/$o");
+		if ($cat == 1003) redirect("web/widget");
+		else redirect("web/index/1/$p/$o");
 	}
 
-	function delete_all($p=1,$o=0){
+	function delete_all($cat=1,$p=1,$o=0){
 		$this->web_artikel_model->delete_all();
-		redirect("web/index/$p/$o");
+		if ($cat == 1003) redirect("web/widget");
+		else redirect("web/index/$p/$o");
 	}
 
 	function widget_urut($id=0, $arah=0){

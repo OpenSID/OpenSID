@@ -25,7 +25,7 @@ source: keyword
 <div class="uibutton-group">
 <a href="<?php echo site_url("web/form/$cat")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Widget Baru</a>
 <?php if($_SESSION['grup']<4){?>
-<button type="button" title="Hapus Widget" onclick="deleteAllBox('mainform','<?php echo site_url("web/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus
+<button type="button" title="Hapus Widget" onclick="deleteAllBox('mainform','<?php echo site_url("web/delete_all/$cat/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus
 <?php }?>
 </div>
 </div>

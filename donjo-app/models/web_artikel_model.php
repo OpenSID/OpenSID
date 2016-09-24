@@ -193,6 +193,11 @@
 			}
 		}
 
+		// Widget diberi urutan terakhir
+		if ($cat == 1003) {
+			$data['urut'] = $this->widget_urut_max() + 1;
+		}
+
 		$outp = $this->db->insert('artikel',$data);
 		if(!$outp) $_SESSION['success']=-1;
 	}
@@ -325,6 +330,22 @@
 			else $_SESSION['success']=-1;
 	}
 
+	function widget_urut_max(){
+		$this->db->select_max('urut');
+		$this->db->where('id_kategori', 1003);
+		$query = $this->db->get('artikel');
+		$widget = $query->row_array();
+		return $widget['urut'];
+	}
+
+	function widget_urut_min(){
+		$this->db->select_min('urut');
+		$this->db->where('id_kategori', 1003);
+		$query = $this->db->get('artikel');
+		$widget = $query->row_array();
+		return $widget['urut'];
+	}
+
 	// $arah:
 	//		1 - turun
 	// 		2 - naik
@@ -333,25 +354,27 @@
 		$q = $this->db->get('artikel');
 		$widget1 = $q->row_array();
 
-		if ($widget1['urut'] == 1 AND $arah == 2) return;
+		if ($arah == 1 AND $widget1['urut'] >= $this->widget_urut_max()) return;
+		if ($arah == 2 AND $widget1['urut'] <= $this->widget_urut_min()) return;
 
-		if ($arah == 1) $urut2 = $widget1['urut'] + 1;
-		else $urut2 = $widget1['urut'] - 1;
-
-		$data = array('id_kategori' => 1003, 'urut' => $urut2);
-		$this->db->where($data);
+		$this->db->select("id, urut");
+		$this->db->where("id_kategori", 1003);
+		$this->db->order_by("urut");
 		$q = $this->db->get('artikel');
-		$widget2 = $q->row_array();
+		$widgets = $q->result_array();
+		for ($i=0; $i<count($widgets); $i++){
+			if ($widgets[$i]['id'] == $id) break;
+		}
+		if ($arah == 1) $widget2 = $widgets[$i+1];
+		if ($arah == 2) $widget2 = $widgets[$i-1];
 
 		// Tukar urutan
-		if ($widget2) {
-			$this->db->where('id', $widget2['id']);
-			$data = array('urut' => $widget1['urut']);
-			$this->db->update('artikel', $data);
-			$this->db->where('id', $widget1['id']);
-			$data = array('urut' => $urut2);
-			$this->db->update('artikel', $data);
-		}
+		$this->db->where('id', $widget2['id']);
+		$data = array('urut' => $widget1['urut']);
+		$this->db->update('artikel', $data);
+		$this->db->where('id', $widget1['id']);
+		$data = array('urut' => $widget2['urut']);
+		$this->db->update('artikel', $data);
 	}
 
 	function artikel_lock($id='',$val=0){
