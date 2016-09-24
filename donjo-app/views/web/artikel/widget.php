@@ -108,24 +108,24 @@ source: keyword
 <div class="right">
 <div class="uibutton-group">
 <?php  if($paging->start_link): ?>
-<a href="<?php echo site_url("web/index/$cat/$paging->start_link/$o")?>" class="uibutton">Awal</a>
+<a href="<?php echo site_url("web/widget/$paging->start_link/$o")?>" class="uibutton">Awal</a>
 <?php  endif; ?>
 <?php  if($paging->prev): ?>
-<a href="<?php echo site_url("web/index/$cat/$paging->prev/$o")?>" class="uibutton">Prev</a>
+<a href="<?php echo site_url("web/widget/$paging->prev/$o")?>" class="uibutton">Prev</a>
 <?php  endif; ?>
 </div>
 <div class="uibutton-group">
 
 <?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-<a href="<?php echo site_url("web/index/$cat/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
+<a href="<?php echo site_url("web/widget/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 <?php  endfor; ?>
 </div>
 <div class="uibutton-group">
 <?php  if($paging->next): ?>
-<a href="<?php echo site_url("web/index/$cat/$paging->next/$o")?>" class="uibutton">Next</a>
+<a href="<?php echo site_url("web/widget/$paging->next/$o")?>" class="uibutton">Next</a>
 <?php  endif; ?>
 <?php  if($paging->end_link): ?>
-<a href="<?php echo site_url("web/index/$cat/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+<a href="<?php echo site_url("web/widget/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
 <?php  endif; ?>
 </div>
 </div>
