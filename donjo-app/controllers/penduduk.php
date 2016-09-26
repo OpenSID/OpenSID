@@ -127,7 +127,7 @@ class Penduduk extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']= 2;
-
+		$header['modul'] = 2;
 		$this->load->view('header', $header);
 
 		$this->load->view('sid/nav',$nav);

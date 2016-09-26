@@ -38,7 +38,7 @@ class surat_master extends CI_Controller{
 		$data['main']    = $this->surat_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->surat_master_model->autocomplete();
 		$header = $this->header_model->get_data();
-
+		$header['modul'] = 4;
 		$this->load->view('header', $header);
 		$nav['act']=3;
 		$this->load->view('surat/nav',$nav);

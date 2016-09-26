@@ -26,6 +26,7 @@ class Database extends CI_Controller{
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
+		$header['modul'] = 12;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('export/exp');
@@ -38,6 +39,7 @@ class Database extends CI_Controller{
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action2'] = site_url("database/import_siak");
 		$header = $this->header_model->get_data();
+		$header['modul'] = 12;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('import/imp',$data);
@@ -51,6 +53,7 @@ class Database extends CI_Controller{
 		$data['form_action2'] = site_url("database/ppls_rumahtangga");
 		$data['form_action'] = site_url("database/ppls_kuisioner");
 		$header = $this->header_model->get_data();
+		$header['modul'] = 12;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('import/ppls',$data);
@@ -62,6 +65,7 @@ class Database extends CI_Controller{
 		$nav['act']= 3;
 		$data['form_action'] = site_url("database/restore");
 		$header = $this->header_model->get_data();
+		$header['modul'] = 12;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('database/backup',$data);

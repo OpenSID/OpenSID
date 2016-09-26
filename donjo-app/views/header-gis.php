@@ -134,7 +134,7 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 		<span>Persil</span>
 		</a>
 
-		<a class="cpanel" href="<?php echo site_url()?>plan">
+		<a class="cpanel <?php if($modul==8){?>selected<?php }?>" href="<?php echo site_url()?>plan">
 			<img src="<?php echo base_url()?>assets/images/cpanel/plan.png" alt=""/>
 			<span>Plan</span>
 		</a>

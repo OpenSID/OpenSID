@@ -12,48 +12,48 @@ class lapor extends CI_Controller{
 		$this->load->model('web_komentar_model');
 
 	}
-	
+
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		redirect('lapor');
 	}
-	
+
 	function index($p=1,$o=0){
-	
+
 		$data['p']        = $p;
 		$data['o']        = $o;
-		
+
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
-		
+
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
-	
-		if(isset($_POST['per_page'])) 
+
+		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-		
+
 		$data['paging']  = $this->web_komentar_model->paging($p,$o);
 		$data['main']    = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page,2);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
 
 		$header = $this->header_model->get_data();
 		$nav['act']=0;
-		
+		$header['modul'] = 14;
 		$this->load->view('header', $header);
 		$this->load->view('lapor/nav',$nav);
 		$this->load->view('lapor/table',$data);
 		$this->load->view('footer');
 	}
-	
+
 	function form($p=1,$o=0,$id=''){
-	
+
 		$data['p'] = $p;
 		$data['o'] = $o;
-		
+
 		if($id){
 			$data['komentar']        = $this->web_komentar_model->get_komentar($id);
 			$data['form_action'] = site_url("komentar/update/$id/$p/$o");
@@ -62,11 +62,11 @@ class lapor extends CI_Controller{
 			$data['komentar']        = null;
 			$data['form_action'] = site_url("komentar/insert");
 		}
-			
+
 		$data['list_kategori']     = $this->web_komentar_model->list_kategori(1);
-		
+
 		$header = $this->header_model->get_data();
-		
+
 		$nav['act']=2;
 		$this->load->view('header', $header);
 		$this->load->view('web/spacer');
@@ -82,7 +82,7 @@ class lapor extends CI_Controller{
 		else unset($_SESSION['cari']);
 		redirect('lapor');
 	}
-	
+
 	function filter(){
 		$filter = $this->input->post('filter');
 		if($filter!=0)
@@ -90,27 +90,27 @@ class lapor extends CI_Controller{
 		else unset($_SESSION['filter']);
 		redirect('lapor');
 	}
-	
+
 	function insert(){
 		$this->web_komentar_model->insert();
 		redirect('lapor');
 	}
-	
+
 	function update($id='',$p=1,$o=0){
 		$this->web_komentar_model->update($id);
 		redirect("lapor/index/$p/$o");
 	}
-	
+
 	function delete($p=1,$o=0,$id=''){
 		$this->web_komentar_model->delete($id);
 		redirect("lapor/index/$p/$o");
 	}
-	
+
 	function delete_all($p=1,$o=0){
 		$this->web_komentar_model->delete_all();
 		redirect("lapor/index/$p/$o");
 	}
-	
+
 	function komentar_lock($id=''){
 		$this->web_komentar_model->komentar_lock($id,1);
 		redirect("lapor/index/$p/$o");

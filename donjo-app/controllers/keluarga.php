@@ -101,6 +101,7 @@ function __construct(){
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
+		$header['modul'] = 2;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga',$data);

@@ -19,6 +19,7 @@ class Surat extends CI_Controller{
 		$data['menu_surat'] = $this->surat_model->list_surat();
 		$data['menu_surat2'] = $this->surat_model->list_surat2();
 
+		$header['modul'] = 4;
 		$this->load->view('header', $header);
 		$nav['act']= 1;
 
@@ -29,6 +30,7 @@ class Surat extends CI_Controller{
 
 	function panduan(){
 		$header = $this->header_model->get_data();
+		$header['modul'] = 4;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 

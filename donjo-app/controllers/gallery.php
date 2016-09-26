@@ -40,7 +40,7 @@ class gallery extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=3;
-
+		$header['modul'] = 13;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('gallery/table',$data);

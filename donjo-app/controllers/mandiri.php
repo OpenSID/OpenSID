@@ -43,7 +43,7 @@ class mandiri extends CI_Controller{
 		//$data['penduduk'] = $this->mandiri_model->list_penduduk();
 		//$data['form_action'] = site_url("mandiri/insert/");
 		$header = $this->header_model->get_data();
-
+		$header['modul'] = 14;
 		$nav['act']= 1;
 		$this->load->view('header', $header);
 

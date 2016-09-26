@@ -52,7 +52,7 @@ class web extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=0;
-
+		$header['modul'] = 13;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('web/artikel/table',$data);
@@ -85,7 +85,7 @@ class web extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=7;
-
+		$header['modul'] = 13;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('web/artikel/widget',$data);

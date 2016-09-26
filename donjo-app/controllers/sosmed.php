@@ -18,7 +18,7 @@ class sosmed extends CI_Controller{
 		$data['form_action'] = site_url("sosmed/update/1");
 		$header = $this->header_model->get_data();
 		$nav['act']=6;
-
+		$header['modul'] = 13;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/facebook',$data);

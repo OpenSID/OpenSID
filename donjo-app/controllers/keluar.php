@@ -42,7 +42,7 @@ class Keluar extends CI_Controller{
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-
+		$header['modul'] = 4;
 		$nav['act']= 2;
 		$this->load->view('header', $header);
 
