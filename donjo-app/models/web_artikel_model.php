@@ -308,7 +308,7 @@
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM artikel WHERE id=?";
+		$sql  = "DELETE FROM artikel WHERE id=? AND jenis_widget <> 1";
 		$outp = $this->db->query($sql,array($id));
 
 		if($outp) $_SESSION['success']=1;
@@ -328,7 +328,7 @@
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM artikel WHERE id=?";
+				$sql  = "DELETE FROM artikel WHERE id=? AND jenis_widget <> 1";
 				$outp = $this->db->query($sql,array($id));
 			}
 		}
