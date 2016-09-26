@@ -60,6 +60,11 @@ class Program_bantuan extends CI_Controller{
 		$this->load->view('footer');
 	}
 
+	public function hapus_peserta($id, $peserta_id) {
+		$this->program_bantuan_model->hapus_peserta($peserta_id);
+		redirect("program_bantuan/detail/$id");
+	}
+
 	public function create(){
 
 		$this->load->helper('form');

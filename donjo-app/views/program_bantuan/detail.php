@@ -1,27 +1,27 @@
 <?php
 /*
  * program.php
- * 
+ *
  * Backend View untuk Program Bantuan
- * 
+ *
  * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- * 
- * 
+ *
+ *
  */
 
 ?>
@@ -55,7 +55,7 @@
 							</table>
 						</div>
 						";
-						
+
 						if($program[0]["status"] == 0){
 							echo "
 							<div>
@@ -82,7 +82,7 @@
 									}
 									echo "
 									];
-									
+
 									$('#nik').flexbox(nik, {
 										resultTemplate: '<div><label>No ID : </label>{name}</div><div>{info}</div>',
 										watermark: \"Cari nama di sini..\",
@@ -90,7 +90,7 @@
 										noResultsText :'Tidak ada no nik yang sesuai..',
 										onSelect: function() {
 											$('#'+'main').submit();
-									}  
+									}
 									});
 								});
 							</script>
@@ -100,20 +100,32 @@
 						?>
 						<legend>Daftar Peserta Program</legend>
 						<table class="list">
-							<thead><tr><th>#</th><th>Nama Peserta</th><th>Keterangan</th></tr></thead>
+							<thead><tr>
+								<th>No</th>
+								<th>Aksi</th>
+								<th>Nama Peserta</th>
+								<th>Keterangan</th>
+							</tr></thead>
 							<tbody>
-							<?php 
+							<?php
 							$nomer = 0;
 							if(is_array($peserta)){
 								foreach ($peserta as $key=>$item){
 									$nomer++;
 								?>
 									<tr>
-										<td><?php echo $nomer; ?></td>
+										<td align="center" width="2"><?php echo $nomer; ?></td>
+						        <td>
+						          <div class="uibutton-group">
+						            <?php if($_SESSION['grup']==1){?>
+						                <a href="<?php echo site_url('program_bantuan/hapus_peserta/'.$program[0]["id"].'/'.$item["id"])?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>
+						            <?php } ?>
+						          </div>
+						        </td>
 										<td><a href="<?php echo site_url('program_bantuan/peserta/'.$program[0]["sasaran"].'/'.$item["nik"].'/')?>"><?php echo $item["nama"] ?></a></td>
 										<td><?php echo $item["info"];?></td>
 									</tr>
-								<?php 
+								<?php
 								}
 							}
 							?>
