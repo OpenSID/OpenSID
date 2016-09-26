@@ -122,6 +122,14 @@
 		return  $query->row_array();
 	}
 
+  function widget_urut_max(){
+      $this->db->select_max('urut');
+      $this->db->where('id_kategori', 1003);
+      $query = $this->db->get('artikel');
+      $widget = $query->row_array();
+      return $widget['urut'];
+  }
+
 	function insert($cat=1){
 		$_SESSION['success']=1;
 		$_SESSION['error_msg'] = "";
@@ -330,32 +338,32 @@
 			else $_SESSION['success']=-1;
 	}
 
-	function widget_urut_max(){
-		$this->db->select_max('urut');
-		$this->db->where('id_kategori', 1003);
-		$query = $this->db->get('artikel');
-		$widget = $query->row_array();
-		return $widget['urut'];
-	}
-
-	function widget_urut_min(){
-		$this->db->select_min('urut');
-		$this->db->where('id_kategori', 1003);
-		$query = $this->db->get('artikel');
-		$widget = $query->row_array();
-		return $widget['urut'];
+	function widget_urut_semua(){
+		$sql = "SELECT urut, COUNT(*) c FROM artikel WHERE id_kategori = 1003 GROUP BY urut HAVING c > 1";
+		$query = $this->db->query($sql);
+		$urut_duplikat = $query->result_array();
+		if ($urut_duplikat) {
+			$this->db->select("id");
+			$this->db->where("id_kategori", 1003);
+			$this->db->order_by("urut");
+			$q = $this->db->get('artikel');
+			$widgets = $q->result_array();
+			for ($i=0; $i<count($widgets); $i++){
+				$this->db->where('id', $widgets[$i]['id']);
+				$data['urut'] = $i + 1;
+				$this->db->update('artikel', $data);
+			}
+		}
 	}
 
 	// $arah:
 	//		1 - turun
 	// 		2 - naik
 	function widget_urut($id, $arah){
+		$this->widget_urut_semua();
 		$this->db->where('id', $id);
 		$q = $this->db->get('artikel');
 		$widget1 = $q->row_array();
-
-		if ($arah == 1 AND $widget1['urut'] >= $this->widget_urut_max()) return;
-		if ($arah == 2 AND $widget1['urut'] <= $this->widget_urut_min()) return;
 
 		$this->db->select("id, urut");
 		$this->db->where("id_kategori", 1003);
@@ -363,10 +371,19 @@
 		$q = $this->db->get('artikel');
 		$widgets = $q->result_array();
 		for ($i=0; $i<count($widgets); $i++){
-			if ($widgets[$i]['id'] == $id) break;
+			if ($widgets[$i]['id'] == $id) {
+				break;
+			}
 		}
-		if ($arah == 1) $widget2 = $widgets[$i+1];
-		if ($arah == 2) $widget2 = $widgets[$i-1];
+
+		if ($arah == 1) {
+			if ($i >= count($widgets) - 1) return;
+			$widget2 = $widgets[$i+1];
+		}
+		if ($arah == 2) {
+			if ($i <= 0) return;
+			$widget2 = $widgets[$i-1];
+		}
 
 		// Tukar urutan
 		$this->db->where('id', $widget2['id']);

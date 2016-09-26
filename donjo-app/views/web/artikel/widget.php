@@ -52,13 +52,14 @@ source: keyword
       <th><input type="checkbox" class="checkall"/></th>
       <th width="160">Aksi</th>
       <th align="left">Judul</th>
+      <th align="left">Jenis Widget</th>
       <th align="left">Aktif / Non-aktif</th>
       <th align="left" width='250'>Diposting Pada</th>
     </tr>
   </thead>
   <tbody>
     <?php  foreach($main as $data){?>
-      <tr>
+      <tr <?php if($data['jenis_widget']==1){echo "style='background-color:#ffeeaa;'";}?>>
         <td align="center" width="2"><?php echo $data['no']?></td>
         <td align="center" width="5">
           <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
@@ -67,13 +68,16 @@ source: keyword
           <div class="uibutton-group">
             <a href="<?php echo site_url("web/widget_urut/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="icon-arrow-down icon-large"></span></a>
             <a href="<?php echo site_url("web/widget_urut/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="icon-arrow-up icon-large"></span></a>
-            <a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
-
+            <?php if($data['jenis_widget']!=1):?>
+              <a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
+            <?php  endif?>
             <?php if($_SESSION['grup']<4){?>
-              <a href="<?php echo site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>
+              <?php if($data['jenis_widget']!=1):?>
+                <a href="<?php echo site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>
+              <?php  endif?>
               <?php  if($data['enabled'] == '2'):?>
                 <a href="<?php echo site_url("web/artikel_lock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Aktivasi artikel"><span class="icon-lock icon-large"></span></a>
-                  <?php  elseif($data['enabled'] == '1'): ?>
+              <?php  elseif($data['enabled'] == '1'): ?>
                 <a href="<?php echo site_url("web/artikel_unlock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Non-aktifkan artikel"><span class="icon-unlock icon-large"></span></a>
               <?php  endif?>
             <?php } ?>
@@ -81,6 +85,14 @@ source: keyword
           </div>
         </td>
         <td><?php echo $data['judul']?></td>
+        <td>
+          <?php if($data['jenis_widget'] == 1): ?>
+            Sistem
+          <?php elseif($data['jenis_widget'] == 2): ?>
+            Statis
+          <?php else: ?>
+            Dinamis
+          <?php endif ?>
         <td><?php echo $data['aktif']?></td>
         <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
       </tr>

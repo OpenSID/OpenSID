@@ -21,7 +21,8 @@ class web extends CI_Controller{
 	function pager($cat=1){
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
-		redirect("web/index/$cat");
+		if ($cat == 1003) redirect("web/widget");
+		else redirect("web/index/$cat");
 	}
 
 	function index($cat=1,$p=1,$o=0){
