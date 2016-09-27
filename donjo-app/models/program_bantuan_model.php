@@ -93,7 +93,7 @@
 						while($i<count($data)){
 							$data[$i]['id']=$data[$i]['id'];
 							$data[$i]['nik']=$data[$i]['no_kk'];
-							$filter[] = $data[$i]['id'];
+							$filter[] = $data[$i]['no_kk'];
 							$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
 							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 							$i++;
@@ -102,26 +102,26 @@
 					}else{
 						$hasil1 = false;
 					}
+					// Daftar keluarga, tidak termasuk keluarga yang sudah menjadi peserta
 					$strSQL = "SELECT k.no_kk as id,p.nama as nama,w.rt,w.rw,w.dusun FROM tweb_keluarga k
 						LEFT JOIN tweb_penduduk p ON p.id=k.nik_kepala
 						LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_cluster
 					WHERE 1";
 					$query = $this->db->query($strSQL);
-					$data = "";
+					$hasil2 = array();
 					$data=$query->result_array();
 					if($query->num_rows() > 0){
 						$i=0;$j=0;
 						while($i<count($data)){
 							if(!in_array($data[$i]['id'],$filter)){
-								$data[$j]['id']=$data[$i]['id'];
-								$data[$j]['nik']=$data[$i]['id'];
-								$data[$j]['nama']=strtoupper($data[$i]['nama']) ." [".$data[$i]['id']."]";
-								$data[$j]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+								$hasil2[$j]['id']=$data[$i]['id'];
+								$hasil2[$j]['nik']=$data[$i]['id'];
+								$hasil2[$j]['nama']=strtoupper($data[$i]['nama']) ." [".$data[$i]['id']."]";
+								$hasil2[$j]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 								$j++;
 							}
 							$i++;
 						}
-						$hasil2 = $data;
 					}else{
 						$hasil2 = false;
 					}
