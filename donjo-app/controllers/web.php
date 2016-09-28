@@ -111,7 +111,9 @@ class web extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$nav['act']=0;
+		if($cat == 1003) $nav['act'] = 7;
+		else $nav['act'] = 0;
+		$header['modul'] = 13;
 		$this->load->view('header', $header);
 		//$this->load->view('web/spacer');
 		$this->load->view('web/nav',$nav);
