@@ -30,7 +30,7 @@
       </tr>
       <tr>
         <td colspan="2">
-          <textarea  name="isi" style="width: 500px; height: 300px;">
+          <textarea  <?php if($dinamis) echo 'name="isi"'?> style="width: 500px; height: 300px;">
             <?php echo $artikel['isi']?>
           </textarea>
         </td>
@@ -111,7 +111,7 @@
       <tr>
         <th width="120">Nama File Widget (.php)</th>
         <td>
-          <input class="inputbox" type="text" name="isi" value="<?php echo $artikel['isi']?>" size="60" />
+          <input class="inputbox" type="text" <?php if($statis) echo 'name="isi"'?> value="<?php echo $artikel['isi']?>" size="60" />
         </td>
       </tr>
     </table>
