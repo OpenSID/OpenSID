@@ -150,7 +150,7 @@ class web extends CI_Controller{
 	}
 
 	function update($cat=0,$id='',$p=1,$o=0){
-		$this->web_artikel_model->update($id);
+		$this->web_artikel_model->update($cat, $id);
 		if ($cat == 1003) redirect("web/widget");
 		else redirect("web/index/$cat/$p/$o");
 	}

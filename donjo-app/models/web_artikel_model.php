@@ -204,13 +204,21 @@
 		// Widget diberi urutan terakhir
 		if ($cat == 1003) {
 			$data['urut'] = $this->widget_urut_max() + 1;
+			if ($data['jenis_widget']==2){
+				$data['isi'] = $data['isi-statis'];
+			}
+			elseif ($data['jenis_widget']==3){
+				$data['isi'] = $data['isi-dinamis'];
+			}
+			unset($data['isi-dinamis']);
+			unset($data['isi-statis']);
 		}
 
 		$outp = $this->db->insert('artikel',$data);
 		if(!$outp) $_SESSION['success']=-1;
 	}
 
-	function update($id=0){
+	function update($cat, $id=0){
 		$_SESSION['success']=1;
 		$_SESSION['error_msg'] = "";
 
@@ -301,6 +309,17 @@
 			unset($data['gambar3_hapus']);
 		}
 
+		// Widget isinya tergantung jenis widget
+		if ($cat == 1003) {
+			if ($data['jenis_widget']==2){
+				$data['isi'] = $data['isi-statis'];
+			}
+			elseif ($data['jenis_widget']==3){
+				$data['isi'] = $data['isi-dinamis'];
+			}
+			unset($data['isi-dinamis']);
+			unset($data['isi-statis']);
+		}
 
 		$this->db->where('id',$id);
 		$outp = $this->db->update('artikel',$data);
