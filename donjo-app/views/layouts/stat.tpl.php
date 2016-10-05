@@ -23,12 +23,12 @@
 
 			<div id="rightcolumn">
 				<div class="innertube">
-					<?php $this->load->view('partials/side.right.stat.php');?>
+					<?php $this->load->view('partials/side.right.php');?>
 				</div>
 			</div>
-			
+
 			<div id="footer">
-				<?php 
+				<?php
 				$this->load->view('partials/copywright.tpl.php');
 				?>
 			</div>

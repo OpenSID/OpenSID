@@ -19,6 +19,7 @@ class First extends CI_Controller{
 		$this->load->model('penduduk_model');
 		$this->load->model('surat_model');
 		$this->load->model('keluarga_model');
+		$this->load->model('web_widget_model');
 
 	}
 
@@ -58,15 +59,11 @@ class First extends CI_Controller{
 		$data['paging']  = $this->first_artikel_m->paging($p);
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['komen'] = $this->first_artikel_m->komentar_show();
-		$data['agenda'] = $this->first_artikel_m->agenda_show();
 		$data['slide'] = $this->first_artikel_m->slide_show();
 
-		$data['stat'] = $this->first_penduduk_m->list_data(4);
-		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$this->web_widget_model->get_widget_data($data);
+
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 
@@ -117,17 +114,12 @@ class First extends CI_Controller{
 			//$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 
 			$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
-			$data['arsip'] = $this->first_artikel_m->arsip_show();
-			$data['komen'] = $this->first_artikel_m->komentar_show();
-			$data['agenda'] = $this->first_artikel_m->agenda_show();
 			$data['slide'] = $this->first_artikel_m->slide_show();
 
-			$data['stat'] = $this->first_penduduk_m->list_data(4);
-			$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-			$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 			$data['w_cos']  = $this->first_artikel_m->cos_widget();
-			$data['data_config'] = $this->config_model->get_data();
+			$this->web_widget_model->get_widget_data($data);
 
+			$data['data_config'] = $this->config_model->get_data();
 			$data['menu_surat2'] = $this->surat_model->list_surat2();
 			$data['m'] = $m;
 			$this->load->view('layouts/mandiri.php',$data);
@@ -147,13 +139,9 @@ class First extends CI_Controller{
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 		$data['single_artikel'] = $this->first_artikel_m->get_artikel($id);
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['komen'] = $this->first_artikel_m->komentar_show();
-		$data['agenda'] = $this->first_artikel_m->agenda_show();
 		$data['slide'] = $this->first_artikel_m->slide_show();
-		$data['stat'] = $this->first_penduduk_m->list_data(5);
-		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$this->web_widget_model->get_widget_data($data);
 
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
@@ -174,13 +162,10 @@ class First extends CI_Controller{
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 		$data['farsip'] = $this->first_artikel_m->full_arsip($data['paging']->offset,$data['paging']->per_page);
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['komen'] = $this->first_artikel_m->komentar_show();
-		$data['agenda'] = $this->first_artikel_m->agenda_show();
 		$data['slide'] = $this->first_artikel_m->slide_show();
-		$data['stat'] = $this->first_penduduk_m->list_data(5);
-		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$this->web_widget_model->get_widget_data($data);
+
 		$data['data_config'] = $this->config_model->get_data();
 
 		$this->load->view('layouts/arsip.tpl.php',$data);
@@ -197,18 +182,15 @@ class First extends CI_Controller{
 
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['komen'] = $this->first_artikel_m->komentar_show();
 		$data['agenda'] = $this->first_artikel_m->agenda_show();
 		$data['slide'] = $this->first_artikel_m->slide_show();
-		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 
 		$data['paging']  = $this->first_gallery_m->paging($p);
 		$data['gallery'] = $this->first_gallery_m->gallery_show($data['paging']->offset,$data['paging']->per_page);
 
-		$data['stat'] = $this->first_penduduk_m->list_data(6);
-		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$this->web_widget_model->get_widget_data($data);
+
 		$data['data_config'] = $this->config_model->get_data();
 		$this->load->view('layouts/gallery.tpl.php',$data);
 	}
@@ -229,15 +211,11 @@ class First extends CI_Controller{
 		$data['gallery'] = $this->first_gallery_m->sub_gallery_show($gal,$data['paging']->offset,$data['paging']->per_page);
 
 		$data['parrent'] = $this->first_gallery_m->get_parrent($gal);
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['komen'] = $this->first_artikel_m->komentar_show();
 		$data['agenda'] = $this->first_artikel_m->agenda_show();
 		$data['slide'] = $this->first_artikel_m->slide_show();
-		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-
-		$data['stat'] = $this->first_penduduk_m->list_data(4);
-		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$this->web_widget_model->get_widget_data($data);
+
 		$data['data_config'] = $this->config_model->get_data();
 		$data['mode']= 1;
 		$this->load->view('layouts/sub_gallery.tpl.php',$data);
@@ -269,9 +247,8 @@ class First extends CI_Controller{
 		$data['stat'] = $this->first_penduduk_m->list_data($stat);
 		$data['tipe'] = $tipe;
 
-		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$this->web_widget_model->get_widget_data($data);
 
 		$data['data_config'] = $this->config_model->get_data();
 		$data['st'] = $stat;
@@ -290,9 +267,8 @@ class First extends CI_Controller{
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 
 		$data['slide'] = $this->first_artikel_m->slide_show();
-		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$this->web_widget_model->get_widget_data($data);
 
 		$data['tipe'] = 3;
 
@@ -316,10 +292,8 @@ class First extends CI_Controller{
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 
 		$data['slide'] = $this->first_artikel_m->slide_show();
-		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
-		$data['stat'] = $this->first_penduduk_m->list_data(4);
+		$this->web_widget_model->get_widget_data($data);
 
 		$data['main'] = $this->first_keluarga_m->list_raskin($tipex);
 		$data['data_config'] = $this->config_model->get_data();
@@ -331,11 +305,8 @@ class First extends CI_Controller{
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 		$data['artikel'] = $this->first_artikel_m->agenda_show();
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['komen'] = $this->first_artikel_m->komentar_show();
-		$data['agenda'] = $this->first_artikel_m->agenda_show();
-		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-		$data['stat'] = $this->first_penduduk_m->list_data(4);
+		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 
 		$this->load->view('layouts/main.tpl.php',$data);
@@ -353,14 +324,9 @@ class First extends CI_Controller{
 		$data['paging']  = $this->first_artikel_m->paging_kat($p,$kat);
 		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset,$data['paging']->per_page,$kat);
 
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['komen'] = $this->first_artikel_m->komentar_show();
-		$data['agenda'] = $this->first_artikel_m->agenda_show();
 		$data['slide'] = $this->first_artikel_m->slide_show();
-		$data['stat'] = $this->first_penduduk_m->list_data(4);
-		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$this->web_widget_model->get_widget_data($data);
 
 		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($kat);
 
