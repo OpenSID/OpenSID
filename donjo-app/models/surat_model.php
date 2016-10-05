@@ -168,7 +168,19 @@
 			WHERE u.id = ?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
+		$this->format_data_surat($data);
 		return $data;
+	}
+
+	function format_data_surat(&$data){
+		$kolomUpper = array("tanggallahir","tempatlahir","dusun","pekerjaan","gol_darah","agama","sex","status_kawin","pendidikan","hubungan","nama_ayah","nama_ibu");
+		foreach ($kolomUpper as $kolom) {
+			$data[$kolom] = ucwords(strtolower($data[$kolom]));
+		}
+		$namaPendidikan = array("Tk"=>"TK","Sd"=>"SD","Sltp"=>"SLTP","Slta"=>"SLTA","Slb"=>"SLB");
+		foreach ($namaPendidikan as $key => $value) {
+			$data["pendidikan"] = str_replace($key, $value, $data["pendidikan"]);
+		}
 	}
 
 	function get_data_desa(){
@@ -487,9 +499,8 @@
 		$config = $this->get_data_desa();
 		$surat = $this->get_surat($url);
 
-		$tgllhr = strtoupper(tgl_indo($individu['tanggallahir']));
+		$tgllhr = ucwords(tgl_indo($individu['tanggallahir']));
 		$individu['nama'] = strtoupper($individu['nama']);
-		$individu['tempatlahir'] = strtoupper($individu['tempatlahir']);
 
 		// Pakai surat ubahan desa apabila ada
 		$file = SuratExportDesa($url);
