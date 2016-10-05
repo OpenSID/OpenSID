@@ -40,7 +40,7 @@
 		$data['komen'] = $this->first_artikel_m->komentar_show();
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['stat'] = $this->first_penduduk_m->list_data(4);
+		$data['stat_widget'] = $this->first_penduduk_m->list_data(4);
 	}
 
 }

@@ -7,12 +7,12 @@
   <div class="box-body">
     <script type="text/javascript">
     $(function () {
-        var chart;
+        var chart_widget;
         $(document).ready(function () {
           // Build the chart
-            chart = new Highcharts.Chart({
+            chart_widget = new Highcharts.Chart({
                 chart: {
-                    renderTo: 'container',
+                    renderTo: 'container_widget',
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false
@@ -44,7 +44,7 @@
             series: [{
                 type: 'column',
                 data: [
-            <?php  foreach($stat as $data){?>
+            <?php  foreach($stat_widget as $data){?>
               <?php if($data['jumlah'] != "-"){?>
                 ['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
               <?php }?>
@@ -57,6 +57,6 @@
     });
     </script>
     <script src="<?php echo base_url()?>/assets/js/highcharts/highcharts.js"></script>
-    <div id="container" style="width: 100%; height: 150px; margin: 0 auto"></div>
+    <div id="container_widget" style="width: 100%; height: 150px; margin: 0 auto"></div>
   </div>
 </div>
