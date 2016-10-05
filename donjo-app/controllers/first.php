@@ -78,6 +78,8 @@ class First extends CI_Controller{
 			redirect('first');
 			return;
 		}
+		// Hanya boleh mencetak data pengguna yang login
+		$id = $_SESSION['id'];
 
 		$data['desa'] = $this->header_model->get_data();
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
@@ -89,6 +91,9 @@ class First extends CI_Controller{
 			redirect('first');
 			return;
 		}
+		// Hanya boleh mencetak data pengguna yang login
+		$id = $_SESSION['id'];
+
 		// $id adalah id penduduk. Cari id_kk dulu
 		$id_kk = $this->penduduk_model->get_id_kk($id);
 		$data = $this->keluarga_model->get_data_cetak_kk($id_kk);
