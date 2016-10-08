@@ -46,6 +46,18 @@ class Database extends CI_Controller{
 		$this->load->view('footer');
 	}
 
+	function import_bip(){
+
+		$nav['act']= 5;
+		$data['form_action'] = site_url("database/import_data_bip");
+		$header = $this->header_model->get_data();
+		$header['modul'] = 12;
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('import/bip',$data);
+		$this->load->view('footer');
+	}
+
 	function import_ppls(){
 
 		$nav['act']= 4;
@@ -118,6 +130,13 @@ class Database extends CI_Controller{
 		$hapus = isset($_POST['hapus_data']);
 		$this->import_model->import_excel($hapus);
 		redirect('database/import/1');
+		//import_das();
+	}
+
+	function import_data_bip(){
+		$hapus = isset($_POST['hapus_data']);
+		$this->import_model->import_bip($hapus);
+		redirect('database/import_bip/1');
 		//import_das();
 	}
 
