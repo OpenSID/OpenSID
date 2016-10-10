@@ -608,8 +608,11 @@ class import_model extends CI_Model{
 			$data_keluarga['rw'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
 		} else $data_keluarga['rw'] = '-';
 		if ($data_keluarga['rw'] == '') $data_keluarga['rw'] = '-';
-		$pos = strpos($alamat, 'RT:') + 3;
-		$data_keluarga['rt'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
+		$pos = strpos($alamat, 'RT:');
+		if ($pos !== false){
+			$pos = $pos + 3;
+			$data_keluarga['rt'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
+		} else $data_keluarga['rt'] = '-';
 		if ($data_keluarga['rt'] == '') $data_keluarga['rt'] = '-';
 		$data_keluarga['no_kk'] = $data->val($baris,2);
 		return $data_keluarga;
