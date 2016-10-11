@@ -756,7 +756,8 @@
 
 	function update_nokk($id=0){
 		$data = $_POST;
-		$data['tgl_cetak_kk'] = date("Y-m-d H:i:s",strtotime($data['tgl_cetak_kk']));
+		if ($data['tgl_cetak_kk']) $data['tgl_cetak_kk'] = date("Y-m-d H:i:s",strtotime($data['tgl_cetak_kk']));
+		else $data['tgl_cetak_kk'] = NULL;
 		$this->db->where("id",$id);
 		$outp=$this->db->update("tweb_keluarga",$data);
 

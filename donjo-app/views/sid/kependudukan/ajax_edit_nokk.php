@@ -12,7 +12,13 @@
 	<tr>
 		<th align="left">Tanggal Cetak Kartu Keluarga</th>
 		<td>
-			<input name="tgl_cetak_kk" type="text" value="<?php echo $kk['tgl_cetak_kk']?>" class="inputbox required datepicker" size="20">
+			<input name="tgl_cetak_kk" type="text" value="<?php echo $kk['tgl_cetak_kk']?>" class="inputbox  datepicker" size="20">
+		</td>
+	</tr>
+	<tr>
+		<th align="left">Alamat</th>
+		<td>
+			<input name="alamat" type="text" value="<?php echo $kk['alamat']?>" class="inputbox" size="70">
 		</td>
 	</tr>
 <?php /*
@@ -78,7 +84,7 @@
 </tr>
 </tbody>
         </table>
-<div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
+<div class="buttonpane" style="position:absolute;bottom:0px;right:0px;">
     <div class="uibutton-group">
         <button class="uibutton" type="button" onclick="$('#window').dialog('close');">Tutup</button>
         <button class="uibutton confirm" type="submit">Simpan</button>
