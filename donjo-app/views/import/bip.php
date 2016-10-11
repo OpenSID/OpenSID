@@ -21,6 +21,11 @@
                       <br>
                       BIP yang dapat dibaca proses ini adalah yang tersusun
                       berdasarkan keluarga, seperti contoh yang dapat dilihat pada <a href="<?php echo base_url()?>assets/import/konversi_bip.xls"> tautan ini</a>.
+                      <br><br>
+                      Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun menjadi satu worksheet per dusun, proses ini akan mengimpor  data semua dusun.
+                    </p><br>
+                    <p>
+                      Pastikan berkas BIP format Excel 2003, ber-ekstensi .xls
                     </p>
                     <div style='margin-top: 1em;'>
                       <?php
