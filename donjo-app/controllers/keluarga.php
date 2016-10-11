@@ -668,12 +668,11 @@ function __construct(){
 		$data['main']     = $this->keluarga_model->list_anggota($id);
 		$kk 		  = $this->keluarga_model->get_kepala_kk($id);
 		$data['desa']     = $this->keluarga_model->get_desa();
-
 		if($kk)
 			$data['kepala_kk'] = $kk;
 
 		else
-			$data['kepala_kk'] = NULL;
+			$data['kepala_kk'] = $this->keluarga_model->get_keluarga($id);
 
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$nav['act']= 1;

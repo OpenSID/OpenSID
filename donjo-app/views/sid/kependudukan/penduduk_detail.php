@@ -40,6 +40,11 @@
 </tr>
 
 <tr>
+<td>Alamat</td><td >:</td>
+<td><?php echo strtoupper($penduduk['alamat'])?></td>
+</tr>
+
+<tr>
 <td>Dusun</td><td >:</td>
 <td><?php echo strtoupper(ununderscore(unpenetration($penduduk['dusun'])))?></td>
 </tr>
