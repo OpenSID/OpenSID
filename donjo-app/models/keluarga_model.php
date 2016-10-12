@@ -668,7 +668,7 @@
 		$query = $this->db->query($sql,array($id,$id,$id));
 		$data = $query->row_array();
 		// Kalau alamat kosong, pakai dusun/rw/rt
-		if ($data AND $data['alamat'] == '') $data['alamat'] = $data['alamat'] = "Dusun ".$data['dusun'].", RW ".$data['RW'].", RT ".$data['RT'];
+		if ($data AND $data['alamat'] == '') $data['alamat'] = $data['alamat'] = "Dusun ".$data['dusun'].", RW ".$data['rw'].", RT ".$data['rt'];
 		return $data;
 
 	}
