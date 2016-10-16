@@ -103,7 +103,8 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 
 <div class="module-panel">
 	<div class="contentm" style="overflow: hidden;">
-		<?php if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
+		<?php if($_SESSION['grup']==1 || $_SESSION['grup']==2 || $_SESSION['grup']==3){?>
+		<?php if($_SESSION['grup']==1 || $_SESSION['grup']==2){?>
 		<a class="cpanel <?php if($modul==1){?>selected<?php }?>" href="<?php echo site_url()?>hom_desa/about">
 			<img src="<?php echo base_url()?>assets/images/cpanel/go-home-5.png" alt=""/>
 			<span>SID Home</span>
@@ -112,6 +113,7 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 			<img src="<?php echo base_url()?>assets/images/cpanel/preferences-contact-list.png" alt=""/>
 			<span>Penduduk</span>
 		</a>
+		<?php }?>
 		<a class="cpanel <?php if($modul==3){?>selected<?php }?>" href="<?php echo site_url()?>statistik">
 			<img src="<?php echo base_url()?>assets/images/cpanel/statistik.png" alt=""/>
 			<span>Statistik</span>
@@ -120,19 +122,23 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 			<img src="<?php echo base_url()?>assets/images/cpanel/applications-office-5.png" alt=""/>
 			<span>Cetak Surat</span>
 		</a>
+		<?php if($_SESSION['grup']==1){?>
 		<a class="cpanel <?php if($modul==5){?>selected<?php }?>" href="<?php echo site_url()?>analisis_master/clear">
 			<img src="<?php echo base_url()?>assets/images/cpanel/analysis.png" alt=""/>
-		<span>Analisis</span>
+			<span>Analisis</span>
+		<?php }?>
 		</a>
+		<?php if($_SESSION['grup']==1 || $_SESSION['grup']==2){?>
 		<a class="cpanel <?php if($modul==6){?>selected<?php }?>" href="<?php echo site_url()?>program_bantuan" title="Program Bantuan">
 			<img src="<?php echo base_url()?>assets/images/cpanel/program.png" alt=""/>
-		<span>Bantuan</span>
+			<span>Bantuan</span>
 		</a>
 		<a class="cpanel <?php if($modul==7){?>selected<?php }?>" href="<?php echo site_url()?>data_persil/clear" title="Data Persil">
 			<img src="<?php echo base_url()?>assets/images/cpanel/persil.png" alt=""/>
-		<span>Persil</span>
+			<span>Persil</span>
 		</a>
-
+		<?php }?>
+		<?php if($_SESSION['grup']==1){?>
 		<a class="cpanel <?php if($modul==8){?>selected<?php }?>" href="<?php echo site_url()?>plan">
 			<img src="<?php echo base_url()?>assets/images/cpanel/plan.png" alt=""/>
 			<span>Plan</span>
@@ -141,6 +147,7 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 			<img src="<?php echo base_url()?>assets/images/cpanel/gis.png" alt=""/>
 			<span>Peta</span>
 		</a>
+		<?php }?>
 		<a class="cpanel <?php if($modul==10){?>selected<?php }?>" href="<?php echo site_url()?>sms">
 			<img src="<?php echo base_url()?>assets/images/cpanel/mail-send-receive.png" alt=""/>
 			<span>SMS</span>
@@ -160,7 +167,7 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 			<img src="<?php echo base_url()?>assets/images/cpanel/message-news.png" alt=""/>
 			<span>Admin Web</span>
 		</a>
-		<?php if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
+		<?php if($_SESSION['grup']==1 || $_SESSION['grup']==2 || $_SESSION['grup']==3){?>
 		<a class="cpanel <?php if($modul==14){?>selected<?php }?>" href="<?php echo site_url()?>lapor">
 			<img src="<?php echo base_url()?>assets/images/cpanel/mail-reply-all.png" alt=""/>
 			<span><b><?php echo $lapor;?></b> Laporan</span>
