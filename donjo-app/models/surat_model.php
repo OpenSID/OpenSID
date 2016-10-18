@@ -254,7 +254,7 @@
 		return $suami;
 	}
 
-	function get_data_suami_atau_istri($individu=[]) {
+	function get_data_suami_atau_istri($individu=array()) {
 		if ($individu['sex'] == "LAKI-LAKI") {
 			return $this->get_data_istri($individu['id']);
 		} else {
