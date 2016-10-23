@@ -13,6 +13,7 @@ class Database extends CI_Controller{
 		$this->load->model('header_model');
 		$this->load->model('import_model');
 		$this->load->model('export_model');
+		$this->load->model('database_model');
 
 	}
 
@@ -69,6 +70,18 @@ class Database extends CI_Controller{
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('import/ppls',$data);
+		$this->load->view('footer');
+	}
+
+	function migrasi_cri(){
+
+		$nav['act']= 6;
+		$data['form_action'] = site_url("database/migrasi_db_cri");
+		$header = $this->header_model->get_data();
+		$header['modul'] = 12;
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('database/migrasi_cri',$data);
 		$this->load->view('footer');
 	}
 
@@ -137,7 +150,11 @@ class Database extends CI_Controller{
 		$hapus = isset($_POST['hapus_data']);
 		$this->import_model->import_bip($hapus);
 		redirect('database/import_bip/1');
-		//import_das();
+	}
+
+	function migrasi_db_cri(){
+		$this->database_model->migrasi_db_cri();
+		redirect('database/migrasi_cri/1');
 	}
 
 	function ppls_kuisioner(){
