@@ -603,24 +603,29 @@ class import_model extends CI_Model{
 		// $i = baris judul data keluarga. Data keluarga ada di baris berikutnya
 		$baris = $i + 1;
 		$alamat = $data_sheet[$baris][7];
-		$data_keluarga['alamat'] = $alamat;
-		$pos = strpos($alamat, 'DUSUN');
-		if ($pos !== false){
-			$pos = $pos + 5;
+		$pos_awal = strpos($alamat, 'DUSUN');
+		if ($pos_awal !== false){
+			$pos = $pos_awal + 5;
 			$data_keluarga['dusun'] = trim(substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos));
+			$alamat = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
 		} else $data_keluarga['dusun'] = 'LAINNYA';
-		$pos = strpos($alamat, 'RW:');
-		if ($pos !== false){
+		$pos_awal = strpos($alamat, 'RW:');
+		if ($pos_awal !== false){
 			$pos = $pos + 3;
 			$data_keluarga['rw'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
+			$alamat = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
 		} else $data_keluarga['rw'] = '-';
 		if ($data_keluarga['rw'] == '') $data_keluarga['rw'] = '-';
-		$pos = strpos($alamat, 'RT:');
-		if ($pos !== false){
-			$pos = $pos + 3;
+		$pos_awal = strpos($alamat, 'RT:');
+		if ($pos_awal !== false){
+			$pos = $pos_awal + 3;
 			$data_keluarga['rt'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
+			$alamat = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
 		} else $data_keluarga['rt'] = '-';
 		if ($data_keluarga['rt'] == '') $data_keluarga['rt'] = '-';
+		$alamat = rtrim(ltrim(preg_replace("/Kodepos:.*,/i", '', $alamat), " ,-")," ,-");
+		// $alamat sudah tidak ada dusun, rw, rt atau kodepos -- tinggal jalan, kompleks, gedung dsbnya
+		$data_keluarga['alamat'] = $alamat;
 		$data_keluarga['no_kk'] = $data_sheet[$baris][2];
 		return $data_keluarga;
 	}
