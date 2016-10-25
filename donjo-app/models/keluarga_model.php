@@ -590,6 +590,7 @@
 		$sql   = "SELECT * FROM tweb_keluarga WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
+		$data['alamat_plus_dusun'] = $data['alamat'];
 		return $data;
 	}
 
@@ -667,8 +668,8 @@
 			WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE id = ?) ";
 		$query = $this->db->query($sql,array($id,$id,$id));
 		$data = $query->row_array();
-		// Kalau alamat kosong, pakai dusun/rw/rt
-		if ($data AND $data['alamat'] == '') $data['alamat'] = $data['alamat'] = "Dusun ".$data['dusun'].", RW ".$data['rw'].", RT ".$data['rt'];
+		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' Dusun '.$data['dusun']);
+		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
 		return $data;
 
 	}

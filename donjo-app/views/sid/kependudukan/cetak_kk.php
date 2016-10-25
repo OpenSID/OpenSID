@@ -25,7 +25,7 @@
 	</tr>
 	<tr>
 	<td>Alamat</td>
-	<td>: <?php echo strtoupper($kepala_kk['dusun']) ?> </td>
+	<td>: <?php echo strtoupper($kepala_kk['alamat_plus_dusun']) ?> </td>
 	<td>Kabupaten/Kota</td>
 	<td>: <?php echo $desa['nama_kabupaten'] ?></td>
 	</tr>
@@ -61,19 +61,19 @@
 	</thead>
 	<tbody>
 	<?php  foreach($main as $data): ?>
-	
+
 	<tr class="data">
 		<td align="center" width="2"><?php echo $data['no']?></td>
 		<td><?php echo strtoupper($data['nama'])?></td>
 		<td><?php echo $data['nik']?></td>
-		<td><?php echo $data['sex']?></td>  
-		<td><?php echo $data['tempatlahir']?></td> 
-		<td><?php echo $data['tanggallahir']?></td> 
-		<td><?php echo $data['agama']?></td> 
-		<td><?php echo $data['pendidikan']?></td> 
+		<td><?php echo $data['sex']?></td>
+		<td><?php echo $data['tempatlahir']?></td>
+		<td><?php echo $data['tanggallahir']?></td>
+		<td><?php echo $data['agama']?></td>
+		<td><?php echo $data['pendidikan']?></td>
 		<td><?php echo $data['pekerjaan']?></td>
 	</tr>
-	
+
 	<?php  endforeach; ?>
 	</tbody>
 </table>
@@ -103,11 +103,11 @@
 <td align="center" width="2"><?php echo $data['no']?></td>
 <td><?php echo $data['status_kawin']?></td>
 <td><?php echo $data['hubungan']?></td>
-<td><?php echo $data['warganegara']?></td>  
+<td><?php echo $data['warganegara']?></td>
 <td><?php echo $data['dokumen_pasport']?></td>
-<td><?php echo $data['dokumen_kitas']?></td> 
-<td><?php echo strtoupper($data['nama_ayah'])?></td> 
-<td><?php echo strtoupper($data['nama_ibu'])?></td> 
+<td><?php echo $data['dokumen_kitas']?></td>
+<td><?php echo strtoupper($data['nama_ayah'])?></td>
+<td><?php echo strtoupper($data['nama_ibu'])?></td>
 <td align="center"><?php echo $data['golongan_darah']?></td>
 </tr>
 <?php  endforeach; ?>

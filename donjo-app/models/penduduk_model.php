@@ -658,8 +658,8 @@
 	function get_id_kk($id=0) {
 		$sql = "SELECT u.id_kk
 				FROM tweb_penduduk u
-				WHERE id = $id limit 1";
-		$query = $this->db->query($sql);
+				WHERE id = ? limit 1";
+		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
 		return $data['id_kk'];
 	}

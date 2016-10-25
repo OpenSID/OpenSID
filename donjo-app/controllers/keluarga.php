@@ -670,7 +670,6 @@ function __construct(){
 		$data['desa']     = $this->keluarga_model->get_desa();
 		if($kk)
 			$data['kepala_kk'] = $kk;
-
 		else
 			$data['kepala_kk'] = $this->keluarga_model->get_keluarga($id);
 
