@@ -625,7 +625,7 @@
 	}
 
 	function list_anggota($id=0){
-		$sql   = "SELECT b.dusun,b.rw,b.rt,u.id,nik,dokumen_pasport,dokumen_kitas,x.nama as sex,u.kk_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan
+		$sql   = "SELECT b.dusun,b.rw,b.rt,u.id,u.id_kk,nik,dokumen_pasport,dokumen_kitas,x.nama as sex,u.kk_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan, k.alamat
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
 			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
@@ -636,6 +636,7 @@
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 			LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id
 			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
+			LEFT JOIN tweb_keluarga k ON u.id_kk = k.id
 			WHERE status = 1 AND status_dasar = 1 AND id_kk = ? ORDER BY kk_level, tanggallahir";
 
 		$query = $this->db->query($sql,array($id));
@@ -645,7 +646,6 @@
 		$i=0;
 		while($i<count($data)){
 			$data[$i]['no']=$i+1;
-			$data[$i]['alamat']="Dusun ".ununderscore($data[$i]['dusun']).", RW ".$data[$i]['rw'].", RT ".$data[$i]['rt'];
 			$data[$i]['tanggallahir']= tgl_indo($data[$i]['tanggallahir']);
 
 			$i++;
