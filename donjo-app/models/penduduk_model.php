@@ -690,8 +690,6 @@
 		$data['tanggalperceraian'] = tgl_indo_out($data['tanggalperceraian']);
 		// Penduduk lepas, pakai alamat_sekarang
 		if ($data['id_kk'] == 0 OR $data['id_kk'] == '') $data['alamat'] = $data['alamat_sekarang'];
-		// Kalau tidak ada alamat, pakai dusun/rt/rw
-		if ($data['alamat'] == '') $data['alamat'] = "Dusun ".$data['dusun'].", RW ".$data['rw'].", RT ".$data['rt'];
 		return $data;
 	}
 

@@ -30,6 +30,10 @@
 </tr>
 
 <tr>
+  <td>Alamat</td><td >:</td>
+  <td><?php echo strtoupper(ununderscore($penduduk['alamat']))?></td></tr>
+<tr>
+<tr>
 <td>Dusun</td><td >:</td>
 <td><?php echo strtoupper(ununderscore($penduduk['dusun']))?></td></tr>
 
