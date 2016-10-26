@@ -67,7 +67,7 @@ table.form.detail td{
 							</tr>
 							<tr>
 								<th>Alamat</th>
-								<td><?php echo unpenetration($individu['alamat']); ?></td>
+								<td><?php echo $individu['alamat_wilayah']; ?></td>
 							</tr>
 							<tr>
 								<th>Pendidikan</th>

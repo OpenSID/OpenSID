@@ -81,37 +81,31 @@
 		return $data;
 	}
 
+	function get_alamat_wilayah($data) {
+		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] $data[dusun]");
+		return $alamat_wilayah;
+	}
+
 	function get_penduduk($id=0){
-		$sql   = "SELECT `u`.`id` AS `id`,`u`.`nama` AS `nama`,`x`.`nama` AS `sex`,u.id_kk AS id_kk,
-		`u`.`tempatlahir` AS `tempatlahir`,`u`.`tanggallahir` AS `tanggallahir`,
-		(select (date_format(from_days((to_days(now()) - to_days(`tweb_penduduk`.`tanggallahir`))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)`
-		from `tweb_penduduk` where (`tweb_penduduk`.`id` = `u`.`id`)) AS `umur`,
-		`w`.`nama` AS `status_kawin`,`f`.`nama` AS `warganegara`,`a`.`nama` AS `agama`,`d`.`nama` AS `pendidikan`,`j`.`nama` AS `pekerjaan`,`u`.`nik` AS `nik`,`c`.`rt` AS `rt`,`c`.`rw` AS `rw`,`c`.`dusun` AS `dusun`,`k`.`no_kk` AS `no_kk`,
-		(select `tweb_penduduk`.`nama` AS `nama` from `tweb_penduduk` where (`tweb_penduduk`.`id` = `k`.`nik_kepala`)) AS `kepala_kk`
-		from ((((((((`tweb_penduduk` `u`
-		left join `tweb_penduduk_sex` `x` on((`u`.`sex` = `x`.`id`)))
-		left join `tweb_penduduk_kawin` `w` on((`u`.`status_kawin` = `w`.`id`)))
-		left join `tweb_penduduk_agama` `a` on((`u`.`agama_id` = `a`.`id`)))
-		left join `tweb_penduduk_pendidikan_kk` `d` on((`u`.`pendidikan_kk_id` = `d`.`id`)))
-		left join `tweb_penduduk_pekerjaan` `j` on((`u`.`pekerjaan_id` = `j`.`id`)))
-		left join `tweb_wil_clusterdesa` `c` on((`u`.`id_cluster` = `c`.`id`)))
-		left join `tweb_keluarga` `k` on((`u`.`id_kk` = `k`.`id`)))
-		left join `tweb_penduduk_warganegara` `f` on((`u`.`warganegara_id` = `f`.`id`)))
+		$sql   = "SELECT u.id AS id,u.nama AS nama,x.nama AS sex,u.id_kk AS id_kk,
+		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,
+		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
+		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
+		w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,
+		(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
+		from tweb_penduduk u
+		left join tweb_penduduk_sex x on u.sex = x.id
+		left join tweb_penduduk_kawin w on u.status_kawin = w.id
+		left join tweb_penduduk_agama a on u.agama_id = a.id
+		left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
+		left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
+		left join tweb_wil_clusterdesa c on u.id_cluster = c.id
+		left join tweb_keluarga k on u.id_kk = k.id
+		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
 		WHERE u.id = ?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
-
-			$data['alamat']='';
-
-			if($data['rt'] != "-")
-				$data['alamat']="RT-".$data['rt'];
-
-			if($data['rw'] != "-")
-				$data['alamat']=$data['alamat']." RW-".$data['rw'];
-
-			if($data['dusun'] != "-")
-				$data['alamat']=$data['alamat']." Dusun ".ununderscore($data['dusun']);
-
+		$data['alamat_wilayah']= $this->get_alamat_wilayah($data);
 		return $data;
 	}
 
@@ -152,7 +146,7 @@
 	function get_data_surat($id=0){
 		$sql   = "SELECT u.*,g.nama AS gol_darah,x.nama AS sex,
 			(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-			w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,h.nama AS hubungan,j.nama AS pekerjaan,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,
+			w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,h.nama AS hubungan,j.nama AS pekerjaan,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
 			from tweb_penduduk u
 			left join tweb_penduduk_sex x on u.sex = x.id
@@ -168,6 +162,7 @@
 			WHERE u.id = ?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
+		$data['alamat_wilayah']= $this->get_alamat_wilayah($data);
 		$this->format_data_surat($data);
 		return $data;
 	}
@@ -542,7 +537,7 @@
 
 			//DATA DARI TABEL PENDUDUK
 			//jika data kurang lengkap bisa di tambahkan dari fungsi "get_data_surat" pada file ini
-			$buffer=str_replace("[alamat]","RT $individu[rt] / RW $individu[rw] $individu[dusun]",$buffer);
+			$buffer=str_replace("[alamat]","$individu[alamat_wilayah]",$buffer);
 			$buffer=str_replace("[nama_ayah]","$individu[nama_ayah]",$buffer);
 			$buffer=str_replace("[nama_ibu]","$individu[nama_ibu]",$buffer);
 			$buffer=str_replace("[kepala_kk]","$individu[kepala_kk]",$buffer);
