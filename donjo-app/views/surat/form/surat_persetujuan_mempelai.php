@@ -98,7 +98,7 @@ padding:5px;
 				</tr>
 				<tr>
 					<th>Alamat</th>
-					<td><?php echo unpenetration($suami['alamat']); ?></td>
+					<td><?php echo $suami['alamat_wilayah']; ?></td>
 				</tr>
 				<tr>
 					<th>Pendidikan</th>
@@ -135,7 +135,7 @@ padding:5px;
 				</tr>
 				<tr>
 					<th>Alamat</th>
-					<td><?php echo unpenetration($istri['alamat']); ?></td>
+					<td><?php echo $istri['alamat_wilayah']; ?></td>
 				</tr>
 				<tr>
 					<th>Pendidikan</th>

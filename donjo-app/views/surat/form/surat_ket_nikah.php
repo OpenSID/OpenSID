@@ -68,29 +68,7 @@ padding:5px;
 <form id="validasi" action="<?php echo $form_action?>" method="POST" target="_blank">
 <input type="hidden" name="nik" value="<?php echo $individu['id']?>" class="inputbox required" >
 <?php if($individu){ //bagian info setelah terpilih?>
-<tr>
-<th>Tempat Tanggal Lahir (Umur)</th>
-<td>
-<?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
-</td>
-</tr>
-<tr>
-<th>Alamat</th>
-<td>
-<?php echo unpenetration($individu['alamat']); ?>
-</td>
-</tr>
-<tr>
-<th>Pendidikan</th>
-<td>
-<?php echo $individu['pendidikan']?>
-</td>
-</tr>
-<tr>
-<th>Warganegara / Agama</th>
-<td>
-<?php echo $individu['warganegara']?> / <?php echo $individu['agama']?>
-</td>
+  <?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 </tr>
 <?php }?>
 <tr>
