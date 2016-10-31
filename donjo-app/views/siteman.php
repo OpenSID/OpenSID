@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>SID 3.04 Login</title>
+  <title><?php echo ((config_item('login_title')!=FALSE) ? config_item('login_title') : 'OpenSID') ?></title>
   <link rel="stylesheet" href="<?php echo base_url()?>assets/css/login-new.css" media="screen" type="text/css" />
 </head>
 <body>
