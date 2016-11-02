@@ -544,6 +544,8 @@
 		$data['nama_ibu'] = $data['nama_ibu'];
 
 		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
+		$data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
+		$data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 
 		$error_validasi = $this->validasi_data_penduduk($data);
 		if (!empty($error_validasi)){

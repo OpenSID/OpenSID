@@ -237,6 +237,22 @@
 <th>Alamat Sekarang</th>
 <td><input name="alamat_sekarang" type="text" class="inputbox" size="60"  value="<?php echo strtoupper($penduduk['alamat_sekarang'])?>"/></td>
 </tr>
+<tr>
+	<th>Akta Perkawinan</th>
+	<td><input name="akta_perkawinan" type="text" class="inputbox" size="60"  value="<?php echo $penduduk['akta_perkawinan']?>"/></td>
+</tr>
+<tr>
+	<th>Tanggal Perkawinan</th>
+	<td><input name="tanggalperkawinan" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggalperkawinan']?>"/></td>
+</tr>
+<tr>
+	<th>Akta Perceraian</th>
+	<td><input name="akta_perceraian" type="text" class="inputbox" size="60"  value="<?php echo $penduduk['akta_perceraian']?>"/></td>
+</tr>
+<tr>
+	<th>Tanggal Perceraian</th>
+	<td><input name="tanggalperceraian" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggalperceraian']?>"/></td>
+</tr>
 
 <tr>
 <th>Cacat</th>
