@@ -9,7 +9,11 @@
     <meta property="og:url" content="<?php echo base_url()?>index.php/first/artikel/<?php echo unpenetration($single_artikel['id']);?>"/>
     <meta property="og:type" content="article"/>
     <meta property="og:image" content="<?php echo base_url()?><?php echo LOKASI_FOTO_ARTIKEL?>sedang_<?php echo $single_artikel['gambar'];?>"/>
-		<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+			<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+		<?php else: ?>
+			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+		<?php endif; ?>
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
 		<?php if(is_file("desa/css/desa-web.css")): ?>
 			<link type='text/css' href="<?php echo base_url()?>desa/css/desa-web.css" rel='Stylesheet' />

@@ -6,7 +6,11 @@
 
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-		<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+			<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+		<?php else: ?>
+			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+		<?php endif; ?>
 		<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?php echo base_url()?>rss.xml" />
 		<link href="<?php echo base_url()?>assets/css/screen.css" rel="stylesheet" type="text/css" />
 
