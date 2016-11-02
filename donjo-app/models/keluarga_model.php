@@ -913,7 +913,7 @@
 		$tertanda = tgl_indo(date("Y m d"));
 		$tertanda = $h['nama_desa'].", ".$tertanda;
 		$buffer=str_replace("desa","\caps $h[nama_desa]",$buffer);
-		$buffer=str_replace("dusun","\caps $k[dusun]",$buffer);
+		$buffer=str_replace("alamat_plus_dusun","\caps $k[alamat_plus_dusun]",$buffer);
 		$buffer=str_replace("prop","\caps $h[nama_propinsi]",$buffer);
 		$buffer=str_replace("kab","\caps $h[nama_kabupaten]",$buffer);
 		$buffer=str_replace("kec","\caps $h[nama_kecamatan]",$buffer);
