@@ -65,46 +65,50 @@ table.form.detail td{
 <input type="hidden" name="new" value="1">
 
 <tr>
-<th width="100">Dusun</th>
-<td><select name="dusun" onchange="formAction('mainform','<?php echo site_url('keluarga/form/0/1')?>')" <?php if($dusun){?>class="required"<?php }?>>
-<option value="">Pilih Dusun</option>
-<?php foreach($dusun as $data){?>
-<option value="<?php echo $data['dusun']?>" <?php if($dus_sel==$data['dusun']){?>selected<?php }?>><?php echo unpenetration(ununderscore($data['dusun']))?></option>
-<?php }?></select>
-</td>
+  <th width="100">Dusun</th>
+  <td><select name="dusun" onchange="formAction('mainform','<?php echo site_url('keluarga/form/0/1')?>')" <?php if($dusun){?>class="required"<?php }?>>
+    <option value="">Pilih Dusun</option>
+    <?php foreach($dusun as $data){?>
+      <option value="<?php echo $data['dusun']?>" <?php if($dus_sel==$data['dusun']){?>selected<?php }?>><?php echo unpenetration(ununderscore($data['dusun']))?></option>
+    <?php }?></select>
+  </td>
 </tr>
 
 <tr>
-<th>RW</th>
-<td><select name="rw" onchange="formAction('mainform','<?php echo site_url('keluarga/form/0/1')?>')" <?php if($rw){?>class="required"<?php }?>>
-<option value="">Pilih RW</option>
-<?php foreach($rw as $data){?>
-<option value="<?php echo $data['rw']?>" <?php if($rw_sel==$data['rw']){?>selected<?php }?>><?php echo $data['rw']?></option>
-<?php }?></select>
-</td>
+  <th>RW</th>
+  <td><select name="rw" onchange="formAction('mainform','<?php echo site_url('keluarga/form/0/1')?>')" <?php if($rw){?>class="required"<?php }?>>
+    <option value="">Pilih RW</option>
+    <?php foreach($rw as $data){?>
+      <option value="<?php echo $data['rw']?>" <?php if($rw_sel==$data['rw']){?>selected<?php }?>><?php echo $data['rw']?></option>
+    <?php }?></select>
+  </td>
 </tr>
 
 <tr>
-<th>RT</th>
-<td><select name="rt" onchange="formAction('mainform','<?php echo site_url('keluarga/form/0/1')?>')" <?php if($rt){?>class="required"<?php }?>>
-<option value="">Pilih RT</option>
-<?php foreach($rt as $data){?>
-<option value="<?php echo $data['id']?>" <?php if($rt_sel==$data['id']){?>selected<?php }?>><?php echo $data['rt']?></option>
-<?php }?></select>
-</td>
+  <th>RT</th>
+  <td><select name="rt" onchange="formAction('mainform','<?php echo site_url('keluarga/form/0/1')?>')" <?php if($rt){?>class="required"<?php }?>>
+    <option value="">Pilih RT</option>
+    <?php foreach($rt as $data){?>
+      <option value="<?php echo $data['id']?>" <?php if($rt_sel==$data['id']){?>selected<?php }?>><?php echo $data['rt']?></option>
+    <?php }?></select>
+  </td>
 </tr>
+
 <?php if($rt_sel){?>
 
-
-
-
 <tr>
-<th class="top">Foto</th>
-<td>
-<div class="userbox-avatar">
-<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
-</div>
-</td>
+  <th>Alamat</th>
+  <td>
+    <input name="alamat" type="text" class="inputbox" size="60" value="<?php echo $penduduk_kk['alamat']?>"/>
+  </td>
+</tr>
+<tr>
+  <th class="top">Foto</th>
+  <td>
+    <div class="userbox-avatar">
+      <img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
+    </div>
+    </td>
 </tr>
 
 <tr>

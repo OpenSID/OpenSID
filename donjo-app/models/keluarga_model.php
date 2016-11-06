@@ -383,6 +383,10 @@
 			return;
 		}
 
+		// Simpan alamat keluarga sebelum menulis penduduk
+		$data2['alamat'] = $data['alamat'];
+		UNSET($data['alamat']);
+
 		$outp = $this->db->insert('tweb_penduduk',penetration($data));
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
