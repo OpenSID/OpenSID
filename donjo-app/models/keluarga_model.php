@@ -675,7 +675,10 @@
 	}
 	function get_kepala_a($id){
 
-		$sql   = "SELECT u.*,c.*, (SELECT no_kk FROM tweb_keluarga WHERE id = ?) AS no_kk FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE id = ?) ";
+		$sql = "SELECT u.*,c.*, k.no_kk, k.alamat
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_keluarga k ON k.id = ?
+			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE id = ?) ";
 		$query = $this->db->query($sql,array($id,$id));
 		return $query->row_array();
 

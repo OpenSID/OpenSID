@@ -36,6 +36,10 @@ table.form.detail td{
 </tr>
 
 <tr>
+  <th>Alamat</th>
+  <td><?php echo $kk['alamat']?></td>
+</tr>
+<tr>
 <th>Dusun</th>
 <td><?php echo ununderscore(unpenetration($kk['dusun']))?></td>
 </tr>
@@ -49,7 +53,6 @@ table.form.detail td{
 <th>RT</th>
 <td><?php echo $kk['rt']?></td>
 </tr>
-
 
 <tr>
 <th class="top">Foto</th>
