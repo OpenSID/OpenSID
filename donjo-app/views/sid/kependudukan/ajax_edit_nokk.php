@@ -15,12 +15,6 @@
 			<input name="tgl_cetak_kk" type="text" value="<?php echo $kk['tgl_cetak_kk']?>" class="inputbox  datepicker" size="20">
 		</td>
 	</tr>
-	<tr>
-		<th align="left">Alamat</th>
-		<td>
-			<input name="alamat" type="text" value="<?php echo $kk['alamat']?>" class="inputbox" size="70">
-		</td>
-	</tr>
 <?php /*
 <tr>
 	<th align="left">Kelas Sosial</th>

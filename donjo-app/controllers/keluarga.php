@@ -740,12 +740,13 @@ function __construct(){
 
 	function pindah_proses($id=0){
 		$id_cluster = $_POST['id_cluster'];
-		$this->keluarga_model->pindah_proses($id,$id_cluster);
+		$alamat = $_POST['alamat'];
+		$this->keluarga_model->pindah_proses($id,$id_cluster,$alamat);
 		redirect("keluarga");
 	}
 
 	function ajax_penduduk_pindah($id=0){
-
+		$data['alamat_wilayah'] = $this->keluarga_model->get_alamat_wilayah($id);
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 
 		$data['form_action'] = site_url("keluarga/pindah_proses/$id");

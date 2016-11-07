@@ -820,7 +820,12 @@
 		return $query->result_array();
 	}
 
-	function pindah_proses($id=0,$id_cluster=''){
+	function pindah_proses($id=0,$id_cluster='',$alamat=''){
+		// Ubah alamat keluarga
+		$this->db->where('id',$id);
+		$data_kel['alamat'] = $alamat;
+		$this->db->update('tweb_keluarga', $data_kel);
+		// Ubah dusun/rw/rt untuk semua anggota keluarga
 		$this->db->where('id_kk',$id);
 		$data['id_cluster'] = $id_cluster;
 		$outp = $this->db->update('tweb_penduduk',$data);
@@ -841,6 +846,20 @@
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
+
+	function get_alamat_wilayah($id_kk) {
+		$sql = "SELECT a.dusun,a.rw,a.rt,k.alamat
+				FROM tweb_keluarga k
+				LEFT JOIN tweb_penduduk u ON u.id = k.nik_kepala
+				LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
+				WHERE k.id=?";
+		$query = $this->db->query($sql,$id_kk);
+		$data  = $query->row_array();
+
+		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] $data[dusun]");
+		return $alamat_wilayah;
+	}
+
 
 	function get_judul_statistik($tipe=0,$nomor=1){
 		switch($tipe){
