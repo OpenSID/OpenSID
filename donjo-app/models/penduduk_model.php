@@ -2,6 +2,8 @@
 
 	function __construct(){
 		parent::__construct();
+
+		$this->load->model('keluarga_model');
 	}
 
 	function autocomplete(){
@@ -204,6 +206,27 @@
 			$log_sql= " AND u.status_dasar = 1 ";
 		}
 		return $log_sql;
+	}
+
+	function get_alamat_wilayah($id) {
+		// Alamat anggota keluarga diambil dari tabel keluarga
+		$this->db->select('id_kk');
+		$this->db->where('id', $id);
+		$q = $this->db->get('tweb_penduduk');
+		$penduduk = $q->row_array();
+		if ($penduduk['id_kk'] > 0) {
+			return $this->keluarga_model->get_alamat_wilayah($penduduk['id_kk']);
+		}
+		// Alamat penduduk lepas diambil dari kolom alamat_sekarang
+		$sql = "SELECT a.dusun,a.rw,a.rt,u.alamat_sekarang as alamat
+				FROM tweb_penduduk u
+				LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
+				WHERE u.id=?";
+		$query = $this->db->query($sql,$id);
+		$data  = $query->row_array();
+
+		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] $data[dusun]");
+		return $alamat_wilayah;
 	}
 
 	function paging($p=1,$o=0,$log=0){
@@ -820,9 +843,20 @@
 		return $query->row_array();
 	}
 
-	function pindah_proses($id=0,$id_cluster=''){
+	function is_anggota_keluarga($id) {
+		$this->db->select('id_kk');
+		$this->db->where('id', $id);
+		$q = $this->db->get('tweb_penduduk');
+		$penduduk = $q->row_array();
+		if ($penduduk['id_kk'] > 0) return true;
+		else return false;
+	}
+
+	// Pindah untuk penduduk lepas (yang bukan anggota keluarga)
+	function pindah_proses($id=0,$id_cluster='',$alamat){
 		$this->db->where('id',$id);
 		$data['id_cluster'] = $id_cluster;
+		$data['alamat_sekarang'] = $alamat;
 		$outp = $this->db->update('tweb_penduduk',$data);
 
 		$log['id_pend'] = $id;

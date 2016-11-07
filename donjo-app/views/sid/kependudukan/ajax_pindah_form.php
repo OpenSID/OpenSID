@@ -36,43 +36,50 @@ function RWSel(dusun,str){
 	xmlhttp.send();
 }
 </script>
-<strong>Alamat Sekarang</strong>
-<table style="margin-bottom: 10px;">
-	<tr>
-	  <td><?php echo $alamat_wilayah?></td>
-	</tr>
-</table>
+<?php if ($is_anggota_keluarga): ?>
+	<strong>
+		Penduduk ini anggota keluarga, bukan penduduk lepas, dan tidak bisa dipindahkan perorangan. <br>
+		Keluarga penduduk ini dapat dipindahkan pada modul Keluarga.
+	</strong>
+<?php else: ?>
+	<strong>Alamat Sekarang</strong>
+	<table style="margin-bottom: 10px;">
+		<tr>
+		  <td><?php echo $alamat_wilayah?></td>
+		</tr>
+	</table>
 
-<form action="<?php echo $form_action?>" method="post" id="validasi">
-<input type="hidden" name="rt" value="">
+	<form action="<?php echo $form_action?>" method="post" id="validasi">
+	<input type="hidden" name="rt" value="">
 
-<strong>Alamat Baru</strong>
-<table>
-	<tr>
-		<td style="padding-right: 5px">Alamat</td>
-	  <td>
-	    <input name="alamat" type="text" class="inputbox" size="60" value="<?php echo $data['alamat']?>"/>
-	  </td>
-	</tr>
+	<strong>Alamat Baru</strong>
+	<table>
+		<tr>
+			<td style="padding-right: 5px">Alamat</td>
+		  <td>
+		    <input name="alamat" type="text" class="inputbox" size="60" value="<?php echo $data['alamat']?>"/>
+		  </td>
+		</tr>
 
-	<tr>
-		<td>Dusun</td>
-		<td><select name="dusun1" onchange="DusSel(this.value)">
-		<option value="">Pilih Dusun&nbsp;</option>
-		<?php foreach($dusun as $data){?>
-			<?php ///$data['dusun']=myUrlEncode($data['dusun']);?>
-			<option value="<?php echo ($data['dusun'])?>"><?php echo ununderscore(unpenetration($data['dusun']))?></option>
-		<?php }?></select>
-		</td>
-	</tr>
-	<tr id="rw"></tr>
-	<tr id="rt"></tr>
-</table>
+		<tr>
+			<td>Dusun</td>
+			<td><select name="dusun1" onchange="DusSel(this.value)">
+			<option value="">Pilih Dusun&nbsp;</option>
+			<?php foreach($dusun as $data){?>
+				<?php ///$data['dusun']=myUrlEncode($data['dusun']);?>
+				<option value="<?php echo ($data['dusun'])?>"><?php echo ununderscore(unpenetration($data['dusun']))?></option>
+			<?php }?></select>
+			</td>
+		</tr>
+		<tr id="rw"></tr>
+		<tr id="rt"></tr>
+	</table>
 
-<div class="buttonpane" style="text-align: right;">
-    <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$('#window').dialog('close');">Tutup</button>
-        <button class="uibutton confirm" type="submit">Pindah</button>
-    </div>
-</div>
-</form>
+	<div class="buttonpane" style="text-align: right;">
+	    <div class="uibutton-group">
+	        <button class="uibutton" type="button" onclick="$('#window').dialog('close');">Tutup</button>
+	        <button class="uibutton confirm" type="submit">Pindah</button>
+	    </div>
+	</div>
+	</form>
+<?php endif; ?>

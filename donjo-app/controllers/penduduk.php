@@ -437,8 +437,9 @@ class Penduduk extends CI_Controller{
 	}
 
 	function ajax_penduduk_pindah($id=0){
-
+		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($id);
 		$data['dusun'] = $this->penduduk_model->list_dusun();
+		$data['is_anggota_keluarga'] = $this->penduduk_model->is_anggota_keluarga($id);
 
 		$data['form_action'] = site_url("penduduk/pindah_proses/$id");
 		$this->load->view('sid/kependudukan/ajax_pindah_form',$data);
@@ -495,7 +496,8 @@ class Penduduk extends CI_Controller{
 
 	function pindah_proses($id=0){
 		$id_cluster = $_POST['id_cluster'];
-		$this->penduduk_model->pindah_proses($id,$id_cluster);
+		$alamat = $_POST['alamat'];
+		$this->penduduk_model->pindah_proses($id,$id_cluster,$alamat);
 		redirect("penduduk");
 	}
 
