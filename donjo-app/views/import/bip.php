@@ -20,7 +20,7 @@
                       Proses ini untuk mengimpor data Buku Induk Penduduk (BIP) yang diperoleh desa dari Disdukcapil dalam format Excel.
                       <br>
                       BIP yang dapat dibaca proses ini adalah yang tersusun
-                      berdasarkan keluarga, seperti contoh yang dapat dilihat pada <a href="<?php echo base_url()?>assets/import/konversi_bip.xls"> tautan ini</a>.
+                      berdasarkan keluarga, seperti contoh yang dapat dilihat pada <a href="<?php echo base_url()?>assets/import/konversi_bip.xls"> tautan ini</a>, dan BIP format 2016 seperti contoh pada <a href="<?php echo base_url()?>assets/import/format_bip_2016.xls"> tautan ini</a>.
                       <br><br>
                       Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun menjadi satu worksheet per dusun, proses ini akan mengimpor  data semua dusun.
                     </p><br>
