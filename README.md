@@ -15,7 +15,7 @@ Strategi pengembangan OpenSID adalah untuk:
 - memungkinkan pegiat SID untuk membuat kontribusi langsung pada _source code_ aplikasi SID
 
 OpenSID dikelola di Github untuk:
-- merekam semua perubahan yg dibuat 
+- merekam semua perubahan yg dibuat
 - memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
 - memudahkan kolaborasi antar pegiat SID dan juga dengan desa dampingan dalam mengembangkan SID
 - backup online _source code_ SID yg dapat diaskses setiap saat
@@ -33,9 +33,9 @@ Untuk melihat perbedaan antara OpenSID dan SID-CRI, silakan klik [Tanya-Jawab Op
 ## HAK CIPTA, SYARAT, DAN KETENTUAN
 Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Pemegang hak cipta aslinya adalah Combine Resource Institution (http://lumbungkomunitas.net/).
 
-Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Version 3 (http://www.gnu.org/licenses/gpl.html). 
+Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Version 3 (http://www.gnu.org/licenses/gpl.html).
 
-Versi di Github ini dikembangkan oleh OpenSID sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa secara gratis, asal bukan untuk tujuan komersial.
+Versi di Github ini dikembangkan oleh OpenSID sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa.
 
 ## DEMO
 Demo aplikasi OpenSID dapat dilihat di http://sid.bangundesa.info. Kami usahakan agar versi yang terlihat di demo itu sesuai dengan status release terakhir repository ini. Demo itu menampilkan aplikasi desa yang dikembangkan di cabang _desa_.
@@ -44,7 +44,7 @@ Modul administrasi OpenSID dapat diaskses pada http://sid.bangundesa.info/index.
 
 ### FORUM
 
-Group OpenSID di [Google Groups](https://groups.google.com/forum/?hl=id#!forum/opensid) adalah tempat berdiskusi penggunaan dan pengembangan aplikasi OpenSID. Silakan mempergunakan forum itu untuk bertanya mengenai OpenSID dan untuk memberi usulan. 
+Group OpenSID di [Google Groups](https://groups.google.com/forum/?hl=id#!forum/opensid) adalah tempat berdiskusi penggunaan dan pengembangan aplikasi OpenSID. Silakan mempergunakan forum itu untuk bertanya mengenai OpenSID dan untuk memberi usulan.
 
 Anda dapat juga bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/opensid) di Facebook. Group ini bersifat lebih informal dan juga tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.
 
