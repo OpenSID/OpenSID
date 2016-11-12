@@ -446,10 +446,10 @@ class Penduduk extends CI_Controller{
 	}
 
 	function ajax_penduduk_pindah_rw($dusun=''){
+		$dusun = urldecode($dusun);
 		$rw = $this->penduduk_model->list_rw($dusun);
-
 		echo"<td>RW</td>
-		<td><select name='rw' onchange=RWSel('".$dusun."',this.value)>
+		<td><select name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
 		<option value=''>Pilih RW&nbsp;</option>";
 		foreach($rw as $data){
 			echo "<option>".$data['rw']."</option>";
@@ -458,6 +458,7 @@ class Penduduk extends CI_Controller{
 	}
 
 	function ajax_penduduk_pindah_rt($dusun='',$rw=''){
+		$dusun = urldecode($dusun);
 		$rt = $this->penduduk_model->list_rt($dusun,$rw);
 
 		echo "<td>RT</td>

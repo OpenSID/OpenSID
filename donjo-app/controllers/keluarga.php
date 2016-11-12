@@ -754,10 +754,11 @@ function __construct(){
 	}
 
 	function ajax_penduduk_pindah_rw($dusun=''){
+		$dusun = urldecode($dusun);
 		$rw = $this->penduduk_model->list_rw($dusun);
 		//$this->load->view("sid/kependudukan/ajax_penduduk_pindah_form_rw", $data);
 		echo"<td>RW</td>
-		<td><select name='rw' onchange=RWSel('".$dusun."',this.value)>
+		<td><select name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
 		<option value=''>Pilih RW&nbsp;</option>";
 		foreach($rw as $data){
 			echo "<option>".$data['rw']."</option>";
@@ -766,6 +767,7 @@ function __construct(){
 	}
 
 	function ajax_penduduk_pindah_rt($dusun='',$rw=''){
+		$dusun = urldecode($dusun);
 		$rt = $this->penduduk_model->list_rt($dusun,$rw);
 		//$this->load->view("sid/kependudukan/ajax_penduduk_pindah_form_rt", $data);
 		echo "<td>RT</td>
