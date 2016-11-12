@@ -855,8 +855,8 @@
 	// Pindah untuk penduduk lepas (yang bukan anggota keluarga)
 	function pindah_proses($id=0,$id_cluster='',$alamat){
 		$this->db->where('id',$id);
-		$data['id_cluster'] = $id_cluster;
 		$data['alamat_sekarang'] = $alamat;
+		if ($id_cluster != '') $data['id_cluster'] = $id_cluster;
 		$outp = $this->db->update('tweb_penduduk',$data);
 
 		$log['id_pend'] = $id;

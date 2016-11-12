@@ -826,25 +826,28 @@
 		$data_kel['alamat'] = $alamat;
 		$this->db->update('tweb_keluarga', $data_kel);
 		// Ubah dusun/rw/rt untuk semua anggota keluarga
-		$this->db->where('id_kk',$id);
-		$data['id_cluster'] = $id_cluster;
-		$outp = $this->db->update('tweb_penduduk',$data);
+		if ($id_cluster != '') {
+			$this->db->where('id_kk',$id);
+			$data['id_cluster'] = $id_cluster;
+			$outp = $this->db->update('tweb_penduduk',$data);
 
-		$sql   = "SELECT id FROM tweb_penduduk WHERE id_kk=$id";
+			$sql   = "SELECT id FROM tweb_penduduk WHERE id_kk=$id";
 
-		$query = $this->db->query($sql);
-		$data2= $query->result_array();
+			$query = $this->db->query($sql);
+			$data2= $query->result_array();
 
-		foreach($data2 as $datanya){
-			$log['id_pend'] = $datanya['id'];
-			$log['id_detail'] = "6";
-			$log['bulan'] = date("m");
-			$log['tahun'] = date("Y");
-			$outp = $this->db->insert('log_penduduk',$log);
+			foreach($data2 as $datanya){
+				$log['id_pend'] = $datanya['id'];
+				$log['id_detail'] = "6";
+				$log['bulan'] = date("m");
+				$log['tahun'] = date("Y");
+				$outp = $this->db->insert('log_penduduk',$log);
+			}
+
+			if($outp) $_SESSION['success']=1;
+				else $_SESSION['success']=-1;
 		}
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
 	}
 
 	function get_alamat_wilayah($id_kk) {
