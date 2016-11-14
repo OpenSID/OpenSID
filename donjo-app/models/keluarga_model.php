@@ -363,6 +363,7 @@
 		}
 
 		unset($data['file_foto']);
+		unset($data['old_foto']);
 
 		$data['id_cluster'] = $data['rt'];
 		UNSET($data['dusun']);
