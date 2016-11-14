@@ -116,22 +116,28 @@
 </tr>
 
 <tr>
-<td>Akta perkawinan</td><td >:</td>
-<td><?php echo strtoupper($penduduk['akta_perkawinan'])?></td>
+  <?php if ($penduduk['agama']=='' OR is_null($penduduk['agama'])): ?>
+    <td></td>>No. Akta Nikah (Buku Nikah)/Perkawinan</td><td >:</td>
+  <?php elseif (strtoupper($penduduk['agama'])=='ISLAM'): ?>
+    <td>No. Akta Nikah (Buku Nikah)</td><td >:</td>
+  <?php else: ?>
+    <td>No. Akta Perkawinan</td><td >:</td>
+  <?php endif; ?>
+  <td><?php echo strtoupper($penduduk['akta_perkawinan'])?></td>
 </tr>
 
 <tr>
-<td>Tanggal perkawinan</td><td >:</td>
+<td>Tanggal Perkawinan</td><td >:</td>
 <td><?php echo strtoupper($penduduk['tanggalperkawinan'])?></td>
 </tr>
 
 <tr>
-<td>Akta perceraian</td><td >:</td>
+<td>Akta Perceraian</td><td >:</td>
 <td><?php echo strtoupper($penduduk['akta_perceraian'])?></td>
 </tr>
 
 <tr>
-<td>Tanggal perceraian</td><td >:</td>
+<td>Tanggal Perceraian</td><td >:</td>
 <td><?php echo strtoupper($penduduk['tanggalperceraian'])?></td>
 </tr>
 

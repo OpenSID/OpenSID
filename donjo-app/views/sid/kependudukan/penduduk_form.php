@@ -176,12 +176,12 @@
 
 
 <tr>
-<th>Dokumen Paspor</th>
+<th>No. Paspor</th>
 <td><input name="dokumen_pasport" type="text" class="inputbox" size="20"  value="<?php echo strtoupper($penduduk['dokumen_pasport'])?>"/></td>
 </tr>
 
 <tr>
-<th>Dokumen KITAS</th>
+<th>No. KITAS/KITAP</th>
 <td><input name="dokumen_kitas" type="text" class="inputbox" size="20"  value="<?php echo strtoupper($penduduk['dokumen_kitas'])?>"/></td>
 </tr>
 
@@ -217,18 +217,6 @@
 </tr>
 
 <tr>
-<th>Status</th>
-<td>
-<div class="uiradio">
-<?php $ch='checked';?>
-<input type="radio" id="group2" name="status" value="1" <?php if($penduduk['status'] == "TETAP" OR $penduduk['status'] == ""){echo $ch;}?>><label for="group2">Tetap</label>
-<input type="radio" id="group3" name="status" value="2" <?php if($penduduk['status'] == "TIDAK AKTIF"){echo $ch;}?>><label for="group3">Tidak Aktif</label>
-<input type="radio" id="group1" name="status" value="3" <?php if($penduduk['status'] == "PENDATANG"){echo $ch;}?>><label for="group1">Pendatang</label>
-</div>
-</td>
-</tr>
-
-<tr>
 <th>Alamat Sebelumnya</th>
 <td><input name="alamat_sebelumnya" type="text" class="inputbox" size="60"  value="<?php echo strtoupper($penduduk['alamat_sebelumnya'])?>"/></td>
 </tr>
@@ -238,7 +226,13 @@
 <td><input name="alamat_sekarang" type="text" class="inputbox" size="60"  value="<?php echo strtoupper($penduduk['alamat_sekarang'])?>"/></td>
 </tr>
 <tr>
-	<th>Akta Perkawinan</th>
+	<?php if ($penduduk['agama_id']==0 OR is_null($penduduk['agama_id'])): ?>
+		<th>No. Akta Nikah (Buku Nikah)/Perkawinan</th>
+	<?php elseif ($penduduk['agama_id']==1): ?>
+		<th>No. Akta Nikah (Buku Nikah)</th>
+	<?php else: ?>
+		<th>No. Akta Perkawinan</th>
+	<?php endif; ?>
 	<td><input name="akta_perkawinan" type="text" class="inputbox" size="60"  value="<?php echo $penduduk['akta_perkawinan']?>"/></td>
 </tr>
 <tr>
@@ -297,6 +291,19 @@
 <a href="<?php echo site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]")?>" target="ajax-modalz" rel="window<?php echo $penduduk['id']?>" header="Lokasi <?php echo $penduduk['nama']?>" class="uibutton special" title="Lokasi <?php echo $penduduk['nama']?>">Edit Lokasi</a></td>
 </tr>
 
+<tr>
+	<th>Status</th>
+	<td>
+		<div class="uiradio">
+			<?php $ch='checked';?>
+			<input type="radio" id="group2" name="status" value="1" <?php if($penduduk['status'] == "TETAP" OR $penduduk['status'] == ""){echo $ch;}?>><label for="group2">Tetap</label>
+			<input type="radio" id="group3" name="status" value="2" <?php if($penduduk['status'] == "TIDAK AKTIF"){echo $ch;}?>><label for="group3">Tidak Aktif</label>
+			<?php if(!isset($kk)): ?>
+				<input type="radio" id="group1" name="status" value="3" <?php if($penduduk['status'] == "PENDATANG"){echo $ch;}?>><label for="group1">Pendatang</label>
+			<?php endif; ?>
+		</div>
+	</td>
+</tr>
 
 <?php }?>
 </table>
