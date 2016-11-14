@@ -70,21 +70,21 @@ table.form.detail td{
 
 <tr>
 <th width="150">Nama</th>
-<td><input name="nama" type="text" class="inputbox required" size="60" value="<?php echo strtoupper(unpenetration($penduduk_kk['nama']))?>"/></td>
+<td><input name="nama" type="text" class="inputbox required" size="60" value="<?php echo strtoupper(unpenetration($penduduk['nama']))?>"/></td>
 </tr>
 
 <tr>
 <th>NIK</th>
-<td><input name="nik" type="text" class="inputbox required" size="30" value="<?php echo $penduduk_kk['nik']?>"/></td>
+<td><input name="nik" type="text" class="inputbox required" size="30" value="<?php echo $penduduk['nik']?>"/></td>
 </tr>
 
 <tr>
 <th>Jenis Kelamin</th>
 <td>
 <div class="uiradio">
-<input type="radio" id="sx1" name="sex" value="1" <?php if($penduduk_kk['sex'] == '1' OR $penduduk_kk['sex'] == ''){echo 'checked';}?>/>
+<input type="radio" id="sx1" name="sex" value="1" <?php if($penduduk['sex'] == '1' OR $penduduk['sex'] == ''){echo 'checked';}?>/>
 <label for="sx1">Laki-laki</label>
-<input type="radio" id="sx2" name="sex" value="2" <?php if($penduduk_kk['sex'] == '2'){echo 'checked';}?>/>
+<input type="radio" id="sx2" name="sex" value="2" <?php if($penduduk['sex'] == '2'){echo 'checked';}?>/>
 <label for="sx2">Perempuan</label>
 </div>
 </td>
@@ -92,12 +92,12 @@ table.form.detail td{
 
 <tr>
 <th>Tempat Lahir</th>
-<td><input name="tempatlahir" type="text" class="inputbox" size="65" value="<?php echo strtoupper($penduduk_kk['tempatlahir'])?>"/></td>
+<td><input name="tempatlahir" type="text" class="inputbox" size="65" value="<?php echo strtoupper($penduduk['tempatlahir'])?>"/></td>
 </tr>
 
 <tr>
 <th>Tanggal Lahir</th>
-<td><input name="tanggallahir" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk_kk['tanggallahir']?>"/></td>
+<td><input name="tanggallahir" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggallahir']?>"/></td>
 </tr>
 
 <tr>
@@ -105,7 +105,7 @@ table.form.detail td{
 <td><select name="agama_id" class="required">
 <option value="">Pilih Agama</option>
 <?php foreach($agama as $data){?>
-<option value="<?php echo $data['id']?>"<?php if($penduduk_kk['agama_id']==$data['id']){?>selected<?php }?>><?php echo $data['nama']?></option>
+<option value="<?php echo $data['id']?>"<?php if($penduduk['agama_id']==$data['id']){?>selected<?php }?>><?php echo $data['nama']?></option>
 <?php }?></select>
 </td>
 </tr>
@@ -115,7 +115,7 @@ table.form.detail td{
 <td><select name="pendidikan_kk_id">
 <option value="">Pilih Pendidikan</option>
 <?php foreach($pendidikan_kk as $data){?>
-<option value="<?php echo $data['id']?>"<?php if($penduduk_kk['pendidikan_kk_id']==$data['id']){?>selected<?php }?>><?php echo $data['nama']?></option>
+<option value="<?php echo $data['id']?>"<?php if($penduduk['pendidikan_kk_id']==$data['id']){?>selected<?php }?>><?php echo $data['nama']?></option>
 <?php }?></select>
 </td>
 </tr>
@@ -125,7 +125,7 @@ table.form.detail td{
 <td><select name="pekerjaan_id">
 <option value="">Pilih Pekerjaan</option>
 <?php foreach($pekerjaan as $data){?>
-<option value="<?php echo $data['id']?>"<?php if($penduduk_kk['pekerjaan_id']==$data['id']){?>selected<?php }?>><?php echo $data['nama']?></option>
+<option value="<?php echo $data['id']?>"<?php if($penduduk['pekerjaan_id']==$data['id']){?>selected<?php }?>><?php echo $data['nama']?></option>
 <?php }?></select>
 </td>
 </tr>
@@ -135,7 +135,7 @@ table.form.detail td{
 <td><select name="status_kawin">
 <option value="">Pilih Status</option>
 <?php foreach($kawin as $data){?>
-<option value="<?php echo $data['id']?>"<?php if($penduduk_kk['status_kawin']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
+<option value="<?php echo $data['id']?>"<?php if($penduduk['status_kawin']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
 </tr>
@@ -145,7 +145,7 @@ table.form.detail td{
 <td><select name="kk_level">
 <option value="">Pilih Hubungan</option>
 <?php foreach($hubungan as $data){?>
-<option value="<?php echo $data['id']?>"<?php if($penduduk_kk['kk_level']==$data['id']){?> selected<?php }?>><?php echo $data['nama']?></option>
+<option value="<?php echo $data['id']?>"<?php if($penduduk['kk_level']==$data['id']){?> selected<?php }?>><?php echo $data['nama']?></option>
 <?php }?></select>
 </td>
 </tr>
@@ -155,39 +155,39 @@ table.form.detail td{
 <td><select name="warganegara_id">
 <option value="">Pilih warganegara</option>
 <?php foreach($warganegara as $data){?>
-<option value="<?php echo $data['id']?>"<?php if($penduduk_kk['warganegara_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
+<option value="<?php echo $data['id']?>"<?php if($penduduk['warganegara_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
 </tr>
 
 <tr>
 <th>No Pasport</th>
-<td><input name="dokumen_pasport" type="text" class="inputbox" size="20" value="<?php echo strtoupper($penduduk_kk['dokumen_pasport'])?>"/></td>
+<td><input name="dokumen_pasport" type="text" class="inputbox" size="20" value="<?php echo strtoupper($penduduk['dokumen_pasport'])?>"/></td>
 </tr>
 
 <tr>
 <th>No Kitas/Kitap</th>
-<td><input name="dokumen_kitas" type="text" class="inputbox" size="20" value="<?php echo strtoupper($penduduk_kk['dokumen_kitas'])?>"/></td>
+<td><input name="dokumen_kitas" type="text" class="inputbox" size="20" value="<?php echo strtoupper($penduduk['dokumen_kitas'])?>"/></td>
 </tr>
 
 <tr>
 <th>NIK Ayah</th>
-<td><input name="ayah_nik" type="text" class="inputbox" size="30" value="<?php echo $penduduk_kk['ayah_nik']?>"/></td>
+<td><input name="ayah_nik" type="text" class="inputbox" size="30" value="<?php echo $penduduk['ayah_nik']?>"/></td>
 </tr>
 
 <tr>
 <th>NIK Ibu</th>
-<td><input name="ibu_nik" type="text" class="inputbox" size="30" value="<?php echo $penduduk_kk['ibu_nik']?>"/></td>
+<td><input name="ibu_nik" type="text" class="inputbox" size="30" value="<?php echo $penduduk['ibu_nik']?>"/></td>
 </tr>
 
 <tr>
 <th>Nama Ayah</th>
-<td><input name="nama_ayah" type="text" class="inputbox" size="60" value="<?php echo strtoupper(unpenetration($penduduk_kk['nama_ayah']))?>"/></td>
+<td><input name="nama_ayah" type="text" class="inputbox" size="60" value="<?php echo strtoupper(unpenetration($penduduk['nama_ayah']))?>"/></td>
 </tr>
 
 <tr>
 <th>Nama Ibu</th>
-<td><input name="nama_ibu" type="text" class="inputbox" size="60" value="<?php echo strtoupper(unpenetration($penduduk_kk['nama_ibu']))?>"/></td>
+<td><input name="nama_ibu" type="text" class="inputbox" size="60" value="<?php echo strtoupper(unpenetration($penduduk['nama_ibu']))?>"/></td>
 </tr>
 
 <tr>
@@ -195,7 +195,7 @@ table.form.detail td{
 <td><select name="golongan_darah_id" class="required">
 <option value="">Pilih Golongan Darah</option>
 <?php foreach($golongan_darah as $data){?>
-<option value="<?php echo $data['id']?>"<?php if($penduduk_kk['golongan_darah_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
+<option value="<?php echo $data['id']?>"<?php if($penduduk['golongan_darah_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
 <?php }?></select>
 </td>
 </tr>
@@ -205,8 +205,8 @@ table.form.detail td{
 <th>Status</th>
 <td>
 <div class="uiradio">
-<input type="radio" id="group1" name="status" value="1" <?php if($penduduk_kk['status'] == "1" OR $penduduk_kk['status'] == ""){echo 'checked';}?>><label for="group1">Tetap</label>
-<input type="radio" id="group2" name="status" value="2" <?php if($penduduk_kk['status'] == "2"){echo 'checked';}?>><label for="group2">Tidak Aktif</label>
+<input type="radio" id="group1" name="status" value="1" <?php if($penduduk['status'] == "1" OR $penduduk['status'] == ""){echo 'checked';}?>><label for="group1">Tetap</label>
+<input type="radio" id="group2" name="status" value="2" <?php if($penduduk['status'] == "2"){echo 'checked';}?>><label for="group2">Tidak Aktif</label>
 </div>
 </td>
 </tr>

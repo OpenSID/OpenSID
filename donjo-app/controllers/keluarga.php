@@ -383,15 +383,15 @@ function __construct(){
 			if ($_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
 				if ($_SESSION['dari_internal']) {
-					$data['penduduk_kk'] = $_SESSION['post'];
+					$data['penduduk'] = $_SESSION['post'];
 					$data['dus_sel'] = $_SESSION['post']['dusun'];
 					$data['rw_sel'] = $_SESSION['post']['rw'];
 					$data['rt_sel'] = $_SESSION['post']['rt'];
 				} else {
-					$data['penduduk_kk'] = $_POST;
+					$data['penduduk'] = $_POST;
 				}
 			} else
-				$data['penduduk_kk'] = null;
+				$data['penduduk'] = null;
 			$data['kk']          = null;
 			$data['form_action'] = site_url("keluarga/insert_new");
 
@@ -400,7 +400,7 @@ function __construct(){
 			$data['form_action'] = site_url("keluarga/insert");
 		}
 
-		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
+		$data['penduduk_lepas'] = $this->keluarga_model->list_penduduk_lepas();
 
 		$nav['act']= 1;
 
@@ -450,7 +450,7 @@ function __construct(){
 		if ($_SESSION['validation_error']) {
 			$data['id_kk'] = $_SESSION['id_kk'];
 			$data['kk'] = $_SESSION['kk'];
-			$data['penduduk_kk'] = $_SESSION['post'];
+			$data['penduduk'] = $_SESSION['post'];
 		}
 
 		$header = $this->header_model->get_data();
