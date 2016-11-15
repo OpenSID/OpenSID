@@ -263,3 +263,10 @@ table.tftable.lap-bulanan th.kolom-data {
   width: 8%;
 }
 
+/* Halaman Database */
+.box-perhatian {
+  border: solid 1px;
+  padding: 10px;
+  background-color: rgba(255, 127, 80, 0.35);
+}
+

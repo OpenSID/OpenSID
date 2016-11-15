@@ -851,6 +851,9 @@ class import_model extends CI_Model{
 			}
 			// Import data sheet ini mulai baris pertama
 			for ($i=1; $i<=$baris; $i++){
+				// Baris-baris keterangan ada di akhir berkas BIP 2016. Selesai apabila ketemu.
+				if(strpos($data_sheet[$i][1], 'Keterangan:') === 0) break;
+
 				// Cari keluarga berikutnya
 				if(strpos($data_sheet[$i][1], 'No. KK') !== 0) continue;
 				// Proses keluarga
@@ -862,6 +865,7 @@ class import_model extends CI_Model{
 				$i = $i + 1;
 				// Proses setiap anggota keluarga
 				while (strpos($data_sheet[$i][1], 'No. KK') !== 0 AND $i <= $baris) {
+					if(!is_numeric($data_sheet[$i][1])) break;
 					$data_anggota = $this->get_bip_anggota_keluarga_2016($data_sheet, $i, $data_keluarga);
 					if ($this->data_import_valid($data_anggota)) {
 						$this->tulis_tweb_penduduk($data_anggota);

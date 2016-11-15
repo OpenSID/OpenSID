@@ -24,16 +24,17 @@
                       <br><br>
                       Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun menjadi satu worksheet per dusun, proses ini akan mengimpor  data semua dusun.
                     </p><br>
-                    <p>
-                      Pastikan berkas BIP format Excel 2003, ber-ekstensi .xls
-                    </p>
+                    <div class="box-perhatian">
+                      <strong>Pastikan berkas BIP format Excel 2003, ber-ekstensi .xls <br><br>
+                      Sebelum di-impor ganti semua format tanggal (seperti tanggal lahir) menjadi dd/mm/yyyy (misalnya 26/07/1964).</strong>
+                    </div>
                     <div style='margin-top: 1em;'>
                       <?php
                       $max_upload = (int)(ini_get('upload_max_filesize'));
                       $max_post = (int)(ini_get('post_max_size'));
                       $memory_limit = (int)(ini_get('memory_limit'));
                       $upload_mb = min($max_upload, $max_post, $memory_limit);
-                      echo "<p>Batas Maksimal Pengunggahan Berkas <strong>".$upload_mb." MB</strong></p>
+                      echo "<p>Batas maksimal pengunggahan berkas <strong>".$upload_mb." MB.</strong></p><br>
                       <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi
                       komputer server SID, banyaknya data dan sambungan internet yang tersedia.</p>";
 
