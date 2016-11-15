@@ -5,6 +5,7 @@
   }
 
   function migrasi_db_cri() {
+    $this->migrasi_cri_lama();
     $this->migrasi_03_ke_04();
     $this->migrasi_08_ke_081();
     $this->migrasi_082_ke_09();
@@ -12,6 +13,23 @@
     $this->migrasi_010_ke_10();
     $this->migrasi_10_ke_11();
     $this->migrasi_111_ke_12();
+    $this->migrasi_124_ke_13();
+  }
+
+  // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
+  function migrasi_cri_lama(){
+    if (!$this->db->field_exists('enabled', 'kategori')) {
+      $query = "ALTER TABLE kategori ADD enabled tinyint(4) DEFAULT 1";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('parrent', 'kategori')) {
+      $query = "ALTER TABLE kategori ADD parrent tinyint(4) DEFAULT 0";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('kode_surat', 'tweb_surat_format')) {
+      $query = "ALTER TABLE tweb_surat_format ADD kode_surat varchar(10)";
+      $this->db->query($query);
+    }
   }
 
   function migrasi_03_ke_04(){
@@ -241,33 +259,42 @@
     ";
     $this->db->query($query);
 
-    $query = "
-      INSERT INTO artikel
-        (`judul`,`isi`,`enabled`,`id_kategori`,`urut`,`jenis_widget`)
-      VALUES
-        ('Layanan Mandiri',     'layanan_mandiri.php',      1,1003,1,1),
-        ('Agenda',              'agenda.php',               1,1003,2,1),
-        ('Galeri',              'galeri.php',               1,1003,3,1),
-        ('Statistik',           'statistik.php',            1,1003,4,1),
-        ('Komentar',            'komentar.php',             1,1003,5,1),
-        ('Media Sosial',        'media_sosial.php',         1,1003,6,1),
-        ('Peta Lokasi Kantor',  'peta_lokasi_kantor.php',   1,1003,7,1),
-        ('Statistik Pengunjung','statistik_pengunjung.php', 1,1003,8,1),
-        ('Arsip Artikel',       'arsip_artikel.php',        1,1003,9,1)
-      ON DUPLICATE KEY UPDATE
-        judul = VALUES(judul),
-        isi = VALUES(isi),
-        enabled = VALUES(enabled),
-        id_kategori = VALUES(id_kategori),
-        urut = VALUES(urut),
-        jenis_widget = VALUES(jenis_widget);
-    ";
-    $this->db->query($query);
+    $system_widgets = array(
+      'Layanan Mandiri'      => 'layanan_mandiri.php',
+      'Agenda'               => 'agenda.php',
+      'Galeri'               => 'galeri.php',
+      'Statistik'            => 'statistik.php',
+      'Komentar'             => 'komentar.php',
+      'Media Sosial'         => 'media_sosial.php',
+      'Peta Lokasi Kantor'   => 'peta_lokasi_kantor.php',
+      'Statistik Pengunjung' => 'statistik_pengunjung.php',
+      'Arsip Artikel'        => 'arsip_artikel.php'
+    );
+
+    foreach($system_widgets as $key => $value) {
+      $this->db->select('id');
+      $this->db->where(array('isi' => $value, 'id_kategori' => 1003));
+      $q = $this->db->get('artikel');
+      $widget = $q->row_array();
+      if (!$widget['id']) {
+        $query = "
+          INSERT INTO artikel (judul,isi,enabled,id_kategori,urut,jenis_widget)
+          VALUES ('$key','$value',1,1003,1,1);";
+        $this->db->query($query);
+      }
+    }
   }
 
   function migrasi_111_ke_12() {
     if (!$this->db->field_exists('alamat', 'tweb_keluarga')) {
-        $query = "ALTER TABLE tweb_keluarga ADD alamat varchar(200)";
+      $query = "ALTER TABLE tweb_keluarga ADD alamat varchar(200)";
+      $this->db->query($query);
+    }
+  }
+
+  function migrasi_124_ke_13() {
+    if (!$this->db->field_exists('urut', 'menu')) {
+      $query = "ALTER TABLE menu ADD urut int(5)";
       $this->db->query($query);
     }
   }
