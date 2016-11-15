@@ -2,10 +2,11 @@
 -- --------------------------------------------------------
 --
 -- Mengubah struktur database SID:
---   1. menambahkan kolom di tabel tweb_keluarga
+--   1. menambahkan kolom di tabel menu
 --
 -- --------------------------------------------------------
 --
 
-ALTER TABLE tweb_keluarga
-  ADD COLUMN alamat varchar(200);
+ALTER TABLE menu
+  ADD COLUMN urut int(5);
+

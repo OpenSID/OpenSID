@@ -22,7 +22,7 @@ source: keyword
 </ul>
 </div>
 </td>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 <h3>Manajemen Menu</h3>
 </div>
@@ -51,56 +51,60 @@ source: keyword
 </div>
 </div>
 <table class="list">
-<thead>
-<tr>
-<th>No</th>
-<th><input type="checkbox" class="checkall"/></th>
-<th width="160">Aksi</th>
+  <thead>
+    <tr>
+      <th>No</th>
+      <th><input type="checkbox" class="checkall"/></th>
+      <th>Aksi</th>
+      <?php  if($o==2): ?>
+        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/1")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">
+      <?php  elseif($o==1): ?>
+        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/2")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">
+      <?php  else: ?>
+        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/1")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">
+      <?php  endif; ?>&nbsp;</span></a></th>
 
- <?php  if($o==2): ?>
-<th align="left"><a href="<?php echo site_url("menu/index/$p/1")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">
-<?php  elseif($o==1): ?>
-<th align="left"><a href="<?php echo site_url("menu/index/$p/2")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">
-<?php  else: ?>
-<th align="left"><a href="<?php echo site_url("menu/index/$p/1")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">
-<?php  endif; ?>&nbsp;</span></a></th>
-
-<?php  if($o==4): ?>
-<th align="left"><a href="<?php echo site_url("menu/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
-<?php  elseif($o==3): ?>
-<th align="left"><a href="<?php echo site_url("menu/index/$p/4")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-s">
-<?php  else: ?>
-<th align="left"><a href="<?php echo site_url("menu/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
-<?php  endif; ?>&nbsp;</span></a></th>
-<th>Link</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($main as $data){?>
-<tr>
-<td align="center" width="2"><?php echo $data['no']?></td>
-<td align="center" width="5">
-<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-</td>
-<td><div class="uibutton-group">
-<a href="<?php echo site_url("menu/sub_menu/$tip/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Menu"><span class="icon-list icon-large"> Rincian</span></a>
-<a href="<?php echo site_url("menu/form/$tip/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"></span></a>
-<a href="<?php echo site_url("menu/delete/$tip/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a><?php if($data['enabled'] == '2'):?>
-<a href="<?php echo site_url("menu/menu_lock/$tip/".$data['id'])?>"  title="Aktivasi menu"><span class="icon-lock icon-large"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("menu/menu_unlock/$tip/".$data['id'])?>" class="uibutton tipsy south"  title="Non-aktifkan menu"><span class="icon-unlock icon-large"></span></a>
-<a href="<?php echo site_url("menu/ajax_add_sub_menu/$tip/$data[id]")?>" class="uibutton tipsy south" target="ajax-modalx" rel="window" header="Tambah Sub Menu <?php echo $data['nama']?>" class="uibutton tipsy south" title="Tambah Sub Menu"><span class="icon-plus-sign-alt icon-large"></span></a>
-<?php endif?></div>
-</td>
-<td><?php echo $data['nama']?></td>
-<td><?php echo $data['aktif']?></td>
-<td><?php echo $data['link']?></td>
-</tr>
-<?php }?>
-</tbody>
+      <?php  if($o==4): ?>
+        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
+      <?php  elseif($o==3): ?>
+        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/4")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-s">
+      <?php  else: ?>
+        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
+      <?php  endif; ?>&nbsp;</span></a></th>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($main as $data){?>
+      <tr>
+        <td align="center" width="2"><?php echo $data['no']?></td>
+        <td align="center" width="5">
+          <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
+        </td>
+        <td>
+          <div class="uibutton-group">
+            <a href="<?php echo site_url("menu/urut/$tip/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="icon-arrow-down icon-large"></span></a>
+            <a href="<?php echo site_url("menu/urut/$tip/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="icon-arrow-up icon-large"></span></a>
+            <a href="<?php echo site_url("menu/sub_menu/$tip/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Menu"><span class="icon-list icon-large"> Rincian</span></a>
+            <a href="<?php echo site_url("menu/form/$tip/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"></span></a>
+            <a href="<?php echo site_url("menu/delete/$tip/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+            <?php if($data['enabled'] == '2'):?>
+              <a href="<?php echo site_url("menu/menu_lock/$tip/".$data['id'])?>"  title="Aktivasi menu"><span class="icon-lock icon-large"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("menu/menu_unlock/$tip/".$data['id'])?>" class="uibutton tipsy south"  title="Non-aktifkan menu"><span class="icon-unlock icon-large"></span></a>
+              <a href="<?php echo site_url("menu/ajax_add_sub_menu/$tip/$data[id]")?>" class="uibutton tipsy south" target="ajax-modalx" rel="window" header="Tambah Sub Menu <?php echo $data['nama']?>" class="uibutton tipsy south" title="Tambah Sub Menu"><span class="icon-plus-sign-alt icon-large"></span></a>
+            <?php endif?>
+              </div>
+        </td>
+        <td><?php echo $data['nama']?></td>
+        <td><?php echo $data['aktif']?></td>
+        <td><?php echo $data['link']?></td>
+      </tr>
+    <?php }?>
+  </tbody>
 </table>
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 <form id="paging" action="<?php echo site_url('menu')?>" method="post">
 <label>Tampilkan</label>

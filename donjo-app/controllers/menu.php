@@ -183,4 +183,13 @@ class menu extends CI_Controller{
 		$this->web_menu_model->menu_lock($id,2);
 		redirect("menu/sub_menu/$tip/$menu");
 	}
+
+	function urut($tip=1, $id=0, $arah=0, $menu=''){
+		$this->web_menu_model->urut($id,$arah,$tip,$menu);
+		if ($menu!='')
+			redirect("menu/sub_menu/$tip/$menu");
+		else
+			redirect("menu/index/$tip");
+	}
+
 }
