@@ -295,14 +295,14 @@ class import_model extends CI_Model{
 	}
 
 	function get_isi_baris($data, $i) {
-		$dusun = trim($data->val($i, 1));
+		$dusun = ltrim(trim($data->val($i, 1)),"'");
 		$dusun = str_replace('_',' ', $dusun);
 		$dusun = strtoupper($dusun);
 		$dusun = str_replace('DUSUN ','', $dusun);
 		$isi_baris['dusun'] = $dusun;
 
-		$isi_baris['rw'] = trim($data->val($i, 2));
-		$isi_baris['rt'] = trim($data->val($i, 3));
+		$isi_baris['rw'] = ltrim(trim($data->val($i, 2)),"'");
+		$isi_baris['rt'] = ltrim(trim($data->val($i, 3)),"'");
 
 		$nama = trim($data->val($i, 4));
 		$isi_baris['nama'] = $nama;
@@ -321,7 +321,7 @@ class import_model extends CI_Model{
 		$isi_baris['sex'] = trim($data->val($i, 7));
 		$isi_baris['tempatlahir']= trim($data->val($i, 8));
 
-		$tanggallahir= trim($data->val($i, 9));
+		$tanggallahir= ltrim(trim($data->val($i, 9)),"'");
 		$isi_baris['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
 
 		$isi_baris['agama_id']= trim($data->val($i, 10));
@@ -375,9 +375,9 @@ class import_model extends CI_Model{
 		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun=? AND rw=?";
 		$hasil = $this->db->query($query, array($isi_baris['dusun'], $isi_baris['rw']));
 		if (empty($hasil->row_array())) {
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,".$isi_baris['rw'].",'".$isi_baris['dusun']."')";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,'".$isi_baris['rw']."','".$isi_baris['dusun']."')";
 			$hasil = $this->db->query($query);
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('-',".$isi_baris['rw'].",'".$isi_baris['dusun']."')";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('-','".$isi_baris['rw']."','".$isi_baris['dusun']."')";
 			$hasil = $this->db->query($query);
 			$isi_baris['id_cluster'] = $this->db->insert_id();
 		}
