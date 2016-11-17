@@ -98,6 +98,10 @@ class Database extends CI_Controller{
 	}
 
 
+	function export_by_keluarga(){
+		$this->export_model->export_by_keluarga();
+	}
+
 	function export_dasar(){
 		$this->export_model->export_dasar();
 	}
