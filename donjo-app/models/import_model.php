@@ -797,7 +797,7 @@ class import_model extends CI_Model{
 		$pos_awal = strpos($no_kk, 'No. KK :');
 		if ($pos_awal !== false){
 			$pos = $pos_awal + strlen('No. KK :');
-			$data_keluarga['no_kk'] = trim(substr($no_kk, $pos, strlen($no_kk) - $pos));
+			$data_keluarga['no_kk'] = preg_replace('/[^0-9]/', '', trim(substr($no_kk, $pos, strlen($no_kk) - $pos)));
 		}
 		return $data_keluarga;
 	}
