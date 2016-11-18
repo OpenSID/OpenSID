@@ -60,8 +60,10 @@
         </td>
         <td>
           <div class="uibutton-group">
-            <a href="<?php echo site_url("menu/urut/$tip/$data[id]/1/$menu")?>" class="uibutton tipsy south" title="Turun"><span class="icon-arrow-down icon-large"></span></a>
-            <a href="<?php echo site_url("menu/urut/$tip/$data[id]/2/$menu")?>" class="uibutton tipsy south" title="Naik"><span class="icon-arrow-up icon-large"></span></a>
+            <?php if($_SESSION['grup']==1): ?>
+              <a href="<?php echo site_url("menu/urut/$tip/$data[id]/1/$menu")?>" class="uibutton tipsy south" title="Turun"><span class="icon-arrow-down icon-large"></span></a>
+              <a href="<?php echo site_url("menu/urut/$tip/$data[id]/2/$menu")?>" class="uibutton tipsy south" title="Naik"><span class="icon-arrow-up icon-large"></span></a>
+            <?php endif; ?>
             <a href="<?php echo site_url("menu/ajax_add_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south" target="ajax-modalx" rel="window" header="Edit Menu" title="Edit Data"><span class="icon-edit icon-large"> Edit </span></a>
             <a href="<?php echo site_url("menu/delete_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
             <?php if($data['enabled'] == '2'):?>

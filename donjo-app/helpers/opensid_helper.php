@@ -226,4 +226,9 @@ define("KODE_PEKERJAAN", serialize(array(
     }
   }
 
+  function session_error($pesan) {
+    $_SESSION['error_msg'] = $pesan;
+    $_SESSION['success']=-1;
+  }
+
 ?>

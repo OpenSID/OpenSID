@@ -87,8 +87,10 @@ source: keyword
         </td>
         <td>
           <div class="uibutton-group">
-            <a href="<?php echo site_url("kategori/urut/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="icon-arrow-down icon-large"></span></a>
-            <a href="<?php echo site_url("kategori/urut/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="icon-arrow-up icon-large"></span></a>
+            <?php if($_SESSION['grup']==1): ?>
+              <a href="<?php echo site_url("kategori/urut/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="icon-arrow-down icon-large"></span></a>
+              <a href="<?php echo site_url("kategori/urut/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="icon-arrow-up icon-large"></span></a>
+            <?php endif; ?>
             <a href="<?php echo site_url("kategori/sub_kategori/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub kategori"><span class="icon-list icon-large"> Rincian</span></a>
             <a href="<?php echo site_url("kategori/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"></span></a>
             <a href="<?php echo site_url("kategori/delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
