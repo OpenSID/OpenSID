@@ -14,6 +14,7 @@
     $this->migrasi_10_ke_11();
     $this->migrasi_111_ke_12();
     $this->migrasi_124_ke_13();
+    $this->migrasi_13_ke_14();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -297,6 +298,18 @@
       $query = "ALTER TABLE menu ADD urut int(5)";
       $this->db->query($query);
     }
+  }
+
+  function migrasi_13_ke_14() {
+    $query = "
+      INSERT INTO user_grup (id, nama) VALUES (4, 'Kontributor')
+      ON DUPLICATE KEY UPDATE
+        id = VALUES(id),
+        nama = VALUES(nama);
+    ";
+    $this->db->query($query);
+
+
   }
 
 }
