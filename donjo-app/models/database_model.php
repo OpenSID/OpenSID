@@ -309,7 +309,17 @@
     ";
     $this->db->query($query);
 
+    // Buat tanggalperkawinan dan tanggalperceraian boleh NULL
+    $query = "ALTER TABLE tweb_penduduk CHANGE tanggalperkawinan tanggalperkawinan DATE NULL DEFAULT NULL;";
+    $this->db->query($query);
+    $query = "ALTER TABLE tweb_penduduk CHANGE tanggalperceraian tanggalperceraian DATE NULL DEFAULT NULL;";
+    $this->db->query($query);
 
+     // Ubah tanggal menjadi NULL apabila 0000-00-00
+    $query = "UPDATE tweb_penduduk SET tanggalperkawinan=NULL WHERE tanggalperkawinan='0000-00-00';";
+    $this->db->query($query);
+    $query = "UPDATE tweb_penduduk SET tanggalperceraian=NULL WHERE tanggalperceraian='0000-00-00';";
+    $this->db->query($query);
   }
 
 }
