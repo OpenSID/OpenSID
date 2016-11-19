@@ -660,7 +660,7 @@
 
 	// $id adalah id_kk : id dari tabel tweb_keluarga
 	function get_kepala_kk($id){
-		$sql   = "SELECT nik,u.nama,tempatlahir,tanggallahir,a.nama as agama,d.nama as pendidikan,j.nama as pekerjaan, x.nama as sex,w.nama as status_kawin,h.nama as hubungan,warganegara_id,nama_ayah,nama_ibu,g.nama as golongan_darah ,c.rt as rt,c.rw as rw,c.dusun as dusun, (SELECT no_kk FROM tweb_keluarga WHERE id = ?) AS no_kk, (SELECT alamat FROM tweb_keluarga WHERE id = ?) AS alamat
+		$sql   = "SELECT nik,u.id,u.nama,tempatlahir,tanggallahir,a.nama as agama,d.nama as pendidikan,j.nama as pekerjaan, x.nama as sex,w.nama as status_kawin,h.nama as hubungan,warganegara_id,nama_ayah,nama_ibu,g.nama as golongan_darah ,c.rt as rt,c.rw as rw,c.dusun as dusun, (SELECT no_kk FROM tweb_keluarga WHERE id = ?) AS no_kk, (SELECT alamat FROM tweb_keluarga WHERE id = ?) AS alamat
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
 			LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id
@@ -675,6 +675,7 @@
 		$data = $query->row_array();
 		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' Dusun '.$data['dusun']);
 		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
+		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data['id']);
 		return $data;
 
 	}

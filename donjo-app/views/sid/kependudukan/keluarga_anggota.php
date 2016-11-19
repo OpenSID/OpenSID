@@ -7,7 +7,7 @@
 </div>
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
-    <h3>Daftar Anggota KK No.<?php echo $kepala_kk['no_kk']?> Keluarga : <?php echo unpenetration($kepala_kk['nama'])?></h3>
+    <h3>Daftar Anggota KK No.<?php echo $kepala_kk['no_kk']?> Keluarga : <?php echo unpenetration($kepala_kk['nama'])?>; Alamat : <?php echo $kepala_kk['alamat_wilayah']?></h3>
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modalx" rel="window"><span class="icon-plus icon-large">&nbsp;</span>Tambah Anggota</a>
@@ -29,13 +29,11 @@
         <th>No</th>
         <th><input type="checkbox" class="checkall"/></th>
         <th>Aksi</th>
-				<th width='100'>NIK</th>
-				<th width='150'>Nama</th>
-				<th width='150'>Alamat</th>
-        <th>Dusun</th>
-        <th>RW</th>
-        <th>RT</th>
-				<th width="150">Hubungan</th>
+				<th>NIK</th>
+				<th>Nama</th>
+				<th>Tanggal Lahir</th>
+        <th>Jenis Kelamin</th>
+				<th>Hubungan</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -56,11 +54,8 @@
         </td>
         <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo $data['nik']?></td>
   		  <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
-
-            <td><?php echo unpenetration($data['alamat'])?></td>
-            <td><?php echo $data['dusun']?></td>
-            <td><?php echo $data['rw']?></td>
-            <td><?php echo $data['rt']?></td>
+        <td><?php echo $data['tanggallahir']?></td>
+        <td><?php echo $data['sex']?></td>
   		  <td><?php echo $data['hubungan']?></td>
 		  </tr>
       <?php  endforeach; ?>
