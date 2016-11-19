@@ -1,9 +1,9 @@
 <div font-size="17px"><b>
-Anda sedang menggunakan aplikasi OpenSID <?=AmbilVersi()?> berbasis Sistem Informasi Desa (SID) CRI versi 3.04<br />
+Anda sedang menggunakan aplikasi OpenSID <?=AmbilVersi()?><br />
 <br />
 <br />OpenSID</b> <br />
 <br />
-Aplikasi ini berbasis SID 3.04, yang disesuaikan supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Perubahan yang dilakukan dapat dilihat di <a href= https://github.com/eddieridwan/opensid>https://github.com/eddieridwan/opensid</a>.
+Aplikasi ini berbasis Sistem Informasi Desa (SID) CRI versi 3.04, yang disesuaikan supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Perubahan yang dilakukan dapat dilihat di <a href= https://github.com/eddieridwan/opensid>https://github.com/eddieridwan/opensid</a>.
 <br />
 <br />
 <br /><b>APAKAH SISTEM INFORMASI (SID)?</b> <br />
@@ -54,7 +54,6 @@ Bagaimana memulai membangun Sistem Informasi Desa (SID) di desa kita? Caranya sa
     9. Sebarluaskan informasi desa melalui beragam media untuk warga<br />
 <br />
 <br />
-<br />
 <b>HAK CIPTA, SYARAT, DAN KETENTUAN</b><br />
 <br />
 Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Version 3.
@@ -65,13 +64,16 @@ Versi ini dikembangkan oleh OpenSID sejak Mei 2016, dan bebas untuk dimanfaatkan
 <br />
 <b>KONTAK DAN INFORMASI</b><br />
 <br />
-Group Facebook: <a href="https://www.facebook.com/groups/opensid/" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">Forum Pengguna dan Pegiat OpenSID </a><br />
-Tempat Mengunduh Rilis OpenSID:<br />
+Group Facebook, tempat mendapatkan bantuan dan berbagi pengalaman: <br />
+- <a href="https://www.facebook.com/groups/opensid/" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">Forum Pengguna dan Pegiat OpenSID </a><br />
+Tempat mengunduh rilis OpenSID:<br />
 - <a href="https://github.com/eddieridwan/OpenSID/releases" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">https://github.com/eddieridwan/OpenSID/releases </a><br />
 Panduan OpenSID:<br />
 - <a href="https://github.com/eddieridwan/OpenSID/wiki" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">https://github.com/eddieridwan/OpenSID/wiki </a><br />
 Repository (tempat pengelolaan) OpenSID:<br />
 - <a href="https://github.com/eddieridwan/OpenSID" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">https://github.com/eddieridwan/OpenSID </a><br />
+Tempat mendaftarkan masalah dan usulan fitur:<br />
+- <a href="https://github.com/eddieridwan/OpenSID/issues" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">https://github.com/eddieridwan/OpenSID/issues </a><br />
 <br />
 <b><br /></b>
 
