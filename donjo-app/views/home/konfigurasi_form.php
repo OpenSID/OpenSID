@@ -13,15 +13,15 @@
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <table class="form">
             <tr>
-                <th width="110">Nama Desa</th>
+                <th width="110">Nama <?php echo ucwords(config_item('sebutan_desa'))?></th>
                 <td><input name="nama_desa" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_desa'])?>"/> Kode <input name="kode_desa" type="text" class="inputbox" size="6" value="<?php echo $main['kode_desa']?>"/> Kode POS <input name="kode_pos" type="text" class="inputbox" size="8" value="<?php echo $main['kode_pos']?>"/></td>
             </tr>
             <tr>
-                <th>Nama Kepala Desa</th>
+                <th>Nama Kepala <?php echo ucwords(config_item('sebutan_desa'))?></th>
                 <td><input name="nama_kepala_desa" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['nama_kepala_desa'])?>"/></td>
             </tr>
             <tr>
-                <th>Alamat Kantor Desa</th>
+                <th>Alamat Kantor <?php echo ucwords(config_item('sebutan_desa'))?></th>
                 <td><input name="alamat_kantor" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['alamat_kantor'])?>"/></td>
             </tr>
             <tr>
@@ -62,8 +62,8 @@
                 <td><input type="file" name="logo" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah logo)</span></td>
             </tr>
              <tr>
-                <th>Kantor / Wilayah Desa</th>
-                <td><a href="<?php echo site_url("hom_desa/ajax_kantor_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-lok" header="Lokasi <?php echo $main['nama_desa']?>" title="Lokasi <?php echo $main['nama_desa']?>">Kantor Desa</a><a href="<?php echo site_url("hom_desa/ajax_wilayah_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-wil" header="Wilayah <?php echo $main['nama_desa']?>" title="Wilayah <?php echo $main['nama_desa']?>">Wilayah Desa</a></td>
+                <th>Kantor / Wilayah <?php echo ucwords(config_item('sebutan_desa'))?></th>
+                <td><a href="<?php echo site_url("hom_desa/ajax_kantor_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-lok" header="Lokasi <?php echo $main['nama_desa']?>" title="Lokasi <?php echo $main['nama_desa']?>">Kantor <?php echo ucwords(config_item('sebutan_desa'))?></a><a href="<?php echo site_url("hom_desa/ajax_wilayah_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-wil" header="Wilayah <?php echo $main['nama_desa']?>" title="Wilayah <?php echo $main['nama_desa']?>">Wilayah <?php echo ucwords(config_item('sebutan_desa'))?></a></td>
             </tr>
         </table>
     </div>

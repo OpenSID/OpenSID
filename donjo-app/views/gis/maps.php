@@ -254,7 +254,7 @@
 			<input type="checkbox" name="layer_keluarga" value="1" onchange="handle_kel(this);" <?php if($layer_keluarga==1){echo "checked";}?>> Keluarga
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if($layer_desa==1){echo "checked";}?>> Desa
+			<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if($layer_desa==1){echo "checked";}?>> <?php echo ucwords(config_item('sebutan_desa'))?>
 		</td></tr>
 		<tr><td>
 			<input type="checkbox" name="layer_wilayah" value="1"onchange="handle_wil(this);" <?php if($layer_wilayah==1){echo "checked";}?>> Wilayah Administratif

@@ -44,7 +44,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 				</tbody></table>
 				<table>
 				<tbody><tr>
-					<td>Desa/Kelurahan</td>
+					<td><?php echo ucwords(config_item('sebutan_desa'))?>/Kelurahan</td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo unpenetration($data['nama_desa'])?></h4></td>
 					<td></td>

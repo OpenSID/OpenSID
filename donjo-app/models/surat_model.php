@@ -364,7 +364,7 @@
 	}
 
 	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
-		$alamat_desa = "Desa ".$config[nama_desa].", Kecamatan ".$config[nama_kecamatan].", Kabupaten ".$config[nama_kabupaten];
+		$alamat_desa = ucwords(config_item('sebutan_desa'))." ".$config[nama_desa].", Kecamatan ".$config[nama_kecamatan].", Kabupaten ".$config[nama_kabupaten];
 		// Proses surat yang membutuhkan pengambilan data khusus
 		switch ($url) {
 			case 'surat_persetujuan_mempelai':
@@ -484,6 +484,33 @@
 		}
 	}
 
+	/* Dipanggil untuk setiap kode isian ditemukan,
+	   dan diganti dengan kata pengganti yang huruf besar/kecil mengikuti huruf kode isian.
+		 Berdasarkan contoh di http://stackoverflow.com/questions/19317493/php-preg-replace-case-insensitive-match-with-case-sensitive-replacement
+
+		 Huruf pertama dan kedua huruf besar --> ganti dengan huruf besar semua:
+		 		[SEbutan_desa] ==> KAMPUNG
+		 Huruf pertama besar dan kedua kecil --> ganti dengan huruf besar pertama saja:
+		 		[Sebutan_desa] ==> Kampung
+		 Huruf pertama kecil --> ganti dengan huruf kecil semua:
+		 		[sebutan_desa] ==> kampung
+	*/
+	function case_replace($dari,$ke,$str){
+		$replacer = function($matches) use($ke){
+			$matches = array_map(function($match){
+				return preg_replace("/[\[\]]/", "", $match);
+			}, $matches);
+			if(ctype_upper($matches[0][0]) AND ctype_upper($matches[0][1]))
+				return strtoupper($ke);
+			elseif(ctype_upper($matches[0][0]))
+				return ucwords($ke);
+			else return strtolower($ke);
+		};
+		$dari = str_replace("[", "\[", $dari);
+		$str = preg_replace_callback("/(".$dari.")/i", $replacer, $str);
+		return $str;
+	}
+
 	function surat_rtf($url='', $input){
 		// Ambil data
 		$id = $input['nik'];
@@ -522,6 +549,7 @@
 			$buffer=str_replace("[tahun]","$thn",$buffer);
 
 			//DATA DARI KONFIGURASI DESA
+			$buffer=$this->case_replace("[sebutan_desa]",config_item('sebutan_desa'),$buffer);
 			$buffer=str_replace("[kode_desa]","$config[kode_desa]",$buffer);
 			$buffer=str_replace("[nama_kab]","$config[nama_kabupaten]",$buffer);
 			$buffer=str_replace("[nama_kabupaten]","$config[nama_kabupaten]",$buffer);

@@ -401,7 +401,7 @@ function get_identitas(){
 	$a=mysql_query($sql);
 	$hsl=mysql_fetch_array($a);
 	//print_r($hsl);
-	$string = "Desa : ".$hsl['nama_desa']." Kec : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
+	$string = ucwords(config_item('sebutan_desa'))." : ".$hsl['nama_desa']." Kec : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
 }
 

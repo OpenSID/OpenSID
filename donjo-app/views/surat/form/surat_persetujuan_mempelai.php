@@ -76,13 +76,14 @@ padding:5px;
 		<form action="<?php echo $surat_url ?>" id="main" name="main" method="POST" class="formular">
 		<table class="form">
 			<tr>
-				<th>DATA SUAMI (Berasal dari desa)			:</th>
+				<th colspan="2">DATA SUAMI (Berasal dari <?php echo strtolower(config_item('sebutan_desa'))?>) :</th>
 			</tr>
 			<tr>
-				<th width="40%">Nama Suami</th>
-				<td width="60%">
-					<div id="id_suami" name="id_suami"></div>
-					*) Diisi jika suami berasal dari dalam desa
+				<th width="25%">Nama Suami</th>
+				<td>
+					<div id="id_suami" name="id_suami">
+						*) Diisi jika suami berasal dari dalam <?php echo strtolower(config_item('sebutan_desa'))?>
+					</div>
 				</td>
 			</tr>
 
@@ -91,8 +92,8 @@ padding:5px;
 			if($suami != ''){
 				?>
 				<tr>
-					<th width="40%">Tempat Tanggal Lahir (Umur)</th>
-					<td width="60%">
+					<th>Tempat Tanggal Lahir (Umur)</th>
+					<td>
 						<?php echo $laki['tempatlahir']?> <?php echo tgl_indo($suami['tanggallahir'])?> (<?php echo $suami['umur']?> Tahun)
 					</td>
 				</tr>
@@ -113,13 +114,14 @@ padding:5px;
 			?>
 
 			<tr>
-				<th>DATA ISTRI (Berasal dari desa)			:</th>
+				<th colspan="2">DATA ISTRI (Berasal dari <?php echo strtolower(config_item('sebutan_desa'))?>) :</th>
 			</tr>
 			<tr>
-				<th width="40%">Nama Istri</th>
-				<td width="60%">
-					<div id="id_istri" name="istri" value="10"></div>
-					*) Diisi jika istri berasal dari dalam desa
+				<th>Nama Istri</th>
+				<td>
+					<div id="id_istri" name="istri" value="10">
+						*) Diisi jika istri berasal dari dalam <?php echo strtolower(config_item('sebutan_desa'))?>
+					</div>
 				</td>
 			</tr>
 
@@ -128,8 +130,8 @@ padding:5px;
 			if($istri != ''){
 				?>
 				<tr>
-					<th width="40%">Tempat Tanggal Lahir (Umur)</th>
-					<td width="60%">
+					<th>Tempat Tanggal Lahir (Umur)</th>
+					<td>
 						<?php echo $istri['tempatlahir']?> <?php echo tgl_indo($istri['tanggallahir'])?> (<?php echo $istri['umur']?> Tahun)
 					</td>
 				</tr>
@@ -160,7 +162,7 @@ padding:5px;
 <table class="form">
 
 	<tr>
-		<th>Nomor Surat</th>
+		<th width="25%">Nomor Surat</th>
 		<td><input name="nomor" type="text" class="inputbox required" size="30"/></td>
 	</tr>
 
@@ -168,10 +170,10 @@ padding:5px;
 	if($suami == ''){
 		?>
 		<tr>
-			<th>DATA SUAMI (Berasal dari luar desa)		:</th>
+			<th colspan="2">DATA SUAMI (Berasal dari luar <?php echo strtolower(config_item('sebutan_desa'))?>) :</th>
 		<tr>
 			<th>Nama Lengkap</th>
-			<td><input name="nama_suami" type="text" class="inputbox " size="30"/>*) Diisi jika suami berasal dari luar desa</td>
+			<td><input name="nama_suami" type="text" class="inputbox " size="30"/>*) Diisi jika suami berasal dari luar <?php echo strtolower(config_item('sebutan_desa'))?></td>
 		</tr>
 		<tr>
 			<th>Bin</th>
@@ -207,11 +209,11 @@ padding:5px;
 	if($istri == ''){
 		?>
 		<tr>
-			<th>DATA ISTRI (Berasal dari luar desa)		:</th>
+			<th colspan="2">DATA ISTRI (Berasal dari luar <?php echo strtolower(config_item('sebutan_desa'))?>) :</th>
 		</tr>
 		<tr>
 			<th>Nama Lengkap</th>
-			<td><input name="nama_istri" type="text" class="inputbox " size="30"/>*) Diisi jika istri berasal dari luar desa</td>
+			<td><input name="nama_istri" type="text" class="inputbox " size="30"/>*) Diisi jika istri berasal dari luar <?php echo strtolower(config_item('sebutan_desa'))?></td>
 		</tr>
 		<tr>
 			<th>Bin</th>

@@ -3,6 +3,11 @@
 // Ambil setting SID khusus desa
 define("LOKASI_SID_INI", 'desa/config/');
 
+// Konfigurasi default
+$config['sebutan_desa'] = 'desa';
+$config['login_title'] = 'OpenSID';
+$config['admin_title'] = 'Sistem Informasi Desa';
+
 // Konfigurasi tambahan untuk aplikasi
 $extra_app_config = FCPATH . LOKASI_SID_INI . 'config.php';
 if (is_file($extra_app_config)) {

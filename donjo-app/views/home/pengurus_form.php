@@ -1,11 +1,11 @@
 <div id="pageC">
 	<table class="inner">
 	<tr style="vertical-align:top">
-	<td style="background:#fff;padding:0px;"> 
-<div class="content-header">  
+	<td style="background:#fff;padding:0px;">
+<div class="content-header">
 </div>
 <div id="contentpane">
-<div class="ui-layout-north panel"><h3>Form Staf Pemerintah Desa</h3>
+<div class="ui-layout-north panel"><h3>Form Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></h3>
 </div>
     <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
@@ -25,7 +25,7 @@
             <tr>
                 <th>Jabatan</th>
                 <td><input name="jabatan" type="text" class="inputbox" size="20"  value="<?php echo unpenetration($pamong['jabatan'])?>"/></td>
-            </tr>   
+            </tr>
             <tr>
 				<th width="100">Status</th>
                 <td>
@@ -36,11 +36,11 @@
 						<label for="group2">Tidak Aktif</label>
                 	</div>
                 </td>
-            </tr>      
+            </tr>
         </table>
     </div>
     <div class="ui-layout-south panel bottom">
-        <div class="left">     
+        <div class="left">
             <a href="<?php echo site_url()?>pengurus" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">

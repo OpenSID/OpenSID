@@ -18,7 +18,7 @@
             <h1>PEMERINTAH KABUPATEN <?php echo strtoupper($config['nama_kabupaten'])?> </h1>
             <h1 style="text-transform: uppercase;"></h1>
             <h1>KECAMATAN <?php echo strtoupper($config['nama_kecamatan'])?> </h1>
-	    <h1>DESA <?php echo strtoupper($config['nama_desa'])?></h1>
+	    <h1><?php echo strtoupper(config_item('sebutan_desa'))." ".strtoupper($config['nama_desa'])?></h1>
             <h1>LAPORAN DATA STATISTIK KEPENDUDUKAN MENURUT <?php echo strtoupper($stat)?></h1>
         </td>
     </tr>
@@ -129,14 +129,14 @@
                         <div class="nowrap"><label>&nbsp;</label></div>
                         <div class="nowrap"><label><br></label></div>
                     </td>
-                    <td class="top" align="center" width="30%">               
+                    <td class="top" align="center" width="30%">
                         <div class="nowrap"><label>&nbsp;</label></div>
-                        <div class="nowrap"><label><br>KEPALA DESA <?php echo strtoupper($config['nama_desa'])?></label></div>
+                        <div class="nowrap"><label><br>KEPALA <?php echo (strtoupper(config_item('sebutan_desa'))." ".strtoupper($config['nama_desa']))?></label></div>
                         <div style="height: 50px;"></div>
                         <div class="nowrap"><strong style="text-transform: uppercase;"></strong></div>
                         <div class="nowrap"><label>NIP. </label></div>
                     </td>
-                </tr>                
+                </tr>
             </tbody></table>
             <br>
             <table class="noborder">
@@ -150,10 +150,10 @@
                     </td>
                 </tr>
             </tbody></table>
-                        
+
         </td>
     </tr>
-</tbody></table>        
+</tbody></table>
 </div>
    <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>

@@ -65,7 +65,7 @@ padding:5px;
 </td>
 </tr>
 <tr>
-	<th>DATA AYAH (Jika bukan orang desa) : </th>
+	<th>DATA AYAH (Jika bukan orang <?php echo strtolower(config_item('sebutan_desa'))?>) : </th>
 </tr>
 <tr>
 <th>Nama Lengkap</th>
@@ -101,7 +101,7 @@ padding:5px;
 </td>
 </tr>
 <tr>
-	<th>DATA IBU (Jika bukan orang desa) : </th>
+	<th>DATA IBU (Jika bukan orang <?php echo strtolower(config_item('sebutan_desa'))?>) : </th>
 </tr>
 <tr>
 <th>Nama Lengkap</th>
@@ -137,10 +137,10 @@ padding:5px;
 </td>
 </tr>
 <tr>
-<th>Staf Pemerintah Desa</th>
+<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
 <td>
 <select name="pamong"  class="inputbox required">
-<option value="">Pilih Staf Pemerintah Desa</option>
+<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
 <?php foreach($pamong AS $data){?>
 <option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
 <?php }?>

@@ -12,3 +12,6 @@ $config['libreoffice_path'] = "C:\Program Files (x86)\LibreOffice 4\program";
 $config['website_title'] = 'Website Resmi Desa Kami';
 $config['login_title'] = 'OpenSID';
 $config['admin_title'] = 'Sistem Informasi Desa';
+
+// untuk mengganti penamaan wilayah 'desa'
+$config['sebutan_desa'] = 'kampung';
