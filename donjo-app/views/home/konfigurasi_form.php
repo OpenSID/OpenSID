@@ -7,7 +7,7 @@
 
 </div>
 <div id="contentpane">
-<div class="ui-layout-north panel"><h3>Konfigurasi</h3>
+<div class="ui-layout-north panel"><h3>Identitas <?php echo ucwords(config_item('sebutan_desa'))?></h3>
 </div>
     <form action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
