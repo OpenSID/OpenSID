@@ -280,8 +280,10 @@
 			$data  = $query->row_array();
 		}
 		$ayah_id = $data['id'];
-		$ayah = $this->get_data_pribadi($ayah_id);
-		return $ayah;
+		if($ayah_id){
+			$ayah = $this->get_data_pribadi($ayah_id);
+			return $ayah;
+		}
 	}
 
 	function get_data_ibu($id=0){
@@ -302,8 +304,10 @@
 			$data  = $query->row_array();
 		}
 		$ibu_id = $data['id'];
-		$ibu = $this->get_data_pribadi($ibu_id);
-		return $ibu;
+		if($ibu_id){
+			$ibu = $this->get_data_pribadi($ibu_id);
+			return $ibu;
+		}
 	}
 
 	function get_dusun($dusun=''){
