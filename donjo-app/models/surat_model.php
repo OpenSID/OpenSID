@@ -234,8 +234,10 @@
 		$data  = $query->row_array();
 
 		$istri_id = $data['id'];
-		$istri = $this->get_data_pribadi($istri_id);
-		return $istri;
+		if($istri_id){
+			$istri = $this->get_data_pribadi($istri_id);
+			return $istri;
+		}
 	}
 
 	function get_data_suami($id=0){
@@ -246,12 +248,14 @@
 		$data  = $query->row_array();
 
 		$suami_id = $data['id'];
-		$suami = $this->get_data_pribadi($suami_id);
-		return $suami;
+		if($suami_id){
+			$suami = $this->get_data_pribadi($suami_id);
+			return $suami;
+		}
 	}
 
 	function get_data_suami_atau_istri($individu=array()) {
-		if ($individu['sex'] == "LAKI-LAKI") {
+		if (strtolower($individu['sex']) == "laki-laki") {
 			return $this->get_data_istri($individu['id']);
 		} else {
 			return $this->get_data_suami($individu['id']);
@@ -461,7 +465,7 @@
 
 			case 'surat_ket_kematian_suami_istri':
 				# Data suami atau istri apabila warga desa
-				if ($individu['sex'] == "LAKI-LAKI") {
+				if (strtolower($individu['sex']) == "laki-laki") {
 					$buffer=str_replace("[suami_atau_istri]","suami",$buffer);
 				} else {
 					$buffer=str_replace("[suami_atau_istri]","istri",$buffer);
