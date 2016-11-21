@@ -1,8 +1,8 @@
 <?php
-// -------------------------------------------------------------------------
-// Konfigurasi applikasi dalam file ini merupakan item konfigurasi tambahan
-// SID di donjo-app/config/config.php.
-// -------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Konfigurasi aplikasi dalam berkas ini merupakan setting konfigurasi tambahan
+// SID. Letakkan setting konfigurasi ini di desa/config/config.php.
+// ----------------------------------------------------------------------------
 
 // key dari layanan google map
 $config['google_key'] = 'ganti-dengan-google-api-key';
