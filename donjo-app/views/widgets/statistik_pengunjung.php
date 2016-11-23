@@ -13,7 +13,7 @@
       $up = $this->db->query("INSERT  INTO sys_traffic (Tanggal,ipAddress,Jumlah) VALUES ('".date("Y-m-d")."','".$ip."','1')");
       $_SESSION['MemberOnline']=date('Y-m-d H:i:s');
     }else{
-      $res  = mysql_fetch_array($cek);
+      $res  = $cek->result_array();
       $ipaddr = $res['ipAddress'].$ip;
       $up = $this->db->query("UPDATE sys_traffic SET Jumlah=Jumlah + 1,ipAddress='".$ipx."' WHERE Tanggal='".date("Y-m-d")."'");
       $_SESSION['MemberOnline']=date('Y-m-d H:i:s');

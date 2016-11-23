@@ -59,93 +59,30 @@
 
 	// ====================== End export_by_keluarga ========================
 
-	function export_dasar(){
+	function export_dasar()
+	{
+		$return = "";
+		$return.=$this->_build_schema('tweb_penduduk', 'penduduk');
+		$return.=$this->_build_schema('tweb_keluarga', 'keluarga');
+		$return.=$this->_build_schema('tweb_wil_clusterdesa', 'cluster');
 
-	$return = "";
-	$result = mysql_query('SELECT * FROM tweb_penduduk WHERE 1');
-	$num_fields = mysql_num_fields($result);
-
-	$return.= "<penduduk>\r\n";
-	for($i = 0; $i < $num_fields; $i++){
-		while($row = mysql_fetch_row($result)){
-			//$return.= "<r>";
-			for($j=0; $j<$num_fields; $j++){
-				//$row[$j] = addslashes($row[$j]);
-				if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
-				if ($j<($num_fields-1)) { $return.= '+'; }
-			}
-			$return.= "\r\n";
-		}
-	}
-	$return.="</penduduk>\r\n";
-
-	$result = mysql_query('SELECT * FROM tweb_keluarga WHERE 1');
-	$num_fields = mysql_num_fields($result);
-
-	$return.= "<keluarga>\r\n";
-	for($i = 0; $i < $num_fields; $i++){
-		while($row = mysql_fetch_row($result)){
-			//$return.= "<r>";
-			for($j=0; $j<$num_fields; $j++){
-				if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
-				if ($j<($num_fields-1)) { $return.= '+'; }
-			}
-			$return.= "\r\n";
-		}
-	}
-	$return.="</keluarga>\r\n";
-
-	$result = mysql_query('SELECT * FROM tweb_wil_clusterdesa WHERE 1');
-	$num_fields = mysql_num_fields($result);
-
-	$return.= "<cluster>\r\n";
-	for($i = 0; $i < $num_fields; $i++){
-		while($row = mysql_fetch_row($result)){
-			//$return.= "<r>";
-			for($j=0; $j<$num_fields; $j++){
-				if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
-				if ($j<($num_fields-1)) { $return.= '+'; }
-			}
-			$return.= "\r\n";
-		}
-	}
-	$return.="</cluster>";
-
-	$result = mysql_query('SELECT * FROM tweb_wil_clusterdesa WHERE 1');
-	$num_fields = mysql_num_fields($result);
-
-
-	Header('Content-type: application/octet-stream');
-	Header('Content-Disposition: attachment; filename=data_dasar('.date("d-m-Y").').sid');
-	echo $return;
+		Header('Content-type: application/octet-stream');
+		Header('Content-Disposition: attachment; filename=data_dasar('.date("d-m-Y").').sid');
+		echo $return;
 	}
 
 
-	function export_akp(){
-	$return = "";
-	$result = mysql_query('SELECT * FROM analisis_keluarga WHERE 1');
-	$num_fields = mysql_num_fields($result);
+	function export_akp()
+	{
+		$return=$this->_build_schema('analisis_keluarga', 'akpkeluarga');
 
-	$return.= "<akpkeluarga>\r\n";
-	for($i = 0; $i < $num_fields; $i++){
-		while($row = mysql_fetch_row($result)){
-			//$return.= "<r>";
-			for($j=0; $j<$num_fields; $j++){
-				//$row[$j] = addslashes($row[$j]);
-				if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
-				if ($j<($num_fields-1)) { $return.= '+'; }
-			}
-			$return.= "\r\n";
-		}
-	}
-	$return.="</akpkeluarga>\r\n";
-
-	Header('Content-type: application/octet-stream');
-	Header('Content-Disposition: attachment; filename=data_akp('.date("d-m-Y").').sid');
-	echo $return;
+		Header('Content-type: application/octet-stream');
+		Header('Content-Disposition: attachment; filename=data_akp('.date("d-m-Y").').sid');
+		echo $return;
 	}
 
-	function analisis(){
+	function analisis()
+	{
 
 		$sql   = "DELETE FROM analisis_respon_hasil WHERE id_periode=1";
 		$this->db->query($sql);
@@ -305,7 +242,7 @@
 
 		foreach($data AS $dat){
 			$tbl = $dat["TABLE_NAME"];
-			mysql_query("DROP TABLE $tbl");
+			$this->db->simple_query("DROP TABLE $tbl");
 		}
 		$_SESSION['success'] = 1;
 		$filename = $_FILES['userfile']['tmp_name'];
@@ -318,7 +255,7 @@
 			  if($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0)){
 					$query .= $sql_line;
 					if (substr(rtrim($query), -1) == ';'){
-					  $result = mysql_query($query)or die(mysql_error());
+					  $result = $this->db->simple_query($query) ;
 					  if (!$result) {
 					  	$_SESSION['success'] = -1;
 					  	echo "Error: ".$query;
@@ -356,5 +293,34 @@
 		}
 
 	}
+
+
+	private function _build_schema($nama_tabel, $nama_tanda) {
+		$return = "";
+		$result = $this->db->query("SELECT * FROM $nama_tabel");
+		$fields = $this->db->field_data($nama_tabel);
+		$num_fields = count($fields);
+
+		$return.= "<$nama_tanda>\r\n";
+		foreach($result->result() as $row) {
+			$j=0;
+			foreach($fields as $col) {
+				$name = $col->name;
+				if (isset($row->$name)) {
+					$return.= $row->$name ;
+				} else {
+					$return.= '';
+				}
+				if ($j < ($num_fields-1)) {
+					$return.= '+';
+				}
+				$j++;
+			}
+			$return.= "\r\n";
+		}
+		$return.="</$nama_tanda>\r\n";
+		return $return;
+	}
+
 }
 ?>

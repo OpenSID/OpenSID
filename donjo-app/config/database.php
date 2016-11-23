@@ -11,7 +11,7 @@ if(is_file($konfigurasi_db)) {
   $db['default']['password'] = '';
   $db['default']['database'] = 'sid3.04';
 }
-$db['default']['dbdriver'] = 'mysql';
+$db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
