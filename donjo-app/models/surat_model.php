@@ -654,23 +654,25 @@
 		$handle = fopen($berkas_arsip,'w+');
 		fwrite($handle,$rtf);
 		fclose($handle);
-		// Untuk konversi rtf ke pdf, libreoffice harus terinstall
-		if (strpos(strtoupper(php_uname('s')), 'WIN') !== false) {
-			// Windows O/S
-			$berkas_arsip_win = str_replace('/', "\\", $berkas_arsip);
-			$fcpath = str_replace('/', "\\", FCPATH);
-			$outdir = rtrim(str_replace('/',"\\",FCPATH.LOKASI_ARSIP), "/\\");
-			$cmd = 'cd '.config_item('libreoffice_path');
-			$cmd = $cmd." && soffice --headless --convert-to pdf:writer_pdf_Export --outdir ".$outdir." ".$fcpath.$berkas_arsip_win;
-		} else {
-			// Linux
-			$cmd = "libreoffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
-		}
-		exec($cmd, $output, $return);
-		// Kalau berhasil, pakai pdf
-		if ($return==0) {
-			$nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME).".pdf";
-			$berkas_arsip = $path_arsip.$nama_surat;
+		if (config_item('libreoffice_path') AND config_item('libreoffice_path') != '') {
+			// Untuk konversi rtf ke pdf, libreoffice harus terinstall
+			if (strpos(strtoupper(php_uname('s')), 'WIN') !== false) {
+				// Windows O/S
+				$berkas_arsip_win = str_replace('/', "\\", $berkas_arsip);
+				$fcpath = str_replace('/', "\\", FCPATH);
+				$outdir = rtrim(str_replace('/',"\\",FCPATH.LOKASI_ARSIP), "/\\");
+				$cmd = 'cd '.config_item('libreoffice_path');
+				$cmd = $cmd." && soffice --headless --convert-to pdf:writer_pdf_Export --outdir ".$outdir." ".$fcpath.$berkas_arsip_win;
+			} else {
+				// Linux
+				$cmd = "libreoffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
+			}
+			exec($cmd, $output, $return);
+			// Kalau berhasil, pakai pdf
+			if ($return==0) {
+				$nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME).".pdf";
+				$berkas_arsip = $path_arsip.$nama_surat;
+			}
 		}
 
 		$_SESSION['success']=8;
