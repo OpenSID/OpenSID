@@ -15,6 +15,7 @@
     $this->migrasi_111_ke_12();
     $this->migrasi_124_ke_13();
     $this->migrasi_13_ke_14();
+    $this->migrasi_14_ke_15();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -316,9 +317,51 @@
     $this->db->query($query);
 
      // Ubah tanggal menjadi NULL apabila 0000-00-00
-    $query = "UPDATE tweb_penduduk SET tanggalperkawinan=NULL WHERE tanggalperkawinan='0000-00-00';";
+    $query = "UPDATE tweb_penduduk SET tanggalperkawinan=NULL WHERE tanggalperkawinan='0000-00-00' OR tanggalperkawinan='00-00-0000';";
     $this->db->query($query);
-    $query = "UPDATE tweb_penduduk SET tanggalperceraian=NULL WHERE tanggalperceraian='0000-00-00';";
+    $query = "UPDATE tweb_penduduk SET tanggalperceraian=NULL WHERE tanggalperceraian='0000-00-00' OR tanggalperceraian='00-00-0000';";
+    $this->db->query($query);
+  }
+
+  function migrasi_14_ke_15() {
+    // Tambah kolom di tabel tweb_penduduk
+    $query = "ALTER TABLE tweb_penduduk ADD cara_kb_id tinyint(2) NULL DEFAULT NULL;";
+    $this->db->query($query);
+
+     // Tambah tabel cara_kb
+    $query = "DROP TABLE IF EXISTS tweb_cara_kb;";
+    $this->db->query($query);
+
+    $query = "
+      CREATE TABLE tweb_cara_kb (
+        id tinyint(5) NOT NULL AUTO_INCREMENT,
+        nama varchar(50) NOT NULL,
+        sex tinyint(2),
+        PRIMARY KEY (id)
+      ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+    ";
+    $this->db->query($query);
+
+    $query = "
+      INSERT INTO tweb_cara_kb (id, nama, sex) VALUES
+        (1, 'Intrauterine Device (IUD)', 2),
+        (2, 'Metoda Operasi Wanita (MOW)', 2),
+        (3, 'Metoda Operasi Pria (MOP)', 1),
+        (4, 'Implan', 2),
+        (5, 'Suntik', 2),
+        (6, 'Pil', 2),
+        (7, 'Kondom', 1),
+        (99, 'LAINNYA', 3);
+    ";
+    $this->db->query($query);
+
+     // Ubah tanggallahir supaya tidak tampil apabila kosong
+    $query = "ALTER TABLE tweb_penduduk CHANGE tanggallahir tanggallahir DATE NULL DEFAULT NULL;";
+    $this->db->query($query);
+    $query = "
+      UPDATE tweb_penduduk SET tanggallahir=NULL
+      WHERE tanggallahir='0000-00-00' OR tanggallahir='00-00-0000';
+    ";
     $this->db->query($query);
   }
 

@@ -169,9 +169,15 @@
 
 <tr>
 <td>Cacat</td><td >:</td>
-<td><?php echo strtoupper($penduduk['cacat_id'])?></td>
+<td><?php echo strtoupper($penduduk['cacat'])?></td>
 </tr>
 
+<?php if($penduduk['status_kawin'] == 2): ?>
+  <tr>
+    <td>Akseptor KB</td><td >:</td>
+    <td><?php echo strtoupper($penduduk['cara_kb'])?></td>
+  </tr>
+<?php endif; ?>
 
 <tr>
 <td>Status</td><td >:</td>

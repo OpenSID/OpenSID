@@ -1,8 +1,8 @@
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
-	<td class="side-menu">		
+	<td class="side-menu">
 		<legend>Statistik Keluarga</legend>
 			<div id="" class="lmenu">
 				<ul>
@@ -16,12 +16,12 @@
 					Bedah Rumah</li></a>
 				</ul>
 			</div>
-		
+
 		<legend>Statistik Penduduk</legend>
 			<div  id="sidecontent3" class="lmenu">
-				<ul>		
+				<ul>
 				<a href="<?php echo site_url()?>statistik/index/15"><li <?php if($lap==15){?>class="selected"<?php }?>>
-					Umur</li></a>	
+					Umur</li></a>
 				<a href="<?php echo site_url()?>statistik/index/0"><li <?php if($lap==0){?>class="selected"<?php }?>>
 					Pendidikan Dalam KK</li></a>
 				<a href="<?php echo site_url()?>statistik/index/14"><li <?php if($lap==14){?>class="selected"<?php }?>>
@@ -39,25 +39,25 @@
 				<a href="<?php echo site_url()?>statistik/index/6"><li <?php if($lap==6){?>class="selected"<?php }?>>
 					Status Penduduk</li></a>
 				<a href="<?php echo site_url()?>statistik/index/7"><li <?php if($lap==7){?>class="selected"<?php }?>>
-					Golongan Darah</li></a>	
+					Golongan Darah</li></a>
 				<a href="<?php echo site_url()?>statistik/index/9"><li <?php if($lap==9){?>class="selected"<?php }?>>
 					Cacat</li></a>
 				<?php /*<a href="<?php echo site_url()?>statistik/index/10"><li <?php if($lap==10){?>class="selected"<?php }?>>
 					Sakit Menahun</li></a>
 				<a href="<?php echo site_url()?>statistik/index/13"><li <?php if($lap==13){?>class="selected"<?php }?>>
-					Umur (Detail)</li></a>		*/?>	
+					Umur (Detail)</li></a>		*/?>
 				<a href="<?php echo site_url()?>statistik/index/11"><li <?php if($lap==11){?>class="selected"<?php }?>>
-					Jamkesmas</li></a>	
+					Jamkesmas</li></a>
 				</ul>
 			</div>
 		</td>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <script type="text/javascript">
 $(function () {
     var chart;
-    
+
     $(document).ready(function () {
-    	
+
     	// Build the chart
         chart = new Highcharts.Chart({
             chart: {
@@ -97,7 +97,7 @@ $(function () {
 						<?php  foreach($main as $data){?>
 						  <?php if($data['nama'] != "TOTAL"){?>
 							<?php if($data['jumlah'] != "-"){?>
-								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+								['<?php echo strtoupper($data['nama'])?>',<?php echo $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
 						<?php }?>
@@ -105,7 +105,7 @@ $(function () {
             }]
         });
     });
-    
+
 });
 </script>
 <script src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
@@ -123,8 +123,8 @@ tr#total{
 <div id="contentpane">
     <div class="ui-layout-north panel top">
     </div>
-    <div class="ui-layout-center" id="chart" style="padding: 5px;">                
-        
+    <div class="ui-layout-center" id="chart" style="padding: 5px;">
+
     </div>
     <div class="ui-layout-south panel bottom" style="max-height: 150px;overflow:auto;">
         <table class="list">
@@ -137,14 +137,14 @@ tr#total{
 				<th align="left" align="center" width="60">Laki-laki</th>
 				<th align="left" align="center" width="60">Perempuan</th>
 				<?php }?>
-            
+
 			</tr>
 		</thead>
 		<tbody>
         <?php  foreach($main as $data): ?>
 		<tr>
           <td align="center" width="2"><?php echo $data['no']?></td>
-          <td><?php echo $data['nama']?></td>
+          <td><?php echo strtoupper($data['nama'])?></td>
           <td><?php echo $data['jumlah']?></td>
 		  <?php  if($lap<20){?>
 		  <td><?php echo $data['laki']?></td>

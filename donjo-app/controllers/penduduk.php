@@ -206,6 +206,7 @@ class Penduduk extends CI_Controller{
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
+		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
 
 		$this->load->view('header', $header);
 		$nav['act']= 2;
@@ -306,12 +307,12 @@ class Penduduk extends CI_Controller{
 	}
 
 	function insert(){
-		$this->penduduk_model->insert();
+		$id = $this->penduduk_model->insert();
 		if ($_SESSION['success'] == -1) {
 			$_SESSION['dari_internal'] = true;
 			redirect("penduduk/form");
 		} else {
-			redirect('penduduk');
+			redirect("penduduk/detail/1/0/$id");
 		}
 	}
 
@@ -321,7 +322,7 @@ class Penduduk extends CI_Controller{
 			$_SESSION['dari_internal'] = true;
 			redirect("penduduk/form/$p/$o/$id");
 		} else {
-			redirect("penduduk");
+			redirect("penduduk/detail/1/0/$id");
 		}
 	}
 

@@ -228,6 +228,20 @@
   </td>
 </tr>
 
+<?php if(!$penduduk['status_kawin'] OR $penduduk['status_kawin'] == 2): ?>
+  <tr>
+    <th>Akseptor KB</th>
+    <td>
+      <select name="cara_kb_id">
+        <option value="">Pilih Cara KB Saat Ini</option>
+        <?php foreach($cara_kb as $data){?>
+          <option value="<?php echo $data['id']?>" <?php if($penduduk['cara_kb_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
+        <?php }?>
+      </select>
+    </td>
+  </tr>
+<?php endif; ?>
+
 <tr>
   <th>Status kehamilan</th>
   <td>

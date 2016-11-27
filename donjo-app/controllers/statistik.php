@@ -18,32 +18,7 @@ function __construct(){
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap,$o);
 		$data['lap']=$lap;
 		$data['o']=$o;
-
-		switch($lap){
-			case 0: $data['stat'] = "Pendidikan dalam KK"; break;
-			case 1: $data['stat'] = "Pekerjaan"; break;
-			case 2: $data['stat'] = "Status Perkawinan"; break;
-			case 3: $data['stat'] = "Agama"; break;
-			case 4: $data['stat'] = "Jenis Kelamin"; break;
-			case 5: $data['stat'] = "Warga Negara"; break;
-			case 6: $data['stat'] = "Status"; break;
-			case 7: $data['stat'] = "Golongan Darah"; break;
-			case 9: $data['stat'] = "Cacat"; break;
-			case 10: $data['stat'] = "Sakit Menahun"; break;
-			case 11: $data['stat'] = "Jamkesmas"; break;
-			case 13: $data['stat'] = "Umur (Detail)"; break;
-			case 15: $data['stat'] = "Umur"; break;
-			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
-			case 21: $data['stat'] = "Klasifikasi Sosial"; break;
-			case 22: $data['stat'] = "Penerima Raskin"; break;
-			case 23: $data['stat'] = "Penerima BLT"; break;
-			case 24: $data['stat'] = "Penerima BOS"; break;
-			case 25: $data['stat'] = "Penerima PKH"; break;
-			case 26: $data['stat'] = "Penerima Jampersal"; break;
-			case 27: $data['stat'] = "Penerima Bedah Rumah"; break;
-			default:$data['stat'] = "Pendidikan";
-		}
-
+		$data['stat'] = $this->judul_statistik($lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 		$header['modul'] = 3;
@@ -79,34 +54,7 @@ function __construct(){
 
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap']=$lap;
-
-
-		switch($lap){
-			case 0: $data['stat'] = "Pendidikan Telah Ditempuh"; break;
-			case 1: $data['stat'] = "Pekerjaan"; break;
-			case 2: $data['stat'] = "Status Perkawinan"; break;
-			case 3: $data['stat'] = "Agama"; break;
-			case 4: $data['stat'] = "Jenis Kelamin"; break;
-			case 5: $data['stat'] = "Warga Negara"; break;
-			case 6: $data['stat'] = "Status"; break;
-			case 7: $data['stat'] = "Golongan Darah"; break;
-			case 9: $data['stat'] = "Cacat"; break;
-			case 10: $data['stat'] = "Sakit Menahun"; break;
-			case 11: $data['stat'] = "Jamkesmas"; break;
-			case 12: $data['stat'] = "Pendidikan dalam KK"; break;
-			case 13: $data['stat'] = "Umur (Detail)"; break;
-			case 15: $data['stat'] = "Umur"; break;
-			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
-			case 21: $data['stat'] = "Klasifikasi Sosial"; break;
-			case 22: $data['stat'] = "Penerima Raskin"; break;
-			case 23: $data['stat'] = "Penerima BLT"; break;
-			case 24: $data['stat'] = "Penerima BOS"; break;
-			case 25: $data['stat'] = "Penerima PKH"; break;
-			case 26: $data['stat'] = "Penerima Jampersal"; break;
-			case 27: $data['stat'] = "Penerima Bedah Rumah"; break;
-			default:$data['stat'] = "Pendidikan";
-		}
-
+		$data['stat'] = $this->judul_statistik($lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
@@ -119,34 +67,7 @@ function __construct(){
 
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap']=$lap;
-
-
-		switch($lap){
-			case 0: $data['stat'] = "Pendidikan Telah Ditempuh"; break;
-			case 1: $data['stat'] = "Pekerjaan"; break;
-			case 2: $data['stat'] = "Status Perkawinan"; break;
-			case 3: $data['stat'] = "Agama"; break;
-			case 4: $data['stat'] = "Jenis Kelamin"; break;
-			case 5: $data['stat'] = "Warga Negara"; break;
-			case 6: $data['stat'] = "Status"; break;
-			case 7: $data['stat'] = "Golongan Darah"; break;
-			case 9: $data['stat'] = "Cacat"; break;
-			case 10: $data['stat'] = "Sakit Menahun"; break;
-			case 11: $data['stat'] = "Jamkesmas"; break;
-			case 12: $data['stat'] = "Pendidikan dalam KK"; break;
-			case 13: $data['stat'] = "Umur (Detail)"; break;
-			case 15: $data['stat'] = "Umur"; break;
-			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
-			case 21: $data['stat'] = "Klasifikasi Sosial"; break;
-			case 22: $data['stat'] = "Penerima Raskin"; break;
-			case 23: $data['stat'] = "Penerima BLT"; break;
-			case 24: $data['stat'] = "Penerima BOS"; break;
-			case 25: $data['stat'] = "Penerima PKH"; break;
-			case 26: $data['stat'] = "Penerima Jampersal"; break;
-			case 27: $data['stat'] = "Penerima Bedah Rumah"; break;
-			default:$data['stat'] = "Pendidikan";
-		}
-
+		$data['stat'] = $this->judul_statistik($lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
@@ -157,31 +78,7 @@ function __construct(){
 
     function cetak($lap=0){
 		$data['lap']=$lap;
-		switch($lap){
-			case 0: $data['stat'] = "Pendidikan Telah Ditempuh"; break;
-			case 1: $data['stat'] = "Pekerjaan"; break;
-			case 2: $data['stat'] = "Status Perkawinan"; break;
-			case 3: $data['stat'] = "Agama"; break;
-			case 4: $data['stat'] = "Jenis Kelamin"; break;
-			case 5: $data['stat'] = "Warga Negara"; break;
-			case 6: $data['stat'] = "Status"; break;
-			case 7: $data['stat'] = "Golongan Darah"; break;
-			case 9: $data['stat'] = "Cacat"; break;
-			case 10: $data['stat'] = "Sakit Menahun"; break;
-			case 11: $data['stat'] = "Jamkesmas"; break;
-			case 12: $data['stat'] = "Pendidikan dalam KK"; break;
-			case 13: $data['stat'] = "Umur"; break;
-			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
-			case 21: $data['stat'] = "Klasifikasi Sosial"; break;
-			case 22: $data['stat'] = "Penerima Raskin"; break;
-			case 23: $data['stat'] = "Penerima BLT"; break;
-			case 24: $data['stat'] = "Penerima BOS"; break;
-			case 25: $data['stat'] = "Penerima PKH"; break;
-			case 26: $data['stat'] = "Penerima Jampersal"; break;
-			case 27: $data['stat'] = "Penerima Bedah Rumah"; break;
-			default:$data['stat'] = "Pendidikan";
-		}
-
+		$data['stat'] = $this->judul_statistik($lap);
 		$data['config']  = $this->laporan_penduduk_model->get_config();
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$this->load->view('statistik/penduduk_print',$data);
@@ -189,31 +86,7 @@ function __construct(){
 
 	function excel($lap=0){
 		$data['lap']=$lap;
-		switch($lap){
-			case 0: $data['stat'] = "Pendidikan Telah Ditempuh"; break;
-			case 1: $data['stat'] = "Pekerjaan"; break;
-			case 2: $data['stat'] = "Status Perkawinan"; break;
-			case 3: $data['stat'] = "Agama"; break;
-			case 4: $data['stat'] = "Jenis Kelamin"; break;
-			case 5: $data['stat'] = "Warga Negara"; break;
-			case 6: $data['stat'] = "Status"; break;
-			case 7: $data['stat'] = "Golongan Darah"; break;
-			case 9: $data['stat'] = "Cacat"; break;
-			case 10: $data['stat'] = "Sakit Menahun"; break;
-			case 11: $data['stat'] = "Jamkesmas"; break;
-			case 12: $data['stat'] = "Pendidikan dalam KK"; break;
-			case 13: $data['stat'] = "Umur"; break;
-			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
-			case 21: $data['stat'] = "Klasifikasi Sosial"; break;
-			case 22: $data['stat'] = "Penerima Raskin"; break;
-			case 23: $data['stat'] = "Penerima BLT"; break;
-			case 24: $data['stat'] = "Penerima BOS"; break;
-			case 25: $data['stat'] = "Penerima PKH"; break;
-			case 26: $data['stat'] = "Penerima Jampersal"; break;
-			case 27: $data['stat'] = "Penerima Bedah Rumah"; break;
-			default:$data['stat'] = "Pendidikan";
-		}
-
+		$data['stat'] = $this->judul_statistik($lap);
 		$data['config']  = $this->laporan_penduduk_model->get_config();
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$this->load->view('statistik/penduduk_excel',$data);
@@ -252,6 +125,35 @@ function __construct(){
 		$_SESSION['per_page'] = 100;
 		$_SESSION['data'] = $data;
 		redirect("sid_penduduk/index/");
+	}
+
+	function judul_statistik($lap){
+		switch($lap){
+			case 0: return "Pendidikan Telah Ditempuh"; break;
+			case 1: return "Pekerjaan"; break;
+			case 2: return "Status Perkawinan"; break;
+			case 3: return "Agama"; break;
+			case 4: return "Jenis Kelamin"; break;
+			case 5: return "Warga Negara"; break;
+			case 6: return "Status"; break;
+			case 7: return "Golongan Darah"; break;
+			case 9: return "Cacat"; break;
+			case 10: return "Sakit Menahun"; break;
+			case 11: return "Jamkesmas"; break;
+			case 12: return "Pendidikan dalam KK"; break;
+			case 13: return "Umur"; break;
+			case 14: return "Pendidikan Sedang Ditempuh"; break;
+			case 15: return "Umur"; break;
+			case 16: return "Akseptor KB"; break;
+			case 21: return "Klasifikasi Sosial"; break;
+			case 22: return "Penerima Raskin"; break;
+			case 23: return "Penerima BLT"; break;
+			case 24: return "Penerima BOS"; break;
+			case 25: return "Penerima PKH"; break;
+			case 26: return "Penerima Jampersal"; break;
+			case 27: return "Penerima Bedah Rumah"; break;
+			default: return "Pendidikan";
+		}
 	}
 
 	function rentang_umur(){

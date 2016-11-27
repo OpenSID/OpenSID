@@ -427,7 +427,16 @@
 		return $data;
 	}
 
-	function validasi_data_penduduk($data){
+	function validasi_data_penduduk(&$data){
+		if ($data['tanggallahir'] == '') $data['tanggallahir'] = NULL;
+		if ($data['tanggallahir']) $data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
+		if ($data['tanggalperkawinan'] == '') $data['tanggalperkawinan'] = NULL;
+		if ($data['tanggalperkawinan']) $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
+		if ($data['tanggalperceraian'] == '') $data['tanggalperceraian'] = NULL;
+		if ($data['tanggalperceraian']) $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
+		// Hanya status 'kawin' yang boleh jadi akseptor kb
+		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
+
 		$valid = array();
 		if (!ctype_digit($data['nik']))
 			array_push($valid, "NIK hanya berisi angka");
@@ -467,9 +476,6 @@
 		UNSET($data['rw']);
 		UNSET($data['rt']);
 
-		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
-		$data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
-		$data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 		$data['nama'] = penetration($data['nama']);
 		$data['nama_ayah'] = penetration($data['nama_ayah']);
 		$data['nama_ibu'] = penetration($data['nama_ibu']);
@@ -485,11 +491,7 @@
 		}
 
 		$outp = $this->db->insert('tweb_penduduk',$data);
-
-		$sql="SELECT MAX(id) as id FROM tweb_penduduk";
-		$query = $this->db->query($sql);
-		$data  = $query->row_array();
-		$idku = $data['id'];
+		$idku = $this->db->insert_id();
 
 		$satuan=$_POST['tanggallahir'];
 		$blnlahir = substr($satuan,3,2);
@@ -517,10 +519,10 @@
 		$log1['tanggal'] = date("m-d-y");
 		$outp = $this->db->insert('log_perubahan_penduduk',$log1);
 
-
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 
+		return $idku;
 	}
 
 	function update($id=0){
@@ -561,14 +563,6 @@
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
-
-		$data['nama'] = $data['nama'];
-		$data['nama_ayah'] = $data['nama_ayah'];
-		$data['nama_ibu'] = $data['nama_ibu'];
-
-		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
-		$data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
-		$data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 
 		$error_validasi = $this->validasi_data_penduduk($data);
 		if (!empty($error_validasi)){
@@ -695,7 +689,7 @@
 		(
 			SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id
 		)
-		 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama
+		 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb
 		 FROM tweb_penduduk u
 			LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
 			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
@@ -707,7 +701,10 @@
 			LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
 			LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
-			LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id WHERE u.id=?";
+			LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
+			LEFT JOIN tweb_cacat c ON u.cacat_id = c.id
+			LEFT JOIN tweb_cara_kb kb ON u.cara_kb_id = kb.id
+			WHERE u.id=?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		$data['tanggallahir'] = tgl_indo_out($data['tanggallahir']);
@@ -833,6 +830,17 @@
 	function list_cacat(){
 		$sql   = "SELECT * FROM tweb_cacat WHERE 1";
 		$query = $this->db->query($sql);
+		$data=$query->result_array();
+		return $data;
+	}
+
+	function list_cara_kb($sex=''){
+		if ($sex != 1 AND $sex != 2) {
+			$sql   = "SELECT * FROM tweb_cara_kb WHERE 1";
+		} else {
+			$sql   = "SELECT * FROM tweb_cara_kb WHERE sex = ? OR sex = 3";
+		}
+		$query = $this->db->query($sql, $sex);
 		$data=$query->result_array();
 		return $data;
 	}

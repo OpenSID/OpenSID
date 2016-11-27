@@ -93,7 +93,7 @@
         <?php  foreach($main as $data): ?>
 		<tr>
           <td class="thick" align="center" width="2"><?php echo $data['no']?></td>
-          <td class="thick"><?php echo $data['nama']?></td>
+          <td class="thick"><?php echo strtoupper($data['nama'])?></td>
           <td class="thick"><?php echo $data['jumlah']?></td>
 		  <?php  if($lap<20){?>
 		  <td class="thick"><?php echo $data['laki']?></td>
