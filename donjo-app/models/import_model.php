@@ -362,7 +362,8 @@ class import_model extends CI_Model{
 		// --- Masukkan dusun apabila belum ada
 		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun=?";
 		$hasil = $this->db->query($query, $isi_baris['dusun']);
-		if (empty($hasil->row_array())) {
+		$res = $hasil->row_array();
+		if (empty($res)) {
 			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,0,'".$isi_baris['dusun']."')";
 			$hasil = $this->db->query($query);
 			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,'-','".$isi_baris['dusun']."')";
@@ -374,7 +375,8 @@ class import_model extends CI_Model{
 		// --- Masukkan rw apabila belum ada
 		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun=? AND rw=?";
 		$hasil = $this->db->query($query, array($isi_baris['dusun'], $isi_baris['rw']));
-		if (empty($hasil->row_array())) {
+		$res = $hasil->row_array();
+		if (empty($res)) {
 			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,'".$isi_baris['rw']."','".$isi_baris['dusun']."')";
 			$hasil = $this->db->query($query);
 			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('-','".$isi_baris['rw']."','".$isi_baris['dusun']."')";
@@ -386,8 +388,9 @@ class import_model extends CI_Model{
 		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE
 							dusun='".$isi_baris['dusun']."' AND rw='".$isi_baris['rw']."' AND rt='".$isi_baris['rt']."'";
 		$hasil = $this->db->query($query);
-		if (!empty($hasil->row_array())) {
-			$isi_baris['id_cluster'] = $hasil->row_array()['id'];
+		$res = $hasil->row_array();
+		if ( ! empty($res)) {
+			$isi_baris['id_cluster'] = $res['id'];
 		} else {
 			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('".$isi_baris['rt']."','".$isi_baris['rw']."','".$isi_baris['dusun']."')";
 			$hasil = $this->db->query($query);
@@ -404,10 +407,11 @@ class import_model extends CI_Model{
 		// keluarga ini belum ada
 		$query = "SELECT id from tweb_keluarga WHERE no_kk=?";
 		$hasil = $this->db->query($query, $isi_baris['no_kk']);
-		if (!empty($hasil->row_array())) {
+		$res = $hasil->row_array();
+		if ( ! empty($res)) {
 			// Update keluarga apabila sudah ada
-			$isi_baris['id_kk'] = $hasil->row_array()['id'];
-			$id = $hasil->row_array()['id'];
+			$isi_baris['id_kk'] = $res['id'];
+			$id = $res['id'];
 			$this->db->where('id',$id);
 			$data['alamat'] = $isi_baris['alamat'];
 			$hasil = $this->db->update('tweb_keluarga',$data);
@@ -453,8 +457,9 @@ class import_model extends CI_Model{
 			// Update data penduduk yang sudah ada
 			$query = "SELECT id from tweb_penduduk WHERE nik=?";
 			$hasil = $this->db->query($query, $isi_baris['nik']);
-			if (!empty($hasil->row_array())) {
-				$id = $hasil->row_array()['id'];
+			$res = $hasil->row_array();
+			if (!empty($res)) {
+				$id = $res['id'];
 				$this->db->where('id',$id);
 				$hasil = $this->db->update('tweb_penduduk',$data);
 			} else {
@@ -635,15 +640,21 @@ class import_model extends CI_Model{
 		$data_anggota = $data_keluarga;
 		$data_anggota['nik'] = preg_replace('/[^0-9]/', '', trim($data_sheet[$i][3]));
 		$data_anggota['nama'] = trim($data_sheet[$i][4]);
-		$data_anggota['sex'] = unserialize(KODE_SEX)[trim($data_sheet[$i][5])];
+		$tmp = unserialize(KODE_SEX);
+		$data_anggota['sex'] = $tmp[trim($data_sheet[$i][5])];
 		$data_anggota['tempatlahir'] = trim($data_sheet[$i][6]);
 		$tanggallahir = trim($data_sheet[$i][7]);
 		$data_anggota['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
-		$data_anggota['agama_id'] = unserialize(KODE_AGAMA)[strtolower(trim($data_sheet[$i][9]))];
-		$data_anggota['status_kawin'] = unserialize(KODE_STATUS)[strtolower(trim($data_sheet[$i][10]))];
-		$data_anggota['kk_level'] = unserialize(KODE_HUBUNGAN)[strtolower(trim($data_sheet[$i][11]))];
-		$data_anggota['pendidikan_kk_id'] = unserialize(KODE_PENDIDIKAN)[strtolower(trim($data_sheet[$i][12]))];
-		$data_anggota['pekerjaan_id'] = unserialize(KODE_PEKERJAAN)[strtolower(trim($data_sheet[$i][13]))];
+		$tmp = unserialize(KODE_AGAMA);
+		$data_anggota['agama_id'] = $tmp[strtolower(trim($data_sheet[$i][9]))];
+		$tmp = unserialize(KODE_STATUS);
+		$data_anggota['status_kawin'] = $tmp[strtolower(trim($data_sheet[$i][10]))];
+		$tmp = unserialize(KODE_HUBUNGAN);
+		$data_anggota['kk_level'] = $tmp[strtolower(trim($data_sheet[$i][11]))];
+		$tmp = unserialize(KODE_PENDIDIKAN);
+		$data_anggota['pendidikan_kk_id'] = $tmp[strtolower(trim($data_sheet[$i][12]))];
+		$tmp = unserialize(KODE_PEKERJAAN);
+		$data_anggota['pekerjaan_id'] = $tmp[strtolower(trim($data_sheet[$i][13]))];
 		$nama_ibu = trim($data_sheet[$i][14]);
 		if($nama_ibu==""){
 			$nama_ibu = "-";
@@ -810,11 +821,16 @@ class import_model extends CI_Model{
 		$data_anggota['tempatlahir'] = trim($data_sheet[$i][4]);
 		$tanggallahir = trim($data_sheet[$i][5]);
 		$data_anggota['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
-		$data_anggota['sex'] = unserialize(KODE_SEX)[trim($data_sheet[$i][6])];
-		$data_anggota['kk_level'] = unserialize(KODE_HUBUNGAN)[strtolower(trim($data_sheet[$i][7]))];
-		$data_anggota['agama_id'] = unserialize(KODE_AGAMA)[strtolower(trim($data_sheet[$i][8]))];
-		$data_anggota['pendidikan_kk_id'] = unserialize(KODE_PENDIDIKAN)[strtolower(trim($data_sheet[$i][9]))];
-		$data_anggota['pekerjaan_id'] = unserialize(KODE_PEKERJAAN)[strtolower(trim($data_sheet[$i][10]))];
+		$tmp = unserialize(KODE_SEX);
+		$data_anggota['sex'] = $tmp[trim($data_sheet[$i][6])];
+		$tmp = unserialize(KODE_HUBUNGAN);
+		$data_anggota['kk_level'] = $tmp[strtolower(trim($data_sheet[$i][7]))];
+		$tmp = unserialize(KODE_AGAMA);
+		$data_anggota['agama_id'] = $tmp[strtolower(trim($data_sheet[$i][8]))];
+		$tmp = unserialize(KODE_PENDIDIKAN);
+		$data_anggota['pendidikan_kk_id'] = $tmp[strtolower(trim($data_sheet[$i][9]))];
+		$tmp = unserialize(KODE_PEKERJAAN);
+		$data_anggota['pekerjaan_id'] = $tmp[strtolower(trim($data_sheet[$i][10]))];
 		$nama_ibu = trim($data_sheet[$i][11]);
 		if($nama_ibu==""){
 			$nama_ibu = "-";
