@@ -17,8 +17,8 @@
 	<thead>
 		<tr class="border thick">
                 <th>No</th>
-				<th width="100">Nama Dusun</th>
-				<th width="100">Nama Kadus</th>
+				<th width="100">Nama <?php echo ucwords(config_item('sebutan_dusun'))?></th>
+				<th width="100">Nama Kepala <?php echo ucwords(config_item('sebutan_dusun'))?></th>
 				<th width="50">RW</th>
 				<th width="50">RT</th>
 				<th width="50">KK</th>

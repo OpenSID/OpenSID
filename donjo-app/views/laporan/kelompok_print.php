@@ -63,11 +63,11 @@
 <thead>
 <?php if($_SESSION['dusun']!=''){?>
 <tr>
-	<h3>DATA PILAH DUSUN <?php echo $_SESSION['dusun'] ?></h3>
+	<h3>DATA PILAH <?php echo strtoupper(config_item('sebutan_dusun'))?> <?php echo $_SESSION['dusun'] ?></h3>
 </tr>
 <?php } ?>
 <tr class="border thick">
-	<th rowspan="2"><div align="center">DUSUN</div></th>
+	<th rowspan="2"><div align="center"><?php echo strtoupper(config_item('sebutan_dusun'))?></div></th>
 	<th rowspan="2"><div align="center">RW</div></th>
 	<th rowspan="2"><div align="center">RT</div></th>
 	<th colspan="2"><div align="center">KK</div></th>

@@ -316,7 +316,7 @@ function handle_point(cb) {
 </select>
 
 <select name="dusun" onchange="formAction('mainform','<?php echo site_url('gis/dusun')?>')">
-	<option value="">Dusun</option>
+	<option value=""><?php echo ucwords(config_item('sebutan_dusun'))?></option>
 	<?php foreach($list_dusun AS $data){?>
 	<option <?php if($dusun==$data['dusun']) :?>selected<?php endif?> value="<?php echo $data['dusun']?>"><?php echo $data['dusun']?></option>
 	<?php }?>

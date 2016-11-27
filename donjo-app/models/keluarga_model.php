@@ -673,11 +673,10 @@
 			WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE id = ?) ";
 		$query = $this->db->query($sql,array($id,$id,$id));
 		$data = $query->row_array();
-		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' Dusun '.$data['dusun']);
+		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords(config_item('sebutan_dusun')).' '.$data['dusun']);
 		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
 		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data['id']);
 		return $data;
-
 	}
 	function get_kepala_a($id){
 

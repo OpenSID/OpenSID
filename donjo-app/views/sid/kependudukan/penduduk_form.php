@@ -15,9 +15,9 @@
 <?php $edit_lokasi = ((empty($penduduk) OR $_SESSION['validation_error']) AND empty($id)); ?>
 <?php if($edit_lokasi) {?>
 <tr>
-<th width="100">Dusun</th>
+<th width="100"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
 <td><select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk/form')?>')" <?php if($dusun){?>class="required"<?php }?>>
-<option value="">Pilih Dusun</option>
+<option value="">Pilih <?php echo ucwords(config_item('sebutan_dusun'))?></option>
 <?php foreach($dusun as $data){?>
 <option value="<?php echo $data['dusun']?>" <?php if($dus_sel==$data['dusun']){?>selected<?php }?>><?php echo unpenetration(ununderscore($data['dusun']))?></option>
 <?php }?></select>

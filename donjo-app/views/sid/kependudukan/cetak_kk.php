@@ -36,7 +36,7 @@
 	<td>: <?php echo strtoupper($desa['kode_pos']) ?></td>
 	</tr>
 	<tr>
-	<td>Kelurahan/Desa</td>
+	<td>Kelurahan/<?php echo ucwords(config_item('sebutan_desa'))?></td>
 	<td>: <?php echo strtoupper($desa['nama_desa']) ?></td>
 	<td>Provinsi</td>
 	<td>: <?php echo strtoupper($desa['nama_propinsi']) ?></td>
@@ -126,7 +126,7 @@
 <tr>
 	<td width="25%" align="center">KEPALA KELUARGA</td>
 	<td width="50%"></td>
-	<td align="center" width="150">KEPALA DESA <?php echo strtoupper($desa['nama_desa']) ?></td>
+	<td align="center" width="150">KEPALA <?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper($desa['nama_desa']) ?></td>
 	</tr>
 <tr><td>&nbsp;</td></tr>
 <tr><td>&nbsp;</td></tr>

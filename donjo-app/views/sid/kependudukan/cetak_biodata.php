@@ -12,7 +12,7 @@
 <div id="ktp">
 <div class="header" align="center">
 <h3>BIODATA PENDUDUK</h3>
-<h2><?php echo $desa['desa']['nama_kabupaten']?>, Kec. <?php echo $desa['desa']['nama_kecamatan']?>, Desa <?php echo $desa['desa']['nama_desa']?></h2>
+<h2><?php echo $desa['desa']['nama_kabupaten']?>, Kec. <?php echo $desa['desa']['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo $desa['desa']['nama_desa']?></h2>
 <h5>No. <?php echo $penduduk['nik']?></h5>
 </div>
 <br>
@@ -34,7 +34,7 @@
   <td><?php echo strtoupper(ununderscore($penduduk['alamat']))?></td></tr>
 <tr>
 <tr>
-<td>Dusun</td><td >:</td>
+<td><?php echo ucwords(config_item('sebutan_dusun'))?></td><td >:</td>
 <td><?php echo strtoupper(ununderscore($penduduk['dusun']))?></td></tr>
 
 <tr>

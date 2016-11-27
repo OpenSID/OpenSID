@@ -59,7 +59,7 @@ source: keyword
                 </select>-->
 
                 <select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk/dusun')?>')">
-                    <option value="">Dusun</option>
+                    <option value=""><?php echo ucwords(config_item('sebutan_dusun'))?></option>
 					<?php foreach($list_dusun AS $data){?>
                     <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo ununderscore(unpenetration($data['dusun']))?></option>
 					<?php }?>
@@ -122,7 +122,7 @@ source: keyword
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
-			<th align="left" align="center">Dusun</th>
+			<th align="left" align="center"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
 			<th align="left" align="center">RW</th>
 			<th align="left" align="center">RT</th>
 			<th align="left" align="center">Pendidikan dalam KK</th>

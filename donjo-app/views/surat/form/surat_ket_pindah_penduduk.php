@@ -140,7 +140,7 @@ table.form.detail td{
 				</td>
 			</tr>
 			<tr>
-				<th>Kampung</th>
+				<th><?php echo ucwords(config_item('sebutan_desa'))?></th>
 				<td>
 					<input name="kampung_tujuan" type="text" class="inputbox required" size="40"/>
 				</td>
@@ -158,13 +158,13 @@ table.form.detail td{
 				</td>
 			</tr>
 			<tr>
-				<th>kabupaten</th>
+				<th>Kabupaten</th>
 				<td>
 					<input name="kabupaten_tujuan" type="text" class="inputbox required" size="40"/>
 				</td>
 			</tr>
 			<tr>
-				<th>provinsi</th>
+				<th>Provinsi</th>
 				<td>
 					<input name="kantor_tujuan" type="text" class="inputbox required" size="40"/>
 				</td>

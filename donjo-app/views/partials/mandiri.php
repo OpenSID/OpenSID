@@ -30,7 +30,7 @@
 </tr>
 
 <tr>
-<td>Dusun</td><td >:</td>
+<td><?php echo ucwords(config_item('sebutan_dusun'))?></td><td >:</td>
 <td><?php echo strtoupper(ununderscore(unpenetration($penduduk['dusun'])))?></td>
 </tr>
 

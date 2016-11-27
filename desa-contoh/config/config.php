@@ -14,4 +14,5 @@ $config['login_title'] = 'OpenSID';
 $config['admin_title'] = 'Sistem Informasi Desa';
 
 // untuk mengganti penamaan wilayah 'desa'
-$config['sebutan_desa'] = 'kampung';
+$config['sebutan_desa'] = 'nagari';
+$config['sebutan_dusun'] = 'jorong';

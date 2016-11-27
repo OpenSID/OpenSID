@@ -33,7 +33,7 @@
 				<a href="<?php echo site_url("keluarga/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
 				&nbsp;
 				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('keluarga/dusun')?>')">
-                    <option value="">Dusun</option>
+                    <option value=""><?php echo ucwords(config_item('sebutan_dusun'))?></option>
 					<?php foreach($list_dusun AS $data){?>
                     <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
 					<?php }?>
@@ -102,7 +102,7 @@
 			<th width="50" align="center">Jumlah Anggota</th>
 			<th align="center" width="80">Jenis Kelamin</th>
             <th align="center" width="180">Alamat</th>
-			<th align="center" width="120">Dusun</th>
+			<th align="center" width="120"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
 			<th align="center" width="30">RW</th>
 			<th align="center" width="30">RT</th>
 			<th align="center" width="100">Tanggal Terdaftar</th>
