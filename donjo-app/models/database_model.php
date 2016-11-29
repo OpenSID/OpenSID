@@ -325,8 +325,10 @@
 
   function migrasi_14_ke_15() {
     // Tambah kolom di tabel tweb_penduduk
-    $query = "ALTER TABLE tweb_penduduk ADD cara_kb_id tinyint(2) NULL DEFAULT NULL;";
-    $this->db->query($query);
+    if (!$this->db->field_exists('cara_kb_id', 'tweb_penduduk')) {
+      $query = "ALTER TABLE tweb_penduduk ADD cara_kb_id tinyint(2) NULL DEFAULT NULL;";
+      $this->db->query($query);
+    }
 
      // Tambah tabel cara_kb
     $query = "DROP TABLE IF EXISTS tweb_cara_kb;";
@@ -344,14 +346,14 @@
 
     $query = "
       INSERT INTO tweb_cara_kb (id, nama, sex) VALUES
-        (1, 'Intrauterine Device (IUD)', 2),
-        (2, 'Metoda Operasi Wanita (MOW)', 2),
-        (3, 'Metoda Operasi Pria (MOP)', 1),
-        (4, 'Implan', 2),
-        (5, 'Suntik', 2),
-        (6, 'Pil', 2),
-        (7, 'Kondom', 1),
-        (99, 'LAINNYA', 3);
+      (1, 'Pil', 2),
+      (2, 'IUD', 2),
+      (3, 'Suntik', 2),
+      (4, 'Kondom', 1),
+      (5, 'Susuk KB', 2),
+      (6, 'Sterilisasi Wanita', 2),
+      (7, 'Sterilisasi Pria', 1),
+      (99, 'Lainnya', 3);
     ";
     $this->db->query($query);
 

@@ -20,14 +20,14 @@ CREATE TABLE tweb_cara_kb (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 INSERT INTO tweb_cara_kb (id, nama, sex) VALUES
-  (1, 'Intrauterine Device (IUD)', 2),
-  (2, 'Metoda Operasi Wanita (MOW)', 2),
-  (3, 'Metoda Operasi Pria (MOP)', 1),
-  (4, 'Implan', 2),
-  (5, 'Suntik', 2),
-  (6, 'Pil', 2),
-  (7, 'Kondom', 1),
-  (99, 'LAINNYA', 3);
+  (1, 'Pil', 2),
+  (2, 'IUD', 2),
+  (3, 'Suntik', 2),
+  (4, 'Kondom', 1),
+  (5, 'Susuk KB', 2),
+  (6, 'Sterilisasi Wanita', 2),
+  (7, 'Sterilisasi Pria', 1),
+  (99, 'Lainnya', 3);
 
 -- Ubah tanggallahir supaya tidak tampil apabila kosong
 ALTER TABLE tweb_penduduk CHANGE tanggallahir tanggallahir DATE NULL DEFAULT NULL;
