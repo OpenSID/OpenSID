@@ -397,20 +397,38 @@ function mandiri_timeout(){
 }
 
 function get_identitas(){
+	$ci =& get_instance();
 	$sql="SELECT * FROM config";
-	$a=mysql_query($sql);
-	$hsl=mysql_fetch_array($a);
+	$a=$ci->db->query($sql);
+	$hsl=$a->row_array();
 	//print_r($hsl);
 	$string = ucwords(config_item('sebutan_desa'))." : ".$hsl['nama_desa']." Kec : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
 }
 
 // fix str aneh utk masuk ke db
+// TODO: Jangan pernah gunakan saya lagi bro,,,,,, :p
 function fixSQL($str, $encode_ent = false) {
-	$str  = @trim($str);	if($encode_ent) {		$str = htmlentities($str);	}
-	if(version_compare(phpversion(),'4.3.0') >= 0) {if(get_magic_quotes_gpc()) {$str = stripslashes($str);}
-		if(@mysql_ping()) {	$str = mysql_real_escape_string($str);}	else {$str = addslashes($str);}
-	}else {if(!get_magic_quotes_gpc()) {$str = addslashes($str);}}
+	$str  = @trim($str);
+	if($encode_ent) {
+		$str = htmlentities($str);
+	}
+
+	if (version_compare(phpversion(),'4.3.0') >= 0) {
+		if (get_magic_quotes_gpc()) {
+			$str = stripslashes($str);
+		}
+		// FIXME
+		if (function_exists('mysql_ping') && @mysql_ping()) {
+			$str = mysql_real_escape_string($str);
+		} else {
+			$str = addslashes($str);
+		}
+
+	} else if (!get_magic_quotes_gpc()) {
+		$str = addslashes($str);
+	}
+
 	return $str;
 }
 

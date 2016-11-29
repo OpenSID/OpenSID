@@ -4,109 +4,109 @@ class analisis_import_Model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}
-	
+
 	function import_excel(){
-		
+
 		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
-		
+
 		//master
 		$sheet=0;
-		
+
 		$master['nama']			= $data->val(1,2,$sheet);
 		$master['subjek_tipe']	= $data->val(2,2,$sheet);
 		$master['lock']			= $data->val(3,2,$sheet);
 		$master['pembagi']		= $data->val(4,2,$sheet);
 		$master['deskripsi']	= $data->val(5,2,$sheet);
-		
+
 		$this->db->insert('analisis_master',$master);
 		$id_master = $this->db->insert_id();
-		
+
 		$periode['id_master']			= $id_master;
 		$periode['nama']				= $data->val(6,2,$sheet);
 		$periode['tahun_pelaksanaan']	= $data->val(7,2,$sheet);
 		$periode['keterangan']			= $data->val(5,2,$sheet);
 		$periode['aktif']				= 1;
 		$this->db->insert('analisis_periode',$periode);
-		
-		
+
+
 		//pertanyaan
 		$sheet=1;
 		$baris = $data->rowcount($sheet_index=$sheet);
 		$kolom = $data->colcount($sheet_index=$sheet);
-		
+
 		//cek kategori
 		for ($i=2; $i<=$baris; $i++){
-			
+
 			$sql   = "SELECT * FROM analisis_kategori_indikator WHERE kategori=? AND id_master=?";
 			$query = $this->db->query($sql,array($data->val($i,3,$sheet),$id_master));
 			$cek  = $query->row_array();
-			
+
 			if(!$cek){
 				$kategori['id_master']		= $id_master;
 				$kategori['kategori']		= $data->val($i,3,$sheet);
 				$this->db->insert('analisis_kategori_indikator',$kategori);
 			}
 		}
-		
+
 		//isert pertanyaan
 		for ($i=2; $i<=$baris; $i++){
-			
+
 			$indikator['id_master']		= $id_master;
 			$indikator['nomor']			= $data->val($i,1,$sheet);
 			$indikator['pertanyaan']	= $data->val($i,2,$sheet);
-			
+
 			$sql   = "SELECT * FROM analisis_kategori_indikator WHERE kategori=? AND id_master=?";
 			$query = $this->db->query($sql,array($data->val($i,3,$sheet),$id_master));
 			$kategori  = $query->row_array();
-			
+
 			$indikator['id_kategori']	= $kategori['id'];
 			$indikator['id_tipe']		= $data->val($i,4,$sheet);
 			$indikator['bobot']			= $data->val($i,5,$sheet);
 			$indikator['act_analisis']	= $data->val($i,6,$sheet);
-			
+
 			$this->db->insert('analisis_indikator',$indikator);
 		}
-		
-		
+
+
 		//jawaban
 		$sheet=2;
 		$baris = $data->rowcount($sheet_index=$sheet);
 		$kolom = $data->colcount($sheet_index=$sheet);
-		
+
 		//isert jawaban
 		for ($i=2; $i<=$baris; $i++){
-			
+
 			//$parameter['id_master']		= $id_master;
 			$kode						= explode(".",$data->val($i,3,$sheet));
 			$parameter['kode_jawaban']	= $kode[0];
 			$parameter['jawaban']	= $data->val($i,3,$sheet);
-			
+
 			$sql   		= "SELECT id FROM analisis_indikator WHERE nomor=? AND id_master=?";
 			$query 		= $this->db->query($sql,array($data->val($i,1,$sheet),$id_master));
 			$indikator  = $query->row_array();
-			
+
 			$parameter['id_indikator']	= $indikator['id'];
 			$parameter['nilai']			= $data->val($i,4,$sheet);
-			
+
 			$this->db->insert('analisis_parameter',$parameter);
 		}
-		
+
 		//klasifikasi
 		$sheet=3;
 		$baris = $data->rowcount($sheet_index=$sheet);
 		$kolom = $data->colcount($sheet_index=$sheet);
-		
+
 		//isert klasifikasi
 		for ($i=2; $i<=$baris; $i++){
-			
+
 			$klasifikasi['id_master']	= $id_master;
 			$klasifikasi['nama']		= $data->val($i,1,$sheet);
 			$klasifikasi['minval']		= $data->val($i,2,$sheet);
 			$klasifikasi['maxval']		= $data->val($i,3,$sheet);
-			
+
 			$this->db->insert('analisis_klasifikasi',$klasifikasi);
 		}
-		
+
 		echo "<table>";
 		for ($i=1; $i<=$baris; $i++){
 			echo "<tr>";
@@ -118,42 +118,42 @@ class analisis_import_Model extends CI_Model{
 		}
 		echo "</table>";
 	}
-	
-	
+
+
 	function import_respon(){
-		
-		
+
+
 		$a="TRUNCATE analisis_respon; ";
 		$this->db->query($a);
-		
+
 		$sql   = "SELECT id FROM analisis_periode WHERE aktif=1 AND id_master=?";
 		$query = $this->db->query($sql,$_SESSION['analisis_master']);
 		$res  = $query->row_array();
 		$id_periode = $res['id'];
-		
+
 		$sql   = "SELECT * FROM analisis_indikator WHERE id_master=? ORDER BY id ASC";
 		$query = $this->db->query($sql,$_SESSION['analisis_master']);
 		$indikator  = $query->result_array();
-		
+
 		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
-		
+
 		//master
 		$sheet=0;
 		$baris = $data->rowcount($sheet_index=$sheet);
 		$kolom = $data->colcount($sheet_index=$sheet);
-		
+
 		for ($i=2; $i<=$baris; $i++){
-			
+
 			$sql = "SELECT id FROM tweb_rtm WHERE no_kk = ?;";
 			$query = $this->db->query($sql,$data->val($i,1,$sheet));
 			$rtm  	= $query->row_array();
 			$id_rtm = $rtm['id'];
-			
+
 			//$indikator= $id_indikator;
 			if($rtm['id']){
 				for ($j=17; $j<=29;$j++){
 					$temp = $data->val($i,$j,$sheet);
-					
+
 					if($indikator[$j-17]['id_tipe']<3){
 						$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND kode_jawaban = ?;";
 						$query = $this->db->query($sql,array($indikator[$j-17]['id'],$temp));
@@ -165,14 +165,14 @@ class analisis_import_Model extends CI_Model{
 							$respon['id_parameter']		= 0;
 						}
 					}else{
-						
+
 						$respon['id_parameter']		= $temp;
 					}
-					
+
 					$respon['id_indikator']		= $indikator[$j-17]['id'];
 					$respon['id_subjek']		= $id_rtm;
 					$respon['id_periode']		= $id_periode;
-					
+
 					$outp = $this->db->insert('analisis_respon',$respon);
 					//$indikator++;
 				}
@@ -180,18 +180,18 @@ class analisis_import_Model extends CI_Model{
 			//echo "</tr>";
 		}
 		//echo "</table>";
-		
+
 		$a="TRUNCATE tweb_rtm; ";
 		//$this->db->query($a);
-		
+
 		$a="INSERT INTO tweb_rtm (no_kk) SELECT distinct(id_rtm) AS no_kk FROM tweb_penduduk WHERE tweb_penduduk.status=2 AND tweb_penduduk.id_rtm <> 0; ";
 		//$this->db->query($a);
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
-	
+
+
 }
 
 define('NUM_BIG_BLOCK_DEPOT_BLOCKS_POS', 0x2c);
@@ -224,7 +224,7 @@ function GetInt4d($data, $pos) {
 function gmgetdate($ts = null){
 	$k = array('seconds','minutes','hours','mday','wday','mon','year','yday','weekday','month',0);
 	return(array_comb($k,split(":",gmdate('s:i:G:j:w:n:Y:z:l:F:U',is_null($ts)?time():$ts))));
-	} 
+	}
 
 // Added for PHP4 compatibility
 function array_comb($array1, $array2) {
@@ -468,7 +468,7 @@ class Spreadsheet_Excel_Reader {
 		if ($d < 16) return "0" . dechex($d);
 		return dechex($d);
 	}
-	
+
 	function dumpHexData($data, $pos, $length) {
 		$info = "";
 		for ($i = 0; $i <= $length; $i++) {
@@ -541,7 +541,7 @@ class Spreadsheet_Excel_Reader {
 	}
 	function colwidth($col,$sheet=0) {
 		// Col width is actually the width of the number 0. So we have to estimate and come close
-		return $this->colInfo[$sheet][$col]['width']/9142*200; 
+		return $this->colInfo[$sheet][$col]['width']/9142*200;
 	}
 	function colhidden($col,$sheet=0) {
 		return !!$this->colInfo[$sheet][$col]['hidden'];
@@ -552,7 +552,7 @@ class Spreadsheet_Excel_Reader {
 	function rowhidden($row,$sheet=0) {
 		return !!$this->rowInfo[$sheet][$row]['hidden'];
 	}
-	
+
 	// GET THE CSS FOR FORMATTING
 	// ==========================
 	function style($row,$col,$sheet=0,$properties='') {
@@ -614,10 +614,10 @@ class Spreadsheet_Excel_Reader {
 		if ($bRight!="" && $bRightCol!="") { $css .= "border-right-color:" . $bRightCol .";"; }
 		if ($bTop!="" && $bTopCol!="") { $css .= "border-top-color:" . $bTopCol . ";"; }
 		if ($bBottom!="" && $bBottomCol!="") { $css .= "border-bottom-color:" . $bBottomCol .";"; }
-		
+
 		return $css;
 	}
-	
+
 	// FORMAT PROPERTIES
 	// =================
 	function format($row,$col,$sheet=0) {
@@ -629,7 +629,7 @@ class Spreadsheet_Excel_Reader {
 	function formatColor($row,$col,$sheet=0) {
 		return $this->info($row,$col,'formatColor',$sheet);
 	}
-	
+
 	// CELL (XF) PROPERTIES
 	// ====================
 	function xfRecord($row,$col,$sheet=0) {
@@ -728,7 +728,7 @@ class Spreadsheet_Excel_Reader {
 	function font($row,$col,$sheet=0) {
 		return $this->fontProperty($row,$col,$sheet,'font');
 	}
-	
+
 	// DUMP AN HTML TABLE OF THE ENTIRE XLS DATA
 	// =========================================
 	function dump($row_numbers=false,$col_letters=false,$sheet=0,$table_class='excel') {
@@ -747,7 +747,7 @@ class Spreadsheet_Excel_Reader {
 			}
 			$out .= "</tr></thead>\n";
 		}
-		
+
 		$out .= "<tbody>\n";
 		for($row=1;$row<=$this->rowcount($sheet);$row++) {
 			$rowheight = $this->rowheight($row,$sheet);
@@ -778,8 +778,8 @@ class Spreadsheet_Excel_Reader {
 					$out .= "\n\t\t<td style=\"$style\"" . ($colspan > 1?" colspan=$colspan":"") . ($rowspan > 1?" rowspan=$rowspan":"") . ">";
 					$val = $this->val($row,$col,$sheet);
 					if ($val=='') { $val="&nbsp;"; }
-					else { 
-						$val = htmlentities($val); 
+					else {
+						$val = htmlentities($val);
 						$link = $this->hyperlink($row,$col,$sheet);
 						if ($link!='') {
 							$val = "<a href=\"$link\">$val</a>";
@@ -794,7 +794,7 @@ class Spreadsheet_Excel_Reader {
 		$out .= "</tbody></table>";
 		return $out;
 	}
-	
+
 	// --------------
 	// END PUBLIC API
 
@@ -805,7 +805,7 @@ class Spreadsheet_Excel_Reader {
 	var $xfRecords = array();
 	var $colInfo = array();
    	var $rowInfo = array();
-	
+
 	var $sst = array();
 	var $sheets = array();
 
@@ -954,36 +954,36 @@ class Spreadsheet_Excel_Reader {
 		0x0B => "Thin dash-dot-dotted",
 		0x0C => "Medium dash-dot-dotted",
 		0x0D => "Slanted medium dash-dotted"
-	);	
+	);
 
 	var $lineStylesCss = array(
-		"Thin" => "1px solid", 
-		"Medium" => "2px solid", 
-		"Dashed" => "1px dashed", 
-		"Dotted" => "1px dotted", 
-		"Thick" => "3px solid", 
-		"Double" => "double", 
-		"Hair" => "1px solid", 
-		"Medium dashed" => "2px dashed", 
-		"Thin dash-dotted" => "1px dashed", 
-		"Medium dash-dotted" => "2px dashed", 
-		"Thin dash-dot-dotted" => "1px dashed", 
-		"Medium dash-dot-dotted" => "2px dashed", 
-		"Slanted medium dash-dotte" => "2px dashed" 
+		"Thin" => "1px solid",
+		"Medium" => "2px solid",
+		"Dashed" => "1px dashed",
+		"Dotted" => "1px dotted",
+		"Thick" => "3px solid",
+		"Double" => "double",
+		"Hair" => "1px solid",
+		"Medium dashed" => "2px dashed",
+		"Thin dash-dotted" => "1px dashed",
+		"Medium dash-dotted" => "2px dashed",
+		"Thin dash-dot-dotted" => "1px dashed",
+		"Medium dash-dot-dotted" => "2px dashed",
+		"Slanted medium dash-dotte" => "2px dashed"
 	);
-	
+
 	function read16bitstring($data, $start) {
 		$len = 0;
 		while (ord($data[$start + $len]) + ord($data[$start + $len + 1]) > 0) $len++;
 		return substr($data, $start, $len);
 	}
-	
+
 	// ADDED by Matt Kruse for better formatting
 	function _format_value($format,$num,$f) {
 		// 49==TEXT format
 		// http://code.google.com/p/php-excel-reader/issues/detail?id=7
-		if ( (!$f && $format=="%s") || ($f==49) || ($format=="GENERAL") ) { 
-			return array('string'=>$num, 'formatColor'=>null); 
+		if ( (!$f && $format=="%s") || ($f==49) || ($format=="GENERAL") ) {
+			return array('string'=>$num, 'formatColor'=>null);
 		}
 
 		// Custom pattern can be POSITIVE;NEGATIVE;ZERO
@@ -1007,13 +1007,13 @@ class Spreadsheet_Excel_Reader {
 			$color = strtolower($matches[1]);
 			$pattern = preg_replace($color_regex,"",$pattern);
 		}
-		
+
 		// In Excel formats, "_" is used to add spacing, which we can't do in HTML
 		$pattern = preg_replace("/_./","",$pattern);
-		
+
 		// Some non-number characters are escaped with \, which we don't need
 		$pattern = preg_replace("/\\\/","",$pattern);
-		
+
 		// Some non-number strings are quoted, so we'll get rid of the quotes
 		$pattern = preg_replace("/\"/","",$pattern);
 
@@ -1060,9 +1060,9 @@ class Spreadsheet_Excel_Reader {
 	 * Some basic initialisation
 	 */
 	function Spreadsheet_Excel_Reader($file='',$store_extended_info=true,$outputEncoding='') {
-		$this->_ole =& new OLERead();
+		$this->_ole = new OLERead();
 		$this->setUTFEncoder('iconv');
-		if ($outputEncoding != '') { 
+		if ($outputEncoding != '') {
 			$this->setOutputEncoding($outputEncoding);
 		}
 		for ($i=1; $i<245; $i++) {
@@ -1310,7 +1310,7 @@ class Spreadsheet_Excel_Reader {
 						    $font = substr($data, $pos+20, $numchars);
 						} else {
 						    $font = substr($data, $pos+20, $numchars*2);
-						    $font =  $this->_encodeUTF16($font); 
+						    $font =  $this->_encodeUTF16($font);
 						}
 						$this->fontRecords[] = array(
 								'height' => $height / 20,
@@ -1363,14 +1363,14 @@ class Spreadsheet_Excel_Reader {
 						$xf['borderRight'] = $this->lineStyles[($border & 0xF0) >> 4];
 						$xf['borderTop'] = $this->lineStyles[($border & 0xF00) >> 8];
 						$xf['borderBottom'] = $this->lineStyles[($border & 0xF000) >> 12];
-						
+
 						$xf['borderLeftColor'] = ($border & 0x7F0000) >> 16;
 						$xf['borderRightColor'] = ($border & 0x3F800000) >> 23;
 						$border = (ord($data[$pos+18]) | ord($data[$pos+19]) << 8);
 
 						$xf['borderTopColor'] = ($border & 0x7F);
 						$xf['borderBottomColor'] = ($border & 0x3F80) >> 7;
-												
+
 						if (array_key_exists($indexCode, $this->dateFormats)) {
 							$xf['type'] = 'date';
 							$xf['format'] = $this->dateFormats[$indexCode];
@@ -1700,24 +1700,24 @@ class Spreadsheet_Excel_Reader {
 					}
 					$linkdata['desc'] = $udesc;
 					$linkdata['link'] = $this->_encodeUTF16($ulink);
-					for ($r=$row; $r<=$row2; $r++) { 
+					for ($r=$row; $r<=$row2; $r++) {
 						for ($c=$column; $c<=$column2; $c++) {
 							$this->sheets[$this->sn]['cellsInfo'][$r+1][$c+1]['hyperlink'] = $linkdata;
 						}
 					}
 					break;
 				case SPREADSHEET_EXCEL_READER_TYPE_DEFCOLWIDTH:
-					$this->defaultColWidth  = ord($data[$spos+4]) | ord($data[$spos+5]) << 8; 
+					$this->defaultColWidth  = ord($data[$spos+4]) | ord($data[$spos+5]) << 8;
 					break;
 				case SPREADSHEET_EXCEL_READER_TYPE_STANDARDWIDTH:
-					$this->standardColWidth  = ord($data[$spos+4]) | ord($data[$spos+5]) << 8; 
+					$this->standardColWidth  = ord($data[$spos+4]) | ord($data[$spos+5]) << 8;
 					break;
 				case SPREADSHEET_EXCEL_READER_TYPE_COLINFO:
 					$colfrom = ord($data[$spos+0]) | ord($data[$spos+1]) << 8;
 					$colto = ord($data[$spos+2]) | ord($data[$spos+3]) << 8;
-					$cw = ord($data[$spos+4]) | ord($data[$spos+5]) << 8; 
-					$cxf = ord($data[$spos+6]) | ord($data[$spos+7]) << 8; 
-					$co = ord($data[$spos+8]); 
+					$cw = ord($data[$spos+4]) | ord($data[$spos+5]) << 8;
+					$cxf = ord($data[$spos+6]) | ord($data[$spos+7]) << 8;
+					$co = ord($data[$spos+8]);
 					for ($coli = $colfrom; $coli <= $colto; $coli++) {
 						$this->colInfo[$this->sn][$coli+1] = Array('width' => $cw, 'xf' => $cxf, 'hidden' => ($co & 0x01), 'collapsed' => ($co & 0x1000) >> 12);
 					}
