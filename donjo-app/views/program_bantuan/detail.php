@@ -134,9 +134,65 @@
 						<div style="padding:1em 0;">
 							<a class="uibutton" href="<?php echo site_url('program_bantuan/unduhsheet/'.$program[0]["id"].'/')?>"><i class="icon icon-download"></i> Unduh dlm format .xls</a>
 						</div>
+
+
+
 					</div>
+
+
+
+
 				</div>
+
+
+	    <div class="ui-layout-south panel bottom">
+	      <div class="left">
+					<div class="table-info">
+		        <form id="paging" action="<?php echo site_url('penduduk')?>" method="post">
+						  <label>Tampilkan</label>
+		          <select name="per_page" onchange="$('#paging').submit()" >
+		            <option value="50" <?php  selected($per_page,50); ?> >50</option>
+		            <option value="100" <?php  selected($per_page,100); ?> >100</option>
+		            <option value="200" <?php  selected($per_page,200); ?> >200</option>
+		          </select>
+		          <label>Dari</label>
+		          <label><strong><?php echo $paging->num_rows?></strong></label>
+		          <label>Total Data</label>
+		        </form>
+		      </div>
+	      </div>
+        <div class="right">
+          <div class="uibutton-group">
+            <?php  if($paging->start_link): ?>
+							<a href="<?php echo site_url('program_bantuan/detail/'.$paging->start_link.'/'.$program[0]['id'])?>" class="uibutton">Awal</a>
+						<?php  endif; ?>
+						<?php  if($paging->prev): ?>
+							<a href="<?php echo site_url('program_bantuan/detail/'.$paging->prev.'/'.$program[0]['id'])?>" class="uibutton"  >Prev</a>
+						<?php  endif; ?>
+          </div>
+	        <div class="uibutton-group">
+						<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+							<a href="<?php echo site_url('program_bantuan/detail/'.$i.'/'.$program[0]['id'])?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
+						<?php  endfor; ?>
+          </div>
+          <div class="uibutton-group">
+						<?php  if($paging->next): ?>
+							<a href="<?php echo site_url('program_bantuan/detail/'.$paging->next.'/'.$program[0]['id'])?>" class="uibutton">Next</a>
+						<?php  endif; ?>
+						<?php  if($paging->end_link): ?>
+	            <a href="<?php echo site_url('program_bantuan/detail/'.$paging->end_link.'/'.$program[0]['id'])?>" class="uibutton">Akhir</a>
+						<?php  endif; ?>
+          </div>
+        </div>
+	    </div>
+
+
+
+
 			</div>
+
+
+
 		</td>
 	</tr>
 </table>

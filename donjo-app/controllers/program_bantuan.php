@@ -17,7 +17,7 @@ class Program_bantuan extends CI_Controller{
 		$header['modul'] = 6;
 		$this->load->view('header', $header);
 		$data['tampil'] = 0;
-		$data['program'] = $this->program_bantuan_model->get_program(false);
+		$data['program'] = $this->program_bantuan_model->get_program(1, false);
 
 		$this->load->view('program_bantuan/program',$data);
 		$this->load->view('footer');
@@ -34,7 +34,7 @@ class Program_bantuan extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-	public function detail($id){
+	public function detail($p=1, $id){
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 
@@ -43,9 +43,8 @@ class Program_bantuan extends CI_Controller{
 		else
 		$data['individu']=NULL;
 
-
-		$data['program'] = $this->program_bantuan_model->get_program($id);
-
+		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
+		$data['paging'] = $data['program'][0]['paging'];
 		$this->load->view('program_bantuan/detail',$data);
 		$this->load->view('footer');
 	}

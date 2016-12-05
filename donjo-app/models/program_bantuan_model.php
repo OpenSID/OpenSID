@@ -14,7 +14,66 @@
 		return $data;
 	}
 
-	public function get_program($slug){
+	function paging_peserta($p, $slug, $sasaran) {
+		$sql 			= $this->get_peserta_sql($slug,$sasaran,true);
+		$query    = $this->db->query($sql);
+		$row      = $query->row_array();
+		$jml_data = $row['jumlah'];
+
+		$this->load->library('paging');
+		$cfg['page']     = $p;
+		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	// Query dibuat pada satu tempat, supaya penghitungan baris untuk paging selalu
+	// konsisten dengan data yang diperoleh
+	function get_peserta_sql($slug, $sasaran, $jumlah=false) {
+		if ($jumlah) $select_sql = "COUNT(*) as jumlah";
+		switch ($sasaran) {
+			case 1:
+				# Data penduduk
+				if (!$jumlah) $select_sql = "p.id,p.peserta,o.nama,w.rt,w.rw,w.dusun";
+				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
+					LEFT JOIN tweb_penduduk o ON p.peserta=o.nik
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster WHERE p.program_id=".$slug;
+				break;
+			case 2:
+				# Data KK
+				if (!$jumlah) $select_sql = "p.id as id,p.peserta as nama, o.nik_kepala, o.no_kk, q.nama, w.rt, w.rw, w.dusun";
+				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
+					LEFT JOIN tweb_keluarga o ON p.peserta=o.no_kk
+					LEFT JOIN tweb_penduduk q ON o.nik_kepala=q.id
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id=q.id_cluster
+					WHERE p.program_id=".$slug;
+				break;
+			case 3:
+				# Data RTM
+				if (!$jumlah) $select_sql = "p.id,p.peserta,o.nama,o.nik,r.no_kk,w.rt,w.rw,w.dusun";
+				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
+					LEFT JOIN tweb_rtm r ON r.id = p.peserta
+					LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster WHERE p.program_id=".$slug;
+				break;
+			case 4:
+				# Data Kelompok
+				if (!$jumlah) $select_sql = "p.id,p.peserta,o.nama,o.nik,r.no_kk,w.rt,w.rw,w.dusun";
+				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
+					LEFT JOIN tweb_rtm r ON r.id = p.peserta
+					LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster WHERE p.program_id=".$slug;
+				break;
+
+			default:
+				break;
+		}
+		return $strSQL;
+	}
+
+	public function get_program($p, $slug){
 		if ($slug === false){
 			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE 1";
 			$query = $this->db->query($strSQL);
@@ -25,15 +84,17 @@
 			$query = $this->db->query($strSQL);
 			$hasil0 = $query->row_array();
 
+			$hasil0["paging"] = $this->paging_peserta($p, $slug, $hasil0["sasaran"]);
+			$paging_sql = ' LIMIT ' .$hasil0["paging"]->offset. ',' .$hasil0["paging"]->per_page;
+			$strSQL = $this->get_peserta_sql($slug,$hasil0["sasaran"]);
+			$strSQL .= $paging_sql;
+			$query = $this->db->query($strSQL);
+
 			switch ($hasil0["sasaran"]){
 				case 1:
 					/*
 					 * Data penduduk
 					 * */
-					$strSQL = "SELECT p.id,p.peserta,o.nama,w.rt,w.rw,w.dusun FROM program_peserta p
-						LEFT JOIN tweb_penduduk o ON p.peserta=o.nik
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster WHERE p.program_id=".$slug;
-					$query = $this->db->query($strSQL);
 					$filter = array();
 					if($query->num_rows()>0){
 						$data=$query->result_array();
@@ -80,12 +141,6 @@
 					/*
 					 * Data KK
 					 * */
-					$strSQL = "SELECT p.id as id,p.peserta as nama,o.nik_kepala,o.no_kk,q.nama,w.rt,w.rw,w.dusun FROM program_peserta p
-						LEFT JOIN tweb_keluarga o ON p.peserta=o.no_kk
-						LEFT JOIN tweb_penduduk q ON o.nik_kepala=q.id
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id=q.id_cluster
-						WHERE p.program_id=".$slug;
-					$query = $this->db->query($strSQL);
 					$filter = array();
 					if($query->num_rows()>0){
 						$data=$query->result_array();
@@ -130,11 +185,6 @@
 					/*
 					 * Data RTM
 					 * */
-					$strSQL = "SELECT p.id,p.peserta,o.nama,o.nik,r.no_kk,w.rt,w.rw,w.dusun FROM program_peserta p
-						LEFT JOIN tweb_rtm r ON r.id = p.peserta
-						LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster WHERE p.program_id=".$slug;
-					$query = $this->db->query($strSQL);
 					$filter = array();
 					if($query->num_rows()>0){
 						$data=$query->result_array();
@@ -181,10 +231,6 @@
 					/*
 					 * Data Kelompok
 					 * */
-					$strSQL = "SELECT p.id as id, p.peserta as peserta, k.nama as nama FROM program_peserta p
-						LEFT JOIN kelompok k ON k.id=p.peserta
-						WHERE p.program_id=".$slug;
-					$query = $this->db->query($strSQL);
 					$filter = array();
 					if($query->num_rows()>0){
 						$data=$query->result_array();
