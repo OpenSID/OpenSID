@@ -10,10 +10,10 @@ class Program_bantuan extends CI_Controller{
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
-		$_SESSION['per_page'] = 50;
 	}
 
 	public function index(){
+		$_SESSION['per_page'] = 50;
 		$header = $this->header_model->get_data();
 		$header['modul'] = 6;
 		$this->load->view('header', $header);
@@ -46,6 +46,7 @@ class Program_bantuan extends CI_Controller{
 
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
+
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
