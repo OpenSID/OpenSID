@@ -32,6 +32,59 @@
 			}
 		}
 
+	function judul_statistik($lap){
+		// Program bantuan berbentuk '50<program_id>'
+		if ($lap > 50) {
+			$program_id = preg_replace("/^50/", "", $lap);
+			$this->db->select("nama");
+			$this->db->where('id', $program_id);
+			$q = $this->db->get('program');
+			$program = $q->row_array();
+			return $program['nama'];
+		}
+
+		switch($lap){
+			case 0: return "Pendidikan Telah Ditempuh"; break;
+			case 1: return "Pekerjaan"; break;
+			case 2: return "Status Perkawinan"; break;
+			case 3: return "Agama"; break;
+			case 4: return "Jenis Kelamin"; break;
+			case 5: return "Warga Negara"; break;
+			case 6: return "Status"; break;
+			case 7: return "Golongan Darah"; break;
+			case 9: return "Cacat"; break;
+			case 10: return "Sakit Menahun"; break;
+			case 11: return "Jamkesmas"; break;
+			case 12: return "Pendidikan dalam KK"; break;
+			case 13: return "Umur"; break;
+			case 14: return "Pendidikan Sedang Ditempuh"; break;
+			case 15: return "Umur"; break;
+			case 16: return "Akseptor KB"; break;
+			case 21: return "Klasifikasi Sosial"; break;
+			case 22: return "Penerima Raskin"; break;
+			case 23: return "Penerima BLT"; break;
+			case 24: return "Penerima BOS"; break;
+			case 25: return "Penerima PKH"; break;
+			case 26: return "Penerima Jampersal"; break;
+			case 27: return "Penerima Bedah Rumah"; break;
+			default: return "Pendidikan";
+		}
+	}
+
+	function jenis_laporan($lap) {
+		$jenis_laporan = "penduduk";
+		if ($lap>50) {
+			// Untuk program bantuan, $lap berbentuk '50<program_id>'
+			$program_id = preg_replace('/^50/', '', $lap);
+			$program = $this->program_bantuan_model->get_sasaran($program_id);
+			// Hanya sasaran=1 yang sasarannya penduduk, yang lain keluarga atau kelompok
+			if ($program['sasaran'] != 1) $jenis_laporan = "keluarga_kelompok";
+		} elseif ($lap>20) {
+			$jenis_laporan = "keluarga_kelompok";
+		}
+		return $jenis_laporan;
+	}
+
 	function paging($lap=0,$o=0){
 
 		switch($lap){

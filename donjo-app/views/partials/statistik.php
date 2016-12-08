@@ -41,7 +41,7 @@ $(function () {
             }]
         });
     });
-    
+
 });
 </script>
 <?php }else{?>
@@ -49,9 +49,9 @@ $(function () {
 <script type="text/javascript">
 $(function () {
     var chart;
-    
+
     $(document).ready(function () {
-    	
+
     	// Build the chart
         chart = new Highcharts.Chart({
             chart: {
@@ -80,7 +80,7 @@ $(function () {
             }]
         });
     });
-    
+
 });
 </script>
 <?php }?>
@@ -88,7 +88,7 @@ $(function () {
 <script src="<?php echo base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 <script src="<?php echo base_url()?>assets/js/highcharts/exporting.js"></script>
 <?php
-	
+
 	echo "
 	<div class=\"box box-danger\">
 		<div class=\"box-header with-border\">
@@ -109,7 +109,7 @@ $(function () {
 			</div>
 		</div>
 	</div>
-	
+
 	<div class=\"box box-danger\">
 		<div class=\"box-header with-border\">
 			<h3 class=\"box-title\">Tabel Data Demografi Berdasar ". $heading."</h3>
@@ -120,14 +120,20 @@ $(function () {
 				<tr>
 					<th rowspan=\"2\">No</th>
 					<th rowspan=\"2\">Kelompok</th>
-					<th colspan=\"2\">Jumlah</th>
-					<th colspan=\"2\">Laki-laki</th>
-					<th colspan=\"2\">Perempuan</th>
-					</tr>
+					<th colspan=\"2\">Jumlah</th>";
+          if($jenis_laporan == 'penduduk'){
+            echo "<th colspan=\"2\">Laki-laki</th>
+            <th colspan=\"2\">Perempuan</th>";
+          }
+					echo "
+        </tr>
 				<tr>
-					<th>n</th><th>%</th>
-					<th>n</th><th>%</th>
-					<th>n</th><th>%</th>
+					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>";
+          if($jenis_laporan == 'penduduk'){
+  					echo "<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+  					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>";
+          }
+          echo "
 				</tr>
 				</thead>
 				<tbody>";
@@ -137,19 +143,21 @@ $(function () {
 						<td class=\"angka\">".$data['no']."</td>
 						<td>".$data['nama']."</td>
 						<td class=\"angka\">".$data['jumlah']."</td>
-						<td class=\"angka\">".$data['persen']."</td>
-						<td class=\"angka\">".$data['laki']."</td>
-						<td class=\"angka\">".$data['persen1']."</td>
-						<td class=\"angka\">".$data['perempuan']."</td>
-						<td class=\"angka\">".$data['persen2']."</td>
-					</tr>";
-					$i=$i+$data['jumlah']; 
+						<td class=\"angka\">".$data['persen']."</td>";
+          if($jenis_laporan == 'penduduk'){
+            echo "<td class=\"angka\">".$data['laki']."</td>
+            <td class=\"angka\">".$data['persen1']."</td>
+            <td class=\"angka\">".$data['perempuan']."</td>
+            <td class=\"angka\">".$data['persen2']."</td>";
+          }
+					echo "</tr>";
+					$i=$i+$data['jumlah'];
 					$l=$l+$data['laki']; $p=$p+$data['perempuan'];
 				}
 				echo "
 				</tbody>
 			</table>";
-		
+
 		echo "
 		</div>
 	</div>";

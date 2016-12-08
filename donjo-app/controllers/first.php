@@ -7,7 +7,6 @@ class First extends CI_Controller{
 		session_start();
 
 		mandiri_timeout();
-
 		$this->load->model('header_model');
 		$this->load->model('config_model');
 		$this->load->model('first_keluarga_m');
@@ -20,7 +19,7 @@ class First extends CI_Controller{
 		$this->load->model('surat_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('web_widget_model');
-
+		$this->load->model('laporan_penduduk_model');
 	}
 
 	function auth(){
@@ -222,29 +221,14 @@ class First extends CI_Controller{
 	}
 
 	function statistik($stat=0,$tipe=0){
-
-		switch($stat){
-			case 0:$data['heading']="Pendidikan";break;
-			case 1:$data['heading']="Pekerjaan";break;
-			case 2:$data['heading']="Status Perkawinan";break;
-			case 3:$data['heading']="Agama";break;
-			case 4:$data['heading']="Jenis Kelamin";break;
-			case 7:$data['heading']="Golongan Darah";break;
-			case 12:$data['heading']="Kelompok Umur";break;
-			case 13:$data['heading']="Warga Negara";break;
-			case 14:$data['heading']="Status Perkawinan";break;
-			case 15:redirect("first/wilayah");break;
-			case 17:$data['heading']="Pendidikan Sedang Ditempuh";break;
-
-			default:$data['heading']="";
-		}
-
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
 		$data['slide'] = $this->first_artikel_m->slide_show();
 		$data['desa'] = $this->first_m->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
-		$data['stat'] = $this->first_penduduk_m->list_data($stat);
+		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
 		$data['tipe'] = $tipe;
 
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();

@@ -69,7 +69,7 @@
       <ul id="bantuan">
         <?php foreach ($list_bantuan as $bantuan): ?>
           <li <?php if($lap==$bantuan['lap']){?>class="selected"<?php }?>>
-            <a href="<?php echo site_url()?>statistik/index/<?php echo $bantuan['lap']?>"><?php echo $bantuan['nama']?></a>
+            <a href="<?php echo site_url()?>statistik/index/<?php echo $bantuan['lap']?>"><?php echo $bantuan['nama']." (".$bantuan['lap'].")"?></a>
           </li>
         <?php endforeach; ?>
       </ul>

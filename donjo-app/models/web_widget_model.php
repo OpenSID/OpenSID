@@ -3,7 +3,7 @@
 	function __construct(){
 		parent::__construct();
 		$this->load->model('first_gallery_m');
-		$this->load->model('first_penduduk_m');
+		$this->load->model('laporan_penduduk_model');
 	}
 
 	function get_widget(){
@@ -40,7 +40,7 @@
 		$data['komen'] = $this->first_artikel_m->komentar_show();
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['stat_widget'] = $this->first_penduduk_m->list_data(4);
+		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
 	}
 
 }
