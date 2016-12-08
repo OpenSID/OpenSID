@@ -6,6 +6,7 @@ function __construct(){
 		session_start();
 		$this->load->model('user_model');
 		$this->load->model('laporan_penduduk_model');
+		$this->load->model('program_bantuan_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
@@ -14,11 +15,26 @@ function __construct(){
 	}
 
 	function index($lap=0,$o=0){
+		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
 
-		$data['main']    = $this->laporan_penduduk_model->list_data($lap,$o);
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap,$o);
 		$data['lap']=$lap;
+		$data['judul_kelompok'] = "Jenis Kelompok";
 		$data['o']=$o;
 		$data['stat'] = $this->judul_statistik($lap);
+		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
+		if ($lap>50) {
+			// Untuk program bantuan, $lap berbentuk '50<program_id>'
+			$program_id = preg_replace('/^50/', '', $lap);
+			$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
+			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
+			$data['kategori'] = 'bantuan';
+		} elseif ($lap>20) {
+			$data['kategori'] = 'keluarga';
+		} else {
+			$data['kategori'] = 'penduduk';
+		}
+
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 		$header['modul'] = 3;

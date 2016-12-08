@@ -2,6 +2,7 @@
 
 	function __construct(){
 		parent::__construct();
+		$this->load->model('program_bantuan_model');
 	}
 
 
@@ -75,8 +76,159 @@
 		return $this->paging;
 	}
 
+	// $lap berbentuk '50<program_id>'
+	function statistik_program_bantuan($lap=0){
+		$program_id = preg_replace('/^50/', '', $lap);
+		$program = $this->program_bantuan_model->get_sasaran($program_id);
+		switch ($program['sasaran']) {
+			case 1:
+				# Data penduduk
+				$sql = "SELECT
+					(SELECT COUNT(p.id) FROM program_peserta p
+						LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
+						WHERE p.program_id = $program_id AND o.status_dasar = 1) AS jumlah,
+					(SELECT COUNT(p.id) FROM program_peserta p
+						LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
+						WHERE p.program_id = $program_id AND o.sex = 1 AND o.status_dasar = 1) AS laki,
+					(SELECT COUNT(p.id) FROM program_peserta p
+						LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
+						WHERE p.program_id = $program_id AND o.sex = 2 AND o.status_dasar = 1) AS perempuan";
+				//Total Sasaran
+				$sql_sasaran = "SELECT
+					(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.status_dasar=1) AS jumlah,
+					(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 1 and s.status_dasar=1) AS laki,
+					(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 2 and s.status_dasar=1) AS perempuan";
+				break;
+			case 2:
+				# Data KK
+				# Kolom laki dan perempuan tidak dipakai
+				$sql = "SELECT
+					(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
+					(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
+					(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
+					";
+				//Total Sasaran
+				$sql_sasaran = "SELECT
+					(SELECT COUNT(s.id) FROM tweb_keluarga s) AS jumlah,
+					(SELECT COUNT(s.id) FROM tweb_keluarga s) AS laki,
+					(SELECT COUNT(s.id) FROM tweb_keluarga s) AS perempuan";
+				break;
+			case 3:
+				# Data Rumah Tangga
+				# Kolom laki dan perempuan tidak dipakai
+				$sql = "SELECT
+					(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
+					(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
+					(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
+					";
+				//Total Sasaran
+				$sql_sasaran = "SELECT
+					(SELECT COUNT(s.id) FROM tweb_rtm s) AS jumlah,
+					(SELECT COUNT(s.id) FROM tweb_rtm s) AS laki,
+					(SELECT COUNT(s.id) FROM tweb_rtm s) AS perempuan";
+				break;
+			case 4:
+				# Data Kelompok
+				# Kolom laki dan perempuan tidak dipakai
+				$sql = "SELECT
+					(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
+					(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
+					(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
+					";
+				//Total Sasaran
+				$sql_sasaran = "SELECT
+					(SELECT COUNT(s.id) FROM kelompok s) AS jumlah,
+					(SELECT COUNT(s.id) FROM kelompok s) AS laki,
+					(SELECT COUNT(s.id) FROM kelompok s) AS perempuan";
+				break;
+
+			default:
+				# Tidak lakukan apa-apa
+				break;
+		}
+
+		// Peserta
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+		$data[0]['no']=1;
+		$data[0]['nama']="PESERTA";
+
+		// Total sasaran
+		$query_sasaran = $this->db->query($sql_sasaran);
+		$bel = $query_sasaran->row_array();
+
+		// Yang tidak terdaftar
+		$data[1]['no']=2;
+		$data[1]['id']="";
+		$data[1]['nama']="BUKAN PESERTA";
+		$data[1]['jumlah']=$bel['jumlah']-$data[0]['jumlah'];
+		$data[1]['perempuan']=$bel['perempuan']-$data[0]['perempuan'];
+		$data[1]['laki']=$bel['laki']-$data[0]['laki'];
+
+		$total['jumlah']=0;
+		$total['laki']=0;
+		$total['perempuan']=0;
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['no']=$i+1;
+			$total['jumlah']+=$data[$i]['jumlah'];
+			$total['laki']+=$data[$i]['laki'];
+			$total['perempuan']+=$data[$i]['perempuan'];
+			$i++;
+		}
+
+		$data[$i]['no']="";
+		$data[$i]['id']=777;
+		$data[$i]['nama']="BELUM MENGISI";
+		$data[$i]['jumlah']=$bel['jumlah']-$total['jumlah'];
+		$data[$i]['perempuan']=$bel['perempuan']-$total['perempuan'];
+		$data[$i]['laki']=$bel['laki']-$total['laki'];
+
+
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['persen']=$data[$i]['jumlah']/$bel['jumlah']*100;
+			$data[$i]['persen']=number_format((float)$data[$i]['persen'], 2, '.', '');
+			$data[$i]['persen']=$data[$i]['persen']."%";
+
+			$data[$i]['persen1']=$data[$i]['laki']/$bel['jumlah']*100;
+			$data[$i]['persen1']=number_format((float)$data[$i]['persen1'], 2, '.', '');
+			$data[$i]['persen1']=$data[$i]['persen1']."%";
+
+			$data[$i]['persen2']=$data[$i]['perempuan']/$bel['jumlah']*100;
+			$data[$i]['persen2']=number_format((float)$data[$i]['persen2'], 2, '.', '');
+			$data[$i]['persen2']=$data[$i]['persen2']."%";
+
+
+			$i++;
+		}
+
+		$bel['no']="";
+		$bel['id']="";
+		$bel['nama']="TOTAL";
+		$bel['persen']="100%";
+
+		$bel['persen1']=$bel['laki']/$bel['jumlah']*100;
+		$bel['persen1']=number_format((float)$bel['persen1'], 2, '.', '');
+		$bel['persen1']=$bel['persen1']."%";
+
+		$bel['persen2']=$bel['perempuan']/$bel['jumlah']*100;
+		$bel['persen2']=number_format((float)$bel['persen2'], 2, '.', '');
+		$bel['persen2']=$bel['persen2']."%";
+
+		$data['total']=$bel;
+
+		return $data;
+
+	}
 
 	function list_data($lap=0,$o=0){
+
+		// Laporan program bantuan
+		if ($lap > 50) {
+			return $this->statistik_program_bantuan($lap, $o);
+		}
+
 		//Ordering SQL
 		switch($o){
 			case 1: $order_sql = ' ORDER BY u.id'; break;

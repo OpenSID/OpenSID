@@ -103,7 +103,8 @@
 							<thead><tr>
 								<th>No</th>
 								<th>Aksi</th>
-								<th>Nama Peserta</th>
+								<th><?php echo $program[0]["judul_peserta"]?></th>
+								<th><?php echo $program[0]["judul_peserta_info"]?></th>
 								<th>Keterangan</th>
 							</tr></thead>
 							<tbody>
@@ -122,7 +123,8 @@
 						            <?php } ?>
 						          </div>
 						        </td>
-										<td><a href="<?php echo site_url('program_bantuan/peserta/'.$program[0]["sasaran"].'/'.$item["nik"].'/')?>"><?php echo $item["nama"] ?></a></td>
+										<td><a href="<?php echo site_url('program_bantuan/peserta/'.$program[0]["sasaran"].'/'.$item["nik"].'/')?>"><?php echo $item["peserta_nama"] ?></a></td>
+										<td><?php echo $item["peserta_info"]?></td>
 										<td><?php echo $item["info"];?></td>
 									</tr>
 								<?php

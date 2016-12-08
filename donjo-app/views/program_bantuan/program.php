@@ -71,7 +71,7 @@
 											<a class="uibutton tipsy south" href="<?php echo site_url('program_bantuan/hapus/'.$item["id"].'/'); ?>" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 										</div>
 									</td>
-									<td><a href="<?php echo site_url('program_bantuan/detail/'.$item["id"].'/')?>"><?php echo $item["nama"] ?></a></td>
+									<td><a href="<?php echo site_url('program_bantuan/detail/1/'.$item["id"].'/')?>"><?php echo $item["nama"] ?></a></td>
 									<td><?php echo fTampilTgl($item["sdate"],$item["edate"]);?></td>
 									<td><a href="<?php echo site_url('program_bantuan/sasaran/'.$item["sasaran"].'/'.$sasaran[$item["sasaran"]].'')?>"><?php echo $sasaran[$item["sasaran"]]?></a></td>
 								</tr>

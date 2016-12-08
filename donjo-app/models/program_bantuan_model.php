@@ -5,9 +5,11 @@
 	}
 	public function list_program($sasaran=0){
 		if ($sasaran > 0){
-			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE p.sasaran=".$sasaran;
+			$strSQL = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status
+				FROM program p WHERE p.sasaran=".$sasaran;
 		}else{
-			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE 1";
+			$strSQL = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status, CONCAT('50',p.id) as lap
+				FROM program p WHERE 1";
 		}
 		$query = $this->db->query($strSQL);
 		$data = $query->result_array();
@@ -56,21 +58,48 @@
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_rtm r ON r.id = p.peserta
 					LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster WHERE p.program_id=".$slug;
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
+					WHERE p.program_id=".$slug;
 				break;
 			case 4:
 				# Data Kelompok
-				if (!$jumlah) $select_sql = "p.id,p.peserta,o.nama,o.nik,r.no_kk,w.rt,w.rw,w.dusun";
+				if (!$jumlah) $select_sql = "p.id,p.peserta,o.nama,o.nik,r.nama as nama_kelompok";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
-					LEFT JOIN tweb_rtm r ON r.id = p.peserta
-					LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster WHERE p.program_id=".$slug;
+					LEFT JOIN kelompok r ON r.id = p.peserta
+					LEFT JOIN tweb_penduduk o ON o.id=r.id_ketua
+					WHERE p.program_id=".$slug;
 				break;
 
 			default:
 				break;
 		}
 		return $strSQL;
+	}
+
+	function get_sasaran($id) {
+		$this->db->select('sasaran, nama');
+		$this->db->where('id', $id);
+		$query = $this->db->get('program');
+		$data = $query->row_array();
+		switch ($data['sasaran']) {
+			case 1:
+				$data['judul_sasaran'] = 'Sasaran Penduduk';
+				break;
+			case 2:
+				$data['judul_sasaran'] = 'Sasaran Keluarga';
+				break;
+			case 3:
+				$data['judul_sasaran'] = 'Sasaran Rumah Tangga';
+				break;
+			case 4:
+				$data['judul_sasaran'] = 'Sasaran Kelompok';
+				break;
+
+			default:
+				$data['judul_sasaran'] = 'Sasaran Penduduk';
+				break;
+		}
+		return $data;
 	}
 
 	public function get_program($p, $slug){
@@ -95,6 +124,8 @@
 					/*
 					 * Data penduduk
 					 * */
+					$hasil0['judul_peserta'] = 'NIK';
+					$hasil0['judul_peserta_info'] = 'Nama Peserta';
 					$filter = array();
 					if($query->num_rows()>0){
 						$data=$query->result_array();
@@ -102,8 +133,10 @@
 						while($i<count($data)){
 							$data[$i]['id']=$data[$i]['id'];
 							$data[$i]['nik']=$data[$i]['peserta'];
+							$data[$i]['peserta_nama']=$data[$i]['peserta'];
+							$data[$i]['peserta_info']=$data[$i]['nama'];
 							$filter[] = $data[$i]['peserta'];
-							$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['peserta']."]";
+							$data[$i]['nama']=strtoupper($data[$i]['nama']);
 							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 							$i++;
 						}
@@ -141,6 +174,8 @@
 					/*
 					 * Data KK
 					 * */
+					$hasil0['judul_peserta'] = 'NO. KK';
+					$hasil0['judul_peserta_info'] = 'Kepala Keluarga';
 					$filter = array();
 					if($query->num_rows()>0){
 						$data=$query->result_array();
@@ -148,6 +183,8 @@
 						while($i<count($data)){
 							$data[$i]['id']=$data[$i]['id'];
 							$data[$i]['nik']=$data[$i]['no_kk'];
+							$data[$i]['peserta_nama']=$data[$i]['no_kk'];
+							$data[$i]['peserta_info']=$data[$i]['nama'];
 							$filter[] = $data[$i]['no_kk'];
 							$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
 							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
@@ -185,6 +222,8 @@
 					/*
 					 * Data RTM
 					 * */
+					$hasil0['judul_peserta'] = 'NO. Rumah Tangga';
+					$hasil0['judul_peserta_info'] = 'Kepala Rumah Tangga';
 					$filter = array();
 					if($query->num_rows()>0){
 						$data=$query->result_array();
@@ -192,6 +231,8 @@
 						while($i<count($data)){
 							$data[$i]['id']=$data[$i]['id'];
 							$data[$i]['nik']=$data[$i]['peserta'];
+							$data[$i]['peserta_nama']=$data[$i]['no_kk'];
+							$data[$i]['peserta_info']=$data[$i]['nama'];
 							$filter[] = $data[$i]['peserta'];
 							$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['nik']." - ".$data[$i]['no_kk']."]";
 							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
@@ -231,6 +272,8 @@
 					/*
 					 * Data Kelompok
 					 * */
+					$hasil0['judul_peserta'] = 'Nama Kelompok';
+					$hasil0['judul_peserta_info'] = 'Ketua Kelompok';
 					$filter = array();
 					if($query->num_rows()>0){
 						$data=$query->result_array();
@@ -238,6 +281,8 @@
 						while($i<count($data)){
 							$data[$i]['id']=$data[$i]['id'];
 							$data[$i]['nik']=$data[$i]['peserta'];
+							$data[$i]['peserta_nama']=$data[$i]['nama_kelompok'];
+							$data[$i]['peserta_info']=$data[$i]['nama'];
 							$filter[] = $data[$i]['id'];
 							$data[$i]['nama']=strtoupper($data[$i]['nama']);
 							$data[$i]['info']="";
@@ -336,8 +381,7 @@
 				$strSQL = "SELECT r.id, r.no_kk, o.nama, o.nik,w.rt,w.rw,w.dusun  FROM tweb_rtm r
 					LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
-					WHERE 1
-					";
+					WHERE r.id='".fixSQL($id)."'";
 				$query = $this->db->query($strSQL);
 				if($query->num_rows() > 0){
 					$row = $query->row_array();

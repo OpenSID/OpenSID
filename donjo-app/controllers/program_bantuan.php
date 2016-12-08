@@ -67,7 +67,7 @@ class Program_bantuan extends CI_Controller{
 
 	public function hapus_peserta($id, $peserta_id) {
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
-		redirect("program_bantuan/detail/$id");
+		redirect("program_bantuan/detail/1/$id");
 	}
 
 	public function create(){
@@ -103,7 +103,7 @@ class Program_bantuan extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 
-		$data['program'] = $this->program_bantuan_model->get_program($id);
+		$data['program'] = $this->program_bantuan_model->get_program(1, $id);
 
 		if ($this->form_validation->run() === FALSE){
 			$this->load->view('program_bantuan/edit',$data);
@@ -117,7 +117,7 @@ class Program_bantuan extends CI_Controller{
 	}
 	public function update($id){
 		$this->program_bantuan_model->update_program($id);
-		redirect("program_bantuan/detail/".$id);
+		redirect("program_bantuan/detail/1/".$id);
 	}
 
 	public function hapus($id){
@@ -132,7 +132,7 @@ class Program_bantuan extends CI_Controller{
 			 * Print xls untuk data x
 			 * */
 			$data['desa'] = $this->header_model->get_data();
-			$data['peserta'] = $this->program_bantuan_model->get_program($id);
+			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
 
 			$this->load->view('program_bantuan/unduh-sheet',$data);
 
