@@ -33,49 +33,20 @@
 </tr>
 */?>
 <tr>
-	<th align="left">Raskin</th>
-	<td>
-	<div class="uiradio">
-	<input type="radio" id="rs1" name="raskin" value="1"/<?php if($kk['raskin'] == '1'){echo 'checked';}?>>
-	<label for="rs1">Ya</label>
-	<input type="radio" id="rs2" name="raskin" value="2"/<?php if($kk['raskin'] == '2' OR $kk['raskin'] == ''){echo 'checked';}?>>
-	<label for="rs2">Tidak</label>
-	</div>
-	</td>
+	<th>&nbsp;</th>
 </tr>
 <tr>
-	<th align="left">BLSM</th>
-	<td>
-	<div class="uiradio">
-	<input type="radio" id="rs1" name="id_blt" value="1"/<?php if($kk['id_blt'] == '1'){echo 'checked';}?>>
-	<label for="rs1">Ya</label>
-	<input type="radio" id="rs2" name="id_blt" value="2"/<?php if($kk['id_blt'] == '2' OR $kk['id_blt'] == ''){echo 'checked';}?>>
-	<label for="rs2">Tidak</label>
-	</div>
-	</td>
+	<th colspan=2 align="left">Peserta Program Bantuan Keluarga</th>
 </tr>
-<tr>
-	<th align="left">PKH</th>
-	<td>
-	<div class="uiradio">
-	<input type="radio" id="rs1" name="id_pkh" value="1"/<?php if($kk['id_pkh'] == '1'){echo 'checked';}?>>
-	<label for="rs1">Ya</label>
-	<input type="radio" id="rs2" name="id_pkh" value="2"/<?php if($kk['id_pkh'] == '2' OR $kk['id_pkh'] == ''){echo 'checked';}?>>
-	<label for="rs2">Tidak</label>
-	</div>
-	</td>
-</tr>
-<tr>
-	<th align="left">Bedah Rumah</th>
-	<td>
-	<div class="uiradio">
-	<input type="radio" id="rs1" name="id_bedah_rumah" value="1"/<?php if($kk['id_bedah_rumah'] == '1'){echo 'checked';}?>>
-	<label for="rs1">Ya</label>
-	<input type="radio" id="rs2" name="id_bedah_rumah" value="2"/<?php if($kk['id_bedah_rumah'] == '2' OR $kk['id_bedah_rumah'] == ''){echo 'checked';}?>>
-	<label for="rs2">Tidak</label>
-	</div>
-	</td>
-</tr>
+<?php foreach($program as $bantuan): ?>
+	<tr>
+		<td colspan=2>
+			<input type="checkbox" name="id_program[]" value="<?php echo $bantuan['id']?>"/<?php if($bantuan['peserta'] != ''){echo 'checked';}?>>
+			<a href="<?php echo site_url('program_bantuan/detail/1/'.$bantuan['id'])?>"><?php echo $bantuan['nama']?></a>
+		</td>
+	</tr>
+<?php endforeach; ?>
+
 </tbody>
         </table>
 <div class="buttonpane" style="position:absolute;bottom:0px;right:0px;">

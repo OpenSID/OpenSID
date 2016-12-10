@@ -2,6 +2,7 @@
 
 	function __construct(){
 		parent::__construct();
+		$this->load->model('program_bantuan_model');
 	}
 
 	function autocomplete(){
@@ -762,9 +763,30 @@
 		if(!$outp) $_SESSION['success'] = -1;
 	}
 
+	function get_nokk($id){
+		$this->db->select('no_kk');
+		$this->db->where('id', $id);
+		$q = $this->db->get('tweb_keluarga');
+		$kk = $q->row_array();
+		return $kk['no_kk'];
+	}
 
 	function update_nokk($id=0){
 		$data = $_POST;
+		$id_program = $data['id_program'];
+		unset($data['id_program']);
+		// Update peserta program bantuan untuk kk ini
+		$no_kk = $this->get_nokk($id);
+		$program = $this->program_bantuan_model->list_program_keluarga($id);
+		foreach ($program as $bantuan) {
+			if (in_array($bantuan['id'],$id_program)){
+				// Tambahkan ke program bantuan
+				$this->program_bantuan_model->add_peserta($no_kk, $bantuan['id']);
+			} else {
+				// Hapus dari program bantuan
+				$this->program_bantuan_model->hapus_peserta_program($no_kk, $bantuan['id']);
+			}
+		}
 		if ($data['tgl_cetak_kk']) $data['tgl_cetak_kk'] = date("Y-m-d H:i:s",strtotime($data['tgl_cetak_kk']));
 		else $data['tgl_cetak_kk'] = NULL;
 		$this->db->where("id",$id);
@@ -772,7 +794,6 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
-
 	}
 
 	function list_sosial(){

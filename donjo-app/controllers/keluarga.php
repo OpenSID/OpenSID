@@ -7,6 +7,7 @@ function __construct(){
 		$this->load->model('user_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('program_bantuan_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 		$this->load->model('header_model');
@@ -461,11 +462,10 @@ function __construct(){
 	}
 
 	function edit_nokk($p=1,$o=0,$id=0){
-
-		$data['kk']          = $this->keluarga_model->get_keluarga($id);
+		$data['kk'] = $this->keluarga_model->get_keluarga($id);
+		$data['program'] = $this->program_bantuan_model->list_program_keluarga($id);
 		$data['form_action'] = site_url("keluarga/update_nokk/$id");
 		$this->load->view('sid/kependudukan/ajax_edit_nokk',$data);
-
 	}
 
 	function form_old($p=1,$o=0,$id=0){

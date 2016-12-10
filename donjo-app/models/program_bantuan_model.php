@@ -16,6 +16,20 @@
 		return $data;
 	}
 
+	public function list_program_keluarga($kk_id=0){
+		$this->load->model('keluarga_model'); // Di-load di sini karena tidak bisa diload di constructor
+		$no_kk = $this->keluarga_model->get_nokk($kk_id);
+		$sasaran = 2;
+		$strSQL = "
+			SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status, CONCAT('50',p.id) as lap, pp.peserta
+			FROM program p
+			LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = $no_kk
+			WHERE p.sasaran = $sasaran";
+		$query = $this->db->query($strSQL);
+		$data = $query->result_array();
+		return $data;
+	}
+
 	function paging_peserta($p, $slug, $sasaran) {
 		$sql 			= $this->get_peserta_sql($slug,$sasaran,true);
 		$query    = $this->db->query($sql);
@@ -458,6 +472,11 @@
 				return false;
 			}
 		}
+	}
+
+	public function hapus_peserta_program($peserta_id, $program_id) {
+		$this->db->where(array('peserta' => $peserta_id, 'program_id' => $program_id));
+		$this->db->delete('program_peserta');
 	}
 
 	public function hapus_peserta($peserta_id) {
