@@ -77,7 +77,7 @@
 									nik.results = [";
 									foreach ($program[2] as $item){
 										if(strlen($item["id"])>0){
-											echo "{id: ".$item["id"].", name:\"".$item["nama"]."\",info:\"".$item["info"]."\"},\n";
+											echo "{id: '".$item["id"]."', name:\"".$item["nama"]."\",info:\"".$item["info"]."\"},\n";
 										}
 									}
 									echo "
