@@ -105,6 +105,13 @@
 		}
 	}
 
+	function cara_kb_sql(){
+		if(isset($_SESSION['cara_kb_id'])){
+			$kf = $_SESSION['cara_kb_id'];
+			$cara_kb_sql= " AND u.cara_kb_id = $kf";
+		return $cara_kb_sql;
+		}
+	}
 	function cacatx_sql(){
 		if(isset($_SESSION['cacatx'])){
 			$kf = $_SESSION['cacatx'];
@@ -241,6 +248,7 @@
 		$sql .= $this->agama_sql();
 		$sql .= $this->cacat_sql();
 		$sql .= $this->cacatx_sql();
+		$sql .= $this->cara_kb_sql();
 		$sql .= $this->menahun_sql();
 		$sql .= $this->menahunx_sql();
 		$sql .= $this->golongan_darah_sql();
@@ -325,6 +333,7 @@
 		$sql .= $this->agama_sql();
 		$sql .= $this->cacat_sql();
 		$sql .= $this->cacatx_sql();
+		$sql .= $this->cara_kb_sql();
 		$sql .= $this->menahun_sql();
 		$sql .= $this->menahunx_sql();
 		$sql .= $this->warganegara_sql();
@@ -893,6 +902,7 @@
 			case 12: $sql   = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE id=?";break;
 			case 13: $sql   = "SELECT * FROM tweb_penduduk_umur WHERE id=?";break;
 			case 14: $sql   = "SELECT * FROM tweb_penduduk_pendidikan WHERE id=?";break;
+			case 16: $sql   = "SELECT * FROM tweb_cara_kb WHERE id=?";break;
 		}
 		$query = $this->db->query($sql,$nomor);
 		return $query->row_array();
