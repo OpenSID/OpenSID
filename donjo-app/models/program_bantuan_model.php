@@ -109,6 +109,8 @@
 			$data = $query->result_array();
 			return $data;
 		}else{
+			// Untuk program bantuan, $slug berbentuk '50<program_id>'
+			$slug = preg_replace("/^50/", "", $slug);
 			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE p.id=".$slug;
 			$query = $this->db->query($strSQL);
 			$hasil0 = $query->row_array();
