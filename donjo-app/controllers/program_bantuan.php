@@ -37,6 +37,7 @@ class Program_bantuan extends CI_Controller{
 
 	public function detail($p=1, $id){
 		$header = $this->header_model->get_data();
+		$header['modul'] = 6;
 		$this->load->view('header', $header);
 
 		if(isset($_POST['nik']))
@@ -81,6 +82,7 @@ class Program_bantuan extends CI_Controller{
 		$this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
 
 		$header = $this->header_model->get_data();
+		$header['modul'] = 6;
 		$this->load->view('header', $header);
 		if ($this->form_validation->run() === FALSE){
 			$this->load->view('program_bantuan/create');
@@ -101,6 +103,7 @@ class Program_bantuan extends CI_Controller{
 		$this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
 
 		$header = $this->header_model->get_data();
+		$header['modul'] = 6;
 		$this->load->view('header', $header);
 
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);
