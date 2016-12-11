@@ -23,7 +23,7 @@
 		$strSQL = "
 			SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status, CONCAT('50',p.id) as lap, pp.peserta
 			FROM program p
-			LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = $no_kk
+			LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = '$no_kk'
 			WHERE p.sasaran = $sasaran";
 		$query = $this->db->query($strSQL);
 		$data = $query->result_array();
