@@ -601,7 +601,6 @@ class Penduduk extends CI_Controller{
 			case 7: $_SESSION['golongan_darah'] = $nomor; $pre="GOLONGAN DARAH : ";  break;
 			case 9: $_SESSION['cacat'] = $nomor; $pre="CACAT : ";  break;
 			case 10: $_SESSION['menahun'] = $nomor;  $pre="SAKIT MENAHUN : "; break;
-			case 11: $_SESSION['jamkesmas'] = $nomor;  $pre="JAMKESMAS : "; break;
 			case 13: $_SESSION['umurx'] = $nomor;  $pre="UMUR "; break;
 			case 14: $_SESSION['pendidikan_sedang_id'] = $nomor; $pre="PENDIDIKAN SEDANG DITEMPUH : "; break;
 			case 16: $_SESSION['cara_kb_id'] = $nomor; $pre="CARA KB : "; break;

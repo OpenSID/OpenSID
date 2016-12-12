@@ -262,28 +262,6 @@ class First extends CI_Controller{
 		$this->load->view('layouts/stat.tpl.php',$data);
 	}
 
-
-	function statistik_k($tipex=0) {
-
-		$data['tipe'] = 2;
-		$data['tipex'] = $tipex;
-
-		$data['desa'] = $this->first_m->get_data();
-
-
-		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
-		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
-		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
-
-		$data['slide'] = $this->first_artikel_m->slide_show();
-		$data['w_cos']  = $this->first_artikel_m->cos_widget();
-		$this->web_widget_model->get_widget_data($data);
-
-		$data['main'] = $this->first_keluarga_m->list_raskin($tipex);
-		$data['data_config'] = $this->config_model->get_data();
-		$this->load->view('layouts/stat.tpl.php',$data);
-	}
-
 	function agenda($stat=0) {
 		$data['desa'] = $this->first_m->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();

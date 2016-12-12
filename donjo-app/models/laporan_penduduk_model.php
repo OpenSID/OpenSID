@@ -54,19 +54,13 @@
 			case 7: return "Golongan Darah"; break;
 			case 9: return "Cacat"; break;
 			case 10: return "Sakit Menahun"; break;
-			case 11: return "Jamkesmas"; break;
 			case 12: return "Pendidikan dalam KK"; break;
 			case 13: return "Umur"; break;
 			case 14: return "Pendidikan Sedang Ditempuh"; break;
 			case 15: return "Umur"; break;
 			case 16: return "Akseptor KB"; break;
 			case 21: return "Klasifikasi Sosial"; break;
-			case 22: return "Penerima Raskin"; break;
-			case 23: return "Penerima BLT"; break;
 			case 24: return "Penerima BOS"; break;
-			case 25: return "Penerima PKH"; break;
-			case 26: return "Penerima Jampersal"; break;
-			case 27: return "Penerima Bedah Rumah"; break;
 			default: return "Pendidikan";
 		}
 	}
@@ -105,12 +99,7 @@
 			case 14: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_pendidikan u WHERE left(nama,5)<> 'TAMAT' "; break;
 
 			case 21: $sql      = "SELECT COUNT(id) AS id FROM klasifikasi_analisis_keluarga u WHERE jenis='1' "; break;
-			case 22: $sql      = "SELECT COUNT(id) AS id FROM ref_raskin u WHERE 1 "; break;
-			case 23: $sql      = "SELECT COUNT(id) AS id FROM ref_blt u WHERE 1 "; break;
 			case 24: $sql      = "SELECT COUNT(id) AS id FROM ref_bos u WHERE 1 "; break;
-			case 25: $sql      = "SELECT COUNT(id) AS id FROM ref_pkh u WHERE 1 "; break;
-			case 26: $sql      = "SELECT COUNT(id) AS id FROM ref_jampersal u WHERE 1 "; break;
-			case 27: $sql      = "SELECT COUNT(id) AS id FROM ref_bedah_rumah u WHERE 1 "; break;
 
 			default:$sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_pendidikan u WHERE 1 ";
 		}
@@ -316,8 +305,6 @@
 
 			case 10: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND  sex=1  AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_sakit_menahun u WHERE 1"; break;
 
-			case 11: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM ref_jamkesmas u WHERE 1"; break;
-
 			case 12: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan u WHERE 1 ";
 			break;
 
@@ -331,12 +318,7 @@
 
 			//bagian keluarga
 			case 21: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM klasifikasi_analisis_keluarga u WHERE jenis='1'"; break;
-			case 22: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE raskin = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_raskin u WHERE 1 "; break;
-			case 23: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE id_blt = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_blt u WHERE 1 "; break;
 			case 24: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE id_bos = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_bos u WHERE 1 "; break;
-			case 25: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE id_pkh = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_pkh u WHERE 1 "; break;
-			case 26: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE id_jampersal = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_jampersal u WHERE 1 "; break;
-			case 27: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE id_bedah_rumah = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_bedah_rumah u WHERE 1 "; break;
 
 			default:$sql   = "SELECT u.* FROM tweb_penduduk_pendidikan u WHERE 1 ";
 		}

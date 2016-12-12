@@ -18,12 +18,7 @@ function __construct(){
 		unset($_SESSION['dusun']);
 		unset($_SESSION['rw']);
 		unset($_SESSION['rt']);
-		unset($_SESSION['raskin']);
-		unset($_SESSION['id_blt']);
 		unset($_SESSION['id_bos']);
-		unset($_SESSION['id_pkh']);
-		unset($_SESSION['id_jampersal']);
-		unset($_SESSION['id_bedah_rumah']);
 		$_SESSION['per_page']=100;
 		redirect('rtm');
 	}
@@ -41,29 +36,9 @@ function __construct(){
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
-
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
-
 		if(isset($_SESSION['id_bos']))
 			$data['id_bos'] = $_SESSION['id_bos'];
 		else $data['id_bos'] = '';
-
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
-
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
-
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
 
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -127,52 +102,6 @@ function __construct(){
 		$this->load->view('sid/kependudukan/ajax_add_rtm',$data);
 	}
 
-	function dusun($s=0){
-		$dusun = $this->input->post('dusun');
-		if($dusun!="")
-			$_SESSION['dusun']=$dusun;
-		else unset($_SESSION['dusun']);
-		if($s==1)
-			redirect('rtm/sosial');
-		elseif($s==2)
-			redirect('rtm/raskin_graph');
-		else
-			redirect('rtm');
-	}
-
-	function rw($s=0){
-		$rw = $this->input->post('rw');
-		if($rw!="")
-			$_SESSION['rw']=$rw;
-		else unset($_SESSION['rw']);
-		if($s==1)
-			redirect('rtm/sosial');
-		elseif($s==2)
-			redirect('rtm/raskin_graph');
-		else
-			redirect('rtm');
-	}
-
-	function rt($s=0){
-		$rt = $this->input->post('rt');
-		if($rt!="")
-			$_SESSION['rt']=$rt;
-		else unset($_SESSION['rt']);
-		if($s==1)
-			redirect('rtm/sosial');
-		elseif($s==2)
-			redirect('rtm/raskin_graph');
-		else
-			redirect('rtm');
-	}
-
-	function raskin(){
-		$raskin = $this->input->post('raskin');
-		if($raskin!="")
-			$_SESSION['raskin']=$raskin;
-		else unset($_SESSION['raskin']);
-		redirect('rtm');
-	}
 
 	function blt(){
 		$id_blt = $this->input->post('id_blt');

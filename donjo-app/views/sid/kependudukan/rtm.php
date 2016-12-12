@@ -63,10 +63,7 @@
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('rtm/search')?>');$('#'+'mainform').submit();}" />
                 <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('rtm/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
 <!--				<a href="<?php //=site_url("rtm/sosial/")?>" class="uibutton confirm" title="Grafik Kelas Sosial" ><span class="icon-bar-chart icon-large">&nbsp;</span>Grafik Kelas Sosial</a>
-
-				<a href="<?php //=site_url("rtm/raskin_graph/")?>" class="uibutton confirm "><span class="icon-bar-chart icon-large">&nbsp;</span>Grafik Raskin</a>
-
-				<a href="<?php //=site_url("rtm/jamkesmas_graph/")?>" class="uibutton confirm "><span class="icon-bar-chart icon-large">&nbsp;</span>Grafik Jamkesmas</a>-->
+-->
             </div>
         </div>
     </div>

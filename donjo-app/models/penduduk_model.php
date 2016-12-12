@@ -898,7 +898,6 @@
 			case 7: $sql   = "SELECT * FROM tweb_golongan_darah WHERE id=?";break;
 			case 9: $sql   = "SELECT * FROM tweb_cacat WHERE id=?";break;
 			case 10: $sql   = "SELECT * FROM tweb_sakit_menahun WHERE id=?";break;
-			case 11: $sql   = "SELECT * FROM ref_jamkesmas WHERE id=?";break;
 			case 12: $sql   = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE id=?";break;
 			case 13: $sql   = "SELECT * FROM tweb_penduduk_umur WHERE id=?";break;
 			case 14: $sql   = "SELECT * FROM tweb_penduduk_pendidikan WHERE id=?";break;

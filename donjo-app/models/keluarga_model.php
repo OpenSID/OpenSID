@@ -79,51 +79,11 @@
 		}
 	}
 
-	function raskin_sql(){
-		if(isset($_SESSION['raskin'])){
-			$kh = $_SESSION['raskin'];
-			$raskin_sql= " AND raskin= $kh";
-		return $raskin_sql;
-		}
-	}
-
-	function blt_sql(){
-		if(isset($_SESSION['id_blt'])){
-			$kh = $_SESSION['id_blt'];
-			$blt_sql= " AND id_blt= $kh";
-		return $blt_sql;
-		}
-	}
-
 	function bos_sql(){
 		if(isset($_SESSION['id_bos'])){
 			$kh = $_SESSION['id_bos'];
 			$bos_sql= " AND id_bos= $kh";
 		return $bos_sql;
-		}
-	}
-
-	function pkh_sql(){
-		if(isset($_SESSION['id_pkh'])){
-			$kh = $_SESSION['id_pkh'];
-			$pkh_sql= " AND id_pkh= $kh";
-		return $pkh_sql;
-		}
-	}
-
-	function jampersal_sql(){
-		if(isset($_SESSION['id_jampersal'])){
-			$kh = $_SESSION['id_jampersal'];
-			$jampersal_sql= " AND id_jampersal= $kh";
-		return $jampersal_sql;
-		}
-	}
-
-	function bedah_rumah_sql(){
-		if(isset($_SESSION['id_bedah_rumah'])){
-			$kh = $_SESSION['id_bedah_rumah'];
-			$bedah_rumah_sql= " AND id_bedah_rumah= $kh";
-		return $bedah_rumah_sql;
 		}
 	}
 
@@ -208,18 +168,10 @@
 			$sql="SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE kelas_sosial = $_SESSION[kelas] ";
 			$sql .= $this->search_sql();
 		}else{
-			$sql      = "SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
-			$sql     .= $this->search_sql();
-			////$sql     .= $this->dusun_sql();
-			///$sql     .= $this->rw_sql();
-			//sql     .= $this->rt_sql();
-			$sql     .= $this->raskin_sql();
-			$sql     .= $this->kelas_sql();
-			$sql	.= $this->blt_sql();
-			$sql	.= $this->bos_sql();
-			$sql 	.= $this->pkh_sql();
-			$sql 	.= $this->jampersal_sql();
-			$sql 	.= $this->bedah_rumah_sql();
+			$sql    = "SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
+			$sql    .= $this->search_sql();
+			$sql    .= $this->kelas_sql();
+			$sql		.= $this->bos_sql();
 		}
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
@@ -258,13 +210,8 @@
 			$sql   = "SELECT u.*,t.nama AS kepala_kk,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
 
 			$sql .= $this->search_sql();
-			$sql     .= $this->raskin_sql();
 			//$sql     .= $this->kelas_sql();
-			$sql	.= $this->blt_sql();
 			$sql 	.= $this->bos_sql();
-			$sql 	.= $this->pkh_sql();
-			$sql 	.= $this->jampersal_sql();
-			$sql 	.= $this->bedah_rumah_sql();
 			//$sql     .= $this->rt_sql();
 			//$sql .= $order_sql;
 			$sql .= $paging_sql;
@@ -817,30 +764,6 @@
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
-		function list_raskin(){
-
-		$dus = "";
-		$rw = "";
-		$rt = "";
-
-		if(isset($_SESSION['dusun']))
-			$dus = " AND c.dusun = '$_SESSION[dusun]'";
-
-		if(isset($_SESSION['rw']))
-			$rw = " AND c.rw = '$_SESSION[rw]'";
-
-		if(isset($_SESSION['rt']))
-			$rt = " AND c.rt = '$_SESSION[rt]'";
-
-		$sql   = "SELECT s.*,
-		(SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE  u.kelas_sosial = s.id $dus $rw $rt) as jumlah,
-		(SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE  u.kelas_sosial = s.id $dus $rw $rt AND u.raskin = 1) as raskin,
-		(SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE  u.kelas_sosial = s.id $dus $rw $rt AND t.jamkesmas = 1) as jamkesmas FROM ref_kelas_sosial s WHERE 1";
-
-
-		$query = $this->db->query($sql);
-		return $query->result_array();
-	}
 
 	function pindah_proses($id=0,$id_cluster='',$alamat=''){
 		// Ubah alamat keluarga
@@ -889,12 +812,7 @@
 	function get_judul_statistik($tipe=0,$nomor=1){
 		switch($tipe){
 			case 21: $sql   = "SELECT * FROM klasifikasi_analisis_keluarga WHERE id=? and jenis='1'  ";break;
-			case 22: $sql   = "SELECT * FROM ref_raskin WHERE id=?";break;
-			case 23: $sql   = "SELECT * FROM ref_blt WHERE id=?";break;
 			case 24: $sql   = "SELECT * FROM ref_bos WHERE id=?";break;
-			case 25: $sql   = "SELECT * FROM ref_pkh WHERE id=?";break;
-			case 26: $sql   = "SELECT * FROM ref_jampersal WHERE id=?";break;
-			case 27: $sql   = "SELECT * FROM ref_bedah_rumah WHERE id=?";break;
 		}
 		$query = $this->db->query($sql,$nomor);
 		return $query->row_array();

@@ -20,12 +20,7 @@ function __construct(){
 		unset($_SESSION['rw']);
 		unset($_SESSION['rt']);
 		unset($_SESSION['sex']);
-		unset($_SESSION['raskin']);
-		unset($_SESSION['id_blt']);
 		unset($_SESSION['id_bos']);
-		unset($_SESSION['id_pkh']);
-		unset($_SESSION['id_jampersal']);
-		unset($_SESSION['id_bedah_rumah']);
 		$_SESSION['per_page']=100;
 		redirect('keluarga');
 	}
@@ -47,29 +42,9 @@ function __construct(){
 			$data['sex'] = $_SESSION['sex'];
 		else $data['sex'] = '';
 
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
-
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
-
 		if(isset($_SESSION['id_bos']))
 			$data['id_bos'] = $_SESSION['id_bos'];
 		else $data['id_bos'] = '';
-
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
-
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
-
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
 
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -109,232 +84,59 @@ function __construct(){
 		$this->load->view('footer');
 	}
 
-	function sosial($p=1,$o=0){
+	// function sosial($p=1,$o=0){
 
-		$data['p']        = $p;
-		$data['o']        = $o;
+	// 	$data['p']        = $p;
+	// 	$data['o']        = $o;
 
-		if(isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+	// 	if(isset($_SESSION['cari']))
+	// 		$data['cari'] = $_SESSION['cari'];
+	// 	else $data['cari'] = '';
 
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+	// 	if(isset($_SESSION['filter']))
+	// 		$data['filter'] = $_SESSION['filter'];
+	// 	else $data['filter'] = '';
 
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
+	// 	if(isset($_SESSION['id_bos']))
+	// 		$data['id_bos'] = $_SESSION['id_bos'];
+	// 	else $data['id_bos'] = '';
 
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
+	// 	if(isset($_POST['per_page']))
+	// 		$_SESSION['per_page']=$_POST['per_page'];
+	// 	$data['per_page'] = $_SESSION['per_page'];
 
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
+	// 	if(isset($_SESSION['dusun'])){
+	// 		$data['dusun'] = $_SESSION['dusun'];
+	// 		$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
 
-		if(isset($_SESSION['id_bos']))
-			$data['id_bos'] = $_SESSION['id_bos'];
-		else $data['id_bos'] = '';
+	// 	if(isset($_SESSION['rw'])){
+	// 		$data['rw'] = $_SESSION['rw'];
+	// 		$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
 
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
+	// 	if(isset($_SESSION['rt']))
+	// 		$data['rt'] = $_SESSION['rt'];
+	// 		else $data['rt'] = '';
 
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
+	// 		}else $data['rw'] = '';
 
-		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+	// 	}else{
+	// 		$data['dusun'] = '';
+	// 		$data['rw'] = '';
+	// 		$data['rt'] = '';
+	// 	}
 
-		if(isset($_SESSION['dusun'])){
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+	// 	$data['paging']  = $this->keluarga_model->paging($p,$o);
+	// 	$data['main']    = $this->keluarga_model->list_raskin();
+	// 	$data['keyword'] = $this->keluarga_model->autocomplete();
+	// 	$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
-		if(isset($_SESSION['rw'])){
-			$data['rw'] = $_SESSION['rw'];
-			$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
-
-		if(isset($_SESSION['rt']))
-			$data['rt'] = $_SESSION['rt'];
-			else $data['rt'] = '';
-
-			}else $data['rw'] = '';
-
-		}else{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
-		}
-
-		$data['paging']  = $this->keluarga_model->paging($p,$o);
-		$data['main']    = $this->keluarga_model->list_raskin();
-		$data['keyword'] = $this->keluarga_model->autocomplete();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act']= 1;
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
-		$this->load->view('sid/kependudukan/keluarga_sosial',$data);
-		$this->load->view('footer');
-	}
-
-	function raskin_graph($p=1,$o=0){
-
-		$data['p']        = $p;
-		$data['o']        = $o;
-
-		if(isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
-
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
-
-		if(isset($_SESSION['id_bos']))
-			$data['id_bos'] = $_SESSION['id_bos'];
-		else $data['id_bos'] = '';
-
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
-
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
-
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
-
-		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
-		if(isset($_SESSION['dusun'])){
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
-
-		if(isset($_SESSION['rw'])){
-			$data['rw'] = $_SESSION['rw'];
-			$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
-
-		if(isset($_SESSION['rt']))
-			$data['rt'] = $_SESSION['rt'];
-			else $data['rt'] = '';
-
-			}else $data['rw'] = '';
-
-		}else{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
-		}
-
-		$data['paging']  = $this->keluarga_model->paging($p,$o);
-		$data['main']    = $this->keluarga_model->list_raskin();
-		$data['keyword'] = $this->keluarga_model->autocomplete();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act']= 1;
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
-		$this->load->view('sid/kependudukan/keluarga_raskin',$data);
-		$this->load->view('footer');
-	}
-
-	function jamkesmas_graph($p=1,$o=0){
-
-		$data['p']        = $p;
-		$data['o']        = $o;
-
-		if(isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
-
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
-
-		if(isset($_SESSION['id_bos']))
-			$data['id_bos'] = $_SESSION['id_bos'];
-		else $data['id_bos'] = '';
-
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
-
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
-
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
-
-		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
-		if(isset($_SESSION['dusun'])){
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
-
-		if(isset($_SESSION['rw'])){
-			$data['rw'] = $_SESSION['rw'];
-			$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
-
-		if(isset($_SESSION['rt']))
-			$data['rt'] = $_SESSION['rt'];
-			else $data['rt'] = '';
-
-			}else $data['rw'] = '';
-
-		}else{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
-		}
-
-		$data['paging']  = $this->keluarga_model->paging($p,$o);
-		$data['main']    = $this->keluarga_model->list_raskin();
-		$data['keyword'] = $this->keluarga_model->autocomplete();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act']= 1;
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
-		$this->load->view('sid/kependudukan/keluarga_jamkesmas',$data);
-		$this->load->view('footer');
-	}
-
-	function pentagon(){
-		$data['main']    = $this->keluarga_model->list_raskin();
-		$this->load->view('sid/kependudukan/pentagon/pentagon',$data);
-	}
+	// 	$nav['act']= 1;
+	// 	$header = $this->header_model->get_data();
+	// 	$this->load->view('header',$header);
+	// 	$this->load->view('sid/nav',$nav);
+	// 	$this->load->view('sid/kependudukan/keluarga_sosial',$data);
+	// 	$this->load->view('footer');
+	// }
 
 	function cetak($o=0){
 		$data['main']    = $this->keluarga_model->list_data($o, 0, 10000);
@@ -474,53 +276,6 @@ function __construct(){
 		$data['form_action'] = site_url("keluarga/insert/$id");
 		$this->load->view('sid/kependudukan/ajax_add_keluarga',$data);
 
-	}
-
-	function dusun($s=0){
-		$dusun = $this->input->post('dusun');
-		if($dusun!="")
-			$_SESSION['dusun']=$dusun;
-		else unset($_SESSION['dusun']);
-		if($s==1)
-			redirect('keluarga/sosial');
-		elseif($s==2)
-			redirect('keluarga/raskin_graph');
-		else
-			redirect('keluarga');
-	}
-
-	function rw($s=0){
-		$rw = $this->input->post('rw');
-		if($rw!="")
-			$_SESSION['rw']=$rw;
-		else unset($_SESSION['rw']);
-		if($s==1)
-			redirect('keluarga/sosial');
-		elseif($s==2)
-			redirect('keluarga/raskin_graph');
-		else
-			redirect('keluarga');
-	}
-
-	function rt($s=0){
-		$rt = $this->input->post('rt');
-		if($rt!="")
-			$_SESSION['rt']=$rt;
-		else unset($_SESSION['rt']);
-		if($s==1)
-			redirect('keluarga/sosial');
-		elseif($s==2)
-			redirect('keluarga/raskin_graph');
-		else
-			redirect('keluarga');
-	}
-
-	function raskin(){
-		$raskin = $this->input->post('raskin');
-		if($raskin!="")
-			$_SESSION['raskin']=$raskin;
-		else unset($_SESSION['raskin']);
-		redirect('keluarga');
 	}
 
 	function sex(){
@@ -791,29 +546,9 @@ function __construct(){
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
-
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
-
 		if(isset($_SESSION['id_bos']))
 			$data['id_bos'] = $_SESSION['id_bos'];
 		else $data['id_bos'] = '';
-
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
-
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
-
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
 
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -839,14 +574,8 @@ function __construct(){
 			$data['rt'] = '';
 		}
 		switch($tipe){
-			//case 0: $_SESSION['raskin'] = 0;$_SESSION['kelas'] = 0; break;
 			case 21: $_SESSION['kelas']  = $nomor; $pre="KELAS SOSIAL : ";break;
-			case 22: $_SESSION['raskin'] = $nomor; $pre="RASKIN : ";break;
-			case 23: $_SESSION['id_blt'] = $nomor; $pre="BLT : ";break;
 			case 24: $_SESSION['id_bos'] = $nomor; $pre="BOS : ";break;
-			case 25: $_SESSION['id_pkh'] = $nomor; $pre="PKH : ";break;
-			case 26: $_SESSION['id_jampersal'] = $nomor; $pre="JAMPERSAL : ";break;
-			case 27: $_SESSION['id_bedah_rumah'] = $nomor;$pre="BEDAH RUMAH : "; break;
 		}
 		$data['grup']	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging']  = $this->keluarga_model->paging_statistik($p,$o);

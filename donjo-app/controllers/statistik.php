@@ -121,17 +121,11 @@ function __construct(){
 			case 7: $data['stat'] = "Golongan Darah"; break;
 			case 9: $data['stat'] = "Cacat"; break;
 			case 10: $data['stat'] = "Sakit Menahun"; break;
-			case 11: $data['stat'] = "Jamkesmas"; break;
 			case 12: $data['stat'] = "Pendidikan dalam KK"; break;
 			case 13: $data['stat'] = "Umur"; break;
 			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
 			case 21: $data['stat'] = "Klasifikasi Sosial"; break;
-			case 22: $data['stat'] = "Penerima Raskin"; break;
-			case 23: $data['stat'] = "Penerima BLT"; break;
 			case 24: $data['stat'] = "Penerima BOS"; break;
-			case 25: $data['stat'] = "Penerima PKH"; break;
-			case 26: $data['stat'] = "Penerima Jampersal"; break;
-			case 27: $data['stat'] = "Penerima Bedah Rumah"; break;
 			default:$data['stat'] = "Pendidikan";
 		}
 

@@ -70,51 +70,11 @@
 		}
 	}
 
-	function raskin_sql(){
-		if(isset($_SESSION['raskin'])){
-			$kh = $_SESSION['raskin'];
-			$raskin_sql= " AND raskin= $kh";
-		return $raskin_sql;
-		}
-	}
-
-	function blt_sql(){
-		if(isset($_SESSION['id_blt'])){
-			$kh = $_SESSION['id_blt'];
-			$blt_sql= " AND id_blt= $kh";
-		return $blt_sql;
-		}
-	}
-
 	function bos_sql(){
 		if(isset($_SESSION['id_bos'])){
 			$kh = $_SESSION['id_bos'];
 			$bos_sql= " AND id_bos= $kh";
 		return $bos_sql;
-		}
-	}
-
-	function pkh_sql(){
-		if(isset($_SESSION['id_pkh'])){
-			$kh = $_SESSION['id_pkh'];
-			$pkh_sql= " AND id_pkh= $kh";
-		return $pkh_sql;
-		}
-	}
-
-	function jampersal_sql(){
-		if(isset($_SESSION['id_jampersal'])){
-			$kh = $_SESSION['id_jampersal'];
-			$jampersal_sql= " AND id_jampersal= $kh";
-		return $jampersal_sql;
-		}
-	}
-
-	function bedah_rumah_sql(){
-		if(isset($_SESSION['id_bedah_rumah'])){
-			$kh = $_SESSION['id_bedah_rumah'];
-			$bedah_rumah_sql= " AND id_bedah_rumah= $kh";
-		return $bedah_rumah_sql;
 		}
 	}
 
