@@ -173,7 +173,7 @@ class import_model extends CI_Model{
 				$strSQL .= "`ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, ";
 				$strSQL .= "`foto`, `golongan_darah_id`, `id_cluster`, `status`, ";
 				$strSQL .= "`alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`,";
-				$strSQL .= "`hamil`, `cacat_id`, `sakit_menahun_id`, `jamkesmas`, ";
+				$strSQL .= "`hamil`, `cacat_id`, `sakit_menahun_id`,";
 				$strSQL .= "`akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, ";
 				$strSQL .= "`akta_perceraian`, `tanggalperceraian`) VALUES\n";
 				for ($i=0;$i<count($convert1);$i++){
@@ -274,7 +274,6 @@ class import_model extends CI_Model{
 		if ($isi_baris['kk_level']!="" AND !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return false;
 		if ($isi_baris['warganegara_id']!="" AND !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return false;
 		if ($isi_baris['golongan_darah_id']!="" AND !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return false;
-		if ($isi_baris['jamkesmas']!="" AND !($isi_baris['jamkesmas'] >= 1 && $isi_baris['jamkesmas'] <= 2)) return false;
 		// Validasi data lain
 		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return false;
 
@@ -350,7 +349,6 @@ class import_model extends CI_Model{
 		$isi_baris['nama_ibu'] = $nama_ibu;
 
 		$isi_baris['golongan_darah_id']= trim($data->val($i, 19));
-		$isi_baris['jamkesmas']= trim($data->val($i, 20));
 
 		return $isi_baris;
 	}
@@ -441,7 +439,6 @@ class import_model extends CI_Model{
 			$data['nama_ayah'] = $isi_baris['nama_ayah'];
 			$data['nama_ibu'] = $isi_baris['nama_ibu'];
 			$data['golongan_darah_id'] = $isi_baris['golongan_darah_id'];
-			$data['jamkesmas'] = $isi_baris['jamkesmas'];
 			$data['id_cluster'] = $isi_baris['id_cluster'];
 			$data['status'] = '1';  // penduduk impor dianggap aktif
 		// Jangan masukkan atau update isian yang kosong
@@ -671,7 +668,6 @@ class import_model extends CI_Model{
 		$data_anggota['warganegara_id'] = "1";
 		$data_anggota['golongan_darah_id'] = "13";
 		$data_anggota['pendidikan_sedang_id'] = "";
-		$data_anggota['jamkesmas'] = "";
 
 		return $data_anggota;
 	}
@@ -844,7 +840,6 @@ class import_model extends CI_Model{
 		$data_anggota['warganegara_id'] = "1";
 		$data_anggota['golongan_darah_id'] = "13";
 		$data_anggota['pendidikan_sedang_id'] = "";
-		$data_anggota['jamkesmas'] = "";
 
 		return $data_anggota;
 	}

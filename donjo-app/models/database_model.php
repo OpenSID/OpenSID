@@ -16,6 +16,7 @@
     $this->migrasi_124_ke_13();
     $this->migrasi_13_ke_14();
     $this->migrasi_14_ke_15();
+    $this->migrasi_15_ke_16();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -367,5 +368,89 @@
     $this->db->query($query);
   }
 
+  function migrasi_15_ke_16(){
+
+    // ==== Gabung program bantuan keluarga statik ke dalam modul Program Bantuan
+
+    $program_keluarga = array(
+      "Raskin" => "raskin",
+      "BLSM"   => "id_blt",
+      "PKH"    => "id_pkh",
+      "Bedah Rumah" => "id_bedah_rumah"
+    );
+    foreach ($program_keluarga as $key => $value) {
+      // cari keluarga anggota program
+      if (!$this->db->field_exists($value, 'tweb_keluarga')) continue;
+
+      $this->db->select("no_kk");
+      $this->db->where("$value",1);
+      $q = $this->db->get("tweb_keluarga");
+      if ( $q->num_rows() > 0 ) {
+        // buat program
+        $data = array(
+          'sasaran' => 2,
+          'nama' => $key,
+          'ndesc' => '',
+          'userid' => 0,
+          'sdate' => date("Y-m-d",strtotime("-1 year")),
+          'edate' => date("Y-m-d",strtotime("+1 year"))
+        );
+        $this->db->insert('program', $data);
+        $id_program = $this->db->insert_id();
+        // untuk setiap keluarga anggota program buat program_peserta
+        $data = $q->result_array();
+        foreach ($data as $peserta_keluarga) {
+          $peserta = array(
+            'peserta' => $peserta_keluarga['no_kk'],
+            'program_id' => $id_program,
+            'sasaran' => 2
+          );
+          $this->db->insert('program_peserta', $peserta);
+        }
+      }
+      // Hapus kolom program di tweb_keluarga
+      $sql = "ALTER TABLE tweb_keluarga DROP COLUMN $value";
+      $this->db->query($sql);
+    }
+    // ==== Gabung program bantuan penduduk statik ke dalam modul Program Bantuan
+
+    $program_penduduk = array(
+      "JAMKESMAS" => "jamkesmas"
+    );
+    foreach ($program_penduduk as $key => $value) {
+      // cari penduduk anggota program
+      if (!$this->db->field_exists($value, 'tweb_penduduk')) continue;
+
+      $this->db->select("nik");
+      $this->db->where("$value",1);
+      $q = $this->db->get("tweb_penduduk");
+      if ( $q->num_rows() > 0 ) {
+        // buat program
+        $data = array(
+          'sasaran' => 1,
+          'nama' => $key,
+          'ndesc' => '',
+          'userid' => 0,
+          'sdate' => date("Y-m-d",strtotime("-1 year")),
+          'edate' => date("Y-m-d",strtotime("+1 year"))
+        );
+        $this->db->insert('program', $data);
+        $id_program = $this->db->insert_id();
+        // untuk setiap penduduk anggota program buat program_peserta
+        $data = $q->result_array();
+        foreach ($data as $peserta_penduduk) {
+          $peserta = array(
+            'peserta' => $peserta_penduduk['nik'],
+            'program_id' => $id_program,
+            'sasaran' => 2
+          );
+          $this->db->insert('program_peserta', $peserta);
+        }
+      }
+      // Hapus kolom program di tweb_penduduk
+      $sql = "ALTER TABLE tweb_penduduk DROP COLUMN $value";
+      $this->db->query($sql);
+    }
+  }
 }
 ?>

@@ -255,20 +255,6 @@
 </tr>
 
 <tr>
-  <th>JAMKESMAS</th>
-  <td>
-    <div class="uiradio">
-      <input type="radio" id="jkm1" name="jamkesmas" value="1"/<?php if($penduduk['jamkesmas'] == '1'){echo 'checked';}?>>
-      <label for="jkm1">Ya</label>
-      <input type="radio" id="jkm3" name="jamkesmas" value="3"/<?php if($penduduk['jamkesmas'] == '3'){echo 'checked';}?>>
-      <label for="jkm3">Lainnya</label>
-      <input type="radio" id="jkm2" name="jamkesmas" value="2"/<?php if($penduduk['jamkesmas'] == '2' OR $penduduk['jamkesmas'] == ''){echo 'checked';}?>>
-      <label for="jkm2">Tidak</label>
-    </div>
-  </td>
-</tr>
-
-<tr>
   <th>Lokasi Penduduk</th>
   <td>
     <a href="<?php echo site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]")?>" target="ajax-modalz" rel="window<?php echo $penduduk['id']?>" header="Lokasi <?php echo $penduduk['nama']?>" class="uibutton special" title="Lokasi <?php echo $penduduk['nama']?>">Edit Lokasi</a>

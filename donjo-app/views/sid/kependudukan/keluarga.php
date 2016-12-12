@@ -118,7 +118,7 @@
       			</td>
             <td width="5"><div class="uibutton-group">
           		<a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota Keluarga"><span class="icon-list icon-large"> Rincian </span></a>
-              <a href="<?php echo site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" modalWidth="auto" modalHeight="300"header="Ubah Data KK"><span class="icon-edit icon-large"></span></a>
+              <a href="<?php echo site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" modalWidth="auto" modalHeight="auto"header="Ubah Data KK"><span class="icon-edit icon-large"></span></a>
 
         			<a href="<?php echo site_url("keluarga/form_a/$p/$o/$data[id]")?>" header="Tambah Anggota Keluarga" class="uibutton tipsy south" title="Tambah Anggota Keluarga"><span  class="icon-plus-sign-alt  icon-large"></span></a>
         			<a href="<?php echo site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>"  class="uibutton tipsy south" title="Ubah Alamat/Pindah Keluarga dalam Desa" target="ajax-modal" rel="window" header="Ubah/Pindah Alamat Keluarga" modalWidth="auto" modalHeight="auto"><span class="icon-share icon-large"></span></a>

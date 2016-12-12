@@ -18,20 +18,6 @@
 	<table class="inner">
 	<tr style="vertical-align:top">
 	<td class="side-menu">
-			<div id="" class="lmenu">
-        <legend id="daftar">Statistik Keluarga <span class="icon-chevron-down"></span></legend>
-				<ul id="keluarga">
-				<a href="<?php echo site_url()?>statistik/index/22"><li <?php if($lap==22){?>class="selected"<?php }?>>
-					Raskin</li></a>
-				<a href="<?php echo site_url()?>statistik/index/23"><li <?php if($lap==23){?>class="selected"<?php }?>>
-					BLSM</li></a>
-				<a href="<?php echo site_url()?>statistik/index/25"><li <?php if($lap==25){?>class="selected"<?php }?>>
-					PKH</li></a>
-				<a href="<?php echo site_url()?>statistik/index/27"><li <?php if($lap==27){?>class="selected"<?php }?>>
-					Bedah Rumah</li></a>
-				</ul>
-			</div>
-
 		<div class="lmenu">
       <legend>Statistik Penduduk <span class="icon-chevron-down"></span></legend>
 			<ul id="penduduk">
@@ -59,8 +45,6 @@
 				Penyandang Cacat</li></a>
       <a href="<?php echo site_url()?>statistik/index/16"><li <?php if($lap==16){?>class="selected"<?php }?>>
         Akseptor KB</li></a>
-			<a href="<?php echo site_url()?>statistik/index/11"><li <?php if($lap==11){?>class="selected"<?php }?>>
-				Penerima Jamkesmas</li></a>
 			</ul>
 		</div>
 
