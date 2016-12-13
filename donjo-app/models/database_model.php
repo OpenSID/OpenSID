@@ -369,6 +369,9 @@
   }
 
   function migrasi_15_ke_16(){
+    // Buat kk_sex boleh NULL
+    $query = "ALTER TABLE log_keluarga CHANGE kk_sex kk_sex tinyint(2) NULL DEFAULT NULL;";
+    $this->db->query($query);
 
     // ==== Gabung program bantuan keluarga statik ke dalam modul Program Bantuan
 
