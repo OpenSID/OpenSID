@@ -1074,7 +1074,6 @@ CREATE TABLE `program_peserta` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('1', '5202092101120001', '1', '1');
 INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('2', '5201140104126994', '1', '2');
 INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('3', '5201140105136997', '1', '2');
 INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('4', '5201140104126995', '2', '2');
