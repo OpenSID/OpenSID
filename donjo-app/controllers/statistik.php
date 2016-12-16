@@ -21,20 +21,7 @@ function __construct(){
 		$data['lap']=$lap;
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$data['o']=$o;
-		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
-		if ($lap>50) {
-			// Untuk program bantuan, $lap berbentuk '50<program_id>'
-			$program_id = preg_replace('/^50/', '', $lap);
-			$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
-			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
-			$data['kategori'] = 'bantuan';
-		} elseif ($lap>20) {
-			$data['kategori'] = 'keluarga';
-		} else {
-			$data['kategori'] = 'penduduk';
-		}
-
+		$this->get_data_stat($data, $lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 		$header['modul'] = 3;
@@ -70,9 +57,10 @@ function __construct(){
 
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap']=$lap;
-		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
+		$this->get_data_stat($data, $lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
+		$header['modul'] = 3;
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('statistik/penduduk_graph',$data);
@@ -83,16 +71,33 @@ function __construct(){
 
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap']=$lap;
-		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
+		$this->get_data_stat($data, $lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
+		$header['modul'] = 3;
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('statistik/penduduk_pie',$data);
 		$this->load->view('footer');
 	}
 
-    function cetak($lap=0){
+	private function get_data_stat(&$data, $lap){
+		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
+		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
+		if ($lap>50) {
+			// Untuk program bantuan, $lap berbentuk '50<program_id>'
+			$program_id = preg_replace('/^50/', '', $lap);
+			$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
+			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
+			$data['kategori'] = 'bantuan';
+		} elseif ($lap>20) {
+			$data['kategori'] = 'keluarga';
+		} else {
+			$data['kategori'] = 'penduduk';
+		}
+	}
+
+  function cetak($lap=0){
 		$data['lap']=$lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['config']  = $this->laporan_penduduk_model->get_config();
