@@ -17,6 +17,7 @@
     $this->migrasi_13_ke_14();
     $this->migrasi_14_ke_15();
     $this->migrasi_15_ke_16();
+    $this->migrasi_16_ke_17();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -455,5 +456,28 @@
       $this->db->query($sql);
     }
   }
+
+  function migrasi_16_ke_17(){
+    // Tambahkan id_cluster ke tabel keluarga
+    if (!$this->db->field_exists('id_cluster', 'tweb_keluarga')) {
+      $query = "ALTER TABLE tweb_keluarga ADD id_cluster int(11);";
+      $this->db->query($query);
+
+      // Untuk setiap keluarga
+      $query = $this->db->get('tweb_keluarga');
+      $data = $query->result_array();
+      foreach ($data as $keluarga) {
+        // Ambil id_cluster kepala keluarga
+        $this->db->select('id_cluster');
+        $this->db->where('id', $keluarga['nik_kepala']);
+        $query = $this->db->get('tweb_penduduk');
+        $kepala_kk = $query->row_array();
+        // Tulis id_cluster kepala keluarga ke keluarga
+        $this->db->where('id', $keluarga['id']);
+        $this->db->update('tweb_keluarga', array('id_cluster' => $kepala_kk['id_cluster']));
+      }
+    }
+  }
+
 }
 ?>

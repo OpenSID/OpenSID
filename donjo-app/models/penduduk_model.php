@@ -308,8 +308,8 @@
 		//Main Query
 		$sql = $select_sql."
 		FROM tweb_penduduk u
-		LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
 		LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
+		LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
 		LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
 		LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id
 		LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
@@ -359,22 +359,23 @@
 		$j=$offset;
 		while($i<count($data)){
 
+			// Ubah alamat penduduk lepas
+			if (!$data[$i]['id_kk'] OR $data[$i]['id_kk'] == 0) {
+				// Ambil alamat penduduk
+				$sql = "SELECT p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt
+					FROM tweb_penduduk p
+					LEFT JOIN tweb_wil_clusterdesa c on p.id_cluster = c.id
+					WHERE p.id = ?
+					";
+				$query = $this->db->query($sql, $data[$i]['id']);
+				$penduduk = $query->row_array();
+				$data[$i]['alamat'] = $penduduk['alamat_sekarang'];
+				$data[$i]['dusun'] = $penduduk['dusun'];
+				$data[$i]['rw'] = $penduduk['rw'];
+				$data[$i]['rt'] = $penduduk['rt'];
+			}
+
 			$data[$i]['no']=$j+1;
-			$data[$i]['alamat']='';
-
-			if($data[$i]['alamat_sekarang'] != "-")
-	      $data[$i]['alamat']="KP/JL-".$data[$i]['alamat_sekarang'];
-
-			if($data[$i]['rt'] != "-")
-				$data[$i]['alamat']="RT-".$data[$i]['rt'];
-
-			if($data[$i]['rw'] != "-")
-				$data[$i]['alamat']=$data[$i]['alamat']." RW-".$data[$i]['rw'];
-
-			if($data[$i]['dusun'] != "-")
-				$data[$i]['alamat']=$data[$i]['alamat']." Dusun ".$data[$i]['dusun'];
-			else
-				$data[$i]['alamat']="Alamat penduduk belum valid";
 
 			$i++;
 			$j++;
@@ -700,8 +701,8 @@
 		)
 		 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb
 		 FROM tweb_penduduk u
-			LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
 			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
+			LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
 			LEFT JOIN tweb_penduduk_pendidikan n ON u.pendidikan_id = n.id
 			LEFT JOIN tweb_penduduk_pendidikan o ON u.pendidikan_sedang_id = o.id
 			LEFT JOIN tweb_penduduk_pendidikan_kk b ON u.pendidikan_kk_id = b.id
@@ -719,8 +720,16 @@
 		$data['tanggallahir'] = tgl_indo_out($data['tanggallahir']);
 		$data['tanggalperkawinan'] = tgl_indo_out($data['tanggalperkawinan']);
 		$data['tanggalperceraian'] = tgl_indo_out($data['tanggalperceraian']);
-		// Penduduk lepas, pakai alamat_sekarang
-		if ($data['id_kk'] == 0 OR $data['id_kk'] == '') $data['alamat'] = $data['alamat_sekarang'];
+		// Penduduk lepas, pakai alamat penduduk
+		if ($data['id_kk'] == 0 OR $data['id_kk'] == '') {
+			$data['alamat'] = $data['alamat_sekarang'];
+			$this->db->where('id', $data['id_cluster']);
+			$query = $this->db->get('tweb_wil_clusterdesa');
+			$cluster = $query->row_array();
+			$data['dusun'] = $cluster['dusun'];
+			$data['rw'] = $cluster['rw'];
+			$data['rt'] = $cluster['rt'];
+		}
 		return $data;
 	}
 
@@ -876,15 +885,25 @@
 		if ($id_cluster != '') $data['id_cluster'] = $id_cluster;
 		$outp = $this->db->update('tweb_penduduk',$data);
 
-		$log['id_pend'] = $id;
-		$log['id_detail'] = "6";
-		$log['bulan'] = date("m");
-		$log['tahun'] = date("Y");
-		$outp = $this->db->insert('log_penduduk',$log);
+		$this->tulis_log_penduduk($id, '6', date('m'), date('Y'));
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
+
+	function tulis_log_penduduk($id_pend, $id_detail, $bulan, $tahun) {
+    $query = "
+      INSERT INTO log_penduduk (id_pend, id_detail, bulan, tahun) VALUES
+      (?, ?, ?, ?)
+      ON DUPLICATE KEY UPDATE
+        id_pend = VALUES(id_pend),
+        id_detail = VALUES(id_detail),
+        bulan = VALUES(bulan),
+        tahun = VALUES(tahun);
+    ";
+    $this->db->query($query,array($id_pend, $id_detail, $bulan, $tahun));
+	}
+
 
 	function get_judul_statistik($tipe=0,$nomor=1){
 		switch($tipe){

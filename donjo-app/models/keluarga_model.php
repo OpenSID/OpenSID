@@ -125,7 +125,11 @@
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql   = "SELECT u.*,t.nama AS kepala_kk,t.nik,t.sex,t.status_dasar,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
+		$sql   = "SELECT u.*,t.nama AS kepala_kk,t.nik,t.sex,t.status_dasar,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,c.dusun,c.rw,c.rt
+			FROM tweb_keluarga u
+			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
+			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
+			WHERE 1 ";
 
 		$sql .= $this->search_sql();
 
@@ -505,14 +509,8 @@
 			$outp = $this->db->update('tweb_keluarga',$temp2);
 		}
 
-		$log['id_pend'] = $id;
-		$log['id_detail'] = "7";
-		$log['bulan'] = date("m");
-		$log['tahun'] = date("Y");
-		$outp = $this->db->insert('log_penduduk',$log);
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$this->load->model('penduduk_model');
+		$this->penduduk_model->tulis_log_penduduk($id, '7', date('m'), date('Y'));
 	}
 
 
@@ -617,9 +615,9 @@
 			LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 			LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id
-			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
+			LEFT JOIN tweb_wil_clusterdesa c ON (SELECT id_cluster from tweb_keluarga where id = ?) = c.id
 			WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE id = ?) ";
-		$query = $this->db->query($sql,array($id,$id,$id));
+		$query = $this->db->query($sql,array($id,$id,$id,$id));
 		$data = $query->row_array();
 		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords(config_item('sebutan_dusun')).' '.$data['dusun']);
 		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
@@ -766,9 +764,11 @@
 	}
 
 	function pindah_proses($id=0,$id_cluster='',$alamat=''){
+		$this->load->model('penduduk_model');
 		// Ubah alamat keluarga
 		$this->db->where('id',$id);
 		$data_kel['alamat'] = $alamat;
+		$data_kel['id_cluster'] = $id_cluster;
 		$this->db->update('tweb_keluarga', $data_kel);
 		// Ubah dusun/rw/rt untuk semua anggota keluarga
 		if ($id_cluster != '') {
@@ -776,21 +776,13 @@
 			$data['id_cluster'] = $id_cluster;
 			$outp = $this->db->update('tweb_penduduk',$data);
 
+			// Tulis log pindah untuk setiap anggota keluarga
 			$sql   = "SELECT id FROM tweb_penduduk WHERE id_kk=$id";
-
 			$query = $this->db->query($sql);
 			$data2= $query->result_array();
-
 			foreach($data2 as $datanya){
-				$log['id_pend'] = $datanya['id'];
-				$log['id_detail'] = "6";
-				$log['bulan'] = date("m");
-				$log['tahun'] = date("Y");
-				$outp = $this->db->insert('log_penduduk',$log);
+				$this->penduduk_model->tulis_log_penduduk($datanya[id], '6', date('m'), date('Y'));
 			}
-
-			if($outp) $_SESSION['success']=1;
-				else $_SESSION['success']=-1;
 		}
 
 	}
@@ -798,8 +790,7 @@
 	function get_alamat_wilayah($id_kk) {
 		$sql = "SELECT a.dusun,a.rw,a.rt,k.alamat
 				FROM tweb_keluarga k
-				LEFT JOIN tweb_penduduk u ON u.id = k.nik_kepala
-				LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
+				LEFT JOIN tweb_wil_clusterdesa a ON k.id_cluster = a.id
 				WHERE k.id=?";
 		$query = $this->db->query($sql,$id_kk);
 		$data  = $query->row_array();
