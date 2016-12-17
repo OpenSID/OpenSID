@@ -74,7 +74,6 @@ class Database extends CI_Controller{
 	}
 
 	function migrasi_cri(){
-
 		$nav['act']= 6;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
 		$header = $this->header_model->get_data();
@@ -161,6 +160,15 @@ class Database extends CI_Controller{
 		redirect('database/migrasi_cri/1');
 	}
 
+	function kosongkan_db(){
+		if($_SESSION['grup']!=1) {
+			session_error("Anda tidak mempunyai akses pada fitur ini");
+			redirect('database/backup'); // hanya untuk administrator
+		}
+		$this->database_model->kosongkan_db();
+		redirect('database/backup');
+	}
+
 	function ppls_kuisioner(){
 		$this->import_model->ppls_kuisioner();
 		redirect('database/import_ppls/1');
@@ -201,6 +209,10 @@ class Database extends CI_Controller{
 	}
 
 	function restore(){
+		if($_SESSION['grup']!=1) {
+			session_error("Anda tidak mempunyai akses pada fitur ini");
+			redirect('database/backup'); // hanya untuk administrator
+		}
 		$this->export_model->restore();
 		if ($_SESSION['success'] == 1)
 			redirect('database/backup');

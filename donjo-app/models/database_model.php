@@ -477,7 +477,57 @@
         $this->db->update('tweb_keluarga', array('id_cluster' => $kepala_kk['id_cluster']));
       }
     }
+
+    // Hapus tabel yang tidak terpakai lagi
+    // ref_bedah_rumah
+    // ref_blt
+    // ref_jamkesmas
+    // ref_pkh
+    // ref_raskin
+    // tweb_alamat_sekarang
+
   }
 
+  function kosongkan_db(){
+    $table_lookup = array(
+      "analisis_ref_state",
+      "analisis_ref_subjek",
+      "analisis_tipe_indikator",
+      "artikel", //remove everything except widgets 1003
+      "data_surat", // view
+      "media_sosial", //?
+      "tweb_cacat",
+      "tweb_cara_kb",
+      "tweb_golongan_darah",
+      "tweb_penduduk_agama",
+      "tweb_penduduk_hubungan",
+      "tweb_penduduk_kawin",
+      "tweb_penduduk_pekerjaan",
+      "tweb_penduduk_pendidikan",
+      "tweb_penduduk_pendidikan_kk",
+      "tweb_penduduk_sex",
+      "tweb_penduduk_status",
+      "tweb_penduduk_umur",
+      "tweb_penduduk_warganegara",
+      "tweb_rtm_hubungan",
+      "tweb_sakit_menahun",
+      "tweb_status_dasar",
+      "tweb_surat_format",
+      "user",
+      "user_grup"
+    );
+
+    // Hapus semua artikel kecuali artikel widget dengan kategori 1003
+    $this->db->where("id_kategori !=", "1003");
+    $query = $this->db->delete('artikel');
+    // Hapus semua tabel kecuali table lookup
+    $semua_table = $this->db->list_tables();
+    foreach ($semua_table as $table){
+      if (!in_array($table, $table_lookup)) {
+        $query = "TRUNCATE ".$table;
+        $this->db->query($query);
+      }
+    }
+  }
 }
 ?>
