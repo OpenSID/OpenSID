@@ -1413,47 +1413,48 @@ CREATE TABLE `tweb_keluarga` (
   `kelas_sosial` int(4) DEFAULT NULL,
   `tgl_cetak_kk` datetime DEFAULT NULL,
   `alamat` varchar(200) DEFAULT NULL,
+  `id_cluster` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `nik_kepala` (`nik_kepala`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('1', '5201140104126994', '1', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('2', '5201140104126995', '5', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('3', '5201140104166999', '9', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('4', '5201140105136997', '12', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('5', '5201140106166996', '16', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('6', '5201140106167002', '17', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('7', '5201140106167003', '19', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('8', '5201140107126996', '21', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('9', '5201140108146995', '25', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('10', '5201140109126996', '26', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('11', '5201140109156994', '30', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('12', '5201140110137011', '32', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('13', '5201140110137038', '35', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('14', '5201140110156997', '37', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('15', '5201140111126997', '38', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('16', '5201140111126999', '39', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('17', '5201140112107003', '42', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('18', '5201140112126998', '45', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('19', '5201140202167000', '51', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('20', '5201140202167002', '52', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('21', '5201140203136994', '55', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('22', '5201140203136995', '56', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('23', '5201140203167003', '59', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('24', '5201140204166994', '61', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('25', '5201140205156994', '62', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('26', '5201140205156995', '65', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('27', '5201140205156996', '68', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('28', '5201140205156997', '71', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('29', '5201140206157000', '74', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('30', '5201140206157004', '76', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('31', '5201140207156998', '77', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('32', '5201140207157000', '80', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('33', '5201140209156996', '83', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('34', '5201140210137022', '84', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('35', '5201140211117001', '88', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('36', '5201140211117002', '91', '2016-09-14 13:28:03', NULL, NULL, NULL);
-INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`) VALUES ('37', '5201140211117003', '95', '2016-09-14 13:28:03', NULL, NULL, NULL);
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('1', '5201140104126994', '1', '2016-09-14 13:28:03', NULL, NULL, NULL, '4');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('2', '5201140104126995', '5', '2016-09-14 13:28:03', NULL, NULL, NULL, '8');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('3', '5201140104166999', '9', '2016-09-14 13:28:03', NULL, NULL, NULL, '12');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('4', '5201140105136997', '12', '2016-09-14 13:28:03', NULL, NULL, NULL, '16');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('5', '5201140106166996', '16', '2016-09-14 13:28:03', NULL, NULL, NULL, '8');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('6', '5201140106167002', '17', '2016-09-14 13:28:03', NULL, NULL, NULL, '17');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('7', '5201140106167003', '19', '2016-09-14 13:28:03', NULL, NULL, NULL, '16');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('8', '5201140107126996', '21', '2016-09-14 13:28:03', NULL, NULL, NULL, '18');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('9', '5201140108146995', '25', '2016-09-14 13:28:03', NULL, NULL, NULL, '18');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('10', '5201140109126996', '26', '2016-09-14 13:28:03', NULL, NULL, NULL, '19');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('11', '5201140109156994', '30', '2016-09-14 13:28:03', NULL, NULL, NULL, '19');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('12', '5201140110137011', '32', '2016-09-14 13:28:03', NULL, NULL, NULL, '20');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('13', '5201140110137038', '35', '2016-09-14 13:28:03', NULL, NULL, NULL, '18');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('14', '5201140110156997', '37', '2016-09-14 13:28:03', NULL, NULL, NULL, '18');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('15', '5201140111126997', '38', '2016-09-14 13:28:03', NULL, NULL, NULL, '17');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('16', '5201140111126999', '39', '2016-09-14 13:28:03', NULL, NULL, NULL, '21');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('17', '5201140112107003', '42', '2016-09-14 13:28:03', NULL, NULL, NULL, '12');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('18', '5201140112126998', '45', '2016-09-14 13:28:03', NULL, NULL, NULL, '22');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('19', '5201140202167000', '51', '2016-09-14 13:28:03', NULL, NULL, NULL, '23');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('20', '5201140202167002', '52', '2016-09-14 13:28:03', NULL, NULL, NULL, '24');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('21', '5201140203136994', '55', '2016-09-14 13:28:03', NULL, NULL, NULL, '8');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('22', '5201140203136995', '56', '2016-09-14 13:28:03', NULL, NULL, NULL, '16');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('23', '5201140203167003', '59', '2016-09-14 13:28:03', NULL, NULL, NULL, '23');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('24', '5201140204166994', '61', '2016-09-14 13:28:03', NULL, NULL, NULL, '25');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('25', '5201140205156994', '62', '2016-09-14 13:28:03', NULL, NULL, NULL, '26');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('26', '5201140205156995', '65', '2016-09-14 13:28:03', NULL, NULL, NULL, '26');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('27', '5201140205156996', '68', '2016-09-14 13:28:03', NULL, NULL, NULL, '25');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('28', '5201140205156997', '71', '2016-09-14 13:28:03', NULL, NULL, NULL, '25');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('29', '5201140206157000', '74', '2016-09-14 13:28:03', NULL, NULL, NULL, '17');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('30', '5201140206157004', '76', '2016-09-14 13:28:03', NULL, NULL, NULL, '27');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('31', '5201140207156998', '77', '2016-09-14 13:28:03', NULL, NULL, NULL, '28');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('32', '5201140207157000', '80', '2016-09-14 13:28:03', NULL, NULL, NULL, '29');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('33', '5201140209156996', '83', '2016-09-14 13:28:03', NULL, NULL, NULL, '30');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('34', '5201140210137022', '84', '2016-09-14 13:28:03', NULL, NULL, NULL, '29');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('35', '5201140211117001', '88', '2016-09-14 13:28:03', NULL, NULL, NULL, '31');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('36', '5201140211117002', '91', '2016-09-14 13:28:03', NULL, NULL, NULL, '31');
+INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('37', '5201140211117003', '95', '2016-09-14 13:28:03', NULL, NULL, NULL, '31');
 
 
 #
