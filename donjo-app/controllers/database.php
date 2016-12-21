@@ -38,7 +38,6 @@ class Database extends CI_Controller{
 
 		$nav['act']= 2;
 		$data['form_action'] = site_url("database/import_dasar");
-		$data['form_action2'] = site_url("database/import_siak");
 		$header = $this->header_model->get_data();
 		$header['modul'] = 12;
 		$this->load->view('header', $header);
@@ -185,12 +184,6 @@ class Database extends CI_Controller{
 		$this->import_model->ppls_rumahtangga();
 		redirect('database/import_ppls/1');
 		//import_das();
-	}
-
-	function import_siak(){
-		$data["siak"] = $this->import_model->import_siak();
-		$_SESSION["SIAK"] = $data["siak"];
-		redirect('database/import/3');
 	}
 
 	function import_akp(){
