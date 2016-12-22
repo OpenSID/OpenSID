@@ -59,6 +59,7 @@ class Surat extends CI_Controller{
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
+		$data['kode'] = $this->surat_model->get_daftar_kode_surat($url);
 
 		if ($url == 'surat_persetujuan_mempelai') {
 			// Perlu disimpan di SESSION karena belum ketemu cara

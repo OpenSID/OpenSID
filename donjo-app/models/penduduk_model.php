@@ -733,6 +733,31 @@
 		return $data;
 	}
 
+	function get_penduduk_by_nik($nik=0){
+		$sql   = "SELECT u.id AS id, u.nama AS nama,x.nama AS sex,u.id_kk AS id_kk,
+		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,
+		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
+		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
+		w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,h.nama as hubungan,d.nama AS pendidikan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,
+		(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
+		from tweb_penduduk u
+		left join tweb_penduduk_sex x on u.sex = x.id
+		left join tweb_penduduk_kawin w on u.status_kawin = w.id
+		left join tweb_penduduk_agama a on u.agama_id = a.id
+		left join tweb_penduduk_hubungan h on u.kk_level = h.id
+		left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
+		left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
+		left join tweb_wil_clusterdesa c on u.id_cluster = c.id
+		left join tweb_keluarga k on u.id_kk = k.id
+		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
+		WHERE u.nik = ?";
+		$query = $this->db->query($sql,$nik);
+		$data  = $query->row_array();
+		$data['alamat_wilayah']= trim("$data[alamat] RT $data[rt] / RW $data[rw] $data[dusun]");
+		return $data;
+	}
+
+
 	function list_dusun(){
 		$sql   = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND rw = '0' ";
 		$query = $this->db->query($sql);
