@@ -89,6 +89,7 @@ class Surat extends CI_Controller{
 		$data['form_action2'] = site_url("surat/doc/$url");
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
+		$header['modul'] = 4;
 		$this->load->view('header',$header);
 
 		$this->load->view('surat/nav',$nav);
@@ -145,8 +146,13 @@ class Surat extends CI_Controller{
 		$nik = $hasil['nik'];
 
 		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $nik, $z);
-		$this->surat_model->coba($url, $nama_surat);
-		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z,$nama_surat);
+		$lampiran = '';
+		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
+		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z,$nama_surat,$lampiran);
+
+		// === Untuk debug format surat html2pdf
+		// $data = $this->surat_model->get_data_untuk_surat($url);
+		// $this->load->view("surat/format_lembaga/f125",$data);
 
 	}
 }

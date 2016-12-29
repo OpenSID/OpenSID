@@ -278,15 +278,15 @@
 		$data  = $query->row_array();
 
 		// Kalau tidak ada, cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
-		if (!$data['id'] AND $penduduk['kk_level'] == 4 ) {
+		if (!isset($data['id']) AND $penduduk['kk_level'] == 4 ) {
 			$sql = "SELECT u.id
 				FROM tweb_penduduk u
 				WHERE (u.id_kk=(SELECT id_kk FROM tweb_penduduk where id=$id) AND u.kk_level=1 AND u.sex=1) limit 1";
 			$query = $this->db->query($sql);
 			$data  = $query->row_array();
 		}
-		$ayah_id = $data['id'];
-		if($ayah_id){
+		if(isset($data['id'])){
+			$ayah_id = $data['id'];
 			$ayah = $this->get_data_pribadi($ayah_id);
 			return $ayah;
 		}
@@ -302,15 +302,15 @@
 		$data  = $query->row_array();
 
 		// Kalau tidak ada, cari istri keluarga kalau penduduknya seorang anak dalam keluarga
-		if (!$data['id'] AND $penduduk['kk_level'] == 4 ) {
+		if (!isset($data['id']) AND $penduduk['kk_level'] == 4 ) {
 			$sql = "SELECT u.id
 				FROM tweb_penduduk u
 				WHERE (u.id_kk=(SELECT id_kk FROM tweb_penduduk where id=$id) AND u.kk_level=3) limit 1";
 			$query = $this->db->query($sql, $id);
 			$data  = $query->row_array();
 		}
-		$ibu_id = $data['id'];
-		if($ibu_id){
+		if(isset($data['id'])){
+			$ibu_id = $data['id'];
 			$ibu = $this->get_data_pribadi($ibu_id);
 			return $ibu;
 		}
@@ -411,7 +411,7 @@
 	}
 
 	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
-		$alamat_desa = ucwords(config_item('sebutan_desa'))." ".$config[nama_desa].", Kecamatan ".$config[nama_kecamatan].", Kabupaten ".$config[nama_kabupaten];
+		$alamat_desa = ucwords(config_item('sebutan_desa'))." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", Kabupaten ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
 		switch ($url) {
 			case 'surat_ket_pindah_penduduk':
@@ -432,18 +432,18 @@
 						$buffer=str_replace("[ktp_berlaku$nomor]","",$buffer);
 						$buffer=str_replace("[pindah_shdk_$nomor]","",$buffer);
 					}
-					$kode = $this->get_daftar_kode_surat($url);
-					$alasan_pindah_id = trim($input['alasan_pindah_id'],"'");
-					if ($alasan_pindah_id == "7") {
-						$str = $kode['alasan_pindah'][$alasan_pindah_id]." (".$input['sebut_alasan'].")";
-						$buffer=str_replace("[alasan_pindah]",$str,$buffer);
-					} else {
-						$buffer=str_replace("[alasan_pindah]",$kode['alasan_pindah'][$alasan_pindah_id],$buffer);
-					}
-					$buffer=str_replace("[jenis_kepindahan]",$kode['jenis_kepindahan'][$input['jenis_kepindahan_id']],$buffer);
-					$buffer=str_replace("[status_kk_tidak_pindah]",$kode['status_kk_pindah'][$input['status_kk_tidak_pindah_id']],$buffer);
-					$buffer=str_replace("[status_kk_pindah]",$kode['status_kk_pindah'][$input['status_kk_pindah_id']],$buffer);
 				}
+				$kode = $this->get_daftar_kode_surat($url);
+				$alasan_pindah_id = trim($input['alasan_pindah_id'],"'");
+				if ($alasan_pindah_id == "7") {
+					$str = $kode['alasan_pindah'][$alasan_pindah_id]." (".$input['sebut_alasan'].")";
+					$buffer=str_replace("[alasan_pindah]",$str,$buffer);
+				} else {
+					$buffer=str_replace("[alasan_pindah]",$kode['alasan_pindah'][$alasan_pindah_id],$buffer);
+				}
+				$buffer=str_replace("[jenis_kepindahan]",$kode['jenis_kepindahan'][$input['jenis_kepindahan_id']],$buffer);
+				$buffer=str_replace("[status_kk_tidak_pindah]",$kode['status_kk_pindah'][$input['status_kk_tidak_pindah_id']],$buffer);
+				$buffer=str_replace("[status_kk_pindah]",$kode['status_kk_pindah'][$input['status_kk_pindah_id']],$buffer);
 				break;
 
 			case 'surat_persetujuan_mempelai':
@@ -590,16 +590,18 @@
 		return $str;
 	}
 
-	function surat_rtf($url='', $input){
+	function surat_rtf($data){
 		// Ambil data
+		$input = $data['input'];
+		$individu = $data['individu'];
+		$ayah = $data['ayah'];
+		$ibu = $data['ibu'];
+		$config = $data['config'];
+		$surat = $data['surat'];
 		$id = $input['nik'];
+		$url = $surat['url_surat'];
 		$tgl = tgl_indo(date("Y m d"));
 		$thn = date("Y");
-		$individu = $this->get_data_surat($id);
-		$ayah = $this->get_data_ayah($id);
-		$ibu = $this->get_data_ibu($id);
-		$config = $this->get_data_desa();
-		$surat = $this->get_surat($url);
 
 		$tgllhr = ucwords(tgl_indo($individu['tanggallahir']));
 		$individu['nama'] = strtoupper($individu['nama']);
@@ -699,12 +701,12 @@
 			// Kode isian yang disediakan pada SID CRI 3.04
 			$buffer=str_replace("[nomor_surat]","$input[nomor]",$buffer);
 			$buffer=str_replace("[nomor_sorat]","$input[nomor]",$buffer);
-			$buffer=str_replace("[mulai_berlaku]",tgl_indo(date('Y m d',strtotime($input[berlaku_dari]))),$buffer);
-			$buffer=str_replace("[tgl_akhir]",tgl_indo(date('Y m d',strtotime($input[berlaku_sampai]))),$buffer);
+			if(isset($input['berlaku_dari'])) $buffer=str_replace("[mulai_berlaku]",tgl_indo(date('Y m d',strtotime($input['berlaku_dari']))),$buffer);
+			if(isset($input['berlaku_sampai'])) $buffer=str_replace("[tgl_akhir]",tgl_indo(date('Y m d',strtotime($input['berlaku_sampai']))),$buffer);
 			$buffer=str_replace("[jabatan]","$input[jabatan]",$buffer);
 			$buffer=str_replace("[nama_pamong]","$input[pamong]",$buffer);
 			$buffer=str_replace("[keterangan]","$input[keterangan]",$buffer);
-			$buffer=str_replace("[keperluan]","$input[keperluan]",$buffer);
+			if(isset($input['keperluan'])) $buffer=str_replace("[keperluan]","$input[keperluan]",$buffer);
 			// $input adalah isian form surat. Kode isian dari form bisa berbentuk [form_isian]
 			// sesuai dengan panduan, atau boleh juga langsung [isian] saja
 			$isian_tanggal = array("berlaku_dari", "berlaku_sampai", "tanggal", "tgl_meninggal",
@@ -726,18 +728,69 @@
 						$buffer=preg_replace("/\[$key\]|\[form_$key\]/",tgl_indo_dari_str($entry),$buffer);
 					}
 				}
-				$buffer=str_replace("[form_$key]",$entry,$buffer);
-				// Diletakkan di bagian akhir karena bisa sama dengan kode isian sebelumnya
-				// dan kalau masih ada dianggap sebagai kode dari form isian
-				$buffer=str_replace("[$key]",$entry,$buffer);
+				if (!is_array($entry)) {
+					$buffer=str_replace("[form_$key]",$entry,$buffer);
+					// Diletakkan di bagian akhir karena bisa sama dengan kode isian sebelumnya
+					// dan kalau masih ada dianggap sebagai kode dari form isian
+					$buffer=str_replace("[$key]",$entry,$buffer);
+				}
 			}
 		}
 		return $buffer;
 	}
 
-	function coba($url='', &$nama_surat){
-		$input = $_POST;
-		$rtf = $this->surat_rtf($url, $input);
+	function lampiran($data, $nama_surat, &$lampiran){
+		$surat = $data['surat'];
+		if (!$surat['lampiran']) return;
+
+		$config = $data['config'];
+		$individu = $data['individu'];
+		$input = $data['input'];
+		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
+		$format_lampiran = "surat/".$surat['url_surat']."/".$surat['lampiran'];
+
+    // get the HTML
+    ob_start();
+    include(dirname(__FILE__)."/../../".$format_lampiran);
+    $content = ob_get_clean();
+
+    // convert in PDF
+    require_once(dirname(__FILE__).'/../../vendor/html2pdf/html2pdf.class.php');
+    try
+    {
+        $html2pdf = new HTML2PDF('P', array(210,330), 'en');
+//      $html2pdf->setModeDebug();
+        $html2pdf->setDefaultFont('Arial');
+        $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
+				ob_end_clean();
+        $html2pdf->Output(LOKASI_ARSIP.$lampiran, 'F');
+    }
+    catch(HTML2PDF_exception $e) {
+        echo $e;
+        exit;
+    }
+	}
+
+	function get_data_untuk_surat($url) {
+		$data['input'] = $_POST;
+		// Ambil data
+		$id = $data['input']['nik'];
+		$data['individu'] = $this->get_data_surat($id);
+		$data['ayah'] = $this->get_data_ayah($id);
+		$data['ibu'] = $this->get_data_ibu($id);
+		$data['config'] = $this->get_data_desa();
+		$data['surat'] = $this->get_surat($url);
+		return $data;
+	}
+
+	function buat_surat($url='', &$nama_surat, &$lampiran){
+		$data = $this->get_data_untuk_surat($url);
+		$this->lampiran($data, $nama_surat, $lampiran);
+		$this->surat_utama($data, $nama_surat);
+	}
+
+	function surat_utama($data, &$nama_surat){
+		$rtf = $this->surat_rtf($data);
 		// Simpan surat di folder arsip dan download
 		$path_arsip = LOKASI_ARSIP;
 		$berkas_arsip = $path_arsip.$nama_surat;

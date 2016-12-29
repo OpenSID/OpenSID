@@ -8,13 +8,13 @@ if ( ! file_exists('donjo-app/config/database.php'))
 		header('Status: 404');
 		exit('SID 3.0 is missing donjo-app/config/database.php and cannot find the installer folder. Does your server have permission to access these files?');
 	}
-	
+
 	// Otherwise go to installer
 	header('Location: '.rtrim($_SERVER['REQUEST_URI'], '/').'/installer/');
 	exit;
 }
-	//define('ENVIRONMENT', 'development');
-	define('ENVIRONMENT', 'production');
+	define('ENVIRONMENT', 'development');
+	// define('ENVIRONMENT', 'production');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -31,7 +31,7 @@ if (defined('ENVIRONMENT'))
 		case 'development':
 			error_reporting(E_ALL);
 		break;
-	
+
 		case 'testing':
 		case 'production':
 			error_reporting(0);

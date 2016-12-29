@@ -62,7 +62,7 @@ class surat_master extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-
+		$header['modul'] = 4;
 		$this->load->view('header', $header);
 		$nav['act']=3;
 		$this->load->view('surat/nav',$nav);
@@ -210,7 +210,7 @@ class surat_master extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-
+		$header['modul'] = 4;
 		$this->load->view('header', $header);
 		$nav['act']=3;
 		$this->load->view('surat/nav',$nav);

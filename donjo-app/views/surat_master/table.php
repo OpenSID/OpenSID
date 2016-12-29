@@ -29,7 +29,7 @@
 							<tr>
 								<th width="10">No</th>
 								<th><input type="checkbox" class="checkall"/></th>
-								<th width="100">Aksi</th>
+								<th width="90">Aksi</th>
 
 							<?php  if($o==4): ?>
 								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
@@ -48,6 +48,7 @@
 							<?php  endif; ?>
 
 								<th width="">URL</th>
+								<th width="">Lampiran</th>
 								<th width="">Template Surat</th>
 							</tr>
 						</thead>
@@ -71,12 +72,13 @@
 								<td><?php echo $data['nama']?></td>
 								<td><?php echo $data['kode_surat']?></td>
 								<td><?php echo $data['url_surat']?></td>
+								<td><?php echo $data['lampiran']?></td>
 								<td>
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Kode Isian"><span class="icon-code icon-large"> Kode Isian </span></a>
 										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south" title="Upload Template" target="ajax-modal" rel="window" header="Upload Template"><span class="icon-upload-alt icon-large"> Upload </span></a>
 
-										<?php $surat = SuratExport($data[url_surat]); ?>
+										<?php $surat = SuratExport($data['url_surat']); ?>
 										<?php if ($surat != "") { ?>
 										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south" title="Unduh Template"><span class="icon-download-alt icon-large"> Download </span></a>
 										<?php } ?>

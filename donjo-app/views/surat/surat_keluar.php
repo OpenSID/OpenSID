@@ -26,7 +26,7 @@
 					<thead>
 						<tr>
 							<th>No</th>
-							<th>Aksi</th>
+							<th width="135px">Aksi</th>
 							<?php  if($o==2): ?>
 							<th align="left" width='100'>Nomor Surat</th>
 							<?php  elseif($o==1): ?>
@@ -68,6 +68,7 @@
 								$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
 							endif;
 							$theFile = FCPATH.LOKASI_ARSIP.$berkas;
+							$lampiran = FCPATH.LOKASI_ARSIP.$data['lampiran'];
 							?>
 							<tr>
 								<td align="center" width="2"><?php echo $data['no']?></td>
@@ -76,6 +77,10 @@
 										<?php
 											if(is_file($theFile)){?>
 												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south" title="Cetak"><span class="icon-download icon-large"> Cetak </span></a>
+										<?php	}?>
+										<?php
+											if(is_file($lampiran)){?>
+												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" class="uibutton tipsy south" title="Lampiran"><span class="icon-download icon-large"> Lampiran </span></a>
 										<?php	}?>
 										<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 									</div>

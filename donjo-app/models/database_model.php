@@ -18,6 +18,7 @@
     $this->migrasi_14_ke_15();
     $this->migrasi_15_ke_16();
     $this->migrasi_16_ke_17();
+    $this->migrasi_17_ke_18();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -477,6 +478,28 @@
         $this->db->update('tweb_keluarga', array('id_cluster' => $kepala_kk['id_cluster']));
       }
     }
+  }
+
+  function migrasi_17_ke_18() {
+    // Tambah lampiran surat dgn template html2pdf
+    if (!$this->db->field_exists('lampiran', 'log_surat')) {
+      $query = "ALTER TABLE `log_surat` ADD `lampiran` varchar(100)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('lampiran', 'tweb_surat_format')) {
+      $query = "ALTER TABLE `tweb_surat_format` ADD `lampiran` varchar(100)";
+      $this->db->query($query);
+    }
+    $query = "
+      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+      (5, 'surat_ket_pindah_penduduk', 'f1-25.php')
+      ON DUPLICATE KEY UPDATE
+        url_surat = VALUES(url_surat),
+        lampiran = VALUES(lampiran);
+    ";
+    $this->db->query($query);
+  }
+
 
     // Hapus tabel yang tidak terpakai lagi
     // ref_bedah_rumah
@@ -486,7 +509,6 @@
     // ref_raskin
     // tweb_alamat_sekarang
 
-  }
 
   function kosongkan_db(){
     $table_lookup = array(
@@ -529,5 +551,6 @@
       }
     }
   }
+
 }
 ?>

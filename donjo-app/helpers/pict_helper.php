@@ -487,7 +487,7 @@ function UploadSimbol($fupload_name){
   move_uploaded_file($_FILES["simbol"]["tmp_name"], $vfile_upload);
 }
 
-define (MIME_TYPE_DOKUMEN, serialize (array(
+define ('MIME_TYPE_DOKUMEN', serialize (array(
   "application/x-download",
   "application/pdf",
   "application/zip",
