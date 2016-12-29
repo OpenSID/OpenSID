@@ -146,7 +146,12 @@ class First extends CI_Controller{
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 		// Validasi pengisian komentar di add_comment()
 		// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
-		if (!$_SESSION['validation_error']) $_SESSION['post'] = '';
+		if (!$_SESSION['validation_error']) {
+			$_SESSION['post']['owner'] = '';
+			$_SESSION['post']['email'] = '';
+			$_SESSION['post']['komentar'] = '';
+			$_SESSION['post']['captcha_code'] = '';
+		}
 
 		$this->load->view('layouts/artikel.tpl.php',$data);
 	}

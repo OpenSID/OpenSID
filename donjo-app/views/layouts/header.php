@@ -5,10 +5,12 @@
 		<meta content="utf-8" http-equiv="encoding">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta property="og:site_name" content="<?php echo unpenetration($desa['nama_desa']);?>"/>
-    <meta property="og:title" content="<?php echo unpenetration($single_artikel["judul"]);?>"/>
-    <meta property="og:url" content="<?php echo base_url()?>index.php/first/artikel/<?php echo unpenetration($single_artikel['id']);?>"/>
     <meta property="og:type" content="article"/>
-    <meta property="og:image" content="<?php echo base_url()?><?php echo LOKASI_FOTO_ARTIKEL?>sedang_<?php echo $single_artikel['gambar'];?>"/>
+		<?php if(isset($single_artikel)): ?>
+	    <meta property="og:title" content="<?php echo unpenetration($single_artikel["judul"]);?>"/>
+	    <meta property="og:url" content="<?php echo base_url()?>index.php/first/artikel/<?php echo unpenetration($single_artikel['id']);?>"/>
+	    <meta property="og:image" content="<?php echo base_url()?><?php echo LOKASI_FOTO_ARTIKEL?>sedang_<?php echo $single_artikel['gambar'];?>"/>
+		<?php endif; ?>
 		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
