@@ -62,8 +62,14 @@ table.ttd td { text-align: center; }
     <tr>
       <td>PROVINSI</td>
       <td>:</td>
-      <td class="kotak tengah">&nbsp;</td>
-      <td class="kotak tengah">&nbsp;</td>
+      <?php for($i=0; $i<2; $i++): ?>
+        <td class="kotak tengah">
+          <?php if(isset($config['kode_propinsi'][$i]))
+            echo $config['kode_propinsi'][$i];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
       <td colspan=2>&nbsp;</td>
       <td class="kanan">*)</td>
       <td class="kotak"><?php echo $config['nama_propinsi'];?></td>
@@ -71,8 +77,14 @@ table.ttd td { text-align: center; }
     <tr>
       <td>KABUPATEN/KOTA</td>
       <td>:</td>
-      <td class="kotak tengah">&nbsp;</td>
-      <td class="kotak tengah">&nbsp;</td>
+      <?php for($i=0; $i<2; $i++): ?>
+        <td class="kotak tengah">
+          <?php if(isset($config['kode_kabupaten'][$i]))
+            echo $config['kode_kabupaten'][$i];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
       <td colspan=2>&nbsp;</td>
       <td class="kanan">*)</td>
       <td class="kotak"><?php echo $config['nama_kabupaten'];?></td>
@@ -80,8 +92,14 @@ table.ttd td { text-align: center; }
     <tr>
       <td>KECAMATAN</td>
       <td>:</td>
-      <td class="kotak tengah">&nbsp;</td>
-      <td class="kotak tengah">&nbsp;</td>
+      <?php for($i=0; $i<2; $i++): ?>
+        <td class="kotak tengah">
+          <?php if(isset($config['kode_kecamatan'][$i]))
+            echo $config['kode_kecamatan'][$i];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
       <td colspan=2>&nbsp;</td>
       <td class="kanan">*)</td>
       <td class="kotak"><?php echo $config['nama_kecamatan'];?></td>
@@ -89,10 +107,14 @@ table.ttd td { text-align: center; }
     <tr>
       <td>DESA/KELURAHAN</td>
       <td>:</td>
-      <td class="kotak tengah">&nbsp;</td>
-      <td class="kotak tengah">&nbsp;</td>
-      <td class="kotak tengah">&nbsp;</td>
-      <td class="kotak tengah">&nbsp;</td>
+      <?php for($i=0; $i<4; $i++): ?>
+        <td class="kotak tengah">
+          <?php if(isset($config['kode_desa'][$i]))
+            echo $config['kode_desa'][$i];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
       <td class="kanan">*)</td>
       <td class="kotak"><?php echo $config['nama_desa'];?></td>
     </tr>
@@ -123,7 +145,7 @@ table.ttd td { text-align: center; }
         <td class="kotak satu">
           <?php if(isset($individu['no_kk'][$i]))
             echo $individu['no_kk'][$i];
-            else echo "";
+            else echo "&nbsp;";
           ?>
         </td>
       <?php endfor; ?>
