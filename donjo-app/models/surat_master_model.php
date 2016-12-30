@@ -90,10 +90,10 @@
 		switch($o){
 			case 1: $order_sql = ' ORDER BY u.nomor'; break;
 			case 2: $order_sql = ' ORDER BY u.nomor DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.pertanyaan'; break;
-			case 4: $order_sql = ' ORDER BY u.pertanyaan DESC'; break;
-			case 5: $order_sql = ' ORDER BY u.id_kategori'; break;
-			case 6: $order_sql = ' ORDER BY u.id_kategori DESC'; break;
+			case 3: $order_sql = ' ORDER BY u.nama'; break;
+			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
+			case 5: $order_sql = ' ORDER BY u.kode_surat'; break;
+			case 6: $order_sql = ' ORDER BY u.kode_surat DESC'; break;
 			default:$order_sql = ' ORDER BY u.id';
 		}
 
