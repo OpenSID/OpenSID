@@ -176,8 +176,7 @@
       (39, 'Ubah Sesuaikan', 'surat_ubah_sesuaikan', 'S-36')
       ON DUPLICATE KEY UPDATE
         nama = VALUES(nama),
-        url_surat = VALUES(url_surat),
-        kode_surat = VALUES(kode_surat);
+        url_surat = VALUES(url_surat);
     ";
     $this->db->query($query);
 
