@@ -242,11 +242,11 @@ class import_model extends CI_Model{
 			$id = $this->db->insert_id();
 		}
 
-		// Update nik_kepala di keluarga apabila baris ini kepala keluarga
+		// Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
 		// dan sudah ada NIK
 		if ($data['kk_level'] == 1) {
-			$query = "UPDATE tweb_keluarga SET nik_kepala=? WHERE id=?";
-			$query=$this->db->query($query, array($id, $data['id_kk']));
+      $this->db->where('id', $data['id_kk']);
+      $this->db->update('tweb_keluarga', array('nik_kepala' => $id, 'id_cluster' => $isi_baris['id_cluster']));
 		}
 	}
 
