@@ -118,7 +118,8 @@
 			LEFT JOIN tweb_penduduk_sex x on u.sex = x.id
 			LEFT JOIN tweb_penduduk_kawin w on u.status_kawin = w.id
 			LEFT JOIN tweb_penduduk_hubungan h on u.kk_level = h.id
-			WHERE id_kk = ?";
+			WHERE id_kk = ?
+			ORDER BY u.kk_level";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->result_array();
 		return $data;
