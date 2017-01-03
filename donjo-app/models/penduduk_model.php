@@ -735,7 +735,7 @@
 
 	function get_penduduk_by_nik($nik=0){
 		$sql   = "SELECT u.id AS id, u.nama AS nama,x.nama AS sex,u.id_kk AS id_kk,
-		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,
+		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir, u.kk_level,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
 		w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,h.nama as hubungan,d.nama AS pendidikan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,

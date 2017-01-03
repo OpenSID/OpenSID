@@ -491,7 +491,7 @@
     }
     $query = "
       INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
-      (5, 'surat_ket_pindah_penduduk', 'f1-25.php')
+      (5, 'surat_ket_pindah_penduduk', 'f1-08.php')
       ON DUPLICATE KEY UPDATE
         url_surat = VALUES(url_surat),
         lampiran = VALUES(lampiran);

@@ -111,14 +111,15 @@
 	}
 
 	function list_anggota($id=0,$nik=0){
-		$sql   = "SELECT u.*, x.nama AS sex, w.nama AS status_kawin,
+		$sql   = "SELECT u.*, x.nama AS sex, w.nama AS status_kawin, h.nama AS hubungan,
 			(SELECT (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-			FROM tweb_penduduk WHERE (tweb_penduduk.id = u.id)) AS umur
+				FROM tweb_penduduk WHERE (tweb_penduduk.id = u.id)) AS umur
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_sex x on u.sex = x.id
 			LEFT JOIN tweb_penduduk_kawin w on u.status_kawin = w.id
-			WHERE id_kk = ? AND nik <> ?";
-		$query = $this->db->query($sql,array($id,$nik));
+			LEFT JOIN tweb_penduduk_hubungan h on u.kk_level = h.id
+			WHERE id_kk = ?";
+		$query = $this->db->query($sql,$id);
 		$data  = $query->result_array();
 		return $data;
 	}
@@ -153,6 +154,7 @@
 		$sql   = "SELECT u.*,g.nama AS gol_darah,x.nama AS sex,
 			(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
 			w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,h.nama AS hubungan,j.nama AS pekerjaan,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,
+			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
 			from tweb_penduduk u
 			left join tweb_penduduk_sex x on u.sex = x.id
@@ -390,16 +392,29 @@
 					6 => "Keluarga",
 					7 => "Lainnya"
 				);
+				$kode["klasifikasi_pindah"] = array(
+					1 => "Dalam satu Desa/Kelurahan",
+					2 => "Antar Desa/Kelurahan",
+					3 => "Antar Kecamatan",
+					4 => "Antar Kab/Kota",
+					5 => "Antar Provinsi"
+				);
 				$kode["jenis_kepindahan"] = array(
 					1 => "Kep. Keluarga",
 					2 => "Kep. Keluarga dan Seluruh Angg. Keluarga",
 					3 => "Kep. Keluarga dan Sbg. Angg. Keluarga",
-					4 => "Angg. Keluarga",
+					4 => "Angg. Keluarga"
 				);
 				$kode["status_kk_pindah"] = array(
 					1 => "Numpang KK",
 					2 => "Membuat KK Baru",
 					3 => "Nomor KK Tetap"
+				);
+				$kode["status_kk_tidak_pindah"] = array(
+					1 => "Numpang KK",
+					2 => "Membuat KK Baru",
+					3 => "Tidak Ada Angg. Keluarga Yang Ditinggal",
+					4 => "Nomor KK Tetap"
 				);
 				break;
 

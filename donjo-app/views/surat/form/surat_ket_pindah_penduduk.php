@@ -4,6 +4,72 @@
 			$('#sebut_alasan').show();
 		} else { $('#sebut_alasan').hide(); }
 	}
+	function enable_anggota(){
+		jumlah_anggota = $("#jumlah_anggota").val();
+		for (i = 1; i <= jumlah_anggota; i++) {
+			anggota = $("#anggota_show"+i);
+			if(anggota.length > 0){
+				anggota.removeAttr('disabled');
+			}
+		}
+	}
+	function anggota_pindah(ya_atau_tidak){
+		jumlah_anggota = $("#jumlah_anggota").val();
+		for (i = 1; i <= jumlah_anggota; i++) {
+			anggota = $("#anggota_show"+i);
+			if(anggota.length > 0){
+				anggota.attr("checked", ya_atau_tidak);
+				anggota.trigger("onchange");
+				anggota.attr('disabled', 'disabled');
+			}
+		}
+	}
+	function urus_anggota(jenis_pindah){
+		// Hanya anggota yang pindah
+		if(jenis_pindah == 4){
+			$('#kk_show').attr("checked", false);
+			$("#kk").attr('disabled', 'disabled');
+			$("#status_kk_tidak_pindah_show").val("4");
+			$("#status_kk_tidak_pindah_show").trigger("onchange");
+			$("#status_kk_tidak_pindah_show").attr('disabled', 'disabled');
+			$("#status_kk_pindah_show").removeAttr('disabled');
+			enable_anggota();
+		} else {
+			$('#kk_show').attr("checked", true);
+			$("#kk").removeAttr('disabled');
+			$("#status_kk_pindah_show").val("3");
+			$("#status_kk_pindah_show").trigger("onchange");
+			$("#status_kk_pindah_show").attr('disabled', 'disabled');
+			$("#status_kk_tidak_pindah_show").removeAttr('disabled');
+			// KK and semua anggota pindah
+			if(jenis_pindah == 2){
+				$("#status_kk_tidak_pindah_show").val("3");
+				$("#status_kk_tidak_pindah_show").trigger("onchange");
+				$("#status_kk_tidak_pindah_show").attr('disabled', 'disabled');
+				anggota_pindah(true);
+			}
+			// KK dan sebagian anggota pindah
+			if(jenis_pindah == 3){
+				enable_anggota();
+			}
+			// Hanya KK yang pindah
+			if(jenis_pindah == 1){
+				anggota_pindah(false);
+			}
+		};
+		$('#kk_show').trigger("onchange");
+	}
+	function urus_masa_ktp(centang, urut){
+		if (centang){
+			$('#anggota' + urut).attr('disabled', 'disabled');
+			$('#ktp_berlaku' + urut).attr('disabled', 'disabled');
+			$('#ktp_berlaku' + urut).val('');
+		}
+		else {
+			$('#ktp_berlaku' + urut).removeAttr('disabled');
+			$('#anggota' + urut).removeAttr('disabled');
+		}
+	}
 
 	$(function(){
 		var nik = {};
@@ -164,9 +230,20 @@ table.form.detail td{
 		</td>
 	</tr>
 	<tr>
+	  <th>Klasifikasi Pindah</th>
+	  <td>
+	    <select name="klasifikasi_pindah_id" class="required">
+	      <option value="">Pilih Klasifikasi Pindah</option>
+	      <?php foreach($kode['klasifikasi_pindah'] as $key => $value){?>
+	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
+	      <?php }?>
+	    </select>
+	  </td>
+	</tr>
+	<tr>
 	  <th>Jenis Kepindahan</th>
 	  <td>
-	    <select name="jenis_kepindahan_id" class="required">
+	    <select name="jenis_kepindahan_id" class="required" onchange="urus_anggota($(this).val());">
 	      <option value="">Pilih Jenis Kepindahan</option>
 	      <?php foreach($kode['jenis_kepindahan'] as $key => $value){?>
 	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
@@ -177,9 +254,10 @@ table.form.detail td{
 	<tr>
 	  <th>Status KK Bagi Yang Tidak Pindah</th>
 	  <td>
-	    <select name="status_kk_tidak_pindah_id" class="required">
+			<input id='status_kk_tidak_pindah' type="hidden" name="status_kk_tidak_pindah_id""/>
+	    <select id="status_kk_tidak_pindah_show" class="required" onchange="$('#status_kk_tidak_pindah').val($(this).val());">
 	      <option value="">Pilih Status KK Tidak Pindah</option>
-	      <?php foreach($kode['status_kk_pindah'] as $key => $value){?>
+	      <?php foreach($kode['status_kk_tidak_pindah'] as $key => $value){?>
 	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
 	      <?php }?>
 	    </select>
@@ -188,7 +266,8 @@ table.form.detail td{
 	<tr>
 	  <th>Status KK Bagi Yang Pindah</th>
 	  <td>
-	    <select name="status_kk_pindah_id" class="required">
+			<input id='status_kk_pindah' type="hidden" name="status_kk_pindah_id""/>
+	    <select id='status_kk_pindah_show' class="required" onchange="$('#status_kk_pindah').val($(this).val());">
 	      <option value="">Pilih Status KK Pindah</option>
 	      <?php foreach($kode['status_kk_pindah'] as $key => $value){?>
 	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
@@ -198,31 +277,38 @@ table.form.detail td{
 	</tr>
 
 	<tr>
-		<th colspan="1">Pengikut</th>
+		<th colspan="1">Keluarga Yang Pindah</th>
 		<td colspan="1">
 			<div style="margin-left:0px;">
 				<table class="list">
 					<thead>
 						<tr>
 							<th>No</th>
-							<th><input type="checkbox" class="checkall"/></th>
+							<th>&nbsp;</th>
 							<th align="left" width='70'>NIK</th>
 							<th width="100" align="left" >KTP Berlaku S/D</th>
 							<th align="left" width='100'>Nama</th>
 							<th align="left" width='30' align="center">Jenis Kelamin</th>
 							<th width="70" align="left" >Umur</th>
-							<th width="70" align="left" >Status Kawin</th>
+							<th width="70" align="left" >Hubungan</th>
 						</tr>
 					</thead>
 
 					<tbody>
 						<?php if($anggota!=NULL){
+							echo "<input id='jumlah_anggota' type='hidden' disabled='disabled' value='".count($anggota)."'/>";
 							$i=0;?>
 							<?php  foreach($anggota AS $data){ $i++;?>
 								<tr>
 			            <td align="center" width="2"><?php echo $i?></td>
 									<td align="center" width="5">
-										<input type="checkbox" name="id_cb[]" value="'<?php echo $data['nik']?>'" onchange="if ($(this).is(':unchecked')){$('#ktp_berlaku<?php echo ($i)?>').attr('disabled', 'disabled');} else {$('#ktp_berlaku<?php echo ($i)?>').removeAttr('disabled');}"/>
+										<?php if($data['kk_level']=="1"): ?>
+											<input id='kk' type="hidden" name="id_cb[]" value="'<?php echo $data['nik']?>'"/>
+											<input id='kk_show' disabled='disabled' type="checkbox" onchange="urus_masa_ktp($(this).is(':unchecked'),'<?php echo $i;?>');"/>
+										<?php else: ?>
+											<input id='anggota<?php echo $i?>' type="hidden" name="id_cb[]" disabled="disabled" value="'<?php echo $data['nik']?>'"/>
+											<input id='anggota_show<?php echo $i?>' type="checkbox" value="'<?php echo $data['nik']?>'" onchange="urus_masa_ktp($(this).is(':unchecked'),'<?php echo $i;?>');"/>
+										<?php endif; ?>
 									</td>
 									<td><?php echo $data['nik']?></td>
 									<td>
@@ -231,7 +317,7 @@ table.form.detail td{
 									<td><?php echo unpenetration($data['nama'])?></td>
 									<td><?php echo $data['sex']?></td>
 									<td><?php echo $data['umur']?></td>
-									<td><?php echo $data['status_kawin']?></td>
+									<td><?php echo $data['hubungan']?></td>
 							</tr>
 							<?php }?>
 						<?php }?>
