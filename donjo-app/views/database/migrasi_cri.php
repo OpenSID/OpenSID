@@ -7,7 +7,7 @@
       </div>
       <div id="contentpane">
         <div class="ui-layout-north panel">
-          <h3>Migrasi Database Ke Versi <?php echo AmbilVersi()?></h3>
+          <h3>Migrasi Database Ke OpenSID <?php echo AmbilVersi()?></h3>
         </div>
         <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
           <div class="left">
@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Migrasi Sedang Berjalan.">Migrasi Database ke OpenSID <?php echo AmbilVersi()?></a>
+                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Migrasi Sedang Berjalan.">Migrasi Database Ke OpenSID <?php echo AmbilVersi()?></a>
                   </td>
                   <td>
                     &nbsp;

@@ -806,14 +806,15 @@ CREATE TABLE `log_surat` (
   `tahun` varchar(4) DEFAULT NULL,
   `no_surat` varchar(20) DEFAULT NULL,
   `nama_surat` varchar(100) DEFAULT NULL,
+  `lampiran` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`) VALUES ('1', '1', '3', '14', '1', '2016-09-13 04:05:10', '09', '2016', 'KET/345', 'surat_ket_pengantar_5201140301900002_2016-09-13_KET-345.pdf');
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`) VALUES ('2', '15', '8', '14', '1', '2016-09-13 04:06:40', '09', '2016', 'USA/67/123', 'surat_ket_usaha_5201141412020001_2016-09-13_USA-67-123.pdf');
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`) VALUES ('3', '1', '18', '20', '1', '2016-09-13 04:07:53', '09', '2016', 'KET/346', 'surat_ket_pengantar_5201147112930055_2016-09-13_KET-346.pdf');
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`) VALUES ('4', '12', '9', '14', '1', '2016-09-13 04:09:02', '09', '2016', 'KM/104', 'surat_ket_kurang_mampu_5201140107850071_2016-09-13_KM-104.pdf');
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`) VALUES ('5', '14', '25', '22', '1', '2016-09-13 04:10:26', '09', '2016', 'HIL/503', 'surat_ket_kehilangan_5201142210790004_2016-09-13_HIL-503.pdf');
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('1', '1', '3', '14', '1', '2016-09-13 04:05:10', '09', '2016', 'KET/345', 'surat_ket_pengantar_5201140301900002_2016-09-13_KET-345.pdf', NULL);
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('2', '15', '8', '14', '1', '2016-09-13 04:06:40', '09', '2016', 'USA/67/123', 'surat_ket_usaha_5201141412020001_2016-09-13_USA-67-123.pdf', NULL);
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('3', '1', '18', '20', '1', '2016-09-13 04:07:53', '09', '2016', 'KET/346', 'surat_ket_pengantar_5201147112930055_2016-09-13_KET-346.pdf', NULL);
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('4', '12', '9', '14', '1', '2016-09-13 04:09:02', '09', '2016', 'KM/104', 'surat_ket_kurang_mampu_5201140107850071_2016-09-13_KM-104.pdf', NULL);
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('5', '14', '25', '22', '1', '2016-09-13 04:10:26', '09', '2016', 'HIL/503', 'surat_ket_kehilangan_5201142210790004_2016-09-13_HIL-503.pdf', NULL);
 
 
 #
@@ -2054,47 +2055,48 @@ CREATE TABLE `tweb_surat_format` (
   `nama` varchar(100) NOT NULL,
   `url_surat` varchar(100) NOT NULL,
   `kode_surat` varchar(10) NOT NULL,
+  `lampiran` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`),
   UNIQUE KEY `kode_surat` (`kode_surat`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('3', 'Biodata Penduduk', 'surat_bio_penduduk', 'S-03');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('5', 'Keterangan Pindah Penduduk', 'surat_ket_pindah_penduduk', 'S-04');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('6', 'Keterangan Jual Beli', 'surat_ket_jual_beli', 'S-05');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('7', 'Pengantar Pindah Antar Kabupaten/ Provinsi', 'surat_pindah_antar_kab_prov', 'S-06');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('8', 'Pengantar Surat Keterangan Catatan Kepolisian', 'surat_ket_catatan_kriminal', 'S-07');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('9', 'Keterangan KTP dalam Proses', 'surat_ket_ktp_dalam_proses', 'S-08');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('10', 'Keterangan Beda Identitas', 'surat_ket_beda_nama', 'S-09');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('11', 'Keterangan Bepergian / Jalan', 'surat_jalan', 'S-10');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('12', 'Keterangan Kurang Mampu', 'surat_ket_kurang_mampu', 'S-11');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('13', 'Pengantar Izin Keramaian', 'surat_izin_keramaian', 'S-12');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('14', 'Pengantar Laporan Kehilangan', 'surat_ket_kehilangan', 'S-13');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('15', 'Keterangan Usaha', 'surat_ket_usaha', 'S-14');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('16', 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('17', 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('18', 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('20', 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('21', 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('22', 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('24', 'Keterangan Kematian', 'surat_ket_kematian', 'S-21');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('25', 'Keterangan Lahir Mati', 'surat_ket_lahir_mati', 'S-22');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('26', 'Keterangan Untuk Nikah (N-1)', 'surat_ket_nikah', 'S-23');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('27', 'Keterangan Asal Usul (N-2)', 'surat_ket_asalusul', 'S-24');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('28', 'Persetujuan Mempelai (N-3)', 'surat_persetujuan_mempelai', 'S-25');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('29', 'Keterangan Tentang Orang Tua (N-4)', 'surat_ket_orangtua', 'S-26');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('30', 'Keterangan Izin Orang Tua(N-5)', 'surat_izin_orangtua', 'S-27');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('31', 'Keterangan Kematian Suami/Istri(N-6)', 'surat_ket_kematian_suami_istri', 'S-28');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('32', 'Pemberitahuan Kehendak Nikah (N-7)', 'surat_kehendak_nikah', 'S-29');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('33', 'Keterangan Pergi Kawin', 'surat_ket_pergi_kawin', 'S-30');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('34', 'Keterangan Wali', 'surat_ket_wali', 'S-31');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('35', 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('36', 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('37', 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('38', 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`) VALUES ('44', 'Ubah Sesuaikan', 'surat_ubah_sesuaikan', 'S-36');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('3', 'Biodata Penduduk', 'surat_bio_penduduk', 'S-03', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('5', 'Keterangan Pindah Penduduk', 'surat_ket_pindah_penduduk', 'S-04', 'f-1.08.php');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('6', 'Keterangan Jual Beli', 'surat_ket_jual_beli', 'S-05', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('7', 'Pengantar Pindah Antar Kabupaten/ Provinsi', 'surat_pindah_antar_kab_prov', 'S-06', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('8', 'Pengantar Surat Keterangan Catatan Kepolisian', 'surat_ket_catatan_kriminal', 'S-07', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('9', 'Keterangan KTP dalam Proses', 'surat_ket_ktp_dalam_proses', 'S-08', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('10', 'Keterangan Beda Identitas', 'surat_ket_beda_nama', 'S-09', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('11', 'Keterangan Bepergian / Jalan', 'surat_jalan', 'S-10', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('12', 'Keterangan Kurang Mampu', 'surat_ket_kurang_mampu', 'S-11', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('13', 'Pengantar Izin Keramaian', 'surat_izin_keramaian', 'S-12', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('14', 'Pengantar Laporan Kehilangan', 'surat_ket_kehilangan', 'S-13', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('15', 'Keterangan Usaha', 'surat_ket_usaha', 'S-14', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('16', 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('17', 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('18', 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('20', 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('21', 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('22', 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('24', 'Keterangan Kematian', 'surat_ket_kematian', 'S-21', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('25', 'Keterangan Lahir Mati', 'surat_ket_lahir_mati', 'S-22', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('26', 'Keterangan Untuk Nikah (N-1)', 'surat_ket_nikah', 'S-23', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('27', 'Keterangan Asal Usul (N-2)', 'surat_ket_asalusul', 'S-24', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('28', 'Persetujuan Mempelai (N-3)', 'surat_persetujuan_mempelai', 'S-25', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('29', 'Keterangan Tentang Orang Tua (N-4)', 'surat_ket_orangtua', 'S-26', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('30', 'Keterangan Izin Orang Tua(N-5)', 'surat_izin_orangtua', 'S-27', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('31', 'Keterangan Kematian Suami/Istri(N-6)', 'surat_ket_kematian_suami_istri', 'S-28', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('32', 'Pemberitahuan Kehendak Nikah (N-7)', 'surat_kehendak_nikah', 'S-29', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('33', 'Keterangan Pergi Kawin', 'surat_ket_pergi_kawin', 'S-30', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('34', 'Keterangan Wali', 'surat_ket_wali', 'S-31', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('35', 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('36', 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('37', 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('38', 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('44', 'Ubah Sesuaikan', 'surat_ubah_sesuaikan', 'S-36', NULL);
 
 
 #
