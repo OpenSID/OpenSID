@@ -7,7 +7,7 @@
       </div>
       <div id="contentpane">
         <div class="ui-layout-north panel">
-          <h3>Migrasi Database SID 3.04 ke OpenSID</h3>
+          <h3>Migrasi Database Ke Versi <?php echo AmbilVersi()?></h3>
         </div>
         <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
           <div class="left">
@@ -17,12 +17,12 @@
                 <tr>
                   <td width="500" colspan="3">
                     <p font-size="14px";>
-                      Proses ini untuk mengubah database SID CRI 3.04 ke struktur database OpenSID.
+                      Proses ini untuk mengubah database SID ke struktur database OpenSID <?php echo AmbilVersi()?>.
                       <br><br>
-                      Proses ini melakukan perubahan berdasarkan struktur database SID CRI 3.04 yang beredar pada bulan Mei 2016.
-                      <br><br>
-                      Sebelum melakukan migrasi ini, pastikan database SID CRI 3.04 anda telah dibackup.
-                      <br><br>
+                      <div class="box-perhatian">
+                        <strong>Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
+                      </div>
+                      <br>
                       Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di
                       <ul>
                         <li>
@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Migrasi Sedang Berjalan.">Migrasi Database SID 3.04 ke OpenSID</a>
+                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Migrasi Sedang Berjalan.">Migrasi Database ke OpenSID <?php echo AmbilVersi()?></a>
                   </td>
                   <td>
                     &nbsp;

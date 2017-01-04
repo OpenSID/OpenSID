@@ -16,7 +16,7 @@
 		<a href="<?php echo site_url('database/import_ppls')?>">Import PPLS</a>
 	</li>
 	<li <?php if($act==6){?>class="selected"<?php }?>>
-		<a href="<?php echo site_url('database/migrasi_cri')?>">Migrasi DB SID 3.04</a>
+		<a href="<?php echo site_url('database/migrasi_cri')?>">Migrasi DB</a>
 	</li>
 	</ul>
 </div>
