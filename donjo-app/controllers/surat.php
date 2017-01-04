@@ -11,7 +11,7 @@ class Surat extends CI_Controller{
 		$this->load->model('penduduk_model');
 		$this->load->model('surat_model');
 		$this->load->model('surat_keluar_model');
-
+		$this->load->model('config_model');
 	}
 
 	function index(){
@@ -56,6 +56,7 @@ class Surat extends CI_Controller{
 			$data['anggota']=NULL;
 		}
 
+		$data['lokasi'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();

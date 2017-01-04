@@ -70,6 +70,33 @@
 			$('#anggota' + urut).removeAttr('disabled');
 		}
 	}
+	function set_wilayah(tingkat_wilayah){
+		wilayah = $('#' + tingkat_wilayah);
+		wilayah_show = $('#' + tingkat_wilayah + '_show');
+		wilayah.val(wilayah.attr('data-awal'));
+		wilayah_show.val(wilayah.attr('data-awal'));
+		wilayah_show.attr('disabled', 'disabled');
+	}
+	function urus_klasifikasi_pindah(klasifikasi_pindah){
+		if(klasifikasi_pindah >= 1){
+			set_wilayah('desa_tujuan');
+			set_wilayah('kecamatan_tujuan');
+			set_wilayah('kabupaten_tujuan');
+			set_wilayah('provinsi_tujuan');
+		}
+		if(klasifikasi_pindah > 1){
+			$('#desa_tujuan_show').removeAttr('disabled');
+		}
+		if(klasifikasi_pindah > 2){
+			$('#kecamatan_tujuan_show').removeAttr('disabled');
+		}
+		if(klasifikasi_pindah > 3){
+			$('#kabupaten_tujuan_show').removeAttr('disabled');
+		}
+		if(klasifikasi_pindah > 4){
+			$('#provinsi_tujuan_show').removeAttr('disabled');
+		}
+	}
 
 	$(function(){
 		var nik = {};
@@ -169,6 +196,17 @@ table.form.detail td{
 	  </td>
 	</tr>
 	<tr>
+	  <th>Klasifikasi Pindah</th>
+	  <td>
+	    <select name="klasifikasi_pindah_id" class="required" onchange="urus_klasifikasi_pindah($(this).val());">
+	      <option value="">Pilih Klasifikasi Pindah</option>
+	      <?php foreach($kode['klasifikasi_pindah'] as $key => $value){?>
+	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
+	      <?php }?>
+	    </select>
+	  </td>
+	</tr>
+	<tr>
 		<th>Alamat Tujuan</th>
 	</tr>
 	<tr>
@@ -193,25 +231,30 @@ table.form.detail td{
 				<tr>
 					<th>Desa/Kelurahan</th>
 					<td>
-						<input name="desa_tujuan" type="text" class="inputbox required" size="40"/>
+						<input id="desa_tujuan" name="desa_tujuan" type="hidden" data-awal="<?php echo $lokasi['nama_desa'];?>"/>
+						<input id="desa_tujuan_show" type="text" class="inputbox required" size="40" onchange="$('#desa_tujuan').val($(this).val());"/>
+					</td>
 					</td>
 				</tr>
 				<tr>
 					<th>Kecamatan</th>
 					<td>
-						<input name="kecamatan_tujuan" type="text" class="inputbox required" size="40"/>
+						<input id="kecamatan_tujuan" name="kecamatan_tujuan" type="hidden" data-awal="<?php echo $lokasi['nama_kecamatan'];?>"/>
+						<input id="kecamatan_tujuan_show" type="text" class="inputbox required" size="40" onchange="$('#kecamatan_tujuan').val($(this).val());"/>
 					</td>
 				</tr>
 				<tr>
 					<th>Kabupaten</th>
 					<td>
-						<input name="kabupaten_tujuan" type="text" class="inputbox required" size="40"/>
+						<input id="kabupaten_tujuan" name="kabupaten_tujuan" type="hidden" data-awal="<?php echo $lokasi['nama_kabupaten'];?>"/>
+						<input id="kabupaten_tujuan_show" type="text" class="inputbox required" size="40" onchange="$('#kabupaten_tujuan').val($(this).val());"/>
 					</td>
 				</tr>
 				<tr>
 					<th>Provinsi</th>
 					<td>
-						<input name="provinsi_tujuan" type="text" class="inputbox required" size="40"/>
+						<input id="provinsi_tujuan" name="provinsi_tujuan" type="hidden" data-awal="<?php echo $lokasi['nama_propinsi'];?>"/>
+						<input id="provinsi_tujuan_show" type="text" class="inputbox required" size="40" onchange="$('#provinsi_tujuan').val($(this).val());"/>
 					</td>
 				</tr>
 				<tr>
@@ -228,17 +271,6 @@ table.form.detail td{
 				</tr>
 			</table>
 		</td>
-	</tr>
-	<tr>
-	  <th>Klasifikasi Pindah</th>
-	  <td>
-	    <select name="klasifikasi_pindah_id" class="required">
-	      <option value="">Pilih Klasifikasi Pindah</option>
-	      <?php foreach($kode['klasifikasi_pindah'] as $key => $value){?>
-	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
-	      <?php }?>
-	    </select>
-	  </td>
 	</tr>
 	<tr>
 	  <th>Jenis Kepindahan</th>
