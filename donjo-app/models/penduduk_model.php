@@ -112,6 +112,12 @@
 		return $cara_kb_sql;
 		}
 	}
+	function akta_kelahiran_sql(){
+		if(isset($_SESSION['akta_kelahiran'])){
+			$akta_kelahiran_sql= " AND u.akta_lahir<>''";
+		return $akta_kelahiran_sql;
+		}
+	}
 	function cacatx_sql(){
 		if(isset($_SESSION['cacatx'])){
 			$kf = $_SESSION['cacatx'];
@@ -238,7 +244,7 @@
 
 	function paging($p=1,$o=0,$log=0){
 
-		$sql      = "SELECT COUNT(u.id) AS id FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id LEFT JOIN tweb_keluarga d ON u.id_kk = d.id LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id  LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id LEFT JOIN tweb_penduduk_sex x ON u.pendidikan_id = x.id LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id LEFT JOIN tweb_cacat f ON u.cacat_id = f.id LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id WHERe 1  ";
+		$sql      = "SELECT COUNT(u.id) AS id FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id LEFT JOIN tweb_keluarga d ON u.id_kk = d.id LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id  LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id LEFT JOIN tweb_penduduk_sex x ON u.pendidikan_id = x.id LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id LEFT JOIN tweb_cacat f ON u.cacat_id = f.id LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id WHERE 1  ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $this->sex_sql();
@@ -249,6 +255,7 @@
 		$sql .= $this->cacat_sql();
 		$sql .= $this->cacatx_sql();
 		$sql .= $this->cara_kb_sql();
+		$sql .= $this->akta_kelahiran_sql();
 		$sql .= $this->menahun_sql();
 		$sql .= $this->menahunx_sql();
 		$sql .= $this->golongan_darah_sql();
@@ -334,6 +341,7 @@
 		$sql .= $this->cacat_sql();
 		$sql .= $this->cacatx_sql();
 		$sql .= $this->cara_kb_sql();
+		$sql .= $this->akta_kelahiran_sql();
 		$sql .= $this->menahun_sql();
 		$sql .= $this->menahunx_sql();
 		$sql .= $this->warganegara_sql();
@@ -946,6 +954,7 @@
 			case 13: $sql   = "SELECT * FROM tweb_penduduk_umur WHERE id=?";break;
 			case 14: $sql   = "SELECT * FROM tweb_penduduk_pendidikan WHERE id=?";break;
 			case 16: $sql   = "SELECT * FROM tweb_cara_kb WHERE id=?";break;
+			case 17: $sql   = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
 		}
 		$query = $this->db->query($sql,$nomor);
 		return $query->row_array();

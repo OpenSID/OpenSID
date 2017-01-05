@@ -59,6 +59,7 @@
 			case 14: return "Pendidikan Sedang Ditempuh"; break;
 			case 15: return "Umur"; break;
 			case 16: return "Akseptor KB"; break;
+			case 17: return "Akte Kelahiran"; break;
 			case 21: return "Klasifikasi Sosial"; break;
 			case 24: return "Penerima BOS"; break;
 			default: return "Pendidikan";
@@ -315,6 +316,14 @@
 			case 15: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai AND sex=1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai AND sex=2) AS perempuan  FROM tweb_penduduk_umur u WHERE status is NULL "; break;
 
 			case 16: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE cara_kb_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE cara_kb_id = u.id AND  sex=1  AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE cara_kb_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_cara_kb u WHERE 1"; break;
+
+			case 17: $sql   = "SELECT u.*, concat( dari, ' - ', sampai) as nama,
+				(SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND akta_lahir <> '' AND status_dasar = 1) AS jumlah,
+				(SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 1 AND akta_lahir <> '' AND status_dasar = 1) AS laki,
+				(SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 2 AND akta_lahir <> '' AND status_dasar = 1) AS perempuan
+				FROM tweb_penduduk_umur u
+				WHERE status=1 ";
+				break;
 
 			//bagian keluarga
 			case 21: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM klasifikasi_analisis_keluarga u WHERE jenis='1'"; break;

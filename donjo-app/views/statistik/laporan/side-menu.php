@@ -40,6 +40,8 @@
       Penyandang Cacat</li></a>
     <a href="<?php echo site_url()?>statistik/index/16"><li <?php if($lap==16){?>class="selected"<?php }?>>
       Akseptor KB</li></a>
+    <a href="<?php echo site_url()?>statistik/index/17"><li <?php if($lap==17){?>class="selected"<?php }?>>
+      Akte Kelahiran</li></a>
   </ul>
 </div>
 

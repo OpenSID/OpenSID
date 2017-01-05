@@ -40,6 +40,7 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['judul_statistik']);
 		unset($_SESSION['hamil']);
 		unset($_SESSION['cara_kb_id']);
+		unset($_SESSION['akta_kelahiran']);
 		$_SESSION['per_page'] = 50;
 		redirect('penduduk');
 	}
@@ -98,6 +99,10 @@ class Penduduk extends CI_Controller{
     if(isset($_SESSION['cara_kb_id']))
 			$data['cara_kb_id'] = $_SESSION['cara_kb_id'];
 		else $data['cara_kb_id'] = '';
+
+    if(isset($_SESSION['akta_kelahiran']))
+			$data['akta_kelahiran'] = $_SESSION['akta_kelahiran'];
+		else $data['akta_kelahiran'] = '';
 
 		if(isset($_SESSION['pekerjaan_id']))
 			$data['pekerjaan_id'] = $_SESSION['pekerjaan_id'];
@@ -589,6 +594,7 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['status_penduduk']);
 		unset($_SESSION['umurx']);
 		unset($_SESSION['cara_kb_id']);
+		unset($_SESSION['akta_kelahiran']);
 
 		switch($tipe){
 			case 0: $_SESSION['pendidikan_kk_id'] = $nomor;  $pre="PENDIDIKAN DALAM KK : "; break;
@@ -604,6 +610,11 @@ class Penduduk extends CI_Controller{
 			case 13: $_SESSION['umurx'] = $nomor;  $pre="UMUR "; break;
 			case 14: $_SESSION['pendidikan_sedang_id'] = $nomor; $pre="PENDIDIKAN SEDANG DITEMPUH : "; break;
 			case 16: $_SESSION['cara_kb_id'] = $nomor; $pre="CARA KB : "; break;
+			case 17:
+				$_SESSION['akta_kelahiran'] = $nomor;
+				$_SESSION['umurx'] = $nomor;
+				$pre="AKTA KELAHIRAN : ";
+				break;
 		}
 		$judul= $this->penduduk_model->get_judul_statistik($tipe,$nomor);
 		if($judul['nama']){
