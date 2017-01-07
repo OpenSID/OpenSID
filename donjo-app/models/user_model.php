@@ -214,23 +214,23 @@ class User_Model extends CI_Model{
 	}
 
 	function update($id=0){
-			$data = $_POST;
-			unset($data['old_foto']);
-			unset($data['foto']);
-			$lokasi_file = $_FILES['foto']['tmp_name'];
-			$tipe_file   = $_FILES['foto']['type'];
-			$nama_file   = $_FILES['foto']['name'];
-			$old_foto    = $this->input->post('old_foto');
-			if (!empty($lokasi_file)){
-				if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
-				$_SESSION['success']=-1;
-			} else {
-				UploadFoto($nama_file,$old_foto);
-				$data['foto'] = $nama_file;
-			}
-		  }
-
-		if($data['password']=='radiisi'){
+		$data = $_POST;
+		unset($data['old_foto']);
+		unset($data['foto']);
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file   = $_FILES['foto']['type'];
+		$nama_file   = $_FILES['foto']['name'];
+		$old_foto    = $this->input->post('old_foto');
+		if (!empty($lokasi_file)){
+			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
+			$_SESSION['success']=-1;
+		} else {
+			UploadFoto($nama_file,$old_foto);
+			$data['foto'] = $nama_file;
+		}
+	  }
+	  // Jangan edit password admin apabila di situs demo
+		if(($data['password']=='radiisi') OR ($id == 1 AND strtolower(config_item('demo')) == "y")){
 			unset($data['password']);
 			$this->db->where('id',$id);
 			$outp = $this->db->update('user',$data);
@@ -303,17 +303,22 @@ class User_Model extends CI_Model{
 		$pass_baru 		= $this->input->post('pass_baru');
 		$pass_baru1 	= $this->input->post('pass_baru1');
 
-		// Ganti password
-		if($this->input->post('pass_lama') != "" OR $pass_baru != "" OR $pass_baru1 != ""){
-			$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
-			$query=$this->db->query($sql,array($id));
-			$row=$query->row();
-			// Password baru tidak boleh kosong
-			if($password==$row->password AND $pass_baru != "" AND $pass_baru == $pass_baru1){
-				$data['password'] = md5($pass_baru);
-			} else {
-				$_SESSION['error_msg'].= " -> Kode pengaman salah";
-				$_SESSION['success']=-1;
+		if($id == 1 AND strtolower(config_item('demo')) == "y"){
+		  // Jangan edit password admin apabila di situs demo
+			unset($data['password']);
+		} else {
+			// Ganti password
+			if($this->input->post('pass_lama') != "" OR $pass_baru != "" OR $pass_baru1 != ""){
+				$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
+				$query=$this->db->query($sql,array($id));
+				$row=$query->row();
+				// Password baru tidak boleh kosong
+				if($password==$row->password AND $pass_baru != "" AND $pass_baru == $pass_baru1){
+					$data['password'] = md5($pass_baru);
+				} else {
+					$_SESSION['error_msg'].= " -> Kode pengaman salah";
+					$_SESSION['success']=-1;
+				}
 			}
 		}
 
