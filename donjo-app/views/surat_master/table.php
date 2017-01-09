@@ -40,11 +40,11 @@
 							<?php  endif; ?>
 
 							<?php  if($o==6): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode Surat<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 							<?php  elseif($o==5): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("surat_master/index/$p/6")?>">Kode Surat<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/6")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left" width='100'><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode Surat<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 							<?php  endif; ?>
 
 								<th width="">URL</th>
