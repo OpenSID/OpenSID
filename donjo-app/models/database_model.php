@@ -19,6 +19,7 @@
     $this->migrasi_15_ke_16();
     $this->migrasi_16_ke_17();
     $this->migrasi_17_ke_18();
+    $this->migrasi_18_ke_19();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -182,19 +183,21 @@
 
     // DROP INDEX migrasi_0_10_url_surat ON tweb_surat_format;
 
-    $db = $this->db->database;
-    $query = "
-      SELECT COUNT(1) IndexIsThere FROM INFORMATION_SCHEMA.STATISTICS
-      WHERE table_schema=? AND table_name='tweb_surat_format' AND index_name='kode_surat';
-    ";
-    $hasil = $this->db->query($query, $db);
-    $data = $hasil->row_array();
-    if ($data['IndexIsThere'] == 0) {
-      $query = "
-        CREATE UNIQUE INDEX kode_surat ON tweb_surat_format (kode_surat);
-      ";
-      $this->db->query($query);
-    }
+    /* Jangan buat index unik kode_surat, karena kolom ini digunakan
+       untuk merekam klasifikasi surat yang tidak unik. */
+    // $db = $this->db->database;
+    // $query = "
+    //   SELECT COUNT(1) IndexIsThere FROM INFORMATION_SCHEMA.STATISTICS
+    //   WHERE table_schema=? AND table_name='tweb_surat_format' AND index_name='kode_surat';
+    // ";
+    // $hasil = $this->db->query($query, $db);
+    // $data = $hasil->row_array();
+    // if ($data['IndexIsThere'] == 0) {
+    //   $query = "
+    //     CREATE UNIQUE INDEX kode_surat ON tweb_surat_format (kode_surat);
+    //   ";
+    //   $this->db->query($query);
+    // }
 
     if (!$this->db->field_exists('tgl_cetak_kk', 'tweb_keluarga')) {
       $query = "ALTER TABLE tweb_keluarga ADD tgl_cetak_kk datetime";
@@ -499,14 +502,27 @@
     $this->db->query($query);
   }
 
+  function migrasi_18_ke_19() {
+    // Hapus index unik untuk kode_surat kalau sempat dibuat sebelumnya
+    $db = $this->db->database;
+    $query = "
+      SELECT COUNT(1) IndexIsThere FROM INFORMATION_SCHEMA.STATISTICS
+      WHERE table_schema=? AND table_name='tweb_surat_format' AND index_name='kode_surat';
+    ";
+    $hasil = $this->db->query($query, $db);
+    $data = $hasil->row_array();
+    if ($data['IndexIsThere'] > 0) {
+      $query = "
+        DROP INDEX kode_surat ON tweb_surat_format;
+      ";
+      $this->db->query($query);
+    }
 
     // Hapus tabel yang tidak terpakai lagi
-    // ref_bedah_rumah
-    // ref_blt
-    // ref_jamkesmas
-    // ref_pkh
-    // ref_raskin
-    // tweb_alamat_sekarang
+    $query = "DROP TABLE IF EXISTS ref_bedah_rumah, ref_blt, ref_jamkesmas, ref_pkh, ref_raskin, tweb_alamat_sekarang";
+    $this->db->query($query);
+  }
+
 
 
   function kosongkan_db(){
