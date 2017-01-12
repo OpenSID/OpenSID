@@ -1,6 +1,6 @@
 <!-- widget Layanan Mandiri -->
 <?php
-if($_SESSION['mandiri']<>1){
+if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
 
   if($_SESSION['mandiri_wait']==1){
   ?>
@@ -28,12 +28,12 @@ if($_SESSION['mandiri']<>1){
     <input name="nik" type="text" placeholder="NIK" value="" required>
     <input name="pin" type="password" placeholder="PIN" value="" required>
     <button type="submit" id="but">Masuk</button>
-      <?php  if($_SESSION['mandiri_try'] AND $_SESSION['mandiri']==-1){ ?>
+      <?php  if($_SESSION['mandiri_try'] AND isset($_SESSION['mandiri']) AND $_SESSION['mandiri']==-1){ ?>
       <div id="note">
         Kesempatan mencoba <?php echo ($_SESSION['mandiri_try']-1); ?> kali lagi.
       </div>
       <?php }?>
-      <?php  if($_SESSION['mandiri']==-1){ ?>
+      <?php  if(isset($_SESSION['mandiri']) AND $_SESSION['mandiri']==-1){ ?>
       <div id="note">
         Login Gagal. Username atau Password yang Anda masukkan salah!
       </div>
@@ -74,7 +74,7 @@ if($_SESSION['mandiri']<>1){
   </div>
 </div>
 <?php
-  if($_SESSION['lg']==1){
+  if(isset($_SESSION['lg']) AND $_SESSION['lg']==1){
   ?>
     <div class="box box-primary box-solid">
       <div class="box-header">
@@ -102,7 +102,7 @@ if($_SESSION['mandiri']<>1){
         </div>
       </div>
     </div>
-  <?php }else if($_SESSION['lg']==2){?>
+  <?php }else if(isset($_SESSION['lg']) AND $_SESSION['lg']==2){?>
 
 
     <div class="box box-primary box-solid">
