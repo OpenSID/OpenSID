@@ -75,7 +75,7 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
   <div class="avatar">
 		<?php if($foto){?>
-			<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
+			<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $foto?>" alt=""/>
 		<?php }else{?>
 			<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
 		<?php }?>
@@ -86,23 +86,26 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 	</div>
 
 <ul class="dropdown" tabindex="1">
+	<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="fa fa-gear fa-lg"></i>Setting User</a></li>
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
-	<li><a href="<?php echo site_url()?>hom_desa"><i class="icon-home icon-large"></i>SID Home</a></li>
-	<li><a href="<?php echo site_url()?>sid_core"><i class="icon-group icon-large"></i>Penduduk</a></li>
-	<li><a href="<?php echo site_url()?>statistik"><i class="icon-bar-chart icon-large"></i>Statistik</a></li>
-	<li><a href="<?php echo site_url()?>surat"><i class="icon-print icon-large"></i>Cetak Surat</a></li>
-	<li><a href="<?php echo site_url()?>analisis"><i class="icon-dashboard icon-large"></i>Analisis</a></li>
+	<li><a href="<?php echo site_url()?>hom_desa"><i class="fa fa-home fa-lg"></i>SID Home</a></li>
+	<li><a href="<?php echo site_url()?>sid_core"><i class="fa fa-group fa-lg"></i>Penduduk</a></li>
+	<li><a href="<?php echo site_url()?>statistik"><i class="fa fa-bar-chart fa-lg"></i>Statistik</a></li>
+	<li><a href="<?php echo site_url()?>surat"><i class="fa fa-print fa-lg"></i>Cetak Surat</a></li>	
+	<li><a href="<?php echo site_url()?>analisis"><i class="fa fa-dashboard fa-lg"></i>Analisis</a></li>
+	<li><a href="<?php echo site_url()?>program_bantuan"><i class="fa fa-tasks fa-lg"></i>Program</a></li>
+	<li><a href="<?php echo site_url()?>data_persil"><i class="fa fa-info fa-lg"></i>Persil</a></li>
+	<li><a href="<?php echo site_url()?>gis"><i class="fa fa-globe fa-lg"></i>Peta</a></li>
 <?php  }?>
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
 	<?php  if($_SESSION['grup']==1){?>
-		<li><a href="<?php echo site_url()?>man_user/clear"><i class="icon-user icon-large"></i>Pengguna</a></li>
-		<li><a href="<?php echo site_url()?>database"><i class="icon-hdd icon-large"></i>Database</a></li>
+		<li><a href="<?php echo site_url()?>man_user/clear"><i class="fa fa-user fa-lg"></i>Pengguna</a></li>
+		<li><a href="<?php echo site_url()?>database"><i class="fa fa-database fa-lg"></i>Database</a></li>
 	<?php  }?>
-	<li><a href="<?php echo site_url()?>sms"><i class="icon-envelope-alt icon-large"></i>SMS</a></li>
-	<li><a href="<?php echo site_url()?>web"><i class="icon-cloud icon-large"></i>Admin Web</a></li>
+	<li><a href="<?php echo site_url()?>sms"><i class="fa fa-commenting fa-lg"></i>SMS</a></li>
+	<li><a href="<?php echo site_url()?>web"><i class="fa fa-cloud fa-lg"></i>Admin Web</a></li>
 <?php  }?>
-<li><a href="<?php echo site_url()?>siteman"><i class="icon-off icon-large"></i>Log Out</a></li>
+<li><a href="<?php echo site_url()?>siteman"><i class="fa fa-power-off  fa-lg"></i>Log Out</a></li>
 </ul>
-
     </div>
 </div>
