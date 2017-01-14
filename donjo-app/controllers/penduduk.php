@@ -148,7 +148,7 @@ class Penduduk extends CI_Controller{
 
 	function form($p=1,$o=0,$id=''){
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-		if (empty($_POST) AND !$_SESSION['dari_internal'])
+		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 				unset($_SESSION['validation_error']);
 
 		$data['p'] = $p;
@@ -171,7 +171,7 @@ class Penduduk extends CI_Controller{
 		if($id){
 			$data['id'] = $id;
 			// Validasi dilakukan di penduduk_model sewaktu insert dan update
-			if ($_SESSION['validation_error']) {
+			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
 				if ($_SESSION['dari_internal']) {
 					$data['penduduk'] = $_SESSION['post'];
@@ -217,10 +217,9 @@ class Penduduk extends CI_Controller{
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
-
+		$header['modul'] = 2;
 		$this->load->view('header', $header);
 		$nav['act']= 2;
-
 		unset($_SESSION['dari_internal']);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_form',$data);
@@ -233,10 +232,9 @@ class Penduduk extends CI_Controller{
 		$data['o'] = $o;
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
-
+		$header['modul'] = 2;
 		$this->load->view('header', $header);
 		$nav['act']= 2;
-
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_detail',$data);
 		$this->load->view('footer');
