@@ -57,7 +57,7 @@ $('#'+'main').submit();
 </div>
 <tr>
 <td width="100">Alamat</td>
-<td width="200">: <?php echo strtoupper($kepala_kk['alamat_plus_dusun'])  ?></td>
+<td width="200">: <?php if(isset($kepala_kk['alamat_plus_dusun'])) echo strtoupper($kepala_kk['alamat_plus_dusun'])  ?></td>
 <td width="120">Kabupaten</td>
 <td width="150">: <?php echo strtoupper(unpenetration($desa['nama_kabupaten'])) ?></td>
 </tr>

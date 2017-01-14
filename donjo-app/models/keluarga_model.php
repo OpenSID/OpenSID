@@ -794,6 +794,10 @@
 				WHERE k.id=?";
 		$query = $this->db->query($sql,$id_kk);
 		$data  = $query->row_array();
+		if (!isset($data['alamat'])) $data['alamat'] = '';
+		if (!isset($data['rt'])) $data['rt'] = '';
+		if (!isset($data['rw'])) $data['rw'] = '';
+		if (!isset($data['dusun'])) $data['dusun'] = '';
 
 		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] $data[dusun]");
 		return $alamat_wilayah;
