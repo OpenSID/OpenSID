@@ -150,7 +150,7 @@ function __construct(){
 
 	function form($p=1,$o=0,$id=0,$new=1){
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-		if (empty($_POST) AND !$_SESSION['dari_internal'])
+		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 				unset($_SESSION['validation_error']);
 
 		if($new==1){
@@ -183,7 +183,7 @@ function __construct(){
 			$data['form_action'] = site_url("keluarga/update/$id");
 		}elseif($new>0){
 			// Validasi dilakukan di keluarga_model sewaktu insert dan update
-			if ($_SESSION['validation_error']) {
+			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
 				if ($_SESSION['dari_internal']) {
 					$data['penduduk'] = $_SESSION['post'];
@@ -222,6 +222,7 @@ function __construct(){
 
 		unset($_SESSION['dari_internal']);
 		$header = $this->header_model->get_data();
+		$header['modul'] = 2;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_form',$data);
@@ -257,6 +258,7 @@ function __construct(){
 		}
 
 		$header = $this->header_model->get_data();
+		$header['modul'] = 2;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_form_a',$data);
