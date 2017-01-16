@@ -188,7 +188,7 @@ class Penduduk extends CI_Controller{
 		}
 		else{
 			// Validasi dilakukan di penduduk_model sewaktu insert dan update
-			if ($_SESSION['validation_error']) {
+			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
 				if ($_SESSION['dari_internal']) {
 					$data['penduduk'] = $_SESSION['post'];

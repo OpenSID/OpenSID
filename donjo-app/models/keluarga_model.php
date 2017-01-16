@@ -237,7 +237,7 @@
 		return $data;
 	}
 
-
+	// Tambah keluarga baru dari penduduk lepas
 	function insert(){
 		$data = $_POST;
 
@@ -254,21 +254,8 @@
 		$this->db->where('id',$temp);
 		$this->db->update('tweb_penduduk',$default);
 
-		$satuan=$_POST['tanggallahir'];
-		$blnlahir = substr($satuan,3,2);
-		$thnlahir= substr($satuan,6,4);
-		$blnskrg = (date("m"));
-		$thnskrg = (date("Y"));
-		if(($blnlahir==$blnskrg)and($thnlahir==$thnskrg)){
-			$x['id_detail']='1';
-		}else{
-			$x['id_detail']='5';
-		}
-
-		$x['id_pend']=$temp;
-		$x['bulan']=$blnskrg;
-		$x['tahun']=$thnskrg;
-		$outp = $this->db->insert('log_penduduk',$x);
+		$this->load->model('penduduk_model');
+		$this->penduduk_model->tulis_log_penduduk($temp, '5', date('m'), date('Y'));
 
 		$log['id_pend'] = 1;
 		$log['id_cluster'] = 1;
@@ -297,7 +284,6 @@
 		unset($_SESSION['validation_error']);
 		unset($_SESSION['success']);
 		unset($_SESSION['error_msg']);
-
 		$data = $_POST;
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
@@ -324,8 +310,6 @@
 		UNSET($data['no_kk']);
 		UNSET($data['new']);
 
-		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
-
 		$error_validasi = $this->validasi_data_penduduk($data);
 		if (!empty($error_validasi)){
 			foreach ($error_validasi as $error) {
@@ -339,6 +323,13 @@
 		// Simpan alamat keluarga sebelum menulis penduduk
 		$data2['alamat'] = $data['alamat'];
 		UNSET($data['alamat']);
+
+		if ($data['tanggallahir'] == '') unset($data['tanggallahir']);
+		else $data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
+		if ($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
+		else $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
+		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
+		else $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 
 		$outp = $this->db->insert('tweb_penduduk',penetration($data));
 		if($outp) $_SESSION['success']=1;

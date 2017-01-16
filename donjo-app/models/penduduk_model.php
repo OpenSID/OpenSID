@@ -508,6 +508,9 @@
 			return;
 		}
 
+		if($data['tanggallahir'] == '') unset($data['tanggallahir']);
+		if($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
+		if($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
 		$outp = $this->db->insert('tweb_penduduk',$data);
 		$idku = $this->db->insert_id();
 
@@ -535,6 +538,7 @@
 		$log1['id_pend'] = $idku;
 		$log1['id_cluster'] = 1;
 		$log1['tanggal'] = date("m-d-y");
+
 		$outp = $this->db->insert('log_perubahan_penduduk',$log1);
 
 		if($outp) $_SESSION['success']=1;
