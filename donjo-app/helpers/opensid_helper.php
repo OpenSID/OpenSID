@@ -274,4 +274,44 @@ define("KODE_PEKERJAAN", serialize(array(
     $_SESSION['success']=-1;
   }
 
+  // Untuk mengirim data ke OpenSID tracker
+  function httpPost($url,$params)
+  {
+    $postData = '';
+    //create name value pairs seperated by &
+    foreach($params as $k => $v)
+    {
+      $postData .= $k . '='.$v.'&';
+    }
+    $postData = rtrim($postData, '&');
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_POST, count($postData));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+    $output=curl_exec($ch);
+
+    if(curl_exec($ch) === false)
+    {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+    curl_close($ch);
+    return $output;
+  }
+
+  /**
+   * Cek ada koneksi internet.
+   *
+   * @param            string $sCheckHost Default: www.google.com
+   * @return           boolean
+   */
+  function cek_koneksi_internet($sCheckHost = 'www.google.com')
+  {
+      return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
+  }
+
 ?>

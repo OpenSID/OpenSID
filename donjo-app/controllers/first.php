@@ -20,6 +20,7 @@ class First extends CI_Controller{
 		$this->load->model('keluarga_model');
 		$this->load->model('web_widget_model');
 		$this->load->model('laporan_penduduk_model');
+		$this->load->model('track_model');
 	}
 
 	function auth(){
@@ -67,6 +68,8 @@ class First extends CI_Controller{
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 
 		$this->load->view('layouts/main.tpl.php',$data);
+
+		$this->track_model->track_desa();
 	}
 
 	function cetak_biodata($id=''){
