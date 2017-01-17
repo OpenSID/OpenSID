@@ -1088,55 +1088,6 @@ INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('
 
 
 #
-# TABLE STRUCTURE FOR: ref_bedah_rumah
-#
-
-DROP TABLE IF EXISTS ref_bedah_rumah;
-
-CREATE TABLE `ref_bedah_rumah` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-INSERT INTO ref_bedah_rumah (`id`, `nama`) VALUES ('1', 'Ya');
-INSERT INTO ref_bedah_rumah (`id`, `nama`) VALUES ('2', 'Tidak');
-
-
-#
-# TABLE STRUCTURE FOR: ref_blt
-#
-
-DROP TABLE IF EXISTS ref_blt;
-
-CREATE TABLE `ref_blt` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-INSERT INTO ref_blt (`id`, `nama`) VALUES ('1', 'Ya');
-INSERT INTO ref_blt (`id`, `nama`) VALUES ('2', 'Tidak');
-
-
-#
-# TABLE STRUCTURE FOR: ref_jamkesmas
-#
-
-DROP TABLE IF EXISTS ref_jamkesmas;
-
-CREATE TABLE `ref_jamkesmas` (
-  `id` int(2) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-INSERT INTO ref_jamkesmas (`id`, `nama`) VALUES ('1', 'Ya');
-INSERT INTO ref_jamkesmas (`id`, `nama`) VALUES ('2', 'Tidak');
-INSERT INTO ref_jamkesmas (`id`, `nama`) VALUES ('3', 'LAINNYA');
-
-
-#
 # TABLE STRUCTURE FOR: ref_kelas_sosial
 #
 
@@ -1152,38 +1103,6 @@ INSERT INTO ref_kelas_sosial (`id`, `nama`) VALUES ('1', 'Tidak Miskin');
 INSERT INTO ref_kelas_sosial (`id`, `nama`) VALUES ('2', 'Sedang');
 INSERT INTO ref_kelas_sosial (`id`, `nama`) VALUES ('3', 'Miskin');
 INSERT INTO ref_kelas_sosial (`id`, `nama`) VALUES ('4', 'Sangat Miskin');
-
-
-#
-# TABLE STRUCTURE FOR: ref_pkh
-#
-
-DROP TABLE IF EXISTS ref_pkh;
-
-CREATE TABLE `ref_pkh` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-INSERT INTO ref_pkh (`id`, `nama`) VALUES ('1', 'Ya');
-INSERT INTO ref_pkh (`id`, `nama`) VALUES ('2', 'Tidak');
-
-
-#
-# TABLE STRUCTURE FOR: ref_raskin
-#
-
-DROP TABLE IF EXISTS ref_raskin;
-
-CREATE TABLE `ref_raskin` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-INSERT INTO ref_raskin (`id`, `nama`) VALUES ('1', 'Ya');
-INSERT INTO ref_raskin (`id`, `nama`) VALUES ('2', 'Tidak');
 
 
 #
@@ -1284,24 +1203,6 @@ INSERT INTO sys_traffic (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-10',
 INSERT INTO sys_traffic (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-11', '', '2');
 INSERT INTO sys_traffic (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-14', '', '4');
 
-
-#
-# TABLE STRUCTURE FOR: tweb_alamat_sekarang
-#
-
-DROP TABLE IF EXISTS tweb_alamat_sekarang;
-
-CREATE TABLE `tweb_alamat_sekarang` (
-  `id` int(11) NOT NULL,
-  `jalan` varchar(100) NOT NULL,
-  `rt` varchar(100) NOT NULL,
-  `rw` varchar(100) NOT NULL,
-  `dusun` varchar(100) NOT NULL,
-  `desa` varchar(100) NOT NULL,
-  `kecamatan` varchar(100) NOT NULL,
-  `kabupaten` varchar(100) NOT NULL,
-  `provinsi` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # TABLE STRUCTURE FOR: tweb_cacat
@@ -2057,8 +1958,7 @@ CREATE TABLE `tweb_surat_format` (
   `kode_surat` varchar(10) NOT NULL,
   `lampiran` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `url_surat` (`url_surat`),
-  UNIQUE KEY `kode_surat` (`kode_surat`)
+  UNIQUE KEY `url_surat` (`url_surat`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL);
