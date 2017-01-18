@@ -243,7 +243,7 @@ function __construct(){
 
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
+		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['warganegara'] = $this->penduduk_model->list_warganegara();
 		$data['hubungan'] = $this->penduduk_model->list_hubungan();
