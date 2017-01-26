@@ -5,7 +5,7 @@
   }
 
   function track_desa(){
-    if(isset($_SESSION['track_desa']) AND $_SESSION['track_desa'] == date("Y m d")) return;
+    // if(isset($_SESSION['track_desa']) AND $_SESSION['track_desa'] == date("Y m d")) return;
     if (defined('ENVIRONMENT'))
     {
       switch (ENVIRONMENT)
@@ -43,9 +43,10 @@
      "lng" => $config['lng'],
      "alamat_kantor" => $config['alamat_kantor'],
      "url" => base_url(),
-     "ip_address" => $_SERVER['SERVER_ADDR']
+     "ip_address" => $_SERVER['SERVER_ADDR'],
+     "version" => AmbilVersi()
     );
-
+    // echo "httppost ===========";
     // echo httpPost("http://".$tracker."/index.php/track/desa",$desa);
     httpPost("http://".$tracker."/index.php/track/desa",$desa);
     $_SESSION['track_desa'] = date("Y m d");
