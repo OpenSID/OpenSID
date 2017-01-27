@@ -341,6 +341,7 @@
 
 		$data2['nik_kepala'] = $temp2['id'];
 		$data2['no_kk'] = $_POST['no_kk'];
+		$data2['id_cluster'] = $data['id_cluster'];
 
 		$temp = $data2['nik_kepala'];
 		$outp = $this->db->insert('tweb_keluarga',$data2);
