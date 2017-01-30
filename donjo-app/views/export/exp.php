@@ -18,7 +18,7 @@
             <div class="left">
 <table class="list">
   <tr>
-    <td width="320">Export Data Penduduk Format Import Excel</td>
+    <td width="320">Export Data Keluarga Format Import Excel</td>
     <td width="70">
       <div class="uibutton-group">
         <a class="uibutton special" href="<?php echo site_url("database")?>/export_by_keluarga">Download</a>

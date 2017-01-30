@@ -1,4 +1,27 @@
 <?php
+
+define("KOLOM_IMPOR_KELUARGA", serialize(array(
+  strtolower("alamat") => "1",
+  strtolower("dusun") => "2",
+  strtolower("rw")  => "3",
+  strtolower("rt") => "4",
+  strtolower("nama") => "5",
+  strtolower("no_kk") => "6",
+  strtolower("nik")  => "7",
+  strtolower("sex") => "8",
+  strtolower("tempatlahir") => "9",
+  strtolower("tanggallahir")  => "10",
+  strtolower("agama_id") => "11",
+  strtolower("pendidikan_kk_id") => "12",
+  strtolower("pendidikan_sedang_id") => "13",
+  strtolower("pekerjaan_id") => "14",
+  strtolower("status_kawin")  => "15",
+  strtolower("kk_level") => "16",
+  strtolower("warganegara_id") => "17",
+  strtolower("nama_ayah")  => "18",
+  strtolower("nama_ibu") => "19",
+  strtolower("golongan_darah_id") => "20")));
+
 class import_model extends CI_Model{
 
 	function __construct(){
@@ -68,61 +91,63 @@ class import_model extends CI_Model{
 	}
 
 	function get_isi_baris($data, $i) {
-		$dusun = ltrim(trim($data->val($i, 1)),"'");
+		$kolom_impor_keluarga = unserialize(KOLOM_IMPOR_KELUARGA);
+		$isi_baris['alamat'] = trim($data->val($i,$kolom_impor_keluarga['alamat']));
+		$dusun = ltrim(trim($data->val($i, $kolom_impor_keluarga['dusun'])),"'");
 		$dusun = str_replace('_',' ', $dusun);
 		$dusun = strtoupper($dusun);
 		$dusun = str_replace('DUSUN ','', $dusun);
 		$isi_baris['dusun'] = $dusun;
 
-		$isi_baris['rw'] = ltrim(trim($data->val($i, 2)),"'");
-		$isi_baris['rt'] = ltrim(trim($data->val($i, 3)),"'");
+		$isi_baris['rw'] = ltrim(trim($data->val($i, $kolom_impor_keluarga['rw'])),"'");
+		$isi_baris['rt'] = ltrim(trim($data->val($i, $kolom_impor_keluarga['rt'])),"'");
 
-		$nama = trim($data->val($i, 4));
+		$nama = trim($data->val($i, $kolom_impor_keluarga['nama']));
 		$isi_baris['nama'] = $nama;
 
 		// Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
 		// yang tidak tampak (non-printable characters),
 		// jadi perlu dibuang
-		$no_kk= trim($data->val($i, 5));
+		$no_kk= trim($data->val($i, $kolom_impor_keluarga['no_kk']));
 		$no_kk = preg_replace('/[^0-9]/', '', $no_kk);
 		$isi_baris['no_kk'] = $no_kk;
 
-		$nik = trim($data->val($i, 6));
+		$nik = trim($data->val($i, $kolom_impor_keluarga['nik']));
 		$nik = preg_replace('/[^0-9]/', '', $nik);
 		$isi_baris['nik'] = $nik;
 
-		$isi_baris['sex'] = trim($data->val($i, 7));
-		$isi_baris['tempatlahir']= trim($data->val($i, 8));
+		$isi_baris['sex'] = trim($data->val($i, $kolom_impor_keluarga['sex']));
+		$isi_baris['tempatlahir']= trim($data->val($i, $kolom_impor_keluarga['tempatlahir']));
 
-		$tanggallahir= ltrim(trim($data->val($i, 9)),"'");
+		$tanggallahir= ltrim(trim($data->val($i, $kolom_impor_keluarga['tanggallahir'])),"'");
 		$isi_baris['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
 
-		$isi_baris['agama_id']= trim($data->val($i, 10));
-		$isi_baris['pendidikan_kk_id']= trim($data->val($i, 11));
+		$isi_baris['agama_id']= trim($data->val($i, $kolom_impor_keluarga['agama_id']));
+		$isi_baris['pendidikan_kk_id']= trim($data->val($i, $kolom_impor_keluarga['pendidikan_kk_id']));
 
-		$pendidikan_sedang_id= trim($data->val($i, 12));
+		$pendidikan_sedang_id= trim($data->val($i, $kolom_impor_keluarga['pendidikan_sedang_id']));
 		if($pendidikan_sedang_id=="")
 			$pendidikan_sedang_id=18;
 		$isi_baris['pendidikan_sedang_id'] = $pendidikan_sedang_id;
 
-		$isi_baris['pekerjaan_id']= trim($data->val($i, 13));
-		$isi_baris['status_kawin']= trim($data->val($i, 14));
-		$isi_baris['kk_level']= trim($data->val($i, 15));
-		$isi_baris['warganegara_id']= trim($data->val($i, 16));
+		$isi_baris['pekerjaan_id']= trim($data->val($i, $kolom_impor_keluarga['pekerjaan_id']));
+		$isi_baris['status_kawin']= trim($data->val($i, $kolom_impor_keluarga['status_kawin']));
+		$isi_baris['kk_level']= trim($data->val($i, $kolom_impor_keluarga['kk_level']));
+		$isi_baris['warganegara_id']= trim($data->val($i, $kolom_impor_keluarga['warganegara_id']));
 
-		$nama_ayah= trim($data->val($i,17));
+		$nama_ayah= trim($data->val($i,$kolom_impor_keluarga['nama_ayah']));
 		if($nama_ayah==""){
 			$nama_ayah = "-";
 		}
 		$isi_baris['nama_ayah'] = $nama_ayah;
 
-		$nama_ibu= trim($data->val($i,18));
+		$nama_ibu= trim($data->val($i,$kolom_impor_keluarga['nama_ibu']));
 		if($nama_ibu==""){
 			$nama_ibu = "-";
 		}
 		$isi_baris['nama_ibu'] = $nama_ibu;
 
-		$isi_baris['golongan_darah_id']= trim($data->val($i, 19));
+		$isi_baris['golongan_darah_id']= trim($data->val($i, $kolom_impor_keluarga['golongan_darah_id']));
 
 		return $isi_baris;
 	}
@@ -185,6 +210,9 @@ class import_model extends CI_Model{
 			$isi_baris['id_kk'] = $res['id'];
 			$id = $res['id'];
 			$this->db->where('id',$id);
+			// Hanya update apabila alamat kosong
+			// karena alamat keluarga akan diupdate menggunakan data kepala keluarga di tulis_tweb_pendududk
+			$this->db->where('alamat', NULL);
 			$data['alamat'] = $isi_baris['alamat'];
 			$hasil = $this->db->update('tweb_keluarga',$data);
 		} else {
@@ -246,7 +274,7 @@ class import_model extends CI_Model{
 		// dan sudah ada NIK
 		if ($data['kk_level'] == 1) {
       $this->db->where('id', $data['id_kk']);
-      $this->db->update('tweb_keluarga', array('nik_kepala' => $id, 'id_cluster' => $isi_baris['id_cluster']));
+      $this->db->update('tweb_keluarga', array('nik_kepala' => $id, 'id_cluster' => $isi_baris['id_cluster'], 'alamat' => $isi_baris['alamat']));
 		}
 	}
 
