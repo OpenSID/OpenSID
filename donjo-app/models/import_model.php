@@ -103,6 +103,7 @@ class import_model extends CI_Model{
 		$isi_baris['rt'] = ltrim(trim($data->val($i, $kolom_impor_keluarga['rt'])),"'");
 
 		$nama = trim($data->val($i, $kolom_impor_keluarga['nama']));
+		$nama = preg_replace('/[^a-zA-Z0-9,\.]/', ' ', $nama);
 		$isi_baris['nama'] = $nama;
 
 		// Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
