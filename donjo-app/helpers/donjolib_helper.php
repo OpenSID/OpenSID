@@ -388,12 +388,10 @@ function mandiri_timer(){
 }
 
 function mandiri_timeout(){
-	$timeout=$_SESSION['mandiri_timeout'];
+	(isset($_SESSION['mandiri_timeout'])) ? $timeout=$_SESSION['mandiri_timeout'] : $timeout = null;
 	if(time()>$timeout){
 		mandiri_timer();
 	}
-
-
 }
 
 function get_identitas(){
