@@ -881,7 +881,7 @@ INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('19', 'Lembaga Masyarakat', 'artikel/38', '1', '1', '1', '2', NULL);
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('23', 'Teras Desa', '', '2', '1', '1', '1', NULL);
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('24', 'Data Desa', 'artikel/97', '1', '1', '0', '1', NULL);
-INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('31', 'Data Wilayah Administratif', 'statistik/15', '3', '24', '1', '1', NULL);
+INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('31', 'Data Wilayah Administratif', 'wilayah', '3', '24', '1', '1', NULL);
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('32', 'Data Pendidikan dalam KK', 'statistik/0', '3', '24', '1', '1', NULL);
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('33', 'Data Pendidikan Ditempuh', 'statistik/17', '3', '24', '1', '1', NULL);
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('34', 'Data Pekerjaan', 'statistik/1', '3', '24', '1', '1', NULL);
