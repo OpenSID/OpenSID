@@ -26,7 +26,7 @@ class Siteman extends CI_Controller {
 
 		$this->load->view('siteman',$header);
 		$_SESSION['siteman']=0;
-		$this->track_model->track_desa();
+		$this->track_model->track_desa('siteman');
 	}
 
 	function auth(){

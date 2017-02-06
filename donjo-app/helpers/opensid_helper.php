@@ -277,6 +277,8 @@ define("KODE_PEKERJAAN", serialize(array(
   // Untuk mengirim data ke OpenSID tracker
   function httpPost($url,$params)
   {
+    if (isset($_SESSION['no_curl'])) return;
+
     $postData = '';
     //create name value pairs seperated by &
     foreach($params as $k => $v)
@@ -285,22 +287,26 @@ define("KODE_PEKERJAAN", serialize(array(
     }
     $postData = rtrim($postData, '&');
 
-    $ch = curl_init();
+    try {
+      $ch = curl_init();
 
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, false);
-    curl_setopt($ch, CURLOPT_POST, count($postData));
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HEADER, false);
+      curl_setopt($ch, CURLOPT_POST, count($postData));
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
-    $output=curl_exec($ch);
+      $output=curl_exec($ch);
 
-    if(curl_exec($ch) === false)
-    {
-        echo 'Curl error: ' . curl_error($ch);
+      if(curl_exec($ch) === false)
+      {
+          echo 'Curl error: ' . curl_error($ch);
+      }
+      curl_close($ch);
+      return $output;
+    } catch (Exception $e) {
+      return $e;
     }
-    curl_close($ch);
-    return $output;
   }
 
   /**
@@ -312,6 +318,41 @@ define("KODE_PEKERJAAN", serialize(array(
   function cek_koneksi_internet($sCheckHost = 'www.google.com')
   {
       return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
+  }
+
+  /**
+   * Laporkan error PHP.
+   * Script ini digunakan untuk mengatasi masalah di mana ada hosting (seperti indoreg.co.id)
+   * yang tidak mengizinkan fungsi sistem, seperti curl.
+   * Simpan info ini di $_SESSION, supaya pada pemanggilan berikut
+   * tracker tidak dijalankan.
+  */
+  set_error_handler('myErrorHandler');
+  register_shutdown_function('fatalErrorShutdownHandler');
+  function myErrorHandler($code, $message, $file, $line) {
+    // Khusus untuk mencatat masalah dalam pemanggilan httpPost di track_model.php
+    if (strpos($message, 'curl_exec') !== FALSE) {
+      $_SESSION['no_curl'] = 'y';
+      echo "<strong>Apabila halamannya tidak tampil, coba di-refresh.</strong>";
+      // Ulangi url yang memanggil fungsi tracker.
+      redirect(base_url()."index.php/".$_SESSION['balik_ke']);
+    }
+    // Uncomment apabila melakukan debugging
+    // else {
+    //   echo "<strong>Telah dialami error PHP sebagai berikut: </strong><br><br>";
+    //   echo "Severity: ".$code."<br>";
+    //   echo "Pesan: ".$message."<br>";
+    //   echo "Nama File: ".$file."<br>";
+    //   echo "Nomor Baris: ".$line;
+    // }
+  }
+  function fatalErrorShutdownHandler()
+  {
+    $last_error = error_get_last();
+    if ($last_error['type'] === E_ERROR) {
+      // fatal error
+      myErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
+    }
   }
 
 ?>

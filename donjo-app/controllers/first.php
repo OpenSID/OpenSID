@@ -69,7 +69,7 @@ class First extends CI_Controller{
 
 		$this->load->view('layouts/main.tpl.php',$data);
 
-		$this->track_model->track_desa();
+		$this->track_model->track_desa('first');
 	}
 
 	function cetak_biodata($id=''){

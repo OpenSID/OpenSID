@@ -4,8 +4,9 @@
     parent::__construct();
   }
 
-  function track_desa(){
+  function track_desa($dari){
     // if(isset($_SESSION['track_desa']) AND $_SESSION['track_desa'] == date("Y m d")) return;
+    $_SESSION['balik_ke'] = $dari;
     if (defined('ENVIRONMENT'))
     {
       switch (ENVIRONMENT)
