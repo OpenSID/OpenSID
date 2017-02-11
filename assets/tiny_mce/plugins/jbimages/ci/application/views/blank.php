@@ -10,7 +10,7 @@
 
 <body>
 
-<p><?=lang('jb_blankpage_message') ?></p>
+<p><?php lang('jb_blankpage_message') ?></p>
 
 </body>
 </html>
