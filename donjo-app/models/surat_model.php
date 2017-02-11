@@ -381,7 +381,7 @@
 	}
 
 	function get_daftar_kode_surat($surat) {
-		$kode = [];
+		$kode = array();
 		switch ($surat) {
 			case 'surat_ket_pindah_penduduk':
 				$kode["alasan_pindah"] = array(
