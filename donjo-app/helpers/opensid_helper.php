@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'post-1.9.1');
+define("VERSION", 'pre-1.10');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
