@@ -596,24 +596,27 @@
 		return $data;
 	}
 
-	// $id adalah id_kk : id dari tabel tweb_keluarga
-	function get_kepala_kk($id){
-		$sql   = "SELECT nik,u.id,u.nama,tempatlahir,tanggallahir,a.nama as agama,d.nama as pendidikan,j.nama as pekerjaan, x.nama as sex,w.nama as status_kawin,h.nama as hubungan,warganegara_id,nama_ayah,nama_ibu,g.nama as golongan_darah ,c.rt as rt,c.rw as rw,c.dusun as dusun, (SELECT no_kk FROM tweb_keluarga WHERE id = ?) AS no_kk, (SELECT alamat FROM tweb_keluarga WHERE id = ?) AS alamat
+	// $id adalah id_kk : id dari tabel tweb_keluarga, kecuali
+	// apabila $is_no_kk == true maka $id adalah no_kk
+	function get_kepala_kk($id, $is_no_kk = false){
+		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
+		$sql   = "SELECT nik,u.id,u.nama,tempatlahir,tanggallahir,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,a.nama as agama,d.nama as pendidikan,j.nama as pekerjaan, x.nama as sex,w.nama as status_kawin,h.nama as hubungan,f.nama as warganegara,warganegara_id,nama_ayah,nama_ibu,g.nama as golongan_darah ,c.rt as rt,c.rw as rw,c.dusun as dusun, (SELECT no_kk FROM tweb_keluarga WHERE $kolom_id = ?) AS no_kk, (SELECT alamat FROM tweb_keluarga WHERE $kolom_id = ?) AS alamat, (SELECT id FROM tweb_keluarga WHERE $kolom_id = ?) AS id_kk
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
 			LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id
 			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
+			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
 			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
 			LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 			LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id
-			LEFT JOIN tweb_wil_clusterdesa c ON (SELECT id_cluster from tweb_keluarga where id = ?) = c.id
-			WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE id = ?) ";
-		$query = $this->db->query($sql,array($id,$id,$id,$id));
+			LEFT JOIN tweb_wil_clusterdesa c ON (SELECT id_cluster from tweb_keluarga where $kolom_id = ?) = c.id
+			WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE $kolom_id = ?) ";
+		$query = $this->db->query($sql,array($id,$id,$id,$id,$id));
 		$data = $query->row_array();
 		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords(config_item('sebutan_dusun')).' '.$data['dusun']);
 		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
-		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data['id']);
+		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data['id_kk']);
 		return $data;
 	}
 	function get_kepala_a($id){
@@ -791,7 +794,7 @@
 		if (!isset($data['rw'])) $data['rw'] = '';
 		if (!isset($data['dusun'])) $data['dusun'] = '';
 
-		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] $data[dusun]");
+		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".ikut_case($data['dusun'],config_item('sebutan_dusun'))." $data[dusun]");
 		return $alamat_wilayah;
 	}
 

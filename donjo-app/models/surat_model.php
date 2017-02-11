@@ -83,7 +83,7 @@
 	}
 
 	function get_alamat_wilayah($data) {
-		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".$this->ikut_case($data['dusun'],config_item('sebutan_dusun'))." ".$data['dusun'];
+		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ikut_case($data['dusun'],config_item('sebutan_dusun'))." ".$data['dusun'];
 		return trim($alamat_wilayah);
 	}
 
@@ -604,15 +604,6 @@
 		$dari = str_replace("[", "\[", $dari);
 		$str = preg_replace_callback("/(".$dari.")/i", $replacer, $str);
 		return $str;
-	}
-
-	function ikut_case($format, $str){
-		$str = strtolower($str);
-		if(ctype_upper($format[0]) AND ctype_upper($format[1]))
-			return strtoupper($str);
-		elseif(ctype_upper($format[0]))
-			return ucwords($str);
-		else return $str;
 	}
 
 	function surat_rtf($data){

@@ -5,6 +5,7 @@ class Program_bantuan extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
+		$this->load->model('program_bantuan_model');
 
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) redirect('siteman');
@@ -24,6 +25,25 @@ class Program_bantuan extends CI_Controller{
 		$this->load->view('footer');
 	}
 
+	function form($program_id){
+		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
+		$sasaran = $data['program'][0]['sasaran'];
+		if(isset($_POST['nik'])){
+			$data['individu']=$this->program_bantuan_model->get_peserta($_POST['nik'],$sasaran);
+		}else{
+			$data['individu']=NULL;
+		}
+
+		$header = $this->header_model->get_data();
+		$header['modul'] = 6;
+		$this->load->view('header', $header);
+
+		$data['form_action'] = site_url("program_bantuan/add_peserta");
+		$this->load->view('program_bantuan/form',$data);
+		$this->load->view('footer');
+	}
+
+
 	public function sasaran($sasaran=0){
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
@@ -40,11 +60,6 @@ class Program_bantuan extends CI_Controller{
 		$header['modul'] = 6;
 		$this->load->view('header', $header);
 
-		if(isset($_POST['nik']))
-			$data['individu']=$this->program_bantuan_model->add_peserta($_POST['nik'],$id);
-		else
-		$data['individu']=NULL;
-
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 
@@ -60,16 +75,34 @@ class Program_bantuan extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 
-		$data['program'] = $this->program_bantuan_model->get_peserta_program($cat,$id);
+		$data = $this->program_bantuan_model->get_peserta_program($cat,$id);
 
 		$this->load->view('program_bantuan/peserta',$data);
 		$this->load->view('footer');
+	}
+
+	public function add_peserta($id){
+		$this->program_bantuan_model->add_peserta($_POST,$id);
+		redirect("program_bantuan/detail/1/$id");
 	}
 
 	public function hapus_peserta($id, $peserta_id) {
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
 		redirect("program_bantuan/detail/1/$id");
 	}
+
+	public function edit_peserta($id){
+		$this->program_bantuan_model->edit_peserta($_POST,$id);
+		$program_id = $_POST['program_id'];
+		redirect("program_bantuan/detail/1/$program_id");
+	}
+
+	public function edit_peserta_form($id=0){
+		$data = $this->program_bantuan_model->get_program_peserta_by_id($id);
+		$data['form_action'] = site_url("program_bantuan/edit_peserta/$id");
+		$this->load->view('program_bantuan/edit_peserta',$data);
+	}
+
 
 	public function create(){
 

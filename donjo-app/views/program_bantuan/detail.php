@@ -36,7 +36,15 @@
 		<td class="contentpane">
 			<div id="contentpane">
 				<div class="ui-layout-center" id="maincontent">
-					<legend>Detail Program</legend>
+					<?php if($program[0]["status"] == 0){?>
+
+						<div class="left">
+							<div class="uibutton-group">
+								<a href="<?php echo site_url("program_bantuan/form/".$program[0]['id'])?>" class="uibutton tipsy south" title="Tambah Peserta Baru" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Peserta Baru</a>
+							</div>
+						</div>
+					<?php }?>
+					<legend style="margin-top: 30px;">Detail Program</legend>
 					<div>
 						<?php
 						if($_SESSION["success"]==1){
@@ -48,54 +56,14 @@
 						echo "
 						<div>
 							<table class=\"form\">
-								<tr><td>Nama Program</td><td><strong>".strtoupper($program[0]["nama"])."</strong></td></tr>
-								<tr><td>Sasaran Peserta</td><td><strong>".$sasaran[$program[0]["sasaran"]]."</strong></td></tr>
-								<tr><td>Masa Berlaku</td><td><strong>".fTampilTgl($program[0]["sdate"],$program[0]["edate"])."</strong></td></tr>
-								<tr><td>Keterangan</td><td><strong>".$program[0]["ndesc"]."</strong></td></tr>
+								<tr><td>Nama Program</td><td><strong>".strtoupper($detail["nama"])."</strong></td></tr>
+								<tr><td>Sasaran Peserta</td><td><strong>".$sasaran[$detail["sasaran"]]."</strong></td></tr>
+								<tr><td>Masa Berlaku</td><td><strong>".fTampilTgl($detail["sdate"],$detail["edate"])."</strong></td></tr>
+								<tr><td>Keterangan</td><td><strong>".$detail["ndesc"]."</strong></td></tr>
 							</table>
 						</div>
 						";
 
-						if($program[0]["status"] == 0){
-							echo "
-							<div>
-								<fieldset>
-									<legend>Formulir Penambahan Peserta</legend>
-									<div>
-										<form action=\"\" id=\"main\" name=\"main\" method=\"POST\">
-										<label>Cari Nama Peserta dari Database Desa</label>
-										<div id=\"nik\" name=\"nik\"></div>
-										</form>
-									</div>
-								</fieldset>
-							</div>
-							";
-							echo "
-							<script>
-								$(document).ready(function() {
-									var nik = {};
-									nik.results = [";
-									foreach ($program[2] as $item){
-										if(strlen($item["id"])>0){
-											echo "{id: '".$item["id"]."', name:\"".$item["nama"]."\",info:\"".$item["info"]."\"},\n";
-										}
-									}
-									echo "
-									];
-
-									$('#nik').flexbox(nik, {
-										resultTemplate: '<div><label>No ID : </label>{name}</div><div>{info}</div>',
-										watermark: \"Cari nama di sini..\",
-										width: 260,
-										noResultsText :'Tidak ada no nik yang sesuai..',
-										onSelect: function() {
-											$('#'+'main').submit();
-									}
-									});
-								});
-							</script>
-							";
-						}
 						$peserta = $program[1];
 						?>
 						<legend>Daftar Peserta Program</legend>
@@ -103,8 +71,9 @@
 							<thead><tr>
 								<th>No</th>
 								<th>Aksi</th>
-								<th><?php echo $program[0]["judul_peserta"]?></th>
-								<th><?php echo $program[0]["judul_peserta_info"]?></th>
+								<th><?php echo $detail["judul_peserta"]?></th>
+								<th>No. Kartu Peserta</th>
+								<th><?php echo $detail["judul_peserta_info"]?></th>
 								<th>Keterangan</th>
 							</tr></thead>
 							<tbody>
@@ -119,11 +88,13 @@
 						        <td>
 						          <div class="uibutton-group">
 						            <?php if($_SESSION['grup']==1){?>
-						                <a href="<?php echo site_url('program_bantuan/hapus_peserta/'.$program[0]["id"].'/'.$item["id"])?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>
+						                <a href="<?php echo site_url('program_bantuan/hapus_peserta/'.$detail["id"].'/'.$item["id"])?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>
+							        			<a href="<?php echo site_url("program_bantuan/edit_peserta_form/$item[id]")?>"  class="uibutton tipsy south" title="Ubah Data Peserta" target="ajax-modal" rel="window" header="Ubah Data Peserta" modalWidth="auto" modalHeight="auto"><span class="icon-edit icon-large"></span></a>
 						            <?php } ?>
 						          </div>
 						        </td>
-										<td><a href="<?php echo site_url('program_bantuan/peserta/'.$program[0]["sasaran"].'/'.$item["nik"].'/')?>"><?php echo $item["peserta_nama"] ?></a></td>
+										<td><a href="<?php echo site_url('program_bantuan/peserta/'.$detail["sasaran"].'/'.$item["nik"].'/')?>"><?php echo $item["peserta_nama"] ?></a></td>
+										<td><?php echo $item['no_id_kartu'];?></td>
 										<td><?php echo $item["peserta_info"]?></td>
 										<td><?php echo $item["info"];?></td>
 									</tr>
@@ -134,7 +105,7 @@
 							</tbody>
 						</table>
 						<div style="padding:1em 0;">
-							<a class="uibutton" href="<?php echo site_url('program_bantuan/unduhsheet/'.$program[0]["id"].'/')?>"><i class="icon icon-download"></i> Unduh dlm format .xls</a>
+							<a class="uibutton" href="<?php echo site_url('program_bantuan/unduhsheet/'.$detail["id"].'/')?>"><i class="icon icon-download"></i> Unduh dlm format .xls</a>
 						</div>
 					</div>
 				</div>
@@ -142,7 +113,7 @@
 		    <div class="ui-layout-south panel bottom">
 		      <div class="left">
 						<div class="table-info">
-			        <form id="paging" action="<?php echo site_url('program_bantuan/detail/1/'.$program[0]['id'])?>" method="post">
+			        <form id="paging" action="<?php echo site_url('program_bantuan/detail/1/'.$detail['id'])?>" method="post">
 							  <label>Tampilkan</label>
 			          <select name="per_page" onchange="$('#paging').submit()" >
 			            <option value="50" <?php  selected($per_page,50); ?> >50</option>
@@ -158,23 +129,23 @@
 	        <div class="right">
 	          <div class="uibutton-group">
 	            <?php  if($paging->start_link): ?>
-								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->start_link.'/'.$program[0]['id'])?>" class="uibutton">Awal</a>
+								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->start_link.'/'.$detail['id'])?>" class="uibutton">Awal</a>
 							<?php  endif; ?>
 							<?php  if($paging->prev): ?>
-								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->prev.'/'.$program[0]['id'])?>" class="uibutton"  >Prev</a>
+								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->prev.'/'.$detail['id'])?>" class="uibutton"  >Prev</a>
 							<?php  endif; ?>
 	          </div>
 		        <div class="uibutton-group">
 							<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-								<a href="<?php echo site_url('program_bantuan/detail/'.$i.'/'.$program[0]['id'])?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
+								<a href="<?php echo site_url('program_bantuan/detail/'.$i.'/'.$detail['id'])?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 							<?php  endfor; ?>
 	          </div>
 	          <div class="uibutton-group">
 							<?php  if($paging->next): ?>
-								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->next.'/'.$program[0]['id'])?>" class="uibutton">Next</a>
+								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->next.'/'.$detail['id'])?>" class="uibutton">Next</a>
 							<?php  endif; ?>
 							<?php  if($paging->end_link): ?>
-		            <a href="<?php echo site_url('program_bantuan/detail/'.$paging->end_link.'/'.$program[0]['id'])?>" class="uibutton">Akhir</a>
+		            <a href="<?php echo site_url('program_bantuan/detail/'.$paging->end_link.'/'.$detail['id'])?>" class="uibutton">Akhir</a>
 							<?php  endif; ?>
 	          </div>
 	        </div>

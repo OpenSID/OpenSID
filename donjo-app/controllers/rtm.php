@@ -174,7 +174,7 @@ function __construct(){
 		$data['kk']       = $id;
 
 		$data['main']     = $this->rtm_model->list_anggota($id);
-		$data['kepala_kk']= $this->rtm_model->get_kepala_kk($id);
+		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
 
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
@@ -190,7 +190,7 @@ function __construct(){
 		$data['o']        = $o;
 
 		$data['main']     = $this->rtm_model->list_anggota($id);
-		$kk 			  = $this->rtm_model->get_kepala_kk($id);
+		$kk 			  = $this->rtm_model->get_kepala_rtm($id);
 		if($kk)
 			$data['kepala_kk'] = $kk;
 		else
@@ -221,7 +221,7 @@ function __construct(){
 
 		$data['hubungan'] = $this->rtm_model->list_hubungan();
 		$data['main']     = $this->rtm_model->list_anggota($id);
-		$kk 		  = $this->rtm_model->get_kepala_kk($id);
+		$kk 		  = $this->rtm_model->get_kepala_rtm($id);
 		$data['desa']     = $this->rtm_model->get_desa();
 
 		if($kk)
@@ -248,7 +248,7 @@ function __construct(){
 		$data['id_kk']    = $id;
 
 		$data['main']     = $this->rtm_model->list_anggota($id);
-		$kk 		  	  = $this->rtm_model->get_kepala_kk($id);
+		$kk 		  	  = $this->rtm_model->get_kepala_rtm($id);
 		$data['desa']     = $this->rtm_model->get_desa();
 		$data['kepala_kk'] = $kk;
 		$nav['act']= 3;

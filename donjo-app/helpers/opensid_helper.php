@@ -355,4 +355,13 @@ define("KODE_PEKERJAAN", serialize(array(
     }
   }
 
+  function ikut_case($format, $str){
+    $str = strtolower($str);
+    if(ctype_upper($format[0]) AND ctype_upper($format[1]))
+      return strtoupper($str);
+    elseif(ctype_upper($format[0]))
+      return ucwords($str);
+    else return $str;
+  }
+
 ?>

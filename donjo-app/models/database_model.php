@@ -20,6 +20,7 @@
     $this->migrasi_16_ke_17();
     $this->migrasi_17_ke_18();
     $this->migrasi_18_ke_19();
+    $this->migrasi_19_ke_110();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -523,7 +524,13 @@
     $this->db->query($query);
   }
 
-
+  function migrasi_19_ke_110() {
+    // Tambah nomor id_kartu untuk peserta program bantuan
+    if (!$this->db->field_exists('no_id_kartu', 'program_peserta')) {
+      $query = "ALTER TABLE program_peserta ADD no_id_kartu varchar(30)";
+      $this->db->query($query);
+    }
+  }
 
   function kosongkan_db(){
     $table_lookup = array(
