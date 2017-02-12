@@ -50,7 +50,7 @@
 </div>
 <div class="art-spacer"  style="display:block;clear:both;">
 	Ditulis oleh: <b><?php echo $single_artikel['owner']?><br></b>
-	<small>Pada: <?php tgl_indo2($single_artikel['tgl_upload'])?></small>
+	<small>Pada: <?php echo tgl_indo2($single_artikel['tgl_upload'])?></small>
 </div>
 <style>
 #pageshare {float:left;padding:0 0 0px 0;z-index:10;}
@@ -69,7 +69,7 @@
 <div class="kom-box">
 	<span class="post-title">
 		<b><?php echo $data['owner']?><br></b>
-		<small><?php tgl_indo2($data['tgl_upload'])?></small>
+		<small><?php echo tgl_indo2($data['tgl_upload'])?></small>
 		<p><b>Berkata: </b><?php echo $data['komentar']?>
 		</p>
 	</span>
