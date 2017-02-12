@@ -1,0 +1,7 @@
+*******************************
+Folder: migrasi/
+*******************************
+
+Folder ini tempat menyimpan data sql migrasi dari versi ke versi.
+
+Jalankan file sql secara manual.

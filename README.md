@@ -1,14 +1,14 @@
 # OpenSID
 OpenSID (https://github.com/eddieridwan/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
 
-SID adalah aplikasi komputer yang membantu desa, agar:
+SID diharapkan dapat membantu pemerintah desa dalam beberapa hal berikut:
 
-- Kantor desa lebih efisien dan efektif
-- Pemerintah desa lebih transparan dan akuntabel
-- Layanan publik lebih baik
-- Warga mendapat akses lebih baik pada informasi desa
+- kantor desa lebih efisien dan efektif
+- pemerintah desa lebih transparan dan akuntabel
+- layanan publik lebih baik
+- warga mendapat akses lebih baik pada informasi desa
 
-OpenSID turut membantu agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya.
+OpenSID diharapkan dapat turut membantu agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya.
 
 Strategi pengembangan OpenSID adalah untuk:
 - memudahkan pengguna menyerap rilis SID baru

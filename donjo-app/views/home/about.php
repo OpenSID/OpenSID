@@ -1,5 +1,5 @@
 <div font-size="17px"><b>
-Anda sedang menggunakan aplikasi OpenSID <?=AmbilVersi()?><br />
+Anda sedang menggunakan aplikasi OpenSID <?php echo AmbilVersi()?><br />
 <br />
 <br />OpenSID</b> <br />
 <br />
