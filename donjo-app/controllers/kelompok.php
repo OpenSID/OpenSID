@@ -57,11 +57,12 @@ class kelompok extends CI_Controller{
 
 	function anggota($id=0){
 
-			$data['kel']        = $id;
+		$data['kel']        = $id;
 		$data['main']    = $this->kelompok_model->list_anggota($id);
 
 		$header = $this->header_model->get_data();
 
+		$header['modul'] = 2;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -89,6 +90,7 @@ class kelompok extends CI_Controller{
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 		$header = $this->header_model->get_data();
 
+		$header['modul'] = 2;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -105,6 +107,7 @@ class kelompok extends CI_Controller{
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 		$header = $this->header_model->get_data();
 
+		$header['modul'] = 2;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
