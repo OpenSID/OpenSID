@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title><?php echo config_item('login_title') ?></title>
+  <title><?php echo 'Sistem Informasi Desa' . get_dynamic_title_page_from_path(); ?></title>
   <link rel="stylesheet" href="<?php echo base_url()?>assets/css/login-new.css" media="screen" type="text/css" />
 </head>
 <body>
