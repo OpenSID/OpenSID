@@ -174,13 +174,25 @@
       (35, 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32'),
       (36, 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33'),
       (37, 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34'),
-      (38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35'),
-      (39, 'Ubah Sesuaikan', 'surat_ubah_sesuaikan', 'S-36')
+      (38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35')
       ON DUPLICATE KEY UPDATE
         nama = VALUES(nama),
         url_surat = VALUES(url_surat);
     ";
     $this->db->query($query);
+    // surat_ubah_sesuaikan perlu ditangani berbeda, karena ada pengguna di mana
+    // url surat_ubah_sesuaikan memiliki id yang bukan 39, sedangkan id 39 juga dipakai untuk surat lain
+    $this->db->where('url_surat', 'surat_ubah_sesuaikan');
+    $query = $this->db->get('tweb_surat_format');
+    // Tambahkan surat_ubah_sesuaikan apabila belum ada
+    if($query->num_rows()==0){
+      $data = array(
+        'nama' => 'Ubah Sesuaikan',
+        'url_surat' => 'surat_ubah_sesuaikan',
+        'kode_surat' => 'S-36'
+      );
+      $this->db->insert('tweb_surat_format', $data);
+    }
 
     // DROP INDEX migrasi_0_10_url_surat ON tweb_surat_format;
 
@@ -477,8 +489,10 @@
         $query = $this->db->get('tweb_penduduk');
         $kepala_kk = $query->row_array();
         // Tulis id_cluster kepala keluarga ke keluarga
-        $this->db->where('id', $keluarga['id']);
-        $this->db->update('tweb_keluarga', array('id_cluster' => $kepala_kk['id_cluster']));
+        if (isset($kepala_kk['id_cluster'])) {
+          $this->db->where('id', $keluarga['id']);
+          $this->db->update('tweb_keluarga', array('id_cluster' => $kepala_kk['id_cluster']));
+        }
       }
     }
   }
