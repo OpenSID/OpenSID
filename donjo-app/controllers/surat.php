@@ -18,6 +18,7 @@ class Surat extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$data['menu_surat'] = $this->surat_model->list_surat();
 		$data['menu_surat2'] = $this->surat_model->list_surat2();
+		$data['surat_favorit'] = $this->surat_model->list_surat_fav();
 
 		$header['modul'] = 4;
 		$this->load->view('header', $header);
@@ -156,4 +157,13 @@ class Surat extends CI_Controller{
 		// $this->load->view("surat/format_lembaga/f125",$data);
 
 	}
+
+	function search(){
+		$cari = $this->input->post('nik');
+		if($cari!='')
+			redirect("surat/form/$cari");
+		else
+			redirect('surat');
+	}
+
 }

@@ -7,7 +7,7 @@
 	}
 
 	function list_surat(){
-		$sql   = "SELECT * FROM tweb_surat_format";
+		$sql   = "SELECT * FROM tweb_surat_format WHERE kunci = 0";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		//Formating Output
@@ -20,7 +20,14 @@
 	}
 
 	function list_surat2(){
-		$sql   = "SELECT * FROM tweb_surat_format";
+		$sql   = "SELECT * FROM tweb_surat_format WHERE kunci = 0";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		return $data;
+	}
+
+	function list_surat_fav(){
+		$sql = "SELECT * FROM tweb_surat_format WHERE kunci = 0 AND favorit = 1";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;

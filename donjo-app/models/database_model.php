@@ -21,6 +21,7 @@
     $this->migrasi_17_ke_18();
     $this->migrasi_18_ke_19();
     $this->migrasi_19_ke_110();
+    $this->migrasi_19_ke_111();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -542,6 +543,18 @@
     // Tambah nomor id_kartu untuk peserta program bantuan
     if (!$this->db->field_exists('no_id_kartu', 'program_peserta')) {
       $query = "ALTER TABLE program_peserta ADD no_id_kartu varchar(30)";
+      $this->db->query($query);
+    }
+  }
+
+  function migrasi_19_ke_111() {
+    // Tambah akti/non-aktifkan dan pilihan favorit format surat
+    if (!$this->db->field_exists('kunci', 'tweb_surat_format')) {
+      $query = "ALTER TABLE tweb_surat_format ADD kunci tinyint(1) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('favorit', 'tweb_surat_format')) {
+      $query = "ALTER TABLE tweb_surat_format ADD favorit tinyint(1) NOT NULL DEFAULT '0'";
       $this->db->query($query);
     }
   }

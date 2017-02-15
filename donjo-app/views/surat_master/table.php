@@ -29,7 +29,7 @@
 							<tr>
 								<th width="10">No</th>
 								<th><input type="checkbox" class="checkall"/></th>
-								<th width="90">Aksi</th>
+								<th>Aksi</th>
 
 							<?php  if($o==4): ?>
 								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
@@ -66,6 +66,14 @@
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
 										<a href="<?php echo site_url("surat_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+
+										<?php if($data['kunci'] == '0'):?>
+											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton" target="confirm" message="Non-Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="icon-unlock icon-large"></span></a>
+											<a href="<?php echo site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="uibutton" target="confirm" message="Ubah Surat <?php echo $data['nama']?> dalam daftar surat Favorit?" header="Favorit" rel="window"><span class="<?php if($data['favorit']==1){?>icon-star-empty icon-large <?php }else{?> icon-star icon-large <?php }?>"></span></a>
+										<?php elseif($data['kunci'] == '1'): ?>
+											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton" target="confirm" message="Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="icon-lock icon-large"></span></a>
+										<?php endif?>
+
 									</div>
 								</td>
 
