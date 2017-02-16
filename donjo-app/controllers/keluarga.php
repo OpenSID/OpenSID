@@ -288,6 +288,33 @@ function __construct(){
 		redirect('keluarga');
 	}
 
+	function dusun(){
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		$dusun = $this->input->post('dusun');
+		if($dusun!="")
+			$_SESSION['dusun']=$dusun;
+		else unset($_SESSION['dusun']);
+		redirect('penduduk');
+	}
+
+	function rw(){
+		unset($_SESSION['rt']);
+		$rw = $this->input->post('rw');
+		if($rw!="")
+			$_SESSION['rw']=$rw;
+		else unset($_SESSION['rw']);
+		redirect('penduduk');
+	}
+
+	function rt(){
+		$rt = $this->input->post('rt');
+		if($rt!="")
+			$_SESSION['rt']=$rt;
+		else unset($_SESSION['rt']);
+		redirect('penduduk');
+	}
+
 	function blt(){
 		$id_blt = $this->input->post('id_blt');
 		if($id_blt!="")

@@ -295,6 +295,32 @@
     return $inputs;
   }
 
+	function favorit($id=0,$k=0){
+
+		if($k==1)
+			$sql = "UPDATE tweb_surat_format SET favorit = 0 WHERE id=?";
+		else
+			$sql = "UPDATE tweb_surat_format SET favorit = 1 WHERE id=?";
+
+		$outp = $this->db->query($sql,$id);
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+	function lock($id=0,$k=0){
+
+		if($k==1)
+			$sql = "UPDATE tweb_surat_format SET kunci = 0 WHERE id=?";
+		else
+			$sql = "UPDATE tweb_surat_format SET kunci = 1 WHERE id=?";
+
+		$outp = $this->db->query($sql,$id);
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
 }
 
 ?>
