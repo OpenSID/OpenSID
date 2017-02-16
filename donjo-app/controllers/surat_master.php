@@ -217,4 +217,15 @@ class surat_master extends CI_Controller{
 		$this->load->view('surat_master/kode_isian',$data);
 		$this->load->view('footer');
 	}
+
+	function lock($id=0,$k=0){
+		$this->surat_master_model->lock($id,$k);
+		redirect("surat_master");
+	}
+
+	function favorit($id=0,$k=0){
+		$this->surat_master_model->favorit($id,$k);
+		redirect("surat_master");
+	}
+
 }

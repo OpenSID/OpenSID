@@ -1072,19 +1072,20 @@ CREATE TABLE `program_peserta` (
   `peserta` decimal(16,0) NOT NULL,
   `program_id` int(11) NOT NULL,
   `sasaran` tinyint(4) DEFAULT NULL,
+  `no_id_kartu` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('2', '5201140104126994', '1', '2');
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('3', '5201140105136997', '1', '2');
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('4', '5201140104126995', '2', '2');
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('5', '5201140105136997', '2', '2');
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('6', '5201140104126995', '3', '2');
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('7', '5201140105136997', '3', '2');
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('8', '5201140104166999', '4', '2');
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('9', '5201140105136997', '4', '2');
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('10', '5201142005716996', '5', '2');
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`) VALUES ('11', '5201140706966997', '5', '2');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('2', '5201140104126994', '1', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('3', '5201140105136997', '1', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('4', '5201140104126995', '2', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('5', '5201140105136997', '2', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('6', '5201140104126995', '3', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('7', '5201140105136997', '3', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('8', '5201140104166999', '4', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('9', '5201140105136997', '4', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('10', '5201142005716996', '5', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('11', '5201140706966997', '5', '2', NULL);
 
 
 #
