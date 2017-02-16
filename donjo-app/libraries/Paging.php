@@ -11,19 +11,17 @@ class Paging{
 	public $start;
 	public $end;
 	public $end_link;
-	
 	function __construct($props=array()){
 		if (count($props) > 0)
 			$this->init($props);
 	}
-	
 	function init($input=array()){
 		
-		if(isset($input['page'])) 		$this->page     = $input['page'];
+		if(isset($input['page'])) 		$this->page = $input['page'];
 		if(isset($input['per_page'])) 	$this->per_page = $input['per_page'];
 		if(isset($input['num_rows']))	$this->num_rows = $input['num_rows'];
 		
-		//Sanitizing Input
+		
 		if((int)$this->page<1) $this->page=1;
 		if((int)$this->per_page<1) $this->per_page=50;
 		if((int)$this->num_rows<1) $my_num_rows=1;
@@ -39,7 +37,7 @@ class Paging{
 		$this->next=$this->page+1;
 		if($this->next>$this->num_page) $this->next=0;
 		
-		//Create Paging Link
+		
 		if($this->page < 20){
 			$start=1;
 			if($this->num_page > 30)
@@ -60,5 +58,3 @@ class Paging{
 		$this->end_link=$end;
 	}	
 }
-
-?>

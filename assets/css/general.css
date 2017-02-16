@@ -229,7 +229,7 @@ table.form{
         text-align:left;
     }
     table.form th.top{
-        vertical-align:top;
+        vertical-align:middle;
     }
     table.form td.radio{
         color:#111;;
@@ -250,7 +250,7 @@ table.list{
       color:#661c02!important;
 	padding:4px 5px;
     border:1px solid #ca9522;
-    background:url(images/loadingbar2.jpg) repeat-x #f6c864;
+    background:#f6c864;
     }
     table th a{
       color:#111!important;
@@ -269,12 +269,11 @@ table.list{
       background-image:url(images/ui-icons_666666_256x240.png);
     }
     table.list td{
-        padding:3px 3px;
-        vertical-align:center;
+        padding:4px 3px 1px 3px;
         border:0px solid #DFE3E8;
     }
     table.list.data td{
-        vertical-align:middle;
+        padding:3px 3px;
     }
 
 table.datagrid td{
@@ -328,4 +327,7 @@ a.sorting{
     box-shadow:inset 0px 0px 0px #e5e5e5;
     -moz-box-shadow:inset 0px 0px 0px #e5e5e5;
     -webkit-box-shadow:inset 0px 0px 0px #e5e5e5;
+}
+.table-info{
+	width:300px;
 }

@@ -3,9 +3,9 @@
 	<table class="inner">
 	<tr style="vertical-align:top">
 <td style="background:#fff;padding:0px;"> 
-<script src="<?=base_url()?>assets/highchart/highcharts.js"></script>
-<script src="<?=base_url()?>assets/highchart/highcharts-more.js"></script>
-<script src="<?=base_url()?>assets/highchart/exporting.js"></script>
+<script src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
+<script src="<?php echo base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+<script src="<?php echo base_url()?>assets/js/highcharts/exporting.js"></script>
 <script type="text/javascript">
 			var chart;
 			$(document).ready(function() {
@@ -15,13 +15,13 @@
 						type: 'line'
 					},
 					title: {
-						text: 'Statistik <?//=$stat?>'
+						text: 'Statistik'
 					},
 					xAxis: {
 						title: {
-							text: '<?//=$stat?>'
+							text: ''
 						},
-                        categories: [<? $i=0;foreach($periode as $data){$i++;?><?echo "'$data[nama]'";?>,<?}?>]
+ categories: [<?php $i=0;foreach($periode as $data){$i++;?><?php echo "'$data[nama]'";?>,<?php }?>]
 					},
 					yAxis: {
 						title: {
@@ -39,60 +39,59 @@
 				shadow: true,
 				enabled:true
 			},
-        plotOptions: {
-            line: {
-                dataLabels: {
-                    enabled: true
-                },
-                enableMouseTracking: false
-            }
-        },
-				    series: [<? foreach($main as $data){?>{
-					name: '<?=$data['nama']?>',
-					data: [<? foreach($data['jumlah'] as $dx){echo $dx['jml']+0?>,<?}?>]
-					},<?}?>]
+ plotOptions: {
+ line: {
+ dataLabels: {
+ enabled: true
+ },
+ enableMouseTracking: false
+ }
+ },
+				 series: [<?php foreach($main as $data){?>{
+					name: '<?php echo $data['nama']?>',
+					data: [<?php foreach($data['jumlah'] as $dx){echo $dx['jml']+0?>,<?php }?>]
+					},<?php }?>]
 				});
 			});
 				
 </script>
 <style>
 tr#total{
-    background:#fffdc5;
-    font-size:12px;
-    white-space:nowrap;
-    font-weight:bold;
+ background:#fffdc5;
+ font-size:12px;
+ white-space:nowrap;
+ font-weight:bold;
 }
 </style>
-
 <div id="contentpane">
-    <div class="ui-layout-north panel top">
-    </div>
-    <div class="ui-layout-center" id="chart" style="padding: 5px;">                
-        
-    </div>
-    <div class="ui-layout-south panel bottom" style="max-height: 150px;overflow:auto;">
-        <table class="list">
+ <div class="ui-layout-north panel top">
+ </div>
+ <div class="ui-layout-center" id="chart" style="padding: 5px;"> 
+ 
+ </div>
+ <div class="ui-layout-south panel bottom" style="max-height: 150px;overflow:auto;">
+ <table class="list">
 		<thead>
-            <tr>
-                <th>No</th>
-				<th align="left" align="center">Statistik</th>
-				<? $i=0;foreach($periode as $data){$i++;?><th align="left" align="center"><?echo "$data[nama]";?></th><?}?>
+ <tr>
+ <th>No</th>
+				<th>Statistik</th>
+				<?php $i=0;foreach($periode as $data){$i++;?><th><?php echo "$data[nama]";?></th><?php }?>
 			</tr>
 		</thead>
 		<tbody>
-        <? foreach($main as $data): ?>
+ <?php foreach($main as $data): ?>
 		<tr>
-          <td align="center" width="2"><?=$data['no']?></td>
-          <td><?=$data['nama']?></td>
-		  <? foreach($data['jumlah'] as $dx){?><td><?=$dx['jml'];?></td><?}?>
-		  </tr>
-        <? endforeach; ?>
+ <td align="center" width="2"><?php echo $data['no']?></td>
+ <td><?php echo $data['nama']?></td>
+		 <?php foreach($data['jumlah'] as $dx){?><td><?php echo $dx['jml'];?></td><?php }?>
+		 </tr>
+ <?php endforeach; ?>
 		</tbody>
-        </table>
+ </table>
 <div class="left"> 
-<a href="<?=site_url()?>analisis_grafik/leave" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>analisis_grafik/leave" class="uibutton icon prev">Kembali</a>
 </div>
-    </div>
+ </div>
 </div>
 </td></tr>
 </table>

@@ -1,27 +1,4 @@
 <?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php
-
 class Header_Model extends CI_Model{
 
 	function __construct(){
@@ -29,54 +6,77 @@ class Header_Model extends CI_Model{
 	}
 		
 	function get_id_user($user=''){
-		$sql   = "SELECT id FROM user WHERE username=?";
+		$sql = "SELECT id FROM user WHERE username=?";
 		$query = $this->db->query($sql,$user);
 		$data = $query->row_array();
 		return $data['id'];
 	}	
-	
 	function get_data(){
-		$id = $_SESSION['user'];
-
-		//Get Last Login
-		//$sql = "SELECT DATE_FORMAT(last_login, '%d-%m-%Y') AS tgl, TIME(last_login) AS waktu FROM user WHERE id=?";
-		//$query = $this->db->query($sql, $id);
-		//$row = $query->row_array();
-		//$outp['last_login'] = nama_bulan($row['tgl']) .', '. $row['waktu'];
+	/*
+	 * global variabel
+	 * */
+		$outp["sasaran"] = array("1"=>"Penduduk","2"=>"Keluarga / KK","3"=>"Rumah Tangga","4"=>"Kelompok/Organisasi Kemasyarakatan");
 		
-		//Get Nama User
-		$sql   = "SELECT nama,foto FROM user WHERE id=?";
+		/*
+		 * Pembenahan per 13 Juli 15, sebelumnya ada notifikasi Error, saat $_SESSOIN['user'] nya kosong!
+		 * */
+		$id = @$_SESSION['user'];
+		$sql = "SELECT nama,foto FROM user WHERE id=?";
 		$query = $this->db->query($sql, $id);
-		$data  = $query->row_array();
-		$outp['nama'] = $data['nama'];
-		$outp['foto'] = $data['foto'];
+		if($query){
+			if($query->num_rows()>0){
+				$data = $query->row_array();
+				$outp['nama'] = $data['nama'];
+				$outp['foto'] = $data['foto'];
+			}
+		}
 		
-		
-		$sql   = "SELECT * FROM config WHERE 1";
+		$sql = "SELECT * FROM config WHERE 1";
 		$query = $this->db->query($sql);
 		$outp['desa'] = $query->row_array();
+
+
+		$sql = "SELECT COUNT(id) AS jml FROM komentar WHERE id_artikel=775 AND enabled = 2;";
+		$query = $this->db->query($sql);
+		$lap = $query->row_array();
+		$outp['lapor'] = $lap['jml'];
 		
-		//Get List Menu
-		//$sql   = "SELECT * FROM menu";
-		//$query = $this->db->query($sql);
-		//$data  = $query->result_array();
-		//$outp['menu'] = $data;
+		$sql = "SELECT * FROM setting_modul WHERE aktif =  1 AND level >= ?;";
+		$query = $this->db->query($sql,$_SESSION['grup']);
+		$modul = $query->result_array();
+		$outp['modul'] = $modul;
 		
-		//$outp['kont'] = 0;
-		
-		//if($aktif != 'kontribusi'){
-			///$sql   = "SELECT COUNT(id_pertanyaan) as jml FROM pertanyaan_baru WHERE id_user = ?";
-			//$query = $this->db->query($sql,$id);
-			//$data  = $query->row_array();
-			//$outp['kont'] = $data['jml'];
-		//}
 		return $outp;
 	}
 	
 	function get_config(){
-		$sql   = "SELECT * FROM config WHERE 1";
+		$sql = "SELECT * FROM config WHERE 1";
 		$query = $this->db->query($sql);
 		$outp['desa'] = $query->row_array();
 		return $outp;
+	}
+	
+	function init_penduduk(){
+		$i=1;
+		
+		$sql = "SELECT COUNT(id) AS jml FROM tweb_penduduk WHERE 1";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+		$i = $i*$data['jml'];
+		
+		$sql = "SELECT COUNT(id) AS jml FROM tweb_keluarga WHERE 1";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+		//$i = $i*$data['jml'];
+		
+		$sql = "SELECT COUNT(id) AS jml FROM tweb_wil_clusterdesa WHERE 1";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+		//$i = $i*$data['jml'];
+		
+		if($i > 0)
+			return 1;
+		else
+			return 0;
 	}
 }

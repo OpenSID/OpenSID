@@ -1,29 +1,5 @@
-<?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Analisis_grafik extends CI_Controller{
-
 	function __construct(){
 		parent::__construct();
 		session_start();
@@ -34,21 +10,17 @@ class Analisis_grafik extends CI_Controller{
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
 	}
-	
 	function clear($id=0){
 		$_SESSION['analisis_master']=$id;
 		unset($_SESSION['cari']);
 		redirect('analisis_grafik');
 	}
-	
 	function leave(){
 		$id=$_SESSION['analisis_master'];
 		unset($_SESSION['analisis_master']);
 		redirect("analisis_master/menu/$id");
 	}
-	
 	function index($p=1,$o=0){
-	
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
@@ -86,7 +58,6 @@ class Analisis_grafik extends CI_Controller{
 		$data['main']    = $this->analisis_grafik_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_grafik_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_grafik_model->get_analisis_master();
-
 		$header = $this->header_model->get_data();
 		
 		$this->load->view('header', $header);
@@ -94,9 +65,7 @@ class Analisis_grafik extends CI_Controller{
 		$this->load->view('analisis_grafik/table',$data);
 		$this->load->view('footer');
 	}
-	
 	function time($p=1,$o=0){
-	
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
@@ -114,7 +83,6 @@ class Analisis_grafik extends CI_Controller{
 		$data['keyword'] = $this->analisis_grafik_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_grafik_model->get_analisis_master();
 		$data['periode'] = $this->analisis_grafik_model->list_periode();
-
 		$header = $this->header_model->get_data();
 		
 		$this->load->view('header', $header);
@@ -122,7 +90,6 @@ class Analisis_grafik extends CI_Controller{
 		$this->load->view('analisis_grafik/time',$data);
 		$this->load->view('footer');
 	}
-
 	function dusun(){
 		unset($_SESSION['rw']);
 		unset($_SESSION['rt']);
@@ -132,7 +99,6 @@ class Analisis_grafik extends CI_Controller{
 		else unset($_SESSION['dusun']);
 		redirect('analisis_grafik');
 	}
-	
 	function rw(){
 		unset($_SESSION['rt']);
 		$rw = $this->input->post('rw');
@@ -141,7 +107,6 @@ class Analisis_grafik extends CI_Controller{
 		else unset($_SESSION['rw']);
 		redirect('analisis_grafik');
 	}
-	
 	function rt(){
 		$rt = $this->input->post('rt');
 		if($rt!="")
@@ -149,7 +114,6 @@ class Analisis_grafik extends CI_Controller{
 		else unset($_SESSION['rt']);
 		redirect('analisis_grafik');
 	}
-	
 	function search(){
 		$cari = $this->input->post('cari');
 		if($cari!='')

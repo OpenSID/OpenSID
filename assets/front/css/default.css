@@ -20,9 +20,10 @@
 		
 		
 		/* Subnavigation */
+		#global-nav.top ul{background: #ec6216!important;}
+		#global-nav.main ul{background: #5494df!important;}
 		#global-nav ul {
 			z-index:99999999;
-			background: url(images/subnav_bg.png) no-repeat center top;
 			display: none;
 			left: -15px;
 			padding-top: 11px;

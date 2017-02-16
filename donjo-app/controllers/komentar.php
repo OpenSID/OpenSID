@@ -1,29 +1,5 @@
-<?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 class komentar extends CI_Controller{
-
 	function __construct(){
 		parent::__construct();
 		session_start();
@@ -32,17 +8,13 @@ class komentar extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
-
 	}
-	
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		redirect('komentar');
 	}
-	
 	function index($p=1,$o=0){
-	
 		$data['p']        = $p;
 		$data['o']        = $o;
 		
@@ -53,7 +25,6 @@ class komentar extends CI_Controller{
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
-	
 		if(isset($_POST['per_page'])) 
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
@@ -61,7 +32,6 @@ class komentar extends CI_Controller{
 		$data['paging']  = $this->web_komentar_model->paging($p,$o);
 		$data['main']    = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
-
 		$header = $this->header_model->get_data();
 		$nav['act']=2;
 		
@@ -70,9 +40,7 @@ class komentar extends CI_Controller{
 		$this->load->view('komentar/table',$data);
 		$this->load->view('footer');
 	}
-	
 	function form($p=1,$o=0,$id=''){
-	
 		$data['p'] = $p;
 		$data['o'] = $o;
 		
@@ -96,7 +64,6 @@ class komentar extends CI_Controller{
 		$this->load->view('komentar/form',$data);
 		$this->load->view('footer');
 	}
-
 	function search(){
 		$cari = $this->input->post('cari');
 		if($cari!='')
@@ -104,7 +71,6 @@ class komentar extends CI_Controller{
 		else unset($_SESSION['cari']);
 		redirect('komentar');
 	}
-	
 	function filter(){
 		$filter = $this->input->post('filter');
 		if($filter!=0)
@@ -112,32 +78,26 @@ class komentar extends CI_Controller{
 		else unset($_SESSION['filter']);
 		redirect('komentar');
 	}
-	
 	function insert(){
 		$this->web_komentar_model->insert();
 		redirect('komentar');
 	}
-	
 	function update($id='',$p=1,$o=0){
 		$this->web_komentar_model->update($id);
 		redirect("komentar/index/$p/$o");
 	}
-	
 	function delete($p=1,$o=0,$id=''){
 		$this->web_komentar_model->delete($id);
 		redirect("komentar/index/$p/$o");
 	}
-	
 	function delete_all($p=1,$o=0){
 		$this->web_komentar_model->delete_all();
 		redirect("komentar/index/$p/$o");
 	}
-	
 	function komentar_lock($id=''){
 		$this->web_komentar_model->komentar_lock($id,1);
 		redirect("komentar/index/$p/$o");
 	}
-
 	function komentar_unlock($id=''){
 		$this->web_komentar_model->komentar_lock($id,2);
 		redirect("komentar/index/$p/$o");

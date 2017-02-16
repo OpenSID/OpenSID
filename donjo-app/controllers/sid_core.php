@@ -1,29 +1,5 @@
-<?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Sid_Core extends CI_Controller{
-
 function __construct(){
 		parent::__construct();
 		session_start();
@@ -40,9 +16,7 @@ function __construct(){
 		unset($_SESSION['filter']);
 		redirect('sid_core');
 	}
-	
 	function index($p=1,$o=0){
-	
 		$data['p']        = $p;
 		$data['o']        = $o;
 		
@@ -53,7 +27,6 @@ function __construct(){
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
-	
 		if(isset($_POST['per_page'])) 
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
@@ -62,29 +35,23 @@ function __construct(){
 		$data['main']    = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->wilayah_model->autocomplete();
 		$data['total'] = $this->wilayah_model->total();
-
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah',$data);
 		$this->load->view('footer');
 	}
-
 	function cetak(){
 		$data['desa'] = $this->header_model->get_data();
 		$data['main']    = $this->wilayah_model->list_data(0,0,1000);
 		$data['total'] = $this->wilayah_model->total();
-
 		$this->load->view('sid/wilayah/wilayah_print',$data);
 	}
-
 	function excel(){
-
 		$data['desa'] = $this->header_model->get_data();
 		$data['main']    = $this->wilayah_model->list_data(0,0,1000);
 		$data['total'] = $this->wilayah_model->total();
-
 		$this->load->view('sid/wilayah/wilayah_excel',$data);
 	}
 		
@@ -111,12 +78,11 @@ function __construct(){
 		
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form',$data);
 		$this->load->view('footer');
 	}
-
 	function search(){
 		$cari = $this->input->post('cari');
 		if($cari!='')
@@ -124,67 +90,53 @@ function __construct(){
 		else unset($_SESSION['cari']);
 		redirect('sid_core');
 	}
-	
 	function insert($dusun=''){
-	
 		$this->wilayah_model->insert();
 		redirect('sid_core');
 	}
-	
 	function update($id=''){
 		$this->wilayah_model->update($id);
 		redirect('sid_core');
 	}
-	
 	function delete($id=''){
 		$this->wilayah_model->delete($id);
 		redirect('sid_core');
 	}
-	
 	function delete_all(){
 		$this->wilayah_model->delete_all();
 		redirect('sid_core');
 	}	
-	
 	function sub_rw($id_dusun=''){
-	
 		$dusun = $this->wilayah_model->cluster_by_id($id_dusun);
 		$nama_dusun  = $dusun['dusun'];
 		$data['dusun']  = $dusun['dusun'];
 		$data['id_dusun']  = $id_dusun;
 		$data['main']     = $this->wilayah_model->list_data_rw($id_dusun );
 		$data['total']     = $this->wilayah_model->total_rw($nama_dusun );
-
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_rw',$data);
 		$this->load->view('footer');
 	}
-	
 		
 	function cetak_rw($id_dusun=''){
-	
 		$dusun = $this->wilayah_model->cluster_by_id($id_dusun);
 		$nama_dusun  = $dusun['dusun'];
 		$data['dusun']  = $dusun['dusun'];
 		$data['id_dusun']  = $id_dusun;
 		$data['main']     = $this->wilayah_model->list_data_rw($id_dusun );
 		$data['total']     = $this->wilayah_model->total_rw($nama_dusun );
-
 		$this->load->view('sid/wilayah/wilayah_rw_print',$data);
 	}
-
 	function excel_rw($id_dusun=''){
-	
 		$dusun = $this->wilayah_model->cluster_by_id($id_dusun);
 		$nama_dusun  = $dusun['dusun'];
 		$data['dusun']  = $dusun['dusun'];
 		$data['id_dusun']  = $id_dusun;
 		$data['main']     = $this->wilayah_model->list_data_rw($id_dusun );
 		$data['total']     = $this->wilayah_model->total_rw($nama_dusun );
-
 		$this->load->view('sid/wilayah/wilayah_rw_excel',$data);
 	}
 			
@@ -216,7 +168,7 @@ function __construct(){
 		
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form_rw',$data);
 		$this->load->view('footer');
@@ -236,14 +188,12 @@ function __construct(){
 		$this->wilayah_model->delete_rw($id);
 		redirect("sid_core/sub_rw/$id_dusun");
 	}
-	
 	function delete_all_rw($dusun=''){
 		$this->wilayah_model->delete_all_rw();
 		redirect("sid_core/sub_rw/$dusun");
 	}	
 		
 	function sub_rt($id_dusun='',$rw=''){
-	
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun    				= $temp['dusun'];
 		$data['dusun']    		= $temp['dusun'];
@@ -252,17 +202,15 @@ function __construct(){
 		$data['rw']       = $rw;
 		$data['main']     = $this->wilayah_model->list_data_rt($dusun,$rw);
 		$data['total']     = $this->wilayah_model->total_rt($dusun,$rw);
-
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_rt',$data);
 		$this->load->view('footer');
 	}
 			
 	function cetak_rt($id_dusun='',$rw=''){
-	
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun    = $temp['dusun'];
 		$data['dusun']    = $temp['dusun'];
@@ -271,12 +219,9 @@ function __construct(){
 		$data['rw']       = $rw;
 		$data['main']     = $this->wilayah_model->list_data_rt($dusun,$rw);
 		$data['total']     = $this->wilayah_model->total_rt($dusun,$rw);
-
 		$this->load->view('sid/wilayah/wilayah_rt_print',$data);
 	}
-
 	function excel_rt($id_dusun='',$rw=''){
-	
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun    = $temp['dusun'];
 		$data['dusun']    = $temp['dusun'];
@@ -285,19 +230,15 @@ function __construct(){
 		$data['rw']       = $rw;
 		$data['main']     = $this->wilayah_model->list_data_rt($dusun,$rw);
 		$data['total']     = $this->wilayah_model->total_rt($dusun,$rw);
-
 		$this->load->view('sid/wilayah/wilayah_rt_excel',$data);
 	}
-	
 	function list_dusun_rt($dusun='',$rw=''){
-	
 		$data['dusun']    = $dusun;
 		$data['rw']       = $rw;
 		$data['main']     = $this->wilayah_model->list_data_rt($dusun,$rw);
-
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/list_dusun_rt',$data);
 		$this->load->view('footer');
@@ -314,7 +255,6 @@ function __construct(){
 		$data['penduduk'] = $this->wilayah_model->list_penduduk();
 		
 		if($rt){
-
 			$temp2 = $this->wilayah_model->cluster_by_id($rt);
 			$id_cluster=$temp2['id'];
 			$data['rt'] =$temp2['rt'];
@@ -334,7 +274,7 @@ function __construct(){
 		
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form_rt',$data);
 		$this->load->view('footer');
@@ -342,7 +282,6 @@ function __construct(){
 		
 	function insert_rt($dusun='',$rw=''){
 		$this->wilayah_model->insert_rt($dusun,$rw);
-	
 		redirect("sid_core/sub_rt/$dusun/$rw");
 	}
 			
@@ -359,7 +298,6 @@ function __construct(){
 		$this->wilayah_model->delete_rt($id_cluster);
 		echo "<script>self.history.back();self.history.back();</script>";
 	}
-	
 	function delete_all_rt(){
 		$temp = $this->wilayah_model->cluster_by_id($id_cluster);
 		$id_dusun=$temp['id'];
@@ -368,16 +306,12 @@ function __construct(){
 		$this->wilayah_model->delete_all_rt();
 		redirect("sid_core");
 	}	
-	
 	function cetakx(){
-
 		$data['input'] = $_POST;
 		$data['tanggal_sekarang'] = tgl_indo(date("Y m d"));
 		$data['total'] = $this->wilayah_model->total();
 	        $this->surat_keluar_model->log_surat($f,$id,$g,$u);
-	
 		$this->load->view('surat/print_surat_ket_pengantar',$data);
-	
 	}
 		
 	function ajax_wil_maps($id=0){
@@ -392,7 +326,6 @@ function __construct(){
 		$this->wilayah_model->update_dusun_map($id);
 		redirect("sid_core");
 	}
-	
 	function ajax_rw_maps($dus=0,$id=0){
 		$data['dusun'] = $this->wilayah_model->get_rw($dus,$id);
 		$data['desa'] = $this->config_model->get_data();
@@ -420,7 +353,6 @@ function __construct(){
 	}
 			
 	function warga($id=''){
-	
 	        $temp = $this->wilayah_model->cluster_by_id($id);
 		$id_dusun=$temp['id'];
 		$dusun=$temp['dusun'];
@@ -429,7 +361,6 @@ function __construct(){
 		$_SESSION['dusun'] = $dusun;
 		redirect("penduduk/index/1/0");
 	}
-	
 	function warga_kk($id=''){
 	        $temp = $this->wilayah_model->cluster_by_id($id);
 	        $id_dusun=$temp['id'];
@@ -438,7 +369,6 @@ function __construct(){
 		$_SESSION['dusun'] = $dusun;
 		redirect("keluarga/index/1/0");
 	}
-	
 	function warga_l($id=''){
 	        $temp = $this->wilayah_model->cluster_by_id($id);
 		$id_dusun=$temp['id'];
@@ -449,7 +379,6 @@ function __construct(){
 		$_SESSION['sex'] = 1;
 		redirect("penduduk/index/1/0");
 	}
-	
 	function warga_p($id=''){
 	        $temp = $this->wilayah_model->cluster_by_id($id);
 		$id_dusun=$temp['id'];
@@ -474,15 +403,13 @@ function __construct(){
 		
 		redirect("penduduk/clear");
 	}
-
 	function pre_migrate(){
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
+		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/mig');
 		$this->load->view('footer');
 	}
 			
-	
 }

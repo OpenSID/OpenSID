@@ -1,4 +1,4 @@
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?php echo $form_action?>" method="post" id="validasi">
 <table style="width:100%">
 <tr>
 <th align="left" width="120">Nama Kategori</th>
@@ -8,9 +8,9 @@
 </tr>
 </table>
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
-    <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$('#window').dialog('close');">Tutup</button>
-        <button class="uibutton confirm" type="submit">Simpan</button>
-    </div>
+ <div class="uibutton-group">
+ <button class="uibutton" type="button" onclick="$('#window').dialog('close');">Tutup</button>
+ <button class="uibutton confirm" type="submit">Simpan</button>
+ </div>
 </div>
 </form>

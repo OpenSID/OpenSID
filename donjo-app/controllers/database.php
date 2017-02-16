@@ -1,29 +1,5 @@
-<?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Database extends CI_Controller{
-
 	function __construct(){
 		parent::__construct();
 		session_start();
@@ -37,15 +13,12 @@ class Database extends CI_Controller{
 		$this->load->model('export_model');
 		
 	}
-	
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		redirect('export');
 	}
-	
 	function index(){
-	
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
@@ -53,20 +26,37 @@ class Database extends CI_Controller{
 		$this->load->view('export/exp');
 		$this->load->view('footer');
 	}
-	
 	function import(){
-	
 		$nav['act']= 2;
 		$data['form_action'] = site_url("database/import_dasar");
+		$data['form_action2'] = site_url("database/import_siak");
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('import/imp',$data);
 		$this->load->view('footer');
 	}
-	
+	function siak(){
+		$nav['act']= 6;
+		$data['form_action'] = site_url("database/import_siak");
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('import/siak',$data);
+		$this->load->view('footer');
+	}
+	function import_ppls(){
+		$nav['act']= 4;
+		$data['form_action3'] = site_url("database/ppls_individu");
+		$data['form_action2'] = site_url("database/ppls_rumahtangga");
+		//$data['form_action'] = site_url("database/ppls_kuisioner");
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('import/ppls',$data);
+		$this->load->view('footer');
+	}
 	function backup(){
-	
 		$nav['act']= 3;
 		$data['form_action'] = site_url("database/restore");
 		$header = $this->header_model->get_data();
@@ -75,16 +65,12 @@ class Database extends CI_Controller{
 		$this->load->view('database/backup',$data);
 		$this->load->view('footer');
 	}
-	
-	
 	function export_dasar(){
 		$this->export_model->export_dasar();
 	}
-	
 	function export_akp(){
 		$this->export_model->export_akp();
 	}
-	
 	function import2(){
 		$nav['act']= 2;
 		$data['form_action'] = site_url("database/import_dasar");
@@ -96,7 +82,6 @@ class Database extends CI_Controller{
 		$this->load->view('footer');
 		
 	}
-	
 	function pre_migrate(){
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
@@ -105,10 +90,7 @@ class Database extends CI_Controller{
 		$this->load->view('export/mig');
 		$this->load->view('footer');
 	}
-	
 	function migrate(){
-		//$this->wilayah_model->migrate();
-		
 		$this->dbforge->drop_table('tweb_dusun_x');
 		$this->dbforge->drop_table('tweb_rw_x');
 		$this->dbforge->drop_table('tweb_rt_x');
@@ -117,36 +99,65 @@ class Database extends CI_Controller{
 		$this->dbforge->drop_table('tweb_penduduk_x');
 		$this->dbforge->drop_table('tweb_penduduk_x_pindah');
 	}
-
 	function import_dasar(){
 		$this->import_model->import_excel();
 		redirect('database/import/1');
-		//import_das();
+		
 	}
-	
+	function ppls_kuisioner(){
+		$this->import_model->ppls_kuisioner();
+		redirect('database/import_ppls/1');
+		
+	}
+	function ppls_individu(){
+		$this->import_model->pbdt_individu();
+		//redirect('database/import_ppls');
+		
+	}
+	function ppls_rumahtangga(){
+		$this->import_model->pbdt_rumahtangga();
+		redirect('database/import_ppls/1');
+		
+	}
+	function import_siak(){
+		$data["siak"] = $this->import_model->import_siak();
+		$_SESSION["SIAK"] = $data["siak"];
+		redirect('database/import/3');
+	}
 	function import_akp(){
 		$this->import_model->import_akp();
 		redirect('database/import');
 	}
-
 	function jos(){
 		$this->export_model->analisis();
 		redirect('database/import');
 	}
-
-	function exec_backup(){
-		$this->export_model->backup();
+	function jos2(){
+		$this->export_model->analisis2();
+		redirect('database/import');
+	}
+	function exec_backup(){;
+		$this->load->view('database/export');
 	//	redirect('database/backup');
 	}
-
 	function restore(){
 		$this->export_model->restore();
 	//	redirect('database/backup');
 	}
-
 	function ces(){
 		$this->export_model->lombok();
 		redirect('database/import');
 	}
-
+	function surat(){
+		$this->export_model->gawe_surat();
+		//redirect('database/import');
+	}
+	function export_excel(){
+		$data['main'] = $this->export_model->export_excel();
+		$this->load->view('export/penduduk_excel',$data);
+	}
+	function export_csv(){
+		$data['main'] = $this->export_model->export_excel();
+		$this->load->view('export/penduduk_csv',$data);
+	}
 }

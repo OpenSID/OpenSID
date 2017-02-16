@@ -1,29 +1,5 @@
-<?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 class penduduk_log extends CI_Controller{
-
 	function __construct(){
 		parent::__construct();
 		session_start();
@@ -35,7 +11,6 @@ class penduduk_log extends CI_Controller{
 		$this->load->model('header_model');
 		
 	}
-	
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
@@ -54,10 +29,8 @@ class penduduk_log extends CI_Controller{
 		$_SESSION['log'] = 1;
 		redirect('penduduk_log');
 	}
-	
 	function index($p=1,$o=0){
 		$_SESSION['log'] = 1;
-	
 		$data['p']        = $p;
 		$data['o']        = $o;
 		
@@ -68,7 +41,6 @@ class penduduk_log extends CI_Controller{
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
-	
 		if(isset($_SESSION['sex']))
 			$data['sex'] = $_SESSION['sex'];
 		else $data['sex'] = '';
@@ -95,19 +67,15 @@ class penduduk_log extends CI_Controller{
 		if(isset($_SESSION['agama']))
 			$data['agama'] = $_SESSION['agama'];
 		else $data['agama'] = '';
-
 		if(isset($_SESSION['pekerjaan_id']))
 			$data['pekerjaan_id'] = $_SESSION['pekerjaan_id'];
 		else $data['pekerjaan_id'] = '';
-
 		if(isset($_SESSION['status']))
 			$data['status'] = $_SESSION['status'];
 		else $data['status'] = '';
-
 		if(isset($_SESSION['pendidikan_id']))
 			$data['pendidikan_id'] = $_SESSION['pendidikan_id'];
 		else $data['pendidikan_id'] = '';
-
 		if(isset($_SESSION['status_penduduk']))
 			$data['status_penduduk'] = $_SESSION['status_penduduk'];
 		else $data['status_penduduk'] = '';
@@ -130,7 +98,6 @@ class penduduk_log extends CI_Controller{
 		$this->load->view('sid/kependudukan/penduduk_log',$data);
 		$this->load->view('footer');
 	}
-	
 	function search(){
 		$cari = $this->input->post('cari');
 		if($cari!='')
@@ -138,7 +105,6 @@ class penduduk_log extends CI_Controller{
 		else unset($_SESSION['cari']);
 		redirect('penduduk_log');
 	}
-	
 	function filter(){
 		$filter = $this->input->post('filter');
 		if($filter!="")
@@ -146,7 +112,6 @@ class penduduk_log extends CI_Controller{
 		else unset($_SESSION['filter']);
 		redirect('penduduk_log');
 	}
-	
 	function sex(){
 		$sex = $this->input->post('sex');
 		if($sex!="")
@@ -154,7 +119,6 @@ class penduduk_log extends CI_Controller{
 		else unset($_SESSION['sex']);
 		redirect('penduduk_log');
 	}
-	
 	function agama(){
 		$agama = $this->input->post('agama');
 		if($agama!="")
@@ -162,7 +126,6 @@ class penduduk_log extends CI_Controller{
 		else unset($_SESSION['agama']);
 		redirect('penduduk_log');
 	}
-	
 	function dusun(){
 		$dusun = $this->input->post('dusun');
 		if($dusun!="")
@@ -170,7 +133,6 @@ class penduduk_log extends CI_Controller{
 		else unset($_SESSION['dusun']);
 		redirect('penduduk_log');
 	}
-	
 	function rw(){
 		$rw = $this->input->post('rw');
 		if($rw!="")
@@ -178,7 +140,6 @@ class penduduk_log extends CI_Controller{
 		else unset($_SESSION['rw']);
 		redirect('penduduk_log');
 	}
-	
 	function rt(){
 		$rt = $this->input->post('rt');
 		if($rt!="")
@@ -186,7 +147,6 @@ class penduduk_log extends CI_Controller{
 		else unset($_SESSION['rt']);
 		redirect('penduduk_log');
 	}
-	
 	function edit_status_dasar($p=1,$o=0,$id=0){
 	$data['nik']          = $this->penduduk_model->get_penduduk($id);
 		$data['form_action'] = site_url("penduduk_log/update_status_dasar/$p/$o/$id");
@@ -199,12 +159,9 @@ class penduduk_log extends CI_Controller{
 	}
 		
 	function cetak($o=0){
-
 		$data['main']    = $this->penduduk_model->list_data($o,0, 10000);
-
 		$this->load->view('sid/kependudukan/penduduk_print',$data);
 	}
-	
 	function delete_all($p=1,$o=0){
 	$this->penduduk_model->delete_all();
 		redirect("penduduk_log/index/$p/$o");

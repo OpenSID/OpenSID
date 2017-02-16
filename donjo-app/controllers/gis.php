@@ -1,7 +1,5 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Gis extends CI_Controller{
-
 	function __construct(){
 		parent::__construct();
 		session_start();
@@ -16,17 +14,10 @@ class Gis extends CI_Controller{
 		
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
-		//$this->output->enable_profiler(1);
-		// Load library ion auth
-//		$this->load->library('ion_auth');
-//		$this->load->library('session');
-//		$this->load->library('form_validation');
-//		$this->load->helper('url');
-//		
-//		$this->config->item('ion_auth') ;
+		
+		
 		$this->load->database();
 	}
-	
 	function clear(){
 		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
@@ -57,9 +48,7 @@ class Gis extends CI_Controller{
 		$_SESSION['layer_keluarga'] == 0;
 		redirect('gis');
 	}
-	
 function index(){
-
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
@@ -67,7 +56,6 @@ function index(){
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
-	
 		if(isset($_SESSION['sex']))
 			$data['sex'] = $_SESSION['sex'];
 		else $data['sex'] = '';
@@ -119,7 +107,7 @@ function index(){
 			$data['layer_line']=$_SESSION['layer_line'];
 		else $data['layer_line']=0;
 		
-		$data['layer_point']=$_SESSION['layer_point'];
+		$data['layer_point']=@$_SESSION['layer_point'];
 		
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
@@ -129,17 +117,15 @@ function index(){
 		$data['lokasi']  = $this->plan_lokasi_model->list_data();
 		$data['garis']  = $this->plan_garis_model->list_data();
 		$data['area']  = $this->plan_area_model->list_data();
-		$data['penduduk'] = $this->penduduk_model->list_data();
+		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$header = $this->header_model->get_data();
-		//$header ['desa']= $this->header_model->get_data();
+		
 		$this->load->view('gis/header', $header);
 		$this->load->view('gis/maps',$data);
 		$this->load->view('footer');
         
 	}
-
-
 	function search(){
 		$cari = $this->input->post('cari');
 		if($cari!='')
@@ -147,7 +133,6 @@ function index(){
 		else unset($_SESSION['cari']);
 		redirect('gis');
 	}
-	
 	function filter(){
 		$filter = $this->input->post('filter');
 		if($filter!="")
@@ -155,7 +140,6 @@ function index(){
 		else unset($_SESSION['filter']);
 		redirect('gis');
 	}
-	
 	function layer_penduduk(){
 		$layer_penduduk = $this->input->post('layer_penduduk');
 		if($layer_penduduk=="")
@@ -166,7 +150,6 @@ function index(){
 			}
 		redirect('gis');
 	}
-	
 	function layer_wilayah(){
 		$layer_wilayah = $this->input->post('layer_wilayah');
 		if($layer_wilayah=="")
@@ -174,7 +157,6 @@ function index(){
 		else $_SESSION['layer_wilayah']=1;
 		redirect('gis');
 	}
-	
 	function layer_area(){
 		$layer_area = $this->input->post('layer_area');
 		if($layer_area=="")
@@ -182,7 +164,6 @@ function index(){
 		else $_SESSION['layer_area']=1;
 		redirect('gis');
 	}
-	
 	function layer_line(){
 		$layer_line = $this->input->post('layer_line');
 		if($layer_line=="")
@@ -190,7 +171,6 @@ function index(){
 		else $_SESSION['layer_line']=1;
 		redirect('gis');
 	}
-	
 	function layer_point(){
 		$layer_point = $this->input->post('layer_point');
 		if($layer_point=="")
@@ -198,7 +178,6 @@ function index(){
 		else $_SESSION['layer_point']=1;
 		redirect('gis');
 	}
-	
 	function layer_keluarga(){
 		$layer_keluarga = $this->input->post('layer_keluarga');
 		if($layer_keluarga==""){
@@ -209,7 +188,6 @@ function index(){
 		}
 		redirect('gis');
 	}
-	
 	function layer_desa(){
 		$layer_desa = $this->input->post('layer_desa');
 		if($layer_desa=="")
@@ -217,7 +195,6 @@ function index(){
 		else $_SESSION['layer_desa']=1;
 		redirect('gis');
 	}
-	
 	function sex(){
 		$sex = $this->input->post('sex');
 		if($sex!="")
@@ -225,7 +202,6 @@ function index(){
 		else unset($_SESSION['sex']);
 		redirect('gis');
 	}
-	
 	function dusun(){
 		$dusun = $this->input->post('dusun');
 		if($dusun!="")
@@ -233,7 +209,6 @@ function index(){
 		else unset($_SESSION['dusun']);
 		redirect('gis');
 	}
-	
 	function rw(){
 		$rw = $this->input->post('rw');
 		if($rw!="")
@@ -241,7 +216,6 @@ function index(){
 		else unset($_SESSION['rw']);
 		redirect('gis');
 	}
-	
 	function rt(){
 		$rt = $this->input->post('rt');
 		if($rt!="")
@@ -249,7 +223,6 @@ function index(){
 		else unset($_SESSION['rt']);
 		redirect('gis');
 	}
-	
 	function agama(){
 		$agama = $this->input->post('agama');
 		if($agama!="")
@@ -257,19 +230,15 @@ function index(){
 		else unset($_SESSION['agama']);
 		redirect('gis');
 	}
-	
 	function ajax_adv_search(){
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['form_action'] = site_url("gis/adv_search_proses");
-	
 		$this->load->view("gis/ajax_adv_search_form", $data);
 	}
-
 	function adv_search_proses(){
-	
 		$adv_search = $_POST;
 		$i=0;
 		while($i++ < count($adv_search)){

@@ -1,37 +1,11 @@
-<?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-onpolygon/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php
-
-class plan_polygon_model extends CI_Model{
-
+<?php class plan_polygon_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}
-	
 	function autocomplete(){
-		$sql   = "SELECT nama FROM polygon";
+		$sql = "SELECT nama FROM polygon";
 		$query = $this->db->query($sql);
-		$data  = $query->result_array();
+		$data = $query->result_array();
 		
 		$i=0;
 		$outp='';
@@ -43,7 +17,6 @@ class plan_polygon_model extends CI_Model{
 		$outp = '[' .$outp. ']';
 		return $outp;
 	}
-	
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
 		$cari = $_SESSION['cari'];
@@ -53,7 +26,6 @@ class plan_polygon_model extends CI_Model{
 			return $search_sql;
 			}
 		}
-	
 	function filter_sql(){		
 		if(isset($_SESSION['filter'])){
 			$kf = $_SESSION['filter'];
@@ -61,26 +33,22 @@ class plan_polygon_model extends CI_Model{
 		return $filter_sql;
 		}
 	}
-	
 	function paging($p=1,$o=0){
-	
-		$sql      = "SELECT COUNT(id) AS id FROM polygon  WHERE tipe = 0 ";
-		$sql     .= $this->search_sql();     
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
+		$sql = "SELECT COUNT(id) AS id FROM polygon WHERE tipe = 0 ";
+		$sql .= $this->search_sql(); 
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
 		$jml_data = $row['id'];
 		
 		$this->load->library('paging');
-		$cfg['page']     = $p;
+		$cfg['page'] = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 		
 		return $this->paging;
 	}
-	
 	function list_data($o=0,$offset=0,$limit=500){
-	
 		switch($o){
 			case 1: $order_sql = ' ORDER BY nama'; break;
 			case 2: $order_sql = ' ORDER BY nama DESC'; break;
@@ -88,10 +56,9 @@ class plan_polygon_model extends CI_Model{
 			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
 			default:$order_sql = ' ORDER BY id';
 		}
-	
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
-		$sql   = "SELECT * FROM polygon WHERE tipe = 0  ";
+		$sql = "SELECT * FROM polygon WHERE tipe = 0 ";
 			
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
@@ -116,33 +83,30 @@ class plan_polygon_model extends CI_Model{
 		}
 		return $data;
 	}
-	
-
 	function insert(){
 				$data = $_POST;
-		  $lokasi_file = $_FILES['simbol']['tmp_name'];
-		  $tipe_file   = $_FILES['simbol']['type'];
-		  $nama_file   = $_FILES['simbol']['name'];
-		  if (!empty($lokasi_file)){
+		 $lokasi_file = $_FILES['simbol']['tmp_name'];
+		 $tipe_file = $_FILES['simbol']['type'];
+		 $nama_file = $_FILES['simbol']['name'];
+		 if (!empty($lokasi_file)){
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif"){
 				UploadSimbol($nama_file);
 				$data['simbol'] = $nama_file;
 				$outp = $this->db->insert('polygon',$data);
 			}
-		  }else {
+		 }else {
 				unset($data['simbol']);
 				$outp = $this->db->insert('polygon',$data);
 			}
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function update($id=0){
-		  $data = $_POST;
-		  $lokasi_file = $_FILES['simbol']['tmp_name'];
-		  $tipe_file   = $_FILES['simbol']['type'];
-		  $nama_file   = $_FILES['simbol']['name'];
-		  if (!empty($lokasi_file)){
+		 $data = $_POST;
+		 $lokasi_file = $_FILES['simbol']['tmp_name'];
+		 $tipe_file = $_FILES['simbol']['type'];
+		 $nama_file = $_FILES['simbol']['name'];
+		 if (!empty($lokasi_file)){
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif"){
 				UploadSimbol($nama_file);
 				$data['simbol'] = $nama_file;
@@ -150,30 +114,27 @@ class plan_polygon_model extends CI_Model{
 				$outp = $this->db->update('polygon',$data);
 			}
 			$_SESSION['success']=1;
-		  }
+		 }
 			
 			unset($data['simbol']);
 			$this->db->where('id',$id);
 			$outp = $this->db->update('polygon',$data);
-	
 	if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 }
-	
 	function delete($id=''){
-		$sql  = "DELETE FROM polygon WHERE id=?";
+		$sql = "DELETE FROM polygon WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
 		
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function delete_all(){
 		$id_cb = $_POST['id_cb'];
 		
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM polygon WHERE id=?";
+				$sql = "DELETE FROM polygon WHERE id=?";
 				$outp = $this->db->query($sql,array($id));
 			}
 		}
@@ -184,8 +145,7 @@ class plan_polygon_model extends CI_Model{
 	}
 		
 	function list_sub_polygon($polygon=1){
-	
-		$sql   = "SELECT * FROM polygon WHERE parrent = ? AND tipe = 2 ";
+		$sql = "SELECT * FROM polygon WHERE parrent = ? AND tipe = 2 ";
 			
 		$query = $this->db->query($sql,$polygon);
 		$data=$query->result_array();
@@ -203,12 +163,11 @@ class plan_polygon_model extends CI_Model{
 		}
 		return $data;
 	}
-
 	function insert_sub_polygon($parrent=0){
-		  $lokasi_file = $_FILES['simbol']['tmp_name'];
-		  $tipe_file   = $_FILES['simbol']['type'];
-		  $nama_file   = $_FILES['simbol']['name'];
-		  if (!empty($lokasi_file)){
+		 $lokasi_file = $_FILES['simbol']['tmp_name'];
+		 $tipe_file = $_FILES['simbol']['type'];
+		 $nama_file = $_FILES['simbol']['name'];
+		 if (!empty($lokasi_file)){
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif"){
 				UploadSimbol($nama_file);
 				$data = $_POST;
@@ -220,7 +179,7 @@ class plan_polygon_model extends CI_Model{
 			} else {
 				$_SESSION['success']=-1;
 			}
-		  }else{
+		 }else{
 			$data = $_POST;
 			unset($data['simbol']);
 			$data['parrent'] = $parrent;
@@ -230,13 +189,12 @@ class plan_polygon_model extends CI_Model{
 	if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function update_sub_polygon($id=0){
-		  $data = $_POST;
-		  $lokasi_file = $_FILES['simbol']['tmp_name'];
-		  $tipe_file   = $_FILES['simbol']['type'];
-		  $nama_file   = $_FILES['simbol']['name'];
-		  if (!empty($lokasi_file)){
+		 $data = $_POST;
+		 $lokasi_file = $_FILES['simbol']['tmp_name'];
+		 $tipe_file = $_FILES['simbol']['type'];
+		 $nama_file = $_FILES['simbol']['name'];
+		 if (!empty($lokasi_file)){
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif"){
 				UploadSimbol($nama_file);
 				$data['simbol'] = $nama_file;
@@ -244,7 +202,7 @@ class plan_polygon_model extends CI_Model{
 				$outp = $this->db->update('polygon',$data);
 			}
 			$_SESSION['success']=1;
-		  }else{
+		 }else{
 			
 			unset($data['simbol']);
 			$this->db->where('id',$id);
@@ -253,21 +211,19 @@ class plan_polygon_model extends CI_Model{
 	if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 }
-	
 	function delete_sub_polygon($id=''){
-		$sql  = "DELETE FROM polygon WHERE id=?";
+		$sql = "DELETE FROM polygon WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
 		
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function delete_all_sub_polygon(){
 		$id_cb = $_POST['id_cb'];
 		
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM polygon WHERE id=?";
+				$sql = "DELETE FROM polygon WHERE id=?";
 				$outp = $this->db->query($sql,array($id));
 			}
 		}
@@ -276,10 +232,9 @@ class plan_polygon_model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function polygon_lock($id='',$val=0){
 		
-		$sql  = "UPDATE polygon SET enabled=? WHERE id=?";
+		$sql = "UPDATE polygon SET enabled=? WHERE id=?";
 		$outp = $this->db->query($sql, array($val,$id));
 		
 		if($outp) $_SESSION['success']=1;
@@ -287,25 +242,21 @@ class plan_polygon_model extends CI_Model{
 	}
 		
 	function get_polygon($id=0){
-		$sql   = "SELECT * FROM polygon WHERE id=?";
+		$sql = "SELECT * FROM polygon WHERE id=?";
 		$query = $this->db->query($sql,$id);
-		$data  = $query->row_array();
+		$data = $query->row_array();
 		return $data;
 	}
-
 	function polygon_show(){
-		$sql   = "SELECT * FROM polygon WHERE enabled=?";
+		$sql = "SELECT * FROM polygon WHERE enabled=?";
 		$query = $this->db->query($sql,1);
-		$data  = $query->result_array();
+		$data = $query->result_array();
 		return $data;
-
 	}
-	
 	function list_polygon_atas(){
-	
-		//$sql   = "SELECT m.*,s.nama as sub_polygon,s.simbol as s_simbol FROM polygon m LEFT JOIN polygon s ON m.id = s.parrent WHERE m.parrent = 1 AND m.enabled = 1 AND (s.enabled = 1 OR s.enabled IS NULL) AND m.tipe = 1";
+		
 			
-		$sql   = "SELECT m.* FROM polygon m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 1";
+		$sql = "SELECT m.* FROM polygon m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 1";
 		
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
@@ -314,7 +265,7 @@ class plan_polygon_model extends CI_Model{
 		while($i<count($data)){
 				$data[$i]['polygon'] = "<li><a href='$url/".$data[$i]['simbol']."'>".$data[$i]['nama']."</a>";
 				
-				$sql2   = "SELECT s.* FROM polygon s WHERE s.parrent = ? AND s.enabled = 1 AND s.tipe = 3";
+				$sql2 = "SELECT s.* FROM polygon s WHERE s.parrent = ? AND s.enabled = 1 AND s.tipe = 3";
 				$query = $this->db->query($sql2,$data[$i]['id']);
 				$data2=$query->result_array();
 				
@@ -332,12 +283,10 @@ class plan_polygon_model extends CI_Model{
 		}
 		return $data;
 	}
-	
 	function list_polygon_kiri(){
-	
-		//$sql   = "SELECT m.*,s.nama as sub_polygon,s.simbol as s_simbol FROM polygon m LEFT JOIN polygon s ON m.id = s.parrent WHERE m.parrent = 1 AND m.enabled = 1 AND (s.enabled = 1 OR s.enabled IS NULL) AND m.tipe = 1";
+		
 			
-		$sql   = "SELECT m.* FROM polygon m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 2";
+		$sql = "SELECT m.* FROM polygon m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 2";
 		
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
@@ -346,7 +295,7 @@ class plan_polygon_model extends CI_Model{
 		while($i<count($data)){
 				$data[$i]['polygon'] = "<li><a href='$url/".$data[$i]['simbol']."'>".$data[$i]['nama']."</a>";
 				
-				$sql2   = "SELECT s.* FROM polygon s WHERE s.parrent = ? AND s.enabled = 1 AND s.tipe = 3";
+				$sql2 = "SELECT s.* FROM polygon s WHERE s.parrent = ? AND s.enabled = 1 AND s.tipe = 3";
 				$query = $this->db->query($sql2,$data[$i]['id']);
 				$data2=$query->result_array();
 				
@@ -364,6 +313,5 @@ class plan_polygon_model extends CI_Model{
 		}
 		return $data;
 	}
-
 }
 ?>

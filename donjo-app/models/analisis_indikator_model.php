@@ -1,37 +1,11 @@
-<?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php
-
-class analisis_indikator_model extends CI_Model{
-
+<?php class analisis_indikator_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}
-	
 	function autocomplete(){
-		$sql   = "SELECT pertanyaan FROM analisis_indikator";
+		$sql = "SELECT pertanyaan FROM analisis_indikator";
 		$query = $this->db->query($sql);
-		$data  = $query->result_array();
+		$data = $query->result_array();
 		
 		$i=0;
 		$outp='';
@@ -43,8 +17,6 @@ class analisis_indikator_model extends CI_Model{
 		$outp = '[' .$outp. ']';
 		return $outp;
 	}
-	
-	
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
 		$cari = $_SESSION['cari'];
@@ -54,7 +26,6 @@ class analisis_indikator_model extends CI_Model{
 			return $search_sql;
 			}
 		}
-	
 	function filter_sql(){		
 		if(isset($_SESSION['filter'])){
 			$kf = $_SESSION['filter'];
@@ -62,7 +33,6 @@ class analisis_indikator_model extends CI_Model{
 		return $filter_sql;
 		}
 	}
-	
 	function master_sql(){		
 		if(isset($_SESSION['analisis_master'])){
 			$kf = $_SESSION['analisis_master'];
@@ -70,7 +40,6 @@ class analisis_indikator_model extends CI_Model{
 		return $filter_sql;
 		}
 	}
-	
 	function tipe_sql(){		
 		if(isset($_SESSION['tipe'])){
 			$kf = $_SESSION['tipe'];
@@ -78,7 +47,6 @@ class analisis_indikator_model extends CI_Model{
 		return $filter_sql;
 		}
 	}
-	
 	function kategori_sql(){		
 		if(isset($_SESSION['kategori'])){
 			$kf = $_SESSION['kategori'];
@@ -86,31 +54,27 @@ class analisis_indikator_model extends CI_Model{
 		return $filter_sql;
 		}
 	}
-	
 	function paging($p=1,$o=0){
-	
-		$sql      = "SELECT COUNT(id) AS id FROM analisis_indikator u WHERE 1";
-		$sql     .= $this->search_sql(); 
-		$sql .= $this->filter_sql();   
+		$sql = "SELECT COUNT(id) AS id FROM analisis_indikator u WHERE 1";
+		$sql .= $this->search_sql(); 
+		$sql .= $this->filter_sql(); 
 		$sql .= $this->master_sql(); 
 		$sql .= $this->tipe_sql();
 		$sql .= $this->kategori_sql();
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
 		$jml_data = $row['id'];
 		
 		$this->load->library('paging');
-		$cfg['page']     = $p;
+		$cfg['page'] = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 		
 		return $this->paging;
 	}
-	
 	function list_data($o=0,$offset=0,$limit=500){
-	
-		//Ordering SQL
+		
 		switch($o){
 			case 1: $order_sql = ' ORDER BY u.nomor'; break;
 			case 2: $order_sql = ' ORDER BY u.nomor DESC'; break;
@@ -120,12 +84,11 @@ class analisis_indikator_model extends CI_Model{
 			case 6: $order_sql = ' ORDER BY u.id_kategori DESC'; break;
 			default:$order_sql = ' ORDER BY u.nomor';
 		}
-	
-		//Paging SQL
+		
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
-		//Main Query
-		$sql   = "SELECT u.*,t.tipe AS tipe_indikator,k.kategori AS kategori FROM analisis_indikator u LEFT JOIN analisis_tipe_indikator t ON u.id_tipe = t.id LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id WHERE 1 ";
+		
+		$sql = "SELECT u.*,t.tipe AS tipe_indikator,k.kategori AS kategori FROM analisis_indikator u LEFT JOIN analisis_tipe_indikator t ON u.id_tipe = t.id LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id WHERE 1 ";
 			
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
@@ -138,7 +101,7 @@ class analisis_indikator_model extends CI_Model{
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 		
-		//Formating Output
+		
 		$i=0;
 		$j=$offset;
 		while($i<count($data)){
@@ -154,7 +117,6 @@ class analisis_indikator_model extends CI_Model{
 		}
 		return $data;
 	}
-	
 	function insert(){
 		$data = $_POST;
 		if($data['id_tipe']!=1){
@@ -168,17 +130,15 @@ class analisis_indikator_model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function update($id=0){
 		$data = $_POST;
-
 		if($data['id_tipe']!=1){
 		$data['act_analisis']=2;
 		$data['bobot']=0;
 		}
 		
 		if($data['id_tipe']==3 OR $data['id_tipe']==4){
-				$sql  = "DELETE FROM analisis_parameter WHERE id_indikator=?";
+				$sql = "DELETE FROM analisis_parameter WHERE id_indikator=?";
 				$this->db->query($sql,$id);
 		
 		}
@@ -186,25 +146,22 @@ class analisis_indikator_model extends CI_Model{
 		$data['id_master']=$_SESSION['analisis_master'];
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_indikator',$data);
-
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function delete($id=''){
-		$sql  = "DELETE FROM analisis_indikator WHERE id=?";
+		$sql = "DELETE FROM analisis_indikator WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
 		
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function delete_all(){
 		$id_cb = $_POST['id_cb'];
 		
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM analisis_indikator WHERE id=?";
+				$sql = "DELETE FROM analisis_indikator WHERE id=?";
 				$outp = $this->db->query($sql,array($id));
 			}
 		}
@@ -213,7 +170,6 @@ class analisis_indikator_model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function p_insert($in=''){
 		$data = $_POST;
 		$data['id_indikator']=$in;
@@ -222,31 +178,26 @@ class analisis_indikator_model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function p_update($id=0){
 		$data = $_POST;
-
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_parameter',$data);
-
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function p_delete($id=''){
-		$sql  = "DELETE FROM analisis_parameter WHERE id=?";
+		$sql = "DELETE FROM analisis_parameter WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
 		
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function p_delete_all(){
 		$id_cb = $_POST['id_cb'];
 		
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM analisis_parameter WHERE id=?";
+				$sql = "DELETE FROM analisis_parameter WHERE id=?";
 				$outp = $this->db->query($sql,array($id));
 			}
 		}
@@ -255,13 +206,12 @@ class analisis_indikator_model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function list_indikator($id=0){
-		$sql   = "SELECT * FROM analisis_parameter WHERE id_indikator = ?";
+		$sql = "SELECT * FROM analisis_parameter WHERE id_indikator = ?";
 		$query = $this->db->query($sql,$id);
 		$data= $query->result_array();
 		
-		//Formating Output
+		
 		$i=0;
 		while($i<count($data)){
 			$data[$i]['no']=$i+1;
@@ -272,36 +222,31 @@ class analisis_indikator_model extends CI_Model{
 	}
 		
 	function get_analisis_indikator($id=0){
-		$sql   = "SELECT * FROM analisis_indikator WHERE id=?";
+		$sql = "SELECT * FROM analisis_indikator WHERE id=?";
 		$query = $this->db->query($sql,$id);
-		$data  = $query->row_array();
+		$data = $query->row_array();
 		return $data;
 	}
-	
 	function get_analisis_master(){
-		$sql   = "SELECT * FROM analisis_master WHERE id=?";
+		$sql = "SELECT * FROM analisis_master WHERE id=?";
 		$query = $this->db->query($sql,$_SESSION['analisis_master']);
 		return $query->row_array();
 	}	
-	
 	function get_analisis_parameter($id=''){
-		$sql   = "SELECT * FROM analisis_parameter WHERE id=?";
+		$sql = "SELECT * FROM analisis_parameter WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		return $query->row_array();
 	}	
-
 	function list_tipe(){
-		$sql   = "SELECT * FROM analisis_tipe_indikator";
+		$sql = "SELECT * FROM analisis_tipe_indikator";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
-	
 	function list_kategori(){
-		$sql   = "SELECT u.* FROM analisis_kategori_indikator u WHERE 1";
+		$sql = "SELECT u.* FROM analisis_kategori_indikator u WHERE 1";
 		$sql .= $this->master_sql();
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
 }
-
 ?>

@@ -1,6 +1,6 @@
 #userbox{
     float:right;
-    background:#034ba0;
+    background:#2f6db7;
     margin:3px 10px;
     height:36px;
     width:180px;
@@ -9,9 +9,7 @@
     border-radius:3px;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
-    border:1px solid #034fa7;
-    border-top:1px solid #1b4161;
-    border-bottom:1px solid #1b1121;
+    border:1px solid #2c5d86;
     position:relative;
 }
     #userbox .avatar{
@@ -174,8 +172,8 @@ a.cpanelx{
   }
   
 a.csurat{
-  width:64px!important;
-  height:60px!important;
+  width:68px!important;
+  height:64px!important;
   border:1px solid #bddf91;
 border-radius:7px;
 -moz-border-radius:7px;
@@ -184,7 +182,7 @@ border-radius:7px;
   display:block;
   float:left;
   color:#555;
-  margin:4px 20px 52px 4px;
+  margin:4px 24px 58px 4px;
 background-color: #baf192;
 background-image: -webkit-gradient(linear, 1 1, 2 100%, from(#dff3c4), to(#baf192));
 background-image: -moz-linear-gradient(#dff3c4, #baf192);
@@ -204,7 +202,7 @@ box-shadow:0px 0px 0px #A0BCCE;
   text-decoration:none;
   width:52px;
   height:52px;
-  padding:6px;
+  padding:7px;
   }
   a.csurat:hover{
 	background-color: #faf192;
@@ -219,7 +217,7 @@ box-shadow:0px 0px 0px #A0BCCE;
   a.csurat span{
 position:absolute;
 left:0px;
-top:65px;
+top:68px;
 line-height:10px;
 text-align:center;
 width:60px;
@@ -496,3 +494,9 @@ padding:0 0px;
 		filter:	 alpha(opacity=100) !important;
 		background-color: #666 !important;
 	}
+	
+.middin-center  {
+	border:			0; /* cosmetic */
+	padding:		0;
+	overflow:		hidden;
+}

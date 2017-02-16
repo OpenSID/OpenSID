@@ -1,47 +1,30 @@
-<?foreach($gallery AS $data){?>
-<div class="themes nobig3">
-	<div class='entry'>
-		<? if(is_file("assets/front/gallery/sedang_".$data['gambar'])) {?>
-			<a href="<?=site_url()?>first/sub_gallery/<?=$data['id']?>" title="<?=$data['nama']?>">
-			<img src="<?=base_url()?>assets/front/gallery/sedang_<?=$data['gambar']?>" />
-			<? }else{?>
-			<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?=base_url()?>assets/images/404-image-not-found.jpg" />
-		<? }?>
-		</a>
+<?php
+	echo "
+	<div style=\"margin-left:.5em;\">
+		<div class=\"box box-primary box-solid\">
+			<div class=\"box-header\"><h3 class=\"box-title\">Arsip Galeri ".$desa["nama_desa"]."</h3></div>
+			<div class=\"box-body\">
+				<ul class=\"thumbnail\">";
+			$i=1;
+			foreach($gallery AS $data){
+				if(is_file("assets/files/galeri/sedang_".$data['gambar'])) {
+					echo "
+					<li>
+						<div class=\"entry\">
+						<a class=\"group2\" href=\"". base_url()."assets/files/galeri/sedang_". $data['gambar']."\">
+							<img src=\"". base_url()."assets/files/galeri/kecil_". $data['gambar']."\" /></a>
+						</div>
+						<div class=\"title\"><a href=\"". site_url()."first/sub_gallery/". $data['id']."\" title=\"".$data["nama"]."\">Album : ". $data["nama"]."</a></div>
+					</li>";
+					if(fmod($i,2)==0){echo "<br class=\"clearboth\">";}
+					$i++;
+				}
+			}
+			echo "
+				</ul>
+				<br class=\"clearboth\">
+			</div>
+		</div>
 	</div>
-	<div class='title'>
-	<? if(!empty($data)){?><a class="group2" href="<?=base_url()?>assets/front/gallery/sedang_<?=$data['gambar']?>" title="<?=$data['nama']?>">Album : <?=$data['nama']?></a><?}?>
-	</div>
-</div>
-<?}?>
-
-<div class="themes nobig2">
-<div class="bleft">
-            <label><strong><?=$paging->num_rows?></strong></label>
-            <label>Total Data</label>
-</div>
-        <div class="bright">
-            <div class="uibutton-group">
-            <? if($paging->start_link): ?>
-				<a href="<?=site_url("first/gallery/$paging->start_link")?>" class="uibutton"  >Awal</a>
-			<? endif; ?>
-			<? if($paging->prev): ?>
-				<a href="<?=site_url("first/gallery/$paging->prev")?>" class="uibutton"  >Prev</a>
-			<? endif; ?>
-            </div>
-            <div class="uibutton-group">
-                
-				<? for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-				<a href="<?=site_url("first/gallery/$i")?>" <? jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?=$i?></a>
-				<? endfor; ?>
-            </div>
-            <div class="uibutton-group">
-			<? if($paging->next): ?>
-				<a href="<?=site_url("first/gallery/$paging->next")?>" class="uibutton">Next</a>
-			<? endif; ?>
-			<? if($paging->end_link): ?>
-                <a href="<?=site_url("first/gallery/$paging->end_link")?>" class="uibutton">Akhir</a>
-			<? endif; ?>
-            </div>
-        </div>
-</div>
+	";
+?>

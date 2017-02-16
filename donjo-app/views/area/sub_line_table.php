@@ -1,28 +1,8 @@
-
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<?/*
-<td class="side-area">
-
-<fieldset>
-<legend>Kategori area</legend>
-<div class="larea">
-<ul>
-<li <?if($tip==1)echo "class='selected'";?>><a href="<?=site_url("area/index/1")?>">Atas</a></li>
-<li <?if($tip==2)echo "class='selected'";?>><a href="<?=site_url("area/index/2")?>">Atas Kiri</a></li>
-
-<?/*
-<li ><a href="Samping">Samping</a></li>
-<li ><a href="Tengah">Tengah</a></li>
-<li ><a href="Bawah">Bawah</a></li>
-
-</ul>
-</div>
-</fieldset>
-
-</td>
-*/?>
+<?php 
+?>
 <td style="background:#fff;padding:0px;"> 
 <div class="content-header">
 <h3>Manajemen Sub area</h3>
@@ -32,8 +12,8 @@
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?=site_url("area/ajax_add_sub_area/$area")?>" target="ajax-modal" rel="window" header="Tambah Sub area" class="uibutton tipsy south" title="Tambah Sub area"><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah area Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?=site_url("area/delete_all/")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+<a href="<?php echo site_url("area/ajax_add_sub_area/$area")?>" target="ajax-modal" rel="window" header="Tambah Sub area" class="uibutton tipsy south" title="Tambah Sub area"><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah area Baru</a>
+<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("area/delete_all/")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
 </div>
 </div>
 </div>
@@ -57,27 +37,27 @@
 </tr>
 </thead>
 <tbody>
-<?foreach($subarea as $data){?>
+<?php foreach($subarea as $data){?>
 <tr>
-<td align="center" width="2"><?=$data['no']?></td>
+<td align="center" width="2"><?php echo $data['no']?></td>
 <td align="center" width="5">
-<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td>
-<a href="<?=site_url("area/ajax_add_sub_area/$area/$data[id]")?>" class="ui-icons icon-edit tipsy south" target="ajax-modal" rel="window" header="Edit area" title="Edit Data"></a><a href="<?=site_url("area/delete_sub_area/$area/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?if($data['enabled'] == '2'):?><a href="<?=site_url("area/area_lock_sub_area/$area/$data[id]")?>" class="ui-icons icon-lock tipsy south" title="Enable area"></a><?elseif($data['enabled'] == '1'): ?><a href="<?=site_url("area/area_unlock_sub_area/$area/$data[id]")?>" class="ui-icons icon-unlock tipsy south" title="Disable area"></a><?endif;?>
+<a href="<?php echo site_url("area/ajax_add_sub_area/$area/$data[id]")?>" class="ui-icons icon-edit tipsy south" target="ajax-modal" rel="window" header="Edit area" title="Edit Data"></a><a href="<?php echo site_url("area/delete_sub_area/$area/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url("area/area_lock_sub_area/$area/$data[id]")?>" class="ui-icons icon-lock tipsy south" title="Enable area"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("area/area_unlock_sub_area/$area/$data[id]")?>" class="ui-icons icon-unlock tipsy south" title="Disable area"></a><?php endif;?>
 </td>
-<td width="150"><?=$data['nama']?></td>
-<td width="50"><?=$data['aktif']?></td>
-<td align="center" width="50"><img src="<?=base_url("assets/images/gis/area")?>/<?=$data['simbol']?>"></td>
+<td width="150"><?php echo $data['nama']?></td>
+<td width="50"><?php echo $data['aktif']?></td>
+<td align="center" width="50"><img src="<?php echo base_url("assets/files/gis/area")?>/<?php echo $data['simbol']?>"></td>
 <td></td>
-<?}?>
+<?php }?>
 </tbody>
 </table>
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
 <div class="left"> 
-<a href="<?=site_url()?>area/index/1" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>area/index/1" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 </div>

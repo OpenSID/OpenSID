@@ -1,29 +1,5 @@
-<?php
-/*
- * Berkas default dari halaman web utk publik
- * 
- * Copyright 2013 
- * Rizka Himawan <himawan.rizka@gmail.com>
- * Muhammad Khollilurrohman <adsakle1@gmail.com>
- * Asep Nur Ajiyati <asepnurajiyati@gmail.com>
- *
- * SID adalah software tak berbayar (Opensource) yang boleh digunakan oleh siapa saja selama bukan untuk kepentingan profit atau komersial.
- * Lisensi ini mengizinkan setiap orang untuk menggubah, memperbaiki, dan membuat ciptaan turunan bukan untuk kepentingan komersial
- * selama mereka mencantumkan asal pembuat kepada Anda dan melisensikan ciptaan turunan dengan syarat yang serupa dengan ciptaan asli.
- * Untuk mendapatkan SID RESMI, Anda diharuskan mengirimkan surat permohonan ataupun izin SID terlebih dahulu, 
- * aplikasi ini akan tetap bersifat opensource dan anda tidak dikenai biaya.
- * Bagaimana mendapatkan izin SID, ikuti link dibawah ini:
- * http://lumbungkomunitas.net/bergabung/pendaftaran/daftar-online/
- * Creative Commons Attribution-NonCommercial 3.0 Unported License
- * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan. 
- * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
- */
-?>
-
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Statistik extends CI_Controller{
-
 function __construct(){
 		parent::__construct();
 		session_start();
@@ -33,21 +9,11 @@ function __construct(){
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
 		$_SESSION['per_page']= 500;
-	
 	}	
-
-	function index($lap=0,$p=1,$o=0){
-	
-		$data['p']        = $p;
-		$data['o']        = $o;
-		
-		if(isset($_POST['per_page'])) 
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-		
-		$data['paging']  = $this->laporan_penduduk_model->paging($lap,$p,$o);
-		$data['main']    = $this->laporan_penduduk_model->list_data($lap,$o, $data['paging']->offset, $data['paging']->per_page);
+	function index($lap=0,$o=0){
+		$data['main']    = $this->laporan_penduduk_model->list_data($lap,$o);
 		$data['lap']=$lap;
+		$data['o']=$o;
 		
 		switch($lap){
 			case 0: $data['stat'] = "Pendidikan dalam KK"; break;
@@ -61,7 +27,6 @@ function __construct(){
 			case 9: $data['stat'] = "Cacat"; break;
 			case 10: $data['stat'] = "Sakit Menahun"; break;
 			case 11: $data['stat'] = "Jamkesmas"; break;
-			//case 12: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
 			case 13: $data['stat'] = "Umur (Detail)"; break;
 			case 15: $data['stat'] = "Umur"; break;
 			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
@@ -104,9 +69,7 @@ function __construct(){
 		unset($_SESSION['status_penduduk']);
 		redirect('statistik');
 	}
-	
    function graph($lap=0){
-	
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap']=$lap;
 		
@@ -146,7 +109,6 @@ function __construct(){
 	}
 		
    function pie($lap=0){
-	
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap']=$lap;
 		
@@ -216,7 +178,6 @@ function __construct(){
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$this->load->view('statistik/penduduk_print',$data);
 	}
-
 	function excel($lap=0){
 		$data['lap']=$lap;
 		switch($lap){
@@ -248,7 +209,6 @@ function __construct(){
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$this->load->view('statistik/penduduk_excel',$data);
 	}
-	
 	function warga($lap='',$data=''){
 		$data['lap']=$lap;
 		switch($lap){
@@ -283,11 +243,9 @@ function __construct(){
 		$_SESSION['data'] = $data;
 		redirect("sid_penduduk/index/");
 	}
-	
 	function rentang_umur(){
 		$data['lap']=13;
 		$data['main']    = $this->laporan_penduduk_model->list_data_rentang();
-
 		$header = $this->header_model->get_data();
 		$menu['act']='2';
 		
@@ -297,9 +255,7 @@ function __construct(){
 		$this->load->view('statistik/rentang_umur',$data);
 		$this->load->view('footer');
 	}
-	
 	function form_rentang($id=0){
-
 		if($id==0){
 			$data['form_action'] = site_url("statistik/rentang_insert");
 			$data['rentang']= $this->laporan_penduduk_model->get_rentang_terakhir();
@@ -313,25 +269,20 @@ function __construct(){
 		$this->load->view('statistik/ajax_rentang_form',$data);
 		
 	}
-	
 	function rentang_insert(){
 		$data['insert'] = $this->laporan_penduduk_model->insert_rentang();
 		redirect('statistik/rentang_umur');
 	}
-	
 	function rentang_update($id=0){
 		$this->laporan_penduduk_model->update_rentang($id);
 		redirect('statistik/rentang_umur');
 	}
-	
 	function rentang_delete($id=0){
 		$this->laporan_penduduk_model->delete_rentang($id);
 		redirect('statistik/rentang_umur');
 	}	
-	
 	function delete_all_rentang(){
 		$this->laporan_penduduk_model->delete_all_rentang();
 		redirect('statistik/rentang_umur');
 	}		
-	
 }

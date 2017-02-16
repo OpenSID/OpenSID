@@ -1,15 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/*
-| -------------------------------------------------------------------
-| USER AGENT TYPES
-| -------------------------------------------------------------------
-| This file contains four arrays of user agent data.  It is used by the
-| User Agent Class to help identify browser, platform, robot, and
-| mobile device data.  The array keys are used to identify the device
-| and the array values are used to set the actual name of the item.
-|
-*/
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 $platforms = array (
 					'windows nt 6.0'	=> 'Windows Longhorn',
 					'windows nt 5.2'	=> 'Windows 2003',
@@ -43,10 +32,6 @@ $platforms = array (
 					'gnu'				=> 'GNU/Linux',
 					'unix'				=> 'Unknown Unix OS'
 				);
-
-
-// The order of this array should NOT be changed. Many browsers return
-// multiple browser types so we want to identify the sub-type first.
 $browsers = array(
 					'Flock'				=> 'Flock',
 					'Chrome'			=> 'Chrome',
@@ -71,25 +56,12 @@ $browsers = array(
 					'amaya'				=> 'Amaya',
 					'IBrowse'			=> 'IBrowse'
 				);
-
 $mobiles = array(
-					// legacy array, old values commented out
+					
 					'mobileexplorer'	=> 'Mobile Explorer',
-//					'openwave'			=> 'Open Wave',
-//					'opera mini'		=> 'Opera Mini',
-//					'operamini'			=> 'Opera Mini',
-//					'elaine'			=> 'Palm',
 					'palmsource'		=> 'Palm',
-//					'digital paths'		=> 'Palm',
-//					'avantgo'			=> 'Avantgo',
-//					'xiino'				=> 'Xiino',
 					'palmscape'			=> 'Palmscape',
-//					'nokia'				=> 'Nokia',
-//					'ericsson'			=> 'Ericsson',
-//					'blackberry'		=> 'BlackBerry',
-//					'motorola'			=> 'Motorola'
-
-					// Phones and Manufacturers
+					
 					'motorola'			=> "Motorola",
 					'nokia'				=> "Nokia",
 					'palm'				=> "Palm",
@@ -124,24 +96,21 @@ $mobiles = array(
 					'spv'				=> "SPV",
 					'zte'				=> "ZTE",
 					'sendo'				=> "Sendo",
-
-					// Operating Systems
+					
 					'symbian'				=> "Symbian",
 					'SymbianOS'				=> "SymbianOS",
 					'elaine'				=> "Palm",
 					'palm'					=> "Palm",
 					'series60'				=> "Symbian S60",
 					'windows ce'			=> "Windows CE",
-
-					// Browsers
+					
 					'obigo'					=> "Obigo",
 					'netfront'				=> "Netfront Browser",
 					'openwave'				=> "Openwave Browser",
 					'mobilexplorer'			=> "Mobile Explorer",
 					'operamini'				=> "Opera Mini",
 					'opera mini'			=> "Opera Mini",
-
-					// Other
+					
 					'digital paths'			=> "Digital Paths",
 					'avantgo'				=> "AvantGo",
 					'xiino'					=> "Xiino",
@@ -149,8 +118,7 @@ $mobiles = array(
 					'vodafone'				=> "Vodafone",
 					'docomo'				=> "NTT DoCoMo",
 					'o2'					=> "O2",
-
-					// Fallback
+					
 					'mobile'				=> "Generic Mobile",
 					'wireless'				=> "Generic Mobile",
 					'j2me'					=> "Generic Mobile",
@@ -161,8 +129,6 @@ $mobiles = array(
 					'smartphone'			=> "Generic Mobile",
 					'cellphone'				=> "Generic Mobile"
 				);
-
-// There are hundreds of bots but these are the most common.
 $robots = array(
 					'googlebot'			=> 'Googlebot',
 					'msnbot'			=> 'MSNBot',
@@ -173,6 +139,3 @@ $robots = array(
 					'infoseek'			=> 'InfoSeek Robot 1.0',
 					'lycos'				=> 'Lycos'
 				);
-
-/* End of file user_agents.php */
-/* Location: ./application/config/user_agents.php */

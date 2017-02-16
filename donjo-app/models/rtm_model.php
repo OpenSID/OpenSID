@@ -1,29 +1,22 @@
-
-
-<?
-
-class rtm_Model extends CI_Model{
-
+<?php class rtm_Model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}
-	
 	function autocomplete(){
-		$sql   = "SELECT t.nama FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
+		$sql = "SELECT t.nama,t.kk_level FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
 		$query = $this->db->query($sql);
-		$data  = $query->result_array();
+		$data = $query->result_array();
 		
 		$i=0;
 		$outp='';
 		while($i<count($data)){
-			$outp .= ',"'.$data[$i]['nama'].'"';
+			$outp .= ',"'.$data[$i]['nama'].' - '.$data[$i]['kk_level'].'"';
 			$i++;
 		}
 		$outp = strtolower(substr($outp, 1));
 		$outp = '[' .$outp. ']';
 		return $outp;
 	}
-	
 	function dusun_sql(){		
 		if(isset($_SESSION['dusun'])){
 			$kf = $_SESSION['dusun'];
@@ -31,7 +24,6 @@ class rtm_Model extends CI_Model{
 		return $dusun_sql;
 		}
 	}
-	
 	function rw_sql(){		
 		if(isset($_SESSION['rw'])){
 			$kf = $_SESSION['rw'];
@@ -39,7 +31,6 @@ class rtm_Model extends CI_Model{
 		return $rw_sql;
 		}
 	}
-	
 	function rt_sql(){		
 		if(isset($_SESSION['rt'])){
 			$kf = $_SESSION['rt'];
@@ -47,7 +38,6 @@ class rtm_Model extends CI_Model{
 		return $rt_sql;
 		}
 	}
-	
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
 		$cari = $_SESSION['cari'];
@@ -65,7 +55,6 @@ class rtm_Model extends CI_Model{
 		return $jenis_sql;
 		}
 	}	
-
 	function kelas_sql(){		
 		if(isset($_SESSION['kelas'])){
 			$kh = $_SESSION['kelas'];
@@ -73,7 +62,6 @@ class rtm_Model extends CI_Model{
 		return $kelas_sql;
 		}
 	}	
-
 	function raskin_sql(){		
 		if(isset($_SESSION['raskin'])){
 			$kh = $_SESSION['raskin'];
@@ -81,7 +69,6 @@ class rtm_Model extends CI_Model{
 		return $raskin_sql;
 		}
 	}	
-
 	function blt_sql(){		
 		if(isset($_SESSION['id_blt'])){
 			$kh = $_SESSION['id_blt'];
@@ -89,7 +76,6 @@ class rtm_Model extends CI_Model{
 		return $blt_sql;
 		}
 	}
-
 	function bos_sql(){		
 		if(isset($_SESSION['id_bos'])){
 			$kh = $_SESSION['id_bos'];
@@ -97,7 +83,6 @@ class rtm_Model extends CI_Model{
 		return $bos_sql;
 		}
 	}
-
 	function pkh_sql(){		
 		if(isset($_SESSION['id_pkh'])){
 			$kh = $_SESSION['id_pkh'];
@@ -105,7 +90,6 @@ class rtm_Model extends CI_Model{
 		return $pkh_sql;
 		}
 	}
-
 	function jampersal_sql(){		
 		if(isset($_SESSION['id_jampersal'])){
 			$kh = $_SESSION['id_jampersal'];
@@ -113,7 +97,6 @@ class rtm_Model extends CI_Model{
 		return $jampersal_sql;
 		}
 	}
-
 	function bedah_rumah_sql(){		
 		if(isset($_SESSION['id_bedah_rumah'])){
 			$kh = $_SESSION['id_bedah_rumah'];
@@ -121,31 +104,26 @@ class rtm_Model extends CI_Model{
 		return $bedah_rumah_sql;
 		}
 	}
-
 	function paging($p=1,$o=0){
-	
-		$sql      = "SELECT COUNT(u.id) AS id FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
-		$sql     .= $this->search_sql();     
-		$sql     .= $this->dusun_sql();   
-		$sql     .= $this->rw_sql();  
-		$sql     .= $this->rt_sql();    
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
+		$sql = "SELECT COUNT(u.id) AS id FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON t.id_rtm = u.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE t.rtm_level = 1 ";
+		$sql .= $this->search_sql(); 
+		$sql .= $this->dusun_sql(); 
+		$sql .= $this->rw_sql(); 
+		$sql .= $this->rt_sql(); 
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
 		$jml_data = $row['id'];
 		
 		$this->load->library('paging');
-		$cfg['page']     = $p;
+		$cfg['page'] = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 		
 		return $this->paging;
 	}
-	
-	
 	function list_data($o=0,$offset=0,$limit=500){
-	
-		//Ordering SQL
+		
 		switch($o){
 			case 1: $order_sql = ' ORDER BY u.no_kk'; break;
 			case 2: $order_sql = ' ORDER BY u.no_kk DESC'; break;
@@ -153,26 +131,25 @@ class rtm_Model extends CI_Model{
 			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
 			case 5: $order_sql = ' ORDER BY g.nama'; break;
 			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
-			default:$order_sql = ' ORDER BY u.tgl_daftar DESC';
+			default:$order_sql = ' ';
 		}
-	
-		//Paging SQL
+		
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		
-		$sql   = "SELECT u.*,t.nama AS kepala_kk,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.id = t.id_rtm AND t.rtm_level = 1 LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
+		$sql = "SELECT u.*,t.nama AS kepala_kk,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.id = t.id_rtm AND t.rtm_level = 1 LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
 			
 		$sql .= $this->search_sql();
 		
-		$sql     .= $this->dusun_sql(); 
-		$sql     .= $this->rw_sql();  
-		$sql     .= $this->rt_sql(); 
+		$sql .= $this->dusun_sql(); 
+		$sql .= $this->rw_sql(); 
+		$sql .= $this->rt_sql(); 
 		$sql .= $order_sql; 
 		$sql .= $paging_sql;
 		
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 		
-		//Formating Output
+		
 		$i=0;
 		$j=$offset;
 		while($i<count($data)){
@@ -185,14 +162,58 @@ class rtm_Model extends CI_Model{
 		}
 		return $data;
 	}
-
+	function list_data_pbdt($o=0,$offset=0,$limit=500){
+		
+		switch($o){
+			case 1: $order_sql = ' ORDER BY u.no_kk'; break;
+			case 2: $order_sql = ' ORDER BY u.no_kk DESC'; break;
+			case 3: $order_sql = ' ORDER BY kepala_kk'; break;
+			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
+			case 5: $order_sql = ' ORDER BY g.nama'; break;
+			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
+			default:$order_sql = ' ';
+		}
+		
+		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+		
+		$sql = "SELECT u.*,t.nama AS kepala_kk,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.id = t.id_rtm AND t.rtm_level = 1 LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
+			
+		$sql .= $this->search_sql();
+		
+		$sql .= $this->dusun_sql(); 
+		$sql .= $this->rw_sql(); 
+		$sql .= $this->rt_sql(); 
+		$sql .= $order_sql; 
+		$sql .= $paging_sql;
+		
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+		
+		
+		$i=0;
+		$j=$offset;
+		while($i<count($data)){
+			$data[$i]['no']=$j+1;
+			if($data[$i]['jumlah_anggota']==0)
+				$data[$i]['jumlah_anggota'] = "-";
+			
+			
+			$sqlp = "SELECT nama FROM tweb_penduduk WHERE id_rtm = ? AND rtm_level <> 1";
+			$query = $this->db->query($sqlp,$data[$i]['id']);
+			$data[$i]['anggota'] = $query->result_array();
+			
+			$i++;
+			$j++;
+		}
+		return $data;
+	}
 	function insert(){
 		$nik = $_POST['nik_kepala'];
 		
 		$data['no_kk'] = "0";
 		$outp = $this->db->insert('tweb_rtm',$data);
 		
-		$sql   = "SELECT id FROM tweb_rtm ORDER by id DESC LIMIT 1";
+		$sql = "SELECT id FROM tweb_rtm ORDER by id DESC LIMIT 1";
 		$query = $this->db->query($sql);
 		$kk = $query->row_array();
 		
@@ -208,33 +229,28 @@ class rtm_Model extends CI_Model{
 		$default['rtm_level'] = 1;
 		$this->db->where('id',$nik);
 		$this->db->update('tweb_penduduk',$default);
-
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function delete($id=''){
-	
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
-
 		$this->db->where('id_rtm',$id);
 		$outp = $this->db->update('tweb_penduduk',$temp);
 		
 		
-		$sql  = "DELETE FROM tweb_rtm WHERE id=?";
+		$sql = "DELETE FROM tweb_rtm WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
 		
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function delete_all(){
 		$id_cb = $_POST['id_cb'];
 		
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM tweb_rtm WHERE id=?";
+				$sql = "DELETE FROM tweb_rtm WHERE id=?";
 				$outp = $this->db->query($sql,array($id));
 						
 				$default['id_rtm'] = "";
@@ -250,12 +266,10 @@ class rtm_Model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
 	function add_anggota($id=0){
 		$data = $_POST;
 		$temp['id_rtm'] = $id;
 		$temp['rtm_level'] = 2;
-
 		$this->db->where('id',$data['nik']);
 		$outp = $this->db->update('tweb_penduduk',$temp);
 				
@@ -278,12 +292,11 @@ class rtm_Model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}	
-	
 	function rem_anggota($kk=0,$id=0){
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
 		
-		$pend     = $this->rtm_model->get_anggota($id);
+		$pend = $this->rtm_model->get_anggota($id);
 		$this->db->where('id',$id);
 		$outp = $this->db->update('tweb_penduduk',$temp);
 		if($pend['rtm_level']=='1'){
@@ -296,7 +309,6 @@ class rtm_Model extends CI_Model{
 			else $_SESSION['success']=-1;
 	}	
 		
-	
 	function rem_all_anggota($kk){
 		$id_cb = $_POST['id_cb'];
 		$temp['id_rtm'] = 0;
@@ -315,57 +327,53 @@ class rtm_Model extends CI_Model{
 	}
 		
 	function get_dusun($id=0){
-		$sql   = "SELECT * FROM tweb_rtm WHERE dusun_id=?";
+		$sql = "SELECT * FROM tweb_rtm WHERE dusun_id=?";
 		$query = $this->db->query($sql,$id);
-		$data  = $query->row_array();
+		$data = $query->row_array();
 		return $data;
 	}
 		
 	function get_rtm($id=0){
-		$sql   = "SELECT * FROM tweb_rtm WHERE id=?";
+		$sql = "SELECT * FROM tweb_rtm WHERE id=?";
 		$query = $this->db->query($sql,$id);
-		$data  = $query->row_array();
+		$data = $query->row_array();
 		return $data;
 	}
-	
 	function get_anggota($id=0){
-		$sql   = "SELECT * FROM tweb_penduduk WHERE id=?";
+		$sql = "SELECT * FROM tweb_penduduk WHERE id_rtm=?";
 		$query = $this->db->query($sql,$id);
-		$data  = $query->row_array();
+		$data = $query->row_array();
 		return $data;
 	}
-	
 	function get_kode_wilayah(){
-		$sql   = "SELECT * FROM config WHERE 1";
+		$sql = "SELECT * FROM config WHERE 1";
 		$query = $this->db->query($sql);
-		$d  = $query->row_array();
+		$d = $query->row_array();
 		$data = $d['kode_kabupaten'].$d['kode_kecamatan'].$d['kode_desa'];
 		
 		return $data;
 	}
-	
 	function list_penduduk_lepas(){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE (status = 1 OR status = 3) AND id_rtm = 0";
+		$sql = "SELECT p.id,p.nik,p.nama,h.nama as kk_level FROM tweb_penduduk p LEFT JOIN tweb_penduduk_hubungan h ON p.kk_level=h.id WHERE (status = 1 OR status = 3) AND id_rtm = 0";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 		
-		//Formating Output
+		
 		$i=0;
 		while($i<count($data)){
 			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
-			$data[$i]['nama']=''.$data[$i]['nama'].'';
+			$data[$i]['nama']=''.$data[$i]['nama'].' - '.$data[$i]['kk_level'].'';
 			$i++;
 		}
 		return $data;
 	}
-	
 	function list_anggota($id=0){
-		$sql   = "SELECT b.dusun,b.rw,b.rt,u.id,nik,dokumen_pasport,dokumen_kitas,x.nama as sex,u.rtm_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan FROM tweb_penduduk u LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id WHERE status = 1 AND id_rtm = ? ORDER BY rtm_level";
+		$sql = "SELECT b.dusun,b.rw,b.rt,u.id,nik,x.nama as sex,k.no_kk,u.rtm_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan FROM tweb_penduduk u LEFT JOIN tweb_keluarga k ON u.id_kk = k.id LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id WHERE id_rtm = ? ORDER BY rtm_level";
 		
 		$query = $this->db->query($sql,array($id));
 		$data=$query->result_array();
 		
-		//Formating Output
+		
 		$i=0;
 		while($i<count($data)){
 			$data[$i]['no']=$i+1;
@@ -378,25 +386,21 @@ class rtm_Model extends CI_Model{
 	}
 			
 	function get_kepala_kk($id){
-		
-		$sql   = "SELECT nik,u.nama,r.no_kk FROM tweb_penduduk u LEFT JOIN tweb_rtm r ON u.id_rtm WHERE r.id = ?  AND u.rtm_level =1 LIMIT 1";
+		$sql = "SELECT nik,u.nama,r.no_kk FROM tweb_penduduk u LEFT JOIN tweb_rtm r ON u.id_rtm = r.id WHERE r.id = ? AND u.rtm_level =1 LIMIT 1";
 		$query = $this->db->query($sql,array($id));
 		return $query->row_array();
 		
 	}
-
-    function get_desa(){
-		$sql   = "SELECT * FROM config WHERE 1";
+ function get_desa(){
+		$sql = "SELECT * FROM config WHERE 1";
 		$query = $this->db->query($sql);
 		return $query->row_array();
 	}
-	
 	function list_hubungan(){
-		$sql   = "SELECT id,nama as hubungan FROM tweb_rtm_hubungan WHERE 1";
+		$sql = "SELECT id,nama as hubungan FROM tweb_rtm_hubungan WHERE 1";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
-
 	function update_nokk($id=0){
 		$data = $_POST;
 		
@@ -407,7 +411,5 @@ class rtm_Model extends CI_Model{
 			else $_SESSION['success']=-1;
 		
 	}
-	
 }
-
 ?>

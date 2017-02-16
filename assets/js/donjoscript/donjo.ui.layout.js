@@ -15,10 +15,38 @@ var myLayout;
     , center__onresize: "innerLayout.resizeAll"
   });
   
+  var my2Layout;
+  $_wrapperWidth = parseInt($('#wrapper').width());
+  $_sWest = ($_wrapperWidth/3)+100;
+  my2Layout = $('#pageD').layout({ 
+      //applyDefaultStyles: true,
+			center__paneSelector:	".middin-center"
+		,	west__paneSelector:		".middin-west"
+		,	north__paneSelector:	".middin-north"
+		,	west__size:				$_sWest
+		,	closable:				true	// pane can open & close
+		,	resizable:				true	// when open, pane can be resized 
+		,	west__spacing_open:		6  // ALL panes
+		,	west__spacing_closed:	6  // ALL panes
+		,	north__spacing_open:	0		// big resizer-bar when open (zero height)
+		,	south__spacing_open:	0		// no resizer-bar when open (zero height)
+		, 	center__onresize: "innerLayout.resizeAll"
+		,	west__onopen: function () {
+				hiRes();
+			}
+		,	west__onclose: function () {
+				hiRes();
+			} 
+		,	west__onresize: function () {
+				hiRes();
+			} 
+  });
+  
  // myLayout.addToggleBtn('#east-toggler', 'west');
   $_wrapperHeight = parseInt($('#wrapper').height());
   //$_wrapper2Height = parseInt($('#wrapper').height());
   
+$('#pageD').css({'height':$_wrapperHeight-100});
   innerLayout = $('#contentpane').css({'height':$_wrapperHeight-100}).layout({ 
             closable:				false	
 		,	resizable:				false	
@@ -29,6 +57,8 @@ var myLayout;
 		,	south__spacing_closed:	0		
   });
   $('#sidecontent2').css({'height':$_wrapperHeight-200});
+
+  $('#sidecontent3').css({'height':$_wrapperHeight-260});
   
   //innerLayout = $('#contentpane_map').css({'height':$_wrapperHeight}).layout({});
   

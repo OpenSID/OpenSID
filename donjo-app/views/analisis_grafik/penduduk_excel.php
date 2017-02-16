@@ -1,33 +1,30 @@
-<?php
+<?php 
+$tgl =  date('d_m_Y');
 header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=Statistik_penduduk.xls");
+header("Content-Disposition: attachment; filename=statistik_penduduk_$tgl.xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 ?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <title>Laporan Statistik</title>
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="<?=base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+<link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="container">
-
 <!-- Print Body -->
 <div id="body">
-
 <table>
-    <tbody>
-    <tr>
-        <td style="padding: 5px 20px;">
-           
+ <tbody>
+ <tr>
+ <td style="padding: 5px 20px;">
+ 
 		<br>
 		<table class="border thick data">
 		<thead>
-            <tr class="thick">
-                <th class="thick">No</th>
+ <tr class="thick">
+ <th class="thick">No</th>
 				<th class="thick">Statistik</th>
 				<th class="thick">Jumlah</th>
 				<th class="thick" width="60">Laki-laki</th>
@@ -35,27 +32,26 @@ header("Expires: 0");
 			</tr>
 		</thead>
 		<tbody>
-        <? foreach($main as $data): ?>
+ <?php foreach($main as $data): ?>
 		<tr>
-          <td class="thick" align="center" width="2"><?=$data['no']?></td>
-          <td class="thick"><?=$data['nama']?></td>
-          <td class="thick"><?=$data['jumlah']?></td>
-		  <td class="thick"><?=$data['laki']?></td>
-          <td class="thick"><?=$data['perempuan']?></td>
-		  </tr>
-        <? endforeach; ?>
+ <td class="thick" align="center" width="2"><?php echo $data['no']?></td>
+ <td class="thick"><?php echo $data['nama']?></td>
+ <td class="thick"><?php echo $data['jumlah']?></td>
+		 <td class="thick"><?php echo $data['laki']?></td>
+ <td class="thick"><?php echo $data['perempuan']?></td>
+		 </tr>
+ <?php endforeach; ?>
 		</tbody>
-        </table>
+ </table>
 		
-            
-            <br>
-            
-                        
-        </td>
-    </tr>
-</tbody></table>        
+ 
+ <br>
+ 
+ 
+ </td>
+ </tr>
+</tbody></table> 
 </div>
-   <label>Tanggal cetak : &nbsp; </label><?=tgl_indo(date("Y m d"))?>
+ <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>
-
 </body></html>

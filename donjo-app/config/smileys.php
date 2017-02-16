@@ -1,21 +1,5 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/*
-| -------------------------------------------------------------------
-| SMILEYS
-| -------------------------------------------------------------------
-| This file contains an array of smileys for use with the emoticon helper.
-| Individual images can be used to replace multiple simileys.  For example:
-| :-) and :) use the same image replacement.
-|
-| Please see user guide for more info:
-| http://codeigniter.com/user_guide/helpers/smiley_helper.html
-|
-*/
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 $smileys = array(
-
-//	smiley			image name						width	height	alt
-
 	':-)'			=>	array('grin.gif',			'19',	'19',	'grin'),
 	':lol:'			=>	array('lol.gif',			'19',	'19',	'LOL'),
 	':cheese:'		=>	array('cheese.gif',			'19',	'19',	'cheese'),
@@ -59,8 +43,4 @@ $smileys = array(
 	':snake:'		=>	array('snake.gif',			'19',	'19',	'snake'),
 	':exclaim:'		=>	array('exclaim.gif',		'19',	'19',	'excaim'),
 	':question:'	=>	array('question.gif',		'19',	'19',	'question') // no comma after last item
-
 		);
-
-/* End of file smileys.php */
-/* Location: ./application/config/smileys.php */

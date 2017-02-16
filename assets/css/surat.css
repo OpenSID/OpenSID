@@ -1,37 +1,48 @@
 body
 {
-font-family: 'Arial';
+font-family:cambria,"times new roman",arial;
 color:black;
 background-color:white;
-margin-left:20px;
-margin-right:20px;
-font-size:17px;
-line-height:1;
+margin-left:30px;
+margin-right:24px;
+margin-top:-5px;
+font-size:14px;
 }
 hr{
-border: 2px solid #000000;
-height:4px;
-background-color:black;
+border-bottom: 3px solid #000000;
+height:0px;
 }
 table, tr, td
 {
 background-color:white;
-font-family: 'Arial';
-line-height:0.8;
+line-height:1;
 vertical-align: top;
 }
 
 .page {
-margin:18px;}
+margin:0px;}
 
 .kop {
-font-size:24px; 
+font-size:22px; 
+text-align: center; 
+line-height:1.1;
+}
+.kop-nomor {
+font-size:16px; 
+text-align: center; 
+line-height:1;
+margin-top:4px;
+margin-bottom:20px;
+}
+
+.kop3 {
+font-size:18px; 
 text-align: center; 
 line-height:0.1;
 margin:22px;}
 
 .kop2 {
-font-size:16px; 
+font-size:14px; 
 font-weight:normal; 
 text-align: center; 
 line-height:0.1;
@@ -40,15 +51,18 @@ margin:10px;}
 .header {
 padding-top:1px;
 text-align: center;
-height:100px;
+height:94px;
+margin-bottom:20px;
+border-bottom:2px solid #000;
+padding-bottom:5px;
 }
 
 .logo {
-float: left;
-margin-top:8px;
-margin-left:5px;
-width:90px;
-height:90px;
+position:absolute;
+top:5px;
+left:30px;
+width:85px;
+height:85px;
 }
 
 #isi {
@@ -61,13 +75,14 @@ line-height:0.8;
 vertical-align: top;
 }
 #isi3 {
-line-height:1;
+line-height:1.5;
 vertical-align: top;
 }
 
 #isi3 td{
-line-height:1.2;
+line-height:1.5;
 vertical-align: top;
+text-align:justify;
 }
 
 .indentasi{
@@ -77,4 +92,35 @@ text-align:justify;
 }
 
 .clear {clear: both;}
+*{
+    margin:0;
+    padding:0;
+}
 
+h1{
+    font-size:18px;
+}
+h3{
+    font-size:18px;
+}
+h4{
+    font-size:14px;
+}
+h5{
+    font-size:13px;
+}
+label{
+    display:inline-block;
+}
+.nowrap{
+    white-space:nowrap;
+}
+#body{
+    padding:0px;
+}
+#ktp{
+    width:500px;
+	margin: 0px;
+    border:2px solid #000;
+    padding:5px;
+}

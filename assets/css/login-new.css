@@ -5,18 +5,23 @@ padding:0px;
 }
   
 body{
-background-color: #177fdd;
-background: url(../images/background/blue.png) repeat-x right top;
 position:relative;
 font-family:verdana;
+	  background: url(../../assets/files/bg.jpg) no-repeat center center fixed; 
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  background-size: cover;
+		margin:0px;
+		padding:0px;
 } 
                                 
 #loginform
 {
-width:550px;
+width:650px;
 height:auto;
 position:relative;
-margin:150px auto;
+margin:250px auto;
 }
 
 input
@@ -142,8 +147,8 @@ text-align:left;
 float:left;
 background: #44962e;
 padding:8px 10px 20px 10px;
-width:172px;
-height:172px;
+width:200px;
+height:200px;
 border-radius:3px;
 cursor:pointer;
 box-shadow: 1px 1px 5px 2px #6f7158; 
@@ -161,9 +166,9 @@ clear:both;
 text-align:left;
 float:left;
 background:#ecea47;
-padding:8px 10px 10px 10px;
-width:172px;
-height:10px;
+padding:5px 2px 5px 18px;
+width:200px;
+height:55px;
 border-radius:3px;
 cursor:pointer;
 box-shadow: 1px 1px 5px 2px #b1b67f; 
@@ -188,6 +193,8 @@ font-weight: bold;
 
 #facebook:hover
 {
+width:180px;
+height:180px;
 box-shadow: 0px 0px 0px 0px #6f7158;
 -webkit-transition:0.5s ease;
 -moz-transition:0.5s ease;
@@ -198,6 +205,7 @@ transition:0.5s ease;
 
 #facebook2:hover
 {
+background:#efefef;
 box-shadow: 0px 0px 0px 0px #b1b67f;
 -webkit-transition:0.5s ease;
 -moz-transition:0.5s ease;
@@ -208,6 +216,7 @@ transition:0.5s ease;
 
 #mainlogin:hover
 {
+width:320px;
 box-shadow: 0px 0px 0px 0px #161718;
 -webkit-transition:0.5s ease;
 -moz-transition:0.5s ease;
@@ -237,7 +246,7 @@ transition:0.5s ease;
 a:hover
 {
 color:#ff5f32;
-margin-left:5px;
+margin-left:10px;
 -webkit-transition:0.5s ease;
 -moz-transition:0.5s ease;
 -o-transition:0.5s ease;
@@ -249,7 +258,7 @@ transition:0.5s ease;
 {
 float:left;
 width:280px;
-height:160px;
+height:180px;
 padding:10px 15px;
 position:relative;
 background:#555555;

@@ -32,67 +32,64 @@ $('tr.uptd').hide();
 });
 });
 </script>
-
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
 <td style="background:#fff;padding:0px;"> 
-
 <div class="content-header">
-
 </div>
 <div id="contentpane">
 <div class="ui-layout-north panel"><h3>Form Manajemen User</h3>
 </div>
-<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data">
+<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
 <tr>
 <th width="100">Group</th>
 <td>
 <div class="uiradio">
-<?$ch='checked';?>
-<?if($user['id_grup'] != '1'){?>
-<input type="radio" id="group3" name="id_grup" value="3"/<?if($user['id_grup'] == '3' OR $user['id_grup'] == ''){echo $ch;}?>><label for="group3">Redaksi</label>
-<input type="radio" id="group2" name="id_grup" value="2"/<?if($user['id_grup'] == '2'){echo $ch;}?>><label for="group2">Operator</label>
-<?}?>
-<input type="radio" id="group1" name="id_grup" value="1"/<?if($user['id_grup'] == '1'){echo $ch;}?>><label for="group1">Administrator</label>
+<?php $ch='checked';?>
+<?php if($user['id_grup'] != '1'){?>
+<input type="radio" id="group4" name="id_grup" value="4"/<?php if($user['id_grup'] == '4' OR $user['id_grup'] == ''){echo $ch;}?>><label for="group4">Kontributor</label>
+<input type="radio" id="group3" name="id_grup" value="3"/<?php if($user['id_grup'] == '3'){echo $ch;}?>><label for="group3">Redaksi</label>
+<input type="radio" id="group2" name="id_grup" value="2"/<?php if($user['id_grup'] == '2'){echo $ch;}?>><label for="group2">Operator</label>
+<?php }?>
+<input type="radio" id="group1" name="id_grup" value="1"/<?php if($user['id_grup'] == '1'){echo $ch;}?>><label for="group1">Administrator</label>
 </div>
 </td>
 </tr>
 <tr>
 <th>Username</th>
-<td><input name="username" type="text" class="inputbox required" size="40" value="<?=$user['username']?>"/></td>
+<td><input name="username" type="text" class="inputbox required" size="40" value="<?php echo $user['username']?>"/></td>
 </tr>
 <tr>
 <th>Password</th>
-<td><input name="password" type="password" class="inputbox" size="20" <?if($user){?>value="radiisi"<?}?>/></td>
+<td><input name="password" type="password" class="inputbox" size="20" <?php if($user){?>value="radiisi"<?php }?>/></td>
 </tr>
 <tr>
 <th>Nama</th>
-<td><input name="nama" type="text" class="inputbox" size="40" value="<?=$user['nama']?>"/></td>
+<td><input name="nama" type="text" class="inputbox" size="40" value="<?php echo $user['nama']?>"/></td>
 </tr>
 <tr>
 <th>Nomor HP</th>
-<td><input name="phone" type="text" class="inputbox" size="20"  value="<?=$user['phone']?>"/></td>
-</tr>   
+<td><input name="phone" type="text" class="inputbox" size="20" value="<?php echo $user['phone']?>"/></td>
+</tr> 
 <tr>
 <th>Mail</th>
-<td><input name="email" type="text" class="inputbox" size="20"  value="<?=$user['email']?>"/></td>
+<td><input name="email" type="text" class="inputbox" size="20" value="<?php echo $user['email']?>"/></td>
 </tr> 
-
 <tr>
 <th class="top">Foto</th>
 <td>
 <div class="userbox-avatar">
-<?if($user['foto']){?>
-<img src="<?=base_url()?>assets/images/photo/kecil_<?=$user['foto']?>" alt=""/>
-<?}else{?>
-<img src="<?=base_url()?>assets/images/photo/kuser.png" alt=""/>
-<?}?>
+<?php if($user['foto']){?>
+<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $user['foto']?>" alt=""/>
+<?php }else{?>
+<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
+<?php }?>
 </div>
 </td>
-<input type="hidden" name="old_foto" value="<?=$user['foto']?>">
+<input type="hidden" name="old_foto" value="<?php echo $user['foto']?>">
 </tr>
 <tr>
 <th>Ganti Foto</th>
@@ -100,14 +97,14 @@ $('tr.uptd').hide();
 </tr>
 </table>
 </div>
-   
+ 
 <div class="ui-layout-south panel bottom">
 <div class="left"> 
-<a href="<?=site_url()?>man_user" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>man_user" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">
-<button class="uibutton" type="reset">Clear</button>
+
 <button class="uibutton confirm" type="submit" >Simpan</button>
 </div>
 </div>
