@@ -557,6 +557,10 @@
       $query = "ALTER TABLE tweb_surat_format ADD favorit tinyint(1) NOT NULL DEFAULT '0'";
       $this->db->query($query);
     }
+    if (!$this->db->field_exists('id_pend', 'dokumen')) {
+      $query = "ALTER TABLE dokumen ADD id_pend int(11) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
   }
 
   function kosongkan_db(){

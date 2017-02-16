@@ -1090,4 +1090,77 @@
 		}
 
 	}
+
+	function list_dokumen($id=""){
+		$sql = "SELECT * FROM dokumen WHERE id_pend = ? ";
+		$query = $this->db->query($sql,$id);
+		$data=null;
+		if($query)
+			$data=$query->result_array();
+
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['no']=$i+1;
+			$i++;
+		}
+		return $data;
+	}
+
+	function dokumen_insert(){
+		$lokasi_file = $_FILES['satuan']['tmp_name'];
+		$nama_file = $_FILES['satuan']['name'];
+		if (!empty($lokasi_file)){
+				$data = $_POST;
+				$nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;
+				$nama_file = urlencode($nama_file);
+				UploadDocument($nama_file);
+				$data['satuan'] = $nama_file;
+				unset($data['nik']);
+				$outp = $this->db->insert('dokumen',$data);
+				if($outp) $_SESSION['success']=1;
+			} else {
+				$_SESSION['success']=-1;
+		}
+	}
+
+	function delete_file_dokumen($id){
+		$this->db->select('satuan');
+		$this->db->where('id', $id);
+		$query = $this->db->get('dokumen');
+		$dokumen = $query->row_array();
+		unlink(LOKASI_DOKUMEN.$dokumen['satuan']);
+	}
+
+	function delete_dokumen($id=''){
+		$this->delete_file_dokumen($id);
+		$sql = "DELETE FROM dokumen WHERE id=?";
+		$outp = $this->db->query($sql,array($id));
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+	function delete_all_dokumen(){
+		$id_cb = $_POST['id_cb'];
+
+		if(count($id_cb)){
+			foreach($id_cb as $id){
+				$this->delete_file_dokumen($id);
+				$sql = "DELETE FROM dokumen WHERE id=?";
+				$outp = $this->db->query($sql,array($id));
+			}
+		}
+		else $outp = false;
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+	function get_dokumen($id=0){
+		$sql = "SELECT * FROM dokumen WHERE id=?";
+		$query = $this->db->query($sql,$id);
+		$data = $query->row_array();
+		return $data;
+	}
+
 }

@@ -368,6 +368,11 @@ function timer(){
 	$time=2000;
 	$_SESSION['timeout']=time()+$time;
 }
+
+function generator($length = 7) {
+ return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+}
+
 function cek_login(){
 	$timeout=$_SESSION['timeout'];
 	if(time()<$timeout){

@@ -204,6 +204,7 @@ class Penduduk extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
+		$header['modul'] = 2;
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['rw']    = $this->penduduk_model->list_rw($data['dus_sel']);
 		$data['rt']    = $this->penduduk_model->list_rt($data['dus_sel'],$data['rw_sel']);
@@ -230,6 +231,7 @@ class Penduduk extends CI_Controller{
 
 		$data['p'] = $p;
 		$data['o'] = $o;
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
 		$header['modul'] = 2;
@@ -238,6 +240,47 @@ class Penduduk extends CI_Controller{
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_detail',$data);
 		$this->load->view('footer');
+	}
+
+  function dokumen($id=''){
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$header = $this->header_model->get_data();
+
+		$header['modul'] = 2;
+		$this->load->view('header', $header);
+		$nav['act']= 2;
+		$this->load->view('sid/nav',$nav);
+		$this->load->view('sid/kependudukan/penduduk_dokumen',$data);
+		$this->load->view('footer');
+	}
+
+	function dokumen_form($id=0){
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$data['form_action'] = site_url("penduduk/dokumen_insert");
+		$this->load->view('sid/kependudukan/dokumen_form',$data);
+	}
+
+	function dokumen_list($id=0){
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$this->load->view('sid/kependudukan/dokumen_ajax',$data);
+	}
+
+	function dokumen_insert(){
+		$this->penduduk_model->dokumen_insert();
+		$id = $_POST['id_pend'];
+		redirect("penduduk/dokumen/$id");
+	}
+
+	function delete_dokumen($id_pend=0,$id=''){
+		$this->penduduk_model->delete_dokumen($id);
+		redirect("penduduk/dokumen/$id_pend");
+	}
+
+	function delete_all_dokumen($id_pend=0){
+		$this->penduduk_model->delete_all_dokumen();
+		redirect("penduduk/dokumen/$id_pend");
 	}
 
   function cetak_biodata($id=''){
