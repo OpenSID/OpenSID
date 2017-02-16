@@ -21,6 +21,7 @@
     $this->migrasi_17_ke_18();
     $this->migrasi_18_ke_19();
     $this->migrasi_19_ke_110();
+    $this->migrasi_19_ke_111();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -174,13 +175,25 @@
       (35, 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32'),
       (36, 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33'),
       (37, 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34'),
-      (38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35'),
-      (39, 'Ubah Sesuaikan', 'surat_ubah_sesuaikan', 'S-36')
+      (38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35')
       ON DUPLICATE KEY UPDATE
         nama = VALUES(nama),
         url_surat = VALUES(url_surat);
     ";
     $this->db->query($query);
+    // surat_ubah_sesuaikan perlu ditangani berbeda, karena ada pengguna di mana
+    // url surat_ubah_sesuaikan memiliki id yang bukan 39, sedangkan id 39 juga dipakai untuk surat lain
+    $this->db->where('url_surat', 'surat_ubah_sesuaikan');
+    $query = $this->db->get('tweb_surat_format');
+    // Tambahkan surat_ubah_sesuaikan apabila belum ada
+    if($query->num_rows()==0){
+      $data = array(
+        'nama' => 'Ubah Sesuaikan',
+        'url_surat' => 'surat_ubah_sesuaikan',
+        'kode_surat' => 'S-36'
+      );
+      $this->db->insert('tweb_surat_format', $data);
+    }
 
     // DROP INDEX migrasi_0_10_url_surat ON tweb_surat_format;
 
@@ -477,8 +490,10 @@
         $query = $this->db->get('tweb_penduduk');
         $kepala_kk = $query->row_array();
         // Tulis id_cluster kepala keluarga ke keluarga
-        $this->db->where('id', $keluarga['id']);
-        $this->db->update('tweb_keluarga', array('id_cluster' => $kepala_kk['id_cluster']));
+        if (isset($kepala_kk['id_cluster'])) {
+          $this->db->where('id', $keluarga['id']);
+          $this->db->update('tweb_keluarga', array('id_cluster' => $kepala_kk['id_cluster']));
+        }
       }
     }
   }
@@ -528,6 +543,18 @@
     // Tambah nomor id_kartu untuk peserta program bantuan
     if (!$this->db->field_exists('no_id_kartu', 'program_peserta')) {
       $query = "ALTER TABLE program_peserta ADD no_id_kartu varchar(30)";
+      $this->db->query($query);
+    }
+  }
+
+  function migrasi_19_ke_111() {
+    // Tambah akti/non-aktifkan dan pilihan favorit format surat
+    if (!$this->db->field_exists('kunci', 'tweb_surat_format')) {
+      $query = "ALTER TABLE tweb_surat_format ADD kunci tinyint(1) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('favorit', 'tweb_surat_format')) {
+      $query = "ALTER TABLE tweb_surat_format ADD favorit tinyint(1) NOT NULL DEFAULT '0'";
       $this->db->query($query);
     }
   }
