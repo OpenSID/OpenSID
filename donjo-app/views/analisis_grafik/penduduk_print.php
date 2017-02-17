@@ -14,7 +14,7 @@
 <table>
     <tbody><tr>
         <td align="center" >
-            <img src="1_files/logo-pemprov-diy-print.jpg" alt="" style="float: left;">
+            <img src="<?php echo LogoDesa($config['logo']);?>" alt="" style="float: left;">
             <h1>PEMERINTAH KABUPATEN <?php echo strtoupper($config['nama_kabupaten'])?> </h1>
             <h1 style="text-transform: uppercase;"></h1>
             <h1>KECAMATAN <?php echo strtoupper($config['nama_kecamatan'])?> </h1>
