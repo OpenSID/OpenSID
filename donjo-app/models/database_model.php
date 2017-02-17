@@ -5,11 +5,11 @@
   function __construct(){
     parent::__construct();
     
-    $this->cek_enggine_db();
+    $this->cek_engine_db();
     
   }
 
-  function cek_enggine_db() {
+  function cek_engine_db() {
 		$db_debug = $this->db->db_debug; //save setting
 		$this->db->db_debug = FALSE; //disable debugging for queries
 		
