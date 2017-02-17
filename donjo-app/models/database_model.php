@@ -1,9 +1,26 @@
 <?php class Database_model extends CI_Model{
 
+  private $engine = 'InnoDB';
+  
   function __construct(){
     parent::__construct();
+    
+    $this->cek_engine_db();
+    
   }
 
+  function cek_engine_db() {
+		$db_debug = $this->db->db_debug; //save setting
+		$this->db->db_debug = FALSE; //disable debugging for queries
+		
+      $query = $this->db->query("SELECT table_name,`engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '". $this->db->database ."'");
+      if(!$this->db->_error_number()) {
+      	$this->engine = $query->row()->engine;
+      }
+      
+		$this->db->db_debug = $db_debug; //restore setting 
+  }
+  
   function migrasi_db_cri() {
     $this->migrasi_cri_lama();
     $this->migrasi_03_ke_04();
@@ -260,7 +277,7 @@
           `tgl_peristiwa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
           PRIMARY KEY (`id`),
           UNIQUE KEY `id_kk` (`id_kk`,`id_peristiwa`,`tgl_peristiwa`)
-        ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+        ) ENGINE=".$this->engine." AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
       ";
       $this->db->query($query);
     }
@@ -359,7 +376,7 @@
         nama varchar(50) NOT NULL,
         sex tinyint(2),
         PRIMARY KEY (id)
-      ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+      ) ENGINE=".$this->engine." AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
     ";
     $this->db->query($query);
 
