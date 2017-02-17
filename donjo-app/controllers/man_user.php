@@ -6,9 +6,10 @@ class Man_User extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
+		$this->load->model('header_model');
+		$this->modul_ini = 11;
 	}
 
 	function clear(){
@@ -40,7 +41,7 @@ class Man_User extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$menu['act']='man_user';
-		$header['modul'] = 11;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('man_user/nav');
 		$this->load->view('man_user/manajemen_user_table',$data);

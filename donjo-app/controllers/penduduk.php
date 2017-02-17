@@ -10,7 +10,7 @@ class Penduduk extends CI_Controller{
 
 		$this->load->model('penduduk_model');
 		$this->load->model('header_model');
-
+		$this->modul_ini = 2;
 	}
 
 	function clear(){
@@ -136,8 +136,8 @@ class Penduduk extends CI_Controller{
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']= 2;
-		$header['modul'] = 2;
 		$this->load->view('header', $header);
 
 		$this->load->view('sid/nav',$nav);
@@ -204,7 +204,7 @@ class Penduduk extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['rw']    = $this->penduduk_model->list_rw($data['dus_sel']);
 		$data['rt']    = $this->penduduk_model->list_rt($data['dus_sel'],$data['rw_sel']);
@@ -218,7 +218,7 @@ class Penduduk extends CI_Controller{
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 2;
 		unset($_SESSION['dari_internal']);
@@ -234,7 +234,7 @@ class Penduduk extends CI_Controller{
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 2;
 		$this->load->view('sid/nav',$nav);
@@ -247,7 +247,7 @@ class Penduduk extends CI_Controller{
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
 
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 2;
 		$this->load->view('sid/nav',$nav);

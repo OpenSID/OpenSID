@@ -12,6 +12,7 @@ class Surat extends CI_Controller{
 		$this->load->model('surat_model');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('config_model');
+		$this->modul_ini = 4;
 	}
 
 	function index(){
@@ -20,7 +21,7 @@ class Surat extends CI_Controller{
 		$data['menu_surat2'] = $this->surat_model->list_surat2();
 		$data['surat_favorit'] = $this->surat_model->list_surat_fav();
 
-		$header['modul'] = 4;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 1;
 
@@ -31,7 +32,7 @@ class Surat extends CI_Controller{
 
 	function panduan(){
 		$header = $this->header_model->get_data();
-		$header['modul'] = 4;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -91,7 +92,7 @@ class Surat extends CI_Controller{
 		$data['form_action2'] = site_url("surat/doc/$url");
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 4;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 
 		$this->load->view('surat/nav',$nav);

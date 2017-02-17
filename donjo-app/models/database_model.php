@@ -1,26 +1,26 @@
 <?php class Database_model extends CI_Model{
 
   private $engine = 'InnoDB';
-  
+
   function __construct(){
     parent::__construct();
-    
+
     $this->cek_engine_db();
-    
+
   }
 
   function cek_engine_db() {
 		$db_debug = $this->db->db_debug; //save setting
 		$this->db->db_debug = FALSE; //disable debugging for queries
-		
+
       $query = $this->db->query("SELECT table_name,`engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '". $this->db->database ."'");
       if(!$this->db->_error_number()) {
       	$this->engine = $query->row()->engine;
       }
-      
-		$this->db->db_debug = $db_debug; //restore setting 
+
+		$this->db->db_debug = $db_debug; //restore setting
   }
-  
+
   function migrasi_db_cri() {
     $this->migrasi_cri_lama();
     $this->migrasi_03_ke_04();
@@ -576,6 +576,42 @@
     }
     if (!$this->db->field_exists('id_pend', 'dokumen')) {
       $query = "ALTER TABLE dokumen ADD id_pend int(11) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+
+    if (!$this->db->table_exists('setting_modul') ) {
+      $query = "
+        CREATE TABLE `setting_modul` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `modul` varchar(50) NOT NULL,
+          `url` varchar(50) NOT NULL,
+          `aktif` tinyint(1) NOT NULL DEFAULT '0',
+          `ikon` varchar(50) NOT NULL,
+          `urut` tinyint(4) NOT NULL,
+          `level` tinyint(1) NOT NULL DEFAULT '2',
+          `hidden` tinyint(1) NOT NULL DEFAULT '0',
+          PRIMARY KEY (`id`)
+          ) ENGINE=".$this->engine." AUTO_INCREMENT=15 DEFAULT CHARSET=utf8
+      ";
+      $this->db->query($query);
+
+      $query = "
+        INSERT INTO setting_modul VALUES
+        ('1','SID Home','hom_desa','1','go-home-5.png','1','2','1'),
+        ('2','Penduduk','penduduk/clear','1','preferences-contact-list.png','2','2','0'),
+        ('3','Statistik','statistik','1','statistik.png','3','2','0'),
+        ('4','Cetak Surat','surat','1','applications-office-5.png','4','2','0'),
+        ('5','Analisis','analisis_master/clear','1','analysis.png','5','2','0'),
+        ('6','Bantuan','program_bantuan','1','program.png','6','2','0'),
+        ('7','Persil','data_persil/clear','1','persil.png','7','2','0'),
+        ('8','Plan','plan','1','plan.png','8','2','0'),
+        ('9','Peta','gis','1','gis.png','9','2','0'),
+        ('10','SMS','sms','1','mail-send-receive.png','10','2','0'),
+        ('11','Pengguna','man_user/clear','1','system-users.png','11','1','1'),
+        ('12','Database','database','1','database.png','12','1','0'),
+        ('13','Admin Web','web','1','message-news.png','13','4','0'),
+        ('14','Laporan','lapor','1','mail-reply-all.png','14','2','0');
+      ";
       $this->db->query($query);
     }
   }

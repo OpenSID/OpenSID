@@ -9,6 +9,7 @@ class gallery extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('web_gallery_model');
+		$this->modul_ini = 13;
 	}
 
 	function clear(){
@@ -40,7 +41,7 @@ class gallery extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=3;
-		$header['modul'] = 13;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('gallery/table',$data);

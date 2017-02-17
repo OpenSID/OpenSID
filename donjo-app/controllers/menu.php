@@ -9,7 +9,7 @@ class menu extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('web_menu_model');
-
+		$this->modul_ini = 13;
 	}
 
 	function clear(){
@@ -42,7 +42,7 @@ class menu extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=1;
-		$header['modul'] = 13;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('menu/table',$data);

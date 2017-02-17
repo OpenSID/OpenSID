@@ -5,18 +5,18 @@ class Program_bantuan extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('program_bantuan_model');
-
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) redirect('siteman');
+		$this->load->model('program_bantuan_model');
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
+		$this->modul_ini = 6;
 	}
 
 	public function index(){
 		$_SESSION['per_page'] = 50;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 6;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$data['tampil'] = 0;
 		$data['program'] = $this->program_bantuan_model->get_program(1, false);
@@ -35,7 +35,7 @@ class Program_bantuan extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 6;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 
 		$data['form_action'] = site_url("program_bantuan/add_peserta");
@@ -57,7 +57,7 @@ class Program_bantuan extends CI_Controller{
 
 	public function detail($p=1, $id){
 		$header = $this->header_model->get_data();
-		$header['modul'] = 6;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 
 		if(isset($_POST['per_page']))
@@ -115,7 +115,7 @@ class Program_bantuan extends CI_Controller{
 		$this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 6;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		if ($this->form_validation->run() === FALSE){
 			$this->load->view('program_bantuan/create');
@@ -136,7 +136,7 @@ class Program_bantuan extends CI_Controller{
 		$this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 6;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);

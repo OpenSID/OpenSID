@@ -18,7 +18,7 @@ class line extends CI_Controller{
 
 		$this->config->item('ion_auth') ;*/
 		$this->load->database();
-
+		$this->modul_ini = 8;
 	}
 
 	function clear(){
@@ -50,7 +50,7 @@ class line extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=2;
-		$header['modul'] = 8;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header-gis', $header);
 
 		$this->load->view('plan/nav',$nav);

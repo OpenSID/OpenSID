@@ -5,12 +5,13 @@ class analisis_master extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
-		$this->load->model('analisis_master_model');
-		$this->load->model('analisis_import_model');
 		$this->load->model('user_model');
-		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
+		$this->load->model('analisis_master_model');
+		$this->load->model('analisis_import_model');
+		$this->load->model('header_model');
+		$this->modul_ini = 5;
 	}
 
 	function clear(){
@@ -47,7 +48,7 @@ class analisis_master extends CI_Controller{
 		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 5;
+		$header['modul_ini'] = $this->modul_ini;
 
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');

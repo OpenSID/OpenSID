@@ -5,11 +5,12 @@ function __construct(){
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('rtm_model');
-		$this->load->model('penduduk_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 		$this->load->model('header_model');
+		$this->load->model('rtm_model');
+		$this->load->model('penduduk_model');
+		$this->modul_ini = 2;
 	}
 
 	function clear(){
@@ -71,7 +72,7 @@ function __construct(){
 
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/rtm',$data);
@@ -175,6 +176,7 @@ function __construct(){
 
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/rtm_anggota',$data);

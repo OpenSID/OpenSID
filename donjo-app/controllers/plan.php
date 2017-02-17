@@ -6,11 +6,10 @@ class plan extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-
-		$this->load->model('header_model');
-		$this->load->model('plan_lokasi_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
+		$this->load->model('header_model');
+		$this->load->model('plan_lokasi_model');
 		//$this->output->enable_profiler(1);
 		// Load library ion auth
 		//$this->load->library('ion_auth');
@@ -20,7 +19,7 @@ class plan extends CI_Controller{
 
 		//$this->config->item('ion_auth') ;
 		$this->load->database();
-
+		$this->modul_ini = 8;
 
 	}
 
@@ -64,7 +63,7 @@ class plan extends CI_Controller{
 		$data['list_subpoint']        = $this->plan_lokasi_model->list_subpoint();
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 8;
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']=3;
 
 		$this->load->view('header-gis', $header);

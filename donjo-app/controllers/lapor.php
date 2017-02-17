@@ -10,7 +10,7 @@ class lapor extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
-
+		$this->modul_ini = 14;
 	}
 
 	function clear(){
@@ -42,7 +42,7 @@ class lapor extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=0;
-		$header['modul'] = 14;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('lapor/nav',$nav);
 		$this->load->view('lapor/table',$data);

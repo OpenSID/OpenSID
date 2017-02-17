@@ -5,12 +5,13 @@ function __construct(){
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('keluarga_model');
-		$this->load->model('penduduk_model');
-		$this->load->model('program_bantuan_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 		$this->load->model('header_model');
+		$this->load->model('keluarga_model');
+		$this->load->model('penduduk_model');
+		$this->load->model('program_bantuan_model');
+		$this->modul_ini = 2;
 	}
 
 	function clear(){
@@ -77,7 +78,7 @@ function __construct(){
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga',$data);
@@ -222,7 +223,7 @@ function __construct(){
 
 		unset($_SESSION['dari_internal']);
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_form',$data);
@@ -258,7 +259,7 @@ function __construct(){
 		}
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_form_a',$data);
@@ -398,7 +399,7 @@ function __construct(){
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_anggota',$data);
@@ -462,7 +463,7 @@ function __construct(){
 		$nav['act']= 1;
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$data['form_action'] = site_url("keluarga/print");

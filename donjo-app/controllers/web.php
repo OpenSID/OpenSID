@@ -9,7 +9,7 @@ class web extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('web_artikel_model');
-
+		$this->modul_ini = 13;
 	}
 
 	function clear(){
@@ -52,7 +52,7 @@ class web extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=0;
-		$header['modul'] = 13;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('web/artikel/table',$data);
@@ -85,7 +85,7 @@ class web extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=7;
-		$header['modul'] = 13;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('web/artikel/widget',$data);
@@ -113,7 +113,7 @@ class web extends CI_Controller{
 
 		if($cat == 1003) $nav['act'] = 7;
 		else $nav['act'] = 0;
-		$header['modul'] = 13;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		//$this->load->view('web/spacer');
 		$this->load->view('web/nav',$nav);

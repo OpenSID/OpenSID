@@ -91,6 +91,7 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 
 <ul class="dropdown" tabindex="1">
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
+	<li><a href="<?php echo site_url()?>modul/clear"><i class="icon-gear icon-large"></i>Pengaturan</a></li>
 	<li><a href="<?php echo site_url()?>hom_desa"><i class="icon-home icon-large"></i>SID Home</a></li>
 	<li><a href="<?php echo site_url()?>sid_core"><i class="icon-group icon-large"></i>Penduduk</a></li>
 	<li><a href="<?php echo site_url()?>statistik"><i class="icon-bar-chart icon-large"></i>Statistik</a></li>

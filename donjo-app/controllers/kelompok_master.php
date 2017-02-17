@@ -10,6 +10,7 @@ class kelompok_master extends CI_Controller{
 		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
+		$this->modul_ini = 2;
 	}
 
 	function clear(){
@@ -47,7 +48,7 @@ class kelompok_master extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -73,7 +74,7 @@ class kelompok_master extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 

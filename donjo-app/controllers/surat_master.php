@@ -5,11 +5,12 @@ class surat_master extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
-		$this->load->model('surat_master_model');
 		$this->load->model('user_model');
-		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
+		$this->load->model('surat_master_model');
+		$this->load->model('header_model');
+		$this->modul_ini = 4;
 	}
 
 	function clear($id=0){
@@ -38,7 +39,7 @@ class surat_master extends CI_Controller{
 		$data['main']    = $this->surat_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->surat_master_model->autocomplete();
 		$header = $this->header_model->get_data();
-		$header['modul'] = 4;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']=3;
 		$this->load->view('surat/nav',$nav);
@@ -62,7 +63,7 @@ class surat_master extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 4;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']=3;
 		$this->load->view('surat/nav',$nav);
@@ -210,7 +211,7 @@ class surat_master extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 4;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']=3;
 		$this->load->view('surat/nav',$nav);
