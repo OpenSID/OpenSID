@@ -38,7 +38,7 @@
     $this->migrasi_17_ke_18();
     $this->migrasi_18_ke_19();
     $this->migrasi_19_ke_110();
-    $this->migrasi_19_ke_111();
+    $this->migrasi_110_ke_111();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -564,7 +564,7 @@
     }
   }
 
-  function migrasi_19_ke_111() {
+  function migrasi_110_ke_111() {
     // Tambah akti/non-aktifkan dan pilihan favorit format surat
     if (!$this->db->field_exists('kunci', 'tweb_surat_format')) {
       $query = "ALTER TABLE tweb_surat_format ADD kunci tinyint(1) NOT NULL DEFAULT '0'";
@@ -614,6 +614,53 @@
       ";
       $this->db->query($query);
     }
+
+    /**
+      Sesuaikan data modul persil dengan SID 3.10
+    */
+
+    // Tabel data_persil
+    $ubah_kolom = array(
+      "`nik` varchar(64) NOT NULL",
+      "`nama` varchar(128) NOT NULL COMMENT 'nomer persil'",
+      "`persil_jenis_id` tinyint(2) NOT NULL",
+      "`luas` decimal(7,2) NOT NULL",
+      "`kelas` varchar(128) DEFAULT NULL",
+      "`no_sppt_pbb` varchar(128) NOT NULL",
+      "`persil_peruntukan_id` tinyint(2) NOT NULL"
+    );
+    foreach ($ubah_kolom as $kolom_def){
+      $query = "ALTER TABLE data_persil MODIFY ".$kolom_def;
+      $this->db->query($query);
+    };
+    if (!$this->db->field_exists('peta', 'data_persil')) {
+      $query = "ALTER TABLE data_persil ADD `peta` text";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('rdate', 'data_persil')) {
+      $query = "ALTER TABLE data_persil ADD `rdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP";
+      $this->db->query($query);
+    }
+
+    // Tabel data_persil_jenis
+    $ubah_kolom = array(
+      "`nama` varchar(128) NOT NULL",
+      "`ndesc` text NOT NULL"
+    );
+    foreach ($ubah_kolom as $kolom_def){
+      $query = "ALTER TABLE data_persil_jenis MODIFY ".$kolom_def;
+      $this->db->query($query);
+    };
+
+    // Tabel data_persil_peruntukan
+    $ubah_kolom = array(
+      "`nama` varchar(128) NOT NULL",
+      "`ndesc` text NOT NULL"
+    );
+    foreach ($ubah_kolom as $kolom_def){
+      $query = "ALTER TABLE data_persil_peruntukan MODIFY ".$kolom_def;
+      $this->db->query($query);
+    };
   }
 
   function kosongkan_db(){

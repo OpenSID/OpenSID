@@ -2,24 +2,6 @@
 /*
  * data_persil.php
  *
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
  */
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Data_persil extends CI_Controller{
@@ -74,6 +56,7 @@ class Data_persil extends CI_Controller{
 
 	function detail($id=0){
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 
 		$data["persil_detail"] = $this->data_persil_model->get_persil($id);
@@ -99,6 +82,7 @@ class Data_persil extends CI_Controller{
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 
 		$data["penduduk"] = $this->data_persil_model->list_penduduk();
@@ -129,6 +113,7 @@ class Data_persil extends CI_Controller{
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 
 		$data["penduduk"] = $this->data_persil_model->list_penduduk();
@@ -161,6 +146,7 @@ class Data_persil extends CI_Controller{
 
 	function jenis($apa=0,$page=1){
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
@@ -173,6 +159,7 @@ class Data_persil extends CI_Controller{
 
 	function peruntukan($apa='',$page=1){
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
@@ -190,6 +177,7 @@ class Data_persil extends CI_Controller{
 
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$data["id"]=$id;
 		if ($this->form_validation->run() === FALSE){
@@ -220,6 +208,7 @@ class Data_persil extends CI_Controller{
 
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$data["id"]=$id;
 		if ($this->form_validation->run() === FALSE){

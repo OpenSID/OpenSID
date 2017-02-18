@@ -1,7 +1,5 @@
 <?php
 /*
- * persil.php
- *
  * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,8 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- *
- *
+ * *
  */
 
 ?>
@@ -83,7 +80,6 @@ echo "
  * Form Add/Edit
  *
  * */
-
 
 if($persil_detail>0){
 	if(isset($persil_detail["id"])){
