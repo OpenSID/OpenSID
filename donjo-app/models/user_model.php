@@ -229,17 +229,18 @@ class User_Model extends CI_Model{
 			$data['foto'] = $nama_file;
 		}
 	  }
-	  // Jangan edit password admin apabila di situs demo
-		if(($data['password']=='radiisi') OR ($id == 1 AND strtolower(config_item('demo')) == "y")){
+		if ($data['password']=='radiisi'){
+		// apabila password tidak diganti
 			unset($data['password']);
-			$this->db->where('id',$id);
-			$outp = $this->db->update('user',$data);
-		}
-		else{
+		} elseif ($id == 1 AND strtolower(config_item('demo')) == "y") {
+	  // Jangan edit password admin apabila di situs demo
+			unset($data['username']);
+			unset($data['password']);
+		} else {
 			$data['password'] = md5($data['password']);
-			$this->db->where('id',$id);
-			$outp = $this->db->update('user',$data);
 		}
+		$this->db->where('id',$id);
+		$outp = $this->db->update('user',$data);
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;

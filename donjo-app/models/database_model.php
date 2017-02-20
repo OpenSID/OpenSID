@@ -694,8 +694,8 @@
     $db = $this->db->database;
     $query = "
       SELECT COUNT(1) ConstraintSudahAda
-      FROM information_schema.TABLE_CONSTRAINTS
-      WHERE CONSTRAINT_SCHEMA = ?
+      FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+      WHERE TABLE_SCHEMA = ?
       AND TABLE_NAME = 'analisis_respon_hasil'
       AND CONSTRAINT_NAME = 'id_master'
     ";
