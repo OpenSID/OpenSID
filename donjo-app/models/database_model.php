@@ -616,6 +616,97 @@
     }
 
     /**
+      Sesuaikan data modul analisis dengan SID 3.10
+    */
+
+    // Tabel analisis_indikator
+    $ubah_kolom = array(
+      "`nomor` int(3) NOT NULL"
+    );
+    foreach ($ubah_kolom as $kolom_def){
+      $query = "ALTER TABLE analisis_indikator MODIFY ".$kolom_def;
+      $this->db->query($query);
+    };
+    if (!$this->db->field_exists('is_publik', 'analisis_indikator')) {
+      $query = "ALTER TABLE analisis_indikator ADD `is_publik` tinyint(1) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+
+    // Tabel analisis_kategori_indikator
+    if (!$this->db->field_exists('kategori_kode', 'analisis_kategori_indikator')) {
+      $query = "ALTER TABLE analisis_kategori_indikator ADD `kategori_kode` varchar(3) NOT NULL";
+      $this->db->query($query);
+    }
+
+    // Tabel analisis_master
+    if ($this->db->field_exists('kode_analiusis', 'analisis_master')) {
+      $query = "ALTER TABLE analisis_master CHANGE `kode_analiusis` `kode_analisis` varchar(5) NOT NULL DEFAULT '00000'";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('id_child', 'analisis_master')) {
+      $query = "ALTER TABLE analisis_master ADD `id_child` smallint(4) NOT NULL";
+      $this->db->query($query);
+    }
+
+    // Tabel analisis_parameter
+    if (!$this->db->field_exists('kode_jawaban', 'analisis_parameter')) {
+      $query = "ALTER TABLE analisis_parameter ADD `kode_jawaban` int(3) NOT NULL";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('asign', 'analisis_parameter')) {
+      $query = "ALTER TABLE analisis_parameter ADD `asign` tinyint(1) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+
+    // Tabel analisis_respon
+    $drop_kolom = array(
+      "id",
+      "tanggal_input"
+    );
+    foreach ($drop_kolom as $kolom_def){
+      if ($this->db->field_exists($kolom_def, 'analisis_respon')) {
+        $query = "ALTER TABLE analisis_respon DROP ".$kolom_def;
+        $this->db->query($query);
+      }
+    };
+
+    // Tabel analisis_respon_bukti
+    $query = "
+      CREATE TABLE IF NOT EXISTS `analisis_respon_bukti` (
+        `id_master` tinyint(4) NOT NULL,
+        `id_periode` tinyint(4) NOT NULL,
+        `id_subjek` int(11) NOT NULL,
+        `pengesahan` varchar(100) NOT NULL,
+        `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=".$this->engine." DEFAULT CHARSET=utf8;
+      ";
+    $this->db->query($query);
+
+    // Tabel analisis_respon_hasil
+    if ($this->db->field_exists('id', 'analisis_respon_hasil')) {
+      $query = "ALTER TABLE analisis_respon_hasil DROP `id`";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('tgl_update', 'analisis_respon_hasil')) {
+      $query = "ALTER TABLE analisis_respon_hasil ADD `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP";
+      $this->db->query($query);
+    }
+    $db = $this->db->database;
+    $query = "
+      SELECT COUNT(1) ConstraintSudahAda
+      FROM information_schema.TABLE_CONSTRAINTS
+      WHERE CONSTRAINT_SCHEMA = ?
+      AND TABLE_NAME = 'analisis_respon_hasil'
+      AND CONSTRAINT_NAME = 'id_master'
+    ";
+    $hasil = $this->db->query($query, $db);
+    $data = $hasil->row_array();
+    if ($data['ConstraintSudahAda'] == 0) {
+      $query = "ALTER TABLE analisis_respon_hasil ADD CONSTRAINT `id_master` UNIQUE (`id_master`,`id_periode`,`id_subjek`)";
+      $this->db->query($query);
+    }
+
+    /**
       Sesuaikan data modul persil dengan SID 3.10
     */
 
