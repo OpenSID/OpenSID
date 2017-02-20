@@ -14,11 +14,11 @@
 <th>Nilai</th>
 <td><input name="nilai" type="text" class="inputbox" size="10" value="<?php echo $analisis_parameter['nilai']?>"/></td>
 </tr>
-</tr>  
+</tr> 
 </table>
-<div class="buttonpane"  style="text-align: right; width:400px;position:absolute;bottom:0px;">
-    <div class="uibutton-group">
-        <button class="uibutton confirm" type="submit">Simpan</button>
-    </div>
+<div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
+ <div class="uibutton-group">
+ <button class="uibutton confirm" type="submit">Simpan</button>
+ </div>
 </div>
 </form>

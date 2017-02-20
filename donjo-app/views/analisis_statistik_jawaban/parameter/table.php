@@ -7,17 +7,20 @@
 	});
 </script>
 <div id="pageC">
+	<table class="inner">
+<tr style="vertical-align:top">
+		<td style="background:#fff;padding:0px 10px;"> 
 <div class="content-header">
 </div>
 <div id="contentpane"> 
 	<form id="mainform" name="mainform" action="" method="post">
  <div class="ui-layout-north panel">
  <h3>Manajemen Parameter Analisis</h3>
-	<p> &nbsp; Pertanyaan : <?php echo $analisis_indikator['pertanyaan']?></p>
+	<p> &nbsp; Pertanyaan : <?php echo $analisis_statistik_jawaban['pertanyaan']?></p>
  <div class="left">
  <div class="uibutton-group">
- <?php if($analisis_master['lock']==1){?> <a href="<?php echo site_url("analisis_indikator/form_parameter/$analisis_indikator[id]")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Parameter Baru</a>
- <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_indikator/p_delete_all_parameter]")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data<?php }?>
+ <?php if($analisis_master['lock']==1){?> <a href="<?php echo site_url("analisis_statistik_jawaban/form_parameter/$analisis_statistik_jawaban[id]")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Parameter Baru</a>
+ <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_statistik_jawaban/p_delete_all_parameter]")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data<?php }?>
  </div>
  </div>
  </div>
@@ -51,7 +54,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
  <td><div class="uibutton-group">
- <a href="<?php echo site_url("analisis_indikator/form_parameter/$analisis_indikator[id]/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("analisis_indikator/delete_parameter/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+ <a href="<?php echo site_url("analisis_statistik_jawaban/form_parameter/$analisis_statistik_jawaban[id]/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("analisis_statistik_jawaban/delete_parameter/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 			</div>
  </td>
 		 <?php }?>
@@ -67,9 +70,10 @@
 	</form>
  <div class="ui-layout-south panel bottom">
  <div class="left"> 
-<a href="<?php echo site_url()?>analisis_indikator" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>analisis_statistik_jawaban" class="uibutton icon prev">Kembali</a>
  <div class="right">
  </div>
  </div>
 </div>
+</td></tr></table>
 </div>

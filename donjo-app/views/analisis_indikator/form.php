@@ -1,5 +1,4 @@
 <div id="pageC">
-
 <script>
 $(function(){
 if ($('input[name=id_tipe]:unchecked').next('label').text()=='Pilihan (Tunggal)'){
@@ -25,9 +24,7 @@ display:none;
 <table class="inner">
 <tr style="vertical-align:top">
 <td style="background:#fff;padding:0px;"> 
-
 <div class="content-header">
-
 </div>
 <div id="contentpane">
 <div class="ui-layout-north panel"><h3>Form Pertanyaan - <a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><?php echo $analisis_master['nama']?></a></h3>
@@ -77,22 +74,33 @@ display:none;
 <td>
 <div class="uiradio">
 <?php $ch='checked';?>				
-<?php  foreach($list_kategori AS $data){?>
+<?php foreach($list_kategori AS $data){?>
 <input type="radio" id="g<?php echo $data['id']?>" name="id_kategori" value="<?php echo $data['id']?>" <?php if($analisis_indikator['id_kategori'] == $data['id']){echo $ch;}?>><label for="g<?php echo $data['id']?>"><?php echo $data['kategori']?></label>
-<?php  }?>
+<?php }?>
 </div>
 </td>
-</tr>  
+</tr> 
+<tr>
+<th>Publikasi Indikator</th>
+<td>
+<div class="uiradio">
+<?php $ch='checked';?>
+<input type="radio" id="agp2" name="is_publik" value="1"/<?php if($analisis_indikator['is_publik'] == '1'){echo $ch;}?>><label for="agp2">Ya</label>
+<input type="radio" id="agp1" name="is_publik" value="0"/<?php if($analisis_indikator['is_publik'] == '0' OR $analisis_indikator['is_publik'] == ''){echo $ch;}?>><label for="agp1">Tidak</label>
+</div>
+*) Tampilkan Agregasi Indikator di halaman depan (menu Data Desa -> Data Analisis).
+</td>
+</tr>
 </table>
 </div>
-   
+ 
 <div class="ui-layout-south panel bottom">
 <div class="left"> 
 <a href="<?php echo site_url()?>analisis_indikator" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">
-<button class="uibutton" type="reset">Clear</button>
+
 <button class="uibutton confirm" type="submit" >Simpan</button>
 </div>
 </div>
