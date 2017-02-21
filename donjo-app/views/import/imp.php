@@ -30,10 +30,11 @@
 													</dl>
 													<li>Simpan (Save) file Excel sebagai .xls file (jika Anda memakai excel 2007 gunakan Save As pilih format .xls) </li>
 													<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</li>
-													<li>Data yang dibutuhkan untuk Import dengan memenuhi urutan format dan aturan data pada<a href="<?php echo base_url()?>assets/import/FormatImportExcel.xls"> tautan ini</a>. <br> File pada tautan itu dapat dipergunakan untuk memasukkan data penduduk. Klik 'Enable Macros' pada waktu membuka file itu.<br></li>
+													<li>Data yang dibutuhkan untuk Import dengan memenuhi urutan format dan aturan data pada tautan berikut.</a></li>
 												</ol>
+												UNDUH CONTOH FORMAT DAN ATURAN : <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/FormatImportExcel.xls">Aturan Data dan Contoh Format</a><br> File pada tautan ini dapat dipergunakan untuk memasukkan data penduduk. Klik 'Enable Macros' pada waktu membuka file itu.<br>
 											</p>
-											<p>
+											<p style="margin-top: 20px;">
 												<?php
 													$max_upload = (int)(ini_get('upload_max_filesize'));
 													$max_post = (int)(ini_get('post_max_size'));
