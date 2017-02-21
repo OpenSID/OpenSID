@@ -528,4 +528,30 @@ function UploadDocument2($fupload_name){
   //unlink($vfile_upload);
   return true;
 }
+
+function UploadPengesahan($fupload_name){
+  $vdir_upload = LOKASI_PENGESAHAN;
+  $vfile_upload = $vdir_upload . $fupload_name;
+  move_uploaded_file($_FILES["pengesahan"]["tmp_name"], $vfile_upload);
+
+  $im_src = imagecreatefromjpeg($vfile_upload);
+  $src_width = imageSX($im_src);
+  $src_height = imageSY($im_src);
+  if(($src_width / $src_height) < (12 / 10)){
+    $dst_width = 120;
+    $dst_height = ($dst_width/$src_width)*$src_height;
+    $cut_height = $dst_height - 100;
+
+    $im = imagecreatetruecolor(120,100);
+    imagecopyresampled($im, $im_src, 0, 0, 0, $cut_height, $dst_width, $dst_height, $src_width, $src_height);
+
+  }else{
+    $dst_height = 100;
+    $dst_width = ($dst_height/$src_height)*$src_width;
+    $cut_width = $dst_width - 120;
+
+    $im = imagecreatetruecolor(120,100);
+    imagecopyresampled($im, $im_src, 0, 0, $cut_width, 0, $dst_width, $dst_height, $src_width, $src_height);
+  }
+}
 ?>

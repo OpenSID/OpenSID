@@ -15,7 +15,7 @@ $(function(){
 		} else {
 			$(this).parent().css({'background':'#fafafa','border':'1px solid #ddd'});
 		}
-	});	
+	});
 	$('#op_item label').click(function(){
 		$(this).prev().trigger('click');
 	})
@@ -86,7 +86,7 @@ $(function(){
 		?>
 			<tr>
 				<td><?php echo $i?></td>
-				
+
 				<?php if($analisis_master['id_child']!=0){?>
 				<td>
 					<div class="uibutton-group">
@@ -94,7 +94,7 @@ $(function(){
 					</div>
 				</td>
 				<?php } ?>
-				
+
 				<td><?php echo $ang['nik']?></td>
 				<td><?php echo $ang['nama']?></td>
 				<td><?php echo tgl_indo($ang['tanggallahir'])?></td>
@@ -116,23 +116,23 @@ $(function(){
 			<tr><td>&nbsp;</td></tr>
 			<tr style="background-color:#acff98;"><td><h3><?php echo $data['kategori']?></h3></td></tr>
 			<tr><td>&nbsp;</td></tr>
-		<?php 
+		<?php
 			$new=0;
 			$last = $data['id_kategori'];
 			}
 		?>
 			<tr><td><label class='tanya'><?php echo $data['no']?><?php echo $data['pertanyaan']?></label></td></tr>
 			<?php if($data['id_tipe']==1){?>
-			
+
 				<tr><td id="op_item">
 				<?php foreach($data['parameter_respon'] AS $data2){?>
 				<div>
 					<input type="radio" name="rb[<?php echo $data['id']?>]" value="<?php echo $data['id']?>.<?php echo $data2['id_parameter']?>" <?php if($data2['cek']){echo " checked";}?>><label><?php echo $data2['kode_jawaban']?>. <?php echo $data2['jawaban']?></label>
 				</div>
 				<?php }?>
-			
+
 			<?php }elseif($data['id_tipe']==2){?>
-			
+
 				<?php foreach($data['parameter_respon'] AS $data2){?>
 				<tr><td id="op_item">
 				<div>
@@ -140,9 +140,9 @@ $(function(){
 					<label><?php echo $data2['kode_jawaban']?>. <?php echo $data2['jawaban']?></label>
 				</div>
 				<?php }?>
-			
+
 			<?php }elseif($data['id_tipe']==3){?>
-			
+
 				<?php if($data['parameter_respon']){?>
 				<?php $data2=$data['parameter_respon'];?>
 				<tr><td id="">
@@ -151,9 +151,9 @@ $(function(){
 				<tr><td id="">
 				<div style="display:inline-block;"><input name="ia[<?php echo $data['id']?>]" type="text" class="inputbox number" size="10" value=""/></div>
 				<?php }?>
-				
+
 			<?php }elseif($data['id_tipe']==4){?>
-			
+
 				<?php if($data['parameter_respon']){?>
 				<?php $data2=$data['parameter_respon'];?>
 				<tr><td id="">
@@ -162,10 +162,10 @@ $(function(){
 				<tr><td id="">
 				<div style="display:inline-block;"><input name="it[<?php echo $data['id']?>]" type="text" class="inputbox" size="100" value=""/></div>
 				<?php }?>
-				
+
 			<?php }?>
-		<?php 
-		
+		<?php
+
 		}?>
 		<tr><td><hr></td></tr>
 		</table>
@@ -184,8 +184,8 @@ $(function(){
 		<tr>
 		<?php foreach($list_bukti AS $bukti){?>
 			<td>
-				<a href="<?php echo base_url()?>assets/files/pengesahan/<?php echo $bukti['pengesahan']?>" target="_blank">
-				<img src="<?php echo base_url()?>assets/files/pengesahan/<?php echo $bukti['pengesahan']?>" width ='320'>
+				<a href="<?php echo base_url().LOKASI_PENGESAHAN.$bukti['pengesahan']?>" target="_blank">
+				<img src="<?php echo base_url().LOKASI_PENGESAHAN.$bukti['pengesahan']?>" width ='320'>
 				</a>
 			</td>
 		<?php }?>
@@ -193,7 +193,7 @@ $(function(){
 		</table>
 	</div>
 	<div class="ui-layout-south panel bottom" id="bawah">
-		<div class="left"> 
+		<div class="left">
 			<a href="<?php echo site_url()?>analisis_respon" class="uibutton icon prev">Kembali</a>
 			<?php if(isset($_SESSION['fullscreen'])){?>
 			<a href="<?php echo current_url()?>/2" class="uibutton">Normal</a>

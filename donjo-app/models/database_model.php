@@ -565,6 +565,10 @@
   }
 
   function migrasi_110_ke_111() {
+    // Buat folder desa/upload/pengesahan apabila belum ada
+    if (!file_exists(LOKASI_PENGESAHAN)) {
+      mkdir(LOKASI_PENGESAHAN, 0755);
+    }
     // Tambah akti/non-aktifkan dan pilihan favorit format surat
     if (!$this->db->field_exists('kunci', 'tweb_surat_format')) {
       $query = "ALTER TABLE tweb_surat_format ADD kunci tinyint(1) NOT NULL DEFAULT '0'";
