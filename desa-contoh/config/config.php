@@ -16,3 +16,6 @@ $config['admin_title'] = 'Sistem Informasi Desa';
 // untuk mengganti penamaan wilayah 'desa'
 $config['sebutan_desa'] = 'nagari';
 $config['sebutan_dusun'] = 'jorong';
+
+// apakah hanya akan menggunakan localhost saja?
+$config['offline_mode'] = FALSE;

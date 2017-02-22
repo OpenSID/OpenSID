@@ -359,5 +359,19 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 
+/*
+|--------------------------------------------------------------------------
+| Offline Mode
+|--------------------------------------------------------------------------
+|
+| Jika aplikasi hanya digunakan secara offline (tidak akan ditampilkan di
+| internet) aktifkan mode offline untuk menyembunyikan fitur yang sangat
+| bermanfaat hanya jika ada internet.
+| Untuk mengaktifkan ganti FALSE dengan TRUE.
+|
+*/
+$config['offline_mode'] = FALSE;
+
+
 /* End of file config.php */
 /* Location: ./application/config/config.php */

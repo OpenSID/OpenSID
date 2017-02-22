@@ -28,6 +28,10 @@
 			<div id="note">
 				Login Gagal. Username atau Password yang Anda masukkan salah!
 			</div>
+			<?php  } else if($_SESSION['siteman']==-2) { ?>
+			<div id="note">
+				Redaksi belum boleh login, SID belum memiliki sambungan internet!
+			</div>
 			<?php }?>
 		</form>
 		</div>
