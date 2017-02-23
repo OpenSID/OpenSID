@@ -178,7 +178,7 @@ table.form.detail td{
 	<tr>
 		<th>Nomor Surat</th>
 		<td>
-			<input name="nomor" type="text" class="inputbox required" size="20"/>
+			<input name="nomor" type="text" class="inputbox required" size="20"/> <span>Terakhir: <?php echo $no_surat_terakhir;?></span>
 		</td>
 	</tr>
 	<tr>

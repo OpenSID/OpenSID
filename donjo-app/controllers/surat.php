@@ -86,7 +86,7 @@ class Surat extends CI_Controller{
 			}
 			$data['laki'] = $this->surat_model->list_penduduk_laki();
 		}
-
+		$data['no_surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url); 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['form_action2'] = site_url("surat/doc/$url");
