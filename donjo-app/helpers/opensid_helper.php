@@ -278,7 +278,7 @@ define("KODE_PEKERJAAN", serialize(array(
   // Untuk mengirim data ke OpenSID tracker
   function httpPost($url,$params)
   {
-    if (isset($_SESSION['no_curl'])) return;
+    if (!extension_loaded('curl')) return;
 
     $postData = '';
     //create name value pairs seperated by &
