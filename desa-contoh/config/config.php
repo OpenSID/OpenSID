@@ -16,3 +16,7 @@ $config['admin_title'] = 'Sistem Informasi Desa';
 // untuk mengganti penamaan wilayah 'desa'
 $config['sebutan_desa'] = 'nagari';
 $config['sebutan_dusun'] = 'jorong';
+
+
+// Apakah akan mengirimkan data statistik ke server sid?
+$config['enable_track'] = TRUE;

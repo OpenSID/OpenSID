@@ -1,5 +1,8 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+// Apakah akan mengirimkan data statistik ke server sid?
+$config['enable_track'] = TRUE;
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
