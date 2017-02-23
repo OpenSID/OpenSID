@@ -347,7 +347,16 @@
 	function get_surat($url=''){
 		$sql   = "SELECT * FROM tweb_surat_format WHERE url_surat = ?";
 		$query = $this->db->query($sql,$url);
-		return $query->row_array();
+		$data = $query->row_array();
+		// Isi lokasi template surat
+		// Pakai surat ubahan desa apabila ada
+		$file = SuratExportDesa($url);
+		if($file == ""){
+			$data['lokasi_rtf'] = "surat/$url/";
+		} else {
+			$data['lokasi_rtf'] = LOKASI_SURAT_EXPORT_DESA;
+		}
+		return $data;
 	}
 
 	function bersihkan_kode_isian($buffer_in){
@@ -418,11 +427,16 @@
 					2 => "Membuat KK Baru",
 					3 => "Nomor KK Tetap"
 				);
-				$kode["status_kk_tidak_pindah"] = array(
+				$kode["status_kk_tidak_pindah_f108"] = array(
 					1 => "Numpang KK",
 					2 => "Membuat KK Baru",
 					3 => "Tidak Ada Angg. Keluarga Yang Ditinggal",
 					4 => "Nomor KK Tetap"
+				);
+				$kode["status_kk_tidak_pindah"] = array(
+					1 => "Numpang KK",
+					2 => "Membuat KK Baru",
+					3 => "Nomor KK Tetap"
 				);
 				break;
 
@@ -438,6 +452,7 @@
 		// Proses surat yang membutuhkan pengambilan data khusus
 		switch ($url) {
 			case 'surat_ket_pindah_penduduk':
+			case 'surat_ket_pindah_penduduk2':
 				$buffer=str_replace("[jumlah_pengikut]",count($input['id_cb']),$buffer);
 				for ($i = 0; $i < MAX_PINDAH; $i++) {
 					$nomor = $i+1;
@@ -762,6 +777,36 @@
 		return $buffer;
 	}
 
+	/**
+		* Kembalikan nama file lampiran yang akan digunakan, di mana
+		* seperti Surat Keterangan Pindah Penduduk ada beberapa pilihan format dan
+		* pengguna bisa memilih format mana yang akan digunakan.
+	*/
+	function lampiran_khusus($url, $lampiran_surat, &$input){
+		switch ($url) {
+			case 'surat_ket_pindah_penduduk':
+				if ($input['kode_format'] == 'F-1.23'){
+					$input['judul_format'] = "Dalam Satu Desa/Kelurahan";
+				} elseif ($input['kode_format'] == 'F-1.25'){
+					$input['judul_format'] = "Antar Desa/Kelurahan Dalam Satu Kecamatan";
+				} elseif ($input['kode_format'] =='F-1.29'){
+					$input['judul_format'] = "Antar Kecamatan Dalam Satu Kabupaten/Kota";
+				} elseif ($input['kode_format'] == 'F-1.34'){
+					$input['judul_format'] = "Antar Kabupaten/Kota atau Antar Provinsi";
+				}
+				// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
+				$daftar_lampiran = explode(",", $lampiran_surat);
+				if ($input['kode_format'] == "f108")
+					return $daftar_lampiran[0];
+				else
+					return $daftar_lampiran[1];
+				break;
+
+			default:
+				return $lampiran_surat;
+		}
+	}
+
 	function lampiran($data, $nama_surat, &$lampiran){
 		$surat = $data['surat'];
 		if (!$surat['lampiran']) return;
@@ -769,12 +814,12 @@
 		$config = $data['config'];
 		$individu = $data['individu'];
 		$input = $data['input'];
+		$format_lampiran = $this->lampiran_khusus($surat['url_surat'],$surat['lampiran'],$input);
 		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
-		$format_lampiran = "surat/".$surat['url_surat']."/".$surat['lampiran'];
 
     // get the HTML
     ob_start();
-    include(dirname(__FILE__)."/../../".$format_lampiran);
+    include(dirname(__FILE__)."/../../".$surat['lokasi_rtf'].$format_lampiran);
     $content = ob_get_clean();
 
     // convert in PDF

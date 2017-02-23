@@ -52,7 +52,7 @@ table.ttd td { text-align: center; }
 <page style="font-size: 10pt">
 
   <table align="right" style="padding: 5px 20px; border: solid 1px black;">
-    <tr><td><strong>F.1-25</strong></td></tr>
+    <tr><td><strong><?php echo $input['kode_format']?></strong></td></tr>
   </table>
   <!-- <p style="margin-bottom: 5px;">&nbsp;</p> -->
   <table style="margin-top: 10px;" class="disdukcapil">
@@ -126,7 +126,7 @@ table.ttd td { text-align: center; }
   </table>
   <p style="text-align: center;">
       <strong style="font-size: 12pt;">FORMULIR PERMOHONAN PINDAH WNI</strong><br>
-      Antar Desa/Kelurahan Dalam Satu Kecamatan<br>
+      <?php echo $input['judul_format']?><br>
       No. .................................
   </p>
 
@@ -379,9 +379,9 @@ table.ttd td { text-align: center; }
     <tr>
       <th style="width: 5%">NO.</th>
       <th style="width: 35%" colspan=16>NIK</th>
-      <th style="width: 28%">NAMA</th>
+      <th style="width: 33%">NAMA</th>
       <th style="width: 17%">MASA BERLAKU KTP S/D</th>
-      <th style="width: 15%">SHDK</th>
+      <th style="width: 10%" colspan=2>SHDK</th>
     </tr>
 
     <?php
@@ -408,12 +408,17 @@ table.ttd td { text-align: center; }
                 else echo "";
               ?>
             </td>
-            <td><?php echo $penduduk['hubungan']; ?></td>
+            <?php $shdk = str_pad($penduduk['kk_level'],2,"0",STR_PAD_LEFT);?>
+            <?php for($j=0; $j<2; $j++):?>
+              <td class="tengah">
+                <?php echo $shdk[$j];?>
+              </td>
+            <?php endfor; ?>
           </tr>
 
         <?php } else { ?>
           <tr>
-            <?php for($k=0; $k<20; $k++): ?>
+            <?php for($k=0; $k<21; $k++): ?>
               <td>&nbsp;</td>
             <?php endfor; ?>
           </tr>

@@ -756,6 +756,16 @@
       $query = "ALTER TABLE data_persil_peruntukan MODIFY ".$kolom_def;
       $this->db->query($query);
     };
+
+    // Ubah surat keterangan pindah penduduk untuk bisa memilih format lampiran
+    $query = "
+      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+      (5, 'surat_ket_pindah_penduduk', 'f-1.08.php,f-1.25.php')
+      ON DUPLICATE KEY UPDATE
+        url_surat = VALUES(url_surat),
+        lampiran = VALUES(lampiran);
+    ";
+    $this->db->query($query);
   }
 
   function kosongkan_db(){

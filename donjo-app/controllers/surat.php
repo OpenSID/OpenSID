@@ -94,7 +94,6 @@ class Surat extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
-
 		$this->load->view('surat/nav',$nav);
 		$this->load->view("surat/form_surat",$data);
 		$this->load->view('footer');
