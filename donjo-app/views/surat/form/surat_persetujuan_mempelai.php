@@ -163,7 +163,7 @@ padding:5px;
 
 	<tr>
 		<th width="25%">Nomor Surat</th>
-		<td><input name="nomor" type="text" class="inputbox required" size="30"/></td>
+		<td><input name="nomor" type="text" class="inputbox required" size="30"/> <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span></td>
 	</tr>
 
 	<?php
