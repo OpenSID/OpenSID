@@ -890,4 +890,17 @@
 		header("location:".base_url($berkas_arsip));
 	}
 
+	function get_last_nosurat_log($url){
+		$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
+		$query = $this->db->query($sql, $url);
+		
+		$id_format_surat = $query->row()->id;			
+		
+		$sql   = "SELECT no_surat FROM log_surat WHERE id_format_surat = ?";
+		$query = $this->db->query($sql, $id_format_surat);
+		
+		return $query->row()->no_surat;
+
+	}
+
 }

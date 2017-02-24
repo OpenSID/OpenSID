@@ -63,7 +63,7 @@ table.form.detail td{
 						?>
 						<tr>
 							<th width="40%">Nomor Surat</th>
-							<td width="60%"><input name="nomor" type="text" class="inputbox required" size="12"/></td>
+							<td width="60%"><input name="nomor" type="text" class="inputbox required" size="12"/> <span>Terakhir: <?php echo $no_surat_terakhir;?></span></td>
 						</tr>
 						<tr>
 							<th>Keperluan</th>
