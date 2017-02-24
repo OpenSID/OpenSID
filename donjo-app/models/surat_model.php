@@ -895,7 +895,7 @@
 
 		$id_format_surat = $query->row()->id;
 
-		$sql   = "SELECT no_surat,tanggal FROM log_surat WHERE id_format_surat = ?";
+		$sql   = "SELECT no_surat,tanggal FROM log_surat WHERE id_format_surat = ? ORDER BY tanggal DESC LIMIT 1";
 		$query = $this->db->query($sql, $id_format_surat);
 
 		return $query->row_array();
