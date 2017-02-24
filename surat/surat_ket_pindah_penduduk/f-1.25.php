@@ -404,7 +404,7 @@ table.ttd td { text-align: center; }
             <td><?php echo $penduduk['nama']; ?></td>
             <td>
               <?php if($input['ktp_berlaku'][$i])
-                echo tgl_indo_dari_str($input['ktp_berlaku'][$i]);
+                echo $input['ktp_berlaku'][$i];
                 else echo "";
               ?>
             </td>
