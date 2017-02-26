@@ -461,7 +461,7 @@
 						$buffer=str_replace("[pindah_no_$nomor]",$nomor,$buffer);
 						$buffer=str_replace("[pindah_nik_$nomor]",$penduduk['nik'],$buffer);
 						$buffer=str_replace("[pindah_nama_$nomor]",ucwords(strtolower($penduduk['nama'])),$buffer);
-						$buffer=str_replace("[ktp_berlaku$nomor]",$input['ktp_berlaku'][$nomor],$buffer);
+						$buffer=str_replace("[ktp_berlaku$nomor]",$input['ktp_berlaku'][$i],$buffer);
 						$buffer=str_replace("[pindah_shdk_$nomor]",ucwords(strtolower($penduduk['hubungan'])),$buffer);
 					} else {
 						$buffer=str_replace("[pindah_no_$nomor]","",$buffer);
@@ -480,7 +480,12 @@
 					$buffer=str_replace("[alasan_pindah]",$kode['alasan_pindah'][$alasan_pindah_id],$buffer);
 				}
 				$buffer=str_replace("[jenis_kepindahan]",$kode['jenis_kepindahan'][$input['jenis_kepindahan_id']],$buffer);
-				$buffer=str_replace("[status_kk_tidak_pindah]",$kode['status_kk_pindah'][$input['status_kk_tidak_pindah_id']],$buffer);
+				if ($kode['status_kk_tidak_pindah'][$input['status_kk_tidak_pindah_id']]) {
+					$buffer=str_replace("[status_kk_tidak_pindah]",$kode['status_kk_tidak_pindah'][$input['status_kk_tidak_pindah_id']],$buffer);
+				}
+				else {
+					$buffer=str_replace("[status_kk_tidak_pindah]","-",$buffer);
+				}
 				$buffer=str_replace("[status_kk_pindah]",$kode['status_kk_pindah'][$input['status_kk_pindah_id']],$buffer);
 				break;
 
