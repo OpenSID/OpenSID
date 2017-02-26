@@ -296,7 +296,7 @@ function __construct(){
 		if($dusun!="")
 			$_SESSION['dusun']=$dusun;
 		else unset($_SESSION['dusun']);
-		redirect('penduduk');
+		redirect('keluarga');
 	}
 
 	function rw(){
@@ -305,7 +305,7 @@ function __construct(){
 		if($rw!="")
 			$_SESSION['rw']=$rw;
 		else unset($_SESSION['rw']);
-		redirect('penduduk');
+		redirect('keluarga');
 	}
 
 	function rt(){
@@ -313,7 +313,7 @@ function __construct(){
 		if($rt!="")
 			$_SESSION['rt']=$rt;
 		else unset($_SESSION['rt']);
-		redirect('penduduk');
+		redirect('keluarga');
 	}
 
 	function blt(){
