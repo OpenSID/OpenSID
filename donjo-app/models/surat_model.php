@@ -461,6 +461,7 @@
 						$buffer=str_replace("[pindah_no_$nomor]",$nomor,$buffer);
 						$buffer=str_replace("[pindah_nik_$nomor]",$penduduk['nik'],$buffer);
 						$buffer=str_replace("[pindah_nama_$nomor]",ucwords(strtolower($penduduk['nama'])),$buffer);
+						$buffer=str_replace("[ktp_berlaku$nomor]",$input['ktp_berlaku'][$nomor],$buffer);
 						$buffer=str_replace("[pindah_shdk_$nomor]",ucwords(strtolower($penduduk['hubungan'])),$buffer);
 					} else {
 						$buffer=str_replace("[pindah_no_$nomor]","",$buffer);

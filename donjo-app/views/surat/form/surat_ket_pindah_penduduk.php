@@ -71,7 +71,7 @@
 				if($('#kode_format').val() == "f108"){
 					$(status_kk_tidak_pindah).val("3");
 				} else {
-					$(status_kk_tidak_pindah).val("");
+					$(status_kk_tidak_pindah).val(" ");
 				}
 				$(status_kk_tidak_pindah).trigger("onchange");
 				$(status_kk_tidak_pindah).attr('disabled', 'disabled');
@@ -89,13 +89,11 @@
 		$('#kk_show').trigger("onchange");
 	}
 	function urus_masa_ktp(centang, urut){
+		// ktp_berlaku sekarang selalu 'Seumur Hidup' dan tidak diubah
 		if (centang){
 			$('#anggota' + urut).attr('disabled', 'disabled');
-			$('#ktp_berlaku' + urut).attr('disabled', 'disabled');
-			$('#ktp_berlaku' + urut).val('');
 		}
 		else {
-			$('#ktp_berlaku' + urut).removeAttr('disabled');
 			$('#anggota' + urut).removeAttr('disabled');
 		}
 	}
@@ -397,7 +395,8 @@ table.form.detail td{
 									</td>
 									<td><?php echo $data['nik']?></td>
 									<td>
-										<input id="ktp_berlaku<?php echo ($i)?>" disabled="disabled" name="ktp_berlaku[]" type="text" value="Seumur Hidup" class="inputbox required" size="20"/>
+										<input id="ktp_berlaku<?php echo ($i)?>" type="hidden" name="ktp_berlaku[]" type="text" value="Seumur Hidup"/>
+										<input disabled="disabled" type="text" value="Seumur Hidup" class="inputbox" size="20"/>
 									</td>
 									<td><?php echo unpenetration($data['nama'])?></td>
 									<td><?php echo $data['sex']?></td>
