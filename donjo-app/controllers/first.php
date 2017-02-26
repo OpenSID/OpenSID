@@ -6,6 +6,11 @@ class First extends CI_Controller{
 		parent::__construct();
 		session_start();
 
+		// Jika offline_mode aktif, tidak perlu menampilkan halaman website
+		if ($this->config->item("offline_mode")===TRUE) {
+			redirect('siteman');
+		}
+
 		mandiri_timeout();
 		$this->load->model('header_model');
 		$this->load->model('config_model');
