@@ -279,6 +279,8 @@ define("KODE_PEKERJAAN", serialize(array(
   function httpPost($url,$params)
   {
     if (isset($_SESSION['no_curl'])) return;
+    
+    if (isset($_SESSION['enable_track']) && $_SESSION['enable_track'] == FALSE) return;
 
     $postData = '';
     //create name value pairs seperated by &
