@@ -505,6 +505,10 @@ define ('MIME_TYPE_DOKUMEN', serialize (array(
   "application/msexcel",
   "application/x-zip" )));
 
+define ('MIME_TYPE_GAMBAR', serialize (array(
+  'image/jpeg', 'image/pjpeg',
+  'image/png',  'image/x-png' )));
+
 function UploadDocument($fupload_name){
   $vdir_upload = LOKASI_DOKUMEN;
 
