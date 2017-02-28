@@ -26,6 +26,9 @@ $config['admin_title'] = 'Sistem Informasi Desa';
 */
 $config['offline_mode'] = FALSE;
 
+// Apakah akan mengirimkan data statistik ke server sid?
+$config['enable_track'] = TRUE;
+
 // Konfigurasi tambahan untuk aplikasi
 $extra_app_config = FCPATH . LOKASI_SID_INI . 'config.php';
 if (is_file($extra_app_config)) {

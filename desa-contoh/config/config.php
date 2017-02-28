@@ -19,3 +19,6 @@ $config['sebutan_dusun'] = 'jorong';
 
 // apakah hanya akan menggunakan localhost saja?
 $config['offline_mode'] = FALSE;
+
+// Apakah akan mengirimkan data statistik ke server sid?
+$config['enable_track'] = TRUE;
