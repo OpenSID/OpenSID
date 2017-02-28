@@ -392,9 +392,45 @@
 	}
 
 	function list_data_map(){
-
 		//Main Query
-		$sql   = "SELECT u.id,u.nik,u.nama,map.lat,map.lng,a.dusun,a.rw,a.rt,d.no_kk AS no_kk,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id LEFT JOIN tweb_keluarga d ON u.id_kk = d.id LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id  LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id LEFT JOIN tweb_cacat f ON u.cacat_id = f.id LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE 1 ";
+		$sql = "SELECT u.id, u.nik, u.nama, map.lat, map.lng, a.dusun, a.rw, a.rt, d.no_kk AS no_kk,
+					(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0
+					FROM tweb_penduduk
+					WHERE id = u.id) AS umur,
+				x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, k.nama AS kawin, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan,
+				@alamat:=trim(concat_ws(' ',
+					case
+						when a.rt != '-' then concat('RT-', a.rt)
+						else ''
+					end,
+					case
+						when a.rw != '-' then concat('RW-', a.rw)
+						else ''
+					end,
+					case
+						when a.dusun != '-' then concat('Dusun ', a.dusun)
+						else ''
+					end
+				)),
+				case
+					when length(@alamat) > 0 then @alamat
+					else 'Alamat penduduk belum valid'
+				end as alamat
+				FROM tweb_penduduk u
+				LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
+				LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
+				LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
+				LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id
+				LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
+				LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id
+				LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
+				LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
+				LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id
+				LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
+				LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
+				LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
+				LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
+				LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE 1 ";
 
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
@@ -420,29 +456,7 @@
 		$sql .= $this->hamil_sql();
 
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
-
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['alamat']='';
-
-			if($data[$i]['alamat_sekarang'] != "-")
-	      $data[$i]['alamat']="KP/JL-".$data[$i]['alamat_sekarang'];
-
-			if($data[$i]['rt'] != "-")
-				$data[$i]['alamat']="RT-".$data[$i]['rt'];
-
-			if($data[$i]['rw'] != "-")
-				$data[$i]['alamat']=$data[$i]['alamat']." RW-".$data[$i]['rw'];
-
-			if($data[$i]['dusun'] != "-")
-				$data[$i]['alamat']=$data[$i]['alamat']." Dusun ".$data[$i]['dusun'];
-			else
-				$data[$i]['alamat']="Alamat penduduk belum valid";
-
-			$i++;
-		}
-		return $data;
+		return $query->result_array();
 	}
 
 	function validasi_data_penduduk(&$data){
