@@ -1,7 +1,7 @@
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title><?php echo ((config_item('website_title')!=FALSE) ? config_item('website_title') : 'Website ' . ucwords(config_item('sebutan_desa')) . ' ' . unpenetration($desa['nama_desa']))?></title>
+		<title><?php echo ((config_item('website_title')!=FALSE) ? config_item('website_title') : 'Website ' . ucwords(config_item('sebutan_desa')) . ' ' . unpenetration($desa['nama_desa'])) . get_dynamic_title_page_from_path()?></title>
 		<meta content="utf-8" http-equiv="encoding">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta property="og:site_name" content="<?php echo unpenetration($desa['nama_desa']);?>"/>
