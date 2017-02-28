@@ -7,20 +7,21 @@ DROP TABLE IF EXISTS analisis_indikator;
 CREATE TABLE `analisis_indikator` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_master` int(11) NOT NULL,
-  `nomor` decimal(3,0) NOT NULL,
+  `nomor` int(3) NOT NULL,
   `pertanyaan` varchar(400) NOT NULL,
   `id_tipe` tinyint(4) NOT NULL DEFAULT '1',
   `bobot` tinyint(4) NOT NULL DEFAULT '0',
   `act_analisis` tinyint(1) NOT NULL DEFAULT '2',
   `id_kategori` tinyint(4) NOT NULL,
+  `is_publik` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`,`id_tipe`),
   KEY `id_tipe` (`id_tipe`),
   KEY `id_kategori` (`id_kategori`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`) VALUES ('1', '2', '1', 'kepemilikan rumah', '1', '1', '1', '1');
-INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`) VALUES ('2', '2', '2', 'penghasilan perbulan', '1', '4', '1', '2');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`) VALUES ('1', '2', '1', 'kepemilikan rumah', '1', '1', '1', '1', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`) VALUES ('2', '2', '2', 'penghasilan perbulan', '1', '4', '1', '2', '0');
 
 
 #
@@ -33,12 +34,13 @@ CREATE TABLE `analisis_kategori_indikator` (
   `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `id_master` tinyint(4) NOT NULL,
   `kategori` varchar(50) NOT NULL,
+  `kategori_kode` varchar(3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`) VALUES ('1', '2', 'Aset');
-INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`) VALUES ('2', '2', 'Penghasilan');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('1', '2', 'Aset', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('2', '2', 'Penghasilan', '');
 
 
 #
@@ -74,14 +76,15 @@ CREATE TABLE `analisis_master` (
   `subjek_tipe` tinyint(4) NOT NULL,
   `lock` tinyint(1) NOT NULL DEFAULT '1',
   `deskripsi` text NOT NULL,
-  `kode_analiusis` varchar(5) NOT NULL DEFAULT '00000',
+  `kode_analisis` varchar(5) NOT NULL DEFAULT '00000',
   `id_kelompok` int(11) NOT NULL,
   `pembagi` varchar(10) NOT NULL DEFAULT '100',
+  `id_child` smallint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analiusis`, `id_kelompok`, `pembagi`) VALUES ('1', 'Analisis Keahlian Individu', '1', '1', '<p>survey</p>', '00000', '0', '1');
-INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analiusis`, `id_kelompok`, `pembagi`) VALUES ('2', 'AKP Lombok Tengah', '2', '1', '<p>keterangan</p>', '00000', '0', '1');
+INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`) VALUES ('1', 'Analisis Keahlian Individu', '1', '1', '<p>survey</p>', '00000', '0', '1', '0');
+INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`) VALUES ('2', 'AKP Lombok Tengah', '2', '1', '<p>keterangan</p>', '00000', '0', '1', '0');
 
 
 #
@@ -95,16 +98,18 @@ CREATE TABLE `analisis_parameter` (
   `id_indikator` int(11) NOT NULL,
   `jawaban` varchar(200) NOT NULL,
   `nilai` tinyint(4) NOT NULL DEFAULT '0',
+  `kode_jawaban` int(3) NOT NULL,
+  `asign` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `id_indikator` (`id_indikator`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
-INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`) VALUES ('1', '1', 'milik sendiri', '5');
-INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`) VALUES ('2', '1', 'milik orang tua', '4');
-INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`) VALUES ('3', '1', 'kontrak', '1');
-INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`) VALUES ('4', '2', '< Rp.500.000,-', '1');
-INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`) VALUES ('5', '2', 'Rp 500.000,- sampa Rp 1.000.000,-', '3');
-INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`) VALUES ('6', '2', 'diatas Rp 2.000.000,-', '5');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1', '1', 'milik sendiri', '5', '0', '0');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('2', '1', 'milik orang tua', '4', '0', '0');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('3', '1', 'kontrak', '1', '0', '0');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('4', '2', '< Rp.500.000,-', '1', '0', '0');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('5', '2', 'Rp 500.000,- sampa Rp 1.000.000,-', '3', '0', '0');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('6', '2', 'diatas Rp 2.000.000,-', '5', '0', '0');
 
 
 #
@@ -191,43 +196,54 @@ INSERT INTO analisis_ref_subjek (`id`, `subjek`) VALUES ('4', 'Kelompok');
 DROP TABLE IF EXISTS analisis_respon;
 
 CREATE TABLE `analisis_respon` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_indikator` int(11) NOT NULL,
   `id_parameter` int(11) NOT NULL,
   `id_subjek` int(11) NOT NULL,
   `id_periode` int(11) NOT NULL,
-  `tanggal_input` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
   KEY `id_parameter` (`id_parameter`,`id_subjek`),
   KEY `id_periode` (`id_periode`),
   KEY `id_indikator` (`id_indikator`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('1', '1', '1', '129', '1', '2014-12-05 14:52:16');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('2', '2', '6', '129', '1', '2014-12-05 14:52:16');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('3', '1', '3', '254', '1', '2014-12-05 14:52:41');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('4', '2', '4', '254', '1', '2014-12-05 14:52:41');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('5', '1', '1', '298', '1', '2014-12-05 14:53:05');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('6', '2', '5', '298', '1', '2014-12-05 14:53:05');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('7', '1', '1', '304', '1', '2014-12-05 14:53:10');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('8', '2', '5', '304', '1', '2014-12-05 14:53:10');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('9', '1', '3', '308', '1', '2014-12-05 14:53:17');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('10', '2', '6', '308', '1', '2014-12-05 14:53:17');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('11', '1', '1', '309', '1', '2014-12-05 14:53:22');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('12', '2', '4', '309', '1', '2014-12-05 14:53:22');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('13', '1', '3', '129', '2', '2014-12-05 14:55:23');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('14', '2', '4', '129', '2', '2014-12-05 14:55:23');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('15', '1', '1', '254', '2', '2014-12-05 14:55:31');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('16', '2', '6', '254', '2', '2014-12-05 14:55:31');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('17', '1', '2', '298', '2', '2014-12-05 14:55:36');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('18', '2', '6', '298', '2', '2014-12-05 14:55:36');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('19', '1', '3', '304', '2', '2014-12-05 14:55:43');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('20', '2', '6', '304', '2', '2014-12-05 14:55:43');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('21', '1', '2', '308', '2', '2014-12-05 14:55:48');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('22', '2', '6', '308', '2', '2014-12-05 14:55:48');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('23', '1', '3', '309', '2', '2014-12-05 14:55:55');
-INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, `id_periode`, `tanggal_input`) VALUES ('24', '2', '6', '309', '2', '2014-12-05 14:55:55');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '1', '129', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '6', '129', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '3', '254', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '4', '254', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '1', '298', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '5', '298', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '1', '304', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '5', '304', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '3', '308', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '6', '308', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '1', '309', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '4', '309', '1');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '3', '129', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '4', '129', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '1', '254', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '6', '254', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '2', '298', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '6', '298', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '3', '304', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '6', '304', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '2', '308', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '6', '308', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('1', '3', '309', '2');
+INSERT INTO analisis_respon (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES ('2', '6', '309', '2');
 
+
+#
+# TABLE STRUCTURE FOR: analisis_respon_bukti
+#
+
+DROP TABLE IF EXISTS analisis_respon_bukti;
+
+CREATE TABLE `analisis_respon_bukti` (
+  `id_master` tinyint(4) NOT NULL,
+  `id_periode` tinyint(4) NOT NULL,
+  `id_subjek` int(11) NOT NULL,
+  `pengesahan` varchar(100) NOT NULL,
+  `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # TABLE STRUCTURE FOR: analisis_respon_hasil
@@ -236,26 +252,26 @@ INSERT INTO analisis_respon (`id`, `id_indikator`, `id_parameter`, `id_subjek`, 
 DROP TABLE IF EXISTS analisis_respon_hasil;
 
 CREATE TABLE `analisis_respon_hasil` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_master` tinyint(4) NOT NULL,
   `id_periode` tinyint(4) NOT NULL,
   `id_subjek` int(11) NOT NULL,
   `akumulasi` double(8,3) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+  `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `id_master` (`id_master`,`id_periode`,`id_subjek`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('1', '2', '1', '129', '25.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('2', '2', '1', '254', '5.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('3', '2', '1', '298', '17.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('4', '2', '1', '304', '17.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('5', '2', '1', '308', '21.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('6', '2', '1', '309', '9.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('7', '2', '2', '129', '5.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('8', '2', '2', '254', '25.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('9', '2', '2', '298', '24.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('10', '2', '2', '304', '21.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('11', '2', '2', '308', '24.000');
-INSERT INTO analisis_respon_hasil (`id`, `id_master`, `id_periode`, `id_subjek`, `akumulasi`) VALUES ('12', '2', '2', '309', '21.000');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '1', '129', '25.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '1', '254', '5.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '1', '298', '17.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '1', '304', '17.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '1', '308', '21.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '1', '309', '9.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '2', '129', '5.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '2', '254', '25.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '2', '298', '24.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '2', '304', '21.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '2', '308', '24.000', '0000-00-00 00:00:00');
+INSERT INTO analisis_respon_hasil (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES ('2', '2', '309', '21.000', '0000-00-00 00:00:00');
 
 
 #
@@ -416,16 +432,18 @@ DROP TABLE IF EXISTS data_persil;
 
 CREATE TABLE `data_persil` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nik` decimal(16,0) NOT NULL,
-  `nama` varchar(100) NOT NULL,
-  `persil_jenis_id` int(11) NOT NULL,
+  `nik` varchar(64) NOT NULL,
+  `nama` varchar(128) NOT NULL COMMENT 'nomer persil',
+  `persil_jenis_id` tinyint(2) NOT NULL,
   `id_clusterdesa` int(11) NOT NULL,
-  `luas` int(11) DEFAULT NULL,
-  `no_sppt_pbb` int(11) DEFAULT NULL,
-  `kelas` varchar(50) DEFAULT NULL,
-  `persil_peruntukan_id` int(11) NOT NULL,
+  `luas` decimal(7,2) NOT NULL,
+  `no_sppt_pbb` varchar(128) NOT NULL,
+  `kelas` varchar(128) DEFAULT NULL,
+  `persil_peruntukan_id` tinyint(2) NOT NULL,
   `alamat_ext` varchar(100) DEFAULT NULL,
   `userID` mediumint(9) DEFAULT NULL,
+  `peta` text,
+  `rdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -437,8 +455,8 @@ DROP TABLE IF EXISTS data_persil_jenis;
 
 CREATE TABLE `data_persil_jenis` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(100) NOT NULL,
-  `ndesc` varchar(200) DEFAULT NULL,
+  `nama` varchar(128) NOT NULL,
+  `ndesc` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -450,8 +468,8 @@ DROP TABLE IF EXISTS data_persil_peruntukan;
 
 CREATE TABLE `data_persil_peruntukan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(100) NOT NULL,
-  `ndesc` varchar(200) DEFAULT NULL,
+  `nama` varchar(128) NOT NULL,
+  `ndesc` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -478,6 +496,7 @@ CREATE TABLE `dokumen` (
   `nama` varchar(50) NOT NULL,
   `enabled` int(2) NOT NULL DEFAULT '1',
   `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_pend` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -1138,6 +1157,40 @@ CREATE TABLE `sentitems` (
   KEY `sentitems_dest` (`DestinationNumber`),
   KEY `sentitems_sender` (`SenderID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: setting_modul
+#
+
+DROP TABLE IF EXISTS setting_modul;
+
+CREATE TABLE `setting_modul` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `modul` varchar(50) NOT NULL,
+  `url` varchar(50) NOT NULL,
+  `aktif` tinyint(1) NOT NULL DEFAULT '0',
+  `ikon` varchar(50) NOT NULL,
+  `urut` tinyint(4) NOT NULL,
+  `level` tinyint(1) NOT NULL DEFAULT '2',
+  `hidden` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('1', 'SID Home', 'hom_desa', '1', 'go-home-5.png', '1', '2', '1');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('2', 'Penduduk', 'penduduk/clear', '1', 'preferences-contact-list.png', '2', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('3', 'Statistik', 'statistik', '1', 'statistik.png', '3', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('4', 'Cetak Surat', 'surat', '1', 'applications-office-5.png', '4', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('5', 'Analisis', 'analisis_master/clear', '1', 'analysis.png', '5', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('6', 'Bantuan', 'program_bantuan', '1', 'program.png', '6', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('7', 'Persil', 'data_persil/clear', '1', 'persil.png', '7', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('8', 'Plan', 'plan', '1', 'plan.png', '8', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('9', 'Peta', 'gis', '1', 'gis.png', '9', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('10', 'SMS', 'sms', '1', 'mail-send-receive.png', '10', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('11', 'Pengguna', 'man_user/clear', '1', 'system-users.png', '11', '1', '1');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('12', 'Database', 'database', '1', 'database.png', '12', '1', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('13', 'Admin Web', 'web', '1', 'message-news.png', '13', '4', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('14', 'Laporan', 'lapor', '1', 'mail-reply-all.png', '14', '2', '0');
+
 
 #
 # TABLE STRUCTURE FOR: setting_sms
@@ -1958,46 +2011,48 @@ CREATE TABLE `tweb_surat_format` (
   `url_surat` varchar(100) NOT NULL,
   `kode_surat` varchar(10) NOT NULL,
   `lampiran` varchar(100) DEFAULT NULL,
+  `kunci` tinyint(1) NOT NULL DEFAULT '0',
+  `favorit` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('3', 'Biodata Penduduk', 'surat_bio_penduduk', 'S-03', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('5', 'Keterangan Pindah Penduduk', 'surat_ket_pindah_penduduk', 'S-04', 'f-1.08.php');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('6', 'Keterangan Jual Beli', 'surat_ket_jual_beli', 'S-05', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('7', 'Pengantar Pindah Antar Kabupaten/ Provinsi', 'surat_pindah_antar_kab_prov', 'S-06', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('8', 'Pengantar Surat Keterangan Catatan Kepolisian', 'surat_ket_catatan_kriminal', 'S-07', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('9', 'Keterangan KTP dalam Proses', 'surat_ket_ktp_dalam_proses', 'S-08', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('10', 'Keterangan Beda Identitas', 'surat_ket_beda_nama', 'S-09', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('11', 'Keterangan Bepergian / Jalan', 'surat_jalan', 'S-10', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('12', 'Keterangan Kurang Mampu', 'surat_ket_kurang_mampu', 'S-11', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('13', 'Pengantar Izin Keramaian', 'surat_izin_keramaian', 'S-12', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('14', 'Pengantar Laporan Kehilangan', 'surat_ket_kehilangan', 'S-13', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('15', 'Keterangan Usaha', 'surat_ket_usaha', 'S-14', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('16', 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('17', 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('18', 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('20', 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('21', 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('22', 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('24', 'Keterangan Kematian', 'surat_ket_kematian', 'S-21', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('25', 'Keterangan Lahir Mati', 'surat_ket_lahir_mati', 'S-22', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('26', 'Keterangan Untuk Nikah (N-1)', 'surat_ket_nikah', 'S-23', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('27', 'Keterangan Asal Usul (N-2)', 'surat_ket_asalusul', 'S-24', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('28', 'Persetujuan Mempelai (N-3)', 'surat_persetujuan_mempelai', 'S-25', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('29', 'Keterangan Tentang Orang Tua (N-4)', 'surat_ket_orangtua', 'S-26', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('30', 'Keterangan Izin Orang Tua(N-5)', 'surat_izin_orangtua', 'S-27', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('31', 'Keterangan Kematian Suami/Istri(N-6)', 'surat_ket_kematian_suami_istri', 'S-28', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('32', 'Pemberitahuan Kehendak Nikah (N-7)', 'surat_kehendak_nikah', 'S-29', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('33', 'Keterangan Pergi Kawin', 'surat_ket_pergi_kawin', 'S-30', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('34', 'Keterangan Wali', 'surat_ket_wali', 'S-31', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('35', 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('36', 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('37', 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('38', 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35', NULL);
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`) VALUES ('44', 'Ubah Sesuaikan', 'surat_ubah_sesuaikan', 'S-36', NULL);
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('3', 'Biodata Penduduk', 'surat_bio_penduduk', 'S-03', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('5', 'Keterangan Pindah Penduduk', 'surat_ket_pindah_penduduk', 'S-04', 'f-1.08.php,f-1.25.php', '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('6', 'Keterangan Jual Beli', 'surat_ket_jual_beli', 'S-05', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('7', 'Pengantar Pindah Antar Kabupaten/ Provinsi', 'surat_pindah_antar_kab_prov', 'S-06', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('8', 'Pengantar Surat Keterangan Catatan Kepolisian', 'surat_ket_catatan_kriminal', 'S-07', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('9', 'Keterangan KTP dalam Proses', 'surat_ket_ktp_dalam_proses', 'S-08', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('10', 'Keterangan Beda Identitas', 'surat_ket_beda_nama', 'S-09', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('11', 'Keterangan Bepergian / Jalan', 'surat_jalan', 'S-10', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('12', 'Keterangan Kurang Mampu', 'surat_ket_kurang_mampu', 'S-11', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('13', 'Pengantar Izin Keramaian', 'surat_izin_keramaian', 'S-12', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('14', 'Pengantar Laporan Kehilangan', 'surat_ket_kehilangan', 'S-13', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('15', 'Keterangan Usaha', 'surat_ket_usaha', 'S-14', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('16', 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('17', 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('18', 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('20', 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('21', 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('22', 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('24', 'Keterangan Kematian', 'surat_ket_kematian', 'S-21', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('25', 'Keterangan Lahir Mati', 'surat_ket_lahir_mati', 'S-22', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('26', 'Keterangan Untuk Nikah (N-1)', 'surat_ket_nikah', 'S-23', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('27', 'Keterangan Asal Usul (N-2)', 'surat_ket_asalusul', 'S-24', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('28', 'Persetujuan Mempelai (N-3)', 'surat_persetujuan_mempelai', 'S-25', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('29', 'Keterangan Tentang Orang Tua (N-4)', 'surat_ket_orangtua', 'S-26', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('30', 'Keterangan Izin Orang Tua(N-5)', 'surat_izin_orangtua', 'S-27', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('31', 'Keterangan Kematian Suami/Istri(N-6)', 'surat_ket_kematian_suami_istri', 'S-28', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('32', 'Pemberitahuan Kehendak Nikah (N-7)', 'surat_kehendak_nikah', 'S-29', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('33', 'Keterangan Pergi Kawin', 'surat_ket_pergi_kawin', 'S-30', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('34', 'Keterangan Wali', 'surat_ket_wali', 'S-31', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('35', 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('36', 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('37', 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('38', 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35', NULL, '0', '0');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`) VALUES ('44', 'Ubah Sesuaikan', 'surat_ubah_sesuaikan', 'S-36', NULL, '0', '0');
 
 
 #
