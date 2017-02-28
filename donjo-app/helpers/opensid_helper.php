@@ -279,7 +279,6 @@ define("KODE_PEKERJAAN", serialize(array(
   function httpPost($url,$params)
   {
     if (!extension_loaded('curl') OR isset($_SESSION['no_curl'])) return;
-    if ($this->config->item('enable_track') == FALSE) return;
 
     $postData = '';
     //create name value pairs seperated by &
