@@ -490,10 +490,8 @@ function UploadSimbol($fupload_name){
 define ('MIME_TYPE_DOKUMEN', serialize (array(
   "application/x-download",
   "application/pdf",
-  "application/zip",
   "application/ppt",
   "application/pptx",
-  "application/rar",
   "application/excel",
   "application/msword",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -502,12 +500,15 @@ define ('MIME_TYPE_DOKUMEN', serialize (array(
   "application/powerpoint",
   "application/vnd.ms-powerpoint",
   "application/vnd.ms-excel",
-  "application/msexcel",
-  "application/x-zip" )));
+  "application/msexcel")));
 
 define ('MIME_TYPE_GAMBAR', serialize (array(
   'image/jpeg', 'image/pjpeg',
   'image/png',  'image/x-png' )));
+
+define ('MIME_TYPE_ARSIP', serialize (array(
+  'application/rar','application/x-rar','application/x-rar-compressed','application/octet-stream',
+  'application/zip','application/x-zip','application/x-zip-compressed')));
 
 function UploadDocument($fupload_name){
   $vdir_upload = LOKASI_DOKUMEN;

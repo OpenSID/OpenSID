@@ -109,7 +109,8 @@ class Web_Dokumen_Model extends CI_Model{
 	  $tipe_file   = $_FILES['satuan']['type'];
 	  $nama_file   = $_FILES['satuan']['name'];
 
-		if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) AND !in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR))){
+	  $semua_mime_type = array_merge(unserialize(MIME_TYPE_DOKUMEN), unserialize(MIME_TYPE_GAMBAR), unserialize(MIME_TYPE_ARSIP));
+		if(!in_array($tipe_file, $semua_mime_type)){
 			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 			$_SESSION['success']=-1;
 			return false;
