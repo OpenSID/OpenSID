@@ -1,25 +1,22 @@
 <?php
 /*
- * persil.php
- * 
  * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- * 
- * 
+ * *
  */
 
 ?>
@@ -35,7 +32,7 @@
 			<legend>Pengelolaan Data Persil <?php echo $desa['nama_desa'];?></legend>
 			<div id="contentpane">
 				<div id="maincontent" class="ui-layout-center" style="padding:0 3em 0 0;">
-			
+
 			<?php
 			if($_SESSION["success"]==1){
 				echo "
@@ -44,13 +41,13 @@
 				</div>";
 				$_SESSION["success"]==0;
 			}
-			
+
 			?>
-			
+
 <?php
 /*
  * List Penduduk
- * 
+ *
  * */
 echo "
 <script>
@@ -66,7 +63,7 @@ echo "
 		}
 		echo "
 		];
-		
+
 		$('#nik').flexbox(nik, {
 			resultTemplate: '<div><label>Nama : </label>{name}</div><div><label>Alamat : </label>{info}</div>',
 			watermark: \"Cari nama di sini..\",
@@ -74,16 +71,15 @@ echo "
 			noResultsText :'Tidak ada no nik yang sesuai..',
 			onSelect: function() {
 				$('#'+'main').submit();
-		}  
+		}
 		});
 	});
 </script>
 ";
 /*
  * Form Add/Edit
- * 
+ *
  * */
-
 
 if($persil_detail>0){
 	if(isset($persil_detail["id"])){
@@ -125,7 +121,7 @@ echo "
 			<legend>Pemilik Persil</legend>
 			<div>
 				<form action=\"\" id=\"main\" name=\"main\" method=\"POST\">
-				<label>Cari Nama Penduduk dari Database Desa</label>
+				<label>Cari Nama Penduduk dari Database ".ucwords(config_item('sebutan_desa'))."</label>
 				<div id=\"nik\" name=\"nik\" class=\"form-control\"></div>
 				</form>
 			</div>
@@ -197,7 +193,7 @@ echo "
 		<label>NOMOR SPPT PBB</label>
 		<input type=\"text\" class=\"form-control\" name=\"sppt\" id=\"sppt\" placeholder=\"Tuliskan Nomor SPPT PBB\" value=\"".$sppt."\"/>
 	</div>
-	
+
 	<div class=\"form-group\" style=\"margin-bottom:3em;\">
 		<div class=\"uibutton-group\">
 		<input type=\"hidden\" name=\"id\" value=\"".$id."\"/>
@@ -205,7 +201,7 @@ echo "
 		<input type=\"reset\" class=\"uibutton\" name=\"tombolreset\" id=\"tombolreset\" value=\"Batal\"/>
 		</div>
 	</div>
-	
+
 ";
 echo "</form>
 </fieldset>";

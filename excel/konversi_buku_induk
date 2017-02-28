@@ -1,0 +1,234 @@
+Dim wsData As Worksheet
+Dim wsKonversi As Worksheet
+
+Public Sub test2()
+Set wsData = Worksheets("BIP_Desa")
+wsData.Activate
+tungguPaksa (2)
+  With wsData
+    .Range(.Cells(11, 17), .Cells(200, 17)).Value = 1
+    .Range(.Cells(11, 20), .Cells(200, 20)).Value = 13
+  End With
+End Sub
+
+Public Sub test()
+  Dim myTextBox As Shape
+
+  Mulai = Now
+
+  Set wsKonversi = Worksheets("Konversi")
+  Set wsData = Worksheets("BIP_Desa")
+
+  wsData.Activate
+  With ActiveWindow
+    .View = xlNormalView
+  End With
+
+  With wsData
+    .Cells(1, 1).Activate
+    Application.Goto ActiveCell, True
+    Set myTextBox = .Shapes.AddTextbox(msoTextOrientationHorizontal, 100, 100, 200, 50)
+    With myTextBox
+      .Fill.ForeColor.RGB = RGB(255, 255, 0)
+      .Line.Weight = "4"
+      .Line.ForeColor.RGB = RGB(255, 0, 0)
+      tunggu (10)
+      .TextFrame.Characters.Text = "Jumlah baris: " & jumlahBaris()
+    End With
+    'aturKolom myTextBox
+    barisJudul = headerRow(myTextBox)
+    isiKolom myTextBox, barisJudul, jumlahBaris
+  End With
+
+  Selesai = Now
+  Durasi = DateDiff("s", Mulai, Selesai)
+  MsgBox "Selesai dalam : " & Durasi & " detik"
+End Sub
+
+Public Sub konversiKeKolom()
+  Dim rHapus As Range
+  Dim c As Range
+  Dim myTextBox As Shape
+
+  Mulai = Now
+  Set wsData = Worksheets("BIP_Desa")
+  Set wsKonversi = Worksheets("Konversi")
+
+  wsData.Activate
+  With ActiveWindow
+    .View = xlNormalView
+  End With
+
+  With wsData
+    .Cells(1, 1).Activate
+    Application.Goto ActiveCell, True
+    Set myTextBox = .Shapes.AddTextbox(msoTextOrientationHorizontal, 50, 100, 200, 50)
+    jmlBaris = jumlahBaris()
+    With myTextBox
+      .Fill.ForeColor.RGB = RGB(255, 255, 0)
+      .Line.Weight = "4"
+      .Line.ForeColor.RGB = RGB(255, 0, 0)
+      .TextFrame.Characters.Text = "Jumlah baris: " & jmlBaris
+    End With
+    tungguPaksa (5)
+    aturKolom myTextBox
+    barisJudul = headerRow(myTextBox)
+    isiKolom myTextBox, barisJudul, jmlBaris
+
+    For i = 1 To jmlBaris
+      Set c = .Cells(i, 1)
+      no_kk = 0
+      If c.Text = "NO.KK" Then
+        If i < barisJudul Then
+          j = i + 1
+        Else
+          j = i + 2
+        End If
+        Set rHapus = Union(.Rows(i & ":" & j), rHapus)
+        i = i + 1
+        no_kk = .Cells(i, 1).Text
+        alamat = .Cells(i, 10).Text
+        myTextBox.TextFrame.Characters.Text = "KK " + no_kk + " " + alamat
+        tunggu (1)
+        i = i + 2
+      End If
+      If no_kk > 0 Then
+        Do While IsNumeric(.Cells(i, 1).Text)
+          .Cells(i, 2).Value = alamat
+          .Cells(i, 3).NumberFormat = "@"
+          .Cells(i, 3).Value = getRW(alamat)
+          .Cells(i, 4).NumberFormat = "@"
+          .Cells(i, 4).Value = getRT(alamat)
+          .Cells(i, 6).NumberFormat = "@"
+          .Cells(i, 6).Value = no_kk
+          i = i + 1
+        Loop
+        i = i - 1
+      Else
+        ' Baris untuk dihapus
+        If rHapus Is Nothing Then
+          Set rHapus = .Rows(i)
+        Else
+          Set rHapus = Union(.Rows(i), rHapus)
+        End If
+      End If
+    Next i
+
+    myTextBox.TextFrame.Characters.Text = "Menghapus baris-baris judul..."
+    tunggu (5)
+    rHapus.EntireRow.Delete
+    Selesai = Now
+    Durasi = DateDiff("n", Mulai, Selesai)
+    MsgBox "Selesai dalam : " & Durasi & " menit"
+
+  End With
+End Sub
+
+Public Function getRW(alamat)
+  rwPos = InStr(1, alamat, "RW:")
+  If rwPos > 0 Then
+    getRW = Mid(alamat, rwPos + Len("RW:"))
+    getRW = Left(getRW, InStr(1, getRW, ",") - 1)
+  Else
+    getRW = ""
+  End If
+End Function
+
+Public Function getRT(alamat)
+  pos = InStr(1, alamat, "RT:")
+  If pos > 0 Then
+    getRT = Mid(alamat, pos + Len("RT:"))
+    getRT = Left(getRT, InStr(1, getRT, ",") - 1)
+  Else
+    getRT = ""
+  End If
+End Function
+
+Public Function jumlahBaris()
+  jumlahBaris = wsData.Cells.Find(What:="*", After:=wsData.Cells(1, 1), LookIn:=xlFormulas, LookAt:= _
+xlPart, SearchOrder:=xlByRows, SearchDirection:=xlPrevious, MatchCase:=False).Row
+End Function
+
+Public Function headerRow(myTextBox As Shape)
+  Dim c As Range
+
+  With wsData
+    headerRow = 0
+    For i = 1 To 20
+      Set c = .Cells(i, 1)
+      If c.Text = "NO" Then
+        headerRow = i
+        Exit For
+      End If
+    Next i
+    .Cells(headerRow, 2) = "DUSUN"
+    .Cells(headerRow, 3) = "RW"
+    .Cells(headerRow, 4) = "RT"
+    .Cells(headerRow, 6) = "NO_KK"
+    .Cells(headerRow, 13) = "Pendidikan Sedang Ditempuh"
+    .Cells(headerRow, 17) = "Kewarganegaraan"
+    .Cells(headerRow, 20) = "Golongan Darah"
+    .Cells(headerRow, 21) = "JAMKESNAS"
+  End With
+End Function
+Public Sub aturKolom(myTextBox As Shape)
+
+  myTextBox.TextFrame.Characters.Text = "Unmerge dan atur kolom..."
+  tunggu (5)
+
+  With wsData
+    .Cells.UnMerge
+    .Columns("A").Delete
+    .Columns("B:D").Insert Shift:=xlToRight
+    .Columns("F").Cut
+    .Columns("E").Insert Shift:=xlToRight
+    .Columns("F").Insert Shift:=xlToRight
+    .Columns("L").Cut
+    .Columns("K").Insert Shift:=xlToRight
+    .Columns("O").Cut
+    .Columns("L").Insert Shift:=xlToRight
+    .Columns("M").Insert Shift:=xlToRight
+    .Columns("Q").Cut
+    .Columns("N").Insert Shift:=xlToRight
+    .Columns("P").Cut
+    .Columns("O").Insert Shift:=xlToRight
+    .Columns("Q").Cut
+    .Columns("P").Insert Shift:=xlToRight
+    .Columns("Q").Insert Shift:=xlToRight
+    .Columns("T").Cut
+    .Columns("R").Insert Shift:=xlToRight
+    .Columns("T").Cut
+    .Columns("S").Insert Shift:=xlToRight
+    .Columns("T:U").Insert Shift:=xlToRight
+  End With
+End Sub
+Public Sub isiKolom(myTextBox As Shape, barisJudul, jumlahBaris)
+  myTextBox.TextFrame.Characters.Text = "Mengisi data kolom default..."
+  tunggu (1)
+
+  With wsData
+    .Range(.Cells(barisJudul + 1, 17), .Cells(jumlahBaris, 17)).Value = "1"
+    .Range(.Cells(barisJudul + 1, 20), .Cells(jumlahBaris, 20)).Value = "13"
+  End With
+End Sub
+Public Function tunggu(milliseconds)
+  Count = milliseconds
+  For i = 1 To Count
+    s = "string"
+    DoEvents
+  Next i
+End Function
+
+Public Function tungguPaksa(milliseconds)
+  Count = milliseconds
+  For i = 1 To Count
+    s = "string"
+    DoEvents
+  Next i
+  ActiveSheet.Calculate
+  ActiveWindow.SmallScroll
+  Application.WindowState = Application.WindowState
+End Function
+
+
+

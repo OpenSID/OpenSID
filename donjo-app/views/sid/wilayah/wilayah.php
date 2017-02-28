@@ -7,19 +7,19 @@
 	});
 </script>
 
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
 
-<td style="background:#fff;padding:0px;"> 
-<div id="contentpane">    
+<td style="background:#fff;padding:0px;">
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
-    <h3>Wilayah Administratif Dusun</h3>
+    <h3>Wilayah Administratif <?php echo ucwords(config_item('sebutan_dusun'))?></h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('sid_core/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Dusun</a>
+                <a href="<?php echo site_url('sid_core/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah <?php echo ucwords(config_item('sebutan_dusun'))?></a>
                 <a href="<?php echo site_url('sid_core/cetak')?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
 		<a href="<?php echo site_url('sid_core/excel')?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
             </div>
@@ -40,8 +40,8 @@
                 <th width="5">No</th>
                 <th width="5"><input type="checkbox" class="checkall"/></th>
                 <th width="120">Aksi</th>
-				<th width="200">Nama Dusun</th>
-				<th width="200">Nama Kepala Dusun</th>
+				<th width="200">Nama <?php echo ucwords(config_item('sebutan_dusun'))?></th>
+				<th width="200">Nama Kepala <?php echo ucwords(config_item('sebutan_dusun'))?></th>
 				<th width="50">RW</th>
 				<th width="50">RT</th>
 				<th width="50">KK</th>
@@ -52,16 +52,16 @@
 			</tr>
 		</thead>
 		<tbody>
-        <?php 
+        <?php
         $total = array();
-        
+
         $total['total_rw'] = 0;
         $total['total_rt'] = 0;
         $total['total_kk'] = 0;
         $total['total_warga'] = 0;
         $total['total_warga_l'] = 0;
         $total['total_warga_p'] = 0;
-        
+
         foreach($main as $data): ?>
 		<tr>
           <td align="center" width="2"><?php echo $data['no']?></td>
@@ -69,7 +69,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td width="4" align="center"><div class="uibutton-group">
-						
+
 <a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Wilayah"><span class="icon-list icon-large"> Rincian</span></a>
 <a href="<?php echo site_url("sid_core/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span  class="icon-edit icon-large"></span></a>
 
@@ -78,8 +78,8 @@
 </div>
 			</td>
 			<td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
-			<td><?php echo strtoupper(unpenetration($data['nama_kadus']))?></td> 
-	
+			<td><?php echo strtoupper(unpenetration($data['nama_kadus']))?></td>
+
 			<td align="right"><a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" title="Rincian Sub Wilayah"><?php echo $data['jumlah_rw']?></a></td>
 			<td align="right"><?php echo $data['jumlah_rt']?></td>
 			<td align="right"><a href="<?php echo site_url("sid_core/warga_kk/$data[id]")?>"><?php echo $data['jumlah_kk']?></a></td>
@@ -88,18 +88,18 @@
 			<td align="right"><a href="<?php echo site_url("sid_core/warga_p/$data[id]")?>"><?php echo $data['jumlah_warga_p']?></a></td>
 				<td></td>
 		</tr>
-        <?php  
+        <?php
         $total['total_rw'] += $data['jumlah_rw'];
         $total['total_rt'] += $data['jumlah_rt'];
         $total['total_kk'] += $data['jumlah_kk'];
         $total['total_warga'] += $data['jumlah_warga'];
         $total['total_warga_l'] += $data['jumlah_warga_l'];
         $total['total_warga_p'] += $data['jumlah_warga_p'];
-        
-        
+
+
         endforeach; ?>
 		</tbody>
-		
+
             <tr style="background-color:#BDD498;font-weight:bold;">
                 <td colspan="5" align="left"><label>TOTAL</label></td>
 				<td align="right"><?php echo $total['total_rw']?></td>
@@ -114,7 +114,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('sid_core')?>" method="post">
 		  <label>Tampilkan</label>
@@ -139,7 +139,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("sid_core/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>

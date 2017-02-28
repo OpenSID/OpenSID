@@ -1,5 +1,5 @@
 
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
@@ -17,12 +17,10 @@
 				<ul>
 				<li <?php if($lap==21){?>class="selected"<?php }?>>
 					<a href="<?php echo site_url()?>sid_laporan_penduduk/index/21">Kelas Sosial</a></li>
-				<li <?php if($lap==22){?>class="selected"<?php }?>>
-					<a href="<?php echo site_url()?>sid_laporan_penduduk/index/22">Raskin</a></li>
 				</ul>
 			</div>
 		</fieldset>
-		
+
 		<fieldset><legend>Statistik Penduduk Berdasarkan : </legend>
 			<div class="lmenu">
 				<ul>
@@ -41,21 +39,19 @@
 				<li <?php if($lap==6){?>class="selected"<?php }?>>
 					<a href="<?php echo site_url()?>sid_laporan_penduduk/index/6">Status Penduduk</a></li>
 				<li <?php if($lap==7){?>class="selected"<?php }?>>
-					<a href="<?php echo site_url()?>sid_laporan_penduduk/index/7">Golongan Darah</a></li>	
+					<a href="<?php echo site_url()?>sid_laporan_penduduk/index/7">Golongan Darah</a></li>
 				<li <?php if($lap==8){?>class="selected"<?php }?>>
 					<a href="<?php echo site_url()?>sid_laporan_penduduk/index/8">Cacat Fisik</a></li>
 				<li <?php if($lap==9){?>class="selected"<?php }?>>
 					<a href="<?php echo site_url()?>sid_laporan_penduduk/index/9">Cacat Mental</a></li>
 				<li <?php if($lap==10){?>class="selected"<?php }?>>
-					<a href="<?php echo site_url()?>sid_laporan_penduduk/index/10">Sakit Menahun</a></li>		
+					<a href="<?php echo site_url()?>sid_laporan_penduduk/index/10">Sakit Menahun</a></li>
 				</ul>
 			</div>
 		</fieldset>
 		<fieldset><legend>Statistik Keluarga Berdasarkan : </legend>
 			<div class="lmenu">
 				<ul>
-					<li <?php if($lap==9){?>class="selected"<?php }?>>
-					<a href="<?php echo site_url()?>sid_laporan_keluarga/index/9">Jamkesmas</a></li>
 					<li <?php if($lap==10){?>class="selected"<?php }?>>
 					<a href="<?php echo site_url()?>sid_laporan_keluarga/index/10">Tingkat Kemiskinan Menurut BPS</a></li>
 					<li ><a href="?code=1&amp;xcode=15">Tingkat Kemiskinan Menurut DINSOS</a></li>
@@ -76,13 +72,13 @@
 				</ul>
 			</div>
 		</fieldset>
-		
+
 		</td>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
     <h3>Laporan</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
@@ -103,7 +99,7 @@
                 <th>No</th>
 				<th align="left" align="center">Nama</th>
 				<th align="left" align="center">Jumlah KK</th>
-            
+
 			</tr>
 		</thead>
 		<tbody>
@@ -119,7 +115,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('sid_laporan_penduduk')?>" method="post">
 		  <label>Tampilkan</label>
@@ -144,7 +140,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("sid_laporan_penduduk/index/$lap/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>

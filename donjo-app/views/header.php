@@ -2,11 +2,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Sistem Informasi Desa Terbaru</title>
+		<title><?php echo ((config_item('admin_title')!=FALSE) ? config_item('admin_title') : 'Sistem Informasi Desa') ?></title>
 
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-		<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+			<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+		<?php else: ?>
+			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+		<?php endif; ?>
 		<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?php echo base_url()?>rss.xml" />
 		<link href="<?php echo base_url()?>assets/css/screen.css" rel="stylesheet" type="text/css" />
 
@@ -51,6 +55,7 @@
 <ul class="dropdown" tabindex="1">
 	<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="icon-gear icon-large"></i>Setting User</a></li>
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
+	<li><a href="<?php echo site_url()?>modul/clear"><i class="icon-gear icon-large"></i>Pengaturan</a></li>
 	<li><a href="<?php echo site_url()?>hom_desa"><i class="icon-home icon-large"></i>SID Home</a></li>
 	<li><a href="<?php echo site_url()?>penduduk"><i class="icon-group icon-large"></i>Penduduk</a></li>
 	<li><a href="<?php echo site_url()?>statistik"><i class="icon-bar-chart icon-large"></i>Statistik</a></li>
@@ -103,68 +108,11 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 
 <div class="module-panel">
 	<div class="contentm" style="overflow: hidden;">
-		<?php if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
-		<a class="cpanel" href="<?php echo site_url()?>hom_desa/about">
-			<img src="<?php echo base_url()?>assets/images/cpanel/go-home-5.png" alt=""/>
-			<span>SID Home</span>
+		<?php foreach ($modul AS $mod){?>
+		<a class="cpanel <?php if($modul_ini==$mod['id']){?>selected<?php }?>" href="<?php echo site_url()?><?php echo $mod['url']?>">
+			<img src="<?php echo base_url()?>assets/images/cpanel/<?php echo $mod['ikon']?>" alt=""/>
+			<span><?php echo $mod['modul']?></span>
 		</a>
-		<a class="cpanel" href="<?php echo site_url()?>penduduk/clear">
-			<img src="<?php echo base_url()?>assets/images/cpanel/preferences-contact-list.png" alt=""/>
-			<span>Penduduk</span>
-		</a>
-		<a class="cpanel" href="<?php echo site_url()?>statistik">
-			<img src="<?php echo base_url()?>assets/images/cpanel/statistik.png" alt=""/>
-			<span>Statistik</span>
-		</a>
-		<a class="cpanel" href="<?php echo site_url()?>surat">
-			<img src="<?php echo base_url()?>assets/images/cpanel/applications-office-5.png" alt=""/>
-			<span>Cetak Surat</span>
-		</a>
-		<a class="cpanel" href="<?php echo site_url()?>analisis_master/clear">
-			<img src="<?php echo base_url()?>assets/images/cpanel/analysis.png" alt=""/>
-		<span>Analisis</span>
-		</a>
-		<a class="cpanel" href="<?php echo site_url()?>program_bantuan" title="Program Bantuan">
-			<img src="<?php echo base_url()?>assets/images/cpanel/program.png" alt=""/>
-		<span>Bantuan</span>
-		</a>
-		<a class="cpanel" href="<?php echo site_url()?>data_persil/clear" title="Data Persil">
-			<img src="<?php echo base_url()?>assets/images/cpanel/persil.png" alt=""/>
-		<span>Persil</span>
-		</a>
-
-		<a class="cpanel" href="<?php echo site_url()?>plan">
-			<img src="<?php echo base_url()?>assets/images/cpanel/plan.png" alt=""/>
-			<span>Plan</span>
-		</a>
-		<a class="cpanel" href="<?php echo site_url()?>gis">
-			<img src="<?php echo base_url()?>assets/images/cpanel/gis.png" alt=""/>
-			<span>Peta</span>
-		</a>
-		<a class="cpanel" href="<?php echo site_url()?>sms">
-			<img src="<?php echo base_url()?>assets/images/cpanel/mail-send-receive.png" alt=""/>
-			<span>SMS</span>
-		</a>
-		<?php if($_SESSION['grup']==1){?>
-		<a class="cpanel" href="<?php echo site_url()?>man_user/clear">
-			<img src="<?php echo base_url()?>assets/images/cpanel/system-users.png" alt=""/>
-			<span>Pengguna</span>
-		</a>
-		<a class="cpanel" href="<?php echo site_url()?>database">
-			<img src="<?php echo base_url()?>assets/images/cpanel/database.png" alt=""/>
-			<span>Database</span>
-		</a>
-		<?php }?>
-		<?php }?>
-		<a class="cpanel" href="<?php echo site_url()?>web">
-			<img src="<?php echo base_url()?>assets/images/cpanel/message-news.png" alt=""/>
-			<span>Admin Web</span>
-		</a>
-		<?php if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
-		<a class="cpanel" href="<?php echo site_url()?>lapor">
-			<img src="<?php echo base_url()?>assets/images/cpanel/mail-reply-all.png" alt=""/>
-			<span><b><?php echo $lapor;?></b> Laporan</span>
-		</a>
-		<?php }?>
-	</div>
+		<?php } ?>
+  </div>
 </div>

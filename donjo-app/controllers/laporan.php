@@ -5,10 +5,10 @@ function __construct(){
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('laporan_bulanan_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
+		$this->load->model('laporan_bulanan_model');
 
 		//Initialize Session ------------
 		$_SESSION['success']  = 0;
@@ -16,8 +16,9 @@ function __construct(){
 		//-------------------------------
 
 		$this->load->model('header_model');
+		$this->modul_ini = 3;
 	}
-        
+
     function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
@@ -46,15 +47,15 @@ function __construct(){
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-		
+
 		if(isset($_SESSION['bulanku']))
 			$data['bulanku'] = $_SESSION['bulanku'];
-		else $data['bulanku'] = date("n");	
-		
+		else $data['bulanku'] = date("n");
+
 		if(isset($_SESSION['tahunku']))
 			$data['tahunku'] = $_SESSION['tahunku'];
-		else $data['tahunku'] = date("Y");	
-		
+		else $data['tahunku'] = date("Y");
+
 		$data['bulan']=$data['bulanku'];
 		$data['tahun']=$data['tahunku'];
 		$data['config'] = $this->laporan_bulanan_model->configku();
@@ -68,6 +69,7 @@ function __construct(){
 		$data['lap']=$lap;
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('laporan/bulanan',$data);
@@ -92,7 +94,7 @@ function __construct(){
 		$data['lap']=$lap;
 		$this->load->view('laporan/bulanan_print',$data);
 	}
-	
+
 
 	function excel($lap=0){
 
@@ -109,14 +111,14 @@ function __construct(){
 		$data['hilang']    = $this->laporan_bulanan_model->hilang();
 		$data['lap']=$lap;
 		$this->load->view('statistik/laporan/bulanan_excel',$data);
-	}	
+	}
 
 	function bulan(){
 		$bulanku= $this->input->post('bulan');
 		if($bulanku!="")
 			$_SESSION['bulanku']=$bulanku;
 		else unset($_SESSION['bulanku']);
-		
+
 		$tahunku= $this->input->post('tahun');
 		if($tahunku!="")
 			$_SESSION['tahunku']=$tahunku;

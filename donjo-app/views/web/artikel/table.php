@@ -44,11 +44,6 @@ source: keyword
 </div><legend>Artikel Statis</legend>
 <div class="lmenu" >
 <ul>
-	<li <?php if($cat == 1003)echo "class='selected'";?>>
-		<a href="<?php echo site_url("web/index/1003")?>">
-		Coztumizable Widget
-		</a>
-	</li>
 	<li <?php if($cat == 999)echo "class='selected'";?>>
 		<a href="<?php echo site_url("web/index/999")?>">
 		Halaman Statis
@@ -77,7 +72,7 @@ source: keyword
 <div class="uibutton-group">
 <a href="<?php echo site_url("web/form/$cat")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah <?php if($kategori){echo $kategori['kategori'];}else{echo "Artikel Statis";}?> Baru</a>
 <?php if($_SESSION['grup']<4){?>
-<button type="button" title="Hapus Artikel" onclick="deleteAllBox('mainform','<?php echo site_url("web/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus
+<button type="button" title="Hapus Artikel" onclick="deleteAllBox('mainform','<?php echo site_url("web/delete_all/$cat/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus
 <?php }?>
 </div>
 </div>

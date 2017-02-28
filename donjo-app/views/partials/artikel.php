@@ -98,7 +98,7 @@ if($single_artikel["id"]){
 				<div class=\"box-header\"><h3 class=\"box-title\">Formulir Komentar (Komentar baru terbit setelah disetujui Admin)</h3></div>";
 
 				// tampilkan hanya jika 'flash_message' ada
-				if ($_SESSION['validation_error']) $label = 'label-danger'; else $label = 'label-info';
+				if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) $label = 'label-danger'; else $label = 'label-info';
 				if ($flash_message) {
 					echo "<div class='box-header ".$label."'>$flash_message</div>";
 				}

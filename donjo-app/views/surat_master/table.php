@@ -29,7 +29,7 @@
 							<tr>
 								<th width="10">No</th>
 								<th><input type="checkbox" class="checkall"/></th>
-								<th width="100">Aksi</th>
+								<th>Aksi</th>
 
 							<?php  if($o==4): ?>
 								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
@@ -40,14 +40,15 @@
 							<?php  endif; ?>
 
 							<?php  if($o==6): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode Surat<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 							<?php  elseif($o==5): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("surat_master/index/$p/6")?>">Kode Surat<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/6")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left" width='100'><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode Surat<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 							<?php  endif; ?>
 
 								<th width="">URL</th>
+								<th width="">Lampiran</th>
 								<th width="">Template Surat</th>
 							</tr>
 						</thead>
@@ -65,18 +66,27 @@
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
 										<a href="<?php echo site_url("surat_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+
+										<?php if($data['kunci'] == '0'):?>
+											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton" target="confirm" message="Non-Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="icon-unlock icon-large"></span></a>
+											<a href="<?php echo site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="uibutton" target="confirm" message="Ubah Surat <?php echo $data['nama']?> dalam daftar surat Favorit?" header="Favorit" rel="window"><span class="<?php if($data['favorit']==1){?>icon-star-empty icon-large <?php }else{?> icon-star icon-large <?php }?>"></span></a>
+										<?php elseif($data['kunci'] == '1'): ?>
+											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton" target="confirm" message="Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="icon-lock icon-large"></span></a>
+										<?php endif?>
+
 									</div>
 								</td>
 
 								<td><?php echo $data['nama']?></td>
 								<td><?php echo $data['kode_surat']?></td>
 								<td><?php echo $data['url_surat']?></td>
+								<td><?php echo $data['lampiran']?></td>
 								<td>
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Kode Isian"><span class="icon-code icon-large"> Kode Isian </span></a>
 										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south" title="Upload Template" target="ajax-modal" rel="window" header="Upload Template"><span class="icon-upload-alt icon-large"> Upload </span></a>
 
-										<?php $surat = SuratExport($data[url_surat]); ?>
+										<?php $surat = SuratExport($data['url_surat']); ?>
 										<?php if ($surat != "") { ?>
 										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south" title="Unduh Template"><span class="icon-download-alt icon-large"> Download </span></a>
 										<?php } ?>

@@ -6,20 +6,20 @@
 		});
 	});
 </script>
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
-    
+
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
-        <div class="left"><h3>Pemerintah Desa</h3>
+        <div class="left"><h3>Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></h3>
             <div class="uibutton-group">
-                <a href="<?php echo site_url('pengurus/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Staf Pemerintah Desa</a>
+                <a href="<?php echo site_url('pengurus/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></a>
                 <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("pengurus/delete_all")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
             </div>
         </div>
@@ -71,7 +71,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
         </div>
         <div class="right">
         </div>

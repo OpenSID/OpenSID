@@ -59,7 +59,7 @@ source: keyword
                 </select>-->
 
                 <select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk/dusun')?>')">
-                    <option value="">Dusun</option>
+                    <option value=""><?php echo ucwords(config_item('sebutan_dusun'))?></option>
 					<?php foreach($list_dusun AS $data){?>
                     <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo ununderscore(unpenetration($data['dusun']))?></option>
 					<?php }?>
@@ -122,7 +122,7 @@ source: keyword
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
-			<th align="left" align="center">Dusun</th>
+			<th align="left" align="center"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
 			<th align="left" align="center">RW</th>
 			<th align="left" align="center">RT</th>
 			<th align="left" align="center">Pendidikan dalam KK</th>
@@ -155,7 +155,7 @@ source: keyword
 
 
 <a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar" modalWidth="auto" modalHeight="auto"><span class="icon-wrench icon-large"></span></a>
-<a href="<?php echo site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Pindah Penduduk dalam Desa" target="ajax-modal" rel="window" header="pindah penduduk"><span class="icon-share icon-large"></span></a>
+<a href="<?php echo site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Ubah Alamat/Pindah Penduduk dalam Desa" target="ajax-modal" rel="window" header="Ubah/Pindah Alamat Penduduk Lepas" modalWidth="auto" modalHeight="auto"><span class="icon-share icon-large"></span></a>
 <?php  if($grup==1){?><a href="<?php echo site_url("penduduk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Hapus Data"  target="confirm" message="Apakah Anda Yakin?" rel="window" header="Hapus Data"><span class="icon-trash icon-large"></span></a><?php  }?></div>
 </td>
 <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>

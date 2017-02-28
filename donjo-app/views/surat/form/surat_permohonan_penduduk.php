@@ -47,7 +47,7 @@ table.form.detail td{
 			<tr>
 				<th>Nomor Surat</th>
 				<td>
-					<input name="nomor" type="text" class="inputbox required" size="12"/>
+					<input name="nomor" type="text" class="inputbox required" size="12"/> <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>
 				</td>
 			</tr>
 			<tr>
@@ -76,10 +76,10 @@ table.form.detail td{
 				</td>
 			</tr>
 		<tr>
-<th>Staf Pemerintah Desa</th>
+<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
 <td>
 <select name="pamong"  class="inputbox required">
-<option value="">Pilih Staf Pemerintah Desa</option>
+<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
 <?php foreach($pamong AS $data){?>
 <option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo $data['pamong_nama']?></font> (<?php echo $data['jabatan']?>)</option>
 <?php }?>

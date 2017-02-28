@@ -7,8 +7,8 @@ class Web_Dokumen_Model extends CI_Model{
 	}
 
 	function autocomplete(){
-		$sql   = "SELECT satuan FROM dokumen
-					UNION SELECT nama FROM dokumen";
+		$sql = "SELECT satuan FROM dokumen WHERE id_pend = 0
+					UNION SELECT nama FROM dokumen WHERE id_pend = 0";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 
@@ -43,7 +43,7 @@ class Web_Dokumen_Model extends CI_Model{
 
 	function paging($p=1,$o=0){
 
-		$sql      = "SELECT COUNT(id) AS id FROM dokumen WHERE 1";
+		$sql      = "SELECT COUNT(id) AS id FROM dokumen WHERE id_pend = 0";
 		$sql     .= $this->search_sql();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
@@ -72,7 +72,7 @@ class Web_Dokumen_Model extends CI_Model{
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql   = "SELECT * FROM dokumen WHERE 1 ";
+		$sql   = "SELECT * FROM dokumen WHERE id_pend = 0";
 
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
@@ -109,7 +109,8 @@ class Web_Dokumen_Model extends CI_Model{
 	  $tipe_file   = $_FILES['satuan']['type'];
 	  $nama_file   = $_FILES['satuan']['name'];
 
-		if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN))){
+	  $semua_mime_type = array_merge(unserialize(MIME_TYPE_DOKUMEN), unserialize(MIME_TYPE_GAMBAR), unserialize(MIME_TYPE_ARSIP));
+		if(!in_array($tipe_file, $semua_mime_type)){
 			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 			$_SESSION['success']=-1;
 			return false;

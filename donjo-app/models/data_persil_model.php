@@ -1,37 +1,13 @@
 <?php
-/*
- * data_persil_model.php
- * 
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- * 
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- * 
- * 
- */
 class Data_persil_model extends CI_Model{
-
 	function __construct(){
 		$this->load->database();
 	}
-	
 	function autocomplete(){
-		$sql   = "SELECT nik FROM data_persil
+		$sql = "SELECT nik FROM data_persil
 					UNION SELECT p.nama AS nik FROM data_persil u LEFT JOIN tweb_penduduk p ON u.nik = p.nik";
 		$query = $this->db->query($sql);
-		$data  = $query->result_array();
+		$data = $query->result_array();
 		
 		$i=0;
 		$outp='';
@@ -43,7 +19,6 @@ class Data_persil_model extends CI_Model{
 		$outp = '[' .$outp. ']';
 		return $outp;
 	}
-	
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
 		$cari = $_SESSION['cari'];
@@ -53,7 +28,6 @@ class Data_persil_model extends CI_Model{
 			return $search_sql;
 			}
 		}
-	
 	function list_persil($apa='',$mana=0,$page=1){
 		$data = false;
 		$limit = 20;
@@ -74,30 +48,28 @@ class Data_persil_model extends CI_Model{
 			}
 		}
 		
-		$strSQL     .= $this->search_sql(); 
+		$strSQL .= $this->search_sql(); 
 		$strSQL .= ") LIMIT ".$offset.",".$limit;
-
 		$query = $this->db->query($strSQL);
 		if($query->num_rows()>0){
 			$data = $query->result_array();
 		}else{
 			$_SESSION["pesan"]= $strSQL;
 		}
-		//Formating Output
+		
 		$i=0;
-		//$j=$offset;
+		
 		while($i<count($data)){
-			//$data[$i]['no']=$j+1;
+			
 			if(!is_numeric($data[$i]['nik']) AND $data[$i]['nik']<>''){
 				$data[$i]['namapemilik'] = $data[$i]['nik'];
 				$data[$i]['nik'] = "-";
 			}
 			$i++;
-			//$j++;
+			
 		}
 		return $data;
 	}
-	
 	function get_persil($id){
 		$data = false;
 		$strSQL = "SELECT p.`id` as id, p.`nik` as nik, p.`nama` as nopersil, 
@@ -118,7 +90,6 @@ class Data_persil_model extends CI_Model{
 		}
 		return $data;
 	}
-	
 	function simpan_persil(){
 		$hasil = false;
 		if(@$_POST["nik"]){
@@ -158,7 +129,6 @@ class Data_persil_model extends CI_Model{
 		}
 		return $hasil;
 	}
-	
 	public function hapus_persil($id){
 		$strSQL = "DELETE FROM `data_persil` WHERE id=".$id;
 		$hasil = $this->db->query($strSQL);
@@ -170,13 +140,11 @@ class Data_persil_model extends CI_Model{
 			$_SESSION["pesan"] = "Gagal menghapus data persil";
 		}
 	}
-
 	function list_dusunrwrt(){
 		$strSQL = "SELECT `id`,`rt`,`rw`,`dusun` FROM `tweb_wil_clusterdesa` WHERE (`rt`>0) ORDER BY `dusun`";
 		$query = $this->db->query($strSQL);
 		return $query->result_array();
 	}
-	
 	function get_penduduk($id){
 		$strSQL = "SELECT p.nik,p.nama,k.no_kk,w.rt,w.rw,w.dusun FROM tweb_penduduk p 
 			LEFT JOIN tweb_keluarga k ON k.id=p.id_kk 
@@ -214,7 +182,6 @@ class Data_persil_model extends CI_Model{
 		}		
 		return $hasil2;
 	}
-	
 	function list_persil_peruntukan(){
 		$data =false;
 		$strSQL = "SELECT id,nama,ndesc FROM data_persil_peruntukan WHERE 1";
@@ -227,7 +194,6 @@ class Data_persil_model extends CI_Model{
 		}
 		return $data;
 	}
-	
 	function get_persil_peruntukan($id=0){
 		$data =false;
 		$strSQL = "SELECT id,nama,ndesc FROM data_persil_peruntukan WHERE id=".$id;
@@ -261,7 +227,6 @@ class Data_persil_model extends CI_Model{
 		}
 		return $data;
 	}
-
 	public function hapus_peruntukan($id){
 		$strSQL = "DELETE FROM `data_persil_peruntukan` WHERE id=".$id;
 		$hasil = $this->db->query($strSQL);
@@ -272,7 +237,6 @@ class Data_persil_model extends CI_Model{
 			$_SESSION["success"] = -1;
 		}
 	}
-
 	function list_persil_jenis(){
 		$data =false;
 		$strSQL = "SELECT id,nama,ndesc FROM data_persil_jenis WHERE 1";
@@ -285,7 +249,6 @@ class Data_persil_model extends CI_Model{
 		}
 		return $data;
 	}
-
 	function get_persil_jenis($id=0){
 		$data =false;
 		$strSQL = "SELECT id,nama,ndesc FROM data_persil_jenis WHERE id=".$id;

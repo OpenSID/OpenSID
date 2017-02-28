@@ -10,7 +10,7 @@ class mandiri extends CI_Controller{
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 		$this->load->model('header_model');
-
+		$this->modul_ini = 14;
 	}
 
 	function clear(){
@@ -43,7 +43,7 @@ class mandiri extends CI_Controller{
 		//$data['penduduk'] = $this->mandiri_model->list_penduduk();
 		//$data['form_action'] = site_url("mandiri/insert/");
 		$header = $this->header_model->get_data();
-
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']= 1;
 		$this->load->view('header', $header);
 

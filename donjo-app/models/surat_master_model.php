@@ -90,10 +90,10 @@
 		switch($o){
 			case 1: $order_sql = ' ORDER BY u.nomor'; break;
 			case 2: $order_sql = ' ORDER BY u.nomor DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.pertanyaan'; break;
-			case 4: $order_sql = ' ORDER BY u.pertanyaan DESC'; break;
-			case 5: $order_sql = ' ORDER BY u.id_kategori'; break;
-			case 6: $order_sql = ' ORDER BY u.id_kategori DESC'; break;
+			case 3: $order_sql = ' ORDER BY u.nama'; break;
+			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
+			case 5: $order_sql = ' ORDER BY u.kode_surat'; break;
+			case 6: $order_sql = ' ORDER BY u.kode_surat DESC'; break;
 			default:$order_sql = ' ORDER BY u.id';
 		}
 
@@ -294,6 +294,32 @@
     unset($html);
     return $inputs;
   }
+
+	function favorit($id=0,$k=0){
+
+		if($k==1)
+			$sql = "UPDATE tweb_surat_format SET favorit = 0 WHERE id=?";
+		else
+			$sql = "UPDATE tweb_surat_format SET favorit = 1 WHERE id=?";
+
+		$outp = $this->db->query($sql,$id);
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+	function lock($id=0,$k=0){
+
+		if($k==1)
+			$sql = "UPDATE tweb_surat_format SET kunci = 0 WHERE id=?";
+		else
+			$sql = "UPDATE tweb_surat_format SET kunci = 1 WHERE id=?";
+
+		$outp = $this->db->query($sql,$id);
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
 
 }
 

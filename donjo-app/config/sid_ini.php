@@ -1,7 +1,33 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+/*
+|--------------------------------------------------------------------------
+| File ini berisi setting default konfigurasi aplikasi.
+| Untuk mengubah letakkan setting yang diinginkan di desa/config/config.php
+|--------------------------------------------------------------------------
+*/
+
 // Ambil setting SID khusus desa
 define("LOKASI_SID_INI", 'desa/config/');
+
+// Konfigurasi default
+$config['sebutan_desa'] = 'desa';
+$config['sebutan_dusun'] = 'dusun';
+$config['login_title'] = 'OpenSID';
+$config['admin_title'] = 'Sistem Informasi Desa';
+/*
+|--------------------------------------------------------------------------
+| Offline Mode
+|--------------------------------------------------------------------------
+|
+| Jika aplikasi hanya digunakan secara offline (tidak akan ditampilkan di
+| internet) aktifkan mode offline untuk redirect langsung ke /siteman dan tidak ke /first
+|
+*/
+$config['offline_mode'] = FALSE;
+
+// Apakah akan mengirimkan data statistik ke server sid?
+$config['enable_track'] = TRUE;
 
 // Konfigurasi tambahan untuk aplikasi
 $extra_app_config = FCPATH . LOKASI_SID_INI . 'config.php';

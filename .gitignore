@@ -35,4 +35,6 @@ surat/arsip/
 !surat/arsip/.keep
 generatedata-3.2.4/
 coba/
+*.log
+
 

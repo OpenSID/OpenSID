@@ -288,10 +288,12 @@
 	}
 
 	function tgl_indo_out($tgl){
+		if($tgl){
 			$tanggal = substr($tgl,8,2);
 			$bulan = substr($tgl,5,2);
 			$tahun = substr($tgl,0,4);
 			return $tanggal.'-'.$bulan.'-'.$tahun;
+		}
 	}
 
 	function tgl_indo_in($tgl){
@@ -366,6 +368,11 @@ function timer(){
 	$time=2000;
 	$_SESSION['timeout']=time()+$time;
 }
+
+function generator($length = 7) {
+ return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+}
+
 function cek_login(){
 	$timeout=$_SESSION['timeout'];
 	if(time()<$timeout){
@@ -386,29 +393,45 @@ function mandiri_timer(){
 }
 
 function mandiri_timeout(){
-	$timeout=$_SESSION['mandiri_timeout'];
+	(isset($_SESSION['mandiri_timeout'])) ? $timeout=$_SESSION['mandiri_timeout'] : $timeout = null;
 	if(time()>$timeout){
 		mandiri_timer();
 	}
-
-
 }
 
 function get_identitas(){
+	$ci =& get_instance();
 	$sql="SELECT * FROM config";
-	$a=mysql_query($sql);
-	$hsl=mysql_fetch_array($a);
+	$a=$ci->db->query($sql);
+	$hsl=$a->row_array();
 	//print_r($hsl);
-	$string = "Desa : ".$hsl['nama_desa']." Kec : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
+	$string = ucwords(config_item('sebutan_desa'))." : ".$hsl['nama_desa']." Kec : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
 }
 
 // fix str aneh utk masuk ke db
+// TODO: Jangan pernah gunakan saya lagi bro,,,,,, :p
 function fixSQL($str, $encode_ent = false) {
-	$str  = @trim($str);	if($encode_ent) {		$str = htmlentities($str);	}
-	if(version_compare(phpversion(),'4.3.0') >= 0) {if(get_magic_quotes_gpc()) {$str = stripslashes($str);}
-		if(@mysql_ping()) {	$str = mysql_real_escape_string($str);}	else {$str = addslashes($str);}
-	}else {if(!get_magic_quotes_gpc()) {$str = addslashes($str);}}
+	$str  = @trim($str);
+	if($encode_ent) {
+		$str = htmlentities($str);
+	}
+
+	if (version_compare(phpversion(),'4.3.0') >= 0) {
+		if (get_magic_quotes_gpc()) {
+			$str = stripslashes($str);
+		}
+		// FIXME
+		if (function_exists('mysql_ping') && @mysql_ping()) {
+			$str = mysql_real_escape_string($str);
+		} else {
+			$str = addslashes($str);
+		}
+
+	} else if (!get_magic_quotes_gpc()) {
+		$str = addslashes($str);
+	}
+
 	return $str;
 }
 

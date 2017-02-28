@@ -11,14 +11,17 @@ class Surat extends CI_Controller{
 		$this->load->model('penduduk_model');
 		$this->load->model('surat_model');
 		$this->load->model('surat_keluar_model');
-
+		$this->load->model('config_model');
+		$this->modul_ini = 4;
 	}
 
 	function index(){
 		$header = $this->header_model->get_data();
 		$data['menu_surat'] = $this->surat_model->list_surat();
 		$data['menu_surat2'] = $this->surat_model->list_surat2();
+		$data['surat_favorit'] = $this->surat_model->list_surat_fav();
 
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 1;
 
@@ -29,6 +32,7 @@ class Surat extends CI_Controller{
 
 	function panduan(){
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -54,9 +58,11 @@ class Surat extends CI_Controller{
 			$data['anggota']=NULL;
 		}
 
+		$data['lokasi'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
+		$data['kode'] = $this->surat_model->get_daftar_kode_surat($url);
 
 		if ($url == 'surat_persetujuan_mempelai') {
 			// Perlu disimpan di SESSION karena belum ketemu cara
@@ -80,14 +86,14 @@ class Surat extends CI_Controller{
 			}
 			$data['laki'] = $this->surat_model->list_penduduk_laki();
 		}
-
+		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['form_action2'] = site_url("surat/doc/$url");
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
-
 		$this->load->view('surat/nav',$nav);
 		$this->load->view("surat/form_surat",$data);
 		$this->load->view('footer');
@@ -142,8 +148,22 @@ class Surat extends CI_Controller{
 		$nik = $hasil['nik'];
 
 		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $nik, $z);
-		$this->surat_model->coba($url, $nama_surat);
-		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z,$nama_surat);
+		$lampiran = '';
+		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
+		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z,$nama_surat,$lampiran);
+
+		// === Untuk debug format surat html2pdf
+		// $data = $this->surat_model->get_data_untuk_surat($url);
+		// $this->load->view("surat/format_lembaga/f125",$data);
 
 	}
+
+	function search(){
+		$cari = $this->input->post('nik');
+		if($cari!='')
+			redirect("surat/form/$cari");
+		else
+			redirect('surat');
+	}
+
 }

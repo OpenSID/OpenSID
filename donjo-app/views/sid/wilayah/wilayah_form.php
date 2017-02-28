@@ -15,7 +15,7 @@ $('#id_kepala').flexbox(nik, {
     noResultsText :'Tidak ada no nik yang sesuai..',
 	    onSelect: function() {
 		$('#'+'main').submit();
-    }  
+    }
 });
 $("#nik_detail").show();
 });
@@ -23,19 +23,19 @@ $("#nik_detail").show();
 <div id="pageC">
 	<table class="inner">
 	<tr style="vertical-align:top">
-		<td style="background:#fff;padding:0px;"> 
+		<td style="background:#fff;padding:0px;">
 <div id="contentpane">
     <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-    <h3>Form Data Dusun</h3>
+    <h3>Form Data <?php echo ucwords(config_item('sebutan_dusun'))?></h3>
         <table class="form">
             <tr>
-                <th width="160">Nama Dusun</th>
+                <th width="160">Nama <?php echo ucwords(config_item('sebutan_dusun'))?></th>
                 <td><input name="dusun" type="text" class="inputbox required" size="60" value="<?php echo $dusun?>"/></td>
             </tr>
 			<?php if($dusun){?>
 			<tr>
-                <th>Kepala Dusun Sebelumnya</th>
+                <th>Kepala <?php echo ucwords(config_item('sebutan_dusun'))?> Sebelumnya</th>
                 <td>
                     <?php echo $individu['nama']?>
 					<br />NIK - <?php echo $individu['nik']?>
@@ -43,16 +43,16 @@ $("#nik_detail").show();
             </tr>
 			<?php }?>
 			<tr>
-                <th>NIK / Nama Kepala Dusun</th>
+                <th>NIK / Nama Kepala <?php echo ucwords(config_item('sebutan_dusun'))?></th>
                 <td>
                     <div id="id_kepala" name="id_kepala"></div>
                 </td>
             </tr>
         </table>
     </div>
-   
+
     <div class="ui-layout-south panel bottom">
-        <div class="left">     
+        <div class="left">
             <a href="<?php echo site_url()?>sid_core" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">

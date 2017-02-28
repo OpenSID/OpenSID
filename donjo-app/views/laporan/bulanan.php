@@ -44,7 +44,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 				</tbody></table>
 				<table>
 				<tbody><tr>
-					<td>Desa/Kelurahan</td>
+					<td><?php echo ucwords(config_item('sebutan_desa'))?>/Kelurahan</td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo unpenetration($data['nama_desa'])?></h4></td>
 					<td></td>
@@ -198,9 +198,9 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
       <td><?php echo ($pindah['WNI_L']+$pindah['WNA_L'])?></td>
       <td><?php echo ($pindah['WNI_P']+$pindah['WNA_P'])?></td>
       <td><?php echo ($pindah['WNI_L']+$pindah['WNA_L'])+($pindah['WNI_P']+$pindah['WNA_P'])?></td>
-      <td><?php echo ($pindah['WNI_L']+$pindah['KK_L'])?></td>
-      <td><?php echo ($pindah['WNI_P']+$pindah['KK_P'])?></td>
-      <td><?php echo ($pindah['WNI_L']+$pindah['KK'])?></td>
+      <td><?php echo ($pindah['KK_L'])?></td>
+      <td><?php echo ($pindah['KK_P'])?></td>
+      <td><?php echo ($pindah['KK'])?></td>
 
   	</tr>
     <tr>

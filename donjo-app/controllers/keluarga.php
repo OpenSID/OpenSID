@@ -5,11 +5,13 @@ function __construct(){
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('keluarga_model');
-		$this->load->model('penduduk_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 		$this->load->model('header_model');
+		$this->load->model('keluarga_model');
+		$this->load->model('penduduk_model');
+		$this->load->model('program_bantuan_model');
+		$this->modul_ini = 2;
 	}
 
 	function clear(){
@@ -19,12 +21,7 @@ function __construct(){
 		unset($_SESSION['rw']);
 		unset($_SESSION['rt']);
 		unset($_SESSION['sex']);
-		unset($_SESSION['raskin']);
-		unset($_SESSION['id_blt']);
 		unset($_SESSION['id_bos']);
-		unset($_SESSION['id_pkh']);
-		unset($_SESSION['id_jampersal']);
-		unset($_SESSION['id_bedah_rumah']);
 		$_SESSION['per_page']=100;
 		redirect('keluarga');
 	}
@@ -46,29 +43,9 @@ function __construct(){
 			$data['sex'] = $_SESSION['sex'];
 		else $data['sex'] = '';
 
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
-
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
-
 		if(isset($_SESSION['id_bos']))
 			$data['id_bos'] = $_SESSION['id_bos'];
 		else $data['id_bos'] = '';
-
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
-
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
-
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
 
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -101,238 +78,66 @@ function __construct(){
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga',$data);
 		$this->load->view('footer');
 	}
 
-	function sosial($p=1,$o=0){
+	// function sosial($p=1,$o=0){
 
-		$data['p']        = $p;
-		$data['o']        = $o;
+	// 	$data['p']        = $p;
+	// 	$data['o']        = $o;
 
-		if(isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+	// 	if(isset($_SESSION['cari']))
+	// 		$data['cari'] = $_SESSION['cari'];
+	// 	else $data['cari'] = '';
 
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+	// 	if(isset($_SESSION['filter']))
+	// 		$data['filter'] = $_SESSION['filter'];
+	// 	else $data['filter'] = '';
 
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
+	// 	if(isset($_SESSION['id_bos']))
+	// 		$data['id_bos'] = $_SESSION['id_bos'];
+	// 	else $data['id_bos'] = '';
 
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
+	// 	if(isset($_POST['per_page']))
+	// 		$_SESSION['per_page']=$_POST['per_page'];
+	// 	$data['per_page'] = $_SESSION['per_page'];
 
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
+	// 	if(isset($_SESSION['dusun'])){
+	// 		$data['dusun'] = $_SESSION['dusun'];
+	// 		$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
 
-		if(isset($_SESSION['id_bos']))
-			$data['id_bos'] = $_SESSION['id_bos'];
-		else $data['id_bos'] = '';
+	// 	if(isset($_SESSION['rw'])){
+	// 		$data['rw'] = $_SESSION['rw'];
+	// 		$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
 
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
+	// 	if(isset($_SESSION['rt']))
+	// 		$data['rt'] = $_SESSION['rt'];
+	// 		else $data['rt'] = '';
 
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
+	// 		}else $data['rw'] = '';
 
-		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+	// 	}else{
+	// 		$data['dusun'] = '';
+	// 		$data['rw'] = '';
+	// 		$data['rt'] = '';
+	// 	}
 
-		if(isset($_SESSION['dusun'])){
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+	// 	$data['paging']  = $this->keluarga_model->paging($p,$o);
+	// 	$data['main']    = $this->keluarga_model->list_raskin();
+	// 	$data['keyword'] = $this->keluarga_model->autocomplete();
+	// 	$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
-		if(isset($_SESSION['rw'])){
-			$data['rw'] = $_SESSION['rw'];
-			$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
-
-		if(isset($_SESSION['rt']))
-			$data['rt'] = $_SESSION['rt'];
-			else $data['rt'] = '';
-
-			}else $data['rw'] = '';
-
-		}else{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
-		}
-
-		$data['paging']  = $this->keluarga_model->paging($p,$o);
-		$data['main']    = $this->keluarga_model->list_raskin();
-		$data['keyword'] = $this->keluarga_model->autocomplete();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act']= 1;
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
-		$this->load->view('sid/kependudukan/keluarga_sosial',$data);
-		$this->load->view('footer');
-	}
-
-	function raskin_graph($p=1,$o=0){
-
-		$data['p']        = $p;
-		$data['o']        = $o;
-
-		if(isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
-
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
-
-		if(isset($_SESSION['id_bos']))
-			$data['id_bos'] = $_SESSION['id_bos'];
-		else $data['id_bos'] = '';
-
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
-
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
-
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
-
-		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
-		if(isset($_SESSION['dusun'])){
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
-
-		if(isset($_SESSION['rw'])){
-			$data['rw'] = $_SESSION['rw'];
-			$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
-
-		if(isset($_SESSION['rt']))
-			$data['rt'] = $_SESSION['rt'];
-			else $data['rt'] = '';
-
-			}else $data['rw'] = '';
-
-		}else{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
-		}
-
-		$data['paging']  = $this->keluarga_model->paging($p,$o);
-		$data['main']    = $this->keluarga_model->list_raskin();
-		$data['keyword'] = $this->keluarga_model->autocomplete();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act']= 1;
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
-		$this->load->view('sid/kependudukan/keluarga_raskin',$data);
-		$this->load->view('footer');
-	}
-
-	function jamkesmas_graph($p=1,$o=0){
-
-		$data['p']        = $p;
-		$data['o']        = $o;
-
-		if(isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
-
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
-
-		if(isset($_SESSION['id_bos']))
-			$data['id_bos'] = $_SESSION['id_bos'];
-		else $data['id_bos'] = '';
-
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
-
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
-
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
-
-		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
-		if(isset($_SESSION['dusun'])){
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
-
-		if(isset($_SESSION['rw'])){
-			$data['rw'] = $_SESSION['rw'];
-			$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
-
-		if(isset($_SESSION['rt']))
-			$data['rt'] = $_SESSION['rt'];
-			else $data['rt'] = '';
-
-			}else $data['rw'] = '';
-
-		}else{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
-		}
-
-		$data['paging']  = $this->keluarga_model->paging($p,$o);
-		$data['main']    = $this->keluarga_model->list_raskin();
-		$data['keyword'] = $this->keluarga_model->autocomplete();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act']= 1;
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
-		$this->load->view('sid/kependudukan/keluarga_jamkesmas',$data);
-		$this->load->view('footer');
-	}
-
-	function pentagon(){
-		$data['main']    = $this->keluarga_model->list_raskin();
-		$this->load->view('sid/kependudukan/pentagon/pentagon',$data);
-	}
+	// 	$nav['act']= 1;
+	// 	$header = $this->header_model->get_data();
+	// 	$this->load->view('header',$header);
+	// 	$this->load->view('sid/nav',$nav);
+	// 	$this->load->view('sid/kependudukan/keluarga_sosial',$data);
+	// 	$this->load->view('footer');
+	// }
 
 	function cetak($o=0){
 		$data['main']    = $this->keluarga_model->list_data($o, 0, 10000);
@@ -346,7 +151,7 @@ function __construct(){
 
 	function form($p=1,$o=0,$id=0,$new=1){
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-		if (empty($_POST) AND !$_SESSION['dari_internal'])
+		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 				unset($_SESSION['validation_error']);
 
 		if($new==1){
@@ -379,18 +184,18 @@ function __construct(){
 			$data['form_action'] = site_url("keluarga/update/$id");
 		}elseif($new>0){
 			// Validasi dilakukan di keluarga_model sewaktu insert dan update
-			if ($_SESSION['validation_error']) {
+			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
 				if ($_SESSION['dari_internal']) {
-					$data['penduduk_kk'] = $_SESSION['post'];
+					$data['penduduk'] = $_SESSION['post'];
 					$data['dus_sel'] = $_SESSION['post']['dusun'];
 					$data['rw_sel'] = $_SESSION['post']['rw'];
 					$data['rt_sel'] = $_SESSION['post']['rt'];
 				} else {
-					$data['penduduk_kk'] = $_POST;
+					$data['penduduk'] = $_POST;
 				}
 			} else
-				$data['penduduk_kk'] = null;
+				$data['penduduk'] = null;
 			$data['kk']          = null;
 			$data['form_action'] = site_url("keluarga/insert_new");
 
@@ -399,7 +204,7 @@ function __construct(){
 			$data['form_action'] = site_url("keluarga/insert");
 		}
 
-		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
+		$data['penduduk_lepas'] = $this->keluarga_model->list_penduduk_lepas();
 
 		$nav['act']= 1;
 
@@ -407,7 +212,7 @@ function __construct(){
 		$data['rw']    = $this->penduduk_model->list_rw($data['dus_sel']);
 		$data['rt']    = $this->penduduk_model->list_rt($data['dus_sel'],$data['rw_sel']);
 		$data['agama'] = $this->penduduk_model->list_agama();
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
+		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['warganegara'] = $this->penduduk_model->list_warganegara();
@@ -418,6 +223,7 @@ function __construct(){
 
 		unset($_SESSION['dari_internal']);
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_form',$data);
@@ -438,7 +244,7 @@ function __construct(){
 
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
+		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['warganegara'] = $this->penduduk_model->list_warganegara();
 		$data['hubungan'] = $this->penduduk_model->list_hubungan();
@@ -449,10 +255,11 @@ function __construct(){
 		if ($_SESSION['validation_error']) {
 			$data['id_kk'] = $_SESSION['id_kk'];
 			$data['kk'] = $_SESSION['kk'];
-			$data['penduduk_kk'] = $_SESSION['post'];
+			$data['penduduk'] = $_SESSION['post'];
 		}
 
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_form_a',$data);
@@ -460,11 +267,10 @@ function __construct(){
 	}
 
 	function edit_nokk($p=1,$o=0,$id=0){
-
-		$data['kk']          = $this->keluarga_model->get_keluarga($id);
+		$data['kk'] = $this->keluarga_model->get_keluarga($id);
+		$data['program'] = $this->program_bantuan_model->list_program_keluarga($id);
 		$data['form_action'] = site_url("keluarga/update_nokk/$id");
 		$this->load->view('sid/kependudukan/ajax_edit_nokk',$data);
-
 	}
 
 	function form_old($p=1,$o=0,$id=0){
@@ -475,58 +281,38 @@ function __construct(){
 
 	}
 
-	function dusun($s=0){
-		$dusun = $this->input->post('dusun');
-		if($dusun!="")
-			$_SESSION['dusun']=$dusun;
-		else unset($_SESSION['dusun']);
-		if($s==1)
-			redirect('keluarga/sosial');
-		elseif($s==2)
-			redirect('keluarga/raskin_graph');
-		else
-			redirect('keluarga');
-	}
-
-	function rw($s=0){
-		$rw = $this->input->post('rw');
-		if($rw!="")
-			$_SESSION['rw']=$rw;
-		else unset($_SESSION['rw']);
-		if($s==1)
-			redirect('keluarga/sosial');
-		elseif($s==2)
-			redirect('keluarga/raskin_graph');
-		else
-			redirect('keluarga');
-	}
-
-	function rt($s=0){
-		$rt = $this->input->post('rt');
-		if($rt!="")
-			$_SESSION['rt']=$rt;
-		else unset($_SESSION['rt']);
-		if($s==1)
-			redirect('keluarga/sosial');
-		elseif($s==2)
-			redirect('keluarga/raskin_graph');
-		else
-			redirect('keluarga');
-	}
-
-	function raskin(){
-		$raskin = $this->input->post('raskin');
-		if($raskin!="")
-			$_SESSION['raskin']=$raskin;
-		else unset($_SESSION['raskin']);
-		redirect('keluarga');
-	}
-
 	function sex(){
 		$sex = $this->input->post('sex');
 		if($sex!="")
 			$_SESSION['sex']=$sex;
 		else unset($_SESSION['sex']);
+		redirect('keluarga');
+	}
+
+	function dusun(){
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		$dusun = $this->input->post('dusun');
+		if($dusun!="")
+			$_SESSION['dusun']=$dusun;
+		else unset($_SESSION['dusun']);
+		redirect('keluarga');
+	}
+
+	function rw(){
+		unset($_SESSION['rt']);
+		$rw = $this->input->post('rw');
+		if($rw!="")
+			$_SESSION['rw']=$rw;
+		else unset($_SESSION['rw']);
+		redirect('keluarga');
+	}
+
+	function rt(){
+		$rt = $this->input->post('rt');
+		if($rt!="")
+			$_SESSION['rt']=$rt;
+		else unset($_SESSION['rt']);
 		redirect('keluarga');
 	}
 
@@ -613,6 +399,7 @@ function __construct(){
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_anggota',$data);
@@ -667,17 +454,16 @@ function __construct(){
 		$data['main']     = $this->keluarga_model->list_anggota($id);
 		$kk 		  = $this->keluarga_model->get_kepala_kk($id);
 		$data['desa']     = $this->keluarga_model->get_desa();
-
 		if($kk)
 			$data['kepala_kk'] = $kk;
-
 		else
-			$data['kepala_kk'] = NULL;
+			$data['kepala_kk'] = $this->keluarga_model->get_keluarga($id);
 
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$nav['act']= 1;
 
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$data['form_action'] = site_url("keluarga/print");
@@ -741,12 +527,13 @@ function __construct(){
 
 	function pindah_proses($id=0){
 		$id_cluster = $_POST['id_cluster'];
-		$this->keluarga_model->pindah_proses($id,$id_cluster);
+		$alamat = $_POST['alamat'];
+		$this->keluarga_model->pindah_proses($id,$id_cluster,$alamat);
 		redirect("keluarga");
 	}
 
 	function ajax_penduduk_pindah($id=0){
-
+		$data['alamat_wilayah'] = $this->keluarga_model->get_alamat_wilayah($id);
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 
 		$data['form_action'] = site_url("keluarga/pindah_proses/$id");
@@ -754,10 +541,11 @@ function __construct(){
 	}
 
 	function ajax_penduduk_pindah_rw($dusun=''){
+		$dusun = urldecode($dusun);
 		$rw = $this->penduduk_model->list_rw($dusun);
 		//$this->load->view("sid/kependudukan/ajax_penduduk_pindah_form_rw", $data);
 		echo"<td>RW</td>
-		<td><select name='rw' onchange=RWSel('".$dusun."',this.value)>
+		<td><select name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
 		<option value=''>Pilih RW&nbsp;</option>";
 		foreach($rw as $data){
 			echo "<option>".$data['rw']."</option>";
@@ -766,6 +554,7 @@ function __construct(){
 	}
 
 	function ajax_penduduk_pindah_rt($dusun='',$rw=''){
+		$dusun = urldecode($dusun);
 		$rt = $this->penduduk_model->list_rt($dusun,$rw);
 		//$this->load->view("sid/kependudukan/ajax_penduduk_pindah_form_rt", $data);
 		echo "<td>RT</td>
@@ -789,29 +578,9 @@ function __construct(){
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
-		if(isset($_SESSION['raskin']))
-			$data['raskin'] = $_SESSION['raskin'];
-		else $data['raskin'] = '';
-
-		if(isset($_SESSION['id_blt']))
-			$data['id_blt'] = $_SESSION['id_blt'];
-		else $data['id_blt'] = '';
-
 		if(isset($_SESSION['id_bos']))
 			$data['id_bos'] = $_SESSION['id_bos'];
 		else $data['id_bos'] = '';
-
-		if(isset($_SESSION['id_pkh']))
-			$data['id_pkh'] = $_SESSION['id_pkh'];
-		else $data['id_pkh'] = '';
-
-		if(isset($_SESSION['id_jampersal']))
-			$data['id_jampersal'] = $_SESSION['id_jampersal'];
-		else $data['id_jampersal'] = '';
-
-		if(isset($_SESSION['id_bedah_rumah']))
-			$data['id_bedah_rumah'] = $_SESSION['id_bedah_rumah'];
-		else $data['id_bedah_rumah'] = '';
 
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -837,14 +606,8 @@ function __construct(){
 			$data['rt'] = '';
 		}
 		switch($tipe){
-			//case 0: $_SESSION['raskin'] = 0;$_SESSION['kelas'] = 0; break;
 			case 21: $_SESSION['kelas']  = $nomor; $pre="KELAS SOSIAL : ";break;
-			case 22: $_SESSION['raskin'] = $nomor; $pre="RASKIN : ";break;
-			case 23: $_SESSION['id_blt'] = $nomor; $pre="BLT : ";break;
 			case 24: $_SESSION['id_bos'] = $nomor; $pre="BOS : ";break;
-			case 25: $_SESSION['id_pkh'] = $nomor; $pre="PKH : ";break;
-			case 26: $_SESSION['id_jampersal'] = $nomor; $pre="JAMPERSAL : ";break;
-			case 27: $_SESSION['id_bedah_rumah'] = $nomor;$pre="BEDAH RUMAH : "; break;
 		}
 		$data['grup']	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging']  = $this->keluarga_model->paging_statistik($p,$o);

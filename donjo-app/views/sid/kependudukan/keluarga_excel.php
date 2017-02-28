@@ -27,13 +27,13 @@ header("Expires: 0");
 			<th >Kepala Keluarga</th>
 			<th width="100"  >Jumlah Anggota</th>
 			<th   width="60">Jenis Kelamin</th>
-			<th   width="60">Dusun</th>
+			<th   width="60"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
 			<th   width="30">RW</th>
 			<th   width="30">RT</th>
 			<th   width="100">Tanggal Terdaftar</th>
 		</tr>
 		</thead>
-		
+
 		<tbody>
         <?php  foreach($main as $data): ?>
 		<tr>
@@ -49,10 +49,10 @@ header("Expires: 0");
 		</tr>
 		<?php  endforeach; ?>
 	</tbody>
-	
+
 </table>
 </div>
-   
+
    <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>
 

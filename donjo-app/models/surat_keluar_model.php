@@ -181,7 +181,7 @@
 		return $nama_surat;
 	}
 
-	function log_surat($f=0,$id='',$g='',$u='',$z='', $nama_surat){
+	function log_surat($f=0,$id='',$g='',$u='',$z='', $nama_surat, $lampiran){
 
 		$data['id_pend']=$id;
 
@@ -212,6 +212,7 @@
 		$data['tahun']=date('Y');
 		$data['no_surat']=$z;
 		$data['nama_surat']=$nama_surat;
+		$data['lampiran'] = $lampiran;
 		//print_r($data);
 		$this->db->insert('log_surat',$data);
 
@@ -232,11 +233,12 @@
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM log_surat WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$_SESSION['success'] = 1;
+		$this->db->where('id', $id);
+		$this->db->delete('log_surat');
+		if ($this->db->_error_message()) {
+			$_SESSION['success'] = -1;
+		}
 	}
 
 	function delete_all(){

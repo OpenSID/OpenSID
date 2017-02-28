@@ -1,4 +1,4 @@
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
@@ -22,9 +22,9 @@
 
 										<li value="1">Pastikan format data yang akan diimport sudah sesuai dengan aturan import data:
 										<dl>
-										<dl>-> Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama, 
+										<dl>-> Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama,
 										<br><dl>-> Struktur RT RW, jika tidak ada dalam struktur wilayah desa diganti dengan tanda � (min/strip/dash)
-										<br><dl>-> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah, Jamkesmas, raskin, klasifikasi sosial ekonomi) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2<br>
+										<br><dl>-> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah, klasifikasi sosial ekonomi) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2<br>
 										</dl>
 										<li>Simpan (Save) file Excel sebagai .xls file (jika Anda memakai excel 2007 gunakan Save As pilih format .xls) </ul>
 										<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</ul>
@@ -36,7 +36,7 @@
 									</td>
 									<td>
 									&nbsp;
-									
+
 									</td>
 								</tr>
 								<tr>
@@ -47,7 +47,7 @@
 									<td width="250">
 										<input name="userfile" type="file" />
 									<td>
-										<input type="submit" class="uibutton special" value="Import" /> 
+										<input type="submit" class="uibutton special" value="Import" />
 									</td>
 									<td>
 										&nbsp;
@@ -62,7 +62,7 @@
 									<td width="250">
 										<input name="userfile" type="file" />
 									<td>
-										<input type="submit" class="uibutton special" value="Import" /> 
+										<input type="submit" class="uibutton special" value="Import" />
 									</td>
 									<td>
 										&nbsp;
@@ -75,7 +75,7 @@
 									<p>Jumlah Data Gagal
 									</td>
 									<td colspan="3">
-									
+
 										<?php echo $_SESSION['gagal']?>
 									</td>
 								</tr>
@@ -84,7 +84,7 @@
 									<p>Letak Baris Data Gagal:
 									</td>
 									<td colspan="3">
-									
+
 										<?php echo $_SESSION['baris']?>
 									</td>
 								</tr>
@@ -93,18 +93,18 @@
 									<p>Tota Data Berhasil:
 									</td>
 									<td colspan="3">
-									
+
 										<?php echo $_SESSION['sukses']?>
 									</td>
 								</tr>
 							<?php }?>
 							</table>
 							<!--impor data xls-->
-							
+
 							<!--impor data siak-->
             </div>
 				<div class="ui-layout-south panel bottom">
-					<div class="left"> 
+					<div class="left">
 						<div class="table-info"></div>
         </div>
         <div class="right">

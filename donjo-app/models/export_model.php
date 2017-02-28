@@ -4,93 +4,85 @@
 		parent::__construct();
 	}
 
-	function export_dasar(){
+	/* ==================================================================================
+		Export ke format Excel yang bisa diimpor mempergunakan Import Excel
+	  Tabel: dari tweb_wil_clusterdesa, c; tweb_keluarga, k; tweb_penduduk:, p
+	  Kolom: c.dusun,c.rw,c.rt,p.nama,k.no_kk,p.nik,p.sex,p.tempatlahir,p.tanggallahir,p.agama_id,p.pendidikan_kk_id,p.pendidikan_sedang_id,p.pekerjaan_id,p.status_kawin,p.kk_level,p.warganegara_id,p.nama_ayah,p.nama_ibu,p.golongan_darah_id
+	*/
 
-	$return = "";
-	$result = mysql_query('SELECT * FROM tweb_penduduk WHERE 1');
-	$num_fields = mysql_num_fields($result);
+  function bersihkanData(&$str)
+  {
+    $str = preg_replace("/\t/", "\\t", $str);
+    $str = preg_replace("/\r?\n/", "\\n", $str);
+    if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
+    // Kode yang tersimpan sebagai '0' harus '' untuk dibaca oleh Import Excel
+    if($str == "0") $str = "";
+    // Paksa bilangan seperti nik dan no_kk agar dibaca oleh Excel sebagai string
+    // Juga bilangan yang mulai dengan '0' reperti RT/RW '002'
+    if(preg_match("/^0/", $str) || preg_match("/^\+?\d{8,}$/", $str)) {
+      $str = "'$str";
+    }
+  }
 
-	$return.= "<penduduk>\r\n";
-	for($i = 0; $i < $num_fields; $i++){
-		while($row = mysql_fetch_row($result)){
-			//$return.= "<r>";
-			for($j=0; $j<$num_fields; $j++){
-				//$row[$j] = addslashes($row[$j]);
-				if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
-				if ($j<($num_fields-1)) { $return.= '+'; }
+  // Export data penduduk ke format Import Excel
+	function export_by_keluarga(){
+		$sql = "SELECT k.alamat, c.dusun,c.rw,c.rt,p.nama,k.no_kk,p.nik,p.sex,p.tempatlahir,p.tanggallahir,p.agama_id,p.pendidikan_kk_id,p.pendidikan_sedang_id,p.pekerjaan_id,p.status_kawin,p.kk_level,p.warganegara_id,p.nama_ayah,p.nama_ibu,p.golongan_darah_id
+			FROM tweb_penduduk p
+			LEFT JOIN tweb_keluarga k on k.id = p.id_kk
+			LEFT JOIN tweb_wil_clusterdesa c on p.id_cluster = c.id
+			ORDER BY k.no_kk
+		";
+		$q = $this->db->query($sql);
+		$data = $q->result_array();
+	  // Nama file untuk diunduh
+	  $nama_file = "export_penduduk_" . date("d-m-Y") . ".xls";
+
+	  $return = '';
+		if($q->num_rows()>0){
+      // judul kolom pada baris pertama
+			$i=0;
+			$baris = $data[$i];
+      $return .= implode("\t", array_keys($baris)) . "\r\n";
+			while($i<count($data)){
+				$baris = $data[$i];
+				$baris['tanggallahir'] = "'".date_format(date_create($baris['tanggallahir']),"d-m-Y");
+				array_walk($baris, array($this, 'bersihkanData'));
+	      $return .= implode("\t", array_values($baris)) . "\r\n";
+				$i++;
 			}
-			$return.= "\r\n";
 		}
+
+	  header("Content-Disposition: attachment; filename=\"$nama_file\"");
+	  header("Content-Type: application/vnd.ms-excel");
+		echo $return;
 	}
-	$return.="</penduduk>\r\n";
 
-	$result = mysql_query('SELECT * FROM tweb_keluarga WHERE 1');
-	$num_fields = mysql_num_fields($result);
+	// ====================== End export_by_keluarga ========================
 
-	$return.= "<keluarga>\r\n";
-	for($i = 0; $i < $num_fields; $i++){
-		while($row = mysql_fetch_row($result)){
-			//$return.= "<r>";
-			for($j=0; $j<$num_fields; $j++){
-				if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
-				if ($j<($num_fields-1)) { $return.= '+'; }
-			}
-			$return.= "\r\n";
-		}
-	}
-	$return.="</keluarga>\r\n";
+	function export_dasar()
+	{
+		$return = "";
+		$return.=$this->_build_schema('tweb_penduduk', 'penduduk');
+		$return.=$this->_build_schema('tweb_keluarga', 'keluarga');
+		$return.=$this->_build_schema('tweb_wil_clusterdesa', 'cluster');
 
-	$result = mysql_query('SELECT * FROM tweb_wil_clusterdesa WHERE 1');
-	$num_fields = mysql_num_fields($result);
-
-	$return.= "<cluster>\r\n";
-	for($i = 0; $i < $num_fields; $i++){
-		while($row = mysql_fetch_row($result)){
-			//$return.= "<r>";
-			for($j=0; $j<$num_fields; $j++){
-				if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
-				if ($j<($num_fields-1)) { $return.= '+'; }
-			}
-			$return.= "\r\n";
-		}
-	}
-	$return.="</cluster>";
-
-	$result = mysql_query('SELECT * FROM tweb_wil_clusterdesa WHERE 1');
-	$num_fields = mysql_num_fields($result);
-
-
-	Header('Content-type: application/octet-stream');
-	Header('Content-Disposition: attachment; filename=data_dasar('.date("d-m-Y").').sid');
-	echo $return;
+		Header('Content-type: application/octet-stream');
+		Header('Content-Disposition: attachment; filename=data_dasar('.date("d-m-Y").').sid');
+		echo $return;
 	}
 
 
-	function export_akp(){
-	$return = "";
-	$result = mysql_query('SELECT * FROM analisis_keluarga WHERE 1');
-	$num_fields = mysql_num_fields($result);
+	function export_akp()
+	{
+		$return=$this->_build_schema('analisis_keluarga', 'akpkeluarga');
 
-	$return.= "<akpkeluarga>\r\n";
-	for($i = 0; $i < $num_fields; $i++){
-		while($row = mysql_fetch_row($result)){
-			//$return.= "<r>";
-			for($j=0; $j<$num_fields; $j++){
-				//$row[$j] = addslashes($row[$j]);
-				if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
-				if ($j<($num_fields-1)) { $return.= '+'; }
-			}
-			$return.= "\r\n";
-		}
-	}
-	$return.="</akpkeluarga>\r\n";
-
-	Header('Content-type: application/octet-stream');
-	Header('Content-Disposition: attachment; filename=data_akp('.date("d-m-Y").').sid');
-	echo $return;
+		Header('Content-type: application/octet-stream');
+		Header('Content-Disposition: attachment; filename=data_akp('.date("d-m-Y").').sid');
+		echo $return;
 	}
 
-	function analisis(){
+	function analisis()
+	{
 
 		$sql   = "DELETE FROM analisis_respon_hasil WHERE id_periode=1";
 		$this->db->query($sql);
@@ -250,7 +242,7 @@
 
 		foreach($data AS $dat){
 			$tbl = $dat["TABLE_NAME"];
-			mysql_query("DROP TABLE $tbl");
+			$this->db->simple_query("DROP TABLE $tbl");
 		}
 		$_SESSION['success'] = 1;
 		$filename = $_FILES['userfile']['tmp_name'];
@@ -263,7 +255,7 @@
 			  if($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0)){
 					$query .= $sql_line;
 					if (substr(rtrim($query), -1) == ';'){
-					  $result = mysql_query($query)or die(mysql_error());
+					  $result = $this->db->simple_query($query) ;
 					  if (!$result) {
 					  	$_SESSION['success'] = -1;
 					  	echo "Error: ".$query;
@@ -301,5 +293,34 @@
 		}
 
 	}
+
+
+	private function _build_schema($nama_tabel, $nama_tanda) {
+		$return = "";
+		$result = $this->db->query("SELECT * FROM $nama_tabel");
+		$fields = $this->db->field_data($nama_tabel);
+		$num_fields = count($fields);
+
+		$return.= "<$nama_tanda>\r\n";
+		foreach($result->result() as $row) {
+			$j=0;
+			foreach($fields as $col) {
+				$name = $col->name;
+				if (isset($row->$name)) {
+					$return.= $row->$name ;
+				} else {
+					$return.= '';
+				}
+				if ($j < ($num_fields-1)) {
+					$return.= '+';
+				}
+				$j++;
+			}
+			$return.= "\r\n";
+		}
+		$return.="</$nama_tanda>\r\n";
+		return $return;
+	}
+
 }
 ?>
