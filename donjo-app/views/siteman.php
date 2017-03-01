@@ -2,7 +2,13 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title><?php echo 'Sistem Informasi Desa' . get_dynamic_title_page_from_path(); ?></title>
+	<title><?php
+		echo config_item('login_title')
+			. ' ' . ucwords(config_item('sebutan_desa'))
+			. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']) : '')
+			. get_dynamic_title_page_from_path();
+	?></title>
+  <title><?php echo config_item('login_title') . 'Login OpenSID'; ?></title>
   <link rel="stylesheet" href="<?php echo base_url()?>assets/css/login-new.css" media="screen" type="text/css" />
 </head>
 <body>
