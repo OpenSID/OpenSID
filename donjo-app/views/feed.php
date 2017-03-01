@@ -1,11 +1,11 @@
-<?php header("Content-Type: application/xml; charset=ISO-8859-1"); 
+<?php header("Content-Type: application/xml; charset=ISO-8859-1");
 $details = "<rss xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\" xmlns:admin=\"http://webns.net/mvcb/\" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" xmlns:content=\"http://purl.org/rss/1.0/modules/content/\" version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
 <channel>
 	<title>Desa ". $data_config["nama_desa"] ."</title>
 	<link>". base_url() ."</link>
 	<description>Situs Web Desa ". $data_config["nama_desa"] ." Kec. ". $data_config["nama_kecamatan"] ." Kab. ". $data_config["nama_kabupaten"] ." - ". $data_config["nama_propinsi"] ."</description>
 	<language>ID</language>
-	<generator>Sistem Informasi Desa v3.04</generator>
+	<generator>Sistem Informasi Desa</generator>
 	<pubDate>".date(DATE_RFC2822)."</pubDate>
 	<image>
 		<title>Desa ". $data_config["nama_desa"] ."</title>
@@ -13,7 +13,7 @@ $details = "<rss xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:sy=\"http:/
 		<link>". base_url() ."</link>
 	</image>
 	<atom:link href=\"".htmlspecialchars(site_url("feed"))."\" rel=\"self\" type=\"application/rss+xml\" />
-	"; 
+	";
 foreach($feeds as $key=>$item)
 {
 	if(strlen(trim($item["judul"]))>0)

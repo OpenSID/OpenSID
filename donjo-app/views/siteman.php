@@ -18,7 +18,7 @@
 		</div>
 		</a>
 		<div id="mainlogin">
-		<div id="or">3.04</div>
+		<div id="or"><?php echo substr(AmbilVersi(), 0, 4)?></div>
 		<h1>Masukan Username dan Password</h1>
 		<form action="<?php echo site_url('siteman/auth')?>" method="post">
 		<input name="username" type="text" placeholder="username" value="" required>
@@ -32,7 +32,7 @@
 		</form>
 		</div>
 		<div id="facebook2">
-			<div id="kab2">powered by: <a href="http://combine.or.id" target="_blank">combine.or.id</a></div>
+			<div id="kab2">powered by: <a href="https://github.com/eddieridwan/OpenSID" target="_blank">OpenSID</a></div>
 		</div>
 	</div>
 </body>

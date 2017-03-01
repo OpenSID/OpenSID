@@ -741,7 +741,7 @@
 			$buffer=str_replace("[d_alamat_ayah]","RT $ayah[rt] / RW $ayah[rw] $ayah[dusun]",$buffer);
 
 			//DATA DARI FORM INPUT SURAT
-			// Kode isian yang disediakan pada SID CRI 3.04
+			// Kode isian yang disediakan pada SID CRI
 			$buffer=str_replace("[nomor_surat]","$input[nomor]",$buffer);
 			$buffer=str_replace("[nomor_sorat]","$input[nomor]",$buffer);
 			if(isset($input['berlaku_dari'])) $buffer=str_replace("[mulai_berlaku]",tgl_indo(date('Y m d',strtotime($input['berlaku_dari']))),$buffer);
