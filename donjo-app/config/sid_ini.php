@@ -13,6 +13,7 @@ define("LOKASI_SID_INI", 'desa/config/');
 // Konfigurasi default
 $config['sebutan_desa'] = 'desa';
 $config['sebutan_dusun'] = 'dusun';
+$config['website_title'] = 'Website Resmi';
 $config['login_title'] = 'OpenSID';
 $config['admin_title'] = 'Sistem Informasi Desa';
 /*
