@@ -22,7 +22,7 @@
                       BIP yang dapat dibaca proses ini adalah yang tersusun
                       berdasarkan keluarga, seperti contoh yang dapat dilihat pada tautan berikut</a>.
                       <br><br>
-                      UNDUH : <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/konversi_bip.xls">Contoh BIP 2012</a>
+                      UNDUH : <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_2012.xls">Contoh BIP 2012</a>
                       <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_2016.xls">Contoh BIP 2016</a>
                       <br><br>
                       Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun menjadi satu worksheet per dusun, proses ini akan mengimpor  data semua dusun.
