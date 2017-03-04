@@ -822,13 +822,13 @@
 		$format_lampiran = $this->lampiran_khusus($surat['url_surat'],$surat['lampiran'],$input);
 		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
 
-    // get the HTML
+    // get the HTML using output buffer
     ob_start();
-    include(dirname(__FILE__)."/../../".$surat['lokasi_rtf'].$format_lampiran);
+    include(FCPATH.$surat['lokasi_rtf'].$format_lampiran);
     $content = ob_get_clean();
 
     // convert in PDF
-    require_once(dirname(__FILE__).'/../../vendor/html2pdf/html2pdf.class.php');
+    require_once(FCPATH.'vendor/html2pdf/html2pdf.class.php');
     try
     {
         $html2pdf = new HTML2PDF('P', array(210,330), 'en');
