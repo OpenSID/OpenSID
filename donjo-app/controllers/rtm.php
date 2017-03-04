@@ -125,6 +125,33 @@ function __construct(){
 		redirect('rtm');
 	}
 
+	function dusun(){
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		$dusun = $this->input->post('dusun');
+		if($dusun!="")
+			$_SESSION['dusun']=$dusun;
+		else unset($_SESSION['dusun']);
+		redirect('rtm');
+	}
+
+	function rw(){
+		unset($_SESSION['rt']);
+		$rw = $this->input->post('rw');
+		if($rw!="")
+			$_SESSION['rw']=$rw;
+		else unset($_SESSION['rw']);
+		redirect('rtm');
+	}
+
+	function rt(){
+		$rt = $this->input->post('rt');
+		if($rt!="")
+			$_SESSION['rt']=$rt;
+		else unset($_SESSION['rt']);
+		redirect('rtm');
+	}
+	
 	function insert(){
 		$this->rtm_model->insert();
 		redirect('rtm');
