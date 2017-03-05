@@ -193,7 +193,23 @@
 			move_uploaded_file($_FILES["foto"]["tmp_name"], $vdir_upload);
 			$_SESSION['success']=1;
 		}
+		$this->salin_lampiran($url);
+	}
 
+	// Lampiran surat perlu disalin ke LOKASI_SURAT_EXPORT_DESA, karena
+	// file lampiran surat dianggap ada di folder yang sama dengan tempat template surat RTF
+	function salin_lampiran($url){
+		$this->load->model('surat_model');
+		$surat = $this->surat_model->get_surat($url);
+		if (!$surat['lampiran']) return;
+
+		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
+		$daftar_lampiran = explode(",", $surat['lampiran']);
+		foreach ($daftar_lampiran as $lampiran) {
+			if (!file_exists(LOKASI_SURAT_EXPORT_DESA."/".$lampiran)) {
+				copy("surat/".$url."/".$lampiran,LOKASI_SURAT_EXPORT_DESA."/".$lampiran);
+			}
+		}
 	}
 
 	function delete($id=''){
