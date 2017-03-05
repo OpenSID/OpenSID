@@ -18,7 +18,7 @@
  <?php foreach($list_dokumen as $data){?>
 		<tr>
 			<td align="center" width="2"><?php echo $data['no']?></td>
-			 <td><a href="<?php echo base_url()?>assets/files/dokumen/<?php echo urlencode($data['satuan'])?>" ><?php echo $data['nama']?></a></td>
+			 <td><a href="<?php echo base_url().LOKASI_DOKUMEN?><?php echo urlencode($data['satuan'])?>" ><?php echo $data['nama']?></a></td>
 			 <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
 		</tr>
  <?php }?>
