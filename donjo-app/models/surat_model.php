@@ -896,14 +896,21 @@
 	}
 
 	function get_last_nosurat_log($url){
-		$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
-		$query = $this->db->query($sql, $url);
+		
+		// abaikan jenis surat
+		if (config_item('last_log_surat_from_all')){
+			$sql   = "SELECT no_surat,tanggal FROM log_surat ORDER BY tanggal DESC LIMIT 1";
+			$query = $this->db->query($sql);
+		} else {
+			$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
+			$query = $this->db->query($sql, $url);
 
-		$id_format_surat = $query->row()->id;
+			$id_format_surat = $query->row()->id;
 
-		$sql   = "SELECT no_surat,tanggal FROM log_surat WHERE id_format_surat = ? ORDER BY tanggal DESC LIMIT 1";
-		$query = $this->db->query($sql, $id_format_surat);
-
+			$sql   = "SELECT no_surat,tanggal FROM log_surat WHERE id_format_surat = ? ORDER BY tanggal DESC LIMIT 1";
+			$query = $this->db->query($sql, $id_format_surat);			
+		}
+		
 		return $query->row_array();
 
 	}

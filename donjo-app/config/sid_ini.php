@@ -39,5 +39,9 @@ if (is_file($extra_app_config)) {
   $config['ini'] = '';
 }
 
+// Gunakan log surat terakhir untuk seluruh surat, tanpa memilah jenis surat
+// Default: FALSE
+$config['last_log_surat_from_all'] = FALSE;
+
 /* End of file sid_ini.php */
 /* Location: ./application/config/sid_ini.php */
