@@ -20,7 +20,7 @@
 <br>
 <table class="" width="100%">
 <tr>
-<td width="150">Nama</td><td width="1">:</td>
+<td width="200">Nama</td><td width="1">:</td>
 <td><?php echo strtoupper($penduduk['nama'])?></td><td rowspan="18"><?php if($penduduk['foto']){?>
 <img src="<?php echo AmbilFoto($penduduk['foto'])?>" alt=""/>
 <?php }?>
@@ -54,8 +54,13 @@
 <td><?php echo strtoupper($penduduk['agama'])?></td></tr>
 
 <tr>
-<td>Pendidikan</td><td >:</td>
-<td><?php echo strtoupper($penduduk['pendidikan'])?></td></tr>
+  <td>Pendidikan Dalam KK</td><td >:</td>
+  <td><?php echo strtoupper($penduduk['pendidikan_kk'])?></td>
+</tr>
+<tr>
+  <td>Pendidikan Sedang Ditempuh</td><td >:</td>
+  <td><?php echo strtoupper($penduduk['pendidikan_sedang'])?></td>
+</tr>
 
 <tr>
 <td>Pekerjaan</td><td >:</td>
