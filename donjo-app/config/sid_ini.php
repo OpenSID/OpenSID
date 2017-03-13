@@ -30,6 +30,12 @@ $config['offline_mode'] = FALSE;
 // Apakah akan mengirimkan data statistik ke server sid?
 $config['enable_track'] = TRUE;
 
+// Gunakan log surat terakhir untuk seluruh surat, tanpa memilah jenis surat
+// Default: FALSE (gunakan nomor surat terakhir menurut jenis surat)
+$config['nomor_terakhir_semua_surat'] = FALSE;
+
+// ==========================================================================
+
 // Konfigurasi tambahan untuk aplikasi
 $extra_app_config = FCPATH . LOKASI_SID_INI . 'config.php';
 if (is_file($extra_app_config)) {
@@ -38,10 +44,6 @@ if (is_file($extra_app_config)) {
   // Harus ada config. Config ini tidak dipakai.
   $config['ini'] = '';
 }
-
-// Gunakan log surat terakhir untuk seluruh surat, tanpa memilah jenis surat
-// Default: FALSE
-$config['last_log_surat_from_all'] = FALSE;
 
 /* End of file sid_ini.php */
 /* Location: ./application/config/sid_ini.php */
