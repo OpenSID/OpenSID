@@ -295,6 +295,9 @@
 			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
 			case 7: $order_sql = ' ORDER BY umur'; break;
 			case 8: $order_sql = ' ORDER BY umur DESC'; break;
+			// Untuk Log Penduduk
+			case 9: $order_sql = ' ORDER BY log.tgl_peristiwa'; break;
+			case 10: $order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
 			default:$order_sql = '';
 		}
 

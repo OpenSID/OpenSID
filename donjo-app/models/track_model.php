@@ -9,7 +9,12 @@
   function track_desa($dari){
 
     if ($this->config->item('enable_track') == FALSE) return;
-    if(isset($_SESSION['track_desa']) AND $_SESSION['track_desa'] == date("Y m d")) return;
+    // Track web dan admin masing2 maksimum sekali sehari
+    if (strpos(current_url(), 'first') !== FALSE) {
+      if(isset($_SESSION['track_web']) AND $_SESSION['track_web'] == date("Y m d")) return;
+    } else {
+      if(isset($_SESSION['track_admin']) AND $_SESSION['track_admin'] == date("Y m d")) return;
+    }
 
     $_SESSION['balik_ke'] = $dari;
     if (defined('ENVIRONMENT'))
@@ -55,7 +60,12 @@
     // echo "httppost ===========";
     // echo httpPost("http://".$tracker."/index.php/track/desa",$desa);
     httpPost("http://".$tracker."/index.php/track/desa",$desa);
-    $_SESSION['track_desa'] = date("Y m d");
+    if (strpos(current_url(), 'first') !== FALSE) {
+      $_SESSION['track_web'] = date("Y m d");
+    } else {
+      $_SESSION['track_admin'] = date("Y m d");
+    }
+
   }
 }
 ?>

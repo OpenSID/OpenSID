@@ -24,6 +24,13 @@ class Database extends CI_Controller{
 	}
 
 	function index(){
+		// Untuk development: menghapus session tracking. Tidak ada kaitan dengan database.
+		// Di sini untuk kemudahan saja.
+		// TODO: cari tempat yang lebih cocok
+    if (defined('ENVIRONMENT') AND ENVIRONMENT == 'development') {
+			unset($_SESSION['track_web']);
+			unset($_SESSION['track_admin']);
+    }
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();

@@ -822,13 +822,13 @@
 		$format_lampiran = $this->lampiran_khusus($surat['url_surat'],$surat['lampiran'],$input);
 		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
 
-    // get the HTML
+    // get the HTML using output buffer
     ob_start();
-    include(dirname(__FILE__)."/../../".$surat['lokasi_rtf'].$format_lampiran);
+    include(FCPATH.$surat['lokasi_rtf'].$format_lampiran);
     $content = ob_get_clean();
 
     // convert in PDF
-    require_once(dirname(__FILE__).'/../../vendor/html2pdf/html2pdf.class.php');
+    require_once(FCPATH.'vendor/html2pdf/html2pdf.class.php');
     try
     {
         $html2pdf = new HTML2PDF('P', array(210,330), 'en');
@@ -896,13 +896,20 @@
 	}
 
 	function get_last_nosurat_log($url){
-		$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
-		$query = $this->db->query($sql, $url);
 
-		$id_format_surat = $query->row()->id;
+		// abaikan jenis surat
+		if (config_item('nomor_terakhir_semua_surat')){
+			$sql   = "SELECT no_surat,tanggal FROM log_surat ORDER BY tanggal DESC LIMIT 1";
+			$query = $this->db->query($sql);
+		} else {
+			$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
+			$query = $this->db->query($sql, $url);
 
-		$sql   = "SELECT no_surat,tanggal FROM log_surat WHERE id_format_surat = ? ORDER BY tanggal DESC LIMIT 1";
-		$query = $this->db->query($sql, $id_format_surat);
+			$id_format_surat = $query->row()->id;
+
+			$sql   = "SELECT no_surat,tanggal FROM log_surat WHERE id_format_surat = ? ORDER BY tanggal DESC LIMIT 1";
+			$query = $this->db->query($sql, $id_format_surat);
+		}
 
 		return $query->row_array();
 
