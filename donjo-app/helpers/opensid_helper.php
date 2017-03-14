@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pra-1.11');
+define("VERSION", '1.11');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -364,5 +364,20 @@ define("KODE_PEKERJAAN", serialize(array(
       return ucwords($str);
     else return $str;
   }
+  
+  function get_dynamic_title_page_from_path()
+  {
+		$parse = str_replace(array('/first'), '', $_SERVER['PATH_INFO']);
+		$explo = explode('/', $parse);
+		
+		$title = '';
+		for($i=0;$i<count($explo);$i++){
+			$t = trim($explo[$i]);
+			if(!empty($t) && $t != '1' && $t != '0' ) {
+				$title .= ((is_numeric($t)) ? ' ' : ' - ') . $t;
+			}
+		}
+		return ucwords(str_replace(array('  ', '_'), ' ', $title));
+	}
 
 ?>
