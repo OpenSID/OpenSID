@@ -214,7 +214,13 @@
 		$data['nama_surat']=$nama_surat;
 		$data['lampiran'] = $lampiran;
 		//print_r($data);
-		$this->db->insert('log_surat',$data);
+		$last_id = $this->db->select('*')->from('log_surat')->where($data)->limit(1)->order_by('id', 'desc')->get()->row()->id;
+		if($last_id){
+			$this->db->where('id', $last_id);
+			$this->db->update('log_surat',$data);
+		} else {
+			$this->db->insert('log_surat',$data);
+		}
 
 	}
 
