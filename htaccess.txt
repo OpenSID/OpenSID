@@ -1,0 +1,13 @@
+RewriteEngine on
+RewriteBase /
+
+# Prevent index dirs
+RewriteCond $1 ^(surat)
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+# General dirs / files
+RewriteCond $1 !^(index\.php|resources|robots\.txt) 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
