@@ -214,9 +214,17 @@
 		$data['nama_surat']=$nama_surat;
 		$data['lampiran'] = $lampiran;
 		//print_r($data);
-		$last_id = $this->db->select('*')->from('log_surat')->where($data)->limit(1)->order_by('id', 'desc')->get()->row()->id;
-		if($last_id){
-			$this->db->where('id', $last_id);
+		/**
+			Penambahan atau update log disesuaikan dengan file surat yang tersimpan di arsip,
+			sehingga hanya ada satu entri di log surat untuk setiap versi surat di arsip.
+			File surat disimpan di arsip untuk setiap URL-NIK-nomor surat-tanggal yang unik,
+			lihat fungsi nama_surat_arsip (kolom nama_surat di tabel log_surat).
+			Entri itu akan berisi timestamp (pencetakan) terakhir untuk file surat yang bersangkutan.
+		*/
+		$log_id = $this->db->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
+		if($log_id){
+			$data['tanggal'] = date('Y-m-d H:i:s');
+			$this->db->where('id', $log_id);
 			$this->db->update('log_surat',$data);
 		} else {
 			$this->db->insert('log_surat',$data);
