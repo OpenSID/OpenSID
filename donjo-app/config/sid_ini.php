@@ -45,5 +45,13 @@ if (is_file($extra_app_config)) {
   $config['ini'] = '';
 }
 
+/**
+  Hapus index.php dari url bila ditemukan .htaccess
+  Untuk menggunakan fitur ini, pastikan konfigurasi apache di server SID
+  mengizinkan penggunaan .htaccess
+*/
+if(file_exists(FCPATH.'.htaccess'))
+	$config['index_page'] = '';
+
 /* End of file sid_ini.php */
 /* Location: ./application/config/sid_ini.php */
