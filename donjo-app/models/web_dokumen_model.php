@@ -108,6 +108,7 @@ class Web_Dokumen_Model extends CI_Model{
 	  $lokasi_file = $_FILES['satuan']['tmp_name'];
 	  $tipe_file   = $_FILES['satuan']['type'];
 	  $nama_file   = $_FILES['satuan']['name'];
+	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 
 	  $semua_mime_type = array_merge(unserialize(MIME_TYPE_DOKUMEN), unserialize(MIME_TYPE_GAMBAR), unserialize(MIME_TYPE_ARSIP));
 		if(!in_array($tipe_file, $semua_mime_type)){
@@ -131,6 +132,7 @@ class Web_Dokumen_Model extends CI_Model{
 	  $lokasi_file = $_FILES['satuan']['tmp_name'];
 	  $tipe_file   = $_FILES['satuan']['type'];
 	  $nama_file   = $_FILES['satuan']['name'];
+	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 
 		if(!empty($_FILES['satuan']['tmp_name'])){
 			if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN))){
