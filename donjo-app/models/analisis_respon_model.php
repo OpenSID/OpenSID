@@ -364,6 +364,7 @@
 					$_SESSION['sukses']=-1;
 				} else {
 					$nama_file = $_SESSION['analisis_master']."_".$per."_".$id."_".rand(10000,99999).".jpg";
+					$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 					UploadPengesahan($nama_file);
 					$bukti['pengesahan'] 	= $nama_file;
 					$bukti['id_master'] 	= $id_master;

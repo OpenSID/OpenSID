@@ -477,6 +477,8 @@
 			array_push($valid, "NIK hanya berisi angka");
 		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
 			array_push($valid, "NIK panjangnya harus 16 atau 0");
+		if ($this->db->select('nik')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row()->nik)
+			array_push($valid, "NIK {$data['nik']} sudah digunakan");
 		if (!empty($valid))
 			$_SESSION['validation_error'] = true;
 		return $valid;
@@ -491,6 +493,7 @@
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto    = $data['old_foto'];
 		if (!empty($lokasi_file)){
 			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/jpg" AND $tipe_file != "image/png"){
@@ -588,6 +591,7 @@
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto    = $data['old_foto'];
 		if (!empty($lokasi_file)){
 			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
@@ -1126,6 +1130,7 @@
 	function dokumen_insert(){
 		$lokasi_file = $_FILES['satuan']['tmp_name'];
 		$nama_file = $_FILES['satuan']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		if (!empty($lokasi_file)){
 				$data = $_POST;
 				$nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;

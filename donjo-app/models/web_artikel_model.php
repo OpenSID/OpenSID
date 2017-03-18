@@ -138,6 +138,7 @@
 		  $lokasi_file = $_FILES['gambar']['tmp_name'];
 		  $tipe_file   = $_FILES['gambar']['type'];
 		  $nama_file   = $_FILES['gambar']['name'];
+		  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		  if (!empty($lokasi_file)){
 			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
 				UploadArtikel($nama_file,"gambar",$fp);
@@ -187,6 +188,7 @@
  		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file   = $_FILES['dokumen']['type'];
 		$nama_file   = $_FILES['dokumen']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file)){
 			if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN))){
@@ -229,6 +231,7 @@
 		  $lokasi_file = $_FILES['gambar']['tmp_name'];
 		  $tipe_file   = $_FILES['gambar']['type'];
 		  $nama_file   = $_FILES['gambar']['name'];
+		  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		  if (!empty($lokasi_file)){
 			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
 				UploadArtikel($nama_file,"gambar",$fp);
@@ -271,6 +274,7 @@
  		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file   = $_FILES['dokumen']['type'];
 		$nama_file   = $_FILES['dokumen']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file)){
 			if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN))){
