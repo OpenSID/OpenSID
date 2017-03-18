@@ -29,7 +29,7 @@
 		$lokasi_file = $_FILES['logo']['tmp_name'];
 		$tipe_file   = $_FILES['logo']['type'];
 		$nama_file   = $_FILES['logo']['name'];
-	   $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_logo    = $data['old_logo'];
 		if (!empty($lokasi_file)){
 			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
