@@ -765,10 +765,10 @@
 		// Ubah alamat keluarga
 		$this->db->where('id',$id);
 		$data_kel['alamat'] = $alamat;
-		$data_kel['id_cluster'] = $id_cluster;
+		if ($id_cluster AND $id_cluster != '') $data_kel['id_cluster'] = $id_cluster;
 		$this->db->update('tweb_keluarga', $data_kel);
 		// Ubah dusun/rw/rt untuk semua anggota keluarga
-		if ($id_cluster != '') {
+		if ($id_cluster AND $id_cluster != '') {
 			$this->db->where('id_kk',$id);
 			$data['id_cluster'] = $id_cluster;
 			$outp = $this->db->update('tweb_penduduk',$data);
