@@ -9,6 +9,7 @@ function __construct(){
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('laporan_bulanan_model');
+		$this->load->model('pamong_model');
 
 		//Initialize Session ------------
 		$_SESSION['success']  = 0;
@@ -59,6 +60,7 @@ function __construct(){
 		$data['bulan']=$data['bulanku'];
 		$data['tahun']=$data['tahunku'];
 		$data['config'] = $this->laporan_bulanan_model->configku();
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['penduduk_awal']    = $this->laporan_bulanan_model->penduduk_awal();
 		$data['penduduk_akhir']    = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['kelahiran']    = $this->laporan_bulanan_model->kelahiran();
@@ -80,6 +82,7 @@ function __construct(){
 
 	function cetak($lap=0){
 
+		$data['input'] = $_POST;
 		$data['config'] = $this->laporan_bulanan_model->configku();
 		$data['bulan']=$_SESSION['bulanku'];
 		$data['tahun']=$_SESSION['tahunku'];
