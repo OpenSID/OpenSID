@@ -527,7 +527,6 @@ function __construct(){
 
 	function pindah_proses($id=0){
 		$id_cluster = $_POST['id_cluster'];
-xdebug_break();
 		$alamat = $_POST['alamat'];
 		$this->keluarga_model->pindah_proses($id,$id_cluster,$alamat);
 		redirect("keluarga");
