@@ -473,12 +473,14 @@
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
 
 		$valid = array();
-		if (!ctype_digit($data['nik']))
-			array_push($valid, "NIK hanya berisi angka");
-		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
-			array_push($valid, "NIK panjangnya harus 16 atau 0");
-		if ($this->db->select('nik')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row()->nik)
-			array_push($valid, "NIK {$data['nik']} sudah digunakan");
+		if (isset($data['nik'])) {
+			if (!ctype_digit($data['nik']))
+				array_push($valid, "NIK hanya berisi angka");
+			if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
+				array_push($valid, "NIK panjangnya harus 16 atau 0");
+			if ($this->db->select('nik')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row()->nik)
+				array_push($valid, "NIK {$data['nik']} sudah digunakan");
+		}
 		if (!empty($valid))
 			$_SESSION['validation_error'] = true;
 		return $valid;
@@ -508,6 +510,7 @@
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
+		unset($data['nik_lama']);
 
 		$data['id_cluster'] = $data['rt'];
 		UNSET($data['dusun']);
@@ -606,6 +609,12 @@
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
+
+		// Jangan update nik apabila tidak berubah
+		if ($data['nik_lama'] == $data['nik']) {
+			unset($data['nik']);
+		}
+		unset($data['nik_lama']);
 
 		$error_validasi = $this->validasi_data_penduduk($data);
 		if (!empty($error_validasi)){

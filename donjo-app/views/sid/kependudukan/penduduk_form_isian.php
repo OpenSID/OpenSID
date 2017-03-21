@@ -24,7 +24,10 @@
 
 <tr>
   <th>NIK</th>
-  <td><input name="nik" type="text" class="inputbox required" size="30" value="<?php echo $penduduk['nik']?>"/></td>
+  <td>
+    <input name="nik" type="text" class="inputbox required" size="30" value="<?php echo $penduduk['nik']?>"/>
+    <input name="nik_lama" type="hidden" value="<?php echo $_SESSION['nik_lama']?>"/>
+  </td>
 </tr>
 
 <tr>
