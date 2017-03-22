@@ -569,7 +569,9 @@
 	}
 
 	function list_anggota($id=0){
-		$sql   = "SELECT b.dusun,b.rw,b.rt,u.id,u.id_kk,nik,dokumen_pasport,dokumen_kitas,x.nama as sex,u.kk_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan, k.alamat
+		$sql   = "SELECT u.*,u.sex as sex_id,u.status_kawin as status_kawin_id,
+			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
+				b.dusun,b.rw,b.rt,x.nama as sex,u.kk_level,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,g.nama as golongan_darah,h.nama AS hubungan, k.alamat
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
 			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
@@ -765,10 +767,10 @@
 		// Ubah alamat keluarga
 		$this->db->where('id',$id);
 		$data_kel['alamat'] = $alamat;
-		$data_kel['id_cluster'] = $id_cluster;
+		if ($id_cluster AND $id_cluster != '') $data_kel['id_cluster'] = $id_cluster;
 		$this->db->update('tweb_keluarga', $data_kel);
 		// Ubah dusun/rw/rt untuk semua anggota keluarga
-		if ($id_cluster != '') {
+		if ($id_cluster AND $id_cluster != '') {
 			$this->db->where('id_kk',$id);
 			$data['id_cluster'] = $id_cluster;
 			$outp = $this->db->update('tweb_penduduk',$data);

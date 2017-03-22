@@ -24,7 +24,15 @@
 
 <tr>
   <th>NIK</th>
-  <td><input name="nik" type="text" class="inputbox required" size="30" value="<?php echo $penduduk['nik']?>"/></td>
+  <td>
+    <input name="nik" type="text" class="inputbox required" size="30" value="<?php echo $penduduk['nik']?>"/>
+    <input name="nik_lama" type="hidden" value="<?php echo $_SESSION['nik_lama']?>"/>
+  </td>
+</tr>
+
+<tr>
+  <th>Nomor Telepon</th>
+  <td><input name="telepon" type="text" class="inputbox" size="30" value="<?php echo $penduduk['telepon']?>"/></td>
 </tr>
 
 <tr>
@@ -141,6 +149,10 @@
 <tr>
   <th>No. Paspor</th>
   <td><input name="dokumen_pasport" type="text" class="inputbox" size="20"  value="<?php echo strtoupper($penduduk['dokumen_pasport'])?>"/></td>
+</tr>
+<tr>
+  <th>Tanggal Berakhir Paspor</th>
+  <td><input name="tanggal_akhir_paspor" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggal_akhir_paspor']?>"/></td>
 </tr>
 
 <tr>

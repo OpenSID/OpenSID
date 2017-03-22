@@ -46,8 +46,20 @@ padding:5px;
 
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
+	<tr>
+		<td colspan="2" style="height: auto;">
+    	<div class="box-perhatian">
+      	<p><strong>Form ini menghasilkan:<br><br>
+      	(1) surat biodata untuk pemohon<br>
+      	(2) lampiran F-1.01 FORMULIR ISIAN BIODATA PENDUDUK UNTUK WNI untuk keluarga pemohon<br><br>
+      	Pastikan semua biodata pemohon beserta keluarga sudah lengkap sebelum mencetak surat dan lampiran.<br>
+      	Untuk melengkapi data itu, ubah data pemohon dan anggota keluarganya di form isian penduduk di modul Penduduk.
+      	</strong></p>
+    	</div>
+    </td>
+  </tr>
 <tr>
-<th>NIK / Nama</th>
+<th>NIK / Nama Pemohon</th>
 <td>
 <form action="" id="main" name="main" method="POST">
 <div id="nik" name="nik"></div>
@@ -65,64 +77,41 @@ padding:5px;
 <input name="nomor" type="text" class="inputbox required" size="12"/> <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>
 </td>
 </tr>
-<tr>
-	<tH>DATA PRIBADI :</tH>
-</tr>
-<tr>
-	<th>Alamat Sebelumnya</th>
-	<td><input name="alamat_sebelumnya" type="text" class="inputbox " size="40"/></td>
-</tr>
+	<tr>
+		<th colspan="1" style="vertical-align: top;">Anggota Keluarga</th>
+		<td colspan="1">
+			<div style="margin-left:0px;">
+				<table class="list">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th align="left" width='70'>NIK</th>
+							<th align="left" width='100'>Nama</th>
+							<th align="left" width='30' align="center">Jenis Kelamin</th>
+							<th width="70" align="left" >Umur</th>
+							<th width="70" align="left" >Hubungan</th>
+						</tr>
+					</thead>
 
-<tr>
-	<th>No Paspor</th>
-	<td><input name="no_paspor" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>Tanggal Berakhir Paspor</th>
-	<td><input name="tgl_berakhir_paspor" type="text" class="inputbox  datepicker" size="20"/></td>
-</tr>
-
-<tr>
-	<th>Akte Kelahiran</th>
-	<td><input name="akte_kelahiran" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>No Akte Kelahiran</th>
-	<td><input name="no_akte_kelahiran" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>Akte Perkawinan /Buku Nikah</th>
-	<td><input name="akte_perkawinan" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>No Akte Perkawinan /Buku Nikah</th>
-	<td><input name="no_akte_perkawinan" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>Tanggal Akte Perkawinan /Buku Nikah</th>
-	<td><input name="tgl_akte_perkawinan" type="text" class="inputbox  datepicker" size="20"/></td>
-</tr>
-
-<tr>
-	<th>Akte Perceraian</th>
-	<td><input name="akte_perceraian" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>Tanggal Perceraian</th>
-	<td><input name="tgl_perceraian" type="text" class="inputbox  datepicker" size="20"/></td>
-</tr>
-
-<tr>
-	<th>Kelainan Fisik / Mental</th>
-	<td><textarea name="kelainan" style="resize:none;width:300px;height:30px;"></textarea></td>
-</tr>
-
+					<tbody>
+						<?php if($anggota!=NULL){
+							$i=0;?>
+							<?php  foreach($anggota AS $data){ $i++;?>
+								<tr>
+			            <td align="center" width="2"><?php echo $i?></td>
+									<td><?php echo $data['nik']?></td>
+									<td><?php echo unpenetration($data['nama'])?></td>
+									<td><?php echo $data['sex']?></td>
+									<td><?php echo $data['umur']?></td>
+									<td><?php echo $data['hubungan']?></td>
+							</tr>
+							<?php }?>
+						<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</td>
+	</tr>
 
 <tr>
 <th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
