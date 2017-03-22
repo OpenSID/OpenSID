@@ -34,7 +34,7 @@
 	}
 
 	function list_penduduk(){
-		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id WHERE u.status = 1";
+		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
@@ -96,7 +96,7 @@
 
 	function get_penduduk($id=0){
 		$sql   = "SELECT u.id AS id,u.nama AS nama,x.nama AS sex,u.id_kk AS id_kk,
-		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,
+		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,s.nama as status,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
 		w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,
@@ -110,6 +110,7 @@
 		left join tweb_wil_clusterdesa c on u.id_cluster = c.id
 		left join tweb_keluarga k on u.id_kk = k.id
 		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
+		left join tweb_penduduk_status s on u.status = s.id
 		WHERE u.id = ?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
