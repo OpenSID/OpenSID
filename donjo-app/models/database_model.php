@@ -39,6 +39,7 @@
     $this->migrasi_18_ke_19();
     $this->migrasi_19_ke_110();
     $this->migrasi_110_ke_111();
+    $this->migrasi_111_ke_112();
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -766,6 +767,29 @@
         lampiran = VALUES(lampiran);
     ";
     $this->db->query($query);
+  }
+
+  function migrasi_111_ke_112() {
+    // Ubah surat bio penduduk untuk menambah format lampiran
+    $query = "
+      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+      (3, 'surat_bio_penduduk', 'f-1.01.php')
+      ON DUPLICATE KEY UPDATE
+        url_surat = VALUES(url_surat),
+        lampiran = VALUES(lampiran);
+    ";
+    $this->db->query($query);
+
+    // Tabel tweb_penduduk melengkapi data F-1.01
+    if (!$this->db->field_exists('telepon', 'tweb_penduduk')) {
+      $query = "ALTER TABLE tweb_penduduk ADD `telepon` varchar(20)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('tanggal_akhir_paspor', 'tweb_penduduk')) {
+      $query = "ALTER TABLE tweb_penduduk ADD `tanggal_akhir_paspor` date";
+      $this->db->query($query);
+    }
+
   }
 
   function kosongkan_db(){

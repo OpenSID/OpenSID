@@ -50,6 +50,10 @@
                 <td><?php echo strtoupper($penduduk['sex'])?></td>
               </tr>
               <tr>
+                <td>Nomor Telepon</td><td >:</td>
+                <td><?php echo strtoupper($penduduk['telepon'])?></td>
+              </tr>
+              <tr>
                 <td>Tempat / Tanggal Lahir</td><td >:</td>
                 <td><?php echo strtoupper($penduduk['tempatlahir'])?> / <?php echo strtoupper($penduduk['tanggallahir'])?></td>
               </tr>
@@ -80,6 +84,10 @@
               <tr>
                 <td>Dokumen Paspor</td><td >:</td>
                 <td><?php echo strtoupper($penduduk['dokumen_pasport'])?></td>
+              </tr>
+              <tr>
+                <td>Tanggal Berakhir Paspor</td><td >:</td>
+                <td><?php echo strtoupper($penduduk['tanggal_akhir_paspor'])?></td>
               </tr>
               <tr>
                 <td>Dokumen KITAS</td><td >:</td>

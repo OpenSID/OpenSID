@@ -31,6 +31,11 @@
 </tr>
 
 <tr>
+  <th>Nomor Telepon</th>
+  <td><input name="telepon" type="text" class="inputbox" size="30" value="<?php echo $penduduk['telepon']?>"/></td>
+</tr>
+
+<tr>
   <th>Akta Kelahiran</th>
   <td><input name="akta_lahir" type="text" class="inputbox" size="30" value="<?php echo $penduduk['akta_lahir']?>"/></td>
 </tr>
@@ -144,6 +149,10 @@
 <tr>
   <th>No. Paspor</th>
   <td><input name="dokumen_pasport" type="text" class="inputbox" size="20"  value="<?php echo strtoupper($penduduk['dokumen_pasport'])?>"/></td>
+</tr>
+<tr>
+  <th>Tanggal Berakhir Paspor</th>
+  <td><input name="tanggal_akhir_paspor" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggal_akhir_paspor']?>"/></td>
 </tr>
 
 <tr>
