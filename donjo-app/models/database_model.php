@@ -790,6 +790,22 @@
       $this->db->query($query);
     }
 
+    // Ketinggalan tabel gis_simbol
+    if (!$this->db->table_exists('gis_simbol') ) {
+      $query = "
+        CREATE TABLE `gis_simbol` (
+          `simbol` varchar(40) DEFAULT NULL
+        ) ENGINE=".$this->engine." DEFAULT CHARSET=utf8;
+      ";
+      $this->db->query($query);
+      // Isi dengan daftar icon yang ada di folder assets/images/gis/point
+      $simbol_folder = FCPATH . 'assets/images/gis/point';
+      $list_gis_simbol = scandir($simbol_folder);
+      foreach ($list_gis_simbol as $simbol) {
+        if ($simbol['0'] == '.') continue;
+        $this->db->insert('gis_simbol', array('simbol' => $simbol));
+      }
+    }
   }
 
   function kosongkan_db(){
