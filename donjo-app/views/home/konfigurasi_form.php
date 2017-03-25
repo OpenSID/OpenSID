@@ -3,7 +3,7 @@
 	<tr style="vertical-align:top">
 <td style="background:#fff;padding:0px;">
 <div class="content-header">
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<?php echo config_item('google_key'); ?>"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo config_item('google_key'); ?>"></script>
 
 </div>
 <div id="contentpane">

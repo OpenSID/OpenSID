@@ -458,7 +458,7 @@ table.ttd td div {
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td class="left" style="padding-left: 20px;"><div>Nama Lengkap:<?php echo str_pad("",390,"&nbsp;")?></div></td>
-      <td class="left"><div>Nama Lengkap:<?php echo $pengisi?></div></td>
+      <td class="left"><div>Nama Lengkap:<?php echo padded_string_fixed_length(strtoupper($kepala_desa['pamong_nama']),3,50)?></div></td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
@@ -467,9 +467,9 @@ table.ttd td div {
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td class="left" style="padding-left: 20px;"><?php echo "NIP".str_pad("",54,"&nbsp;").":"?></td>
-      <td class="left"><?php echo "NIP".str_pad("",54,"&nbsp;").":"?></td>
+      <td class="left"><?php echo "NIP".str_pad("",54,"&nbsp;").":&nbsp;&nbsp;&nbsp;".$kepala_desa['pamong_nip']?></td>
       <td>&nbsp;</td>
-      <td class="left"><div>Nama Jelas:<?php echo str_pad("",360,"&nbsp;")?></div></td>
+      <td class="left"><div>Nama Jelas:<?php echo padded_string_fixed_length($individu['kepala_kk'],5,60)?></div></td>
     </tr>
   </table>
   <p style="margin-top: 0px;">

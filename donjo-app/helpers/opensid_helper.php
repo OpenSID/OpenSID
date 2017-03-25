@@ -364,6 +364,23 @@ define("KODE_PEKERJAAN", serialize(array(
       return ucwords($str);
     else return $str;
   }
+  /**
+   * Membuat string yang diisi &nbsp; di awal dan di akhir, dengan panjang yang ditentukan.
+   *
+   * @param            str      Text yang akan ditambahi awal dan akhiran
+   * @param            awal     Jumlah karakter &nbsp; pada awal text
+   * @param            panjang  Panjang string yang dihasilkan,
+   *                            di mana setiap &nbsp; dihitung sebagai satu karakter
+   * @return           string berisi text yang telah diberi awalan dan akhiran &nbsp;
+   */
+  function padded_string_fixed_length($str,$awal,$panjang){
+    $padding = "&nbsp;";
+    $panjang_padding = strlen($padding);
+    $panjang_text = strlen($str);
+    $str = str_pad($str, ($awal*$panjang_padding)+$panjang_text, $padding, STR_PAD_LEFT);
+    $str = str_pad($str, (($panjang-$panjang_text)*$panjang_padding)+$panjang_text, $padding, STR_PAD_RIGHT);
+    return $str;
+  }
 
   function get_dynamic_title_page_from_path()
   {

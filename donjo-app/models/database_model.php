@@ -790,6 +790,68 @@
       $this->db->query($query);
     }
 
+    // Ketinggalan tabel gis_simbol
+    if (!$this->db->table_exists('gis_simbol') ) {
+      $query = "
+        CREATE TABLE `gis_simbol` (
+          `simbol` varchar(40) DEFAULT NULL
+        ) ENGINE=".$this->engine." DEFAULT CHARSET=utf8;
+      ";
+      $this->db->query($query);
+      // Isi dengan daftar icon yang ada di folder assets/images/gis/point
+      $simbol_folder = FCPATH . 'assets/images/gis/point';
+      $list_gis_simbol = scandir($simbol_folder);
+      foreach ($list_gis_simbol as $simbol) {
+        if ($simbol['0'] == '.') continue;
+        $this->db->insert('gis_simbol', array('simbol' => $simbol));
+      }
+    }
+    if (!$this->db->field_exists('jenis', 'tweb_surat_format')) {
+      $query = "ALTER TABLE tweb_surat_format ADD jenis tinyint(2) NOT NULL DEFAULT 2";
+      $this->db->query($query);
+      // Update semua surat yang disediakan oleh rilis OpenSID
+      $surat_sistem = array(
+        'surat_ket_pengantar',
+        'surat_ket_penduduk',
+        'surat_bio_penduduk',
+        'surat_ket_pindah_penduduk',
+        'surat_ket_jual_beli',
+        'surat_pindah_antar_kab_prov',
+        'surat_ket_catatan_kriminal',
+        'surat_ket_ktp_dalam_proses',
+        'surat_ket_beda_nama',
+        'surat_jalan',
+        'surat_ket_kurang_mampu',
+        'surat_izin_keramaian',
+        'surat_ket_kehilangan',
+        'surat_ket_usaha',
+        'surat_ket_jamkesos',
+        'surat_ket_domisili_usaha',
+        'surat_ket_kelahiran',
+        'surat_permohonan_akta',
+        'surat_pernyataan_akta',
+        'surat_permohonan_duplikat_kelahiran',
+        'surat_ket_kematian',
+        'surat_ket_lahir_mati',
+        'surat_ket_nikah',
+        'surat_ket_asalusul',
+        'surat_persetujuan_mempelai',
+        'surat_ket_orangtua',
+        'surat_izin_orangtua',
+        'surat_ket_kematian_suami_istri',
+        'surat_kehendak_nikah',
+        'surat_ket_pergi_kawin',
+        'surat_ket_wali',
+        'surat_ket_wali_hakim',
+        'surat_permohonan_duplikat_surat_nikah',
+        'surat_permohonan_cerai',
+        'surat_ket_rujuk_cerai'
+      );
+      // Jenis surat yang bukan bagian rilis sistem sudah otomatis berisi nilai default (yaitu, 2)
+      foreach ($surat_sistem as $url_surat) {
+        $this->db->where('url_surat',$url_surat)->update('tweb_surat_format',array('jenis'=>1));
+      }
+    }
   }
 
   function kosongkan_db(){
