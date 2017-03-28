@@ -90,7 +90,6 @@ table.form.detail td{
 						</tr>
 						<tr>
 						  <th>Nomor Kartu Keluarga Semula</th>
-						  <?php xdebug_break(); ?>
 							<td>
 								<input name="no_kk_semula" type="text" class="inputbox required" size="30"/>
 								<?php if($individu['no_kk_sebelumnya']): ?>
