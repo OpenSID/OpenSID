@@ -381,6 +381,16 @@ define("KODE_PEKERJAAN", serialize(array(
     $str = str_pad($str, (($panjang-$panjang_text)*$panjang_padding)+$panjang_text, $padding, STR_PAD_RIGHT);
     return $str;
   }
+  function padded_string_center($str,$panjang){
+    $padding = "&nbsp;";
+    $panjang_padding = strlen($padding);
+    $panjang_text = strlen($str);
+    $to_pad = ($panjang-$panjang_text)/2;
+    for ($i=0; $i<$to_pad; $i++){
+      $str = $padding . $str . $padding;
+    }
+    return $str;
+  }
 
   function get_dynamic_title_page_from_path()
   {

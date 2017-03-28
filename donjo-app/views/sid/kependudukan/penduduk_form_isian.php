@@ -31,6 +31,12 @@
 </tr>
 
 <tr>
+  <th>Nomor KK Sebelumnya</th>
+  <td>
+    <input name="no_kk_sebelumnya" type="text" class="inputbox required" size="30" value="<?php echo $penduduk['no_kk_sebelumnya']?>"/>
+  </td>
+</tr>
+<tr>
   <th>Nomor Telepon</th>
   <td><input name="telepon" type="text" class="inputbox" size="30" value="<?php echo $penduduk['telepon']?>"/></td>
 </tr>

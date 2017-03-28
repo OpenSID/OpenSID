@@ -490,10 +490,10 @@
 	}
 
 	function rem_anggota($kk=0,$id=0){
+		$pend     = $this->keluarga_model->get_anggota($id);
+		$temp['no_kk_sebelumnya'] = $this->db->select('no_kk')->where('id',$kk)->get('tweb_keluarga')->row()->no_kk;
 		$temp['id_kk'] = 0;
 		$temp['kk_level'] = 0;
-
-		$pend     = $this->keluarga_model->get_anggota($id);
 		$this->db->where('id',$id);
 		$outp = $this->db->update('tweb_penduduk',$temp);
 		if($pend['kk_level']=='1'){
@@ -506,21 +506,13 @@
 		$this->penduduk_model->tulis_log_penduduk($id, '7', date('m'), date('Y'));
 	}
 
-
 	function rem_all_anggota($kk){
 		$id_cb = $_POST['id_cb'];
-		$temp['id_kk'] = 0;
-
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$this->db->where('id',$id);
-				$outp = $this->db->update('tweb_penduduk',$temp);
+				$this->rem_anggota($kk,$id);
 			}
 		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
 	}
 
 	function get_dusun($id=0){

@@ -30,6 +30,14 @@
                 <td><?php echo strtoupper(unpenetration($penduduk['nama']))?></td>
               </tr>
               <tr>
+                <td>Nomor Kartu Keluarga</td><td >:</td>
+                <td><?php echo $penduduk['no_kk']?></td>
+              </tr>
+              <tr>
+                <td>Nomor KK Sebelumnya</td><td >:</td>
+                <td><?php echo $penduduk['no_kk_sebelumnya']?></td>
+              </tr>
+              <tr>
                 <td>Akta lahir</td><td >:</td>
                 <td><?php echo strtoupper($penduduk['akta_lahir'])?></td>
               </tr>
