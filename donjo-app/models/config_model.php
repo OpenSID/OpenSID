@@ -25,6 +25,8 @@
 	}
 
 	function update($id=0){
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
 		$data = $_POST;
 		$lokasi_file = $_FILES['logo']['tmp_name'];
 		$tipe_file   = $_FILES['logo']['type'];
@@ -32,12 +34,10 @@
 	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_logo    = $data['old_logo'];
 		if (!empty($lokasi_file)){
-			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
-				unset($data['logo']);
-			} else {
-				UploadLogo($nama_file,$old_logo,$tipe_file);
+			if (UploadLogo($nama_file,$old_logo,$tipe_file))
 				$data['logo'] = $nama_file;
-			}
+			else
+				unset($data['logo']);
 		}else{
 			unset($data['logo']);
 		}
@@ -53,8 +53,7 @@
 		$this->db->where('pamong_id','707');
 		$outp = $this->db->update('tweb_desa_pamong',$pamong);
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if(!$outp) $_SESSION['success']=-1;
 	}
 
 	function update_kantor(){

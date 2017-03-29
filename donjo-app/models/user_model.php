@@ -327,7 +327,7 @@ class User_Model extends CI_Model{
 
 		// Update foto
 		// TODO : mestinya pake cara upload CI?
-		$mime_type_image = array("image/jpeg", "image/pjpeg", "image/png");
+		$mime_type_image = array("image/jpeg", "image/pjpeg", "image/png", "image/x-png");
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
