@@ -21,8 +21,24 @@
                 <td><input name="nama_kepala_desa" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['nama_kepala_desa'])?>"/></td>
             </tr>
             <tr>
+                <th>NIP Kepala <?php echo ucwords(config_item('sebutan_desa'))?></th>
+                <td><input name="nip_kepala_desa" type="text" class="inputbox" size="40" value="<?php echo $main['nip_kepala_desa']?>"/></td>
+            </tr>
+            <tr>
                 <th>Alamat Kantor <?php echo ucwords(config_item('sebutan_desa'))?></th>
                 <td><input name="alamat_kantor" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['alamat_kantor'])?>"/></td>
+            </tr>
+            <tr>
+                <th>Email <?php echo ucwords(config_item('sebutan_desa'))?></th>
+                <td><input name="email_desa" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['email_desa'])?>"/></td>
+            </tr>
+            <tr>
+                <th>Telepon <?php echo ucwords(config_item('sebutan_desa'))?></th>
+                <td><input name="telepon" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['telepon'])?>"/></td>
+            </tr>
+            <tr>
+                <th>Website <?php echo ucwords(config_item('sebutan_desa'))?></th>
+                <td><input name="website" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['website'])?>"/></td>
             </tr>
             <tr>
                 <th>Nama Kecamatan</th>
@@ -45,7 +61,7 @@
                 <td><input name="nama_propinsi" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_propinsi'])?>"/> Kode <input name="kode_propinsi" type="text" class="inputbox" size="10" value="<?php echo $main['kode_propinsi']?>"/></td></td>
             </tr>
             <tr>
-                <th class="top">Logo</th>
+                <th class="top">Lambang</th>
                 <td>
 				<div class="userbox-avatar">
 				<?php if($main['logo']){?>
@@ -58,8 +74,8 @@
 				<input type="hidden" name="old_logo" value="<?php echo $main['logo']?>">
             </tr>
             <tr>
-                <th>Ganti Logo</th>
-                <td><input type="file" name="logo" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah logo)</span></td>
+                <th>Ganti Lambang</th>
+                <td><input type="file" name="logo" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah lambang)</span></td>
             </tr>
              <tr>
                 <th>Kantor / Wilayah <?php echo ucwords(config_item('sebutan_desa'))?></th>
