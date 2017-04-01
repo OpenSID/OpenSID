@@ -50,7 +50,7 @@
 </div>
 <div class="art-spacer"  style="display:block;clear:both;">
 	Ditulis oleh: <b><?php echo $single_artikel['owner']?><br></b>
-	<small>Pada: <?=tgl_indo2($single_artikel['tgl_upload'])?></small>
+	<small>Pada: <?php echo tgl_indo2($single_artikel['tgl_upload'])?></small>
 </div>
 <style>
 #pageshare {float:left;padding:0 0 0px 0;z-index:10;}
@@ -69,7 +69,7 @@
 <div class="kom-box">
 	<span class="post-title">
 		<b><?php echo $data['owner']?><br></b>
-		<small><?=tgl_indo2($data['tgl_upload'])?></small>
+		<small><?php echo tgl_indo2($data['tgl_upload'])?></small>
 		<p><b>Berkata: </b><?php echo $data['komentar']?>
 		</p>
 	</span>
@@ -81,7 +81,7 @@
 <h3>Post Komentar :</h3>
 <br/>
         <table width=100%>
-        <form name='form' action="<?=site_url("first/add_comment/$single_artikel[id]")?>" method=POST onSubmit=\"return validasi(this)\">
+        <form name='form' action="<?php echo site_url("first/add_comment/$single_artikel[id]")?>" method=POST onSubmit=\"return validasi(this)\">
         <tr class="komentar"><td>Nama</td><td> <input type=text name="owner" size=20 maxlength=30></td></tr>
         <tr class="komentar"><td>Alamat e-mail</td><td> <input type=text name="email" size=20 maxlength=30></td></tr>
         <tr class="komentar"><td valign=top>Komentar</td><td> <textarea name="komentar" style='width: 300px; height: 100px;'></textarea></td></tr>

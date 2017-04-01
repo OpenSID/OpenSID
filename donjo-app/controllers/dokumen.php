@@ -10,7 +10,7 @@ class Dokumen extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
-
+		$this->modul_ini = 13;
 	}
 
 	function clear(){
@@ -42,7 +42,7 @@ class Dokumen extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=4;
-		$header['modul'] = 13;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('dokumen/table',$data);

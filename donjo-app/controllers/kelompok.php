@@ -5,11 +5,12 @@ class kelompok extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
-		$this->load->model('kelompok_model');
 		$this->load->model('user_model');
-		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
+		$this->load->model('header_model');
+		$this->load->model('kelompok_model');
+		$this->modul_ini = 2;
 	}
 
 	function clear(){
@@ -46,7 +47,7 @@ class kelompok extends CI_Controller{
 		$data['list_master'] = $this->kelompok_model->list_master();
 
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -57,11 +58,12 @@ class kelompok extends CI_Controller{
 
 	function anggota($id=0){
 
-			$data['kel']        = $id;
+		$data['kel']        = $id;
 		$data['main']    = $this->kelompok_model->list_anggota($id);
 
 		$header = $this->header_model->get_data();
 
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -89,6 +91,7 @@ class kelompok extends CI_Controller{
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 		$header = $this->header_model->get_data();
 
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -105,6 +108,7 @@ class kelompok extends CI_Controller{
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 		$header = $this->header_model->get_data();
 
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 

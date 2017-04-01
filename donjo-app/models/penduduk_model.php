@@ -238,7 +238,7 @@
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 
-		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] $data[dusun]");
+		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".ikut_case($data['dusun'],config_item('sebutan_dusun'))." $data[dusun]");
 		return $alamat_wilayah;
 	}
 
@@ -295,6 +295,9 @@
 			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
 			case 7: $order_sql = ' ORDER BY umur'; break;
 			case 8: $order_sql = ' ORDER BY umur DESC'; break;
+			// Untuk Log Penduduk
+			case 9: $order_sql = ' ORDER BY log.tgl_peristiwa'; break;
+			case 10: $order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
 			default:$order_sql = '';
 		}
 
@@ -392,9 +395,45 @@
 	}
 
 	function list_data_map(){
-
 		//Main Query
-		$sql   = "SELECT u.id,u.nik,u.nama,map.lat,map.lng,a.dusun,a.rw,a.rt,d.no_kk AS no_kk,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id LEFT JOIN tweb_keluarga d ON u.id_kk = d.id LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id  LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id LEFT JOIN tweb_cacat f ON u.cacat_id = f.id LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE 1 ";
+		$sql = "SELECT u.id, u.nik, u.nama, map.lat, map.lng, a.dusun, a.rw, a.rt, d.no_kk AS no_kk,
+					(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0
+					FROM tweb_penduduk
+					WHERE id = u.id) AS umur,
+				x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, k.nama AS kawin, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan,
+				@alamat:=trim(concat_ws(' ',
+					case
+						when a.rt != '-' then concat('RT-', a.rt)
+						else ''
+					end,
+					case
+						when a.rw != '-' then concat('RW-', a.rw)
+						else ''
+					end,
+					case
+						when a.dusun != '-' then concat('Dusun ', a.dusun)
+						else ''
+					end
+				)),
+				case
+					when length(@alamat) > 0 then @alamat
+					else 'Alamat penduduk belum valid'
+				end as alamat
+				FROM tweb_penduduk u
+				LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
+				LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
+				LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
+				LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id
+				LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
+				LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id
+				LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
+				LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
+				LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id
+				LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
+				LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
+				LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
+				LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
+				LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE 1 ";
 
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
@@ -420,34 +459,14 @@
 		$sql .= $this->hamil_sql();
 
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
-
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['alamat']='';
-
-			if($data[$i]['alamat_sekarang'] != "-")
-	      $data[$i]['alamat']="KP/JL-".$data[$i]['alamat_sekarang'];
-
-			if($data[$i]['rt'] != "-")
-				$data[$i]['alamat']="RT-".$data[$i]['rt'];
-
-			if($data[$i]['rw'] != "-")
-				$data[$i]['alamat']=$data[$i]['alamat']." RW-".$data[$i]['rw'];
-
-			if($data[$i]['dusun'] != "-")
-				$data[$i]['alamat']=$data[$i]['alamat']." Dusun ".$data[$i]['dusun'];
-			else
-				$data[$i]['alamat']="Alamat penduduk belum valid";
-
-			$i++;
-		}
-		return $data;
+		return $query->result_array();
 	}
 
 	function validasi_data_penduduk(&$data){
 		if ($data['tanggallahir'] == '') $data['tanggallahir'] = NULL;
 		if ($data['tanggallahir']) $data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
+		if ($data['tanggal_akhir_paspor'] == '') $data['tanggal_akhir_paspor'] = NULL;
+		if ($data['tanggal_akhir_paspor']) $data['tanggal_akhir_paspor'] = tgl_indo_in($data['tanggal_akhir_paspor']);
 		if ($data['tanggalperkawinan'] == '') $data['tanggalperkawinan'] = NULL;
 		if ($data['tanggalperkawinan']) $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
 		if ($data['tanggalperceraian'] == '') $data['tanggalperceraian'] = NULL;
@@ -456,10 +475,14 @@
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
 
 		$valid = array();
-		if (!ctype_digit($data['nik']))
-			array_push($valid, "NIK hanya berisi angka");
-		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
-			array_push($valid, "NIK panjangnya harus 16 atau 0");
+		if (isset($data['nik'])) {
+			if (!ctype_digit($data['nik']))
+				array_push($valid, "NIK hanya berisi angka");
+			if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
+				array_push($valid, "NIK panjangnya harus 16 atau 0");
+			if ($this->db->select('nik')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row()->nik)
+				array_push($valid, "NIK {$data['nik']} sudah digunakan");
+		}
 		if (!empty($valid))
 			$_SESSION['validation_error'] = true;
 		return $valid;
@@ -474,6 +497,7 @@
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto    = $data['old_foto'];
 		if (!empty($lokasi_file)){
 			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/jpg" AND $tipe_file != "image/png"){
@@ -488,6 +512,7 @@
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
+		unset($data['nik_lama']);
 
 		$data['id_cluster'] = $data['rt'];
 		UNSET($data['dusun']);
@@ -508,6 +533,9 @@
 			return;
 		}
 
+		if($data['tanggallahir'] == '') unset($data['tanggallahir']);
+		if($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
+		if($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
 		$outp = $this->db->insert('tweb_penduduk',$data);
 		$idku = $this->db->insert_id();
 
@@ -535,6 +563,7 @@
 		$log1['id_pend'] = $idku;
 		$log1['id_cluster'] = 1;
 		$log1['tanggal'] = date("m-d-y");
+
 		$outp = $this->db->insert('log_perubahan_penduduk',$log1);
 
 		if($outp) $_SESSION['success']=1;
@@ -567,6 +596,7 @@
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto    = $data['old_foto'];
 		if (!empty($lokasi_file)){
 			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
@@ -581,6 +611,12 @@
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
+
+		// Jangan update nik apabila tidak berubah
+		if ($data['nik_lama'] == $data['nik']) {
+			unset($data['nik']);
+		}
+		unset($data['nik_lama']);
 
 		$error_validasi = $this->validasi_data_penduduk($data);
 		if (!empty($error_validasi)){
@@ -726,6 +762,7 @@
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		$data['tanggallahir'] = tgl_indo_out($data['tanggallahir']);
+		$data['tanggal_akhir_paspor'] = tgl_indo_out($data['tanggal_akhir_paspor']);
 		$data['tanggalperkawinan'] = tgl_indo_out($data['tanggalperkawinan']);
 		$data['tanggalperceraian'] = tgl_indo_out($data['tanggalperceraian']);
 		// Penduduk lepas, pakai alamat penduduk
@@ -1086,4 +1123,78 @@
 		}
 
 	}
+
+	function list_dokumen($id=""){
+		$sql = "SELECT * FROM dokumen WHERE id_pend = ? ";
+		$query = $this->db->query($sql,$id);
+		$data=null;
+		if($query)
+			$data=$query->result_array();
+
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['no']=$i+1;
+			$i++;
+		}
+		return $data;
+	}
+
+	function dokumen_insert(){
+		$lokasi_file = $_FILES['satuan']['tmp_name'];
+		$nama_file = $_FILES['satuan']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file)){
+				$data = $_POST;
+				$nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;
+				$nama_file = urlencode($nama_file);
+				UploadDocument($nama_file);
+				$data['satuan'] = $nama_file;
+				unset($data['nik']);
+				$outp = $this->db->insert('dokumen',$data);
+				if($outp) $_SESSION['success']=1;
+			} else {
+				$_SESSION['success']=-1;
+		}
+	}
+
+	function delete_file_dokumen($id){
+		$this->db->select('satuan');
+		$this->db->where('id', $id);
+		$query = $this->db->get('dokumen');
+		$dokumen = $query->row_array();
+		unlink(LOKASI_DOKUMEN.$dokumen['satuan']);
+	}
+
+	function delete_dokumen($id=''){
+		$this->delete_file_dokumen($id);
+		$sql = "DELETE FROM dokumen WHERE id=?";
+		$outp = $this->db->query($sql,array($id));
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+	function delete_all_dokumen(){
+		$id_cb = $_POST['id_cb'];
+
+		if(count($id_cb)){
+			foreach($id_cb as $id){
+				$this->delete_file_dokumen($id);
+				$sql = "DELETE FROM dokumen WHERE id=?";
+				$outp = $this->db->query($sql,array($id));
+			}
+		}
+		else $outp = false;
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+	function get_dokumen($id=0){
+		$sql = "SELECT * FROM dokumen WHERE id=?";
+		$query = $this->db->query($sql,$id);
+		$data = $query->row_array();
+		return $data;
+	}
+
 }

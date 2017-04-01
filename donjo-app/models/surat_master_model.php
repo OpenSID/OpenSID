@@ -26,7 +26,7 @@
 		$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.pertanyaan LIKE '$kw' OR u.pertanyaan LIKE '$kw')";
+			$search_sql= " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
 			return $search_sql;
 			}
 		}
@@ -193,11 +193,28 @@
 			move_uploaded_file($_FILES["foto"]["tmp_name"], $vdir_upload);
 			$_SESSION['success']=1;
 		}
+		$this->salin_lampiran($url);
+	}
 
+	// Lampiran surat perlu disalin ke LOKASI_SURAT_EXPORT_DESA, karena
+	// file lampiran surat dianggap ada di folder yang sama dengan tempat template surat RTF
+	function salin_lampiran($url){
+		$this->load->model('surat_model');
+		$surat = $this->surat_model->get_surat($url);
+		if (!$surat['lampiran']) return;
+
+		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
+		$daftar_lampiran = explode(",", $surat['lampiran']);
+		foreach ($daftar_lampiran as $lampiran) {
+			if (!file_exists(LOKASI_SURAT_EXPORT_DESA."/".$lampiran)) {
+				copy("surat/".$url."/".$lampiran,LOKASI_SURAT_EXPORT_DESA."/".$lampiran);
+			}
+		}
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM tweb_surat_format WHERE id=?";
+		// Surat jenis sistem (nilai 1) tidak bisa dihapus
+		$sql  = "DELETE FROM tweb_surat_format WHERE jenis <> 1 AND id=?";
 		$outp = $this->db->query($sql,array($id));
 
 		if($outp) $_SESSION['success']=1;
@@ -209,14 +226,9 @@
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM tweb_surat_format WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
+				$this->delete($id);
 			}
 		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
 	}
 
 	function list_atribut($id=0){
@@ -294,6 +306,32 @@
     unset($html);
     return $inputs;
   }
+
+	function favorit($id=0,$k=0){
+
+		if($k==1)
+			$sql = "UPDATE tweb_surat_format SET favorit = 0 WHERE id=?";
+		else
+			$sql = "UPDATE tweb_surat_format SET favorit = 1 WHERE id=?";
+
+		$outp = $this->db->query($sql,$id);
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+	function lock($id=0,$k=0){
+
+		if($k==1)
+			$sql = "UPDATE tweb_surat_format SET kunci = 0 WHERE id=?";
+		else
+			$sql = "UPDATE tweb_surat_format SET kunci = 1 WHERE id=?";
+
+		$outp = $this->db->query($sql,$id);
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
 
 }
 

@@ -14,7 +14,7 @@ class Database extends CI_Controller{
 		$this->load->model('import_model');
 		$this->load->model('export_model');
 		$this->load->model('database_model');
-
+		$this->modul_ini = 12;
 	}
 
 	function clear(){
@@ -24,10 +24,17 @@ class Database extends CI_Controller{
 	}
 
 	function index(){
+		// Untuk development: menghapus session tracking. Tidak ada kaitan dengan database.
+		// Di sini untuk kemudahan saja.
+		// TODO: cari tempat yang lebih cocok
+    if (defined('ENVIRONMENT') AND ENVIRONMENT == 'development') {
+			unset($_SESSION['track_web']);
+			unset($_SESSION['track_admin']);
+    }
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 12;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('export/exp');
@@ -39,7 +46,7 @@ class Database extends CI_Controller{
 		$nav['act']= 2;
 		$data['form_action'] = site_url("database/import_dasar");
 		$header = $this->header_model->get_data();
-		$header['modul'] = 12;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('import/imp',$data);
@@ -51,7 +58,7 @@ class Database extends CI_Controller{
 		$nav['act']= 5;
 		$data['form_action'] = site_url("database/import_data_bip");
 		$header = $this->header_model->get_data();
-		$header['modul'] = 12;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('import/bip',$data);
@@ -65,7 +72,7 @@ class Database extends CI_Controller{
 		$data['form_action2'] = site_url("database/ppls_rumahtangga");
 		$data['form_action'] = site_url("database/ppls_kuisioner");
 		$header = $this->header_model->get_data();
-		$header['modul'] = 12;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('import/ppls',$data);
@@ -76,7 +83,7 @@ class Database extends CI_Controller{
 		$nav['act']= 6;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
 		$header = $this->header_model->get_data();
-		$header['modul'] = 12;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('database/migrasi_cri',$data);
@@ -88,7 +95,7 @@ class Database extends CI_Controller{
 		$nav['act']= 3;
 		$data['form_action'] = site_url("database/restore");
 		$header = $this->header_model->get_data();
-		$header['modul'] = 12;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('database/backup',$data);

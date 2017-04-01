@@ -102,9 +102,9 @@
 			<th width="50" align="center">Jumlah Anggota</th>
 			<th align="center" width="80">Jenis Kelamin</th>
             <th align="center" width="180">Alamat</th>
-			<th align="center" width="120"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
-			<th align="center" width="30">RW</th>
-			<th align="center" width="30">RT</th>
+            <th align="center" width="120"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
+            <th align="center" width="30">RW</th>
+            <th align="center" width="30">RT</th>
 			<th align="center" width="100">Tanggal Terdaftar</th>
             <th align="center" width="100">Tanggal Cetak KK</th>
     			</tr>
@@ -131,7 +131,7 @@
             <td><?php echo strtoupper($data['sex'])?></td>
             <td><?php echo strtoupper($data['alamat'])?></td>
             <td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
-        	<td><?php echo strtoupper($data['rw'])?></td>
+            <td><?php echo strtoupper($data['rw'])?></td>
             <td><?php echo strtoupper($data['rt'])?></td>
             <td><?php echo tgl_indo($data['tgl_daftar'])?></td>
             <td><?php echo tgl_indo($data['tgl_cetak_kk'])?></td>

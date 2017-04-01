@@ -5,11 +5,12 @@ class SMS extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('sms_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
+		$this->load->model('sms_model');
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
+		$this->modul_ini = 10;
 	}
 
 	function clear(){
@@ -53,7 +54,7 @@ class SMS extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$menu['act']='0';
-		$header['modul'] = 10;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('sms/nav',$menu);
 		$this->load->view('sms/manajemen_sms_table',$data);
@@ -80,7 +81,7 @@ class SMS extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$menu['act']='1';
-		$header['modul'] = 10;
+		$header['modul_ini'] = $this->modul_ini;
 
 		$this->load->view('header', $header);
 		$this->load->view('sms/nav',$menu);
@@ -514,7 +515,7 @@ class SMS extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$menu['act']='2';
-		$header['modul'] = 10;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('sms/nav',$menu);
 		$this->load->view('sms/kontak',$data);

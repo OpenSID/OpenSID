@@ -122,9 +122,10 @@ source: keyword
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
-			<th align="left" align="center"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
-			<th align="left" align="center">RW</th>
-			<th align="left" align="center">RT</th>
+			<th align="Left" align="center">Alamat</th>
+            <th align="left" align="center"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
+            <th align="left" align="center">RW</th>
+            <th align="left" align="center">RT</th>
 			<th align="left" align="center">Pendidikan dalam KK</th>
 
 			<th width="50" align="left">
@@ -161,6 +162,7 @@ source: keyword
 <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
 <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
 <td><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?> </a> </td>
+<td><?php echo strtoupper($data['alamat'])?></td>
 <td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
 <td><?php echo $data['rw']?></td>
 <td><?php echo $data['rt']?></td>

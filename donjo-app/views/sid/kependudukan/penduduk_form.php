@@ -1,4 +1,4 @@
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=2&key=<?php echo config_item('google_key'); ?>"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=2&key=<?php echo config_item('google_key'); ?>"></script>
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
@@ -12,7 +12,7 @@
 <form id="mainform" name="mainform" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
   <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
     <table class="form">
-      <?php $edit_lokasi = ((empty($penduduk) OR $_SESSION['validation_error']) AND empty($id)); ?>
+      <?php $edit_lokasi = ((empty($penduduk) OR (isset($_SESSION['validation_error']) AND $_SESSION['validation_error'])) AND empty($id)); ?>
       <?php if($edit_lokasi) {?>
         <tr>
           <th width="100"><?php echo ucwords(config_item('sebutan_dusun'))?></th>

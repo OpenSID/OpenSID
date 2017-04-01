@@ -5,12 +5,13 @@ function __construct(){
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('keluarga_model');
-		$this->load->model('penduduk_model');
-		$this->load->model('program_bantuan_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 		$this->load->model('header_model');
+		$this->load->model('keluarga_model');
+		$this->load->model('penduduk_model');
+		$this->load->model('program_bantuan_model');
+		$this->modul_ini = 2;
 	}
 
 	function clear(){
@@ -77,7 +78,7 @@ function __construct(){
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 2;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga',$data);
@@ -150,7 +151,7 @@ function __construct(){
 
 	function form($p=1,$o=0,$id=0,$new=1){
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-		if (empty($_POST) AND !$_SESSION['dari_internal'])
+		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 				unset($_SESSION['validation_error']);
 
 		if($new==1){
@@ -183,7 +184,7 @@ function __construct(){
 			$data['form_action'] = site_url("keluarga/update/$id");
 		}elseif($new>0){
 			// Validasi dilakukan di keluarga_model sewaktu insert dan update
-			if ($_SESSION['validation_error']) {
+			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
 				if ($_SESSION['dari_internal']) {
 					$data['penduduk'] = $_SESSION['post'];
@@ -211,7 +212,7 @@ function __construct(){
 		$data['rw']    = $this->penduduk_model->list_rw($data['dus_sel']);
 		$data['rt']    = $this->penduduk_model->list_rt($data['dus_sel'],$data['rw_sel']);
 		$data['agama'] = $this->penduduk_model->list_agama();
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
+		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['warganegara'] = $this->penduduk_model->list_warganegara();
@@ -222,6 +223,7 @@ function __construct(){
 
 		unset($_SESSION['dari_internal']);
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_form',$data);
@@ -242,7 +244,7 @@ function __construct(){
 
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
+		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['warganegara'] = $this->penduduk_model->list_warganegara();
 		$data['hubungan'] = $this->penduduk_model->list_hubungan();
@@ -257,6 +259,7 @@ function __construct(){
 		}
 
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_form_a',$data);
@@ -283,6 +286,33 @@ function __construct(){
 		if($sex!="")
 			$_SESSION['sex']=$sex;
 		else unset($_SESSION['sex']);
+		redirect('keluarga');
+	}
+
+	function dusun(){
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		$dusun = $this->input->post('dusun');
+		if($dusun!="")
+			$_SESSION['dusun']=$dusun;
+		else unset($_SESSION['dusun']);
+		redirect('keluarga');
+	}
+
+	function rw(){
+		unset($_SESSION['rt']);
+		$rw = $this->input->post('rw');
+		if($rw!="")
+			$_SESSION['rw']=$rw;
+		else unset($_SESSION['rw']);
+		redirect('keluarga');
+	}
+
+	function rt(){
+		$rt = $this->input->post('rt');
+		if($rt!="")
+			$_SESSION['rt']=$rt;
+		else unset($_SESSION['rt']);
 		redirect('keluarga');
 	}
 
@@ -369,6 +399,7 @@ function __construct(){
 
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga_anggota',$data);
@@ -432,6 +463,7 @@ function __construct(){
 		$nav['act']= 1;
 
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$data['form_action'] = site_url("keluarga/print");
@@ -526,7 +558,7 @@ function __construct(){
 		$rt = $this->penduduk_model->list_rt($dusun,$rw);
 		//$this->load->view("sid/kependudukan/ajax_penduduk_pindah_form_rt", $data);
 		echo "<td>RT</td>
-		<td><select name='rt'>
+		<td><select name='id_cluster'>
 		<option value=''>Pilih RT&nbsp;</option>";
 		foreach($rt as $data){
 			echo "<option value=".$data['rt'].">".$data['rt']."</option>";

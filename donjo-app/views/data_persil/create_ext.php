@@ -1,25 +1,23 @@
 <?php
 /*
- * persil.php
- * 
  * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- * 
- * 
+ *
+ *
  */
 
 ?>
@@ -35,7 +33,7 @@
 			<legend>Pengelolaan Data Persil <?php echo $desa['nama_desa'];?></legend>
 			<div id="contentpane">
 				<div id="maincontent" class="ui-layout-center" style="padding:0 3em 0 0;">
-			
+
 			<?php
 			if($_SESSION["success"]==1){
 				echo "
@@ -44,17 +42,17 @@
 				</div>";
 				$_SESSION["success"]==0;
 			}
-			
+
 			?>
-			
+
 <?php
 /*
  * List Penduduk
- * 
+ *
  * */
 /*
  * Form Add/Edit
- * 
+ *
  * */
 
 
@@ -143,7 +141,7 @@ echo  "<div class=\"form-group\">
 		<label>NOMOR SPPT PBB</label>
 		<input type=\"text\" class=\"form-control\" name=\"sppt\" id=\"sppt\" placeholder=\"Tuliskan Nomor SPPT PBB\" value=\"".$sppt."\"/>
 	</div>
-	
+
 	<div class=\"form-group\" style=\"margin-bottom:3em;\">
 		<div class=\"uibutton-group\">
 		<input type=\"hidden\" name=\"id\" value=\"".$id."\"/>
@@ -151,7 +149,7 @@ echo  "<div class=\"form-group\">
 		<input type=\"reset\" class=\"uibutton\" name=\"tombolreset\" id=\"tombolreset\" value=\"Batal\"/>
 		</div>
 	</div>
-	
+
 ";
 echo "</form>
 </fieldset>";

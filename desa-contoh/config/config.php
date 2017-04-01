@@ -9,10 +9,20 @@ $config['google_key'] = 'ganti-dengan-google-api-key';
 $config['libreoffice_path'] = "C:\Program Files (x86)\LibreOffice 4\program";
 
 // penyesuaian judul yang muncul di browser
-$config['website_title'] = 'Website Resmi Desa Kami';
-$config['login_title'] = 'OpenSID';
-$config['admin_title'] = 'Sistem Informasi Desa';
+$config['website_title'] = 'Website Resmi';
+$config['login_title'] = 'Login OpenSID';
+$config['admin_title'] = 'Sistem Informasi';
 
 // untuk mengganti penamaan wilayah 'desa'
-$config['sebutan_desa'] = 'nagari';
-$config['sebutan_dusun'] = 'jorong';
+$config['sebutan_desa'] = 'desa';
+$config['sebutan_dusun'] = 'dusun';
+
+// apakah hanya akan menggunakan localhost saja?
+$config['offline_mode'] = FALSE;
+
+// Apakah akan mengirimkan data statistik ke server sid?
+$config['enable_track'] = TRUE;
+
+// Gunakan log surat terakhir untuk seluruh surat, tanpa memilah jenis surat
+// Default: FALSE (gunakan nomor surat terakhir menurut jenis surat)
+$config['nomor_terakhir_semua_surat'] = FALSE;

@@ -11,7 +11,7 @@ function __construct(){
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
 		$_SESSION['per_page']= 500;
-
+		$this->modul_ini = 3;
 	}
 
 	function index($lap=0,$o=0){
@@ -24,7 +24,7 @@ function __construct(){
 		$this->get_data_stat($data, $lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 3;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('statistik/penduduk',$data);
@@ -60,7 +60,7 @@ function __construct(){
 		$this->get_data_stat($data, $lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 3;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('statistik/penduduk_graph',$data);
@@ -74,7 +74,7 @@ function __construct(){
 		$this->get_data_stat($data, $lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 3;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('statistik/penduduk_pie',$data);

@@ -9,7 +9,7 @@ class sosmed extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('web_sosmed_model');
-
+		$this->modul_ini = 13;
 	}
 
 	function index(){
@@ -18,7 +18,7 @@ class sosmed extends CI_Controller{
 		$data['form_action'] = site_url("sosmed/update/1");
 		$header = $this->header_model->get_data();
 		$nav['act']=6;
-		$header['modul'] = 13;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/facebook',$data);
@@ -30,8 +30,8 @@ class sosmed extends CI_Controller{
 		$id=$data['main']['id'];
 		$data['form_action'] = site_url("sosmed/update/2/$id");
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']=6;
-
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/twitter',$data);
@@ -42,8 +42,8 @@ class sosmed extends CI_Controller{
 		$data['main']    = $this->web_sosmed_model->get_sosmed(3);
 		$data['form_action'] = site_url("sosmed/update/3");
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']=6;
-
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/instagram',$data);
@@ -54,8 +54,8 @@ class sosmed extends CI_Controller{
 		$data['main']    = $this->web_sosmed_model->get_sosmed(3);
 		$data['form_action'] = site_url("sosmed/update/3");
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']=6;
-
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/google',$data);
@@ -66,8 +66,8 @@ class sosmed extends CI_Controller{
 		$data['main']    = $this->web_sosmed_model->get_sosmed(4);
 		$data['form_action'] = site_url("sosmed/update/4");
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']=6;
-
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('sosmed/youtube',$data);

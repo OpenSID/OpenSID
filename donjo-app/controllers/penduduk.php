@@ -10,7 +10,7 @@ class Penduduk extends CI_Controller{
 
 		$this->load->model('penduduk_model');
 		$this->load->model('header_model');
-
+		$this->modul_ini = 2;
 	}
 
 	function clear(){
@@ -136,8 +136,8 @@ class Penduduk extends CI_Controller{
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']= 2;
-		$header['modul'] = 2;
 		$this->load->view('header', $header);
 
 		$this->load->view('sid/nav',$nav);
@@ -148,7 +148,7 @@ class Penduduk extends CI_Controller{
 
 	function form($p=1,$o=0,$id=''){
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-		if (empty($_POST) AND !$_SESSION['dari_internal'])
+		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 				unset($_SESSION['validation_error']);
 
 		$data['p'] = $p;
@@ -171,7 +171,7 @@ class Penduduk extends CI_Controller{
 		if($id){
 			$data['id'] = $id;
 			// Validasi dilakukan di penduduk_model sewaktu insert dan update
-			if ($_SESSION['validation_error']) {
+			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
 				if ($_SESSION['dari_internal']) {
 					$data['penduduk'] = $_SESSION['post'];
@@ -183,12 +183,13 @@ class Penduduk extends CI_Controller{
 				$data['penduduk']['id_sex'] = $data['penduduk']['sex'];
 			} else {
 				$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+				$_SESSION['nik_lama'] = $data['penduduk']['nik'];
 			}
 			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
 		}
 		else{
 			// Validasi dilakukan di penduduk_model sewaktu insert dan update
-			if ($_SESSION['validation_error']) {
+			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
 				if ($_SESSION['dari_internal']) {
 					$data['penduduk'] = $_SESSION['post'];
@@ -204,6 +205,7 @@ class Penduduk extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['rw']    = $this->penduduk_model->list_rw($data['dus_sel']);
 		$data['rt']    = $this->penduduk_model->list_rt($data['dus_sel'],$data['rw_sel']);
@@ -217,10 +219,9 @@ class Penduduk extends CI_Controller{
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
-
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 2;
-
 		unset($_SESSION['dari_internal']);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_form',$data);
@@ -231,15 +232,56 @@ class Penduduk extends CI_Controller{
 
 		$data['p'] = $p;
 		$data['o'] = $o;
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
-
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 		$nav['act']= 2;
-
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_detail',$data);
 		$this->load->view('footer');
+	}
+
+  function dokumen($id=''){
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$header = $this->header_model->get_data();
+
+		$header['modul_ini'] = $this->modul_ini;
+		$this->load->view('header', $header);
+		$nav['act']= 2;
+		$this->load->view('sid/nav',$nav);
+		$this->load->view('sid/kependudukan/penduduk_dokumen',$data);
+		$this->load->view('footer');
+	}
+
+	function dokumen_form($id=0){
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$data['form_action'] = site_url("penduduk/dokumen_insert");
+		$this->load->view('sid/kependudukan/dokumen_form',$data);
+	}
+
+	function dokumen_list($id=0){
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$this->load->view('sid/kependudukan/dokumen_ajax',$data);
+	}
+
+	function dokumen_insert(){
+		$this->penduduk_model->dokumen_insert();
+		$id = $_POST['id_pend'];
+		redirect("penduduk/dokumen/$id");
+	}
+
+	function delete_dokumen($id_pend=0,$id=''){
+		$this->penduduk_model->delete_dokumen($id);
+		redirect("penduduk/dokumen/$id_pend");
+	}
+
+	function delete_all_dokumen($id_pend=0){
+		$this->penduduk_model->delete_all_dokumen();
+		redirect("penduduk/dokumen/$id_pend");
 	}
 
   function cetak_biodata($id=''){

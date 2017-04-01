@@ -1,9 +1,9 @@
 <div font-size="17px"><b>
-Anda sedang menggunakan aplikasi OpenSID <?=AmbilVersi()?><br />
+Anda sedang menggunakan aplikasi OpenSID <?php echo AmbilVersi()?><br />
 <br />
 <br />OpenSID</b> <br />
 <br />
-Aplikasi ini berbasis Sistem Informasi Desa (SID) CRI versi 3.04, yang disesuaikan supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Perubahan yang dilakukan dapat dilihat di <a href= https://github.com/eddieridwan/opensid>https://github.com/eddieridwan/opensid</a>.
+Aplikasi ini berbasis Sistem Informasi Desa (SID) CRI, yang disesuaikan supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Perubahan yang dilakukan dapat dilihat di <a href= https://github.com/eddieridwan/opensid>https://github.com/eddieridwan/opensid</a>.
 <br />
 <br />
 <br /><b>APAKAH SISTEM INFORMASI (SID)?</b> <br />

@@ -67,6 +67,7 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 			<th align="left" align="center">JK</th>
 			<th  align="left" >Umur</th>
 			<th align="left" >Status Kawin</th>
+			<th align="left">Hubungan</th>
 		</tr>
 
 
@@ -79,6 +80,7 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 			<td><?php echo $data1['sex']?></td>
 			<td><?php echo $data1['umur']?></td>
 			<td><?php echo $data1['status_kawin']?></td>
+			<td><?php echo $data1['hubungan']?></td>
 		</tr>
 		<?php  }?>
 	</tbody>

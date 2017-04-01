@@ -103,7 +103,7 @@ select{
   height:23px;
   border:1px solid #bdc7d8;
   font-size:11px;
-  padding:2px 0;
+  padding:2px 0 !important;
 }
   option{
     font-size:11px;

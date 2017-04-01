@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '1.8');
+define("VERSION", 'pasca-1.12');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -14,6 +14,7 @@ define("LOKASI_FOTO_LOKASI", 'desa/upload/gis/lokasi/');
 define("LOKASI_FOTO_AREA", 'desa/upload/gis/area/');
 define("LOKASI_FOTO_GARIS", 'desa/upload/gis/garis/');
 define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
+define("LOKASI_PENGESAHAN", 'desa/upload/pengesahan/');
 define("LOKASI_WIDGET", 'desa/widget/');
 
 //
@@ -273,5 +274,137 @@ define("KODE_PEKERJAAN", serialize(array(
     $_SESSION['error_msg'] = $pesan;
     $_SESSION['success']=-1;
   }
+
+  // Untuk mengirim data ke OpenSID tracker
+  function httpPost($url,$params)
+  {
+    if (!extension_loaded('curl') OR isset($_SESSION['no_curl'])) return;
+
+    $postData = '';
+    //create name value pairs seperated by &
+    foreach($params as $k => $v)
+    {
+      $postData .= $k . '='.$v.'&';
+    }
+    $postData = rtrim($postData, '&');
+
+    try {
+      $ch = curl_init();
+
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HEADER, false);
+      curl_setopt($ch, CURLOPT_POST, count($postData));
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+      $output=curl_exec($ch);
+
+      if(curl_exec($ch) === false)
+      {
+          echo 'Curl error: ' . curl_error($ch);
+      }
+      curl_close($ch);
+      return $output;
+    } catch (Exception $e) {
+      return $e;
+    }
+  }
+
+  /**
+   * Cek ada koneksi internet.
+   *
+   * @param            string $sCheckHost Default: www.google.com
+   * @return           boolean
+   */
+  function cek_koneksi_internet($sCheckHost = 'www.google.com')
+  {
+      return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
+  }
+
+  /**
+   * Laporkan error PHP.
+   * Script ini digunakan untuk mengatasi masalah di mana ada hosting (seperti indoreg.co.id)
+   * yang tidak mengizinkan fungsi sistem, seperti curl.
+   * Simpan info ini di $_SESSION, supaya pada pemanggilan berikut
+   * tracker tidak dijalankan.
+  */
+  set_error_handler('myErrorHandler');
+  register_shutdown_function('fatalErrorShutdownHandler');
+  function myErrorHandler($code, $message, $file, $line) {
+    // Khusus untuk mencatat masalah dalam pemanggilan httpPost di track_model.php
+    if (strpos($message, 'curl_exec') !== FALSE) {
+      $_SESSION['no_curl'] = 'y';
+      echo "<strong>Apabila halamannya tidak tampil, coba di-refresh.</strong>";
+      // Ulangi url yang memanggil fungsi tracker.
+      redirect(base_url()."index.php/".$_SESSION['balik_ke']);
+    }
+    // Uncomment apabila melakukan debugging
+    // else {
+    //   echo "<strong>Telah dialami error PHP sebagai berikut: </strong><br><br>";
+    //   echo "Severity: ".$code."<br>";
+    //   echo "Pesan: ".$message."<br>";
+    //   echo "Nama File: ".$file."<br>";
+    //   echo "Nomor Baris: ".$line;
+    // }
+  }
+  function fatalErrorShutdownHandler()
+  {
+    $last_error = error_get_last();
+    if ($last_error['type'] === E_ERROR) {
+      // fatal error
+      myErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
+    }
+  }
+
+  function ikut_case($format, $str){
+    $str = strtolower($str);
+    if(ctype_upper($format[0]) AND ctype_upper($format[1]))
+      return strtoupper($str);
+    elseif(ctype_upper($format[0]))
+      return ucwords($str);
+    else return $str;
+  }
+  /**
+   * Membuat string yang diisi &nbsp; di awal dan di akhir, dengan panjang yang ditentukan.
+   *
+   * @param            str      Text yang akan ditambahi awal dan akhiran
+   * @param            awal     Jumlah karakter &nbsp; pada awal text
+   * @param            panjang  Panjang string yang dihasilkan,
+   *                            di mana setiap &nbsp; dihitung sebagai satu karakter
+   * @return           string berisi text yang telah diberi awalan dan akhiran &nbsp;
+   */
+  function padded_string_fixed_length($str,$awal,$panjang){
+    $padding = "&nbsp;";
+    $panjang_padding = strlen($padding);
+    $panjang_text = strlen($str);
+    $str = str_pad($str, ($awal*$panjang_padding)+$panjang_text, $padding, STR_PAD_LEFT);
+    $str = str_pad($str, (($panjang-$panjang_text)*$panjang_padding)+$panjang_text, $padding, STR_PAD_RIGHT);
+    return $str;
+  }
+  function padded_string_center($str,$panjang){
+    $padding = "&nbsp;";
+    $panjang_padding = strlen($padding);
+    $panjang_text = strlen($str);
+    $to_pad = ($panjang-$panjang_text)/2;
+    for ($i=0; $i<$to_pad; $i++){
+      $str = $padding . $str . $padding;
+    }
+    return $str;
+  }
+
+  function get_dynamic_title_page_from_path()
+  {
+		$parse = str_replace(array('/first'), '', $_SERVER['PATH_INFO']);
+		$explo = explode('/', $parse);
+
+		$title = '';
+		for($i=0;$i<count($explo);$i++){
+			$t = trim($explo[$i]);
+			if(!empty($t) && $t != '1' && $t != '0' ) {
+				$title .= ((is_numeric($t)) ? ' ' : ' - ') . $t;
+			}
+		}
+		return ucwords(str_replace(array('  ', '_'), ' ', $title));
+	}
 
 ?>

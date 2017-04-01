@@ -1,16 +1,17 @@
 # OpenSID
 OpenSID (https://github.com/eddieridwan/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
 
-SID adalah aplikasi komputer yang membantu desa, agar:
+SID diharapkan dapat membantu pemerintah desa dalam beberapa hal berikut:
 
-- Kantor desa lebih efisien dan efektif
-- Pemerintah desa lebih transparan dan akuntabel
-- Layanan publik lebih baik
-- Warga mendapat akses lebih baik pada informasi desa
+- kantor desa lebih efisien dan efektif
+- pemerintah desa lebih transparan dan akuntabel
+- layanan publik lebih baik
+- warga mendapat akses lebih baik pada informasi desa
 
-OpenSID turut membantu agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya.
+OpenSID diharapkan dapat turut membantu agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya.
 
 Strategi pengembangan OpenSID adalah untuk:
+- memudahkan pengguna untuk mendapatkan SID secara bebas, tanpa proses birokrasi
 - memudahkan pengguna menyerap rilis SID baru
 - memungkinkan pegiat SID untuk membuat kontribusi langsung pada _source code_ aplikasi SID
 
@@ -26,7 +27,7 @@ Pedoman pemasangan dan penggunaan OpenSID dapat dilihat di wiki OpenSID di https
 ## OpenSID v SID CRI
 OpenSID dikembangkan sejak Mei 2016 dari versi SID CRI 3.04 yang diperoleh dari Andi Anwar.
 
-SID CRI 3.04 terakhir yang telah digabung dengan OpenSID di-share oleh Andi Anwar pada 30 Mei 2016. OpenSID akan terus menggabung versi baru yang mungkin sewaktu-waktu direlease oleh CRI melalui portal mereka di http://sid.web.id.
+SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang di-share oleh anggota https://www.facebook.com/groups/OpenSID/ pada tanggal 15 Pebruari 2017. OpenSID akan terus menggabung versi baru yang mungkin sewaktu-waktu dirilis oleh CRI.
 
 Untuk melihat perbedaan antara OpenSID dan SID-CRI, silakan klik [Tanya-Jawab OpenSID vs SID-CRI](Tanya-Jawab-OpenSID-vs-SID-CRI).
 
@@ -44,9 +45,7 @@ Modul administrasi OpenSID dapat diaskses pada http://sid.bangundesa.info/index.
 
 ### FORUM
 
-Group OpenSID di [Google Groups](https://groups.google.com/forum/?hl=id#!forum/opensid) adalah tempat berdiskusi penggunaan dan pengembangan aplikasi OpenSID. Silakan mempergunakan forum itu untuk bertanya mengenai OpenSID dan untuk memberi usulan.
-
-Anda dapat juga bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/opensid) di Facebook. Group ini bersifat lebih informal dan juga tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.
+Anda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/opensid) di Facebook. Group ini bersifat informal dan merupakan tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.
 
 ## KEMBANGKAN BERSAMA
 

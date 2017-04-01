@@ -1,7 +1,24 @@
 <?php class Database_model extends CI_Model{
 
+  private $engine = 'InnoDB';
+
   function __construct(){
     parent::__construct();
+
+    $this->cek_engine_db();
+
+  }
+
+  function cek_engine_db() {
+		$db_debug = $this->db->db_debug; //save setting
+		$this->db->db_debug = FALSE; //disable debugging for queries
+
+      $query = $this->db->query("SELECT table_name,`engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '". $this->db->database ."'");
+      if(!$this->db->_error_number()) {
+      	$this->engine = $query->row()->engine;
+      }
+
+		$this->db->db_debug = $db_debug; //restore setting
   }
 
   function migrasi_db_cri() {
@@ -19,6 +36,31 @@
     $this->migrasi_15_ke_16();
     $this->migrasi_16_ke_17();
     $this->migrasi_17_ke_18();
+    $this->migrasi_18_ke_19();
+    $this->migrasi_19_ke_110();
+    $this->migrasi_110_ke_111();
+    $this->migrasi_111_ke_112();
+    $this->migrasi_112_ke_113();
+  }
+
+  function migrasi_112_ke_113(){
+    // Tambah data desa
+    if (!$this->db->field_exists('nip_kepala_desa', 'config')) {
+      $query = "ALTER TABLE config ADD nip_kepala_desa decimal(18,0)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('email_desa', 'config')) {
+      $query = "ALTER TABLE config ADD email_desa varchar(50)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('telepon', 'config')) {
+      $query = "ALTER TABLE config ADD telepon varchar(50)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('website', 'config')) {
+      $query = "ALTER TABLE config ADD website varchar(100)";
+      $this->db->query($query);
+    }
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -172,29 +214,43 @@
       (35, 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32'),
       (36, 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33'),
       (37, 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34'),
-      (38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35'),
-      (39, 'Ubah Sesuaikan', 'surat_ubah_sesuaikan', 'S-36')
+      (38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35')
       ON DUPLICATE KEY UPDATE
         nama = VALUES(nama),
         url_surat = VALUES(url_surat);
     ";
     $this->db->query($query);
+    // surat_ubah_sesuaikan perlu ditangani berbeda, karena ada pengguna di mana
+    // url surat_ubah_sesuaikan memiliki id yang bukan 39, sedangkan id 39 juga dipakai untuk surat lain
+    $this->db->where('url_surat', 'surat_ubah_sesuaikan');
+    $query = $this->db->get('tweb_surat_format');
+    // Tambahkan surat_ubah_sesuaikan apabila belum ada
+    if($query->num_rows()==0){
+      $data = array(
+        'nama' => 'Ubah Sesuaikan',
+        'url_surat' => 'surat_ubah_sesuaikan',
+        'kode_surat' => 'S-36'
+      );
+      $this->db->insert('tweb_surat_format', $data);
+    }
 
     // DROP INDEX migrasi_0_10_url_surat ON tweb_surat_format;
 
-    $db = $this->db->database;
-    $query = "
-      SELECT COUNT(1) IndexIsThere FROM INFORMATION_SCHEMA.STATISTICS
-      WHERE table_schema=? AND table_name='tweb_surat_format' AND index_name='kode_surat';
-    ";
-    $hasil = $this->db->query($query, $db);
-    $data = $hasil->row_array();
-    if ($data['IndexIsThere'] == 0) {
-      $query = "
-        CREATE UNIQUE INDEX kode_surat ON tweb_surat_format (kode_surat);
-      ";
-      $this->db->query($query);
-    }
+    /* Jangan buat index unik kode_surat, karena kolom ini digunakan
+       untuk merekam klasifikasi surat yang tidak unik. */
+    // $db = $this->db->database;
+    // $query = "
+    //   SELECT COUNT(1) IndexIsThere FROM INFORMATION_SCHEMA.STATISTICS
+    //   WHERE table_schema=? AND table_name='tweb_surat_format' AND index_name='kode_surat';
+    // ";
+    // $hasil = $this->db->query($query, $db);
+    // $data = $hasil->row_array();
+    // if ($data['IndexIsThere'] == 0) {
+    //   $query = "
+    //     CREATE UNIQUE INDEX kode_surat ON tweb_surat_format (kode_surat);
+    //   ";
+    //   $this->db->query($query);
+    // }
 
     if (!$this->db->field_exists('tgl_cetak_kk', 'tweb_keluarga')) {
       $query = "ALTER TABLE tweb_keluarga ADD tgl_cetak_kk datetime";
@@ -243,7 +299,7 @@
           `tgl_peristiwa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
           PRIMARY KEY (`id`),
           UNIQUE KEY `id_kk` (`id_kk`,`id_peristiwa`,`tgl_peristiwa`)
-        ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+        ) ENGINE=".$this->engine." AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
       ";
       $this->db->query($query);
     }
@@ -342,7 +398,7 @@
         nama varchar(50) NOT NULL,
         sex tinyint(2),
         PRIMARY KEY (id)
-      ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+      ) ENGINE=".$this->engine." AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
     ";
     $this->db->query($query);
 
@@ -473,8 +529,10 @@
         $query = $this->db->get('tweb_penduduk');
         $kepala_kk = $query->row_array();
         // Tulis id_cluster kepala keluarga ke keluarga
-        $this->db->where('id', $keluarga['id']);
-        $this->db->update('tweb_keluarga', array('id_cluster' => $kepala_kk['id_cluster']));
+        if (isset($kepala_kk['id_cluster'])) {
+          $this->db->where('id', $keluarga['id']);
+          $this->db->update('tweb_keluarga', array('id_cluster' => $kepala_kk['id_cluster']));
+        }
       }
     }
   }
@@ -499,15 +557,341 @@
     $this->db->query($query);
   }
 
+  function migrasi_18_ke_19() {
+    // Hapus index unik untuk kode_surat kalau sempat dibuat sebelumnya
+    $db = $this->db->database;
+    $query = "
+      SELECT COUNT(1) IndexIsThere FROM INFORMATION_SCHEMA.STATISTICS
+      WHERE table_schema=? AND table_name='tweb_surat_format' AND index_name='kode_surat';
+    ";
+    $hasil = $this->db->query($query, $db);
+    $data = $hasil->row_array();
+    if ($data['IndexIsThere'] > 0) {
+      $query = "
+        DROP INDEX kode_surat ON tweb_surat_format;
+      ";
+      $this->db->query($query);
+    }
 
     // Hapus tabel yang tidak terpakai lagi
-    // ref_bedah_rumah
-    // ref_blt
-    // ref_jamkesmas
-    // ref_pkh
-    // ref_raskin
-    // tweb_alamat_sekarang
+    $query = "DROP TABLE IF EXISTS ref_bedah_rumah, ref_blt, ref_jamkesmas, ref_pkh, ref_raskin, tweb_alamat_sekarang";
+    $this->db->query($query);
+  }
 
+  function migrasi_19_ke_110() {
+    // Tambah nomor id_kartu untuk peserta program bantuan
+    if (!$this->db->field_exists('no_id_kartu', 'program_peserta')) {
+      $query = "ALTER TABLE program_peserta ADD no_id_kartu varchar(30)";
+      $this->db->query($query);
+    }
+  }
+
+  function migrasi_110_ke_111() {
+    // Buat folder desa/upload/pengesahan apabila belum ada
+    if (!file_exists(LOKASI_PENGESAHAN)) {
+      mkdir(LOKASI_PENGESAHAN, 0755);
+    }
+    // Tambah akti/non-aktifkan dan pilihan favorit format surat
+    if (!$this->db->field_exists('kunci', 'tweb_surat_format')) {
+      $query = "ALTER TABLE tweb_surat_format ADD kunci tinyint(1) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('favorit', 'tweb_surat_format')) {
+      $query = "ALTER TABLE tweb_surat_format ADD favorit tinyint(1) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('id_pend', 'dokumen')) {
+      $query = "ALTER TABLE dokumen ADD id_pend int(11) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+
+    if (!$this->db->table_exists('setting_modul') ) {
+      $query = "
+        CREATE TABLE `setting_modul` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `modul` varchar(50) NOT NULL,
+          `url` varchar(50) NOT NULL,
+          `aktif` tinyint(1) NOT NULL DEFAULT '0',
+          `ikon` varchar(50) NOT NULL,
+          `urut` tinyint(4) NOT NULL,
+          `level` tinyint(1) NOT NULL DEFAULT '2',
+          `hidden` tinyint(1) NOT NULL DEFAULT '0',
+          PRIMARY KEY (`id`)
+          ) ENGINE=".$this->engine." AUTO_INCREMENT=15 DEFAULT CHARSET=utf8
+      ";
+      $this->db->query($query);
+
+      $query = "
+        INSERT INTO setting_modul VALUES
+        ('1','SID Home','hom_desa','1','go-home-5.png','1','2','1'),
+        ('2','Penduduk','penduduk/clear','1','preferences-contact-list.png','2','2','0'),
+        ('3','Statistik','statistik','1','statistik.png','3','2','0'),
+        ('4','Cetak Surat','surat','1','applications-office-5.png','4','2','0'),
+        ('5','Analisis','analisis_master/clear','1','analysis.png','5','2','0'),
+        ('6','Bantuan','program_bantuan','1','program.png','6','2','0'),
+        ('7','Persil','data_persil/clear','1','persil.png','7','2','0'),
+        ('8','Plan','plan','1','plan.png','8','2','0'),
+        ('9','Peta','gis','1','gis.png','9','2','0'),
+        ('10','SMS','sms','1','mail-send-receive.png','10','2','0'),
+        ('11','Pengguna','man_user/clear','1','system-users.png','11','1','1'),
+        ('12','Database','database','1','database.png','12','1','0'),
+        ('13','Admin Web','web','1','message-news.png','13','4','0'),
+        ('14','Laporan','lapor','1','mail-reply-all.png','14','2','0');
+      ";
+      $this->db->query($query);
+    }
+
+    /**
+      Sesuaikan data modul analisis dengan SID 3.10
+    */
+
+    // Tabel analisis_indikator
+    $ubah_kolom = array(
+      "`nomor` int(3) NOT NULL"
+    );
+    foreach ($ubah_kolom as $kolom_def){
+      $query = "ALTER TABLE analisis_indikator MODIFY ".$kolom_def;
+      $this->db->query($query);
+    };
+    if (!$this->db->field_exists('is_publik', 'analisis_indikator')) {
+      $query = "ALTER TABLE analisis_indikator ADD `is_publik` tinyint(1) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+
+    // Tabel analisis_kategori_indikator
+    if (!$this->db->field_exists('kategori_kode', 'analisis_kategori_indikator')) {
+      $query = "ALTER TABLE analisis_kategori_indikator ADD `kategori_kode` varchar(3) NOT NULL";
+      $this->db->query($query);
+    }
+
+    // Tabel analisis_master
+    if ($this->db->field_exists('kode_analiusis', 'analisis_master')) {
+      $query = "ALTER TABLE analisis_master CHANGE `kode_analiusis` `kode_analisis` varchar(5) NOT NULL DEFAULT '00000'";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('id_child', 'analisis_master')) {
+      $query = "ALTER TABLE analisis_master ADD `id_child` smallint(4) NOT NULL";
+      $this->db->query($query);
+    }
+
+    // Tabel analisis_parameter
+    if (!$this->db->field_exists('kode_jawaban', 'analisis_parameter')) {
+      $query = "ALTER TABLE analisis_parameter ADD `kode_jawaban` int(3) NOT NULL";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('asign', 'analisis_parameter')) {
+      $query = "ALTER TABLE analisis_parameter ADD `asign` tinyint(1) NOT NULL DEFAULT '0'";
+      $this->db->query($query);
+    }
+
+    // Tabel analisis_respon
+    $drop_kolom = array(
+      "id",
+      "tanggal_input"
+    );
+    foreach ($drop_kolom as $kolom_def){
+      if ($this->db->field_exists($kolom_def, 'analisis_respon')) {
+        $query = "ALTER TABLE analisis_respon DROP ".$kolom_def;
+        $this->db->query($query);
+      }
+    };
+
+    // Tabel analisis_respon_bukti
+    $query = "
+      CREATE TABLE IF NOT EXISTS `analisis_respon_bukti` (
+        `id_master` tinyint(4) NOT NULL,
+        `id_periode` tinyint(4) NOT NULL,
+        `id_subjek` int(11) NOT NULL,
+        `pengesahan` varchar(100) NOT NULL,
+        `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=".$this->engine." DEFAULT CHARSET=utf8;
+      ";
+    $this->db->query($query);
+
+    // Tabel analisis_respon_hasil
+    if ($this->db->field_exists('id', 'analisis_respon_hasil')) {
+      $query = "ALTER TABLE analisis_respon_hasil DROP `id`";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('tgl_update', 'analisis_respon_hasil')) {
+      $query = "ALTER TABLE analisis_respon_hasil ADD `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP";
+      $this->db->query($query);
+    }
+    $db = $this->db->database;
+    $query = "
+      SELECT COUNT(1) ConstraintSudahAda
+      FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+      WHERE TABLE_SCHEMA = ?
+      AND TABLE_NAME = 'analisis_respon_hasil'
+      AND CONSTRAINT_NAME = 'id_master'
+    ";
+    $hasil = $this->db->query($query, $db);
+    $data = $hasil->row_array();
+    if ($data['ConstraintSudahAda'] == 0) {
+      $query = "ALTER TABLE analisis_respon_hasil ADD CONSTRAINT `id_master` UNIQUE (`id_master`,`id_periode`,`id_subjek`)";
+      $this->db->query($query);
+    }
+
+    /**
+      Sesuaikan data modul persil dengan SID 3.10
+    */
+
+    // Tabel data_persil
+    $ubah_kolom = array(
+      "`nik` varchar(64) NOT NULL",
+      "`nama` varchar(128) NOT NULL COMMENT 'nomer persil'",
+      "`persil_jenis_id` tinyint(2) NOT NULL",
+      "`luas` decimal(7,2) NOT NULL",
+      "`kelas` varchar(128) DEFAULT NULL",
+      "`no_sppt_pbb` varchar(128) NOT NULL",
+      "`persil_peruntukan_id` tinyint(2) NOT NULL"
+    );
+    foreach ($ubah_kolom as $kolom_def){
+      $query = "ALTER TABLE data_persil MODIFY ".$kolom_def;
+      $this->db->query($query);
+    };
+    if (!$this->db->field_exists('peta', 'data_persil')) {
+      $query = "ALTER TABLE data_persil ADD `peta` text";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('rdate', 'data_persil')) {
+      $query = "ALTER TABLE data_persil ADD `rdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP";
+      $this->db->query($query);
+    }
+
+    // Tabel data_persil_jenis
+    $ubah_kolom = array(
+      "`nama` varchar(128) NOT NULL",
+      "`ndesc` text NOT NULL"
+    );
+    foreach ($ubah_kolom as $kolom_def){
+      $query = "ALTER TABLE data_persil_jenis MODIFY ".$kolom_def;
+      $this->db->query($query);
+    };
+
+    // Tabel data_persil_peruntukan
+    $ubah_kolom = array(
+      "`nama` varchar(128) NOT NULL",
+      "`ndesc` text NOT NULL"
+    );
+    foreach ($ubah_kolom as $kolom_def){
+      $query = "ALTER TABLE data_persil_peruntukan MODIFY ".$kolom_def;
+      $this->db->query($query);
+    };
+
+    // Ubah surat keterangan pindah penduduk untuk bisa memilih format lampiran
+    $query = "
+      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+      (5, 'surat_ket_pindah_penduduk', 'f-1.08.php,f-1.25.php')
+      ON DUPLICATE KEY UPDATE
+        url_surat = VALUES(url_surat),
+        lampiran = VALUES(lampiran);
+    ";
+    $this->db->query($query);
+  }
+
+  function migrasi_111_ke_112() {
+    // Ubah surat bio penduduk untuk menambah format lampiran
+    $query = "
+      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+      (3, 'surat_bio_penduduk', 'f-1.01.php')
+      ON DUPLICATE KEY UPDATE
+        url_surat = VALUES(url_surat),
+        lampiran = VALUES(lampiran);
+    ";
+    $this->db->query($query);
+
+    // Tabel tweb_penduduk melengkapi data F-1.01
+    if (!$this->db->field_exists('telepon', 'tweb_penduduk')) {
+      $query = "ALTER TABLE tweb_penduduk ADD `telepon` varchar(20)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('tanggal_akhir_paspor', 'tweb_penduduk')) {
+      $query = "ALTER TABLE tweb_penduduk ADD `tanggal_akhir_paspor` date";
+      $this->db->query($query);
+    }
+
+    // Ketinggalan tabel gis_simbol
+    if (!$this->db->table_exists('gis_simbol') ) {
+      $query = "
+        CREATE TABLE `gis_simbol` (
+          `simbol` varchar(40) DEFAULT NULL
+        ) ENGINE=".$this->engine." DEFAULT CHARSET=utf8;
+      ";
+      $this->db->query($query);
+      // Isi dengan daftar icon yang ada di folder assets/images/gis/point
+      $simbol_folder = FCPATH . 'assets/images/gis/point';
+      $list_gis_simbol = scandir($simbol_folder);
+      foreach ($list_gis_simbol as $simbol) {
+        if ($simbol['0'] == '.') continue;
+        $this->db->insert('gis_simbol', array('simbol' => $simbol));
+      }
+    }
+    if (!$this->db->field_exists('jenis', 'tweb_surat_format')) {
+      $query = "ALTER TABLE tweb_surat_format ADD jenis tinyint(2) NOT NULL DEFAULT 2";
+      $this->db->query($query);
+      // Update semua surat yang disediakan oleh rilis OpenSID
+      $surat_sistem = array(
+        'surat_ket_pengantar',
+        'surat_ket_penduduk',
+        'surat_bio_penduduk',
+        'surat_ket_pindah_penduduk',
+        'surat_ket_jual_beli',
+        'surat_pindah_antar_kab_prov',
+        'surat_ket_catatan_kriminal',
+        'surat_ket_ktp_dalam_proses',
+        'surat_ket_beda_nama',
+        'surat_jalan',
+        'surat_ket_kurang_mampu',
+        'surat_izin_keramaian',
+        'surat_ket_kehilangan',
+        'surat_ket_usaha',
+        'surat_ket_jamkesos',
+        'surat_ket_domisili_usaha',
+        'surat_ket_kelahiran',
+        'surat_permohonan_akta',
+        'surat_pernyataan_akta',
+        'surat_permohonan_duplikat_kelahiran',
+        'surat_ket_kematian',
+        'surat_ket_lahir_mati',
+        'surat_ket_nikah',
+        'surat_ket_asalusul',
+        'surat_persetujuan_mempelai',
+        'surat_ket_orangtua',
+        'surat_izin_orangtua',
+        'surat_ket_kematian_suami_istri',
+        'surat_kehendak_nikah',
+        'surat_ket_pergi_kawin',
+        'surat_ket_wali',
+        'surat_ket_wali_hakim',
+        'surat_permohonan_duplikat_surat_nikah',
+        'surat_permohonan_cerai',
+        'surat_ket_rujuk_cerai'
+      );
+      // Jenis surat yang bukan bagian rilis sistem sudah otomatis berisi nilai default (yaitu, 2)
+      foreach ($surat_sistem as $url_surat) {
+        $this->db->where('url_surat',$url_surat)->update('tweb_surat_format',array('jenis'=>1));
+      }
+    }
+    // Tambah surat_permohonan_kartu_keluarga
+    $this->db->where('url_surat', 'surat_ubah_sesuaikan')->update('tweb_surat_format',array('kode_surat' => 'P-01'));
+    $query = "
+      INSERT INTO tweb_surat_format (nama, url_surat, lampiran, kode_surat, jenis) VALUES
+      ('Permohonan Kartu Keluarga', 'surat_permohonan_kartu_keluarga', 'f-1.15.php', 'S-36', 1)
+      ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        lampiran = VALUES(lampiran),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis);
+    ";
+    $this->db->query($query);
+    // Tambah kolom no_kk_sebelumnya untuk penduduk yang pecah dari kartu keluarga
+    if (!$this->db->field_exists('no_kk_sebelumnya', 'tweb_penduduk')) {
+      $query = "ALTER TABLE tweb_penduduk ADD no_kk_sebelumnya varchar(30)";
+      $this->db->query($query);
+    }
+  }
 
   function kosongkan_db(){
     $table_lookup = array(

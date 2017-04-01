@@ -9,8 +9,8 @@
 	<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 	<table class="form">
 	<tr>
-	<th>Kode Surat</th>
-	<td><input name="kode_surat" type="text" class="inputbox required" size="12" value="<?php echo $surat_master['kode_surat']?>"/></td>
+	<th>Kode/Klasifikasi Surat</th>
+	<td><input name="kode_surat" type="text" class="inputbox required" size="20" value="<?php echo $surat_master['kode_surat']?>"/></td>
 	</tr>
 	<tr>
 	<th>Nama Layanan</th>
@@ -18,9 +18,9 @@
 	</tr>
 	</table>
 	</div>
-		 
+
 	<div class="ui-layout-south panel bottom">
-	<div class="left"> 
+	<div class="left">
 	<a href="<?php echo site_url()?>surat_master" class="uibutton icon prev">Kembali</a>
 	</div>
 	<div class="right">

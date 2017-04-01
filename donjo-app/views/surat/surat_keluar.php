@@ -80,7 +80,7 @@
 										<?php	}?>
 										<?php
 											if(is_file($lampiran)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" class="uibutton tipsy south" title="Lampiran"><span class="icon-download icon-large"> Lampiran </span></a>
+												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south" title="Lampiran"><span class="icon-download icon-large"> Lampiran </span></a>
 										<?php	}?>
 										<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 									</div>

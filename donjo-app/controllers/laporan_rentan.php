@@ -6,10 +6,10 @@ function __construct(){
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('laporan_bulanan_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
+		$this->load->model('laporan_bulanan_model');
 
 		//Initialize Session ------------
 		$_SESSION['success']  = 0;
@@ -17,7 +17,7 @@ function __construct(){
 		$_SESSION['cari']  = '';
 		//-------------------------------
 
-		$this->load->model('header_model');
+		$this->modul_ini = 3;
 	}
 
 
@@ -43,7 +43,7 @@ function __construct(){
 		//$data['keyword'] = $this->laporan_bulanan_model->autocomplete();
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 3;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('laporan/kelompok',$data);

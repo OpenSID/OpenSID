@@ -1,8 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo ((config_item('admin_title')!=FALSE) ? config_item('admin_title') : 'Sistem Informasi Desa') ?></title>
-
+<title><?php
+	echo config_item('admin_title')
+		. ' ' . ucwords(config_item('sebutan_desa'))
+		. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']) : '')
+		. get_dynamic_title_page_from_path();
+?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
@@ -31,7 +35,7 @@
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.dialog.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script><script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=4&key=<?php echo config_item('google_key'); ?>"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script><script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=4&key=<?php echo config_item('google_key'); ?>"></script>
 <!---->
 <!--[if lte IE 6]>
 <style type="text/css">
@@ -91,6 +95,7 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 
 <ul class="dropdown" tabindex="1">
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
+	<li><a href="<?php echo site_url()?>modul/clear"><i class="icon-gear icon-large"></i>Pengaturan</a></li>
 	<li><a href="<?php echo site_url()?>hom_desa"><i class="icon-home icon-large"></i>SID Home</a></li>
 	<li><a href="<?php echo site_url()?>sid_core"><i class="icon-group icon-large"></i>Penduduk</a></li>
 	<li><a href="<?php echo site_url()?>statistik"><i class="icon-bar-chart icon-large"></i>Statistik</a></li>

@@ -333,15 +333,20 @@
 		return $data;
 	}
 
-	function get_kepala_kk($id){
-
-		$sql   = "SELECT nik,u.nama,r.no_kk
-			FROM tweb_penduduk u
-			LEFT JOIN tweb_rtm r ON u.id_rtm = r.id
-			WHERE r.id = ?  AND u.rtm_level =1 LIMIT 1";
-		$query = $this->db->query($sql,array($id));
-		return $query->row_array();
-
+	function get_kepala_rtm($id, $is_no_kk=false){
+		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
+		$this->load->model('penduduk_model');
+		$sql   = "SELECT u.id,u.nik,u.nama,r.no_kk,u.tempatlahir,u.tanggallahir,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,d.nama as pendidikan,f.nama as warganegara,a.nama as agama
+			FROM tweb_rtm r
+			LEFT JOIN tweb_penduduk u ON u.id= r.nik_kepala
+			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
+			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
+			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+			WHERE r.$kolom_id = $id LIMIT 1";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($data['id']);
+		return $data;
 	}
 
     function get_desa(){

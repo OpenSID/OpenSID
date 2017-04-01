@@ -5,10 +5,11 @@ function __construct(){
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('laporan_bulanan_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
+		$this->load->model('laporan_bulanan_model');
+		$this->load->model('pamong_model');
 
 		//Initialize Session ------------
 		$_SESSION['success']  = 0;
@@ -16,6 +17,7 @@ function __construct(){
 		//-------------------------------
 
 		$this->load->model('header_model');
+		$this->modul_ini = 3;
 	}
 
     function clear(){
@@ -58,6 +60,7 @@ function __construct(){
 		$data['bulan']=$data['bulanku'];
 		$data['tahun']=$data['tahunku'];
 		$data['config'] = $this->laporan_bulanan_model->configku();
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['penduduk_awal']    = $this->laporan_bulanan_model->penduduk_awal();
 		$data['penduduk_akhir']    = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['kelahiran']    = $this->laporan_bulanan_model->kelahiran();
@@ -68,7 +71,7 @@ function __construct(){
 		$data['lap']=$lap;
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 3;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('laporan/bulanan',$data);
@@ -79,6 +82,7 @@ function __construct(){
 
 	function cetak($lap=0){
 
+		$data['input'] = $_POST;
 		$data['config'] = $this->laporan_bulanan_model->configku();
 		$data['bulan']=$_SESSION['bulanku'];
 		$data['tahun']=$_SESSION['tahunku'];

@@ -1,27 +1,23 @@
 <?php
 /*
- * create.php
- * 
- * Backend View untuk Nulis Program Bantuan Baru
- * 
  * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- * 
- * 
+ *
+ *
  */
 
 ?>
@@ -36,7 +32,7 @@
 		<td class="contentpane">
 			<legend>Form Penulisan Program Bantuan</legend>
 			<div class="contentpane">
-				<?php 
+				<?php
 				if(validation_errors()){
 					echo "
 					<div class=\"error\" style=\"border:solid 2px #c00;color:#c00;margin:1em 0;\">
@@ -49,7 +45,7 @@
 					</div>
 					";
 				}
-				
+
 				if($_SESSION["success"] == 1){
 					echo "Simpan Berhasil";
 				}
@@ -87,7 +83,7 @@
 						Mulai <input type="text" class="inputbox required" style="width:200px" name="sdate" id="sdate" placeholder="" value="<?php echo date("m/d/Y",strtotime($data["sdate"])); ?>"/>
 						s.d <input type="text" class="inputbox required" style="width:200px" name="edate" id="edate" placeholder="" value="<?php echo date("m/d/Y",strtotime($data["edate"])); ?>"/>
 					</div>
-					
+
 					<div class="form-group">
 						<div class="uibutton-group">
 						<input type="submit" class="uibutton confirm" name="tombol" id="tombol" value="Simpan"/>
@@ -110,7 +106,7 @@ $(document).ready(function () {
     $("#sdate").datepicker({
         onSelect: function (selected) {
             var dtMax = new Date(selected);
-            dtMax.setDate(dtMax.getDate() + daysToAdd); 
+            dtMax.setDate(dtMax.getDate() + daysToAdd);
             var dd = dtMax.getDate();
             var mm = dtMax.getMonth() + 1;
             var y = dtMax.getFullYear();
@@ -118,11 +114,11 @@ $(document).ready(function () {
             $("#edate").datepicker("option", "minDate", dtFormatted);
         }
     });
-    
+
     $("#edate").datepicker({
         onSelect: function (selected) {
             var dtMax = new Date(selected);
-            dtMax.setDate(dtMax.getDate() - daysToAdd); 
+            dtMax.setDate(dtMax.getDate() - daysToAdd);
             var dd = dtMax.getDate();
             var mm = dtMax.getMonth() + 1;
             var y = dtMax.getFullYear();

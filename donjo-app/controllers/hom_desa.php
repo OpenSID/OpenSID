@@ -11,12 +11,13 @@ class Hom_Desa extends CI_Controller{
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('config_model');
+		$this->modul_ini = 1;
 	}
 
 	function index(){
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 1;
+		$header['modul_ini'] = $this->modul_ini;
 		$data['main'] = $this->config_model->get_data();
 		$this->load->view('header',$header);
 		$this->load->view('home/nav',$nav);
@@ -30,7 +31,7 @@ class Hom_Desa extends CI_Controller{
 	function about(){
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
-		$header['modul'] = 1;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
 		$this->load->view('home/nav',$nav);
 		$this->load->view('home/desa');

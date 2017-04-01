@@ -126,7 +126,15 @@ source: keyword
 			&nbsp;</span></a></th>
 
 			<th align="left" align="center">Status</th>
-			<th align="left" align="center">Tanggal Peristiwa</th>
+			<th align="left" align="center">
+        <?php  if($o==10): ?>
+          <a href="<?php echo site_url("penduduk_log/index/$p/9")?>">Tanggal Peristiwa<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a>
+        <?php  elseif($o==9): ?>
+          <a href="<?php echo site_url("penduduk_log/index/$p/10")?>">Tanggal Peristiwa<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a>
+        <?php  else: ?>
+          <a href="<?php echo site_url("penduduk_log/index/$p/9")?>">Tanggal Peristiwa<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a>
+        <?php  endif; ?>
+      </th>
 			<th width="300" align="center">Catatan Peristiwa</th>
 
 		</tr>

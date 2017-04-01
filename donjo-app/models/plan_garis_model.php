@@ -121,6 +121,7 @@
 		  $garis_file = $_FILES['foto']['tmp_name'];
 		  $tipe_file   = $_FILES['foto']['type'];
 		  $nama_file   = $_FILES['foto']['name'];
+		  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		  if (!empty($garis_file)){
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg"){
 				Uploadgaris($nama_file);
@@ -144,6 +145,7 @@
 		  $garis_file = $_FILES['foto']['tmp_name'];
 		  $tipe_file   = $_FILES['foto']['type'];
 		  $nama_file   = $_FILES['foto']['name'];
+		  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		  if (!empty($garis_file)){
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg"){
 				Uploadgaris($nama_file);

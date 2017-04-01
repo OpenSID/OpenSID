@@ -1,7 +1,5 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
-
 class Analisis_periode extends CI_Controller{
-
 	function __construct(){
 		parent::__construct();
 		session_start();
@@ -10,23 +8,20 @@ class Analisis_periode extends CI_Controller{
 		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
+		$_SESSION['submenu'] = "Data Periode";
+		$_SESSION['asubmenu'] = "analisis_periode";
 	}
-	
-	function clear($id=0){
-		$_SESSION['analisis_master']=$id;
+	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['state']);
 		redirect('analisis_periode');
 	}
-	
 	function leave(){
 		$id=$_SESSION['analisis_master'];
 		unset($_SESSION['analisis_master']);
 		redirect("analisis_master/menu/$id");
 	}
-	
 	function index($p=1,$o=0){
-	
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
@@ -38,7 +33,6 @@ class Analisis_periode extends CI_Controller{
 		if(isset($_SESSION['state']))
 			$data['state'] = $_SESSION['state'];
 		else $data['state'] = '';
-	
 		if(isset($_POST['per_page'])) 
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
@@ -48,7 +42,6 @@ class Analisis_periode extends CI_Controller{
 		$data['keyword'] = $this->analisis_periode_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
 		$data['list_state'] = $this->analisis_periode_model->list_state();
-
 		$header = $this->header_model->get_data();
 		
 		$this->load->view('header', $header);
@@ -56,9 +49,7 @@ class Analisis_periode extends CI_Controller{
 		$this->load->view('analisis_periode/table',$data);
 		$this->load->view('footer');
 	}
-	
 	function form($p=1,$o=0,$id=''){
-	
 		$data['p'] = $p;
 		$data['o'] = $o;
 		
@@ -80,7 +71,6 @@ class Analisis_periode extends CI_Controller{
 		$this->load->view('analisis_periode/form',$data);
 		$this->load->view('footer');
 	}
-	
 	function search(){
 		$cari = $this->input->post('cari');
 		if($cari!='')
@@ -88,7 +78,6 @@ class Analisis_periode extends CI_Controller{
 		else unset($_SESSION['cari']);
 		redirect('analisis_periode');
 	}
-	
 	function state(){
 		$filter = $this->input->post('state');
 		if($filter!=0)
@@ -96,27 +85,22 @@ class Analisis_periode extends CI_Controller{
 		else unset($_SESSION['state']);
 		redirect('analisis_periode');
 	}
-	
 	function insert(){
 		$this->analisis_periode_model->insert();
 		redirect('analisis_periode');
 	}
-	
 	function update($p=1,$o=0,$id=''){
 		$this->analisis_periode_model->update($id);
 		redirect("analisis_periode/index/$p/$o");
 	}
-	
 	function delete($p=1,$o=0,$id=''){
 		$this->analisis_periode_model->delete($id);
 		redirect("analisis_periode/index/$p/$o");
 	}
-	
 	function delete_all($p=1,$o=0){
 		$this->analisis_periode_model->delete_all();
 		redirect("analisis_periode/index/$p/$o");
 	}
-	
 	function list_state(){
 		$sql   = "SELECT * FROM analisis_ref_state";
 		$query = $this->db->query($sql);

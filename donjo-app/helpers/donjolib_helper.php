@@ -368,6 +368,11 @@ function timer(){
 	$time=2000;
 	$_SESSION['timeout']=time()+$time;
 }
+
+function generator($length = 7) {
+ return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+}
+
 function cek_login(){
 	$timeout=$_SESSION['timeout'];
 	if(time()<$timeout){
@@ -388,12 +393,10 @@ function mandiri_timer(){
 }
 
 function mandiri_timeout(){
-	$timeout=$_SESSION['mandiri_timeout'];
+	(isset($_SESSION['mandiri_timeout'])) ? $timeout=$_SESSION['mandiri_timeout'] : $timeout = null;
 	if(time()>$timeout){
 		mandiri_timer();
 	}
-
-
 }
 
 function get_identitas(){

@@ -1,4 +1,14 @@
 <script>
+	function pilih_format_surat(kode_format){
+		$('#kode_format').val(kode_format);
+		if(kode_format == 'f108'){
+			$('#status_kk_tidak_pindah_f108_show').show();
+			$('#status_kk_tidak_pindah_show').hide();
+		} else {
+			$('#status_kk_tidak_pindah_f108_show').hide();
+			$('#status_kk_tidak_pindah_show').show();
+		}
+	}
 	function get_alasan(alasan){
 		if(alasan == 7){
 			$('#sebut_alasan').show();
@@ -25,27 +35,46 @@
 		}
 	}
 	function urus_anggota(jenis_pindah){
+		if($('#kode_format').val() == "f108"){
+			status_kk_tidak_pindah = "#status_kk_tidak_pindah_f108_show";
+		} else {
+			status_kk_tidak_pindah = "#status_kk_tidak_pindah_show";
+		}
 		// Hanya anggota yang pindah
 		if(jenis_pindah == 4){
 			$('#kk_show').attr("checked", false);
 			$("#kk").attr('disabled', 'disabled');
-			$("#status_kk_tidak_pindah_show").val("4");
-			$("#status_kk_tidak_pindah_show").trigger("onchange");
-			$("#status_kk_tidak_pindah_show").attr('disabled', 'disabled');
+			if($('#kode_format').val() == "f108"){
+				$(status_kk_tidak_pindah).val("4");
+			} else {
+				$(status_kk_tidak_pindah).val("3");
+			}
+			$(status_kk_tidak_pindah).trigger("onchange");
+			$(status_kk_tidak_pindah).attr('disabled', 'disabled');
 			$("#status_kk_pindah_show").removeAttr('disabled');
 			enable_anggota();
 		} else {
 			$('#kk_show').attr("checked", true);
 			$("#kk").removeAttr('disabled');
-			$("#status_kk_pindah_show").val("3");
-			$("#status_kk_pindah_show").trigger("onchange");
-			$("#status_kk_pindah_show").attr('disabled', 'disabled');
-			$("#status_kk_tidak_pindah_show").removeAttr('disabled');
+			if($('#klasifikasi_pindah_id').val() < 3) {
+				// Jika pindah di satu kecamatan, nomor KK tetap.
+				// Jika pindah ke luar kecamatan, nomor KK ganti.
+				$("#status_kk_pindah_show").val("3");
+				$("#status_kk_pindah_show").trigger("onchange");
+				$("#status_kk_pindah_show").attr('disabled', 'disabled');
+			} else {
+				$("#status_kk_pindah_show").removeAttr('disabled');
+			}
+			$(status_kk_tidak_pindah).removeAttr('disabled');
 			// KK and semua anggota pindah
 			if(jenis_pindah == 2){
-				$("#status_kk_tidak_pindah_show").val("3");
-				$("#status_kk_tidak_pindah_show").trigger("onchange");
-				$("#status_kk_tidak_pindah_show").attr('disabled', 'disabled');
+				if($('#kode_format').val() == "f108"){
+					$(status_kk_tidak_pindah).val("3");
+				} else {
+					$(status_kk_tidak_pindah).val(" ");
+				}
+				$(status_kk_tidak_pindah).trigger("onchange");
+				$(status_kk_tidak_pindah).attr('disabled', 'disabled');
 				anggota_pindah(true);
 			}
 			// KK dan sebagian anggota pindah
@@ -60,13 +89,11 @@
 		$('#kk_show').trigger("onchange");
 	}
 	function urus_masa_ktp(centang, urut){
+		// ktp_berlaku sekarang selalu 'Seumur Hidup' dan tidak diubah
 		if (centang){
 			$('#anggota' + urut).attr('disabled', 'disabled');
-			$('#ktp_berlaku' + urut).attr('disabled', 'disabled');
-			$('#ktp_berlaku' + urut).val('');
 		}
 		else {
-			$('#ktp_berlaku' + urut).removeAttr('disabled');
 			$('#anggota' + urut).removeAttr('disabled');
 		}
 	}
@@ -85,17 +112,24 @@
 			set_wilayah('provinsi_tujuan');
 		}
 		if(klasifikasi_pindah > 1){
+			$('#kode_format').val('F-1.25');
 			$('#desa_tujuan_show').removeAttr('disabled');
+		} else {
+			$('#kode_format').val('F-1.23');
 		}
 		if(klasifikasi_pindah > 2){
+			$('#kode_format').val('F-1.29');
 			$('#kecamatan_tujuan_show').removeAttr('disabled');
 		}
 		if(klasifikasi_pindah > 3){
+			$('#kode_format').val('F-1.34');
 			$('#kabupaten_tujuan_show').removeAttr('disabled');
 		}
 		if(klasifikasi_pindah > 4){
+			$('#kode_format').val('F-1.34');
 			$('#provinsi_tujuan_show').removeAttr('disabled');
 		}
+		$('#jenis_kepindahan_id').trigger('onchange');
 	}
 
 	$(function(){
@@ -138,12 +172,22 @@ table.form.detail td{
 				<div class="content-header">
 				</div>
 				<div id="contentpane">
-				<div class="ui-layout-north panel">
-					<h3>Surat Keterangan Pindah Penduduk</h3>
-				</div>
+					<div class="ui-layout-north panel">
+						<h3>Surat Keterangan Pindah Penduduk</h3>
+					</div>
 				<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 
 <table class="form">
+	<tr>
+		<th>Gunakan Format</th>
+		<td>
+	    <select name="pakai_format" class="required" onchange="pilih_format_surat($(this).val());">
+	      <option value="">Pilih Format Surat</option>
+        <option value="f108">F-1.08</option>
+        <option value="bukan_f108" selected>F-1.23, F-1.25, F-1.29, F-1.34 (sesuai tujuan)</option>
+	    </select>
+		</td>
+	</tr>
 	<tr>
 		<th colspan=2>Pemohon</th>
 	</tr>
@@ -162,6 +206,7 @@ table.form.detail td{
 				<form id="validasi" action="<?php echo $form_action?>" method="POST" target="_blank">
 
 				<input type="hidden" name="nik" value="<?php echo $individu['id']?>"  class="inputbox required" >
+				<input id="kode_format" type="hidden" name="kode_format" value="bukan_f108">
 
 				<?php if($individu){ //bagian info setelah terpilih?>
 					<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
@@ -178,7 +223,7 @@ table.form.detail td{
 	<tr>
 		<th>Nomor Surat</th>
 		<td>
-			<input name="nomor" type="text" class="inputbox required" size="20"/>
+			<input name="nomor" type="text" class="inputbox required" size="20"/> <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>
 		</td>
 	</tr>
 	<tr>
@@ -198,7 +243,7 @@ table.form.detail td{
 	<tr>
 	  <th>Klasifikasi Pindah</th>
 	  <td>
-	    <select name="klasifikasi_pindah_id" class="required" onchange="urus_klasifikasi_pindah($(this).val());">
+	    <select id="klasifikasi_pindah_id" name="klasifikasi_pindah_id" class="required" onchange="urus_klasifikasi_pindah($(this).val());">
 	      <option value="">Pilih Klasifikasi Pindah</option>
 	      <?php foreach($kode['klasifikasi_pindah'] as $key => $value){?>
 	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
@@ -260,7 +305,7 @@ table.form.detail td{
 				<tr>
 					<th>Kode Pos</th>
 					<td>
-						<input name="kode_pos_tujuan" type="text" class="inputbox required" size="40"/>
+						<input name="kode_pos_tujuan" type="text" class="inputbox" size="40"/>
 					</td>
 				</tr>
 				<tr>
@@ -275,7 +320,7 @@ table.form.detail td{
 	<tr>
 	  <th>Jenis Kepindahan</th>
 	  <td>
-	    <select name="jenis_kepindahan_id" class="required" onchange="urus_anggota($(this).val());">
+	    <select id="jenis_kepindahan_id" name="jenis_kepindahan_id" class="required" onchange="urus_anggota($(this).val());">
 	      <option value="">Pilih Jenis Kepindahan</option>
 	      <?php foreach($kode['jenis_kepindahan'] as $key => $value){?>
 	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
@@ -290,6 +335,12 @@ table.form.detail td{
 	    <select id="status_kk_tidak_pindah_show" class="required" onchange="$('#status_kk_tidak_pindah').val($(this).val());">
 	      <option value="">Pilih Status KK Tidak Pindah</option>
 	      <?php foreach($kode['status_kk_tidak_pindah'] as $key => $value){?>
+	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
+	      <?php }?>
+	    </select>
+	    <select id="status_kk_tidak_pindah_f108_show" style="display: none" class="required" onchange="$('#status_kk_tidak_pindah').val($(this).val());">
+	      <option value="">Pilih Status KK Tidak Pindah</option>
+	      <?php foreach($kode['status_kk_tidak_pindah_f108'] as $key => $value){?>
 	        <option value="<?php echo $key?>"><?php echo strtoupper($value)?></option>
 	      <?php }?>
 	    </select>
@@ -344,7 +395,8 @@ table.form.detail td{
 									</td>
 									<td><?php echo $data['nik']?></td>
 									<td>
-										<input id="ktp_berlaku<?php echo ($i)?>" disabled="disabled" name="ktp_berlaku[]" type="text" class="inputbox datepicker" size="20"/>
+										<input id="ktp_berlaku<?php echo ($i)?>" type="hidden" name="ktp_berlaku[]" type="text" value="Seumur Hidup"/>
+										<input disabled="disabled" type="text" value="Seumur Hidup" class="inputbox" size="20"/>
 									</td>
 									<td><?php echo unpenetration($data['nama'])?></td>
 									<td><?php echo $data['sex']?></td>

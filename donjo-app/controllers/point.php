@@ -11,7 +11,7 @@ class point extends CI_Controller{
 		$this->load->model('plan_point_model');
 
 		$this->load->database();
-
+		$this->modul_ini = 8;
 	}
 
 	function clear(){
@@ -43,7 +43,7 @@ class point extends CI_Controller{
 
 		$header= $this->header_model->get_data();
 		$nav['act']=0;
-		$header['modul'] = 8;
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header', $header);
 
 		$this->load->view('plan/nav',$nav);
