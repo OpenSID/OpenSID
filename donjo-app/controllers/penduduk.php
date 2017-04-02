@@ -658,7 +658,7 @@ class Penduduk extends CI_Controller{
 				$pre="AKTA KELAHIRAN : ";
 				break;
 		}
-		$judul= $this->penduduk_model->get_judul_statistik($tipe,$nomor);
+		$judul= $this->penduduk_model->get_judul_statistik($tipe,$nomor,$sex);
 		if($judul['nama']){
 			$_SESSION['judul_statistik']=$pre.$judul['nama'];
 		}else{
