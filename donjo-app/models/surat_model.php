@@ -468,7 +468,7 @@
 	}
 
 	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
-		$alamat_desa = ucwords(config_item('sebutan_desa'))." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", Kabupaten ".$config['nama_kabupaten'];
+		$alamat_desa = ucwords(config_item('sebutan_desa'))." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords(config_item('sebutan_kabupaten'))." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
 		switch ($url) {
 			case 'surat_ket_pindah_penduduk':
@@ -693,6 +693,7 @@
 			$buffer=str_replace("[tahun]","$thn",$buffer);
 
 			//DATA DARI KONFIGURASI DESA
+			$buffer=$this->case_replace("[sebutan_kabupaten]",config_item('sebutan_kabupaten'),$buffer);
 			$buffer=$this->case_replace("[sebutan_desa]",config_item('sebutan_desa'),$buffer);
 			$buffer=$this->case_replace("[sebutan_dusun]",config_item('sebutan_dusun'),$buffer);
 			$buffer=str_replace("[kode_desa]","$config[kode_desa]",$buffer);

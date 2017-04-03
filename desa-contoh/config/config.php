@@ -13,7 +13,9 @@ $config['website_title'] = 'Website Resmi';
 $config['login_title'] = 'Login OpenSID';
 $config['admin_title'] = 'Sistem Informasi';
 
-// untuk mengganti penamaan wilayah 'desa'
+// untuk mengganti penamaan wilayah
+$config['sebutan_kabupaten'] = 'kabupaten';
+$config['sebutan_kabupaten_singkat'] = 'kab.';
 $config['sebutan_desa'] = 'desa';
 $config['sebutan_dusun'] = 'dusun';
 

@@ -11,9 +11,9 @@
 <tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 
 <div class="header">
-<h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
+<h4 class="kop">PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
 <h4 class="kop">KECAMATAN <?php echo strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
-<h4 class="kop">DESA <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
+<h4 class="kop"><?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
 <h5 class="kop2"><?php echo (unpenetration($desa['alamat_kantor']))?> </h5>
 <div style="text-align: center;">
 <hr /></div></div>
@@ -47,7 +47,7 @@
 	<tr><td>Warganegara</td><td>:</td><td><?php echo $suami['wn']?></td></tr>
 	<tr><td>Agama</td><td>:</td><td><?php echo $suami['agama']?></td></tr>
 	<tr><td>Pekerjaan</td><td>:</td><td><?php echo $suami['pek']?></td></tr>
-	<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $suami['rt']?>, RW. <?php echo $suami['rw']?>, Dusun <?php echo ununderscore($suami['dusun'])?>, Desa <?php echo $desa['nama_desa']?>, Kec. <?php echo $desa['nama_kecamatan']?>, Kab. <?php echo $desa['nama_kabupaten']?> </td></tr>
+	<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $suami['rt']?>, RW. <?php echo $suami['rw']?>, Dusun <?php echo ununderscore($suami['dusun'])?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo $desa['nama_desa']?>, Kec. <?php echo $desa['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo $desa['nama_kabupaten']?> </td></tr>
 <?php  }else{?>
 	<tr><td width="30%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?php echo unpenetration($input['nama_suami'])?></td></tr>
 	<tr><td width="30%">Bin</td><td width="3%">:</td><td width="64%"><?php echo $input['bin_suami']?></td></tr>
@@ -74,7 +74,7 @@
 	<tr><td>Warganegara</td><td>:</td><td><?php echo $istri['wn']?></td></tr>
 	<tr><td>Agama</td><td>:</td><td><?php echo $istri['agama']?></td></tr>
 	<tr><td>Pekerjaan</td><td>:</td><td><?php echo $istri['pek']?></td></tr>
-	<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $istri['rt']?>, RW. <?php echo $istri['rw']?>, Dusun <?php echo ununderscore($istri['dusun'])?>, Desa <?php echo $desa['nama_desa']?>, Kec. <?php echo $desa['nama_kecamatan']?>, Kab. <?php echo $desa['nama_kabupaten']?> </td></tr>
+	<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $istri['rt']?>, RW. <?php echo $istri['rw']?>, Dusun <?php echo ununderscore($istri['dusun'])?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo $desa['nama_desa']?>, Kec. <?php echo $desa['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo $desa['nama_kabupaten']?> </td></tr>
 <?php  }else{?>
 	<tr><td width="30%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?php echo unpenetration($input['nama_istri'])?></td></tr>
 	<tr><td width="30%">Binti</td><td width="3%">:</td><td width="64%"><?php echo $input['binti_istri']?></td></tr>
