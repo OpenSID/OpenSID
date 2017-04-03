@@ -3,7 +3,7 @@ $details = "<rss xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:sy=\"http:/
 <channel>
 	<title>Desa ". $data_config["nama_desa"] ."</title>
 	<link>". base_url() ."</link>
-	<description>Situs Web Desa ". $data_config["nama_desa"] ." Kec. ". $data_config["nama_kecamatan"] ." Kab. ". $data_config["nama_kabupaten"] ." - ". $data_config["nama_propinsi"] ."</description>
+	<description>Situs Web Desa ". $data_config["nama_desa"] ." Kec. ". $data_config["nama_kecamatan"] ." <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> ". $data_config["nama_kabupaten"] ." - ". $data_config["nama_propinsi"] ."</description>
 	<language>ID</language>
 	<generator>Sistem Informasi Desa</generator>
 	<pubDate>".date(DATE_RFC2822)."</pubDate>

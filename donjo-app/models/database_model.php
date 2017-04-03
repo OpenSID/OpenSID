@@ -40,6 +40,27 @@
     $this->migrasi_19_ke_110();
     $this->migrasi_110_ke_111();
     $this->migrasi_111_ke_112();
+    $this->migrasi_112_ke_113();
+  }
+
+  function migrasi_112_ke_113(){
+    // Tambah data desa
+    if (!$this->db->field_exists('nip_kepala_desa', 'config')) {
+      $query = "ALTER TABLE config ADD nip_kepala_desa decimal(18,0)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('email_desa', 'config')) {
+      $query = "ALTER TABLE config ADD email_desa varchar(50)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('telepon', 'config')) {
+      $query = "ALTER TABLE config ADD telepon varchar(50)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('website', 'config')) {
+      $query = "ALTER TABLE config ADD website varchar(100)";
+      $this->db->query($query);
+    }
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
@@ -851,6 +872,24 @@
       foreach ($surat_sistem as $url_surat) {
         $this->db->where('url_surat',$url_surat)->update('tweb_surat_format',array('jenis'=>1));
       }
+    }
+    // Tambah surat_permohonan_kartu_keluarga
+    $this->db->where('url_surat', 'surat_ubah_sesuaikan')->update('tweb_surat_format',array('kode_surat' => 'P-01'));
+    $query = "
+      INSERT INTO tweb_surat_format (nama, url_surat, lampiran, kode_surat, jenis) VALUES
+      ('Permohonan Kartu Keluarga', 'surat_permohonan_kartu_keluarga', 'f-1.15.php', 'S-36', 1)
+      ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        lampiran = VALUES(lampiran),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis);
+    ";
+    $this->db->query($query);
+    // Tambah kolom no_kk_sebelumnya untuk penduduk yang pecah dari kartu keluarga
+    if (!$this->db->field_exists('no_kk_sebelumnya', 'tweb_penduduk')) {
+      $query = "ALTER TABLE tweb_penduduk ADD no_kk_sebelumnya varchar(30)";
+      $this->db->query($query);
     }
   }
 

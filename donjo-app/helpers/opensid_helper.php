@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pra-1.12');
+define("VERSION", 'pasca-1.12');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -16,6 +16,9 @@ define("LOKASI_FOTO_GARIS", 'desa/upload/gis/garis/');
 define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
 define("LOKASI_PENGESAHAN", 'desa/upload/pengesahan/');
 define("LOKASI_WIDGET", 'desa/widget/');
+
+// Kode laporan statistik di mana kode isian belum di isi
+define('BELUM_MENGISI',777);
 
 //
 define("MAX_PINDAH", 7);
@@ -379,6 +382,16 @@ define("KODE_PEKERJAAN", serialize(array(
     $panjang_text = strlen($str);
     $str = str_pad($str, ($awal*$panjang_padding)+$panjang_text, $padding, STR_PAD_LEFT);
     $str = str_pad($str, (($panjang-$panjang_text)*$panjang_padding)+$panjang_text, $padding, STR_PAD_RIGHT);
+    return $str;
+  }
+  function padded_string_center($str,$panjang){
+    $padding = "&nbsp;";
+    $panjang_padding = strlen($padding);
+    $panjang_text = strlen($str);
+    $to_pad = ($panjang-$panjang_text)/2;
+    for ($i=0; $i<$to_pad; $i++){
+      $str = $padding . $str . $padding;
+    }
     return $str;
   }
 

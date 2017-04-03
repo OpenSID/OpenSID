@@ -1,0 +1,37 @@
+Rilis ini menyediakan formulir F-1.08 dan F-1.15 yang merupakan prioritas bagi komunitas SID. Selain itu, rilis ini juga menambahkan berbagai perbaikan dan penambahan fitur yang diminta oleh komunitas SID.
+
+Terima kasih pada @cafeiklan yang terus menyempatkan diri membuat kontribusi pada OpenSID.
+
+Lengkapnya, isi rilis v1.12:
+
+1. Perbaiki fitur cari nama surat di halaman _Cetak Surat > Master Surat_
+2. #241: Sediakan surat permohonan kartu keluarga dengan lampiran F-1.15
+3. #356: Ubah penampilan view dan cetak Keluarga dan Penduduk untuk menambah alamat dan berbagai kolom lain
+4. #153: Bedakan surat yang disediakan rilis OpenSID (jenis sistem) dan surat yang dibuat pengguna.
+   Surat sistem tidak bisa dihapus
+5. #363: Tambahkan tabel gis_simbol dan isi dengan icon yang tersedia di folder assets/images/gis/point,
+   untuk memperbaiki error pada menu _Plan > Tipe Point > Tambah Kategori Baru_
+6. #278: Tambahkan beberapa icon yang tidak ditemukan pada menu _Plan > Tipe Point_
+7. Ganti http://maps.googleapis.com/maps/api/js menjadi https, supaya bisa memakai https bagi yang
+   menggunakan hosting ssl
+8. #347: Form surat_pernyataan_akta sekarang hanya menampilkan penduduk laki-laki untuk pilihan
+   NIK/Nama Ayah
+9. #330: Sekarang penduduk pendatang dan penduduk tidak tetap juga tampil di form surat sebagai pilihan
+   pemohon surat
+10. #240: Sekarang surat_bio_penduduk menghasilkan lampiran F-1.01 Formulir Biodata Penduduk WNI untuk
+   keluarga pemohon
+11. Sekarang bisa update data penduduk, walaupun NIK tidak berubah (sebelumnya ada error 'NIK sudah ada')
+12. #360: Sekarang hubungan keluarga muncul di cetak surat yang menampilkan pengikut keluarga
+13. Tambah judul di tampilan Kartu Keluarga. Hapus baris tanggal cetak di laporan cetak Kartu Keluarga
+14. Sekarang di form pop-up Ubah Alamat/Pindah Keluarga Dalam Desa, alamat jalan bisa diubah tanpa harus
+    juga mengubah dusun/rw/rt
+15. #348: Tambahkan tanggal dan nama perangkat desa pada Laporan Kependudukan Bulanan
+16. #345: Sekarang NIK ganda tidak bisa dimasukkan melalui form ubah data penduduk
+17. #350: Sekarang logo dan gambar yang nama filenya berisi spasi bisa tampil setelah diunggah
+18. Sekarang disediakan setting dan contoh file _htaccess_ supaya pada server SID yang mengizinkan
+    penggunaan _.htaccess_, admin SID dapat menghilangkan _index.php_ dari url
+19. #316: Sekarang pada laman Cetak Surat > Surat Keluar, hanya akan ditambahkan satu baris untuk setiap
+    keluaran surat cetak Export Doc. Jadi jumlah baris tidak akan bertambah jika surat yang sama dicetak ulang (misalnya untuk mengubah data yang salah isi)
+20. Perbaiki penampilan pilihan perangkat desa di form surat yang tadinya tampak tidak rapi di Firefox
+
+Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur _Database > Migrasi DB_. Fitur migrasi ini melakukan perubahan database yang diperlukan.

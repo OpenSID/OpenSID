@@ -72,7 +72,7 @@ table.ttd td div {
     <tr><td><strong style="font-size: 16pt;">F-1.01</strong></td></tr>
   </table>
   <p style="text-align: center; margin-top: -10px; margin-bottom: 0px; padding-bottom: 0px;">
-      <strong style="font-size: 16pt;">PEMERINTAH KABUPATEN <?php echo strtoupper($config['nama_kabupaten'])?><br>
+      <strong style="font-size: 16pt;">PEMERINTAH KABUPATEN/KOTA <?php echo strtoupper($config['nama_kabupaten'])?><br>
       DINAS KEPENDUDUKAN DAN CATATAN SIPIL<br>
       FORMULIR ISIAN BIODATA PENDUDUK UNTUK WNI (PER KELUARGA)</strong>
   </p>

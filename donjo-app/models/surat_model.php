@@ -96,7 +96,7 @@
 
 	function get_penduduk($id=0){
 		$sql   = "SELECT u.id AS id,u.nama AS nama,x.nama AS sex,u.id_kk AS id_kk,
-		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,s.nama as status,
+		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,u.no_kk_sebelumnya,s.nama as status,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
 		w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,
@@ -413,6 +413,12 @@
 	function get_daftar_kode_surat($surat) {
 		$kode = array();
 		switch ($surat) {
+			case 'surat_permohonan_kartu_keluarga':
+				$kode['alasan_permohonan'] = array(
+				  1 => "Karena Membentuk Rumah Tangga Baru",
+				  2 => "Karena Kartu Keluarga Hilang/Rusak",
+				  3 => "Lainnya"
+				);
 			case 'surat_ket_pindah_penduduk':
 				$kode["alasan_pindah"] = array(
 					1 => "Pekerjaan",
@@ -462,7 +468,7 @@
 	}
 
 	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
-		$alamat_desa = ucwords(config_item('sebutan_desa'))." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", Kabupaten ".$config['nama_kabupaten'];
+		$alamat_desa = ucwords(config_item('sebutan_desa'))." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords(config_item('sebutan_kabupaten'))." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
 		switch ($url) {
 			case 'surat_ket_pindah_penduduk':
@@ -687,6 +693,7 @@
 			$buffer=str_replace("[tahun]","$thn",$buffer);
 
 			//DATA DARI KONFIGURASI DESA
+			$buffer=$this->case_replace("[sebutan_kabupaten]",config_item('sebutan_kabupaten'),$buffer);
 			$buffer=$this->case_replace("[sebutan_desa]",config_item('sebutan_desa'),$buffer);
 			$buffer=$this->case_replace("[sebutan_dusun]",config_item('sebutan_dusun'),$buffer);
 			$buffer=str_replace("[kode_desa]","$config[kode_desa]",$buffer);
@@ -838,6 +845,8 @@
 				break;
 
 			default:
+				$this->lampiran_orientasi = 'P';
+				$this->lampiran_ukuran = 'F4';
 				return $lampiran_surat;
 		}
 	}

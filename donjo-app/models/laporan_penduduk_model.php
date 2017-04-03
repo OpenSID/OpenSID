@@ -221,7 +221,7 @@
 		}
 
 		$data[$i]['no']="";
-		$data[$i]['id']=777;
+		$data[$i]['id']=BELUM_MENGISI;
 		$data[$i]['nama']="BELUM MENGISI";
 		$data[$i]['jumlah']=$bel['jumlah']-$total['jumlah'];
 		$data[$i]['perempuan']=$bel['perempuan']-$total['perempuan'];
@@ -379,7 +379,7 @@
 		}
 
 		$data[$i]['no']="";
-		$data[$i]['id']=777;
+		$data[$i]['id']=BELUM_MENGISI;
 		$data[$i]['nama']="BELUM MENGISI";
 		$data[$i]['jumlah']=$bel['jumlah']-$total['jumlah'];
 		$data[$i]['perempuan']=$bel['perempuan']-$total['perempuan'];
