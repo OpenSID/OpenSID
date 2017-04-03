@@ -30,6 +30,14 @@
                 <td><?php echo strtoupper(unpenetration($penduduk['nama']))?></td>
               </tr>
               <tr>
+                <td>Nomor Kartu Keluarga</td><td >:</td>
+                <td><?php echo $penduduk['no_kk']?></td>
+              </tr>
+              <tr>
+                <td>Nomor KK Sebelumnya</td><td >:</td>
+                <td><?php echo $penduduk['no_kk_sebelumnya']?></td>
+              </tr>
+              <tr>
                 <td>Akta lahir</td><td >:</td>
                 <td><?php echo strtoupper($penduduk['akta_lahir'])?></td>
               </tr>
@@ -48,6 +56,10 @@
               <tr>
                 <td>Jenis Kelamin</td><td >:</td>
                 <td><?php echo strtoupper($penduduk['sex'])?></td>
+              </tr>
+              <tr>
+                <td>Nomor Telepon</td><td >:</td>
+                <td><?php echo strtoupper($penduduk['telepon'])?></td>
               </tr>
               <tr>
                 <td>Tempat / Tanggal Lahir</td><td >:</td>
@@ -80,6 +92,10 @@
               <tr>
                 <td>Dokumen Paspor</td><td >:</td>
                 <td><?php echo strtoupper($penduduk['dokumen_pasport'])?></td>
+              </tr>
+              <tr>
+                <td>Tanggal Berakhir Paspor</td><td >:</td>
+                <td><?php echo strtoupper($penduduk['tanggal_akhir_paspor'])?></td>
               </tr>
               <tr>
                 <td>Dokumen KITAS</td><td >:</td>

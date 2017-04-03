@@ -11,9 +11,9 @@
 <tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt="" class="logo"></tr>
 
 <div class="header">
-<h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
+<h4 class="kop">PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
 <h4 class="kop">KECAMATAN <?php echo strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
-<h4 class="kop">DESA <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
+<h4 class="kop"><?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
 <h5 class="kop2"><?php echo unpenetration(($desa['alamat_kantor']))?> </h5>
 
 <div style="text-align: center;">
@@ -26,7 +26,7 @@
 <div class="clear"></div>
 
 <td class="indentasi">Yang bertanda tangan dibawah ini <?php echo unpenetration($pamong['jabatan'])?> <?php echo unpenetration($desa['nama_desa'])?>, Kecamatan <?php echo unpenetration($desa['nama_kecamatan'])?>,
-Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php echo unpenetration($desa['nama_propinsi'])?> menerangkan bahwa:  </td></tr>
+<?php echo ucwords(config_item('sebutan_kabupaten'))?> <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php echo unpenetration($desa['nama_propinsi'])?> menerangkan bahwa:  </td></tr>
 </table><div id="isi3">
 <table width="100%">
 <tr><td width="35%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?php echo unpenetration($data['nama'])?></td></tr>
@@ -36,10 +36,10 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 <tr><td>Kewarganegaraan / Agama</td><td>:</td><td><?php echo $pribadi['wn']?> / <?php echo $data['agama']?></td></tr>
 <tr><td>Pekerjaan</td><td>:</td><td><?php echo $data['pekerjaan']?></td></tr>
 <tr><td>No KTP</td><td>:</td><td><?php echo $data['nik']?></td></tr>
-<tr><td>Alamat</td><td>:</td><td>RT. <?php echo $data['rt']?>, RW. <?php echo $data['rw']?>, Dusun <?php echo ununderscore(unpenetration($data['dusun']))?>, Desa <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, Kab. <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
+<tr><td>Alamat</td><td>:</td><td>RT. <?php echo $data['rt']?>, RW. <?php echo $data['rw']?>, Dusun <?php echo ununderscore(unpenetration($data['dusun']))?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
 
 
-<tr><td>Alamat yang dituju</td><td>:</td><td>RT. <?php echo $input['rt_tujuan']?>, RW. <?php echo $input['rw_tujuan']?>, Kampung <?php echo $input['kampung_tujuan']?>, Dusun <?php echo ununderscore(unpenetration($input['dusun_tujuan']))?>, Desa <?php echo unpenetration($input['desa_tujuan'])?>, Kec. <?php echo unpenetration($input['kecamatan_tujuan'])?>, Kab. <?php echo unpenetration($input['kabupaten_tujuan'])?></td></tr>
+<tr><td>Alamat yang dituju</td><td>:</td><td>RT. <?php echo $input['rt_tujuan']?>, RW. <?php echo $input['rw_tujuan']?>, Kampung <?php echo $input['kampung_tujuan']?>, Dusun <?php echo ununderscore(unpenetration($input['dusun_tujuan']))?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo unpenetration($input['desa_tujuan'])?>, Kec. <?php echo unpenetration($input['kecamatan_tujuan'])?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($input['kabupaten_tujuan'])?></td></tr>
 
 <tr><td>Alasan </td><td>:</td><td> <?php echo $input['alasan']?></td></tr>
 
@@ -67,6 +67,7 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 			<th align="left" align="center">JK</th>
 			<th  align="left" >Umur</th>
 			<th align="left" >Status Kawin</th>
+			<th align="left">Hubungan</th>
 		</tr>
 
 
@@ -79,6 +80,7 @@ Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php ec
 			<td><?php echo $data1['sex']?></td>
 			<td><?php echo $data1['umur']?></td>
 			<td><?php echo $data1['status_kawin']?></td>
+			<td><?php echo $data1['hubungan']?></td>
 		</tr>
 		<?php  }?>
 	</tbody>

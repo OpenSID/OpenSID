@@ -11,9 +11,9 @@
 <tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 
 <div class="header">
-<h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
+<h4 class="kop">PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
 <h4 class="kop">KECAMATAN <?php echo strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
-<h4 class="kop">DESA <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
+<h4 class="kop"><?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
 <h5 class="kop2"><?php echo (unpenetration($desa['alamat_kantor']))?> </h5>
 <div style="text-align: center;">
 <hr /></div></div>
@@ -34,7 +34,7 @@
 	<tr><td >Jenis Kelamin</td><td >:</td><td ><?php echo $data['sex']?></td></tr>
 	<tr><td >Tanggal Lahir</td><td >:</td><td ><?php echo tgl_indo($data['tanggallahir'])?></td></tr>
 	<tr><td >Agama</td><td >:</td><td ><?php echo $data['agama']?></td></tr>
-	<tr><td >Alamat</td><td >:</td><td >RT. <?php echo unpenetration($data['rt'])?>, RW. <?php echo unpenetration($data['rw'])?>, Dusun <?php echo unpenetration(ununderscore($data['dusun']))?>, Desa <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, Kab. <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
+	<tr><td >Alamat</td><td >:</td><td >RT. <?php echo unpenetration($data['rt'])?>, RW. <?php echo unpenetration($data['rw'])?>, Dusun <?php echo unpenetration(ununderscore($data['dusun']))?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
 	<tr><td >Telah lahir pada :</td><td ></td><td ></td></tr>
 	<tr><td >Hari, Tanggal, Pukul</td><td >:</td><td ><?php echo $input['hari_bayi']?>,  <?php echo $input['jam_bayi']?></td></tr>
 	<tr><td >Bertempat di</td><td >:</td><td ><?php echo $input['tempatlahir_bayi']?></td></tr>
@@ -43,12 +43,12 @@
 	<tr><td >NIK</td><td >:</td><td ><?php echo $ibu['nik']?></td></tr>
 	<tr><td >Tanggal lahir</td><td >:</td><td ><?php echo tgl_indo($ibu['tanggallahir'])?></td></tr>
 	<tr><td >Pekerjaan</td><td >:</td><td ><?php echo $ibu['pek']?></td></tr>
-	<tr><td >Alamat</td><td >:</td><td >RT. <?php echo unpenetration($ibu['rt'])?>, RW. <?php echo unpenetration($ibu['rw'])?>, Dusun <?php echo unpenetration(ununderscore($ibu['dusun']))?>, Desa <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, Kab. <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
+	<tr><td >Alamat</td><td >:</td><td >RT. <?php echo unpenetration($ibu['rt'])?>, RW. <?php echo unpenetration($ibu['rw'])?>, Dusun <?php echo unpenetration(ununderscore($ibu['dusun']))?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
 	<tr><td >Nama Ayah</td><td >:</td><td ><?php echo unpenetration($ayah['nama'])?></td></tr>
 	<tr><td >NIK</td><td >:</td><td ><?php echo $ayah['nik']?></td></tr>
 	<tr><td >Tanggal lahir</td><td >:</td><td ><?php echo tgl_indo($ayah['tanggallahir'])?></td></tr>
 	<tr><td >Pekerjaan</td><td >:</td><td ><?php echo $ayah['pek']?></td></tr>
-	<tr><td >Alamat</td><td >:</td><td >RT. <?php echo unpenetration($ayah['rt'])?>, RW. <?php echo unpenetration($ayah['rw'])?>, Dusun <?php echo unpenetration(ununderscore($ayah['dusun']))?>, Desa <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, Kab. <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
+	<tr><td >Alamat</td><td >:</td><td >RT. <?php echo unpenetration($ayah['rt'])?>, RW. <?php echo unpenetration($ayah['rw'])?>, Dusun <?php echo unpenetration(ununderscore($ayah['dusun']))?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
 </table>
 <div id="isi2">
 <table width="100%">

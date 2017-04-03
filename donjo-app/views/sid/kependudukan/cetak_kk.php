@@ -122,8 +122,6 @@
 	<td width="50%"></td>
 	<td width="25%" align="center"><?php echo $desa['nama_desa'] ?>, <?php echo tgl_indo(date("Y m d"))?></td>
 	</tr>
-<tr><td>&nbsp;</td></tr>
-<tr>
 	<td width="25%" align="center">KEPALA KELUARGA</td>
 	<td width="50%"></td>
 	<td align="center" width="150">KEPALA <?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper($desa['nama_desa']) ?></td>
@@ -139,7 +137,6 @@
 	</tr>
 </table>
 </div>
-   <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>
 
 

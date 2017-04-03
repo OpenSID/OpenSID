@@ -54,19 +54,20 @@
 						</thead>
 						<tbody>
 					<?php  foreach($main as $data): ?>
-							<tr>
+				      <tr <?php if($data['jenis']==1){echo "style='background-color:#ffeeaa;'";}?>>
 								<td align="center" width="2">
 									<?php echo $data['no']?>
 								</td>
 
 								<td align="center" width="5">
-									<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
+									<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" <?php if($data['jenis']==1){echo " disabled= disabled";}?> />
 								</td>
 								<td>
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
-										<a href="<?php echo site_url("surat_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
-
+										<?php if($data['jenis']!=1): ?>
+											<a href="<?php echo site_url("surat_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+										<?php endif;?>
 										<?php if($data['kunci'] == '0'):?>
 											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton" target="confirm" message="Non-Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="icon-unlock icon-large"></span></a>
 											<a href="<?php echo site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="uibutton" target="confirm" message="Ubah Surat <?php echo $data['nama']?> dalam daftar surat Favorit?" header="Favorit" rel="window"><span class="<?php if($data['favorit']==1){?>icon-star-empty icon-large <?php }else{?> icon-star icon-large <?php }?>"></span></a>

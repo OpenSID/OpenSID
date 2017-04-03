@@ -558,7 +558,7 @@ function __construct(){
 		$rt = $this->penduduk_model->list_rt($dusun,$rw);
 		//$this->load->view("sid/kependudukan/ajax_penduduk_pindah_form_rt", $data);
 		echo "<td>RT</td>
-		<td><select name='rt'>
+		<td><select name='id_cluster'>
 		<option value=''>Pilih RT&nbsp;</option>";
 		foreach($rt as $data){
 			echo "<option value=".$data['rt'].">".$data['rt']."</option>";

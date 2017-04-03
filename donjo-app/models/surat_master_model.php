@@ -26,7 +26,7 @@
 		$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.pertanyaan LIKE '$kw' OR u.pertanyaan LIKE '$kw')";
+			$search_sql= " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
 			return $search_sql;
 			}
 		}
@@ -213,7 +213,8 @@
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM tweb_surat_format WHERE id=?";
+		// Surat jenis sistem (nilai 1) tidak bisa dihapus
+		$sql  = "DELETE FROM tweb_surat_format WHERE jenis <> 1 AND id=?";
 		$outp = $this->db->query($sql,array($id));
 
 		if($outp) $_SESSION['success']=1;
@@ -225,14 +226,9 @@
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM tweb_surat_format WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
+				$this->delete($id);
 			}
 		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
 	}
 
 	function list_atribut($id=0){

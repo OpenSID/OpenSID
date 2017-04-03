@@ -11,9 +11,9 @@
 <tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 
 <div class="header">
-<h4 class="kop">PEMERINTAH KABUPATEN <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
+<h4 class="kop">PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
 <h4 class="kop">KECAMATAN <?php echo strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
-<h4 class="kop">DESA <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
+<h4 class="kop"><?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
 <h5 class="kop2"><?php echo (unpenetration($desa['alamat_kantor']))?> </h5>
 <div style="text-align: center;">
 <hr /></div></div>
@@ -37,14 +37,14 @@
 <tr><td>Warganegara</td><td>:</td><td><?php echo $ayah['wn']; ?></td></tr>
 <tr><td>Agama</td><td>:</td><td><?php echo $ayah['agama']; ?></td></tr>
 <tr><td>Pekerjaan</td><td>:</td><td><?php echo $ayah['pek']; ?></td></tr>
-<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $ayah['rt']; ?>, RW. <?php echo $ayah['rw']; ?>, Dusun <?php echo unpenetration(ununderscore($ayah['dusun'])); ?>, Kel. <?php echo unpenetration($desa['nama_desa']); ?>, Kec. <?php echo unpenetration($desa['nama_kecamatan']); ?>, Kab. <?php echo unpenetration($desa['nama_kabupaten']); ?></td></tr>
+<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $ayah['rt']; ?>, RW. <?php echo $ayah['rw']; ?>, Dusun <?php echo unpenetration(ununderscore($ayah['dusun'])); ?>, Kel. <?php echo unpenetration($desa['nama_desa']); ?>, Kec. <?php echo unpenetration($desa['nama_kecamatan']); ?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($desa['nama_kabupaten']); ?></td></tr>
 <tr></tr>
 <tr><td width="30%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?php echo unpenetration($ibu['nama']); ?></td></tr>
 <tr><td>Tempat dan tanggal lahir</td><td>:</td><td><?php echo $ibu['tempatlahir']; ?>, <?php echo tgl_indo(($ibu['tanggallahir'])); ?></td></tr>
 <tr><td>Warganegara</td><td>:</td><td><?php echo $ibu['wn']; ?></td></tr>
 <tr><td>Agama</td><td>:</td><td><?php echo $ibu['agama']; ?></td></tr>
 <tr><td>Pekerjaan</td><td>:</td><td><?php echo $ibu['pek']; ?></td></tr>
-<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $ibu['rt']; ?>, RW. <?php echo $ibu['rw']; ?>, Dusun <?php echo unpenetration(ununderscore($ibu['dusun'])); ?>, Kel. <?php echo unpenetration($desa['nama_desa']); ?>, Kec. <?php echo unpenetration($desa['nama_kecamatan']); ?>, Kab. <?php echo unpenetration($desa['nama_kabupaten']); ?></td></tr>
+<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $ibu['rt']; ?>, RW. <?php echo $ibu['rw']; ?>, Dusun <?php echo unpenetration(ununderscore($ibu['dusun'])); ?>, Kel. <?php echo unpenetration($desa['nama_desa']); ?>, Kec. <?php echo unpenetration($desa['nama_kecamatan']); ?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($desa['nama_kabupaten']); ?></td></tr>
 </table>
 <table width="100%">
 <tr></tr>
@@ -59,7 +59,7 @@
 <tr><td>Warganegara</td><td>:</td><td><?php echo $pribadi['wn']; ?></td></tr>
 <tr><td>Agama</td><td>:</td><td><?php echo $pribadi['agama']; ?></td></tr>
 <tr><td>Pekerjaan</td><td>:</td><td><?php echo $pribadi['pek']; ?></td></tr>
-<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $pribadi['rt']; ?>, RW. <?php echo $pribadi['rw']; ?>, Dusun <?php echo unpenetration(ununderscore($pribadi['dusun'])); ?>, Kel. <?php echo unpenetration($desa['nama_desa']); ?>, Kec. <?php echo unpenetration($desa['nama_kecamatan']); ?>, Kab. <?php echo unpenetration($desa['nama_kabupaten']); ?></td></tr>
+<tr><td>Tempat Tinggal</td><td>:</td><td>RT. <?php echo $pribadi['rt']; ?>, RW. <?php echo $pribadi['rw']; ?>, Dusun <?php echo unpenetration(ununderscore($pribadi['dusun'])); ?>, Kel. <?php echo unpenetration($desa['nama_desa']); ?>, Kec. <?php echo unpenetration($desa['nama_kecamatan']); ?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($desa['nama_kabupaten']); ?></td></tr>
 </table>
 <table width="100%">
 <tr></tr>

@@ -37,14 +37,14 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<?php echo config_item('google_key'); ?>"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo config_item('google_key'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jscolor/jscolor.js"></script>
 </head>
 <body>
 <div class="ui-layout-north" id="header">
 <div id="sid-logo"><a href="<?php echo site_url()?>first" target="_blank"><img src="<?php echo LogoDesa($desa['logo']);?>" alt=""/></a></div>
 <div id="sid-judul">SID Sistem Informasi Desa</div>
-<div id="sid-info">Kab. <?php echo unpenetration($desa['nama_kabupaten'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, Desa <?php echo unpenetration($desa['nama_desa'])?></div>
+<div id="sid-info"><?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($desa['nama_kabupaten'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, Desa <?php echo unpenetration($desa['nama_desa'])?></div>
 <div id="userbox" class="wrapper-dropdown-3" tabindex="1">
         <div class="avatar">
 		<?php if($foto){?>
@@ -87,7 +87,7 @@
 
 
 <!-- NOTIFICATION
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<?php echo config_item('google_key'); ?>"></script>--><?php  if($_SESSION['success']==1): ?>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo config_item('google_key'); ?>"></script>--><?php  if($_SESSION['success']==1): ?>
 <script type="text/javascript">
 $('document').ready(function(){
 notification('success','Data Berhasil Disimpan')();

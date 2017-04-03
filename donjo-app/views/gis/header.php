@@ -35,7 +35,7 @@
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.dialog.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script><script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=4&key=<?php echo config_item('google_key'); ?>"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script><script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=4&key=<?php echo config_item('google_key'); ?>"></script>
 <!---->
 <!--[if lte IE 6]>
 <style type="text/css">

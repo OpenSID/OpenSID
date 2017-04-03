@@ -195,6 +195,7 @@ class User_Model extends CI_Model{
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto    = $this->input->post('old_foto');
 		if (!empty($lokasi_file)){
 			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
@@ -214,20 +215,19 @@ class User_Model extends CI_Model{
 	}
 
 	function update($id=0){
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
 		$data = $_POST;
 		unset($data['old_foto']);
 		unset($data['foto']);
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto    = $this->input->post('old_foto');
 		if (!empty($lokasi_file)){
-			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
-			$_SESSION['success']=-1;
-		} else {
-			UploadFoto($nama_file,$old_foto);
-			$data['foto'] = $nama_file;
-		}
+			if (UploadFoto($nama_file,$old_foto,$tipe_file))
+				$data['foto'] = $nama_file;
 	  }
 		if ($data['password']=='radiisi'){
 		// apabila password tidak diganti
@@ -242,8 +242,7 @@ class User_Model extends CI_Model{
 		$this->db->where('id',$id);
 		$outp = $this->db->update('user',$data);
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if(!$outp) $_SESSION['success']=-1;
 	}
 
 	function delete($id=''){
@@ -325,19 +324,14 @@ class User_Model extends CI_Model{
 
 		// Update foto
 		// TODO : mestinya pake cara upload CI?
-		$mime_type_image = array("image/jpeg", "image/pjpeg", "image/png");
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto    = $this->input->post('old_foto');
 		if (!empty($lokasi_file)){
-			if(!in_array($tipe_file, $mime_type_image)){
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-				$_SESSION['success']=-1;
-			} else {
-				UploadFoto($nama_file,$old_foto);
+			if (UploadFoto($nama_file,$old_foto,$tipe_file))
 				$data['foto'] = $nama_file;
-			}
 	  }
 
 		$this->db->where('id',$id);

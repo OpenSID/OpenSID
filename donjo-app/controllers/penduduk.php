@@ -183,6 +183,7 @@ class Penduduk extends CI_Controller{
 				$data['penduduk']['id_sex'] = $data['penduduk']['sex'];
 			} else {
 				$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+				$_SESSION['nik_lama'] = $data['penduduk']['nik'];
 			}
 			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
 		}
@@ -607,17 +608,11 @@ class Penduduk extends CI_Controller{
 		$this->load->view('sid/kependudukan/penduduk_excel',$data);
 	}
 
-	function statistik($tipe=0,$nomor=0,$sex=0){
+	function statistik($tipe=0,$nomor=0,$sex=NULL){
 		$_SESSION['per_page'] = 50;
 		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
-
-		if($sex==0)
-			unset($_SESSION['sex']);
-		else
-			$_SESSION['sex']=$sex;
-
 		unset($_SESSION['warganegara']);
 		unset($_SESSION['cacat']);
 		unset($_SESSION['menahun']);
@@ -636,6 +631,19 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['umurx']);
 		unset($_SESSION['cara_kb_id']);
 		unset($_SESSION['akta_kelahiran']);
+
+		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
+		if ($sex == NULL) {
+			if ($nomor != 0) $_SESSION['sex'] = $nomor;
+			else unset($_SESSION['sex']);
+			unset($_SESSION['judul_statistik']);
+			redirect('penduduk');
+		}
+
+		if($sex==0)
+			unset($_SESSION['sex']);
+		else
+			$_SESSION['sex']=$sex;
 
 		switch($tipe){
 			case 0: $_SESSION['pendidikan_kk_id'] = $nomor;  $pre="PENDIDIKAN DALAM KK : "; break;
@@ -657,7 +665,7 @@ class Penduduk extends CI_Controller{
 				$pre="AKTA KELAHIRAN : ";
 				break;
 		}
-		$judul= $this->penduduk_model->get_judul_statistik($tipe,$nomor);
+		$judul= $this->penduduk_model->get_judul_statistik($tipe,$nomor,$sex);
 		if($judul['nama']){
 			$_SESSION['judul_statistik']=$pre.$judul['nama'];
 		}else{
