@@ -48,9 +48,11 @@ table.form.detail td{
 				    	<div class="box-perhatian">
 				      	<p><strong>Form ini menghasilkan:<br><br>
 				      	(1) surat keterangan permohonan kartu keluarga untuk pemohon<br>
-				      	(2) lampiran F-1.15 FORMULIR PERMOHOHAN KARTU KELUARGA (KK) BARU WARGA NEGARA INDONESIA untuk keluarga pemohon<br><br>
+				      	(2) lampiran F-1.15 FORMULIR PERMOHOHAN KARTU KELUARGA (KK) BARU WARGA NEGARA INDONESIA untuk keluarga pemohon<br>
+				      	(3) lampiran F-1.01 FORMULIR ISIAN BIODATA PENDUDUK UNTUK WNI (PER KELUARGA) untuk keluarga pemohon<br><br>
 				      	Pastikan semua biodata pemohon beserta keluarga sudah lengkap sebelum mencetak surat dan lampiran.<br>
-				      	Untuk melengkapi data itu, ubah data pemohon dan anggota keluarganya di form isian penduduk di modul Penduduk.
+				      	Untuk melengkapi data itu, ubah data pemohon dan anggota keluarganya di form isian penduduk di modul Penduduk.<br><br>
+				      	Formulir di atas mengacu pada Peraturan Menteri Dalam Negeri Nomor 19 Tahun 2010.
 				      	</strong></p>
 				    	</div>
 				    </td>

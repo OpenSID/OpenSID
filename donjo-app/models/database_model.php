@@ -61,6 +61,8 @@
       $query = "ALTER TABLE config ADD website varchar(100)";
       $this->db->query($query);
     }
+    // Gabung F-1.15 dan F-1.01 menjadi satu lampiran surat_permohonan_kartu_keluarga
+    $this->db->where('url_surat','surat_permohonan_kartu_keluarga')->update('tweb_surat_format',array('lampiran'=>'f-1.15.php,f-1.01.php'));
   }
 
   // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse

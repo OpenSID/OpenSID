@@ -1,6 +1,7 @@
 <?php
 
 define('MAX_ANGGOTA_F115', 10);
+define('MAX_ANGGOTA_F101', 10);
 
 $this->load->model('keluarga_model');
 $this->load->model('pamong_model');
