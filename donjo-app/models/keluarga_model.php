@@ -660,6 +660,7 @@
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
+		unset($data['nik_lama']);
 
 		$satuan=$_POST['tanggallahir'];
 		$blnlahir = substr($satuan,3,2);
