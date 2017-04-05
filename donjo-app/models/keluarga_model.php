@@ -303,6 +303,7 @@
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
+		unset($data['nik_lama']);
 
 		$data['id_cluster'] = $data['rt'];
 		UNSET($data['dusun']);
