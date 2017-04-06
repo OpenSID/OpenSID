@@ -237,7 +237,7 @@
 		return $data;
 	}
 
-	// Tambah keluarga baru dari penduduk lepas
+	// Tambah keluarga baru dari penduduk lepas (status tetap atau pendatang)
 	function insert(){
 		$data = $_POST;
 
@@ -250,6 +250,7 @@
 
 		$default['id_kk'] = $kk['id'];
 		$default['kk_level'] = 1;
+		$default['status'] = 1; // statusnya menjadi tetap
 
 		$this->db->where('id',$temp);
 		$this->db->update('tweb_penduduk',$default);
@@ -548,16 +549,12 @@
 	}
 
 	function list_penduduk_lepas(){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE (status = 1 OR status = 3) AND id_kk = 0";
+		$sql   = "SELECT u.id,u.nik,u.nama,u.alamat_sekarang as alamat, w.rt, w.rw, w.dusun
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE (status = 1 OR status = 3) AND id_kk = 0";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
-
-		//Formating Output
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
-			$i++;
-		}
 		return $data;
 	}
 
