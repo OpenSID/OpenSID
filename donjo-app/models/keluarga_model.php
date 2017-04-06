@@ -55,8 +55,8 @@
 
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
-		$cari = $_SESSION['cari'];
-			$kw = penetration($this->db->escape_like_str($cari));
+			$cari = $_SESSION['cari'];
+			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND t.nama LIKE '$kw'";
 			return $search_sql;

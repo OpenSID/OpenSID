@@ -25,12 +25,12 @@
 
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
-		$cari = $_SESSION['cari'];
-			$kw = penetration($this->db->escape_like_str($cari));
+			$cari = $_SESSION['cari'];
+			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (u.nama LIKE '$kw' OR u.nik LIKE '$kw')";
 			return $search_sql;
-			}
+		}
 	}
 
 	function sex_sql(){
