@@ -696,22 +696,27 @@
 			$buffer=$this->case_replace("[sebutan_kabupaten]",config_item('sebutan_kabupaten'),$buffer);
 			$buffer=$this->case_replace("[sebutan_desa]",config_item('sebutan_desa'),$buffer);
 			$buffer=$this->case_replace("[sebutan_dusun]",config_item('sebutan_dusun'),$buffer);
+			$buffer=str_replace("[alamat_des]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
+			$buffer=str_replace("[alamat_desa]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
+			$buffer=str_replace("[email_desa]","$config[email_desa]",$buffer);
 			$buffer=str_replace("[kode_desa]","$config[kode_desa]",$buffer);
 			$buffer=str_replace("[kode_kecamatan]","$config[kode_kecamatan]",$buffer);
 			$buffer=str_replace("[kode_kabupaten]","$config[kode_kabupaten]",$buffer);
+			$buffer=str_replace("[kode_pos]","$config[kode_pos]",$buffer);
 			$buffer=str_replace("[kode_provinsi]","$config[kode_propinsi]",$buffer);
+			$buffer=str_replace("[nama_des]","$config[nama_desa]",$buffer);
 			$buffer=str_replace("[nama_kab]","$config[nama_kabupaten]",$buffer);
 			$buffer=str_replace("[nama_kabupaten]","$config[nama_kabupaten]",$buffer);
 			$buffer=str_replace("[nama_kec]","$config[nama_kecamatan]",$buffer);
 			$buffer=str_replace("[nama_kecamatan]","$config[nama_kecamatan]",$buffer);
 			$buffer=str_replace("[nama_provinsi]","$config[nama_propinsi]",$buffer);
 			$buffer=str_replace("[nama_kepala_camat]","$config[nama_kepala_camat]",$buffer);
+			$buffer=str_replace("[nama_kepala_desa]","$config[nama_kepala_desa]",$buffer);
 			$buffer=str_replace("[nip_kepala_camat]","$config[nip_kepala_camat]",$buffer);
-			$buffer=str_replace("[nama_des]","$config[nama_desa]",$buffer);
+			$buffer=str_replace("[nip_kepala_desa]","$config[nip_kepala_desa]",$buffer);
 			$buffer=str_replace("[pos]","$config[kode_pos]",$buffer);
-			$buffer=str_replace("[kode_pos]","$config[kode_pos]",$buffer);
-			$buffer=str_replace("[alamat_des]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
-			$buffer=str_replace("[alamat_desa]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
+			$buffer=str_replace("[telepon_desa]","$config[telepon]",$buffer);
+			$buffer=str_replace("[website_desa]","$config[website]",$buffer);
 
 			//DATA DARI TABEL PENDUDUK
 			//jika data kurang lengkap bisa di tambahkan dari fungsi "get_data_surat" pada file ini
