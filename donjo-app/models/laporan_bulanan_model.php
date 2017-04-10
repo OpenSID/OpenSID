@@ -2,13 +2,16 @@
 
 	function __construct(){
 		parent::__construct();
+		$this->tulis_log_bulanan();
+	}
 
-
+	function tulis_log_bulanan(){
+		// Jangan hitung keluarga yang tidak ada Kepala Keluarga
 		$sql   = "SELECT
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1) AS pend,
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =1) AS lk,
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =2) AS pr,
-			(SELECT COUNT(id) FROM tweb_keluarga) AS kk,
+			(SELECT COUNT(id) FROM tweb_keluarga WHERE nik_kepala IS NOT NULL AND nik_kepala <> 0) AS kk,
 			(SELECT COUNT(k.id) FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id
 				WHERE p.sex = 1) AS kk_lk,
 			(SELECT COUNT(k.id) FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id
@@ -30,9 +33,6 @@
 			$sql = "UPDATE log_bulanan SET pend=$data[pend], lk = $data[lk],pr=$data[pr],kk_lk = $data[kk_lk],kk_pr = $data[kk_pr],kk = $data[kk] WHERE month(tgl) = $bln AND year(tgl) = $thn";
 			$this->db->query($sql);
 		}
-
-
-
 	}
 
 	function autocomplete(){
@@ -203,10 +203,12 @@ from  tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) fro
 
 	function penduduk_awal(){
 
-		$bln=$_SESSION['bulanku'];
-		$thn=$_SESSION['tahunku'];
+		$bln=$this->db->escape($_SESSION['bulanku']-1);
+		$thn=$this->db->escape($_SESSION['tahunku']);
 
-		$sql   = "SELECT lk as WNI_L, pr AS WNI_P, kk_lk AS KK_L, kk_pr AS KK_P, kk AS KK FROM log_bulanan WHERE month(tgl) = $bln-1 AND year(tgl) = $thn;";
+		$sql   = "SELECT lk as WNI_L, pr AS WNI_P, kk_lk AS KK_L, kk_pr AS KK_P, kk AS KK
+			FROM log_bulanan
+			WHERE month(tgl) = $bln AND year(tgl) = $thn;";
 		$query = $this->db->query($sql);
 		if($query){
 			if($query->num_rows() > 0){
@@ -244,7 +246,9 @@ from  tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) fro
 		$bln=$_SESSION['bulanku'];
 		$thn=$_SESSION['tahunku'];
 
-		$sql   = "SELECT lk as WNI_L, pr AS WNI_P, kk_lk AS KK_L, kk_pr AS KK_P, kk AS KK FROM log_bulanan WHERE month(tgl) = $bln AND year(tgl) = $thn;";
+		$sql   = "SELECT lk as WNI_L, pr AS WNI_P, kk_lk AS KK_L, kk_pr AS KK_P, kk AS KK
+			FROM log_bulanan
+			WHERE month(tgl) = $bln AND year(tgl) = $thn;";
 		$query = $this->db->query($sql);
 		$hasil=$query->row_array();
 		$data= array(
@@ -275,6 +279,12 @@ FROM log_penduduk   ";
 		return $data;
 	}
 
+	/**
+		Kelahiran penduduk berdasarkan tanggal lahir penduduk.
+		Keluarga baru berdasarkan tgl_peristiwa di log_keluarga. Log keluarga mencatat keluarga baru pada:
+		(1) tambah keluarga dari penduduk lepas
+		(2) tambah keluarga baru
+	*/
 	function kelahiran(){
 		$bln=$_SESSION['bulanku'];
 		$thn=$_SESSION['tahunku'];
@@ -294,9 +304,26 @@ FROM log_penduduk   ";
 		return $data;
 	}
 
+	/* KETERANGAN id_detail
+	   1 = status hidup, insert penduduk baru lahir
+	   2 = status menjadi mati
+		 3 = status menjadi pindah
+		 4 = status menjadi hilang
+		 5 = insert penduduk baru dengan status tetap/tidak tetap
+		 6 = pindah dalam desa
+		 7 = hapus anggota keluarga
+		 8 = insert penduduk baru dengan status pendatang
+		 9 = tambah keluarga baru dari penduduk yang sudah ada
+	*/
+
 	function kematian(){
-		$sql   = "SELECT (SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = ? AND year(tgl_peristiwa) =? AND sex =1 AND id_detail =2) AS WNI_L,(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = ? AND year(tgl_peristiwa) =? AND sex = 2 AND id_detail = 2) AS WNI_P";
-		$query = $this->db->query($sql,array($_SESSION['bulanku'],$_SESSION['tahunku'],$_SESSION['bulanku'],$_SESSION['tahunku']));
+		$sql   = "SELECT
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = ? AND year(tgl_peristiwa) =? AND sex =1 AND id_detail =2) AS WNI_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = ? AND year(tgl_peristiwa) =? AND sex = 2 AND id_detail = 2) AS WNI_P,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = ? AND year(tgl_peristiwa) =? AND p.kk_level = 1 AND id_detail = 2) AS KK,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = ? AND year(tgl_peristiwa) =? AND p.kk_level = 1 AND sex = 1 AND id_detail = 2) AS KK_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = ? AND year(tgl_peristiwa) =? AND p.kk_level = 1 AND sex = 2 AND id_detail = 2) AS KK_P";
+		$query = $this->db->query($sql,array($_SESSION['bulanku'],$_SESSION['tahunku'],$_SESSION['bulanku'],$_SESSION['tahunku'],$_SESSION['bulanku'],$_SESSION['tahunku'],$_SESSION['bulanku'],$_SESSION['tahunku'],$_SESSION['bulanku'],$_SESSION['tahunku']));
 		$data=$query->row_array();
 
 			$data['WNA_L']=0;
@@ -305,14 +332,14 @@ FROM log_penduduk   ";
 	}
 
 	function pindah(){
-		$bln=$_SESSION['bulanku'];
-		$thn=$_SESSION['tahunku'];
+		$bln=$this->db->escape($_SESSION['bulanku']);
+		$thn=$this->db->escape($_SESSION['tahunku']);
 		$sql   = "SELECT
 			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex =1 AND id_detail =3) AS WNI_L,
 			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex = 2 AND id_detail = 3) AS WNI_P,
-			(SELECT COUNT(k.id) FROM log_keluarga k WHERE id_peristiwa = 2 AND month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn) AS KK,
-			(SELECT COUNT(k.id) FROM log_keluarga k WHERE id_peristiwa = 2 AND month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND kk_sex = 1) AS KK_L,
-			(SELECT COUNT(k.id) FROM log_keluarga k WHERE id_peristiwa = 2 AND month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND kk_sex = 2) AS KK_P
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND id_detail = 3) AS KK,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 1 AND id_detail = 3) AS KK_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 2 AND id_detail = 3) AS KK_P
 			";
 		$query = $this->db->query($sql);
 		$data=$query->row_array();
@@ -367,8 +394,16 @@ FROM log_penduduk   ";
 	}
 
 	function hilang(){
-		$sql   = "SELECT (SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = ? AND year(tgl_peristiwa) =? AND sex =1 AND id_detail =4) AS WNI_L,(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = ? AND year(tgl_peristiwa) =? AND sex = 2 AND id_detail = 4) AS WNI_P";
-		$query = $this->db->query($sql,array($_SESSION['bulanku'],$_SESSION['tahunku'],$_SESSION['bulanku'],$_SESSION['tahunku']));
+		$bln=$this->db->escape($_SESSION['bulanku']);
+		$thn=$this->db->escape($_SESSION['tahunku']);
+		$sql   = "SELECT
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex =1 AND id_detail =4) AS WNI_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex = 2 AND id_detail = 4) AS WNI_P,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND id_detail = 4) AS KK,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 1 AND id_detail = 4) AS KK_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 2 AND id_detail = 4) AS KK_P
+			";
+		$query = $this->db->query($sql);
 		$data=$query->row_array();
 
 			$data['WNA_L']=0;

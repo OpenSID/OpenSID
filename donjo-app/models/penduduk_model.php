@@ -252,7 +252,7 @@
 
 		if ($log==1) {
 			$select_sql = "SELECT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk,log.catatan as catatan,
-				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,log.tgl_peristiwa
+				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,log.tanggal,log.id_detail
 				";
 		} else {
 			// data log tidak di-select, supaya di tabel Penduduk tidak ada duplikat
@@ -277,8 +277,8 @@
 			case 7: $order_sql = ' ORDER BY umur'; break;
 			case 8: $order_sql = ' ORDER BY umur DESC'; break;
 			// Untuk Log Penduduk
-			case 9: $order_sql = ' ORDER BY log.tgl_peristiwa'; break;
-			case 10: $order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
+			case 9: $order_sql = ' ORDER BY log.tanggal'; break;
+			case 10: $order_sql = ' ORDER BY log.tanggal DESC'; break;
 			default:$order_sql = '';
 		}
 
@@ -471,9 +471,11 @@
 		$blnskrg = (date("m"));
 		$thnskrg = (date("Y"));
 		if($_POST['status']=='3'){
+			// Pendatang
 			$log['id_detail']="8";
-			}else{
+		}else{
 			if(($blnlahir==$blnskrg)and($thnlahir==$thnskrg)){
+				// Lahir
 				$log['id_detail']='1';
 			}else{
 				$log['id_detail']='5';
@@ -669,7 +671,7 @@
 		(
 			SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id
 		)
-		 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb
+		 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb, sd.nama as status_dasar
 		 FROM tweb_penduduk u
 			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
 			LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
@@ -684,6 +686,7 @@
 			LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
 			LEFT JOIN tweb_cacat c ON u.cacat_id = c.id
 			LEFT JOIN tweb_cara_kb kb ON u.cara_kb_id = kb.id
+			LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id
 			WHERE u.id=?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();

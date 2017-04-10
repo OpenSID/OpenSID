@@ -6,6 +6,9 @@
 		});
 	});
 </script>
+<style>
+  table.list td.perhatian {background-color: rgba(255, 127, 80, 0.35);}
+</style>
 
 <div id="pageC">
 <!-- Start of Space Admin -->
@@ -125,8 +128,8 @@
                 <?php  if($grup==1){?><a href="<?php echo site_url("keluarga/delete/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span> </a><?php  } ?>
         		</td>
             <td><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"> <?php echo $data['no_kk']?> </a></td>
-      		<td><?php echo strtoupper(unpenetration($data['kepala_kk']))?></td>
-            <td><?php echo strtoupper(unpenetration($data['nik']))?></td>
+        		<td class=<?php echo empty($data['kepala_kk']) ? "perhatian" : ""?>><?php echo strtoupper(unpenetration($data['kepala_kk']))?></td>
+            <td class=<?php echo empty($data['nik']) ? "perhatian" : ""?>><?php echo strtoupper(unpenetration($data['nik']))?></td>
             <td align="center"><a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?php echo $data['jumlah_anggota']?></a></td>
             <td><?php echo strtoupper($data['sex'])?></td>
             <td><?php echo strtoupper($data['alamat'])?></td>

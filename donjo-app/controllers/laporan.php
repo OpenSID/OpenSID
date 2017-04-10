@@ -113,7 +113,7 @@ function __construct(){
 		$data['pindah']    = $this->laporan_bulanan_model->pindah();
 		$data['hilang']    = $this->laporan_bulanan_model->hilang();
 		$data['lap']=$lap;
-		$this->load->view('statistik/laporan/bulanan_excel',$data);
+		$this->load->view('laporan/bulanan_excel',$data);
 	}
 
 	function bulan(){

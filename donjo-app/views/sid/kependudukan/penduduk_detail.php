@@ -152,6 +152,10 @@
                 <td>Status</td><td >:</td>
                 <td><?php echo strtoupper($penduduk['status'])?></td>
               </tr>
+              <tr>
+                <td>Status Dasar</td><td >:</td>
+                <td><?php echo strtoupper($penduduk['status_dasar'])?></td>
+              </tr>
             </table>
 
             <table class="list">

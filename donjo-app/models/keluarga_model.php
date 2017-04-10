@@ -256,7 +256,7 @@
 		$this->db->update('tweb_penduduk',$default);
 
 		$this->load->model('penduduk_model');
-		$this->penduduk_model->tulis_log_penduduk($temp, '5', date('m'), date('Y'));
+		$this->penduduk_model->tulis_log_penduduk($temp, '9', date('m'), date('Y'));
 
 		$log['id_pend'] = 1;
 		$log['id_cluster'] = 1;
