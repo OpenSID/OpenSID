@@ -367,22 +367,33 @@
 		$sql .= $this->dusun_sql();
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
-		$sql .= $this->agama_sql();
-		$sql .= $this->cacat_sql();
+
+		$kolom_kode = array(
+			array('cacat','cacat_id'),
+			array('cara_kb_id','cara_kb_id'),
+			array('menahun','sakit_menahun_id'),
+			array('status','status_kawin'),
+			array('pendidikan_kk_id','pendidikan_kk_id'),
+			array('pendidikan_sedang_id','pendidikan_sedang_id'),
+			array('status_penduduk','status'),
+			array('pekerjaan_id','pekerjaan_id'),
+			array('agama','agama_id'),
+			array('warganegara','warganegara_id'),
+			array('golongan_darah','golongan_darah_id')
+		);
+		foreach ($kolom_kode as $kolom){
+			$sql .= $this->get_sql_kolom_kode($kolom[0],$kolom[1]);
+		}
+
 		$sql .= $this->cacatx_sql();
-		$sql .= $this->menahun_sql();
+		$sql .= $this->akta_kelahiran_sql();
 		$sql .= $this->menahunx_sql();
-		$sql .= $this->warganegara_sql();
-		$sql .= $this->golongan_darah_sql();
 		$sql .= $this->umur_min_sql();
 		$sql .= $this->umur_max_sql();
-		$sql .= $this->pekerjaan_sql();
-		$sql .= $this->statuskawin_sql();
-		$sql .= $this->pendidikan_sedang_sql();
-		$sql .= $this->pendidikan_kk_sql();
 		$sql .= $this->umur_sql();
-		$sql .= $this->status_penduduk_sql();
 		$sql .= $this->hamil_sql();
+
+
 
 		$query = $this->db->query($sql);
 		return $query->result_array();
