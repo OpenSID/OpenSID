@@ -51,7 +51,11 @@
       <td colspan="9">&nbsp;</td>
       <td><?php echo unpenetration($input['jabatan'])?> <?php echo unpenetration($data['nama_desa'])?></td>
     </tr>
-    <tr height="150px;">
+    <tr><td colspan="10">&nbsp;</td>
+    <tr><td colspan="10">&nbsp;</td>
+    <tr><td colspan="10">&nbsp;</td>
+    <tr><td colspan="10">&nbsp;</td>
+    <tr>
       <td colspan="9">&nbsp;</td>
       <td>( <?php echo unpenetration($input['pamong'])?> )</td>
     </tr>

@@ -101,6 +101,7 @@ function __construct(){
 
 	function excel($lap=0){
 
+		$data['input'] = $_POST;
 		$data['config'] = $this->laporan_bulanan_model->configku();
 		$data['bulan']=$_SESSION['bulanku'];
 		$data['tahun']=$_SESSION['tahunku'];
