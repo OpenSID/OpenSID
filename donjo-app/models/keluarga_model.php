@@ -387,26 +387,20 @@
 			else $_SESSION['success']=-1;
 	}
 
+	/* 	Hapus keluarga:
+			(1) Untuk setiap anggota keluarga lakukan rem_anggota (pecah kk).
+			(2) Hapus keluarga
+			$id adalah id tweb_keluarga
+	*/
 	function delete($id=''){
-
-		$sql   = "SELECT nik_kepala FROM tweb_keluarga WHERE id=?";
-		$query = $this->db->query($sql,$id);
-		$temp = $query->row_array();
-
-		$default['id_kk'] = "";
-		$default['kk_level'] = "";
-
-		$this->db->where('id_kk',$id);
-		$this->db->update('tweb_penduduk',$default);
-
-		$sql  = "DELETE FROM tweb_keluarga WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
-
+		$nik_kepala = $this->db->select('nik_kepala')->where('id',$id)->get('tweb_keluarga')->row()->nik_kepala;
+		$list_anggota = $this->db->select('id')->where('id_kk',$id)->get('tweb_penduduk')->result_array();
+		foreach ($list_anggota as $anggota) {
+			$this->rem_anggota($id,$anggota['id']);
+		}
+		$this->db->where('id',$id)->delete('tweb_keluarga');
 		// Untuk statistik perkembangan keluarga
-		$this->log_keluarga($id, $temp['nik_kepala'], 2);
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$this->log_keluarga($id, $nik_kepala, 2);
 	}
 
 	function delete_all(){
@@ -414,20 +408,9 @@
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$this->db->select('nik_kepala');
-				$this->db->where('id',$id);
-				$q = $this->db->get('tweb_keluarga');
-				$keluarga = $q->row_array();
-				$sql  = "DELETE FROM tweb_keluarga WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
-				// Untuk statistik perkembangan keluarga
-				$this->log_keluarga($id, $keluarga['nik_kepala'], 2);
+				$this->delete($id);
 			}
 		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
 	}
 
 	// Untuk statistik perkembangan keluarga
