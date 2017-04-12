@@ -438,40 +438,46 @@ function UploadResizeImage($lokasi,$dimensi,$jenis_upload,$fupload_name,$nama_si
 
   $vdir_upload = $lokasi;
   unlink($vdir_upload.$old_foto);
-  $vfile_upload = $vdir_upload . $fupload_name;
+  $filepath_in = $vdir_upload . $fupload_name;
+  $filepath_out = $vdir_upload.$nama_simpan;
+  move_uploaded_file($_FILES[$jenis_upload]["tmp_name"], $filepath_in);
 
+  $is_png = ($tipe_file == "image/png" OR $tipe_file == "image/x-png");
 
-  move_uploaded_file($_FILES[$jenis_upload]["tmp_name"], $vfile_upload);
-  if($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg")
-    $im_src = imagecreatefromjpeg($vfile_upload);
-  elseif($tipe_file == "image/png" OR $tipe_file == "image/x-png")
-    $im_src = imagecreatefrompng($vfile_upload);
+  $image = ($is_png) ? imagecreatefrompng($filepath_in) : imagecreatefromjpeg($filepath_in);
+  $width = imageSX($image);
+  $height = imageSY($image);
+  $new_width = $dimensi["width"];
+  $new_height = $dimensi["height"];
 
-  $src_width = imageSX($im_src);
-  $src_height = imageSY($im_src);
-  if($src_width < $src_height){
-    $dst_width = $dimensi["width"];
-    $dst_height = ($dst_width/$src_width)*$src_height;
-    $cut_height = $dst_height - $dimensi["height"];
+  if($width>$new_width && $height>$new_height)
+  {
+    if($width < $height){
+      $dst_width = $new_width;
+      $dst_height = ($dst_width/$width)*$height;
+      $cut_height = $dst_height - $new_height;
+      $cut_width = 0;
+    }else{
+      $dst_height = $new_height;
+      $dst_width = ($dst_height/$height)*$width;
+      $cut_width = $dst_width - $new_width;
+      $cut_height = 0;
+    }
 
-    $im = imagecreatetruecolor($dimensi["width"],$dimensi["height"]);
-    imagecopyresampled($im, $im_src, 0, 0, 0, $cut_height, $dst_width, $dst_height, $src_width, $src_height);
-
-  }else{
-    $dst_height = $dimensi["height"];
-    $dst_width = ($dst_height/$src_height)*$src_width;
-    $cut_width = $dst_width - $dimensi["width"];
-
-    $im = imagecreatetruecolor($dimensi["width"],$dimensi["height"]);
-    imagecopyresampled($im, $im_src, 0, 0, $cut_width, 0, $dst_width, $dst_height, $src_width, $src_height);
+    $image_p = imagecreatetruecolor($new_width, $new_height);
+    if ($is_png) {
+      // http://stackoverflow.com/questions/279236/how-do-i-resize-pngs-with-transparency-in-php
+      imagealphablending($image_p, false);
+      imagesavealpha($image_p, true);
+    }
+    imagecopyresampled($image_p, $image, 0, 0, $cut_width, $cut_height, $dst_width, $dst_height, $width, $height);
+    if ($is_png)
+      imagepng($image_p,$filepath_out,5);
+    else
+      imagejpeg($image_p,$filepath_out);
+    imagedestroy($image_p);
+    imagedestroy($image);
   }
-  if($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg")
-    imagejpeg($im,$vdir_upload .$nama_simpan);
-  elseif($tipe_file == "image/png" OR $tipe_file == "image/x-png")
-    imagepng($im,$vdir_upload .$nama_simpan);
-
-  imagedestroy($im_src);
-  imagedestroy($im);
   return TRUE;
 }
 

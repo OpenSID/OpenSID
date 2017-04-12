@@ -1,5 +1,5 @@
 <style type="text/css">
-<!--
+
 table.disdukcapil {
   font-size: 9pt;
   width: 100%;
@@ -53,10 +53,10 @@ table.ttd {
   padding: 0px;
 }
 table.ttd td { text-align: center; }
--->
+
 </style>
 
-<page style="font-size: 10pt">
+<page orientation="portrait" format="210x330" style="font-size: 10pt">
 
   <table class="kode_format" align="right" >
     <tr><td><strong>F-1.08</strong></td></tr>

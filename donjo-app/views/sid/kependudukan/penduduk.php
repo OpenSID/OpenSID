@@ -50,14 +50,6 @@ source: keyword
                     <option value="2" <?php if($sex==2 ) :?>selected<?php endif?>>Perempuan</option>
                 </select>
 
-<!--
-				<strong style="padding-left:20px;font-size:14px;"><?php  echo $judul_statistik; ?></strong> <select name="agama" onchange="formAction('mainform','<?php //=site_url('penduduk/agama')?>')">
-                    <option value="">Agama</option>
-					<?php foreach($list_agama AS $data){?>
-                    <option value="<?php //=$data['id']?>" <?php if($agama == $data['id']) :?>selected<?php endif?>><?php //=$data['nama']?></option>
-					<?php }?>
-                </select>-->
-
                 <select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk/dusun')?>')">
                     <option value=""><?php echo ucwords(config_item('sebutan_dusun'))?></option>
 					<?php foreach($list_dusun AS $data){?>
@@ -93,6 +85,11 @@ source: keyword
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <table class="list">
 	<thead>
+    <?php if ($judul_statistik): ?>
+      <tr>
+        <td colspan="15" style="text-align: center;"><strong style="font-size:14px;"><?php  echo $judul_statistik; ?></strong></td>
+      </tr>
+    <?php endif; ?>
 		<tr>
 			<th>No</th>
 			<th><input type="checkbox" class="checkall"/></th>

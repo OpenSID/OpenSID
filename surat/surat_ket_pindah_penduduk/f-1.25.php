@@ -1,5 +1,5 @@
 <style type="text/css">
-<!--
+
 table.disdukcapil {
   font-size: 10pt;
   width: 100%;
@@ -46,15 +46,14 @@ table.ttd {
 }
 
 table.ttd td { text-align: center; }
--->
+
 </style>
 
-<page style="font-size: 10pt">
+<page orientation="portrait" format="210x330" style="font-size: 10pt">
 
   <table align="right" style="padding: 5px 20px; border: solid 1px black;">
     <tr><td><strong><?php echo $input['kode_format']?></strong></td></tr>
   </table>
-  <!-- <p style="margin-bottom: 5px;">&nbsp;</p> -->
   <table style="margin-top: 10px;" class="disdukcapil">
     <col style="width: 26%;">
     <col span="6" style="width: 4%;">

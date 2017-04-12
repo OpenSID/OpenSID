@@ -3,7 +3,7 @@ $(function(){
     var nik = {};
     nik.results = [
 <?php foreach($penduduk as $data){?>
-	   {id:'<?php echo $data['id']?>',name:'<?php echo $data['nik']." - ".spaceunpenetration($data['nama'])?>',info:''},
+	   {id:'<?php echo $data['id']?>',name:'<?php echo $data['nik']." - ".html_escape($data['nama'])?>',info:''},
 <?php }?>
     ];
 nik.total = nik.results.length;
@@ -15,7 +15,7 @@ $('#nik').flexbox(nik, {
     noResultsText :'Tidak ada nama / nik yang sesuai..',
 	    onSelect: function() {
 $('#'+'main').submit();
-    }  
+    }
 });
 });
 </script>
@@ -53,7 +53,7 @@ $('#'+'main').submit();
 <th align="left" width='100'>NIK</th>
 <th align="left">Nama</th>
 <th align="left" width='100'>Hubungan</th>
-            
+
 	</tr>
 </thead>
 <tbody>

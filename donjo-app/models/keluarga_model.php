@@ -55,8 +55,8 @@
 
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
-		$cari = $_SESSION['cari'];
-			$kw = penetration($this->db->escape_like_str($cari));
+			$cari = $_SESSION['cari'];
+			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND t.nama LIKE '$kw'";
 			return $search_sql;
@@ -237,7 +237,7 @@
 		return $data;
 	}
 
-	// Tambah keluarga baru dari penduduk lepas
+	// Tambah keluarga baru dari penduduk lepas (status tetap atau pendatang)
 	function insert(){
 		$data = $_POST;
 
@@ -250,12 +250,13 @@
 
 		$default['id_kk'] = $kk['id'];
 		$default['kk_level'] = 1;
+		$default['status'] = 1; // statusnya menjadi tetap
 
 		$this->db->where('id',$temp);
 		$this->db->update('tweb_penduduk',$default);
 
 		$this->load->model('penduduk_model');
-		$this->penduduk_model->tulis_log_penduduk($temp, '5', date('m'), date('Y'));
+		$this->penduduk_model->tulis_log_penduduk($temp, '9', date('m'), date('Y'));
 
 		$log['id_pend'] = 1;
 		$log['id_cluster'] = 1;
@@ -303,6 +304,7 @@
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
+		unset($data['nik_lama']);
 
 		$data['id_cluster'] = $data['rt'];
 		UNSET($data['dusun']);
@@ -385,26 +387,20 @@
 			else $_SESSION['success']=-1;
 	}
 
+	/* 	Hapus keluarga:
+			(1) Untuk setiap anggota keluarga lakukan rem_anggota (pecah kk).
+			(2) Hapus keluarga
+			$id adalah id tweb_keluarga
+	*/
 	function delete($id=''){
-
-		$sql   = "SELECT nik_kepala FROM tweb_keluarga WHERE id=?";
-		$query = $this->db->query($sql,$id);
-		$temp = $query->row_array();
-
-		$default['id_kk'] = "";
-		$default['kk_level'] = "";
-
-		$this->db->where('id_kk',$id);
-		$this->db->update('tweb_penduduk',$default);
-
-		$sql  = "DELETE FROM tweb_keluarga WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
-
+		$nik_kepala = $this->db->select('nik_kepala')->where('id',$id)->get('tweb_keluarga')->row()->nik_kepala;
+		$list_anggota = $this->db->select('id')->where('id_kk',$id)->get('tweb_penduduk')->result_array();
+		foreach ($list_anggota as $anggota) {
+			$this->rem_anggota($id,$anggota['id']);
+		}
+		$this->db->where('id',$id)->delete('tweb_keluarga');
 		// Untuk statistik perkembangan keluarga
-		$this->log_keluarga($id, $temp['nik_kepala'], 2);
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$this->log_keluarga($id, $nik_kepala, 2);
 	}
 
 	function delete_all(){
@@ -412,20 +408,9 @@
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$this->db->select('nik_kepala');
-				$this->db->where('id',$id);
-				$q = $this->db->get('tweb_keluarga');
-				$keluarga = $q->row_array();
-				$sql  = "DELETE FROM tweb_keluarga WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
-				// Untuk statistik perkembangan keluarga
-				$this->log_keluarga($id, $keluarga['nik_kepala'], 2);
+				$this->delete($id);
 			}
 		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
 	}
 
 	// Untuk statistik perkembangan keluarga
@@ -547,16 +532,12 @@
 	}
 
 	function list_penduduk_lepas(){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE (status = 1 OR status = 3) AND id_kk = 0";
+		$sql   = "SELECT u.id,u.nik,u.nama,u.alamat_sekarang as alamat, w.rt, w.rw, w.dusun
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE (status = 1 OR status = 3) AND id_kk = 0";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
-
-		//Formating Output
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
-			$i++;
-		}
 		return $data;
 	}
 
@@ -660,6 +641,7 @@
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
+		unset($data['nik_lama']);
 
 		$satuan=$_POST['tanggallahir'];
 		$blnlahir = substr($satuan,3,2);

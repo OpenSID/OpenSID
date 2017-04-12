@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-1.12');
+define("VERSION", 'pra-1.13');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -16,6 +16,9 @@ define("LOKASI_FOTO_GARIS", 'desa/upload/gis/garis/');
 define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
 define("LOKASI_PENGESAHAN", 'desa/upload/pengesahan/');
 define("LOKASI_WIDGET", 'desa/widget/');
+
+// Kode laporan statistik di mana kode isian belum di isi
+define('BELUM_MENGISI',777);
 
 //
 define("MAX_PINDAH", 7);
@@ -406,5 +409,21 @@ define("KODE_PEKERJAAN", serialize(array(
 		}
 		return ucwords(str_replace(array('  ', '_'), ' ', $title));
 	}
+
+  function show_zero_as($val, $str){
+    return (empty($val) ? $str : $val);
+  }
+
+  /*
+    TODO: mungkin letakkan di penduduk_model
+  */
+  function get_log_penduduk_status($id_detail) {
+    $log_status = array(
+      1 => "Hidup",
+      2 => "Mati",
+      3 => "Pindah",
+      4 => "Hilang");
+    return $log_status[$id_detail];
+  }
 
 ?>

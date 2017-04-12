@@ -4,6 +4,7 @@ class User_Model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
+		$this->load->model('laporan_bulanan_model');
 	}
 
 	function siteman(){
@@ -61,24 +62,8 @@ class User_Model extends CI_Model{
 			$this->db->query($sql, $id);
 		}
 
-		$sql   = "SELECT (SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1) AS pend,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =1) AS lk,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =2) AS pr,(SELECT COUNT(id) FROM tweb_keluarga) AS kk";
-		$query = $this->db->query($sql);
-		$data=$query->row_array();
-
-		$bln=date("m");
-		$thn=date("Y");
-
-		$sql   = "SELECT * FROM log_bulanan WHERE month(tgl) = $bln AND year(tgl) = $thn";
-		$query = $this->db->query($sql);
-		$ada  = $query->result_array();
-
-		if(!$ada){
-			$this->db->insert('log_bulanan',$data);
-		}else{
-
-			$sql = "UPDATE log_bulanan SET pend=$data[pend], lk = $data[lk],pr=$data[pr],kk = $data[kk] WHERE month(tgl) = $bln AND year(tgl) = $thn";
-			$this->db->query($sql);
-		}
+		// Catat jumlah penduduk saat ini
+		$this->laporan_bulanan_model->tulis_log_bulanan();
 
 		unset($_SESSION['user']);
 		unset($_SESSION['sesi']);

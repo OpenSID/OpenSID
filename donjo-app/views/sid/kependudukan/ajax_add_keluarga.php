@@ -5,19 +5,19 @@ $(function(){
     var nik = {};
     nik.results = [
 <?php foreach($penduduk as $data){?>
-	   {id:'<?php echo $data['id']?>',name:'<?php echo $data['nik']." - ".spaceunpenetration($data['nama'])?>',info:'<?php echo spaceunpenetration($data['alamat'])?>'},
+	   {id:'<?php echo $data['id']?>',name:'<?php echo $data['nik']." - ".html_escape($data['nama'])?>',info:'<?php echo "Alamat : ".html_escape($data['alamat'].' RT '.$data['rt'].' RW '.$data['rw'].' '.ucwords(strtolower($data['dusun'])))?>'},
 <?php }?>
     ];
 nik.total = nik.results.length;
 
 $('#nik_kepala').flexbox(nik, {
-	resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
+	resultTemplate: "<div><label>No nik : </label>{name}</div><div>{info}</div>",
 	watermark: 'Ketik nama / nik di sini..',
     width: 230,
     noResultsText :'Tidak ada nama / nik yang sesuai..',
 	    onSelect: function() {
 $('#'+'main').submit();
-    }  
+    }
 });
 });
 </script>

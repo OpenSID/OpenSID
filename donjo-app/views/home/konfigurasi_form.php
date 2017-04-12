@@ -53,7 +53,7 @@
                 <td><input name="nip_kepala_camat" type="text" class="inputbox" size="25" value="<?php echo $main['nip_kepala_camat']?>"/></td>
             </tr>
             <tr>
-                <th>Nama Kabupaten</th>
+                <th>Nama <?php echo ucwords(config_item('sebutan_kabupaten'))?></th>
                 <td><input name="nama_kabupaten" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_kabupaten'])?>"/> Kode <input name="kode_kabupaten" type="text" class="inputbox" size="10" value="<?php echo $main['kode_kabupaten']?>"/></td></td>
             </tr>
             <tr>

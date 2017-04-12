@@ -289,7 +289,7 @@ table.form.detail td{
 					</td>
 				</tr>
 				<tr>
-					<th>Kabupaten</th>
+					<th>Kabupaten/Kota</th>
 					<td>
 						<input id="kabupaten_tujuan" name="kabupaten_tujuan" type="hidden" data-awal="<?php echo $lokasi['nama_kabupaten'];?>"/>
 						<input id="kabupaten_tujuan_show" type="text" class="inputbox required" size="40" onchange="$('#kabupaten_tujuan').val($(this).val());"/>

@@ -15,7 +15,7 @@
     <tbody><tr>
         <td align="center" >
             <img src="<?php echo LogoDesa($config['logo']);?>" alt="" style="float: left;">
-            <h1>PEMERINTAH KABUPATEN <?php echo strtoupper($config['nama_kabupaten'])?> </h1>
+            <h1>PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper($config['nama_kabupaten'])?> </h1>
             <h1 style="text-transform: uppercase;"></h1>
             <h1>KECAMATAN <?php echo strtoupper($config['nama_kecamatan'])?> </h1>
 	    <h1><?php echo strtoupper(config_item('sebutan_desa'))." ".strtoupper($config['nama_desa'])?></h1>

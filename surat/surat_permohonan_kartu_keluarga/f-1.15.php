@@ -50,7 +50,7 @@ table.disdukcapil td.tengah { text-align: center; }
 
 </style>
 
-<page style="font-size: 8pt">
+<page orientation="portrait" format="210x330" style="font-size: 8pt">
 
   <table align="right" style="padding: 5px 20px; border: solid 1px black;">
     <tr><td><strong style="font-size: 14pt;">F-1.15</strong></td></tr>

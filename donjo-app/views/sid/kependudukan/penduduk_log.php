@@ -125,7 +125,7 @@ source: keyword
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
-			<th align="left" align="center">Status</th>
+			<th align="left" align="center">Status Menjadi</th>
 			<th align="left" align="center">
         <?php  if($o==10): ?>
           <a href="<?php echo site_url("penduduk_log/index/$p/9")?>">Tanggal Peristiwa<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a>
@@ -135,7 +135,7 @@ source: keyword
           <a href="<?php echo site_url("penduduk_log/index/$p/9")?>">Tanggal Peristiwa<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a>
         <?php  endif; ?>
       </th>
-			<th width="300" align="center">Catatan Peristiwa</th>
+			<th align="center">Catatan Peristiwa</th>
 
 		</tr>
 		</thead>
@@ -156,8 +156,8 @@ source: keyword
 			<td><?php echo $data['rw']?></td>
 			<td><?php echo $data['rt']?></td>
 			<td><?php echo $data['umur']?></td>
-			<td><?php if($data['status_dasar']==2){echo "Mati";}elseif($data['status_dasar']==3){echo "Pindah";}else{echo "Hilang";}?></td>
-			<td><?php echo tgl_indo($data['tgl_peristiwa'])?></td>
+			<td><?php echo get_log_penduduk_status($data['id_detail'])?></td>
+			<td><?php echo tgl_indo2($data['tanggal'])?></td>
 			<td><?php echo $data['catatan']?></td>
 
 		</tr>
