@@ -78,9 +78,10 @@ class First_Gallery_M extends CI_Model{
 		return $data;
 	}
 
-	function gallery_widget(){
 
-		$sql   = "SELECT * FROM gambar_gallery WHERE enabled='1' ORDER BY RAND() LIMIT 4";
+	// daftar album
+	function gallery_widget(){
+		$sql   = "SELECT * FROM gambar_gallery WHERE enabled='1' and parrent=0 order by id desc";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		return $data;

@@ -34,6 +34,7 @@
 			else $_SESSION['success']=-1;
 	}
 
+	// pengambilan data yang akakn ditampilkan di widget
 	function get_widget_data(&$data){
 		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 		$data['agenda'] = $this->first_artikel_m->agenda_show();
