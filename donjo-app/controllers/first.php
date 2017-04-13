@@ -178,6 +178,8 @@ class First extends CI_Controller{
 		$this->load->view('layouts/arsip.tpl.php',$data);
 	}
 
+
+	// halaman arsip album galeri
 	function gallery($p=1){
 		$data['p'] = $p;
 
@@ -202,11 +204,13 @@ class First extends CI_Controller{
 		$this->load->view('layouts/gallery.tpl.php',$data);
 	}
 
+	// halaman rincian tiap album galeri
 	function sub_gallery($gal=0,$p=1){
 		$data['p'] = $p;
 		$data['gal'] = $gal;
 		$data['desa'] = $this->first_m->get_data();
 
+		// OPTIMIZE: 2 baris ini untuk apa ya?
 		$data['paging']  = $this->first_gallery_m->paging($p);
 		$data['gallery'] = $this->first_gallery_m->gallery_show($data['paging']->offset,$data['paging']->per_page);
 
