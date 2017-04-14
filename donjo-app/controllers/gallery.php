@@ -134,6 +134,24 @@ class gallery extends CI_Controller{
 		}
 	}
 
+	function slider_on($id='',$gallery=''){
+		$this->web_gallery_model->gallery_slider($id,1);
+		if ($gallery != '') {
+			redirect("gallery/sub_gallery/$gallery/$p");
+		} else {
+			redirect("gallery/index/$p/$o");
+		}
+	}
+
+	function slider_off($id='',$gallery=''){
+		$this->web_gallery_model->gallery_slider($id,0);
+		if ($gallery != '') {
+			redirect("gallery/sub_gallery/$gallery/$p");
+		} else {
+			redirect("gallery/index/$p/$o");
+		}
+	}
+
 	function sub_gallery($gal=0,$p=1){
 		$data['p']        = 1;
 		$data['o']        = 0;

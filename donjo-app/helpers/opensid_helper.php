@@ -426,4 +426,9 @@ define("KODE_PEKERJAAN", serialize(array(
     return $log_status[$id_detail];
   }
 
+  function log_time($msg){
+    $now = DateTime::createFromFormat('U.u', microtime(true));
+    error_log($now->format("m-d-Y H:i:s.u")." : ".$msg."\n", 3, "opensid.log");
+  }
+
 ?>
