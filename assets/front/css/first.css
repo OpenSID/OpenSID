@@ -586,6 +586,7 @@ background: #333;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
+.no-margin { margin: 0px; }
 .pager {
   padding-left: 0;
   margin: 20px 0;

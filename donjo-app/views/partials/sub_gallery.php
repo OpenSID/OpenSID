@@ -2,7 +2,7 @@
 	echo "
 	<div style=\"margin-left:.5em;\">
 		<div class=\"box box-primary box-solid\">
-			<div class=\"box-header\"><h3 class=\"box-title\">Arsip Galeri ".$desa["nama_desa"]."</h3></div>
+			<div class=\"box-header\"><h3 class=\"box-title\">Galeri Album: $parrent[nama]</h3></div>
 			<div class=\"box-body\">
 				<ul class=\"thumbnail\">";
 			$i=1;
@@ -24,6 +24,32 @@
 			echo "
 				</ul>
 				<br class=\"clearboth\">
+			</div>
+
+			<div class=\"box-footer\">
+				<ul class=\"pagination pagination-sm no-margin\">";
+				// TODO : butuh helper untuk menggenerate html tag untuk paging
+				if($paging->start_link){
+					echo "<li><a href=\"".site_url("first/sub_gallery/$parrent[id]/$paging->start_link")."\" title=\"Halaman Pertama\"><i class=\"fa fa-fast-backward\"></i>&nbsp;</a></li>";
+				}
+				if($paging->prev){
+					echo "<li><a href=\"".site_url("first/sub_gallery/$parrent[id]/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
+				}
+
+				for($i=$paging->start_link;$i<=$paging->end_link;$i++){
+					$strC = ($p == $i)? "class=\"active\"":"";
+					echo "<li ".$strC."><a href=\"".site_url("first/sub_gallery/$parrent[id]/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
+				}
+
+				if($paging->next){
+					echo "<li><a href=\"".site_url("first/sub_gallery/$parrent[id]/$paging->next")."\" title=\"Halaman Selanjutnya\"><i class=\"fa fa-forward\"></i>&nbsp;</a></li>";
+				}
+				if($paging->end_link){
+					echo "<li><a href=\"".site_url("first/sub_gallery/$parrent[id]/$paging->end_link")."\" title=\"Halaman Terakhir\"><i class=\"fa fa-fast-forward\"></i>&nbsp;</a></li>";
+				}
+					echo "";
+				echo "
+				</ul>
 			</div>
 		</div>
 	</div>

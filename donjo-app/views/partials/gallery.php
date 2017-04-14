@@ -25,6 +25,32 @@
 				</ul>
 				<br class=\"clearboth\">
 			</div>
+
+			<div class=\"box-footer\">
+				<ul class=\"pagination pagination-sm no-margin\">";
+				// TODO : butuh helper untuk menggenerate html tag untuk paging
+				if($paging->start_link){
+					echo "<li><a href=\"".site_url("first/gallery/$paging->start_link")."\" title=\"Halaman Pertama\"><i class=\"fa fa-fast-backward\"></i>&nbsp;</a></li>";
+				}
+				if($paging->prev){
+					echo "<li><a href=\"".site_url("first/gallery/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
+				}
+
+				for($i=$paging->start_link;$i<=$paging->end_link;$i++){
+					$strC = ($p == $i)? "class=\"active\"":"";
+					echo "<li ".$strC."><a href=\"".site_url("first/gallery/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
+				}
+
+				if($paging->next){
+					echo "<li><a href=\"".site_url("first/gallery/$paging->next")."\" title=\"Halaman Selanjutnya\"><i class=\"fa fa-forward\"></i>&nbsp;</a></li>";
+				}
+				if($paging->end_link){
+					echo "<li><a href=\"".site_url("first/gallery/$paging->end_link")."\" title=\"Halaman Terakhir\"><i class=\"fa fa-fast-forward\"></i>&nbsp;</a></li>";
+				}
+					echo "";
+				echo "
+				</ul>
+			</div>
 		</div>
 	</div>
 	";
