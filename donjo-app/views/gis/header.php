@@ -23,7 +23,7 @@
 
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-layout.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-layout-1.3.0.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.formtips.1.2.2.packed.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.tipsy.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.elastic.js"></script>
