@@ -138,11 +138,14 @@ class Penduduk extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']= 2;
-		$this->load->view('header', $header);
+		// $this->load->view('test_layout', $header);
+		$this->load->view('nested_layout', $header);
 
-		$this->load->view('sid/nav',$nav);
-		$this->load->view('sid/kependudukan/penduduk',$data);
-		$this->load->view('footer');
+		// $this->load->view('header', $header);
+		// $this->load->view('sid/nav',$nav);
+		// $this->load->view('sid/kependudukan/test-content-layout',$data);
+		// $this->load->view('sid/kependudukan/penduduk',$data);
+		// $this->load->view('footer');
 		//unset($_SESSION['judul_statistik']);
 	}
 

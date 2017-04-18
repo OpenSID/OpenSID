@@ -1,10 +1,10 @@
 <script  TYPE='text/javascript'>
-$(function() {
-var keyword = <?php echo $keyword?> ;
-$( "#cari" ).autocomplete({
-source: keyword
-});
-});
+  $(function() {
+    var keyword = <?php echo $keyword?> ;
+    $( "#cari" ).autocomplete({
+    source: keyword
+    });
+  });
 </script>
 
 <div id="pageC">
@@ -20,7 +20,8 @@ source: keyword
   <input type="hidden" name="rt" value="">
 
   <div class="ui-layout-north panel">
-    <div class="left">
+  North
+<!--     <div class="left">
       <div class="uibutton-group">
         <a href="<?php echo site_url('penduduk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Penduduk Pendatang</a>
 
@@ -79,10 +80,11 @@ source: keyword
       <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('penduduk/search')?>');$('#'+'mainform').submit();}" />
       <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('penduduk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span> Cari </button>
     </div>
-  </div>
+ -->  </div>
 
-  <div class="ui-layout-center" style="padding: 5px;">
-    <table class="list">
+  <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
+  Center
+<!--     <table class="list">
     	<thead>
         <?php if ($judul_statistik): ?>
           <tr>
@@ -172,11 +174,12 @@ source: keyword
         <?php  endforeach; ?>
       </tbody>
     </table>
+ -->
   </div>
-</form>
-
+<!-- </form> -->
 <div class="ui-layout-south panel bottom">
-  <div class="left">
+South
+<!--   <div class="left">
     <div class="table-info">
       <form id="paging" action="<?php echo site_url('penduduk')?>" method="post">
         <label>Tampilkan</label>
@@ -214,8 +217,9 @@ source: keyword
       <?php  endif; ?>
     </div>
   </div>
+-->
 </div>
-
+</form>
 </div>
 </td></tr></table>
 </div>
