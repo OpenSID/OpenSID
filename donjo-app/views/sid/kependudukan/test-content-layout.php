@@ -1,11 +1,35 @@
-<div id="contentpane">
-	<div class="ui-layout-center">Center
-		<p><a href="http://layout.jquery-dev.com/demos.html">Go to the Demos page</a></p>
-		<p>* Pane-resizing is disabled because ui.draggable.js is not linked</p>
-		<p>* Pane-animation is disabled because ui.effects.js is not linked</p>
-	</div>
-	<div class="ui-layout-north">North</div>
-	<div class="ui-layout-south">South</div>
-	<div class="ui-layout-east">East</div>
-	<div class="ui-layout-west">West</div>
+<script  TYPE='text/javascript'>
+  $(function() {
+    var keyword = <?php echo $keyword?> ;
+    $( "#cari" ).autocomplete({
+    source: keyword
+    });
+  });
+</script>
+
+<div id="pageC">
+	<table class="inner">
+		<tr style="vertical-align:top">
+			<td style="background:#fff;padding:0px;">
+				<div class="content-header">
+				    <h3>Manajemen Penduduk</h3>
+				</div>
+				<div id="contentpane">
+					<form id="mainform" name="mainform" action="" method="post">
+					  <input type="hidden" name="rt" value="">
+
+					  <div class="ui-layout-north panel">
+						  Content North
+						</div>
+					  <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
+						  Content Center
+					  </div>
+						<div class="ui-layout-south panel bottom">
+							Content South
+						</div>
+					</form>
+				</div>
+			</td>
+		</tr>
+	</table>
 </div>
