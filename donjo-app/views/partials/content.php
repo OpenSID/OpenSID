@@ -1,4 +1,7 @@
 <?php
+if(count($slider_photos)>0){
+	$this->load->view('layouts/slider.php');
+}
 if($headline){
 	echo "
 	<div id=\"headline\" class=\"box box-danger\">

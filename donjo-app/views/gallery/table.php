@@ -51,7 +51,7 @@
             <tr>
                 <th>No</th>
                 <th><input type="checkbox" class="checkall"/></th>
-                <th width="130">Aksi</th>
+                <th style="width: 150px;">Aksi</th>
 
 	 		<?php  if($o==2): ?>
 				<th align="left"><a href="<?php echo site_url("gallery/index/$p/1")?>">Nama Album<span class="ui-icon ui-icon-triangle-1-n">
@@ -90,12 +90,19 @@
 				<div class="uibutton-group">
 					<a href="<?php echo site_url("gallery/sub_gallery/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Gallery"><span class="icon-zoom-in icon-large"> Rincian </span></a>
 					<a href="<?php echo site_url("gallery/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"></span></a>
-				<?php if($_SESSION['grup']<4){?>
-					<a href="<?php echo site_url("gallery/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"><span></a><?php if($data['enabled'] == '2'):?>
-					<a href="<?php echo site_url('gallery/gallery_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi gallery"><span  class="icon-lock icon-large"></span></a><?php elseif($data['enabled'] == '1'): ?>
-					<a href="<?php echo site_url('gallery/gallery_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan gallery"><span  class="icon-unlock icon-large"></span></a>
+					<?php if($data['slider'] == '1'):?>
+						<a href="<?php echo site_url('gallery/slider_off/'.$data['id'])?>" class="uibutton tipsy south" title="Keluarkan dari slider"><span  class="icon-play icon-large"></span></a>
+					<?php else : ?>
+						<a href="<?php echo site_url('gallery/slider_on/'.$data['id'])?>" class="uibutton tipsy south" title="Tampilkan di slider"><span  class="icon-eject icon-large"></span></a>
 					<?php endif?>
-				<?php } ?>
+					<?php if($_SESSION['grup']<4){?>
+						<a href="<?php echo site_url("gallery/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"><span></a>
+						<?php if($data['enabled'] == '2'):?>
+							<a href="<?php echo site_url('gallery/gallery_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi gallery"><span  class="icon-lock icon-large"></span></a>
+						<?php elseif($data['enabled'] == '1'): ?>
+							<a href="<?php echo site_url('gallery/gallery_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan gallery"><span  class="icon-unlock icon-large"></span></a>
+						<?php endif?>
+					<?php } ?>
 				</div>
 
 			  </td>

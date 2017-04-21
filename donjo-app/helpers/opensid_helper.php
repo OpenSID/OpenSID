@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pra-1.13');
+define("VERSION", 'pasca-1.13');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -424,6 +424,11 @@ define("KODE_PEKERJAAN", serialize(array(
       3 => "Pindah",
       4 => "Hilang");
     return $log_status[$id_detail];
+  }
+
+  function log_time($msg){
+    $now = DateTime::createFromFormat('U.u', microtime(true));
+    error_log($now->format("m-d-Y H:i:s.u")." : ".$msg."\n", 3, "opensid.log");
   }
 
 ?>

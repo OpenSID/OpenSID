@@ -41,6 +41,15 @@
     $this->migrasi_110_ke_111();
     $this->migrasi_111_ke_112();
     $this->migrasi_112_ke_113();
+    $this->migrasi_113_ke_114();
+  }
+
+  function migrasi_113_ke_114(){
+    // Tambah kolom untuk slider
+    if (!$this->db->field_exists('slider', 'gambar_gallery')) {
+      $query = "ALTER TABLE gambar_gallery ADD slider tinyint(1)";
+      $this->db->query($query);
+    }
   }
 
   function migrasi_112_ke_113(){

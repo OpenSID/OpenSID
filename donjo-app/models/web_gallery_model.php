@@ -189,6 +189,14 @@
 			else $_SESSION['success']=-1;
 	}
 
+	function gallery_slider($id='',$val=0){
+		if ($val==1){
+			// Hanya satu gallery yang boleh tampil di slider
+			$this->db->where('slider',1)->update('gambar_gallery',array('slider'=>0));
+		}
+		$this->db->where('id',$id)->update('gambar_gallery',array('slider'=>$val));
+	}
+
 	function get_gallery($id=0){
 		$sql   = "SELECT * FROM gambar_gallery WHERE id=?";
 		$query = $this->db->query($sql,$id);
@@ -218,6 +226,12 @@
 		$this->paging->init($cfg);
 
 		return $this->paging;
+	}
+
+	function list_slider_photos(){
+		$gallery_slide_id = $this->db->select('id')->where('slider',1)->limit(1)->get('gambar_gallery')->row()->id;
+		$slider_photos = $this->db->select('gambar')->where(array('parrent'=>$gallery_slide_id, 'tipe'=>2))->get('gambar_gallery')->result_array();
+		return $slider_photos;
 	}
 
 	function list_sub_gallery($gal=1,$offset=0,$limit=500){

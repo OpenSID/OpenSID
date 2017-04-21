@@ -19,6 +19,7 @@ class First extends CI_Controller{
 		$this->load->model('surat_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('web_widget_model');
+		$this->load->model('web_gallery_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('track_model');
 	}
@@ -60,7 +61,7 @@ class First extends CI_Controller{
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 
 		$data['slide'] = $this->first_artikel_m->slide_show();
-
+		$data['slider_photos'] = $this->web_gallery_model->list_slider_photos();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
 		$this->web_widget_model->get_widget_data($data);
 
@@ -178,6 +179,8 @@ class First extends CI_Controller{
 		$this->load->view('layouts/arsip.tpl.php',$data);
 	}
 
+
+	// halaman arsip album galeri
 	function gallery($p=1){
 		$data['p'] = $p;
 
@@ -202,11 +205,13 @@ class First extends CI_Controller{
 		$this->load->view('layouts/gallery.tpl.php',$data);
 	}
 
+	// halaman rincian tiap album galeri
 	function sub_gallery($gal=0,$p=1){
 		$data['p'] = $p;
 		$data['gal'] = $gal;
 		$data['desa'] = $this->first_m->get_data();
 
+		// OPTIMIZE: 2 baris ini untuk apa ya?
 		$data['paging']  = $this->first_gallery_m->paging($p);
 		$data['gallery'] = $this->first_gallery_m->gallery_show($data['paging']->offset,$data['paging']->per_page);
 

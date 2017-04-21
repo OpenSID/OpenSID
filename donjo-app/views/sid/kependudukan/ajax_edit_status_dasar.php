@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-layout.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjoscript2.js"></script>
 <?php
