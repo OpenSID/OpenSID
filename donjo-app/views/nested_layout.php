@@ -43,12 +43,13 @@
 	$(document).ready(function () {
 		$('body').layout({
 			center__childOptions: {
-				center__childOptions: {
-				}
+				// center__childOptions: {
+				// }
 			}
 		});
 		$('#content').layout({
-			applyDefaultStyles: true
+	  	initClosed: false
+	  	, north__initClosed: false
 		});
 	});
 
@@ -63,31 +64,19 @@
 <div class="ui-layout-center">Outer Center
 
 	<div class="ui-layout-north">
-		<?php include("donjo-app/views/modul_admin.php"); ?>
+		<?php $this->load->view('modul_admin',$nav); ?>
 	</div>
 
-	<!-- <?php include("donjo-app/views/sid/kependudukan/test-content-layout.php"); ?> -->
-	<div class="ui-layout-center">Inner Center
- 		<div id="pageC">
-<!-- 			<script  TYPE='text/javascript'>
-			  $(function() {
-			    var keyword = <?php echo $keyword?> ;
-			    $( "#cari" ).autocomplete({
-			    source: keyword
-			    });
-			  });
-			</script>
- -->			<div class="ui-layout-center" id="content">
+	<div class="ui-layout-center" id="content">Inner Center
 
-				<div class="ui-layout-north">Inner Center North</div>
-				<div class="ui-layout-center">Inner Center Center</div>
-				<div class="ui-layout-south">Inner Center South</div>
-
-			</div>
-
+		<div class="ui-layout-north panel">
+			<?php $this->load->view('sid/kependudukan/menu_halaman.php',$data); ?>
 		</div>
+		<div class="ui-layout-center">Inner Center Center</div>
+		<div class="ui-layout-south">Inner Center South</div>
 
 	</div>
+
 
 </div>
 <div class="ui-layout-south" id="footer">
