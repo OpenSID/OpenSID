@@ -78,7 +78,7 @@ legend{
 .inputbox[readonly]{
     background-color:#fdffec;
 }
-.inputbox.datepicker{
+.inputbox.datepicker,.inputbox.datepicker-start,.inputbox.datepicker-end{
     background-image: url(../images/background/calendar-select.png);
     background-repeat:no-repeat;
     background-position:right center;

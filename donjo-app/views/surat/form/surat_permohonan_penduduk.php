@@ -65,8 +65,8 @@ table.form.detail td{
 			<tr>
 				<th>Masa Berlaku</th>
 				<td>
-					<input name="awal" type="text" class="inputbox required datepicker" size="20"/> S/d
-					<input name="akhir" type="text" class="inputbox required datepicker" size="20"/>
+					<input name="awal" type="text" class="inputbox required datepicker-start" size="20"/> S/d
+					<input name="akhir" type="text" class="inputbox required datepicker-end" size="20"/>
 				</td>
 			</tr>
 			<tr>
