@@ -1,4 +1,3 @@
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=2&key=<?php echo config_item('google_key'); ?>"></script>
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
