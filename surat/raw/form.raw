@@ -78,7 +78,9 @@ table.form.detail td{
 						</tr>
 						<tr>
 							<th>Berlaku</th>
-							<td><input name="berlaku_dari" type="text" class="inputbox required datepicker" size="20"/> sampai <input name="berlaku_sampai" type="text" class="inputbox datepicker " size="20"/></td>
+							<td>
+								<input name="berlaku_dari" type="text" class="inputbox required datepicker-start" size="20"/> sampai <input name="berlaku_sampai" type="text" class="inputbox datepicker-end " size="20"/>
+							</td>
 						</tr>
 						<tr>
 							<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
