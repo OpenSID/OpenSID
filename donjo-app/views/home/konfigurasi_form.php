@@ -41,7 +41,7 @@
                 <td><input name="website" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['website'])?>"/></td>
             </tr>
             <tr>
-                <th>Nama Kecamatan</th>
+                <th>Nama <?php echo ucwords(config_item('sebutan_kecamatan'))?></th>
                 <td><input name="nama_kecamatan" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_kecamatan'])?>"/> Kode <input name="kode_kecamatan" type="text" class="inputbox" size="10" value="<?php echo $main['kode_kecamatan']?>"/></td></td>
             </tr>
             <tr>

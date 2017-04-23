@@ -13,6 +13,7 @@ define("LOKASI_SID_INI", 'desa/config/');
 // Konfigurasi default
 $config['sebutan_kabupaten'] = 'kabupaten';
 $config['sebutan_kabupaten_singkat'] = 'kab.';
+$config['sebutan_kecamatan'] = 'kecamatan';
 $config['sebutan_desa'] = 'desa';
 $config['sebutan_dusun'] = 'dusun';
 $config['website_title'] = 'Website Resmi';

@@ -44,7 +44,7 @@
 			<TD ALIGN=LEFT><FONT SIZE=1>:</FONT></TD>
 			<TD ALIGN=LEFT><FONT SIZE=1><BR></FONT></TD>
 			<TD ALIGN=LEFT><FONT SIZE=1><BR></FONT></TD>
-			<TD ALIGN=LEFT VALIGN=MIDDLE><FONT SIZE=1>Kecamatan</FONT></TD>
+			<TD ALIGN=LEFT VALIGN=MIDDLE><FONT SIZE=1><?php echo ucwords(config_item('sebutan_kecamatan'))?></FONT></TD>
 			<TD ALIGN=LEFT><FONT SIZE=1>:</FONT></TD>
 			<TD ALIGN=LEFT><FONT SIZE=1><BR></FONT></TD>
 			<TD ALIGN=LEFT><FONT SIZE=1><BR></FONT></TD>
@@ -418,7 +418,7 @@
 			<TD STYLE="border-left: 1px solid #D3D3D3" HEIGHT=17 ALIGN=LEFT><BR></TD>
 			<TD ALIGN=LEFT><FONT SIZE=1><BR></FONT></TD>
 			<TD ALIGN=LEFT><FONT SIZE=1><BR></FONT></TD>
-			<TD ALIGN=LEFT><FONT SIZE=1>iv. Kecamatan</FONT></TD>
+			<TD ALIGN=LEFT><FONT SIZE=1>iv. <?php echo ucwords(config_item('sebutan_kecamatan'))?></FONT></TD>
 			<TD ALIGN=LEFT><BR></TD>
 			<TD ALIGN=LEFT>Tanda tangan/Cap Jempol</TD>
 			<TD ALIGN=LEFT><BR></TD>

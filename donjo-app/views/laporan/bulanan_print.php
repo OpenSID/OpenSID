@@ -18,7 +18,7 @@
     <tbody>
       <?php foreach($config as $data) : ?>
         <tr>
-    			<td colspan="12" class="judul"><strong>PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper($data['nama_kabupaten'])?> KECAMATAN <?php echo strtoupper($data['nama_kecamatan'])?></strong></td>
+    			<td colspan="12" class="judul"><strong>PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper($data['nama_kabupaten'])?> <?php echo strtoupper(config_item('sebutan_kecamatan'))?> <?php echo strtoupper($data['nama_kecamatan'])?></strong></td>
         </tr>
   			<tr>
   				<td colspan="12" class="judul"><strong>LAPORAN PENDUDUK <?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper($data['nama_desa'])?></strong></td>

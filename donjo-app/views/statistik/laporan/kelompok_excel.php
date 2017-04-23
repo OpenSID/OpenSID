@@ -18,55 +18,55 @@ header("Expires: 0");
 <!-- Print Body -->
 <div id="body">
 
-	   <table  width="100%"><?php foreach($config as $data){?>	
-				<tbody><tr>			
+	   <table  width="100%"><?php foreach($config as $data){?>
+				<tbody><tr>
 				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?php echo $data['nama_kabupaten']?></h4></td>
-																	
-				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>	
-				<tr>				
+
+				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>
+				<tr>
 					<td></td>
 					<td width="100%"><h3>LAPORAN BULANAN KELURAHAN</h3></td>
-					
-									
+
+
 				</tr>
 				</tbody></table>
 				<br>
 				<table>
-				<tbody><tr>						
+				<tbody><tr>
 					<td>Kelurahan</td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo $data['nama_desa']?></h4></td>
-					<td></td>	
+					<td></td>
 
 				</tr>
-				<tr>					
-					<td>Kecamatan</td>
+				<tr>
+					<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo $data['nama_kecamatan']?></td>
-					<td></td>	
-			<?php }?>	
+					<td></td>
+			<?php }?>
 				</tr>
-				<tr>						
+				<tr>
 					<td>Laporan Bulan</td>
 					<td width="3%">:</td>
 			<?php $bln = date("m");?>
 					<td><?php echo $bln?> </td>
-					<td width="40%"></td>	
+					<td width="40%"></td>
 				</tr>
 				<?php if($dusun){?>
-				<tr>						
+				<tr>
 					<td>Dusun</td>
 					<td width="3%">:</td>
 					<td>
 					<?php echo $dusun?>
 					</td>
-					<td width="40%"></td>	
+					<td width="40%"></td>
 				</tr>
 				<?php }?>
 		</tbody></table>
 		<br>
 	<table class="border thick">
-	
+
 <thead>
 <tr class="border thick">
 <th scope="col" width="4%"><div align="center">RW</div></th>
@@ -109,7 +109,7 @@ header("Expires: 0");
   </table></div>
   </th>
 <th colspan="2" scope="col"><div align="center">
-<table width="100%"> 
+<table width="100%">
  <tr>
 <th colspan="2" scope="col"><div align="center">Sakit Menahun</div> </th>
  </tr>
@@ -142,7 +142,7 @@ header("Expires: 0");
 </tr>
   <?php }?>
   </tbody>
-</table>   
+</table>
 
 
 <p>&nbsp;</p>
