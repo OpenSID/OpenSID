@@ -17,7 +17,7 @@ header("Expires: 0");
 
 <!-- Print Body --><div id="body"><div class="header" align="center"><label align="left"><?php echo get_identitas()?></label>
 <h3> DATA WILAYAH ADMINISTRASI </h3>
-<h4><?php echo $desa['desa']['nama_kabupaten']?>, <?php echo ucwords(config_item('sebutan_kecamatan_singkat'))?>. <?php echo $desa['desa']['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo $desa['desa']['nama_desa']?></h4>
+<h4><?php echo $desa['desa']['nama_kabupaten']?>, <?php echo ucwords(config_item('sebutan_kecamatan_singkat'))?> <?php echo $desa['desa']['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo $desa['desa']['nama_desa']?></h4>
 </div>
 <br>
     <table class="border thick">
