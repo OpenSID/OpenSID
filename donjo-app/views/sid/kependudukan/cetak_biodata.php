@@ -12,7 +12,7 @@
 <div id="ktp">
 <div class="header" align="center">
 <h3>BIODATA PENDUDUK</h3>
-<h2><?php echo $desa['desa']['nama_kabupaten']?>, Kec. <?php echo $desa['desa']['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo $desa['desa']['nama_desa']?></h2>
+<h2><?php echo $desa['desa']['nama_kabupaten']?>, <?php echo ucwords(config_item('sebutan_kecamatan_singkat'))?>. <?php echo $desa['desa']['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo $desa['desa']['nama_desa']?></h2>
 <h5>No. <?php echo $penduduk['nik']?></h5>
 </div>
 <br>

@@ -405,7 +405,7 @@ function get_identitas(){
 	$a=$ci->db->query($sql);
 	$hsl=$a->row_array();
 	//print_r($hsl);
-	$string = ucwords(config_item('sebutan_desa'))." : ".$hsl['nama_desa']." Kec : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
+	$string = ucwords(config_item('sebutan_desa'))." : ".$hsl['nama_desa']." ".ucwords(config_item('sebutan_kecamatan_singkat'))." : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
 }
 

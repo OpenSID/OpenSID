@@ -17,6 +17,7 @@ $config['admin_title'] = 'Sistem Informasi';
 $config['sebutan_kabupaten'] = 'kabupaten';
 $config['sebutan_kabupaten_singkat'] = 'kab.';
 $config['sebutan_kecamatan'] = 'kecamatan';
+$config['sebutan_kecamatan_singkat'] = 'kec';
 $config['sebutan_desa'] = 'desa';
 $config['sebutan_dusun'] = 'dusun';
 
