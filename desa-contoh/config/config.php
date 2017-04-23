@@ -20,6 +20,7 @@ $config['sebutan_kecamatan'] = 'kecamatan';
 $config['sebutan_kecamatan_singkat'] = 'kec';
 $config['sebutan_desa'] = 'desa';
 $config['sebutan_dusun'] = 'dusun';
+$config['sebutan_camat'] = 'camat';
 
 // apakah hanya akan menggunakan localhost saja?
 $config['offline_mode'] = FALSE;

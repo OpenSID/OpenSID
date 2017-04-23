@@ -358,7 +358,7 @@
 			<TD ALIGN=LEFT>Kepala Keluarga,</TD>
 			<TD ALIGN=LEFT><BR></TD>
 			<TD ALIGN=LEFT><BR></TD>
-			<TD ALIGN=LEFT>Camat / lurah /kepala desa</TD>
+			<TD ALIGN=LEFT><?php echo ucwords(config_item('sebutan_camat'))?> / lurah /kepala desa</TD>
 			<TD ALIGN=LEFT><BR></TD>
 			<TD STYLE="border-right: 1px solid #D3D3D3" ALIGN=LEFT><BR></TD>
 		</TR>

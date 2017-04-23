@@ -45,11 +45,11 @@
                 <td><input name="nama_kecamatan" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_kecamatan'])?>"/> Kode <input name="kode_kecamatan" type="text" class="inputbox" size="10" value="<?php echo $main['kode_kecamatan']?>"/></td></td>
             </tr>
             <tr>
-                <th>Nama Camat</th>
+                <th>Nama <?php echo ucwords(config_item('sebutan_camat'))?></th>
                 <td><input name="nama_kepala_camat" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['nama_kepala_camat'])?>"/></td>
             </tr>
             <tr>
-                <th>NIP Camat</th>
+                <th>NIP <?php echo ucwords(config_item('sebutan_camat'))?></th>
                 <td><input name="nip_kepala_camat" type="text" class="inputbox" size="25" value="<?php echo $main['nip_kepala_camat']?>"/></td>
             </tr>
             <tr>
