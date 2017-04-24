@@ -1,10 +1,10 @@
 
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
-<div id="contentpane">    
+<td style="background:#fff;padding:0px;">
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel top">
         <div class="left">
@@ -25,37 +25,37 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 </style>
 
 	   <table  width="100%">
-				<tbody><tr>	<?php foreach($config as $data){?>				
+				<tbody><tr>	<?php foreach($config as $data){?>
 				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA  <?php echo $data['nama_kabupaten']?></h4></td>
-				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>	
-				<tr>				
+				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>
+				<tr>
 					<td></td>
 					<td width="100%"><h3>LAPORAN BULANAN KELURAHAN</h3></td>
-					
-									
+
+
 				</tr>
 				</tbody></table>
 				<table>
-				<tbody><tr>						
+				<tbody><tr>
 					<td>Kelurahan</td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo $data['nama_desa']?></h4></td>
-					<td></td>	
+					<td></td>
 
 				</tr>
-				<tr>					
-					<td>Kecamatan</td>
+				<tr>
+					<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo $data['nama_kecamatan']?></td>
-					<td></td>	
+					<td></td>
 					<?php  } ?>
 				</tr>
-				<tr>						
+				<tr>
 					<td>Tahun</td>
 					<td width="3%">:</td>
-					<td><input name="tahun" type="text" class="inputbox required" size="5" value="<?php echo $tahun ?>"/></td>	
+					<td><input name="tahun" type="text" class="inputbox required" size="5" value="<?php echo $tahun ?>"/></td>
 				</tr>
-				 <tr>						
+				 <tr>
 					<td>Bulan</td>
 					<td width="3%">:</td>
 					<td>
@@ -73,12 +73,12 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 					<option value="10" <?php  if($bulan=="10"){?>selected<?php  }?>>Oktober</option>
 					<option value="11" <?php  if($bulan=="11"){?>selected<?php  }?>>November</option>
 					<option value="12" <?php  if($bulan=="12"){?>selected<?php  }?>>Desember</option>
-					</select> 
+					</select>
 					</td>
-					<td width="40%"></td>	
+					<td width="40%"></td>
 				</tr>
 		</tbody></table>
-	
+
 	<table width="100%" id="tfhover" class="tftable" border="1">
 			<thead>
 				<tr>
@@ -114,7 +114,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
           			<tr>
             		<th width="50"><div align="center">Laki-laki</div></th>
             		<th width="50"><div align="center">Perempuan</div></th>
-            		<th width="50"><div align="center">L + P</div></th>            		
+            		<th width="50"><div align="center">L + P</div></th>
           			</tr>
         			</tbody></table></div>
         			</th>
@@ -136,14 +136,14 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 				</tr>
 			</thead>
 			<tbody>
-    
+
 
       <tr>
 		</tr><tr>
     	<td><div align="center">1</div></td>
     	<td>Penduduk awal bulan ini</td>
     	<td><?php echo $penduduk_awal['WNI_L']+0 ?></td>
-    	<td><?php echo $penduduk_awal['WNI_P']+0 ?></td> 
+    	<td><?php echo $penduduk_awal['WNI_P']+0 ?></td>
     	<td><?php echo $penduduk_awal['WNA_L']+0 ?></td>
     	<td><?php echo $penduduk_awal['WNA_P']+0 ?></td>
       <td><?php echo ($penduduk_awal['WNI_L']+$penduduk_awal['WNA_L'])?></td>
@@ -156,20 +156,20 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
     	<td>Kelahiran bulan ini</td>
 
     	<td><?php echo $kelahiran['WNI_L']+0 ?></td>
-    	<td><?php echo $kelahiran['WNI_P']+0 ?></td> 
+    	<td><?php echo $kelahiran['WNI_P']+0 ?></td>
     	<td><?php echo $kelahiran['WNA_L']+0 ?></td>
     	<td><?php echo $kelahiran['WNA_P']+0 ?></td>
       <td><?php echo ($kelahiran['WNI_L']+$kelahiran['WNA_L'])?></td>
       <td><?php echo ($kelahiran['WNI_P']+$kelahiran['WNA_P'])?></td>
       <td><?php echo ($kelahiran['WNI_L']+$kelahiran['WNA_L'])+($kelahiran['WNI_P']+$kelahiran['WNA_P'])?></td>
- 
+
     	</tr>
 		<tr>
     	<td><div align="center">3</div></td>
     	<td>Kematian bulan ini</td>
 
     	<td><?php echo $kematian['WNI_L']+0 ?></td>
-    	<td><?php echo $kematian['WNI_P']+0 ?></td> 
+    	<td><?php echo $kematian['WNI_P']+0 ?></td>
     	<td><?php echo $kematian['WNA_L']+0 ?></td>
     	<td><?php echo $kematian['WNA_P']+0 ?></td>
       <td><?php echo ($kematian['WNI_L']+$kematian['WNA_L'])?></td>
@@ -180,9 +180,9 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 		<tr>
     	<td><div align="center">4</div></td>
     	<td>Pendatang bulan ini</td>
- 
+
     	<td><?php echo $pendatang['WNI_L']+0 ?></td>
-    	<td><?php echo $pendatang['WNI_P']+0 ?></td> 
+    	<td><?php echo $pendatang['WNI_P']+0 ?></td>
     	<td><?php echo $pendatang['WNA_L']+0 ?></td>
     	<td><?php echo $pendatang['WNA_P']+0 ?></td>
       <td><?php echo ($pendatang['WNI_L']+$pendatang['WNA_L'])?></td>
@@ -195,7 +195,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
     	<td>Pindah bulan ini</td>
 
     	<td><?php echo $pindah['WNI_L']+0 ?></td>
-    	<td><?php echo $pindah['WNI_P']+0 ?></td> 
+    	<td><?php echo $pindah['WNI_P']+0 ?></td>
     	<td><?php echo $pindah['WNA_L']+0 ?></td>
     	<td><?php echo $pindah['WNA_P']+0 ?></td>
       <td><?php echo ($pindah['WNI_L']+$pindah['WNA_L'])?></td>
@@ -209,7 +209,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
     	<td>Penduduk akhir bulan ini</td>
 
     	<td><?php echo $penduduk_akhir['WNI_L']+0 ?></td>
-    	<td><?php echo $penduduk_akhir['WNI_P']+0 ?></td> 
+    	<td><?php echo $penduduk_akhir['WNI_P']+0 ?></td>
     	<td><?php echo $penduduk_akhir['WNA_L']+0 ?></td>
     	<td><?php echo $penduduk_akhir['WNA_P']+0 ?></td>
       <td><?php echo ($penduduk_akhir['WNI_L']+$penduduk_akhir['WNA_L'])?></td>
@@ -217,13 +217,13 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
       <td><?php echo ($penduduk_akhir['WNI_L']+$penduduk_akhir['WNA_L'])+($penduduk_akhir['WNI_P']+$penduduk_akhir['WNA_P'])?></td>
 
     	</tr>
-    
+
     <tr>
     	<td><div align="center">7</div></td>
     	<td>Penduduk hilang bulan ini</td>
 
     	<td><?php echo $hilang['WNI_L']+0 ?></td>
-    	<td><?php echo $hilang['WNI_P']+0 ?></td> 
+    	<td><?php echo $hilang['WNI_P']+0 ?></td>
     	<td><?php echo $hilang['WNA_L']+0 ?></td>
     	<td><?php echo $hilang['WNA_P']+0 ?></td>
       <td><?php echo ($hilang['WNI_L']+$hilang['WNA_L'])?></td>
@@ -231,7 +231,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
       <td><?php echo ($hilang['WNI_L']+$hilang['WNA_L'])+($hilang['WNI_P']+$hilang['WNA_P'])?></td>
 
     	</tr>
-    	
+
   </tbody>
 </table>
 <p>&nbsp;</p>
@@ -245,7 +245,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 
     </div></div>
     <div class="ui-layout-south panel bottom">
-<div class="left">     
+<div class="left">
 <a href="<?php echo site_url()?>sid_wilayah" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">

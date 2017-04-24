@@ -20,7 +20,7 @@
 	<tr>
 	<td width="100">Nama KK</td>
 	<td width="600">: <?php echo strtoupper($kepala_kk['nama']) ?></td>
-	<td width="160">Kecamatan</td>
+	<td width="160"><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
 	<td width="150">: <?php echo strtoupper($desa['nama_kecamatan']) ?></td>
 	</tr>
 	<tr>

@@ -694,8 +694,10 @@
 
 			//DATA DARI KONFIGURASI DESA
 			$buffer=$this->case_replace("[sebutan_kabupaten]",config_item('sebutan_kabupaten'),$buffer);
+			$buffer=$this->case_replace("[sebutan_kecamatan]",config_item('sebutan_kecamatan'),$buffer);
 			$buffer=$this->case_replace("[sebutan_desa]",config_item('sebutan_desa'),$buffer);
 			$buffer=$this->case_replace("[sebutan_dusun]",config_item('sebutan_dusun'),$buffer);
+			$buffer=$this->case_replace("[sebutan_camat]",config_item('sebutan_camat'),$buffer);
 			$buffer=str_replace("[alamat_des]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
 			$buffer=str_replace("[alamat_desa]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
 			$buffer=str_replace("[email_desa]","$config[email_desa]",$buffer);

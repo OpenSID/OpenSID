@@ -18,7 +18,7 @@
 			<div id="connect">ver.</div>
 			<div id="logo"><img src="<?php echo base_url()?>assets/images/SID-e1351656852451.png"></div>
 			<div id="desa"><?php echo ucwords(config_item('sebutan_desa'))?> <?php echo unpenetration($desa['nama_desa'])?></div>
-			<div id="kec">Kecamatan <?php echo unpenetration($desa['nama_kecamatan'])?></div>
+			<div id="kec"><?php echo ucwords(config_item('sebutan_kecamatan'))?> <?php echo unpenetration($desa['nama_kecamatan'])?></div>
 			<div id="kab"><?php echo ucwords(config_item('sebutan_kabupaten'))?> <?php echo unpenetration($desa['nama_kabupaten'])?></div>
 		</div>
 		</a>

@@ -74,7 +74,7 @@ $('#'+'main').submit();
 <td>: <?php echo strtoupper(unpenetration($desa['nama_propinsi'])) ?></td>
 </tr>
 <tr>
-<td>Kecamatan</td>
+<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
 <td>: <?php echo strtoupper(unpenetration($desa['nama_kecamatan'])) ?></td>
 <td>Jumlah Anggota Keluarga</td>
 <td>: <?php echo count($main)?></td>

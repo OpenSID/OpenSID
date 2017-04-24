@@ -37,7 +37,7 @@
   					<td></td>
   				</tr>
   				<tr>
-  					<td>Kecamatan</td>
+  					<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
   					<td width="3%">:</td>
   					<td width="38.5%"><?php echo unpenetration($data['nama_kecamatan'])?></td>
   					<td></td>

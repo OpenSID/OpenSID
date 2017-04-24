@@ -1,6 +1,6 @@
-<?php php
+<?php
 header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=Print.xls");
+header("Content-Disposition: attachment; filename=rtm_".date("Y-m-d").".xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 ?>
@@ -23,7 +23,7 @@ header("Expires: 0");
 			<th   width="100">Tanggal Terdaftar</th>
 		</tr>
 		</thead>
-		
+
 		<tbody>
         <?php  foreach($main as $data): ?>
 		<tr>
@@ -38,6 +38,6 @@ header("Expires: 0");
 		</tr>
 		<?php  endforeach; ?>
 	</tbody>
-	
+
 </table>
 </div>

@@ -146,6 +146,7 @@
 		$nik = $_POST['nik_kepala'];
 
 		$data['no_kk'] = "0";
+		$data['nik_kepala'] = $nik;
 		$outp = $this->db->insert('tweb_rtm',$data);
 
 		$sql   = "SELECT id FROM tweb_rtm ORDER by id DESC LIMIT 1";

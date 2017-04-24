@@ -6,6 +6,22 @@ $(document).ready(function(){
 
 		//$('#maincontent2').css({'height':35}).layout({});
   $('.datepicker').datepicker({dateFormat:'dd-mm-yy'});
+	/* set max date and min date based other datepicker */
+	$('.datepicker-start').datepicker({
+		dateFormat:'dd-mm-yy',				
+		onSelect : function(selectedDate){
+			var _p = $(this).parent();						
+			_p.find('.datepicker-end').datepicker('option','minDate',selectedDate);
+		}
+	});
+	$('.datepicker-end').datepicker({
+		dateFormat:'dd-mm-yy',
+		onSelect : function(selectedDate){
+		var _p = $(this).parent();						
+			_p.find('.datepicker-start').datepicker('option','maxDate',selectedDate);
+		}
+	});
+
   $('input.help,textarea.help').formtips({
         tippedClass: 'tipped'
   });

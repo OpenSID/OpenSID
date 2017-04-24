@@ -63,7 +63,7 @@
 								<div class="intube">
 									<div id="siteTitle">
 										<h1><?php echo unpenetration($desa['nama_desa'])?></h1>
-										<h2>Kecamatan <?php echo unpenetration($desa['nama_kecamatan'])?><br />
+										<h2><?php echo ucwords(config_item('sebutan_kecamatan'))?> <?php echo unpenetration($desa['nama_kecamatan'])?><br />
 										Kab/Kota <?php echo unpenetration($desa['nama_kabupaten'])?></h2>
 										<h3><?php echo unpenetration($desa['alamat_kantor'])?></h3>
 									</div>
