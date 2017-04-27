@@ -42,7 +42,7 @@
 <div class="ui-layout-north" id="header">
 	<div id="sid-logo"><a href="<?php echo site_url()?>first" target="_blank"><img src="<?php echo LogoDesa($desa['logo']);?>" alt=""/></a></div>
 	<div id="sid-judul">SID Sistem Informasi Desa</div>
-	<div id="sid-info"><?php echo unpenetration($desa['nama_desa'])?>, <?php echo ucwords(config_item('sebutan_kecamatan_singkat'))?> <?php echo unpenetration($desa['nama_kecamatan'])?>,  <?php echo unpenetration($desa['nama_kabupaten'])?></div>
+	<div id="sid-info"><?php echo ucwords(config_item('sebutan_desa')." ".$desa['nama_desa'].", ".config_item('sebutan_kecamatan')." ".unpenetration($desa['nama_kecamatan']).", ".config_item('sebutan_kabupaten')." ".unpenetration($desa['nama_kabupaten']))?></div>
 	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
   <div class="avatar">
 		<?php if($foto){?>

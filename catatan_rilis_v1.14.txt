@@ -1,0 +1,18 @@
+Rilis ini menyediakan berbagai perbaikan dan penambahan fitur yang diminta oleh komunitas SID, terutama berkaitan dengan modul Web.
+
+Terima kasih pada @batudaa dan @pandigresik yang telah membuat kontribusi pada rilis ini.
+
+Lengkapnya, isi rilis v1.14:
+
+1. #383: Gunakan sebutan_desa, sebutan_kecamatan dan sebutan_kabupaten di header modul Web dan Admin.
+2. Tambahkan setting sebutan_kecamatan, sebutan_kecamatan_singkat dan sebutan_camat, supaya misalnya penampilan 'kecamatan' bisa diubah menjadi 'distrik' dan 'camat' bisa diganti menjadi 'kepala distrik'.
+3. Sekarang di form surat, isian tanggal akhir berlakunya surat selalu sesudah tanggal mulai, supaya mengurangi salah isi.
+4. #245: Export Excel pada halaman Rumah Tangga telah diperbaiki.
+5. #362: Widget Galeri di modul Web sekarang hanya menampilkan paling banyak 4 gambar judul album yang dipilih secara acak.
+6. #361: Paginasi album galeri dan isi album di modul Web sekarang telah diaktifkan, sehingga penampilan gambar galeri tidak lagi terbatas.
+7. #287: Tambahkan fitur 'slider' di header yang diusulkan oleh Happy Agung. Slider ini mengambil gambar dari album galeri.
+8. Tampilkan Tanggal Rekam di halaman Log Penduduk. Tanggal Rekam bisa berbeda dengan Tanggal Peristiwa.
+
+Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
+
+Sesudah mengupdate script, langsung login ke modul Admin (http://localhost/siteman) untuk melakukan Migrasi DB. Sebelum melakukan migrasi, modul Web (http://localhost atau http://localhost/first) akan error.

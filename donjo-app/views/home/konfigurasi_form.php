@@ -13,7 +13,7 @@
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <table class="form">
             <tr>
-                <th width="110">Nama <?php echo ucwords(config_item('sebutan_desa'))?></th>
+                <th style="width: 140px;">Nama <?php echo ucwords(config_item('sebutan_desa'))?></th>
                 <td><input name="nama_desa" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_desa'])?>"/> Kode <input name="kode_desa" type="text" class="inputbox" size="6" value="<?php echo $main['kode_desa']?>"/> Kode POS <input name="kode_pos" type="text" class="inputbox" size="8" value="<?php echo $main['kode_pos']?>"/></td>
             </tr>
             <tr>

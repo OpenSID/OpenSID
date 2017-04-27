@@ -517,18 +517,19 @@ CREATE TABLE `gambar_gallery` (
   `enabled` int(2) NOT NULL DEFAULT '1',
   `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tipe` int(4) NOT NULL,
+  `slider` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
-INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`) VALUES ('28', '0', 'galeri-1-1.jpg', 'Karnaval Hari Kemerdekaan ', '1', '2016-08-26 14:53:51', '0');
-INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`) VALUES ('29', '0', '', 'Panorama Wisata ', '1', '2016-08-26 14:55:31', '0');
-INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`) VALUES ('30', '28', 'IMG-20160823-WA0116.jpg', 'Karnaval baju adat', '1', '2016-08-26 14:57:10', '2');
-INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`) VALUES ('31', '28', 'galeri-1-2.jpeg', 'Kemeriahan Karnaval', '2', '2016-08-26 14:58:16', '2');
-INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`) VALUES ('32', '29', 'galeri-2-2.jpeg', 'Pantai indah', '1', '2016-09-02 02:14:06', '2');
-INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`) VALUES ('33', '29', 'galeri-2-3.jpeg', 'Kolam renang impian', '1', '2016-09-02 02:14:28', '2');
-INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`) VALUES ('34', '0', '', 'Kegiatan Kantor Desa', '2', '2016-09-02 06:24:59', '0');
-INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`) VALUES ('35', '28', '', 'Tarian adat', '1', '2016-09-02 07:32:55', '2');
+INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`, `slider`) VALUES ('28', '0', 'galeri-1-1.jpg', 'Karnaval Hari Kemerdekaan ', '1', '2016-08-26 14:53:51', '0', NULL);
+INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`, `slider`) VALUES ('29', '0', '', 'Panorama Wisata ', '1', '2016-08-26 14:55:31', '0', NULL);
+INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`, `slider`) VALUES ('30', '28', 'IMG-20160823-WA0116.jpg', 'Karnaval baju adat', '1', '2016-08-26 14:57:10', '2', NULL);
+INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`, `slider`) VALUES ('31', '28', 'galeri-1-2.jpeg', 'Kemeriahan Karnaval', '2', '2016-08-26 14:58:16', '2', NULL);
+INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`, `slider`) VALUES ('32', '29', 'galeri-2-2.jpeg', 'Pantai indah', '1', '2016-09-02 02:14:06', '2', NULL);
+INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`, `slider`) VALUES ('33', '29', 'galeri-2-3.jpeg', 'Kolam renang impian', '1', '2016-09-02 02:14:28', '2', NULL);
+INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`, `slider`) VALUES ('34', '0', '', 'Kegiatan Kantor Desa', '2', '2016-09-02 06:24:59', '0', NULL);
+INSERT INTO gambar_gallery (`id`, `parrent`, `gambar`, `nama`, `enabled`, `tgl_upload`, `tipe`, `slider`) VALUES ('35', '28', '', 'Tarian adat', '1', '2016-09-02 07:32:55', '2', NULL);
 
 
 #
@@ -2637,7 +2638,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
