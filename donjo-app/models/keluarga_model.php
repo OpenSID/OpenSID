@@ -295,7 +295,7 @@
 			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
 				unset($data['foto']);
 			} else {
-				UploadFoto($nama_file,$old_foto);
+				UploadFoto($nama_file,$old_foto,$tipe_file);
 				$data['foto'] = $nama_file;
 			}
 		}else{
@@ -632,7 +632,7 @@
 			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
 				unset($data['foto']);
 			} else {
-				UploadFoto($nama_file);
+				UploadFoto($nama_file,"",$tipe_file);
 				$data['foto'] = $nama_file;
 			}
 		}else{
