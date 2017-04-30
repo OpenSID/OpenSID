@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class First extends CI_Controller{
+class First extends Web_Controller{
 
 	function __construct() {
 		parent::__construct();
@@ -22,6 +22,7 @@ class First extends CI_Controller{
 		$this->load->model('web_gallery_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('track_model');
+		$data = $this->includes;
 	}
 
 	function auth(){
@@ -49,7 +50,7 @@ class First extends CI_Controller{
 		redirect('first');
 	}
 
-	function index($p=1){
+	function index($p=1){		
 		$data['p'] = $p;
 		$data['desa'] = $this->first_m->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
@@ -68,8 +69,9 @@ class First extends CI_Controller{
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 
-		$this->load->view('layouts/main.tpl.php',$data);
-
+	//	$this->load->view('layouts/main.tpl.php',$data);		
+      // load views      	
+      	$this->load->view($this->template, $data);
 		$this->track_model->track_desa('first');
 	}
 
@@ -82,7 +84,7 @@ class First extends CI_Controller{
 		$id = $_SESSION['id'];
 
 		$data['desa'] = $this->header_model->get_data();
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);			
 		$this->load->view('sid/kependudukan/cetak_biodata',$data);
 	}
 
@@ -125,7 +127,10 @@ class First extends CI_Controller{
 			$data['data_config'] = $this->config_model->get_data();
 			$data['menu_surat2'] = $this->surat_model->list_surat2();
 			$data['m'] = $m;
-			$this->load->view('layouts/mandiri.php',$data);
+			
+			// $this->load->view('layouts/mandiri.php',$data);
+			$this->set_template('layouts/mandiri.php');
+			$this->load->view($this->template,$data);	
 		}
 	}
 
@@ -156,8 +161,8 @@ class First extends CI_Controller{
 			$_SESSION['post']['komentar'] = '';
 			$_SESSION['post']['captcha_code'] = '';
 		}
-
-		$this->load->view('layouts/artikel.tpl.php',$data);
+		$this->set_template('layouts/artikel.tpl.php');
+		$this->load->view($this->template,$data);		
 	}
 
 	function arsip($p=1) {
@@ -176,7 +181,9 @@ class First extends CI_Controller{
 
 		$data['data_config'] = $this->config_model->get_data();
 
-		$this->load->view('layouts/arsip.tpl.php',$data);
+	//	$this->load->view('layouts/arsip.tpl.php',$data);
+		$this->set_template('layouts/arsip.tpl.php');
+		$this->load->view($this->template,$data);	
 	}
 
 
@@ -202,7 +209,9 @@ class First extends CI_Controller{
 		$this->web_widget_model->get_widget_data($data);
 
 		$data['data_config'] = $this->config_model->get_data();
-		$this->load->view('layouts/gallery.tpl.php',$data);
+		// $this->load->view('layouts/gallery.tpl.php',$data);
+		$this->set_template('layouts/gallery.tpl.php');
+		$this->load->view($this->template,$data);	
 	}
 
 	// halaman rincian tiap album galeri
@@ -230,7 +239,9 @@ class First extends CI_Controller{
 
 		$data['data_config'] = $this->config_model->get_data();
 		$data['mode']= 1;
-		$this->load->view('layouts/sub_gallery.tpl.php',$data);
+		//$this->load->view('layouts/sub_gallery.tpl.php',$data);
+		$this->set_template('layouts/sub_gallery.tpl.php');
+		$this->load->view($this->template,$data);	
 	}
 
 	function statistik($stat=0,$tipe=0){
@@ -249,7 +260,9 @@ class First extends CI_Controller{
 		$data['tipe'] = $tipe;
 		$data['st'] = $stat;
 
-		$this->load->view('layouts/stat.tpl.php',$data);
+		//$this->load->view('layouts/stat.tpl.php',$data);
+		$this->set_template('layouts/stat.tpl.php');
+		$this->load->view($this->template,$data);	
 	}
 
 	function data_analisis($stat="",$sb=0,$per=0){
@@ -272,7 +285,9 @@ class First extends CI_Controller{
 			$data['indikator'] = $this->first_penduduk_m->get_indikator($stat);
 		}
 
-		$this->load->view('layouts/analisis.tpl.php',$data);
+		//$this->load->view('layouts/analisis.tpl.php',$data);
+		$this->set_template('layouts/analisis.tpl.php');
+		$this->load->view($this->template,$data);	
 	}
 
 	function wilayah(){
@@ -293,7 +308,9 @@ class First extends CI_Controller{
 		$data['total'] = $this->first_penduduk_m->total();
 		$data['st'] = 1;
 		$data['data_config'] = $this->config_model->get_data();
-		$this->load->view('layouts/stat.tpl.php',$data);
+		//$this->load->view('layouts/stat.tpl.php',$data);
+		$this->set_template('layouts/stat.tpl.php');
+		$this->load->view($this->template,$data);	
 	}
 
 	function agenda($stat=0) {
@@ -305,7 +322,8 @@ class First extends CI_Controller{
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 
-		$this->load->view('layouts/main.tpl.php',$data);
+		//$this->load->view('layouts/main.tpl.php',$data);		
+		$this->load->view($this->template,$data);	
 	}
 
 	function kategori($kat=0,$p=0){
@@ -327,7 +345,8 @@ class First extends CI_Controller{
 		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($kat);
 
 		$data['data_config'] = $this->config_model->get_data();
-		$this->load->view('layouts/main.tpl.php',$data);
+		$this->load->view($this->template,$data);
+		// $this->load->view('layouts/main.tpl.php',$data);
 	}
 
 	function add_comment($id=0) {
