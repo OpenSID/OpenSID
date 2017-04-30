@@ -58,5 +58,8 @@ if (is_file($extra_app_config)) {
 if(file_exists(FCPATH.'.htaccess'))
 	$config['index_page'] = '';
 
+/* untuk setting theme web */
+//$config['web_theme'] = 'default';
+$config['web_theme'] = 'hadakewa';
 /* End of file sid_ini.php */
 /* Location: ./application/config/sid_ini.php */
