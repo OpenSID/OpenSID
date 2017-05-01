@@ -1,7 +1,3 @@
-<?php 
-    // $folder_themes = $this->get_themes();
-    $folder_themes = '../../themes/'.$this->theme;
-?>
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
 			<div id="contentwrapper">
 				<div id="contentcolumn">

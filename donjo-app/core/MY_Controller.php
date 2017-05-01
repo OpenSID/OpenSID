@@ -22,7 +22,7 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
         $this->theme = strtolower($this->config->item('web_theme'));
         // declare main template
-        $this->template = "../../themes/{$this->theme}/template.php";        
+        $this->template = "../../themes/{$this->theme}/template.php";
 	}
 
 	// --------------------------------------------------------------------
@@ -96,5 +96,6 @@ class Web_Controller extends MY_Controller {
     function __construct()
     {
         parent::__construct();
+				$this->includes['folder_themes'] = '../../themes/'.$this->theme;
     }
 }
