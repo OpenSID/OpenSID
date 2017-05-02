@@ -1,4 +1,5 @@
-<?php class Program_bantuan_model extends CI_Model{
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+class Program_bantuan_model extends CI_Model{
 
 	function __construct(){
 		$this->load->database();
@@ -397,6 +398,13 @@
 		}
 	}
 
+	// Ambil data program
+	function get_data_program($id){
+		// Untuk program bantuan, $id '50<program_id>'
+		$program_id = preg_replace("/^50/", "", $id);
+		return $this->db->select("*")->where("id",$program_id)->get("program")->row_array();
+	}
+
 	public function get_peserta_program($cat,$id){
 		$data_program = false;
 		/*
@@ -540,7 +548,12 @@
 				'program_id' => $id,
 				'peserta' => fixSQL($nik),
 				'sasaran' => $row["sasaran"],
-				'no_id_kartu' => $post['no_id_kartu']
+				'no_id_kartu' => $post['no_id_kartu'],
+				'kartu_nik' => $post['kartu_nik'],
+				'kartu_nama' => $post['kartu_nama'],
+				'kartu_tempat_lahir' => $post['kartu_tempat_lahir'],
+				'kartu_tanggal_lahir' => tgl_indo_in($post['kartu_tanggal_lahir']),
+				'kartu_alamat' => $post['kartu_alamat']
 			);
 			return $this->db->insert('program_peserta',$data);
 		}
@@ -549,6 +562,7 @@
 	// $id = program_peserta.id
 	public function edit_peserta($post,$id){
 		$this->db->where('id',$id);
+		$post['kartu_tanggal_lahir'] = tgl_indo_in($post['kartu_tanggal_lahir']);
 		$outp = $this->db->update('program_peserta', $post);
 	}
 

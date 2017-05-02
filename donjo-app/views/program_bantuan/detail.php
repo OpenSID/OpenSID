@@ -44,7 +44,7 @@
 							</div>
 						</div>
 					<?php }?>
-					<legend style="margin-top: 30px;">Detail Program</legend>
+					<legend style="margin-top: 30px;">Rincian Program</legend>
 					<div>
 						<?php
 						if($_SESSION["success"]==1){
@@ -93,8 +93,8 @@
 						            <?php } ?>
 						          </div>
 						        </td>
-										<td><a href="<?php echo site_url('program_bantuan/peserta/'.$detail["sasaran"].'/'.$item["nik"].'/')?>"><?php echo $item["peserta_nama"] ?></a></td>
-										<td><?php echo $item['no_id_kartu'];?></td>
+										<td><a href="<?php echo site_url('program_bantuan/peserta/'.$detail["sasaran"].'/'.$item["nik"].'/')?>" title="Daftar program untuk peserta"><?php echo $item["peserta_nama"] ?></a></td>
+										<td><a href="<?php echo site_url('program_bantuan/data_peserta/'.$item["id"])?>" title="Data peserta"><?php echo $item['no_id_kartu'];?></a></td>
 										<td><?php echo $item["peserta_info"]?></td>
 										<td><?php echo $item["info"];?></td>
 									</tr>

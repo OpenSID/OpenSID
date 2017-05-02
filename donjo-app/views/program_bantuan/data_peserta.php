@@ -1,26 +1,4 @@
 
-  <script>
-    $(document).ready(function() {
-      var nik = {};
-      nik.results = [
-        <?php  foreach($program[2]as $item){
-          if(strlen($item["id"])>0)?>
-          {id:"<?php echo $item['id']?>",name:"<?php echo $item['nama']?>",info:"<?php echo ($item['info'])?>"},
-        <?php  }?>
-      ];
-
-      $('#nik').flexbox(nik, {
-        resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-        watermark: <?php  if($individu){?>'<?php echo $individu['nik']?> - <?php echo ($individu['nama'])?>'<?php  }else{?>'Cari nama di sini..'<?php  }?>,
-        width: 260,
-        noResultsText :'Tidak ada no nik yang sesuai..',
-        onSelect: function() {
-          $('#'+'main').submit();
-      }
-      });
-    });
-  </script>
-
 <style type="text/css">
   table.form th.indented {
     padding-left: 40px;
@@ -39,9 +17,8 @@
     <td class="contentpane">
       <div id="contentpane">
         <div class="ui-layout-center" id="maincontent">
-          <legend>Formulir Penambahan Peserta</legend>
+          <legend>Data Peserta Program Bantuan</legend>
 
-          <?php $detail = $program[0];?>
           <div>
             <legend style="margin-top: 30px;">Rincian Program</legend>
             <table class="form">
@@ -52,43 +29,29 @@
             </table>
           </div>
 
-          <legend style="margin-top: 30px;">Tambahkan Peserta</legend>
+          <legend style="margin-top: 30px;">Data Peserta</legend>
           <div style="margin-top: 10px;">
 
             <div id="form-cari-peserta">
-              <form action="" id="main" name="main" method="POST" class="formular">
-                <label>Cari Nama Peserta dari Database Desa</label>
                 <table class="form">
                   <tr>
                     <?php if($detail["sasaran"] == 1): ?>
-                      <td width="30%">NIK / Nama</td>
-                      <td>
-                        <div id="nik" name="nik"></div>
-                      </td>
+                      <th width="30%">NIK / Nama</td>
                     <?php elseif($detail["sasaran"] == 2): ?>
-                      <td width="30%">No. KK / Nama KK</td>
-                      <td>
-                        <div id="nik" name="nik"></div>
-                      </td>
+                      <th width="30%">No. KK / Nama KK</td>
                     <?php elseif($detail["sasaran"] == 3): ?>
-                      <td width="30%">No. Rumah Tangga / Nama Kepala Rumah Tangga</td>
-                      <td>
-                        <div id="nik" name="nik"></div>
-                      </td>
+                      <th width="30%">No. Rumah Tangga / Nama Kepala Rumah Tangga</td>
                     <?php elseif($detail["sasaran"] == 4): ?>
-                      <td width="30%">Nama Kelompok / Nama Ketua Kelompok</td>
-                      <td>
-                        <div id="nik" name="nik"></div>
-                      </td>
+                      <th width="30%">Nama Kelompok / Nama Ketua Kelompok</td>
                     <?php endif; ?>
+                    <td>
+                      <?php echo $peserta["peserta_nama"]." / ".$peserta["peserta_info"]; ?>
+                    </td>
                   </tr>
                 </table>
-              </form>
             </div>
 
             <div id="form-melengkapi-data-peserta">
-              <form id="validasi" action="<?php echo $form_action?>/<?php echo $detail['id']?>" method="POST">
-                <input type="hidden" name="nik" value="<?php echo $individu['nik']?>" class="inputbox required" >
                 <table class="form">
                   <?php if($individu){?>
                     <?php include("donjo-app/views/program_bantuan/konfirmasi_peserta.php"); ?>
@@ -97,7 +60,9 @@
                   ?>
                   <tr>
                     <th width="30%">Nomor Kartu Peserta</th>
-                    <td width="70%"><input name="no_id_kartu" type="text" class="inputbox required" size="12"/></td>
+                    <td width="70%">
+                      <?php echo $peserta["no_id_kartu"] ?>
+                    </td>
                   </tr>
                   <tr>
                     <th colspan="2">Identitas Pada Kartu Peserta</th>
@@ -105,35 +70,34 @@
                   <tr>
                     <th class="indented">NIK</th>
                     <td>
-                      <input name="kartu_nik" type="text" class="inputbox" size="30"/>
+                      <?php echo $peserta["kartu_nik"] ?>
                     </td>
                   </tr>
                   <tr>
                     <th class="indented">Nama</th>
                     <td>
-                      <input name="kartu_nama" type="text" class="inputbox" size="60"/>
+                      <?php echo $peserta["kartu_nama"] ?>
                     </td>
                   </tr>
                   <tr>
                     <th class="indented"> Tempat Lahir</th>
                     <td>
-                      <input name="kartu_tempat_lahir" type="text" class="inputbox" size="65" />
+                      <?php echo $peserta["kartu_tempat_lahir"] ?>
                     </td>
                   </tr>
                   <tr>
                     <th class="indented">Tanggal Lahir</th>
                     <td>
-                      <input name="kartu_tanggal_lahir" type="text" class="inputbox datepicker" size="20"/>
+                      <?php echo tgl_indo($peserta["kartu_tanggal_lahir"]) ?>
                     </td>
                   </tr>
                   <tr>
                     <th class="indented">Alamat</th>
                     <td>
-                      <input name="kartu_alamat" type="text" class="inputbox" size="60"/>
+                      <?php echo $peserta["kartu_alamat"] ?>
                     </td>
                   </tr>
                 </table>
-              </form>
             </div>
           </div>
 
@@ -142,11 +106,6 @@
         <div class="ui-layout-south panel bottom">
           <div class="left">
             <a href="<?php echo site_url()?>program_bantuan/detail/1/<?php echo $detail['id']?>" class="uibutton icon prev">Kembali</a>
-          </div>
-          <div class="right">
-              <div class="uibutton-group">
-                  <button class="uibutton confirm" type="submit" onclick="$('#'+'validasi').submit();">Simpan</button>
-              </div>
           </div>
         </div>
 
