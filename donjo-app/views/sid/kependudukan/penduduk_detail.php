@@ -146,7 +146,11 @@
               </tr>
               <tr>
                 <td>Cacat</td><td >:</td>
-                <td><?php echo strtoupper($penduduk['cacat_id'])?></td>
+                <td><?php echo strtoupper($penduduk['cacat'])?></td>
+              </tr>
+              <tr>
+                <td>Akseptor KB</td><td >:</td>
+                <td><?php echo strtoupper($penduduk['cara_kb'])?></td>
               </tr>
               <tr>
                 <td>Status</td><td >:</td>
