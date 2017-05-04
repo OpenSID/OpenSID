@@ -68,14 +68,24 @@
 						?>
 						<legend>Daftar Peserta Program</legend>
 						<table class="list">
-							<thead><tr>
-								<th>No</th>
-								<th>Aksi</th>
-								<th><?php echo $detail["judul_peserta"]?></th>
-								<th>No. Kartu Peserta</th>
-								<th><?php echo $detail["judul_peserta_info"]?></th>
-								<th>Keterangan</th>
-							</tr></thead>
+							<thead>
+								<tr>
+									<th rowspan="2">No</th>
+									<th rowspan="2">Aksi</th>
+									<th rowspan="2"><?php echo $detail["judul_peserta"]?></th>
+									<th rowspan="2">No. Kartu Peserta</th>
+									<th rowspan="2"><?php echo $detail["judul_peserta_info"]?></th>
+									<th rowspan="2">Alamat</th>
+									<th colspan="5" style="text-align: center;">Identitas di Kartu Peserta</th>
+								</tr>
+								<tr>
+									<th>NIK</th>
+									<th>Nama</th>
+									<th>Tempat Lahir</th>
+									<th>Tanggal Lahir</th>
+									<th>Alamat</th>
+								</tr>
+							</thead>
 							<tbody>
 							<?php
 							$nomer = $paging->offset;
@@ -97,6 +107,11 @@
 										<td><a href="<?php echo site_url('program_bantuan/data_peserta/'.$item["id"])?>" title="Data peserta"><?php echo $item['no_id_kartu'];?></a></td>
 										<td><?php echo $item["peserta_info"]?></td>
 										<td><?php echo $item["info"];?></td>
+										<td><?php echo $item["kartu_nik"];?></td>
+										<td><?php echo $item["kartu_nama"];?></td>
+										<td><?php echo $item["kartu_tempat_lahir"];?></td>
+										<td><?php echo $item["kartu_tanggal_lahir"];?></td>
+										<td><?php echo $item["kartu_alamat"];?></td>
 									</tr>
 								<?php
 								}

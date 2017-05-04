@@ -105,14 +105,14 @@ class Program_bantuan_model extends CI_Model{
 		switch ($sasaran) {
 			case 1:
 				# Data penduduk
-				if (!$jumlah) $select_sql = "p.id,p.peserta,p.no_id_kartu,o.nama,w.rt,w.rw,w.dusun";
+				if (!$jumlah) $select_sql = "p.*,o.nama,w.rt,w.rw,w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_penduduk o ON p.peserta=o.nik
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster WHERE p.program_id=".$slug;
 				break;
 			case 2:
 				# Data KK
-				if (!$jumlah) $select_sql = "p.id as id,p.peserta as nama, p.no_id_kartu, o.nik_kepala, o.no_kk, q.nama, w.rt, w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*,p.peserta as nama,o.nik_kepala,o.no_kk,q.nama,w.rt,w.rw,w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_keluarga o ON p.peserta=o.no_kk
 					LEFT JOIN tweb_penduduk q ON o.nik_kepala=q.id
@@ -121,7 +121,7 @@ class Program_bantuan_model extends CI_Model{
 				break;
 			case 3:
 				# Data RTM
-				if (!$jumlah) $select_sql = "p.id,p.peserta,p.no_id_kartu,o.nama,o.nik,r.no_kk,w.rt,w.rw,w.dusun";
+				if (!$jumlah) $select_sql = "p.*,o.nama,o.nik,r.no_kk,w.rt,w.rw,w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_rtm r ON r.no_kk = p.peserta
 					LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
@@ -130,7 +130,7 @@ class Program_bantuan_model extends CI_Model{
 				break;
 			case 4:
 				# Data Kelompok
-				if (!$jumlah) $select_sql = "p.id,p.peserta,p.no_id_kartu,o.nama,o.nik,r.nama as nama_kelompok,w.rt,w.rw,w.dusun";
+				if (!$jumlah) $select_sql = "p.*,o.nama,o.nik,r.nama as nama_kelompok,w.rt,w.rw,w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN kelompok r ON r.id = p.peserta
 					LEFT JOIN tweb_penduduk o ON o.id=r.id_ketua

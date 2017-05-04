@@ -177,6 +177,7 @@ class Program_bantuan extends CI_Controller{
 			/*
 			 * Print xls untuk data x
 			 * */
+			$data["sasaran"] = array("1"=>"Penduduk","2"=>"Keluarga / KK","3"=>"Rumah Tangga","4"=>"Kelompok/Organisasi Kemasyarakatan");
 			$data['desa'] = $this->header_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
 
