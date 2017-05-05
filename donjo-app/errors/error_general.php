@@ -15,7 +15,9 @@
 			<h3><i class="fa fa-warning text-danger"></i> <?php echo strip_tags($heading); ?></h3>
 			<?php error_log(strip_tags($message)); ?>
 			<p>
-				Kami akan segera mencari solusi untuk permasalahan ini.
+				<?php echo $message; ?>
+
+				Harap laporkan masalah ini, agar kami dapat mencarikan solusinya.
 				Untuk sementara Anda dapat kembali ke halaman <a href="<?php echo base_url(); ?>">awal</a>.
 			</p>
 		</div>
