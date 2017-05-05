@@ -59,6 +59,7 @@ class First extends Web_Controller{
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
 
 		$data['paging']  = $this->first_artikel_m->paging($p);
+		$data['paging_page']  = 'index';
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 
 		$data['slide'] = $this->first_artikel_m->slide_show();
@@ -343,6 +344,7 @@ class First extends Web_Controller{
 
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
 		$data['paging']  = $this->first_artikel_m->paging_kat($p,$kat);
+		$data['paging_page']  = 'kategori/'.$kat;
 		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset,$data['paging']->per_page,$kat);
 
 		$data['slide'] = $this->first_artikel_m->slide_show();

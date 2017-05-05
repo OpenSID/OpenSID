@@ -42,6 +42,31 @@
     $this->migrasi_111_ke_112();
     $this->migrasi_112_ke_113();
     $this->migrasi_113_ke_114();
+    $this->migrasi_114_ke_115();
+  }
+
+  function migrasi_114_ke_115(){
+    // Tambah kolom untuk peserta program
+    if (!$this->db->field_exists('kartu_nik', 'program_peserta')) {
+      $query = "ALTER TABLE program_peserta ADD kartu_nik decimal(16,0)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('kartu_nama', 'program_peserta')) {
+      $query = "ALTER TABLE program_peserta ADD kartu_nama varchar(100)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('kartu_tempat_lahir', 'program_peserta')) {
+      $query = "ALTER TABLE program_peserta ADD kartu_tempat_lahir varchar(100)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('kartu_tanggal_lahir', 'program_peserta')) {
+      $query = "ALTER TABLE program_peserta ADD kartu_tanggal_lahir date";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('kartu_alamat', 'program_peserta')) {
+      $query = "ALTER TABLE program_peserta ADD kartu_alamat varchar(200)";
+      $this->db->query($query);
+    }
   }
 
   function migrasi_113_ke_114(){

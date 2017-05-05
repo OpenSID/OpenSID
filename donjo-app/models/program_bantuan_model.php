@@ -1,4 +1,5 @@
-<?php class Program_bantuan_model extends CI_Model{
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+class Program_bantuan_model extends CI_Model{
 
 	function __construct(){
 		$this->load->database();
@@ -104,14 +105,14 @@
 		switch ($sasaran) {
 			case 1:
 				# Data penduduk
-				if (!$jumlah) $select_sql = "p.id,p.peserta,p.no_id_kartu,o.nama,w.rt,w.rw,w.dusun";
+				if (!$jumlah) $select_sql = "p.*,o.nama,w.rt,w.rw,w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_penduduk o ON p.peserta=o.nik
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster WHERE p.program_id=".$slug;
 				break;
 			case 2:
 				# Data KK
-				if (!$jumlah) $select_sql = "p.id as id,p.peserta as nama, p.no_id_kartu, o.nik_kepala, o.no_kk, q.nama, w.rt, w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*,p.peserta as nama,o.nik_kepala,o.no_kk,q.nama,w.rt,w.rw,w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_keluarga o ON p.peserta=o.no_kk
 					LEFT JOIN tweb_penduduk q ON o.nik_kepala=q.id
@@ -120,7 +121,7 @@
 				break;
 			case 3:
 				# Data RTM
-				if (!$jumlah) $select_sql = "p.id,p.peserta,p.no_id_kartu,o.nama,o.nik,r.no_kk,w.rt,w.rw,w.dusun";
+				if (!$jumlah) $select_sql = "p.*,o.nama,o.nik,r.no_kk,w.rt,w.rw,w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_rtm r ON r.no_kk = p.peserta
 					LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
@@ -129,7 +130,7 @@
 				break;
 			case 4:
 				# Data Kelompok
-				if (!$jumlah) $select_sql = "p.id,p.peserta,p.no_id_kartu,o.nama,o.nik,r.nama as nama_kelompok,w.rt,w.rw,w.dusun";
+				if (!$jumlah) $select_sql = "p.*,o.nama,o.nik,r.nama as nama_kelompok,w.rt,w.rw,w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN kelompok r ON r.id = p.peserta
 					LEFT JOIN tweb_penduduk o ON o.id=r.id_ketua
@@ -397,6 +398,13 @@
 		}
 	}
 
+	// Ambil data program
+	function get_data_program($id){
+		// Untuk program bantuan, $id '50<program_id>'
+		$program_id = preg_replace("/^50/", "", $id);
+		return $this->db->select("*")->where("id",$program_id)->get("program")->row_array();
+	}
+
 	public function get_peserta_program($cat,$id){
 		$data_program = false;
 		/*
@@ -540,7 +548,12 @@
 				'program_id' => $id,
 				'peserta' => fixSQL($nik),
 				'sasaran' => $row["sasaran"],
-				'no_id_kartu' => $post['no_id_kartu']
+				'no_id_kartu' => $post['no_id_kartu'],
+				'kartu_nik' => $post['kartu_nik'],
+				'kartu_nama' => $post['kartu_nama'],
+				'kartu_tempat_lahir' => $post['kartu_tempat_lahir'],
+				'kartu_tanggal_lahir' => tgl_indo_in($post['kartu_tanggal_lahir']),
+				'kartu_alamat' => $post['kartu_alamat']
 			);
 			return $this->db->insert('program_peserta',$data);
 		}
@@ -549,6 +562,7 @@
 	// $id = program_peserta.id
 	public function edit_peserta($post,$id){
 		$this->db->where('id',$id);
+		$post['kartu_tanggal_lahir'] = tgl_indo_in($post['kartu_tanggal_lahir']);
 		$outp = $this->db->update('program_peserta', $post);
 	}
 
