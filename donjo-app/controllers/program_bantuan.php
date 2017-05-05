@@ -81,6 +81,16 @@ class Program_bantuan extends CI_Controller{
 		$this->load->view('footer');
 	}
 
+	public function data_peserta($id){
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
+		$data['individu']=$this->program_bantuan_model->get_peserta($data['peserta']['peserta'],$data['peserta']['sasaran']);
+		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
+		$this->load->view('program_bantuan/data_peserta',$data);
+		$this->load->view('footer');
+	}
+
 	public function add_peserta($id){
 		$this->program_bantuan_model->add_peserta($_POST,$id);
 		redirect("program_bantuan/detail/1/$id");
@@ -167,6 +177,7 @@ class Program_bantuan extends CI_Controller{
 			/*
 			 * Print xls untuk data x
 			 * */
+			$data["sasaran"] = array("1"=>"Penduduk","2"=>"Keluarga / KK","3"=>"Rumah Tangga","4"=>"Kelompok/Organisasi Kemasyarakatan");
 			$data['desa'] = $this->header_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
 

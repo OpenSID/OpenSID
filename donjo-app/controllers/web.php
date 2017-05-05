@@ -9,6 +9,7 @@ class web extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('web_artikel_model');
+		$this->load->model('web_kategori_model');
 		$this->modul_ini = 13;
 	}
 
@@ -171,6 +172,19 @@ class web extends CI_Controller{
 		$this->web_artikel_model->delete_all();
 		if ($cat == 1003) redirect("web/widget");
 		else redirect("web/index/$p/$o");
+	}
+
+	function ubah_kategori_form($id=0){
+		$data['list_kategori'] = $this->web_kategori_model->list_kategori("kategori");
+		$data['form_action'] = site_url("web/update_kategori/$id");
+		$data['kategori_sekarang'] = $this->web_artikel_model->get_kategori_artikel($id);
+		$this->load->view('web/artikel/ajax_ubah_kategori_form',$data);
+	}
+
+	function update_kategori($id=0){
+		$cat = $_POST['kategori'];
+		$this->web_artikel_model->update_kategori($id, $cat);
+		redirect("web/index/$cat");
 	}
 
 	function widget_urut($id=0, $arah=0){

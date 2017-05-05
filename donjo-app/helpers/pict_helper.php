@@ -7,7 +7,7 @@ function AmbilFoto($foto){
 
 function UploadFoto($fupload_name,$old_foto,$tipe_file=""){
   $dimensi = array("width"=>100, "height"=>100);
-  if($old_foto!="") $old_foto = "kecil_".old_foto;
+  if($old_foto!="") $old_foto = "kecil_".$old_foto;
   $nama_simpan = "kecil_".$fupload_name;
   return UploadResizeImage(LOKASI_USER_PICT,$dimensi,"foto",$fupload_name,$nama_simpan,$old_foto,$tipe_file);
 }
@@ -476,6 +476,10 @@ function UploadResizeImage($lokasi,$dimensi,$jenis_upload,$fupload_name,$nama_si
     else
       imagejpeg($image_p,$filepath_out);
     imagedestroy($image_p);
+    imagedestroy($image);
+  } else {
+    // Ukuran file tidak perlu di-resize
+    copy($filepath_in, $filepath_out);
     imagedestroy($image);
   }
   return TRUE;

@@ -141,6 +141,7 @@ source: keyword
 <td>
 <div class="uibutton-group">
 	<a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
+	<a href="<?php echo site_url("web/ubah_kategori_form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Kategori" target="ajax-modal" rel="window" header="Ubah Kategori" modalWidth="auto" modalHeight="auto"><span class="icon-folder-open icon-large"></span></a>
 
 <?php if($_SESSION['grup']<4){?>
 	<a href="<?php echo site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>

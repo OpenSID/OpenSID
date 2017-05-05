@@ -172,9 +172,10 @@ class Web_kategori_Model extends CI_Model{
 		return $data;
 	}
 
-	function list_kategori(){
+	function list_kategori($o=""){
+		if (empty($o)) $urut = "urut"; else $urut = $o;
 
-		$sql   = "SELECT k.id,k.kategori AS kategori FROM kategori k WHERE 1";
+		$sql   = "SELECT k.id,k.kategori AS kategori FROM kategori k WHERE 1 ORDER BY $urut";
 
 		$query = $this->db->query($sql);
 		$data=$query->result_array();

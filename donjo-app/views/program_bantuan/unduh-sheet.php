@@ -1,31 +1,31 @@
 <?php
 /*
  * create.php
- * 
+ *
  * Backend View untuk Nulis Program Bantuan Baru
- * 
+ *
  * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- * 
- * 
+ *
+ *
  */
 
 header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=print.xls");
+header("Content-Disposition: attachment; filename="."bantuan_".urlencode($peserta[0]["nama"]).".xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 ?>
@@ -42,7 +42,10 @@ header("Expires: 0");
 	<div class="header">
 		<label><?php echo get_identitas()?></label>
 		<h3> Daftar Peserta Program <?php echo $peserta[0]["nama"];?></h3>
-		<h4><?php echo fTampilTgl($peserta[0]["sdate"],$peserta[0]["edate"]);?></h4>
+		<p>
+			<strong>Sasaran Peserta: </strong><?php echo $sasaran[$peserta[0]["sasaran"]];?><br>
+			<strong>Masa Berlaku: </strong><?php echo fTampilTgl($peserta[0]["sdate"],$peserta[0]["edate"]);?>
+		</p>
 		<div><?php echo $peserta[0]["ndesc"];?></div>
 	</div>
 
@@ -50,10 +53,18 @@ header("Expires: 0");
 	<table class="border thick">
 		<thead>
 			<tr class="border thick">
-				<th width="150" >No</th>
-				<th>ID</th>
+				<th rowspan="2">No</th>
+				<th rowspan="2"><?php echo $peserta[0]["judul_peserta"]?></th>
+				<th rowspan="2"><?php echo $peserta[0]["judul_peserta_info"]?></th>
+				<th rowspan="2">Alamat</th>
+				<th colspan="5" style="text-align: center;">Identitas di Kartu Peserta</th>
+			</tr>
+			<tr>
+				<th>NIK</th>
 				<th>Nama</th>
-				<th>Keterangan</th>
+				<th>Tempat Lahir</th>
+				<th>Tanggal Lahir</th>
+				<th>Alamat</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -64,6 +75,11 @@ header("Expires: 0");
 					<td>'".$item["nik"]."</td>
 					<td>".$item["nama"]."</td>
 					<td>".$item["info"]."</td>
+					<td>".$item["kartu_nik"]."</td>
+					<td>".$item["kartu_nama"]."</td>
+					<td>".$item["kartu_tempat_lahir"]."</td>
+					<td>'".tgl_indo_out($item["kartu_tanggal_lahir"])."</td>
+					<td>".$item["kartu_alamat"]."</td>
 				</tr>";
 				$i++;
 			}
