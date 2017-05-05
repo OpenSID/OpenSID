@@ -1,0 +1,33 @@
+body {
+	background-color:#f5f5f5;
+}
+
+.error-page {
+    width: 700px;
+    margin: 30px auto 0 auto;
+}
+
+.error-page > .headline {
+    float: left;
+    font-size: 100px;
+    font-weight: 300;
+}
+
+.error-page > .error-content {
+    margin-left: 190px;
+    display: block;
+	padding-top:20px;
+}
+
+.error-page > .error-content > h3 {
+    font-weight: 300;
+    font-size: 25px;
+}
+
+.text-yellow {
+    color: #fabb3d !important;
+}
+
+.text-red {
+    color: #C14D43 !important;
+}
