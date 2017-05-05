@@ -107,22 +107,22 @@ if($artikel){
 	<div class=\"box-footer\">
 		<ul class=\"pagination pagination-sm no-margin\">";
 		if($paging->start_link){
-			echo "<li><a href=\"".site_url("first/index/$paging->start_link")."\" title=\"Halaman Pertama\"><i class=\"fa fa-fast-backward\"></i>&nbsp;</a></li>";
+			echo "<li><a href=\"".site_url("first/".$paging_page."/$paging->start_link")."\" title=\"Halaman Pertama\"><i class=\"fa fa-fast-backward\"></i>&nbsp;</a></li>";
 		}
 		if($paging->prev){
-			echo "<li><a href=\"".site_url("first/index/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
+			echo "<li><a href=\"".site_url("first/".$paging_page."/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
 		}
 
 		for($i=$paging->start_link;$i<=$paging->end_link;$i++){
 			$strC = ($p == $i)? "class=\"active\"":"";
-			echo "<li ".$strC."><a href=\"".site_url("first/index/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
+			echo "<li ".$strC."><a href=\"".site_url("first/".$paging_page."/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
 		}
 
 		if($paging->next){
-			echo "<li><a href=\"".site_url("first/index/$paging->next")."\" title=\"Halaman Selanjutnya\"><i class=\"fa fa-forward\"></i>&nbsp;</a></li>";
+			echo "<li><a href=\"".site_url("first/".$paging_page."/$paging->next")."\" title=\"Halaman Selanjutnya\"><i class=\"fa fa-forward\"></i>&nbsp;</a></li>";
 		}
 		if($paging->end_link){
-			echo "<li><a href=\"".site_url("first/index/$paging->end_link")."\" title=\"Halaman Terakhir\"><i class=\"fa fa-fast-forward\"></i>&nbsp;</a></li>";
+			echo "<li><a href=\"".site_url("first/".$paging_page."/$paging->end_link")."\" title=\"Halaman Terakhir\"><i class=\"fa fa-fast-forward\"></i>&nbsp;</a></li>";
 		}
 			echo "";
 		echo "
@@ -134,36 +134,3 @@ if($artikel){
 	</div>
 ";
 ?>
-
-<!--
-<div class="themes nobig2">
-<div class="bleft">
-            <label>Jumlah Total Artikel:</label>
-			<label><strong><?php echo $paging->num_rows?></strong></label>
-</div>
-        <div class="bright">
-            <div class="uibutton-group">
-            <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("first/index/$paging->start_link")?>" class="uibutton"  >Awal</a>
-			<?php  endif; ?>
-			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("first/index/$paging->prev")?>" class="uibutton"  >Prev</a>
-			<?php  endif; ?>
-            </div>
-            <div class="uibutton-group">
-
-				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-				<a href="<?php echo site_url("first/index/$i")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-				<?php  endfor; ?>
-            </div>
-            <div class="uibutton-group">
-			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("first/index/$paging->next")?>" class="uibutton">Next</a>
-			<?php  endif; ?>
-			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("first/index/$paging->end_link")?>" class="uibutton">Akhir</a>
-			<?php  endif; ?>
-            </div>
-        </div>
-</div>
--->
