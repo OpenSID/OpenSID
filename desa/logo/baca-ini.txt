@@ -1,0 +1,7 @@
+*******************************
+Folder: desa/logo
+*******************************
+
+Folder ini tempat menyimpan file logo yang diunggah oleh desa.
+
+Logo yang ditampilkan adalah yang tersimpan di folder ini.

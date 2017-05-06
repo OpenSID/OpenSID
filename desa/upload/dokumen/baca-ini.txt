@@ -1,0 +1,5 @@
+*******************************
+Folder: desa/upload/dokumen
+*******************************
+
+Folder ini tempat menyimpan semua gambar yang diunggah sebagai dokumen lampiran.
