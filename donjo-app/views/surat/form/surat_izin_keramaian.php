@@ -80,7 +80,7 @@ padding:5px;
 <tr>
 <th>Berlaku</th>
 <td>
-<input name="berlaku_dari" type="text" class="inputbox required datepicker-start " size="20"/> sampai <input name="berlaku_sampai" type="text" class="inputbox required datepicker-end" size="20"/>
+<input name="berlaku_dari" type="text" class="inputbox required datetimepicker-start " size="20"/> sampai <input name="berlaku_sampai" type="text" class="inputbox required datetimepicker-end" size="20"/>
 </td>
 </tr>
 <tr>
