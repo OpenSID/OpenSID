@@ -1,4 +1,4 @@
-	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title><?php
@@ -21,9 +21,13 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
 		<?php endif; ?>
-		<link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
-		<?php if(is_file("desa/css/desa-web.css")): ?>
-			<link type='text/css' href="<?php echo base_url()?>desa/css/desa-web.css" rel='Stylesheet' />
+		<?php if(is_file("desa/css/".$this->theme."/front/first.css")){?>
+		  <link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/front/first.css" rel='Stylesheet' />
+		<?php } else { ?>
+		  <link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
+		<?php } ?>
+		<?php if(is_file("desa/css/".$this->theme."/desa-web.css")): ?>
+			<link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/desa-web.css" rel='Stylesheet' />
 		<?php endif; ?>
 		<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
@@ -47,12 +51,12 @@
 						<div id="headercontent">
 							<div id="menu_vert">
 								<div id="menuwrapper">
-									<?php $this->load->view('partials/menu.tpl.php');?>
+									<?php $this->load->view($folder_themes.'/partials/menu.tpl.php');?>
 								</div>
 							</div>
 							<div id="menu_vert2">
 								<?php if(count($slide)>0){
-									$this->load->view('layouts/slide.php');
+									$this->load->view($folder_themes.'/layouts/slide.php');
 								} ?>
 							</div>
 						</div>
@@ -86,11 +90,11 @@
 					</div>
 
 					<?php if(count($teks_berjalan)>0){
-						$this->load->view('layouts/teks_berjalan.php');
+						$this->load->view($folder_themes.'/layouts/teks_berjalan.php');
 					} ?>
 
 					<div id="mainmenu">
-						<?php $this->load->view('partials/menu.left.php');?>
+						<?php $this->load->view($folder_themes.'/partials/menu.left.php');?>
 					</div>
 
 				</div>

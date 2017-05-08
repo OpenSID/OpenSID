@@ -134,36 +134,3 @@ if($artikel){
 	</div>
 ";
 ?>
-
-<!--
-<div class="themes nobig2">
-<div class="bleft">
-            <label>Jumlah Total Artikel:</label>
-			<label><strong><?php echo $paging->num_rows?></strong></label>
-</div>
-        <div class="bright">
-            <div class="uibutton-group">
-            <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("first/index/$paging->start_link")?>" class="uibutton"  >Awal</a>
-			<?php  endif; ?>
-			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("first/index/$paging->prev")?>" class="uibutton"  >Prev</a>
-			<?php  endif; ?>
-            </div>
-            <div class="uibutton-group">
-
-				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-				<a href="<?php echo site_url("first/index/$i")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-				<?php  endfor; ?>
-            </div>
-            <div class="uibutton-group">
-			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("first/index/$paging->next")?>" class="uibutton">Next</a>
-			<?php  endif; ?>
-			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("first/index/$paging->end_link")?>" class="uibutton">Akhir</a>
-			<?php  endif; ?>
-            </div>
-        </div>
-</div>
--->
