@@ -9,9 +9,6 @@
 
 // Ambil setting SID khusus desa
 define("LOKASI_SID_INI", 'desa/config/');
-/* untuk setting theme web */
-//$config['web_theme'] = 'default';
-$config['web_theme'] = 'hadakewa';
 // Konfigurasi default
 $config['sebutan_kabupaten'] = 'kabupaten';
 $config['sebutan_kabupaten_singkat'] = 'kab.';
@@ -23,6 +20,8 @@ $config['sebutan_camat'] = 'camat';
 $config['website_title'] = 'Website Resmi';
 $config['login_title'] = 'OpenSID';
 $config['admin_title'] = 'Sistem Informasi Desa';
+/* untuk setting theme web */
+$config['web_theme'] = 'default';
 /*
 |--------------------------------------------------------------------------
 | Offline Mode
