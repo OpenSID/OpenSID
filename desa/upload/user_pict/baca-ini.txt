@@ -1,0 +1,5 @@
+*******************************
+Folder: desa/upload/user_pict
+*******************************
+
+Folder ini tempat menyimpan semua gambar yang diunggah sebagai foto pengguna.
