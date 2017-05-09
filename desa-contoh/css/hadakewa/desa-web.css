@@ -67,7 +67,7 @@ body{
 	margin-top: 0px;
     margin-right: 0px;
 	border-radius: 0px;
-	height: 34px;
+	height: 32px;
     border: 1px #ddd solid;
     background: rgba(255,255,255,1);
 	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
@@ -104,8 +104,8 @@ body{
 #mainmenu {
     margin: -1px 0 5px -6px;
     float: left;
-    width: 101.3%;
-    height: 34px;
+    width: 101.1%;
+    height: 33px;
     border: 1px #ddd solid;
     background: rgba(255,255,255,1);
 	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
