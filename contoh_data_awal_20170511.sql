@@ -1373,9 +1373,10 @@ CREATE TABLE `log_bulanan` (
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9');
 
 
 #
@@ -1711,19 +1712,24 @@ CREATE TABLE `program_peserta` (
   `program_id` int(11) NOT NULL,
   `sasaran` tinyint(4) DEFAULT NULL,
   `no_id_kartu` varchar(30) DEFAULT NULL,
+  `kartu_nik` decimal(16,0) DEFAULT NULL,
+  `kartu_nama` varchar(100) DEFAULT NULL,
+  `kartu_tempat_lahir` varchar(100) DEFAULT NULL,
+  `kartu_tanggal_lahir` date DEFAULT NULL,
+  `kartu_alamat` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('2', '5201140104126994', '1', '2', NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('3', '5201140105136997', '1', '2', NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('4', '5201140104126995', '2', '2', NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('5', '5201140105136997', '2', '2', NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('6', '5201140104126995', '3', '2', NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('7', '5201140105136997', '3', '2', NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('8', '5201140104166999', '4', '2', NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('9', '5201140105136997', '4', '2', NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('10', '5201142005716996', '5', '2', NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`) VALUES ('11', '5201140706966997', '5', '2', NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('2', '5201140104126994', '1', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('3', '5201140105136997', '1', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('4', '5201140104126995', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('5', '5201140105136997', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('6', '5201140104126995', '3', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('7', '5201140105136997', '3', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('8', '5201140104166999', '4', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('9', '5201140105136997', '4', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('10', '5201142005716996', '5', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('11', '5201140706966997', '5', '2', NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 #
@@ -2638,7 +2644,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
