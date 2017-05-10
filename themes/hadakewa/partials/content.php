@@ -1,6 +1,6 @@
 <?php
 if(count($slider_photos)>0){
-	$this->load->view('layouts/slider.php');
+	$this->load->view($folder_themes."/layouts/slider.php");
 }
 if($headline){
 	echo "
