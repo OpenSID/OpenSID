@@ -19,5 +19,7 @@ Lengkapnya, isi rilis v1.15:
 Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
 
 Untuk mengaktifkan fitur ganti tema penampilan web, lakukan:
-1. Copy folder desa-contoh/css dan paste untuk menggantikan folder desa/css.
-2. Ganti setting $config['web_theme'] di desa/config/config.php menjadi 'hadakewa'.
+1. Copy folder desa-contoh/css/hadakewa dan paste ke folder desa/css/hadakewa.
+2. Gabungkan isi desa-contoh/css/images ke folder desa/css/images.
+3. Pindahkan file desa/css/desa-default.css dan desa/css/desa-web.css ke folder desa/css/default.
+4. Ganti setting $config['web_theme'] di desa/config/config.php menjadi 'hadakewa'.
