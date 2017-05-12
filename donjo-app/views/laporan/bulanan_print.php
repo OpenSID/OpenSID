@@ -23,7 +23,7 @@
   			<tr>
   				<td colspan="12" class="judul"><strong>LAPORAN PENDUDUK <?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper($data['nama_desa'])?></strong></td>
   			</tr>
-      <? endforeach; ?>
+      <?php endforeach; ?>
 		</tbody>
 	</table>
 	<br>

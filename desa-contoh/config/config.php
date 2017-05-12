@@ -31,3 +31,7 @@ $config['enable_track'] = TRUE;
 // Gunakan log surat terakhir untuk seluruh surat, tanpa memilah jenis surat
 // Default: FALSE (gunakan nomor surat terakhir menurut jenis surat)
 $config['nomor_terakhir_semua_surat'] = FALSE;
+
+// Ganti tema penampilan web
+// $config['web_theme'] = 'hadakewa';
+

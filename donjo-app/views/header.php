@@ -37,6 +37,7 @@
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=<?php echo config_item('google_key'); ?>"></script>
 	</head>
 <body>
 <div class="ui-layout-north" id="header">
