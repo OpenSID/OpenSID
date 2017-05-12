@@ -26,7 +26,7 @@
 		$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.pertanyaan LIKE '$kw' OR u.pertanyaan LIKE '$kw')";
+			$search_sql= " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
 			return $search_sql;
 			}
 		}
@@ -90,10 +90,10 @@
 		switch($o){
 			case 1: $order_sql = ' ORDER BY u.nomor'; break;
 			case 2: $order_sql = ' ORDER BY u.nomor DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.pertanyaan'; break;
-			case 4: $order_sql = ' ORDER BY u.pertanyaan DESC'; break;
-			case 5: $order_sql = ' ORDER BY u.id_kategori'; break;
-			case 6: $order_sql = ' ORDER BY u.id_kategori DESC'; break;
+			case 3: $order_sql = ' ORDER BY u.nama'; break;
+			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
+			case 5: $order_sql = ' ORDER BY u.kode_surat'; break;
+			case 6: $order_sql = ' ORDER BY u.kode_surat DESC'; break;
 			default:$order_sql = ' ORDER BY u.id';
 		}
 
@@ -132,59 +132,35 @@
 		$data['url_surat'] = strtolower($data['url_surat']);
 		$data['url_surat'] = "surat_".$data['url_surat'];
 		$outp = $this->db->insert('tweb_surat_format',$data);
-
-		$mypath="surat\\".$data['url_surat']."\\";
-		$path = "".str_replace("\\","/",$mypath)."/";
-
-		if (!file_exists($mypath)) {
-			mkdir($mypath, 0777, true);
-		}
+		$raw_path="surat/raw/";
 
 		//doc
-		$raw="surat\\raw\\";
-		$raw_path = "".str_replace("\\","/",$raw);
 		$file = $raw_path."template.rtf";
 		$handle = fopen($file,'r');
-
 		$buffer = stream_get_contents($handle);
-		//$handle = fopen($path.$data['url_surat'],'w+');
-
-		$berkas = $path.$data['url_surat'].".rtf";
+		$berkas = LOKASI_SURAT_EXPORT_DESA.$data['url_surat'].".rtf";
 		$handle = fopen($berkas,'w+');
 		fwrite($handle,$buffer);
 		fclose($handle);
 
 		//form
-		$mypath="donjo-app\\views\\surat\\form\\";
-		$path_form = "".str_replace("\\","/",$mypath)."/";
-
-		$raw="surat\\raw\\";
-		$raw_path = "".str_replace("\\","/",$raw);
+		if (!file_exists(LOKASI_SURAT_FORM_DESA)) {
+			mkdir(LOKASI_SURAT_FORM_DESA, 0777, true);
+		}
 		$file = $raw_path."form.raw";
 		$handle = fopen($file,'r');
-
 		$buffer = stream_get_contents($handle);
-		//$handle = fopen($path_form.$data['url_surat'],'w+');
-
-		$berkas = $path_form.$data['url_surat'].".php";
+		$berkas = LOKASI_SURAT_FORM_DESA.$data['url_surat'].".php";
 		$handle = fopen($berkas,'w+');
 		$buffer=str_replace("[nama_surat]","Surat $data[nama]",$buffer);
 		fwrite($handle,$buffer);
 		fclose($handle);
 
 		//cetak
-		$mypath="donjo-app\\views\\surat\\print\\";
-		$path_form = "".str_replace("\\","/",$mypath)."/";
-
-		$raw="surat\\raw\\";
-		$raw_path = "".str_replace("\\","/",$raw);
 		$file = $raw_path."print.raw";
 		$handle = fopen($file,'r');
-
 		$buffer = stream_get_contents($handle);
-		//$handle = fopen($path_form.$data['url_surat'],'w+');
-
-		$berkas = $path_form."print_".$data['url_surat'].".php";
+		$berkas = LOKASI_SURAT_PRINT_DESA."print_".$data['url_surat'].".php";
 		$handle = fopen($berkas,'w+');
 		$nama_surat = strtoupper($data['nama']);
 		$buffer=str_replace("[nama_surat]","SURAT $nama_surat",$buffer);
@@ -207,7 +183,7 @@
 	function upload($url=""){
 		$_SESSION['error_msg'] = '';
 		$tipe_file   = $_FILES['foto']['type'];
-		$mime_type_rtf = array("application/rtf", "text/rtf");
+		$mime_type_rtf = array("application/rtf", "text/rtf", "application/msword");
 		if(!in_array($tipe_file, $mime_type_rtf)){
 			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 			$_SESSION['success']=-1;
@@ -217,11 +193,28 @@
 			move_uploaded_file($_FILES["foto"]["tmp_name"], $vdir_upload);
 			$_SESSION['success']=1;
 		}
+		$this->salin_lampiran($url);
+	}
 
+	// Lampiran surat perlu disalin ke LOKASI_SURAT_EXPORT_DESA, karena
+	// file lampiran surat dianggap ada di folder yang sama dengan tempat template surat RTF
+	function salin_lampiran($url){
+		$this->load->model('surat_model');
+		$surat = $this->surat_model->get_surat($url);
+		if (!$surat['lampiran']) return;
+
+		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
+		$daftar_lampiran = explode(",", $surat['lampiran']);
+		foreach ($daftar_lampiran as $lampiran) {
+			if (!file_exists(LOKASI_SURAT_EXPORT_DESA."/".$lampiran)) {
+				copy("surat/".$url."/".$lampiran,LOKASI_SURAT_EXPORT_DESA."/".$lampiran);
+			}
+		}
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM tweb_surat_format WHERE id=?";
+		// Surat jenis sistem (nilai 1) tidak bisa dihapus
+		$sql  = "DELETE FROM tweb_surat_format WHERE jenis <> 1 AND id=?";
 		$outp = $this->db->query($sql,array($id));
 
 		if($outp) $_SESSION['success']=1;
@@ -233,14 +226,9 @@
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM tweb_surat_format WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
+				$this->delete($id);
 			}
 		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
 	}
 
 	function list_atribut($id=0){
@@ -289,6 +277,62 @@
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+  function get_kode_isian($surat) {
+		// Lokasi instalasi SID mungkin di sub-folder
+    include FCPATH . '/vendor/simple_html_dom.php';
+    $html = file_get_html(FCPATH . "/donjo-app/views/surat/form/".$surat['url_surat'].".php");
+
+    // Kumpulkan semua isian (tag input) di form surat
+    // Asumsi di form surat, struktur input seperti ini
+    // <tr>
+    // 		<th>Keterangan Isian</th>
+    // 		<td><input><td>
+    // </tr>
+    $inputs = array();
+    foreach($html->find('input') as $input) {
+      if ($input->type == 'hidden') {
+        continue;
+      }
+      $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
+    }
+    foreach($html->find('select') as $input) {
+      if ($input->type == 'hidden') {
+        continue;
+      }
+      $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
+    }
+    $html->clear();
+    unset($html);
+    return $inputs;
+  }
+
+	function favorit($id=0,$k=0){
+
+		if($k==1)
+			$sql = "UPDATE tweb_surat_format SET favorit = 0 WHERE id=?";
+		else
+			$sql = "UPDATE tweb_surat_format SET favorit = 1 WHERE id=?";
+
+		$outp = $this->db->query($sql,$id);
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+	function lock($id=0,$k=0){
+
+		if($k==1)
+			$sql = "UPDATE tweb_surat_format SET kunci = 0 WHERE id=?";
+		else
+			$sql = "UPDATE tweb_surat_format SET kunci = 1 WHERE id=?";
+
+		$outp = $this->db->query($sql,$id);
+
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
 }
 
 ?>

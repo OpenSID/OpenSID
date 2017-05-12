@@ -31,7 +31,7 @@ source: keyword
 
 </td>
 */?>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content">
 	<h3>Manajemen Properti / area</h3>
 	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
@@ -49,7 +49,7 @@ source: keyword
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <div class="table-panel top">
 <div class="left">
-		
+
 		<select name="filter" onchange="formAction('mainform','<?php echo site_url('plan/area/filter')?>')">
 			<option value="">Semua</option>
 			<option value="1" <?php if($filter==1) :?>selected<?php endif?>>Enabled</option>
@@ -62,14 +62,14 @@ source: keyword
 			<option value="<?php echo $data['id']?>" <?php if($polygon == $data['id']) :?>selected<?php endif?>><?php echo $data['nama']?></option>
 			<?php }?>
 		</select>
-			
+
 		<select name="subpolygon" onchange="formAction('mainform','<?php echo site_url('plan/area/subpolygon')?>')">
 			<option value="">Jenis</option>
 			<?php foreach($list_subpolygon AS $data){?>
 			<option value="<?php echo $data['id']?>" <?php if($subpolygon == $data['id']) :?>selected<?php endif?>><?php echo $data['nama']?></option>
 			<?php }?>
 		</select>
-					
+
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
@@ -126,7 +126,7 @@ source: keyword
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 <form id="paging" action="<?php echo site_url('plan/area')?>" method="post">
 <label>Tampilkan</label>

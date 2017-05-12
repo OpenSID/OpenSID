@@ -17,10 +17,10 @@ source: keyword
 <div  id="sidecontent3" class="lmenu" >
 
 <ul>
-<?php 
+<?php
 	foreach($list_kategori AS $data){
 	?>
-	
+
 		<li <?php if($cat == $data['id'])echo "class='selected'";?>>
 		<a href="<?php echo site_url("web/index/$data[id]")?>">
 			<?php
@@ -32,7 +32,7 @@ source: keyword
 		</a>
 		</li>
 <?php }?>
-<?php 
+<?php
 /*
 	<li><a class="icon-plus-sign-alt icon-large" title="Ubah Data" href="<?php echo site_url("web/ajax_add_kategori")?>" target="ajax-modal" rel="window" header="Tambah Kategori Baru"> Tambah Kategori</a></li>
 */
@@ -40,18 +40,13 @@ source: keyword
 	</ul>
 
 		</fieldset>
-		
+
 </div><legend>Artikel Statis</legend>
 <div class="lmenu" >
 <ul>
-	<li <?php if($cat == 1003)echo "class='selected'";?>>
-		<a href="<?php echo site_url("web/index/1003")?>">
-		Coztumizable Widget 
-		</a>
-	</li>
 	<li <?php if($cat == 999)echo "class='selected'";?>>
 		<a href="<?php echo site_url("web/index/999")?>">
-		Halaman Statis 
+		Halaman Statis
 		</a>
 	</li>
 	<li <?php if($cat == 1000)echo "class='selected'";?>>
@@ -63,10 +58,10 @@ source: keyword
 </div>
 </td>
 
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 	<?php
-	
+
 	//echo var_dump($kategori);
 	?>
 </div>
@@ -77,7 +72,7 @@ source: keyword
 <div class="uibutton-group">
 <a href="<?php echo site_url("web/form/$cat")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah <?php if($kategori){echo $kategori['kategori'];}else{echo "Artikel Statis";}?> Baru</a>
 <?php if($_SESSION['grup']<4){?>
-<button type="button" title="Hapus Artikel" onclick="deleteAllBox('mainform','<?php echo site_url("web/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus
+<button type="button" title="Hapus Artikel" onclick="deleteAllBox('mainform','<?php echo site_url("web/delete_all/$cat/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus
 <?php }?>
 </div>
 </div>
@@ -146,7 +141,8 @@ source: keyword
 <td>
 <div class="uibutton-group">
 	<a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
-	
+	<a href="<?php echo site_url("web/ubah_kategori_form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Kategori" target="ajax-modal" rel="window" header="Ubah Kategori" modalWidth="auto" modalHeight="auto"><span class="icon-folder-open icon-large"></span></a>
+
 <?php if($_SESSION['grup']<4){?>
 	<a href="<?php echo site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>
 	<?php  if($data['enabled'] == '2'):?>
@@ -154,10 +150,10 @@ source: keyword
 		<?php  elseif($data['enabled'] == '1'): ?>
 	<a href="<?php echo site_url("web/artikel_unlock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Non-aktifkan artikel"><span class="icon-unlock icon-large"></span></a>
 	<a href="<?php echo site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Klik Untuk Jadikan Headline"><span class="<?php  if($data['headline']==1){?>icon-star-empty icon-large" title="Headline Saat Ini"<?php  }else{?> icon-star icon-large" <?php  }?>target="confirm" message="Jadikan Artikel Berikut Sebagai Headline News?" header="Headline"></span></a>
-	<a href="<?php echo site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Klik Untuk Jadikan Slide" message="Masukkan ke dalam slide?"><span class="<?php  if($data['headline']==3){?>icon-pause icon-large" title="Keluarkan dari slide" message="Keluarkan dari slide?"<?php  }else{?> icon-play icon-large"  <?php  }?>target="confirm"  header="Slide"></span></a>
+	<a href="<?php echo site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="<?php if($data['headline']==3){?>Keluarkan dari slide <?php }else{?>Masukkan ke dalam slide<?php }?>"><span class="<?php  if($data['headline']==3){?>icon-pause icon-large" <?php  }else{?> icon-play icon-large"  <?php  }?>target="confirm"  header="Slide"></span></a>
 	<?php  endif?>
 	<?php } ?>
-	
+
 </div>
 </td>
 <td><?php echo $data['judul']?></td>
@@ -170,7 +166,7 @@ source: keyword
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 <form id="paging" action="<?php echo site_url("web/pager/$cat")?>" method="post">
 <label>Tampilkan</label>

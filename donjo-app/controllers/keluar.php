@@ -11,7 +11,7 @@ class Keluar extends CI_Controller{
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
-		
+		$this->modul_ini = 4;
 	}
 
 	function clear(){
@@ -42,16 +42,19 @@ class Keluar extends CI_Controller{
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']= 2;
 		$this->load->view('header', $header);
-		
+
 		$this->load->view('surat/nav',$nav);
 		$this->load->view('surat/surat_keluar',$data);
 		$this->load->view('footer');
 	}
 
-
+	function delete($p=1,$o=0,$id=''){
+		$this->surat_keluar_model->delete($id);
+		redirect("keluar/index/$p/$o");
+	}
 
 	function search(){
 		$cari = $this->input->post('cari');
@@ -88,8 +91,9 @@ class Keluar extends CI_Controller{
 		$data['nik']['no']=$nik;
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$this->load->view('header',$header);
-		
+
 		$this->load->view('surat/nav',$nav);
 		$this->load->view('surat/surat_keluar_perorangan',$data);
 		$this->load->view('footer');
@@ -99,9 +103,10 @@ class Keluar extends CI_Controller{
 		$data['form_action'] = site_url("sid_cetak_surat/print_surat_ket_pengantar");
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
+		$header['modul_ini'] = $this->modul_ini;
 		$data['stat']  = $this->surat_keluar_model->grafik();
 		$this->load->view('header',$header);
-		
+
 		$this->load->view('surat/nav',$nav);
 		$this->load->view('surat/surat_keluar_graph',$data);
 		$this->load->view('footer');
@@ -123,6 +128,4 @@ class Keluar extends CI_Controller{
 		else unset($_SESSION['nik']);
 		redirect('keluar/perorangan');
 	}
-
-
 }

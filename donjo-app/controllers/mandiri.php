@@ -10,7 +10,7 @@ class mandiri extends CI_Controller{
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 		$this->load->model('header_model');
-		
+		$this->modul_ini = 14;
 	}
 
 	function clear(){
@@ -43,23 +43,23 @@ class mandiri extends CI_Controller{
 		//$data['penduduk'] = $this->mandiri_model->list_penduduk();
 		//$data['form_action'] = site_url("mandiri/insert/");
 		$header = $this->header_model->get_data();
-
+		$header['modul_ini'] = $this->modul_ini;
 		$nav['act']= 1;
 		$this->load->view('header', $header);
-		
+
 		$this->load->view('lapor/nav',$nav);
 		$this->load->view('mandiri/mandiri',$data);
 		$this->load->view('footer');
 	}
 
 	function ajax_pin($p=1,$o=0,$id=0){
-	
+
 		$data['penduduk'] = $this->mandiri_model->list_penduduk();
 		$data['form_action'] = site_url("mandiri/insert/$id");
 		$this->load->view('mandiri/ajax_pin',$data);
-		
+
 	}
-	
+
 	function search(){
 		$cari = $this->input->post('cari');
 		if($cari!='')
@@ -89,10 +89,15 @@ class mandiri extends CI_Controller{
 		$_SESSION['pin'] = $pin;
 		redirect('mandiri');
 	}
-	
+
+	function delete($p=1,$o=0,$id=''){
+		$this->mandiri_model->delete($id);
+		redirect("mandiri");
+	}
+
 	function ajax_pin_show($pin=""){
 		redirect('mandiri');
 	}
-	
+
 
 }

@@ -4,11 +4,11 @@
 		this.map=map;this.pen=new Pen(this.map);
 		var thisOjb=this;
 		this.event=google.maps.event.addListener(thisOjb.map,'click',function(event){thisOjb.pen.draw(event.latLng);});
-		
+
 		this.showData=function(){return this.pen.getData();}
-		
+
 		this.showColor=function(){return this.pen.getColor();}
-		
+
 		this.destroy=function(){
 			this.pen.deleteMis();
 			if(null!=this.pen.polygon){
@@ -17,7 +17,7 @@
 		google.maps.event.removeListener(this.event);
 		}
 	}
-	
+
 	$(function(){
 
     var options = {
@@ -32,10 +32,10 @@
 		<?php }?>
     };
     var map = new google.maps.Map(document.getElementById('map'), options);
-<?php 
+<?php
 			$path = preg_split("/\;/", $area['path']);
 			echo "var path = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
-			
+
 			var area = new google.maps.Polygon({
 			  paths: path,
 			  map: map,
@@ -45,11 +45,11 @@
 			  fillColor: '#11ff00',
 			  fillOpacity: 0.35
 			});
-			    	 
+
 <?php /*
 			$path_desa = preg_split("/\;/", $desa['path']);
 			echo "var path_desa = [";foreach($path_desa AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
-			
+
 			var desa = new google.maps.Polygon({
 			  paths: path_desa,
 			  map: map,
@@ -73,17 +73,17 @@
 				strokeColor: '#11ff00'
 			  });
 			});
-			
+
 		var creator = new PolygonCreator(map);
-		 $('#reset').click(function(){ 
+		 $('#reset').click(function(){
 		 		creator.destroy();
 		 		creator=null;
-		 		
+
 		 		creator=new PolygonCreator(map);
 				document.getElementById('dataPanel').value = creator.showData();
-		 });		 
-		 
-		$('#showData').click(function(){ 
+		 });
+
+		$('#showData').click(function(){
 		 		$('#dataPanel').empty();
 		 		if(null==creator.showData()){
 					this.form.submit();
@@ -92,9 +92,9 @@
 					this.form.submit();
 		 		}
 		 });
-		 
-	});	
-	
+
+	});
+
 </script>
 <style>
 #map {

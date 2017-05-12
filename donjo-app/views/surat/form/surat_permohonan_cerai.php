@@ -14,7 +14,7 @@ width: 260,
 noResultsText :'Tidak ada no nik yang sesuai..',
 onSelect: function() {
 $('#'+'main').submit();
-}  
+}
 });
 
 });
@@ -35,7 +35,7 @@ padding:5px;
 <table class="inner">
 <tr style="vertical-align:top">
 
-<td style="background:#fff;padding:5px;"> 
+<td style="background:#fff;padding:5px;">
 <div class="content-header">
 
 </div>
@@ -56,35 +56,12 @@ padding:5px;
 <form id="validasi" action="<?php echo $form_action?>" method="POST" target="_blank">
 <input type="hidden" name="nik" value="<?php echo $individu['id']?>" class="inputbox required" >
 <?php if($individu){ //bagian info setelah terpilih?>
-<tr>
-<th>Tempat Tanggal Lahir (Umur)</th>
-<td>
-<?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
-</td>
-</tr>
-<tr>
-<th>Alamat</th>
-<td>
-<?php echo unpenetration($individu['alamat']); ?>
-</td>
-</tr>
-<tr>
-<th>Pendidikan</th>
-<td>
-<?php echo $individu['pendidikan']?>
-</td>
-</tr>
-<tr>
-<th>Warganegara / Agama</th>
-<td>
-<?php echo $individu['warganegara']?> / <?php echo $individu['agama']?>
-</td>
-</tr>
+  <?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 <?php }?>
 <tr>
 <th>Nomor Surat</th>
 <td>
-<input name="nomor" type="text" class="inputbox required" size="12"/>
+<input name="nomor" type="text" class="inputbox required" size="12"/> <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>
 </td>
 </tr>
 <tr>
@@ -92,10 +69,10 @@ padding:5px;
 	<td><textarea name="sebab" class=" required" style="resize: none; height:100px; width:250px;" size="300" ></textarea></td>
 </tr>
 <tr>
-<th>Staf Pemerintah Desa</th>
+<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
 <td>
 <select name="pamong"  class="inputbox required">
-<option value="">Pilih Staf Pemerintah Desa</option>
+<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
 
 <?php foreach($pamong AS $data){?>
 <option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
@@ -117,9 +94,9 @@ padding:5px;
 </tr>
 </table>
 </div>
-   
+
 <div class="ui-layout-south panel bottom">
-<div class="left">     
+<div class="left">
 <a href="<?php echo site_url()?>surat" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
@@ -127,7 +104,7 @@ padding:5px;
 <button class="uibutton" type="reset">Clear</button>
 
 							<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
-							<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+							<?php if (SuratExport($url)) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
 </div>
 </div>
 </div> </form>

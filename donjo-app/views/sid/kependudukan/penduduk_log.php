@@ -11,21 +11,22 @@ source: keyword
 <table class="inner">
 <tr style="vertical-align:top">
 
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
     <h3>Manajemen Penduduk</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 <form id="mainform" name="mainform" action="" method="post">
 <input type="hidden" name="rt" value="">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
               <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk_log/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data</button>
-				
             </div>
         </div>
-<div class="right"> 
+<div class="right">
+<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('penduduk_log/search')?>');$('#'+'mainform').submit();}" />
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('penduduk_log/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span> Cari </button>
 <a href="<?php echo site_url()?>penduduk" class="uibutton icon prev">Kembali</a>
 </div>
     </div>
@@ -38,27 +39,27 @@ source: keyword
                     <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Pasif</option>
                     <option value="3" <?php if($filter==3) :?>selected<?php endif?>>Pendatang</option>
                 </select>
-				
+
                 <select name="sex" onchange="formAction('mainform','<?php echo site_url('penduduk_log/sex')?>')">
                     <option value="">Jenis Kelamin</option>
                     <option value="1" <?php if($sex==1 ) :?>selected<?php endif?>>Laki-Laki</option>
                     <option value="2" <?php if($sex==2 ) :?>selected<?php endif?>>Perempuan</option>
                 </select>
-				
+
                 <select name="agama" onchange="formAction('mainform','<?php echo site_url('penduduk_log/agama')?>')">
                     <option value="">Agama</option>
 					<?php foreach($list_agama AS $data){?>
                     <option value="<?php echo $data['id']?>" <?php if($agama == $data['id']) :?>selected<?php endif?>><?php echo $data['nama']?></option>
 					<?php }?>
                 </select>
-								
+
                 <select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk_log/dusun')?>')">
-                    <option value="">Dusun</option>
+                    <option value=""><?php echo ucwords(config_item('sebutan_dusun'))?></option>
 					<?php foreach($list_dusun AS $data){?>
                     <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo unpenetration($data['dusun'])?></option>
 					<?php }?>
                 </select>
-				
+
 				<?php if($dusun){?>
                 <select name="rw" onchange="formAction('mainform','<?php echo site_url('penduduk_log/rw')?>')">
                     <option value="">RW</option>
@@ -67,7 +68,7 @@ source: keyword
 					<?php }?>
                 </select>
 				<?php }?>
-				
+
 				<?php if($rw){?>
                 <select name="rt" onchange="formAction('mainform','<?php echo site_url('penduduk_log/rt')?>')">
                     <option value="">RT</option>
@@ -76,8 +77,8 @@ source: keyword
 					<?php }?>
                 </select>
 				<?php }?>
-				
-			
+
+
             </div>
         </div>
         <table class="list">
@@ -87,11 +88,11 @@ source: keyword
 			<th><input type="checkbox" class="checkall"/></th>
 			<th width="85">Aksi</th>
 			<?php  if($o==2): ?>
-			<th align="left" width='150'><a href="<?php echo site_url("penduduk_log/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-1-n"></span></a></th>
+			<th align="left"><a href="<?php echo site_url("penduduk_log/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-1-n"></span></a></th>
 			<?php  elseif($o==1): ?>
-			<th align="left" width='150'><a href="<?php echo site_url("penduduk_log/index/$p/2")?>">NIK<span class="ui-icon ui-icon-triangle-1-s"></span></a></th>
+			<th align="left"><a href="<?php echo site_url("penduduk_log/index/$p/2")?>">NIK<span class="ui-icon ui-icon-triangle-1-s"></span></a></th>
 			<?php  else: ?>
-			<th align="left" width='150'><a href="<?php echo site_url("penduduk_log/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-2-n-s"></span></a></th>
+			<th align="left"><a href="<?php echo site_url("penduduk_log/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-2-n-s"></span></a></th>
 			<?php  endif; ?>
 
 			<?php  if($o==4): ?>
@@ -101,7 +102,7 @@ source: keyword
 			<?php  else: ?>
 			<th align="left"><a href="<?php echo site_url("penduduk_log/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php  endif; ?>
-			
+
 			<th width="100" align="left">
 			<?php  if($o==6): ?>
 			<a href="<?php echo site_url("penduduk_log/index/$p/5")?>">No. KK<span class="ui-icon ui-icon-triangle-1-n">
@@ -111,10 +112,10 @@ source: keyword
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
-			<th align="left" align="center">Dusun</th>
+			<th align="left" align="center"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
 			<th align="left" align="center">RW</th>
 			<th align="left" align="center">RT</th>
-			
+
 			<th width="50" align="left">
 			<?php  if($o==8): ?>
 			<a href="<?php echo site_url("penduduk_log/index/$p/7")?>">Umur<span class="ui-icon ui-icon-triangle-1-n">
@@ -123,9 +124,19 @@ source: keyword
 			<?php  else: ?><a href="<?php echo site_url("penduduk_log/index/$p/7")?>">Umur<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
-			
-			<th align="left" align="center">Status</th>
-			<th align="left" align="center">Tanggal (Kejadian)</th>
+
+			<th align="left" align="center">Status Menjadi</th>
+			<th align="left" align="center">
+            <?php  if($o==10): ?>
+              <a href="<?php echo site_url("penduduk_log/index/$p/9")?>">Tanggal Peristiwa<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a>
+            <?php  elseif($o==9): ?>
+              <a href="<?php echo site_url("penduduk_log/index/$p/10")?>">Tanggal Peristiwa<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a>
+            <?php  else: ?>
+              <a href="<?php echo site_url("penduduk_log/index/$p/9")?>">Tanggal Peristiwa<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a>
+            <?php  endif; ?>
+      </th>
+      <th align="center">Tanggal Rekam</th>
+  		<th align="center">Catatan Peristiwa</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -136,7 +147,7 @@ source: keyword
 			<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td>
-			<a href="<?php echo site_url("penduduk_log/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Edit Status Dasar" target="ajax-modal" rel="window" header="Edit Status Dasar"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("penduduk_log/delete_confirm/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+			<a href="<?php echo site_url("penduduk_log/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Edit Status Dasar" target="ajax-modal" rel="window" header="Edit Status Dasar" modalWidth="auto" modalHeight="auto"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("penduduk_log/delete_confirm/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 			</td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
@@ -145,8 +156,11 @@ source: keyword
 			<td><?php echo $data['rw']?></td>
 			<td><?php echo $data['rt']?></td>
 			<td><?php echo $data['umur']?></td>
-			<td><?php if($data['status_dasar']==2){echo "Mati";}elseif($data['status_dasar']==3){echo "Pindah";}else{echo "Hilang";}?></td>
-			<td><?php echo tgl_indo($data['tgl_peristiwa'])?></td>
+			<td><?php echo get_log_penduduk_status($data['id_detail'])?></td>
+      <td><?php echo tgl_indo($data['tgl_peristiwa'])?></td>
+			<td><?php echo tgl_indo2($data['tanggal'])?></td>
+			<td><?php echo $data['catatan']?></td>
+
 		</tr>
         <?php  endforeach; ?>
 		</tbody>
@@ -154,7 +168,7 @@ source: keyword
     </div>
 </form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 <div class="table-info">
           <form id="paging" action="<?php echo site_url('penduduk_log')?>" method="post">
   <label>Tampilkan</label>
@@ -179,7 +193,7 @@ source: keyword
 <?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 <?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 <a href="<?php echo site_url("penduduk_log/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 <?php  endfor; ?>

@@ -5,13 +5,13 @@ class Web_Dokumen_Model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}
-	
+
 	function autocomplete(){
-		$sql   = "SELECT satuan FROM dokumen
-					UNION SELECT nama FROM dokumen";
+		$sql = "SELECT satuan FROM dokumen WHERE id_pend = 0
+					UNION SELECT nama FROM dokumen WHERE id_pend = 0";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
-		
+
 		$i=0;
 		$outp='';
 		while($i<count($data)){
@@ -22,7 +22,7 @@ class Web_Dokumen_Model extends CI_Model{
 		$outp = '[' .$outp. ']';
 		return $outp;
 	}
-	
+
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
 		$cari = $_SESSION['cari'];
@@ -32,34 +32,34 @@ class Web_Dokumen_Model extends CI_Model{
 			return $search_sql;
 			}
 		}
-	
-	function filter_sql(){		
+
+	function filter_sql(){
 		if(isset($_SESSION['filter'])){
 			$kf = $_SESSION['filter'];
 			$filter_sql= " AND enabled = $kf";
 		return $filter_sql;
 		}
 	}
-	
+
 	function paging($p=1,$o=0){
-	
-		$sql      = "SELECT COUNT(id) AS id FROM dokumen WHERE 1";
-		$sql     .= $this->search_sql();     
+
+		$sql      = "SELECT COUNT(id) AS id FROM dokumen WHERE id_pend = 0";
+		$sql     .= $this->search_sql();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
-		
+
 		$this->load->library('paging');
 		$cfg['page']     = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
-		
+
 		return $this->paging;
 	}
-	
+
 	function list_data($o=0,$offset=0,$limit=500){
-	
+
 		switch($o){
 			case 1: $order_sql = ' ORDER BY nama'; break;
 			case 2: $order_sql = ' ORDER BY nama DESC'; break;
@@ -69,118 +69,99 @@ class Web_Dokumen_Model extends CI_Model{
 			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
 			default:$order_sql = ' ORDER BY id';
 		}
-	
+
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		
-		$sql   = "SELECT * FROM dokumen WHERE 1 ";
-			
+
+		$sql   = "SELECT * FROM dokumen WHERE id_pend = 0";
+
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
-		
+
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
-		
+
 		$i=0;
 		$j=$offset;
 		while($i<count($data)){
 			$data[$i]['no']=$j+1;
-			
+
 			if($data[$i]['enabled']==1)
 				$data[$i]['aktif']="Yes";
 			else
 				$data[$i]['aktif']="No";
-			
+
 			$i++;
 			$j++;
 		}
 		return $data;
 	}
-	
-	function insert(){
-		  $lokasi_file = $_FILES['satuan']['tmp_name'];
-		  $tipe_file   = $_FILES['satuan']['type'];
-		  $nama_file   = $_FILES['satuan']['name'];
-		  if (!empty($lokasi_file)){
-			if ($tipe_file == "application/x-download" 
-					OR $tipe_file == "application/pdf" 
-					OR $tipe_file == "application/zip"
- 					OR $tipe_file == "application/ppt" 
-					OR $tipe_file == "application/pptx"
- 					OR $tipe_file == "application/rar"					
-					OR $tipe_file == "application/excel" 
-					OR $tipe_file == "application/msword" 
-					OR $tipe_file == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
-					OR $tipe_file == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-					OR $tipe_file == "text/rtf" 
-					OR $tipe_file == "application/powerpoint" 
-					OR $tipe_file == "application/vnd.ms-powerpoint" 
-					OR $tipe_file == "application/vnd.ms-excel" 
-					OR $tipe_file == "application/msexcel"
-					OR $tipe_file == "application/x-zip"
 
-){
-				UploadDocument(underscore($nama_file));
-				$data = $_POST;
-				$data['satuan'] = underscore($nama_file);
-				$outp = $this->db->insert('dokumen',$data);
-				if($outp) $_SESSION['success']=1;
-			} else {
-				$_SESSION['success']=-1;
-			}
-		  }
-	}
-	
-	function update($id=0){
-		  $data = $_POST;
-		  $lokasi_file = $_FILES['satuan']['tmp_name'];
-		  $tipe_file   = $_FILES['satuan']['type'];
-		  $nama_file   = $_FILES['satuan']['name'];
-		  $old_file  = $data['old_file'];
-		  if (!empty($lokasi_file)){
-			if ($tipe_file == "application/x-download" 
-					OR $tipe_file == "application/pdf" 
-					OR $tipe_file == "application/zip"
- 					OR $tipe_file == "application/ppt" 
-					OR $tipe_file == "application/pptx"
- 					OR $tipe_file == "application/rar"					
-					OR $tipe_file == "application/excel" 
-					OR $tipe_file == "application/msword" 
-					OR $tipe_file == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
-					OR $tipe_file == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-					OR $tipe_file == "text/rtf" 
-					OR $tipe_file == "application/powerpoint" 
-					OR $tipe_file == "application/vnd.ms-powerpoint" 
-					OR $tipe_file == "application/vnd.ms-excel" 
-					OR $tipe_file == "application/msexcel"
-					OR $tipe_file == "application/x-zip"	){
-				UploadDocument($nama_file,$old_file);
-				unset($data['old_file']);
-			} else {
-				$_SESSION['success']=-1;
-				$nama_file = $data['old_file'];
-			}
-		  }
-		  
+	function insert(){
+		if(empty($_FILES['satuan']['tmp_name'])){
+			return false;
+		}
+
+		$_SESSION['error_msg'] = "";
+		$_SESSION['success'] = 1;
+	  $lokasi_file = $_FILES['satuan']['tmp_name'];
+	  $tipe_file   = $_FILES['satuan']['type'];
+	  $nama_file   = $_FILES['satuan']['name'];
+	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+
+	  $semua_mime_type = array_merge(unserialize(MIME_TYPE_DOKUMEN), unserialize(MIME_TYPE_GAMBAR), unserialize(MIME_TYPE_ARSIP));
+		if(!in_array($tipe_file, $semua_mime_type)){
+			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
+			$_SESSION['success']=-1;
+			return false;
+		}
+
+		UploadDocument(underscore($nama_file));
+		$data = $_POST;
 		$data['satuan'] = underscore($nama_file);
+		$outp = $this->db->insert('dokumen',$data);
+
+		if(!$outp) $_SESSION['success']=-1;
+	}
+
+	function update($id=0){
+		$_SESSION['error_msg'] = "";
+		$_SESSION['success'] = 1;
+	  $data = $_POST;
+	  $lokasi_file = $_FILES['satuan']['tmp_name'];
+	  $tipe_file   = $_FILES['satuan']['type'];
+	  $nama_file   = $_FILES['satuan']['name'];
+	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+
+		if(!empty($_FILES['satuan']['tmp_name'])){
+			if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN))){
+				unset($data['satuan']);
+				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
+				$_SESSION['success']=-1;
+			} else {
+				UploadDocument($nama_file);
+				$data['satuan'] = underscore($nama_file);
+			}
+		}
+
+		unset($data['old_file']);
 		$this->db->where('id',$id);
 		$outp = $this->db->update('dokumen',$data);
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if(!$outp) $_SESSION['success']=-1;
 	}
-	
+
 	function delete($id=''){
 		$sql  = "DELETE FROM dokumen WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function delete_all(){
 		$id_cb = $_POST['id_cb'];
-		
+
 		if(count($id_cb)){
 			foreach($id_cb as $id){
 				$sql  = "DELETE FROM dokumen WHERE id=?";
@@ -188,20 +169,20 @@ class Web_Dokumen_Model extends CI_Model{
 			}
 		}
 		else $outp = false;
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-	
+
 	function dokumen_lock($id='',$val=0){
-		
+
 		$sql  = "UPDATE dokumen SET enabled=? WHERE id=?";
 		$outp = $this->db->query($sql, array($val,$id));
-		
+
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-		
+
 	function get_dokumen($id=0){
 		$sql   = "SELECT * FROM dokumen WHERE id=?";
 		$query = $this->db->query($sql,$id);

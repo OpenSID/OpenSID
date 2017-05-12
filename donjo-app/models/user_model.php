@@ -4,6 +4,7 @@ class User_Model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
+		$this->load->model('laporan_bulanan_model');
 	}
 
 	function siteman(){
@@ -61,24 +62,8 @@ class User_Model extends CI_Model{
 			$this->db->query($sql, $id);
 		}
 
-		$sql   = "SELECT (SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1) AS pend,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =1) AS lk,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =2) AS pr,(SELECT COUNT(id) FROM tweb_keluarga) AS kk";
-		$query = $this->db->query($sql);
-		$data=$query->row_array();
-
-		$bln=date("m");
-		$thn=date("Y");
-
-		$sql   = "SELECT * FROM log_bulanan WHERE month(tgl) = $bln AND year(tgl) = $thn";
-		$query = $this->db->query($sql);
-		$ada  = $query->result_array();
-
-		if(!$ada){
-			$this->db->insert('log_bulanan',$data);
-		}else{
-
-			$sql = "UPDATE log_bulanan SET pend=$data[pend], lk = $data[lk],pr=$data[pr],kk = $data[kk] WHERE month(tgl) = $bln AND year(tgl) = $thn";
-			$this->db->query($sql);
-		}
+		// Catat jumlah penduduk saat ini
+		$this->laporan_bulanan_model->tulis_log_bulanan();
 
 		unset($_SESSION['user']);
 		unset($_SESSION['sesi']);
@@ -195,12 +180,13 @@ class User_Model extends CI_Model{
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto    = $this->input->post('old_foto');
 		if (!empty($lokasi_file)){
 			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
 				$_SESSION['success']=-1;
 			} else {
-				UploadFoto($nama_file,$old_foto);
+				UploadFoto($nama_file,$old_foto,$tipe_file);
 				$data['foto'] = $nama_file;
 			}
 		  }
@@ -214,35 +200,34 @@ class User_Model extends CI_Model{
 	}
 
 	function update($id=0){
-			$data = $_POST;
-			unset($data['old_foto']);
-			unset($data['foto']);
-			$lokasi_file = $_FILES['foto']['tmp_name'];
-			$tipe_file   = $_FILES['foto']['type'];
-			$nama_file   = $_FILES['foto']['name'];
-			$old_foto    = $this->input->post('old_foto');
-			if (!empty($lokasi_file)){
-				if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
-				$_SESSION['success']=-1;
-			} else {
-				UploadFoto($nama_file,$old_foto);
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
+		$data = $_POST;
+		unset($data['old_foto']);
+		unset($data['foto']);
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file   = $_FILES['foto']['type'];
+		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		$old_foto    = $this->input->post('old_foto');
+		if (!empty($lokasi_file)){
+			if (UploadFoto($nama_file,$old_foto,$tipe_file))
 				$data['foto'] = $nama_file;
-			}
-		  }
-
-		if($data['password']=='radiisi'){
+	  }
+		if ($data['password']=='radiisi'){
+		// apabila password tidak diganti
 			unset($data['password']);
-			$this->db->where('id',$id);
-			$outp = $this->db->update('user',$data);
-		}
-		else{
+		} elseif ($id == 1 AND strtolower(config_item('demo')) == "y") {
+	  // Jangan edit password admin apabila di situs demo
+			unset($data['username']);
+			unset($data['password']);
+		} else {
 			$data['password'] = md5($data['password']);
-			$this->db->where('id',$id);
-			$outp = $this->db->update('user',$data);
 		}
+		$this->db->where('id',$id);
+		$outp = $this->db->update('user',$data);
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if(!$outp) $_SESSION['success']=-1;
 	}
 
 	function delete($id=''){
@@ -303,35 +288,35 @@ class User_Model extends CI_Model{
 		$pass_baru 		= $this->input->post('pass_baru');
 		$pass_baru1 	= $this->input->post('pass_baru1');
 
-		// Ganti password
-		if($this->input->post('pass_lama') != "" OR $pass_baru != "" OR $pass_baru1 != ""){
-			$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
-			$query=$this->db->query($sql,array($id));
-			$row=$query->row();
-			// Password baru tidak boleh kosong
-			if($password==$row->password AND $pass_baru != "" AND $pass_baru == $pass_baru1){
-				$data['password'] = md5($pass_baru);
-			} else {
-				$_SESSION['error_msg'].= " -> Kode pengaman salah";
-				$_SESSION['success']=-1;
+		if($id == 1 AND strtolower(config_item('demo')) == "y"){
+		  // Jangan edit password admin apabila di situs demo
+			unset($data['password']);
+		} else {
+			// Ganti password
+			if($this->input->post('pass_lama') != "" OR $pass_baru != "" OR $pass_baru1 != ""){
+				$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
+				$query=$this->db->query($sql,array($id));
+				$row=$query->row();
+				// Password baru tidak boleh kosong
+				if($password==$row->password AND $pass_baru != "" AND $pass_baru == $pass_baru1){
+					$data['password'] = md5($pass_baru);
+				} else {
+					$_SESSION['error_msg'].= " -> Kode pengaman salah";
+					$_SESSION['success']=-1;
+				}
 			}
 		}
 
 		// Update foto
 		// TODO : mestinya pake cara upload CI?
-		$mime_type_image = array("image/jpeg", "image/pjpeg", "image/png");
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file   = $_FILES['foto']['type'];
 		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto    = $this->input->post('old_foto');
 		if (!empty($lokasi_file)){
-			if(!in_array($tipe_file, $mime_type_image)){
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-				$_SESSION['success']=-1;
-			} else {
-				UploadFoto($nama_file,$old_foto);
+			if (UploadFoto($nama_file,$old_foto,$tipe_file))
 				$data['foto'] = $nama_file;
-			}
 	  }
 
 		$this->db->where('id',$id);

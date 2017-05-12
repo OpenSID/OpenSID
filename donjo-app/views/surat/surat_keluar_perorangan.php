@@ -14,7 +14,7 @@ width: 260,
 noResultsText :'Tidak ada no nik yang sesuai..',
 onSelect: function() {
 $('#'+'main').submit();
-}  
+}
 });
 
 });
@@ -45,10 +45,10 @@ table.form.detail td{
 </div>
 
 </td>
-<td style="background:#fff;padding:5px;"> 
+<td style="background:#fff;padding:5px;">
 
 <div class="content-header">
-    
+
 </div>
 
 <div id="contentpane">
@@ -118,7 +118,7 @@ table.form.detail td{
 <th align="left">Jenis Surat</th>
 
 
-<th align="left" width='200'>Nama Staf Pemerintah Desa</th>
+<th align="left" width='200'>Nama Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
 
 <?php  if($o==6): ?>
 <th align="left" width='160'>Tanggal</th>
@@ -127,7 +127,7 @@ table.form.detail td{
 <?php  else: ?>
 <th align="left" width='160'>Tanggal</th>
 <?php  endif; ?>
-  
+
 </tr>
 </thead>
 
@@ -148,7 +148,7 @@ table.form.detail td{
 </form>
 
 <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url("keluar/perorangan/$nik[no]")?>" method="post">
 		  <label>Tampilkan</label>
@@ -174,7 +174,7 @@ table.form.detail td{
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("keluar/perorangan/$nik[no]/$i/$o/")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>

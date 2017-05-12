@@ -10,7 +10,7 @@
     <h3>Daftar Anggota Rumah Tangga : <?php echo $kepala_kk['nama']?> - <?php echo $kepala_kk['no_kk']?></h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modalx" rel="window"><span class="icon-plus icon-large">&nbsp;</span>Tambah Anggota</a>
+                <a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" title="Tambah Data"  header="Tambah Anggota rtm" target="ajax-modalx" rel="window"><span class="icon-plus icon-large">&nbsp;</span>Tambah Anggota</a>
                 <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("rtm/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
                 <?php /*<a href="<?php echo site_url("rtm/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
             </div>

@@ -40,7 +40,7 @@ tinyMCE.init({
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div id="contentpane">
 <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
@@ -75,7 +75,7 @@ tinyMCE.init({
 <tr>
 <th class="top">Dokumen</th>
 <td>
-<a href="<?php echo base_url()?>assets/files/dokumen/<?php echo $artikel['dokumen']?>"/>Download</a>
+<a href="<?php echo base_url().LOKASI_DOKUMEN.$artikel['dokumen']?>"/>Download</a>
 </td>
 </tr>
 <?php }?>
@@ -93,7 +93,7 @@ tinyMCE.init({
 <th class="top">Gambar</th>
 <td>
 <div class="gallerybox-avatar">
-<img src="<?php echo base_url()?>assets/files/artikel/kecil_<?php echo $artikel['gambar']?>" alt="" width="200"/>
+<img src="<?php echo AmbilFotoArtikel($artikel['gambar'],'kecil')?>" alt="" width="200"/>
 </div><input type="checkbox" name="gambar_hapus" value="<?php echo $artikel['gambar']?>" /> Hapus Gambar
 </td>
 </tr>
@@ -105,9 +105,9 @@ tinyMCE.init({
 <tr>
 <th class="top">Gambar</th>
 <td>
-<?php if($artikel['gambar1']){?>  
+<?php if($artikel['gambar1']){?>
 <div class="gallerybox-avatar">
-<img src="<?php echo base_url()?>assets/files/artikel/kecil_<?php echo $artikel['gambar1']?>" alt="" width="200"/>
+<img src="<?php echo AmbilFotoArtikel($artikel['gambar1'],'kecil')?>" alt="" width="200"/>
 </div> <input type="checkbox" name="gambar1_hapus"  value="<?php echo $artikel['gambar1']?>"/> Hapus Gambar
 </td>
 </tr>
@@ -119,9 +119,9 @@ tinyMCE.init({
 <tr>
 <th class="top">Gambar</th>
 <td>
-<?php if($artikel['gambar2']){?>  
+<?php if($artikel['gambar2']){?>
 <div class="gallerybox-avatar">
-<img src="<?php echo base_url()?>assets/files/artikel/kecil_<?php echo $artikel['gambar2']?>" alt="" width="200"/>
+<img src="<?php echo AmbilFotoArtikel($artikel['gambar2'],'kecil')?>" alt="" width="200"/>
 </div> <input type="checkbox" name="gambar2_hapus"  value="<?php echo $artikel['gambar2']?>"/> Hapus Gambar
 </td>
 </tr>
@@ -133,9 +133,9 @@ tinyMCE.init({
 <tr>
 <th class="top">Gambar</th>
 <td>
-<?php if($artikel['gambar3']){?>  
+<?php if($artikel['gambar3']){?>
 <div class="gallerybox-avatar">
-<img src="<?php echo base_url()?>assets/files/artikel/kecil_<?php echo $artikel['gambar3']?>" alt="" width="200"/>
+<img src="<?php echo AmbilFotoArtikel($artikel['gambar3'],'kecil')?>" alt="" width="200"/>
 </div> <input type="checkbox" name="gambar3_hapus" value="<?php echo $artikel['gambar3']?>"/> Hapus Gambar
 </td>
 </tr>
@@ -146,7 +146,7 @@ tinyMCE.init({
 </tr>
 </table>
 </div>
-   
+
 <div class="ui-layout-south panel bottom">
 <div class="left">
 <a href="<?php echo site_url()?>web/index/<?php echo $cat?>" class="uibutton icon prev">Kembali</a>

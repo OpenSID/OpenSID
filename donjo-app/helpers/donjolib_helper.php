@@ -10,9 +10,9 @@
 				$hasil=substr($data,$awal+strlen($p1),$akhir-strlen($p1));
 			}
 		}
-		return $hasil;    
-	}	
-	
+		return $hasil;
+	}
+
 	function Rupiah($nil=0){
 		$nil = $nil + 0;
 		if(($nil*100)%100 == 0){
@@ -33,7 +33,7 @@
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != "" AND $rp > 0){return "Rp. $rp";}else{return "Rp. 0,00";}		 
+		if($rp != "" AND $rp > 0){return "Rp. $rp";}else{return "Rp. 0,00";}
 	}
 
 	function Rupiah2($nil=0){
@@ -56,9 +56,9 @@
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != "" AND $rp > 0){return "Rp.$rp";}else{return "-";}		 
+		if($rp != "" AND $rp > 0){return "Rp.$rp";}else{return "-";}
 	}
-	
+
 	function Rupiah3($nil=0){
 		$nil = $nil + 0;
 		if(($nil*100)%100 == 0){
@@ -79,15 +79,15 @@
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != 0){return "$rp";}else{return "-";}		 
+		if($rp != 0){return "$rp";}else{return "-";}
 	}
-	
+
 	function jecho($a,$b,$str){
 		if($a==$b){
 			echo $str;
 		}
 	}
-	
+
 	function selected($a,$b,$opt=0){
 		if($a==$b){
 			if($opt)
@@ -95,18 +95,18 @@
 			else echo "selected='selected'";
 		}
 	}
-	
+
 	function rev_tgl($tgl){
 		$ar=explode('-',$tgl);
 		$o=$ar[2].'-'.$ar[1].'-'.$ar[0];
 		return $o;
 	}
-	
+
 	function penetration($str){
 		$str = str_replace("'","-", $str);
 		return $str;
 	}
-	
+
 	function penetration1($str){
 		$str = str_replace("'"," ", $str);
 		return $str;
@@ -120,17 +120,17 @@
 		$str = str_replace("-"," ", $str);
 		return $str;
 	}
-	
+
 	function underscore($str){
 		$str = str_replace(" ","_", $str);
 		return $str;
 	}
-	
+
 	function ununderscore($str){
 		$str = str_replace("_"," ", $str);
 		return $str;
 	}
-	
+
 	function bulan($bln){
 		$nm = '';
 		switch($bln){
@@ -176,10 +176,10 @@
 		}
 		return $nm;
 	}
-	
+
 	function nama_bulan($tgl){
 		$ar=explode('-',$tgl);
-		
+
 		$nm = '';
 		switch($ar[1]){
 			case '01':
@@ -219,34 +219,34 @@
 				$nm = 'Desember';
 				break;
 		}
-		
+
 		$o = $ar[0] .' '. $nm .' '. $ar[2];
 		return $o;
 	}
-	
+
 	function dua_digit($i){
 		if($i<10) $o='0'.$i;
 			else $o=$i;
 		return $o;
 	}
-	
+
 	function tiga_digit($i){
 		if($i<10) $o='00'.$i;
 		else if($i<100) $o='0'.$i;
 			else $o=$i;
 		return $o;
 	}
-	
+
 	function to_rupiah($inp=''){
 		$outp = str_replace('.', '', $inp);
 		$outp = str_replace(',', '.', $outp);
 		return $outp;
 	}
-	
+
 	function rp($inp=0){
 		return number_format($inp, 2, ',', '.');
 	}
-	
+
 	function pertumbuhan($a=1,$b=1,$c=1,$d=1){
 		$x=0;
 		$y=0;
@@ -259,10 +259,10 @@
 		$outp = str_replace('.',',',$outp) . ' %';;
 		return $outp;
 	}
-	
+
 	function koma ($a=1) {
 	if(substr_count($a, '.'))
-	
+
 	$a = str_replace(".", ",",$a);
 	else $a = number_format($a,0, ',', '.');
 	return $a;
@@ -272,30 +272,37 @@
 			$jam = substr($tgl,11,8);
 			$bulan = getBulan(substr($tgl,5,2));
 			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';		 
-	}	
+			return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';
+	}
+
+	function tgl_indo_dari_str($tgl_str) {
+		$tanggal = tgl_indo(date('Y m d',strtotime($tgl_str)));
+		return $tanggal;
+	}
 
 	function tgl_indo($tgl){
 			$tanggal = substr($tgl,8,2);
 			$bulan = getBulan(substr($tgl,5,2));
 			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun;		 
+			return $tanggal.' '.$bulan.' '.$tahun;
 	}
 
 	function tgl_indo_out($tgl){
+		if($tgl){
 			$tanggal = substr($tgl,8,2);
 			$bulan = substr($tgl,5,2);
 			$tahun = substr($tgl,0,4);
-			return $tanggal.'-'.$bulan.'-'.$tahun;		 
+			return $tanggal.'-'.$bulan.'-'.$tahun;
+		}
 	}
 
 	function tgl_indo_in($tgl){
 			$tanggal = substr($tgl,0,2);
 			$bulan = substr($tgl,3,2);
 			$tahun = substr($tgl,6,4);
-			return $tahun.'-'.$bulan.'-'.$tanggal;		 
+			return $tahun.'-'.$bulan.'-'.$tanggal;
 	}
-		
+
 	function waktu_ind($time){
 		$str ="";
 			if(($time/360)>1){
@@ -310,13 +317,13 @@
 			}
 			$detik = $time%60;
 			$str .= $detik;
-			
-			return $str.' Detik';		 
+
+			return $str.' Detik';
 	}
-		
+
 	function getBulan($bln){
 				switch ($bln){
-					case 1: 
+					case 1:
 						return "Januari";
 						break;
 					case 2:
@@ -353,14 +360,19 @@
 						return "Desember";
 						break;
 				}
-	
+
 		}
-		
+
 //time out
 function timer(){
 	$time=2000;
 	$_SESSION['timeout']=time()+$time;
 }
+
+function generator($length = 7) {
+ return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+}
+
 function cek_login(){
 	$timeout=$_SESSION['timeout'];
 	if(time()<$timeout){
@@ -381,29 +393,45 @@ function mandiri_timer(){
 }
 
 function mandiri_timeout(){
-	$timeout=$_SESSION['mandiri_timeout'];
+	(isset($_SESSION['mandiri_timeout'])) ? $timeout=$_SESSION['mandiri_timeout'] : $timeout = null;
 	if(time()>$timeout){
 		mandiri_timer();
 	}
-	
-	
 }
 
 function get_identitas(){
+	$ci =& get_instance();
 	$sql="SELECT * FROM config";
-	$a=mysql_query($sql);
-	$hsl=mysql_fetch_array($a);
+	$a=$ci->db->query($sql);
+	$hsl=$a->row_array();
 	//print_r($hsl);
-	$string = "Desa : ".$hsl['nama_desa']." Kec : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
+	$string = ucwords(config_item('sebutan_desa'))." : ".$hsl['nama_desa']." ".ucwords(config_item('sebutan_kecamatan_singkat'))." : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
 }
 
 // fix str aneh utk masuk ke db
+// TODO: Jangan pernah gunakan saya lagi bro,,,,,, :p
 function fixSQL($str, $encode_ent = false) {
-	$str  = @trim($str);	if($encode_ent) {		$str = htmlentities($str);	}
-	if(version_compare(phpversion(),'4.3.0') >= 0) {if(get_magic_quotes_gpc()) {$str = stripslashes($str);}
-		if(@mysql_ping()) {	$str = mysql_real_escape_string($str);}	else {$str = addslashes($str);}
-	}else {if(!get_magic_quotes_gpc()) {$str = addslashes($str);}}
+	$str  = @trim($str);
+	if($encode_ent) {
+		$str = htmlentities($str);
+	}
+
+	if (version_compare(phpversion(),'4.3.0') >= 0) {
+		if (get_magic_quotes_gpc()) {
+			$str = stripslashes($str);
+		}
+		// FIXME
+		if (function_exists('mysql_ping') && @mysql_ping()) {
+			$str = mysql_real_escape_string($str);
+		} else {
+			$str = addslashes($str);
+		}
+
+	} else if (!get_magic_quotes_gpc()) {
+		$str = addslashes($str);
+	}
+
 	return $str;
 }
 
@@ -449,7 +477,7 @@ function fTampilTgl($sdate,$edate){
 }
 
 
-	function hash_pin($pin=""){	
+	function hash_pin($pin=""){
 		$pin = strrev($pin);
 		$pin = $pin*77;
 		$pin .= "!#@$#%";

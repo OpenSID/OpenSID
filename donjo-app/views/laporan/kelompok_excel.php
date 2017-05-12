@@ -8,45 +8,45 @@ header("Expires: 0");
 <div id="container">
 <!-- Print Body -->
 <div id="body">
-	   <table  width="100%"><?php foreach($config as $data){?>	
-				<tbody><tr>			
+	   <table  width="100%"><?php foreach($config as $data){?>
+				<tbody><tr>
 				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?php echo $data['nama_kabupaten']?></h4></td>
-				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td></tr>	
-				<tr>				
+				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td></tr>
+				<tr>
 					<td></td>
-					<td width="100%"><h3>LAPORAN BULANAN DESA/KELURAHAN</h3></td>
+					<td width="100%"><h3>LAPORAN BULANAN <?php echo strtoupper(config_item('sebutan_desa'))?>/KELURAHAN</h3></td>
 				</tr>
 				</tbody></table>
 				<br>
 				<table>
-				<tbody><tr>						
-					<td>Desa/Kelurahan</td>
+				<tbody><tr>
+					<td><?php echo ucwords(config_item('sebutan_desa'))?>/Kelurahan</td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo $data['nama_desa']?></h4></td>
 					<td></td>
 				</tr>
-				<tr>					
-					<td>Kecamatan</td>
+				<tr>
+					<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo $data['nama_kecamatan']?></td>
-					<td></td>	
-			<?php }?>	
+					<td></td>
+			<?php }?>
 				</tr>
-				<tr>						
+				<tr>
 					<td>Laporan Bulan</td>
 					<td width="3%">:</td>
 			<?php $bln = date("m");?>
 					<td><?php echo $bln?> </td>
-					<td width="40%"></td>	
+					<td width="40%"></td>
 				</tr>
 				<?php if($dusun){?>
-				<tr>						
-					<td>Dusun</td>
+				<tr>
+					<td><?php echo ucwords(config_item('sebutan_dusun'))?></td>
 					<td width="3%">:</td>
 					<td>
 					<?php echo $dusun?>
 					</td>
-					<td width="40%"></td>	
+					<td width="40%"></td>
 				</tr>
 				<?php }?>
 		</tbody></table>
@@ -55,11 +55,11 @@ header("Expires: 0");
 <thead>
 <?php if($_SESSION['dusun']!=''){?>
 <tr>
-	<h3>DATA PILAH DUSUN <?php echo $_SESSION['dusun'] ?></h3>
+	<h3>DATA PILAH <?php echo strtoupper(config_item('sebutan_dusun'))?> <?php echo $_SESSION['dusun'] ?></h3>
 </tr>
 <?php } ?>
 <tr class="border thick">
-	<th rowspan="2"><div align="center">DUSUN</div></th>
+	<th rowspan="2"><div align="center"><?php echo strtoupper(config_item('sebutan_dusun'))?></div></th>
 	<th rowspan="2"><div align="center">RW</div></th>
 	<th rowspan="2"><div align="center">RT</div></th>
 	<th colspan="2"><div align="center">KK</div></th>
@@ -82,7 +82,7 @@ header("Expires: 0");
 </tr>
 </thead>
 <tbody>
-<?php 
+<?php
 	$bayi=0;
 	$balita=0;
 	$sd=0;
@@ -110,7 +110,7 @@ header("Expires: 0");
 <td align="right"><?php echo $data['sakit_L']?></td>
 <td align="right"><?php echo $data['sakit_P']?></td>
 <td align="right"><?php echo $data['hamil']?></td>
-<?php 
+<?php
 	$bayi=$bayi+$data['bayi'];
 	$balita=$balita+$data['balita'];
 	$sd=$sd+$data['sd'];
@@ -140,7 +140,7 @@ header("Expires: 0");
 		<th><div align="right"><?php  echo $hamil;?></div></th>
 	</tr>
 </thead>
-</table>   
+</table>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

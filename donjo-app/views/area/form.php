@@ -1,7 +1,7 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 <h3>Edit Properti / area</h3>
 </div>
@@ -29,7 +29,7 @@
 <tr>
 	<th>Foto</th>
 	<td>
-		<img src="<?php echo base_url()?>assets/files/gis/area/sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;" />
+		<img src="<?php echo base_url().LOKASI_FOTO_AREA?>sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;" />
 
 	</td>
 </tr>
@@ -58,7 +58,7 @@
 </tr>
 </table>
 </div>
-   
+
 <div class="ui-layout-south panel bottom">
 <div class="left">
 <a href="<?php echo site_url()?>area" class="uibutton icon prev">Kembali</a>

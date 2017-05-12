@@ -1,14 +1,14 @@
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-layout.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjoscript2.js"></script>
-<?php 
+<?php
 	$sekarang = date("d-m-Y");
 ?>
 <form action="<?php echo $form_action?>" method="post" id="validasi">
-<table style="width:100%" class="">
+<table id="status-dasar" style="width:100%" class="">
 <tr>
-	<th align="left">Peristiwa Penting</th>
+	<th align="left">Peristiwa Penting :</th>
 	<td>
 	<div class="uiradio">
 	<input type="radio" id="sd1" name="status_dasar" value="1"/<?php if($nik['status_dasar'] == '1'){echo 'checked';}?>>
@@ -22,21 +22,26 @@
 	</div>
 	</td>
 </tr>
+<tr><th>&nbsp;</th></tr>
 <tr>
-	<th>&nbsp;
-	</th>
-
-</tr>
-<tr>
-	<th>
-		Tanggal Peristiwa
-	</th>
+	<th>Tanggal Peristiwa :</th>
 	<td>
-	: <input type="text" class="inputbox datepicker" name="tgl_peristiwa" size="18" value="<?php echo $sekarang;?>">
+		<input type="text" class="inputbox datepicker" name="tgl_peristiwa" size="18" value="<?php echo $sekarang;?>">
 	</td>
 </tr>
+<tr><th>&nbsp;</th></tr>
+<tr>
+	<th align="left">Catatan Peristiwa :</th>
+	<td>
+		<input type="text" class="inputbox" name="catatan" size="60">
+	</td>
+</tr>
+<tr>
+	<th>&nbsp;</th>
+	<td>*mati/hilang terangkan penyebabnya, pindah tuliskan alamat pindah</td>
+</tr>
 </table>
-<div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
+<div class="buttonpane" style="float: right;">
     <div class="uibutton-group">
         <button class="uibutton confirm" type="submit">Simpan</button>
     </div>

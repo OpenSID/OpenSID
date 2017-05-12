@@ -78,7 +78,7 @@ legend{
 .inputbox[readonly]{
     background-color:#fdffec;
 }
-.inputbox.datepicker{
+.inputbox.datepicker,.inputbox.datepicker-start,.inputbox.datepicker-end{
     background-image: url(../images/background/calendar-select.png);
     background-repeat:no-repeat;
     background-position:right center;
@@ -103,7 +103,7 @@ select{
   height:23px;
   border:1px solid #bdc7d8;
   font-size:11px;
-  padding:2px 0;
+  padding:2px 0 !important;
 }
   option{
     font-size:11px;

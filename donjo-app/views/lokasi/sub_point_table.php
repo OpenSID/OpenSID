@@ -23,7 +23,7 @@
 
 </td>
 */?>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 	<h3>Manajemen Sub lokasi</h3>
 	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
@@ -70,7 +70,7 @@
 </td>
 <td width="150"><?php  echo $data['nama']?></td>
 <td width="50"><?php  echo $data['aktif']?></td>
-<td align="center" width="50"><img src="<?php  echo base_url("assets/files/gis/lokasi")?>/<?php  echo $data['simbol']?>"></td>
+<td align="center" width="50"><img src="<?php  echo base_url(LOKASI_FOTO_LOKASI)?>/<?php  echo $data['simbol']?>"></td>
 <td></td>
 <?php  }?>
 </tbody>
@@ -78,7 +78,7 @@
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <a href="<?php  echo site_url()?>plan/index/1" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">

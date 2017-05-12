@@ -1,10 +1,10 @@
 
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
-<div id="contentpane">    
+<td style="background:#fff;padding:0px;">
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
 
     <div class="ui-layout-north panel top">
@@ -24,42 +24,42 @@ table.tftable tr {background-color:#ffffff;}
 table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
 </style>
 
-    
-	   <table  width="100%"><?php foreach($config as $data){?>	
-				<tbody><tr>			
+
+	   <table  width="100%"><?php foreach($config as $data){?>
+				<tbody><tr>
 				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?php echo $data['nama_kabupaten']?></h4></td>
-																	
-				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>	
-				<tr>				
+
+				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>
+				<tr>
 					<td></td>
 					<td width="100%"><h3>LAPORAN BULANAN KELURAHAN</h3></td>
-					
-									
+
+
 				</tr>
 				</tbody></table>
 				<table>
-				<tbody><tr>						
+				<tbody><tr>
 					<td>Kelurahan</td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo $data['nama_desa']?></h4></td>
-					<td></td>	
+					<td></td>
 
 				</tr>
-				<tr>					
-					<td>Kecamatan</td>
+				<tr>
+					<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo $data['nama_kecamatan']?></td>
-					<td></td>	
-<?php }?>	
+					<td></td>
+<?php }?>
 				</tr>
-				<tr>						
+				<tr>
 					<td>Laporan Bulan</td>
 					<td width="3%">:</td>
 <?php $bln = date("m");?>
 					<td><?php echo $bln?> </td>
-					<td width="40%"></td>	
+					<td width="40%"></td>
 				</tr>
-				 <tr>						
+				 <tr>
 					<td>Dusun</td>
 					<td width="3%">:</td>
 					<td>
@@ -67,13 +67,13 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 					<option value="">Pilih dusun</option>
 					<?php foreach($list_dusun as $data){?>
 					<option value="<?php echo $data['dusun']?>" <?php if($dusun==$data['dusun']){?>selected<?php }?>><?php echo ununderscore($data['dusun'])?></option>
-					<?php }?></select> 
+					<?php }?></select>
 					</td>
-					<td width="40%"></td>	
+					<td width="40%"></td>
 				</tr>
 		</tbody></table>
 	<table width="100%" id="tfhover" class="tftable" border="1">
-	
+
 <thead>
 <tr>
 <h3>DATA PILAH DUSUN  </h3>
@@ -119,7 +119,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
   </table></div>
   </th>
 <th colspan="2" scope="col"><div align="center">
-<table width="100%"> 
+<table width="100%">
  <tr>
 <th colspan="2" scope="col"><div align="center">Sakit Menahun</div> </th>
  </tr>
@@ -152,7 +152,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 </tr>
   <?php }?>
   </tbody>
-</table>   
+</table>
 
 
 <p>&nbsp;</p>
@@ -162,7 +162,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
     </div>
 	</div>
 	<div class="ui-layout-south panel bottom">
-<div class="left">     
+<div class="left">
 <a href="<?php echo site_url()?>sid_wilayah" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">

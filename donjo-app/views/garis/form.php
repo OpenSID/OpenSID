@@ -1,7 +1,7 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 <h3>Edit Properti / garis</h3>
 </div>
@@ -30,7 +30,7 @@
 	<th>Foto</th>
 	<td>
 		<div class="userbox-avatar">
-			<img src="<?php  echo base_url()?>assets/files/gis/garis/kecil_<?php  echo $garis['foto']?>"/>
+			<img src="<?php  echo base_url().LOKASI_FOTO_GARIS?>kecil_<?php  echo $garis['foto']?>"/>
 		</div>
 	</td>
 </tr>
@@ -68,7 +68,7 @@
 */?>
 </table>
 </div>
-   
+
 <div class="ui-layout-south panel bottom">
 <div class="left">
 <a href="<?php  echo site_url()?>garis" class="uibutton icon prev">Kembali</a>
