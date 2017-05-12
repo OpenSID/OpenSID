@@ -7,7 +7,7 @@
 
 </td>
 
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 <h3>Komentar</h3>
 </div>
@@ -43,16 +43,16 @@
 <td>
 <div class="uiradio">
 <input type="radio" id="sx1" name="enabled" value="1"/<?php if($komentar['enabled'] == '1' OR $komentar['enabled'] == ''){echo 'checked';}?>>
-<label for="sx1">enable</label>
+<label for="sx1">aktif</label>
 <input type="radio" id="sx2" name="enabled" value="2"/<?php if($komentar['enabled'] == '0'){echo 'checked';}?>>
-<label for="sx2">disable</label>
+<label for="sx2">non-aktif</label>
 </div>
 </td>
 </tr>
 
 </table>
 
-   
+
 <div class="ui-layout-south panel bottom">
 <div class="left">
 <a href="<?php echo site_url()?>komentar" class="uibutton icon prev">Kembali</a>

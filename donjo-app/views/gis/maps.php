@@ -83,7 +83,7 @@
         '</div>'+
         '<h1 id="firstHeading" class="firstHeading"><?php echo $area['nama']?></h1>'+
         '<div id="bodyContent">'+
-        '<img src="<?php echo base_url()?>assets/files/gis/area/sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
+        '<img src="<?php echo base_url().LOKASI_FOTO_AREA?>sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
         '<p><?php echo $area['desk']?></p>'+
         '</div>'+
         '</div>';
@@ -126,7 +126,7 @@
         '</div>'+
         '<h1 id="firstHeading" class="firstHeading"><?php echo $garis['nama']?></h1>'+
         '<div id="bodyContent">'+
-        '<img src="<?php echo base_url()?>assets/files/gis/garis/sedang_<?php echo $garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
+        '<img src="<?php echo base_url().LOKASI_FOTO_GARIS?>sedang_<?php echo $garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
         '<p><?php echo $garis['desk']?></p>'+
         '</div>'+
         '</div>';
@@ -173,7 +173,7 @@
 
 			var content = '<table border=0 style="width:400px"><tr>' +
 		<?php if($data['foto']!=""){?>
-			'<td><img src="<?php echo base_url()?>assets/files/gis/lokasi/sedang_<?php echo $data['foto']?>" class="foto"/></td>' +
+			'<td><img src="<?php echo base_url().LOKASI_FOTO_LOKASI?>sedang_<?php echo $data['foto']?>" class="foto"/></td>' +
 		<?php }?>
 			'<td style="padding-left:3px"><font size="2.5" style="font-weight:bold;"><?php echo $data['nama']?></font>' +
 			'<p><?php echo $data['desk']?></p>'+
@@ -254,7 +254,7 @@
 			<input type="checkbox" name="layer_keluarga" value="1" onchange="handle_kel(this);" <?php if($layer_keluarga==1){echo "checked";}?>> Keluarga
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if($layer_desa==1){echo "checked";}?>> Desa
+			<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if($layer_desa==1){echo "checked";}?>> <?php echo ucwords(config_item('sebutan_desa'))?>
 		</td></tr>
 		<tr><td>
 			<input type="checkbox" name="layer_wilayah" value="1"onchange="handle_wil(this);" <?php if($layer_wilayah==1){echo "checked";}?>> Wilayah Administratif
@@ -316,7 +316,7 @@ function handle_point(cb) {
 </select>
 
 <select name="dusun" onchange="formAction('mainform','<?php echo site_url('gis/dusun')?>')">
-	<option value="">Dusun</option>
+	<option value=""><?php echo ucwords(config_item('sebutan_dusun'))?></option>
 	<?php foreach($list_dusun AS $data){?>
 	<option <?php if($dusun==$data['dusun']) :?>selected<?php endif?> value="<?php echo $data['dusun']?>"><?php echo $data['dusun']?></option>
 	<?php }?>

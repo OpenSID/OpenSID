@@ -22,7 +22,7 @@ header("Expires: 0");
     <tbody>
     <tr>
         <td style="padding: 5px 20px;">
-           
+
 		<br>
 		<table class="border thick data">
 		<thead>
@@ -38,7 +38,7 @@ header("Expires: 0");
         <?php  foreach($main as $data): ?>
 		<tr>
           <td class="thick" align="center" width="2"><?php echo $data['no']?></td>
-          <td class="thick"><?php echo $data['nama']?></td>
+          <td class="thick"><?php echo strtoupper($data['nama'])?></td>
           <td class="thick"><?php echo $data['jumlah']?></td>
 		  <td class="thick"><?php echo $data['laki']?></td>
           <td class="thick"><?php echo $data['perempuan']?></td>
@@ -46,14 +46,14 @@ header("Expires: 0");
         <?php  endforeach; ?>
 		</tbody>
         </table>
-		
-            
+
+
             <br>
-            
-                        
+
+
         </td>
     </tr>
-</tbody></table>        
+</tbody></table>
 </div>
    <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>

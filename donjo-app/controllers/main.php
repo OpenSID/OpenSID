@@ -5,9 +5,9 @@ class Main extends CI_Controller {
 		parent::__construct();
 		session_start();
 	}
-	
+
 	function index(){
-		if(isset($_SESSION['siteman'])){	
+		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1){
 			$this->load->model('user_model');
 			$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 			switch($grup){
@@ -15,11 +15,23 @@ class Main extends CI_Controller {
 				case 2: redirect('hom_desa'); break;
 				case 3: redirect('web'); break;
 				case 4: redirect('web'); break;
-				default:if(isset($_SESSION['siteman'])){redirect('siteman');}else{redirect('first');}
+				default: {
+					if ($this->config->item("offline_mode")===TRUE) {
+						redirect('siteman');
+
+					} else {
+						redirect('first');
+					}
+				}
 			}
-		}else{
+
+		// Jika offline_mode aktif, tidak perlu menampilkan halaman website
+		} else if ($this->config->item("offline_mode")===TRUE) {
+			redirect('siteman');
+
+		} else {
 			redirect('first');
 		}
-	
+
 	}
 }

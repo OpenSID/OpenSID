@@ -16,11 +16,11 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-	<td style="background:#fff;padding:0px;"> 
+	<td style="background:#fff;padding:0px;">
 <div class="content-header">
-    <h3>Manajemen Gallery</h3>
+    <h3>Manajemen Galeri</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
@@ -37,8 +37,8 @@
             <div class="left">
                 <select name="filter" onchange="formAction('mainform','<?php echo site_url('gallery/filter')?>')">
                     <option value="">Semua</option>
-                    <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Enabled</option>
-                    <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Disabled</option>
+                    <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Aktif</option>
+                    <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Non-aktif</option>
                 </select>
             </div>
             <div class="right">
@@ -51,8 +51,8 @@
             <tr>
                 <th>No</th>
                 <th><input type="checkbox" class="checkall"/></th>
-                <th width="130">Aksi</th>
-			
+                <th style="width: 150px;">Aksi</th>
+
 	 		<?php  if($o==2): ?>
 				<th align="left"><a href="<?php echo site_url("gallery/index/$p/1")?>">Nama Album<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==1): ?>
@@ -60,15 +60,15 @@
 			<?php  else: ?>
 				<th align="left"><a href="<?php echo site_url("gallery/index/$p/1")?>">Nama Album<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>&nbsp;</span></a></th>
-			
+
 			<?php  if($o==4): ?>
-				<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
+				<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==3): ?>
-				<th align="left"><a href="<?php echo site_url("gallery/index/$p/4")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-s">
+				<th align="left"><a href="<?php echo site_url("gallery/index/$p/4")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-1-s">
 			<?php  else: ?>
-				<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
+				<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>&nbsp;</span></a></th>
-			
+
 			<?php  if($o==6): ?>
 				<th align="left" width='150'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==5): ?>
@@ -76,7 +76,7 @@
 			<?php  else: ?>
 				<th align="left" width='150'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>&nbsp;</span></a></th>
-            
+
 			</tr>
 		</thead>
 		<tbody>
@@ -86,21 +86,28 @@
 			<td align="center" width="5">
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
-			<td> 
+			<td>
 				<div class="uibutton-group">
 					<a href="<?php echo site_url("gallery/sub_gallery/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Gallery"><span class="icon-zoom-in icon-large"> Rincian </span></a>
 					<a href="<?php echo site_url("gallery/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"></span></a>
-				<?php if($_SESSION['grup']<4){?>
-					<a href="<?php echo site_url("gallery/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"><span></a><?php if($data['enabled'] == '2'):?>
-					<a href="<?php echo site_url('gallery/gallery_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi gallery"><span  class="icon-lock icon-large"></span></a><?php elseif($data['enabled'] == '1'): ?>
-					<a href="<?php echo site_url('gallery/gallery_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan gallery"><span  class="icon-unlock icon-large"></span></a>
+					<?php if($data['slider'] == '1'):?>
+						<a href="<?php echo site_url('gallery/slider_off/'.$data['id'])?>" class="uibutton tipsy south" title="Keluarkan dari slider"><span  class="icon-play icon-large"></span></a>
+					<?php else : ?>
+						<a href="<?php echo site_url('gallery/slider_on/'.$data['id'])?>" class="uibutton tipsy south" title="Tampilkan di slider"><span  class="icon-eject icon-large"></span></a>
 					<?php endif?>
-				<?php } ?>
+					<?php if($_SESSION['grup']<4){?>
+						<a href="<?php echo site_url("gallery/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"><span></a>
+						<?php if($data['enabled'] == '2'):?>
+							<a href="<?php echo site_url('gallery/gallery_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi gallery"><span  class="icon-lock icon-large"></span></a>
+						<?php elseif($data['enabled'] == '1'): ?>
+							<a href="<?php echo site_url('gallery/gallery_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan gallery"><span  class="icon-unlock icon-large"></span></a>
+						<?php endif?>
+					<?php } ?>
 				</div>
-				
+
 			  </td>
 			  <td>
-				<label class="tipsy west" title="<img width=200 height=134 src=<?php echo base_url()?>assets/files/galeri/kecil_<?php echo $data['gambar']?>>"><?php echo $data['nama']?></label>
+				<label class="tipsy west" title="<img width=200 height=134 src=<?php echo AmbilGaleri($data['gambar'], 'kecil') ?>>"><?php echo $data['nama']?></label>
 			  </td>
 			  <td><?php echo $data['aktif']?></td>
 			  <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
@@ -111,7 +118,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('gallery')?>" method="post">
 		  <label>Tampilkan</label>
@@ -136,7 +143,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("gallery/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>

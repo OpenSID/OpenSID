@@ -168,10 +168,10 @@ class First_Artikel_M extends CI_Model{
 
 
 	function slide_show(){
-		$sql   = "SELECT gambar FROM artikel WHERE enabled=1
-		UNION SELECT gambar1 FROM artikel WHERE enabled=1
-		UNION SELECT gambar2 FROM artikel WHERE enabled=1
-		UNION SELECT gambar3 FROM artikel WHERE enabled=1
+		$sql   = "SELECT gambar FROM artikel WHERE (enabled=1 AND headline=3)
+		UNION SELECT gambar1 FROM artikel WHERE (enabled=1 AND headline=3)
+		UNION SELECT gambar2 FROM artikel WHERE (enabled=1 AND headline=3)
+		UNION SELECT gambar3 FROM artikel WHERE (enabled=1 AND headline=3)
 		ORDER BY RAND() LIMIT 10 ";
 		$query = $this->db->query($sql);
 		if($query->num_rows()>0){
@@ -183,13 +183,12 @@ class First_Artikel_M extends CI_Model{
 	}
 
 	function cos_widget(){
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='1003' ORDER BY a.tgl_upload DESC";
 		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori
-		FROM artikel a
-		LEFT JOIN user u ON a.id_user = u.id
-		LEFT JOIN kategori k ON a.id_kategori = k.id
-		WHERE a.id_kategori='1003' AND a.enabled=1
-		ORDER BY a.tgl_upload DESC";
+			FROM artikel a
+			LEFT JOIN user u ON a.id_user = u.id
+			LEFT JOIN kategori k ON a.id_kategori = k.id
+			WHERE a.id_kategori='1003' AND a.enabled=1
+			ORDER BY a.urut";
 		$query = $this->db->query($sql);
 		if($query->num_rows()>0){
 			$data  = $query->result_array();

@@ -1,0 +1,7 @@
+*******************************
+Folder: desa/widget
+*******************************
+
+Folder ini tempat menyimpan file script widget yang dibuat oleh desa.
+
+Widget dengan jenis_widget = 2 diambil dari folder ini.

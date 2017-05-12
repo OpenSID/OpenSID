@@ -1,17 +1,17 @@
 
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
 
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
-    
+
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
-    <h3>Wilayah Administratif RW (Dusun <?php echo unpenetration(ununderscore($dusun))?>)</h3>
+    <h3>Wilayah Administratif RW (<?php echo ucwords(config_item('sebutan_dusun'))?> <?php echo unpenetration(ununderscore($dusun))?>)</h3>
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url("sid_core/form_rw/$id_dusun")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah RW</a>
@@ -57,15 +57,19 @@
 				<?php  } ?><?php if($data['rw']!="-"){?>
 			<a href="<?php echo site_url("sid_core/delete_rw/$id_dusun/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin? Menghapus data RW akan mempengaruhi struktur data yang ada dibawah RW. pilih tidak untuk membatalkan penghapusan." header="Hapus Data"><span  class="icon-trash icon-large"></span></a><?php }?></div></td>
 			<td><?php echo $data['rw']?></td>
-			<td><?php echo $data['nik_ketua']?></td>
-			<td><?php echo unpenetration($data['nama_ketua'])?></td>
-			<td align="right"><a href="<?php echo site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>" title="Rincian Sub Wilayah"><?php echo $data['jumlah_rt']?></a></td>
-			<td align="right"><?php echo $data['jumlah_kk']?></td>
-			<td align="right"><?php echo $data['jumlah_warga']?></td>
-			<td align="right"><?php echo $data['jumlah_warga_l']?></td>
-			<td align="right"><?php echo $data['jumlah_warga_p']?></td>
-			<td></th>
-			
+      <?php if($data['rw']=="-"):?>
+        <td colspan=7>Pergunakan RW ini apabila RT berada langsung di bawah <?php echo ucwords(config_item('sebutan_dusun'))?>, yaitu tidak ada RW</td>
+      <?php else:?>
+  			<td><?php echo $data['nik_ketua']?></td>
+  			<td><?php echo unpenetration($data['nama_ketua'])?></td>
+  			<td align="right"><a href="<?php echo site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>" title="Rincian Sub Wilayah"><?php echo $data['jumlah_rt']?></a></td>
+  			<td align="right"><?php echo $data['jumlah_kk']?></td>
+  			<td align="right"><?php echo $data['jumlah_warga']?></td>
+  			<td align="right"><?php echo $data['jumlah_warga_l']?></td>
+  			<td align="right"><?php echo $data['jumlah_warga_p']?></td>
+      <?php endif;?>
+			<td></td>
+
 		 </tr>
         <?php  endforeach; ?>
 	</tbody>
@@ -82,8 +86,8 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
-        <div class="left">     
+        <div class="left">
+        <div class="left">
             <a href="<?php echo site_url("sid_core")?>" class="uibutton icon prev">Kembali</a>
         </div>
         </div>

@@ -96,31 +96,31 @@ background: #333;
 	#maincontainer{
 	width: 100%;
 	}
-	
+
 	#contentwrapper{
 	float: none;
 	}
-	
+
 	#rightcolumn{
 	float: none;
 	width: 100%;
 	margin-left: 0;
 	}
-	
+
 	#contentcolumn{
 	margin-right: 0;
 	}
 }
 
 /*
- * Header 
+ * Header
  * */
 #header{float: left;width: 100%;}
 	#scroller{
 		margin-top:1px;
 		margin-left:5px;
 		float:left;
-		width: 972px; 
+		width: 972px;
 		background:url(images/background.gif) repeat-x;
 		padding-top:3px;
 		height:20px;
@@ -137,7 +137,7 @@ background: #333;
 		-webkit-box-shadow:1px 1px 3px #000;-webkit-border-radius: 2px; -moz-border-radius: 2px;border-radius: 2px;}
 	#menu_vert a{display:block;}
 	#menu_vert2 { top:5px;padding-left:0px; float:right;height:90px;}
-	
+
 #divlogo-img{float: left;width: 100px;margin-left: -100%;text-align:center;}
 #divlogo-img img{height:100px;margin-top:15px;}
 .clearboth{clear:both;}
@@ -586,6 +586,7 @@ background: #333;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
+.no-margin { margin: 0px; }
 .pager {
   padding-left: 0;
   margin: 20px 0;
@@ -1405,3 +1406,45 @@ blockquote:before {
 blockquote p {
   display: inline;
 }
+
+/* Form komentar artikel */
+
+#form-komentar td {
+  padding-top: 5px;
+}
+#form-komentar .nama input {
+  width: 200px;
+}
+#form-komentar .alamat input {
+  width: 200px;
+}
+#form-komentar .pesan textarea {
+  width: 300px; height: 100px;
+}
+#form-komentar .captcha td {
+  padding-top: 10px;
+}
+#form-komentar img#captcha {
+  height: 40px;
+}
+#form-komentar .captcha a {
+  margin-left:10px;
+}
+#form-komentar .captcha_code input {
+  width: 100px;
+}
+#form-komentar .submit input {
+  font-size: 15px; padding: 3px 10px;
+}
+
+/* Artikel */
+
+#headline img {
+  display: block;
+  margin-right: auto; margin-left: auto; margin-bottom: 1em;
+  width: 95%;
+}
+
+
+
+

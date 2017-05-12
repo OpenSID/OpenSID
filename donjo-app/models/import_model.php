@@ -1,4 +1,27 @@
 <?php
+
+define("KOLOM_IMPOR_KELUARGA", serialize(array(
+  strtolower("alamat") => "1",
+  strtolower("dusun") => "2",
+  strtolower("rw")  => "3",
+  strtolower("rt") => "4",
+  strtolower("nama") => "5",
+  strtolower("no_kk") => "6",
+  strtolower("nik")  => "7",
+  strtolower("sex") => "8",
+  strtolower("tempatlahir") => "9",
+  strtolower("tanggallahir")  => "10",
+  strtolower("agama_id") => "11",
+  strtolower("pendidikan_kk_id") => "12",
+  strtolower("pendidikan_sedang_id") => "13",
+  strtolower("pekerjaan_id") => "14",
+  strtolower("status_kawin")  => "15",
+  strtolower("kk_level") => "16",
+  strtolower("warganegara_id") => "17",
+  strtolower("nama_ayah")  => "18",
+  strtolower("nama_ibu") => "19",
+  strtolower("golongan_darah_id") => "20")));
+
 class import_model extends CI_Model{
 
 	function __construct(){
@@ -7,276 +30,256 @@ class import_model extends CI_Model{
 		set_time_limit(3600);
 	}
 
-	function import_siak(){
-
-		$_SESSION['success']=-1;
-		$vdir_upload = LOKASI_ARSIP;
-		$vfile_upload_dk = $vdir_upload.$_FILES["file_dk"]["name"];
-		move_uploaded_file($_FILES["file_dk"]["tmp_name"], $vfile_upload_dk);
-
-		$vfile_upload_bw = $vdir_upload.$_FILES["file_bw"]["name"];
-		move_uploaded_file($_FILES["file_bw"]["tmp_name"], $vfile_upload_bw);
-
-		if(is_file($vfile_upload_dk)){
-			/*
-			 * Data Keluarga
-			 * */
-			if(is_file($vfile_upload_dk)){
-				$data = file_get_contents($vfile_upload_dk);
-				$convert = explode("\n", $data);
-/**/
-				$strSQL = "TRUNCATE tweb_keluarga";
-				$this->db->query($strSQL);
-				$strSQL = "TRUNCATE tweb_penduduk";
-				$this->db->query($strSQL);
-				$strSQL = "TRUNCATE tweb_wil_clusterdesa";
-				$this->db->query($strSQL);
-/**/
-				$kk = array();
-				$j=0;
-				$x="";
-				/*
-				 * Ekstrak data wilayah
-				 *
-				 * */
-				$dusun = 0;
-				$rw = 0;
-				$rt = 0;
-				$nKK = 0;
-
-				$strSQLKK = "";
-				//echo "<ol>";
-				for ($i=0;$i<count($convert);$i++){
-					$item = explode(";",trim(str_replace("\"","",$convert[$i])));
-					//echo "\n".$convert[$i]."<br />";
-					//echo "<li style=\"padding:.5em; margin:.5em; border:solid 2px #369;\"><span>".$i."</span>";
-					//<div>".var_dump($item)."</div>
-					if($j>0){
-						if(strlen($convert[$i])>10){
-							$strDusun = str_replace("  "," ",trim($item[5]));
-							$strDusun = str_replace(" ","_",$strDusun);
-							/*
-							if($strDusun==""){
-								if(strlen($item[2])>0){
-									$strDusun = str_replace("  "," ",trim($item[2]));
-								}
-							}
-							*/
-							$strRT = trim($item[3]);
-							/*
-							 * Cek keberadaan dusun
-							 * */
-							$strSQL = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun='".fixSQL($strDusun)."' AND rw='0' AND rt='0' ";
-							$result = $this->db->query($strSQL);
-							if($result->num_rows() > 0){
-								/*sudah ada dusun */
-							}else{
-								/*entri data dusun*/
-								$strSQL="INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES('0','0','".fixSQL($strDusun)."')";
-								if($this->db->query($strSQL)){
-									$dusun++;
-								}
-							}
-							/*
-							 * Cek data RW -
-							 * */
-							$strSQL = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun='".fixSQL($strDusun)."' AND rw='-' AND rt='0'";
-							$result = $this->db->query($strSQL);
-							if($result->num_rows() > 0){
-							}else{
-								$strSQL="INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES('0','-','".fixSQL($strDusun)."')";
-								if($this->db->query($strSQL)){
-									$rw++;
-								}
-							}
-							/*
-							 * Cek data RT
-							 * */
-							$strSQL = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun='".fixSQL($strDusun)."' AND rw='-' AND rt='".fixSQL($strRT)."' LIMIT 1";
-							$result = $this->db->query($strSQL);
-							if($result->num_rows() > 0){
-								$rs =$result->row(0);
-								$id_wil = $rs->id;
-							}else{
-								/*
-								 * Entry data rt
-								 * */
-								$strSQL = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES('".fixSQL($strRT)."','-','".fixSQL($strDusun)."')";
-								$result = $this->db->query($strSQL);
-								if($result){
-									$strSQL = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun='".fixSQL($strDusun)."' AND rw='-' AND rt='".fixSQL($strRT)."' LIMIT 1";
-									$result = $this->db->query($strSQL);
-									if($result->num_rows() > 0){
-										$rs =$result->row(0);
-										$id_wil = $rs->id;
-									}
-								}
-								$rt++;
-							}
-
-							if($id_wil > 0){
-								$post_data = array('tgl_daftar'=>"".date("Y-m-d")."",'no_kk'=>"".fixSQL($item[0])."",'nik_kepala'=>"".fixSQL($item[23])."");
-								$this->db->trans_start();
-								if($this->db->insert('tweb_keluarga',$post_data)){
-									$this->db->trans_complete();
-									$nKK++;
-									$strSQL = "SELECT id FROM tweb_keluarga WHERE ((no_kk='".fixSQL($item[0])."') AND (nik_kepala='".fixSQL($item[23])."')) LIMIT 1";
-									$result = $this->db->query($strSQL);
-									if($result->num_rows() > 0){
-										$rs =$result->row(0);
-										$id_kk = $rs->id;
-									}
-								}
-								$kk[$item[0]] = array($id_kk,"".$id_wil."","".$item[2]."");
-							}
-
-						}
-					}
-					if(trim(strtolower($convert[$i]))=="begindata"){
-						$j++;
-					}
-					if($j>0){
-						$j++;
-					}
-					//echo "</li>";
-				}
-				//echo "</ol>";
-				$strInfo = "
-				<div>
-					<dl>
-						<dt>Dusun</dt><dd>".$dusun."</dd>
-						<dt>RW</dt><dd>".$rw."</dd>
-						<dt>RT</dt><dd>".$rt."</dd>
-						<dt>Data KK</dt><dd>".$nKK."</dd>
-					</dl>
-				</div>
-				";
-// Entry data KK
-
-			}
-
+/* 	========================================================
+		IMPORT EXCEL
+		========================================================
+*/
+	function file_import_valid() {
+		// error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
+		// TODO: pakai cara upload yg disediakan Codeigniter
+		if ($_FILES['userfile']['error'] == 1) {
+			$max_upload = (int)(ini_get('upload_max_filesize'));
+			$max_post = (int)(ini_get('post_max_size'));
+			$memory_limit = (int)(ini_get('memory_limit'));
+			$upload_mb = min($max_upload, $max_post, $memory_limit);
+			$_SESSION['error_msg'].= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
+			$_SESSION['success']=-1;
+			return false;
 		}
 
-		if(is_file($vfile_upload_bw)){
-			//Data Penduduk
-			if(is_file($vfile_upload_bw)){
-				$data = file_get_contents($vfile_upload_bw);
-				$convert1 = explode("\n", $data);
-				//Ekstrak data penduduk
+		$mime_type_excel = array("application/vnd.ms-excel", "application/octet-stream");
+		if(!in_array($_FILES['userfile']['type'], $mime_type_excel)){
+			$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
+			$_SESSION['success']=-1;
+			return false;
+		}
 
-				$j=0;
-				$strSQL = "INSERT INTO tweb_penduduk (`nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, ";
-				$strSQL .= "`sex`, `tempatlahir`, `tanggallahir`, ";
-				$strSQL .= "`agama_id`, `pendidikan_kk_id`, `pendidikan_id`, ";
-				$strSQL .= "`pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, ";
-				$strSQL .= "`warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, ";
-				$strSQL .= "`ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, ";
-				$strSQL .= "`foto`, `golongan_darah_id`, `id_cluster`, `status`, ";
-				$strSQL .= "`alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`,";
-				$strSQL .= "`hamil`, `cacat_id`, `sakit_menahun_id`, `jamkesmas`, ";
-				$strSQL .= "`akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, ";
-				$strSQL .= "`akta_perceraian`, `tanggalperceraian`) VALUES\n";
-				for ($i=0;$i<count($convert1);$i++){
+		return true;
+	}
 
-					if($j>0){
-						if(strlen($convert1[$i])>25){
-							$item = explode(";",trim(str_replace("\"","",$convert1[$i])));
-							//echo "<br />".$convert1[$i];
-							// Entri data penduduk
-							if($j>0){
-								if($item[20]==1){
-									if(array_key_exists($item[36],$kk)){
-										$strSQLX = "UPDATE tweb_keluarga SET nik_kepala='".fixSQL($item[0])."' WHERE no_kk='".$item[36]."'";
-										$this->db->query($strSQLX);
-									}
-								}
-								if(array_key_exists($item[36],$kk)){
-									$id_kk = $kk[$item[36]][0];
-									$id_cluster = $kk[$item[36]][1];
-									$alamat = $kk[$item[36]][2];
-								}else{
-									$id_kk = 0;
-									$id_cluster = 0;
-									$alamat = "";
-								}
-								$strSQL .= "('".fixSQL($item[5])."','".fixSQL($item[0])."','".fixSQL($id_kk)."','".fixSQL($item[20])."',";
-								$strSQL .= "'-','-',";
-								$strSQL .= "'".fixSQL($item[6])."','".fixSQL($item[7])."','".fixSQL(date("Y-m-d",strtotime($item[8])))."',";
-								$strSQL .= "'".fixSQL($item[12])."','".fixSQL($item[23])."','".fixSQL($item[23])."',";
-								$strSQL .= "'".fixSQL($item[23])."','".fixSQL($item[24])."','".fixSQL($item[13])."',";
-								$strSQL .= "'1','".fixSQL($item[3])."','-',";
-								$strSQL .= "'-','-','".fixSQL($item[28])."','".fixSQL($item[26])."',";
-								$strSQL .= "'','".fixSQL($item[11])."','".fixSQL($id_cluster)."',1,";
-								$strSQL .= "'','".fixSQL($alamat)."',1,
-								'0','".fixSQL($item[21])."','".fixSQL($item[22])."','',
-								'".fixSQL($item[9])."','".fixSQL($item[14])."','".fixSQL($item[16])."',
-								'".fixSQL($item[17])."','".fixSQL($item[19])."'),";
-							}
-						}
-					}
+	function data_import_valid($isi_baris) {
+		// Kolom yang harus diisi
+		if ($isi_baris['nama']=="" OR $isi_baris['nik']=="" OR $isi_baris['dusun']=="" OR $isi_baris['rt']== "" OR $isi_baris['rw']=="")
+			return false;
+		// Validasi data setiap kolom ber-kode
+		if ($isi_baris['sex']!="" AND !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return false;
+		if ($isi_baris['agama_id']!="" AND !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return false;
+		if ($isi_baris['pendidikan_kk_id']!="" AND !($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) return false;
+		if ($isi_baris['pendidikan_sedang_id']!="" AND !($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) return false;
+		if ($isi_baris['pekerjaan_id']!="" AND !($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) return false;
+		if ($isi_baris['status_kawin']!="" AND !($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) return false;
+		if ($isi_baris['kk_level']!="" AND !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return false;
+		if ($isi_baris['warganegara_id']!="" AND !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return false;
+		if ($isi_baris['golongan_darah_id']!="" AND !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return false;
+		// Validasi data lain
+		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return false;
 
-					if(trim(strtolower($convert1[$i]))=="begindata"){
-						$j++;
-					}
-					if($j>0){
-						$j++;
-					}
-				}
-				$strSQL = rtrim($strSQL,",");
-				if($this->db->query($strSQL)){
-					$strSQL = "UPDATE  `tweb_keluarga` k SET k.nik_kepala = ( SELECT p.id FROM tweb_penduduk p WHERE p.id_kk = k.id AND p.kk_level =1 )  WHERE k.id >0";
-					if($this->db->query($strSQL)){
-						$_SESSION['success']=1;
-					}
-				}
-			}
+		return true;
+	}
+
+	function format_tanggallahir($tanggallahir) {
+		if(strlen($tanggallahir)==0){
+			return $tanggallahir;
+		}
+
+		// Ganti separator tanggal supaya tanggal diproses sebagai dd-mm-YYYY.
+		// Kalau pakai '/', strtotime memrosesnya sebagai mm/dd/YYYY.
+		// Lihat panduan strtotime: http://php.net/manual/en/function.strtotime.php
+		$tanggallahir = str_replace('/', '-', $tanggallahir);
+		$tanggallahir = date("Y-m-d",strtotime($tanggallahir));
+		return $tanggallahir;
+	}
+
+	function get_isi_baris($data, $i) {
+		$kolom_impor_keluarga = unserialize(KOLOM_IMPOR_KELUARGA);
+		$isi_baris['alamat'] = trim($data->val($i,$kolom_impor_keluarga['alamat']));
+		$dusun = ltrim(trim($data->val($i, $kolom_impor_keluarga['dusun'])),"'");
+		$dusun = str_replace('_',' ', $dusun);
+		$dusun = strtoupper($dusun);
+		$dusun = str_replace('DUSUN ','', $dusun);
+		$isi_baris['dusun'] = $dusun;
+
+		$isi_baris['rw'] = ltrim(trim($data->val($i, $kolom_impor_keluarga['rw'])),"'");
+		$isi_baris['rt'] = ltrim(trim($data->val($i, $kolom_impor_keluarga['rt'])),"'");
+
+		$nama = trim($data->val($i, $kolom_impor_keluarga['nama']));
+		$nama = preg_replace('/[^a-zA-Z0-9,\.]/', ' ', $nama);
+		$isi_baris['nama'] = $nama;
+
+		// Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
+		// yang tidak tampak (non-printable characters),
+		// jadi perlu dibuang
+		$no_kk= trim($data->val($i, $kolom_impor_keluarga['no_kk']));
+		$no_kk = preg_replace('/[^0-9]/', '', $no_kk);
+		$isi_baris['no_kk'] = $no_kk;
+
+		$nik = trim($data->val($i, $kolom_impor_keluarga['nik']));
+		$nik = preg_replace('/[^0-9]/', '', $nik);
+		$isi_baris['nik'] = $nik;
+
+		$isi_baris['sex'] = trim($data->val($i, $kolom_impor_keluarga['sex']));
+		$isi_baris['tempatlahir']= trim($data->val($i, $kolom_impor_keluarga['tempatlahir']));
+
+		$tanggallahir= ltrim(trim($data->val($i, $kolom_impor_keluarga['tanggallahir'])),"'");
+		$isi_baris['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
+
+		$isi_baris['agama_id']= trim($data->val($i, $kolom_impor_keluarga['agama_id']));
+		$isi_baris['pendidikan_kk_id']= trim($data->val($i, $kolom_impor_keluarga['pendidikan_kk_id']));
+
+		$pendidikan_sedang_id= trim($data->val($i, $kolom_impor_keluarga['pendidikan_sedang_id']));
+		if($pendidikan_sedang_id=="")
+			$pendidikan_sedang_id=18;
+		$isi_baris['pendidikan_sedang_id'] = $pendidikan_sedang_id;
+
+		$isi_baris['pekerjaan_id']= trim($data->val($i, $kolom_impor_keluarga['pekerjaan_id']));
+		$isi_baris['status_kawin']= trim($data->val($i, $kolom_impor_keluarga['status_kawin']));
+		$isi_baris['kk_level']= trim($data->val($i, $kolom_impor_keluarga['kk_level']));
+		$isi_baris['warganegara_id']= trim($data->val($i, $kolom_impor_keluarga['warganegara_id']));
+
+		$nama_ayah= trim($data->val($i,$kolom_impor_keluarga['nama_ayah']));
+		if($nama_ayah==""){
+			$nama_ayah = "-";
+		}
+		$isi_baris['nama_ayah'] = $nama_ayah;
+
+		$nama_ibu= trim($data->val($i,$kolom_impor_keluarga['nama_ibu']));
+		if($nama_ibu==""){
+			$nama_ibu = "-";
+		}
+		$isi_baris['nama_ibu'] = $nama_ibu;
+
+		$isi_baris['golongan_darah_id']= trim($data->val($i, $kolom_impor_keluarga['golongan_darah_id']));
+
+		return $isi_baris;
+	}
+
+	function tulis_tweb_wil_clusterdesa(&$isi_baris) {
+		// Masukkan wilayah administratif ke tabel tweb_wil_clusterdesa apabila
+		// wilayah administratif ini belum ada
+
+		// --- Masukkan dusun apabila belum ada
+		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun=?";
+		$hasil = $this->db->query($query, $isi_baris['dusun']);
+		$res = $hasil->row_array();
+		if (empty($res)) {
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,0,'".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,'-','".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('-','-','".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+		}
+
+		// --- Masukkan rw apabila belum ada
+		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE dusun=? AND rw=?";
+		$hasil = $this->db->query($query, array($isi_baris['dusun'], $isi_baris['rw']));
+		$res = $hasil->row_array();
+		if (empty($res)) {
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0,'".$isi_baris['rw']."','".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('-','".$isi_baris['rw']."','".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+			$isi_baris['id_cluster'] = $this->db->insert_id();
+		}
+
+		// --- Masukkan rt apabila belum ada
+		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE
+							dusun='".$isi_baris['dusun']."' AND rw='".$isi_baris['rw']."' AND rt='".$isi_baris['rt']."'";
+		$hasil = $this->db->query($query);
+		$res = $hasil->row_array();
+		if ( ! empty($res)) {
+			$isi_baris['id_cluster'] = $res['id'];
+		} else {
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('".$isi_baris['rt']."','".$isi_baris['rw']."','".$isi_baris['dusun']."')";
+			$hasil = $this->db->query($query);
+			$isi_baris['id_cluster'] = $this->db->insert_id();
 		}
 	}
 
-	function import_excel(){
-		//echo $_FILES['userfile']['type'];break;
-		$_SESSION['error_msg'] = '';
-		$mime_type_excel = array("application/vnd.ms-excel", "application/octet-stream");
-		if(!in_array($_FILES['userfile']['type'], $mime_type_excel)){
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $_FILES['userfile']['type'];
-				$_SESSION['success']=-1;
-		}else{
+	function tulis_tweb_keluarga(&$isi_baris) {
+		// Penduduk dengan no_kk adalah penduduk lepas
+		if ($isi_baris['no_kk'] == '') {
+			return;
+		}
+		// Masukkan keluarga ke tabel tweb_keluarga apabila
+		// keluarga ini belum ada
+		$query = "SELECT id from tweb_keluarga WHERE no_kk=?";
+		$hasil = $this->db->query($query, $isi_baris['no_kk']);
+		$res = $hasil->row_array();
+		if ( ! empty($res)) {
+			// Update keluarga apabila sudah ada
+			$isi_baris['id_kk'] = $res['id'];
+			$id = $res['id'];
+			$this->db->where('id',$id);
+			// Hanya update apabila alamat kosong
+			// karena alamat keluarga akan diupdate menggunakan data kepala keluarga di tulis_tweb_pendududk
+			$this->db->where('alamat', NULL);
+			$data['alamat'] = $isi_baris['alamat'];
+			$hasil = $this->db->update('tweb_keluarga',$data);
+		} else {
+			$data['no_kk'] = $isi_baris['no_kk'];
+			$data['alamat'] = $isi_baris['alamat'];
+			$hasil = $this->db->insert('tweb_keluarga', $data);
+			$isi_baris['id_kk'] = $this->db->insert_id();
+		}
+	}
 
-		$gagal=0;
-		$baris2="";
-			$a="DROP TABLE IF EXISTS impor";
-			$this->db->query($a);
+	function tulis_tweb_penduduk($isi_baris) {
+		// Siapkan data penduduk
+			$data['nama'] = $isi_baris['nama'];
+			$data['nik'] = $isi_baris['nik'];
+			$data['id_kk'] = $isi_baris['id_kk'];
+			$data['kk_level'] = $isi_baris['kk_level'];
+			$data['sex'] = $isi_baris['sex'];
+			$data['tempatlahir'] = $isi_baris['tempatlahir'];
+			$data['tanggallahir'] = $isi_baris['tanggallahir'];
+			$data['agama_id'] = $isi_baris['agama_id'];
+			$data['pendidikan_kk_id'] = $isi_baris['pendidikan_kk_id'];
+			$data['pendidikan_sedang_id'] = $isi_baris['pendidikan_sedang_id'];
+			$data['pekerjaan_id'] = $isi_baris['pekerjaan_id'];
+			$data['status_kawin'] = $isi_baris['status_kawin'];
+			$data['warganegara_id'] = $isi_baris['warganegara_id'];
+			$data['nama_ayah'] = $isi_baris['nama_ayah'];
+			$data['nama_ibu'] = $isi_baris['nama_ibu'];
+			$data['golongan_darah_id'] = $isi_baris['golongan_darah_id'];
+			$data['id_cluster'] = $isi_baris['id_cluster'];
+			$data['status'] = '1';  // penduduk impor dianggap aktif
+		// Jangan masukkan atau update isian yang kosong
+			foreach ($data as $key => $value) {
+				if ($value == "") {
+					unset($data[$key]);
+				}
+			}
+		// Masukkan penduduk ke tabel tweb_penduduk apabila
+		// penduduk ini belum ada
+		// Penduduk dianggap baru apabila NIK tidak diketahui (nilai 0)
+		if ($isi_baris['nik'] != 0) {
+			// Update data penduduk yang sudah ada
+			$query = "SELECT id from tweb_penduduk WHERE nik=?";
+			$hasil = $this->db->query($query, $isi_baris['nik']);
+			$res = $hasil->row_array();
+			if (!empty($res)) {
+				$id = $res['id'];
+				$this->db->where('id',$id);
+				$hasil = $this->db->update('tweb_penduduk',$data);
+			} else {
+				$hasil = $this->db->insert('tweb_penduduk',$data);
+				$id = $this->db->insert_id();
+			}
+		} else {
+			$hasil = $this->db->insert('tweb_penduduk',$data);
+			$id = $this->db->insert_id();
+		}
 
-		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
+		// Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
+		// dan sudah ada NIK
+		if ($data['kk_level'] == 1) {
+      $this->db->where('id', $data['id_kk']);
+      $this->db->update('tweb_keluarga', array('nik_kepala' => $id, 'id_cluster' => $isi_baris['id_cluster'], 'alamat' => $isi_baris['alamat']));
+		}
+	}
 
-		// membaca jumlah baris dari data excel
-		$baris = $data->rowcount($sheet_index=0);
-
-		//buat tabel impor
-		$a="CREATE TABLE IF NOT EXISTS impor (
-		dusun varchar(50) NOT NULL DEFAULT 0,
-		rw varchar(10) NOT NULL DEFAULT 0,
-		rt varchar(10) NOT NULL DEFAULT 0,
-		nama varchar(50) NOT NULL,
-		nik varchar(16) NOT NULL,
-		sex tinyint(1) unsigned DEFAULT NULL,
-		tempatlahir varchar(50) NOT NULL,
-		tanggallahir date NOT NULL,
-		agama_id int(1) unsigned NOT NULL,
-		pendidikan_kk_id int(1) unsigned NOT NULL,
-		pendidikan_id int(1) unsigned NOT NULL,
-		pendidikan_sedang_id int(1) unsigned NOT NULL,
-		pekerjaan_id int(1) unsigned NOT NULL,
-		status_kawin tinyint(1) unsigned NOT NULL,
-		kk_level tinyint(1) NOT NULL DEFAULT 0,
-		warganegara_id int(1) unsigned NOT NULL,
-		nama_ayah varchar(50) NOT NULL,
-		nama_ibu varchar(50) NOT NULL,
-		golongan_darah_id int(1) NOT NULL,
-		jamkesmas int(1) NOT NULL DEFAULT 2,
-		id_kk varchar(16) NOT NULL DEFAULT '0') ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;";
-		$this->db->query($a);
-
+	function hapus_data_penduduk() {
 		$a="TRUNCATE tweb_wil_clusterdesa";
 		$this->db->query($a);
 
@@ -285,147 +288,427 @@ class import_model extends CI_Model{
 
 		$a="TRUNCATE tweb_penduduk";
 		$this->db->query($a);
+	}
 
-		// import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
-		$baris2 ="";
-		$j=0;
+	function cari_baris_pertama($data, $baris) {
+		if ($baris <=1 )
+			return 0;
+
+		$baris_pertama = 1;
 		for ($i=2; $i<=$baris; $i++){
-			 // membaca data nim (kolom ke-n)
+			// Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
+			if($data->val($i,1) == '###') {
+				$baris_pertama = $i-1;
+				break;
+			}
+			// Baris dengan dusun/rw/rt kosong menandakan baris tanpa data
+			if ($data->val($i,1) == '' AND $data->val($i,2) == '' AND $data->val($i,3) == '') {
+				continue;
+			} else {
+				// Ketemu baris data pertama
+				$baris_pertama = $i;
+				break;
+			}
+		}
+		return $baris_pertama;
+	}
 
-			//$dusun = str_replace(" ","_",$data->val($i, 1));
-			$dusun = $data->val($i, 1);
-			$rw = $data->val($i, 2);
-			$rt = $data->val($i, 3);
+	function import_excel($hapus=false) {
+		$_SESSION['error_msg'] = '';
+		$_SESSION['success'] = 1;
+		if ($this->file_import_valid() == false) {
+			return;
+		}
 
-			$nama = $data->val($i, 4);
-			if($nama!=""){
-				$nama = '"'.$nama.'"';
+		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
+
+		// membaca jumlah baris dari data excel
+		$baris = $data->rowcount($sheet_index=0);
+		if ($this->cari_baris_pertama($data, $baris) <= 1) {
+			$_SESSION['error_msg'].= " -> Tidak ada data";
+			$_SESSION['success']=-1;
+			return;
+		}
+		$baris_data = $baris;
+
+		$this->db->query("SET character_set_connection = utf8");
+		$this->db->query("SET character_set_client = utf8");
+
+		// Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
+		// atau tidak sebelum melakukan impor
+		if ($hapus) { $this->hapus_data_penduduk(); }
+
+		$gagal=0;
+		$baris_gagal ="";
+		$baris_kosong = 0;
+		// Import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
+		for ($i=2; $i<=$baris; $i++){
+
+			// Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
+			if($data->val($i,1) == '###') {
+				$baris_data = $i-1;
+				break;
 			}
 
-			$id_kk= $data->val($i, 5);
-			$nik = $data->val($i, 6);
-			$sex = $data->val($i, 7);
-			$tempatlahir= $this->db->escape($data->val($i, 8));
-			$tanggallahir= $data->val($i, 9);
-
-			if(strlen($tanggallahir)>0){
-				$tanggallahir = date("Y-m-d",strtotime($tanggallahir));
-			}else{
-				$tanggallahir = date("Y-m-d");
+			// Baris dengan dusun/rw/rt kosong menandakan baris tanpa data
+			if ($data->val($i,1) == '' AND $data->val($i,2) == '' AND $data->val($i,3) == '') {
+				$baris_kosong++;
+				continue;
 			}
 
-			if($tanggallahir[2] == "/" OR $tanggallahir[4] == "/"){
-				$tanggallahir = str_replace('/','-', $tanggallahir);
-			}
-
-			$dusun = str_replace('_',' ', $dusun);
-			$dusun = strtoupper($dusun);
-			$dusun = str_replace('DUSUN ','', $dusun);
-			if($tanggallahir[2] == "-"){
-				$tanggallahir = rev_tgl($tanggallahir);
-			}
-
-			$agama_id= $data->val($i, 10);
-			$pendidikan_kk_id= $data->val($i, 11);
-			$pendidikan_sedang_id= $data->val($i, 12);
-			if($pendidikan_sedang_id=="")
-				$pendidikan_sedang_id=18;
-
-			$pekerjaan_id= $data->val($i, 13);
-			$status_kawin= $data->val($i, 14);
-			$kk_level= $data->val($i, 15);
-			$warganegara_id= 1;
-
-			$nama_ayah= $data->val($i,17);
-			if($nama_ayah!=""){
-				$nama_ayah = '"'.$nama_ayah.'"';
-			}else{
-				$nama_ayah = '"-"';
-			}
-			$nama_ibu= $data->val($i,18);
-			if($nama_ibu!=""){
-				$nama_ibu = '"'.$nama_ibu.'"';
-			}else{
-				$nama_ibu = '"-"';
-			}
-
-			$golongan_darah_id= $data->val($i, 19);
-			//$jamkesmas= $data->val($i, 20);
-
-
-			 // masukin ke tabel impor
-			$sql="INSERT INTO impor(dusun,rw,rt,nama,nik,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id, pendidikan_sedang_id,pekerjaan_id,status_kawin,kk_level,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,id_kk) VALUES ('$dusun','$rw','$rt',$nama,$nik,$sex,$tempatlahir,'$tanggallahir','$agama_id','$pendidikan_kk_id','$pendidikan_sedang_id','$pekerjaan_id','$status_kawin','$kk_level','$warganegara_id',$nama_ayah,$nama_ibu,'$golongan_darah_id','$id_kk');";
-
-			//echo $query;
-			if($nama!="" AND $nik!="" AND $id_kk!="" AND $dusun!=""){
-				$h = $this->db->query($sql);
+			$isi_baris = $this->get_isi_baris($data, $i);
+			if ($this->data_import_valid($isi_baris)) {
+				$this->tulis_tweb_wil_clusterdesa($isi_baris);
+				$this->tulis_tweb_keluarga($isi_baris);
+				$this->tulis_tweb_penduduk($isi_baris);
 			}else{
 				$gagal++;
-				$baris2 .=$i.",";
+				$baris_gagal .=$i.",";
 			}
-			$h = null;
-			$sukses = $baris - $gagal - 1;
+		}
+
+		$sukses = $baris_data - $baris_kosong - $gagal - 1;
+
+		if($gagal==0)
+			$baris_gagal ="tidak ada data yang gagal di import.";
+		else $_SESSION['success']=-1;
+
+		$_SESSION['gagal']=$gagal;
+		$_SESSION['sukses']=$sukses;
+		$_SESSION['baris']=$baris_gagal;
+	}
+
+	/* 	====================
+			Selesai IMPORT EXCEL
+			====================
+	*/
+
+	/* 	===============================
+			IMPORT BUKU INDUK PENDUDUK 2012
+			===============================
+	*/
+
+	function cari_bip_kk($data_sheet, $baris, $dari=1){
+		if ($baris <=1 )
+			return 0;
+
+		$baris_kk = 0;
+		for ($i=$dari; $i<=$baris; $i++){
+			// Baris dengan kolom[2] = "NO.KK" menunjukkan mulainya data keluarga dan anggotanya
+			if($data_sheet[$i][2] == 'NO.KK') {
+				$baris_kk = $i;
+				break;
 			}
+		}
+		return $baris_kk;
+	}
 
-			if($gagal==0)
-				$baris2 ="tidak ada data yang gagal di import.";
+	function get_bip_keluarga($data_sheet, $i){
+		// Contoh alamat: "DUSUN KERANDANGAN, RT:001, RW:001, Kodepos:83355,-"
+		// $i = baris judul data keluarga. Data keluarga ada di baris berikutnya
+		$baris = $i + 1;
+		$alamat = $data_sheet[$baris][7];
+		$pos_awal = strpos($alamat, 'DUSUN');
+		if ($pos_awal !== false){
+			$pos = $pos_awal + 5;
+			$data_keluarga['dusun'] = trim(substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos));
+			$alamat = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
+		} else $data_keluarga['dusun'] = 'LAINNYA';
+		$pos_awal = strpos($alamat, 'RW:');
+		if ($pos_awal !== false){
+			$pos = $pos + 3;
+			$data_keluarga['rw'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
+			$alamat = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
+		} else $data_keluarga['rw'] = '-';
+		if ($data_keluarga['rw'] == '') $data_keluarga['rw'] = '-';
+		$pos_awal = strpos($alamat, 'RT:');
+		if ($pos_awal !== false){
+			$pos = $pos_awal + 3;
+			$data_keluarga['rt'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
+			$alamat = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
+		} else $data_keluarga['rt'] = '-';
+		if ($data_keluarga['rt'] == '') $data_keluarga['rt'] = '-';
+		$alamat = rtrim(ltrim(preg_replace("/Kodepos:.*,/i", '', $alamat), " ,-")," ,-");
+		// $alamat sudah tidak ada dusun, rw, rt atau kodepos -- tinggal jalan, kompleks, gedung dsbnya
+		$data_keluarga['alamat'] = $alamat;
+		$data_keluarga['no_kk'] = $data_sheet[$baris][2];
+		return $data_keluarga;
+	}
 
-			// masukin ke tabel tweb_wil_clusterdesa
-				$query="INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) select * from (SELECT rt, rw, dusun from impor GROUP BY rt,rw,dusun
-						union SELECT '0' as rt, '0' as rw, dusun from impor GROUP BY dusun
-						union SELECT '0' as rt, '-' as rw, dusun from impor GROUP BY dusun
-						union SELECT '-' as rt, '-' as rw, dusun from impor GROUP BY dusun
-						union SELECT '-' as rt, rw as rw, dusun from impor GROUP BY dusun,rw
-						union SELECT '0' as rt, rw as rw, dusun from impor GROUP BY dusun,rw) as tb";
-				$hasil = $this->db->query($query);
+	function get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga){
+		// $i = baris data anggota keluarga
+		$data_anggota = $data_keluarga;
+		$data_anggota['nik'] = preg_replace('/[^0-9]/', '', trim($data_sheet[$i][3]));
+		$data_anggota['nama'] = trim($data_sheet[$i][4]);
+		$tmp = unserialize(KODE_SEX);
+		$data_anggota['sex'] = $tmp[trim($data_sheet[$i][5])];
+		$data_anggota['tempatlahir'] = trim($data_sheet[$i][6]);
+		$tanggallahir = trim($data_sheet[$i][7]);
+		$data_anggota['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
+		$tmp = unserialize(KODE_AGAMA);
+		$data_anggota['agama_id'] = $tmp[strtolower(trim($data_sheet[$i][9]))];
+		$tmp = unserialize(KODE_STATUS);
+		$data_anggota['status_kawin'] = $tmp[strtolower(trim($data_sheet[$i][10]))];
+		$tmp = unserialize(KODE_HUBUNGAN);
+		$data_anggota['kk_level'] = $tmp[strtolower(trim($data_sheet[$i][11]))];
+		$tmp = unserialize(KODE_PENDIDIKAN);
+		$data_anggota['pendidikan_kk_id'] = $tmp[strtolower(trim($data_sheet[$i][12]))];
+		$tmp = unserialize(KODE_PEKERJAAN);
+		$data_anggota['pekerjaan_id'] = $tmp[strtolower(trim($data_sheet[$i][13]))];
+		$nama_ibu = trim($data_sheet[$i][14]);
+		if($nama_ibu==""){
+			$nama_ibu = "-";
+		}
+		$data_anggota['nama_ibu'] = $nama_ibu;
+		$nama_ayah = trim($data_sheet[$i][15]);
+		if($nama_ayah==""){
+			$nama_ayah = "-";
+		}
+		$data_anggota['nama_ayah'] = $nama_ayah;
+		$data_anggota['akta_lahir'] = trim($data_sheet[$i][16]);
 
-			// masukin ke tabel tweb_penduduk
-				$query="INSERT INTO tweb_keluarga(no_kk) SELECT DISTINCT(id_kk) AS no_kk FROM impor";
-				$hasil = $this->db->query($query);
+		// Isi kolom default
+		$data_anggota['warganegara_id'] = "1";
+		$data_anggota['golongan_darah_id'] = "13";
+		$data_anggota['pendidikan_sedang_id'] = "";
 
-			// masukin ke tabel tweb_penduduk
-				$query="INSERT INTO tweb_penduduk(nama,nik,id_kk,kk_level,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id,pendidikan_sedang_id,pekerjaan_id,status_kawin,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,jamkesmas,id_cluster,status) SELECT nama,nik,(SELECT id FROM tweb_keluarga WHERE no_kk=a.id_kk) as id_kk,kk_level,sex,tempatlahir,tanggallahir,agama_id,pendidikan_kk_id,pendidikan_sedang_id,pekerjaan_id,status_kawin,warganegara_id,nama_ayah,nama_ibu,golongan_darah_id,jamkesmas,(SELECT id FROM tweb_wil_clusterdesa where dusun=a.dusun AND rw=a.rw AND rt=a.rt) as id_cluster,'1' as status from impor a;";
-				$hasil = $this->db->query($query);
+		return $data_anggota;
+	}
 
-			// masukin ke tabel tweb_penduduk
-				$sql="SELECT id FROM tweb_keluarga";
-				if ($a=$this->db->query($sql)){
-						$hsl  = $a->result_array();
-						foreach($hsl AS $hsl2){
-							$idnya=($hsl2['id']);
-							$kirim = "UPDATE tweb_keluarga SET nik_kepala=(SELECT id FROM tweb_penduduk where kk_level='1' AND id_kk=$idnya LIMIT 1) WHERE id=$idnya";
-							$query=$this->db->query($kirim);
-						}
+	function import_bip_2012($data) {
+		$gagal_penduduk = 0;
+		$baris_gagal = "";
+		$total_keluarga = 0;
+		$total_penduduk = 0;
+
+		// BIP bisa terdiri dari beberapa worksheet
+		// Proses sheet satu-per-satu
+		for ($sheet_index=0; $sheet_index<count($data->boundsheets); $sheet_index++){
+			// membaca jumlah baris di sheet ini
+			$baris = $data->rowcount($sheet_index);
+			$data_sheet = $data->sheets[$sheet_index]['cells'];
+			if ($this->cari_bip_kk($data_sheet, $baris, 1) < 1) {
+				// Tidak ada data keluarga
+				continue;
+			}
+			// Import data sheet ini mulai baris pertama
+			for ($i=1; $i<=$baris; $i++){
+				// Cari keluarga berikutnya
+				if ($data_sheet[$i][2] != "NO.KK") continue;
+				// Proses keluarga
+				$data_keluarga = $this->get_bip_keluarga($data_sheet, $i);
+				$this->tulis_tweb_wil_clusterdesa($data_keluarga);
+				$this->tulis_tweb_keluarga($data_keluarga);
+				$total_keluarga++;
+				// Pergi ke data anggota keluarga
+				$i = $i + 3;
+				// Proses setiap anggota keluarga
+				while ($data_sheet[$i][2] != "NO.KK" AND $i <= $baris) {
+					$data_anggota = $this->get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga);
+					if ($this->data_import_valid($data_anggota)) {
+						$this->tulis_tweb_penduduk($data_anggota);
+						$total_penduduk++;
+					}else{
+						$gagal_penduduk++;
+						$baris_gagal .=$i.",";
 					}
+					$i++;
+				}
+				$i = $i - 1;
+			}
+		}
 
-			$a="DROP TABLE impor";
-			$this->db->query($a);
+		if($gagal_penduduk==0)
+			$baris_gagal ="tidak ada data yang gagal di import.";
+		else $_SESSION['success']=-1;
 
-			$a="DELETE FROM tweb_wil_clusterdesa WHERE dusun = '' OR rt = '' OR rw='';";
-			$this->db->query($a);
+		$_SESSION['gagal']=$gagal_penduduk;
+		$_SESSION['total_keluarga']=$total_keluarga;
+		$_SESSION['total_penduduk']=$total_penduduk;
+		$_SESSION['baris']=$baris_gagal;
+	}
 
-			$a="DELETE FROM tweb_keluarga WHERE nik_kepala = '' OR nik_kepala is null;";
-			$this->db->query($a);
+	function import_bip($hapus=false){
+		$_SESSION['error_msg'] = '';
+		$_SESSION['success'] = 1;
+		if ($this->file_import_valid() == false) {
+			return;
+		}
 
-			$a="DELETE FROM tweb_penduduk WHERE nama = '' AND nik = '';";
-			$this->db->query($a);
+		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
 
-			//$a="ALTER TABLE tweb_penduduk ENGINE = InnoDB ROW_FORMAT = DYNAMIC;";
-			//$this->db->query($a);
+		$this->db->query("SET character_set_connection = utf8");
+		$this->db->query("SET character_set_client = utf8");
 
-			//$a="ALTER TABLE tweb_keluarga ENGINE = InnoDB ROW_FORMAT = DYNAMIC;";
-			//$this->db->query($a);
+		// Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
+		// atau tidak sebelum melakukan impor
+		if ($hapus) { $this->hapus_data_penduduk(); }
 
-			$_SESSION['gagal']=$gagal;
-			$_SESSION['sukses']=$sukses;
-			$_SESSION['baris']=$baris2;
-
-			if($gagal==0) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-
-			//return $main;
+		// Proses berdasarkan format BIP yang diupload
+		$data_sheet = $data->sheets[0]['cells'];
+		if ($data_sheet[1][1] == "BUKU INDUK PENDUDUK WNI") {
+			$a = 1;
+			$this->import_bip_2016($data);
+		} else {
+			$a = 2;
+			$this->import_bip_2012($data);
 		}
 	}
+
+	/* 	===============================
+			IMPORT BUKU INDUK PENDUDUK 2016
+			===============================
+	*/
+
+	function cari_bip_kk_2016($data_sheet, $baris, $dari=1){
+		if ($baris <= 1 )
+			return 0;
+
+		$baris_kk = 0;
+		for ($i=$dari; $i<=$baris; $i++){
+			// Baris dengan kolom[1] yang mulai dengan "No. KK" menunjukkan mulainya data keluarga dan anggotanya
+			if (strpos($data_sheet[$i][1], 'No. KK') === 0) {
+				$baris_kk = $i;
+				break;
+			}
+		}
+		return $baris_kk;
+	}
+
+		function get_bip_keluarga_2016($data_sheet, $i){
+		// Contoh alamat: "Alamat : MERTAK PAOK, Nama Dusun : MERTAK PAOK, RT/RW : -/-"
+		// $i = baris berisi data keluarga.
+		$baris = $i;
+		$alamat = $data_sheet[$baris][3];
+		$pos_awal = strpos($alamat, 'Alamat :');
+		if ($pos_awal !== false){
+			$pos = $pos_awal + strlen('Alamat :');
+			$data_keluarga['alamat'] = trim(substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos));
+		} else $data_keluarga['alamat'] = '';
+		$pos_awal = strpos($alamat, 'Nama Dusun :');
+		if ($pos_awal !== false){
+			$pos = $pos_awal + strlen('Nama Dusun :');
+			$data_keluarga['dusun'] = trim(substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos));
+		} else $data_keluarga['dusun'] = 'LAINNYA';
+		$pos_rtrw = strpos($alamat, 'RT/RW :');
+		if ($pos_rtrw !== false){
+			$pos_rtrw = $pos_rtrw + strlen('RT/RW :');
+			$pos_rw = strpos($alamat, '/', $pos_rtrw);
+			$pos = $pos_rw + strlen('/');
+			$data_keluarga['rw'] = trim(substr($alamat, $pos, strlen($alamat) - $pos));
+		} else $data_keluarga['rw'] = '-';
+		if ($data_keluarga['rw'] == '') $data_keluarga['rw'] = '-';
+		if ($pos_rtrw !== false){
+			$data_keluarga['rt'] = trim(substr($alamat, $pos_rtrw, $pos_rw - $pos_rtrw));
+		} else $data_keluarga['rt'] = '-';
+		if ($data_keluarga['rt'] == '') $data_keluarga['rt'] = '-';
+		// Contoh No. KK : 5202030102110012
+		$no_kk = $data_sheet[$baris][1];
+		$pos_awal = strpos($no_kk, 'No. KK :');
+		if ($pos_awal !== false){
+			$pos = $pos_awal + strlen('No. KK :');
+			$data_keluarga['no_kk'] = preg_replace('/[^0-9]/', '', trim(substr($no_kk, $pos, strlen($no_kk) - $pos)));
+		}
+		return $data_keluarga;
+	}
+
+	function get_bip_anggota_keluarga_2016($data_sheet, $i, $data_keluarga){
+		// $i = baris data anggota keluarga
+		$data_anggota = $data_keluarga;
+		$data_anggota['nama'] = trim($data_sheet[$i][2]);
+		$data_anggota['nik'] = preg_replace('/[^0-9]/', '', trim($data_sheet[$i][3]));
+		$data_anggota['tempatlahir'] = trim($data_sheet[$i][4]);
+		$tanggallahir = trim($data_sheet[$i][5]);
+		$data_anggota['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
+		$tmp = unserialize(KODE_SEX);
+		$data_anggota['sex'] = $tmp[trim($data_sheet[$i][6])];
+		$tmp = unserialize(KODE_HUBUNGAN);
+		$data_anggota['kk_level'] = $tmp[strtolower(trim($data_sheet[$i][7]))];
+		$tmp = unserialize(KODE_AGAMA);
+		$data_anggota['agama_id'] = $tmp[strtolower(trim($data_sheet[$i][8]))];
+		$tmp = unserialize(KODE_PENDIDIKAN);
+		$data_anggota['pendidikan_kk_id'] = $tmp[strtolower(trim($data_sheet[$i][9]))];
+		$tmp = unserialize(KODE_PEKERJAAN);
+		$data_anggota['pekerjaan_id'] = $tmp[strtolower(trim($data_sheet[$i][10]))];
+		$nama_ibu = trim($data_sheet[$i][11]);
+		if($nama_ibu==""){
+			$nama_ibu = "-";
+		}
+		$data_anggota['nama_ibu'] = $nama_ibu;
+
+		// Isi kolom default
+		$data_anggota['status_kawin'] = "";
+		$data_anggota['nama_ayah'] = "-";
+		$data_anggota['akta_lahir'] = "";
+		$data_anggota['warganegara_id'] = "1";
+		$data_anggota['golongan_darah_id'] = "13";
+		$data_anggota['pendidikan_sedang_id'] = "";
+
+		return $data_anggota;
+	}
+
+	function import_bip_2016($data) {
+		$gagal_penduduk = 0;
+		$baris_gagal = "";
+		$total_keluarga = 0;
+		$total_penduduk = 0;
+
+		// BIP bisa terdiri dari beberapa worksheet
+		// Proses sheet satu-per-satu
+		for ($sheet_index=0; $sheet_index<count($data->boundsheets); $sheet_index++){
+			// membaca jumlah baris di sheet ini
+			$baris = $data->rowcount($sheet_index);
+			$data_sheet = $data->sheets[$sheet_index]['cells'];
+			if ($this->cari_bip_kk_2016($data_sheet, $baris, 1) < 1) {
+				// Tidak ada data keluarga
+				continue;
+			}
+			// Import data sheet ini mulai baris pertama
+			for ($i=1; $i<=$baris; $i++){
+				// Baris-baris keterangan ada di akhir berkas BIP 2016. Selesai apabila ketemu.
+				if(strpos($data_sheet[$i][1], 'Keterangan:') === 0) break;
+
+				// Cari keluarga berikutnya
+				if(strpos($data_sheet[$i][1], 'No. KK') !== 0) continue;
+				// Proses keluarga
+				$data_keluarga = $this->get_bip_keluarga_2016($data_sheet, $i);
+				$this->tulis_tweb_wil_clusterdesa($data_keluarga);
+				$this->tulis_tweb_keluarga($data_keluarga);
+				$total_keluarga++;
+				// Pergi ke data anggota keluarga
+				$i = $i + 1;
+				// Proses setiap anggota keluarga
+				while (strpos($data_sheet[$i][1], 'No. KK') !== 0 AND $i <= $baris) {
+					if(!is_numeric($data_sheet[$i][1])) break;
+					$data_anggota = $this->get_bip_anggota_keluarga_2016($data_sheet, $i, $data_keluarga);
+					if ($this->data_import_valid($data_anggota)) {
+						$this->tulis_tweb_penduduk($data_anggota);
+						$total_penduduk++;
+					}else{
+						$gagal_penduduk++;
+						$baris_gagal .=$i.",";
+					}
+					$i++;
+				}
+				$i = $i - 1;
+			}
+		}
+
+		if($gagal_penduduk==0)
+			$baris_gagal ="tidak ada data yang gagal di import.";
+		else $_SESSION['success']=-1;
+
+		$_SESSION['gagal']=$gagal_penduduk;
+		$_SESSION['total_keluarga']=$total_keluarga;
+		$_SESSION['total_penduduk']=$total_penduduk;
+		$_SESSION['baris']=$baris_gagal;
+	}
+
+
+	/* 	==================================
+			Selesai IMPORT BUKU INDUK PENDUDUK
+			==================================
+	*/
 
 	function import_dasar(){
 
@@ -732,7 +1015,7 @@ function GetInt4d($data, $pos) {
 // http://uk.php.net/manual/en/function.getdate.php
 function gmgetdate($ts = null){
 	$k = array('seconds','minutes','hours','mday','wday','mon','year','yday','weekday','month',0);
-	return(array_comb($k,split(":",gmdate('s:i:G:j:w:n:Y:z:l:F:U',is_null($ts)?time():$ts))));
+	return(array_comb($k,explode(":",gmdate('s:i:G:j:w:n:Y:z:l:F:U',is_null($ts)?time():$ts))));
 	}
 
 // Added for PHP4 compatibility
@@ -1569,7 +1852,7 @@ class Spreadsheet_Excel_Reader {
 	 * Some basic initialisation
 	 */
 	function Spreadsheet_Excel_Reader($file='',$store_extended_info=true,$outputEncoding='') {
-		$this->_ole =& new OLERead();
+		$this->_ole = new OLERead();
 		$this->setUTFEncoder('iconv');
 		if ($outputEncoding != '') {
 			$this->setOutputEncoding($outputEncoding);

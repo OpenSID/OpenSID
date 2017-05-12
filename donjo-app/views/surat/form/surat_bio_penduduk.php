@@ -14,7 +14,7 @@ width: 260,
 noResultsText :'Tidak ada no nik yang sesuai..',
 onSelect: function() {
 $('#'+'main').submit();
-}  
+}
 });
 
 });
@@ -35,7 +35,7 @@ padding:5px;
 <table class="inner">
 <tr style="vertical-align:top">
 
-<td style="background:#fff;padding:5px;"> 
+<td style="background:#fff;padding:5px;">
 <div class="content-header">
 
 </div>
@@ -46,8 +46,20 @@ padding:5px;
 
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
+	<tr>
+		<td colspan="2" style="height: auto;">
+    	<div class="box-perhatian">
+      	<p><strong>Form ini menghasilkan:<br><br>
+      	(1) surat biodata untuk pemohon<br>
+      	(2) lampiran F-1.01 FORMULIR ISIAN BIODATA PENDUDUK UNTUK WNI untuk keluarga pemohon<br><br>
+      	Pastikan semua biodata pemohon beserta keluarga sudah lengkap sebelum mencetak surat dan lampiran.<br>
+      	Untuk melengkapi data itu, ubah data pemohon dan anggota keluarganya di form isian penduduk di modul Penduduk.
+      	</strong></p>
+    	</div>
+    </td>
+  </tr>
 <tr>
-<th>NIK / Nama</th>
+<th>NIK / Nama Pemohon</th>
 <td>
 <form action="" id="main" name="main" method="POST">
 <div id="nik" name="nik"></div>
@@ -57,96 +69,55 @@ padding:5px;
 <form id="validasi" action="<?php echo $form_action?>" method="POST" target="_blank">
 <input type="hidden" name="nik" value="<?php echo $individu['id']?> "  class="inputbox required">
 <?php if($individu){ //bagian info setelah terpilih?>
-<tr>
-<th>Tempat Tanggal Lahir (Umur)</th>
-<td>
-<?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
-</td>
-</tr>
-<tr>
-<th>Alamat</th>
-<td>
-<?php echo unpenetration($individu['alamat']); ?>
-</td>
-</tr>
-<tr>
-<th>Pendidikan</th>
-<td>
-<?php echo $individu['pendidikan']?>
-</td>
-</tr>
-<tr>
-<th>Warganegara / Agama</th>
-<td>
-<?php echo $individu['warganegara']?> / <?php echo $individu['agama']?>
-</td>
-</tr>
+	<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 <?php }?>
 <tr>
 <th>Nomor Surat</th>
 <td>
-<input name="nomor" type="text" class="inputbox required" size="12"/>
+<input name="nomor" type="text" class="inputbox required" size="12"/> <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>
 </td>
 </tr>
-<tr>
-	<tH>DATA PRIBADI :</tH>
-</tr>
-<tr>
-	<th>Alamat Sebelumnya</th>
-	<td><input name="alamat_sebelumnya" type="text" class="inputbox " size="40"/></td>
-</tr>
+	<tr>
+		<th colspan="1" style="vertical-align: top;">Anggota Keluarga</th>
+		<td colspan="1">
+			<div style="margin-left:0px;">
+				<table class="list">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th align="left" width='70'>NIK</th>
+							<th align="left" width='100'>Nama</th>
+							<th align="left" width='30' align="center">Jenis Kelamin</th>
+							<th width="70" align="left" >Umur</th>
+							<th width="70" align="left" >Hubungan</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<?php if($anggota!=NULL){
+							$i=0;?>
+							<?php  foreach($anggota AS $data){ $i++;?>
+								<tr>
+			            <td align="center" width="2"><?php echo $i?></td>
+									<td><?php echo $data['nik']?></td>
+									<td><?php echo unpenetration($data['nama'])?></td>
+									<td><?php echo $data['sex']?></td>
+									<td><?php echo $data['umur']?></td>
+									<td><?php echo $data['hubungan']?></td>
+							</tr>
+							<?php }?>
+						<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</td>
+	</tr>
 
 <tr>
-	<th>No Paspor</th>
-	<td><input name="no_paspor" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>Tanggal Berakhir Paspor</th>
-	<td><input name="tgl_berakhir_paspor" type="text" class="inputbox  datepicker" size="20"/></td>
-</tr>
-
-<tr>
-	<th>Akte Kelahiran</th>
-	<td><input name="akte_kelahiran" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>No Akte Kelahiran</th>
-	<td><input name="no_akte_kelahiran" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>Akte Perkawinan /Buku Nikah</th>
-	<td><input name="akte_perkawinan" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>No Akte Perkawinan /Buku Nikah</th>
-	<td><input name="no_akte_perkawinan" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>Tanggal Akte Perkawinan /Buku Nikah</th>
-	<td><input name="tgl_akte_perkawinan" type="text" class="inputbox  datepicker" size="20"/></td>
-</tr>
-
-<tr>
-	<th>Akte Perceraian</th>
-	<td><input name="akte_perceraian" type="text" class="inputbox " size="30"/></td>
-</tr>
-
-<tr>
-	<th>Tanggal Perceraian</th>
-	<td><input name="tgl_perceraian" type="text" class="inputbox  datepicker" size="20"/></td>
-</tr>
-
-
-<tr>
-<th>Staf Pemerintah Desa</th>
+<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
 <td>
 <select name="pamong"  class="inputbox required">
-<option value="">Pilih Staf Pemerintah Desa</option>
+<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
 <?php foreach($pamong AS $data){?>
 <option value="<?php echo $data['pamong_nama']?>" ><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
 <?php }?>
@@ -166,9 +137,9 @@ padding:5px;
 </tr>
 </table>
 </div>
-   
+
 <div class="ui-layout-south panel bottom">
-<div class="left">     
+<div class="left">
 <a href="<?php echo site_url()?>surat" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
@@ -176,7 +147,7 @@ padding:5px;
 <button class="uibutton" type="reset">Clear</button>
 
 							<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
-							<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+							<?php if (SuratExport($url)) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
 </div>
 </div>
 </div> </form>

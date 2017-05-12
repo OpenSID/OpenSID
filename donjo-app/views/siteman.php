@@ -2,7 +2,12 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>SID 3.04 Login</title>
+	<title><?php
+		echo config_item('login_title')
+			. ' ' . ucwords(config_item('sebutan_desa'))
+			. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']) : '')
+			. get_dynamic_title_page_from_path();
+	?></title>
   <link rel="stylesheet" href="<?php echo base_url()?>assets/css/login-new.css" media="screen" type="text/css" />
 </head>
 <body>
@@ -12,13 +17,13 @@
 			<div id="sid">SID</div>
 			<div id="connect">ver.</div>
 			<div id="logo"><img src="<?php echo base_url()?>assets/images/SID-e1351656852451.png"></div>
-			<div id="desa">Desa <?php echo unpenetration($desa['nama_desa'])?></div>
-			<div id="kec">Kecamatan <?php echo unpenetration($desa['nama_kecamatan'])?></div>
-			<div id="kab">Kabupaten <?php echo unpenetration($desa['nama_kabupaten'])?></div>
+			<div id="desa"><?php echo ucwords(config_item('sebutan_desa'))?> <?php echo unpenetration($desa['nama_desa'])?></div>
+			<div id="kec"><?php echo ucwords(config_item('sebutan_kecamatan'))?> <?php echo unpenetration($desa['nama_kecamatan'])?></div>
+			<div id="kab"><?php echo ucwords(config_item('sebutan_kabupaten'))?> <?php echo unpenetration($desa['nama_kabupaten'])?></div>
 		</div>
 		</a>
 		<div id="mainlogin">
-		<div id="or">3.04</div>
+		<div id="or"><?php echo substr(AmbilVersi(), 0, 4)?></div>
 		<h1>Masukan Username dan Password</h1>
 		<form action="<?php echo site_url('siteman/auth')?>" method="post">
 		<input name="username" type="text" placeholder="username" value="" required>
@@ -32,7 +37,7 @@
 		</form>
 		</div>
 		<div id="facebook2">
-			<div id="kab2">powered by: <a href="http://combine.or.id" target="_blank">combine.or.id</a></div>
+			<div id="kab2">powered by: <a href="https://github.com/eddieridwan/OpenSID" target="_blank">OpenSID</a></div>
 		</div>
 	</div>
 </body>

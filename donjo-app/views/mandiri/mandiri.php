@@ -1,7 +1,7 @@
 <div id="pageC">
 	<table class="inner">
 	<tr style="vertical-align:top">
-		<td style="background:#fff;padding:5px;"> 
+		<td style="background:#fff;padding:5px;">
 			<div id="contentpane">
 			<div class="ui-layout-north panel">
 				<div class="left">
@@ -15,6 +15,7 @@
 					<thead>
 						<tr>
 							<th>No</th>
+							<th width="100px">Aksi</th>
 							<th align="left">NIK</th>
 							<th align="left">Nama Penduduk</th>
 							<th align="left" width='160'>Tanggal Buat</th>
@@ -26,19 +27,23 @@
 						<?php foreach($main as $data): ?>
 							<tr>
 								<td align="center" width="2"><?php echo $data['no']?></td>
+								<td> <div class="uibutton-group">
+									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[nik]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"> Hapus</span></a>
+									</div>
+								</td>
 								<td><?php echo $data['nik']?></td>
 								<td><?php echo unpenetration($data['nama'])?></td>
 								<td><?php echo tgl_indo2($data['tanggal_buat'])?></td>
 								<td><?php echo tgl_indo2($data['last_login'])?></td>
 							</tr>
-						<?php 
-						endforeach; 
+						<?php
+						endforeach;
 						?>
 					</tbody>
 				</table>
 			</div>
 			<div class="ui-layout-south panel bottom">
-				<div class="left"> 
+				<div class="left">
 					<div class="table-info">
 					<form id="paging" action="<?php echo site_url('mandiri')?>" method="post">
 						<label>Tampilkan</label>
@@ -86,7 +91,7 @@
 	<?php if($_SESSION['pin']){ ?>
 		modalpin('pin','PIN WARGA','Berikut adalah kode pin yang baru saja di hasilkan, silahkan dicatat atau di ingat dengan baik, kode pin ini sangat rahasia, dan hanya bisa dilihat sekali ini lalu setelah itu hanya bisa di reset saja. <br /> <h4>Kode PIN : <?php echo $_SESSION['pin']; ?></h4>');
 	<?php }?>
-		
+
 	function modalpin(id,title,message,width,height){
 	  if (width==null || height==null){
 		width='500';
@@ -101,10 +106,10 @@
 		  height:height,
 		  autoOpen: true,
 			modal: false,
-		  dragStart: function(event, ui) { 
+		  dragStart: function(event, ui) {
 			$(this).parent().addClass('drag');
 		  },
-		  dragStop: function(event, ui) { 
+		  dragStop: function(event, ui) {
 			$(this).parent().removeClass('drag');
 		  },buttons: {
 					"OK": function() {
