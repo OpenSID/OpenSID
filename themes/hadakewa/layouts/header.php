@@ -72,9 +72,6 @@
 						</div>
 						<div id="divlogo-img">
 							<div class="intube">
-								<a href="<?php echo site_url(); ?>first/">
-								<img src="<?php echo LogoDesa($desa['logo']);?>" alt="<?php echo $desa['nama_desa']?>"/>
-								</a>
 							</div>
 						</div>
 						<br class="clearboth"/>

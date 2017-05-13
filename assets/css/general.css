@@ -249,8 +249,15 @@ table.list{
     table.list th{
       color:#661c02!important;
 	padding:4px 5px;
-    border:1px solid #ca9522;
-    background:#f6c864;
+    border: 1px solid rgba(134,174,204,1);
+    background: rgba(134,174,204,1);
+    background: -moz-linear-gradient(top, rgba(134,174,204,1) 0%, rgba(212,228,239,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(134,174,204,1)), color-stop(100%, rgba(212,228,239,1)));
+    background: -webkit-linear-gradient(top, rgba(134,174,204,1) 0%, rgba(212,228,239,1) 100%);
+    background: -o-linear-gradient(top, rgba(134,174,204,1) 0%, rgba(212,228,239,1) 100%);
+    background: -ms-linear-gradient(top, rgba(134,174,204,1) 0%, rgba(212,228,239,1) 100%);
+    background: linear-gradient(to bottom, rgba(134,174,204,1) 0%, rgba(212,228,239,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#86aecc', endColorstr='#d4e4ef', GradientType=0 );
     }
     table th a{
       color:#111!important;

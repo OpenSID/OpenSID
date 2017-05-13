@@ -31,8 +31,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('sms/form_polling/0')?>" class="uibutton tipsy south" title="Tambah Polling" target="ajax-modalx" rel="window" header="Tambah Polling"><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah Polling</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url('sms/delete_all_polling')?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+                <a href="<?php echo site_url('sms/form_polling/0')?>" class="uibutton tipsy south" title="Tambah Polling" target="ajax-modalx" rel="window" header="Tambah Polling"><span class="ui-icon ui-fa fa-plus-square">&nbsp;</span>Tambah Polling</a>
+                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url('sms/delete_all_polling')?>')" class="uibutton tipsy south"><span class="ui-icon ui-fa fa-trash">&nbsp;</span>Delete Data
             </div>
         </div>
     </div>
@@ -62,9 +62,9 @@
 				</td>
 		  		<td align="center">
 				<?php // $x=$data['id'];?>
-		    		    <a href="<?php echo site_url("sms/form_polling/$data[id_polling]")?>" class="ui-icons icon-edit tipsy south" title="Edit Data" target="ajax-modalx" rel="window" header="Edit Data"></a>			    <?php if($data['jumlah_pertanyaan']=="0"){?>
-				<a href="<?php echo site_url("sms/polling_delete/$data[id_polling]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php  } ?>
-				    <a href="<?php echo site_url("sms/pertanyaan/$data[id_polling]")?>" class="ui-icons icon-document-table tipsy south" title="Rincian Anggota"></a>
+		    		    <a href="<?php echo site_url("sms/form_polling/$data[id_polling]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data" target="ajax-modalx" rel="window" header="Edit Data"></a>			    <?php if($data['jumlah_pertanyaan']=="0"){?>
+				<a href="<?php echo site_url("sms/polling_delete/$data[id_polling]")?>" class="ui-icons fa fa-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php  } ?>
+				    <a href="<?php echo site_url("sms/pertanyaan/$data[id_polling]")?>" class="ui-icons fa fa-document-table tipsy south" title="Rincian Anggota"></a>
 		  		</td>
 				 <td><?php echo $data['nama_polling']?></td>
 				<td><?php echo $data['ket_polling']?></td>	

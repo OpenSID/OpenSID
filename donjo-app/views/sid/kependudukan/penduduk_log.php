@@ -21,12 +21,12 @@ source: keyword
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-              <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk_log/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data</button>
+              <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk_log/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-fa fa-trash">&nbsp;</span>Delete Data</button>
             </div>
         </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('penduduk_log/search')?>');$('#'+'mainform').submit();}" />
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('penduduk_log/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span> Cari </button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('penduduk_log/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search ">&nbsp;</span> Cari </button>
 <a href="<?php echo site_url()?>penduduk" class="uibutton icon prev">Kembali</a>
 </div>
     </div>
@@ -147,7 +147,7 @@ source: keyword
 			<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td>
-			<a href="<?php echo site_url("penduduk_log/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Edit Status Dasar" target="ajax-modal" rel="window" header="Edit Status Dasar" modalWidth="auto" modalHeight="auto"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("penduduk_log/delete_confirm/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+			<a href="<?php echo site_url("penduduk_log/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Edit Status Dasar" target="ajax-modal" rel="window" header="Edit Status Dasar" modalWidth="auto" modalHeight="auto"><span class="fa fa-edit "> Ubah </span></a><a href="<?php echo site_url("penduduk_log/delete_confirm/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "></span></a>
 			</td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>

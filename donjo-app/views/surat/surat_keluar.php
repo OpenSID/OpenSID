@@ -76,13 +76,13 @@
 									<div class="uibutton-group">
 										<?php
 											if(is_file($theFile)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south" title="Cetak"><span class="icon-download icon-large"> Cetak </span></a>
+												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south" title="Cetak"><span class="fa fa-download "> Cetak </span></a>
 										<?php	}?>
 										<?php
 											if(is_file($lampiran)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south" title="Lampiran"><span class="icon-download icon-large"> Lampiran </span></a>
+												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south" title="Lampiran"><span class="fa fa-download "> Lampiran </span></a>
 										<?php	}?>
-										<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+										<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "></span></a>
 									</div>
 								</td>
 								<td><?php echo $data['no_surat']?></td>

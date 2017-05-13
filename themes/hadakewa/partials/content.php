@@ -21,18 +21,14 @@ if($headline){
 			}
 		}
 		echo $headline['isi'];
-
 		echo "
 		</div>
 	</div>";
-
 }
-
 /*
  * List Konten
  * */
 $title = (!empty($judul_kategori))? $judul_kategori: "Artikel Terkini";
-
 if(is_array($title)){
 	foreach($title as $item){
 		$title= $item;
@@ -45,7 +41,6 @@ echo "
 		</div>
 		<div class=\"box-body\">
 ";
-
 if($artikel){
 	echo "
 	<div>
@@ -60,7 +55,6 @@ if($artikel){
 				echo "
 				<li class=\"artikel\">
 					<h3 class=\"judul\"><a href=\"". site_url("first/artikel/$data[id]") ."\">". $data["judul"] ."</a></h3>
-
 					<div class=\"teks\">
 						<div class=\"kecil\"><i class=\"fa fa-clock-o\"></i> ".tgl_indo2($data['tgl_upload'])." <i class=\"fa fa-user\"></i>  ".$data['owner']."</div>
 						<div class=\"img\">";
@@ -74,7 +68,6 @@ if($artikel){
 							echo "
 						</div>
 						".$abstrak." <a href=\"". site_url("first/artikel/".$data["id"]."") ."\">..selengkapnya</a>
-
 					</div>
 					<br class=\"clearboth gb\"/>
 				</li>";
@@ -86,7 +79,6 @@ if($artikel){
 	/*
 	 * Pengaturan halaman
 	 * */
-
 }else{
 	echo "
 	<div class=\"artikel\" id=\"artikel-blank\">
@@ -112,12 +104,10 @@ if($artikel){
 		if($paging->prev){
 			echo "<li><a href=\"".site_url("first/".$paging_page."/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
 		}
-
 		for($i=$paging->start_link;$i<=$paging->end_link;$i++){
 			$strC = ($p == $i)? "class=\"active\"":"";
 			echo "<li ".$strC."><a href=\"".site_url("first/".$paging_page."/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
 		}
-
 		if($paging->next){
 			echo "<li><a href=\"".site_url("first/".$paging_page."/$paging->next")."\" title=\"Halaman Selanjutnya\"><i class=\"fa fa-forward\"></i>&nbsp;</a></li>";
 		}

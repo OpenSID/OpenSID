@@ -33,8 +33,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('sms/form/0/0/1')?>" class="uibutton tipsy south" title="Tulis Pesan Baru" target="ajax-modalx" rel="window" header="Tulis Pesan Baru"><span class="icon-comment icon-large">&nbsp;</span>Tulis Pesan Baru</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all/$p/$o/1")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
+                <a href="<?php echo site_url('sms/form/0/0/1')?>" class="uibutton tipsy south" title="Tulis Pesan Baru" target="ajax-modalx" rel="window" header="Tulis Pesan Baru"><span class="fa fa-comment ">&nbsp;</span>Tulis Pesan Baru</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all/$p/$o/1")?>')" class="uibutton tipsy south"><span class="fa fa-trash ">&nbsp;</span>Hapus Data
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['ID']?>" />
 			</td>
           <td><div class="uibutton-group">
-        <a href="<?php echo site_url("sms/form/$p/$o/1/$data[ID]")?>" class="uibutton tipsy south" title="Tampilkan dan Balas" target="ajax-modal" rel="window" header="Lihat Pesan"><span class="icon-mail-reply icon-large"> Balas </span></a><a href="<?php echo site_url("sms/delete/$p/$o/1/$data[ID]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+        <a href="<?php echo site_url("sms/form/$p/$o/1/$data[ID]")?>" class="uibutton tipsy south" title="Tampilkan dan Balas" target="ajax-modal" rel="window" header="Lihat Pesan"><span class="fa fa-mail-reply "> Balas </span></a><a href="<?php echo site_url("sms/delete/$p/$o/1/$data[ID]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "></span></a>
 	</div>
           </td>
           <td><?php echo unpenetration($data['nama'])?></td>

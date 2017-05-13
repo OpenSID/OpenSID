@@ -17,12 +17,29 @@ a:visited { text-decoration: none; background-color: inherit; color: #0404fd; }
 a:hover { text-decoration: none; background-color: inherit; color: #fd0315; }
 
 body{
-  background: url(../images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/
-  background-size: cover;
+  /*background: url(images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/*/
+  /*background-size: cover;*/
+	background: rgba(226,226,226,1);
+	background: -moz-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(226,226,226,1)), color-stop(50%, rgba(219,219,219,1)), color-stop(51%, rgba(209,209,209,1)), color-stop(100%, rgba(254,254,254,1)));
+	background: -webkit-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+	background: -o-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+	background: -ms-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-	}
+}
+body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 #headercontent {
     margin-left: -6px;
 }
@@ -31,22 +48,26 @@ body{
 }
 
 #topsection{
-  height: 177px;
+  height: 188px;
   background: url(../images/bg_header.jpg);
 }
 
 #footer{
-  padding: 3px 0;
+  padding: 5px 0;
   background: #00c0ef;
 }
-
-
+#footer2{
+  padding: 3px 0;
+  background: rgba(212, 228, 239, 0);
+  text-align: center;
+  font-size: 11px;
+}
 #header{
 	float: left;
 	width: 100.7%;
 }
 #scroller {
-    margin-top: 1px;
+    margin-top: 61px;
     margin-left: -6px;
     float: left;
     width: 990px;
@@ -56,27 +77,23 @@ body{
 }
 #headleft{
 	float: left;
-    width: 350px;
-    margin-left: -101%;
-    margin-top: 33px;
-}
+	width: 350px;
+	margin-left: -101%;
+	margin-top: 32px;}
 
 #menu_vert{
-	border:0px solid #FFFFFF;
-	border-top: 0px solid #777;
-	margin-top: 0px;
+	border: 0px solid #FFFFFF;
+    border-top: 0px solid #fff;
+    margin-top: 0px;
     margin-right: 0px;
-	border-radius: 0px;
-	height: 32px;
-    border: 1px #ddd solid;
-    background: rgba(255,255,255,1);
-	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
-	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
+    border-radius: 0px;
+    height: 33px;
+    background: rgba(245,245,245,1);
+    background: -moz-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(245,245,245,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(47%, rgba(245,245,245,1)), color-stop(100%, rgba(217,214,217,1)));
+    background: -webkit-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
+    background: -o-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
+    background: -ms-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
 }
 #menu_vert2 {
     top: 6px;
@@ -98,29 +115,31 @@ body{
 	margin-top:15px;
 }
 #divlogo-txt {
-    margin-left: 100px;
+    margin-left: 80px;
     color: #204C88;
 }
 #mainmenu {
-    margin: -1px 0 5px -6px;
+    margin: 0px 0 5px -6px;
     float: left;
-    width: 101.1%;
-    height: 33px;
-    border: 1px #ddd solid;
-    background: rgba(255,255,255,1);
-	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
-	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
+    width: 101.3%;
+    height: 34px;
+    border: 0px #fff solid;
+    /*background: #204C88;*/
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+	background: rgba(245,245,245,1);
+	background: -moz-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(245,245,245,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(47%, rgba(245,245,245,1)), color-stop(100%, rgba(217,214,217,1)));
+	background: -webkit-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
+	background: -o-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
+	background: -ms-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
 }
 .box {
 	position: relative;
     border-radius: 0px;
     background: #ffffff;
-    border-top: 0px solid #d2d6de;
+    border-top: 3px solid #d2d6de;
     margin-bottom: 10px;
     width: 100%;
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
@@ -297,32 +316,54 @@ h4 {
 }
 #siteTitle h1{
 	font-family: "Arial", Gadget, sans-serif;
-    font-size: 12px;
-    color: white;
+    font-size: 21px;
+    color: #f67f0c;
     font-weight: normal;
     text-shadow: 0 1px 1px #777;
 	margin-bottom: -20px;
-	margin-top: 10px;
 } /* merubah font judul web ( desa ) */
 #siteTitle h2{
 	font-family: "Arial", Gadget, sans-serif;
     font-size: 15px;
-    color: white;
+    color: #f67f0c;
     font-weight: normal;
     text-shadow: 0 1px 1px #777;
 	margin-top: 24px;
 	margin-bottom: 10px;
 } /* merubah font judul web ( kecamatan dan kabupaten ) */
 #siteTitle h3{
+    font-family: "Arial", Gadget, sans-serif;
+    font-size: 12px;
+    color: #f67f0c;
+    font-weight: normal;
+    text-shadow: 0 1px 1px #777;
+    margin-top: -10px;
+	margin-bottom: 5px;
+} /* merubah font judul web ( alamat ) */
+/* merubah font footer web ( alamat ) */
+#siteTitles h1{
 	font-family: "Arial", Gadget, sans-serif;
+    font-size: 14px;
+    color: white;
+    font-weight: normal;
+	margin-bottom: -25px;
+} /* merubah font footer web ( desa ) */
+#siteTitles h2{
+	font-family: "Arial", Gadget, sans-serif;
+    font-size: 15px;
+    color: white;
+    font-weight: normal;
+	margin-top: 24px;
+	margin-bottom: 10px;
+} /* merubah font footer web ( kecamatan dan kabupaten ) */
+#siteTitles h3{
+    font-family: "Arial", Gadget, sans-serif;
     font-size: 12px;
     color: #fff;
     font-weight: normal;
-    text-shadow: 0 1px 1px #777;
-	margin-top: 20px;
-	line-height: 1.5;
-} /* merubah font judul web ( alamat ) */
-
+    margin-top: 24px;
+	line-height: 1.3;
+} /* merubah font footer web ( alamat ) */
 /* Form */
 input:not([type]),
 input[type="email" i],
@@ -378,3 +419,6 @@ textarea {
     padding: 0 0 0 10px;
     line-height: 1.2em;
 }
+
+
+

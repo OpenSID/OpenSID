@@ -10,8 +10,8 @@
         <div class="uibutton-group">
 
 
-          <a class="uibutton tipsy south" title="Cetak" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('laporan/cetak')?>')"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-          <a class="uibutton tipsy south" title="Excel" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('laporan/excel')?>')"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+          <a class="uibutton tipsy south" title="Cetak" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('laporan/cetak')?>')"><span class="fa fa-print ">&nbsp;</span>Cetak</a>
+          <a class="uibutton tipsy south" title="Excel" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('laporan/excel')?>')"><span class="fa fa-file-text ">&nbsp;</span>Excel</a>
         </div>
       </div>
     </div>
