@@ -41,8 +41,8 @@ source: keyword
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php echo site_url("polygon/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah Kategori Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("polygon/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+<a href="<?php echo site_url("polygon/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square-square">&nbsp;</span>Tambah Kategori Baru</a>
+<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("polygon/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Delete Data
 </div>
 </div>
 </div>
@@ -57,7 +57,7 @@ source: keyword
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('polygon/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('polygon/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="fa fa-search">&nbsp;</span>Search</button>
 </div>
 </div>
 <table class="list">
@@ -94,7 +94,7 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php echo site_url("polygon/form/$p/$o/$data[id]")?>" class="ui-icons icon-edit tipsy south" title="Edit Data"></a><a href="<?php echo site_url("polygon/delete/$p/$o/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('polygon/polygon_lock/'.$data['id'])?>" class="ui-icons icon-lock tipsy south" title="Enable polygon"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('polygon/polygon_unlock/'.$data['id'])?>" class="ui-icons icon-unlock tipsy south" title="Disable polygon"></a><a href="<?php echo site_url("polygon/sub_polygon/$data[id]")?>" class="ui-icons icon-document-table tipsy south" title="Rincian Sub polygon"></a><a href="<?php echo site_url("polygon/ajax_add_sub_polygon/$data[id]")?>" <?php echo $data['nama']?>" class="ui-icons icon-plus tipsy south" title="Tambah Sub polygon"></a>
+<a href="<?php echo site_url("polygon/form/$p/$o/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data"></a><a href="<?php echo site_url("polygon/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('polygon/polygon_lock/'.$data['id'])?>" class="ui-icons fa fa-lock tipsy south" title="Enable polygon"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('polygon/polygon_unlock/'.$data['id'])?>" class="ui-icons fa fa-unlock tipsy south" title="Disable polygon"></a><a href="<?php echo site_url("polygon/sub_polygon/$data[id]")?>" class="ui-icons fa fa-table tipsy south" title="Rincian Sub polygon"></a><a href="<?php echo site_url("polygon/ajax_add_sub_polygon/$data[id]")?>" <?php echo $data['nama']?>" class="ui-icons fa fa-plus-square tipsy south" title="Tambah Sub polygon"></a>
 <?php endif?>
 </td>
 <td width="150"><?php echo $data['nama']?></td>

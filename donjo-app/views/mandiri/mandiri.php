@@ -6,7 +6,7 @@
 			<div class="ui-layout-north panel">
 				<div class="left">
 					<div class="uibutton-group">
-						<a href="<?php echo site_url('mandiri/ajax_pin')?>" target="ajax-modal" rel="window" header="PIN Waraga" class="uibutton tipsy south" title="PIN Warga" ><span class="icon-plus icon-large">&nbsp;</span>Hasilkan PIN</a>
+						<a href="<?php echo site_url('mandiri/ajax_pin')?>" target="ajax-modal" rel="window" header="PIN Waraga" class="uibutton tipsy south" title="PIN Warga" ><span class="fa fa-plus-square ">&nbsp;</span>Hasilkan PIN</a>
 					</div>
 				</div>
 			</div>
@@ -28,7 +28,7 @@
 							<tr>
 								<td align="center" width="2"><?php echo $data['no']?></td>
 								<td> <div class="uibutton-group">
-									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[nik]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"> Hapus</span></a>
+									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[nik]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "> Hapus</span></a>
 									</div>
 								</td>
 								<td><?php echo $data['nik']?></td>

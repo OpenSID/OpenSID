@@ -1,20 +1,24 @@
-<?php $this->load->view($folder_themes.'/layouts/header.php');?>
+<?php $this->load->view('layouts/header.php');?>
 			<div id="contentwrapper">
 				<div id="contentcolumn">
 					<div class="innertube">
-						<?php $this->load->view($folder_themes.'/partials/content.php');?>
+						<?php $this->load->view('partials/content.php');?>
 					</div>
 				</div>
 			</div>
 
 			<div id="rightcolumn">
 				<div class="innertube">
-					<?php $this->load->view($folder_themes.'/partials/side.right.php');?>
+					<?php $this->load->view('partials/side.right.php');?>
 				</div>
 			</div>
 
 			<div id="footer">
-				<?php $this->load->view($folder_themes.'/partials/copywright.tpl.php');?>
+				<?php $this->load->view('partials/copywright.tpl.php');?>
+			</div>
+			
+			<div id="footer2">
+				<?php $this->load->view('partials/footer.tpl.php');?>
 			</div>
 		</div>
 	</body>

@@ -460,10 +460,10 @@ table.form.detail td{
                 <button class="uibutton" type="reset">Clear</button>
 
 							<?php if (SuratCetak($url)) { ?>
-								<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
+								<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-fa fa-print">&nbsp;</span>Cetak</button>
 							<?php } ?>
 							<?php if (SuratExport($url)) { ?>
-								<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button>
+								<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-fa fa-document">&nbsp;</span>Export Doc</button>
 							<?php } ?>
             </div>
         </div>

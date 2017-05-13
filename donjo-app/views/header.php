@@ -58,25 +58,25 @@
 </div>
 
 <ul class="dropdown" tabindex="1">
-	<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="icon-gear icon-large"></i>Setting User</a></li>
+	<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="fa fa-gear "></i>Setting User</a></li>
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
-	<li><a href="<?php echo site_url()?>modul/clear"><i class="icon-gear icon-large"></i>Pengaturan</a></li>
-	<li><a href="<?php echo site_url()?>hom_desa"><i class="icon-home icon-large"></i>SID Home</a></li>
-	<li><a href="<?php echo site_url()?>penduduk"><i class="icon-group icon-large"></i>Penduduk</a></li>
-	<li><a href="<?php echo site_url()?>statistik"><i class="icon-bar-chart icon-large"></i>Statistik</a></li>
-	<li><a href="<?php echo site_url()?>surat"><i class="icon-print icon-large"></i>Cetak Surat</a></li>
-	<li><a href="<?php echo site_url()?>analisis"><i class="icon-dashboard icon-large"></i>Analisis</a></li>
-	<li><a href="<?php echo site_url()?>program_bantuan"><i class="icon-folder-open icon-large"></i>Program</a></li>
+	<li><a href="<?php echo site_url()?>modul/clear"><i class="fa fa-gear "></i>Pengaturan</a></li>
+	<li><a href="<?php echo site_url()?>hom_desa"><i class="fa fa-home "></i>SID Home</a></li>
+	<li><a href="<?php echo site_url()?>penduduk"><i class="fa fa-group "></i>Penduduk</a></li>
+	<li><a href="<?php echo site_url()?>statistik"><i class="fa fa-bar-chart "></i>Statistik</a></li>
+	<li><a href="<?php echo site_url()?>surat"><i class="fa fa-print "></i>Cetak Surat</a></li>
+	<li><a href="<?php echo site_url()?>analisis"><i class="fa fa-dashboard "></i>Analisis</a></li>
+	<li><a href="<?php echo site_url()?>program_bantuan"><i class="fa fa-folder-open "></i>Program</a></li>
 <?php  }?>
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
 	<?php  if($_SESSION['grup']==1){?>
-		<li><a href="<?php echo site_url()?>man_user/clear"><i class="icon-user icon-large"></i>Pengguna</a></li>
-		<li><a href="<?php echo site_url()?>database"><i class="icon-hdd icon-large"></i>Database</a></li>
+		<li><a href="<?php echo site_url()?>man_user/clear"><i class="fa fa-user "></i>Pengguna</a></li>
+		<li><a href="<?php echo site_url()?>database"><i class="fa fa-database "></i>Database</a></li>
 	<?php  }?>
-	<li><a href="<?php echo site_url()?>sms"><i class="icon-envelope-alt icon-large"></i>SMS</a></li>
-	<li><a href="<?php echo site_url()?>web"><i class="icon-cloud icon-large"></i>Admin Web</a></li>
+	<li><a href="<?php echo site_url()?>sms"><i class="fa fa-comments "></i>SMS</a></li>
+	<li><a href="<?php echo site_url()?>web"><i class="fa fa-cloud "></i>Admin Web</a></li>
 <?php  }?>
-<li><a href="<?php echo site_url()?>siteman"><i class="icon-off icon-large"></i>Log Out</a></li>
+<li><a href="<?php echo site_url()?>siteman"><i class="fa fa-power-off "></i>Log Out</a></li>
 </ul>
 
 </div>
