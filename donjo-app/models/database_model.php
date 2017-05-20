@@ -43,6 +43,20 @@
     $this->migrasi_112_ke_113();
     $this->migrasi_113_ke_114();
     $this->migrasi_114_ke_115();
+    $this->migrasi_115_ke_116();
+  }
+
+  function migrasi_115_ke_116(){
+    // Ubah surat N-1 menjadi surat gabungan N-1 s/d N-7
+    $this->db->where('url_surat','surat_ket_nikah')->update('tweb_surat_format',array('nama'=>'Keterangan Untuk Nikah (N-1 s/d N-7)'));
+    // Hapus surat N-2 s/d N-7 yang sudah digabungkan ke surat_ket_nikah
+    $this->db->where('url_surat','surat_ket_asalusul')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_persetujuan_mempelai')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_ket_orangtua')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_izin_orangtua')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_ket_kematian_suami_istri')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_kehendak_nikah')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_ket_wali')->delete('tweb_surat_format');
   }
 
   function migrasi_114_ke_115(){
