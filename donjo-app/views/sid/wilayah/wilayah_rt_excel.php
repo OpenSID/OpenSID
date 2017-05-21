@@ -1,6 +1,6 @@
-<?php php
+<?php
 header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=wilayah_rt.xls");
+header("Content-Disposition: attachment; filename=wilayah_rt_".date('Y-m-d').".xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 ?>
@@ -17,7 +17,7 @@ header("Expires: 0");
 
 <!-- Print Body --><div id="body"><div class="header" align="center"><label align="left"><?php echo get_identitas()?></label>
 <h3> DATA WILAYAH ADMINISTRASI </h3>
-<h4>RT</h4> 
+<h4>RT</h4>
 </div>
 <br>
     <table class="border thick">
@@ -57,7 +57,7 @@ header("Expires: 0");
 	</tbody>
 </table>
 </div>
-   
+
    <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>
 
