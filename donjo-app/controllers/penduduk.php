@@ -584,7 +584,7 @@ class Penduduk extends CI_Controller{
 
 
 	function edit_status_dasar($p=1,$o=0,$id=0){
-	$data['nik']          = $this->penduduk_model->get_penduduk($id);
+		$data['nik'] = $this->penduduk_model->get_penduduk($id);
 		$data['form_action'] = site_url("penduduk/update_status_dasar/$p/$o/$id");
 		$this->load->view('sid/kependudukan/ajax_edit_status_dasar',$data);
 	}
