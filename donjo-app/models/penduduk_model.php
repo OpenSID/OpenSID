@@ -624,7 +624,15 @@
 		$log['bulan'] = date("m");
 		$log['tahun'] = date("Y");
 		$log['catatan'] = $_POST['catatan'];
-		$outp = $this->db->insert('log_penduduk',$log);
+
+    $update_str = '';
+    foreach($log as $key=>$item) {
+        $update_str .= $key.'=VALUES('.$key.'),';
+    }
+    $update_str = rtrim($update_str, ',');
+
+		$sql = $this->db->insert_string('log_penduduk',$log) . ' ON DUPLICATE KEY UPDATE ' . $update_str;
+		$outp = $this->db->query($sql);
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
