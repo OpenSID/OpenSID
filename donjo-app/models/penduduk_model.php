@@ -604,6 +604,15 @@
 		return $query->row_array();
 	}
 
+
+	function get_log_status_dasar($id)
+	{
+		// selalu ngambil yang terakhir
+		$sql = "SELECT date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, id_detail, catatan from log_penduduk where id_pend = ? order by id desc limit 1";
+		$query = $this->db->query($sql,$id);
+		return $query->row_array();
+	}
+
 	function update_status_dasar($id=0){
 		$data['status_dasar'] = $_POST['status_dasar'];
 		$this->db->where('id',$id);
@@ -615,7 +624,15 @@
 		$log['bulan'] = date("m");
 		$log['tahun'] = date("Y");
 		$log['catatan'] = $_POST['catatan'];
-		$outp = $this->db->insert('log_penduduk',$log);
+
+    $update_str = '';
+    foreach($log as $key=>$item) {
+        $update_str .= $key.'=VALUES('.$key.'),';
+    }
+    $update_str = rtrim($update_str, ',');
+
+		$sql = $this->db->insert_string('log_penduduk',$log) . ' ON DUPLICATE KEY UPDATE ' . $update_str;
+		$outp = $this->db->query($sql);
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
@@ -679,10 +696,9 @@
 	function get_penduduk($id=0){
 		$sql   = "SELECT u.sex as id_sex,u.*,a.dusun,a.rw,a.rt,t.nama AS status,o.nama AS pendidikan_sedang,
 		b.nama AS pendidikan_kk,d.no_kk AS no_kk,d.alamat,
-		(
-			SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id
-		)
-		 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb, sd.nama as status_dasar
+		(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id)
+		 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb,
+		 sd.nama as status_dasar, u.status_dasar as status_dasar_id
 		 FROM tweb_penduduk u
 			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
 			LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
