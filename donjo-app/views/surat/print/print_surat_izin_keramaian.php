@@ -44,7 +44,7 @@
 <tr><td>Kewarganegaraan </td><td>:</td><td><?php echo $data['warganegara']?></td></tr>
 <tr><td>Keterangan </td><td>:</td><td>Bahwa orang tersebut adalah benar-benar warga kami yang bertempat tinggal di Dusun <?php echo unpenetration(ununderscore($data['dusun']))?>, Rt. <?php echo $data['rt']?>, <?php echo unpenetration($desa['nama_desa'])?>, <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo unpenetration($desa['nama_kabupaten'])?> tercatat dalam
 No. KK: <?php echo $data['no_kk']?> dengan NIK: <?php echo $data['nik']?>, kepala keluarga : <?php echo unpenetration($data['kepala_kk'])?>.</td></tr>
-<tr><td>Keperluan </td><td>:</td><td> Sebagai pengantar untuk mendapatkan Surat Izin Keramaian berupa <?php echo $input['jenis_keramaian']?> mulai tanggal <?php echo tgl_indo(tgl_indo_in($input['berlaku_dari']))?> sampai dengan  <?php echo tgl_indo(tgl_indo_in($input['berlaku_sampai']))?> dengan keperluan <?php echo $input['keperluan']?>. </td></tr>
+<tr><td>Keperluan </td><td>:</td><td> Sebagai pengantar untuk mendapatkan Surat Izin Keramaian berupa <?php echo $input['jenis_keramaian']?> mulai tanggal <?php echo tgl_indo2(tgl_indo_in($input['berlaku_dari']))?> sampai dengan  <?php echo tgl_indo2(tgl_indo_in($input['berlaku_sampai']))?> dengan keperluan <?php echo $input['keperluan']?>. </td></tr>
 </table>
 <table width="100%">
 <tr></tr>
