@@ -876,7 +876,7 @@ table.form th.konfirmasi{
 						<select name="pamong"  class="inputbox required" >
 							<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
 							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['pamong_nama']?>" <?php if($data['pamong_nama']==$_SESSION['post']['pamong']) echo 'selected'?>><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
+								<option value="<?php echo $data['pamong_nama']?>" <?php if($data['pamong_nama']==$_SESSION['post']['pamong']) echo 'selected'; elseif(empty($_SESSION['post']['pamong']) AND $data['pamong_ttd']==1) echo "selected";?>><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
 							<?php }?>
 						</select>
 					</td>
@@ -887,7 +887,7 @@ table.form th.konfirmasi{
 						<select name="jabatan"  class="inputbox required">
 							<option value="">Pilih Jabatan</option>
 							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['jabatan']?>" <?php if($data['jabatan']==$_SESSION['post']['jabatan']) echo 'selected'?>><?php echo unpenetration($data['jabatan'])?></option>
+								<option value="<?php echo $data['jabatan']?>" <?php if($data['jabatan']==$_SESSION['post']['jabatan']) echo 'selected'; elseif(empty($_SESSION['post']['pamong']) AND $data['pamong_ttd']==1) echo "selected";?>><?php echo unpenetration($data['jabatan'])?></option>
 							<?php }?>
 						</select>
 					</td>

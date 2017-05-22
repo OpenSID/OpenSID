@@ -98,7 +98,7 @@ table.form.detail td{
 <select name="pamong"  class="inputbox required">
 <option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
 <?php foreach($pamong AS $data){?>
-<option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
+	<option value="<?php echo $data['pamong_nama']?>" <?php if($data['pamong_ttd']==1) echo "selected"?>><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
 <?php }?>
 </select>
 </td>
@@ -109,7 +109,7 @@ table.form.detail td{
 <select name="jabatan"  class="inputbox required">
 <option value="">Pilih Jabatan</option>
 <?php foreach($pamong AS $data){?>
-<option ><?php echo $data['jabatan']?></option>
+	<option <?php if($data['pamong_ttd']==1) echo "selected"?>><?php echo $data['jabatan']?></option>
 <?php }?>
 </select>
 </td>

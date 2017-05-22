@@ -57,6 +57,13 @@
     $this->db->where('url_surat','surat_ket_kematian_suami_istri')->delete('tweb_surat_format');
     $this->db->where('url_surat','surat_kehendak_nikah')->delete('tweb_surat_format');
     $this->db->where('url_surat','surat_ket_wali')->delete('tweb_surat_format');
+    // Tambah kolom untuk penandatangan surat
+    if (!$this->db->field_exists('pamong_ttd', 'tweb_desa_pamong')) {
+      $query = "ALTER TABLE tweb_desa_pamong ADD pamong_ttd tinyint(1)";
+      $this->db->query($query);
+    }
+    // Hapus surat_pindah_antar_kab_prov
+    $this->db->where('url_surat','surat_pindah_antar_kab_prov')->delete('tweb_surat_format');
   }
 
   function migrasi_114_ke_115(){

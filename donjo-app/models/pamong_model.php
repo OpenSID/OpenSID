@@ -121,6 +121,14 @@
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
-}
 
+	function ttd($id='',$val=0){
+		if ($val==1){
+			// Hanya satu pamong yang boleh digunakan sebagai ttd default
+			$this->db->where('pamong_ttd',1)->update('tweb_desa_pamong',array('pamong_ttd'=>0));
+		}
+		$this->db->where('pamong_id',$id)->update('tweb_desa_pamong',array('pamong_ttd'=>$val));
+	}
+
+}
 ?>
