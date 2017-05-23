@@ -808,8 +808,24 @@
 		return $data;
 	}
 
-	function list_hubungan(){
-		$sql   = "SELECT * FROM tweb_penduduk_hubungan WHERE 1";
+	/**
+		$status_kawin_kk adalah status kawin dari kepala keluarga.
+		Digunakan pada saat menambah anggota keluarga, supaya yang ditampilkan hanya
+		hubungan yang berlaku
+	**/
+	function list_hubungan($status_kawin_kk=NULL){
+		if (empty($status_kawin_kk)) {
+			$where = "1";
+		} else {
+			/***
+				Untuk Kepala Keluarga yang belum kawin, hubungan berikut tidak berlaku:
+					menantu, cucu, mertua, suami, istri
+				Untuk semua Kepala Keluarga, hubungan 'kepala keluarga' tidak berlaku
+			***/
+
+			$where = ($status_kawin_kk == 1) ? "id NOT IN ('1','2','3','4','5','6','8') " : "id <> 1";
+		}
+		$sql   = "SELECT * FROM tweb_penduduk_hubungan WHERE $where";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 		return $data;
