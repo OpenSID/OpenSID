@@ -44,6 +44,19 @@
     $this->migrasi_113_ke_114();
     $this->migrasi_114_ke_115();
     $this->migrasi_115_ke_116();
+    $this->migrasi_116_ke_117();
+  }
+
+  function migrasi_116_ke_117(){
+    // Tambah kolom log_penduduk
+    if (!$this->db->field_exists('no_kk', 'log_penduduk')) {
+      $query = "ALTER TABLE log_penduduk ADD no_kk decimal(16,0)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('nama_kk', 'log_penduduk')) {
+      $query = "ALTER TABLE log_penduduk ADD nama_kk varchar(100)";
+      $this->db->query($query);
+    }
   }
 
   function migrasi_115_ke_116(){

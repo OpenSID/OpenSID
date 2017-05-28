@@ -103,12 +103,12 @@ source: keyword
 			<th align="left"><a href="<?php echo site_url("penduduk_log/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php  endif; ?>
 
-			<th width="100" align="left">
+			<th align="left">
 			<?php  if($o==6): ?>
-			<a href="<?php echo site_url("penduduk_log/index/$p/5")?>">No. KK<span class="ui-icon ui-icon-triangle-1-n">
+			<a href="<?php echo site_url("penduduk_log/index/$p/5")?>">No. KK / Nama KK<span class="ui-icon ui-icon-triangle-1-n">
 			<?php  elseif($o==5): ?>
-			<a href="<?php echo site_url("penduduk_log/index/$p/6")?>">No. KK<span class="ui-icon ui-icon-triangle-1-s">
-			<?php  else: ?><a href="<?php echo site_url("penduduk_log/index/$p/5")?>">No. KK<span class="ui-icon ui-icon-triangle-2-n-s">
+			<a href="<?php echo site_url("penduduk_log/index/$p/6")?>">No. KK / Nama KK<span class="ui-icon ui-icon-triangle-1-s">
+			<?php  else: ?><a href="<?php echo site_url("penduduk_log/index/$p/5")?>">No. KK / Nama KK<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
@@ -151,13 +151,16 @@ source: keyword
 			</td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
-			<td><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?> </a> </td>
+			<td>
+                <a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?> </a> <br>
+                <?php echo $data['nama_kk']?>
+            </td>
 			<td><?php echo unpenetration($data['dusun'])?></td>
 			<td><?php echo $data['rw']?></td>
 			<td><?php echo $data['rt']?></td>
 			<td><?php echo $data['umur']?></td>
 			<td><?php echo get_log_penduduk_status($data['id_detail'])?></td>
-      <td><?php echo tgl_indo($data['tgl_peristiwa'])?></td>
+            <td><?php echo tgl_indo($data['tgl_peristiwa'])?></td>
 			<td><?php echo tgl_indo2($data['tanggal'])?></td>
 			<td><?php echo $data['catatan']?></td>
 

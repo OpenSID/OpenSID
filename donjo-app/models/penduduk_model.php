@@ -251,7 +251,7 @@
 	function list_data($o=0,$offset=0,$limit=500,$log=0){
 
 		if ($log==1) {
-			$select_sql = "SELECT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk,log.catatan as catatan,
+			$select_sql = "SELECT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,log.no_kk AS no_kk,log.catatan as catatan,log.nama_kk as nama_kk,
 				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,log.tanggal,log.tgl_peristiwa,log.id_detail
 				";
 		} else {
@@ -617,8 +617,11 @@
 		$data['status_dasar'] = $_POST['status_dasar'];
 		$this->db->where('id',$id);
 		$this->db->update('tweb_penduduk',$data);
+		$penduduk = $this->get_penduduk($id);
 
 		$log['id_pend'] = $id;
+		$log['no_kk'] = $penduduk['no_kk'];
+		$log['nama_kk'] = $penduduk['kepala_kk'];
 		$log['tgl_peristiwa'] = rev_tgl($_POST['tgl_peristiwa']);
 		$log['id_detail'] = $data['status_dasar'];
 		$log['bulan'] = date("m");
@@ -698,7 +701,8 @@
 		b.nama AS pendidikan_kk,d.no_kk AS no_kk,d.alamat,
 		(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id)
 		 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb,
-		 sd.nama as status_dasar, u.status_dasar as status_dasar_id
+		 sd.nama as status_dasar, u.status_dasar as status_dasar_id,
+		(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = d.nik_kepala)) AS kepala_kk
 		 FROM tweb_penduduk u
 			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
 			LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
