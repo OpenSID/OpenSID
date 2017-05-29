@@ -77,24 +77,7 @@ table.form.detail td{
 							<th>Berlaku</th>
 							<td><input name="berlaku_dari" type="text" class="inputbox required datepicker-start" size="20"/> sampai <input name="berlaku_sampai" type="text" class="inputbox datepicker-end " size="20"/></td>
 						</tr>
-						<tr>
-							<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
-							<td><select name="pamong"  class="inputbox required">
-								<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
-								<?php foreach($pamong AS $data){?>
-									<option value="<?php echo $data['pamong_nama']?>" <?php if($data['pamong_ttd']==1) echo "selected"?>><?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)</option>
-								<?php }?>
-								</select></td>
-						</tr>
-						<tr>
-							<th>Sebagai</th>
-							<td><select name="jabatan"  class="inputbox required">
-								<option value="">Pilih Jabatan</option>
-								<?php foreach($pamong AS $data){?>
-									<option <?php if($data['pamong_ttd']==1) echo "selected"?>><?php echo $data['jabatan']?></option>
-								<?php }?>
-								</select></td>
-						</tr>
+						<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 					</table>
 				</div>
 			</div>

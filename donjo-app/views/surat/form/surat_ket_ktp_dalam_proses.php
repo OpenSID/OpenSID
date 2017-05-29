@@ -64,28 +64,7 @@ padding:5px;
 <input name="nomor" type="text" class="inputbox required" size="12"/> <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>
 </td>
 </tr>
-<tr>
-<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
-<td>
-<select name="pamong"  class="inputbox required">
-<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
-<?php foreach($pamong AS $data){?>
-	<option value="<?php echo $data['pamong_nama']?>" <?php if($data['pamong_ttd']==1) echo "selected"?>><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
-<?php }?>
-</select>
-</td>
-</tr>
-<tr>
-<th>Sebagai</th>
-<td>
-<select name="jabatan"  class="inputbox required">
-<option value="">Pilih Jabatan</option>
-<?php foreach($pamong AS $data){?>
-	<option <?php if($data['pamong_ttd']==1) echo "selected"?>><?php echo unpenetration($data['jabatan'])?></option>
-<?php }?>
-</select>
-</td>
-</tr>
+	<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 </table>
 </div>
 

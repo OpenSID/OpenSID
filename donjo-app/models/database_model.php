@@ -57,6 +57,8 @@
       $query = "ALTER TABLE log_penduduk ADD nama_kk varchar(100)";
       $this->db->query($query);
     }
+    // Hapus surat_ubah_sesuaikan
+    $this->db->where('url_surat', 'surat_ubah_sesuaikan')->delete('tweb_surat_format');
   }
 
   function migrasi_115_ke_116(){
