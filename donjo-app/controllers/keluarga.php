@@ -240,7 +240,6 @@ function __construct(){
 		$data['id_kk']  	 = $id;
 		$data['kk']          = $this->keluarga_model->get_kepala_a($id);
 		$data['form_action'] = site_url("keluarga/insert_a");
-
 		$nav['act']= 2;
 
 		$data['agama'] = $this->penduduk_model->list_agama();
@@ -248,7 +247,7 @@ function __construct(){
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['warganegara'] = $this->penduduk_model->list_warganegara();
-		$data['hubungan'] = $this->penduduk_model->list_hubungan();
+		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kk']['status_kawin']);
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
@@ -409,17 +408,16 @@ function __construct(){
 	}
 
 	function ajax_add_anggota($p=1,$o=0,$id=0){
-
 		$data['p']        = $p;
 		$data['o']        = $o;
 
-		$data['hubungan'] = $this->keluarga_model->list_hubungan();
-		$data['main']     = $this->keluarga_model->list_anggota($id);
 		$kk 			  = $this->keluarga_model->get_kepala_kk($id);
 		if($kk)
 			$data['kepala_kk'] = $kk;
 		else
 			$data['kepala_kk'] = NULL;
+		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kepala_kk']['status_kawin_id']);
+		$data['main']     = $this->keluarga_model->list_anggota($id);
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 
 		$data['form_action'] = site_url("keluarga/add_anggota/$p/$o/$id");

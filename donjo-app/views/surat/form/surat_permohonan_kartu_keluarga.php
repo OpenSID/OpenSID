@@ -99,24 +99,7 @@ table.form.detail td{
 								<?php endif; ?>
 							</td>
 						</tr>
-						<tr>
-							<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
-							<td><select name="pamong"  class="inputbox required">
-								<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
-								<?php foreach($pamong AS $data){?>
-									<option value="<?php echo $data['pamong_nama']?>"><?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)</option>
-								<?php }?>
-								</select></td>
-						</tr>
-						<tr>
-							<th>Sebagai</th>
-							<td><select name="jabatan"  class="inputbox required">
-								<option value="">Pilih Jabatan</option>
-								<?php foreach($pamong AS $data){?>
-									<option ><?php echo $data['jabatan']?></option>
-								<?php }?>
-								</select></td>
-						</tr>
+						<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 					</table>
 				</div>
 			</div>

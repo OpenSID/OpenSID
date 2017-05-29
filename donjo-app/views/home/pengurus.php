@@ -58,7 +58,15 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['pamong_id']?>" />
 			</td>
           <td width="5"><div class="uibutton-group">
-            <?php if($data['pamong_id']!="707"){?><a href="<?php echo site_url("pengurus/form/$data[pamong_id]")?>" class="uibutton tipsy south" title="Ubah Data"><span  class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("pengurus/delete/$data[pamong_id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a><?php }?></div>
+            <?php if($data['pamong_id']!="707"){?>
+                <a href="<?php echo site_url("pengurus/form/$data[pamong_id]")?>" class="uibutton tipsy south" title="Ubah Data"><span  class="icon-edit icon-large"> Ubah </span></a>
+                <?php if($data['pamong_ttd'] == '1'):?>
+                    <a href="<?php echo site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Bukan TTD default"><span  class="icon-pencil icon-large"></span></a>
+                <?php else : ?>
+                    <a href="<?php echo site_url('pengurus/ttd_on/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Jadikan TTD default"><span  class="icon-user icon-large"></span></a>
+                <?php endif?>
+                <a href="<?php echo site_url("pengurus/delete/$data[pamong_id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+            <?php }?></div>
           </td>
           <td><?php echo unpenetration($data['pamong_nama'])?></td>
 			<td><?php echo $data['pamong_nip']?></td>

@@ -95,7 +95,7 @@
 	}
 
 	function get_penduduk($id=0){
-		$sql   = "SELECT u.id AS id,u.nama AS nama,x.nama AS sex,u.id_kk AS id_kk,
+		$sql   = "SELECT u.id AS id,u.nama AS nama,u.sex as sex_id,x.nama AS sex,u.id_kk AS id_kk,
 		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,u.no_kk_sebelumnya,s.nama as status,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
@@ -395,7 +395,7 @@
 	        // Regex ini untuk membersihkan kode isian dari karakter yang dimasukkan oleh Word
 	        // Regex ini disusun berdasarkan RTF yang dihasilkan oleh Word 2011 di Mac.
 	        // Perlu diverifikasi regex ini berlaku juga untuk RTF yang dihasilkan oleh versi Word lain.
-	        $regex = "/(\}.?#)|rtlch.?#|fcs.?#+|afs.?\d#+|f\d*?\d#|fs\d*?\d#|af\d*?\d#+|ltrch#+|insrsid\d*?\d#+|charrsid\d*?\d#+|#+/";
+	        $regex = "/(\}.?#)|rtlch.?#|fcs.?#+|afs.?\d#+|f\d*?\d#|fs\d*?\d#|af\d*?\d#+|ltrch#+|insrsid\d*?\d#+|alang\d+#+|lang\d+|langfe\d+|langnp\d+|langfenp\d+|b#+|ul#+|hich#+|dbch#+|loch#+|charrsid\d*?\d#+|#+/";
 	        $kode_isian = preg_replace($regex, "", $kode_isian);
 	        $buffer_out .= $kode_isian;
 	        break;
@@ -413,6 +413,17 @@
 	function get_daftar_kode_surat($surat) {
 		$kode = array();
 		switch ($surat) {
+			case 'surat_ket_nikah':
+				$kode['status_kawin_pria'] = array(
+				  "Jejaka",
+				  "Duda",
+				  "Beristri"
+				);
+				$kode['status_kawin_wanita'] = array(
+				  "Perawan",
+				  "Janda"
+				);
+				break;
 			case 'surat_permohonan_kartu_keluarga':
 				$kode['alasan_permohonan'] = array(
 				  1 => "Karena Membentuk Rumah Tangga Baru",
@@ -543,6 +554,85 @@
 				$buffer=str_replace("[usia_suami]","$suami[umur] Tahun",$buffer);
 				$buffer=str_replace("[pekerjaan_suami]",$suami['pek'],$buffer);
 				$buffer=str_replace("[alamat_suami]","RT $suami[rt] / RW $suami[rw] $suami[dusun]",$buffer);
+				break;
+
+			case 'surat_ket_nikah':
+				// Data pasangan pria =====================
+				if($input['id_pria']) {
+					$pria = $this->get_data_surat($input['id_pria']);
+					$ibu_pria = $this->get_data_ibu($input['id_pria']);
+					$ayah_pria = $this->get_data_ayah($input['id_pria']);
+					$buffer=str_replace("[agama_pria]","$pria[agama]",$buffer);
+					$buffer=str_replace("[alamat_pria]","$pria[alamat_wilayah]",$buffer);
+					$buffer=str_replace("[nama_pria]","$pria[nama]",$buffer);
+					$buffer=str_replace("[no_ktp_pria]","$pria[nik]",$buffer);
+					$buffer=str_replace("[no_kk_pria]","$pria[no_kk]",$buffer);
+					$buffer=str_replace("[pekerjaan_pria]","$pria[pekerjaan]",$buffer);
+					$buffer=str_replace("[sex_pria]","$pria[sex]",$buffer);
+					$buffer=str_replace("[status_pria]","$pria[status_kawin]",$buffer);
+					$buffer=str_replace("[tempatlahir_pria]",$pria[tempatlahir],$buffer);
+					$buffer=str_replace("[tanggallahir_pria]",tgl_indo_dari_str($pria[tanggallahir]),$buffer);
+					$buffer=str_replace("[usia_pria]","$pria[umur] Tahun",$buffer);
+					$buffer=str_replace("[wn_pria]","$pria[warganegara]",$buffer);
+				}
+
+				# Data orang tua apabila warga desa
+				if ($ayah_pria) {
+					$buffer=str_replace("[form_nama_ayah_pria]",$ayah_pria['nama'],$buffer);
+					$buffer=str_replace("[form_tempatlahir_ayah_pria]",ucwords(strtolower($ayah_pria['tempatlahir'])),$buffer);
+					$buffer=str_replace("[form_tanggallahir_ayah_pria]",tgl_indo_dari_str($ayah_pria['tanggallahir']),$buffer);
+					$buffer=str_replace("[form_wn_ayah_pria]",$ayah_pria['wn'],$buffer);
+					$buffer=str_replace("[form_agama_ayah_pria]",ucwords(strtolower($ayah_pria['agama'])),$buffer);
+					$buffer=str_replace("[form_pekerjaan_ayah_pria]",ucwords(strtolower($ayah_pria['pek'])),$buffer);
+					$buffer=str_replace("[form_alamat_ayah_pria]","RT ".$ayah_pria[rt]." / RW ".$ayah_pria[rw]." ".ucwords(strtolower($ayah_pria[dusun]))." $alamat_desa",$buffer);
+				}
+				if ($ibu_pria) {
+					$buffer=str_replace("[form_nama_ibu_pria]",$ibu_pria['nama'],$buffer);
+					$buffer=str_replace("[form_tempatlahir_ibu_pria]",ucwords(strtolower($ibu_pria['tempatlahir'])),$buffer);
+					$buffer=str_replace("[form_tanggallahir_ibu_pria]",tgl_indo_dari_str($ibu_pria['tanggallahir']),$buffer);
+					$buffer=str_replace("[form_wn_ibu_pria]",$ibu_pria['wn'],$buffer);
+					$buffer=str_replace("[form_agama_ibu_pria]",ucwords(strtolower($ibu_pria['agama'])),$buffer);
+					$buffer=str_replace("[form_pekerjaan_ibu_pria]",ucwords(strtolower($ibu_pria['pek'])),$buffer);
+					$buffer=str_replace("[form_alamat_ibu_pria]","RT $ibu_pria[rt] / RW $ibu_pria[rw] ".ucwords(strtolower($ibu_pria[dusun]))." $alamat_desa",$buffer);
+				}
+				// Kode isian yang mungkin tidak terisi
+				$buffer=str_replace("[form_istri_dulu]",$input['istri_dulu'],$buffer);
+
+				// Data pasangan wanita =====================
+				if($input['id_wanita']) {
+					$wanita = $this->get_data_surat($input['id_wanita']);
+					$ibu_wanita = $this->get_data_ibu($input['id_wanita']);
+					$ayah_wanita = $this->get_data_ayah($input['id_wanita']);
+					$buffer=str_replace("[form_agama_wanita]",$wanita[agama],$buffer);
+					$buffer=str_replace("[form_alamat_wanita]",$wanita[alamat_wilayah],$buffer);
+					$buffer=str_replace("[form_nama_wanita]",$wanita[nama],$buffer);
+					$buffer=str_replace("[form_pekerjaan_wanita]",$wanita[pekerjaan],$buffer);
+					$buffer=str_replace("[form_tempatlahir_wanita]",$wanita[tempatlahir],$buffer);
+					$buffer=str_replace("[form_tanggallahir_wanita]",tgl_indo_dari_str($wanita[tanggallahir]),$buffer);
+					$buffer=str_replace("[form_wn_wanita]",$wanita[warganegara],$buffer);
+				}
+				# Data orang tua apabila warga desa
+				if ($ayah_wanita) {
+					$buffer=str_replace("[form_nama_ayah_wanita]",$ayah_wanita['nama'],$buffer);
+					$buffer=str_replace("[form_tempatlahir_ayah_wanita]",ucwords(strtolower($ayah_wanita['tempatlahir'])),$buffer);
+					$buffer=str_replace("[form_tanggallahir_ayah_wanita]",tgl_indo_dari_str($ayah_wanita['tanggallahir']),$buffer);
+					$buffer=str_replace("[form_wn_ayah_wanita]",$ayah_wanita['wn'],$buffer);
+					$buffer=str_replace("[form_agama_ayah_wanita]",ucwords(strtolower($ayah_wanita['agama'])),$buffer);
+					$buffer=str_replace("[form_pekerjaan_ayah_wanita]",ucwords(strtolower($ayah_wanita['pek'])),$buffer);
+					$buffer=str_replace("[form_alamat_ayah_wanita]","RT $ayah_wanita[rt] / RW $ayah_wanita[rw] ".ucwords(strtolower($ayah_pria[dusun]))." $alamat_desa",$buffer);
+				}
+				if ($ibu_wanita) {
+					$buffer=str_replace("[form_nama_ibu_wanita]",$ibu_wanita['nama'],$buffer);
+					$buffer=str_replace("[form_tempatlahir_ibu_wanita]",ucwords(strtolower($ibu_wanita['tempatlahir'])),$buffer);
+					$buffer=str_replace("[form_tanggallahir_ibu_wanita]",tgl_indo_dari_str($ibu_wanita['tanggallahir']),$buffer);
+					$buffer=str_replace("[form_wn_ibu_wanita]",$ibu_wanita['wn'],$buffer);
+					$buffer=str_replace("[form_agama_ibu_wanita]",ucwords(strtolower($ibu_wanita['agama'])),$buffer);
+					$buffer=str_replace("[form_pekerjaan_ibu_wanita]",ucwords(strtolower($ibu_wanita['pek'])),$buffer);
+					$buffer=str_replace("[form_alamat_ibu_wanita]","RT $ibu_wanita[rt] / RW $ibu_wanita[rw] ".ucwords(strtolower($ibu_wanita[dusun]))." $alamat_desa",$buffer);
+				}
+				// Kode isian yang mungkin tidak terisi
+				$buffer=str_replace("[form_suami_dulu]",$input['suami_dulu'],$buffer);
+
 				break;
 
 			case 'surat_permohonan_cerai':
@@ -794,7 +884,7 @@
 				"tanggallahir_pasangan", "tgl_lahir_ayah", "tgl_lahir_ibu", "tgl_berakhir_paspor",
 				"tgl_akte_perkawinan", "tgl_perceraian", "tanggallahir","tanggallahir_pelapor", "tgl_lahir",
 				"tanggallahir_ayah", "tanggallahir_ibu", "tgl_lahir_wali", "tgl_nikah",
-				"tanggal_pindah"
+				"tanggal_pindah", "tanggal_nikah", "tanggallahir_wali", "tanggallahir_suami_dulu", "tanggallahir_istri_dulu", "tanggallahir_ayah_pria", "tanggallahir_ibu_pria"
 				);
 			foreach ($input as $key => $entry){
 				// Isian tanggal diganti dengan format tanggal standar
@@ -887,12 +977,16 @@
 	function get_data_untuk_surat($url) {
 		$data['input'] = $_POST;
 		// Ambil data
-		$id = $data['input']['nik'];
-		$data['individu'] = $this->get_data_surat($id);
-		$data['ayah'] = $this->get_data_ayah($id);
-		$data['ibu'] = $this->get_data_ibu($id);
 		$data['config'] = $this->get_data_desa();
 		$data['surat'] = $this->get_surat($url);
+		switch ($url) {
+			default:
+				$id = $data['input']['nik'];
+				$data['individu'] = $this->get_data_surat($id);
+				$data['ayah'] = $this->get_data_ayah($id);
+				$data['ibu'] = $this->get_data_ibu($id);
+				break;
+		}
 		return $data;
 	}
 

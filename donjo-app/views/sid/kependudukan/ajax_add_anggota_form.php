@@ -38,7 +38,7 @@ $('#'+'main').submit();
 <td><select name="kk_level" class="required">
 <option value=""> --- </option>
 <?php foreach($hubungan as $data){?>
-	<option value="<?php echo $data['id']?>"><?php echo $data['hubungan']?></option>
+	<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
 <?php }?></select>
 </td>
 	</tr>
