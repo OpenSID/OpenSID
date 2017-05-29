@@ -676,6 +676,7 @@ class Penduduk extends CI_Controller{
 
 	function lap_statistik($id_cluster=0,$tipe=0,$nomor=0){
 		unset($_SESSION['sex']);
+		unset($_SESSION['cacat']);
 		unset($_SESSION['cacatx']);
 		unset($_SESSION['menahun']);
 		unset($_SESSION['menahunx']);
@@ -749,12 +750,14 @@ class Penduduk extends CI_Controller{
 				$_SESSION['rt']=$cluster['rt'];
 				$pre="BERUMUR >60";
 				break;
-			case 9:
-				$_SESSION['cacatx'] = '7';
+			case 91: case 92: case 93: case 94:
+			case 95: case 96: case 97:
+				$kode_cacat = $tipe - 90;
+				$_SESSION['cacat'] = $kode_cacat;
 				$_SESSION['dusun']=$cluster['dusun'];
 				$_SESSION['rw']=$cluster['rw'];
 				$_SESSION['rt']=$cluster['rt'];
-				$pre="CACAT ";
+				$pre=$this->penduduk_model->get_judul_statistik(9,$kode_cacat,NULL)['nama'];
 				break;
 			case 10:
 				$_SESSION['menahunx'] = '14';
