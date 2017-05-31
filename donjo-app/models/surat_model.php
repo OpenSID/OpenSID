@@ -368,7 +368,7 @@
 		if($file == ""){
 			$data['lokasi_rtf'] = "surat/$url/";
 		} else {
-			$data['lokasi_rtf'] = LOKASI_SURAT_EXPORT_DESA;
+			$data['lokasi_rtf'] = dirname($file)."/";
 		}
 		return $data;
 	}
