@@ -59,6 +59,28 @@
     }
     // Hapus surat_ubah_sesuaikan
     $this->db->where('url_surat', 'surat_ubah_sesuaikan')->delete('tweb_surat_format');
+    // Tambah kolom log_surat untuk surat non-warga
+    if (!$this->db->field_exists('nik_non_warga', 'log_surat')) {
+      $query = "ALTER TABLE log_surat ADD nik_non_warga decimal(16,0)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('nama_non_warga', 'log_surat')) {
+      $query = "ALTER TABLE log_surat ADD nama_non_warga varchar(100)";
+      $this->db->query($query);
+    }
+    $query = "ALTER TABLE log_surat MODIFY id_pend int(11) DEFAULT NULL";
+    $this->db->query($query);
+    // Tambah contoh surat non-warga
+    $query = "
+      INSERT INTO tweb_surat_format(nama, url_surat, kode_surat, jenis) VALUES
+      ('Domisili Usaha Non-Warga', 'surat_domisili_usaha_non_warga', 'S-37', 1)
+      ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis);
+    ";
+    $this->db->query($query);
   }
 
   function migrasi_115_ke_116(){

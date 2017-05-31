@@ -4,6 +4,7 @@ define("VERSION", 'pasca-1.16');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
+define("LOKASI_SURAT_DESA", 'desa/surat/');
 define("LOKASI_SURAT_FORM_DESA", 'desa/surat/form/');
 define("LOKASI_SURAT_PRINT_DESA", 'desa/surat/print/');
 define("LOKASI_SURAT_EXPORT_DESA", 'desa/surat/export/');
@@ -196,14 +197,19 @@ define("KODE_PEKERJAAN", serialize(array(
 /**
  * SuratExportDesa
  *
- * Mengembalikan path surat ubahan desa apabila ada
+ * Mengembalikan path surat ubahan desa apabila ada.
+ * Cek folder semua komponen surat dulu, baru cek folder export
  *
  * @access  public
  * @return  string
  */
   function SuratExportDesa($nama_surat)
   {
-    $surat_export_desa = LOKASI_SURAT_EXPORT_DESA . $nama_surat . ".rtf";
+    $surat_export_desa = LOKASI_SURAT_DESA . "/" . $nama_surat . "/" . $nama_surat . ".rtf";
+    if(is_file($surat_export_desa))
+      return $surat_export_desa;
+    else
+      $surat_export_desa = LOKASI_SURAT_EXPORT_DESA . $nama_surat . ".rtf";
     if(is_file($surat_export_desa)){
       return $surat_export_desa;
     } else {
@@ -222,7 +228,11 @@ define("KODE_PEKERJAAN", serialize(array(
  */
   function SuratCetakDesa($nama_surat)
   {
-    $surat_cetak_desa = LOKASI_SURAT_PRINT_DESA . "print_" . $nama_surat . ".php";
+    $surat_cetak_desa = LOKASI_SURAT_DESA . "/" . $nama_surat . "/print_" . $nama_surat . ".php";
+    if(is_file($surat_cetak_desa))
+      return $surat_cetak_desa;
+    else
+      $surat_cetak_desa = LOKASI_SURAT_PRINT_DESA . "print_" . $nama_surat . ".php";
     if(is_file($surat_cetak_desa)){
       return $surat_cetak_desa;
     } else {

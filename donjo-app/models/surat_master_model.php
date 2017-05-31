@@ -128,44 +128,77 @@
 	function insert(){
 		$data = $_POST;
 
+		$pemohon_surat = $data['pemohon_surat'];
+		unset($data['pemohon_surat']);
 		$data['url_surat'] = str_replace(" ","_",$data['nama']);
-		$data['url_surat'] = strtolower($data['url_surat']);
-		$data['url_surat'] = "surat_".$data['url_surat'];
+		$data['url_surat'] = "surat_".strtolower($data['url_surat']);
+		// $data['url_surat'] = "surat_".$data['url_surat'];
 		$outp = $this->db->insert('tweb_surat_format',$data);
 		$raw_path="surat/raw/";
 
-		//doc
-		$file = $raw_path."template.rtf";
+		// Folder untuk surat ini
+		$folder_surat = LOKASI_SURAT_DESA.$data['url_surat']."/";
+		if (!file_exists($folder_surat)) {
+			mkdir($folder_surat, 0777, true);
+		}
+
+		if ($pemohon_surat == 'warga') {
+			$template = "template.rtf";
+			$form = "form.raw";
+		} else {
+			$template = "template_non_warga.rtf";
+			$form = "form_non_warga.raw";
+		}
+
+		// index.html untuk menutup akses ke folder melalui browser
+		$file = $raw_path."index.html";
 		$handle = fopen($file,'r');
 		$buffer = stream_get_contents($handle);
-		$berkas = LOKASI_SURAT_EXPORT_DESA.$data['url_surat'].".rtf";
+		$berkas = $folder_surat."index.html";
+		$handle = fopen($berkas,'w+');
+		fwrite($handle,$buffer);
+		fclose($handle);
+
+		//doc
+		$file = $raw_path.$template;
+		$handle = fopen($file,'r');
+		$buffer = stream_get_contents($handle);
+		$berkas = $folder_surat.$data['url_surat'].".rtf";
 		$handle = fopen($berkas,'w+');
 		fwrite($handle,$buffer);
 		fclose($handle);
 
 		//form
-		if (!file_exists(LOKASI_SURAT_FORM_DESA)) {
-			mkdir(LOKASI_SURAT_FORM_DESA, 0777, true);
-		}
-		$file = $raw_path."form.raw";
+		$file = $raw_path.$form;
 		$handle = fopen($file,'r');
 		$buffer = stream_get_contents($handle);
-		$berkas = LOKASI_SURAT_FORM_DESA.$data['url_surat'].".php";
+		$berkas = $folder_surat.$data['url_surat'].".php";
 		$handle = fopen($berkas,'w+');
 		$buffer=str_replace("[nama_surat]","Surat $data[nama]",$buffer);
 		fwrite($handle,$buffer);
 		fclose($handle);
 
-		//cetak
-		$file = $raw_path."print.raw";
-		$handle = fopen($file,'r');
-		$buffer = stream_get_contents($handle);
-		$berkas = LOKASI_SURAT_PRINT_DESA."print_".$data['url_surat'].".php";
-		$handle = fopen($berkas,'w+');
-		$nama_surat = strtoupper($data['nama']);
-		$buffer=str_replace("[nama_surat]","SURAT $nama_surat",$buffer);
-		fwrite($handle,$buffer);
-		fclose($handle);
+		if ($pemohon_surat == 'warga') {
+			// cetak
+			$file = $raw_path."print.raw";
+			$handle = fopen($file,'r');
+			$buffer = stream_get_contents($handle);
+			$berkas = $folder_surat."print_".$data['url_surat'].".php";
+			$handle = fopen($berkas,'w+');
+			$nama_surat = strtoupper($data['nama']);
+			$buffer=str_replace("[nama_surat]","SURAT $nama_surat",$buffer);
+			fwrite($handle,$buffer);
+			fclose($handle);
+		} else {
+			// data untuk form
+			$file = $raw_path."data_form_non_warga.raw";
+			$handle = fopen($file,'r');
+			$buffer = stream_get_contents($handle);
+			$berkas = $folder_surat."data_form_".$data['url_surat'].".php";
+			$handle = fopen($berkas,'w+');
+			fwrite($handle,$buffer);
+			fclose($handle);
+		}
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
