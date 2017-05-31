@@ -757,7 +757,8 @@ class Penduduk extends CI_Controller{
 				$_SESSION['dusun']=$cluster['dusun'];
 				$_SESSION['rw']=$cluster['rw'];
 				$_SESSION['rt']=$cluster['rt'];
-				$pre=$this->penduduk_model->get_judul_statistik(9,$kode_cacat,NULL)['nama'];
+				$stat = $this->penduduk_model->get_judul_statistik(9,$kode_cacat,NULL);
+				$pre = $stat['nama'];
 				break;
 			case 10:
 				$_SESSION['menahunx'] = '14';
