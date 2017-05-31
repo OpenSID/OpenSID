@@ -151,22 +151,10 @@
 		}
 
 		// index.html untuk menutup akses ke folder melalui browser
-		$file = $raw_path."index.html";
-		$handle = fopen($file,'r');
-		$buffer = stream_get_contents($handle);
-		$berkas = $folder_surat."index.html";
-		$handle = fopen($berkas,'w+');
-		fwrite($handle,$buffer);
-		fclose($handle);
+		copy($raw_path."index.html", $folder_surat."index.html");
 
 		//doc
-		$file = $raw_path.$template;
-		$handle = fopen($file,'r');
-		$buffer = stream_get_contents($handle);
-		$berkas = $folder_surat.$data['url_surat'].".rtf";
-		$handle = fopen($berkas,'w+');
-		fwrite($handle,$buffer);
-		fclose($handle);
+		copy($raw_path.$template, $folder_surat.$data['url_surat'].".rtf");
 
 		//form
 		$file = $raw_path.$form;
@@ -191,13 +179,7 @@
 			fclose($handle);
 		} else {
 			// data untuk form
-			$file = $raw_path."data_form_non_warga.raw";
-			$handle = fopen($file,'r');
-			$buffer = stream_get_contents($handle);
-			$berkas = $folder_surat."data_form_".$data['url_surat'].".php";
-			$handle = fopen($berkas,'w+');
-			fwrite($handle,$buffer);
-			fclose($handle);
+			copy($raw_path."data_form_non_warga.raw", $folder_surat."data_form_".$data['url_surat'].".php");
 		}
 
 		if($outp) $_SESSION['success']=1;
@@ -215,23 +197,32 @@
 
 	function upload($url=""){
 		$_SESSION['error_msg'] = '';
+
+		// Folder desa untuk surat ini
+		$folder_surat = LOKASI_SURAT_DESA.$url."/";
+		if (!file_exists($folder_surat)) {
+			mkdir($folder_surat, 0777, true);
+		}
+		// index.html untuk menutup akses ke folder melalui browser
+		copy("surat/raw/"."index.html", $folder_surat."index.html");
+
 		$tipe_file   = $_FILES['foto']['type'];
 		$mime_type_rtf = array("application/rtf", "text/rtf", "application/msword");
 		if(!in_array($tipe_file, $mime_type_rtf)){
 			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 			$_SESSION['success']=-1;
 		} else {
-			// Upload ke folder surat export ubahan desa
-			$vdir_upload = LOKASI_SURAT_EXPORT_DESA . $url . ".rtf";
+			// Upload ke folder surat ubahan desa
+			$vdir_upload = $folder_surat . $url . ".rtf";
 			move_uploaded_file($_FILES["foto"]["tmp_name"], $vdir_upload);
 			$_SESSION['success']=1;
 		}
-		$this->salin_lampiran($url);
+		$this->salin_lampiran($url, $folder_surat);
 	}
 
-	// Lampiran surat perlu disalin ke LOKASI_SURAT_EXPORT_DESA, karena
+	// Lampiran surat perlu disalin ke folder surata di LOKASI_SURAT_DESA, karena
 	// file lampiran surat dianggap ada di folder yang sama dengan tempat template surat RTF
-	function salin_lampiran($url){
+	function salin_lampiran($url, $folder_surat){
 		$this->load->model('surat_model');
 		$surat = $this->surat_model->get_surat($url);
 		if (!$surat['lampiran']) return;
@@ -239,8 +230,8 @@
 		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
 		$daftar_lampiran = explode(",", $surat['lampiran']);
 		foreach ($daftar_lampiran as $lampiran) {
-			if (!file_exists(LOKASI_SURAT_EXPORT_DESA."/".$lampiran)) {
-				copy("surat/".$url."/".$lampiran,LOKASI_SURAT_EXPORT_DESA."/".$lampiran);
+			if (!file_exists($folder_surat.$lampiran)) {
+				copy("surat/".$url."/".$lampiran,$folder_surat.$lampiran);
 			}
 		}
 	}

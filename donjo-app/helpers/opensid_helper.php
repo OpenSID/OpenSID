@@ -205,7 +205,7 @@ define("KODE_PEKERJAAN", serialize(array(
  */
   function SuratExportDesa($nama_surat)
   {
-    $surat_export_desa = LOKASI_SURAT_DESA . "/" . $nama_surat . "/" . $nama_surat . ".rtf";
+    $surat_export_desa = LOKASI_SURAT_DESA . $nama_surat . "/" . $nama_surat . ".rtf";
     if(is_file($surat_export_desa))
       return $surat_export_desa;
     else
@@ -228,7 +228,7 @@ define("KODE_PEKERJAAN", serialize(array(
  */
   function SuratCetakDesa($nama_surat)
   {
-    $surat_cetak_desa = LOKASI_SURAT_DESA . "/" . $nama_surat . "/print_" . $nama_surat . ".php";
+    $surat_cetak_desa = LOKASI_SURAT_DESA . $nama_surat . "/print_" . $nama_surat . ".php";
     if(is_file($surat_cetak_desa))
       return $surat_cetak_desa;
     else
