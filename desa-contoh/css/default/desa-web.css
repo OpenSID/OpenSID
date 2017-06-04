@@ -17,7 +17,7 @@ a:visited { text-decoration: none; background-color: inherit; color: #0404fd; }
 a:hover { text-decoration: none; background-color: inherit; color: #fd0315; }
 
 body{
-  background: url(../images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/
+  background: url(images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/
   background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -27,38 +27,46 @@ body{
 #maincontainer{
   background: ; /*warna background halaman utama*/
 }
-
 #topsection{
-  margin:6px;
-  height: 177px;
+  margin-left: 6px;
   background: #b50303; /*warna header atas/ background kepala web*/
 }
-
+#mainmenu{
+  margin-left: -6px;
+  width: 101.2%;
+}
+#scroller{
+  margin-top: 3px;
+  margin-left: -5px;
+  width: 101%;
+}
+#menu_vert2 .cycle-slideshow img { height: 88px; }
 #footer{
   padding: 3px 0;
   background: brown;
 }
 #footer a{color: #88fd78;}
 
-#header{float: left;width: 100.7%;}
-#scroller{
-  margin-left:-7px;
-  width: 979px;
+#menu_vert{
+  border:0px solid #FFFFFF;
+  background: url(images/tb2.jpg) repeat center top;
 }
 
-#headleft{float: left;width: 350px;margin-left: -101%;}
-
-#menu_vert{border:0px solid #FFFFFF;border-top:1px solid #777;top:4px; height:30px;background: url(images/tb2.jpg) repeat center top;}
-#menu_vert2 { top:5px; padding:right; width:100.7%; float:left;height:90px;}
-
-#divlogo-img{float: left;width: 100px;margin-left: -101%;text-align:center;}
+#divlogo-img{
+  float: left;
+  width: 100px;
+  padding: 3px;
+  margin-left: -103%;
+  text-align:center;}
 #divlogo-img img{height:110px;margin-top:1px;}
 
 #siteTitle h1{font-family: "Arial Black", Gadget, sans-serif;font-size:21px;color:white;font-weight:bold;} /* merubah font judul web ( desa ) */
 #siteTitle h2{font-family: "Arial Black", Gadget, sans-serif;font-size:15px;color:white;font-weight:bold;} /* merubah font judul web ( kecamatan dan kabupaten ) */
 #siteTitle h3{font-family: "comic sans", Gadget, sans-serif;font-size:11px;color:yellow;font-weight:bold;} /* merubah font judul web ( alamat ) */
 
-#mainmenu {margin:0px 0 5px -7px; float:left; width:101.3%;height:30px;border:1px #5898D8 solid; background:#204C88;-webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;background: url(images/tb.jpg) repeat center top;}
+#mainmenu {
+  background: url(images/tb.jpg) repeat center top;
+}
 
 .box {
   background: #dffed9;

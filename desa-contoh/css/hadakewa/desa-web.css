@@ -17,7 +17,7 @@ a:visited { text-decoration: none; background-color: inherit; color: #0404fd; }
 a:hover { text-decoration: none; background-color: inherit; color: #fd0315; }
 
 body{
-  background: url(../images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/
+  background: url(images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/
   background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -32,7 +32,7 @@ body{
 
 #topsection{
   height: 177px;
-  background: url(../images/bg_header.jpg);
+  background: url(images/bg_header.jpg);
 }
 
 #footer{
