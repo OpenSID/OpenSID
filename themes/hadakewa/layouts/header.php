@@ -56,9 +56,6 @@
 								</div>
 							</div>
 							<div id="menu_vert2">
-								<?php if(count($slide)>0){
-									$this->load->view($folder_themes.'/layouts/slide.php');
-								} ?>
 							</div>
 						</div>
 					</div>
