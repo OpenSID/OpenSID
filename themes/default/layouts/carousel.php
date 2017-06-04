@@ -7,10 +7,10 @@
 	$(document).ready(function() {
 	    $('.carousel').cycle({
 			fx: 'carousel',
-			pauseOnPagerHover: true,
 			speed: 5000,
 			timeout: '1',
-			easing: 'linear'
+			easing: 'linear',
+			pauseOnHover: true
 		});
 	});
 
