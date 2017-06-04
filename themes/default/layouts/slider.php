@@ -13,7 +13,7 @@
 		   <?php endforeach; ?>
 		<?php else : ?>
 	    <?php foreach($slider_photos as $foto): ?>
-				<img src="<?php echo base_url()?>desa/upload/galeri/<?php echo 'sedang_'.$foto['gambar']?>" alt="Logo dan kata kata">
+				<img src="<?php echo base_url()?>desa/upload/galeri/<?php echo 'sedang_'.$foto['gambar']?>">
 	    <?php endforeach; ?>
 	  <?php endif; ?>
 	</div>
