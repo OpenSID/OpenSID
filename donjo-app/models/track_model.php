@@ -22,7 +22,9 @@
       switch (ENVIRONMENT)
       {
         case 'development':
-          $tracker = "33.33.33.10/tracksid";
+          // Di development, panggil tracker hanya jika terinstal
+          if (empty($this->config->item('dev_tracker_ip'))) return;
+          $tracker = $this->config->item('dev_tracker_ip');
         break;
 
         case 'testing':

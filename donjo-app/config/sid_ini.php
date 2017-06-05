@@ -35,6 +35,7 @@ $config['offline_mode'] = FALSE;
 
 // Apakah akan mengirimkan data statistik ke server sid?
 $config['enable_track'] = TRUE;
+$config['dev_tracker_ip'] = ''; // Untuk pengembang OpenSID, misalnya "33.33.33.10/tracksid"
 
 // Gunakan log surat terakhir untuk seluruh surat, tanpa memilah jenis surat
 // Default: FALSE (gunakan nomor surat terakhir menurut jenis surat)
