@@ -24,6 +24,10 @@ $config['sebutan_camat'] = 'camat';
 
 // apakah hanya akan menggunakan localhost saja?
 $config['offline_mode'] = FALSE;
+// apabila offline_mode = TRUE, maka level:
+// 1 = feature untuk website dan peta tetap tersedia
+// 2 = feature untuk website dan peta disembunyikan
+$config['offline_level'] = 1;
 
 // Apakah akan mengirimkan data statistik ke server sid?
 $config['enable_track'] = TRUE;

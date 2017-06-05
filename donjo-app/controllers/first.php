@@ -6,6 +6,13 @@ class First extends Web_Controller{
 		parent::__construct();
 		session_start();
 
+		// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
+		// tidak perlu menampilkan halaman website
+		if ($this->config->item("offline_mode")===TRUE && (int) $this->config->item("offline_level") > 1) {
+			redirect('siteman');
+			exit;
+		}
+
 		mandiri_timeout();
 		$this->load->model('header_model');
 		$this->load->model('config_model');
@@ -335,7 +342,7 @@ class First extends Web_Controller{
 	}
 
 	function kategori($kat=0,$p=0){
-		$data = $this->includes;		
+		$data = $this->includes;
 		$data['p'] = $p;
 		$data['desa'] = $this->first_m->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();

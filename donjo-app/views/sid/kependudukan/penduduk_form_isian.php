@@ -271,14 +271,14 @@
     </div>
   </td>
 </tr>
-
+<?php if (config_item('offline_mode') !== TRUE || (int) config_item('offline_level') <= 1) { ?>
 <tr>
   <th>Lokasi Penduduk</th>
   <td>
     <a href="<?php echo site_url("penduduk/ajax_penduduk_maps/1/0/$penduduk[id]")?>" target="ajax-modalz" rel="window<?php echo $penduduk['id']?>" header="Lokasi <?php echo $penduduk['nama']?>" class="uibutton special" title="Lokasi <?php echo $penduduk['nama']?>">Edit Lokasi</a>
   </td>
 </tr>
-
+<?php } ?>
 <tr>
   <th>Status</th>
   <td>
