@@ -36,8 +36,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('sid_penduduk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-fa fa-plus-square">&nbsp;</span>Tambah Data</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("sid_penduduk/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-fa fa-trash">&nbsp;</span>Delete Data
+                <a href="<?php echo site_url('sid_penduduk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah Data</a>
+                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("sid_penduduk/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
             </div>
         </div>
     </div>
@@ -49,12 +49,12 @@
                     <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Asli</option>
                     <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Pendatang</option>
                 </select>
-<button href="<?php echo site_url("sid_penduduk/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="ui-icon ui-fa fa-search">&nbsp;</span>Advanced Search</button>
-                <a href="<?php echo site_url("sid_penduduk/clear")?>"  class="uibutton tipsy south"  title="Clear Pencarian"><span class="ui-icon ui-fa fa-search">&nbsp;</span>Clear</a>
+<button href="<?php echo site_url("sid_penduduk/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="ui-icon ui-icon-search">&nbsp;</span>Advanced Search</button>
+                <a href="<?php echo site_url("sid_penduduk/clear")?>"  class="uibutton tipsy south"  title="Clear Pencarian"><span class="ui-icon ui-icon-search">&nbsp;</span>Clear</a>
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('sid_penduduk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-fa fa-search">&nbsp;</span>Search</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('sid_penduduk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
             </div>
         </div>
         <table class="list">
@@ -97,7 +97,7 @@
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php echo site_url("sid_penduduk/form/$p/$o/1/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data"></a><a href="<?php echo site_url("sid_penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="Lokasi <?php echo $data['nama']?>" class="ui-icons fa fa-maps tipsy south" title="Lokasi <?php echo $data['nama']?>"></a><a href="<?php echo site_url("sid_penduduk/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
+<a href="<?php echo site_url("sid_penduduk/form/$p/$o/1/$data[id]")?>" class="ui-icons icon-edit tipsy south" title="Edit Data"></a><a href="<?php echo site_url("sid_penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="Lokasi <?php echo $data['nama']?>" class="ui-icons icon-maps tipsy south" title="Lokasi <?php echo $data['nama']?>"></a><a href="<?php echo site_url("sid_penduduk/delete/$p/$o/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
 </td>
 
 <td><a href="<?php echo site_url("sid_penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>

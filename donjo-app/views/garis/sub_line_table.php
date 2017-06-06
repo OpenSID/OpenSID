@@ -32,8 +32,8 @@
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php  echo site_url("garis/ajax_add_sub_garis/$garis")?>" target="ajax-modal" rel="window" header="Tambah Sub garis" class="uibutton tipsy south" title="Tambah Sub garis"><span class="ui-icon ui-fa fa-plus-square">&nbsp;</span>Tambah garis Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php  echo site_url("garis/delete_all/")?>')" class="uibutton tipsy south"><span class="ui-icon ui-fa fa-trash">&nbsp;</span>Delete Data
+<a href="<?php  echo site_url("garis/ajax_add_sub_garis/$garis")?>" target="ajax-modal" rel="window" header="Tambah Sub garis" class="uibutton tipsy south" title="Tambah Sub garis"><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah garis Baru</a>
+<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php  echo site_url("garis/delete_all/")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
 </div>
 </div>
 </div>
@@ -64,7 +64,7 @@
 <input type="checkbox" name="id_cb[]" value="<?php  echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php  echo site_url("garis/ajax_add_sub_garis/$garis/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" target="ajax-modal" rel="window" header="Edit garis" title="Edit Data"></a><a href="<?php  echo site_url("garis/delete_sub_garis/$garis/$data[id]")?>" class="ui-icons fa fa-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php  if($data['enabled'] == '2'):?><a href="<?php  echo site_url("garis/garis_lock_sub_garis/$garis/$data[id]")?>" class="ui-icons fa fa-lock tipsy south" title="Enable garis"></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url("garis/garis_unlock_sub_garis/$garis/$data[id]")?>" class="ui-icons fa fa-unlock tipsy south" title="Disable garis"></a><?php  endif;?>
+<a href="<?php  echo site_url("garis/ajax_add_sub_garis/$garis/$data[id]")?>" class="ui-icons icon-edit tipsy south" target="ajax-modal" rel="window" header="Edit garis" title="Edit Data"></a><a href="<?php  echo site_url("garis/delete_sub_garis/$garis/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php  if($data['enabled'] == '2'):?><a href="<?php  echo site_url("garis/garis_lock_sub_garis/$garis/$data[id]")?>" class="ui-icons icon-lock tipsy south" title="Enable garis"></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url("garis/garis_unlock_sub_garis/$garis/$data[id]")?>" class="ui-icons icon-unlock tipsy south" title="Disable garis"></a><?php  endif;?>
 </td>
 <td width="150"><?php  echo $data['nama']?></td>
 <td width="50"><?php  echo $data['aktif']?></td>

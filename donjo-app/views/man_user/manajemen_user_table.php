@@ -19,8 +19,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('man_user/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square ">&nbsp;</span>Tambah User Baru</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("man_user/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash ">&nbsp;</span>Hapus Data
+                <a href="<?php echo site_url('man_user/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah User Baru</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("man_user/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('man_user/search')?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('man_user/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search ">&nbsp;</span>Cari</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('man_user/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
             </div>
         </div>
         <table class="list">
@@ -83,12 +83,12 @@
 				<?php  endif; ?>
 			</td>
           <td><div class="uibutton-group">
-            <a href="<?php echo site_url("man_user/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit "> Ubah </span></a>
+            <a href="<?php echo site_url("man_user/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
             <?php if($data['username']!='admin'){?>
-							<a href="<?php echo site_url("man_user/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "></span></a>
+							<a href="<?php echo site_url("man_user/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 						<?php if($data['active'] == '0'): ?>
-							<a href="<?php echo site_url('man_user/user_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi User"><span class="fa fa-lock "></span></a>
-						<?php elseif($data['active'] == '1'): ?><a href="<?php echo site_url('man_user/user_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan User"><span class="fa fa-unlock "></span></a>
+							<a href="<?php echo site_url('man_user/user_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi User"><span class="icon-lock icon-large"></span></a>
+						<?php elseif($data['active'] == '1'): ?><a href="<?php echo site_url('man_user/user_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan User"><span class="icon-unlock icon-large"></span></a>
 			<?php endif; ?>
 			<?php }?></div>
           </td>

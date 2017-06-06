@@ -27,7 +27,7 @@
    
 <div class="ui-layout-south panel bottom">
 <div class="left"> 
-<a href="<?php echo site_url()?>analisis_indikator/parameter/<?php echo $analisis_indikator['id'];?>" class="uibutton fa fa prev">Kembali</a>
+<a href="<?php echo site_url()?>analisis_indikator/parameter/<?php echo $analisis_indikator['id'];?>" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">

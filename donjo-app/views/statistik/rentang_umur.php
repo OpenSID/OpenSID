@@ -19,8 +19,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('statistik/form_rentang/0')?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modal" rel="window" header="Tambah Rentang"><span class="fa fa-plus-square ">&nbsp;</span>Tambah Rentang</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url('statistik/delete_all_rentang')?>')" class="uibutton tipsy south"><span class="fa fa-trash ">&nbsp;</span>Hapus Data
+                <a href="<?php echo site_url('statistik/form_rentang/0')?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modal" rel="window" header="Tambah Rentang"><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Rentang</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url('statistik/delete_all_rentang')?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
             </div>
         </div>
 		<div class="right">
@@ -50,8 +50,8 @@
 				</td>
 		  		<td align="center">
 				<div class="uibutton-group">
-		    		    <a href="<?php echo site_url("statistik/form_rentang/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Ubah Data"><span class="fa fa-edit "> Ubah</span></a>
-				    <a href="<?php echo site_url("statistik/rentang_delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "></span></a>
+		    		    <a href="<?php echo site_url("statistik/form_rentang/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Ubah Data"><span class="icon-edit icon-large"> Ubah</span></a>
+				    <a href="<?php echo site_url("statistik/rentang_delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 				</div>
 		  		</td>
 				 <td><?php echo $data['dari']?> - <?php echo $data['sampai']?> Tahun</td>

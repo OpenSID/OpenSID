@@ -1,0 +1,36 @@
+Dalam rilis ini gambar pada slider atas dan slider besar di web bisa di-klik untuk menampilkan artikel terkait. Rilis ini juga menyediakan template surat untuk pemohon non-warga. Selain itu, rilis ini juga berisi beberapa perbaikan lainnya yang diminta oleh komunitas SID.
+
+Terima kasih pada https://github.com/batudaa yang senantiasa memantau agar OpenSID terus men-support PHP 5.3.
+
+Lengkapnya, isi rilis v1.17:
+
+1. #438: Sekarang alamat website yang berisi tanda '-' tidak lagi diganti menjadi tanda petik. [bug-fix]
+2. #443: Gambar di slider-atas sekarang bisa diklik untuk menampilkan artikel terkait.
+3. #444: Slider-header sekarang bisa menampilkan gambar dari artikel. Gambar dapat diklik untuk menampilkan artikel terkait.
+4. Struktur folder desa/surat sekarang diubah supaya semua komponen suatu jenis surat (form, template RTF, template cetak langsung) terkumpul di dalam satu sub-folder.
+5. #164: Sediakan template untuk surat pemohon non-warga. Sediakan Surat Domisili Usaha Non-Warga sebagai contoh surat untuk pemohon non-warga.
+6. Sekarang jika login admin salah, akan kembali ke halaman index.php/siteman. [bug-fix]
+7. #412: Tampilkan rincian jenis cacat di Statistik > Laporan Kelompok Rentan.
+8. #296: Tampilkan NIP pamong desa di semua form surat dan template RTF.
+9. #291: Rekam dan tampilkan nomor Kartu Keluarga dan nama Kepala Keluarga di log_penduduk.
+
+Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
+
+Anda juga perlu:
+(1) backup folder desa/css
+(2) menghapus folder desa/css, dan
+(3) copy/paste folder desa-contoh/css ke folder desa.
+
+Untuk menerapkan fitur slider (issue #443 dan #444), plugin slideshow yang lama (Sothink JavaScript Web Scroller) terpaksa kami ganti dengan scroller Jquery Cycle2 yang digunakan Happy Agung. Dalam proses ini, struktur script header terpaksa juga dirombak. Ini akan berdampak pada style/css lama yang ada di folder desa/css. Style/css yang baru ada di folder desa-contoh/css.
+
+Sesudah itu, perubahan style/css yang anda lakukan sebelumnya perlu diulangi lagi di folder desa/css.
+
+Semua komponen untuk masing2 jenis surat (form, template RTF, template cetak langsung) sekarang terkumpul di dalam satu sub-folder. Karena itu, untuk setiap jenis surat yang telah anda sesuaikan di folder desa/surat, lakukan:
+
+(a) buat sub-folder untuk jenis surat itu, dengan nama url surat yang bersangkutan. Misanya untuk Surat Keterangan Pindah Penduduk, buat sub-folder desa/surat/surat_ket_pindah_penduduk.
+(b) pindahkan semua form di folder desa/surat/form ke masing2 sub-folder surat. Misalnya, pindahkan file desa/surat/form/surat_ket_pindah_penduduk.php, jika ada, ke folder desa/surat/surat_ket_pindah_penduduk.
+(c) pindahkan semua template cetak langsung di folder desa/surat/print ke masing2 sub-folder surat. Misalnya, pindahkan file desa/surat/print/print_surat_ket_pindah_penduduk.php, jika ada, ke folder desa/surat/surat_ket_pindah_penduduk.
+(d) pindahkan semua template RTF di folder desa/surat/export ke masing2 sub-folder surat. Misalnya, pindahkan file desa/surat/export/surat_ket_pindah_penduduk.rtf, jika ada, ke folder desa/surat/surat_ket_pindah_penduduk.
+(e) pindahkan semua lampiran di folder desa/surat/export ke masing2 sub-folder surat. Misalnya, pindahkan file desa/surat/export/f-1.08.php dan f-1.25.php, jika ada, ke folder desa/surat/surat_ket_pindah_penduduk.
+
+

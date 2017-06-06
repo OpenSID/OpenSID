@@ -25,10 +25,10 @@
 <div class="blok" id="blok_menu">
 	<div class="lmenu">
 		<ul>
-			<li><a href="<?php echo site_url('data_persil/create')?>"><i class="fa fa-pencil"></i> Tambah Data Persil Baru</a></li>
-			<li><a href="<?php echo site_url('data_persil/create_ext')?>"><i class="fa fa-pencil"></i> Tambah Data (Manual)</a></li>
-			<li><a href="<?php echo site_url('data_persil/clear')?>"><i class="fa fa-th-list"></i> Daftar Persil</a></li>
-			<li><a href="<?php echo site_url('data_persil/import')?>" target="ajax-modal" rel="window" header="Import Data Persil"><i class="fa fa-plus-square"></i> Import Data Persil</a></li>
+			<li><a href="<?php echo site_url('data_persil/create')?>"><i class="icon-pencil"></i> Tambah Data Persil Baru</a></li>
+			<li><a href="<?php echo site_url('data_persil/create_ext')?>"><i class="icon-pencil"></i> Tambah Data (Manual)</a></li>
+			<li><a href="<?php echo site_url('data_persil/clear')?>"><i class="icon-th-list"></i> Daftar Persil</a></li>
+			<li><a href="<?php echo site_url('data_persil/import')?>" target="ajax-modal" rel="window" header="Import Data Persil"><i class="icon-plus"></i> Import Data Persil</a></li>
 		</ul>
 	</div>
 </div>
@@ -43,7 +43,7 @@
 			}
 		}
 		?>
-		<li><a href="<?php echo site_url('data_persil/persil_jenis');?>"><i class="fa fa-plus-square"></i> Tambah Data Jenis Persil</a></li>
+		<li><a href="<?php echo site_url('data_persil/persil_jenis');?>"><i class="icon-plus"></i> Tambah Data Jenis Persil</a></li>
 	</ul></div>
 </div>
 
@@ -57,6 +57,6 @@
 			}
 		}
 		?>
-		<li><a href="<?php echo site_url('data_persil/persil_peruntukan');?>"><i class="fa fa-plus-square"></i> Tambah Data Peruntukan</a></li>
+		<li><a href="<?php echo site_url('data_persil/persil_peruntukan');?>"><i class="icon-plus"></i> Tambah Data Peruntukan</a></li>
 	</ul></div>
 </div>

@@ -14,11 +14,11 @@
         <table class="form">
             <tr>
                 <th style="width: 140px;">Nama <?php echo ucwords(config_item('sebutan_desa'))?></th>
-                <td><input name="nama_desa" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_desa'])?>"/> Kode <input name="kode_desa" type="text" class="inputbox" size="6" value="<?php echo $main['kode_desa']?>"/> Kode POS <input name="kode_pos" type="text" class="inputbox" size="8" value="<?php echo $main['kode_pos']?>"/></td>
+                <td><input name="nama_desa" type="text" class="inputbox" size="25" value="<?php echo $main['nama_desa']?>"/> Kode <input name="kode_desa" type="text" class="inputbox" size="6" value="<?php echo $main['kode_desa']?>"/> Kode POS <input name="kode_pos" type="text" class="inputbox" size="8" value="<?php echo $main['kode_pos']?>"/></td>
             </tr>
             <tr>
                 <th>Nama Kepala <?php echo ucwords(config_item('sebutan_desa'))?></th>
-                <td><input name="nama_kepala_desa" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['nama_kepala_desa'])?>"/></td>
+                <td><input name="nama_kepala_desa" type="text" class="inputbox" size="40" value="<?php echo $main['nama_kepala_desa']?>"/></td>
             </tr>
             <tr>
                 <th>NIP Kepala <?php echo ucwords(config_item('sebutan_desa'))?></th>
@@ -26,27 +26,27 @@
             </tr>
             <tr>
                 <th>Alamat Kantor <?php echo ucwords(config_item('sebutan_desa'))?></th>
-                <td><input name="alamat_kantor" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['alamat_kantor'])?>"/></td>
+                <td><input name="alamat_kantor" type="text" class="inputbox" size="40" value="<?php echo $main['alamat_kantor']?>"/></td>
             </tr>
             <tr>
                 <th>Email <?php echo ucwords(config_item('sebutan_desa'))?></th>
-                <td><input name="email_desa" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['email_desa'])?>"/></td>
+                <td><input name="email_desa" type="text" class="inputbox" size="40" value="<?php echo $main['email_desa']?>"/></td>
             </tr>
             <tr>
                 <th>Telepon <?php echo ucwords(config_item('sebutan_desa'))?></th>
-                <td><input name="telepon" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['telepon'])?>"/></td>
+                <td><input name="telepon" type="text" class="inputbox" size="40" value="<?php echo $main['telepon']?>"/></td>
             </tr>
             <tr>
                 <th>Website <?php echo ucwords(config_item('sebutan_desa'))?></th>
-                <td><input name="website" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['website'])?>"/></td>
+                <td><input name="website" type="text" class="inputbox" size="40" value="<?php echo $main['website']?>"/></td>
             </tr>
             <tr>
                 <th>Nama <?php echo ucwords(config_item('sebutan_kecamatan'))?></th>
-                <td><input name="nama_kecamatan" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_kecamatan'])?>"/> Kode <input name="kode_kecamatan" type="text" class="inputbox" size="10" value="<?php echo $main['kode_kecamatan']?>"/></td></td>
+                <td><input name="nama_kecamatan" type="text" class="inputbox" size="25" value="<?php echo $main['nama_kecamatan']?>"/> Kode <input name="kode_kecamatan" type="text" class="inputbox" size="10" value="<?php echo $main['kode_kecamatan']?>"/></td></td>
             </tr>
             <tr>
                 <th>Nama <?php echo ucwords(config_item('sebutan_camat'))?></th>
-                <td><input name="nama_kepala_camat" type="text" class="inputbox" size="40" value="<?php echo unpenetration($main['nama_kepala_camat'])?>"/></td>
+                <td><input name="nama_kepala_camat" type="text" class="inputbox" size="40" value="<?php echo $main['nama_kepala_camat']?>"/></td>
             </tr>
             <tr>
                 <th>NIP <?php echo ucwords(config_item('sebutan_camat'))?></th>
@@ -54,11 +54,11 @@
             </tr>
             <tr>
                 <th>Nama <?php echo ucwords(config_item('sebutan_kabupaten'))?></th>
-                <td><input name="nama_kabupaten" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_kabupaten'])?>"/> Kode <input name="kode_kabupaten" type="text" class="inputbox" size="10" value="<?php echo $main['kode_kabupaten']?>"/></td></td>
+                <td><input name="nama_kabupaten" type="text" class="inputbox" size="25" value="<?php echo $main['nama_kabupaten']?>"/> Kode <input name="kode_kabupaten" type="text" class="inputbox" size="10" value="<?php echo $main['kode_kabupaten']?>"/></td></td>
             </tr>
             <tr>
                 <th>Nama Provinsi</th>
-                <td><input name="nama_propinsi" type="text" class="inputbox" size="25" value="<?php echo unpenetration($main['nama_propinsi'])?>"/> Kode <input name="kode_propinsi" type="text" class="inputbox" size="10" value="<?php echo $main['kode_propinsi']?>"/></td></td>
+                <td><input name="nama_propinsi" type="text" class="inputbox" size="25" value="<?php echo $main['nama_propinsi']?>"/> Kode <input name="kode_propinsi" type="text" class="inputbox" size="10" value="<?php echo $main['kode_propinsi']?>"/></td></td>
             </tr>
             <tr>
                 <th class="top">Lambang</th>

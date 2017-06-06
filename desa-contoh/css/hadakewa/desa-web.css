@@ -17,20 +17,12 @@ a:visited { text-decoration: none; background-color: inherit; color: #0404fd; }
 a:hover { text-decoration: none; background-color: inherit; color: #fd0315; }
 
 body{
-  /*background: url(images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/*/
-  /*background-size: cover;*/
-	background: rgba(226,226,226,1);
-	background: -moz-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(226,226,226,1)), color-stop(50%, rgba(219,219,219,1)), color-stop(51%, rgba(209,209,209,1)), color-stop(100%, rgba(254,254,254,1)));
-	background: -webkit-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
-	background: -o-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
-	background: -ms-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+  background: url(images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/
+  background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-}
-body {
-    margin: 0;
+	margin: 0;
     padding: 0;
     line-height: 1.5em;
     -webkit-font-smoothing: antialiased;
@@ -39,6 +31,7 @@ body {
     font-weight: 400;
     overflow-x: hidden;
     overflow-y: auto;
+	color: rgba(51, 51, 51, 0.96);
 }
 #headercontent {
     margin-left: -6px;
@@ -48,26 +41,22 @@ body {
 }
 
 #topsection{
-  height: 188px;
-  background: url(../images/bg_header.jpg);
+  height: 177px;
+  background: url(images/bg_header.jpg);
 }
 
 #footer{
-  padding: 5px 0;
+  padding: 3px 0;
   background: #00c0ef;
 }
-#footer2{
-  padding: 3px 0;
-  background: rgba(212, 228, 239, 0);
-  text-align: center;
-  font-size: 11px;
-}
+
+
 #header{
 	float: left;
 	width: 100.7%;
 }
 #scroller {
-    margin-top: 61px;
+    margin-top: 10px;
     margin-left: -6px;
     float: left;
     width: 990px;
@@ -77,23 +66,27 @@ body {
 }
 #headleft{
 	float: left;
-	width: 350px;
-	margin-left: -101%;
-	margin-top: 32px;}
+    width: 700px;
+    margin-left: -101%;
+    margin-top: 33px;
+}
 
 #menu_vert{
-	border: 0px solid #FFFFFF;
-    border-top: 0px solid #fff;
-    margin-top: 0px;
+	border:0px solid #FFFFFF;
+	border-top: 0px solid #777;
+	margin-top: 0px;
     margin-right: 0px;
-    border-radius: 0px;
-    height: 33px;
-    background: rgba(245,245,245,1);
-    background: -moz-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
-    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(245,245,245,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(47%, rgba(245,245,245,1)), color-stop(100%, rgba(217,214,217,1)));
-    background: -webkit-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
-    background: -o-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
-    background: -ms-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
+	border-radius: 0px;
+	height: 32px;
+    border: 1px #ddd solid;
+    background: rgba(255,255,255,1);
+	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
 }
 #menu_vert2 {
     top: 6px;
@@ -115,31 +108,29 @@ body {
 	margin-top:15px;
 }
 #divlogo-txt {
-    margin-left: 80px;
+    margin-left: 82px;
     color: #204C88;
 }
 #mainmenu {
-    margin: 0px 0 5px -6px;
+    margin: -1px 0 5px -6px;
     float: left;
-    width: 101.3%;
-    height: 34px;
-    border: 0px #fff solid;
-    /*background: #204C88;*/
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-	background: rgba(245,245,245,1);
-	background: -moz-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(245,245,245,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(47%, rgba(245,245,245,1)), color-stop(100%, rgba(217,214,217,1)));
-	background: -webkit-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
-	background: -o-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
-	background: -ms-linear-gradient(top, rgba(245,245,245,1) 0%, rgba(246,246,246,1) 47%, rgba(245,245,245,1) 47%, rgba(217,214,217,1) 100%);
+    width: 101.1%;
+    height: 33px;
+    border: 1px #ddd solid;
+    background: rgba(255,255,255,1);
+	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
 }
 .box {
 	position: relative;
     border-radius: 0px;
     background: #ffffff;
-    border-top: 3px solid #d2d6de;
+    border-top: 0px solid #d2d6de;
     margin-bottom: 10px;
     width: 100%;
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
@@ -185,7 +176,7 @@ body {
 .box-header > .ion,
 .box-header .box-title {
 	display: inline-block;
-    font-family: Arial;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: normal;
     text-shadow: 0px 1px 1px #333;
@@ -255,7 +246,7 @@ body {
 .artikel .judul{
 	font-size: 1.1em;
     color: #333;
-    font-family: Arial;
+    font-family: Roboto, sans-serif;
     line-height: 1em;
     font-weight: normal;
     margin-bottom: 0em;
@@ -264,10 +255,10 @@ body {
 .artikel .kecil{
 	font-size:11px;
 	color:#ccc;
-	font-style:italic;
+	font-style:normal;
 	font-weight:400;
 	margin-bottom:.5em;
-	margin-top: 5px;
+	margin-top: 0px;
 }
 .artikel .teks{font-size:1em; margin-right:.5em;}
 .artikel .sampul{margin: 1em 0; display:block;width:100%;}
@@ -315,41 +306,67 @@ h4 {
     font-weight: normal;
 }
 #siteTitle h1{
-	font-family: "Arial", Gadget, sans-serif;
-    font-size: 21px;
-    color: #f67f0c;
-    font-weight: normal;
+	font-family: "Courier New", sans-serif;
+    font-size: 40px;
+    color: #0c83c5;
+    padding-top: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
     text-shadow: 0 1px 1px #777;
-	margin-bottom: -20px;
+    margin-bottom: -18px;
+    -webkit-text-stroke: 1px #fff;
+} /* merubah font judul web ( desa ) */
+#siteTitle h1_1{
+    font-family: "Courier New", sans-serif;
+    font-size: 30px;
+    color: #0c83c5;
+    padding-top: 29px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 0 1px 1px #777;
+    margin-bottom: -20px;
+    -webkit-text-stroke: 1px #fff;
 } /* merubah font judul web ( desa ) */
 #siteTitle h2{
-	font-family: "Arial", Gadget, sans-serif;
-    font-size: 15px;
+    font-family: "Gautami", sans-serif;
+    font-size: 14px;
     color: #f67f0c;
-    font-weight: normal;
-    text-shadow: 0 1px 1px #777;
-	margin-top: 24px;
-	margin-bottom: 10px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #000;
+    margin-top: 27px;
+    margin-bottom: 13px;
+    text-transform: uppercase;
 } /* merubah font judul web ( kecamatan dan kabupaten ) */
 #siteTitle h3{
-    font-family: "Arial", Gadget, sans-serif;
-    font-size: 12px;
-    color: #f67f0c;
-    font-weight: normal;
-    text-shadow: 0 1px 1px #777;
-    margin-top: -10px;
-	margin-bottom: 5px;
+font-family: "Gautami", sans-serif;
+    font-size: 13px;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+    margin-top: 28px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
 } /* merubah font judul web ( alamat ) */
+#siteTitle h4{
+    font-family: "Gautami", sans-serif;
+    font-size: 13px;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+    margin-top: -11px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+} /* merubah font kontak web ( alamat ) */
 /* merubah font footer web ( alamat ) */
 #siteTitles h1{
-	font-family: "Arial", Gadget, sans-serif;
+	font-family: "'Roboto', sans-serif", Gadget, sans-serif;
     font-size: 14px;
     color: white;
     font-weight: normal;
 	margin-bottom: -25px;
 } /* merubah font footer web ( desa ) */
 #siteTitles h2{
-	font-family: "Arial", Gadget, sans-serif;
+	font-family: "'Roboto', sans-serif", Gadget, sans-serif;
     font-size: 15px;
     color: white;
     font-weight: normal;
@@ -357,13 +374,14 @@ h4 {
 	margin-bottom: 10px;
 } /* merubah font footer web ( kecamatan dan kabupaten ) */
 #siteTitles h3{
-    font-family: "Arial", Gadget, sans-serif;
+    font-family: "'Roboto', sans-serif", Gadget, sans-serif;
     font-size: 12px;
     color: #fff;
     font-weight: normal;
     margin-top: 24px;
 	line-height: 1.3;
-} /* merubah font footer web ( alamat ) */
+} /* merubah font judul web ( alamat ) */
+
 /* Form */
 input:not([type]),
 input[type="email" i],
@@ -419,6 +437,3 @@ textarea {
     padding: 0 0 0 10px;
     line-height: 1.2em;
 }
-
-
-

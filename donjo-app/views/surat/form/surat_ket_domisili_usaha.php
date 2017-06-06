@@ -77,28 +77,7 @@ padding:5px;
 </td>
 </tr>
 
-<tr>
-<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
-<td>
-<select name="pamong"  class="inputbox required">
-<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
-<?php foreach($pamong AS $data){?>
-<option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
-<?php }?>
-</select>
-</td>
-</tr>
-<tr>
-<th>Sebagai</th>
-<td>
-<select name="jabatan"  class="inputbox required">
-<option value="">Pilih Jabatan</option>
-<?php foreach($pamong AS $data){?>
-<option ><?php echo unpenetration($data['jabatan'])?></option>
-<?php }?>
-</select>
-</td>
-</tr>
+	<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 </table>
 </div>
 
@@ -110,8 +89,8 @@ padding:5px;
 <div class="uibutton-group">
 <button class="uibutton" type="reset">Clear</button>
 
-							<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-fa fa-print">&nbsp;</span>Cetak</button>
-							<?php if (SuratExport($url)) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-fa fa-document">&nbsp;</span>Export Doc</button><?php } ?>
+							<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
+							<?php if (SuratExport($url)) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
 </div>
 </div>
 </div> </form>

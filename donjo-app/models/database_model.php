@@ -43,6 +43,64 @@
     $this->migrasi_112_ke_113();
     $this->migrasi_113_ke_114();
     $this->migrasi_114_ke_115();
+    $this->migrasi_115_ke_116();
+    $this->migrasi_116_ke_117();
+  }
+
+  function migrasi_116_ke_117(){
+    // Tambah kolom log_penduduk
+    if (!$this->db->field_exists('no_kk', 'log_penduduk')) {
+      $query = "ALTER TABLE log_penduduk ADD no_kk decimal(16,0)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('nama_kk', 'log_penduduk')) {
+      $query = "ALTER TABLE log_penduduk ADD nama_kk varchar(100)";
+      $this->db->query($query);
+    }
+    // Hapus surat_ubah_sesuaikan
+    $this->db->where('url_surat', 'surat_ubah_sesuaikan')->delete('tweb_surat_format');
+    // Tambah kolom log_surat untuk surat non-warga
+    if (!$this->db->field_exists('nik_non_warga', 'log_surat')) {
+      $query = "ALTER TABLE log_surat ADD nik_non_warga decimal(16,0)";
+      $this->db->query($query);
+    }
+    if (!$this->db->field_exists('nama_non_warga', 'log_surat')) {
+      $query = "ALTER TABLE log_surat ADD nama_non_warga varchar(100)";
+      $this->db->query($query);
+    }
+    $query = "ALTER TABLE log_surat MODIFY id_pend int(11) DEFAULT NULL";
+    $this->db->query($query);
+    // Tambah contoh surat non-warga
+    $query = "
+      INSERT INTO tweb_surat_format(nama, url_surat, kode_surat, jenis) VALUES
+      ('Domisili Usaha Non-Warga', 'surat_domisili_usaha_non_warga', 'S-37', 1)
+      ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis);
+    ";
+    $this->db->query($query);
+  }
+
+  function migrasi_115_ke_116(){
+    // Ubah surat N-1 menjadi surat gabungan N-1 s/d N-7
+    $this->db->where('url_surat','surat_ket_nikah')->update('tweb_surat_format',array('nama'=>'Keterangan Untuk Nikah (N-1 s/d N-7)'));
+    // Hapus surat N-2 s/d N-7 yang sudah digabungkan ke surat_ket_nikah
+    $this->db->where('url_surat','surat_ket_asalusul')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_persetujuan_mempelai')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_ket_orangtua')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_izin_orangtua')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_ket_kematian_suami_istri')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_kehendak_nikah')->delete('tweb_surat_format');
+    $this->db->where('url_surat','surat_ket_wali')->delete('tweb_surat_format');
+    // Tambah kolom untuk penandatangan surat
+    if (!$this->db->field_exists('pamong_ttd', 'tweb_desa_pamong')) {
+      $query = "ALTER TABLE tweb_desa_pamong ADD pamong_ttd tinyint(1)";
+      $this->db->query($query);
+    }
+    // Hapus surat_pindah_antar_kab_prov
+    $this->db->where('url_surat','surat_pindah_antar_kab_prov')->delete('tweb_surat_format');
   }
 
   function migrasi_114_ke_115(){

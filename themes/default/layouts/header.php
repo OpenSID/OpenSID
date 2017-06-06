@@ -36,6 +36,11 @@
 		<script src="<?php echo base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.colorbox.js"></script>
+		<!-- Untuk carousel dan slider -->
+		<script src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
+		<script src="<?php echo base_url()?>assets/js/jquery.cycle2.min.js"></script>
+		<script src="<?php echo base_url()?>assets/js/jquery.cycle2.carousel.js"></script>
+
 		<script>
 			$(document).ready(function(){
 				$(".group2").colorbox({rel:'group2', transition:"fade"});
@@ -47,21 +52,8 @@
 		<div id="maincontainer">
 			<div id="topsection">
 				<div class="innertube">
-					<div id="header">
-						<div id="headercontent">
-							<div id="menu_vert">
-								<div id="menuwrapper">
-									<?php $this->load->view($folder_themes.'/partials/menu.tpl.php');?>
-								</div>
-							</div>
-							<div id="menu_vert2">
-								<?php if(count($slide)>0){
-									$this->load->view($folder_themes.'/layouts/slide.php');
-								} ?>
-							</div>
-						</div>
-					</div>
-					<div id="headleft">
+					<div id="header-default">
+					<div id="headleft-default">
 						<div id="divlogo">
 							<div id="divlogo-txt">
 								<div class="intube">
@@ -87,6 +79,19 @@
 							</div>
 						</div>
 						<br class="clearboth"/>
+					</div>
+						<div id="headercontent-default">
+							<div id="menu_vert">
+								<div id="menuwrapper">
+									<?php $this->load->view($folder_themes.'/partials/menu.tpl.php');?>
+								</div>
+							</div>
+							<div id="menu_vert2">
+								<?php if(count($slide)>0){
+									$this->load->view($folder_themes.'/layouts/carousel.php');
+								} ?>
+							</div>
+						</div>
 					</div>
 
 					<?php if(count($teks_berjalan)>0){

@@ -353,17 +353,6 @@ function __construct(){
 		redirect("sid_core");
 	}
 
-	function cetakx(){
-
-		$data['input'] = $_POST;
-		$data['tanggal_sekarang'] = tgl_indo(date("Y m d"));
-		$data['total'] = $this->wilayah_model->total();
-	        $this->surat_keluar_model->log_surat($f,$id,$g,$u);
-
-		$this->load->view('surat/print_surat_ket_pengantar',$data);
-
-	}
-
 	function ajax_wil_maps($id=0){
 		$data['dusun'] = $this->wilayah_model->get_dusun_maps($id);
 		$data['desa'] = $this->config_model->get_data();

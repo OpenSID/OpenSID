@@ -24,8 +24,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url("sid_wilayah/form_rt/$p/$o/$dusun/$rw")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-fa fa-plus-square">&nbsp;</span>Tambah RT</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("sid_wilayah/delete_all_rt/$p/$o/$dusun/$rw")?>')" class="uibutton tipsy south"><span class="ui-icon ui-fa fa-trash">&nbsp;</span>Delete Data
+                <a href="<?php echo site_url("sid_wilayah/form_rt/$p/$o/$dusun/$rw")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah RT</a>
+                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("sid_wilayah/delete_all_rt/$p/$o/$dusun/$rw")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['rt']?>" />
 			</td>
           <td width="5">
-            <?php if($data['rt']!="-"){?><a href="<?php echo site_url("sid_wilayah/form_rt/$p/$o/$dusun/$rw/$data[rt]")?>" class="fa fa-edit " title="Edit Data"></a><a href="<?php echo site_url("sid_wilayah/delete_rt/$p/$o/$dusun/$rw/$data[rt]")?>" class="fa fa-trash " title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php }?>
+            <?php if($data['rt']!="-"){?><a href="<?php echo site_url("sid_wilayah/form_rt/$p/$o/$dusun/$rw/$data[rt]")?>" class="icon-edit icon-large" title="Edit Data"></a><a href="<?php echo site_url("sid_wilayah/delete_rt/$p/$o/$dusun/$rw/$data[rt]")?>" class="icon-trash icon-large" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php }?>
           </td>
           <td><?php echo $data['rt']?></td>
 		  <td><?php echo $data['nik_ketua']?></td>

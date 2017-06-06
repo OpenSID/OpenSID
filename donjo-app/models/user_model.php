@@ -231,6 +231,9 @@ class User_Model extends CI_Model{
 	}
 
 	function delete($id=''){
+		// Jangan hapus admin
+		if ($id == 1) return;
+
 		$sql  = "DELETE FROM user WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
 
@@ -243,6 +246,9 @@ class User_Model extends CI_Model{
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
+				// Jangan hapus admin
+				if ($id == 1) continue;
+
 				$sql  = "DELETE FROM user WHERE id=?";
 				$outp = $this->db->query($sql,array($id));
 			}

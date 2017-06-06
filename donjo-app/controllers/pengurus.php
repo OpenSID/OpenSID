@@ -98,4 +98,13 @@ class Pengurus extends CI_Controller{
 		redirect('pengurus');
 	}
 
+	function ttd_on($id=''){
+		$this->pamong_model->ttd($id,1);
+		redirect('pengurus');
+	}
+
+	function ttd_off($id=''){
+		$this->pamong_model->ttd($id,0);
+		redirect('pengurus');
+	}
 }

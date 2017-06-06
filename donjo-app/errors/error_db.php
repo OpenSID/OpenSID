@@ -16,9 +16,9 @@
 			<?php
 			error_log(strip_tags($message));
 			?>
-			
-				<?php echo $message; ?>
 			<p>
+				<?php echo $message; ?>
+
 				Harap laporkan masalah ini, agar kami dapat mencarikan solusinya.
 				Untuk sementara Anda dapat kembali ke halaman <a href="<?php echo base_url(); ?>">awal</a>.
 			</p>

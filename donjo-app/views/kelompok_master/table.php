@@ -19,14 +19,14 @@
     <h3>Modul kelompok</h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('kelompok/clear')?>" class="uibutton tipsy south" title="Kelompok" ><span class="fa fa-list ">&nbsp;</span>Kelompok</a>
-                <a href="<?php echo site_url('kelompok_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square ">&nbsp;</span>Tambah Master Kelompok Baru</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("kelompok_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash ">&nbsp;</span>Hapus Data
+                <a href="<?php echo site_url('kelompok/clear')?>" class="uibutton tipsy south" title="Kelompok" ><span class="icon-list icon-large">&nbsp;</span>Kelompok</a>
+                <a href="<?php echo site_url('kelompok_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Master Kelompok Baru</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("kelompok_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
             </div>
         </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="40" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('kelompok_master/search')?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('kelompok_master/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search ">&nbsp;</span>Cari</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('kelompok_master/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
             </div>
     </div>
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
@@ -60,7 +60,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
           <td><div class="uibutton-group">
-            <a href="<?php echo site_url("kelompok_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit "> Ubah </span></a><a href="<?php echo site_url("kelompok_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "></span></a>
+            <a href="<?php echo site_url("kelompok_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("kelompok_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 			</div>
           </td>
           <td><?php echo $data['kelompok']?></td>

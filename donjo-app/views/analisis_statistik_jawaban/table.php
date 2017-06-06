@@ -62,12 +62,12 @@
 				</select>
 				<?php }?>
 				
-<a href="<?php echo site_url("analisis_statistik_jawaban/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print ">&nbsp;</span>Cetak</a>
-<a href="<?php echo site_url("analisis_statistik_jawaban/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text ">&nbsp;</span>Excel</a>
+<a href="<?php echo site_url("analisis_statistik_jawaban/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
+<a href="<?php echo site_url("analisis_statistik_jawaban/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('analisis_statistik_jawaban/search')?>');$('#'+'mainform').submit();}" />
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_statistik_jawaban/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="fa fa-search ">&nbsp;</span>Cari</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_statistik_jawaban/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
 </div>
 </div>
 <table class="list">

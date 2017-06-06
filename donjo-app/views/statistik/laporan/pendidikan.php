@@ -7,8 +7,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('admin_home/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-fa fa-plus-square">&nbsp;</span>Tambah Pengurus</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("admin_home/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-fa fa-trash">&nbsp;</span>Delete Data
+                <a href="<?php echo site_url('admin_home/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah Pengurus</a>
+                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("admin_home/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('admin_home/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-fa fa-search">&nbsp;</span>Search</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('admin_home/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
             </div>
         </div>
         <table class="list">
@@ -45,7 +45,7 @@
 				<?php  endif; ?>
 			</td>
           <td width="5">
-            <a href="<?php echo site_url("admin_home/form/$p/$o/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data"></a><?php if($data['username']!='admin'){?><a href="<?php echo site_url("admin_home/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
+            <a href="<?php echo site_url("admin_home/form/$p/$o/$data[id]")?>" class="ui-icons icon-edit tipsy south" title="Edit Data"></a><?php if($data['username']!='admin'){?><a href="<?php echo site_url("admin_home/delete/$p/$o/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
 			<?php }?>
           </td>
           <td><?php echo $data['nama']?></td>

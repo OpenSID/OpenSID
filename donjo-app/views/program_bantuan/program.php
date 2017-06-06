@@ -66,9 +66,9 @@
 									<td class="angka" style="width:40px;"><?php echo $nomer; ?></td>
 									<td style="width:120px;">
 										<div class="uibutton-group">
-											<a class="uibutton tipsy south" href="<?php echo site_url('program_bantuan/detail/1/'.$item["id"].'/'); ?>" title="Rincian"><span class="fa fa-list "></span> Rincian</a>
-											<a class="uibutton tipsy south" href="<?php echo site_url('program_bantuan/edit/'.$item["id"].'/'); ?>" title="Ubah"><span class="fa fa-edit "></span></a>
-											<a class="uibutton tipsy south" href="<?php echo site_url('program_bantuan/hapus/'.$item["id"].'/'); ?>" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "></span></a>
+											<a class="uibutton tipsy south" href="<?php echo site_url('program_bantuan/detail/1/'.$item["id"].'/'); ?>" title="Rincian"><span class="icon-list icon-large"></span> Rincian</a>
+											<a class="uibutton tipsy south" href="<?php echo site_url('program_bantuan/edit/'.$item["id"].'/'); ?>" title="Ubah"><span class="icon-pencil icon-large"></span></a>
+											<a class="uibutton tipsy south" href="<?php echo site_url('program_bantuan/hapus/'.$item["id"].'/'); ?>" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 										</div>
 									</td>
 									<td><a href="<?php echo site_url('program_bantuan/detail/1/'.$item["id"].'/')?>"><?php echo $item["nama"] ?></a></td>
