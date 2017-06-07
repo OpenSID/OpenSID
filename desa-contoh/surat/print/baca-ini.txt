@@ -1,9 +1,0 @@
-*******************************
-Folder: desa/surat/print
-*******************************
-
-Folder ini tempat menyimpan semua surat cetak yang telah disesuaikan
-dengan kebutuhan desa.
-
-Surat yang telah diubah menggantikan surat asli SID dengan nama yang sama
-di folder donjo-app/views/surat/print.

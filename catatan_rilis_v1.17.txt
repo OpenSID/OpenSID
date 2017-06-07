@@ -1,6 +1,6 @@
 Dalam rilis ini gambar pada slider atas dan slider besar di web bisa di-klik untuk menampilkan artikel terkait. Rilis ini juga menyediakan template surat untuk pemohon non-warga. Selain itu, rilis ini juga berisi beberapa perbaikan lainnya yang diminta oleh komunitas SID.
 
-Terima kasih pada https://github.com/batudaa yang senantiasa memantau agar OpenSID terus men-support PHP 5.3.
+Terima kasih pada https://github.com/batudaa yang senantiasa memantau agar OpenSID terus men-support PHP 5.3, dan pada Parso Widodo untuk kontribusinya.
 
 Lengkapnya, isi rilis v1.17:
 

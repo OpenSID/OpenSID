@@ -1,9 +1,0 @@
-*******************************
-Folder: desa/surat/export
-*******************************
-
-Folder ini tempat menyimpan semua surat export (.rtf) yang telah disesuaikan
-dengan kebutuhan desa.
-
-Surat yang telah diubah menggantikan surat asli SID dengan nama yang sama
-di folder donjo-app/surat/.
