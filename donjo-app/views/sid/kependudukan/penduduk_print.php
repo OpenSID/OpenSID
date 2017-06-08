@@ -28,7 +28,7 @@ td,th{
 			<th>Nama</th>
 			<th>NIK</th>
 			<th>Alamat</th>
-			<th ><?php echo ucwords(config_item('sebutan_dusun'))?></th>
+			<th ><?php echo ucwords($this->setting->sebutan_dusun)?></th>
 			<th >RW</th>
 			<th >RT</th>
 			<th >Jenis Kelamin</th>

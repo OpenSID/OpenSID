@@ -18,7 +18,7 @@
 				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>
 				<tr>
 					<td></td>
-					<td width="100%"><h3>LAPORAN BULANAN <?php echo strtoupper(config_item('sebutan_desa'))?>/KELURAHAN</h3></td>
+					<td width="100%"><h3>LAPORAN BULANAN <?php echo strtoupper($this->setting->sebutan_desa)?>/KELURAHAN</h3></td>
 
 
 				</tr>
@@ -26,14 +26,14 @@
 				<br>
 				<table>
 				<tbody><tr>
-					<td><?php echo ucwords(config_item('sebutan_desa'))?>/Kelurahan</td>
+					<td><?php echo ucwords($this->setting->sebutan_desa)?>/Kelurahan</td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo unpenetration($data['nama_desa'])?></h4></td>
 					<td></td>
 
 				</tr>
 				<tr>
-					<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
+					<td><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo unpenetration($data['nama_kecamatan'])?></td>
 					<td></td>
@@ -63,11 +63,11 @@
 <thead>
 <?php if($_SESSION['dusun']!=''){?>
 <tr>
-	<h3>DATA PILAH <?php echo strtoupper(config_item('sebutan_dusun'))?> <?php echo $_SESSION['dusun'] ?></h3>
+	<h3>DATA PILAH <?php echo strtoupper($this->setting->sebutan_dusun)?> <?php echo $_SESSION['dusun'] ?></h3>
 </tr>
 <?php } ?>
 <tr class="border thick">
-	<th rowspan="2"><div align="center"><?php echo strtoupper(config_item('sebutan_dusun'))?></div></th>
+	<th rowspan="2"><div align="center"><?php echo strtoupper($this->setting->sebutan_dusun)?></div></th>
 	<th rowspan="2"><div align="center">RW</div></th>
 	<th rowspan="2"><div align="center">RT</div></th>
 	<th colspan="2"><div align="center">KK</div></th>

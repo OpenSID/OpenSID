@@ -118,7 +118,7 @@ table.form.detail td{
 <th align="left">Jenis Surat</th>
 
 
-<th align="left" width='200'>Nama Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
+<th align="left" width='200'>Nama Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></th>
 
 <?php  if($o==6): ?>
 <th align="left" width='160'>Tanggal</th>

@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php
-	echo config_item('admin_title')
-		. ' ' . ucwords(config_item('sebutan_desa'))
+	echo $this->setting->admin_title
+		. ' ' . ucwords($this->setting->sebutan_desa)
 		. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']) : '')
 		. get_dynamic_title_page_from_path();
 ?></title>
@@ -35,7 +35,7 @@
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.dialog.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script><script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=4&key=<?php echo config_item('google_key'); ?>"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script><script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=4&key=<?php echo $this->setting->google_key; ?>"></script>
 <!---->
 <!--[if lte IE 6]>
 <style type="text/css">
@@ -79,7 +79,7 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 <div class="ui-layout-north" id="header">
 	<div id="sid-logo"><a href="<?php echo site_url()?>first" target="_blank"><img src="<?php echo LogoDesa($desa['logo']);?>" alt=""/></a></div>
 	<div id="sid-judul">SID Sistem Informasi Desa</div>
-	<div id="sid-info"><?php echo ucwords(config_item('sebutan_desa')." ".$desa['nama_desa'].", ".config_item('sebutan_kecamatan')." ".unpenetration($desa['nama_kecamatan']).", ".config_item('sebutan_kabupaten')." ".unpenetration($desa['nama_kabupaten']))?></div>
+	<div id="sid-info"><?php echo ucwords($this->setting->sebutan_desa." ".$desa['nama_desa'].", ".$this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']).", ".$this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']))?></div>
 	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
   <div class="avatar">
 		<?php if($foto){?>
