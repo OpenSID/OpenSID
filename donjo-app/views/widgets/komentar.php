@@ -4,7 +4,7 @@
     <h3 class="box-title"><i class="fa fa-comments"></i> Komentar Terkini</h3>
   </div>
   <div class="box-body">
-    <marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" width="100%" height="100" align="center" behavior=”alternate”<ul class="sidebar-latest">
+    <marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" width="100%" height="100" align="center" behavior=”alternate”>
       <ul class="sidebar-latest">
         <?php foreach($komen As $data){?>
           <li>
