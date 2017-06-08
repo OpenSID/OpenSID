@@ -3,6 +3,9 @@ class setting extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
+		$this->load->model('user_model');
+		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+		if($grup!=1) redirect('siteman');
 		$this->load->model('setting_model');
 		$this->load->model('header_model');
 	}
