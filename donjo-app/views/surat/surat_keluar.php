@@ -28,11 +28,11 @@
 							<th>No</th>
 							<th width="135px">Aksi</th>
 							<?php  if($o==2): ?>
-							<th align="left" width='100'>Nomor Surat</th>
+							<th align="left">Nomor Surat</th>
 							<?php  elseif($o==1): ?>
-							<th align="left" width='100'>Nomor Surat</th>
+							<th align="left">Nomor Surat</th>
 							<?php  else: ?>
-							<th align="left" width='100'>Nomor Surat</th>
+							<th align="left">Nomor Surat</th>
 							<?php  endif; ?>
 
 							<th align="left">Jenis Surat</th>
@@ -45,7 +45,7 @@
 							<th align="left">Nama Penduduk</th>
 							<?php  endif; ?>
 
-							<th align="left" width='160'>Ditandatangani Oleh	</th>
+							<th align="left">Ditandatangani Oleh</th>
 
 							<?php  if($o==6): ?>
 							<th align="left" width='160'>Tanggal</th>
@@ -87,7 +87,14 @@
 								</td>
 								<td><?php echo $data['no_surat']?></td>
 								<td><?php echo $data['format']?></td>
-								<td><?php echo unpenetration($data['nama'])?></td>
+								<td>
+									<?php if($data['nama']) {
+										echo unpenetration($data['nama']);
+									} elseif($data['nama_non_warga']) {
+										echo "<strong>Non-warga: </strong>".$data['nama_non_warga']."<br>".
+											"<strong>NIK: </strong>".$data['nik_non_warga'];
+									} ?>
+								</td>
 								<td><?php echo $data['pamong']?></td>
 								<td><?php echo tgl_indo2($data['tanggal'])?></td>
 								<td><?php echo $data['nama_user']?></td>

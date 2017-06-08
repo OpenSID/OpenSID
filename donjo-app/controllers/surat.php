@@ -77,16 +77,17 @@ class Surat extends CI_Controller{
 	}
 
 	function cetak($url=''){
-		$f=$url;
-		$g=$_POST['pamong'];
-		$u=$_SESSION['user'];
-		$z=$_POST['nomor'];
+		$log_surat['url_surat']=$url;
+		$log_surat['pamong_nama']=$_POST['pamong'];
+		$log_surat['id_user']=$_SESSION['user'];
+		$log_surat['no_surat']=$_POST['nomor'];
 
 		//$data['menu_surat'] = $this->surat_model->list_surat();
 		$id = $_POST['nik'];
 		// surat_persetujuan_mempelai id-nya suami atau istri
 		if (!$id) $id = $_POST['id_suami'];
 		if (!$id) $id = $_POST['id_istri'];
+		$log_surat['id_pend']=$id;
 		$data['input'] = $_POST;
 		$data['tanggal_sekarang'] = tgl_indo(date("Y m d"));
 
@@ -101,7 +102,7 @@ class Surat extends CI_Controller{
 		$data['pamong'] = $this->surat_model->get_pamong($_POST['pamong']);
 
 		$data['pengikut']=$this->surat_model->pengikut();
-		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z);
+		$this->surat_keluar_model->log_surat($log_surat);
 
 		$data['url']=$url;
 		$this->load->view("surat/print_surat",$data);
@@ -109,10 +110,10 @@ class Surat extends CI_Controller{
 
 	function doc($url=''){
 		$format = $this->surat_model->get_surat($url);
-		$f = $format['id'];
-		$g=$_POST['pamong'];
-		$u=$_SESSION['user'];
-		$z=$_POST['nomor'];
+		$log_surat['url_surat']=$format['id'];
+		$log_surat['pamong_nama']=$_POST['pamong'];
+		$log_surat['id_user']=$_SESSION['user'];
+		$log_surat['no_surat']=$_POST['nomor'];
 
 		$id = $_POST['nik'];
 		switch ($url) {
@@ -130,15 +131,24 @@ class Surat extends CI_Controller{
 				# code...
 				break;
 		}
+		if($id){
+			$log_surat['id_pend']=$id;
+		} else {
+			// Surat untuk non-warga
+			$log_surat['nama_non_warga'] = $_POST['nama_non_warga'];
+			$log_surat['nik_non_warga'] = $_POST['nik_non_warga'];
+		}
 		$sql = "SELECT nik FROM tweb_penduduk WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		$hasil  = $query->row_array();
 		$nik = $hasil['nik'];
 
-		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $nik, $z);
+		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
 		$lampiran = '';
 		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
-		$this->surat_keluar_model->log_surat($f,$id,$g,$u,$z,$nama_surat,$lampiran);
+		$log_surat['nama_surat']=$nama_surat;
+		$log_surat['lampiran']=$lampiran;
+		$this->surat_keluar_model->log_surat($log_surat);
 
 		// === Untuk debug format surat html2pdf
 		// $data = $this->surat_model->get_data_untuk_surat($url);
@@ -160,6 +170,10 @@ class Surat extends CI_Controller{
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
 		$data['kode'] = $this->surat_model->get_daftar_kode_surat($url);
+
+		$data_form = $this->surat_model->get_data_form($url);
+		if(is_file($data_form))
+		  include($data_form);
 
 		switch ($url) {
 			case 'surat_persetujuan_mempelai':

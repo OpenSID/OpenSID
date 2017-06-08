@@ -57,8 +57,10 @@ margin: 0 auto; /*Center container on page*/
 }
 
 #topsection{
-font-size: 10pt;
-height: 160px; /*Height of top section*/
+  font-size: 10pt;
+  overflow: visible;
+  height: 150px;
+  margin: 6px 6px 6px -5px;
 }
 
 #topsection h1{
@@ -116,27 +118,45 @@ background: #333;
  * Header
  * */
 #header{float: left;width: 100%;}
-	#scroller{
-		margin-top:1px;
-		margin-left:5px;
-		float:left;
-		width: 972px;
-		background:url(images/background.gif) repeat-x;
-		padding-top:3px;
-		height:20px;
-	}
+#scroller{
+	margin-top:1px;
+	margin-left:5px;
+  margin-bottom: 1px;
+	float:left;
+	background:url(images/background.gif) repeat-x;
+	padding-top:3px;
+	height:20px;
+  width: 100%;
+  border-right: 1px solid;
+}
+
 #headercontent{margin-left: 350px;}
 #headleft{float: left;width: 350px;margin-left: -100%;}
 #mainmenuget{clear:both;}
 
 #divlogo{float: left;width: 100%;}
 #divlogo-txt{margin-left: 100px;color:#204C88;}
-	#menu_vert{border:1px solid #eee;border-top:1px solid #777;top:4px; height:30px;background: url(images/tb2.jpg) repeat center top;
-		box-shadow:1px 4px 4px #555;
-		-moz-box-shadow:-3px 1px 3px #000;
-		-webkit-box-shadow:1px 1px 3px #000;-webkit-border-radius: 2px; -moz-border-radius: 2px;border-radius: 2px;}
-	#menu_vert a{display:block;}
-	#menu_vert2 { top:5px;padding-left:0px; float:right;height:90px;}
+#menu_vert {
+  border:1px solid #eee;
+  border-top:1px solid #777;
+  top:4px;
+  height:30px;
+  background: url(images/tb2.jpg) repeat center top;
+	box-shadow:1px 4px 4px #555;
+	-moz-box-shadow:-3px 1px 3px #000;
+	-webkit-box-shadow:1px 1px 3px #000;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+#menu_vert a{display:block;}
+#menu_vert2 {
+  top:5px;padding-left:0px;
+  float:right;height:90px;
+  width: 100%;
+}
+#menu_vert2 .carousel img { height: 80px; padding: 1px; }
+
 
 #divlogo-img{float: left;width: 100px;margin-left: -100%;text-align:center;}
 #divlogo-img img{height:100px;margin-top:15px;}
@@ -148,7 +168,36 @@ background: #333;
 #siteTitle h2{font-size:15px;}
 #siteTitle h3{font-size:12px;font-weight:normal;}
 
-#mainmenu {margin:0px 0 15px 5px; float:left; width:100%;height:30px;border:1px #5898D8 solid; background:#204C88;-webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;background: url(images/tb.jpg) repeat center top;}
+#mainmenu {
+  margin:0px 0 5px 5px;
+  float:left;
+  width:100%;
+  height:30px;
+  border:1px #5898D8 solid;
+  background:#204C88;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: url(images/tb.jpg) repeat center top;
+}
+
+/*
+ * Header tema Default
+ * */
+#header-default {
+  margin: 0px;
+}
+#headleft-default {
+  margin-left: 6px;
+  width: 36%;
+  float: left;
+}
+#headercontent-default {
+  margin-right: -5px;
+  height: 90px;
+  width: 63%;
+  float: right;
+}
 
 /*
  * Komponen Box

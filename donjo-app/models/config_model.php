@@ -44,9 +44,8 @@
 
 		unset($data['file_logo']);
 		unset($data['old_logo']);
-
 		$this->db->where('id',$id);
-		$outp = $this->db->update('config',penetration($data));
+		$outp = $this->db->update('config',$data);
 
 		$pamong['pamong_nama'] = $data['nama_kepala_desa'];
 		$pamong['pamong_nip'] = $data['nip_kepala_desa'];

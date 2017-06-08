@@ -368,7 +368,7 @@
 		if($file == ""){
 			$data['lokasi_rtf'] = "surat/$url/";
 		} else {
-			$data['lokasi_rtf'] = LOKASI_SURAT_EXPORT_DESA;
+			$data['lokasi_rtf'] = dirname($file)."/";
 		}
 		return $data;
 	}
@@ -408,6 +408,15 @@
 	    }
 	  }
 	  return $buffer_out;
+	}
+
+	function get_data_form($surat){
+		$data_form = LOKASI_SURAT_DESA.$surat."/data_form_".$surat.".php";
+		if (is_file($data_form)) return $data_form;
+		else {
+			$data_form = "surat/$surat/data_form_$surat.php";
+			if(is_file($data_form)) return $data_form;
+		}
 	}
 
 	function get_daftar_kode_surat($surat) {

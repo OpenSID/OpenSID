@@ -1373,10 +1373,11 @@ CREATE TABLE `log_bulanan` (
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('3', '97', '46', '51', '37', '2017-06-05 10:08:30', '28', '9');
 
 
 #
@@ -1410,6 +1411,8 @@ CREATE TABLE `log_penduduk` (
   `tahun` varchar(4) NOT NULL,
   `tgl_peristiwa` date NOT NULL,
   `catatan` text,
+  `no_kk` decimal(16,0) DEFAULT NULL,
+  `nama_kk` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_pend` (`id_pend`,`id_detail`,`tgl_peristiwa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -1437,7 +1440,7 @@ DROP TABLE IF EXISTS log_surat;
 CREATE TABLE `log_surat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_format_surat` int(3) NOT NULL,
-  `id_pend` int(11) NOT NULL,
+  `id_pend` int(11) DEFAULT NULL,
   `id_pamong` int(4) NOT NULL,
   `id_user` int(4) NOT NULL,
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1446,14 +1449,16 @@ CREATE TABLE `log_surat` (
   `no_surat` varchar(20) DEFAULT NULL,
   `nama_surat` varchar(100) DEFAULT NULL,
   `lampiran` varchar(100) DEFAULT NULL,
+  `nik_non_warga` decimal(16,0) DEFAULT NULL,
+  `nama_non_warga` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('1', '1', '3', '14', '1', '2016-09-13 04:05:10', '09', '2016', 'KET/345', 'surat_ket_pengantar_5201140301900002_2016-09-13_KET-345.pdf', NULL);
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('2', '15', '8', '14', '1', '2016-09-13 04:06:40', '09', '2016', 'USA/67/123', 'surat_ket_usaha_5201141412020001_2016-09-13_USA-67-123.pdf', NULL);
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('3', '1', '18', '20', '1', '2016-09-13 04:07:53', '09', '2016', 'KET/346', 'surat_ket_pengantar_5201147112930055_2016-09-13_KET-346.pdf', NULL);
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('4', '12', '9', '14', '1', '2016-09-13 04:09:02', '09', '2016', 'KM/104', 'surat_ket_kurang_mampu_5201140107850071_2016-09-13_KM-104.pdf', NULL);
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`) VALUES ('5', '14', '25', '22', '1', '2016-09-13 04:10:26', '09', '2016', 'HIL/503', 'surat_ket_kehilangan_5201142210790004_2016-09-13_HIL-503.pdf', NULL);
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('1', '1', '3', '14', '1', '2016-09-13 04:05:10', '09', '2016', 'KET/345', 'surat_ket_pengantar_5201140301900002_2016-09-13_KET-345.pdf', NULL, NULL, NULL);
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('2', '15', '8', '14', '1', '2016-09-13 04:06:40', '09', '2016', 'USA/67/123', 'surat_ket_usaha_5201141412020001_2016-09-13_USA-67-123.pdf', NULL, NULL, NULL);
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('3', '1', '18', '20', '1', '2016-09-13 04:07:53', '09', '2016', 'KET/346', 'surat_ket_pengantar_5201147112930055_2016-09-13_KET-346.pdf', NULL, NULL, NULL);
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('4', '12', '9', '14', '1', '2016-09-13 04:09:02', '09', '2016', 'KM/104', 'surat_ket_kurang_mampu_5201140107850071_2016-09-13_KM-104.pdf', NULL, NULL, NULL);
+INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('5', '14', '25', '22', '1', '2016-09-13 04:10:26', '09', '2016', 'HIL/503', 'surat_ket_kehilangan_5201142210790004_2016-09-13_HIL-503.pdf', NULL, NULL, NULL);
 
 
 #
@@ -2645,7 +2650,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
@@ -2674,8 +2679,8 @@ INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampira
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('36', 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('37', 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('38', 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35', NULL, '0', '0', '1');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('44', 'Ubah Sesuaikan', 'surat_ubah_sesuaikan', 'P-01', NULL, '0', '0', '2');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('45', 'Permohonan Kartu Keluarga', 'surat_permohonan_kartu_keluarga', 'S-36', 'f-1.15.php,f-1.01.php', '0', '0', '1');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('51', 'Domisili Usaha Non-Warga', 'surat_domisili_usaha_non_warga', 'S-37', NULL, '0', '0', '1');
 
 
 #

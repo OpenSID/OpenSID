@@ -86,6 +86,7 @@
 		return $sql;
 		}
 	}
+
 	function cacatx_sql(){
 		if(isset($_SESSION['cacatx'])){
 			$kf = $_SESSION['cacatx'];
@@ -260,7 +261,6 @@
 				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan
 				";
 		}
-
 		//Main Query
 		$list_data_sql = $this->list_data_sql($log);
 		$sql = $select_sql." ".$list_data_sql;
@@ -863,10 +863,18 @@
 		return $data;
 	}
 
-	function list_pekerjaan(){
+	function list_pekerjaan($case=''){
 		$sql   = "SELECT * FROM tweb_penduduk_pekerjaan WHERE 1";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
+		if ($case == 'ucwords') {
+			for ($i=0; $i<count($data); $i++) {
+				$data[$i]['nama'] = ucwords(strtolower($data[$i]['nama']));
+				$data[$i]['nama'] = str_replace("(pns)", "(PNS)", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("(tni)", "(TNI)", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("(polri)", "(POLRI)", $data[$i]['nama']);
+			}
+		}
 		return $data;
 	}
 
@@ -888,6 +896,11 @@
 		$sql   = "SELECT * FROM tweb_golongan_darah WHERE 1";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
+		return $data;
+	}
+
+	function list_sex(){
+		$data = $this->db->select('*')->get("tweb_penduduk_sex")->result_array();
 		return $data;
 	}
 

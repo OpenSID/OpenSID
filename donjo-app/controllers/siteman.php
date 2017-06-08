@@ -31,7 +31,10 @@ class Siteman extends CI_Controller {
 
 	function auth(){
 		$this->user_model->siteman();
-		redirect('main');
+		if($_SESSION['siteman'] == 1)
+			redirect('main');
+		else
+			redirect('siteman');
 	}
 
 	function login(){

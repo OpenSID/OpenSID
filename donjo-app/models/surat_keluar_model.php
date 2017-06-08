@@ -181,38 +181,42 @@
 		return $nama_surat;
 	}
 
-	function log_surat($f=0,$id='',$g='',$u='',$z='', $nama_surat, $lampiran){
+	function log_surat($data_log_surat){
 
-		$data['id_pend']=$id;
+		$url_surat = $data_log_surat['url_surat'];
+		$nama_surat = $data_log_surat['nama_surat'];
+		unset($data_log_surat['url_surat']);
+		$pamong_nama = $data_log_surat['pamong_nama'];
+		unset($data_log_surat['pamong_nama']);
 
-			$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
-			$query = $this->db->query($sql,$f);
-			if($query->num_rows() > 0){
-				$pam=$query->row_array();
-				$data['id_format_surat']=$pam['id'];
-			}else{
-				$data['id_format_surat'] = $f;
-			}
+		foreach($data_log_surat as $key => $val){
+			$data[$key] = $val;
+		}
 
-			$sql   = "SELECT pamong_id FROM tweb_desa_pamong WHERE pamong_nama = ?";
-			$query = $this->db->query($sql,$g);
-			if($query->num_rows() > 0){
-				$pam=$query->row_array();
-				$data['id_pamong']=$pam['pamong_id'];
-			}else{
-				$data['id_pamong'] = 1;
-			}
+		$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
+		$query = $this->db->query($sql,$url_surat);
+		if($query->num_rows() > 0){
+			$pam=$query->row_array();
+			$data['id_format_surat']=$pam['id'];
+		}else{
+			$data['id_format_surat'] = $url_surat;
+		}
+
+		$sql   = "SELECT pamong_id FROM tweb_desa_pamong WHERE pamong_nama = ?";
+		$query = $this->db->query($sql,$pamong_nama);
+		if($query->num_rows() > 0){
+			$pam=$query->row_array();
+			$data['id_pamong']=$pam['pamong_id'];
+		}else{
+			$data['id_pamong'] = 1;
+		}
 
 
 		if($data['id_pamong']=='')
 			$data['id_pamong'] = 1;
 
-		$data['id_user']=$u;
 		$data['bulan']=date('m');
 		$data['tahun']=date('Y');
-		$data['no_surat']=$z;
-		$data['nama_surat']=$nama_surat;
-		$data['lampiran'] = $lampiran;
 		//print_r($data);
 		/**
 			Penambahan atau update log disesuaikan dengan file surat yang tersimpan di arsip,
