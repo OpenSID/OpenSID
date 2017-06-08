@@ -318,7 +318,7 @@ table.form th.konfirmasi{
 					</tr>
 				<?php else: ?>
 					<tr>
-						<th colspan="2">A.2 DATA AYAH PASANGAN PRIA (Isi jika ayah bukan warga <?php echo strtolower(config_item('sebutan_desa'))?> ini)</th>
+						<th colspan="2">A.2 DATA AYAH PASANGAN PRIA (Isi jika ayah bukan warga <?php echo strtolower($this->setting->sebutan_desa)?> ini)</th>
 					</tr>
 					<tr>
 						<th class="indent">Nama</th>
@@ -392,7 +392,7 @@ table.form th.konfirmasi{
 					</tr>
 				<?php else: ?>
 					<tr>
-						<th colspan="2">A.3 DATA IBU PASANGAN PRIA (Isi jika ibu bukan warga <?php echo strtolower(config_item('sebutan_desa'))?> ini)</th>
+						<th colspan="2">A.3 DATA IBU PASANGAN PRIA (Isi jika ibu bukan warga <?php echo strtolower($this->setting->sebutan_desa)?> ini)</th>
 					</tr>
 					<tr>
 						<th class="indent">Nama</th>
@@ -623,7 +623,7 @@ table.form th.konfirmasi{
 					</tr>
 				<?php else: ?>
 					<tr>
-						<th colspan="2">B.2 DATA AYAH PASANGAN WANITA (Isi jika ayah bukan warga <?php echo strtolower(config_item('sebutan_desa'))?> ini)</th>
+						<th colspan="2">B.2 DATA AYAH PASANGAN WANITA (Isi jika ayah bukan warga <?php echo strtolower($this->setting->sebutan_desa)?> ini)</th>
 					</tr>
 					<tr>
 						<th class="indent">Nama</th>
@@ -697,7 +697,7 @@ table.form th.konfirmasi{
 					</tr>
 				<?php else: ?>
 					<tr>
-						<th colspan="2">B.3 DATA IBU PASANGAN WANITA (Isi jika ibu bukan warga <?php echo strtolower(config_item('sebutan_desa'))?> ini)</th>
+						<th colspan="2">B.3 DATA IBU PASANGAN WANITA (Isi jika ibu bukan warga <?php echo strtolower($this->setting->sebutan_desa)?> ini)</th>
 					</tr>
 					<tr>
 						<th class="indent">Nama</th>

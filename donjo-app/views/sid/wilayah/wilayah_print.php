@@ -10,15 +10,15 @@
 
 <!-- Print Body --><div id="body"><div class="header" align="center"><label align="left"><?php echo get_identitas()?></label>
 <h3> Tabel Data Kependudukan berdasarkan Populasi Per Wilayah </h3>
-<h4>  <?php echo ucwords(config_item('sebutan_kabupaten'))?> <?php echo $desa['desa']['nama_kabupaten']?>, <?php echo ucwords(config_item('sebutan_kecamatan'))?> <?php echo $desa['desa']['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo $desa['desa']['nama_desa']?></h4>
+<h4>  <?php echo ucwords($this->setting->sebutan_kabupaten)?> <?php echo $desa['desa']['nama_kabupaten']?>, <?php echo ucwords($this->setting->sebutan_kecamatan)?> <?php echo $desa['desa']['nama_kecamatan']?>, <?php echo ucwords($this->setting->sebutan_desa)?> <?php echo $desa['desa']['nama_desa']?></h4>
 </div>
 <br>
     <table class="border thick">
 	<thead>
 		<tr class="border thick">
                 <th>No</th>
-				<th width="100">Nama <?php echo ucwords(config_item('sebutan_dusun'))?></th>
-				<th width="100">Nama Kepala <?php echo ucwords(config_item('sebutan_dusun'))?></th>
+				<th width="100">Nama <?php echo ucwords($this->setting->sebutan_dusun)?></th>
+				<th width="100">Nama Kepala <?php echo ucwords($this->setting->sebutan_dusun)?></th>
 				<th width="50">RW</th>
 				<th width="50">RT</th>
 				<th width="50">KK</th>

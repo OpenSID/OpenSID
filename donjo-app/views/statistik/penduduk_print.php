@@ -15,10 +15,10 @@
     <tbody><tr>
         <td align="center" >
             <img src="<?php echo LogoDesa($config['logo']);?>" alt="" style="float: left;">
-            <h1>PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper($config['nama_kabupaten'])?> </h1>
+            <h1>PEMERINTAH <?php echo strtoupper($this->setting->sebutan_kabupaten)?> <?php echo strtoupper($config['nama_kabupaten'])?> </h1>
             <h1 style="text-transform: uppercase;"></h1>
-            <h1><?php echo strtoupper(config_item('sebutan_kecamatan'))?> <?php echo strtoupper($config['nama_kecamatan'])?> </h1>
-	    <h1><?php echo strtoupper(config_item('sebutan_desa'))." ".strtoupper($config['nama_desa'])?></h1>
+            <h1><?php echo strtoupper($this->setting->sebutan_kecamatan)?> <?php echo strtoupper($config['nama_kecamatan'])?> </h1>
+	    <h1><?php echo strtoupper($this->setting->sebutan_desa)." ".strtoupper($config['nama_desa'])?></h1>
             <h1>LAPORAN DATA STATISTIK KEPENDUDUKAN MENURUT <?php echo strtoupper($stat)?></h1>
         </td>
     </tr>
@@ -131,7 +131,7 @@
                     </td>
                     <td class="top" align="center" width="30%">
                         <div class="nowrap"><label>&nbsp;</label></div>
-                        <div class="nowrap"><label><br>KEPALA <?php echo (strtoupper(config_item('sebutan_desa'))." ".strtoupper($config['nama_desa']))?></label></div>
+                        <div class="nowrap"><label><br>KEPALA <?php echo (strtoupper($this->setting->sebutan_desa)." ".strtoupper($config['nama_desa']))?></label></div>
                         <div style="height: 50px;"></div>
                         <div class="nowrap"><strong style="text-transform: uppercase;"></strong></div>
                         <div class="nowrap"><label>NIP. </label></div>

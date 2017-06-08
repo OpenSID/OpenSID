@@ -32,21 +32,21 @@ table.tftable th.total {padding-right: 8px; text-align: right;}
 				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>
 				<tr>
 					<td></td>
-					<td width="100%"><h3>LAPORAN BULANAN <?php echo strtoupper(config_item('sebutan_desa'))?>/KELURAHAN</h3></td>
+					<td width="100%"><h3>LAPORAN BULANAN <?php echo strtoupper($this->setting->sebutan_desa)?>/KELURAHAN</h3></td>
 
 
 				</tr>
 				</tbody></table>
 				<table>
 				<tbody><tr>
-					<td><?php echo ucwords(config_item('sebutan_desa'))?>/Kelurahan</td>
+					<td><?php echo ucwords($this->setting->sebutan_desa)?>/Kelurahan</td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo unpenetration($data['nama_desa'])?></h4></td>
 					<td></td>
 
 				</tr>
 				<tr>
-					<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
+					<td><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo unpenetration($data['nama_kecamatan'])?></td>
 					<td></td>
@@ -60,12 +60,12 @@ table.tftable th.total {padding-right: 8px; text-align: right;}
 					<td width="40%"></td>
 				</tr>
 				 <tr>
-					<td><?php echo ucwords(config_item('sebutan_dusun'))?></td>
+					<td><?php echo ucwords($this->setting->sebutan_dusun)?></td>
 					<td width="3%">:</td>
 					<td>
 					<select name="dusun" onchange="formAction('mainform','<?php echo site_url('laporan_rentan/dusun')?>')" >
 
-					<option value="">--- Pilih <?php echo ucwords(config_item('sebutan_dusun'))?> ---</option>
+					<option value="">--- Pilih <?php echo ucwords($this->setting->sebutan_dusun)?> ---</option>
 					<?php foreach($list_dusun as $data){?>
 					<option value="<?php echo $data['dusun']?>" <?php if($dusun==$data['dusun']){?>selected<?php }?>><?php echo ununderscore(unpenetration($data['dusun']))?></option>
 					<?php }?></select>
@@ -78,11 +78,11 @@ table.tftable th.total {padding-right: 8px; text-align: right;}
 <thead>
 <?php if($dusun!=''){?>
 <tr>
-	<h3>DATA PILAH <?php echo strtoupper(config_item('sebutan_dusun'))?> <?php echo $dusun ?></h3>
+	<h3>DATA PILAH <?php echo strtoupper($this->setting->sebutan_dusun)?> <?php echo $dusun ?></h3>
 </tr>
 <?php } ?>
 <tr>
-	<th rowspan="2"><div align="center"><?php echo ucwords(config_item('sebutan_dusun'))?></div></th>
+	<th rowspan="2"><div align="center"><?php echo ucwords($this->setting->sebutan_dusun)?></div></th>
 	<th rowspan="2"><div align="center">RW</div></th>
 	<th rowspan="2"><div align="center">RT</div></th>
 	<th colspan="2"><div align="center">KK</div></th>

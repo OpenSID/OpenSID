@@ -84,10 +84,10 @@ padding:5px;
 </tr>
 
 <tr>
-<th>Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></th>
+<th>Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></th>
 <td>
 <select name="pamong">
-<option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
+<option value="">Pilih Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></option>
 <?php foreach($pamong AS $data){?>
 <option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo $data['pamong_nama']?></font> (<?php echo $data['jabatan']?>)</option>
 <?php }?>

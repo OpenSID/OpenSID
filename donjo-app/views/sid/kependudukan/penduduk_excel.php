@@ -34,7 +34,7 @@ td,th{
 			<th>NIK</th>
 			<th>Nama</th>
 			<th>No. KK</th>
-			<th ><?php echo ucwords(config_item('sebutan_dusun'))?></th>
+			<th ><?php echo ucwords($this->setting->sebutan_dusun)?></th>
 			<th >RW</th>
 			<th >RT</th>
 			<th >Pendidikan (dLm KK)</th>

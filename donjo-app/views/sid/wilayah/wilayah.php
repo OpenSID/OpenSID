@@ -16,10 +16,10 @@
 <div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
-    <h3>Wilayah Administratif <?php echo ucwords(config_item('sebutan_dusun'))?></h3>
+    <h3>Wilayah Administratif <?php echo ucwords($this->setting->sebutan_dusun)?></h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('sid_core/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah <?php echo ucwords(config_item('sebutan_dusun'))?></a>
+                <a href="<?php echo site_url('sid_core/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah <?php echo ucwords($this->setting->sebutan_dusun)?></a>
                 <a href="<?php echo site_url('sid_core/cetak')?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
 		<a href="<?php echo site_url('sid_core/excel')?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
             </div>
@@ -40,8 +40,8 @@
                 <th width="5">No</th>
                 <th width="5"><input type="checkbox" class="checkall"/></th>
                 <th width="120">Aksi</th>
-				<th width="200">Nama <?php echo ucwords(config_item('sebutan_dusun'))?></th>
-				<th width="200">Nama Kepala <?php echo ucwords(config_item('sebutan_dusun'))?></th>
+				<th width="200">Nama <?php echo ucwords($this->setting->sebutan_dusun)?></th>
+				<th width="200">Nama Kepala <?php echo ucwords($this->setting->sebutan_dusun)?></th>
 				<th width="50">RW</th>
 				<th width="50">RT</th>
 				<th width="50">KK</th>
