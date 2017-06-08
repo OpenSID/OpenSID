@@ -24,7 +24,7 @@ $config["useDatabaseConfig"] = true;
 	Perlu di-setting di sini karena index.php dijalankan
 	sesudah pembacaan konfigurasi dari database di setting_model.php
 */
-$config["environment"] = "development";
+// $config["environment"] = "development";
 
 
 // Untuk situs yang digunakan untuk demo, seperti http://sid.bangundesa.info,

@@ -23,8 +23,8 @@
       {
         case 'development':
           // Di development, panggil tracker hanya jika terinstal
-          if (empty($this->setting->dev_tracker)) return;
           $tracker = $this->setting->dev_tracker;
+          if (empty($tracker)) return;
         break;
 
         case 'testing':
