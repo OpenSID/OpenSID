@@ -7,12 +7,12 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
     <div class="box box-primary box-solid">
       <div class="box-header">
         <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-        Silahkan datang atau hubungi operator kelurahan untuk mendapatkan kode PIN Anda.
+        Silakan datang atau hubungi operator <?php echo config_item('sebutan_desa')?> untuk mendapatkan kode PIN anda.
       </div>
       <div class="box-body">
-        <h4>Gagal 3 kali, silahkan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['mandiri_timeout'])*(-1));?> detik lagi</h4>
+        <h4>Gagal 3 kali, silakan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['mandiri_timeout'])*(-1));?> detik lagi</h4>
           <div id="note">
-            Login Gagal. Username atau Password yang Anda masukkan salah!
+            Login Gagal. Username atau Password yang anda masukkan salah!
           </div>
       </div>
     </div>
@@ -20,7 +20,7 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
 <div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-    Silahkan datang atau hubungi operator kelurahan untuk mendapatkan kode PIN Anda.
+    Silakan datang atau hubungi operator <?php echo config_item('sebutan_desa')?> untuk mendapatkan kode PIN anda.
   </div>
   <div class="box-body">
     <h4>Masukan NIK dan PIN</h4>
