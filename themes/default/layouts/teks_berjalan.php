@@ -17,6 +17,16 @@
 			slides: '> span',
 			throttleSpeed: true
 		});
+		$( '#scroller' ).on( 'cycle-paused', function( event, opts ) {
+			$('#scroller span.cycle-slide').each(function() {
+		    	this.style.color = "#ffff00";
+			});
+		});
+		$( '#scroller' ).on( 'cycle-resumed', function( event, opts ) {
+			$('#scroller span.cycle-slide').each(function() {
+		    	this.style.color = "#ffffff";
+			});
+		});
 	});
 </script>
 <div id="scroller" style="margin-bottom: 0px;">
