@@ -437,3 +437,8 @@ textarea {
     padding: 0 0 0 10px;
     line-height: 1.2em;
 }
+.btn-block {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+}

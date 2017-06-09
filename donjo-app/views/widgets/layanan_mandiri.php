@@ -7,7 +7,7 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
     <div class="box box-primary box-solid">
       <div class="box-header">
         <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-        Silahkan datang / hubungi perangkat desa untuk mendapatkan kode PIN Anda.
+        Silahkan datang atau hubungi operator kelurahan untuk mendapatkan kode PIN Anda.
       </div>
       <div class="box-body">
         <h4>Gagal 3 kali, silahkan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['mandiri_timeout'])*(-1));?> detik lagi</h4>
@@ -20,7 +20,7 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
 <div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-    Silahkan datang / hubungi perangkat desa untuk mendapatkan kode PIN Anda.
+    Silahkan datang atau hubungi operator kelurahan untuk mendapatkan kode PIN Anda.
   </div>
   <div class="box-body">
     <h4>Masukan NIK dan PIN</h4>
@@ -50,25 +50,33 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
   </div>
   <div class="box-body">
   <ul>
-<table style="padding:2px;"><tr>
-  <td>
-    Nama </td><td>: <?php echo $_SESSION['nama'];?></td>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+    <td width="25%" height="30">&nbsp;&nbsp;Nama</td>
+    <td width="2%" align="center" valign="middle">:</td>
+    <td width="73%">&nbsp;&nbsp;<?php echo $_SESSION['nama'];?></td>
   </tr>
-  <tr><td>
-    NIK </td><td>: <?php echo $_SESSION['nik'];?></td>
+  <tr>
+    <td height="30" bgcolor="#eee">&nbsp;&nbsp;NIK</td>
+    <td align="center" valign="middle" bgcolor="#eee">:</td>
+    <td bgcolor="#eee">&nbsp;&nbsp;<?php echo $_SESSION['nik'];?></td>
   </tr>
-
-  <tr style="border-bottom:1px solid #111;">
-    <td><h4><a href="<?php echo site_url();?>first/mandiri/1/1" class="">Profil Ku </a> </h4></td><td></td>
+  <tr>
+    <td height="30">&nbsp;&nbsp;No KK</td>
+    <td align="center" valign="middle">:</td>
+    <td >&nbsp;&nbsp;<?php echo $penduduk['no_kk']?></td>
   </tr>
-  <tr style="border-bottom:1px solid #111;">
-    <td><h4><a href="<?php echo site_url();?>first/mandiri/1/2" class="">Layanan </a> </h4></td><td></td>
+  <tr>
+    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/1" class=""><button type="button" class="btn btn-primary btn-block">PROFIL</button></a> </h4></td>
   </tr>
-  <tr style="border-bottom:1px solid #111;">
-    <td><h4><a href="<?php echo site_url();?>first/mandiri/1/3" class="">Lapor </a> </h4></td><td></td>
+  <tr>
+    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/2" class=""><button type="button" class="btn btn-primary btn-block">LAYANAN</button></a> </h4></td>
   </tr>
-  <tr style="border-bottom:1px solid #111;">
-    <td><h4><a href="<?php echo site_url();?>first/logout"  class=""> Keluar</a></h4></td><td></td>
+  <tr>
+    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/3" class=""><button type="button" class="btn btn-primary btn-block">LAPOR</button></a> </h4></td>
+  </tr>
+  <tr>
+    <td colspan="3"><h4><a href="<?php echo site_url();?>first/logout"  class=""><button type="button" class="btn btn-danger btn-block">KELUAR</button></a></h4></td>
   </tr>
 </table>
   </div>
