@@ -87,3 +87,7 @@ body{
 .artikel .sampul{margin: 1em 0; display:block;width:100%;}
 .artikel .teks img{margin-right: 7px; margin-bottom: 5px; float: left;width:260px;background:#ccc;border:solid 1px #aaa;padding:.5em;}
 .gb{border-bottom:solid 2px #eee;}
+.btn-block {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
