@@ -184,6 +184,7 @@
 	function log_surat($data_log_surat){
 
 		$url_surat = $data_log_surat['url_surat'];
+		$nama_surat = $data_log_surat['nama_surat'];
 		unset($data_log_surat['url_surat']);
 		$pamong_nama = $data_log_surat['pamong_nama'];
 		unset($data_log_surat['pamong_nama']);

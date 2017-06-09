@@ -14,6 +14,7 @@ Lengkapnya, isi rilis v1.17:
 8. #296: Tampilkan NIP pamong desa di semua form surat dan template RTF.
 9. #291: Rekam dan tampilkan nomor Kartu Keluarga dan nama Kepala Keluarga di log_penduduk.
 10. #447: Sekarang widget komentar menampilkan komentar yang berjalan secara vertikal.
+11. #448: Sekarang log surat tidak lagi menghasilkan duplikat. [bug-fix]
 
 Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
 

@@ -23,8 +23,8 @@
       {
         case 'development':
           // Di development, panggil tracker hanya jika terinstal
-          if (empty($this->config->item('dev_tracker_ip'))) return;
           $tracker = $this->config->item('dev_tracker_ip');
+          if (empty($tracker)) return;
         break;
 
         case 'testing':
