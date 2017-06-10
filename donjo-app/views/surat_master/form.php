@@ -16,15 +16,17 @@
 						<th>Nama Layanan</th>
 						<td>SURAT <input name="nama" type="text" class="inputbox required" size="50" value="<?php echo $surat_master['nama']?>"/></td>
 					</tr>
-					<tr>
-						<th>Pemohon Surat</th>
-						<td>
-					    <select name="pemohon_surat" class="required">
-				        <option value="warga" selected>Warga</option>
-				        <option value="non_warga">Bukan Warga</option>
-						  </select>
-						</td>
-					</tr>
+					<?php if (strpos($form_action, 'insert') !== false) :?>
+						<tr>
+							<th>Pemohon Surat</th>
+							<td>
+						    <select name="pemohon_surat" class="required">
+					        <option value="warga" selected>Warga</option>
+					        <option value="non_warga">Bukan Warga</option>
+							  </select>
+							</td>
+						</tr>
+					<?php endif; ?>
 				</table>
 			</div>
 
