@@ -21,10 +21,9 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
 		<?php endif; ?>
+	  <link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
 		<?php if(is_file("desa/css/".$this->theme."/front/first.css")){?>
 		  <link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/front/first.css" rel='Stylesheet' />
-		<?php } else { ?>
-		  <link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
 		<?php } ?>
 		<?php if(is_file("desa/css/".$this->theme."/desa-web.css")): ?>
 			<link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/desa-web.css" rel='Stylesheet' />
