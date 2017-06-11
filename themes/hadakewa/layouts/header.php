@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title><?php
-			echo config_item('website_title')
-				. ' ' . ucwords(config_item('sebutan_desa'))
+			echo $this->setting->website_title
+				. ' ' . ucwords($this->setting->sebutan_desa)
 				. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']) : '')
 				. get_dynamic_title_page_from_path();
 		?></title>
@@ -33,7 +33,6 @@
 		<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
-		<script src="<?php echo base_url()?>assets/front/js/stscode.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.colorbox.js"></script>

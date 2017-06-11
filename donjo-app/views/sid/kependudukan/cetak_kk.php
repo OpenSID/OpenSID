@@ -20,7 +20,7 @@
 	<tr>
 	<td width="100">Nama KK</td>
 	<td width="600">: <?php echo strtoupper($kepala_kk['nama']) ?></td>
-	<td width="160"><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
+	<td width="160"><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
 	<td width="150">: <?php echo strtoupper($desa['nama_kecamatan']) ?></td>
 	</tr>
 	<tr>
@@ -36,7 +36,7 @@
 	<td>: <?php echo strtoupper($desa['kode_pos']) ?></td>
 	</tr>
 	<tr>
-	<td>Kelurahan/<?php echo ucwords(config_item('sebutan_desa'))?></td>
+	<td>Kelurahan/<?php echo ucwords($this->setting->sebutan_desa)?></td>
 	<td>: <?php echo strtoupper($desa['nama_desa']) ?></td>
 	<td>Provinsi</td>
 	<td>: <?php echo strtoupper($desa['nama_propinsi']) ?></td>
@@ -124,7 +124,7 @@
 	</tr>
 	<td width="25%" align="center">KEPALA KELUARGA</td>
 	<td width="50%"></td>
-	<td align="center" width="150">KEPALA <?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper($desa['nama_desa']) ?></td>
+	<td align="center" width="150">KEPALA <?php echo strtoupper($this->setting->sebutan_desa)?> <?php echo strtoupper($desa['nama_desa']) ?></td>
 	</tr>
 <tr><td>&nbsp;</td></tr>
 <tr><td>&nbsp;</td></tr>

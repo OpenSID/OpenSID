@@ -11,9 +11,9 @@
 <tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt="" class="logo"></tr>
 
 <div class="header">
-<h4 class="kop">PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper($desa['nama_kabupaten'])?> </h4>
+<h4 class="kop">PEMERINTAH <?php echo strtoupper($this->setting->sebutan_kabupaten)?> <?php echo strtoupper($desa['nama_kabupaten'])?> </h4>
 <h4 class="kop">KECAMATAN <?php echo strtoupper($desa['nama_kecamatan'])?> </h4>
-<h4 class="kop"><?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper($desa['nama_desa'])?></h4>
+<h4 class="kop"><?php echo strtoupper($this->setting->sebutan_desa)?> <?php echo strtoupper($desa['nama_desa'])?></h4>
 <h5 class="kop2"><?php echo ($desa['alamat_kantor'])?> </h5>
 
 <div style="text-align: center;">
@@ -35,7 +35,7 @@ Kecamatan <?php echo $desa['nama_kecamatan']?> tanggal <?php echo $tanggal_kua;?
 <tr><td width="23%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?php echo $data_anggota['nama']; ?></td></tr>
 <tr><td>Tempat dan Tgl. Lahir</td><td>:</td><td><?php echo $data['tempatlahir']?> <?php echo $data['tanggallahir']?></td></tr>
 <tr><td>Pekerjaan</td><td>:</td><td><?php echo $data['pekerjaan']?></td></tr>
-<tr><td>Alamat</td><td>:</td><td>RT. <?php echo $data['rt']?>, RW. <?php echo $data['rw']?>, Dusun <?php echo ununderscore($data['dusun'])?>, Kel. <?php echo $desa['nama_desa']?>, Kec. <?php echo $desa['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo $desa['nama_kabupaten']?></td></tr>
+<tr><td>Alamat</td><td>:</td><td>RT. <?php echo $data['rt']?>, RW. <?php echo $data['rw']?>, Dusun <?php echo ununderscore($data['dusun'])?>, Kel. <?php echo $desa['nama_desa']?>, Kec. <?php echo $desa['nama_kecamatan']?>, <?php echo ucwords($this->setting->sebutan_kabupaten_singkat)?> <?php echo $desa['nama_kabupaten']?></td></tr>
 </table>
 <table><tr><td>Untuk melakukan pernikahan <?php echo $keterangan;?></td></tr></table>
 <table width="100%">
