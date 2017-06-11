@@ -34,7 +34,7 @@
 	}
 
 	function list_penduduk(){
-		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id";
+		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
