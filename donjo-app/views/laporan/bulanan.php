@@ -31,13 +31,13 @@
 			<table>
 				<tbody>
           <tr>
-  					<td><?php echo ucwords(config_item('sebutan_desa'))?>/Kelurahan</td>
+  					<td><?php echo ucwords($this->setting->sebutan_desa)?>/Kelurahan</td>
   					<td width="3%">:</td>
   					<td width="38.5%"><?php echo unpenetration($data['nama_desa'])?></h4></td>
   					<td></td>
   				</tr>
   				<tr>
-  					<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
+  					<td><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
   					<td width="3%">:</td>
   					<td width="38.5%"><?php echo unpenetration($data['nama_kecamatan'])?></td>
   					<td></td>
@@ -70,7 +70,7 @@
             <td>Diketahui</td>
             <td width="3%">:</td>
             <td><select name="pamong"  class="inputbox">
-              <option value="">Pilih Staf Pemerintah <?php echo ucwords(config_item('sebutan_desa'))?></option>
+              <option value="">Pilih Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></option>
               <?php foreach($pamong AS $data){?>
                 <option value="<?php echo $data['pamong_nama']?>"><?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)</option>
               <?php }?>

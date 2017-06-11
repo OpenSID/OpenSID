@@ -74,7 +74,7 @@ $('#'+'main').submit();
 <td>: <?php echo strtoupper(unpenetration($desa['nama_propinsi'])) ?></td>
 </tr>
 <tr>
-<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
+<td><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
 <td>: <?php echo strtoupper(unpenetration($desa['nama_kecamatan'])) ?></td>
 <td>Jumlah Anggota Keluarga</td>
 <td>: <?php echo count($main)?></td>
@@ -173,7 +173,7 @@ $('#'+'main').submit();
 <tr>
 	<td width="25%" align="center">KEPALA KELUARGA</td>
 	<td width="50%"></td>
-	<td align="center" width="150">KEPALA <?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper($desa['nama_desa']) ?></td>
+	<td align="center" width="150">KEPALA <?php echo strtoupper($this->setting->sebutan_desa)?> <?php echo strtoupper($desa['nama_desa']) ?></td>
 	</tr>
 <tr><td>&nbsp;</td></tr>
 <tr><td>&nbsp;</td></tr>

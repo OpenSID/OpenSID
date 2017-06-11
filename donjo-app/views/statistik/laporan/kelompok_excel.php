@@ -40,7 +40,7 @@ header("Expires: 0");
 
 				</tr>
 				<tr>
-					<td><?php echo ucwords(config_item('sebutan_kecamatan'))?></td>
+					<td><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
 					<td width="3%">:</td>
 					<td width="38.5%"><?php echo $data['nama_kecamatan']?></td>
 					<td></td>

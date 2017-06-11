@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title><?php
-			echo config_item('website_title')
-				. ' ' . ucwords(config_item('sebutan_desa'))
+			echo $this->setting->website_title
+				. ' ' . ucwords($this->setting->sebutan_desa)
 				. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']) : '')
 				. get_dynamic_title_page_from_path();
 		?></title>
@@ -21,19 +21,16 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
 		<?php endif; ?>
+	  <link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
 		<?php if(is_file("desa/css/".$this->theme."/front/first.css")){?>
 		  <link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/front/first.css" rel='Stylesheet' />
-		<?php } else { ?>
-		  <link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
 		<?php } ?>
-
 		<?php if(is_file("desa/css/".$this->theme."/desa-web.css")): ?>
 			<link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/desa-web.css" rel='Stylesheet' />
 		<?php endif; ?>
 		<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
-		<script src="<?php echo base_url()?>assets/front/js/stscode.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.colorbox.js"></script>

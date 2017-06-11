@@ -19,7 +19,7 @@
 			<th width="150" >Nomor Rumah Tangga</th>
 			<th width="200">Kepala Rumah Tangga</th>
 			<th width="100"  >Jumlah Anggota</th>
-			<th   width="100"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
+			<th   width="100"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
 			<th   width="30">RW</th>
 			<th   width="30">RT</th>
 			<th   width="100">Tanggal Terdaftar</th>

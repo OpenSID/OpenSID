@@ -27,7 +27,10 @@ class First_M extends CI_Model{
 		if($hash_pin==$row->pin){
 			$_SESSION['mandiri']    = 1;
 
-			$sql = "SELECT nama,nik,id FROM tweb_penduduk WHERE nik=?";
+			$sql = "SELECT nama,nik,p.id,k.no_kk
+				FROM tweb_penduduk p
+				LEFT JOIN tweb_keluarga k ON p.id_kk = k.id
+				WHERE nik=?";
 			$query=$this->db->query($sql,array($nik));
 			$row=$query->row();
 
@@ -36,8 +39,9 @@ class First_M extends CI_Model{
 			$_SESSION['lg']     = 1;
 
 			$_SESSION['nama']     = $row->nama;
-			$_SESSION['nik']     = $row->nik;
-			$_SESSION['id']     = $row->id;
+			$_SESSION['nik']     	= $row->nik;
+			$_SESSION['id']     	= $row->id;
+			$_SESSION['no_kk']    = $row->no_kk;
 		}
 
 		if($_SESSION['mandiri_try'] > 2){

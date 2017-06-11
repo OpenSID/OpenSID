@@ -217,7 +217,7 @@ class User_Model extends CI_Model{
 		if ($data['password']=='radiisi'){
 		// apabila password tidak diganti
 			unset($data['password']);
-		} elseif ($id == 1 AND strtolower(config_item('demo')) == "y") {
+		} elseif ($id == 1 AND config_item('demo')) {
 	  // Jangan edit password admin apabila di situs demo
 			unset($data['username']);
 			unset($data['password']);
@@ -294,7 +294,7 @@ class User_Model extends CI_Model{
 		$pass_baru 		= $this->input->post('pass_baru');
 		$pass_baru1 	= $this->input->post('pass_baru1');
 
-		if($id == 1 AND strtolower(config_item('demo')) == "y"){
+		if($id == 1 AND config_item('demo')){
 		  // Jangan edit password admin apabila di situs demo
 			unset($data['password']);
 		} else {

@@ -121,7 +121,7 @@ echo "
 			<legend>Pemilik Persil</legend>
 			<div>
 				<form action=\"\" id=\"main\" name=\"main\" method=\"POST\">
-				<label>Cari Nama Penduduk dari Database ".ucwords(config_item('sebutan_desa'))."</label>
+				<label>Cari Nama Penduduk dari Database ".ucwords($this->setting->sebutan_desa)."</label>
 				<div id=\"nik\" name=\"nik\" class=\"form-control\"></div>
 				</form>
 			</div>

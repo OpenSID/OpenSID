@@ -11,9 +11,9 @@
 <tr> <img src="<?php echo LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 
 <div class="header">
-<h4 class="kop">PEMERINTAH <?php echo strtoupper(config_item('sebutan_kabupaten'))?> <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
+<h4 class="kop">PEMERINTAH <?php echo strtoupper($this->setting->sebutan_kabupaten)?> <?php echo strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
 <h4 class="kop">KECAMATAN <?php echo strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
-<h4 class="kop"><?php echo strtoupper(config_item('sebutan_desa'))?> <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
+<h4 class="kop"><?php echo strtoupper($this->setting->sebutan_desa)?> <?php echo strtoupper(unpenetration($desa['nama_desa']))?></h4>
 <h5 class="kop2"><?php echo (unpenetration($desa['alamat_kantor']))?> </h5>
 <div style="text-align: center;">
 <hr /></div></div>
@@ -26,7 +26,7 @@
 <table width="100%">
 
 <td class="indentasi">Yang bertanda tangan dibawah ini <?php echo unpenetration($input['jabatan'])?> <?php echo unpenetration($desa['nama_desa'])?>, Kecamatan <?php echo unpenetration($desa['nama_kecamatan'])?>,
-<?php echo ucwords(config_item('sebutan_kabupaten'))?> <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php echo unpenetration($desa['nama_propinsi'])?> menerangkan dengan sebenarnya bahwa:  </td></tr>
+<?php echo ucwords($this->setting->sebutan_kabupaten)?> <?php echo unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php echo unpenetration($desa['nama_propinsi'])?> menerangkan dengan sebenarnya bahwa:  </td></tr>
 </table><div id="isi3">
 <table width="100%">
 <tr><td width="23%">Nama</td><td width="3%">:</td><td width="64%"><?php echo unpenetration($pribadi['nama']); ?></td></tr>
@@ -35,7 +35,7 @@
 <tr><td width="23%">Warga Negara</td><td width="3%">:</td><td width="64%"><?php echo $pribadi['wn']; ?></td></tr>
 <tr><td>Agama</td><td>:</td><td><?php echo $pribadi['agama']; ?></td></tr>
 <tr><td width="23%">Pekerjaan</td><td width="3%">:</td><td width="64%"><?php echo $pribadi['pek']; ?></td></tr>
-<tr><td width="23%">Alamat</td><td width="3%">:</td><td width="64%">RT. <?php echo $pribadi['rt']?>, RW. <?php echo $pribadi['rw']?>, Dusun <?php echo unpenetration(ununderscore($pribadi['dusun']))?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords(config_item('sebutan_kabupaten_singkat'))?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
+<tr><td width="23%">Alamat</td><td width="3%">:</td><td width="64%">RT. <?php echo $pribadi['rt']?>, RW. <?php echo $pribadi['rw']?>, Dusun <?php echo unpenetration(ununderscore($pribadi['dusun']))?>, <?php echo ucwords($this->setting->sebutan_desa)?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords($this->setting->sebutan_kabupaten_singkat)?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
 				<tr></tr>
 				<tr></tr>
 				<tr></tr>
