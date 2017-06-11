@@ -64,7 +64,7 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
   <tr>
     <td height="30">&nbsp;&nbsp;No KK</td>
     <td align="center" valign="middle">:</td>
-    <td >&nbsp;&nbsp;<?php echo $penduduk['no_kk']?></td>
+    <td >&nbsp;&nbsp;<?php echo $_SESSION['no_kk']?></td>
   </tr>
   <tr>
     <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/1" class=""><button type="button" class="btn btn-primary btn-block">PROFIL</button></a> </h4></td>
