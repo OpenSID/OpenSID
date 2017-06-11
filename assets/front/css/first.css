@@ -1494,6 +1494,28 @@ blockquote p {
   width: 95%;
 }
 
+/* Layanan Mandiri */
+.layanan th {
+  height: 30px;
+  padding-left: 10px;
+  text-align: center;
+}
+.layanan td {
+  height: 30px;
+  padding-left: 10px;
+}
+.layanan td.button {
+  height: 50px;
+  text-align: center;
+}
+.layanan tr.shaded td { background-color: #eee }
+.artikel.layanan .judul {
+  font-size: 1.25em;
+  background-color: #3c8dbc;
+  color: black;
+}
+#mandiri button { margin-bottom: 1px; }
+
 
 
 

@@ -1,23 +1,7 @@
-<style type="text/css">
-  .artikel th {
-    height: 30px;
-    padding-left: 10px;
-    text-align: center;
-  }
-  .artikel td {
-    height: 30px;
-    padding-left: 10px;
- }
-  .artikel td.button {
-    height: 50px;
-    text-align: center;
-  }
-  .artikel tr.shaded td { background-color: #eee }
-</style>
-<div class="artikel">
+<div class="artikel layanan">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form">
   <tr>
-    <th colspan="3" bgcolor="#0066FF" scope="col"><b>KARTU KELUARGA PENDUDUK</b></th>
+    <th colspan="3" class="judul" scope="col"><b>KARTU KELUARGA PENDUDUK</b></th>
   </tr>
   <tr>
     <td colspan="3" class="button" scope="col"><a href="<?php echo site_url("first/cetak_kk/$penduduk[id]/1"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK KARTU KELUARGA</button></a></td>
@@ -26,7 +10,7 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form" >
   <tr>
-    <th colspan="3" bgcolor="#0066FF" scope="col"><b>BIODATA PENDUDUK</b></th>
+    <th colspan="3" class="judul" scope="col"><b>BIODATA PENDUDUK</b></th>
   </tr>
   <tr>
     <td width="36%">Nama</td>
@@ -138,7 +122,7 @@
     <td>:</td>
     <td><?php echo strtoupper($penduduk['tanggalperceraian'])?></td>
   </tr>
-  <tr style="background-color: #0066FF" >
+  <tr class="judul">
     <td><b>Data Orang Tua</b></td>
     <td>&nbsp;</td>
     <td></td>

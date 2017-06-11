@@ -50,7 +50,7 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
   </div>
   <div class="box-body">
   <ul>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table id="mandiri" width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
     <td width="25%" height="30">&nbsp;&nbsp;Nama</td>
     <td width="2%" align="center" valign="middle">:</td>
