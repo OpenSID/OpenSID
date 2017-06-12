@@ -1515,6 +1515,14 @@ blockquote p {
   color: black;
 }
 #mandiri button { margin-bottom: 1px; }
+#mandiri td {
+  height: 30px;
+  padding-left: 10px;
+}
+#mandiri td.titik {
+  padding-left: 1px;
+  text-align: center;
+}
 
 
 

@@ -63,12 +63,12 @@
 									<div id="siteTitle">
 										<h1>
 											<span id="header_sebutan_desa">
-												<?php echo ucwords(config_item('sebutan_desa')." ")?>
+												<?php echo ucwords($this->setting->sebutan_desa)." "?>
 											</span>
-											<?php echo ucwords(unpenetration($desa['nama_desa']))?>
+											<?php echo ucwords($desa['nama_desa'])?>
 										</h1>
 										<h3>
-											<?php echo ucwords(config_item('sebutan_kecamatan')." ".$desa['nama_kecamatan'])?> <?php echo ucwords(config_item('sebutan_kabupaten')." ".$desa['nama_kabupaten'])?><br />
+											<?php echo ucwords($this->setting->sebutan_kecamatan." ".$desa['nama_kecamatan'])?> <?php echo ucwords($this->setting->sebutan_kabupaten." ".$desa['nama_kabupaten'])?><br />
 											<?php echo $desa['alamat_kantor']?> - Kodepos <?php echo $desa['kode_pos']?><br />
 											<i class="fa fa-phone-square"></i> <?php echo $desa['telepon']?> - <i class="fa fa-envelope"></i> <?php echo $desa['email_desa']?><br />
 											<h1_1><?php echo $desa['website']?></h1_1>
