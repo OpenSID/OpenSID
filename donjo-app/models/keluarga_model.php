@@ -590,7 +590,7 @@
 			WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE $kolom_id = ?) ";
 		$query = $this->db->query($sql,array($id,$id,$id,$id,$id));
 		$data = $query->row_array();
-		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords(config_item('sebutan_dusun')).' '.$data['dusun']);
+		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords($this->setting->sebutan_dusun).' '.$data['dusun']);
 		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
 		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data['id_kk']);
 		return $data;
@@ -772,7 +772,7 @@
 		if (!isset($data['rw'])) $data['rw'] = '';
 		if (!isset($data['dusun'])) $data['dusun'] = '';
 
-		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".ikut_case($data['dusun'],config_item('sebutan_dusun'))." $data[dusun]");
+		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".ikut_case($data['dusun'],$this->setting->sebutan_dusun)." $data[dusun]");
 		return $alamat_wilayah;
 	}
 

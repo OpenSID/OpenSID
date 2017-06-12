@@ -254,7 +254,7 @@
 			<input type="checkbox" name="layer_keluarga" value="1" onchange="handle_kel(this);" <?php if($layer_keluarga==1){echo "checked";}?>> Keluarga
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if($layer_desa==1){echo "checked";}?>> <?php echo ucwords(config_item('sebutan_desa'))?>
+			<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if($layer_desa==1){echo "checked";}?>> <?php echo ucwords($this->setting->sebutan_desa)?>
 		</td></tr>
 		<tr><td>
 			<input type="checkbox" name="layer_wilayah" value="1"onchange="handle_wil(this);" <?php if($layer_wilayah==1){echo "checked";}?>> Wilayah Administratif
@@ -316,7 +316,7 @@ function handle_point(cb) {
 </select>
 
 <select name="dusun" onchange="formAction('mainform','<?php echo site_url('gis/dusun')?>')">
-	<option value=""><?php echo ucwords(config_item('sebutan_dusun'))?></option>
+	<option value=""><?php echo ucwords($this->setting->sebutan_dusun)?></option>
 	<?php foreach($list_dusun AS $data){?>
 	<option <?php if($dusun==$data['dusun']) :?>selected<?php endif?> value="<?php echo $data['dusun']?>"><?php echo $data['dusun']?></option>
 	<?php }?>

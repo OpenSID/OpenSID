@@ -7,12 +7,12 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
     <div class="box box-primary box-solid">
       <div class="box-header">
         <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-        Silahkan datang / hubungi perangkat desa untuk mendapatkan kode PIN Anda.
+        Silakan datang atau hubungi operator <?php echo $this->setting->sebutan_desa?> untuk mendapatkan kode PIN anda.
       </div>
       <div class="box-body">
-        <h4>Gagal 3 kali, silahkan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['mandiri_timeout'])*(-1));?> detik lagi</h4>
+        <h4>Gagal 3 kali, silakan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['mandiri_timeout'])*(-1));?> detik lagi</h4>
           <div id="note">
-            Login Gagal. Username atau Password yang Anda masukkan salah!
+            Login Gagal. Username atau Password yang anda masukkan salah!
           </div>
       </div>
     </div>
@@ -20,7 +20,7 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
 <div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-    Silahkan datang / hubungi perangkat desa untuk mendapatkan kode PIN Anda.
+    Silakan datang atau hubungi operator <?php echo $this->setting->sebutan_desa?> untuk mendapatkan kode PIN anda.
   </div>
   <div class="box-body">
     <h4>Masukan NIK dan PIN</h4>
@@ -50,25 +50,33 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
   </div>
   <div class="box-body">
   <ul>
-<table style="padding:2px;"><tr>
-  <td>
-    Nama </td><td>: <?php echo $_SESSION['nama'];?></td>
+<table id="mandiri" width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+    <td width="25%">Nama</td>
+    <td width="2%" class="titik">:</td>
+    <td width="73%"><?php echo $_SESSION['nama'];?></td>
   </tr>
-  <tr><td>
-    NIK </td><td>: <?php echo $_SESSION['nik'];?></td>
+  <tr>
+    <td bgcolor="#eee">NIK</td>
+    <td class="titik" bgcolor="#eee">:</td>
+    <td bgcolor="#eee"><?php echo $_SESSION['nik'];?></td>
   </tr>
-
-  <tr style="border-bottom:1px solid #111;">
-    <td><h4><a href="<?php echo site_url();?>first/mandiri/1/1" class="">Profil Ku </a> </h4></td><td></td>
+  <tr>
+    <td>No KK</td>
+    <td class="titik">:</td>
+    <td ><?php echo $_SESSION['no_kk']?></td>
   </tr>
-  <tr style="border-bottom:1px solid #111;">
-    <td><h4><a href="<?php echo site_url();?>first/mandiri/1/2" class="">Layanan </a> </h4></td><td></td>
+  <tr>
+    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/1" class=""><button type="button" class="btn btn-primary btn-block">PROFIL</button></a> </h4></td>
   </tr>
-  <tr style="border-bottom:1px solid #111;">
-    <td><h4><a href="<?php echo site_url();?>first/mandiri/1/3" class="">Lapor </a> </h4></td><td></td>
+  <tr>
+    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/2" class=""><button type="button" class="btn btn-primary btn-block">LAYANAN</button></a> </h4></td>
   </tr>
-  <tr style="border-bottom:1px solid #111;">
-    <td><h4><a href="<?php echo site_url();?>first/logout"  class=""> Keluar</a></h4></td><td></td>
+  <tr>
+    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/3" class=""><button type="button" class="btn btn-primary btn-block">LAPOR</button></a> </h4></td>
+  </tr>
+  <tr>
+    <td colspan="3"><h4><a href="<?php echo site_url();?>first/logout"  class=""><button type="button" class="btn btn-danger btn-block">KELUAR</button></a></h4></td>
   </tr>
 </table>
   </div>

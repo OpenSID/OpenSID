@@ -21,6 +21,34 @@
 		$this->db->db_debug = $db_debug; //restore setting
   }
 
+  function reset_setting_aplikasi() {
+    $this->db->truncate('setting_aplikasi');
+    $query = "
+      INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`,`kategori`) VALUES
+      (1, 'sebutan_kabupaten','kabupaten','Pengganti sebutan wilayah kabupaten','',''),
+      (2, 'sebutan_kabupaten_singkat','kab.','Pengganti sebutan singkatan wilayah kabupaten','',''),
+      (3, 'sebutan_kecamatan','kecamatan','Pengganti sebutan wilayah kecamatan','',''),
+      (4, 'sebutan_kecamatan_singkat','kec.','Pengganti sebutan singkatan wilayah kecamatan','',''),
+      (5, 'sebutan_desa','desa','Pengganti sebutan wilayah desa','',''),
+      (6, 'sebutan_dusun','dusun','Pengganti sebutan wilayah dusun','',''),
+      (7, 'sebutan_camat','camat','Pengganti sebutan jabatan camat','',''),
+      (8, 'website_title','Website Resmi','Judul tab browser modul web','','web'),
+      (9, 'login_title','OpenSID', 'Judul tab browser halaman login modul administrasi','',''),
+      (10, 'admin_title','Sistem Informasi Desa','Judul tab browser modul administrasi','',''),
+      (11, 'web_theme', 'default','Tema penampilan modul web','','web'),
+      (12, 'offline_mode',FALSE,'Apakah modul web akan ditampilkan atau tidak','boolean',''),
+      (13, 'enable_track',TRUE,'Apakah akan mengirimkan data statistik ke tracker','boolean',''),
+      (14, 'dev_tracker','','Host untuk tracker pada development','','development'),
+      (15, 'nomor_terakhir_semua_surat', FALSE,'Gunakan nomor surat terakhir untuk seluruh surat tidak per jenis surat','boolean',''),
+      (16, 'google_key','','Google API Key untuk Google Maps','','web'),
+      (17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
+    ";
+    $this->db->query($query);
+
+
+
+  }
+
   function migrasi_db_cri() {
     $this->migrasi_cri_lama();
     $this->migrasi_03_ke_04();
@@ -45,6 +73,26 @@
     $this->migrasi_114_ke_115();
     $this->migrasi_115_ke_116();
     $this->migrasi_116_ke_117();
+    $this->migrasi_117_ke_20();
+  }
+
+  function migrasi_117_ke_20(){
+    if (!$this->db->table_exists('setting_aplikasi') ) {
+      $query = "
+        CREATE TABLE `setting_aplikasi` (
+          `id` int NOT NULL AUTO_INCREMENT,
+          `key` varchar(50),
+          `value` varchar(200),
+          `keterangan` varchar(200),
+          `jenis` varchar(30),
+          `kategori` varchar(30),
+          PRIMARY KEY  (`id`)
+        );
+      ";
+      $this->db->query($query);
+
+      $this->reset_setting_aplikasi();
+    }
   }
 
   function migrasi_116_ke_117(){

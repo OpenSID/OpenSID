@@ -20,7 +20,7 @@ class MY_Controller extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->theme = strtolower($this->config->item('web_theme')) ;
+        $this->theme = strtolower($this->setting->web_theme) ;
 		/* set default theme if not exist */
 		$this->theme = empty($this->theme) ? 'default' : $this->theme;
         // declare main template

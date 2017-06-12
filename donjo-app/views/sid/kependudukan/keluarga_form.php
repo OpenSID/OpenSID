@@ -65,9 +65,9 @@ table.form.detail td{
 <input type="hidden" name="new" value="1">
 
 <tr>
-  <th width="100"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
+  <th width="100"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
   <td><select name="dusun" onchange="formAction('mainform','<?php echo site_url('keluarga/form/0/1')?>')" <?php if($dusun){?>class="required"<?php }?>>
-    <option value="">Pilih <?php echo ucwords(config_item('sebutan_dusun'))?></option>
+    <option value="">Pilih <?php echo ucwords($this->setting->sebutan_dusun)?></option>
     <?php foreach($dusun as $data){?>
       <option value="<?php echo $data['dusun']?>" <?php if($dus_sel==$data['dusun']){?>selected<?php }?>><?php echo unpenetration(ununderscore($data['dusun']))?></option>
     <?php }?></select>

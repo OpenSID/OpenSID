@@ -9,7 +9,7 @@
 				<tr>
 					<td>
 						<h2>BIODATA PENDUDUK</h3>
-						<h2><?php echo $desa['desa']['nama_kabupaten']?>, <?php echo ucwords(config_item('sebutan_kecamatan_singkat'))?> <?php echo $desa['desa']['nama_kecamatan']?>, <?php echo ucwords(config_item('sebutan_desa'))?> <?php echo $desa['desa']['nama_desa']?></h2>
+						<h2><?php echo $desa['desa']['nama_kabupaten']?>, <?php echo ucwords($this->setting->sebutan_kecamatan_singkat)?> <?php echo $desa['desa']['nama_kecamatan']?>, <?php echo ucwords($this->setting->sebutan_desa)?> <?php echo $desa['desa']['nama_desa']?></h2>
 						<h4>No. <?php echo $penduduk['nik']?></h5>
 					</td>
 				</tr>
@@ -34,7 +34,7 @@
 				  <td><?php echo strtoupper(ununderscore($penduduk['alamat']))?></td>
 				</tr>
 				<tr>
-					<td><?php echo ucwords(config_item('sebutan_dusun'))?></td><td >:</td>
+					<td><?php echo ucwords($this->setting->sebutan_dusun)?></td><td >:</td>
 					<td><?php echo strtoupper(ununderscore($penduduk['dusun']))?></td>
 				</tr>
 				<tr>

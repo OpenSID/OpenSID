@@ -20,7 +20,20 @@ $( document ).on('cycle-bootstrap', function( e, opts, API ) {
         opts.API.advanceSlide( count );
         opts.API.trigger('cycle-next', [ opts ]).log('cycle-next');
     };
+});
 
+$( document ).on('cycle-paused', function( e, opts ) {
+    if ( opts.fx !== 'carousel' )
+        return;
+
+    opts._carouselWrap.pause();
+});
+
+$( document ).on('cycle-resumed', function( e, opts ) {
+    if ( opts.fx !== 'carousel' )
+        return;
+
+    opts._carouselWrap.resume();
 });
 
 
@@ -28,7 +41,7 @@ $.fn.cycle.transitions.carousel = {
     // transition API impl
     preInit: function( opts ) {
         opts.hideNonActive = false;
-        
+
         opts.container.on('cycle-destroyed', $.proxy(this.onDestroy, opts.API));
         // override default API implementation
         opts.API.stopTransition = this.stopTransition;
@@ -36,7 +49,7 @@ $.fn.cycle.transitions.carousel = {
         // issue #10
         for (var i=0; i < opts.startingSlide; i++) {
             opts.container.append( opts.slides[0] );
-        }        
+        }
     },
 
     // transition API impl
@@ -188,7 +201,7 @@ $.fn.cycle.transitions.carousel = {
             else if ( hops < 0 && opts.currSlide > maxCurr ) {
                 hops += opts.currSlide - maxCurr;
             }
-            else 
+            else
                 currSlide = opts.currSlide;
 
             moveBy = this.getScroll( opts, vert, currSlide, hops );
@@ -210,7 +223,8 @@ $.fn.cycle.transitions.carousel = {
             }
         }
 
-        props[ vert ? 'top' : 'left' ] = fwd ? ( "-=" + moveBy ) : ( "+=" + moveBy );
+        var pos = opts._carouselWrap.position();
+        props[ vert ? 'top' : 'left' ] = pos[ vert ? 'top' : 'left' ] + (fwd ? -moveBy : moveBy );
 
         // throttleSpeed means to scroll slides at a constant rate, rather than
         // a constant speed

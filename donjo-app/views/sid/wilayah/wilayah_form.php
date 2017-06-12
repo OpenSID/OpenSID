@@ -27,15 +27,15 @@ $("#nik_detail").show();
 <div id="contentpane">
     <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-    <h3>Form Data <?php echo ucwords(config_item('sebutan_dusun'))?></h3>
+    <h3>Form Data <?php echo ucwords($this->setting->sebutan_dusun)?></h3>
         <table class="form">
             <tr>
-                <th width="160">Nama <?php echo ucwords(config_item('sebutan_dusun'))?></th>
+                <th width="160">Nama <?php echo ucwords($this->setting->sebutan_dusun)?></th>
                 <td><input name="dusun" type="text" class="inputbox required" size="60" value="<?php echo $dusun?>"/></td>
             </tr>
 			<?php if($dusun){?>
 			<tr>
-                <th>Kepala <?php echo ucwords(config_item('sebutan_dusun'))?> Sebelumnya</th>
+                <th>Kepala <?php echo ucwords($this->setting->sebutan_dusun)?> Sebelumnya</th>
                 <td>
                     <?php echo $individu['nama']?>
 					<br />NIK - <?php echo $individu['nik']?>
@@ -43,7 +43,7 @@ $("#nik_detail").show();
             </tr>
 			<?php }?>
 			<tr>
-                <th>NIK / Nama Kepala <?php echo ucwords(config_item('sebutan_dusun'))?></th>
+                <th>NIK / Nama Kepala <?php echo ucwords($this->setting->sebutan_dusun)?></th>
                 <td>
                     <div id="id_kepala" name="id_kepala"></div>
                 </td>

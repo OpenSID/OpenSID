@@ -269,7 +269,7 @@ table.form.detail td{
 						<input name="rt_tujuan" type="text" class="inputbox required" size="10"/>
 					<strong style="margin-left: 10px; margin-right: 10px">RW</strong>
 						<input name="rw_tujuan" type="text" class="inputbox required" size="10"/>
-					<strong style="margin-left: 10px; margin-right: 10px"><?php echo ucwords(config_item('sebutan_dusun'))?></strong>
+					<strong style="margin-left: 10px; margin-right: 10px"><?php echo ucwords($this->setting->sebutan_dusun)?></strong>
 						<input name="dusun_tujuan" type="text" class="inputbox required" size="20"/>
 					</td>
 				</tr>

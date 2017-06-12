@@ -2,8 +2,8 @@
 $(function(){
 var nik = {};
 nik.results = [
-<?php foreach($penduduk as $data){?>
-{id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
+<?php foreach($perempuan as $data){?>
+  {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
 <?php }?>
 ];
 
@@ -16,6 +16,16 @@ onSelect: function() {
 $('#'+'main').submit();
 }
 });
+
+/* set otomatis hari */
+$('input[name=tanggal]').change(function(){
+  var hari = {
+    0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
+  };
+  var t = $(this).datepicker('getDate');
+  var i = t.getDay();
+  $(this).closest('td').find('[name=hari]').val(hari[i]);
+})
 
 });
 </script>
@@ -83,7 +93,7 @@ table.form.detail td{
 </tr>
 <tr>
 	<th>Hari/ Tanggal/ Jam</th>
-	<td><input name="hari" type="text" class="inputbox required" size="10"/> /
+	<td><input name="hari" readonly type="text" class="inputbox required" size="10"/> /
 	<input name="tanggal" type="text" class="inputbox required datepicker" size="10"/> /
 	<input name="jam" type="text" class="inputbox required" size="10"/></td>
 </tr>

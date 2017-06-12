@@ -66,7 +66,7 @@ padding:5px;
 </tr>
 
 <tr>
-<th><?php echo ucwords(config_item('sebutan_kecamatan'))?> KUA</th>
+<th><?php echo ucwords($this->setting->sebutan_kecamatan)?> KUA</th>
 <td>
 <input name="kecamatan_kua" type="text" class="inputbox required" size="40"/>
 </td>

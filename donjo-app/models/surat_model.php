@@ -34,7 +34,7 @@
 	}
 
 	function list_penduduk(){
-		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id";
+		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
@@ -90,7 +90,7 @@
 	}
 
 	function get_alamat_wilayah($data) {
-		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ucwords(strtolower(config_item('sebutan_dusun')))." ".ucwords(strtolower($data['dusun']));
+		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ucwords(strtolower($this->setting->sebutan_dusun))." ".ucwords(strtolower($data['dusun']));
 		return trim($alamat_wilayah);
 	}
 
@@ -488,7 +488,7 @@
 	}
 
 	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
-		$alamat_desa = ucwords(config_item('sebutan_desa'))." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords(config_item('sebutan_kabupaten'))." ".$config['nama_kabupaten'];
+		$alamat_desa = ucwords($this->setting->sebutan_desa)." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
 		switch ($url) {
 			case 'surat_ket_pindah_penduduk':
@@ -792,11 +792,11 @@
 			$buffer=str_replace("[tahun]","$thn",$buffer);
 
 			//DATA DARI KONFIGURASI DESA
-			$buffer=$this->case_replace("[sebutan_kabupaten]",config_item('sebutan_kabupaten'),$buffer);
-			$buffer=$this->case_replace("[sebutan_kecamatan]",config_item('sebutan_kecamatan'),$buffer);
-			$buffer=$this->case_replace("[sebutan_desa]",config_item('sebutan_desa'),$buffer);
-			$buffer=$this->case_replace("[sebutan_dusun]",config_item('sebutan_dusun'),$buffer);
-			$buffer=$this->case_replace("[sebutan_camat]",config_item('sebutan_camat'),$buffer);
+			$buffer=$this->case_replace("[sebutan_kabupaten]",$this->setting->sebutan_kabupaten,$buffer);
+			$buffer=$this->case_replace("[sebutan_kecamatan]",$this->setting->sebutan_kecamatan,$buffer);
+			$buffer=$this->case_replace("[sebutan_desa]",$this->setting->sebutan_desa,$buffer);
+			$buffer=$this->case_replace("[sebutan_dusun]",$this->setting->sebutan_dusun,$buffer);
+			$buffer=$this->case_replace("[sebutan_camat]",$this->setting->sebutan_camat,$buffer);
 			$buffer=str_replace("[alamat_des]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
 			$buffer=str_replace("[alamat_desa]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
 			$buffer=str_replace("[email_desa]","$config[email_desa]",$buffer);
@@ -1013,14 +1013,14 @@
 		$handle = fopen($berkas_arsip,'w+');
 		fwrite($handle,$rtf);
 		fclose($handle);
-		if (config_item('libreoffice_path') AND config_item('libreoffice_path') != '') {
+		if (!empty($this->setting->libreoffice_path)) {
 			// Untuk konversi rtf ke pdf, libreoffice harus terinstall
 			if (strpos(strtoupper(php_uname('s')), 'WIN') !== false) {
 				// Windows O/S
 				$berkas_arsip_win = str_replace('/', "\\", $berkas_arsip);
 				$fcpath = str_replace('/', "\\", FCPATH);
 				$outdir = rtrim(str_replace('/',"\\",FCPATH.LOKASI_ARSIP), "/\\");
-				$cmd = 'cd '.config_item('libreoffice_path');
+				$cmd = 'cd '.$this->setting->libreoffice_path;
 				$cmd = $cmd." && soffice --headless --convert-to pdf:writer_pdf_Export --outdir ".$outdir." ".$fcpath.$berkas_arsip_win;
 			} else {
 				// Linux
@@ -1041,7 +1041,7 @@
 	function get_last_nosurat_log($url){
 
 		// abaikan jenis surat
-		if (config_item('nomor_terakhir_semua_surat')){
+		if ($this->setting->nomor_terakhir_semua_surat){
 			$sql   = "SELECT no_surat,tanggal FROM log_surat ORDER BY tanggal DESC LIMIT 1";
 			$query = $this->db->query($sql);
 		} else {

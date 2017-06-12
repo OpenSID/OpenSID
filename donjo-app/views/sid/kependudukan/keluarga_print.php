@@ -23,7 +23,7 @@
 			<th width="100"  >Jumlah Anggota</th>
 			<th   width="100">Jenis Kelamin</th>
 			<th align="center" width="180">Alamat</th>
-			<th   width="100"><?php echo ucwords(config_item('sebutan_dusun'))?></th>
+			<th   width="100"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
 			<th   width="30">RW</th>
 			<th   width="30">RT</th>
 			<th   width="100">Tanggal Terdaftar</th>
