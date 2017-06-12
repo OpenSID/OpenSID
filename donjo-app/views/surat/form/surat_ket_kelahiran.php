@@ -2,10 +2,8 @@
 $(function(){
 var nik = {};
 nik.results = [
-<?php foreach($penduduk as $data){?>
-  <?php if($data['sex'] == '2') { /* tampilkan hanya yang jenis kelamin wanita */?>
-    {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
-  <?php }?>
+<?php foreach($perempuan as $data){?>
+  {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
 <?php }?>
 ];
 
