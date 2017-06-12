@@ -44,7 +44,7 @@
 		}
 
 		switch($lap){
-			case 0: return "Pendidikan Telah Ditempuh"; break;
+			case 0: return "Pendidikan dalam KK"; break;
 			case 1: return "Pekerjaan"; break;
 			case 2: return "Status Perkawinan"; break;
 			case 3: return "Agama"; break;
