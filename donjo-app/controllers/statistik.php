@@ -116,7 +116,7 @@ function __construct(){
 	function warga($lap='',$data=''){
 		$data['lap']=$lap;
 		switch($lap){
-			case 0: $data['stat'] = "Pendidikan Telah Ditempuh"; break;
+			case 0: $data['stat'] = "Pendidikan dalam KK"; break;
 			case 1: $data['stat'] = "Pekerjaan"; break;
 			case 2: $data['stat'] = "Status Perkawinan"; break;
 			case 3: $data['stat'] = "Agama"; break;
