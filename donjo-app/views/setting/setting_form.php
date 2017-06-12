@@ -31,7 +31,7 @@
                         </td>
                         <td><?php echo $setting->keterangan?></td>
                     </tr>
-                <? endif; ?>
+                <?php endif; ?>
             <?php endforeach; ?>
 
         </table>
