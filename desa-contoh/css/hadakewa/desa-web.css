@@ -43,6 +43,7 @@ body{
 #topsection{
   height: 177px;
   background: url(images/bg_header.jpg);
+  margin: 6px 0px 6px 0px;
 }
 
 #footer{
@@ -63,6 +64,7 @@ body{
     background: #17b514;
     padding-top: 3px;
     height: 20px;
+	border-right: 0px solid;
 }
 #headleft{
 	float: left;
@@ -87,6 +89,9 @@ body{
 	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
 	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
+	box-shadow: 0px 0px 0px #555;
+    -moz-box-shadow: 0px 0px 0px #000;
+    -webkit-box-shadow: 0px 0px 0px #000;
 }
 #menu_vert2 {
     top: 6px;
@@ -114,6 +119,7 @@ body{
 #mainmenu {
     margin: -1px 0 5px -6px;
     float: left;
+	border-radius: 0px;
     width: 101.1%;
     height: 33px;
     border: 1px #ddd solid;
