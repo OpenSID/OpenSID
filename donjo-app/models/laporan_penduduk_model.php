@@ -44,7 +44,7 @@
 		}
 
 		switch($lap){
-			case 0: return "Pendidikan dalam KK"; break;
+			case 0: return "Pendidikan Dalam KK"; break;
 			case 1: return "Pekerjaan"; break;
 			case 2: return "Status Perkawinan"; break;
 			case 3: return "Agama"; break;
@@ -54,7 +54,6 @@
 			case 7: return "Golongan Darah"; break;
 			case 9: return "Cacat"; break;
 			case 10: return "Sakit Menahun"; break;
-			case 12: return "Pendidikan dalam KK"; break;
 			case 13: return "Umur"; break;
 			case 14: return "Pendidikan Sedang Ditempuh"; break;
 			case 15: return "Umur"; break;
@@ -78,45 +77,6 @@
 			$jenis_laporan = "keluarga_kelompok";
 		}
 		return $jenis_laporan;
-	}
-
-	function paging($lap=0,$o=0){
-
-		switch($lap){
-			case 0: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_pendidikan u WHERE 1 "; break;
-			case 1: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_pekerjaan u WHERE 1 "; break;
-			case 2: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_kawin u WHERE 1 "; break;
-			case 3: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_agama u WHERE 1 "; break;
-			case 4: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_sex u WHERE 1 "; break;
-			case 5: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_warganegara u WHERE 1 "; break;
-			case 6: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_status u WHERE 1 "; break;
-			case 7: $sql      = "SELECT COUNT(id) AS id FROM tweb_golongan_darah u WHERE 1 "; break;
-			case 9: $sql      = "SELECT COUNT(id) AS id FROM tweb_cacat u WHERE 1 "; break;
-			case 10: $sql      = "SELECT COUNT(id) AS id FROM tweb_sakit_menahun u WHERE 1 "; break;
-			case 11: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_sex u WHERE 1 "; break;
-			case 12: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_pendidikan_kk u WHERE 1 "; break;
-			case 13: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_umur u WHERE status = 1 "; break;
-			case 15: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_umur u WHERE status is null "; break;
-			case 14: $sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_pendidikan u WHERE left(nama,5)<> 'TAMAT' "; break;
-
-			case 21: $sql      = "SELECT COUNT(id) AS id FROM klasifikasi_analisis_keluarga u WHERE jenis='1' "; break;
-			case 24: $sql      = "SELECT COUNT(id) AS id FROM ref_bos u WHERE 1 "; break;
-
-			default:$sql      = "SELECT COUNT(id) AS id FROM tweb_penduduk_pendidikan u WHERE 1 ";
-		}
-
-		//$sql     .= $this->search_sql();
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
-		$jml_data = $row['id'];
-
-		$this->load->library('paging');
-		$cfg['page']     = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
 	}
 
 	// $lap berbentuk '50<program_id>'
@@ -305,9 +265,6 @@
 			case 9: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE cacat_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE cacat_id = u.id AND  sex=1  AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE cacat_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_cacat u WHERE 1"; break;
 
 			case 10: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND  sex=1  AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_sakit_menahun u WHERE 1"; break;
-
-			case 12: $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan u WHERE 1 ";
-			break;
 
 			case 13: $sql   = "SELECT u.*, concat( dari, ' - ', sampai) as nama, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND status_dasar = 1) AS jumlah, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 1 AND status_dasar = 1) AS laki, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_umur u WHERE status=1 "; break;
 

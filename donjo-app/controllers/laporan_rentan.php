@@ -38,7 +38,6 @@ function __construct(){
 
 		$data['list_dusun'] = $this->laporan_bulanan_model->list_dusun();
 		$data['config'] = $this->laporan_bulanan_model->configku();
-		//$data['paging']  = $this->laporan_bulanan_model->paging($lap,$p,$o);
 		$data['main']    = $this->laporan_bulanan_model->list_data();
 		//$data['keyword'] = $this->laporan_bulanan_model->autocomplete();
 		$nav['act']= 2;

@@ -969,7 +969,7 @@
 			$judul = array("nama" => "BELUM MENGISI");
 		else {
 			switch($tipe){
-				case 0: $sql   = "SELECT * FROM tweb_penduduk_pendidikan WHERE id=?";break;
+				case 0: $sql   = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE id=?";break;
 				case 1: $sql   = "SELECT * FROM tweb_penduduk_pekerjaan WHERE id=?";break;
 				case 2: $sql   = "SELECT * FROM tweb_penduduk_kawin WHERE id=?";break;
 				case 3: $sql   = "SELECT * FROM tweb_penduduk_agama WHERE id=?";break;
@@ -979,7 +979,6 @@
 				case 7: $sql   = "SELECT * FROM tweb_golongan_darah WHERE id=?";break;
 				case 9: $sql   = "SELECT * FROM tweb_cacat WHERE id=?";break;
 				case 10: $sql   = "SELECT * FROM tweb_sakit_menahun WHERE id=?";break;
-				case 12: $sql   = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE id=?";break;
 				case 13: $sql   = "SELECT * FROM tweb_penduduk_umur WHERE id=?";break;
 				case 14: $sql   = "SELECT * FROM tweb_penduduk_pendidikan WHERE id=?";break;
 				case 16: $sql   = "SELECT * FROM tweb_cara_kb WHERE id=?";break;
