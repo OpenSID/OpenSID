@@ -1,8 +1,8 @@
 
 <!-- JQuery -->
-<!-- <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.cycle2.min.js"></script>
- --><script type="text/javascript">
+<script type="text/javascript">
 	function tampil_artikel(id_artikel){
 		href = window.location.href;
 		first = '/first';
@@ -21,7 +21,7 @@
     <?php if($slide) : ?>
 	  	<?php foreach ($slide as $gambar) : ?>
 	    	<?php if(is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$gambar['gambar'])) : ?>
-			    <img src="<?php echo base_url().LOKASI_FOTO_ARTIKEL.'kecil_'.$gambar['gambar']?>" data-artikel="<?php echo $gambar['id']?>" onclick="tampil_artikel($(this).data('artikel'));">
+			    <img src="<?php echo base_url().LOKASI_FOTO_ARTIKEL.'sedang_'.$gambar['gambar']?>" data-artikel="<?php echo $gambar['id']?>" onclick="tampil_artikel($(this).data('artikel'));">
 			   <?php endif; ?>
 		   <?php endforeach; ?>
 		<?php else : ?>
