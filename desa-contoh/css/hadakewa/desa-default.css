@@ -1,10 +1,10 @@
+/*
+ * File ini berisi CSS untuk tema 'hadakewa' susunan Happy Agung
+ *
+ * desa-default.css ini berisi perubahan untuk styles yang ada di assets/front/css/default.css
+ *
+*/
 
-#footer a {
-    color: #fff;
-}
-#global-nav {
-    float: left;
-}
 #global-nav-right {
     float: right;
 }
@@ -51,7 +51,6 @@
     padding: 0 10px;
     position: relative;
 	margin-left: 0;
-    position: relative;
 }
 #global-nav-right > li {
     border-right: 0px solid #ccc;
