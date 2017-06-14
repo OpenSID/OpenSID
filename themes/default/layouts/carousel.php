@@ -22,7 +22,7 @@
 	}
 </script>
 <div class="carousel">
-    <?php foreach ($slide as $gambar) : ?>
+    <?php foreach ($slide_artikel as $gambar) : ?>
     	<?php if(is_file(LOKASI_FOTO_ARTIKEL.'kecil_'.$gambar['gambar'])) : ?>
 		    <img src="<?php echo base_url().LOKASI_FOTO_ARTIKEL.'kecil_'.$gambar['gambar']?>" data-artikel="<?php echo $gambar['id']?>" onclick="tampil_artikel($(this).data('artikel'));">
 		   <?php endif; ?>
