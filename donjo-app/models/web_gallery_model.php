@@ -228,10 +228,10 @@
 		return $this->paging;
 	}
 
-	function list_slider_photos(){
+	function list_slide_galeri(){
 		$gallery_slide_id = $this->db->select('id')->where('slider',1)->limit(1)->get('gambar_gallery')->row()->id;
-		$slider_photos = $this->db->select('gambar')->where(array('parrent'=>$gallery_slide_id, 'tipe'=>2))->get('gambar_gallery')->result_array();
-		return $slider_photos;
+		$slide_galeri = $this->db->select('gambar')->where(array('parrent'=>$gallery_slide_id, 'tipe'=>2))->get('gambar_gallery')->result_array();
+		return $slide_galeri;
 	}
 
 	function list_sub_gallery($gal=1,$offset=0,$limit=500){
