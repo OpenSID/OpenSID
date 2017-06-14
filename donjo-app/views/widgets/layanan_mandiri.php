@@ -76,6 +76,9 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
     <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/3" class=""><button type="button" class="btn btn-primary btn-block">LAPOR</button></a> </h4></td>
   </tr>
   <tr>
+    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/4" class=""><button type="button" class="btn btn-primary btn-block">BANTUAN</button></a></h4></td>
+  </tr>
+  <tr>
     <td colspan="3"><h4><a href="<?php echo site_url();?>first/logout"  class=""><button type="button" class="btn btn-danger btn-block">KELUAR</button></a></h4></td>
   </tr>
 </table>
@@ -132,4 +135,3 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
 
 }
 ?>
-

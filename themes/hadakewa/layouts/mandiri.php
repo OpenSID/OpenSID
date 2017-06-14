@@ -3,12 +3,21 @@
 				<div id="contentcolumn">
 					<div class="innertube">
 						<?php
-							if($m==1)
-								$this->load->view($folder_themes.'/partials/mandiri.php');
-							elseif($m==2)
-								$this->load->view($folder_themes.'/partials/layanan.php');
-							else
-								$this->load->view($folder_themes.'/partials/lapor.php');
+							$views_partial_layout = '';
+							switch($m){
+								case 1 :
+									$views_partial_layout = $folder_themes.'/partials/mandiri.php';
+									break;
+								case 2 :
+									$views_partial_layout = $folder_themes.'/partials/layanan.php';
+									break;
+								case 4 :
+									$views_partial_layout = $folder_themes.'/partials/bantuan.php';
+									break;
+								default:
+									$views_partial_layout = $folder_themes.'/partials/lapor.php';
+							}
+							$this->load->view($views_partial_layout);
 						?>
 					</div>
 				</div>

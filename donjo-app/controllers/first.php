@@ -115,19 +115,30 @@ class First extends Web_Controller{
 			$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 			$data['headline'] = $this->first_artikel_m->get_headline();
 			$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
-
-			//$data['paging']  = $this->first_artikel_m->paging($p);
-			//$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
-
-			$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 			$data['slide'] = $this->first_artikel_m->slide_show();
-
 			$data['w_cos']  = $this->first_artikel_m->cos_widget();
 			$this->web_widget_model->get_widget_data($data);
 
 			$data['data_config'] = $this->config_model->get_data();
 			$data['menu_surat2'] = $this->surat_model->list_surat2();
 			$data['m'] = $m;
+			/* nilai $m
+				1 untuk menu profilku
+				2 untuk menu layanan
+				3 untuk menu lapor
+				4 untuk menu bantuan
+			*/
+			switch ($m) {
+				case 1:
+					$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
+					break;
+				case 4:
+					$this->load->model('program_bantuan_model','pb');
+					$data['daftar_bantuan'] = $this->pb->daftar_bantuan_yang_diterima($_SESSION['nik']);
+					break;
+				default:
+					break;
+			}
 
 			// $this->load->view('layouts/mandiri.php',$data);
 			$this->set_template('layouts/mandiri.php');
@@ -335,7 +346,7 @@ class First extends Web_Controller{
 	}
 
 	function kategori($kat=0,$p=0){
-		$data = $this->includes;		
+		$data = $this->includes;
 		$data['p'] = $p;
 		$data['desa'] = $this->first_m->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
