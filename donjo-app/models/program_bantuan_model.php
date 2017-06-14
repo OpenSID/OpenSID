@@ -644,6 +644,18 @@ class Program_bantuan_model extends CI_Model{
 			$_SESSION["success"] = -1;
 		}
 	}
+
+	/* Mendapatkan daftar bantuan yang diterima oleh penduduk
+		 parameter pencarian yang digunakan adalah nik ( data nik disimpan pada kolom peserta tabel program_peserta ).
+		 Saat ini terbatas pada program bantuan perorangan
+	*/
+	public function daftar_bantuan_yang_diterima($nik){
+		return $this->db->select('p.*,pp.*')
+					->where(array('peserta' => $nik))
+					->join('program p','p.id = pp.program_id')
+					->get('program_peserta pp')
+					->result_array();
+	}
 }
 
 ?>
