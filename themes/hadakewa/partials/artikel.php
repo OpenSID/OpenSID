@@ -19,9 +19,9 @@ if($single_artikel["id"]){
 		";
 
 			if($single_artikel['gambar']!=''){
-				if(is_file(LOKASI_FOTO_ARTIKEL."kecil_".$single_artikel['gambar'])) {
+				if(is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])) {
 					echo "<div class=\"sampul\"><a class=\"group2\" href=\"".AmbilFotoArtikel($single_artikel['gambar'],'sedang')."\" title=\"\">
-					<img src=\"".AmbilFotoArtikel($single_artikel['gambar'],'kecil')."\" /></a></div>";
+					<img src=\"".AmbilFotoArtikel($single_artikel['gambar'],'sedang')."\" /></a></div>";
 				}
 			}
 		echo "
@@ -33,21 +33,21 @@ if($single_artikel["id"]){
 				}
 			}
 			if($single_artikel['gambar1']!=''){
-				if(is_file(LOKASI_FOTO_ARTIKEL."kecil_".$single_artikel['gambar1'])) {
+				if(is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar1'])) {
 					echo "<div class=\"sampul2\"><a class=\"group2\" href=\"".AmbilFotoArtikel($single_artikel['gambar1'],'sedang')."\" title=\"\">
-					<img src=\"".AmbilFotoArtikel($single_artikel['gambar1'],'kecil')."\" /></a></div>";
+					<img src=\"".AmbilFotoArtikel($single_artikel['gambar1'],'sedang')."\" /></a></div>";
 				}
 			}
 			if($single_artikel['gambar2']!=''){
-				if(is_file(LOKASI_FOTO_ARTIKEL."kecil_".$single_artikel['gambar2'])) {
+				if(is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar2'])) {
 					echo "<div class=\"sampul2\"><a class=\"group2\" href=\"".AmbilFotoArtikel($single_artikel['gambar2'],'sedang')."\" title=\"\">
-					<img src=\"".AmbilFotoArtikel($single_artikel['gambar2'],'kecil')."\" /></a></div>";
+					<img src=\"".AmbilFotoArtikel($single_artikel['gambar2'],'sedang')."\" /></a></div>";
 				}
 			}
 			if($single_artikel['gambar3']!=''){
-				if(is_file(LOKASI_FOTO_ARTIKEL."kecil_".$single_artikel['gambar3'])) {
+				if(is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar3'])) {
 					echo "<div class=\"sampul2\"><a class=\"group2\" href=\"".AmbilFotoArtikel($single_artikel['gambar3'],'sedang')."\" title=\"\">
-					<img src=\"".AmbilFotoArtikel($single_artikel['gambar3'],'kecil')."\" /></a></div>";
+					<img src=\"".AmbilFotoArtikel($single_artikel['gambar3'],'sedang')."\" /></a></div>";
 				}
 			}
 		echo "
