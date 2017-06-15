@@ -271,7 +271,7 @@
     </div>
   </td>
 </tr>
-<?php if (config_item('offline_mode') !== TRUE || (int) config_item('offline_level') <= 1) { ?>
+<?php if (!$this->setting->offline_mode || (int) $this->setting->offline_level <= 1) { ?>
 <tr>
   <th>Lokasi Penduduk</th>
   <td>

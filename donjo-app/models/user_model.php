@@ -21,8 +21,8 @@ class User_Model extends CI_Model{
 			// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
 			// redaksi tidak diijinkan login
 			if (($row->id_grup == self::GROUP_REDAKSI) &&
-				($this->config->item("offline_mode")===TRUE) &&
-				((int) $this->config->item("offline_level") > 1)) {
+				($this->setting->offline_mode) &&
+				((int) $this->setting->offline_level > 1)) {
 
 				$_SESSION['siteman']=-2;
 

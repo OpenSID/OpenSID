@@ -65,7 +65,7 @@
 	<li><a href="<?php echo site_url()?>penduduk"><i class="icon-group icon-large"></i>Penduduk</a></li>
 	<li><a href="<?php echo site_url()?>statistik"><i class="icon-bar-chart icon-large"></i>Statistik</a></li>
 	<li><a href="<?php echo site_url()?>surat"><i class="icon-print icon-large"></i>Cetak Surat</a></li>
-	<li><a href="<?php echo site_url()?>analisis"><i class="icon-dashboard icon-large"></i>Analisis</a></li>
+	<li><a href="<?php echo site_url()?>analisis_master/clear"><i class="icon-dashboard icon-large"></i>Analisis</a></li>
 	<li><a href="<?php echo site_url()?>program_bantuan"><i class="icon-folder-open icon-large"></i>Program</a></li>
 <?php  }?>
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
@@ -74,7 +74,7 @@
 		<li><a href="<?php echo site_url()?>database"><i class="icon-hdd icon-large"></i>Database</a></li>
 	<?php  }?>
 	<li><a href="<?php echo site_url()?>sms"><i class="icon-envelope-alt icon-large"></i>SMS</a></li>
-	<?php if (config_item('offline_mode') !== TRUE || (int) config_item('offline_level') <= 1) { ?>
+	<?php if (!$this->setting->offline_mode || (int) $this->setting->offline_level <= 1) { ?>
 	<li><a href="<?php echo site_url()?>web"><i class="icon-cloud icon-large"></i>Admin Web</a></li>
 	<?php }?>
 <?php  }?>
@@ -117,8 +117,8 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 	<div class="contentm" style="overflow: hidden;">
 		<?php foreach ($modul AS $mod){?>
 		<?php
-		if (config_item('offline_mode') == TRUE &&
-			(int) config_item('offline_level') > 1 &&
+		if ($this->setting->offline_mode &&
+			(int) $this->setting->offline_level > 1 &&
 			in_array($mod['url'], array('web', 'gis'))) {
 			continue;
 		}

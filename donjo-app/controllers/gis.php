@@ -8,7 +8,7 @@ class Gis extends CI_Controller{
 
 		// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
-		if ($this->config->item("offline_mode")===TRUE && (int) $this->config->item("offline_level") > 1) {
+		if ($this->setting->offline_mode && (int) $this->setting->offline_level > 1) {
 			redirect('hom_desa');
 			exit;
 		}
