@@ -2,6 +2,8 @@
 
 class User_Model extends CI_Model{
 
+	const GROUP_REDAKSI = 3;
+
 	function __construct(){
 		parent::__construct();
 		$this->load->model('laporan_bulanan_model');
@@ -16,13 +18,22 @@ class User_Model extends CI_Model{
 		$row=$query->row();
 
 		if($password==$row->password){
-			$_SESSION['siteman']    = 1;
-			$_SESSION['sesi']     = $row->session;
-			$_SESSION['user']     = $row->id;
-			$_SESSION['grup']     = $row->id_grup;
-			$_SESSION['per_page'] = 10;
-		}
-		else{
+			// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
+			// redaksi tidak diijinkan login
+			if (($row->id_grup == self::GROUP_REDAKSI) &&
+				($this->setting->offline_mode) &&
+				((int) $this->setting->offline_level > 1)) {
+
+				$_SESSION['siteman']=-2;
+
+			} else {
+				$_SESSION['siteman']    = 1;
+				$_SESSION['sesi']     = $row->session;
+				$_SESSION['user']     = $row->id;
+				$_SESSION['grup']     = $row->id_grup;
+				$_SESSION['per_page'] = 10;
+			}
+		} else{
 			$_SESSION['siteman']=-1;
 		}
 	}
