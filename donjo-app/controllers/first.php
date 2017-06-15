@@ -62,8 +62,8 @@ class First extends Web_Controller{
 		$data['paging_page']  = 'index';
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 
-		$data['slide'] = $this->first_artikel_m->slide_show();
-		$data['slider_photos'] = $this->web_gallery_model->list_slider_photos();
+		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
+		$data['slide_galeri'] = $this->web_gallery_model->list_slide_galeri();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
 		$this->web_widget_model->get_widget_data($data);
 
@@ -160,7 +160,7 @@ class First extends Web_Controller{
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 		$data['single_artikel'] = $this->first_artikel_m->get_artikel($id);
-		$data['slide'] = $this->first_artikel_m->slide_show();
+		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
 		$this->web_widget_model->get_widget_data($data);
 
@@ -358,7 +358,7 @@ class First extends Web_Controller{
 		$data['paging_page']  = 'kategori/'.$kat;
 		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset,$data['paging']->per_page,$kat);
 
-		$data['slide'] = $this->first_artikel_m->slide_show();
+		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
 		$this->web_widget_model->get_widget_data($data);
 
