@@ -1043,6 +1043,8 @@
       "artikel", //remove everything except widgets 1003
       "data_surat", // view
       "media_sosial", //?
+      "setting_modul",
+      "setting_aplikasi",
       "tweb_cacat",
       "tweb_cara_kb",
       "tweb_golongan_darah",
