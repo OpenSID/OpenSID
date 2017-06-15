@@ -4,6 +4,14 @@ class web extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
+
+		// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
+		// tidak perlu menampilkan halaman website
+		if ($this->config->item("offline_mode")===TRUE && (int) $this->config->item("offline_level") > 1) {
+			redirect('hom_desa');
+			exit;
+		}
+
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) redirect('siteman');
