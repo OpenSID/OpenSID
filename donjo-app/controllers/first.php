@@ -8,13 +8,16 @@ class First extends Web_Controller{
 
 		// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
-		if ($this->setting->offline_mode && (int) $this->setting->offline_level > 1) {
-			redirect('siteman');
-			exit;
+		if ($this->setting->offline_mode) {
+			if ((int) $this->setting->offline_level > 1) {
+				redirect('siteman');
+				exit;
+			}
+			// Jangan tampilkan website jika bukan admin/operator/redaksi
+			$this->load->model('user_model');
+			$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+			if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		}
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 
 		mandiri_timeout();
 		$this->load->model('header_model');
