@@ -7,6 +7,8 @@
 // File ini JANGAN di-commit ke GIT. TAMBAHKAN di .gitignore
 // -------------------------------------------------------------------------
 
+// Data Konfigurasi MySQL yang disesuaikan
+
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
