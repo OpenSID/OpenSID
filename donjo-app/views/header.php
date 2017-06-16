@@ -74,8 +74,8 @@
 		<li><a href="<?php echo site_url()?>database"><i class="icon-hdd icon-large"></i>Database</a></li>
 	<?php  }?>
 	<li><a href="<?php echo site_url()?>sms"><i class="icon-envelope-alt icon-large"></i>SMS</a></li>
-	<?php if (!$this->setting->offline_mode || (int) $this->setting->offline_level <= 1) { ?>
-	<li><a href="<?php echo site_url()?>web"><i class="icon-cloud icon-large"></i>Admin Web</a></li>
+	<?php if ($this->setting->offline_mode < 2) { ?>
+		<li><a href="<?php echo site_url()?>web"><i class="icon-cloud icon-large"></i>Admin Web</a></li>
 	<?php }?>
 <?php  }?>
 <li><a href="<?php echo site_url()?>siteman"><i class="icon-off icon-large"></i>Log Out</a></li>
@@ -117,8 +117,7 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 	<div class="contentm" style="overflow: hidden;">
 		<?php foreach ($modul AS $mod){?>
 		<?php
-		if ($this->setting->offline_mode &&
-			(int) $this->setting->offline_level > 1 &&
+		if ($this->setting->offline_mode >= 2 &&
 			in_array($mod['url'], array('web', 'gis'))) {
 			continue;
 		}

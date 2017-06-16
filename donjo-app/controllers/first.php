@@ -6,13 +6,12 @@ class First extends Web_Controller{
 		parent::__construct();
 		session_start();
 
-		// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
+		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
-		if ($this->setting->offline_mode) {
-			if ((int) $this->setting->offline_level > 1) {
+		if ($this->setting->offline_mode >= 2) {
 				redirect('siteman');
 				exit;
-			}
+		} elseif ($this->setting->offline_mode == 1) {
 			// Jangan tampilkan website jika bukan admin/operator/redaksi
 			$this->load->model('user_model');
 			$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);

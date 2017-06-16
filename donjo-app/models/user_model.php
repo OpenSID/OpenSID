@@ -18,11 +18,10 @@ class User_Model extends CI_Model{
 		$row=$query->row();
 
 		if($password==$row->password){
-			// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
+			// Jika offline_mode dalam level yang menyembunyikan website,
 			// redaksi tidak diijinkan login
 			if (($row->id_grup == self::GROUP_REDAKSI) &&
-				($this->setting->offline_mode) &&
-				((int) $this->setting->offline_level > 1)) {
+				($this->setting->offline_mode >= 2)) {
 
 				$_SESSION['siteman']=-2;
 
