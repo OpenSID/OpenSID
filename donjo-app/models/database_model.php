@@ -41,7 +41,8 @@
       (14, 'dev_tracker','','Host untuk tracker pada development','','development'),
       (15, 'nomor_terakhir_semua_surat', FALSE,'Gunakan nomor surat terakhir untuk seluruh surat tidak per jenis surat','boolean',''),
       (16, 'google_key','','Google API Key untuk Google Maps','','web'),
-      (17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
+      (17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','',''),
+      (18, 'offline_level','1','Isi 2 untuk non-aktifkan web dan peta sama sekali','','')
     ";
     $this->db->query($query);
 

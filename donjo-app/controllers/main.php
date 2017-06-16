@@ -16,7 +16,7 @@ class Main extends CI_Controller {
 				case 3: redirect('web'); break;
 				case 4: redirect('web'); break;
 				default: {
-					if ($this->setting->offline_mode===TRUE) {
+					if ($this->setting->offline_mode) {
 						redirect('siteman');
 
 					} else {
@@ -26,7 +26,7 @@ class Main extends CI_Controller {
 			}
 
 		// Jika offline_mode aktif, tidak perlu menampilkan halaman website
-		} else if ($this->setting->offline_mode===TRUE) {
+		} else if ($this->setting->offline_mode) {
 			redirect('siteman');
 
 		} else {
