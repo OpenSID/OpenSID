@@ -75,6 +75,7 @@ class First extends Web_Controller{
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
+		$data['slide_artikel_utama'] = $this->first_artikel_m->slide_show(TRUE);
 		$data['slide_galeri'] = $this->web_gallery_model->list_slide_galeri();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
 		$this->web_widget_model->get_widget_data($data);

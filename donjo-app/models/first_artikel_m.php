@@ -166,13 +166,15 @@ class First_Artikel_M extends CI_Model{
 		return $data;
 	}
 
-
-	function slide_show(){
-		$sql   = "SELECT id,gambar FROM artikel WHERE (enabled=1 AND headline=3)
-		UNION SELECT id,gambar1 FROM artikel WHERE (enabled=1 AND headline=3)
-		UNION SELECT id,gambar2 FROM artikel WHERE (enabled=1 AND headline=3)
-		UNION SELECT id,gambar3 FROM artikel WHERE (enabled=1 AND headline=3)
-		ORDER BY RAND() LIMIT 10 ";
+	// Jika $gambar_utama, hanya tampilkan gambar utama masing2 artikel
+	function slide_show($gambar_utama=FALSE){
+		$sql   = "SELECT id,gambar FROM artikel WHERE (enabled=1 AND headline=3)";
+		if (!$gambar_utama) $sql .= "
+			UNION SELECT id,gambar1 FROM artikel WHERE (enabled=1 AND headline=3)
+			UNION SELECT id,gambar2 FROM artikel WHERE (enabled=1 AND headline=3)
+			UNION SELECT id,gambar3 FROM artikel WHERE (enabled=1 AND headline=3)
+		";
+		$sql .= "ORDER BY RAND() LIMIT 10 ";
 		$query = $this->db->query($sql);
 		if($query->num_rows()>0){
 			$data  = $query->result_array();
