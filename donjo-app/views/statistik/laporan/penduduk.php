@@ -24,13 +24,10 @@
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel top">
         <div class="left">
-            <div class="uibutton-group">
-			
-			<a href="<?php echo site_url("sid_laporan_penduduk/cetak/$lap")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak Data</a>
-			
-			<a href="<?php echo site_url("sid_laporan_penduduk/graph/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="ui-icon ui-icon-print">&nbsp;</span>Grafik Data</a>
-			
-			<a href="<?php echo site_url("sid_laporan_penduduk/pie/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="ui-icon ui-icon-print">&nbsp;</span>Pie Chart</a>
+            <div class="uibutton-group">			
+			<a href="<?php echo site_url("sid_laporan_penduduk/cetak/$lap")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print"></span> Cetak Data</a>
+			<a href="<?php echo site_url("sid_laporan_penduduk/graph/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="fa fa-bar-chart"></span> Grafik Data</a>
+			<a href="<?php echo site_url("sid_laporan_penduduk/pie/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="fa fa-pie-chart"></span> Pie Chart</a>
             </div>
         </div>
     </div>

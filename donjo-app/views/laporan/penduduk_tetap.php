@@ -49,12 +49,12 @@
                     <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Asli</option>
                     <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Pendatang</option>
                 </select>
-<button href="<?php echo site_url("sid_penduduk/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="ui-icon ui-icon-search">&nbsp;</span>Advanced Search</button>
-                <a href="<?php echo site_url("sid_penduduk/clear")?>"  class="uibutton tipsy south"  title="Clear Pencarian"><span class="ui-icon ui-icon-search">&nbsp;</span>Clear</a>
+<button href="<?php echo site_url("sid_penduduk/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="fa fa-search"></span> Advanced Search</button>
+                <a href="<?php echo site_url("sid_penduduk/clear")?>"  class="uibutton tipsy south"  title="Clear Pencarian"><span class="fa fa-refresh"> </span>Clear</a>
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('sid_penduduk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('sid_penduduk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search"></span> Search</button>
             </div>
         </div>
         <table class="list">

@@ -7,8 +7,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('admin_home/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah Pengurus Desa</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("admin_home/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+                <a href="<?php echo site_url('admin_home/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-user-plus"></span> Tambah Pengurus Desa</a>
+                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("admin_home/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash"></span> Delete Data</button>
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('admin_home/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('admin_home/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search"></span> Search</button>
             </div>
         </div>
         <table class="list">
