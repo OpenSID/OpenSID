@@ -52,7 +52,7 @@ tinyMCE.init({
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
 <tr>
-<th>Kategori/ Master Kelompok</th>
+<th>Kategori/Master Kelompok</th>
 <td><input name="kelompok" type="text" class="inputbox" size="80" value="<?php echo $kelompok_master['kelompok']?>"/></td>
 </tr>
 <tr>
@@ -75,8 +75,8 @@ tinyMCE.init({
 </div>
 <div class="right">
 <div class="uibutton-group">
-<button class="uibutton" type="reset">Clear</button>
-<button class="uibutton confirm" type="submit" >Simpan</button>
+<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Clear</button>
+<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
 </div>
 </div>
 </div> </form>

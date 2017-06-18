@@ -62,8 +62,8 @@ $(function(){
         </div>
         <div class="right">
             <div class="uibutton-group">
-                <button class="uibutton" type="reset">Clear</button>
-                <button class="uibutton confirm" type="submit" >Simpan</button>
+                <button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Clear</button>
+                <button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
             </div>
         </div>
     </div>

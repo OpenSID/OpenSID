@@ -77,13 +77,13 @@
 			<?php }?>
 		 </select>
 		<?php }?>
-		<a href="<?php echo site_url("analisis_laporan/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url("analisis_laporan/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
-		<a href="<?php echo site_url("analisis_laporan/ajax_multi_jawab")?>" target="ajax-modal-map" rel="window" header="Filter Indikator" class="uibutton tipsy south" title="Filter Indikator"><span class="icon-search icon-large">&nbsp;</span>Filter Indikator</a>
+		<a href="<?php echo site_url("analisis_laporan/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print"></span> Cetak</a>
+		<a href="<?php echo site_url("analisis_laporan/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text "></span> Excel</a>
+		<a href="<?php echo site_url("analisis_laporan/ajax_multi_jawab")?>" target="ajax-modal-map" rel="window" header="Filter Indikator" class="uibutton tipsy south" title="Filter Indikator"><span class="fa fa-search "></span> Filter Indikator</a>
 	</div>
 	<div class="right">
 		<input name="cari" id="cari" type="text" class="inputbox help tipped" size="40" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('analisis_laporan/search')?>');$('#'+'mainform').submit();}" />
-		<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_laporan/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+		<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_laporan/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="fa fa-search "></span> Cari</button>
 	</div>
 </div>
 <table class="list">
@@ -136,7 +136,7 @@
 				<td align="center" width="2"><?php echo $data['no']?></td>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="icon-list icon-large"> Rincian </span></a>
+						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="fa fa-list "></span> Detail </a>
 					</div>
 				</td>
 				<td><?php echo $data['uid']?></td>

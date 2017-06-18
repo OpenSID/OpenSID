@@ -8,7 +8,7 @@
         <div id="contentpane">
 
           <div class="ui-layout-north panel">
-            <h3>Full Backup / Restore Data SID</h3>
+            <h3>Full Backup/Restore Data SID</h3>
           </div>
 
           <div class="ui-layout-center" id="maincontent" style="padding: 5px;">

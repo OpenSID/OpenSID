@@ -18,15 +18,15 @@
               <h3>Manajemen Rumah Tangga</h3>
               <div class="left">
                 <div class="uibutton-group">
-                  <a href="<?php echo site_url('rtm/form_old')?>" target="ajax-modalx" rel="window" header="Tambah Data Rumah Tangga Per Penduduk" class="uibutton tipsy south" title="Tambah data dari penduduk" ><span class="fa fa-plus-square ">&nbsp;</span>Tambah Rumah Tangga</a>
+                  <a href="<?php echo site_url('rtm/form_old')?>" target="ajax-modalx" rel="window" header="Tambah Data Rumah Tangga Per Penduduk" class="uibutton tipsy south" title="Tambah data dari penduduk" ><span class="fa fa-plus-square "></span> Tambah Rumah Tangga</a>
 
                   <?php /*<a href="<?php echo site_url('rtm/form_kk')?>" target="ajax-modalx" rel="window" header="Tambah Data Per Keluarga" class="uibutton tipsy south" title="Tambah Data Berbasis Keluarga" ><span class="icon-plus ">&nbsp;</span>Tambah Data By Keluarga</a>*/?>
 
                   <?php  if($grup==1){?>
-                    <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("rtm/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash ">&nbsp;</span>Hapus Data</button>
+                    <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("rtm/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash "></span> Hapus Data</button>
                   <?php  }?>
-          				<a href="<?php echo site_url("rtm/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print ">&nbsp;</span>Cetak</a>
-            			<a href="<?php echo site_url("rtm/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text ">&nbsp;</span>Excel</a>
+          				<a href="<?php echo site_url("rtm/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print "></span> Cetak</a>
+            			<a href="<?php echo site_url("rtm/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text "></span> Excel</a>
                   &nbsp;
           				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('rtm/dusun')?>')">
                     <option value=""><?php echo ucwords($this->setting->sebutan_dusun)?></option>
@@ -109,7 +109,7 @@
                 			</td>
                       <td width="5">
                         <div class="uibutton-group">
-                    			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota rtm"><span class="fa fa-address-book"> Rincian </span></a>
+                    			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota rtm"><span class="fa fa-address-book"></span> Rincian</a>
                     			<a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$data[id]")?>" target="ajax-modalx" rel="window" header="Tambah Anggota rtm" class="uibutton tipsy south" title="Tambah Anggota rtm"><span class="fa fa-user-plus"></span></a>
                           <?php  if($grup==1){?>
                             <a href="<?php echo site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" target="ajax-modal" rel="window" header="Edit Rumah Tangga" class="uibutton tipsy south" title="Edit Data" ><span class="fa fa-edit"></span></a>

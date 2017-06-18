@@ -25,9 +25,9 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('gallery/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Album Baru</a>
+                <a href="<?php echo site_url('gallery/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square ">&nbsp;</span>Tambah Album Baru</a>
 							<?php if($_SESSION['grup']<4){?>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("gallery/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("gallery/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash ">&nbsp;</span>Hapus Data</button>
 							<?php } ?>
             </div>
         </div>
@@ -43,7 +43,7 @@
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('gallery/search')?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('gallery/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('gallery/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search ">&nbsp;</span>Cari</button>
             </div>
         </div>
         <table class="list">
@@ -88,19 +88,19 @@
 			</td>
 			<td>
 				<div class="uibutton-group">
-					<a href="<?php echo site_url("gallery/sub_gallery/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Gallery"><span class="icon-zoom-in icon-large"> Rincian </span></a>
-					<a href="<?php echo site_url("gallery/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"></span></a>
+					<a href="<?php echo site_url("gallery/sub_gallery/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Gallery"><span class="fa fa-search-plus"></span> Rincian </a>
+					<a href="<?php echo site_url("gallery/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit "></span></a>
 					<?php if($data['slider'] == '1'):?>
-						<a href="<?php echo site_url('gallery/slider_off/'.$data['id'])?>" class="uibutton tipsy south" title="Keluarkan dari slider"><span  class="icon-play icon-large"></span></a>
+						<a href="<?php echo site_url('gallery/slider_off/'.$data['id'])?>" class="uibutton tipsy south" title="Keluarkan dari slider"><span  class="fa fa-play "></span></a>
 					<?php else : ?>
-						<a href="<?php echo site_url('gallery/slider_on/'.$data['id'])?>" class="uibutton tipsy south" title="Tampilkan di slider"><span  class="icon-eject icon-large"></span></a>
+						<a href="<?php echo site_url('gallery/slider_on/'.$data['id'])?>" class="uibutton tipsy south" title="Tampilkan di slider"><span  class="fa fa-eject "></span></a>
 					<?php endif?>
 					<?php if($_SESSION['grup']<4){?>
-						<a href="<?php echo site_url("gallery/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"><span></a>
+						<a href="<?php echo site_url("gallery/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "><span></a>
 						<?php if($data['enabled'] == '2'):?>
-							<a href="<?php echo site_url('gallery/gallery_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi gallery"><span  class="icon-lock icon-large"></span></a>
+							<a href="<?php echo site_url('gallery/gallery_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi gallery"><span  class="fa fa-lock "></span></a>
 						<?php elseif($data['enabled'] == '1'): ?>
-							<a href="<?php echo site_url('gallery/gallery_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan gallery"><span  class="icon-unlock icon-large"></span></a>
+							<a href="<?php echo site_url('gallery/gallery_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan gallery"><span  class="fa fa-unlock "></span></a>
 						<?php endif?>
 					<?php } ?>
 				</div>

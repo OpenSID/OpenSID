@@ -1,24 +1,4 @@
 <?php
-/*
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
 
 ?>
 <div id="pageC">
@@ -113,7 +93,7 @@ if($persil_peruntukan){
 	echo "
 	<div class=\"box box-warning\">
 		<h3 class=\"box-header\">Belum ada Data</h3>
-		<div class=\"box-body\">Silakan ditambahkan data Jenis Persil dengan menggunakan formulir dari menu <a href=\"".site_url("data_persil/persil_jenis")."\"><i class=\"icon-plus\"></i> Tambah Data Jenis Persil</a></div>
+		<div class=\"box-body\">Silakan ditambahkan data Jenis Persil dengan menggunakan formulir dari menu <a href=\"".site_url("data_persil/persil_jenis")."\"><i class=\"fa fa-plus\"></i> Tambah Data Jenis Persil</a></div>
 	</div>
 	";
 }

@@ -14,10 +14,10 @@
 		<fieldset>
 			<div class="lmenu">
 				<ul>
-				<li><a href="<?php echo site_url('sms/clear')?>">Kotak Masuk</a></li>
-				<li class="selected"><a href="<?php echo site_url('sms/outbox')?>">Tulis Pesan</a></li>
-				<li><a href="<?php echo site_url('sms/sentitem')?>">Berita Terkirim</a></li>
-				<li><a href="<?php echo site_url('sms/pending')?>">Pesan Tertunda</a></li>
+					<li class="selected"><a href="<?php echo site_url('sms/clear')?>"><span class="fa fa-inbox">&nbsp;</span>Kotak Masuk</a></li>
+					<li><a href="<?php echo site_url('sms/outbox')?>"><span class="fa fa-pencil">&nbsp;</span>Tulis Pesan</a></li>
+					<li><a href="<?php echo site_url('sms/sentitem')?>"><span class="fa fa-paper-plane">&nbsp;</span>Berita Terkirim</a></li>
+					<li><a href="<?php echo site_url('sms/pending')?>"><span class="fa fa-info-circle">&nbsp;</span>Pesan Tertunda</a></li>
 				</ul>
 			</div>
 		</fieldset>
@@ -33,8 +33,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('sms/form/0/0/4')?>" class="uibutton tipsy south" title="Tulis Pesan Baru" target="ajax-modalx" rel="window" header="Tulis Pesan Baru"><span class="icon-comment icon-large">&nbsp;</span>Tulis Pesan Baru</a>
-                <a href="<?php echo site_url('sms/broadcast/0/0/2')?>" class="uibutton tipsy south" title="Broadcast Pesan" target="ajax-modalx" rel="window" header="Tulis Pesan Broadcast"><span class="icon-comments icon-large">&nbsp;</span>Kirim Pesan ke Banyak</a>
+                <a href="<?php echo site_url('sms/form/0/0/4')?>" class="uibutton tipsy south" title="Tulis Pesan Baru" target="ajax-modalx" rel="window" header="Tulis Pesan Baru"><span class="fa fa-commenting "></span> Tulis Pesan Baru</a>
+                <a href="<?php echo site_url('sms/broadcast/0/0/2')?>" class="uibutton tipsy south" title="Broadcast Pesan" target="ajax-modalx" rel="window" header="Tulis Pesan Broadcast"><span class="fa fa-comments "></span> Kirim Pesan ke Banyak</a>
             </div>
         </div>
     </div>

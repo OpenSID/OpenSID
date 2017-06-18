@@ -11,7 +11,7 @@
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" header="Tambah Anggota" target="ajax-modalx" rel="window"><span class="fa fa-user-plus"></span> Tambah Anggota</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="fa fa-trash"></span>H apus Data</button>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="fa fa-trash"></span> Hapus Data</button>
                 <?php /*<a href="<?php echo site_url("keluarga/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
             </div>
         </div>
