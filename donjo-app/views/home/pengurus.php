@@ -75,7 +75,7 @@
           			<td><?php echo $data['pamong_nip']?></td>
                 <td><?php echo $data['jabatan']?></td>
                 <td>
-                  <label class="tipsy west" title="<img width=150 src=<?php echo AmbilFoto($data['foto']) ?>"><?php echo $data['foto']?></label>
+                  <label class="tipsy west" title="<img width='150' src='<?php echo AmbilFoto($data['foto']) ?>'>"><?php echo $data['foto']?></label>
                 </td>
         				<td>&nbsp;</td>
         		  </tr>
