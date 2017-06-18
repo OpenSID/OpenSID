@@ -1,5 +1,16 @@
 <?php
 
+	/*
+		Mencari nilai di nested array (array dalam array).
+		Ambil key dari array utama
+	*/
+	function nested_array_search($needle,$array) {
+		foreach ($array as $key => $value) {
+			$array_key = array_search($needle, $value);
+			if ($array_key !== FALSE) return $key;
+		}
+	}
+
 	function Parse_Data($data,$p1,$p2){
 		$data=" ".$data;
 		$hasil="";

@@ -6,13 +6,12 @@ class First extends Web_Controller{
 		parent::__construct();
 		session_start();
 
-		// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
+		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
-		if ($this->setting->offline_mode) {
-			if ((int) $this->setting->offline_level > 1) {
+		if ($this->setting->offline_mode >= 2) {
 				redirect('siteman');
 				exit;
-			}
+		} elseif ($this->setting->offline_mode == 1) {
 			// Jangan tampilkan website jika bukan admin/operator/redaksi
 			$this->load->model('user_model');
 			$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
@@ -76,6 +75,7 @@ class First extends Web_Controller{
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
+		$data['slide_artikel_utama'] = $this->first_artikel_m->slide_show(TRUE);
 		$data['slide_galeri'] = $this->web_gallery_model->list_slide_galeri();
 		$data['w_cos']  = $this->first_artikel_m->cos_widget();
 		$this->web_widget_model->get_widget_data($data);

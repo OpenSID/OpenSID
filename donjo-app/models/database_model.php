@@ -41,13 +41,9 @@
       (14, 'dev_tracker','','Host untuk tracker pada development','','development'),
       (15, 'nomor_terakhir_semua_surat', FALSE,'Gunakan nomor surat terakhir untuk seluruh surat tidak per jenis surat','boolean',''),
       (16, 'google_key','','Google API Key untuk Google Maps','','web'),
-      (17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','',''),
-      (18, 'offline_level','1','Isi 2 untuk non-aktifkan web dan peta sama sekali','','')
+      (17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
     ";
     $this->db->query($query);
-
-
-
   }
 
   function migrasi_db_cri() {
@@ -94,6 +90,11 @@
 
       $this->reset_setting_aplikasi();
     }
+    // Update untuk tambahan offline mode 2, sesudah masuk pra-rilis (ada yang sudah migrasi)
+    $this->db->where('id',12)->update('setting_aplikasi',array('value'=>'0','jenis'=>''));
+    // Update media_sosial
+    $this->db->where('id',3)->update('media_sosial',array('nama'=>'Google Plus'));
+    $this->db->where('id',4)->update('media_sosial',array('nama'=>'YouTube'));
   }
 
   function migrasi_116_ke_117(){

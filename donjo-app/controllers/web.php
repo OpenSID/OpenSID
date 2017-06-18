@@ -5,9 +5,9 @@ class web extends CI_Controller{
 		parent::__construct();
 		session_start();
 
-		// Jika offline_mode aktif dan dalam level yang menyembunyikan website,
+		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
-		if ($this->setting->offline_mode && (int) $this->setting->offline_level > 1) {
+		if ($this->setting->offline_mode >= 2) {
 			redirect('hom_desa');
 			exit;
 		}

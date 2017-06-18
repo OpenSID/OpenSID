@@ -9,6 +9,11 @@
 			. get_dynamic_title_page_from_path();
 	?></title>
   <link rel="stylesheet" href="<?php echo base_url()?>assets/css/login-new.css" media="screen" type="text/css" />
+	<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+	<?php else: ?>
+		<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+	<?php endif; ?>
 </head>
 <body>
 	<div id="loginform">
