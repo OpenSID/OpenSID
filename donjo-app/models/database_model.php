@@ -92,6 +92,9 @@
     }
     // Update untuk tambahan offline mode 2, sesudah masuk pra-rilis (ada yang sudah migrasi)
     $this->db->where('id',12)->update('setting_aplikasi',array('value'=>'0','jenis'=>''));
+    // Update media_sosial
+    $this->db->where('id',3)->update('media_sosial',array('nama'=>'Google Plus'));
+    $this->db->where('id',4)->update('media_sosial',array('nama'=>'YouTube'));
   }
 
   function migrasi_116_ke_117(){
