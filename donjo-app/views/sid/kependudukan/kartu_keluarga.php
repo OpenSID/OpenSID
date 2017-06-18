@@ -35,7 +35,7 @@ $('#'+'main').submit();
         <div class="left">
             <div class="uibutton-group">
 <a href="<?php echo site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="uibutton icon prev">Daftar Anggota</a>
-<a href="<?php echo site_url("keluarga/form_a/$p/$o/$id_kk")?>" class="uibutton icon next">Tambah Anggota</a>
+<a href="<?php echo site_url("keluarga/form_a/$p/$o/$id_kk")?>" class="uibutton icon next"><span class="fa fa-user-plus"></span> Tambah Anggota</a>
 
 
 </div>
@@ -190,22 +190,17 @@ $('#'+'main').submit();
 <tr></tr>
 <tr></tr>
 </table>
-
-<p style="font-family:verdana,arial,sans-serif;font-size:10px;"></p>
-
-
 </div>
 <div class="ui-layout-south panel bottom">
-<div class="left">
-<a href="<?php echo site_url()?>keluarga" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-
-<a href="<?php echo site_url("keluarga/cetak_kk/$id_kk")?>" target="_blank" class="uibutton special">Cetak</a>
-<a href="<?php echo site_url("keluarga/doc_kk/$id_kk")?>" target="_blank" class="uibutton confirm">Export</a>
-</div>
-</div>
+	<div class="left">
+		<a href="<?php echo site_url()?>keluarga" class="uibutton icon prev">Kembali</a>
+	</div>
+	<div class="right">
+		<div class="uibutton-group">
+			<a href="<?php echo site_url("keluarga/cetak_kk/$id_kk")?>" target="_blank" class="uibutton special"><span class="fa fa-print"></span> Cetak</a>
+			<a href="<?php echo site_url("keluarga/doc_kk/$id_kk")?>" target="_blank" class="uibutton confirm"><span class="fa fa-file-text-o"></span> Export</a>
+		</div>
+	</div>
 </div>
 </form>
 </div>
