@@ -6,7 +6,6 @@
 	});
 </script>
 <style type="text/css">
-	.box-body {padding: 0px;}
 	#aparatur_desa img {width: 100%;}
 	#aparatur_desa .cycle-pager span {
 		height: 7px;
