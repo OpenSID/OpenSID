@@ -1,7 +1,8 @@
 <?php
 
-function AmbilFoto($foto){
-  $file_foto = base_url() . LOKASI_USER_PICT . "/kecil_" . $foto;
+function AmbilFoto($foto, $ukuran="kecil_"){
+  $ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
+  $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
   return $file_foto;
 }
 
