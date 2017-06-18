@@ -18,7 +18,7 @@
 <!-- widget Aparatur Desa -->
 <div class="box box-warning box-solid">
 	<div class="box-header">
-		<h3 class="box-title"><i class="fa fa-user"></i> Aparat Desa</h3>
+		<h3 class="box-title"><i class="fa fa-user"></i> Aparatur Desa</h3>
 	</div>
 	<div class="box-body">
 

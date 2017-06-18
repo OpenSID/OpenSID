@@ -99,7 +99,7 @@
     // Tambah widget aparatur_desa
     $widget = $this->db->select('id')->where(array('isi'=>'aparatur_desa.php', 'id_kategori'=>1003))->get('artikel')->row();
     if (!$widget->id) {
-      $aparatur_desa = array('judul'=>'Aparat Desa','isi'=>'aparatur_desa.php','enabled'=>1,'id_kategori'=>1003,'urut'=>1,'jenis_widget'=>1);
+      $aparatur_desa = array('judul'=>'Aparatur Desa','isi'=>'aparatur_desa.php','enabled'=>1,'id_kategori'=>1003,'urut'=>1,'jenis_widget'=>1);
       $this->db->insert('artikel',$aparatur_desa);
     }
     // Tambah foto aparatur desa
