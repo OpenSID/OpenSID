@@ -34,11 +34,6 @@
 		<script src="<?php echo base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.colorbox.js"></script>
-		<!-- Untuk carousel dan slider -->
-		<script src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
-		<script src="<?php echo base_url()?>assets/js/jquery.cycle2.min.js"></script>
-		<script src="<?php echo base_url()?>assets/js/jquery.cycle2.carousel.js"></script>
-
 		<script>
 			$(document).ready(function(){
 				$(".group2").colorbox({rel:'group2', transition:"fade"});
@@ -85,9 +80,7 @@
 								</div>
 							</div>
 							<div id="menu_vert2">
-								<?php if(count($slide_artikel)>0){
-									$this->load->view($folder_themes.'/layouts/carousel.php');
-								} ?>
+								<?php $this->load->view($folder_themes.'/layouts/carousel.php'); ?>
 							</div>
 						</div>
 					</div>

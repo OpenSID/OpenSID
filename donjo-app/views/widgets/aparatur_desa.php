@@ -1,3 +1,4 @@
+<link type='text/css' href="<?php echo base_url()?>assets/css/slider.css" rel='Stylesheet' />
 <script type="text/javascript">
 	$(document).ready(function() {
     $('#aparatur_desa').cycle({

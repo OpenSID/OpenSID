@@ -1,7 +1,13 @@
-<!-- TODO: Ulangi di sini karena tidak jalan kalau tidak -->
+<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
 <script src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
 <script src="<?php echo base_url()?>assets/js/jquery.cycle2.min.js"></script>
 <script src="<?php echo base_url()?>assets/js/jquery.cycle2.carousel.js"></script>
+<!--
+	Untuk bisa menghentikan scroller, perlu menambah plugin jquery.pause
+	dan mengubah jquery.cycle2.carousel.js, mengikuti contoh di
+	https://github.com/malsup/cycle2/issues/178
+ -->
+<script src="<?php echo base_url()?>assets/js/jquery.pause.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
