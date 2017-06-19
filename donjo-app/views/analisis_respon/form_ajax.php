@@ -96,7 +96,7 @@ $(function(){
 		<tr><td><hr></td></tr>
 		<tr>
 			<td align="right">
-				<button class="uibutton confirm" id="kirim">Simpan</button>
+				<button class="uibutton confirm" id="kirim"><span class="fa fa-save"></span> Simpan</button>
 			</td>
 		</tr>
 		</table>

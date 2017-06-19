@@ -20,7 +20,7 @@ source: keyword
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("komentar/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("komentar/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash ">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -35,7 +35,7 @@ source: keyword
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('komentar/search')?>');$('#'+'mainform').submit();}" />
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('komentar/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('komentar/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 </div>
 </div>
 <table class="list">
@@ -81,7 +81,7 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td> <div class="uibutton-group">
-<a href="<?php echo site_url("komentar/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("komentar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('komentar/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi komentar"><span class="icon-lock icon-large"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('komentar/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan komentar"><span class="icon-unlock icon-large"></span></a>
+<a href="<?php echo site_url("komentar/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit "> Ubah </span></a><a href="<?php echo site_url("komentar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "></span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('komentar/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi komentar"><span class="fa fa-lock "></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('komentar/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan komentar"><span class="fa fa-unlock "></span></a>
 <?php endif?></div>
 </td>
 <td><?php echo $data['komentar']?></td>

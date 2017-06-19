@@ -1,25 +1,4 @@
 <?php
-/*
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
-
 ?>
 <script>
 	$(function() {
@@ -45,7 +24,7 @@
 					<form id="mainform" name="mainform" action="" method="post">
 							<div class="left">
 								<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('data_persil/search')?>');$('#'+'mainform').submit();}" />
-								<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('data_persil/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+								<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('data_persil/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search"></span> Cari</button>
 							</div>
 					</form>
 			<?php

@@ -10,8 +10,8 @@
     <h3>Daftar Anggota KK No.<?php echo $kepala_kk['no_kk']?> Keluarga : <?php echo unpenetration($kepala_kk['nama'])?>; Alamat : <?php echo $kepala_kk['alamat_wilayah']?></h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" header="Tambah Anggota" target="ajax-modalx" rel="window"><span class="icon-plus icon-large">&nbsp;</span>Tambah Anggota</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
+                <a href="<?php echo site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" header="Tambah Anggota" target="ajax-modalx" rel="window"><span class="fa fa-user-plus"></span> Tambah Anggota</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="fa fa-trash"></span> Hapus Data</button>
                 <?php /*<a href="<?php echo site_url("keluarga/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
             </div>
         </div>
@@ -45,10 +45,10 @@
   			</td>
         <td>
           <div class="uibutton-group">
-            <a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
-            <a href="<?php echo site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Pecah KK" target="confirm" message="Apakah Anda Yakin?" header="Pecah KK"><span class="icon-minus-sign icon-large"></span></a>
+            <a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"> Ubah </span></a>
+            <a href="<?php echo site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Pecah KK" target="confirm" message="Apakah Anda Yakin?" header="Pecah KK"><span class="fa fa-minus-square "></span></a>
             <?php if($data['kk_level']!=0){?>
-              <a href="<?php echo site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Ubah Hubungan Keluarga" target="ajax-modal" rel="window" header="Ubah Data"><span class="icon-link icon-large"></span></a>
+              <a href="<?php echo site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Ubah Hubungan Keluarga" target="ajax-modal" rel="window" header="Ubah Data"><span class="fa fa-link"></span></a>
             <?php }?>
           </div>
         </td>
@@ -68,7 +68,7 @@
             <a href="<?php echo site_url("keluarga/index/$p/$o")?>" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">
-            <a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="uibutton confirm icon next">Kartu Keluarga</a>
+            <a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="uibutton confirm icon next"><span class="fa fa-address-book"></span> Kartu Keluarga</a>
         </div>
     </div>
 </div>

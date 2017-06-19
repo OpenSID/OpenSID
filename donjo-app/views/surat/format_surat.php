@@ -42,7 +42,7 @@ $('#'+'main').submit();
 				<?php }?>
 				</div>
 			</div>
-			<div style="clear: both;">
+			<div clear: both;">
 				<hr>
 				<br>
 				<div>

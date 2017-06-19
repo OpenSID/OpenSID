@@ -31,8 +31,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url("sms/form_anggota/$grup[nama_grup]")?>" class="uibutton tipsy south" title="Tambah Anggota" target="ajax-modalx" rel="window" header="Tambah Anggota"><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah Anggota</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all_anggota/$grup[nama_grup]")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+                <a href="<?php echo site_url("sms/form_anggota/$grup[nama_grup]")?>" class="uibutton tipsy south" title="Tambah Anggota" target="ajax-modalx" rel="window" header="Tambah Anggota"><span class="fa fa-plus">&nbsp;</span>Tambah Anggota</a>
+                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all_anggota/$grup[nama_grup]")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
         <div class="table-panel top">
             <div class="right">
                 <input name="cari_anggota" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari_anggota?>" title="Search.."/>
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
             </div>
         </div>
 

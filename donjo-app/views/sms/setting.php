@@ -37,7 +37,7 @@ table.form.detail td{
 		<fieldset>
 			<div class="lmenu">
 				<ul>
-				<li class="selected"><a href="<?php echo site_url('sms/setting')?>">Pengaturan Balas Otomatis</a></li>
+				<li class="selected"><a href="<?php echo site_url('sms/setting')?>"><span class="fa fa-wrench"></span> Pengaturan Balas Otomatis</a></li>
 				</ul>
 			</div>
 		</fieldset>
@@ -53,7 +53,8 @@ table.form.detail td{
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
         <table class="form">
 		<tr>
-			<td width="100">Isi Pesan Autoreply</td><td><textarea name="autoreply_text" class=" required" style="resize: none; height:100px; width:250px;" size="300" maxlength='160'><?php  if($main){echo $main['autoreply_text'];} ?></textarea></td>
+			<td width="100">Isi Pesan Autoreply</td>
+			<td><textarea name="autoreply_text" class=" required" style="resize: none; height:100px; width:250px;" size="300" maxlength='160'><?php  if($main){echo $main['autoreply_text'];} ?></textarea></td>
 		</tr>
         </table>
     </div>
@@ -62,8 +63,8 @@ table.form.detail td{
         
         <div class="right">
             <div class="uibutton-group">
-                <button class="uibutton" type="reset">Clear</button>
-                <button class="uibutton confirm" type="submit" >Simpan</button>
+                <button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Clear</button>
+                <button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
             </div>
         </div>
     </div> </form>

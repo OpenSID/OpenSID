@@ -14,9 +14,9 @@
 	<h3>Modul Analisis</h3>
 	<div class="left">
 		<div class="uibutton-group">
-			<a href="<?php echo site_url('analisis_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Analisis Baru</a>
-			<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
-			<a href="<?php echo site_url('analisis_master/import_analisis')?>" class="uibutton special tipsy south" title="Import" target="ajax-modal" rel="window" header="Import XLS Analisis"><span class="icon-plus icon-large">&nbsp;</span>Import Analisis</a>
+			<a href="<?php echo site_url('analisis_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square"></span> Tambah Analisis Baru</a>
+			<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash"></span> Hapus Data</button>
+			<a href="<?php echo site_url('analisis_master/import_analisis')?>" class="uibutton special tipsy south" title="Import" target="ajax-modal" rel="window" header="Import XLS Analisis"><span class="fa fa-plus "></span> Import Analisis</a>
 		</div>
 	</div>
 </div>
@@ -38,7 +38,7 @@
 		</div>
 	<div class="right">
 		<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('analisis_master/search')?>');$('#'+'mainform').submit();}" />
-		<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_master/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+		<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_master/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search ">&nbsp;</span>Cari</button>
 	</div>
 	</div>
 	<table class="list">
@@ -82,7 +82,9 @@
 				</td>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_master/menu/$data[id]")?>" class="uibutton"><span class="icon-list icon-large"> Rincian </span></a><a href="<?php echo site_url("analisis_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("analisis_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+						<a href="<?php echo site_url("analisis_master/menu/$data[id]")?>" class="uibutton tipsy south"><span class="fa fa-list"></span> Detail</a>
+						<a href="<?php echo site_url("analisis_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span>Ubah </a>
+						<a href="<?php echo site_url("analisis_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash "></span></a>
 					</div>
 				</td>
 				<td><?php echo $data['nama']?></td>

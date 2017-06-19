@@ -3,14 +3,14 @@
 <tr style="vertical-align:top">
 <td style="background:#fff;padding:0px;">
 <div class="content-header">
-<h3>Edit Properti / area</h3>
+<h3>Edit Properti/Area</h3>
 </div>
 <div id="contentpane">
 <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
 <tr>
-<th width="100">Nama area / Porperti</th>
+<th width="100">Nama Area/Porperti</th>
 <td><input class="inputbox" type="text" name="nama" value="<?php echo $area['nama']?>" size="60"/></td>
 </tr>
 <tr>
@@ -66,7 +66,7 @@
 <div class="right">
 <div class="uibutton-group">
 <button class="uibutton" type="reset">Clear</button>
-<button class="uibutton confirm" type="submit" >Simpan</button>
+<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
 </div>
 </div>
 </div> </form>

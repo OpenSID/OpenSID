@@ -33,7 +33,7 @@ source: keyword
 */?>
 <td style="background:#fff;padding:0px;">
 <div class="content">
-	<h3>Manajemen Properti / area</h3>
+	<h3>Manajemen Properti/Area</h3>
 	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
 </div>
 <div id="contentpane">
@@ -41,8 +41,8 @@ source: keyword
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php echo site_url("area/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah Data Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("area/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+<a href="<?php echo site_url("area/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square"></span> Tambah Data Baru</a>
+<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("area/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash"></span> Delete Data</button>
 </div>
 </div>
 </div>
@@ -73,7 +73,7 @@ source: keyword
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('plan/area/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('plan/area/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="fa fa-search"></span> Search</button>
 </div>
 </div>
 <table class="list">

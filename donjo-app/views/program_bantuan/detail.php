@@ -1,29 +1,4 @@
 <?php
-/*
- * program.php
- *
- * Backend View untuk Program Bantuan
- *
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
-
 ?>
 <div id="pageC">
 <table class="inner">
@@ -40,7 +15,7 @@
 
 						<div class="left">
 							<div class="uibutton-group">
-								<a href="<?php echo site_url("program_bantuan/form/".$program[0]['id'])?>" class="uibutton tipsy south" title="Tambah Peserta Baru" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Peserta Baru</a>
+								<a href="<?php echo site_url("program_bantuan/form/".$program[0]['id'])?>" class="uibutton tipsy south" title="Tambah Peserta Baru" ><span class="fa fa-plus-square "></span> Tambah Peserta Baru</a>
 							</div>
 						</div>
 					<?php }?>
@@ -98,8 +73,8 @@
 						        <td>
 						          <div class="uibutton-group">
 						            <?php if($_SESSION['grup']==1){?>
-						                <a href="<?php echo site_url('program_bantuan/hapus_peserta/'.$detail["id"].'/'.$item["id"])?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>
-							        			<a href="<?php echo site_url("program_bantuan/edit_peserta_form/$item[id]")?>"  class="uibutton tipsy south" title="Ubah Data Peserta" target="ajax-modal" rel="window" header="Ubah Data Peserta" modalWidth="auto" modalHeight="auto"><span class="icon-edit icon-large"></span></a>
+						                <a href="<?php echo site_url('program_bantuan/hapus_peserta/'.$detail["id"].'/'.$item["id"])?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+							        			<a href="<?php echo site_url("program_bantuan/edit_peserta_form/$item[id]")?>"  class="uibutton tipsy south" title="Ubah Data Peserta" target="ajax-modal" rel="window" header="Ubah Data Peserta" modalWidth="auto" modalHeight="auto"><span class="fa fa-edit "></span></a>
 						            <?php } ?>
 						          </div>
 						        </td>
@@ -120,7 +95,7 @@
 							</tbody>
 						</table>
 						<div style="padding:1em 0;">
-							<a class="uibutton" href="<?php echo site_url('program_bantuan/unduhsheet/'.$detail["id"].'/')?>"><i class="icon icon-download"></i> Unduh dlm format .xls</a>
+							<a class="uibutton" href="<?php echo site_url('program_bantuan/unduhsheet/'.$detail["id"].'/')?>"><i class="fa fa-download"></i> Unduh dlm format .xls</a>
 						</div>
 					</div>
 				</div>

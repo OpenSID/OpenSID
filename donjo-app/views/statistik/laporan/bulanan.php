@@ -9,9 +9,8 @@
     <div class="ui-layout-north panel top">
         <div class="left">
             <div class="uibutton-group">
-
-			<a href="<?php echo site_url("laporan/cetak")?>" class="uibutton special tipsy south" title="Cetak" target="_blank"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url("laporan/excel")?>" class="uibutton special tipsy south" title="Excel" target="_blank"><span class="ui-icon ui-icon-print">&nbsp;</span>Excel</a>
+			<a href="<?php echo site_url("laporan/cetak")?>" class="uibutton special tipsy south" title="Cetak" target="_blank"><span class="fa fa-print"></span> Cetak</a>
+			<a href="<?php echo site_url("laporan/excel")?>" class="uibutton special tipsy south" title="Excel" target="_blank"><span class="fa fa-file-text"></span>Excel</a>
             </div>
         </div>
     </div>
@@ -250,7 +249,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 </div>
 <div class="right">
 <div class="uibutton-group">
-<button class="uibutton confirm" type="submit" >Cetak</button>
+<button class="uibutton confirm" type="submit" ><span class="fa fa-print"></span> Cetak</button>
 </div>
 </div>
 

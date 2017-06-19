@@ -67,7 +67,7 @@
         <td>
           <?php if($artikel['gambar1']){?>
             <div class="gallerybox-avatar">
-              <img src="<?php echo AmbilFotoArtikel($artikel['gambar1'],'kecil')?>" alt="" width="200"/>
+              <img src="<?php echo AmbilFotoArtikel($artikel['gambar1'],'sedang')?>" alt="" width="200"/>
             </div>
           <?php }?>
         </td>
@@ -81,7 +81,7 @@
         <td>
           <?php if($artikel['gambar2']){?>
             <div class="gallerybox-avatar">
-              <img src="<?php echo AmbilFotoArtikel($artikel['gambar2'],'kecil')?>" alt="" width="200"/>
+              <img src="<?php echo AmbilFotoArtikel($artikel['gambar2'],'sedang')?>" alt="" width="200"/>
             </div>
           <?php }?>
         </td>
@@ -95,7 +95,7 @@
         <td>
           <?php if($artikel['gambar3']){?>
             <div class="gallerybox-avatar">
-              <img src="<?php echo AmbilFotoArtikel($artikel['gambar3'],'kecil')?>" alt="" width="200"/>
+              <img src="<?php echo AmbilFotoArtikel($artikel['gambar3'],'sedang')?>" alt="" width="200"/>
             </div>
           <?php }?>
         </td>

@@ -30,7 +30,7 @@ $('#link').flexbox(link, {
 <div class="lmenu">
 <ul>
 <li <?php if($tip==1)echo "class='selected'";?>><a href="<?php echo site_url("menu/index/1")?>">Menu Statis</a></li>
-<li <?php if($tip==2)echo "class='selected'";?>><a href="<?php echo site_url("kategori")?>">Kategori / Menu Dinamis</a></li>
+<li <?php if($tip==2)echo "class='selected'";?>><a href="<?php echo site_url("kategori")?>">Kategori/Menu Dinamis</a></li>
 
 
 </ul>

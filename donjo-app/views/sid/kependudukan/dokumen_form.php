@@ -9,7 +9,7 @@
 <form action="<?php echo $form_action?>" method="POST" id="validasi" enctype="multipart/form-data">
 	<table class="form">
 		<tr>
-			<td width="90">Nama / Jenis Dokumen</td>
+			<td width="90">Nama/Jenis Dokumen</td>
 			<td>
 				<input class="inputbox" type="text" name="nama" size="40" />
 			</td>
@@ -25,7 +25,7 @@
 <div class="ui-layout-south panel bottom bawah">
 	<div class="right">
  <div class="uibutton-group">
-		<button class="uibutton confirm" type="submit">Upload</button>
+		<button class="uibutton confirm" type="submit"><span class="fa fa-upload"></span> Upload</button>
 		</div>
 	</div>
 </div>

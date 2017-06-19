@@ -90,7 +90,7 @@ $(function(){
 				<?php if($analisis_master['id_child']!=0){?>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_respon/kuisioner_child/$p/$o/$id/$idc")?>" class="uibutton south" target="ajax-modal-respon" rel="window" header="<?php echo $ang['nik']?> <?php echo $ang['nama']?>"><span class="icon-list icon-large"> Input Data</span></a>
+						<a href="<?php echo site_url("analisis_respon/kuisioner_child/$p/$o/$id/$idc")?>" class="uibutton south" target="ajax-modal-respon" rel="window" header="<?php echo $ang['nik']?><?php echo $ang['nama']?>"><span class="fa fa-list "></span> Input Data</a>
 					</div>
 				</td>
 				<?php } ?>
