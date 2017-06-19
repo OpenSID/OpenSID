@@ -1,0 +1,33 @@
+Dalam rilis ini disediakan halaman untuk pengaturan semua setting aplikasi, supaya admin dapat mengubah setting tanpa harus mengubah berkas konfigurasi. Rilis ini juga menyediakan widget Aparatur Desa sebagai widget sistem, di mana foto yang ditampilkan dapat diunduh dengan mudah dari menu SID Home > Pemerintah Desa. Selain itu, rilis ini juga berisi beberapa perbaikan lainnya yang diminta oleh komunitas SID.
+
+Terima kasih pada Ahmad Affandi, Happy Agung dan Parso Widodo yang terus membuat kontribusi.
+
+Lengkapnya, isi rilis v2.0:
+
+1. #387: Simpan, ubah dan tampilkan foto aparatur desa di halaman SID Home > Pemerintah Desa. Tambah widget sistem Aparatur Desa, yang menampilkan foto aparatur desa dari menu Pemerintah Desa.
+2. #455: Icon media sosial di menu atas tema Hadakewa sekarang dapat diubah di menu Admin Web > Media Sosial.
+3. #456: Sekarang slider besar hanya menampilkan 10 gambar utama artikel terbaru.
+4. Ubah pesan error koneksi database untuk menampilkan tautan panduan terkait.
+5. Ubah favicon dan logo menggunakan favicon dan logo OpenSID yang baru.
+6. Sediakan dua level setting offline, satu untuk membatasi akses web hanya pada admin/operator/redaksi dan satu lagi yang me-non-aktifkan web dan peta sama sekali.
+7. #470: Sekarang gambar yang ditampilkan di artikel adalah yang berukuran 'sedang', untuk memperbaiki kualitas penampilan gambar.
+8. Perbaiki menu Database > Backup/Restore > Kosongkan DB supaya menu utama tidak ikut terhapus. [bug-fix]
+9. #466: Penataan-ulang tema Hadakewa.
+10. #464: Sekarang gambar yang ditampilkan di slider besar adalah yang berukuran 'sedang' untuk memperbaiki kualitas penampilan gambar.
+11. #443: Di Layanan Mandiri tampilkan data program bantuan di mana penduduk yang bersangkutan menjadi peserta.
+12. Form surat sekarang mengisi jabatan perangkat desa secara otomatis pada saat memilih perangkat desa yang akan menandatangani surat.
+13. Daftar penduduk di form surat_ket_kelahiran sekarang hanya menampilkan penduduk perempuan.
+14. #442: Perbaiki penampilan halaman Layanan Mandiri > Profil dan widget. Tampilkan nomor kartu keluarga di widget Layanan Mandiri.
+15. Slider atas, teks berjalan, slider besar semuanya sekarang menggunakan JQuery Cycle2 supaya seragam. [teknis]
+16. #188: Sediakan halaman Pengaturan > Setting Aplikasi untuk mengubah setting aplikasi menggantikan setting yang dulu ada di berkas desa/config/config.php.
+
+Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
+
+Pada rilis ini berkas css (stylesheet) untuk tema 'default' dan 'hadakewa' dipindahkan dari folder desa/css ke file inti di themes/[tema]/css. Dengan adanya perubahan ini, lakukan langkah berikut:
+
+1. backup folder desa
+2. hapus folder desa/css
+3. copy/paste folder desa-contoh/css ke folder desa/css
+4. ubah berkas css di desa/css untuk masing-masing tema sesuai kebutuhan desa (lihat panduan https://github.com/eddieridwan/OpenSID/wiki/Mengubah-Penampilan-Web)
+
+

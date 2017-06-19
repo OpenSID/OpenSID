@@ -1,4 +1,3 @@
-
 <link type='text/css' href="<?php echo base_url()?>assets/css/slider.css" rel='Stylesheet' />
 
 <div class="box">

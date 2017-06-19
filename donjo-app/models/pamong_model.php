@@ -86,17 +86,29 @@
 	}
 
 	function update($id=0){
-		$nip    			= $this->input->post('pamong_nip');
-		$nama        		= penetration($this->input->post('pamong_nama'));
-		$nik        		= $this->input->post('pamong_nik');
-		$jabatan  			= penetration($this->input->post('jabatan'));
-		$status  			= $this->input->post('pamong_status');
-
-		$sql  = "UPDATE tweb_desa_pamong SET pamong_nama=?,pamong_nip=?,pamong_nik=?,jabatan=?,pamong_status=? WHERE pamong_id=?";
-		$outp = $this->db->query($sql, array($nama,$nip,$nik,$jabatan,$status,$id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		unset($_SESSION['validation_error']);
+		$_SESSION['success'] = 1;;
+		unset($_SESSION['error_msg']);
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file   = $_FILES['foto']['type'];
+		$nama_file   = $_FILES['foto']['name'];
+		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		$old_foto    = $this->input->post('old_foto');
+		if (!empty($lokasi_file) AND in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR))){
+			UploadFoto($nama_file,$old_foto,$tipe_file);
+		} else {
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = " -> Jenis file salah: " . $tipe_file;
+		}
+		$data = array(
+			"foto" => $nama_file,
+			"pamong_nip" => $this->input->post('pamong_nip'),
+			"pamong_nama" =>$this->input->post('pamong_nama'),
+			"pamong_nik" => $this->input->post('pamong_nik'),
+			"jabatan" => $this->input->post('jabatan'),
+			"pamong_status" => $this->input->post('pamong_status')
+		);
+		$this->db->where("pamong_id", $id)->update('tweb_desa_pamong', $data);
 	}
 
 	function delete($id=''){

@@ -22,23 +22,19 @@
 			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
 		<?php endif; ?>
 	  <link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
-		<?php if(is_file("desa/css/".$this->theme."/front/first.css")){?>
-		  <link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/front/first.css" rel='Stylesheet' />
-		<?php } ?>
+
+	  <!-- Styles untuk tema dan penyesuaiannya di folder desa -->
+	  <link type='text/css' href="<?php echo base_url().'themes/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
 		<?php if(is_file("desa/css/".$this->theme."/desa-web.css")): ?>
 			<link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/desa-web.css" rel='Stylesheet' />
 		<?php endif; ?>
+
 		<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
 		<script src="<?php echo base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.colorbox.js"></script>
-		<!-- Untuk carousel dan slider -->
-		<script src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
-		<script src="<?php echo base_url()?>assets/js/jquery.cycle2.min.js"></script>
-		<script src="<?php echo base_url()?>assets/js/jquery.cycle2.carousel.js"></script>
-
 		<script>
 			$(document).ready(function(){
 				$(".group2").colorbox({rel:'group2', transition:"fade"});
@@ -85,9 +81,7 @@
 								</div>
 							</div>
 							<div id="menu_vert2">
-								<?php if(count($slide_artikel)>0){
-									$this->load->view($folder_themes.'/layouts/carousel.php');
-								} ?>
+								<?php $this->load->view($folder_themes.'/layouts/carousel.php'); ?>
 							</div>
 						</div>
 					</div>

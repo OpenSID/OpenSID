@@ -6,6 +6,7 @@
     parent::__construct();
 
     $this->cek_engine_db();
+    $this->load->dbforge();
 
   }
 
@@ -95,6 +96,22 @@
     // Update media_sosial
     $this->db->where('id',3)->update('media_sosial',array('nama'=>'Google Plus'));
     $this->db->where('id',4)->update('media_sosial',array('nama'=>'YouTube'));
+    // Tambah widget aparatur_desa
+    $widget = $this->db->select('id')->where(array('isi'=>'aparatur_desa.php', 'id_kategori'=>1003))->get('artikel')->row();
+    if (!$widget->id) {
+      $aparatur_desa = array('judul'=>'Aparatur Desa','isi'=>'aparatur_desa.php','enabled'=>1,'id_kategori'=>1003,'urut'=>1,'jenis_widget'=>1);
+      $this->db->insert('artikel',$aparatur_desa);
+    }
+    // Tambah foto aparatur desa
+    if (!$this->db->field_exists('foto', 'tweb_desa_pamong')) {
+      $fields = array(
+        'foto' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100
+        )
+      );
+      $this->dbforge->add_column('tweb_desa_pamong', $fields);
+    }
   }
 
   function migrasi_116_ke_117(){
