@@ -28,8 +28,8 @@
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php echo site_url("kategori/ajax_add_sub_kategori/$kategori")?>" target="ajax-modal" rel="window" header="Tambah Sub kategori" class="uibutton tipsy south" title="Tambah Sub kategori"><span class="icon-plus icon-large">&nbsp;</span>Tambah Sub Kategori Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("kategori/delete_all_sub_kategori/$kategori")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
+<a href="<?php echo site_url("kategori/ajax_add_sub_kategori/$kategori")?>" target="ajax-modal" rel="window" header="Tambah Sub kategori" class="uibutton tipsy south" title="Tambah Sub kategori"><span class="fa fa-plus">&nbsp;</span>Tambah Sub Kategori Baru</a>
+<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("kategori/delete_all_sub_kategori/$kategori")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
 </div>
 </div>
 </div>
@@ -61,15 +61,15 @@
         <td>
           <div class="uibutton-group">
             <?php if($_SESSION['grup']==1): ?>
-              <a href="<?php echo site_url("kategori/urut/$data[id]/1/$kategori")?>" class="uibutton tipsy south" title="Turun"><span class="icon-arrow-down icon-large"></span></a>
-              <a href="<?php echo site_url("kategori/urut/$data[id]/2/$kategori")?>" class="uibutton tipsy south" title="Naik"><span class="icon-arrow-up icon-large"></span></a>
+              <a href="<?php echo site_url("kategori/urut/$data[id]/1/$kategori")?>" class="uibutton tipsy south" title="Turun"><span class="fa fa-arrow-down"></span></a>
+              <a href="<?php echo site_url("kategori/urut/$data[id]/2/$kategori")?>" class="uibutton tipsy south" title="Naik"><span class="fa fa-arrow-up"></span></a>
             <?php endif; ?>
-            <a href="<?php echo site_url("kategori/ajax_add_sub_kategori/$kategori/$data[id]")?>"  class="uibutton tipsy south" target="ajax-modal" rel="window" header="Edit kategori" title="Edit Data"><span class="icon-edit icon-large"> Edit </span></a>
-            <a href="<?php echo site_url("kategori/delete_sub_kategori/$kategori/$data[id]")?>"  class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+            <a href="<?php echo site_url("kategori/ajax_add_sub_kategori/$kategori/$data[id]")?>"  class="uibutton tipsy south" target="ajax-modal" rel="window" header="Edit kategori" title="Edit Data"><span class="fa fa-edit"> Edit </span></a>
+            <a href="<?php echo site_url("kategori/delete_sub_kategori/$kategori/$data[id]")?>"  class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
             <?php if($data['enabled'] == '2'):?>
-              <a href="<?php echo site_url("kategori/kategori_lock_sub_kategori/$kategori/$data[id]")?>"  class="uibutton tipsy south" title="Enable kategori"><span class="icon-lock icon-large"></span></a>
+              <a href="<?php echo site_url("kategori/kategori_lock_sub_kategori/$kategori/$data[id]")?>"  class="uibutton tipsy south" title="Enable kategori"><span class="fa fa-lock"></span></a>
             <?php elseif($data['enabled'] == '1'): ?>
-              <a href="<?php echo site_url("kategori/kategori_unlock_sub_kategori/$kategori/$data[id]")?>"  class="uibutton tipsy south" title="Disable kategori"><span class="icon-unlock icon-large"></span></a>
+              <a href="<?php echo site_url("kategori/kategori_unlock_sub_kategori/$kategori/$data[id]")?>"  class="uibutton tipsy south" title="Disable kategori"><span class="fa fa-unlock"></span></a>
             <?php endif;?>
           </div>
         </td>

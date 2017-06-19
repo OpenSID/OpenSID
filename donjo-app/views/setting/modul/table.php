@@ -25,7 +25,7 @@
 				 </div>
 				 <div class="right">
 					 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('modul/search')?>');$('#'+'mainform').submit();}" />
-					 <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('modul/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+					 <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('modul/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 				 </div>
 			</div>
 			 
@@ -50,7 +50,7 @@
 						</td>
 						<td width="5">
 							<div class="uibutton-group">
-								<a href="<?php echo site_url("modul/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large">Ubah </span></a>
+								<a href="<?php echo site_url("modul/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit">Ubah </span></a>
 							</div>
 						</td>
 						<td><?php echo $data['modul']?></td>

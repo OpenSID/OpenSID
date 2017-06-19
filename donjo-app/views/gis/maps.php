@@ -348,10 +348,10 @@ function handle_point(cb) {
 </select>
 
 <input name="cari" id="cari" type="text" class="inputbox2 help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('gis/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('gis/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 <button href="<?php echo site_url("gis/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="ui-icon ui-icon-search">&nbsp;</span>Pencarian Spesifik</button>
 
-<a href="<?php echo site_url("gis/clear")?>"  class="uibutton tipsy south"  title="Clear Pencarian" style=""><span class="ui-icon ui-icon-search">&nbsp;</span>Clear</a>
+<a href="<?php echo site_url("gis/clear")?>"  class="uibutton tipsy south"  title="Clear Pencarian" style=""><span class="fa fa-refresh">&nbsp;</span>Bersihkan</a>
 		</form>
 	</div>
 </div>
