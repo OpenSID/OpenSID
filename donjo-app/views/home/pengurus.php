@@ -19,8 +19,8 @@
     <div class="ui-layout-north panel">
         <div class="left"><h3>Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></h3>
             <div class="uibutton-group">
-                <a href="<?php echo site_url('pengurus/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-user-plus"></span> Tambah Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("pengurus/delete_all")?>')" class="uibutton tipsy south"><span class="fa fa-trash "></span> Hapus Data</button>
+                <a href="<?php echo site_url('pengurus/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-user-plus">&nbsp;</span>Tambah Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></a>
+          <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("pengurus/delete_all")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('pengurus/search')?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('pengurus/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search "></span> Cari</button>
+          <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('pengurus/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
             </div>
         </div>
         <table class="list">
@@ -57,16 +57,16 @@
 			<td align="center" width="5">
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['pamong_id']?>" />
 			</td>
-          <td width="5"><div class="uibutton-group">
+			<td width="5"><div class="uibutton-group">
             <?php if($data['pamong_id']!="707"){?>
-                <a href="<?php echo site_url("pengurus/form/$data[pamong_id]")?>" class="uibutton tipsy south" title="Ubah Data"><span  class="fa fa-edit"></span> Ubah</a>
-                <?php if($data['pamong_ttd'] == '1'):?>
-                    <a href="<?php echo site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Bukan TTD default"><span class="fa fa-pencil"></span></a>
-                <?php else : ?>
-                    <a href="<?php echo site_url('pengurus/ttd_on/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Jadikan TTD default"><span class="fa fa-user"></span></a>
-                <?php endif?>
-                <a href="<?php echo site_url("pengurus/delete/$data[pamong_id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
-            <?php }?></div>
+                      <a href="<?php echo site_url("pengurus/form/$data[pamong_id]")?>" class="uibutton tipsy south" title="Ubah Data"><span  class="fa fa-edit"></span> Ubah </a>
+                      <?php if($data['pamong_ttd'] == '1'):?>
+                          <a href="<?php echo site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Bukan TTD default"><span  class="fa fa-pencil"></span></a>
+                      <?php else : ?>
+                          <a href="<?php echo site_url('pengurus/ttd_on/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Jadikan TTD default"><span  class="fa fa-user"></span></a>
+                      <?php endif?>
+                      <a href="<?php echo site_url("pengurus/delete/$data[pamong_id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+                    <?php }?></div>
           </td>
           <td><?php echo unpenetration($data['pamong_nama'])?></td>
 			<td><?php echo $data['pamong_nip']?></td>
