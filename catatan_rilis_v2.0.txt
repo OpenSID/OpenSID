@@ -23,5 +23,11 @@ Lengkapnya, isi rilis v2.0:
 
 Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
 
+Pada rilis ini berkas css (stylesheet) untuk tema 'default' dan 'hadakewa' dipindahkan dari folder desa/css ke file inti di themes/[tema]/css. Dengan adanya perubahan ini, lakukan langkah berikut:
+
+1. backup folder desa
+2. hapus folder desa/css
+3. copy/paste folder desa-contoh/css ke folder desa/css
+4. ubah berkas css di desa/css untuk masing-masing tema sesuai kebutuhan desa (lihat panduan https://github.com/eddieridwan/OpenSID/wiki/Mengubah-Penampilan-Web)
 
 
