@@ -1,4 +1,5 @@
 <link type='text/css' href="<?php echo base_url()?>assets/front/css/default.css" rel='Stylesheet' />
+<link type='text/css' href="<?php echo base_url().'themes/'.$this->theme.'/css/default.css'?>" rel='Stylesheet' />
 <?php if(is_file("desa/css/".$this->theme."/desa-default.css")): ?>
   <link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme?>/desa-default.css" rel='Stylesheet' />
 <?php endif; ?>
