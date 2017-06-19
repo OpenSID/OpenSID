@@ -40,7 +40,7 @@
 
 						<div class="left">
 							<div class="uibutton-group">
-								<a href="<?php echo site_url("program_bantuan/form/".$program[0]['id'])?>" class="uibutton tipsy south" title="Tambah Peserta Baru" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Peserta Baru</a>
+								<a href="<?php echo site_url("program_bantuan/form/".$program[0]['id'])?>" class="uibutton tipsy south" title="Tambah Peserta Baru" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Peserta Baru</a>
 							</div>
 						</div>
 					<?php }?>
@@ -98,8 +98,8 @@
 						        <td>
 						          <div class="uibutton-group">
 						            <?php if($_SESSION['grup']==1){?>
-						                <a href="<?php echo site_url('program_bantuan/hapus_peserta/'.$detail["id"].'/'.$item["id"])?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>
-							        			<a href="<?php echo site_url("program_bantuan/edit_peserta_form/$item[id]")?>"  class="uibutton tipsy south" title="Ubah Data Peserta" target="ajax-modal" rel="window" header="Ubah Data Peserta" modalWidth="auto" modalHeight="auto"><span class="icon-edit icon-large"></span></a>
+						                <a href="<?php echo site_url('program_bantuan/hapus_peserta/'.$detail["id"].'/'.$item["id"])?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+							        			<a href="<?php echo site_url("program_bantuan/edit_peserta_form/$item[id]")?>"  class="uibutton tipsy south" title="Ubah Data Peserta" target="ajax-modal" rel="window" header="Ubah Data Peserta" modalWidth="auto" modalHeight="auto"><span class="fa fa-edit"></span></a>
 						            <?php } ?>
 						          </div>
 						        </td>
@@ -144,10 +144,10 @@
 	        <div class="right">
 	          <div class="uibutton-group">
 	            <?php  if($paging->start_link): ?>
-								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->start_link.'/'.$detail['id'])?>" class="uibutton">Awal</a>
+								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->start_link.'/'.$detail['id'])?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 							<?php  endif; ?>
 							<?php  if($paging->prev): ?>
-								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->prev.'/'.$detail['id'])?>" class="uibutton"  >Prev</a>
+								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->prev.'/'.$detail['id'])?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
 							<?php  endif; ?>
 	          </div>
 		        <div class="uibutton-group">
@@ -157,10 +157,10 @@
 	          </div>
 	          <div class="uibutton-group">
 							<?php  if($paging->next): ?>
-								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->next.'/'.$detail['id'])?>" class="uibutton">Next</a>
+								<a href="<?php echo site_url('program_bantuan/detail/'.$paging->next.'/'.$detail['id'])?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 							<?php  endif; ?>
 							<?php  if($paging->end_link): ?>
-		            <a href="<?php echo site_url('program_bantuan/detail/'.$paging->end_link.'/'.$detail['id'])?>" class="uibutton">Akhir</a>
+		            <a href="<?php echo site_url('program_bantuan/detail/'.$paging->end_link.'/'.$detail['id'])?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 							<?php  endif; ?>
 	          </div>
 	        </div>

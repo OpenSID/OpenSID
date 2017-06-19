@@ -76,13 +76,13 @@
 									<div class="uibutton-group">
 										<?php
 											if(is_file($theFile)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south" title="Cetak"><span class="icon-download icon-large"> Cetak </span></a>
+												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south" title="Cetak"><span class="fa fa-download"></span> Cetak</a>
 										<?php	}?>
 										<?php
 											if(is_file($lampiran)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south" title="Lampiran"><span class="icon-download icon-large"> Lampiran </span></a>
+												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south" title="Lampiran"><span class="fa fa-download"></span> Lampiran</a>
 										<?php	}?>
-										<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+										<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 									</div>
 								</td>
 								<td><?php echo $data['no_surat']?></td>
@@ -124,10 +124,10 @@
 				<div class="right">
 					<div class="uibutton-group">
 						<?php  if($paging->start_link): ?>
-						<a href="<?php echo site_url("keluar/index/$paging->start_link/$o")?>" class="uibutton"  >First</a>
+						<a href="<?php echo site_url("keluar/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 						<?php  endif; ?>
 						<?php  if($paging->prev): ?>
-						<a href="<?php echo site_url("keluar/index/$paging->prev/$o")?>" class="uibutton"  >Prev</a>
+						<a href="<?php echo site_url("keluar/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
 						<?php  endif; ?>
 					</div>
 					<div class="uibutton-group">
@@ -137,10 +137,10 @@
 							</div>
 							<div class="uibutton-group">
 						<?php  if($paging->next): ?>
-						<a href="<?php echo site_url("keluar/index/$paging->next/$o")?>" class="uibutton">Next</a>
+						<a href="<?php echo site_url("keluar/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 						<?php  endif; ?>
 						<?php  if($paging->end_link): ?>
-									<a href="<?php echo site_url("keluar/index/$paging->end_link/$o")?>" class="uibutton">Last</a>
+									<a href="<?php echo site_url("keluar/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 						<?php  endif; ?>
 					</div>
 				</div>

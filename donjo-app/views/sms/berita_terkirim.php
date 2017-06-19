@@ -33,8 +33,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('sms/form/0/0/2')?>" class="uibutton tipsy south" title="Tulis Pesan Baru" target="ajax-modalx" rel="window" header="Tulis Pesan Baru"><span class="icon-comment icon-large">&nbsp;</span>Tulis Pesan Baru</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all/$p/$o/2")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
+                <a href="<?php echo site_url('sms/form/0/0/2')?>" class="uibutton tipsy south" title="Tulis Pesan Baru" target="ajax-modalx" rel="window" header="Tulis Pesan Baru"><span class="fa fa-commenting">&nbsp;</span>Tulis Pesan Baru</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all/$p/$o/2")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['ID']?>" />
 			</td>
           <td><div class="uibutton-group">
-            <a href="<?php echo site_url("sms/form/$p/$o/2/$data[ID]")?>" class="uibutton tipsy south" title="Tampilkan dan Balas" target="ajax-modalx" rel="window" header="Lihat Pesan"><span class="icon-zoom-in icon-large"> Balas </span></a><a href="<?php echo site_url("sms/delete/$p/$o/2/$data[ID]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a></div>
+            <a href="<?php echo site_url("sms/form/$p/$o/2/$data[ID]")?>" class="uibutton tipsy south" title="Tampilkan dan Balas" target="ajax-modalx" rel="window" header="Lihat Pesan"><span class="fa fa-search-plus"> Balas </span></a><a href="<?php echo site_url("sms/delete/$p/$o/2/$data[ID]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a></div>
           </td>
           <td><?php echo unpenetration($data['nama'])?></td>
           <td><?php echo $data['DestinationNumber']?></td>
@@ -107,10 +107,10 @@
         <div class="right">
             <div class="uibutton-group">
             <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("sms/sentitem/$paging->start_link/$o")?>" class="uibutton"  >Awal</a>
+				<a href="<?php echo site_url("sms/sentitem/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 			<?php  endif; ?>
 			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("sms/sentitem/$paging->prev/$o")?>" class="uibutton"  >Prev</a>
+				<a href="<?php echo site_url("sms/sentitem/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
@@ -121,10 +121,10 @@
             </div>
             <div class="uibutton-group">
 			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("sms/sentitem/$paging->next/$o")?>" class="uibutton">Next</a>
+				<a href="<?php echo site_url("sms/sentitem/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 			<?php  endif; ?>
 			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("sms/sentitem/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+                <a href="<?php echo site_url("sms/sentitem/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 			<?php  endif; ?>
             </div>
         </div>
