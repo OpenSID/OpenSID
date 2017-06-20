@@ -13,9 +13,9 @@
     <h3>Wilayah Administratif RT (RW <?php echo $rw?> / Dusun <?php echo unpenetration(ununderscore($dusun))?>)</h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url("sid_core/form_rt/$id_dusun/$rw")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah RT</a>
-                <a href="<?php echo site_url("sid_core/cetak_rt/$id_dusun/$rw")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-	<a href="<?php echo site_url("sid_core/excel_rt/$id_dusun/$rw")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+                <a href="<?php echo site_url("sid_core/form_rt/$id_dusun/$rw")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah RT</a>
+                <a href="<?php echo site_url("sid_core/cetak_rt/$id_dusun/$rw")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
+	<a href="<?php echo site_url("sid_core/excel_rt/$id_dusun/$rw")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text">&nbsp;</span>Excel</a>
             </div>
         </div>
     </div>
@@ -51,8 +51,8 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td width="5"><div class="uibutton-group">
-				<?php if($data['rt']!="-"){?><a href="<?php echo site_url("sid_core/form_rt/$id_dusun/$rw/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
-				<a href="<?php echo site_url("sid_core/delete_rt/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a><?php }?>
+				<?php if($data['rt']!="-"){?><a href="<?php echo site_url("sid_core/form_rt/$id_dusun/$rw/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+				<a href="<?php echo site_url("sid_core/delete_rt/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php }?>
 			</div></td>
 			<td><?php echo $data['rt']?></td>
 			<td><?php echo $data['nik_ketua']?></td>

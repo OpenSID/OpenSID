@@ -33,8 +33,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('sms/form/0/0/4')?>" class="uibutton tipsy south" title="Tulis Pesan Baru" target="ajax-modalx" rel="window" header="Tulis Pesan Baru"><span class="icon-comment icon-large">&nbsp;</span>Tulis Pesan Baru</a>
-                <a href="<?php echo site_url('sms/broadcast/0/0/2')?>" class="uibutton tipsy south" title="Broadcast Pesan" target="ajax-modalx" rel="window" header="Tulis Pesan Broadcast"><span class="icon-comments icon-large">&nbsp;</span>Kirim Pesan ke Banyak</a>
+                <a href="<?php echo site_url('sms/form/0/0/4')?>" class="uibutton tipsy south" title="Tulis Pesan Baru" target="ajax-modalx" rel="window" header="Tulis Pesan Baru"><span class="fa fa-commenting">&nbsp;</span>Tulis Pesan Baru</a>
+                <a href="<?php echo site_url('sms/broadcast/0/0/2')?>" class="uibutton tipsy south" title="Broadcast Pesan" target="ajax-modalx" rel="window" header="Tulis Pesan Broadcast"><span class="fa fa-comments">&nbsp;</span>Kirim Pesan ke Banyak</a>
             </div>
         </div>
     </div>
@@ -101,10 +101,10 @@
         <div class="right">
             <div class="uibutton-group">
             <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("sms/outbox/$paging->start_link/$o")?>" class="uibutton"  >Awal</a>
+				<a href="<?php echo site_url("sms/outbox/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 			<?php  endif; ?>
 			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("sms/outbox/$paging->prev/$o")?>" class="uibutton"  >Prev</a>
+				<a href="<?php echo site_url("sms/outbox/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
@@ -115,10 +115,10 @@
             </div>
             <div class="uibutton-group">
 			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("sms/outbox/$paging->next/$o")?>" class="uibutton">Next</a>
+				<a href="<?php echo site_url("sms/outbox/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 			<?php  endif; ?>
 			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("sms/outbox/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+                <a href="<?php echo site_url("sms/outbox/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 			<?php  endif; ?>
             </div>
         </div>

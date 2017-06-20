@@ -78,7 +78,7 @@ function RWSel(dusun,str){
 	<div class="buttonpane" style="text-align: right;">
 	    <div class="uibutton-group">
 	        <button class="uibutton" type="button" onclick="$('#window').dialog('close');">Tutup</button>
-	        <button class="uibutton confirm" type="submit">Simpan</button>
+	        <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
 	    </div>
 	</div>
 	</form>

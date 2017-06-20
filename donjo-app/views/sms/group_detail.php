@@ -31,8 +31,8 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url("sms/form_anggota/$grup[nama_grup]")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modalx" rel="window" header="Tambah Anggota"><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Anggota</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all_anggota/$grup[nama_grup]")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
+                <a href="<?php echo site_url("sms/form_anggota/$grup[nama_grup]")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modalx" rel="window" header="Tambah Anggota"><span class="fa fa-plus-square">&nbsp;</span>Tambah Anggota</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all_anggota/$grup[nama_grup]")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
         <div class="table-panel top">
             <div class="right">
                 <input name="cari_anggota" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari_anggota?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
             </div>
         </div>
 
@@ -65,7 +65,7 @@
 					<input type="checkbox" name="id_cb[]" value="<?php echo $data['id_kontak']?>" />
 				</td>
 		  		<td align="center">
-				    <a href="<?php echo site_url("sms/anggota_delete/$data[nama_grup]/$data[id_kontak]")?>" class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+				    <a href="<?php echo site_url("sms/anggota_delete/$data[nama_grup]/$data[id_kontak]")?>" class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 		  		</td>
 				 <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo unpenetration($data['nama'])?></a></td>
 				 <td><?php echo $data['sex']?></td>
@@ -97,10 +97,10 @@
         <div class="right">
             <div class="uibutton-group">
             <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->start_link/$o")?>" class="uibutton"  >First</a>
+				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 			<?php  endif; ?>
 			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->prev/$o")?>" class="uibutton"  >Prev</a>
+				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
@@ -111,10 +111,10 @@
             </div>
             <div class="uibutton-group">
 			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->next/$o")?>" class="uibutton">Next</a>
+				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 			<?php  endif; ?>
 			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->end_link/$o")?>" class="uibutton">Last</a>
+                <a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 			<?php  endif; }?>
             </div>
         </div>
