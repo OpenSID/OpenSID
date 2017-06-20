@@ -81,7 +81,7 @@ if($persil){
 			echo "<tr>
 			<td class=\"angka\">".$nomer."</td>
 			<td><div class=\"uibutton-group\">
-					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/detail/".$item["id"])."\" title=\"Detail\"><span class=\"icon-list\"></span> Detail</a>
+					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/detail/".$item["id"])."\" title=\"Rincian\"><span class=\"icon-list\"></span> Rincian</a>
 					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/create/".$item["id"])."\" title=\"Ubah\"><span class=\"icon-pencil\"></span></a>
 					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/hapus/".$item["id"])."\" title=\"Hapus Data\" target=\"confirm\" message=\"Apakah Anda Yakin?\" header=\"Hapus Data\"><span class=\"icon-trash\"></span></a>
 				</div></td>

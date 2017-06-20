@@ -88,7 +88,7 @@
 			</td>
 			<td>
 				<div class="uibutton-group">
-					<a href="<?php echo site_url("gallery/sub_gallery/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Gallery"><span class="fa fa-search-plus"></span> Detail</a>
+					<a href="<?php echo site_url("gallery/sub_gallery/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Gallery"><span class="fa fa-search-plus"></span> Rincian</a>
 					<a href="<?php echo site_url("gallery/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
 					<?php if($data['slider'] == '1'):?>
 						<a href="<?php echo site_url('gallery/slider_off/'.$data['id'])?>" class="uibutton tipsy south" title="Keluarkan dari slider"><span class="fa fa-play"></span></a>

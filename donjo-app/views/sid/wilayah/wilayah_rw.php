@@ -52,7 +52,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td width="5"><div class="uibutton-group">
-<a href="<?php echo site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>"  class="uibutton tipsy south" title="Rincian Sub Wilayah"><span class="fa fa-list"></span> Detail</a>
+<a href="<?php echo site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>"  class="uibutton tipsy south" title="Rincian Sub Wilayah"><span class="fa fa-list"></span> Rincian</a>
 				<?php if($data['rw']!="-"){?><a href="<?php echo site_url("sid_core/form_rw/$id_dusun/$data[rw]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
 				<?php  } ?><?php if($data['rw']!="-"){?>
 			<a href="<?php echo site_url("sid_core/delete_rw/$id_dusun/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin? Menghapus data RW akan mempengaruhi struktur data yang ada dibawah RW. pilih tidak untuk membatalkan penghapusan." header="Hapus Data"><span class="fa fa-trash"></span></a><?php }?></div></td>

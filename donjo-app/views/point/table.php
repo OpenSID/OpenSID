@@ -31,7 +31,7 @@ source: keyword
 
 </td>
 */?>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content">
 	<h3>Manajemen Kategori Point</h3>
 	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
@@ -100,7 +100,7 @@ source: keyword
 		<a href="<?php  echo site_url('point/point_lock/'.$data['id'])?>" class="uibutton fa fa-lock tipsy south" title="Enable point"></a>
 	<?php  elseif($data['enabled'] == '1'): ?>
 		<a href="<?php  echo site_url('point/point_unlock/'.$data['id'])?>" class="uibutton fa fa-unlock tipsy south" title="Disable point"></a>
-		<a href="<?php  echo site_url("point/sub_point/$data[id]")?>" class="uibutton fa fa-table tipsy south" title="Rincian Sub point"> Detail</a>
+		<a href="<?php  echo site_url("point/sub_point/$data[id]")?>" class="uibutton fa fa-table tipsy south" title="Rincian Sub point"> Rincian</a>
 		<a href="<?php  echo site_url("point/ajax_add_sub_point/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub point <?php  echo $data['nama']?>" class="uibutton fa fa-plus tipsy south" title="Tambah Sub point"></a>
 	<?php  endif?>
 	</div>
@@ -116,7 +116,7 @@ source: keyword
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 <form id="paging" action="<?php  echo site_url('point')?>" method="post">
 <label>Tampilkan</label>

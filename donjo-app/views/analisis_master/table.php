@@ -8,7 +8,7 @@
 </script>
 <div id="pageC">
 <div class="content-header"></div>
-<div id="contentpane"> 
+<div id="contentpane">
 <form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
 	<h3>Modul Analisis</h3>
@@ -24,14 +24,14 @@
 	<div class="table-panel top">
 		<div class="left">
 			<select name="filter" onchange="formAction('mainform','<?php echo site_url('analisis_master/filter')?>')">
-				<option value="">-- Filter by Subjek --</option>				
+				<option value="">-- Filter by Subjek --</option>
 				<?php foreach($list_subjek AS $data){?>
 				<option value="<?php echo $data['id']?>" <?php if($filter == $data['id']) :?>selected<?php endif?>><?php echo $data['subjek']?></option>
 				<?php }?>
 			</select>
 					&nbsp;
 		<select name="state" onchange="formAction('mainform','<?php echo site_url('analisis_master/state')?>')">
-			<option value="">-- Filter by Status Analisis --</option>	
+			<option value="">-- Filter by Status Analisis --</option>
 			<option value="1" <?php if($state == 1) :?>selected<?php endif?>>Tidak Terkunci</option>
 			<option value="2" <?php if($state == 2) :?>selected<?php endif?>>Terkunci</option>
 		</select>
@@ -46,7 +46,7 @@
 		<tr>
 			<th width="10">No</th>
 			<th width="10"><input type="checkbox" class="checkall"/></th>
-			<th width="150">Aksi</th>			
+			<th width="150">Aksi</th>
 			<?php if($o==4): ?>
 				<th align="left" width='300'><a href="<?php echo site_url("analisis_master/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
@@ -54,7 +54,7 @@
 			<?php else: ?>
 				<th align="left" width='300'><a href="<?php echo site_url("analisis_master/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 			<?php if($o==6): ?>
 				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek Analisis<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
@@ -82,7 +82,7 @@
 				</td>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_master/menu/$data[id]")?>" class="uibutton"><span class="fa fa-list"></span> Detail</a><a href="<?php echo site_url("analisis_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+						<a href="<?php echo site_url("analisis_master/menu/$data[id]")?>" class="uibutton"><span class="fa fa-list"></span> Rincian</a><a href="<?php echo site_url("analisis_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 					</div>
 				</td>
 				<td><?php echo $data['nama']?></td>
@@ -96,7 +96,7 @@
 </div>
 	</form>
 <div class="ui-layout-south panel bottom">
-	<div class="left"> 
+	<div class="left">
 		<div class="table-info">
 			<form id="paging" action="<?php echo site_url('analisis_master')?>" method="post">
 				<label>Tampilkan</label>

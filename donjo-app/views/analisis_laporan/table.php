@@ -23,7 +23,7 @@
 	}
 </style>
 <div id="pageC">
-<div id="contentpane"> 
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
 </div>
@@ -46,7 +46,7 @@
 			</tr>
 		</table>
 <div class="table-panel top">
-	<div class="left">	
+	<div class="left">
 		<select name="klasifikasi" onchange="formAction('mainform','<?php echo site_url('analisis_laporan/klasifikasi')?>')">
 			<option value=""> --- Klasifikasi --- </option>
 			<?php foreach($list_klasifikasi AS $data){?>
@@ -59,7 +59,7 @@
 				<option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo $data['dusun']?></option>
 			<?php }?>
 		</select>
-		
+
 		<?php if($dusun){?>
 			<select name="rw" onchange="formAction('mainform','<?php echo site_url('analisis_laporan/rw')?>')">
 				<option value="">RW</option>
@@ -68,7 +68,7 @@
 				<?php }?>
 			</select>
 		<?php }?>
-		
+
 		<?php if($rw){?>
 		 <select name="rt" onchange="formAction('mainform','<?php echo site_url('analisis_laporan/rt')?>')">
 			<option value="">RT</option>
@@ -98,7 +98,7 @@
 			<?php else: ?>
 				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 			<?php if($o==4): ?>
 				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
@@ -106,12 +106,12 @@
 			<?php else: ?>
 				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 				<th width='50'>L/P</th>
 				<th width='100'>Dusun</th>
 				<th width='30'>RW</th>
 				<th width='30'>RT</th>
-			
+
 			<?php if($o==6): ?>
 				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Nilai<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
@@ -119,7 +119,7 @@
 			<?php else: ?>
 				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Nilai<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 			<?php if($o==6): ?>
 				<th align="left" width='100'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Klasifikasi<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
@@ -136,7 +136,7 @@
 				<td align="center" width="2"><?php echo $data['no']?></td>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="fa fa-list"></span> Detail</a>
+						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="fa fa-list"></span> Rincian</a>
 					</div>
 				</td>
 				<td><?php echo $data['uid']?></td>
@@ -155,7 +155,7 @@
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-	<div class="left"> 
+	<div class="left">
 		<div class="table-info">
 			<form id="paging" action="<?php echo site_url('analisis_laporan')?>" method="post">
 				<a href="<?php echo site_url()?>analisis_laporan/leave" class="uibutton icon prev">Kembali</a>

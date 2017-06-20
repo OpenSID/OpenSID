@@ -63,9 +63,9 @@
                     <?php if($data['pamong_id']!="707"){?>
                       <a href="<?php echo site_url("pengurus/form/$data[pamong_id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
                       <?php if($data['pamong_ttd'] == '1'):?>
-                          <a href="<?php echo site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Bukan TTD default"><span  class="icon-pencil"></span></a>
+                          <a href="<?php echo site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Bukan TTD default"><span  class="fa fa-pencil"></span></a>
                       <?php else : ?>
-                          <a href="<?php echo site_url('pengurus/ttd_on/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Jadikan TTD default"><span  class="icon-user"></span></a>
+                          <a href="<?php echo site_url('pengurus/ttd_on/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Jadikan TTD default"><span  class="fa fa-user"></span></a>
                       <?php endif?>
                       <a href="<?php echo site_url("pengurus/delete/$data[pamong_id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
                     <?php }?>

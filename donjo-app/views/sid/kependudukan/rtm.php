@@ -109,7 +109,7 @@
                 			</td>
                       <td width="5">
                         <div class="uibutton-group">
-                    			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota rtm"><span class="fa fa-list"></span> Detail</a>
+                    			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota rtm"><span class="fa fa-list"></span> Rincian</a>
                     			<a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$data[id]")?>" target="ajax-modalx" rel="window" header="Tambah Anggota rtm" class="uibutton tipsy south" title="Tambah Anggota rtm"><span class="fa fa-plus-circle"></span></a>
                           <?php  if($grup==1){?>
                             <a href="<?php echo site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" target="ajax-modal" rel="window" header="Edit Rumah Tangga" class="uibutton tipsy south" title="Edit Data" ><span class="fa fa-edit"></span></a>

@@ -210,7 +210,7 @@
 				'<td style="padding-left:2px"><font size="2.5" style="bold"><?php echo $data['nama']?></font> - <?php echo ucwords(strtolower($data['sex']))?>' +
 				'<p><?php echo $data['umur']?> Tahun (<?php echo $data['agama']?>)</p>'+
 				'<p><?php echo $data['alamat']?></p>'+
-				'<p><a href="<?php echo site_url("penduduk/detail/1/0/$data[id]")?>" target="ajax-modalx" rel="content" header="Detail Data <?php echo $data['nama']?>" >Data Detail</a></p></td>'+
+				'<p><a href="<?php echo site_url("penduduk/detail/1/0/$data[id]")?>" target="ajax-modalx" rel="content" header="Rincian Data <?php echo $data['nama']?>" >Data Rincian</a></p></td>'+
 				'</tr></table>';
 			infoWindow.setContent(content);
 			infoWindow.open(map, marker_<?php echo $data['id']?>);

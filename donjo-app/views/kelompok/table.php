@@ -73,7 +73,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
           <td><div class="uibutton-group">
-          <a href="<?php echo site_url("kelompok/anggota/$data[id]")?>" class="uibutton tipsy south" title="Anggota Kelompok"><span class="fa fa-list"></span> Detail</a>
+          <a href="<?php echo site_url("kelompok/anggota/$data[id]")?>" class="uibutton tipsy south" title="Anggota Kelompok"><span class="fa fa-list"></span> Rincian</a>
             <a href="<?php echo site_url("kelompok/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
             <a href="<?php echo site_url("kelompok/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 			</div>

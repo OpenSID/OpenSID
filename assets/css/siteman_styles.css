@@ -270,3 +270,8 @@ table.tftable.lap-bulanan th.kolom-data {
   background-color: rgba(255, 127, 80, 0.35);
 }
 
+/* Font dan warna icon dan text di tombol aksi */
+a.uibutton .fa {color: #752100}
+button.uibutton .fa {color: #752100;}
+#maincontent a.uibutton:visited {color: #752100 !important;}
+#maincontent .uibutton-group .uibutton {font-weight: lighter; font-size: 10px;}

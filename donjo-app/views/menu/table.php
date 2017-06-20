@@ -87,7 +87,7 @@ source: keyword
               <a href="<?php echo site_url("menu/urut/$tip/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="fa fa-arrow-down"></span></a>
               <a href="<?php echo site_url("menu/urut/$tip/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="fa fa-arrow-up"></span></a>
             <?php endif; ?>
-            <a href="<?php echo site_url("menu/sub_menu/$tip/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Menu"><span class="fa fa-bars"></span> Detail</a>
+            <a href="<?php echo site_url("menu/sub_menu/$tip/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Menu"><span class="fa fa-bars"></span> Rincian</a>
             <a href="<?php echo site_url("menu/form/$tip/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
             <a href="<?php echo site_url("menu/delete/$tip/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
             <?php if($data['enabled'] == '2'):?>
