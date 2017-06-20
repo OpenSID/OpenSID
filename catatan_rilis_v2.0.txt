@@ -30,4 +30,6 @@ Pada rilis ini berkas css (stylesheet) untuk tema 'default' dan 'hadakewa' dipin
 3. copy/paste folder desa-contoh/css ke folder desa/css
 4. ubah berkas css di desa/css untuk masing-masing tema sesuai kebutuhan desa (lihat panduan https://github.com/eddieridwan/OpenSID/wiki/Mengubah-Penampilan-Web)
 
+Selain itu, karena setting aplikasi sekarang dikelola di database aplikasi dan tidak lagi disimpan di berkas desa/config/config.php, setting di berkas tersebut perlu dipindahkan ke database melalui menu Pengaturan > Setting Aplikasi. Seterusnya, berkas desa/config/config.php dapat dikosongkan.
+
 
