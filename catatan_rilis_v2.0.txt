@@ -1,6 +1,6 @@
 Dalam rilis ini disediakan halaman untuk pengaturan semua setting aplikasi, supaya admin dapat mengubah setting tanpa harus mengubah berkas konfigurasi. Rilis ini juga menyediakan widget Aparatur Desa sebagai widget sistem, di mana foto yang ditampilkan dapat diunduh dengan mudah dari menu SID Home > Pemerintah Desa. Selain itu, rilis ini juga berisi beberapa perbaikan lainnya yang diminta oleh komunitas SID.
 
-Terima kasih pada Ahmad Affandi, Happy Agung dan Parso Widodo yang terus membuat kontribusi.
+Terima kasih pada Ahmad Afandi, Happy Agung dan Parso Widodo yang terus membuat kontribusi.
 
 Lengkapnya, isi rilis v2.0:
 
