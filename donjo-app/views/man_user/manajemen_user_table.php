@@ -47,29 +47,29 @@
                 <th><input type="checkbox" class="checkall"/></th>
                 <th width="100">Aksi</th>
                 <?php  if($o==2): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/1")?>">Username<span class="ui-icon ui-icon-triangle-1-n"></span></a></th>
+								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/1")?>">Username <span class="fa fa-sort-asc fa-sm"></span></a></th>
 							<?php  elseif($o==1): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/2")?>">Username<span class="ui-icon ui-icon-triangle-1-s"></span></a></th>
+								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/2")?>">Username <span class="fa fa-sort-desc fa-sm"></span></a></th>
 							<?php  else: ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/1")?>">Username<span class="ui-icon ui-icon-triangle-2-n-s"></span></a></th>
+								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/1")?>">Username <span class="fa fa-sort fa-sm"></span></a></th>
 							<?php  endif; ?>
 							
 							<?php  if($o==4): ?>
-								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 							<?php  elseif($o==3): ?>
-								<th align="left"><a href="<?php echo site_url("man_user/index/$p/4")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("man_user/index/$p/4")?>">Nama <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 							<?php  endif; ?>
 							
 							<?php  if($o==6): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="center" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 							<?php  elseif($o==5): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/6")?>">Group<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="center" width='100'><a href="<?php echo site_url("man_user/index/$p/6")?>">Group <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="center" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 							<?php  endif; ?>
-								<th align="left" width='160' align="center">Last Login</th>
+								<th align="center" width='160' align="center">Last Login</th>
             
 			</tr>
 		</thead>

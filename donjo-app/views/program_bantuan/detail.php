@@ -120,7 +120,7 @@
 							</tbody>
 						</table>
 						<div style="padding:1em 0;">
-							<a class="uibutton" href="<?php echo site_url('program_bantuan/unduhsheet/'.$detail["id"].'/')?>"><i class="icon icon-download"></i> Unduh dlm format .xls</a>
+							<a class="uibutton" href="<?php echo site_url('program_bantuan/unduhsheet/'.$detail["id"].'/')?>"><i class="fa fa-download"></i> Unduh dalam format .xls</a>
 						</div>
 					</div>
 				</div>

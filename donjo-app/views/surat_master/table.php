@@ -32,19 +32,19 @@
 								<th>Aksi</th>
 
 							<?php  if($o==4): ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 							<?php  elseif($o==3): ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/4")?>">Nama Surat<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/4")?>">Nama Surat <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 							<?php  endif; ?>
 
 							<?php  if($o==6): ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="center"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode/Klasifikasi <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 							<?php  elseif($o==5): ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/6")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="center"><a href="<?php echo site_url("surat_master/index/$p/6")?>">Kode/Klasifikasi <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="center"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode/Klasifikasi <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 							<?php  endif; ?>
 
 								<th width="">URL</th>
@@ -62,7 +62,7 @@
 								<td align="center" width="5">
 									<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" <?php if($data['jenis']==1){echo " disabled= disabled";}?> />
 								</td>
-								<td>
+								<td align="center">
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 										<?php if($data['jenis']!=1): ?>
@@ -79,10 +79,10 @@
 								</td>
 
 								<td><?php echo $data['nama']?></td>
-								<td><?php echo $data['kode_surat']?></td>
+								<td align="center"><?php echo $data['kode_surat']?></td>
 								<td><?php echo $data['url_surat']?></td>
 								<td><?php echo $data['lampiran']?></td>
-								<td>
+								<td align="center">
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Kode Isian"><span class="fa fa-code"></span> Kode Isian</a>
 										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south" title="Upload Template" target="ajax-modal" rel="window" header="Upload Template"><span class="fa fa-upload"></span> Upload</a>

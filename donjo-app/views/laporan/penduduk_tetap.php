@@ -64,19 +64,19 @@
                 <th><input type="checkbox" class="checkall"/></th>
                 <th width="50">Aksi</th>
                 <?php  if($o==2): ?>
-<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-1-n"></span></a></th>
+<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/1")?>">NIK <span class="fa fa-sort-asc fa-sm"></span></a></th>
 <?php  elseif($o==1): ?>
-<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/2")?>">NIK<span class="ui-icon ui-icon-triangle-1-s"></span></a></th>
+<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/2")?>">NIK <span class="fa fa-sort-desc fa-sm"></span></a></th>
 <?php  else: ?>
-<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-2-n-s"></span></a></th>
+<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/1")?>">NIK <span class="fa fa-sort fa-sm"></span></a></th>
 <?php  endif; ?>
 
  <?php  if($o==4): ?>
-<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/3")?>">Nama <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 <?php  elseif($o==3): ?>
-<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/4")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/4")?>">Nama <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 <?php  else: ?>
-<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/3")?>">Nama <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 <?php  endif; ?>
 
 <th align="left" width='100'>No. KK</th>

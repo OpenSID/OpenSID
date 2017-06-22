@@ -62,8 +62,8 @@
 				</select>
 				<?php }?>
 				
-<a href="<?php echo site_url("analisis_statistik_jawaban/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-<a href="<?php echo site_url("analisis_statistik_jawaban/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+<a href="<?php echo site_url("analisis_statistik_jawaban/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print" style="color:#fff">&nbsp;</span>Cetak</a>
+<a href="<?php echo site_url("analisis_statistik_jawaban/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text" style="color:#fff">&nbsp;</span>Excel</a>
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('analisis_statistik_jawaban/search')?>');$('#'+'mainform').submit();}" />
@@ -75,47 +75,47 @@
 		<tr>
 			<th width="10">No</th>
 	 		<?php if($o==4): ?>
-				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/3")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/3")?>">Pertanyaan <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/4")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/4")?>">Pertanyaan <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/3")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/3")?>">Pertanyaan <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 			<th align="left">Total</th>
 	 		<?php if($o==2): ?>
-				<th align="left" width="10"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/1")?>">Kode<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width="10"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/1")?>">Kode <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width="10"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/2")?>">Kode<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width="10"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/2")?>">Kode <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width="10"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/1")?>">Kode<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width="10"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/1")?>">Kode <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 			<th align="left" colspan="2">Jawaban</th>
 			<th align="left">Responden</th>
 			
 			<?php if($o==6): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Tipe Indikator <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/6")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/6")?>">Tipe Indikator <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Tipe Indikator <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==6): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Kategori Indikator <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/6")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/6")?>">Kategori Indikator <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Kategori Indikator <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 			<?php if($o==2): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/1")?>">Aksi Analisis<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/1")?>">Aksi Analisis <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/2")?>">Aksi Analisis<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/2")?>">Aksi Analisis <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='10'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/1")?>">Aksi Analisis<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='10'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/1")?>">Aksi Analisis <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			</tr>
 		</thead>

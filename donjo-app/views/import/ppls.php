@@ -47,7 +47,7 @@
 									<td width="250">
 										<input name="userfile" type="file" />
 									<td>
-										<input type="submit" class="uibutton special" value="Import" />
+										<button class="uibutton special" type="submit"><span class="fa fa-upload" style="color:#fff"></span> Import</button>
 									</td>
 									<td>
 										&nbsp;
@@ -62,7 +62,7 @@
 									<td width="250">
 										<input name="userfile" type="file" />
 									<td>
-										<input type="submit" class="uibutton special" value="Import" />
+										<button class="uibutton special" type="submit"><span class="fa fa-upload" style="color:#fff"></span> Import</button>
 									</td>
 									<td>
 										&nbsp;

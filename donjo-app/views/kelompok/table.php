@@ -48,20 +48,20 @@
                 <th>Aksi</th>
 
 	 		<?php  if($o==4): ?>
-				<th align="left"><a href="<?php echo site_url("kelompok/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("kelompok/index/$p/3")?>">Nama <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php  elseif($o==3): ?>
-				<th align="left"><a href="<?php echo site_url("kelompok/index/$p/4")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("kelompok/index/$p/4")?>">Nama <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php  else: ?>
-				<th align="left"><a href="<?php echo site_url("kelompok/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("kelompok/index/$p/3")?>">Nama <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php  endif; ?>
 
                 <th>Ketua Kelompok</th>
 			<?php  if($o==6): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/5")?>">Master Kelompok<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/5")?>">Master Kelompok <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php  elseif($o==5): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/6")?>">Master Kelompok<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/6")?>">Master Kelompok <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php  else: ?>
-				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/5")?>">Master Kelompok<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/5")?>">Master Kelompok <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php  endif; ?>
 		</tr>
 		</thead>
