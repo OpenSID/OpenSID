@@ -1,25 +1,25 @@
 <?php
 /*
  * persil_jenis.php
- * 
+ *
  * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- * 
- * 
+ *
+ *
  */
 
 ?>
@@ -35,12 +35,12 @@
 			<legend>Pengelolaan Data Jenis Persil</legend>
 			<div id="contentpane">
 				<div id="maincontent" class="ui-layout-center" style="padding:0 3em 0 0;">
-			
-			
+
+
 <?php
 /*
  * Form Add/Edit
- * 
+ *
  * */
 
 if($persil_jenis_detail){
@@ -69,15 +69,15 @@ echo "
 		<input type=\"reset\" class=\"uibutton\" name=\"tombolreset\" id=\"tombolreset\" value=\"Batal\"/>
 		</div>
 	</div>
-	
+
 ";
 echo "</form>";
 ?>
 
-<?php 
+<?php
 /*
  * List Data
- * 
+ *
  * */
 if($persil_jenis){
 	if(count($persil_jenis)>0){
@@ -94,9 +94,9 @@ if($persil_jenis){
 			<td>".$nomer."</td>
 			<td>
 				<div class=\"uibutton-group\">
-					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/jenis/".$key) ."\" title=\"Detail\"><span class=\"icon-list icon-large\"></span> Detail</a>
-					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/persil_jenis/".$key) ."\" title=\"Ubah\"><span class=\"icon-pencil icon-large\"></span></a>
-					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/hapus_persil_jenis/".$key) ."\" title=\"Hapus Data\" target=\"confirm\" message=\"Apakah Anda Yakin?\" header=\"Hapus Data\"><span class=\"icon-trash icon-large\"></span></a>
+					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/jenis/".$key) ."\" title=\"Rincian\"><span class=\"icon-list\"></span> Rincian</a>
+					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/persil_jenis/".$key) ."\" title=\"Ubah\"><span class=\"icon-pencil\"></span></a>
+					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/hapus_persil_jenis/".$key) ."\" title=\"Hapus Data\" target=\"confirm\" message=\"Apakah Anda Yakin?\" header=\"Hapus Data\"><span class=\"icon-trash\"></span></a>
 				</div>
 			</td>
 			<td><a href=\"".site_url('data_persil/jenis/'.$key.'/')."\">".$item[0]."</a></td>

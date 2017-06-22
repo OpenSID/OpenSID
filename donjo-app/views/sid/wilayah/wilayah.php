@@ -19,14 +19,14 @@
     <h3>Wilayah Administratif <?php echo ucwords($this->setting->sebutan_dusun)?></h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('sid_core/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah <?php echo ucwords($this->setting->sebutan_dusun)?></a>
-                <a href="<?php echo site_url('sid_core/cetak')?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url('sid_core/excel')?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+                <a href="<?php echo site_url('sid_core/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah <?php echo ucwords($this->setting->sebutan_dusun)?></a>
+                <a href="<?php echo site_url('sid_core/cetak')?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
+		<a href="<?php echo site_url('sid_core/excel')?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text">&nbsp;</span>Excel</a>
             </div>
         </div>
 		<div class="right">
 			<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('sid_core/search')?>');$('#'+'mainform').submit();}" />
-			<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('sid_core/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+			<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('sid_core/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 		</div>
     </div>
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
@@ -70,11 +70,11 @@
 			</td>
 			<td width="4" align="center"><div class="uibutton-group">
 
-<a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Wilayah"><span class="icon-list icon-large"> Rincian</span></a>
-<a href="<?php echo site_url("sid_core/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span  class="icon-edit icon-large"></span></a>
+<a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Wilayah"><span class="fa fa-bars"></span> Rincian</a>
+<a href="<?php echo site_url("sid_core/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
 
 <?php  if($grup==1){?>
-				<a href="<?php echo site_url("sid_core/delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin? Menghapus data dusun akan mempengaruhi struktur data yang ada dibawah dusun. pilih tidak untuk membatalkan penghapusan." header="Hapus Data"><span class="icon-trash icon-large"></span></a><?php  } ?>
+				<a href="<?php echo site_url("sid_core/delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin? Menghapus data dusun akan mempengaruhi struktur data yang ada dibawah dusun. pilih tidak untuk membatalkan penghapusan." header="Hapus Data"><span class="fa fa-trash"></span></a><?php  } ?>
 </div>
 			</td>
 			<td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
@@ -132,10 +132,10 @@
         <div class="right">
             <div class="uibutton-group">
             <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("sid_core/index/$paging->start_link/$o")?>" class="uibutton"  >Awal</a>
+				<a href="<?php echo site_url("sid_core/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 			<?php  endif; ?>
 			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("sid_core/index/$paging->prev/$o")?>" class="uibutton"  >Prev</a>
+				<a href="<?php echo site_url("sid_core/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
@@ -146,10 +146,10 @@
             </div>
             <div class="uibutton-group">
 			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("sid_core/index/$paging->next/$o")?>" class="uibutton">Next</a>
+				<a href="<?php echo site_url("sid_core/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 			<?php  endif; ?>
 			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("sid_core/index/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+                <a href="<?php echo site_url("sid_core/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 			<?php  endif; ?>
             </div>
         </div>

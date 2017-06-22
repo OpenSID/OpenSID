@@ -40,7 +40,7 @@
 				<a href="<?php echo site_url()?>statistik/index/15"><li <?php if($lap==15){?>class="selected"<?php }?>>
 					Umur</li></a>
 				<a href="<?php echo site_url()?>statistik/index/13"><li <?php if($lap==13){?>class="selected"<?php }?>>
-					Umur (Detail)</li></a>
+					Umur (Rincian)</li></a>
 				</ul>
 			</div>
 		</td>

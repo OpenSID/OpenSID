@@ -5,8 +5,8 @@
 				<h3>Dokumen / Kelengkapan Penduduk - <?php echo $penduduk['nama']?> [<?php echo $penduduk['nik']?>]</h3>
 				<div class="left">
 					<div class="uibutton-group">
-						<a header="Form Dokumen" target="ajax-modal" rel="dokumen" href="<?php echo site_url("penduduk/dokumen_form/$penduduk[id]")?>" class="uibutton"><span class="icon-plus-sign icon-large"></span> Tambah Dokumen</a>
-						<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk/delete_all_dokumen/$penduduk[id]")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus
+						<a header="Form Dokumen" target="ajax-modal" rel="dokumen" href="<?php echo site_url("penduduk/dokumen_form/$penduduk[id]")?>" class="uibutton"><span class="fa fa-plus-square"></span> Tambah Dokumen</a>
+						<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk/delete_all_dokumen/$penduduk[id]")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus
 					</div>
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 								</td>
 								<td>
 									<div class="uibutton-group">
-										<a href="<?php echo site_url("penduduk/delete_dokumen/$penduduk[id]/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+										<a href="<?php echo site_url("penduduk/delete_dokumen/$penduduk[id]/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 									</div>
 								 </td>
 								 <td><?php echo $data['nama']?></td>
@@ -54,7 +54,7 @@
       <div class="ui-layout-south panel bottom">
 				<div class="left">
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("penduduk/detail/1/0/$penduduk[id]")?>" class="uibutton icon prev"><span class="icon-prev icon-large"></span> Kembali</a>
+						<a href="<?php echo site_url("penduduk/detail/1/0/$penduduk[id]")?>" class="uibutton icon prev"><span class="icon-prev"></span> Kembali</a>
 					</div>
 				</div>
 			</div>

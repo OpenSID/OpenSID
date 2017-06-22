@@ -23,7 +23,7 @@
 	}
 </style>
 <div id="pageC">
-<div id="contentpane"> 
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
 </div>
@@ -46,7 +46,7 @@
 			</tr>
 		</table>
 <div class="table-panel top">
-	<div class="left">	
+	<div class="left">
 		<select name="klasifikasi" onchange="formAction('mainform','<?php echo site_url('analisis_laporan/klasifikasi')?>')">
 			<option value=""> --- Klasifikasi --- </option>
 			<?php foreach($list_klasifikasi AS $data){?>
@@ -59,7 +59,7 @@
 				<option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo $data['dusun']?></option>
 			<?php }?>
 		</select>
-		
+
 		<?php if($dusun){?>
 			<select name="rw" onchange="formAction('mainform','<?php echo site_url('analisis_laporan/rw')?>')">
 				<option value="">RW</option>
@@ -68,7 +68,7 @@
 				<?php }?>
 			</select>
 		<?php }?>
-		
+
 		<?php if($rw){?>
 		 <select name="rt" onchange="formAction('mainform','<?php echo site_url('analisis_laporan/rt')?>')">
 			<option value="">RT</option>
@@ -77,13 +77,13 @@
 			<?php }?>
 		 </select>
 		<?php }?>
-		<a href="<?php echo site_url("analisis_laporan/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url("analisis_laporan/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
-		<a href="<?php echo site_url("analisis_laporan/ajax_multi_jawab")?>" target="ajax-modal-map" rel="window" header="Filter Indikator" class="uibutton tipsy south" title="Filter Indikator"><span class="icon-search icon-large">&nbsp;</span>Filter Indikator</a>
+		<a href="<?php echo site_url("analisis_laporan/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+		<a href="<?php echo site_url("analisis_laporan/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+		<a href="<?php echo site_url("analisis_laporan/ajax_multi_jawab")?>" target="ajax-modal-map" rel="window" header="Filter Indikator" class="uibutton tipsy south" title="Filter Indikator"><span class="fa fa-search">&nbsp;</span>Filter Indikator</a>
 	</div>
 	<div class="right">
 		<input name="cari" id="cari" type="text" class="inputbox help tipped" size="40" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('analisis_laporan/search')?>');$('#'+'mainform').submit();}" />
-		<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_laporan/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+		<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_laporan/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 	</div>
 </div>
 <table class="list">
@@ -98,7 +98,7 @@
 			<?php else: ?>
 				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 			<?php if($o==4): ?>
 				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
@@ -106,12 +106,12 @@
 			<?php else: ?>
 				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 				<th width='50'>L/P</th>
 				<th width='100'>Dusun</th>
 				<th width='30'>RW</th>
 				<th width='30'>RT</th>
-			
+
 			<?php if($o==6): ?>
 				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Nilai<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
@@ -119,7 +119,7 @@
 			<?php else: ?>
 				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Nilai<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 			<?php if($o==6): ?>
 				<th align="left" width='100'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Klasifikasi<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
@@ -136,7 +136,7 @@
 				<td align="center" width="2"><?php echo $data['no']?></td>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="icon-list icon-large"> Rincian </span></a>
+						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="fa fa-list"></span> Rincian</a>
 					</div>
 				</td>
 				<td><?php echo $data['uid']?></td>
@@ -155,7 +155,7 @@
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-	<div class="left"> 
+	<div class="left">
 		<div class="table-info">
 			<form id="paging" action="<?php echo site_url('analisis_laporan')?>" method="post">
 				<a href="<?php echo site_url()?>analisis_laporan/leave" class="uibutton icon prev">Kembali</a>
@@ -174,10 +174,10 @@
 <div class="right">
 	<div class="uibutton-group">
 	<?php if($paging->start_link): ?>
-		<a href="<?php echo site_url("analisis_laporan/index/$paging->start_link/$o")?>" class="uibutton" >Awal</a>
+		<a href="<?php echo site_url("analisis_laporan/index/$paging->start_link/$o")?>" class="uibutton" ><span class="fa fa-fast-backward"></span> Awal</a>
 		<?php endif; ?>
 		<?php if($paging->prev): ?>
-		<a href="<?php echo site_url("analisis_laporan/index/$paging->prev/$o")?>" class="uibutton" >Prev</a>
+		<a href="<?php echo site_url("analisis_laporan/index/$paging->prev/$o")?>" class="uibutton" ><span class="fa fa-step-backward"></span> Prev</a>
 		<?php endif; ?>
 	</div>
 	<div class="uibutton-group">
@@ -187,10 +187,10 @@
 	</div>
 	<div class="uibutton-group">
 		<?php if($paging->next): ?>
-		<a href="<?php echo site_url("analisis_laporan/index/$paging->next/$o")?>" class="uibutton">Next</a>
+		<a href="<?php echo site_url("analisis_laporan/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 		<?php endif; ?>
 		<?php if($paging->end_link): ?>
-	<a href="<?php echo site_url("analisis_laporan/index/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+	<a href="<?php echo site_url("analisis_laporan/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 		<?php endif; ?>
 	</div>
 </div>

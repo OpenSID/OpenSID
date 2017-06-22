@@ -94,9 +94,9 @@ if($persil_peruntukan){
 			<td>".$nomer."</td>
 			<td>
 				<div class=\"uibutton-group\">
-					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/peruntukan/".$key) ."\" title=\"Detail\"><span class=\"icon-list icon-large\"></span> Detail</a>
-					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/persil_peruntukan/".$key) ."\" title=\"Ubah\"><span class=\"icon-pencil icon-large\"></span></a>
-					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/hapus_persil_peruntukan/".$key) ."\" title=\"Hapus Data\" target=\"confirm\" message=\"Apakah Anda Yakin?\" header=\"Hapus Data\"><span class=\"icon-trash icon-large\"></span></a>
+					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/peruntukan/".$key) ."\" title=\"Rincian\"><span class=\"icon-list\"></span> Rincian</a>
+					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/persil_peruntukan/".$key) ."\" title=\"Ubah\"><span class=\"icon-pencil\"></span></a>
+					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/hapus_persil_peruntukan/".$key) ."\" title=\"Hapus Data\" target=\"confirm\" message=\"Apakah Anda Yakin?\" header=\"Hapus Data\"><span class=\"icon-trash\"></span></a>
 				</div>
 			</td>
 			<td><a href=\"".site_url('data_persil/jenis/'.$key.'/')."\">".$item[0]."</a></td>

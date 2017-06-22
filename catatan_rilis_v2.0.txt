@@ -1,6 +1,6 @@
 Dalam rilis ini disediakan halaman untuk pengaturan semua setting aplikasi, supaya admin dapat mengubah setting tanpa harus mengubah berkas konfigurasi. Rilis ini juga menyediakan widget Aparatur Desa sebagai widget sistem, di mana foto yang ditampilkan dapat diunduh dengan mudah dari menu SID Home > Pemerintah Desa. Selain itu, rilis ini juga berisi beberapa perbaikan lainnya yang diminta oleh komunitas SID.
 
-Terima kasih pada Ahmad Affandi, Happy Agung dan Parso Widodo yang terus membuat kontribusi.
+Terima kasih pada Ahmad Afandi, Happy Agung dan Parso Widodo yang terus membuat kontribusi.
 
 Lengkapnya, isi rilis v2.0:
 
@@ -29,5 +29,7 @@ Pada rilis ini berkas css (stylesheet) untuk tema 'default' dan 'hadakewa' dipin
 2. hapus folder desa/css
 3. copy/paste folder desa-contoh/css ke folder desa/css
 4. ubah berkas css di desa/css untuk masing-masing tema sesuai kebutuhan desa (lihat panduan https://github.com/eddieridwan/OpenSID/wiki/Mengubah-Penampilan-Web)
+
+Selain itu, karena setting aplikasi sekarang dikelola di database aplikasi dan tidak lagi disimpan di berkas desa/config/config.php, setting di berkas tersebut perlu dipindahkan ke database melalui menu Pengaturan > Setting Aplikasi. Seterusnya, berkas desa/config/config.php dapat dikosongkan.
 
 

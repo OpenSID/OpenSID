@@ -1,4 +1,7 @@
-    .cycle-slideshow {
+    .slider img {
+        width: 100%;
+    }
+    .slider, .cycle-slideshow {
 		max-height: 300px;
 		margin-bottom: 10px;
 		border: 10px solid #e5e5e5;

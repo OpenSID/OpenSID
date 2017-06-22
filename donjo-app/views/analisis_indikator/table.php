@@ -15,8 +15,8 @@
 <h3>Manajemen Indikator Analisis - <a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><?php echo $analisis_master['nama']?></a></a></h3>
 <div class="left">
 <div class="uibutton-group">
-<?php if($analisis_master['lock']==1){?><a href="<?php echo site_url('analisis_indikator/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Indikator Baru</a>
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_indikator/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data<?php }?>
+<?php if($analisis_master['lock']==1){?><a href="<?php echo site_url('analisis_indikator/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Indikator Baru</a>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_indikator/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data<?php }?>
 </div>
 </div>
 </div>
@@ -45,7 +45,7 @@
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('analisis_indikator/search')?>');$('#'+'mainform').submit();}" />
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_indikator/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_indikator/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 </div>
 </div>
 <table class="list">
@@ -114,7 +114,7 @@
 			</td>
 			<td>
 				<div class="uibutton-group">
-				<?php if($data['id_tipe']==1 OR $data['id_tipe']==2){?><a href="<?php echo site_url("analisis_indikator/parameter/$data[id]")?>" class="uibutton"><span class="icon-list icon-large"> Parameter</span></a><?php }?><a href="<?php echo site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+				<?php if($data['id_tipe']==1 OR $data['id_tipe']==2){?><a href="<?php echo site_url("analisis_indikator/parameter/$data[id]")?>" class="uibutton"><span class="fa fa-list"> Parameter</span></a><?php }?><a href="<?php echo site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 				</div>
 			</td>
 			
@@ -150,10 +150,10 @@
 	<div class="right">
 		<div class="uibutton-group">
 		<?php if($paging->start_link): ?>
-			<a href="<?php echo site_url("analisis_indikator/index/$paging->start_link/$o")?>" class="uibutton" >Awal</a>
+			<a href="<?php echo site_url("analisis_indikator/index/$paging->start_link/$o")?>" class="uibutton" ><span class="fa fa-fast-backward"></span> Awal</a>
 		<?php endif; ?>
 		<?php if($paging->prev): ?>
-			<a href="<?php echo site_url("analisis_indikator/index/$paging->prev/$o")?>" class="uibutton" >Prev</a>
+			<a href="<?php echo site_url("analisis_indikator/index/$paging->prev/$o")?>" class="uibutton" ><span class="fa fa-step-backward"></span> Prev</a>
 		<?php endif; ?>
 		</div>
 		<div class="uibutton-group">
@@ -163,10 +163,10 @@
 		</div>
 		<div class="uibutton-group">
 		<?php if($paging->next): ?>
-			<a href="<?php echo site_url("analisis_indikator/index/$paging->next/$o")?>" class="uibutton">Next</a>
+			<a href="<?php echo site_url("analisis_indikator/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 		<?php endif; ?>
 		<?php if($paging->end_link): ?>
-		<a href="<?php echo site_url("analisis_indikator/index/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+		<a href="<?php echo site_url("analisis_indikator/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 		<?php endif; ?>
 		</div>
 	</div>

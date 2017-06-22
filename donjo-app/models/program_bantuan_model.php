@@ -424,7 +424,7 @@ class Program_bantuan_model extends CI_Model{
 		switch ($cat){
 			case 1:
 				/*
-				 * Detail Penduduk
+				 * Rincian Penduduk
 				 * */
 				$strSQL = "SELECT o.nama,o.foto,o.nik,w.rt,w.rw,w.dusun
 					FROM tweb_penduduk o

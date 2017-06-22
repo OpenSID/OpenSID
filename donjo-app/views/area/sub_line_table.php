@@ -32,8 +32,8 @@
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php echo site_url("area/ajax_add_sub_area/$area")?>" target="ajax-modal" rel="window" header="Tambah Sub area" class="uibutton tipsy south" title="Tambah Sub area"><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah area Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("area/delete_all/")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+<a href="<?php echo site_url("area/ajax_add_sub_area/$area")?>" target="ajax-modal" rel="window" header="Tambah Sub area" class="uibutton tipsy south" title="Tambah Sub area"><span class="fa fa-plus-square">&nbsp;</span>Tambah area Baru</a>
+<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("area/delete_all/")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -64,7 +64,7 @@
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php echo site_url("area/ajax_add_sub_area/$area/$data[id]")?>" class="ui-icons icon-edit tipsy south" target="ajax-modal" rel="window" header="Edit area" title="Edit Data"></a><a href="<?php echo site_url("area/delete_sub_area/$area/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url("area/area_lock_sub_area/$area/$data[id]")?>" class="ui-icons icon-lock tipsy south" title="Enable area"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("area/area_unlock_sub_area/$area/$data[id]")?>" class="ui-icons icon-unlock tipsy south" title="Disable area"></a><?php endif;?>
+<a href="<?php echo site_url("area/ajax_add_sub_area/$area/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" target="ajax-modal" rel="window" header="Edit area" title="Edit Data"></a><a href="<?php echo site_url("area/delete_sub_area/$area/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url("area/area_lock_sub_area/$area/$data[id]")?>" class="ui-icons fa fa-lock tipsy south" title="Enable area"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("area/area_unlock_sub_area/$area/$data[id]")?>" class="ui-icons fa fa-unlock tipsy south" title="Disable area"></a><?php endif;?>
 </td>
 <td width="150"><?php echo $data['nama']?></td>
 <td width="50"><?php echo $data['aktif']?></td>
