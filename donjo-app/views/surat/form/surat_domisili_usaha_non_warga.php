@@ -124,10 +124,10 @@ table.form span.judul{
 						<div class="uibutton-group">
 							<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
 							<?php if (SuratCetak($url)) { ?>
-								<button type="button" onclick="$('#'+'main').attr('action','<?php echo $form_action?>');$('#'+'main').submit();" class="uibutton special"><span class="fa fa-print">&nbsp;</span>Cetak</button>
+								<button type="button" onclick="$('#'+'main').attr('action','<?php echo $form_action?>');$('#'+'main').submit();" class="uibutton special"><span class="fa fa-print" style="color:#fff">&nbsp;</span>Cetak</button>
 							<?php } ?>
 							<?php if (SuratExport($url)) { ?>
-								<button type="button" onclick="$('#'+'main').attr('action','<?php echo $form_action2?>');$('#'+'main').submit();" class="uibutton confirm"><span class="fa fa-file-text">&nbsp;</span>Export Doc</button>
+								<button type="button" onclick="$('#'+'main').attr('action','<?php echo $form_action2?>');$('#'+'main').submit();" class="uibutton confirm"><span class="fa fa-file-text" style="color:#fff">&nbsp;</span>Export Doc</button>
 							<?php } ?>
 						</div>
 					</div>

@@ -60,7 +60,7 @@
     <input type="hidden" name="map_tipe" id="map_tipe" />
 <div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
 <div class="uibutton-group">
-	<button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
+	<button class="uibutton confirm" type="submit"><span class="fa fa-save" style="color:#fff"></span> Simpan</button>
 </div>
 </div>
 </form>

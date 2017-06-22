@@ -55,7 +55,15 @@
 
 					<div class="table-panel top">
 						<table class="list">
-							<thead><tr><th>#</th><th></th><th>Nama Program</th><th>Masa Berlaku</th><th>Sasaran</th></tr></thead>
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Aksi</th>
+									<th>Nama Program</th>
+									<th>Masa Berlaku</th>
+									<th>Sasaran</th>
+								</tr>
+							</thead>
 							<tbody>
 							<?php
 							$nomer = 0;
@@ -64,7 +72,7 @@
 							?>
 								<tr>
 									<td class="angka" style="width:40px;"><?php echo $nomer; ?></td>
-									<td style="width:120px;">
+									<td style="width:120px;" align="center">
 										<div class="uibutton-group">
 											<a class="uibutton tipsy south" href="<?php echo site_url('program_bantuan/detail/1/'.$item["id"].'/'); ?>" title="Rincian"><span class="fa fa-list"></span> Rincian</a>
 											<a class="uibutton tipsy south" href="<?php echo site_url('program_bantuan/edit/'.$item["id"].'/'); ?>" title="Ubah"><span class="fa fa-pencil"></span></a>
@@ -72,7 +80,7 @@
 										</div>
 									</td>
 									<td><a href="<?php echo site_url('program_bantuan/detail/1/'.$item["id"].'/')?>"><?php echo $item["nama"] ?></a></td>
-									<td><?php echo fTampilTgl($item["sdate"],$item["edate"]);?></td>
+									<td align="center"><?php echo fTampilTgl($item["sdate"],$item["edate"]);?></td>
 									<td><a href="<?php echo site_url('program_bantuan/sasaran/'.$item["sasaran"].'/'.$sasaran[$item["sasaran"]].'')?>"><?php echo $sasaran[$item["sasaran"]]?></a></td>
 								</tr>
 							<?php endforeach ?>

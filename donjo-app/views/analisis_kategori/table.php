@@ -37,11 +37,11 @@
 <th width="100">Aksi</th>
 				
 	 		<?php if($o==4): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_kategori/index/$p/3")?>">kategori<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='250'><a href="<?php echo site_url("analisis_kategori/index/$p/3")?>">kategori <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_kategori/index/$p/4")?>">kategori<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='250'><a href="<?php echo site_url("analisis_kategori/index/$p/4")?>">kategori <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_kategori/index/$p/3")?>">kategori<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='250'><a href="<?php echo site_url("analisis_kategori/index/$p/3")?>">kategori <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 <th></th>

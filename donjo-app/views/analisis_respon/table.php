@@ -79,7 +79,7 @@
 			<option value="1" <?php if($isi == 1) :?>selected<?php endif?>>Sudah Terinput</option>
 			<option value="2" <?php if($isi == 2) :?>selected<?php endif?>>Belum Terinput</option>
 		</select>
-		<a href="<?php echo site_url("analisis_respon/aturan_ajax")?>" class="uibutton special tipsy south" title="Fungsi Import harap digunakan secara seksama" target="ajax-modal" rel="window" header="Unduh Form Rujukan Import"><span class="fa fa-file-text">&nbsp;</span>Import</a>
+		<a href="<?php echo site_url("analisis_respon/aturan_ajax")?>" class="uibutton special tipsy south" title="Fungsi Import harap digunakan secara seksama" target="ajax-modal" rel="window" header="Unduh Form Rujukan Import"><span class="fa fa-file-text" style="color:#fff">&nbsp;</span>Import</a>
 	</div>
 	<div class="right">
 		<input name="cari" id="cari" type="text" class="inputbox help tipped" size="40" value="<?php echo $cari?>" title="Cari.." onkeypress="if(event.keyCode == 13) $('#'+'mainform').attr('action','<?php echo site_url('analisis_respon/search')?>');$('#'+'mainform').submit();}" />
@@ -92,19 +92,19 @@
 				<th width="10">No</th>
 				<th width='50'>Aksi</th>
 			<?php if($o==2): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="center" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/2")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="center" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/2")?>"><?php echo $nomor?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="center" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 	 		<?php if($o==4): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="center" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/4")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="center" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/4")?>"><?php echo $nama?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="center" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 				<th width='50'>L/P</th>
@@ -125,12 +125,12 @@
 					<a href="<?php echo site_url("analisis_respon/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="fa fa-list"></span> Input Data</a>
 				</div>
 			 </td>
-			<td><?php echo $data['nid']?></td>
+			<td align="center"><?php echo $data['nid']?></td>
 			<td><?php echo $data['nama']?></td>
 			<td align="center"><?php echo $data['jk']?></td>
 			<td><?php echo $data['dusun']?></td>
-			<td><?php echo $data['rw']?></td>
-			<td><?php echo $data['rt']?></td>
+			<td align="center"><?php echo $data['rw']?></td>
+			<td align="center"><?php echo $data['rt']?></td>
 			<td align="center"><?php echo $data['set']?></td>
 			<td></td>
 		</tr>

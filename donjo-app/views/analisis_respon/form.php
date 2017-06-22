@@ -198,12 +198,12 @@ $(function(){
 			<?php if(isset($_SESSION['fullscreen'])){?>
 			<a href="<?php echo current_url()?>/2" class="uibutton">Normal</a>
 			<?php } else { ?>
-			<a href="<?php echo current_url()?>/1" class="uibutton special">Full Screen</a>
+			<a href="<?php echo current_url()?>/1" class="uibutton special"><span class="fa fa-window-maximize" style="color:#fff"></span> Full Screen</a>
 			<?php } ?>
 		</div>
 		<div class="right">
 			<div class="uibutton-group">
-				<button class="uibutton confirm" type="submit" id="simpan">Simpan</button>
+				<button class="uibutton confirm" type="submit" id="simpan"><span class="fa fa-save" style="color:#fff"></span> Simpan</button>
 			</div>
 		</div>
 	</div>

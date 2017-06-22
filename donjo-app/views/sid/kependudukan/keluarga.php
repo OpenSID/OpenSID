@@ -79,21 +79,21 @@
 
 			<th width="120" align="center">
 			<?php  if($o==2): ?>
-			<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-n">
+			<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==1): ?>
-			<a href="<?php echo site_url("keluarga/index/$p/2")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-s">
+			<a href="<?php echo site_url("keluarga/index/$p/2")?>">Nomor KK <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>
-			<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK<span class="ui-icon ui-icon-triangle-2-n-s">
+			<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
 			<th align="center">
 			<?php  if($o==4): ?>
-			<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-1-n">
+			<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==3): ?>
-			<a href="<?php echo site_url("keluarga/index/$p/4")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-1-s">
+			<a href="<?php echo site_url("keluarga/index/$p/4")?>">Kepala Keluarga <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>
-			<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-2-n-s">
+			<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
@@ -123,15 +123,15 @@
         			<a href="<?php echo site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>"  class="uibutton tipsy south" title="Ubah Alamat/Pindah Keluarga dalam Desa" target="ajax-modal" rel="window" header="Ubah/Pindah Alamat Keluarga" modalWidth="auto" modalHeight="auto"><span class="fa fa-share-square-o"></span></a>
                 <?php  if($grup==1){?><a href="<?php echo site_url("keluarga/delete/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> </a><?php  } ?>
         		</td>
-            <td><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"> <?php echo $data['no_kk']?> </a></td>
-        		<td class=<?php echo empty($data['kepala_kk']) ? "perhatian" : ""?>><?php echo strtoupper(unpenetration($data['kepala_kk']))?></td>
-            <td class=<?php echo empty($data['nik']) ? "perhatian" : ""?>><?php echo strtoupper(unpenetration($data['nik']))?></td>
+            <td align="center"><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"> <?php echo $data['no_kk']?> </a></td>
+        	<td class=<?php echo empty($data['kepala_kk']) ? "perhatian" : ""?>><?php echo strtoupper(unpenetration($data['kepala_kk']))?></td>
+            <td align="center" class=<?php echo empty($data['nik']) ? "perhatian" : ""?>><?php echo strtoupper(unpenetration($data['nik']))?></td>
             <td align="center"><a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?php echo $data['jumlah_anggota']?></a></td>
             <td><?php echo strtoupper($data['sex'])?></td>
             <td><?php echo strtoupper($data['alamat'])?></td>
             <td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
-            <td><?php echo strtoupper($data['rw'])?></td>
-            <td><?php echo strtoupper($data['rt'])?></td>
+            <td align="center"><?php echo strtoupper($data['rw'])?></td>
+            <td align="center"><?php echo strtoupper($data['rt'])?></td>
             <td><?php echo tgl_indo($data['tgl_daftar'])?></td>
             <td><?php echo tgl_indo($data['tgl_cetak_kk'])?></td>
     		  </tr>

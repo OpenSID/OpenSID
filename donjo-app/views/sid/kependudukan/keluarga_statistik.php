@@ -87,21 +87,21 @@
 
 				<th width="150" align="left">
 				<?php  if($o==2): ?>
-				<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-n">
+				<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK <span class="fa fa-sort-asc fa-sm">
 				<?php  elseif($o==1): ?>
-				<a href="<?php echo site_url("keluarga/index/$p/2")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-s">
+				<a href="<?php echo site_url("keluarga/index/$p/2")?>">Nomor KK <span class="fa fa-sort-desc fa-sm">
 				<?php  else: ?>
-				<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK<span class="ui-icon ui-icon-triangle-2-n-s">
+				<a href="<?php echo site_url("keluarga/index/$p/1")?>">Nomor KK <span class="fa fa-sort fa-sm">
 				<?php  endif; ?>
 				&nbsp;</span></a></th>
 
 				<th align="left">
 				<?php  if($o==4): ?>
-				<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-1-n">
+				<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga <span class="fa fa-sort-asc fa-sm">
 				<?php  elseif($o==3): ?>
-				<a href="<?php echo site_url("keluarga/index/$p/4")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-1-s">
+				<a href="<?php echo site_url("keluarga/index/$p/4")?>">Kepala Keluarga <span class="fa fa-sort-desc fa-sm">
 				<?php  else: ?>
-				<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga<span class="ui-icon ui-icon-triangle-2-n-s">
+				<a href="<?php echo site_url("keluarga/index/$p/3")?>">Kepala Keluarga <span class="fa fa-sort fa-sm">
 				<?php  endif; ?>
 				&nbsp;</span></a></th>
 
