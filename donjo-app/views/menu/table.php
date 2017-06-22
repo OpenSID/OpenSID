@@ -17,7 +17,7 @@ source: keyword
 <div class="lmenu">
 <ul>
 <a href="<?php echo site_url("menu/index/1")?>"><li <?php if($tip==1)echo "class='selected'";?>>Menu Statis</li></a>
-<a href="<?php echo site_url("kategori")?>"><li <?php if($tip==2)echo "class='selected'";?>>Kategori / Menu Dinamis</li></a>
+<a href="<?php echo site_url("kategori")?>"><li <?php if($tip==2)echo "class='selected'";?>>Kategori/Menu Dinamis</li></a>
 
 </ul>
 </div>
@@ -55,23 +55,23 @@ source: keyword
     <tr>
       <th>No</th>
       <th><input type="checkbox" class="checkall"/></th>
-      <th>Aksi</th>
+      <th width="200">Aksi</th>
       <?php  if($o==2): ?>
-        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/1")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">
+        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/1")?>">Nama <span class="fa fa-sort-asc fa-sm">
       <?php  elseif($o==1): ?>
-        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/2")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">
+        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/2")?>">Nama <span class="fa fa-sort-desc fa-sm">
       <?php  else: ?>
-        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/1")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">
+        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/1")?>">Nama <span class="fa fa-sort fa-sm">
       <?php  endif; ?>&nbsp;</span></a></th>
 
       <?php  if($o==4): ?>
-        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
+        <th align="center" width="120"><a href="<?php echo site_url("menu/index/$tip/$p/3")?>">Enabled/Disabled <span class="fa fa-sort-asc fa-sm">
       <?php  elseif($o==3): ?>
-        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/4")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-s">
+        <th align="center" width="120"><a href="<?php echo site_url("menu/index/$tip/$p/4")?>">Enabled/Disabled <span class="fa fa-sort-desc fa-sm">
       <?php  else: ?>
-        <th align="left"><a href="<?php echo site_url("menu/index/$tip/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
+        <th align="center" width="120"><a href="<?php echo site_url("menu/index/$tip/$p/3")?>">Enabled/Disabled <span class="fa fa-sort fa-sm">
       <?php  endif; ?>&nbsp;</span></a></th>
-      <th>Link</th>
+		<th align="center">Link</th>
     </tr>
   </thead>
   <tbody>
@@ -97,8 +97,8 @@ source: keyword
               </div>
         </td>
         <td><?php echo $data['nama']?></td>
-        <td><?php echo $data['aktif']?></td>
-        <td><?php echo $data['link']?></td>
+        <td align="center"><?php echo $data['aktif']?></td>
+        <td align="center"><?php echo $data['link']?></td>
       </tr>
     <?php }?>
   </tbody>

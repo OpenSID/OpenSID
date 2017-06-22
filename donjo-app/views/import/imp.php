@@ -32,7 +32,7 @@
 													<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</li>
 													<li>Data yang dibutuhkan untuk Import dengan memenuhi urutan format dan aturan data pada tautan berikut.</a></li>
 												</ol>
-												UNDUH CONTOH FORMAT DAN ATURAN : <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/FormatImportExcel.xls">Aturan Data dan Contoh Format</a><br> File pada tautan ini dapat dipergunakan untuk memasukkan data penduduk. Klik 'Enable Macros' pada waktu membuka file itu.<br>
+												UNDUH CONTOH FORMAT DAN ATURAN : <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/FormatImportExcel.xls"><span class="fa fa-download" style="color:#fff"></span> Aturan Data dan Contoh Format</a><br> File pada tautan ini dapat dipergunakan untuk memasukkan data penduduk. Klik 'Enable Macros' pada waktu membuka file itu.<br>
 											</p>
 											<p style="margin-top: 20px;">
 												<?php
@@ -55,7 +55,7 @@
 										<td width="250">
 											<input name="userfile" type="file" />
 										<td>
-											<a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses import selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Import Sedang Berjalan.">Import</a>
+											<a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses import selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Import Sedang Berjalan."><span class="fa fa-upload" style="color:#fff"></span> Import</a>
 											<input type="checkbox" name="hapus_data" value='hapus' /> Hapus data penduduk sebelum import
 										</td>
 										<td>

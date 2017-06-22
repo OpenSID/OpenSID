@@ -53,7 +53,7 @@ source: keyword
       <th width="160">Aksi</th>
       <th align="left">Judul</th>
       <th align="left">Jenis Widget</th>
-      <th align="left">Aktif / Non-aktif</th>
+      <th align="center">Aktif/Non-aktif</th>
       <th align="left" width='250'>Diposting Pada</th>
     </tr>
   </thead>
@@ -93,7 +93,7 @@ source: keyword
           <?php else: ?>
             Dinamis
           <?php endif ?>
-        <td><?php echo $data['aktif']?></td>
+        <td width="100" align="center"><?php echo $data['aktif']?></td>
         <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
       </tr>
     <?php }?>

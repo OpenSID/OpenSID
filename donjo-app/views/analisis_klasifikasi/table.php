@@ -37,27 +37,27 @@
 		<th width="100">Aksi</th>
 				
 		<?php if($o==4): ?>
-			<th align="left" width='250'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/3")?>">Klasifikasi<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+			<th align="left" width='250'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/3")?>">Klasifikasi <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 		<?php elseif($o==3): ?>
-			<th align="left" width='250'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/4")?>">Klasifikasi<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+			<th align="left" width='250'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/4")?>">Klasifikasi <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 		<?php else: ?>
-			<th align="left" width='250'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/3")?>">Klasifikasi<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+			<th align="left" width='250'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/3")?>">Klasifikasi <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 		<?php endif; ?>
 		
 		<?php if($o==2): ?>
-			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Min<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Min <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 		<?php elseif($o==1): ?>
-			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/2")?>">Min<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/2")?>">Min <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 		<?php else: ?>
-			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Min<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Min <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 		<?php endif; ?>
 		
 		<?php if($o==2): ?>
-			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Maks<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Maks <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 		<?php elseif($o==1): ?>
-			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/2")?>">Maks<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/2")?>">Maks <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 		<?php else: ?>
-			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Maks<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Maks <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 		<?php endif; ?>
 			
 		<th></th>

@@ -18,7 +18,7 @@
     <div class="ui-layout-south panel bottom">
         <div class="left">   
             <div class="uibutton-group">
-                <a href="<?php echo site_url()?>" class="uibutton" >Kembali</a>
+                <a href="<?php echo site_url()?>" class="uibutton" ><span class="fa fa-caret-left"></span> Kembali</a>
             </div>  
         </div>
         <div class="right">

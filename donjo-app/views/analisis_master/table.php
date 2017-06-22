@@ -16,7 +16,7 @@
 		<div class="uibutton-group">
 			<a href="<?php echo site_url('analisis_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Analisis Baru</a>
 			<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
-			<a href="<?php echo site_url('analisis_master/import_analisis')?>" class="uibutton special tipsy south" title="Import" target="ajax-modal" rel="window" header="Import XLS Analisis"><span class="fa fa-plus">&nbsp;</span>Import Analisis</a>
+			<a href="<?php echo site_url('analisis_master/import_analisis')?>" class="uibutton special tipsy south" title="Import" target="ajax-modal" rel="window" header="Import XLS Analisis"><span class="fa fa-plus" style="color:#fff">&nbsp;</span>Import Analisis</a>
 		</div>
 	</div>
 </div>
@@ -48,27 +48,27 @@
 			<th width="10"><input type="checkbox" class="checkall"/></th>
 			<th width="150">Aksi</th>
 			<?php if($o==4): ?>
-				<th align="left" width='300'><a href="<?php echo site_url("analisis_master/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='300'><a href="<?php echo site_url("analisis_master/index/$p/3")?>">Nama <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left" width='300'><a href="<?php echo site_url("analisis_master/index/$p/4")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='300'><a href="<?php echo site_url("analisis_master/index/$p/4")?>">Nama <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='300'><a href="<?php echo site_url("analisis_master/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='300'><a href="<?php echo site_url("analisis_master/index/$p/3")?>">Nama <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==6): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek Analisis<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek Analisis <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/6")?>">Subjek Analisis<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/6")?>">Subjek Analisis <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek Analisis<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek Analisis <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==2): ?>
-				<th align="left" width='20'><a href="<?php echo site_url("analisis_master/index/$p/1")?>">Status<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='20'><a href="<?php echo site_url("analisis_master/index/$p/1")?>">Status <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width='20'><a href="<?php echo site_url("analisis_master/index/$p/2")?>">Status<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='20'><a href="<?php echo site_url("analisis_master/index/$p/2")?>">Status <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='20'><a href="<?php echo site_url("analisis_master/index/$p/1")?>">Status<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='20'><a href="<?php echo site_url("analisis_master/index/$p/1")?>">Status <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			<th></th>
 		</tr>
@@ -80,7 +80,7 @@
 				<td align="center" width="5">
 					<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 				</td>
-				<td>
+				<td align="center">
 					<div class="uibutton-group">
 						<a href="<?php echo site_url("analisis_master/menu/$data[id]")?>" class="uibutton"><span class="fa fa-list"></span> Rincian</a><a href="<?php echo site_url("analisis_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 					</div>

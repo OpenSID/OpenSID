@@ -54,27 +54,27 @@
                 <th style="width: 150px;">Aksi</th>
 
 	 		<?php  if($o==2): ?>
-				<th align="left"><a href="<?php echo site_url("gallery/index/$p/1")?>">Nama Album<span class="ui-icon ui-icon-triangle-1-n">
+				<th align="left"><a href="<?php echo site_url("gallery/index/$p/1")?>">Nama Album <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==1): ?>
-				<th align="left"><a href="<?php echo site_url("gallery/index/$p/2")?>">Nama Album<span class="ui-icon ui-icon-triangle-1-s">
+				<th align="left"><a href="<?php echo site_url("gallery/index/$p/2")?>">Nama Album <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>
-				<th align="left"><a href="<?php echo site_url("gallery/index/$p/1")?>">Nama Album<span class="ui-icon ui-icon-triangle-2-n-s">
+				<th align="left"><a href="<?php echo site_url("gallery/index/$p/1")?>">Nama Album <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>&nbsp;</span></a></th>
 
 			<?php  if($o==4): ?>
-				<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-1-n">
+				<th align="center" widht="100"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif/Non-aktif <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==3): ?>
-				<th align="left"><a href="<?php echo site_url("gallery/index/$p/4")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-1-s">
+				<th align="center" widht="100"><a href="<?php echo site_url("gallery/index/$p/4")?>">Aktif/Non-aktif <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>
-				<th align="left"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-2-n-s">
+				<th align="center" widht="100"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif/Non-aktif <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>&nbsp;</span></a></th>
 
 			<?php  if($o==6): ?>
-				<th align="left" width='150'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada<span class="ui-icon ui-icon-triangle-1-n">
+				<th align="center" width="250"><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==5): ?>
-				<th align="left" width='150'><a href="<?php echo site_url("gallery/index/$p/6")?>">Diupload pada<span class="ui-icon ui-icon-triangle-1-s">
+				<th align="center" width="250"><a href="<?php echo site_url("gallery/index/$p/6")?>">Diupload pada <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>
-				<th align="left" width='150'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada<span class="ui-icon ui-icon-triangle-2-n-s">
+				<th align="center" width="250"><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>&nbsp;</span></a></th>
 
 			</tr>
@@ -109,8 +109,8 @@
 			  <td>
 				<label class="tipsy west" title="<img width=200 height=134 src=<?php echo AmbilGaleri($data['gambar'], 'kecil') ?>>"><?php echo $data['nama']?></label>
 			  </td>
-			  <td><?php echo $data['aktif']?></td>
-			  <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
+			  <td align="center"><?php echo $data['aktif']?></td>
+			  <td align="center"><?php echo tgl_indo2($data['tgl_upload'])?></td>
 		</tr>
         <?php }?>
 		</tbody>

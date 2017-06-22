@@ -274,4 +274,4 @@ table.tftable.lap-bulanan th.kolom-data {
 a.uibutton .fa {color: #752100}
 button.uibutton .fa {color: #752100;}
 #maincontent a.uibutton:visited {color: #752100 !important;}
-#maincontent .uibutton-group .uibutton {font-weight: lighter; font-size: 10px;}
+#maincontent .uibutton-group .uibutton {font-weight: bold; font-size: 11px;}

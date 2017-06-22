@@ -37,7 +37,7 @@
 				<div class="right">
 					<div class="uibutton-group">
 						
-						<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
+						<button class="uibutton confirm" type="submit" ><span class="fa fa-save" style="color:#fff"></span> Simpan</button>
 					</div>
 				</div>
 			</div>

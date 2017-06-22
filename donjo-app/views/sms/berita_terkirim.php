@@ -48,22 +48,22 @@
                 <th width="90">Aksi</th>
                 <th width="150">Nama</th>
                 <?php  if($o==2): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("sms/index/$p/1")?>">Nomor HP<span class="ui-icon ui-icon-triangle-1-n"></span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("sms/index/$p/1")?>">Nomor HP <span class="fa fa-sort-asc fa-sm"></span></a></th>
 			<?php  elseif($o==1): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("sms/index/$p/2")?>">Nomor HP<span class="ui-icon ui-icon-triangle-1-s"></span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("sms/index/$p/2")?>">Nomor HP <span class="fa fa-sort-desc fa-sm"></span></a></th>
 			<?php  else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("sms/index/$p/1")?>">Nomor HP<span class="ui-icon ui-icon-triangle-2-n-s"></span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("sms/index/$p/1")?>">Nomor HP <span class="fa fa-sort fa-sm"></span></a></th>
 			<?php  endif; ?>
 			
 			<th align="left">Isi Pesan</th>
 			
 			
 			<?php  if($o==6): ?>
-				<th align="left" width='160'><a href="<?php echo site_url("sms/index/$p/5")?>">Dikirim<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='160'><a href="<?php echo site_url("sms/index/$p/5")?>">Dikirim <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php  elseif($o==5): ?>
-				<th align="left" width='160'><a href="<?php echo site_url("sms/index/$p/6")?>">Dikirim<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='160'><a href="<?php echo site_url("sms/index/$p/6")?>">Dikirim <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php  else: ?>
-				<th align="left" width='160'><a href="<?php echo site_url("sms/index/$p/5")?>">Dikirim<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='160'><a href="<?php echo site_url("sms/index/$p/5")?>">Dikirim <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php  endif; ?>
 			</tr>
 		</thead>

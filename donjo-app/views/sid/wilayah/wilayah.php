@@ -80,12 +80,12 @@
 			<td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
 			<td><?php echo strtoupper(unpenetration($data['nama_kadus']))?></td>
 
-			<td align="right"><a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" title="Rincian Sub Wilayah"><?php echo $data['jumlah_rw']?></a></td>
-			<td align="right"><?php echo $data['jumlah_rt']?></td>
-			<td align="right"><a href="<?php echo site_url("sid_core/warga_kk/$data[id]")?>"><?php echo $data['jumlah_kk']?></a></td>
-			<td align="right"><a href="<?php echo site_url("sid_core/warga/$data[id]")?>"><?php echo $data['jumlah_warga']?></a></td>
-			<td align="right"><a href="<?php echo site_url("sid_core/warga_l/$data[id]")?>"><?php echo $data['jumlah_warga_l']?></a></td>
-			<td align="right"><a href="<?php echo site_url("sid_core/warga_p/$data[id]")?>"><?php echo $data['jumlah_warga_p']?></a></td>
+			<td align="center"><a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" title="Rincian Sub Wilayah"><?php echo $data['jumlah_rw']?></a></td>
+			<td align="center"><?php echo $data['jumlah_rt']?></td>
+			<td align="center"><a href="<?php echo site_url("sid_core/warga_kk/$data[id]")?>"><?php echo $data['jumlah_kk']?></a></td>
+			<td align="center"><a href="<?php echo site_url("sid_core/warga/$data[id]")?>"><?php echo $data['jumlah_warga']?></a></td>
+			<td align="center"><a href="<?php echo site_url("sid_core/warga_l/$data[id]")?>"><?php echo $data['jumlah_warga_l']?></a></td>
+			<td align="center"><a href="<?php echo site_url("sid_core/warga_p/$data[id]")?>"><?php echo $data['jumlah_warga_p']?></a></td>
 				<td></td>
 		</tr>
         <?php
@@ -101,13 +101,13 @@
 		</tbody>
 
             <tr style="background-color:#BDD498;font-weight:bold;">
-                <td colspan="5" align="left"><label>TOTAL</label></td>
-				<td align="right"><?php echo $total['total_rw']?></td>
-				<td align="right"><?php echo $total['total_rt']?></td>
-				<td align="right"><?php echo $total['total_kk']?></td>
-				<td align="right"><?php echo $total['total_warga']?></td>
-				<td align="right"><?php echo $total['total_warga_l']?></td>
-				<td align="right"><?php echo $total['total_warga_p']?></td>
+                <td colspan="5" align="center"><label>TOTAL</label></td>
+				<td align="center"><?php echo $total['total_rw']?></td>
+				<td align="center"><?php echo $total['total_rt']?></td>
+				<td align="center"><?php echo $total['total_kk']?></td>
+				<td align="center"><?php echo $total['total_warga']?></td>
+				<td align="center"><?php echo $total['total_warga_l']?></td>
+				<td align="center"><?php echo $total['total_warga_p']?></td>
 				<td></td>
 			</tr>
         </table>
