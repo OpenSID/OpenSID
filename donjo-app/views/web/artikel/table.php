@@ -140,7 +140,7 @@ source: keyword
 </td>
 <td>
 <div class="uibutton-group">
-	<a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+	<a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 	<a href="<?php echo site_url("web/ubah_kategori_form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Kategori" target="ajax-modal" rel="window" header="Ubah Kategori" modalWidth="auto" modalHeight="auto"><span class="fa fa-folder-open"></span></a>
 
 <?php if($_SESSION['grup']<4){?>

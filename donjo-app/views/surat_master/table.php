@@ -64,7 +64,7 @@
 								</td>
 								<td align="center">
 									<div class="uibutton-group">
-										<a href="<?php echo site_url("surat_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+										<a href="<?php echo site_url("surat_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 										<?php if($data['jenis']!=1): ?>
 											<a href="<?php echo site_url("surat_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 										<?php endif;?>

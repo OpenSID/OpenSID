@@ -60,20 +60,20 @@
 
         		<?php  if($lap<20 OR ($lap>50 AND $program['sasaran']==1)){?>
         	 		<?php  if($o==4): ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
+        				<th width="60" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
         			<?php  elseif($o==3): ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/4")?>">Laki-Laki <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
+        				<th width="60" align="left"><a href="<?php echo site_url("statistik/index/$lap/4")?>">Laki-Laki <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
         			<?php  else: ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
+        				<th width="60" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
         			<?php  endif; ?>
               <th width="5"></th>
 
         	 		<?php  if($o==8): ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
+        				<th width="75" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
         			<?php  elseif($o==7): ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/8")?>">Perempuan <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
+        				<th width="75" align="left"><a href="<?php echo site_url("statistik/index/$lap/8")?>">Perempuan <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
         			<?php  else: ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
+        				<th width="75" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
           		<?php  endif; ?>
               <th width="5"></th>
               <th></th>

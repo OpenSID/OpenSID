@@ -19,7 +19,7 @@
                     <td width="250">Backup Seluruh Data SID</td>
                     <td>
                       <div class="uibutton-group">
-                        <a class="uibutton special" href="<?php echo site_url("database")?>/exec_backup"><span class="fa fa-download" style="color:#fff"></span> Download</a>
+                        <a class="uibutton special" href="<?php echo site_url("database")?>/exec_backup"><span class="fa fa-download"></span> Download</a>
                       </div>
                     </td>
                   </tr>
@@ -67,7 +67,7 @@
                         <p>Pilih File .sql:</p>
                       </td>
                       <td width='100'><input name="userfile" type="file" accept="application/sql"/></td>
-                      <td><button class="uibutton special" type="submit"><span class="fa fa-refresh" style="color:#fff"></span> Restore</button></td>
+                      <td><button class="uibutton special" type="submit"><span class="fa fa-refresh"></span> Restore</button></td>
                       <td>&nbsp;</td>
                     </tr>
                   </table>
@@ -101,7 +101,7 @@
                       <td width="250"> Kosongkan Database SID</td>
                       <td>
                       <div class="uibutton-group">
-                        <a class="uibutton special" href="<?php echo site_url("database/kosongkan_db")?>" title="Kosongkan DB"  target="confirm" message="Apakah anda yakin? Proses ini akan menghapus semua data penduduk dan data masukan lainnya." rel="window" header="Kosongkan DB"><span>Kosongkan DB</span></a>
+                        <a class="uibutton special" href="<?php echo site_url("database/kosongkan_db")?>" title="Kosongkan DB"  target="confirm" message="Apakah anda yakin? Proses ini akan menghapus semua data penduduk dan data masukan lainnya." rel="window" header="Kosongkan DB"><span class="fa fa-circle-o-notch"></span> Kosongkan DB</a>
                       </div>
                       </td>
                     </tr>

@@ -70,7 +70,7 @@
 			</td>
 			<td width="4" align="center"><div class="uibutton-group">
 
-<a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub Wilayah"><span class="fa fa-bars"></span> Rincian</a>
+<a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Sub Wilayah"><span class="fa fa-bars"></span> Rincian</a>
 <a href="<?php echo site_url("sid_core/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
 
 <?php  if($grup==1){?>

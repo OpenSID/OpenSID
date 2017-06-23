@@ -273,11 +273,24 @@ table.tftable.lap-bulanan th.kolom-data {
 /* Font dan warna icon dan text di tombol aksi */
 a.uibutton .fa {color: #752100}
 button.uibutton .fa {color: #752100;}
-#maincontent a.uibutton:visited {color: #752100 !important;}
-#maincontent .uibutton-group .uibutton {font-weight: normal; font-size: 10.5px;}
+#maincontent a.uibutton:link,
+	#maincontent a.uibutton:visited {color: #752100 !important;}
+#maincontent .uibutton-group .uibutton.fa-tipis {font-weight: normal; font-size: 11px; font-family: FontAwesome;}
 
+/* Font dan warna untuk tombol khusus yang ada icon fa */
 .uibutton.confirm .fa {color: #fff;}
 .uibutton.special .fa {color: #fff;}
+#maincontent a.uibutton.confirm:link,
+	#maincontent a.uibutton.special:link,
+	#maincontent a.uibutton.special:visited,
+	#maincontent a.uibutton.confirm:visited {color: #fff !important;}
+#maincontent .uibutton.special {color: #fff; font-weight: bold; font-size: 11px;}
+#maincontent .uibutton-group .uibutton.special {
+	color: #fff !important;
+	font-weight: bold;
+	font-size: 11px;
+}
+
 .fa-sm {
   font-size: 0.8em;
 }

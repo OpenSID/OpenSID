@@ -21,7 +21,7 @@
     <td width="320">Export Data Keluarga (Format XLS untuk di import ke dalam SID melalui menu Import Excel)</td>
     <td width="70">
       <div class="uibutton-group">
-        <a class="uibutton special" href="<?php echo site_url("database")?>/export_by_keluarga"><span class="fa fa-download" style="color:#fff"></span> Download</a>
+        <a class="uibutton special" href="<?php echo site_url("database")?>/export_by_keluarga"><span class="fa fa-download"></span> Download</a>
       </div>
     </td>
   </tr>
@@ -29,7 +29,7 @@
     <td width="320">Export Data Dasar Kependudukan</td>
     <td width="70">
       <div class="uibutton-group">
-        <a class="uibutton special" href="<?php echo site_url("database")?>/export_dasar"><span class="fa fa-download" style="color:#fff"></span> Download</a>
+        <a class="uibutton special" href="<?php echo site_url("database")?>/export_dasar"><span class="fa fa-download"></span> Download</a>
       </div>
     </td>
   </tr>
@@ -37,7 +37,7 @@
     <td width="320">Export Data Analisis</td>
     <td width="70">
       <div class="uibutton-group">
-        <a class="uibutton special" href="<?php echo site_url("database")?>/export_akp"><span class="fa fa-download" style="color:#fff"></span> Download</a>
+        <a class="uibutton special" href="<?php echo site_url("database")?>/export_akp"><span class="fa fa-download"></span> Download</a>
       </div>
     </td>
   </tr>

@@ -69,7 +69,7 @@ source: keyword
             <a href="<?php echo site_url("web/widget_urut/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="fa fa-arrow-down"></span></a>
             <a href="<?php echo site_url("web/widget_urut/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="fa fa-arrow-up"></span></a>
             <?php if($data['jenis_widget']!=1):?>
-              <a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+              <a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
             <?php  endif?>
             <?php if($_SESSION['grup']<4){?>
               <?php if($data['jenis_widget']!=1):?>

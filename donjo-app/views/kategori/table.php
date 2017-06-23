@@ -91,11 +91,11 @@ source: keyword
               <a href="<?php echo site_url("kategori/urut/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="fa fa-arrow-down"></span></a>
               <a href="<?php echo site_url("kategori/urut/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="fa fa-arrow-up"></span></a>
             <?php endif; ?>
-            <a href="<?php echo site_url("kategori/sub_kategori/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub kategori"><span class="fa fa-bars"></span> Rincian</a>
+            <a href="<?php echo site_url("kategori/sub_kategori/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Sub kategori"><span class="fa fa-bars"></span> Rincian</a>
             <a href="<?php echo site_url("kategori/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
             <a href="<?php echo site_url("kategori/delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
             <?php if($data['enabled'] == '2'):?>
-              <a href="<?php echo site_url("kategori/kategori_lock/".$data['id'])?>"  title="Aktivasi kategori"><span class="fa fa-lock"></span></a>
+              <a href="<?php echo site_url("kategori/kategori_lock/".$data['id'])?>" class="uibutton" title="Aktivasi kategori"><span class="fa fa-lock"></span></a>
             <?php elseif($data['enabled'] == '1'): ?>
               <a href="<?php echo site_url("kategori/kategori_unlock/".$data['id'])?>" class="uibutton tipsy south"  title="Non-aktifkan kategori"><span class="fa fa-unlock"></span></a>
               <a href="<?php echo site_url("kategori/ajax_add_sub_kategori/$data[id]")?>" class="uibutton tipsy south" target="ajax-modal" rel="window" header="Tambah Sub kategori <?php echo $data['kategori']?>" class="uibutton tipsy south" title="Tambah Sub kategori"><span class="fa fa-plus-circle"></span></a>

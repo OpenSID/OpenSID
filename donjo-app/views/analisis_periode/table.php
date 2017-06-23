@@ -9,7 +9,7 @@
 <div id="pageC">
 <div class="content-header">
 </div>
-<div id="contentpane"> 
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
  <div class="ui-layout-north panel">
  <h3>Manajemen Periode Analisis - <a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><?php echo $analisis_master['nama']?></a></h3>
@@ -24,7 +24,7 @@
  <div class="table-panel top">
  <div class="left">
  <select name="state" onchange="formAction('mainform','<?php echo site_url('analisis_periode/state')?>')">
- <option value="">-- Filter by Status Analisis --</option>				
+ <option value="">-- Filter by Status Analisis --</option>
 					<?php foreach($list_state AS $data){?>
 					<option value="<?php echo $data['id']?>" <?php if($state == $data['id']) :?>selected<?php endif?>><?php echo $data['nama']?></option>
 					<?php }?>
@@ -41,7 +41,7 @@
  <th width="10">No</th>
  <th><input type="checkbox" class="checkall"/></th>
  <th width="100">Aksi</th>
-				
+
 	 		<?php if($o==4): ?>
 				<th  align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Periode <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
@@ -49,7 +49,7 @@
 			<?php else: ?>
 				<th  align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Periode <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 	 		<?php if($o==4): ?>
 				<th align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Tahun Pelaksanaan <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
@@ -57,7 +57,7 @@
 			<?php else: ?>
 				<th align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Tahun Pelaksanaan <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
  <th>Tahap Pendataan</th>
  <th>Keterangan</th>
  <th>Aktif</th>
@@ -71,7 +71,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
  <td><div class="uibutton-group">
- <a href="<?php echo site_url("analisis_periode/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_periode/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+ <a href="<?php echo site_url("analisis_periode/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_periode/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 			</div>
  </td>
 		 <td align="center"><?php echo $data['nama']?></td>
@@ -86,7 +86,7 @@
  </div>
 	</form>
  <div class="ui-layout-south panel bottom">
- <div class="left"> 
+ <div class="left">
 		<div class="table-info">
  <form id="paging" action="<?php echo site_url('analisis_periode')?>" method="post">
 <a href="<?php echo site_url()?>analisis_periode/leave" class="uibutton icon prev">Kembali</a>
@@ -112,7 +112,7 @@
 			<?php endif; ?>
  </div>
  <div class="uibutton-group">
- 
+
 				<?php for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("analisis_periode/index/$i/$o")?>" <?php jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php endfor; ?>

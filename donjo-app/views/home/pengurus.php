@@ -61,7 +61,7 @@
                 <td width="5">
                   <div class="uibutton-group">
                     <?php if($data['pamong_id']!="707"){?>
-                      <a href="<?php echo site_url("pengurus/form/$data[pamong_id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+                      <a href="<?php echo site_url("pengurus/form/$data[pamong_id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
                       <?php if($data['pamong_ttd'] == '1'):?>
                           <a href="<?php echo site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Bukan TTD default"><span  class="fa fa-pencil"></span></a>
                       <?php else : ?>

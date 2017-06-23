@@ -81,7 +81,7 @@
 			</td>
 			<td>
 			<div class="uibutton-group">
-				<a href="<?php echo site_url("gallery/form_sub_gallery/$gallery/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Edit</a>
+				<a href="<?php echo site_url("gallery/form_sub_gallery/$gallery/$data[id]")?>" class="uibutton fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 			<?php if($_SESSION['grup']<4){?>
 				<a href="<?php echo site_url("gallery/delete_sub_gallery/$gallery/$data[id]")?>"  class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php if($data['enabled'] == '2'):?>
 				<a href="<?php echo site_url('gallery/gallery_lock/'.$data['id']."/$gallery")?>"  class="uibutton tipsy south" title="Aktifkan gambar"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?>

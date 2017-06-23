@@ -9,7 +9,7 @@
 <div id="pageC">
 <div class="content-header">
 </div>
-<div id="contentpane"> 
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
 	<div class="ui-layout-north panel">
 		<h3>Manajemen Klasifikasi Analisis - <a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><?php echo $analisis_master['nama']?></a></h3>
@@ -35,7 +35,7 @@
 		<th width="10">No</th>
 		<th><input type="checkbox" class="checkall"/></th>
 		<th width="100">Aksi</th>
-				
+
 		<?php if($o==4): ?>
 			<th align="left" width='250'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/3")?>">Klasifikasi <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 		<?php elseif($o==3): ?>
@@ -43,7 +43,7 @@
 		<?php else: ?>
 			<th align="left" width='250'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/3")?>">Klasifikasi <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 		<?php endif; ?>
-		
+
 		<?php if($o==2): ?>
 			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Min <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 		<?php elseif($o==1): ?>
@@ -51,7 +51,7 @@
 		<?php else: ?>
 			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Min <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 		<?php endif; ?>
-		
+
 		<?php if($o==2): ?>
 			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Maks <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 		<?php elseif($o==1): ?>
@@ -59,7 +59,7 @@
 		<?php else: ?>
 			<th align="left" width='50'><a href="<?php echo site_url("analisis_klasifikasi/index/$p/1")?>">Maks <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 		<?php endif; ?>
-			
+
 		<th></th>
 	</tr>
 	</thead>
@@ -71,7 +71,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td><div class="uibutton-group">
-				<a href="<?php echo site_url("analisis_klasifikasi/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter">
+				<a href="<?php echo site_url("analisis_klasifikasi/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter">
 					<span class="fa fa-edit"></span> Ubah
 				</a>
 				<a href="<?php echo site_url("analisis_klasifikasi/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data">
@@ -90,7 +90,7 @@
 </div>
 	</form>
 <div class="ui-layout-south panel bottom">
-	<div class="left"> 
+	<div class="left">
 		<div class="table-info">
 		<form id="paging" action="<?php echo site_url('analisis_klasifikasi')?>" method="post">
 			<a href="<?php echo site_url()?>analisis_klasifikasi/leave" class="uibutton icon prev">Kembali</a>

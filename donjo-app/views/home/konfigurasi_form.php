@@ -80,7 +80,7 @@
 			<?php if (!$this->setting->offline_mode || (int) $this->setting->offline_level <= 1) { ?>
              <tr>
                 <th>Kantor / Wilayah <?php echo ucwords($this->setting->sebutan_desa)?></th>
-                <td><a href="<?php echo site_url("hom_desa/ajax_kantor_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-lok" header="Lokasi <?php echo $main['nama_desa']?>" title="Lokasi <?php echo $main['nama_desa']?>"><span class="fa fa-map-marker" style="color:#fff"></span> Kantor <?php echo ucwords($this->setting->sebutan_desa)?></a><a href="<?php echo site_url("hom_desa/ajax_wilayah_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-wil" header="Wilayah <?php echo $main['nama_desa']?>" title="Wilayah <?php echo $main['nama_desa']?>"><span class="fa fa-map" style="color:#fff"></span> Wilayah <?php echo ucwords($this->setting->sebutan_desa)?></a></td>
+                <td><a href="<?php echo site_url("hom_desa/ajax_kantor_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-lok" header="Lokasi <?php echo $main['nama_desa']?>" title="Lokasi <?php echo $main['nama_desa']?>"><span class="fa fa-map-marker"></span> Kantor <?php echo ucwords($this->setting->sebutan_desa)?></a><a href="<?php echo site_url("hom_desa/ajax_wilayah_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-wil" header="Wilayah <?php echo $main['nama_desa']?>" title="Wilayah <?php echo $main['nama_desa']?>"><span class="fa fa-map"></span> Wilayah <?php echo ucwords($this->setting->sebutan_desa)?></a></td>
             </tr>
 			<?php } ?>
         </table>

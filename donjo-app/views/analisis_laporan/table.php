@@ -78,7 +78,7 @@
 		 </select>
 		<?php }?>
 		<a href="<?php echo site_url("analisis_laporan/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url("analisis_laporan/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text" style="color:#fff">&nbsp;</span>Excel</a>
+		<a href="<?php echo site_url("analisis_laporan/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
 		<a href="<?php echo site_url("analisis_laporan/ajax_multi_jawab")?>" target="ajax-modal-map" rel="window" header="Filter Indikator" class="uibutton tipsy south" title="Filter Indikator"><span class="fa fa-search">&nbsp;</span>Filter Indikator</a>
 	</div>
 	<div class="right">
@@ -136,7 +136,7 @@
 				<td align="center" width="2"><?php echo $data['no']?></td>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="fa fa-list"></span> Rincian</a>
+						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south fa-tipis"><span class="fa fa-list"></span> Rincian</a>
 					</div>
 				</td>
 				<td><?php echo $data['uid']?></td>
