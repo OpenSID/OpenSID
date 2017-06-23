@@ -55,7 +55,7 @@ legend{
 }
 .inputbox{
     border:1px solid #bdc7d8;
-    padding:5px;
+    padding:3px;
     font-size:12px;
     border-radius:2px;
     -moz-border-radius:2px;
@@ -100,7 +100,7 @@ textarea{
     -webkit-box-shadow:inset 0px 1px 1px #e5e5e5;
 }
 select{
-  height:23px;
+  height:20px;
   border:1px solid #bdc7d8;
   font-size:11px;
   padding:2px 0 !important;
@@ -256,7 +256,7 @@ table.list{
       color:#111!important;
       position:relative;
       display:block;
-      padding-right:20px;
+      padding-right:0px;
     }
     table th a:hover{
       color:#1866bc!important;
@@ -271,7 +271,7 @@ table.list{
     table.list td{
         padding:3px 3px;
         vertical-align:center;
-        border:0px solid #DFE3E8;
+        border:1px solid #DFE3E8;
     }
     table.list.data td{
         vertical-align:middle;
@@ -284,7 +284,11 @@ table.datagrid td{
         padding:4px 0;
         width:100%;
     }
-    
+table.list-db td {
+    padding: 3px 3px;
+    vertical-align: center;
+    border: 1px solid #DFE3E8;
+}    
 a.sorting{
     color:#222;
     display:block;

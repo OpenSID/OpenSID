@@ -25,7 +25,7 @@
 <div id="pageC">
 <div class="content-header">
 </div>
-<div id="contentpane"> 
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
 	<div class="ui-layout-north panel">
 	</div>
@@ -48,14 +48,14 @@
 			</tr>
 		</table>
 	<div class="table-panel top">
-	<div class="left">	
+	<div class="left">
 		<select name="dusun" onchange="formAction('mainform','<?php echo site_url('analisis_respon/dusun')?>')">
 			<option value="">Dusun</option>
 			<?php foreach($list_dusun AS $data){?>
 				<option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo $data['dusun']?></option>
 			<?php }?>
 		</select>
-		
+
 		<?php if($dusun){?>
 			<select name="rw" onchange="formAction('mainform','<?php echo site_url('analisis_respon/rw')?>')">
 				<option value="">RW</option>
@@ -64,7 +64,7 @@
 				<?php }?>
 			</select>
 		<?php }?>
-		
+
 		<?php if($rw){?>
 		 <select name="rt" onchange="formAction('mainform','<?php echo site_url('analisis_respon/rt')?>')">
 			<option value="">RT</option>
@@ -73,7 +73,7 @@
 			<?php }?>
 		 </select>
 		<?php }?>
-		
+
 		<select name="isi" onchange="formAction('mainform','<?php echo site_url('analisis_respon/isi')?>')">
 			<option value=""> --- Semua --- </option>
 			<option value="1" <?php if($isi == 1) :?>selected<?php endif?>>Sudah Terinput</option>
@@ -92,27 +92,27 @@
 				<th width="10">No</th>
 				<th width='50'>Aksi</th>
 			<?php if($o==2): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="center" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/2")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="center" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/2")?>"><?php echo $nomor?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="center" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 	 		<?php if($o==4): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="center" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/4")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="center" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/4")?>"><?php echo $nama?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="center" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 				<th width='50'>L/P</th>
 				<th width='100'>Dusun</th>
 				<th width='30'>RW</th>
 				<th width='30'>RT</th>
 				<th width='50'>Status</th>
-			
+
 				<th></th>
 			</tr>
 		</thead>
@@ -122,15 +122,15 @@
 			<td align="center" width="2"><?php echo $data['no']?></td>
 			<td>
 				<div class="uibutton-group">
-					<a href="<?php echo site_url("analisis_respon/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="fa fa-list"></span> Input Data</a>
+					<a href="<?php echo site_url("analisis_respon/kuisioner/$p/$o/$data[id]")?>" class="uibutton south fa-tipis"><span class="fa fa-list"></span> Input Data</a>
 				</div>
 			 </td>
-			<td><?php echo $data['nid']?></td>
+			<td align="center"><?php echo $data['nid']?></td>
 			<td><?php echo $data['nama']?></td>
 			<td align="center"><?php echo $data['jk']?></td>
 			<td><?php echo $data['dusun']?></td>
-			<td><?php echo $data['rw']?></td>
-			<td><?php echo $data['rt']?></td>
+			<td align="center"><?php echo $data['rw']?></td>
+			<td align="center"><?php echo $data['rt']?></td>
 			<td align="center"><?php echo $data['set']?></td>
 			<td></td>
 		</tr>
@@ -140,7 +140,7 @@
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 	<form id="paging" action="<?php echo site_url('analisis_respon')?>" method="post">
 		<a href="<?php echo site_url()?>analisis_respon/leave" class="uibutton icon prev">Kembali</a>

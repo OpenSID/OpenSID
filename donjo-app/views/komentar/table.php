@@ -46,29 +46,29 @@ source: keyword
 <th width="120">Aksi</th>
 
  <?php  if($o==2): ?>
-<th align="left"><a href="<?php echo site_url("komentar/index/$p/1")?>">Isi Komentar<span class="ui-icon ui-icon-triangle-1-n">
+<th align="left"><a href="<?php echo site_url("komentar/index/$p/1")?>">Isi Komentar <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==1): ?>
-<th align="left"><a href="<?php echo site_url("komentar/index/$p/2")?>">Isi Komentar<span class="ui-icon ui-icon-triangle-1-s">
+<th align="left"><a href="<?php echo site_url("komentar/index/$p/2")?>">Isi Komentar <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left"><a href="<?php echo site_url("komentar/index/$p/1")?>">Isi Komentar<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="left"><a href="<?php echo site_url("komentar/index/$p/1")?>">Isi Komentar <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <th>Judul Artikel</th>
 
 <?php  if($o==0): ?>
-<th align="left" width="120"><a href="<?php echo site_url("komentar/index/$p/3")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-1-n">
+<th align="center" width="110"><a href="<?php echo site_url("komentar/index/$p/3")?>">Aktif/Non-aktif <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==3): ?>
-<th align="left" width="120"><a href="<?php echo site_url("komentar/index/$p/4")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-1-s">
+<th align="center" width="110"><a href="<?php echo site_url("komentar/index/$p/4")?>">Aktif/Non-aktif <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left" width="120"><a href="<?php echo site_url("komentar/index/$p/3")?>">Aktif / Non-aktif<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="center" width="110"><a href="<?php echo site_url("komentar/index/$p/3")?>">Aktif/Non-aktif <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==6): ?>
-<th align="left" width='150'><a href="<?php echo site_url("komentar/index/$p/5")?>">Diupload Pada<span class="ui-icon ui-icon-triangle-1-n">
+<th align="left" width="150"><a href="<?php echo site_url("komentar/index/$p/5")?>">Diupload Pada <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==5): ?>
-<th align="left" width='150'><a href="<?php echo site_url("komentar/index/$p/6")?>">Diupload Pada<span class="ui-icon ui-icon-triangle-1-s">
+<th align="left" width="150"><a href="<?php echo site_url("komentar/index/$p/6")?>">Diupload Pada <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left" width='150'><a href="<?php echo site_url("komentar/index/$p/5")?>">Diupload Pada<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="left" width="150"><a href="<?php echo site_url("komentar/index/$p/5")?>">Diupload Pada <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 </tr>
@@ -81,14 +81,14 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td> <div class="uibutton-group">
-<a href="<?php echo site_url("komentar/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("komentar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('komentar/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi komentar"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('komentar/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan komentar"><span class="fa fa-unlock"></span></a>
+<a href="<?php echo site_url("komentar/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("komentar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('komentar/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi komentar"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('komentar/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan komentar"><span class="fa fa-unlock"></span></a>
 <?php endif?></div>
 </td>
 <td><?php echo $data['komentar']?></td>
 <td>
   <a href="<?php echo site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?php echo $data['artikel']?></a>
 </td>
-<td><?php echo $data['aktif']?></td>
+<td align="center" width="100"><?php echo $data['aktif']?></td>
 <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
 </tr>
 <?php }?>

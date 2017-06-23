@@ -10,10 +10,10 @@
 <div id="pageC">
 	<table class="inner">
 <tr style="vertical-align:top">
-		<td style="background:#fff;padding:0px;"> 
+		<td style="background:#fff;padding:0px;">
 <div class="content-header">
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
     <h3>Modul kelompok</h3>
@@ -40,15 +40,15 @@
                 <th width="10">No</th>
                 <th><input type="checkbox" class="checkall"/></th>
                 <th width="100">Aksi</th>
-				
+
 	 		<?php  if($o==4): ?>
-				<th align="left" width="200"><a href="<?php echo site_url("kelompok_master/index/$p/3")?>">Kelompok<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width="200"><a href="<?php echo site_url("kelompok_master/index/$p/3")?>">Kelompok <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php  elseif($o==3): ?>
-				<th align="left" width="200"><a href="<?php echo site_url("kelompok_master/index/$p/4")?>">Kelompok<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width="200"><a href="<?php echo site_url("kelompok_master/index/$p/4")?>">Kelompok <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php  else: ?>
-				<th align="left" width="200"><a href="<?php echo site_url("kelompok_master/index/$p/3")?>">Kelompok<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width="200"><a href="<?php echo site_url("kelompok_master/index/$p/3")?>">Kelompok <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php  endif; ?>
-			
+
                 <th>Deskripsi Kelompok</th>
 			</tr>
 		</thead>
@@ -60,7 +60,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
           <td><div class="uibutton-group">
-            <a href="<?php echo site_url("kelompok_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("kelompok_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+            <a href="<?php echo site_url("kelompok_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("kelompok_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 			</div>
           </td>
           <td><?php echo $data['kelompok']?></td>
@@ -72,7 +72,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('kelompok_master')?>" method="post">
 		  <label>Tampilkan</label>
@@ -97,7 +97,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("kelompok_master/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>
