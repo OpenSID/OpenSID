@@ -62,7 +62,7 @@
 			<?php  endif; ?>&nbsp;</span></a></th>
 
 			<?php  if($o==4): ?>
-				<th align="center" widht="100"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif/Non-aktif <span class="fa fa-sort-asc fa-sm">
+				<th align="center" width="100"><a href="<?php echo site_url("gallery/index/$p/3")?>">Aktif/Non-aktif <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==3): ?>
 				<th align="center" widht="100"><a href="<?php echo site_url("gallery/index/$p/4")?>">Aktif/Non-aktif <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>

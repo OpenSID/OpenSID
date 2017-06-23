@@ -197,9 +197,9 @@
             </div>
             <div class="right">
               <div class="uibutton-group">
-                <a href="<?php echo site_url("penduduk/dokumen/$penduduk[id]")?>" class="uibutton special"><span class="fa fa-bars" style="color:#fff"></span> Manajemen Dokumen</a>
-                <a href="<?php echo site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="uibutton confirm"><span class="fa fa-edit" style="color:#fff"></span> Edit Data</a>
-                <a href="<?php echo site_url("penduduk/cetak_biodata/$penduduk[id]")?>" target="_blank" class="uibutton special"><span class="fa fa-print" style="color:#fff"></span> Cetak Biodata</a>
+                <a href="<?php echo site_url("penduduk/dokumen/$penduduk[id]")?>" class="uibutton special"><span class="fa fa-bars"></span> Manajemen Dokumen</a>
+                <a href="<?php echo site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="uibutton confirm"><span class="fa fa-edit"></span> Edit Data</a>
+                <a href="<?php echo site_url("penduduk/cetak_biodata/$penduduk[id]")?>" target="_blank" class="uibutton special"><span class="fa fa-print"></span> Cetak Biodata</a>
               </div>
             </div>
           </div>

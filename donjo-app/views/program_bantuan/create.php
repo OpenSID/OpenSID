@@ -86,7 +86,7 @@
 					
 					<div class="form-group">
 						<div class="uibutton-group">
-						<button class="uibutton confirm" type="submit" name="tombol" id="tombol"><span class="fa fa-save" style="color:#fff"></span> Simpan</button>
+						<button class="uibutton confirm" type="submit" name="tombol" id="tombol"><span class="fa fa-save"></span> Simpan</button>
 						<button class="uibutton" type="reset" name="tombolreset" id="tombolreset"><span class="fa fa-times"></span> Batal</button>
 						</div>
 					</div>
