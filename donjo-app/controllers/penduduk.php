@@ -286,7 +286,8 @@ class Penduduk extends CI_Controller{
 
   function cetak_biodata($id=''){
 
-		$data['desa'] = $this->header_model->get_data();
+		$header = $this->header_model->get_data();
+		$data['desa'] = $header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$this->load->view('sid/kependudukan/cetak_biodata',$data);
 	}
