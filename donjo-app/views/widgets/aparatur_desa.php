@@ -23,7 +23,6 @@
 	<div class="box-body">
 
 		<div id="aparatur_desa">
-		  <span class="cycle-pager"></span>  <!-- Untuk membuat tanda bulat atau link pada slider -->
 		  <?php foreach($aparatur_desa as $data) : ?>
 		  	<?php if(AmbilFoto($data['foto'],"besar") AND is_file(LOKASI_USER_PICT.$data['foto'])) : ?>
 					<img src="<?php echo AmbilFoto($data['foto'],"besar") ?>" alt="<?php echo $data['jabatan'] ?>">
