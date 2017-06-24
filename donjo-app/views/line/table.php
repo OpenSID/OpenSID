@@ -45,7 +45,7 @@ source: keyword
 <tr>
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
-<th width="80">Aksi</th>
+<th width="150">Aksi</th>
 
  <?php   if($o==2): ?>
 <th align="left"><a href="<?php  echo site_url("line/index/$p/1")?>">Kategori <span class="fa fa-sort-asc fa-sm">
@@ -73,8 +73,14 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php  echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php  echo site_url("line/form/$p/$o/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data"></a><a href="<?php  echo site_url("line/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php  if($data['enabled'] == '2'):?><a href="<?php  echo site_url('line/line_lock/'.$data['id'])?>" class="ui-icons fa fa-lock tipsy south" title="Enable line"></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url('line/line_unlock/'.$data['id'])?>" class="ui-icons fa fa-unlock tipsy south" title="Disable line"></a><a href="<?php  echo site_url("line/sub_line/$data[id]")?>" class="ui-icons icon-document-table tipsy south" title="Rincian Sub line"></a><a href="<?php  echo site_url("line/ajax_add_sub_line/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub line <?php  echo $data['nama']?>" class="ui-icons icon-plus tipsy south" title="Tambah Sub line"></a>
-<?php  endif?>
+	<div class="uibutton-group">
+	<a href="<?php  echo site_url("line/sub_line/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub line"><span class="fa fa-bars"></span> Rincian</a>
+		<a href="<?php  echo site_url("line/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Edit Data"><span class="fa fa-edit"></span></a>
+		<a href="<?php  echo site_url("line/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+		<?php  if($data['enabled'] == '2'):?><a href="<?php  echo site_url('line/line_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Enable line"><span class="fa fa-lock"></span></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url('line/line_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Disable line"><span class="fa fa-unlock"></span></a>
+		<a href="<?php  echo site_url("line/ajax_add_sub_line/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub line <?php  echo $data['nama']?>" class="uibutton tipsy south" title="Tambah Sub line"><span class="fa fa-plus"></span></a>
+		<?php  endif?>
+	</div>
 </td>
 <td width="150"><?php  echo $data['nama']?></td>
 <td width="50"><?php  echo $data['aktif']?></td>

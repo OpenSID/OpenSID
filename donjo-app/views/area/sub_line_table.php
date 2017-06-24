@@ -64,7 +64,11 @@
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php echo site_url("area/ajax_add_sub_area/$area/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" target="ajax-modal" rel="window" header="Edit area" title="Edit Data"></a><a href="<?php echo site_url("area/delete_sub_area/$area/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url("area/area_lock_sub_area/$area/$data[id]")?>" class="ui-icons fa fa-lock tipsy south" title="Enable area"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("area/area_unlock_sub_area/$area/$data[id]")?>" class="ui-icons fa fa-unlock tipsy south" title="Disable area"></a><?php endif;?>
+	<div class="uibutton-group">
+		<a href="<?php echo site_url("area/ajax_add_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" target="ajax-modal" rel="window" header="Edit area" title="Edit Data"><span class="fa fa-edit"></span></a>
+		<a href="<?php echo site_url("area/delete_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php if($data['enabled'] == '2'):?>
+		<a href="<?php echo site_url("area/area_lock_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" title="Enable area"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("area/area_unlock_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" title="Disable area"><span class="fa fa-unlock"></span></a><?php endif;?>
+	</div>
 </td>
 <td width="150"><?php echo $data['nama']?></td>
 <td width="50"><?php echo $data['aktif']?></td>

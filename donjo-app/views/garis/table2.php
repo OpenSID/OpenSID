@@ -33,7 +33,7 @@ source: keyword
 */?>
 <td style="background:#fff;padding:0px;"> 
 <div class="content-header">
-<h3>Manajemen Properti / garis</h3>
+<h3>Manajemen Properti/Garis</h3>
 </div>
 <div id="contentpane">
 <form id="mainform" name="mainform" action="" method="post">
@@ -80,7 +80,7 @@ source: keyword
 <tr>
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
-<th width="50">Aksi</th>
+<th width="60">Aksi</th>
 
  <?php   if($o==2): ?>
 <th align="left"><a href="<?php  echo site_url("garis/index/$p/1")?>">Kategori <span class="fa fa-sort-asc fa-sm">
@@ -110,8 +110,12 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php  echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php  echo site_url("garis/form/$p/$o/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data"></a><a href="<?php  echo site_url("garis/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php  /*if($data['enabled'] == '2'):?><a href="<?php  echo site_url('garis/garis_lock/'.$data['id'])?>" class="ui-icons fa fa-lock tipsy south" title="Enable garis"></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url('garis/garis_unlock/'.$data['id'])?>" class="ui-icons fa fa-unlock tipsy south" title="Disable garis"></a>*/?><a href="<?php  echo site_url("garis/ajax_garis_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="garis <?php  echo $data['nama']?>" class="ui-icons fa fa-map tipsy south" title="garis <?php  echo $data['nama']?>"></a>
-
+<div class="uibutton-group">
+		<a href="<?php  echo site_url("garis/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Edit Data"><span class="fa fa-edit"></span></a>
+		<a href="<?php  echo site_url("garis/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+		<?php  /*if($data['enabled'] == '2'):?><a href="<?php  echo site_url('plan/garis/garis_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Enable garis"><span class="fa fa-lock"></span></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url('plan/garis/garis_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Disable garis"><span class="fa fa-unlock"></span></a>*/?>
+		<a href="<?php  echo site_url("garis/ajax_garis_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="garis <?php  echo $data['nama']?>" class="uibutton tipsy south" title="Garis <?php  echo $data['nama']?>"><span class="fa fa-map"></span></a>
+	</div>
 </td>
 <td width="150"><?php  echo $data['nama']?></td>
 <td width="50"><?php  echo $data['aktif']?></td>

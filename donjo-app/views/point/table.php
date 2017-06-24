@@ -65,7 +65,7 @@ source: keyword
 <tr>
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
-<th width="120">Aksi</th>
+<th width="150">Aksi</th>
 
  <?php   if($o==2): ?>
 <th align="left"><a href="<?php  echo site_url("point/index/$p/1")?>">Kategori <span class="fa fa-sort-asc fa-sm">
@@ -94,14 +94,14 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php  echo $data['id']?>" />
 </td>
 <td><div class="uibutton-group">
+	<a href="<?php  echo site_url("point/sub_point/$data[id]")?>" class="uibutton fa fa-bars tipsy south tipis" title="Rincian Sub point"> Rincian</a>
+		<a href="<?php  echo site_url("point/ajax_add_sub_point/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub point <?php  echo $data['nama']?>" class="uibutton fa fa-plus tipsy south" title="Tambah Sub point"></a>
 	<a href="<?php  echo site_url("point/form/$p/$o/$data[id]")?>" class="uibutton fa fa-edit tipsy south" title="Edit Data"></a>
 	<a href="<?php  echo site_url("point/delete/$p/$o/$data[id]")?>" class="uibutton fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
 	<?php  if($data['enabled'] == '2'):?>
 		<a href="<?php  echo site_url('point/point_lock/'.$data['id'])?>" class="uibutton fa fa-lock tipsy south" title="Enable point"></a>
 	<?php  elseif($data['enabled'] == '1'): ?>
 		<a href="<?php  echo site_url('point/point_unlock/'.$data['id'])?>" class="uibutton fa fa-unlock tipsy south" title="Disable point"></a>
-		<a href="<?php  echo site_url("point/sub_point/$data[id]")?>" class="uibutton fa fa-table tipsy south tipis" title="Rincian Sub point"> Rincian</a>
-		<a href="<?php  echo site_url("point/ajax_add_sub_point/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub point <?php  echo $data['nama']?>" class="uibutton fa fa-plus tipsy south" title="Tambah Sub point"></a>
 	<?php  endif?>
 	</div>
 </td>

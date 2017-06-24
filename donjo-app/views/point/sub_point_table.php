@@ -1,4 +1,3 @@
-
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
@@ -63,9 +62,13 @@
 <td align="center" width="5">
 <input type="checkbox" name="id_cb[]" value="<?php  echo $data['id']?>" />
 </td>
-<td><div class="uibutton-group">
-<a href="<?php  echo site_url("point/ajax_add_sub_point/$point/$data[id]")?>" class="uibutton fa fa-edit tipsy south" target="ajax-modalc" rel="window" header="Edit Point" title="Edit Data">Edit</a><a href="<?php  echo site_url("point/delete_sub_point/$point/$data[id]")?>" class="uibutton fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data">Hapus</a><?php  if($data['enabled'] == '2'):?><a href="<?php  echo site_url("point/point_lock_sub_point/$point/$data[id]")?>" class="uibutton fa fa-lock tipsy south" title="Enable point"></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url("point/point_unlock_sub_point/$point/$data[id]")?>" class="uibutton fa fa-unlock tipsy south" title="Disable point">Aktif</a><?php  endif;?>
-</div></td>
+<td>
+	<div class="uibutton-group">
+		<a href="<?php  echo site_url("point/ajax_add_sub_point/$point/$data[id]")?>" class="uibutton fa fa-edit tipsy south" target="ajax-modalc" rel="window" header="Edit Point" title="Edit Data">Edit</a>
+		<a href="<?php  echo site_url("point/delete_sub_point/$point/$data[id]")?>" class="uibutton fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data">Hapus</a>
+		<?php  if($data['enabled'] == '2'):?><a href="<?php  echo site_url("point/point_lock_sub_point/$point/$data[id]")?>" class="uibutton fa fa-lock tipsy south" title="Enable point"></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url("point/point_unlock_sub_point/$point/$data[id]")?>" class="uibutton fa fa-unlock tipsy south" title="Disable point">Aktif</a><?php  endif;?>
+	</div>
+</td>
 <td width="150"><?php  echo $data['nama']?></td>
 <td width="50"><?php  echo $data['aktif']?></td>
 <td align="center" width="50"><img src="<?php  echo base_url("assets/images/gis/point")?>/<?php  echo $data['simbol']?>"></td>

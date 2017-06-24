@@ -1,7 +1,7 @@
 <form id="" action="<?php  echo $form_action?>" method="POST">
 <table style="width:100%">
 <tr>
-<th width="100">Nama line</th>
+<th width="100">Nama Tipe Line</th>
 <td><input class="inputbox" type="text" name="nama" value="<?php  echo $line['nama']?>" size="40"/></td>
 </tr>
 <tr>

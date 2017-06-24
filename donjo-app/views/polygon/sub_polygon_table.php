@@ -49,7 +49,7 @@
 <tr>
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
-<th width="50">Aksi</th>
+<th width="60">Aksi</th>
 <th align="center">Nama</th>
 <th align="center">Enabled</th>
 <th width="100">Warna</th>
@@ -64,7 +64,11 @@
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php echo site_url("polygon/ajax_add_sub_polygon/$polygon/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data"></a><a href="<?php echo site_url("polygon/delete_sub_polygon/$polygon/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url("polygon/polygon_lock_sub_polygon/$polygon/$data[id]")?>" class="ui-icons fa fa-lock tipsy south" title="Enable polygon"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("polygon/polygon_unlock_sub_polygon/$polygon/$data[id]")?>" class="ui-icons fa fa-unlock tipsy south" title="Disable polygon"></a><?php endif;?>
+	<div class="uibutton-group">
+		<a href="<?php echo site_url("polygon/ajax_add_sub_polygon/$polygon/$data[id]")?>" class="uibutton tipsy south" title="Edit Data"><span class="fa fa-edit"></span></a>
+		<a href="<?php echo site_url("polygon/delete_sub_polygon/$polygon/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+		<?php if($data['enabled'] == '2'):?><a href="<?php echo site_url("polygon/polygon_lock_sub_polygon/$polygon/$data[id]")?>" class="uibutton tipsy south" title="Enable polygon"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("polygon/polygon_unlock_sub_polygon/$polygon/$data[id]")?>" class="uibutton tipsy south" title="Disable polygon"><span class="fa fa-unlock"></span></a><?php endif;?>
+	</div>
 </td>
 <td width="150"><?php echo $data['nama']?></td>
 <td width="50"><?php echo $data['aktif']?></td>
