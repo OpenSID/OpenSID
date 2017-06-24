@@ -697,12 +697,12 @@
 	}
 
 	function get_penduduk($id=0){
-		$sql   = "SELECT u.sex as id_sex,u.*,a.dusun,a.rw,a.rt,t.nama AS status,o.nama AS pendidikan_sedang,
-		b.nama AS pendidikan_kk,d.no_kk AS no_kk,d.alamat,
-		(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id)
-		 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb,
-		 sd.nama as status_dasar, u.status_dasar as status_dasar_id,
-		(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = d.nik_kepala)) AS kepala_kk
+		$sql   = "SELECT u.sex as id_sex,u.*,a.dusun,a.rw,a.rt,t.nama AS status,o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
+			b.nama AS pendidikan_kk,d.no_kk AS no_kk,d.alamat,
+			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id)
+			 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb,
+			 sd.nama as status_dasar, u.status_dasar as status_dasar_id,
+			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = d.nik_kepala)) AS kepala_kk
 		 FROM tweb_penduduk u
 			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
 			LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
@@ -715,6 +715,8 @@
 			LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 			LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
+			LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
+			LEFT JOIN tweb_penduduk_hubungan h on u.kk_level = h.id
 			LEFT JOIN tweb_cacat c ON u.cacat_id = c.id
 			LEFT JOIN tweb_cara_kb kb ON u.cara_kb_id = kb.id
 			LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id

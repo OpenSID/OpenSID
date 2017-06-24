@@ -86,7 +86,8 @@ class First extends Web_Controller{
 		// Hanya boleh mencetak data pengguna yang login
 		$id = $_SESSION['id'];
 
-		$data['desa'] = $this->header_model->get_data();
+		$header = $this->header_model->get_data();
+		$data['desa'] = $header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$this->load->view('sid/kependudukan/cetak_biodata',$data);
 	}
