@@ -9,7 +9,7 @@
 <div id="pageC">
 <div class="content-header">
 </div>
-<div id="contentpane"> 
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
  <div class="ui-layout-north panel">
  <h3>Manajemen Parameter Analisis</h3>
@@ -51,7 +51,7 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
  <td><div class="uibutton-group">
- <a href="<?php echo site_url("analisis_indikator/form_parameter/$analisis_indikator[id]/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_indikator/delete_parameter/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+ <a href="<?php echo site_url("analisis_indikator/form_parameter/$analisis_indikator[id]/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_indikator/delete_parameter/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 			</div>
  </td>
 		 <?php }?>
@@ -66,7 +66,7 @@
  </div>
 	</form>
  <div class="ui-layout-south panel bottom">
- <div class="left"> 
+ <div class="left">
 <a href="<?php echo site_url()?>analisis_indikator" class="uibutton icon prev">Kembali</a>
  <div class="right">
  </div>

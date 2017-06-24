@@ -9,7 +9,7 @@
 <div id="pageC">
 <div class="content-header">
 </div>
-<div id="contentpane"> 
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
 <h3>Manajemen Indikator Analisis - <a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><?php echo $analisis_master['nama']?></a></a></h3>
@@ -24,14 +24,14 @@
 <div class="table-panel top">
 <div class="left">
 <select name="tipe" onchange="formAction('mainform','<?php echo site_url('analisis_indikator/tipe')?>')">
-<option value="">-- Filter by Tipe Indikator --</option>				
+<option value="">-- Filter by Tipe Indikator --</option>
 					<?php foreach($list_tipe AS $data){?>
 					<option value="<?php echo $data['id']?>" <?php if($tipe == $data['id']) :?>selected<?php endif?>><?php echo $data['tipe']?></option>
 					<?php }?>
 </select>
 				&nbsp;
 <select name="kategori" onchange="formAction('mainform','<?php echo site_url('analisis_indikator/kategori')?>')">
-<option value="">-- Filter by Kategori Indikator --</option>				
+<option value="">-- Filter by Kategori Indikator --</option>
 					<?php foreach($list_kategori AS $data){?>
 					<option value="<?php echo $data['id']?>" <?php if($kategori == $data['id']) :?>selected<?php endif?>><?php echo $data['kategori']?></option>
 					<?php }?>
@@ -55,51 +55,51 @@
 <?php if($analisis_master['lock']==1){?> <th><input type="checkbox" class="checkall"/></th>
 <th width="160">Aksi</th><?php }?>
 	 		<?php if($o==2): ?>
-				<th align="left" width="10"><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Kode<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width="40"><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Kode <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width="10"><a href="<?php echo site_url("analisis_indikator/index/$p/2")?>">Kode<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width="40"><a href="<?php echo site_url("analisis_indikator/index/$p/2")?>">Kode <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width="10"><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Kode<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width="40"><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Kode <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 	 		<?php if($o==4): ?>
-				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/3")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/3")?>">Pertanyaan <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/4")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/4")?>">Pertanyaan <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/3")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
-			<?php endif; ?>
-			
-			<?php if($o==6): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
-			<?php elseif($o==5): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/6")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
-			<?php else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/3")?>">Pertanyaan <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==6): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Tipe Indikator <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/6")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/6")?>">Tipe Indikator <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Tipe Indikator <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
-			<?php if($o==2): ?>
-				<th align="left" width='50'><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Bobot<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
-			<?php elseif($o==1): ?>
-				<th align="left" width='50'><a href="<?php echo site_url("analisis_indikator/index/$p/2")?>">Bobot<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+
+			<?php if($o==6): ?>
+				<th align="left" width='110'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Kategori Indikator <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
+			<?php elseif($o==5): ?>
+				<th align="left" width='110'><a href="<?php echo site_url("analisis_indikator/index/$p/6")?>">Kategori Indikator <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='50'><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Bobot<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='110'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Kategori Indikator <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 			<?php if($o==2): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Aksi Analisis<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='50'><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Bobot <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/2")?>">Aksi Analisis<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='50'><a href="<?php echo site_url("analisis_indikator/index/$p/2")?>">Bobot <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='10'><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Aksi Analisis<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='50'><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Bobot <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
+			<?php endif; ?>
+
+			<?php if($o==2): ?>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Aksi Analisis <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
+			<?php elseif($o==1): ?>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/2")?>">Aksi Analisis <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
+			<?php else: ?>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Aksi Analisis <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			</tr>
 		</thead>
@@ -108,23 +108,27 @@
 		<tr>
 			<td align="center" width="2"><?php echo $data['no']?></td>
 			<?php if($analisis_master['lock']==1){?>
-			
+
 			<td align="center" width="5">
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td>
 				<div class="uibutton-group">
-				<?php if($data['id_tipe']==1 OR $data['id_tipe']==2){?><a href="<?php echo site_url("analisis_indikator/parameter/$data[id]")?>" class="uibutton"><span class="fa fa-list"> Parameter</span></a><?php }?><a href="<?php echo site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+					<?php if($data['id_tipe']==1 OR $data['id_tipe']==2){?>
+						<a href="<?php echo site_url("analisis_indikator/parameter/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Parameter"><span class="fa fa-list"></span> Parameter</a>
+					<?php }?>
+					<a href="<?php echo site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+					<a href="<?php echo site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 				</div>
 			</td>
-			
+
 			<?php }?>
-			<td><label><?php echo $data['nomor']?></label></td>
+			<td align="center"><label><?php echo $data['nomor']?></label></td>
 			<td><?php echo $data['pertanyaan']?></td>
 			<td><?php echo $data['tipe_indikator']?></td>
 			<td><?php echo $data['kategori']?></td>
-			<td><?php echo $data['bobot']?></td>
-			<td><?php echo $data['act_analisis']?></td>
+			<td align="center"><?php echo $data['bobot']?></td>
+			<td align="center"><?php echo $data['act_analisis']?></td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>
@@ -132,7 +136,7 @@
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-	<div class="left"> 
+	<div class="left">
 		<div class="table-info">
 			<form id="paging" action="<?php echo site_url('analisis_indikator')?>" method="post">
 			<a href="<?php echo site_url()?>analisis_indikator/leave" class="uibutton icon prev">Kembali</a>

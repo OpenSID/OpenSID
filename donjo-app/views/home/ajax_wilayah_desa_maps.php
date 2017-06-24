@@ -101,8 +101,8 @@
 	<input type="hidden" id="dataPanel" name="path"  value="<?php echo $desa['path']?>">
 	<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
 	<div class="uibutton-group">
-		<input  class="uibutton" id="reset" value="Reset" type="button"/>
-		<input  class="uibutton confirm" id="showData"  value="Simpan" type="button"/>
+		<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
+		<button class="uibutton confirm" id="showData" type="submit"><span class="fa fa-save"></span> Simpan</button>
 	</div>
 	</div>
 </form>

@@ -92,19 +92,19 @@
 				<th width="10">No</th>
 				<th width='50'>Rincian</th>
 			<?php if($o==2): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/2")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/2")?>"><?php echo $nomor?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==4): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/4")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/4")?>"><?php echo $nama?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 				<th width='50'>L/P</th>
@@ -113,19 +113,19 @@
 				<th width='30'>RT</th>
 
 			<?php if($o==6): ?>
-				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Nilai<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Nilai <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/6")?>">Nilai<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/6")?>">Nilai <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Nilai<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='50'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Nilai <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==6): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Klasifikasi<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Klasifikasi <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_laporan/index/$p/6")?>">Klasifikasi<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_laporan/index/$p/6")?>">Klasifikasi <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Klasifikasi<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_laporan/index/$p/5")?>">Klasifikasi <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			<th></th>
 			</tr>
@@ -136,7 +136,7 @@
 				<td align="center" width="2"><?php echo $data['no']?></td>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="fa fa-list"></span> Rincian</a>
+						<a href="<?php echo site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="uibutton south fa-tipis"><span class="fa fa-list"></span> Rincian</a>
 					</div>
 				</td>
 				<td><?php echo $data['uid']?></td>

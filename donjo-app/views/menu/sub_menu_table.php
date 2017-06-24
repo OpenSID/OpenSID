@@ -64,7 +64,7 @@
               <a href="<?php echo site_url("menu/urut/$tip/$data[id]/1/$menu")?>" class="uibutton tipsy south" title="Turun"><span class="fa fa-arrow-down"></span></a>
               <a href="<?php echo site_url("menu/urut/$tip/$data[id]/2/$menu")?>" class="uibutton tipsy south" title="Naik"><span class="fa fa-arrow-up"></span></a>
             <?php endif; ?>
-            <a href="<?php echo site_url("menu/ajax_add_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south" target="ajax-modalx" rel="window" header="Edit Menu" title="Edit Data"><span class="fa fa-edit"></span> Ubah</a>
+            <a href="<?php echo site_url("menu/ajax_add_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south fa-tipis" target="ajax-modalx" rel="window" header="Edit Menu" title="Edit Data"><span class="fa fa-edit"></span> Ubah</a>
             <a href="<?php echo site_url("menu/delete_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
             <?php if($data['enabled'] == '2'):?>
               <a href="<?php echo site_url("menu/menu_lock_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south" title="Enable menu"><span class="fa fa-lock"></span></a>

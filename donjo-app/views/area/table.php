@@ -84,19 +84,19 @@ source: keyword
 <th width="50">Aksi</th>
 
  <?php  if($o==2): ?>
-<th align="left"><a href="<?php echo site_url("area/index/$p/1")?>">Kategori<span class="ui-icon ui-icon-triangle-1-n">
+<th align="left"><a href="<?php echo site_url("area/index/$p/1")?>">Kategori <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==1): ?>
-<th align="left"><a href="<?php echo site_url("area/index/$p/2")?>">Kategori<span class="ui-icon ui-icon-triangle-1-s">
+<th align="left"><a href="<?php echo site_url("area/index/$p/2")?>">Kategori <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left"><a href="<?php echo site_url("area/index/$p/1")?>">Kategori<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="left"><a href="<?php echo site_url("area/index/$p/1")?>">Kategori <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==4): ?>
-<th align="left"><a href="<?php echo site_url("area/index/$p/3")?>">Aktif<span class="ui-icon ui-icon-triangle-1-n">
+<th align="left"><a href="<?php echo site_url("area/index/$p/3")?>">Aktif <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==3): ?>
-<th align="left"><a href="<?php echo site_url("area/index/$p/4")?>">Aktif<span class="ui-icon ui-icon-triangle-1-s">
+<th align="left"><a href="<?php echo site_url("area/index/$p/4")?>">Aktif <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left"><a href="<?php echo site_url("area/index/$p/3")?>">Aktif<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="left"><a href="<?php echo site_url("area/index/$p/3")?>">Aktif <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 <th>Kategori</th>
 <th>Jenis</th>

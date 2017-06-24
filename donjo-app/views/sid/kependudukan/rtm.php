@@ -73,31 +73,31 @@
                       <th><input type="checkbox" class="checkall"/></th>
                       <th width="160">Aksi</th>
 
-            				<th width="150" align="left">
+            				<th width="150" align="center">
               				<?php  if($o==2): ?>
-                				<a href="<?php echo site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga<span class="ui-icon ui-icon-triangle-1-n">
+                				<a href="<?php echo site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga <span class="fa fa-sort-asc fa-sm">
               				<?php  elseif($o==1): ?>
-                				<a href="<?php echo site_url("rtm/index/$p/2")?>">Nomor Rumah Tangga<span class="ui-icon ui-icon-triangle-1-s">
+                				<a href="<?php echo site_url("rtm/index/$p/2")?>">Nomor Rumah Tangga <span class="fa fa-sort-desc fa-sm">
               				<?php  else: ?>
-                				<a href="<?php echo site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a>
+                				<a href="<?php echo site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga <span class="fa fa-sort fa-sm">&nbsp;</span></a>
               				<?php  endif; ?>
                     </th>
 
-            				<th align="left">
+            				<th align="center">
               				<?php  if($o==4): ?>
-                				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga<span class="ui-icon ui-icon-triangle-1-n">
+                				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga <span class="fa fa-sort-asc fa-sm">
               				<?php  elseif($o==3): ?>
-                				<a href="<?php echo site_url("rtm/index/$p/4")?>">Kepala Rumah Tangga<span class="ui-icon ui-icon-triangle-1-s">
+                				<a href="<?php echo site_url("rtm/index/$p/4")?>">Kepala Rumah Tangga <span class="fa fa-sort-desc fa-sm">
               				<?php  else: ?>
-                				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a>
+                				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga <span class="fa fa-sort fa-sm">&nbsp;</span></a>
               				<?php  endif; ?>
                     </th>
 
-            				<th width="100" align="left" align="center">Jumlah Anggota</th>
-            				<th align="left" align="center" width="120"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
-            				<th align="left" align="center" width="30">RW</th>
-            				<th align="left" align="center" width="30">RT</th>
-            				<th align="left" align="center" width="100">Tanggal Terdaftar</th>
+            				<th width="100" align="center" align="center">Jumlah Anggota</th>
+            				<th align="center" width="120"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
+            				<th align="center" width="30">RW</th>
+            				<th align="center" width="30">RT</th>
+            				<th align="center" width="100">Tanggal Terdaftar</th>
             			</tr>
             		</thead>
             		<tbody>
@@ -109,7 +109,7 @@
                 			</td>
                       <td width="5">
                         <div class="uibutton-group">
-                    			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota rtm"><span class="fa fa-list"></span> Rincian</a>
+                    			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Anggota rtm"><span class="fa fa-list"></span> Rincian</a>
                     			<a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$data[id]")?>" target="ajax-modalx" rel="window" header="Tambah Anggota rtm" class="uibutton tipsy south" title="Tambah Anggota rtm"><span class="fa fa-plus-circle"></span></a>
                           <?php  if($grup==1){?>
                             <a href="<?php echo site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" target="ajax-modal" rel="window" header="Edit Rumah Tangga" class="uibutton tipsy south" title="Edit Data" ><span class="fa fa-edit"></span></a>
