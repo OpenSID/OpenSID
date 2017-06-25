@@ -63,7 +63,7 @@ class plan extends CI_Controller{
 		$data['list_subpoint']        = $this->plan_lokasi_model->list_subpoint();
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$nav['act']=3;
 
 		$this->load->view('header-gis', $header);

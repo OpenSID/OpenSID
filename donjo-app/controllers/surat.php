@@ -26,7 +26,7 @@ class Surat extends CI_Controller{
 		unset($_SESSION['id_wanita']);
 		unset($_SESSION['post']);
 
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$nav['act']= 1;
 
@@ -37,7 +37,7 @@ class Surat extends CI_Controller{
 
 	function panduan(){
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -68,7 +68,7 @@ class Surat extends CI_Controller{
 		$data['form_action2'] = site_url("surat/doc/$url");
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('surat/nav',$nav);
 		$this->load->view("surat/form_surat",$data);

@@ -62,7 +62,7 @@ class garis extends CI_Controller{
 
 		$header= $this->header_model->get_data();
 		$nav['act']=1;
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header-gis', $header);
 
 		$this->load->view('plan/nav',$nav);

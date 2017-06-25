@@ -42,7 +42,7 @@ class lapor extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=0;
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$this->load->view('lapor/nav',$nav);
 		$this->load->view('lapor/table',$data);

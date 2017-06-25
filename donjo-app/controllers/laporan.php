@@ -71,7 +71,7 @@ function __construct(){
 		$data['lap']=$lap;
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('laporan/bulanan',$data);

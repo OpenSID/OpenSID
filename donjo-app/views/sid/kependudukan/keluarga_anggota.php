@@ -45,7 +45,7 @@
   			</td>
         <td>
           <div class="uibutton-group">
-            <a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+            <a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
             <a href="<?php echo site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Pecah KK" target="confirm" message="Apakah Anda Yakin?" header="Pecah KK"><span class="fa fa-minus-circle"></span></a>
             <?php if($data['kk_level']!=0){?>
               <a href="<?php echo site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Ubah Hubungan Keluarga" target="ajax-modal" rel="window" header="Ubah Data"><span class="fa fa-link"></span></a>

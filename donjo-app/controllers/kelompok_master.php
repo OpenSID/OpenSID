@@ -48,7 +48,7 @@ class kelompok_master extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -74,7 +74,7 @@ class kelompok_master extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 

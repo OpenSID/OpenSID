@@ -122,7 +122,7 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 			continue;
 		}
 		?>
-		<a class="cpanel <?php if($modul_ini==$mod['id']){?>selected<?php }?>" href="<?php echo site_url()?><?php echo $mod['url']?>">
+		<a class="cpanel <?php if($this->modul_ini==$mod['id']){?>selected<?php }?>" href="<?php echo site_url()?><?php echo $mod['url']?>">
 			<img src="<?php echo base_url()?>assets/images/cpanel/<?php echo $mod['ikon']?>" alt=""/>
 			<span><?php echo $mod['modul']?></span>
 		</a>
