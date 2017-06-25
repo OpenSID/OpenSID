@@ -28,7 +28,7 @@
 							<tr>
 								<td align="center" width="2"><?php echo $data['no']?></td>
 								<td> <div class="uibutton-group">
-									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[nik]")?>" class="uibutton fa-tipis" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a>
+									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[nik]")?>" class="uibutton tipsy south fa-tipis" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a>
 									</div>
 								</td>
 								<td><?php echo $data['nik']?></td>

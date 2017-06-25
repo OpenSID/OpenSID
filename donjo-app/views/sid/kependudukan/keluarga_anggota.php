@@ -10,7 +10,7 @@
     <h3>Daftar Anggota KK No.<?php echo $kepala_kk['no_kk']?> Keluarga : <?php echo unpenetration($kepala_kk['nama'])?>; Alamat : <?php echo $kepala_kk['alamat_wilayah']?></h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" header="Tambah Anggota" target="ajax-modalx" rel="window"><span class="fa fa-plus">&nbsp;</span>Tambah Anggota</a>
+                <a href="<?php echo site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy west" title="Tambah anggota keluarga dari penduduk yang sudah ada" header="Tambah Anggota" target="ajax-modalx" rel="window"><span class="fa fa-plus">&nbsp;</span>Tambah Anggota</a>
                 <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
                 <?php /*<a href="<?php echo site_url("keluarga/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
             </div>
