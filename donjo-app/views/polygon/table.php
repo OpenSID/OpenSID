@@ -31,7 +31,7 @@ source: keyword
 
 </td>
 */?>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content">
 	<h3>Manajemen Kategori polygon</h3>
 	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
@@ -42,7 +42,7 @@ source: keyword
 <div class="left">
 <div class="uibutton-group">
 <a href="<?php echo site_url("polygon/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Kategori Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("polygon/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("polygon/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -95,11 +95,14 @@ source: keyword
 </td>
 <td>
 	<div class="uibutton-group">
-	<a href="<?php echo site_url("polygon/sub_polygon/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub polygon"><span class="fa fa-bars"></span> Rincian</a>
-		<a href="<?php echo site_url("polygon/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Edit Data"><span class="fa fa-edit"></span></a>
-		<a href="<?php echo site_url("polygon/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
-		<?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('polygon/polygon_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Enable polygon"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('polygon/polygon_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Disable polygon"><span class="fa fa-unlock"></span></a>
-		<a href="<?php echo site_url("polygon/ajax_add_sub_polygon/$data[id]")?>" "<?php echo $data['nama']?>" class="uibutton tipsy south" title="Tambah Sub polygon"><span class="fa fa-plus"></span></a>
+		<a href="<?php echo site_url("polygon/sub_polygon/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Sub polygon"><span class="fa fa-bars"></span> Rincian</a>
+		<a href="<?php echo site_url("polygon/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
+		<a href="<?php echo site_url("polygon/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+		<?php if($data['enabled'] == '2'):?>
+			<a href="<?php echo site_url('polygon/polygon_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktifkan polygon"><span class="fa fa-lock"></span></a>
+		<?php elseif($data['enabled'] == '1'): ?>
+			<a href="<?php echo site_url('polygon/polygon_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan polygon"><span class="fa fa-unlock"></span></a>
+			<a href="<?php echo site_url("polygon/ajax_add_sub_polygon/$data[id]")?>" "<?php echo $data['nama']?>" class="uibutton tipsy south" title="Tambah Sub polygon"><span class="fa fa-plus"></span></a>
 		<?php endif?>
 	</div>
 </td>
@@ -114,7 +117,7 @@ source: keyword
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 <form id="paging" action="<?php echo site_url('polygon')?>" method="post">
 <label>Tampilkan</label>

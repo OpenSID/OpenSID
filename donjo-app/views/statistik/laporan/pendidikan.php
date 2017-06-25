@@ -2,13 +2,13 @@
 <div class="content-header">
     <h3>Wilayah administratif</h3>
 </div>
-<div id="contentpane" id="mainform">    
+<div id="contentpane" id="mainform">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url('admin_home/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Pengurus</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("admin_home/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("admin_home/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
 				<th align="left" align="center">N.I.P</th>
 				<th align="left" align="center">No. Telepon</th>
 				<th align="left" align="center">Alamat</th>
-            
+
 			</tr>
 		</thead>
 		<tbody>
@@ -45,7 +45,7 @@
 				<?php  endif; ?>
 			</td>
           <td width="5">
-            <a href="<?php echo site_url("admin_home/form/$p/$o/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data"></a><?php if($data['username']!='admin'){?><a href="<?php echo site_url("admin_home/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
+            <a href="<?php echo site_url("admin_home/form/$p/$o/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Ubah Data"></a><?php if($data['username']!='admin'){?><a href="<?php echo site_url("admin_home/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
 			<?php }?>
           </td>
           <td><?php echo $data['nama']?></td>
@@ -60,7 +60,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('admin_home')?>" method="post">
 		  <label>Tampilkan</label>
@@ -85,7 +85,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("admin_home/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>

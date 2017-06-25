@@ -32,8 +32,8 @@
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php echo site_url("area/ajax_add_sub_area/$area")?>" target="ajax-modal" rel="window" header="Tambah Sub area" class="uibutton tipsy south" title="Tambah Sub area"><span class="fa fa-plus-square">&nbsp;</span>Tambah area Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("area/delete_all/")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+<a href="<?php echo site_url("area/ajax_add_sub_area/$area")?>" target="ajax-modal" rel="window" header="Tambah Sub area" class="uibutton tipsy south" title="Tambah Sub area"><span class="fa fa-plus-square">&nbsp;</span>Tambah Area Baru</a>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("area/delete_all/")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -65,8 +65,8 @@
 </td>
 <td>
 	<div class="uibutton-group">
-		<a href="<?php echo site_url("area/ajax_add_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" target="ajax-modal" rel="window" header="Edit area" title="Edit Data"><span class="fa fa-edit"></span></a>
-		<a href="<?php echo site_url("area/delete_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php if($data['enabled'] == '2'):?>
+		<a href="<?php echo site_url("area/ajax_add_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" target="ajax-modal" rel="window" header="Edit area" title="Ubah Data"><span class="fa fa-edit"></span></a>
+		<a href="<?php echo site_url("area/delete_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php if($data['enabled'] == '2'):?>
 		<a href="<?php echo site_url("area/area_lock_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" title="Enable area"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url("area/area_unlock_sub_area/$area/$data[id]")?>" class="uibutton tipsy south" title="Disable area"><span class="fa fa-unlock"></span></a><?php endif;?>
 	</div>
 </td>

@@ -31,7 +31,7 @@ source: keyword
 
 </td>
 */?>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content">
 	<h3>Manajemen Properti / Lokasi</h3>
 	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
@@ -42,14 +42,14 @@ source: keyword
 <div class="left">
 <div class="uibutton-group">
 <a href="<?php  echo site_url("plan/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Data Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php  echo site_url("plan/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php  echo site_url("plan/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <div class="table-panel top">
 <div class="left">
-		
+
 		<select name="filter" onchange="formAction('mainform','<?php  echo site_url('plan/filter')?>')">
 			<option value="">Semua</option>
 			<option value="1" <?php  if($filter==1) :?>selected<?php  endif?>>Enabled</option>
@@ -62,14 +62,14 @@ source: keyword
 			<option value="<?php  echo $data['id']?>" <?php  if($point == $data['id']) :?>selected<?php  endif?>><?php  echo $data['nama']?></option>
 			<?php  }?>
 		</select>
-			
+
 		<select name="subpoint" onchange="formAction('mainform','<?php  echo site_url('plan/subpoint')?>')">
 			<option value="">Jenis</option>
 			<?php  foreach($list_subpoint AS $data){?>
 			<option value="<?php  echo $data['id']?>" <?php  if($subpoint == $data['id']) :?>selected<?php  endif?>><?php  echo $data['nama']?></option>
 			<?php  }?>
 		</select>
-					
+
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php  echo $cari?>" title="Search.."/>
@@ -112,8 +112,8 @@ source: keyword
 </td>
 <td>
 	<div class="uibutton-group">
-		<a href="<?php echo site_url("plan/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Edit Data"><span class=" fa fa-edit "></span></a>
-		<a href="<?php echo site_url("plan/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class=" fa fa-trash "></span></a>
+		<a href="<?php echo site_url("plan/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class=" fa fa-edit "></span></a>
+		<a href="<?php echo site_url("plan/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class=" fa fa-trash "></span></a>
 		<?php  /*if($data['enabled'] == '2'):?><a href="<?php  echo site_url('lokasi_lock/'.$data['id'])?>" class="uibutton fa fa-lock tipsy south" title="Enable lokasi"></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url('lokasi_unlock/'.$data['id'])?>" class="uibutton fa fa-unlock tipsy south" title="Disable lokasi"></a>*/?><a href="<?php  echo site_url("plan/ajax_lokasi_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="Lokasi <?php  echo $data['nama']?>" class="uibutton tipsy south" title="Lokasi <?php  echo $data['nama']?>"><span class=" fa fa-map "></span></a>
 	</div>
 </td>
@@ -129,7 +129,7 @@ source: keyword
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 <form id="paging" action="<?php  echo site_url('plan')?>" method="post">
 <label>Tampilkan</label>
