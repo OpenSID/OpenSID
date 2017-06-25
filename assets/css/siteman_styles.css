@@ -275,7 +275,7 @@ a.uibutton .fa {color: #752100}
 button.uibutton .fa {color: #752100;}
 #maincontent a.uibutton:link,
 	#maincontent a.uibutton:visited {color: #752100 !important;}
-#maincontent .uibutton-group .uibutton.fa-tipis {font-weight: normal; font-size: 11px; font-family: FontAwesome;}
+#maincontent .uibutton-group .uibutton.fa-tipis {font-weight: normal; font-size: 11px;}
 
 /* Font dan warna untuk tombol khusus yang ada icon fa */
 .uibutton.confirm .fa {color: #fff;}

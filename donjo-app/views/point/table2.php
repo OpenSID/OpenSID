@@ -41,7 +41,7 @@ source: keyword
 <div class="left">
 <div class="uibutton-group">
 <a href="<?php  echo site_url("point/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Kategori Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php  echo site_url("point/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php  echo site_url("point/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -94,7 +94,7 @@ source: keyword
 </td>
 <td>
 <div class="uibutton-group">
-<a href="<?php  echo site_url("point/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Edit Data"><span class="fa fa-edit"></span></a><a href="<?php  echo site_url("point/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php  if($data['enabled'] == '2'):?><a href="<?php  echo site_url('point/point_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Enable point"><span class="fa fa-lock"></span></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url('point/point_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Disable point"><span class="fa fa-unlock"></span></a><a href="<?php  echo site_url("point/sub_point/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub point"><span class="fa fa-list"></span> Rincian</a><a href="<?php  echo site_url("point/ajax_add_sub_point/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub point <?php  echo $data['nama']?>" class="uibutton tipsy south" title="Tambah Sub point"><span class="icon-plus"></span></a>
+<a href="<?php  echo site_url("point/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a><a href="<?php  echo site_url("point/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php  if($data['enabled'] == '2'):?><a href="<?php  echo site_url('point/point_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktifkan point"><span class="fa fa-lock"></span></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url('point/point_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan point"><span class="fa fa-unlock"></span></a><a href="<?php  echo site_url("point/sub_point/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub point"><span class="fa fa-list"></span> Rincian</a><a href="<?php  echo site_url("point/ajax_add_sub_point/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub point <?php  echo $data['nama']?>" class="uibutton tipsy south" title="Tambah Sub point"><span class="icon-plus"></span></a>
 <?php  endif?>
 </div>
 </td>

@@ -33,7 +33,7 @@ source: keyword
 */?>
 <td style="background:#fff;padding:0px;">
 <div class="content">
-	<h3>Manajemen Properti / area</h3>
+	<h3>Manajemen Properti/Area</h3>
 	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
 </div>
 <div id="contentpane">
@@ -42,7 +42,7 @@ source: keyword
 <div class="left">
 <div class="uibutton-group">
 <a href="<?php echo site_url("area/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Data Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("area/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("area/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -81,7 +81,7 @@ source: keyword
 <tr>
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
-<th width="50">Aksi</th>
+<th width="60">Aksi</th>
 
  <?php  if($o==2): ?>
 <th align="left"><a href="<?php echo site_url("area/index/$p/1")?>">Kategori <span class="fa fa-sort-asc fa-sm">
@@ -111,8 +111,12 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php echo site_url("area/form/$p/$o/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data"></a><a href="<?php echo site_url("area/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php /*if($data['enabled'] == '2'):?><a href="<?php echo site_url('plan/area/area_lock/'.$data['id'])?>" class="ui-icons fa fa-lock tipsy south" title="Enable area"></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('plan/area/area_unlock/'.$data['id'])?>" class="ui-icons fa fa-unlock tipsy south" title="Disable area"></a>*/?><a href="<?php echo site_url("area/ajax_area_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="area <?php echo $data['nama']?>" class="ui-icons fa fa-map tipsy south" title="area <?php echo $data['nama']?>"></a>
-
+	<div class="uibutton-group">
+		<a href="<?php echo site_url("area/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
+		<a href="<?php echo site_url("area/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+		<?php /*if($data['enabled'] == '2'):?><a href="<?php echo site_url('plan/area/area_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Enable area"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('plan/area/area_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Disable area"><span class="fa fa-unlock"></span></a>*/?>
+		<a href="<?php echo site_url("area/ajax_area_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="Lokasi <?php echo $data['nama']?>" class="uibutton tipsy south" title="Lokasi <?php echo $data['nama']?>"><span class="fa fa-map"></span></a>
+	</div>
 </td>
 <td width="150"><?php echo $data['nama']?></td>
 <td width="50"><?php echo $data['aktif']?></td>
