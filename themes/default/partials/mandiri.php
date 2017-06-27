@@ -150,7 +150,7 @@
   <tr>
     <td>Cacat</td>
     <td>:</td>
-    <td><?php echo strtoupper($penduduk['cacat_id'])?></td>
+    <td><?php echo strtoupper($penduduk['cacat'])?></td>
   </tr>
   <tr class="shaded">
     <td>Status</td>
