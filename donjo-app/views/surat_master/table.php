@@ -69,10 +69,14 @@
 											<a href="<?php echo site_url("surat_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 										<?php endif;?>
 										<?php if($data['kunci'] == '0'):?>
-											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton tipsy south" target="confirm" message="Non-Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="fa fa-unlock"></span></a>
-											<a href="<?php echo site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="uibutton tipsy south" target="confirm" message="Ubah Surat <?php echo $data['nama']?> dalam daftar surat Favorit?" header="Favorit" rel="window"><span class="<?php if($data['favorit']==1){?>fa fa-star-o <?php }else{?> fa fa-star <?php }?>"></span></a>
+											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton tipsy south" title="Non-Aktifkan Surat" target="confirm" message="Non-Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="fa fa-unlock"></span></a>
+											<?php if($data['favorit']==1) : ?>
+												<a href="<?php echo site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="uibutton tipsy south" title="Keluarkan dari Favorit" Surat" target="confirm" message="Keluarkan Surat <?php echo $data['nama']?> dari daftar surat Favorit?" header="Favorit" rel="window"><span class="fa fa-star-o"></span></a>
+											<?php else: ?>
+												<a href="<?php echo site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="uibutton tipsy south" title="Tambahkan ke Favorit" Surat" target="confirm" message="Tambahkan Surat <?php echo $data['nama']?> ke daftar surat Favorit?" header="Favorit" rel="window"><span class="fa fa-star"></span></a>
+											<?php endif; ?>
 										<?php elseif($data['kunci'] == '1'): ?>
-											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton tipsy south" target="confirm" message="Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="fa fa-lock"></span></a>
+											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton tipsy south" title="Aktifkan Surat" target="confirm" message="Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="fa fa-lock"></span></a>
 										<?php endif?>
 
 									</div>
@@ -84,12 +88,12 @@
 								<td><?php echo $data['lampiran']?></td>
 								<td align="center">
 									<div class="uibutton-group">
-										<a href="<?php echo site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Kode Isian"><span class="fa fa-code"></span> Kode Isian</a>
-										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south" title="Upload Template" target="ajax-modal" rel="window" header="Upload Template"><span class="fa fa-upload"></span> Upload</a>
+										<a href="<?php echo site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Kode Isian"><span class="fa fa-code"></span> Kode Isian</a>
+										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south fa-tipis" title="Upload Template" target="ajax-modal" rel="window" header="Upload Template"><span class="fa fa-upload"></span> Upload</a>
 
 										<?php $surat = SuratExport($data['url_surat']); ?>
 										<?php if ($surat != "") { ?>
-										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south" title="Unduh Template"><span class="fa fa-download"></span> Download</a>
+										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south fa-tipis" title="Unduh Template"><span class="fa fa-download"></span> Download</a>
 										<?php } ?>
 
 									</div>

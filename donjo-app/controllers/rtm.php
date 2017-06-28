@@ -72,7 +72,7 @@ function __construct(){
 
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/rtm',$data);
@@ -151,7 +151,7 @@ function __construct(){
 		else unset($_SESSION['rt']);
 		redirect('rtm');
 	}
-	
+
 	function insert(){
 		$this->rtm_model->insert();
 		redirect('rtm');
@@ -203,7 +203,7 @@ function __construct(){
 
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/rtm_anggota',$data);

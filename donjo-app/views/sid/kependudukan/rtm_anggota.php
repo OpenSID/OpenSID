@@ -1,10 +1,10 @@
 <div id="pageC">
 	<table class="inner">
 	<tr style="vertical-align:top">
-	<td style="background:#fff;padding:0px;"> 
-<div id="contentpane">   
+	<td style="background:#fff;padding:0px;">
+<div id="contentpane">
 <div class="content-header">
-</div> 
+</div>
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
     <h3>Daftar Anggota Rumah Tangga : <?php echo $kepala_kk['nama']?> - <?php echo $kepala_kk['no_kk']?></h3>
@@ -33,7 +33,7 @@
 				<th>Nama</th>
 				<th width="150">Hubungan</th>
 				<th>Alamat</th>
-            
+
 			</tr>
 		</thead>
 		<tbody>
@@ -45,13 +45,13 @@
 			</td>
 			<td>
 				<div class="uibutton-group">
-				<a href="<?php echo site_url("rtm/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Hapus dari Ruta" target="confirm" message="Apakah Anda Yakin?" header="Hapus"><span class="fa fa-minus-circle"></span> Hapus</a>
+				<a href="<?php echo site_url("rtm/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Hapus dari Ruta" target="confirm" message="Apakah Anda Yakin?" header="Hapus"><span class="fa fa-minus-circle"></span> Hapus</a>
 				<a href="<?php echo site_url("rtm/edit_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Ubah Hubungan rtm" target="ajax-modal" rel="window" header="Ubah Data"><span class="fa fa-link"></span></a>
 				</div>
 			</td>
           <td><label><?php echo $data['nik']?></label></td>
 		  <td><label><?php echo strtoupper(unpenetration($data['nama']))?></label></td>
-          
+
 		  <td><?php echo $data['hubungan']?></td>
           <td><?php echo unpenetration($data['alamat'])?></td>
 		  </tr>
@@ -61,7 +61,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
             <a href="<?php echo site_url("rtm/index/$p/$o")?>" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">

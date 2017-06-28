@@ -66,7 +66,7 @@
 				</td>
 		  		<td align="center">
 				<div class="uibutton-group">
-		    		    <a href="<?php echo site_url("sms/form_kontak/$data[id]")?>" class="uibutton fa-tipis" title="Ubah Data" target="ajax-modal" rel="window" header="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+		    		    <a href="<?php echo site_url("sms/form_kontak/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data" target="ajax-modal" rel="window" header="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 				    <a href="<?php echo site_url("sms/kontak_delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 				</div>
 		  		</td>

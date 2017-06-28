@@ -20,7 +20,7 @@ source: keyword
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("lapor/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("lapor/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -81,7 +81,7 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td> <div class="uibutton-group">
-<a href="<?php echo site_url("lapor/delete/$p/$o/$data[id]")?>" class="uibutton fa-tipis" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a><?php if($data['enabled'] == '2'):?>
+<a href="<?php echo site_url("lapor/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a><?php if($data['enabled'] == '2'):?>
 <a href="<?php echo site_url('lapor/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Tindak-lanjuti laporan"><span class="fa fa-check"></span></a><?php elseif($data['enabled'] == '1'): ?>
 <a href="<?php echo site_url('lapor/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Kembalikan ke status awal"><span class="fa fa-unlock"></span></a>
 <?php endif?></div>

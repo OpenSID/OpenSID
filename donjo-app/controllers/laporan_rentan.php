@@ -42,7 +42,7 @@ function __construct(){
 		//$data['keyword'] = $this->laporan_bulanan_model->autocomplete();
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('laporan/kelompok',$data);

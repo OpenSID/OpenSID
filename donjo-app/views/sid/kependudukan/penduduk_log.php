@@ -21,7 +21,7 @@ source: keyword
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-              <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk_log/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button></button>
+              <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk_log/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button></button>
             </div>
         </div>
 <div class="right">
@@ -147,7 +147,7 @@ source: keyword
 			<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td>
-			<a href="<?php echo site_url("penduduk_log/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Edit Status Dasar" target="ajax-modal" rel="window" header="Edit Status Dasar" modalWidth="auto" modalHeight="auto"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("penduduk_log/delete_confirm/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+			<a href="<?php echo site_url("penduduk_log/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Edit Status Dasar" target="ajax-modal" rel="window" header="Edit Status Dasar" modalWidth="auto" modalHeight="auto"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("penduduk_log/delete_confirm/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 			</td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>

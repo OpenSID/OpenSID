@@ -72,6 +72,35 @@
     $this->migrasi_115_ke_116();
     $this->migrasi_116_ke_117();
     $this->migrasi_117_ke_20();
+    $this->migrasi_20_ke_21();
+  }
+
+  function migrasi_20_ke_21(){
+    if (!$this->db->table_exists('widget') ) {
+      $query = "
+        CREATE TABLE `widget` (
+          `id` int NOT NULL AUTO_INCREMENT,
+          `isi` text,
+          `enabled` int(2),
+          `judul` varchar(100),
+          `jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
+          `urut` int(5),
+          PRIMARY KEY  (`id`)
+        );
+      ";
+      $this->db->query($query);
+      // Pindahkan data widget dari tabel artikel ke tabel widget
+      $widgets = $this->db->select('isi, enabled, judul, jenis_widget, urut')->where('id_kategori', 1003)->get('artikel')->result_array();
+      foreach($widgets as $widget) {
+        $this->db->insert('widget', $widget);
+      }
+      $this->db->where('id_kategori',1003)->delete('artikel');
+      // Hapus kolom widget dari tabel artikel
+      $kolom_untuk_dihapus = array("urut", "jenis_widget");
+      foreach ($kolom_untuk_dihapus as $kolom){
+        $this->dbforge->drop_column('artikel', $kolom);
+      }
+    }
   }
 
   function migrasi_117_ke_20(){

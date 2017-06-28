@@ -43,7 +43,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah',$data);
@@ -90,7 +90,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form',$data);
@@ -137,7 +137,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_rw',$data);
@@ -197,7 +197,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form_rw',$data);
@@ -237,7 +237,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_rt',$data);
@@ -317,7 +317,7 @@ function __construct(){
 
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form_rt',$data);

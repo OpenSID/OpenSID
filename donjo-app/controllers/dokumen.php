@@ -42,7 +42,7 @@ class Dokumen extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=4;
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('dokumen/table',$data);

@@ -37,7 +37,7 @@
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("gallery/search/$gallery")?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("gallery/search/$gallery")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Search</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("gallery/search/$gallery")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
             </div>
         </div>
         <table class="list">
@@ -81,7 +81,7 @@
 			</td>
 			<td>
 			<div class="uibutton-group">
-				<a href="<?php echo site_url("gallery/form_sub_gallery/$gallery/$data[id]")?>" class="uibutton fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+				<a href="<?php echo site_url("gallery/form_sub_gallery/$gallery/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 			<?php if($_SESSION['grup']<4){?>
 				<a href="<?php echo site_url("gallery/delete_sub_gallery/$gallery/$data[id]")?>"  class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php if($data['enabled'] == '2'):?>
 				<a href="<?php echo site_url('gallery/gallery_lock/'.$data['id']."/$gallery")?>"  class="uibutton tipsy south" title="Aktifkan gambar"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?>
