@@ -95,11 +95,11 @@ table.form.detail td{
 </tr>
 <tr>
 	<th>Nama Bayi </th>
-	<td><input name="nama_bayi" type="text" class="inputbox required" value="Bayu" size="100"/></td>
+	<td><input name="nama_bayi" type="text" class="inputbox required" size="100"/></td>
 	</tr>
 <tr>
 	<th>Nik</th>
-	<td><input name="nik_bayi" type="text" class="inputbox required" id="nik_bayi" value="627265362761890" size="70"/></td>
+	<td><input name="nik_bayi" type="text" class="inputbox required" id="nik_bayi" size="70"/></td>
 	</tr>
 <tr>
 	<th>Jenis Kelamin </th>
@@ -110,17 +110,17 @@ table.form.detail td{
         </select></td>
 		</tr>
 <tr>
-	<th>Jenis Kelamin </th>
+	<th>Hari / Tanggal Lahir / Jam </th>
 	<td><input name="hari" readonly="readonly" type="text" class="inputbox required" size="10"/>
 /
   <input name="tanggal" type="text" class="inputbox required datepicker" size="10"/>
 /
-<input name="jam" type="text" class="inputbox required" value="19:00" size="10"/></td>
+<input name="jam" type="text" class="inputbox required" size="10"/></td>
 </tr>
 <tr>
   <th>Tempat Dilahirkan </th>
   <td><label>
-    <input name="tempatlahirbayi" type="radio" id="radio2" value="1" checked="checked" />
+    <input name="tempatlahirbayi" type="radio" id="radio2" value="1" />
     RS/RB </label>
     &nbsp;&nbsp;&nbsp;
     <input name="tempatlahirbayi" type="radio" value="2" id="radio3" />
@@ -137,13 +137,13 @@ table.form.detail td{
 </tr>
 <tr>
   <th>Alamat Tempat Lahir </th>
-  <td><input name="alamatlahirbayi" type="text" class="inputbox required" id="alamatlahirbayi" value="Miau Merah" size="100"/></td>
+  <td><input name="alamatlahirbayi" type="text" class="inputbox required" id="alamatlahirbayi" size="100"/></td>
 </tr>
 <tr>
   <th>Jenis Kelahiran </th>
   <td valign="baseline"><p>
     <label>
-      <input name="jenislahir" type="radio" id="radio11" value="1" checked="checked" />
+      <input name="jenislahir" type="radio" id="radio11" value="1" />
       Tunggal </label>
     &nbsp;&nbsp;&nbsp;
     <input name="jenislahir" type="radio" value="2" id="radio12" />
@@ -163,13 +163,13 @@ table.form.detail td{
   <th>Kelahiran Anak Ke </th>
   <td><label></label>
       <label for="radio10">
-      <input name="Kelahiranke" type="text" class="inputbox required" id="Kelahiranke" value="1" size="10"/>
+      <input name="Kelahiranke" type="text" class="inputbox required" id="Kelahiranke" size="10"/>
         &nbsp;<em>*isi dengan angka </em></label></td>
 </tr>
 <tr>
   <th>Penolong Kelahiran </th>
   <td><label>
-    <input name="penolong" type="radio" id="radio16" value="1" checked="checked" />
+    <input name="penolong" type="radio" id="radio16" value="1" />
     Dokter </label>
     &nbsp;&nbsp;&nbsp;
     <input name="penolong" type="radio" value="2" id="radio8" />
@@ -189,21 +189,21 @@ table.form.detail td{
 </tr>
 <tr>
   <th>Nama</th>
-  <td><input name="nama_pelapor" type="text" class="inputbox required" value="Fathur" size="100"/>  </td>
+  <td><input name="nama_pelapor" type="text" class="inputbox required" size="100"/>  </td>
 </tr>
 <tr>
   <th>NIK</th>
-  <td><input name="nik_pelapor" type="text" class="inputbox required" value="8298932893829389832" size="70"/></td>
+  <td><input name="nik_pelapor" type="text" class="inputbox required" size="70"/></td>
 </tr>
 <tr>
   <th>Umur</th>
-  <td><input name="umur_pelapor" type="text" class="inputbox required" value="28" size="5"/>    
+  <td><input name="umur_pelapor" type="text" class="inputbox required" size="5"/>    
     tahun</td>
 </tr>
 <tr>
   <th>Jenis kelamin </th>
   <td><label>
-    <input name="jkpelapor" type="radio" id="radio7" value="1" checked="checked" />
+    <input name="jkpelapor" type="radio" id="radio7" value="1" />
     Laki Laki</label>
     &nbsp;&nbsp;&nbsp;
     <input name="jkpelapor" type="radio" value="2" id="radio10" />
@@ -211,7 +211,7 @@ table.form.detail td{
 </tr>
 <tr>
   <th>Pekerjaan</th>
-  <td><input name="pek_pelapor" type="text" class="inputbox required" value="PNS" size="80"/></td>
+  <td><input name="pek_pelapor" type="text" class="inputbox required" size="80"/></td>
 </tr>
 <tr>
   <th>Alamat</th>
@@ -229,7 +229,7 @@ table.form.detail td{
 </tr>
 <tr>
   <th>Hubungan Pelapor dengan Bayi</th>
-  <td><input name="hubunganpelapor" type="text" class="inputbox required" id="hubunganpelapor" value="Paman" size="100"/></td>
+  <td><input name="hubunganpelapor" type="text" class="inputbox required" id="hubunganpelapor" size="100"/></td>
 </tr>
 <tr>
   <th>&nbsp;</th>
@@ -239,27 +239,27 @@ table.form.detail td{
 </tr>
 <tr>
   <th>Nama</th>
-  <td><input name="nama_saksi1" type="text" class="inputbox required" id="nama_saksi1" value="Purwanto" size="100"/></td>
+  <td><input name="nama_saksi1" type="text" class="inputbox required" id="nama_saksi1" size="100"/></td>
 </tr>
 <tr>
   <th>NIK</th>
-  <td><input name="nik_saksi1" type="text" class="inputbox required" id="nik_saksi1" value="29893892898198" size="70"/></td>
+  <td><input name="nik_saksi1" type="text" class="inputbox required" id="nik_saksi1" size="70"/></td>
   </tr>
 <tr>
   <th>Tempat Lahir  </th>
-  <td><input name="tmptlahirsaksi1" type="text" class="inputbox required" id="tmptlahirsaksi1" value="Miau Merah" size="40"/> 
+  <td><input name="tmptlahirsaksi1" type="text" class="inputbox required" id="tmptlahirsaksi1" size="40"/> 
     Tanggal Lahir :      
       <input name="tgllhirsaksi1" type="text" class="inputbox required datepicker" id="tgllhirsaksi1" size="10"/></td>
 </tr>
 <tr>
   <th>Umur</th>
-  <td><input name="umur_saksi1" type="text" class="inputbox required" id="umur_saksi1" value="29" size="5"/>
+  <td><input name="umur_saksi1" type="text" class="inputbox required" id="umur_saksi1" size="5"/>
     tahun</td>
 </tr>
 <tr>
   <th>Jenis Kelamin </th>
   <td><label>
-    <input name="jksaksi1" type="radio" id="radio17" value="1" checked="checked" />
+    <input name="jksaksi1" type="radio" id="radio17" value="1" />
     Laki Laki</label>
     &nbsp;&nbsp;&nbsp;
     <input name="jksaksi1" type="radio" value="2" id="radio18" />
@@ -267,7 +267,7 @@ table.form.detail td{
 </tr>
 <tr>
   <th>Pekerjaan</th>
-  <td><input name="peksaksi1" type="text" class="inputbox required" id="peksaksi1" value="PNS" size="100"/></td>
+  <td><input name="peksaksi1" type="text" class="inputbox required" id="peksaksi1" size="100"/></td>
 </tr>
 <tr>
   <th>Alamat</th>
@@ -291,27 +291,27 @@ table.form.detail td{
 </tr>
 <tr>
   <th>Nama</th>
-  <td><input name="nama_saksi2" type="text" class="inputbox required" id="nama_saksi2" value="Slamet" size="100"/></td>
+  <td><input name="nama_saksi2" type="text" class="inputbox required" id="nama_saksi2" size="100"/></td>
 </tr>
 <tr>
   <th>NIK</th>
-  <td><input name="nik_saksi2" type="text" class="inputbox required" id="nik_saksi2" value="23203920390293" size="70"/></td>
+  <td><input name="nik_saksi2" type="text" class="inputbox required" id="nik_saksi2" size="70"/></td>
   </tr>
 <tr>
   <th>Tempat Lahir</th>
-  <td><input name="tmptlahirsaksi2" type="text" class="inputbox required" id="tmptlahirsaksi2" value="Miau Merah" size="40"/>
+  <td><input name="tmptlahirsaksi2" type="text" class="inputbox required" id="tmptlahirsaksi2" size="40"/>
 Tanggal Lahir :
   <input name="tgllhirsaksi2" type="text" class="inputbox required datepicker" id="tgllhirsaksi2" size="10"/></td>
 </tr>
 <tr>
   <th>Umur</th>
-  <td><input name="umur_saksi2" type="text" class="inputbox required" id="umur_saksi2" value="26" size="5"/>
+  <td><input name="umur_saksi2" type="text" class="inputbox required" id="umur_saksi2" size="5"/>
     tahun</td>
 </tr>
 <tr>
   <th>Jenis Kelamin </th>
   <td><label>
-    <input name="jksaksi2" type="radio" id="radio19" value="1" checked="checked" />
+    <input name="jksaksi2" type="radio" id="radio19" value="1" />
     Laki Laki</label>
     &nbsp;&nbsp;&nbsp;
     <input name="jksaksi2" type="radio" value="2" id="radio20" />
@@ -319,7 +319,7 @@ Tanggal Lahir :
 </tr>
 <tr>
   <th>Pekerjaan</th>
-  <td><input name="peksaksi2" type="text" class="inputbox required" id="peksaksi2" value="Swasta" size="100"/></td>
+  <td><input name="peksaksi2" type="text" class="inputbox required" id="peksaksi2" size="100"/></td>
 </tr>
 <tr>
   <th>Alamat</th>
