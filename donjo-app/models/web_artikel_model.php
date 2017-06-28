@@ -67,18 +67,14 @@
 
 	function list_data($cat=0,$o=0,$offset=0,$limit=500){
 
-		if ($cat == 1003) {
-			$order_sql = ' ORDER BY urut';
-		} else {
-			switch($o){
-			case 1: $order_sql = ' ORDER BY judul'; break;
-			case 2: $order_sql = ' ORDER BY judul DESC'; break;
-			case 3: $order_sql = ' ORDER BY enabled'; break;
-			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
-			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
-			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
-			default:$order_sql = ' ORDER BY id DESC';
-			}
+		switch($o){
+		case 1: $order_sql = ' ORDER BY judul'; break;
+		case 2: $order_sql = ' ORDER BY judul DESC'; break;
+		case 3: $order_sql = ' ORDER BY enabled'; break;
+		case 4: $order_sql = ' ORDER BY enabled DESC'; break;
+		case 5: $order_sql = ' ORDER BY tgl_upload'; break;
+		case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
+		default:$order_sql = ' ORDER BY id DESC';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
@@ -125,14 +121,6 @@
 		$query    = $this->db->query($sql,$cat);
 		return  $query->row_array();
 	}
-
-  function widget_urut_max(){
-      $this->db->select_max('urut');
-      $this->db->where('id_kategori', 1003);
-      $query = $this->db->get('artikel');
-      $widget = $query->row_array();
-      return $widget['urut'];
-  }
 
 	function insert($cat=1){
 		$_SESSION['success']=1;
@@ -205,19 +193,6 @@
 			    $data['link_dokumen']= $data['judul'];
 				UploadDocument2($nama_file);
 			}
-		}
-
-		// Widget diberi urutan terakhir
-		if ($cat == 1003) {
-			$data['urut'] = $this->widget_urut_max() + 1;
-			if ($data['jenis_widget']==2){
-				$data['isi'] = $data['isi-statis'];
-			}
-			elseif ($data['jenis_widget']==3){
-				$data['isi'] = $data['isi-dinamis'];
-			}
-			unset($data['isi-dinamis']);
-			unset($data['isi-statis']);
 		}
 
 		$outp = $this->db->insert('artikel',$data);
@@ -317,18 +292,6 @@
 			unset($data['gambar3_hapus']);
 		}
 
-		// Widget isinya tergantung jenis widget
-		if ($cat == 1003) {
-			if ($data['jenis_widget']==2){
-				$data['isi'] = $data['isi-statis'];
-			}
-			elseif ($data['jenis_widget']==3){
-				$data['isi'] = $data['isi-dinamis'];
-			}
-			unset($data['isi-dinamis']);
-			unset($data['isi-statis']);
-		}
-
 		$this->db->where('id',$id);
 		$outp = $this->db->update('artikel',$data);
 		if(!$outp) $_SESSION['success']=-1;
@@ -339,7 +302,7 @@
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM artikel WHERE id=? AND jenis_widget <> 1";
+		$sql  = "DELETE FROM artikel WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
 
 		if($outp) $_SESSION['success']=1;
@@ -359,7 +322,7 @@
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM artikel WHERE id=? AND jenis_widget <> 1";
+				$sql  = "DELETE FROM artikel WHERE id=?";
 				$outp = $this->db->query($sql,array($id));
 			}
 		}
@@ -367,62 +330,6 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
-	}
-
-	function widget_urut_semua(){
-		$sql = "SELECT urut, COUNT(*) c FROM artikel WHERE id_kategori = 1003 GROUP BY urut HAVING c > 1";
-		$query = $this->db->query($sql);
-		$urut_duplikat = $query->result_array();
-		if ($urut_duplikat) {
-			$this->db->select("id");
-			$this->db->where("id_kategori", 1003);
-			$this->db->order_by("urut");
-			$q = $this->db->get('artikel');
-			$widgets = $q->result_array();
-			for ($i=0; $i<count($widgets); $i++){
-				$this->db->where('id', $widgets[$i]['id']);
-				$data['urut'] = $i + 1;
-				$this->db->update('artikel', $data);
-			}
-		}
-	}
-
-	// $arah:
-	//		1 - turun
-	// 		2 - naik
-	function widget_urut($id, $arah){
-		$this->widget_urut_semua();
-		$this->db->where('id', $id);
-		$q = $this->db->get('artikel');
-		$widget1 = $q->row_array();
-
-		$this->db->select("id, urut");
-		$this->db->where("id_kategori", 1003);
-		$this->db->order_by("urut");
-		$q = $this->db->get('artikel');
-		$widgets = $q->result_array();
-		for ($i=0; $i<count($widgets); $i++){
-			if ($widgets[$i]['id'] == $id) {
-				break;
-			}
-		}
-
-		if ($arah == 1) {
-			if ($i >= count($widgets) - 1) return;
-			$widget2 = $widgets[$i+1];
-		}
-		if ($arah == 2) {
-			if ($i <= 0) return;
-			$widget2 = $widgets[$i-1];
-		}
-
-		// Tukar urutan
-		$this->db->where('id', $widget2['id']);
-		$data = array('urut' => $widget1['urut']);
-		$this->db->update('artikel', $data);
-		$this->db->where('id', $widget1['id']);
-		$data = array('urut' => $widget2['urut']);
-		$this->db->update('artikel', $data);
 	}
 
 	function artikel_lock($id='',$val=0){
