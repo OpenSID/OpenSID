@@ -25,7 +25,7 @@
 <div id="pageC">
 <div class="content-header">
 </div>
-<div id="contentpane"> 
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
 	<div class="ui-layout-north panel">
 	</div>
@@ -48,14 +48,14 @@
 			</tr>
 		</table>
 	<div class="table-panel top">
-	<div class="left">	
+	<div class="left">
 		<select name="dusun" onchange="formAction('mainform','<?php echo site_url('analisis_respon/dusun')?>')">
 			<option value="">Dusun</option>
 			<?php foreach($list_dusun AS $data){?>
 				<option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo $data['dusun']?></option>
 			<?php }?>
 		</select>
-		
+
 		<?php if($dusun){?>
 			<select name="rw" onchange="formAction('mainform','<?php echo site_url('analisis_respon/rw')?>')">
 				<option value="">RW</option>
@@ -64,7 +64,7 @@
 				<?php }?>
 			</select>
 		<?php }?>
-		
+
 		<?php if($rw){?>
 		 <select name="rt" onchange="formAction('mainform','<?php echo site_url('analisis_respon/rt')?>')">
 			<option value="">RT</option>
@@ -73,17 +73,17 @@
 			<?php }?>
 		 </select>
 		<?php }?>
-		
+
 		<select name="isi" onchange="formAction('mainform','<?php echo site_url('analisis_respon/isi')?>')">
 			<option value=""> --- Semua --- </option>
 			<option value="1" <?php if($isi == 1) :?>selected<?php endif?>>Sudah Terinput</option>
 			<option value="2" <?php if($isi == 2) :?>selected<?php endif?>>Belum Terinput</option>
 		</select>
-		<a href="<?php echo site_url("analisis_respon/aturan_ajax")?>" class="uibutton special tipsy south" title="Fungsi Import harap digunakan secara seksama" target="ajax-modal" rel="window" header="Unduh Form Rujukan Import"><span class="icon-file-text icon-large">&nbsp;</span>Import</a>
+		<a href="<?php echo site_url("analisis_respon/aturan_ajax")?>" class="uibutton special tipsy south" title="Fungsi Import harap digunakan secara seksama" target="ajax-modal" rel="window" header="Unduh Form Rujukan Import"><span class="fa fa-file-text">&nbsp;</span>Import</a>
 	</div>
 	<div class="right">
 		<input name="cari" id="cari" type="text" class="inputbox help tipped" size="40" value="<?php echo $cari?>" title="Cari.." onkeypress="if(event.keyCode == 13) $('#'+'mainform').attr('action','<?php echo site_url('analisis_respon/search')?>');$('#'+'mainform').submit();}" />
-		<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_respon/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+		<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('analisis_respon/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 	</div>
 	</div>
 	<table class="list">
@@ -92,27 +92,27 @@
 				<th width="10">No</th>
 				<th width='50'>Aksi</th>
 			<?php if($o==2): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="center" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/2")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="center" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/2")?>"><?php echo $nomor?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="center" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 	 		<?php if($o==4): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="center" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/4")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="center" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/4")?>"><?php echo $nama?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="center" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
-			
+
 				<th width='50'>L/P</th>
 				<th width='100'>Dusun</th>
 				<th width='30'>RW</th>
 				<th width='30'>RT</th>
 				<th width='50'>Status</th>
-			
+
 				<th></th>
 			</tr>
 		</thead>
@@ -122,15 +122,15 @@
 			<td align="center" width="2"><?php echo $data['no']?></td>
 			<td>
 				<div class="uibutton-group">
-					<a href="<?php echo site_url("analisis_respon/kuisioner/$p/$o/$data[id]")?>" class="uibutton south"><span class="icon-list icon-large"> Input Data</span></a>
+					<a href="<?php echo site_url("analisis_respon/kuisioner/$p/$o/$data[id]")?>" class="uibutton south fa-tipis"><span class="fa fa-list"></span> Input Data</a>
 				</div>
 			 </td>
-			<td><?php echo $data['nid']?></td>
+			<td align="center"><?php echo $data['nid']?></td>
 			<td><?php echo $data['nama']?></td>
 			<td align="center"><?php echo $data['jk']?></td>
 			<td><?php echo $data['dusun']?></td>
-			<td><?php echo $data['rw']?></td>
-			<td><?php echo $data['rt']?></td>
+			<td align="center"><?php echo $data['rw']?></td>
+			<td align="center"><?php echo $data['rt']?></td>
 			<td align="center"><?php echo $data['set']?></td>
 			<td></td>
 		</tr>
@@ -140,7 +140,7 @@
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 	<form id="paging" action="<?php echo site_url('analisis_respon')?>" method="post">
 		<a href="<?php echo site_url()?>analisis_respon/leave" class="uibutton icon prev">Kembali</a>
@@ -159,10 +159,10 @@
  <div class="right">
 	<div class="uibutton-group">
 		<?php if($paging->start_link): ?>
-			<a href="<?php echo site_url("analisis_respon/index/$paging->start_link/$o")?>" class="uibutton" >Awal</a>
+			<a href="<?php echo site_url("analisis_respon/index/$paging->start_link/$o")?>" class="uibutton" ><span class="fa fa-fast-backward"></span> Awal</a>
 		<?php endif; ?>
 		<?php if($paging->prev): ?>
-			<a href="<?php echo site_url("analisis_respon/index/$paging->prev/$o")?>" class="uibutton" >Prev</a>
+			<a href="<?php echo site_url("analisis_respon/index/$paging->prev/$o")?>" class="uibutton" ><span class="fa fa-step-backward"></span> Prev</a>
 		<?php endif; ?>
 	</div>
 	<div class="uibutton-group">
@@ -172,10 +172,10 @@
 	</div>
 	<div class="uibutton-group">
 		<?php if($paging->next): ?>
-			<a href="<?php echo site_url("analisis_respon/index/$paging->next/$o")?>" class="uibutton">Next</a>
+			<a href="<?php echo site_url("analisis_respon/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 		<?php endif; ?>
 		<?php if($paging->end_link): ?>
-			<a href="<?php echo site_url("analisis_respon/index/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+			<a href="<?php echo site_url("analisis_respon/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 		<?php endif; ?>
 	</div>
 </div>

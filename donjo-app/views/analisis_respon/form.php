@@ -90,7 +90,7 @@ $(function(){
 				<?php if($analisis_master['id_child']!=0){?>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_respon/kuisioner_child/$p/$o/$id/$idc")?>" class="uibutton south" target="ajax-modal-respon" rel="window" header="<?php echo $ang['nik']?> <?php echo $ang['nama']?>"><span class="icon-list icon-large"> Input Data</span></a>
+						<a href="<?php echo site_url("analisis_respon/kuisioner_child/$p/$o/$id/$idc")?>" class="uibutton south" target="ajax-modal-respon" rel="window" header="<?php echo $ang['nik']?> <?php echo $ang['nama']?>"><span class="fa fa-list"> Input Data</span></a>
 					</div>
 				</td>
 				<?php } ?>
@@ -198,12 +198,12 @@ $(function(){
 			<?php if(isset($_SESSION['fullscreen'])){?>
 			<a href="<?php echo current_url()?>/2" class="uibutton">Normal</a>
 			<?php } else { ?>
-			<a href="<?php echo current_url()?>/1" class="uibutton special">Full Screen</a>
+			<a href="<?php echo current_url()?>/1" class="uibutton special"><span class="fa fa-window-maximize" ></span> Full Screen</a>
 			<?php } ?>
 		</div>
 		<div class="right">
 			<div class="uibutton-group">
-				<button class="uibutton confirm" type="submit" id="simpan">Simpan</button>
+				<button class="uibutton confirm" type="submit" id="simpan"><span class="fa fa-save"></span> Simpan</button>
 			</div>
 		</div>
 	</div>

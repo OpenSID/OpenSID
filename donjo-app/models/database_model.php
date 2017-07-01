@@ -6,6 +6,7 @@
     parent::__construct();
 
     $this->cek_engine_db();
+    $this->load->dbforge();
 
   }
 
@@ -44,9 +45,6 @@
       (17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
     ";
     $this->db->query($query);
-
-
-
   }
 
   function migrasi_db_cri() {
@@ -74,6 +72,35 @@
     $this->migrasi_115_ke_116();
     $this->migrasi_116_ke_117();
     $this->migrasi_117_ke_20();
+    $this->migrasi_20_ke_21();
+  }
+
+  function migrasi_20_ke_21(){
+    if (!$this->db->table_exists('widget') ) {
+      $query = "
+        CREATE TABLE `widget` (
+          `id` int NOT NULL AUTO_INCREMENT,
+          `isi` text,
+          `enabled` int(2),
+          `judul` varchar(100),
+          `jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
+          `urut` int(5),
+          PRIMARY KEY  (`id`)
+        );
+      ";
+      $this->db->query($query);
+      // Pindahkan data widget dari tabel artikel ke tabel widget
+      $widgets = $this->db->select('isi, enabled, judul, jenis_widget, urut')->where('id_kategori', 1003)->get('artikel')->result_array();
+      foreach($widgets as $widget) {
+        $this->db->insert('widget', $widget);
+      }
+      $this->db->where('id_kategori',1003)->delete('artikel');
+      // Hapus kolom widget dari tabel artikel
+      $kolom_untuk_dihapus = array("urut", "jenis_widget");
+      foreach ($kolom_untuk_dihapus as $kolom){
+        $this->dbforge->drop_column('artikel', $kolom);
+      }
+    }
   }
 
   function migrasi_117_ke_20(){
@@ -92,6 +119,27 @@
       $this->db->query($query);
 
       $this->reset_setting_aplikasi();
+    }
+    // Update untuk tambahan offline mode 2, sesudah masuk pra-rilis (ada yang sudah migrasi)
+    $this->db->where('id',12)->update('setting_aplikasi',array('value'=>'0','jenis'=>''));
+    // Update media_sosial
+    $this->db->where('id',3)->update('media_sosial',array('nama'=>'Google Plus'));
+    $this->db->where('id',4)->update('media_sosial',array('nama'=>'YouTube'));
+    // Tambah widget aparatur_desa
+    $widget = $this->db->select('id')->where(array('isi'=>'aparatur_desa.php', 'id_kategori'=>1003))->get('artikel')->row();
+    if (!$widget->id) {
+      $aparatur_desa = array('judul'=>'Aparatur Desa','isi'=>'aparatur_desa.php','enabled'=>1,'id_kategori'=>1003,'urut'=>1,'jenis_widget'=>1);
+      $this->db->insert('artikel',$aparatur_desa);
+    }
+    // Tambah foto aparatur desa
+    if (!$this->db->field_exists('foto', 'tweb_desa_pamong')) {
+      $fields = array(
+        'foto' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100
+        )
+      );
+      $this->dbforge->add_column('tweb_desa_pamong', $fields);
     }
   }
 
@@ -1043,6 +1091,8 @@
       "artikel", //remove everything except widgets 1003
       "data_surat", // view
       "media_sosial", //?
+      "setting_modul",
+      "setting_aplikasi",
       "tweb_cacat",
       "tweb_cara_kb",
       "tweb_golongan_darah",

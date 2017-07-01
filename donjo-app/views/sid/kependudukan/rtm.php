@@ -18,15 +18,15 @@
               <h3>Manajemen Rumah Tangga</h3>
               <div class="left">
                 <div class="uibutton-group">
-                  <a href="<?php echo site_url('rtm/form_old')?>" target="ajax-modalx" rel="window" header="Tambah Data Rumah Tangga Per Penduduk" class="uibutton tipsy south" title="Tambah data dari penduduk" ><span class="icon-plus icon-large">&nbsp;</span>Tambah Rumah Tangga</a>
+                  <a href="<?php echo site_url('rtm/form_old')?>" target="ajax-modalx" rel="window" header="Tambah Data Rumah Tangga Per Penduduk" class="uibutton tipsy south" title="Tambah data dari penduduk" ><span class="fa fa-plus">&nbsp;</span>Tambah Rumah Tangga</a>
 
-                  <?php /*<a href="<?php echo site_url('rtm/form_kk')?>" target="ajax-modalx" rel="window" header="Tambah Data Per Keluarga" class="uibutton tipsy south" title="Tambah Data Berbasis Keluarga" ><span class="icon-plus icon-large">&nbsp;</span>Tambah Data By Keluarga</a>*/?>
+                  <?php /*<a href="<?php echo site_url('rtm/form_kk')?>" target="ajax-modalx" rel="window" header="Tambah Data Per Keluarga" class="uibutton tipsy south" title="Tambah Data Berbasis Keluarga" ><span class="fa fa-plus">&nbsp;</span>Tambah Data By Keluarga</a>*/?>
 
                   <?php  if($grup==1){?>
-                    <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("rtm/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
+                    <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("rtm/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
                   <?php  }?>
-          				<a href="<?php echo site_url("rtm/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-            			<a href="<?php echo site_url("rtm/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+          				<a href="<?php echo site_url("rtm/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
+            			<a href="<?php echo site_url("rtm/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text">&nbsp;</span>Excel</a>
                   &nbsp;
           				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('rtm/dusun')?>')">
                     <option value=""><?php echo ucwords($this->setting->sebutan_dusun)?></option>
@@ -58,8 +58,8 @@
                 <div class="right">
                   <div class="uibutton-group">
                     <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('rtm/search')?>');$('#'+'mainform').submit();}" />
-                    <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('rtm/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
-    <!--				<a href="<?php //=site_url("rtm/sosial/")?>" class="uibutton confirm" title="Grafik Kelas Sosial" ><span class="icon-bar-chart icon-large">&nbsp;</span>Grafik Kelas Sosial</a>
+                    <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('rtm/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
+    <!--				<a href="<?php //=site_url("rtm/sosial/")?>" class="uibutton confirm" title="Grafik Kelas Sosial" ><span class="fa fa-bar-chart">&nbsp;</span>Grafik Kelas Sosial</a>
     -->
                   </div>
                 </div>
@@ -73,31 +73,31 @@
                       <th><input type="checkbox" class="checkall"/></th>
                       <th width="160">Aksi</th>
 
-            				<th width="150" align="left">
+            				<th width="150" align="center">
               				<?php  if($o==2): ?>
-                				<a href="<?php echo site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga<span class="ui-icon ui-icon-triangle-1-n">
+                				<a href="<?php echo site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga <span class="fa fa-sort-asc fa-sm">
               				<?php  elseif($o==1): ?>
-                				<a href="<?php echo site_url("rtm/index/$p/2")?>">Nomor Rumah Tangga<span class="ui-icon ui-icon-triangle-1-s">
+                				<a href="<?php echo site_url("rtm/index/$p/2")?>">Nomor Rumah Tangga <span class="fa fa-sort-desc fa-sm">
               				<?php  else: ?>
-                				<a href="<?php echo site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a>
+                				<a href="<?php echo site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga <span class="fa fa-sort fa-sm">&nbsp;</span></a>
               				<?php  endif; ?>
                     </th>
 
-            				<th align="left">
+            				<th align="center">
               				<?php  if($o==4): ?>
-                				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga<span class="ui-icon ui-icon-triangle-1-n">
+                				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga <span class="fa fa-sort-asc fa-sm">
               				<?php  elseif($o==3): ?>
-                				<a href="<?php echo site_url("rtm/index/$p/4")?>">Kepala Rumah Tangga<span class="ui-icon ui-icon-triangle-1-s">
+                				<a href="<?php echo site_url("rtm/index/$p/4")?>">Kepala Rumah Tangga <span class="fa fa-sort-desc fa-sm">
               				<?php  else: ?>
-                				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a>
+                				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga <span class="fa fa-sort fa-sm">&nbsp;</span></a>
               				<?php  endif; ?>
                     </th>
 
-            				<th width="100" align="left" align="center">Jumlah Anggota</th>
-            				<th align="left" align="center" width="120"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
-            				<th align="left" align="center" width="30">RW</th>
-            				<th align="left" align="center" width="30">RT</th>
-            				<th align="left" align="center" width="100">Tanggal Terdaftar</th>
+            				<th width="100" align="center" align="center">Jumlah Anggota</th>
+            				<th align="center" width="120"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
+            				<th align="center" width="30">RW</th>
+            				<th align="center" width="30">RT</th>
+            				<th align="center" width="100">Tanggal Terdaftar</th>
             			</tr>
             		</thead>
             		<tbody>
@@ -109,11 +109,11 @@
                 			</td>
                       <td width="5">
                         <div class="uibutton-group">
-                    			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota rtm"><span class="icon-list icon-large"> Rincian </span></a>
-                    			<a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$data[id]")?>" target="ajax-modalx" rel="window" header="Tambah Anggota rtm" class="uibutton tipsy south" title="Tambah Anggota rtm"><span  class="icon-plus-sign-alt  icon-large"></span></a>
+                    			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Anggota rtm"><span class="fa fa-list"></span> Rincian</a>
+                    			<a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$data[id]")?>" target="ajax-modalx" rel="window" header="Tambah Anggota rtm" class="uibutton tipsy south" title="Tambah Anggota rtm"><span class="fa fa-plus-circle"></span></a>
                           <?php  if($grup==1){?>
-                            <a href="<?php echo site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" target="ajax-modal" rel="window" header="Edit Rumah Tangga" class="uibutton tipsy south" title="Edit Data" ><span class="icon-edit icon-large"></span></a>
-                            <a href="<?php echo site_url("rtm/delete/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span> </a>
+                            <a href="<?php echo site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" target="ajax-modal" rel="window" header="Edit Rumah Tangga" class="uibutton tipsy south" title="Ubah Data" ><span class="fa fa-edit"></span></a>
+                            <a href="<?php echo site_url("rtm/delete/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> </a>
                           <?php  } ?>
                     		</div>
                       </td>
@@ -153,10 +153,10 @@
             <div class="right">
               <div class="uibutton-group">
                 <?php  if($paging->start_link): ?>
-          				<a href="<?php echo site_url("rtm/index/$paging->start_link/$o")?>" class="uibutton"  >Awal</a>
+          				<a href="<?php echo site_url("rtm/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
           			<?php  endif; ?>
           			<?php  if($paging->prev): ?>
-          				<a href="<?php echo site_url("rtm/index/$paging->prev/$o")?>" class="uibutton"  >Prev</a>
+          				<a href="<?php echo site_url("rtm/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
           			<?php  endif; ?>
               </div>
               <div class="uibutton-group">
@@ -166,10 +166,10 @@
               </div>
               <div class="uibutton-group">
           			<?php  if($paging->next): ?>
-          				<a href="<?php echo site_url("rtm/index/$paging->next/$o")?>" class="uibutton">Next</a>
+          				<a href="<?php echo site_url("rtm/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
           			<?php  endif; ?>
           			<?php  if($paging->end_link): ?>
-                  <a href="<?php echo site_url("rtm/index/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+                  <a href="<?php echo site_url("rtm/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
           			<?php  endif; ?>
               </div>
             </div>

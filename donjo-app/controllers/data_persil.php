@@ -25,7 +25,7 @@ class Data_persil extends CI_Controller{
 
 	function index($page=1){
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 
 		if(isset($_SESSION['cari']))
@@ -56,7 +56,7 @@ class Data_persil extends CI_Controller{
 
 	function detail($id=0){
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 
 		$data["persil_detail"] = $this->data_persil_model->get_persil($id);
@@ -82,7 +82,7 @@ class Data_persil extends CI_Controller{
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 
 		$data["penduduk"] = $this->data_persil_model->list_penduduk();
@@ -113,7 +113,7 @@ class Data_persil extends CI_Controller{
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 
 		$data["penduduk"] = $this->data_persil_model->list_penduduk();
@@ -146,7 +146,7 @@ class Data_persil extends CI_Controller{
 
 	function jenis($apa=0,$page=1){
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
@@ -159,7 +159,7 @@ class Data_persil extends CI_Controller{
 
 	function peruntukan($apa='',$page=1){
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
@@ -177,7 +177,7 @@ class Data_persil extends CI_Controller{
 
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$data["id"]=$id;
 		if ($this->form_validation->run() === FALSE){
@@ -208,7 +208,7 @@ class Data_persil extends CI_Controller{
 
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$data["id"]=$id;
 		if ($this->form_validation->run() === FALSE){

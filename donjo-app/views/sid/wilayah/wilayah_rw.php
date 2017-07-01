@@ -14,9 +14,9 @@
     <h3>Wilayah Administratif RW (<?php echo ucwords($this->setting->sebutan_dusun)?> <?php echo unpenetration(ununderscore($dusun))?>)</h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url("sid_core/form_rw/$id_dusun")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah RW</a>
-                <a href="<?php echo site_url("sid_core/cetak_rw/$id_dusun")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url("sid_core/excel_rw/$id_dusun")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+                <a href="<?php echo site_url("sid_core/form_rw/$id_dusun")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah RW</a>
+                <a href="<?php echo site_url("sid_core/cetak_rw/$id_dusun")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
+		<a href="<?php echo site_url("sid_core/excel_rw/$id_dusun")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text">&nbsp;</span>Excel</a>
             </div>
         </div>
     </div>
@@ -52,10 +52,10 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td width="5"><div class="uibutton-group">
-<a href="<?php echo site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>"  class="uibutton tipsy south" title="Rincian Sub Wilayah"><span class="icon-list icon-large"> Rincian </span></a>
-				<?php if($data['rw']!="-"){?><a href="<?php echo site_url("sid_core/form_rw/$id_dusun/$data[rw]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"></span></a>
+<a href="<?php echo site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>"  class="uibutton tipsy south" title="Rincian Sub Wilayah"><span class="fa fa-list"></span> Rincian</a>
+				<?php if($data['rw']!="-"){?><a href="<?php echo site_url("sid_core/form_rw/$id_dusun/$data[rw]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
 				<?php  } ?><?php if($data['rw']!="-"){?>
-			<a href="<?php echo site_url("sid_core/delete_rw/$id_dusun/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin? Menghapus data RW akan mempengaruhi struktur data yang ada dibawah RW. pilih tidak untuk membatalkan penghapusan." header="Hapus Data"><span  class="icon-trash icon-large"></span></a><?php }?></div></td>
+			<a href="<?php echo site_url("sid_core/delete_rw/$id_dusun/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin? Menghapus data RW akan mempengaruhi struktur data yang ada dibawah RW. pilih tidak untuk membatalkan penghapusan." header="Hapus Data"><span class="fa fa-trash"></span></a><?php }?></div></td>
 			<td><?php echo $data['rw']?></td>
       <?php if($data['rw']=="-"):?>
         <td colspan=7>Pergunakan RW ini apabila RT berada langsung di bawah <?php echo ucwords($this->setting->sebutan_dusun)?>, yaitu tidak ada RW</td>

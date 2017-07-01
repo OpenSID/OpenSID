@@ -10,7 +10,7 @@
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
 <tr>
-<th width="100">Nama garis / Porperti</th>
+<th width="100">Nama Garis/Porperti</th>
 <td><input class="inputbox" type="text" name="nama" value="<?php  echo $garis['nama']?>" size="60"/></td>
 </tr>
 <tr>
@@ -75,8 +75,8 @@
 </div>
 <div class="right">
 <div class="uibutton-group">
-<button class="uibutton" type="reset">Clear</button>
-<button class="uibutton confirm" type="submit" >Simpan</button>
+<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
+<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
 </div>
 </div>
 </div> </form>

@@ -6,8 +6,8 @@
 		});
 	});
 </script>
-<div id="pageC"> 
-	<div id="contentpane"> 
+<div id="pageC">
+	<div id="contentpane">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="ui-layout-north panel">
 				<div class="left">
@@ -25,10 +25,10 @@
 				 </div>
 				 <div class="right">
 					 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('modul/search')?>');$('#'+'mainform').submit();}" />
-					 <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('modul/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+					 <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('modul/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 				 </div>
 			</div>
-			 
+
 			<table class="list">
 				<thead>
 				<tr>
@@ -50,12 +50,12 @@
 						</td>
 						<td width="5">
 							<div class="uibutton-group">
-								<a href="<?php echo site_url("modul/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large">Ubah </span></a>
+								<a href="<?php echo site_url("modul/form/$data[id]")?>" class="uibutton fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 							</div>
 						</td>
 						<td><?php echo $data['modul']?></td>
 						<td><?php echo $data['url']?></td>
-						<td><?php 
+						<td><?php
 						if($data['aktif']==1)
 							echo "Aktif";
 						else
@@ -66,11 +66,11 @@
 					<?php }?>
 				</tbody>
 			</table>
-		 
+
 		 </div>
 			</form>
 		 <div class="ui-layout-south panel bottom">
-		 <div class="left"> 
+		 <div class="left">
 		 </div>
 		 <div class="right">
 		 </div>

@@ -54,7 +54,7 @@ class SMS extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$menu['act']='0';
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$this->load->view('sms/nav',$menu);
 		$this->load->view('sms/manajemen_sms_table',$data);
@@ -81,7 +81,7 @@ class SMS extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$menu['act']='1';
-		$header['modul_ini'] = $this->modul_ini;
+
 
 		$this->load->view('header', $header);
 		$this->load->view('sms/nav',$menu);
@@ -515,7 +515,7 @@ class SMS extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$menu['act']='2';
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$this->load->view('sms/nav',$menu);
 		$this->load->view('sms/kontak',$data);

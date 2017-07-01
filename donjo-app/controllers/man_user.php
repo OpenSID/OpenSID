@@ -41,7 +41,7 @@ class Man_User extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$menu['act']='man_user';
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$this->load->view('man_user/nav');
 		$this->load->view('man_user/manajemen_user_table',$data);

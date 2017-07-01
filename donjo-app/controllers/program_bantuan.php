@@ -16,7 +16,7 @@ class Program_bantuan extends CI_Controller{
 	public function index(){
 		$_SESSION['per_page'] = 50;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$data['tampil'] = 0;
 		$data['program'] = $this->program_bantuan_model->get_program(1, false);
@@ -35,7 +35,7 @@ class Program_bantuan extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 
 		$data['form_action'] = site_url("program_bantuan/add_peserta");
@@ -57,7 +57,7 @@ class Program_bantuan extends CI_Controller{
 
 	public function detail($p=1, $id){
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 
 		if(isset($_POST['per_page']))
@@ -125,7 +125,7 @@ class Program_bantuan extends CI_Controller{
 		$this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		if ($this->form_validation->run() === FALSE){
 			$this->load->view('program_bantuan/create');
@@ -146,7 +146,7 @@ class Program_bantuan extends CI_Controller{
 		$this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);

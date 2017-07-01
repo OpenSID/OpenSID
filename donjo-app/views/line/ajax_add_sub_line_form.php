@@ -1,7 +1,7 @@
 <form id="" action="<?php  echo $form_action?>" method="POST">
 <table style="width:100%">
 <tr>
-<th width="100">Nama line</th>
+<th width="100">Nama Tipe Line</th>
 <td><input class="inputbox" type="text" name="nama" value="<?php  echo $line['nama']?>" size="40"/></td>
 </tr>
 <tr>
@@ -13,8 +13,8 @@
 </table>
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
     <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$('#window').dialog('close');">Close</button>
-        <button class="uibutton confirm" type="submit">Simpan</button>
+        <button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
+        <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
     </div>
 </div>
 </form>

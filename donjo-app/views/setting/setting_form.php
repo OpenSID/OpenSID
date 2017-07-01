@@ -20,7 +20,13 @@
                     <tr>
                         <td><strong><?php echo $setting->key?></strong></td>
                         <td>
-                            <?php if($setting->jenis == 'boolean'): ?>
+                            <?php if($setting->key == 'offline_mode'): ?>
+                                <select name="<?php echo $setting->key?>" >
+                                    <option value="0" <?php if($setting->value==0) :?>selected<?php endif?>>Web bisa diakses publik</option>
+                                    <option value="1" <?php if($setting->value==1) :?>selected<?php endif?>>Web dan peta hanya bisa diakses admin/operator/redaksi</option>
+                                    <option value="2" <?php if($setting->value==2) :?>selected<?php endif?>>Web dan peta non-aktif sama sekali</option>
+                                </select>
+                            <?php elseif($setting->jenis == 'boolean'): ?>
                                 <select name="<?php echo $setting->key?>" >
                                     <option value="1" <?php if($setting->value==1) :?>selected<?php endif?>>Ya</option>
                                     <option value="0" <?php if($setting->value==0) :?>selected<?php endif?>>Tidak</option>
@@ -42,8 +48,8 @@
         </div>
         <div class="right">
             <div class="uibutton-group">
-                <button class="uibutton" type="reset">Clear</button>
-                <button class="uibutton confirm" type="submit">Simpan</button>
+                <button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
+                <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
             </div>
         </div>
     </div>

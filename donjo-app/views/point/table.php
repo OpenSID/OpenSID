@@ -31,7 +31,7 @@ source: keyword
 
 </td>
 */?>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content">
 	<h3>Manajemen Kategori Point</h3>
 	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
@@ -41,8 +41,8 @@ source: keyword
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php  echo site_url("point/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah Kategori Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php  echo site_url("point/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+<a href="<?php  echo site_url("point/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Kategori Baru</a>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php  echo site_url("point/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -57,7 +57,7 @@ source: keyword
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php  echo $cari?>" title="Search.."/>
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php  echo site_url('point/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php  echo site_url('point/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 </div>
 </div>
 <table class="list">
@@ -65,22 +65,22 @@ source: keyword
 <tr>
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
-<th width="120">Aksi</th>
+<th width="150">Aksi</th>
 
  <?php   if($o==2): ?>
-<th align="left"><a href="<?php  echo site_url("point/index/$p/1")?>">Kategori<span class="ui-icon ui-icon-triangle-1-n">
+<th align="left"><a href="<?php  echo site_url("point/index/$p/1")?>">Kategori <span class="fa fa-sort-asc fa-sm">
 <?php   elseif($o==1): ?>
-<th align="left"><a href="<?php  echo site_url("point/index/$p/2")?>">Kategori<span class="ui-icon ui-icon-triangle-1-s">
+<th align="left"><a href="<?php  echo site_url("point/index/$p/2")?>">Kategori <span class="fa fa-sort-desc fa-sm">
 <?php   else: ?>
-<th align="left"><a href="<?php  echo site_url("point/index/$p/1")?>">Kategori<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="left"><a href="<?php  echo site_url("point/index/$p/1")?>">Kategori <span class="fa fa-sort fa-sm">
 <?php   endif; ?>&nbsp;</span></a></th>
 
 <?php   if($o==4): ?>
-<th align="left"><a href="<?php  echo site_url("point/index/$p/3")?>">Aktif<span class="ui-icon ui-icon-triangle-1-n">
+<th align="left"><a href="<?php  echo site_url("point/index/$p/3")?>">Aktif <span class="fa fa-sort-asc fa-sm">
 <?php   elseif($o==3): ?>
-<th align="left"><a href="<?php  echo site_url("point/index/$p/4")?>">Aktif<span class="ui-icon ui-icon-triangle-1-s">
+<th align="left"><a href="<?php  echo site_url("point/index/$p/4")?>">Aktif <span class="fa fa-sort-desc fa-sm">
 <?php   else: ?>
-<th align="left"><a href="<?php  echo site_url("point/index/$p/3")?>">Aktif<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="left"><a href="<?php  echo site_url("point/index/$p/3")?>">Aktif <span class="fa fa-sort fa-sm">
 <?php   endif; ?>&nbsp;</span></a></th>
 <th>Simbol</th>
 <th></th>
@@ -94,14 +94,14 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php  echo $data['id']?>" />
 </td>
 <td><div class="uibutton-group">
-	<a href="<?php  echo site_url("point/form/$p/$o/$data[id]")?>" class="uibutton icon-edit tipsy south" title="Edit Data"></a>
-	<a href="<?php  echo site_url("point/delete/$p/$o/$data[id]")?>" class="uibutton icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
+	<a href="<?php  echo site_url("point/sub_point/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Sub point"><span class="fa fa-bars"></span> Rincian</a>
+		<a href="<?php  echo site_url("point/ajax_add_sub_point/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub point <?php  echo $data['nama']?>" class="uibutton fa fa-plus tipsy south" title="Tambah Sub point"></a>
+	<a href="<?php  echo site_url("point/form/$p/$o/$data[id]")?>" class="uibutton fa fa-edit tipsy south" title="Ubah Data"></a>
+	<a href="<?php  echo site_url("point/delete/$p/$o/$data[id]")?>" class="uibutton fa fa-trash tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
 	<?php  if($data['enabled'] == '2'):?>
-		<a href="<?php  echo site_url('point/point_lock/'.$data['id'])?>" class="uibutton icon-lock tipsy south" title="Enable point"></a>
+		<a href="<?php  echo site_url('point/point_lock/'.$data['id'])?>" class="uibutton fa fa-lock tipsy south" title="Aktifkan point"></a>
 	<?php  elseif($data['enabled'] == '1'): ?>
-		<a href="<?php  echo site_url('point/point_unlock/'.$data['id'])?>" class="uibutton icon-unlock tipsy south" title="Disable point"></a>
-		<a href="<?php  echo site_url("point/sub_point/$data[id]")?>" class="uibutton icon-document-table tipsy south" title="Rincian Sub point">Rincian</a>
-		<a href="<?php  echo site_url("point/ajax_add_sub_point/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub point <?php  echo $data['nama']?>" class="uibutton icon-plus tipsy south" title="Tambah Sub point"></a>
+		<a href="<?php  echo site_url('point/point_unlock/'.$data['id'])?>" class="uibutton fa fa-unlock tipsy south" title="Non-aktifkan point"></a>
 	<?php  endif?>
 	</div>
 </td>
@@ -116,7 +116,7 @@ source: keyword
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <div class="table-info">
 <form id="paging" action="<?php  echo site_url('point')?>" method="post">
 <label>Tampilkan</label>
@@ -148,10 +148,10 @@ source: keyword
 </div>
 <div class="uibutton-group">
 <?php   if($paging->next): ?>
-<a href="<?php  echo site_url("point/index/$paging->next/$o")?>" class="uibutton">Next</a>
+<a href="<?php  echo site_url("point/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 <?php   endif; ?>
 <?php   if($paging->end_link): ?>
-<a href="<?php  echo site_url("point/index/$paging->end_link/$o")?>" class="uibutton">Last</a>
+<a href="<?php  echo site_url("point/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 <?php   endif; ?>
 </div>
 </div>

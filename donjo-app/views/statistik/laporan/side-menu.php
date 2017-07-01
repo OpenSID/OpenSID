@@ -14,7 +14,7 @@
 <input id="kategori" name="kategori" type="hidden" value="<?php echo $kategori ?>" />
 
 <div class="lmenu">
-  <legend>Statistik Penduduk <span class="icon-chevron-down"></span></legend>
+  <legend>Statistik Penduduk <span class="fa fa-chevron-down"></span></legend>
   <ul id="penduduk">
     <a href="<?php echo site_url()?>statistik/index/13"><li <?php if($lap==13){?>class="selected"<?php }?>>
       Umur</li></a>
@@ -46,7 +46,7 @@
 </div>
 
 <div class="lmenu">
-  <legend>Statistik Program Bantuan <span class="icon-chevron-down"></span></legend>
+  <legend>Statistik Program Bantuan <span class="fa fa-chevron-down"></span></legend>
   <ul id="bantuan">
     <?php foreach ($list_bantuan as $bantuan): ?>
       <li <?php if($lap==$bantuan['lap']){?>class="selected"<?php }?>>

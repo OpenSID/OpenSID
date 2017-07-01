@@ -1,5 +1,16 @@
 <?php
 
+	/*
+		Mencari nilai di nested array (array dalam array).
+		Ambil key dari array utama
+	*/
+	function nested_array_search($needle,$array) {
+		foreach ($array as $key => $value) {
+			$array_key = array_search($needle, $value);
+			if ($array_key !== FALSE) return $key;
+		}
+	}
+
 	function Parse_Data($data,$p1,$p2){
 		$data=" ".$data;
 		$hasil="";
@@ -405,7 +416,7 @@ function get_identitas(){
 	$a=$ci->db->query($sql);
 	$hsl=$a->row_array();
 	//print_r($hsl);
-	$string = ucwords($this->setting->sebutan_desa)." : ".$hsl['nama_desa']." ".ucwords($this->setting->sebutan_kecamatan_singkat)." : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
+	$string = ucwords($ci->setting->sebutan_desa)." : ".$hsl['nama_desa']." ".ucwords($ci->setting->sebutan_kecamatan_singkat)." : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
 }
 

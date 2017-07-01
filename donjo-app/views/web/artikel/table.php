@@ -34,7 +34,7 @@ source: keyword
 <?php }?>
 <?php
 /*
-	<li><a class="icon-plus-sign-alt icon-large" title="Ubah Data" href="<?php echo site_url("web/ajax_add_kategori")?>" target="ajax-modal" rel="window" header="Tambah Kategori Baru"> Tambah Kategori</a></li>
+	<li><a class="icon-plus-sign-alt" title="Ubah Data" href="<?php echo site_url("web/ajax_add_kategori")?>" target="ajax-modal" rel="window" header="Tambah Kategori Baru"> Tambah Kategori</a></li>
 */
 ?>
 	</ul>
@@ -70,16 +70,16 @@ source: keyword
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php echo site_url("web/form/$cat")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah <?php if($kategori){echo $kategori['kategori'];}else{echo "Artikel Statis";}?> Baru</a>
+<a href="<?php echo site_url("web/form/$cat")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah <?php if($kategori){echo $kategori['kategori'];}else{echo "Artikel Statis";}?> Baru</a>
 <?php if($_SESSION['grup']<4){?>
-<button type="button" title="Hapus Artikel" onclick="deleteAllBox('mainform','<?php echo site_url("web/delete_all/$cat/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus
+<button type="button" title="Hapus Artikel" onclick="deleteAllBox('mainform','<?php echo site_url("web/delete_all/$cat/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus
 <?php }?>
 </div>
 </div>
 <?php if($cat < 999){?>
 <div class="right">
 <?php if($_SESSION['grup']<4){?>
-<button type="button" title="Hapus Kategori <?php echo $kategori['kategori']?>" onclick="deleteAllBox('mainform','<?php echo site_url("web/hapus/$cat/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Kategori <?php echo $kategori['kategori']?>
+<button type="button" title="Hapus Kategori <?php echo $kategori['kategori']?>" onclick="deleteAllBox('mainform','<?php echo site_url("web/hapus/$cat/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Kategori <?php echo $kategori['kategori']?>
 <?php }?>
 </div>
 <?php }?>
@@ -95,7 +95,7 @@ source: keyword
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("web/search/$cat")?>');$('#'+'mainform').submit();}" />
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("web/search/$cat")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("web/search/$cat")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 </div>
 </div>
 <table class="list">
@@ -106,27 +106,27 @@ source: keyword
 <th width="160">Aksi</th>
 
  <?php  if($o==2): ?>
-<th align="left"><a href="<?php echo site_url("web/index/$p/1")?>">Judul<span class="ui-icon ui-icon-triangle-1-n">
+<th align="center"><a href="<?php echo site_url("web/index/$p/1")?>">Judul <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==1): ?>
-<th align="left"><a href="<?php echo site_url("web/index/$p/2")?>">Judul<span class="ui-icon ui-icon-triangle-1-s">
+<th align="center"><a href="<?php echo site_url("web/index/$p/2")?>">Judul <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left"><a href="<?php echo site_url("web/index/$p/1")?>">Judul<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="center"><a href="<?php echo site_url("web/index/$p/1")?>">Judul <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==4): ?>
-<th align="left"><a href="<?php echo site_url("web/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
+<th align="center"><a href="<?php echo site_url("web/index/$p/3")?>">Enabled/Disabled <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==3): ?>
-<th align="left"><a href="<?php echo site_url("web/index/$p/4")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-s">
+<th align="center"><a href="<?php echo site_url("web/index/$p/4")?>">Enabled/Disabled <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left"><a href="<?php echo site_url("web/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="center"><a href="<?php echo site_url("web/index/$p/3")?>">Enabled/Disabled <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==6): ?>
-<th align="left" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Diposting Pada<span class="ui-icon ui-icon-triangle-1-n">
+<th align="center" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Diposting Pada <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==5): ?>
-<th align="left" width='250'><a href="<?php echo site_url("web/index/$p/6")?>">Diposting Pada<span class="ui-icon ui-icon-triangle-1-s">
+<th align="center" width='250'><a href="<?php echo site_url("web/index/$p/6")?>">Diposting Pada <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Diposting Pada<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="center" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Diposting Pada <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 </tr>
@@ -140,24 +140,24 @@ source: keyword
 </td>
 <td>
 <div class="uibutton-group">
-	<a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a>
-	<a href="<?php echo site_url("web/ubah_kategori_form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Kategori" target="ajax-modal" rel="window" header="Ubah Kategori" modalWidth="auto" modalHeight="auto"><span class="icon-folder-open icon-large"></span></a>
+	<a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+	<a href="<?php echo site_url("web/ubah_kategori_form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Kategori" target="ajax-modal" rel="window" header="Ubah Kategori" modalWidth="auto" modalHeight="auto"><span class="fa fa-folder-open"></span></a>
 
 <?php if($_SESSION['grup']<4){?>
-	<a href="<?php echo site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span  class="icon-trash icon-large"></span></a>
+	<a href="<?php echo site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 	<?php  if($data['enabled'] == '2'):?>
-	<a href="<?php echo site_url("web/artikel_lock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Aktivasi artikel"><span class="icon-lock icon-large"></span></a>
+	<a href="<?php echo site_url("web/artikel_lock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Aktivasi artikel"><span class="fa fa-lock"></span></a>
 		<?php  elseif($data['enabled'] == '1'): ?>
-	<a href="<?php echo site_url("web/artikel_unlock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Non-aktifkan artikel"><span class="icon-unlock icon-large"></span></a>
-	<a href="<?php echo site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Klik Untuk Jadikan Headline"><span class="<?php  if($data['headline']==1){?>icon-star-empty icon-large" title="Headline Saat Ini"<?php  }else{?> icon-star icon-large" <?php  }?>target="confirm" message="Jadikan Artikel Berikut Sebagai Headline News?" header="Headline"></span></a>
-	<a href="<?php echo site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="<?php if($data['headline']==3){?>Keluarkan dari slide <?php }else{?>Masukkan ke dalam slide<?php }?>"><span class="<?php  if($data['headline']==3){?>icon-pause icon-large" <?php  }else{?> icon-play icon-large"  <?php  }?>target="confirm"  header="Slide"></span></a>
+	<a href="<?php echo site_url("web/artikel_unlock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Non-aktifkan artikel"><span class="fa fa-unlock"></span></a>
+	<a href="<?php echo site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Klik Untuk Jadikan Headline"><span class="<?php  if($data['headline']==1){?>fa fa-star-o title="Headline Saat Ini"<?php  }else{?> fa fa-star <?php  }?>target="confirm" message="Jadikan Artikel Berikut Sebagai Headline News?" header="Headline"></span></a>
+	<a href="<?php echo site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="<?php if($data['headline']==3){?>Keluarkan dari slide <?php }else{?>Masukkan ke dalam slide<?php }?>"><span class="<?php  if($data['headline']==3){?>fa fa-pause <?php  }else{?> fa fa-play  <?php  }?>target="confirm"  header="Slide"></span></a>
 	<?php  endif?>
 	<?php } ?>
 
 </div>
 </td>
 <td><?php echo $data['judul']?></td>
-<td><?php echo $data['aktif']?></td>
+<td align="center"><?php echo $data['aktif']?></td>
 <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
 </tr>
 <?php }?>
@@ -184,7 +184,7 @@ source: keyword
 <div class="right">
 <div class="uibutton-group">
 <?php  if($paging->start_link): ?>
-<a href="<?php echo site_url("web/index/$cat/$paging->start_link/$o")?>" class="uibutton">Awal</a>
+<a href="<?php echo site_url("web/index/$cat/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 <?php  endif; ?>
 <?php  if($paging->prev): ?>
 <a href="<?php echo site_url("web/index/$cat/$paging->prev/$o")?>" class="uibutton">Prev</a>
@@ -198,10 +198,10 @@ source: keyword
 </div>
 <div class="uibutton-group">
 <?php  if($paging->next): ?>
-<a href="<?php echo site_url("web/index/$cat/$paging->next/$o")?>" class="uibutton">Next</a>
+<a href="<?php echo site_url("web/index/$cat/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 <?php  endif; ?>
 <?php  if($paging->end_link): ?>
-<a href="<?php echo site_url("web/index/$cat/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+<a href="<?php echo site_url("web/index/$cat/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 <?php  endif; ?>
 </div>
 </div>

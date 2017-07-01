@@ -2,13 +2,13 @@
 <div class="content-header">
     <h3>Wilayah administratif</h3>
 </div>
-<div id="contentpane" id="mainform">    
+<div id="contentpane" id="mainform">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('admin_home/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah Pengurus</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("admin_home/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+                <a href="<?php echo site_url('admin_home/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Pengurus</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("admin_home/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
             </div>
             <div class="right">
                 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Search.."/>
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('admin_home/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="ui-icon ui-icon-search">&nbsp;</span>Search</button>
+                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('admin_home/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
             </div>
         </div>
         <table class="list">
@@ -32,7 +32,7 @@
 				<th align="left" align="center">N.I.P</th>
 				<th align="left" align="center">No. Telepon</th>
 				<th align="left" align="center">Alamat</th>
-            
+
 			</tr>
 		</thead>
 		<tbody>
@@ -45,7 +45,7 @@
 				<?php  endif; ?>
 			</td>
           <td width="5">
-            <a href="<?php echo site_url("admin_home/form/$p/$o/$data[id]")?>" class="ui-icons icon-edit tipsy south" title="Edit Data"></a><?php if($data['username']!='admin'){?><a href="<?php echo site_url("admin_home/delete/$p/$o/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
+            <a href="<?php echo site_url("admin_home/form/$p/$o/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Ubah Data"></a><?php if($data['username']!='admin'){?><a href="<?php echo site_url("admin_home/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
 			<?php }?>
           </td>
           <td><?php echo $data['nama']?></td>
@@ -60,7 +60,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('admin_home')?>" method="post">
 		  <label>Tampilkan</label>
@@ -78,24 +78,24 @@
         <div class="right">
             <div class="uibutton-group">
             <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("admin_home/index/$paging->start_link/$o")?>" class="uibutton"  >First</a>
+				<a href="<?php echo site_url("admin_home/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 			<?php  endif; ?>
 			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("admin_home/index/$paging->prev/$o")?>" class="uibutton"  >Prev</a>
+				<a href="<?php echo site_url("admin_home/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("admin_home/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>
             </div>
             <div class="uibutton-group">
 			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("admin_home/index/$paging->next/$o")?>" class="uibutton">Next</a>
+				<a href="<?php echo site_url("admin_home/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 			<?php  endif; ?>
 			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("admin_home/index/$paging->end_link/$o")?>" class="uibutton">Last</a>
+                <a href="<?php echo site_url("admin_home/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 			<?php  endif; ?>
             </div>
         </div>

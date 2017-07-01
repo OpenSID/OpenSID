@@ -9,8 +9,8 @@
     <div class="ui-layout-north panel top">
         <div class="left">
             <div class="uibutton-group">
-			<a href="<?php echo site_url("laporan_rentan/cetak")?>" class="uibutton tipsy south" title="Cetak" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-	<a href="<?php echo site_url("laporan_rentan/excel")?>" class="uibutton tipsy south" title="Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+			<a href="<?php echo site_url("laporan_rentan/cetak")?>" class="uibutton tipsy south" title="Cetak" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+	<a href="<?php echo site_url("laporan_rentan/excel")?>" class="uibutton tipsy south" title="Excel" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
             </div>
         </div>
     </div>
@@ -195,8 +195,8 @@ table.tftable th.total {padding-right: 8px; text-align: right;}
 </div>
 <div class="right">
 <div class="uibutton-group">
-<button class="uibutton" type="reset">Clear</button>
-<button class="uibutton confirm" type="submit" >Cetak</button>
+<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
+<button class="uibutton confirm" type="submit" ><span class="fa fa-print"></span> Cetak</button>
 
 </div>
 </div>

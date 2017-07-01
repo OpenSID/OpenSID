@@ -6,7 +6,7 @@
 			<div class="ui-layout-north panel">
 				<div class="left">
 					<div class="uibutton-group">
-						<a href="<?php echo site_url('mandiri/ajax_pin')?>" target="ajax-modal" rel="window" header="PIN Waraga" class="uibutton tipsy south" title="PIN Warga" ><span class="icon-plus icon-large">&nbsp;</span>Hasilkan PIN</a>
+						<a href="<?php echo site_url('mandiri/ajax_pin')?>" target="ajax-modal" rel="window" header="PIN Waraga" class="uibutton tipsy south" title="PIN Warga" ><span class="fa fa-plus">&nbsp;</span>Hasilkan PIN</a>
 					</div>
 				</div>
 			</div>
@@ -28,7 +28,7 @@
 							<tr>
 								<td align="center" width="2"><?php echo $data['no']?></td>
 								<td> <div class="uibutton-group">
-									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[nik]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"> Hapus</span></a>
+									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[nik]")?>" class="uibutton tipsy south fa-tipis" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a>
 									</div>
 								</td>
 								<td><?php echo $data['nik']?></td>
@@ -61,10 +61,10 @@
 				<div class="right">
 					<div class="uibutton-group">
 						<?php  if($paging->start_link): ?>
-						<a href="<?php echo site_url("mandiri/index/$paging->start_link/$o")?>" class="uibutton"  >First</a>
+						<a href="<?php echo site_url("mandiri/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 						<?php  endif; ?>
 						<?php  if($paging->prev): ?>
-						<a href="<?php echo site_url("mandiri/index/$paging->prev/$o")?>" class="uibutton"  >Prev</a>
+						<a href="<?php echo site_url("mandiri/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
 						<?php  endif; ?>
 					</div>
 					<div class="uibutton-group">
@@ -74,10 +74,10 @@
 							</div>
 							<div class="uibutton-group">
 						<?php  if($paging->next): ?>
-						<a href="<?php echo site_url("mandiri/index/$paging->next/$o")?>" class="uibutton">Next</a>
+						<a href="<?php echo site_url("mandiri/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 						<?php  endif; ?>
 						<?php  if($paging->end_link): ?>
-									<a href="<?php echo site_url("mandiri/index/$paging->end_link/$o")?>" class="uibutton">Last</a>
+									<a href="<?php echo site_url("mandiri/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 						<?php  endif; ?>
 					</div>
 				</div>

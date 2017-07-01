@@ -82,7 +82,7 @@ if($pemilik){
 echo "
 	<div class=\"form-group\">
 		<fieldset>
-			<legend>Detail Persil</legend>
+			<legend>Rincian Persil</legend>
 			<dl>
 				<dt>Nomor Persil</dt>
 					<dd>: ".$persil_detail["nopersil"]."</dd>

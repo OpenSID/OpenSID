@@ -34,8 +34,8 @@ source: keyword
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php echo site_url("kategori/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah kategori Baru</a>
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("kategori/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
+<a href="<?php echo site_url("kategori/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah kategori Baru</a>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("kategori/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
 </div>
 </div>
 </div>
@@ -50,7 +50,7 @@ source: keyword
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("kategori/search")?>');$('#'+'mainform').submit();}" />
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("kategori/search")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="icon-search icon-large">&nbsp;</span>Cari</button>
+<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("kategori/search")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 </div>
 </div>
 <table class="list">
@@ -61,19 +61,19 @@ source: keyword
       <th>Aksi</th>
 
       <?php  if($o==2): ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/1")?>">Kategori<span class="ui-icon ui-icon-triangle-1-n">
+        <th align="left"><a href="<?php echo site_url("kategori/index/$p/1")?>">Kategori <span class="fa fa-sort-asc fa-sm">
       <?php  elseif($o==1): ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/2")?>">Kategori<span class="ui-icon ui-icon-triangle-1-s">
+        <th align="left"><a href="<?php echo site_url("kategori/index/$p/2")?>">Kategori <span class="fa fa-sort-desc fa-sm">
       <?php  else: ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/1")?>">Kategori<span class="ui-icon ui-icon-triangle-2-n-s">
+        <th align="left"><a href="<?php echo site_url("kategori/index/$p/1")?>">Kategori <span class="fa fa-sort fa-sm">
       <?php  endif; ?>&nbsp;</span></a></th>
 
       <?php  if($o==4): ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-n">
+        <th align="left"><a href="<?php echo site_url("kategori/index/$p/3")?>">Enabled / Disabled <span class="fa fa-sort-asc fa-sm">
       <?php  elseif($o==3): ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/4")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-1-s">
+        <th align="left"><a href="<?php echo site_url("kategori/index/$p/4")?>">Enabled / Disabled <span class="fa fa-sort-desc fa-sm">
       <?php  else: ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
+        <th align="left"><a href="<?php echo site_url("kategori/index/$p/3")?>">Enabled / Disabled <span class="fa fa-sort fa-sm">
       <?php  endif; ?>&nbsp;</span></a></th>
       <th>Link</th>
     </tr>
@@ -88,17 +88,17 @@ source: keyword
         <td>
           <div class="uibutton-group">
             <?php if($_SESSION['grup']==1): ?>
-              <a href="<?php echo site_url("kategori/urut/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="icon-arrow-down icon-large"></span></a>
-              <a href="<?php echo site_url("kategori/urut/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="icon-arrow-up icon-large"></span></a>
+              <a href="<?php echo site_url("kategori/urut/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="fa fa-arrow-down"></span></a>
+              <a href="<?php echo site_url("kategori/urut/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="fa fa-arrow-up"></span></a>
             <?php endif; ?>
-            <a href="<?php echo site_url("kategori/sub_kategori/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub kategori"><span class="icon-list icon-large"> Rincian</span></a>
-            <a href="<?php echo site_url("kategori/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"></span></a>
-            <a href="<?php echo site_url("kategori/delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+            <a href="<?php echo site_url("kategori/sub_kategori/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Sub kategori"><span class="fa fa-bars"></span> Rincian</a>
+            <a href="<?php echo site_url("kategori/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
+            <a href="<?php echo site_url("kategori/delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
             <?php if($data['enabled'] == '2'):?>
-              <a href="<?php echo site_url("kategori/kategori_lock/".$data['id'])?>"  title="Aktivasi kategori"><span class="icon-lock icon-large"></span></a>
+              <a href="<?php echo site_url("kategori/kategori_lock/".$data['id'])?>" class="uibutton" title="Aktivasi kategori"><span class="fa fa-lock"></span></a>
             <?php elseif($data['enabled'] == '1'): ?>
-              <a href="<?php echo site_url("kategori/kategori_unlock/".$data['id'])?>" class="uibutton tipsy south"  title="Non-aktifkan kategori"><span class="icon-unlock icon-large"></span></a>
-              <a href="<?php echo site_url("kategori/ajax_add_sub_kategori/$data[id]")?>" class="uibutton tipsy south" target="ajax-modal" rel="window" header="Tambah Sub kategori <?php echo $data['kategori']?>" class="uibutton tipsy south" title="Tambah Sub kategori"><span class="icon-plus-sign-alt icon-large"></span></a>
+              <a href="<?php echo site_url("kategori/kategori_unlock/".$data['id'])?>" class="uibutton tipsy south"  title="Non-aktifkan kategori"><span class="fa fa-unlock"></span></a>
+              <a href="<?php echo site_url("kategori/ajax_add_sub_kategori/$data[id]")?>" class="uibutton tipsy south" target="ajax-modal" rel="window" header="Tambah Sub kategori <?php echo $data['kategori']?>" class="uibutton tipsy south" title="Tambah Sub kategori"><span class="fa fa-plus-circle"></span></a>
             <?php endif?>
           </div>
         </td>
@@ -133,7 +133,7 @@ source: keyword
 <div class="right">
 <div class="uibutton-group">
 <?php  if($paging->start_link): ?>
-<a href="<?php echo site_url("kategori/index/$paging->start_link/$o")?>" class="uibutton">Awal</a>
+<a href="<?php echo site_url("kategori/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 <?php  endif; ?>
 <?php  if($paging->prev): ?>
 <a href="<?php echo site_url("kategori/index/$paging->prev/$o")?>" class="uibutton">Prev</a>
@@ -147,10 +147,10 @@ source: keyword
 </div>
 <div class="uibutton-group">
 <?php  if($paging->next): ?>
-<a href="<?php echo site_url("kategori/index/$paging->next/$o")?>" class="uibutton">Next</a>
+<a href="<?php echo site_url("kategori/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 <?php  endif; ?>
 <?php  if($paging->end_link): ?>
-<a href="<?php echo site_url("kategori/index/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
+<a href="<?php echo site_url("kategori/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 <?php  endif; ?>
 </div>
 </div>

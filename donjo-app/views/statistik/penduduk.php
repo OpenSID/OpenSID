@@ -15,12 +15,12 @@
     <div class="ui-layout-north panel top">
       <div class="left">
         <div class="uibutton-group">
-    			<a href="<?php echo site_url("statistik/cetak/$lap")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak Data</a>
-    			<a href="<?php echo site_url("statistik/excel/$lap")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Data Excel</a>
-    			<a href="<?php echo site_url("statistik/graph/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="icon-bar-chart icon-large">&nbsp;</span>Grafik Data</a>
-    			<a href="<?php echo site_url("statistik/pie/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="icon-time icon-large">&nbsp;</span>Pie Chart</a>
+    			<a href="<?php echo site_url("statistik/cetak/$lap")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak Data</a>
+    			<a href="<?php echo site_url("statistik/excel/$lap")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Data Excel</a>
+    			<a href="<?php echo site_url("statistik/graph/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="fa fa-bar-chart">&nbsp;</span>Grafik Data</a>
+    			<a href="<?php echo site_url("statistik/pie/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="fa fa-pie-chart">&nbsp;</span>Pie Chart</a>
     			<?php  if($lap=='13'){?>
-    			<a href="<?php echo site_url("statistik/rentang_umur")?>" class="uibutton tipsy south" title="Rentang Umut"><span class="icon-resize-horizontal icon-large">&nbsp;</span>Atur Rentang Umur</a><?php  }?>
+    			<a href="<?php echo site_url("statistik/rentang_umur")?>" class="uibutton tipsy south" title="Rentang Umut"><span class="fa fa-sort-numeric-asc">&nbsp;</span>Atur Rentang Umur</a><?php  }?>
         </div>
       </div>
     </div>
@@ -42,38 +42,38 @@
             <th>No</th>
 
       	 		<?php  if($o==2): ?>
-      				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>"><?php echo $judul_kelompok ?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+      				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>"><?php echo $judul_kelompok ?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
       			<?php  elseif($o==1): ?>
-      				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/2")?>"><?php echo $judul_kelompok ?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+      				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/2")?>"><?php echo $judul_kelompok ?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
       			<?php  else: ?>
-      				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>"><?php echo $judul_kelompok ?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+      				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>"><?php echo $judul_kelompok ?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
       			<?php  endif; ?>
 
       	 		<?php  if($o==6): ?>
-      				<th width="100" align="left"><a href="<?php echo site_url("statistik/index/$lap/5")?>">Jumlah <span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+      				<th width="100" align="left"><a href="<?php echo site_url("statistik/index/$lap/5")?>">Jumlah  <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
       			<?php  elseif($o==5): ?>
-      				<th width="100" align="left"><a href="<?php echo site_url("statistik/index/$lap/6")?>">Jumlah <span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+      				<th width="100" align="left"><a href="<?php echo site_url("statistik/index/$lap/6")?>">Jumlah  <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
       			<?php  else: ?>
-      				<th width="100" align="left"><a href="<?php echo site_url("statistik/index/$lap/5")?>">Jumlah <span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+      				<th width="100" align="left"><a href="<?php echo site_url("statistik/index/$lap/5")?>">Jumlah  <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
       			<?php  endif; ?>
             <th width="5"></th>
 
         		<?php  if($lap<20 OR ($lap>50 AND $program['sasaran']==1)){?>
         	 		<?php  if($o==4): ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+        				<th width="60" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
         			<?php  elseif($o==3): ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/4")?>">Laki-Laki<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+        				<th width="60" align="left"><a href="<?php echo site_url("statistik/index/$lap/4")?>">Laki-Laki <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
         			<?php  else: ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+        				<th width="60" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
         			<?php  endif; ?>
               <th width="5"></th>
 
         	 		<?php  if($o==8): ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+        				<th width="75" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
         			<?php  elseif($o==7): ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/8")?>">Perempuan<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+        				<th width="75" align="left"><a href="<?php echo site_url("statistik/index/$lap/8")?>">Perempuan <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
         			<?php  else: ?>
-        				<th width="50" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+        				<th width="75" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
           		<?php  endif; ?>
               <th width="5"></th>
               <th></th>

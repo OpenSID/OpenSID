@@ -24,7 +24,7 @@ function __construct(){
 		$this->get_data_stat($data, $lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('statistik/penduduk',$data);
@@ -60,7 +60,7 @@ function __construct(){
 		$this->get_data_stat($data, $lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('statistik/penduduk_graph',$data);
@@ -74,7 +74,7 @@ function __construct(){
 		$this->get_data_stat($data, $lap);
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('statistik/nav',$nav);
 		$this->load->view('statistik/penduduk_pie',$data);
@@ -111,35 +111,6 @@ function __construct(){
 		$data['config']  = $this->laporan_penduduk_model->get_config();
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$this->load->view('statistik/penduduk_excel',$data);
-	}
-
-	function warga($lap='',$data=''){
-		$data['lap']=$lap;
-		switch($lap){
-			case 0: $data['stat'] = "Pendidikan Telah Ditempuh"; break;
-			case 1: $data['stat'] = "Pekerjaan"; break;
-			case 2: $data['stat'] = "Status Perkawinan"; break;
-			case 3: $data['stat'] = "Agama"; break;
-			case 4: $data['stat'] = "Jenis Kelamin"; break;
-			case 5: $data['stat'] = "Warga Negara"; break;
-			case 6: $data['stat'] = "Status"; break;
-			case 7: $data['stat'] = "Golongan Darah"; break;
-			case 9: $data['stat'] = "Cacat"; break;
-			case 10: $data['stat'] = "Sakit Menahun"; break;
-			case 12: $data['stat'] = "Pendidikan dalam KK"; break;
-			case 13: $data['stat'] = "Umur"; break;
-			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;
-			case 21: $data['stat'] = "Klasifikasi Sosial"; break;
-			case 24: $data['stat'] = "Penerima BOS"; break;
-			default:$data['stat'] = "Pendidikan";
-		}
-
-		$data['config']  = $this->laporan_penduduk_model->get_config();
-		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
-
-		$_SESSION['per_page'] = 100;
-		$_SESSION['data'] = $data;
-		redirect("sid_penduduk/index/");
 	}
 
 	function rentang_umur(){

@@ -66,7 +66,7 @@
 	<li><a href="<?php echo site_url()?>sid_core"><i class="icon-group icon-large"></i>Penduduk</a></li>
 	<li><a href="<?php echo site_url()?>statistik"><i class="icon-bar-chart icon-large"></i>Statistik</a></li>
 	<li><a href="<?php echo site_url()?>surat"><i class="icon-print icon-large"></i>Cetak Surat</a></li>
-	<li><a href="<?php echo site_url()?>analisis"><i class="icon-dashboard icon-large"></i>Analisis</a></li>
+	<li><a href="<?php echo site_url()?>analisis_master/clear"><i class="icon-dashboard icon-large"></i>Analisis</a></li>
 <?php  }?>
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
 	<?php  if($_SESSION['grup']==1){?>
@@ -114,10 +114,16 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 <div class="module-panel">
 	<div class="contentm" style="overflow: hidden;">
 		<?php foreach ($modul AS $mod){?>
-		<a class="cpanel <?php if($modul_ini==$mod['id']){?>selected<?php }?>" href="<?php echo site_url()?><?php echo $mod['url']?>">
-			<img src="<?php echo base_url()?>assets/images/cpanel/<?php echo $mod['ikon']?>" alt=""/>
-			<span><?php echo $mod['modul']?></span>
-		</a>
+			<?php
+			if ($this->setting->offline_mode >= 2 &&
+				in_array($mod['url'], array('web', 'gis'))) {
+				continue;
+			}
+			?>
+			<a class="cpanel <?php if($modul_ini==$mod['id']){?>selected<?php }?>" href="<?php echo site_url()?><?php echo $mod['url']?>">
+				<img src="<?php echo base_url()?>assets/images/cpanel/<?php echo $mod['ikon']?>" alt=""/>
+				<span><?php echo $mod['modul']?></span>
+			</a>
 		<?php } ?>
 	</div>
 </div>

@@ -424,7 +424,7 @@ class Program_bantuan_model extends CI_Model{
 		switch ($cat){
 			case 1:
 				/*
-				 * Detail Penduduk
+				 * Rincian Penduduk
 				 * */
 				$strSQL = "SELECT o.nama,o.foto,o.nik,w.rt,w.rw,w.dusun
 					FROM tweb_penduduk o
@@ -643,6 +643,18 @@ class Program_bantuan_model extends CI_Model{
 		}else{
 			$_SESSION["success"] = -1;
 		}
+	}
+
+	/* Mendapatkan daftar bantuan yang diterima oleh penduduk
+		 parameter pencarian yang digunakan adalah nik ( data nik disimpan pada kolom peserta tabel program_peserta ).
+		 Saat ini terbatas pada program bantuan perorangan
+	*/
+	public function daftar_bantuan_yang_diterima($nik){
+		return $this->db->select('p.*,pp.*')
+					->where(array('peserta' => $nik))
+					->join('program p','p.id = pp.program_id')
+					->get('program_peserta pp')
+					->result_array();
 	}
 }
 

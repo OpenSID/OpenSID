@@ -34,8 +34,8 @@
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php  echo site_url("plan/ajax_add_sub_lokasi/$lokasi")?>" target="ajax-modal" rel="window" header="Tambah Sub lokasi" class="uibutton tipsy south" title="Tambah Sub lokasi"><span class="ui-icon ui-icon-plus">&nbsp;</span>Tambah lokasi Baru</a>
-<button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php  echo site_url("plan/delete_all/")?>')" class="uibutton tipsy south"><span class="ui-icon ui-icon-trash">&nbsp;</span>Delete Data
+<a href="<?php  echo site_url("plan/ajax_add_sub_lokasi/$lokasi")?>" target="ajax-modal" rel="window" header="Tambah Sub lokasi" class="uibutton tipsy south" title="Tambah Sub lokasi"><span class="fa fa-plus-square">&nbsp;</span>Tambah lokasi Baru</a>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php  echo site_url("plan/delete_all/")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -66,7 +66,13 @@
 <input type="checkbox" name="id_cb[]" value="<?php  echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php  echo site_url("plan/ajax_add_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons icon-edit tipsy south" target="ajax-modal" rel="window" header="Edit lokasi" title="Edit Data"></a><a href="<?php  echo site_url("plan/delete_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons icon-remove tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a><?php  if($data['enabled'] == '2'):?><a href="<?php  echo site_url("lokasi_lock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons icon-lock tipsy south" title="Enable lokasi"></a><?php  elseif($data['enabled'] == '1'): ?><a href="<?php  echo site_url("lokasi_unlock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons icon-unlock tipsy south" title="Disable lokasi"></a><?php  endif;?>
+	<a href="<?php  echo site_url("plan/ajax_add_sub_lokasi/$lokasi/$data[id]")?>" class="fa fa-edit tipsy south" target="ajax-modal" rel="window" header="Edit lokasi" title="Ubah Data"></a>
+	<a href="<?php  echo site_url("plan/delete_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
+	<?php  if($data['enabled'] == '2'):?>
+		<a href="<?php  echo site_url("lokasi_lock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-lock tipsy south" title="Enable lokasi"></a>
+	<?php  elseif($data['enabled'] == '1'): ?>
+		<a href="<?php  echo site_url("lokasi_unlock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-unlock tipsy south" title="Disable lokasi"></a>
+	<?php  endif;?>
 </td>
 <td width="150"><?php  echo $data['nama']?></td>
 <td width="50"><?php  echo $data['aktif']?></td>

@@ -133,10 +133,10 @@
         <div class="right">
             <div class="uibutton-group">
             <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("sid_laporan_penduduk/index/$lap/$paging->start_link/$o")?>" class="uibutton"  >First</a>
+				<a href="<?php echo site_url("sid_laporan_penduduk/index/$lap/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
 			<?php  endif; ?>
 			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("sid_laporan_penduduk/index/$lap/$paging->prev/$o")?>" class="uibutton"  >Prev</a>
+				<a href="<?php echo site_url("sid_laporan_penduduk/index/$lap/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
@@ -147,10 +147,10 @@
             </div>
             <div class="uibutton-group">
 			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("sid_laporan_penduduk/index/$lap/$paging->next/$o")?>" class="uibutton">Next</a>
+				<a href="<?php echo site_url("sid_laporan_penduduk/index/$lap/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
 			<?php  endif; ?>
 			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("sid_laporan_penduduk/index/$lap/$paging->end_link/$o")?>" class="uibutton">Last</a>
+                <a href="<?php echo site_url("sid_laporan_penduduk/index/$lap/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
 			<?php  endif; ?>
             </div>
         </div>

@@ -42,7 +42,7 @@ class Keluar extends CI_Controller{
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$nav['act']= 2;
 		$this->load->view('header', $header);
 
@@ -91,7 +91,7 @@ class Keluar extends CI_Controller{
 		$data['nik']['no']=$nik;
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 
 		$this->load->view('surat/nav',$nav);
@@ -103,7 +103,7 @@ class Keluar extends CI_Controller{
 		$data['form_action'] = site_url("sid_cetak_surat/print_surat_ket_pengantar");
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$data['stat']  = $this->surat_keluar_model->grafik();
 		$this->load->view('header',$header);
 

@@ -3,7 +3,7 @@
 <table>
 <tr>
 	<td>Umur</td><td><input class="inputbox2" name="umur_min" type="text" size="5" value="<?php echo $umur_min?>"> - <input class="inputbox2" name="umur_max" type="text" size="5" value="<?php echo $umur_max?>"></td>
-</tr> 
+</tr>
 <tr><td>Pekerjaan</td>
     <td><select name="pekerjaan_id">
       <option value=""> -- </option>
@@ -12,7 +12,7 @@
 	  <?php }?>
 	</select>
      </td>
-</tr>    
+</tr>
 
 <tr><td>Status Perkawinan</td><td>
     <select name="status">
@@ -27,7 +27,7 @@
 	<?php }?>
     </select>
 	</td>
-</tr>  
+</tr>
 <tr><td>Pendidikan Sedang</td>
     <td>
 	<select name="pendidikan_sedang_id">
@@ -57,8 +57,8 @@
 
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
     <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$('#window').dialog('close');">Close</button>
-        <button class="uibutton confirm" type="submit">Search</button>
+        <button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
+        <button class="uibutton confirm" type="submit"><span class="fa fa-search"></span> Cari</button>
     </div>
 </div>
 </form>
