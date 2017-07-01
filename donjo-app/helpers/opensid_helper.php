@@ -17,6 +17,7 @@ define("LOKASI_FOTO_GARIS", 'desa/upload/gis/garis/');
 define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
 define("LOKASI_PENGESAHAN", 'desa/upload/pengesahan/');
 define("LOKASI_WIDGET", 'desa/widget/');
+define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widget/');
 
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI',777);

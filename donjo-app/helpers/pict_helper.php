@@ -6,6 +6,13 @@ function AmbilFoto($foto, $ukuran="kecil_"){
   return $file_foto;
 }
 
+function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar){
+  $dir_upload = LOKASI_GAMBAR_WIDGET;
+  if($old_gambar) unlink($dir_upload . $old_gambar);
+  $file_upload = $dir_upload . $nama_file;
+  move_uploaded_file($lokasi_file, $file_upload);
+}
+
 function UploadFoto($fupload_name,$old_foto,$tipe_file=""){
   $dimensi = array("width"=>100, "height"=>100);
   if($old_foto!="") $old_foto = "kecil_".$old_foto;
