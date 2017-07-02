@@ -14,5 +14,51 @@ body{
 
 #topsection{
   background: url(images/bg_header.jpg);
+  height: 301px;
 }
-
+#headercontent {
+    width: 101.3%;
+}
+#menu_vert {
+    max-width: 99.8%;
+}
+#mainmenu {
+	margin: 0px 0 10px -6px;
+    max-width: 101.8%;
+}
+#header {
+    width: 100%;
+}
+#headleft {
+    margin-left: 0;
+	margin-top: -80px;
+}
+.box {
+    position: inherit;
+}
+#contentwrapper {
+    width: 100%;
+}
+#divlogo-txt {
+    margin-left: 0;
+    padding-top: 120px;
+}
+#headleft {
+	width: 100%;
+}
+#divlogo-img {
+    margin-left: -56%;
+}
+#siteTitle {
+    padding: 0;
+	text-align: center;
+}
+#siteTitle h1 {
+    font-family: "Arial", sans-serif;
+	margin-bottom: -10px;
+	text-shadow: 4px 4px 4px #000;
+}
+#siteTitle h1_1{
+    font-family: "Arial", sans-serif;
+    font-size: 20px;
+}
