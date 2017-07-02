@@ -487,6 +487,14 @@ function fTampilTgl($sdate,$edate){
 	return $tgl;
 }
 
+// Potong teks pada batasan kata
+function potong_teks($teks, $panjang) {
+	$abstrak = fixTag($teks);
+	if(strlen($abstrak)>$panjang+10){
+		$abstrak = substr($teks,0,strpos($abstrak," ",$panjang));
+	}
+	return $abstrak;
+}
 
 	function hash_pin($pin=""){
 		$pin = strrev($pin);

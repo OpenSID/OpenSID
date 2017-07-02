@@ -80,22 +80,7 @@ class First_Artikel_M extends CI_Model{
 		}
 
 		$query = $this->db->query($sql);
-		if($query->num_rows()>0){
-			$data  = $query->result_array();
-
-			$i=0;
-			while($i<count($data)){
-				$id = $data[$i]['id'];
-				$teks = strip_tags($data[$i]['isi']);
-				$pendek = (strlen($teks)>120)? substr($teks,0,120):$teks;
-				$data[$i]['isi_short'] = $pendek;
-				$panjang = (strlen($teks)>300)? substr($teks,0,300):$teks;
-				$data[$i]['isi'] = "<label>".$panjang."...</label>";
-				$i++;
-			}
-		}else{
-			$data = false;
-		}
+		$data  = $query->result_array();
 		return $data;
 	}
 

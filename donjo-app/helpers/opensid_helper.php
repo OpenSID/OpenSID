@@ -442,4 +442,14 @@ define("KODE_PEKERJAAN", serialize(array(
     error_log($now->format("m-d-Y H:i:s.u")." : ".$msg."\n", 3, "opensid.log");
   }
 
+  // Jika file theme/view tidak ada, gunakan file default/view
+  // Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
+  function fallback_default($theme, $view)
+  {
+    $theme_file = FCPATH . 'themes/' . $theme . $view;
+    if (!is_file($theme_file)) $theme_view = '../../themes/default' . $view;
+    else $theme_view = '../../themes/' . $theme . $view;
+    return $theme_view;
+  }
+
 ?>
