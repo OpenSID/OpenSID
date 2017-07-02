@@ -1,0 +1,5 @@
+*******************************
+Folder: desa/upload/widget
+*******************************
+
+Folder ini tempat menyimpan semua gambar yang diunggah sebagai gambar untuk widget.

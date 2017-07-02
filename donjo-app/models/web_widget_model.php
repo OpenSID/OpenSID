@@ -14,7 +14,7 @@
 
 	function get_widget_aktif(){
 
-		$data = $this->db->where('enabled',1)->get('widget')->result_array();
+		$data = $this->db->where('enabled',1)->order_by('urut')->get('widget')->result_array();
 		return $data;
 	}
 
@@ -219,6 +219,71 @@
 		if(!$outp) $_SESSION['success']=-1;
 	}
 
+	function get_setting($widget){
+	  // Data di kolom setting dalam format json
+		$setting = $this->db->select('setting')->where('isi',$widget.'.php')->get('widget')->row_array();
+		return json_decode($setting['setting'], true);
+	}
+
+	protected function filter_setting($k){
+  	$berisi = false;
+  	foreach($k as $kolom) {
+  		if($kolom) {
+  			$berisi = true;
+	  		break;
+	  	}
+  	}
+  	return $berisi;
+	}
+
+  function sort_sinergitas_program($a,$b) {
+      $keya = str_pad($a['baris'], 2, '0', STR_PAD_LEFT).$a['kolom'];
+      $keyb = str_pad($b['baris'], 2, '0', STR_PAD_LEFT).$b['kolom'];
+      return $keya>$keyb;
+  }
+
+  function upload_gambar_sinergitas_program(&$setting){
+  	foreach($setting as $key=>$value) {
+		  $lokasi_file = $_FILES['setting']['tmp_name'][$key+1]['gambar'];
+		  $tipe_file   = $_FILES['setting']['type'][$key+1]['gambar'];
+		  $nama_file   = $_FILES['setting']['name'][$key+1]['gambar'];
+		  $fp = time();
+		  $nama_file   = $fp . "_". str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+			$old_gambar    = $value['old_gambar'];
+			$setting[$key]['gambar'] = $old_gambar;
+			if (!empty($lokasi_file)) {
+				if(in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR))){
+					UploadGambarWidget($nama_file, $lokasi_file, $old_gambar);
+					$setting[$key]['gambar'] = $nama_file;
+				} else {
+					$_SESSION['success'] = -1;
+					$_SESSION['error_msg'] = " -> Jenis file " . $nama_file ." salah: " . $tipe_file;
+				}
+			}
+	  }
+  }
+
+	function update_setting($widget,$setting){
+		$_SESSION['success']=1;
+	  // Hapus setting kosong
+	  $setting = array_filter($setting, array($this,'filter_setting'));
+	  switch ($widget) {
+	  	case 'sinergitas_program':
+			  // Sort setting berdasarkan [baris][kolom]
+			  usort($setting, array($this,"sort_sinergitas_program"));
+			  // Upload semua gambar setting
+			  $this->upload_gambar_sinergitas_program($setting);
+	  		break;
+	  	default:
+	  		break;
+	  }
+ 	  // Simpan semua setting di kolom setting sebagai json
+	  $setting = json_encode($setting);
+	  $data = array('setting'=>$setting);
+		$outp = $this->db->where('isi',$widget.'.php')->update('widget',$data);
+		if(!$outp) $_SESSION['success']=-1;
+	}
+
 	function delete($id=''){
 		$sql  = "DELETE FROM widget WHERE id=? AND jenis_widget <> 1";
 		$outp = $this->db->query($sql,array($id));
@@ -251,6 +316,7 @@
 		$data['arsip'] = $this->first_artikel_m->arsip_show();
 		$data['aparatur_desa'] = $this->pamong_model->list_data();
 		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
+		$data['sinergitas_program'] = $this->get_setting('sinergitas_program');
 	}
 
 }
