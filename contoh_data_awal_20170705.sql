@@ -2850,7 +2850,7 @@ INSERT INTO widget (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `fo
 INSERT INTO widget (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES ('9', 'statistik_pengunjung.php', '1', 'Statistik Pengunjung', '1', '8', '', '');
 INSERT INTO widget (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES ('10', 'arsip_artikel.php', '1', 'Arsip Artikel', '1', '9', '', '');
 INSERT INTO widget (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES ('11', 'aparatur_desa.php', '1', 'Aparatur Desa', '1', '1', 'pengurus', '');
-INSERT INTO widget (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES ('12', 'sinergi_program.php', '1', 'Sinergi Program', '1', '1', 'web_widget/admin/sinergi_program', '[{\"baris\":\"1\",\"kolom\":\"1\",\"judul\":\"Prodeskel\",\"tautan\":\"prodeskel\",\"gambar\":\"1499248853_prodeskel.jpg\"},{\"baris\":\"3\",\"kolom\":\"1\",\"judul\":\"efiling\",\"tautan\":\"efiling\",\"gambar\":\"1499248853_e_filing.jpg\"},{\"baris\":\"3\",\"kolom\":\"2\",\"judul\":\"Daluwang\",\"tautan\":\"daluwang\",\"gambar\":\"1499248853_daluwang.jpg\"}]');
+INSERT INTO widget (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES ('12', 'sinergi_program.php', '1', 'Sinergi Program', '1', '1', 'web_widget/admin/sinergi_program', '[]');
 
 
 DROP VIEW IF EXISTS data_surat;

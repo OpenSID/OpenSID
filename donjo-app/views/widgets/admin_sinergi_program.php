@@ -4,6 +4,8 @@
     $("[name='setting["+key+"][kolom]']").val('');
     $("[name='setting["+key+"][judul]']").val('');
     $("[name='setting["+key+"][tautan]']").val('');
+    $("[name='setting["+key+"][gambar]']").val('');
+    $("[name='setting["+key+"][old_gambar]']").val('');
   }
 </script>
 
