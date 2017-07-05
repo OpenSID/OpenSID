@@ -15,6 +15,7 @@ Lengkapnya, isi rilis v2.1:
 9. Update Font Awesome ke versi 4.7.0 supaya OpenSID dapat menggunakan icon Font Awesome yang baru [teknis].
 10. Pindahkan form surat dan berkas cetak langsung ke subfolder masing2 surat, sehingga semua komponen surat sistem tersimpan di subfolder masing2 surat. Hapus file di subfolder masing2 surat yang tidak digunakan [teknis].
 11. Sekarang slider besar akan berhenti pada saat mouse berada di atas slider.
+12. Perbaiki komentar tidak tampil pada tampilan artikel di modul web [bug-fix].
 
 Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
 
