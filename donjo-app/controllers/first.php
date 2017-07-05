@@ -149,6 +149,7 @@ class First extends Web_Controller{
 		$data['paging']  = $this->first_artikel_m->paging($p);
 		$data['artikel'] = $this->first_artikel_m->list_artikel(0,$data['paging']->offset,$data['paging']->per_page);
 		$data['single_artikel'] = $this->first_artikel_m->get_artikel($id);
+		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
 
 		$this->_get_common_data($data);
 
