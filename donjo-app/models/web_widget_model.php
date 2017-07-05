@@ -236,17 +236,17 @@
   	return $berisi;
 	}
 
-  function sort_sinergitas_program($a,$b) {
+  function sort_sinergi_program($a,$b) {
       $keya = str_pad($a['baris'], 2, '0', STR_PAD_LEFT).$a['kolom'];
       $keyb = str_pad($b['baris'], 2, '0', STR_PAD_LEFT).$b['kolom'];
       return $keya>$keyb;
   }
 
-  function upload_gambar_sinergitas_program(&$setting){
+  function upload_gambar_sinergi_program(&$setting){
   	foreach($setting as $key=>$value) {
-		  $lokasi_file = $_FILES['setting']['tmp_name'][$key+1]['gambar'];
-		  $tipe_file   = $_FILES['setting']['type'][$key+1]['gambar'];
-		  $nama_file   = $_FILES['setting']['name'][$key+1]['gambar'];
+		  $lokasi_file = $_FILES['setting']['tmp_name'][$key]['gambar'];
+		  $tipe_file   = $_FILES['setting']['type'][$key]['gambar'];
+		  $nama_file   = $_FILES['setting']['name'][$key]['gambar'];
 		  $fp = time();
 		  $nama_file   = $fp . "_". str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 			$old_gambar    = $value['old_gambar'];
@@ -265,14 +265,14 @@
 
 	function update_setting($widget,$setting){
 		$_SESSION['success']=1;
-	  // Hapus setting kosong
-	  $setting = array_filter($setting, array($this,'filter_setting'));
 	  switch ($widget) {
-	  	case 'sinergitas_program':
-			  // Sort setting berdasarkan [baris][kolom]
-			  usort($setting, array($this,"sort_sinergitas_program"));
+	  	case 'sinergi_program':
 			  // Upload semua gambar setting
-			  $this->upload_gambar_sinergitas_program($setting);
+			  $this->upload_gambar_sinergi_program($setting);
+			  // Hapus setting kosong
+			  $setting = array_filter($setting, array($this,'filter_setting'));
+			  // Sort setting berdasarkan [baris][kolom]
+			  usort($setting, array($this,"sort_sinergi_program"));
 	  		break;
 	  	default:
 	  		break;
@@ -316,7 +316,7 @@
 		$data['arsip'] = $this->first_artikel_m->arsip_show();
 		$data['aparatur_desa'] = $this->pamong_model->list_data();
 		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
-		$data['sinergitas_program'] = $this->get_setting('sinergitas_program');
+		$data['sinergi_program'] = $this->get_setting('sinergi_program');
 	}
 
 }

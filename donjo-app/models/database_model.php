@@ -127,10 +127,12 @@
       );
       $this->dbforge->add_column('widget', $fields);
     }
-    // Tambah widget sinergitas_program
-    $widget = $this->db->select('id')->where('isi','sinergitas_program.php')->get('widget')->row();
+    // Ubah nama widget menjadi sinergi_program
+    $this->db->select('id')->where('isi','sinergitas_program.php')->update('widget', array('isi'=>'sinergi_program.php', 'judul'=>'Sinergi Program','form_admin'=>'web_widget/admin/sinergi_program'));
+    // Tambah widget sinergi_program
+    $widget = $this->db->select('id')->where('isi','sinergi_program.php')->get('widget')->row();
     if (!$widget->id) {
-      $widget_baru = array('judul'=>'Sinergitas Program','isi'=>'sinergitas_program.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1,'form_admin'=>'web_widget/admin/sinergitas_program');
+      $widget_baru = array('judul'=>'Sinergi Program','isi'=>'sinergi_program.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1,'form_admin'=>'web_widget/admin/sinergi_program');
       $this->db->insert('widget',$widget_baru);
     }
   }

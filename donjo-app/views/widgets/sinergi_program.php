@@ -1,9 +1,9 @@
-<!-- widget Sinergitas Program-->
+<!-- widget Sinergi Program-->
 
 <style>
-  #sinergitas_program { text-align: center; }
-  #sinergitas_program table { margin: auto; }
-  #sinergitas_program img {
+  #sinergi_program { text-align: center; }
+  #sinergi_program table { margin: auto; }
+  #sinergi_program img {
     max-width: 100%;
     max-height: 100%;
     transition: all 0.5s;
@@ -11,7 +11,7 @@
     -moz-transition: all 0.5s;
     -webkit-transition: all 0.5s;
   }
-  #sinergitas_program img:hover {
+  #sinergi_program img:hover {
    transition: all 0.3s;
     -o-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -25,11 +25,11 @@
 </style>
 <div class="box box-warning box-solid">
   <div class="box-header">
-    <h3 class="box-title">Sinergitas Program</h3>
+    <h3 class="box-title"><i class="fa fa-external-link"></i> Sinergi Program</h3>
   </div>
-  <div id="sinergitas_program" class="box-body">
+  <div id="sinergi_program" class="box-body">
     <table>
-      <?php foreach($sinergitas_program as $key => $program) {
+      <?php foreach($sinergi_program as $key => $program) {
           $baris[$program['baris']][$program['kolom']] = $program;
         }
       ?>
