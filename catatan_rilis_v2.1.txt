@@ -1,4 +1,4 @@
-Dalam rilis ini disediakan Sinergitas Program sebagai widget sistem, di mana gambar dan tautan yang ditampilkan dapat diunggah dan diatur dengan mudah di halaman pengaturan widget. Selain itu, rilis ini juga berisi beberapa perbaikan penampilan modul Web dan modul Administrasi lainnya yang diminta oleh komunitas SID.
+Dalam rilis ini disediakan Sinergi Program sebagai widget sistem, di mana gambar dan tautan yang ditampilkan dapat diunggah dan diatur dengan mudah di halaman pengaturan widget. Selain itu, rilis ini juga berisi beberapa perbaikan penampilan modul Web dan modul Administrasi lainnya yang diminta oleh komunitas SID.
 
 Terima kasih pada Happy Agung yang terus membuat kontribusi.
 
@@ -6,7 +6,7 @@ Lengkapnya, isi rilis v2.1:
 
 1. #354: Batasi tampilan artikel utama (headline) tidak melebihi 700 karakter, dengan tautan untuk melihat artikel selengkapnya.
 2. Tema hadakewa sekarang menggunakan view default/partials/content.php daripada mengulangi. [teknis]
-3. #388: Tambahkan Sinergitas Program sebagai widget sistem, dengan halaman pengaturan di mana gambar dan tautan dapat diunggah dan diatur dengan mudah.
+3. #388: Tambahkan Sinergi Program sebagai widget sistem, dengan halaman pengaturan di mana gambar dan tautan dapat diunggah dan diatur dengan mudah.
 4. Pisahkan data widget dari tabel artikel, dan buat controller web_widget dan web_widget_model terpisah dari artikel [teknis].
 5. #487: Kolom cacat di tampilan Profil di Layanan Mandiri sekarang menampilkan nama cacat, tidak lagi kode cacat [bug-fix].
 6. Perbaiki penampilan tombol terseleksi di menu utama di modul Administrasi secara konsisten dan menyeluruh.
