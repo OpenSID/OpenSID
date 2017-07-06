@@ -551,7 +551,7 @@ table.disdukcapil td.tengah { text-align: center; }
   	  <td colspan="10" class="left">6. &nbsp;&nbsp;Kewarganegaraan </td>
       <td>:</td>
       <td class="kotak padat tengah">
-        <?php echo $suami['wn_id'];?>
+        <?php echo $suami['warganegara_id'];?>
       </td>
       <td colspan=4 class="left">1. WNI </td>
   	  <td colspan=6 class="left">2. WNA </td>
