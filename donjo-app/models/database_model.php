@@ -73,6 +73,12 @@
     $this->migrasi_116_ke_117();
     $this->migrasi_117_ke_20();
     $this->migrasi_20_ke_21();
+    $this->migrasi_21_ke_22();
+  }
+
+  function migrasi_21_ke_22(){
+    // Tambah lampiran untuk Surat Keterangan Kelahiran
+    $this->db->where('url_surat','surat_ket_kelahiran')->update('tweb_surat_format',array('lampiran'=>'f-kelahiran.php'));
   }
 
   function migrasi_20_ke_21(){
