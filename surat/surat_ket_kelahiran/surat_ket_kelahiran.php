@@ -113,18 +113,20 @@ table.form.detail td{
 </tr>
 <tr>
 	<th>Jenis Kelamin </th>
-	<td><select name="sex" class="required" id="sex">
-        <option value="">Pilih Jenis Kelamin</option>
-        <?php foreach($sex as $data){?>
-        <option value="<?php echo $data['nama']=='3' ? ucwords(strtolower($data['nama'])) : strtoupper($data['nama'])?>"><?php echo $data['nama']?></option>
-        <?php }?>
-      </select></td>
+	<td>
+    <select name="sex" class="required" id="sex">
+      <option value="">Pilih Jenis Kelamin</option>
+      <?php foreach($sex as $data){?>
+        <option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+      <?php }?>
+    </select>
+  </td>
 </tr>
 <tr>
 	<th>Hari / Tanggal / Jam </th>
 	<td><input name="hari" readonly="readonly" type="text" class="inputbox required" size="10"/>
 /
-  <input name="tanggal" type="text" class="inputbox required datepicker" id="tanggal" size="10"/>
+  <input name="tanggal" type="text" class="inputbox required datepicker" id="tanggal" size="11"/>
 /
 <em>*Isi waktu kelahiran etc : 08:00</em>
 <input name="jam" type="text" class="inputbox required" size="10"/></td>
@@ -201,30 +203,28 @@ table.form.detail td{
   <th>Tempat Lahir </th>
   <td><input name="tempat_lahir_pelapor" type="text" class="inputbox required" id="tempat_lahir_pelapor" size="40"/>
 <span class="judul"> Tanggal Lahir : </span>
-  <input name="tanggal_lahir_pelapor" type="text" class="inputbox required datepicker" id="tanggal_lahir_pelapor" size="10" onchange="$('input[name=umur_pelapor]').val(_calculateAge($(this).val()));"/>
+  <input name="tanggal_lahir_pelapor" type="text" class="inputbox required datepicker" id="tanggal_lahir_pelapor" size="11" onchange="$('input[name=umur_pelapor]').val(_calculateAge($(this).val()));"/>
   <span class="judul"> Umur : </span>
   <input name="umur_pelapor" readonly="readonly" type="text" class="inputbox required" size="5"/>
     tahun</td>
 </tr>
 <tr>
   <th>Jenis kelamin </th>
-  <td><label>
-  <select name="jkpelapor" class="required" id="jkpelapor">
-    <option value="">Pilih Jenis Kelamin</option>
-    <?php foreach($sex as $data){?>
-    <option value="<?php echo $data['nama']=='3' ? ucwords(strtolower($data['nama'])) : strtoupper($data['nama'])?>"><?php echo $data['nama']?></option>
-    <?php }?>
-  </select>
-  </label>
-  <label for="radio10">
-<span class="judul"> Pekerjaan </span>
-  <select name="pekerjaanpelapor" class="required" id="pekerjaanpelapor">
-    <option value="">Pilih Pekerjaan</option>
-    <?php  foreach($pekerjaan as $data){?>
-    <option value="<?php echo $data['nama']?>"><?php echo $data['nama']?></option>
-    <?php }?>
-  </select>
-  </label></td>
+  <td>
+    <select name="jkpelapor" class="required" id="jkpelapor">
+      <option value="">Pilih Jenis Kelamin</option>
+      <?php foreach($sex as $data){?>
+        <option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+      <?php }?>
+    </select>
+    <span class="judul"> Pekerjaan </span>
+    <select name="pekerjaanpelapor" class="required" id="pekerjaanpelapor">
+      <option value="">Pilih Pekerjaan</option>
+      <?php  foreach($pekerjaan as $data){?>
+        <option value="<?php echo $data['nama']?>"><?php echo $data['nama']?></option>
+      <?php }?>
+    </select>
+  </td>
 </tr>
 <tr>
   <th>Alamat</th>
@@ -262,29 +262,28 @@ table.form.detail td{
   <th>Tempat Lahir  </th>
   <td><input name="tempat_lahir_saksi1" type="text" class="inputbox required" id="tempat_lahir_saksi1" size="40"/>
     <span class="judul"> Tanggal Lahir : </span>
-      <input name="tanggal_lahir_saksi1" type="text" class="inputbox required datepicker" id="tanggal_lahir_saksi1" size="10" onchange="$('input[name=umur_saksi1]').val(_calculateAge($(this).val()));" />
+      <input name="tanggal_lahir_saksi1" type="text" class="inputbox required datepicker" id="tanggal_lahir_saksi1" size="11" onchange="$('input[name=umur_saksi1]').val(_calculateAge($(this).val()));" />
         <span class="judul"> Umur : </span>
       <input name="umur_saksi1" readonly="readonly" type="text" class="inputbox required" id="umur_saksi1" size="5"/>
 tahun</td>
 </tr>
 <tr>
   <th>Jenis Kelamin </th>
-  <td><label>
-  <select name="jksaksi1" class="required" id="jksaksi1">
-    <option value="">Pilih Jenis Kelamin</option>
-    <?php foreach($sex as $data){?>
-    <option value="<?php echo $data['nama']=='3' ? ucwords(strtolower($data['nama'])) : strtoupper($data['nama'])?>"><?php echo $data['nama']?></option>
-    <?php }?>
-  </select>
-  </label>
-  <label for="radio18"><span class="judul">Pekerjaan </span>
-  <select name="pekerjaansaksi1" class="required" id="pekerjaansaksi1">
-    <option value="">Pilih Pekerjaan</option>
-    <?php  foreach($pekerjaan as $data){?>
-    <option value="<?php echo $data['nama']?>"><?php echo $data['nama']?></option>
-    <?php }?>
-  </select>
-</label></td>
+  <td>
+    <select name="jksaksi1" class="required" id="jksaksi1">
+      <option value="">Pilih Jenis Kelamin</option>
+      <?php foreach($sex as $data){?>
+        <option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
+      <?php }?>
+    </select>
+    <span class="judul">Pekerjaan </span>
+    <select name="pekerjaansaksi1" class="required" id="pekerjaansaksi1">
+      <option value="">Pilih Pekerjaan</option>
+      <?php  foreach($pekerjaan as $data){?>
+        <option value="<?php echo $data['nama']?>"><?php echo $data['nama']?></option>
+      <?php }?>
+    </select>
+  </td>
 </tr>
 <tr>
   <th>Alamat</th>
@@ -318,29 +317,28 @@ tahun</td>
   <th>Tempat Lahir </th>
   <td><input name="tempat_lahir_saksi2" type="text" class="inputbox required" id="tempat_lahir_saksi2" size="40"/>
     <span class="judul"> Tanggal Lahir : </span>
-    <input name="tanggal_lahir_saksi2" type="text" class="inputbox required datepicker" id="tanggal_lahir_saksi2" size="10" onchange="$('input[name=umur_saksi2]').val(_calculateAge($(this).val()));"/>
+    <input name="tanggal_lahir_saksi2" type="text" class="inputbox required datepicker" id="tanggal_lahir_saksi2" size="11" onchange="$('input[name=umur_saksi2]').val(_calculateAge($(this).val()));"/>
     <span class="judul"> Umur : </span>
     <input name="umur_saksi2" readonly="readonly" type="text" class="inputbox required" id="umur_saksi2" size="5"/>
     tahun</td>
 </tr>
 <tr>
   <th>Jenis Kelamin </th>
-  <td><label>
+  <td>
     <select name="jksaksi2" class="required" id="jksaksi2">
       <option value="">Pilih Jenis Kelamin</option>
       <?php foreach($sex as $data){?>
-      <option value="<?php echo $data['nama']=='3' ? ucwords(strtolower($data['nama'])) : strtoupper($data['nama'])?>"><?php echo $data['nama']?></option>
+        <option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
       <?php }?>
     </select>
-    </label>
-      <label for="radio18"><span class="judul">Pekerjaan </span>
-      <select name="pekerjaansaksi2" class="required" id="pekerjaansaksi2">
-        <option value="">Pilih Pekerjaan</option>
-        <?php  foreach($pekerjaan as $data){?>
-        <option value="<?php echo $data['nama']?>"><?php echo $data['nama']?></option>
-        <?php }?>
-      </select>
-    </label></td>
+    <span class="judul">Pekerjaan </span>
+    <select name="pekerjaansaksi2" class="required" id="pekerjaansaksi2">
+      <option value="">Pilih Pekerjaan</option>
+      <?php  foreach($pekerjaan as $data){?>
+      <option value="<?php echo $data['nama']?>"><?php echo $data['nama']?></option>
+      <?php }?>
+    </select>
+  </td>
 </tr>
 <tr>
   <th>Alamat</th>

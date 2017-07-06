@@ -172,16 +172,14 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan=21>&nbsp;</td>
     </tr>
     <tr>
-      <td colspan=10 class="left">3. &nbsp;&nbsp;Jenis Kelamin </td>
+      <td colspan="10" class="left">6. &nbsp;&nbsp;Jenis Kelamin </td>
       <td>:</td>
-      <?php for($i=0; $i<9; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($input['sex'][$i]))
-            echo $input['sex'][$i];
-            else echo "&nbsp;";
-          ?>        </td>
-      <?php endfor; ?>
-      <td colspan=21 class="left">&nbsp;</td>
+          <?php echo $input['sex'];?>
+        </td>
+      <td colspan=5 class="left">1. LAKI-LAKI </td>
+      <td colspan=7 class="left">2. PEREMPUAN </td>
+      <td colspan=4 class="left">&nbsp;</td>
     </tr>
 	   <tr>
       <td colspan=10 class="left">4. &nbsp;&nbsp;Tempat Dilahirkan </td>
@@ -381,7 +379,7 @@ table.disdukcapil td.tengah { text-align: center; }
 
       <td colspan="2">&nbsp;</td></tr>
     <tr>
-      <td colspan="10" class="left">5. &nbsp;&nbsp;Alamat Pemohon</td>
+      <td colspan="10" class="left">5. &nbsp;&nbsp;Alamat</td>
       <td>:</td>
       <td colspan="23" class="kotak"><?php echo $individu['alamat']?></td>
       <td colspan="3" class="tengah">RT:</td>
@@ -419,18 +417,12 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="1">&nbsp;</td>
 	  </tr>
 	  <tr>
-	  <td colspan="10" class="left">6. &nbsp;&nbsp;Kewarganegaraan </td>
-          <td>:</td>
-	        <?php for($i=0; $i<1; $i++): ?>
-        <td class="kotak padat tengah"><?php if(isset($individu['warganegara_id'][$i]))
-            echo $individu['warganegara_id'][$i];
-            else echo "&nbsp;";
-          ?></td>
-      <?php endfor; ?>
-
+  	  <td colspan="10" class="left">6. &nbsp;&nbsp;Kewarganegaraan </td>
+      <td>:</td>
+      <td class="kotak padat tengah"><?php echo $individu['warganegara_id'];?></td>
       <td colspan=4 class="left">1. WNI </td>
-	  <td colspan=6 class="left">2. WNA </td>
-	  <td colspan=6 class="left">&nbsp;</td>
+  	  <td colspan=6 class="left">2. WNA </td>
+  	  <td colspan=6 class="left">&nbsp;</td>
 	  </tr>
 	  <tr>
 	  <td colspan="10" class="left">7. &nbsp;&nbsp;Kebangsaan </td>
@@ -518,7 +510,7 @@ table.disdukcapil td.tengah { text-align: center; }
 
       <td colspan="2">&nbsp;</td></tr>
     <tr>
-      <td colspan="10" class="left">5. &nbsp;&nbsp;Alamat Pemohon</td>
+      <td colspan="10" class="left">5. &nbsp;&nbsp;Alamat</td>
       <td>:</td>
       <td colspan="23" class="kotak"><?php echo $suami['alamat']?></td>
       <td colspan="3" class="tengah">RT:</td>
@@ -556,18 +548,14 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="1">&nbsp;</td>
 	  </tr>
 	  <tr>
-	  <td colspan="10" class="left">6. &nbsp;&nbsp;Kewarganegaraan </td>
-          <td>:</td>
-	        <?php for($i=0; $i<1; $i++): ?>
-        <td class="kotak padat tengah"><?php if(isset($suami['wn_id'][$i]))
-            echo $suami['wn_id'][$i];
-            else echo "&nbsp;";
-          ?></td>
-      <?php endfor; ?>
-
+  	  <td colspan="10" class="left">6. &nbsp;&nbsp;Kewarganegaraan </td>
+      <td>:</td>
+      <td class="kotak padat tengah">
+        <?php echo $suami['wn_id'];?>
+      </td>
       <td colspan=4 class="left">1. WNI </td>
-	  <td colspan=6 class="left">2. WNA </td>
-	  <td colspan=6 class="left">&nbsp;</td>
+  	  <td colspan=6 class="left">2. WNA </td>
+  	  <td colspan=6 class="left">&nbsp;</td>
 	  </tr>
 	  <tr>
 	  <td colspan="10" class="left">7. &nbsp;&nbsp;Kebangsaan </td>
@@ -625,19 +613,16 @@ table.disdukcapil td.tengah { text-align: center; }
       <?php endfor; ?>
       <td colspan=21>Tahun</td>
     </tr>
-	<tr>
-	<td colspan="10" class="left">4. &nbsp;&nbsp;Jenis Kelamin</td>
+  	<tr>
+      <td colspan="10" class="left">6. &nbsp;&nbsp;Jenis Kelamin </td>
       <td>:</td>
-            <?php for($i=0; $i<9; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($input['jkpelapor'][$i]))
-            echo $input['jkpelapor'][$i];
-            else echo "&nbsp;";
-          ?>        </td>
-      <?php endfor; ?>
-
-
-      <td colspan="2">&nbsp;</td></tr>
+          <?php echo $input['jkpelapor'];?>
+        </td>
+      <td colspan=5 class="left">1. LAKI-LAKI </td>
+      <td colspan=7 class="left">2. PEREMPUAN </td>
+      <td colspan=4 class="left">&nbsp;</td>
+    </tr>
     <tr>
       <td colspan="10" class="left">5. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
@@ -704,18 +689,16 @@ table.disdukcapil td.tengah { text-align: center; }
       <?php endfor; ?>
       <td colspan=21>Tahun</td>
     </tr>
-	<tr>
-	<td colspan="10" class="left">4. &nbsp;&nbsp;Jenis Kelamin </td>
+  	<tr>
+      <td colspan="10" class="left">6. &nbsp;&nbsp;Jenis Kelamin </td>
       <td>:</td>
-            <?php for($i=0; $i<9; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($input['jksaksi1'][$i]))
-            echo $input['jksaksi1'][$i];
-            else echo "&nbsp;";
-          ?>        </td>
-      <?php endfor; ?>
-
-            <td colspan="2">&nbsp;</td></tr>
+          <?php echo $input['jksaksi1'];?>
+        </td>
+      <td colspan=5 class="left">1. LAKI-LAKI </td>
+      <td colspan=7 class="left">2. PEREMPUAN </td>
+      <td colspan=4 class="left">&nbsp;</td>
+    </tr>
     <tr>
       <td colspan="10" class="left">5. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
@@ -782,19 +765,16 @@ table.disdukcapil td.tengah { text-align: center; }
       <?php endfor; ?>
       <td colspan=21>Tahun</td>
     </tr>
-	<tr>
-	<td colspan="10" class="left">4. &nbsp;&nbsp;Jenis kelamin </td>
+  	<tr>
+      <td colspan="10" class="left">6. &nbsp;&nbsp;Jenis Kelamin </td>
       <td>:</td>
-            <?php for($i=0; $i<9; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($input['jksaksi2'][$i]))
-            echo $input['jksaksi2'][$i];
-            else echo "&nbsp;";
-          ?>        </td>
-      <?php endfor; ?>
-
-
-      <td colspan="2">&nbsp;</td></tr>
+          <?php echo $input['jksaksi2'];?>
+        </td>
+      <td colspan=5 class="left">1. LAKI-LAKI </td>
+      <td colspan=7 class="left">2. PEREMPUAN </td>
+      <td colspan=4 class="left">&nbsp;</td>
+    </tr>
     <tr>
       <td colspan="10" class="left">5. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
