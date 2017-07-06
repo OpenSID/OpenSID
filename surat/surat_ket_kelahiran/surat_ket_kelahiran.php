@@ -13,22 +13,29 @@ table.form span.judul{
 }
 </style>
 <script>
-$(function(){
-var nik = {};
-nik.results = [
-<?php foreach($perempuan as $data){?>
-  {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
-<?php }?>
-];
-
-$('#nik').flexbox(nik, {
-resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-watermark: <?php if($individu){?>'<?php echo $individu['nik']?> - <?php echo spaceunpenetration($individu['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
-width: 260,
-noResultsText :'Tidak ada no nik yang sesuai..',
-onSelect: function() {
-$('#'+'main').submit();
+function _calculateAge(birthday) { // birthday is a date
+    var birthdate = new Date(birthday);
+    var ageDifMs = Date.now() - birthdate.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
+
+$(function(){
+  var nik = {};
+  nik.results = [
+  <?php foreach($perempuan as $data){?>
+    {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
+  <?php }?>
+  ];
+
+  $('#nik').flexbox(nik, {
+  resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
+  watermark: <?php if($individu){?>'<?php echo $individu['nik']?> - <?php echo spaceunpenetration($individu['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+  width: 260,
+  noResultsText :'Tidak ada no nik yang sesuai..',
+  onSelect: function() {
+  $('#'+'main').submit();
+  }
 });
 
 /* set otomatis hari */
@@ -54,25 +61,17 @@ table.form.detail th{
 table.form.detail td{
     padding:5px;
 }
-.style4 {color: #FFFFFF}
-.style6 {color: #FFFFFF; font-style: italic; }
+.style6 {
+  color: #FFFFFF;
+  background-color: #1d93dd;
+  font-style: italic;
+}
 </style>
+
 <div id="pageC">
 	<table class="inner">
 	<tr style="vertical-align:top">
-	<td width="108" class="side-menu">
-				<fieldset>
-<legend>Surat Administrasi</legend>
-<div id="sidecontent2"  class="lmenu">
-<ul>
-<?php foreach($menu_surat AS $data){?>
-
-        <li <?php  if($data['url_surat']==$lap){?>class="selected"<?php  }?>><a href="<?php echo site_url()?>surat/<?php echo $data['url_surat']?>"><?php echo unpenetration($data['nama'])?></a></li>
-<?php }?>
-</ul>
-</div>
-</fieldset>	</td>
-		<td width="937" style="background:#fff;padding:5px;">
+	<td width="937" style="background:#fff;padding:5px;">
 
 <div class="content-header"></div>
 <div id="contentpane">
@@ -83,7 +82,7 @@ table.form.detail td{
   <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table width="919" class="form">
 <tr>
-<th width="210">NIK / Nama Ibu</th>
+<th width="120">NIK / Nama Ibu</th>
 <td width="665">
 <form action="" id="main" name="main" method="POST">
 <div id="nik" name="nik"></div>
@@ -101,16 +100,16 @@ table.form.detail td{
 	<th>&nbsp;</th>
 	</tr>
 <tr>
-	<th bgcolor="#009933"><span class="style6">DATA KELAHIRAN :</span></th>
+	<th class="style6">DATA KELAHIRAN :</th>
 </tr>
 <tr>
 	<th>Nama Bayi </th>
 	<td><input name="nama_bayi" type="text" class="inputbox required" size="70"/></td>
 	</tr>
 <tr>
-	<th>Nik</th>
+	<th>NIK</th>
 	<td><input name="nik_bayi" type="text" class="inputbox required" id="nik_bayi" size="70"/>
-	  <em>*isi tanda - jika lum memiliki nik</em> </td>
+	  <em>*isi tanda - jika belum memiliki NIK</em> </td>
 </tr>
 <tr>
 	<th>Jenis Kelamin </th>
@@ -188,7 +187,7 @@ table.form.detail td{
   <th>&nbsp;</th>
 </tr>
 <tr>
-  <th bgcolor="#009933"><span class="style1 style4"><em>DATA PELAPOR :</em></span></th>
+  <th class="style6">DATA PELAPOR :</th>
 </tr>
 <tr>
   <th>Nama</th>
@@ -202,9 +201,9 @@ table.form.detail td{
   <th>Tempat Lahir </th>
   <td><input name="tempat_lahir_pelapor" type="text" class="inputbox required" id="tempat_lahir_pelapor" size="40"/>
 <span class="judul"> Tanggal Lahir : </span>
-  <input name="tanggal_lahir_pelapor" type="text" class="inputbox required datepicker" id="tanggal_lahir_pelapor" size="10"/>
+  <input name="tanggal_lahir_pelapor" type="text" class="inputbox required datepicker" id="tanggal_lahir_pelapor" size="10" onchange="$('input[name=umur_pelapor]').val(_calculateAge($(this).val()));"/>
   <span class="judul"> Umur : </span>
-  <input name="umur_pelapor" type="text" class="inputbox required" size="5"/>    
+  <input name="umur_pelapor" readonly="readonly" type="text" class="inputbox required" size="5"/>
     tahun</td>
 </tr>
 <tr>
@@ -229,7 +228,7 @@ table.form.detail td{
 </tr>
 <tr>
   <th>Alamat</th>
-  <td><p>Desa <span class="judul"> : </span> 
+  <td><p>Desa <span class="judul"> : </span>
       <input name="desapelapor" type="text" class="inputbox required" id="desapelapor" size="40"/>
       <span class="judul"> Kecamatan : </span>
       <input name="kecpelapor" type="text" class="inputbox required" id="kecpelapor" size="40"/>
@@ -249,7 +248,7 @@ table.form.detail td{
   <th>&nbsp;</th>
 </tr>
 <tr>
-  <th bgcolor="#009933"><span class="style1 style4"><em>DATA SAKSI 1 </em></span></th>
+  <th class="style6">DATA SAKSI 1</th>
 </tr>
 <tr>
   <th>Nama</th>
@@ -261,11 +260,11 @@ table.form.detail td{
   </tr>
 <tr>
   <th>Tempat Lahir  </th>
-  <td><input name="tempat_lahir_saksi1" type="text" class="inputbox required" id="tempat_lahir_saksi1" size="40"/> 
-    <span class="judul"> Tanggal Lahir : </span>      
-      <input name="tanggal_lahir_saksi1" type="text" class="inputbox required datepicker" id="tanggal_lahir_saksi1" size="10"/>
+  <td><input name="tempat_lahir_saksi1" type="text" class="inputbox required" id="tempat_lahir_saksi1" size="40"/>
+    <span class="judul"> Tanggal Lahir : </span>
+      <input name="tanggal_lahir_saksi1" type="text" class="inputbox required datepicker" id="tanggal_lahir_saksi1" size="10" onchange="$('input[name=umur_saksi1]').val(_calculateAge($(this).val()));" />
         <span class="judul"> Umur : </span>
-      <input name="umur_saksi1" type="text" class="inputbox required" id="umur_saksi1" size="5"/>
+      <input name="umur_saksi1" readonly="readonly" type="text" class="inputbox required" id="umur_saksi1" size="5"/>
 tahun</td>
 </tr>
 <tr>
@@ -305,7 +304,7 @@ tahun</td>
   <th>&nbsp;</th>
 </tr>
 <tr>
-  <th bgcolor="#009933"><span class="style4 style1"><em>DATA SAKSI 2 </em></span></th>
+  <th class="style6">DATA SAKSI 2</th>
 </tr>
 <tr>
   <th>Nama</th>
@@ -319,9 +318,9 @@ tahun</td>
   <th>Tempat Lahir </th>
   <td><input name="tempat_lahir_saksi2" type="text" class="inputbox required" id="tempat_lahir_saksi2" size="40"/>
     <span class="judul"> Tanggal Lahir : </span>
-    <input name="tanggal_lahir_saksi2" type="text" class="inputbox required datepicker" id="tanggal_lahir_saksi2" size="10"/>
+    <input name="tanggal_lahir_saksi2" type="text" class="inputbox required datepicker" id="tanggal_lahir_saksi2" size="10" onchange="$('input[name=umur_saksi2]').val(_calculateAge($(this).val()));"/>
     <span class="judul"> Umur : </span>
-    <input name="umur_saksi2" type="text" class="inputbox required" id="umur_saksi2" size="5"/>
+    <input name="umur_saksi2" readonly="readonly" type="text" class="inputbox required" id="umur_saksi2" size="5"/>
     tahun</td>
 </tr>
 <tr>
@@ -361,12 +360,16 @@ tahun</td>
   <th>&nbsp;</th>
   </tr>
 <tr>
-  <th bgcolor="#009933"><span class="style4 style1"><em>Penanda Tangan </em></span></th>
+  <th class="style6">PENANDA TANGAN</th>
   <td><p>&nbsp;</p>      </td>
 </tr>
 <tr>
   <th>&nbsp;</th>
   <td>&nbsp;</td>
+</tr>
+<tr>
+  <th>Lokasi Disdukcapil <?php echo ucwords($this->setting->sebutan_kabupaten)?></th>
+  <td><input name="lokasi_disdukcapil" type="text" class="inputbox required" size="40"/></td>
 </tr>
 	<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
         </table>
