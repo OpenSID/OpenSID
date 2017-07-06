@@ -4,7 +4,7 @@
 <div id="content" class="container_12 clearfix">
 <div id="content-main" class="grid_7">
 
-<link href="<?php echo base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css"/>
 <div>
 <table width="100%">
 
@@ -33,31 +33,34 @@
 <tr><td width="35%">Hari</td><td width="3%">:</td><td width="64%"><?php echo $input['hari']?></td></tr>
 <tr><td width="35%">Tanggal</td><td width="3%">:</td><td width="64%"><?php echo tgl_indo(tgl_indo_in($input['tanggal']))?></td></tr>
 <tr><td>Pukul </td><td>:</td><td><?php echo $input['jam']?></td></tr>
-<tr><td>Tempat Kelahiran</td><td>:</td><td><?php echo $input['tempat_lahir_bayi']?></td></tr>
+<tr><td>Tempat Kelahiran</td><td>:</td><td><?php echo $input['alamat_lahir_bayi']?></td></tr>
 <tr></tr>
 <tr></tr>
 <tr></tr>
-<tr><td colspan="3">Telah lahir seorang anak <?php echo $input['sex_bayi']?> bernama : <?php echo unpenetration($input['nama_bayi'])?></td></tr>
+<tr><td colspan="3">Telah lahir seorang anak <?php echo $input['sex']?> bernama : <?php echo unpenetration($input['nama_bayi'])?></td></tr>
 <tr></tr>
 <tr></tr>
 <tr></tr>
-<tr><td colspan="3">Dari seorang ibu :</td></tr>
+<tr><td colspan="3"><strong>Dari seorang ibu :</strong></td>
+</tr>
 
-tr><td>Nama Lengkap</td><td>:</td><td><?php echo unpenetration($ibu['nama'])?></td></tr>
-<tr><td>NIK</td><td>:</td><td><?php echo $ibu['nik']?></td></tr>
-<tr><td>Umur</td><td>:</td><td><?php echo $ibu['umur']?> tahun</td></tr>
-<tr><td>Pekerjaan</td><td>:</td><td><?php echo $ibu['pek']?></td></tr>
-<tr><td>Alamat</td><td>:</td><td>RT. <?php echo $ibu['rt']?>, RW. <?php echo $ibu['rw']?>, Dusun <?php echo unpenetration(ununderscore($ibu['dusun']))?>, <?php echo ucwords($this->setting->sebutan_desa)?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords($this->setting->sebutan_kabupaten_singkat)?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
+tr><td>Nama Lengkap</td><td>:</td><td><?php echo unpenetration($data['nama'])?></td>
+</tr>
+<tr><td>NIK</td><td>:</td><td><?php echo $data['nik']?></td></tr>
+<tr><td>Umur</td><td>:</td><td><?php echo $data['umur']?> tahun</td></tr>
+<tr><td>Pekerjaan</td><td>:</td><td><?php echo $data['pekerjaan']?></td></tr>
+<tr><td>Alamat</td><td>:</td><td>RT. <?php echo $data['rt']?>, RW. <?php echo $data['rw']?>, Dusun <?php echo unpenetration(ununderscore($data['dusun']))?>, <?php echo ucwords($this->setting->sebutan_desa)?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords($this->setting->sebutan_kabupaten_singkat)?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
 <tr></tr>
 <tr></tr>
 <tr></tr>
-<tr><td colspan="3">Istri dari :</td></tr>
+<tr><td colspan="3"><strong>Istri dari :</strong></td>
+</tr>
 
-<tr><td>Nama Lengkap</td><td>:</td><td><?php echo unpenetration($ayah['nama'])?></td></tr>
-<tr><td>NIK</td><td>:</td><td><?php echo $ayah['nik']?></td></tr>
-<tr><td>Umur</td><td>:</td><td><?php echo $ayah['umur']?> tahun</td></tr>
-<tr><td>Pekerjaan</td><td>:</td><td><?php echo $ayah['pek']?></td></tr>
-<tr><td>Alamat</td><td>:</td><td>RT. <?php echo $ayah['rt']?>, RW. <?php echo $ayah['rw']?>, Dusun <?php echo unpenetration(ununderscore($ayah['dusun']))?>, <?php echo ucwords($this->setting->sebutan_desa)?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords($this->setting->sebutan_kabupaten_singkat)?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
+<tr><td>Nama Lengkap</td><td>:</td><td><?php echo unpenetration($data['nama_suami'])?></td></tr>
+<tr><td>NIK</td><td>:</td><td><?php echo $data['nik_suami']?></td></tr>
+<tr><td>Umur</td><td>:</td><td><?php echo $data['umur_suami']?> tahun</td></tr>
+<tr><td>Pekerjaan</td><td>:</td><td><?php echo $data['pek_suami']?></td></tr>
+<tr><td>Alamat</td><td>:</td><td>RT. <?php echo $data['rt']?>, RW. <?php echo $data['rw']?>, Dusun <?php echo unpenetration(ununderscore($data['dusun']))?>, <?php echo ucwords($this->setting->sebutan_desa)?> <?php echo unpenetration($desa['nama_desa'])?>, Kec. <?php echo unpenetration($desa['nama_kecamatan'])?>, <?php echo ucwords($this->setting->sebutan_kabupaten_singkat)?> <?php echo unpenetration($desa['nama_kabupaten'])?></td></tr>
 <tr><td>Hubungan pelapor dengan bayi :</td><td>:</td><td><?php echo $input['hubungan']?></td></tr>
 <tr></tr>
 <tr></tr>
@@ -67,9 +70,8 @@ tr><td>Nama Lengkap</td><td>:</td><td><?php echo unpenetration($ibu['nama'])?></
 <tr><td>Nama Lengkap</td><td>:</td><td><?php echo unpenetration($input['nama_pelapor'])?></td></tr>
 <tr><td>NIK</td><td>:</td><td><?php echo $input['nik_pelapor']?></td></tr>
 <tr><td>Umur</td><td>:</td><td><?php echo $input['umur_pelapor']?> tahun</td></tr>
-<tr><td>Pekerjaan</td><td>:</td><td><?php echo $input['pek_pelapor']?></td></tr>
-<tr><td>Alamat</td><td>:</td><td><?php echo $input['alamat_pelapor']?></td></tr>
-<tr><td>Hubungan pelapor dengan bayi </td><td>:</td><td><?php echo $input['hubungan']?></td></tr>
+<tr><td>Pekerjaan</td><td>:</td><td><?php echo $input['pekejaan_pelapor']?></td></tr>
+<tr><td>Hubungan pelapor dengan bayi </td><td>:</td><td><?php echo $input['hubungan_pelapor']?></td></tr>
 </table>
 <table width="100%">
 <tr></tr>
