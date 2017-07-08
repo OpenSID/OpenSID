@@ -114,7 +114,8 @@ table.form.detail td{
 <tr>
 	<th>Jenis Kelamin </th>
 	<td>
-    <select name="sex" class="required" id="sex">
+    <input type="hidden" name="nama_sex">
+    <select name="sex" class="required" id="sex" onchange="$('input[name=nama_sex]').val($(this).find(':selected').text());">
       <option value="">Pilih Jenis Kelamin</option>
       <?php foreach($sex as $data){?>
         <option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
