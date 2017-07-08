@@ -8,6 +8,10 @@ $(document).ready(function() {
     $('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' });
     /* untuk datetimepicker */
     $('.datetimepicker-start').datetimepicker({
+        controlType: 'select',
+        timeFormat: "hh:mm tt",
+        hourGrid: 4,
+        minuteGrid: 10,
         dateFormat: 'dd-mm-yy',
         onClose: function(dateText, inst) {
             var _awal = $(this);
@@ -23,11 +27,15 @@ $(document).ready(function() {
         },
         onSelect: function(selectedDateTime) {
             var _p = $(this).parent();
-            //	endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate') );            
+            //	endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate') );
             _p.find('.datetimepicker-end').datetimepicker('option', 'minDate', $(this).datetimepicker('getDate'));
         }
     });
     $('.datetimepicker-end').datetimepicker({
+        controlType: 'select',
+        timeFormat: "hh:mm tt",
+        hourGrid: 4,
+        minuteGrid: 10,
         dateFormat: 'dd-mm-yy',
         onClose: function(dateText, inst) {
             var _akhir = $(this);
@@ -43,7 +51,7 @@ $(document).ready(function() {
         },
         onSelect: function(selectedDateTime) {
             var _p = $(this).parent();
-            //	endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate') );            
+            //	endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate') );
             _p.find('.datetimepicker-start').datetimepicker('option', 'maxDate', $(this).datetimepicker('getDate'));
         }
     });
