@@ -4,6 +4,8 @@
     $("[name='setting["+key+"][kolom]']").val('');
     $("[name='setting["+key+"][judul]']").val('');
     $("[name='setting["+key+"][tautan]']").val('');
+    $("[name='setting["+key+"][gambar]']").val('');
+    $("[name='setting["+key+"][old_gambar]']").val('');
   }
 </script>
 
@@ -14,7 +16,7 @@
       <div id="contentpane">
         <form id="validasi" action="<?php echo $form_action ?>" method="POST" enctype="multipart/form-data">
           <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-            <h3>Pengaturan Sinergitas Program</h3>
+            <h3>Pengaturan Sinergi Program</h3>
             <table class="form list">
               <tr>
                 <th>Aksi</th>
