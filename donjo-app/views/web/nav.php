@@ -22,6 +22,9 @@
 	<li <?php if($act==6){?>class="selected"<?php }?>>
 		<a href="<?php echo site_url('sosmed')?>">Media Sosial</a>
 	</li>
+	<li <?php if($act==8){?>class="selected"<?php }?>>
+		<a href="<?php echo site_url('web/slider')?>">Slider</a>
+	</li>
 <?php }else{?>
 
 	<li <?php if($act==0){?>class="selected"<?php }?>>

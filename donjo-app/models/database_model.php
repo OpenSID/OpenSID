@@ -79,6 +79,11 @@
   function migrasi_21_ke_22(){
     // Tambah lampiran untuk Surat Keterangan Kelahiran
     $this->db->where('url_surat','surat_ket_kelahiran')->update('tweb_surat_format',array('lampiran'=>'f-kelahiran.php'));
+    // Tambah setting sumber gambar slider
+    $pilihan_sumber = $this->db->where('key','sumber_gambar_slider')->get('setting_aplikasi')->row()->id;
+    if(!$pilihan_sumber){
+      $this->db->insert('setting_aplikasi',array('key'=>'sumber_gambar_slider','value'=>1,'keterangan'=>'Sumber gambar slider besar'));
+    }
   }
 
   function migrasi_20_ke_21(){

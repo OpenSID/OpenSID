@@ -26,6 +26,12 @@
                                     <option value="1" <?php if($setting->value==1) :?>selected<?php endif?>>Web dan peta hanya bisa diakses admin/operator/redaksi</option>
                                     <option value="2" <?php if($setting->value==2) :?>selected<?php endif?>>Web dan peta non-aktif sama sekali</option>
                                 </select>
+                            <?php elseif($setting->key == 'sumber_gambar_slider'): ?>
+                                <select name="<?php echo $setting->key?>" >
+                                    <option value="1" <?php if($setting->value==1) :?>selected<?php endif?>>Gambar utama artikel terbaru</option>
+                                    <option value="2" <?php if($setting->value==2) :?>selected<?php endif?>>Gambar utama artikel terbaru yang masuk ke slider atas</option>
+                                    <option value="3" <?php if($setting->value==3) :?>selected<?php endif?>>Gambar dalam album galeri yang dimasukkan ke slider</option>
+                                </select>
                             <?php elseif($setting->jenis == 'boolean'): ?>
                                 <select name="<?php echo $setting->key?>" >
                                     <option value="1" <?php if($setting->value==1) :?>selected<?php endif?>>Ya</option>

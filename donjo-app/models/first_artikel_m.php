@@ -169,6 +169,33 @@ class First_Artikel_M extends CI_Model{
 		return $data;
 	}
 
+	// Ambil gambar slider besar tergantung dari settingnya.
+	function slider_gambar(){
+		$slider_gambar = array();
+		switch ($this->setting->sumber_gambar_slider) {
+			case '1':
+				# 10 gambar utama semua artikel terbaru
+				$slider_gambar['gambar'] = $this->db->select('id,gambar')->where('enabled',1)->where('gambar !=','')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
+				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
+				break;
+			case '2':
+				# 10 gambar utama artikel terbaru yang masuk ke slider
+				$slider_gambar['gambar'] = $this->slide_show(true);
+				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
+				break;
+			case '3':
+				# 10 gambar dari galeri yang masuk ke slider besar
+				$this->load->model('web_gallery_model');
+				$slider_gambar['gambar'] = $this->web_gallery_model->list_slide_galeri();
+				$slider_gambar['lokasi'] = LOKASI_GALERI;
+				break;
+			default:
+				# code...
+				break;
+		}
+		return $slider_gambar;
+	}
+
 	function agenda_show(){
 		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='4' ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
