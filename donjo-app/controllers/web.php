@@ -180,4 +180,19 @@ class web extends CI_Controller{
 		$this->web_artikel_model->slide($id);
 		redirect("web/index/$cat/$p/$o");
 	}
+
+	function slider(){
+		$header = $this->header_model->get_data();
+		$nav['act']=8;
+		$this->load->view('header', $header);
+		$this->load->view('web/nav',$nav);
+		$this->load->view('slider/admin_slider.php');
+		$this->load->view('footer');
+	}
+
+	function update_slider(){
+		$this->setting_model->update_slider();
+		redirect("web/slider");
+	}
+
 }

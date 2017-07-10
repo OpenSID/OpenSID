@@ -321,8 +321,7 @@ class First extends Web_Controller{
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
-		$data['slide_artikel_utama'] = $this->first_artikel_m->slide_show(TRUE);
-		$data['slide_galeri'] = $this->web_gallery_model->list_slide_galeri();
+		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
 		$data['w_cos']  = $this->web_widget_model->get_widget_aktif();
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();

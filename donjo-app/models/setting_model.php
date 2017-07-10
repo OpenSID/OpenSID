@@ -44,4 +44,12 @@ class Setting_Model extends CI_Model
       }
     }
   }
+
+  function update_slider(){
+    $_SESSION['success']=1;
+    $this->setting->sumber_gambar_slider = $this->input->post('pilihan_sumber');
+    $outp = $this->db->where('key','sumber_gambar_slider')->update('setting_aplikasi', array('value'=>$this->input->post('pilihan_sumber')));
+    if(!$outp) $_SESSION['success']=-1;
+  }
+
 }
