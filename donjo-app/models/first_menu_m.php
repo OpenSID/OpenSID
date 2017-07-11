@@ -20,32 +20,7 @@ class First_Menu_M extends CI_Model{
 		$url = site_url()."first/";
 		$i=0;
 		while($i<count($data)){
-			//$man = spliti("l]:",$data[$i]['link']);
-			//if($man[0]=="[manual ur"){
-			//	$data[$i]['link'] = $man[1];
-			//}
-
-			//if($data[$i]['link_tipe']!=1)
-				$data[$i]['menu'] = "<li><a href='$url".$data[$i]['link']."'>".$data[$i]['nama']."</a>";
-			//else
-				//$data[$i]['menu'] = "<li><a href='".$data[$i]['link']."'>".$data[$i]['nama']."</a>";
-
-			$data2 = $this->list_submenu($data[$i]['id']);
-			if($data2){
-				$data[$i]['menu'] = $data[$i]['menu']."<ul>";
-				$j=0;
-				while($j<count($data2)){
-
-					//if($data2[$j]['link_tipe']!=1)
-						$data[$i]['menu'] = $data[$i]['menu']."<li><a href='$url".$data2[$j]['link']."'>".$data2[$j]['nama']."</a></li>";
-					//else
-						//$data[$i]['menu'] = $data[$i]['menu']."<li><a href='".$data2[$j]['link']."'>".$data2[$j]['nama']."</a></li>";
-
-					$j++;
-				}
-				$data[$i]['menu'] = $data[$i]['menu']."</ul>";
-			}
-			$data[$i]['menu'] = $data[$i]['menu']."</li>";
+			$data[$i]['submenu'] = $this->list_submenu($data[$i]['id']);
 			$i++;
 		}
 		return $data;
