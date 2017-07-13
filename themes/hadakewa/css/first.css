@@ -43,7 +43,6 @@ body{
   background: url(images/bg_header.jpg);
   margin: 6px 0px 6px 0px;
 }
-
 #footer{
   padding: 3px 0;
   background: #00c0ef;
@@ -97,15 +96,18 @@ body{
     height: 91px;
 }
 
-#divlogo-img{
-	margin-left: -101%;
+#divlogo-img {
+    margin-left: auto;
+    margin-right: auto;
+	float: none;
 }
 #divlogo-img img{
 	height:110px;
-	margin-top:15px;
+	margin-top:0px;
+	margin-bottom: 5px;
 }
 #divlogo-txt {
-    margin-left: 82px;
+    margin-left: 0;
 }
 #mainmenu {
     margin: -1px 0 5px -6px;
@@ -270,14 +272,14 @@ h4 {
     line-height: 1.2em;
 }
 #siteTitle h1{
-	font-family: "Courier New", sans-serif;
+	font-family: "Arial", sans-serif;
     font-size: 40px;
     color: #0c83c5;
-    padding-top: 25px;
+    margin-top: -25px;
+	margin-bottom: -10px;
     font-weight: bold;
     text-transform: uppercase;
-    text-shadow: 0 1px 1px #777;
-    margin-bottom: -18px;
+    text-shadow: 4px 4px 4px #000;
     -webkit-text-stroke: 1px #fff;
 } /* mengubah font judul web ( desa ) */
 #siteTitle h1_1{
@@ -292,11 +294,11 @@ h4 {
     -webkit-text-stroke: 1px #fff;
 } /* mengubah font judul web ( desa ) */
 #siteTitle h2{
-    font-family: "Gautami", sans-serif;
+    font-family: "Arial", sans-serif;
     font-size: 14px;
     color: #f67f0c;
     font-weight: bold;
-    text-shadow: 1px 1px 1px #000;
+	text-shadow: 4px 4px 4px #000;
     margin-top: 27px;
     margin-bottom: 13px;
     text-transform: uppercase;
@@ -307,7 +309,7 @@ font-family: "Gautami", sans-serif;
     color: #fff;
     font-weight: bold;
     text-shadow: 1px 1px 2px #000;
-    margin-top: 28px;
+    margin-top: 15px;
     text-transform: uppercase;
     margin-bottom: 8px;
 } /* mengubah font judul web ( alamat ) */
@@ -367,7 +369,7 @@ textarea {
 .btn-xs,
 .btn-xs, .btn-group-xs > .btn {
     padding: 5px 5px;
-    margin-top: -2px;
+    margin-top: 2px;
     margin-left: 4px;
     font-size: 12px;
     line-height: 1.5;
@@ -396,4 +398,14 @@ textarea {
     font-size: 0.9em;
     background-color: #79b4d6;
     color: #fbfbfb;
+}
+.table td, .table th {
+    background-color: rgba(255, 255, 255, 0) !important;
+}
+#contentwrapper {
+    width: 100%;
+	margin-top: 8px;
+}
+#rightcolumn {
+    margin-top: 8px;
 }

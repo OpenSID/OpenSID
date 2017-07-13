@@ -9,6 +9,7 @@
 		?></title>
 		<meta content="utf-8" http-equiv="encoding">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:site_name" content="<?php echo unpenetration($desa['nama_desa']);?>"/>
     <meta property="og:type" content="article"/>
 		<?php if(isset($single_artikel)): ?>
@@ -45,20 +46,23 @@
 	<body>
 		<div id="maincontainer">
 			<div id="topsection">
-				<div class="innertube">
 					<div id="header">
 						<div id="headercontent">
-							<div id="menu_vert">
 								<div id="menuwrapper">
 									<?php $this->load->view($folder_themes.'/partials/menu.tpl.php');?>
 								</div>
-							</div>
 							<div id="menu_vert2">
 							</div>
 						</div>
 					</div>
 					<div id="headleft">
 						<div id="divlogo">
+							<div id="divlogo-img">
+								<div class="intube">
+									<a href="<?php echo site_url(); ?>first/">
+									<img src="<?php echo LogoDesa($desa['logo']);?>" alt="<?php echo $desa['nama_desa']?>"/></a>
+								</div>
+							</div>
 							<div id="divlogo-txt">
 								<div class="intube">
 									<div id="siteTitle">
@@ -72,22 +76,15 @@
 											<?php echo ucwords($this->setting->sebutan_kecamatan." ".$desa['nama_kecamatan'])?> <?php echo ucwords($this->setting->sebutan_kabupaten." ".$desa['nama_kabupaten'])?><br />
 											<?php echo $desa['alamat_kantor']?> - Kodepos <?php echo $desa['kode_pos']?><br />
 											<i class="fa fa-phone-square"></i> <?php echo $desa['telepon']?> - <i class="fa fa-envelope"></i> <?php echo $desa['email_desa']?><br />
-											<h1_1><?php echo $desa['website']?></h1_1>
+											<div id="h1_1"><?php echo $desa['website']?></div>
 										</h3>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div id="divlogo-img">
-							<div class="intube">
-								<a href="<?php echo site_url(); ?>first/">
-								<img src="<?php echo LogoDesa($desa['logo']);?>" alt="<?php echo $desa['nama_desa']?>"/>
-								</a>
-							</div>
-						</div>
+						
 						<br class="clearboth"/>
 					</div>
-
 					<?php if(count($teks_berjalan)>0){
 						$this->load->view($folder_themes.'/layouts/teks_berjalan.php');
 					} ?>
@@ -95,6 +92,8 @@
 					<div id="mainmenu">
 						<?php $this->load->view($folder_themes.'/partials/menu.left.php');?>
 					</div>
+				<div class="innertube">	
+					
 
 				</div>
 			</div>
