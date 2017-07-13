@@ -97,12 +97,13 @@ body{
     height: 91px;
 }
 
-#divlogo-img{
-	margin-left: -101%;
+#divlogo-img {
+    margin-left: auto;
+    margin-right: auto;
 }
 #divlogo-img img{
 	height:110px;
-	margin-top:15px;
+	margin-top:0px;
 }
 #divlogo-txt {
     margin-left: 82px;
@@ -270,14 +271,14 @@ h4 {
     line-height: 1.2em;
 }
 #siteTitle h1{
-	font-family: "Courier New", sans-serif;
+	font-family: "Arial", sans-serif;
     font-size: 40px;
     color: #0c83c5;
-    padding-top: 25px;
+    margin-top: -25px;
+	margin-bottom: 0px;
     font-weight: bold;
     text-transform: uppercase;
-    text-shadow: 0 1px 1px #777;
-    margin-bottom: -18px;
+    text-shadow: 4px 4px 4px #000;
     -webkit-text-stroke: 1px #fff;
 } /* mengubah font judul web ( desa ) */
 #siteTitle h1_1{
@@ -307,7 +308,7 @@ font-family: "Gautami", sans-serif;
     color: #fff;
     font-weight: bold;
     text-shadow: 1px 1px 2px #000;
-    margin-top: 28px;
+    margin-top: 8px;
     text-transform: uppercase;
     margin-bottom: 8px;
 } /* mengubah font judul web ( alamat ) */

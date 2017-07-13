@@ -14,5 +14,55 @@ body{
 
 #topsection{
   background: url(images/bg_header.jpg);
+  height: 301px;
 }
-
+#headercontent {
+    width: 100%;
+	margin-left: 0px;
+}
+#menu_vert {
+    max-width: 99.8%;
+}
+#mainmenu {
+	margin: 0px 0 10px 0px;
+    max-width: 100%;
+	height: 34px;
+}
+#header {
+    width: 100%;
+}
+#headleft {
+    margin-left: 0;
+	margin-top: -80px;
+}
+.box {
+    position: inherit;
+}
+#contentwrapper {
+    width: 100%;
+}
+#divlogo-txt {
+    margin-left: 0;
+    padding-top: 120px;
+}
+#headleft {
+	width: 100%;
+}
+#divlogo-img {
+    margin-left: -56%;
+}
+#siteTitle {
+    padding: 0;
+	text-align: center;
+}
+#siteTitle h1_1{
+    font-family: "Arial", sans-serif;
+    font-size: 20px;
+}
+#scroller {
+    margin-left: 0px;
+    width: 100%;
+}
+.artikel .kecil {
+    margin-top: 5px;
+}
