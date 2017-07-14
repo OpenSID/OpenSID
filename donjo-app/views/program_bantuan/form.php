@@ -87,7 +87,7 @@
             </div>
 
             <div id="form-melengkapi-data-peserta">
-              <form id="validasi" action="<?php echo $form_action?>/<?php echo $detail['id']?>" method="POST">
+              <form id="validasi" action="<?php echo $form_action?>/<?php echo $detail['id']?>" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="nik" value="<?php echo $individu['nik']?>" class="inputbox required" >
                 <table class="form">
                   <?php if($individu){?>
@@ -98,6 +98,12 @@
                   <tr>
                     <th width="30%">Nomor Kartu Peserta</th>
                     <td width="70%"><input name="no_id_kartu" type="text" class="inputbox required" size="12"/></td>
+                  </tr>
+                  <tr>
+                    <th>Gambar Kartu Peserta</th>
+                    <td>
+                      <input type="file" name="satuan" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengunggah gambar)</span>
+                    </td>
                   </tr>
                   <tr>
                     <th colspan="2">Identitas Pada Kartu Peserta</th>
