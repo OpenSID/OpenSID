@@ -32,14 +32,15 @@ body{
 	color: rgba(51, 51, 51, 0.96);
 }
 #headercontent {
-    margin-left: -6px;
+    width: 100%;
+	margin-left: 0px;
 }
 #maincontainer{
   background: #fff;
 }
 
 #topsection{
-  height: 177px;
+  height: 301px;
   background: url(images/bg_header.jpg);
   margin: 6px 0px 6px 0px;
 }
@@ -52,25 +53,26 @@ body{
 }
 
 #header{
-	width: 100.7%;
+	width: 100%;
 }
 #scroller {
     margin-top: 10px;
-    margin-left: -6px;
+    margin-left: 0px;
     width: 990px;
     background: #17b514;
 	border-right: 0px solid;
 }
 #headleft{
 	float: left;
-    width: 700px;
-    margin-left: -101%;
-    margin-top: 33px;
+    width: 100%;
+	margin-left: 0;
+	margin-top: -80px;
 }
 
 #menu_vert{
 	border-top: 0px solid #777;
 	margin-top: 0px;
+	max-width: 99.8%;
     margin-right: 0px;
 	border-radius: 0px;
 	height: 32px;
@@ -110,10 +112,11 @@ body{
     margin-left: 0;
 }
 #mainmenu {
-    margin: -1px 0 5px -6px;
+    margin: 0px 0 0px 0px;
+    max-width: 100%;
 	border-radius: 0px;
     width: 101.1%;
-    height: 33px;
+    height: 34px;
     border: 1px #ddd solid;
     background: rgba(255,255,255,1);
 	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
@@ -126,6 +129,7 @@ body{
 }
 /* * Box * */
 .box {
+	position: inherit;
     border-radius: 0px;
     border-top: 0px solid #d2d6de;
     margin-bottom: 10px;
@@ -270,6 +274,8 @@ h4 {
 }
 #siteTitle {
     line-height: 1.2em;
+	padding: 0;
+	text-align: center;
 }
 #siteTitle h1{
 	font-family: "Arial", sans-serif;
