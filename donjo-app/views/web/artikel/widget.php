@@ -71,6 +71,9 @@ source: keyword
             <?php if($data['jenis_widget']!=1):?>
               <a href="<?php echo site_url("web_widget/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
             <?php  endif?>
+            <?php if($data['form_admin']): ?>
+              <a href="<?php echo site_url("$data[form_admin]")?>" class="uibutton tipsy south fa-tipis" title="Form Admin"><span class="fa fa-sliders"></span> Admin</a>
+            <?php endif; ?>
             <?php if($_SESSION['grup']<4){?>
               <?php if($data['jenis_widget']!=1):?>
                 <a href="<?php echo site_url("web_widget/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>

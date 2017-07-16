@@ -6,6 +6,13 @@ function AmbilFoto($foto, $ukuran="kecil_"){
   return $file_foto;
 }
 
+function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar){
+  $dir_upload = LOKASI_GAMBAR_WIDGET;
+  if($old_gambar) unlink($dir_upload . $old_gambar);
+  $file_upload = $dir_upload . $nama_file;
+  move_uploaded_file($lokasi_file, $file_upload);
+}
+
 function UploadFoto($fupload_name,$old_foto,$tipe_file=""){
   $dimensi = array("width"=>100, "height"=>100);
   if($old_foto!="") $old_foto = "kecil_".$old_foto;
@@ -516,16 +523,15 @@ define ('MIME_TYPE_ARSIP', serialize (array(
   'application/rar','application/x-rar','application/x-rar-compressed','application/octet-stream',
   'application/zip','application/x-zip','application/x-zip-compressed')));
 
-function UploadDocument($fupload_name){
-  $vdir_upload = LOKASI_DOKUMEN;
+function AmbilDokumen($dokumen){
+  $file_dokumen = base_url() . LOKASI_DOKUMEN . $dokumen;
+  return $file_dokumen;
+}
 
-  $vfile_upload = $vdir_upload . $fupload_name;
-
+function UploadDocument($fupload_name, $old_dokumen=""){
+  $vfile_upload = LOKASI_DOKUMEN . $fupload_name;
   move_uploaded_file($_FILES["satuan"]["tmp_name"], $vfile_upload);
-
-
-  //unlink($vfile_upload);
-  return true;
+  unlink(LOKASI_DOKUMEN . $old_dokumen);
 }
 
 function UploadDocument2($fupload_name){

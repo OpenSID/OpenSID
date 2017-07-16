@@ -464,6 +464,7 @@ class Penduduk extends CI_Controller{
 		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
+		$data['status_kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['form_action'] = site_url("penduduk/adv_search_proses");
 
 		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);

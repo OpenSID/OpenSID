@@ -3,6 +3,7 @@ if(count($slide_galeri)>0 OR count($slide_artikel)>0){
 	$this->load->view($folder_themes."/layouts/slider.php");
 }
 if($headline){
+	$abstrak_headline = potong_teks($headline['isi'], 700);
 	echo "
 	<div id=\"headline\" class=\"box box-danger\">
 		<div class=\"box-header with-border\">
@@ -20,7 +21,9 @@ if($headline){
 				<img style=\"margin-right: 10px; margin-bottom: 5px; float: left;\" src=\"". base_url() ."assets/images/404-image-not-found.jpg\" width=\"300\" height=\"180\"/>";
 			}
 		}
-		echo $headline['isi'];
+		echo
+			$abstrak_headline." <a href=\"". site_url("first/artikel/".$headline["id"]."") ."\">..selengkapnya</a>";
+
 
 		echo "
 		</div>
@@ -51,12 +54,7 @@ if($artikel){
 	<div>
 		<ul class=\"artikel-list artikel-list-in-box\">";
 			foreach($artikel as $data){
-				$teks = fixTag($data['isi']);
-				if(strlen($teks)>310){
-					$abstrak = substr($teks,0,strpos($teks," ",300));
-				}else{
-					$abstrak = $teks;
-				}
+				$abstrak = potong_teks($data['isi'], 300);
 				echo "
 				<li class=\"artikel\">
 					<h3 class=\"judul\"><a href=\"". site_url("first/artikel/$data[id]") ."\">". $data["judul"] ."</a></h3>

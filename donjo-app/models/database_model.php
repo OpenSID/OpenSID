@@ -73,6 +73,27 @@
     $this->migrasi_116_ke_117();
     $this->migrasi_117_ke_20();
     $this->migrasi_20_ke_21();
+    $this->migrasi_21_ke_22();
+  }
+
+  function migrasi_21_ke_22(){
+    // Tambah lampiran untuk Surat Keterangan Kelahiran
+    $this->db->where('url_surat','surat_ket_kelahiran')->update('tweb_surat_format',array('lampiran'=>'f-kelahiran.php'));
+    // Tambah setting sumber gambar slider
+    $pilihan_sumber = $this->db->where('key','sumber_gambar_slider')->get('setting_aplikasi')->row()->id;
+    if(!$pilihan_sumber){
+      $this->db->insert('setting_aplikasi',array('key'=>'sumber_gambar_slider','value'=>1,'keterangan'=>'Sumber gambar slider besar'));
+    }
+    // Tambah gambar kartu peserta program bantuan
+    if (!$this->db->field_exists('kartu_peserta', 'program_peserta')) {
+      $fields = array(
+        'kartu_peserta' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100
+        )
+      );
+      $this->dbforge->add_column('program_peserta', $fields);
+    }
   }
 
   function migrasi_20_ke_21(){
@@ -100,6 +121,40 @@
       foreach ($kolom_untuk_dihapus as $kolom){
         $this->dbforge->drop_column('artikel', $kolom);
       }
+    }
+    // Tambah tautan ke form administrasi widget
+    if (!$this->db->field_exists('form_admin', 'widget')) {
+      $fields = array(
+        'form_admin' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100
+        )
+      );
+      $this->dbforge->add_column('widget', $fields);
+      $this->db->where('isi','layanan_mandiri.php')->update('widget',array('form_admin'=>'mandiri'));
+      $this->db->where('isi','aparatur_desa.php')->update('widget',array('form_admin'=>'pengurus'));
+      $this->db->where('isi','agenda.php')->update('widget',array('form_admin'=>'web/index/1000'));
+      $this->db->where('isi','galeri.php')->update('widget',array('form_admin'=>'gallery'));
+      $this->db->where('isi','komentar.php')->update('widget',array('form_admin'=>'komentar'));
+      $this->db->where('isi','media_sosial.php')->update('widget',array('form_admin'=>'sosmed'));
+      $this->db->where('isi','peta_lokasi_kantor.php')->update('widget',array('form_admin'=>'hom_desa'));
+    }
+    // Tambah kolom setting widget
+    if (!$this->db->field_exists('setting', 'widget')) {
+      $fields = array(
+        'setting' => array(
+          'type' => 'text'
+        )
+      );
+      $this->dbforge->add_column('widget', $fields);
+    }
+    // Ubah nama widget menjadi sinergi_program
+    $this->db->select('id')->where('isi','sinergitas_program.php')->update('widget', array('isi'=>'sinergi_program.php', 'judul'=>'Sinergi Program','form_admin'=>'web_widget/admin/sinergi_program'));
+    // Tambah widget sinergi_program
+    $widget = $this->db->select('id')->where('isi','sinergi_program.php')->get('widget')->row();
+    if (!$widget->id) {
+      $widget_baru = array('judul'=>'Sinergi Program','isi'=>'sinergi_program.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1,'form_admin'=>'web_widget/admin/sinergi_program');
+      $this->db->insert('widget',$widget_baru);
     }
   }
 

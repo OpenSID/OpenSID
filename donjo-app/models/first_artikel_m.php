@@ -80,22 +80,7 @@ class First_Artikel_M extends CI_Model{
 		}
 
 		$query = $this->db->query($sql);
-		if($query->num_rows()>0){
-			$data  = $query->result_array();
-
-			$i=0;
-			while($i<count($data)){
-				$id = $data[$i]['id'];
-				$teks = strip_tags($data[$i]['isi']);
-				$pendek = (strlen($teks)>120)? substr($teks,0,120):$teks;
-				$data[$i]['isi_short'] = $pendek;
-				$panjang = (strlen($teks)>300)? substr($teks,0,300):$teks;
-				$data[$i]['isi'] = "<label>".$panjang."...</label>";
-				$i++;
-			}
-		}else{
-			$data = false;
-		}
+		$data  = $query->result_array();
 		return $data;
 	}
 
@@ -182,6 +167,33 @@ class First_Artikel_M extends CI_Model{
 			$data  = false;
 		}
 		return $data;
+	}
+
+	// Ambil gambar slider besar tergantung dari settingnya.
+	function slider_gambar(){
+		$slider_gambar = array();
+		switch ($this->setting->sumber_gambar_slider) {
+			case '1':
+				# 10 gambar utama semua artikel terbaru
+				$slider_gambar['gambar'] = $this->db->select('id,gambar')->where('enabled',1)->where('gambar !=','')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
+				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
+				break;
+			case '2':
+				# 10 gambar utama artikel terbaru yang masuk ke slider
+				$slider_gambar['gambar'] = $this->slide_show(true);
+				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
+				break;
+			case '3':
+				# 10 gambar dari galeri yang masuk ke slider besar
+				$this->load->model('web_gallery_model');
+				$slider_gambar['gambar'] = $this->web_gallery_model->list_slide_galeri();
+				$slider_gambar['lokasi'] = LOKASI_GALERI;
+				break;
+			default:
+				# code...
+				break;
+		}
+		return $slider_gambar;
 	}
 
 	function agenda_show(){

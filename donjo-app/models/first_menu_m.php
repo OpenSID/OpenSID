@@ -6,6 +6,11 @@ class First_Menu_M extends CI_Model{
 		parent::__construct();
 	}
 
+	function list_submenu($menu_id){
+		$data = $this->db->select('*')->where(array('parrent'=>$menu_id,'enabled'=>1,'tipe'=>3))->order_by('urut')->get('menu')->result_array();
+		return $data;
+	}
+
 	function list_menu_atas(){
 
 		$sql   = "SELECT m.* FROM menu m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 1 order by urut asc";
@@ -25,10 +30,7 @@ class First_Menu_M extends CI_Model{
 			//else
 				//$data[$i]['menu'] = "<li><a href='".$data[$i]['link']."'>".$data[$i]['nama']."</a>";
 
-			$sql2   = "SELECT s.* FROM menu s WHERE s.parrent = ? AND s.enabled = 1 AND s.tipe = 3 ORDER BY urut";
-			$query = $this->db->query($sql2,$data[$i]['id']);
-			$data2=$query->result_array();
-
+			$data2 = $this->list_submenu($data[$i]['id']);
 			if($data2){
 				$data[$i]['menu'] = $data[$i]['menu']."<ul>";
 				$j=0;

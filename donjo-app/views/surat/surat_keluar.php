@@ -26,7 +26,7 @@
 					<thead>
 						<tr>
 							<th>No</th>
-							<th width="135px">Aksi</th>
+							<th width="150px">Aksi</th>
 							<?php  if($o==2): ?>
 							<th align="left">Nomor Surat</th>
 							<?php  elseif($o==1): ?>

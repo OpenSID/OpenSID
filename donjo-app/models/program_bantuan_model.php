@@ -555,16 +555,38 @@ class Program_bantuan_model extends CI_Model{
 				'kartu_tanggal_lahir' => tgl_indo_in($post['kartu_tanggal_lahir']),
 				'kartu_alamat' => $post['kartu_alamat']
 			);
+			$file_gambar = $this->_upload_gambar();
+			if($file_gambar) $data['kartu_peserta'] = $file_gambar;
 			return $this->db->insert('program_peserta',$data);
 		}
 	}
 
 	// $id = program_peserta.id
 	public function edit_peserta($post,$id){
+		$data = $post;
+		if($data['gambar_hapus']){
+		  unlink(LOKASI_DOKUMEN . $data['gambar_hapus']);
+			$data['kartu_peserta'] = '';
+		}
+		unset($data['gambar_hapus']);
+		$file_gambar = $this->_upload_gambar($data['old_gambar']);
+		if($file_gambar) $data['kartu_peserta'] = $file_gambar;
+		unset($data['old_gambar']);
 		$this->db->where('id',$id);
-		$post['kartu_tanggal_lahir'] = tgl_indo_in($post['kartu_tanggal_lahir']);
-		$outp = $this->db->update('program_peserta', $post);
+		$data['kartu_tanggal_lahir'] = tgl_indo_in($data['kartu_tanggal_lahir']);
+		$outp = $this->db->update('program_peserta', $data);
 	}
+
+	function _upload_gambar($old_document=''){
+		$lokasi_file = $_FILES['satuan']['tmp_name'];
+		if (!empty($lokasi_file)){
+			$nama_file = $_FILES['satuan']['name'];
+			$nama_file   = time().'-'.urlencode($nama_file); 	 // normalkan nama file
+			UploadDocument($nama_file,$old_document);
+			return $nama_file;
+		}
+	}
+
 
 	public function hapus_peserta_program($peserta_id, $program_id) {
 		$this->db->where(array('peserta' => $peserta_id, 'program_id' => $program_id));

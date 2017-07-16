@@ -101,6 +101,23 @@ class web_widget extends CI_Controller{
 		redirect("web_widget");
 	}
 
+	function admin($widget){
+		$header = $this->header_model->get_data();
+		$nav['act'] = 7;
+		$data['form_action'] = site_url("web_widget/update_setting/".$widget);
+		$data['setting'] = $this->web_widget_model->get_setting($widget);
+		$this->load->view('header', $header);
+		$this->load->view('web/nav',$nav);
+		$this->load->view('widgets/admin_'.$widget, $data);
+		$this->load->view('footer');
+	}
+
+	function update_setting($widget){
+		$setting = $this->input->post('setting');
+	  $this->web_widget_model->update_setting($widget,$setting);
+		redirect("web_widget/admin/$widget");
+	}
+
 	function insert(){
 		$this->web_widget_model->insert();
 		redirect("web_widget");
