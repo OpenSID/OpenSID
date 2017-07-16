@@ -16,8 +16,11 @@
 
 <tr><td>Status Perkawinan</td><td>
     <select name="status">
-      <option value=""> -- </option><option value="1">BELUM KAWIN</option><option value="2">KAWIN</option><option value="3">CERAI HIDUP</option><option value="4">CERAI MATI</option><option value="5">TIDAK KAWIN</option>
-	</select> </td>
+      <option value=""> -- </option>
+      <?php foreach($status_kawin AS $data){?>
+        <option value="<?php echo $data['id']?>" <?php  selected($status,$data['id']); ?> ><?php echo $data['nama']?></option>
+      <?php }?>
+    </select> </td>
 </tr>
 <tr><td>Agama</td><td>
     <select name="agama">
