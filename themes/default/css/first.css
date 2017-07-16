@@ -54,7 +54,9 @@ body{
   border:0px solid #FFFFFF;
   background: url(images/tb2.jpg) repeat center top;
 }
-
+#divlogo-txt {
+    margin-left: 85px;
+}
 #divlogo-img{
   float: left;
   width: 100px;

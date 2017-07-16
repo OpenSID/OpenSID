@@ -1606,6 +1606,12 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
+.container-fluid-inverse {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: -5px;
+  margin-left: -10px;
+}
 .row {
   margin-right: -15px;
   margin-left: -15px;
