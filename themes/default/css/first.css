@@ -36,9 +36,12 @@ body{
   width: 101.2%;
 }
 #scroller{
-  margin-top: 3px;
-  margin-left: -5px;
-  width: 101%;
+	margin-top: 26px;
+    margin-left: -6px;
+    width: 101.4%;
+}
+#menu_vert2 {
+    margin-top: 23px;
 }
 #menu_vert2 .cycle-slideshow img { height: 88px; }
 #footer{
@@ -91,4 +94,3 @@ body{
     display: block;
     width: 100%;
     margin-top: 5px;
-}
