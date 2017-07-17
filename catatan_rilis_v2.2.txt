@@ -11,6 +11,7 @@ Lengkapnya, isi rilis v2.2:
 5. #413: Tambah add-on datetimepicker, dan tambahkan untuk memilih waktu pada form Surat Izin Keramaian.
 6. #459: Kembangkan Surat Keterangan Kelahiran dengan lampiran Permohonan Akta Kelahiran sesuai dengan format Disdukcapil.
 7. #494: Gunakan sebutan_desa di widget kantor desa dan aparatur desa, supaya bisa disesuaikan oleh desa dan kelurahan sesuai dengan setting aplikasi.
+8. #509: Sekarang setelah nama dusun diubah di Wilayah Administrasi, perubahan nama itu akan tampil benar di modul Penduduk dan Keluarga [bug-fix]
 
 Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
 
