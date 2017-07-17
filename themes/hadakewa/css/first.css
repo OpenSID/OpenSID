@@ -40,7 +40,7 @@ body{
 }
 
 #topsection{
-  height: 279px;
+  height: 288px;
   background: url(images/bg_header.jpg);
   margin: 6px 0px 6px 0px;
 }
@@ -297,7 +297,7 @@ h4 {
 	font-family: "Arial", sans-serif;
     font-size: 200%;
     color: #0c83c5;
-    margin-top: -25px;
+    margin-top: -10px;
 	margin-bottom: -10px;
     font-weight: bold;
     text-transform: uppercase;
