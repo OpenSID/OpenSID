@@ -88,10 +88,6 @@
 					<?php if(count($teks_berjalan)>0){
 						$this->load->view($folder_themes.'/layouts/teks_berjalan.php');
 					} ?>
-
-					<div id="mainmenu">
-						<?php $this->load->view($folder_themes.'/partials/menu.left.php');?>
-					</div>
 				<div class="innertube">	
 					
 
