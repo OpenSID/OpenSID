@@ -104,9 +104,12 @@
 		$this->db->where('dusun',$temp['dusun']);
 		$this->db->where('rw','0');
 		$this->db->where('rt','0');
-		$outp = $this->db->update('tweb_wil_clusterdesa',$data);
+		$outp1 = $this->db->update('tweb_wil_clusterdesa',$data);
 
-		if($outp) $_SESSION['success']=1;
+		// Ubah nama dusun di semua baris rw/rt untuk dusun ini
+		$outp2 = $this->db->where('dusun',$temp['dusun'])->update('tweb_wil_clusterdesa',array('dusun'=>$data['dusun']));
+
+		if($outp1 AND $outp2) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
 
