@@ -111,18 +111,18 @@ source: keyword
             <th align="center" align="center">RT</th>
 			<th align="center" align="center">Pendidikan dalam KK</th>
 
-			<th width="45" align="center">
-			<?php  if($o==8): ?>
-			<a href="<?php echo site_url("dpt/index/$p/7")?>">Umur <span class="fa fa-sort-asc fa-sm">
-			<?php  elseif($o==7): ?>
-			<a href="<?php echo site_url("dpt/index/$p/8")?>">Umur <span class="fa fa-sort-desc fa-sm">
-			<?php  else: ?><a href="<?php echo site_url("dpt/index/$p/7")?>">Umur <span class="fa fa-sort fa-sm">
-			<?php  endif; ?>
-			&nbsp;</span></a></th>
+			<th align="center">
+				<?php  if($o==8): ?>
+				<a href="<?php echo site_url("dpt/index/$p/7")?>">Umur Pada <?php echo $_SESSION['tanggal_pemilihan']?><span class="fa fa-sort-asc fa-sm">
+				<?php  elseif($o==7): ?>
+				<a href="<?php echo site_url("dpt/index/$p/8")?>">Umur Pada <?php echo $_SESSION['tanggal_pemilihan']?><span class="fa fa-sort-desc fa-sm">
+				<?php  else: ?><a href="<?php echo site_url("dpt/index/$p/7")?>">Umur Pada <?php echo $_SESSION['tanggal_pemilihan']?><span class="fa fa-sort fa-sm">
+				<?php  endif; ?>
+				&nbsp;</span></a>
+			</th>
 
 			<th align="center">Pekerjaan</th>
 			<th width="75" align="center">Kawin</th>
-			<th align="center">Status</th>
 
 		</tr>
 </thead>
@@ -138,11 +138,9 @@ source: keyword
 		<td align="center"><?php echo $data['rw']?></td>
 		<td align="center"><?php echo $data['rt']?></td>
 		<td><?php echo $data['pendidikan']?></td>
-		<td align="center"><?php echo $data['umur']?></td>
+		<td align="center"><?php echo $data['umur_pada_pemilihan']?></td>
 		<td><?php echo $data['pekerjaan']?></td>
 		<td><?php echo $data['kawin']?></td>
-
-	  <td><?php if($data['status']==1){echo "Tetap";}elseif($data['status']==2){echo "Tidak Aktif";}else{echo "Pendatang";}?></td>
   </tr>
 <?php  endforeach; ?>
 </tbody>

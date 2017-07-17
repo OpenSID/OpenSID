@@ -42,7 +42,7 @@
 				<th>Jenis Kelamin</th>
 				<th>Tempat Lahir</th>
 				<th>Tanggal Lahir</th>
-				<th>Umur</th>
+				<th>Umur Pada <?php echo $_SESSION['tanggal_pemilihan']?></th>
 				<th>Agama</th>
 				<th>Pendidikan (dlm KK)</th>
 				<th>Pekerjaan</th>
@@ -50,7 +50,6 @@
 				<th>Hub. Keluarga</th>
 				<th>Nama Ayah</th>
 				<th>Nama Ibu</th>
-				<th>Status</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -67,7 +66,7 @@
 				<td><?php echo $data['sex']?></td>
 				<td><?php echo $data['tempatlahir']?></td>
 				<td><?php echo tgl_indo($data['tanggallahir'])?></td>
-				<td align="right"><?php echo $data['umur']?></td>
+				<td align="right"><?php echo $data['umur_pada_pemilihan']?></td>
 				<td><?php echo $data['agama']?></td>
 				<td><?php echo $data['pendidikan']?></td>
 				<td><?php echo $data['pekerjaan']?></td>
@@ -75,7 +74,6 @@
 				<td><?php echo $data['hubungan']?></td>
 				<td><?php echo $data['nama_ayah']?></td>
 				<td><?php echo $data['nama_ibu']?></td>
-				<td><?php if($data['status']==1){echo "Tetap";}else{echo "Pendatang";}?></td>
 			</tr>
 			<?php  endforeach; ?>
 		</tbody>

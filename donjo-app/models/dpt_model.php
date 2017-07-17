@@ -144,7 +144,7 @@
 		3. Warganegara = WNI
 		4. Umur >= 17 tahun pada tanggal pemilihan ATAU sudah/pernah kawain (status kawin = KAWIN, CERAI HIDUP atau CERAI MATI)
 	*/
-	function syarat_dpt_sql(){
+	function tanggal_pemilihan(){
 		if($this->input->post('tanggal_pemilihan')){
 			$tanggal_pemilihan = $this->input->post('tanggal_pemilihan');
 			$_SESSION['tanggal_pemilihan'] = $tanggal_pemilihan;
@@ -155,6 +155,10 @@
 			$_SESSION['tanggal_pemilihan'] = date("d-m-Y");
 			$tanggal_pemilihan = date("d-m-Y");
 		}
+		return $tanggal_pemilihan;
+	}
+	function syarat_dpt_sql(){
+		$tanggal_pemilihan = $this->tanggal_pemilihan();
 		$sql = " AND u.status_dasar = 1 AND u.status = 1 AND u.warganegara_id = 1 ";
 		$sql .= " AND (((SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= 17) OR u.status_kawin IN (2,3,4))";
 		return $sql;
@@ -255,8 +259,9 @@
 	}
 
 	function list_data($o=0,$offset=0,$limit=500){
+		$tanggal_pemilihan = $this->tanggal_pemilihan();
 		$select_sql = "SELECT DISTINCT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan
+			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur_pada_pemilihan, x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan
 			";
 		//Main Query
 		$list_data_sql = $this->list_data_sql($log);
