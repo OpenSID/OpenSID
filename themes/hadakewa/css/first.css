@@ -436,3 +436,8 @@ textarea {
 	margin-left: 20px;
 	margin-bottom: 0px;
 }
+#small-agenda {
+    font-weight: bold;
+    color: #ca0b0b;
+    font-size: 12px;
+}
