@@ -75,7 +75,7 @@ class MY_Controller extends CI_Controller {
 		$template_file = substr( $template_file, -4 ) == '.php' ? $template_file : ( $template_file . ".php" );
 
     $template_file_path = FCPATH . 'themes/' . $this->theme . "/" . $template_file;
-    if (is_file($theme_file_path))
+    if (is_file($template_file_path))
 			$this->template = "../../themes/{$this->theme}/{$template_file}";
     else
     	$this->template = '../../themes/default/' . $template_file;
