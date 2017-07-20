@@ -108,6 +108,19 @@ class First extends Web_Controller{
 		$this->load->view("sid/kependudukan/cetak_kk", $data);
 	}
 
+	function kartu_peserta($id=0){
+		if($_SESSION['mandiri']!=1){
+			redirect('first');
+			return;
+		}
+		$this->load->model('program_bantuan_model');
+		$data = $this->program_bantuan_model->get_program_peserta_by_id($id);
+		// Hanya boleh menampilkan data pengguna yang login
+		// ** Bagi program sasaran pendududk **
+		if($data['peserta'] == $_SESSION['nik'])
+			$this->load->view('program_bantuan/kartu_peserta',$data);
+	}
+
 	function mandiri($p=1,$m=0){
 		if($_SESSION['mandiri']!=1){
 			redirect('first');

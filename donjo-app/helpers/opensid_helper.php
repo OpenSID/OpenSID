@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.1');
+define("VERSION", '2.2');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -442,4 +442,8 @@ define("KODE_PEKERJAAN", serialize(array(
     error_log($now->format("m-d-Y H:i:s.u")." : ".$msg."\n", 3, "opensid.log");
   }
 
+  // Dari https://stackoverflow.com/questions/4117555/simplest-way-to-detect-a-mobile-device
+  function isMobile() {
+    return preg_match("/\b(?:a(?:ndroid|vantgo)|b(?:lackberry|olt|o?ost)|cricket|do‌​como|hiptop|i(?:emob‌​ile|p[ao]d)|kitkat|m‌​(?:ini|obi)|palm|(?:‌​i|smart|windows )phone|symbian|up\.(?:browser|link)|tablet(?: browser| pc)|(?:hp-|rim |sony )tablet|w(?:ebos|indows ce|os))/i", $_SERVER["HTTP_USER_AGENT"]);
+  }
 ?>

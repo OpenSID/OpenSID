@@ -1723,19 +1723,20 @@ CREATE TABLE `program_peserta` (
   `kartu_tempat_lahir` varchar(100) DEFAULT NULL,
   `kartu_tanggal_lahir` date DEFAULT NULL,
   `kartu_alamat` varchar(200) DEFAULT NULL,
+  `kartu_peserta` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('2', '5201140104126994', '1', '2', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('3', '5201140105136997', '1', '2', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('4', '5201140104126995', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('5', '5201140105136997', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('6', '5201140104126995', '3', '2', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('7', '5201140105136997', '3', '2', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('8', '5201140104166999', '4', '2', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('9', '5201140105136997', '4', '2', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('10', '5201142005716996', '5', '2', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`) VALUES ('11', '5201140706966997', '5', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('2', '5201140104126994', '1', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('3', '5201140105136997', '1', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('4', '5201140104126995', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('5', '5201140105136997', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('6', '5201140104126995', '3', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('7', '5201140105136997', '3', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('8', '5201140104166999', '4', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('9', '5201140105136997', '4', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('10', '5201142005716996', '5', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`) VALUES ('11', '5201140706966997', '5', '2', NULL, NULL, NULL, NULL, NULL, NULL, '');
 
 
 #
@@ -1803,7 +1804,7 @@ CREATE TABLE `setting_aplikasi` (
   `jenis` varchar(30) DEFAULT NULL,
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('1', 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('2', 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -1822,6 +1823,7 @@ INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kate
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('15', 'nomor_terakhir_semua_surat', '0', 'Gunakan nomor surat terakhir untuk seluruh surat tidak per jenis surat', 'boolean', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('16', 'google_key', '', 'Google API Key untuk Google Maps', '', 'web');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('17', 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
+INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('18', 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 
 
 #
@@ -1922,6 +1924,7 @@ INSERT INTO sys_traffic (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-09',
 INSERT INTO sys_traffic (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-10', '', '4');
 INSERT INTO sys_traffic (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-11', '', '2');
 INSERT INTO sys_traffic (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-14', '', '4');
+INSERT INTO sys_traffic (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2017-07-16', '10.0.2.2{}', '1');
 
 
 #
@@ -2687,7 +2690,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
@@ -2704,7 +2707,7 @@ INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampira
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('15', 'Keterangan Usaha', 'surat_ket_usaha', 'S-14', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('16', 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('17', 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16', NULL, '0', '0', '1');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('18', 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17', NULL, '0', '0', '1');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('18', 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17', 'f-kelahiran.php', '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('20', 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('21', 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('22', 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20', NULL, '0', '0', '1');

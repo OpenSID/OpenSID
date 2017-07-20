@@ -3,7 +3,7 @@
 				<div id="contentcolumn">
 					<div class="innertube">
 						<?php
-						$this->load->view($folder_themes.'/partials/artikel.php');
+						$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/artikel.php'));
 						?>
 					</div>
 				</div>
