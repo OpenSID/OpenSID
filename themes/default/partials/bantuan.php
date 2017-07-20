@@ -46,7 +46,9 @@
           <td><?php echo tgl_indo($bantuan['sdate'])?></td>
           <td><?php echo tgl_indo($bantuan['edate'])?></td>
           <td>
-            <button type="button" target="kartu_peserta" title="Kartu Peserta" href="<?php echo site_url('first/kartu_peserta/'.$bantuan['id'])?>" onclick="show_kartu_peserta($(this));" class="uibutton special"><span class="fa fa-print">&nbsp;</span><?php echo $bantuan['no_id_kartu']?></button>
+            <?php if($bantuan['no_id_kartu']) : ?>
+              <button type="button" target="kartu_peserta" title="Kartu Peserta" href="<?php echo site_url('first/kartu_peserta/'.$bantuan['id'])?>" onclick="show_kartu_peserta($(this));" class="uibutton special"><span class="fa fa-print">&nbsp;</span><?php echo $bantuan['no_id_kartu']?></button>
+            <?php endif; ?>
           </td>
         </tr>
       <?php endforeach; ?>

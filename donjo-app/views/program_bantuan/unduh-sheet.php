@@ -35,6 +35,11 @@ header("Expires: 0");
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+	.textx{
+	  mso-number-format:"\@";
+	}
+</style>
 </head>
 <body>
 <!-- Print Body -->
@@ -55,6 +60,7 @@ header("Expires: 0");
 			<tr class="border thick">
 				<th rowspan="2">No</th>
 				<th rowspan="2"><?php echo $peserta[0]["judul_peserta"]?></th>
+				<th rowspan="2">No. Kartu Peserta</th>
 				<th rowspan="2"><?php echo $peserta[0]["judul_peserta_info"]?></th>
 				<th rowspan="2">Alamat</th>
 				<th colspan="5" style="text-align: center;">Identitas di Kartu Peserta</th>
@@ -72,13 +78,14 @@ header("Expires: 0");
 			$i=1;
 			foreach ($peserta[1] as $key=>$item){
 				echo "<tr><td>".$i."</td>
-					<td>'".$item["nik"]."</td>
+					<td class='textx'>".$item["nik"]."</td>
+					<td class='textx'>".$item["no_id_kartu"]."</td>
 					<td>".$item["nama"]."</td>
 					<td>".$item["info"]."</td>
-					<td>".$item["kartu_nik"]."</td>
+					<td class='textx'>".$item["kartu_nik"]."</td>
 					<td>".$item["kartu_nama"]."</td>
 					<td>".$item["kartu_tempat_lahir"]."</td>
-					<td>'".tgl_indo_out($item["kartu_tanggal_lahir"])."</td>
+					<td class='textx'>".tgl_indo_out($item["kartu_tanggal_lahir"])."</td>
 					<td>".$item["kartu_alamat"]."</td>
 				</tr>";
 				$i++;
