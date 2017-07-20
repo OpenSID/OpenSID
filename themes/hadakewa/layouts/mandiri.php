@@ -12,7 +12,7 @@
 									$views_partial_layout = $folder_themes.'/partials/layanan.php';
 									break;
 								case 4 :
-									$views_partial_layout = $folder_themes.'/partials/bantuan.php';
+									$views_partial_layout = Web_Controller::fallback_default($this->theme,'/partials/bantuan.php');
 									break;
 								default:
 									$views_partial_layout = $folder_themes.'/partials/lapor.php';

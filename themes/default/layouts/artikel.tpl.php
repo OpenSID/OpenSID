@@ -2,9 +2,7 @@
 			<div id="contentwrapper">
 				<div id="contentcolumn">
 					<div class="innertube">
-						<?php
-						$this->load->view($folder_themes.'/partials/artikel.php');
-						?>
+						<?php $this->load->view($folder_themes.'/partials/artikel.php');?>
 					</div>
 				</div>
 			</div>

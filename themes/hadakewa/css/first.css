@@ -51,11 +51,11 @@ body{
 #footer-left{
   text-align: left;
     padding: 10px;
-    width: 50%;
+    width: 47%;
 }
 #footer-right{
     padding: 10px;
-    width: 50%;
+    width: 53%;
     float: right;
     margin-top: -50px;
 }
@@ -69,7 +69,7 @@ body{
 #scroller {
     margin-top: 10px;
     margin-left: 0px;
-    width: 990px;
+    width: 100%;
     background: #17b514;
 	border-right: 0px solid;
 }
@@ -116,7 +116,7 @@ body{
 }
 #divlogo-img img{
 	height:110px;
-	margin-top:0px;
+	margin-top:5px;
 	margin-bottom: 5px;
 }
 #divlogo-txt {
@@ -219,8 +219,12 @@ body{
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
   border-top: 1px solid #f4f4f4;
-  padding: 10px;
+  padding: 0px;
   background-color: #ffffff;
+  margin-right: auto;
+    margin-left: auto;
+	margin-top: -10px;
+    text-align: center;
 }
 /* * Menampilkan Artikel mengganti background artikel dll  * */
 .artikel .sampul img {
@@ -248,7 +252,7 @@ body{
 	font-size:11px;
 	color:#aaa;
 	font-style:normal;
-	margin-top: 0px;
+	margin-top: 3px;
 }
 .artikel .sampul{
 	margin: 0.3em 0 1em 0;
@@ -297,7 +301,7 @@ h4 {
 	font-family: "Arial", sans-serif;
     font-size: 200%;
     color: #0c83c5;
-    margin-top: -10px;
+    margin-top: -18px;
 	margin-bottom: -10px;
     font-weight: bold;
     text-transform: uppercase;
@@ -326,10 +330,10 @@ h4 {
     text-transform: uppercase;
 } /* mengubah font judul web ( kecamatan dan kabupaten ) */
 #siteTitle h3{
-font-family: "Gautami", sans-serif;
-    font-size: 13px;
+font-family: "Arial", sans-serif;
+    font-size: 83%;
     color: #fff;
-    font-weight: bold;
+    font-weight: normal;
     text-shadow: 1px 1px 2px #000;
     margin-top: 15px;
     text-transform: uppercase;
@@ -354,8 +358,9 @@ input[type="password" i],
 input[type="tel" i],
 input[type="url" i],
 input[type="text" i] {
-    padding: 3px 3px;
+    padding: 3px 5px;
     margin-bottom: 5px;
+	margin-left: 5px;
     width: 96%;
     height: 30px;
     border-radius: 3px;
@@ -368,7 +373,8 @@ input[type="button" i], input[type="submit" i], input[type="reset" i], input[typ
     color: buttontext;
     background-color: buttonface;
     box-sizing: border-box;
-    padding: 5px 5px 5px;
+    padding: 3px 5px;
+	margin-top: 5px;
     border-width: 2px;
     border-style: outset;
     border-color: buttonface;
@@ -383,6 +389,7 @@ textarea {
     resize: auto;
     cursor: auto;
 	border-radius: 3px;
+	margin-left: 5px;
     white-space: pre-wrap;
     word-wrap: break-word;
     padding: 2px;
@@ -436,8 +443,35 @@ textarea {
 	margin-left: 20px;
 	margin-bottom: 0px;
 }
+ul {
+    list-style: disc;
+    margin-left: 20px;
+}
+#li-komentar {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+}
 #small-agenda {
     font-weight: bold;
     color: #ca0b0b;
-    font-size: 12px;
+    font-size: 11.3px;
+	margin-bottom: -5px;
+}
+#td-bantuan {
+	text-align: center;
+}
+#h3-bantuan {
+	text-align: center;
+	font-weight: bold;
+}
+#form-komentar .nama input {
+    width: 66%;
+}
+#form-komentar .alamat input {
+    width: 66%;
+}
+#form-komentar .pesan textarea {
+    width: 96%;
+    height: 150px;
 }

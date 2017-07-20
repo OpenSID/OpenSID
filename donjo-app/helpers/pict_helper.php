@@ -523,16 +523,15 @@ define ('MIME_TYPE_ARSIP', serialize (array(
   'application/rar','application/x-rar','application/x-rar-compressed','application/octet-stream',
   'application/zip','application/x-zip','application/x-zip-compressed')));
 
-function UploadDocument($fupload_name){
-  $vdir_upload = LOKASI_DOKUMEN;
+function AmbilDokumen($dokumen){
+  $file_dokumen = base_url() . LOKASI_DOKUMEN . $dokumen;
+  return $file_dokumen;
+}
 
-  $vfile_upload = $vdir_upload . $fupload_name;
-
+function UploadDocument($fupload_name, $old_dokumen=""){
+  $vfile_upload = LOKASI_DOKUMEN . $fupload_name;
   move_uploaded_file($_FILES["satuan"]["tmp_name"], $vfile_upload);
-
-
-  //unlink($vfile_upload);
-  return true;
+  unlink(LOKASI_DOKUMEN . $old_dokumen);
 }
 
 function UploadDocument2($fupload_name){

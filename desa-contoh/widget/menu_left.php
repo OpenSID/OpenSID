@@ -1,7 +1,7 @@
 <!-- widget Menu-->
 <div class="box box-default">
 	<div class="box-header">
-    <h3 class="box-title"><i class="fa fa-bars"></i> Side Menu</h3>
+    <h3 class="box-title"><i class="fa fa-bars"></i> Kategori</h3>
 	</div>
 	<div class="box-body">
 		<ul id="ul-menu" class="main">

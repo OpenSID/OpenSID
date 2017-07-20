@@ -113,7 +113,6 @@ class Program_bantuan extends CI_Controller{
 		$this->load->view('program_bantuan/edit_peserta',$data);
 	}
 
-
 	public function create(){
 
 		$this->load->helper('form');

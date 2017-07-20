@@ -84,6 +84,16 @@
     if(!$pilihan_sumber){
       $this->db->insert('setting_aplikasi',array('key'=>'sumber_gambar_slider','value'=>1,'keterangan'=>'Sumber gambar slider besar'));
     }
+    // Tambah gambar kartu peserta program bantuan
+    if (!$this->db->field_exists('kartu_peserta', 'program_peserta')) {
+      $fields = array(
+        'kartu_peserta' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100
+        )
+      );
+      $this->dbforge->add_column('program_peserta', $fields);
+    }
   }
 
   function migrasi_20_ke_21(){
