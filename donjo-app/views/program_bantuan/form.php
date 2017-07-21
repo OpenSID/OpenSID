@@ -111,31 +111,31 @@
                   <tr>
                     <th class="indented">NIK</th>
                     <td>
-                      <input name="kartu_nik" type="text" class="inputbox" size="30"/>
+                      <input name="kartu_nik" type="text" class="inputbox" size="30" value="<?php echo $individu['nik']?>"/>
                     </td>
                   </tr>
                   <tr>
                     <th class="indented">Nama</th>
                     <td>
-                      <input name="kartu_nama" type="text" class="inputbox" size="60"/>
+                      <input name="kartu_nama" type="text" class="inputbox" size="60" value="<?php echo $individu['nama']?>"/>
                     </td>
                   </tr>
                   <tr>
                     <th class="indented"> Tempat Lahir</th>
                     <td>
-                      <input name="kartu_tempat_lahir" type="text" class="inputbox" size="65" />
+                      <input name="kartu_tempat_lahir" type="text" class="inputbox" size="65" value="<?php echo $individu['tempatlahir']?>"/>
                     </td>
                   </tr>
                   <tr>
                     <th class="indented">Tanggal Lahir</th>
                     <td>
-                      <input name="kartu_tanggal_lahir" type="text" class="inputbox datepicker" size="20"/>
+                      <input name="kartu_tanggal_lahir" type="text" class="inputbox datepicker" size="20" value="<?php echo $individu['tanggallahir']?>"/>
                     </td>
                   </tr>
                   <tr>
                     <th class="indented">Alamat</th>
                     <td>
-                      <input name="kartu_alamat" type="text" class="inputbox" size="60"/>
+                      <input name="kartu_alamat" type="text" class="inputbox" size="60" value="<?php echo $individu['alamat_wilayah']; ?>"/>
                     </td>
                   </tr>
                 </table>
