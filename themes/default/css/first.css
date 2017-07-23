@@ -28,20 +28,21 @@ body{
   background: ; /*warna background halaman utama*/
 }
 #topsection{
+  margin-right: 9px;
   margin-left: 6px;
   background: #b50303; /*warna header atas/ background kepala web*/
 }
 #mainmenu{
   margin-left: -6px;
-  width: 101.2%;
+  width: 101.6%;
+}
+nav.navbar.navbar-inverse{
+  margin-right: -2px;
 }
 #scroller{
 	margin-top: 26px;
     margin-left: -6px;
     width: 101.4%;
-}
-#menu_vert2 {
-    margin-top: 23px;
 }
 #menu_vert2 .cycle-slideshow img { height: 88px; }
 #footer{
@@ -51,6 +52,7 @@ body{
 #footer a{color: #88fd78;}
 
 #menu_vert{
+  height: 52px;
   border:0px solid #FFFFFF;
   background: url(images/tb2.jpg) repeat center top;
 }
