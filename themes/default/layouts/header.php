@@ -47,34 +47,7 @@
 			<div id="topsection">
 				<div class="innertube">
 					<div id="header-default">
-					<div id="headleft-default">
-						<div id="divlogo">
-							<div id="divlogo-txt">
-								<div class="intube">
-									<div id="siteTitle">
-										<h1>
-											<span id="header_sebutan_desa">
-												<?php echo ucwords($this->setting->sebutan_desa." ")?>
-											</span>
-											<?php echo ucwords(unpenetration($desa['nama_desa']))?>
-										</h1>
-										<h2><?php echo ucwords($this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']))?><br />
-										<?php echo ucwords($this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']))?></h2>
-										<h3><?php echo unpenetration($desa['alamat_kantor'])?></h3>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div id="divlogo-img">
-							<div class="intube">
-								<a href="<?php echo site_url(); ?>first/">
-								<img src="<?php echo LogoDesa($desa['logo']);?>" alt="<?php echo $desa['nama_desa']?>"/>
-								</a>
-							</div>
-						</div>
-						<br class="clearboth"/>
-					</div>
-						<div id="headercontent-default">
+					<div id="headercontent-default">
 							<div id="menu_vert">
 								<div id="menuwrapper">
 									<?php $this->load->view($folder_themes.'/partials/menu.tpl.php');?>
@@ -84,6 +57,34 @@
 								<?php $this->load->view($folder_themes.'/layouts/carousel.php'); ?>
 							</div>
 						</div>
+						<div id="headleft-default">
+								<div id="divlogo">
+									<div id="divlogo-txt">
+										<div class="intube">
+											<div id="siteTitle">
+												<h1>
+													<span id="header_sebutan_desa">
+														<?php echo ucwords($this->setting->sebutan_desa." ")?>
+													</span>
+													<?php echo ucwords(unpenetration($desa['nama_desa']))?>
+												</h1>
+												<h2><?php echo ucwords($this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']))?><br />
+												<?php echo ucwords($this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']))?></h2>
+												<h3><?php echo unpenetration($desa['alamat_kantor'])?></h3>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="divlogo-img">
+									<div class="intube">
+										<a href="<?php echo site_url(); ?>first/">
+										<img src="<?php echo LogoDesa($desa['logo']);?>" alt="<?php echo $desa['nama_desa']?>"/>
+										</a>
+									</div>
+								</div>
+								<br class="clearboth"/>
+						</div>
+						
 					</div>
 
 					<?php if(count($teks_berjalan)>0){

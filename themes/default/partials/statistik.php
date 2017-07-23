@@ -115,6 +115,7 @@ $(function () {
 			<h3 class=\"box-title\">Tabel Data Demografi Berdasar ". $heading."</h3>
 		</div>
 		<div class=\"box-body\">
+			<div class=\"table-responsive\">
 			<table class=\"table table-striped\">
 				<thead>
 				<tr>
@@ -159,5 +160,6 @@ $(function () {
 			</table>";
 
 		echo "
+		</div>
 		</div>
 	</div>";
