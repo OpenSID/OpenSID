@@ -1,6 +1,20 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap.bar.css">
 <script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/jquery.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/bootstrap.js"></script>
+<!-- https://stackoverflow.com/questions/25692514/bootstrap-how-do-i-make-dropdown-navigation-parent-links-an-active-link -->
+<script>
+	jQuery(function($) {
+		$('.navbar .dropdown').hover(function() {
+			$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+		}, function() {
+			$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+		});
+		$('.navbar .dropdown > a').click(function(){
+			location.href = this.href;
+		});
+	});
+</script>
+
 <link type='text/css' href="<?php echo base_url()?>assets/front/css/default.css" rel='Stylesheet' />
 <link type='text/css' href="<?php echo base_url().'themes/'.$this->theme.'/css/default.css'?>" rel='Stylesheet' />
 <?php if(is_file("desa/css/".$this->theme."/desa-default.css")): ?>
