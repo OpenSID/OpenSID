@@ -23,37 +23,42 @@ header("Expires: 0");
 <!-- Print Body --><div id="body"><div class="header" align="center"><label align="left"><?php echo get_identitas()?></label>
 <h3> DATA KELUARGA </h3>
 </div>
-<br>
-    <table class="border thick">
+    <table border=1 class="border thick">
 	<thead>
 		<tr class="border thick">
-			<th width="2">No</th>
-			<th>Nomor KK</th>
-			<th>Kepala Keluarga</th>
-			<th>Jumlah Anggota</th>
-			<th>Jenis Kelamin</th>
-			<th><?php echo ucwords($this->setting->sebutan_dusun)?></th>
-			<th>RW</th>
-			<th>RT</th>
-			<th>Tanggal Terdaftar</th>
+			<th>No</th>
+			<th width="150" >Nomor KK</th>
+			<th width="200">Kepala Keluarga</th>
+			<th width="200">NIK</th>
+			<th width="100"  >Jumlah Anggota</th>
+			<th   width="100">Jenis Kelamin</th>
+			<th align="center" width="180">Alamat</th>
+			<th   width="100"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
+			<th   width="30">RW</th>
+			<th   width="30">RT</th>
+			<th   width="100">Tanggal Terdaftar</th>
+			<th   width="100">Tanggal Cetak KK</th>			
 		</tr>
 		</thead>
-
+		
 		<tbody>
         <?php  foreach($main as $data): ?>
 		<tr>
-      <td><?php echo $data['no']?></td>
-      <td class="textx"><?php echo $data['no_kk']?></td>
-			<td><?php echo strtoupper($data['kepala_kk'])?></td>
-      <td><?php echo $data['jumlah_anggota']?></td>
-      <td><?php echo $data['sex']?></td>
-      <td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
-		  <td><?php echo strtoupper($data['rw'])?></td>
-      <td><?php echo strtoupper($data['rt'])?></td>
-      <td><?php echo tgl_indo($data['tgl_daftar'])?></td>
+          <td><?php echo $data['no']?></td>
+		  <td class="textx"><?php echo $data['no_kk']?></td>
+          <td><?php echo strtoupper($data['kepala_kk'])?></td>
+		  <td class="textx"><?php echo $data['nik']?></td>		  
+          <td align="center"><?php echo $data['jumlah_anggota']?></td>
+          <td><?php echo $data['sex']?></td>
+		  <td><?php echo strtoupper($data['alamat'])?></td>
+          <td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
+		  <td class="textx"><?php echo $data['rw']?></td>
+		  <td class="textx"><?php echo $data['rt']?></td>				  
+          <td><?php echo tgl_indo($data['tgl_daftar'])?></td>
+		  <td><?php echo tgl_indo($data['tgl_cetak_kk'])?></td>
 		</tr>
 		<?php  endforeach; ?>
-	</tbody>
+		</tbody>
 
 </table>
 </div>

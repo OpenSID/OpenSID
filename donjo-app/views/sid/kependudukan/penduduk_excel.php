@@ -31,21 +31,22 @@ td,th{
 	<thead>
 		<tr class="border thick">
 			<th>No</th>
-			<th>NIK</th>
-			<th>Nama</th>
 			<th>No. KK</th>
+			<th>Nama</th>
+			<th>NIK</th>
+			<th>Alamat</th>
 			<th ><?php echo ucwords($this->setting->sebutan_dusun)?></th>
 			<th >RW</th>
 			<th >RT</th>
-			<th >Pendidikan (dLm KK)</th>
-			<th >Pendidikan (sdg ditemph)</th>
-			<th >Pekerjaan</th>
-			<th >Tanggal Lahir</th>
+			<th >Jenis Kelamin</th>
 			<th >Tempat Lahir</th>
-			<th>Umur</th>
+			<th >Tanggal Lahir</th>
+			<th >Umur</th>
+			<th >Agama</th>
+			<th >Pendidikan (dlm KK)</th>
+			<th >Pekerjaan</th>
 			<th >Kawin</th>
 			<th >Hub. Keluarga</th>
-			<th >Gol. Darah</th>
 			<th >Nama Ayah</th>
 			<th >Nama Ibu</th>
 			<th >Status</th>
@@ -55,22 +56,23 @@ td,th{
 	<tbody>
 		 <?php  foreach($main as $data): ?>
 		 <tr>
-			<td  width="2"><?php echo $data['no']?></td>
-			<td class="textx"><?php echo $data['nik']?></td>
-			<td><?php echo strtoupper($data['nama'])?></td>
+			<td><?php echo $data['no']?></td>
 			<td  class="textx"><?php echo $data['no_kk']?> </td>
+			<td><?php echo strtoupper($data['nama'])?></td>
+			<td class="textx"><?php echo $data['nik']?></td>
+			<td><?php echo strtoupper($data['alamat'])?></td>
 			<td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
-			<td><?php echo $data['rw']?></td>
-			<td><?php echo $data['rt']?></td>
-			<td><?php echo $data['pendidikan']?></td>
-			<td><?php echo $data['pendidikan_sedang']?></td>
-			<td><?php echo $data['pekerjaan']?></td>
-			<td><?php echo $data['tanggallahir']?></td>
+			<td class="textx"><?php echo $data['rw']?></td>
+			<td class="textx"><?php echo $data['rt']?></td>
+			<td><?php echo $data['sex']?></td>
 			<td><?php echo $data['tempatlahir']?></td>
-			<td align="right"><?php echo $data['umur']?></td>
+			<td><?php echo tgl_indo($data['tanggallahir'])?></td>
+			<td align="center"><?php echo $data['umur']?></td>
+			<td><?php echo $data['agama']?></td>
+			<td><?php echo $data['pendidikan']?></td>
+			<td><?php echo $data['pekerjaan']?></td>
 			<td><?php echo $data['kawin']?></td>
 			<td><?php echo $data['hubungan']?></td>
-			<td><?php echo $data['gol_darah']?></td>
 			<td><?php echo $data['nama_ayah']?></td>
 			<td><?php echo $data['nama_ibu']?></td>
 			<td><?php if($data['status']==1){echo "Tetap";}else{echo "Pendatang";}?></td>
