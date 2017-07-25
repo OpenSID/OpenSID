@@ -1,16 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-<title>Data Penduduk</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-<style>
-.textx{
-  mso-number-format:"\@";
-}
-td,th{
-	font-size:6.5pt;
-}
-</style>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Data Penduduk</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+	<?php else: ?>
+		<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+	<?php endif; ?>
+	<link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+	<style>
+		.textx{
+		  mso-number-format:"\@";
+		}
+		td,th{
+			font-size:6.5pt;
+		}
+	</style>
 </head>
 <body>
 <div id="container">
@@ -49,7 +55,7 @@ td,th{
 	<tbody>
 		 <?php  foreach($main as $data): ?>
 		 <tr>
-			<td  width="2"><?php echo $data['no']?></td>
+			<td><?php echo $data['no']?></td>
 			<td  class="textx"><?php echo $data['no_kk']?> </td>
 			<td><?php echo strtoupper($data['nama'])?></td>
 			<td class="textx"><?php echo $data['nik']?></td>
