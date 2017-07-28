@@ -84,6 +84,26 @@
       $menu_kategori = array('judul'=>'Menu Kategori','isi'=>'menu_kategori.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1);
       $this->db->insert('widget',$menu_kategori);
     }
+    // Tambah tabel surat_masuk
+    if (!$this->db->table_exists('surat_masuk') ) {
+      $query = "
+        CREATE TABLE `surat_masuk` (
+          `id` int NOT NULL AUTO_INCREMENT,
+          `nomor_urut` smallint(5),
+          `tanggal_penerimaan` date NOT NULL,
+          `nomor_surat` varchar(20),
+          `kode_surat` varchar(10),
+          `tanggal_surat` date NOT NULL,
+          `pengirim` varchar(100),
+          `isi_singkat` varchar(200),
+          `disposisi_kepada` varchar(50),
+          `isi_disposisi` varchar(200),
+          `berkas_scan` varchar(100),
+          PRIMARY KEY  (`id`)
+        );
+      ";
+      $this->db->query($query);
+    }
   }
 
   function migrasi_21_ke_22(){

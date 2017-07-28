@@ -5,9 +5,8 @@
 	}
 
 	function get_data(){
-		$sql   = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
+		$query = $this->db->select('*')->limit(1)->get('config')->row_array();
+		return $query;
 	}
 
 	function insert(){
