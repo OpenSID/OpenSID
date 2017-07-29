@@ -14,7 +14,7 @@
 		$data = $this->db->distinct()->select('pengirim')->order_by('pengirim')->get('surat_masuk')->result_array();
 		$str = '';
 		foreach($data as $item){
-			$str .= ",'".strtolower($item['pengirim'])."'";
+			$str .= ",'".$item['pengirim']."'";
 		}
 		$str = '[' .substr($str, 1). ']';
 		return $str;
