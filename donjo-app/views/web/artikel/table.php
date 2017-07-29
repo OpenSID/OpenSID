@@ -106,27 +106,27 @@ source: keyword
 <th class="nostretch">Aksi</th>
 
  <?php  if($o==2): ?>
-<th align="center"><a href="<?php echo site_url("web/index/$p/1")?>">Judul <span class="fa fa-sort-asc fa-sm">
+<th align="center"><a href="<?php echo site_url("web/index/$cat/$p/1")?>">Judul <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==1): ?>
-<th align="center"><a href="<?php echo site_url("web/index/$p/2")?>">Judul <span class="fa fa-sort-desc fa-sm">
+<th align="center"><a href="<?php echo site_url("web/index/$cat/$p/2")?>">Judul <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="center"><a href="<?php echo site_url("web/index/$p/1")?>">Judul <span class="fa fa-sort fa-sm">
+<th align="center"><a href="<?php echo site_url("web/index/$cat/$p/1")?>">Judul <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==4): ?>
-<th align="center"><a href="<?php echo site_url("web/index/$p/3")?>">Enabled/Disabled <span class="fa fa-sort-asc fa-sm">
+<th align="center"><a href="<?php echo site_url("web/index/$cat/$p/3")?>">Aktif/Non-aktif <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==3): ?>
-<th align="center"><a href="<?php echo site_url("web/index/$p/4")?>">Enabled/Disabled <span class="fa fa-sort-desc fa-sm">
+<th align="center"><a href="<?php echo site_url("web/index/$cat/$p/4")?>">Aktif/Non-aktif <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="center"><a href="<?php echo site_url("web/index/$p/3")?>">Enabled/Disabled <span class="fa fa-sort fa-sm">
+<th align="center"><a href="<?php echo site_url("web/index/$cat/$p/3")?>">Aktif/Non-aktif <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==6): ?>
-<th align="center" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Diposting Pada <span class="fa fa-sort-asc fa-sm">
+<th align="center" width='250'><a href="<?php echo site_url("web/index/$cat/$p/5")?>">Diposting Pada <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==5): ?>
-<th align="center" width='250'><a href="<?php echo site_url("web/index/$p/6")?>">Diposting Pada <span class="fa fa-sort-desc fa-sm">
+<th align="center" width='250'><a href="<?php echo site_url("web/index/$cat/$p/6")?>">Diposting Pada <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="center" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Diposting Pada <span class="fa fa-sort fa-sm">
+<th align="center" width='250'><a href="<?php echo site_url("web/index/$cat/$p/5")?>">Diposting Pada <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 </tr>
@@ -141,7 +141,7 @@ source: keyword
 <td class="nostretch">
 <div class="uibutton-group" style="display: flex;">
 	<a href="<?php echo site_url("web/form/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah data"><span class="fa fa-edit"></span> Ubah</a>
-	<a href="<?php echo site_url("web/ubah_kategori_form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Kategori" target="ajax-modal" rel="window" header="Ubah kategori" modalWidth="auto" modalHeight="auto"><span class="fa fa-folder-open"></span></a>
+	<a href="<?php echo site_url("web/ubah_kategori_form/$data[id]")?>" class="uibutton tipsy south" title="Ubah kategori" target="ajax-modal" rel="window" header="Ubah kategori" modalWidth="auto" modalHeight="auto"><span class="fa fa-folder-open"></span></a>
 	<?php  if($data['boleh_komentar']):?>
 		<a href="<?php echo site_url("web/komentar_lock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Tutup komentar artikel"><span class="fa fa-comment-o"></span></a>
 	<?php else : ?>
@@ -149,7 +149,7 @@ source: keyword
 	<?php endif; ?>
 
 <?php if($_SESSION['grup']<4){?>
-	<a href="<?php echo site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus data"><span class="fa fa-trash"></span></a>
+	<a href="<?php echo site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus data" target="confirm" message="Apakah Anda Yakin?" header="Hapus data"><span class="fa fa-trash"></span></a>
 	<?php  if($data['enabled'] == '2'):?>
 	<a href="<?php echo site_url("web/artikel_lock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Aktivasi artikel"><span class="fa fa-lock"></span></a>
 		<?php  elseif($data['enabled'] == '1'): ?>
