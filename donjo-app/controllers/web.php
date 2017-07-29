@@ -160,6 +160,16 @@ class web extends CI_Controller{
 		redirect("web/index/$cat");
 	}
 
+	function komentar_lock($cat=1,$id=0){
+		$this->web_artikel_model->komentar_lock($id,0);
+		redirect("web/index/$cat");
+	}
+
+	function komentar_unlock($cat=1,$id=0){
+		$this->web_artikel_model->komentar_lock($id,1);
+		redirect("web/index/$cat");
+	}
+
 	function ajax_add_kategori($cat=1,$p=1,$o=0){
 
 		$data['form_action'] = site_url("web/insert_kategori/$cat/$p/$o");

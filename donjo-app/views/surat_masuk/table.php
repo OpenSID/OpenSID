@@ -14,12 +14,6 @@
 		});
 	});
 </script>
-<style type="text/css">
-	td.nostretch {
-    width:1%;
-    white-space:nowrap;
-	}
-</style>
 <div id="pageC">
 	<div id="contentpane">
 		<form id="mainform" name="mainform" action="" method="post">

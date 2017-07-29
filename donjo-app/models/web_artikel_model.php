@@ -341,6 +341,12 @@
 			else $_SESSION['success']=-1;
 	}
 
+	function komentar_lock($id='',$val=0){
+		$_SESSION['success'] = 1;
+		$outp = $this->db->where('id',$id)->update('artikel',array('boleh_komentar'=>$val));
+		if(!$outp) $_SESSION['success'] = -1;
+	}
+
 	function get_artikel($id=0){
 		$sql   = "SELECT a.*,u.nama AS owner FROM artikel a LEFT JOIN user u ON a.id_user = u.id WHERE a.id=?";
 		$query = $this->db->query($sql,$id);

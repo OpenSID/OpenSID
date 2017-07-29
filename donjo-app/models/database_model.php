@@ -104,6 +104,18 @@
       ";
       $this->db->query($query);
     }
+    // Artikel bisa di-comment atau tidak
+    if (!$this->db->field_exists('boleh_komentar', 'artikel')) {
+      $fields = array(
+        'boleh_komentar' => array(
+          'type' => 'tinyint',
+          'constraint' => 1,
+          'default' => 1
+        )
+      );
+      $this->dbforge->add_column('artikel', $fields);
+    }
+
   }
 
   function migrasi_21_ke_22(){
