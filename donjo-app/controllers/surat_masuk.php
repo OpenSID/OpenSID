@@ -53,6 +53,7 @@ class surat_masuk extends CI_Controller{
 
 	function form($p=1,$o=0,$id=''){
 
+		$data['pengirim'] = $this->surat_masuk_model->autocomplete_pengirim();
 		$data['p'] = $p;
 		$data['o'] = $o;
 

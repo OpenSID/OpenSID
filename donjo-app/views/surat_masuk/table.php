@@ -32,8 +32,8 @@
 				</div>
 		    <div class="left">
 		      <div class="uibutton-group">
-	         <a class="uibutton tipsy south" title="Cetak" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/cetak')?>')"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-	          <a class="uibutton tipsy south" title="Excel" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/excel')?>')"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+	         <a class="uibutton tipsy south" title="Cetak laporan" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/cetak')?>')"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+	          <a class="uibutton tipsy south" title="Unduh laporan" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/excel')?>')"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
 		      </div>
 		    </div>
 				<div class="right">
@@ -43,7 +43,7 @@
 		    <span style="clear: both; text-align: center;"><h3>SURAT MASUK</h3></span>
 		    <table id="j" style="width: 100%; margin-left: 5px;">
 			    <tr>
-			    	<td class="nostretch">Tahun penerimaan</td>
+			    	<td class="nostretch">Tahun Penerimaan</td>
             <td class="nostretch">:</td>
 						<td class="nostretch">
 	            <select name="filter" onchange="formAction('mainform','<?php echo site_url('surat_masuk/filter')?>')">
@@ -56,7 +56,7 @@
 						<td colspan="3">&nbsp;</td>
 					</tr>
           <tr>
-            <td class="nostretch">Penandatangan</td>
+            <td class="nostretch">Laporan Ditandatangani</td>
             <td class="nostretch">:</td>
             <td class="nostretch">
 	            <select name="pamong_ttd"  class="inputbox">
@@ -77,7 +77,7 @@
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td class="nostretch">Diketahui</td>
+            <td class="nostretch">Laporan Diketahui</td>
             <td class="nostretch">:</td>
             <td class="nostretch">
 	            <select name="pamong_ketahui"  class="inputbox">

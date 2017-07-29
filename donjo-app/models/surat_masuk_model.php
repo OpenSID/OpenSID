@@ -5,21 +5,20 @@
 	}
 
 	function autocomplete(){
-		$sql   = "SELECT pengirim FROM surat_masuk";
-		$query = $this->db->query($sql);
-		$data  = $query->result_array();
-
-		$i=0;
-		$outp='';
-		while($i<count($data)){
-			$outp .= ",'" .$data[$i]['pengirim']. "'";
-			$i++;
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
+		// TODO: tambahkan kata2 dari isi_singkat
+		$str = $this->autocomplete_pengirim();
+		return $str;
 	}
 
+	function autocomplete_pengirim(){
+		$data = $this->db->distinct()->select('pengirim')->order_by('pengirim')->get('surat_masuk')->result_array();
+		$str = '';
+		foreach($data as $item){
+			$str .= ",'".strtolower($item['pengirim'])."'";
+		}
+		$str = '[' .substr($str, 1). ']';
+		return $str;
+	}
 
 	function search_sql(){
 		if(isset($_SESSION['cari'])){

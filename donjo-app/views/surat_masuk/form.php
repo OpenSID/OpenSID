@@ -1,3 +1,11 @@
+<script>
+	$(function() {
+		var pilihan = <?php echo $pengirim?> ;
+		$( "#pengirim" ).autocomplete({
+			source: pilihan
+		});
+	});
+</script>
 <div id="pageC">
 	<div class="content-header">
 
@@ -44,7 +52,7 @@
 					</tr>
 					<tr>
 						<th>Pengirim</th>
-						<td><input name="Pengirim" type="text" class="inputbox required" size="50" value="<?php echo $surat_masuk['pengirim']?>"/></td>
+						<td><input id="pengirim" name="pengirim" type="text" class="inputbox help tipped required" size="50" value="<?php echo $surat_masuk['pengirim']?>"/></td>
 					</tr>
 					<tr>
 						<th>Isi Singkat/Perihal</th>
