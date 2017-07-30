@@ -67,7 +67,7 @@ body{
 	width: 100%;
 }
 #scroller {
-    margin-top: 17px;
+    margin-top: 23px;
     margin-left: 0px;
     width: 100%;
     background: #17b514;
@@ -230,7 +230,7 @@ body{
 .artikel .sampul img {
 	margin-left: auto;
 	margin-right: auto;
-    width: 97%;
+    width: 100%;
 }
 .artikel{
 	margin-top: 0em;
@@ -474,4 +474,12 @@ ul {
 #form-komentar .pesan textarea {
     width: 96%;
     height: 150px;
+}
+#headline img {
+    width: 100%;
+}
+#ul-mandiri {
+    list-style: none;
+    margin-left:0;
+}
 }
