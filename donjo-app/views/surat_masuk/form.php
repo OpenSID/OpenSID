@@ -18,7 +18,7 @@
 				<table class="form">
 					<tr>
 						<th>Nomor Urut</th>
-						<td><input name="nomor_urut" type="text" class="inputbox required" size="20" value="<?php echo $surat_masuk['nomor_urut']?>"/></td>
+						<td><input name="nomor_urut" type="text" class="inputbox required" size="20" value="<?php echo $surat_masuk['nomor_urut']?>"/> (sesuai Agenda Surat Masuk)</td>
 					</tr>
 					<tr>
 						<th>Tanggal Penerimaan</th>
@@ -40,7 +40,7 @@
 		       </tr>
 					<tr>
 						<th>Kode/Klasifikasi Surat</th>
-						<td><input name="kode_surat" type="text" class="inputbox required" size="20" value="<?php echo $surat_masuk['kode_surat']?>"/></td>
+						<td><input name="kode_surat" type="text" class="inputbox" size="20" value="<?php echo $surat_masuk['kode_surat']?>"/> (isi untuk surat dinas/resmi)</td>
 					</tr>
 					<tr>
 						<th>Nomor Surat</th>
