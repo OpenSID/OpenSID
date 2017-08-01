@@ -12,6 +12,7 @@ Lengkapnya, isi rilis v2.3:
 6. #520: Perbaiki tulisan di tombol share ke WhatsApp di halaman artikel. [bug-fix]
 7. #510: Seragamkan hasil cetak dan export Excel untuk halaman Penduduk dan Keluarga.
 8. Data baris total statistik wilayah untuk web sekarang diambil dari wilayah_model. [teknis]
+9. Perbaiki tampilan kode isian pada halaman master surat kembali normal. [bug-fix]
 
 Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
 
