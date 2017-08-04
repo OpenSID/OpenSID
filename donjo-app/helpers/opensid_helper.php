@@ -24,6 +24,7 @@ define('BELUM_MENGISI',777);
 
 //
 define("MAX_PINDAH", 7);
+define("MAX_ANGGOTA", 7);
 
 // Konversi tulisan kode Buku Induk Penduduk ke kode SID
 define("KODE_SEX", serialize(array("L" => "1", "Lk" => "1", "P" => "2", "Pr" => "2")));

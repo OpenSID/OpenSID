@@ -1,92 +1,187 @@
 <script>
-$(function(){
-var nik = {};
-nik.results = [
-<?php foreach($penduduk as $data){?>
-{id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
-<?php }?>
-];
+	$(function(){
+		var nik = {};
+		nik.results = [
+			<?php  foreach($penduduk as $data){?>
+				{id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
+			<?php  }?>
+		];
+		$('#nik').flexbox(nik, {
+			resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
+			watermark: <?php  if($individu){?>'<?php echo $individu['nik']?> - <?php echo ($individu['nama'])?>'<?php  }else{?>'Ketik no nik di sini..'<?php  }?>,
+			width: 260,
+			noResultsText :'Tidak ada no nik yang sesuai..',
+			onSelect: function(){$('#'+'main').submit();}
+		});
 
-$('#nik').flexbox(nik, {
-resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-watermark: <?php if($individu){?>'<?php echo $individu['nik']?> - <?php echo spaceunpenetration($individu['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
-width: 260,
-noResultsText :'Tidak ada no nik yang sesuai..',
-onSelect: function() {
-$('#'+'main').submit();
-}
-});
+		$('#showData').click(function(){
+			$('tr.hide').show();
+			$('#showData').hide();
+			$('#hideData').show();
+		});
 
-});
+		$('#hideData').click(function(){
+			$('tr.hide').hide();
+			$('#hideData').hide();
+			$('#showData').show();
+		});
+
+		$('#hideData').hide();
+	});
 </script>
-
-
 <style>
-table.form.detail th{
-padding:5px;
-background:#fafafa;
-border-right:1px solid #eee;
-}
-table.form.detail td{
-padding:5px;
-}
+	table.form.detail th{
+		padding:5px;
+		background:#fafafa;
+		border-right:1px solid #eee;
+	}
+	table.form.detail td{
+		padding:5px;
+	}
+	tr .hide{
+		display:none;
+	}
 </style>
 <div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
+	<table class="inner">
+	<tr style="vertical-align:top">
+	<td style="background:#fff;">
+		<div id="contentpane">
+			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
+				<h3>Formulir Layanan : Surat Keterangan Tidak Mampu</h3>
+				<div id="form-cari-pemohon">
+					<form action="" id="main" name="main" method="POST" class="formular">
+					<table class="form">
+						<tr>
+							<td width="200">NIK / Nama Pemohon</td>
+							<td>
+								<div id="nik" name="nik"></div>
+							</td>
+						</tr>
+					</table>
+					</form>
+				</div>
+				</br>
+				<div id="form-melengkapi-data-permohonan">
+					<form id="validasi" action="" method="POST" target="_blank">
+					<input type="hidden" name="nik" value="<?php echo $individu['id']?>" class="inputbox required" >
+					<table class="form">
+						<?php
+						if($individu){
+							?>
+							<tr>
+								<th width="200">Tempat Tanggal Lahir (Umur)</th>
+								<td>
+									<?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
+								</td>
+							</tr>
+							<tr>
+								<th>Alamat</th>
+								<td><?php echo unpenetration($individu['alamat']); ?></td>
+							</tr>
+							<tr>
+								<th>Pendidikan</th>
+								<td><?php echo $individu['pendidikan']; ?></td>
+							</tr>
+							<tr>
+								<th>Warganegara / Agama</th>
+								<td><?php echo $individu['warganegara']?> / <?php echo $individu['agama']?></td>
+							</tr>
+							<tr>
+								<th>Data Keluarga / KK </th>
+								<td>
+									<a class='uibutton special' id='showData'>Tampilkan</a>
+									<a class='uibutton' id='hideData'>Sembunyikan</a>
+								</td>
+							</tr>
 
-<td style="background:#fff;padding:5px;">
-<div class="content-header">
+							<tr class="hide">
+								<th colspan="1">Keluarga</th>
+								<td colspan="1">
+									<div style="margin-left:0px;">
+										<table class="list">
+											<thead>
+												<tr>
+													<th>No</th>
+													<th align="left" width='70'>NIK</th>
+													<th align="left" width='100'>Nama</th>
+													<th align="left" width='30' align="center">Jenis Kelamin</th>
+													<th align="left" width='30' align="center">Tempat Tanggal Lahir</th>
+													<th width="70" align="left" >Hubungan</th>
+													<th width="70" align="left" >Status Kawin</th>
 
-</div>
-<div id="contentpane">
-<div class="ui-layout-north panel">
-<h3>Surat Keterangan Kurang Mampu</h3>
-</div>
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<table class="form">
-<tr>
-<th>NIK / Nama</th>
-<td>
-<form action="" id="main" name="main" method="POST">
-<div id="nik" name="nik"></div>
-</form>
-</tr>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+												if($anggota!=NULL){
+													$i=0;?>
+												<?php foreach($anggota AS $data){ $i++;?>
+												<tr>
+													<td align="center" width="2"><?php echo $i?></td>
+													<td><?php echo $data['nik']?></td>
+													<td><?php echo unpenetration($data['nama'])?></td>
+													<td><?php echo $data['sex']?></td>
+													<td><?php echo $data['tempatlahir']?>, <?php echo tgl_indo($data['tanggallahir'])?></td>
+													<td><?php echo $data['hubungan']?></td>
+													<td><?php echo $data['status_kawin']?></td>
 
-<form id="validasi" action="<?php echo $form_action?>" method="POST" target="_blank">
-<input type="hidden" name="nik" value="<?php echo $individu['id']?>" class="inputbox required" >
-<?php if($individu){ //bagian info setelah terpilih?>
-  <?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
-<?php }?>
-<tr>
-<th>Nomor Surat</th>
-<td>
-<input name="nomor" type="text" class="inputbox required" size="12"/> <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>
-</td>
-</tr>
-<tr>
-<th>Keterangan</th>
-<td>
-<input name="keterangan" type="text" class="inputbox required" size="40"/>
-</td>
-</tr>
+												</tr>
+												<?php }?>
+												<?php }?>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>Dokumen Kelengkapan / Syarat</th>
+								<td>
+									<a header="Dokumen" target="ajax-modal" rel="dokumen" href="<?php echo site_url("penduduk/dokumen_list/$individu[id]")?>" class="uibutton special">Daftar Dokumen</a><a target="_blank" href="<?php echo site_url("penduduk/dokumen/$individu[id]")?>" class="uibutton confirm">Manajemen Dokumen</a> )* Atas Nama <?php echo $individu['nama']?> [<?php echo $individu['nik']?>]
+								</td>
+							</tr>
+						<?php }?>
+	<tr>
+		<th width="200">Nomor Surat</th>
+		<td ><input name="nomor" type="text" class="inputbox " size="12"/></td>
+	</tr>
+	<tr>
+		<th>Surat Keterangan ini dibuat untuk keperluan</th>
+		<td>
+			<input name="keperluan" type="text" class="inputbox required" size="60"/>
+		</td>
+	</tr>
+	<tr>
+		<th>Tertanda Atas Nama</th>
+		<td>
+			<select name="atas_nama"  type="text" class="inputbox">
+				<option value="">Atas Nama</option>
+				<option value="An. Kepala Desa <?php echo unpenetration($desa['nama_desa'])?>"> An. Kepala Desa <?php echo unpenetration($desa['nama_desa'])?> </option>
+				<option value="Ub. Kepala Desa <?php echo unpenetration($desa['nama_desa'])?>"> Ub. Kepala Desa <?php echo unpenetration($desa['nama_desa'])?> </option>
+			</select>
+		</td>
+	</tr>
 	<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
+</td>
+</tr>
 </table>
 </div>
 
+</div>
 <div class="ui-layout-south panel bottom">
-<div class="left">
-<a href="<?php echo site_url()?>surat" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
+	<div class="left">
+		<a href="<?php echo site_url()?>surat" class="uibutton icon prev">Kembali</a>
+	</div>
+	<div class="right">
+		<div class="uibutton-group">
+			<button class="uibutton" type="reset">Clear</button>
 
-							<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="fa fa-print">&nbsp;</span>Cetak</button>
-							<?php if (SuratExport($url)) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="fa fa-file-text">&nbsp;</span>Export Doc</button><?php } ?>
+			<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
+			<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+		</div>
+	</div>
 </div>
-</div>
-</div> </form>
+</form>
 </div>
 </td></tr></table>
 </div>

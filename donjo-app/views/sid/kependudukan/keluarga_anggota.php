@@ -37,9 +37,9 @@
 			</tr>
 		</thead>
 		<tbody>
-      <?php  foreach($main as $data): ?>
+      <?php  foreach($main as $key => $data): ?>
   		<tr>
-        <td align="center" width="2"><?php echo $data['no']?></td>
+        <td align="center" width="2"><?php echo $key+1?></td>
   			<td align="center" width="5">
   				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
   			</td>
@@ -53,8 +53,8 @@
           </div>
         </td>
         <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo $data['nik']?></td>
-  		  <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
-        <td><?php echo $data['tanggallahir']?></td>
+  		  <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper($data['nama'])?></a></td>
+        <td><?php echo tgl_indo($data['tanggallahir'])?></td>
         <td><?php echo $data['sex']?></td>
   		  <td><?php echo $data['hubungan']?></td>
 		  </tr>

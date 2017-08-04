@@ -560,15 +560,6 @@
 
 		$query = $this->db->query($sql,array($id));
 		$data=$query->result_array();
-
-		//Formating Output
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['no']=$i+1;
-			$data[$i]['tanggallahir']= tgl_indo($data[$i]['tanggallahir']);
-
-			$i++;
-		}
 		return $data;
 	}
 
@@ -810,7 +801,7 @@
 			$nik 			.= $ranggota['nik']."\line ";
 			$sex 			.= $ranggota['sex']."\line ";
 			$tempatlahir 	.= $ranggota['tempatlahir']."\line ";
-			$tanggallahir 	.= $ranggota['tanggallahir']."\line ";
+			$tanggallahir 	.= tgl_indo($ranggota['tanggallahir'])."\line ";
 			$agama 			.= $ranggota['agama']."\line ";
 			$pendidikan 	.= $ranggota['pendidikan']."\line ";
 			$pekerjaan 		.= $ranggota['pekerjaan']."\line ";
