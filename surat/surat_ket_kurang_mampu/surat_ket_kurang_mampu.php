@@ -116,17 +116,19 @@
 												<?php
 												if($anggota!=NULL){
 													$i=0;?>
-												<?php foreach($anggota AS $data){ $i++;?>
-												<tr>
-													<td align="center" width="2"><?php echo $i?></td>
-													<td><?php echo $data['nik']?></td>
-													<td><?php echo unpenetration($data['nama'])?></td>
-													<td><?php echo $data['sex']?></td>
-													<td><?php echo $data['tempatlahir']?>, <?php echo tgl_indo($data['tanggallahir'])?></td>
-													<td><?php echo $data['hubungan']?></td>
-													<td><?php echo $data['status_kawin']?></td>
+												<?php foreach($anggota AS $data){
+													if($data['kk_level'] == 1) continue;
+													$i++;?>
+													<tr>
+														<td align="center" width="2"><?php echo $i?></td>
+														<td><?php echo $data['nik']?></td>
+														<td><?php echo unpenetration($data['nama'])?></td>
+														<td><?php echo $data['sex']?></td>
+														<td><?php echo $data['tempatlahir']?>, <?php echo tgl_indo($data['tanggallahir'])?></td>
+														<td><?php echo $data['hubungan']?></td>
+														<td><?php echo $data['status_kawin']?></td>
 
-												</tr>
+													</tr>
 												<?php }?>
 												<?php }?>
 											</tbody>

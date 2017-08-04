@@ -73,7 +73,9 @@
 
 		</tr>
 	<tbody><?php  $i=0;?>
-		<?php  foreach($anggota AS $data1){$i++;?>
+		<?php foreach($anggota AS $data1){
+			if($data1['kk_level'] == 1) continue;
+			$i++;?>
 		<tr>
             <td align="center"> <?php echo $i?></td>
 			<td align="center"><?php echo $data1['nik']?></td>
