@@ -68,8 +68,19 @@ nav.navbar.navbar-inverse{
 #divlogo-img img{height:100px;margin-top:1px;}
 
 #siteTitle h1{font-family: "Arial Black", Gadget, sans-serif;font-size:21px;color:white;font-weight:bold;} /* merubah font judul web ( desa ) */
-#siteTitle h2{font-family: "Arial Black", Gadget, sans-serif;font-size:15px;color:white;font-weight:bold;} /* merubah font judul web ( kecamatan dan kabupaten ) */
-#siteTitle h3{font-family: "comic sans", Gadget, sans-serif;font-size:11px;color:yellow;font-weight:bold;} /* merubah font judul web ( alamat ) */
+#siteTitle h2{
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-size:15px;color:white;
+  font-weight:bold;
+  margin-top: 0px;
+} /* mengubah font judul web ( kecamatan dan kabupaten ) */
+#siteTitle h3{
+  font-family: "comic sans", Gadget, sans-serif;
+  font-size:11px;
+  color:yellow;
+  font-weight:bold;
+  margin-top: 0px;
+} /* mengubah font judul web ( alamat ) */
 
 #mainmenu {
   background: url(images/tb.jpg) repeat center top;
