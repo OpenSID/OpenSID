@@ -75,6 +75,23 @@
     $this->migrasi_20_ke_21();
     $this->migrasi_21_ke_22();
     $this->migrasi_22_ke_23();
+    $this->migrasi_23_ke_24();
+  }
+
+  function migrasi_23_ke_24(){
+    // Tambah surat keterangan beda identitas KIS
+    $data = array(
+      'nama'=>'Keterangan Beda Identitas KIS',
+      'url_surat'=>'surat_ket_beda_identitas_kis',
+      'kode_surat'=>'S-38',
+      'jenis'=>1);
+    $sql = $this->db->insert_string('tweb_surat_format', $data);
+    $sql .= " ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis)";
+    $this->db->query($sql);
   }
 
   function migrasi_22_ke_23(){

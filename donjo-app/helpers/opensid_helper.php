@@ -278,8 +278,8 @@ define("KODE_PEKERJAAN", serialize(array(
   {
     if(SuratCetakDesa($nama_surat) != ""){
       return SuratCetakDesa($nama_surat);
-    } elseif(is_file("surat/print/print_".$nama_surat.".php")) {
-      return "surat/print/print_".$nama_surat.".php";
+    } elseif(is_file("surat/$nama_surat/print_".$nama_surat.".php")) {
+      return "surat/$nama_surat/print_".$nama_surat.".php";
     } else {
       return "";
     }
