@@ -355,6 +355,7 @@
 		} else {
 			$data['lokasi_rtf'] = dirname($file)."/";
 		}
+		$this->surat = $data;
 		return $data;
 	}
 
@@ -472,10 +473,22 @@
 		return $kode;
 	}
 
+	// Untuk surat sistem, cek apakah komponen surat sudah disesuaikan oleh desa
+	private function lokasi_komponen($nama_surat, $komponen) {
+	  $lokasi = LOKASI_SURAT_DESA . $nama_surat . "/" . $komponen;
+		if ($this->surat['jenis'] == 1 AND !is_file($lokasi))
+			  $lokasi = "surat/$nama_surat/$komponen";
+		return $lokasi;
+	}
+
 	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
 		$alamat_desa = ucwords($this->setting->sebutan_desa)." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
 		switch ($url) {
+			case 'surat_ket_beda_identitas_kis':
+				$lokasi_komponen = $this->lokasi_komponen($url, 'get_data_export.php');
+		    include(FCPATH.$lokasi_komponen);
+				break;
 			case 'surat_ket_kurang_mampu':
 				$anggota = $this->keluarga_model->list_anggota($individu['id_kk'],false);
 				for ($i = 0; $i < MAX_ANGGOTA; $i++) {
@@ -499,6 +512,7 @@
 						$buffer=str_replace("[anggota_shdk_$nomor]","",$buffer);
 					}
 				}
+				break;
 			case 'surat_ket_pindah_penduduk':
 				$buffer=str_replace("[jumlah_pengikut]",count($input['id_cb']),$buffer);
 				for ($i = 0; $i < MAX_PINDAH; $i++) {

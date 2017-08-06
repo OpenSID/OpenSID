@@ -13,22 +13,13 @@
 			noResultsText :'Tidak ada no nik yang sesuai..',
 			onSelect: function(){$('#'+'main').submit();}
 		});
-
-
-	$('#showData').click(function(){
-		$('tr.hide').show();
-		$('#showData').hide();
-		$('#hideData').show();
 	});
 
-	$('#hideData').click(function(){
-		$('tr.hide').hide();
-		$('#hideData').hide();
-		$('#showData').show();
-	});
+	function submit_form_doc(){
+		$('#'+'validasi').attr('action','<?php echo $form_action2?>');
+		$('#'+'validasi').submit();
+	}
 
-		$('#hideData').hide();
-	});
 </script>
 <style>
 	table.form.detail th{
@@ -148,7 +139,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<?php for($i=1; $i<8; $i++): ?>
+												<?php for($i=1; $i<MAX_ANGGOTA+1; $i++): ?>
 													<tr>
 														<td style="text-align: center; vertical-align: middle;"> <?php echo $i?></td>
 														<td> <input name="kartu<?php echo $i?>" type="text" class="inputbox " size="20"/></td>
