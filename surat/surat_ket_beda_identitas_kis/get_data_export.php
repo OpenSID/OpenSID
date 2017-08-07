@@ -1,5 +1,14 @@
 <?php
-	$anggota = $this->keluarga_model->list_anggota($individu['id_kk']);
+	$id_cb = $this->input->post('id_cb');
+	$pilih="";
+	foreach($id_cb as $nik){
+		$pilih .= $nik.',';
+	}
+	$pilih = rtrim($pilih,',');
+	$anggota = $this->keluarga_model->list_anggota($individu['id_kk'],array('pilih'=>$pilih));
+	/*
+		Abaikan baris data keluarga yang tidak dipilih
+	*/
 	for ($i = 0; $i < MAX_ANGGOTA; $i++) {
 		$nomor = $i+1;
 		if ($i < count($anggota)) {
@@ -22,13 +31,28 @@
 			$buffer=str_replace("[anggota_alamat_$nomor]","",$buffer);
 		}
 	}
+	/*
+		Abaikan baris data identitas KIS yang kosong
+	*/
+	$j = 0;
 	for ($i = 0; $i < MAX_ANGGOTA; $i++) {
 		$nomor = $i+1;
-		$buffer=str_replace("[kartu$nomor]",$input["kartu$nomor"],$buffer);
-		$buffer=str_replace("[nama$nomor]",strtoupper($input["nama$nomor"]),$buffer);
-		$buffer=str_replace("[nik$nomor]",$input["nik$nomor"],$buffer);
-		$buffer=str_replace("[alamat$nomor]",strtoupper($input["alamat$nomor"]),$buffer);
-		$buffer=str_replace("[tanggallahir$nomor]",$input["tanggallahir$nomor"],$buffer);
-		$buffer=str_replace("[faskes$nomor]",$input["faskes$nomor"],$buffer);
+		if(!empty($input["nomor$nomor"])) {
+			$j++;
+			$buffer=str_replace("[kartu$j]",$input["kartu$nomor"],$buffer);
+			$buffer=str_replace("[nama$j]",strtoupper($input["nama$nomor"]),$buffer);
+			$buffer=str_replace("[nik$j]",$input["nik$nomor"],$buffer);
+			$buffer=str_replace("[alamat$j]",strtoupper($input["alamat$nomor"]),$buffer);
+			$buffer=str_replace("[tanggallahir$j]",$input["tanggallahir$nomor"],$buffer);
+			$buffer=str_replace("[faskes$j]",$input["faskes$nomor"],$buffer);
+		}
+	}
+	for ($i = $j+1; $i < MAX_ANGGOTA+1; $i++) {
+		$buffer=str_replace("[kartu$i]","",$buffer);
+		$buffer=str_replace("[nama$i]","",$buffer);
+		$buffer=str_replace("[nik$i]","",$buffer);
+		$buffer=str_replace("[alamat$i]","",$buffer);
+		$buffer=str_replace("[tanggallahir$i]","",$buffer);
+		$buffer=str_replace("[faskes$i]","",$buffer);
 	}
 ?>

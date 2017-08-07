@@ -490,7 +490,7 @@
 		    include(FCPATH.$lokasi_komponen);
 				break;
 			case 'surat_ket_kurang_mampu':
-				$anggota = $this->keluarga_model->list_anggota($individu['id_kk'],false);
+				$anggota = $this->keluarga_model->list_anggota($individu['id_kk'],array('dengan_kk'=>false));
 				for ($i = 0; $i < MAX_ANGGOTA; $i++) {
 					$nomor = $i+1;
 					if ($i < count($anggota)) {

@@ -20,6 +20,37 @@
 		$('#'+'validasi').submit();
 	}
 
+	function change_all(total){
+		for (var i=1; i < total+1; i++) {
+			$('#check'+i).change();
+		}
+	}
+
+	function pilih_anggota(pilih, no_anggota){
+		var kolom = [
+			'input[name=kartu'+no_anggota+']',
+			'input[name=nama'+no_anggota+']',
+			'input[name=nik'+no_anggota+']',
+			'input[name=alamat'+no_anggota+']',
+			'input[name=tanggallahir'+no_anggota+']',
+			'input[name=faskes'+no_anggota+']'
+		];
+		if (pilih.is(':checked')) {
+			$('input[name=nomor'+no_anggota+']').removeAttr("disabled");
+			for (var i=0; i < kolom.length; i++) {
+				$(kolom[i]).removeAttr("disabled");
+				$(kolom[i]).attr("style","background-color: ");
+			}
+		} else {
+			$('input[name=nomor'+no_anggota+']').attr("disabled",'disabled');
+			for (var i=0; i < kolom.length; i++) {
+				$(kolom[i]).val('');
+				$(kolom[i]).attr("disabled",'disabled');
+				$(kolom[i]).attr("style","background-color: lightgrey;");
+			}
+		}
+	}
+
 </script>
 <style>
 	table.form.detail th{
@@ -73,6 +104,7 @@
 													<thead>
 														<tr>
 															<th class="nostretch">No</th>
+															<th><input type="checkbox" class="checkall" onchange="change_all(<?php echo count($anggota);?>);"/></th>
 															<th align="left">NIK</th>
 															<th align="left">Nama</th>
 															<th align="left">Jenis Kelamin</th>
@@ -84,6 +116,9 @@
 														<?php foreach($anggota AS $key => $data){ ?>
 															<tr>
 																<td align="center" width="2"><?php echo $key+1?></td>
+																<td align="center" width="5">
+																	<input id="check<?php echo $key+1?>" type="checkbox" name="id_cb[]" value="'<?php echo $data['nik']?>'" onchange="pilih_anggota($(this), <?php echo $key+1?>);" />
+																</td>
 																<td><?php echo $data['nik']?></td>
 																<td><?php echo unpenetration($data['nama'])?></td>
 																<td><?php echo $data['sex']?></td>
@@ -106,7 +141,7 @@
 											<table class="list">
 											<thead>
 												<tr>
-													<th align="center" width='22'>No</th>
+													<th align="center">No</th>
 													<th align="center" width='95'>No. Kartu</th>
 													<th align="center" width='148'>Nama di Kartu</th>
 													<th align="center" width='90'>NIK</th>
@@ -118,15 +153,15 @@
 											<tbody>
 												<?php for($i=1; $i<MAX_ANGGOTA+1; $i++): ?>
 													<tr>
-														<td style="text-align: center; vertical-align: middle;"> <?php echo $i?></td>
-														<td> <input name="kartu<?php echo $i?>" type="text" class="inputbox " size="20"/></td>
-														<td> <input name="nama<?php echo $i?>" type="text" class="inputbox " size="33"/></td>
-														<td> <input name="nik<?php echo $i?>" type="text" class="inputbox " size="18"/></td>
-														<td> <input name="alamat<?php echo $i?>" type="text" class="inputbox " size="36"/></td>
+														<td style="text-align: center; vertical-align: middle;"> <input name="nomor<?php echo $i?>" type="text" class="inputbox" size="2" value="<?php echo $i?>" readonly disabled="disabled"/></td>
+														<td> <input name="kartu<?php echo $i?>" type="text" class="inputbox " size="20" disabled="disabled" style="background-color: lightgrey;"/></td>
+														<td> <input name="nama<?php echo $i?>" type="text" class="inputbox " size="33" disabled="disabled" style="background-color: lightgrey;"/></td>
+														<td> <input name="nik<?php echo $i?>" type="text" class="inputbox " size="18" disabled="disabled" style="background-color: lightgrey;"/></td>
+														<td> <input name="alamat<?php echo $i?>" type="text" class="inputbox " size="36" disabled="disabled" style="background-color: lightgrey;"/></td>
 														<td>
-																<input name="tanggallahir<?php echo $i?>" type="text" class="inputbox datepicker" size="20"/>
+																<input name="tanggallahir<?php echo $i?>" type="text" class="inputbox datepicker" size="20" disabled="disabled" style="background-color: lightgrey;"/>
 														</td>
-														<td> <input name="faskes<?php echo $i?>" type="text" class="inputbox " size="15"/></td>
+														<td> <input name="faskes<?php echo $i?>" type="text" class="inputbox " size="15" disabled="disabled" style="background-color: lightgrey;"/></td>
 													</tr>
 												<?php endfor; ?>
 											</tbody>

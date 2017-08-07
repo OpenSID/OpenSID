@@ -46,7 +46,15 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach($anggota AS $key => $data1){ ?>
+		<?php
+			$id_cb = $this->input->post('id_cb');
+			$pilih="";
+			foreach($id_cb as $nik){
+				$pilih .= $nik.',';
+			}
+			$pilih = rtrim($pilih,',');
+			$anggota = $this->keluarga_model->list_anggota($pribadi['id_kk'],array('pilih'=>$pilih));
+			foreach($anggota AS $key => $data1){ ?>
 			<tr>
 	      <td align="center"width="4"> <?php echo $key+1?></td>
 				<td> <?php echo $data1['nama']?></td>
@@ -80,15 +88,17 @@
 	</thead>
 	<tbody>
 		<?php for($i=1; $i<MAX_ANGGOTA+1; $i++): ?>
-			<tr>
-				<td align="center"><?php echo $i?></td>
-				<td align="center"><?php echo $input["kartu$i"]?></td>
-				<td align="left"><?php echo $input["nama$i"]?></td>
-				<td align="center"><?php echo $input["nik$i"]?></td>
-				<td align="left"><?php echo $input["alamat$i"]?></td>
-				<td align="left"><?php echo $input["tanggallahir$i"]?></td>
-				<td align="center"><?php echo $input["faskes$i"]?></td>
-			</tr>
+			<?php if(!empty($input["nomor$i"])): ?>
+				<tr>
+					<td align="center"><?php echo $i?></td>
+					<td align="center"><?php echo $input["kartu$i"]?></td>
+					<td align="left"><?php echo $input["nama$i"]?></td>
+					<td align="center"><?php echo $input["nik$i"]?></td>
+					<td align="left"><?php echo $input["alamat$i"]?></td>
+					<td align="left"><?php echo $input["tanggallahir$i"]?></td>
+					<td align="center"><?php echo $input["faskes$i"]?></td>
+				</tr>
+			<?php endif; ?>
 		<?php endfor; ?>
 	</tbody>
 </table>
