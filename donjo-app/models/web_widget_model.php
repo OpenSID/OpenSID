@@ -54,12 +54,12 @@
 
 	function paging($p=1,$o=0){
 
-		$sql      = "SELECT COUNT(id) FROM widget WHERE 1";
+		$sql      = "SELECT COUNT(id) as jml FROM widget WHERE 1";
 		$sql     .= $this->search_sql();
 		$sql 		 .= $this->filter_sql();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
-		$jml_data = $row['id'];
+		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
 		$cfg['page']     = $p;

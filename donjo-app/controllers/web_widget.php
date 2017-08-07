@@ -45,7 +45,8 @@ class web_widget extends CI_Controller{
 		else $data['filter'] = '';
 
 		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
+			$_SESSION['per_page'] = max(20,$_POST['per_page']);
+		else $_SESSION['per_page'] = max(20,$_SESSION['per_page']);
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging']  = $this->web_widget_model->paging($p,$o);
