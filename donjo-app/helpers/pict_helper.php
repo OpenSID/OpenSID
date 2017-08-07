@@ -528,6 +528,13 @@ function AmbilDokumen($dokumen){
   return $file_dokumen;
 }
 
+// Upload umum. Parameter lokasi dan file di $_FILES
+function UploadKeLokasi($lokasi, $file, $fupload_name, $old_dokumen=""){
+  $vfile_upload = $lokasi . $fupload_name;
+  move_uploaded_file($file, $vfile_upload);
+  unlink($lokasi . $old_dokumen);
+}
+
 function UploadDocument($fupload_name, $old_dokumen=""){
   $vfile_upload = LOKASI_DOKUMEN . $fupload_name;
   move_uploaded_file($_FILES["satuan"]["tmp_name"], $vfile_upload);

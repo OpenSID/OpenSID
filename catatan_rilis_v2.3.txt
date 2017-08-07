@@ -1,0 +1,20 @@
+Dalam rilis ini disediakan modul Surat Masuk untuk mengelola surat yang diterima kantor desa dan perbaikan tema 'hadakewa' menjadi responsif. Selain itu, rilis ini juga berisi beberapa perbaikan yang diminta oleh komunitas SID.
+
+Terima kasih pada Happy Agung yang terus membuat kontribusi.
+
+Lengkapnya, isi rilis v2.3:
+
+1. Sekarang tema 'hadakewa' berciri responsif untuk memudahkan pengunjung web menggunakan smartphone.
+2. Sekarang menu Peta tampil normal kembali. [bug-fix]
+3. Perbaiki tulisan di halaman Admin Web > Artikel. Sort judul/aktif/tgl-posting sekarang bekerja normal. [bug-fix]
+4. #506: Sekarang fasilitas komentar pada suatu artikel dapat dibuka/tutup.
+5. #178: Menyediakan modul surat masuk. Termasuk fitur untuk mengunggah berkas scan surat, mencetak laporan agenda surat masuk dan mencetak lembar disposisi.
+6. #520: Perbaiki tulisan di tombol share ke WhatsApp di halaman artikel. [bug-fix]
+7. #510: Seragamkan hasil cetak dan export Excel untuk halaman Penduduk dan Keluarga.
+8. Data baris total statistik wilayah untuk web sekarang diambil dari wilayah_model. [teknis]
+9. Perbaiki tampilan kode isian pada halaman master surat kembali normal. [bug-fix]
+
+Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
+
+
+

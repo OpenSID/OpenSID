@@ -1029,6 +1029,7 @@ table th[class*="col-"] {
   min-height: .01%;
   overflow-x: auto;
 }
+
 /*
  * btn component
  * */
@@ -1484,6 +1485,9 @@ blockquote p {
 }
 #form-komentar .submit input {
   font-size: 15px; padding: 3px 10px;
+}
+.group-komentar .info {
+  font-style: italic;
 }
 
 /* Artikel */

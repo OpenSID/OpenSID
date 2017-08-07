@@ -7,7 +7,6 @@
   }
 
   function track_desa($dari){
-
     if ($this->setting->enable_track == FALSE) return;
     // Track web dan admin masing2 maksimum sekali sehari
     if (strpos(current_url(), 'first') !== FALSE) {
@@ -59,6 +58,9 @@
      "ip_address" => $_SERVER['SERVER_ADDR'],
      "version" => AmbilVersi()
     );
+
+    if($this->abaikan($desa)) return;
+
     // echo "httppost ===========";
     // echo httpPost("http://".$tracker."/index.php/track/desa",$desa);
     httpPost("http://".$tracker."/index.php/track/desa",$desa);
@@ -69,5 +71,26 @@
     }
 
   }
+
+  /*
+    Jangan track, jika:
+    - ada kolom nama wilayah kosong
+    - ada kolom wilayah yang masih merupakan contoh
+  */
+  public function abaikan($data){
+    $abaikan = false;
+    if ( empty($data['nama_desa']) OR empty($data['nama_kecamatan']) OR empty($data['nama_kabupaten']) OR empty($data['nama_provinsi']) ) {
+      $abaikan = true;
+    }
+    if (strpos($data['nama_desa'], 'Senggig1') !== FALSE OR
+        strpos($data['nama_kecamatan'], 'Batulay4r') !== FALSE OR
+        strpos($data['nama_kabupaten'], 'Bar4t') !== FALSE OR
+        strpos($data['nama_provinsi'], 'NT13') !== FALSE
+       ) {
+      $abaikan = true;
+    }
+    return $abaikan;
+  }
+
 }
 ?>

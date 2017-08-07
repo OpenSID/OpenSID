@@ -66,7 +66,6 @@
 	}
 
 	function list_data($cat=0,$o=0,$offset=0,$limit=500){
-
 		switch($o){
 		case 1: $order_sql = ' ORDER BY judul'; break;
 		case 2: $order_sql = ' ORDER BY judul DESC'; break;
@@ -96,9 +95,9 @@
 			$data[$i]['no']=$j+1;
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 			$j++;
@@ -339,6 +338,12 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
+	}
+
+	function komentar_lock($id='',$val=0){
+		$_SESSION['success'] = 1;
+		$outp = $this->db->where('id',$id)->update('artikel',array('boleh_komentar'=>$val));
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 
 	function get_artikel($id=0){

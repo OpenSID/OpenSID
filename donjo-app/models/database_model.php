@@ -74,6 +74,65 @@
     $this->migrasi_117_ke_20();
     $this->migrasi_20_ke_21();
     $this->migrasi_21_ke_22();
+    $this->migrasi_22_ke_23();
+    $this->migrasi_23_ke_24();
+  }
+
+  function migrasi_23_ke_24(){
+    // Tambah surat keterangan beda identitas KIS
+    $data = array(
+      'nama'=>'Keterangan Beda Identitas KIS',
+      'url_surat'=>'surat_ket_beda_identitas_kis',
+      'kode_surat'=>'S-38',
+      'jenis'=>1);
+    $sql = $this->db->insert_string('tweb_surat_format', $data);
+    $sql .= " ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis)";
+    $this->db->query($sql);
+  }
+
+  function migrasi_22_ke_23(){
+    // Tambah widget menu_left untuk menampilkan menu kategori
+    $widget = $this->db->select('id')->where('isi','menu_kategori.php')->get('widget')->row();
+    if (!$widget->id) {
+      $menu_kategori = array('judul'=>'Menu Kategori','isi'=>'menu_kategori.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1);
+      $this->db->insert('widget',$menu_kategori);
+    }
+    // Tambah tabel surat_masuk
+    if (!$this->db->table_exists('surat_masuk') ) {
+      $query = "
+        CREATE TABLE `surat_masuk` (
+          `id` int NOT NULL AUTO_INCREMENT,
+          `nomor_urut` smallint(5),
+          `tanggal_penerimaan` date NOT NULL,
+          `nomor_surat` varchar(20),
+          `kode_surat` varchar(10),
+          `tanggal_surat` date NOT NULL,
+          `pengirim` varchar(100),
+          `isi_singkat` varchar(200),
+          `disposisi_kepada` varchar(50),
+          `isi_disposisi` varchar(200),
+          `berkas_scan` varchar(100),
+          PRIMARY KEY  (`id`)
+        );
+      ";
+      $this->db->query($query);
+    }
+    // Artikel bisa di-comment atau tidak
+    if (!$this->db->field_exists('boleh_komentar', 'artikel')) {
+      $fields = array(
+        'boleh_komentar' => array(
+          'type' => 'tinyint',
+          'constraint' => 1,
+          'default' => 1
+        )
+      );
+      $this->dbforge->add_column('artikel', $fields);
+    }
+
   }
 
   function migrasi_21_ke_22(){

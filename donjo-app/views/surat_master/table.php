@@ -89,11 +89,11 @@
 								<td align="center">
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Kode Isian"><span class="fa fa-code"></span> Kode Isian</a>
-										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south fa-tipis" title="Upload Template" target="ajax-modal" rel="window" header="Upload Template"><span class="fa fa-upload"></span> Upload</a>
+										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south fa-tipis" title="Unggah Template" target="ajax-modal" rel="window" header="Unggah Template"><span class="fa fa-upload"></span> Unggah</a>
 
 										<?php $surat = SuratExport($data['url_surat']); ?>
 										<?php if ($surat != "") { ?>
-										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south fa-tipis" title="Unduh Template"><span class="fa fa-download"></span> Download</a>
+										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south fa-tipis" title="Unduh Template"><span class="fa fa-download"></span> Unduh</a>
 										<?php } ?>
 
 									</div>
