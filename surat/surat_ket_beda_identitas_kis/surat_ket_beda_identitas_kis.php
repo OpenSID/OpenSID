@@ -38,14 +38,16 @@
 		if (pilih.is(':checked')) {
 			$('input[name=nomor'+no_anggota+']').removeAttr("disabled");
 			for (var i=0; i < kolom.length; i++) {
+				$(kolom[i]).removeClass("non-aktif");
 				$(kolom[i]).removeAttr("disabled");
-				$(kolom[i]).attr("style","background-color: ");
+				$(kolom[i]).attr("style","background-color: white;");
 			}
 		} else {
 			$('input[name=nomor'+no_anggota+']').attr("disabled",'disabled');
 			for (var i=0; i < kolom.length; i++) {
 				$(kolom[i]).val('');
 				$(kolom[i]).attr("disabled",'disabled');
+				$(kolom[i]).addClass("non-aktif");
 				$(kolom[i]).attr("style","background-color: lightgrey;");
 			}
 		}
@@ -64,6 +66,31 @@
 	tr .hide{
 		display:none;
 	}
+
+	/* Di Chrome, paksa style untuk kolom isian autocomplete
+		 https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/
+	*/
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus
+	input:-webkit-autofill,
+	textarea:-webkit-autofill,
+	textarea:-webkit-autofill:hover
+	textarea:-webkit-autofill:focus,
+	select:-webkit-autofill,
+	select:-webkit-autofill:hover,
+	select:-webkit-autofill:focus {
+	  -webkit-box-shadow: 0 0 0px 1000px white inset;
+	}
+	/* Style untuk kolom isian autocomplete Chrome yang non-aktif */
+	input.non-aktif:-webkit-autofill,
+	input.non-aktif:-webkit-autofill,
+	input.non-aktif:-webkit-autofill:hover,
+	input.non-aktif:-webkit-autofill:focus
+	input.non-aktif:-webkit-autofill{
+	  -webkit-box-shadow: 0 0 0px 1000px lightgrey inset;
+	}
+
 </style>
 <div id="pageC">
 	<table class="inner">
