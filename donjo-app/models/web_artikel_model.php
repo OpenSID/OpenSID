@@ -131,41 +131,41 @@
 		  $nama_file   = $_FILES['gambar']['name'];
 		  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		  if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-				UploadArtikel($nama_file,"gambar",$fp);
-			}
+				if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
+					UploadArtikel($nama_file,"gambar",$fp);
+					$data['gambar'] = $fp.$nama_file;
+				}
 		  }
 		  $lokasi_file1 = $_FILES['gambar1']['tmp_name'];
 		  $tipe_file1   = $_FILES['gambar1']['type'];
 		  $nama_file1   = $_FILES['gambar1']['name'];
 		  if (!empty($lokasi_file1)){
-			if ($tipe_file1 == "image/jpeg" OR $tipe_file1 == "image/pjpeg"){
-				UploadArtikel($nama_file1,"gambar1",$fp);
-			}
+				if ($tipe_file1 == "image/jpeg" OR $tipe_file1 == "image/pjpeg"){
+					UploadArtikel($nama_file1,"gambar1",$fp);
+					$data['gambar1'] = $fp.$nama_file1;
+				}
 		  }
 		  $lokasi_file2 = $_FILES['gambar2']['tmp_name'];
 		  $tipe_file2   = $_FILES['gambar2']['type'];
 		  $nama_file2   = $_FILES['gambar2']['name'];
 		  if (!empty($lokasi_file2)){
-			if ($tipe_file2 == "image/jpeg" OR $tipe_file2 == "image/pjpeg"){
-				UploadArtikel($nama_file2,"gambar2",$fp);
-			}
+				if ($tipe_file2 == "image/jpeg" OR $tipe_file2 == "image/pjpeg"){
+					UploadArtikel($nama_file2,"gambar2",$fp);
+					$data['gambar2'] = $fp.$nama_file2;
+				}
 		  }
 		  $lokasi_file3 = $_FILES['gambar3']['tmp_name'];
 		  $tipe_file3   = $_FILES['gambar3']['type'];
 		  $nama_file3   = $_FILES['gambar3']['name'];
 		  if (!empty($lokasi_file3)){
-			if ($tipe_file3 == "image/jpeg" OR $tipe_file3 == "image/pjpeg"){
-				UploadArtikel($nama_file3,"gambar3",$fp);
-			}
+				if ($tipe_file3 == "image/jpeg" OR $tipe_file3 == "image/pjpeg"){
+					UploadArtikel($nama_file3,"gambar3",$fp);
+					$data['gambar3'] = $fp.$nama_file3;
+				}
 		  }
 		$data = $_POST;
 		$data['id_kategori'] = $cat;
 		$data['id_user'] = $_SESSION['user'];
-		$data['gambar'] = $fp.$nama_file;
-		$data['gambar1'] = $fp.$nama_file1;
-		$data['gambar2'] = $fp.$nama_file2;
-		$data['gambar3'] = $fp.$nama_file3;
 
 		if($_SESSION['grup'] == 4){
 			$data['enabled'] = 2;
