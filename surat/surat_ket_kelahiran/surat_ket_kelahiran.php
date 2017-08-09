@@ -13,11 +13,16 @@ table.form span.judul{
 }
 </style>
 <script>
-function _calculateAge(birthday) { // birthday is a date
-    var birthdate = new Date(birthday);
-    var ageDifMs = Date.now() - birthdate.getTime();
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
+function _calculateAge(birthday) { // birthday is a date (dd-mm-yyyy)
+  var parts =birthday.split('-');
+  // Ubah menjadi format ISO yyyy-mm-dd
+  // please put attention to the month (parts[0]), Javascript counts months from 0:
+  // January - 0, February - 1, etc
+  // https://stackoverflow.com/questions/5619202/converting-string-to-date-in-js
+  var birthdate = new Date(parts[2],parts[1]-1,parts[0]);
+  var ageDifMs = (new Date()).getTime() - birthdate.getTime();
+  var ageDate = new Date(ageDifMs); // miliseconds from epoch
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 
 $(function(){
