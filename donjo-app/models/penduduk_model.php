@@ -1137,20 +1137,33 @@
 	}
 
 	function dokumen_insert(){
+		$_SESSION['error_msg'] = "";
+		$_SESSION['success'] = 1;
 		$lokasi_file = $_FILES['satuan']['tmp_name'];
+		if(empty($lokasi_file)){
+			$_SESSION['success']=-1;
+			return false;
+		}
+		$this->load->model('web_dokumen_model');
+	  $tipe_file   = $_FILES['satuan']['type'];
+		if(!in_array($tipe_file, $this->web_dokumen_model->semua_mime_type())){
+			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
+			$_SESSION['success']=-1;
+			return false;
+		}
+
 		$nama_file = $_FILES['satuan']['name'];
 		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		if (!empty($lokasi_file)){
-				$data = $_POST;
-				$nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;
-				$nama_file = urlencode($nama_file);
-				UploadDocument($nama_file);
-				$data['satuan'] = $nama_file;
-				unset($data['nik']);
-				$outp = $this->db->insert('dokumen',$data);
-				if($outp) $_SESSION['success']=1;
-			} else {
-				$_SESSION['success']=-1;
+		$data = $_POST;
+		$nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;
+		$nama_file = urlencode($nama_file);
+		UploadDocument($nama_file);
+		$data['satuan'] = $nama_file;
+		unset($data['nik']);
+		$outp = $this->db->insert('dokumen',$data);
+		if(!$outp) {
+			$_SESSION['success']=-1;
+			return false;
 		}
 	}
 
