@@ -102,7 +102,7 @@ class penduduk_log extends CI_Controller{
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$nav['act']= 2;
 		$this->load->view('header', $header);
 		$this->load->view('sid/nav',$nav);

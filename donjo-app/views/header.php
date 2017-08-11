@@ -24,6 +24,7 @@
 
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-timepicker-addon.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-layout-1.3.0.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.formtips.1.2.2.packed.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.tipsy.js"></script>
@@ -122,7 +123,7 @@ notification('error','Simpan data gagal, nama id sudah ada!')();
 			continue;
 		}
 		?>
-		<a class="cpanel <?php if($modul_ini==$mod['id']){?>selected<?php }?>" href="<?php echo site_url()?><?php echo $mod['url']?>">
+		<a class="cpanel <?php if($this->modul_ini==$mod['id']){?>selected<?php }?>" href="<?php echo site_url()?><?php echo $mod['url']?>">
 			<img src="<?php echo base_url()?>assets/images/cpanel/<?php echo $mod['ikon']?>" alt=""/>
 			<span><?php echo $mod['modul']?></span>
 		</a>

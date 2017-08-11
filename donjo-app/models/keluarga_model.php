@@ -541,7 +541,9 @@
 		return $data;
 	}
 
-	function list_anggota($id=0){
+	// $options['dengan_kk'] = false jika hanya perlu tanggungan keluarga tanpa kepala keluarga
+	// $options['pilih'] untuk membatasi ke nik tertentu saja
+	function list_anggota($id=0,$options=array('dengan_kk'=>true)){
 		$sql   = "SELECT u.*,u.sex as sex_id,u.status_kawin as status_kawin_id,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
 				b.dusun,b.rw,b.rt,x.nama as sex,u.kk_level,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,g.nama as golongan_darah,h.nama AS hubungan, k.alamat
@@ -556,19 +558,12 @@
 			LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id
 			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
 			LEFT JOIN tweb_keluarga k ON u.id_kk = k.id
-			WHERE status = 1 AND status_dasar = 1 AND id_kk = ? ORDER BY kk_level, tanggallahir";
-
+			WHERE status = 1 AND status_dasar = 1 AND id_kk = ?";
+		if($options['dengan_kk'] !== NULL AND !$options['dengan_kk']) $sql .= " AND kk_level <> 1";
+		if(!empty($options['pilih'])) $sql .= " AND u.nik IN (".$options['pilih'].")";
+		$sql .= " ORDER BY kk_level, tanggallahir";
 		$query = $this->db->query($sql,array($id));
 		$data=$query->result_array();
-
-		//Formating Output
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['no']=$i+1;
-			$data[$i]['tanggallahir']= tgl_indo($data[$i]['tanggallahir']);
-
-			$i++;
-		}
 		return $data;
 	}
 
@@ -810,7 +805,7 @@
 			$nik 			.= $ranggota['nik']."\line ";
 			$sex 			.= $ranggota['sex']."\line ";
 			$tempatlahir 	.= $ranggota['tempatlahir']."\line ";
-			$tanggallahir 	.= $ranggota['tanggallahir']."\line ";
+			$tanggallahir 	.= tgl_indo($ranggota['tanggallahir'])."\line ";
 			$agama 			.= $ranggota['agama']."\line ";
 			$pendidikan 	.= $ranggota['pendidikan']."\line ";
 			$pekerjaan 		.= $ranggota['pekerjaan']."\line ";

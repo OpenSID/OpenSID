@@ -311,7 +311,9 @@
 			$tanggal = substr($tgl,0,2);
 			$bulan = substr($tgl,3,2);
 			$tahun = substr($tgl,6,4);
-			return $tahun.'-'.$bulan.'-'.$tanggal;
+			$jam = substr($tgl,11);
+			$jam = empty($jam) ? '' : ' '.$jam;
+			return $tahun.'-'.$bulan.'-'.$tanggal.$jam;
 	}
 
 	function waktu_ind($time){
@@ -448,14 +450,7 @@ function fixSQL($str, $encode_ent = false) {
 
 //baca data tanpa HTML Tags
 function fixTag($varString){
-	$isIn = true;	$strD="";
-	for($i=0;$i<=strlen($varString);$i++){
-		$mch = substr($varString,$i,1);
-		if((ord($mch)==9)||(ord($mch)==10)||(ord($mch)==13)){$mch=" ";}
-		if($mch=="<"){$isIn=true;}
-		if($mch==">"){$isIn=false;}else{if($isIn==false){$strD.= $mch;}}
-	}
-	return trim($strD);
+	return strip_tags($varString);
 }
 
 /*
@@ -487,6 +482,14 @@ function fTampilTgl($sdate,$edate){
 	return $tgl;
 }
 
+// Potong teks pada batasan kata
+function potong_teks($teks, $panjang) {
+	$abstrak = fixTag($teks);
+	if(strlen($abstrak)>$panjang+10){
+		$abstrak = substr($abstrak,0,strpos($abstrak," ",$panjang));
+	}
+	return $abstrak;
+}
 
 	function hash_pin($pin=""){
 		$pin = strrev($pin);

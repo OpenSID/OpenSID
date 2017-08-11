@@ -19,14 +19,14 @@
 				</ul>
 			</div>
 		</fieldset>
-		
+
 	</td>
 		</td>
-		<td style="background:#fff;padding:5px;"> 
+		<td style="background:#fff;padding:5px;">
 <div class="content-header">
     <h3>Manajemen Nomer Kontak</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
@@ -52,7 +52,7 @@
 				<th width="15"><input type="checkbox" class="checkall"/></th>
 				<th width="30">Aksi</th>
 				<th width="100">Nama</th>
-			    	<th width="25">Jenis Kelamin</th>	
+			    	<th width="25">Jenis Kelamin</th>
 				<th width="200">Alamat</th>
 				<th width="50">No HP</th>
 		   	 </tr>
@@ -66,7 +66,7 @@
 				</td>
 		  		<td align="center">
 				<div class="uibutton-group">
-		    		    <a href="<?php echo site_url("sms/form_kontak/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+		    		    <a href="<?php echo site_url("sms/form_kontak/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data" target="ajax-modal" rel="window" header="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 				    <a href="<?php echo site_url("sms/kontak_delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 				</div>
 		  		</td>
@@ -82,7 +82,7 @@
     	</div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('sms/kontak')?>" method="post">
 		  <label>Tampilkan</label>
@@ -107,7 +107,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("sms/kontak/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>

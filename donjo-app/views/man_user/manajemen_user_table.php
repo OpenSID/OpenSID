@@ -10,11 +10,11 @@
 <div id="pageC">
 	<table class="inner">
 <tr style="vertical-align:top">
-		<td style="background:#fff;padding:0px;"> 
+		<td style="background:#fff;padding:0px;">
 <div class="content-header">
     <h3>Manajemen User</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
@@ -47,30 +47,30 @@
                 <th><input type="checkbox" class="checkall"/></th>
                 <th width="100">Aksi</th>
                 <?php  if($o==2): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/1")?>">Username<span class="ui-icon ui-icon-triangle-1-n"></span></a></th>
+								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/1")?>">Username <span class="fa fa-sort-asc fa-sm"></span></a></th>
 							<?php  elseif($o==1): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/2")?>">Username<span class="ui-icon ui-icon-triangle-1-s"></span></a></th>
+								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/2")?>">Username <span class="fa fa-sort-desc fa-sm"></span></a></th>
 							<?php  else: ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/1")?>">Username<span class="ui-icon ui-icon-triangle-2-n-s"></span></a></th>
+								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/1")?>">Username <span class="fa fa-sort fa-sm"></span></a></th>
 							<?php  endif; ?>
-							
+
 							<?php  if($o==4): ?>
-								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 							<?php  elseif($o==3): ?>
-								<th align="left"><a href="<?php echo site_url("man_user/index/$p/4")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("man_user/index/$p/4")?>">Nama <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 							<?php  endif; ?>
-							
+
 							<?php  if($o==6): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="center" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 							<?php  elseif($o==5): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/6")?>">Group<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="center" width='100'><a href="<?php echo site_url("man_user/index/$p/6")?>">Group <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="center" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 							<?php  endif; ?>
-								<th align="left" width='160' align="center">Last Login</th>
-            
+								<th align="center" width='160' align="center">Last Login</th>
+
 			</tr>
 		</thead>
 		<tbody>
@@ -83,7 +83,7 @@
 				<?php  endif; ?>
 			</td>
           <td><div class="uibutton-group">
-            <a href="<?php echo site_url("man_user/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+            <a href="<?php echo site_url("man_user/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
             <?php if($data['username']!='admin'){?>
 							<a href="<?php echo site_url("man_user/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 						<?php if($data['active'] == '0'): ?>
@@ -103,7 +103,7 @@
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url('man_user')?>" method="post">
 		  <label>Tampilkan</label>
@@ -128,7 +128,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("man_user/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>

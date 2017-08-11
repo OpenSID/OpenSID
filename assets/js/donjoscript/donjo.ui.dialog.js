@@ -89,7 +89,7 @@ function dialog(id,title,message,url,width,height){
             width:width,
             height:height,
             autoOpen: false,
-            modal: true,			
+            modal: true,
             buttons: {
 				"Ya": function() {
 					location.href=url;
@@ -99,16 +99,17 @@ function dialog(id,title,message,url,width,height){
 					$( this ).dialog( "close" );
 			}
       },
-      dragStart: function(event, ui) { 
+      dragStart: function(event, ui) {
         $(this).parent().addClass('drag');
       },
-      dragStop: function(event, ui) { 
+      dragStop: function(event, ui) {
         $(this).parent().removeClass('drag');
       }
 
 	});
+
   $('#'+id+'').dialog('open');
-  }
+}
 
 function dialog2(id,title,message,url,width,height){
   if (width==null || height==null){
@@ -123,11 +124,11 @@ function dialog2(id,title,message,url,width,height){
             width:width,
             height:height,
             autoOpen: false,
-            modal: true,	
-      dragStart: function(event, ui) { 
+            modal: true,
+      dragStart: function(event, ui) {
         $(this).parent().addClass('drag');
       },
-      dragStop: function(event, ui) { 
+      dragStop: function(event, ui) {
         $(this).parent().removeClass('drag');
       }
 
@@ -149,10 +150,10 @@ function modal(id,title,message,width,height){
       height:height,
       autoOpen: false,
 			modal: false,
-      dragStart: function(event, ui) { 
+      dragStart: function(event, ui) {
         $(this).parent().addClass('drag');
       },
-      dragStop: function(event, ui) { 
+      dragStop: function(event, ui) {
         $(this).parent().removeClass('drag');
       }
 
@@ -166,67 +167,9 @@ function ajaxModalz(id,title,url,width,height){
     height='400';
   }
   $('#'+id+'').remove();
-  
+
   $('body').append('<div id="'+id+'" title="'+title+'" style="display:none;position:relative"><div style="width:300px;height:100px;background:url(assets/images/background/fbloading.gif) no-repeat center center"></div></div>');
-    
-		$('#'+id+'').dialog({
-			resizable: false,
-			draggable: true,
-      width:width,
-      height:height,
-      autoOpen: false,
-			modal: false,	
-      dragStart: function(event, ui) { 
-        $(this).parent().addClass('drag');
-      },
-      dragStop: function(event, ui) { 
-        $(this).parent().removeClass('drag');
-      },
-      open: function(event, ui) {
-        $('#'+id+'').load(url);
-      }
-	});
-  $('#'+id+'').dialog('open');
-  }
- 
-function ajaxModalx(id,title,url,width,height){
-  if (width==null || height==null){
-    width='450';
-    height='400';
-  }
-  $('#'+id+'').remove();
-  
-  $('body').append('<div id="'+id+'" title="'+title+'" style="display:none;position:relative"><div style="width:300px;height:100px;background:url(assets/images/background/fbloading.gif) no-repeat center center"></div></div>');
-    
-		$('#'+id+'').dialog({
-			resizable: false,
-			draggable: true,
-      width:width,
-      height:height,
-      autoOpen: false,
-			modal: false,	
-      dragStart: function(event, ui) { 
-        $(this).parent().addClass('drag');
-      },
-      dragStop: function(event, ui) { 
-        $(this).parent().removeClass('drag');
-      },
-      open: function(event, ui) {
-        $('#'+id+'').load(url);
-      }
-	});
-  $('#'+id+'').dialog('open');
-  }
-  
-function ajaxModal(id,title,url,width,height){
-  if (width==null || height==null){
-    width='450';
-    height='200';
-  }
-  $('#'+id+'').remove();
-  
-  $('body').append('<div id="'+id+'" title="'+title+'" style="display:none;position:relative"><div style="width:300px;height:100px;background:url(assets/images/background/fbloading.gif) no-repeat center center"></div></div>');
-    
+
 		$('#'+id+'').dialog({
 			resizable: false,
 			draggable: true,
@@ -234,10 +177,69 @@ function ajaxModal(id,title,url,width,height){
       height:height,
       autoOpen: false,
 			modal: false,
-      dragStart: function(event, ui) { 
+      dragStart: function(event, ui) {
         $(this).parent().addClass('drag');
       },
-      dragStop: function(event, ui) { 
+      dragStop: function(event, ui) {
+        $(this).parent().removeClass('drag');
+      },
+      open: function(event, ui) {
+        $('#'+id+'').load(url);
+      }
+	});
+  $('#'+id+'').dialog('open');
+  }
+
+function ajaxModalx(id,title,url,width,height){
+  if (width==null || height==null){
+    width='450';
+    height='400';
+  }
+  $('#'+id+'').remove();
+
+  $('body').append('<div id="'+id+'" title="'+title+'" style="display:none;position:relative"><div style="width:300px;height:100px;background:url(assets/images/background/fbloading.gif) no-repeat center center"></div></div>');
+
+		$('#'+id+'').dialog({
+			resizable: false,
+			draggable: true,
+      width:width,
+      height:height,
+      autoOpen: false,
+			modal: false,
+      dragStart: function(event, ui) {
+        $(this).parent().addClass('drag');
+      },
+      dragStop: function(event, ui) {
+        $(this).parent().removeClass('drag');
+      },
+      open: function(event, ui) {
+        $('#'+id+'').load(url);
+      }
+	});
+  $('#'+id+'').dialog('open');
+  }
+
+function ajaxModal(id,title,url,width,height){
+  if (width==null || height==null){
+    width='450';
+    height='200';
+  }
+  $('#'+id+'').remove();
+
+  $('body').append('<div id="'+id+'" title="'+title+'" style="display:none;position:relative;overflow:scroll;"><div style="width:300px;height:100px;background:url(assets/images/background/fbloading.gif) no-repeat center center"></div></div>');
+
+		$('#'+id+'').dialog({
+      position: ['center', 150],
+			resizable: true,
+			draggable: true,
+      width:width,
+      height:height,
+      autoOpen: false,
+			modal: false,
+      dragStart: function(event, ui) {
+        $(this).parent().addClass('drag');
+      },
+      dragStop: function(event, ui) {
         $(this).parent().removeClass('drag');
       },
       open: function(event, ui) {

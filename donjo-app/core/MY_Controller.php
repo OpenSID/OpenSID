@@ -74,7 +74,11 @@ class MY_Controller extends CI_Controller {
 		// make sure that $template_file has .php extension
 		$template_file = substr( $template_file, -4 ) == '.php' ? $template_file : ( $template_file . ".php" );
 
-		$this->template = "../../themes/{$this->theme}/{$template_file}";
+    $template_file_path = FCPATH . 'themes/' . $this->theme . "/" . $template_file;
+    if (is_file($template_file_path))
+			$this->template = "../../themes/{$this->theme}/{$template_file}";
+    else
+    	$this->template = '../../themes/default/' . $template_file;
 	}
 
 
@@ -92,12 +96,23 @@ class MY_Controller extends CI_Controller {
 }
 
 class Web_Controller extends MY_Controller {
-       /**
-     * Constructor
-     */
-    function __construct()
-    {
-        parent::__construct();
-				$this->includes['folder_themes'] = '../../themes/'.$this->theme;
-    }
+	/**
+  	* Constructor
+ 	*/
+	function __construct()
+  {
+    parent::__construct();
+		$this->includes['folder_themes'] = '../../themes/'.$this->theme;
+  }
+
+  // Jika file theme/view tidak ada, gunakan file default/view
+  // Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
+  function fallback_default($theme, $view)
+  {
+    $theme_file = FCPATH . 'themes/' . $theme . $view;
+    if (!is_file($theme_file)) $theme_view = '../../themes/default' . $view;
+    else $theme_view = '../../themes/' . $theme . $view;
+    return $theme_view;
+  }
+
 }

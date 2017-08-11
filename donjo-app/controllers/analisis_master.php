@@ -52,7 +52,6 @@ class analisis_master extends CI_Controller{
 		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
 
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav',$nav);

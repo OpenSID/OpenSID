@@ -20,7 +20,7 @@
                       Proses ini untuk mengubah database SID ke struktur database OpenSID <?php echo AmbilVersi()?>.
                       <br><br>
                       <div class="box-perhatian">
-                        <strong>Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
+                        <strong><span class="fa fa-info-circle" style="color:red"></span> Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
                       </div>
                       <br>
                       Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di
@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Migrasi Sedang Berjalan.">Migrasi Database Ke OpenSID <?php echo AmbilVersi()?></a>
+                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Migrasi Sedang Berjalan."><span class="fa fa-retweet"></span> Migrasi Database Ke OpenSID <?php echo AmbilVersi()?></a>
                   </td>
                   <td>
                     &nbsp;

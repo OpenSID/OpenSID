@@ -98,6 +98,11 @@ class Web_Dokumen_Model extends CI_Model{
 		return $data;
 	}
 
+	function semua_mime_type(){
+	  $semua_mime_type = array_merge(unserialize(MIME_TYPE_DOKUMEN), unserialize(MIME_TYPE_GAMBAR), unserialize(MIME_TYPE_ARSIP));
+	  return $semua_mime_type;
+	}
+
 	function insert(){
 		if(empty($_FILES['satuan']['tmp_name'])){
 			return false;
@@ -110,8 +115,7 @@ class Web_Dokumen_Model extends CI_Model{
 	  $nama_file   = $_FILES['satuan']['name'];
 	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 
-	  $semua_mime_type = array_merge(unserialize(MIME_TYPE_DOKUMEN), unserialize(MIME_TYPE_GAMBAR), unserialize(MIME_TYPE_ARSIP));
-		if(!in_array($tipe_file, $semua_mime_type)){
+		if(!in_array($tipe_file, $this->semua_mime_type())){
 			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 			$_SESSION['success']=-1;
 			return false;
@@ -135,7 +139,7 @@ class Web_Dokumen_Model extends CI_Model{
 	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 
 		if(!empty($_FILES['satuan']['tmp_name'])){
-			if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN))){
+			if(!in_array($tipe_file, $this->semua_mime_type())){
 				unset($data['satuan']);
 				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 				$_SESSION['success']=-1;

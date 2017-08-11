@@ -20,6 +20,11 @@
 		return $data;
 	}
 
+	function list_semua(){
+		$data = $this->db->select('*')->get('tweb_desa_pamong')->result_array();
+		return $data;
+	}
+
 	function autocomplete(){
 		$sql   = "SELECT pamong_nama FROM tweb_desa_pamong
 					UNION SELECT pamong_nip FROM tweb_desa_pamong

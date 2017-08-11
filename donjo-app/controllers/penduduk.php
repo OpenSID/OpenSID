@@ -136,7 +136,7 @@ class Penduduk extends CI_Controller{
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$nav['act']= 2;
 		$this->load->view('header', $header);
 
@@ -205,7 +205,7 @@ class Penduduk extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['rw']    = $this->penduduk_model->list_rw($data['dus_sel']);
 		$data['rt']    = $this->penduduk_model->list_rt($data['dus_sel'],$data['rw_sel']);
@@ -219,7 +219,7 @@ class Penduduk extends CI_Controller{
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$nav['act']= 2;
 		unset($_SESSION['dari_internal']);
@@ -235,7 +235,7 @@ class Penduduk extends CI_Controller{
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$nav['act']= 2;
 		$this->load->view('sid/nav',$nav);
@@ -248,7 +248,7 @@ class Penduduk extends CI_Controller{
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
 
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$nav['act']= 2;
 		$this->load->view('sid/nav',$nav);
@@ -286,7 +286,8 @@ class Penduduk extends CI_Controller{
 
   function cetak_biodata($id=''){
 
-		$data['desa'] = $this->header_model->get_data();
+		$header = $this->header_model->get_data();
+		$data['desa'] = $header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$this->load->view('sid/kependudukan/cetak_biodata',$data);
 	}
@@ -463,6 +464,7 @@ class Penduduk extends CI_Controller{
 		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
+		$data['status_kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['form_action'] = site_url("penduduk/adv_search_proses");
 
 		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);

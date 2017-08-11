@@ -9,6 +9,7 @@ class Surat extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('keluarga_model');
 		$this->load->model('surat_model');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('config_model');
@@ -26,7 +27,7 @@ class Surat extends CI_Controller{
 		unset($_SESSION['id_wanita']);
 		unset($_SESSION['post']);
 
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$nav['act']= 1;
 
@@ -37,7 +38,7 @@ class Surat extends CI_Controller{
 
 	function panduan(){
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$nav['act']= 4;
 
@@ -55,7 +56,7 @@ class Surat extends CI_Controller{
 		$data['url']=$url;
 		if(!empty($_POST['nik'])){
 			$data['individu']=$this->surat_model->get_penduduk($_POST['nik']);
-			$data['anggota']=$this->surat_model->list_anggota($data['individu']['id_kk'],$data['individu']['nik']);
+			$data['anggota']=$this->keluarga_model->list_anggota($data['individu']['id_kk']);
 		}else{
 			$data['individu']=NULL;
 			$data['anggota']=NULL;
@@ -68,7 +69,7 @@ class Surat extends CI_Controller{
 		$data['form_action2'] = site_url("surat/doc/$url");
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header',$header);
 		$this->load->view('surat/nav',$nav);
 		$this->load->view("surat/form_surat",$data);
@@ -102,6 +103,7 @@ class Surat extends CI_Controller{
 		$data['pamong'] = $this->surat_model->get_pamong($_POST['pamong']);
 
 		$data['pengikut']=$this->surat_model->pengikut();
+		$data['anggota']=$this->keluarga_model->list_anggota($data['kk']['id_kk']);
 		$this->surat_keluar_model->log_surat($log_surat);
 
 		$data['url']=$url;

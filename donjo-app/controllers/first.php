@@ -86,7 +86,8 @@ class First extends Web_Controller{
 		// Hanya boleh mencetak data pengguna yang login
 		$id = $_SESSION['id'];
 
-		$data['desa'] = $this->header_model->get_data();
+		$header = $this->header_model->get_data();
+		$data['desa'] = $header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$this->load->view('sid/kependudukan/cetak_biodata',$data);
 	}
@@ -105,6 +106,19 @@ class First extends Web_Controller{
 
 		$header = $this->header_model->get_data();
 		$this->load->view("sid/kependudukan/cetak_kk", $data);
+	}
+
+	function kartu_peserta($id=0){
+		if($_SESSION['mandiri']!=1){
+			redirect('first');
+			return;
+		}
+		$this->load->model('program_bantuan_model');
+		$data = $this->program_bantuan_model->get_program_peserta_by_id($id);
+		// Hanya boleh menampilkan data pengguna yang login
+		// ** Bagi program sasaran pendududk **
+		if($data['peserta'] == $_SESSION['nik'])
+			$this->load->view('program_bantuan/kartu_peserta',$data);
 	}
 
 	function mandiri($p=1,$m=0){
@@ -148,6 +162,7 @@ class First extends Web_Controller{
 		$data['paging']  = $this->first_artikel_m->paging($p);
 		$data['artikel'] = $this->first_artikel_m->list_artikel(0,$data['paging']->offset,$data['paging']->per_page);
 		$data['single_artikel'] = $this->first_artikel_m->get_artikel($id);
+		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
 
 		$this->_get_common_data($data);
 
@@ -239,12 +254,13 @@ class First extends Web_Controller{
 	}
 
 	function wilayah(){
+		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
 		$data['main']    = $this->first_penduduk_m->wilayah();
 		$data['heading']="Populasi Per Wilayah";
 		$data['tipe'] = 3;
-		$data['total'] = $this->first_penduduk_m->total();
+		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
 
 		$this->_get_common_data($data);
@@ -319,9 +335,8 @@ class First extends Web_Controller{
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
-		$data['slide_artikel_utama'] = $this->first_artikel_m->slide_show(TRUE);
-		$data['slide_galeri'] = $this->web_gallery_model->list_slide_galeri();
-		$data['w_cos']  = $this->first_artikel_m->cos_widget();
+		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
+		$data['w_cos']  = $this->web_widget_model->get_widget_aktif();
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');

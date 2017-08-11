@@ -26,7 +26,7 @@
 					<thead>
 						<tr>
 							<th>No</th>
-							<th width="135px">Aksi</th>
+							<th width="150px">Aksi</th>
 							<?php  if($o==2): ?>
 							<th align="left">Nomor Surat</th>
 							<?php  elseif($o==1): ?>
@@ -76,11 +76,11 @@
 									<div class="uibutton-group">
 										<?php
 											if(is_file($theFile)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south" title="Cetak"><span class="fa fa-download"></span> Cetak</a>
+												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south fa-tipis" title="Cetak"><span class="fa fa-download"></span> Cetak</a>
 										<?php	}?>
 										<?php
 											if(is_file($lampiran)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south" title="Lampiran"><span class="fa fa-download"></span> Lampiran</a>
+												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south fa-tipis" title="Lampiran"><span class="fa fa-download"></span> Lampiran</a>
 										<?php	}?>
 										<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 									</div>

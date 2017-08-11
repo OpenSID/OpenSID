@@ -22,13 +22,9 @@ source: keyword
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url('penduduk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Penduduk Pendatang</a>
-
 				<?php  if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button><?php  }?>
-
                 <a href="<?php echo site_url("penduduk/cetak/$o")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-
 				<a href="<?php echo site_url("penduduk/excel/$o")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
-
             </div>
         </div>
         <div class="right">
@@ -74,7 +70,6 @@ source: keyword
 					<?php }?>
                 </select>
 				<?php }?>
-
 				<button href="<?php echo site_url("penduduk/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="fa fa-search">&nbsp;</span>Pencarian Spesifik</button><a href="<?php echo site_url("penduduk/clear")?>"  class="uibutton tipsy south"  title="Bersihkan Pencarian"><span class="fa fa-refresh">&nbsp;</span>Bersihkan</a>
 			  </div>
             <div class="right">
@@ -93,50 +88,50 @@ source: keyword
 		<tr>
 			<th>No</th>
 			<th><input type="checkbox" class="checkall"/></th>
-			<th width="160">Aksi</th>
+			<th width="140">Aksi</th>
 			<?php  if($o==2): ?>
-			<th align="left" width='100'><a href="<?php echo site_url("penduduk/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-1-n"></span></a></th>
+			<th align="center" width='100'><a href="<?php echo site_url("penduduk/index/$p/1")?>">NIK <span class="fa fa-sort-asc fa-sm"></span></a></th>
 			<?php  elseif($o==1): ?>
-			<th align="left" width='100'><a href="<?php echo site_url("penduduk/index/$p/2")?>">NIK<span class="ui-icon ui-icon-triangle-1-s"></span></a></th>
+			<th align="center" width='100'><a href="<?php echo site_url("penduduk/index/$p/2")?>">NIK <span class="fa fa-sort-desc fa-sm"></span></a></th>
 			<?php  else: ?>
-			<th align="left" width='100'><a href="<?php echo site_url("penduduk/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-2-n-s"></span></a></th>
+			<th align="center" width='100'><a href="<?php echo site_url("penduduk/index/$p/1")?>">NIK <span class="fa fa-sort fa-sm"></span></a></th>
 			<?php  endif; ?>
 
 			<?php  if($o==4): ?>
-			<th align="left"><a href="<?php echo site_url("penduduk/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+			<th align="center"><a href="<?php echo site_url("penduduk/index/$p/3")?>">Nama <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php  elseif($o==3): ?>
-			<th align="left"><a href="<?php echo site_url("penduduk/index/$p/4")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+			<th align="center"><a href="<?php echo site_url("penduduk/index/$p/4")?>">Nama <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php  else: ?>
-			<th align="left"><a href="<?php echo site_url("penduduk/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+			<th align="center"><a href="<?php echo site_url("penduduk/index/$p/3")?>">Nama <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php  endif; ?>
 
-			<th width="100" align="left">
+			<th width="100" align="center">
 			<?php  if($o==6): ?>
-			<a href="<?php echo site_url("penduduk/index/$p/5")?>">No. KK<span class="ui-icon ui-icon-triangle-1-n">
+			<a href="<?php echo site_url("penduduk/index/$p/5")?>">No. KK <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==5): ?>
-			<a href="<?php echo site_url("penduduk/index/$p/6")?>">No. KK<span class="ui-icon ui-icon-triangle-1-s">
-			<?php  else: ?><a href="<?php echo site_url("penduduk/index/$p/5")?>">No. KK<span class="ui-icon ui-icon-triangle-2-n-s">
+			<a href="<?php echo site_url("penduduk/index/$p/6")?>">No. KK <span class="fa fa-sort-desc fa-sm">
+			<?php  else: ?><a href="<?php echo site_url("penduduk/index/$p/5")?>">No. KK <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
-			<th align="Left" align="center">Alamat</th>
-            <th align="left" align="center"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
-            <th align="left" align="center">RW</th>
-            <th align="left" align="center">RT</th>
-			<th align="left" align="center">Pendidikan dalam KK</th>
+			<th align="center" align="center">Alamat</th>
+            <th align="center" align="center"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
+            <th align="center" align="center">RW</th>
+            <th align="center" align="center">RT</th>
+			<th align="center" align="center">Pendidikan dalam KK</th>
 
-			<th width="50" align="left">
+			<th width="45" align="center">
 			<?php  if($o==8): ?>
-			<a href="<?php echo site_url("penduduk/index/$p/7")?>">Umur<span class="ui-icon ui-icon-triangle-1-n">
+			<a href="<?php echo site_url("penduduk/index/$p/7")?>">Umur <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==7): ?>
-			<a href="<?php echo site_url("penduduk/index/$p/8")?>">Umur<span class="ui-icon ui-icon-triangle-1-s">
-			<?php  else: ?><a href="<?php echo site_url("penduduk/index/$p/7")?>">Umur<span class="ui-icon ui-icon-triangle-2-n-s">
+			<a href="<?php echo site_url("penduduk/index/$p/8")?>">Umur <span class="fa fa-sort-desc fa-sm">
+			<?php  else: ?><a href="<?php echo site_url("penduduk/index/$p/7")?>">Umur <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
 
-			<th align="left">Pekerjaan</th>
-			<th width="75" align="left">Kawin</th>
-			<th align="left">Status</th>
+			<th align="center">Pekerjaan</th>
+			<th width="75" align="center">Kawin</th>
+			<th align="center">Status</th>
 
 		</tr>
 </thead>
@@ -147,24 +142,24 @@ source: keyword
 <td align="center" width="5">
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
-<td> <div class="uibutton-group">
-<a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Rincian Data Penduduk"> <span  class="fa fa-address-book"></span> Rincian </a>
-<a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Ubah Data"> <span class="fa fa-edit"></span> </a>
-
-
-<a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar" modalWidth="auto" modalHeight="auto"><span class="fa fa-wrench"></span></a>
-<a href="<?php echo site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Ubah Alamat/Pindah Penduduk dalam Desa" target="ajax-modal" rel="window" header="Ubah/Pindah Alamat Penduduk Lepas" modalWidth="auto" modalHeight="auto"><span class="fa fa-share-square-o"></span></a>
-<?php  if($grup==1){?><a href="<?php echo site_url("penduduk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Hapus Data"  target="confirm" message="Apakah Anda Yakin?" rel="window" header="Hapus Data"><span class="fa fa-trash"></span></a><?php  }?></div>
+<td>
+	<div class="uibutton-group">
+		<a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"  class="uibutton tipsy south fa-tipis"  title="Rincian Data Penduduk"> <span class="fa fa-address-book"></span> Rincian </a>
+		<a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Ubah Data"> <span class="fa fa-edit"></span> </a>
+		<a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar" modalWidth="auto" modalHeight="auto"><span class="fa fa-wrench"></span></a>
+		<a href="<?php echo site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Ubah Alamat/Pindah Penduduk dalam Desa" target="ajax-modal" rel="window" header="Ubah/Pindah Alamat Penduduk Lepas" modalWidth="auto" modalHeight="auto"><span class="fa fa-share-square-o"></span></a>
+		<?php  if($grup==1){?><a href="<?php echo site_url("penduduk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Hapus Data"  target="confirm" message="Apakah Anda Yakin?" rel="window" header="Hapus Data"><span class="fa fa-trash"></span></a><?php  }?>
+	</div>
 </td>
-<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
+<td align="center"><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
 <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
-<td><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?> </a> </td>
+<td align="center"><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?> </a> </td>
 <td><?php echo strtoupper($data['alamat'])?></td>
 <td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
-<td><?php echo $data['rw']?></td>
-<td><?php echo $data['rt']?></td>
+<td align="center"><?php echo $data['rw']?></td>
+<td align="center"><?php echo $data['rt']?></td>
 <td><?php echo $data['pendidikan']?></td>
-<td><?php echo $data['umur']?></td>
+<td align="center"><?php echo $data['umur']?></td>
 <td><?php echo $data['pekerjaan']?></td>
 <td><?php echo $data['kawin']?></td>
 
@@ -193,27 +188,26 @@ source: keyword
         </div>
         <div class="right">
             <div class="uibutton-group">
-            <?php  if($paging->start_link): ?>
-<a href="<?php echo site_url("penduduk/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
-<?php  endif; ?>
-<?php  if($paging->prev): ?>
-<a href="<?php echo site_url("penduduk/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
-<?php  endif; ?>
-            </div>
-            <div class="uibutton-group">
-
-<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-<a href="<?php echo site_url("penduduk/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-<?php  endfor; ?>
-            </div>
-            <div class="uibutton-group">
-<?php  if($paging->next): ?>
-<a href="<?php echo site_url("penduduk/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
-<?php  endif; ?>
-<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("penduduk/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
-<?php  endif; ?>
-            </div>
+				<?php  if($paging->start_link): ?>
+				<a href="<?php echo site_url("penduduk/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
+				<?php  endif; ?>
+				<?php  if($paging->prev): ?>
+				<a href="<?php echo site_url("penduduk/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
+				<?php  endif; ?>
+			</div>
+			<div class="uibutton-group">
+				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+				<a href="<?php echo site_url("penduduk/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
+				<?php  endfor; ?>
+			</div>
+			<div class="uibutton-group">
+				<?php  if($paging->next): ?>
+				<a href="<?php echo site_url("penduduk/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
+				<?php  endif; ?>
+				<?php  if($paging->end_link): ?>
+				<a href="<?php echo site_url("penduduk/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
+				<?php  endif; ?>
+			</div>
         </div>
     </div>
 </div>

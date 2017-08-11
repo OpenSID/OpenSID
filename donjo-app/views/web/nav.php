@@ -5,7 +5,7 @@
 		<a href="<?php echo site_url('web/index/1')?>">Artikel</a>
 	</li>
 	<li <?php if($act==7){?>class="selected"<?php }?>>
-		<a href="<?php echo site_url('web/widget/1')?>">Widget</a>
+		<a href="<?php echo site_url('web_widget/index/1')?>">Widget</a>
 	</li>
 	<li <?php if($act==1){?>class="selected"<?php }?>>
 		<a href="<?php echo site_url('menu/index/1')?>">Menu</a>
@@ -21,6 +21,9 @@
 	</li>
 	<li <?php if($act==6){?>class="selected"<?php }?>>
 		<a href="<?php echo site_url('sosmed')?>">Media Sosial</a>
+	</li>
+	<li <?php if($act==8){?>class="selected"<?php }?>>
+		<a href="<?php echo site_url('web/slider')?>">Slider</a>
 	</li>
 <?php }else{?>
 

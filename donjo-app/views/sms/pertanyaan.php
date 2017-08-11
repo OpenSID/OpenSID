@@ -19,20 +19,20 @@
 				</ul>
 			</div>
 		</fieldset>
-		
+
 	</td>
 		</td>
-		<td style="background:#fff;padding:5px;"> 
+		<td style="background:#fff;padding:5px;">
 <div class="content-header">
     <h3>Manajemen Anggota Group Kontak <?php  //foreach($main as $data): endforeach;?><?php echo $grup['nama_grup']?><?php   ?></h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url("sms/form_anggota/$grup[nama_grup]")?>" class="uibutton tipsy south" title="Tambah Anggota" target="ajax-modalx" rel="window" header="Tambah Anggota"><span class="fa fa-plus-square">&nbsp;</span>Tambah Anggota</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all_anggota/$grup[nama_grup]")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all_anggota/$grup[nama_grup]")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
             </div>
         </div>
     </div>
@@ -52,9 +52,9 @@
 				<th width="15"><input type="checkbox" class="checkall"/></th>
 				<th width="15" >Aksi</th>
 				<th width="100">Nama Anggota</th>
-			    	<th width="25">Jenis Kelamin</th>	
-			    	<th width="25">Alamat</th>	
-			    	<th width="25">No HP</th>	
+			    	<th width="25">Jenis Kelamin</th>
+			    	<th width="25">Alamat</th>
+			    	<th width="25">No HP</th>
 		   	 </tr>
 		</thead>
 		<tbody>
@@ -66,7 +66,7 @@
 				</td>
 		  		<td align="center">
 				<?php // $x=$data['id'];?>
-				    <a href="<?php echo site_url("sms/anggota_delete/$data[nama_grup]/$data[id_kontak]")?>" class="ui-icons fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
+				    <a href="<?php echo site_url("sms/anggota_delete/$data[nama_grup]/$data[id_kontak]")?>" class="ui-icons fa fa-trash tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
 		  		</td>
 				 <td><?php echo $data['nama']?></td>
 				 <td><?php echo $data['sex']?></td>
@@ -80,7 +80,7 @@
     	</div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 		<div class="table-info">
           <form id="paging" action="<?php echo site_url("sms/anggota/$data[nama_grup]")?>" method="post">
 		  <label>Tampilkan</label>
@@ -105,7 +105,7 @@
 			<?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 				<?php  endfor; ?>

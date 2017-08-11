@@ -9,6 +9,9 @@
     font-weight: normal;
     padding-left: 20px;
   }
+  table#data_peserta img {
+    width: 200px;
+  }
 </style>
 
   <strong>Data Peserta</strong>
@@ -23,15 +26,28 @@
     </tr>
   </table>
 
-  <form action="<?php echo $form_action?>" method="post" id="validasi">
+  <form action="<?php echo $form_action?>" method="post" id="validasi" enctype="multipart/form-data">
     <input type="hidden" name="program_id" value="<?php echo $program_id?>"/>
 
     <strong>Ubah Data Peserta</strong>
-    <table id="data_peserta">
+    <table id="data_peserta" class="form">
       <tr>
         <td style="padding-right: 5px; white-space: nowrap;">Nomor Kartu Peserta</td>
         <td>
           <input name="no_id_kartu" type="text" class="inputbox" size="50" value="<?php echo $no_id_kartu?>"/>
+        </td>
+      </tr>
+      <tr>
+        <td>Gambar Kartu Peserta</td>
+        <td>
+          <?php if($kartu_peserta): ?>
+            <div class="gallerybox-avatar">
+              <img src="<?php echo AmbilDokumen($kartu_peserta)?>" alt=""/>
+            </div>
+            <input type="checkbox" name="gambar_hapus" value="<?php echo $kartu_peserta?>" /><span>Hapus Gambar</span>
+          <?php endif;?>
+          <input type="file" name="satuan" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah gambar)</span>
+          <input type="hidden" name="old_gambar" value="<?php echo $kartu_peserta?>">
         </td>
       </tr>
       <tr>
@@ -71,7 +87,7 @@
 
     <div class="buttonpane" style="text-align: right;">
         <div class="uibutton-group">
-            <button class="uibutton" type="button" onclick="$('#window').dialog('close');">Tutup</button>
+            <button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
             <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
         </div>
     </div>

@@ -5,7 +5,7 @@ if($data_config['lat']!= "0"){
 
   <div class=\"box box-default box-solid\">
     <div class=\"box-header\">
-      <h3 class=\"box-title\"><i class=\"fa fa-map-marker\"></i> Lokasi ". $desa["nama_desa"] ."</h3>
+      <h3 class=\"box-title\"><i class=\"fa fa-map-marker\"></i> Lokasi Kantor ". ucwords($this->setting->sebutan_desa) ."</h3>
     </div>
     <div class=\"box-body\">
       <div id=\"map_canvas\" style=\"height:200px;\"></div>

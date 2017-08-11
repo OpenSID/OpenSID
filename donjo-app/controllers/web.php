@@ -30,8 +30,7 @@ class web extends CI_Controller{
 	function pager($cat=1){
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/$cat");
+		redirect("web/index/$cat");
 	}
 
 	function index($cat=1,$p=1,$o=0){
@@ -61,43 +60,10 @@ class web extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$nav['act']=0;
-		$header['modul_ini'] = $this->modul_ini;
+
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
 		$this->load->view('web/artikel/table',$data);
-		$this->load->view('footer');
-	}
-
-	function widget($p=1,$o=0){
-
-		$cat 						= 1003;
-		$data['p']      = $p;
-		$data['o']      = $o;
-		$data['cat']	  = $cat;
-
-		if(isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
-		$data['paging']  = $this->web_artikel_model->paging($cat,$p,$o);
-		$data['main']    = $this->web_artikel_model->list_data($cat,$o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->web_artikel_model->autocomplete();
-		$data['cat'] = $cat;
-
-		$header = $this->header_model->get_data();
-		$nav['act']=7;
-		$header['modul_ini'] = $this->modul_ini;
-		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
-		$this->load->view('web/artikel/widget',$data);
 		$this->load->view('footer');
 	}
 
@@ -120,16 +86,12 @@ class web extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		if($cat == 1003) $nav['act'] = 7;
-		else $nav['act'] = 0;
-		$header['modul_ini'] = $this->modul_ini;
+		$nav['act'] = 0;
+
 		$this->load->view('header', $header);
 		//$this->load->view('web/spacer');
 		$this->load->view('web/nav',$nav);
-		if($cat != 1003)
-			$this->load->view('web/artikel/form',$data);
-		else
-			$this->load->view('web/artikel/widget-form',$data);
+		$this->load->view('web/artikel/form',$data);
 
 		$this->load->view('footer');
 	}
@@ -139,8 +101,7 @@ class web extends CI_Controller{
 		if($cari!='')
 			$_SESSION['cari']=$cari;
 		else unset($_SESSION['cari']);
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/$cat");
+		redirect("web/index/$cat");
 	}
 
 	function filter($cat=1){
@@ -148,38 +109,32 @@ class web extends CI_Controller{
 		if($filter!=0)
 			$_SESSION['filter']=$filter;
 		else unset($_SESSION['filter']);
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/$cat");
+		redirect("web/index/$cat");
 	}
 
 	function insert($cat=1){
 		$this->web_artikel_model->insert($cat);
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/$cat");
+		redirect("web/index/$cat");
 	}
 
 	function update($cat=0,$id='',$p=1,$o=0){
 		$this->web_artikel_model->update($cat, $id);
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/$cat/$p/$o");
+		redirect("web/index/$cat/$p/$o");
 	}
 
 	function delete($cat=1,$p=1,$o=0,$id=''){
 		$this->web_artikel_model->delete($id);
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/$cat/$p/$o");
+		redirect("web/index/$cat/$p/$o");
 	}
 
 	function hapus($cat=1,$p=1,$o=0){
 		$this->web_artikel_model->hapus($cat);
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/1/$p/$o");
+		redirect("web/index/1/$p/$o");
 	}
 
 	function delete_all($cat=1,$p=1,$o=0){
 		$this->web_artikel_model->delete_all();
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/$p/$o");
+		redirect("web/index/$p/$o");
 	}
 
 	function ubah_kategori_form($id=0){
@@ -195,21 +150,24 @@ class web extends CI_Controller{
 		redirect("web/index/$cat");
 	}
 
-	function widget_urut($id=0, $arah=0){
-		$this->web_artikel_model->widget_urut($id,$arah);
-		redirect("web/widget/1");
-	}
-
 	function artikel_lock($cat=1,$id=0){
 		$this->web_artikel_model->artikel_lock($id,1);
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/$cat");
+		redirect("web/index/$cat");
 	}
 
 	function artikel_unlock($cat=1,$id=0){
 		$this->web_artikel_model->artikel_lock($id,2);
-		if ($cat == 1003) redirect("web/widget");
-		else redirect("web/index/$cat");
+		redirect("web/index/$cat");
+	}
+
+	function komentar_lock($cat=1,$id=0){
+		$this->web_artikel_model->komentar_lock($id,0);
+		redirect("web/index/$cat");
+	}
+
+	function komentar_unlock($cat=1,$id=0){
+		$this->web_artikel_model->komentar_lock($id,1);
+		redirect("web/index/$cat");
 	}
 
 	function ajax_add_kategori($cat=1,$p=1,$o=0){
@@ -232,4 +190,19 @@ class web extends CI_Controller{
 		$this->web_artikel_model->slide($id);
 		redirect("web/index/$cat/$p/$o");
 	}
+
+	function slider(){
+		$header = $this->header_model->get_data();
+		$nav['act']=8;
+		$this->load->view('header', $header);
+		$this->load->view('web/nav',$nav);
+		$this->load->view('slider/admin_slider.php');
+		$this->load->view('footer');
+	}
+
+	function update_slider(){
+		$this->setting_model->update_slider();
+		redirect("web/slider");
+	}
+
 }

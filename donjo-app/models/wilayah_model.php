@@ -47,6 +47,15 @@
 		return $this->paging;
 	}
 
+	/*
+		Struktur tweb_wil_clusterdesa:
+		- baris dengan kolom rt = '0' dan rw = '0' menunjukkan dusun
+		- baris dengan kolom rt = '-' dan rw <> '-' menunjukkan rw
+		- baris dengan kolom rt <> '0' dan rt <> '0' menunjukkan rt
+
+		Di tabel tweb_penduduk  dan tweb_keluarga, kolom id_cluster adalah id untuk
+		baris rt.
+	*/
 	function list_data($o=0,$offset=0,$limit=500){
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
@@ -104,9 +113,12 @@
 		$this->db->where('dusun',$temp['dusun']);
 		$this->db->where('rw','0');
 		$this->db->where('rt','0');
-		$outp = $this->db->update('tweb_wil_clusterdesa',$data);
+		$outp1 = $this->db->update('tweb_wil_clusterdesa',$data);
 
-		if($outp) $_SESSION['success']=1;
+		// Ubah nama dusun di semua baris rw/rt untuk dusun ini
+		$outp2 = $this->db->where('dusun',$temp['dusun'])->update('tweb_wil_clusterdesa',array('dusun'=>$data['dusun']));
+
+		if($outp1 AND $outp2) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
 
@@ -397,8 +409,15 @@
 	}
 
 	function total(){
-		$sql = "SELECT (SELECT COUNT(rw.id) FROM tweb_wil_clusterdesa rw WHERE  rw <> '-' AND rt = '-') AS total_rw,
-		(SELECT COUNT(v.id) FROM tweb_wil_clusterdesa v WHERE v.rt <> '0' AND v.rt <> '-') AS total_rt, (SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa ) and status_dasar=1) AS total_warga, (SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.sex = 1 and status_dasar=1) AS total_warga_l, (SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.sex = 2 and status_dasar=1) AS total_warga_p, (SELECT COUNT(p.id) FROM tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala=p.id WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.kk_level = 1 and status_dasar=1) AS total_kk FROM tweb_wil_clusterdesa u LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw = '0' limit 1";
+		$sql = "SELECT
+		(SELECT COUNT(rw.id) FROM tweb_wil_clusterdesa rw WHERE  rw <> '-' AND rt = '-') AS total_rw,
+		(SELECT COUNT(v.id) FROM tweb_wil_clusterdesa v WHERE v.rt <> '0' AND v.rt <> '-') AS total_rt,
+		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa ) and status_dasar=1) AS total_warga,
+		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.sex = 1 and status_dasar=1) AS total_warga_l,
+		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.sex = 2 and status_dasar=1) AS total_warga_p,
+		(SELECT COUNT(p.id) FROM tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala=p.id WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.kk_level = 1 and status_dasar=1) AS total_kk
+		FROM tweb_wil_clusterdesa u
+		LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw = '0' limit 1";
 		$query = $this->db->query($sql);
 		return $query->row_array();
 	}

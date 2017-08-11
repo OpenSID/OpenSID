@@ -20,7 +20,7 @@ source: keyword
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("lapor/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("lapor/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -43,32 +43,32 @@ source: keyword
 <tr>
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
-<th width="120">Aksi</th>
+<th width="80">Aksi</th>
 
 <th style="white-space: nowrap;">Pengirim</th>
 <th style="white-space: nowrap;">NIK</th>
  <?php  if($o==2): ?>
-<th align="left"><a href="<?php echo site_url("lapor/index/$p/1")?>">Isi Pesan<span class="ui-icon ui-icon-triangle-1-n">
+<th align="center"><a href="<?php echo site_url("lapor/index/$p/1")?>">Isi Pesan <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==1): ?>
-<th align="left"><a href="<?php echo site_url("lapor/index/$p/2")?>">Isi Pesan<span class="ui-icon ui-icon-triangle-1-s">
+<th align="center"><a href="<?php echo site_url("lapor/index/$p/2")?>">Isi Pesan <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left"><a href="<?php echo site_url("lapor/index/$p/1")?>">Isi Pesan<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="center"><a href="<?php echo site_url("lapor/index/$p/1")?>">Isi Pesan <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==0): ?>
-<th align="left" width="120"><a href="<?php echo site_url("lapor/index/$p/3")?>">Sudah Tindak Lanjut<span class="ui-icon ui-icon-triangle-1-n">
+<th align="center" width="150"><a href="<?php echo site_url("lapor/index/$p/3")?>">Sudah Tindak Lanjut <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==3): ?>
-<th align="left" width="120"><a href="<?php echo site_url("lapor/index/$p/4")?>">Sudah Tindak Lanjut<span class="ui-icon ui-icon-triangle-1-s">
+<th align="center" width="150"><a href="<?php echo site_url("lapor/index/$p/4")?>">Sudah Tindak Lanjut <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left" width="120"><a href="<?php echo site_url("lapor/index/$p/3")?>">Sudah Tindak Lanjut<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="center" width="150"><a href="<?php echo site_url("lapor/index/$p/3")?>">Sudah Tindak Lanjut <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==6): ?>
-<th align="left" width='150'><a href="<?php echo site_url("lapor/index/$p/5")?>">Diupload Pada<span class="ui-icon ui-icon-triangle-1-n">
+<th align="left" width='200'><a href="<?php echo site_url("lapor/index/$p/5")?>">Diupload Pada <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==5): ?>
-<th align="left" width='150'><a href="<?php echo site_url("lapor/index/$p/6")?>">Diupload Pada<span class="ui-icon ui-icon-triangle-1-s">
+<th align="left" width='200'><a href="<?php echo site_url("lapor/index/$p/6")?>">Diupload Pada <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left" width='150'><a href="<?php echo site_url("lapor/index/$p/5")?>">Diupload Pada<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="left" width='200'><a href="<?php echo site_url("lapor/index/$p/5")?>">Diupload Pada <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 </tr>
@@ -81,7 +81,7 @@ source: keyword
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td> <div class="uibutton-group">
-<a href="<?php echo site_url("lapor/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a><?php if($data['enabled'] == '2'):?>
+<a href="<?php echo site_url("lapor/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a><?php if($data['enabled'] == '2'):?>
 <a href="<?php echo site_url('lapor/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Tindak-lanjuti laporan"><span class="fa fa-check"></span></a><?php elseif($data['enabled'] == '1'): ?>
 <a href="<?php echo site_url('lapor/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Kembalikan ke status awal"><span class="fa fa-unlock"></span></a>
 <?php endif?></div>
@@ -89,8 +89,8 @@ source: keyword
 <td style="white-space: nowrap;"><?php echo $data['owner']?></td>
 <td style="white-space: nowrap;"><?php echo $data['email']?></td>
 <td><?php echo $data['komentar']?></td>
-<td><?php echo $data['aktif']?></td>
-<td><?php echo tgl_indo2($data['tgl_upload'])?></td>
+<td align="center"><?php echo $data['aktif']?></td>
+<td align="center"><?php echo tgl_indo2($data['tgl_upload'])?></td>
 </tr>
 <?php }?>
 </tbody>

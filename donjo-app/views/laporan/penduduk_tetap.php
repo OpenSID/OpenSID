@@ -1,5 +1,5 @@
 
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
@@ -12,7 +12,7 @@
 				</ul>
 			</div>
 		</fieldset>
-		
+
 		<fieldset><legend>Penduduk Desa</legend>
 			<div class="lmenu">
 				<ul>
@@ -24,20 +24,20 @@
 				</ul>
 			</div>
 		</fieldset>
-		
-		
+
+
 		</td>
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
     <h3>Manajemen Penduduk</h3>
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 <form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url('sid_penduduk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Data</a>
-                <button type="button" title="Delete Data" onclick="deleteAllBox('mainform','<?php echo site_url("sid_penduduk/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("sid_penduduk/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
             </div>
         </div>
     </div>
@@ -64,19 +64,19 @@
                 <th><input type="checkbox" class="checkall"/></th>
                 <th width="50">Aksi</th>
                 <?php  if($o==2): ?>
-<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-1-n"></span></a></th>
+<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/1")?>">NIK <span class="fa fa-sort-asc fa-sm"></span></a></th>
 <?php  elseif($o==1): ?>
-<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/2")?>">NIK<span class="ui-icon ui-icon-triangle-1-s"></span></a></th>
+<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/2")?>">NIK <span class="fa fa-sort-desc fa-sm"></span></a></th>
 <?php  else: ?>
-<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-2-n-s"></span></a></th>
+<th align="left" width='100'><a href="<?php echo site_url("sid_penduduk/index/$p/1")?>">NIK <span class="fa fa-sort fa-sm"></span></a></th>
 <?php  endif; ?>
 
  <?php  if($o==4): ?>
-<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/3")?>">Nama <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 <?php  elseif($o==3): ?>
-<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/4")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/4")?>">Nama <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 <?php  else: ?>
-<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+<th align="left"><a href="<?php echo site_url("sid_penduduk/index/$p/3")?>">Nama <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 <?php  endif; ?>
 
 <th align="left" width='100'>No. KK</th>
@@ -86,7 +86,7 @@
 <th align="left" align="center">Pekerjaan</th>
 <th align="left" align="center">Status Perkawinan</th>
 <th width="70" align="left" align="center">Status Penduduk</th>
-            
+
 </tr>
 </thead>
 <tbody>
@@ -97,7 +97,7 @@
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td>
-<a href="<?php echo site_url("sid_penduduk/form/$p/$o/1/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Edit Data"></a><a href="<?php echo site_url("sid_penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="Lokasi <?php echo $data['nama']?>" class="ui-icons fa fa-map tipsy south" title="Lokasi <?php echo $data['nama']?>"></a><a href="<?php echo site_url("sid_penduduk/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
+<a href="<?php echo site_url("sid_penduduk/form/$p/$o/1/$data[id]")?>" class="ui-icons fa fa-edit tipsy south" title="Ubah Data"></a><a href="<?php echo site_url("sid_penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" target="ajax-modalz" rel="window" header="Lokasi <?php echo $data['nama']?>" class="ui-icons fa fa-map tipsy south" title="Lokasi <?php echo $data['nama']?>"></a><a href="<?php echo site_url("sid_penduduk/delete/$p/$o/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
 </td>
 
 <td><a href="<?php echo site_url("sid_penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
@@ -108,7 +108,7 @@
 <td><?php echo strtoupper($data['umur'])?></td>
 <td><?php echo strtoupper($data['pekerjaan'])?></td>
 <td><?php echo strtoupper($data['kawin'])?></td>
-   
+
   <td><?php if($data['status']==1){echo "Tetap";}else{echo "Pendatang";}?></td>
   </tr>
         <?php  endforeach; ?>
@@ -117,7 +117,7 @@
     </div>
 </form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
+        <div class="left">
 <div class="table-info">
           <form id="paging" action="<?php echo site_url('sid_penduduk')?>" method="post">
   <label>Tampilkan</label>
@@ -142,7 +142,7 @@
 <?php  endif; ?>
             </div>
             <div class="uibutton-group">
-                
+
 <?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 <a href="<?php echo site_url("sid_penduduk/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
 <?php  endfor; ?>

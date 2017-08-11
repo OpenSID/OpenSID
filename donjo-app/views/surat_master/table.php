@@ -32,19 +32,19 @@
 								<th>Aksi</th>
 
 							<?php  if($o==4): ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 							<?php  elseif($o==3): ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/4")?>">Nama Surat<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/4")?>">Nama Surat <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/3")?>">Nama Surat <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 							<?php  endif; ?>
 
 							<?php  if($o==6): ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="center"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode/Klasifikasi <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 							<?php  elseif($o==5): ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/6")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="center"><a href="<?php echo site_url("surat_master/index/$p/6")?>">Kode/Klasifikasi <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 							<?php  else: ?>
-								<th align="left"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode / Klasifikasi<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="center"><a href="<?php echo site_url("surat_master/index/$p/5")?>">Kode/Klasifikasi <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 							<?php  endif; ?>
 
 								<th width="">URL</th>
@@ -62,34 +62,38 @@
 								<td align="center" width="5">
 									<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" <?php if($data['jenis']==1){echo " disabled= disabled";}?> />
 								</td>
-								<td>
+								<td align="center">
 									<div class="uibutton-group">
-										<a href="<?php echo site_url("surat_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+										<a href="<?php echo site_url("surat_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 										<?php if($data['jenis']!=1): ?>
 											<a href="<?php echo site_url("surat_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 										<?php endif;?>
 										<?php if($data['kunci'] == '0'):?>
-											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton tipsy south" target="confirm" message="Non-Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="fa fa-unlock"></span></a>
-											<a href="<?php echo site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="uibutton tipsy south" target="confirm" message="Ubah Surat <?php echo $data['nama']?> dalam daftar surat Favorit?" header="Favorit" rel="window"><span class="<?php if($data['favorit']==1){?>fa fa-star-o <?php }else{?> fa fa-star <?php }?>"></span></a>
+											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton tipsy south" title="Non-Aktifkan Surat" target="confirm" message="Non-Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="fa fa-unlock"></span></a>
+											<?php if($data['favorit']==1) : ?>
+												<a href="<?php echo site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="uibutton tipsy south" title="Keluarkan dari Favorit" Surat" target="confirm" message="Keluarkan Surat <?php echo $data['nama']?> dari daftar surat Favorit?" header="Favorit" rel="window"><span class="fa fa-star-o"></span></a>
+											<?php else: ?>
+												<a href="<?php echo site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="uibutton tipsy south" title="Tambahkan ke Favorit" Surat" target="confirm" message="Tambahkan Surat <?php echo $data['nama']?> ke daftar surat Favorit?" header="Favorit" rel="window"><span class="fa fa-star"></span></a>
+											<?php endif; ?>
 										<?php elseif($data['kunci'] == '1'): ?>
-											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton tipsy south" target="confirm" message="Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="fa fa-lock"></span></a>
+											<a href="<?php echo site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="uibutton tipsy south" title="Aktifkan Surat" target="confirm" message="Aktifkan Surat <?php echo $data['nama']?>?" header="Aktivasi Surat" rel="window"><span class="fa fa-lock"></span></a>
 										<?php endif?>
 
 									</div>
 								</td>
 
 								<td><?php echo $data['nama']?></td>
-								<td><?php echo $data['kode_surat']?></td>
+								<td align="center"><?php echo $data['kode_surat']?></td>
 								<td><?php echo $data['url_surat']?></td>
 								<td><?php echo $data['lampiran']?></td>
-								<td>
+								<td align="center">
 									<div class="uibutton-group">
-										<a href="<?php echo site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Kode Isian"><span class="fa fa-code"></span> Kode Isian</a>
-										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south" title="Upload Template" target="ajax-modal" rel="window" header="Upload Template"><span class="fa fa-upload"></span> Upload</a>
+										<a href="<?php echo site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Kode Isian"><span class="fa fa-code"></span> Kode Isian</a>
+										<a href="<?php echo site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" class="uibutton tipsy south fa-tipis" title="Unggah Template" target="ajax-modal" rel="window" header="Unggah Template"><span class="fa fa-upload"></span> Unggah</a>
 
 										<?php $surat = SuratExport($data['url_surat']); ?>
 										<?php if ($surat != "") { ?>
-										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south" title="Unduh Template"><span class="fa fa-download"></span> Download</a>
+										<a href="<?php echo base_url($surat)?>" class="uibutton tipsy south fa-tipis" title="Unduh Template"><span class="fa fa-download"></span> Unduh</a>
 										<?php } ?>
 
 									</div>

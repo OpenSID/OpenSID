@@ -118,21 +118,6 @@
 		return $data;
 	}
 
-	function list_anggota($id=0,$nik=0){
-		$sql   = "SELECT u.*, x.nama AS sex, w.nama AS status_kawin, h.nama AS hubungan,
-			(SELECT (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-				FROM tweb_penduduk WHERE (tweb_penduduk.id = u.id)) AS umur
-			FROM tweb_penduduk u
-			LEFT JOIN tweb_penduduk_sex x on u.sex = x.id
-			LEFT JOIN tweb_penduduk_kawin w on u.status_kawin = w.id
-			LEFT JOIN tweb_penduduk_hubungan h on u.kk_level = h.id
-			WHERE id_kk = ?
-			ORDER BY u.kk_level";
-		$query = $this->db->query($sql,$id);
-		$data  = $query->result_array();
-		return $data;
-	}
-
 	function pengikut(){
 		$id_cb = $_POST['id_cb'];
 		$outp="";
@@ -370,6 +355,7 @@
 		} else {
 			$data['lokasi_rtf'] = dirname($file)."/";
 		}
+		$this->surat = $data;
 		return $data;
 	}
 
@@ -487,10 +473,46 @@
 		return $kode;
 	}
 
+	// Untuk surat sistem, cek apakah komponen surat sudah disesuaikan oleh desa
+	private function lokasi_komponen($nama_surat, $komponen) {
+	  $lokasi = LOKASI_SURAT_DESA . $nama_surat . "/" . $komponen;
+		if ($this->surat['jenis'] == 1 AND !is_file($lokasi))
+			  $lokasi = "surat/$nama_surat/$komponen";
+		return $lokasi;
+	}
+
 	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
 		$alamat_desa = ucwords($this->setting->sebutan_desa)." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
 		switch ($url) {
+			case 'surat_ket_beda_identitas_kis':
+				$lokasi_komponen = $this->lokasi_komponen($url, 'get_data_export.php');
+		    include(FCPATH.$lokasi_komponen);
+				break;
+			case 'surat_ket_kurang_mampu':
+				$anggota = $this->keluarga_model->list_anggota($individu['id_kk'],array('dengan_kk'=>false));
+				for ($i = 0; $i < MAX_ANGGOTA; $i++) {
+					$nomor = $i+1;
+					if ($i < count($anggota)) {
+						$nik = trim($anggota[$i],"'");
+						$buffer=str_replace("[anggota_no_$nomor]",$nomor,$buffer);
+						$buffer=str_replace("[anggota_nik_$nomor]",$anggota[$i]['nik'],$buffer);
+						$buffer=str_replace("[anggota_nama_$nomor]",strtoupper($anggota[$i]['nama']),$buffer);
+						$buffer=str_replace("[anggota_sex_$nomor]",$anggota[$i]['sex'][0],$buffer);
+						$buffer=str_replace("[anggota_tempatlahir_$nomor]",strtoupper($anggota[$i]['tempatlahir']),$buffer);
+						$buffer=str_replace("[anggota_tanggallahir_$nomor]",tgl_indo_out($anggota[$i]['tanggallahir']),$buffer);
+						$buffer=str_replace("[anggota_shdk_$nomor]",strtoupper($anggota[$i]['hubungan']),$buffer);
+					} else {
+						$buffer=str_replace("[anggota_no_$nomor]","",$buffer);
+						$buffer=str_replace("[anggota_nik_$nomor]","",$buffer);
+						$buffer=str_replace("[anggota_nama_$nomor]","",$buffer);
+						$buffer=str_replace("[anggota_sex_$nomor]","",$buffer);
+						$buffer=str_replace("[anggota_tempatlahir_$nomor]","",$buffer);
+						$buffer=str_replace("[anggota_tanggallahir_$nomor]","",$buffer);
+						$buffer=str_replace("[anggota_shdk_$nomor]","",$buffer);
+					}
+				}
+				break;
 			case 'surat_ket_pindah_penduduk':
 				$buffer=str_replace("[jumlah_pengikut]",count($input['id_cb']),$buffer);
 				for ($i = 0; $i < MAX_PINDAH; $i++) {
