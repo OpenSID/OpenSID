@@ -100,6 +100,7 @@ class Web_Dokumen_Model extends CI_Model{
 
 	function semua_mime_type(){
 	  $semua_mime_type = array_merge(unserialize(MIME_TYPE_DOKUMEN), unserialize(MIME_TYPE_GAMBAR), unserialize(MIME_TYPE_ARSIP));
+	  $semua_mime_type = array_diff($semua_mime_type, array('application/octet-stream'));
 	  return $semua_mime_type;
 	}
 
