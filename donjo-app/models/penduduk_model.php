@@ -1167,39 +1167,6 @@
 		}
 	}
 
-	function delete_file_dokumen($id){
-		$this->db->select('satuan');
-		$this->db->where('id', $id);
-		$query = $this->db->get('dokumen');
-		$dokumen = $query->row_array();
-		unlink(LOKASI_DOKUMEN.$dokumen['satuan']);
-	}
-
-	function delete_dokumen($id=''){
-		$this->delete_file_dokumen($id);
-		$sql = "DELETE FROM dokumen WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-
-	function delete_all_dokumen(){
-		$id_cb = $_POST['id_cb'];
-
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$this->delete_file_dokumen($id);
-				$sql = "DELETE FROM dokumen WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
-			}
-		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-
 	function get_dokumen($id=0){
 		$sql = "SELECT * FROM dokumen WHERE id=?";
 		$query = $this->db->query($sql,$id);

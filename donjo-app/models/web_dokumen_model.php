@@ -157,26 +157,21 @@ class Web_Dokumen_Model extends CI_Model{
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM dokumen WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$old_dokumen = $this->db->select('satuan')->where('id',$id)->get('dokumen')->row()->satuan;
+		$outp = $this->db->where('id',$id)->delete('dokumen');
+		if($outp)
+			unlink(LOKASI_DOKUMEN . $old_dokumen);
+		else $_SESSION['success']=-1;
 	}
 
 	function delete_all(){
 		$id_cb = $_POST['id_cb'];
-
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM dokumen WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
+				$this->delete($id);
 			}
 		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		else $_SESSION['success']=-1;
 	}
 
 	function dokumen_lock($id='',$val=0){
