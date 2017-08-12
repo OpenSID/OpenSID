@@ -40,9 +40,9 @@ nav.navbar.navbar-inverse{
   margin-right: -2px;
 }
 #scroller{
-	margin-top: 26px;
-    margin-left: -6px;
-    width: 101.4%;
+	margin-top: 0px;
+  margin-left: -6px;
+  width: 101.4%;
 }
 #menu_vert2 .cycle-slideshow img { height: 88px; }
 #footer{
@@ -52,10 +52,16 @@ nav.navbar.navbar-inverse{
 #footer a{color: #88fd78;}
 
 #menu_vert{
-  height: 52px;
+  height: 30px;
   border:0px solid #FFFFFF;
   background: url(images/tb2.jpg) repeat center top;
 }
+
+#menu_vert a.dropdown-toggle{
+  padding-top: 5px;
+  height: 30px;
+}
+
 #divlogo-txt {
     margin-left: 85px;
 }
