@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <!--
 	Untuk bisa menghentikan scroller, perlu menambah plugin jquery.pause
 	dan mengubah jquery.cycle2.carousel.js, mengikuti contoh di

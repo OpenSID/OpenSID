@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <?php if($tipe==1){?>
 <script type="text/javascript">
 $(function () {

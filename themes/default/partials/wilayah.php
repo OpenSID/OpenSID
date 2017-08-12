@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <?php
 
 	echo "
@@ -19,7 +21,7 @@
 					<th>Lk</th>
 					<th>Pr</th>
 				</tr></thead>
-				<tbody>					
+				<tbody>
 					";
 					foreach($main as $data){
 						echo "<tr>
@@ -49,7 +51,7 @@
 			}else{
 				echo "<div class=\"\">Belum ada data</div>";
 			}
-		
+
 		echo "
 		</div>
 	</div>";

@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <div class="themes nobig2">
 <div class='title'>
 <h2><a href="#">Grafik Statistik Penduduk</a></h2>
@@ -57,10 +59,10 @@
 						data: [<?php  foreach($stat as $data){?><?php if($data['jumlah'] != "-"){echo $data['jumlah'].",";}?><?php }?>]
 					}]
 				});
-				
-				
+
+
 			});
-				
+
 </script>
 <div id="chart" style="min-width: 550px; height: 550px; margin: 0 auto"></div>
 </div>
