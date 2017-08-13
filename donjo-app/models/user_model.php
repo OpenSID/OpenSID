@@ -14,6 +14,9 @@ class User_Model extends CI_Model{
 		$password = md5($this->input->post('password'));
 
 		$sql = "SELECT id,password,id_grup,session FROM user WHERE username=?";
+		// User 'admin' tidak bisa di-non-aktifkan
+		if ($username !== 'admin')
+			$sql .= ' AND active = 1';
 		$query=$this->db->query($sql,array($username));
 		$row=$query->row();
 
