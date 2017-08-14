@@ -99,11 +99,13 @@ class Dokumen extends CI_Controller{
 	}
 
 	function delete($p=1,$o=0,$id=''){
+		$_SESSION['success']=1;
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen/index/$p/$o");
 	}
 
 	function delete_all($p=1,$o=0){
+		$_SESSION['success']=1;
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen/index/$p/$o");
 	}

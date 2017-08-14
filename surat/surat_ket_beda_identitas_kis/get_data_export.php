@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');?>
+
 <?php
 	$id_cb = $this->input->post('id_cb');
 	$pilih="";

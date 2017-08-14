@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <div class="artikel layanan">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form">
 	<tr>

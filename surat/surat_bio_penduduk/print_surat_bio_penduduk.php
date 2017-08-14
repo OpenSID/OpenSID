@@ -1,4 +1,5 @@
-<?php $this->load->view('print/headjs.php');?>
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+	$this->load->view('print/headjs.php');?>
 
 <body>
 <div id="content" class="container_12 clearfix">

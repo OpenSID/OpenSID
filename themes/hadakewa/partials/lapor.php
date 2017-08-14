@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <div class="artikel">
 <?php if($_SESSION['sukses']==1){echo "Data telah terkirim, dan akan segera kami proses";unset($_SESSION['sukses']);} ?>
 <form id="validasi" action="<?php echo site_url()?>first/add_comment/775" method="POST" enctype="multipart/form-data">
