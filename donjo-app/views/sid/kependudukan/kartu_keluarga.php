@@ -137,9 +137,9 @@ $('#'+'main').submit();
 
 
 <tbody>
-<?php  foreach($main as $data): ?>
+<?php  foreach($main as $key => $data): ?>
 <tr>
-<td align="center" width="2"><?php echo $data['no']?></td>
+<td align="center" width="2"><?php echo $key+1?></td>
 <td><?php echo $data['status_kawin']?></td>
 <td><?php echo $data['hubungan']?></td>
 <td><?php echo $data['warganegara']?></td>
