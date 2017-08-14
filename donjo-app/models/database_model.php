@@ -103,7 +103,7 @@
     // Tambah widget menu_left untuk menampilkan menu kategori
     $widget = $this->db->select('id')->where('isi','menu_kategori.php')->get('widget')->row();
     if (!$widget->id) {
-      $menu_kategori = array('judul'=>'Menu Kategori','isi'=>'menu_kategori.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1,'setting'=>'','form_admin' => '');
+      $menu_kategori = array('judul'=>'Menu Kategori','isi'=>'menu_kategori.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1);
       $this->db->insert('widget',$menu_kategori);
     }
     // Tambah tabel surat_masuk
@@ -217,7 +217,7 @@
     // Tambah widget sinergi_program
     $widget = $this->db->select('id')->where('isi','sinergi_program.php')->get('widget')->row();
     if (!$widget->id) {
-      $widget_baru = array('judul'=>'Sinergi Program','isi'=>'sinergi_program.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1,'form_admin'=>'web_widget/admin/sinergi_program','setting'=>'[]');
+      $widget_baru = array('judul'=>'Sinergi Program','isi'=>'sinergi_program.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1,'form_admin'=>'web_widget/admin/sinergi_program');
       $this->db->insert('widget',$widget_baru);
     }
   }
@@ -247,7 +247,7 @@
     // Tambah widget aparatur_desa
     $widget = $this->db->select('id')->where(array('isi'=>'aparatur_desa.php', 'id_kategori'=>1003))->get('artikel')->row();
     if (!$widget->id) {
-      $aparatur_desa = array('judul'=>'Aparatur Desa','isi'=>'aparatur_desa.php','enabled'=>1,'id_kategori'=>1003,'urut'=>1,'jenis_widget'=>1,'id_user'=>1,'gambar1'=>'','dokumen'=>'','link_dokumen'=>'');
+      $aparatur_desa = array('judul'=>'Aparatur Desa','isi'=>'aparatur_desa.php','enabled'=>1,'id_kategori'=>1003,'urut'=>1,'jenis_widget'=>1);
       $this->db->insert('artikel',$aparatur_desa);
     }
     // Tambah foto aparatur desa
@@ -647,8 +647,8 @@
       $widget = $q->row_array();
       if (!$widget['id']) {
         $query = "
-          INSERT INTO artikel (judul,isi,enabled,id_kategori,urut,jenis_widget,id_user,gambar1,dokumen,link_dokumen)
-          VALUES ('$key','$value',1,1003,1,1,1,'','','');";
+          INSERT INTO artikel (judul,isi,enabled,id_kategori,urut,jenis_widget)
+          VALUES ('$key','$value',1,1003,1,1);";
         $this->db->query($query);
       }
     }
@@ -857,8 +857,8 @@
       $this->db->query($query);
     }
     $query = "
-      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`,nama,kode_surat) VALUES
-      (5, 'surat_ket_pindah_penduduk', 'f-1.08.php','surat_ket_pindah_penduduk','S-04')
+      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+      (5, 'surat_ket_pindah_penduduk', 'f-1.08.php')
       ON DUPLICATE KEY UPDATE
         url_surat = VALUES(url_surat),
         lampiran = VALUES(lampiran);
@@ -1090,26 +1090,24 @@
 
     // Ubah surat keterangan pindah penduduk untuk bisa memilih format lampiran
     $query = "
-      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`,nama,kode_surat) VALUES
-      (5, 'surat_ket_pindah_penduduk', 'f-1.08.php,f-1.25.php','surat_ket_pindah_penduduk','S-04')
+      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+      (5, 'surat_ket_pindah_penduduk', 'f-1.08.php,f-1.25.php')
       ON DUPLICATE KEY UPDATE
         url_surat = VALUES(url_surat),
         lampiran = VALUES(lampiran);
     ";
-    
     $this->db->query($query);
   }
 
   function migrasi_111_ke_112() {
     // Ubah surat bio penduduk untuk menambah format lampiran
     $query = "
-      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`,nama,kode_surat) VALUES
-      (3, 'surat_bio_penduduk', 'f-1.01.php','surat_ket_pindah_penduduk','S-04')
+      INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+      (3, 'surat_bio_penduduk', 'f-1.01.php')
       ON DUPLICATE KEY UPDATE
         url_surat = VALUES(url_surat),
         lampiran = VALUES(lampiran);
     ";
-    
     $this->db->query($query);
 
     // Tabel tweb_penduduk melengkapi data F-1.01
