@@ -819,8 +819,12 @@
 			$buffer=$this->case_replace("[sebutan_desa]",$this->setting->sebutan_desa,$buffer);
 			$buffer=$this->case_replace("[sebutan_dusun]",$this->setting->sebutan_dusun,$buffer);
 			$buffer=$this->case_replace("[sebutan_camat]",$this->setting->sebutan_camat,$buffer);
-			$buffer=str_replace("[alamat_des]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
-			$buffer=str_replace("[alamat_desa]","$config[alamat_kantor] Kode Pos : $config[kode_pos]",$buffer);
+			if (!empty($config[email_desa]))
+				$alamat_desa = "$config[alamat_kantor] Email: $config[email_desa] Kode Pos: $config[kode_pos]";
+			else
+				$alamat_desa = "$config[alamat_kantor] Kode Pos: $config[kode_pos]";
+			$buffer=str_replace("[alamat_des]",$alamat_desa,$buffer);
+			$buffer=str_replace("[alamat_desa]",$alamat_desa,$buffer);
 			$buffer=str_replace("[email_desa]","$config[email_desa]",$buffer);
 			$buffer=str_replace("[kode_desa]","$config[kode_desa]",$buffer);
 			$buffer=str_replace("[kode_kecamatan]","$config[kode_kecamatan]",$buffer);
