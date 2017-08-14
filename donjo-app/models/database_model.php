@@ -92,6 +92,11 @@
         kode_surat = VALUES(kode_surat),
         jenis = VALUES(jenis)";
     $this->db->query($sql);
+    // Tambah setting sebutan kepala dusun
+    $setting = $this->db->where('key','sebutan_kadus')->get('setting_aplikasi')->row()->id;
+    if(!$setting){
+      $this->db->insert('setting_aplikasi',array('key'=>'sebutan_singkatan_kadus','value'=>'kawil','keterangan'=>'Sebutan singkatan jabatan kepala dusun'));
+    }
   }
 
   function migrasi_22_ke_23(){

@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <?php
 	echo "
 	<div style=\"margin-left:.5em;\">

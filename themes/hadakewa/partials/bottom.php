@@ -1,3 +1,4 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php $i=1;foreach($slide_artikel AS $data){if($i<5){?>
 <div class="contentbotm nobig">

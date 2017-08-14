@@ -6,6 +6,8 @@ class garis extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
+		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+		if($grup!=1) redirect('siteman');
 
 		$this->load->model('header_model');
 		$this->load->model('plan_garis_model');

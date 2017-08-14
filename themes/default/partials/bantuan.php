@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <link rel="stylesheet" href="<?php echo base_url()?>assets/css/jquery-ui-1.12.1.css">
 <script src="<?php echo base_url()?>assets/js/jquery-ui.min.js"></script>
 <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->

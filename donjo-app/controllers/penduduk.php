@@ -9,6 +9,7 @@ class Penduduk extends CI_Controller{
 		if($grup!=1 AND $grup!=2) redirect('siteman');
 
 		$this->load->model('penduduk_model');
+		$this->load->model('web_dokumen_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
 	}
@@ -275,12 +276,14 @@ class Penduduk extends CI_Controller{
 	}
 
 	function delete_dokumen($id_pend=0,$id=''){
-		$this->penduduk_model->delete_dokumen($id);
+		$_SESSION['success']=1;
+		$this->web_dokumen_model->delete($id);
 		redirect("penduduk/dokumen/$id_pend");
 	}
 
 	function delete_all_dokumen($id_pend=0){
-		$this->penduduk_model->delete_all_dokumen();
+		$_SESSION['success']=1;
+		$this->web_dokumen_model->delete_all();
 		redirect("penduduk/dokumen/$id_pend");
 	}
 

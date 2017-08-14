@@ -147,7 +147,7 @@
       'Kaur Perencanaan');
     $list_dusun = $this->wilayah_model->list_data();
     foreach($list_dusun as $dusun){
-    	array_push($ref_disposisi, "Kawil ".ucwords(strtolower($dusun['dusun'])));
+    	array_push($ref_disposisi, ucwords($this->setting->sebutan_singkatan_kadus).' '.ucwords(strtolower($dusun['dusun'])));
     };
     return $ref_disposisi;
 	}
