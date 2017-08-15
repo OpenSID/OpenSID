@@ -62,22 +62,6 @@
 	<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="icon-gear icon-large"></i>Setting User</a></li>
 <?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
 	<li><a href="<?php echo site_url()?>modul/clear"><i class="icon-gear icon-large"></i>Pengaturan</a></li>
-	<li><a href="<?php echo site_url()?>hom_desa"><i class="icon-home icon-large"></i>SID Home</a></li>
-	<li><a href="<?php echo site_url()?>penduduk"><i class="icon-group icon-large"></i>Penduduk</a></li>
-	<li><a href="<?php echo site_url()?>statistik"><i class="icon-bar-chart icon-large"></i>Statistik</a></li>
-	<li><a href="<?php echo site_url()?>surat"><i class="icon-print icon-large"></i>Cetak Surat</a></li>
-	<li><a href="<?php echo site_url()?>analisis_master/clear"><i class="icon-dashboard icon-large"></i>Analisis</a></li>
-	<li><a href="<?php echo site_url()?>program_bantuan"><i class="icon-folder-open icon-large"></i>Program</a></li>
-<?php  }?>
-<?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
-	<?php  if($_SESSION['grup']==1){?>
-		<li><a href="<?php echo site_url()?>man_user/clear"><i class="icon-user icon-large"></i>Pengguna</a></li>
-		<li><a href="<?php echo site_url()?>database"><i class="icon-hdd icon-large"></i>Database</a></li>
-	<?php  }?>
-	<li><a href="<?php echo site_url()?>sms"><i class="icon-envelope-alt icon-large"></i>SMS</a></li>
-	<?php if ($this->setting->offline_mode < 2) { ?>
-		<li><a href="<?php echo site_url()?>web"><i class="icon-cloud icon-large"></i>Admin Web</a></li>
-	<?php }?>
 <?php  }?>
 <li><a href="<?php echo site_url()?>siteman"><i class="icon-off icon-large"></i>Log Out</a></li>
 </ul>
