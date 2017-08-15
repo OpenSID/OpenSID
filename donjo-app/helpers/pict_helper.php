@@ -515,13 +515,26 @@ define ('MIME_TYPE_DOKUMEN', serialize (array(
   "application/vnd.ms-excel",
   "application/msexcel")));
 
+define ('EXT_DOKUMEN', serialize(array(
+  ".pdf", ".ppt", ".pptx", ".pps", ".ppsx",
+  ".doc", ".docx", ".rtf", ".xls", ".xlsx"
+  )));
+
 define ('MIME_TYPE_GAMBAR', serialize (array(
   'image/jpeg', 'image/pjpeg',
   'image/png',  'image/x-png' )));
 
+define ('EXT_GAMBAR', serialize(array(
+  ".jpg", ".jpeg", ".png"
+  )));
+
 define ('MIME_TYPE_ARSIP', serialize (array(
   'application/rar','application/x-rar','application/x-rar-compressed','application/octet-stream',
   'application/zip','application/x-zip','application/x-zip-compressed')));
+
+define ('EXT_ARSIP', serialize(array(
+  ".zip", ".rar"
+  )));
 
 function AmbilDokumen($dokumen){
   $file_dokumen = base_url() . LOKASI_DOKUMEN . $dokumen;

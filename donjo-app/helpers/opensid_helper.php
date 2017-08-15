@@ -456,8 +456,7 @@ define("KODE_PEKERJAAN", serialize(array(
     karena file image dan PDF juga mengandung string ini.
   */
   function isPHP($file,$filename) {
-    $ext = explode('.', $filename);
-    $ext = '.'.end($ext);
+    $ext = get_extension($filename);
     if($ext == '.php') return true;
 
     $handle = fopen($file,'r');
@@ -468,6 +467,12 @@ define("KODE_PEKERJAAN", serialize(array(
     }
     fclose($handle);
     return false;
+  }
+
+  function get_extension($filename){
+    $ext = explode('.', strtolower($filename));
+    $ext = '.'.end($ext);
+    return $ext;
   }
 
 ?>

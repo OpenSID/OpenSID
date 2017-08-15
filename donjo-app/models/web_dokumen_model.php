@@ -104,6 +104,11 @@ class Web_Dokumen_Model extends CI_Model{
 	  return $semua_mime_type;
 	}
 
+	function semua_ext(){
+	  $semua_ext = array_merge(unserialize(EXT_DOKUMEN), unserialize(EXT_GAMBAR), unserialize(EXT_ARSIP));
+	  return $semua_ext;
+	}
+
 	function insert(){
 		if(empty($_FILES['satuan']['tmp_name'])){
 			return false;
@@ -112,12 +117,14 @@ class Web_Dokumen_Model extends CI_Model{
 		$_SESSION['error_msg'] = "";
 		$_SESSION['success'] = 1;
 	  $lokasi_file = $_FILES['satuan']['tmp_name'];
-	  $tipe_file   = $_FILES['satuan']['type'];
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $tipe_file = finfo_file($finfo, $lokasi_file);
 	  $nama_file   = $_FILES['satuan']['name'];
 	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+	  $ext = get_extension($nama_file);
 
-		if(!in_array($tipe_file, $this->semua_mime_type())){
-			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
+		if(!in_array($tipe_file, $this->semua_mime_type()) OR !in_array($ext, $this->semua_ext())){
+			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file . " " . $ext;
 			$_SESSION['success']=-1;
 			return false;
 		} elseif(isPHP($lokasi_file, $nama_file)){
@@ -139,14 +146,16 @@ class Web_Dokumen_Model extends CI_Model{
 		$_SESSION['success'] = 1;
 	  $data = $_POST;
 	  $lokasi_file = $_FILES['satuan']['tmp_name'];
-	  $tipe_file   = $_FILES['satuan']['type'];
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $tipe_file = finfo_file($finfo, $lokasi_file);
 	  $nama_file   = $_FILES['satuan']['name'];
 	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+	  $ext = get_extension($nama_file);
 
 		if(!empty($_FILES['satuan']['tmp_name'])){
-			if(!in_array($tipe_file, $this->semua_mime_type())){
+			if(!in_array($tipe_file, $this->semua_mime_type()) OR !in_array($ext, $this->semua_ext())){
 				unset($data['satuan']);
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
+				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file . " " . $ext;
 				$_SESSION['success']=-1;
 			} elseif(isPHP($lokasi_file, $nama_file)){
 				$_SESSION['error_msg'].= " -> File berisi script ";
