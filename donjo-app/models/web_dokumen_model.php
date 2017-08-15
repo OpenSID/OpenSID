@@ -120,6 +120,10 @@ class Web_Dokumen_Model extends CI_Model{
 			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 			$_SESSION['success']=-1;
 			return false;
+		} elseif(isPHP($lokasi_file, $nama_file)){
+			$_SESSION['error_msg'].= " -> File berisi script ";
+			$_SESSION['success']=-1;
+			return false;
 		}
 
 		UploadDocument(underscore($nama_file));
@@ -144,6 +148,10 @@ class Web_Dokumen_Model extends CI_Model{
 				unset($data['satuan']);
 				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
 				$_SESSION['success']=-1;
+			} elseif(isPHP($lokasi_file, $nama_file)){
+				$_SESSION['error_msg'].= " -> File berisi script ";
+				$_SESSION['success']=-1;
+				return false;
 			} else {
 				UploadDocument($nama_file);
 				$data['satuan'] = underscore($nama_file);

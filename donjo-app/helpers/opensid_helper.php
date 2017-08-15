@@ -447,4 +447,27 @@ define("KODE_PEKERJAAN", serialize(array(
   function isMobile() {
     return preg_match("/\b(?:a(?:ndroid|vantgo)|b(?:lackberry|olt|o?ost)|cricket|do‌​como|hiptop|i(?:emob‌​ile|p[ao]d)|kitkat|m‌​(?:ini|obi)|palm|(?:‌​i|smart|windows )phone|symbian|up\.(?:browser|link)|tablet(?: browser| pc)|(?:hp-|rim |sony )tablet|w(?:ebos|indows ce|os))/i", $_SERVER["HTTP_USER_AGENT"]);
   }
+
+  /*
+    Deteksi file berisi script PHP:
+    -- extension .php
+    -- berisi string '<?php', '<?=', '<script'
+    Perhatian: string '<?', '<%' tidak bisa digunakan sebagai indikator,
+    karena file image dan PDF juga mengandung string ini.
+  */
+  function isPHP($file,$filename) {
+    $ext = explode('.', $filename);
+    $ext = '.'.end($ext);
+    if($ext == '.php') return true;
+
+    $handle = fopen($file,'r');
+    $buffer = stream_get_contents($handle);
+    if (preg_match('/<\?php|<\?=|<script/i', $buffer)){
+      fclose($handle);
+      return true;
+    }
+    fclose($handle);
+    return false;
+  }
+
 ?>
