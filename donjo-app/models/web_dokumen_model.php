@@ -117,8 +117,11 @@ class Web_Dokumen_Model extends CI_Model{
 		$_SESSION['error_msg'] = "";
 		$_SESSION['success'] = 1;
 	  $lokasi_file = $_FILES['satuan']['tmp_name'];
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $tipe_file = finfo_file($finfo, $lokasi_file);
+	  if (function_exists('finfo_open')) {
+	    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+	    $tipe_file = finfo_file($finfo, $lokasi_file);
+	  } else
+		  $tipe_file = $_FILES['satuan']['type'];
 	  $nama_file   = $_FILES['satuan']['name'];
 	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 	  $ext = get_extension($nama_file);
@@ -146,8 +149,11 @@ class Web_Dokumen_Model extends CI_Model{
 		$_SESSION['success'] = 1;
 	  $data = $_POST;
 	  $lokasi_file = $_FILES['satuan']['tmp_name'];
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $tipe_file = finfo_file($finfo, $lokasi_file);
+	  if (function_exists('finfo_open')) {
+	    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+	    $tipe_file = finfo_file($finfo, $lokasi_file);
+	  } else
+		  $tipe_file = $_FILES['satuan']['type'];
 	  $nama_file   = $_FILES['satuan']['name'];
 	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 	  $ext = get_extension($nama_file);
