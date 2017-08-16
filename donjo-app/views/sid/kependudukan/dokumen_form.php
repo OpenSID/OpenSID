@@ -11,22 +11,23 @@
 		<tr>
 			<td width="90">Nama / Jenis Dokumen</td>
 			<td>
-				<input class="inputbox" type="text" name="nama" size="40" />
+        <input name="nama" type="text" class="inputbox" size="40" value="<?php echo $dokumen['nama']?>"/>
 			</td>
 		</tr>
+		<input type="hidden" name="old_file" value="<?php echo $dokumen['satuan']?>">
 		<tr>
 			<td>Berkas Dokumen</td>
 			<td>
-				<input type="file" name="satuan" />
+        <input type="file" name="satuan" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah dokumen)</span>
 			</td>
 		</tr>
 	</table>
-<input type="hidden" name="id_pend" value="<?php echo $penduduk['id']?>"/>
-<div class="ui-layout-south panel bottom bawah">
-	<div class="right">
- <div class="uibutton-group">
-		<button class="uibutton confirm" type="submit">Upload</button>
+	<input type="hidden" name="id_pend" value="<?php echo $penduduk['id']?>"/>
+	<div class="ui-layout-south panel bottom bawah">
+		<div class="right">
+			<div class="uibutton-group">
+				<button class="uibutton confirm" type="submit">Simpan</button>
+			</div>
 		</div>
 	</div>
-</div>
 </form>

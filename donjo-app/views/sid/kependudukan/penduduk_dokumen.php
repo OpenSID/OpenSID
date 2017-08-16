@@ -5,7 +5,7 @@
 				<h3>Dokumen / Kelengkapan Penduduk - <?php echo $penduduk['nama']?> [<?php echo $penduduk['nik']?>]</h3>
 				<div class="left">
 					<div class="uibutton-group">
-						<a header="Form Dokumen" target="ajax-modal" rel="dokumen" href="<?php echo site_url("penduduk/dokumen_form/$penduduk[id]")?>" class="uibutton"><span class="fa fa-plus-square"></span> Tambah Dokumen</a>
+						<a header="Form Dokumen" title="Tambah Dokumen" target="ajax-modal" rel="dokumen" href="<?php echo site_url("penduduk/dokumen_form/$penduduk[id]")?>" class="uibutton tipsy south"><span class="fa fa-plus-square"></span> Tambah Dokumen</a>
 						<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk/delete_all_dokumen/$penduduk[id]")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus
 					</div>
 				</div>
@@ -22,10 +22,10 @@
 						<tr>
 							<th width="2">No</th>
 							<th width="20"><input type="checkbox" class="checkall"/></th>
-							<th width="20">Aksi</th>
-							<th width="220">Nama Dokumen</th>
-							<th width="360">File</th>
-							<th width="200">Tanggal Upload</th>
+							<th>Aksi</th>
+							<th>Nama Dokumen</th>
+							<th>File</th>
+							<th>Tanggal Upload</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -36,8 +36,9 @@
 								<td align="center" width="5">
 									<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 								</td>
-								<td>
-									<div class="uibutton-group">
+								<td class="nostretch">
+									<div class="uibutton-group" style="display: flex;">
+										<a header="Ubah Data" target="ajax-modal" rel="dokumen" href="<?php echo site_url("penduduk/dokumen_form/$penduduk[id]/$data[id]")?>" title="Ubah Data" class="uibutton tipsy south fa-tipis"><span class="fa fa-edit"></span> Ubah</a>
 										<a href="<?php echo site_url("penduduk/delete_dokumen/$penduduk[id]/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 									</div>
 								 </td>
