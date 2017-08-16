@@ -1,0 +1,34 @@
+Dalam rilis ini ditambahkan surat keterangan beda identitas KIS dan penguatan pertahanan OpenSID terhadap serangan hacker. Selain itu, rilis ini juga berisi beberapa perbaikan yang diminta oleh komunitas SID.
+
+Terima kasih pada Ahmad Afandi yang terus membuat kontribusi dan pada Agus Haryanto yang telah melaporkan kelemahan keamanan OpenSID yang perlu diperbaiki.
+
+Lengkapnya, isi rilis v2.4:
+
+1. #560: Sekarang berkas yang berisi script PHP terdeteksi dan tidak bisa diunggah di halaman dokumen web maupun dokumen kependudukan. [security-fix]
+2. #559: Sekarang kolom nomor bagian bawah ditampilkan di laporan kartu keluarga dan cetak kartu keluarga. [bug-fix]
+3. #556: Sekarang surat keluar menampilkan jumlah surat yang benar pada halaman pertama sesuai paginasi. [bug-fix]
+4. #541: Tambahkan alamat email di kode_isian [alamat_des] dan [alamat_desa] untuk ditampilkan di header surat export doc.
+5. #549: Unggah foto perangkat waktu menambah perangkat desa. Sekarang foto perangkat desa tidak hilang pada waktu mengubah data perangkat desa. [bug-fix]
+6. #548: Sekarang user yang terkunci tidak bisa login di modul admin. [security-fix]
+7. #543: Sekarang file di server juga dihapus pada saat menghapus dokumen web atau dokumen kependudukan. [bug-fix]
+8. Menu dan submenu Plan sekarang hanya bisa diakses oleh user yang sudah login. [security-fix]
+9. Isi folder /vendor sekarang tidak bisa dilihat. [security-fix]
+10. Hapus file info.php. [security-fix]
+11. #544: Tampilan menu statis diperkecil sesuai dengan menu dinamis.
+12. #545: Ganti contoh perubahan css di desa-contoh.css di tema 'default' supaya gambar latar belakang tidak mengecil. [bug-fix]
+13. Sekarang file di folder themes tidak bisa diakses langsung. [security-fix]
+14. #546: Hapus folder /script yang berisi file yang tidak digunakan. [security-fix]
+15. #540: Sekarang penampakan file di folder surat dicegah. [security-fix]
+16. #535: Sekarang upload dokumen kependudukan dan dokumen web dibatasi ke jenis file dokumen, gambar dan arsip [security-fix]
+17. #534: Sekarang artikel yang berisi data tabel tidak merusak penampilan web. [bug-fix]
+18. #533: Tambah sebutan_singkatan_kadus untuk menyesuaikan tujuan disposisi pada surat masuk, misalnya 'kawil' atau 'kadus'.
+19. Perbaiki hitungan umur pada surat_ket_kelahiran di Firefox. [bug-fix]
+20. #530: Sekarang artikel baru yang tidak bergambar tidak berisi gambar default. [bug-fix]
+21. #529: Sekarang paginasi halaman Admin Web > Widget menampilkan daftar widget dengan benar pada penampilan awal. [bug-fix]
+22. #527: Tambah surat keterangan beda identitas KIS sebagai surat sistem.
+23. #526: Perbaiki surat keterangan kurang mampu.
+
+Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
+
+
+
