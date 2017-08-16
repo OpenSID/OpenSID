@@ -27,6 +27,7 @@ Lengkapnya, isi rilis v2.4:
 21. #529: Sekarang paginasi halaman Admin Web > Widget menampilkan daftar widget dengan benar pada penampilan awal. [bug-fix]
 22. #527: Tambah surat keterangan beda identitas KIS sebagai surat sistem.
 23. #526: Perbaiki surat keterangan kurang mampu.
+24. Sekarang dokumen kelengkapan kependudukan bisa diubah.
 
 Rilis ini memerlukan perubahan struktur database. Apabila meng-upgrade (yaitu bukan install baru), struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
 
