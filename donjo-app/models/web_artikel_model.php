@@ -194,8 +194,12 @@
 			}
 		}
 
-		$outp = $this->db->insert('artikel',$data);
-		if(!$outp) $_SESSION['success']=-1;
+        if (empty($data['judul']) || empty($data['isi'])) {
+            $_SESSION['success'] = -1;
+        } else {
+            $outp = $this->db->insert('artikel', $data);
+            if (!$outp) $_SESSION['success'] = -1;
+        }
 	}
 
 	function update($cat, $id=0){
