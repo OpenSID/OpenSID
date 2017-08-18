@@ -183,14 +183,19 @@
 	}
 
 	function format_data_surat(&$data){
-		$kolomUpper = array("tanggallahir","tempatlahir","dusun","pekerjaan","gol_darah","agama","sex","status_kawin","pendidikan","hubungan","nama_ayah","nama_ibu");
-		$kolomUpper = $kolomUpper + array("alamat", "alamat_sebelumnya", "alamat_wilayah");
+		$kolomUpper = array("tanggallahir","tempatlahir","dusun","pekerjaan","gol_darah","agama","sex",
+			"status_kawin","pendidikan","hubungan","nama_ayah","nama_ibu","alamat","alamat_sebelumnya",
+			"alamat_wilayah","cacat");
 		foreach ($kolomUpper as $kolom) {
 			$data[$kolom] = ucwords(strtolower($data[$kolom]));
 		}
 		$namaPendidikan = array("Tk"=>"TK","Sd"=>"SD","Sltp"=>"SLTP","Slta"=>"SLTA","Slb"=>"SLB");
 		foreach ($namaPendidikan as $key => $value) {
 			$data["pendidikan"] = str_replace($key, $value, $data["pendidikan"]);
+		}
+		$rt_rw = array("Rt"=>"RT","Rw"=>"RW");
+		foreach ($rt_rw as $key => $value) {
+			$data["alamat_wilayah"] = str_replace($key, $value, $data["alamat_wilayah"]);
 		}
 	}
 
@@ -225,6 +230,7 @@
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		$data['alamat_wilayah']= $this->get_alamat_wilayah($data);
+		$this->format_data_surat($data);
 		return $data;
 	}
 
@@ -913,42 +919,42 @@
 			//DATA DARI TABEL PENDUDUK
 			//jika data kurang lengkap bisa di tambahkan dari fungsi "get_data_surat" pada file ini
 			$array_replace = array(
-                "[agama]"                => "$individu[agama]",
-                "[akta_lahir]"           => "$individu[akta_lahir]",
-                "[akta_perceraian]"      => "$individu[akta_perceraian]",
-                "[akta_perkawinan]"      => "$individu[akta_perkawinan]",
-                "[alamat]"               => "$individu[alamat_wilayah]",
-                "[alamat_jalan]"         => "$individu[alamat]",
-                "[alamat_sebelumnya]"    => ucwords(strtolower($individu[alamat_sebelumnya])),
-                "[ayah_nik]"             => "$individu[ayah_nik]",
-                "[cacat]"                => ucwords(strtolower($individu[cacat])),
-                "[dokumen_pasport]"      => "$individu[dokumen_pasport]",
-                "[dusun]"                => "$individu[dusun]",
-                "[gol_darah]"            => "$individu[gol_darah]",
-                "[hubungan]"             => "$individu[hubungan]",
-                "[ibu_nik]"              => "$individu[ibu_nik]",
-                "[kepala_kk]"            => "$individu[kepala_kk]",
-                "[nama]"                 => "$individu[nama]",
-                "[nama_ayah]"            => "$individu[nama_ayah]",
-                "[nama_ibu]"             => "$individu[nama_ibu]",
-                "[no_kk]"                => "$individu[no_kk]",
-                "[no_ktp]"               => "$individu[nik]",
-                "[pendidikan]"           => "$individu[pendidikan]",
-                "[pekerjaan]"            => "$individu[pekerjaan]",
-                "[rw]"                   => "$individu[rw]",
-                "[rt]"                   => "$individu[rt]",
-                "[sex]"                  => "$individu[sex]",
-                "[status]"               => "$individu[status_kawin]",
-                "[tanggallahir]"         => "$tgllhr",
+                "[agama]"                => $individu[agama],
+                "[akta_lahir]"           => $individu[akta_lahir],
+                "[akta_perceraian]"      => $individu[akta_perceraian],
+                "[akta_perkawinan]"      => $individu[akta_perkawinan],
+                "[alamat]"               => $individu[alamat_wilayah],
+                "[alamat_jalan]"         => $individu[alamat],
+                "[alamat_sebelumnya]"    => $individu[alamat_sebelumnya],
+                "[ayah_nik]"             => $individu[ayah_nik],
+                "[cacat]"                => $individu[cacat],
+                "[dokumen_pasport]"      => $individu[dokumen_pasport],
+                "[dusun]"                => $individu[dusun],
+                "[gol_darah]"            => $individu[gol_darah],
+                "[hubungan]"             => $individu[hubungan],
+                "[ibu_nik]"              => $individu[ibu_nik],
+                "[kepala_kk]"            => $individu[kepala_kk],
+                "[nama]"                 => $individu[nama],
+                "[nama_ayah]"            => $individu[nama_ayah],
+                "[nama_ibu]"             => $individu[nama_ibu],
+                "[no_kk]"                => $individu[no_kk],
+                "[no_ktp]"               => $individu[nik],
+                "[pendidikan]"           => $individu[pendidikan],
+                "[pekerjaan]"            => $individu[pekerjaan],
+                "[rw]"                   => $individu[rw],
+                "[rt]"                   => $individu[rt],
+                "[sex]"                  => $individu[sex],
+                "[status]"               => $individu[status_kawin],
+                "[tanggallahir]"         => $tgllhr,
                 "[tanggalperceraian]"    => ucwords(tgl_indo($individu[tanggalperceraian])),
                 "[tanggalperkawinan]"    => ucwords(tgl_indo($individu[tanggalperkawinan])),
                 "[tanggal_akhir_paspor]" => ucwords(tgl_indo($individu[tanggal_akhir_paspor])),
-                "[tempatlahir]"          => "$individu[tempatlahir]",
+                "[tempatlahir]"          => $individu[tempatlahir],
                 "[tempat_tgl_lahir]"     => "$individu[tempatlahir]/$tgllhr",
                 "[ttl]"                  => "$individu[tempatlahir]/$tgllhr",
                 "[usia]"                 => "$individu[umur] Tahun",
                 "*usia"                  => "$individu[umur] Tahun",
-                "[warga_negara]"         => "$individu[warganegara]",
+                "[warga_negara]"         => $individu[warganegara],
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
