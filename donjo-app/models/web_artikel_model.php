@@ -194,12 +194,13 @@
 			}
 		}
 
-        if (empty($data['judul']) || empty($data['isi'])) {
-            $_SESSION['success'] = -1;
-        } else {
-            $outp = $this->db->insert('artikel', $data);
-            if (!$outp) $_SESSION['success'] = -1;
-        }
+    if (empty($data['judul']) || empty($data['isi'])) {
+			$_SESSION['error_msg'].= " -> Data harus diisi";
+      $_SESSION['success'] = -1;
+    } else {
+      $outp = $this->db->insert('artikel', $data);
+      if (!$outp) $_SESSION['success'] = -1;
+    }
 	}
 
 	function update($cat, $id=0){
@@ -295,9 +296,14 @@
 			unset($data['gambar3_hapus']);
 		}
 
-		$this->db->where('id',$id);
-		$outp = $this->db->update('artikel',$data);
-		if(!$outp) $_SESSION['success']=-1;
+    if (empty($data['judul']) || empty($data['isi'])) {
+			$_SESSION['error_msg'].= " -> Data harus diisi";
+      $_SESSION['success'] = -1;
+    } else {
+			$this->db->where('id',$id);
+			$outp = $this->db->update('artikel',$data);
+			if(!$outp) $_SESSION['success']=-1;
+    }
 	}
 
 	function update_kategori($id, $id_kategori) {
