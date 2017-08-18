@@ -152,6 +152,13 @@
 	}
 
 	function delete($id=''){
+		// Note:
+		// Gambar yang dihapus ada  kemungkinan dipakai
+		// oleh galery lain, karena ketika mengupload
+		// nama file nya belum dirubah sesuai dengan
+		// judul galery
+		$this->delete_gallery_image($id);
+		
 		$sql  = "DELETE FROM gambar_gallery WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
 
@@ -167,17 +174,34 @@
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
+				// Note:
+				// Gambar yang dihapus ada  kemungkinan dipakai
+				// oleh galery lain, karena ketika mengupload
+				// nama file nya belum dirubah sesuai dengan
+				// judul galery
+				$this->delete_gallery_image($id);
+
 				$sql  = "DELETE FROM gambar_gallery WHERE id=?";
 				$outp = $this->db->query($sql,array($id));
 
 				$sql  = "DELETE FROM gambar_gallery WHERE parrent=?";
 				$outp = $this->db->query($sql,array($id));
+
 			}
 		}
 		else $outp = false;
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
+	}
+
+	function delete_gallery_image($id){
+		$image = $this->db->select('gambar')->get_where('gambar_gallery', array('id'=>$id))->row()->gambar;
+		$prefix = array('kecil_', 'sedang_');
+		foreach($prefix as $pref){
+			if(is_file(FCPATH . LOKASI_GALERI . $pref . $image))
+				unlink(FCPATH . LOKASI_GALERI . $pref . $image);
+		}
 	}
 
 	function gallery_lock($id='',$val=0){
