@@ -190,6 +190,7 @@
 			$data[$kolom] = ucwords(strtolower($data[$kolom]));
 		}
 		$namaPendidikan = array("Tk"=>"TK","Sd"=>"SD","Sltp"=>"SLTP","Slta"=>"SLTA","Slb"=>"SLB");
+		$namaPendidikan = $namaPendidikan + array('Iii/s'=>'III/S', 'Iii'=>'III', 'Ii'=>'II');
 		foreach ($namaPendidikan as $key => $value) {
 			$data["pendidikan"] = str_replace($key, $value, $data["pendidikan"]);
 		}
