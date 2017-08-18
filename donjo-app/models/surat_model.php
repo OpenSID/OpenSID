@@ -187,16 +187,20 @@
 			"status_kawin","pendidikan","hubungan","nama_ayah","nama_ibu","alamat","alamat_sebelumnya",
 			"alamat_wilayah","cacat");
 		foreach ($kolomUpper as $kolom) {
-			$data[$kolom] = ucwords(strtolower($data[$kolom]));
+			if (isset($data[$kolom])) $data[$kolom] = ucwords(strtolower($data[$kolom]));
 		}
-		$namaPendidikan = array("Tk"=>"TK","Sd"=>"SD","Sltp"=>"SLTP","Slta"=>"SLTA","Slb"=>"SLB");
-		$namaPendidikan = $namaPendidikan + array('Iii/s'=>'III/S', 'Iii'=>'III', 'Ii'=>'II');
-		foreach ($namaPendidikan as $key => $value) {
-			$data["pendidikan"] = str_replace($key, $value, $data["pendidikan"]);
+		if (isset($data["pendidikan"])) {
+			$namaPendidikan = array("Tk"=>"TK","Sd"=>"SD","Sltp"=>"SLTP","Slta"=>"SLTA","Slb"=>"SLB",
+				'Iii/s'=>'III/S', 'Iii'=>'III', 'Ii'=>'II', 'Iv'=>'IV');
+			foreach ($namaPendidikan as $key => $value) {
+				$data["pendidikan"] = str_replace($key, $value, $data["pendidikan"]);
+			}
 		}
-		$rt_rw = array("Rt"=>"RT","Rw"=>"RW");
-		foreach ($rt_rw as $key => $value) {
-			$data["alamat_wilayah"] = str_replace($key, $value, $data["alamat_wilayah"]);
+		if (isset($data["alamat_wilayah"])) {
+			$rt_rw = array("Rt"=>"RT","Rw"=>"RW");
+			foreach ($rt_rw as $key => $value) {
+				$data["alamat_wilayah"] = str_replace($key, $value, $data["alamat_wilayah"]);
+			}
 		}
 	}
 
@@ -214,7 +218,7 @@
 	}
 
 	function get_data_pribadi($id=0){
-		$sql   = "SELECT u.*,h.nama as hubungan, p.nama as kepala_kk,g.nama as gol_darah,d.nama as pend,r.nama as pek,m.nama as men, w.nama as wn, n.nama as agama,c.rw,c.rt,c.dusun,(DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, sex.nama as sex, k.alamat
+		$sql   = "SELECT u.*,h.nama as hubungan, p.nama as kepala_kk,g.nama as gol_darah,d.nama as pendidikan,r.nama as pek,m.nama as men, w.nama as wn, n.nama as agama,c.rw,c.rt,c.dusun,(DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, sex.nama as sex, k.alamat
 			FROM tweb_penduduk u
 			left join tweb_penduduk_hubungan h on u.kk_level=h.id
 			left join tweb_keluarga k on u.id_kk=k.id

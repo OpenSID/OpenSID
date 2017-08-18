@@ -54,7 +54,7 @@
 <tr><td>Tanggal Perceraian</td><td>:</td><td><?php echo tgl_indo(tgl_indo_in($input['tgl_perceraian']))?></td></tr>
 <tr><td>Status Hubungan dalam Keluarga</td><td>:</td><td><?php echo $pribadi['hubungan']?></td></tr>
 <tr><td>Kelainan Fisik / Mental</td><td>:</td><td><?php echo $pribadi['fis']?> / <?php echo $pribadi['men']?></td></tr>
-<tr><td>Pendidikan Terakhir</td><td>:</td><td><?php echo $pribadi['pend']?></td></tr>
+<tr><td>Pendidikan Terakhir</td><td>:</td><td><?php echo $pribadi['pendidikan']?></td></tr>
 <tr><td>Pekerjaan</td><td>:</td><td><?php echo $pribadi['pek']?></td></tr>
 
 </table>
