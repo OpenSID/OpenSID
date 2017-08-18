@@ -14,7 +14,7 @@
 		$db_debug = $this->db->db_debug; //save setting
 		$this->db->db_debug = FALSE; //disable debugging for queries
 
-      $query = $this->db->query("SELECT table_name,`engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '". $this->db->database ."'");
+      $query = $this->db->query("SELECT `engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '". $this->db->database ."' AND table_name = 'user'");
       if(!$this->db->_error_number()) {
       	$this->engine = $query->row()->engine;
       }
