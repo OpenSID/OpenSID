@@ -184,6 +184,7 @@
 
 	function format_data_surat(&$data){
 		$kolomUpper = array("tanggallahir","tempatlahir","dusun","pekerjaan","gol_darah","agama","sex","status_kawin","pendidikan","hubungan","nama_ayah","nama_ibu");
+		$kolomUpper = $kolomUpper + array("alamat", "alamat_sebelumnya", "alamat_wilayah");
 		foreach ($kolomUpper as $kolom) {
 			$data[$kolom] = ucwords(strtolower($data[$kolom]));
 		}
