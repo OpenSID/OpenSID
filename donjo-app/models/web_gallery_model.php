@@ -101,24 +101,23 @@
 		$_SESSION['error_msg'] = '';
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
-	  $tipe_file   = $_FILES['gambar']['type'];
-	  $nama_file   = urlencode($_FILES['gambar']['name']);
+	  $tipe_file = TipeFile($_FILES['gambar']);
 		$data = $_POST;
-
-	  if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-				UploadGallery($nama_file);
-				$data['gambar'] = $nama_file;
-			} else {
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-				$_SESSION['success']=-1;
-			}
+		// Bolehkan album tidak ada gambar cover
+		if (!empty($lokasi_file)) {
+		  if (!CekGambar($_FILES['gambar'], $tipe_file)){
+				$_SESSION['success'] = -1;
+				return;
+		  }
+		  $nama_file  = urlencode(generator(6)."_".$_FILES['gambar']['name']);
+			UploadGallery($nama_file,"",$tipe_file);
+			$data['gambar'] = $nama_file;
 		}
+
 		if($_SESSION['grup'] == 4){
 			$data['enabled'] = 2;
 		}
 
-		// Bolehkan gallery kosong, tidak ada gambarnya
 		$outp = $this->db->insert('gambar_gallery',$data);
 		if(!$outp) $_SESSION['success'] = -1;
 	}
@@ -127,27 +126,26 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
 
-	  $x = $_POST;
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
-	  $tipe_file   = $_FILES['gambar']['type'];
-	  $nama_file   = urlencode($_FILES['gambar']['name']);
-	  $old_gambar  = $x['old_gambar'];
+	  $tipe_file = TipeFile($_FILES['gambar']);
+		$data = $_POST;
+		// Kalau kosong, gambar tidak diubah
+		if (!empty($lokasi_file)) {
+		  if (!CekGambar($_FILES['gambar'], $tipe_file)){
+				$_SESSION['success'] = -1;
+				return;
+		  }
+		  $nama_file  = urlencode(generator(6)."_".$_FILES['gambar']['name']);
+			UploadGallery($nama_file,$data['old_gambar'],$tipe_file);
+			$data['gambar'] = $nama_file;
+		}
 
-	  if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-				UploadGallery($nama_file,$old_gambar);
-				unset($x['old_gambar']);
-			} else {
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-				$_SESSION['success']=-1;
-				$nama_file = $x['old_gambar'];
-			}
-	  }
+		if($_SESSION['grup'] == 4){
+			$data['enabled'] = 2;
+		}
 
-		$data['gambar'] = $nama_file;
-		$data['nama'] = $_POST['nama'];
-		$this->db->where('id',$id);
-		$outp = $this->db->update('gambar_gallery',$data);
+		unset($data['old_gambar']);
+		$outp = $this->db->where('id',$id)->update('gambar_gallery',$data);
 		if(!$outp) $_SESSION['success'] = -1;
 	}
 
@@ -276,59 +274,54 @@
 	}
 
 	function insert_sub_gallery($parrent=0){
-		  $lokasi_file = $_FILES['gambar']['tmp_name'];
-		  $tipe_file   = $_FILES['gambar']['type'];
-		  $nama_file   = urlencode($_FILES['gambar']['name']);
-		  if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg" OR $tipe_file == "image/png"){
-				UploadGallery($nama_file);
-				$data = $_POST;
-				$data['gambar'] = $nama_file;
-				$data['parrent'] = $parrent;
-				$data['tipe'] = 2;
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
 
-				if($_SESSION['grup'] == 4){
-					$data['enabled'] = 2;
-				}
+	  $lokasi_file = $_FILES['gambar']['tmp_name'];
+	  $tipe_file = TipeFile($_FILES['gambar']);
+		$data = $_POST;
+		// Bolehkan isi album tidak ada gambar
+		if (!empty($lokasi_file)) {
+		  if (!CekGambar($_FILES['gambar'], $tipe_file)){
+				$_SESSION['success'] = -1;
+				return;
+		  }
+		  $nama_file  = urlencode(generator(6)."_".$_FILES['gambar']['name']);
+			UploadGallery($nama_file,"",$tipe_file);
+			$data['gambar'] = $nama_file;
+		}
 
-				$outp = $this->db->insert('gambar_gallery',$data);
-				if($outp) $_SESSION['success']=1;
-			} else {
-				$_SESSION['success']=-1;
-			}
-		  }else{
-			$data = $_POST;
-			unset($data['gambar']);
-			$data['parrent'] = $parrent;
-			$data['tipe'] = 2;
-			$outp = $this->db->insert('gambar_gallery',$data);
-}
-	if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if($_SESSION['grup'] == 4){
+			$data['enabled'] = 2;
+		}
+
+		$data['parrent'] = $parrent;
+		$data['tipe'] = 2;
+		$outp = $this->db->insert('gambar_gallery',$data);
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 
-		function update_sub_gallery($id=0){
-		  $x = $_POST;
-		  $lokasi_file = $_FILES['gambar']['tmp_name'];
-		  $tipe_file   = $_FILES['gambar']['type'];
-		  $nama_file   = urlencode($_FILES['gambar']['name']);
-		  $old_gambar  = $x['old_gambar'];
-		  if (!empty($nama_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-				UploadGallery($nama_file,$old_gambar);
-				unset($x['old_gambar']);
-			}} else {
-				$_SESSION['success']=-1;
-				$nama_file = $x['old_gambar'];
+	function update_sub_gallery($id=0){
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
 
+	  $lokasi_file = $_FILES['gambar']['tmp_name'];
+	  $tipe_file = TipeFile($_FILES['gambar']);
+		$data = $_POST;
+		// Kalau kosong, gambar tidak diubah
+		if (!empty($lokasi_file)) {
+		  if (!CekGambar($_FILES['gambar'], $tipe_file)){
+				$_SESSION['success'] = -1;
+				return;
 		  }
+		  $nama_file  = urlencode(generator(6)."_".$_FILES['gambar']['name']);
+			UploadGallery($nama_file,$data['old_gambar'],$tipe_file);
+			$data['gambar'] = $nama_file;
+		}
 
-		$data['gambar'] = $nama_file;
-		$data['nama'] = $_POST['nama'];
-		$this->db->where('id',$id);
-		$outp = $this->db->update('gambar_gallery',$data);
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		unset($data['old_gambar']);
+		$outp = $this->db->where('id',$id)->update('gambar_gallery',$data);
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 }
 ?>
