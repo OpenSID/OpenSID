@@ -1,7 +1,12 @@
 <?php class Database_model extends CI_Model{
 
   private $engine = 'InnoDB';
-
+  /* define versi opensid dan script migrasi yang harus dijalankan */
+  private $versionMigrate = array(
+    'pasca-2.1' => array('migrate' => 'migrasi_21_ke_22','nextVersion' => 'pasca-2.2'),
+    'pasca-2.2' => array('migrate' => 'migrasi_22_ke_23','nextVersion' => 'pasca-2.3'),
+    'pasca-2.3' => array('migrate' => 'migrasi_23_ke_24','nextVersion' => NULL)
+  );
   function __construct(){
     parent::__construct();
 
@@ -46,8 +51,37 @@
     ";
     $this->db->query($query);
   }
+  function migrasi_db_cri(){
+    $versi = $this->getCurrentVersion();
+    $nextVersion = $versi;
+    $versionMigrate = $this->versionMigrate;
+    if(isset($versionMigrate[$versi])){
+      while(!empty($nextVersion)){
+        log_message('error',$nextVersion);
+        $migrate = $versionMigrate[$nextVersion]['migrate'];
+        $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
+        call_user_func($migrate);
+      }
+      /* update current_version di db */
+      $newVersion = array(
+        'value' => AmbilVersi()
+      );
+      $this->db->where(array('key'=>'current_version'))->update('setting_aplikasi',$newVersion);
+    }else{
+      $this->_migrasi_db_cri();
+    }
+  }
 
-  function migrasi_db_cri() {
+  private function getCurrentVersion(){
+    $result = NULL;
+    $_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
+    if(!empty($_result)){
+      $result = $_result->value;
+    }
+    return $result;
+  }
+
+  function _migrasi_db_cri() {
     $this->migrasi_cri_lama();
     $this->migrasi_03_ke_04();
     $this->migrasi_08_ke_081();
