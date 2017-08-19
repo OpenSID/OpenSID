@@ -3,10 +3,10 @@
   private $engine = 'InnoDB';
   /* define versi opensid dan script migrasi yang harus dijalankan */
   private $versionMigrate = array(
-    'pasca-2.1' => array('migrate' => 'migrasi_21_ke_22','nextVersion' => 'pasca-2.2'),
-    'pasca-2.2' => array('migrate' => 'migrasi_22_ke_23','nextVersion' => 'pasca-2.3'),
-    'pasca-2.3' => array('migrate' => 'migrasi_23_ke_24','nextVersion' => NULL)
+    '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
+    'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL)
   );
+
   function __construct(){
     parent::__construct();
 
@@ -57,19 +57,27 @@
     $versionMigrate = $this->versionMigrate;
     if(isset($versionMigrate[$versi])){
       while(!empty($nextVersion)){
-        log_message('error',$nextVersion);
         $migrate = $versionMigrate[$nextVersion]['migrate'];
+        log_message('error','Jalankan '.$migrate);
         $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
-        call_user_func($migrate);
+        call_user_func(__NAMESPACE__ .'\Database_model::'.$migrate);
       }
-      /* update current_version di db */
-      $newVersion = array(
-        'value' => AmbilVersi()
-      );
-      $this->db->where(array('key'=>'current_version'))->update('setting_aplikasi',$newVersion);
     }else{
       $this->_migrasi_db_cri();
     }
+    /*
+      Update current_version di db.
+      'pasca-<versi>' disimpan sebagai '<versi>'
+    */
+    $prefix = 'pasca-';
+    $versi = AmbilVersi();
+    if (substr($versi, 0, strlen($prefix)) == $prefix) {
+        $versi = substr($versi, strlen($prefix));
+    }
+    $newVersion = array(
+      'value' => $versi
+    );
+    $this->db->where(array('key'=>'current_version'))->update('setting_aplikasi',$newVersion);
   }
 
   private function getCurrentVersion(){
@@ -110,6 +118,15 @@
     $this->migrasi_21_ke_22();
     $this->migrasi_22_ke_23();
     $this->migrasi_23_ke_24();
+    $this->migrasi_24_ke_25();
+  }
+
+  function migrasi_24_ke_25(){
+    // Tambah setting current_version untuk migrasi
+    $setting = $this->db->where('key','current_version')->get('setting_aplikasi')->row()->id;
+    if(!$setting){
+      $this->db->insert('setting_aplikasi',array('key'=>'current_version','value'=>'2.4','keterangan'=>'Versi sekarang untuk migrasi'));
+    }
   }
 
   function migrasi_23_ke_24(){
@@ -127,7 +144,7 @@
         jenis = VALUES(jenis)";
     $this->db->query($sql);
     // Tambah setting sebutan kepala dusun
-    $setting = $this->db->where('key','sebutan_kadus')->get('setting_aplikasi')->row()->id;
+    $setting = $this->db->where('key','sebutan_singkatan_kadus')->get('setting_aplikasi')->row()->id;
     if(!$setting){
       $this->db->insert('setting_aplikasi',array('key'=>'sebutan_singkatan_kadus','value'=>'kawil','keterangan'=>'Sebutan singkatan jabatan kepala dusun'));
     }
