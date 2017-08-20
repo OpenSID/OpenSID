@@ -261,13 +261,13 @@
 <?php endif; ?>
 
 <tr>
-  <th>Status kehamilan</th>
+  <th>Status Kehamilan</th>
   <td>
     <div class="uiradio">
       <input type="radio" id="sh2" name="hamil" value="0"/<?php if($penduduk['hamil'] == '0' OR $penduduk['hamil'] == ''){echo 'checked';}?>>
       <label for="sh2">Tidak hamil</label>
       <input type="radio" id="sh1" name="hamil" value="1"/<?php if($penduduk['hamil'] == '1' ){echo 'checked';}?>>
-      <label for="sh1">hamil</label>
+      <label for="sh1">Hamil</label>
     </div>
   </td>
 </tr>
