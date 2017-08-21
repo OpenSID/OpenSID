@@ -113,7 +113,7 @@ if($single_artikel["id"]){
 					<div class=\"box-body\">
 						<form id=\"form-komentar\" name=\"form\" action=\"".site_url("first/add_comment/".$single_artikel["id"])."\" method=POST onSubmit=\"return validasi(this)\">
 						<table width=100%>
-							<tr class=\"komentar nama\"><td>Nama</td><td> <input type=text name=\"owner\" maxlength=30 value=\"".$_SESSION['post']['owner']."\"></td></tr>
+							<tr class=\"komentar nama\"><td>Nama</td><td> <input type=text name=\"owner\" maxlength=30 value=\"".(isset($_SESSION['post']) ? (!empty($_SESSION['post']['owner']) ? $_SESSION['post']['owner'] : $_SESSION['nama']) : $_SESSION['nama'])."\"></td></tr>
 							<tr class=\"komentar alamat\"><td>Alamat e-mail</td><td> <input type=text name=\"email\" maxlength=30 value=\"".$_SESSION['post']['email']."\"></td></tr>
 							<tr class=\"komentar pesan\"><td valign=top>Komentar</td><td> <textarea name=\"komentar\">".$_SESSION['post']['komentar']."</textarea></td></tr>
 							<tr class=\"captcha\"><td>&nbsp;</td>
