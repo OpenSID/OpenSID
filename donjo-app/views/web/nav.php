@@ -5,7 +5,7 @@
 		<a href="<?php echo site_url('web/index/1')?>">Artikel</a>
 	</li>
 	<li <?php if($act==7){?>class="selected"<?php }?>>
-		<a href="<?php echo site_url('web_widget/index/1')?>">Widget</a>
+		<a href="<?php echo site_url('web_widget/clear')?>">Widget</a>
 	</li>
 	<li <?php if($act==1){?>class="selected"<?php }?>>
 		<a href="<?php echo site_url('menu/index/1')?>">Menu</a>

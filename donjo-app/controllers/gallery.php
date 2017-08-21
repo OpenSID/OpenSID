@@ -107,12 +107,14 @@ class gallery extends CI_Controller{
 	}
 
 	function delete($p=1,$o=0,$id=''){
-		$this->web_gallery_model->delete($id);
+		$_SESSION['success']=1;
+		$this->web_gallery_model->delete_gallery($id);
 		redirect("gallery/index/$p/$o");
 	}
 
 	function delete_all($p=1,$o=0){
-		$this->web_gallery_model->delete_all();
+		$_SESSION['success']=1;
+		$this->web_gallery_model->delete_all_gallery();
 		redirect("gallery/index/$p/$o");
 	}
 
@@ -216,12 +218,14 @@ class gallery extends CI_Controller{
 	}
 
 	function delete_sub_gallery($gallery='',$id=''){
+		$_SESSION['success']=1;
 		$this->web_gallery_model->delete($id);
 		redirect("gallery/sub_gallery/$gallery");
 	}
 
 	function delete_all_sub_gallery($gallery=''){
-		$this->web_gallery_model->delete_all_sub_gallery();
+		$_SESSION['success']=1;
+		$this->web_gallery_model->delete_all();
 		redirect("gallery/sub_gallery/$gallery");
 	}
 
