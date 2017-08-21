@@ -94,7 +94,7 @@ class area extends CI_Controller{
 		$header= $this->header_model->get_data();
 
 		$nav['act']=4;
-		$this->load->view('header-gis', $header);
+		$this->load->view('header', $header);
 
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('area/form',$data);
