@@ -46,7 +46,7 @@ source: keyword
 </div>
 </div>
 </div>
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
+<div class="ui-layout-center" id="maincontent" style="padding: 5px;clear:both">
 <div class="table-panel top">
 <div class="left">
 		<select name="filter" onchange="formAction('mainform','<?php  echo site_url('plan/garis/filter')?>')">
