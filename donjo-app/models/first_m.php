@@ -19,7 +19,7 @@ class First_M extends CI_Model{
 		$pin = $this->input->post('pin');
 		$hash_pin = hash_pin($pin);
 
-		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE nik=?";
+		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE nik LIKE ?";
 		$query=$this->db->query($sql,array($nik));
 		$row=$query->row();
 		$lg = $row->last_login;
