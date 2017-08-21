@@ -48,7 +48,7 @@ tinyMCE.init({
 <table class="form">
 <tr>
 <th width="120">Judul Artikel</th>
-<td><input class="inputbox" type="text" name="judul" value="<?php echo $artikel['judul']?>" size="60"/></td>
+<td><input class="inputbox required" type="text" name="judul" value="<?php echo $artikel['judul']?>" size="60"/></td>
 </tr>
 <tr>
 <tr>
@@ -57,7 +57,7 @@ tinyMCE.init({
 <tr>
 <tr>
 <td colspan="2">
-<textarea  name="isi" style="width: 800px; height: 500px;">
+<textarea  class="required" name="isi" style="width: 800px; height: 500px;">
 <?php echo $artikel['isi']?>
 </textarea>
 </td>

@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.3');
+define("VERSION", 'pasca-2.4');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -447,4 +447,32 @@ define("KODE_PEKERJAAN", serialize(array(
   function isMobile() {
     return preg_match("/\b(?:a(?:ndroid|vantgo)|b(?:lackberry|olt|o?ost)|cricket|do‌​como|hiptop|i(?:emob‌​ile|p[ao]d)|kitkat|m‌​(?:ini|obi)|palm|(?:‌​i|smart|windows )phone|symbian|up\.(?:browser|link)|tablet(?: browser| pc)|(?:hp-|rim |sony )tablet|w(?:ebos|indows ce|os))/i", $_SERVER["HTTP_USER_AGENT"]);
   }
+
+  /*
+    Deteksi file berisi script PHP:
+    -- extension .php
+    -- berisi string '<?php', '<?=', '<script'
+    Perhatian: string '<?', '<%' tidak bisa digunakan sebagai indikator,
+    karena file image dan PDF juga mengandung string ini.
+  */
+  function isPHP($file,$filename) {
+    $ext = get_extension($filename);
+    if($ext == '.php') return true;
+
+    $handle = fopen($file,'r');
+    $buffer = stream_get_contents($handle);
+    if (preg_match('/<\?php|<\?=|<script/i', $buffer)){
+      fclose($handle);
+      return true;
+    }
+    fclose($handle);
+    return false;
+  }
+
+  function get_extension($filename){
+    $ext = explode('.', strtolower($filename));
+    $ext = '.'.end($ext);
+    return $ext;
+  }
+
 ?>

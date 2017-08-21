@@ -1806,7 +1806,7 @@ CREATE TABLE `setting_aplikasi` (
   `jenis` varchar(30) DEFAULT NULL,
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('1', 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('2', 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -1826,6 +1826,7 @@ INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kate
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('16', 'google_key', '', 'Google API Key untuk Google Maps', '', 'web');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('17', 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('18', 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
+INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('19', 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
 
 
 #
@@ -2713,7 +2714,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
@@ -2744,6 +2745,7 @@ INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampira
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('38', 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('45', 'Permohonan Kartu Keluarga', 'surat_permohonan_kartu_keluarga', 'S-36', 'f-1.15.php,f-1.01.php', '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('51', 'Domisili Usaha Non-Warga', 'surat_domisili_usaha_non_warga', 'S-37', NULL, '0', '0', '1');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('76', 'Keterangan Beda Identitas KIS', 'surat_ket_beda_identitas_kis', 'S-38', NULL, '0', '0', '1');
 
 
 #

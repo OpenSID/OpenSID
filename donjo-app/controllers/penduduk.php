@@ -257,9 +257,16 @@ class Penduduk extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-	function dokumen_form($id=0){
+	function dokumen_form($id=0,$id_dokumen=0){
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
-		$data['form_action'] = site_url("penduduk/dokumen_insert");
+		if($id_dokumen){
+			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id_dokumen);
+			$data['form_action'] = site_url("penduduk/dokumen_update/$id_dokumen");
+		}
+		else{
+			$data['dokumen'] = null;
+			$data['form_action'] = site_url("penduduk/dokumen_insert");
+		}
 		$this->load->view('sid/kependudukan/dokumen_form',$data);
 	}
 
@@ -270,7 +277,13 @@ class Penduduk extends CI_Controller{
 	}
 
 	function dokumen_insert(){
-		$this->penduduk_model->dokumen_insert();
+		$this->web_dokumen_model->insert();
+		$id = $_POST['id_pend'];
+		redirect("penduduk/dokumen/$id");
+	}
+
+	function dokumen_update($id=''){
+		$this->web_dokumen_model->update($id);
 		$id = $_POST['id_pend'];
 		redirect("penduduk/dokumen/$id");
 	}

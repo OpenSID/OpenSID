@@ -104,7 +104,13 @@ class Web_Dokumen_Model extends CI_Model{
 	  return $semua_mime_type;
 	}
 
-	function insert(){
+	function semua_ext(){
+	  $semua_ext = array_merge(unserialize(EXT_DOKUMEN), unserialize(EXT_GAMBAR), unserialize(EXT_ARSIP));
+	  return $semua_ext;
+	}
+
+	function upload_dokumen(&$data, $file_lama=""){
+		unset($data['old_file']);
 		if(empty($_FILES['satuan']['tmp_name'])){
 			return false;
 		}
@@ -112,48 +118,50 @@ class Web_Dokumen_Model extends CI_Model{
 		$_SESSION['error_msg'] = "";
 		$_SESSION['success'] = 1;
 	  $lokasi_file = $_FILES['satuan']['tmp_name'];
-	  $tipe_file   = $_FILES['satuan']['type'];
+		if(empty($lokasi_file)){
+			$_SESSION['success']=-1;
+			return false;
+		}
+	  if (function_exists('finfo_open')) {
+	    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+	    $tipe_file = finfo_file($finfo, $lokasi_file);
+	  } else
+		  $tipe_file = $_FILES['satuan']['type'];
 	  $nama_file   = $_FILES['satuan']['name'];
 	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+	  $ext = get_extension($nama_file);
 
-		if(!in_array($tipe_file, $this->semua_mime_type())){
-			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
+		if(!in_array($tipe_file, $this->semua_mime_type()) OR !in_array($ext, $this->semua_ext())){
+			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file . " " . $ext;
+			$_SESSION['success']=-1;
+			return false;
+		} elseif(isPHP($lokasi_file, $nama_file)){
+			$_SESSION['error_msg'].= " -> File berisi script ";
 			$_SESSION['success']=-1;
 			return false;
 		}
 
-		UploadDocument(underscore($nama_file));
-		$data = $_POST;
-		$data['satuan'] = underscore($nama_file);
-		$outp = $this->db->insert('dokumen',$data);
+		if (!empty($data['id_pend']))
+			$nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;
+		else
+			$nama_file = $data['nama']."_".generator(6)."_".$nama_file;
+		$nama_file = urlencode($nama_file);
+		UploadDocument($nama_file, $file_lama);
+		$data['satuan'] = $nama_file;
+		return true;
+	}
 
-		if(!$outp) $_SESSION['success']=-1;
+	function insert(){
+		$data = $_POST;
+		if ($this->upload_dokumen($data))
+			$this->db->insert('dokumen',$data);
 	}
 
 	function update($id=0){
-		$_SESSION['error_msg'] = "";
-		$_SESSION['success'] = 1;
 	  $data = $_POST;
-	  $lokasi_file = $_FILES['satuan']['tmp_name'];
-	  $tipe_file   = $_FILES['satuan']['type'];
-	  $nama_file   = $_FILES['satuan']['name'];
-	  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-
-		if(!empty($_FILES['satuan']['tmp_name'])){
-			if(!in_array($tipe_file, $this->semua_mime_type())){
-				unset($data['satuan']);
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-				$_SESSION['success']=-1;
-			} else {
-				UploadDocument($nama_file);
-				$data['satuan'] = underscore($nama_file);
-			}
-		}
-
-		unset($data['old_file']);
-		$this->db->where('id',$id);
-		$outp = $this->db->update('dokumen',$data);
-		if(!$outp) $_SESSION['success']=-1;
+		if (!$this->upload_dokumen($data, $data['old_file']))
+			unset($data['satuan']);
+		$this->db->where('id',$id)->update('dokumen',$data);;
 	}
 
 	function delete($id=''){

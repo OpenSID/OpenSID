@@ -17,6 +17,7 @@ class Keluar extends CI_Controller{
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
+		$_SESSION['per_page'] = 20;
 		redirect('keluar');
 	}
 
@@ -34,7 +35,7 @@ class Keluar extends CI_Controller{
 		else $data['filter'] = '';
 
 		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
+			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging']  = $this->surat_keluar_model->paging($p,$o);

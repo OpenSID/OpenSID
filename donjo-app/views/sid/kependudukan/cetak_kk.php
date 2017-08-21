@@ -97,18 +97,18 @@
 <tbody>
 
 
-<?php  foreach($main as $data): ?>
+<?php  foreach($main as $key => $data): ?>
 
 <tr class="data">
-<td align="center" width="2"><?php echo $data['no']?></td>
-<td><?php echo $data['status_kawin']?></td>
-<td><?php echo $data['hubungan']?></td>
-<td><?php echo $data['warganegara']?></td>
-<td><?php echo $data['dokumen_pasport']?></td>
-<td><?php echo $data['dokumen_kitas']?></td>
-<td><?php echo strtoupper($data['nama_ayah'])?></td>
-<td><?php echo strtoupper($data['nama_ibu'])?></td>
-<td align="center"><?php echo $data['golongan_darah']?></td>
+	<td align="center" width="2"><?php echo $key+1?></td>
+	<td><?php echo $data['status_kawin']?></td>
+	<td><?php echo $data['hubungan']?></td>
+	<td><?php echo $data['warganegara']?></td>
+	<td><?php echo $data['dokumen_pasport']?></td>
+	<td><?php echo $data['dokumen_kitas']?></td>
+	<td><?php echo strtoupper($data['nama_ayah'])?></td>
+	<td><?php echo strtoupper($data['nama_ibu'])?></td>
+	<td align="center"><?php echo $data['golongan_darah']?></td>
 </tr>
 <?php  endforeach; ?>
 </tbody>
