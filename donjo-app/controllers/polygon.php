@@ -53,7 +53,7 @@ class polygon extends CI_Controller{
 		$header= $this->header_model->get_data();
 		$nav['act']=5;
 
-		$this->load->view('header-gis', $header);
+		$this->load->view('header', $header);
 
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('polygon/table',$data);

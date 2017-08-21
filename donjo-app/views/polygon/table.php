@@ -33,12 +33,16 @@ source: keyword
 */?>
 <td style="background:#fff;padding:0px;">
 <div class="content">
-	<h3>Manajemen Kategori polygon</h3>
-	<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID</div>
 </div>
 <div id="contentpane">
 <form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
+	<div class="top">
+		<h3>Manajemen Kategori Polygon</h3>
+		<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">
+			Modul ini masih dalam tahap pengembangan. Ide-ide dan usulan mari kita kumpulkan untuk memperkaya khazanah SID
+		</div>
+	</div>
 <div class="left">
 <div class="uibutton-group">
 <a href="<?php echo site_url("polygon/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Kategori Baru</a>
