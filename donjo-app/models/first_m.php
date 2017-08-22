@@ -19,7 +19,7 @@ class First_M extends CI_Model{
 		$pin = $this->input->post('pin');
 		$hash_pin = hash_pin($pin);
 
-		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE nik=?";
+		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE strcmp(nik,?) = 0";
 		$query=$this->db->query($sql,array($nik));
 		$row=$query->row();
 		$lg = $row->last_login;
@@ -54,14 +54,14 @@ class First_M extends CI_Model{
 	function m_siteman($nik="",$pin=""){
 		$hash_pin = hash_pin($pin);
 
-		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE nik=?";
+		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE strcmp(nik,?) = 0";
 		$query=$this->db->query($sql,array($nik));
 		$row=$query->row();
 		$lg = $row->last_login;
 
 		if($hash_pin==$row->pin){
 
-			$sql = "UPDATE tweb_penduduk_mandiri SET last_login=NOW() WHERE nik=?";
+			$sql = "UPDATE tweb_penduduk_mandiri SET last_login=NOW() WHERE strcmp(nik,?) = 0";
 			$this->db->query($sql, $nik);
 
 			return $token;
@@ -74,7 +74,7 @@ class First_M extends CI_Model{
 
 		if(isset($_SESSION['nik'])){
 			$id = $_SESSION['nik'];
-			$sql = "UPDATE tweb_penduduk_mandiri SET last_login=NOW() WHERE nik=?";
+			$sql = "UPDATE tweb_penduduk_mandiri SET last_login=NOW() WHERE strcmp(nik,?) = 0";
 			$this->db->query($sql, $id);
 		}
 
