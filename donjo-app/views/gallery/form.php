@@ -1,7 +1,26 @@
+<script type="text/javascript">
+$("document").ready(function(){
+	$("#validasi").bind("submit",function(evt){
+    var file = $('#file').attr('files')[0];
+    if(file && file.size > <?php echo max_upload()*1000000?>) { // ukuran berkas dalam bytes)
+      //Prevent default and display error
+      evt.preventDefault();
+      $('#dialog').html("<p>Berkas itu melebihi batas "+<?php echo "'".max_upload()."'" ?>+"MB. </p>");
+			$('#dialog').show();
+			$('#dialog').dialog();
+    }
+  });
+});
+</script>
+
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
 <td style="background:#fff;padding:0px;">
+
+	<div id="dialog" title="Perhatian" style="display: none;">
+	  <p>Berkas itu melebihi batas x MB.</p>
+	</div>
 
 <div class="content-header">
 <h3>Form Manajemen Galeri</h3>
@@ -28,7 +47,7 @@
 <tr>
 	<th>Upload Gambar</th>
 	<td>
-		<input type="file" name="gambar" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span>
+		<input id="file" type="file" name="gambar" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span>
     <?php $upload_mb = max_upload();
     	echo "<p>Batas maksimal pengunggahan berkas <strong>".$upload_mb." MB.</strong></p>"
     ?>
