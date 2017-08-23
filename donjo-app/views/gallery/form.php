@@ -26,8 +26,13 @@
 </tr>
 <?php }?>
 <tr>
-<th>Upload Gambar</th>
-<td><input type="file" name="gambar" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span></td>
+	<th>Upload Gambar</th>
+	<td>
+		<input type="file" name="gambar" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span>
+    <?php $upload_mb = max_upload();
+    	echo "<p>Batas maksimal pengunggahan berkas <strong>".$upload_mb." MB.</strong></p>"
+    ?>
+	</td>
 </tr>
 </table>
 </div>

@@ -81,6 +81,19 @@ function TipeFile($file_upload){
 /*
   $file_upload = $_FILES['<lokasi>']
 */
+function UploadError($file_upload){
+  // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
+  // TODO: pakai cara upload yg disediakan Codeigniter
+  if ($file_upload['error'] == 1) {
+    $upload_mb = max_upload();
+    $_SESSION['error_msg'].= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
+    return true;
+  } else return false;
+}
+
+/*
+  $file_upload = $_FILES['<lokasi>']
+*/
 function CekGambar($file_upload,$tipe_file){
   $lokasi_file = $file_upload['tmp_name'];
   if(empty($lokasi_file)){

@@ -99,6 +99,10 @@
 	function insert(){
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
+		if(UploadError($_FILES['gambar'])){
+			$_SESSION['success'] = -1;
+			return;
+		}
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
@@ -125,6 +129,10 @@
 	function update($id=0){
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
+		if(UploadError($_FILES['gambar'])){
+			$_SESSION['success'] = -1;
+			return;
+		}
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
@@ -276,6 +284,10 @@
 	function insert_sub_gallery($parrent=0){
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
+		if(UploadError($_FILES['gambar'])){
+			$_SESSION['success'] = -1;
+			return;
+		}
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
@@ -304,6 +316,10 @@
 	function update_sub_gallery($id=0){
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
+		if(UploadError($_FILES['gambar'])){
+			$_SESSION['success'] = -1;
+			return;
+		}
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);

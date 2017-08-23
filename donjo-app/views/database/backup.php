@@ -48,10 +48,7 @@
                           }
                           $_SESSION["SIAK"] = "";
 
-                          $max_upload = (int)(ini_get('upload_max_filesize'));
-                          $max_post = (int)(ini_get('post_max_size'));
-                          $memory_limit = (int)(ini_get('memory_limit'));
-                          $upload_mb = min($max_upload, $max_post, $memory_limit);
+                          $upload_mb = max_upload();
                           echo "<p>Batas maksimal pengunggahan berkas <strong>".$upload_mb." MB.</strong></p>
                           <br><p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi
                           komputer server SID dan sambungan internet yang tersedia.</p>";
@@ -89,7 +86,7 @@
                           <br><br>
                           Klik tomboh <em>Kosongkan DB</em> di bawah untuk mengosongkan database SID siap untuk diisi dengan data desa.
                           <div style="margin-top: 20px;">
-                            <div class="box-perhatian"><strong><span class="fa fa-info-circle" style="color:red"></span> Sebelum melalukan proses ini, backup dulu database SID.</strong></div></div>
+                            <div class="box-perhatian"><strong><span class="fa fa-info-circle" style="color:red"></span> Sebelum melakukan proses ini, backup dulu database SID.</strong></div></div>
                           <br>
                         </p>
                       </td>
