@@ -127,6 +127,34 @@
     if(!$setting){
       $this->db->insert('setting_aplikasi',array('key'=>'current_version','value'=>'2.4','keterangan'=>'Versi sekarang untuk migrasi'));
     }
+    // Tambah kolom ikon_kecil di tabel setting_modul
+    if (!$this->db->field_exists('ikon_kecil', 'setting_modul')) {
+      $fields = array(
+        'ikon_kecil' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 50
+        )
+      );
+      $this->dbforge->add_column('setting_modul', $fields);
+      $list_modul = array(
+        "1" => "fa fa-home fa-lg",         // SID Home
+        "2" => "fa fa-group fa-lg",        // Penduduk
+        "3" => "fa fa-bar-chart fa-lg",    // Statistik
+        "4" => "fa fa-print fa-lg",        // Cetak Surat
+        "5" => "fa fa-dashboard fa-lg",    // Analisis
+        "6" => "fa fa-folder-open fa-lg",  // Bantuan
+        "7" => "fa fa-road fa-lg",         // Persil
+        "8" => "fa fa-sitemap fa-lg",      // Plan
+        "9" => "fa fa-map fa-lg",          // Peta
+        "10" => "fa fa-envelope-o fa-lg",  // SMS
+        "11" => "fa fa-user-plus fa-lg",   // Pengguna
+        "12" => "fa fa-database fa-lg",    // Database
+        "13" => "fa fa-cloud fa-lg",       // Admin Web
+        "14" => "fa fa-comments fa-lg");   // Laporan
+      foreach ($list_modul as $key => $value) {
+        $this->db->where('id',$key)->update('setting_modul', array('ikon_kecil' => $value));
+      }
+    }
   }
 
   function migrasi_23_ke_24(){
