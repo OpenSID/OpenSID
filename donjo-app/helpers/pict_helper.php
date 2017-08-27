@@ -15,7 +15,11 @@ function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar){
 
 function UploadFoto($fupload_name,$old_foto,$tipe_file=""){
   $dimensi = array("width"=>100, "height"=>100);
-  if($old_foto!="") $old_foto = "kecil_".$old_foto;
+  if($old_foto!="") {
+    // Hapus old_foto
+    unlink(LOKASI_USER_PICT.$old_foto);
+    $old_foto = "kecil_".$old_foto;
+  }
   $nama_simpan = "kecil_".$fupload_name;
   return UploadResizeImage(LOKASI_USER_PICT,$dimensi,"foto",$fupload_name,$nama_simpan,$old_foto,$tipe_file);
 }
