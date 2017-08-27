@@ -83,7 +83,7 @@
 
 		//Main Query
 
-		$sql   = "SELECT u.*,n.nama AS nama, n.nik AS nik
+		$sql   = "SELECT u.*, u.nik as nik_lama, n.nama AS nama, n.nik AS nik
 			FROM tweb_penduduk_mandiri u
 			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
 			WHERE 1 ";
@@ -95,7 +95,6 @@
 		$sql .= $paging_sql;
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
-
 		//Formating Output
 		$i=0;
 		$j=$offset;
