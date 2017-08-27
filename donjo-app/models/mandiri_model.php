@@ -85,7 +85,7 @@
 
 		$sql   = "SELECT u.*,n.nama AS nama, n.nik AS nik
 			FROM tweb_penduduk_mandiri u
-			LEFT JOIN tweb_penduduk n ON u.nik = n.nik
+			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
 			WHERE 1 ";
 
 
@@ -127,6 +127,8 @@
 		$hash_pin = hash_pin($rpin);
 		$data['pin'] = $hash_pin;
 		$data['nik'] = $_POST['nik'];
+		$data['id_pend'] = $this->db->select('id')->where('nik',$_POST['nik'])
+					->get('tweb_penduduk')->row()->id;
 		$data['tanggal_buat'] = date("Y-m-d H:i:s");
 
 		$outp = $this->db->insert('tweb_penduduk_mandiri',$data);
@@ -137,31 +139,26 @@
 			return $rpin;
 	}
 
-	function delete($nik=''){
-		$sql  = "DELETE FROM tweb_penduduk_mandiri WHERE nik=?";
-		$outp = $this->db->query($sql,array($nik));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+	function delete($id_pend=''){
+		$sql  = "DELETE FROM tweb_penduduk_mandiri WHERE id_pend=?";
+		$outp = $this->db->query($sql,array($id_pend));
+		return $outp;
 	}
 
 	function delete_all(){
+		$_SESSION['success']=1;
 		$id_cb = $_POST['id_cb'];
 
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  = "DELETE FROM tweb_penduduk_mandiri WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
+				$outp = $this->delete($id);
+				if (!$outp) $_SESSION['success']=-1;
 			}
 		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
 	}
 
 	function list_penduduk(){
-		$sql   = "SELECT nik AS id,nik,nama FROM tweb_penduduk WHERE status = 1 AND nik<>'' ";
+		$sql   = "SELECT nik AS id,nik,nama FROM tweb_penduduk WHERE status = 1 AND nik<>'' AND nik<>0";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 

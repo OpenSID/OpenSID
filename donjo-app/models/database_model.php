@@ -155,6 +155,32 @@
         $this->db->where('id',$key)->update('setting_modul', array('ikon_kecil' => $value));
       }
     }
+    // Tambah kolom id_pend di tabel tweb_penduduk_mandiri
+    if (!$this->db->field_exists('id_pend', 'tweb_penduduk_mandiri')) {
+      $fields = array(
+        'id_pend' => array(
+          'type' => 'int',
+          'constraint' => 9,
+          'null' => FALSE,
+          'first' => TRUE
+        )
+      );
+      $this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
+    }
+    // Isi kolom id_pend
+    $mandiri = $this->db->select('nik')->get('tweb_penduduk_mandiri')->result_array();
+    foreach ($mandiri as $individu) {
+      $id_pend = $this->db->select('id')->where('nik', $individu['nik'])->get('tweb_penduduk')->row()->id;
+      if (empty($id_pend))
+        $this->db->where('nik',$individu['nik'])->delete('tweb_penduduk_mandiri');
+      else
+        $this->db->where('nik',$individu['nik'])->update('tweb_penduduk_mandiri',array('id_pend' => $id_pend));
+    }
+    // Buat id_pend menjadi primary key
+    $sql = "ALTER TABLE tweb_penduduk_mandiri
+              DROP PRIMARY KEY,
+              ADD PRIMARY KEY (id_pend)";
+    $this->db->query($sql);
   }
 
   function migrasi_23_ke_24(){
