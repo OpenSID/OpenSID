@@ -15,6 +15,16 @@ class Hom_Desa extends CI_Controller{
 	}
 
 	function index(){
+		$nav['act']= 3;
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header',$header);
+		$this->load->view('home/nav',$nav);
+		$this->load->view('home/donasi');
+		$this->load->view('footer');
+	}
+
+	function konfigurasi(){
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 
