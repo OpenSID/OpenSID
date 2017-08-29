@@ -102,7 +102,8 @@ class Dokumen extends CI_Controller{
 
 	function update($kat,$id='',$p=1,$o=0){
 		$_SESSION['success']=1;
-		if (!empty($this->input->post('kategori')))
+		$kategori = $this->input->post('kategori');
+		if (!empty($kategori))
 			$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->update($id);
 		if (!$outp) $_SESSION['success']=-1;
