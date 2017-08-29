@@ -28,6 +28,7 @@
 		</div>
 <div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
+		<input name="kategori" type="hidden" value="<?php echo $kat?>">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
@@ -41,8 +42,8 @@
             <div class="left">
                 <select name="filter" onchange="formAction('mainform','<?php echo site_url('dokumen/filter')?>')">
                     <option value="">Semua</option>
-                    <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Enabled</option>
-                    <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Disabled</option>
+                    <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Aktif</option>
+                    <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Non-aktif</option>
                 </select>
             </div>
             <div class="right">
@@ -103,9 +104,9 @@
 						<a href="<?php echo base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" class="uibutton tipsy south fa-tipis" title="Unduh Berkas"><span class="fa fa-download"></span> Unduh</a>
 						<a href="<?php echo site_url("dokumen/delete/$kat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"><span></a>
 						<?php if($data['enabled'] == '2'):?>
-							<a href="<?php echo site_url('dokumen/dokumen_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi dokumen"><span class="fa fa-lock"></span></a>
+							<a href="<?php echo site_url('dokumen/dokumen_lock/'.$kat.'/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi dokumen"><span class="fa fa-lock"></span></a>
 						<?php elseif($data['enabled'] == '1'): ?>
-							<a href="<?php echo site_url('dokumen/dokumen_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan dokumen"><span class="fa fa-unlock"><span></a>
+							<a href="<?php echo site_url('dokumen/dokumen_unlock/'.$kat.'/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan dokumen"><span class="fa fa-unlock"><span></a>
 						<?php endif?>
 					</div>
 			  </td>

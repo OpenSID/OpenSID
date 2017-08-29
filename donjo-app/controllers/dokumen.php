@@ -78,18 +78,20 @@ class Dokumen extends CI_Controller{
 
 	function search(){
 		$cari = $this->input->post('cari');
+		$kat = $this->input->post('kategori');
 		if($cari!='')
 			$_SESSION['cari']=$cari;
 		else unset($_SESSION['cari']);
-		redirect('dokumen');
+		redirect("dokumen/index/$kat");
 	}
 
 	function filter(){
 		$filter = $this->input->post('filter');
+		$kat = $this->input->post('kategori');
 		if($filter!=0)
 			$_SESSION['filter']=$filter;
 		else unset($_SESSION['filter']);
-		redirect('dokumen');
+		redirect("dokumen/index/$kat");
 	}
 
 	function insert(){
@@ -122,13 +124,13 @@ class Dokumen extends CI_Controller{
 		redirect("dokumen/index/$kat/$p/$o");
 	}
 
-	function dokumen_lock($id=''){
+	function dokumen_lock($kat=1,$id=''){
 		$this->web_dokumen_model->dokumen_lock($id,1);
-		redirect("dokumen/index/$p/$o");
+		redirect("dokumen/index/$kat/$p/$o");
 	}
 
-	function dokumen_unlock($id=''){
+	function dokumen_unlock($kat=1,$id=''){
 		$this->web_dokumen_model->dokumen_lock($id,2);
-		redirect("dokumen/index/$p/$o");
+		redirect("dokumen/index/$kat/$p/$o");
 	}
 }
