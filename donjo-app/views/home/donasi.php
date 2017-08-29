@@ -4,6 +4,11 @@
 </style>
 <div style="margin-left: 15px;">
 
+	<h3>OpenSID SELALU GRATIS</h3>
+	<div style="margin-left: 10px;">
+		<p>OpenSID selalu gratis dan bebas digunakan dan dikembangkan desa. OpenSID berlisensi GNU General Public License Version 3, yaitu Open Source, di mana scriptnya selalu bebas diperoleh dan disesuaikan desa.</p>
+	</div>
+
 	<h3>OpenSID DIKELOLA RELAWAN</h3>
 	<div style="margin-left: 10px;">
 		<p>OpenSID bukan lembaga, dan tidak memiliki staf maupun penghasilan sendiri.</p>
@@ -11,10 +16,11 @@
 		<p>Selain menyumbangkan waktu mereka, ada kalanya relawan OpenSID juga mengeluarkan dana pribadi untuk mendukung kegiatan OpenSID.</p>
 	</div>
 
-	<h3>OpenSID MEMERLUKAN BANTUAN ANDA</h3>
+	<h3>OpenSID MEMERLUKAN BANTUAN</h3>
 	<div style="margin-left: 10px;">
-		<p>Untuk terus berkembang, OpenSID memerlukan bantuan anda, termasuk donasi.</p>
-		<p>Donasi anda akan membantu membiayai, antara lain:</p>
+		<p>Untuk terus berkembang, OpenSID memerlukan bantuan komunitas SID, termasuk donasi. Tentunya semua donasi bersifat sukarela dan sama sekali tidak ada keharusan. </p>
+		<p>Semua desa bebas menggunakan OpenSID tanpa perlu memberi donasi apapun.</p>
+		<p>Donasi akan membantu membiayai pengembangan OpenSID supaya bisa dimanfaatkan oleh sebanyak mungkin desa di seluruh Nusantara. Kegiatan yang dapat dibiayai oleh donasi termasuk, antara lain:</p>
 		<ul>
 			<li>Penyiapan dan penyempurnaan materi sosialisasi OpenSID</li>
 			<li>Penyelenggaraan acara sosialisasi OpenSID</li>
