@@ -1,4 +1,4 @@
-Dalam rilis ini ditambahkan pengelolaan arsip dokumen SK Kades dan Perdes. Kolom di Export Excel sekarang juga telah ditambah supaya sesuai dengan Import Excel. Selain itu, rilis ini juga berisi beberapa perbaikan yang diminta oleh komunitas SID.
+Dalam rilis ini ditambahkan pengelolaan arsip dokumen SK Kades dan Perdes. Kolom data di Export Excel dan Import Excel telah ditambah supaya mencakup data penduduk yang ada di database. Selain itu, rilis ini juga berisi beberapa perbaikan yang diminta oleh komunitas SID.
 
 Terima kasih pada Ahmad Afandi dan Simasta yang terus membuat kontribusi.
 
