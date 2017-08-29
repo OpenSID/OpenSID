@@ -124,6 +124,7 @@
 	function insert($cat=1){
 		$_SESSION['success']=1;
 		$_SESSION['error_msg'] = "";
+		$data = $_POST;
 
 		$fp = time();
 		  $lokasi_file = $_FILES['gambar']['tmp_name'];
@@ -163,7 +164,6 @@
 					$data['gambar3'] = $fp.$nama_file3;
 				}
 		  }
-		$data = $_POST;
 		$data['id_kategori'] = $cat;
 		$data['id_user'] = $_SESSION['user'];
 

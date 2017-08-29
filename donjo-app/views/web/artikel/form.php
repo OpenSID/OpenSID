@@ -57,7 +57,7 @@ tinyMCE.init({
 <tr>
 <tr>
 <td colspan="2">
-<textarea  class="required" name="isi" style="width: 800px; height: 500px;">
+<textarea name="isi" style="width: 800px; height: 500px;">
 <?php echo $artikel['isi']?>
 </textarea>
 </td>
