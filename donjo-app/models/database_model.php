@@ -181,6 +181,26 @@
               DROP PRIMARY KEY,
               ADD PRIMARY KEY (id_pend)";
     $this->db->query($sql);
+    // Tambah kolom kategori di tabel dokumen
+    if (!$this->db->field_exists('kategori', 'dokumen')) {
+      $fields = array(
+        'kategori' => array(
+          'type' => 'tinyint',
+          'constraint' => 3,
+          'default' => 1
+        )
+      );
+      $this->dbforge->add_column('dokumen', $fields);
+    }
+    // Tambah kolom attribute dokumen
+    if (!$this->db->field_exists('attr', 'dokumen')) {
+      $fields = array(
+        'attr' => array(
+          'type' => 'text'
+        )
+      );
+      $this->dbforge->add_column('dokumen', $fields);
+    }
   }
 
   function migrasi_23_ke_24(){

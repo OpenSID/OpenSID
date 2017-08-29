@@ -10,17 +10,29 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
+
+	<td class="side-menu">
+		<legend>Kategori Dokumen</legend>
+		<div class="lmenu">
+			<ul>
+				<a href="<?php echo site_url("dokumen/index/1")?>"><li <?php if($kat==1)echo "class='selected'";?>>Umum</li></a>
+				<a href="<?php echo site_url("dokumen/index/2")?>"><li <?php if($kat==2)echo "class='selected'";?>>SK Kepala Desa</li></a>
+				<a href="<?php echo site_url("dokumen/index/3")?>"><li <?php if($kat==3)echo "class='selected'";?>>Peraturan Desa</li></a>
+			</ul>
+		</div>
+	</td>
+
 	<td style="background:#fff;padding:0px;">
-<div class="content-header">
-    <h3>Manajemen Dokumen</h3>
-</div>
+		<div class="content">
+			<h3>Dokumen: <?php echo $kat_nama?></h3>
+		</div>
 <div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('dokumen/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Dokumen Baru</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("dokumen/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+                <a href='<?php echo site_url("dokumen/form/$kat")?>' class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Dokumen Baru</a>
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("dokumen/delete_all/$kat/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
             </div>
         </div>
     </div>
@@ -46,48 +58,69 @@
                 <th width="120">Aksi</th>
 
 	 		<?php  if($o==2): ?>
-				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/1")?>">Judul Dokumen <span class="fa fa-sort-asc fa-sm">
+				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/1")?>">Judul / Tentang <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==1): ?>
-				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/2")?>">Judul Dokumen <span class="fa fa-sort-desc fa-sm">
+				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/2")?>">Judul / Tentang <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>
-				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/1")?>">Judul Dokumen <span class="fa fa-sort fa-sm">
+				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/1")?>">Judul / Tentang <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>&nbsp;</span></a></th>
 
+		  <?php if ($kat == 2) : ?>
+		  	<th>Nomor Dan Tanggal Keputusan</th>
+		  	<th>Uraian Singkat</th>
+		  <?php elseif ($kat == 3) : ?>
+		  	<th>Nomor Dan Tanggal Ditetapkan</th>
+		  	<th>Uraian Singkat</th>
+		  <?php endif; ?>
+
 			<?php  if($o==4): ?>
-				<th align="center"><a href="<?php echo site_url("dokumen/index/$p/3")?>">Enabled/Disabled <span class="fa fa-sort-asc fa-sm">
+				<th align="center"><a href="<?php echo site_url("dokumen/index/$p/3")?>">Aktif? <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==3): ?>
-				<th align="center"><a href="<?php echo site_url("dokumen/index/$p/4")?>">Enabled/Disabled <span class="fa fa-sort-desc fa-sm">
+				<th align="center"><a href="<?php echo site_url("dokumen/index/$p/4")?>">Aktif? <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>
-				<th align="center"><a href="<?php echo site_url("dokumen/index/$p/3")?>">Enabled/Disabled <span class="fa fa-sort fa-sm">
+				<th align="center"><a href="<?php echo site_url("dokumen/index/$p/3")?>">Aktif? <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>&nbsp;</span></a></th>
 
 			<?php  if($o==6): ?>
-				<th align="center" width='200'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diupload pada <span class="fa fa-sort-asc fa-sm">
+				<th align="center" width='200'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diunggah pada <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==5): ?>
-				<th align="center" width='200'><a href="<?php echo site_url("dokumen/index/$p/6")?>">Diupload pada <span class="fa fa-sort-desc fa-sm">
+				<th align="center" width='200'><a href="<?php echo site_url("dokumen/index/$p/6")?>">Diunggah pada <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>
-				<th align="center" width='200'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diupload pada <span class="fa fa-sort fa-sm">
+				<th align="center" width='200'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diunggah pada <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>&nbsp;</span></a></th>
-            <th width="200">File</th>
 			</tr>
 		</thead>
 		<tbody>
-        <?php foreach($main as $data){?>
-		<tr>
-			<td align="center" width="2"><?php echo $data['no']?></td>
-			<td align="center" width="5">
-				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-			</td>
-			<td><div class="uibutton-group">
-				<a href="<?php echo site_url("dokumen/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("dokumen/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"><span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('dokumen/dokumen_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi dokumen"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('dokumen/dokumen_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan dokumen"><span class="fa fa-unlock"><span></a>
-			<?php endif?></div>
+    <?php foreach($main as $data){?>
+			<tr>
+				<td align="center" width="2"><?php echo $data['no']?></td>
+				<td align="center" width="5">
+					<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
+				</td>
+				<td>
+					<div class="uibutton-group" style="display: flex;">
+						<a href="<?php echo site_url("dokumen/form/$kat/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+						<a href="<?php echo base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" class="uibutton tipsy south fa-tipis" title="Unduh Berkas"><span class="fa fa-download"></span> Unduh</a>
+						<a href="<?php echo site_url("dokumen/delete/$kat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"><span></a>
+						<?php if($data['enabled'] == '2'):?>
+							<a href="<?php echo site_url('dokumen/dokumen_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi dokumen"><span class="fa fa-lock"></span></a>
+						<?php elseif($data['enabled'] == '1'): ?>
+							<a href="<?php echo site_url('dokumen/dokumen_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan dokumen"><span class="fa fa-unlock"><span></a>
+						<?php endif?>
+					</div>
 			  </td>
 			  <td><?php echo $data['nama']?></td>
-			  <td align="center" width="120"><?php echo $data['aktif']?></td>
-			  <td align="center" width="200"><?php echo tgl_indo2($data['tgl_upload'])?></td>
-<td><a href="<?php echo base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" ><?php echo $data['satuan']?></a></td>
-		</tr>
-        <?php }?>
+			  <?php if ($kat == 2) : ?>
+			  	<td><?php echo $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
+			  	<td><?php echo $data['attr']['uraian']?></td>
+			  <?php elseif ($kat == 3) : ?>
+			  	<td><?php echo $data['attr']['no_ditetapkan']." / ".$data['attr']['tgl_ditetapkan']?></td>
+			  	<td><?php echo $data['attr']['uraian']?></td>
+			  <?php endif; ?>
+			  <td align="center"><?php echo $data['aktif']?></td>
+			  <td align="center"><?php echo tgl_indo2($data['tgl_upload'])?></td>
+			</tr>
+    <?php }?>
 		</tbody>
     </table>
     </div>

@@ -19,10 +19,11 @@ class Dokumen extends CI_Controller{
 		redirect('dokumen');
 	}
 
-	function index($p=1,$o=0){
+	function index($kat=1, $p=1,$o=0){
 
 		$data['p']        = $p;
 		$data['o']        = $o;
+		$data['kat']			= $kat;
 
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
@@ -36,8 +37,9 @@ class Dokumen extends CI_Controller{
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->web_dokumen_model->paging($p,$o);
-		$data['main']    = $this->web_dokumen_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
+		$data['paging']  = $this->web_dokumen_model->paging($kat, $p, $o);
+		$data['main']    = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
 		$header = $this->header_model->get_data();
@@ -49,17 +51,19 @@ class Dokumen extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-	function form($p=1,$o=0,$id=''){
+	function form($kat=1,$p=1,$o=0,$id=''){
 
 		$data['p'] = $p;
 		$data['o'] = $o;
+		$data['kat'] = $kat;
+		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
 
 		if($id){
-			$data['dokumen']        = $this->web_dokumen_model->get_dokumen($id);
-			$data['form_action'] = site_url("dokumen/update/$id/$p/$o");
+			$data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);
+			$data['form_action'] = site_url("dokumen/update/$kat/$id/$p/$o");
 		}
 		else{
-			$data['dokumen']        = null;
+			$data['dokumen']     = null;
 			$data['form_action'] = site_url("dokumen/insert");
 		}
 
@@ -89,25 +93,32 @@ class Dokumen extends CI_Controller{
 	}
 
 	function insert(){
-		$this->web_dokumen_model->insert();
-		redirect('dokumen');
+		$_SESSION['success']=1;
+		$kat = $this->input->post('kategori');
+		$outp = $this->web_dokumen_model->insert();
+		if (!$outp) $_SESSION['success']=-1;
+		redirect("dokumen/index/$kat");
 	}
 
-	function update($id='',$p=1,$o=0){
-		$this->web_dokumen_model->update($id);
-		redirect("dokumen/index/$p/$o");
+	function update($kat,$id='',$p=1,$o=0){
+		$_SESSION['success']=1;
+		if (!empty($this->input->post('kategori')))
+			$kat = $this->input->post('kategori');
+		$outp = $this->web_dokumen_model->update($id);
+		if (!$outp) $_SESSION['success']=-1;
+		redirect("dokumen/index/$kat/$p/$o");
 	}
 
-	function delete($p=1,$o=0,$id=''){
+	function delete($kat=1,$p=1,$o=0,$id=''){
 		$_SESSION['success']=1;
 		$this->web_dokumen_model->delete($id);
-		redirect("dokumen/index/$p/$o");
+		redirect("dokumen/index/$kat/$p/$o");
 	}
 
-	function delete_all($p=1,$o=0){
+	function delete_all($kat=1,$p=1,$o=0){
 		$_SESSION['success']=1;
 		$this->web_dokumen_model->delete_all();
-		redirect("dokumen/index/$p/$o");
+		redirect("dokumen/index/$kat/$p/$o");
 	}
 
 	function dokumen_lock($id=''){
