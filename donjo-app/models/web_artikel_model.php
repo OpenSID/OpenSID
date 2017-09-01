@@ -126,6 +126,12 @@
 		$_SESSION['error_msg'] = "";
 		$data = $_POST;
 
+    if (empty($data['judul']) || empty($data['isi'])) {
+			$_SESSION['error_msg'].= " -> Data harus diisi";
+      $_SESSION['success'] = -1;
+      return;
+    }
+
 		$fp = time();
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
 		foreach ($list_gambar as $gambar) {
@@ -173,13 +179,11 @@
 			}
 		}
 
-    if (empty($data['judul']) || empty($data['isi'])) {
-			$_SESSION['error_msg'].= " -> Data harus diisi";
-      $_SESSION['success'] = -1;
-    } else {
-      $outp = $this->db->insert('artikel', $data);
-      if (!$outp) $_SESSION['success'] = -1;
-    }
+		foreach ($list_gambar as $gambar) {
+			unset($data['old_'.$gambar]);
+		}
+    $outp = $this->db->insert('artikel', $data);
+    if (!$outp) $_SESSION['success'] = -1;
 	}
 
 	function update($cat, $id=0){
@@ -187,6 +191,11 @@
 		$_SESSION['error_msg'] = "";
 
 	  $data = $_POST;
+    if (empty($data['judul']) || empty($data['isi'])) {
+			$_SESSION['error_msg'].= " -> Data harus diisi";
+      $_SESSION['success'] = -1;
+      return;
+    }
 
 	  $fp = time();
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
@@ -199,6 +208,7 @@
 				if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
 					UploadArtikel($nama_file,$gambar,$fp);
 					$data[$gambar] = $fp.$nama_file;
+					HapusArtikel($data['old_'.$gambar]);
 				} else {
 			  	unset($data[$gambar]);
 					$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
@@ -237,14 +247,12 @@
 			}
 		}
 
-    if (empty($data['judul']) || empty($data['isi'])) {
-			$_SESSION['error_msg'].= " -> Data harus diisi";
-      $_SESSION['success'] = -1;
-    } else {
-			$this->db->where('id',$id);
-			$outp = $this->db->update('artikel',$data);
-			if(!$outp) $_SESSION['success']=-1;
-    }
+		foreach ($list_gambar as $gambar) {
+			unset($data['old_'.$gambar]);
+		}
+		$this->db->where('id',$id);
+		$outp = $this->db->update('artikel',$data);
+		if(!$outp) $_SESSION['success']=-1;
 	}
 
 	function update_kategori($id, $id_kategori) {

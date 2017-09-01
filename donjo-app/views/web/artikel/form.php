@@ -92,9 +92,11 @@ tinyMCE.init({
 <tr>
 <th class="top">Gambar</th>
 <td>
-<div class="gallerybox-avatar">
-<img src="<?php echo AmbilFotoArtikel($artikel['gambar'],'kecil')?>" alt="" width="200"/>
-</div><input type="checkbox" name="gambar_hapus" value="<?php echo $artikel['gambar']?>" /> Hapus Gambar
+  <input type="hidden" name="old_gambar", value="<?php echo $artikel['gambar']?>">
+  <div class="gallerybox-avatar">
+    <img src="<?php echo AmbilFotoArtikel($artikel['gambar'],'kecil')?>" alt="" width="200"/>
+  </div>
+  <input type="checkbox" name="gambar_hapus" value="<?php echo $artikel['gambar']?>" /> Hapus Gambar
 </td>
 </tr>
 <?php }?>
@@ -102,13 +104,15 @@ tinyMCE.init({
 <th>Unggah/Upload Gambar Utama</th>
 <td><input type="file" name="gambar" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span></td>
 </tr>
+<?php if($artikel['gambar1']){?>
 <tr>
 <th class="top">Gambar</th>
 <td>
-<?php if($artikel['gambar1']){?>
-<div class="gallerybox-avatar">
-<img src="<?php echo AmbilFotoArtikel($artikel['gambar1'],'kecil')?>" alt="" width="200"/>
-</div> <input type="checkbox" name="gambar1_hapus"  value="<?php echo $artikel['gambar1']?>"/> Hapus Gambar
+  <input type="hidden" name="old_gambar1", value="<?php echo $artikel['gambar1']?>">
+  <div class="gallerybox-avatar">
+    <img src="<?php echo AmbilFotoArtikel($artikel['gambar1'],'kecil')?>" alt="" width="200"/>
+  </div>
+  <input type="checkbox" name="gambar1_hapus"  value="<?php echo $artikel['gambar1']?>"/> Hapus Gambar
 </td>
 </tr>
 <?php }?>
@@ -116,13 +120,15 @@ tinyMCE.init({
 <th>Gambar Tambahan</th>
 <td><input type="file" name="gambar1" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span></td>
 </tr>
+<?php if($artikel['gambar2']){?>
 <tr>
 <th class="top">Gambar</th>
 <td>
-<?php if($artikel['gambar2']){?>
-<div class="gallerybox-avatar">
-<img src="<?php echo AmbilFotoArtikel($artikel['gambar2'],'kecil')?>" alt="" width="200"/>
-</div> <input type="checkbox" name="gambar2_hapus"  value="<?php echo $artikel['gambar2']?>"/> Hapus Gambar
+  <input type="hidden" name="old_gambar2", value="<?php echo $artikel['gambar2']?>">
+  <div class="gallerybox-avatar">
+    <img src="<?php echo AmbilFotoArtikel($artikel['gambar2'],'kecil')?>" alt="" width="200"/>
+  </div>
+  <input type="checkbox" name="gambar2_hapus"  value="<?php echo $artikel['gambar2']?>"/> Hapus Gambar
 </td>
 </tr>
 <?php }?>
@@ -130,13 +136,15 @@ tinyMCE.init({
 <th>Gambar Tambahan</th>
 <td><input type="file" name="gambar2" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span></td>
 </tr>
+<?php if($artikel['gambar3']){?>
 <tr>
 <th class="top">Gambar</th>
 <td>
-<?php if($artikel['gambar3']){?>
-<div class="gallerybox-avatar">
-<img src="<?php echo AmbilFotoArtikel($artikel['gambar3'],'kecil')?>" alt="" width="200"/>
-</div> <input type="checkbox" name="gambar3_hapus" value="<?php echo $artikel['gambar3']?>"/> Hapus Gambar
+  <input type="hidden" name="old_gambar3", value="<?php echo $artikel['gambar3']?>">
+  <div class="gallerybox-avatar">
+    <img src="<?php echo AmbilFotoArtikel($artikel['gambar3'],'kecil')?>" alt="" width="200"/>
+  </div>
+  <input type="checkbox" name="gambar3_hapus" value="<?php echo $artikel['gambar3']?>"/> Hapus Gambar
 </td>
 </tr>
 <?php }?>
