@@ -252,31 +252,26 @@
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM artikel WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
+		$list_gambar = $this->db->select('gambar, gambar1, gambar2, gambar3')->where('id',$id)->get('artikel')->row_array();
+		foreach ($list_gambar as $key => $gambar) {
+			HapusArtikel($gambar);
+		}
+		$outp = $this->db->where('id',$id)->delete('artikel');
+		return $outp;
+	}
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+	function delete_all(){
+		$_SESSION['success']=1;
+		$id_cb = $_POST['id_cb'];
+		foreach($id_cb as $id){
+			$outp = $this->delete($id);
+			if(!$outp) $_SESSION['success']=-1;
+		}
 	}
 
 	function hapus($id=''){
 		$sql  = "DELETE FROM kategori WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-
-	function delete_all(){
-		$id_cb = $_POST['id_cb'];
-
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$sql  = "DELETE FROM artikel WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
-			}
-		}
-		else $outp = false;
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
