@@ -252,28 +252,16 @@
 
 	function delete($id=''){
 		$_SESSION['success'] = 1;
-		$this->db->where('id', $id);
-		$this->db->delete('log_surat');
+		$arsip = $this->db->select('nama_surat, lampiran')->where('id',$id)->get('log_surat')->row_array();
+		$berkas_surat = pathinfo($arsip['nama_surat'], PATHINFO_FILENAME);
+		unlink(LOKASI_ARSIP.$berkas_surat.".rtf");
+		unlink(LOKASI_ARSIP.$berkas_surat.".pdf");
+		if (!empty($arsip['lampiran'])) unlink(LOKASI_ARSIP.$arsip['lampiran']);
+		$this->db->where('id', $id)->delete('log_surat');
 		if ($this->db->_error_message()) {
 			$_SESSION['success'] = -1;
 		}
 	}
-
-	function delete_all(){
-		$id_cb = $_POST['id_cb'];
-
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$sql  = "DELETE FROM log_surat WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
-			}
-		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-
 
 	function list_penduduk(){
 		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1";
