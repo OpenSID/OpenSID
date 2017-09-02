@@ -6,16 +6,16 @@
 		<title><?php
 			echo $this->setting->website_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']) : '')
+				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '')
 				. get_dynamic_title_page_from_path();
 		?></title>
 		<meta content="utf-8" http-equiv="encoding">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta property="og:site_name" content="<?php echo unpenetration($desa['nama_desa']);?>"/>
+    <meta property="og:site_name" content="<?php echo $desa['nama_desa'];?>"/>
     <meta property="og:type" content="article"/>
 		<?php if(isset($single_artikel)): ?>
-	    <meta property="og:title" content="<?php echo unpenetration($single_artikel["judul"]);?>"/>
-	    <meta property="og:url" content="<?php echo base_url()?>index.php/first/artikel/<?php echo unpenetration($single_artikel['id']);?>"/>
+	    <meta property="og:title" content="<?php echo $single_artikel["judul"];?>"/>
+	    <meta property="og:url" content="<?php echo base_url()?>index.php/first/artikel/<?php echo $single_artikel['id'];?>"/>
 	    <meta property="og:image" content="<?php echo base_url()?><?php echo LOKASI_FOTO_ARTIKEL?>sedang_<?php echo $single_artikel['gambar'];?>"/>
 		<?php endif; ?>
 		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
@@ -68,11 +68,11 @@
 													<span id="header_sebutan_desa">
 														<?php echo ucwords($this->setting->sebutan_desa." ")?>
 													</span>
-													<?php echo ucwords(unpenetration($desa['nama_desa']))?>
+													<?php echo ucwords($desa['nama_desa'])?>
 												</h1>
-												<h2><?php echo ucwords($this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']))?><br />
-												<?php echo ucwords($this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']))?></h2>
-												<h3><?php echo unpenetration($desa['alamat_kantor'])?></h3>
+												<h2><?php echo ucwords($this->setting->sebutan_kecamatan." ".$desa['nama_kecamatan'])?><br />
+												<?php echo ucwords($this->setting->sebutan_kabupaten." ".$desa['nama_kabupaten'])?></h2>
+												<h3><?php echo $desa['alamat_kantor']?></h3>
 											</div>
 										</div>
 									</div>
