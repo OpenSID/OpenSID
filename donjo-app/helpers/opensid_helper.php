@@ -482,4 +482,10 @@ define("KODE_PEKERJAAN", serialize(array(
     return min($max_filesize, $max_post, $memory_limit);
   }
 
+  function get_external_ip(){
+    $externalContent = file_get_contents('http://checkip.dyndns.com/');
+    preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $externalContent, $m);
+    $externalIp = $m[0];
+    return $externalIp;
+  }
 ?>
