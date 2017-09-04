@@ -56,12 +56,13 @@
      "alamat_kantor" => $config['alamat_kantor'],
      "url" => current_url(),
      "ip_address" => $_SERVER['SERVER_ADDR'],
+     "external_ip" => get_external_ip(),
      "version" => AmbilVersi()
     );
 
     if($this->abaikan($desa)) return;
 
-    // echo "httppost ===========";
+    // echo "httppost =========== ".$tracker;
     // echo httpPost("http://".$tracker."/index.php/track/desa",$desa);
     httpPost("http://".$tracker."/index.php/track/desa",$desa);
     if (strpos(current_url(), 'first') !== FALSE) {
