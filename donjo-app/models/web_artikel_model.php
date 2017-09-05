@@ -136,17 +136,11 @@
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
 		foreach ($list_gambar as $gambar) {
 		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $tipe_file   = $_FILES[$gambar]['type'];
-		  $nama_file   = $_FILES[$gambar]['name'];
-		  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
 		  if (!empty($lokasi_file)){
-				if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-					UploadArtikel($nama_file,$gambar,$fp);
-					$data[$gambar] = $fp.$nama_file;
-				} else {
-					$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-					$_SESSION['success']=-1;
-				}
+			  $tipe_file = TipeFile($_FILES[$gambar]);
+				$hasil = UploadArtikel($nama_file,$gambar,$fp,$tipe_file);
+				if ($hasil) $data[$gambar] = $nama_file;
 		  }
 		}
 		$data['id_kategori'] = $cat;
@@ -201,18 +195,16 @@
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
 		foreach ($list_gambar as $gambar) {
 		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $tipe_file   = $_FILES[$gambar]['type'];
-		  $nama_file   = $_FILES[$gambar]['name'];
-		  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
+
 		  if (!empty($lokasi_file)){
-				if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-					UploadArtikel($nama_file,$gambar,$fp);
-					$data[$gambar] = $fp.$nama_file;
+			  $tipe_file = TipeFile($_FILES[$gambar]);
+				$hasil = UploadArtikel($nama_file,$gambar,$fp,$tipe_file);
+				if ($hasil) {
+					$data[$gambar] = $nama_file;
 					HapusArtikel($data['old_'.$gambar]);
 				} else {
 			  	unset($data[$gambar]);
-					$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-					$_SESSION['success']=-1;
 				}
 		  } else {
 		  	unset($data[$gambar]);
