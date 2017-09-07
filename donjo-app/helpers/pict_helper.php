@@ -15,7 +15,11 @@ function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar){
 
 function UploadFoto($fupload_name,$old_foto,$tipe_file=""){
   $dimensi = array("width"=>100, "height"=>100);
-  if($old_foto!="") $old_foto = "kecil_".$old_foto;
+  if($old_foto!="") {
+    // Hapus old_foto
+    unlink(LOKASI_USER_PICT.$old_foto);
+    $old_foto = "kecil_".$old_foto;
+  }
   $nama_simpan = "kecil_".$fupload_name;
   return UploadResizeImage(LOKASI_USER_PICT,$dimensi,"foto",$fupload_name,$nama_simpan,$old_foto,$tipe_file);
 }
@@ -76,6 +80,19 @@ function TipeFile($file_upload){
   } else
     $tipe_file = $file_upload['type'];
   return $tipe_file;
+}
+
+/*
+  $file_upload = $_FILES['<lokasi>']
+*/
+function UploadError($file_upload){
+  // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
+  // TODO: pakai cara upload yg disediakan Codeigniter
+  if ($file_upload['error'] == 1) {
+    $upload_mb = max_upload();
+    $_SESSION['error_msg'].= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
+    return true;
+  } else return false;
 }
 
 /*
@@ -154,68 +171,22 @@ function AmbilFotoArtikel($foto, $ukuran){
   return $file_foto;
 }
 
-function UploadArtikel($fupload_name,$gambar,$fp){
-  $vdir_upload = LOKASI_FOTO_ARTIKEL;
-  //if($old_gambar!=""){
-	//unlink($vdir_upload."kecil_".$old_gambar);
-	//unlink($vdir_upload.$old_gambar);
-  //}
-  $vfile_upload = $vdir_upload . $fupload_name;
-
-  move_uploaded_file($_FILES["$gambar"]["tmp_name"], $vfile_upload);
-
-  $im_src = imagecreatefromjpeg($vfile_upload);
-  $src_width = imageSX($im_src);
-  $src_height = imageSY($im_src);
-  if($src_width > $src_height){
-	  $dst_width = 440;
-	  $dst_height = ($dst_width/$src_width)*$src_height;
-	  $cut_height = $dst_height - 300;
-
-	  $im = imagecreatetruecolor(440,$dst_height);
-	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
-
-  }else{
-	  $dst_height = 440;
-	  $dst_width = ($dst_height/$src_height)*$src_width;
-	  $cut_width = $dst_width - 440;
-
-	  $im = imagecreatetruecolor($dst_width,440);
-	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
+function UploadArtikel($fupload_name,$gambar,$fp,$tipe_file,$old_foto=''){
+  $dimensi = array("width"=>440, "height"=>440);
+  if(!empty($old_foto)) $old_foto_hapus = "kecil_".$old_foto;
+  $nama_simpan = "kecil_".$fupload_name;
+  $hasil1 = UploadResizeImage(LOKASI_FOTO_ARTIKEL,$dimensi,$gambar,$fupload_name,$nama_simpan,$old_foto_hapus,$tipe_file);
+  // Tidak perlu buat gambar sedang, jika jenis file sudah salah
+  if ($hasil1) {
+    $dimensi = array("width"=>880, "height"=>880);
+    if(!empty($old_foto)) $old_foto_hapus = "sedang_".$old_foto;
+    $nama_simpan = "sedang_".$fupload_name;
+    $hasil2 = UploadResizeImage(LOKASI_FOTO_ARTIKEL,$dimensi,$gambar,$fupload_name,$nama_simpan,$old_foto_hapus,$tipe_file);
   }
-  imagejpeg($im,$vdir_upload ."kecil_".$fp.$fupload_name);
+  // Hapus upload file di sini, karena $_FILES["gambar"]["tmp_name"] dihapus sistem sesudah dipindahkan
+  unlink(LOKASI_FOTO_ARTIKEL.$fupload_name);
 
-  imagedestroy($im_src);
-  imagedestroy($im);
-
-
-  $im_src = imagecreatefromjpeg($vfile_upload);
-  $src_width = imageSX($im_src);
-  $src_height = imageSY($im_src);
-  if($src_width > $src_height){
-	  $dst_width = 880;
-	  $dst_height = ($dst_width/$src_width)*$src_height;
-	  $cut_height = $dst_height - 600;
-
-	  $im = imagecreatetruecolor(880,$dst_height);
-	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
-
-  }else{
-	  $dst_height = 880;
-	  $dst_width = ($dst_height/$src_height)*$src_width;
-	  $cut_width = $dst_width - 880;
-
-	  $im = imagecreatetruecolor($dst_width,880);
-	  imagecopyresampled($im, $im_src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
-  }
-  imagejpeg($im,$vdir_upload ."sedang_".$fp.$fupload_name);
-
-  imagedestroy($im_src);
-  imagedestroy($im);
-
-
-  unlink($vfile_upload);
-  return true;
+  return $hasil1 AND $hasil2;
 }
 
 function HapusArtikel($gambar){

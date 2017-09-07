@@ -127,6 +127,80 @@
     if(!$setting){
       $this->db->insert('setting_aplikasi',array('key'=>'current_version','value'=>'2.4','keterangan'=>'Versi sekarang untuk migrasi'));
     }
+    // Tambah kolom ikon_kecil di tabel setting_modul
+    if (!$this->db->field_exists('ikon_kecil', 'setting_modul')) {
+      $fields = array(
+        'ikon_kecil' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 50
+        )
+      );
+      $this->dbforge->add_column('setting_modul', $fields);
+      $list_modul = array(
+        "1" => "fa fa-home fa-lg",         // SID Home
+        "2" => "fa fa-group fa-lg",        // Penduduk
+        "3" => "fa fa-bar-chart fa-lg",    // Statistik
+        "4" => "fa fa-print fa-lg",        // Cetak Surat
+        "5" => "fa fa-dashboard fa-lg",    // Analisis
+        "6" => "fa fa-folder-open fa-lg",  // Bantuan
+        "7" => "fa fa-road fa-lg",         // Persil
+        "8" => "fa fa-sitemap fa-lg",      // Plan
+        "9" => "fa fa-map fa-lg",          // Peta
+        "10" => "fa fa-envelope-o fa-lg",  // SMS
+        "11" => "fa fa-user-plus fa-lg",   // Pengguna
+        "12" => "fa fa-database fa-lg",    // Database
+        "13" => "fa fa-cloud fa-lg",       // Admin Web
+        "14" => "fa fa-comments fa-lg");   // Laporan
+      foreach ($list_modul as $key => $value) {
+        $this->db->where('id',$key)->update('setting_modul', array('ikon_kecil' => $value));
+      }
+    }
+    // Tambah kolom id_pend di tabel tweb_penduduk_mandiri
+    if (!$this->db->field_exists('id_pend', 'tweb_penduduk_mandiri')) {
+      $fields = array(
+        'id_pend' => array(
+          'type' => 'int',
+          'constraint' => 9,
+          'null' => FALSE,
+          'first' => TRUE
+        )
+      );
+      $this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
+    }
+    // Isi kolom id_pend
+    $mandiri = $this->db->select('nik')->get('tweb_penduduk_mandiri')->result_array();
+    foreach ($mandiri as $individu) {
+      $id_pend = $this->db->select('id')->where('nik', $individu['nik'])->get('tweb_penduduk')->row()->id;
+      if (empty($id_pend))
+        $this->db->where('nik',$individu['nik'])->delete('tweb_penduduk_mandiri');
+      else
+        $this->db->where('nik',$individu['nik'])->update('tweb_penduduk_mandiri',array('id_pend' => $id_pend));
+    }
+    // Buat id_pend menjadi primary key
+    $sql = "ALTER TABLE tweb_penduduk_mandiri
+              DROP PRIMARY KEY,
+              ADD PRIMARY KEY (id_pend)";
+    $this->db->query($sql);
+    // Tambah kolom kategori di tabel dokumen
+    if (!$this->db->field_exists('kategori', 'dokumen')) {
+      $fields = array(
+        'kategori' => array(
+          'type' => 'tinyint',
+          'constraint' => 3,
+          'default' => 1
+        )
+      );
+      $this->dbforge->add_column('dokumen', $fields);
+    }
+    // Tambah kolom attribute dokumen
+    if (!$this->db->field_exists('attr', 'dokumen')) {
+      $fields = array(
+        'attr' => array(
+          'type' => 'text'
+        )
+      );
+      $this->dbforge->add_column('dokumen', $fields);
+    }
   }
 
   function migrasi_23_ke_24(){

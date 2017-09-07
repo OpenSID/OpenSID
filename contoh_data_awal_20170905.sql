@@ -378,16 +378,6 @@ INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategor
 INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('98', '1472192894', '<p>Wilayah desa berisi tentang penjelasan dan deskripsi letak wilayah desa. contohnya sebagai berikut :<br />Batas-batas :<br />Utara&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Kelurahan a<br />Timur &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: Desa b<br />Selatan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Desa c<br />Barat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Kelurahan d dan Desa e<br />Luas Wilayah Desa Penglatan&nbsp;&nbsp; : 186,193 Ha<br />Letak Dan Batas Desa x<br />Desa Penglatan terletak pada posisi 115. 7.20 LS 8. 7.10 BT, dengan ketinggian kurang lebih 250 M diatas permukaan laut.</p>\r\n<p>Peta Desa:</p>\r\n<p><iframe src=\"https://www.google.co.id/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Logandu,+Karanggayam&amp;aq=0&amp;oq=logandu&amp;sll=-2.550221,118.015568&amp;sspn=52.267573,80.332031&amp;t=h&amp;ie=UTF8&amp;hq=&amp;hnear=Logandu,+Karanggayam,+Kebumen,+Central+Java&amp;z=14&amp;ll=-7.55854,109.634173&amp;output=embed\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" width=\"600\" height=\"450\"></iframe></p>', '1', '2016-08-26 14:28:14', '999', '1', 'Wilayah Desa', '0', '1472192894', '1472192894', '1472192894', '', '', NULL, '3', '1');
 INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('99', '1472228892Raja Lombok 1902.jpg', '<p style=\"text-align: justify;\" align=\"center\">Sejarah telah mencatat bahwa Pulau Lombok pernah menjadi wilayah kekuasaan Kerajaan Karang Asem Bali yang berkedudukan di Cakranegara dengan seorang raja bernama Anak Agung Gde Jelantik. Berakhirnya <strong>kekuasaan</strong> Kerajaan Karang Asem Bali di Pulau Lombok setelah datangnya Belanda pada Tahun 1891, dimana Belanda pada waktu itu ingin menguasai Pulau Lombok dengan dalih pura-pura membantu rakyat Lombok yang dianggap tertindas oleh Pemerintahan Raja Lombok yaitu Anak Agung Gede Jelantik.</p>\r\n<p style=\"text-align: justify;\">Pada masa kekuasaan Raja Lombok yaitu Anak Agung Gde Jelantik, wilayah Desa Senggigi ( Dusun Mangsit, Kerandangan, Senggigi dan Dusun Loco) masih bergabung dengan Desa Senteluk yang sekarang menjadi Desa Meninting . Sedangkan pada tahun 1962 Desa Senteluk pecah menjadi 2 (Dua) desa yaitu Desa Meninting dan Desa Batulayar dan Dusun Mangsit,Kerandangan,Senggigi dan Dusun Loco bergabung ke Desa Batulayar.&nbsp;</p>\r\n<p style=\"text-align: justify;\">Pemberian nama Desa Batulayar pada waktu itu yang lazim disebut dengan Pemusungan/Kepala Dea Batulayar berdasarkan hasil musyawarah nama Batulayar diambil dari nama tempat yang amat terkenal yaitu Makam Batulayar yang sampai saat ini banyak dikunjungi oleh masyarakat Pulau Lombok pada khususnya dan Masyarakat Nusa Tenggara Barat pada umumnya.</p>\r\n<p style=\"text-align: justify;\">Pada tahun 2001 Desa Batulayar dimekarkan menjadi 2 (dua) yaitu Desa Batulayar (sebagai Desa Induk) dan Desa Senggigi (sebagai Desa Persiapan) dengan SK.Bupati No : 30 Tahun 2001 tanggal 17 Mei 2001, yang pada waktu itu yang menjadi pejabat Kepala Desa Senggigi ialah <strong>H. ARIF RAHMAN, S.IP</strong>., dengan jumlah dusun sebanyak 3 dusun, yaitu :</p>\r\n<p>1. Dusun Senggigi</p>\r\n<p>2. Dusun Kerandangan</p>\r\n<p>3. Dusun Mangsit</p>\r\n<p>Selanjutnya pada tanggal 30 Juli 2003 Pejabat Kepala Desa Senggigi dari <strong>H. ARIF RAHMAN, S.IP</strong> diganti oleh Saudara<strong> ARIFIN</strong> dengan SK. Bupati Lombok Barat No : 409/66/pem/2003. Berhubung Desa Senggigi masih bersifat Desa Persiapan, maka berdasarkan hasil musyawarah desa, tertanggal 15 Desember 2003 , maka pada tanggal 22 Desember 2003 Desa Senggigi mengadakan Pemilihan Kepala Desa devinitif yang pertama kali dipimpin oleh&nbsp;<strong>HAJI JUNAIDI</strong>&nbsp;terpilih&nbsp;dengan SK. Bupati Lombok Barat No :01/01/Pem/2004 tertanggal 2 Januari 2004&nbsp;sampai pada tahun 2008.&nbsp;</p>\r\n<p style=\"text-align: justify;\">Selanjutnya pada tahun 2008, Desa Senggigi mengadakan pemilihan Kepala Desa Senggigi yang kedua dan dimenangkan oleh Bapak <strong>H. MUTAKIR AHMAD</strong>&nbsp;dengan&nbsp;SK. Bupati Lombok Barat No :1320/48/Pem./2008 tertanggal 23 Desember 2008, Periode 2008-2014. &nbsp;Kemudian Kepala desa terpilih Periode 2015 s/d 2021&nbsp;adalah <strong>MUHAMMAD ILHAM</strong>&nbsp;dengan SK. Bupati Lombok Barat No : 160/04/BPMPD/15 tanggal 27 Januari 2015 kini baru menjabat 2 (dua) bulan.</p>\r\n<p style=\"text-align: justify;\">Demikian selanyang pandang atau sejarah singkat Desa Senggigi yang dapat kami sampaikan kepada para pegiat Medsos, semoga dapat bermanfaat untuk kita semua, terima kasih.</p>\r\n<p style=\"text-align: justify;\" align=\"center\">&nbsp;</p>\r\n<p style=\"text-align: justify;\" align=\"center\">&nbsp;</p>', '1', '2016-08-26 15:38:09', '999', '1', 'Sejarah Desa', '3', '1472229325490125_20121123041539.jpg', '1472197089', '1472197089', '', '', NULL, '3', '1');
 INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('100', '1473071921', '<p>Ini contoh teks berjalan. Isi dengan tulisan yang menampilkan suatu ciri atau kegiatan penting di desa anda.</p>', '1', '2016-09-05 10:38:41', '22', '1', 'Contoh teks berjalan', '0', '1473071921', '1473071921', '1473071921', '', '', NULL, '3', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('111', '', 'layanan_mandiri.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Layanan Mandiri', '0', '', '', '', '', '', '1', '1', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('112', '', 'agenda.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Agenda', '0', '', '', '', '', '', '1', '1', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('113', '', 'galeri.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Galeri', '0', '', '', '', '', '', '1', '1', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('114', '', 'statistik.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Statistik', '0', '', '', '', '', '', '1', '1', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('115', '', 'komentar.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Komentar', '0', '', '', '', '', '', '1', '1', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('116', '', 'media_sosial.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Media Sosial', '0', '', '', '', '', '', '1', '1', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('117', '', 'peta_lokasi_kantor.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Peta Lokasi Kantor', '0', '', '', '', '', '', '1', '1', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('118', '', 'statistik_pengunjung.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Statistik Pengunjung', '0', '', '', '', '', '', '1', '1', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('119', '', 'arsip_artikel.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Arsip Artikel', '0', '', '', '', '', '', '1', '1', '1');
-INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('120', '', 'aparatur_desa.php', '1', '2017-07-05 09:59:33', '1003', '0', 'Aparatur Desa', '0', '', '', '', '', '', '1', '1', '1');
 
 
 #
@@ -501,6 +491,8 @@ CREATE TABLE `dokumen` (
   `enabled` int(2) NOT NULL DEFAULT '1',
   `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_pend` int(11) NOT NULL DEFAULT '0',
+  `kategori` tinyint(3) NOT NULL DEFAULT '1',
+  `attr` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -1374,13 +1366,14 @@ CREATE TABLE `log_bulanan` (
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('3', '97', '46', '51', '37', '2017-06-05 10:08:30', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('4', '97', '46', '51', '37', '2017-07-03 12:19:17', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('5', '97', '46', '51', '37', '2017-08-01 01:37:30', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('6', '97', '46', '51', '37', '2017-09-05 06:13:41', '28', '9');
 
 
 #
@@ -1456,13 +1449,6 @@ CREATE TABLE `log_surat` (
   `nama_non_warga` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('1', '1', '3', '14', '1', '2016-09-13 04:05:10', '09', '2016', 'KET/345', 'surat_ket_pengantar_5201140301900002_2016-09-13_KET-345.pdf', NULL, NULL, NULL);
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('2', '15', '8', '14', '1', '2016-09-13 04:06:40', '09', '2016', 'USA/67/123', 'surat_ket_usaha_5201141412020001_2016-09-13_USA-67-123.pdf', NULL, NULL, NULL);
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('3', '1', '18', '20', '1', '2016-09-13 04:07:53', '09', '2016', 'KET/346', 'surat_ket_pengantar_5201147112930055_2016-09-13_KET-346.pdf', NULL, NULL, NULL);
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('4', '12', '9', '14', '1', '2016-09-13 04:09:02', '09', '2016', 'KM/104', 'surat_ket_kurang_mampu_5201140107850071_2016-09-13_KM-104.pdf', NULL, NULL, NULL);
-INSERT INTO log_surat (`id`, `id_format_surat`, `id_pend`, `id_pamong`, `id_user`, `tanggal`, `bulan`, `tahun`, `no_surat`, `nama_surat`, `lampiran`, `nik_non_warga`, `nama_non_warga`) VALUES ('5', '14', '25', '22', '1', '2016-09-13 04:10:26', '09', '2016', 'HIL/503', 'surat_ket_kehilangan_5201142210790004_2016-09-13_HIL-503.pdf', NULL, NULL, NULL);
-
 
 #
 # TABLE STRUCTURE FOR: lokasi
@@ -1806,7 +1792,7 @@ CREATE TABLE `setting_aplikasi` (
   `jenis` varchar(30) DEFAULT NULL,
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('1', 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('2', 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -1827,6 +1813,7 @@ INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kate
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('17', 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('18', 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('19', 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
+INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.5', 'Versi sekarang untuk migrasi', NULL, NULL);
 
 
 #
@@ -1844,23 +1831,24 @@ CREATE TABLE `setting_modul` (
   `urut` tinyint(4) NOT NULL,
   `level` tinyint(1) NOT NULL DEFAULT '2',
   `hidden` tinyint(1) NOT NULL DEFAULT '0',
+  `ikon_kecil` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('1', 'SID Home', 'hom_desa', '1', 'go-home-5.png', '1', '2', '1');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('2', 'Penduduk', 'penduduk/clear', '1', 'preferences-contact-list.png', '2', '2', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('3', 'Statistik', 'statistik', '1', 'statistik.png', '3', '2', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('4', 'Cetak Surat', 'surat', '1', 'applications-office-5.png', '4', '2', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('5', 'Analisis', 'analisis_master/clear', '1', 'analysis.png', '5', '2', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('6', 'Bantuan', 'program_bantuan', '1', 'program.png', '6', '2', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('7', 'Persil', 'data_persil/clear', '1', 'persil.png', '7', '2', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('8', 'Plan', 'plan', '1', 'plan.png', '8', '2', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('9', 'Peta', 'gis', '1', 'gis.png', '9', '2', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('10', 'SMS', 'sms', '1', 'mail-send-receive.png', '10', '2', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('11', 'Pengguna', 'man_user/clear', '1', 'system-users.png', '11', '1', '1');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('12', 'Database', 'database', '1', 'database.png', '12', '1', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('13', 'Admin Web', 'web', '1', 'message-news.png', '13', '4', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`) VALUES ('14', 'Laporan', 'lapor', '1', 'mail-reply-all.png', '14', '2', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('1', 'SID Home', 'hom_desa', '1', 'go-home-5.png', '1', '2', '1', 'fa fa-home fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('2', 'Penduduk', 'penduduk/clear', '1', 'preferences-contact-list.png', '2', '2', '0', 'fa fa-group fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('3', 'Statistik', 'statistik', '1', 'statistik.png', '3', '2', '0', 'fa fa-bar-chart fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('4', 'Cetak Surat', 'surat', '1', 'applications-office-5.png', '4', '2', '0', 'fa fa-print fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('5', 'Analisis', 'analisis_master/clear', '1', 'analysis.png', '5', '2', '0', 'fa fa-dashboard fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('6', 'Bantuan', 'program_bantuan', '1', 'program.png', '6', '2', '0', 'fa fa-folder-open fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('7', 'Persil', 'data_persil/clear', '1', 'persil.png', '7', '2', '0', 'fa fa-road fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('8', 'Plan', 'plan', '1', 'plan.png', '8', '2', '0', 'fa fa-sitemap fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('9', 'Peta', 'gis', '1', 'gis.png', '9', '2', '0', 'fa fa-map fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('10', 'SMS', 'sms', '1', 'mail-send-receive.png', '10', '2', '0', 'fa fa-envelope-o fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('11', 'Pengguna', 'man_user/clear', '1', 'system-users.png', '11', '1', '1', 'fa fa-user-plus fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('12', 'Database', 'database', '1', 'database.png', '12', '1', '0', 'fa fa-database fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('13', 'Admin Web', 'web', '1', 'message-news.png', '13', '4', '0', 'fa fa-cloud fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('14', 'Laporan', 'lapor', '1', 'mail-reply-all.png', '14', '2', '0', 'fa fa-comments fa-lg');
 
 
 #
@@ -2334,11 +2322,12 @@ CREATE TABLE `tweb_penduduk_mandiri` (
   `pin` char(32) NOT NULL,
   `last_login` datetime DEFAULT NULL,
   `tanggal_buat` datetime DEFAULT NULL,
-  PRIMARY KEY (`nik`)
+  `id_pend` int(9) NOT NULL,
+  PRIMARY KEY (`id_pend`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO tweb_penduduk_mandiri (`nik`, `pin`, `last_login`, `tanggal_buat`) VALUES ('3275014601977005', '3645e735f033e8482be0c7993fcba946', '2016-09-14 12:51:53', '2016-09-14 10:10:47');
-INSERT INTO tweb_penduduk_mandiri (`nik`, `pin`, `last_login`, `tanggal_buat`) VALUES ('5201140706966997', '3645e735f033e8482be0c7993fcba946', '2016-09-14 12:53:47', '2016-09-14 06:06:32');
+INSERT INTO tweb_penduduk_mandiri (`nik`, `pin`, `last_login`, `tanggal_buat`, `id_pend`) VALUES ('5201140706966997', '3645e735f033e8482be0c7993fcba946', '2016-09-14 12:53:47', '2016-09-14 06:06:32', '2');
+INSERT INTO tweb_penduduk_mandiri (`nik`, `pin`, `last_login`, `tanggal_buat`, `id_pend`) VALUES ('3275014601977005', '3645e735f033e8482be0c7993fcba946', '2016-09-14 12:51:53', '2016-09-14 10:10:47', '20');
 
 
 #
@@ -2714,7 +2703,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
@@ -2826,9 +2815,6 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
 INSERT INTO user (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES ('1', 'admin', 'edc64352387aa108dac115ec1493d5d4', '1', 'admin@combine.or.id', '2016-09-11 02:55:19', '1', 'Administrator', 'ADMIN', '321', 'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30');
-INSERT INTO user (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES ('56', 'redaksi', 'd8578edf8458ce06fbc5bb76a58c5ca4', '3', '', '2014-10-24 20:15:38', '1', 'Redaksi', NULL, '', '', '39b3cc1ca3f8b095a171b19b1f307358');
-INSERT INTO user (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES ('57', 'operator', 'd8578edf8458ce06fbc5bb76a58c5ca4', '2', '', '2014-10-24 20:17:42', '1', 'Operator Desa', NULL, '', '', '9304194147916440da8be6d8f26f62f0');
-INSERT INTO user (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES ('58', 'Master Admin', 'ce632afb06b2ef65397b1aecf7bbd39c', '1', 'iariadi@gmail.com', '0000-00-00 00:00:00', '0', 'Admin', NULL, '0813299237471', '', 'de750f7c7aa3412540dcfb33a8218ccf');
 
 
 #

@@ -10,23 +10,17 @@
 	  Kolom: c.dusun,c.rw,c.rt,p.nama,k.no_kk,p.nik,p.sex,p.tempatlahir,p.tanggallahir,p.agama_id,p.pendidikan_kk_id,p.pendidikan_sedang_id,p.pekerjaan_id,p.status_kawin,p.kk_level,p.warganegara_id,p.nama_ayah,p.nama_ibu,p.golongan_darah_id
 	*/
 
-  function bersihkanData(&$str)
+  function bersihkanData(&$str,$key)
   {
-    $str = preg_replace("/\t/", "\\t", $str);
-    $str = preg_replace("/\r?\n/", "\\n", $str);
     if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
     // Kode yang tersimpan sebagai '0' harus '' untuk dibaca oleh Import Excel
     if($str == "0") $str = "";
-    // Paksa bilangan seperti nik dan no_kk agar dibaca oleh Excel sebagai string
-    // Juga bilangan yang mulai dengan '0' reperti RT/RW '002'
-    if(preg_match("/^0/", $str) || preg_match("/^\+?\d{8,}$/", $str)) {
-      $str = "'$str";
-    }
   }
 
   // Export data penduduk ke format Import Excel
-	function export_by_keluarga(){
-		$sql = "SELECT k.alamat, c.dusun,c.rw,c.rt,p.nama,k.no_kk,p.nik,p.sex,p.tempatlahir,p.tanggallahir,p.agama_id,p.pendidikan_kk_id,p.pendidikan_sedang_id,p.pekerjaan_id,p.status_kawin,p.kk_level,p.warganegara_id,p.nama_ayah,p.nama_ibu,p.golongan_darah_id
+	function export_excel(){
+		$sql = "SELECT k.alamat, c.dusun,c.rw,c.rt,p.nama,k.no_kk,p.nik,p.sex,p.tempatlahir,p.tanggallahir,p.agama_id,p.pendidikan_kk_id,p.pendidikan_sedang_id,p.pekerjaan_id,p.status_kawin,p.kk_level,p.warganegara_id,p.nama_ayah,p.nama_ibu,p.golongan_darah_id,p.akta_lahir,p.dokumen_pasport,p.tanggal_akhir_paspor,p.dokumen_kitas,p.ayah_nik,p.ibu_nik,p.akta_perkawinan,p.tanggalperkawinan,p.akta_perceraian,p.tanggalperceraian,p.cacat_id,p.cara_kb_id,p.hamil
+
 			FROM tweb_penduduk p
 			LEFT JOIN tweb_keluarga k on k.id = p.id_kk
 			LEFT JOIN tweb_wil_clusterdesa c on p.id_cluster = c.id
@@ -34,27 +28,12 @@
 		";
 		$q = $this->db->query($sql);
 		$data = $q->result_array();
-	  // Nama file untuk diunduh
-	  $nama_file = "export_penduduk_" . date("d-m-Y") . ".xls";
-
-	  $return = '';
-		if($q->num_rows()>0){
-      // judul kolom pada baris pertama
-			$i=0;
+		for($i=0; $i<count($data); $i++){
 			$baris = $data[$i];
-      $return .= implode("\t", array_keys($baris)) . "\r\n";
-			while($i<count($data)){
-				$baris = $data[$i];
-				$baris['tanggallahir'] = "'".date_format(date_create($baris['tanggallahir']),"d-m-Y");
-				array_walk($baris, array($this, 'bersihkanData'));
-	      $return .= implode("\t", array_values($baris)) . "\r\n";
-				$i++;
-			}
+			array_walk($baris, array($this, 'bersihkanData'));
+			$data[$i] = $baris;
 		}
-
-	  header("Content-Disposition: attachment; filename=\"$nama_file\"");
-	  header("Content-Type: application/vnd.ms-excel");
-		echo $return;
+		return $data;
 	}
 
 	// ====================== End export_by_keluarga ========================

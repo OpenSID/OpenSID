@@ -15,6 +15,26 @@ class Hom_Desa extends CI_Controller{
 	}
 
 	function index(){
+		$nav['act']= 2;
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header',$header);
+		$this->load->view('home/nav',$nav);
+		$this->load->view('home/desa');
+		$this->load->view('footer');
+	}
+
+	function donasi(){
+		$nav['act']= 3;
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header',$header);
+		$this->load->view('home/nav',$nav);
+		$this->load->view('home/donasi');
+		$this->load->view('footer');
+	}
+
+	function konfigurasi(){
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 
@@ -25,16 +45,6 @@ class Hom_Desa extends CI_Controller{
 		if ($data['main']) $data['form_action'] = site_url("hom_desa/update/".$data['main']['id']);
 			else $data['form_action'] = site_url("hom_desa/insert/");
 		$this->load->view('home/konfigurasi_form',$data);
-		$this->load->view('footer');
-	}
-
-	function about(){
-		$nav['act']= 2;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header',$header);
-		$this->load->view('home/nav',$nav);
-		$this->load->view('home/desa');
 		$this->load->view('footer');
 	}
 

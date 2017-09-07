@@ -102,9 +102,10 @@ class Database extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-
-	function export_by_keluarga(){
-		$this->export_model->export_by_keluarga();
+	function export_excel(){
+		$data['main'] = $this->export_model->export_excel();
+		$this->load->view('export/penduduk_excel',$data);
+	
 	}
 
 	function export_dasar(){
@@ -227,5 +228,9 @@ class Database extends CI_Controller{
 		$this->export_model->gawe_surat();
 		//redirect('database/import');
 	}
-
+	
+	function export_csv(){
+		$data['main'] = $this->export_model->export_excel();
+		$this->load->view('export/penduduk_csv',$data);
+	}
 }

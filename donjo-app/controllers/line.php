@@ -53,7 +53,7 @@ class line extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']=2;
 
-		$this->load->view('header-gis', $header);
+		$this->load->view('header', $header);
 
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('line/table',$data);
@@ -80,7 +80,7 @@ class line extends CI_Controller{
 		$header= $this->header_model->get_data();
 
 		$nav['act']=2;
-		$this->load->view('header-gis', $header);
+		$this->load->view('header', $header);
 
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('line/form',$data);

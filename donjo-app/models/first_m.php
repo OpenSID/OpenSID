@@ -19,13 +19,12 @@ class First_M extends CI_Model{
 		$pin = $this->input->post('pin');
 		$hash_pin = hash_pin($pin);
 
-		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE nik=?";
+		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE strcmp(nik,?) = 0";
 		$query=$this->db->query($sql,array($nik));
 		$row=$query->row();
 		$lg = $row->last_login;
 
 		if($hash_pin==$row->pin){
-			$_SESSION['mandiri']    = 1;
 
 			$sql = "SELECT nama,nik,p.id,k.no_kk
 				FROM tweb_penduduk p
@@ -33,15 +32,18 @@ class First_M extends CI_Model{
 				WHERE nik=?";
 			$query=$this->db->query($sql,array($nik));
 			$row=$query->row();
+			// Kosong jika NIK penduduk ybs telah berubah
+			if (!empty($row)) {
+				// Kalau pertama kali login, pengguna perlu mengganti PIN ($_SESSION['lg'] == 1)
+				if($lg == NULL OR $lg == "0000-00-00 00:00:00")
+				$_SESSION['lg']     = 1;
 
-			// Kalau pertama kali login, pengguna perlu mengganti PIN ($_SESSION['lg'] == 1)
-			if($lg == NULL OR $lg == "0000-00-00 00:00:00")
-			$_SESSION['lg']     = 1;
-
-			$_SESSION['nama']     = $row->nama;
-			$_SESSION['nik']     	= $row->nik;
-			$_SESSION['id']     	= $row->id;
-			$_SESSION['no_kk']    = $row->no_kk;
+				$_SESSION['nama']     = $row->nama;
+				$_SESSION['nik']     	= $row->nik;
+				$_SESSION['id']     	= $row->id;
+				$_SESSION['no_kk']    = $row->no_kk;
+				$_SESSION['mandiri']    = 1;
+			}
 		}
 
 		if($_SESSION['mandiri_try'] > 2){
@@ -54,14 +56,14 @@ class First_M extends CI_Model{
 	function m_siteman($nik="",$pin=""){
 		$hash_pin = hash_pin($pin);
 
-		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE nik=?";
+		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE strcmp(nik,?) = 0";
 		$query=$this->db->query($sql,array($nik));
 		$row=$query->row();
 		$lg = $row->last_login;
 
 		if($hash_pin==$row->pin){
 
-			$sql = "UPDATE tweb_penduduk_mandiri SET last_login=NOW() WHERE nik=?";
+			$sql = "UPDATE tweb_penduduk_mandiri SET last_login=NOW() WHERE strcmp(nik,?) = 0";
 			$this->db->query($sql, $nik);
 
 			return $token;
@@ -74,7 +76,7 @@ class First_M extends CI_Model{
 
 		if(isset($_SESSION['nik'])){
 			$id = $_SESSION['nik'];
-			$sql = "UPDATE tweb_penduduk_mandiri SET last_login=NOW() WHERE nik=?";
+			$sql = "UPDATE tweb_penduduk_mandiri SET last_login=NOW() WHERE strcmp(nik,?) = 0";
 			$this->db->query($sql, $id);
 		}
 

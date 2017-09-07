@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.4');
+define("VERSION", 'pasca-2.5');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -475,4 +475,17 @@ define("KODE_PEKERJAAN", serialize(array(
     return $ext;
   }
 
+  function max_upload(){
+    $max_filesize = (int)(ini_get('upload_max_filesize'));
+    $max_post = (int)(ini_get('post_max_size'));
+    $memory_limit = (int)(ini_get('memory_limit'));
+    return min($max_filesize, $max_post, $memory_limit);
+  }
+
+  function get_external_ip(){
+    $externalContent = file_get_contents('http://checkip.dyndns.com/');
+    preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $externalContent, $m);
+    $externalIp = $m[0];
+    return $externalIp;
+  }
 ?>

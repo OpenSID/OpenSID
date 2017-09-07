@@ -95,23 +95,20 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 	</div>
 
 <ul class="dropdown" tabindex="1">
-<?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
-	<li><a href="<?php echo site_url()?>modul/clear"><i class="icon-gear"></i>Pengaturan</a></li>
-	<li><a href="<?php echo site_url()?>hom_desa"><i class="icon-home"></i>SID Home</a></li>
-	<li><a href="<?php echo site_url()?>sid_core"><i class="icon-group"></i>Penduduk</a></li>
-	<li><a href="<?php echo site_url()?>statistik"><i class="icon-bar-chart"></i>Statistik</a></li>
-	<li><a href="<?php echo site_url()?>surat"><i class="icon-print"></i>Cetak Surat</a></li>
-	<li><a href="<?php echo site_url()?>analisis"><i class="icon-dashboard"></i>Analisis</a></li>
-<?php  }?>
-<?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
-	<?php  if($_SESSION['grup']==1){?>
-		<li><a href="<?php echo site_url()?>man_user/clear"><i class="icon-user"></i>Pengguna</a></li>
-		<li><a href="<?php echo site_url()?>database"><i class="icon-hdd"></i>Database</a></li>
+	<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="fa fa-user fa-lg"></i>Setting User</a></li>
+	<?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
+		<li><a href="<?php echo site_url()?>modul/clear"><i class="fa fa-gear fa-lg"></i>Pengaturan</a></li>
 	<?php  }?>
-	<li><a href="<?php echo site_url()?>sms"><i class="icon-envelope-alt"></i>SMS</a></li>
-	<li><a href="<?php echo site_url()?>web"><i class="icon-cloud"></i>Admin Web</a></li>
-<?php  }?>
-<li><a href="<?php echo site_url()?>siteman"><i class="icon-off"></i>Log Out</a></li>
+	<?php foreach ($modul AS $mod){?>
+		<?php
+			if ($this->setting->offline_mode >= 2 &&
+				in_array($mod['url'], array('web', 'gis'))) {
+				continue;
+			}
+		?>
+		<li><a href="<?php echo site_url().$mod['url']?>"><i class="<?php echo $mod['ikon_kecil']?>"></i><?php echo $mod['modul']?></a></li>
+	<?php } ?>
+	<li><a href="<?php echo site_url()?>siteman"><i class="fa fa-power-off fa-lg"></i>Log Out</a></li>
 </ul>
 
     </div>

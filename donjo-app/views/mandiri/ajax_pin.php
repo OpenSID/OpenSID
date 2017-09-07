@@ -18,7 +18,7 @@ $('#nik').flexbox(nik, {
 	onSelect: function() {
 		//$('#'+'validasi').submit();
 		$('#'+'tes').show();
-    }  
+    }
 });
 });
 </script>

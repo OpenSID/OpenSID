@@ -89,7 +89,9 @@ class Pengurus extends CI_Controller{
 	}
 
 	function delete($id=''){
-		$this->pamong_model->delete($id);
+		$_SESSION['success']=1;
+		$outp = $this->pamong_model->delete($id);
+		if (!$outp) $_SESSION['success']=-1;
 		redirect('pengurus');
 	}
 

@@ -1,5 +1,10 @@
 <?php
 
+define("KODE_KATEGORI", serialize(array(
+			1 => 'Umum',
+			2 => 'SK Kepala Desa',
+			3 => 'Peraturan Desa')));
+
 class Web_Dokumen_Model extends CI_Model{
 
 	function __construct(){
@@ -41,9 +46,16 @@ class Web_Dokumen_Model extends CI_Model{
 		}
 	}
 
-	function paging($p=1,$o=0){
+	private function _main_sql($kat){
+		$sql = " FROM dokumen WHERE id_pend = 0 AND kategori = ".$kat;
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		return $sql;
+	}
 
-		$sql      = "SELECT COUNT(id) AS id FROM dokumen WHERE id_pend = 0";
+	function paging($kat,$p=1,$o=0){
+
+		$sql      = "SELECT COUNT(id) AS id".$this->_main_sql($kat);
 		$sql     .= $this->search_sql();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
@@ -58,7 +70,7 @@ class Web_Dokumen_Model extends CI_Model{
 		return $this->paging;
 	}
 
-	function list_data($o=0,$offset=0,$limit=500){
+	function list_data($kat,$o=0,$offset=0,$limit=500){
 
 		switch($o){
 			case 1: $order_sql = ' ORDER BY nama'; break;
@@ -72,10 +84,7 @@ class Web_Dokumen_Model extends CI_Model{
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql   = "SELECT * FROM dokumen WHERE id_pend = 0";
-
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
+		$sql   = "SELECT * ".$this->_main_sql($kat);
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -86,11 +95,12 @@ class Web_Dokumen_Model extends CI_Model{
 		$j=$offset;
 		while($i<count($data)){
 			$data[$i]['no']=$j+1;
+			$data[$i]['attr'] = json_decode($data[$i]['attr'], true);
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 			$j++;
@@ -153,15 +163,18 @@ class Web_Dokumen_Model extends CI_Model{
 
 	function insert(){
 		$data = $_POST;
-		if ($this->upload_dokumen($data))
-			$this->db->insert('dokumen',$data);
+		if ($this->upload_dokumen($data)) {
+			$data['attr'] = json_encode($data['attr']);
+			return $this->db->insert('dokumen',$data);
+		} else return false;
 	}
 
 	function update($id=0){
 	  $data = $_POST;
 		if (!$this->upload_dokumen($data, $data['old_file']))
 			unset($data['satuan']);
-		$this->db->where('id',$id)->update('dokumen',$data);;
+		$data['attr'] = json_encode($data['attr']);
+		return $this->db->where('id',$id)->update('dokumen',$data);;
 	}
 
 	function delete($id=''){
@@ -195,6 +208,7 @@ class Web_Dokumen_Model extends CI_Model{
 		$sql   = "SELECT * FROM dokumen WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
+		$data['attr'] = json_decode($data['attr'], true);
 		return $data;
 	}
 
@@ -202,7 +216,19 @@ class Web_Dokumen_Model extends CI_Model{
 		$sql   = "SELECT * FROM dokumen WHERE enabled=?";
 		$query = $this->db->query($sql,1);
 		$data  = $query->result_array();
+		$data['attr'] = json_decode($data['attr'], true);
 		return $data;
+	}
+
+	function kat_nama($kat=1){
+		$kategori = unserialize(KODE_KATEGORI);
+		$kat_nama = $kategori[$kat];
+		if (empty($kat_nama)) $kat_nama = $kategori[1];
+		return $kat_nama;
+	}
+
+	function list_kategori(){
+		return unserialize(KODE_KATEGORI);
 	}
 }
 ?>
