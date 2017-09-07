@@ -4,7 +4,8 @@
   /* define versi opensid dan script migrasi yang harus dijalankan */
   private $versionMigrate = array(
     '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
-    'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL)
+    'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
+    '2.5' => array('migrate' => '','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -56,7 +57,7 @@
     $nextVersion = $versi;
     $versionMigrate = $this->versionMigrate;
     if(isset($versionMigrate[$versi])){
-      while(!empty($nextVersion)){
+      while(!empty($nextVersion) AND !empty($versionMigrate[$nextVersion]['migrate'])){
         $migrate = $versionMigrate[$nextVersion]['migrate'];
         log_message('error','Jalankan '.$migrate);
         $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
