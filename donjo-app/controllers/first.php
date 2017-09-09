@@ -278,7 +278,7 @@ class First extends Web_Controller{
 		$this->load->view($this->template,$data);
 	}
 
-	function kategori($kat=0,$p=0){
+	function kategori($kat=0,$p=1){
 		$data = $this->includes;
 
 		$data['p'] = $p;
