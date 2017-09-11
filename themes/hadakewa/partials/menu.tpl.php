@@ -26,7 +26,7 @@ navigasi ke tautannya.
 		    if (!$('.navbar-toggle').is(':visible') && $(this).attr('href') != '#') {
 		        $(this).toggleClass('open', false);
 		        window.location = $(this).attr('href')
-		    } else if ($('.dropdown-menu li').is(':visible') && $(this).attr('href') != '#') {
+		    } else if ($(this).parent().hasClass('open') && $(this).attr('href') != '#') {
 		        window.location = $(this).attr('href')
 		    }
 		});
