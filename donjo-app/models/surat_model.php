@@ -417,6 +417,15 @@
 		}
 	}
 
+	function get_data_rtf($surat){
+		$data_rtf = LOKASI_SURAT_DESA.$surat."/data_rtf_".$surat.".php";
+		if (is_file($data_rtf)) return $data_rtf;
+		else {
+			$data_rtf = "surat/$surat/data_rtf_$surat.php";
+			if(is_file($data_rtf)) return $data_rtf;
+		}
+	}
+
 	function get_daftar_kode_surat($surat) {
 		$kode = array();
 		switch ($surat) {
@@ -496,6 +505,11 @@
 	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
 		$alamat_desa = ucwords($this->setting->sebutan_desa)." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
+
+		$data_rtf = $this->surat_model->get_data_rtf($url);
+		if(is_file($data_rtf))
+		  include($data_rtf);
+
 		switch ($url) {
 			case 'surat_ket_beda_identitas_kis':
 				$lokasi_komponen = $this->lokasi_komponen($url, 'get_data_export.php');
