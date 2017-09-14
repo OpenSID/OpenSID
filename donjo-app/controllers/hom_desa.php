@@ -50,12 +50,12 @@ class Hom_Desa extends CI_Controller{
 
 	function insert(){
 		$this->config_model->insert();
-		redirect('hom_desa');
+		redirect('hom_desa/konfigurasi');
 	}
 
 	function update($id=''){
 		$this->config_model->update($id);
-		redirect("hom_desa");
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function ajax_kantor_maps(){
@@ -72,12 +72,12 @@ class Hom_Desa extends CI_Controller{
 
 	function update_kantor_maps(){
 		$this->config_model->update_kantor();
-		redirect("hom_desa");
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function update_wilayah_maps(){
 		$this->config_model->update_wilayah();
-		redirect("hom_desa");
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function upgrade_silent(){
