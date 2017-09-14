@@ -15,7 +15,7 @@
 	                "[form_desasaksi1]"       => $config['nama_desa'],
 	                "[form_kecsaksi1]"       	=> $config['nama_kecamatan'],
 	                "[form_kabsaksi1]"       	=> $config['nama_kabupaten'],
-	                "[form_provinsisaksi1]"   => $config['nama_provinsi']
+	                "[form_provinsisaksi1]"   => $config['nama_propinsi']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
@@ -35,7 +35,7 @@
 	                "[form_desasaksi2]"       => $config['nama_desa'],
 	                "[form_kecsaksi2]"       	=> $config['nama_kecamatan'],
 	                "[form_kabsaksi2]"       	=> $config['nama_kabupaten'],
-	                "[form_provinsisaksi2]"   => $config['nama_provinsi']
+	                "[form_provinsisaksi2]"   => $config['nama_propinsi']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
@@ -59,7 +59,7 @@
 	                "[form_desapelapor]"       => $config['nama_desa'],
 	                "[form_kecpelapor]"        => $config['nama_kecamatan'],
 	                "[form_kabpelapor]"        => $config['nama_kabupaten'],
-	                "[form_provinsipelapor]"   => $config['nama_provinsi']
+	                "[form_provinsipelapor]"   => $config['nama_propinsi']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
