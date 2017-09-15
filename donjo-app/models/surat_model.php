@@ -1156,7 +1156,6 @@
 		}
 
 		$_SESSION['success']=8;
-		header("location:".base_url($berkas_arsip));
 	}
 
 	function get_last_nosurat_log($url){

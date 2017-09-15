@@ -152,6 +152,8 @@ class Surat extends CI_Controller{
 		$log_surat['lampiran']=$lampiran;
 		$this->surat_keluar_model->log_surat($log_surat);
 
+		header("location:".base_url(LOKASI_ARSIP.$nama_surat));
+
 		// === Untuk debug format surat html2pdf
 		// $data = $this->surat_model->get_data_untuk_surat($url);
 		// $this->load->view("surat/format_lembaga/f125",$data);
