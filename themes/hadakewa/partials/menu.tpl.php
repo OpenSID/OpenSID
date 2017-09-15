@@ -3,16 +3,32 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap.bar.css">
 <script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/jquery.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/bootstrap.js"></script>
-<!-- https://stackoverflow.com/questions/25692514/bootstrap-how-do-i-make-dropdown-navigation-parent-links-an-active-link -->
+<!--
+https://stackoverflow.com/questions/24685000/bootstrap-3-dropdowns-on-hover-and-on-click
+$('.navbar-toggle').is(':visible') checks if we are currently in mobile view, $(this).toggleClass('open', true) adds or removes open css class used by bootstrap, and window.location = $(this).attr('href') sends user to location set in the link href.
+
+Di layar PC, hover untuk melihat submenu.
+Di mobile, click untuk menampilkan submenu. Pada waktu submenu tampil, klik menu utama untuk
+navigasi ke tautannya.
+-->
 <script>
 	jQuery(function($) {
-		$('.navbar .dropdown').hover(function() {
-			$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+		$('ul.nav li.dropdown').hover(function() {
+		    if (!$('.navbar-toggle').is(':visible')) {
+		        $(this).toggleClass('open', true);
+		    }
 		}, function() {
-			$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+		    if (!$('.navbar-toggle').is(':visible')) {
+		        $(this).toggleClass('open', false);
+		    }
 		});
-		$('.navbar .dropdown > a').click(function(){
-			location.href = this.href;
+		$('ul.nav li.dropdown a').click(function(){
+		    if (!$('.navbar-toggle').is(':visible') && $(this).attr('href') != '#') {
+		        $(this).toggleClass('open', false);
+		        window.location = $(this).attr('href')
+		    } else if ($(this).parent().hasClass('open') && $(this).attr('href') != '#') {
+		        window.location = $(this).attr('href')
+		    }
 		});
 	});
 </script>

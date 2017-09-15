@@ -156,7 +156,7 @@
 	}
 
 	function get_data_surat($id=0){
-		$sql   = "SELECT u.*,g.nama AS gol_darah,x.nama AS sex,
+		$sql   = "SELECT u.*,g.nama AS gol_darah,x.nama AS sex,u.sex as sex_id,
 			(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
 			w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,h.nama AS hubungan,j.nama AS pekerjaan,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,m.nama as cacat,
 			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
@@ -417,6 +417,15 @@
 		}
 	}
 
+	function get_data_rtf($surat){
+		$data_rtf = LOKASI_SURAT_DESA.$surat."/data_rtf_".$surat.".php";
+		if (is_file($data_rtf)) return $data_rtf;
+		else {
+			$data_rtf = "surat/$surat/data_rtf_$surat.php";
+			if(is_file($data_rtf)) return $data_rtf;
+		}
+	}
+
 	function get_daftar_kode_surat($surat) {
 		$kode = array();
 		switch ($surat) {
@@ -496,6 +505,11 @@
 	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
 		$alamat_desa = ucwords($this->setting->sebutan_desa)." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
+
+		$data_rtf = $this->surat_model->get_data_rtf($url);
+		if(is_file($data_rtf))
+		  include($data_rtf);
+
 		switch ($url) {
 			case 'surat_ket_beda_identitas_kis':
 				$lokasi_komponen = $this->lokasi_komponen($url, 'get_data_export.php');

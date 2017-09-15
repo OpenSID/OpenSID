@@ -1,5 +1,4 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
-
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -192,7 +191,7 @@ $config['log_threshold'] = 1;
 | application/logs/ folder. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = FCPATH;
+$config['log_path'] = FCPATH . 'logs/';
 
 /*
 |--------------------------------------------------------------------------

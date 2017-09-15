@@ -107,7 +107,14 @@
 		}
 	}
 
-	function rev_tgl($tgl){
+	function date_is_empty($tgl) {
+		return (is_null($tgl) || substr($tgl, 0, 10)=='0000-00-00');
+	}
+
+	function rev_tgl($tgl, $replace_with='-'){
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
 		$ar=explode('-',$tgl);
 		$o=$ar[2].'-'.$ar[1].'-'.$ar[0];
 		return $o;
@@ -278,12 +285,16 @@
 	else $a = number_format($a,0, ',', '.');
 	return $a;
 	}
-	function tgl_indo2($tgl){
-			$tanggal = substr($tgl,8,2);
-			$jam = substr($tgl,11,8);
-			$bulan = getBulan(substr($tgl,5,2));
-			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';
+
+	function tgl_indo2($tgl, $replace_with='-') {
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
+		$tanggal = substr($tgl,8,2);
+		$jam = substr($tgl,11,8);
+		$bulan = getBulan(substr($tgl,5,2));
+		$tahun = substr($tgl,0,4);
+		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';
 	}
 
 	function tgl_indo_dari_str($tgl_str) {
@@ -291,15 +302,22 @@
 		return $tanggal;
 	}
 
-	function tgl_indo($tgl){
-			$tanggal = substr($tgl,8,2);
-			$bulan = getBulan(substr($tgl,5,2));
-			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun;
+	function tgl_indo($tgl, $replace_with='-') {
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
+		$tanggal = substr($tgl,8,2);
+		$bulan = getBulan(substr($tgl,5,2));
+		$tahun = substr($tgl,0,4);
+		return $tanggal.' '.$bulan.' '.$tahun;
 	}
 
-	function tgl_indo_out($tgl){
-		if($tgl){
+	function tgl_indo_out($tgl, $replace_with='-') {
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
+
+		if($tgl) {
 			$tanggal = substr($tgl,8,2);
 			$bulan = substr($tgl,5,2);
 			$tahun = substr($tgl,0,4);
@@ -307,13 +325,16 @@
 		}
 	}
 
-	function tgl_indo_in($tgl){
-			$tanggal = substr($tgl,0,2);
-			$bulan = substr($tgl,3,2);
-			$tahun = substr($tgl,6,4);
-			$jam = substr($tgl,11);
-			$jam = empty($jam) ? '' : ' '.$jam;
-			return $tahun.'-'.$bulan.'-'.$tanggal.$jam;
+	function tgl_indo_in($tgl, $replace_with='-') {
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
+		$tanggal = substr($tgl,0,2);
+		$bulan = substr($tgl,3,2);
+		$tahun = substr($tgl,6,4);
+		$jam = substr($tgl,11);
+		$jam = empty($jam) ? '' : ' '.$jam;
+		return $tahun.'-'.$bulan.'-'.$tanggal.$jam;
 	}
 
 	function waktu_ind($time){
