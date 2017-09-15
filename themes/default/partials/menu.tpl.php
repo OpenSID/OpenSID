@@ -36,8 +36,8 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<?php foreach($menu_atas as $data){?>
-					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo site_url()."first/".$data['link']?>"><?php echo $data['nama']?><span class="caret"></span></a>
-						<?php if(count($data['submenu']>0)): ?>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo site_url()."first/".$data['link']?>"><?php echo $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
+						<?php if(count($data['submenu'])>0): ?>
 							<ul class="dropdown-menu">
 								<?php foreach($data['submenu'] as $submenu): ?>
 									<li><a href="<?php echo site_url()."first/".$submenu['link']?>"><?php echo $submenu['nama']?></a></li>
