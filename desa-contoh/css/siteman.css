@@ -9,5 +9,9 @@
  *
 */
 body.login{
-  background: url(images/img1.jpg) no-repeat center center fixed;; /*gambar background */
+	background: url(images/img1.jpg) no-repeat center center fixed; /*gambar background */
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
 }
