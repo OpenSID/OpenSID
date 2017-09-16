@@ -14,6 +14,7 @@
       $('#id_saksi1_validasi').val('*'); // Hapus $id_wanita
       submit_form_ambil_data();
     }
+    $('input[name=anchor').val('saksi1');
   }
 
   function ubah_saksi2(asal){
@@ -29,6 +30,7 @@
       $('#id_saksi2_validasi').val('*'); // Hapus $id_wanita
       submit_form_ambil_data();
     }
+    $('input[name=anchor').val('saksi2');
   }
 
   function ubah_pelapor(asal){
@@ -44,6 +46,7 @@
       $('#id_pelapor_validasi').val('*'); // Hapus $id_wanita
       submit_form_ambil_data();
     }
+    $('input[name=anchor').val('pelapor');
   }
 
   function _calculateAge(birthday) { // birthday is a date (dd-mm-yyyy)
@@ -91,6 +94,7 @@
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {
+        $('input[name=anchor').val('saksi1');
         $('#id_saksi1_validasi').val($('#id_saksi1_hidden').val());
         submit_form_ambil_data();
       }
@@ -111,6 +115,7 @@
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {
+        $('input[name=anchor').val('saksi2');
         $('#id_saksi2_validasi').val($('#id_saksi2_hidden').val());
         submit_form_ambil_data();
       }
@@ -131,6 +136,7 @@
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {
+        $('input[name=anchor').val('pelapor');
         $('#id_pelapor_validasi').val($('#id_pelapor_hidden').val());
         submit_form_ambil_data();
       }
@@ -146,6 +152,9 @@
   }
 
 $('document').ready(function(){
+
+  /* pergi ke bagian halaman sesudah mengisi warga desa */
+  location.hash = "#" + $('input[name=anchor]').val();
 
   /* set otomatis hari */
   $('input[name=tanggal]').change(function(){
@@ -212,6 +221,7 @@ $('document').ready(function(){
   <input id="id_saksi1_validasi" name="id_saksi1" type="hidden" value="<?php echo $_SESSION['id_saksi1']?>"/>
   <input id="id_saksi2_validasi" name="id_saksi2" type="hidden" value="<?php echo $_SESSION['id_saksi2']?>"/>
   <input id="id_pelapor_validasi" name="id_pelapor" type="hidden" value="<?php echo $_SESSION['id_pelapor']?>"/>
+  <input name="anchor" type="hidden" value="<?php echo $anchor; ?>"/>
 
 <?php if($individu){ //bagian info setelah terpilih?>
   <?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
@@ -304,6 +314,7 @@ $('document').ready(function(){
 </tr>
 
 <!-- PELAPOR -->
+<tr><th><a name="pelapor"></a></th><td>&nbsp;</td></tr>
 <tr>
   <th class="grey">PELAPOR</th>
   <td class="grey">
@@ -390,6 +401,7 @@ $('document').ready(function(){
 </tr>
 
 <!-- SAKSI 1 -->
+<tr><th><a name="saksi1"></a></th><td>&nbsp;</td></tr>
 <tr>
   <th class="grey">SAKSI 1</th>
   <td class="grey">
@@ -479,6 +491,7 @@ $('document').ready(function(){
 <?php endif; ?>
 
 <!-- SAKSI 2 -->
+<tr><th><a name="saksi2"></a></th><td>&nbsp;</td></tr>
 <tr>
   <th class="grey">SAKSI 2</th>
   <td class="grey">

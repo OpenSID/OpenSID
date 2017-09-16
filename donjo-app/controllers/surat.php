@@ -54,6 +54,7 @@ class Surat extends CI_Controller{
 			unset($_SESSION['id_istri']);
 		}
 		$data['url']=$url;
+		$data['anchor']=$this->input->post('anchor');
 		if(!empty($_POST['nik'])){
 			$data['individu']=$this->surat_model->get_penduduk($_POST['nik']);
 			$data['anggota']=$this->keluarga_model->list_anggota($data['individu']['id_kk']);
