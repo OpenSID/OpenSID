@@ -33,10 +33,16 @@ class First_Artikel_M extends CI_Model{
 
 	function paging($p=1){
 
-		$sql      = "SELECT COUNT(a.id) AS id FROM artikel a
+		$sql = "SELECT COUNT(a.id) AS id FROM artikel a
 			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE ((a.enabled=1) AND (headline <> 1) AND (k.tipe = 1))
-			ORDER BY a.tgl_upload DESC";
+			WHERE ((a.enabled=1) AND (headline <> 1) AND (k.tipe = 1)) ";
+		$cari = trim($this->input->get('cari'));
+		if ( ! empty($cari)) {
+			$cari = $this->db->escape_like_str($cari);
+			$sql .= "AND (a.judul like '%$cari%' or a.isi like '%$cari%') ";
+			$cfg['suffix'] = "?cari=$cari";
+		}
+		$sql .= "ORDER BY a.tgl_upload DESC";
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
@@ -73,10 +79,15 @@ class First_Artikel_M extends CI_Model{
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND k.tipe = 1 AND a.id=".$id;
 		}else{
-			$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a
+			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
-				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND k.tipe = 1
-				ORDER BY a.tgl_upload DESC LIMIT ".$offset.", ".$limit;
+				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND k.tipe = 1 ";
+			$cari = trim($this->input->get('cari'));
+			if ( ! empty($cari)) {
+				$cari = $this->db->escape_like_str($cari);
+				$sql .= "AND (a.judul like '%$cari%' or a.isi like '%$cari%') ";
+			}
+			$sql .= "ORDER BY a.tgl_upload DESC LIMIT ".$offset.", ".$limit;
 		}
 
 		$query = $this->db->query($sql);
