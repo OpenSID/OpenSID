@@ -16,7 +16,7 @@ if($w_cos){
 					<h3 class=\"box-title\">".$data["judul"]."</h3>
 				</div>
 				<div class=\"box-body\">
-				".$data['isi']."
+				".html_entity_decode($data['isi'])."
 				</div>
 			</div>
 			";
