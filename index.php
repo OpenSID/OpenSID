@@ -13,8 +13,8 @@ if ( ! file_exists('donjo-app/config/database.php'))
 	header('Location: '.rtrim($_SERVER['REQUEST_URI'], '/').'/installer/');
 	exit;
 }
-	define('ENVIRONMENT', 'development');
-	// define('ENVIRONMENT', 'production');
+	// define('ENVIRONMENT', 'development');
+	define('ENVIRONMENT', 'production');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
