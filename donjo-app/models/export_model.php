@@ -180,18 +180,6 @@
 			$this->load->dbutil();
 			$backup =& $this->dbutil->backup($prefs);
 		}
-
-			// Tabel data_surat adalah view, di-backup terpisah
-		$prefs = array(
-				'format'      => 'sql',
-				'tables'			=> array('data_surat'),
-			  );
-		// TODO: jika versi CI yang baru sudah mendukung backup untuk mysqli, hapus kondisi untuk mysqli
-		if ($this->db->dbdriver == 'mysqli') {
-			$data_surat =& $this->_db_mysqli_backup($prefs);
-		} else {
-			$data_surat =& $this->dbutil->backup($prefs);
-		}
 		// Hilangkan ketentuan user untuk view data_surat dan baris-baris lain yang
 		// dihasilkan oleh dbutil->backup karena bermasalah
 		// pada waktu import dgn restore ataupun phpmyadmin
