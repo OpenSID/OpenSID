@@ -35,7 +35,7 @@ class First_Artikel_M extends CI_Model{
 
 		$sql = "SELECT COUNT(a.id) AS id FROM artikel a
 			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE ((a.enabled=1) AND (headline <> 1) AND (k.tipe = 1)) ";
+			WHERE ((a.enabled=1) AND (headline <> 1)) ";
 		$cari = trim($this->input->get('cari'));
 		if ( ! empty($cari)) {
 			$cari = $this->db->escape_like_str($cari);
@@ -77,17 +77,17 @@ class First_Artikel_M extends CI_Model{
 		if($id > 0){
 			$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
-				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND k.tipe = 1 AND a.id=".$id;
+				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND a.id=".$id;
 		}else{
 			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
-				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND k.tipe = 1 ";
+				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1";
 			$cari = trim($this->input->get('cari'));
 			if ( ! empty($cari)) {
 				$cari = $this->db->escape_like_str($cari);
-				$sql .= "AND (a.judul like '%$cari%' or a.isi like '%$cari%') ";
+				$sql .= " AND (a.judul like '%$cari%' or a.isi like '%$cari%') ";
 			}
-			$sql .= "ORDER BY a.tgl_upload DESC LIMIT ".$offset.", ".$limit;
+			$sql .= " ORDER BY a.tgl_upload DESC LIMIT ".$offset.", ".$limit;
 		}
 
 		$query = $this->db->query($sql);
