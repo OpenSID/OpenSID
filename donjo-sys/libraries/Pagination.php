@@ -162,7 +162,7 @@ class CI_Pagination {
 				$this->cur_page = (int) $this->cur_page;
 			}
 		}
-		
+
 		// Set current page to 1 if using page numbers instead of offset
 		if ($this->use_page_numbers AND $this->cur_page == 0)
 		{
@@ -199,7 +199,7 @@ class CI_Pagination {
 		}
 
 		$uri_page_number = $this->cur_page;
-		
+
 		if ( ! $this->use_page_numbers)
 		{
 			$this->cur_page = floor(($this->cur_page/$this->per_page) + 1);
