@@ -1,6 +1,6 @@
 /*
  * File ini berisi CSS ubahan desa untuk halaman login siteman
- * Letakkan file ini: desa/css/siteman.css
+ * Letakkan file ini di: desa/css/siteman.css
 */
 
 /* Sebagai contoh:
@@ -10,4 +10,8 @@
 */
 body.login{
   background: url(images/img1.jpg) no-repeat center fixed; /*gambar background */
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
 }
