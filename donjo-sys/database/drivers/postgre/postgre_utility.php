@@ -16,13 +16,13 @@
 // ------------------------------------------------------------------------
 
 /**
- * MySQLi Utility Class
+ * Postgre Utility Class
  *
  * @category	Database
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mysqli_utility extends CI_DB_utility {
+class CI_DB_postgre_utility extends CI_DB_utility {
 
 	/**
 	 * List databases
@@ -32,7 +32,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _list_databases()
 	{
-		return "SHOW DATABASES";
+		return "SELECT datname FROM pg_database";
 	}
 
 	// --------------------------------------------------------------------
@@ -40,7 +40,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	/**
 	 * Optimize table query
 	 *
-	 * Generates a platform-specific query so that a table can be optimized
+	 * Is table optimization supported in Postgre?
 	 *
 	 * @access	private
 	 * @param	string	the table name
@@ -48,7 +48,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _optimize_table($table)
 	{
-		return "OPTIMIZE TABLE ".$this->db->_escape_identifiers($table);
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -56,7 +56,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	/**
 	 * Repair table query
 	 *
-	 * Generates a platform-specific query so that a table can be repaired
+	 * Are table repairs supported in Postgre?
 	 *
 	 * @access	private
 	 * @param	string	the table name
@@ -64,13 +64,13 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return "REPAIR TABLE ".$this->db->_escape_identifiers($table);
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * MySQLi Export
+	 * Postgre Export
 	 *
 	 * @access	private
 	 * @param	array	Preferences
@@ -83,5 +83,6 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	}
 }
 
-/* End of file mysqli_utility.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_utility.php */
+
+/* End of file postgre_utility.php */
+/* Location: ./system/database/drivers/postgre/postgre_utility.php */

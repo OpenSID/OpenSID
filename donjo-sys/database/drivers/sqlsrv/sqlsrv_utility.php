@@ -16,13 +16,13 @@
 // ------------------------------------------------------------------------
 
 /**
- * MySQLi Utility Class
+ * SQLSRV Utility Class
  *
  * @category	Database
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mysqli_utility extends CI_DB_utility {
+class CI_DB_sqlsrv_utility extends CI_DB_utility {
 
 	/**
 	 * List databases
@@ -32,7 +32,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _list_databases()
 	{
-		return "SHOW DATABASES";
+		return "EXEC sp_helpdb"; // Can also be: EXEC sp_databases
 	}
 
 	// --------------------------------------------------------------------
@@ -48,7 +48,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _optimize_table($table)
 	{
-		return "OPTIMIZE TABLE ".$this->db->_escape_identifiers($table);
+		return FALSE; // Is this supported in MS SQL?
 	}
 
 	// --------------------------------------------------------------------
@@ -64,13 +64,13 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return "REPAIR TABLE ".$this->db->_escape_identifiers($table);
+		return FALSE; // Is this supported in MS SQL?
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * MySQLi Export
+	 * MSSQL Export
 	 *
 	 * @access	private
 	 * @param	array	Preferences
@@ -81,7 +81,8 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');
 	}
+
 }
 
-/* End of file mysqli_utility.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_utility.php */
+/* End of file mssql_utility.php */
+/* Location: ./system/database/drivers/mssql/mssql_utility.php */
