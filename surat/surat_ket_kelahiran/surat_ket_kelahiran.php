@@ -49,6 +49,22 @@
     $('input[name=anchor').val('pelapor');
   }
 
+  function ubah_bayi(asal){
+    $('#bayi').val(asal);
+    if(asal == 1){
+      $('.bayi_desa').show();
+      $('.bayi_luar_desa').hide();
+      // Mungkin bug di jquery? Terpaksa hapus class radio button
+      $('#label_bayi_2').removeClass('ui-state-active');
+    } else {
+      $('.bayi_desa').hide();
+      $('.bayi_luar_desa').show();
+      $('#id_bayi_validasi').val('*'); // Hapus $id_wanita
+      submit_form_ambil_data();
+    }
+    $('input[name=anchor').val('bayi');
+  }
+
   function _calculateAge(birthday) { // birthday is a date (dd-mm-yyyy)
     var parts =birthday.split('-');
     // Ubah menjadi format ISO yyyy-mm-dd
@@ -143,6 +159,27 @@
     });
   });
 
+  $(function(){
+    var bayi = {};
+    bayi.results = [
+      <?php foreach($penduduk as $data){?>
+        {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
+      <?php }?>
+    ];
+
+    $('#id_bayi').flexbox(bayi, {
+      resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
+      watermark: <?php if($bayi){?>'<?php echo $bayi['nik']?> - <?php echo $bayi['nama']?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+      width: 260,
+      noResultsText :'Tidak ada no nik yang sesuai..',
+      onSelect: function() {
+        $('input[name=anchor').val('bayi');
+        $('#id_bayi_validasi').val($('#id_bayi_hidden').val());
+        submit_form_ambil_data();
+      }
+    });
+  });
+
   function submit_form_ambil_data(){
     $('input').removeClass('required');
     $('select').removeClass('required');
@@ -221,6 +258,7 @@ $('document').ready(function(){
   <input id="id_saksi1_validasi" name="id_saksi1" type="hidden" value="<?php echo $_SESSION['id_saksi1']?>"/>
   <input id="id_saksi2_validasi" name="id_saksi2" type="hidden" value="<?php echo $_SESSION['id_saksi2']?>"/>
   <input id="id_pelapor_validasi" name="id_pelapor" type="hidden" value="<?php echo $_SESSION['id_pelapor']?>"/>
+  <input id="id_bayi_validasi" name="id_bayi" type="hidden" value="<?php echo $_SESSION['id_bayi']?>"/>
   <input name="anchor" type="hidden" value="<?php echo $anchor; ?>"/>
 
 <?php if($individu){ //bagian info setelah terpilih?>
@@ -235,40 +273,76 @@ $('document').ready(function(){
 </tr>
 <tr>
 	<th>&nbsp;</th>
-	</tr>
-<tr>
-	<th class="style6">DATA KELAHIRAN :</th>
 </tr>
+
+<!-- BAYI -->
+<tr><th><a name="bayi"></a></th><td>&nbsp;</td></tr>
 <tr>
-	<th>Nama Bayi </th>
-	<td><input name="nama_bayi" type="text" class="inputbox required" size="70" value="<?php echo $_SESSION['post']['nama_bayi']?>"/></td>
-	</tr>
-<tr>
-	<th>NIK</th>
-	<td><input name="nik_bayi" type="text" class="inputbox required" id="nik_bayi" size="70" value="<?php echo $_SESSION['post']['nik_bayi']?>"/>
-	  <em>*isi tanda - jika belum memiliki NIK</em> </td>
-</tr>
-<tr>
-	<th>Jenis Kelamin </th>
-	<td>
-    <input type="hidden" name="nama_sex">
-    <select name="sex" class="required" id="sex" onchange="$('input[name=nama_sex]').val($(this).find(':selected').text());">
-      <option value="">Pilih Jenis Kelamin</option>
-      <?php foreach($sex as $data){?>
-        <option value="<?php echo $data['id']?>" <?php if($data['id']==$_SESSION['post']['sex']) echo 'selected'?>><?php echo $data['nama']?></option>
-      <?php }?>
-    </select>
+  <th class="grey">DATA KELAHIRAN</th>
+  <td class="grey">
+    <div class="uiradio">
+      <input type="radio" id="bayi_1" name="bayi" value="1" <?php if(!empty($bayi)){echo 'checked';}?> onchange="ubah_bayi(this.value);">
+      <label for="bayi_1">Dari Database Penduduk</label>
+      <input type="radio" id="bayi_2" name="bayi" value="2" <?php if(empty($bayi)){echo 'checked';}?> onchange="ubah_bayi(this.value);">
+      <label id="label_bayi_2" for="bayi_2">Belum Terdata</label>
+    </div>
   </td>
 </tr>
-<tr>
-	<th>Hari / Tanggal / Jam </th>
-	<td><input name="hari" readonly="readonly" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['hari']?>"/>
-/
-  <input name="tanggal" type="text" class="inputbox required datepicker" id="tanggal" size="11" value="<?php echo $_SESSION['post']['tanggal']?>"/>
-/
-<em>*Isi waktu kelahiran etc : 08:00</em>
-<input name="jam" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['jam']?>"/></td>
+
+<tr class="bayi_desa" <?php if (empty($bayi)) echo 'style="display: none;"'; ?>>
+  <th colspan="2">DATA KELAHIRAN DARI DATABASE</th>
 </tr>
+<tr class="bayi_desa" <?php if (empty($bayi)) echo 'style="display: none;"'; ?>>
+  <th class="indent">NIK / Nama</th>
+  <td>
+    <div id="id_bayi" name="id_bayi"></div>
+    <?php if($bayi){ //bagian info setelah terpilih
+        $individu = $bayi;
+        include("donjo-app/views/surat/form/konfirmasi_pemohon.php");
+    }?>
+  </td>
+</tr>
+<tr class="bayi_desa" <?php if (empty($bayi)) echo 'style="display: none;"'; ?>>
+  <th>Jam Kelahiran<em> (*Isi waktu kelahiran, contoh 08:00)</em></th>
+  <td><input name="jam" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['jam']?>"/></td>
+</tr>
+
+<?php if (empty($bayi)) : ?>
+  <tr class="bayi_luar_desa">
+  	<th class="style6">DATA KELAHIRAN BELUM TERDATA</th>
+  </tr>
+  <tr class="bayi_luar_desa">
+  	<th>Nama Yang Lahir </th>
+  	<td><input name="nama_bayi" type="text" class="inputbox required" size="70" value="<?php echo $_SESSION['post']['nama_bayi']?>"/></td>
+  	</tr>
+  <tr class="bayi_luar_desa">
+  	<th>NIK</th>
+  	<td><input name="nik_bayi" type="text" class="inputbox required" id="nik_bayi" size="70" value="<?php echo $_SESSION['post']['nik_bayi']?>"/>
+  	  <em>*isi tanda - jika belum memiliki NIK</em> </td>
+  </tr>
+  <tr class="bayi_luar_desa">
+  	<th>Jenis Kelamin </th>
+  	<td>
+      <input type="hidden" name="nama_sex">
+      <select name="sex" class="required" id="sex" onchange="$('input[name=nama_sex]').val($(this).find(':selected').text());">
+        <option value="">Pilih Jenis Kelamin</option>
+        <?php foreach($sex as $data){?>
+          <option value="<?php echo $data['id']?>" <?php if($data['id']==$_SESSION['post']['sex']) echo 'selected'?>><?php echo $data['nama']?></option>
+        <?php }?>
+      </select>
+    </td>
+  </tr>
+  <tr class="bayi_luar_desa">
+  	<th>Hari / Tanggal / Jam </th>
+  	<td><input name="hari" readonly="readonly" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['hari']?>"/>
+  /
+    <input name="tanggal" type="text" class="inputbox required datepicker" id="tanggal" size="11" value="<?php echo $_SESSION['post']['tanggal']?>"/>
+  /
+  <em>*Isi waktu kelahiran etc : 08:00</em>
+  <input name="jam" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['jam']?>"/></td>
+  </tr>
+<?php endif; ?>
+
 <tr>
   <th>Tempat Dilahirkan </th>
   <td>

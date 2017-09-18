@@ -39,4 +39,15 @@
 			unset($data['pelapor']);
 			unset($_SESSION['id_pelapor']);
 		}
+
+		if($this->input->post('bayi')==2) unset($_SESSION['id_bayi']);
+		if($_POST['id_bayi'] != '' AND $_POST['id_bayi'] !='*'){
+			$data['bayi']=$this->surat_model->get_penduduk($_POST['id_bayi']);
+			$_SESSION['id_bayi'] = $_POST['id_bayi'];
+		}elseif ($_POST['id_bayi'] !='*' AND isset($_SESSION['id_bayi'])){
+			$data['bayi']=$this->surat_model->get_penduduk($_SESSION['id_bayi']);
+		}else{
+			unset($data['bayi']);
+			unset($_SESSION['id_bayi']);
+		}
 ?>

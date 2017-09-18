@@ -3,6 +3,14 @@
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
 	$suami = $this->get_data_suami($individu['id']);
+
+	if($input['id_bayi']) {
+		$bayi = $this->get_data_surat($input['id_bayi']);
+		$input['nik_bayi'] 		= $bayi['nik'];
+		$input['nama_bayi'] 	= $bayi['nama'];
+		$input['sex']					= $bayi['sex_id'];
+		$input['hari']	  		= $bayi['tanggallahir'];
+	}
 	if($input['id_pelapor']) {
 		$pelapor = $this->get_data_surat($input['id_pelapor']);
 		$input['nik_pelapor'] 			= $pelapor['nik'];

@@ -63,4 +63,18 @@
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
+
+	/*
+		Jika bayi warga desa, ganti kolom isiannya dengan data dari database penduduk
+	*/
+	if($input['id_bayi']) {
+		$bayi = $this->get_data_surat($input['id_bayi']);
+		$array_replace = array(
+	                "[form_nama_bayi]"  => $bayi['nama'],
+	                "[form_nama_sex]"		=> $bayi['sex'],
+	                "[form_tanggal]"	 	=> tgl_indo_dari_str($bayi['tanggallahir']),
+	                "[form_hari]"				=> hari($bayi['tanggallahir'])
+		);
+		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+	}
 ?>

@@ -242,6 +242,14 @@
 		return $o;
 	}
 
+	function hari($tgl){
+    $hari = array(
+      0 => 'Minggu', 1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu'
+    );
+		$dayofweek = date('w', $tgl);
+    return $hari[$dayofweek];
+	}
+
 	function dua_digit($i){
 		if($i<10) $o='0'.$i;
 			else $o=$i;
