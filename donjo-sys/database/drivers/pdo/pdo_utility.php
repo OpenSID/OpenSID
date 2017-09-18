@@ -5,24 +5,24 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.1.2
  * @filesource
  */
 
 // ------------------------------------------------------------------------
 
 /**
- * MySQLi Utility Class
+ * PDO Utility Class
  *
  * @category	Database
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @author		EllisLab Dev Team
+ * @link		http://codeigniter.com/database/
  */
-class CI_DB_mysqli_utility extends CI_DB_utility {
+class CI_DB_pdo_utility extends CI_DB_utility {
 
 	/**
 	 * List databases
@@ -32,7 +32,12 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _list_databases()
 	{
-		return "SHOW DATABASES";
+		// Not sure if PDO lets you list all databases...
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -48,7 +53,12 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _optimize_table($table)
 	{
-		return "OPTIMIZE TABLE ".$this->db->_escape_identifiers($table);
+		// Not a supported PDO feature
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -64,13 +74,18 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return "REPAIR TABLE ".$this->db->_escape_identifiers($table);
+		// Not a supported PDO feature
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * MySQLi Export
+	 * PDO Export
 	 *
 	 * @access	private
 	 * @param	array	Preferences
@@ -81,7 +96,8 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');
 	}
+
 }
 
-/* End of file mysqli_utility.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_utility.php */
+/* End of file pdo_utility.php */
+/* Location: ./system/database/drivers/pdo/pdo_utility.php */

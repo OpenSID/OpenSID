@@ -16,13 +16,13 @@
 // ------------------------------------------------------------------------
 
 /**
- * MySQLi Utility Class
+ * ODBC Utility Class
  *
  * @category	Database
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		http://codeigniter.com/database/
  */
-class CI_DB_mysqli_utility extends CI_DB_utility {
+class CI_DB_odbc_utility extends CI_DB_utility {
 
 	/**
 	 * List databases
@@ -32,7 +32,12 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _list_databases()
 	{
-		return "SHOW DATABASES";
+		// Not sure if ODBC lets you list all databases...
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -48,7 +53,12 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _optimize_table($table)
 	{
-		return "OPTIMIZE TABLE ".$this->db->_escape_identifiers($table);
+		// Not a supported ODBC feature
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -64,13 +74,18 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return "REPAIR TABLE ".$this->db->_escape_identifiers($table);
+		// Not a supported ODBC feature
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * MySQLi Export
+	 * ODBC Export
 	 *
 	 * @access	private
 	 * @param	array	Preferences
@@ -81,7 +96,8 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');
 	}
+
 }
 
-/* End of file mysqli_utility.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_utility.php */
+/* End of file odbc_utility.php */
+/* Location: ./system/database/drivers/odbc/odbc_utility.php */

@@ -16,13 +16,13 @@
 // ------------------------------------------------------------------------
 
 /**
- * MySQLi Utility Class
+ * Oracle Utility Class
  *
  * @category	Database
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mysqli_utility extends CI_DB_utility {
+class CI_DB_oci8_utility extends CI_DB_utility {
 
 	/**
 	 * List databases
@@ -32,7 +32,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _list_databases()
 	{
-		return "SHOW DATABASES";
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -48,7 +48,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _optimize_table($table)
 	{
-		return "OPTIMIZE TABLE ".$this->db->_escape_identifiers($table);
+		return FALSE; // Is this supported in Oracle?
 	}
 
 	// --------------------------------------------------------------------
@@ -64,13 +64,13 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return "REPAIR TABLE ".$this->db->_escape_identifiers($table);
+		return FALSE; // Is this supported in Oracle?
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * MySQLi Export
+	 * Oracle Export
 	 *
 	 * @access	private
 	 * @param	array	Preferences
@@ -83,5 +83,5 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	}
 }
 
-/* End of file mysqli_utility.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_utility.php */
+/* End of file oci8_utility.php */
+/* Location: ./system/database/drivers/oci8/oci8_utility.php */

@@ -166,47 +166,45 @@
 
 	}
 
-	function backup(){
-		$this->load->dbutil();
-
+	function backup() {
 		// Tabel data_surat adalah view, di-backup terpisah
-    $prefs = array(
-            'format'      => 'sql',
-            'ignore'			=> array('data_surat'),
-          );
-    $backup =& $this->dbutil->backup($prefs);
+		$prefs = array(
+				'format'      => 'sql',
+				'ignore'			=> array('data_surat'),
+			  );
 
-		// Tabel data_surat adalah view, di-backup terpisah
-    $prefs = array(
-            'format'      => 'sql',
-            'tables'			=> array('data_surat'),
-          );
-    $data_surat =& $this->dbutil->backup($prefs);
-    // Hilangkan ketentuan user untuk view data_surat dan baris-baris lain yang
-    // dihasilkan oleh dbutil->backup karena bermasalah
-    // pada waktu import dgn restore ataupun phpmyadmin
-    $data_surat = preg_replace("/DEFINER=`root`@`localhost`/", "", $data_surat);
-    $data_surat = preg_replace("/utf8_general_ci;/", "", $data_surat);
-    $baris_baris = explode("\n", $data_surat);
-    foreach ($baris_baris as $baris) {
-	    if (strpos($baris, 'INSERT INTO data_surat') !== FALSE) {
-	         continue;
-	    }
-	    $simpan[] = $baris;
+		// TODO: jika versi CI yang baru sudah mendukung backup untuk mysqli, hapus kondisi untuk mysqli
+		if ($this->db->dbdriver == 'mysqli') {
+			$backup =& $this->_db_mysqli_backup($prefs);
+		} else {
+			$this->load->dbutil();
+			$backup =& $this->dbutil->backup($prefs);
 		}
-		$data_surat = implode("\n", $simpan);
+		// Hilangkan ketentuan user untuk view data_surat dan baris-baris lain yang
+		// dihasilkan oleh dbutil->backup karena bermasalah
+		// pada waktu import dgn restore ataupun phpmyadmin
+		$data_surat = preg_replace("/DEFINER=`root`@`localhost`/", "", $data_surat);
+		$data_surat = preg_replace("/utf8_general_ci;/", "", $data_surat);
+		$baris_baris = explode("\n", $data_surat);
+		foreach ($baris_baris as $baris) {
+			if (strpos($baris, 'INSERT INTO data_surat') !== FALSE) {
+				 continue;
+			}
+			$simpan[] = $baris;
+			}
+			$data_surat = implode("\n", $simpan);
 
-    // Tambahkan data_surat di ujung karena tergantung pada tabel lainnya
-    $backup = $backup . "DROP VIEW IF EXISTS data_surat;\n";
-    $backup = $backup . $data_surat;
+		// Tambahkan data_surat di ujung karena tergantung pada tabel lainnya
+		$backup = $backup . "DROP VIEW IF EXISTS data_surat;\n";
+		$backup = $backup . $data_surat;
 
-    $db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
-    $save = base_url().$db_name;
+		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
+		$save = base_url().$db_name;
 
-    $this->load->helper('file');
-    write_file($save, $backup);
-    $this->load->helper('download');
-    force_download($db_name, $backup);
+		$this->load->helper('file');
+		write_file($save, $backup);
+		$this->load->helper('download');
+		force_download($db_name, $backup);
 
 		if($backup) $_SESSION['success']=1;
 		else $_SESSION['success']=-1;
@@ -301,5 +299,247 @@
 		return $return;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database Backup
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	// From DB_utility.php
+	private function _db_mysqli_backup($params = array())
+	{
+		// If the parameters have not been submitted as an
+		// array then we know that it is simply the table
+		// name, which is a valid short cut.
+		if (is_string($params))
+		{
+			$params = array('tables' => $params);
+		}
+
+		// ------------------------------------------------------
+
+		// Set up our default preferences
+		$prefs = array(
+							'tables'		=> array(),
+							'ignore'		=> array(),
+							'filename'		=> '',
+							'format'		=> 'gzip', // gzip, zip, txt
+							'add_drop'		=> TRUE,
+							'add_insert'	=> TRUE,
+							'newline'		=> "\n"
+						);
+
+		// Did the user submit any preferences? If so set them....
+		if (count($params) > 0)
+		{
+			foreach ($prefs as $key => $val)
+			{
+				if (isset($params[$key]))
+				{
+					$prefs[$key] = $params[$key];
+				}
+			}
+		}
+
+		// ------------------------------------------------------
+
+		// Are we backing up a complete database or individual tables?
+		// If no table names were submitted we'll fetch the entire table list
+		if (count($prefs['tables']) == 0)
+		{
+			$prefs['tables'] = $this->db->list_tables();
+		}
+
+		// ------------------------------------------------------
+
+		// Validate the format
+		if ( ! in_array($prefs['format'], array('gzip', 'zip', 'txt'), TRUE))
+		{
+			$prefs['format'] = 'txt';
+		}
+
+		// ------------------------------------------------------
+
+		// Is the encoder supported?  If not, we'll either issue an
+		// error or use plain text depending on the debug settings
+		if (($prefs['format'] == 'gzip' AND ! @function_exists('gzencode'))
+		OR ($prefs['format'] == 'zip'  AND ! @function_exists('gzcompress')))
+		{
+			if ($this->db->db_debug)
+			{
+				return $this->db->display_error('db_unsuported_compression');
+			}
+
+			$prefs['format'] = 'txt';
+		}
+
+		// ------------------------------------------------------
+
+		// Set the filename if not provided - Only needed with Zip files
+		if ($prefs['filename'] == '' AND $prefs['format'] == 'zip')
+		{
+			$prefs['filename'] = (count($prefs['tables']) == 1) ? $prefs['tables'] : $this->db->database;
+			$prefs['filename'] .= '_'.date('Y-m-d_H-i', time());
+		}
+
+		// ------------------------------------------------------
+
+		// Was a Gzip file requested?
+		if ($prefs['format'] == 'gzip')
+		{
+			return gzencode($this->_mysqli_backup($prefs));
+		}
+
+		// ------------------------------------------------------
+
+		// Was a text file requested?
+		if ($prefs['format'] == 'txt')
+		{
+			return $this->_mysqli_backup($prefs);
+		}
+
+		// ------------------------------------------------------
+
+		// Was a Zip file requested?
+		if ($prefs['format'] == 'zip')
+		{
+			// If they included the .zip file extension we'll remove it
+			if (preg_match("|.+?\.zip$|", $prefs['filename']))
+			{
+				$prefs['filename'] = str_replace('.zip', '', $prefs['filename']);
+			}
+
+			// Tack on the ".sql" file extension if needed
+			if ( ! preg_match("|.+?\.sql$|", $prefs['filename']))
+			{
+				$prefs['filename'] .= '.sql';
+			}
+
+			// Load the Zip class and output it
+
+			$CI =& get_instance();
+			$CI->load->library('zip');
+			$CI->zip->add_data($prefs['filename'], $this->_mysqli_backup($prefs));
+			return $CI->zip->get_zip();
+		}
+
+	}
+
+
+	// utility backup untuk driver mysqli
+	private function _mysqli_backup($params = array())
+	{
+		// Ubah menggunakan info dari http://stackoverflow.com/questions/24197844/database-utility-backups-not-working-with-mysqli-codeignitor
+		if (count($params) == 0) {
+			return FALSE;
+		}
+
+		// Extract the prefs for simplicity
+		extract($params);
+
+		// Build the output
+		$output = '';
+		foreach ((array)$tables as $table) {
+			// Is the table in the "ignore" list?
+			if (in_array($table, (array)$ignore, TRUE)) {
+				continue;
+			}
+
+			// Get the table schema
+			$query = $this->db->query("SHOW CREATE TABLE `".$this->db->database.'`.`'.$table.'`');
+
+			// No result means the table name was invalid
+			if ($query === FALSE) {
+				continue;
+			}
+
+			// Write out the table schema
+			$output .= '#'.$newline.'# TABLE STRUCTURE FOR: '.$table.$newline.'#'.$newline.$newline;
+
+			if ($add_drop == TRUE) {
+				$output .= 'DROP TABLE IF EXISTS '.$table.';'.$newline.$newline;
+			}
+
+			$i = 0;
+			$result = $query->result_array();
+			foreach ($result[0] as $val) {
+				if ($i++ % 2) {
+					$output .= $val.';'.$newline.$newline;
+				}
+			}
+
+			// If inserts are not needed we're done...
+			if ($add_insert == FALSE) {
+				continue;
+			}
+
+			// Grab all the data from the current table
+			$query = $this->db->query("SELECT * FROM $table");
+
+			if ($query->num_rows() == 0) {
+				continue;
+			}
+
+			// Fetch the field names and determine if the field is an
+			// integer type.  We use this info to decide whether to
+			// surround the data with quotes or not
+			$i = 0;
+			$field_str = '';
+			$is_int = array();
+			while ($field = mysqli_fetch_field($query->result_id)) {
+				// Most versions of MySQL store timestamp as a string
+				$is_int[$i] = (in_array(
+										// strtolower(mysql_field_type($query->result_id, $i)),
+										strtolower($field->type),
+										array('tinyint', 'smallint', 'mediumint', 'int', 'bigint'), //, 'timestamp'),
+										TRUE)
+										) ? TRUE : FALSE;
+
+				// Create a string of field names
+				$field_str .= '`'.$field->name.'`, ';
+				$i++;
+			}
+
+			// Trim off the end comma
+			$field_str = preg_replace( "/, $/" , "" , $field_str);
+
+			// Build the insert string
+			foreach ($query->result_array() as $row) {
+				$val_str = '';
+
+				$i = 0;
+				foreach ($row as $v) {
+					// Is the value NULL?
+					if ($v === NULL) {
+						$val_str .= 'NULL';
+
+					} else {
+						// Escape the data if it's not an integer
+						if ($is_int[$i] == FALSE) {
+							$val_str .= $this->db->escape($v);
+						} else {
+							$val_str .= $v;
+						}
+					}
+
+					// Append a comma
+					$val_str .= ', ';
+					$i++;
+				}
+
+				// Remove the comma at the end of the string
+				$val_str = preg_replace( "/, $/" , "" , $val_str);
+
+				// Build the INSERT string
+				$output .= 'INSERT INTO '.$table.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
+			}
+
+			$output .= $newline.$newline;
+		}
+
+		return $output;
+	}
 }
 ?>

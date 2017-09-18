@@ -16,23 +16,32 @@
 // ------------------------------------------------------------------------
 
 /**
- * MySQLi Utility Class
+ * SQLite Utility Class
  *
  * @category	Database
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mysqli_utility extends CI_DB_utility {
+class CI_DB_sqlite_utility extends CI_DB_utility {
 
 	/**
 	 * List databases
+	 *
+	 * I don't believe you can do a database listing with SQLite
+	 * since each database is its own file.  I suppose we could
+	 * try reading a directory looking for SQLite files, but
+	 * that doesn't seem like a terribly good idea
 	 *
 	 * @access	private
 	 * @return	bool
 	 */
 	function _list_databases()
 	{
-		return "SHOW DATABASES";
+		if ($this->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return array();
 	}
 
 	// --------------------------------------------------------------------
@@ -40,7 +49,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	/**
 	 * Optimize table query
 	 *
-	 * Generates a platform-specific query so that a table can be optimized
+	 * Is optimization even supported in SQLite?
 	 *
 	 * @access	private
 	 * @param	string	the table name
@@ -48,7 +57,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _optimize_table($table)
 	{
-		return "OPTIMIZE TABLE ".$this->db->_escape_identifiers($table);
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -56,7 +65,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	/**
 	 * Repair table query
 	 *
-	 * Generates a platform-specific query so that a table can be repaired
+	 * Are table repairs even supported in SQLite?
 	 *
 	 * @access	private
 	 * @param	string	the table name
@@ -64,13 +73,13 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return "REPAIR TABLE ".$this->db->_escape_identifiers($table);
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * MySQLi Export
+	 * SQLite Export
 	 *
 	 * @access	private
 	 * @param	array	Preferences
@@ -83,5 +92,5 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	}
 }
 
-/* End of file mysqli_utility.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_utility.php */
+/* End of file sqlite_utility.php */
+/* Location: ./system/database/drivers/sqlite/sqlite_utility.php */
