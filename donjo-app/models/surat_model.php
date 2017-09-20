@@ -502,7 +502,7 @@
 		return $lokasi;
 	}
 
-	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
+	function surat_rtf_khusus($url, $input, &$buffer, $config, &$individu, $ayah, $ibu) {
 		$alamat_desa = ucwords($this->setting->sebutan_desa)." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
 
@@ -620,19 +620,6 @@
 					);
 					$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 				}
-				break;
-
-			case 'surat_ket_kelahiran':
-				# Data suami
-				$suami = $this->get_data_suami($individu['id']);
-				$array_replace = array(
-                    "[nama_suami]"      => $suami['nama'],
-                    "[nik_suami]"       => $suami['nik'],
-                    "[usia_suami]"      => "$suami[umur] Tahun",
-                    "[pekerjaan_suami]" => $suami['pek'],
-                    "[alamat_suami]"    => "RT $suami[rt] / RW $suami[rw] $suami[dusun]",
-				);
-				$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 				break;
 
 			case 'surat_ket_nikah':

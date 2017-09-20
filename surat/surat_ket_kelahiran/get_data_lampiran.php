@@ -2,14 +2,55 @@
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
-	$suami = $this->get_data_suami($individu['id']);
+	if($input['id_ibu']) {
+		$ibu = $this->get_data_surat($input['id_ibu']);
+		$input['nik_ibu'] 							= $ibu['nik'];
+		$input['nama_ibu'] 							= $ibu['nama'];
+    $input['tanggal_lahir_ibu']			= $ibu['tanggallahir'];
+    $input['umur_ibu']  						= $ibu['umur'];
+    $input['pekerjaanibu'] 					= $ibu['pekerjaan'];
+    $input['alamat_ibu']    				= trim($ibu['alamat'].' '.$ibu['dusun']);
+    $input['rt_ibu']    						= $ibu['rt'];
+    $input['rw_ibu']    						= $ibu['rw'];
+    $input['desaibu']       				= $config['nama_desa'];
+    $input['kecibu']       					= $config['nama_kecamatan'];
+    $input['kabibu']       					= $config['nama_kabupaten'];
+    $input['provinsiibu']   				= $config['nama_propinsi'];
+		$input['wn_ibu']								= $ibu['warganegara_id'];
+		$input['tanggalperkawinan_ibu']	= $ibu['tanggalperkawinan'];
 
+		$ayah = $this->get_data_suami($ibu['id']);
+		$input['nik_ayah'] 								= $ayah['nik'];
+		$input['nama_ayah'] 							= $ayah['nama'];
+    $input['tanggal_lahir_ayah']			= $ayah['tanggallahir'];
+    $input['umur_ayah']  							= $ayah['umur'];
+    $input['pekerjaanayah'] 					= $ayah['pek'];
+    $input['alamat_ayah']    					= trim($ayah['alamat'].' '.$ayah['dusun']);
+    $input['rt_ayah']    							= $ayah['rt'];
+    $input['rw_ayah']    							= $ayah['rw'];
+    $input['desaayah']       					= $config['nama_desa'];
+    $input['kecayah']       					= $config['nama_kecamatan'];
+    $input['kabayah']       					= $config['nama_kabupaten'];
+    $input['provinsiayah']   					= $config['nama_propinsi'];
+		$input['wn_ayah']									= $ayah['warganegara_id'];
+		$input['tanggalperkawinan_ayah']	= $ayah['tanggalperkawinan'];
+	}
 	if($input['id_bayi']) {
 		$bayi = $this->get_data_surat($input['id_bayi']);
 		$input['nik_bayi'] 		= $bayi['nik'];
 		$input['nama_bayi'] 	= $bayi['nama'];
 		$input['sex']					= $bayi['sex_id'];
-		$input['hari']	  		= $bayi['tanggallahir'];
+		$input['hari']	  		= hari($bayi['tanggallahir']);
+		$input['tanggal']	  	= $bayi['tanggallahir'];
+	}
+	// Jika ibu dari database, gunakan data ibu untuk info kepala keluarga.
+	// Kalau tidak, gunakan data yang lahir. Salah satu harus dari database.
+	if($ibu){
+		$input['kepala_kk'] 	= $ibu['kepala_kk'];
+		$input['no_kk'] 			= $ibu['no_kk'];
+	} elseif ($bayi) {
+		$input['kepala_kk'] 	= $bayi['kepala_kk'];
+		$input['no_kk'] 			= $bayi['no_kk'];
 	}
 	if($input['id_pelapor']) {
 		$pelapor = $this->get_data_surat($input['id_pelapor']);

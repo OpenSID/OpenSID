@@ -4,7 +4,7 @@
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan('ucwords');
 		$data['sex'] = $this->penduduk_model->list_sex();
-
+		$data['nomor'] = $this->input->post('nomor_main');
 		$_SESSION['post'] = $_POST;
 
 		if($this->input->post('saksi1')==2) unset($_SESSION['id_saksi1']);
@@ -50,4 +50,16 @@
 			unset($data['bayi']);
 			unset($_SESSION['id_bayi']);
 		}
+
+		if($this->input->post('ibu')==2) unset($_SESSION['id_ibu']);
+		if($_POST['id_ibu'] != '' AND $_POST['id_ibu'] !='*'){
+			$data['ibu']=$this->surat_model->get_penduduk($_POST['id_ibu']);
+			$_SESSION['id_ibu'] = $_POST['id_ibu'];
+		}elseif ($_POST['id_ibu'] !='*' AND isset($_SESSION['id_ibu'])){
+			$data['ibu']=$this->surat_model->get_penduduk($_SESSION['id_ibu']);
+		}else{
+			unset($data['ibu']);
+			unset($_SESSION['id_ibu']);
+		}
+
 ?>

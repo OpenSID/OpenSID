@@ -1,5 +1,40 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+	# Data ibu dan ayah kandung dari database penduduk
+	if($input['id_ibu']) {
+		$ibu = $this->get_data_surat($input['id_ibu']);
+		$array_replace = array(
+	              "[form_nama_ibu]"     => $ibu['nama'],
+	              "[nik_ibu]"       		=> $ibu['nik'],
+	              "[tempat_lahir_ibu]"  => $ibu['tempatlahir'],
+	              "[tanggal_lahir_ibu]"	=> tgl_indo_dari_str($ibu['tanggallahir']),
+	              "[umur_ibu]"  				=> $ibu['umur'],
+	              "[pekerjaanibu]" 			=> $ibu['pekerjaan'],
+	              "[alamat_ibu]"    		=> "RT $ibu[rt] / RW $ibu[rw] $ibu[dusun]",
+	              "[desaibu]"       		=> $config['nama_desa'],
+	              "[kecibu]"       			=> $config['nama_kecamatan'],
+	              "[kabibu]"       			=> $config['nama_kabupaten'],
+	              "[provinsiibu]"   		=> $config['nama_propinsi']
+		);
+		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+
+		$ayah = $this->get_data_suami($ibu['id']);
+		$array_replace = array(
+	              "[form_nama_ayah]"     	=> $ayah['nama'],
+	              "[nik_ayah]"       			=> $ayah['nik'],
+	              "[tempat_lahir_ayah]"  	=> $ayah['tempatlahir'],
+	              "[tanggal_lahir_ayah]"	=> tgl_indo_dari_str($ayah['tanggallahir']),
+	              "[umur_ayah]"  					=> $ayah['umur'],
+	              "[pekerjaanayah]" 			=> $ayah['pek'], // dari get_data_pribadi()
+	              "[alamat_ayah]"    			=> "RT $ayah[rt] / RW $ayah[rw] $ayah[dusun]",
+	              "[desaayah]"       			=> $config['nama_desa'],
+	              "[kecayah]"       			=> $config['nama_kecamatan'],
+	              "[kabayah]"       			=> $config['nama_kabupaten'],
+	              "[provinsiayah]"   			=> $config['nama_propinsi']
+		);
+		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+	}
+
 	/*
 		Jika saksi1 warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/

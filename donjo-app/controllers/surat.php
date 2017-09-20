@@ -25,6 +25,11 @@ class Surat extends CI_Controller{
 		// Reset untuk surat yang menggunakan session variable
 		unset($_SESSION['id_pria']);
 		unset($_SESSION['id_wanita']);
+		unset($_SESSION['id_ibu']);
+		unset($_SESSION['id_bayi']);
+		unset($_SESSION['id_saksi1']);
+		unset($_SESSION['id_saksi2']);
+		unset($_SESSION['id_pelapor']);
 		unset($_SESSION['post']);
 
 
@@ -120,6 +125,11 @@ class Surat extends CI_Controller{
 
 		$id = $_POST['nik'];
 		switch ($url) {
+			case 'surat_ket_kelahiran':
+				// surat_ket_kelahiran id-nya ibu atau bayi
+				if (!$id) $id = $_POST['id_ibu'];
+				if (!$id) $id = $_POST['id_bayi'];
+				break;
 			case 'surat_persetujuan_mempelai':
 				// surat_persetujuan_mempelai id-nya suami atau istri
 				if (!$id) $id = $_POST['id_suami'];
