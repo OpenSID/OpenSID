@@ -10,6 +10,13 @@
 /* 	Sebagai contoh:
 		Hapus baris sebelum dan sesudah 'background-color' jika ingin mengubah warna latar-belakang header
 */
+body{
+  background: url(images/img1.jpg) no-repeat center fixed; /*gambar background */
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+}
 #topsection{
 	/* -- hapus baris ini
 	background-color: #3c8dbc;
