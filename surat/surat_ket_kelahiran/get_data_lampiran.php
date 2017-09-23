@@ -7,7 +7,7 @@
 		$input['nik_ibu'] 							= $ibu['nik'];
 		$input['nama_ibu'] 							= $ibu['nama'];
     $input['tanggal_lahir_ibu']			= $ibu['tanggallahir'];
-    $input['umur_ibu']  						= $ibu['umur'];
+		$input['umur_ibu']							= str_pad($ibu['umur'], 3, " ", STR_PAD_LEFT);
     $input['pekerjaanibu'] 					= $ibu['pekerjaan'];
     $input['alamat_ibu']    				= trim($ibu['alamat'].' '.$ibu['dusun']);
     $input['rt_ibu']    						= $ibu['rt'];
@@ -24,7 +24,7 @@
 			$input['nik_ayah'] 								= $ayah['nik'];
 			$input['nama_ayah'] 							= $ayah['nama'];
 	    $input['tanggal_lahir_ayah']			= $ayah['tanggallahir'];
-	    $input['umur_ayah']  							= $ayah['umur'];
+			$input['umur_ayah']								= str_pad($ayah['umur'], 3, " ", STR_PAD_LEFT);
 	    $input['pekerjaanayah'] 					= $ayah['pek'];
 	    $input['alamat_ayah']    					= trim($ayah['alamat'].' '.$ayah['dusun']);
 	    $input['rt_ayah']    							= $ayah['rt'];
@@ -34,7 +34,11 @@
 	    $input['kabayah']       					= $config['nama_kabupaten'];
 	    $input['provinsiayah']   					= $config['nama_propinsi'];
 			$input['wn_ayah']									= $ayah['warganegara_id'];
+		} else {
+			$input['umur_ayah']								= str_pad($input['umur_ayah'], 3, " ", STR_PAD_LEFT);
 		}
+	} else {
+		$input['umur_ibu']									= str_pad($input['umur_ibu'], 3, " ", STR_PAD_LEFT);
 	}
 	if($input['id_bayi']) {
 		$bayi = $this->get_data_surat($input['id_bayi']);
@@ -55,39 +59,46 @@
 	}
 	if($input['id_pelapor']) {
 		$pelapor = $this->get_data_surat($input['id_pelapor']);
-		$input['nik_pelapor'] 			= $pelapor['nik'];
-		$input['nama_pelapor'] 			= $pelapor['nama'];
-		$input['umur_pelapor']			= $pelapor['umur'];
-		$input['jkpelapor']					= $pelapor['sex_id'];
-		$input['pekerjaanpelapor']	= $pelapor['pekerjaan'];
-		$input['desapelapor']				= $config['nama_desa'];
-		$input['kecpelapor']				= $config['nama_kecamatan'];
-		$input['kabpelapor']				= $config['nama_kabupaten'];
-		$input['provinsipelapor']		= $config['nama_propinsi'];
+		$input['nik_pelapor'] 					= $pelapor['nik'];
+		$input['nama_pelapor'] 					= $pelapor['nama'];
+    $input['tanggal_lahir_pelapor']	= $pelapor['tanggallahir'];
+		$input['umur_pelapor']					= str_pad($pelapor['umur'], 3, " ", STR_PAD_LEFT);
+		$input['jkpelapor']							= $pelapor['sex_id'];
+		$input['pekerjaanpelapor']			= $pelapor['pekerjaan'];
+		$input['desapelapor']						= $config['nama_desa'];
+		$input['kecpelapor']						= $config['nama_kecamatan'];
+		$input['kabpelapor']						= $config['nama_kabupaten'];
+		$input['provinsipelapor']				= $config['nama_propinsi'];
+	} else {
+		$input['umur_pelapor']					= str_pad($input['umur_pelapor'], 3, " ", STR_PAD_LEFT);
 	}
 	if($input['id_saksi1']) {
 		$saksi1 = $this->get_data_surat($input['id_saksi1']);
 		$input['nik_saksi1'] 				= $saksi1['nik'];
 		$input['nama_saksi1'] 			= $saksi1['nama'];
-		$input['umur_saksi1']				= $saksi1['umur'];
+		$input['umur_saksi1']				= str_pad($saksi1['umur'], 3, " ", STR_PAD_LEFT);
 		$input['jksaksi1']					= $saksi1['sex_id'];
 		$input['pekerjaansaksi1']		= $saksi1['pekerjaan'];
 		$input['desasaksi1']				= $config['nama_desa'];
 		$input['kecsaksi1']					= $config['nama_kecamatan'];
 		$input['kabsaksi1']					= $config['nama_kabupaten'];
 		$input['provinsisaksi1']		= $config['nama_propinsi'];
+	} else {
+		$input['umur_saksi1']				= str_pad($input['umur_saksi1'], 3, " ", STR_PAD_LEFT);
 	}
 	if($input['id_saksi2']) {
 		$saksi2 = $this->get_data_surat($input['id_saksi2']);
 		$input['nik_saksi2'] 				= $saksi2['nik'];
 		$input['nama_saksi2'] 			= $saksi2['nama'];
-		$input['umur_saksi2']				= $saksi2['umur'];
+		$input['umur_saksi2']				= str_pad($saksi2['umur'], 3, " ", STR_PAD_LEFT);
 		$input['jksaksi2']					= $saksi2['sex_id'];
 		$input['pekerjaansaksi2']		= $saksi2['pekerjaan'];
 		$input['desasaksi2']				= $config['nama_desa'];
 		$input['kecsaksi2']					= $config['nama_kecamatan'];
 		$input['kabsaksi2']					= $config['nama_kabupaten'];
 		$input['provinsisaksi2']		= $config['nama_propinsi'];
+	} else {
+		$input['umur_saksi2']				= str_pad($input['umur_saksi2'], 3, " ", STR_PAD_LEFT);
 	}
 
 ?>

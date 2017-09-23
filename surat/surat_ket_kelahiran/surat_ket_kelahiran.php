@@ -268,6 +268,19 @@ $('document').ready(function(){
 
   <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table width="919" class="form">
+  <tr>
+    <td colspan="2" style="height: auto;">
+      <div class="box-perhatian">
+        <p><strong>Form ini menghasilkan:<br><br>
+        (1) Surat Keterangan Kelahiran<br>
+        (2) Permohonan Peyelesaian Akta Kelahiran<br>
+        (3) Lampiran F-2.01 SURAT KETERANGAN KELAHIRAN bagi warga yang akan dibuatkan akta kelahiran<br><br>
+        Pastikan semua biodata orang tua warga yang lahir, pelapor dan saksi-saksi sudah lengkap sebelum mencetak surat dan lampiran.<br>
+        Untuk melengkapi data itu, ubah data warga yang bersangkutan di form isian penduduk di modul Penduduk.
+        </strong></p>
+      </div>
+    </td>
+  </tr>
 
 <tr>
   <th>Nomor Surat</th>
