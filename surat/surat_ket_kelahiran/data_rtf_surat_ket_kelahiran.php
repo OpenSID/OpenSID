@@ -19,20 +19,23 @@
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
 		$ayah = $this->get_data_suami($ibu['id']);
-		$array_replace = array(
-	              "[form_nama_ayah]"     	=> $ayah['nama'],
-	              "[nik_ayah]"       			=> $ayah['nik'],
-	              "[tempat_lahir_ayah]"  	=> $ayah['tempatlahir'],
-	              "[tanggal_lahir_ayah]"	=> tgl_indo_dari_str($ayah['tanggallahir']),
-	              "[umur_ayah]"  					=> $ayah['umur'],
-	              "[pekerjaanayah]" 			=> $ayah['pek'], // dari get_data_pribadi()
-	              "[alamat_ayah]"    			=> "RT $ayah[rt] / RW $ayah[rw] $ayah[dusun]",
-	              "[desaayah]"       			=> $config['nama_desa'],
-	              "[kecayah]"       			=> $config['nama_kecamatan'],
-	              "[kabayah]"       			=> $config['nama_kabupaten'],
-	              "[provinsiayah]"   			=> $config['nama_propinsi']
-		);
-		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+		// Jika tidak ada ayah dari database, ambil dari form
+		if ($ayah) {
+			$array_replace = array(
+		              "[form_nama_ayah]"     	=> $ayah['nama'],
+		              "[nik_ayah]"       			=> $ayah['nik'],
+		              "[tempat_lahir_ayah]"  	=> $ayah['tempatlahir'],
+		              "[tanggal_lahir_ayah]"	=> tgl_indo_dari_str($ayah['tanggallahir']),
+		              "[umur_ayah]"  					=> $ayah['umur'],
+		              "[pekerjaanayah]" 			=> $ayah['pek'], // dari get_data_pribadi()
+		              "[alamat_ayah]"    			=> "RT $ayah[rt] / RW $ayah[rw] $ayah[dusun]",
+		              "[desaayah]"       			=> $config['nama_desa'],
+		              "[kecayah]"       			=> $config['nama_kecamatan'],
+		              "[kabayah]"       			=> $config['nama_kabupaten'],
+		              "[provinsiayah]"   			=> $config['nama_propinsi']
+			);
+			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+		}
 	}
 
 	/*

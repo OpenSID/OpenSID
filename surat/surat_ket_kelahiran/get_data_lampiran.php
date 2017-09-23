@@ -20,20 +20,22 @@
 		$input['tanggalperkawinan_ibu']	= $ibu['tanggalperkawinan'];
 
 		$ayah = $this->get_data_suami($ibu['id']);
-		$input['nik_ayah'] 								= $ayah['nik'];
-		$input['nama_ayah'] 							= $ayah['nama'];
-    $input['tanggal_lahir_ayah']			= $ayah['tanggallahir'];
-    $input['umur_ayah']  							= $ayah['umur'];
-    $input['pekerjaanayah'] 					= $ayah['pek'];
-    $input['alamat_ayah']    					= trim($ayah['alamat'].' '.$ayah['dusun']);
-    $input['rt_ayah']    							= $ayah['rt'];
-    $input['rw_ayah']    							= $ayah['rw'];
-    $input['desaayah']       					= $config['nama_desa'];
-    $input['kecayah']       					= $config['nama_kecamatan'];
-    $input['kabayah']       					= $config['nama_kabupaten'];
-    $input['provinsiayah']   					= $config['nama_propinsi'];
-		$input['wn_ayah']									= $ayah['warganegara_id'];
-		$input['tanggalperkawinan_ayah']	= $ayah['tanggalperkawinan'];
+		if ($ayah) {
+			$input['nik_ayah'] 								= $ayah['nik'];
+			$input['nama_ayah'] 							= $ayah['nama'];
+	    $input['tanggal_lahir_ayah']			= $ayah['tanggallahir'];
+	    $input['umur_ayah']  							= $ayah['umur'];
+	    $input['pekerjaanayah'] 					= $ayah['pek'];
+	    $input['alamat_ayah']    					= trim($ayah['alamat'].' '.$ayah['dusun']);
+	    $input['rt_ayah']    							= $ayah['rt'];
+	    $input['rw_ayah']    							= $ayah['rw'];
+	    $input['desaayah']       					= $config['nama_desa'];
+	    $input['kecayah']       					= $config['nama_kecamatan'];
+	    $input['kabayah']       					= $config['nama_kabupaten'];
+	    $input['provinsiayah']   					= $config['nama_propinsi'];
+			$input['wn_ayah']									= $ayah['warganegara_id'];
+			$input['tanggalperkawinan_ayah']	= $ayah['tanggalperkawinan'];
+		}
 	}
 	if($input['id_bayi']) {
 		$bayi = $this->get_data_surat($input['id_bayi']);

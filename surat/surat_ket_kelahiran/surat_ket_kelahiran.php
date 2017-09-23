@@ -311,10 +311,27 @@ $('document').ready(function(){
   </td>
 </tr>
 
-<?php if($ibu){ //bagian info setelah terpilih
-  $individu = $ibu;
-  include("donjo-app/views/surat/form/konfirmasi_pemohon.php");
-}?>
+<?php if($ibu): ?>
+  <?php  //bagian info setelah terpilih
+    $individu = $ibu;
+    include("donjo-app/views/surat/form/konfirmasi_pemohon.php");
+  ?>
+  <?php if(!empty($ayah)): ?>
+    <tr>
+      <th colspan='2'>DATA AYAH DARI DATABASE</th>
+    </tr>
+    <tr>
+      <th width='120'>NIK / Nama Ayah</th>
+      <td width='665'>
+        <?php echo $ayah['nik'].' / '.$ayah['nama'] ?>
+      </td>
+    </tr>
+    <?php
+      $individu = $ayah;
+      include("donjo-app/views/surat/form/konfirmasi_pemohon.php");
+    ?>
+  <?php endif; ?>
+<?php endif; ?>
 
 <?php if (empty($ibu)) : ?>
   <tr class="ibu_luar_desa">
@@ -372,7 +389,9 @@ $('document').ready(function(){
       </p>
     </td>
   </tr>
+<?php endif; ?>
 
+<?php if(empty($ibu) or ($ibu and empty($ayah))): ?>
   <tr class="ibu_luar_desa">
     <th class="style6">DATA AYAH TIDAK TERDATA</th>
   </tr>
