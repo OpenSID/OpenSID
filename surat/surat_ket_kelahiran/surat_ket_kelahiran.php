@@ -366,6 +366,12 @@ $('document').ready(function(){
     </td>
   </tr>
   <tr class="ibu_luar_desa">
+    <th>Tanggal Perkawinan</th>
+    <td>
+      <input name="tanggalperkawinan_ibu" type="text" class="inputbox required datepicker" size="11" value="<?php echo $_SESSION['post']['tanggalperkawinan_ibu']?>"/>
+    </td>
+  </tr>
+  <tr class="ibu_luar_desa">
     <th>Alamat</th>
     <td>
       <p>Alamat <span class="judul"> : </span>
@@ -421,6 +427,12 @@ $('document').ready(function(){
           <option value="<?php echo $data['nama']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanayah']) echo 'selected'?>><?php echo $data['nama']?></option>
         <?php }?>
       </select>
+    </td>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th>Tanggal Perkawinan</th>
+    <td>
+      <input name="tanggalperkawinan_ayah" type="text" class="inputbox required datepicker" size="11" value="<?php echo $_SESSION['post']['tanggalperkawinan_ayah']?>"/>
     </td>
   </tr>
   <tr class="ibu_luar_desa">

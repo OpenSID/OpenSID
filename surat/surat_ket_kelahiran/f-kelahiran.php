@@ -75,7 +75,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <td>&nbsp; </td>
       <td colspan="9" class="kotak"><?php echo $config['nama_propinsi'];?></td>
       <td>&nbsp;</td>
-<td colspan="7" class=" left"><strong>KECAMATAN</strong></td>
+      <td colspan="7" class=" left"><strong>KECAMATAN</strong></td>
       <td>:</td>
       <?php for($i=0; $i<2; $i++): ?>
         <td class="kotak padat tengah">
@@ -102,7 +102,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <td>&nbsp;</td>
       <td colspan="9" class="kotak"><?php echo $config['nama_kabupaten'];?></td>
       <td>&nbsp;</td>
-	  <td colspan="7" class="left"><strong>KELURAHAN/DESA</strong></td>
+  	  <td colspan="7" class="left"><strong>KELURAHAN/DESA</strong></td>
       <td>:</td>
       <?php for($i=0; $i<4; $i++): ?>
         <td class="kotak padat tengah">
@@ -436,7 +436,7 @@ table.disdukcapil td.tengah { text-align: center; }
 	  <tr>
 	  <td colspan="10" class="left">7. &nbsp;&nbsp;Tanggal Perkawinan </td>
       <td>:</td>
-      <td colspan="9" class="kotak"><?php echo tgl_indo_out($input['tanggalperkawinan_ibu'])?></td>
+      <td colspan="9" class="kotak"><?php echo tgl_indo_dari_str($input['tanggalperkawinan_ibu'])?></td>
 
       <td colspan="2">&nbsp;</td>
 	  </tr>
@@ -567,7 +567,7 @@ table.disdukcapil td.tengah { text-align: center; }
 	  <tr>
 	  <td colspan="10" class="left">7. &nbsp;&nbsp;Tanggal Perkawinan </td>
       <td>:</td>
-      <td colspan="9" class="kotak"><?php echo tgl_indo_out($input['tanggalperkawinan_ayah'])?></td>
+      <td colspan="9" class="kotak"><?php echo tgl_indo_dari_str($input['tanggalperkawinan_ayah'])?></td>
 
       <td colspan="2">&nbsp;</td>
 	  </tr>
