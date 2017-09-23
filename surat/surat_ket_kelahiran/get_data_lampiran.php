@@ -34,7 +34,6 @@
 	    $input['kabayah']       					= $config['nama_kabupaten'];
 	    $input['provinsiayah']   					= $config['nama_propinsi'];
 			$input['wn_ayah']									= $ayah['warganegara_id'];
-			$input['tanggalperkawinan_ayah']	= $ayah['tanggalperkawinan'];
 		}
 	}
 	if($input['id_bayi']) {
@@ -90,12 +89,5 @@
 		$input['kabsaksi2']					= $config['nama_kabupaten'];
 		$input['provinsisaksi2']		= $config['nama_propinsi'];
 	}
-	$desa = $this->keluarga_model->get_desa();
-	// Gunakan data identitas desa, jika ada
-	if ($desa['nip_kepala_desa']){
-		$kepala_desa['pamong_nama'] = $desa['nama_kepala_desa'];
-		$kepala_desa['pamong_nip'] = $desa['nip_kepala_desa'];
-	} else
-		$kepala_desa = $this->pamong_model->get_pamong_by_nama($desa['nama_kepala_desa']);
 
 ?>

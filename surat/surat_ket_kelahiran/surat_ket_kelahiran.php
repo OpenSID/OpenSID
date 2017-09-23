@@ -430,12 +430,6 @@ $('document').ready(function(){
     </td>
   </tr>
   <tr class="ibu_luar_desa">
-    <th>Tanggal Perkawinan</th>
-    <td>
-      <input name="tanggalperkawinan_ayah" type="text" class="inputbox required datepicker" size="11" value="<?php echo $_SESSION['post']['tanggalperkawinan_ayah']?>"/>
-    </td>
-  </tr>
-  <tr class="ibu_luar_desa">
     <th>Alamat</th>
     <td>
       <p>Alamat <span class="judul"> : </span>
@@ -568,6 +562,14 @@ $('document').ready(function(){
     <input name="penolong" type="radio" value="3" id="radio9" <?php if($_SESSION['post']['penolong']=='3'){echo 'checked';}?>/><label for="radio9">Dukun</label>
     <input name="penolong" type="radio" value="4" id="radio15" <?php if($_SESSION['post']['penolong']=='4'){echo 'checked';}?>/><label for="radio10">Lainnya</label>
   </td>
+</tr>
+<tr>
+  <th>Berat Bayi</th>
+  <td><input name="berat_bayi" type="text" class="inputbox required" size="8" value="<?php echo $_SESSION['post']['berat_bayi']?>"/> Kg</td>
+</tr>
+<tr>
+  <th>Panjang Bayi</th>
+  <td><input name="panjang_bayi" type="text" class="inputbox required" size="8" value="<?php echo $_SESSION['post']['panjang_bayi']?>"/> cm</td>
 </tr>
 <tr>
   <th>&nbsp;</th>

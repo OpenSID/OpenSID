@@ -201,7 +201,7 @@ table.disdukcapil td.tengah { text-align: center; }
 	   <td colspan=7 class="left">5. Lainnya &nbsp; </td>
 	   <td colspan="2">&nbsp;</td>
 	</tr>
-	    <tr>
+    <tr>
       <td colspan="10" class="left">5. &nbsp;&nbsp;Alamat Dilahirkan </td>
       <td>:</td>
       <td colspan="23" class="kotak"><?php echo $input['alamat_lahir_bayi']?></td>
@@ -218,7 +218,7 @@ table.disdukcapil td.tengah { text-align: center; }
         $bln = date('mm',strtotime($input['tanggal']));
         $thn = date('Y',strtotime($input['tanggal']));
       ?>
-          <td colspan="4" class="right"><div align="right">Tanggal : </div></td>
+          <td colspan="4" class="right"><div align="right">Tgl : </div></td>
 		  <?php for($j=0; $j<2; $j++):?>
 	  <td class="kotak padat tengah">
           <?php if(isset($tgl[$j]))
@@ -226,7 +226,7 @@ table.disdukcapil td.tengah { text-align: center; }
             else echo "&nbsp;";
           ?>        </td>
       <?php endfor; ?>
-      <td colspan="4" class="right"><div align="right">Bulan : </div></td>
+      <td colspan="4" class="right"><div align="right">Bln : </div></td>
       <?php for($j=0; $j<2; $j++):?>
         <td class="kotak padat tengah">
           <?php if(isset($bln[$j]))
@@ -234,7 +234,7 @@ table.disdukcapil td.tengah { text-align: center; }
             else echo "&nbsp;";
           ?>        </td>
       <?php endfor; ?>
-      <td colspan="4" class="right"><div align="right">Tahun : </div></td>
+      <td colspan="4" class="right"><div align="right">Thn : </div></td>
       <?php for($j=0; $j<4; $j++):?>
         <td class="kotak padat tengah">
           <?php if(isset($thn[$j]))
@@ -308,6 +308,20 @@ table.disdukcapil td.tengah { text-align: center; }
 	  <td colspan=6 class="left">3. Dukun </td>
 	  <td colspan=5 class="left">4. Lainnya </td>
 	   <td colspan=7 class="left">&nbsp;</td></tr>
+    <tr>
+      <td colspan="10" class="left">11. Berat Bayi</td>
+      <td>:</td>
+      <td colspan="3" class="kotak"><?php echo $input['berat_bayi']?></td>
+      <td> Kg</td>
+      <td colspan="21">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="10" class="left">12. Panjang Bayi</td>
+      <td>:</td>
+      <td colspan="2" class="kotak"><?php echo $input['panjang_bayi']?></td>
+      <td> cm</td>
+      <td colspan="22">&nbsp;</td>
+    </tr>
 
     <tr><td colspan=48 class="bawah"></td>
     </tr>
@@ -329,7 +343,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="4">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10" class="left">2. &nbsp;&nbsp;Nama </td>
+      <td colspan="10" class="left">2. &nbsp;&nbsp;Nama Lengkap</td>
       <td>:</td>
       <?php for($i=0; $i<33; $i++): ?>
         <td class="kotak padat tengah"><?php if(isset($input['nama_ibu'][$i]))
@@ -340,39 +354,42 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan=21>&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10" class="left">3. &nbsp;&nbsp;Tanggal Lahir </td>
+      <td colspan="10" class="left">3. &nbsp;&nbsp;Tanggal Lahir / Umur</td>
       <td>:</td>
-        <?php $tgl = date('dd',strtotime($input['tanggal_lahir_ibu']));
+      <?php $tgl = date('dd',strtotime($input['tanggal_lahir_ibu']));
         $bln = date('mm',strtotime($input['tanggal_lahir_ibu']));
         $thn = date('Y',strtotime($input['tanggal_lahir_ibu']));
       ?>
-           <td colspan="4" class="left">Tanggal :</td>
+      <td colspan="4" class="left">Tgl :</td>
 		  <?php for($j=0; $j<2; $j++):?>
-	  <td class="kotak padat tengah">
+    	  <td class="kotak padat tengah">
           <?php if(isset($tgl[$j]))
             echo $tgl[$j];
             else echo "&nbsp;";
-          ?>      </td>
+          ?>
+        </td>
       <?php endfor; ?>
-      <td colspan="4" class="right"><div align="right">Bulan : </div></td>
+      <td colspan="4" class="right"><div align="right">Bln : </div></td>
       <?php for($j=0; $j<2; $j++):?>
         <td class="kotak padat tengah">
           <?php if(isset($bln[$j]))
             echo $bln[$j];
             else echo "&nbsp;";
-          ?>        </td>
+          ?>
+        </td>
       <?php endfor; ?>
-      <td colspan="4" class="right"><div align="right">Tahun : </div></td>
+      <td colspan="4" class="right"><div align="right">Thn : </div></td>
       <?php for($j=0; $j<4; $j++):?>
         <td class="kotak padat tengah">
           <?php if(isset($thn[$j]))
             echo $thn[$j];
             else echo "&nbsp;";
-          ?>        </td>
+          ?>
+        </td>
       <?php endfor; ?>
-     <td colspan="5" class="left"><div align="right">Umur : </div></td>
+      <td colspan="5" class="left"><div align="right">Umur : </div></td>
   	  <td colspan=5 class="kotak"><?php echo $input['umur_ibu'];?></td>
-	  <td colspan="2">&nbsp;</td>
+  	  <td colspan="2">&nbsp;</td>
     </tr>
 	<tr>
 	<td colspan="10" class="left">4. &nbsp;&nbsp;Pekerjaan</td>
@@ -433,13 +450,44 @@ table.disdukcapil td.tengah { text-align: center; }
 
       <td colspan="2">&nbsp;</td>
 	  </tr>
-	  <tr>
-	  <td colspan="10" class="left">7. &nbsp;&nbsp;Tanggal Perkawinan </td>
-      <td>:</td>
-      <td colspan="9" class="kotak"><?php echo tgl_indo_dari_str($input['tanggalperkawinan_ibu'])?></td>
 
-      <td colspan="2">&nbsp;</td>
-	  </tr>
+    <tr>
+      <td colspan="10" class="left">8. &nbsp;&nbsp;Tgl Pencatatan Perkawinan</td>
+      <td>:</td>
+      <?php $tgl = date('dd',strtotime($input['tanggalperkawinan_ibu']));
+        $bln = date('mm',strtotime($input['tanggalperkawinan_ibu']));
+        $thn = date('Y',strtotime($input['tanggalperkawinan_ibu']));
+      ?>
+      <td colspan="4" class="left">Tgl :</td>
+      <?php for($j=0; $j<2; $j++):?>
+        <td class="kotak padat tengah">
+          <?php if(isset($tgl[$j]))
+            echo $tgl[$j];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
+      <td colspan="4" class="right"><div align="right">Bln : </div></td>
+      <?php for($j=0; $j<2; $j++):?>
+        <td class="kotak padat tengah">
+          <?php if(isset($bln[$j]))
+            echo $bln[$j];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
+      <td colspan="4" class="right"><div align="right">Thn : </div></td>
+      <?php for($j=0; $j<4; $j++):?>
+        <td class="kotak padat tengah">
+          <?php if(isset($thn[$j]))
+            echo $thn[$j];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
+      <td colspan="12">&nbsp;</td>
+    </tr>
+
 	  <tr>
 	  <td colspan=48 class="bawah"></td>
     </tr>
@@ -460,7 +508,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="4">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10" class="left">2. &nbsp;&nbsp;Nama </td>
+      <td colspan="10" class="left">2. &nbsp;&nbsp;Nama Lengkap</td>
       <td>:</td>
       <?php for($i=0; $i<33; $i++): ?>
         <td class="kotak padat tengah"><?php if(isset($input['nama_ayah'][$i]))
@@ -471,13 +519,13 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan=21>&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10" class="left">3. &nbsp;Tanggal Lahir </td>
+      <td colspan="10" class="left">3. &nbsp;Tanggal Lahir / Umur</td>
       <td>:</td>
         <?php $tgl = date('dd',strtotime($input['tanggal_lahir_ayah']));
         $bln = date('mm',strtotime($input['tanggal_lahir_ayah']));
         $thn = date('Y',strtotime($input['tanggal_lahir_ayah']));
       ?>
-           <td colspan="4" class="left">Tanggal :</td>
+           <td colspan="4" class="left">Tgl :</td>
 		  <?php for($j=0; $j<2; $j++):?>
 	  <td class="kotak padat tengah">
           <?php if(isset($tgl[$j]))
@@ -485,7 +533,7 @@ table.disdukcapil td.tengah { text-align: center; }
             else echo "&nbsp;";
           ?>      </td>
       <?php endfor; ?>
-      <td colspan="4" class="right"><div align="right">Bulan : </div></td>
+      <td colspan="4" class="right"><div align="right">Bln : </div></td>
       <?php for($j=0; $j<2; $j++):?>
         <td class="kotak padat tengah">
           <?php if(isset($bln[$j]))
@@ -493,7 +541,7 @@ table.disdukcapil td.tengah { text-align: center; }
             else echo "&nbsp;";
           ?>        </td>
       <?php endfor; ?>
-      <td colspan="4" class="right"><div align="right">Tahun : </div></td>
+      <td colspan="4" class="right"><div align="right">Thn : </div></td>
       <?php for($j=0; $j<4; $j++):?>
         <td class="kotak padat tengah">
           <?php if(isset($thn[$j]))
@@ -565,13 +613,6 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="2">&nbsp;</td>
 	  </tr>
 	  <tr>
-	  <td colspan="10" class="left">7. &nbsp;&nbsp;Tanggal Perkawinan </td>
-      <td>:</td>
-      <td colspan="9" class="kotak"><?php echo tgl_indo_dari_str($input['tanggalperkawinan_ayah'])?></td>
-
-      <td colspan="2">&nbsp;</td>
-	  </tr>
-	  <tr>
 	  <td colspan=48 class="bawah"></td>
     </tr>
 
@@ -592,7 +633,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="4">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10" class="left">2. &nbsp;&nbsp;Nama </td>
+      <td colspan="10" class="left">2. &nbsp;&nbsp;Nama Lengkap</td>
       <td>:</td>
       <?php for($i=0; $i<33; $i++): ?>
         <td class="kotak padat tengah"><?php if(isset($input['nama_pelapor'][$i]))
@@ -668,7 +709,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="4">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10" class="left">2. &nbsp;&nbsp;Nama </td>
+      <td colspan="10" class="left">2. &nbsp;&nbsp;Nama Lengkap</td>
       <td>:</td>
       <?php for($i=0; $i<33; $i++): ?>
         <td class="kotak padat tengah"><?php if(isset($input['nama_saksi1'][$i]))
@@ -807,8 +848,9 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan=48>&nbsp;</td>
     </tr>
 	  <tr>
-	  <td colspan="46" style="text-align: right">
-        <?php echo str_pad(".",40,".",STR_PAD_LEFT);?>,<?php echo str_pad(".",60,".",STR_PAD_LEFT);?>      </td>
+  	  <td colspan="46" style="text-align: right">
+        <?php echo $config['nama_desa'];?>, <?php echo tgl_indo(date('Y m d',time()));?>
+      </td>
       <td colspan="2">&nbsp;</td>
     </tr>
     <tr><td colspan="48">&nbsp;</td></tr>
@@ -816,14 +858,14 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="4">&nbsp;</td>
       <td colspan="16" style="text-align: center;">Mengetahui</td>
       <td colspan="15">&nbsp;</td>
-      <td colspan="10" style="text-align: center;">Pemohon</td>
+      <td colspan="10" style="text-align: center;">Pelapor</td>
       <td colspan="3">&nbsp;</td>
     </tr>
     <tr><td colspan="48"></td></tr>
     <tr>
        <td colspan="4">&nbsp;</td>
 
-    <td colspan="16" style="text-align: center;">Kepala Desa / Lurah</td>
+    <td colspan="16" style="text-align: center;"><?php echo padded_string_center($input['jabatan'],30)?></td>
      <td colspan="15">&nbsp;</td>
 	  <td colspan="10" style="text-align: center;">&nbsp;</td>
 	  <td colspan="3">&nbsp;</td>
@@ -835,9 +877,9 @@ table.disdukcapil td.tengah { text-align: center; }
     <tr>
       <td colspan="4">&nbsp;</td>
 
-      <td colspan="16" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($kepala_desa['pamong_nama']),30)?>&nbsp;)</strong></td>
+      <td colspan="16" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['pamong']),30)?>&nbsp;)</strong></td>
       <td colspan="15">&nbsp;</td>
-      <td colspan="10" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($individu['nama']),30)?>&nbsp;)</strong></td>
+      <td colspan="10" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
       <td colspan="3">&nbsp;</td>
     </tr>
 
