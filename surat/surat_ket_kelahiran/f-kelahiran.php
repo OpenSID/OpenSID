@@ -9,6 +9,7 @@ table.disdukcapil {
 }
 table.disdukcapil td {
   padding: 1px 1px 1px 3px;
+  margin: 0px;
 }
 table.disdukcapil td.padat {
   padding: 0px;
@@ -51,78 +52,95 @@ table.disdukcapil td.kanan { text-align: left; }
 table.disdukcapil td.kanan { text-align: right; }
 table.disdukcapil td.tengah { text-align: center; }
 
+table#kop {
+  margin-top: -5px;
+  margin-bottom: 0px;
+  padding: 0px;
+  border: 0px;
+  border-collapse: collapse;
+}
+table#kop td {padding: 0px; margin: 0px;}
+table#kop tr {padding: 0px; margin: 0px;}
+
+table#kode {
+  padding: 2px 10px;
+  border: solid 1px black;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 11pt;
+}
 </style>
 
 <page orientation="portrait" format="210x330" style="font-size: 7pt">
 
-  <table align="right" style="padding: 5px 20px; border: solid 1px black;">
-    <tr><td><strong style="font-size: 16pt;">F-2.01</strong></td></tr>
+  <table id="kode" align="right">
+    <tr><td><strong>Kode . F-2.01</strong></td></tr>
   </table>
 
-<!--   <table class="disdukcapil" style="margin-top: 0px;">
+  <table id="kop" class="disdukcapil">
     <col span="48" style="width: 2.0833%;">
-
-     <tr><td colspan=48>&nbsp;</td></tr>
+    <tr><td colspan=48>&nbsp;</td></tr>
     <tr>
-      <td colspan="10" class="left"><strong>PEMERINTAH PROPINSI</strong></td>
-      <td>:</td>
-      <?php for($i=0; $i<2; $i++): ?>
-        <td class="kotak padat tengah">
-          <?php if(isset($config['kode_propinsi'][$i]))
-            echo $config['kode_propinsi'][$i];
-            else echo "&nbsp;";
-          ?>        </td>
-      <?php endfor; ?>
-      <td>&nbsp; </td>
-      <td colspan="9" class="kotak"><?php echo $config['nama_propinsi'];?></td>
-      <td>&nbsp;</td>
-      <td colspan="7" class=" left"><strong>KECAMATAN</strong></td>
-      <td>:</td>
-      <?php for($i=0; $i<2; $i++): ?>
-        <td class="kotak padat tengah">
-          <?php if(isset($config['kode_kecamatan'][$i]))
-            echo $config['kode_kecamatan'][$i];
-            else echo "&nbsp;";
-          ?>        </td>
-      <?php endfor; ?>
-      <td colspan=3>&nbsp;</td>
-      <td colspan="10" class="kotak"><?php echo $config['nama_kecamatan'];?></td>
-      <td>&nbsp;</td>
+      <td colspan="10">Pemerintah Desa/Kelurahan</td>
+      <td>: </td>
+      <td colspan="7"><?php echo $config['nama_desa'];?></td>
+      <td colspan="13">&nbsp;</td>
+      <td colspan="3">Ket : </td>
+      <td colspan="4">Lembar 1</td>
+      <td>: </td>
+      <td colspan="9">UPTD/Instansi Pelaksana</td>
     </tr>
-
     <tr>
-      <td colspan="10" class="left"><strong>KABUPATEN/KOTA</strong></td>
+      <td colspan="10">Kecamatan</td>
+      <td>: </td>
+      <td colspan="7"><?php echo $config['nama_kecamatan'];?></td>
+      <td colspan="16">&nbsp;</td>
+      <td colspan="4">Lembar 2</td>
+      <td>: </td>
+      <td colspan="9">Untuk yang bersangkutan</td>
+    </tr>
+    <tr>
+      <td colspan="10">Kabupaten/Kota</td>
       <td>:</td>
-      <?php for($i=0; $i<2; $i++): ?>
-        <td class="kotak padat tengah">
-          <?php if(isset($config['kode_kabupaten'][$i]))
-            echo $config['kode_kabupaten'][$i];
-            else echo "&nbsp;";
-          ?>        </td>
+      <td colspan="7"><?php echo $config['nama_kabupaten'];?></td>
+      <td colspan="16">&nbsp;</td>
+      <td colspan="4">Lembar 3</td>
+      <td>: </td>
+      <td colspan="9">Desa/Kelurahan</td>
+    </tr>
+    <tr>
+      <td colspan="11">&nbsp;</td>
+      <?php for($i=0; $i<9; $i++): ?>
+        <td style="border-bottom: 1px solid black;">&nbsp;</td>
       <?php endfor; ?>
-      <td>&nbsp;</td>
-      <td colspan="9" class="kotak"><?php echo $config['nama_kabupaten'];?></td>
-      <td>&nbsp;</td>
-  	  <td colspan="7" class="left"><strong>KELURAHAN/DESA</strong></td>
-      <td>:</td>
-      <?php for($i=0; $i<4; $i++): ?>
+      <td colspan="14">&nbsp;</td>
+      <td colspan="4">Lembar 4</td>
+      <td>: </td>
+      <td colspan="9">Kecamatan</td>
+    </tr>
+    <tr>
+  	  <td colspan="10">Kode Wilayah</td>
+      <td style="border-right: 1px solid black;">:</td>
+      <?php for($i=0; $i<9; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($config['kode_desa'][$i]))
-            echo $config['kode_desa'][$i];
-            else echo "&nbsp;";
-          ?>        </td>
+          &nbsp;
+        </td>
       <?php endfor; ?>
-      <td>&nbsp;</td>
-      <td colspan="10" class="kotak"><?php echo $config['nama_desa'];?></td>
-      <td>&nbsp;</td>
+      <td colspan="28">&nbsp;</td>
+    </tr>
+    <!-- Untuk memaksa penampilan setiap kolom -->
+    <tr>
+      <?php for($i=0; $i<48; $i++): ?>
+        <td>&nbsp;</td>
+      <?php endfor; ?>
     </tr>
   </table>
- -->
-  <p style="text-align: center; margin-top: 2px;">
-      <strong style="font-size: 10pt;">SURAT KETERANGAN KELAHIRAN</strong>
+
+  <p style="text-align: center; margin: 0px; padding: 0px;">
+      <strong style="font-size: 9pt;">SURAT KETERANGAN KELAHIRAN</strong>
   </p>
 
-  <table class="disdukcapil" style="margin-top: 0px; border: 0px;">
+  <table class="disdukcapil" style="margin-top: -5px; border: 0px;">
     <col span="48" style="width: 2.0833%;">
     <!-- Untuk memaksa penampilan setiap kolom -->
     <tr>
@@ -131,7 +149,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <?php endfor; ?>
     </tr>
     <tr>
-      <td colspan="10" class="left"><strong>Nama Kepala Keluarga </strong></td>
+      <td colspan="10">Nama Kepala Keluarga</td>
       <td>:</td>
       <?php for($i=0; $i<33; $i++): ?>
         <td class="kotak padat tengah">
@@ -144,7 +162,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="4">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10" class="left"><strong>Nomor Kartu Keluarga </strong></td>
+      <td colspan="10">Nomor Kartu Keluarga</td>
       <td>:</td>
       <?php for($i=0; $i<16; $i++): ?>
         <td class="kotak padat tengah">
@@ -1075,20 +1093,22 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="12" class="kotak"><?php echo $input['provinsisaksi2'];?></td>
       <td colspan="1">&nbsp;</td>
 	  </tr>
-	  <tr>
-	  <td colspan=48 class="bawah"></td>
+    <!-- Untuk memaksa penampilan setiap kolom -->
+    <tr style="line-height: 1px; height: 1px; margin-bottom: -10px;">
+      <?php for($i=0; $i<48; $i++): ?>
+        <td style="line-height: 1px; height: 1px;">&nbsp;</td>
+      <?php endfor; ?>
     </tr>
+  </table>
 
-    <tr>
-      <td colspan=48>&nbsp;</td>
-    </tr>
+  <table id="ttd" class="disdukcapil" style="margin-top: 0px; margin-bottom: 0px; padding: 0px; border: 0px; border-collapse: collapse;">
+    <col span="48" style="width: 2.0833%;">
 	  <tr>
   	  <td colspan="46" style="text-align: right">
         <?php echo $config['nama_desa'];?>, <?php echo tgl_indo(date('Y m d',time()));?>
       </td>
       <td colspan="2">&nbsp;</td>
     </tr>
-    <tr><td colspan="48">&nbsp;</td></tr>
     <tr>
       <td colspan="4">&nbsp;</td>
       <td colspan="16" style="text-align: center;">Mengetahui</td>
@@ -1096,38 +1116,27 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="10" style="text-align: center;">Pelapor</td>
       <td colspan="3">&nbsp;</td>
     </tr>
-    <tr><td colspan="48"></td></tr>
-    <tr>
-       <td colspan="4">&nbsp;</td>
-
-    <td colspan="16" style="text-align: center;"><?php echo padded_string_center($input['jabatan'],30)?></td>
-     <td colspan="15">&nbsp;</td>
-	  <td colspan="10" style="text-align: center;">&nbsp;</td>
-	  <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr><td colspan="48">&nbsp;</td></tr>
-    <tr><td colspan="48">&nbsp;</td></tr>
-	 <tr><td colspan="48">&nbsp;</td></tr>
-	 <tr><td colspan="48">&nbsp;</td></tr>
     <tr>
       <td colspan="4">&nbsp;</td>
-
-      <td colspan="16" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['pamong']),30)?>&nbsp;)</strong></td>
+      <td colspan="16" style="text-align: center;"><?php echo padded_string_center($input['jabatan'],30)?></td>
       <td colspan="15">&nbsp;</td>
-      <td colspan="10" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
-      <td colspan="3">&nbsp;</td>
+  	  <td colspan="10" style="text-align: center;">&nbsp;</td>
+  	  <td colspan="3">&nbsp;</td>
     </tr>
-
-    <tr><td colspan="48">&nbsp;</td>
-	</tr>
-	  <tr>	  	  </tr>
-	  <tr>	  </tr>
-    <tr>      </tr>
-    <tr></tr>
+    <tr><td colspan="48">&nbsp;</td></tr>
+  	<tr><td colspan="48">&nbsp;</td></tr>
+    <!-- Untuk memaksa penampilan setiap kolom -->
     <tr>
       <?php for($i=0; $i<48; $i++): ?>
         <td>&nbsp;</td>
       <?php endfor; ?>
+    </tr>
+    <tr>
+      <td colspan="4">&nbsp;</td>
+      <td colspan="16" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['pamong']),30)?>&nbsp;)</strong></td>
+      <td colspan="15">&nbsp;</td>
+      <td colspan="10" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
+      <td colspan="3">&nbsp;</td>
     </tr>
   </table>
 
