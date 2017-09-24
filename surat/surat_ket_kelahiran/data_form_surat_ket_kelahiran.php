@@ -54,6 +54,8 @@
 		if($this->input->post('ibu')==2) unset($_SESSION['id_ibu']);
 		if($_POST['id_ibu'] != '' AND $_POST['id_ibu'] !='*'){
 			$data['ibu']=$this->surat_model->get_penduduk($_POST['id_ibu']);
+			$data['ayah'] = $this->surat_model->get_data_suami($_POST['id_ibu']);
+			if ($data['ayah']) $data['ayah']['warganegara'] = $data['ayah']['wn']; // Karena diambil dari get_data_pribadi
 			$_SESSION['id_ibu'] = $_POST['id_ibu'];
 		}elseif ($_POST['id_ibu'] !='*' AND isset($_SESSION['id_ibu'])){
 			$data['ibu']=$this->surat_model->get_penduduk($_SESSION['id_ibu']);
