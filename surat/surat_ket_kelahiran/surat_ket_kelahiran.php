@@ -370,10 +370,11 @@ $('document').ready(function(){
   <tr class="ibu_luar_desa">
     <th>Pekerjaan</th>
     <td>
-      <select name="pekerjaanibu" class="required" id="pekerjaanibu">
+      <input type="hidden" name="pekerjaanid_ibu">
+      <select name="pekerjaanibu" class="required" id="pekerjaanibu" onchange="$('input[name=pekerjaanid_ibu]').val($(this).find(':selected').data('pekerjaanid'));">
         <option value="">Pilih Pekerjaan</option>
         <?php  foreach($pekerjaan as $data){?>
-          <option value="<?php echo $data['nama']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanibu']) echo 'selected'?>><?php echo $data['nama']?></option>
+          <option value="<?php echo $data['nama']?>" data-pekerjaanid="<?php echo $data['id']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanibu']) echo 'selected'?>><?php echo $data['nama']?></option>
         <?php }?>
       </select>
     </td>
@@ -434,10 +435,11 @@ $('document').ready(function(){
   <tr class="ibu_luar_desa">
     <th>Pekerjaan</th>
     <td>
-      <select name="pekerjaanayah" class="required" id="pekerjaanayah">
+      <input type="hidden" name="pekerjaanid_ayah">
+      <select name="pekerjaanayah" class="required" id="pekerjaanayah" onchange="$('input[name=pekerjaanid_ayah').val($(this).find(':selected').data('pekerjaanid'));">
         <option value="">Pilih Pekerjaan</option>
         <?php  foreach($pekerjaan as $data){?>
-          <option value="<?php echo $data['nama']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanayah']) echo 'selected'?>><?php echo $data['nama']?></option>
+          <option value="<?php echo $data['nama']?>" data-pekerjaanid="<?php echo $data['id']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanayah']) echo 'selected'?>><?php echo $data['nama']?></option>
         <?php }?>
       </select>
     </td>
@@ -646,11 +648,12 @@ $('document').ready(function(){
           <option value="<?php echo $data['id']?>" <?php if($data['id']==$_SESSION['post']['jkpelapor']) echo 'selected'?>><?php echo $data['nama']?></option>
         <?php }?>
       </select>
+      <input type="hidden" name="pekerjaanid_pelapor">
       <span class="judul"> Pekerjaan </span>
-      <select name="pekerjaanpelapor" class="required" id="pekerjaanpelapor">
+      <select name="pekerjaanpelapor" class="required" id="pekerjaanpelapor" onchange="$('input[name=pekerjaanid_pelapor]').val($(this).find(':selected').data('pekerjaanid'));">
         <option value="">Pilih Pekerjaan</option>
         <?php  foreach($pekerjaan as $data){?>
-          <option value="<?php echo $data['nama']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanpelapor']) echo 'selected'?>><?php echo $data['nama']?></option>
+          <option value="<?php echo $data['nama']?>" data-pekerjaanid="<?php echo $data['id']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanpelapor']) echo 'selected'?>><?php echo $data['nama']?></option>
         <?php }?>
       </select>
     </td>
@@ -736,10 +739,11 @@ $('document').ready(function(){
         <?php }?>
       </select>
       <span class="judul">Pekerjaan </span>
-      <select name="pekerjaansaksi1" class="required" id="pekerjaansaksi1">
+      <input type="hidden" name="pekerjaanid_saksi1">
+      <select name="pekerjaansaksi1" class="required" id="pekerjaansaksi1" onchange="$('input[name=pekerjaanid_saksi1]').val($(this).find(':selected').data('pekerjaanid'));">
         <option value="">Pilih Pekerjaan</option>
         <?php  foreach($pekerjaan as $data){?>
-          <option value="<?php echo $data['nama']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaansaksi1']) echo 'selected'?>><?php echo $data['nama']?></option>
+          <option value="<?php echo $data['nama']?>" data-pekerjaanid="<?php echo $data['id']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaansaksi1']) echo 'selected'?>><?php echo $data['nama']?></option>
         <?php }?>
       </select>
     </td>
@@ -826,10 +830,11 @@ $('document').ready(function(){
         <?php }?>
       </select>
       <span class="judul">Pekerjaan </span>
-      <select name="pekerjaansaksi2" class="required" id="pekerjaansaksi2">
+      <input type="hidden" name="pekerjaanid_saksi2">
+      <select name="pekerjaansaksi2" class="required" id="pekerjaansaksi2" onchange="$('input[name=pekerjaanid_saksi2]').val($(this).find(':selected').data('pekerjaanid'));">
         <option value="">Pilih Pekerjaan</option>
         <?php  foreach($pekerjaan as $data){?>
-        <option value="<?php echo $data['nama']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaansaksi2']) echo 'selected'?>><?php echo $data['nama']?></option>
+        <option value="<?php echo $data['nama']?>" data-pekerjaanid="<?php echo $data['id']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaansaksi2']) echo 'selected'?>><?php echo $data['nama']?></option>
         <?php }?>
       </select>
     </td>

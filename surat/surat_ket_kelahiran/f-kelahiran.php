@@ -417,8 +417,15 @@ table.disdukcapil td.tengah { text-align: center; }
 	<tr>
 	<td colspan="10" class="left">4. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
-      <td colspan="23" class="kotak"><?php echo $input['pekerjaanibu']?></td>
-
+      <?php for($j=0; $j<2; $j++):?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['pekerjaanid_ibu'][$j]))
+            echo $input['pekerjaanid_ibu'][$j];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
+      <td colspan="21" class="kotak"><?php echo $input['pekerjaanibu']?></td>
       <td colspan="2">&nbsp;</td></tr>
     <tr>
       <td colspan="10" class="left">5. &nbsp;&nbsp;Alamat</td>
@@ -477,9 +484,13 @@ table.disdukcapil td.tengah { text-align: center; }
     <tr>
       <td colspan="10" class="left">8. &nbsp;&nbsp;Tgl Pencatatan Perkawinan</td>
       <td>:</td>
-      <?php $tgl = date('dd',strtotime($input['tanggalperkawinan_ibu']));
+      <?php if (!empty($input['tanggalperkawinan_ibu'])) {
+        $tgl = date('dd',strtotime($input['tanggalperkawinan_ibu']));
         $bln = date('mm',strtotime($input['tanggalperkawinan_ibu']));
         $thn = date('Y',strtotime($input['tanggalperkawinan_ibu']));
+      } else {
+        $tgl = '-'; $bln = '-'; $thn = '-';
+      }
       ?>
       <td colspan="4" class="left">Tgl :</td>
       <?php for($j=0; $j<2; $j++):?>
@@ -588,8 +599,15 @@ table.disdukcapil td.tengah { text-align: center; }
 	<tr>
 	<td colspan="10" class="left">4. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
-      <td colspan="23" class="kotak"><?php echo $input['pekerjaanayah']?></td>
-
+      <?php for($j=0; $j<2; $j++):?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['pekerjaanid_ayah'][$j]))
+            echo $input['pekerjaanid_ayah'][$j];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
+      <td colspan="21" class="kotak"><?php echo $input['pekerjaanayah']?></td>
       <td colspan="2">&nbsp;</td></tr>
     <tr>
       <td colspan="10" class="left">5. &nbsp;&nbsp;Alamat</td>
@@ -733,7 +751,15 @@ table.disdukcapil td.tengah { text-align: center; }
     <tr>
       <td colspan="10" class="left">5. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
-      <td colspan="23" class="kotak"><?php echo $input['pekerjaanpelapor']?></td>
+      <?php for($j=0; $j<2; $j++):?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['pekerjaanid_pelapor'][$j]))
+            echo $input['pekerjaanid_pelapor'][$j];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
+      <td colspan="21" class="kotak"><?php echo $input['pekerjaanpelapor']?></td>
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
@@ -842,7 +868,15 @@ table.disdukcapil td.tengah { text-align: center; }
     <tr>
       <td colspan="10" class="left">5. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
-      <td colspan="23" class="kotak"><?php echo $input['pekerjaansaksi1']?></td>
+      <?php for($j=0; $j<2; $j++):?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['pekerjaanid_saksi1'][$j]))
+            echo $input['pekerjaanid_saksi1'][$j];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
+      <td colspan="21" class="kotak"><?php echo $input['pekerjaansaksi1']?></td>
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
@@ -951,7 +985,15 @@ table.disdukcapil td.tengah { text-align: center; }
     <tr>
       <td colspan="10" class="left">5. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
-      <td colspan="23" class="kotak"><?php echo $input['pekerjaansaksi2']?></td>
+      <?php for($j=0; $j<2; $j++):?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['pekerjaanid_saksi2'][$j]))
+            echo $input['pekerjaanid_saksi2'][$j];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
+      <td colspan="21" class="kotak"><?php echo $input['pekerjaansaksi2']?></td>
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
