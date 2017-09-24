@@ -43,6 +43,8 @@
 	} else {
     $input['pekerjaanid_ibu'] 					= str_pad($input['pekerjaanid_ibu'], 2, "0", STR_PAD_LEFT);
 		$input['umur_ibu']									= str_pad($input['umur_ibu'], 3, " ", STR_PAD_LEFT);
+    $input['pekerjaanid_ayah'] 					= str_pad($input['pekerjaanid_ayah'], 2, "0", STR_PAD_LEFT);
+		$input['umur_ayah']									= str_pad($input['umur_ayah'], 3, " ", STR_PAD_LEFT);
 	}
 	if($input['id_bayi']) {
 		$bayi = $this->get_data_surat($input['id_bayi']);
