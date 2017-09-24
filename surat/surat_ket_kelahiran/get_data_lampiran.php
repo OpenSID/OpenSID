@@ -70,6 +70,9 @@
 		$input['jkpelapor']							= $pelapor['sex_id'];
     $input['pekerjaanid_pelapor'] 	= str_pad($pelapor['pekerjaan_id'], 2, "0", STR_PAD_LEFT);
 		$input['pekerjaanpelapor']			= $pelapor['pekerjaan'];
+    $input['alamat_pelapor']    		= trim($pelapor['alamat'].' '.$pelapor['dusun']);
+    $input['rt_pelapor']    				= $pelapor['rt'];
+    $input['rw_pelapor']    				= $pelapor['rw'];
 		$input['desapelapor']						= $config['nama_desa'];
 		$input['kecpelapor']						= $config['nama_kecamatan'];
 		$input['kabpelapor']						= $config['nama_kabupaten'];
@@ -87,6 +90,9 @@
 		$input['jksaksi1']							= $saksi1['sex_id'];
     $input['pekerjaanid_saksi1'] 		= str_pad($saksi1['pekerjaan_id'], 2, "0", STR_PAD_LEFT);
 		$input['pekerjaansaksi1']				= $saksi1['pekerjaan'];
+    $input['alamat_saksi1']    			= trim($saksi1['alamat'].' '.$saksi1['dusun']);
+    $input['rt_saksi1']    					= $saksi1['rt'];
+    $input['rw_saksi1']    					= $saksi1['rw'];
 		$input['desasaksi1']						= $config['nama_desa'];
 		$input['kecsaksi1']							= $config['nama_kecamatan'];
 		$input['kabsaksi1']							= $config['nama_kabupaten'];
@@ -104,6 +110,9 @@
 		$input['jksaksi2']							= $saksi2['sex_id'];
     $input['pekerjaanid_saksi2'] 		= str_pad($saksi2['pekerjaan_id'], 2, "0", STR_PAD_LEFT);
 		$input['pekerjaansaksi2']				= $saksi2['pekerjaan'];
+    $input['alamat_saksi2']    			= trim($saksi2['alamat'].' '.$saksi2['dusun']);
+    $input['rt_saksi2']    					= $saksi2['rt'];
+    $input['rw_saksi2']    					= $saksi2['rw'];
 		$input['desasaksi2']						= $config['nama_desa'];
 		$input['kecsaksi2']							= $config['nama_kecamatan'];
 		$input['kabsaksi2']							= $config['nama_kabupaten'];

@@ -660,17 +660,27 @@ $('document').ready(function(){
   </tr>
   <tr class="pelapor_luar_desa">
     <th>Alamat</th>
-    <td><p>Desa <span class="judul"> : </span>
+    <td>
+      <p>Alamat <span class="judul"> : </span>
+        <input name="alamat_pelapor" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['alamat_pelapor']?>"/>
+        <span class="judul"> RT : </span>
+        <input name="rt_pelapor" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rt_pelapor']?>"/>
+        <span class="judul"> RW : </span>
+        <input name="rw_pelapor" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rw_pelapor']?>"/>
+      </p>
+      <p>&nbsp;</p>
+      <p>Desa <span class="judul"> : </span>
         <input name="desapelapor" type="text" class="inputbox required" id="desapelapor" size="40" value="<?php echo $_SESSION['post']['desapelapor']?>"/>
         <span class="judul"> Kecamatan : </span>
         <input name="kecpelapor" type="text" class="inputbox required" id="kecpelapor" size="40" value="<?php echo $_SESSION['post']['kecpelapor']?>"/>
-    </p>
+      </p>
       <p>&nbsp;</p>
       <p>Kab<span class="judul"> &nbsp;:&nbsp; </span>
-          <input name="kabpelapor" type="text" class="inputbox required" id="kabpelapor" size="40" value="<?php echo $_SESSION['post']['kabpelapor']?>"/>
-       <span class="judul"> Provinsi &nbsp;&nbsp;&nbsp;&nbsp;:  </span>
+        <input name="kabpelapor" type="text" class="inputbox required" id="kabpelapor" size="40" value="<?php echo $_SESSION['post']['kabpelapor']?>"/>
+        <span class="judul"> Provinsi &nbsp;&nbsp;&nbsp;&nbsp;:  </span>
         <input name="provinsipelapor" type="text" class="inputbox required" id="provinsipelapor" size="40" value="<?php echo $_SESSION['post']['provinsipelapor']?>"/>
-  </p>    </td>
+      </p>
+    </td>
   </tr>
 <?php endif; ?>
 <tr>
@@ -751,6 +761,14 @@ $('document').ready(function(){
   <tr class="saksi1_luar_desa">
     <th>Alamat</th>
     <td>
+      <p>Alamat <span class="judul"> : </span>
+        <input name="alamat_saksi1" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['alamat_saksi1']?>"/>
+        <span class="judul"> RT : </span>
+        <input name="rt_saksi1" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rt_saksi1']?>"/>
+        <span class="judul"> RW : </span>
+        <input name="rw_saksi1" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rw_saksi1']?>"/>
+      </p>
+      <p>&nbsp;</p>
       <p>Desa <span class="judul"> : </span>
         <input name="desasaksi1" type="text" class="inputbox required" id="desasaksi1" size="40" value="<?php echo $_SESSION['post']['desasaksi1']?>"/>
         <span class="judul"> Kecamatan : </span>
@@ -758,9 +776,9 @@ $('document').ready(function(){
       </p>
       <p>&nbsp;</p>
       <p>Kab<span class="judul"> &nbsp;:&nbsp; </span>
-          <input name="kabsaksi1" type="text" class="inputbox required" id="kabsaksi1" size="40" value="<?php echo $_SESSION['post']['kabsaksi1']?>"/>
-          <span class="judul"> Provinsi &nbsp;&nbsp;&nbsp;&nbsp;: </span>
-          <input name="provinsisaksi1" type="text" class="inputbox required" id="provinsisaksi1" size="40" value="<?php echo $_SESSION['post']['provinsisaksi1']?>"/>
+        <input name="kabsaksi1" type="text" class="inputbox required" id="kabsaksi1" size="40" value="<?php echo $_SESSION['post']['kabsaksi1']?>"/>
+        <span class="judul"> Provinsi &nbsp;&nbsp;&nbsp;&nbsp;: </span>
+        <input name="provinsisaksi1" type="text" class="inputbox required" id="provinsisaksi1" size="40" value="<?php echo $_SESSION['post']['provinsisaksi1']?>"/>
       </p>
     </td>
   </tr>
@@ -842,8 +860,15 @@ $('document').ready(function(){
   <tr class="saksi2_luar_desa">
     <th>Alamat</th>
     <td>
-      <p>
-        Desa <span class="judul"> : </span>
+      <p>Alamat <span class="judul"> : </span>
+        <input name="alamat_saksi2" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['alamat_saksi2']?>"/>
+        <span class="judul"> RT : </span>
+        <input name="rt_saksi2" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rt_saksi2']?>"/>
+        <span class="judul"> RW : </span>
+        <input name="rw_saksi2" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rw_saksi2']?>"/>
+      </p>
+      <p>&nbsp;</p>
+      <p>Desa <span class="judul"> : </span>
         <input name="desasaksi2" type="text" class="inputbox required" id="desasaksi2" size="40" value="<?php echo $_SESSION['post']['desasaksi2']?>"/>
         <span class="judul"> Kecamatan : </span>
         <input name="kecsaksi2" type="text" class="inputbox required" id="kecsaksi2" size="40" value="<?php echo $_SESSION['post']['kecsaksi2']?>"/>

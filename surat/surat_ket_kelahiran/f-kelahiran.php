@@ -763,9 +763,29 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
-     <td colspan="10" class="left">6. &nbsp;&nbsp;Alamat</td>
+      <td colspan="10" class="left">6. &nbsp;&nbsp;Alamat</td>
       <td>:</td>
-
+      <td colspan="23" class="kotak"><?php echo $input['alamat_pelapor']?></td>
+      <td colspan="3" class="tengah">RT:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rt_pelapor'][$i]))
+            echo $input['rt_pelapor'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="3" class="tengah">RW:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rw_pelapor'][$i]))
+            echo $input['rw_pelapor'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="11">&nbsp;</td>
       <td colspan="7" class="left">a. Desa/Keluarga</td>
       <td colspan="12" class="kotak"><?php echo $input['desapelapor'];?></td>
       <td colspan="5" class="left">b. Kecamatan</td>
@@ -880,9 +900,29 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
-     <td colspan="10" class="left">6. &nbsp;&nbsp;Alamat</td>
+      <td colspan="10" class="left">6. &nbsp;&nbsp;Alamat</td>
       <td>:</td>
-
+      <td colspan="23" class="kotak"><?php echo $input['alamat_saksi1']?></td>
+      <td colspan="3" class="tengah">RT:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rt_saksi1'][$i]))
+            echo $input['rt_saksi1'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="3" class="tengah">RW:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rw_saksi1'][$i]))
+            echo $input['rw_saksi1'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="11" >&nbsp;</td>
       <td colspan="7" class="left">a. Desa/Keluarga</td>
       <td colspan="12" class="kotak"><?php echo $input['desasaksi1'];?></td>
       <td colspan="5" class="left">b. Kecamatan</td>
@@ -997,9 +1037,30 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
-     <td colspan="10" class="left">6. &nbsp;&nbsp;Alamat</td>
+      <td colspan="10" class="left">6. &nbsp;&nbsp;Alamat</td>
       <td>:</td>
-
+      <td colspan="23" class="kotak"><?php echo $input['alamat_saksi2']?></td>
+      <td colspan="3" class="tengah">RT:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rt_saksi2'][$i]))
+            echo $input['rt_saksi2'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="3" class="tengah">RW:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rw_saksi2'][$i]))
+            echo $input['rw_saksi2'][$i];
+            else echo "&nbsp;";
+          ?>
+        </td>
+      <?php endfor; ?>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="11" >&nbsp;</td>
       <td colspan="7" class="left">a. Desa/Keluarga</td>
       <td colspan="12" class="kotak"><?php echo $input['desasaksi2'];?></td>
       <td colspan="5" class="left">b. Kecamatan</td>
