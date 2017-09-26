@@ -35,6 +35,7 @@ class Hom_Desa extends CI_Controller{
 	}
 
 	function konfigurasi(){
+		$this->load->model('provinsi_model');
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 
@@ -44,6 +45,7 @@ class Hom_Desa extends CI_Controller{
 		// Buat row data desa di konfigurasi_form apabila belum ada data desa
 		if ($data['main']) $data['form_action'] = site_url("hom_desa/update/".$data['main']['id']);
 			else $data['form_action'] = site_url("hom_desa/insert/");
+		$data['list_provinsi'] = $this->provinsi_model->list_data();
 		$this->load->view('home/konfigurasi_form',$data);
 		$this->load->view('footer');
 	}
