@@ -288,7 +288,7 @@ table.form.detail td{
 <th>Hari / Tanggal / Jam </th>
   	<td><input name="hari" readonly="readonly" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['hari']?>"/>
   /
-    <input name="tanggal" type="text" class="inputbox required datepicker" id="tanggal" size="11" value="<?php echo $_SESSION['post']['tanggal']?>"/>
+    <input name="tanggal" type="text" class="inputbox required datepicker" id="tanggal" size="11" value="<?php echo $_SESSION['post']['tanggal_mati']?>"/>
   /
   <em>*Isi waktu kelahiran etc : 08:00</em>
   <input name="jam" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['jam']?>"/></td>
