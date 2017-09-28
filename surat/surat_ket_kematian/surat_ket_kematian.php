@@ -49,41 +49,9 @@
     $('input[name=anchor').val('pelapor');
   }
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
 
- 
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
   $(function(){
     var nik = {};
     nik.results = [
@@ -101,7 +69,7 @@ $('#'+'main').submit();
 }
 });
 });
-$(function(){ 
+$(function(){
     var saksi1 = {};
     saksi1.results = [
       <?php foreach($penduduk as $data){?>
@@ -175,7 +143,7 @@ $(function(){
 $('document').ready(function(){
 
   /* pergi ke bagian halaman sesudah mengisi warga desa */
-  location.hash = "#" + $('input[name=anchor]').val();	 
+  location.hash = "#" + $('input[name=anchor]').val();
 /* set otomatis hari */
   $('input[name=tanggal]').change(function(){
     var hari = {
@@ -186,7 +154,7 @@ $('document').ready(function(){
     $(this).closest('td').find('[name=hari]').val(hari[i]);
   });
 
-  });  
+  });
 </script>
 
 
@@ -198,7 +166,7 @@ $('document').ready(function(){
   .grey {
     background-color: lightgrey;
   }
-  
+
 table.form.detail th{
     padding:5px;
     background:#fafafa;
@@ -217,23 +185,8 @@ table.form.detail td{
 <div id="pageC">
 	<table class="inner">
 	<tr style="vertical-align:top">
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<td width="937" style="background:#fff;padding:5px;">
 
-	
-	
 <div class="content-header"></div>
 <div id="contentpane">
 <div class="ui-layout-north panel">
@@ -243,7 +196,7 @@ table.form.detail td{
 
 
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<table width="919" class="form">	
+<table width="919" class="form">
 <tr>
 <th width="120">NIK / Nama yang Meninggal</th>
 <td width="665">
@@ -257,38 +210,22 @@ table.form.detail td{
 <input id="id_saksi1_validasi" name="id_saksi1" type="hidden" value="<?php echo $_SESSION['id_saksi1']?>"/>
   <input id="id_saksi2_validasi" name="id_saksi2" type="hidden" value="<?php echo $_SESSION['id_saksi2']?>"/>
   <input id="id_pelapor_validasi" name="id_pelapor" type="hidden" value="<?php echo $_SESSION['id_pelapor']?>"/>
-  <input name="anchor" type="hidden" value="<?php echo $anchor; ?>"/>																		
+  <input name="anchor" type="hidden" value="<?php echo $anchor; ?>"/>
 
 <?php if($individu){ //bagian info setelah terpilih?>
   <?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 <?php }?>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <tr>
   	<th>Nomor Surat</th>
-  	<td><input name="nomor" type="text" class="inputbox required" size="12"/>  <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>	</td>
+  	<td><input name="nomor" type="text" class="inputbox required" size="12" value="<?php echo $_SESSION['post']['nomor']?>"/>/>  <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>	</td>
 	</tr>
  	<tr>
 <th>Hari / Tanggal / Jam </th>
   	<td><input name="hari" readonly="readonly" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['hari']?>"/>
   /
-    <input name="tanggal" type="text" class="inputbox required datepicker" id="tanggal" size="11" value="<?php echo $_SESSION['post']['tanggal_mati']?>"/>
+    <input name="tanggal_mati" type="text" class="inputbox required datepicker" size="11" value="<?php echo $_SESSION['post']['tanggal_mati']?>"/>
   /
   <em>*Isi waktu kelahiran etc : 08:00</em>
   <input name="jam" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['jam']?>"/></td>
@@ -296,97 +233,16 @@ table.form.detail td{
 
 	<tr>
   	<th>Tempat Meninggal</th>
-  	<td><input name="tempat_mati" type="text" class="inputbox required" size="20"/>	</td>
+  	<td><input name="tempat_mati" type="text" class="inputbox required" size="20" value="<?php echo $_SESSION['post']['tempat_mati']?>"/>	</td>
 	</tr>
 	<tr>
   	<th>Penyebab Kematian</th>
-  	<td><input name="sebab" type="text" class="inputbox required" size="40"/>	</td>
+  	<td><input name="sebab" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['sebab']?>"/>/>	</td>
 	</tr>
 	<tr>
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-	
-	
-	
 	<!-- PELAPOR -->
 <tr><th><a name="pelapor"></a></th><td>&nbsp;</td></tr>
 <tr>

@@ -46,20 +46,19 @@
 	if($input['id_pelapor']) {
 		$pelapor = $this->get_data_surat($input['id_pelapor']);
 		$array_replace = array(
-	                "[form_nama_pelapor]"      => $pelapor['nama'],
-	                "[nama_pelapor]"      		 => $pelapor['nama'],
-	                "[form_nik_pelapor]"       => $pelapor['nik'],
-	                "[nik_pelapor]"       		 => $pelapor['nik'],
-	                "[tempat_lahir_pelapor]"   => $pelapor['tempatlahir'],
-	                "[tanggal_lahir_pelapor]"	 => tgl_indo_dari_str($pelapor['tanggallahir']),
-	                "[form_umur_pelapor]"  		 => $pelapor['umur'],
-	                "[umur_pelapor]"  		 		 => $pelapor['umur'],
-	                "[form_pekerjaanpelapor]"  => $pelapor['pekerjaan'],
-	                "[pekerjaanpelapor]"  		 => $pelapor['pekerjaan'],
-	                "[form_desapelapor]"       => $config['nama_desa'],
-	                "[form_kecpelapor]"        => $config['nama_kecamatan'],
-	                "[form_kabpelapor]"        => $config['nama_kabupaten'],
-	                "[form_provinsipelapor]"   => $config['nama_propinsi']
+	                "[nama_pelapor]"      		=> $pelapor['nama'],
+	                "[nama_pelapor]"      		=> $pelapor['nama'],
+	                "[nik_pelapor]"       		=> $pelapor['nik'],
+	                "[nik_pelapor]"       		=> $pelapor['nik'],
+	                "[tempat_lahir_pelapor]"  => $pelapor['tempatlahir'],
+	                "[tanggal_lahir_pelapor]"	=> tgl_indo_dari_str($pelapor['tanggallahir']),
+	                "[umur_pelapor]"  		 		=> $pelapor['umur'],
+	                "[pekerjaanpelapor]"  		=> $pelapor['pekerjaan'],
+	                "[alamat_pelapor]"  			=> trim($pelapor['alamat'].' RT '.$pelapor['rt'].' RW '.$pelapor['rw'].' '.$pelapor['dusun']),
+	                "[desapelapor]"       		=> $config['nama_desa'],
+	                "[kecpelapor]"        		=> $config['nama_kecamatan'],
+	                "[kabpelapor]"        		=> $config['nama_kabupaten'],
+	                "[provinsipelapor]"   		=> $config['nama_propinsi']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
