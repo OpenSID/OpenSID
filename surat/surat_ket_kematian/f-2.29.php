@@ -543,20 +543,20 @@ table#kode {
     <tr>
       <td colspan="10">5. &nbsp;&nbsp;Alamat</td>
       <td>:</td>
-      <td colspan="23" class="kotak"><?php echo $suami['alamat']?></td>
+      <td colspan="23" class="kotak"><?php echo $input['alamat_ayah']?></td>
       <td colspan="3" class="tengah">RT:</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($suami['rt'][$i]))
-            echo $suami['rt'][$i];
+          <?php if(isset($input['rt_ayah'][$i]))
+            echo $input['rt_ayah'][$i];
             else echo "&nbsp;";
           ?>        </td>
       <?php endfor; ?>
       <td colspan="3" class="tengah">RW:</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($suami['rw'][$i]))
-            echo $suami['rw'][$i];
+          <?php if(isset($input['rw_ayah'][$i]))
+            echo $input['rw_ayah'][$i];
             else echo "&nbsp;";
           ?>        </td>
       <?php endfor; ?>
@@ -672,20 +672,20 @@ table#kode {
     <tr>
       <td colspan="10">5.&nbsp;&nbsp;Alamat</td>
       <td>:</td>
-      <td colspan="23" class="kotak"><?php echo $individu['alamat']?></td>
+      <td colspan="23" class="kotak"><?php echo $input['alamat_ibu']?></td>
       <td colspan="3" class="tengah">RT:</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($individu['rt'][$i]))
-            echo $individu['rt'][$i];
+          <?php if(isset($input['rt_ibu'][$i]))
+            echo $input['rt_ibu'][$i];
             else echo "&nbsp;";
           ?>        </td>
       <?php endfor; ?>
       <td colspan="3" class="tengah">RW:</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($individu['rw'][$i]))
-            echo $individu['rw'][$i];
+          <?php if(isset($input['rw_ibu'][$i]))
+            echo $input['rw_ibu'][$i];
             else echo "&nbsp;";
           ?>        </td>
       <?php endfor; ?>
@@ -785,6 +785,16 @@ table#kode {
       <td colspan="4">&nbsp;</td>
     </tr>
     <tr>
+      <td colspan="10">4.&nbsp;&nbsp;Jenis Kelamin </td>
+      <td>:</td>
+        <td class="kotak padat tengah">
+          <?php echo $input['jkpelapor'];?>
+        </td>
+      <td colspan=5>1. Laki-laki </td>
+      <td colspan=7>2. Perempuan </td>
+      <td colspan=4>&nbsp;</td>
+    </tr>
+    <tr>
       <td colspan="10">5. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
       <?php for($j=0; $j<2; $j++):?>
@@ -799,9 +809,29 @@ table#kode {
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
-     <td colspan="10">6. &nbsp;&nbsp;Alamat</td>
+      <td colspan="10">5.&nbsp;&nbsp;Alamat</td>
       <td>:</td>
-
+      <td colspan="23" class="kotak"><?php echo $input['alamat_pelapor']?></td>
+      <td colspan="3" class="tengah">RT:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rt_pelapor'][$i]))
+            echo $input['rt_pelapor'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="3" class="tengah">RW:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rw_pelapor'][$i]))
+            echo $input['rw_pelapor'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="11" >&nbsp;</td>
       <td colspan="7">a. Desa/Keluarga</td>
       <td colspan="12" class="kotak"><?php echo $input['desapelapor'];?></td>
       <td colspan="5">b. Kecamatan</td>
@@ -894,6 +924,16 @@ table#kode {
       <td colspan="4">&nbsp;</td>
     </tr>
     <tr>
+      <td colspan="10">4.&nbsp;&nbsp;Jenis Kelamin </td>
+      <td>:</td>
+        <td class="kotak padat tengah">
+          <?php echo $input['jksaksi1'];?>
+        </td>
+      <td colspan=5>1. Laki-laki </td>
+      <td colspan=7>2. Perempuan </td>
+      <td colspan=4>&nbsp;</td>
+    </tr>
+    <tr>
       <td colspan="10">5. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
       <?php for($j=0; $j<2; $j++):?>
@@ -908,9 +948,29 @@ table#kode {
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
-     <td colspan="10">6.&nbsp;&nbsp;Alamat</td>
+      <td colspan="10">5.&nbsp;&nbsp;Alamat</td>
       <td>:</td>
-
+      <td colspan="23" class="kotak"><?php echo $input['alamat_saksi1']?></td>
+      <td colspan="3" class="tengah">RT:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rt_saksi1'][$i]))
+            echo $input['rt_saksi1'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="3" class="tengah">RW:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rw_saksi1'][$i]))
+            echo $input['rw_saksi1'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="11" >&nbsp;</td>
       <td colspan="7">a. Desa/Keluarga</td>
       <td colspan="12" class="kotak"><?php echo $input['desasaksi1'];?></td>
       <td colspan="5">b. Kecamatan</td>
@@ -1003,6 +1063,16 @@ table#kode {
       <td colspan="4">&nbsp;</td>
     </tr>
     <tr>
+      <td colspan="10">4.&nbsp;&nbsp;Jenis Kelamin </td>
+      <td>:</td>
+        <td class="kotak padat tengah">
+          <?php echo $input['jksaksi2'];?>
+        </td>
+      <td colspan=5>1. Laki-laki </td>
+      <td colspan=7>2. Perempuan </td>
+      <td colspan=4>&nbsp;</td>
+    </tr>
+    <tr>
       <td colspan="10">5. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
       <?php for($j=0; $j<2; $j++):?>
@@ -1017,9 +1087,29 @@ table#kode {
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
-     <td colspan="10">6.&nbsp;&nbsp;Alamat</td>
+      <td colspan="10">5.&nbsp;&nbsp;Alamat</td>
       <td>:</td>
-
+      <td colspan="23" class="kotak"><?php echo $input['alamat_saksi2']?></td>
+      <td colspan="3" class="tengah">RT:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rt_saksi2'][$i]))
+            echo $input['rt_saksi2'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="3" class="tengah">RW:</td>
+      <?php for($i=0; $i<3; $i++): ?>
+        <td class="kotak padat tengah">
+          <?php if(isset($input['rw_saksi2'][$i]))
+            echo $input['rw_saksi2'][$i];
+            else echo "&nbsp;";
+          ?>        </td>
+      <?php endfor; ?>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="11" >&nbsp;</td>
       <td colspan="7">a. Desa/Keluarga</td>
       <td colspan="12" class="kotak"><?php echo $input['desasaksi2'];?></td>
       <td colspan="5">b. Kecamatan</td>
