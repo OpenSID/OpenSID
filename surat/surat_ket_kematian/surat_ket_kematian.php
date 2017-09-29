@@ -218,32 +218,61 @@ table.form.detail td{
 
 
 <tr>
-  	<th>Nomor Surat</th>
-  	<td><input name="nomor" type="text" class="inputbox required" size="12" value="<?php echo $_SESSION['post']['nomor']?>"/>/>  <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>	</td>
-	</tr>
- 	<tr>
-<th>Hari / Tanggal / Jam </th>
-  	<td><input name="hari" readonly="readonly" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['hari']?>"/>
-  /
+  <th>Nomor Surat</th>
+  <td>
+    <input name="nomor" type="text" class="inputbox required" size="12" value="<?php echo $_SESSION['post']['nomor']?>"/>  <span>Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>
+  </td>
+</tr>
+<tr>
+  <th>Hari / Tanggal / Jam </th>
+	<td>
+    <input name="hari" readonly="readonly" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['hari']?>"/>
+    /
     <input name="tanggal_mati" type="text" class="inputbox required datepicker" size="11" value="<?php echo $_SESSION['post']['tanggal_mati']?>"/>
-  /
-  <em>*Isi waktu kelahiran etc : 08:00</em>
-  <input name="jam" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['jam']?>"/></td>
-  </tr>
+    /
+    <em>*Isi waktu kelahiran etc : 08:00</em>
+    <input name="jam" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['jam']?>"/>
+  </td>
+</tr>
 
-	<tr>
-  	<th>Tempat Meninggal</th>
-  	<td><input name="tempat_mati" type="text" class="inputbox required" size="20" value="<?php echo $_SESSION['post']['tempat_mati']?>"/>	</td>
-	</tr>
-	<tr>
-  	<th>Penyebab Kematian</th>
-  	<td><input name="sebab" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['sebab']?>"/>/>	</td>
-	</tr>
-	<tr>
+<tr>
+	<th>Tempat Meninggal</th>
+	<td>
+    <input name="tempat_mati" type="text" class="inputbox required" size="20" value="<?php echo $_SESSION['post']['tempat_mati']?>"/>
+  </td>
+</tr>
+<tr>
+	<th>Penyebab Kematian</th>
+	<td>
+    <input name="sebab_nama" type="hidden">
+    <select name="sebab" class="required" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));">
+      <option value="">Pilih Sebab</option>
+      <?php foreach($sebab as $id => $nama){?>
+        <option value="<?php echo $id?>" data-sebabnama="<?php echo $nama; ?>" <?php if($id==$_SESSION['post']['sebab']) echo 'selected'?>><?php echo $nama; ?></option>
+      <?php }?>
+    </select>
+  </td>
+</tr>
+<tr>
+  <th>Yang Menerangkan</th>
+  <td>
+    <select name="penolong_mati" class="required">
+      <option value="">Pilih penolong mati</option>
+      <?php foreach($penolong_mati as $id => $nama){?>
+        <option value="<?php echo $id?>" <?php if($id==$_SESSION['post']['penolong_mati']) echo 'selected'?>><?php echo $nama; ?></option>
+      <?php }?>
+    </select>
+  </td>
+</tr>
+<tr>
+  <th>Anak Ke </th>
+  <td>
+    <input name="anakke" type="text" class="inputbox required" id="anakke" size="4" value="<?php echo $_SESSION['post']['anakke']?>"/>
+      &nbsp;<em>*isi dengan angka </em>
+  </td>
+</tr>
 
-
-
-	<!-- PELAPOR -->
+<!-- PELAPOR -->
 <tr><th><a name="pelapor"></a></th><td>&nbsp;</td></tr>
 <tr>
 	<th class="grey">DATA PELAPOR</th>

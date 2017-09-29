@@ -4,13 +4,13 @@
 	$this->load->model('pamong_model');
 	$suami = $this->get_data_suami($individu['id']);
 
-	if($input['id_jenazah']) {
-		$jenazah = $this->get_data_surat($input['id_jenazah']);
-		$input['nik_jenazah'] 		= $jenazah['nik'];
-		$input['nama_jenazah'] 	= $jenazah['nama'];
-		$input['sex']					= $jenazah['sex_id'];
-		$input['hari']	  		= $jenazah['tanggalmati'];
-	}
+	// if($input['nik']) {
+	// 	$jenazah = $this->get_data_surat($input['nik']);
+	// 	$input['nik_jenazah'] 		= $jenazah['nik'];
+	// 	$input['nama_jenazah'] 	= $jenazah['nama'];
+	// 	$input['sex']					= $jenazah['sex_id'];
+	// 	$input['hari']	  		= $jenazah['tanggalmati'];
+	// }
 	if($input['id_pelapor']) {
 		$pelapor = $this->get_data_surat($input['id_pelapor']);
 		$input['nik_pelapor'] 			= $pelapor['nik'];

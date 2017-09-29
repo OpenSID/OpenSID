@@ -4,6 +4,20 @@
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan('ucwords');
 		$data['sex'] = $this->penduduk_model->list_sex();
+		$data['sebab'] = array(
+      "1" => "Sakit biasa / tua",
+  	  "2" => "Wabah Penyakit",
+  	  "3" => "Kecelakaan",
+  	  "4" => "Kriminalitas",
+  	  "5" => "Bunuh Diri",
+  	  "6" => "Lainnya"
+		);
+		$data['penolong_mati'] = array(
+      "1" => "Dokter",
+  	  "2" => "Tenaga Kesehatan",
+  	  "3" => "Kepolisian",
+  	  "4" => "Lainnya"
+		);
 
 		$_SESSION['post'] = $_POST;
 
