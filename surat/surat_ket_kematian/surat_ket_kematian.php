@@ -155,7 +155,7 @@ $('document').ready(function(){
   /* pergi ke bagian halaman sesudah mengisi warga desa */
   location.hash = "#" + $('input[name=anchor]').val();
 /* set otomatis hari */
-  $('input[name=tanggal]').change(function(){
+  $('input[name=tanggal_mati]').change(function(){
     var hari = {
       0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
     };
@@ -207,6 +207,19 @@ table.form.detail td{
 
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table width="919" class="form">
+  <tr>
+    <td colspan="2" style="height: auto;">
+      <div class="box-perhatian">
+        <p><strong>Form ini menghasilkan:<br><br>
+        (1) Surat Keterangan Kematian<br>
+        (2) Lampiran F-2.29 SURAT KETERANGAN KEMATIAN bagi warga yang meninggal<br><br>
+        Pastikan semua biodata orang tua warga yang meninggal, pelapor dan saksi-saksi sudah lengkap sebelum mencetak surat dan lampiran.<br>
+        Untuk melengkapi data itu, ubah data warga yang bersangkutan di form isian penduduk di modul Penduduk.
+        </strong></p>
+      </div>
+    </td>
+  </tr>
+
 <tr>
 <th width="120">NIK / Nama yang Meninggal</th>
 <td width="665">
@@ -281,6 +294,164 @@ table.form.detail td{
       &nbsp;<em>*isi dengan angka </em>
   </td>
 </tr>
+
+
+<!-- AYAH -->
+<?php if($ayah): ?>
+  <tr class="ibu_desa">
+    <th colspan="2">DATA AYAH DARI DATABASE</th>
+  </tr>
+  <tr class="ibu_desa">
+    <th width="120">NIK</th>
+    <td><?php echo $ayah['nik'] ?></td>
+  </tr>
+  <tr class="ibu_desa">
+    <th width="120">Nama</th>
+    <td><?php echo $ayah['nama'] ?></td>
+  </tr>
+  <?php  //bagian info setelah terpilih
+    $individu = $ayah;
+    include("donjo-app/views/surat/form/konfirmasi_pemohon.php");
+  ?>
+<?php endif; ?>
+
+<?php if ($jenazah and empty($ayah)) : ?>
+  <tr class="ibu_luar_desa">
+    <th class="style6">DATA AYAH TIDAK TERDATA</th>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th>Nama</th>
+    <td><input name="nama_ayah" type="text" class="inputbox required" size="100" value="<?php echo $_SESSION['post']['nama_ayah']?>"/>  </td>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th>NIK</th>
+    <td><input name="nik_ayah" type="text" class="inputbox required" size="70" value="<?php echo $_SESSION['post']['nik_ayah']?>"/></td>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th> Tanggal Lahir</th>
+    <td>
+      <input name="tanggal_lahir_ayah" type="text" class="inputbox required datepicker" id="tanggal_lahir_ayah" size="11" value="<?php echo $_SESSION['post']['tanggal_lahir_ayah']?>"onchange="$('input[name=umur_ayah]').val(_calculateAge($(this).val()));"/>
+      <span class="judul"> Umur : </span>
+      <input name="umur_ayah" readonly="readonly" type="text" class="inputbox required" size="5" value="<?php echo $_SESSION['post']['umur_ayah']?>"/>
+        tahun
+      </td>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th>Pekerjaan</th>
+    <td>
+      <input type="hidden" name="pekerjaanid_ayah">
+      <select name="pekerjaanayah" class="required" id="pekerjaanayah" onchange="$('input[name=pekerjaanid_ayah]').val($(this).find(':selected').data('pekerjaanid'));">
+        <option value="">Pilih Pekerjaan</option>
+        <?php  foreach($pekerjaan as $data){?>
+          <option value="<?php echo $data['nama']?>" data-pekerjaanid="<?php echo $data['id']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanayah']) echo 'selected'?>><?php echo $data['nama']?></option>
+        <?php }?>
+      </select>
+    </td>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th>Alamat</th>
+    <td>
+      <p>Alamat <span class="judul"> : </span>
+        <input name="alamat_ayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['alamat_ayah']?>"/>
+        <span class="judul"> RT : </span>
+        <input name="rt_ayah" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rt_ayah']?>"/>
+        <span class="judul"> RW : </span>
+        <input name="rw_ayah" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rw_ayah']?>"/>
+      </p>
+      <p>&nbsp;</p>
+      <p>Desa <span class="judul"> : </span>
+        <input name="desaayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['desaayah']?>"/>
+        <span class="judul"> Kecamatan : </span>
+        <input name="kecayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['kecayah']?>"/>
+      </p>
+      <p>&nbsp;</p>
+      <p>Kab<span class="judul"> &nbsp;:&nbsp; </span>
+        <input name="kabayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['kabayah']?>"/>
+        <span class="judul"> Provinsi &nbsp;&nbsp;&nbsp;&nbsp;:  </span>
+        <input name="provinsiayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['provinsiayah']?>"/>
+      </p>
+    </td>
+  </tr>
+<?php endif; ?>
+
+
+<!-- IBU -->
+<?php if($ibu): ?>
+  <tr class="ibu_desa">
+    <th colspan="2">DATA IBU DARI DATABASE</th>
+  </tr>
+  <tr class="ibu_desa">
+    <th width="120">NIK</th>
+    <td><?php echo $ibu['nik'] ?></td>
+  </tr>
+  <tr class="ibu_desa">
+    <th width="120">Nama</th>
+    <td><?php echo $ibu['nama'] ?></td>
+  </tr>
+  <?php  //bagian info setelah terpilih
+    $individu = $ibu;
+    include("donjo-app/views/surat/form/konfirmasi_pemohon.php");
+  ?>
+<?php endif; ?>
+
+<?php if ($jenazah and empty($ibu)) : ?>
+  <tr class="ibu_luar_desa">
+    <th class="style6">DATA IBU TIDAK TERDATA</th>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th>Nama</th>
+    <td><input name="nama_ibu" type="text" class="inputbox required" size="100" value="<?php echo $_SESSION['post']['nama_ibu']?>"/>  </td>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th>NIK</th>
+    <td><input name="nik_ibu" type="text" class="inputbox required" size="70" value="<?php echo $_SESSION['post']['nik_ibu']?>"/></td>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th> Tanggal Lahir</th>
+    <td>
+      <input name="tanggal_lahir_ibu" type="text" class="inputbox required datepicker" id="tanggal_lahir_ibu" size="11" value="<?php echo $_SESSION['post']['tanggal_lahir_ibu']?>"onchange="$('input[name=umur_ibu]').val(_calculateAge($(this).val()));"/>
+      <span class="judul"> Umur : </span>
+      <input name="umur_ibu" readonly="readonly" type="text" class="inputbox required" size="5" value="<?php echo $_SESSION['post']['umur_ibu']?>"/>
+        tahun
+      </td>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th>Pekerjaan</th>
+    <td>
+      <input type="hidden" name="pekerjaanid_ibu">
+      <select name="pekerjaanibu" class="required" id="pekerjaanibu" onchange="$('input[name=pekerjaanid_ibu]').val($(this).find(':selected').data('pekerjaanid'));">
+        <option value="">Pilih Pekerjaan</option>
+        <?php  foreach($pekerjaan as $data){?>
+          <option value="<?php echo $data['nama']?>" data-pekerjaanid="<?php echo $data['id']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanibu']) echo 'selected'?>><?php echo $data['nama']?></option>
+        <?php }?>
+      </select>
+    </td>
+  </tr>
+  <tr class="ibu_luar_desa">
+    <th>Alamat</th>
+    <td>
+      <p>Alamat <span class="judul"> : </span>
+        <input name="alamat_ibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['alamat_ibu']?>"/>
+        <span class="judul"> RT : </span>
+        <input name="rt_ibu" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rt_ibu']?>"/>
+        <span class="judul"> RW : </span>
+        <input name="rw_ibu" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rw_ibu']?>"/>
+      </p>
+      <p>&nbsp;</p>
+      <p>Desa <span class="judul"> : </span>
+        <input name="desaibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['desaibu']?>"/>
+        <span class="judul"> Kecamatan : </span>
+        <input name="kecibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['kecibu']?>"/>
+      </p>
+      <p>&nbsp;</p>
+      <p>Kab<span class="judul"> &nbsp;:&nbsp; </span>
+        <input name="kabibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['kabibu']?>"/>
+        <span class="judul"> Provinsi &nbsp;&nbsp;&nbsp;&nbsp;:  </span>
+        <input name="provinsiibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['provinsiibu']?>"/>
+      </p>
+    </td>
+  </tr>
+<?php endif; ?>
 
 <!-- PELAPOR -->
 <tr><th><a name="pelapor"></a></th><td>&nbsp;</td></tr>

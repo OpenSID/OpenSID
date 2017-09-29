@@ -2,25 +2,17 @@
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
-	$suami = $this->get_data_suami($individu['id']);
 
-	// if($input['nik']) {
-	// 	$jenazah = $this->get_data_surat($input['nik']);
-	// 	$input['nik_jenazah'] 		= $jenazah['nik'];
-	// 	$input['nama_jenazah'] 	= $jenazah['nama'];
-	// 	$input['sex']					= $jenazah['sex_id'];
-	// 	$input['hari']	  		= $jenazah['tanggalmati'];
-	// }
 	$individu['umur'] = str_pad($individu['umur'], 3, " ", STR_PAD_LEFT);
 
-	if($input['id_ibu']) {
-		$ibu = $this->get_data_surat($input['id_ibu']);
+	$ibu = $this->get_data_ibu($individu['id']);
+	if($ibu) {
 		$input['nik_ibu'] 							= $ibu['nik'];
 		$input['nama_ibu'] 							= $ibu['nama'];
     $input['tanggal_lahir_ibu']			= $ibu['tanggallahir'];
 		$input['umur_ibu']							= str_pad($ibu['umur'], 3, " ", STR_PAD_LEFT);
     $input['pekerjaanid_ibu'] 			= str_pad($ibu['pekerjaan_id'], 2, "0", STR_PAD_LEFT);
-    $input['pekerjaanibu'] 					= $ibu['pekerjaan'];
+    $input['pekerjaanibu'] 					= $ibu['pek'];
     $input['alamat_ibu']    				= trim($ibu['alamat'].' '.$ibu['dusun']);
     $input['rt_ibu']    						= $ibu['rt'];
     $input['rw_ibu']    						= $ibu['rw'];
@@ -33,6 +25,7 @@
 		$input['umur_ibu']									= str_pad($input['umur_ibu'], 3, " ", STR_PAD_LEFT);
 	}
 
+	$ayah = $this->get_data_ayah($individu['id']);
 	if ($ayah) {
 		$input['nik_ayah'] 								= $ayah['nik'];
 		$input['nama_ayah'] 							= $ayah['nama'];

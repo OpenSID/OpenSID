@@ -466,8 +466,8 @@ table#kode {
       <td colspan="10">1. &nbsp;&nbsp;NIK</td>
       <td>:</td>
       <?php for($i=0; $i<16; $i++): ?>
-        <td class="kotak padat tengah"><?php if(isset($suami['nik'][$i]))
-            echo $suami['nik'][$i];
+        <td class="kotak padat tengah"><?php if(isset($input['nik_ayah'][$i]))
+            echo $input['nik_ayah'][$i];
             else echo "&nbsp;";
           ?></td>
       <?php endfor; ?>
@@ -477,8 +477,8 @@ table#kode {
       <td colspan="10">2. &nbsp;&nbsp;Nama </td>
       <td>:</td>
       <?php for($i=0; $i<33; $i++): ?>
-        <td class="kotak padat tengah"><?php if(isset($suami['nama'][$i]))
-            echo $suami['nama'][$i];
+        <td class="kotak padat tengah"><?php if(isset($input['nama_ayah'][$i]))
+            echo $input['nama_ayah'][$i];
             else echo "&nbsp;";
           ?></td>
       <?php endfor; ?>
@@ -487,9 +487,9 @@ table#kode {
     <tr>
       <td colspan="10">3. &nbsp;Tanggal Lahir </td>
       <td>:</td>
-      <?php $tgl = date('dd',strtotime($suami['tanggallahir']));
-        $bln = date('mm',strtotime($suami['tanggallahir']));
-        $thn = date('Y',strtotime($suami['tanggallahir']));
+      <?php $tgl = date('dd',strtotime($input['tanggal_lahir_ayah']));
+        $bln = date('mm',strtotime($input['tanggal_lahir_ayah']));
+        $thn = date('Y',strtotime($input['tanggal_lahir_ayah']));
       ?>
       <td colspan="4">Tanggal :</td>
 		  <?php for($j=0; $j<2; $j++):?>
@@ -565,23 +565,24 @@ table#kode {
     <tr>
       <td colspan="11" >&nbsp;</td>
       <td colspan="7">a. Desa/Keluarga</td>
-      <td colspan="12" class="kotak"><?php echo $config['nama_desa'];?></td>
+      <td colspan="12" class="kotak"><?php echo $input['desaayah'];?></td>
       <td colspan="5">b. Kecamatan</td>
-      <td colspan="12" class="kotak"><?php echo $config['nama_kecamatan'];?></td>
+      <td colspan="12" class="kotak"><?php echo $input['kecayah'];?></td>
       <td colspan="1">&nbsp;</td>
     </tr>
     <tr>
       <td colspan="11" >&nbsp;</td>
       <td colspan="7">c. Kabupaten/Kota</td>
-      <td colspan="12" class="kotak"><?php echo $config['nama_kabupaten'];?></td>
+      <td colspan="12" class="kotak"><?php echo $input['kabayah'];?></td>
       <td colspan="5">d. Propinsi</td>
-      <td colspan="12" class="kotak"><?php echo $config['nama_propinsi'];?></td>
+      <td colspan="12" class="kotak"><?php echo $input['provinsiayah'];?></td>
       <td colspan="1">&nbsp;</td>
 	  </tr>
 <!-- AKHIR AYAH -->
 	  <tr>
-	  <td colspan=48 class="bawah"></td>
+  	  <td colspan=48 class="bawah"></td>
     </tr>
+
 <!-- AWAL IBU -->
     <tr>
       <td colspan=48><strong>IBU</strong></td>
@@ -592,8 +593,8 @@ table#kode {
       <td>:</td>
       <?php for($i=0; $i<16; $i++): ?>
         <td class="kotak padat tengah">
-          <?php if(isset($individu['nik'][$i]))
-            echo $individu['nik'][$i];
+          <?php if(isset($input['nik_ibu'][$i]))
+            echo $input['nik_ibu'][$i];
             else echo "&nbsp;";
           ?>        </td>
       <?php endfor; ?>
@@ -603,8 +604,8 @@ table#kode {
       <td colspan="10">2.&nbsp;&nbsp;Nama </td>
       <td>:</td>
       <?php for($i=0; $i<33; $i++): ?>
-        <td class="kotak padat tengah"><?php if(isset($individu['nama'][$i]))
-            echo $individu['nama'][$i];
+        <td class="kotak padat tengah"><?php if(isset($input['nama_ibu'][$i]))
+            echo $input['nama_ibu'][$i];
             else echo "&nbsp;";
           ?></td>
       <?php endfor; ?>
@@ -613,9 +614,9 @@ table#kode {
     <tr>
       <td colspan="10">3.&nbsp;&nbsp;Tanggal lahir </td>
       <td>:</td>
-        <?php $tgl = date('dd',strtotime($individu['tanggallahir']));
-          $bln = date('mm',strtotime($individu['tanggallahir']));
-          $thn = date('Y',strtotime($individu['tanggallahir']));
+        <?php $tgl = date('dd',strtotime($input['tanggal_lahir_ibu']));
+          $bln = date('mm',strtotime($input['tanggal_lahir_ibu']));
+          $thn = date('Y',strtotime($input['tanggal_lahir_ibu']));
         ?>
       <td colspan="4">Tanggal :</td>
 		  <?php for($j=0; $j<2; $j++):?>
@@ -694,17 +695,17 @@ table#kode {
     <tr>
       <td colspan="11" >&nbsp;</td>
       <td colspan="7">a. Desa/Keluarga</td>
-      <td colspan="12" class="kotak"><?php echo $config['nama_desa'];?></td>
+      <td colspan="12" class="kotak"><?php echo $input['desaibu'];?></td>
       <td colspan="5">b. Kecamatan</td>
-      <td colspan="12" class="kotak"><?php echo $config['nama_kecamatan'];?></td>
+      <td colspan="12" class="kotak"><?php echo $input['kecibu'];?></td>
       <td colspan="1">&nbsp;</td>
     </tr>
     <tr>
       <td colspan="11" >&nbsp;</td>
       <td colspan="7">c. Kabupaten/Kota</td>
-      <td colspan="12" class="kotak"><?php echo $config['nama_kabupaten'];?></td>
+      <td colspan="12" class="kotak"><?php echo $input['kabibu'];?></td>
       <td colspan="5">d. Propinsi</td>
-      <td colspan="12" class="kotak"><?php echo $config['nama_propinsi'];?></td>
+      <td colspan="12" class="kotak"><?php echo $input['provinsiibu'];?></td>
       <td colspan="1">&nbsp;</td>
 	  </tr>
 <!-- AKHIR IBU -->

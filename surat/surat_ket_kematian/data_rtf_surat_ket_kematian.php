@@ -63,17 +63,4 @@
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
 
-	/*
-		Jika jenazah warga desa, ganti kolom isiannya dengan data dari database penduduk
-	*/
-	if($input['id_jenazah']) {
-		$jenazah = $this->get_data_surat($input['id_jenazah']);
-		$array_replace = array(
-	                "[form_nama_jenazah]"  => $jenazah['nama'],
-	                "[form_nama_sex]"		=> $jenazah['sex'],
-	                "[form_tanggal]"	 	=> tgl_indo_dari_str($jenazah['tanggal_mati']),
-	                "[form_hari]"				=> hari($jenazah['tanggal_mati'])
-		);
-		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-	}
-?>
+	?>

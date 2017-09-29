@@ -1,5 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+		$data['jenazah'] = $data['individu'];
 		$data['warganegara'] = $this->penduduk_model->list_warganegara();
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan('ucwords');
@@ -20,6 +21,9 @@
 		);
 
 		$_SESSION['post'] = $_POST;
+
+		$data['ibu'] = $this->surat_model->get_data_ibu($data['individu']['id']);
+		$data['ayah'] = $this->surat_model->get_data_ayah($data['individu']['id']);
 
 		if($this->input->post('saksi1')==2) unset($_SESSION['id_saksi1']);
 		if($_POST['id_saksi1'] != '' AND $_POST['id_saksi1'] !='*'){
@@ -54,14 +58,4 @@
 			unset($_SESSION['id_pelapor']);
 		}
 
-		if($this->input->post('jenazah')==2) unset($_SESSION['id_jenazah']);
-		if($_POST['id_jenazah'] != '' AND $_POST['id_jenazah'] !='*'){
-			$data['jenazah']=$this->surat_model->get_penduduk($_POST['id_jenazah']);
-			$_SESSION['id_jenazah'] = $_POST['id_jenazah'];
-		}elseif ($_POST['id_jenazah'] !='*' AND isset($_SESSION['id_jenazah'])){
-			$data['jenazah']=$this->surat_model->get_penduduk($_SESSION['id_jenazah']);
-		}else{
-			unset($data['jenazah']);
-			unset($_SESSION['id_jenazah']);
-		}
 ?>
