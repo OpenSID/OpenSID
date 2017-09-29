@@ -203,19 +203,20 @@
 		$_SESSION['error_msg'] = "";
 
 	  $data = $_POST;
+	  unset($data['isi']);
 
 		// Widget isinya tergantung jenis widget
 		if ($data['jenis_widget']==2){
-			$data['isi'] = $data['isi-statis'];
+			$this->db->set('isi',$data['isi-statis']);
 		}
 		elseif ($data['jenis_widget']==3){
-			$data['isi'] = $data['isi-dinamis'];
+			$this->db->set('isi',$data['isi-dinamis']);
 		}
 		unset($data['isi-dinamis']);
 		unset($data['isi-statis']);
 
 		$this->db->where('id',$id);
-		$outp = $this->db->update('widget',$data);
+		$outp = $this->db->update('widget');
 		if(!$outp) $_SESSION['success']=-1;
 	}
 

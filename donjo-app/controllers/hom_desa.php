@@ -35,6 +35,7 @@ class Hom_Desa extends CI_Controller{
 	}
 
 	function konfigurasi(){
+		$this->load->model('provinsi_model');
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 
@@ -44,18 +45,19 @@ class Hom_Desa extends CI_Controller{
 		// Buat row data desa di konfigurasi_form apabila belum ada data desa
 		if ($data['main']) $data['form_action'] = site_url("hom_desa/update/".$data['main']['id']);
 			else $data['form_action'] = site_url("hom_desa/insert/");
+		$data['list_provinsi'] = $this->provinsi_model->list_data();
 		$this->load->view('home/konfigurasi_form',$data);
 		$this->load->view('footer');
 	}
 
 	function insert(){
 		$this->config_model->insert();
-		redirect('hom_desa');
+		redirect('hom_desa/konfigurasi');
 	}
 
 	function update($id=''){
 		$this->config_model->update($id);
-		redirect("hom_desa");
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function ajax_kantor_maps(){
@@ -72,12 +74,12 @@ class Hom_Desa extends CI_Controller{
 
 	function update_kantor_maps(){
 		$this->config_model->update_kantor();
-		redirect("hom_desa");
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function update_wilayah_maps(){
 		$this->config_model->update_wilayah();
-		redirect("hom_desa");
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function upgrade_silent(){

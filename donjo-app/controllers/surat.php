@@ -25,6 +25,11 @@ class Surat extends CI_Controller{
 		// Reset untuk surat yang menggunakan session variable
 		unset($_SESSION['id_pria']);
 		unset($_SESSION['id_wanita']);
+		unset($_SESSION['id_ibu']);
+		unset($_SESSION['id_bayi']);
+		unset($_SESSION['id_saksi1']);
+		unset($_SESSION['id_saksi2']);
+		unset($_SESSION['id_pelapor']);
 		unset($_SESSION['post']);
 
 
@@ -54,6 +59,7 @@ class Surat extends CI_Controller{
 			unset($_SESSION['id_istri']);
 		}
 		$data['url']=$url;
+		$data['anchor']=$this->input->post('anchor');
 		if(!empty($_POST['nik'])){
 			$data['individu']=$this->surat_model->get_penduduk($_POST['nik']);
 			$data['anggota']=$this->keluarga_model->list_anggota($data['individu']['id_kk']);
@@ -119,6 +125,11 @@ class Surat extends CI_Controller{
 
 		$id = $_POST['nik'];
 		switch ($url) {
+			case 'surat_ket_kelahiran':
+				// surat_ket_kelahiran id-nya ibu atau bayi
+				if (!$id) $id = $_POST['id_ibu'];
+				if (!$id) $id = $_POST['id_bayi'];
+				break;
 			case 'surat_persetujuan_mempelai':
 				// surat_persetujuan_mempelai id-nya suami atau istri
 				if (!$id) $id = $_POST['id_suami'];
@@ -151,6 +162,8 @@ class Surat extends CI_Controller{
 		$log_surat['nama_surat']=$nama_surat;
 		$log_surat['lampiran']=$lampiran;
 		$this->surat_keluar_model->log_surat($log_surat);
+
+		header("location:".base_url(LOKASI_ARSIP.$nama_surat));
 
 		// === Untuk debug format surat html2pdf
 		// $data = $this->surat_model->get_data_untuk_surat($url);

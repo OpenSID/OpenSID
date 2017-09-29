@@ -33,7 +33,7 @@ navigasi ke tautannya.
 	});
 </script>
 <link type='text/css' href="<?php echo base_url()?>assets/front/css/default.css" rel='Stylesheet' />
-<link type='text/css' href="<?php echo base_url().'themes/'.$this->theme.'/css/default.css'?>" rel='Stylesheet' />
+<link type='text/css' href="<?php echo base_url().$this->theme_folder.'/'.$this->theme.'/css/default.css'?>" rel='Stylesheet' />
 <?php if(is_file("desa/css/".$this->theme."/desa-default.css")):?>
   <link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/desa-default.css" rel='Stylesheet' />
 <?php endif; ?>
@@ -53,8 +53,8 @@ navigasi ke tautannya.
 			<ul class="nav navbar-nav">
 				<li><a href="<?php echo site_url()."first"?>"><i class="fa fa-home fa-lg"></i> Beranda</a></li>
 				<?php foreach($menu_atas as $data){?>
-					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo site_url()."first/".$data['link']?>"><i class="fa fa-th-large"></i> <?php echo $data['nama']?><span class="caret"></span></a>
-						<?php if(count($data['submenu']>0)): ?>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo site_url()."first/".$data['link']?>"><i class="fa fa-th-large"></i> <?php echo $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
+						<?php if(count($data['submenu'])>0): ?>
 							<ul class="dropdown-menu">
 								<?php foreach($data['submenu'] as $submenu): ?>
 									<li><a href="<?php echo site_url()."first/".$submenu['link']?>"><?php echo $submenu['nama']?></a></li>

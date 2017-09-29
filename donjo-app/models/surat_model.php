@@ -218,7 +218,7 @@
 	}
 
 	function get_data_pribadi($id=0){
-		$sql   = "SELECT u.*,h.nama as hubungan, p.nama as kepala_kk,g.nama as gol_darah,d.nama as pendidikan,r.nama as pek,m.nama as men, w.nama as wn, n.nama as agama,c.rw,c.rt,c.dusun,(DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, sex.nama as sex, k.alamat
+		$sql   = "SELECT u.*,h.nama as hubungan, p.nama as kepala_kk,g.nama as gol_darah,d.nama as pendidikan, s.nama as status, r.nama as pek,m.nama as men, w.nama as wn, n.nama as agama,c.rw,c.rt,c.dusun,(DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, sex.nama as sex, k.alamat
 			FROM tweb_penduduk u
 			left join tweb_penduduk_hubungan h on u.kk_level=h.id
 			left join tweb_keluarga k on u.id_kk=k.id
@@ -231,6 +231,7 @@
 			left join tweb_penduduk_warganegara w on u.warganegara_id=w.id
 			left join tweb_penduduk_agama n on u.agama_id=n.id
 			LEFT JOIN tweb_penduduk_sex sex ON u.sex=sex.id
+			left join tweb_penduduk_status s on u.status = s.id
 			WHERE u.id=?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
@@ -502,7 +503,7 @@
 		return $lokasi;
 	}
 
-	function surat_rtf_khusus($url, $input, &$buffer, $config, $individu, $ayah, $ibu) {
+	function surat_rtf_khusus($url, $input, &$buffer, $config, &$individu, $ayah, $ibu) {
 		$alamat_desa = ucwords($this->setting->sebutan_desa)." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
 
@@ -620,19 +621,6 @@
 					);
 					$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 				}
-				break;
-
-			case 'surat_ket_kelahiran':
-				# Data suami
-				$suami = $this->get_data_suami($individu['id']);
-				$array_replace = array(
-                    "[nama_suami]"      => $suami['nama'],
-                    "[nik_suami]"       => $suami['nik'],
-                    "[usia_suami]"      => "$suami[umur] Tahun",
-                    "[pekerjaan_suami]" => $suami['pek'],
-                    "[alamat_suami]"    => "RT $suami[rt] / RW $suami[rw] $suami[dusun]",
-				);
-				$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 				break;
 
 			case 'surat_ket_nikah':
@@ -1156,7 +1144,6 @@
 		}
 
 		$_SESSION['success']=8;
-		header("location:".base_url($berkas_arsip));
 	}
 
 	function get_last_nosurat_log($url){

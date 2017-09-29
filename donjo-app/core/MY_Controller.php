@@ -20,11 +20,16 @@ class MY_Controller extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->theme = strtolower($this->setting->web_theme) ;
-		/* set default theme if not exist */
-		$this->theme = empty($this->theme) ? 'default' : $this->theme;
+				/* set default theme if not exist */
+        if (empty($this->setting->web_theme)) {
+        	$this->theme = 'default';
+        	$this->theme_folder = 'themes';
+        } else {
+	        $this->theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
+	        $this->theme_folder = preg_match("/desa\//", strtolower($this->setting->web_theme)) ? "desa/themes" : "themes";
+        }
         // declare main template
-        $this->template = "../../themes/{$this->theme}/template.php";
+        $this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
 	}
 
 	// --------------------------------------------------------------------
@@ -74,9 +79,9 @@ class MY_Controller extends CI_Controller {
 		// make sure that $template_file has .php extension
 		$template_file = substr( $template_file, -4 ) == '.php' ? $template_file : ( $template_file . ".php" );
 
-    $template_file_path = FCPATH . 'themes/' . $this->theme . "/" . $template_file;
+    $template_file_path = FCPATH . $this->theme_folder . '/' . $this->theme . "/" . $template_file;
     if (is_file($template_file_path))
-			$this->template = "../../themes/{$this->theme}/{$template_file}";
+			$this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
     else
     	$this->template = '../../themes/default/' . $template_file;
 	}
@@ -102,16 +107,16 @@ class Web_Controller extends MY_Controller {
 	function __construct()
   {
     parent::__construct();
-		$this->includes['folder_themes'] = '../../themes/'.$this->theme;
+		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
   }
 
   // Jika file theme/view tidak ada, gunakan file default/view
   // Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
   function fallback_default($theme, $view)
   {
-    $theme_file = FCPATH . 'themes/' . $theme . $view;
+    $theme_file = FCPATH . $this->theme_folder . '/' . $theme . $view;
     if (!is_file($theme_file)) $theme_view = '../../themes/default' . $view;
-    else $theme_view = '../../themes/' . $theme . $view;
+    else $theme_view = '../../' . $this->theme_folder . '/' . $theme . $view;
     return $theme_view;
   }
 
