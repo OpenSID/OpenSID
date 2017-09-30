@@ -140,7 +140,7 @@ table#kode {
   <p style="text-align: center; margin-top: 2px;">
       <strong style="font-size: 10pt;">SURAT KETERANGAN KEMATIAN </strong>
   </p>
-  <table class="disdukcapil" style="margin-top: -5px; border: 0px;">
+  <table class="disdukcapil" style="margin-top: -15px; border: 0px;">
     <col span="48" style="width: 2.0833%;">
     <!-- Untuk memaksa penampilan setiap kolom -->
     <tr>
@@ -176,7 +176,7 @@ table#kode {
     </tr>
   </table>
 
-    <table class="disdukcapil" style="margin-top: 0px;">
+  <table class="disdukcapil" style="margin-top: 0px;">
     <col span="48" style="width: 2.0833%;">
 
 <!-- Jenazah -->
@@ -527,7 +527,7 @@ table#kode {
   	  <td colspan="2">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10">5. &nbsp;&nbsp;Pekerjaan</td>
+      <td colspan="10">4. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
       <?php for($j=0; $j<2; $j++):?>
         <td class="kotak padat tengah">
@@ -657,7 +657,7 @@ table#kode {
 	    <td colspan="2">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10">5. &nbsp;&nbsp;Pekerjaan</td>
+      <td colspan="10">4. &nbsp;&nbsp;Pekerjaan</td>
       <td>:</td>
       <?php for($j=0; $j<2; $j++):?>
         <td class="kotak padat tengah">
@@ -810,7 +810,7 @@ table#kode {
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10">5.&nbsp;&nbsp;Alamat</td>
+      <td colspan="10">6.&nbsp;&nbsp;Alamat</td>
       <td>:</td>
       <td colspan="23" class="kotak"><?php echo $input['alamat_pelapor']?></td>
       <td colspan="3" class="tengah">RT:</td>
@@ -949,7 +949,7 @@ table#kode {
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10">5.&nbsp;&nbsp;Alamat</td>
+      <td colspan="10">6.&nbsp;&nbsp;Alamat</td>
       <td>:</td>
       <td colspan="23" class="kotak"><?php echo $input['alamat_saksi1']?></td>
       <td colspan="3" class="tengah">RT:</td>
@@ -987,8 +987,11 @@ table#kode {
       <td colspan="1">&nbsp;</td>
 	  </tr>
 <!-- AKHIR SAKSI 1 -->
-	  <tr>
-	  <td colspan=48 class="bawah"></td>
+    <!-- Untuk memaksa penampilan setiap kolom -->
+    <tr>
+      <?php for($i=0; $i<48; $i++): ?>
+        <td class="bawah">&nbsp;</td>
+      <?php endfor; ?>
     </tr>
 <!-- AWAL SAKSI 2 -->
     <tr>
@@ -1088,7 +1091,7 @@ table#kode {
       <td colspan="3" class="tengah">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="10">5.&nbsp;&nbsp;Alamat</td>
+      <td colspan="10">6.&nbsp;&nbsp;Alamat</td>
       <td>:</td>
       <td colspan="23" class="kotak"><?php echo $input['alamat_saksi2']?></td>
       <td colspan="3" class="tengah">RT:</td>
@@ -1126,19 +1129,17 @@ table#kode {
       <td colspan="1">&nbsp;</td>
 	  </tr>
 <!-- AKHIR SAKSI 2 -->
-	  <tr>
-	  <td colspan=48 class="bawah"></td>
-    </tr>
+  </table>
 
+  <table id="ttd" class="disdukcapil" style="margin-top: 5px; margin-bottom: 0px; padding: 0px; border: 0px; border-collapse: collapse;">
+    <col span="48" style="width: 2.0833%;">
     <tr>
-      <td colspan=48>&nbsp;</td>
-    </tr>
-	  <tr>
-	  <td colspan="46" style="text-align: right">
-        <?php echo str_pad(".",40,".",STR_PAD_LEFT);?>,<?php echo str_pad(".",60,".",STR_PAD_LEFT);?>      </td>
+      <td colspan="33">&nbsp;</td>
+      <td colspan="13" style="text-align: center;">
+        <?php echo $config['nama_desa'];?>, <?php echo tgl_indo(date('Y m d',time()));?>
+      </td>
       <td colspan="2">&nbsp;</td>
     </tr>
-    <tr><td colspan="48">&nbsp;</td></tr>
     <tr>
       <td colspan="4">&nbsp;</td>
       <td colspan="16" style="text-align: center;">Mengetahui</td>
@@ -1146,7 +1147,6 @@ table#kode {
       <td colspan="10" style="text-align: center;">Pemohon</td>
       <td colspan="3">&nbsp;</td>
     </tr>
-    <tr><td colspan="48"></td></tr>
     <tr>
        <td colspan="4">&nbsp;</td>
 
@@ -1157,27 +1157,17 @@ table#kode {
     </tr>
     <tr><td colspan="48">&nbsp;</td></tr>
     <tr><td colspan="48">&nbsp;</td></tr>
-	 <tr><td colspan="48">&nbsp;</td></tr>
-	 <tr><td colspan="48">&nbsp;</td></tr>
-    <tr>
-      <td colspan="4">&nbsp;</td>
-
-      <td colspan="16" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($kepala_desa['pamong_nama']),30)?>&nbsp;)</strong></td>
-      <td colspan="15">&nbsp;</td>
-      <td colspan="10" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($individu['nama']),30)?>&nbsp;)</strong></td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-
-    <tr><td colspan="48">&nbsp;</td>
-	</tr>
-	  <tr>	  	  </tr>
-	  <tr>	  </tr>
-    <tr>      </tr>
-    <tr></tr>
     <tr>
       <?php for($i=0; $i<48; $i++): ?>
         <td>&nbsp;</td>
       <?php endfor; ?>
+    </tr>
+    <tr>
+      <td colspan="4">&nbsp;</td>
+      <td colspan="16" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($kepala_desa['pamong_nama']),30)?>&nbsp;)</strong></td>
+      <td colspan="15">&nbsp;</td>
+      <td colspan="10" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
+      <td colspan="3">&nbsp;</td>
     </tr>
   </table>
 
