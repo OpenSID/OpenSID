@@ -324,10 +324,13 @@
 		$data  = $query->row_array();
 
 		// Kalau tidak ada, cari istri keluarga kalau penduduknya seorang anak dalam keluarga
+		// atau kepala keluarga perempuan
 		if (!isset($data['id']) AND $penduduk['kk_level'] == 4 ) {
 			$sql = "SELECT u.id
 				FROM tweb_penduduk u
-				WHERE (u.id_kk=(SELECT id_kk FROM tweb_penduduk where id=$id) AND u.kk_level=3) limit 1";
+				WHERE (u.id_kk=(SELECT id_kk FROM tweb_penduduk where id=$id) AND u.kk_level=3) OR
+				(u.id_kk=(SELECT id_kk FROM tweb_penduduk where id=36) AND u.kk_level=1 AND u.sex=2)
+				limit 1";
 			$query = $this->db->query($sql, $id);
 			$data  = $query->row_array();
 		}

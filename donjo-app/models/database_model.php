@@ -197,6 +197,10 @@
         break;
       }
     }
+    // Tambah lampiran untuk Surat Keterangan Kematian
+    $this->db->where('url_surat','surat_ket_kematian')->update('tweb_surat_format',array('lampiran'=>'f-2.29.php'));
+    // Ubah nama lampiran untuk Surat Keterangan Kelahiran
+    $this->db->where('url_surat','surat_ket_kelahiran')->update('tweb_surat_format',array('lampiran'=>'f-2.01.php'));
   }
 
   function migrasi_24_ke_25(){
