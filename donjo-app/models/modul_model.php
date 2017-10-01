@@ -3,7 +3,7 @@
 		parent::__construct();
 	}
 	function list_data(){
-		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0";
+		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0 ORDER BY urut";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 
@@ -19,7 +19,9 @@
 	}
 	// Daftar modul yang aktif dan yang dapat ditampilkan untuk pengguna yang login
 	function list_aktif(){
-		$modul = $this->db->where('aktif',1)->where("level >= {$_SESSION['grup']}")->get('setting_modul')->result_array();
+		$modul = $this->db->where('aktif',1)->where("level >= {$_SESSION['grup']}")
+			->order_by('urut')
+			->get('setting_modul')->result_array();
 		return $modul;
 	}
 

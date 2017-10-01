@@ -12,8 +12,8 @@ class surat_masuk extends CI_Controller{
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 4;
-		$this->tab_ini = 5;
+		$this->modul_ini = 15;
+		$this->tab_ini = 2;
 	}
 
 	function clear($id=0){
@@ -45,8 +45,7 @@ class surat_masuk extends CI_Controller{
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$nav['act']=$this->tab_ini;
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('sekretariat/nav',$nav);
 		$this->load->view('surat_masuk/table',$data);
 		$this->load->view('footer');
 	}
@@ -71,7 +70,7 @@ class surat_masuk extends CI_Controller{
 
 		$this->load->view('header', $header);
 		$nav['act']=$this->tab_ini;
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('sekretariat/nav',$nav);
 		$this->load->view('surat_masuk/form',$data);
 		$this->load->view('footer');
 	}

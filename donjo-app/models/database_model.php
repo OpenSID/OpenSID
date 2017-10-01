@@ -201,6 +201,28 @@
     $this->db->where('url_surat','surat_ket_kematian')->update('tweb_surat_format',array('lampiran'=>'f-2.29.php'));
     // Ubah nama lampiran untuk Surat Keterangan Kelahiran
     $this->db->where('url_surat','surat_ket_kelahiran')->update('tweb_surat_format',array('lampiran'=>'f-2.01.php'));
+    // Tambah modul Sekretariat di urutan sesudah Cetak Surat
+    $list_modul = array(
+      "5"  => 6,    // Analisis
+      "6"  => 7,    // Bantuan
+      "7"  => 8,    // Persil
+      "8"  => 9,    // Plan
+      "9"  => 10,   // Peta
+      "10" => 11,   // SMS
+      "11" => 12,   // Pengguna
+      "12" => 13,   // Database
+      "13" => 14,   // Admin Web
+      "14" => 15);  // Laporan
+    foreach ($list_modul as $key => $value) {
+      $this->db->where('id',$key)->update('setting_modul', array('urut' => $value));
+    }
+    $query = "
+      INSERT INTO setting_modul (id, modul, url, aktif, ikon, urut, level, hidden, ikon_kecil) VALUES
+      ('15','Sekretariat','sekretariat','1','applications-office-5.png','5','2','0','fa fa-print fa-lg')
+      ON DUPLICATE KEY UPDATE
+        modul = VALUES(modul),
+        url = VALUES(url)";
+    $this->db->query($query);
   }
 
   function migrasi_24_ke_25(){
