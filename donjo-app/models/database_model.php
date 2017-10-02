@@ -82,6 +82,9 @@
   }
 
   private function getCurrentVersion(){
+    // Untuk kasus tabel setting_aplikasi belum ada
+    if (!$this->db->table_exists('setting_aplikasi')) return NULL;
+
     $result = NULL;
     $_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
     if(!empty($_result)){
