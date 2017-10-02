@@ -408,13 +408,15 @@
       foreach($widgets as $widget) {
         $this->db->insert('widget', $widget);
       }
-      $this->db->where('id_kategori',1003)->delete('artikel');
       // Hapus kolom widget dari tabel artikel
       $kolom_untuk_dihapus = array("urut", "jenis_widget");
       foreach ($kolom_untuk_dihapus as $kolom){
         $this->dbforge->drop_column('artikel', $kolom);
       }
     }
+    // Hapus setiap kali migrasi, karena ternyata masih ada di database contoh s/d v2.4
+    // TODO: pindahkan ini jika nanti ada kategori dengan nilai 1003.
+    $this->db->where('id_kategori',1003)->delete('artikel');
     // Tambah tautan ke form administrasi widget
     if (!$this->db->field_exists('form_admin', 'widget')) {
       $fields = array(
