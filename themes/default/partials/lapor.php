@@ -9,12 +9,12 @@ Silahkan laporkan perubahan data kependudukan anda.
 
 <tr>
 <th>Pengirim </th>
-<td> <input class="inputbox" type="text" name="owner" value="<?php echo $_SESSION['nama']?>" size="30"/></td>
+<td> <input class="inputbox" type="text" readonly="readonly" name="owner" value="<?php echo $_SESSION['nama']?>" size="30"/></td>
 </tr>
 
 <tr>
 <th>NIK</th>
-<td> <input class="inputbox" type="text" name="email" value="<?php echo $_SESSION['nik']?>" size="30"/></td>
+<td> <input class="inputbox" type="text" readonly="readonly" name="email" value="<?php echo $_SESSION['nik']?>" size="30"/></td>
 </tr>
 
 <tr>
