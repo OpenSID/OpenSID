@@ -19,6 +19,7 @@
 	}
 	// Daftar modul yang aktif dan yang dapat ditampilkan untuk pengguna yang login
 	function list_aktif(){
+		if (empty($_SESSION['grup'])) return array();
 		$modul = $this->db->where('aktif',1)->where("level >= {$_SESSION['grup']}")
 			->order_by('urut')
 			->get('setting_modul')->result_array();
