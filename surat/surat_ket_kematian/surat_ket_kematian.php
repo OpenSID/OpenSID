@@ -50,15 +50,17 @@
   }
 
   function _calculateAge(birthday) { // birthday is a date (dd-mm-yyyy)
-    var parts =birthday.split('-');
-    // Ubah menjadi format ISO yyyy-mm-dd
-    // please put attention to the month (parts[0]), Javascript counts months from 0:
-    // January - 0, February - 1, etc
-    // https://stackoverflow.com/questions/5619202/converting-string-to-date-in-js
-    var birthdate = new Date(parts[2],parts[1]-1,parts[0]);
-    var ageDifMs = (new Date()).getTime() - birthdate.getTime();
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
+    if (birthday) {
+      var parts =birthday.split('-');
+      // Ubah menjadi format ISO yyyy-mm-dd
+      // please put attention to the month (parts[0]), Javascript counts months from 0:
+      // January - 0, February - 1, etc
+      // https://stackoverflow.com/questions/5619202/converting-string-to-date-in-js
+      var birthdate = new Date(parts[2],parts[1]-1,parts[0]);
+      var ageDifMs = (new Date()).getTime() - birthdate.getTime();
+      var ageDate = new Date(ageDifMs); // miliseconds from epoch
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
   }
 
 
@@ -326,14 +328,14 @@ table.form.detail td{
   </tr>
   <tr class="ibu_luar_desa">
     <th>NIK</th>
-    <td><input name="nik_ayah" type="text" class="inputbox required" size="70" value="<?php echo $_SESSION['post']['nik_ayah']?>"/></td>
+    <td><input name="nik_ayah" type="text" class="inputbox" size="70" value="<?php echo $_SESSION['post']['nik_ayah']?>"/></td>
   </tr>
   <tr class="ibu_luar_desa">
     <th> Tanggal Lahir</th>
     <td>
-      <input name="tanggal_lahir_ayah" type="text" class="inputbox required datepicker" id="tanggal_lahir_ayah" size="11" value="<?php echo $_SESSION['post']['tanggal_lahir_ayah']?>"onchange="$('input[name=umur_ayah]').val(_calculateAge($(this).val()));"/>
+      <input name="tanggal_lahir_ayah" type="text" class="inputbox datepicker" id="tanggal_lahir_ayah" size="11" value="<?php echo $_SESSION['post']['tanggal_lahir_ayah']?>"onchange="$('input[name=umur_ayah]').val(_calculateAge($(this).val()));"/>
       <span class="judul"> Umur : </span>
-      <input name="umur_ayah" readonly="readonly" type="text" class="inputbox required" size="5" value="<?php echo $_SESSION['post']['umur_ayah']?>"/>
+      <input name="umur_ayah" readonly="readonly" type="text" class="inputbox" size="5" value="<?php echo $_SESSION['post']['umur_ayah']?>"/>
         tahun
       </td>
   </tr>
@@ -341,7 +343,7 @@ table.form.detail td{
     <th>Pekerjaan</th>
     <td>
       <input type="hidden" name="pekerjaanid_ayah">
-      <select name="pekerjaanayah" class="required" id="pekerjaanayah" onchange="$('input[name=pekerjaanid_ayah]').val($(this).find(':selected').data('pekerjaanid'));">
+      <select name="pekerjaanayah" id="pekerjaanayah" onchange="$('input[name=pekerjaanid_ayah]').val($(this).find(':selected').data('pekerjaanid'));">
         <option value="">Pilih Pekerjaan</option>
         <?php  foreach($pekerjaan as $data){?>
           <option value="<?php echo $data['nama']?>" data-pekerjaanid="<?php echo $data['id']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanayah']) echo 'selected'?>><?php echo $data['nama']?></option>
@@ -353,23 +355,23 @@ table.form.detail td{
     <th>Alamat</th>
     <td>
       <p>Alamat <span class="judul"> : </span>
-        <input name="alamat_ayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['alamat_ayah']?>"/>
+        <input name="alamat_ayah" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['alamat_ayah']?>"/>
         <span class="judul"> RT : </span>
-        <input name="rt_ayah" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rt_ayah']?>"/>
+        <input name="rt_ayah" type="text" class="inputbox" size="7" value="<?php echo $_SESSION['post']['rt_ayah']?>"/>
         <span class="judul"> RW : </span>
-        <input name="rw_ayah" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rw_ayah']?>"/>
+        <input name="rw_ayah" type="text" class="inputbox" size="7" value="<?php echo $_SESSION['post']['rw_ayah']?>"/>
       </p>
       <p>&nbsp;</p>
       <p>Desa <span class="judul"> : </span>
-        <input name="desaayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['desaayah']?>"/>
+        <input name="desaayah" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['desaayah']?>"/>
         <span class="judul"> Kecamatan : </span>
-        <input name="kecayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['kecayah']?>"/>
+        <input name="kecayah" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['kecayah']?>"/>
       </p>
       <p>&nbsp;</p>
       <p>Kab<span class="judul"> &nbsp;:&nbsp; </span>
-        <input name="kabayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['kabayah']?>"/>
+        <input name="kabayah" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['kabayah']?>"/>
         <span class="judul"> Provinsi &nbsp;&nbsp;&nbsp;&nbsp;:  </span>
-        <input name="provinsiayah" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['provinsiayah']?>"/>
+        <input name="provinsiayah" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['provinsiayah']?>"/>
       </p>
     </td>
   </tr>
@@ -405,14 +407,14 @@ table.form.detail td{
   </tr>
   <tr class="ibu_luar_desa">
     <th>NIK</th>
-    <td><input name="nik_ibu" type="text" class="inputbox required" size="70" value="<?php echo $_SESSION['post']['nik_ibu']?>"/></td>
+    <td><input name="nik_ibu" type="text" class="inputbox" size="70" value="<?php echo $_SESSION['post']['nik_ibu']?>"/></td>
   </tr>
   <tr class="ibu_luar_desa">
     <th> Tanggal Lahir</th>
     <td>
-      <input name="tanggal_lahir_ibu" type="text" class="inputbox required datepicker" id="tanggal_lahir_ibu" size="11" value="<?php echo $_SESSION['post']['tanggal_lahir_ibu']?>"onchange="$('input[name=umur_ibu]').val(_calculateAge($(this).val()));"/>
+      <input name="tanggal_lahir_ibu" type="text" class="inputbox datepicker" id="tanggal_lahir_ibu" size="11" value="<?php echo $_SESSION['post']['tanggal_lahir_ibu']?>"onchange="$('input[name=umur_ibu]').val(_calculateAge($(this).val()));"/>
       <span class="judul"> Umur : </span>
-      <input name="umur_ibu" readonly="readonly" type="text" class="inputbox required" size="5" value="<?php echo $_SESSION['post']['umur_ibu']?>"/>
+      <input name="umur_ibu" readonly="readonly" type="text" class="inputbox" size="5" value="<?php echo $_SESSION['post']['umur_ibu']?>"/>
         tahun
       </td>
   </tr>
@@ -420,7 +422,7 @@ table.form.detail td{
     <th>Pekerjaan</th>
     <td>
       <input type="hidden" name="pekerjaanid_ibu">
-      <select name="pekerjaanibu" class="required" id="pekerjaanibu" onchange="$('input[name=pekerjaanid_ibu]').val($(this).find(':selected').data('pekerjaanid'));">
+      <select name="pekerjaanibu" id="pekerjaanibu" onchange="$('input[name=pekerjaanid_ibu]').val($(this).find(':selected').data('pekerjaanid'));">
         <option value="">Pilih Pekerjaan</option>
         <?php  foreach($pekerjaan as $data){?>
           <option value="<?php echo $data['nama']?>" data-pekerjaanid="<?php echo $data['id']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaanibu']) echo 'selected'?>><?php echo $data['nama']?></option>
@@ -432,23 +434,23 @@ table.form.detail td{
     <th>Alamat</th>
     <td>
       <p>Alamat <span class="judul"> : </span>
-        <input name="alamat_ibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['alamat_ibu']?>"/>
+        <input name="alamat_ibu" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['alamat_ibu']?>"/>
         <span class="judul"> RT : </span>
-        <input name="rt_ibu" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rt_ibu']?>"/>
+        <input name="rt_ibu" type="text" class="inputbox" size="7" value="<?php echo $_SESSION['post']['rt_ibu']?>"/>
         <span class="judul"> RW : </span>
-        <input name="rw_ibu" type="text" class="inputbox required" size="7" value="<?php echo $_SESSION['post']['rw_ibu']?>"/>
+        <input name="rw_ibu" type="text" class="inputbox" size="7" value="<?php echo $_SESSION['post']['rw_ibu']?>"/>
       </p>
       <p>&nbsp;</p>
       <p>Desa <span class="judul"> : </span>
-        <input name="desaibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['desaibu']?>"/>
+        <input name="desaibu" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['desaibu']?>"/>
         <span class="judul"> Kecamatan : </span>
-        <input name="kecibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['kecibu']?>"/>
+        <input name="kecibu" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['kecibu']?>"/>
       </p>
       <p>&nbsp;</p>
       <p>Kab<span class="judul"> &nbsp;:&nbsp; </span>
-        <input name="kabibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['kabibu']?>"/>
+        <input name="kabibu" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['kabibu']?>"/>
         <span class="judul"> Provinsi &nbsp;&nbsp;&nbsp;&nbsp;:  </span>
-        <input name="provinsiibu" type="text" class="inputbox required" size="40" value="<?php echo $_SESSION['post']['provinsiibu']?>"/>
+        <input name="provinsiibu" type="text" class="inputbox" size="40" value="<?php echo $_SESSION['post']['provinsiibu']?>"/>
       </p>
     </td>
   </tr>

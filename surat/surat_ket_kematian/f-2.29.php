@@ -358,9 +358,9 @@ table#kode {
     <tr>
       <td colspan="10">10.&nbsp;&nbsp;Tanggal Kematian </td>
       <td>:</td>
-      <?php $tgl = date('dd',strtotime($input['tanggal']));
-        $bln = date('mm',strtotime($input['tanggal']));
-        $thn = date('Y',strtotime($input['tanggal']));
+      <?php $tgl = date('dd',strtotime($input['tanggal_mati']));
+        $bln = date('mm',strtotime($input['tanggal_mati']));
+        $thn = date('Y',strtotime($input['tanggal_mati']));
       ?>
       <td colspan="4">Tanggal : </td>
 		  <?php for($j=0; $j<2; $j++):?>
@@ -487,9 +487,11 @@ table#kode {
     <tr>
       <td colspan="10">3. &nbsp;Tanggal Lahir </td>
       <td>:</td>
-      <?php $tgl = date('dd',strtotime($input['tanggal_lahir_ayah']));
-        $bln = date('mm',strtotime($input['tanggal_lahir_ayah']));
-        $thn = date('Y',strtotime($input['tanggal_lahir_ayah']));
+      <?php if (!empty($input['tanggal_lahir_ayah'])) {
+          $tgl = date('dd',strtotime($input['tanggal_lahir_ayah']));
+          $bln = date('mm',strtotime($input['tanggal_lahir_ayah']));
+          $thn = date('Y',strtotime($input['tanggal_lahir_ayah']));
+        } else { unset($tgl); unset($bln); unset($thn); }
       ?>
       <td colspan="4">Tanggal :</td>
 		  <?php for($j=0; $j<2; $j++):?>
@@ -614,10 +616,12 @@ table#kode {
     <tr>
       <td colspan="10">3.&nbsp;&nbsp;Tanggal lahir </td>
       <td>:</td>
-        <?php $tgl = date('dd',strtotime($input['tanggal_lahir_ibu']));
+      <?php if (!empty($input['tanggal_lahir_ibu'])) {
+          $tgl = date('dd',strtotime($input['tanggal_lahir_ibu']));
           $bln = date('mm',strtotime($input['tanggal_lahir_ibu']));
           $thn = date('Y',strtotime($input['tanggal_lahir_ibu']));
-        ?>
+        } else { unset($tgl); unset($bln); unset($thn); }
+      ?>
       <td colspan="4">Tanggal :</td>
 		  <?php for($j=0; $j<2; $j++):?>
     	  <td class="kotak padat tengah">
