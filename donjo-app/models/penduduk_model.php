@@ -619,6 +619,13 @@
 		$this->db->update('tweb_penduduk',$data);
 		$penduduk = $this->get_penduduk($id);
 
+		// Tulis log_keluarga jika penduduk adalah kepala keluarga
+		if ($penduduk['kk_level'] == 1) {
+			$id_peristiwa = $penduduk['status_dasar_id'] + 2; // lihat kode di keluarga_model
+			$this->keluarga_model->log_keluarga($penduduk['id_kk'], $penduduk['id'], $id_peristiwa);
+		}
+
+		// Tulis log_penduduk
 		$log['id_pend'] = $id;
 		$log['no_kk'] = $penduduk['no_kk'];
 		$log['nama_kk'] = $penduduk['kepala_kk'];
@@ -992,6 +999,19 @@
 		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";
 		elseif ($sex == 2) $judul['nama'] .= " - PEREMPUAN";
 		return $judul;
+	}
+
+	// Untuk form surat
+	function list_penduduk_status_dasar($status_dasar=1){
+		$data = $this->db->select('id,nik,nama')->where('status_dasar',$status_dasar)->
+			get('tweb_penduduk')->result_array();
+		//Formating Output untuk form surat
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			$i++;
+		}
+		return $data;
 	}
 
 	function get_cluster($id_cluster=0){

@@ -65,7 +65,7 @@
   $(function(){
     var nik = {};
     nik.results = [
-<?php foreach($penduduk as $data){?>
+<?php foreach($mati as $data){?>
 {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
 <?php }?>
 ];
@@ -213,7 +213,8 @@ table.form.detail td{
         <p><strong>Form ini menghasilkan:<br><br>
         (1) Surat Keterangan Kematian<br>
         (2) Lampiran F-2.29 SURAT KETERANGAN KEMATIAN bagi warga yang meninggal<br><br>
-        Pastikan semua biodata orang tua warga yang meninggal, pelapor dan saksi-saksi sudah lengkap sebelum mencetak surat dan lampiran.<br>
+        Sebelum membuat Surat Keterangan Kematian, ubah dulu status dasar warga yang meninggal di modul Penduduk. <br><br>
+        Juga pastikan semua biodata orang tua warga yang meninggal, pelapor dan saksi-saksi sudah lengkap sebelum mencetak surat dan lampiran.<br>
         Untuk melengkapi data itu, ubah data warga yang bersangkutan di form isian penduduk di modul Penduduk.
         </strong></p>
       </div>
@@ -224,7 +225,7 @@ table.form.detail td{
 <th width="120">NIK / Nama yang Meninggal</th>
 <td width="665">
 <form action="" id="main" name="main" method="POST">
-<div id="nik" name="nik"></div>
+<div id="nik" name="nik"><p style="display: inline-block; padding-left: 5px; margin-top: 5px;"> * Penduduk dengan status dasar 'mati'</p></div>
 </form></tr>
 
 
