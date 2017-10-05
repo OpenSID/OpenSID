@@ -101,9 +101,4 @@ class Hom_Desa extends CI_Controller{
 		redirect("hom_desa/upgrade_silent");
 	}
 
-	function kosong_pend(){
-		$this->config_model->kosong_pend();
-		redirect("hom_desa");
-	}
-
 }
