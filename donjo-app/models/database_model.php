@@ -82,6 +82,9 @@
   }
 
   private function getCurrentVersion(){
+    // Untuk kasus tabel setting_aplikasi belum ada
+    if (!$this->db->table_exists('setting_aplikasi')) return NULL;
+
     $result = NULL;
     $_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
     if(!empty($_result)){
@@ -197,6 +200,32 @@
         break;
       }
     }
+    // Tambah lampiran untuk Surat Keterangan Kematian
+    $this->db->where('url_surat','surat_ket_kematian')->update('tweb_surat_format',array('lampiran'=>'f-2.29.php'));
+    // Ubah nama lampiran untuk Surat Keterangan Kelahiran
+    $this->db->where('url_surat','surat_ket_kelahiran')->update('tweb_surat_format',array('lampiran'=>'f-2.01.php'));
+    // Tambah modul Sekretariat di urutan sesudah Cetak Surat
+    $list_modul = array(
+      "5"  => 6,    // Analisis
+      "6"  => 7,    // Bantuan
+      "7"  => 8,    // Persil
+      "8"  => 9,    // Plan
+      "9"  => 10,   // Peta
+      "10" => 11,   // SMS
+      "11" => 12,   // Pengguna
+      "12" => 13,   // Database
+      "13" => 14,   // Admin Web
+      "14" => 15);  // Laporan
+    foreach ($list_modul as $key => $value) {
+      $this->db->where('id',$key)->update('setting_modul', array('urut' => $value));
+    }
+    $query = "
+      INSERT INTO setting_modul (id, modul, url, aktif, ikon, urut, level, hidden, ikon_kecil) VALUES
+      ('15','Sekretariat','sekretariat','1','applications-office-5.png','5','2','0','fa fa-print fa-lg')
+      ON DUPLICATE KEY UPDATE
+        modul = VALUES(modul),
+        url = VALUES(url)";
+    $this->db->query($query);
   }
 
   function migrasi_24_ke_25(){
@@ -382,13 +411,15 @@
       foreach($widgets as $widget) {
         $this->db->insert('widget', $widget);
       }
-      $this->db->where('id_kategori',1003)->delete('artikel');
       // Hapus kolom widget dari tabel artikel
       $kolom_untuk_dihapus = array("urut", "jenis_widget");
       foreach ($kolom_untuk_dihapus as $kolom){
         $this->dbforge->drop_column('artikel', $kolom);
       }
     }
+    // Hapus setiap kali migrasi, karena ternyata masih ada di database contoh s/d v2.4
+    // TODO: pindahkan ini jika nanti ada kategori dengan nilai 1003.
+    $this->db->where('id_kategori',1003)->delete('artikel');
     // Tambah tautan ke form administrasi widget
     if (!$this->db->field_exists('form_admin', 'widget')) {
       $fields = array(

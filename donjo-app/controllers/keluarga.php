@@ -17,6 +17,7 @@ function __construct(){
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
+		$_SESSION['status_dasar'] = 1; // tampilkan KK aktif saja
 		unset($_SESSION['dusun']);
 		unset($_SESSION['rw']);
 		unset($_SESSION['rt']);
@@ -35,9 +36,9 @@ function __construct(){
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		if(isset($_SESSION['status_dasar']))
+			$data['status_dasar'] = $_SESSION['status_dasar'];
+		else $data['status_dasar'] = '';
 
 		if(isset($_SESSION['sex']))
 			$data['sex'] = $_SESSION['sex'];
@@ -155,7 +156,6 @@ function __construct(){
 				unset($_SESSION['validation_error']);
 
 		if($new==1){
-
 			if(isset($_POST['dusun'])){
 				$data['dus_sel'] = $_POST['dusun'];
 			}else
@@ -280,6 +280,14 @@ function __construct(){
 		$data['form_action'] = site_url("keluarga/insert/$id");
 		$this->load->view('sid/kependudukan/ajax_add_keluarga',$data);
 
+	}
+
+	function status_dasar(){
+		$status_dasar = $this->input->post('status_dasar');
+		if($status_dasar!="")
+			$_SESSION['status_dasar']=$status_dasar;
+		else unset($_SESSION['status_dasar']);
+		redirect('keluarga');
 	}
 
 	function sex(){

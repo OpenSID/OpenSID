@@ -17,6 +17,7 @@ class Keluar extends CI_Controller{
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
+		unset($_SESSION['nik']);
 		$_SESSION['per_page'] = 20;
 		redirect('keluar');
 	}

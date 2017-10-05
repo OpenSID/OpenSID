@@ -29,6 +29,19 @@
 		}
 	}
 
+	/*
+		1 - tampilkan keluarga di mana KK mempunyai status dasar 'hidup'
+		2 - tampilkan keluarga di mana KK mempunyai status dasar 'hilang/pindah/mati'
+	*/
+	function status_dasar_sql(){
+		if(isset($_SESSION['status_dasar'])){
+			$kf = $_SESSION['status_dasar'];
+			if ($kf == '1')	$status_dasar_sql= " AND t.status_dasar = 1";
+			else $status_dasar_sql= " AND t.status_dasar <> 1";
+		return $status_dasar_sql;
+		}
+	}
+
 	function dusun_sql(){
 		if(isset($_SESSION['dusun'])){
 			$kf = $_SESSION['dusun'];
@@ -71,6 +84,16 @@
 		}
 	}
 
+	function filter_sql() {
+		$sql  = $this->search_sql() .
+						$this->status_dasar_sql() .
+						$this->dusun_sql() .
+					 	$this->rw_sql() .
+		 				$this->rt_sql() .
+		 				$this->sex_sql();
+		return $sql;
+	}
+
 	function kelas_sql(){
 		if(isset($_SESSION['kelas'])){
 			$kh = $_SESSION['kelas'];
@@ -90,11 +113,7 @@
 	function paging($p=1,$o=0){
 
 		$sql      = "SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
-		$sql     .= $this->search_sql();
-		$sql     .= $this->dusun_sql();
-		$sql     .= $this->rw_sql();
-		$sql     .= $this->rt_sql();
-		$sql     .= $this->sex_sql();
+		$sql     .= $this->filter_sql();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
@@ -131,12 +150,7 @@
 			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
 			WHERE 1 ";
 
-		$sql .= $this->search_sql();
-
-		$sql     .= $this->dusun_sql();
-		$sql     .= $this->rw_sql();
-		$sql     .= $this->rt_sql();
-		$sql     .= $this->sex_sql();
+		$sql .= $this->filter_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -155,12 +169,6 @@
 				$data[$i]['sex'] = "LAKI-LAKI";
 			else
 				$data[$i]['sex'] = "PEREMPUAN";
-			// Kosongkan apabila kepala keluarga pindah/hilang atau mati
-			if($data[$i]['status_dasar'] != 1) {
-				$data[$i]['sex'] = "-";
-				$data[$i]['nik'] = "";
-				$data[$i]['kepala_kk'] = "";
-			}
 			$i++;
 			$j++;
 		}
@@ -413,10 +421,15 @@
 		}
 	}
 
-	// Untuk statistik perkembangan keluarga
-	// id_peristiwa:
-	//       1 - keluarga baru
-	//       2 - keluarga dihapus
+	/* 	Untuk statistik perkembangan keluarga
+	 		id_peristiwa:
+	       1 - keluarga baru
+	       2 - keluarga dihapus
+	       3 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
+	       4 - kepala keluarga status dasar 'mati'
+	       5 - kepala keluarga status dasar 'pindah'
+	       6 - kepala keluarga status dasar 'hilang'
+	*/
 	function log_keluarga($id, $kk, $id_peristiwa) {
 		$this->db->select('sex');
 		$this->db->where('id', $kk);

@@ -100,6 +100,14 @@ input.angka{direction:rtl; font-size:20px}
     background-image: linear-gradient(#98e4f7, #ffffff);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#98e4f7', EndColorStr='#ffffff');
 }
+#nav ul li.nonaktif{border-bottom-color:white;
+ background-color: lightgrey;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#98e4f7), to(#ffffff));
+    background-image: -moz-linear-gradient(#98e4f7, #ffffff);
+    background-image: -o-linear-gradient(#98e4f7, #ffffff);
+    background-image: linear-gradient(#98e4f7, #ffffff);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#98e4f7', EndColorStr='#ffffff');
+}
 #nav ul li.selected a{color:#111111; border-bottom-color:white;
 	text-shadow:1px 1px 1.1px #999;}
 #nav .alignright{float:right}
