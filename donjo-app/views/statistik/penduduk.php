@@ -15,8 +15,8 @@
     <div class="ui-layout-north panel top">
       <div class="left">
         <div class="uibutton-group">
-    			<a href="<?php echo site_url("statistik/cetak/$lap")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak Data</a>
-    			<a href="<?php echo site_url("statistik/excel/$lap")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Data Excel</a>
+    			<a href="<?php echo site_url("statistik/cetak/$lap")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+    			<a href="<?php echo site_url("statistik/excel/$lap")?>" class="uibutton tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
     			<a href="<?php echo site_url("statistik/graph/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="fa fa-bar-chart">&nbsp;</span>Grafik Data</a>
     			<a href="<?php echo site_url("statistik/pie/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="fa fa-pie-chart">&nbsp;</span>Pie Chart</a>
     			<?php  if($lap=='13'){?>
