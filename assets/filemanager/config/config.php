@@ -53,6 +53,13 @@ define('DEBUG_ERROR_MESSAGE', true); // TRUE or FALSE
 |    |   |   |   |   |- plugin.min.js
 */
 
+/*
+ Untuk mencari folder aplikasi di localhost. Asumsi $_SERVER['REQUEST_URI'] mempunyai nilai
+ seperti:
+ '/OpenSID/assets/filemanager/dialog.php?type=1&descending=false&lang=undefined&akey=KunciDesa'
+*/
+$folder_app = substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'],'/assets'));
+
 $config = array(
 
 	/*
@@ -63,11 +70,11 @@ $config = array(
 	| without final / (DON'T TOUCH)
 	|
 	*/
-    
+
     //jika di lokalhost gunakan konfigurasi ini, dan ganti /{opensid304}/assets' dengan nama folder opensid anda
 //	'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && ! in_array(strtolower($_SERVER['HTTPS']), array( 'off', 'no' ))) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'].'/opensid304/assets',
-    
-   'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && ! in_array(strtolower($_SERVER['HTTPS']), array( 'off', 'no' ))) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'].'/assets',
+
+   'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && ! in_array(strtolower($_SERVER['HTTPS']), array( 'off', 'no' ))) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $folder_app . '/assets',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -77,7 +84,7 @@ $config = array(
 	| with start and final /
 	|
 	*/
-	'upload_dir' => '/source/',
+	'upload_dir' => '/../desa/upload/media/',
 	/*
 	|--------------------------------------------------------------------------
 	| relative path from filemanager folder to upload folder
@@ -86,7 +93,7 @@ $config = array(
 	| with final /
 	|
 	*/
-	'current_path' => '../source/',
+	'current_path' => '../../desa/upload/media/',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -97,7 +104,7 @@ $config = array(
 	| DO NOT put inside upload folder
 	|
 	*/
-	'thumbs_base_path' => '../thumbs/',
+	'thumbs_base_path' => '../../desa/upload/thumbs/',
 
 
 	/*
@@ -106,7 +113,7 @@ $config = array(
 	|--------------------------------------------------------------------------
 	|
 	| If you want enable ftp use write these parametres otherwise leave empty
-	| Remember to set base_url properly to point in the ftp server domain and 
+	| Remember to set base_url properly to point in the ftp server domain and
 	| upload dir will be ftp_base_folder + upload_dir so without final /
 	|
 	*/
@@ -260,7 +267,7 @@ $config = array(
 	//******************
 	//
 	// WATERMARK IMAGE
-	// 
+	//
 	//Watermark url or false
 	'image_watermark'                          => false,
 	# Could be a pre-determined position such as:
