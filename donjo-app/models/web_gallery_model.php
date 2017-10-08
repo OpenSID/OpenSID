@@ -86,9 +86,9 @@
 			$data[$i]['no']=$j+1;
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 			$j++;
@@ -272,9 +272,9 @@
 			$data[$i]['no']=$i+1;
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 		}

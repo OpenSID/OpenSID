@@ -15,7 +15,7 @@
         <div id="contentpane">
         	<form id="mainform" name="mainform" action="" method="post">
             <div class="ui-layout-north panel">
-              <h3>Manajemen Rumah Tangga</h3>
+              <h3>Pengaturan / Pengelompokan Rumah Tangga</h3>
               <div class="left">
                 <div class="uibutton-group">
                   <a href="<?php echo site_url('rtm/form_old')?>" target="ajax-modalx" rel="window" header="Tambah Data Rumah Tangga Per Penduduk" class="uibutton tipsy south" title="Tambah data dari penduduk" ><span class="fa fa-plus">&nbsp;</span>Tambah Rumah Tangga</a>

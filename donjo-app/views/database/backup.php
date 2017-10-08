@@ -8,7 +8,7 @@
         <div id="contentpane">
 
           <div class="ui-layout-north panel">
-            <h3>Full Backup / Restore Data SID</h3>
+            <h3>Backup / Restore Database SID</h3>
           </div>
 
           <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
@@ -16,10 +16,10 @@
               <div class="left">
                 <table class="list-db">
                   <tr>
-                    <td width="250">Backup Seluruh Data SID</td>
+                    <td width="250">Backup Seluruh Database SID (.sql)</td>
                     <td>
                       <div class="uibutton-group">
-                        <a class="uibutton special" href="<?php echo site_url("database")?>/exec_backup"><span class="fa fa-download"></span> Download</a>
+                        <a class="uibutton special" href="<?php echo site_url("database")?>/exec_backup"><span class="fa fa-download"></span> Unduh</a>
                       </div>
                     </td>
                   </tr>
@@ -30,7 +30,7 @@
            			    <tr>
             					<td colspan="3">
               					<p>
-                					Proses <em>Download</em> akan mengunduh keseluruhan database SID anda.
+                					Proses <em>Unduh</em> akan mengunduh keseluruhan database SID anda.
                         </p>
                         <br>
                         <ul>

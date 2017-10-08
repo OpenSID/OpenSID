@@ -64,11 +64,11 @@ source: keyword
 <?php  endif; ?>&nbsp;</span></a></th>
 
 <?php  if($o==6): ?>
-<th align="left" width="150"><a href="<?php echo site_url("komentar/index/$p/5")?>">Diupload Pada <span class="fa fa-sort-asc fa-sm">
+<th align="left" width="150"><a href="<?php echo site_url("komentar/index/$p/5")?>">Dimuat Pada <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==5): ?>
-<th align="left" width="150"><a href="<?php echo site_url("komentar/index/$p/6")?>">Diupload Pada <span class="fa fa-sort-desc fa-sm">
+<th align="left" width="150"><a href="<?php echo site_url("komentar/index/$p/6")?>">Dimuat Pada <span class="fa fa-sort-desc fa-sm">
 <?php  else: ?>
-<th align="left" width="150"><a href="<?php echo site_url("komentar/index/$p/5")?>">Diupload Pada <span class="fa fa-sort fa-sm">
+<th align="left" width="150"><a href="<?php echo site_url("komentar/index/$p/5")?>">Dimuat Pada <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
 
 </tr>

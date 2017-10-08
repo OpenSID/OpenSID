@@ -32,7 +32,7 @@ table.tftable th.total {padding-right: 8px; text-align: right;}
 				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>
 				<tr>
 					<td></td>
-					<td width="100%"><h3>LAPORAN BULANAN <?php echo strtoupper($this->setting->sebutan_desa)?>/KELURAHAN</h3></td>
+					<td width="100%"><h3>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN</h3></td>
 
 
 				</tr>
@@ -133,12 +133,12 @@ table.tftable th.total {padding-right: 8px; text-align: right;}
 		<td align="right"><?php echo $data['rt']?></td>
 		<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/1")?>"><?php echo $data['L']?></a></td>
 		<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/2")?>"><?php echo $data['P']?></a></td>
-		<td width="13%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/3")?>"><?php echo $data['bayi']?></a></td>
-		<td width="14%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/4")?>"><?php echo $data['balita']?></a></td>
-		<td width="13%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/5")?>"><?php echo $data['sd']?></a></td>
-		<td width="15%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/6")?>"><?php echo $data['smp']?></a></td>
-		<td width="15%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/7")?>"><?php echo $data['sma']?></a></td>
-		<td width="13%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/8")?>"><?php echo $data['lansia']?></a></td>
+		<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/3")?>"><?php echo $data['bayi']?></a></td>
+		<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/4")?>"><?php echo $data['balita']?></a></td>
+		<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/5")?>"><?php echo $data['sd']?></a></td>
+		<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/6")?>"><?php echo $data['smp']?></a></td>
+		<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/7")?>"><?php echo $data['sma']?></a></td>
+		<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/8")?>"><?php echo $data['lansia']?></a></td>
 		<?php foreach($jenis_cacat as $key => $cacat) : ?>
 			<?php $kode_cacat = $key + 1;?>
 			<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/9$kode_cacat")?>"><?php echo $data[$cacat]?></a></td>

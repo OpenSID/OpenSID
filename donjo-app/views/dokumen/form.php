@@ -69,7 +69,7 @@
               </tr>
       			<?php }?>
             <tr>
-                <th>Upload Dokumen</th>
+                <th>Unggah Dokumen</th>
                 <td><input type="file" name="satuan" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah dokumen)</span></td>
             </tr>
             <?php include ("donjo-app/views/dokumen/_sk_kades.php"); ?>

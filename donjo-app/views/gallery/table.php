@@ -70,11 +70,11 @@
 			<?php  endif; ?>&nbsp;</span></a></th>
 
 			<?php  if($o==6): ?>
-				<th align="center" width="250"><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada <span class="fa fa-sort-asc fa-sm">
+				<th align="center" width="250"><a href="<?php echo site_url("gallery/index/$p/5")?>">Diunggah pada <span class="fa fa-sort-asc fa-sm">
 			<?php  elseif($o==5): ?>
-				<th align="center" width="250"><a href="<?php echo site_url("gallery/index/$p/6")?>">Diupload pada <span class="fa fa-sort-desc fa-sm">
+				<th align="center" width="250"><a href="<?php echo site_url("gallery/index/$p/6")?>">Diunggah pada <span class="fa fa-sort-desc fa-sm">
 			<?php  else: ?>
-				<th align="center" width="250"><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada <span class="fa fa-sort fa-sm">
+				<th align="center" width="250"><a href="<?php echo site_url("gallery/index/$p/5")?>">Diunggah pada <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>&nbsp;</span></a></th>
 
 			</tr>
