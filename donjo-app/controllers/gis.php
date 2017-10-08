@@ -152,7 +152,7 @@ function index(){
 		$cari = $this->input->post('cari');
 		if($cari!='') {
 			$_SESSION['cari']=$cari;
-			if(empty($_SESSION['layer_penduduk'] AND empty($_SESSION['layer_keluarga'])))
+			if(empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 		}
 		else unset($_SESSION['cari']);
@@ -163,7 +163,7 @@ function index(){
 		$filter = $this->input->post('filter');
 		if($filter!="") {
 			$_SESSION['filter']=$filter;
-			if(empty($_SESSION['layer_penduduk'] AND empty($_SESSION['layer_keluarga'])))
+			if(empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 		}
 		else unset($_SESSION['filter']);
@@ -236,7 +236,7 @@ function index(){
 		$sex = $this->input->post('sex');
 		if($sex!="") {
 			$_SESSION['sex']=$sex;
-			if(empty($_SESSION['layer_penduduk'] AND empty($_SESSION['layer_keluarga'])))
+			if(empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 		}
 		else unset($_SESSION['sex']);
@@ -247,7 +247,7 @@ function index(){
 		$dusun = $this->input->post('dusun');
 		if($dusun!="") {
 			$_SESSION['dusun']=$dusun;
-			if(empty($_SESSION['layer_penduduk'] AND empty($_SESSION['layer_keluarga'])))
+			if(empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 		}
 		else unset($_SESSION['dusun']);
@@ -258,7 +258,7 @@ function index(){
 		$rw = $this->input->post('rw');
 		if($rw!="") {
 			$_SESSION['rw']=$rw;
-			if(empty($_SESSION['layer_penduduk'] AND empty($_SESSION['layer_keluarga'])))
+			if(empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 		}
 		else unset($_SESSION['rw']);
@@ -269,7 +269,7 @@ function index(){
 		$rt = $this->input->post('rt');
 		if($rt!="") {
 			$_SESSION['rt']=$rt;
-			if(empty($_SESSION['layer_penduduk'] AND empty($_SESSION['layer_keluarga'])))
+			if(empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 		}
 		else unset($_SESSION['rt']);
@@ -280,7 +280,7 @@ function index(){
 		$agama = $this->input->post('agama');
 		if($agama!="") {
 			$_SESSION['agama']=$agama;
-			if(empty($_SESSION['layer_penduduk'] AND empty($_SESSION['layer_keluarga'])))
+			if(empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 		}
 		else unset($_SESSION['agama']);
@@ -311,7 +311,7 @@ function index(){
 				UNSET($adv_search[$col[$i]]);
 			else {
 				$_SESSION[$col[$i]]=$adv_search[$col[$i]];
-				if(empty($_SESSION['layer_penduduk'] AND empty($_SESSION['layer_keluarga'])))
+				if(empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 			}
 		}
