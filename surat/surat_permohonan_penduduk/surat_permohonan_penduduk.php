@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');?>
+
 <style>
 table.form.detail th{
     padding:5px;

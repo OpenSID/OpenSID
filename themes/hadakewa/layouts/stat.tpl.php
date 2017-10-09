@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
 			<div id="contentwrapper">
 				<div id="contentcolumn">

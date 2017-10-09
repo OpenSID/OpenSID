@@ -28,10 +28,16 @@
 							<tr>
 								<td align="center" width="2"><?php echo $data['no']?></td>
 								<td> <div class="uibutton-group">
-									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[nik]")?>" class="uibutton tipsy south fa-tipis" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a>
+									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[id_pend]")?>" class="uibutton tipsy south fa-tipis" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a>
 									</div>
 								</td>
-								<td><?php echo $data['nik']?></td>
+								<td>
+									<?php echo $data['nik'];
+										if ($data['nik'] != $data['nik_lama'])
+											echo " (Berubah dari: ".$data['nik_lama'].")";
+									?>
+
+								</td>
 								<td><?php echo unpenetration($data['nama'])?></td>
 								<td><?php echo tgl_indo2($data['tanggal_buat'])?></td>
 								<td><?php echo tgl_indo2($data['last_login'])?></td>

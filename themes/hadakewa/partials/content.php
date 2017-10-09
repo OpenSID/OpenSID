@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <?php
 if(count($slide_galeri)>0 OR count($slide_artikel)>0){
 	$this->load->view($folder_themes."/layouts/slider.php");
@@ -60,7 +62,7 @@ if($artikel){
 					<h3 class=\"judul\"><a href=\"". site_url("first/artikel/$data[id]") ."\">". $data["judul"] ."</a></h3>
 
 					<div class=\"teks\">
-						<div class=\"kecil\"><i class=\"fa fa-clock-o\"></i> ".tgl_indo2($data['tgl_upload'])." <i class=\"fa fa-user\"></i>  ".$data['owner']."</div>
+						<div class=\"kecil\"><i class=\"fa fa-calendar-check-o\"></i> ".tgl_indo2($data['tgl_upload'])." - <i class=\"fa fa-user-circle-o\"></i>  ".$data['owner']."</div>
 						<div class=\"img\">";
 							if($data['gambar']!=''){
 								if(is_file(LOKASI_FOTO_ARTIKEL."kecil_".$data['gambar'])) {

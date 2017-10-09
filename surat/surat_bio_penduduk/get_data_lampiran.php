@@ -1,4 +1,4 @@
-<?php
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 define('MAX_ANGGOTA_F101', 10);
 

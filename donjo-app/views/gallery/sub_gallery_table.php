@@ -1,6 +1,6 @@
 <script>
 	$(function() {
-		var keyword = <?php echo $keyword?> ;
+		var keyword = <?php echo empty($keyword) ? "''" : $keyword?> ;
 		$( "#cari" ).autocomplete({
 			source: keyword
 		});
@@ -21,7 +21,7 @@
             <div class="uibutton-group">
                 <a href="<?php echo site_url("gallery/form_sub_gallery/$gallery")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus">&nbsp;</span>Tambah Gambar Baru</a>
 							<?php if($_SESSION['grup']<4){?>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("gallery/delete_all_sub_gallery/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("gallery/delete_all_sub_gallery/$gallery")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
 							<?php } ?>
             </div>
         </div>
@@ -64,11 +64,11 @@
 								<?php  endif; ?>&nbsp;</span></a></th>
 
 								<?php  if($o==6): ?>
-									<th align="left" width='180'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada <span class="fa fa-sort-asc fa-sm">
+									<th align="left" width='180'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diunggah pada <span class="fa fa-sort-asc fa-sm">
 								<?php  elseif($o==5): ?>
-									<th align="left" width='180'><a href="<?php echo site_url("gallery/index/$p/6")?>">Diupload pada <span class="fa fa-sort-desc fa-sm">
+									<th align="left" width='180'><a href="<?php echo site_url("gallery/index/$p/6")?>">Diunggah pada <span class="fa fa-sort-desc fa-sm">
 								<?php  else: ?>
-									<th align="left" width='180'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diupload pada <span class="fa fa-sort fa-sm">
+									<th align="left" width='180'><a href="<?php echo site_url("gallery/index/$p/5")?>">Diunggah pada <span class="fa fa-sort fa-sm">
 								<?php  endif; ?>&nbsp;</span></a></th>
 			</tr>
 		</thead>

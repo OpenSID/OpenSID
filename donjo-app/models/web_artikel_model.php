@@ -66,7 +66,6 @@
 	}
 
 	function list_data($cat=0,$o=0,$offset=0,$limit=500){
-
 		switch($o){
 		case 1: $order_sql = ' ORDER BY judul'; break;
 		case 2: $order_sql = ' ORDER BY judul DESC'; break;
@@ -96,9 +95,9 @@
 			$data[$i]['no']=$j+1;
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 			$j++;
@@ -125,48 +124,27 @@
 	function insert($cat=1){
 		$_SESSION['success']=1;
 		$_SESSION['error_msg'] = "";
+		$data = $_POST;
+
+    if (empty($data['judul']) || empty($data['isi'])) {
+			$_SESSION['error_msg'].= " -> Data harus diisi";
+      $_SESSION['success'] = -1;
+      return;
+    }
 
 		$fp = time();
-		  $lokasi_file = $_FILES['gambar']['tmp_name'];
-		  $tipe_file   = $_FILES['gambar']['type'];
-		  $nama_file   = $_FILES['gambar']['name'];
-		  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
+		foreach ($list_gambar as $gambar) {
+		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
+		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
 		  if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-				UploadArtikel($nama_file,"gambar",$fp);
-			}
+			  $tipe_file = TipeFile($_FILES[$gambar]);
+				$hasil = UploadArtikel($nama_file,$gambar,$fp,$tipe_file);
+				if ($hasil) $data[$gambar] = $nama_file;
 		  }
-		  $lokasi_file1 = $_FILES['gambar1']['tmp_name'];
-		  $tipe_file1   = $_FILES['gambar1']['type'];
-		  $nama_file1   = $_FILES['gambar1']['name'];
-		  if (!empty($lokasi_file1)){
-			if ($tipe_file1 == "image/jpeg" OR $tipe_file1 == "image/pjpeg"){
-				UploadArtikel($nama_file1,"gambar1",$fp);
-			}
-		  }
-		  $lokasi_file2 = $_FILES['gambar2']['tmp_name'];
-		  $tipe_file2   = $_FILES['gambar2']['type'];
-		  $nama_file2   = $_FILES['gambar2']['name'];
-		  if (!empty($lokasi_file2)){
-			if ($tipe_file2 == "image/jpeg" OR $tipe_file2 == "image/pjpeg"){
-				UploadArtikel($nama_file2,"gambar2",$fp);
-			}
-		  }
-		  $lokasi_file3 = $_FILES['gambar3']['tmp_name'];
-		  $tipe_file3   = $_FILES['gambar3']['type'];
-		  $nama_file3   = $_FILES['gambar3']['name'];
-		  if (!empty($lokasi_file3)){
-			if ($tipe_file3 == "image/jpeg" OR $tipe_file3 == "image/pjpeg"){
-				UploadArtikel($nama_file3,"gambar3",$fp);
-			}
-		  }
-		$data = $_POST;
+		}
 		$data['id_kategori'] = $cat;
 		$data['id_user'] = $_SESSION['user'];
-		$data['gambar'] = $fp.$nama_file;
-		$data['gambar1'] = $fp.$nama_file1;
-		$data['gambar2'] = $fp.$nama_file2;
-		$data['gambar3'] = $fp.$nama_file3;
 
 		if($_SESSION['grup'] == 4){
 			$data['enabled'] = 2;
@@ -195,58 +173,51 @@
 			}
 		}
 
-		$outp = $this->db->insert('artikel',$data);
-		if(!$outp) $_SESSION['success']=-1;
+		foreach ($list_gambar as $gambar) {
+			unset($data['old_'.$gambar]);
+		}
+    $outp = $this->db->insert('artikel', $data);
+    if (!$outp) $_SESSION['success'] = -1;
 	}
 
 	function update($cat, $id=0){
 		$_SESSION['success']=1;
 		$_SESSION['error_msg'] = "";
 
-		  $data = $_POST;
+	  $data = $_POST;
+    if (empty($data['judul']) || empty($data['isi'])) {
+			$_SESSION['error_msg'].= " -> Data harus diisi";
+      $_SESSION['success'] = -1;
+      return;
+    }
 
-		  $fp = time();
+	  $fp = time();
+		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
+		foreach ($list_gambar as $gambar) {
+		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
+		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
 
-		  $lokasi_file = $_FILES['gambar']['tmp_name'];
-		  $tipe_file   = $_FILES['gambar']['type'];
-		  $nama_file   = $_FILES['gambar']['name'];
-		  $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		  if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-				UploadArtikel($nama_file,"gambar",$fp);
-				$data['gambar'] = $fp.$nama_file;
-			}
-		  }else{unset($data['gambar']);}
+			  $tipe_file = TipeFile($_FILES[$gambar]);
+				$hasil = UploadArtikel($nama_file,$gambar,$fp,$tipe_file);
+				if ($hasil) {
+					$data[$gambar] = $nama_file;
+					HapusArtikel($data['old_'.$gambar]);
+				} else {
+			  	unset($data[$gambar]);
+				}
+		  } else {
+		  	unset($data[$gambar]);
+		  }
+		}
 
-		  $lokasi_file1 = $_FILES['gambar1']['tmp_name'];
-		  $tipe_file1   = $_FILES['gambar1']['type'];
-		  $nama_file1   = $_FILES['gambar1']['name'];
-		  if (!empty($lokasi_file1)){
-			if ($tipe_file1 == "image/jpeg" OR $tipe_file1 == "image/pjpeg"){
-				UploadArtikel($nama_file1,"gambar1",$fp);
-				$data['gambar1'] = $fp.$nama_file1;
+		foreach ($list_gambar as $gambar) {
+			if(isset($data[$gambar.'_hapus'])){
+				HapusArtikel($data[$gambar.'_hapus']);
+				$data[$gambar] = "";
+				unset($data[$gambar.'_hapus']);
 			}
-		  }else{unset($data['gambar1']);}
-
-		  $lokasi_file2 = $_FILES['gambar2']['tmp_name'];
-		  $tipe_file2   = $_FILES['gambar2']['type'];
-		  $nama_file2   = $_FILES['gambar2']['name'];
-		  if (!empty($lokasi_file2)){
-			if ($tipe_file2 == "image/jpeg" OR $tipe_file2 == "image/pjpeg"){
-				UploadArtikel($nama_file2,"gambar2",$fp);
-				$data['gambar2'] = $fp.$nama_file2;
-			}
-		  }else{unset($data['gambar2']);}
-
-		  $lokasi_file3 = $_FILES['gambar3']['tmp_name'];
-		  $tipe_file3   = $_FILES['gambar3']['type'];
-		  $nama_file3   = $_FILES['gambar3']['name'];
-		  if(!empty($lokasi_file3)){
-			if ($tipe_file3 == "image/jpeg" OR $tipe_file3 == "image/pjpeg"){
-				UploadArtikel($nama_file3,"gambar3",$fp);
-				$data['gambar3'] = $fp.$nama_file3;
-			}
-		 }else{unset($data['gambar3']);}
+		}
 
 		// Upload dokumen lampiran
 
@@ -268,30 +239,9 @@
 			}
 		}
 
-		if(isset($data['gambar_hapus'])){
-			HapusArtikel($data['gambar_hapus']);
-			$data['gambar'] = "";
-			unset($data['gambar_hapus']);
+		foreach ($list_gambar as $gambar) {
+			unset($data['old_'.$gambar]);
 		}
-
-		if(isset($data['gambar1_hapus'])){
-			HapusArtikel($data['gambar1_hapus']);
-			$data['gambar1'] = "";
-			unset($data['gambar1_hapus']);
-		}
-
-		if(isset($data['gambar2_hapus'])){
-			HapusArtikel($data['gambar2_hapus']);
-			$data['gambar2'] = "";
-			unset($data['gambar2_hapus']);
-		}
-
-		if(isset($data['gambar3_hapus'])){
-			HapusArtikel($data['gambar3_hapus']);
-			$data['gambar3'] = "";
-			unset($data['gambar3_hapus']);
-		}
-
 		$this->db->where('id',$id);
 		$outp = $this->db->update('artikel',$data);
 		if(!$outp) $_SESSION['success']=-1;
@@ -302,31 +252,26 @@
 	}
 
 	function delete($id=''){
-		$sql  = "DELETE FROM artikel WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
+		$list_gambar = $this->db->select('gambar, gambar1, gambar2, gambar3')->where('id',$id)->get('artikel')->row_array();
+		foreach ($list_gambar as $key => $gambar) {
+			HapusArtikel($gambar);
+		}
+		$outp = $this->db->where('id',$id)->delete('artikel');
+		return $outp;
+	}
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+	function delete_all(){
+		$_SESSION['success']=1;
+		$id_cb = $_POST['id_cb'];
+		foreach($id_cb as $id){
+			$outp = $this->delete($id);
+			if(!$outp) $_SESSION['success']=-1;
+		}
 	}
 
 	function hapus($id=''){
 		$sql  = "DELETE FROM kategori WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-
-	function delete_all(){
-		$id_cb = $_POST['id_cb'];
-
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$sql  = "DELETE FROM artikel WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
-			}
-		}
-		else $outp = false;
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
@@ -339,6 +284,12 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
+	}
+
+	function komentar_lock($id='',$val=0){
+		$_SESSION['success'] = 1;
+		$outp = $this->db->where('id',$id)->update('artikel',array('boleh_komentar'=>$val));
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 
 	function get_artikel($id=0){

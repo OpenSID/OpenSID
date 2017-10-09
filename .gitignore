@@ -36,5 +36,7 @@ surat/arsip/
 generatedata-3.2.4/
 coba/
 *.log
+log-*.php
+info.php
 
 

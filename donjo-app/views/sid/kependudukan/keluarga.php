@@ -8,6 +8,7 @@
 </script>
 <style>
   table.list td.perhatian {background-color: rgba(255, 127, 80, 0.35);}
+  table.list tr.perhatian {background-color: rgba(255, 127, 80, 0.35);}
 </style>
 
 <div id="pageC">
@@ -25,12 +26,17 @@
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('keluarga/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Data Baru</a>
-                <a href="<?php echo site_url('keluarga/form_old')?>" target="ajax-modal" rel="window" header="Tambah Data Keluarga" class="uibutton tipsy south" title="Tambah Data dari penduduk yang sudah ter-input" ><span class="fa fa-plus">&nbsp;</span>Tambah Data</a>
+                <a href="<?php echo site_url('keluarga/form')?>" class="uibutton tipsy south" title="Tambah Data KK Baru" ><span class="fa fa-plus-square">&nbsp;</span>Tambah KK Baru</a>
+                <a href="<?php echo site_url('keluarga/form_old')?>" target="ajax-modal" rel="window" header="Tambah Data Kepala Keluarga" class="uibutton tipsy south" title="Tambah Data KK dari penduduk yang sudah ter-input" ><span class="fa fa-plus">&nbsp;</span>Tambah KK</a>
                 <?php  if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button><?php  }?>
-				<a href="<?php echo site_url("keluarga/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
-				<a href="<?php echo site_url("keluarga/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+				<a href="<?php echo site_url("keluarga/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Cetak Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
+				<a href="<?php echo site_url("keluarga/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Unduh Data" ><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
 				&nbsp;
+                <select name="status_dasar" onchange="formAction('mainform','<?php echo site_url('keluarga/status_dasar')?>')">
+                    <option value="">Semua KK</option>
+                    <option value="1" <?php if($status_dasar == 1) :?>selected<?php endif?>>KK Aktif</option>
+                    <option value="2" <?php if($status_dasar == 2) :?>selected<?php endif?>>KK Hilang/Pindah/Mati</option>
+                </select>
 				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('keluarga/dusun')?>')">
                     <option value=""><?php echo ucwords($this->setting->sebutan_dusun)?></option>
 					<?php foreach($list_dusun AS $data){?>
@@ -110,7 +116,7 @@
     		</thead>
     		<tbody>
           <?php  foreach($main as $data): ?>
-      		<tr>
+      		<tr class="<?php if($data['status_dasar'] != 1) echo 'perhatian'?>">
             <td align="center" width="2"><?php echo $data['no']?></td>
       			<td align="center" width="5">
       				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />

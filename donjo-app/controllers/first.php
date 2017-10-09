@@ -70,11 +70,17 @@ class First extends Web_Controller{
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 		$data['headline'] = $this->first_artikel_m->get_headline();
 
+		$cari = trim($this->input->get('cari'));
+		if ( ! empty($cari)) {
+			// kok harus judul_kategori? :)
+			$data["judul_kategori"] = "Hasil pencarian: $cari";
+		}
+
 		$this->_get_common_data($data);
 
 		// $this->load->view('layouts/main.tpl.php',$data);
-    // load views
-    $this->load->view($this->template, $data);
+		// load views
+		$this->load->view($this->template, $data);
 		$this->track_model->track_desa('first');
 	}
 
@@ -278,7 +284,7 @@ class First extends Web_Controller{
 		$this->load->view($this->template,$data);
 	}
 
-	function kategori($kat=0,$p=0){
+	function kategori($kat=0,$p=1){
 		$data = $this->includes;
 
 		$data['p'] = $p;

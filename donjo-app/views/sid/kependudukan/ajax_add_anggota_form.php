@@ -61,7 +61,7 @@ $('#'+'main').submit();
 <tr>
           <td align="center" width="2"><?php echo $data['no']?></td>
           <td><?php echo $data['nik']?></td>
-          <td><?php echo unpenetration($data['nama'])?></td>
+          <td><?php echo $data['nama']?></td>
           <td><?php echo $data['hubungan']?></td>
   </tr>
         <?php  endforeach; ?>

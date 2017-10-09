@@ -1,6 +1,12 @@
 <?php class Database_model extends CI_Model{
 
   private $engine = 'InnoDB';
+  /* define versi opensid dan script migrasi yang harus dijalankan */
+  private $versionMigrate = array(
+    '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
+    'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
+    '2.5' => array('migrate' => 'migrasi_25_ke_26','nextVersion' => NULL)
+  );
 
   function __construct(){
     parent::__construct();
@@ -14,7 +20,7 @@
 		$db_debug = $this->db->db_debug; //save setting
 		$this->db->db_debug = FALSE; //disable debugging for queries
 
-      $query = $this->db->query("SELECT table_name,`engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '". $this->db->database ."'");
+      $query = $this->db->query("SELECT `engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '". $this->db->database ."' AND table_name = 'user'");
       if(!$this->db->_error_number()) {
       	$this->engine = $query->row()->engine;
       }
@@ -46,8 +52,48 @@
     ";
     $this->db->query($query);
   }
+  function migrasi_db_cri(){
+    $versi = $this->getCurrentVersion();
+    $nextVersion = $versi;
+    $versionMigrate = $this->versionMigrate;
+    if(isset($versionMigrate[$versi])){
+      while(!empty($nextVersion) AND !empty($versionMigrate[$nextVersion]['migrate'])){
+        $migrate = $versionMigrate[$nextVersion]['migrate'];
+        log_message('error','Jalankan '.$migrate);
+        $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
+        call_user_func(__NAMESPACE__ .'\Database_model::'.$migrate);
+      }
+    }else{
+      $this->_migrasi_db_cri();
+    }
+    /*
+      Update current_version di db.
+      'pasca-<versi>' disimpan sebagai '<versi>'
+    */
+    $prefix = 'pasca-';
+    $versi = AmbilVersi();
+    if (substr($versi, 0, strlen($prefix)) == $prefix) {
+        $versi = substr($versi, strlen($prefix));
+    }
+    $newVersion = array(
+      'value' => $versi
+    );
+    $this->db->where(array('key'=>'current_version'))->update('setting_aplikasi',$newVersion);
+  }
 
-  function migrasi_db_cri() {
+  private function getCurrentVersion(){
+    // Untuk kasus tabel setting_aplikasi belum ada
+    if (!$this->db->table_exists('setting_aplikasi')) return NULL;
+
+    $result = NULL;
+    $_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
+    if(!empty($_result)){
+      $result = $_result->value;
+    }
+    return $result;
+  }
+
+  function _migrasi_db_cri() {
     $this->migrasi_cri_lama();
     $this->migrasi_03_ke_04();
     $this->migrasi_08_ke_081();
@@ -75,6 +121,214 @@
     $this->migrasi_20_ke_21();
     $this->migrasi_21_ke_22();
     $this->migrasi_22_ke_23();
+    $this->migrasi_23_ke_24();
+    $this->migrasi_24_ke_25();
+    $this->migrasi_25_ke_26();
+  }
+
+  function migrasi_25_ke_26(){
+    // Tambah tabel provinsi
+    if (!$this->db->table_exists('provinsi') ) {
+      $query = "
+        CREATE TABLE `provinsi` (
+          `kode` tinyint(2),
+          `nama` varchar(100),
+          PRIMARY KEY  (`kode`)
+        );
+      ";
+      $this->db->query($query);
+      $query = "
+        INSERT INTO `provinsi` (`kode`, `nama`) VALUES
+        (11,  'Aceh'),
+        (12,  'Sumatera Utara'),
+        (13,  'Sumatera Barat'),
+        (14,  'Riau'),
+        (15,  'Jambi'),
+        (16,  'Sumatera Selatan'),
+        (17,  'Bengkulu'),
+        (18,  'Lampung'),
+        (19,  'Kepulauan Bangka Belitung'),
+        (21,  'Kepulauan Riau'),
+        (31,  'DKI Jakarta'),
+        (32,  'Jawa Barat'),
+        (33,  'Jawa Tengah'),
+        (34,  'DI Yogyakarta'),
+        (35,  'Jawa Timur'),
+        (36,  'Banten'),
+        (51,  'Bali'),
+        (52,  'Nusa Tenggara Barat'),
+        (53,  'Nusa Tenggara Timur'),
+        (61,  'Kalimantan Barat'),
+        (62,  'Kalimantan Tengah'),
+        (63,  'Kalimantan Selatan'),
+        (64,  'Kalimantan Timur'),
+        (65,  'Kalimantan Utara'),
+        (71,  'Sulawesi Utara'),
+        (72,  'Sulawesi Tengah'),
+        (73,  'Sulawesi Selatan'),
+        (74,  'Sulawesi Tenggara'),
+        (75,  'Gorontalo'),
+        (76,  'Sulawesi Barat'),
+        (81,  'Maluku'),
+        (82,  'Maluku Utara'),
+        (91,  'Papua'),
+        (92,  'Papua Barat')
+      ";
+      $this->db->query($query);
+    }
+    // Konversi nama provinsi tersimpan di identitas desa
+    $konversi = array(
+      "ntb" => "Nusa Tenggara Barat",
+      "ntt" => "Nusa Tenggara Timur",
+      "daerah istimewa yogyakarta" => "DI Yogyakarta",
+      "diy" => "DI Yogyakarta",
+      "yogyakarta" => "DI Yogyakarta",
+      "jabar" => "Jawa Barat",
+      "jawabarat" => "Jawa Barat",
+      "jateng" => "Jawa Tengah",
+      "jatim" => "Jawa Timur",
+      "jatimi" => "Jawa Timur",
+      "jawa timu" => "Jawa Timur",
+      "nad" => "Aceh",
+      "kalimatnan barat" => "Kalimantan Barat",
+      "sulawesi teanggara" => "Sulawesi Tenggara"
+    );
+    $nama_propinsi = $this->db->select('nama_propinsi')->where('id', '1')->get('config')->row()->nama_propinsi;
+    foreach ($konversi as $salah => $benar) {
+      if(strtolower($nama_propinsi) == $salah) {
+        $this->db->where('id', '1')->update('config', array('nama_propinsi' => $benar));
+        break;
+      }
+    }
+    // Tambah lampiran untuk Surat Keterangan Kematian
+    $this->db->where('url_surat','surat_ket_kematian')->update('tweb_surat_format',array('lampiran'=>'f-2.29.php'));
+    // Ubah nama lampiran untuk Surat Keterangan Kelahiran
+    $this->db->where('url_surat','surat_ket_kelahiran')->update('tweb_surat_format',array('lampiran'=>'f-2.01.php'));
+    // Tambah modul Sekretariat di urutan sesudah Cetak Surat
+    $list_modul = array(
+      "5"  => 6,    // Analisis
+      "6"  => 7,    // Bantuan
+      "7"  => 8,    // Persil
+      "8"  => 9,    // Plan
+      "9"  => 10,   // Peta
+      "10" => 11,   // SMS
+      "11" => 12,   // Pengguna
+      "12" => 13,   // Database
+      "13" => 14,   // Admin Web
+      "14" => 15);  // Laporan
+    foreach ($list_modul as $key => $value) {
+      $this->db->where('id',$key)->update('setting_modul', array('urut' => $value));
+    }
+    $query = "
+      INSERT INTO setting_modul (id, modul, url, aktif, ikon, urut, level, hidden, ikon_kecil) VALUES
+      ('15','Sekretariat','sekretariat','1','applications-office-5.png','5','2','0','fa fa-print fa-lg')
+      ON DUPLICATE KEY UPDATE
+        modul = VALUES(modul),
+        url = VALUES(url)";
+    $this->db->query($query);
+  }
+
+  function migrasi_24_ke_25(){
+    // Tambah setting current_version untuk migrasi
+    $setting = $this->db->where('key','current_version')->get('setting_aplikasi')->row()->id;
+    if(!$setting){
+      $this->db->insert('setting_aplikasi',array('key'=>'current_version','value'=>'2.4','keterangan'=>'Versi sekarang untuk migrasi'));
+    }
+    // Tambah kolom ikon_kecil di tabel setting_modul
+    if (!$this->db->field_exists('ikon_kecil', 'setting_modul')) {
+      $fields = array(
+        'ikon_kecil' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 50
+        )
+      );
+      $this->dbforge->add_column('setting_modul', $fields);
+      $list_modul = array(
+        "1" => "fa fa-home fa-lg",         // SID Home
+        "2" => "fa fa-group fa-lg",        // Penduduk
+        "3" => "fa fa-bar-chart fa-lg",    // Statistik
+        "4" => "fa fa-print fa-lg",        // Cetak Surat
+        "5" => "fa fa-dashboard fa-lg",    // Analisis
+        "6" => "fa fa-folder-open fa-lg",  // Bantuan
+        "7" => "fa fa-road fa-lg",         // Persil
+        "8" => "fa fa-sitemap fa-lg",      // Plan
+        "9" => "fa fa-map fa-lg",          // Peta
+        "10" => "fa fa-envelope-o fa-lg",  // SMS
+        "11" => "fa fa-user-plus fa-lg",   // Pengguna
+        "12" => "fa fa-database fa-lg",    // Database
+        "13" => "fa fa-cloud fa-lg",       // Admin Web
+        "14" => "fa fa-comments fa-lg");   // Laporan
+      foreach ($list_modul as $key => $value) {
+        $this->db->where('id',$key)->update('setting_modul', array('ikon_kecil' => $value));
+      }
+    }
+    // Tambah kolom id_pend di tabel tweb_penduduk_mandiri
+    if (!$this->db->field_exists('id_pend', 'tweb_penduduk_mandiri')) {
+      $fields = array(
+        'id_pend' => array(
+          'type' => 'int',
+          'constraint' => 9,
+          'null' => FALSE,
+          'first' => TRUE
+        )
+      );
+      $this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
+    }
+    // Isi kolom id_pend
+    $mandiri = $this->db->select('nik')->get('tweb_penduduk_mandiri')->result_array();
+    foreach ($mandiri as $individu) {
+      $id_pend = $this->db->select('id')->where('nik', $individu['nik'])->get('tweb_penduduk')->row()->id;
+      if (empty($id_pend))
+        $this->db->where('nik',$individu['nik'])->delete('tweb_penduduk_mandiri');
+      else
+        $this->db->where('nik',$individu['nik'])->update('tweb_penduduk_mandiri',array('id_pend' => $id_pend));
+    }
+    // Buat id_pend menjadi primary key
+    $sql = "ALTER TABLE tweb_penduduk_mandiri
+              DROP PRIMARY KEY,
+              ADD PRIMARY KEY (id_pend)";
+    $this->db->query($sql);
+    // Tambah kolom kategori di tabel dokumen
+    if (!$this->db->field_exists('kategori', 'dokumen')) {
+      $fields = array(
+        'kategori' => array(
+          'type' => 'tinyint',
+          'constraint' => 3,
+          'default' => 1
+        )
+      );
+      $this->dbforge->add_column('dokumen', $fields);
+    }
+    // Tambah kolom attribute dokumen
+    if (!$this->db->field_exists('attr', 'dokumen')) {
+      $fields = array(
+        'attr' => array(
+          'type' => 'text'
+        )
+      );
+      $this->dbforge->add_column('dokumen', $fields);
+    }
+  }
+
+  function migrasi_23_ke_24(){
+    // Tambah surat keterangan beda identitas KIS
+    $data = array(
+      'nama'=>'Keterangan Beda Identitas KIS',
+      'url_surat'=>'surat_ket_beda_identitas_kis',
+      'kode_surat'=>'S-38',
+      'jenis'=>1);
+    $sql = $this->db->insert_string('tweb_surat_format', $data);
+    $sql .= " ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis)";
+    $this->db->query($sql);
+    // Tambah setting sebutan kepala dusun
+    $setting = $this->db->where('key','sebutan_singkatan_kadus')->get('setting_aplikasi')->row()->id;
+    if(!$setting){
+      $this->db->insert('setting_aplikasi',array('key'=>'sebutan_singkatan_kadus','value'=>'kawil','keterangan'=>'Sebutan singkatan jabatan kepala dusun'));
+    }
   }
 
   function migrasi_22_ke_23(){
@@ -84,6 +338,38 @@
       $menu_kategori = array('judul'=>'Menu Kategori','isi'=>'menu_kategori.php','enabled'=>1,'urut'=>1,'jenis_widget'=>1);
       $this->db->insert('widget',$menu_kategori);
     }
+    // Tambah tabel surat_masuk
+    if (!$this->db->table_exists('surat_masuk') ) {
+      $query = "
+        CREATE TABLE `surat_masuk` (
+          `id` int NOT NULL AUTO_INCREMENT,
+          `nomor_urut` smallint(5),
+          `tanggal_penerimaan` date NOT NULL,
+          `nomor_surat` varchar(20),
+          `kode_surat` varchar(10),
+          `tanggal_surat` date NOT NULL,
+          `pengirim` varchar(100),
+          `isi_singkat` varchar(200),
+          `disposisi_kepada` varchar(50),
+          `isi_disposisi` varchar(200),
+          `berkas_scan` varchar(100),
+          PRIMARY KEY  (`id`)
+        );
+      ";
+      $this->db->query($query);
+    }
+    // Artikel bisa di-comment atau tidak
+    if (!$this->db->field_exists('boleh_komentar', 'artikel')) {
+      $fields = array(
+        'boleh_komentar' => array(
+          'type' => 'tinyint',
+          'constraint' => 1,
+          'default' => 1
+        )
+      );
+      $this->dbforge->add_column('artikel', $fields);
+    }
+
   }
 
   function migrasi_21_ke_22(){
@@ -125,13 +411,15 @@
       foreach($widgets as $widget) {
         $this->db->insert('widget', $widget);
       }
-      $this->db->where('id_kategori',1003)->delete('artikel');
       // Hapus kolom widget dari tabel artikel
       $kolom_untuk_dihapus = array("urut", "jenis_widget");
       foreach ($kolom_untuk_dihapus as $kolom){
         $this->dbforge->drop_column('artikel', $kolom);
       }
     }
+    // Hapus setiap kali migrasi, karena ternyata masih ada di database contoh s/d v2.4
+    // TODO: pindahkan ini jika nanti ada kategori dengan nilai 1003.
+    $this->db->where('id_kategori',1003)->delete('artikel');
     // Tambah tautan ke form administrasi widget
     if (!$this->db->field_exists('form_admin', 'widget')) {
       $fields = array(

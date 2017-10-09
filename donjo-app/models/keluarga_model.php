@@ -29,6 +29,19 @@
 		}
 	}
 
+	/*
+		1 - tampilkan keluarga di mana KK mempunyai status dasar 'hidup'
+		2 - tampilkan keluarga di mana KK mempunyai status dasar 'hilang/pindah/mati'
+	*/
+	function status_dasar_sql(){
+		if(isset($_SESSION['status_dasar'])){
+			$kf = $_SESSION['status_dasar'];
+			if ($kf == '1')	$status_dasar_sql= " AND t.status_dasar = 1";
+			else $status_dasar_sql= " AND t.status_dasar <> 1";
+		return $status_dasar_sql;
+		}
+	}
+
 	function dusun_sql(){
 		if(isset($_SESSION['dusun'])){
 			$kf = $_SESSION['dusun'];
@@ -71,6 +84,16 @@
 		}
 	}
 
+	function filter_sql() {
+		$sql  = $this->search_sql() .
+						$this->status_dasar_sql() .
+						$this->dusun_sql() .
+					 	$this->rw_sql() .
+		 				$this->rt_sql() .
+		 				$this->sex_sql();
+		return $sql;
+	}
+
 	function kelas_sql(){
 		if(isset($_SESSION['kelas'])){
 			$kh = $_SESSION['kelas'];
@@ -90,11 +113,7 @@
 	function paging($p=1,$o=0){
 
 		$sql      = "SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
-		$sql     .= $this->search_sql();
-		$sql     .= $this->dusun_sql();
-		$sql     .= $this->rw_sql();
-		$sql     .= $this->rt_sql();
-		$sql     .= $this->sex_sql();
+		$sql     .= $this->filter_sql();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
@@ -131,12 +150,7 @@
 			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
 			WHERE 1 ";
 
-		$sql .= $this->search_sql();
-
-		$sql     .= $this->dusun_sql();
-		$sql     .= $this->rw_sql();
-		$sql     .= $this->rt_sql();
-		$sql     .= $this->sex_sql();
+		$sql .= $this->filter_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -155,12 +169,6 @@
 				$data[$i]['sex'] = "LAKI-LAKI";
 			else
 				$data[$i]['sex'] = "PEREMPUAN";
-			// Kosongkan apabila kepala keluarga pindah/hilang atau mati
-			if($data[$i]['status_dasar'] != 1) {
-				$data[$i]['sex'] = "-";
-				$data[$i]['nik'] = "";
-				$data[$i]['kepala_kk'] = "";
-			}
 			$i++;
 			$j++;
 		}
@@ -413,10 +421,15 @@
 		}
 	}
 
-	// Untuk statistik perkembangan keluarga
-	// id_peristiwa:
-	//       1 - keluarga baru
-	//       2 - keluarga dihapus
+	/* 	Untuk statistik perkembangan keluarga
+	 		id_peristiwa:
+	       1 - keluarga baru
+	       2 - keluarga dihapus
+	       3 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
+	       4 - kepala keluarga status dasar 'mati'
+	       5 - kepala keluarga status dasar 'pindah'
+	       6 - kepala keluarga status dasar 'hilang'
+	*/
 	function log_keluarga($id, $kk, $id_peristiwa) {
 		$this->db->select('sex');
 		$this->db->where('id', $kk);
@@ -541,7 +554,9 @@
 		return $data;
 	}
 
-	function list_anggota($id=0){
+	// $options['dengan_kk'] = false jika hanya perlu tanggungan keluarga tanpa kepala keluarga
+	// $options['pilih'] untuk membatasi ke nik tertentu saja
+	function list_anggota($id=0,$options=array('dengan_kk'=>true)){
 		$sql   = "SELECT u.*,u.sex as sex_id,u.status_kawin as status_kawin_id,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
 				b.dusun,b.rw,b.rt,x.nama as sex,u.kk_level,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,g.nama as golongan_darah,h.nama AS hubungan, k.alamat
@@ -556,19 +571,12 @@
 			LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id
 			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
 			LEFT JOIN tweb_keluarga k ON u.id_kk = k.id
-			WHERE status = 1 AND status_dasar = 1 AND id_kk = ? ORDER BY kk_level, tanggallahir";
-
+			WHERE status = 1 AND status_dasar = 1 AND id_kk = ?";
+		if($options['dengan_kk'] !== NULL AND !$options['dengan_kk']) $sql .= " AND kk_level <> 1";
+		if(!empty($options['pilih'])) $sql .= " AND u.nik IN (".$options['pilih'].")";
+		$sql .= " ORDER BY kk_level, tanggallahir";
 		$query = $this->db->query($sql,array($id));
 		$data=$query->result_array();
-
-		//Formating Output
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['no']=$i+1;
-			$data[$i]['tanggallahir']= tgl_indo($data[$i]['tanggallahir']);
-
-			$i++;
-		}
 		return $data;
 	}
 
@@ -810,7 +818,7 @@
 			$nik 			.= $ranggota['nik']."\line ";
 			$sex 			.= $ranggota['sex']."\line ";
 			$tempatlahir 	.= $ranggota['tempatlahir']."\line ";
-			$tanggallahir 	.= $ranggota['tanggallahir']."\line ";
+			$tanggallahir 	.= tgl_indo($ranggota['tanggallahir'])."\line ";
 			$agama 			.= $ranggota['agama']."\line ";
 			$pendidikan 	.= $ranggota['pendidikan']."\line ";
 			$pekerjaan 		.= $ranggota['pekerjaan']."\line ";

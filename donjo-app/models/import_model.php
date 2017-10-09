@@ -1,26 +1,39 @@
 <?php
 
 define("KOLOM_IMPOR_KELUARGA", serialize(array(
-  strtolower("alamat") => "1",
-  strtolower("dusun") => "2",
-  strtolower("rw")  => "3",
-  strtolower("rt") => "4",
-  strtolower("nama") => "5",
-  strtolower("no_kk") => "6",
-  strtolower("nik")  => "7",
-  strtolower("sex") => "8",
-  strtolower("tempatlahir") => "9",
-  strtolower("tanggallahir")  => "10",
-  strtolower("agama_id") => "11",
-  strtolower("pendidikan_kk_id") => "12",
-  strtolower("pendidikan_sedang_id") => "13",
-  strtolower("pekerjaan_id") => "14",
-  strtolower("status_kawin")  => "15",
-  strtolower("kk_level") => "16",
-  strtolower("warganegara_id") => "17",
-  strtolower("nama_ayah")  => "18",
-  strtolower("nama_ibu") => "19",
-  strtolower("golongan_darah_id") => "20")));
+  "alamat" => "1",
+  "dusun" => "2",
+  "rw"  => "3",
+  "rt" => "4",
+  "nama" => "5",
+  "no_kk" => "6",
+  "nik"  => "7",
+  "sex" => "8",
+  "tempatlahir" => "9",
+  "tanggallahir"  => "10",
+  "agama_id" => "11",
+  "pendidikan_kk_id" => "12",
+  "pendidikan_sedang_id" => "13",
+  "pekerjaan_id" => "14",
+  "status_kawin"  => "15",
+  "kk_level" => "16",
+  "warganegara_id" => "17",
+  "nama_ayah"  => "18",
+  "nama_ibu" => "19",
+  "golongan_darah_id" => "20",
+  "akta_lahir" => "21",
+  "dokumen_pasport" => "22",
+  "tanggal_akhir_paspor" => "23",
+  "dokumen_kitas" => "24",
+  "ayah_nik" => "25",
+  "ibu_nik" => "26",
+  "akta_perkawinan" => "27",
+  "tanggalperkawinan" => "28",
+  "akta_perceraian" => "29",
+  "tanggalperceraian" => "30",
+  "cacat_id" => "31",
+  "cara_kb_id" => "32",
+  "hamil" => "33")));
 
 class import_model extends CI_Model{
 
@@ -38,10 +51,7 @@ class import_model extends CI_Model{
 		// error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
 		// TODO: pakai cara upload yg disediakan Codeigniter
 		if ($_FILES['userfile']['error'] == 1) {
-			$max_upload = (int)(ini_get('upload_max_filesize'));
-			$max_post = (int)(ini_get('post_max_size'));
-			$memory_limit = (int)(ini_get('memory_limit'));
-			$upload_mb = min($max_upload, $max_post, $memory_limit);
+			$upload_mb = max_upload();
 			$_SESSION['error_msg'].= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
 			$_SESSION['success']=-1;
 			return false;
@@ -61,6 +71,7 @@ class import_model extends CI_Model{
 		// Kolom yang harus diisi
 		if ($isi_baris['nama']=="" OR $isi_baris['nik']=="" OR $isi_baris['dusun']=="" OR $isi_baris['rt']== "" OR $isi_baris['rw']=="")
 			return false;
+
 		// Validasi data setiap kolom ber-kode
 		if ($isi_baris['sex']!="" AND !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return false;
 		if ($isi_baris['agama_id']!="" AND !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return false;
@@ -71,6 +82,11 @@ class import_model extends CI_Model{
 		if ($isi_baris['kk_level']!="" AND !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return false;
 		if ($isi_baris['warganegara_id']!="" AND !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return false;
 		if ($isi_baris['golongan_darah_id']!="" AND !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return false;
+
+		if ($isi_baris['cacat_id']!="" AND !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return false;
+		if ($isi_baris['cara_kb_id']!="" AND !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) AND $isi_baris['cara_kb_id']!="99") return false;
+		if ($isi_baris['hamil']!="" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return false;
+
 		// Validasi data lain
 		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return false;
 
@@ -149,7 +165,19 @@ class import_model extends CI_Model{
 		$isi_baris['nama_ibu'] = $nama_ibu;
 
 		$isi_baris['golongan_darah_id']= trim($data->val($i, $kolom_impor_keluarga['golongan_darah_id']));
-
+		$isi_baris['akta_lahir']= trim($data->val($i, $kolom_impor_keluarga['akta_lahir']));
+		$isi_baris['dokumen_pasport']= trim($data->val($i, $kolom_impor_keluarga['dokumen_pasport']));
+		$isi_baris['tanggal_akhir_paspor']= trim($data->val($i, $kolom_impor_keluarga['tanggal_akhir_paspor']));
+		$isi_baris['dokumen_kitas']= trim($data->val($i, $kolom_impor_keluarga['dokumen_kitas']));
+		$isi_baris['ayah_nik']= trim($data->val($i, $kolom_impor_keluarga['ayah_nik']));
+		$isi_baris['ibu_nik']= trim($data->val($i, $kolom_impor_keluarga['ibu_nik']));
+		$isi_baris['akta_perkawinan']= trim($data->val($i, $kolom_impor_keluarga['akta_perkawinan']));
+		$isi_baris['tanggalperkawinan']= trim($data->val($i, $kolom_impor_keluarga['tanggalperkawinan']));
+		$isi_baris['akta_perceraian']= trim($data->val($i, $kolom_impor_keluarga['akta_perceraian']));
+		$isi_baris['tanggalperceraian']= trim($data->val($i, $kolom_impor_keluarga['tanggalperceraian']));
+		$isi_baris['cacat_id']= trim($data->val($i, $kolom_impor_keluarga['cacat_id']));
+		$isi_baris['cara_kb_id']= trim($data->val($i, $kolom_impor_keluarga['cara_kb_id']));
+		$isi_baris['hamil']= trim($data->val($i, $kolom_impor_keluarga['hamil']));
 		return $isi_baris;
 	}
 
@@ -242,6 +270,19 @@ class import_model extends CI_Model{
 			$data['nama_ayah'] = $isi_baris['nama_ayah'];
 			$data['nama_ibu'] = $isi_baris['nama_ibu'];
 			$data['golongan_darah_id'] = $isi_baris['golongan_darah_id'];
+			$data['akta_lahir'] = $isi_baris['akta_lahir'];
+			$data['dokumen_pasport'] = $isi_baris['dokumen_pasport'];
+			$data['tanggal_akhir_paspor'] = $isi_baris['tanggal_akhir_paspor'];
+			$data['dokumen_kitas'] = $isi_baris['dokumen_kitas'];
+			$data['ayah_nik'] = $isi_baris['ayah_nik'];
+			$data['ibu_nik'] = $isi_baris['ibu_nik'];
+			$data['akta_perkawinan'] = $isi_baris['akta_perkawinan'];
+			$data['tanggalperkawinan'] = $isi_baris['tanggalperkawinan'];
+			$data['akta_perceraian'] = $isi_baris['akta_perceraian'];
+			$data['tanggalperceraian'] = $isi_baris['tanggalperceraian'];
+			$data['cacat_id'] = $isi_baris['cacat_id'];
+			$data['cara_kb_id'] = $isi_baris['cara_kb_id'];
+			$data['hamil'] = $isi_baris['hamil'];
 			$data['id_cluster'] = $isi_baris['id_cluster'];
 			$data['status'] = '1';  // penduduk impor dianggap aktif
 		// Jangan masukkan atau update isian yang kosong

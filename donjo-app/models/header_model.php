@@ -47,10 +47,8 @@ class Header_Model extends CI_Model{
 			$this->load->model('database_model');
 			$this->database_model->migrasi_db_cri();
 		}
-		$sql = "SELECT * FROM setting_modul WHERE aktif =  1 AND level >= ?;";
-		$query = $this->db->query($sql,$_SESSION['grup']);
-		$modul = $query->result_array();
-		$outp['modul'] = $modul;
+		$this->load->model('modul_model');
+		$outp['modul'] = $this->modul_model->list_aktif();
 
 		return $outp;
 	}

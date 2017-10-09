@@ -123,7 +123,9 @@ class web extends CI_Controller{
 	}
 
 	function delete($cat=1,$p=1,$o=0,$id=''){
-		$this->web_artikel_model->delete($id);
+		$_SESSION['success']=1;
+		$outp = $this->web_artikel_model->delete($id);
+		if (!$outp) $_SESSION['success']=-1;
 		redirect("web/index/$cat/$p/$o");
 	}
 
@@ -157,6 +159,16 @@ class web extends CI_Controller{
 
 	function artikel_unlock($cat=1,$id=0){
 		$this->web_artikel_model->artikel_lock($id,2);
+		redirect("web/index/$cat");
+	}
+
+	function komentar_lock($cat=1,$id=0){
+		$this->web_artikel_model->komentar_lock($id,0);
+		redirect("web/index/$cat");
+	}
+
+	function komentar_unlock($cat=1,$id=0){
+		$this->web_artikel_model->komentar_lock($id,1);
 		redirect("web/index/$cat");
 	}
 

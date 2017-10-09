@@ -1,21 +1,21 @@
 
-<div id="pageC"> 
+<div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
 
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 </div>
-<div id="contentpane">    
+<div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
     <h3>Wilayah Administratif RT (RW <?php echo $rw?> / Dusun <?php echo unpenetration(ununderscore($dusun))?>)</h3>
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url("sid_core/form_rt/$id_dusun/$rw")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah RT</a>
-                <a href="<?php echo site_url("sid_core/cetak_rt/$id_dusun/$rw")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
-	<a href="<?php echo site_url("sid_core/excel_rt/$id_dusun/$rw")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+                <a href="<?php echo site_url("sid_core/cetak_rt/$id_dusun/$rw")?>" target="_blank" class="uibutton tipsy south" title="Cetak Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
+	<a href="<?php echo site_url("sid_core/excel_rt/$id_dusun/$rw")?>" target="_blank" class="uibutton tipsy south" title="Unduh Data" ><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
 				<th width="50">LK</th>
 				<th width="50">PR</th>
 				<th></th>
-				
+
 			</tr>
 		</thead>
 		<tbody>
@@ -62,7 +62,7 @@
 			<td align="right"><?php echo $data['jumlah_warga_l']?></td>
 			<td align="right"><?php echo $data['jumlah_warga_p']?></td>
 			<td></td>
-			
+
 		  </tr>
         <?php  endforeach; ?>
 		</tbody>
@@ -73,14 +73,14 @@
 			<td align="right"><?php echo $total['jmlwargal']?></th>
 			<td align="right"><?php echo $total['jmlwargap']?></th>
 			<td></td>
-			
+
 		</tr>
         </table>
     </div>
 	</form>
     <div class="ui-layout-south panel bottom">
-        <div class="left"> 
-        <div class="left">     
+        <div class="left">
+        <div class="left">
             <a href="<?php echo site_url("sid_core/sub_rw/$id_dusun")?>" class="uibutton icon prev">Kembali</a>
         </div>
         </div>

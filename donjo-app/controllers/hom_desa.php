@@ -15,20 +15,6 @@ class Hom_Desa extends CI_Controller{
 	}
 
 	function index(){
-		$nav['act']= 0;
-		$header = $this->header_model->get_data();
-
-		$data['main'] = $this->config_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('home/nav',$nav);
-		// Buat row data desa di konfigurasi_form apabila belum ada data desa
-		if ($data['main']) $data['form_action'] = site_url("hom_desa/update/".$data['main']['id']);
-			else $data['form_action'] = site_url("hom_desa/insert/");
-		$this->load->view('home/konfigurasi_form',$data);
-		$this->load->view('footer');
-	}
-
-	function about(){
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
 
@@ -38,14 +24,40 @@ class Hom_Desa extends CI_Controller{
 		$this->load->view('footer');
 	}
 
+	function donasi(){
+		$nav['act']= 3;
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header',$header);
+		$this->load->view('home/nav',$nav);
+		$this->load->view('home/donasi');
+		$this->load->view('footer');
+	}
+
+	function konfigurasi(){
+		$this->load->model('provinsi_model');
+		$nav['act']= 0;
+		$header = $this->header_model->get_data();
+
+		$data['main'] = $this->config_model->get_data();
+		$this->load->view('header',$header);
+		$this->load->view('home/nav',$nav);
+		// Buat row data desa di konfigurasi_form apabila belum ada data desa
+		if ($data['main']) $data['form_action'] = site_url("hom_desa/update/".$data['main']['id']);
+			else $data['form_action'] = site_url("hom_desa/insert/");
+		$data['list_provinsi'] = $this->provinsi_model->list_data();
+		$this->load->view('home/konfigurasi_form',$data);
+		$this->load->view('footer');
+	}
+
 	function insert(){
 		$this->config_model->insert();
-		redirect('hom_desa');
+		redirect('hom_desa/konfigurasi');
 	}
 
 	function update($id=''){
 		$this->config_model->update($id);
-		redirect("hom_desa");
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function ajax_kantor_maps(){
@@ -62,12 +74,12 @@ class Hom_Desa extends CI_Controller{
 
 	function update_kantor_maps(){
 		$this->config_model->update_kantor();
-		redirect("hom_desa");
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function update_wilayah_maps(){
 		$this->config_model->update_wilayah();
-		redirect("hom_desa");
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function upgrade_silent(){
@@ -87,11 +99,6 @@ class Hom_Desa extends CI_Controller{
 			$_SESSION['success']=-1;
 
 		redirect("hom_desa/upgrade_silent");
-	}
-
-	function kosong_pend(){
-		$this->config_model->kosong_pend();
-		redirect("hom_desa");
 	}
 
 }

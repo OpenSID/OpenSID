@@ -7,14 +7,13 @@ table.main{
 	border-collapse: collapse;
 	margin: 10px 0px;
 }
-
-    table.main tr{
-        border-bottom:1px solid #e5e5e5;
-        background:#fff;
-    }
-    table.main tr:nth-child(odd){
-        background:#cceeff;
-    }
+table.main tr{
+    border-bottom:1px solid #e5e5e5;
+    background:#fff;
+}
+table.main tr:nth-child(odd){
+    background:#cceeff;
+}
 th.main{
 	font-size: 8pt;
 	text-transform: uppercase;
@@ -24,12 +23,16 @@ th.main{
 	background: #79a8da;
 	background-repeat: repeat-x;
 }
-
 td.main{
 	padding: 0.3em;
 	vertical-align: top;
 	border-collapse: collapse;
 }
+td.nostretch, th.nostretch{
+  width:1%;
+  white-space:nowrap;
+}
+
 label{font-size: 11px;text-style:italic;color:#003333}
 h1, h2, h3, h4 {font-family: 'Bitstream Vera Sans',helvetica,sans-serif;font-weight: bold;letter-spacing: -0.018em;}
 h1 { font-size: 21px; margin: .15em 1em 0 0 }
@@ -91,6 +94,14 @@ input.angka{direction:rtl; font-size:20px}
 }
 #nav ul li.selected{border-bottom-color:white;
  background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#98e4f7), to(#ffffff));
+    background-image: -moz-linear-gradient(#98e4f7, #ffffff);
+    background-image: -o-linear-gradient(#98e4f7, #ffffff);
+    background-image: linear-gradient(#98e4f7, #ffffff);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#98e4f7', EndColorStr='#ffffff');
+}
+#nav ul li.nonaktif{border-bottom-color:white;
+ background-color: lightgrey;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#98e4f7), to(#ffffff));
     background-image: -moz-linear-gradient(#98e4f7, #ffffff);
     background-image: -o-linear-gradient(#98e4f7, #ffffff);

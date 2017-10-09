@@ -5,9 +5,8 @@
 	}
 
 	function get_data(){
-		$sql   = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
+		$query = $this->db->select('*')->limit(1)->get('config')->row_array();
+		return $query;
 	}
 
 	function insert(){
@@ -73,97 +72,6 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
-	}
-
-	function kosong_pend(){
-		$a="TRUNCATE tweb_wil_clusterdesa";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE tweb_keluarga";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE tweb_rtm";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE tweb_penduduk";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE log_penduduk";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE log_surat";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE log_perubahan_penduduk";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE log_bulanan";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE garis";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE lokasi";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE area";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE point";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE line";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE polygon";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE analisis_master";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE analisis_indikator";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE analisis_parameter";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE analisis_periode";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE analisis_respon";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE analisis_respon_hasil";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE analisis_klasifikasi";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE analisis_kategori_indikator";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE kelompok";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE kelompok_anggota";
-		$b = $this->db->simple_query($a);
-		$a="TRUNCATE data_persil";
-		$b = $this->db->simple_query($a);
-		$a="TRUNCATE tweb_penduduk_map";
-		$b = $this->db->simple_query($a);
-		$a="TRUNCATE sys_traffic";
-		$b = $this->db->simple_query($a);
-	}
-
-	function kosong_web(){
-		$a="TRUNCATE tweb_wil_clusterdesa";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE tweb_keluarga";
-		$b = $this->db->simple_query($a);
-
-		$a="TRUNCATE tweb_penduduk";
-		$b = $this->db->simple_query($a);
 	}
 
 	function upgrade(){

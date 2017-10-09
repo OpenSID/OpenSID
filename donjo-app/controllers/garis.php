@@ -6,6 +6,8 @@ class garis extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
+		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+		if($grup!=1) redirect('siteman');
 
 		$this->load->model('header_model');
 		$this->load->model('plan_garis_model');
@@ -63,7 +65,7 @@ class garis extends CI_Controller{
 		$header= $this->header_model->get_data();
 		$nav['act']=1;
 
-		$this->load->view('header-gis', $header);
+		$this->load->view('header', $header);
 
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('garis/table',$data);
@@ -89,7 +91,7 @@ class garis extends CI_Controller{
 		$header= $this->header_model->get_data();
 
 		$nav['act']=1;
-		$this->load->view('header-gis', $header);
+		$this->load->view('header', $header);
 
 		$this->load->view('plan/nav',$nav);
 		$this->load->view('garis/form',$data);

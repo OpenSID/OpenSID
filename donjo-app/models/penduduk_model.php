@@ -619,6 +619,13 @@
 		$this->db->update('tweb_penduduk',$data);
 		$penduduk = $this->get_penduduk($id);
 
+		// Tulis log_keluarga jika penduduk adalah kepala keluarga
+		if ($penduduk['kk_level'] == 1) {
+			$id_peristiwa = $penduduk['status_dasar_id'] + 2; // lihat kode di keluarga_model
+			$this->keluarga_model->log_keluarga($penduduk['id_kk'], $penduduk['id'], $id_peristiwa);
+		}
+
+		// Tulis log_penduduk
 		$log['id_pend'] = $id;
 		$log['no_kk'] = $penduduk['no_kk'];
 		$log['nama_kk'] = $penduduk['kepala_kk'];
@@ -994,6 +1001,19 @@
 		return $judul;
 	}
 
+	// Untuk form surat
+	function list_penduduk_status_dasar($status_dasar=1){
+		$data = $this->db->select('id,nik,nama')->where('status_dasar',$status_dasar)->
+			get('tweb_penduduk')->result_array();
+		//Formating Output untuk form surat
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			$i++;
+		}
+		return $data;
+	}
+
 	function get_cluster($id_cluster=0){
 
 		$sql   = "SELECT * FROM tweb_wil_clusterdesa WHERE id=$id_cluster ";
@@ -1134,57 +1154,6 @@
 			$i++;
 		}
 		return $data;
-	}
-
-	function dokumen_insert(){
-		$lokasi_file = $_FILES['satuan']['tmp_name'];
-		$nama_file = $_FILES['satuan']['name'];
-		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		if (!empty($lokasi_file)){
-				$data = $_POST;
-				$nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;
-				$nama_file = urlencode($nama_file);
-				UploadDocument($nama_file);
-				$data['satuan'] = $nama_file;
-				unset($data['nik']);
-				$outp = $this->db->insert('dokumen',$data);
-				if($outp) $_SESSION['success']=1;
-			} else {
-				$_SESSION['success']=-1;
-		}
-	}
-
-	function delete_file_dokumen($id){
-		$this->db->select('satuan');
-		$this->db->where('id', $id);
-		$query = $this->db->get('dokumen');
-		$dokumen = $query->row_array();
-		unlink(LOKASI_DOKUMEN.$dokumen['satuan']);
-	}
-
-	function delete_dokumen($id=''){
-		$this->delete_file_dokumen($id);
-		$sql = "DELETE FROM dokumen WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-
-	function delete_all_dokumen(){
-		$id_cb = $_POST['id_cb'];
-
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$this->delete_file_dokumen($id);
-				$sql = "DELETE FROM dokumen WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
-			}
-		}
-		else $outp = false;
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
 	}
 
 	function get_dokumen($id=0){

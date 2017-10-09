@@ -28,6 +28,7 @@ class Database extends CI_Controller{
 		// Di sini untuk kemudahan saja.
 		// TODO: cari tempat yang lebih cocok
     if (defined('ENVIRONMENT') AND ENVIRONMENT == 'development') {
+    	log_message('debug', "Reset tracking");
 			unset($_SESSION['track_web']);
 			unset($_SESSION['track_admin']);
     }
@@ -102,9 +103,10 @@ class Database extends CI_Controller{
 		$this->load->view('footer');
 	}
 
+	function export_excel(){
+		$data['main'] = $this->export_model->export_excel();
+		$this->load->view('export/penduduk_excel',$data);
 
-	function export_by_keluarga(){
-		$this->export_model->export_by_keluarga();
 	}
 
 	function export_dasar(){
@@ -228,4 +230,8 @@ class Database extends CI_Controller{
 		//redirect('database/import');
 	}
 
+	function export_csv(){
+		$data['main'] = $this->export_model->export_excel();
+		$this->load->view('export/penduduk_csv',$data);
+	}
 }

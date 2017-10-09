@@ -1,0 +1,26 @@
+Rilis ini berisi beberapa penguatan keamanan website online, dan perbaikan lain yang diminta oleh komunitas SID.
+
+Terima kasih pada Abdul Gani yang kembali membuat kontribusi.
+
+Lengkapnya, isi rilis v2.5.1:
+
+1. #614: Sekarang di tampilan mobile tema hadakewa, submenu tampil terus setelah menu di-klik, supaya navigasi lebih mudah.
+2. #610: Sekarang penampilan halaman login modul admin (/siteman) bisa diubah melalui file desa/css/siteman.css. Sediakan contoh menambahkan gambar latar belakang halaman login.
+3. Sekarang nomor halaman paginasi daftar artikel berdasarkan kategori (menu dinamis) sudah betul pada saat pertama kali menampilkan suatu kategori [bug-fix].
+4. Sekarang tombol Tutup di dialog Pengaturan Pengguna sudah berfungsi normal [bug-fix].
+5. Sekarang tanggal kosong tidak lagi tampil sebagai 0 0 0000 [bug-fix].
+6. Simpan log aplikasi di folder logs/ [teknis].
+7. Ubah setting global_xss_filtering untuk mencegah serangan XSS [security-fix].
+8. Sekarang bisa unggah gambar artikel dalam format PNG.
+9. Hapus semua user kecuali admin dari contoh data awal [scurity-fix].
+10. Perbaiki pengiriman data nama desa ke tracker, untuk mengurangi pengiriman data nama desa salah.
+11. #601: Sekarang titik-titik di samping slider dan widget aparatur desa sudah dihilangkan [bug-fix]
+12. #604: Sekarang alamat kantor yang mengandung '-' tampil benar di header web [bug-fix].
+13. #598: Sekarang pada waktu menghapus surat keluar, berkas surat dan lampiran juga dihapus, jika ada [bug-fix].
+14. Gambar lama sekarang dihapus pada waktu mengunggah gambar artikel pengganti [bug-fix].
+15. #602: Waktu menghapus artikel, sekarang berkas gambar juga dihapus [bug-fix].
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM v2.5, struktur database perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database yang diperlukan.
+
+
+

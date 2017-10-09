@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');?>
+
 <style type="text/css">
 
 table.disdukcapil {
@@ -327,7 +329,7 @@ table.ttd td div {
         <?php if ($i < count($anggota)) : ?>
           <td class="kode <?php echo $class?>"><div><?php echo $anggota[$i]['sex_id']?></div></td>
           <td class="tengah <?php echo $class?>"><?php echo $anggota[$i]['tempatlahir']?></td>
-          <td class="tengah <?php echo $class?>"><?php echo $anggota[$i]['tanggallahir']?></td>
+          <td class="tengah <?php echo $class?>"><?php echo tgl_indo($anggota[$i]['tanggallahir'])?></td>
           <td class="tengah <?php echo $class?>"><?php echo $anggota[$i]['umur']?></td>
           <td class="kode <?php echo $class?>"><div><?php echo ($anggota[$i]['akta_lahir'] ? '2' : '1')?></div></td>
           <td class="tengah <?php echo $class?>"><?php echo $anggota[$i]['akta_lahir']?></td>

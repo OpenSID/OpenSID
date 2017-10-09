@@ -11,11 +11,14 @@
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1) AS pend,
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =1) AS lk,
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =2) AS pr,
-			(SELECT COUNT(id) FROM tweb_keluarga WHERE nik_kepala IS NOT NULL AND nik_kepala <> 0) AS kk,
+			(SELECT COUNT(p.id) FROM tweb_keluarga k
+				LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id
+				WHERE p.status_dasar = 1
+					AND k.nik_kepala IS NOT NULL AND k.nik_kepala <> 0) AS kk,
 			(SELECT COUNT(k.id) FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id
-				WHERE p.sex = 1) AS kk_lk,
+				WHERE p.sex = 1 AND p.status_dasar = 1) AS kk_lk,
 			(SELECT COUNT(k.id) FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id
-				WHERE p.sex = 2) AS kk_pr";
+				WHERE p.sex = 2  AND p.status_dasar = 1) AS kk_pr";
 		$query = $this->db->query($sql);
 		$data=$query->row_array();
 

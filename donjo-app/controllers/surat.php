@@ -9,6 +9,7 @@ class Surat extends CI_Controller{
 		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('keluarga_model');
 		$this->load->model('surat_model');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('config_model');
@@ -24,6 +25,11 @@ class Surat extends CI_Controller{
 		// Reset untuk surat yang menggunakan session variable
 		unset($_SESSION['id_pria']);
 		unset($_SESSION['id_wanita']);
+		unset($_SESSION['id_ibu']);
+		unset($_SESSION['id_bayi']);
+		unset($_SESSION['id_saksi1']);
+		unset($_SESSION['id_saksi2']);
+		unset($_SESSION['id_pelapor']);
 		unset($_SESSION['post']);
 
 
@@ -53,9 +59,10 @@ class Surat extends CI_Controller{
 			unset($_SESSION['id_istri']);
 		}
 		$data['url']=$url;
+		$data['anchor']=$this->input->post('anchor');
 		if(!empty($_POST['nik'])){
 			$data['individu']=$this->surat_model->get_penduduk($_POST['nik']);
-			$data['anggota']=$this->surat_model->list_anggota($data['individu']['id_kk'],$data['individu']['nik']);
+			$data['anggota']=$this->keluarga_model->list_anggota($data['individu']['id_kk']);
 		}else{
 			$data['individu']=NULL;
 			$data['anggota']=NULL;
@@ -102,6 +109,7 @@ class Surat extends CI_Controller{
 		$data['pamong'] = $this->surat_model->get_pamong($_POST['pamong']);
 
 		$data['pengikut']=$this->surat_model->pengikut();
+		$data['anggota']=$this->keluarga_model->list_anggota($data['kk']['id_kk']);
 		$this->surat_keluar_model->log_surat($log_surat);
 
 		$data['url']=$url;
@@ -117,6 +125,11 @@ class Surat extends CI_Controller{
 
 		$id = $_POST['nik'];
 		switch ($url) {
+			case 'surat_ket_kelahiran':
+				// surat_ket_kelahiran id-nya ibu atau bayi
+				if (!$id) $id = $_POST['id_ibu'];
+				if (!$id) $id = $_POST['id_bayi'];
+				break;
 			case 'surat_persetujuan_mempelai':
 				// surat_persetujuan_mempelai id-nya suami atau istri
 				if (!$id) $id = $_POST['id_suami'];
@@ -149,6 +162,8 @@ class Surat extends CI_Controller{
 		$log_surat['nama_surat']=$nama_surat;
 		$log_surat['lampiran']=$lampiran;
 		$this->surat_keluar_model->log_surat($log_surat);
+
+		header("location:".base_url(LOKASI_ARSIP.$nama_surat));
 
 		// === Untuk debug format surat html2pdf
 		// $data = $this->surat_model->get_data_untuk_surat($url);

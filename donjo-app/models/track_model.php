@@ -56,12 +56,13 @@
      "alamat_kantor" => $config['alamat_kantor'],
      "url" => current_url(),
      "ip_address" => $_SERVER['SERVER_ADDR'],
+     "external_ip" => get_external_ip(),
      "version" => AmbilVersi()
     );
 
     if($this->abaikan($desa)) return;
 
-    // echo "httppost ===========";
+    // echo "httppost =========== ".$tracker;
     // echo httpPost("http://".$tracker."/index.php/track/desa",$desa);
     httpPost("http://".$tracker."/index.php/track/desa",$desa);
     if (strpos(current_url(), 'first') !== FALSE) {
@@ -73,19 +74,22 @@
   }
 
   /*
-    Jangan track, jika:
+    Jangan rekam, jika:
     - ada kolom nama wilayah kosong
-    - ada kolom wilayah yang masih merupakan contoh
+    - ada kolom wilayah yang masih merupakan contoh (berisi karakter non-alpha)
   */
   public function abaikan($data){
     $abaikan = false;
-    if ( empty($data['nama_desa']) OR empty($data['nama_kecamatan']) OR empty($data['nama_kabupaten']) OR empty($data['nama_provinsi']) ) {
+    $desa = trim($data['nama_desa']);
+    $kec = trim($data['nama_kecamatan']);
+    $kab = trim($data['nama_kabupaten']);
+    $prov = trim($data['nama_provinsi']);
+    if ( empty($desa) OR empty($kec) OR empty($kab) OR empty($prov) ) {
       $abaikan = true;
-    }
-    if (strpos($data['nama_desa'], 'Senggig1') !== FALSE OR
-        strpos($data['nama_kecamatan'], 'Batulay4r') !== FALSE OR
-        strpos($data['nama_kabupaten'], 'Bar4t') !== FALSE OR
-        strpos($data['nama_provinsi'], 'NT13') !== FALSE
+    } elseif (preg_match('/[^a-zA-Z\s:]/', $desa) OR
+        preg_match('/[^a-zA-Z\s:]/', $kec) OR
+        preg_match('/[^a-zA-Z\s:]/', $kab) OR
+        preg_match('/[^a-zA-Z\s:]/', $prov)
        ) {
       $abaikan = true;
     }

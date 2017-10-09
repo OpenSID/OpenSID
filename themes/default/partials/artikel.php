@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <?php
 /*
 echo "
@@ -56,7 +58,7 @@ if($single_artikel["id"]){
 				<li class=\"sbutton\" id=\"fb\"><a name=\"fb_share\" href=\"http://www.facebook.com/sharer.php?u=".site_url()."first/artikel/".$single_artikel["id"]."\"><i class=\"fa fa-facebook-square\"></i>&nbsp;Share</a></li>
 				<li class=\"sbutton\" id=\"rt\"><a href=\"http://twitter.com/share\" class=\"twitter-share-button\"><i class=\"fa fa-twitter\"></i>&nbsp;Tweet</a></li>
 				<li class=\"sbutton\" id=\"gpshare\"><a href=\"https://plus.google.com/share?url=".site_url()."first/artikel/".$single_artikel["id"]."&hl=id"."\"><i class=\"fa fa-google-plus\" style=\"color:red\"></i>&nbsp;Bagikan</a></li>";
-				echo "<li class=\"sbutton\" id=\"wa_share\"><a href=\"whatsapp://send?text=".site_url()."first/artikel/".$single_artikel["id"]."\"><i class=\"fa fa-whatsapp\"style=\"color:green\"></i>&nbsp;Whatapp</a></li>";
+				echo "<li class=\"sbutton\" id=\"wa_share\"><a href=\"whatsapp://send?text=".site_url()."first/artikel/".$single_artikel["id"]."\"><i class=\"fa fa-whatsapp\"style=\"color:green\"></i>&nbsp;WhatsApp</a></li>";
 		echo "
 			</ul>
 			<!--
@@ -90,44 +92,52 @@ if($single_artikel["id"]){
 				</div>
 			</div>
 			";
-		}else{
+		}elseif($single_artikel['boleh_komentar']){
 			echo "<div>Silakan tulis komentar dalam formulir berikut ini (Gunakan bahasa yang santun)</div>";
 		}
+
 		echo "
 		</div>
-		<div class=\"form-group\">
-			<div class=\"box box-default\">
-				<div class=\"box-header\"><h3 class=\"box-title\">Formulir Komentar (Komentar baru terbit setelah disetujui Admin)</h3></div>";
+			<div class=\"form-group group-komentar\">";
+		if($single_artikel['boleh_komentar']){
+			echo "
+				<div class=\"box box-default\">
+					<div class=\"box-header\"><h3 class=\"box-title\">Formulir Komentar (Komentar baru terbit setelah disetujui Admin)</h3></div>";
 
-				// tampilkan hanya jika 'flash_message' ada
-				if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) $label = 'label-danger'; else $label = 'label-info';
-				if ($flash_message) {
-					echo "<div class='box-header ".$label."'>$flash_message</div>";
-				}
+					// tampilkan hanya jika 'flash_message' ada
+					if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error']) $label = 'label-danger'; else $label = 'label-info';
+					if ($flash_message) {
+						echo "<div class='box-header ".$label."'>$flash_message</div>";
+					}
+					echo "
+					<div class=\"box-body\">
+						<form id=\"form-komentar\" name=\"form\" action=\"".site_url("first/add_comment/".$single_artikel["id"])."\" method=POST onSubmit=\"return validasi(this)\">
+						<table width=100%>
+							<tr class=\"komentar nama\"><td>Nama</td><td> <input type=text name=\"owner\" maxlength=30 value=\"".(!empty($_SESSION['post']['owner']) ? $_SESSION['post']['owner'] : $_SESSION['nama'])."\"></td></tr>
+							<tr class=\"komentar alamat\"><td>Alamat e-mail</td><td> <input type=text name=\"email\" maxlength=30 value=\"".$_SESSION['post']['email']."\"></td></tr>
+							<tr class=\"komentar pesan\"><td valign=top>Komentar</td><td> <textarea name=\"komentar\">".$_SESSION['post']['komentar']."</textarea></td></tr>
+							<tr class=\"captcha\"><td>&nbsp;</td>
+								<td>
+									<img id=\"captcha\" src=\"".base_url()."securimage/securimage_show.php\" alt=\"CAPTCHA Image\"/>
+									<a href=\"#\" onclick=\"document.getElementById('captcha').src = '".base_url()."securimage/securimage_show.php?' + Math.random(); return false\">[ Ganti gambar ]</a>
+								</td></tr>
+							<tr class=\"captcha_code\"><td>&nbsp;</td><td>
+									<input type=\"text\" name=\"captcha_code\" maxlength=\"6\" value=\"".$_SESSION['post']['captcha_code']."\"/> Isikan kode di gambar
+								</td></tr>
+							<tr class=\"submit\"><td>&nbsp;</td><td><input type=\"submit\" value=\"Kirim\"></td></tr>
+						</table>
+						</form>
+					</div>
+				</div>";
+		}else{
+			echo "
+				<span class='info'>Komentar untuk artikel ini telah ditutup.</span>
+			";
+		};
 		echo "
-				<div class=\"box-body\">
-					<form id=\"form-komentar\" name=\"form\" action=\"".site_url("first/add_comment/".$single_artikel["id"])."\" method=POST onSubmit=\"return validasi(this)\">
-					<table width=100%>
-						<tr class=\"komentar nama\"><td>Nama</td><td> <input type=text name=\"owner\" maxlength=30 value=\"".$_SESSION['post']['owner']."\"></td></tr>
-						<tr class=\"komentar alamat\"><td>Alamat e-mail</td><td> <input type=text name=\"email\" maxlength=30 value=\"".$_SESSION['post']['email']."\"></td></tr>
-						<tr class=\"komentar pesan\"><td valign=top>Komentar</td><td> <textarea name=\"komentar\">".$_SESSION['post']['komentar']."</textarea></td></tr>
-						<tr class=\"captcha\"><td>&nbsp;</td>
-							<td>
-								<img id=\"captcha\" src=\"".base_url()."securimage/securimage_show.php\" alt=\"CAPTCHA Image\"/>
-								<a href=\"#\" onclick=\"document.getElementById('captcha').src = '".base_url()."securimage/securimage_show.php?' + Math.random(); return false\">[ Ganti gambar ]</a>
-							</td></tr>
-						<tr class=\"captcha_code\"><td>&nbsp;</td><td>
-								<input type=\"text\" name=\"captcha_code\" maxlength=\"6\" value=\"".$_SESSION['post']['captcha_code']."\"/> Isikan kode di gambar
-							</td></tr>
-						<tr class=\"submit\"><td>&nbsp;</td><td><input type=\"submit\" value=\"Kirim\"></td></tr>
-					</table>
-					</form>
-				</div>
 			</div>
 		</div>
-	</div>
-
-	";
+		";
 }else{
 	echo "
 	<div class=\"artikel\" id=\"artikel-blank\">

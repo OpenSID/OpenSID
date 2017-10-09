@@ -4,7 +4,7 @@
 		<a href="<?php echo site_url('surat')?>">Cetak Surat</a>
 	</li>
 	<li <?php if($act==2){?>class="selected"<?php }?>>
-		<a href="<?php echo site_url('keluar/clear')?>">Surat Keluar</a>
+		<a href="<?php echo site_url('keluar/clear')?>">Arsip Layanan</a>
 	</li>
 	<?php if($_SESSION['grup']==1){?>
 		<li <?php if($act==3){?>class="selected"<?php }?>>

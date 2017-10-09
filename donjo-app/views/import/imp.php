@@ -7,7 +7,7 @@
 				</div>
 				<div id="contentpane">
 					<div class="ui-layout-north panel">
-						<h3>Import Data Desa</h3>
+						<h3>Impor Data Kependudukan</h3>
 					</div>
 					<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 						<div class="left">
@@ -17,10 +17,10 @@
 									<tr>
 										<td width="500" colspan="3">
 											<p font-size="14px";>
-												Mempersiapkan data dengan bentuk excel untuk import ke dalam database SID:
+												Mempersiapkan data dengan bentuk excel untuk diimpor ke dalam database SID:
 												<br>
 												<ol>
-													<li value="1">Pastikan format data yang akan diimport sudah sesuai dengan aturan import data:</li>
+													<li value="1">Pastikan format data yang akan diimpor sudah sesuai dengan aturan impor data:</li>
 													<dl>
 													<dl>-> Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama,
 													<br><dl>-> Kolom Nama, Dusun, RW, RT dan NIK harus diisi. Tanda '-' bisa dipakai di mana RW atau RT tidak diketahui atau tidak ada,
@@ -36,10 +36,7 @@
 											</p>
 											<p style="margin-top: 20px;">
 												<?php
-													$max_upload = (int)(ini_get('upload_max_filesize'));
-													$max_post = (int)(ini_get('post_max_size'));
-													$memory_limit = (int)(ini_get('memory_limit'));
-													$upload_mb = min($max_upload, $max_post, $memory_limit);
+													$upload_mb = max_upload();
 													echo "<p>Batas maksimal pengunggahan berkas <strong>".$upload_mb." MB.</strong></p>
 														<p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan
 														spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>";
@@ -55,8 +52,8 @@
 										<td width="250">
 											<input name="userfile" type="file" />
 										<td>
-											<a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses import selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Import Sedang Berjalan."><span class="fa fa-upload"></span> Import</a>
-											<input type="checkbox" name="hapus_data" value='hapus' /> Hapus data penduduk sebelum import
+											<a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses import selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Import Sedang Berjalan."><span class="fa fa-upload"></span> Impor Data Penduduk</a>
+											<input type="checkbox" name="hapus_data" value='hapus' /> Hapus data penduduk sebelum impor
 										</td>
 										<td>
 											&nbsp;

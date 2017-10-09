@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.2');
+define("VERSION", 'pasca-2.5.1');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -24,6 +24,7 @@ define('BELUM_MENGISI',777);
 
 //
 define("MAX_PINDAH", 7);
+define("MAX_ANGGOTA", 7);
 
 // Konversi tulisan kode Buku Induk Penduduk ke kode SID
 define("KODE_SEX", serialize(array("L" => "1", "Lk" => "1", "P" => "2", "Pr" => "2")));
@@ -277,8 +278,8 @@ define("KODE_PEKERJAAN", serialize(array(
   {
     if(SuratCetakDesa($nama_surat) != ""){
       return SuratCetakDesa($nama_surat);
-    } elseif(is_file("surat/print/print_".$nama_surat.".php")) {
-      return "surat/print/print_".$nama_surat.".php";
+    } elseif(is_file("surat/$nama_surat/print_".$nama_surat.".php")) {
+      return "surat/$nama_surat/print_".$nama_surat.".php";
     } else {
       return "";
     }
@@ -445,5 +446,46 @@ define("KODE_PEKERJAAN", serialize(array(
   // Dari https://stackoverflow.com/questions/4117555/simplest-way-to-detect-a-mobile-device
   function isMobile() {
     return preg_match("/\b(?:a(?:ndroid|vantgo)|b(?:lackberry|olt|o?ost)|cricket|do‌​como|hiptop|i(?:emob‌​ile|p[ao]d)|kitkat|m‌​(?:ini|obi)|palm|(?:‌​i|smart|windows )phone|symbian|up\.(?:browser|link)|tablet(?: browser| pc)|(?:hp-|rim |sony )tablet|w(?:ebos|indows ce|os))/i", $_SERVER["HTTP_USER_AGENT"]);
+  }
+
+  /*
+    Deteksi file berisi script PHP:
+    -- extension .php
+    -- berisi string '<?php', '<?=', '<script'
+    Perhatian: string '<?', '<%' tidak bisa digunakan sebagai indikator,
+    karena file image dan PDF juga mengandung string ini.
+  */
+  function isPHP($file,$filename) {
+    $ext = get_extension($filename);
+    if($ext == '.php') return true;
+
+    $handle = fopen($file,'r');
+    $buffer = stream_get_contents($handle);
+    if (preg_match('/<\?php|<\?=|<script/i', $buffer)){
+      fclose($handle);
+      return true;
+    }
+    fclose($handle);
+    return false;
+  }
+
+  function get_extension($filename){
+    $ext = explode('.', strtolower($filename));
+    $ext = '.'.end($ext);
+    return $ext;
+  }
+
+  function max_upload(){
+    $max_filesize = (int)(ini_get('upload_max_filesize'));
+    $max_post = (int)(ini_get('post_max_size'));
+    $memory_limit = (int)(ini_get('memory_limit'));
+    return min($max_filesize, $max_post, $memory_limit);
+  }
+
+  function get_external_ip(){
+    $externalContent = file_get_contents('http://checkip.dyndns.com/');
+    preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $externalContent, $m);
+    $externalIp = $m[0];
+    return $externalIp;
   }
 ?>

@@ -91,7 +91,9 @@ class mandiri extends CI_Controller{
 	}
 
 	function delete($p=1,$o=0,$id=''){
-		$this->mandiri_model->delete($id);
+		$outp = $this->mandiri_model->delete($id);
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
 		redirect("mandiri");
 	}
 

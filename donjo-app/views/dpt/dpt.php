@@ -30,7 +30,7 @@ source: keyword
     <div class="left">
       <div class="uibutton-group">
         <a href="<?php echo site_url("dpt/cetak/$o")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-				<a href="<?php echo site_url("dpt/excel/$o")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+				<a href="<?php echo site_url("dpt/excel/$o")?>" class="uibutton tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
       </div>
     </div>
     <div class="right">

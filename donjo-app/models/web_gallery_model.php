@@ -86,9 +86,9 @@
 			$data[$i]['no']=$j+1;
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 			$j++;
@@ -99,26 +99,29 @@
 	function insert(){
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
+		if(UploadError($_FILES['gambar'])){
+			$_SESSION['success'] = -1;
+			return;
+		}
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
-	  $tipe_file   = $_FILES['gambar']['type'];
-	  $nama_file   = urlencode($_FILES['gambar']['name']);
+	  $tipe_file = TipeFile($_FILES['gambar']);
 		$data = $_POST;
-
-	  if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-				UploadGallery($nama_file);
-				$data['gambar'] = $nama_file;
-			} else {
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-				$_SESSION['success']=-1;
-			}
+		// Bolehkan album tidak ada gambar cover
+		if (!empty($lokasi_file)) {
+		  if (!CekGambar($_FILES['gambar'], $tipe_file)){
+				$_SESSION['success'] = -1;
+				return;
+		  }
+		  $nama_file  = urlencode(generator(6)."_".$_FILES['gambar']['name']);
+			UploadGallery($nama_file,"",$tipe_file);
+			$data['gambar'] = $nama_file;
 		}
+
 		if($_SESSION['grup'] == 4){
 			$data['enabled'] = 2;
 		}
 
-		// Bolehkan gallery kosong, tidak ada gambarnya
 		$outp = $this->db->insert('gambar_gallery',$data);
 		if(!$outp) $_SESSION['success'] = -1;
 	}
@@ -126,58 +129,76 @@
 	function update($id=0){
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
+		if(UploadError($_FILES['gambar'])){
+			$_SESSION['success'] = -1;
+			return;
+		}
 
-	  $x = $_POST;
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
-	  $tipe_file   = $_FILES['gambar']['type'];
-	  $nama_file   = urlencode($_FILES['gambar']['name']);
-	  $old_gambar  = $x['old_gambar'];
+	  $tipe_file = TipeFile($_FILES['gambar']);
+		$data = $_POST;
+		// Kalau kosong, gambar tidak diubah
+		if (!empty($lokasi_file)) {
+		  if (!CekGambar($_FILES['gambar'], $tipe_file)){
+				$_SESSION['success'] = -1;
+				return;
+		  }
+		  $nama_file  = urlencode(generator(6)."_".$_FILES['gambar']['name']);
+			UploadGallery($nama_file,$data['old_gambar'],$tipe_file);
+			$data['gambar'] = $nama_file;
+		}
 
-	  if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-				UploadGallery($nama_file,$old_gambar);
-				unset($x['old_gambar']);
-			} else {
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-				$_SESSION['success']=-1;
-				$nama_file = $x['old_gambar'];
-			}
-	  }
+		if($_SESSION['grup'] == 4){
+			$data['enabled'] = 2;
+		}
 
-		$data['gambar'] = $nama_file;
-		$data['nama'] = $_POST['nama'];
-		$this->db->where('id',$id);
-		$outp = $this->db->update('gambar_gallery',$data);
+		unset($data['old_gambar']);
+		$outp = $this->db->where('id',$id)->update('gambar_gallery',$data);
 		if(!$outp) $_SESSION['success'] = -1;
 	}
 
+	function delete_gallery($id=''){
+		$this->delete($id);
+		$sub_gallery = $this->db->select('id')->where('parrent',$id)->get('gambar_gallery')->result_array();
+		foreach ($sub_gallery as $gallery){
+			$this->delete($gallery['id']);
+		}
+	}
+
+	function delete_all_gallery(){
+		$id_cb = $_POST['id_cb'];
+		foreach($id_cb as $id){
+			$outp = $this->delete_gallery($id);
+		}
+	}
+
 	function delete($id=''){
+		// Note:
+		// Gambar yang dihapus ada  kemungkinan dipakai
+		// oleh galery lain, karena ketika mengupload
+		// nama file nya belum dirubah sesuai dengan
+		// judul galery
+		$this->delete_gallery_image($id);
+
 		$sql  = "DELETE FROM gambar_gallery WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
-
-		$sql  = "DELETE FROM gambar_gallery WHERE parrent=?";
-		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if(!$outp) $_SESSION['success']=-1;
 	}
 
 	function delete_all(){
 		$id_cb = $_POST['id_cb'];
-
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$sql  = "DELETE FROM gambar_gallery WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
-
-				$sql  = "DELETE FROM gambar_gallery WHERE parrent=?";
-				$outp = $this->db->query($sql,array($id));
-			}
+		foreach($id_cb as $id){
+			$outp = $this->delete($id);
 		}
-		else $outp = false;
+	}
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+	function delete_gallery_image($id){
+		$image = $this->db->select('gambar')->get_where('gambar_gallery', array('id'=>$id))->row()->gambar;
+		$prefix = array('kecil_', 'sedang_');
+		foreach($prefix as $pref){
+			if(is_file(FCPATH . LOKASI_GALERI . $pref . $image))
+				unlink(FCPATH . LOKASI_GALERI . $pref . $image);
+		}
 	}
 
 	function gallery_lock($id='',$val=0){
@@ -251,9 +272,9 @@
 			$data[$i]['no']=$i+1;
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 		}
@@ -261,59 +282,62 @@
 	}
 
 	function insert_sub_gallery($parrent=0){
-		  $lokasi_file = $_FILES['gambar']['tmp_name'];
-		  $tipe_file   = $_FILES['gambar']['type'];
-		  $nama_file   = urlencode($_FILES['gambar']['name']);
-		  if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg" OR $tipe_file == "image/png"){
-				UploadGallery($nama_file);
-				$data = $_POST;
-				$data['gambar'] = $nama_file;
-				$data['parrent'] = $parrent;
-				$data['tipe'] = 2;
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
+		if(UploadError($_FILES['gambar'])){
+			$_SESSION['success'] = -1;
+			return;
+		}
 
-				if($_SESSION['grup'] == 4){
-					$data['enabled'] = 2;
-				}
+	  $lokasi_file = $_FILES['gambar']['tmp_name'];
+	  $tipe_file = TipeFile($_FILES['gambar']);
+		$data = $_POST;
+		// Bolehkan isi album tidak ada gambar
+		if (!empty($lokasi_file)) {
+		  if (!CekGambar($_FILES['gambar'], $tipe_file)){
+				$_SESSION['success'] = -1;
+				return;
+		  }
+		  $nama_file  = urlencode(generator(6)."_".$_FILES['gambar']['name']);
+			UploadGallery($nama_file,"",$tipe_file);
+			$data['gambar'] = $nama_file;
+		}
 
-				$outp = $this->db->insert('gambar_gallery',$data);
-				if($outp) $_SESSION['success']=1;
-			} else {
-				$_SESSION['success']=-1;
-			}
-		  }else{
-			$data = $_POST;
-			unset($data['gambar']);
-			$data['parrent'] = $parrent;
-			$data['tipe'] = 2;
-			$outp = $this->db->insert('gambar_gallery',$data);
-}
-	if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if($_SESSION['grup'] == 4){
+			$data['enabled'] = 2;
+		}
+
+		$data['parrent'] = $parrent;
+		$data['tipe'] = 2;
+		$outp = $this->db->insert('gambar_gallery',$data);
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 
-		function update_sub_gallery($id=0){
-		  $x = $_POST;
-		  $lokasi_file = $_FILES['gambar']['tmp_name'];
-		  $tipe_file   = $_FILES['gambar']['type'];
-		  $nama_file   = urlencode($_FILES['gambar']['name']);
-		  $old_gambar  = $x['old_gambar'];
-		  if (!empty($nama_file)){
-			if ($tipe_file == "image/jpeg" OR $tipe_file == "image/pjpeg"){
-				UploadGallery($nama_file,$old_gambar);
-				unset($x['old_gambar']);
-			}} else {
-				$_SESSION['success']=-1;
-				$nama_file = $x['old_gambar'];
+	function update_sub_gallery($id=0){
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
+		if(UploadError($_FILES['gambar'])){
+			$_SESSION['success'] = -1;
+			return;
+		}
 
+	  $lokasi_file = $_FILES['gambar']['tmp_name'];
+	  $tipe_file = TipeFile($_FILES['gambar']);
+		$data = $_POST;
+		// Kalau kosong, gambar tidak diubah
+		if (!empty($lokasi_file)) {
+		  if (!CekGambar($_FILES['gambar'], $tipe_file)){
+				$_SESSION['success'] = -1;
+				return;
 		  }
+		  $nama_file  = urlencode(generator(6)."_".$_FILES['gambar']['name']);
+			UploadGallery($nama_file,$data['old_gambar'],$tipe_file);
+			$data['gambar'] = $nama_file;
+		}
 
-		$data['gambar'] = $nama_file;
-		$data['nama'] = $_POST['nama'];
-		$this->db->where('id',$id);
-		$outp = $this->db->update('gambar_gallery',$data);
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		unset($data['old_gambar']);
+		$outp = $this->db->where('id',$id)->update('gambar_gallery',$data);
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 }
 ?>
