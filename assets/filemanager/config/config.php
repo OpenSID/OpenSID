@@ -27,7 +27,14 @@ date_default_timezone_set('Asia/Makassar');
 |
 */
 
-define('USE_ACCESS_KEYS', true); // TRUE or FALSE
+/*
+	Password untuk File Manager disimpan di folder desa, jika ada
+*/
+if (file_exists('../../desa/config/config.php')) {
+	include('../../desa/config/config.php');
+}
+$config['file_manager'] = isset($config['file_manager']) ? $config['file_manager'] : '';
+define('USE_ACCESS_KEYS', !empty($config['file_manager'])); // TRUE or FALSE
 
 /*
 |--------------------------------------------------------------------------
@@ -152,7 +159,7 @@ $config = array(
 	|
 	*/
 
-	'access_keys' => array('KunciDesa', 'BDA8C2D81A9B7CEA6D9393A295FB3BCE'),
+	'access_keys' => array($config['file_manager']),
 
 	//--------------------------------------------------------------------------------------------------------
 	// YOU CAN COPY AND CHANGE THESE VARIABLES INTO FOLDERS config.php FILES TO CUSTOMIZE EACH FOLDER OPTIONS
