@@ -232,6 +232,10 @@
       mkdir('desa/upload/media');
       xcopy('desa-contoh/upload/media', 'desa/upload/media');
     }
+    if (!file_exists('/desa/upload/thumbs')){
+      mkdir('desa/upload/thumbs');
+      xcopy('desa-contoh/upload/thumbs', 'desa/upload/thumbs');
+    }
   }
 
   function migrasi_24_ke_25(){
