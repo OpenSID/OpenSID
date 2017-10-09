@@ -65,7 +65,7 @@ define('DEBUG_ERROR_MESSAGE', true); // TRUE or FALSE
  seperti:
  '/OpenSID/assets/filemanager/dialog.php?type=1&descending=false&lang=undefined&akey=KunciDesa'
 */
-$folder_app = substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'],'/assets'));
+$folder_app = strtolower(substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'],'/assets')));
 
 $config = array(
 
