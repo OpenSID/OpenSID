@@ -17,8 +17,6 @@
 		<div class="lmenu">
 			<ul>
 				<a href="<?php echo site_url("dokumen/index/1")?>"><li <?php if($kat==1)echo "class='selected'";?>>Umum</li></a>
-				<a href="<?php echo site_url("dokumen/index/2")?>"><li <?php if($kat==2)echo "class='selected'";?>>SK Kepala Desa</li></a>
-				<a href="<?php echo site_url("dokumen/index/3")?>"><li <?php if($kat==3)echo "class='selected'";?>>Peraturan Desa</li></a>
 			</ul>
 		</div>
 	</td>
