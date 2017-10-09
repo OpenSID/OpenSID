@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('setting_model');
+$autoload['model'] = array('setting_model', 'folder_desa_model');
 
 
 /* End of file autoload.php */

@@ -15,7 +15,7 @@ tinymce.init({
    image_advtab: true ,
    external_filemanager_path:"<?php echo base_url()?>assets/filemanager/",
    filemanager_title:"Responsive Filemanager" ,
-   filemanager_access_key:"KunciDesa",
+   filemanager_access_key:"BDA8C2D81A9B7CEA6D9393A295FB3BCE",
    external_plugins: { "filemanager" : "<?php echo base_url()?>assets/filemanager/plugin.min.js"},
   templates: [
     { title: 'Test template 1', content: 'Test 1' },
