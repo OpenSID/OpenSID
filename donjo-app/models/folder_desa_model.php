@@ -17,7 +17,7 @@
 	}
 
 	private function salin_contoh() {
-		if (!file_exists('/desa')) {
+		if (!file_exists('desa')) {
 			mkdir('desa');
 			xcopy('desa-contoh', 'desa');
 		}
