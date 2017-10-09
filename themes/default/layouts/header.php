@@ -11,6 +11,8 @@
 		?></title>
 		<meta content="utf-8" http-equiv="encoding">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="description" content="OpenSID - Sistem Informasi Desa">
+		<meta name="keywords" content="OpenSID,opensid,sid,SID,SID CRI,SID-CRI,sid cri,sid-cri,Sistem Informasi Desa,sistem informasi desa, desa">
     <meta property="og:site_name" content="<?php echo $desa['nama_desa'];?>"/>
     <meta property="og:type" content="article"/>
 		<?php if(isset($single_artikel)): ?>
