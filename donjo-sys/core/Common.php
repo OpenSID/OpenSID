@@ -254,7 +254,19 @@ if ( ! function_exists('get_config'))
 			}
 		}
 
-		return $_config[0] =& $config;
+		/*=================================================================
+        |   FIX ERROR 
+        |   A PHP Error was encountered
+        |   Severity: Notice
+        |   Message: Only variable references should be returned by reference
+        |   Filename: core/Common.php
+        |   Line Number: 257
+        /*================================================================*/
+        
+		//return $_config[0] =& $config;
+        
+        $_config[0] =& $config;
+        return $_config[0]; 
 	}
 }
 

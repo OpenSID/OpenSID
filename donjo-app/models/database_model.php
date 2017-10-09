@@ -13,6 +13,7 @@
 
     $this->cek_engine_db();
     $this->load->dbforge();
+    $this->load->model('folder_desa_model');
 
   }
 
@@ -226,6 +227,11 @@
         modul = VALUES(modul),
         url = VALUES(url)";
     $this->db->query($query);
+    // Tambah folder desa/upload/media
+    if (!file_exists('/desa/upload/media')){
+      mkdir('desa/upload/media');
+      xcopy('desa-contoh/upload/media', 'desa/upload/media');
+    }
   }
 
   function migrasi_24_ke_25(){
