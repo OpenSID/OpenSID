@@ -1,5 +1,5 @@
 # OpenSID
-OpenSID (https://github.com/eddieridwan/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
+OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
 
 SID diharapkan dapat membantu pemerintah desa dalam beberapa hal berikut:
 
@@ -22,10 +22,10 @@ OpenSID dikelola di Github untuk:
 - backup online _source code_ SID yg dapat diaskses setiap saat
 
 ## PEDOMAN PENGGUNAAN
-Pedoman pemasangan dan penggunaan OpenSID dapat dilihat di wiki OpenSID di https://github.com/eddieridwan/opensid/wiki.
+Pedoman pemasangan dan penggunaan OpenSID dapat dilihat di wiki OpenSID di https://github.com/opensid/opensid/wiki.
 
 ## OpenSID v SID CRI
-OpenSID dikembangkan sejak Mei 2016 dari versi SID CRI 3.04 yang diperoleh dari Andi Anwar.
+OpenSID dikembangkan sejak Mei 2016 bermula dari versi SID CRI 3.04 yang diperoleh dari Andi Anwar.
 
 SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang di-share oleh anggota https://www.facebook.com/groups/OpenSID/ pada tanggal 15 Pebruari 2017. OpenSID akan terus menggabung versi baru yang mungkin sewaktu-waktu dirilis oleh CRI.
 
@@ -49,7 +49,7 @@ Anda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.face
 
 ## KEMBANGKAN BERSAMA
 
-Pengguna dan pegiat SID dapat melaporkan dan mendaftarkan masalah/usulan/permintaan perbaikan atau pengembangan OpenSID di https://github.com/eddieridwan/opensid/issues. Issues ini merupakan daftar tugas bagi pegiat OpenSID untuk mengembangkan OpenSID berdasarkan masukan dari komunitas SID.
+Pengguna dan pegiat SID dapat melaporkan dan mendaftarkan masalah/usulan/permintaan perbaikan atau pengembangan OpenSID di https://github.com/opensid/opensid/issues. Issues ini merupakan daftar tugas bagi pegiat OpenSID untuk mengembangkan OpenSID berdasarkan masukan dari komunitas SID.
 
-Komunitas SID juga bebas, bahkan diajak, untuk turut membuat kontribusi pada panduan OpenSID di https://github.com/eddieridwan/OpenSID/wiki, dan pada script OpenSID di (https://github.com/eddieridwan/OpenSID).
+Komunitas SID juga bebas, bahkan diajak, untuk turut membuat kontribusi pada panduan OpenSID di https://github.com/OpenSID/OpenSID/wiki, dan pada script OpenSID di (https://github.com/OpenSID/OpenSID).
 
