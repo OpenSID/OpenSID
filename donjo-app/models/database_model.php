@@ -13,6 +13,7 @@
 
     $this->cek_engine_db();
     $this->load->dbforge();
+    $this->load->model('folder_desa_model');
 
   }
 
@@ -66,6 +67,7 @@
     }else{
       $this->_migrasi_db_cri();
     }
+    $this->folder_desa_model->amankan_folder_desa();
     /*
       Update current_version di db.
       'pasca-<versi>' disimpan sebagai '<versi>'
@@ -226,6 +228,15 @@
         modul = VALUES(modul),
         url = VALUES(url)";
     $this->db->query($query);
+    // Tambah folder desa/upload/media
+    if (!file_exists('/desa/upload/media')){
+      mkdir('desa/upload/media');
+      xcopy('desa-contoh/upload/media', 'desa/upload/media');
+    }
+    if (!file_exists('/desa/upload/thumbs')){
+      mkdir('desa/upload/thumbs');
+      xcopy('desa-contoh/upload/thumbs', 'desa/upload/thumbs');
+    }
   }
 
   function migrasi_24_ke_25(){
