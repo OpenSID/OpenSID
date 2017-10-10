@@ -67,6 +67,7 @@
     }else{
       $this->_migrasi_db_cri();
     }
+    $this->folder_desa_model->amankan_folder_desa();
     /*
       Update current_version di db.
       'pasca-<versi>' disimpan sebagai '<versi>'

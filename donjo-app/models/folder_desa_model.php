@@ -16,6 +16,28 @@
 		$this->salin_contoh();
 	}
 
+	// Tambahkan index.html di setiap sub-folder, supaya tidak bisa diakses langsung
+	// Gunakan file index.html yang disediakan di desa-contoh
+	function amankan_folder_desa($src='desa') {
+    if (!file_exists($src.'/index.html')) {
+      copy('desa-contoh/index.html', $src.'/index.html');
+    }
+    foreach (scandir($src) as $file) {
+      $srcfile = rtrim($src, '/') . '/' . $file;
+      if (!is_readable($srcfile)) {
+        continue;
+      }
+      if ($file != '.' && $file != '..') {
+        if (is_dir($srcfile)) {
+          if (!file_exists($srcfile.'/index.html')) {
+            copy('desa-contoh/index.html', $srcfile.'/index.html');
+          }
+          $this->amankan_folder_desa($srcfile);
+        }
+      }
+    }
+  }
+
 	private function salin_contoh() {
 		if (!file_exists('desa')) {
 			mkdir('desa');
