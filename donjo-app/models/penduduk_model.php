@@ -33,6 +33,13 @@
 		}
 	}
 
+	function keluarga_sql(){
+		if($_SESSION['layer_keluarga'] == 1){
+			$sql = " AND u.kk_level = 1";
+			return $sql;
+		}
+	}
+
 	function sex_sql(){
 		if(isset($_SESSION['sex'])){
 			$kf = $_SESSION['sex'];
@@ -361,6 +368,7 @@
 				LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 				LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE 1 ";
 
+		$sql .= $this->keluarga_sql();
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $this->sex_sql();
