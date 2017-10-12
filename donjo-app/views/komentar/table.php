@@ -44,7 +44,7 @@ source: keyword
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
 <th width="120">Aksi</th>
-
+<th align="left">Pengirim</th>
  <?php  if($o==2): ?>
 <th align="left"><a href="<?php echo site_url("komentar/index/$p/1")?>">Isi Komentar <span class="fa fa-sort-asc fa-sm">
 <?php  elseif($o==1): ?>
@@ -52,7 +52,7 @@ source: keyword
 <?php  else: ?>
 <th align="left"><a href="<?php echo site_url("komentar/index/$p/1")?>">Isi Komentar <span class="fa fa-sort fa-sm">
 <?php  endif; ?>&nbsp;</span></a></th>
-
+<th align="left">Email Pengirim</th>
 <th>Judul Artikel</th>
 
 <?php  if($o==0): ?>
@@ -84,7 +84,9 @@ source: keyword
 <a href="<?php echo site_url("komentar/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("komentar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('komentar/komentar_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi komentar"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('komentar/komentar_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan komentar"><span class="fa fa-unlock"></span></a>
 <?php endif?></div>
 </td>
+<td><?php echo $data['owner']?></td>
 <td><?php echo $data['komentar']?></td>
+<td><?php echo $data['email']?></td>
 <td>
   <a href="<?php echo site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?php echo $data['artikel']?></a>
 </td>
