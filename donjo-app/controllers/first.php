@@ -263,9 +263,10 @@ class First extends Web_Controller{
 		$this->load->model('dpt_model');
 		$data = $this->includes;
 		$data['main'] = $this->dpt_model->statistik_wilayah();
-		$data['tipe'] = 4;
 		$data['total'] = $this->dpt_model->statistik_total();
+		$data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
 		$this->_get_common_data($data);
+		$data['tipe'] = 4;
 		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template,$data);
 	}
