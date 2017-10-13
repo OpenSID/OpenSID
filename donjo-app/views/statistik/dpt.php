@@ -1,7 +1,8 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <style type="text/css">
-	th.kanan {text-align: right;}
+	table#dpt th.kanan {text-align: right;}
+	table#dpt th.kiri {text-align: left;}
 </style>
 <?php
 
@@ -13,11 +14,11 @@
 		<div class=\"box-body\">";
 			if(count($main) > 0){
 				echo "
-			<table class=\"table table-striped\">
+			<table id=\"dpt\" class=\"table table-striped\">
 				<thead><tr>
-					<th>No</th>
-					<th>Nama Dusun</th>
-					<th>RW</th>
+					<th class=\"kiri\">No</th>
+					<th class=\"kiri\">Nama Dusun</th>
+					<th class=\"kiri\">RW</th>
 					<th class=\"kanan\">Jiwa</th>
 					<th class=\"kanan\">Lk</th>
 					<th class=\"kanan\">Pr</th>
