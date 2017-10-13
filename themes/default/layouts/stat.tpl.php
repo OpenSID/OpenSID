@@ -11,6 +11,8 @@
 							}
 						}elseif($tipe == 3){
 							$this->load->view($folder_themes.'/partials/wilayah.php');
+						}elseif($tipe == 4){
+							$this->load->view('statistik/dpt.php');
 						}else{
 							$this->load->view($folder_themes.'/partials/statistik.php');
 						}
