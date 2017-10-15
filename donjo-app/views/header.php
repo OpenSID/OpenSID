@@ -46,71 +46,69 @@
 	<div id="sid-judul">SID Sistem Informasi Desa</div>
 	<div id="sid-info"><?php echo ucwords($this->setting->sebutan_desa." ".$desa['nama_desa'].", ".$this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']).", ".$this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']))?></div>
 	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
-  <div class="avatar">
-		<?php if($foto){?>
-			<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
-		<?php }else{?>
-			<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
-		<?php }?>
+	  <div class="avatar">
+			<?php if($foto){?>
+				<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
+			<?php }else{?>
+				<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
+			<?php }?>
+		</div>
+		<div class="info">
+			<div><strong>Anda Login sebagai</strong></div>
+		<div><?php echo $nama?></div>
+		</div>
+
+		<ul class="dropdown" tabindex="1">
+			<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="fa fa-user fa-lg"></i>Setting User</a></li>
+			<?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
+				<li><a href="<?php echo site_url()?>modul/clear"><i class="fa fa-gear fa-lg"></i>Pengaturan</a></li>
+			<?php  }?>
+			<li><a href="<?php echo site_url()?>siteman"><i class="fa fa-power-off fa-lg"></i>Log Out</a></li>
+		</ul>
 	</div>
-<div class="info">
-	<div><strong>Anda Login sebagai</strong></div>
-<div><?php echo $nama?></div>
-</div>
-
-<ul class="dropdown" tabindex="1">
-	<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="fa fa-user fa-lg"></i>Setting User</a></li>
-<?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
-	<li><a href="<?php echo site_url()?>modul/clear"><i class="fa fa-gear fa-lg"></i>Pengaturan</a></li>
-<?php  }?>
-<li><a href="<?php echo site_url()?>siteman"><i class="fa fa-power-off fa-lg"></i>Log Out</a></li>
-</ul>
-
-</div>
 </div>
 <div id="sidebar" >
 </div>
 <div class="ui-layout-center" id="wrapper">
 
+	<!-- NOTIFICATION-->
+	<?php  if(@$_SESSION['success']==1): ?>
+	<script type="text/javascript">
+	$('document').ready(function(){
+	notification('success','Data Berhasil Disimpan')();
+	});
+	</script><?php  elseif(@$_SESSION['success']==-1): ?>
+	<script type="text/javascript">
+	$('document').ready(function(){
+	notification('error','Data Gagal Disimpan <?php echo $_SESSION["error_msg"]?>')();
+	});
+	</script><?php  elseif(@$_SESSION['success']==-2): ?>
+	<script type="text/javascript">
+	$('document').ready(function(){
+	notification('error','Simpan data gagal, nama id sudah ada!')();
+	});
+	</script><?php  elseif(@$_SESSION['success']==-3): ?>
+	<script type="text/javascript">
+	$('document').ready(function(){
+	notification('error','Simpan data gagal, nama id sudah ada!')();
+	});
+	</script><?php  endif; ?><?php  $_SESSION['success']=0; ?>
+	<!-- ************ -->
+	<!-- ************ -->
 
-<!-- NOTIFICATION-->
-<?php  if(@$_SESSION['success']==1): ?>
-<script type="text/javascript">
-$('document').ready(function(){
-notification('success','Data Berhasil Disimpan')();
-});
-</script><?php  elseif(@$_SESSION['success']==-1): ?>
-<script type="text/javascript">
-$('document').ready(function(){
-notification('error','Data Gagal Disimpan <?php echo $_SESSION["error_msg"]?>')();
-});
-</script><?php  elseif(@$_SESSION['success']==-2): ?>
-<script type="text/javascript">
-$('document').ready(function(){
-notification('error','Simpan data gagal, nama id sudah ada!')();
-});
-</script><?php  elseif(@$_SESSION['success']==-3): ?>
-<script type="text/javascript">
-$('document').ready(function(){
-notification('error','Simpan data gagal, nama id sudah ada!')();
-});
-</script><?php  endif; ?><?php  $_SESSION['success']=0; ?>
-<!-- ************ -->
-<!-- ************ -->
-
-<div class="module-panel">
-	<div class="contentm" style="overflow: hidden;">
-		<?php foreach ($modul AS $mod){?>
-		<?php
-		if ($this->setting->offline_mode >= 2 &&
-			in_array($mod['url'], array('web', 'gis'))) {
-			continue;
-		}
-		?>
-		<a class="cpanel <?php if($this->modul_ini==$mod['id']){?>selected<?php }?>" href="<?php echo site_url()?><?php echo $mod['url']?>">
-			<img src="<?php echo base_url()?>assets/images/cpanel/<?php echo $mod['ikon']?>" alt=""/>
-			<span><?php echo $mod['modul']?></span>
-		</a>
-		<?php } ?>
-  </div>
-</div>
+	<div class="module-panel">
+		<div class="contentm" style="overflow: hidden;">
+			<?php foreach ($modul AS $mod){?>
+			<?php
+			if ($this->setting->offline_mode >= 2 &&
+				in_array($mod['url'], array('web', 'gis'))) {
+				continue;
+			}
+			?>
+			<a class="cpanel <?php if($this->modul_ini==$mod['id']){?>selected<?php }?>" href="<?php echo site_url()?><?php echo $mod['url']?>">
+				<img src="<?php echo base_url()?>assets/images/cpanel/<?php echo $mod['ikon']?>" alt=""/>
+				<span><?php echo $mod['modul']?></span>
+			</a>
+			<?php } ?>
+	  </div>
+	</div>
