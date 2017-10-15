@@ -1,7 +1,5 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
-
 class Analisis_grafik extends CI_Controller{
-
 	function __construct(){
 		parent::__construct();
 		session_start();
@@ -12,21 +10,17 @@ class Analisis_grafik extends CI_Controller{
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
 	}
-	
 	function clear($id=0){
 		$_SESSION['analisis_master']=$id;
 		unset($_SESSION['cari']);
 		redirect('analisis_grafik');
 	}
-	
 	function leave(){
 		$id=$_SESSION['analisis_master'];
 		unset($_SESSION['analisis_master']);
 		redirect("analisis_master/menu/$id");
 	}
-	
 	function index($p=1,$o=0){
-	
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
@@ -64,7 +58,6 @@ class Analisis_grafik extends CI_Controller{
 		$data['main']    = $this->analisis_grafik_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_grafik_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_grafik_model->get_analisis_master();
-
 		$header = $this->header_model->get_data();
 		
 		$this->load->view('header', $header);
@@ -72,9 +65,7 @@ class Analisis_grafik extends CI_Controller{
 		$this->load->view('analisis_grafik/table',$data);
 		$this->load->view('footer');
 	}
-	
 	function time($p=1,$o=0){
-	
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
@@ -92,7 +83,6 @@ class Analisis_grafik extends CI_Controller{
 		$data['keyword'] = $this->analisis_grafik_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_grafik_model->get_analisis_master();
 		$data['periode'] = $this->analisis_grafik_model->list_periode();
-
 		$header = $this->header_model->get_data();
 		
 		$this->load->view('header', $header);
@@ -100,7 +90,6 @@ class Analisis_grafik extends CI_Controller{
 		$this->load->view('analisis_grafik/time',$data);
 		$this->load->view('footer');
 	}
-
 	function dusun(){
 		unset($_SESSION['rw']);
 		unset($_SESSION['rt']);
@@ -110,7 +99,6 @@ class Analisis_grafik extends CI_Controller{
 		else unset($_SESSION['dusun']);
 		redirect('analisis_grafik');
 	}
-	
 	function rw(){
 		unset($_SESSION['rt']);
 		$rw = $this->input->post('rw');
@@ -119,7 +107,6 @@ class Analisis_grafik extends CI_Controller{
 		else unset($_SESSION['rw']);
 		redirect('analisis_grafik');
 	}
-	
 	function rt(){
 		$rt = $this->input->post('rt');
 		if($rt!="")
@@ -127,7 +114,6 @@ class Analisis_grafik extends CI_Controller{
 		else unset($_SESSION['rt']);
 		redirect('analisis_grafik');
 	}
-	
 	function search(){
 		$cari = $this->input->post('cari');
 		if($cari!='')

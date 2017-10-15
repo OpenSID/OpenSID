@@ -52,7 +52,7 @@
  <?php endforeach; ?>
 		</tbody>
  </table> 
- <div style="position:absolute; bottom:20px;">
+ <div style="position:absolute; bottom:40px;">
 		<div class="left"> 
 			<a href="<?php echo site_url()?>analisis_statistik_jawaban" class="uibutton icon prev">Kembali</a>
 		</div>

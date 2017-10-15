@@ -13,8 +13,9 @@
 	}
 </style>
 <div id="pageC">
-	<div class="content-header">
-	</div>
+<?php $this->load->view('analisis_master/left',$data);?>
+<div class="content-header">
+</div>
 <div id="contentpane">
 	<div class="ui-layout-north panel">
 	</div>

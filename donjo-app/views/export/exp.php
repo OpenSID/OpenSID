@@ -18,7 +18,7 @@
             <div class="left">
 <table class="list">
   <tr>
-    <td width="320">Ekspor Data Keluarga (Format .xls untuk di import ke dalam SID melalui menu Impor Database)</td>
+    <td width="320">Ekspor Data Keluarga (Format .xls untuk di impor ke database SID melalui menu Impor Database)</td>
     <td width="70">
       <div class="uibutton-group">
         <a class="uibutton special" href="<?php echo site_url("database")?>/export_excel"><span class="fa fa-download"></span> Unduh</a>

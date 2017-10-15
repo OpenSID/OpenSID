@@ -7,6 +7,7 @@
 	});
 </script>
 <div id="pageC">
+<?php $this->load->view('analisis_master/left',$data);?>
 <div class="content-header">
 </div>
 <div id="contentpane">
@@ -71,8 +72,8 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td><div class="uibutton-group">
-				<a href="<?php echo site_url("analisis_klasifikasi/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter">
-					<span class="fa fa-edit"></span> Ubah
+				<a href="<?php echo site_url("analisis_klasifikasi/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter">
+					<span class="fa fa-edit"> Ubah </span>
 				</a>
 				<a href="<?php echo site_url("analisis_klasifikasi/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data">
 					<span class="fa fa-trash"></span>
@@ -108,10 +109,10 @@
 	<div class="right">
 		<div class="uibutton-group">
 			<?php if($paging->start_link): ?>
-				<a href="<?php echo site_url("analisis_klasifikasi/index/$paging->start_link/$o")?>" class="uibutton" ><span class="fa fa-fast-backward"></span> Awal</a>
+				<a href="<?php echo site_url("analisis_klasifikasi/index/$paging->start_link/$o")?>" class="uibutton" >Awal</a>
 			<?php endif; ?>
 			<?php if($paging->prev): ?>
-				<a href="<?php echo site_url("analisis_klasifikasi/index/$paging->prev/$o")?>" class="uibutton" ><span class="fa fa-step-backward"></span> Prev</a>
+				<a href="<?php echo site_url("analisis_klasifikasi/index/$paging->prev/$o")?>" class="uibutton" >Prev</a>
 			<?php endif; ?>
 			</div>
 			<div class="uibutton-group">
@@ -121,10 +122,10 @@
 			</div>
 			<div class="uibutton-group">
 			<?php if($paging->next): ?>
-				<a href="<?php echo site_url("analisis_klasifikasi/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
+				<a href="<?php echo site_url("analisis_klasifikasi/index/$paging->next/$o")?>" class="uibutton">Next</a>
 			<?php endif; ?>
 			<?php if($paging->end_link): ?>
-				<a href="<?php echo site_url("analisis_klasifikasi/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
+				<a href="<?php echo site_url("analisis_klasifikasi/index/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
 			<?php endif; ?>
 		</div>
 	</div>

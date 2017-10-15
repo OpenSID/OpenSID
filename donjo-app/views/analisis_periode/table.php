@@ -7,6 +7,7 @@
 	});
 </script>
 <div id="pageC">
+<?php $this->load->view('analisis_master/left',$data);?>
 <div class="content-header">
 </div>
 <div id="contentpane">
@@ -16,7 +17,7 @@
  <div class="left">
  <div class="uibutton-group">
  <a href="<?php echo site_url('analisis_periode/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Periode Baru</a>
- <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_periode/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+ <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_periode/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
  </div>
  </div>
  </div>
@@ -43,19 +44,19 @@
  <th width="100">Aksi</th>
 
 	 		<?php if($o==4): ?>
-				<th  align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Periode <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Periode <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th  align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/4")?>">Periode <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/4")?>">Periode <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th  align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Periode <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Periode <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 	 		<?php if($o==4): ?>
-				<th align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Tahun Pelaksanaan <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Tahun Pelaksanaan <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/4")?>">Tahun Pelaksanaan <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/4")?>">Tahun Pelaksanaan <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="center" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Tahun Pelaksanaan <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='150'><a href="<?php echo site_url("analisis_periode/index/$p/3")?>">Tahun Pelaksanaan <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
  <th>Tahap Pendataan</th>
@@ -71,14 +72,14 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
  <td><div class="uibutton-group">
- <a href="<?php echo site_url("analisis_periode/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_periode/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+ <a href="<?php echo site_url("analisis_periode/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"> Ubah </span></a><a href="<?php echo site_url("analisis_periode/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 			</div>
  </td>
-		 <td align="center"><?php echo $data['nama']?></td>
-		 <td align="center"><?php echo $data['tahun_pelaksanaan']?></td>
+ <td><?php echo $data['nama']?></td>
+		 <td><?php echo $data['tahun_pelaksanaan']?></td>
 		 <td><?php echo $data['status']?></td>
 		 <td><?php echo $data['keterangan']?></td>
-		 <td align="center"><?php echo $data['aktif']?></td>
+		 <td><?php echo $data['aktif']?></td>
 		 </tr>
  <?php endforeach; ?>
 		</tbody>
@@ -105,10 +106,10 @@
  <div class="right">
  <div class="uibutton-group">
  <?php if($paging->start_link): ?>
-				<a href="<?php echo site_url("analisis_periode/index/$paging->start_link/$o")?>" class="uibutton" ><span class="fa fa-fast-backward"></span> Awal</a>
+				<a href="<?php echo site_url("analisis_periode/index/$paging->start_link/$o")?>" class="uibutton" >Awal</a>
 			<?php endif; ?>
 			<?php if($paging->prev): ?>
-				<a href="<?php echo site_url("analisis_periode/index/$paging->prev/$o")?>" class="uibutton" ><span class="fa fa-step-backward"></span> Prev</a>
+				<a href="<?php echo site_url("analisis_periode/index/$paging->prev/$o")?>" class="uibutton" >Prev</a>
 			<?php endif; ?>
  </div>
  <div class="uibutton-group">
@@ -119,10 +120,10 @@
  </div>
  <div class="uibutton-group">
 			<?php if($paging->next): ?>
-				<a href="<?php echo site_url("analisis_periode/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
+				<a href="<?php echo site_url("analisis_periode/index/$paging->next/$o")?>" class="uibutton">Next</a>
 			<?php endif; ?>
 			<?php if($paging->end_link): ?>
- <a href="<?php echo site_url("analisis_periode/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
+ <a href="<?php echo site_url("analisis_periode/index/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
 			<?php endif; ?>
  </div>
  </div>

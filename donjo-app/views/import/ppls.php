@@ -7,7 +7,7 @@
 			</div>
 			<div id="contentpane">
 				<div class="ui-layout-north panel">
-					<h3>Import Data PPLS</h3>
+					<h3>Impor Data PPLS</h3>
 				</div>
 				<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 					<div class="left">
@@ -16,11 +16,11 @@
 								<tr>
 									<td width="500" colspan="3">
 										<p font-size="14px";>
-										Mempersiapkan data dengan bentuk excel untuk import ke dalam database SID:
+										Mempersiapkan data dengan bentuk excel untuk impor ke dalam database SID:
 										<br>
 										<ol>
 
-										<li value="1">Pastikan format data yang akan diimport sudah sesuai dengan aturan import data:
+										<li value="1">Pastikan format data yang akan diimpor sudah sesuai dengan aturan impor data:
 										<dl>
 										<dl>-> Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama,
 										<br><dl>-> Struktur RT RW, jika tidak ada dalam struktur wilayah desa diganti dengan tanda � (min/strip/dash)
@@ -29,7 +29,7 @@
 										<li>Simpan (Save) file Excel sebagai .xls file (jika Anda memakai excel 2007 gunakan Save As pilih format .xls) </ul>
 										<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</ul>
 
-										<li>Data yang dibutuhkan untuk Import dengan memenuhi aturan data<a href="<?php echo base_url()?>assets/import/ATURANDATA.xls"> sebagai berikut</a><br>
+										<li>Data yang dibutuhkan untuk Impor dengan memenuhi aturan data<a href="<?php echo base_url()?>assets/import/ATURANDATA.xls"> sebagai berikut</a><br>
 										<li>Contoh urutan format dapat dilihat pada <a href="<?php echo base_url()?>assets/import/ContohFormat.xls">tautan berikut</a><br>
 										</ol>
 										</p>
@@ -47,7 +47,7 @@
 									<td width="250">
 										<input name="userfile" type="file" />
 									<td>
-										<button class="uibutton special" type="submit"><span class="fa fa-upload"></span> Import</button>
+										<button class="uibutton special" type="submit"><span class="fa fa-upload"></span> Impor</button>
 									</td>
 									<td>
 										&nbsp;
@@ -62,7 +62,7 @@
 									<td width="250">
 										<input name="userfile" type="file" />
 									<td>
-										<button class="uibutton special" type="submit"><span class="fa fa-upload"></span> Import</button>
+										<button class="uibutton special" type="submit"><span class="fa fa-upload"></span> Impor</button>
 									</td>
 									<td>
 										&nbsp;

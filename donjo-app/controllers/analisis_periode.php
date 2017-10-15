@@ -6,7 +6,6 @@ class Analisis_periode extends CI_Controller{
 		$this->load->model('analisis_periode_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 5;
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
 		$_SESSION['submenu'] = "Data Periode";
@@ -26,25 +25,25 @@ class Analisis_periode extends CI_Controller{
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
-
+		
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
-
+		
 		if(isset($_SESSION['state']))
 			$data['state'] = $_SESSION['state'];
 		else $data['state'] = '';
-		if(isset($_POST['per_page']))
+		if(isset($_POST['per_page'])) 
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-
+		
 		$data['paging']  = $this->analisis_periode_model->paging($p,$o);
 		$data['main']    = $this->analisis_periode_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_periode_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
 		$data['list_state'] = $this->analisis_periode_model->list_state();
 		$header = $this->header_model->get_data();
-
+		
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_periode/table',$data);
@@ -53,20 +52,20 @@ class Analisis_periode extends CI_Controller{
 	function form($p=1,$o=0,$id=''){
 		$data['p'] = $p;
 		$data['o'] = $o;
-
+		
 		if($id){
 			$data['analisis_periode']        = $this->analisis_periode_model->get_analisis_periode($id);
 			$data['form_action'] = site_url("analisis_periode/update/$p/$o/$id");
 		}
-
+		
 		else{
 			$data['analisis_periode']        = null;
 			$data['form_action'] = site_url("analisis_periode/insert");
 		}
-
+		
 		$header = $this->header_model->get_data();
 		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
-
+		
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_periode/form',$data);

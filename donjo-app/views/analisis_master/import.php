@@ -2,7 +2,7 @@
 	<table class="form">
 		<tr>
 			<td colspan='2'><ul>
-				<li>Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut <a href="<?php echo base_url()?>assets/import/analisis.xls" class="uibutton special">Aturan Data</a></li>
+				<li>Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut <a href="<?php echo base_url()?>assets/import/analisis.xls" class="uibutton special">Aturan Data</a></li>
 				<li>Contoh urutan format dapat dilihat pada tautan berikut <a href="<?php echo base_url()?>assets/import/ppls2.xls"  class="uibutton special">Contoh</a></li>
 			</ul></td>
 		</tr>
@@ -13,7 +13,7 @@
 	</table>
 	<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
 		<div class="uibutton-group">
-			<button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
+			<button class="uibutton confirm" type="submit">Simpan</button>
 		</div>
 	</div>
 </form>

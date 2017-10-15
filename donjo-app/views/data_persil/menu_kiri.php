@@ -28,7 +28,7 @@
 			<li><a href="<?php echo site_url('data_persil/create')?>"><i class="icon-pencil"></i> Tambah Data Persil Baru</a></li>
 			<li><a href="<?php echo site_url('data_persil/create_ext')?>"><i class="icon-pencil"></i> Tambah Data (Manual)</a></li>
 			<li><a href="<?php echo site_url('data_persil/clear')?>"><i class="icon-th-list"></i> Daftar Persil</a></li>
-			<li><a href="<?php echo site_url('data_persil/import')?>" target="ajax-modal" rel="window" header="Import Data Persil"><i class="icon-plus"></i> Import Data Persil</a></li>
+			<li><a href="<?php echo site_url('data_persil/import')?>" target="ajax-modal" rel="window" header="Impor Data Persil"><i class="icon-plus"></i> Impor Data Persil</a></li>
 		</ul>
 	</div>
 </div>

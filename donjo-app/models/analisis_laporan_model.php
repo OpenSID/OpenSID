@@ -21,12 +21,20 @@
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
 		$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.no_kk LIKE '$kw' OR p.nama LIKE '$kw')";
-			return $search_sql;
+			//$kw = $this->db->escape_like_str($cari);
+			$kw = '%' .$cari. '%';
+
+			$subjek = $_SESSION['subjek_tipe'];
+			switch($subjek){
+				case 1: $search_sql= " AND (u.nik LIKE '$kw' OR u.nama LIKE '$kw')"; break;
+				case 2: $search_sql= " AND (u.no_kk LIKE '$kw' OR p.nama LIKE '$kw')"; break;
+				case 3: $search_sql= " AND ((u.no_kk LIKE '$kw' OR p.nama LIKE '$kw') OR ((SELECT COUNT(id) FROM tweb_penduduk WHERE nik LIKE '$kw' AND id_rtm = u.id) > 1) OR ((SELECT COUNT(id) FROM tweb_penduduk WHERE nama LIKE '$kw' AND id_rtm = u.id) > 1))"; break;
+				case 4: $search_sql= " AND (u.nama LIKE '$kw' OR p.nama LIKE '$kw')"; break;
+				default: return null;
 			}
+			return $search_sql;
 		}
+	}
 	function master_sql(){		
 		if(isset($_SESSION['analisis_master'])){
 			$kf = $_SESSION['analisis_master'];
@@ -157,7 +165,7 @@
 		
 		if(isset($_SESSION['jawab'])){
 			$sql .= "LEFT JOIN analisis_respon x ON u.id = x.id_subjek ";
-			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval ";
+			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi > k.minval AND h.akumulasi/$pembagi <= k.maxval ";
 			$sql .= "WHERE h.id_periode = ? AND x.id_periode = ? AND k.id_master = ? ";
 			$sql .= $this->search_sql();
 			$sql .= $this->klasifikasi_sql(); 
@@ -170,7 +178,7 @@
 			$sql .= $paging_sql;
 			$query = $this->db->query($sql,array($per,$per,$_SESSION['analisis_master']));
 		}else{
-			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval ";
+			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi > k.minval AND h.akumulasi/$pembagi <= k.maxval ";
 			$sql .= "WHERE h.id_periode = ? AND k.id_master = ?";
 			$sql .= $this->search_sql();
 			$sql .= $this->klasifikasi_sql(); 
