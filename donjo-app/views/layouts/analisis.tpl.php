@@ -6,8 +6,8 @@
 						if($list_jawab){
 							$this->load->view('partials/analisis.php');
 						}else{ ?>
-						<h2 class="judul">DAFTAR AGREGASI DATA ANALISIS DESA</h2>
-						<h3>Klik Untuk melihat lebih detail</h3><br>
+						<h2 class="judul">DAFTAR DATA STATISTIK ANALISIS DI TINGKAT DESA</h2>
+						<h3>Klik judul Analisis untuk melihat tampilan detail data statistik</h3><br>
 						<ul >
 						<?php foreach($list_indikator AS $data){?>							
 							<div class="box box-primary">

@@ -11,7 +11,7 @@ source: keyword
 <tr style="vertical-align:top">
 <td class="side-menu">
 <fieldset>
-<legend>Kategori Artikels</legend>
+<legend>Kategori Artikel</legend>
 <div id="sidecontent3" class="lmenu" >
 <ul>
 <?php 
@@ -38,7 +38,7 @@ source: keyword
 <ul>
 	<li <?php if($cat == 1003)echo "class='selected'";?>>
 		<a href="<?php echo site_url("web/index/1003")?>">
-		Coztumizable Widget 
+		Customizable Widget 
 		</a>
 	</li>
 	<li <?php if($cat == 999)echo "class='selected'";?>>
@@ -113,11 +113,11 @@ source: keyword
 <th align="left"><a href="<?php echo site_url("web/index/$p/3")?>">Enabled / Disabled<span class="ui-icon ui-icon-triangle-2-n-s">
 <?php endif; ?>&nbsp;</span></a></th>
 <?php if($o==6): ?>
-<th align="left" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Diposting Pada<span class="ui-icon ui-icon-triangle-1-n">
+<th align="left" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Dimuat pada<span class="ui-icon ui-icon-triangle-1-n">
 <?php elseif($o==5): ?>
-<th align="left" width='250'><a href="<?php echo site_url("web/index/$p/6")?>">Diposting Pada<span class="ui-icon ui-icon-triangle-1-s">
+<th align="left" width='250'><a href="<?php echo site_url("web/index/$p/6")?>">Dimuat pada<span class="ui-icon ui-icon-triangle-1-s">
 <?php else: ?>
-<th align="left" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Diposting Pada<span class="ui-icon ui-icon-triangle-2-n-s">
+<th align="left" width='250'><a href="<?php echo site_url("web/index/$p/5")?>">Dimuat pada<span class="ui-icon ui-icon-triangle-2-n-s">
 <?php endif; ?>&nbsp;</span></a></th>
 </tr>
 </thead>
@@ -137,8 +137,8 @@ source: keyword
 	<a href="<?php echo site_url("web/artikel_lock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Aktivasi artikel"><span class="icon-lock icon-large"></span></a>
 		<?php elseif($data['enabled'] == '1'): ?>
 	<a href="<?php echo site_url("web/artikel_unlock/$cat/$data[id]")?>" class="uibutton tipsy south" title="Non-aktifkan artikel"><span class="icon-unlock icon-large"></span></a>
-	<a href="<?php echo site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Klik Untuk Jadikan Headline"><span class="<?php if($data['headline']==1){?>icon-star-empty icon-large" title="Headline Saat Ini"<?php }else{?> icon-star icon-large" <?php }?>target="confirm" message="Jadikan Artikel Berikut Sebagai Headline News?" header="Headline"></span></a>
-	<a href="<?php echo site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Klik Untuk Jadikan Slide" message="Masukkan ke dalam slide?"><span class="<?php if($data['headline']==3){?>icon-pause icon-large" title="Keluarkan dari slide" message="Keluarkan dari slide?"<?php }else{?> icon-play icon-large" <?php }?>target="confirm" header="Slide"></span></a>
+	<a href="<?php echo site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Klik untuk Jadikan Headline"><span class="<?php if($data['headline']==1){?>icon-star-empty icon-large" title="Headline Saat Ini"<?php }else{?> icon-star icon-large" <?php }?>target="confirm" message="Jadikan Artikel ini sebagai Headline News?" header="Headline"></span></a>
+	<a href="<?php echo site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Klik untuk Jadikan Slide" message="Masukkan ke dalam slide?"><span class="<?php if($data['headline']==3){?>icon-pause icon-large" title="Keluarkan dari slide" message="Keluarkan dari slide?"<?php }else{?> icon-play icon-large" <?php }?>target="confirm" header="Slide"></span></a>
 	<?php endif?>
 	<?php } ?>
 </div>

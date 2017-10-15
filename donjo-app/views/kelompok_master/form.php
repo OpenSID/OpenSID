@@ -2,13 +2,13 @@
 <div class="content-header">
 </div>
 <div id="contentpane">
-<div class="ui-layout-north panel"><h3>Form Master Kelompok</h3>
+<div class="ui-layout-north panel"><h3>Form Kategori Kelompok</h3>
 </div>
 <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
 <tr>
-<th>Kategori/ Master Kelompok</th>
+<th>Kategori/ Kategori Kelompok</th>
 <td><input name="kelompok" type="text" class="inputbox" size="80" value="<?php echo $kelompok_master['kelompok']?>"/></td>
 </tr>
 <tr>

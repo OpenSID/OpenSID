@@ -39,13 +39,13 @@ $('tr.uptd').hide();
 <div class="content-header">
 </div>
 <div id="contentpane">
-<div class="ui-layout-north panel"><h3>Form Manajemen User</h3>
+<div class="ui-layout-north panel"><h3>Form Manajemen Pengguna / User</h3>
 </div>
 <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
 <tr>
-<th width="100">Group</th>
+<th width="100">Level</th>
 <td>
 <div class="uiradio">
 <?php $ch='checked';?>
@@ -75,7 +75,7 @@ $('tr.uptd').hide();
 <td><input name="phone" type="text" class="inputbox" size="20" value="<?php echo $user['phone']?>"/></td>
 </tr> 
 <tr>
-<th>Mail</th>
+<th>e-mail</th>
 <td><input name="email" type="text" class="inputbox" size="20" value="<?php echo $user['email']?>"/></td>
 </tr> 
 <tr>
@@ -93,7 +93,7 @@ $('tr.uptd').hide();
 </tr>
 <tr>
 <th>Ganti Foto</th>
-<td><input type="file" name="foto" /> <span style="color: #aaa;">(Kosongi jika tidak ingin merubah foto)</span></td>
+<td><input type="file" name="foto" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah foto)</span></td>
 </tr>
 </table>
 </div>

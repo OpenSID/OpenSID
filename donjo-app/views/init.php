@@ -43,7 +43,7 @@ box-shadow:0px 0px 15px #777;
 <script type="text/javascript">
 	$(function(){
 	<?php if($pass != NULL){ ?>
-		modalpin('pin','PENTING!!! Informasi Username dan Password.','Berikut adalah password Administrator SID yang baru saja di hasilkan, silahkan dicatat dan di ingat dengan baik, Password ini sangat rahasia terkait dengan keamanan Data. Informasi ini hanya akan tampil sekali saja pada tahapan Instalasi SID.<br>Setelah berhasil masuk aplikasi harap untuk segera mengganti Password yang sekiranya mudah diingat.<br>Harap Diperhatikan dan dimaklumi.<table class="list"><td width="150">Username</td><td width="5"> : </td><td>admin</td></tr><tr><td>Pssword</td><td width="5"> : </td><td><?php echo $pass; ?></td></tr></table>');
+		modalpin('pin','PENTING! Informasi Username dan Password.','Silakan catat/ingat username dan password ini sebelum login. Username dan password ini hanya akan tampil sekali di tahap instalasi aplikasi SID untuk alasan keamanan. <br>Setelah berhasil masuk aplikasi harap untuk segera mengganti Password yang sekiranya mudah diingat.<br>Username dan password dapat diganti setelah Anda berhasil login ke aplikasi SID.<table class="list"><td width="150">Username</td><td width="5"> : </td><td>admin</td></tr><tr><td>Pssword</td><td width="5"> : </td><td><?php echo $pass; ?></td></tr></table>');
 	<?php }?>
 		
 	function modalpin(id,title,message,width,height){
@@ -72,8 +72,8 @@ box-shadow:0px 0px 15px #777;
 	});
 </script>
 <div id="full">
-<h1>SUKSES!!!<h1>
-<h2>Anda baru saja menginstall Aplikasi SID dengan Lancar.<h2>
+<h1>BERHASIL!<h1>
+<h2>Anda baru saja menginstall aplikasi SID 3.10 dengan lancar.<h2>
 <a href ="<?php echo site_url();?>siteman" class="uibutton special">Mulai SID </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </div>
 </body>

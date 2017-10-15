@@ -568,10 +568,16 @@ class import_model extends CI_Model{
 		
 		$gg=0;
 		for ($i=2; $i<=$baris; $i++){
-			$id_rtm			= $data->val($i,31,$sheet);
-			$rtm_level		= $data->val($i,7,$sheet);
+			
+			//ID RuTa
+			$id_rtm			= $data->val($i,2,$sheet);
+			
+			//Level
+			$rtm_level		= $data->val($i,3,$sheet);
 			if($rtm_level > 1)$rtm_level=2;
-			$nik			= $data->val($i,9,$sheet);
+			
+			//NIK
+			$nik			= $data->val($i,1,$sheet);
 			
 			$sql 	= "SELECT nama FROM tweb_penduduk WHERE nik = ?";
 			$query 	= $this->db->query($sql,$nik);

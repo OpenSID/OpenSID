@@ -7,6 +7,7 @@
 	});
 </script>
 <div id="pageC">
+<?php $this->load->view('analisis_master/left',$data);?>
 <div id="contentpane"> 
 	<form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
@@ -63,7 +64,7 @@
 				<?php }?>
 				
 <a href="<?php echo site_url("analisis_statistik_jawaban/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-<a href="<?php echo site_url("analisis_statistik_jawaban/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+<a href="<?php echo site_url("analisis_statistik_jawaban/excel/$o")?>" class="uibutton special tipsy south" title="Unduh" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
 </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('analisis_statistik_jawaban/search')?>');$('#'+'mainform').submit();}" />
@@ -75,11 +76,11 @@
 		<tr>
 			<th width="10">No</th>
 	 		<?php if($o==4): ?>
-				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/3")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/3")?>">Pertanyaan/Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/4")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/4")?>">Pertanyaan/Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/3")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/3")?>">Pertanyaan/Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 			<th align="left">Total</th>
@@ -93,21 +94,22 @@
 			
 			<th align="left" colspan="2">Jawaban</th>
 			<th align="left">Responden</th>
+			<th align="right">Jumlah</th>
 			
 			<?php if($o==6): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Tipe Pertanyaan<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/6")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/6")?>">Tipe Pertanyaan<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Tipe Pertanyaan<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==6): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Kategori/Variabel<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/6")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/6")?>">Kategori/Variabel<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_statistik_jawaban/index/$p/5")?>">Kategori/Variabel<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 			<?php if($o==2): ?>
@@ -120,7 +122,9 @@
 			</tr>
 		</thead>
 		<tbody>
-<?php foreach($main as $data): ?>
+<?php 
+$total = 0;
+foreach($main as $data): ?>
 	<tr>
 		<td align="center" width="2"><?php echo $data['no']?></td>
 		<td><?php echo $data['pertanyaan']?></a></td>
@@ -141,12 +145,27 @@
 				<a href="<?php echo site_url("analisis_statistik_jawaban/subjek_parameter/$data[id]/$par[id]")?>" ><?php echo $par['jml_p']?></a><br>
 				<?php endforeach; ?>
 			 </td>
+			 <td align="right"><?php echo $data['jumlah']?></td>
 			 <td><?php echo $data['tipe_indikator']?></td>
 		<td><?php echo $data['kategori']?></td>
 		<td><?php echo $data['act_analisis']?></td>
 	</tr>
-<?php endforeach; ?>
-		</tbody>
+<?php 
+if($data['jumlah'] != "-"){
+	$total += $data['jumlah'];
+}
+
+endforeach; ?>
+
+	<?php if($total != 0){ ?>
+	<tr>
+		<td align="right" colspan="7"><b>TOTAL</b></td>
+		<td align="right"><b><?php echo $total; ?></b></td>
+		<td colspan="3"></td>
+	</tr>
+	<?php } ?>	
+	
+</tbody>
 </table>
 </div>
 	</form>
@@ -189,4 +208,5 @@
 </div>
 </div>
 </div>
+</td></tr></table>
 </div>

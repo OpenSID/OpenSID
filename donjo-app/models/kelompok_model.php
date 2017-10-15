@@ -90,21 +90,15 @@ class kelompok_model extends CI_Model{
 	function insert(){
 		$data = $_POST;
 		$datax = array();
-		$outp = $this->db->insert('kelompok',$data);
 		
-		$sql = "SELECT * FROM kelompok WHERE 1 ORDER BY id DESC LIMIT 1";
-		$query = $this->db->query($sql);
-		$kel = $query->row_array();
+		$outpa = $this->db->insert('kelompok',$data);
+		$insert_id = $this->db->insert_id();
 		
-		
-		$a="DELETE FROM kelompok_anggota WHERE id_kelompok = $kel[id];";
-		$b = $this->db->query($a);
-		
-		$datax['id_kelompok']=$kel['id'];
+		$datax['id_kelompok']=$insert_id;
 		$datax['id_penduduk']=$data['id_ketua'];
-		$outp = $this->db->insert('kelompok_anggota',$datax);
+		$outpb = $this->db->insert('kelompok_anggota',$datax);
 		
-		if($outp) $_SESSION['success']=1;
+		if($outpa && $outpb) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
 	function insert_a($id=0){
@@ -132,6 +126,17 @@ class kelompok_model extends CI_Model{
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
+	
+	function update_a($id=0,$id_a=0){
+		$data = $_POST;
+		
+		$this->db->where('id_kelompok',$id);
+		$this->db->where('id_penduduk',$id_a);
+		$outp = $this->db->update('kelompok_anggota',$data);
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+	
 	function delete($id=''){
 		$sql = "DELETE FROM kelompok WHERE id=?";
 		$outp = $this->db->query($sql,array($id));
@@ -166,13 +171,19 @@ class kelompok_model extends CI_Model{
 		$data = $query->row_array();
 		return $data;
 	}
+	function get_anggota($id=0,$id_a=0){
+		$sql = "SELECT * FROM kelompok_anggota WHERE id_kelompok=? AND id_penduduk = ?";
+		$query = $this->db->query($sql,array($id,$id_a));
+		$data = $query->row_array();
+		return $data;
+	}
 	function list_master(){
 		$sql = "SELECT * FROM kelompok_master";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
 	function list_penduduk(){
-		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1";
+		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE status_dasar = 1";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 		

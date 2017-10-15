@@ -25,8 +25,8 @@
  
  <?php if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button><?php }?>
 				
-				<a href="<?php echo site_url("keluarga/cetak_statistik/$tipe")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url("keluarga/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+				<a href="<?php echo site_url("keluarga/cetak_statistik/$tipe")?>" target="_blank" class="uibutton tipsy south" title="Cetak" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
+		<a href="<?php echo site_url("keluarga/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Unduh" ><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
  
  </div>
  </div>

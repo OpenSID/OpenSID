@@ -31,11 +31,17 @@ $("#nik_detail").show();
 <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 <table class="form">
-			<tr>
+<?php if(!@$pend){?>
+<tr>
  <th width=100>NIK / Nama Penduduk</th>
  <td>
  <div id="id_penduduk" name="id_penduduk"></div>
  </td>
+ </tr>
+ <?php }?>
+ <tr>
+ <th>Nomor Anggota</th>
+ <td><input class="inputbox" name="no_anggota" type="text" size="20" value="<?php echo$pend['no_anggota']; ?>"></th>
  </tr>
 </table>
 </div>

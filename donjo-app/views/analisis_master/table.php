@@ -11,7 +11,7 @@
 <div id="contentpane"> 
 <form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
-	<h3>Modul Analisis</h3>
+	<h3>Modul Analisis Data Potensi/Sumber Daya di Tingkat Desa</h3>
 	<div class="left">
 		<div class="uibutton-group">
 			<a href="<?php echo site_url('analisis_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Analisis Baru</a>
@@ -56,11 +56,11 @@
 			<?php endif; ?>
 			
 			<?php if($o==6): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek Analisis<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek/Unit Analisis<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/6")?>">Subjek Analisis<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/6")?>">Subjek/Unit Analisis<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek Analisis<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek/Unit Analisis<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==2): ?>

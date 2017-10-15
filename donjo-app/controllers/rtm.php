@@ -258,7 +258,7 @@ function __construct(){
 		$data['id_kk']    = $id;
 		$data['hubungan'] = $this->rtm_model->list_hubungan();
 		$data['main']     = $this->rtm_model->list_anggota($id);
-		$kk 		  = $this->rtm_model->get_kepala_kk($id);
+		$kk 		  	= $this->rtm_model->get_kepala_kk($id);
 		$data['desa']     = $this->rtm_model->get_desa();
 		
 		if($kk)
@@ -287,7 +287,7 @@ function __construct(){
 		$data['kepala_kk'] = $kk;
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$this->load->view("sid/kependudukan/cetak_kk", $data);
+		$this->load->view("sid/kependudukan/cetak_rtm", $data);
 		
 	}
 		

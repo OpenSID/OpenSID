@@ -11,14 +11,14 @@
 <tr style="vertical-align:top">
 		<td style="background:#fff;padding:0px;"> 
 <div class="content-header">
- <h3>Manajemen User</h3>
+ <h3>Manajemen Pengguna</h3>
 </div>
 <div id="contentpane"> 
 	<form id="mainform" name="mainform" action="" method="post">
  <div class="ui-layout-north panel">
  <div class="left">
  <div class="uibutton-group">
- <a href="<?php echo site_url('man_user/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah User Baru</a>
+ <a href="<?php echo site_url('man_user/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Penguna Baru</a>
  <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("man_user/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
  </div>
  </div>
@@ -54,19 +54,19 @@
 							<?php endif; ?>
 							
 							<?php if($o==4): ?>
-								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama Pengguna<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 							<?php elseif($o==3): ?>
-								<th align="left"><a href="<?php echo site_url("man_user/index/$p/4")?>">Nama<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("man_user/index/$p/4")?>">Nama Pengguna<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 							<?php else: ?>
-								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="left"><a href="<?php echo site_url("man_user/index/$p/3")?>">Nama Pengguna<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 							<?php endif; ?>
 							
 							<?php if($o==6): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Level<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 							<?php elseif($o==5): ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/6")?>">Group<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/6")?>">Level<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 							<?php else: ?>
-								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+								<th align="left" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Level<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 							<?php endif; ?>
 								<th align="left" width='160' align="center">Last Login</th>
  

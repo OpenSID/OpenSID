@@ -8,7 +8,7 @@
 <div id="contentpane">
 <div class="ui-layout-center" id="maincontent" style="padding: 0px;">
 <div align="center">
-<h3> BIODATA PENDUDUK</h3>
+<h3>BIODATA PENDUDUK</h3>
 <h4>No. <?php echo $penduduk['nik']?> </h4> 
 </div>
 <table class="form" >
@@ -104,8 +104,26 @@
 <td>Tanggal perceraian</td><td >:</td>
 <td><?php echo strtoupper($penduduk['tanggalperceraian'])?></td>
 </tr>
+<?php if($penduduk['sex'] == "PEREMPUAN"){?>
 <tr>
-<td>Data Orang Tua</td>
+<td>Status Kehamilan</td><td >:</td>
+<td><?php if($penduduk['hamil'] == 1){echo "Hamil Tua";}elseif($penduduk['hamil'] == 2){echo "Hamil Muda";}else{echo "Tidak Hamil";}?></td>
+</tr>
+<tr>
+<td>Ibu Menyusui</td><td >:</td>
+<td><?php if($penduduk['hamil'] == 3){echo "Ya";}else{echo "Tidak";}?></td>
+</tr>
+<?php } ?>
+<tr>
+<td>Cacat</td><td >:</td>
+<td><?php echo strtoupper($penduduk['cacat'])?></td>
+</tr>
+<tr>
+<td>Status</td><td >:</td>
+<td><?php echo strtoupper($penduduk['status'])?></td>
+</tr>
+<tr>
+<td><b>Data Orang Tua</b></td>
 </tr> 
 <tr>
 <td>NIK Ayah</td><td >:</td>
@@ -127,20 +145,35 @@
 <td><?php echo strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
 </tr>
 <tr>
-<td>Cacat</td><td >:</td>
-<td><?php echo strtoupper($penduduk['cacat_id'])?></td>
-</tr>
-<tr>
-<td>Status</td><td >:</td>
-<td><?php echo strtoupper($penduduk['status'])?></td>
-</tr>
-<tr>
 <td colspan="3">&nbsp;</td>
 </tr>
-<tr>
-<th colspan="3">DOKUMEN / KELENGKAPAN PENDUDUK</th>
-</tr>
 </table>
+
+<h3>KEANGGOTAAN KELOMPOK</h3>
+ <table class="list">
+		<thead>
+ <tr>
+ <th width="2">No</th>
+ <th width="220">Nama Kelompok</th>
+<th width="360">Kategori Kelompok</th>
+			<th></th>
+			</tr>
+		</thead>
+		<tbody>
+ <?php $no=1; foreach($list_kelompok as $kel){?>
+		<tr>
+			<td align="center" width="2"><?php echo $no;?></td>
+			 <td><?php echo $kel['nama']?></td>
+			 <td><?php echo $kel['kategori']?></td>
+			<td></td>
+		</tr>
+ <?php 
+ $no++;
+ }?>
+		</tbody>
+ </table>
+ 
+<h3>DOKUMEN / KELENGKAPAN PENDUDUK</h3>
  <table class="list">
 		<thead>
  <tr>

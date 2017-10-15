@@ -27,7 +27,7 @@ table.form.detail td{
 <td><?php echo $kk['no_kk']?></td>
 </tr>
 <tr>
-<th>Kepala KK</th>
+<th>Kepala Keluarga</th>
 <td><?php echo unpenetration($kk['nama'])?></td>
 </tr>
 <tr>
@@ -121,9 +121,10 @@ table.form.detail td{
 <th>Hubungan dalam Keluarga</th>
 <td><select name="kk_level">
 <option value="">Pilih Hubungan</option>
-<?php foreach($hubungan as $data){?>
+<?php foreach($hubungan as $data){
+if($data['id'] != 1){?>
 <option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
-<?php }?></select>
+<?php } }?></select>
 </td>
 </tr>
 <tr>

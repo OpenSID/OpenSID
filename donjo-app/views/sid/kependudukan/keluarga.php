@@ -19,15 +19,15 @@
  <div class="ui-layout-north panel">
  <div class="left">
  <div class="uibutton-group">
- <a href="<?php echo site_url('keluarga/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Data Baru</a>
+ <a href="<?php echo site_url('keluarga/form')?>" class="uibutton tipsy south" title="Tambah Data KK Baru" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah KK Baru</a>
  
- <a href="<?php echo site_url('keluarga/form_old')?>" target="ajax-modal" rel="window" header="Tambah Data Keluarga" class="uibutton tipsy south" title="Tambah Data dari penduduk yang sudah ter-input" ><span class="icon-plus icon-large">&nbsp;</span>Tambah Data</a>
+ <a href="<?php echo site_url('keluarga/form_old')?>" target="ajax-modal" rel="window" header="Tambah Data Keluarga" class="uibutton tipsy south" title="Tambah Data KK dari data penduduk yang sudah ter-input" ><span class="icon-plus icon-large">&nbsp;</span>Tambah KK</a>
  
  <?php if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button><?php }?>
 				
-				<a href="<?php echo site_url("keluarga/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
+				<a href="<?php echo site_url("keluarga/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Cetak" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
 		
-				<a href="<?php echo site_url("keluarga/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+				<a href="<?php echo site_url("keluarga/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Unduh" ><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
 				&nbsp;
 				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('keluarga/dusun')?>')">
  <option value="">Dusun</option>
@@ -113,8 +113,6 @@
  <td width="5"><div class="uibutton-group">
 			<a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota Keluarga"><span class="icon-list icon-large"> Rincian </span></a>
  <a href="<?php echo site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Ubah Data KK"><span class="icon-edit icon-large"></span></a>
-			
-			<a href="<?php echo site_url("keluarga/form_a/$p/$o/$data[id]")?>" header="Tambah Anggota Keluarga" class="uibutton tipsy south" title="Tambah Anggota Keluarga"><span class="icon-plus-sign-alt icon-large"></span></a>
 			<a href="<?php echo site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Pindah Keluarga dalam Desa" target="ajax-modal" rel="window" header="Pindah Keluarga"><span class="icon-share icon-large"></span></a>
  <?php if($grup==1){?><a href="<?php echo site_url("keluarga/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span> </a><?php } ?>
 		</div> </td>

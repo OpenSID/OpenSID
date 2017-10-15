@@ -25,7 +25,7 @@ header("Expires: 0");
 		<thead>
  <tr class="thick">
  <th class="thick">No</th>
-				<th class="thick">Jenis Kelompok</th>
+				<th class="thick">Kategori Kelompok</th>
 				<th class="thick">Jumlah</th>
 				<th class="thick" width="60">Laki-laki</th>
 				<th class="thick" width="60">Perempuan</th>

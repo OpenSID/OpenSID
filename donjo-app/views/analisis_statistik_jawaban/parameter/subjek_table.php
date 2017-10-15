@@ -12,7 +12,7 @@
 		
 <div class="left">
 			<a href="<?php echo site_url("analisis_statistik_jawaban/cetak2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-			<a href="<?php echo site_url("analisis_statistik_jawaban/excel2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+			<a href="<?php echo site_url("analisis_statistik_jawaban/excel2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="uibutton special tipsy south" title="Unduh" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
 				
 			<select name="dusun" onchange="formAction('mainform','<?php echo site_url("analisis_statistik_jawaban/dusun2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')">
 					<option value="">Dusun</option>

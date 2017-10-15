@@ -25,7 +25,7 @@ td,th{
 			<th>No</th>
 			<th>Nama</th>
 			<th>Nama Ketua</th>
-			<th>Jenis Kelompok</th>
+			<th>Kategori Kelompok</th>
 			<th>Jumlah Anggota</th>
 		</tr>
 	</thead>

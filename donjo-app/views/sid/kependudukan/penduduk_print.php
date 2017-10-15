@@ -15,7 +15,10 @@ td,th{
 <body>
 <div id="container">
 <!-- Print Body --><div id="body"><div class="header" align="center"><label align="left"><?php echo get_identitas()?></label>
+ <?php if(isset($_SESSION['judul_statistik_cetak'])){echo "<h3>".$_SESSION['judul_statistik_cetak']."</h3>"; unset($_SESSION['judul_statistik']);}else{ ?>
 <h3> DATA PENDUDUK </h3>
+<?php } ?>
+<?php echo $info?>
 </div>
 <br>
  <table class="border thick">

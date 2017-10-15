@@ -30,7 +30,7 @@
 			</div>
 			<?php }elseif($_SESSION['siteman']== -2){?>
 			<div id="note">
-				Tidak ada aktivitas dalam jangka waktu yang cukup lama. Demi keamanan silahkan Login kembali.
+				Tidak ada aktivitas dalam jangka waktu yang cukup lama. Demi keamanan silakan Login kembali.
 			</div>
 			<?php } unset($_SESSION['siteman']);?>
 		</form>

@@ -14,8 +14,8 @@ header("Expires: 0");
 <body>
 <div id="container">
 <!-- Print Body --><div id="body"><div class="header" align="center"><label align="left"><?php echo get_identitas()?></label>
-<h3> DATA WILAYAH ADMINISTRASI </h3>
-<h4>RT</h4> 
+<h3> DATA RT DAN JUMLAH PENDUDUK </h3>
+<h4> DUSUN <?php echo strtoupper(unpenetration(ununderscore($dusun)))?> RW <?php echo unpenetration(ununderscore($rw))?></h4> 
 </div>
 <br>
  <table class="border thick">

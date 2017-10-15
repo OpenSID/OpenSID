@@ -3,16 +3,19 @@
 <a href="<?php echo site_url("first/cetak_biodata/$penduduk[id]"); ?>" target="_blank" class="uibutton special" >Cetak Biodata</a>
 <table class="form" >
 <tr>
+<td>
+<div class="userbox-avatar">
+<?php if($penduduk['foto']){?>
+<img src="<?php echo base_url()?>assets/files/user_pict/kecil_<?php echo $penduduk['foto']?>" alt=""/>
+<?php }else{?>
+<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
+<?php }?>
+</div>
+</td>
+</tr>
+<tr>
 <td width="150">Nama</td><td width="1">:</td>
 <td><?php echo strtoupper(unpenetration($penduduk['nama']))?></td>
-</tr>
-<tr>
-<td width="150">NIK</td><td width="1">:</td>
-<td><?php echo $penduduk['nik']?></td>
-</tr>
-<tr>
-<td width="150">NO KK</td><td width="1">:</td>
-<td><?php echo $penduduk['no_kk']?></td>
 </tr>
 <tr>
 <td>Akta lahir</td><td >:</td>
@@ -92,7 +95,15 @@
 <td><?php echo strtoupper($penduduk['tanggalperceraian'])?></td>
 </tr>
 <tr>
-<td>Data Orang Tua</td>
+<td>Cacat</td><td >:</td>
+<td><?php echo strtoupper($penduduk['cacat'])?></td>
+</tr>
+<tr>
+<td>Status</td><td >:</td>
+<td><?php echo strtoupper($penduduk['status'])?></td>
+</tr>
+<tr>
+<td><b>Data Orang Tua</b></td>
 </tr> 
 <tr>
 <td>NIK Ayah</td><td >:</td>
@@ -114,13 +125,57 @@
 <td><?php echo strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
 </tr>
 <tr>
-<td>Cacat</td><td >:</td>
-<td><?php echo strtoupper($penduduk['cacat_id'])?></td>
+<td colspan="3">&nbsp;</td>
 </tr>
-<tr>
-<td>Status</td><td >:</td>
-<td><?php echo strtoupper($penduduk['status'])?></td>
-</tr>
+</table>
+
+<h3>KEANGGOTAAN KELOMPOK</h3>
+			<table class="table table-striped">
+		<thead>
+ <tr>
+ <th width="2">No</th>
+ <th width="220">Nama Kelompok</th>
+<th width="360">Kategori Kelompok</th>
+			<th></th>
+			</tr>
+		</thead>
+		<tbody>
+ <?php $no=1; foreach($list_kelompok as $kel){?>
+		<tr>
+			<td align="center" width="2"><?php echo $no;?></td>
+			 <td><?php echo $kel['nama']?></td>
+			 <td><?php echo $kel['kategori']?></td>
+			<td></td>
+		</tr>
+ <?php 
+ $no++;
+ }?>
+		</tbody>
+ </table>
+ 
+<h3>DOKUMEN / KELENGKAPAN PENDUDUK</h3>
+<table class="table table-striped">
+		<thead>
+ <tr>
+ <th width="2">No</th>
+ <th width="220">Nama Dokumen</th>
+				<th width="360">File</th>
+				<th width="200">Tanggal Upload</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+ <?php foreach($list_dokumen as $data){?>
+		<tr>
+			<td align="center" width="2"><?php echo $data['no']?></td>
+			 <td><?php echo $data['nama']?></td>
+			 <td><a href="<?php echo base_url()?>assets/files/dokumen/<?php echo urlencode($data['satuan'])?>" ><?php echo $data['satuan']?></a></td>
+			 <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
+			<td></td>
+		</tr>
+ <?php }?>
+		</tbody>
+ </table>
 </table>
  
 </div>

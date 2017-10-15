@@ -134,16 +134,22 @@
 		$sql="select c.id as id_cluster,c.rt,c.rw,c.dusun as dusunnya, 
 (select count(id) from tweb_penduduk where sex='1' and id_cluster=c.id) as L,
 (select count(id) from tweb_penduduk where sex='2' and id_cluster=c.id) as P,
+
 (select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<1 and id_cluster=c.id ) as bayi,
-(select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=1 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=5 and id_cluster=c.id ) as balita,
-(select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=6 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=12 and id_cluster=c.id ) as sd,
-(select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=13 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=15 and id_cluster=c.id ) as smp,
-(select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=16 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=18 and id_cluster=c.id ) as sma,
+(select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=1 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<6 and id_cluster=c.id ) as balita,
+(select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=6 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<13 and id_cluster=c.id ) as sd,
+(select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=13 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<16 and id_cluster=c.id ) as smp,
+(select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=16 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<19 and id_cluster=c.id ) as sma,
+(select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=19 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<60 and id_cluster=c.id ) as dewasa,
 (select count(id) from tweb_penduduk where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>60 and id_cluster=c.id ) as lansia,
-(select count(id) from tweb_penduduk where cacat_id is not null and cacat_id <>'0' and id_cluster=c.id) as cacat,
+
+(select count(id) from tweb_penduduk where sex = 1 AND cacat_id is not null and cacat_id <>'0' and id_cluster=c.id) as cacat,
+(select count(id) from tweb_penduduk where sex = 2 AND cacat_id is not null and cacat_id <>'0' and id_cluster=c.id) as cacat2,
 (select count(id) from tweb_penduduk where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='1') as sakit_L,
 (select count(id) from tweb_penduduk where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='2') as sakit_P,
-(select count(id) from tweb_penduduk where hamil='1' and id_cluster=c.id) as hamil
+(select count(id) from tweb_penduduk where hamil='1' and id_cluster=c.id) as hamil1,
+(select count(id) from tweb_penduduk where hamil='2' and id_cluster=c.id) as hamil2,
+(select count(id) from tweb_penduduk where hamil='3' and id_cluster=c.id) as susu
 from tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) from tweb_penduduk where id_cluster=c.id)>0 ";	
 		
 		$sql .= $this->dusun_sql();

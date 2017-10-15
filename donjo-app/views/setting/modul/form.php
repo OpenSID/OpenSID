@@ -2,7 +2,7 @@
 	<div class="content-header"> </div>
 	<div id="contentpane">
 		<div class="ui-layout-north panel">
-			<h3>Form Manajemen Modul</h3>
+			<h3>Form Pengaturan Modul</h3>
 		</div>
 		<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">

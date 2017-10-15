@@ -1,7 +1,7 @@
 <div class="artikel">
-<?php if($_SESSION['sukses']==1){echo "Data telah terkirim, dan akan segera kami proses";unset($_SESSION['sukses']);} ?>
+<?php if($_SESSION['sukses']==1){echo "DATA TELAH TERKIRIM DAN AKAN SEGERA KAMI TINDAKLANJUTI";unset($_SESSION['sukses']);} ?>
 <form id="validasi" action="<?php echo site_url()?>first/add_comment/775" method="POST" enctype="multipart/form-data">
-Silahkan laporkan perubahan data kependudukan anda.
+Sila laporkan perubahan data dan/atau informasi penting lainnya yang terkait dengan profil Anda kepada pemerintah desa melalui formulir ini.
 <table class="form">
 <tr>
 <th>Pengirim </th>

@@ -8,7 +8,7 @@
  <div class="left">
  <div class="uibutton-group">
 			<a href="<?php echo site_url("laporan_rentan/cetak")?>" class="uibutton tipsy south" title="Cetak" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-	<a href="<?php echo site_url("laporan_rentan/excel")?>" class="uibutton tipsy south" title="Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+	<a href="<?php echo site_url("laporan_rentan/excel")?>" class="uibutton tipsy south" title="Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
  </div>
  </div>
  </div>
@@ -27,7 +27,7 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>		</tr>	
 				<tr>				
 					<td></td>
-					<td width="100%"><h3>LAPORAN KELOMPOK RENTAN DESA/KELURAHAN</h3></td>
+					<td width="100%"><h3>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN</h3></td>
 					
 									
 				</tr>
@@ -47,10 +47,10 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 <?php }?>	
 				</tr>
 				<tr>						
-					<td>Laporan Bulan</td>
+					<td>Periode</td>
 					<td width="3%">:</td>
-<?php $bln = date("m");?>
-					<td><?php echo $bln?> </td>
+<?php $bln = date("m");$thn=date("Y");?>
+					<td><?php echo $bln."/".$thn?> </td>
 					<td width="40%"></td>	
 				</tr>
 				 <tr>						
@@ -78,10 +78,10 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 	<th rowspan="2"><div align="center">RW</div></th>
 	<th rowspan="2"><div align="center">RT</div></th>
 	<th colspan="2"><div align="center">KK</div></th>
-	<th colspan="6"><div align="center">Kondisi dan Kelompok Umur</div></th>
-	<th rowspan="2"><div align="center">Cacat</div></th>
-	<th colspan="2"><div align="center">Sakit Menahun</div></th>
-	<th rowspan="2"><div align="center">Hamil</div></th>
+	<th colspan="7"><div align="center">Kondisi dan Kelompok Umur</div></th>
+	<th colspan="2"><div align="center">Hamil</div></th>
+	<th rowspan="2"><div align="center">Menyusui</div></th>
+	<th colspan="2"><div align="center">Cacat</div></th>
 </tr>
 <tr>
 	<th><div align="center">L</div></th>
@@ -91,7 +91,10 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 	<th><div align="center">6-12 Tahun</div></th>
 	<th><div align="center">13-15 Tahun</div></th>
 	<th><div align="center">16-18 Tahun</div></th>
+	<th><div align="center">19-59 Tahun</div></th>
 	<th><div align="center">Diatas 60 Tahun</div></th>
+	<th><div align="center">Tua</div></th>
+	<th><div align="center">Muda</div></th>
 	<th><div align="center">L</div></th>
 	<th><div align="center">P</div></th>
 </tr>
@@ -103,11 +106,15 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 	$sd=0;
 	$smp=0;
 	$sma=0;
+	$dewasa=0;
 	$lansia=0;
 	$cacat=0;
+	$cacat2=0;
 	$sakit_L=0;
 	$sakit_P=0;
-	$hamil=0;
+	$hamil1=0;
+	$hamil2=0;
+	$susu=0;
 ?>
 <?php foreach($main as $data){ $id_cluster=$data['id_cluster'];?>
 <td align="right"><?php echo $data['dusunnya']?></td>
@@ -120,22 +127,28 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 <td width="13%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/5")?>"><?php echo $data['sd']?></a></td>
 <td width="15%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/6")?>"><?php echo $data['smp']?></a></td>
 <td width="15%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/7")?>"><?php echo $data['sma']?></a></td>
+<td width="15%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/7")?>"><?php echo $data['dewasa']?></a></td>
 <td width="13%" align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/8")?>"><?php echo $data['lansia']?></a></td>
+<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/12")?>"><?php echo $data['hamil1']?></a></td>
+<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/12")?>"><?php echo $data['hamil2']?></a></td>
+<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/12")?>"><?php echo $data['susu']?></a></td>
 <td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/9")?>"><?php echo $data['cacat']?></a></td>
-<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/10")?>"><?php echo $data['sakit_L']?></a></td>
-<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/11")?>"><?php echo $data['sakit_P']?></a></td>
-<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/12")?>"><?php echo $data['hamil']?></a></td>
+<td align="right"><a href="<?php echo site_url("penduduk/lap_statistik/$id_cluster/9")?>"><?php echo $data['cacat2']?></a></td>
 <?php 
 	$bayi=$bayi+$data['bayi'];
 	$balita=$balita+$data['balita'];
 	$sd=$sd+$data['sd'];
 	$smp=$smp+$data['smp'];
 	$sma=$sma+$data['sma'];
+	$dewasa=$dewasa+$data['dewasa'];
 	$lansia=$lansia+$data['lansia'];
 	$cacat=$cacat+$data['cacat'];
+	$cacat2=$cacat2+$data['cacat2'];
 	$sakit_L=$sakit_L+$data['sakit_L'];
 	$sakit_P=$sakit_P+$data['sakit_P'];
-	$hamil=$hamil+$data['hamil'];
+	$hamil1=$hamil1+$data['hamil1'];
+	$hamil2=$hamil2+$data['hamil2'];
+	$susu=$susu+$data['susu'];
 ?>
 </tr>
  <?php }?>
@@ -149,11 +162,13 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
 		<th><div align="right"><?php echo $sd;?></div></th>
 		<th><div align="right"><?php echo $smp;?></div></th>
 		<th><div align="right"><?php echo $sma;?></div></th>
+		<th><div align="right"><?php echo $dewasa;?></div></th>
 		<th><div align="right"><?php echo $lansia;?></div></th>
+		<th><div align="right"><?php echo $hamil1;?></div></th>
+		<th><div align="right"><?php echo $hamil2;?></div></th>
+		<th><div align="right"><?php echo $susu;?></div></th>
 		<th><div align="right"><?php echo $cacat;?></div></th>
-		<th><div align="right"><?php echo $sakit_L;?></div></th>
-		<th><div align="right"><?php echo $sakit_P;?></div></th>
-		<th><div align="right"><?php echo $hamil;?></div></th>
+		<th><div align="right"><?php echo $cacat2;?></div></th>
 	</tr>
 </thead>
 </table> 

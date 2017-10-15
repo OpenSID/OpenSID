@@ -123,7 +123,7 @@ $(function(){
 	</div>
 	<div class=\"box box-danger\">
 		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Tabel Data Demografi Berdasar ". $heading."</h3>
+			<h3 class=\"box-title\">Tabel Data Kependudukan berdasar ". $heading."</h3>
 		</div>
 		<div class=\"box-body\">
 			<table class=\"table table-striped\">

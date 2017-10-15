@@ -3,7 +3,7 @@
 	switch($subjek){
 		case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
 		case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
-		case 3: $sql = $nama="Kepala Rumahtangga"; $nomor="Nomor Rumahtangga";$asubjek="Rumahtangga"; break;
+		case 3: $sql = $nama="Kepala Rumah Tangga"; $nomor="Nomor Rumah Tangga";$asubjek="Rumah Tangga"; break;
 		case 4: $sql = $nama="Nama Kelompok"; $nomor="ID Kelompok";$asubjek="Kelompok"; break;
 		default: return null;
 	}
@@ -23,8 +23,11 @@
 	}
 </style>
 <div id="pageC">
+<?php $this->load->view('analisis_master/left',$data);?>
+<div class="content-header">
+</div>
 <div id="contentpane"> 
-	<form id="mainform" name="mainform" action="" method="post">
+<form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
 </div>
 <div class="ui-layout-center" id="maincontent">
@@ -78,7 +81,7 @@
 		 </select>
 		<?php }?>
 		<a href="<?php echo site_url("analisis_laporan/cetak/$o")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url("analisis_laporan/excel/$o")?>" class="uibutton special tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+		<a href="<?php echo site_url("analisis_laporan/excel/$o")?>" class="uibutton special tipsy south" title="Unduh" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
 		<a href="<?php echo site_url("analisis_laporan/ajax_multi_jawab")?>" target="ajax-modal-map" rel="window" header="Filter Indikator" class="uibutton tipsy south" title="Filter Indikator"><span class="icon-search icon-large">&nbsp;</span>Filter Indikator</a>
 	</div>
 	<div class="right">
@@ -92,19 +95,19 @@
 				<th width="10">No</th>
 				<th width='50'>Rincian</th>
 			<?php if($o==2): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='120'><a href="<?php echo site_url("analisis_laporan/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/2")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='120'><a href="<?php echo site_url("analisis_laporan/index/$p/2")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='120'><a href="<?php echo site_url("analisis_respon/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='120'><a href="<?php echo site_url("analisis_laporan/index/$p/1")?>"><?php echo $nomor?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 			<?php if($o==4): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='250'><a href="<?php echo site_url("analisis_laporan/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/4")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='250'><a href="<?php echo site_url("analisis_laporan/index/$p/4")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='250'><a href="<?php echo site_url("analisis_respon/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='250'><a href="<?php echo site_url("analisis_laporan/index/$p/3")?>"><?php echo $nama?><span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 				<th width='50'>L/P</th>

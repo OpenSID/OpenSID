@@ -15,7 +15,12 @@
 </tr> 
 <tr><td>Status Perkawinan</td><td>
  <select name="status">
- <option value=""> -- </option><option value="1">BELUM KAWIN</option><option value="2">KAWIN</option><option value="3">CERAI HIDUP</option><option value="4">CERAI MATI</option><option value="5">TIDAK KAWIN</option>
+ <option value=""> -- </option>
+ <option value="1" <?php selected($_SESSION['status'],1); ?> >BELUM KAWIN</option>
+ <option value="2" <?php selected($_SESSION['status'],2); ?> >KAWIN</option>
+ <option value="3" <?php selected($_SESSION['status'],3); ?> >CERAI HIDUP</option>
+ <option value="4" <?php selected($_SESSION['status'],4); ?> >CERAI MATI</option>
+ <option value="5" <?php selected($_SESSION['status'],5); ?> >TIDAK KAWIN</option>
 	</select> </td>
 </tr>
 <tr><td>Agama</td><td>
@@ -75,11 +80,6 @@
 			<option value="<?php echo $data['id']?>" <?php selected($cacat,$data['id']); ?> ><?php echo $data['nama']?></option>
 		<?php }?>
 	 </select>
- </td>
-</tr>
-<tr><td>Status Penduduk</td>
- <td><select name="status_penduduk">
- <option value=""> -- </option><option value="1">AKTIF</option><option value="2">TIDAK AKTIF</option> </select>
  </td>
 </tr>
 </table>

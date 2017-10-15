@@ -29,7 +29,7 @@ class Database extends CI_Controller{
 	function import(){
 		$nav['act']= 2;
 		$data['form_action'] = site_url("database/import_dasar");
-		$data['form_action2'] = site_url("database/import_siak");
+		$data['form_action3'] = site_url("database/ppls_individu");
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);

@@ -32,6 +32,7 @@ class analisis_master extends CI_Controller{
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
+		
 		if(isset($_SESSION['state']))
 			$data['state'] = $_SESSION['state'];
 		else $data['state'] = '';
@@ -110,10 +111,10 @@ class analisis_master extends CI_Controller{
 		$header = $this->header_model->get_data();
 		
 		//PATCH
-		if($p==1){
+		//if($p==1){
 			$this->load->model('analisis_respon_model');
 			$this->analisis_respon_model->pre_update();
-		}
+		//}
 		//----
 		
 		$nav['act']= 1;

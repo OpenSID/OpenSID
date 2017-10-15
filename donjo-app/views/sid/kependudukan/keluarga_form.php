@@ -21,6 +21,14 @@ $("#nik_detail").show();
 });
 </script>
 <?php }?>
+<script>
+	$(function() {
+		var keyword = <?php echo $list_no_kk?> ;
+		$( "#no_kk" ).autocomplete({
+			source: keyword
+		});
+   });
+</script>
 <style>
 table.form.detail th{
  padding:5px;
@@ -47,7 +55,7 @@ table.form.detail td{
 <td><input class="inputbox <?php if($new > 0 AND $rt_sel > 0){?>required<?php }?>" type="text" name="no_kk" id="no_kk" size="25" value="<?php echo $kk['no_kk']?>"></td>
 </tr><?php }?>
 <tr>
-<?php if($new){?><th width="120">Data Kepala KK Baru</th><?php }else{?><th>NIK / Nama Kepala KK</th><?php }?>
+<?php if($new){?><th width="120">Data Kepala Keluarga Baru</th><?php }else{?><th>NIK / Nama Kepala Keluarga</th><?php }?>
 <td>
 <div id="nik_kepala" name="nik_kepala"></div>
 </td>
@@ -97,7 +105,7 @@ table.form.detail td{
 </tr>
 <tr>
 <th width="120">Nomor KK</th>
-<td><input class="inputbox required" type="text" name="no_kk" id="no_kk" size="25" value="<?php echo $kk['no_kk']?>"></td>
+<td><input class="inputbox required" type="text" name="no_kk" id="no_kk" class="no_kk" size="25" value="<?php echo $kk['no_kk']?>"></td>
 </tr>
 <tr>
 <th>Nama</th>

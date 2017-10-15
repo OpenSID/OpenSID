@@ -7,9 +7,32 @@
 	});
 </script>
 <div id="pageC">
-	<table class="inner">
+<table class="inner">
 <tr style="vertical-align:top">
-		<td style="background:#fff;padding:0px;"> 
+<td class="side-menu">
+<fieldset>
+<legend>Kategori Kelompok</legend>
+<div id="sidecontent3" class="lmenu" >
+<ul>
+<?php 
+	foreach($list_master AS $data){
+	?>
+		<li <?php if($filter == $data['id'])echo "class='selected'";?>>
+		<a href="<?php echo site_url("kelompok/to_master/$data[id]")?>">
+			<?php echo $data['kelompok']; ?>
+		</a>
+		</li>
+<?php }?>
+	<li>
+	
+ <a href="<?php echo site_url('kelompok_master/clear')?>" class="uibutton tipsy south" title="Kategori Kelompok" >
+ <span class="icon-gear icon-large">&nbsp;</span>Kelola Kategori Kelompok</a>
+	</li>
+	</ul>
+		</fieldset>
+</td>
+	
+<td style="background:#fff;padding:0px;"> 
 <div class="content-header">
 </div>
 <div id="contentpane"> 
@@ -18,11 +41,10 @@
  <h3>Modul kelompok</h3>
  <div class="left">
  <div class="uibutton-group">
- <a href="<?php echo site_url('kelompok_master/clear')?>" class="uibutton tipsy south" title="Master Kelompok" ><span class="icon-list icon-large">&nbsp;</span>Kelola Master Kelompok</a>
- <a href="<?php echo site_url('kelompok/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah kelompok Baru</a>
+ <a href="<?php echo site_url('kelompok/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Kelompok Baru</a>
  <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("kelompok/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button>
  <a href="<?php echo site_url("kelompok/cetak")?>" class="uibutton" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
- <a href="<?php echo site_url("kelompok/excel")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+ <a href="<?php echo site_url("kelompok/excel")?>" class="uibutton tipsy south" title="Unduh" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
  </div>
  </div>
  </div>
@@ -58,11 +80,11 @@
 			
  <th width="100">Ketua Kelompok</th>
 			<?php if($o==6): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/5")?>">Jenis Kelompok<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/5")?>">Kategori Kelompok<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/6")?>">Jenis Kelompok<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/6")?>">Kategori Kelompok<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/5")?>">Jenis Kelompok<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("kelompok/index/$p/5")?>">Kategori Kelompok<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
  
  <th width="100">Jumlah Anggota</th>

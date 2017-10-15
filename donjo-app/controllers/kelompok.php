@@ -85,10 +85,18 @@ class kelompok extends CI_Controller{
 		$this->load->view('kelompok/form',$data);
 		$this->load->view('footer');
 	}
-	function form_anggota($id=0){
-			$data['kelompok']        = null;
-			$data['form_action'] = site_url("kelompok/insert_a/$id");
+	function form_anggota($id=0,$id_a=0){
+		if($id_a == 0){
+		$data['kelompok']        = null;
+		$data['pend']        = null;
+		$data['form_action'] = site_url("kelompok/insert_a/$id");
+		}else{
 		
+		$data['kelompok']        = $id;
+		$data['pend']        = $this->kelompok_model->get_anggota($id,$id_a);
+		$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
+		//echo $id.$id_a;
+		}
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 		$header = $this->header_model->get_data();
 		
@@ -188,6 +196,10 @@ class kelompok extends CI_Controller{
 		$this->kelompok_model->update($id);
 		redirect("kelompok/index/$p/$o");
 	}
+	function update_a($id='',$id_a=0){
+		$this->kelompok_model->update_a($id,$id_a);
+		redirect("kelompok/anggota/$id");
+	}
 	function delete($p=1,$o=0,$id=''){
 		$this->kelompok_model->delete($id);
 		redirect("kelompok/index/$p/$o");
@@ -203,5 +215,13 @@ class kelompok extends CI_Controller{
 	function delete_a($id='',$a=0){
 		$this->kelompok_model->delete_a($a);
 		redirect("kelompok/anggota/$id");
+	}
+	
+	function to_master($id=0){
+		$filter = $id;
+		if($filter!=0)
+			$_SESSION['filter']=$filter;
+		else unset($_SESSION['filter']);
+		redirect('kelompok');
 	}
 }

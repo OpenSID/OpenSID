@@ -11,8 +11,6 @@ class First_Artikel_M extends CI_Model{
 			$data = null;
 		else{	
 			$id = $data['id'];
-			
-			
 		}
 		return $data;
 	}
@@ -31,7 +29,7 @@ class First_Artikel_M extends CI_Model{
 	function paging($p=1){
 		$sql = "SELECT COUNT(a.id) AS id FROM artikel a 
 			LEFT JOIN kategori k ON a.id_kategori = k.id 
-			WHERE ((a.enabled=1) AND (headline <> 1) AND (k.tipe = 1))
+			WHERE ((a.enabled=1) AND (headline <> 1) AND (k.tipe = 1)) AND k.kategori <> 'teks_berjalan'
 			ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
@@ -39,7 +37,7 @@ class First_Artikel_M extends CI_Model{
 		
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = 8;
+		$cfg['per_page'] = 5;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 		
@@ -65,11 +63,11 @@ class First_Artikel_M extends CI_Model{
 		if($id > 0){
 			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a 
 				LEFT JOIN user u ON a.id_user = u.id 
-				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND k.tipe = 1 AND a.id=".$id;
+				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND k.tipe = 1 AND k.kategori <> 'teks_berjalan' AND a.id=".$id;
 		}else{
 			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a 
 				LEFT JOIN user u ON a.id_user = u.id 
-				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND k.tipe = 1 
+				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND k.tipe = 1 AND k.kategori <> 'teks_berjalan' 
 				ORDER BY a.tgl_upload DESC LIMIT ".$offset.", ".$limit;
 		}
 		

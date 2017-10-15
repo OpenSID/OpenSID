@@ -8,7 +8,7 @@
 		//UNION SELECT t.nama FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id //WHERE 1 ";
 		$subjek = $_SESSION['subjek_tipe'];
 		switch($subjek){
-			case 1: $sql = "SELECT nik AS no_kk FROM tweb_penduduk UNION SELECT u.nama FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE 1"; break;
+			case 1: $sql = "SELECT nik AS no_kk FROM tweb_penduduk UNION SELECT u.nama FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE status_dasar=1 "; break;
 			case 2: $sql = "SELECT no_kk FROM tweb_keluarga UNION SELECT p.nama FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
 			case 3: $sql = "SELECT no_kk FROM tweb_rtm UNION SELECT p.nama FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
 			case 4: $sql = "SELECT u.nama AS no_kk FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
@@ -90,7 +90,7 @@
 		$id_kelompok = $master['id_kelompok'];
 		$subjek = $_SESSION['subjek_tipe'];
 		switch($subjek){
-			case 1: $sql = "SELECT COUNT(u.id) AS id FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE 1"; break;
+			case 1: $sql = "SELECT COUNT(u.id) AS id FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE status_dasar=1 "; break;
 			case 2: $sql = "SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
 			case 3: $sql = "SELECT COUNT(u.id) AS id FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
 			case 4: $sql = "SELECT COUNT(u.id) AS id FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
@@ -135,7 +135,7 @@
 		
 		$subjek = $_SESSION['subjek_tipe'];
 		switch($subjek){
-			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE 1"; break;
+			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE u.status_dasar = 1 "; break;
 			
 			case 2: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1" ; break;
 			
@@ -266,10 +266,10 @@
 				foreach($id_ia as $id_p){
 					if($id_p != ""){
 						unset($data);
-						$indikator = key($id_ia);next($id_ia);
+						$indikator = key($id_ia);
 							
-						$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ?";
-						$query = $this->db->query($sql,$id_p);
+						$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?";
+						$query = $this->db->query($sql,array($id_p,$indikator));
 						$dx = $query->row_array();
 						if(!$dx){
 						
@@ -278,8 +278,8 @@
 							$this->db->insert('analisis_parameter',$data);
 							unset($data);
 								
-							$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ?";
-							$query = $this->db->query($sql,$id_p);
+							$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?";
+							$query = $this->db->query($sql,array($id_p,$indikator));
 							$dx = $query->row_array();
 						
 							$data['id_parameter'] = $dx['id'];
@@ -298,6 +298,7 @@
 							$outp = $this->db->insert('analisis_respon',$data);
 						}
 					}
+					next($id_ia);
 				}
 			}
 			if(isset($_POST['it'])){
@@ -305,10 +306,10 @@
 				foreach($id_it as $id_p){
 					if($id_p != ""){
 						unset($data);
-						$indikator = key($id_it);next($id_it);
+						$indikator = key($id_it);
 							
-						$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ?";
-						$query = $this->db->query($sql,$id_p);
+						$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?";
+						$query = $this->db->query($sql,array($id_p,$indikator));
 						$dx = $query->row_array();
 						if(!$dx){
 							
@@ -317,8 +318,8 @@
 							$this->db->insert('analisis_parameter',$data);
 							unset($data);
 									
-							$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ?";
-							$query = $this->db->query($sql,$id_p);
+							$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?";
+							$query = $this->db->query($sql,array($id_p,$indikator));
 							$dx = $query->row_array();
 							
 							$data2['id_parameter'] = $dx['id'];
@@ -338,6 +339,7 @@
 							$outp = $this->db->insert('analisis_respon',$data);
 						}
 					}
+					next($id_it);
 				}
 			}
 			
@@ -754,8 +756,8 @@
 			
 			$i++;
 		}
-		
-		$this->db->insert_batch('analisis_respon_hasil',$upx);
+		if(@$upx)
+			$this->db->insert_batch('analisis_respon_hasil',$upx);
 	}
 	function update_hasil($id=0){
 		
@@ -954,7 +956,275 @@
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
+//------------------
 	
+	function satu_jiwa($op=0){
+		$_SESSION['subjek_tipe'] = 1;
+		$_SESSION['analisis_master'] = 2;
+		ini_set('max_execution_time', 1600);
+		ini_set('memory_limit', '2048M');
+		
+		$per = $this->get_aktif_periode();
+		
+		$subjek = $_SESSION['subjek_tipe'];
+		$mas = $_SESSION['analisis_master'];
+		$sql = "SELECT * FROM analisis_indikator WHERE id_master=? ORDER BY id ASC";
+		$query = $this->db->query($sql,$_SESSION['analisis_master']);
+		$indikator = $query->result_array();
+		
+		$sql = "SELECT * FROM a_jiwa WHERE 1";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		
+			
+			$sql = "DELETE FROM analisis_respon WHERE id_periode=?";
+			$this->db->query($sql,array($per));
+			
+			$n = 0;
+			//foreach($tdata AS $data){
+			$di =0;
+			while($di<count($data)){
+				
+				$id_subjek = $data[$di]['nik'];
+				if(strlen($id_subjek) > 14 AND $subjek == 1){
+					$sqls 		= "SELECT id FROM tweb_penduduk WHERE nik = ?;";
+					$querys 	= $this->db->query($sqls,array($id_subjek));
+					$isbj 		= $querys->row_array();
+					$id_subjek 	= $isbj['id'];
+				}
+				
+				$j = 1;
+				$all = "";
+				foreach($indikator AS $indi){
+				$k = 'j'.$j;
+					$isi = $data[$di][$k];
+				//echo $isi."<br>";
+					if($isi != ""){
+					if($indi['id_tipe']==1){
+						$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND kode_jawaban = ?;";
+						$query = $this->db->query($sql,array($indi['id'],$isi));
+						$param 	= $query->row_array();
+						
+						if($param){
+							$in_param = $param['id'];
+						}else{
+							if($isi == "")
+								$in_param = 0;
+							else
+								$in_param = -1;
+							
+						}
+						
+						$respon[$n]['id_parameter']		= $in_param;
+						$respon[$n]['id_indikator']		= $indi['id'];
+						$respon[$n]['id_subjek']		= $id_subjek;
+						$respon[$n]['id_periode']		= $per;
+						$n++;
+						
+					}elseif($indi['id_tipe']==2){
+						$id_isi = explode(",",$isi);
+						
+						//if(count($id_isi) > 1){
+							//foreach($id_isi AS $ids){
+								//echo "<br>".count($id_isi)." -> ";
+							for($q=0;$q<(count($id_isi));$q++){
+								//echo $id_isi[$q]." ";
+								$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND kode_jawaban = ? ;";
+								$query = $this->db->query($sql,array($indi['id'],$id_isi[$q]));
+								$param 	= $query->row_array();
+								
+								if($param['id'] != ""){
+									$in_param = $param['id'];
+									$respon[$n]['id_parameter']		= $in_param;
+									$respon[$n]['id_indikator']		= $indi['id'];
+									$respon[$n]['id_subjek']		= $id_subjek;
+									$respon[$n]['id_periode']		= $per;
+									$n++;
+								}
+							}
+						//}
+						
+					}else{
+						
+						$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND jawaban = ?;";
+						$query = $this->db->query($sql,array($indi['id'],$isi));
+						$param 	= $query->row_array();
+						
+						// apakah sdh ada jawaban yg sama
+						if($param){
+							$in_param = $param['id'];
+						}else{
+							$parameter['jawaban']	= $isi;
+							$parameter['id_indikator']	= $indi['id'];
+							$parameter['asign']			= 0;
+							
+							$this->db->insert('analisis_parameter',$parameter);
+							
+							$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND jawaban = ?;";
+							$query = $this->db->query($sql,array($indi['id'],$isi));
+							$param 	= $query->row_array();
+							//if($param){
+								$in_param = $param['id'];
+							//}else{
+								//$in_param	= $id_param;
+						//	}
+						}
+						
+						$respon[$n]['id_parameter']		= $in_param;
+						$respon[$n]['id_indikator']		= $indi['id'];
+						$respon[$n]['id_subjek']		= $id_subjek;
+						$respon[$n]['id_periode']		= $per;
+						$n++;
+					}
+					}
+					
+					$j++;
+				}
+				$di++;
+			}
+			if($n>0)
+				$outp = $this->db->insert_batch('analisis_respon',$respon);
+			else
+				$outp = false;
+		
+		$this->pre_update();
+		
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+	function dua_dunia($op=0){
+		
+		$_SESSION['analisis_master'] = 1;
+		$_SESSION['subjek_tipe'] = 3;
+		ini_set('max_execution_time', 1600);
+		ini_set('memory_limit', '2048M');
+		
+		$per = $this->get_aktif_periode();
+		
+		$subjek = $_SESSION['subjek_tipe'];
+		$mas = $_SESSION['analisis_master'];
+		$sql = "SELECT * FROM analisis_indikator WHERE id_master=? ORDER BY id ASC";
+		$query = $this->db->query($sql,$_SESSION['analisis_master']);
+		$indikator = $query->result_array();
+		
+		$sql = "SELECT * FROM a_rts WHERE 1";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		
+			
+			$sql = "DELETE FROM analisis_respon WHERE id_periode=?";
+			$this->db->query($sql,array($per));
+			
+			$n = 0;
+			//foreach($tdata AS $data){
+			$di =0;
+			while($di<count($data)){
+				$dat = $data[$di];
+				$id_subjek = $data[$di]['id_rts'];
+				
+				$j = 1;
+				$all = "";
+				foreach($indikator AS $indi){
+				//$k = "'".$j."'";
+					$isi = $dat[$j];
+				//echo $isi."<br>";
+					if($isi != ""){
+					if($indi['id_tipe']==1){
+						$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND kode_jawaban = ?;";
+						$query = $this->db->query($sql,array($indi['id'],$isi));
+						$param 	= $query->row_array();
+						
+						if($param){
+							$in_param = $param['id'];
+						}else{
+							if($isi == "")
+								$in_param = 0;
+							else
+								$in_param = -1;
+							
+						}
+						
+						$respon[$n]['id_parameter']		= $in_param;
+						$respon[$n]['id_indikator']		= $indi['id'];
+						$respon[$n]['id_subjek']		= $id_subjek;
+						$respon[$n]['id_periode']		= $per;
+						$n++;
+						
+					}elseif($indi['id_tipe']==2){
+						$id_isi = explode(",",$isi);
+						
+						//if(count($id_isi) > 1){
+							//foreach($id_isi AS $ids){
+								//echo "<br>".count($id_isi)." -> ";
+							for($q=0;$q<(count($id_isi));$q++){
+								//echo $id_isi[$q]." ";
+								$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND kode_jawaban = ? ;";
+								$query = $this->db->query($sql,array($indi['id'],$id_isi[$q]));
+								$param 	= $query->row_array();
+								
+								if($param['id'] != ""){
+									$in_param = $param['id'];
+									$respon[$n]['id_parameter']		= $in_param;
+									$respon[$n]['id_indikator']		= $indi['id'];
+									$respon[$n]['id_subjek']		= $id_subjek;
+									$respon[$n]['id_periode']		= $per;
+									$n++;
+								}
+							}
+						//}
+						
+					}else{
+						
+						$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND jawaban = ?;";
+						$query = $this->db->query($sql,array($indi['id'],$isi));
+						$param 	= $query->row_array();
+						
+						// apakah sdh ada jawaban yg sama
+						if($param){
+							$in_param = $param['id'];
+						}else{
+							$parameter['jawaban']	= $isi;
+							$parameter['id_indikator']	= $indi['id'];
+							$parameter['asign']			= 0;
+							
+							$this->db->insert('analisis_parameter',$parameter);
+							
+							$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND jawaban = ?;";
+							$query = $this->db->query($sql,array($indi['id'],$isi));
+							$param 	= $query->row_array();
+							//if($param){
+								$in_param = $param['id'];
+							//}else{
+								//$in_param	= $id_param;
+						//	}
+						}
+						
+						$respon[$n]['id_parameter']		= $in_param;
+						$respon[$n]['id_indikator']		= $indi['id'];
+						$respon[$n]['id_subjek']		= $id_subjek;
+						$respon[$n]['id_periode']		= $per;
+						$n++;
+					}
+					}
+					
+					$j++;
+				}
+				$di++;
+			}
+			if($n>0)
+				$outp = $this->db->insert_batch('analisis_respon',$respon);
+			else
+				$outp = false;
+		
+		$this->pre_update();
+		
+		if($outp) $_SESSION['success']=1;
+			else $_SESSION['success']=-1;
+	}
+
+
+//-----------------	
 	function get_aktif_periode(){
 		$sql = "SELECT * FROM analisis_periode WHERE aktif=1 AND id_master=?";
 		$query = $this->db->query($sql,$_SESSION['analisis_master']);
@@ -965,7 +1235,7 @@
 		$sql = "SELECT * FROM analisis_master WHERE id=?";
 		$query = $this->db->query($sql,$_SESSION['analisis_master']);
 		return $query->row_array();
-	}	
+	}
 	function get_periode(){
 		$sql = "SELECT * FROM analisis_periode WHERE aktif=1 AND id_master=?";
 		$query = $this->db->query($sql,$_SESSION['analisis_master']);

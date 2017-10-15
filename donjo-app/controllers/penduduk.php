@@ -13,14 +13,16 @@ class Penduduk extends CI_Controller{
 	function clear(){
 		unset($_SESSION['log']);
 		$_SESSION['status_dasar']=1;
+		unset($_SESSION['judul_statistik']);
+		unset($_SESSION['judul_statistik_cetak']);
 		unset($_SESSION['cari']);
+        unset($_SESSION['duplikat']);
+		
 		unset($_SESSION['filter']);
 		unset($_SESSION['sex']);
 		unset($_SESSION['warganegara']);
 		unset($_SESSION['cacat']);
-		unset($_SESSION['menahun']);
-		unset($_SESSION['cacatx']);
-		unset($_SESSION['menahunx']);		
+		unset($_SESSION['menahun']);		
 		unset($_SESSION['golongan_darah']);
 		unset($_SESSION['dusun']);
 		unset($_SESSION['rw']);
@@ -30,14 +32,17 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['umur_min']);
 		unset($_SESSION['umur_max']);
 		unset($_SESSION['pekerjaan_id']);
-		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_id']);
 		unset($_SESSION['pendidikan_sedang_id']);
 		unset($_SESSION['pendidikan_kk_id']);
-		unset($_SESSION['umurx']);
 		unset($_SESSION['status_penduduk']);
-		unset($_SESSION['judul_statistik']);
 		unset($_SESSION['hamil']);
+		
+		
+		unset($_SESSION['status']);
+		unset($_SESSION['umurx']);
+		unset($_SESSION['cacatx']);
+		unset($_SESSION['menahunx']);
+		
 		$_SESSION['per_page'] = 50;
 		redirect('penduduk');
 	}
@@ -98,6 +103,8 @@ class Penduduk extends CI_Controller{
 		
 		$header = $this->header_model->get_data();
 		$nav['act']= 2;
+		
+		$data['info'] = $this->penduduk_model->get_filter();
 		
 		$this->load->view('header', $header);
 		$this->load->view('sid/nav',$nav);
@@ -160,6 +167,7 @@ class Penduduk extends CI_Controller{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
+		$data['list_kelompok'] = $this->penduduk_model->list_kelompok($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
 		
@@ -223,6 +231,10 @@ class Penduduk extends CI_Controller{
 		else unset($_SESSION['filter']);
 		redirect('penduduk');
 	}
+        function duplikat(){
+		$_SESSION['duplikat']=1;
+		redirect('penduduk');
+	}
 	function status_dasar(){
 		$status_dasar = $this->input->post('status_dasar');
 		if($status_dasar!="")
@@ -276,8 +288,30 @@ class Penduduk extends CI_Controller{
 		redirect('penduduk');
 	}
 	function insert(){
-		$this->penduduk_model->insert();
-		redirect('penduduk');
+	
+		
+		$data = $this->penduduk_model->dn();
+		
+		$i=0;
+		$dp=0;
+		$link = site_url()."penduduk/form";
+		while($i<count($data)){
+			
+			if($_POST['nik'] == $data[$i]['nik']){
+				$dp =1;$nk=$data[$i]['nik'];
+			}
+			
+			$i++;
+		}
+		if($dp==1){
+			echo "<h3>TERJADI KESALAHAN</h3><br><h4>Data Tidak Tersimpan</h><br>
+			Sudah terdapat Penduduk dengan nomor NIK $nk, Silahkan periksa kembali dan ulangi proses memasukkan data.</br>
+			Klik disini untuk <a href='$link'> Kembali</a>";
+		}else{
+	
+			$this->penduduk_model->insert();
+			redirect('penduduk');
+		}
 	}
 	function update($p=1,$o=0,$id=''){
 		$this->penduduk_model->update($id);
@@ -386,7 +420,7 @@ class Penduduk extends CI_Controller{
 				$_SESSION[$col[$i]]=$adv_search[$col[$i]];
 			}
 		}
-		
+		//print_r($adv_search);
 		redirect('penduduk');
 	}
 	function ajax_penduduk_pindah($id=0){
@@ -482,25 +516,23 @@ class Penduduk extends CI_Controller{
 	}
 		
 	function cetak($o=0){
+	
+		$data['info'] = $this->penduduk_model->get_filter();
 		$data['main']    = $this->penduduk_model->list_data($o,0, 10000);
 		$this->load->view('sid/kependudukan/penduduk_print',$data);
 	}
 	function excel($o=0){
+	
+		$data['info'] = $this->penduduk_model->get_filter();
 		$data['main']    = $this->penduduk_model->list_data($o,0, 10000);
 		$this->load->view('sid/kependudukan/penduduk_excel',$data);
 	}
 		
-	function statistik($tipe=0,$nomor=0,$sex=0){
+	function statistik($tipe="",$nomor="",$sex=""){
 		$_SESSION['per_page'] = 50;
 		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
 		
-		if($sex==0)
-			unset($_SESSION['sex']);
-		else
-			$_SESSION['sex']=$sex;
-			
 		unset($_SESSION['warganegara']);
 		unset($_SESSION['cacat']);
 		unset($_SESSION['menahun']);
@@ -518,6 +550,13 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['status_penduduk']);
 		unset($_SESSION['umurx']);
 		
+		if($sex==0)
+			unset($_SESSION['sex']);
+		else
+			$_SESSION['sex']=$sex;
+			
+		
+		if($nomor != 0){
 		switch($tipe){
 			case 0: $_SESSION['pendidikan_kk_id'] = $nomor;  $pre="PENDIDIKAN DALAM KK : "; break;	
 			case 1: $_SESSION['pekerjaan_id'] = $nomor; $pre="PEKERJAAN : ";  break;
@@ -535,11 +574,17 @@ class Penduduk extends CI_Controller{
 		}
 		$judul= $this->penduduk_model->get_judul_statistik($tipe,$nomor);
 		if($judul['nama']){
-			$_SESSION['judul_statistik']=$pre.$judul['nama'];
+			$_SESSION['judul_statistik']="TABEL DATA KEPENDUDUKAN MENURUT ".$pre.$judul['nama'];
+			$_SESSION['judul_statistik_cetak']="TABEL DATA KEPENDUDUKAN MENURUT ".$pre.$judul['nama'];
 		}else{
 			unset($_SESSION['judul_statistik']);
 		}
+		
 		redirect('penduduk');
+		}else{
+		
+		redirect('penduduk');
+		}
 	}
 	function lap_statistik($id_cluster=0,$tipe=0,$nomor=0){
 		unset($_SESSION['sex']);

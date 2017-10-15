@@ -17,7 +17,8 @@ class First extends CI_Controller{
 		$this->load->model('first_menu_m');
 		$this->load->model('first_penduduk_m');	
 		$this->load->model('penduduk_model');	
-		$this->load->model('surat_model');		
+		$this->load->model('surat_model');	
+		$this->load->model('surat_keluar_model');		
 
 	}
 	
@@ -103,8 +104,14 @@ class First extends CI_Controller{
 			$data['w_gal']  = $this->first_gallery_m->gallery_widget();
 			$data['w_cos']  = $this->first_artikel_m->cos_widget();
 			$data['data_config'] = $this->config_model->get_data();
+				
+			$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+			$data['list_kelompok'] = $this->penduduk_model->list_kelompok($_SESSION['id']);
+			
+			//if($m == 2)
+				$data['surat_keluar']    = $this->surat_keluar_model->list_data_surat($_SESSION['id']);
 
-			$data['menu_surat2'] = $this->surat_model->list_surat2();
+			//$data['menu_surat2'] = $this->surat_model->list_surat2();
 			$data['m'] = $m;
 			$this->load->view('layouts/mandiri.php',$data);		
 		}

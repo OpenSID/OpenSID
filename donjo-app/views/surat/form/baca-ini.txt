@@ -1,9 +1,0 @@
-*******************************
-Folder: desa/surat/form
-*******************************
-
-Folder ini tempat menyimpan semua form isian surat (.php) yang telah disesuaikan
-dengan kebutuhan desa.
-
-Form isian surat yang telah diubah menggantikan form isian surat asli SID dengan nama yang sama
-di folder donjo-app/views/surat/form.

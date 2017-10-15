@@ -3,7 +3,7 @@
 	switch($subjek){
 		case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
 		case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
-		case 3: $sql = $nama="Kepala Rumahtangga"; $nomor="Nomor Rumahtangga";$asubjek="Rumahtangga"; break;
+		case 3: $sql = $nama="Kepala Rumah Tangga"; $nomor="Nomor Rumah Tangga";$asubjek="Rumah Tangga"; break;
 		case 4: $sql = $nama="Nama Kelompok"; $nomor="ID Kelompok";$asubjek="Kelompok"; break;
 		default: return null;
 	}
@@ -23,6 +23,7 @@
 	}
 </style>
 <div id="pageC">
+<?php $this->load->view('analisis_master/left',$data);?>
 <div class="content-header">
 </div>
 <div id="contentpane"> 
@@ -79,7 +80,7 @@
 			<option value="1" <?php if($isi == 1) :?>selected<?php endif?>>Sudah Terinput</option>
 			<option value="2" <?php if($isi == 2) :?>selected<?php endif?>>Belum Terinput</option>
 		</select>
-		<a href="<?php echo site_url("analisis_respon/aturan_ajax")?>" class="uibutton special tipsy south" title="Fungsi Import harap digunakan secara seksama" target="ajax-modal" rel="window" header="Unduh Form Rujukan Import"><span class="icon-file-text icon-large">&nbsp;</span>Import</a>
+		<a href="<?php echo site_url("analisis_respon/data_ajax")?>" class="uibutton special tipsy south" title="Fungsi Import harap digunakan secara seksama" target="ajax-modal" rel="window" header="Unduh Form Rujukan Import"><span class="icon-file-text icon-large">&nbsp;</span>Import</a>
 	</div>
 	<div class="right">
 		<input name="cari" id="cari" type="text" class="inputbox help tipped" size="40" value="<?php echo $cari?>" title="Cari.." onkeypress="if(event.keyCode == 13) $('#'+'mainform').attr('action','<?php echo site_url('analisis_respon/search')?>');$('#'+'mainform').submit();}" />

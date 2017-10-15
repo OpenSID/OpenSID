@@ -34,14 +34,14 @@ class sosmed extends CI_Controller{
 		$this->load->view('footer');
 	}
 	function instagram(){		
-		$data['main']    = $this->web_sosmed_model->get_sosmed(3);
-		$data['form_action'] = site_url("sosmed/update/3");
+		$data['main']    = $this->web_sosmed_model->get_sosmed(5);
+		$data['form_action'] = site_url("sosmed/update/5");
 		$header = $this->header_model->get_data();
 		$nav['act']=6;
 		
 		$this->load->view('header', $header);
 		$this->load->view('web/nav',$nav);
-		$this->load->view('sosmed/instagram',$data);
+		$this->load->view('sosmed/google',$data);
 		$this->load->view('footer');
 	}
 	function google(){		
@@ -73,9 +73,11 @@ class sosmed extends CI_Controller{
 			}elseif($id=='2'){
 			redirect("sosmed/twitter");
 			}elseif($id=='3'){
-			redirect("sosmed/instagram");
-		}else{
+			redirect("sosmed/google");
+			}elseif($id=='4'){
 			redirect("sosmed/youtube");
+		}else{
+			redirect("sosmed/instagram");
 		}
 	}
 }

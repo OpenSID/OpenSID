@@ -17,7 +17,8 @@ if($headline){
 				<img style=\"margin-right: 10px; margin-bottom: 5px; float: left;\" src=\"". base_url() ."assets/images/404-image-not-found.jpg\" width=\"300\" height=\"180\"/>";
 			}
 		}
-		echo $headline['isi'];
+		$head = explode("</p>",$headline['isi']);
+		echo $head[0]."</p>";
 		
 		echo "
 		</div>

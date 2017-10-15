@@ -349,6 +349,7 @@ function __construct(){
 		
 		$nav['act']= 1;
 		
+		$data['list_no_kk'] = $this->keluarga_model->duplikasi();
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['rw']    = $this->penduduk_model->list_rw($data['dus_sel']);
 		$data['rt']    = $this->penduduk_model->list_rt($data['dus_sel'],$data['rw_sel']);
@@ -483,12 +484,51 @@ function __construct(){
 		redirect('keluarga');
 	}
 	function insert_a(){
-		$this->keluarga_model->insert_a();
-		redirect('keluarga');
+		$data = $this->keluarga_model->dn();
+		
+		$i=0;
+		$dp=0;
+		$link = site_url()."keluarga";
+		while($i<count($data)){
+			
+			if($_POST['nik'] == $data[$i]['nik']){
+				$dp =1;$nk=$data[$i]['nik'];
+			}
+			
+			$i++;
+		}
+		if($dp==1){
+			echo "<h3>TERJADI KESALAHAN</h3><br><h4>Data Tidak Tersimpan</h><br>
+			Sudah terdapat Penduduk dengan nomor NIK $nk, Silahkan periksa kembali dan ulangi proses memasukkan data.</br>
+			Klik disini untuk <a href='$link'> Kembali</a>";
+		}else{
+			$this->keluarga_model->insert_a();
+			redirect('keluarga');
+		}
 	}
 	function insert_new(){
-		$this->keluarga_model->insert_new();
-		redirect('keluarga');
+	
+		$data = $this->keluarga_model->dp();
+		
+		$i=0;
+		$dp=0;
+		$link = site_url()."keluarga/form/0/1";
+		while($i<count($data)){
+			
+			if($_POST['no_kk'] == $data[$i]['no_kk']){
+				$dp =1;$nk=$data[$i]['no_kk'];
+			}
+			
+			$i++;
+		}
+		if($dp==1){
+			echo "<h3>TERJADI KESALAHAN</h3><br><h4>Data Tidak Tersimpan</h><br>
+			Sudah terdapat keluarga dengan nomor KK $nk, Silahkan periksa kembali dan ulangi proses memasukkan data.</br>
+			Klik disini untuk <a href='$link'> Kembali</a>";
+		}else{
+			$this->keluarga_model->insert_new();
+			redirect('keluarga');
+		}
 	}
 	function update($id=''){
 		$this->keluarga_model->update($id);

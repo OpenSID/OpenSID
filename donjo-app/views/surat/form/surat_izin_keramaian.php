@@ -83,46 +83,34 @@ padding:5px;
 <tr>
 <th>Nomor Surat</th>
 <td>
-<input name="nomor" type="text" class="inputbox required" size="20"/>
-</td>
-</tr>
-<tr>
-<th>Hari Acara</th>
-<td>
-<input name="hari" type="text" class="inputbox required" size="10"/>
-</td>
-</tr>
-<tr>
-<th>Tanggal Acara</th>
-<td>
-<input name="tgl_keg" type="text" class="inputbox required datepicker " size="20"/>
-</td>
-</tr>
-<tr>
-<th>Waktu Acara</th>
-<td>
-<input name="waktu" type="text" class="inputbox required" size="10"/>
+<input name="nomor" type="text" class="inputbox required" size="12"/>
 </td>
 </tr>
 <tr>
 <th>Jenis Acara</th>
 <td>
-<input name="jenis_keg" type="text" class="inputbox required" size="50"/>
+<input name="jenis_keramaian" type="text" class="inputbox required" size="40"/>
 </td>
 </tr>
 <tr>
-<th>Lokasi Kegiatan</th>
+<th>Keperluan</th>
 <td>
-<input name="lokasi_keg" type="text" class="inputbox required" size="80"/>
+<input name="keperluan" type="text" class="inputbox required" size="40"/>
+</td>
+</tr>
+<tr>
+<th>Berlaku</th>
+<td>
+<input name="berlaku_dari" type="text" class="inputbox required datepicker " size="20"/> sampai <input name="berlaku_sampai" type="text" class="inputbox required datepicker " size="20"/>
 </td>
 </tr>
 <tr>
 <th>Staf Pemerintah Desa</th>
 <td>
-<select name="pamong" class="inputbox required" >
+<select name="pamong" class="inputbox required">
 <option value="">Pilih Staf Pemerintah Desa</option>
 <?php foreach($pamong AS $data){?>
-<option value="<?php echo $data['pamong_nama']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
+<option value="<?php echo $data['pamong_id']?>"><font style="bold"><?php echo unpenetration($data['pamong_nama'])?></font> (<?php echo unpenetration($data['jabatan'])?>)</option>
 <?php }?>
 </select>
 </td>
@@ -147,9 +135,9 @@ padding:5px;
 </div>
 <div class="right">
 <div class="uibutton-group">
-							<button class="uibutton" type="reset">Clear</button>
-							<!--<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>-->
-							<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+
+							<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
+							<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Unduh</button><?php } ?>
 </div>
 </div>
 </div> </form>

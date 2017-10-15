@@ -14,7 +14,7 @@
 <div id="contentpane"> 
 	<form id="mainform" name="mainform" action="" method="post">
  <div class="ui-layout-north panel">
- <h3>Manajemen Rumah Tangga</h3>
+ <h3>Pengaturan / Pengelompokan Rumah Tangga</h3>
  <div class="left">
  <div class="uibutton-group">
  <a href="<?php echo site_url('rtm/form_old')?>" target="ajax-modalx" rel="window" header="Tambah Data Rumah Tangga Per Penduduk" class="uibutton tipsy south" title="Tambah data dari penduduk" ><span class="icon-plus icon-large">&nbsp;</span>Tambah Rumah Tangga</a>
@@ -24,10 +24,12 @@
  
  <?php if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("rtm/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data</button><?php }?>
 				
-				<a href="<?php echo site_url("rtm/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
+				<a href="<?php echo site_url("rtm/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Cetak" ><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
 			
-			<a href="<?php echo site_url("rtm/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
-			<a href="<?php echo site_url("rtm/excel_pbdt/$o")?>" target="_blank" class="uibutton special tipsy south" title="Data Excel" ><span class="icon-file-text icon-large">&nbsp;</span>Excel PBDT</a>
+			<a href="<?php echo site_url("rtm/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Unduh" ><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
+			<?php /*
+			<a href="<?php echo site_url("rtm/excel_pbdt/$o")?>" target="_blank" class="uibutton special tipsy south" title="Unduh" ><span class="icon-file-text icon-large">&nbsp;</span>Excel PBDT</a>
+			*/ ?>
  &nbsp;
 				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('rtm/dusun')?>')">
  <option value="">Dusun</option>
@@ -106,9 +108,8 @@
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
  <td width="5"><div class="uibutton-group">
-			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota rtm"><span class="icon-list icon-large"> Rincian </span></a>
-			<a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$data[id]")?>" target="ajax-modalx" rel="window" header="Tambah Anggota rtm" class="uibutton tipsy south" title="Tambah Anggota rtm"><span class="icon-plus-sign-alt icon-large"></span></a>
- <?php if($grup==1){?><a href="<?php echo site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" target="ajax-modal" rel="window" header="Edit Rumah Tangga" class="uibutton tipsy south" title="Edit Data" ><span class="icon-edit icon-large"></span></a><a href="<?php echo site_url("rtm/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span> </a><?php } ?>
+			<a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Anggota Rumah Tangga"><span class="icon-list icon-large"> Rincian </span></a>
+ <?php if($grup==1){?><a href="<?php echo site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" target="ajax-modal" rel="window" header="Edit Rumah Tangga" class="uibutton tipsy south" title="Edit Data" ><span class="icon-edit icon-large"></span></a><a href="<?php echo site_url("rtm/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span> </a><?php } ?>
 		</div> </td>
  <td><label> <?php echo $data['no_kk']?> </label></td>
 		 <td><?php echo strtoupper(unpenetration($data['kepala_kk']))?></td>

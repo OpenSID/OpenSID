@@ -82,34 +82,34 @@
 			default:$order_sql = '';
 		}
 		switch($lap){
-			case 0: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan_kk u WHERE 1"; break;
+			case 0: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND sex = 1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_kk_id = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_pendidikan_kk u WHERE 1"; break;
 			
-			case 1: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pekerjaan_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pekerjaan_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pekerjaan_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pekerjaan u WHERE 1 "; break;
+			case 1: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pekerjaan_id = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pekerjaan_id = u.id AND sex = 1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pekerjaan_id = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_pekerjaan u WHERE 1 "; break;
 			
-			case 2: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_kawin = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_kawin = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_kawin = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_kawin u WHERE 1"; break;
+			case 2: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_kawin = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_kawin = u.id AND sex = 1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE status_kawin = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_kawin u WHERE 1"; break;
 			
-			case 3: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE agama_id = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE agama_id = u.id AND sex = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE agama_id = u.id AND sex = 2) AS perempuan FROM tweb_penduduk_agama u WHERE 1"; break;
+			case 3: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE agama_id = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE agama_id = u.id AND sex = 1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE agama_id = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_agama u WHERE 1"; break;
 			
-			case 4: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE sex = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE sex = u.id AND sex=1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE sex = 2 AND sex=u.id AND status_dasar = 1) AS perempuan FROM tweb_penduduk_sex u WHERE 1"; break;
+			case 4: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE sex = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE sex = u.id AND sex=1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE sex = 2 AND sex=u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_sex u WHERE 1"; break;
 			
-			case 5: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE warganegara_id = u.id AND status_dasar = 1 ) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE warganegara_id = u.id AND sex=1 AND status_dasar=1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE warganegara_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_warganegara u WHERE 1"; break;
+			case 5: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE warganegara_id = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE warganegara_id = u.id AND sex=1 AND status_dasar=1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE warganegara_id = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_warganegara u WHERE 1"; break;
 			
-			case 6: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE status = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE status = u.id AND sex=1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE status = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_status u WHERE 1"; break;
+			case 6: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE status = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE status = u.id AND sex=1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE status = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_status u WHERE u.id <> 77 "; break;
 			
-			case 7: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE golongan_darah_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE golongan_darah_id = u.id AND sex=1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE golongan_darah_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_golongan_darah u WHERE 1"; break;
+			case 7: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE golongan_darah_id = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE golongan_darah_id = u.id AND sex=1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE golongan_darah_id = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_golongan_darah u WHERE 1"; break;
 			
-			case 9: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE cacat_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE cacat_id = u.id AND sex=1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE cacat_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_cacat u WHERE 1"; break;
+			case 9: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE cacat_id = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE cacat_id = u.id AND sex=1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE cacat_id = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_cacat u WHERE 1"; break;
 			
-			case 10: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND sex=1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_sakit_menahun u WHERE 1"; break;
+			case 10: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND sex=1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_sakit_menahun u WHERE 1"; break;
 			
-			case 11: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM ref_jamkesmas u WHERE 1"; break;
+			case 11: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE jamkesmas = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM ref_jamkesmas u WHERE 1"; break;
 			
-			case 12: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan u WHERE 1 "; 
+			case 12: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_id = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_pendidikan u WHERE 1 "; 
 			break;
 			
-			case 13: $sql = "SELECT u.*, concat( dari, ' - ', sampai) as nama, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai AND status_dasar = 1) AS jumlah, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai AND sex = 1 AND status_dasar = 1) AS laki, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_umur u WHERE status=1 "; break;
+			case 13: $sql = "SELECT u.*, concat( dari, ' - ', sampai) as nama, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai AND sex = 1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_umur u WHERE status=1 "; break;
 			
-			case 14: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan u WHERE left(nama,5)<> 'TAMAT'"; break;
+			case 14: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND status_dasar = 1 AND (status = 1 OR status = 2)) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND sex = 1 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND sex = 2 AND status_dasar = 1 AND (status = 1 OR status = 2)) AS perempuan FROM tweb_penduduk_pendidikan u WHERE left(nama,5)<> 'TAMAT'"; break;
 			
 			case 15: $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai AND sex=1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= u.dari AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= u.sampai AND sex=2) AS perempuan FROM tweb_penduduk_umur u WHERE status is NULL "; break;
 			
@@ -131,9 +131,9 @@
 		
 		
 		if($lap<=20){
-			$sql3 = "SELECT (SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.status_dasar=1) AS jumlah,
-			(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.sex = 1 and status_dasar=1) AS laki,
-			(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.sex = 2 and status_dasar=1) AS perempuan";
+			$sql3 = "SELECT (SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.status_dasar=1 AND (status = 1 OR status = 2)) AS jumlah,
+			(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.sex = 1 and status_dasar=1 AND (status = 1 OR status = 2)) AS laki,
+			(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.sex = 2 and status_dasar=1 AND (status = 1 OR status = 2)) AS perempuan";
 		}else{
 			$sql3 = "SELECT (SELECT COUNT(p.id) FROM tweb_keluarga p WHERE 1) AS jumlah,
 			(SELECT COUNT(p.id) FROM tweb_keluarga p WHERE 1) AS laki,
@@ -145,7 +145,7 @@
 		
 		$total['jumlah']=0;
 		$bel['no']="";
-		$bel['id']="";
+		$bel['id']="0";
 		$bel['nama']="TOTAL";
 		$total['laki']=0;
 		$total['perempuan']=0;
@@ -153,23 +153,14 @@
 		while($i<count($data)){
 			$data[$i]['no']=$i+1;
 			
-			
-			
-			
 				$total['jumlah']+=$data[$i]['jumlah'];
-			
-			
-			
-			
 				$total['laki']+=$data[$i]['laki'];
-			
-			
-			
-			
 				$total['perempuan']+=$data[$i]['perempuan'];
 				
 			$i++;
 		}
+		
+		//BELEUM MENGISI
 		$data[$i]['no']="";
 		$data[$i]['id']=777;
 		$data[$i]['nama']="BELUM MENGISI";

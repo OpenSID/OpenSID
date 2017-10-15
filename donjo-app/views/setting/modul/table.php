@@ -11,7 +11,7 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="ui-layout-north panel">
 				<div class="left">
-					<h3>Manajemen Modul</h3>
+					<h3>Pengaturan Modul</h3>
 				</div>
 			</div>
 		 <div class="ui-layout-center" id="maincontent">
@@ -37,7 +37,7 @@
 					<th width="100">Aksi</th>
 					<th align="left" width="350">Nama Modul </th>
 					<th align="left" width="250">URL</th>
-					<th align="left" width="220">Aktif</th>
+					<th align="left" width="220">Status</th>
 					<th>&nbsp;</th>
 				</tr>
 				</thead>

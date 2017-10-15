@@ -3,6 +3,7 @@ class analisis_respon extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
+		UNSET($_SESSION['delik']);
 		$this->load->model('analisis_respon_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
@@ -148,9 +149,20 @@ class analisis_respon extends CI_Controller{
 		$this->load->view('analisis_respon/import/data_unduh',$data);
 	}
 	function import($op=0){
-		$data['form_action'] 		= site_url("analisis_respon/import_proses/$op");
+		$data['form_action'] = site_url("analisis_respon/import_proses/$op");
 		$this->load->view('analisis_respon/import/import',$data);
 	}
+	
+	function satu_jiwa($op=0){
+		$this->analisis_respon_model->satu_jiwa($op);
+		redirect('analisis_respon');
+	}
+
+	function dua_dunia($op=0){
+		$this->analisis_respon_model->dua_dunia($op);
+		redirect('analisis_respon');
+	}
+
 	function import_proses($op=0){
 		$this->analisis_respon_model->import_respon($op);
 		redirect('analisis_respon');

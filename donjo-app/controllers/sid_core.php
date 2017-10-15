@@ -3,6 +3,36 @@ class Sid_Core extends CI_Controller{
 function __construct(){
 		parent::__construct();
 		session_start();
+		$_SESSION['filter'] = 77;
+		
+		unset($_SESSION['log']);
+		$_SESSION['status_dasar']=1;
+		unset($_SESSION['cari']);
+        unset($_SESSION['duplikat']);
+		unset($_SESSION['sex']);
+		unset($_SESSION['warganegara']);
+		unset($_SESSION['cacat']);
+		unset($_SESSION['menahun']);
+		unset($_SESSION['cacatx']);
+		unset($_SESSION['menahunx']);		
+		unset($_SESSION['golongan_darah']);
+		unset($_SESSION['dusun']);
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		unset($_SESSION['hubungan']);
+		unset($_SESSION['agama']);
+		unset($_SESSION['umur_min']);
+		unset($_SESSION['umur_max']);
+		unset($_SESSION['pekerjaan_id']);
+		unset($_SESSION['status']);
+		unset($_SESSION['pendidikan_id']);
+		unset($_SESSION['pendidikan_sedang_id']);
+		unset($_SESSION['pendidikan_kk_id']);
+		unset($_SESSION['umurx']);
+		unset($_SESSION['status_penduduk']);
+		unset($_SESSION['judul_statistik']);
+		unset($_SESSION['hamil']);
+		
 		$this->load->model('user_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');

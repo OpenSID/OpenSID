@@ -10,7 +10,7 @@
 		$CI->load->database();
 		$db =$CI->db->database;;
 		
-		$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA=?";
+		$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA=? AND TABLE_NAME <> 'impor'";
 		$query = $this->db->query($sql,$db);
 		$data=$query->result_array();
 		if(count($data) != 77){
@@ -25,7 +25,7 @@
 		$CI->load->database();
 		$db =$CI->db->database;;
 		
-		$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA=?";
+		$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA=? AND TABLE_NAME <> 'impor'";
 		$query = $this->db->query($sql,$db);
 		$data=$query->result_array();
 		if(count($data) != 77){
@@ -48,7 +48,7 @@
 			
 			$skrg = date("Y-m-d H:i:s");
 			$macid = $this->sysinfo();
-			$ids="user:admin\npass:".$passwd."\nidr:".$idsid."\nids:".$macid;
+			$ids="user:admin\r\npass:".$passwd."\r\nidr:".$idsid."\r\nids:".$macid;
 			$handle = fopen('../install.sid','w+');
 			fwrite($handle,$ids);
 			fclose($handle);

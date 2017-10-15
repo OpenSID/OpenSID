@@ -43,11 +43,10 @@
 		$cari = $_SESSION['cari'];
 			$kw = penetration($this->db->escape_like_str($cari));
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND t.nama LIKE '$kw'";
+			$search_sql= " AND (t.nama LIKE '$kw' OR u.no_kk LIKE '$kw') ";
 			return $search_sql;
 			}
 		}
-		
 	function jenis_sql(){		
 		if(isset($_SESSION['jenis'])){
 			$kh = $_SESSION['jenis'];
@@ -286,8 +285,24 @@
 	function update_anggota($id=0){
 		$data = $_POST;
 		
+		if($data['rtm_level'] == 1){
+		
+			$sql = "SELECT id_rtm FROM tweb_penduduk WHERE id=?";
+			$query = $this->db->query($sql,$id);
+			$r = $query->row_array();
+			$id_rtm = $r['id_rtm'];
+			
+			$del['rtm_level'] = 2;
+			$this->db->where('id_rtm',$id_rtm);
+			
+			$this->db->update('tweb_penduduk',$del);
+			$rtm['nik_kepala'] = $id;
+			$this->db->where('id',$id_rtm);
+			$outp = $this->db->update('tweb_rtm',$rtm);
+		}
+		
 		$this->db->where('id',$id);
-		$outp = $this->db->update('tweb_penduduk',$data);
+		$this->db->update('tweb_penduduk',$data);
 		
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
@@ -386,7 +401,7 @@
 	}
 			
 	function get_kepala_kk($id){
-		$sql = "SELECT nik,u.nama,r.no_kk FROM tweb_penduduk u LEFT JOIN tweb_rtm r ON u.id_rtm = r.id WHERE r.id = ? AND u.rtm_level =1 LIMIT 1";
+		$sql = "SELECT nik,u.nama,r.no_kk,c.dusun,c.rw,c.rt FROM tweb_penduduk u LEFT JOIN tweb_rtm r ON u.id_rtm = r.id LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE r.id = ? AND u.rtm_level =1 LIMIT 1";
 		$query = $this->db->query($sql,array($id));
 		return $query->row_array();
 		
@@ -412,4 +427,3 @@
 		
 	}
 }
-?>

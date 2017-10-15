@@ -5,7 +5,7 @@ $(function(){
  var nik = {};
  nik.results = [
 <?php foreach($penduduk as $data){?>
-	 {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".$data['nama']." - ".$data['kk_level'];?>"},
+	 {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".$data['nama']?>"},
 <?php }?>
  ];
 nik.total = nik.results.length;

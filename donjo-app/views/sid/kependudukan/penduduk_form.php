@@ -153,12 +153,34 @@
 </tr> 
 <tr>
 <th>Dokumen Paspor</th>
-<td><input name="dokumen_pasport" type="text" class="inputbox" size="20" value="<?php echo strtoupper($penduduk['dokumen_pasport'])?>"/></td>
+<td><input name="dokumen_pasport" type="text" class="inputbox" size="20" value="<?php echo ($penduduk['dokumen_pasport'])?>"/></td>
 </tr>
 <tr>
 <th>Dokumen KITAS</th>
-<td><input name="dokumen_kitas" type="text" class="inputbox" size="20" value="<?php echo strtoupper($penduduk['dokumen_kitas'])?>"/></td>
+<td><input name="dokumen_kitas" type="text" class="inputbox" size="20" value="<?php echo ($penduduk['dokumen_kitas'])?>"/></td>
 </tr>
+
+<tr>
+<th>Akta Perkawinan</th>
+<td><input name="akta_perkawinan" type="text" class="inputbox" size="20" value="<?php echo ($penduduk['akta_perkawinan'])?>"/></td>
+</tr> 
+<tr>
+<th>Tanggal Perkawinan</th>
+<td><input name="tanggalperkawinan" type="text" class="inputbox datepicker" size="20" value="<?php echo $penduduk['tanggalperkawinan']?>"/></td>
+</tr> 
+
+
+<tr>
+<th>Akta Perceraian</th>
+<td><input name="akta_perceraian" type="text" class="inputbox" size="20" value="<?php echo ($penduduk['akta_perceraian'])?>"/></td>
+</tr> 
+<tr>
+<th>Tanggal Perceraian</th>
+<td><input name="tanggalperceraian" type="text" class="inputbox datepicker" size="20" value="<?php echo $penduduk['tanggalperceraian']?>"/></td>
+</tr> 
+
+
+
 <tr>
 <th>NIK Ayah</th>
 <td><input name="ayah_nik" type="text" class="inputbox" size="30" value="<?php echo $penduduk['ayah_nik']?>"/></td>
@@ -213,13 +235,13 @@
 </td>
 </tr> 
 <tr>
-<th>Status kehamilan</th>
+<th>Status Kehamilan/ Ibu Menyusui</th>
 <td>
 <div class="uiradio">
-<input type="radio" id="sh2" name="hamil" value="0"/<?php if($penduduk['hamil'] == '0' OR $penduduk['hamil'] == ''){echo 'checked';}?>>
-<label for="sh2">Tidak hamil</label>
-<input type="radio" id="sh1" name="hamil" value="1"/<?php if($penduduk['hamil'] == '1' ){echo 'checked';}?>>
-<label for="sh1">hamil</label>
+<input type="radio" id="sh2" name="hamil" value="0"/<?php if($penduduk['hamil'] == '0' OR $penduduk['hamil'] == ''){echo 'checked';}?>><label for="sh2">Tidak Hamil</label>
+<input type="radio" id="sh1" name="hamil" value="1"/<?php if($penduduk['hamil'] == '1' ){echo 'checked';}?>><label for="sh1">Hamil Tua</label>
+<input type="radio" id="sh3" name="hamil" value="2"/<?php if($penduduk['hamil'] == '2' ){echo 'checked';}?>><label for="sh3">Hamil Muda</label>
+<input type="radio" id="sh4" name="hamil" value="3"/<?php if($penduduk['hamil'] == '3' ){echo 'checked';}?>><label for="sh4">Ibu Menyusui</label>
 </div>
 </td>
 </tr>

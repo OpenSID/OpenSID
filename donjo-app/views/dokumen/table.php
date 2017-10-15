@@ -61,11 +61,11 @@
 			<?php endif; ?>&nbsp;</span></a></th>
 			
 			<?php if($o==6): ?>
-				<th align="left" width='150'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diupload pada<span class="ui-icon ui-icon-triangle-1-n">
+				<th align="left" width='150'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diunggah pada<span class="ui-icon ui-icon-triangle-1-n">
 			<?php elseif($o==5): ?>
-				<th align="left" width='150'><a href="<?php echo site_url("dokumen/index/$p/6")?>">Diupload pada<span class="ui-icon ui-icon-triangle-1-s">
+				<th align="left" width='150'><a href="<?php echo site_url("dokumen/index/$p/6")?>">Diunggah pada<span class="ui-icon ui-icon-triangle-1-s">
 			<?php else: ?>
-				<th align="left" width='150'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diupload pada<span class="ui-icon ui-icon-triangle-2-n-s">
+				<th align="left" width='150'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diunggah pada<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php endif; ?>&nbsp;</span></a></th>
  <th width="200">File</th>
 			</tr>

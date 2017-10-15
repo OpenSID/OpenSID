@@ -7,6 +7,7 @@
 	});
 </script>
 <div id="pageC">
+<?php $this->load->view('analisis_master/left',$data);?>
 <div class="content-header">
 </div>
 <div id="contentpane"> 
@@ -24,14 +25,14 @@
 <div class="table-panel top">
 <div class="left">
 <select name="tipe" onchange="formAction('mainform','<?php echo site_url('analisis_indikator/tipe')?>')">
-<option value="">-- Filter by Tipe Indikator --</option>				
+<option value="">-- Filter by Tipe Pertanyaan --</option>				
 					<?php foreach($list_tipe AS $data){?>
 					<option value="<?php echo $data['id']?>" <?php if($tipe == $data['id']) :?>selected<?php endif?>><?php echo $data['tipe']?></option>
 					<?php }?>
 </select>
 				&nbsp;
 <select name="kategori" onchange="formAction('mainform','<?php echo site_url('analisis_indikator/kategori')?>')">
-<option value="">-- Filter by Kategori Indikator --</option>				
+<option value="">-- Filter by Kategori/Variabel --</option>				
 					<?php foreach($list_kategori AS $data){?>
 					<option value="<?php echo $data['id']?>" <?php if($kategori == $data['id']) :?>selected<?php endif?>><?php echo $data['kategori']?></option>
 					<?php }?>
@@ -53,7 +54,7 @@
 <tr>
 <th width="10">No</th>
 <?php if($analisis_master['lock']==1){?> <th><input type="checkbox" class="checkall"/></th>
-<th width="160">Aksi</th><?php }?>
+<th width="200">Aksi</th><?php }?>
 	 		<?php if($o==2): ?>
 				<th align="left" width="10"><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Kode<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
@@ -63,27 +64,27 @@
 			<?php endif; ?>
 			
 	 		<?php if($o==4): ?>
-				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/3")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/3")?>">Pertanyaan/Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
-				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/4")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/4")?>">Pertanyaan/Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/3")?>">Pertanyaan<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/3")?>">Pertanyaan/Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 			<?php if($o==6): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Tipe Pertanyaan<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/6")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/6")?>">Tipe Pertanyaan<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Tipe Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Tipe Pertanyaan<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==6): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Kategori/Variabel<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/6")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/6")?>">Kategori/Variabel<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Kategori Indikator<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th align="left" width='100'><a href="<?php echo site_url("analisis_indikator/index/$p/5")?>">Kategori/Variabel<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 			<?php if($o==2): ?>
@@ -114,7 +115,7 @@
 			</td>
 			<td>
 				<div class="uibutton-group">
-				<?php if($data['id_tipe']==1 OR $data['id_tipe']==2){?><a href="<?php echo site_url("analisis_indikator/parameter/$data[id]")?>" class="uibutton"><span class="icon-list icon-large"> Parameter</span></a><?php }?><a href="<?php echo site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+				<?php if($data['id_tipe']==1 OR $data['id_tipe']==2){?><a href="<?php echo site_url("analisis_indikator/parameter/$data[id]")?>" class="uibutton"><span class="icon-list icon-large"> Jawaban</span></a><?php }?><a href="<?php echo site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 				</div>
 			</td>
 			

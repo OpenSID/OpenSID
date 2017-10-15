@@ -115,7 +115,7 @@ function Rpt($str=0){
 			}
 			$i++;
 		}
-
+	
 	if($outp2 != "")
 		$outp = $outp." komah ".$outp2;
 	$outp 	= $outp." rupiah";
@@ -142,8 +142,8 @@ function Rpt($str=0){
 				$hasil=substr($data,$awal+strlen($p1),$akhir-strlen($p1));
 			}
 		}
-		return $hasil;
-	}
+		return $hasil; 
+	}	
 	function Rupiah($nil=0){
 		$nil = $nil + 0;
 		if(($nil*100)%100 == 0){
@@ -164,7 +164,7 @@ function Rpt($str=0){
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != "" AND $rp > 0){return "Rp. $rp";}else{return "Rp. 0,00";}
+		if($rp != "" AND $rp > 0){return "Rp. $rp";}else{return "Rp. 0,00";}		 
 	}
 	function Rupiah2($nil=0){
 		$nil = $nil + 0;
@@ -186,7 +186,7 @@ function Rpt($str=0){
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != "" AND $rp > 0){return "Rp.$rp";}else{return "-";}
+		if($rp != "" AND $rp > 0){return "Rp.$rp";}else{return "-";}		 
 	}
 	function Rupiah3($nil=0){
 		$nil = $nil + 0;
@@ -208,7 +208,7 @@ function Rpt($str=0){
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != 0){return "$rp";}else{return "-";}
+		if($rp != 0){return "$rp";}else{return "-";}		 
 	}
 	function jecho($a,$b,$str){
 		if($a==$b){
@@ -298,7 +298,7 @@ function Rpt($str=0){
 	}
 	function nama_bulan($tgl){
 		$ar=explode('-',$tgl);
-
+		
 		$nm = '';
 		switch($ar[1]){
 			case '01':
@@ -338,7 +338,7 @@ function Rpt($str=0){
 				$nm = 'Desember';
 				break;
 		}
-
+		
 		$o = $ar[0] .' '. $nm .' '. $ar[2];
 		return $o;
 	}
@@ -384,27 +384,27 @@ function Rpt($str=0){
 			$jam = substr($tgl,11,8);
 			$bulan = getBulan(substr($tgl,5,2));
 			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';
-	}
+			return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';		 
+	}	
 	function tgl_indo($tgl){
 			$tanggal = substr($tgl,8,2);
 			$bulan = getBulan(substr($tgl,5,2));
 			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun;
+			return $tanggal.' '.$bulan.' '.$tahun;		 
 	}
 	function tgl_indo_out($tgl){
 			$tanggal = substr($tgl,8,2);
 			$bulan = substr($tgl,5,2);
 			$tahun = substr($tgl,0,4);
-			return $tanggal.'-'.$bulan.'-'.$tahun;
+			return $tanggal.'-'.$bulan.'-'.$tahun;		 
 	}
 	function tgl_indo_in($tgl){
 			$tanggal = substr($tgl,0,2);
 			$bulan = substr($tgl,3,2);
 			$tahun = substr($tgl,6,4);
-			return $tahun.'-'.$bulan.'-'.$tanggal;
+			return $tahun.'-'.$bulan.'-'.$tanggal;		 
 	}
-
+		
 	function waktu_ind($time){
 		$str ="";
 			if(($time/360)>1){
@@ -419,13 +419,13 @@ function Rpt($str=0){
 			}
 			$detik = $time%60;
 			$str .= $detik;
-
-			return $str.' Detik';
+			
+			return $str.' Detik';		 
 	}
-
+		
 	function getBulan($bln){
 				switch ($bln){
-					case 1:
+					case 1: 
 						return "Januari";
 						break;
 					case 2:
@@ -463,7 +463,7 @@ function Rpt($str=0){
 						break;
 				}
 		}
-
+		
 function timer(){
 	$time=2000;
 	$_SESSION['timeout']=time()+$time;
@@ -471,11 +471,11 @@ function timer(){
 function generator($length = 7) {
  return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 }
-function hash_password($password=""){
-	// $password = strrev($password);
-	// $password .= "!#@$#%";
-	// $password = md5($password);
-	// $password = substr($password,3,19);
+function hash_password($password=""){	
+	$password = strrev($password);
+	$password .= "!#@$#%";
+	$password = md5($password);
+	$password = substr($password,3,19);
 	return md5($password);
 }
 function cek_login(){
@@ -489,7 +489,7 @@ function cek_login(){
 	}
 }
 function mandiri_timer(){
-	$time=90;
+	$time=90; 
 	$_SESSION['mandiri_try'] = 4;
 	$_SESSION['mandiri_wait']=0;
 	$_SESSION['mandiri_timeout']=time()+$time;
@@ -497,7 +497,7 @@ function mandiri_timer(){
 function mandiri_timeout(){
 	if(!isset($_SESSION['mandiri_timeout']))
 		$_SESSION['mandiri_timeout'] = time()-1;
-
+		
 	$timeout=$_SESSION['mandiri_timeout'];
 	if(time()>$timeout){
 		mandiri_timer();
@@ -554,7 +554,7 @@ function fTampilTgl($sdate,$edate){
 	}
 	return $tgl;
 }
-	function hash_pin($pin=""){
+	function hash_pin($pin=""){	
 		$pin = strrev($pin);
 		$pin = $pin*77;
 		$pin .= "!#@$#%";

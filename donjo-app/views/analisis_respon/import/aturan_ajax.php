@@ -2,12 +2,7 @@
 <table>
 	<tr>
 		<td>
-			<p>Bla bla bla... Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut Aturan Data Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut Aturan Data</p>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut :
+			Data yang dibutuhkan untuk import dengan memenuhi aturan data sebagai berikut :
 		</td>
 	</tr>
 	<tr>

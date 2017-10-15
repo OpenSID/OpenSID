@@ -5,7 +5,7 @@
 <div id="contentpane">
 <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<h3>Form Widget <?php if($kategori){echo $kategori['kategori'];}else{echo "Artikel Statis";}?></h3>
+<h3>Form Pengaturan Customizable Widget <?php if($kategori){echo $kategori['kategori'];}else{echo "Artikel Statis";}?></h3>
 <table class="form">
 <tr>
 <th width="120">Judul Widget</th>
@@ -43,7 +43,7 @@
 <td><input type="file" name="dokumen" /> <span style="color: #aaa;"></span></td>
 </tr>
 <tr>
-<th>Nama Dokumen (Nantinya akan menjadi link unduh/download)</th>
+<th>Nama Dokumen (akan menjadi link unduh/download)</th>
 <td><input size="30" type="text" name="link_dokumen" value="<?php echo $artikel['link_dokumen']?>"/></td>
 </tr>
 <tr>

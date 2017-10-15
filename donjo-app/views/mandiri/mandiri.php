@@ -6,7 +6,7 @@
 			<div class="ui-layout-north panel">
 				<div class="left">
 					<div class="uibutton-group">
-						<a href="<?php echo site_url('mandiri/ajax_pin')?>" target="ajax-modal" rel="window" header="PIN Waraga" class="uibutton tipsy south" title="PIN Warga" ><span class="icon-plus icon-large">&nbsp;</span>Hasilkan PIN</a>
+						<a href="<?php echo site_url('mandiri/ajax_pin')?>" target="ajax-modal" rel="window" header="PIN Warga" class="uibutton tipsy south" title="PIN Warga" ><span class="icon-plus icon-large">&nbsp;</span>Hasilkan PIN</a>
 					</div>
 				</div>
 			</div>
@@ -83,7 +83,7 @@
 <script type="text/javascript">
 	$(function(){
 	<?php if($_SESSION['pin']){ ?>
-		modalpin('pin','PIN WARGA','Berikut adalah kode pin yang baru saja di hasilkan, silahkan dicatat atau di ingat dengan baik, kode pin ini sangat rahasia, dan hanya bisa dilihat sekali ini lalu setelah itu hanya bisa di reset saja. <br /> <h4>Kode PIN : <?php echo $_SESSION['pin']; ?></h4>');
+		modalpin('pin','PIN WARGA','Berikut adalah kode PIN Anda. Sila catat atau ingat dengan baik. Kode PIN ini bersifat rahasia dan hanya bisa dilihat satu kali ini. Jika lupa PIN, lapor kepada perangkat desa untuk dilakukan reset. <br /> <h4>Kode PIN : <?php echo $_SESSION['pin']; ?></h4>');
 	<?php }?>
 		
 	function modalpin(id,title,message,width,height){

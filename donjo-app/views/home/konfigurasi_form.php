@@ -28,7 +28,7 @@
  <td><input name="alamat_kantor" type="text" class="inputbox" size="40" value="<?php echo $main['alamat_kantor']?>"/></td>
  </tr>
  <tr>
- <th>Email Desa</th>
+ <th>e-mail Desa</th>
  <td><input name="email_desa" type="text" class="inputbox" size="40" value="<?php echo $main['email_desa']?>"/></td>
  </tr>
  <tr>
@@ -69,11 +69,15 @@
  <td><input type="file" name="logo" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah lambang)</span></td>
  </tr>
  <tr>
- <th>Lokasi / Wilayah Desa Dalam Peta</th>
+ <th>Lokasi Kantor / Wilayah Desa dalam Peta</th>
  <td>
 	 <a href="<?php echo site_url("hom_desa/ajax_kantor_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-lok" header="Lokasi <?php echo $main['nama_desa']?>" title="Lokasi <?php echo $main['nama_desa']?>">Kantor Desa</a><p class="kan" style="display:none;">*) data kantor desa telah diperbaharui, kliksimpan untuk melanjutkan...</p></br></br>
 	 <a href="<?php echo site_url("hom_desa/ajax_wilayah_maps")?>" class="uibutton confirm" target="ajax-modalz" rel="window-wil" header="Wilayah <?php echo $main['nama_desa']?>" title="Wilayah <?php echo $main['nama_desa']?>">Wilayah Desa</a><p class="wil" style="display:none;">*) data wilayah telah diperbaharui, kliksimpan untuk melanjutkan...</p>
  </td>
+ </tr>
+ <tr>
+ <th>Google API Key</th>
+ <td><input name="gapi_key" type="text" class="inputbox" size="45" value="<?php echo $main['gapi_key']?>"/><br /> *) Kode unik yang didapatkan dari pendaftaran akun Google Maps. Klik di sini untuk petunjuk lebih jelas: <a target='_blank' href="https://developers.google.com/maps/documentation/javascript/get-api-key">Google API Key</a></td></td>
  </tr>
  </table>
  </div>

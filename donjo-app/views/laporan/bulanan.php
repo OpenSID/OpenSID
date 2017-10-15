@@ -17,7 +17,7 @@
  <div class="left">
  <div class="uibutton-group">
 			<a href="<?php echo site_url("laporan/cetak")?>" class="uibutton tipsy south" title="Cetak" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url("laporan/excel")?>" class="uibutton tipsy south" title="Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+		<a href="<?php echo site_url("laporan/excel")?>" class="uibutton tipsy south" title="Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
  </div>
  </div>
  </div>

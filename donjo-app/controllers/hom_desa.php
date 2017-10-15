@@ -14,7 +14,7 @@ class Hom_Desa extends CI_Controller{
 	}
 	
 	function index(){
-		$_SESSION['delik'] = 1;
+		$_SESSION['delik'] = 0;
 		$nav['act']= 0;
 		$header = $this->header_model->get_data();
 		$data['main'] = $this->config_model->get_data();

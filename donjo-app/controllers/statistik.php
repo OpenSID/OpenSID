@@ -3,6 +3,36 @@ class Statistik extends CI_Controller{
 function __construct(){
 		parent::__construct();
 		session_start();
+		
+		$_SESSION['filter'] = 77;
+		unset($_SESSION['log']);
+		$_SESSION['status_dasar']=1;
+		unset($_SESSION['cari']);
+        unset($_SESSION['duplikat']);
+		unset($_SESSION['sex']);
+		unset($_SESSION['warganegara']);
+		unset($_SESSION['cacat']);
+		unset($_SESSION['menahun']);
+		unset($_SESSION['cacatx']);
+		unset($_SESSION['menahunx']);		
+		unset($_SESSION['golongan_darah']);
+		unset($_SESSION['dusun']);
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		unset($_SESSION['hubungan']);
+		unset($_SESSION['agama']);
+		unset($_SESSION['umur_min']);
+		unset($_SESSION['umur_max']);
+		unset($_SESSION['pekerjaan_id']);
+		unset($_SESSION['status']);
+		unset($_SESSION['pendidikan_id']);
+		unset($_SESSION['pendidikan_sedang_id']);
+		unset($_SESSION['pendidikan_kk_id']);
+		unset($_SESSION['umurx']);
+		unset($_SESSION['status_penduduk']);
+		unset($_SESSION['judul_statistik']);
+		unset($_SESSION['hamil']);
+		
 		$this->load->model('user_model');
 		$this->load->model('laporan_penduduk_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
@@ -75,18 +105,17 @@ function __construct(){
 		
 		
 		switch($lap){
-			case 0: $data['stat'] = "Pendidikan Telah Ditempuh"; break;
 			case 1: $data['stat'] = "Pekerjaan"; break;
 			case 2: $data['stat'] = "Status Perkawinan"; break;
 			case 3: $data['stat'] = "Agama"; break;
 			case 4: $data['stat'] = "Jenis Kelamin"; break;
 			case 5: $data['stat'] = "Warga Negara"; break;
-			case 6: $data['stat'] = "Status"; break;
+			case 6: $data['stat'] = "Status Kependudukan"; break;
 			case 7: $data['stat'] = "Golongan Darah"; break;
-			case 9: $data['stat'] = "Cacat"; break;
+			case 9: $data['stat'] = "Difabilitas (Cacat)"; break;
 			case 10: $data['stat'] = "Sakit Menahun"; break;
 			case 11: $data['stat'] = "Jamkesmas"; break;
-			case 12: $data['stat'] = "Pendidikan dalam KK"; break;
+			case 0: $data['stat'] = "Pendidikan dalam KK"; break;
 			case 13: $data['stat'] = "Umur (Detail)"; break;
 			case 15: $data['stat'] = "Umur"; break;
 			case 14: $data['stat'] = "Pendidikan Sedang Ditempuh"; break;

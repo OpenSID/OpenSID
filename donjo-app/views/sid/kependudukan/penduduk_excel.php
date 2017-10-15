@@ -25,6 +25,7 @@ td,th{
 <div class="header" align="center">
 <label align="left"><?php echo get_identitas()?></label>
 <h3> DATA PENDUDUK </h3>
+<?php echo $info?>
 </div>
  <table border=1 class="border thick">
 	<thead>

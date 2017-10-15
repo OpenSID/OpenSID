@@ -22,45 +22,13 @@
 		$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.pertanyaan LIKE '$kw' OR u.pertanyaan LIKE '$kw')";
+			$search_sql= " AND nama LIKE '$kw'";
 			return $search_sql;
 			}
 		}
-	function filter_sql(){		
-		if(isset($_SESSION['filter'])){
-			$kf = $_SESSION['filter'];
-			$filter_sql= " AND u.act_analisis = $kf";
-		return $filter_sql;
-		}
-	}
-	function master_sql(){		
-		if(isset($_SESSION['analisis_master'])){
-			$kf = $_SESSION['analisis_master'];
-			$filter_sql= " AND u.id_master = $kf";
-		return $filter_sql;
-		}
-	}
-	function tipe_sql(){		
-		if(isset($_SESSION['tipe'])){
-			$kf = $_SESSION['tipe'];
-			$filter_sql= " AND u.id_tipe = $kf";
-		return $filter_sql;
-		}
-	}
-	function kategori_sql(){		
-		if(isset($_SESSION['kategori'])){
-			$kf = $_SESSION['kategori'];
-			$filter_sql= " AND u.id_kategori = $kf";
-		return $filter_sql;
-		}
-	}
 	function paging($p=1,$o=0){
 		$sql = "SELECT COUNT(id) AS id FROM tweb_surat_format u WHERE 1";
 		$sql .= $this->search_sql(); 
-		$sql .= $this->filter_sql(); 
-		
-		$sql .= $this->tipe_sql();
-		$sql .= $this->kategori_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
 		$jml_data = $row['id'];
@@ -91,10 +59,6 @@
 		$sql = "SELECT u.* FROM tweb_surat_format u WHERE 1 ";
 			
 		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		
-		$sql .= $this->tipe_sql();
-		$sql .= $this->kategori_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 		

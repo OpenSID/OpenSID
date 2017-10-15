@@ -3,70 +3,57 @@ Anda sedang menggunakan aplikasi Sistem Informasi Desa (SID) versi 3.10<br />
 <br />
 <br />APAKAH SISTEM INFORMASI (SID)?</b> <br />
 <br />
-Aplikasi Sistem Informasi Desa (SID) adalah sistem olah data dan informasi berbasis komputer yang dapat dikelola oleh pemerintah dan komunitas desa dalam dua ranah:
+Aplikasi Sistem Informasi Desa (SID) merupakan bagian dari prakarsa pengembangan seperangkat alat dan proses pemanfaatan data dan informasi untuk mendukung pengelolaan sumberdaya berbasis komunitas di tingkat desa. Prakarsa ini dikelola oleh lembaga swadaya masyarakat Yayasan Combine Resource Institution (CRI) bersama jejaring organisasi mitra, komunitas, dan lembaga pemerintahan lintas sektor dan lintas daerah di Indonesia sejak tahun 2009.
 <b><br /></b>
 <b><br /></b>
-1. Offline
+<b>PERSETUJUAN LISENSI</b><br />
 <b><br /></b>
-Aplikasi diinstall dalam komputer server di kantor desa dan dioperasikan sebagai server (pusat data) yang bersifat lokal. Oleh karena tidak terhubung ke internet, SID offline hanya bisa diakses dalam jaringan lokal. Sistem offline ini direkomendasikan untuk diterapkan dalam penggunaan aplikasi SID harian. Database dari hasil proses olah data secara offline itu dapat diunggah ke sistem online secara berkala.
+Perangkat lunak ini beserta semua hak kekayaan intelektual yang terkait adalah milik Yayasan Combine Resource Institution, yang kemudian disebut CRI, yang berkedudukan di Jl. K.H. Ali Maksum No. 183 Pelemsewu, Panggungharjo, Sewon, Bantul, Daerah Istimewa Yogyakarta, Indonesia.
 <b><br /></b>
 <b><br /></b>
-2. Online
+Sistem Informasi Desa (SID) secara teknis terdiri atas "perangkat lunak" (kode sumber program dan aplikasi-aplikasi turunannya) dan "layanan" (sistem perangkat lunak klien dan server yang membentuk satu kesatuan fungsi). Perangkat lunak dan kode sumber Sistem Informasi Desa ini tidak untuk komersial, bersumber terbuka, serta berlisensi GNU GPL Versi 3 (Periksa lebih lanjut di <a href="http://www.gnu.org/licenses/gpl.html" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">http://www.gnu.org/licenses/gpl.html</a>). Penggunaan layanan Sistem Informasi Desa diizinkan mengikuti ketentuan yang dijelaskan di ketentuan ini.
 <b><br /></b>
-SID akan optimal jika terhubung ke internet sebagai sistem online berbasis web. SID online akan otomatis berfungsi juga sebagai website desa. Website desa ini memiliki fungsi yang terbagi dalam dua bagian, yakni bagian depan (front-end) yang bisa diakses oleh publik dan bagian dalam (back-end) yang hanya bisa diakses oleh administrator sistem.<br />
 <b><br /></b>
-<br />
-<b>MANAJEMEN AKSES SID</b><br />
-<br />
-Aplikasi SID dirancang sejak awal oleh CRI untuk mengelola data dasar desa dan informasi desa. Data dasar yang dikelola meliputi data dasar kependudukan dan data dasar aset/sumber daya desa. Data dasar ini menjadi tanggung jawab pemerintah desa dalam pengelolaannya. Hanya pengguna (user) dari pemerintah desa dan tim yang dikoordinasikan oleh pemerintah desa saja yang akan memiliki kewenangan dan hak akses ke dalam sistem. Sementara, user di luar pemerintah desa hanya akan memiliki akses terbatas pada fungsi olah informasi untuk website desa.<br />
-<br />
-Tingkat user (pengguna) dalam SID:<br />
-1. Administrator : adalah orang/tim yang bertanggung jawab penuh atas olah data dan informasi dalam SID dan website desa. Orang/tim ini ditunjuk oleh pemerintah desa disahkan dengan surat keputusan kepala desa.<br />
-- Peran olah data : entry, edit, delete data dasar<br />
-- Peran olah informasi : tulis, edit, publish artikel website<br />
-2. Operator: adalah orang/tim yang bertugas membantu administrator mengelola data dan informasi, tetapi dengan kewenangan yang lebih terbatas.<br />
-- Peran olah data : entry, edit data dasar<br />
-- Peran olah informasi : tulis, edit artikel website<br />
-3. Redaksi: adalah orang/tim yang bertugas sebagai redaksi media website desa dan hanya dapat melakukan olah informasi berupa artikel website.<br />
-- Peran olah informasi : tulis, edit artikel<b><br /></b>
-<br />
-<br />
-<b>TAHAP MEMBANGUN SID</b><br />
-<br />
-Bagaimana memulai membangun Sistem Informasi Desa (SID) di desa kita? Caranya sangat mudah, tetapi pasti perlu proses yang harus sabar dan cermat untuk dijalani. Siapa pun Anda, baik perorangan maupun mewakili organisasi/lembaga, dapat mencoba mulai membangun SID di desa masing-masing dalam 9 langkah. Unduh leaflet informasinya di bawah ini.<br />
-<br />
- 1. Bentuk tim kerja bersama pemerintah desa<br />
- 2. Diskusikan basis data apa saja yang diperlukan untuk warga<br />
- 3. Himpun data kependudukan warga dari Kartu Keluarga (KK)<br />
- 4. Daftarkan proyek SID dan dapatkan aplikasi softwarenya di http://sid.web.id<br />
- 5. Install aplikasi software SID di komputer desa<br />
- 6. Entry data penduduk ke SID<br />
- 7. Basis data kependudukan sudah bisa dimanfaatkan<br />
- 8. Diskusikan rencana pengembangan SID sesuai kebutuhan desa<br />
- 9. Sebarluaskan informasi desa melalui beragam media untuk warga<br />
-<br />
-Unduh leaflet informasi di atas (ukuran A4) di tautan ini:<br /> <a href="http://lumbungkomunitas.net/wp-content/uploads/2012/02/9-Langkah-Membangun-SID.pdf" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">http://lumbungkomunitas.net/wp-content/uploads/2012/02/9-Langkah-Membangun-SID.pdf</a><br />
-<br />
-<br />
-<b>HAK CIPTA, SYARAT, DAN KETENTUAN</b><br />
-<br />
-Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan oleh COMBINE Resource Institution sejak tahun 2009. Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Version 3.
+Layanan Sistem Informasi Desa (SID) hanya ditujukan untuk penggunaan pribadi atas nama kelembagaan berupa lembaga pemerintah desa/kelurahan, yang dapat dikoordinasikan oleh dan/atau bersama pemerintah kabupaten/kota setempat di wilayah Republik Indonesia. Jika Anda ingin menggunakan Sistem Informasi Desa (SID) untuk tujuan apa pun selain itu atau punya kebutuhan tambahan, kami menawarkan layanan tambahan yang akan diatur dalam kesepakatan yang khusus/berbeda. Untuk informasi lebih lanjut, silakan kirim email ke office[at]combine.or.id.
+<b><br /></b>
+<b><br /></b>
+<b>Ketentuan Penggunaan</b><br />
+<b><br /></b>
+Dengan menggunakan layanan Sistem Informasi Desa (SID), Anda setuju tidak akan menggunakannya dengan cara apa pun yang melanggar hukum di Republik Indonesia atau hak pihak ketiga.
+<b><br /></b>
+<b><br /></b>
+<b>Penggunaan Pribadi atau Tertentu</b><br />
+<b><br /></b>
+Dengan menggunakan Sistem Informasi Desa (SID), Anda setuju menggunakan layanan ini hanya untuk penggunaan pribadi, non-komersial. Anda tidak diperkenankan (dan tidak diperkenankan membolehkan pihak ketiga) meminjamkan, menyewakan, mengadakan sublisensi, menjual, menjual kembali, atau melakukan segala bentuk distribusi layanan Sistem Informasi Desa (SID) lainnya untuk tujuan komersial.
+<b><br /></b>
+<b><br /></b>
+<b>Pernyataan tentang Batasan Kewajiban</b><br />
+<b><br /></b>
+Layanan Sistem Informasi Desa (SID) diberikan oleh CRI "sebagaimana adanya" dan tanpa disertai jaminan atau kewajiban apa pun, tersurat maupun tersirat. Sistem Informasi Desa (SID) menyangkal semua jaminan dan kewajiban yang berkaitan dengan penggunaan layanan ini meliputi cedera pribadi maupun segala bentuk kerugian pribadi atau komersial yang bersifat insidental, khusus, tak langsung, atau sebab-akibat, termasuk kehilangan data dan gangguan bisnis.
+<b><br /></b>
+<b><br /></b>
+<b>Layanan Penggunaan</b><br />
+<b><br /></b>
+Penggunaan layanan Sistem Informasi Desa (SID) akan terhubung pada sistem informasi jaringan desa-desa penerap SID yang dikelola oleh CRI untuk kepentingan layanan administrasi dan sertifikasi pengguna, layanan dukungan teknis pengguna, dan analisis kebutuhan pengembangan ke depan.
+<b><br /></b>
+<b><br /></b>
+<b>Penghentian Layanan; Pelanggaran Ketentuan Layanan</b><br />
+<b><br /></b>
+CRI dengan Sistem Informasi Desa (SID) berhak atas keputusannya sendiri untuk mengakhiri lisensi ini kapan pun dengan atau tanpa alasan apa pun dan tanpa berakibat hukuman. Dengan menggunakan Sistem Informasi Desa (SID), Anda setuju tidak akan menggunakan layanan ini dengan cara apa pun yang melanggar Ketentuan Penggunaan dan Persetujuan Lisensi.
+<b><br /></b>
+<b><br /></b>
+Sebagai pengguna, Anda bebas membatalkan persetujuan lisensi ini kapan pun dengan menghentikan pemakaian sebagian dan seluruh layanan Sistem Informasi Desa (SID) serta menghapus semua jejak penggunaan perangkat lunak ini dari perangkat Anda.
 <b><br /></b>
 <br />
 <br />
 <b>KONTAK DAN INFORMASI</b><br />
 <br />
-COMBINE Resource Institution<br />
+<a href="https://twitter.com/combineri" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">Combine Resource Institution</a><br />
 Alamat: Jl. K.H. Ali Maksum No. 183 Panggungharjo, Sewon, Bantul, D.I. Yogyakarta 55188 INDONESIA<br />
 Telp. / Faks. : +62 274 - 411 123<br />
 e-mail: office[at]combine.or.id<br />
 Twitter: <a href="https://twitter.com/combineri" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">@combineri</a><br />
 Group Facebook: <a href="https://www.facebook.com/groups/sisteminformasidesa/" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">Sistem Informasi Desa </a><br />
-Website:<br />
-- <a href="http://combine.or.id" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">http://combine.or.id </a> (Lembaga)<br />
-- <a href="http://lumbungkomunitas.net" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">http://lumbungkomunitas.net </a> (Program Lumbung Komunitas - Divis Pengembangan dan Penerapan SID)<br />
-- <a href="http://sid.web.id" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">http://sid.web.id </a> (Portal Jaringan Komunitas Pengguna SID)<br />
-- <a href="http://foss.combine.or.id" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">http://foss.combine.or.id </a> (Sistem Informasi Proyek Pengembangan FOSS CRI)<br />
-<br />
+Website: <a href="http://combine.or.id" target="_blank" style="color:#009e04; text-decoration: none; font-weight: bold;">http://combine.or.id </a><br />
 <b><br /></b>
 </div>

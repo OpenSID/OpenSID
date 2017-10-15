@@ -2,7 +2,7 @@
 	<table class="form">
 		<tr>
 			<td colspan='2'>
-				Pastikan Format Berkas Telah Sesuai
+				Pastikan format berkas telah sesuai <?php echo $jml ?>
 			</td>
 		</tr>
 		<tr>

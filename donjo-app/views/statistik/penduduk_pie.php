@@ -2,49 +2,35 @@
 <!-- Start of Space Admin -->
 	<table class="inner">
 	<tr style="vertical-align:top">
-	<td class="side-menu">		
-		<legend>Statistik Keluarga</legend>
-			<div id="" class="lmenu">
-				<ul>
-				<a href="<?php echo site_url()?>statistik/index/22"><li <?php if($lap==22){?>class="selected"<?php }?>>
-					Raskin</li></a>
-				<a href="<?php echo site_url()?>statistik/index/23"><li <?php if($lap==23){?>class="selected"<?php }?>>
-					BLSM</li></a>
-				<a href="<?php echo site_url()?>statistik/index/25"><li <?php if($lap==25){?>class="selected"<?php }?>>
-					PKH</li></a>
-				<a href="<?php echo site_url()?>statistik/index/27"><li <?php if($lap==27){?>class="selected"<?php }?>>
-					Bedah Rumah</li></a>
-				</ul>
-			</div>
-		
+	<td class="side-menu">
 		<legend>Statistik Penduduk</legend>
 			<div id="sidecontent3" class="lmenu">
 				<ul>		
-				<a href="<?php echo site_url()?>statistik/index/15"><li <?php if($lap==15){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/13"><li <?php if($lap==15){?>class="selected"<?php }?>>
 					Umur</li></a>	
-				<a href="<?php echo site_url()?>statistik/index/0"><li <?php if($lap==0){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/0"><li <?php if($lap==0){?>class="selected"<?php }?>>
 					Pendidikan Dalam KK</li></a>
-				<a href="<?php echo site_url()?>statistik/index/14"><li <?php if($lap==14){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/14"><li <?php if($lap==14){?>class="selected"<?php }?>>
 					Pendidikan Sedang Ditempuh</a></li>
-				<a href="<?php echo site_url()?>statistik/index/1"><li <?php if($lap==1){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/1"><li <?php if($lap==1){?>class="selected"<?php }?>>
 					Pekerjaan</li></a>
-				<a href="<?php echo site_url()?>statistik/index/2"><li <?php if($lap==2){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/2"><li <?php if($lap==2){?>class="selected"<?php }?>>
 					Status Perkawinan</li></a>
-				<a href="<?php echo site_url()?>statistik/index/3"><li <?php if($lap==3){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/3"><li <?php if($lap==3){?>class="selected"<?php }?>>
 					Agama</li></a>
-				<a href="<?php echo site_url()?>statistik/index/4"><li <?php if($lap==4){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/4"><li <?php if($lap==4){?>class="selected"<?php }?>>
 					Jenis Kelamin</li></a>
-				<a href="<?php echo site_url()?>statistik/index/5"><li <?php if($lap==5){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/5"><li <?php if($lap==5){?>class="selected"<?php }?>>
 					Warga Negara</li></a>
-				<a href="<?php echo site_url()?>statistik/index/6"><li <?php if($lap==6){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/6"><li <?php if($lap==6){?>class="selected"<?php }?>>
 					Status Penduduk</li></a>
-				<a href="<?php echo site_url()?>statistik/index/7"><li <?php if($lap==7){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/7"><li <?php if($lap==7){?>class="selected"<?php }?>>
 					Golongan Darah</li></a>	
-				<a href="<?php echo site_url()?>statistik/index/9"><li <?php if($lap==9){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/9"><li <?php if($lap==9){?>class="selected"<?php }?>>
 					Cacat</li></a>
 				<?php 
 ?>	
-				<a href="<?php echo site_url()?>statistik/index/11"><li <?php if($lap==11){?>class="selected"<?php }?>>
+				<a href="<?php echo site_url()?>statistik/pie/11"><li <?php if($lap==11){?>class="selected"<?php }?>>
 					Jamkesmas</li></a>	
 				</ul>
 			</div>
@@ -128,7 +114,7 @@ tr#total{
 		<thead>
  <tr>
  <th>No</th>
-				<th>Jenis Kelompok</th>
+				<th>Kategori Kelompok</th>
 				<th>Jumlah</th>
 				<?php if($lap<20){?>
 				<th width="60">Laki-laki</th>

@@ -15,8 +15,7 @@
  <h3>Modul kelompok</h3>
  <div class="left">
  <div class="uibutton-group">
- <a href="<?php echo site_url('kelompok/clear')?>" class="uibutton tipsy south" title="Kelompok" ><span class="icon-list icon-large">&nbsp;</span>Kelompok</a>
- <a href="<?php echo site_url('kelompok_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Master Kelompok Baru</a>
+ <a href="<?php echo site_url('kelompok_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Kategori Kelompok Baru</a>
  <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("kelompok_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data
  </div>
  </div>
@@ -71,7 +70,8 @@
  <div class="left"> 
 		<div class="table-info">
  <form id="paging" action="<?php echo site_url('kelompok_master')?>" method="post">
-		 <label>Tampilkan</label>
+		 
+ <a href="<?php echo site_url('kelompok/clear')?>" class="uibutton icon prev"> Kembali </a> <label>Tampilkan</label>
  <select name="per_page" onchange="$('#paging').submit()" >
  <option value="20" <?php selected($per_page,20); ?> >20</option>
  <option value="50" <?php selected($per_page,50); ?> >50</option>

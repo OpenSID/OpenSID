@@ -61,7 +61,7 @@
  <div class="left">
  <div class="uibutton-group">
 			<a href="<?php echo site_url("statistik/cetak/$lap")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak Data</a>
-			<a href="<?php echo site_url("statistik/excel/$lap")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Data Excel</a>
+			<a href="<?php echo site_url("statistik/excel/$lap")?>" class="uibutton tipsy south" title="Unduh" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Data Excel</a>
 			<a href="<?php echo site_url("statistik/graph/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="icon-bar-chart icon-large">&nbsp;</span>Grafik Data</a>
 			<a href="<?php echo site_url("statistik/pie/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="icon-time icon-large">&nbsp;</span>Pie Chart</a>
 			<?php if($lap=='13'){?>
@@ -83,11 +83,11 @@
  <th>No</th>
 				
 	 		<?php if($o==2): ?>
-				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>">Jenis Kelompok<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
+				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>">Kategori Kelompok<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/2")?>">Jenis Kelompok<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
+				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/2")?>">Kategori Kelompok<span class="ui-icon ui-icon-triangle-1-s">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>">Jenis Kelompok<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
+				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>">Kategori Kelompok<span class="ui-icon ui-icon-triangle-2-n-s">&nbsp;</span></a></th>
 			<?php endif; ?>
 			
 	 		<?php if($o==6): ?>
@@ -125,24 +125,25 @@
 		<tbody>
  <?php foreach($main as $data): ?>
 		<tr>
- <td align="center" width="2"><?php echo $data['no']?></td>
- <td><?php echo $data['nama'];?></td>
+			<td align="center" width="2"><?php echo $data['no']?></td>
+			<td><?php echo $data['nama'];?></td>
 			<td align="right">
-			<?php if($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27){?>
+		<?php if($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27){?>
 			<a href="<?php echo site_url("keluarga/statistik/$lap/$data[id]")?>"><?php echo $data['jumlah']?></a>
-			<?php } else { ?>
+		<?php } else { ?>
 			<a href="<?php echo site_url("penduduk/statistik/$lap/$data[id]")?>/0"><?php echo $data['jumlah']?></a>
-			<?php }?>
-			</td>
- <td><?php echo $data['persen'];?></td>
-		<?php if($lap<20){?>
-		 <td align="right"><a href="<?php echo site_url("penduduk/statistik/$lap/$data[id]")?>/1"><?php echo $data['laki']?></a></td>
- <td><?php echo $data['persen1'];?></td>
- <td align="right"><a href="<?php echo site_url("penduduk/statistik/$lap/$data[id]")?>/2"><?php echo $data['perempuan']?></a></td>
- <td><?php echo $data['persen2'];?></td>
 		<?php }?>
- <td></td>
-		 </tr>
+			</td>
+			
+			<td><?php echo $data['persen'];?></td>
+			<?php if($lap<20){?>
+			<td align="right"><a href="<?php echo site_url("penduduk/statistik/$lap/$data[id]")?>/1"><?php echo $data['laki']?></a></td>
+			<td><?php echo $data['persen1'];?></td>
+			<td align="right"><a href="<?php echo site_url("penduduk/statistik/$lap/$data[id]")?>/2"><?php echo $data['perempuan']?></a></td>
+			<td><?php echo $data['persen2'];?></td>
+			<?php }?>
+			<td></td>
+		</tr>
  <?php endforeach; ?>
 		</tbody>
  </table>

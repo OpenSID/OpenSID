@@ -13,8 +13,6 @@
 	<div class="uiradio">
 	<input type="radio" id="sd1" name="status_dasar" value="1"/<?php if($nik['status_dasar'] == '1'){echo 'checked';}?>>
 	<label for="sd1"> Hidup </label>
-	<input type="radio" id="sd2" name="status_dasar" value="4"/<?php if($nik['status_dasar'] == '4'){echo 'checked';}?>>
-	<label for="sd2"> Hilang</label>
 	<input type="radio" id="sd3" name="status_dasar" value="3"/<?php if($nik['status_dasar'] == '3'){echo 'checked';}?>>
 	<label for="sd3"> Pindah Ke Luar Desa</label>
 	<input type="radio" id="sd4" name="status_dasar" value="2"/<?php if($nik['status_dasar'] == '2'){echo 'checked';}?>>

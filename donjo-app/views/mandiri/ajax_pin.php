@@ -11,9 +11,9 @@ $(function(){$('#'+'tes').hide();
 nik.total = nik.results.length;
 $('#nik').flexbox(nik, {
 	resultTemplate: '<div><label>NIK/ Nama : </label>{name}</div>',
-	watermark: 'Ketik nama / nik di sini..',
+	watermark: 'Ketik nama / NIK di sini..',
  width: 260,
- noResultsText :'Tidak ada nama / nik yang sesuai..',
+ noResultsText :'Tidak ada nama / NIK yang sesuai..',
 	onSelect: function() {
 		//$('#'+'validasi').submit();
 		$('#'+'tes').show();
@@ -31,7 +31,7 @@ $('#nik').flexbox(nik, {
 </tr>
 <tr>
 	<td colspan="2">
-		Jika PIN tidak di isi makan sistem akan menghasilkan PIN secara acak.
+		Jika PIN tidak diisi maka sistem akan menghasilkan PIN secara acak.
 	</td>
 </tr>
 <tr>

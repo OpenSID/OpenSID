@@ -39,7 +39,7 @@
 <th>No</th>
 <th><input type="checkbox" class="checkall"/></th>
 <th width="120">Aksi</th>
-<th align="center">kategori</th>
+<th align="center">Kategori</th>
 <th align="center">Enabled</th>
 <th>Link</th>
 </tr>

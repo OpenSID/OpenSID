@@ -49,7 +49,7 @@
 		 		<td align="center">
 				<div class="uibutton-group">
 		 		 <a href="<?php echo site_url("statistik/form_rentang/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" header="Ubah Data"><span class="icon-edit icon-large"> Ubah</span></a>
-				 <a href="<?php echo site_url("statistik/rentang_delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+				 <a href="<?php echo site_url("statistik/rentang_delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 				</div>
 		 		</td>
 				 <td><?php echo $data['dari']?> - <?php echo $data['sampai']?> Tahun</td>

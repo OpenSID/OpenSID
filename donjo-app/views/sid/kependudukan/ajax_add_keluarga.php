@@ -23,7 +23,7 @@ $('#'+'main').submit();
 <form action="<?php echo $form_action?>" method="post" id="validasi">
 <table>
 <tr>
-<th align="left">NIK Kepala KK</th>
+<th align="left">NIK Kepala Keluarga</th>
 	<td>
 		<div id="nik_kepala" name="nik_kepala"></div class="required">
 	</td>

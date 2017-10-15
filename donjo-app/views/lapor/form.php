@@ -16,7 +16,7 @@
 <td><input class="inputbox" type="text" name="owner" value="<?php echo $komentar['owner']?>" size="60"/></td>
 </tr>
 <tr>
-<th>Email</th>
+<th>e-mail</th>
 <td><input class="inputbox" type="text" name="email" value="<?php echo $komentar['email']?>" size="60"/></td>
 </tr>
 <tr>

@@ -40,10 +40,10 @@ $("#nik_detail").show();
 									<td><input name="kode" type="text" class="inputbox" size="80" value="<?php echo $kelompok['kode']?>"/></td>
 								</tr>
 								<tr>
-									<th width="100">Master Kelompok</th>
+									<th width="100">Kategori Kelompok</th>
 									<td>
 										<select name="id_master" onchange="formAction('mainform','<?php echo site_url('kelompok/filter')?>')" class="required">	
-											<option value="">-- Mater Kelompok --</option>
+											<option value="">-- Kategori Kelompok --</option>
 											<?php foreach($list_master AS $data){?>
 												<option value="<?php echo $data['id']?>" <?php if($kelompok['id_master'] == $data['id']) :?>selected<?php endif?>><?php echo $data['kelompok']?></option>
 											<?php }?>

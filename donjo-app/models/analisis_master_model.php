@@ -30,7 +30,7 @@ class analisis_master_model extends CI_Model{
 	function filter_sql(){		
 		if(isset($_SESSION['filter'])){
 			$kf = $_SESSION['filter'];
-			$filter_sql= " AND u.id = $kf";
+			$filter_sql= " AND u.subjek_tipe = $kf";
 		return $filter_sql;
 		}
 	}

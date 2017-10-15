@@ -132,7 +132,7 @@ source: keyword
 			<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
 			<td>
-			<a href="<?php echo site_url("penduduk_log/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Edit Status Dasar" target="ajax-modal" rel="window" header="Edit Status Dasar"><span class="icon-edit icon-large"> Ubah </span></a><a href="<?php echo site_url("penduduk_log/delete_confirm/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
+			<a href="<?php echo site_url("penduduk_log/delete_confirm/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Delete Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="icon-trash icon-large"></span></a>
 			</td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
 			<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
@@ -141,8 +141,16 @@ source: keyword
 			<td><?php echo $data['rw']?></td>
 			<td><?php echo $data['rt']?></td>
 			<td><?php echo $data['umur']?></td>
-			<td><?php if($data['status_dasar']==2){echo "Mati";}elseif($data['status_dasar']==3){echo "Pindah";}else{echo "Hilang";}?></td>
-			<td><?php echo tgl_indo($data['tgl_peristiwa'])?></td>
+			<td><?php 
+			$status = $data['status_dasar_log'];
+			switch($status){
+				case 1: echo "Hidup"; break;
+				case 3: echo "Pindah"; break;
+				case 2: echo "Mati"; break;
+				case 4: echo "Hilang"; break;
+			}
+			?></td>
+			<td><?php echo $data['tgl_peristiwa']?></td>
 		</tr>
  <?php endforeach; ?>
 		</tbody>

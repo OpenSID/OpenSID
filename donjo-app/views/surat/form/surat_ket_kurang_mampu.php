@@ -83,7 +83,13 @@ padding:5px;
 <tr>
 <th>Nomor Surat</th>
 <td>
-<input name="nomor" type="text" class="inputbox required" size="20"/>
+<input name="nomor" type="text" class="inputbox required" size="12"/>
+</td>
+</tr>
+<tr>
+<th>Keterangan</th>
+<td>
+<input name="keterangan" type="text" class="inputbox required" size="40"/>
 </td>
 </tr>
 <tr>
@@ -117,9 +123,9 @@ padding:5px;
 </div>
 <div class="right">
 <div class="uibutton-group">
-							<button class="uibutton" type="reset">Clear</button>
-							<!--<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>-->
-							<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+
+							<button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
+							<?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Unduh</button><?php } ?>
 </div>
 </div>
 </div> </form>

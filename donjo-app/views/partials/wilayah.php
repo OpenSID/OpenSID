@@ -2,7 +2,7 @@
 	echo "
 	<div class=\"box box-danger\">
 		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Data Demografi Berdasar ". $heading."</h3>
+			<h3 class=\"box-title\">Tabel Data Kependudukan berdasar ". $heading."</h3>
 		</div>
 		<div class=\"box-body\">";
 			if(count($main) > 0){

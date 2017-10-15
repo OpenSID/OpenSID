@@ -21,6 +21,36 @@
 		else
 			return null;
 	}
+	function duplikasi(){
+		$sql = "SELECT no_kk FROM tweb_keluarga WHERE 1 ";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		
+		$i=0;
+		$outp='';
+		while($i<count($data)){
+			$outp .= ',"'.$data[$i]['no_kk'].'"';
+			$i++;
+		}
+		$outp = strtolower(substr($outp, 1));
+		$outp = '[' .$outp. ']';
+		
+		return $outp;
+	}
+	function dp(){
+		$sql = "SELECT no_kk FROM tweb_keluarga WHERE 1 ";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		
+		return $data;
+	}
+	function dn(){
+		$sql = "SELECT nik FROM tweb_penduduk WHERE 1 ";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		
+		return $data;
+	}
 	function sex_sql(){		
 		if(isset($_SESSION['sex'])){
 			$kf = $_SESSION['sex'];
@@ -503,7 +533,7 @@
 		return $data;
 	}
 	function list_penduduk_lepas(){
-		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE (status = 1 OR status = 3) AND id_kk = 0";
+		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE id_kk = 0";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 		

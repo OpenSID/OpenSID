@@ -6,10 +6,10 @@ if($_SESSION['mandiri']<>1){
 		<div class="box box-primary box-solid">
 			<div class="box-header">
 				<h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-				Silahkan datang / hubungi perangkat desa untuk mendapatkan kode PIN Anda.
+				Silakan datang / hubungi perangkat desa untuk mendapatkan kode PIN Anda.
 			</div>
 			<div class="box-body">
-				<h4>Gagal 3 kali, silahkan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['mandiri_timeout'])*(-1));?> detik lagi</h4>
+				<h4>Gagal 3 kali. Sila coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['mandiri_timeout'])*(-1));?> detik lagi</h4>
 					<div id="note">
 						Login Gagal. Username atau Password yang Anda masukkan salah!
 					</div>
@@ -19,10 +19,10 @@ if($_SESSION['mandiri']<>1){
 <div class="box box-primary box-solid">
 	<div class="box-header">
 		<h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-		Silahkan datang / hubungi perangkat desa untuk mendapatkan kode PIN Anda.
+		Silakan datang / hubungi perangkat desa untuk mendapatkan kode PIN Anda.
 	</div>
 	<div class="box-body">
-		<h4>Masukan NIK dan PIN</h4>
+		<h4>Masukkan NIK dan PIN!</h4>
 		<form action="<?php echo site_url('first/auth')?>" method="post">
 		<input name="nik" type="text" placeholder="NIK" value="" required>
 		<input name="pin" type="password" placeholder="PIN" value="" required>
@@ -57,7 +57,7 @@ if($_SESSION['mandiri']<>1){
 		NIK </td><td>: <?php echo $_SESSION['nik'];?></td>
 	</tr>
 	<tr style="border-bottom:1px solid #111;">
-		<td><h4><a href="<?php echo site_url();?>first/mandiri/1/1" class="">Profil Ku </a> </h4></td><td></td>
+		<td><h4><a href="<?php echo site_url();?>first/mandiri/1/1" class="">Profil Saya </a> </h4></td><td></td>
 	</tr>
 	<tr style="border-bottom:1px solid #111;">
 		<td><h4><a href="<?php echo site_url();?>first/mandiri/1/2" class="">Layanan </a> </h4></td><td></td>
@@ -77,17 +77,17 @@ if($_SESSION['mandiri']<>1){
 		<div class="box box-primary box-solid">
 			<div class="box-header">
 				<h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-				Untuk keamanan silahkan ubah kode PIN Anda.
+				Untuk keamanan, sila ubah kode PIN Anda.
 			</div>
 			<div class="box-body">
-		<h4>Masukan PIN Baru</h4>
+		<h4>Masukkan PIN Baru</h4>
 		<form action="<?php echo site_url('first/ganti')?>" method="post">
 		<input name="pin1" type="password" placeholder="PIN" value="">
 		<input name="pin2" type="password" placeholder="Ulangi PIN" value="">
 		<button type="submit" id="but">Ganti</button>
 		</form>
 					<div id="note">
-						Silahkan coba login kembali setelah PIN baru disimpan.
+						Silakan login kembali setelah PIN baru disimpan.
 					</div>
 			</div>
 		</div>
@@ -97,11 +97,11 @@ if($_SESSION['mandiri']<>1){
 		<div class="box box-primary box-solid">
 			<div class="box-header">
 				<h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
-				Untuk keamanan silahkan ubah kode PIN Anda.
+				Untuk keamanan, silakan ubah kode PIN Anda.
 			</div>
 			<div class="box-body">
 					<div id="note">
-						PIN Baru berhasil Disimpan!
+						PIN baru berhasil disimpan!
 					</div>
 			</div>
 		</div>
@@ -175,7 +175,7 @@ if($agenda){
 <!-- widget SocMed -->
 <div class="box box-default">
 	<div class="box-header">
-		<h3 class="box-title"><i class="fa fa-globe"></i> Info Media Sosial</h3>
+		<h3 class="box-title"><i class="fa fa-globe"></i> Media Sosial</h3>
 	</div>
 	<div class="box-body">
 <?php 
@@ -187,7 +187,7 @@ foreach($sosmed As $data){
 </div>
 <div class="box box-success">
 	<div class="box-header">
-		<h3 class="box-title"><i class="fa fa-bar-chart-o"></i> Statistik Pengunjung</h3>
+		<h3 class="box-title"><i class="fa fa-bar-chart-o"></i> Statistik Kunjungan</h3>
 	</div>
 	<div class="box-body">
 	<?php 
@@ -302,7 +302,7 @@ if($data_config['lat']!= "0"){
 		</div>
 		<div class=\"box-body\">	
 			<div id=\"map_canvas\" style=\"height:200px;\"></div>
-			<script type=\"text/javascript\" src=\"//maps.google.com/maps/api/js?sensor=false\"></script>";
+			<script type=\"text/javascript\" src=\"//maps.google.com/maps/api/js?key=".$data_config['gapi_key']."&sensor=false\"></script>";
 			?>
 			<script type="text/javascript">								
 				var map;

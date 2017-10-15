@@ -14,7 +14,7 @@
  <div class="left">
  <table class="list">
 <tr>
-<td width="320">Export Data Dasar Kependudukan</td>
+<td width="320">Export Data Penduduk (.sid)</td>
 <td width="70">
 <div class="uibutton-group">
 <a class="uibutton special" href="<?php echo site_url("database")?>/export_dasar">Download</a>
@@ -22,7 +22,7 @@
 </td>
 </tr>
 <tr>
-<td width="320">Export Data Analisis</td>
+<td width="320">Export Data Analisis (.sid)</td>
 <td width="70">
 <div class="uibutton-group">
 <a class="uibutton special" href="<?php echo site_url("database")?>/export_akp">Download</a>
@@ -30,7 +30,7 @@
  </td>
 </tr>
 <tr>
-<td width="320">Export Data XLS Penduduk (Format xls untuk di import kedalam SID melali menu Import Excel)</td>
+<td width="320">Export Data Penduduk (.xls)</td>
 <td width="70">
 <div class="uibutton-group">
 <a class="uibutton confirm" href="<?php echo site_url("database")?>/export_excel">Download</a>
@@ -38,7 +38,7 @@
  </td>
 </tr>
 <tr>
-<td width="320">Export Data CSV</td>
+<td width="320">Export Data Penduduk (.csv)</td>
 <td width="70">
 <div class="uibutton-group">
 <a class="uibutton confirm" href="<?php echo site_url("database")?>/export_csv">Download</a>

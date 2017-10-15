@@ -25,7 +25,7 @@ source: keyword
 				
  <a href="<?php echo site_url("penduduk/cetak/$o")?>" class="uibutton" title="Cetak Data" target="_blank"><span class="icon-print icon-large">&nbsp;</span>Cetak</a>
 				
-				<a href="<?php echo site_url("penduduk/excel/$o")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Excel</a>
+				<a href="<?php echo site_url("penduduk/excel/$o")?>" class="uibutton tipsy south" title="Unduh" target="_blank"><span class="icon-file-text icon-large">&nbsp;</span>Unduh</a>
 				
  </div>
  </div>
@@ -45,7 +45,6 @@ source: keyword
 				
  <select name="status_dasar" onchange="formAction('mainform','<?php echo site_url('penduduk/status_dasar')?>')">
  <option value="1" <?php if($status_dasar==1) :?>selected<?php endif?>>Hidup</option>
- <option value="4" <?php if($status_dasar==4) :?>selected<?php endif?>>Hilang</option>
  <option value="3" <?php if($status_dasar==3) :?>selected<?php endif?>>Pindah</option>
  <option value="2" <?php if($status_dasar==2) :?>selected<?php endif?>>Mati</option>
  </select>
@@ -85,10 +84,18 @@ source: keyword
 			 </div>
  <div class="right">
  <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('penduduk/search')?>');$('#'+'mainform').submit();}" />
+ 
  <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('penduduk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south" title="Cari Data"><span class="icon-search icon-large">&nbsp;</span> Cari </button>
+<a href="<?php echo site_url("penduduk/duplikat")?>" class="uibutton tipsy south" title="Cari Duplikat"><span class="icon-copy icon-large">&nbsp;</span></a>
  </div>
  </div>
- <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
+ <div class="ui-layout-center" id="maincontent" style="padding: 0px;">
+ <?php if(isset($_SESSION['judul_statistik'])){echo "<h3>".$_SESSION['judul_statistik']."</h3>"; unset($_SESSION['judul_statistik']);}?>
+ <h4 align="center">
+ <?php //echo print_r($_SESSION);
+ echo $info;
+ ?>
+ </h4>
  <table class="list">
 	<thead>
 		<tr>
@@ -102,6 +109,7 @@ source: keyword
 			<?php else: ?>
 			<th align="left" width='100'><a href="<?php echo site_url("penduduk/index/$p/1")?>">NIK<span class="ui-icon ui-icon-triangle-2-n-s"></span></a></th>
 			<?php endif; ?>
+			
 			<th width="100" align="left">
 			<?php if($o==6): ?>
 			<a href="<?php echo site_url("penduduk/index/$p/5")?>">Nomor KK<span class="ui-icon ui-icon-triangle-1-n">
@@ -110,6 +118,8 @@ source: keyword
 			<?php else: ?><a href="<?php echo site_url("penduduk/index/$p/5")?>">Nomor KK<span class="ui-icon ui-icon-triangle-2-n-s">
 			<?php endif; ?>
 			&nbsp;</span></a></th>
+			
+			<th>Nomor Rumah Tangga</th>
 			<?php if($o==4): ?>
 			<th align="left"><a href="<?php echo site_url("penduduk/index/$p/3")?>">Nama<span class="ui-icon ui-icon-triangle-1-n">&nbsp;</span></a></th>
 			<?php elseif($o==3): ?>
@@ -152,13 +162,14 @@ source: keyword
 <a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Rincian Data Penduduk"> <span class="icon-zoom-in icon-large"> Rincian </span></a>
 <?php if($data['status_dasar']!=3){?>
 <a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"> <span class="icon-edit icon-large"></span> </a>
-<a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar"><span class="icon-wrench icon-large"></span></a>
+<a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Peristiwa Penting Kependudukan" target="ajax-modal" rel="window" header="Peristiwa Penting Kependudukan"><span class="icon-wrench icon-large"></span></a>
 <a href="<?php echo site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Pindah Penduduk dalam Desa" target="ajax-modal" rel="window" header="Pindah Penduduk dalam Desa"><span class="icon-share icon-large"></span></a>
 <?php } ?>
 <?php if($grup==1){?><a href="<?php echo site_url("penduduk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" rel="window" header="Hapus Data"><span class="icon-trash icon-large"></span></a><?php }?></div>
 </td>
 <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
-<td><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?> </a> </td>
+<td><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?></a></td>
+<td><a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?php echo $data['no_rtm']?></a></td>
 <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
 <td><?php echo $data['sex'][0]?></td>
 <td><?php echo $data['umur']?></td>

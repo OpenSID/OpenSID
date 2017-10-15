@@ -5,15 +5,15 @@
 		<li>Penduduk pemohon surat datang dengan membawa kartu identitas diri (KTP atau Kartu Keluarga/KK) dan diterima oleh staf pemerintah desa yang bertugas dalam pelayanan.</li>
 		<li>Pastikan keberadaan dan status penduduk tersebut dalam database SID di Module "Penduduk". Gunakan fasilitas "Cari" dengan mengisikan nama atau NIK penduduk tersebut. Jika ada perubahan status, perbarui saat itu juga berdasarkan laporan penduduk yang bersangkutan. Jika penduduk tersebut belum terdaftar dalam database, masukkan data penduduk yang bersangkutan ke dalam SID merujuk pada dokumen kependudukan yang dimilikinya (wajib disertai dengan dokumen pendukung lainnya bagi penduduk pendatang/tinggal sementara). Jika data penduduk tersebut sudah tersimpan dalam SID, pembuatan surat dapat dilakukan.</li>
 		<li>Klik module "Cetak Surat" untuk memulai pembuatan surat.</li>
-		<li>Klik salah satu jenis surat yang akan dibuat, sesuaikan dengan jenis urusan yang diajukan oleh penduduk pemohon surat. Jika jenis surat yang dimohonkan tidak tersedia dalam daftar surat di SID, gunakan jenis surat terakhir yang berjudul "Ubah Sesuaikan".</li>
+		<li>Klik salah satu jenis surat yang akan dibuat, sesuaikan dengan jenis urusan yang diajukan oleh penduduk pemohon surat. Pastikan surat yang akan dicetak telah disiapkan templatenya di Menu "Master Surat"</li>
 		<li>Isikan NIK / Nama, nomor surat, keterangan, dan hal lainnya sesuai kolom isian pada jenis surat yang dibuat.</li>
 		<li>Pilih nama dan jabatan kepala desa atau perangkat desa yang berwenang melakukan pengesahan atas nama kepala desa.</li>
-		<li>Setelah semua kolom terisi dengan benar, surat bisa langsung dicetak dengan klik tombol "Cetak" di bagian kanan bawah, atau bisa diedit lebih lanjut ke versi doc. dengan klik "Export Doc" di bagian kanan bawah.</li>
-		<li>Surat dapat dicetak dua eksemplar, 1 eks. untuk penduduk pemohon surat dan 1 eks. untuk arsip pemerintah desa.</li>
+		<li>Setelah semua kolom terisi dengan benar, surat bisa langsung dicetak dengan klik tombol "Cetak" di bagian kanan bawah, atau bisa diedit lebih lanjut ke versi .doc dengan klik "Unduh" di bagian kanan bawah.</li>
+		<li>Surat dapat dicetak 2 eksemplar, 1 eks. untuk penduduk pemohon surat dan 1 eks. untuk arsip pemerintah desa.</li>
 		<li>Setiap jenis surat yang tercetak akan tersimpan data lognya di Menu "Surat Keluar"</li>
 	</ol></p>
 <hr>
-<p>PANDUAN KODE EXPORT SURAT</p>
+<p>PANDUAN KODE EKSPORT SURAT</p>
 <div style="background-color:#fefecc;padding:10px;border:1px solid #aaaa77;">
 <p>PRINSIP FUNGSI<br />[kata_template] -&gt; akan digantikan dengan data di bawah ini (sebelah kanan)<br /><br />DATA SURAT<br />[kode_surat] -> $surat[kode_surat]<br>
 [judul_surat]",strtoupper("surat ".$surat['nama']),$buffer);<br>

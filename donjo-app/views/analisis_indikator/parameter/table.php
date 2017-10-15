@@ -7,16 +7,17 @@
 	});
 </script>
 <div id="pageC">
+<?php $this->load->view('analisis_master/left',$data);?>
 <div class="content-header">
 </div>
 <div id="contentpane"> 
 	<form id="mainform" name="mainform" action="" method="post">
  <div class="ui-layout-north panel">
- <h3>Manajemen Parameter Analisis</h3>
-	<p> &nbsp; Pertanyaan : <?php echo $analisis_indikator['pertanyaan']?></p>
+ <h3>Manajemen Ukuran/Nilai Indikator Analisis</h3>
+	<p> &nbsp; Indikator/Pertanyaan : <?php echo $analisis_indikator['pertanyaan']?></p>
  <div class="left">
  <div class="uibutton-group">
- <?php if($analisis_master['lock']==1){?> <a href="<?php echo site_url("analisis_indikator/form_parameter/$analisis_indikator[id]")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Parameter Baru</a>
+ <?php if($analisis_master['lock']==1){?> <a href="<?php echo site_url("analisis_indikator/form_parameter/$analisis_indikator[id]")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modal" rel="window" header="Form Data Jawaban"><span class="icon-plus-sign icon-large">&nbsp;</span>Tambah Ukuran/Nilai Baru</a>
  <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_indikator/p_delete_all_parameter]")?>')" class="uibutton tipsy south"><span class="icon-trash icon-large">&nbsp;</span>Hapus Data<?php }?>
  </div>
  </div>
@@ -38,7 +39,7 @@
 				<?php }?>
  <th width="80">Kode</th>
  <th width="400">Jawaban</th>
- <th width="20">Nilai</th>
+ <th width="20">Ukuran/Nilai</th>
  <th></th>
 			</tr>
 		</thead>
