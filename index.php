@@ -52,7 +52,7 @@ if (defined('ENVIRONMENT'))
  * as this file.
  *
  */
-	$system_path = 'donjo-sys';
+	$system_path = 'system';
 
 /*
  *---------------------------------------------------------------
@@ -68,6 +68,7 @@ if (defined('ENVIRONMENT'))
  * NO TRAILING SLASH!
  *
  */
+	// TODO: rename jadi application
 	$application_folder = 'donjo-app';
 
 /*
@@ -195,7 +196,7 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  *
  */
-require_once BASEPATH.'core/CodeIgniter'.EXT;
+require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */
 /* Location: ./index.php */
