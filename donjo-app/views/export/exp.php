@@ -34,7 +34,7 @@
     </td>
   </tr>
   <tr>
-    <td width="320">Ekspor Data Analisis (.xls)</td>
+    <td width="320">Ekspor Data Analisis (.sid)</td>
     <td width="70">
       <div class="uibutton-group">
         <a class="uibutton special" href="<?php echo site_url("database")?>/export_akp"><span class="fa fa-download"></span> Unduh</a>
