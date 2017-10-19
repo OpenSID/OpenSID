@@ -46,6 +46,7 @@ class Database extends CI_Controller{
 
 		$nav['act']= 2;
 		$data['form_action'] = site_url("database/import_dasar");
+		$data['form_action3'] = site_url("database/ppls_individu");
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -184,9 +185,9 @@ class Database extends CI_Controller{
 	}
 
 	function ppls_individu(){
-		$this->import_model->ppls_individu();
-		redirect('database/import_ppls');
-		//import_das();
+		$this->import_model->pbdt_individu();
+		//redirect('database/import_ppls');
+
 	}
 
 	function ppls_rumahtangga(){
