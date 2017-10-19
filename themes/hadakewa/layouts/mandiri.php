@@ -11,7 +11,7 @@
 									$views_partial_layout = Web_Controller::fallback_default($this->theme,'/partials/mandiri.php');
 									break;
 								case 2 :
-									$views_partial_layout = $folder_themes.'/partials/layanan.php';
+									$views_partial_layout = Web_Controller::fallback_default($this->theme,'/partials/layanan.php');
 									break;
 								case 4 :
 									$views_partial_layout = Web_Controller::fallback_default($this->theme,'/partials/bantuan.php');

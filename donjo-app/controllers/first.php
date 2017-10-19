@@ -34,6 +34,7 @@ class First extends Web_Controller{
 		$this->load->model('web_gallery_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('track_model');
+		$this->load->model('surat_keluar_model');
 	}
 
 	function auth(){
@@ -149,6 +150,9 @@ class First extends Web_Controller{
 			case 1:
 				$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+				break;
+			case 2:
+				$data['surat_keluar'] = $this->surat_keluar_model->list_data_surat($_SESSION['id']);
 				break;
 			case 4:
 				$this->load->model('program_bantuan_model','pb');
