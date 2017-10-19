@@ -8,7 +8,7 @@
 							$views_partial_layout = '';
 							switch($m){
 								case 1 :
-									$views_partial_layout = $folder_themes.'/partials/mandiri.php';
+									$views_partial_layout = Web_Controller::fallback_default($this->theme,'/partials/mandiri.php');
 									break;
 								case 2 :
 									$views_partial_layout = $folder_themes.'/partials/layanan.php';

@@ -162,6 +162,33 @@
   <tr>
     <td colspan="3" class="button" scope="col"><a href="<?php echo site_url("first/cetak_biodata/$penduduk[id]"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK BIODATA</button></a></td>
   </tr>
+
+  <tr>
+    <th colspan="3" class="judul" scope="col"><b>DOKUMEN / KELENGKAPAN PENDUDUK</b></th>
+  </tr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th width="2">No</th>
+        <th width="220">Nama Dokumen</th>
+        <th width="360">Berkas</th>
+        <th width="200">Tanggal Upload</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach($list_dokumen as $data){?>
+        <tr>
+          <td align="center" width="2"><?php echo $data['no']?></td>
+          <td><?php echo $data['nama']?></td>
+          <td><a href="<?php echo base_url().LOKASI_DOKUMEN?><?php echo urlencode($data['satuan'])?>" ><?php echo $data['satuan']?></a></td>
+          <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
+          <td></td>
+        </tr>
+      <?php }?>
+    </tbody>
+  </table>
+
 </table>
 
 </div>
