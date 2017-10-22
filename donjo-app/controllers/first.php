@@ -149,6 +149,7 @@ class First extends Web_Controller{
 		switch ($m) {
 			case 1:
 				$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
+				$data['list_kelompok'] = $this->penduduk_model->list_kelompok($_SESSION['id']);
 				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
 				break;
 			case 2:

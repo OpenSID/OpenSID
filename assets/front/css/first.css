@@ -1515,7 +1515,7 @@ blockquote p {
 .layanan tr.shaded td { background-color: #eee }
 .artikel.layanan .judul {
   font-size: 1.25em;
-  background-color: #3c8dbc;
+  background-color: #3c8dbc !important;
   color: black;
 }
 #mandiri button { margin-bottom: 1px; }

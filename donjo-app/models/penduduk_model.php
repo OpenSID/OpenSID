@@ -1165,6 +1165,21 @@
 		return $data;
 	}
 
+	function list_kelompok($id=""){
+		$sql = "SELECT k.nama,m.kelompok AS kategori FROM kelompok_anggota a LEFT JOIN kelompok k ON a.id_kelompok = k.id LEFT JOIN kelompok_master m ON k.id_master = m.id WHERE a.id_penduduk = ? ";
+		$query = $this->db->query($sql,$id);
+		$data=null;
+		if($query)
+			$data=$query->result_array();
+
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['no']=$i+1;
+			$i++;
+		}
+		return $data;
+	}
+
 	function get_dokumen($id=0){
 		$sql = "SELECT * FROM dokumen WHERE id=?";
 		$query = $this->db->query($sql,$id);
