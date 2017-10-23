@@ -237,6 +237,28 @@
       mkdir('desa/upload/thumbs');
       xcopy('desa-contoh/upload/thumbs', 'desa/upload/thumbs');
     }
+    // Tambah kolom kode di tabel kelompok
+    if (!$this->db->field_exists('kode', 'kelompok')) {
+      $fields = array(
+        'kode' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 16,
+          'null' => FALSE
+        )
+      );
+      $this->dbforge->add_column('kelompok', $fields);
+    }
+    // Tambah kolom no_anggota di tabel kelompok_anggota
+    if (!$this->db->field_exists('no_anggota', 'kelompok_anggota')) {
+      $fields = array(
+        'no_anggota' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 20,
+          'null' => FALSE
+        )
+      );
+      $this->dbforge->add_column('kelompok_anggota', $fields);
+    }
   }
 
   function migrasi_24_ke_25(){
