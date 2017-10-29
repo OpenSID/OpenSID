@@ -1224,6 +1224,7 @@ CREATE TABLE `kelompok` (
   `id_ketua` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
   `keterangan` varchar(100) NOT NULL,
+  `kode` varchar(16) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_ketua` (`id_ketua`),
   KEY `id_master` (`id_master`)
@@ -1239,6 +1240,7 @@ CREATE TABLE `kelompok_anggota` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_kelompok` int(11) NOT NULL,
   `id_penduduk` int(11) NOT NULL,
+  `no_anggota` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_kelompok` (`id_kelompok`,`id_penduduk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1363,7 +1365,7 @@ CREATE TABLE `log_bulanan` (
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9');
@@ -1371,6 +1373,7 @@ INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('4', '97', '46', '51', '37', '2017-07-03 12:19:17', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('5', '97', '46', '51', '37', '2017-08-01 01:37:30', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('6', '97', '46', '51', '37', '2017-09-05 06:13:41', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('7', '97', '46', '51', '37', '2017-10-29 09:37:57', '28', '9');
 
 
 #
@@ -1725,6 +1728,54 @@ INSERT INTO program_peserta (`id`, `peserta`, `program_id`, `sasaran`, `no_id_ka
 
 
 #
+# TABLE STRUCTURE FOR: provinsi
+#
+
+DROP TABLE IF EXISTS provinsi;
+
+CREATE TABLE `provinsi` (
+  `kode` tinyint(2) NOT NULL DEFAULT '0',
+  `nama` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`kode`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('11', 'Aceh');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('12', 'Sumatera Utara');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('13', 'Sumatera Barat');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('14', 'Riau');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('15', 'Jambi');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('16', 'Sumatera Selatan');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('17', 'Bengkulu');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('18', 'Lampung');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('19', 'Kepulauan Bangka Belitung');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('21', 'Kepulauan Riau');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('31', 'DKI Jakarta');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('32', 'Jawa Barat');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('33', 'Jawa Tengah');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('34', 'DI Yogyakarta');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('35', 'Jawa Timur');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('36', 'Banten');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('51', 'Bali');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('52', 'Nusa Tenggara Barat');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('53', 'Nusa Tenggara Timur');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('61', 'Kalimantan Barat');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('62', 'Kalimantan Tengah');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('63', 'Kalimantan Selatan');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('64', 'Kalimantan Timur');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('65', 'Kalimantan Utara');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('71', 'Sulawesi Utara');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('72', 'Sulawesi Tengah');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('73', 'Sulawesi Selatan');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('74', 'Sulawesi Tenggara');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('75', 'Gorontalo');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('76', 'Sulawesi Barat');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('81', 'Maluku');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('82', 'Maluku Utara');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('91', 'Papua');
+INSERT INTO provinsi (`kode`, `nama`) VALUES ('92', 'Papua Barat');
+
+
+#
 # TABLE STRUCTURE FOR: ref_kelas_sosial
 #
 
@@ -1810,7 +1861,7 @@ INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kate
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('17', 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('18', 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('19', 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.5', 'Versi sekarang untuk migrasi', NULL, NULL);
+INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.5.1', 'Versi sekarang untuk migrasi', NULL, NULL);
 
 
 #
@@ -1830,22 +1881,23 @@ CREATE TABLE `setting_modul` (
   `hidden` tinyint(1) NOT NULL DEFAULT '0',
   `ikon_kecil` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('1', 'SID Home', 'hom_desa', '1', 'go-home-5.png', '1', '2', '1', 'fa fa-home fa-lg');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('2', 'Penduduk', 'penduduk/clear', '1', 'preferences-contact-list.png', '2', '2', '0', 'fa fa-group fa-lg');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('3', 'Statistik', 'statistik', '1', 'statistik.png', '3', '2', '0', 'fa fa-bar-chart fa-lg');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('4', 'Cetak Surat', 'surat', '1', 'applications-office-5.png', '4', '2', '0', 'fa fa-print fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('5', 'Analisis', 'analisis_master/clear', '1', 'analysis.png', '5', '2', '0', 'fa fa-dashboard fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('6', 'Bantuan', 'program_bantuan', '1', 'program.png', '6', '2', '0', 'fa fa-folder-open fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('7', 'Persil', 'data_persil/clear', '1', 'persil.png', '7', '2', '0', 'fa fa-road fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('8', 'Plan', 'plan', '1', 'plan.png', '8', '2', '0', 'fa fa-sitemap fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('9', 'Peta', 'gis', '1', 'gis.png', '9', '2', '0', 'fa fa-map fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('10', 'SMS', 'sms', '1', 'mail-send-receive.png', '10', '2', '0', 'fa fa-envelope-o fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('11', 'Pengguna', 'man_user/clear', '1', 'system-users.png', '11', '1', '1', 'fa fa-user-plus fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('12', 'Database', 'database', '1', 'database.png', '12', '1', '0', 'fa fa-database fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('13', 'Admin Web', 'web', '1', 'message-news.png', '13', '4', '0', 'fa fa-cloud fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('14', 'Laporan', 'lapor', '1', 'mail-reply-all.png', '14', '2', '0', 'fa fa-comments fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('5', 'Analisis', 'analisis_master/clear', '1', 'analysis.png', '6', '2', '0', 'fa fa-dashboard fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('6', 'Bantuan', 'program_bantuan', '1', 'program.png', '7', '2', '0', 'fa fa-folder-open fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('7', 'Persil', 'data_persil/clear', '1', 'persil.png', '8', '2', '0', 'fa fa-road fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('8', 'Plan', 'plan', '1', 'plan.png', '9', '2', '0', 'fa fa-sitemap fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('9', 'Peta', 'gis', '1', 'gis.png', '10', '2', '0', 'fa fa-map fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('10', 'SMS', 'sms', '1', 'mail-send-receive.png', '11', '2', '0', 'fa fa-envelope-o fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('11', 'Pengguna', 'man_user/clear', '1', 'system-users.png', '12', '1', '1', 'fa fa-user-plus fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('12', 'Database', 'database', '1', 'database.png', '13', '1', '0', 'fa fa-database fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('13', 'Admin Web', 'web', '1', 'message-news.png', '14', '4', '0', 'fa fa-cloud fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('14', 'Laporan', 'lapor', '1', 'mail-reply-all.png', '15', '2', '0', 'fa fa-comments fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('15', 'Sekretariat', 'sekretariat', '1', 'applications-office-5.png', '5', '2', '0', 'fa fa-print fa-lg');
 
 
 #
@@ -2717,11 +2769,11 @@ INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampira
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('15', 'Keterangan Usaha', 'surat_ket_usaha', 'S-14', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('16', 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('17', 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16', NULL, '0', '0', '1');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('18', 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17', 'f-kelahiran.php', '0', '0', '1');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('18', 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17', 'f-2.01.php', '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('20', 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('21', 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('22', 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20', NULL, '0', '0', '1');
-INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('24', 'Keterangan Kematian', 'surat_ket_kematian', 'S-21', NULL, '0', '0', '1');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('24', 'Keterangan Kematian', 'surat_ket_kematian', 'S-21', 'f-2.29.php', '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('25', 'Keterangan Lahir Mati', 'surat_ket_lahir_mati', 'S-22', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('26', 'Keterangan Untuk Nikah (N-1 s/d N-7)', 'surat_ket_nikah', 'S-23', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('33', 'Keterangan Pergi Kawin', 'surat_ket_pergi_kawin', 'S-30', NULL, '0', '0', '1');
