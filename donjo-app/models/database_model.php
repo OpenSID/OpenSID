@@ -3,7 +3,7 @@
   private $engine = 'InnoDB';
   /* define versi opensid dan script migrasi yang harus dijalankan */
   private $versionMigrate = array(
-    '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
+    '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
     'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
     '2.5' => array('migrate' => 'migrasi_25_ke_26','nextVersion' => NULL)
   );
