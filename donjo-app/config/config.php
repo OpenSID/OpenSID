@@ -13,8 +13,10 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '';
-
+// TODO: mulai CI 2.2.6, penggunaan domain name mesti menentukan base_url.
+// Di server production, mestinya di tetapkan langsung alamatnya.
+// Atau demi kemudahan pengguna tidak apa-apa selalu melakukan pengecekan seperti di APP_URL di ujung bawah index.php?
+$config['base_url'] = APP_URL;
 /*
 |--------------------------------------------------------------------------
 | Index File
