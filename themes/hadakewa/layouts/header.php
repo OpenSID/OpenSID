@@ -13,6 +13,8 @@
 		<meta name="keywords" content="OpenSID,opensid,sid,SID,SID CRI,SID-CRI,sid cri,sid-cri,Sistem Informasi Desa,sistem informasi desa, desa <?php echo $desa['nama_desa'];?>">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="OpenSID - Sistem Informasi Desa">
+		<meta name="keywords" content="OpenSID,opensid,sid,SID,SID CRI,SID-CRI,sid cri,sid-cri,Sistem Informasi Desa,sistem informasi desa, desa">
     <meta property="og:site_name" content="<?php echo $desa['nama_desa'];?>"/>
     <meta property="og:type" content="article"/>
 		<?php if(isset($single_artikel)): ?>
