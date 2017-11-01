@@ -31,7 +31,7 @@ $("document").ready(function(){
 <table class="form">
 <tr>
 <th>Nama Album</th>
-<td><input name="nama" type="text" class="inputbox" size="60" value="<?php echo $gallery['nama']?>"/></td>
+<td><input name="nama" type="text" class="inputbox" size="60" maxlength='50' value="<?php echo $gallery['nama']?>"/></td>
 </tr>
 <?php if($gallery['gambar']){?>
 <tr>
