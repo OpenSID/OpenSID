@@ -302,7 +302,7 @@
 		$jam = substr($tgl,11,8);
 		$bulan = getBulan(substr($tgl,5,2));
 		$tahun = substr($tgl,0,4);
-		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';
+		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam;
 	}
 
 	function tgl_indo_dari_str($tgl_str) {
