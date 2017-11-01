@@ -188,6 +188,15 @@ if (defined('ENVIRONMENT'))
 		define('APPPATH', BASEPATH.$application_folder.'/');
 	}
 
+/**
+ * https://stackoverflow.com/questions/11792268/how-to-set-proper-codeigniter-base-url
+ * Define APP_URL Dynamically
+ * Write this at the bottom of index.php
+ *
+ * Automatic base url
+ */
+	define('APP_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['HTTP_HOST']}".str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
+
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
