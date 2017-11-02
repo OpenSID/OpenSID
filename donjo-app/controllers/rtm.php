@@ -279,7 +279,7 @@ function __construct(){
 		$data['kepala_kk'] = $kk;
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$this->load->view("sid/kependudukan/cetak_kk", $data);
+		$this->load->view("sid/kependudukan/cetak_rtm", $data);
 
 	}
 
