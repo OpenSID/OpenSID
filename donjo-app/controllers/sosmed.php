@@ -39,8 +39,8 @@ class sosmed extends CI_Controller{
 	}
 
 	function instagram(){
-		$data['main']    = $this->web_sosmed_model->get_sosmed(3);
-		$data['form_action'] = site_url("sosmed/update/3");
+		$data['main']    = $this->web_sosmed_model->get_sosmed(5);
+		$data['form_action'] = site_url("sosmed/update/5");
 		$header = $this->header_model->get_data();
 
 		$nav['act']=6;
@@ -76,14 +76,25 @@ class sosmed extends CI_Controller{
 
 	function update($id=''){
 		$this->web_sosmed_model->update($id);
-		if($id=='1'){
-			redirect("sosmed");
-			}elseif($id=='2'){
-			redirect("sosmed/twitter");
-			}elseif($id=='3'){
-			redirect("sosmed/google");
-		}else{
-			redirect("sosmed/youtube");
+		switch ($id) {
+			case '1':
+				redirect("sosmed");
+				break;
+			case '2':
+				redirect("sosmed/twitter");
+				break;
+			case '3':
+				redirect("sosmed/google");
+				break;
+			case '4':
+				redirect("sosmed/youtube");
+				break;
+			case '5':
+				redirect("sosmed/instagram");
+				break;
+			default:
+				redirect("sosmed");
+				break;
 		}
 	}
 

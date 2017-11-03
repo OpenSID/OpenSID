@@ -158,6 +158,13 @@
       ("26","Di atas 75 Tahun","75","99999","1");
     ';
     $this->db->query($sql);
+    // Tambah tombol media sosial Instagram
+    $query = "
+      INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('5', 'ins.png', '', 'Instagram', '1')
+      ON DUPLICATE KEY UPDATE
+        gambar = VALUES(gambar),
+        nama = VALUES(nama)";
+    $this->db->query($query);
   }
 
   function migrasi_25_ke_26(){
