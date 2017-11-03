@@ -1,0 +1,21 @@
+Rilis ini berisi sisa penggabungan fitur SID 3.10 yg diperoleh pada bulan Oktober 2017. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+
+Terima kasih pada Abdul Gani yang terus membuat kontribusi.
+
+Lengkapnya, isi rilis v2.7 (versi pra-rilis):
+
+1. Sekarang di halaman Setting Aplikasi, setting tema disediakan pilihan tema yang terpasang.
+2. #655: Tambah tombol media sosial Instagram. Tombol media sosial bisa di aktik/non-aktifkan. Mengikuti contoh SID 3.10.
+3. Hapus zona waktu WIB, karena pengguna OpenSID ada di berbagai zona waktu.
+4. Tambahkan font awesome yang kurang. [bug-fix]
+5. #693: Perbaiki error tulis log_penduduk saat menambah anggota keluarga baru. [bug-fix]
+6. #258: Tambah tampilan kartu rumah tangga dan laporan cetaknya, diambil dari SID 3.10.
+7. #684: Sesuaikan judul statistik kelompok umur dengan SID 3.10. Sesuaikan tampilan statistik di modul web dengan SID 3.10.
+8. #519: Tambah keterangan di header supaya judul artikel, isi artikel dan gambar utama sinkron pada waktu share ke Facebook.
+9. Upgrade CI ke versi 2.2.6. [teknis]
+10. Batasi panjang diinputan nama album dan judul gambar agar tidak dipotong diam-diam saat penyimpanan. [bug-fix]
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM v2.7, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+
+
+
