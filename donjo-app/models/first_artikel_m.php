@@ -253,7 +253,7 @@ class First_Artikel_M extends CI_Model{
 
 
 	function get_artikel($id=0){
-		$sql   = "SELECT a.*,u.nama AS owner FROM artikel a LEFT JOIN user u ON a.id_user = u.id WHERE a.id=?";
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.id=?";
 		$query = $this->db->query($sql,$id);
 		if($query->num_rows()>0){
 			$data  = $query->row_array();
