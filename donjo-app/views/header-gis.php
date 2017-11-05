@@ -20,6 +20,9 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style-gis.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/noJS.css" /></noscript>
+<?php if(is_file("desa/css/style.css")): ?>
+	<link type='text/css' href="<?php echo base_url()?>desa/css/style.css" rel='Stylesheet' />
+<?php endif; ?>
 
 
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
