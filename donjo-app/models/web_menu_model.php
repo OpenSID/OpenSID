@@ -87,9 +87,9 @@ class Web_Menu_Model extends CI_Model{
 			$data[$i]['no']=$j+1;
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 			$j++;
@@ -185,9 +185,9 @@ class Web_Menu_Model extends CI_Model{
 			$data[$i]['no']=$i+1;
 
 			if($data[$i]['enabled']==1)
-				$data[$i]['aktif']="Yes";
+				$data[$i]['aktif']="Ya";
 			else
-				$data[$i]['aktif']="No";
+				$data[$i]['aktif']="Tidak";
 
 			$i++;
 		}
@@ -349,23 +349,33 @@ class Web_Menu_Model extends CI_Model{
 		if ($menu != '') {
 			$sql = "SELECT urut, COUNT(*) c FROM menu WHERE tipe = 3 AND parrent = ? GROUP BY urut HAVING c > 1";
 			$query = $this->db->query($sql, $menu);
-	}
+			$urut_duplikat = $query->result_array();
+			$belum_diurut = $this->db->where('tipe',3)->where('parrent',$menu)->where('urut IS NULL')->limit(1)->get('menu')->row_array();
+			if ($urut_duplikat OR $belum_diurut) {
+				$q = $this->db->select("id")
+					->where("tipe", 3)->where('parrent',$menu)
+					->order_by("urut")
+					->get('menu');
+				$menus = $q->result_array();
+			}
+		}
 		else {
 			$sql = "SELECT urut, COUNT(*) c FROM menu WHERE tipe = ? GROUP BY urut HAVING c > 1";
 			$query = $this->db->query($sql, $tipe);
-		}
-		$urut_duplikat = $query->result_array();
-		if ($urut_duplikat) {
-			$this->db->select("id");
-			$this->db->where("tipe", $tipe);
-			$this->db->order_by("urut");
-			$q = $this->db->get('menu');
-			$menus = $q->result_array();
-			for ($i=0; $i<count($menus); $i++){
-				$this->db->where('id', $menus[$i]['id']);
-				$data['urut'] = $i + 1;
-				$this->db->update('menu', $data);
+			$urut_duplikat = $query->result_array();
+			$belum_diurut = $this->db->where('tipe',$tipe)->where('urut IS NULL')->limit(1)->get('menu')->row_array();
+			if ($urut_duplikat OR $belum_diurut) {
+				$q = $this->db->select("id")
+					->where("tipe", $tipe)
+					->order_by("urut")
+					->get('menu');
+				$menus = $q->result_array();
 			}
+		}
+		for ($i=0; $i<count($menus); $i++){
+			$this->db->where('id', $menus[$i]['id']);
+			$data['urut'] = $i + 1;
+			$this->db->update('menu', $data);
 		}
 	}
 

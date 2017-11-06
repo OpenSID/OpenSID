@@ -302,7 +302,7 @@
 	}
 
 	function list_penduduk_lepas(){
-		$sql   = "SELECT p.id,p.nik,p.nama,h.nama as kk_level FROM tweb_penduduk p LEFT JOIN tweb_penduduk_hubungan h ON p.kk_level=h.id WHERE (status = 1 OR status = 3) AND id_rtm = 0";
+		$sql   = "SELECT p.id,p.nik,p.nama,h.nama as kk_level FROM tweb_penduduk p LEFT JOIN tweb_penduduk_hubungan h ON p.kk_level=h.id WHERE (status = 1 OR status = 3) AND status_dasar = 1 AND id_rtm = 0";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
@@ -317,7 +317,19 @@
 	}
 
 	function list_anggota($id=0){
-		$sql   = "SELECT b.dusun,b.rw,b.rt,u.id,nik,dokumen_pasport,dokumen_kitas,x.nama as sex,u.rtm_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan FROM tweb_penduduk u LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id WHERE id_rtm = ? ORDER BY rtm_level";
+		$sql = "SELECT b.dusun,b.rw,b.rt,u.id,nik,x.nama as sex,k.no_kk,u.rtm_level,tempatlahir,tanggallahir,a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan,w.nama as status_kawin,f.nama as warganegara,nama_ayah,nama_ibu,g.nama as golongan_darah,u.nama,status,h.nama AS hubungan
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_keluarga k ON u.id_kk = k.id
+			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
+			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
+			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
+			LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id
+			LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id
+			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
+			LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id
+			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
+			WHERE id_rtm = ? ORDER BY rtm_level";
 
 		$query = $this->db->query($sql,array($id));
 		$data=$query->result_array();

@@ -54,7 +54,7 @@ table.form.detail td{
 </tr><?php }?>
 
 <tr>
-<?php if($new){?><th width="120">Data Keluarga Baru</th><?php }else{?><th>NIK / Nama Kepala KK</th><?php }?>
+<?php if($new){?><th colspan="2" width="120">Data Kepala Keluarga Baru</th><?php }else{?><th>NIK / Nama Kepala KK</th><?php }?>
 <td>
 <div id="nik_kepala" name="nik_kepala"></div>
 </td>

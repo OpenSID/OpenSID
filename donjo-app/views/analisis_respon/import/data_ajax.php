@@ -2,12 +2,12 @@
 <table>
 	<tr>
 		<td colspan='2'>
-			<p>Bla bla bla... Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut Aturan Data Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut Aturan Data</p>
+			<p>Bla bla bla... Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut Aturan Data Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut Aturan Data</p>
 		</td>
 	</tr>
 	<tr>
 		<td colspan='2'>
-			Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut :
+			Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut :
 		</td>
 	</tr>
 	<tr>
@@ -20,7 +20,9 @@
 	</tr>
 </table>
 <div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
-	Lanjut : 
-		<a href="<?php echo site_url()?>analisis_respon/import/1" class="uibutton special" target="ajax-modal" rel="window" header="Unggah Format Import" >Format 1</a>
-		<a href="<?php echo site_url()?>analisis_respon/import" class="uibutton special" target="ajax-modal" rel="window" header="Unggah Format Import" >Format 2</a>
+	<?php /*
+	Lanjut :
+		<a href="<?php echo site_url()?>analisis_respon/import/1" class="uibutton special" target="ajax-modal" rel="window" header="Unggah Format Impor" >Format 1</a>
+		*/ ?>
+		<a href="<?php echo site_url()?>analisis_respon/import" class="uibutton special" target="ajax-modal" rel="window" header="Unggah Format Impor" >Lanjut</a>
 </div>

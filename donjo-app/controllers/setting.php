@@ -8,11 +8,13 @@ class setting extends CI_Controller{
 		if($grup!=1) redirect('siteman');
 		$this->load->model('setting_model');
 		$this->load->model('header_model');
+		$this->load->model('theme_model');
 	}
 
 	function index(){
 		$nav['act']= 2;
 		$header = $this->header_model->get_data();
+		$data['list_tema'] = $this->theme_model->list_all();
 
 		$this->load->view('header',$header);
 

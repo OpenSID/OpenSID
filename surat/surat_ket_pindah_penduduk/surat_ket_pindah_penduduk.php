@@ -386,10 +386,10 @@ table.form.detail td{
 			            <td align="center" width="2"><?php echo $i?></td>
 									<td align="center" width="5">
 										<?php if($data['kk_level']=="1"): ?>
-											<input id='kk' type="hidden" name="id_cb[]" value="'<?php echo $data['nik']?>'"/>
+											<input id='kk' type="hidden" name="id_cb[]" value="'<?php echo $data['id']?>'"/>
 											<input id='kk_show' disabled='disabled' type="checkbox" onchange="urus_masa_ktp($(this).is(':unchecked'),'<?php echo $i;?>');"/>
 										<?php else: ?>
-											<input id='anggota<?php echo $i?>' type="hidden" name="id_cb[]" disabled="disabled" value="'<?php echo $data['nik']?>'"/>
+											<input id='anggota<?php echo $i?>' type="hidden" name="id_cb[]" disabled="disabled" value="'<?php echo $data['id']?>'"/>
 											<input id='anggota_show<?php echo $i?>' type="checkbox" value="'<?php echo $data['nik']?>'" onchange="urus_masa_ktp($(this).is(':unchecked'),'<?php echo $i;?>');"/>
 										<?php endif; ?>
 									</td>

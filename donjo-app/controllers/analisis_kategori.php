@@ -6,7 +6,6 @@ class Analisis_kategori extends CI_Controller{
 		$this->load->model('analisis_kategori_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 5;
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
 		$_SESSION['submenu'] = "Data Kategori";
@@ -25,21 +24,21 @@ class Analisis_kategori extends CI_Controller{
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
-
+		
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
-
-		if(isset($_POST['per_page']))
+		
+		if(isset($_POST['per_page'])) 
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-
+		
 		$data['paging']  = $this->analisis_kategori_model->paging($p,$o);
 		$data['main']    = $this->analisis_kategori_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_kategori_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_kategori_model->get_analisis_master();
 		$header = $this->header_model->get_data();
-
+		
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_kategori/table',$data);
@@ -48,20 +47,20 @@ class Analisis_kategori extends CI_Controller{
 	function form($p=1,$o=0,$id=''){
 		$data['p'] = $p;
 		$data['o'] = $o;
-
+		
 		if($id){
 			$data['analisis_kategori']        = $this->analisis_kategori_model->get_analisis_kategori($id);
 			$data['form_action'] = site_url("analisis_kategori/update/$p/$o/$id");
 		}
-
+		
 		else{
 			$data['analisis_kategori']        = null;
 			$data['form_action'] = site_url("analisis_kategori/insert");
 		}
-
-
-
-
+		
+		
+		
+		
 		//$this->load->view('header', $header);
 		//$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_kategori/ajax_form',$data);

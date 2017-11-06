@@ -1,0 +1,5 @@
+*******************************
+Folder: desa/upload/thumbs
+*******************************
+
+Folder ini tempat menyimpan semua file media (versi ukuran kecil) yang diunggah melalui File Manager (di form artikel).

@@ -42,7 +42,7 @@ $('tr.uptd').hide();
 
 </div>
 <div id="contentpane">
-<div class="ui-layout-north panel"><h3>Form Manajemen User</h3>
+<div class="ui-layout-north panel"><h3>Form Manajemen Pengguna</h3>
 </div>
 <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">

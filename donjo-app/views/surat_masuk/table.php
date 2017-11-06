@@ -27,7 +27,7 @@
 		    <div class="left">
 		      <div class="uibutton-group">
 	         <a class="uibutton tipsy south" title="Cetak laporan" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/cetak')?>')"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-	          <a class="uibutton tipsy south" title="Unduh laporan" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/excel')?>')"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+	          <a class="uibutton tipsy south" title="Unduh laporan" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/excel')?>')"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
 		      </div>
 		    </div>
 				<div class="right">

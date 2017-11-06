@@ -33,7 +33,7 @@ body{
   background: #b50303; /*warna header atas/ background kepala web*/
 }
 #mainmenu{
-  margin-left: -6px;
+  margin-left: -7px;
   width: 101.6%;
 }
 nav.navbar.navbar-inverse{
@@ -58,6 +58,11 @@ nav.navbar.navbar-inverse{
 }
 
 #menu_vert a.dropdown-toggle{
+  padding-top: 5px;
+  height: 30px;
+}
+
+#mainmenu a.dropdown-toggle{
   padding-top: 5px;
   height: 30px;
 }
@@ -115,3 +120,10 @@ nav.navbar.navbar-inverse{
     display: block;
     width: 100%;
     margin-top: 5px;
+}
+/*
+ * Ubah penampilan navbar bootstrap
+ */
+ul.nav.navbar-nav {
+  text-transform: none;
+}

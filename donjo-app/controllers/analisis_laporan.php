@@ -6,7 +6,6 @@ class analisis_laporan extends CI_Controller{
 		$this->load->model('analisis_laporan_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 5;
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
 		$_SESSION['submenu'] = "Laporan Analisis";
@@ -31,39 +30,39 @@ class analisis_laporan extends CI_Controller{
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
-
+		
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
-
+		
 		if(isset($_SESSION['klasifikasi']))
 			$data['klasifikasi'] = $_SESSION['klasifikasi'];
 		else $data['klasifikasi'] = '';
-
+		
 		if(isset($_SESSION['dusun'])){
 			$data['dusun'] = $_SESSION['dusun'];
 			$data['list_rw'] = $this->analisis_laporan_model->list_rw($data['dusun']);
-
+			
 		if(isset($_SESSION['rw'])){
 			$data['rw'] = $_SESSION['rw'];
 			$data['list_rt'] = $this->analisis_laporan_model->list_rt($data['dusun'],$data['rw']);
-
+						
 		if(isset($_SESSION['rt']))
 			$data['rt'] = $_SESSION['rt'];
 			else $data['rt'] = '';
-
+				
 			}else $data['rw'] = '';
-
+			
 		}else{
 			$data['dusun'] = '';
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-
-		if(isset($_POST['per_page']))
+		
+		if(isset($_POST['per_page'])) 
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-
+		
 		$data['list_dusun'] = $this->analisis_laporan_model->list_dusun();
 		$data['list_klasifikasi'] = $this->analisis_laporan_model->list_klasifikasi();
 		$data['paging']  = $this->analisis_laporan_model->paging($p,$o);
@@ -72,7 +71,7 @@ class analisis_laporan extends CI_Controller{
 		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_laporan_model->get_periode();
 		$header = $this->header_model->get_data();
-
+		
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_laporan/table',$data);
@@ -81,17 +80,17 @@ class analisis_laporan extends CI_Controller{
 	function kuisioner($p=1,$o=0,$id=''){
 		$data['p'] = $p;
 		$data['o'] = $o;
-
+		
 		$data['analisis_master'] 	= $this->analisis_laporan_model->get_analisis_master();
 		$data['subjek']        		= $this->analisis_laporan_model->get_subjek($id);
 		$data['total']        		= $this->analisis_laporan_model->get_total($id);
-
+		
 		$this->load->model('analisis_respon_model');
 		$data['list_bukti']        	= $this->analisis_respon_model->list_bukti($id);
 		$data['list_anggota'] 		= $this->analisis_respon_model->list_anggota($id);
 		$data['list_jawab'] 		= $this->analisis_laporan_model->list_indikator($id);
 		$data['form_action'] 		= site_url("analisis_laporan/update_kuisioner/$p/$o/$id");
-
+		
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
@@ -137,7 +136,7 @@ class analisis_laporan extends CI_Controller{
 				}
 			}
 			$_SESSION['jawab'] = $cb."7777777";
-
+			
 			$jmkf    		= $this->analisis_laporan_model->group_parameter();
 			$_SESSION['jmkf'] = count($jmkf);
 		}
@@ -181,5 +180,5 @@ class analisis_laporan extends CI_Controller{
 		else unset($_SESSION['cari']);
 		redirect('analisis_laporan');
 	}
-
+		
 }

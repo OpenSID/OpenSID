@@ -15,8 +15,8 @@
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url("sid_core/form_rw/$id_dusun")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah RW</a>
-                <a href="<?php echo site_url("sid_core/cetak_rw/$id_dusun")?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url("sid_core/excel_rw/$id_dusun")?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+                <a href="<?php echo site_url("sid_core/cetak_rw/$id_dusun")?>" target="_blank" class="uibutton tipsy south" title="Cetak Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
+		<a href="<?php echo site_url("sid_core/excel_rw/$id_dusun")?>" target="_blank" class="uibutton tipsy south" title="Unduh Data" ><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
             </div>
         </div>
     </div>

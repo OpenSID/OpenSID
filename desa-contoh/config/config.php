@@ -9,3 +9,9 @@
 	dan username/password tidak bisa diubah
 */
 // $config['demo'] = 'y';
+
+/*
+	Password untuk File Manager yg digunakan pada form isian artikel.
+	Gunakan password yg sulit ditebak manusia maupun program otomatis.
+*/
+	$config['file_manager'] = "GantiKunciDesa";

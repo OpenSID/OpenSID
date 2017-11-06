@@ -12,14 +12,14 @@
 <tr style="vertical-align:top">
 		<td style="background:#fff;padding:0px;">
 <div class="content-header">
-    <h3>Manajemen User</h3>
+    <h3>Manajemen Pengguna</h3>
 </div>
 <div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('man_user/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah User Baru</a>
+                <a href="<?php echo site_url('man_user/form')?>" class="uibutton tipsy south" title="Tambah Pengguna Baru" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Pengguna Baru</a>
                 <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("man_user/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
             </div>
         </div>
@@ -69,7 +69,7 @@
 							<?php  else: ?>
 								<th align="center" width='100'><a href="<?php echo site_url("man_user/index/$p/5")?>">Group <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 							<?php  endif; ?>
-								<th align="center" width='160' align="center">Last Login</th>
+								<th align="center" width='160' align="center">Login Terakhir</th>
 
 			</tr>
 		</thead>

@@ -8,12 +8,13 @@
 			zoom: <?php echo $desa['zoom']?>,
 			mapTypeId: google.maps.MapTypeId.<?php echo strtoupper($desa['map_tipe'])?>
 		<?php }else{?>
-			center: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
+			center: new google.maps.LatLng(<?php echo $desa['lat'].','.$desa['lng']?>),
 			zoom: 14,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		<?php }?>
 		};
 		var map = new google.maps.Map(document.getElementById('map'), options);
+	  var bounds = new google.maps.LatLngBounds();
 
 //WILAYAH DESA
 	<?php if($layer_desa==1){?>
@@ -190,12 +191,14 @@
 	var pend_icon = new google.maps.MarkerImage("<?php echo $pendc?>");
 
 	<?php foreach($penduduk AS $data){if($data['lat'] != ""){?>
+		var pLatLng = new google.maps.LatLng(<?php echo $data['lat']?>,<?php echo $data['lng']?>);
 		var marker_<?php echo $data['id']?> = new google.maps.Marker({
-			position: new google.maps.LatLng(<?php echo $data['lat']?>,<?php echo $data['lng']?>),
+			position: pLatLng,
 			map: map,
 			title:"<?php echo $data['nama']?>"
 		});
-
+		bounds.extend(pLatLng);
+		var adaMarker = true;
 		google.maps.event.addListener(marker_<?php echo $data['id']?>, 'click', function(){
 			if(!infoWindow){
 				infoWindow = new google.maps.InfoWindow();
@@ -216,6 +219,7 @@
 			infoWindow.open(map, marker_<?php echo $data['id']?>);
 		});
 	<?php }}}?>
+	if (adaMarker) { map.fitBounds(bounds) };
 	};
 
 	})();

@@ -358,9 +358,9 @@ table#kode {
     <tr>
       <td colspan="10">10.&nbsp;&nbsp;Tanggal Kematian </td>
       <td>:</td>
-      <?php $tgl = date('dd',strtotime($input['tanggal']));
-        $bln = date('mm',strtotime($input['tanggal']));
-        $thn = date('Y',strtotime($input['tanggal']));
+      <?php $tgl = date('dd',strtotime($input['tanggal_mati']));
+        $bln = date('mm',strtotime($input['tanggal_mati']));
+        $thn = date('Y',strtotime($input['tanggal_mati']));
       ?>
       <td colspan="4">Tanggal : </td>
 		  <?php for($j=0; $j<2; $j++):?>
@@ -487,9 +487,11 @@ table#kode {
     <tr>
       <td colspan="10">3. &nbsp;Tanggal Lahir </td>
       <td>:</td>
-      <?php $tgl = date('dd',strtotime($input['tanggal_lahir_ayah']));
-        $bln = date('mm',strtotime($input['tanggal_lahir_ayah']));
-        $thn = date('Y',strtotime($input['tanggal_lahir_ayah']));
+      <?php if (!empty($input['tanggal_lahir_ayah'])) {
+          $tgl = date('dd',strtotime($input['tanggal_lahir_ayah']));
+          $bln = date('mm',strtotime($input['tanggal_lahir_ayah']));
+          $thn = date('Y',strtotime($input['tanggal_lahir_ayah']));
+        } else { unset($tgl); unset($bln); unset($thn); }
       ?>
       <td colspan="4">Tanggal :</td>
 		  <?php for($j=0; $j<2; $j++):?>
@@ -614,10 +616,12 @@ table#kode {
     <tr>
       <td colspan="10">3.&nbsp;&nbsp;Tanggal lahir </td>
       <td>:</td>
-        <?php $tgl = date('dd',strtotime($input['tanggal_lahir_ibu']));
+      <?php if (!empty($input['tanggal_lahir_ibu'])) {
+          $tgl = date('dd',strtotime($input['tanggal_lahir_ibu']));
           $bln = date('mm',strtotime($input['tanggal_lahir_ibu']));
           $thn = date('Y',strtotime($input['tanggal_lahir_ibu']));
-        ?>
+        } else { unset($tgl); unset($bln); unset($thn); }
+      ?>
       <td colspan="4">Tanggal :</td>
 		  <?php for($j=0; $j<2; $j++):?>
     	  <td class="kotak padat tengah">
@@ -1148,12 +1152,11 @@ table#kode {
       <td colspan="3">&nbsp;</td>
     </tr>
     <tr>
-       <td colspan="4">&nbsp;</td>
-
-    <td colspan="16" style="text-align: center;">Kepala Desa / Lurah</td>
-     <td colspan="15">&nbsp;</td>
-	  <td colspan="10" style="text-align: center;">&nbsp;</td>
-	  <td colspan="3">&nbsp;</td>
+      <td colspan="4">&nbsp;</td>
+      <td colspan="16" style="text-align: center;"><?php echo padded_string_center($input['jabatan'],30)?></td>
+      <td colspan="15">&nbsp;</td>
+      <td colspan="10" style="text-align: center;">&nbsp;</td>
+      <td colspan="3">&nbsp;</td>
     </tr>
     <tr><td colspan="48">&nbsp;</td></tr>
     <tr><td colspan="48">&nbsp;</td></tr>
@@ -1164,10 +1167,10 @@ table#kode {
     </tr>
     <tr>
       <td colspan="4">&nbsp;</td>
-      <td colspan="16" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($kepala_desa['pamong_nama']),30)?>&nbsp;)</strong></td>
-      <td colspan="15">&nbsp;</td>
-      <td colspan="10" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
-      <td colspan="3">&nbsp;</td>
+      <td colspan="16" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['pamong']),30)?>&nbsp;)</strong></td>
+      <td colspan="13">&nbsp;</td>
+      <td colspan="14" style="text-align: center;"><strong>(&nbsp;<?php echo padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
+      <td colspan="1">&nbsp;</td>
     </tr>
   </table>
 

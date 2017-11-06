@@ -7,7 +7,7 @@
       </div>
       <div id="contentpane">
         <div class="ui-layout-north panel">
-          <h3>Import Data Buku Induk Penduduk</h3>
+          <h3>Impor Data Buku Induk Penduduk</h3>
         </div>
         <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
           <div class="left">
@@ -52,8 +52,8 @@
                   <td width="250">
                     <input name="userfile" type="file" />
                   <td>
-                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses import selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Import Sedang Berjalan."><span class="fa fa-upload"></span> Import</a>
-                    <input type="checkbox" name="hapus_data" value='hapus' /> Hapus data penduduk sebelum import
+                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses impor selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Impor Sedang Berjalan."><span class="fa fa-upload"></span> Impor</a>
+                    <input type="checkbox" name="hapus_data" value='hapus' /> Hapus data penduduk sebelum impor
                   </td>
                   <td>
                     &nbsp;

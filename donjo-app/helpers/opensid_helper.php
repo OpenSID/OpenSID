@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.5.1');
+define("VERSION", 'pasca-2.6');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -487,5 +487,27 @@ define("KODE_PEKERJAAN", serialize(array(
     preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $externalContent, $m);
     $externalIp = $m[0];
     return $externalIp;
+  }
+
+  // Salin folder rekursif
+  // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
+  function xcopy($src, $dest) {
+    foreach (scandir($src) as $file) {
+      $srcfile = rtrim($src, '/') .'/'. $file;
+      $destfile = rtrim($dest, '/') .'/'. $file;
+      if (!is_readable($srcfile)) {
+        continue;
+      }
+      if ($file != '.' && $file != '..') {
+        if (is_dir($srcfile)) {
+          if (!file_exists($destfile)) {
+            mkdir($destfile);
+          }
+          xcopy($srcfile, $destfile);
+        } else {
+          copy($srcfile, $destfile);
+        }
+      }
+    }
   }
 ?>

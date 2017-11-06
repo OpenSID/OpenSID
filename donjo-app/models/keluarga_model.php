@@ -657,13 +657,10 @@
 		$blnskrg = (date("m"));
 		$thnskrg = (date("Y"));
 		if(($blnlahir==$blnskrg)and($thnlahir==$thnskrg)){
-			$x['id_detail']='1';
+			$id_detail='1';
 		}else{
-			$x['id_detail']='5';
+			$id_detail='5';
 		}
-		$data['nama'] = penetration($data['nama']);
-		$data['nama_ayah'] = penetration($data['nama_ayah']);
-		$data['nama_ibu'] = penetration($data['nama_ibu']);
 		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
 
 		$error_validasi = $this->validasi_data_penduduk($data);
@@ -679,14 +676,9 @@
 		$outp = $this->db->insert('tweb_penduduk',$data);
 		if (!$outp) $_SESSION = -1;
 
-		$sql="select max(id) as id_pend from tweb_penduduk";
-		$query = $this->db->query($sql);
-		$id_pend = $query->row_array();
-		$x['id_pend']=$id_pend['id_pend'];
-		$x['bulan']=$blnskrg;
-		$x['tahun']=$thnskrg;
-		$outp = $this->db->insert('log_penduduk',$x);
-		if(!$outp) $_SESSION['success'] = -1;
+    $id_pend = $this->db->insert_id();
+		$this->load->model('penduduk_model');
+		$this->penduduk_model->tulis_log_penduduk($id_pend, $id_detail, $blnskrg, $thnskrg);
 	}
 
 	function get_nokk($id){

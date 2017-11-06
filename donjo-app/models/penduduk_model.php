@@ -33,6 +33,13 @@
 		}
 	}
 
+	function keluarga_sql(){
+		if($_SESSION['layer_keluarga'] == 1){
+			$sql = " AND u.kk_level = 1";
+			return $sql;
+		}
+	}
+
 	function sex_sql(){
 		if(isset($_SESSION['sex'])){
 			$kf = $_SESSION['sex'];
@@ -198,6 +205,7 @@
 		$sql = "
 		FROM tweb_penduduk u
 		LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
+		LEFT JOIN tweb_rtm b ON u.id_rtm = b.id
 		LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
 		LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
 		LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id
@@ -258,7 +266,7 @@
 		} else {
 			// data log tidak di-select, supaya di tabel Penduduk tidak ada duplikat
 			$select_sql = "SELECT DISTINCT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk,
-				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan
+				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,b.no_kk AS no_rtm,b.id AS id_rtm
 				";
 		}
 		//Main Query
@@ -361,6 +369,7 @@
 				LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 				LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE 1 ";
 
+		$sql .= $this->keluarga_sql();
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $this->sex_sql();
@@ -1143,6 +1152,21 @@
 
 	function list_dokumen($id=""){
 		$sql = "SELECT * FROM dokumen WHERE id_pend = ? ";
+		$query = $this->db->query($sql,$id);
+		$data=null;
+		if($query)
+			$data=$query->result_array();
+
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['no']=$i+1;
+			$i++;
+		}
+		return $data;
+	}
+
+	function list_kelompok($id=""){
+		$sql = "SELECT k.nama,m.kelompok AS kategori FROM kelompok_anggota a LEFT JOIN kelompok k ON a.id_kelompok = k.id LEFT JOIN kelompok_master m ON k.id_master = m.id WHERE a.id_penduduk = ? ";
 		$query = $this->db->query($sql,$id);
 		$data=null;
 		if($query)

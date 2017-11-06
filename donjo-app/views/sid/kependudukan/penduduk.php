@@ -21,10 +21,10 @@ source: keyword
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url('penduduk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Penduduk Pendatang</a>
+                <a href="<?php echo site_url('penduduk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Penduduk Domisili</a>
 				<?php  if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button><?php  }?>
                 <a href="<?php echo site_url("penduduk/cetak/$o")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-				<a href="<?php echo site_url("penduduk/excel/$o")?>" class="uibutton tipsy south" title="Data Excel" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+				<a href="<?php echo site_url("penduduk/excel/$o")?>" class="uibutton tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
             </div>
         </div>
         <div class="right">
@@ -113,7 +113,7 @@ source: keyword
 			<?php  else: ?><a href="<?php echo site_url("penduduk/index/$p/5")?>">No. KK <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
-
+			<th>No. Rumah Tangga</th>
 			<th align="center" align="center">Alamat</th>
             <th align="center" align="center"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
             <th align="center" align="center">RW</th>
@@ -128,17 +128,14 @@ source: keyword
 			<?php  else: ?><a href="<?php echo site_url("penduduk/index/$p/7")?>">Umur <span class="fa fa-sort fa-sm">
 			<?php  endif; ?>
 			&nbsp;</span></a></th>
-
 			<th align="center">Pekerjaan</th>
 			<th width="75" align="center">Kawin</th>
-			<th align="center">Status</th>
-
 		</tr>
 </thead>
 <tbody>
-        <?php  foreach($main as $data): ?>
+<?php  foreach($main as $data): ?>
 <tr>
-          <td align="center" width="2"><?php echo $data['no']?></td>
+  <td align="center" width="2"><?php echo $data['no']?></td>
 <td align="center" width="5">
 <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
@@ -154,6 +151,7 @@ source: keyword
 <td align="center"><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
 <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
 <td align="center"><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?> </a> </td>
+<td><a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?php echo $data['no_rtm']?></a></td>
 <td><?php echo strtoupper($data['alamat'])?></td>
 <td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
 <td align="center"><?php echo $data['rw']?></td>
@@ -163,9 +161,8 @@ source: keyword
 <td><?php echo $data['pekerjaan']?></td>
 <td><?php echo $data['kawin']?></td>
 
-  <td><?php if($data['status']==1){echo "Tetap";}elseif($data['status']==2){echo "Tidak Aktif";}else{echo "Pendatang";}?></td>
-  </tr>
-        <?php  endforeach; ?>
+</tr>
+<?php  endforeach; ?>
 </tbody>
         </table>
     </div>

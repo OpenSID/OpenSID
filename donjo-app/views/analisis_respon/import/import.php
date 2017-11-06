@@ -2,7 +2,7 @@
 	<table class="form">
 		<tr>
 			<td colspan='2'>
-				Pastikan Format Berkas Telah Sesuai
+				Pastikan format berkas telah sesuai <?php echo $jml ?>
 			</td>
 		</tr>
 		<tr>
@@ -12,7 +12,7 @@
 	</table>
 	<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
 		<div class="uibutton-group">
-			<button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
+			<button class="uibutton confirm" type="submit">Simpan</button>
 		</div>
 	</div>
 </form>

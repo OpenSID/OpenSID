@@ -43,6 +43,9 @@ $(function(){
 	}
 </style>
 <div id="pageC">
+<?php if(!isset($_SESSION['fullscreen'])){?>
+<?php $this->load->view('analisis_master/left',$data);?>
+<?php } ?>
 <div class="content-header">
 </div>
 <div id="contentpane">
@@ -104,39 +107,40 @@ $(function(){
 		<?php $i++;}?>
 		</table>
 		<?php } ?>
-		<table width="100%">
+		<table width="100%" class="form data">
 		<?php $new=1;$last=0; foreach($list_jawab AS $data){$data['no']="";?>
-			<tr><td><hr></td></tr>
 		<?php
 
 			if($data['id_kategori']!=$last OR $last == 0){
 				$new = 1;
 			}
 		if($new == 1){?>
-			<tr><td>&nbsp;</td></tr>
-			<tr style="background-color:#acff98;"><td><h3><?php echo $data['kategori']?></h3></td></tr>
-			<tr><td>&nbsp;</td></tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr style="background-color:#acff98;"><td colspan="2"><h3><?php echo $data['kategori']?></h3></td></tr>
+			<tr><td colspan="2"><hr></td></tr>
 		<?php
 			$new=0;
 			$last = $data['id_kategori'];
 			}
 		?>
-			<tr><td><label class='tanya'><?php echo $data['no']?><?php echo $data['pertanyaan']?></label></td></tr>
+			<tr><td width="30%"><label class='tanya'><?php echo $data['nomor']?> ) <?php echo $data['pertanyaan']?></label></td>
 			<?php if($data['id_tipe']==1){?>
 
-				<tr><td id="op_item">
-				<?php foreach($data['parameter_respon'] AS $data2){?>
-				<div>
-					<input type="radio" name="rb[<?php echo $data['id']?>]" value="<?php echo $data['id']?>.<?php echo $data2['id_parameter']?>" <?php if($data2['cek']){echo " checked";}?>><label><?php echo $data2['kode_jawaban']?>. <?php echo $data2['jawaban']?></label>
-				</div>
-				<?php }?>
 
+
+				<td id="op_item">
+				<select name="rb[<?php echo $data['id']?>]">
+				<option value="">--- Pilih Jawaban ---</option>
+				<?php foreach($data['parameter_respon'] AS $data2){?>
+					<option value="<?php echo $data['id']?>.<?php echo $data2['id_parameter']?>" <?php if($data2['cek']){echo " selected";}?>><?php echo $data2['kode_jawaban']?>. <?php echo $data2['jawaban']?></option>
+				<?php }?>
+				</select>
 			<?php }elseif($data['id_tipe']==2){?>
 
 				<?php foreach($data['parameter_respon'] AS $data2){?>
-				<tr><td id="op_item">
+				<td id="op_item">
 				<div>
-					<input type="checkbox" name="cb[<?php echo $data2['id_parameter']?>]" value="<?php echo $data2['id_parameter']?>.<?php echo $data['id']?>" <?php if($data2['cek']){echo " checked";}?>>
+					<input type="checkbox" name="cb[<?php echo $data2['id_parameter']?>_<?php echo $data['id']?>]" value="<?php echo $data['id']?>.<?php echo $data2['id_parameter']?>" <?php if($data2['cek']){echo " checked";}?>>
 					<label><?php echo $data2['kode_jawaban']?>. <?php echo $data2['jawaban']?></label>
 				</div>
 				<?php }?>
@@ -145,10 +149,10 @@ $(function(){
 
 				<?php if($data['parameter_respon']){?>
 				<?php $data2=$data['parameter_respon'];?>
-				<tr><td id="">
+				<td id="">
 				<div style="display:inline-block;"><input name="ia[<?php echo $data['id']?>]" type="text" class="inputbox number" size="10" value="<?php echo $data2['jawaban']?>"/></div>
 				<?php }else{?>
-				<tr><td id="">
+				<td id="">
 				<div style="display:inline-block;"><input name="ia[<?php echo $data['id']?>]" type="text" class="inputbox number" size="10" value=""/></div>
 				<?php }?>
 
@@ -156,14 +160,15 @@ $(function(){
 
 				<?php if($data['parameter_respon']){?>
 				<?php $data2=$data['parameter_respon'];?>
-				<tr><td id="">
+				<td id="">
 				<div style="display:inline-block;"><input name="it[<?php echo $data['id']?>]" type="text" class="inputbox" size="100" value="<?php echo $data2['jawaban']?>"/></div>
 				<?php }else{?>
-				<tr><td id="">
+				<td id="">
 				<div style="display:inline-block;"><input name="it[<?php echo $data['id']?>]" type="text" class="inputbox" size="100" value=""/></div>
 				<?php }?>
 
 			<?php }?>
+			</tr>
 		<?php
 
 		}?>
@@ -171,21 +176,21 @@ $(function(){
 		</table>
 		<table>
 		<tr>
-			<td><label>Upload Berkas Form Pendataan :</label><input name="pengesahan" type="file" />*) Format file harus *.jpg</td>
+			<td><label>Unggah Berkas Form Pendataan :</label><input name="pengesahan" type="file" />*) Format file harus *.jpg</td>
 		</tr>
 		<tr>
-			<td>*) Berkas form pendtaan digunakan sebagai penguat / bukti pendataan maupun untuk verifikasi data yang sudah terinput.</td>
+			<td>*) Berkas form pendataan digunakan sebagai penguat / bukti pendataan maupun untuk verifikasi data yang sudah terinput.</td>
 		</tr>
 		<tr>
-			<td>*) Berkas Bukti / Pengesahan Harus berupa file gambar dengan format JPG, dengan ukuran maksimal 1Mb (dua megabyte)</td>
+			<td>*) Berkas Bukti / pengesahan harus berupa file gambar dengan format .jpg, dengan ukuran maksimal 1 Mb (1 megabyte)</td>
 		</tr>
 		</table>
 		<table>
 		<tr>
 		<?php foreach($list_bukti AS $bukti){?>
 			<td>
-				<a href="<?php echo base_url().LOKASI_PENGESAHAN.$bukti['pengesahan']?>" target="_blank">
-				<img src="<?php echo base_url().LOKASI_PENGESAHAN.$bukti['pengesahan']?>" width ='320'>
+				<a href="<?php echo base_url()?>assets/files/pengesahan/<?php echo $bukti['pengesahan']?>" target="_blank">
+				<img src="<?php echo base_url()?>assets/files/pengesahan/<?php echo $bukti['pengesahan']?>" width ='320'>
 				</a>
 			</td>
 		<?php }?>
@@ -198,12 +203,12 @@ $(function(){
 			<?php if(isset($_SESSION['fullscreen'])){?>
 			<a href="<?php echo current_url()?>/2" class="uibutton">Normal</a>
 			<?php } else { ?>
-			<a href="<?php echo current_url()?>/1" class="uibutton special"><span class="fa fa-window-maximize" ></span> Full Screen</a>
+			<a href="<?php echo current_url()?>/1" class="uibutton special">Full Screen</a>
 			<?php } ?>
 		</div>
 		<div class="right">
 			<div class="uibutton-group">
-				<button class="uibutton confirm" type="submit" id="simpan"><span class="fa fa-save"></span> Simpan</button>
+				<button class="uibutton confirm" type="submit" id="simpan">Simpan</button>
 			</div>
 		</div>
 	</div>

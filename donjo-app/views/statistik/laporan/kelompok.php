@@ -10,8 +10,8 @@
     <div class="ui-layout-north panel top">
         <div class="left">
             <div class="uibutton-group">
-			<a href="<?php echo site_url("laporan_rentan/cetak")?>" class="uibutton special tipsy south" title="Cetak" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-	<a href="<?php echo site_url("laporan_rentan/excel")?>" class="uibutton special tipsy south" title="Excel" target="_blank"><span class="fa fa-print">&nbsp;</span>Excel</a>
+			<a href="<?php echo site_url("laporan_rentan/cetak")?>" class="uibutton special tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+	<a href="<?php echo site_url("laporan_rentan/excel")?>" class="uibutton special tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Unduh</a>
             </div>
         </div>
     </div>

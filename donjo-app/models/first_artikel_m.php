@@ -79,6 +79,7 @@ class First_Artikel_M extends CI_Model{
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND a.id=".$id;
 		}else{
+			// Penampilan daftar artikel di halaman depan tidak terbatas pada artikel dinamis saja
 			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1";

@@ -20,8 +20,8 @@
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url('sid_core/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah <?php echo ucwords($this->setting->sebutan_dusun)?></a>
-                <a href="<?php echo site_url('sid_core/cetak')?>" target="_blank" class="uibutton tipsy south" title="Print Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url('sid_core/excel')?>" target="_blank" class="uibutton tipsy south" title="Data Excel" ><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+                <a href="<?php echo site_url('sid_core/cetak')?>" target="_blank" class="uibutton tipsy south" title="Cetak Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
+		<a href="<?php echo site_url('sid_core/excel')?>" target="_blank" class="uibutton tipsy south" title="Unduh Data" ><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
             </div>
         </div>
 		<div class="right">

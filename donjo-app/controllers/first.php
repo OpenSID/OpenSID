@@ -34,6 +34,7 @@ class First extends Web_Controller{
 		$this->load->model('web_gallery_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('track_model');
+		$this->load->model('surat_keluar_model');
 	}
 
 	function auth(){
@@ -148,6 +149,11 @@ class First extends Web_Controller{
 		switch ($m) {
 			case 1:
 				$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
+				$data['list_kelompok'] = $this->penduduk_model->list_kelompok($_SESSION['id']);
+				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+				break;
+			case 2:
+				$data['surat_keluar'] = $this->surat_keluar_model->list_data_surat($_SESSION['id']);
 				break;
 			case 4:
 				$this->load->model('program_bantuan_model','pb');
@@ -256,6 +262,18 @@ class First extends Web_Controller{
 		$this->_get_common_data($data);
 
 		$this->set_template('layouts/analisis.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+	function dpt(){
+		$this->load->model('dpt_model');
+		$data = $this->includes;
+		$data['main'] = $this->dpt_model->statistik_wilayah();
+		$data['total'] = $this->dpt_model->statistik_total();
+		$data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
+		$this->_get_common_data($data);
+		$data['tipe'] = 4;
+		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template,$data);
 	}
 
