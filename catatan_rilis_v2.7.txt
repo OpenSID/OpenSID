@@ -14,6 +14,9 @@ Lengkapnya, isi rilis v2.7 (versi pra-rilis):
 8. #519: Tambah keterangan di header supaya judul artikel, isi artikel dan gambar utama sinkron pada waktu share ke Facebook.
 9. Upgrade CI ke versi 2.2.6. [teknis]
 10. Batasi panjang diinputan nama album dan judul gambar agar tidak dipotong diam-diam saat penyimpanan. [bug-fix]
+11. #638: Samakan penampilan menu dinamis dengan menu statis
+12. #696: Submenu pada menu statis dan dinamis di tema default sekarang tampil menggunakan huruf besar awal saja.
+13. Sekarang berkas desa/css/siteman.css dapat digunakan untuk mengubah penampilan semua halaman modul Administrasi. Contoh diberikan di desa-contoh/css/siteman.css.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM v2.7, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
