@@ -19,8 +19,8 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style2.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/noJS.css" /></noscript>
-<?php if(is_file("desa/css/style.css")): ?>
-	<link type='text/css' href="<?php echo base_url()?>desa/css/style.css" rel='Stylesheet' />
+<?php if(is_file("desa/css/siteman.css")): ?>
+	<link type='text/css' href="<?php echo base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 <?php endif; ?>
 
 

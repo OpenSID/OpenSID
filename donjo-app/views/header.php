@@ -21,8 +21,8 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style2.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/siteman_styles.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/noJS.css" />
-		<?php if(is_file("desa/css/style.css")): ?>
-			<link type='text/css' href="<?php echo base_url()?>desa/css/style.css" rel='Stylesheet' />
+		<?php if(is_file("desa/css/siteman.css")): ?>
+			<link type='text/css' href="<?php echo base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
 
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
