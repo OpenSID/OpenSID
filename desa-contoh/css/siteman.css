@@ -1,5 +1,5 @@
 /*
- * File ini berisi CSS ubahan desa untuk halaman login siteman
+ * File ini berisi CSS ubahan desa untuk tampilan siteman
  * Letakkan file ini di: desa/css/siteman.css
 */
 
@@ -14,4 +14,9 @@ body.login{
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
+}
+/* Contoh mengubah warna latar belakang deretan tombol menu utama
+*/
+div.contentm{
+	background-color: #c8f1c8;
 }
