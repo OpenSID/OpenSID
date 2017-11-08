@@ -251,7 +251,7 @@
 
 	function list_slide_galeri(){
 		$gallery_slide_id = $this->db->select('id')->where('slider',1)->limit(1)->get('gambar_gallery')->row()->id;
-		$slide_galeri = $this->db->select('gambar')->where(array('parrent'=>$gallery_slide_id, 'tipe'=>2))->get('gambar_gallery')->result_array();
+		$slide_galeri = $this->db->select('id,nama as judul,gambar')->where(array('parrent'=>$gallery_slide_id, 'tipe'=>2))->get('gambar_gallery')->result_array();
 		return $slide_galeri;
 	}
 

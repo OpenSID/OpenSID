@@ -165,11 +165,11 @@ class First_Artikel_M extends CI_Model{
 
 	// Jika $gambar_utama, hanya tampilkan gambar utama masing2 artikel terbaru
 	function slide_show($gambar_utama=FALSE){
-		$sql   = "SELECT id,gambar FROM artikel WHERE (enabled=1 AND headline=3)";
+		$sql   = "SELECT id,judul,gambar FROM artikel WHERE (enabled=1 AND headline=3)";
 		if (!$gambar_utama) $sql .= "
-			UNION SELECT id,gambar1 FROM artikel WHERE (enabled=1 AND headline=3)
-			UNION SELECT id,gambar2 FROM artikel WHERE (enabled=1 AND headline=3)
-			UNION SELECT id,gambar3 FROM artikel WHERE (enabled=1 AND headline=3)
+			UNION SELECT id,judul,gambar1 FROM artikel WHERE (enabled=1 AND headline=3)
+			UNION SELECT id,judul,gambar2 FROM artikel WHERE (enabled=1 AND headline=3)
+			UNION SELECT id,judul,gambar3 FROM artikel WHERE (enabled=1 AND headline=3)
 		";
 		$sql .= ($gambar_utama) ? "ORDER BY tgl_upload DESC LIMIT 10" : "ORDER BY RAND() LIMIT 10";
 		$query = $this->db->query($sql);
@@ -187,7 +187,7 @@ class First_Artikel_M extends CI_Model{
 		switch ($this->setting->sumber_gambar_slider) {
 			case '1':
 				# 10 gambar utama semua artikel terbaru
-				$slider_gambar['gambar'] = $this->db->select('id,gambar')->where('enabled',1)->where('gambar !=','')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
+				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
 			case '2':
