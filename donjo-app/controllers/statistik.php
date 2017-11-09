@@ -16,7 +16,6 @@ function __construct(){
 
 	function index($lap=0,$o=0){
 		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
-
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap,$o);
 		$data['lap']=$lap;
 		$data['judul_kelompok'] = "Jenis Kelompok";
@@ -90,7 +89,7 @@ function __construct(){
 			$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
 			$data['kategori'] = 'bantuan';
-		} elseif ($lap>20) {
+		} elseif ($lap>20 OR "$lap" == 'kelas_sosial') {
 			$data['kategori'] = 'keluarga';
 		} else {
 			$data['kategori'] = 'penduduk';

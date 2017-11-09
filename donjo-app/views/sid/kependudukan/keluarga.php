@@ -77,7 +77,12 @@
     </div>
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
       <table class="list">
-    		<thead>
+		<thead>
+            <?php if ($judul_statistik): ?>
+              <tr>
+                <td colspan="15" style="text-align: center;"><strong style="font-size:14px;"><?php  echo $judul_statistik; ?></strong></td>
+              </tr>
+            <?php endif; ?>
           <tr>
             <th>No</th>
             <th><input type="checkbox" class="checkall"/></th>

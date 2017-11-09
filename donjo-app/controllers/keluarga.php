@@ -23,6 +23,7 @@ function __construct(){
 		unset($_SESSION['rw']);
 		unset($_SESSION['rt']);
 		unset($_SESSION['sex']);
+		unset($_SESSION['kelas']);
 		unset($_SESSION['id_bos']);
 		$_SESSION['per_page']=100;
 		redirect('keluarga');
@@ -36,6 +37,10 @@ function __construct(){
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
+
+		if(isset($_SESSION['judul_statistik']))
+			$data['judul_statistik'] = $_SESSION['judul_statistik'];
+		else $data['judul_statistik'] = '';
 
 		if(isset($_SESSION['status_dasar']))
 			$data['status_dasar'] = $_SESSION['status_dasar'];
@@ -576,71 +581,43 @@ function __construct(){
 		</td>";
 	}
 
-	function statistik($tipe=0,$nomor=0,$p=1,$o=0){
-		$data['p']        = $p;
-		$data['o']        = $o;
-		$data['tipe']        = $tipe;
-		if(isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+	function statistik($tipe=0,$nomor=0,$sex=null,$p=1,$o=0){
+		$_SESSION['per_page'] = 50;
+		unset($_SESSION['cari']);
+		unset($_SESSION['filter']);
+		$_SESSION['status_dasar'] = 1; // tampilkan KK aktif saja
+		unset($_SESSION['dusun']);
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		unset($_SESSION['sex']);
+		unset($_SESSION['kelas']);
+		unset($_SESSION['id_bos']);
 
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if(isset($_SESSION['id_bos']))
-			$data['id_bos'] = $_SESSION['id_bos'];
-		else $data['id_bos'] = '';
-
-		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
-		if(isset($_SESSION['dusun'])){
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
-
-		if(isset($_SESSION['rw'])){
-			$data['rw'] = $_SESSION['rw'];
-			$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
-
-		if(isset($_SESSION['rt']))
-			$data['rt'] = $_SESSION['rt'];
-			else $data['rt'] = '';
-
-			}else $data['rw'] = '';
-
-		}else{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
+		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
+		if ($sex == NULL) {
+			if ($nomor != 0) $_SESSION['sex'] = $nomor;
+			else unset($_SESSION['sex']);
+			unset($_SESSION['judul_statistik']);
+			redirect('keluarga');
 		}
+
+		if($sex==0)
+			unset($_SESSION['sex']);
+		else
+			$_SESSION['sex']=$sex;
+
 		switch($tipe){
-			case 21: $_SESSION['kelas']  = $nomor; $pre="KELAS SOSIAL : ";break;
-			case 24: $_SESSION['id_bos'] = $nomor; $pre="BOS : ";break;
+			case 'kelas_sosial': $_SESSION['kelas'] = $nomor;  $pre="KLASIFIKASI SOSIAL : "; break;
 		}
-		$data['grup']	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		$data['paging']  = $this->keluarga_model->paging_statistik($p,$o);
-		$data['main']    = $this->keluarga_model->list_data_statistik($tipe,$o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->keluarga_model->autocomplete();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$judul= $this->keluarga_model->get_judul_statistik($tipe,$nomor);
+		$judul= $this->keluarga_model->get_judul_statistik($tipe,$nomor,$sex);
 		if($judul['nama']){
 			$_SESSION['judul_statistik']=$pre.$judul['nama'];
 		}else{
 			unset($_SESSION['judul_statistik']);
 		}
-
-		$nav['act']= 1;
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
-		$this->load->view('sid/kependudukan/keluarga_statistik',$data);
-		$this->load->view('footer');
-
-		//redirect('keluarga');
+		redirect('keluarga');
 	}
+
 
 	function cetak_statistik($tipe=0){
 		$data['main']    = $this->keluarga_model->list_data_statistik($tipe);
