@@ -11,6 +11,7 @@ function __construct(){
 		$this->load->model('keluarga_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('program_bantuan_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 2;
 	}
 
@@ -270,6 +271,7 @@ function __construct(){
 	function edit_nokk($p=1,$o=0,$id=0){
 		$data['kk'] = $this->keluarga_model->get_keluarga($id);
 		$data['program'] = $this->program_bantuan_model->list_program_keluarga($id);
+		$data['keluarga_sejahtera'] = $this->referensi_model->list_data('tweb_keluarga_sejahtera');
 		$data['form_action'] = site_url("keluarga/update_nokk/$id");
 		$this->load->view('sid/kependudukan/ajax_edit_nokk',$data);
 	}

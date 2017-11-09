@@ -165,6 +165,29 @@
         gambar = VALUES(gambar),
         nama = VALUES(nama)";
     $this->db->query($query);
+    // Ganti kelas sosial dengan tingkatan keluarga sejahtera dari BKKBN
+    if ($this->db->table_exists('ref_kelas_sosial') ) {
+      $this->dbforge->drop_table('ref_kelas_sosial');
+    }
+    if (!$this->db->table_exists('tweb_keluarga_sejahtera') ) {
+      $query = "
+        CREATE TABLE `tweb_keluarga_sejahtera` (
+          `id` int(10),
+          `nama` varchar(100),
+          PRIMARY KEY  (`id`)
+        );
+      ";
+      $this->db->query($query);
+      $query = "
+        INSERT INTO `tweb_keluarga_sejahtera` (`id`, `nama`) VALUES
+        (1,  'Keluarga Pra Sejahtera'),
+        (2,  'Keluarga Sejahtera I'),
+        (3,  'Keluarga Sejahtera II'),
+        (4,  'Keluarga Sejahtera III'),
+        (5,  'Keluarga Sejahtera III Plus')
+      ";
+      $this->db->query($query);
+    }
   }
 
   function migrasi_25_ke_26(){

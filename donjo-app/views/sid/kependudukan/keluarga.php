@@ -123,7 +123,7 @@
       			</td>
             <td width="5"><div class="uibutton-group">
           		<a href="<?php echo site_url("keluarga/anggota/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Anggota Keluarga"><span class="fa fa-list"></span> Rincian</a>
-              <a href="<?php echo site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" modalWidth="auto" modalHeight="auto"header="Ubah Data KK"><span class="fa fa-edit"></span></a>
+              <a href="<?php echo site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data" target="ajax-modal" rel="window" modalWidth="auto" modalHeight="auto" header="Ubah Data KK"><span class="fa fa-edit"></span></a>
 
         			<a href="<?php echo site_url("keluarga/form_a/$p/$o/$data[id]")?>" header="Tambah Anggota Keluarga" class="uibutton tipsy south" title="Tambah Anggota Keluarga"><span class="fa fa-plus-circle"></span></a>
         			<a href="<?php echo site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>"  class="uibutton tipsy south" title="Ubah Alamat/Pindah Keluarga dalam Desa" target="ajax-modal" rel="window" header="Ubah/Pindah Alamat Keluarga" modalWidth="auto" modalHeight="auto"><span class="fa fa-share-square-o"></span></a>
