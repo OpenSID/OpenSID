@@ -17,6 +17,7 @@ Lengkapnya, isi rilis v2.7 (versi pra-rilis):
 11. #638: Samakan penampilan menu dinamis dengan menu statis
 12. #696: Submenu pada menu statis dan dinamis di tema default sekarang tampil menggunakan huruf besar awal saja.
 13. Sekarang berkas desa/css/siteman.css dapat digunakan untuk mengubah penampilan semua halaman modul Administrasi. Contoh diberikan di desa-contoh/css/siteman.css.
+14. #639: Sekarang keluarga bisa diberikan klasifikasi sosial berdasarkan tingkatan Keluarga Sejahtera BKKBN. Statistik klasifikasi sosial bisa ditampilkan di menu Statistik di modul Administrasi dan di menu statis di modul Web.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM v2.7, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
