@@ -30,6 +30,7 @@ class Surat extends CI_Controller{
 		unset($_SESSION['id_saksi1']);
 		unset($_SESSION['id_saksi2']);
 		unset($_SESSION['id_pelapor']);
+		unset($_SESSION['id_diberi_izin']);
 		unset($_SESSION['post']);
 
 
