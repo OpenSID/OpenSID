@@ -188,6 +188,19 @@
       ";
       $this->db->query($query);
     }
+    // Tambah surat izin orang tua/suami/istri
+    $data = array(
+      'nama'=>'Keterangan Izin Orang Tua/Suami/Istri',
+      'url_surat'=>'surat_izin_orangtua_suami_istri',
+      'kode_surat'=>'S-39',
+      'jenis'=>1);
+    $sql = $this->db->insert_string('tweb_surat_format', $data);
+    $sql .= " ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis)";
+    $this->db->query($sql);
   }
 
   function migrasi_25_ke_26(){
