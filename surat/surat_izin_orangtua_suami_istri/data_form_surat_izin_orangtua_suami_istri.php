@@ -3,7 +3,8 @@
 		$data['selaku'] = array("Orang Tua","Suami","Istri","Keluarga");
 		$data['yang_diberi_izin'] = array("Suami","Istri","Anak","Keluarga");
 		$data['status_pekerjaan'] = array("Tenaga Kerja Indonesia (TKI)","Tenaga Kerja Wanita (TKW)");
-		$data['atas_nama'] = array("An. Kepala Desa","Ub. Kepala Desa");
+		$str_desa = ucwords($this->setting->sebutan_desa.' '.$data['lokasi']['nama_desa']);
+		$data['atas_nama'] = array("An. Kepala $str_desa","Ub. Kepala $str_desa");
 		$data['nomor'] = $this->input->post('nomor_main');
 		$_SESSION['post'] = $_POST;
 

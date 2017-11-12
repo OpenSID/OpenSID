@@ -188,6 +188,12 @@
           </td>
         </tr>
         <tr>
+          <th>Masa Kontrak</th>
+          <td>
+            <input name="masa_kontrak" type="text" class="inputbox required" size="5" value="<?php echo $_SESSION['post']['masa_kontrak']?>"/> tahun
+          </td>
+        </tr>
+        <tr>
           <th>&nbsp;</th>
           <td>&nbsp;</td>
         </tr>
