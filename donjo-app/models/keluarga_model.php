@@ -637,7 +637,7 @@
 		foreach ($program as $bantuan) {
 			if (in_array($bantuan['id'],$id_program)){
 				// Tambahkan ke program bantuan
-				$this->program_bantuan_model->add_peserta($no_kk, $bantuan['id']);
+				$this->program_bantuan_model->add_peserta(array('nik'=>$no_kk), $bantuan['id']);
 			} else {
 				// Hapus dari program bantuan
 				$this->program_bantuan_model->hapus_peserta_program($no_kk, $bantuan['id']);
