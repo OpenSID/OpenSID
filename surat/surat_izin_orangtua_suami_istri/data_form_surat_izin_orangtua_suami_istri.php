@@ -16,5 +16,11 @@
 			unset($data['diberi_izin']);
 			unset($_SESSION['id_diberi_izin']);
 		}
+		if(isset($data['diberi_izin'])){
+			if($data['diberi_izin']['sex_id'] == '1')
+				$data['status_diberi_izin'] = "Tenaga Kerja Indonesia (TKI)";
+			else
+				$data['status_diberi_izin'] = "Tenaga Kerja Wanita (TKW)";
+		}
 
 ?>

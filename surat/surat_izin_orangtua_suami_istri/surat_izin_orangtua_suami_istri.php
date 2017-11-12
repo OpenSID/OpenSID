@@ -53,6 +53,21 @@
     // $('#nomor_main').val(nomor);
   }
 
+  function pemberi_izin(selaku){
+    var yang_diizinkan;
+    if(selaku == 'Orang Tua') {
+      yang_diizinkan = 'Anak';
+    } else if(selaku == "Suami") {
+      yang_diizinkan = 'Istri';
+    } else if(selaku == "Istri") {
+      yang_diizinkan = 'Suami';
+    } else if(selaku == "Keluarga") {
+      yang_diizinkan = 'Keluarga';
+    }
+    $('#mengizinkan').val(yang_diizinkan);
+    $('#mengizinkan_show').val(yang_diizinkan);
+  }
+
 </script>
 
 <style>
@@ -63,6 +78,9 @@
   }
   table.form.detail td{
     padding:5px;
+  }
+  .grey {
+    background-color: lightgrey;
   }
 </style>
 
@@ -93,7 +111,7 @@
           <input id="id_diberi_izin_validasi" name="id_diberi_izin" type="hidden" value="<?php echo $_SESSION['id_diberi_izin']?>"/>
 
         <tr>
-          <th colspan="2">PIHAK YANG MEMBERI IZIN</th>
+          <th colspan="2" class="grey">PIHAK YANG MEMBERI IZIN</th>
         </tr>
         <tr>
           <th>NIK / Nama Yang Memberi Izin</th>
@@ -107,7 +125,7 @@
         <tr>
           <th>Memberi Izin Selaku</th>
           <td>
-            <select name="selaku" id="selaku">
+            <select name="selaku" id="selaku" onchange="pemberi_izin($(this).val());">
               <option value="" selected="selected">Pilih selaku</option>
                 <?php  foreach($selaku as $data){?>
                   <option value="<?php echo $data?>" <?php if($data==$_SESSION['post']['selaku']) echo 'selected'?>><?php echo $data?></option>
@@ -116,12 +134,13 @@
           </td>
         </tr>
         <tr>
-          <th colspan="2">PIHAK YANG DIBERI IZIN</th>
+          <th colspan="2" class="grey">PIHAK YANG DIBERI IZIN</th>
         </tr>
         <tr>
           <th>Hubungan Dengan Pemberi Izin</th>
           <td>
-            <select name="mengizinkan" id="mengizinkan">
+            <input id='mengizinkan' type="hidden" name="mengizinkan" value="<?php echo $_SESSION['post']['mengizinkan']?>"/>
+            <select id="mengizinkan_show" disabled="disabled">
               <option value="">Pilih hubungan</option>
                 <?php  foreach($yang_diberi_izin as $data){?>
                   <option value="<?php echo $data?>" <?php if($data==$_SESSION['post']['mengizinkan']) echo 'selected'?>><?php echo $data?></option>
@@ -159,10 +178,10 @@
         <tr>
           <th>Status Pekerjaan/ TKI/ TKW</th>
           <td>
-            <select name="pekerja" id="pekerja">
+            <select id="pekerja_show" disabled="disabled">
               <option value="">Pilih Status Pekerjaan/ TKI/ TKW</option>
               <?php  foreach($status_pekerjaan as $data){?>
-                <option value="<?php echo $data?>" <?php if($data==$_SESSION['post']['pekerja']) echo 'selected'?>><?php echo $data?></option>
+                <option value="<?php echo $data?>" <?php if($data==$status_diberi_izin) echo 'selected'?>><?php echo $data?></option>
               <?php }?>
             </select>
           </td>
@@ -172,7 +191,7 @@
           <td>&nbsp;</td>
         </tr>
         <tr>
-          <th colspan="2" class="style6">PENANDA TANGAN</th>
+          <th colspan="2" class="grey">PENANDA TANGAN</th>
         </tr>
         <tr>
           <th>Atas Nama</th>
@@ -197,9 +216,13 @@
       </div>
       <div class="right">
         <div class="uibutton-group">
-          <button class="uibutton" type="reset">Clear</button>
-          <button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="ui-icon ui-icon-print">&nbsp;</span>Cetak</button>
-          <?php if (file_exists("surat/$url/$url.rtf")) { ?><button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="ui-icon ui-icon-document">&nbsp;</span>Export Doc</button><?php } ?>
+          <button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
+          <?php if (SuratCetak($url)) { ?>
+            <button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action?>');$('#'+'validasi').submit();" class="uibutton special"><span class="fa fa-print">&nbsp;</span>Cetak</button>
+          <?php } ?>
+          <?php if (SuratExport($url)) { ?>
+            <button type="button" onclick="$('#'+'validasi').attr('action','<?php echo $form_action2?>');$('#'+'validasi').submit();" class="uibutton confirm"><span class="fa fa-file-text">&nbsp;</span>Export Doc</button>
+          <?php } ?>
         </div>
       </div>
     </div>
