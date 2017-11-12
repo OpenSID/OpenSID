@@ -22,7 +22,7 @@
   $(function(){
     var diberi_izin = {};
     diberi_izin.results = [
-      <?php foreach($penduduk as $data){?>
+      <?php foreach($penduduk_diberi_izin as $data){?>
         {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
       <?php }?>
     ];
@@ -66,6 +66,7 @@
     }
     $('#mengizinkan').val(yang_diizinkan);
     $('#mengizinkan_show').val(yang_diizinkan);
+    submit_form_ambil_data();
   }
 
 </script>

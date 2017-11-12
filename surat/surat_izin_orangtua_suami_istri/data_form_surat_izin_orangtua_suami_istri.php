@@ -23,4 +23,20 @@
 				$data['status_diberi_izin'] = "Tenaga Kerja Wanita (TKW)";
 		}
 
+		if($data['individu']){
+			// Tentukan penduduk yang diberi izin dari pilihan 'selaku'
+			if($_POST['selaku'] == 'Orang Tua')
+				$data['penduduk_diberi_izin'] = $this->surat_model->list_anak($_POST['nik']);
+			elseif ($_POST['selaku'] == 'Suami') {
+				$istri = $this->surat_model->get_data_istri($_POST['nik']);
+				$data['penduduk_diberi_izin'][] = array('id'=>$istri['id'],'nik'=>$istri['nik'],'nama'=>$istri['nama'],'alamat'=>"RT-".$istri['rt'].", RW-".$istri['rw']." ".$istri['dusun']);
+			}
+			elseif ($_POST['selaku'] == 'Istri') {
+				$suami = $this->surat_model->get_data_suami($_POST['nik']);
+				$data['penduduk_diberi_izin'][] = array('id'=>$suami['id'],'nik'=>$suami['nik'],'nama'=>$suami['nama'],'alamat'=>"RT-".$suami['rt'].", RW-".$suami['rw']." ".$suami['dusun']);
+			}
+			else //Keluarga
+				$data['penduduk_diberi_izin'] = $data['penduduk'];
+		} else
+			$data['penduduk_diberi_izin'] = $data['penduduk'];
 ?>
