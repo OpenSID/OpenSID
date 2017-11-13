@@ -6,7 +6,10 @@ class Penduduk extends CI_Controller{
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2) redirect('siteman');
+		if($grup!=1 AND $grup!=2) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 
 		$this->load->model('penduduk_model');
 		$this->load->model('web_dokumen_model');

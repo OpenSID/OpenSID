@@ -7,7 +7,10 @@ class analisis_statistik_jawaban extends CI_Controller{
 		$this->load->model('user_model');
 		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) redirect('siteman');
+		if($grup!=1) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$_SESSION['submenu'] = "Statistik Jawaban";
 		$_SESSION['asubmenu'] = "analisis_statistik_jawaban";
 	}
@@ -30,11 +33,11 @@ class analisis_statistik_jawaban extends CI_Controller{
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
-		
+
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
-		
+
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
@@ -44,30 +47,30 @@ class analisis_statistik_jawaban extends CI_Controller{
 		if(isset($_SESSION['kategori']))
 			$data['kategori'] = $_SESSION['kategori'];
 		else $data['kategori'] = '';
-		if(isset($_POST['per_page'])) 
+		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-		
+
 		if(isset($_SESSION['dusun'])){
 			$data['dusun'] = $_SESSION['dusun'];
 			$data['list_rw'] = $this->analisis_statistik_jawaban_model->list_rw($data['dusun']);
-			
+
 		if(isset($_SESSION['rw'])){
 			$data['rw'] = $_SESSION['rw'];
 			$data['list_rt'] = $this->analisis_statistik_jawaban_model->list_rt($data['dusun'],$data['rw']);
-						
+
 		if(isset($_SESSION['rt']))
 			$data['rt'] = $_SESSION['rt'];
 			else $data['rt'] = '';
-				
+
 			}else $data['rw'] = '';
-			
+
 		}else{
 			$data['dusun'] = '';
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		
+
 		$data['paging']  = $this->analisis_statistik_jawaban_model->paging($p,$o);
 		$data['main']    = $this->analisis_statistik_jawaban_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_statistik_jawaban_model->autocomplete();
@@ -76,7 +79,7 @@ class analisis_statistik_jawaban extends CI_Controller{
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
 		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_statistik_jawaban/table',$data);
@@ -85,21 +88,21 @@ class analisis_statistik_jawaban extends CI_Controller{
 	function form($p=1,$o=0,$id=''){
 		$data['p'] = $p;
 		$data['o'] = $o;
-		
+
 		if($id){
 			$data['analisis_statistik_jawaban']        = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 			$data['form_action'] = site_url("analisis_statistik_jawaban/update/$p/$o/$id");
 		}
-		
+
 		else{
 			$data['analisis_statistik_jawaban']        = null;
 			$data['form_action'] = site_url("analisis_statistik_jawaban/insert");
 		}
-		
+
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
 		$header = $this->header_model->get_data();
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_statistik_jawaban/form',$data);
@@ -109,13 +112,13 @@ class analisis_statistik_jawaban extends CI_Controller{
 		$ai  = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		if($ai['id_tipe']==3 OR $ai['id_tipe']==4)
 		redirect('analisis_statistik_jawaban');
-		
+
 		$data['analisis_statistik_jawaban']        = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main']        = $this->analisis_statistik_jawaban_model->list_indikator($id);
-		
+
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/table',$data);
@@ -125,34 +128,34 @@ class analisis_statistik_jawaban extends CI_Controller{
 		if(isset($_SESSION['dusun'])){
 			$data['dusun'] = $_SESSION['dusun'];
 			$data['list_rw'] = $this->analisis_statistik_jawaban_model->list_rw($data['dusun']);
-			
+
 		if(isset($_SESSION['rw'])){
 			$data['rw'] = $_SESSION['rw'];
 			$data['list_rt'] = $this->analisis_statistik_jawaban_model->list_rt($data['dusun'],$data['rw']);
-						
+
 		if(isset($_SESSION['rt']))
 			$data['rt'] = $_SESSION['rt'];
 			else $data['rt'] = '';
-				
+
 			}else $data['rw'] = '';
-			
+
 		}else{
 			$data['dusun'] = '';
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
 		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
-		
+
 		$ai  = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
-		
+
 		//redirect('analisis_statistik_jawaban');
-		
+
 		$data['analisis_statistik_jawaban']        = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main']        = $this->analisis_statistik_jawaban_model->list_indikator($id);
-		
+
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/grafik_table',$data);
@@ -162,35 +165,35 @@ class analisis_statistik_jawaban extends CI_Controller{
 		if(isset($_SESSION['dusun'])){
 			$data['dusun'] = $_SESSION['dusun'];
 			$data['list_rw'] = $this->analisis_statistik_jawaban_model->list_rw($data['dusun']);
-			
+
 		if(isset($_SESSION['rw'])){
 			$data['rw'] = $_SESSION['rw'];
 			$data['list_rt'] = $this->analisis_statistik_jawaban_model->list_rt($data['dusun'],$data['rw']);
-						
+
 		if(isset($_SESSION['rt']))
 			$data['rt'] = $_SESSION['rt'];
 			else $data['rt'] = '';
-				
+
 			}else $data['rw'] = '';
-			
+
 		}else{
 			$data['dusun'] = '';
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
 		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
-		
+
 		$ai  = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		//if($ai['id_tipe']==3 OR $ai['id_tipe']==4)
 		//	redirect('analisis_statistik_jawaban');
-		
+
 		$data['analisis_statistik_pertanyaan']  = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_statistik_jawaban']   	= $this->analisis_statistik_jawaban_model->get_analisis_parameter($par);
 		$data['analisis_master'] 				= $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main']        					= $this->analisis_statistik_jawaban_model->list_subjek($par);
-		
+
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/subjek_table',$data);
@@ -204,7 +207,7 @@ class analisis_statistik_jawaban extends CI_Controller{
 		$data['main']    = $this->analisis_statistik_jawaban_model->list_data($o,0, 10000);
 		$this->load->view('analisis_statistik_jawaban/table_excel',$data);
 	}
-		
+
 	function cetak2($id='',$par=''){
 		$data['analisis_statistik_pertanyaan']  = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_statistik_jawaban']   	= $this->analisis_statistik_jawaban_model->get_analisis_parameter($par);
@@ -217,7 +220,7 @@ class analisis_statistik_jawaban extends CI_Controller{
 		$data['main']    = $this->analisis_statistik_jawaban_model->list_subjek($par);
 		$this->load->view('analisis_statistik_jawaban/parameter/subjek_excel',$data);
 	}
-		
+
 	function search(){
 		$cari = $this->input->post('cari');
 		if($cari!='')
