@@ -31,19 +31,17 @@
 		</div>
 		</a>
 		<div id="mainlogin">
-		<div id="or"><?php echo substr(AmbilVersi(), 0, 4)?></div>
-		<h1>Masukan Username dan Password</h1>
+			<div id="or"><?php echo substr(AmbilVersi(), 0, 4)?></div>
 			<form action="<?php echo site_url('siteman/auth')?>" method="post">
-				<input name="username" type="text" placeholder="username" <?php if($_SESSION['siteman_wait']==1) echo 'disabled="disabled"'?> value="" required>
-				<input name="password" type="password" placeholder="password" <?php if($_SESSION['siteman_wait']==1) echo 'disabled="disabled"'?> value="" required>
-				<button type="submit" id="but">LOGIN</button>
-
 			  <?php if($_SESSION['siteman_wait']==1) : ?>
 					<div id="note">
-		        <h4>Gagal 3 kali, silakan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['siteman_timeout'])*(-1));?> detik lagi</h4>
-			      </div>
+		        <h2 style="padding:10px;">Gagal 3 kali, silakan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['siteman_timeout'])*(-1));?> lagi</h2>
 			    </div>
 			  <?php else: ?>
+					<h1>Masukan Username dan Password</h1>
+					<input name="username" type="text" placeholder="username" <?php if($_SESSION['siteman_wait']==1) echo 'disabled="disabled"'?> value="" required>
+					<input name="password" type="password" placeholder="password" <?php if($_SESSION['siteman_wait']==1) echo 'disabled="disabled"'?> value="" required>
+					<button type="submit" id="but">LOGIN</button>
 					<?php  if($_SESSION['siteman']==-1){ ?>
 						<div id="note">
 							<p>Login Gagal. Username atau Password yang Anda masukkan salah!</p>
