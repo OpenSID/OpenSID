@@ -22,6 +22,7 @@ Lengkapnya, isi rilis v2.7 (versi pra-rilis):
 16. #708: Sekarang menambah program bantuan melalui Ubah KK berjalan normal. [bug-fix]
 17. Sekarang terus ke halaman tujuan setelah login ke modul Admin, tidak lagi selalu ke halaman SID (beranda modul Admin).
 18. #547: Untuk mencegah percobaan login oleh orang atau secara otomatis, matikan form login siteman selama 5 menit setelah 3 kali gagal. [security-fix]
+19. #672: Tambah menu 'aksi borongan' di halaman Keluarga untuk menghapus, mencetak kartu keluarga dan mengunduh kartu keluarga untuk beberapa keluarga sekaligus.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM v2.7, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
