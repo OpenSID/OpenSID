@@ -467,11 +467,24 @@
 	}
 
 	function get_data_cetak_kk($id=0){
-		$data['id_kk'] = $id;
+		$kk['id_kk'] = $id;
 
-		$data['main'] = $this->keluarga_model->list_anggota($id);
-		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
-		$data['desa'] = $this->keluarga_model->get_desa();
+		$kk['main'] = $this->keluarga_model->list_anggota($id);
+		$kk['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
+		$kk['desa'] = $this->keluarga_model->get_desa();
+		$data['all_kk'][] = $kk;
+		return $data;
+	}
+
+	function get_data_cetak_kk_all(){
+		$data = array();
+		$id_cb = $_POST['id_cb'];
+		if(count($id_cb)){
+			foreach($id_cb as $id){
+				$kk = $this->get_data_cetak_kk($id);
+				$data['all_kk'][] = $kk['all_kk'][0]; //Kumpulkan semua kk
+			}
+		}
 		return $data;
 	}
 
@@ -732,7 +745,45 @@
 		return $judul;
 	}
 
-	function coba($data=''){
+	function get_data_unduh_kk($id){
+		$data = array();
+		$data['desa']     = $this->get_desa();
+		$data['id_kk']    = $id;
+		$data['main']     = $this->list_anggota($id);
+		$data['kepala_kk']= $this->get_kepala_kk($id);
+		return $data;
+	}
+
+	function unduh_kk($id=''){
+		$id_cb = $_POST['id_cb'];
+		if (empty($id) AND count($id_cb) == 1){
+			// Aksi borongan dengan satu KK saja
+			$id = $id_cb[0];
+		}
+		if (empty($id)){
+			// Aksi borongan lebih dari satu KK
+			$berkas_kk = array();
+			if(count($id_cb)){
+				foreach($id_cb as $id){
+					$data = $this->get_data_unduh_kk($id);
+					$berkas_kk[] = $this->buat_berkas_kk($data);
+				}
+			}
+			# Masukkan semua berkas ke dalam zip
+			$berkas_kk = $this->masukkan_zip($berkas_kk);
+	    # Unduh berkas zip
+	    header('Content-disposition: attachment; filename=berkas_kk_'.date("d-m-Y").'.zip');
+	    header('Content-type: application/zip');
+	    readfile($berkas_kk);
+		} else {
+			// Satu kk
+			$data = $this->get_data_unduh_kk($id);
+			$berkas_kk = $this->buat_berkas_kk($data);
+			header("location:".base_url($berkas_kk));
+		}
+	}
+
+	function buat_berkas_kk($data=''){
 		$mypath="surat\\kk\\";
 
 		$path = "".str_replace("\\","/",$mypath);
@@ -813,8 +864,22 @@
 		$handle = fopen($berkas_arsip,'w+');
 		fwrite($handle,$buffer);
 		fclose($handle);
-		$_SESSION['success']=8;
-		header("location:".base_url($berkas_arsip));
+		return $berkas_arsip;
+	}
+
+	function masukkan_zip($files=array()){
+    $zip = new ZipArchive();
+    # create a temp file & open it
+    $tmp_file = tempnam(sys_get_temp_dir(),'');
+    $zip->open($tmp_file, ZipArchive::CREATE);
+
+    # masukkan setiap berkas ke dalam zip
+    foreach($files as $file){
+        $download_file = file_get_contents($file);
+        $zip->addFromString(basename($file),$download_file);
+    }
+    $zip->close();
+    return $tmp_file;
 	}
 
 	function coba2(){

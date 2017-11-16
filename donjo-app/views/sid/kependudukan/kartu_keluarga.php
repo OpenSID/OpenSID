@@ -203,7 +203,7 @@ $('#'+'main').submit();
 <div class="uibutton-group">
 
 <a href="<?php echo site_url("keluarga/cetak_kk/$id_kk")?>" target="_blank" class="uibutton special"><span class="fa fa-print"></span> Cetak</a>
-<a href="<?php echo site_url("keluarga/doc_kk/$id_kk")?>" target="_blank" class="uibutton confirm"><span class="fa fa-file-text"></span> Export</a>
+<a href="<?php echo site_url("keluarga/doc_kk/$id_kk")?>" target="_blank" class="uibutton confirm"><span class="fa fa-file-text"></span> Unduh</a>
 </div>
 </div>
 </div>

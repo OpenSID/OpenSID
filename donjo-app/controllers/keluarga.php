@@ -492,23 +492,22 @@ function __construct(){
 	}
 
 	function cetak_kk($id=0){
-
 		$data = $this->keluarga_model->get_data_cetak_kk($id);
-		$nav['act']= 1;
-		$header = $this->header_model->get_data();
-		$this->load->view("sid/kependudukan/cetak_kk", $data);
+		$this->load->view("sid/kependudukan/cetak_kk_all", $data);
 
 	}
 
+	function cetak_kk_all(){
+		$data = $this->keluarga_model->get_data_cetak_kk_all();
+		$this->load->view("sid/kependudukan/cetak_kk_all", $data);
+	}
+
 	function doc_kk($id=0){
+		$this->keluarga_model->unduh_kk($id);
+	}
 
-		$data['desa']     = $this->keluarga_model->get_desa();
-
-		$data['id_kk']    = $id;
-		$data['main']     = $this->keluarga_model->list_anggota($id);
-		$data['kepala_kk']= $this->keluarga_model->get_kepala_kk($id);
-
-		$this->keluarga_model->coba($data);
+	function doc_kk_all($id=0){
+		$this->keluarga_model->unduh_kk();
 	}
 
 	function coba2($id=0){

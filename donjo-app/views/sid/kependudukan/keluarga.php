@@ -1,3 +1,5 @@
+<link type='text/css' href="<?php echo base_url()?>assets/css/bulk-menu.css" rel='Stylesheet' />
+
 <script>
 	$(function() {
 		var keyword = <?php echo $keyword?> ;
@@ -7,8 +9,14 @@
 	});
 </script>
 <style>
-  table.list td.perhatian {background-color: rgba(255, 127, 80, 0.35);}
-  table.list tr.perhatian {background-color: rgba(255, 127, 80, 0.35);}
+    table.list td.perhatian {background-color: rgba(255, 127, 80, 0.35);}
+    table.list tr.perhatian {background-color: rgba(255, 127, 80, 0.35);}
+
+    div.uibutton-group select {vertical-align: top;}
+
+    div.ui-layout-north.panel.ui-layout-pane.ui-layout-pane-north{
+        z-index: 9999999 !important;
+    }
 </style>
 
 <div id="pageC">
@@ -23,15 +31,38 @@
 </div>
 <div id="contentpane">
 	<form id="mainform" name="mainform" action="" method="post">
-    <div class="ui-layout-north panel">
+    <div class="ui-layout-north panel" style="z-index: 999999 !important;">
         <div class="left">
             <div class="uibutton-group">
                 <a href="<?php echo site_url('keluarga/form')?>" class="uibutton tipsy south" title="Tambah Data KK Baru" ><span class="fa fa-plus-square">&nbsp;</span>Tambah KK Baru</a>
                 <a href="<?php echo site_url('keluarga/form_old')?>" target="ajax-modal" rel="window" header="Tambah Data Kepala Keluarga" class="uibutton tipsy south" title="Tambah Data KK dari penduduk yang sudah ter-input" ><span class="fa fa-plus">&nbsp;</span>Tambah KK</a>
-                <?php  if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button><?php  }?>
 				<a href="<?php echo site_url("keluarga/cetak/$o")?>" target="_blank" class="uibutton tipsy south" title="Cetak Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
 				<a href="<?php echo site_url("keluarga/excel/$o")?>" target="_blank" class="uibutton tipsy south" title="Unduh Data" ><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
 				&nbsp;
+
+                <div id='menu-borongan' style="display: inline-block;">
+                    <ul id="siteman-nav" class="top">
+                        <li class="uibutton"><span class="judul">Aksi Borongan</span><span class="fa fa-caret-down fa-lg">&nbsp;</span>
+                            <ul>
+                                <?php  if($grup==1): ?>
+                                    <li onclick="aksiBorongan('mainform','<?php echo site_url("keluarga/delete_all/$p/$o")?>','Hapus Data','Apakah anda yakin mau menghapus data ini?')">
+                                        <span class="judul">Hapus</span>
+                                        <span class="fa fa-trash fa-lg">&nbsp;</span>
+                                    </li>
+                                <?php endif; ?>
+                                <li onclick="aksiBorongan('mainform','<?php echo site_url("keluarga/cetak_kk_all")?>','Cetak Kartu Keluarga','Apakah anda yakin mau mencetak KK ini?','_blank')">
+                                    <span class="judul">Cetak Kartu Keluarga</span>
+                                    <span class="fa fa-print fa-lg">&nbsp;</span>
+                                </li>
+                                <li onclick="aksiBorongan('mainform','<?php echo site_url("keluarga/doc_kk_all")?>','Unduh Kartu Keluarga','Apakah anda yakin mau mengunduh KK ini?','_blank')">
+                                    <span class="judul">Unduh Kartu Keluarga</span>
+                                    <span class="fa fa-download fa-lg">&nbsp;</span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
                 <select name="status_dasar" onchange="formAction('mainform','<?php echo site_url('keluarga/status_dasar')?>')">
                     <option value="">Semua KK</option>
                     <option value="1" <?php if($status_dasar == 1) :?>selected<?php endif?>>KK Aktif</option>
@@ -68,11 +99,12 @@
                 </select>
 
             </div>
-            </div>
-            <div class="right">
-                <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('keluarga/search')?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('keluarga/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
-            </div>
+        </div>
+
+        <div class="right">
+            <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('keluarga/search')?>');$('#'+'mainform').submit();}" />
+            <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('keluarga/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
+        </div>
 
     </div>
     <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
