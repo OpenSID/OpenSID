@@ -8,6 +8,9 @@
 		<link href="<?php echo base_url()?>assets/css/screen.css" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style2.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/noJS.css" />
+		<?php if(is_file("desa/css/siteman.css")): ?>
+			<link type='text/css' href="<?php echo base_url()?>desa/css/siteman.css" rel='Stylesheet' />
+		<?php endif; ?>
 		<script src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
 		<script src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>
 		<script src="<?php echo base_url()?>assets/js/jquery-layout.js"></script>

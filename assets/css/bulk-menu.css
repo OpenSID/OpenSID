@@ -1,0 +1,102 @@
+
+/*
+ * Menu untuk bulk-action di modul Admin
+ * Modifikasi dari menu di assets/front/css/default.css
+ * TODO: sebaiknya semua menu di modul Admin dialihkan menggunakan bootstrap dropdown.
+*/
+
+/* siteman navigation */
+#siteman-nav {
+	float: left;
+	list-style: none;
+	margin-left: -15px;
+}
+
+#siteman-nav>li { float: left; margin-left: 15px; position: relative; }
+#siteman-nav>li span.fa {
+    margin-left: 10px;
+}
+
+#siteman-nav a {
+	color: #ffffef;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	text-decoration: none;
+	font-weight: bold;
+	text-transform: capitalize;
+	text-shadow:1px 1px 1px #444;
+}
+#siteman-nav a.current, #siteman-nav a.current:hover { color: #666; }
+#siteman-nav a:hover { color: #ffff00;}
+#siteman-nav a:active { color: #bbb; }
+
+#siteman-nav > li.uibutton{
+	padding: 0px 5px;
+	padding-top: 2px;
+	width: 110px;
+	height: 15px;
+}
+#siteman-nav > li.uibutton > span.judul {
+	font-weight: inherit;
+	margin-left: 0px;
+	display: inline;
+}
+#siteman-nav > li.uibutton > span.fa {
+	margin-right: 0px;
+	padding-top: 2px;
+}
+
+/* Subnavigation */
+#siteman-nav.top ul{background: white !important;}
+#siteman-nav.main ul{background: #5494df!important;}
+#siteman-nav ul {
+  border: 1px solid lightgrey;
+	list-style: none;
+	z-index:99999999;
+	display: none;
+	/*left: -10px;*/
+	margin-left: 0px;
+	margin-top: 4px;
+	padding-top: 0px;
+	padding-bottom: 1px;
+	position: absolute;
+	width: 180px;
+}
+#siteman-nav>li:hover ul { display: block; }
+	#siteman-nav li {
+    text-align: left;
+    width: inherit;
+	}
+#siteman-nav ul a {
+	text-decoration: none;
+	font-size: 11px;
+	height: 25px;
+	line-height: 27px;
+	padding-left: 10px;
+ }
+#siteman-nav ul a:hover { background-color: #0d365d; }
+#siteman-nav ul a:active, #siteman-nav ul a.current { /* The second is for if you set a current submenu */
+	background-color: #1f2122;
+	position: relative;
+	top: 3px;
+}
+
+#siteman-nav ul li:hover{
+  background-color: #3c8dbc;
+  color: white;
+}
+#siteman-nav li span {
+  padding: 5px 0px;
+	display: inline-block;
+}
+#siteman-nav li span.judul {
+	font-weight : normal;
+  margin-left: 10px;
+}
+#siteman-nav li span.fa {
+  clear: both;
+  float: right;
+  margin-right: 8px;
+}
+

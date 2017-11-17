@@ -3,13 +3,13 @@
 margin:0px;
 padding:0px;
 }
-  
+
 body{
 background-color: #1373c0;
 position:relative;
 font-family:verdana;
-} 
-                                
+}
+
 #loginform
 {
 width:550px;
@@ -27,14 +27,14 @@ background: #333333;
 width:85%;
 padding:7px 20px 10px 7px;
 border:none;
-color:#eee;                       
+color:#eee;
 box-shadow:inset 0px 1px 5px #272727;
 font-size:0.8em;
 -webkit-transition:0.5s ease;
 -moz-transition:0.5s ease;
 -o-transition:0.5s ease;
 -ms-transition:0.5s ease;
-transition:0.5s ease; 
+transition:0.5s ease;
 }
 
 input:focus
@@ -44,7 +44,7 @@ background: #777;
 -moz-transition:0.5s ease;
 -o-transition:0.5s ease;
 -ms-transition:0.5s ease;
-transition:0.5s ease;  
+transition:0.5s ease;
 box-shadow: 0px 0px 7px 1px #161718;
 }
 
@@ -100,22 +100,22 @@ color:#ff5f32;
 -ms-transition:0.5s ease;
 transition:0.5s ease;
 }
-  
+
 *:focus{outline:none;}
 ::-webkit-input-placeholder {
 color:#929999;
 }
 
 :-moz-placeholder { /* Firefox 18- */
-color:#929999; 
+color:#929999;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
-color:#929999;  
+color:#929999;
 }
 
-:-ms-input-placeholder {  
-color:#929999; 
+:-ms-input-placeholder {
+color:#929999;
 }
 
 h1
@@ -142,10 +142,10 @@ float:left;
 background: #44962e;
 padding:8px 10px 20px 10px;
 width:172px;
-height:172px;
+height: auto;
 border-radius:3px;
 cursor:pointer;
-box-shadow: 1px 1px 5px 2px #6f7158; 
+box-shadow: 1px 1px 5px 2px #6f7158;
 margin-right:10px;
 -webkit-transition:0.5s ease;
 -moz-transition:0.5s ease;
@@ -156,7 +156,6 @@ transition:0.5s ease;
 
 #facebook2
 {
-clear:both;
 text-align:left;
 float:left;
 background:#ecea47;
@@ -165,8 +164,8 @@ width:172px;
 height:10px;
 border-radius:3px;
 cursor:pointer;
-box-shadow: 1px 1px 5px 2px #b1b67f; 
-margin-top:10px;
+box-shadow: 1px 1px 5px 2px #b1b67f;
+margin-top: 0px;
 margin-right:10px;
 -webkit-transition:0.5s ease;
 -moz-transition:0.5s ease;
@@ -248,12 +247,12 @@ transition:0.5s ease;
 {
 float:left;
 width:280px;
-height:160px;
+height: auto;
 padding:10px 15px;
 position:relative;
 background:#555555;
 border-radius:3px;
-box-shadow: 1px 1px 10px 2px #363738; 
+box-shadow: 1px 1px 10px 2px #363738;
 margin-right:10px;
 -webkit-transition:0.5s ease;
 -moz-transition:0.5s ease;
@@ -332,7 +331,7 @@ width:40px;
 height:40px;
 text-align:center;
 border-radius:50%;
-box-shadow: 1px 1px 3px 2px #363738; 
+box-shadow: 1px 1px 3px 2px #363738;
 font-weight:bold;
 line-height:38px;
 font-size: 13px;

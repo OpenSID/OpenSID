@@ -6,21 +6,24 @@ class modul extends CI_Controller{
 		$this->load->model('user_model');
 		$this->load->model('modul_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) redirect('siteman');
-		$this->load->model('header_model');		
+		if($grup!=1) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
+		$this->load->model('header_model');
 	}
-		
+
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		redirect('modul');
 	}
 	function index(){
-			
+
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
-		
+
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
@@ -28,16 +31,16 @@ class modul extends CI_Controller{
 		$data['keyword'] = $this->modul_model->autocomplete();
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header',$header);
-		
+
 		$this->load->view('setting/nav',$nav);
 		$this->load->view('setting/modul/table',$data);
 		$this->load->view('footer');
 	}
-		
+
 	function form($id=''){
-		
+
 		if($id){
 			$data['modul']          = $this->modul_model->get_data($id);
 			$data['form_action'] = site_url("modul/update/$id");
@@ -46,11 +49,11 @@ class modul extends CI_Controller{
 			$data['modul']          = null;
 			$data['form_action'] = site_url("modul/insert");
 		}
-		
+
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header',$header);
-		
+
 		$nav['act']= 1;
 		$this->load->view('setting/nav',$nav);
 		$this->load->view('setting/modul/form',$data);
@@ -85,5 +88,5 @@ class modul extends CI_Controller{
 	function delete_all(){
 		$this->modul_model->delete_all();
 		redirect('modul');
-	}	
+	}
 }

@@ -75,6 +75,25 @@
 		return $data;
 	}
 
+	function list_anak($id){
+		$sql = "SELECT u.id, u.nik, u.nama,w.dusun,w.rw,w.rt
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE
+				id_kk=(SELECT id_kk FROM tweb_penduduk WHERE id=? AND (kk_level=1 OR kk_level=2 OR kk_level=3))
+				AND kk_level=4";
+		$query = $this->db->query($sql,$id);
+		$data  = $query->result_array();
+
+		//Formating Output
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['alamat']= "RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
+			$i++;
+		}
+		return $data;
+	}
+
 	function list_penduduk_ex($id=0){
 		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1 AND id NOT IN(?)";
 		$query = $this->db->query($sql,$id);

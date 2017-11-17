@@ -34,9 +34,15 @@ class User_Model extends CI_Model{
 				$_SESSION['user']     = $row->id;
 				$_SESSION['grup']     = $row->id_grup;
 				$_SESSION['per_page'] = 10;
+				unset($_SESSION['siteman_timeout']);
 			}
 		} else{
 			$_SESSION['siteman']=-1;
+			if($_SESSION['siteman_try'] > 2){
+				$_SESSION['siteman_try'] = $_SESSION['siteman_try']-1;
+			}else{
+				$_SESSION['siteman_wait']=1;
+			}
 		}
 	}
 

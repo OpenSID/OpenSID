@@ -31,23 +31,35 @@
 		</div>
 		</a>
 		<div id="mainlogin">
-		<div id="or"><?php echo substr(AmbilVersi(), 0, 4)?></div>
-		<h1>Masukan Username dan Password</h1>
-		<form action="<?php echo site_url('siteman/auth')?>" method="post">
-		<input name="username" type="text" placeholder="username" value="" required>
-		<input name="password" type="password" placeholder="password" value="" required>
-		<button type="submit" id="but">LOGIN</button>
-			<?php  if($_SESSION['siteman']==-1){ ?>
-			<div id="note">
-				Login Gagal. Username atau Password yang Anda masukkan salah!
-			</div>
-			<?php  } else if($_SESSION['siteman']==-2) { ?>
- 			<div id="note">
- 				Redaksi belum boleh login, SID belum memiliki sambungan internet!
- 			</div>
-			<?php }?>
-		</form>
+			<div id="or"><?php echo substr(AmbilVersi(), 0, 4)?></div>
+			<form action="<?php echo site_url('siteman/auth')?>" method="post">
+			  <?php if($_SESSION['siteman_wait']==1) : ?>
+					<div id="note">
+		        <h2 style="padding:10px;">Gagal 3 kali, silakan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['siteman_timeout'])*(-1));?> lagi</h2>
+			    </div>
+			  <?php else: ?>
+					<h1>Masukan Username dan Password</h1>
+					<input name="username" type="text" placeholder="username" <?php if($_SESSION['siteman_wait']==1) echo 'disabled="disabled"'?> value="" required>
+					<input name="password" type="password" placeholder="password" <?php if($_SESSION['siteman_wait']==1) echo 'disabled="disabled"'?> value="" required>
+					<button type="submit" id="but">LOGIN</button>
+					<?php  if($_SESSION['siteman']==-1){ ?>
+						<div id="note">
+							<p>Login Gagal. Username atau Password yang Anda masukkan salah!</p>
+						</div>
+			      <?php  if($_SESSION['siteman_try']){ ?>
+				      <div id="note">
+				        <p style="padding-top: 8px;">Kesempatan mencoba <?php echo ($_SESSION['siteman_try']-1); ?> kali lagi.</p>
+				      </div>
+			      <?php }?>
+					<?php  } else if($_SESSION['siteman']==-2) { ?>
+			 			<div id="note">
+			 				Redaksi belum boleh login, SID belum memiliki sambungan internet!
+			 			</div>
+					<?php }?>
+				<?php endif; ?>
+			</form>
 		</div>
+		<div style="clear: both; line-height: 10px;">&nbsp;</div>
 		<div id="facebook2">
 			<div id="kab2">powered by: <a href="https://github.com/eddieridwan/OpenSID" target="_blank">OpenSID</a></div>
 		</div>

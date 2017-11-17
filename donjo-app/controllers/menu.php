@@ -6,7 +6,10 @@ class menu extends CI_Controller{
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
+		if($grup!=1 AND $grup!=2 AND $grup!=3) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$this->load->model('header_model');
 		$this->load->model('web_menu_model');
 		$this->modul_ini = 13;

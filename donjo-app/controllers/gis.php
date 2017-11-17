@@ -23,7 +23,10 @@ class Gis extends CI_Controller{
 		$this->load->model('header_model');
 
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) redirect('siteman');
+		if($grup!=1) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		//$this->output->enable_profiler(1);
 		// Load library ion auth
 //		$this->load->library('ion_auth');

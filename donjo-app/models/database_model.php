@@ -165,6 +165,42 @@
         gambar = VALUES(gambar),
         nama = VALUES(nama)";
     $this->db->query($query);
+    // Ganti kelas sosial dengan tingkatan keluarga sejahtera dari BKKBN
+    if ($this->db->table_exists('ref_kelas_sosial') ) {
+      $this->dbforge->drop_table('ref_kelas_sosial');
+    }
+    if (!$this->db->table_exists('tweb_keluarga_sejahtera') ) {
+      $query = "
+        CREATE TABLE `tweb_keluarga_sejahtera` (
+          `id` int(10),
+          `nama` varchar(100),
+          PRIMARY KEY  (`id`)
+        );
+      ";
+      $this->db->query($query);
+      $query = "
+        INSERT INTO `tweb_keluarga_sejahtera` (`id`, `nama`) VALUES
+        (1,  'Keluarga Pra Sejahtera'),
+        (2,  'Keluarga Sejahtera I'),
+        (3,  'Keluarga Sejahtera II'),
+        (4,  'Keluarga Sejahtera III'),
+        (5,  'Keluarga Sejahtera III Plus')
+      ";
+      $this->db->query($query);
+    }
+    // Tambah surat izin orang tua/suami/istri
+    $data = array(
+      'nama'=>'Keterangan Izin Orang Tua/Suami/Istri',
+      'url_surat'=>'surat_izin_orangtua_suami_istri',
+      'kode_surat'=>'S-39',
+      'jenis'=>1);
+    $sql = $this->db->insert_string('tweb_surat_format', $data);
+    $sql .= " ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis)";
+    $this->db->query($sql);
   }
 
   function migrasi_25_ke_26(){

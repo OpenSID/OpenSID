@@ -6,7 +6,10 @@ class Surat extends CI_Controller{
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
+		if($grup!=1 AND $grup!=2 AND $grup!=3) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('keluarga_model');
@@ -30,6 +33,7 @@ class Surat extends CI_Controller{
 		unset($_SESSION['id_saksi1']);
 		unset($_SESSION['id_saksi2']);
 		unset($_SESSION['id_pelapor']);
+		unset($_SESSION['id_diberi_izin']);
 		unset($_SESSION['post']);
 
 

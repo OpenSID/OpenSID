@@ -97,8 +97,11 @@
 	function kelas_sql(){
 		if(isset($_SESSION['kelas'])){
 			$kh = $_SESSION['kelas'];
-			$kelas_sql= " AND kelas_sosial= $kh";
-		return $kelas_sql;
+			if ($kh == BELUM_MENGISI)
+				$sql = " AND (u.kelas_sosial IS NULL OR u.kelas_sosial = '')";
+			else
+				$sql= " AND kelas_sosial= $kh";
+		return $sql;
 		}
 	}
 
@@ -111,9 +114,7 @@
 	}
 
 	function paging($p=1,$o=0){
-
-		$sql      = "SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
-		$sql     .= $this->filter_sql();
+		$sql    = "SELECT COUNT(u.id) AS id ".$this->_list_data_sql();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
@@ -127,6 +128,18 @@
 		return $this->paging;
 	}
 
+	private function _list_data_sql() {
+		$sql = "FROM tweb_keluarga u
+			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
+			LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id
+			WHERE 1 ";
+
+		$sql 	.= $this->filter_sql();
+		$sql 	.= $this->kelas_sql();
+		$sql 	.= $this->bos_sql();
+		//$sql     .= $this->rt_sql();
+		return $sql;
+	}
 
 	function list_data($o=0,$offset=0,$limit=500){
 
@@ -144,13 +157,7 @@
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql   = "SELECT u.*,t.nama AS kepala_kk,t.nik,t.sex,t.status_dasar,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,c.dusun,c.rw,c.rt
-			FROM tweb_keluarga u
-			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
-			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
-			WHERE 1 ";
-
-		$sql .= $this->filter_sql();
+		$sql   = "SELECT u.*,t.nama AS kepala_kk,t.nik,t.sex,t.status_dasar,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,c.dusun,c.rw,c.rt ".$this->_list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -175,75 +182,6 @@
 		return $data;
 	}
 
-	function paging_statistik($p=1,$o=0){
-		if($_SESSION['kelas']){
-			$sql="SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE kelas_sosial = $_SESSION[kelas] ";
-			$sql .= $this->search_sql();
-		}else{
-			$sql    = "SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
-			$sql    .= $this->search_sql();
-			$sql    .= $this->kelas_sql();
-			$sql		.= $this->bos_sql();
-		}
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
-		$jml_data = $row['id'];
-
-		$this->load->library('paging');
-		$cfg['page']     = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
-	}
-
-
-	function list_data_statistik($tipe=21,$o=0,$offset=0,$limit=500){
-
-		//Ordering SQL
-		switch($o){
-			case 1: $order_sql = ' ORDER BY u.no_kk'; break;
-			case 2: $order_sql = ' ORDER BY u.no_kk DESC'; break;
-			case 3: $order_sql = ' ORDER BY kepala_kk'; break;
-			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
-			case 5: $order_sql = ' ORDER BY g.nama'; break;
-			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
-			default:$order_sql = ' ORDER BY u.tgl_daftar DESC';
-		}
-
-		//Paging SQL
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-
-		if($tipe==21){
-			$sql="SELECT u.*,t.nama AS kepala_kk,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE kelas_sosial=$_SESSION[kelas] ";
-			$sql .= $this->search_sql();
-		}else{
-			$sql   = "SELECT u.*,t.nama AS kepala_kk,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
-
-			$sql .= $this->search_sql();
-			//$sql     .= $this->kelas_sql();
-			$sql 	.= $this->bos_sql();
-			//$sql     .= $this->rt_sql();
-			//$sql .= $order_sql;
-			$sql .= $paging_sql;
-		}
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
-
-		//Formating Output
-		$i=0;
-		$j=$offset;
-		while($i<count($data)){
-			$data[$i]['no']=$j+1;
-			if($data[$i]['jumlah_anggota']==0)
-				$data[$i]['jumlah_anggota'] = "-";
-
-			$i++;
-			$j++;
-		}
-		return $data;
-	}
 
 	// Tambah keluarga baru dari penduduk lepas (status tetap atau pendatang)
 	function insert(){
@@ -529,11 +467,24 @@
 	}
 
 	function get_data_cetak_kk($id=0){
-		$data['id_kk'] = $id;
+		$kk['id_kk'] = $id;
 
-		$data['main'] = $this->keluarga_model->list_anggota($id);
-		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
-		$data['desa'] = $this->keluarga_model->get_desa();
+		$kk['main'] = $this->keluarga_model->list_anggota($id);
+		$kk['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
+		$kk['desa'] = $this->keluarga_model->get_desa();
+		$data['all_kk'][] = $kk;
+		return $data;
+	}
+
+	function get_data_cetak_kk_all(){
+		$data = array();
+		$id_cb = $_POST['id_cb'];
+		if(count($id_cb)){
+			foreach($id_cb as $id){
+				$kk = $this->get_data_cetak_kk($id);
+				$data['all_kk'][] = $kk['all_kk'][0]; //Kumpulkan semua kk
+			}
+		}
 		return $data;
 	}
 
@@ -699,7 +650,7 @@
 		foreach ($program as $bantuan) {
 			if (in_array($bantuan['id'],$id_program)){
 				// Tambahkan ke program bantuan
-				$this->program_bantuan_model->add_peserta($no_kk, $bantuan['id']);
+				$this->program_bantuan_model->add_peserta(array('nik'=>$no_kk), $bantuan['id']);
 			} else {
 				// Hapus dari program bantuan
 				$this->program_bantuan_model->hapus_peserta_program($no_kk, $bantuan['id']);
@@ -777,16 +728,62 @@
 	}
 
 
-	function get_judul_statistik($tipe=0,$nomor=1){
-		switch($tipe){
-			case 21: $sql   = "SELECT * FROM klasifikasi_analisis_keluarga WHERE id=? and jenis='1'  ";break;
-			case 24: $sql   = "SELECT * FROM ref_bos WHERE id=?";break;
+	function get_judul_statistik($tipe=0,$nomor=1,$sex=0){
+		if ($nomor == BELUM_MENGISI)
+			$judul = array("nama" => "BELUM MENGISI");
+		else {
+			switch($tipe){
+				case 'kelas_sosial': $sql = "SELECT * FROM tweb_keluarga_sejahtera WHERE id=? "; break;
+				case 21: $sql   = "SELECT * FROM klasifikasi_analisis_keluarga WHERE id=? and jenis='1'  ";break;
+				case 24: $sql   = "SELECT * FROM ref_bos WHERE id=?";break;
+			}
+			$query = $this->db->query($sql,$nomor);
+			$judul = $query->row_array();
 		}
-		$query = $this->db->query($sql,$nomor);
-		return $query->row_array();
+		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";
+		elseif ($sex == 2) $judul['nama'] .= " - PEREMPUAN";
+		return $judul;
 	}
 
-	function coba($data=''){
+	function get_data_unduh_kk($id){
+		$data = array();
+		$data['desa']     = $this->get_desa();
+		$data['id_kk']    = $id;
+		$data['main']     = $this->list_anggota($id);
+		$data['kepala_kk']= $this->get_kepala_kk($id);
+		return $data;
+	}
+
+	function unduh_kk($id=''){
+		$id_cb = $_POST['id_cb'];
+		if (empty($id) AND count($id_cb) == 1){
+			// Aksi borongan dengan satu KK saja
+			$id = $id_cb[0];
+		}
+		if (empty($id)){
+			// Aksi borongan lebih dari satu KK
+			$berkas_kk = array();
+			if(count($id_cb)){
+				foreach($id_cb as $id){
+					$data = $this->get_data_unduh_kk($id);
+					$berkas_kk[] = $this->buat_berkas_kk($data);
+				}
+			}
+			# Masukkan semua berkas ke dalam zip
+			$berkas_kk = $this->masukkan_zip($berkas_kk);
+	    # Unduh berkas zip
+	    header('Content-disposition: attachment; filename=berkas_kk_'.date("d-m-Y").'.zip');
+	    header('Content-type: application/zip');
+	    readfile($berkas_kk);
+		} else {
+			// Satu kk
+			$data = $this->get_data_unduh_kk($id);
+			$berkas_kk = $this->buat_berkas_kk($data);
+			header("location:".base_url($berkas_kk));
+		}
+	}
+
+	function buat_berkas_kk($data=''){
 		$mypath="surat\\kk\\";
 
 		$path = "".str_replace("\\","/",$mypath);
@@ -867,8 +864,22 @@
 		$handle = fopen($berkas_arsip,'w+');
 		fwrite($handle,$buffer);
 		fclose($handle);
-		$_SESSION['success']=8;
-		header("location:".base_url($berkas_arsip));
+		return $berkas_arsip;
+	}
+
+	function masukkan_zip($files=array()){
+    $zip = new ZipArchive();
+    # create a temp file & open it
+    $tmp_file = tempnam(sys_get_temp_dir(),'');
+    $zip->open($tmp_file, ZipArchive::CREATE);
+
+    # masukkan setiap berkas ke dalam zip
+    foreach($files as $file){
+        $download_file = file_get_contents($file);
+        $zip->addFromString(basename($file),$download_file);
+    }
+    $zip->close();
+    return $tmp_file;
 	}
 
 	function coba2(){
