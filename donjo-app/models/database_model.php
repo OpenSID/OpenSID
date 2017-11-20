@@ -1552,6 +1552,7 @@
       "artikel", //remove everything except widgets 1003
       "data_surat", // view
       "media_sosial", //?
+      "provinsi",
       "setting_modul",
       "setting_aplikasi",
       "tweb_cacat",
