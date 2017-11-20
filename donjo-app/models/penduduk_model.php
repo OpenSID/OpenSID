@@ -152,12 +152,19 @@
 		}
 	}
 
+	function status_dasar_sql(){
+		// Hanya filter status_dasar kalau bukan log_penduduk
+		if(isset($_SESSION['status_dasar']) AND !isset($_SESSION['log'])){
+			$kf = $_SESSION['status_dasar'];
+				$status_dasar= " AND u.status_dasar = $kf";
+		return $status_dasar;
+		}
+	}
+
 	function log_sql(){
 		if(isset($_SESSION['log'])){
 			// Hanya tampilkan penduduk yang status dasarnya bukan 'HIDUP'
 			$log_sql= " AND u.status_dasar > 1 ";
-		}else{
-			$log_sql= " AND u.status_dasar = 1 ";
 		}
 		return $log_sql;
 	}
@@ -223,6 +230,7 @@
 
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
+		$sql .= $this->status_dasar_sql();
 		$sql .= $this->sex_sql();
 		$sql .= $this->dusun_sql();
 		$sql .= $this->rw_sql();
@@ -253,7 +261,6 @@
 		$sql .= $this->umur_sql();
 		$sql .= $this->log_sql();
 		$sql .= $this->hamil_sql();
-
 		return $sql;
 	}
 
@@ -272,7 +279,6 @@
 		//Main Query
 		$list_data_sql = $this->list_data_sql($log);
 		$sql = $select_sql." ".$list_data_sql;
-
 
 		//Ordering SQL
 		switch($o){

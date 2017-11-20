@@ -37,8 +37,13 @@ source: keyword
                     <option value="">Semua</option>
                     <option value="1" <?php if($filter==1 ) :?>selected<?php endif?>>Tetap</option>
                     <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Tidak Aktif</option>
-                    <option value="3" <?php if($filter==3) :?>selected<?php endif?>>Pendatang</option>
+                    <option value="3" <?php if($filter==3) :?>selected<?php endif?>>Penduduk Domisili</option>
                 </select>
+							  <select name="status_dasar" onchange="formAction('mainform','<?php echo site_url('penduduk/status_dasar')?>')">
+							  		<?php foreach($list_status_dasar as $data): ?>
+							  			<option value="<?php echo $data['id']?>" <?php if($status_dasar==$data['id']):?>selected<?php  endif;?>><?php echo ucwords(strtolower($data['nama']))?></option>
+							  		<?php endforeach; ?>
+							  </select>
 
                 <select name="sex" onchange="formAction('mainform','<?php echo site_url('penduduk/sex')?>')">
                     <option value="">Jenis Kelamin</option>
@@ -142,10 +147,12 @@ source: keyword
 <td>
 	<div class="uibutton-group">
 		<a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"  class="uibutton tipsy south fa-tipis"  title="Rincian Data Penduduk"> <span class="fa fa-address-book"></span> Rincian </a>
-		<a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Ubah Data"> <span class="fa fa-edit"></span> </a>
-		<a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar" modalWidth="auto" modalHeight="auto"><span class="fa fa-wrench"></span></a>
-		<a href="<?php echo site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Ubah Alamat/Pindah Penduduk dalam Desa" target="ajax-modal" rel="window" header="Ubah/Pindah Alamat Penduduk Lepas" modalWidth="auto" modalHeight="auto"><span class="fa fa-share-square-o"></span></a>
-		<?php  if($grup==1){?><a href="<?php echo site_url("penduduk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Hapus Data"  target="confirm" message="Apakah Anda Yakin?" rel="window" header="Hapus Data"><span class="fa fa-trash"></span></a><?php  }?>
+		<?php if($data['status_dasar']==1): ?>
+			<a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Ubah Data"> <span class="fa fa-edit"></span> </a>
+			<a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar" modalWidth="auto" modalHeight="auto"><span class="fa fa-wrench"></span></a>
+			<a href="<?php echo site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Ubah Alamat/Pindah Penduduk dalam Desa" target="ajax-modal" rel="window" header="Ubah/Pindah Alamat Penduduk Lepas" modalWidth="auto" modalHeight="auto"><span class="fa fa-share-square-o"></span></a>
+			<?php  if($grup==1){?><a href="<?php echo site_url("penduduk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Hapus Data"  target="confirm" message="Apakah Anda Yakin?" rel="window" header="Hapus Data"><span class="fa fa-trash"></span></a><?php  }?>
+		<?php endif; ?>
 	</div>
 </td>
 <td align="center"><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
