@@ -71,7 +71,10 @@ class Penduduk extends CI_Controller{
 
 		if(isset($_SESSION['status_dasar']))
 			$data['status_dasar'] = $_SESSION['status_dasar'];
-		else $data['status_dasar'] = '1';
+		else {
+			$data['status_dasar'] = '1';
+			$_SESSION['status_dasar'] = '1';
+		}
 
 		if(isset($_SESSION['sex']))
 			$data['sex'] = $_SESSION['sex'];

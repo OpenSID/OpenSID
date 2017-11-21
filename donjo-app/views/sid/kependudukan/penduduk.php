@@ -156,11 +156,11 @@ source: keyword
 	</div>
 </td>
 <td align="center"><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
-<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
+<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper($data['nama'])?></a></td>
 <td align="center"><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?> </a> </td>
 <td><a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?php echo $data['no_rtm']?></a></td>
 <td><?php echo strtoupper($data['alamat'])?></td>
-<td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+<td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
 <td align="center"><?php echo $data['rw']?></td>
 <td align="center"><?php echo $data['rt']?></td>
 <td><?php echo $data['pendidikan']?></td>
