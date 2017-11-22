@@ -726,7 +726,7 @@ $('document').ready(function(){
   </tr>
   <tr class="saksi1_luar_desa">
     <th>NIK</th>
-    <td><input name="nik_saksi1" type="text" class="inputbox required" id="nik_saksi1" size="70" value="<?php echo $_SESSION['post']['nik_saksi2']?>"/></td>
+    <td><input name="nik_saksi1" type="text" class="inputbox required" id="nik_saksi1" size="70" value="<?php echo $_SESSION['post']['nik_saksi1']?>"/></td>
   </tr>
   <tr class="saksi1_luar_desa">
     <th>Tempat Lahir  </th>
