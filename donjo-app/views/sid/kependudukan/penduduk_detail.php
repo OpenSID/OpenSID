@@ -31,7 +31,12 @@
               </tr>
               <tr>
                 <td>Nomor Kartu Keluarga</td><td >:</td>
-                <td><?php echo $penduduk['no_kk']?></td>
+                <td>
+                  <?php echo $penduduk['no_kk']?>
+                  <?php if($penduduk['status_dasar_id'] <> '1' AND $penduduk['no_kk'] <> $penduduk['log_no_kk'])
+                    echo " (waktu peristiwa {$penduduk['status_dasar']}: {$penduduk['log_no_kk']})";
+                  ?>
+                </td>
               </tr>
               <tr>
                 <td>Nomor KK Sebelumnya</td><td >:</td>
@@ -198,7 +203,9 @@
             <div class="right">
               <div class="uibutton-group">
                 <a href="<?php echo site_url("penduduk/dokumen/$penduduk[id]")?>" class="uibutton special"><span class="fa fa-bars"></span> Manajemen Dokumen</a>
-                <a href="<?php echo site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="uibutton confirm"><span class="fa fa-edit"></span> Ubah Data</a>
+                <?php if($penduduk['status_dasar_id']==1): ?>
+                  <a href="<?php echo site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="uibutton confirm"><span class="fa fa-edit"></span> Ubah Data</a>
+                <?php endif; ?>
                 <a href="<?php echo site_url("penduduk/cetak_biodata/$penduduk[id]")?>" target="_blank" class="uibutton special"><span class="fa fa-print"></span> Cetak Biodata</a>
               </div>
             </div>

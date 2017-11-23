@@ -31,4 +31,15 @@ class setting extends CI_Controller{
 		redirect('setting');
 	}
 
+	function info_sistem(){
+		$nav['act']= 3;
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header',$header);
+
+		$this->load->view('setting/nav',$nav);
+		$this->load->view('setting/info_php');
+		$this->load->view('footer');
+	}
+
 }

@@ -201,6 +201,19 @@
         kode_surat = VALUES(kode_surat),
         jenis = VALUES(jenis)";
     $this->db->query($sql);
+    // Tambah surat sporadik
+    $data = array(
+      'nama'=>'Pernyataan Penguasaan Fisik Bidang Tanah (SPORADIK)',
+      'url_surat'=>'surat_sporadik',
+      'kode_surat'=>'S-40',
+      'jenis'=>1);
+    $sql = $this->db->insert_string('tweb_surat_format', $data);
+    $sql .= " ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis)";
+    $this->db->query($sql);
   }
 
   function migrasi_25_ke_26(){
@@ -1552,11 +1565,13 @@
       "artikel", //remove everything except widgets 1003
       "data_surat", // view
       "media_sosial", //?
+      "provinsi",
       "setting_modul",
       "setting_aplikasi",
       "tweb_cacat",
       "tweb_cara_kb",
       "tweb_golongan_darah",
+      "tweb_keluarga_sejahtera",
       "tweb_penduduk_agama",
       "tweb_penduduk_hubungan",
       "tweb_penduduk_kawin",
@@ -1572,8 +1587,14 @@
       "tweb_status_dasar",
       "tweb_surat_format",
       "user",
-      "user_grup"
+      "user_grup",
+      "widget"
     );
+
+    // Hanya kosongkan contoh menu kalau pengguna memilih opsi itu
+    if(empty($_POST['kosongkan_menu'])){
+      array_push($table_lookup,"kategori","menu");
+    }
 
     // Hapus semua artikel kecuali artikel widget dengan kategori 1003
     $this->db->where("id_kategori !=", "1003");
@@ -1586,7 +1607,9 @@
         $this->db->query($query);
       }
     }
+    $_SESSION['success'] = 1;
   }
+
 
 }
 ?>
