@@ -27,7 +27,7 @@ Lengkapnya, isi rilis v2.7 (versi pra-rilis):
 21. #497: Sekarang di halaman Penduduk disediakan pilihan untuk menampilkan penduduk mati/pindah/hilang. Ubah istilah 'penduduk pendatang' menjadi 'penduduk domisili'. Di halaman biodata penduduk yg status dasarnya mati/hilang/pindah tampilkan no_kk yg tersimpan di log_penduduk.
 22. Sediakan menu Pengaturan > Info Sistem untuk menampilkan info PHP untuk membantu melacak masalah.
 23. Perbaiki tampilan nama saksi1 di surat_ket_kelahiran. [bug-fix].
-24. #210: Tambah surat pernyataan penguasaan fisik bidang tanah (SPORADIK).
+24. #210: Tambah surat pernyataan penguasaan fisik bidang tanah (SPORADIK). Pemohon bisa dari warga desa atau non-warga yang tidak terekam di database.
 25. #351: Sekarang impor BIP bisa membaca format BIP eKTP format Kabupaten Musi Rawas.
 
 
