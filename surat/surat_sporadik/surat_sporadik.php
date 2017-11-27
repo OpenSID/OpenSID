@@ -20,6 +20,22 @@
 
 	});
 
+  function ubah_pelaku(peran, asal){
+    $('#'+peran).val(asal);
+    if(asal == 1){
+      $('.'+peran+'_desa').show();
+      $('.'+peran+'_luar_desa').hide();
+      // Mungkin bug di jquery? Terpaksa hapus class radio button
+      $('#label_'+peran+'_2').removeClass('ui-state-active');
+    } else {
+      $('.'+peran+'_desa').hide();
+      $('.'+peran+'_luar_desa').show();
+      $('#id_'+peran+'_validasi').val('*'); // Hapus id
+      submit_form_ambil_data();
+    }
+    $('input[name=anchor').val(peran);
+  }
+
   function ubah_saksi1(asal){
     $('#saksi1').val(asal);
     if(asal == 1){
@@ -30,7 +46,7 @@
     } else {
       $('.saksi1_desa').hide();
       $('.saksi1_luar_desa').show();
-      $('#id_saksi1_validasi').val('*'); // Hapus $id_wanita
+      $('#id_saksi1_validasi').val('*'); // Hapus id
       submit_form_ambil_data();
     }
     $('input[name=anchor').val('saksi1');
@@ -67,7 +83,7 @@
     } else {
       $('.saksi2_desa').hide();
       $('.saksi2_luar_desa').show();
-      $('#id_saksi2_validasi').val('*'); // Hapus $id_wanita
+      $('#id_saksi2_validasi').val('*'); // Hapus id
       submit_form_ambil_data();
     }
     $('input[name=anchor').val('saksi2');
@@ -134,42 +150,74 @@
 
 			<form id="validasi" action="<?php echo $form_action?>" method="POST" target="_blank">
         <input id="nik_validasi" name="nik" type="hidden" value="<?php echo $_SESSION['post']['nik']?>">
+        <input id="id_pemohon_validasi" name="id_pemohon" type="hidden" value="">
 			  <input id="id_saksi1_validasi" name="id_saksi1" type="hidden" value="<?php echo $_SESSION['id_saksi1']?>"/>
 			  <input id="id_saksi2_validasi" name="id_saksi2" type="hidden" value="<?php echo $_SESSION['id_saksi2']?>"/>
 
+				<!-- PEMOHON -->
+				<tr><th><a name="pemohon"></a></th><td>&nbsp;</td></tr>
 				<tr>
-					<th>NIK / Nama Pemohon</th>
-					<td>
-						<div id="nik" name="nik"></div>
-					</td>
+				  <th class="grey">PEMOHON</th>
+				  <td class="grey">
+				    <div class="uiradio">
+				      <input type="radio" id="pemohon_1" name="pemohon" value="1" <?php if(!empty($individu)){echo 'checked';}?> onchange="ubah_pelaku('pemohon',this.value);">
+				      <label for="pemohon_1">Warga Desa</label>
+				      <input type="radio" id="pemohon_2" name="pemohon" value="2" <?php if(empty($individu)){echo 'checked';}?> onchange="ubah_pelaku('pemohon',this.value);">
+				      <label id="label_pemohon_2" for="pemohon_2">Warga Luar Desa</label>
+				    </div>
+				  </td>
 				</tr>
 
-				<?php if($individu){ //bagian info setelah terpilih?>
-					<tr>
-						<th>Tempat Tanggal Lahir (Umur)</th>
+				<tr class="pemohon_desa" <?php if (empty($individu)) echo 'style="display: none;"'; ?>>
+				  <th colspan="2">PEMOHON WARGA DESA</th>
+				</tr>
+				<tr class="pemohon_desa" <?php if (empty($individu)) echo 'style="display: none;"'; ?>>
+				  <th class="indent">NIK / Nama</th>
+				  <td>
+				    <div id="nik" name="nik"></div>
+				    <?php if($individu){ //bagian info setelah terpilih
+				        include("donjo-app/views/surat/form/konfirmasi_pemohon.php");
+				    }?>
+				  </td>
+				</tr>
+
+				<?php if (empty($individu)) : ?>
+				  <tr class="pemohon_luar_desa">
+				    <th class="style6">DATA PEMOHON LUAR DESA</th>
+				  </tr>
+					<tr class="pemohon_luar_desa">
+						<th>Nama</th>
+						<td><input name="nama_non_warga" type="text" class="inputbox required" size="50" value="<?php echo $_SESSION['post']['nama_non_warga']?>"/></td>
+					</tr>
+					<tr class="pemohon_luar_desa">
+						<th>Nomor KTP</th>
+						<td><input name="nik_non_warga" type="text" class="inputbox required" size="30" value="<?php echo $_SESSION['post']['nik_non_warga']?>"/></td>
+					</tr>
+					<tr class="pemohon_luar_desa">
+						<th class="indent">Tempat Tanggal Lahir</th>
 						<td>
-							<?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
+							<input name="tempatlahir_pemohon" type="text" class="inputbox" size="30" value="<?php echo $_SESSION['post']['tempatlahir_pemohon']?>"/>
+							<input name="tanggallahir_pemohon" type="text" class="inputbox datepicker" size="20" value="<?php echo $_SESSION['post']['tempatlahir_pemohon']?>"/>
 						</td>
 					</tr>
-					<tr>
-						<th>Pekerjaan</th>
+					<tr class="pemohon_luar_desa">
+						<th class="indent">Pekerjaan</th>
 						<td>
-							<?php echo $individu['pekerjaan']?>
+					    <select name="pekerjaan_pemohon">
+					      <option value="">Pilih Pekerjaan</option>
+					      <?php foreach($pekerjaan as $data){?>
+					        <option value="<?php echo $data['nama']?>" <?php if($data['nama']==$_SESSION['post']['pekerjaan_pemohon']) echo 'selected'?>><?php echo ucwords($data['nama'])?></option>
+					      <?php }?>
+					    </select>
 						</td>
 					</tr>
-					<tr>
-						<th>No. KTP/Domisili</th>
+					<tr class="pemohon_luar_desa">
+						<th class="indent">Tempat Tinggal</th>
 						<td>
-							<?php echo $individu['nik']?>
+							<input name="alamat_pemohon" type="text" class="inputbox" size="100" value="<?php echo $_SESSION['post']['alamat_pemohon']?>"/>
 						</td>
 					</tr>
-					<tr>
-						<th>Alamat</th>
-						<td>
-							<?php echo $individu['alamat']; ?>
-						</td>
-					</tr>
-				<?php }?>
+				<?php endif; ?>
 
 				<tr>
 					<th>ATAS BIDANG TANAH YANG TERLETAK DI :</th>

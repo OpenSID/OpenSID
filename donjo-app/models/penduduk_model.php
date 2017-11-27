@@ -889,6 +889,12 @@
 		return $data;
 	}
 
+	// Untuk pekerjaan, ubah bentuk seperti 'Belum/tidak Bekerja' menjadi 'Belum/Tidak Bekerja'
+	private function ubah_ke_huruf_besar($matches){
+		$matches[0][1] = strtoupper($matches[0][1]);
+		return $matches[0];
+	}
+
 	function list_pekerjaan($case=''){
 		$sql   = "SELECT * FROM tweb_penduduk_pekerjaan WHERE 1";
 		$query = $this->db->query($sql);
@@ -899,6 +905,15 @@
 				$data[$i]['nama'] = str_replace("(pns)", "(PNS)", $data[$i]['nama']);
 				$data[$i]['nama'] = str_replace("(tni)", "(TNI)", $data[$i]['nama']);
 				$data[$i]['nama'] = str_replace("(polri)", "(POLRI)", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace(" Ri ", " RI ", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("Dpr-ri", "DPR-RI", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("Dpd", "DPD", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("Bpk", "BPK", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("Dprd", "DPRD", $data[$i]['nama']);
+				if (strpos($data[$i]['nama'],'/')) {
+					$nama = $data[$i]['nama'];
+					$data[$i]['nama'] = preg_replace_callback('/\/\S{1}/', "Penduduk_Model::ubah_ke_huruf_besar", $nama);
+				}
 			}
 		}
 		return $data;

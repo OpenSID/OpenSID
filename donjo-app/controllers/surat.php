@@ -79,7 +79,6 @@ class Surat extends CI_Controller{
 		$data['form_action2'] = site_url("surat/doc/$url");
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-
 		$this->load->view('header',$header);
 		$this->load->view('surat/nav',$nav);
 		$this->load->view("surat/form_surat",$data);
@@ -150,15 +149,14 @@ class Surat extends CI_Controller{
 		}
 		if($id){
 			$log_surat['id_pend']=$id;
+			$nik = $this->db->select('nik')->where('id',$id)->get('tweb_penduduk')
+					->row()->nik;
 		} else {
 			// Surat untuk non-warga
 			$log_surat['nama_non_warga'] = $_POST['nama_non_warga'];
 			$log_surat['nik_non_warga'] = $_POST['nik_non_warga'];
+			$nik = $log_surat['nik_non_warga'];
 		}
-		$sql = "SELECT nik FROM tweb_penduduk WHERE id=?";
-		$query = $this->db->query($sql,$id);
-		$hasil  = $query->row_array();
-		$nik = $hasil['nik'];
 
 		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
 		$lampiran = '';

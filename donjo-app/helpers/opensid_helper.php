@@ -461,6 +461,13 @@ define("KODE_GOLONGAN_DARAH", serialize(array(
     error_log($now->format("m-d-Y H:i:s.u")." : ".$msg."\n", 3, "opensid.log");
   }
 
+  function umur($tgl_lahir){
+    $date = new DateTime($tgl_lahir);
+    $now = new DateTime();
+    $interval = $now->diff($date);
+    return $interval->y;
+  }
+
   // Dari https://stackoverflow.com/questions/4117555/simplest-way-to-detect-a-mobile-device
   function isMobile() {
     return preg_match("/\b(?:a(?:ndroid|vantgo)|b(?:lackberry|olt|o?ost)|cricket|do‌​como|hiptop|i(?:emob‌​ile|p[ao]d)|kitkat|m‌​(?:ini|obi)|palm|(?:‌​i|smart|windows )phone|symbian|up\.(?:browser|link)|tablet(?: browser| pc)|(?:hp-|rim |sony )tablet|w(?:ebos|indows ce|os))/i", $_SERVER["HTTP_USER_AGENT"]);
