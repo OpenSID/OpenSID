@@ -127,3 +127,14 @@ nav.navbar.navbar-inverse{
 ul.nav.navbar-nav {
   text-transform: none;
 }
+
+#ul-menu {
+    list-style-type: square;
+  margin-left: 20px;
+  margin-bottom: 0px;
+}
+ul.submenu {
+    list-style: disc;
+    margin-left: 20px;
+}
+
