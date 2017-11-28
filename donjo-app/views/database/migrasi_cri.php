@@ -26,7 +26,7 @@
                       Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di
                       <ul>
                         <li>
-                          <a href="https://github.com/eddieridwan/OpenSID/issues">https://github.com/eddieridwan/OpenSID/issues</a>, dan di
+                          <a href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a>, dan di
                         </li>
                         <li>
                           <a href="https://www.facebook.com/groups/OpenSID/">https://www.facebook.com/groups/OpenSID/</a>

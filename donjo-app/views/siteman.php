@@ -61,7 +61,7 @@
 		</div>
 		<div style="clear: both; line-height: 10px;">&nbsp;</div>
 		<div id="facebook2">
-			<div id="kab2">powered by: <a href="https://github.com/eddieridwan/OpenSID" target="_blank">OpenSID</a></div>
+			<div id="kab2">powered by: <a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a></div>
 		</div>
 	</div>
 </body>
