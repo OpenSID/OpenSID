@@ -335,7 +335,7 @@ CREATE TABLE `artikel` (
   `jenis_widget` tinyint(2) NOT NULL DEFAULT '3',
   `boleh_komentar` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8;
 
 INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('7', '', '<p><strong>Awal mula SID</strong><br /> \"Awalnya ada keinginan dari pemerintah Desa Balerante yang berharap pelayanan pemerintah desa bisa seperti pengunjung rumah sakit yang ingin mencari data pasien rawat inap, tinggal ketik nama di komputer, maka data tersebut akan keluar\"<br /> (Mart Widarto, pengelola Program Lumbung Komunitas)<br /> Program ini mulai dibuat dari awal 2006: <br /> 1. (2006) komunitas melakukan komunikasi dan diskusi lepas tentang sebuah sistem yang bisa digunakan untuk menyimpan data.<br /> 2. (2008) Rangkaian FDG dengan pemerintah desa membahas tentang tata kelola pendokumentasian di desa<br /> 3. (2009) Ujicoba SID yang sudah dikembangkan di balerante<br /> 4. (2009-2010) Membangun SID (aplikasi) dibeberapa desa yang lain: terong (bantul), Nglegi (Gunungkidul) <br /> 5. (2011) Kandangan (Temanggung) Gilangharjo (bantul) Girikarto (gunungkidul) Talun (klaten) Pager Gunung (magelang) <br /> 6. hingga saat ini 2013 sudah banyak desa pengguna SID.<br /> <br /> <strong>SID sebagai tanggapan atas kebutuhan:</strong><br /> Kalau dulu untuk mencari data penduduk menurut kelompok umur saja kesulitan karena tidak mempunyai databasenya. Dengan adanya SID menjadi lebih mudah.<br /> (Nuryanto, Kabag Pelayanan Pemdes Terong)<br /> <br /> Membangun sebuah sistem bukan hanya membuatkan software dan meninggalkan begitu saja, namun ada upaya untuk memadukan sistem dengan kebutuhan yang ada pada desa. sehingga software dapat memenuhi kebutuhan yang telah ada bukan memaksakan desa untuk mengikuti dan berpindah sistem. inilah yang melatari combine melaksanakan alur pengaplikasian software.<br /> 1. Bentuk tim kerja bersama pemerintah desa<br /> 2. Diskusikan basis data apa saja yang diperlukan untuk warga<br /> 3. Himpun data kependudukan warga dari Kartu Keluarga (KK)<br /> 4. Daftarkan proyek SID dan dapatkan aplikasi softwarenya di http://abcd.lumbungkomunitas.net<br /> 5. Install aplikasi software SID di komputer desa<br /> 6. Entry data penduduk ke SID<br /> 7. Basis data kependudukan sudah bisa dimanfaatkan<br /> 8. Diskusikan rencana pengembangan SID sesuai kebutuhan desa<br /> 9. Sebarluaskan informasi desa melalui beragam media untuk warga<br /> <br /> Pemberdayaan data desa yang dibangun diharapkan dapat menjunjung kesejahteraan masyarakat desa, data-data tersebut dapat diperuntukkan untuk riset lebih lanjut tentang kemiskinan, tanggap bencana, sumberdaya desa yang bisa diekspose keluar dan dengan menghubungkan dari desa ke desa dapat mencontohkan banyak hal dalam keberhasilan pemberdayaannya.<br /> (sumber: Buku Sistem Informasi Desa) <br /> <strong><br /></strong></p>', '1', '2013-03-31 20:31:04', '999', '1', 'Awal mula SID', '0', '', '', '', '', '', NULL, '3', '1');
 INSERT INTO artikel (`id`, `gambar`, `isi`, `enabled`, `tgl_upload`, `id_kategori`, `id_user`, `judul`, `headline`, `gambar1`, `gambar2`, `gambar3`, `dokumen`, `link_dokumen`, `urut`, `jenis_widget`, `boleh_komentar`) VALUES ('32', '', '<div class=\"contentText\">\r\n<div align=\"justify\">Bagian ini berisi informasi dasar mengenai desa kami. Sila klik pada tautan berikut untuk mendapatkan informasi yang lebih rinci.</div>\r\n<div align=\"justify\">&nbsp;</div>\r\n<div align=\"justify\"><ol>\r\n<li>Sejarah Desa</li>\r\n<li>Profil Wilayah Desa</li>\r\n<li>Profil Masyarakat Desa</li>\r\n<li>Profil Potensi Desa</li>\r\n</ol></div>\r\n</div>', '1', '2013-07-29 17:46:44', '999', '1', 'Profil Desa', '0', '', '', '', '', '', NULL, '3', '1');
@@ -1365,7 +1365,7 @@ CREATE TABLE `log_bulanan` (
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9');
@@ -1374,6 +1374,7 @@ INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('5', '97', '46', '51', '37', '2017-08-01 01:37:30', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('6', '97', '46', '51', '37', '2017-09-05 06:13:41', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('7', '97', '46', '51', '37', '2017-10-29 09:37:57', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('8', '97', '46', '51', '37', '2017-11-28 01:51:11', '28', '9');
 
 
 #
@@ -1483,12 +1484,13 @@ CREATE TABLE `media_sosial` (
   `nama` varchar(100) NOT NULL,
   `enabled` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 INSERT INTO media_sosial (`id`, `gambar`, `link`, `nama`, `enabled`) VALUES ('1', 'fb.png', 'https://www.facebook.com/groups/OpenSID/', 'Facebook', '1');
 INSERT INTO media_sosial (`id`, `gambar`, `link`, `nama`, `enabled`) VALUES ('2', 'twt.png', '', 'Twitter', '1');
 INSERT INTO media_sosial (`id`, `gambar`, `link`, `nama`, `enabled`) VALUES ('3', 'goo.png', '', 'Google Plus', '1');
 INSERT INTO media_sosial (`id`, `gambar`, `link`, `nama`, `enabled`) VALUES ('4', 'yb.png', '', 'YouTube', '1');
+INSERT INTO media_sosial (`id`, `gambar`, `link`, `nama`, `enabled`) VALUES ('5', 'ins.png', '', 'Instagram', '1');
 
 
 #
@@ -1776,24 +1778,6 @@ INSERT INTO provinsi (`kode`, `nama`) VALUES ('92', 'Papua Barat');
 
 
 #
-# TABLE STRUCTURE FOR: ref_kelas_sosial
-#
-
-DROP TABLE IF EXISTS ref_kelas_sosial;
-
-CREATE TABLE `ref_kelas_sosial` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-INSERT INTO ref_kelas_sosial (`id`, `nama`) VALUES ('1', 'Tidak Miskin');
-INSERT INTO ref_kelas_sosial (`id`, `nama`) VALUES ('2', 'Sedang');
-INSERT INTO ref_kelas_sosial (`id`, `nama`) VALUES ('3', 'Miskin');
-INSERT INTO ref_kelas_sosial (`id`, `nama`) VALUES ('4', 'Sangat Miskin');
-
-
-#
 # TABLE STRUCTURE FOR: sentitems
 #
 
@@ -1861,7 +1845,7 @@ INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kate
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('17', 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('18', 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('19', 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.5.1', 'Versi sekarang untuk migrasi', NULL, NULL);
+INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.6', 'Versi sekarang untuk migrasi', NULL, NULL);
 
 
 #
@@ -2143,6 +2127,25 @@ INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sos
 INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('35', '5201140211117001', '88', '2016-09-14 13:28:03', NULL, NULL, NULL, '31');
 INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('36', '5201140211117002', '91', '2016-09-14 13:28:03', NULL, NULL, NULL, '31');
 INSERT INTO tweb_keluarga (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES ('37', '5201140211117003', '95', '2016-09-14 13:28:03', NULL, NULL, NULL, '31');
+
+
+#
+# TABLE STRUCTURE FOR: tweb_keluarga_sejahtera
+#
+
+DROP TABLE IF EXISTS tweb_keluarga_sejahtera;
+
+CREATE TABLE `tweb_keluarga_sejahtera` (
+  `id` int(10) NOT NULL DEFAULT '0',
+  `nama` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO tweb_keluarga_sejahtera (`id`, `nama`) VALUES ('1', 'Keluarga Pra Sejahtera');
+INSERT INTO tweb_keluarga_sejahtera (`id`, `nama`) VALUES ('2', 'Keluarga Sejahtera I');
+INSERT INTO tweb_keluarga_sejahtera (`id`, `nama`) VALUES ('3', 'Keluarga Sejahtera II');
+INSERT INTO tweb_keluarga_sejahtera (`id`, `nama`) VALUES ('4', 'Keluarga Sejahtera III');
+INSERT INTO tweb_keluarga_sejahtera (`id`, `nama`) VALUES ('5', 'Keluarga Sejahtera III Plus');
 
 
 #
@@ -2602,27 +2605,27 @@ CREATE TABLE `tweb_penduduk_umur` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('1', 'BALITA', '0', '5', NULL);
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('2', 'ANAK-ANAK', '6', '17', NULL);
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('3', 'DEWASA', '18', '30', NULL);
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('4', 'TUA', '31', '120', NULL);
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('6', 'Bayi ( < 1 ) Tahun', '0', '1', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('9', 'Balita ( 2 > 4 ) Tahun', '2', '4', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('12', 'Anak-anak ( 5 > 9 ) Tahun', '5', '9', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('13', 'Anak-anak ( 10 > 14 ) Tah', '10', '14', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('14', 'Remaja ( 15 > 19 ) Tahun', '15', '19', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('15', 'Remaja ( 20 > 24 ) Tahun', '20', '24', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('16', 'Dewasa ( 25 > 29 ) Tahun', '25', '29', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('17', 'Dewasa ( 30 > 34 ) Tahun', '30', '34', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('18', 'Dewasa ( 35 > 39 ) Tahun ', '35', '39', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('19', 'Dewasa ( 40 > 44 ) Tahun', '40', '44', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('20', 'Tua ( 45 > 49 ) Tahun', '45', '49', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('21', 'Tua ( 50 > 54 ) Tahun', '50', '54', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('22', 'Tua ( 55 > 59 ) Tahun', '55', '59', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('23', 'Tua ( 60 > 64 ) Tahun', '60', '64', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('24', 'Tua ( 65 > 69 ) Tahun', '65', '69', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('25', 'Tua ( 70 > 74 ) Tahun', '70', '74', '1');
-INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('26', 'Lansia ( > 75 ) Tahun', '75', '130', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('1', 'BALITA', '0', '5', '0');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('2', 'ANAK-ANAK', '6', '17', '0');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('3', 'DEWASA', '18', '30', '0');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('4', 'TUA', '31', '120', '0');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('6', 'Di bawah 1 Tahun', '0', '1', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('9', '2 s/d 4 Tahun', '2', '4', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('12', '5 s/d 9 Tahun', '5', '9', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('13', '10 s/d 14 Tahun', '10', '14', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('14', '15 s/d 19 Tahun', '15', '19', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('15', '20 s/d 24 Tahun', '20', '24', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('16', '25 s/d 29 Tahun', '25', '29', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('17', '30 s/d 34 Tahun', '30', '34', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('18', '35 s/d 39 Tahun ', '35', '39', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('19', '40 s/d 44 Tahun', '40', '44', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('20', '45 s/d 49 Tahun', '45', '49', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('21', '50 s/d 54 Tahun', '50', '54', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('22', '55 s/d 59 Tahun', '55', '59', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('23', '60 s/d 64 Tahun', '60', '64', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('24', '65 s/d 69 Tahun', '65', '69', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('25', '70 s/d 74 Tahun', '70', '74', '1');
+INSERT INTO tweb_penduduk_umur (`id`, `nama`, `dari`, `sampai`, `status`) VALUES ('26', 'Di atas 75 Tahun', '75', '99999', '1');
 
 
 #
@@ -2752,7 +2755,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
@@ -2784,6 +2787,8 @@ INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampira
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('45', 'Permohonan Kartu Keluarga', 'surat_permohonan_kartu_keluarga', 'S-36', 'f-1.15.php,f-1.01.php', '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('51', 'Domisili Usaha Non-Warga', 'surat_domisili_usaha_non_warga', 'S-37', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('76', 'Keterangan Beda Identitas KIS', 'surat_ket_beda_identitas_kis', 'S-38', NULL, '0', '0', '1');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('85', 'Keterangan Izin Orang Tua/Suami/Istri', 'surat_izin_orangtua_suami_istri', 'S-39', NULL, '0', '0', '1');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('86', 'Pernyataan Penguasaan Fisik Bidang Tanah (SPORADIK)', 'surat_sporadik', 'S-40', NULL, '0', '0', '1');
 
 
 #

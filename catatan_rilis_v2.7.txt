@@ -2,7 +2,7 @@ Rilis ini berisi Surat Keterangan Izin Orang Tua/Suami/Istri dan Surat Sporadik,
 
 Terima kasih pada Abdul Gani yang terus membuat kontribusi.
 
-Lengkapnya, isi rilis v2.7 (versi pra-rilis):
+Lengkapnya, isi rilis v2.7:
 
 1. Sekarang di halaman Setting Aplikasi, setting tema disediakan pilihan tema yang terpasang.
 2. #655: Tambah tombol media sosial Instagram. Tombol media sosial bisa di aktik/non-aktifkan. Mengikuti contoh SID 3.10.
