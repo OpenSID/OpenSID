@@ -6,7 +6,8 @@
     $('.slider').cycle({
 			pauseOnHover: true,
 			// Untuk menghilangkan titik-titik di cycle pager
-			pagerTemplate: '<span></span>'
+			pagerTemplate: '<span></span>',
+			slides: '> div',
 		});
 	});
 </script>
@@ -19,8 +20,11 @@
     <span class="cycle-pager"></span>  <!-- Untuk membuat tanda bulat atau link pada slider -->
   	<?php foreach ($slider_gambar['gambar'] as $gambar) : ?>
     	<?php if(is_file($slider_gambar['lokasi'].'sedang_'.$gambar['gambar'])) : ?>
-		    <img src="<?php echo base_url().$slider_gambar['lokasi'].'sedang_'.$gambar['gambar']?>" data-artikel="<?php echo $gambar['id']?>" onclick="tampil_artikel($(this).data('artikel'));">
-		   <?php endif; ?>
-	   <?php endforeach; ?>
+		    <div class='slider-item'>
+				<h2><?php echo $gambar['judul']; ?></h2>
+				<img src="<?php echo base_url().$slider_gambar['lokasi'].'sedang_'.$gambar['gambar']?>" data-artikel="<?php echo $gambar['id']?>" onclick="tampil_artikel($(this).data('artikel'));">
+			</div>
+		<?php endif; ?>
+	<?php endforeach; ?>
 	</div>
 </div>
