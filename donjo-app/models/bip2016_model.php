@@ -99,7 +99,7 @@ class BIP2016_Model extends import_model{
 		$data_anggota['nik'] = preg_replace('/[^0-9]/', '', trim($data_sheet[$i][3]));
 		$data_anggota['tempatlahir'] = trim($data_sheet[$i][4]);
 		$tanggallahir = trim($data_sheet[$i][5]);
-		$data_anggota['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
+		$data_anggota['tanggallahir'] = $this->format_tanggal($tanggallahir);
 		$tmp = unserialize(KODE_SEX);
 		$data_anggota['sex'] = $tmp[trim($data_sheet[$i][6])];
 		$tmp = unserialize(KODE_HUBUNGAN);

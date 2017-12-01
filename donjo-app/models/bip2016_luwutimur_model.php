@@ -108,7 +108,7 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
 		$data_anggota['sex'] = $this->kode_sex[trim($data_sheet[$i][5])];
 		$data_anggota['tempatlahir'] = trim($data_sheet[$i][6]);
 		$tanggallahir = trim($data_sheet[$i][7]);
-		$data_anggota['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
+		$data_anggota['tanggallahir'] = $this->format_tanggal($tanggallahir);
 		$data_anggota['golongan_darah_id'] = $this->kode_golongan_darah[strtolower(trim($data_sheet[$i][8]))];
 		if (empty($data_anggota['golongan_darah_id']) OR $data_anggota['golongan_darah_id'] == '-')
 			$data_anggota['golongan_darah_id'] = 13;

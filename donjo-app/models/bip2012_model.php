@@ -96,7 +96,7 @@ class BIP2012_Model extends import_model{
 		$data_anggota['sex'] = $tmp[trim($data_sheet[$i][5])];
 		$data_anggota['tempatlahir'] = trim($data_sheet[$i][6]);
 		$tanggallahir = trim($data_sheet[$i][7]);
-		$data_anggota['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
+		$data_anggota['tanggallahir'] = $this->format_tanggal($tanggallahir);
 		$tmp = unserialize(KODE_AGAMA);
 		$data_anggota['agama_id'] = $tmp[strtolower(trim($data_sheet[$i][9]))];
 		$tmp = unserialize(KODE_STATUS);

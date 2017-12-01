@@ -94,17 +94,18 @@ class import_model extends CI_Model{
 		return true;
 	}
 
-	function format_tanggallahir($tanggallahir) {
-		if(strlen($tanggallahir)==0){
-			return $tanggallahir;
+	function format_tanggal($kolom_tanggal) {
+		$tanggal = ltrim(trim($kolom_tanggal),"'");
+		if(strlen($tanggal)==0){
+			return $tanggal;
 		}
 
 		// Ganti separator tanggal supaya tanggal diproses sebagai dd-mm-YYYY.
 		// Kalau pakai '/', strtotime memrosesnya sebagai mm/dd/YYYY.
 		// Lihat panduan strtotime: http://php.net/manual/en/function.strtotime.php
-		$tanggallahir = str_replace('/', '-', $tanggallahir);
-		$tanggallahir = date("Y-m-d",strtotime($tanggallahir));
-		return $tanggallahir;
+		$tanggal = str_replace('/', '-', $tanggal);
+		$tanggal = date("Y-m-d",strtotime($tanggal));
+		return $tanggal;
 	}
 
 	function get_isi_baris($data, $i) {
@@ -137,8 +138,7 @@ class import_model extends CI_Model{
 		$isi_baris['sex'] = trim($data->val($i, $kolom_impor_keluarga['sex']));
 		$isi_baris['tempatlahir']= trim($data->val($i, $kolom_impor_keluarga['tempatlahir']));
 
-		$tanggallahir= ltrim(trim($data->val($i, $kolom_impor_keluarga['tanggallahir'])),"'");
-		$isi_baris['tanggallahir'] = $this->format_tanggallahir($tanggallahir);
+		$isi_baris['tanggallahir'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggallahir']));
 
 		$isi_baris['agama_id']= trim($data->val($i, $kolom_impor_keluarga['agama_id']));
 		$isi_baris['pendidikan_kk_id']= trim($data->val($i, $kolom_impor_keluarga['pendidikan_kk_id']));
@@ -168,14 +168,15 @@ class import_model extends CI_Model{
 		$isi_baris['golongan_darah_id']= trim($data->val($i, $kolom_impor_keluarga['golongan_darah_id']));
 		$isi_baris['akta_lahir']= trim($data->val($i, $kolom_impor_keluarga['akta_lahir']));
 		$isi_baris['dokumen_pasport']= trim($data->val($i, $kolom_impor_keluarga['dokumen_pasport']));
-		$isi_baris['tanggal_akhir_paspor']= trim($data->val($i, $kolom_impor_keluarga['tanggal_akhir_paspor']));
+		$isi_baris['tanggal_akhir_paspor'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggal_akhir_paspor']));
+
 		$isi_baris['dokumen_kitas']= trim($data->val($i, $kolom_impor_keluarga['dokumen_kitas']));
 		$isi_baris['ayah_nik']= trim($data->val($i, $kolom_impor_keluarga['ayah_nik']));
 		$isi_baris['ibu_nik']= trim($data->val($i, $kolom_impor_keluarga['ibu_nik']));
 		$isi_baris['akta_perkawinan']= trim($data->val($i, $kolom_impor_keluarga['akta_perkawinan']));
-		$isi_baris['tanggalperkawinan']= trim($data->val($i, $kolom_impor_keluarga['tanggalperkawinan']));
+		$isi_baris['tanggalperkawinan']= $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggalperkawinan']));
 		$isi_baris['akta_perceraian']= trim($data->val($i, $kolom_impor_keluarga['akta_perceraian']));
-		$isi_baris['tanggalperceraian']= trim($data->val($i, $kolom_impor_keluarga['tanggalperceraian']));
+		$isi_baris['tanggalperceraian']= $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggalperceraian']));
 		$isi_baris['cacat_id']= trim($data->val($i, $kolom_impor_keluarga['cacat_id']));
 		$isi_baris['cara_kb_id']= trim($data->val($i, $kolom_impor_keluarga['cara_kb_id']));
 		$isi_baris['hamil']= trim($data->val($i, $kolom_impor_keluarga['hamil']));
