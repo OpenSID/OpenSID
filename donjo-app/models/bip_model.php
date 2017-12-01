@@ -23,9 +23,9 @@ class BIP_Model extends CI_Model{
 		if ($data_sheet[1][1] == "BUKU INDUK PENDUDUK WNI") {
 		  require_once APPPATH.'/models/bip2016_model.php';
 			return new BIP2016_Model();
-		// } elseif (strpos($data_sheet[1][2],"BUKU INDUK KEPENDUDUKAN") !== FALSE AND strpos($data_sheet[1][2],"(DAFTAR  KELUARGA)") !== FALSE) {
-		//   require_once APPPATH.'/models/bip2016_luwutimur_model.php';
-		// 	return new BIP2016_Luwutimur_Model();
+		} elseif (strpos($data_sheet[1][2],"BUKU INDUK KEPENDUDUKAN") !== FALSE AND strpos($data_sheet[1][2],"(DAFTAR  KELUARGA)") !== FALSE) {
+		  require_once APPPATH.'/models/bip2016_luwutimur_model.php';
+			return new BIP2016_Luwutimur_Model();
 		} elseif (strpos($data_sheet[1][16],"Wjb KTP") !== FALSE AND strpos($data_sheet[1][17],"KTP-eL") !== FALSE) {
 		  require_once APPPATH.'/models/bip_ektp_model.php';
 			return new BIP_Ektp_Model();

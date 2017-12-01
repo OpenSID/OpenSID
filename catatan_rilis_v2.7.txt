@@ -29,7 +29,7 @@ Lengkapnya, isi rilis v2.7:
 23. Perbaiki tampilan nama saksi1 di surat_ket_kelahiran. [bug-fix].
 24. #210: Tambah surat pernyataan penguasaan fisik bidang tanah (SPORADIK). Pemohon dan saksi bisa dari warga desa atau non-warga yang tidak terekam di database.
 25. #351: Sekarang impor BIP bisa membaca format BIP eKTP format Kabupaten Musi Rawas.
-26. Tampilkan kategori artikel di daftar singkatan artikal dan di tampilan penuh artikel.
+26. Tampilkan kategori artikel di daftar singkatan artikel dan di tampilan penuh artikel.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM v2.7, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -26,8 +26,8 @@
                       <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_2012.xls"><span class="fa fa-download"></span> Contoh BIP 2012</a>
                       <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_2016.xls"><span class="fa fa-download"></span> Contoh BIP 2016</a>
                       <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_ektp.xls"><span class="fa fa-download"></span> Contoh BIP eKTP</a>
-<!--                       <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_2016_luwutimur.xls"><span class="fa fa-download"></span> Contoh BIP 2016 Luwu Timur</a>
- -->                      <br><br>
+                      <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_2016_luwutimur.xls"><span class="fa fa-download"></span> Contoh BIP 2016 Luwu Timur</a>
+                      <br><br>
                       Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun menjadi satu worksheet per dusun, proses ini akan mengimpor  data semua dusun.
                     </p><br>
                     <div class="box-perhatian">
