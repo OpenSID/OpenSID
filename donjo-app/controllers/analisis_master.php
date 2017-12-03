@@ -14,6 +14,7 @@ class analisis_master extends CI_Controller{
 		}
 		unset($_SESSION['submenu']);
 		unset($_SESSION['asubmenu']);
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);
