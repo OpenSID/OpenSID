@@ -859,6 +859,7 @@
 		$buffer=str_replace("no_kk","$k[no_kk]",$buffer);
 		$buffer=str_replace("pos","$h[kode_pos]",$buffer);
 		$buffer=str_replace("*tertanda","\caps $tertanda",$buffer);
+		$buffer=str_replace("*nip_camat","$h[nip_kepala_camat]",$buffer);
 
 		$berkas_arsip = $path_arsip."kk_$k[no_kk].rtf";
 		$handle = fopen($berkas_arsip,'w+');
