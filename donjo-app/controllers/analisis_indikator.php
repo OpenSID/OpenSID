@@ -13,6 +13,7 @@ class analisis_indikator extends CI_Controller{
 		}
 		$_SESSION['submenu'] = "Data Indikator";
 		$_SESSION['asubmenu'] = "analisis_indikator";
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);

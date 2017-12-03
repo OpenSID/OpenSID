@@ -12,6 +12,7 @@ class Analisis_grafik extends CI_Controller{
 			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 			redirect('siteman');
 		}
+		$this->modul_ini = 5;
 	}
 	function clear($id=0){
 		$_SESSION['analisis_master']=$id;

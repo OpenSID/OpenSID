@@ -13,6 +13,7 @@ class analisis_laporan extends CI_Controller{
 		}
 		$_SESSION['submenu'] = "Laporan Analisis";
 		$_SESSION['asubmenu'] = "analisis_laporan";
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);
