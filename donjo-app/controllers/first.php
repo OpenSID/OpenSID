@@ -115,7 +115,7 @@ class First extends Web_Controller{
 		$data = $this->keluarga_model->get_data_cetak_kk($id_kk);
 
 		$header = $this->header_model->get_data();
-		$this->load->view("sid/kependudukan/cetak_kk", $data);
+		$this->load->view("sid/kependudukan/cetak_kk_all", $data);
 	}
 
 	function kartu_peserta($id=0){
