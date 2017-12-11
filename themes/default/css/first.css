@@ -124,6 +124,12 @@ nav.navbar.navbar-inverse{
 /*
  * Ubah penampilan navbar bootstrap
  */
+
+/* Menu beranda */
+#menu-left ul.nav > li > a{
+  padding-top: 5px;
+}
+
 ul.nav.navbar-nav {
   text-transform: none;
 }
