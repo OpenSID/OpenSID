@@ -75,8 +75,8 @@
 
   /*
     Jangan rekam, jika:
-    - ada kolom nama wilayah kosong
-    - ada kolom wilayah yang masih merupakan contoh (berisi karakter non-alpha)
+    - ada kolom nama wilayah kurang dari 4 karakter
+    - ada kolom wilayah yang masih merupakan contoh (berisi karakter non-alpha atau tulisan 'contoh')
   */
   public function abaikan($data){
     $abaikan = false;
@@ -84,12 +84,12 @@
     $kec = trim($data['nama_kecamatan']);
     $kab = trim($data['nama_kabupaten']);
     $prov = trim($data['nama_provinsi']);
-    if ( empty($desa) OR empty($kec) OR empty($kab) OR empty($prov) ) {
+    if ( strlen($desa)<4 OR strlen($kec)<4 OR strlen($kab)<4 OR strlen($prov)<4 ) {
       $abaikan = true;
-    } elseif (preg_match('/[^a-zA-Z\s:]/', $desa) OR
-        preg_match('/[^a-zA-Z\s:]/', $kec) OR
-        preg_match('/[^a-zA-Z\s:]/', $kab) OR
-        preg_match('/[^a-zA-Z\s:]/', $prov)
+    } elseif (preg_match('/[^a-zA-Z\s:]|contoh/i', $desa) OR
+        preg_match('/[^a-zA-Z\s:]|contoh/i', $kec) OR
+        preg_match('/[^a-zA-Z\s:]|contoh/i', $kab) OR
+        preg_match('/[^a-zA-Z\s:]|contoh/i', $prov)
        ) {
       $abaikan = true;
     }
