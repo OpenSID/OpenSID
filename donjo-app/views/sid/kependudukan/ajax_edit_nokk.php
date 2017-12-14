@@ -2,6 +2,7 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjoscript2.js"></script>
 <form action="<?php echo $form_action?>" method="post" id="validasi">
+	<input name="id" type="hidden" value="<?php echo $kk['id']; ?>">
 <table style="width:100%">
 	<tr>
 		<th align="left">Nomor KK</th>

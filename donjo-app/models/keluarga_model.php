@@ -185,7 +185,18 @@
 
 	// Tambah keluarga baru dari penduduk lepas (status tetap atau pendatang)
 	function insert(){
+		unset($_SESSION['error_msg']);
 		$data = $_POST;
+
+		$error_validasi = $this->_validasi_data_keluarga($data);
+		if (!empty($error_validasi)){
+			foreach ($error_validasi as $error) {
+				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+			}
+			$_SESSION['post'] = $_POST;
+			$_SESSION['success']=-1;
+			return;
+		}
 
 		$temp = $data['nik_kepala'];
 		$outp = $this->db->insert('tweb_keluarga',penetration($data));
@@ -222,6 +233,23 @@
 			array_push($valid, "NIK hanya berisi angka");
 		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
 			array_push($valid, "NIK panjangnya harus 16 atau 0");
+		if ($this->db->select('nik')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row()->nik)
+			array_push($valid, "NIK {$data['nik']} sudah digunakan");
+		if (!empty($valid))
+			$_SESSION['validation_error'] = true;
+		return $valid;
+	}
+
+	private function _validasi_data_keluarga($data){
+		$valid = array();
+		if (isset($data['no_kk'])) {
+			if (!ctype_digit($data['no_kk']))
+				array_push($valid, "Nomor KK hanya berisi angka");
+			if (strlen($data['no_kk']) != 16 AND $data['no_kk'] != '0')
+				array_push($valid, "Nomor KK panjangnya harus 16 atau 0");
+			if ($this->db->select('no_kk')->from('tweb_keluarga')->where(array('no_kk'=>$data['no_kk']))->limit(1)->get()->row()->no_kk)
+				array_push($valid, "Nomor KK {$data['no_kk']} sudah digunakan");
+		}
 		if (!empty($valid))
 			$_SESSION['validation_error'] = true;
 		return $valid;
@@ -252,14 +280,7 @@
 		unset($data['old_foto']);
 		unset($data['nik_lama']);
 
-		$data['id_cluster'] = $data['rt'];
-		UNSET($data['dusun']);
-		UNSET($data['rw']);
-		UNSET($data['rt']);
-		UNSET($data['no_kk']);
-		UNSET($data['new']);
-
-		$error_validasi = $this->validasi_data_penduduk($data);
+		$error_validasi = array_merge($this->validasi_data_penduduk($data), $this->_validasi_data_keluarga($data));
 		if (!empty($error_validasi)){
 			foreach ($error_validasi as $error) {
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
@@ -268,6 +289,13 @@
 			$_SESSION['success']=-1;
 			return;
 		}
+
+		$data['id_cluster'] = $data['rt'];
+		UNSET($data['dusun']);
+		UNSET($data['rw']);
+		UNSET($data['rt']);
+		UNSET($data['no_kk']);
+		UNSET($data['new']);
 
 		// Simpan alamat keluarga sebelum menulis penduduk
 		$data2['alamat'] = $data['alamat'];
@@ -319,7 +347,7 @@
 		$x['id_pend']=$temp;
 		$x['bulan']=$blnskrg;
 		$x['tahun']=$thnskrg;
-		$outp = $this->db->insert('log_penduduk',$x);
+		$this->penduduk_model->tulis_log_penduduk_data($x);
 
 		$log['id_pend'] = 1;
 		$log['id_cluster'] = 1;
@@ -577,6 +605,7 @@
 		return $query->result_array();
 	}
 
+	// Tambah anggota keluarga
 	function insert_a(){
 		unset($_SESSION['validation_error']);
 		$_SESSION['success'] = 1;
@@ -614,7 +643,7 @@
 		}
 		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
 
-		$error_validasi = $this->validasi_data_penduduk($data);
+		$error_validasi = array_merge($this->validasi_data_penduduk($data), $this->_validasi_data_keluarga($data));
 		if (!empty($error_validasi)){
 			foreach ($error_validasi as $error) {
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
@@ -640,8 +669,28 @@
 		return $kk['no_kk'];
 	}
 
+	private function _cek_nokk($data){
+		$nokk_lama = $this->get_nokk($data['id']);
+		if ($data['no_kk'] == $nokk_lama) return true; // Tidak berubah
+
+		$error_validasi = $this->_validasi_data_keluarga($data);
+		if (!empty($error_validasi)){
+			foreach ($error_validasi as $error) {
+				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+			}
+			$_SESSION['post'] = $_POST;
+			$_SESSION['success'] = -1;
+			return false;
+		}
+		return true;
+	}
+
 	function update_nokk($id=0){
+		unset($_SESSION['error_msg']);
 		$data = $_POST;
+
+		if (!$this->_cek_nokk($data)) return;
+
 		$id_program = $data['id_program'];
 		unset($data['id_program']);
 		// Update peserta program bantuan untuk kk ini

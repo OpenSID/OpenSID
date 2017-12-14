@@ -650,17 +650,7 @@
 		$log['tahun'] = date("Y");
 		$log['catatan'] = $_POST['catatan'];
 
-    $update_str = '';
-    foreach($log as $key=>$item) {
-        $update_str .= $key.'=VALUES('.$key.'),';
-    }
-    $update_str = rtrim($update_str, ',');
-
-		$sql = $this->db->insert_string('log_penduduk',$log) . ' ON DUPLICATE KEY UPDATE ' . $update_str;
-		$outp = $this->db->query($sql);
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$this->tulis_log_penduduk_data($log);
 	}
 
 	function delete($id=''){
@@ -989,6 +979,17 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
+	}
+
+	function tulis_log_penduduk_data($log){
+    $update_str = '';
+    foreach($log as $key=>$item) {
+        $update_str .= $key.'=VALUES('.$key.'),';
+    }
+    $update_str = rtrim($update_str, ',');
+
+		$sql = $this->db->insert_string('log_penduduk',$log) . ' ON DUPLICATE KEY UPDATE ' . $update_str;
+		$this->db->query($sql);
 	}
 
 	function tulis_log_penduduk($id_pend, $id_detail, $bulan, $tahun) {
