@@ -15,7 +15,7 @@
     $this->cek_engine_db();
     $this->load->dbforge();
     $this->load->model('folder_desa_model');
-
+    $this->load->model('surat_master_model');
   }
 
   function cek_engine_db() {
@@ -69,6 +69,7 @@
       $this->_migrasi_db_cri();
     }
     $this->folder_desa_model->amankan_folder_desa();
+    $this->surat_master_model->impor_surat_desa();
     /*
       Update current_version di db.
       'pasca-<versi>' disimpan sebagai '<versi>'

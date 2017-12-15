@@ -356,6 +356,22 @@
 			else $_SESSION['success']=-1;
 	}
 
+	// Tambahkan surat desa jika folder surat tidak ada di surat master
+	function impor_surat_desa(){
+		$folder_surat_desa = glob('desa/surat/*' , GLOB_ONLYDIR);
+		foreach ($folder_surat_desa as $surat) {
+			$surat = str_replace('desa/surat/', '', $surat);
+			$hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
+			if ($hasil->num_rows == 0){
+				$data = array();
+				$data['jenis'] = 2;
+				$data['url_surat'] = $surat;
+				$data['nama'] = ucwords(trim(str_replace(array("surat","-","_"), ' ', $surat)));
+				$this->db->insert('tweb_surat_format',$data);
+			}
+		}
+	}
+
 }
 
 ?>
