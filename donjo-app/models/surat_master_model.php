@@ -34,7 +34,7 @@
 	function filter_sql(){
 		if(isset($_SESSION['filter'])){
 			$kf = $_SESSION['filter'];
-			$filter_sql= " AND u.act_analisis = $kf";
+			$filter_sql= " AND u.jenis = $kf";
 		return $filter_sql;
 		}
 	}
@@ -63,14 +63,17 @@
 		}
 	}
 
+	private function _semua_filter(){
+		$sql 		 = '';
+		$sql    .= $this->search_sql();
+		$sql 		.= $this->filter_sql();
+		return $sql;
+	}
+
 	function paging($p=1,$o=0){
 
 		$sql      = "SELECT COUNT(id) AS id FROM tweb_surat_format u WHERE 1";
-		$sql     .= $this->search_sql();
-		$sql .= $this->filter_sql();
-
-		$sql .= $this->tipe_sql();
-		$sql .= $this->kategori_sql();
+		$sql     .= $this->_semua_filter();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
@@ -101,13 +104,9 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-		$sql   = "SELECT u.* FROM tweb_surat_format u  WHERE 1 ";
+		$sql  = "SELECT u.* FROM tweb_surat_format u  WHERE 1 ";
 
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-
-		$sql .= $this->tipe_sql();
-		$sql .= $this->kategori_sql();
+		$sql .= $this->_semua_filter();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 

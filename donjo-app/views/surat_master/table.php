@@ -6,6 +6,11 @@
 		});
 	});
 </script>
+<style type="text/css">
+	#mainform .top {
+		vertical-align: top;
+	}
+</style>
 <div id="pageC">
 	<div>
 	</div>
@@ -17,6 +22,11 @@
 						<a href="<?php echo site_url('surat_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Surat Baru</a>
 						<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("surat_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
 					</div>
+          <select class="top" name="filter" onchange="formAction('mainform','<?php echo site_url('surat_master/filter')?>')">
+              <option value="">Semua</option>
+              <option value="1" <?php if($filter==1 ) :?>selected<?php endif?>>Surat Sistem</option>
+              <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Surat Desa</option>
+          </select>
 				</div>
 					<div class="right">
 						<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('surat_master/search')?>');$('#'+'mainform').submit();}" />
@@ -62,7 +72,7 @@
 								<td align="center" width="5">
 									<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" <?php if($data['jenis']==1){echo " disabled= disabled";}?> />
 								</td>
-								<td align="center">
+								<td>
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 										<?php if($data['jenis']!=1): ?>
