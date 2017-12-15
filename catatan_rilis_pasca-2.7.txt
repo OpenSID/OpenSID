@@ -11,6 +11,9 @@ Lengkapnya, isi rilis versi pasca-2.7:
 5. #728: Sekarang cetak KK di layanan mandiri kembali normal [bug-fix].
 6. Kembalikan menu beranda di menu dinamis [bug-fix].
 7. Untuk tracker, abaikan desa dengan nama wilayah kurang dari 4 karakter atau berisi tulisan 'contoh'.
+8. #320: Sekarang tidak bisa menambah atau mengubah nomor KK menjadi nomor KK yang sudah ada. Juga tidak bisa menambah anggota keluarga baru dengan NIK yang sudah ada.
+9. Surat master bisa difilter menurut jenis surat sistem atau desa.
+10. Tambahkan impor surat desa baru ke surat master menggunakan menu Database > Migrasi DB.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.7, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
