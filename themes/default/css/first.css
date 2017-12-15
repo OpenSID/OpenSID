@@ -128,6 +128,7 @@ nav.navbar.navbar-inverse{
 /* Menu beranda */
 #menu-left ul.nav > li > a{
   padding-top: 5px;
+  padding-bottom: 0px;
 }
 
 ul.nav.navbar-nav {
