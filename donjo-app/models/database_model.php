@@ -6,7 +6,8 @@
     '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
     'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
     '2.5' => array('migrate' => 'migrasi_25_ke_26','nextVersion' => '2.6'),
-    '2.6' => array('migrate' => 'migrasi_26_ke_27','nextVersion' => NULL)
+    '2.6' => array('migrate' => 'migrasi_26_ke_27','nextVersion' => '2.7'),
+    '2.7' => array('migrate' => 'migrasi_27_ke_28','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -129,6 +130,38 @@
     $this->migrasi_24_ke_25();
     $this->migrasi_25_ke_26();
     $this->migrasi_26_ke_27();
+    $this->migrasi_27_ke_28();
+  }
+
+  function migrasi_27_ke_28(){
+    if (!$this->db->table_exists('suplemen') ) {
+      $query = "
+        CREATE TABLE suplemen (
+          id int NOT NULL AUTO_INCREMENT,
+          nama varchar(100),
+          sasaran tinyint(4),
+          keterangan varchar(300),
+          PRIMARY KEY (id)
+        );
+      ";
+      $this->db->query($query);
+    }
+    if (!$this->db->table_exists('suplemen_terdata') ) {
+      $query = "
+        CREATE TABLE suplemen_terdata (
+          id int NOT NULL AUTO_INCREMENT,
+          id_suplemen int(10),
+          id_terdata varchar(20),
+          sasaran tinyint(4),
+          keterangan varchar(100),
+          PRIMARY KEY (id),
+          FOREIGN KEY (id_suplemen)
+            REFERENCES suplemen(id)
+            ON DELETE CASCADE
+        );
+      ";
+      $this->db->query($query);
+    }
   }
 
   function migrasi_26_ke_27(){

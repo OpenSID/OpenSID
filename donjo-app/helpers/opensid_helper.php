@@ -172,6 +172,11 @@ define("KODE_GOLONGAN_DARAH", serialize(array(
       strtolower('O+') => '11',
       strtolower('O-') => '12',
       strtolower('TIDAK TAHU') => '13')));
+define("SASARAN", serialize(array(
+      "1" => "Penduduk",
+      "2" => "Keluarga / KK",
+      "3" => "Rumah Tangga",
+      "4" => "Kelompok/Organisasi Kemasyarakatan")));
 
 /**
  * Ambil Versi

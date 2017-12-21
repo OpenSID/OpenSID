@@ -10,7 +10,6 @@ class Program_bantuan extends CI_Controller{
 			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 			redirect('siteman');
 		}
-		$this->load->model('program_bantuan_model');
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->modul_ini = 6;
