@@ -5,6 +5,7 @@ class Siteman extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		session_start();
+		siteman_timeout();
 		$this->load->model('header_model');
 		$this->load->model('user_model');
 		$this->load->model('track_model');
@@ -31,8 +32,14 @@ class Siteman extends CI_Controller {
 
 	function auth(){
 		$this->user_model->siteman();
-		if($_SESSION['siteman'] == 1)
-			redirect('main');
+		if($_SESSION['siteman'] == 1){
+			if(isset($_SESSION['request_uri'])){
+				$request_awal = str_replace(parse_url(site_url(),PHP_URL_PATH),'',$_SESSION['request_uri']);
+				unset($_SESSION['request_uri']);
+				redirect($request_awal);
+			} else
+				redirect('main');
+		}
 		else
 			redirect('siteman');
 	}

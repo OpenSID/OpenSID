@@ -302,7 +302,7 @@
 		$jam = substr($tgl,11,8);
 		$bulan = getBulan(substr($tgl,5,2));
 		$tahun = substr($tgl,0,4);
-		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';
+		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam;
 	}
 
 	function tgl_indo_dari_str($tgl_str) {
@@ -428,7 +428,7 @@ function cek_login(){
 
 //time out Mandiri set 3 login per 5 menit
 function mandiri_timer(){
-	$time=90;  //300 detik
+	$time=300;  //300 detik
 	$_SESSION['mandiri_try'] = 4;
 	$_SESSION['mandiri_wait']=0;
 	$_SESSION['mandiri_timeout']=time()+$time;
@@ -438,6 +438,21 @@ function mandiri_timeout(){
 	(isset($_SESSION['mandiri_timeout'])) ? $timeout=$_SESSION['mandiri_timeout'] : $timeout = null;
 	if(time()>$timeout){
 		mandiri_timer();
+	}
+}
+
+//time out Admin set 3 login per 5 menit
+function siteman_timer(){
+	$time=300;  //300 detik
+	$_SESSION['siteman_try'] = 4;
+	$_SESSION['siteman_wait']=0;
+	$_SESSION['siteman_timeout']=time()+$time;
+}
+
+function siteman_timeout(){
+	(isset($_SESSION['siteman_timeout'])) ? $timeout=$_SESSION['siteman_timeout'] : $timeout = null;
+	if(time()>$timeout){
+		siteman_timer();
 	}
 }
 

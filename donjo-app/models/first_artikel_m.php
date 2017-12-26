@@ -79,6 +79,7 @@ class First_Artikel_M extends CI_Model{
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND a.id=".$id;
 		}else{
+			// Penampilan daftar artikel di halaman depan tidak terbatas pada artikel dinamis saja
 			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1";
@@ -164,11 +165,11 @@ class First_Artikel_M extends CI_Model{
 
 	// Jika $gambar_utama, hanya tampilkan gambar utama masing2 artikel terbaru
 	function slide_show($gambar_utama=FALSE){
-		$sql   = "SELECT id,gambar FROM artikel WHERE (enabled=1 AND headline=3)";
+		$sql   = "SELECT id,judul,gambar FROM artikel WHERE (enabled=1 AND headline=3)";
 		if (!$gambar_utama) $sql .= "
-			UNION SELECT id,gambar1 FROM artikel WHERE (enabled=1 AND headline=3)
-			UNION SELECT id,gambar2 FROM artikel WHERE (enabled=1 AND headline=3)
-			UNION SELECT id,gambar3 FROM artikel WHERE (enabled=1 AND headline=3)
+			UNION SELECT id,judul,gambar1 FROM artikel WHERE (enabled=1 AND headline=3)
+			UNION SELECT id,judul,gambar2 FROM artikel WHERE (enabled=1 AND headline=3)
+			UNION SELECT id,judul,gambar3 FROM artikel WHERE (enabled=1 AND headline=3)
 		";
 		$sql .= ($gambar_utama) ? "ORDER BY tgl_upload DESC LIMIT 10" : "ORDER BY RAND() LIMIT 10";
 		$query = $this->db->query($sql);
@@ -186,7 +187,7 @@ class First_Artikel_M extends CI_Model{
 		switch ($this->setting->sumber_gambar_slider) {
 			case '1':
 				# 10 gambar utama semua artikel terbaru
-				$slider_gambar['gambar'] = $this->db->select('id,gambar')->where('enabled',1)->where('gambar !=','')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
+				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
 			case '2':
@@ -252,7 +253,7 @@ class First_Artikel_M extends CI_Model{
 
 
 	function get_artikel($id=0){
-		$sql   = "SELECT a.*,u.nama AS owner FROM artikel a LEFT JOIN user u ON a.id_user = u.id WHERE a.id=?";
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.id=?";
 		$query = $this->db->query($sql,$id);
 		if($query->num_rows()>0){
 			$data  = $query->row_array();

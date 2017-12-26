@@ -340,8 +340,8 @@ table.ttd td { text-align: center; }
       for ($i = 0; $i < MAX_PINDAH; $i++) {
         $nomor = $i+1;
         if ($i < count($input['id_cb'])) {
-          $nik = trim($input['id_cb'][$i],"'");
-          $penduduk = $this->penduduk_model->get_penduduk_by_nik($nik); ?>
+          $id = trim($input['id_cb'][$i],"'");
+          $penduduk = $this->penduduk_model->get_penduduk($id); ?>
 
           <tr>
             <td class="tengah"><?php echo $nomor;?></td>
@@ -567,8 +567,8 @@ table.ttd td { text-align: center; }
       for ($i = 0; $i < MAX_PINDAH; $i++) {
         $nomor = $i+1;
         if ($i < count($input['id_cb'])) {
-          $nik = trim($input['id_cb'][$i],"'");
-          $penduduk = $this->penduduk_model->get_penduduk_by_nik($nik); ?>
+          $id = trim($input['id_cb'][$i],"'");
+          $penduduk = $this->penduduk_model->get_penduduk($id); ?>
 
           <tr>
             <td class="tengah"><?php echo $nomor;?></td>

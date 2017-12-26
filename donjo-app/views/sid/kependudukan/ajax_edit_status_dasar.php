@@ -20,7 +20,7 @@
 	<input type="radio" id="sd2" name="status_dasar" value="4"/<?php if($nik['status_dasar_id'] == '4'){echo 'checked';}?>>
 	<label for="sd2"> Hilang</label>
 	<input type="radio" id="sd3" name="status_dasar" value="3"/<?php if($nik['status_dasar_id'] == '3'){echo 'checked';}?>>
-	<label for="sd3"> Pindah </label>
+	<label for="sd3"> Pindah Ke Luar Desa</label>
 	<input type="radio" id="sd4" name="status_dasar" value="2"/<?php if($nik['status_dasar_id'] == '2'){echo 'checked';}?>>
 	<label for="sd4"> Mati </label>
 	</div>

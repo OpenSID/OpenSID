@@ -43,7 +43,7 @@ $(function dialogClick(){
     var title = $(this).attr('header');
     var url = $(this).attr('href');
     var width = $(this).attr('modalWidth');
-    var height = 400;
+    var height = $(this).attr('modalHeight');
     ajaxModalx(id,title,url,width,height);
     return false;
   });
@@ -73,6 +73,24 @@ $(function dialogClick(){
     var width = $(this).attr('modalWidth');
     var height = 400;
     ajaxModalx(id,title,url,width,height);
+    return false;
+  });
+  /* Untuk menampilkan dialog konfirmasi sebelum submit form. Contoh:
+      <form id="kosongkan" action="<?php echo site_url("database/kosongkan_db")?>" method="post">
+        <a class="uibutton special" href="#" form="kosongkan" title="Kosongkan DB"
+        target="confirmsubmit" message="Apakah anda yakin? Proses ini akan menghapus semua data penduduk dan data masukan lainnya."
+        rel="window" header="Kosongkan DB"><span class="fa fa-circle-o-notch"></span> Kosongkan DB</a>
+        <input type="checkbox" name="kosongkan_menu" value='kosongkan' /> Juga kosongkan menu dan widget contoh
+      </form>
+  */
+  $('a[target=confirmsubmit],button[target=confirmsubmit]').click(function(){
+    var id = $(this).attr('target');
+    var title = $(this).attr('title') || $(this).attr('header');
+    var message = $(this).attr('message');
+    var form = $(this).attr('form');
+    var width = $(this).attr('modalWidth');
+    var height = $(this).attr('modalHeight');
+    confirmSubmit(id,title,message,form,width,height);
     return false;
   });
 });
@@ -248,3 +266,40 @@ function ajaxModal(id,title,url,width,height){
 	});
   $('#'+id+'').dialog('open');
   }
+
+  /* Untuk menampilkan dialog konfirmasi sebelum submit form. */
+  function confirmSubmit(id,title,message,form,width,height){
+    if (width==null || height==null){
+      width='400';
+      height='auto';
+    }
+    $('#'+id+'').remove();
+    $('body').append('<div id="'+id+'" title="'+title+'" style="display:none;">'+message+'</div>');
+      $('#'+id+'').dialog({
+        resizable: false,
+        draggable: true,
+              width:width,
+              height:height,
+              autoOpen: false,
+              modal: true,
+              buttons: {
+          "Ya": function() {
+            $('#'+form).submit();
+          },
+          "Tidak": function() {
+            $('#'+id+'').remove();
+            $( this ).dialog( "close" );
+          }
+        },
+        dragStart: function(event, ui) {
+          $(this).parent().addClass('drag');
+        },
+        dragStop: function(event, ui) {
+          $(this).parent().removeClass('drag');
+        }
+
+    });
+
+    $('#'+id+'').dialog('open');
+  }
+

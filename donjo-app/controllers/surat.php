@@ -6,7 +6,10 @@ class Surat extends CI_Controller{
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
+		if($grup!=1 AND $grup!=2 AND $grup!=3) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('keluarga_model');
@@ -30,6 +33,7 @@ class Surat extends CI_Controller{
 		unset($_SESSION['id_saksi1']);
 		unset($_SESSION['id_saksi2']);
 		unset($_SESSION['id_pelapor']);
+		unset($_SESSION['id_diberi_izin']);
 		unset($_SESSION['post']);
 
 
@@ -75,7 +79,6 @@ class Surat extends CI_Controller{
 		$data['form_action2'] = site_url("surat/doc/$url");
 		$nav['act']= 1;
 		$header = $this->header_model->get_data();
-
 		$this->load->view('header',$header);
 		$this->load->view('surat/nav',$nav);
 		$this->load->view("surat/form_surat",$data);
@@ -146,15 +149,14 @@ class Surat extends CI_Controller{
 		}
 		if($id){
 			$log_surat['id_pend']=$id;
+			$nik = $this->db->select('nik')->where('id',$id)->get('tweb_penduduk')
+					->row()->nik;
 		} else {
 			// Surat untuk non-warga
 			$log_surat['nama_non_warga'] = $_POST['nama_non_warga'];
 			$log_surat['nik_non_warga'] = $_POST['nik_non_warga'];
+			$nik = $log_surat['nik_non_warga'];
 		}
-		$sql = "SELECT nik FROM tweb_penduduk WHERE id=?";
-		$query = $this->db->query($sql,$id);
-		$hasil  = $query->row_array();
-		$nik = $hasil['nik'];
 
 		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
 		$lampiran = '';

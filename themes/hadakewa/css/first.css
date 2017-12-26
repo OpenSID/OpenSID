@@ -443,7 +443,7 @@ textarea {
 	margin-left: 20px;
 	margin-bottom: 0px;
 }
-ul {
+ul.submenu {
     list-style: disc;
     margin-left: 20px;
 }

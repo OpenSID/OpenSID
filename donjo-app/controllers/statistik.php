@@ -8,7 +8,10 @@ function __construct(){
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('program_bantuan_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
+		if($grup!=1 AND $grup!=2 AND $grup!=3) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$this->load->model('header_model');
 		$_SESSION['per_page']= 500;
 		$this->modul_ini = 3;
@@ -16,7 +19,6 @@ function __construct(){
 
 	function index($lap=0,$o=0){
 		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
-
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap,$o);
 		$data['lap']=$lap;
 		$data['judul_kelompok'] = "Jenis Kelompok";
@@ -90,7 +92,7 @@ function __construct(){
 			$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
 			$data['kategori'] = 'bantuan';
-		} elseif ($lap>20) {
+		} elseif ($lap>20 OR "$lap" == 'kelas_sosial') {
 			$data['kategori'] = 'keluarga';
 		} else {
 			$data['kategori'] = 'penduduk';

@@ -17,6 +17,9 @@
 			<a href="<?php echo site_url('kelompok/clear')?>">Kelompok</a>
 		</li>
 	<?php }?>
+	<li <?php if($act==6){?>class="selected"<?php }?>>
+		<a href="<?php echo site_url('suplemen')?>">Data Suplemen</a>
+	</li>
 	<li <?php if($act==5){?>class="selected"<?php }?>>
 		<a href="<?php echo site_url('dpt/clear')?>">Calon Pemilih</a>
 	</li>

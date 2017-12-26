@@ -6,11 +6,14 @@ class Analisis_periode extends CI_Controller{
 		$this->load->model('analisis_periode_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 5;
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) redirect('siteman');
+		if($grup!=1) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$_SESSION['submenu'] = "Data Periode";
 		$_SESSION['asubmenu'] = "analisis_periode";
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);

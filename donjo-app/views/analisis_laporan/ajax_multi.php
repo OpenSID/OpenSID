@@ -39,7 +39,7 @@
 	<table width="100%">
 		<?php $last="";foreach($main AS $data){?>
 		<?php 
-			if($data['pertanyaan']!=$last){?></td></tr><tr><td><label><?php echo $data['nomor'].". ".$data['pertanyaan']?></label></td></tr>
+			if($data['pertanyaan']!=$last){?></td></tr><tr><td><label><?php echo $data['pertanyaan']?></label></td></tr>
 			<tr>
 				<td id="opsi">
 				<div style="display:inline-block;">
@@ -60,7 +60,7 @@
 	</table>
 	<div class="buttonpane" style="text-align: right; width:600px;bottom:0px;">
 		<div class="uibutton-group">
-			<button class="uibutton" type="button" onclick="$('#multi').dialog('close');">Batal</button>
+			<button class="uibutton" type="button" onclick="$(this).closest('.ui-dialog-content').dialog('close');">Batal</button>
 			<button class="uibutton confirm" type="submit">Lanjut</button>
 		</div>
 	</div>

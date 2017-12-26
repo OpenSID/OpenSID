@@ -6,7 +6,10 @@ function __construct(){
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2) redirect('siteman');
+		if($grup!=1 AND $grup!=2) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$this->load->model('header_model');
 		$this->load->model('rtm_model');
 		$this->load->model('penduduk_model');
@@ -279,7 +282,7 @@ function __construct(){
 		$data['kepala_kk'] = $kk;
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
-		$this->load->view("sid/kependudukan/cetak_kk", $data);
+		$this->load->view("sid/kependudukan/cetak_rtm", $data);
 
 	}
 

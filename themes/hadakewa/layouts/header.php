@@ -10,6 +10,7 @@
 				. get_dynamic_title_page_from_path();
 		?></title>
 		<meta content="utf-8" http-equiv="encoding">
+		<meta name="keywords" content="OpenSID,opensid,sid,SID,SID CRI,SID-CRI,sid cri,sid-cri,Sistem Informasi Desa,sistem informasi desa, desa <?php echo $desa['nama_desa'];?>">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="OpenSID - Sistem Informasi Desa">
@@ -20,6 +21,10 @@
 	    <meta property="og:title" content="<?php echo $single_artikel["judul"];?>"/>
 	    <meta property="og:url" content="<?php echo base_url()?>index.php/first/artikel/<?php echo $single_artikel['id'];?>"/>
 	    <meta property="og:image" content="<?php echo base_url()?><?php echo LOKASI_FOTO_ARTIKEL?>sedang_<?php echo $single_artikel['gambar'];?>"/>
+	    <meta property="og:description" content="<?php echo potong_teks($single_artikel['isi'], 300)?> ..."/>
+			<meta name="description" content="<?php echo potong_teks($single_artikel['isi'], 300)?> ..."/>
+	  <?php else: ?>
+			<meta name="description" content="Website <?php echo ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 		<?php endif; ?>
 		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />

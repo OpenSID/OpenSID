@@ -149,6 +149,8 @@
 		while($i<count($data)){
 			$data[$i]['no']=$j+1;
 			
+			$data[$i]['jumlah']= "-";
+			
 			$sql1 = "SELECT COUNT(DISTINCT r.id_subjek) AS jml FROM analisis_respon r $sbj WHERE r.id_indikator = ? AND r.id_periode = $per AND id_parameter > 0";
 			$sql1 .= $this->dusun_sql();
 			$sql1 .= $this->rw_sql();
@@ -173,6 +175,13 @@
 				$data[$i]['act_analisis']="Ya";
 			else
 				$data[$i]['act_analisis']="Tidak";
+			
+			if($data[$i]['id_tipe']==3){
+				$data[$i]['jumlah'] = 0;
+				foreach($respon2 as $par){
+					$data[$i]['jumlah'] += $par['jawaban']*$par['jml_p'];
+				}
+			}
 			$i++;
 			$j++;
 		}
@@ -189,7 +198,7 @@
 			case 4: $sbj = "LEFT JOIN kelompok v ON r.id_subjek = v.id LEFT JOIN tweb_penduduk p ON v.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id  "; break;
 		}
 		
-		$sql = "SELECT * FROM analisis_parameter WHERE id_indikator = ? ORDER BY nomor ASC ";
+		$sql = "SELECT * FROM analisis_parameter WHERE id_indikator = ? ORDER BY kode_jawaban ASC ";
 		$query = $this->db->query($sql,$id);
 		$data= $query->result_array();
 		$per = $this->get_aktif_periode();
@@ -198,7 +207,7 @@
 		while($i<count($data)){
 			$data[$i]['no']=$i+1;
 			
-			$sql = "SELECT COUNT(r.id_subjek) AS jml FROM analisis_respon r $sbj WHERE r.id_parameter = ? AND r.id_periode = $per";
+			$sql = "SELECT COUNT(r.id_subjek) AS jml FROM analisis_respon r $sbj WHERE r.id_parameter = ? AND r.id_periode = $per ";
 			$sql .= $this->dusun_sql();
 			$sql .= $this->rw_sql();
 			$sql .= $this->rt_sql();

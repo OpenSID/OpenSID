@@ -17,8 +17,14 @@ if($single_artikel["id"]){
 	echo "
 	<div class=\"artikel\" id=\"artikel-".$single_artikel["judul"]."\">
 		<h2 class=\"judul\">".$single_artikel["judul"]."</h2>
-		<h3 class=\"kecil\"><i class=\"fa fa-user\"></i> ".$single_artikel['owner']." <i class=\"fa fa-clock-o\"></i> ".tgl_indo2($single_artikel['tgl_upload'])."</h3>
-		";
+		<h3 class=\"kecil\">
+			<i class=\"fa fa-user\"></i> ".$single_artikel['owner']."
+			<i class=\"fa fa-clock-o\"></i> ".tgl_indo2($single_artikel['tgl_upload']);
+			if (trim($single_artikel['kategori']) != '') {
+				echo " <i class='fa fa-tag'></i> <a href='", site_url("first/kategori/$single_artikel[id_kategori]") ,"'>$single_artikel[kategori]</a>";
+			}
+		echo "
+		</h3>";
 
 			if($single_artikel['gambar']!=''){
 				if(is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])) {

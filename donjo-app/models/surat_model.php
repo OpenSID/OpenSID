@@ -75,6 +75,25 @@
 		return $data;
 	}
 
+	function list_anak($id){
+		$sql = "SELECT u.id, u.nik, u.nama,w.dusun,w.rw,w.rt
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE
+				id_kk=(SELECT id_kk FROM tweb_penduduk WHERE id=? AND (kk_level=1 OR kk_level=2 OR kk_level=3))
+				AND kk_level=4";
+		$query = $this->db->query($sql,$id);
+		$data  = $query->result_array();
+
+		//Formating Output
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['alamat']= "RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
+			$i++;
+		}
+		return $data;
+	}
+
 	function list_penduduk_ex($id=0){
 		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1 AND id NOT IN(?)";
 		$query = $this->db->query($sql,$id);
@@ -549,49 +568,6 @@
 					}
 				}
 				break;
-			case 'surat_ket_pindah_penduduk':
-				$buffer=str_replace("[jumlah_pengikut]",count($input['id_cb']),$buffer);
-				for ($i = 0; $i < MAX_PINDAH; $i++) {
-					$nomor = $i+1;
-					if ($i < count($input['id_cb'])) {
-						$nik = trim($input['id_cb'][$i],"'");
-						$penduduk = $this->penduduk_model->get_penduduk_by_nik($nik);
-						$array_replace = array(
-                            "[pindah_no_$nomor]"   => $nomor,
-                            "[pindah_nik_$nomor]"  => $penduduk['nik'],
-                            "[pindah_nama_$nomor]" => ucwords(strtolower($penduduk['nama'])),
-                            "[ktp_berlaku$nomor]"  => $input['ktp_berlaku'][$i],
-                            "[pindah_shdk_$nomor]" => ucwords(strtolower($penduduk['hubungan'])),
-						);
-						$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-					} else {
-						$array_replace = array(
-                            "[pindah_no_$nomor]"   => "",
-                            "[pindah_nik_$nomor]"  => "",
-                            "[pindah_nama_$nomor]" => "",
-                            "[ktp_berlaku$nomor]"  => "",
-                            "[pindah_shdk_$nomor]" => "",
-						);
-						$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-					}
-				}
-				$kode = $this->get_daftar_kode_surat($url);
-				$alasan_pindah_id = trim($input['alasan_pindah_id'],"'");
-				if ($alasan_pindah_id == "7") {
-					$str = $kode['alasan_pindah'][$alasan_pindah_id]." (".$input['sebut_alasan'].")";
-					$buffer=str_replace("[alasan_pindah]",$str,$buffer);
-				} else {
-					$buffer=str_replace("[alasan_pindah]",$kode['alasan_pindah'][$alasan_pindah_id],$buffer);
-				}
-				$buffer=str_replace("[jenis_kepindahan]",$kode['jenis_kepindahan'][$input['jenis_kepindahan_id']],$buffer);
-				if ($kode['status_kk_tidak_pindah'][$input['status_kk_tidak_pindah_id']]) {
-					$buffer=str_replace("[status_kk_tidak_pindah]",$kode['status_kk_tidak_pindah'][$input['status_kk_tidak_pindah_id']],$buffer);
-				}
-				else {
-					$buffer=str_replace("[status_kk_tidak_pindah]","-",$buffer);
-				}
-				$buffer=str_replace("[status_kk_pindah]",$kode['status_kk_pindah'][$input['status_kk_pindah_id']],$buffer);
-				break;
 
 			case 'surat_persetujuan_mempelai':
 				# Data suami
@@ -1030,36 +1006,6 @@
 		return $buffer;
 	}
 
-	/**
-		* Kembalikan nama file lampiran yang akan digunakan, di mana
-		* seperti Surat Keterangan Pindah Penduduk ada beberapa pilihan format dan
-		* pengguna bisa memilih format mana yang akan digunakan.
-	*/
-	function lampiran_khusus($url, $lampiran_surat, &$input){
-		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
-		$daftar_lampiran = explode(",", $lampiran_surat);
-		switch ($url) {
-			case 'surat_ket_pindah_penduduk':
-				if ($input['kode_format'] == 'F-1.23'){
-					$input['judul_format'] = "Dalam Satu Desa/Kelurahan";
-				} elseif ($input['kode_format'] == 'F-1.25'){
-					$input['judul_format'] = "Antar Desa/Kelurahan Dalam Satu Kecamatan";
-				} elseif ($input['kode_format'] =='F-1.29'){
-					$input['judul_format'] = "Antar Kecamatan Dalam Satu Kabupaten/Kota";
-				} elseif ($input['kode_format'] == 'F-1.34'){
-					$input['judul_format'] = "Antar Kabupaten/Kota atau Antar Provinsi";
-				}
-				if ($input['kode_format'] == "f108")
-					return array($daftar_lampiran[0]);
-				else
-					return array($daftar_lampiran[1]);
-				break;
-
-			default:
-				return $daftar_lampiran;
-		}
-	}
-
 	function lampiran($data, $nama_surat, &$lampiran){
 		$surat = $data['surat'];
 		if (!$surat['lampiran']) return;
@@ -1067,8 +1013,9 @@
 		$config = $data['config'];
 		$individu = $data['individu'];
 		$input = $data['input'];
+		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
+		$daftar_lampiran = explode(",", $surat['lampiran']);
     include(FCPATH.$surat['lokasi_rtf'].'get_data_lampiran.php');
-		$daftar_lampiran = $this->lampiran_khusus($surat['url_surat'],$surat['lampiran'],$input);
 		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
 
     // get the HTML using output buffer

@@ -93,13 +93,14 @@
                     </tr>
                   </table>
 
-                  <table class="list-db">
+                  <table class="list-db" width="100%">
                     <tr>
                       <td width="250"> Kosongkan Database SID</td>
                       <td>
-                      <div class="uibutton-group">
-                        <a class="uibutton special" href="<?php echo site_url("database/kosongkan_db")?>" title="Kosongkan DB"  target="confirm" message="Apakah anda yakin? Proses ini akan menghapus semua data penduduk dan data masukan lainnya." rel="window" header="Kosongkan DB"><span class="fa fa-circle-o-notch"></span> Kosongkan DB</a>
-                      </div>
+                        <form id="kosongkan" action="<?php echo site_url("database/kosongkan_db")?>" method="post">
+                          <a class="uibutton special" href="#" form="kosongkan" title="Kosongkan DB" target="confirmsubmit" message="Apakah anda yakin? Proses ini akan menghapus semua data penduduk dan data masukan lainnya." rel="window" header="Kosongkan DB"><span class="fa fa-circle-o-notch"></span> Kosongkan DB</a>
+                          <input type="checkbox" name="kosongkan_menu" value='kosongkan' /> Juga kosongkan contoh menu statis dan dinamis
+                        </form>
                       </td>
                     </tr>
                   </table>

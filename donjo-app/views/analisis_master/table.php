@@ -11,12 +11,12 @@
 <div id="contentpane">
 <form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
-	<h3>Modul Analisis</h3>
+	<h3>Modul Analisis Data Potensi/Sumber Daya di Tingkat Desa</h3>
 	<div class="left">
 		<div class="uibutton-group">
 			<a href="<?php echo site_url('analisis_master/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Analisis Baru</a>
 			<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_master/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
-			<a href="<?php echo site_url('analisis_master/import_analisis')?>" class="uibutton special tipsy south" title="Import" target="ajax-modal" rel="window" header="Import XLS Analisis"><span class="fa fa-plus">&nbsp;</span>Import Analisis</a>
+			<a href="<?php echo site_url('analisis_master/import_analisis')?>" class="uibutton special tipsy south" title="Impor Analisis" target="ajax-modal" rel="window" header="Impor XLS Analisis"><span class="fa fa-upload">&nbsp;</span>Impor Analisis</a>
 		</div>
 	</div>
 </div>
@@ -56,19 +56,19 @@
 			<?php endif; ?>
 
 			<?php if($o==6): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek Analisis <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek/Unit Analisis <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==5): ?>
-				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/6")?>">Subjek Analisis <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/6")?>">Subjek/Unit Analisis <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek Analisis <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='170'><a href="<?php echo site_url("analisis_master/index/$p/5")?>">Subjek/Unit Analisis <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 
 			<?php if($o==2): ?>
-				<th align="left" width='50'><a href="<?php echo site_url("analisis_master/index/$p/1")?>">Status <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='60px'><a href="<?php echo site_url("analisis_master/index/$p/1")?>">Status <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
-				<th align="left" width='50'><a href="<?php echo site_url("analisis_master/index/$p/2")?>">Status <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='60px'><a href="<?php echo site_url("analisis_master/index/$p/2")?>">Status <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
 			<?php else: ?>
-				<th align="left" width='50'><a href="<?php echo site_url("analisis_master/index/$p/1")?>">Status <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
+				<th align="left" width='60px'><a href="<?php echo site_url("analisis_master/index/$p/1")?>">Status <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
 			<?php endif; ?>
 			<th></th>
 		</tr>
@@ -80,9 +80,9 @@
 				<td align="center" width="5">
 					<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 				</td>
-				<td align="center">
+				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_master/menu/$data[id]")?>" title="Rincian Data" class="uibutton tipsy south fa-tipis"><span class="fa fa-list"></span> Rincian</a><a href="<?php echo site_url("analisis_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+						<a href="<?php echo site_url("analisis_master/menu/$data[id]")?>" class="uibutton"><span class="fa fa-list"> Rincian </span></a><a href="<?php echo site_url("analisis_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"> Ubah </span></a><a href="<?php echo site_url("analisis_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 					</div>
 				</td>
 				<td><?php echo $data['nama']?></td>
@@ -114,10 +114,10 @@
 	<div class="right">
 		<div class="uibutton-group">
 			<?php if($paging->start_link): ?>
-			<a href="<?php echo site_url("analisis_master/index/$paging->start_link/$o")?>" class="uibutton" ><span class="fa fa-fast-backward"></span> Awal</a>
+			<a href="<?php echo site_url("analisis_master/index/$paging->start_link/$o")?>" class="uibutton" >Awal</a>
 			<?php endif; ?>
 			<?php if($paging->prev): ?>
-			<a href="<?php echo site_url("analisis_master/index/$paging->prev/$o")?>" class="uibutton" ><span class="fa fa-step-backward"></span> Prev</a>
+			<a href="<?php echo site_url("analisis_master/index/$paging->prev/$o")?>" class="uibutton" >Prev</a>
 			<?php endif; ?>
 		</div>
 		<div class="uibutton-group">
@@ -127,10 +127,10 @@
 		</div>
 		<div class="uibutton-group">
 			<?php if($paging->next): ?>
-			<a href="<?php echo site_url("analisis_master/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
+			<a href="<?php echo site_url("analisis_master/index/$paging->next/$o")?>" class="uibutton">Next</a>
 			<?php endif; ?>
 			<?php if($paging->end_link): ?>
-			<a href="<?php echo site_url("analisis_master/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
+			<a href="<?php echo site_url("analisis_master/index/$paging->end_link/$o")?>" class="uibutton">Akhir</a>
 			<?php endif; ?>
 		</div>
 	</div>

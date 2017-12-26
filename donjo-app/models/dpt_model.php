@@ -344,4 +344,38 @@
 		return  $this->db->get('tweb_penduduk');
 	}
 
+	function statistik_wilayah(){
+		$sql = "SELECT dusun, rw,
+			count(*) as jumlah_warga,
+      sum(case when sex = 1 then 1 else 0 end) jumlah_warga_l,
+      sum(case when sex = 2 then 1 else 0 end) jumlah_warga_p
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE 1 ";
+		$sql .= $this->syarat_dpt_sql();
+		$sql .= " GROUP BY dusun,rw";
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+
+		//Formating Output
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['no']=$i+1;
+			$i++;
+		}
+		return $data;
+	}
+
+	function statistik_total(){
+		$sql = "SELECT
+			count(*) as total_warga,
+      sum(case when sex = 1 then 1 else 0 end) total_warga_l,
+      sum(case when sex = 2 then 1 else 0 end) total_warga_p
+			FROM tweb_penduduk u
+			WHERE 1 ";
+		$sql .= $this->syarat_dpt_sql();
+		$query = $this->db->query($sql);
+		return $query->row_array();
+	}
+
 }

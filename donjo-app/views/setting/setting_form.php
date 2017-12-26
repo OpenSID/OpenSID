@@ -37,6 +37,12 @@
                                     <option value="1" <?php if($setting->value==1) :?>selected<?php endif?>>Ya</option>
                                     <option value="0" <?php if($setting->value==0) :?>selected<?php endif?>>Tidak</option>
                                 </select>
+                            <?php elseif($setting->key == 'web_theme'): ?>
+                                <select name="<?php echo $setting->key?>" >
+                                    <?php foreach($list_tema as $tema): ?>
+                                        <option value="<?php echo $tema?>" <?php if($setting->value==$tema) :?>selected<?php endif?>><?php echo $tema?></option>
+                                    <?php endforeach;?>
+                                </select>
                             <?php else : ?>
                                 <input name="<?php echo $setting->key?>" type="text" class="inputbox" size="50" value="<?php echo $setting->value?>">
                             <?php endif; ?>

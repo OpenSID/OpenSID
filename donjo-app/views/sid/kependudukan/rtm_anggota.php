@@ -10,7 +10,7 @@
     <h3>Daftar Anggota Rumah Tangga : <?php echo $kepala_kk['nama']?> - <?php echo $kepala_kk['no_kk']?></h3>
         <div class="left">
             <div class="uibutton-group">
-                <a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" title="Tambah Data"  header="Tambah Anggota rtm" target="ajax-modalx" rel="window"><span class="fa fa-plus">&nbsp;</span>Tambah Anggota</a>
+                <a href="<?php echo site_url("rtm/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy south" title="Tambah Data"  header="Tambah Anggota Rumah Tangga" target="ajax-modalx" rel="window"><span class="fa fa-plus">&nbsp;</span>Tambah Anggota</a>
                 <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("rtm/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
                 <?php /*<a href="<?php echo site_url("rtm/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
             </div>
@@ -30,7 +30,9 @@
                 <th><input type="checkbox" class="checkall"/></th>
                 <th width="80">Aksi</th>
 				<th width='100'>NIK</th>
+                <th width='100'>Nomor KK</th>
 				<th>Nama</th>
+                <th width='50'>Jenis Kelamin</th>
 				<th width="150">Hubungan</th>
 				<th>Alamat</th>
 
@@ -50,8 +52,10 @@
 				</div>
 			</td>
           <td><label><?php echo $data['nik']?></label></td>
+          <td><label><?php echo $data['no_kk']?></label></td>
 		  <td><label><?php echo strtoupper(unpenetration($data['nama']))?></label></td>
 
+          <td><?php echo $data['sex']?></td>
 		  <td><?php echo $data['hubungan']?></td>
           <td><?php echo unpenetration($data['alamat'])?></td>
 		  </tr>
@@ -65,7 +69,7 @@
             <a href="<?php echo site_url("rtm/index/$p/$o")?>" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">
-            <a href="<?php echo site_url("rtm/kartu_rtm/$p/$o/$kk")?>" class="uibutton confirm icon next">Kartu rtm</a>
+            <a href="<?php echo site_url("rtm/kartu_rtm/$p/$o/$kk")?>" class="uibutton confirm icon next">Kartu Rumah Tangga</a>
         </div>
     </div>
 </div>

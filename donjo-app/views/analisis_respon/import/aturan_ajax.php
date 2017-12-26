@@ -2,12 +2,7 @@
 <table>
 	<tr>
 		<td>
-			<p>Bla bla bla... Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut Aturan Data Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut Aturan Data</p>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			Data yang dibutuhkan untuk Import dengan memenuhi aturan data sebagai berikut :
+			Data yang dibutuhkan untuk impor dengan memenuhi aturan data sebagai berikut :
 		</td>
 	</tr>
 	<tr>
@@ -18,6 +13,6 @@
 </table>
 <div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
 	<div class="uibutton-group">
-		<a href="<?php echo site_url()?>analisis_respon/data_ajax" class="uibutton special" target="ajax-modal" rel="window" header="Unduh Form Data Import" >Lanjut</a>
+		<a href="<?php echo site_url()?>analisis_respon/data_ajax" class="uibutton special" target="ajax-modal" rel="window" header="Unduh Form Data Impor" >Lanjut</a>
 	</div>
 </div>

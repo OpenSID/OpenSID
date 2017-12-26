@@ -2,21 +2,7 @@
 	<table class="inner">
 	<tr style="vertical-align:top">
   	<td class="side-menu">
-  			<div class="lmenu">
-  				<ul>
-    				<li ><a href="<?php echo site_url('sosmed')?>">Facebook</a></li>
-  				</ul>
-  				<ul>
-    				<li ><a href="<?php echo site_url('sosmed/twitter')?>">Twitter</a></li>
-  				</ul>
-  				<ul>
-    				<li><a href="<?php echo site_url('sosmed/google')?>">Google</a></li>
-  				</ul>
-  				<ul>
-    				<li class="selected"><a href="<?php echo site_url('sosmed/youtube')?>">Youtube</a></li>
-  				</ul>
-  			</div>
-
+      <?php $this->load->view('sosmed/_side-menu.php',array('media' => 'youtube')); ?>
   	</td>
     <td>
       <div id="contentpane">
@@ -27,6 +13,16 @@
           		<tr>
           			<td width="150">Link Akun Youtube</td><td><textarea name="link" style="resize: none; height:100px; width:250px;" size="300" maxlength='160'><?php  if($main){echo $main['link'];} ?></textarea></td>
           		</tr>
+              <tr>
+                <th>Aktif</th>
+                <td>
+                  <div class="uiradio">
+                    <?php $ch='checked';?>
+                    <input type="radio" id="g1" name="enabled" value="1"/<?php if($main['enabled'] == '1'){echo $ch;}?>><label for="g1">Ya</label>
+                    <input type="radio" id="g2" name="enabled" value="2"/<?php if($main['enabled'] == '2'){echo $ch;}?>><label for="g2">Tidak</label>
+                  </div>
+                </td>
+              </tr>
             </table>
           </div>
 

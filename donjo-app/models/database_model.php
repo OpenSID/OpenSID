@@ -3,9 +3,11 @@
   private $engine = 'InnoDB';
   /* define versi opensid dan script migrasi yang harus dijalankan */
   private $versionMigrate = array(
-    '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
+    '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
     'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
-    '2.5' => array('migrate' => 'migrasi_25_ke_26','nextVersion' => NULL)
+    '2.5' => array('migrate' => 'migrasi_25_ke_26','nextVersion' => '2.6'),
+    '2.6' => array('migrate' => 'migrasi_26_ke_27','nextVersion' => '2.7'),
+    '2.7' => array('migrate' => 'migrasi_27_ke_28','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -14,7 +16,7 @@
     $this->cek_engine_db();
     $this->load->dbforge();
     $this->load->model('folder_desa_model');
-
+    $this->load->model('surat_master_model');
   }
 
   function cek_engine_db() {
@@ -68,6 +70,7 @@
       $this->_migrasi_db_cri();
     }
     $this->folder_desa_model->amankan_folder_desa();
+    $this->surat_master_model->impor_surat_desa();
     /*
       Update current_version di db.
       'pasca-<versi>' disimpan sebagai '<versi>'
@@ -126,6 +129,125 @@
     $this->migrasi_23_ke_24();
     $this->migrasi_24_ke_25();
     $this->migrasi_25_ke_26();
+    $this->migrasi_26_ke_27();
+    $this->migrasi_27_ke_28();
+  }
+
+  function migrasi_27_ke_28(){
+    if (!$this->db->table_exists('suplemen') ) {
+      $query = "
+        CREATE TABLE suplemen (
+          id int NOT NULL AUTO_INCREMENT,
+          nama varchar(100),
+          sasaran tinyint(4),
+          keterangan varchar(300),
+          PRIMARY KEY (id)
+        );
+      ";
+      $this->db->query($query);
+    }
+    if (!$this->db->table_exists('suplemen_terdata') ) {
+      $query = "
+        CREATE TABLE suplemen_terdata (
+          id int NOT NULL AUTO_INCREMENT,
+          id_suplemen int(10),
+          id_terdata varchar(20),
+          sasaran tinyint(4),
+          keterangan varchar(100),
+          PRIMARY KEY (id),
+          FOREIGN KEY (id_suplemen)
+            REFERENCES suplemen(id)
+            ON DELETE CASCADE
+        );
+      ";
+      $this->db->query($query);
+    }
+  }
+
+  function migrasi_26_ke_27(){
+    // Sesuaikan judul kelompok umur dengan SID 3.10 versi Okt 2017
+    $this->db->truncate('tweb_penduduk_umur');
+    $sql = '
+      INSERT INTO tweb_penduduk_umur VALUES
+      ("1","BALITA","0","5","0"),
+      ("2","ANAK-ANAK","6","17","0"),
+      ("3","DEWASA","18","30","0"),
+      ("4","TUA","31","120","0"),
+      ("6","Di bawah 1 Tahun","0","1","1"),
+      ("9","2 s/d 4 Tahun","2","4","1"),
+      ("12","5 s/d 9 Tahun","5","9","1"),
+      ("13","10 s/d 14 Tahun","10","14","1"),
+      ("14","15 s/d 19 Tahun","15","19","1"),
+      ("15","20 s/d 24 Tahun","20","24","1"),
+      ("16","25 s/d 29 Tahun","25","29","1"),
+      ("17","30 s/d 34 Tahun","30","34","1"),
+      ("18","35 s/d 39 Tahun ","35","39","1"),
+      ("19","40 s/d 44 Tahun","40","44","1"),
+      ("20","45 s/d 49 Tahun","45","49","1"),
+      ("21","50 s/d 54 Tahun","50","54","1"),
+      ("22","55 s/d 59 Tahun","55","59","1"),
+      ("23","60 s/d 64 Tahun","60","64","1"),
+      ("24","65 s/d 69 Tahun","65","69","1"),
+      ("25","70 s/d 74 Tahun","70","74","1"),
+      ("26","Di atas 75 Tahun","75","99999","1");
+    ';
+    $this->db->query($sql);
+    // Tambah tombol media sosial Instagram
+    $query = "
+      INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('5', 'ins.png', '', 'Instagram', '1')
+      ON DUPLICATE KEY UPDATE
+        gambar = VALUES(gambar),
+        nama = VALUES(nama)";
+    $this->db->query($query);
+    // Ganti kelas sosial dengan tingkatan keluarga sejahtera dari BKKBN
+    if ($this->db->table_exists('ref_kelas_sosial') ) {
+      $this->dbforge->drop_table('ref_kelas_sosial');
+    }
+    if (!$this->db->table_exists('tweb_keluarga_sejahtera') ) {
+      $query = "
+        CREATE TABLE `tweb_keluarga_sejahtera` (
+          `id` int(10),
+          `nama` varchar(100),
+          PRIMARY KEY  (`id`)
+        );
+      ";
+      $this->db->query($query);
+      $query = "
+        INSERT INTO `tweb_keluarga_sejahtera` (`id`, `nama`) VALUES
+        (1,  'Keluarga Pra Sejahtera'),
+        (2,  'Keluarga Sejahtera I'),
+        (3,  'Keluarga Sejahtera II'),
+        (4,  'Keluarga Sejahtera III'),
+        (5,  'Keluarga Sejahtera III Plus')
+      ";
+      $this->db->query($query);
+    }
+    // Tambah surat izin orang tua/suami/istri
+    $data = array(
+      'nama'=>'Keterangan Izin Orang Tua/Suami/Istri',
+      'url_surat'=>'surat_izin_orangtua_suami_istri',
+      'kode_surat'=>'S-39',
+      'jenis'=>1);
+    $sql = $this->db->insert_string('tweb_surat_format', $data);
+    $sql .= " ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis)";
+    $this->db->query($sql);
+    // Tambah surat sporadik
+    $data = array(
+      'nama'=>'Pernyataan Penguasaan Fisik Bidang Tanah (SPORADIK)',
+      'url_surat'=>'surat_sporadik',
+      'kode_surat'=>'S-40',
+      'jenis'=>1);
+    $sql = $this->db->insert_string('tweb_surat_format', $data);
+    $sql .= " ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        jenis = VALUES(jenis)";
+    $this->db->query($sql);
   }
 
   function migrasi_25_ke_26(){
@@ -236,6 +358,28 @@
     if (!file_exists('/desa/upload/thumbs')){
       mkdir('desa/upload/thumbs');
       xcopy('desa-contoh/upload/thumbs', 'desa/upload/thumbs');
+    }
+    // Tambah kolom kode di tabel kelompok
+    if (!$this->db->field_exists('kode', 'kelompok')) {
+      $fields = array(
+        'kode' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 16,
+          'null' => FALSE
+        )
+      );
+      $this->dbforge->add_column('kelompok', $fields);
+    }
+    // Tambah kolom no_anggota di tabel kelompok_anggota
+    if (!$this->db->field_exists('no_anggota', 'kelompok_anggota')) {
+      $fields = array(
+        'no_anggota' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 20,
+          'null' => FALSE
+        )
+      );
+      $this->dbforge->add_column('kelompok_anggota', $fields);
     }
   }
 
@@ -1455,11 +1599,13 @@
       "artikel", //remove everything except widgets 1003
       "data_surat", // view
       "media_sosial", //?
+      "provinsi",
       "setting_modul",
       "setting_aplikasi",
       "tweb_cacat",
       "tweb_cara_kb",
       "tweb_golongan_darah",
+      "tweb_keluarga_sejahtera",
       "tweb_penduduk_agama",
       "tweb_penduduk_hubungan",
       "tweb_penduduk_kawin",
@@ -1475,8 +1621,14 @@
       "tweb_status_dasar",
       "tweb_surat_format",
       "user",
-      "user_grup"
+      "user_grup",
+      "widget"
     );
+
+    // Hanya kosongkan contoh menu kalau pengguna memilih opsi itu
+    if(empty($_POST['kosongkan_menu'])){
+      array_push($table_lookup,"kategori","menu");
+    }
 
     // Hapus semua artikel kecuali artikel widget dengan kategori 1003
     $this->db->where("id_kategori !=", "1003");
@@ -1489,7 +1641,9 @@
         $this->db->query($query);
       }
     }
+    $_SESSION['success'] = 1;
   }
+
 
 }
 ?>

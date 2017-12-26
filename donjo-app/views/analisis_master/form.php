@@ -54,21 +54,21 @@ display:none;
 <td><input name="nama" type="text" class="inputbox" size="80" value="<?php echo $analisis_master['nama']?>"/></td>
 </tr>
 <tr>
-<th width="100">Unit Analisis</th>
+<th width="100">Subjek/Unit Analisis</th>
 <td>
 <div class="uiradio">
 <?php $ch='checked';?>
 <input type="radio" id="group3" name="subjek_tipe" value="1"/<?php if($analisis_master['subjek_tipe'] == '1' OR $analisis_master['subjek_tipe'] == ''){echo $ch;}?>><label for="group3">Penduduk</label>
 <input type="radio" id="group2" name="subjek_tipe" value="2"/<?php if($analisis_master['subjek_tipe'] == '2'){echo $ch;}?>><label for="group2">Keluarga / KK</label>
 <input type="radio" id="group1" name="subjek_tipe" value="3"/<?php if($analisis_master['subjek_tipe'] == '3'){echo $ch;}?>><label for="group1">Rumah Tangga</label>
-<input type="radio" id="group4" name="subjek_tipe" value="4"/<?php if($analisis_master['subjek_tipe'] == '4'){echo $ch;}?>><label for="group4">Kelompok Masyarakat</label>
+<input type="radio" id="group4" name="subjek_tipe" value="4"/<?php if($analisis_master['subjek_tipe'] == '4'){echo $ch;}?>><label for="group4">Kelompok</label>
 </div>
 </td>
 </tr>
 <tr class="delik">
-<th>Master Kelompok</th><td>
+<th>Kategori Kelompok</th><td>
 	<select name="id_kelompok">
-		<option value="">-- Pilih Master Kelompok --</option>				
+		<option value="">-- Pilih Kategori Kelompok --</option>				
 		<?php foreach($list_kelompok AS $data){?>
 		<option value="<?php echo $data['id']?>" <?php if($analisis_master['id_kelompok'] == $data['id']) :?>selected<?php endif?>><?php echo $data['kelompok']?></option>
 		<?php }?>
@@ -85,7 +85,7 @@ display:none;
 </td>
 </tr> 
 <tr>
-<th colspan="2">Rumus Penilaian Analisis</br>Sigma (Bobot (indikator) x Nilai (parameter)) / "Bilangan Pembagi"</th>
+<th colspan="2">Rumus Penilaian Analisis</br>Sigma [Bobot (indikator) x Nilai (ukuran)] / "Bilangan Pembagi"</th>
 </tr>
 <tr>
 <th>Bilangan Pembagi</th>
@@ -120,7 +120,7 @@ display:none;
 <div class="right">
 <div class="uibutton-group">
 
-<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
+<button class="uibutton confirm" type="submit" >Simpan</button>
 </div>
 </div>
 </div> </form>

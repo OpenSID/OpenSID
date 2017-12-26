@@ -3,14 +3,18 @@ class analisis_respon extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
+		UNSET($_SESSION['delik']);
 		$this->load->model('analisis_respon_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 5;
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) redirect('siteman');
+		if($grup!=1) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$_SESSION['submenu'] = "Input Data";
 		$_SESSION['asubmenu'] = "analisis_respon";
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);
@@ -149,9 +153,20 @@ class analisis_respon extends CI_Controller{
 		$this->load->view('analisis_respon/import/data_unduh',$data);
 	}
 	function import($op=0){
-		$data['form_action'] 		= site_url("analisis_respon/import_proses/$op");
+		$data['form_action'] = site_url("analisis_respon/import_proses/$op");
 		$this->load->view('analisis_respon/import/import',$data);
 	}
+
+	function satu_jiwa($op=0){
+		$this->analisis_respon_model->satu_jiwa($op);
+		redirect('analisis_respon');
+	}
+
+	function dua_dunia($op=0){
+		$this->analisis_respon_model->dua_dunia($op);
+		redirect('analisis_respon');
+	}
+
 	function import_proses($op=0){
 		$this->analisis_respon_model->import_respon($op);
 		redirect('analisis_respon');

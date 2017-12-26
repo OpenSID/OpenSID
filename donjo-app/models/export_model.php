@@ -53,8 +53,22 @@
 
 	function export_akp()
 	{
-		$return=$this->_build_schema('analisis_keluarga', 'akpkeluarga');
+		$return = "";
+		$result = mysql_query('SELECT * FROM analisis_keluarga WHERE 1');
+		$num_fields = mysql_num_fields($result);
+		$return.= "<akpkeluarga>\r\n";
+		for($i = 0; $i < $num_fields; $i++){
+			while($row = mysql_fetch_row($result)){
 
+				for($j=0; $j<$num_fields; $j++){
+
+					if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
+					if ($j<($num_fields-1)) { $return.= '+'; }
+				}
+				$return.= "\r\n";
+			}
+		}
+		$return.="</akpkeluarga>\r\n";
 		Header('Content-type: application/octet-stream');
 		Header('Content-Disposition: attachment; filename=data_akp('.date("d-m-Y").').sid');
 		echo $return;

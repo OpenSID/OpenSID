@@ -6,11 +6,14 @@ class analisis_statistik_jawaban extends CI_Controller{
 		$this->load->model('analisis_statistik_jawaban_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 5;
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) redirect('siteman');
+		if($grup!=1) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$_SESSION['submenu'] = "Statistik Jawaban";
 		$_SESSION['asubmenu'] = "analisis_statistik_jawaban";
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);
@@ -182,8 +185,8 @@ class analisis_statistik_jawaban extends CI_Controller{
 		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
 
 		$ai  = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
-		if($ai['id_tipe']==3 OR $ai['id_tipe']==4)
-			redirect('analisis_statistik_jawaban');
+		//if($ai['id_tipe']==3 OR $ai['id_tipe']==4)
+		//	redirect('analisis_statistik_jawaban');
 
 		$data['analisis_statistik_pertanyaan']  = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_statistik_jawaban']   	= $this->analisis_statistik_jawaban_model->get_analisis_parameter($par);

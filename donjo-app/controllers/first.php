@@ -15,7 +15,10 @@ class First extends Web_Controller{
 			// Jangan tampilkan website jika bukan admin/operator/redaksi
 			$this->load->model('user_model');
 			$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-			if($grup!=1 AND $grup!=2 AND $grup!=3) redirect('siteman');
+			if($grup!=1 AND $grup!=2 AND $grup!=3) {
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+				redirect('siteman');
+			}
 		}
 
 		mandiri_timeout();
@@ -34,6 +37,7 @@ class First extends Web_Controller{
 		$this->load->model('web_gallery_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('track_model');
+		$this->load->model('surat_keluar_model');
 	}
 
 	function auth(){
@@ -111,7 +115,7 @@ class First extends Web_Controller{
 		$data = $this->keluarga_model->get_data_cetak_kk($id_kk);
 
 		$header = $this->header_model->get_data();
-		$this->load->view("sid/kependudukan/cetak_kk", $data);
+		$this->load->view("sid/kependudukan/cetak_kk_all", $data);
 	}
 
 	function kartu_peserta($id=0){
@@ -148,6 +152,11 @@ class First extends Web_Controller{
 		switch ($m) {
 			case 1:
 				$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
+				$data['list_kelompok'] = $this->penduduk_model->list_kelompok($_SESSION['id']);
+				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+				break;
+			case 2:
+				$data['surat_keluar'] = $this->surat_keluar_model->list_data_surat($_SESSION['id']);
 				break;
 			case 4:
 				$this->load->model('program_bantuan_model','pb');
@@ -256,6 +265,18 @@ class First extends Web_Controller{
 		$this->_get_common_data($data);
 
 		$this->set_template('layouts/analisis.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+	function dpt(){
+		$this->load->model('dpt_model');
+		$data = $this->includes;
+		$data['main'] = $this->dpt_model->statistik_wilayah();
+		$data['total'] = $this->dpt_model->statistik_total();
+		$data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
+		$this->_get_common_data($data);
+		$data['tipe'] = 4;
+		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template,$data);
 	}
 

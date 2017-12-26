@@ -46,6 +46,14 @@
 </div>
 
 <div class="lmenu">
+  <legend>Statistik Keluarga <span class="fa fa-chevron-down"></span></legend>
+  <ul id="keluarga">
+    <a href="<?php echo site_url()?>statistik/index/kelas_sosial"><li <?php if("$lap"=='kelas_sosial'){?>class="selected"<?php }?>>
+      Klasifikasi Sosial</li></a>
+  </ul>
+</div>
+
+<div class="lmenu">
   <legend>Statistik Program Bantuan <span class="fa fa-chevron-down"></span></legend>
   <ul id="bantuan">
     <?php foreach ($list_bantuan as $bantuan): ?>

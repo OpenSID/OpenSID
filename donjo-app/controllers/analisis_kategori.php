@@ -6,11 +6,14 @@ class Analisis_kategori extends CI_Controller{
 		$this->load->model('analisis_kategori_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 5;
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) redirect('siteman');
+		if($grup!=1) {
+			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			redirect('siteman');
+		}
 		$_SESSION['submenu'] = "Data Kategori";
 		$_SESSION['asubmenu'] = "analisis_kategori";
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);

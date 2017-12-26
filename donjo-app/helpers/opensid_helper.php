@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.5.1');
+define("VERSION", 'pasca-2.7');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -38,9 +38,13 @@ define("KODE_AGAMA", serialize(array(
       strtolower("Aliran Kepercayaan")  => "7")));
 define("KODE_STATUS", serialize(array(
       strtolower("BELUM KAWIN") => "1",
+      strtolower("BK") => "1",
       strtolower("KAWIN") => "2",
+      strtolower("K") => "2",
       strtolower("CERAI HIDUP") => "3",
-      strtolower("CERAI MATI") => "4")));
+      strtolower("CH") => "3",
+      strtolower("CERAI MATI") => "4",
+      strtolower("CM") => "4")));
 define("KODE_HUBUNGAN", serialize(array(
       strtolower("KEPALA KELUARGA") => "1",
       strtolower("SUAMI") => "2",
@@ -154,6 +158,25 @@ define("KODE_PEKERJAAN", serialize(array(
       strtolower("BIARAWATI") => "87",
       strtolower("WIRASWASTA") => "88",
       strtolower("LAINNYA") => "89")));
+define("KODE_GOLONGAN_DARAH", serialize(array(
+      strtolower('A') => '1',
+      strtolower('B') => '2',
+      strtolower('AB') => '3',
+      strtolower('O') => '4',
+      strtolower('A+') => '5',
+      strtolower('A-') => '6',
+      strtolower('B+') => '7',
+      strtolower('B-') => '8',
+      strtolower('AB+') => '9',
+      strtolower('AB-') => '10',
+      strtolower('O+') => '11',
+      strtolower('O-') => '12',
+      strtolower('TIDAK TAHU') => '13')));
+define("SASARAN", serialize(array(
+      "1" => "Penduduk",
+      "2" => "Keluarga / KK",
+      "3" => "Rumah Tangga",
+      "4" => "Kelompok/Organisasi Kemasyarakatan")));
 
 /**
  * Ambil Versi
@@ -441,6 +464,13 @@ define("KODE_PEKERJAAN", serialize(array(
   function log_time($msg){
     $now = DateTime::createFromFormat('U.u', microtime(true));
     error_log($now->format("m-d-Y H:i:s.u")." : ".$msg."\n", 3, "opensid.log");
+  }
+
+  function umur($tgl_lahir){
+    $date = new DateTime($tgl_lahir);
+    $now = new DateTime();
+    $interval = $now->diff($date);
+    return $interval->y;
   }
 
   // Dari https://stackoverflow.com/questions/4117555/simplest-way-to-detect-a-mobile-device

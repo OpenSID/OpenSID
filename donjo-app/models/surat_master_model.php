@@ -34,7 +34,7 @@
 	function filter_sql(){
 		if(isset($_SESSION['filter'])){
 			$kf = $_SESSION['filter'];
-			$filter_sql= " AND u.act_analisis = $kf";
+			$filter_sql= " AND u.jenis = $kf";
 		return $filter_sql;
 		}
 	}
@@ -63,14 +63,17 @@
 		}
 	}
 
+	private function _semua_filter(){
+		$sql 		 = '';
+		$sql    .= $this->search_sql();
+		$sql 		.= $this->filter_sql();
+		return $sql;
+	}
+
 	function paging($p=1,$o=0){
 
 		$sql      = "SELECT COUNT(id) AS id FROM tweb_surat_format u WHERE 1";
-		$sql     .= $this->search_sql();
-		$sql .= $this->filter_sql();
-
-		$sql .= $this->tipe_sql();
-		$sql .= $this->kategori_sql();
+		$sql     .= $this->_semua_filter();
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
@@ -101,13 +104,9 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-		$sql   = "SELECT u.* FROM tweb_surat_format u  WHERE 1 ";
+		$sql  = "SELECT u.* FROM tweb_surat_format u  WHERE 1 ";
 
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-
-		$sql .= $this->tipe_sql();
-		$sql .= $this->kategori_sql();
+		$sql .= $this->_semua_filter();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -355,6 +354,22 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
+	}
+
+	// Tambahkan surat desa jika folder surat tidak ada di surat master
+	function impor_surat_desa(){
+		$folder_surat_desa = glob('desa/surat/*' , GLOB_ONLYDIR);
+		foreach ($folder_surat_desa as $surat) {
+			$surat = str_replace('desa/surat/', '', $surat);
+			$hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
+			if ($hasil->num_rows == 0){
+				$data = array();
+				$data['jenis'] = 2;
+				$data['url_surat'] = $surat;
+				$data['nama'] = ucwords(trim(str_replace(array("surat","-","_"), ' ', $surat)));
+				$this->db->insert('tweb_surat_format',$data);
+			}
+		}
 	}
 
 }
