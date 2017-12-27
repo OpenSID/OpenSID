@@ -162,6 +162,21 @@
       ";
       $this->db->query($query);
     }
+    // Tambah surat permohonan perubahan kartu keluarga
+    $data = array(
+      'nama'=>'Permohonan Perubahan KK',
+      'url_surat'=>'surat_permohonan_perubahan_kk',
+      'kode_surat'=>'S-41',
+      'lampiran'=>'f-1.16.php',
+      'jenis'=>1);
+    $sql = $this->db->insert_string('tweb_surat_format', $data);
+    $sql .= " ON DUPLICATE KEY UPDATE
+        nama = VALUES(nama),
+        url_surat = VALUES(url_surat),
+        kode_surat = VALUES(kode_surat),
+        lampiran = VALUES(lampiran),
+        jenis = VALUES(jenis)";
+    $this->db->query($sql);
   }
 
   function migrasi_26_ke_27(){
