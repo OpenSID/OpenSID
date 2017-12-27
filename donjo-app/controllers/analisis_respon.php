@@ -14,6 +14,7 @@ class analisis_respon extends CI_Controller{
 		}
 		$_SESSION['submenu'] = "Input Data";
 		$_SESSION['asubmenu'] = "analisis_respon";
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);

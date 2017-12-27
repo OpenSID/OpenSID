@@ -43,7 +43,7 @@ $(function dialogClick(){
     var title = $(this).attr('header');
     var url = $(this).attr('href');
     var width = $(this).attr('modalWidth');
-    var height = 400;
+    var height = $(this).attr('modalHeight');
     ajaxModalx(id,title,url,width,height);
     return false;
   });

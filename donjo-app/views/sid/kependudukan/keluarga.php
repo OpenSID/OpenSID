@@ -42,7 +42,7 @@
 
                 <div id='menu-borongan' style="display: inline-block;">
                     <ul id="siteman-nav" class="top">
-                        <li class="uibutton"><span class="judul">Aksi Sekaligus</span><span class="fa fa-caret-down fa-lg">&nbsp;</span>
+                        <li class="uibutton"><span class="judul">Aksi Ganda</span><span class="fa fa-caret-down fa-lg">&nbsp;</span>
                             <ul>
                                 <?php  if($grup==1): ?>
                                     <li onclick="aksiBorongan('mainform','<?php echo site_url("keluarga/delete_all/$p/$o")?>','Hapus Data','Apakah anda yakin mau menghapus data ini?')">

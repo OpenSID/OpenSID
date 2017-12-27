@@ -1,7 +1,7 @@
 <?php
 
 $lang['db_invalid_connection_str'] = 'Unable to determine the database settings based on the connection string you submitted.';
-$lang['db_unable_to_connect'] = '<h3>Ada kesalahan dalam pemasangan OpenSID</h3>Aplikasi tidak bisa terhubung ke database.<br />Silakan copy/paste folder desa-contoh sebagai folder desa dan periksa pada berkas di desa/config/database.php. Pastikan pada bagian "Data Konfigurasi MySQL yang disesuaikan" terisi dengan benar.<p></p><p>Untuk mengatasi kendala ini anda bisa membaca panduan/petunjuk di <a href="http://www.opensid.info/dokumentasi/4-panduan-install-opensid.html" target="_blank">tautan ini</a> atau di <a href="https://github.com/eddieridwan/OpenSID/wiki/Panduan-Install-OpenSID" target="_blank">tautan ini</a></p>';
+$lang['db_unable_to_connect'] = '<h3>Ada kesalahan dalam pemasangan OpenSID</h3>Aplikasi tidak bisa terhubung ke database.<br />Silakan copy/paste folder desa-contoh sebagai folder desa dan periksa pada berkas di desa/config/database.php. Pastikan pada bagian "Data Konfigurasi MySQL yang disesuaikan" terisi dengan benar.<p></p><p>Untuk mengatasi kendala ini anda bisa membaca panduan/petunjuk di <a href="http://www.opensid.info/dokumentasi/4-panduan-install-opensid.html" target="_blank">tautan ini</a> atau di <a href="https://github.com/OpenSID/OpenSID/wiki/Panduan-Install-OpenSID" target="_blank">tautan ini</a></p>';
 $lang['db_unable_to_select'] = 'Unable to Tabel';
 $lang['db_unable_to_create'] = 'Unable to create the specified database: %s';
 $lang['db_invalid_query'] = 'The query you submitted is not valid.';

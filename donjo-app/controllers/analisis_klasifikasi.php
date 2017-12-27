@@ -13,6 +13,7 @@ class Analisis_klasifikasi extends CI_Controller{
 		}
 		$_SESSION['submenu'] = "Data Klasifikasi";
 		$_SESSION['asubmenu'] = "analisis_klasifikasi";
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);

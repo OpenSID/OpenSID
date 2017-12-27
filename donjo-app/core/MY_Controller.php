@@ -114,9 +114,16 @@ class Web_Controller extends MY_Controller {
   // Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
   function fallback_default($theme, $view)
   {
-    $theme_file = FCPATH . $this->theme_folder . '/' . $theme . $view;
+	if (is_object($this)) {
+		$theme_folder = $this->theme_folder;
+	} else {
+		$tmp = new self();
+		$theme_folder = $tmp->theme_folder;
+	}
+
+    $theme_file = FCPATH . $theme_folder . '/' . $theme . $view;
     if (!is_file($theme_file)) $theme_view = '../../themes/default' . $view;
-    else $theme_view = '../../' . $this->theme_folder . '/' . $theme . $view;
+    else $theme_view = '../../' . $theme_folder . '/' . $theme . $view;
     return $theme_view;
   }
 

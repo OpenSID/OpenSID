@@ -13,6 +13,7 @@ class Analisis_periode extends CI_Controller{
 		}
 		$_SESSION['submenu'] = "Data Periode";
 		$_SESSION['asubmenu'] = "analisis_periode";
+		$this->modul_ini = 5;
 	}
 	function clear(){
 		unset($_SESSION['cari']);

@@ -650,17 +650,7 @@
 		$log['tahun'] = date("Y");
 		$log['catatan'] = $_POST['catatan'];
 
-    $update_str = '';
-    foreach($log as $key=>$item) {
-        $update_str .= $key.'=VALUES('.$key.'),';
-    }
-    $update_str = rtrim($update_str, ',');
-
-		$sql = $this->db->insert_string('log_penduduk',$log) . ' ON DUPLICATE KEY UPDATE ' . $update_str;
-		$outp = $this->db->query($sql);
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$this->tulis_log_penduduk_data($log);
 	}
 
 	function delete($id=''){
@@ -889,6 +879,12 @@
 		return $data;
 	}
 
+	// Untuk pekerjaan, ubah bentuk seperti 'Belum/tidak Bekerja' menjadi 'Belum/Tidak Bekerja'
+	private function ubah_ke_huruf_besar($matches){
+		$matches[0][1] = strtoupper($matches[0][1]);
+		return $matches[0];
+	}
+
 	function list_pekerjaan($case=''){
 		$sql   = "SELECT * FROM tweb_penduduk_pekerjaan WHERE 1";
 		$query = $this->db->query($sql);
@@ -899,6 +895,15 @@
 				$data[$i]['nama'] = str_replace("(pns)", "(PNS)", $data[$i]['nama']);
 				$data[$i]['nama'] = str_replace("(tni)", "(TNI)", $data[$i]['nama']);
 				$data[$i]['nama'] = str_replace("(polri)", "(POLRI)", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace(" Ri ", " RI ", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("Dpr-ri", "DPR-RI", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("Dpd", "DPD", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("Bpk", "BPK", $data[$i]['nama']);
+				$data[$i]['nama'] = str_replace("Dprd", "DPRD", $data[$i]['nama']);
+				if (strpos($data[$i]['nama'],'/')) {
+					$nama = $data[$i]['nama'];
+					$data[$i]['nama'] = preg_replace_callback('/\/\S{1}/', "Penduduk_Model::ubah_ke_huruf_besar", $nama);
+				}
 			}
 		}
 		return $data;
@@ -974,6 +979,17 @@
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
+	}
+
+	function tulis_log_penduduk_data($log){
+    $update_str = '';
+    foreach($log as $key=>$item) {
+        $update_str .= $key.'=VALUES('.$key.'),';
+    }
+    $update_str = rtrim($update_str, ',');
+
+		$sql = $this->db->insert_string('log_penduduk',$log) . ' ON DUPLICATE KEY UPDATE ' . $update_str;
+		$this->db->query($sql);
 	}
 
 	function tulis_log_penduduk($id_pend, $id_detail, $bulan, $tahun) {
