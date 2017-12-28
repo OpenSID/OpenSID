@@ -162,21 +162,27 @@
       ";
       $this->db->query($query);
     }
-    // Tambah surat permohonan perubahan kartu keluarga
+    // Hapus surat permohonan perubahan kk (yang telah diubah menjadi kartu keluarga)
     $data = array(
-      'nama'=>'Permohonan Perubahan KK',
-      'url_surat'=>'surat_permohonan_perubahan_kk',
+      'nama'=>'Permohonan Perubahan Kartu Keluarga',
+      'url_surat'=>'surat_permohonan_perubahan_kartu_keluarga',
       'kode_surat'=>'S-41',
-      'lampiran'=>'f-1.16.php',
+      'lampiran'=>'f-1.16.php,f-1.01.php',
       'jenis'=>1);
-    $sql = $this->db->insert_string('tweb_surat_format', $data);
-    $sql .= " ON DUPLICATE KEY UPDATE
-        nama = VALUES(nama),
-        url_surat = VALUES(url_surat),
-        kode_surat = VALUES(kode_surat),
-        lampiran = VALUES(lampiran),
-        jenis = VALUES(jenis)";
-    $this->db->query($sql);
+    $hasil = $this->db->where('url_surat','surat_permohonan_perubahan_kk')->get('tweb_surat_format');
+    if ($hasil->num_rows() > 0) {
+      $this->db->where('url_surat','surat_permohonan_perubahan_kk')->update('tweb_surat_format', $data);
+    } else {
+      // Tambah surat permohonan perubahan kartu keluarga
+      $sql = $this->db->insert_string('tweb_surat_format', $data);
+      $sql .= " ON DUPLICATE KEY UPDATE
+          nama = VALUES(nama),
+          url_surat = VALUES(url_surat),
+          kode_surat = VALUES(kode_surat),
+          lampiran = VALUES(lampiran),
+          jenis = VALUES(jenis)";
+      $this->db->query($sql);
+    }
   }
 
   function migrasi_26_ke_27(){

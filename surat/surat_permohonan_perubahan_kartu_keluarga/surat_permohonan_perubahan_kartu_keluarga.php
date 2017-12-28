@@ -41,7 +41,7 @@ table.form.detail td{
 	<td style="background:#fff;">
 		<div id="contentpane">
 			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-				<h3>Surat Permohonan Perubahan Kartu Keluarga (F-1.16)</h3>
+				<h3>Surat Permohonan Perubahan Kartu Keluarga (F-1.16 & F-1.01)</h3>
 				<div id="form-cari-pemohon">
 					<form action="" id="main" name="main" method="POST" class="formular">
 					<table class="form">
@@ -51,7 +51,8 @@ table.form.detail td{
 				      	<p><strong>Form ini menghasilkan:<br><br>
 				      	1. Surat Permohonan Perubahan Kartu Keluarga<br>
 				      	2. Lampiran F-1.16 FORMULIR PERMOHOHAN PERUBAHAN KARTU KELUARGA (KK) BARU WARGA NEGARA INDONESIA<br>
-				      	Pastikan semua biodata pemohon beserta keluarga sudah lengkap sebelum mencetak surat dan lampiran.<br>
+						3. Lampiran F-1.01 FORMULIR ISIAN BIODATA PENDUDUK UNTUK WNI (PER KELUARGA) untuk keluarga pemohon.<br><br>
+				      	Pastikan semua biodata pemohon beserta keluarga sudah lengkap sebelum mencetak surat dan lampiran.<br>						
 				      	Untuk melengkapi data itu, ubah data pemohon dan anggota keluarganya di form isian penduduk di modul Penduduk.<br><br>
 				      	Formulir di atas mengacu pada Peraturan Menteri Dalam Negeri Nomor 19 Tahun 2010.
 				      	</strong></p>
@@ -91,6 +92,10 @@ table.form.detail td{
 							  <?php }?>
 							</select>
 						  </td>
+						</tr>
+						<tr>
+							<th width="40%">Alasan Lainnya</th>
+							<td width="60%"><input name="alasan_lainnya" type="text" class="inputbox" size="50"/> <span>*)<i>Diisi apabila pilihan Alasan Permohonan yang dipilih adalah Lainnya.</i></span></td>
 						</tr>
 						<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 					</table>

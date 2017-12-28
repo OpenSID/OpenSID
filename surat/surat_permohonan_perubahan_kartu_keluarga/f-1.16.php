@@ -341,7 +341,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="5">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan=10>10.&nbsp;&nbsp;Alasan Permohonan </td>
+      <td colspan=10 class="kotak">9.&nbsp;&nbsp;Alasan Permohonan </td>
       <td>:</td>
       <?php for($i=0; $i<1; $i++): ?>
         <td class="kotak padat tengah">
@@ -359,7 +359,10 @@ table.disdukcapil td.tengah { text-align: center; }
     </tr>
 	<tr>
       <td colspan="12">&nbsp;</td>
-  	  <td colspan=36>3. Lainnya : ..................................................................................................... </td>
+  	  <td colspan=6>3. Lainnya :</td>
+  	  <td colspan=18 style="border-bottom:1px solid #000"><?php echo $input['alasan_lainnya'];?></td>
+	  <td colspan=6> </td>
+	    <td colspan=6></td>
     </tr>
     <tr>
       <td colspan="10" class="kotak">10. Jumlah Anggota Keluarga</td>
@@ -389,7 +392,7 @@ table.disdukcapil td.tengah { text-align: center; }
       <td colspan="3" class="abu">SHDK*)</td>
       <td>&nbsp;</td>
     </tr>
-    <?php for($i=0; $i<MAX_ANGGOTA_F115; $i++): ?>
+    <?php for($i=0; $i<MAX_ANGGOTA_F116; $i++): ?>
       <tr>
         <td>&nbsp;</td>
         <?php $str_i = str_pad((string)($i+1),2,"0",STR_PAD_LEFT); ?>
