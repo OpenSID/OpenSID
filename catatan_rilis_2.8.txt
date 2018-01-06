@@ -1,8 +1,8 @@
-Rilis ini berisi [untuk dilengkapi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+Rilis ini berisi modul baru, Data Suplemen, dan Surat Permohonan Perubahan Kartu Keluarga. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
 Terima kasih pada Abdul Gani yang terus membuat kontribusi.
 
-Lengkapnya, isi rilis versi pasca-2.7:
+Lengkapnya, isi rilis versi 2.8:
 
 1. #351: Sekarang bisa impor BIP format yang digunakan di Kabupaten Luwu Timur.
 2. Perbaiki kolom tanggal di contoh format import excel. Perbaiki pengolahan impor tanggal.
@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi pasca-2.7:
 9. Surat master bisa difilter menurut jenis surat sistem atau desa.
 10. Tambahkan impor surat desa baru ke surat master menggunakan menu Database > Migrasi DB.
 11. #659: Tambah modul Data Suplemen untuk merekam informasi tambahan pada penduduk dan keluarga, sesuai kebutuhan desa.
+12. #216: Tambah surat permohonan perubahan kartu keluarga, dengan lampiran F-1.16 dan F-1.01.
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.7, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 2.8, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
