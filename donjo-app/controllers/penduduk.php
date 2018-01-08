@@ -231,6 +231,9 @@ class Penduduk extends CI_Controller{
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
+		$data['wajib_ktp'] = $this->referensi_model->list_wajib_ktp();
+		$data['ktp_el'] = $this->referensi_model->list_ktp_el();
+		$data['status_rekam'] = $this->referensi_model->list_status_rekam();
 
 		$this->load->view('header', $header);
 		$nav['act']= 2;

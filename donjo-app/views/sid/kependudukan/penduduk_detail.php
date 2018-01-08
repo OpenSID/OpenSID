@@ -1,3 +1,8 @@
+<style type="text/css">
+  table#ektp th {
+    background-color: lightgrey;
+  }
+</style>
 <div id="pageC">
   <table class="inner">
     <tr style="vertical-align:top">
@@ -41,6 +46,23 @@
               <tr>
                 <td>Nomor KK Sebelumnya</td><td >:</td>
                 <td><?php echo $penduduk['no_kk_sebelumnya']?></td>
+              </tr>
+              <tr>
+                <td>Status Kepemilikan KTP</td><td >:</td>
+                <td>
+                  <table id='ektp'>
+                    <tr>
+                      <th>Wajib KTP</th>
+                      <th>KTP-EL</th>
+                      <th>Status Rekam</th>
+                    </tr>
+                    <tr>
+                      <td><?php echo strtoupper($penduduk['wajib_ktp'])?></td>
+                      <td><?php echo strtoupper($penduduk['ktp_el'])?></td>
+                      <td><?php echo strtoupper($penduduk['status_rekam'])?></td>
+                    </tr>
+                  </table>
+                </td>
               </tr>
               <tr>
                 <td>Akta lahir</td><td >:</td>

@@ -4,6 +4,8 @@
 		parent::__construct();
 
 		$this->load->model('keluarga_model');
+		$this->ktp_el = array_flip(unserialize(KTP_EL));
+		$this->status_rekam = array_flip(unserialize(STATUS_REKAM));
 	}
 
 	function autocomplete(){
@@ -512,7 +514,7 @@
 		$log['bulan'] = date("m");
 		$log['tahun'] = date("Y");
 		$log['tgl_peristiwa'] = date("d-m-Y");
-		$outp = $this->db->insert('log_penduduk',$log);
+		$this->tulis_log_penduduk_data($log);
 
 		$log1['id_pend'] = $idku;
 		$log1['id_cluster'] = 1;
@@ -751,6 +753,12 @@
 			$data['rw'] = $cluster['rw'];
 			$data['rt'] = $cluster['rt'];
 		}
+		// Data ektp: cari tulisan untuk kode
+		$wajib_ktp = $this->is_wajib_ktp($data);
+		if ($wajib_ktp !== null)
+			$data['wajib_ktp'] = $wajib_ktp ? 'WAJIB' : 'BELUM';
+		$data['ktp_el'] = strtoupper($this->ktp_el[$data['ktp_el']]);
+		$data['status_rekam'] = strtoupper($this->status_rekam[$data['status_rekam']]);
 		return $data;
 	}
 
@@ -1209,6 +1217,14 @@
 		$query = $this->db->query($sql,$id);
 		$data = $query->row_array();
 		return $data;
+	}
+
+	function is_wajib_ktp($data){
+		// Wajib KTP = sudah umur 17 atau pernah kawin
+		$umur = umur($data['tanggallahir']);
+		if ($umur === null) return null;
+		$wajib_ktp = (($umur > 16) OR (!empty($data['status_kawin']) AND $data['status_kawin'] != 1));
+		return $wajib_ktp;
 	}
 
 }

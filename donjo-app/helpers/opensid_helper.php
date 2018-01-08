@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '2.8');
+define("VERSION", 'pasca-2.8');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -177,6 +177,17 @@ define("SASARAN", serialize(array(
       "2" => "Keluarga / KK",
       "3" => "Rumah Tangga",
       "4" => "Kelompok/Organisasi Kemasyarakatan")));
+define("KTP_EL", serialize(array(
+      strtolower("BELUM") => "1",
+      strtolower("KTP-EL") => "2")));
+define("STATUS_REKAM", serialize(array(
+      strtolower("BELUM WAJIB") => "1",
+      strtolower("BELUM REKAM") => "2",
+      strtolower("SUDAH REKAM") => "3",
+      strtolower("CARD PRINTED") => "4",
+      strtolower("PRINT_READY_RECORD") => "5",
+      strtolower("CARD SHIPPED") => "6",
+      strtolower("SENT FOR CARD PRINTING") => "7")));
 
 /**
  * Ambil Versi
@@ -466,8 +477,15 @@ define("SASARAN", serialize(array(
     error_log($now->format("m-d-Y H:i:s.u")." : ".$msg."\n", 3, "opensid.log");
   }
 
+  /*
+   * @return - null, kalau tgl_lahir bukan string tanggal
+  */
   function umur($tgl_lahir){
-    $date = new DateTime($tgl_lahir);
+    try {
+      $date = new DateTime($tgl_lahir);
+    } catch (Exception $e) {
+      return null;
+    }
     $now = new DateTime();
     $interval = $now->diff($date);
     return $interval->y;

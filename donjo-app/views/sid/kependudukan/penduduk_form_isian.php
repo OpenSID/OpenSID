@@ -1,3 +1,11 @@
+<style type="text/css">
+  table#ektp th {
+    background-color: lightgrey;
+  }
+  table#ektp td {
+    text-align: left;
+  }
+</style>
 <tr>
   <th class="top">Foto</th>
   <td>
@@ -34,6 +42,37 @@
   <th>Nomor KK Sebelumnya</th>
   <td>
     <input name="no_kk_sebelumnya" type="text" class="inputbox" size="30" value="<?php echo $penduduk['no_kk_sebelumnya']?>"/>
+  </td>
+</tr>
+<tr>
+  <th>Status Kepemilikan KTP</th>
+  <td>
+    <table id='ektp'>
+      <tr>
+        <th>Wajib KTP</th>
+        <th>KTP-EL</th>
+        <th>Status Rekam</th>
+      </tr>
+      <tr>
+        <td><?php echo strtoupper($penduduk['wajib_ktp'])?></td>
+        <td>
+          <select name="ktp_el">
+            <option value="">Pilih KTP-EL</option>
+            <?php foreach($ktp_el as $id => $nama){?>
+              <option value="<?php echo $id?>" <?php if(strtolower($penduduk['ktp_el'])==$nama){?>selected<?php }?>><?php echo strtoupper($nama)?></option>
+            <?php }?>
+          </select>
+        </td>
+        <td>
+          <select name="status_rekam">
+            <option value="">Pilih Status Rekam</option>
+            <?php foreach($status_rekam as $id => $nama){?>
+              <option value="<?php echo $id?>" <?php if(strtolower($penduduk['status_rekam'])==$nama){?>selected<?php }?>><?php echo strtoupper($nama)?></option>
+            <?php }?>
+          </select>
+        </td>
+      </tr>
+    </table>
   </td>
 </tr>
 <tr>

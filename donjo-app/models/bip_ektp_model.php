@@ -14,6 +14,9 @@ class BIP_Ektp_Model extends import_model{
 		$this->kode_hubungan = unserialize(KODE_HUBUNGAN);
 		$this->kode_pendidikan = unserialize(KODE_PENDIDIKAN);
 		$this->kode_pekerjaan = unserialize(KODE_PEKERJAAN);
+		$this->kode_wajib_ktp = unserialize(WAJIB_KTP);
+		$this->kode_ktp_el = unserialize(KTP_EL);
+		$this->kode_status_rekam = unserialize(STATUS_REKAM);
 	}
 
 	/* 	======================================================
@@ -158,7 +161,12 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
 			$nama_ayah = "-";
 		}
 		$data_anggota['nama_ayah'] = $nama_ayah;
-		// Abaikan kolom 16-19 data eKTP, karena belum ada kolomnya di tweb_penduduk
+		/* Kolom 16-19 data eKTP; kolom 16 diabaikan karena ditentukan oleh tgl lahir
+			 dan status kawin;
+		   kolom 18 diabaikan karena pada dasarnya sama dgn kolom 19
+		 */
+		$data_anggota['ktp_el'] 				= $this->kode_ktp_el[strtolower(trim($data_sheet[$i][17]))];
+		$data_anggota['status_rekam'] 	= $this->kode_status_rekam[strtolower(trim($data_sheet[$i][19]))];
 
 		// Isi kolom default
 		$data_anggota['warganegara_id'] = "1";

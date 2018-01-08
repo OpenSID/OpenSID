@@ -256,40 +256,15 @@ class import_model extends CI_Model{
 
 	function tulis_tweb_penduduk($isi_baris) {
 		// Siapkan data penduduk
-			$data['nama'] = $isi_baris['nama'];
-			$data['nik'] = $isi_baris['nik'];
-			$data['id_kk'] = $isi_baris['id_kk'];
-			$data['kk_level'] = $isi_baris['kk_level'];
-			$data['sex'] = $isi_baris['sex'];
-			$data['tempatlahir'] = $isi_baris['tempatlahir'];
-			$data['tanggallahir'] = $isi_baris['tanggallahir'];
-			$data['agama_id'] = $isi_baris['agama_id'];
-			$data['pendidikan_kk_id'] = $isi_baris['pendidikan_kk_id'];
-			$data['pendidikan_sedang_id'] = $isi_baris['pendidikan_sedang_id'];
-			$data['pekerjaan_id'] = $isi_baris['pekerjaan_id'];
-			$data['status_kawin'] = $isi_baris['status_kawin'];
-			$data['warganegara_id'] = $isi_baris['warganegara_id'];
-			$data['nama_ayah'] = $isi_baris['nama_ayah'];
-			$data['nama_ibu'] = $isi_baris['nama_ibu'];
-			$data['golongan_darah_id'] = $isi_baris['golongan_darah_id'];
-			$data['akta_lahir'] = $isi_baris['akta_lahir'];
-			$data['dokumen_pasport'] = $isi_baris['dokumen_pasport'];
-			$data['tanggal_akhir_paspor'] = $isi_baris['tanggal_akhir_paspor'];
-			$data['dokumen_kitas'] = $isi_baris['dokumen_kitas'];
-			$data['ayah_nik'] = $isi_baris['ayah_nik'];
-			$data['ibu_nik'] = $isi_baris['ibu_nik'];
-			$data['akta_perkawinan'] = $isi_baris['akta_perkawinan'];
-			$data['tanggalperkawinan'] = $isi_baris['tanggalperkawinan'];
-			$data['akta_perceraian'] = $isi_baris['akta_perceraian'];
-			$data['tanggalperceraian'] = $isi_baris['tanggalperceraian'];
-			$data['cacat_id'] = $isi_baris['cacat_id'];
-			$data['cara_kb_id'] = $isi_baris['cara_kb_id'];
-			$data['hamil'] = $isi_baris['hamil'];
-			$data['id_cluster'] = $isi_baris['id_cluster'];
+		$kolom_baris = array('nama','nik','id_kk','kk_level','sex','tempatlahir','tanggallahir','agama_id','pendidikan_kk_id','pendidikan_sedang_id','pekerjaan_id','status_kawin','warganegara_id','nama_ayah','nama_ibu','golongan_darah_id','akta_lahir','dokumen_pasport','tanggal_akhir_paspor','dokumen_kitas','ayah_nik','ibu_nik','akta_perkawinan','tanggalperkawinan','akta_perceraian','tanggalperceraian','cacat_id','cara_kb_id','hamil','id_cluster','ktp_el','status_rekam');
+		foreach($kolom_baris as $kolom){
+			$data[$kolom] = $isi_baris[$kolom];
+		}
+
 			$data['status'] = '1';  // penduduk impor dianggap aktif
 		// Jangan masukkan atau update isian yang kosong
 			foreach ($data as $key => $value) {
-				if ($value == "") {
+				if (empty($value)) {
 					unset($data[$key]);
 				}
 			}

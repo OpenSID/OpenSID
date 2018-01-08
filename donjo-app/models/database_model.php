@@ -4,10 +4,11 @@
   /* define versi opensid dan script migrasi yang harus dijalankan */
   private $versionMigrate = array(
     '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
-    'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
+    'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
     '2.5' => array('migrate' => 'migrasi_25_ke_26','nextVersion' => '2.6'),
     '2.6' => array('migrate' => 'migrasi_26_ke_27','nextVersion' => '2.7'),
-    '2.7' => array('migrate' => 'migrasi_27_ke_28','nextVersion' => NULL)
+    '2.7' => array('migrate' => 'migrasi_27_ke_28','nextVersion' => '2.8'),
+    '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -131,6 +132,29 @@
     $this->migrasi_25_ke_26();
     $this->migrasi_26_ke_27();
     $this->migrasi_27_ke_28();
+    $this->migrasi_28_ke_29();
+  }
+
+  function migrasi_28_ke_29(){
+    // Tambah kolom e-ktp di tabel tweb_penduduk
+    if (!$this->db->field_exists('ktp_el', 'tweb_penduduk')) {
+      $fields = array(
+        'ktp_el' => array(
+          'type' => tinyint,
+          'constraint' => 4
+        )
+      );
+      $this->dbforge->add_column('tweb_penduduk', $fields);
+    }
+    if (!$this->db->field_exists('status_rekam', 'tweb_penduduk')) {
+      $fields = array(
+        'status_rekam' => array(
+          'type' => tinyint,
+          'constraint' => 4
+        )
+      );
+      $this->dbforge->add_column('tweb_penduduk', $fields);
+    }
   }
 
   function migrasi_27_ke_28(){
