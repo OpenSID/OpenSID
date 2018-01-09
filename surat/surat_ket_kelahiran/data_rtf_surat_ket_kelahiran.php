@@ -111,7 +111,7 @@
 	                "[form_nama_bayi]"  => $bayi['nama'],
 	                "[form_nama_sex]"		=> $bayi['sex'],
 	                "[form_tanggal]"	 	=> tgl_indo_dari_str($bayi['tanggallahir']),
-	                "[form_hari]"				=> hari($bayi['tanggallahir'])
+	                "[form_hari]"				=> hari(strtotime($bayi['tanggallahir']))
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}

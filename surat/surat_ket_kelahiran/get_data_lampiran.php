@@ -51,7 +51,7 @@
 		$input['nik_bayi'] 		= $bayi['nik'];
 		$input['nama_bayi'] 	= $bayi['nama'];
 		$input['sex']					= $bayi['sex_id'];
-		$input['hari']	  		= hari($bayi['tanggallahir']);
+		$input['hari']	  		= hari(strtotime($bayi['tanggallahir']));
 		$input['tanggal']	  	= $bayi['tanggallahir'];
 	}
 	// Jika ibu dari database, gunakan data ibu untuk info kepala keluarga.
