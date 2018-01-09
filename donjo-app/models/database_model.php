@@ -150,11 +150,39 @@
       $fields = array(
         'status_rekam' => array(
           'type' => tinyint,
-          'constraint' => 4
+          'constraint' => 4,
+          'null' => FALSE,
+          'default' => 0
         )
       );
       $this->dbforge->add_column('tweb_penduduk', $fields);
     }
+     // Tambah tabel status_rekam
+    $query = "DROP TABLE IF EXISTS tweb_status_ktp;";
+    $this->db->query($query);
+
+    $query = "
+      CREATE TABLE tweb_status_ktp (
+        id tinyint(5) NOT NULL AUTO_INCREMENT,
+        nama varchar(50) NOT NULL,
+        ktp_el tinyint(4) NOT NULL,
+        status_rekam varchar(50) NOT NULL,
+        PRIMARY KEY (id)
+      ) ENGINE=".$this->engine." AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+    ";
+    $this->db->query($query);
+
+    $query = "
+      INSERT INTO tweb_status_ktp (id, nama, ktp_el, status_rekam) VALUES
+      (1, 'BELUM REKAM', 1, '2'),
+      (2, 'SUDAH REKAM', 2, '3'),
+      (3, 'CARD PRINTED', 2, '4'),
+      (4, 'PRINT READY RECORD', 2 ,'5'),
+      (5, 'CARD SHIPPED', 2, '6'),
+      (6, 'SENT FOR CARD PRINTING', 2, '7'),
+      (7, 'CARD ISSUED', 2, '8');
+    ";
+    $this->db->query($query);
   }
 
   function migrasi_27_ke_28(){

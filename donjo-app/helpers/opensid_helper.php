@@ -185,9 +185,10 @@ define("STATUS_REKAM", serialize(array(
       strtolower("BELUM REKAM") => "2",
       strtolower("SUDAH REKAM") => "3",
       strtolower("CARD PRINTED") => "4",
-      strtolower("PRINT_READY_RECORD") => "5",
+      strtolower("PRINT READY RECORD") => "5",
       strtolower("CARD SHIPPED") => "6",
-      strtolower("SENT FOR CARD PRINTING") => "7")));
+      strtolower("SENT FOR CARD PRINTING") => "7",
+      strtolower("CARD ISSUED") => "8")));
 
 /**
  * Ambil Versi

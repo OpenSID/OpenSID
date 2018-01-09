@@ -93,19 +93,23 @@ class BIP_Ektp_Model extends import_model{
 		// abaikan nama KK, karena ada di daftar anggota keluarga
 
 		$alamat = $data_sheet[$baris][12];
-		$desa = $this->ambil_kolom($alamat, 'DESA ', 'RT/RW :');
+		// Simpan desa pertama, karena penulisan desa tidak konsisten dan bisa kosong
+		if (empty($this->desa)){
+			$this->desa = $this->ambil_kolom($alamat, 'DESA ', 'RT/RW :');
+		}
 
 		$rtrw = $this->ambil_kolom($alamat, 'RT/RW :', ' DUSUN :');
 		if ($rtrw){
 			list($data_keluarga['rt'],$data_keluarga['rw']) = split('/',$rtrw);
 		}
+
 		$dusun = $this->ambil_kolom($alamat, 'DUSUN :');
 		$dusun = trim(str_replace('-','',$dusun));
-		if ($dusun){
+		if (!empty($dusun)){
 			$data_keluarga['dusun'] = $dusun;
 		} else {
 			// Kalau dusun kosong dianggap sama dengan nama desa
-			$data_keluarga['dusun'] = $desa;
+			$data_keluarga['dusun'] = $this->desa;
 		}
 
 		return $data_keluarga;
@@ -166,13 +170,30 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
 		   kolom 18 diabaikan karena pada dasarnya sama dgn kolom 19
 		 */
 		$data_anggota['ktp_el'] 				= $this->kode_ktp_el[strtolower(trim($data_sheet[$i][17]))];
-		$data_anggota['status_rekam'] 	= $this->kode_status_rekam[strtolower(trim($data_sheet[$i][19]))];
+		$data_anggota['status_rekam'] = $this->get_status_rekam($data_sheet, $i);
 
 		// Isi kolom default
 		$data_anggota['warganegara_id'] = "1";
 		$data_anggota['pendidikan_sedang_id'] = "";
 
 		return $data_anggota;
+	}
+
+	private function get_status_rekam($data_sheet, $i){
+		// Kolom status_rekam bisa ada karakter baris baru
+		$status_rekam = preg_replace('/[^a-zA-Z, ]/', ' ', strtolower(trim($data_sheet[$i][19])));
+		$status_rekam = preg_replace('/\s+/', ' ', $status_rekam);
+		$kode_status_rekam = $this->kode_status_rekam[$status_rekam];
+		// Mungkin bagian dari status rekam tampil di baris data berikutnya
+		// (lewati footer dan kemungkinan baris kosong)
+		$j = $i + 2;
+		while(empty($kode_status_rekam) and ($j < $i+5)) {
+			$j++;
+			$status_rekam_coba = $status_rekam.' '.preg_replace('/[^a-zA-Z, ]/', ' ', strtolower(trim($data_sheet[$j][19])));
+			$status_rekam_coba = preg_replace('/\s+/', ' ', $status_rekam_coba);
+			$kode_status_rekam = $this->kode_status_rekam[$status_rekam_coba];
+		}
+		return $kode_status_rekam;
 	}
 
 	/**

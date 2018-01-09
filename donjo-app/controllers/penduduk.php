@@ -47,6 +47,7 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['hamil']);
 		unset($_SESSION['cara_kb_id']);
 		unset($_SESSION['akta_kelahiran']);
+		unset($_SESSION['status_ktp']);
 		$_SESSION['per_page'] = 50;
 		redirect('penduduk');
 	}
@@ -703,6 +704,10 @@ class Penduduk extends CI_Controller{
 				$_SESSION['akta_kelahiran'] = $nomor;
 				$_SESSION['umurx'] = $nomor;
 				$pre="AKTA KELAHIRAN : ";
+				break;
+			case 18:
+				$_SESSION['status_ktp'] = $nomor;
+				$pre="KEPEMILIKAN WAJIB KTP : ";
 				break;
 		}
 		$judul= $this->penduduk_model->get_judul_statistik($tipe,$nomor,$sex);

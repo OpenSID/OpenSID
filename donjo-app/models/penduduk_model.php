@@ -163,6 +163,17 @@
 		}
 	}
 
+	function status_ktp_sql(){
+		// Filter berdasarkan data eKTP
+		if(isset($_SESSION['status_ktp'])){
+			$status_ktp = $this->db->where('id',$_SESSION['status_ktp'])->get('tweb_status_ktp')->row_array();
+			$ktp_el = $status_ktp['ktp_el'];
+			$status_rekam = $status_ktp['status_rekam'];
+			$sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.ktp_el = $ktp_el AND u.status_rekam = $status_rekam";
+		return $sql;
+		}
+	}
+
 	function log_sql(){
 		if(isset($_SESSION['log'])){
 			// Hanya tampilkan penduduk yang status dasarnya bukan 'HIDUP'
@@ -257,6 +268,7 @@
 
 		$sql .= $this->cacatx_sql();
 		$sql .= $this->akta_kelahiran_sql();
+		$sql .= $this->status_ktp_sql();
 		$sql .= $this->menahunx_sql();
 		$sql .= $this->umur_min_sql();
 		$sql .= $this->umur_max_sql();
@@ -1033,6 +1045,7 @@
 				case 14: $sql   = "SELECT * FROM tweb_penduduk_pendidikan WHERE id=?";break;
 				case 16: $sql   = "SELECT * FROM tweb_cara_kb WHERE id=?";break;
 				case 17: $sql   = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
+				case 18: $sql   = "SELECT * FROM tweb_status_ktp WHERE id=?"; break;
 			}
 			$query = $this->db->query($sql,$nomor);
 			$judul = $query->row_array();
