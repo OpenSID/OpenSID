@@ -5,6 +5,8 @@ Terima kasih pada [--lengkapi sebelum rilis--] yang terus membuat kontribusi.
 Lengkapnya, isi rilis versi pasca-2.8:
 
 1. #710: Sekarang data e-KTP hasil impor BIP disimpan di database OpenSID. Data e-KTP bisa ditampilkan dan diedit di halaman Penduduk.
+2. #642: Sediakan laporan statistik kepemilikan KTP oleh wajib KTP.
+3. Perbaiki impor BIP eKTP untuk mengatasi variasi data input.
 
 
 
