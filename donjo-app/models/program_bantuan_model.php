@@ -19,6 +19,21 @@ class Program_bantuan_model extends CI_Model{
 		return $data;
 	}
 
+	public function link_statistik_program_bantuan(){
+		$strSQL = "
+			SELECT CONCAT('statistik/50',p.id) as id, p.nama, p.sasaran
+			FROM program p
+			WHERE 1 ORDER BY p.nama";
+		$query = $this->db->query($strSQL);
+		$hasil = $query->result_array();
+		$data = array();
+		$sasaran = unserialize(SASARAN);
+		foreach($hasil as $program){
+			$data[$program['id']] = $program['nama'].' ('.$sasaran[$program['sasaran']].')';
+		}
+		return $data;
+	}
+
 	public function list_program_keluarga($kk_id=0){
 		$this->load->model('keluarga_model'); // Di-load di sini karena tidak bisa diload di constructor
 		$no_kk = $this->keluarga_model->get_nokk($kk_id);

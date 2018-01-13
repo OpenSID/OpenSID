@@ -32,6 +32,40 @@
 			}
 		}
 
+	function link_statistik_penduduk(){
+		$statistik = array(
+			"statistik/3" => "Agama",
+			"statistik/17"=> "Akte Kelahiran",
+			"statistik/16"=> "Akseptor KB",
+			"statistik/9" => "Cacat",
+			"statistik/7" => "Golongan Darah",
+			"statistik/4" => "Jenis Kelamin",
+			"statistik/0" => "Pendidikan Dalam KK",
+			"statistik/14"=> "Pendidikan Sedang Ditempuh",
+			"statistik/1" => "Pekerjaan",
+			"statistik/6" => "Status Penduduk",
+			"statistik/2" => "Status Perkawinan",
+			"statistik/13"=> "Umur",
+			"statistik/18"=> "Kepemilikan Wajib KTP",
+			"statistik/5" => "Warga Negara"
+		);
+		return $statistik;
+	}
+
+	function link_statistik_keluarga(){
+		$statistik = array(
+			"statistik/kelas_sosial" => "Kelas Sosial"
+		);
+		return $statistik;
+	}
+
+	function link_statistik_lainnya(){
+		$statistik = array(
+			"wilayah" => "Wilayah Administratif"
+		);
+		return $statistik;
+	}
+
 	function judul_statistik($lap){
 		// Program bantuan berbentuk '50<program_id>'
 		if ($lap > 50) {
@@ -463,6 +497,7 @@
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
+
 }
 
 ?>
