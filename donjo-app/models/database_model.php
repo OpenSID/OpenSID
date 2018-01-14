@@ -1675,6 +1675,8 @@
       "provinsi",
       "setting_modul",
       "setting_aplikasi",
+      "suplemen",
+      "suplemen_terdata",
       "tweb_cacat",
       "tweb_cara_kb",
       "tweb_golongan_darah",
@@ -1714,6 +1716,10 @@
         $this->db->query($query);
       }
     }
+    // Tabel suplemen dan suplemen_terdata tidak bisa di TRUNCATE karena ada
+    // relational constraint. Isi suplemen_terdata akan terhapus secara otomatis
+    // pada saat menghapus isi suplemen.
+    $this->db->query('DELETE FROM suplemen WHERE 1');
     $_SESSION['success'] = 1;
   }
 
