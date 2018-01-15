@@ -5,6 +5,7 @@
   table#ektp td {
     text-align: left;
   }
+  th.bagian { background-color: lightgrey }
 </style>
 <tr>
   <th class="top">Foto</th>
@@ -35,13 +36,6 @@
   <td>
     <input name="nik" type="text" class="inputbox required" size="30" value="<?php echo $penduduk['nik']?>"/>
     <input name="nik_lama" type="hidden" value="<?php echo $_SESSION['nik_lama']?>"/>
-  </td>
-</tr>
-
-<tr>
-  <th>Nomor KK Sebelumnya</th>
-  <td>
-    <input name="no_kk_sebelumnya" type="text" class="inputbox" size="30" value="<?php echo $penduduk['no_kk_sebelumnya']?>"/>
   </td>
 </tr>
 <tr>
@@ -76,15 +70,22 @@
   </td>
 </tr>
 <tr>
-  <th>Nomor Telepon</th>
-  <td><input name="telepon" type="text" class="inputbox" size="30" value="<?php echo $penduduk['telepon']?>"/></td>
+  <th>Nomor KK Sebelumnya</th>
+  <td>
+    <input name="no_kk_sebelumnya" type="text" class="inputbox" size="30" value="<?php echo $penduduk['no_kk_sebelumnya']?>"/>
+  </td>
 </tr>
-
 <tr>
-  <th>Akta Kelahiran</th>
-  <td><input name="akta_lahir" type="text" class="inputbox" size="30" value="<?php echo $penduduk['akta_lahir']?>"/></td>
+  <th>Hubungan dalam Keluarga</th>
+  <td>
+    <select name="kk_level">
+      <option value="">Pilih Hubungan</option>
+      <?php foreach($hubungan as $data){?>
+        <option value="<?php echo $data['id']?>"<?php if($penduduk['kk_level']==$data['id']){?> selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
+      <?php }?>
+    </select>
+  </td>
 </tr>
-
 <tr>
   <th>Jenis Kelamin</th>
   <td>
@@ -96,17 +97,6 @@
     </div>
   </td>
 </tr>
-
-<tr>
-  <th>Tempat Lahir</th>
-  <td><input name="tempatlahir" type="text" class="inputbox" size="65"  value="<?php echo strtoupper($penduduk['tempatlahir'])?>"/></td>
-</tr>
-
-<tr>
-  <th>Tanggal Lahir</th>
-  <td><input name="tanggallahir" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggallahir']?>"/></td>
-</tr>
-
 <tr>
   <th>Agama</th>
   <td>
@@ -118,7 +108,40 @@
     </select>
   </td>
 </tr>
+<tr>
+  <th>Status Penduduk</th>
+  <td>
+    <div class="uiradio">
+      <?php $ch='checked';?>
+      <input type="radio" id="group2" name="status" value="1" <?php if($penduduk['status'] == "TETAP" OR $penduduk['status'] == "1" OR $penduduk['status'] == ""){echo $ch;}?>><label for="group2">Tetap</label>
+      <input type="radio" id="group3" name="status" value="2" <?php if($penduduk['status'] == "TIDAK AKTIF" OR $penduduk['status'] == "2"){echo $ch;}?>><label for="group3">Tidak Aktif</label>
+      <?php if(strpos($form_action, 'keluarga') === false): ?>
+        <input type="radio" id="group1" name="status" value="3" <?php if($penduduk['status'] == "PENDATANG" OR $penduduk['status'] == "3"){echo $ch;}?>><label for="group1">Pendatang</label>
+      <?php endif; ?>
+    </div>
+  </td>
+</tr>
 
+<tr>
+  <th colspan="2" class="bagian">DATA KELAHIRAN</th>
+</tr>
+<tr>
+  <th>Akta Kelahiran</th>
+  <td><input name="akta_lahir" type="text" class="inputbox" size="30" value="<?php echo $penduduk['akta_lahir']?>"/></td>
+</tr>
+<tr>
+  <th>Tempat Lahir</th>
+  <td><input name="tempatlahir" type="text" class="inputbox" size="65"  value="<?php echo strtoupper($penduduk['tempatlahir'])?>"/></td>
+</tr>
+
+<tr>
+  <th>Tanggal Lahir</th>
+  <td><input name="tanggallahir" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggallahir']?>"/></td>
+</tr>
+
+<tr>
+  <th colspan="2" class="bagian">PENDIDIKAN DAN PEKERJAAN</th>
+</tr>
 <tr>
   <th>Pendidikan dalam KK</th>
   <td>
@@ -130,7 +153,6 @@
     </select>
   </td>
 </tr>
-
 <tr>
   <th>Pendidikan sedang ditempuh</th>
   <td>
@@ -142,7 +164,6 @@
   </select>
   </td>
 </tr>
-
 <tr>
   <th>Pekerjaan</th>
   <td>
@@ -156,29 +177,8 @@
 </tr>
 
 <tr>
-  <th>Status Kawin</th>
-  <td>
-    <select name="status_kawin">
-      <option value="">Pilih Status</option>
-      <?php foreach($kawin as $data){?>
-        <option value="<?php echo $data['id']?>" <?php if($penduduk['status_kawin']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
-      <?php }?>
-    </select>
-  </td>
+  <th colspan="2" class="bagian">DATA KEWARGANEGARAAN</th>
 </tr>
-
-<tr>
-  <th>Hubungan dalam Keluarga</th>
-  <td>
-    <select name="kk_level">
-      <option value="">Pilih Hubungan</option>
-      <?php foreach($hubungan as $data){?>
-        <option value="<?php echo $data['id']?>"<?php if($penduduk['kk_level']==$data['id']){?> selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
-      <?php }?>
-    </select>
-  </td>
-</tr>
-
 <tr>
   <th>Warganegara</th>
   <td>
@@ -190,9 +190,8 @@
   </select>
   </td>
 </tr>
-
 <tr>
-  <th>No. Paspor</th>
+  <th>Nomor Paspor</th>
   <td><input name="dokumen_pasport" type="text" class="inputbox" size="20"  value="<?php echo strtoupper($penduduk['dokumen_pasport'])?>"/></td>
 </tr>
 <tr>
@@ -201,42 +200,36 @@
 </tr>
 
 <tr>
-  <th>No. KITAS/KITAP</th>
+  <th>Nomor KITAS/KITAP</th>
   <td><input name="dokumen_kitas" type="text" class="inputbox" size="20"  value="<?php echo strtoupper($penduduk['dokumen_kitas'])?>"/></td>
 </tr>
 
 <tr>
+  <th colspan="2" class="bagian">ORANG TUA</th>
+</tr>
+<tr>
   <th>NIK Ayah</th>
   <td><input name="ayah_nik" type="text" class="inputbox" size="30"  value="<?php echo $penduduk['ayah_nik']?>"/></td>
 </tr>
-
-<tr>
-  <th>NIK Ibu</th>
-  <td><input name="ibu_nik" type="text" class="inputbox" size="30"  value="<?php echo $penduduk['ibu_nik']?>"/></td>
-</tr>
-
 <tr>
   <th>Nama Ayah</th>
   <td><input name="nama_ayah" type="text" class="inputbox" size="60"  value="<?php echo strtoupper(unpenetration($penduduk['nama_ayah']))?>"/></td>
 </tr>
-
+<tr>
+  <th>NIK Ibu</th>
+  <td><input name="ibu_nik" type="text" class="inputbox" size="30"  value="<?php echo $penduduk['ibu_nik']?>"/></td>
+</tr>
 <tr>
   <th>Nama Ibu</th>
   <td><input name="nama_ibu" type="text" class="inputbox" size="60"  value="<?php echo strtoupper(unpenetration($penduduk['nama_ibu']))?>"/></td>
 </tr>
-
 <tr>
-  <th>Golongan Darah</th>
-  <td>
-    <select name="golongan_darah_id" class="required">
-      <option value="">Pilih Golongan Darah</option>
-      <?php foreach($golongan_darah as $data){?>
-        <option value="<?php echo $data['id']?>" <?php if($penduduk['golongan_darah_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
-      <?php }?>
-    </select>
-  </td>
+  <th colspan="2" class="bagian">ALAMAT</th>
 </tr>
-
+<tr>
+  <th>Nomor Telepon</th>
+  <td><input name="telepon" type="text" class="inputbox" size="30" value="<?php echo $penduduk['telepon']?>"/></td>
+</tr>
 <tr>
   <th>Alamat Sebelumnya</th>
   <td><input name="alamat_sebelumnya" type="text" class="inputbox" size="60"  value="<?php echo strtoupper($penduduk['alamat_sebelumnya'])?>"/></td>
@@ -246,7 +239,28 @@
   <th>Alamat Sekarang</th>
   <td><input name="alamat_sekarang" type="text" class="inputbox" size="60"  value="<?php echo strtoupper($penduduk['alamat_sekarang'])?>"/></td>
 </tr>
-
+<?php if ($this->setting->offline_level < 2) { ?>
+<tr>
+  <th>Lokasi Penduduk</th>
+  <td>
+    <a href="<?php echo site_url("penduduk/ajax_penduduk_maps/1/0/$penduduk[id]")?>" target="ajax-modalz" rel="window<?php echo $penduduk['id']?>" header="Lokasi <?php echo $penduduk['nama']?>" class="uibutton special" title="Lokasi <?php echo $penduduk['nama']?>">Edit Lokasi</a>
+  </td>
+</tr>
+<?php } ?>
+<tr>
+  <th colspan="2" class="bagian">STATUS KAWIN</th>
+</tr>
+<tr>
+  <th>Status Kawin</th>
+  <td>
+    <select name="status_kawin">
+      <option value="">Pilih Status</option>
+      <?php foreach($kawin as $data){?>
+        <option value="<?php echo $data['id']?>" <?php if($penduduk['status_kawin']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
+      <?php }?>
+    </select>
+  </td>
+</tr>
 <tr>
   <?php if ($penduduk['agama_id']==0 OR is_null($penduduk['agama_id'])): ?>
     <th>No. Akta Nikah (Buku Nikah)/Perkawinan</th>
@@ -273,6 +287,20 @@
   <td><input name="tanggalperceraian" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggalperceraian']?>"/></td>
 </tr>
 
+<tr>
+  <th colspan="2" class="bagian">DATA KESEHATAN</th>
+</tr>
+<tr>
+  <th>Golongan Darah</th>
+  <td>
+    <select name="golongan_darah_id" class="required">
+      <option value="">Pilih Golongan Darah</option>
+      <?php foreach($golongan_darah as $data){?>
+        <option value="<?php echo $data['id']?>" <?php if($penduduk['golongan_darah_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
+      <?php }?>
+    </select>
+  </td>
+</tr>
 <tr>
   <th>Cacat</th>
   <td>
@@ -307,27 +335,6 @@
       <label for="sh2">Tidak hamil</label>
       <input type="radio" id="sh1" name="hamil" value="1"/<?php if($penduduk['hamil'] == '1' ){echo 'checked';}?>>
       <label for="sh1">Hamil</label>
-    </div>
-  </td>
-</tr>
-<?php if ($this->setting->offline_level < 2) { ?>
-<tr>
-  <th>Lokasi Penduduk</th>
-  <td>
-    <a href="<?php echo site_url("penduduk/ajax_penduduk_maps/1/0/$penduduk[id]")?>" target="ajax-modalz" rel="window<?php echo $penduduk['id']?>" header="Lokasi <?php echo $penduduk['nama']?>" class="uibutton special" title="Lokasi <?php echo $penduduk['nama']?>">Edit Lokasi</a>
-  </td>
-</tr>
-<?php } ?>
-<tr>
-  <th>Status</th>
-  <td>
-    <div class="uiradio">
-      <?php $ch='checked';?>
-      <input type="radio" id="group2" name="status" value="1" <?php if($penduduk['status'] == "TETAP" OR $penduduk['status'] == "1" OR $penduduk['status'] == ""){echo $ch;}?>><label for="group2">Tetap</label>
-      <input type="radio" id="group3" name="status" value="2" <?php if($penduduk['status'] == "TIDAK AKTIF" OR $penduduk['status'] == "2"){echo $ch;}?>><label for="group3">Tidak Aktif</label>
-      <?php if(strpos($form_action, 'keluarga') === false): ?>
-        <input type="radio" id="group1" name="status" value="3" <?php if($penduduk['status'] == "PENDATANG" OR $penduduk['status'] == "3"){echo $ch;}?>><label for="group1">Pendatang</label>
-      <?php endif; ?>
     </div>
   </td>
 </tr>

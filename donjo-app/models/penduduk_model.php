@@ -439,6 +439,8 @@
 		if ($data['tanggalperceraian']) $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
+		// Status hamil tidak berlaku bagi laki-laki
+		if ($data['sex'] == 1) $data['hamil'] = 0;
 
 		$valid = array();
 		if (isset($data['nik'])) {
