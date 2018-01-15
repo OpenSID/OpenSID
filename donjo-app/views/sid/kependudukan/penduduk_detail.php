@@ -212,6 +212,10 @@
                 <td><?php echo strtoupper($penduduk['cacat'])?></td>
               </tr>
               <tr>
+                <td>Sakit Menahun</td><td >:</td>
+                <td><?php echo strtoupper($penduduk['sakit_menahun'])?></td>
+              </tr>
+              <tr>
                 <td>Akseptor KB</td><td >:</td>
                 <td><?php echo strtoupper($penduduk['cara_kb'])?></td>
               </tr>

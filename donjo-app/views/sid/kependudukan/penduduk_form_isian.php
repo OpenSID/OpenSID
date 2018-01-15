@@ -312,6 +312,17 @@
     </select>
   </td>
 </tr>
+<tr>
+  <th>Sakit Menahun</th>
+  <td>
+    <select name="sakit_menahun_id">
+      <option value="">Pilih Jenis</option>
+      <?php foreach($sakit_menahun as $data){?>
+        <option value="<?php echo $data['id']?>" <?php if($penduduk['sakit_menahun_id']==$data['id']){?>selected<?php }?>><?php echo strtoupper($data['nama'])?></option>
+      <?php }?>
+    </select>
+  </td>
+</tr>
 
 <?php if(!$penduduk['status_kawin'] OR $penduduk['status_kawin'] == 2): ?>
   <tr>
@@ -326,7 +337,6 @@
     </td>
   </tr>
 <?php endif; ?>
-
 <tr>
   <th>Status Kehamilan</th>
   <td>

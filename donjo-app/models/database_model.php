@@ -136,6 +136,9 @@
   }
 
   function migrasi_28_ke_29(){
+    // Hapus kolom yg tidak digunakan
+    if ($this->db->field_exists('pendidikan_id', 'tweb_penduduk'))
+      $this->dbforge->drop_column('tweb_penduduk', 'pendidikan_id');
     // Tambah kolom e-ktp di tabel tweb_penduduk
     if (!$this->db->field_exists('ktp_el', 'tweb_penduduk')) {
       $fields = array(
