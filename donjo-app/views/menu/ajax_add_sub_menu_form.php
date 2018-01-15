@@ -45,6 +45,10 @@ function ganti_jenis_link(jenis){
 	} else if(jenis == '5'){
 		$('#statistik_lainnya').show();
 		$('#statistik_lainnya').attr('name', 'link');
+	} else if(jenis == '99'){
+		$('#eksternal').show();
+		$('#eksternal > input').show();
+		$('#eksternal > input').attr('name', 'link');
 	}
 }
 </script>
@@ -76,7 +80,8 @@ function ganti_jenis_link(jenis){
           <option value="2" <?php if($submenu['link_tipe']=="2"){?>selected<?php }?>>Statistik Penduduk</option>
           <option value="3" <?php if($submenu['link_tipe']=="3"){?>selected<?php }?>>Statistik Keluarga</option>
           <option value="4" <?php if($submenu['link_tipe']=="4"){?>selected<?php }?>>Statistik Program Bantuan</option>
-          <option value="5" <?php if($submenu['link_tipe']=="5"){?>selected<?php }?>>Lainnya</option>
+          <option value="5" <?php if($submenu['link_tipe']=="5"){?>selected<?php }?>>Statistik Lainnya</option>
+          <option value="99" <?php if($submenu['link_tipe']=="99"){?>selected<?php }?>>Eksternal</option>
 		    </select>
 			</td>
 		</tr>
@@ -108,6 +113,10 @@ function ganti_jenis_link(jenis){
 	          <option value="<?php echo $id?>" <?php if($submenu['link']==$id){?>selected<?php }?>><?php echo $nama?></option>
 	        <?php endforeach; ?>
 		    </select>
+		    <span id="eksternal" class="jenis_link" style="<?php if ($submenu['link_tipe']!=99) echo 'display: none;'?>">
+			    <input name="<?php if ($submenu['link_tipe']==99) echo 'link'?>" class="jenis_link required"  size="40" value="<?php echo $submenu['link']?>">
+			    <span>(misalnya: http://opensid.info)</span>
+			  </span>
 			</td>
 		</tr>
 	</table>

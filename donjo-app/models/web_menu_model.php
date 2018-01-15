@@ -98,18 +98,7 @@ class Web_Menu_Model extends CI_Model{
 	}
 
 	function insert($tip=1){
-
 		$data = $_POST;
-			//$man = spliti("l]:",$data[$i]['link']);
-			//if($man[0]=="[manual ur"){
-			//	$data[$i]['link'] = $man[1];
-		//	}
-		if($data['manual_link']!=""){
-			$data['link_tipe'] = 1;
-			$data['link'] = $data['manual_link'];
-		}
-		UNSET($data['manual_link']);
-
 		$data['tipe'] = $tip;
 		$data['urut'] = $this->urut_max($tip) + 1;
 		$outp = $this->db->insert('menu',$data);
@@ -119,28 +108,7 @@ class Web_Menu_Model extends CI_Model{
 	}
 
 	function update($id=0){
-
-
 		$data = $_POST;
-		/*if($data['manual_link']!=""){
-			$data['link'] = "[manual url]:".$data['manual_link'];
-			$man = spliti("l]:",$data['link']);
-			if($man[0]=="[manual ur"){
-				$data['link'] = $man[1];
-			}
-		}
-		UNSET($data['manual_link']);
-		*/
-
-		if($data['manual_link']!=""){
-			$data['link_tipe'] = 1;
-			$data['link'] = $data['manual_link'];
-		}else{
-			$data['link_tipe'] = 0;
-		}
-
-		UNSET($data['manual_link']);
-
 		if($data['link']=="")
 			UNSET($data['link']);
 

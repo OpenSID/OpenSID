@@ -55,17 +55,28 @@ class menu extends CI_Controller{
 
 	function form($tip=1,$id=''){
 
-		if($tip==1){
-			$data['link']        = $this->web_menu_model->list_link();
-		}else{
-			$data['link']        = $this->web_menu_model->list_kategori();
-		}
+		// if($tip==1){
+		// 	$data['link']        = $this->web_menu_model->list_link();
+		// }else{
+		// 	$data['link']        = $this->web_menu_model->list_kategori();
+		// }
+
+		$this->load->model('program_bantuan_model');
+		// $data['menu'] = $menu;
+		$data['tip'] = $tip;
+
+		$data['link']        = $this->web_menu_model->list_link();
+		$data['statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
+		$data['statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
+		$data['statistik_program_bantuan'] = $this->program_bantuan_model->link_statistik_program_bantuan();
+		$data['statistik_lainnya'] = $this->laporan_penduduk_model->link_statistik_lainnya();
+
 		if($id){
-			$data['menu']        = $this->web_menu_model->get_menu($id);
+			$data['submenu']        = $this->web_menu_model->get_menu($id);
 			$data['form_action'] = site_url("menu/update/$tip/$id");
 		}
 		else{
-			$data['menu']        = null;
+			$data['submenu']        = null;
 			$data['form_action'] = site_url("menu/insert/$tip");
 		}
 
