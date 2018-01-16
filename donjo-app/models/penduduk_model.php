@@ -728,7 +728,7 @@
 		$sql   = "SELECT u.sex as id_sex,u.*,a.dusun,a.rw,a.rt,t.nama AS status,o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
 			b.nama AS pendidikan_kk,d.no_kk AS no_kk,d.alamat,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id)
-			 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,
+			 AS umur,x.nama AS sex,w.nama AS warganegara,
 			 p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat,
 			 kb.nama as cara_kb, sm.nama as sakit_menahun,
 			 sd.nama as status_dasar, u.status_dasar as status_dasar_id,
@@ -737,7 +737,6 @@
 		 FROM tweb_penduduk u
 			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
 			LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
-			LEFT JOIN tweb_penduduk_pendidikan n ON u.pendidikan_id = n.id
 			LEFT JOIN tweb_penduduk_pendidikan o ON u.pendidikan_sedang_id = o.id
 			LEFT JOIN tweb_penduduk_pendidikan_kk b ON u.pendidikan_kk_id = b.id
 			LEFT JOIN tweb_penduduk_warganegara w ON u.warganegara_id = w.id

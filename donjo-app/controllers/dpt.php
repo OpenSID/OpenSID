@@ -35,7 +35,6 @@ class Dpt extends CI_Controller{
 		unset($_SESSION['umur_max']);
 		unset($_SESSION['pekerjaan_id']);
 		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_id']);
 		unset($_SESSION['pendidikan_sedang_id']);
 		unset($_SESSION['pendidikan_kk_id']);
 		unset($_SESSION['umurx']);

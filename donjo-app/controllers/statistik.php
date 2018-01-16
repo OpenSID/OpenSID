@@ -50,7 +50,6 @@ function __construct(){
 		unset($_SESSION['umur_max']);
 		unset($_SESSION['pekerjaan_id']);
 		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_id']);
 		unset($_SESSION['status_penduduk']);
 		redirect('statistik');
 	}

@@ -30,7 +30,6 @@ class penduduk_log extends CI_Controller{
 		unset($_SESSION['umur_max']);
 		unset($_SESSION['pekerjaan_id']);
 		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_id']);
 		unset($_SESSION['status_penduduk']);
 		$_SESSION['per_page'] = 200;
 		redirect('penduduk_log');
@@ -82,10 +81,6 @@ class penduduk_log extends CI_Controller{
 		if(isset($_SESSION['status']))
 			$data['status'] = $_SESSION['status'];
 		else $data['status'] = '';
-
-		if(isset($_SESSION['pendidikan_id']))
-			$data['pendidikan_id'] = $_SESSION['pendidikan_id'];
-		else $data['pendidikan_id'] = '';
 
 		if(isset($_SESSION['status_penduduk']))
 			$data['status_penduduk'] = $_SESSION['status_penduduk'];
