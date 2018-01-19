@@ -119,7 +119,7 @@ function __construct(){
 		$data['main']    = $this->laporan_penduduk_model->list_data_rentang();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='2';
+		$nav['act']= 0;
 
 		$this->load->view('header', $header);
 		//$this->load->view('statistik/menu');

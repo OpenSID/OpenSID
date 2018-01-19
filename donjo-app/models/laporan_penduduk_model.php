@@ -310,7 +310,7 @@
 
 			case "10": $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND  sex=1  AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_sakit_menahun u WHERE 1"; break;
 
-			case "13": $sql   = "SELECT u.*, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND status_dasar = 1) AS jumlah, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 1 AND status_dasar = 1) AS laki, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_umur u WHERE status=1 "; break;
+			case "13": $sql   = "SELECT u.*, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND status_dasar = 1) AS jumlah, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 1 AND status_dasar = 1) AS laki, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_umur u WHERE status=1 ORDER BY u.dari "; break;
 
 			case "14": $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan u WHERE left(nama,5)<> 'TAMAT'"; break;
 
@@ -436,12 +436,8 @@
 	}
 
 	function list_data_rentang(){
-
-		$sql   = "SELECT * FROM tweb_penduduk_umur WHERE status=1 order by dari ";
-
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
-
+		$query = $this->db->where('status',1)->order_by('dari')->get('tweb_penduduk_umur');
+		$data = $query->result_array();
 		return $data;
 	}
 
@@ -462,6 +458,10 @@
 	function insert_rentang(){
 		$data = $_POST;
 		$data['status']=1;
+		if ($data['sampai'] != '99999')
+			$data['nama'] = $data['dari'].' s/d '.$data['sampai'].' Tahun';
+		else
+			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
 		$outp = $this->db->insert('tweb_penduduk_umur',$data);
 
 		if($outp) $_SESSION['success']=1;
@@ -470,8 +470,11 @@
 
 	function update_rentang($id=0){
 		$data = $_POST;
-		$sql   = "UPDATE tweb_penduduk_umur SET nama='$data[nama]', dari='$data[dari]', sampai='$data[sampai]' WHERE id='$id' ";
-		$outp=$this->db->query($sql);
+		if ($data['sampai'] != '99999')
+			$data['nama'] = $data['dari'].' s/d '.$data['sampai'].' Tahun';
+		else
+			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
+		$outp = $this->db->where('id',$id)->update('tweb_penduduk_umur', $data);
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
