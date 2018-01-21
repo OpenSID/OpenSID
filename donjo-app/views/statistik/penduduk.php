@@ -100,10 +100,12 @@
                   $tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
                 } elseif ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");
               ?>
-        		  <td align="right"><a href="<?php echo $tautan_jumlah?>/1"><?php echo $data['laki']?></a></td>
-              <td><?php echo $data['persen1'];?></td>
-              <td align="right"><a href="<?php echo $tautan_jumlah?>/2"><?php echo $data['perempuan']?></a></td>
-              <td><?php echo $data['persen2'];?></td>
+              <?php  if($lap<20 OR ($lap>50 AND $program['sasaran']==1)) : ?>
+          		  <td align="right"><a href="<?php echo $tautan_jumlah?>/1"><?php echo $data['laki']?></a></td>
+                <td><?php echo $data['persen1'];?></td>
+                <td align="right"><a href="<?php echo $tautan_jumlah?>/2"><?php echo $data['perempuan']?></a></td>
+                <td><?php echo $data['persen2'];?></td>
+              <?php endif; ?>
               <td></td>
       		  </tr>
           <?php  endforeach; ?>
