@@ -325,6 +325,11 @@ define("STATUS_REKAM", serialize(array(
     $_SESSION['success']=-1;
   }
 
+  function session_error_clear() {
+    $_SESSION['error_msg'] = '';
+    unset($_SESSION['success']);
+  }
+
   // Untuk mengirim data ke OpenSID tracker
   function httpPost($url,$params)
   {

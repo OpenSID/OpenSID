@@ -57,6 +57,11 @@ class Keluar extends CI_Controller{
 	}
 
 	function delete($p=1,$o=0,$id=''){
+		session_error_clear();
+		if($grup!=1) {
+			session_error('Anda tidak mempunyai izin melakukan ini');
+			redirect("keluar/index/$p/$o"); // Batasi hanya admin yang boleh hapus
+		}
 		$this->surat_keluar_model->delete($id);
 		redirect("keluar/index/$p/$o");
 	}
