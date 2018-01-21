@@ -82,7 +82,7 @@
 											if(is_file($lampiran)){?>
 												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south fa-tipis" title="Lampiran"><span class="fa fa-download"></span> Lampiran</a>
 										<?php	}?>
-										<?php if($grup==1):?>
+										<?php if($this->grup==1):?>
 											<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 										<?php endif; ?>
 									</div>
