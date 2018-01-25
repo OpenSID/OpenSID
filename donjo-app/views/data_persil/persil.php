@@ -30,8 +30,8 @@
 		    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 		      <!-- <div class="table-panel top"> -->
 		        <div class="right">
-		          <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('{$this->controller}/search')?>');$('#'+'mainform').submit();}" />
-		          <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('{$this->controller}/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
+		          <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();}" />
+		          <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 		        </div>
 		      <!-- </div> -->
 
