@@ -39,7 +39,7 @@
 		<?php
 		if($persil_jenis){
 			foreach($persil_jenis as $key=>$item){
-				echo "<li><a href=\"".site_url('data_persil/jenis/'.$key.'/')."\" title=\"".$item[1]."\">".$item[0]."</a></li>";
+				echo "<li><a href=\"".site_url('data_persil/index/jenis/'.$key.'/')."\" title=\"".$item[1]."\">".$item[0]."</a></li>";
 			}
 		}
 		?>
@@ -53,7 +53,7 @@
 		<?php
 		if($persil_peruntukan){
 			foreach($persil_peruntukan as $key=>$item){
-				echo "<li><a href=\"".site_url('data_persil/peruntukan/'.$key.'/')."\" title=\"".$item[1]."\">".$item[0]."</a></li>";
+				echo "<li><a href=\"".site_url('data_persil/index/peruntukan/'.$key.'/')."\" title=\"".$item[1]."\">".$item[0]."</a></li>";
 			}
 		}
 		?>
