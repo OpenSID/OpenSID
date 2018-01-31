@@ -1,6 +1,6 @@
 Rilis ini berisi perbaikan untuk modul Persil, penambahan data e-KTP dan fitur untuk memudahkan penampilan data statistik di menu statis. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
-Lengkapnya, isi rilis versi pasca-2.8:
+Lengkapnya, isi rilis versi 2.9:
 
 1. #710: Sekarang data e-KTP hasil impor BIP disimpan di database OpenSID. Data e-KTP bisa ditampilkan dan diedit di halaman Penduduk.
 2. #642: Sediakan laporan statistik kepemilikan KTP oleh wajib KTP.
@@ -22,4 +22,4 @@ Lengkapnya, isi rilis versi pasca-2.8:
 18. Sekarang cari data persil berfungsi normal. [bug-fix]
 19. Perbaiki tombol aksi di halaman persil jenis dan persil peruntukan. [bug-fix]
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.8, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 2.9, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
