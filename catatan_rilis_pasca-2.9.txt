@@ -1,0 +1,11 @@
+Rilis ini berisi [untuk-diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+
+Terima kasih pada Muhammad (Rarang Selatan) dan Happy Agung, yang kembali berkontribusi.
+
+Lengkapnya, isi rilis versi pasca-2.9:
+
+1. #759: Perbaiki ejaan salah di menu Laporan > Layanan Mandiri.
+2. #762: Perbaiki tampilan jumlah salah di widget statistik penduduk.
+3. #765: Tampilan pilihan penduduk untuk ibu kandung di Surat Keterangan Kelahiran sekarang sudah diperbaiki.
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.9, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
