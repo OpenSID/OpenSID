@@ -41,35 +41,39 @@
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']= "RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
 	}
 
 	function list_penduduk_perempuan(){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1 AND sex=2";
+		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE status = 1 AND sex=2";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
 	}
 
 	function list_penduduk_laki(){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1 AND sex=1";
+		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE status = 1 AND sex=1";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
@@ -88,21 +92,23 @@
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']= "RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
 	}
 
 	function list_penduduk_ex($id=0){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1 AND id NOT IN(?)";
+		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE status = 1 AND id NOT IN(?)";
 		$query = $this->db->query($sql,$id);
 		$data=$query->result_array();
 
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
