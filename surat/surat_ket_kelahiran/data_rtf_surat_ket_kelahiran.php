@@ -1,8 +1,8 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 	# Data ibu dan ayah kandung dari database penduduk
-	if($input['id_ibu']) {
-		$ibu = $this->get_data_surat($input['id_ibu']);
+	if($_SESSION['id_ibu']) {
+		$ibu = $this->get_data_surat($_SESSION['id_ibu']);
 		$array_replace = array(
 	              "[form_nama_ibu]"     => $ibu['nama'],
 	              "[nik_ibu]"       		=> $ibu['nik'],
@@ -41,8 +41,8 @@
 	/*
 		Jika saksi1 warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if($input['id_saksi1']) {
-		$saksi1 = $this->get_data_surat($input['id_saksi1']);
+	if($_SESSION['id_saksi1']) {
+		$saksi1 = $this->get_data_surat($_SESSION['id_saksi1']);
 		$array_replace = array(
 	                "[nama_saksi1]"        		=> $saksi1['nama'],
 	                "[nik_saksi1]"       			=> $saksi1['nik'],
@@ -61,8 +61,8 @@
 	/*
 		Jika saksi2 warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if($input['id_saksi2']) {
-		$saksi2 = $this->get_data_surat($input['id_saksi2']);
+	if($_SESSION['id_saksi2']) {
+		$saksi2 = $this->get_data_surat($_SESSION['id_saksi2']);
 		$array_replace = array(
 	                "[nama_saksi2]"        		=> $saksi2['nama'],
 	                "[nik_saksi2]"       			=> $saksi2['nik'],
@@ -81,8 +81,8 @@
 	/*
 		Jika pelapor warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if($input['id_pelapor']) {
-		$pelapor = $this->get_data_surat($input['id_pelapor']);
+	if($_SESSION['id_pelapor']) {
+		$pelapor = $this->get_data_surat($_SESSION['id_pelapor']);
 		$array_replace = array(
 	                "[form_nama_pelapor]"      => $pelapor['nama'],
 	                "[nama_pelapor]"      		 => $pelapor['nama'],
@@ -105,14 +105,25 @@
 	/*
 		Jika bayi warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if($input['id_bayi']) {
-		$bayi = $this->get_data_surat($input['id_bayi']);
+	$data = array();
+	if($_SESSION['id_bayi']) {
+		$bayi = $this->get_data_surat($_SESSION['id_bayi']);
 		$array_replace = array(
-	                "[form_nama_bayi]"  => $bayi['nama'],
-	                "[form_nama_sex]"		=> $bayi['sex'],
-	                "[form_tanggal]"	 	=> tgl_indo_dari_str($bayi['tanggallahir']),
-	                "[form_hari]"				=> hari(strtotime($bayi['tanggallahir']))
+	                "[form_nama_bayi]"  				=> $bayi['nama'],
+	                "[form_nama_sex]"						=> $bayi['sex'],
+	                "[form_tanggal]"	 					=> tgl_indo_dari_str($bayi['tanggallahir']),
+	                "[form_hari]"								=> hari(strtotime($bayi['tanggallahir']))
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+		/*
+			Tulis perubahan data kelahiran di form surat ke database
+		*/
+		$kolom = array('waktu_lahir','tempat_dilahirkan','alamat_tempat_lahir','jenis_kelahiran','kelahiran_anak_ke','penolong_kelahiran','berat_lahir','panjang_lahir');
+		foreach($kolom as $item){
+			if($_POST[$item] != $bayi[$item])
+				$data[$item] = $_POST[$item];
+		}
+		$data['tanggallahir'] = tgl_indo_in($_POST['tanggallahir']);
+		$this->db->where('id',$_SESSION['id_bayi'])->update('tweb_penduduk', $data);
 	}
 ?>

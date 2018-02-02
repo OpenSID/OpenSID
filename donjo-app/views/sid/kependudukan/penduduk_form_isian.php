@@ -6,6 +6,7 @@
     text-align: left;
   }
   th.bagian { background-color: lightgrey }
+
 </style>
 <tr>
   <th class="top">Foto</th>
@@ -136,7 +137,61 @@
 
 <tr>
   <th>Tanggal Lahir</th>
-  <td><input name="tanggallahir" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggallahir']?>"/></td>
+  <td>
+    <input name="tanggallahir" type="text" class="inputbox datepicker" size="20"  value="<?php echo $penduduk['tanggallahir']?>"/>
+    <span><em>*Isi waktu kelahiran, mis. 08:00</em></span>
+    <input name="waktu_lahir" type="text" class="inputbox" size="10" value="<?php echo $penduduk['waktu_lahir']?>">
+  </td>
+</tr>
+<tr>
+  <th>Tempat Dilahirkan </th>
+  <td>
+    <div class="uiradio">
+      <?php foreach ($tempat_dilahirkan as $id => $nama): ?>
+        <input name="tempat_dilahirkan" type="radio" value="<?php echo $id?>" id="radio1<?php echo $id?>" <?php if($penduduk['tempat_dilahirkan']==$id){echo 'checked';}?>/><label for="radio1<?php echo $id?>"><?php echo $nama?></label>
+      <?php endforeach; ?>
+    </div>
+  </td>
+</tr>
+<tr>
+  <th>Alamat Tempat Lahir </th>
+  <td><input name="alamat_tempat_lahir" type="text" class="inputbox" id="alamat_tempat_lahir" size="100" value="<?php echo $penduduk['alamat_tempat_lahir']?>"/></td>
+</tr>
+<tr>
+  <th>Jenis Kelahiran </th>
+  <td>
+    <div class="uiradio">
+      <?php foreach ($jenis_kelahiran as $id => $nama): ?>
+        <input name="jenis_kelahiran" type="radio" value="<?php echo $id?>" id="radio2<?php echo $id?>" <?php if($penduduk['jenis_kelahiran']==$id){echo 'checked';}?>/><label for="radio2<?php echo $id?>"><?php echo $nama?></label>
+      <?php endforeach; ?>
+    </div>
+  </td>
+</tr>
+<tr>
+  <th>Kelahiran Anak Ke </th>
+  <td>
+    <input name="kelahiran_anak_ke" type="text" class="inputbox" id="kelahiran_anak_ke" size="8" value="<?php echo $penduduk['kelahiran_anak_ke']?>"/>
+    <em>&nbsp;*isi dengan angka </em>
+  </td>
+</tr>
+<tr>
+  <th>Penolong Kelahiran </th>
+  <td>
+    <div class="uiradio">
+      <?php foreach ($penolong_kelahiran as $id => $nama): ?>
+        <input name="penolong_kelahiran" type="radio" value="<?php echo $id?>" id="radio3<?php echo $id?>" <?php if($penduduk['penolong_kelahiran']==$id){echo 'checked';}?>/><label for="radio3<?php echo $id?>"><?php echo $nama?></label>
+      <?php endforeach; ?>
+    </div>
+  </td>
+  </td>
+</tr>
+<tr>
+  <th>Berat Lahir</th>
+  <td><input name="berat_lahir" type="text" class="inputbox" size="8" value="<?php echo $penduduk['berat_lahir']?>"/> Kg</td>
+</tr>
+<tr>
+  <th>Panjang Lahir</th>
+  <td><input name="panjang_lahir" type="text" class="inputbox" size="8" value="<?php echo $penduduk['panjang_lahir']?>"/> cm</td>
 </tr>
 
 <tr>

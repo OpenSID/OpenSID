@@ -9,6 +9,11 @@
 		return $data;
 	}
 
+	function list_kode_array($s_array){
+		$list = array_flip(unserialize($s_array));
+		return $list;
+	}
+
 	function list_wajib_ktp(){
 		$wajib_ktp = array_flip(unserialize(WAJIB_KTP));
 		return $wajib_ktp;

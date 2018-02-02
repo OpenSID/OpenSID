@@ -98,6 +98,43 @@
                 <td><?php echo strtoupper($penduduk['tempatlahir'])?> / <?php echo strtoupper($penduduk['tanggallahir'])?></td>
               </tr>
               <tr>
+                <td>Tempat Dilahirkan</td><td >:</td>
+                <td>
+                  <?php echo $penduduk['tempat_dilahirkan_nama'] ?>
+                </td>
+              </tr>
+              <tr>
+                <td>Alamat Tempat Lahir</td><td >:</td>
+                <td><?php echo $penduduk['alamat_tempat_lahir']?></td>
+              </tr>
+              <tr>
+                <td>Jenis Kelahiran</td><td >:</td>
+                <td>
+                  <?php echo $penduduk['jenis_kelahiran_nama'] ?>
+                </td>
+              </tr>
+              <tr>
+                <td>Kelahiran Anak Ke</td><td >:</td>
+                <td>
+                  <?php echo $penduduk['kelahiran_anak_ke'] ?>
+                </td>
+              </tr>
+              <tr>
+                <td>Penolong Kelahiran</td><td >:</td>
+                <td>
+                  <?php echo $penduduk['penolong_kelahiran_nama'] ?>
+                </td>
+                </td>
+              </tr>
+              <tr>
+                <td>Berat Lahir</td><td >:</td>
+                <td><?php echo $penduduk['berat_lahir']?> Kg</td>
+              </tr>
+              <tr>
+                <td>Panjang Lahir</td><td >:</td>
+                <td><?php echo $penduduk['panjang_lahir']?> cm</td>
+              </tr>
+              <tr>
                 <th colspan="2" class="bagian">PENDIDIKAN DAN PEKERJAAN</th>
               </tr>
               <tr>

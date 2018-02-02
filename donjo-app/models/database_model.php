@@ -136,6 +136,58 @@
   }
 
   function migrasi_28_ke_29(){
+    // Tambah data kelahiran ke tweb_penduduk
+    $fields = array();
+    if (!$this->db->field_exists('waktu_lahir', 'tweb_penduduk')) {
+      $fields['waktu_lahir'] = array(
+          'type' => 'VARCHAR',
+          'constraint' => 5
+      );
+    }
+    if (!$this->db->field_exists('tempat_dilahirkan', 'tweb_penduduk')) {
+      $fields['tempat_dilahirkan'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2
+      );
+    }
+    if (!$this->db->field_exists('alamat_tempat_lahir', 'tweb_penduduk')) {
+      $fields['alamat_tempat_lahir'] = array(
+          'type' => 'VARCHAR',
+          'constraint' => 100
+      );
+    }
+    if (!$this->db->field_exists('jenis_kelahiran', 'tweb_penduduk')) {
+      $fields['jenis_kelahiran'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2
+      );
+    }
+    if (!$this->db->field_exists('kelahiran_anak_ke', 'tweb_penduduk')) {
+      $fields['kelahiran_anak_ke'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2
+      );
+    }
+    if (!$this->db->field_exists('penolong_kelahiran', 'tweb_penduduk')) {
+      $fields['penolong_kelahiran'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2
+      );
+    }
+    if (!$this->db->field_exists('berat_lahir', 'tweb_penduduk')) {
+      $fields['berat_lahir'] = array(
+          'type' => 'varchar',
+          'constraint' => 10
+      );
+    }
+    if (!$this->db->field_exists('panjang_lahir', 'tweb_penduduk')) {
+      $fields['panjang_lahir'] = array(
+          'type' => 'varchar',
+          'constraint' => 10
+      );
+    }
+    $this->dbforge->add_column('tweb_penduduk', $fields);
+
     // Hapus kolom yg tidak digunakan
     if ($this->db->field_exists('pendidikan_id', 'tweb_penduduk'))
       $this->dbforge->drop_column('tweb_penduduk', 'pendidikan_id');

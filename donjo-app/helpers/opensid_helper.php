@@ -189,6 +189,22 @@ define("STATUS_REKAM", serialize(array(
       strtolower("CARD SHIPPED") => "6",
       strtolower("SENT FOR CARD PRINTING") => "7",
       strtolower("CARD ISSUED") => "8")));
+define("TEMPAT_DILAHIRKAN", serialize(array(
+      "RS/RB" => "1",
+      "Puskemas" => "2",
+      "Polindes" => "3",
+      "Rumah" => "4",
+      "Lainnya" => "5")));
+define("JENIS_KELAHIRAN", serialize(array(
+      "Tunggal" => "1",
+      "Kembar 2" => "2",
+      "Kembar 3" => "3",
+      "Kembar 4" => "4")));
+define("PENOLONG_KELAHIRAN", serialize(array(
+      "Dokter" => "1",
+      "Bidan Perawat" => "2",
+      "Dukun" => "3",
+      "Lainnya" => "4")));
 
 /**
  * Ambil Versi

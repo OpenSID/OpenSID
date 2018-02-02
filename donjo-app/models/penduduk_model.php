@@ -6,6 +6,9 @@
 		$this->load->model('keluarga_model');
 		$this->ktp_el = array_flip(unserialize(KTP_EL));
 		$this->status_rekam = array_flip(unserialize(STATUS_REKAM));
+		$this->tempat_dilahirkan = array_flip(unserialize(TEMPAT_DILAHIRKAN));
+		$this->jenis_kelahiran = array_flip(unserialize(JENIS_KELAHIRAN));
+		$this->penolong_kelahiran = array_flip(unserialize(PENOLONG_KELAHIRAN));
 	}
 
 	function autocomplete(){
@@ -775,6 +778,11 @@
 			$data['wajib_ktp'] = $wajib_ktp ? 'WAJIB' : 'BELUM';
 		$data['ktp_el'] = strtoupper($this->ktp_el[$data['ktp_el']]);
 		$data['status_rekam'] = strtoupper($this->status_rekam[$data['status_rekam']]);
+		$data['tempat_dilahirkan_nama'] = strtoupper($this->tempat_dilahirkan[$data['tempat_dilahirkan']]);
+		$data['jenis_kelahiran_nama'] = strtoupper($this->jenis_kelahiran[$data['jenis_kelahiran']]);
+		$data['penolong_kelahiran_nama'] = strtoupper($this->penolong_kelahiran[$data['penolong_kelahiran']]);
+
+
 		return $data;
 	}
 
