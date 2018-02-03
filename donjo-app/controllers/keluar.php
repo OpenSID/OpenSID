@@ -8,8 +8,8 @@ class Keluar extends CI_Controller{
 		$this->load->model('user_model');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('surat_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) {
+		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+		if($this->grup!=1 AND $this->grup!=2 AND $this->grup!=3) {
 			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 			redirect('siteman');
 		}
@@ -50,13 +50,17 @@ class Keluar extends CI_Controller{
 
 		$nav['act']= 2;
 		$this->load->view('header', $header);
-
 		$this->load->view('surat/nav',$nav);
 		$this->load->view('surat/surat_keluar',$data);
 		$this->load->view('footer');
 	}
 
 	function delete($p=1,$o=0,$id=''){
+		session_error_clear();
+		if($this->grup!=1) {
+			session_error('Anda tidak mempunyai izin melakukan ini');
+			redirect("keluar/index/$p/$o"); // Batasi hanya admin yang boleh hapus
+		}
 		$this->surat_keluar_model->delete($id);
 		redirect("keluar/index/$p/$o");
 	}

@@ -50,7 +50,6 @@ function __construct(){
 		unset($_SESSION['umur_max']);
 		unset($_SESSION['pekerjaan_id']);
 		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_id']);
 		unset($_SESSION['status_penduduk']);
 		redirect('statistik');
 	}
@@ -120,7 +119,7 @@ function __construct(){
 		$data['main']    = $this->laporan_penduduk_model->list_data_rentang();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='2';
+		$nav['act']= 0;
 
 		$this->load->view('header', $header);
 		//$this->load->view('statistik/menu');

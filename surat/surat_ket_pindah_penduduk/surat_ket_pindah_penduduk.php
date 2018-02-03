@@ -8,6 +8,8 @@
 			$('#status_kk_tidak_pindah_f108_show').hide();
 			$('#status_kk_tidak_pindah_show').show();
 		}
+		// Reset klasifikasi pindah
+		$('#klasifikasi_pindah_id').val('');
 	}
 	function get_alasan(alasan){
 		if(alasan == 7){
@@ -129,6 +131,9 @@
 			$('#kode_format').val('F-1.34');
 			$('#provinsi_tujuan_show').removeAttr('disabled');
 		}
+		if ($('#pakai_format').val() == 'f108'){
+			$('#kode_format').val('f108');
+		}
 		$('#jenis_kepindahan_id').trigger('onchange');
 	}
 
@@ -179,16 +184,6 @@ table.form.detail td{
 
 <table class="form">
 	<tr>
-		<th>Gunakan Format</th>
-		<td>
-	    <select name="pakai_format" class="required" onchange="pilih_format_surat($(this).val());">
-	      <option value="">Pilih Format Surat</option>
-        <option value="f108">F-1.08</option>
-        <option value="bukan_f108" selected>F-1.23, F-1.25, F-1.29, F-1.34 (sesuai tujuan)</option>
-	    </select>
-		</td>
-	</tr>
-	<tr>
 		<th colspan=2>Pemohon</th>
 	</tr>
 	<tr>
@@ -218,6 +213,16 @@ table.form.detail td{
 					</td>
 				</tr>
 			</table>
+		</td>
+	</tr>
+	<tr>
+		<th>Gunakan Format</th>
+		<td>
+	    <select id="pakai_format" name="pakai_format" class="required" onchange="pilih_format_surat($(this).val());">
+	      <option value="">Pilih Format Surat</option>
+        <option value="f108">F-1.08</option>
+        <option value="bukan_f108" selected>F-1.23, F-1.25, F-1.29, F-1.34 (sesuai tujuan)</option>
+	    </select>
 		</td>
 	</tr>
 	<tr>
