@@ -1,4 +1,7 @@
 # OpenSID
+[![Backers on Open Collective](https://opencollective.com/OpenSID/backers/badge.svg)](#backers)
+ [![Sponsors on Open Collective](https://opencollective.com/OpenSID/sponsors/badge.svg)](#sponsors)
+  
 OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
 
 SID diharapkan dapat membantu pemerintah desa dalam beberapa hal berikut:
@@ -52,4 +55,34 @@ Anda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.face
 Pengguna dan pegiat SID dapat melaporkan dan mendaftarkan masalah/usulan/permintaan perbaikan atau pengembangan OpenSID di https://github.com/opensid/opensid/issues. Issues ini merupakan daftar tugas bagi pegiat OpenSID untuk mengembangkan OpenSID berdasarkan masukan dari komunitas SID.
 
 Komunitas SID juga bebas, bahkan diajak, untuk turut membuat kontribusi pada panduan OpenSID di https://github.com/OpenSID/OpenSID/wiki, dan pada script OpenSID di (https://github.com/OpenSID/OpenSID).
+
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="graphs/contributors"><img src="https://opencollective.com/OpenSID/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/OpenSID#backer)]
+
+<a href="https://opencollective.com/OpenSID#backers" target="_blank"><img src="https://opencollective.com/OpenSID/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/OpenSID#sponsor)]
+
+<a href="https://opencollective.com/OpenSID/sponsor/0/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/OpenSID/sponsor/1/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/OpenSID/sponsor/2/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/OpenSID/sponsor/3/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/OpenSID/sponsor/4/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/OpenSID/sponsor/5/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/OpenSID/sponsor/6/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/OpenSID/sponsor/7/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/OpenSID/sponsor/8/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/OpenSID/sponsor/9/website" target="_blank"><img src="https://opencollective.com/OpenSID/sponsor/9/avatar.svg"></a>
+
 
