@@ -63,6 +63,21 @@ class Program_bantuan_model extends CI_Model{
 		return $this->paging;
 	}
 
+	function paging_bantuan($p) {
+		$sql 			= "SELECT count(*) as jumlah FROM program";
+		$query    = $this->db->query($sql);
+		$row      = $query->row_array();
+		$jml_data = $row['jumlah'];
+
+		$this->load->library('paging');
+		$cfg['page']     = $p;
+		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
 	/*
 		Mengambil data individu peserta
 	*/
@@ -187,10 +202,13 @@ class Program_bantuan_model extends CI_Model{
 
 	public function get_program($p, $slug){
 		if ($slug === false){
+			$response['paging'] = $this->paging_bantuan($p);
 			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE 1";
+			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
 			$query = $this->db->query($strSQL);
 			$data = $query->result_array();
-			return $data;
+			$response['program'] = $data;
+			return $response;
 		}else{
 			// Untuk program bantuan, $slug berbentuk '50<program_id>'
 			$slug = preg_replace("/^50/", "", $slug);
