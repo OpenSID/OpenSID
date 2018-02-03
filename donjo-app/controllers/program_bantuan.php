@@ -21,14 +21,13 @@ class Program_bantuan extends CI_Controller{
 	}
 
 	public function index($p = 1){
-		//$_SESSION['per_page'] = 50;
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		
+
 		$data = $this->program_bantuan_model->get_program($p, false);
 		$data['tampil'] = 0;
 		$data['per_page'] = $_SESSION['per_page'];

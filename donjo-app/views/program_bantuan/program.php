@@ -66,7 +66,7 @@
 							</thead>
 							<tbody>
 							<?php
-							$nomer = 0;
+							$nomer = $paging->offset;
 							foreach ($program as $item):
 								$nomer++;
 							?>
