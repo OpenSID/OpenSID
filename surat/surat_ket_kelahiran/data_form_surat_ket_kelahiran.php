@@ -72,7 +72,7 @@
 			}
 			$bayi['nama'] = $_POST['nama_bayi'];
 			$bayi['nik'] = $_POST['nik_bayi'];
-			$bayi['id_kk'] = $ibu['id_kk']; // Kalau bayi belum terdata, ibu harus dari database
+			$bayi['id_kk'] = $data['ibu']['id_kk']; // Kalau bayi belum terdata, ibu harus dari database
 			$bayi['kk_level'] = 4; // anak
 			$bayi['id_cluster'] = $data['ibu']['id_cluster']; // Samakan dengan Dusun/RW/RT ibu
 			$bayi['tanggallahir'] = tgl_indo_in($_POST['tanggallahir']);
@@ -80,6 +80,7 @@
 			$this->db->insert('tweb_penduduk', $bayi);
 			$id_bayi = $this->db->insert_id();
 			$data['bayi'] = $this->surat_model->get_penduduk($id_bayi);
+			$_SESSION['id_bayi'] = $id_bayi;
 		} else {
 			if($this->input->post('bayi')==2) unset($_SESSION['id_bayi']);
 			if($_POST['id_bayi'] != '' AND $_POST['id_bayi'] !='*'){
