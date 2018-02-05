@@ -8,7 +8,8 @@
     '2.5' => array('migrate' => 'migrasi_25_ke_26','nextVersion' => '2.6'),
     '2.6' => array('migrate' => 'migrasi_26_ke_27','nextVersion' => '2.7'),
     '2.7' => array('migrate' => 'migrasi_27_ke_28','nextVersion' => '2.8'),
-    '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => NULL)
+    '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => '2.9'),
+    '2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -133,6 +134,12 @@
     $this->migrasi_26_ke_27();
     $this->migrasi_27_ke_28();
     $this->migrasi_28_ke_29();
+    $this->migrasi_29_ke_210();
+  }
+
+  function migrasi_29_ke_210(){
+    // Ubah url modul program_bantuan
+    $this->db->where('url','program_bantuan')->update('setting_modul',array('url'=>'program_bantuan/clear'));
   }
 
   function migrasi_28_ke_29(){
