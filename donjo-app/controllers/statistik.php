@@ -7,9 +7,10 @@ function __construct(){
 		$this->load->model('user_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('program_bantuan_model');
+		$_SESSION['request_uri'] = $_SESSION['REQUEST_URI'];
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			$_SESSION['request_uri'] = base_url();
 			redirect('siteman');
 		}
 		$this->load->model('header_model');

@@ -5,9 +5,10 @@ class Sekretariat extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
+		$_SESSION['request_uri'] = $_SESSION['REQUEST_URI'];
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+		if($grup!=(1 or 2 or 3)) {
+			$_SESSION['request_uri'] = base_url();
 			redirect('siteman');
 		}
 		$this->load->model('header_model');

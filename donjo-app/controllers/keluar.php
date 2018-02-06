@@ -8,9 +8,10 @@ class Keluar extends CI_Controller{
 		$this->load->model('user_model');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('surat_model');
+		$_SESSION['request_uri'] = $_SESSION['REQUEST_URI'];
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($this->grup!=1 AND $this->grup!=2 AND $this->grup!=3) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			$_SESSION['request_uri'] = base_url();
 			redirect('siteman');
 		}
 		$this->load->model('header_model');

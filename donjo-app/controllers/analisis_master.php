@@ -7,9 +7,10 @@ class analisis_master extends CI_Controller{
 		$this->load->model('analisis_import_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
+		$_SESSION['request_uri'] = $_SESSION['REQUEST_URI'];
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			$_SESSION['request_uri'] = base_url();
 			redirect('siteman');
 		}
 		unset($_SESSION['submenu']);

@@ -8,9 +8,10 @@ class Database extends CI_Controller{
 		$this->load->model('user_model');
 		$this->load->dbforge();
 		//$this->load->model('wilayah_model');
+		$_SESSION['request_uri'] = $_SESSION['REQUEST_URI'];
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			$_SESSION['request_uri'] = base_url();
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
@@ -34,6 +35,7 @@ class Database extends CI_Controller{
     	log_message('debug', "Reset tracking");
 			unset($_SESSION['track_web']);
 			unset($_SESSION['track_admin']);
+			unset($_SESSION['siteman_timeout']);
     }
 
 		$nav['act']= 1;
