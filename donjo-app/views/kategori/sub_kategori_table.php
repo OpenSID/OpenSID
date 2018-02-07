@@ -3,21 +3,7 @@
 <table class="inner">
 <tr style="vertical-align:top">
 
-<td class="side-menu">
-
-<fieldset>
-<legend>Kategori kategori</legend>
-<div class="lmenu">
-<ul>
-<li <?php if($tip==1)echo "class='selected'";?>><a href="<?php echo site_url("menu/index/1")?>">Menu Statis</a></li>
-<li <?php if($tip==2)echo "class='selected'";?>><a href="<?php echo site_url("kategori/index")?>">Kategori/ Menu Dinamis</a></li>
-
-
-</ul>
-</div>
-</fieldset>
-
-</td>
+<?php $this->load->view('kategori/menu_kiri.php')?>
 
 <td style="background:#fff;padding:0px;">
 <div class="content-header">
