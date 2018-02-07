@@ -6,9 +6,11 @@ class gallery extends CI_Controller{
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		$_SESSION['request_uri'] = $_SESSION['REQUEST_URI'];
 		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) {
-			$_SESSION['request_uri'] = base_url();
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');

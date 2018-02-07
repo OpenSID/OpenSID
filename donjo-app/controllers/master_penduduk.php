@@ -11,7 +11,13 @@ class Master_Penduduk extends CI_Controller{
 		$this->load->model('master_analisis_penduduk_model');
 		$_SESSION['request_uri'] = $_SESSION['REQUEST_URI'];
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup < 1) redirect('siteman');
+		if($grup < 1) {
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
+			redirect('siteman');
+		}
 		$this->load->model('header_model');
 
 	}

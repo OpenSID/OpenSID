@@ -14,10 +14,12 @@ class First extends Web_Controller{
 		} elseif ($this->setting->offline_mode == 1) {
 			// Jangan tampilkan website jika bukan admin/operator/redaksi
 			$this->load->model('user_model');
-			$_SESSION['request_uri'] = $_SESSION['REQUEST_URI'];
 			$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 			if($grup!=1 AND $grup!=2 AND $grup!=3) {
-				$_SESSION['request_uri'] = base_url();
+				if(empty($grup))
+					$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+				else
+					unset($_SESSION['request_uri']);
 				redirect('siteman');
 			}
 		}
