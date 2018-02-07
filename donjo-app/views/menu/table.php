@@ -11,17 +11,8 @@ source: keyword
 <table class="inner">
 <tr style="vertical-align:top">
 
-<td class="side-menu">
+<?php $this->load->view('kategori/menu_kiri.php')?>
 
-<legend>Kategori Menu</legend>
-<div class="lmenu">
-<ul>
-<a href="<?php echo site_url("menu/index/1")?>"><li <?php if($tip==1)echo "class='selected'";?>>Menu Statis</li></a>
-<a href="<?php echo site_url("kategori")?>"><li <?php if($tip==2)echo "class='selected'";?>>Kategori/Menu Dinamis</li></a>
-
-</ul>
-</div>
-</td>
 <td style="background:#fff;padding:0px;">
 <div class="content-header">
 <h3>Manajemen Menu</h3>

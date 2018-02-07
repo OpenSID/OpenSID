@@ -21,6 +21,7 @@ class kategori extends CI_Controller{
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
+		$_SESSION['per_page'] = 20;
 		redirect('kategori');
 	}
 

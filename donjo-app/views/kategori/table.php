@@ -11,28 +11,14 @@ source: keyword
 <table class="inner">
 <tr style="vertical-align:top">
 
-<td class="side-menu">
+<?php $this->load->view('kategori/menu_kiri.php')?>
 
-<legend>Kategori kategori</legend>
-<div class="lmenu">
-<ul>
-<a href="<?php echo site_url("menu/index/1")?>"><li <?php if($tip==1)echo "class='selected'";?>>Menu Statis</li></a>
-<a href="<?php echo site_url("kategori/index")?>"><li <?php if($tip==2)echo "class='selected'";?>>Kategori/ Menu  Dinamis</li></a>
-
-</ul>
-</div>
-</td>
 <td style="background:#fff;padding:0px;">
-<div class="content">
-	<h3>Pengelolaan Kategori</h3>
-	<?php
-	//echo var_dump($main);
-	?>
-</div>
 <div id="contentpane">
 <form id="mainform" name="mainform" action="" method="post">
 <div class="ui-layout-north panel">
 <div class="left">
+  <h3>Pengelolaan Kategori</h3>
 <div class="uibutton-group">
 <a href="<?php echo site_url("kategori/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah kategori Baru</a>
 <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("kategori/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
