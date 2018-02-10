@@ -7,7 +7,10 @@ class kategori extends CI_Controller{
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
@@ -18,6 +21,7 @@ class kategori extends CI_Controller{
 	function clear(){
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
+		$_SESSION['per_page'] = 20;
 		redirect('kategori');
 	}
 
