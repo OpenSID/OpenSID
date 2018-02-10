@@ -89,11 +89,11 @@ xmlhttp.send();
     </select>
 	</td>
 </tr>  
-<tr><td>Pendidikan Terakhir</td>
+<tr><td>Pendidikan KK</td>
     <td>
-	<select name="pendidikan_id">
+	<select name="pendidikan_kk_id">
       <option value=""> -- </option>
-		<?php foreach($pendidikan AS $data){?>
+		<?php foreach($pendidikan_kk AS $data){?>
 			<option value="<?php echo $data['id']?>"><?php echo $data['nama']?></option>
 		<?php }?>
 	  </select>
