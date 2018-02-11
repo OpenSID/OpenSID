@@ -77,14 +77,6 @@
 		}
 	}
 
-	function pendidikan_sql(){
-		if(isset($_SESSION['pendidikan_id'])){
-			$kf = $_SESSION['pendidikan_id'];
-			$pendidikan_sql= " AND u.pendidikan_sedang_id = $kf";
-		return $pendidikan_sql;
-		}
-	}
-
 	function pendidikan_kk_sql(){
 		if(isset($_SESSION['pendidikan_kk_id'])){
 			$kf = $_SESSION['pendidikan_kk_id'];
@@ -415,7 +407,6 @@
 		$sql .= $this->dusun_sql();
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
-		$sql .= $this->pendidikan_sql();
 		$sql .= $this->pendidikan_kk_sql();
 
 		$kolom_kode = array(
