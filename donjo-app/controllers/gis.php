@@ -138,7 +138,7 @@ function index(){
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
 		$data['list_agama'] = $this->penduduk_model->list_agama();
-		$data['list_pendidikan'] = $this->penduduk_model->list_pendidikan();
+		$data['list_pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['desa'] = $this->penduduk_model->get_desa();
 		$data['lokasi']  = $this->plan_lokasi_model->list_data();
 		$data['garis']  = $this->plan_garis_model->list_data();
@@ -296,7 +296,7 @@ function index(){
 	function ajax_adv_search(){
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['agama'] = $this->penduduk_model->list_agama();
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
+		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['form_action'] = site_url("gis/adv_search_proses");
 
