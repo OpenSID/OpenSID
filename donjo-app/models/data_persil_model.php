@@ -70,6 +70,7 @@ class Data_persil_model extends CI_Model{
 	function list_persil($kat='',$mana=0,$offset,$per_page){
 		$data = false;
 		$strSQL = "SELECT p.`id` as id, p.`nik` as nik, p.`nama` as nopersil, p.`persil_jenis_id`, p.`id_clusterdesa`, p.`luas`, p.`kelas`,
+			p.rdate as tanggal_daftar,
 			p.`no_sppt_pbb`, p.`persil_peruntukan_id`, u.nama as namapemilik, w.rt, w.rw, w.dusun".$this->_filtered_sql($kat,$mana);
 		$strSQL .= " LIMIT ".$offset.",".$per_page;
 		$query = $this->db->query($strSQL);

@@ -232,6 +232,15 @@ class Data_persil extends CI_Controller{
 		redirect("data_persil");
 	}
 
+	function cetak($o=0){
+		$data['data_persil']    = $this->data_persil_model->list_persil('', $o,0, 10000);
+		$this->load->view('data_persil/persil_print',$data);
+	}
+	function excel($o=0){
+		$data['data_persil']    = $this->data_persil_model->list_persil('', $o,0, 10000);
+		$this->load->view('data_persil/persil_excel',$data);
+	}
+
 }
 
 ?>
