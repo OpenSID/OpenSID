@@ -205,6 +205,11 @@ define("PENOLONG_KELAHIRAN", serialize(array(
       "Bidan Perawat" => "2",
       "Dukun" => "3",
       "Lainnya" => "4")));
+define("JENIS_MUTASI", serialize(array(
+      "Pengadaan" => "1",
+      "Penghapusan" => "2",
+      "Status rusak" => "3",
+      "Status diperbaiki" => "4")));
 
 /**
  * Ambil Versi
@@ -336,14 +341,19 @@ define("PENOLONG_KELAHIRAN", serialize(array(
     }
   }
 
-  function session_error($pesan) {
+  function session_error($pesan='') {
     $_SESSION['error_msg'] = $pesan;
-    $_SESSION['success']=-1;
+    $_SESSION['success'] = -1;
   }
 
   function session_error_clear() {
     $_SESSION['error_msg'] = '';
     unset($_SESSION['success']);
+  }
+
+  function session_success() {
+    $_SESSION['error_msg'] = '';
+    $_SESSION['success'] = 1;
   }
 
   // Untuk mengirim data ke OpenSID tracker

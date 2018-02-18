@@ -138,6 +138,44 @@
   }
 
   function migrasi_29_ke_210(){
+    // Tambah tabel inventaris
+    if (!$this->db->table_exists('jenis_barang') ) {
+      $query = "
+        CREATE TABLE jenis_barang (
+          id int NOT NULL AUTO_INCREMENT,
+          nama varchar(30),
+          keterangan varchar(100),
+          PRIMARY KEY (id)
+        );
+      ";
+      $this->db->query($query);
+    }
+    if (!$this->db->table_exists('inventaris') ) {
+      $query = "
+        CREATE TABLE inventaris (
+          id int NOT NULL AUTO_INCREMENT,
+          id_jenis_barang int(6),
+          asal_sendiri int(6),
+          asal_pemerintah int(6),
+          asal_provinsi int(6),
+          asal_kab int(6),
+          asal_sumbangan int(6),
+          -- status_baik_awal int(6),
+          -- status_rusak_awal int(6),
+          hapus_rusak int(6),
+          hapus_dijual int(6),
+          hapus_sumbangkan int(6),
+          tanggal_mutasi date NOT NULL,
+          jenis_mutasi int(6),
+          keterangan varchar(100),
+          PRIMARY KEY (id),
+          FOREIGN KEY (id_jenis_barang)
+            REFERENCES jenis_barang(id)
+            ON DELETE CASCADE
+        );
+      ";
+      $this->db->query($query);
+    }
     // Ubah url modul program_bantuan
     $this->db->where('url','program_bantuan')->update('setting_modul',array('url'=>'program_bantuan/clear'));
   }

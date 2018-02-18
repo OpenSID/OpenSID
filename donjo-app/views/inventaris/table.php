@@ -6,10 +6,7 @@
 		});
 	});
 </script>
-<style type="text/css">
-	table#status {margin-bottom: 10px;}
-	.center {text-align: center;}
-</style>
+
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
@@ -24,13 +21,35 @@
 			<form id="mainform" name="mainform" action="" method="post">
 		    <div class="ui-layout-north panel">
 					<div class="content">
-						<h3>Mutasi Inventaris > Jenis Barang: <?php echo $jenis['nama']?></h3>
+						<h3>Inventaris dan Kekayaan Desa</h3>
 					</div>
-
-		      <table id="status" class="list">
+		      <div class="left">
+		        <div class="uibutton-group">
+		          <a href='<?php echo site_url("{$this->controller}/form_jenis/")?>' class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Jenis Barang Baru</a>
+							<a href="<?php echo site_url("inventaris/dialog_cetak/$o")?>" class="uibutton tipsy south" title="Cetak Data" target="ajax-modal" rel="window" header="Cetak Inventaris" modalWidth="auto" modalHeight="auto"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+							<a href="<?php echo site_url("inventaris/dialog_excel/$o")?>" class="uibutton tipsy south" title="Unduh Data" target="ajax-modal" rel="window" header="Unduh Inventaris" modalWidth="auto" modalHeight="auto"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
+				    </div>
+		      </div>
+		    </div>
+		    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
+		      <div class="table-panel top">
+		        <div class="right">
+		          <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("$this->controller/search_jenis")?>');$('#'+'mainform').submit();}" />
+		          <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("$this->controller/search_jenis")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
+		        </div>
+		      </div>
+		      <table class="list">
 						<thead>
 		          <tr>
-								<th rowspan="3">Jenis Barang</th>
+		            <th rowspan="3" class="nostretch">No</th>
+		            <th rowspan="3" class="nostretch">Aksi</th>
+						 		<?php  if($o==2) {$icon_sort = 'fa-sort-asc'; $kode_sort = 1;}
+						 					 elseif ($o==1) {$icon_sort = 'fa-sort-desc'; $kode_sort = 2;}
+						 					 else {$icon_sort = 'fa-sort'; $kode_sort = 1;}
+						 		?>
+								<th rowspan="3">
+									<a href="<?php echo site_url("{$this->controller}/index/$p/$kode_sort")?>">Jenis Barang <span class="fa <?php echo $icon_sort;?> fa-sm">&nbsp;</span></a>
+								</th>
 								<th rowspan="3" >Keterangan</th>
 								<th colspan="5">Asal Barang</th>
 								<th colspan="2">Keadaan Barang</th>
@@ -49,78 +68,6 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-							  <td><?php echo $jenis['nama']?></td>
-							  <td><?php echo $jenis['keterangan']?></td>
-							  <td><?php echo $jenis['asal_sendiri']?></td>
-							  <td><?php echo $jenis['asal_pemerintah']?></td>
-							  <td><?php echo $jenis['asal_provinsi']?></td>
-							  <td><?php echo $jenis['asal_kab']?></td>
-							  <td><?php echo $jenis['asal_sumbangan']?></td>
-							  <td><?php echo $jenis['status_baik']?></td>
-							  <td><?php echo $jenis['status_rusak']?></td>
-							</tr>
-						</tbody>
-			    </table>
-
-
-		      <div class="left">
-		        <div class="uibutton-group">
-		          <a href='<?php echo site_url("{$this->controller}/form/$jenis[id]/$p/$o")?>' class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Mutasi Inventaris</a>
-		        </div>
-		      </div>
-		      <div class="center">
-		      	<h3>Rincian Mutasi Inventaris</h3>
-		      </div>
-		    </div>
-		    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-		      <div class="table-panel top">
-		        <div class="right">
-		          <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("$this->controller/search")?>');$('#'+'mainform').submit();}" />
-		          <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("$this->controller/search")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
-		        </div>
-		      </div>
-		      <table class="list">
-						<thead>
-		          <tr>
-		            <th rowspan="3" class="nostretch">No</th>
-		            <th rowspan="3" class="nostretch">Aksi</th>
-						 		<?php  if($o==2) {$icon_sort = 'fa-sort-asc'; $kode_sort = 1;}
-						 					 elseif ($o==1) {$icon_sort = 'fa-sort-desc'; $kode_sort = 2;}
-						 					 else {$icon_sort = 'fa-sort'; $kode_sort = 1;}
-						 		?>
-						 		<th rowspan="3">
-									<a href="<?php echo site_url("{$this->controller}/rincian/$jenis[id]/$p/$kode_sort")?>">Tanggal Mutasi <span class="fa <?php echo $icon_sort;?> fa-sm">&nbsp;</span></a>
-								</th>
-						 		<?php  if($o==4) {$icon_sort = 'fa-sort-asc'; $kode_sort = 3;}
-						 					 elseif ($o==3) {$icon_sort = 'fa-sort-desc'; $kode_sort = 4;}
-						 					 else {$icon_sort = 'fa-sort'; $kode_sort = 3;}
-						 		?>
-								<th rowspan="3">
-									<a href="<?php echo site_url("{$this->controller}/rincian/$jenis[id]/$p/$kode_sort")?>">Jenis Mutasi <span class="fa <?php echo $icon_sort;?> fa-sm">&nbsp;</span></a>
-								</th>
-								<th rowspan="3">Keterangan</th>
-								<th colspan="5">Asal Barang</th>
-								<th colspan="3">Penghapusan</th>
-						 		<?php  if($o==4) {$icon_sort = 'fa-sort-asc'; $kode_sort = 3;}
-						 					 elseif ($o==3) {$icon_sort = 'fa-sort-desc'; $kode_sort = 4;}
-						 					 else {$icon_sort = 'fa-sort'; $kode_sort = 3;}
-						 		?>
-							<tr>
-								<th rowspan="2">Dibeli Sendiri</th>
-								<th colspan="3">Bantuan</th>
-								<th rowspan="2">Sumbangan</th>
-								<th rowspan="2">Rusak</th>
-								<th rowspan="2">Dijual</th>
-								<th rowspan="2">Disumbang</th>
-							</tr>
-							<tr>
-								<th>Pemerintah</th>
-								<th>Provinsi</th>
-								<th>Kabupaten</th>
-							</tr>
-						</thead>
-						<tbody>
 					    <?php $i = 0;
 					    	foreach($main as $data){
 					    		$i++; ?>
@@ -128,21 +75,20 @@
 									<td align="center" width="2"><?php echo $i+$paging->offset?></td>
 									<td>
 										<div class="uibutton-group" style="display: flex;">
-											<a href="<?php echo site_url("{$this->controller}/form/$jenis[id]/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit fa-tipis"></span> Ubah</a>
-											<a href="<?php echo site_url("{$this->controller}/delete/$jenis[id]/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"><span></a>
+											<a class="uibutton tipsy south fa-tipis" href="<?php echo site_url('inventaris/rincian/'.$data["id"].'/'); ?>" title="Rincian"><span class="fa fa-list"></span> Rincian</a>
+											<a href="<?php echo site_url("{$this->controller}/form_jenis/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit fa-tipis"></span> Ubah</a>
+											<a href="<?php echo site_url("{$this->controller}/delete_jenis/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"><span></a>
 										</div>
 								  </td>
-								  <td><?php echo tgl_indo($data['tanggal_mutasi'])?></td>
-								  <td><?php echo $jenis_mutasi[$data['jenis_mutasi']]?></td>
+								  <td><?php echo $data['nama']?></td>
 								  <td><?php echo $data['keterangan']?></td>
 								  <td><?php echo $data['asal_sendiri']?></td>
 								  <td><?php echo $data['asal_pemerintah']?></td>
 								  <td><?php echo $data['asal_provinsi']?></td>
 								  <td><?php echo $data['asal_kab']?></td>
 								  <td><?php echo $data['asal_sumbangan']?></td>
-								  <td><?php echo $data['hapus_rusak']?></td>
-								  <td><?php echo $data['hapus_dijual']?></td>
-								  <td><?php echo $data['hapus_sumbangkan']?></td>
+								  <td><?php echo $data['status_baik']?></td>
+								  <td><?php echo $data['status_rusak']?></td>
 								</tr>
 					    <?php }?>
 						</tbody>
