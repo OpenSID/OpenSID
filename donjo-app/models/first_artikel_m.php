@@ -88,6 +88,7 @@ class First_Artikel_M extends CI_Model{
 				$cari = $this->db->escape_like_str($cari);
 				$sql .= " AND (a.judul like '%$cari%' or a.isi like '%$cari%') ";
 			}
+			$sql .= " AND a.tgl_upload < NOW()";
 			$sql .= " ORDER BY a.tgl_upload DESC LIMIT ".$offset.", ".$limit;
 		}
 
