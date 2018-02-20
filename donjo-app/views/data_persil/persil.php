@@ -26,6 +26,10 @@
 			<form id="mainform" name="mainform" action="" method="post">
 		    <div class="ui-layout-north">
 					<legend>Daftar Data Persil <?php echo $desa["nama_desa"];?></legend>
+					<div class="uibutton-group">
+	                <a href="<?php echo site_url("data_persil/cetak/$o")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+					<a href="<?php echo site_url("data_persil/excel/$o")?>" class="uibutton tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
+	            </div>
 		    </div>
 		    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 		      <!-- <div class="table-panel top"> -->
