@@ -26,6 +26,13 @@ tinymce.init({
     '//www.tinymce.com/css/codepen.min.css'
   ]
  });
+//date time init
+$(document).ready(function(){
+  $('#tgl-posting').datetimepicker({
+    dateFormat : 'dd-mm-yy',
+    timeFormat : 'HH:mm:ss'
+  });
+});
 </script>
 <div id="pageC">
 <table class="inner">
@@ -142,6 +149,15 @@ tinymce.init({
 <th>Gambar Tambahan</th>
 <td><input type="file" name="gambar3" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span></td>
 </tr>
+
+<tr>
+  <td colspan="2" style="background-color:#ffddcc;"> &nbsp;</td>
+</tr>
+<tr>
+  <th>Tanggal Posting (Kosongkan jika ingin langsung di post, bisa digunakan untuk artikel terjadwal)</th>
+  <td><input type="text" name="tgl_upload" id="tgl-posting" value="<?php echo $artikel['tgl_upload']?>"></td>
+</tr>
+
 </table>
 </div>
 
