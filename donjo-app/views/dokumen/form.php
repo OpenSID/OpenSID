@@ -43,19 +43,7 @@
               <th>Judul / Tentang</th>
               <td><input name="nama" type="text" class="inputbox" size="100" value="<?php echo $dokumen['nama']?>"/></td>
             </tr>
-            <tr>
-              <th>Kategori</th>
-              <td>
-                <select name="kategori" class="required" onchange="tampilForm();">
-                  <option value="">Pilih Kategori</option>
-                  <?php foreach($list_kategori as $id => $nama){
-                    if (!empty($dokumen)) $kat = $dokumen['kategori'];
-                    ?>
-                    <option value="<?php echo $id?>" <?php if($kat==$id){?>selected<?php }?>><?php echo $nama?></option>
-                  <?php }?>
-                </select>
-              </td>
-            </tr>
+           
 
       			<?php if($dokumen['satuan']){?>
               <tr>
