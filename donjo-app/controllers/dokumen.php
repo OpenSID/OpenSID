@@ -63,7 +63,6 @@ class Dokumen extends CI_Controller{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['kat'] = $kat;
-		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
 
 		if($id){
 			$data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);

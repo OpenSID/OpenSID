@@ -1,26 +1,3 @@
-<script type="text/javascript">
-  function tampilForm(){
-    if ($('select[name=kategori]').val() == 2){
-      $('.sk_kades').show();
-      $('input.sk_kades').removeAttr('disabled');
-    }
-    else {
-      $('.sk_kades').hide();
-      $('input.sk_kades').attr('disabled','disabled');
-    }
-    if ($('select[name=kategori]').val() == 3){
-      $('.perdes').show();
-      $('input.perdes').removeAttr('disabled');
-    }
-    else {
-      $('.perdes').hide();
-      $('input.perdes').attr('disabled','disabled');
-    }
-  }
-  $('document').ready(function(){
-    tampilForm();
-  });
-</script>
 <style type="text/css">
   #form_dokumen th {
     width: 1%;
@@ -43,19 +20,7 @@
               <th>Judul / Tentang</th>
               <td><input name="nama" type="text" class="inputbox" size="100" value="<?php echo $dokumen['nama']?>"/></td>
             </tr>
-            <tr>
-              <th>Kategori</th>
-              <td>
-                <select name="kategori" class="required" onchange="tampilForm();">
-                  <option value="">Pilih Kategori</option>
-                  <?php foreach($list_kategori as $id => $nama){
-                    if (!empty($dokumen)) $kat = $dokumen['kategori'];
-                    ?>
-                    <option value="<?php echo $id?>" <?php if($kat==$id){?>selected<?php }?>><?php echo $nama?></option>
-                  <?php }?>
-                </select>
-              </td>
-            </tr>
+
 
       			<?php if($dokumen['satuan']){?>
               <tr>
@@ -72,8 +37,13 @@
                 <th>Unggah Dokumen</th>
                 <td><input type="file" name="satuan" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah dokumen)</span></td>
             </tr>
-            <?php include ("donjo-app/views/dokumen/_sk_kades.php"); ?>
-            <?php include ("donjo-app/views/dokumen/_perdes.php"); ?>
+            <input name="kategori" type="hidden" value="<?php echo $kat;?>">
+            <?php
+              if($kat == 2)
+                include ("donjo-app/views/dokumen/_sk_kades.php");
+              elseif($kat == 3)
+                include ("donjo-app/views/dokumen/_perdes.php");
+            ?>
         </table>
     </div>
 
