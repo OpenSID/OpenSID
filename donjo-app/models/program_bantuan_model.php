@@ -291,6 +291,7 @@ class Program_bantuan_model extends CI_Model{
 							$data[$i]['peserta_info']=$data[$i]['nama'];
 							$filter[] = $data[$i]['no_kk'];
 							$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
+
 							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 							$i++;
 						}
@@ -311,6 +312,7 @@ class Program_bantuan_model extends CI_Model{
 						while($i<count($data)){
 							// Abaikan keluarga yang sudah terdaftar pada program
 							if(!in_array($data[$i]['id'],$filter)){
+								$data[$i]['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $data[$i]['id']); //Hapus karakter non alpha di no_kk
 								$hasil2[$j]['id']=$data[$i]['id'];
 								$hasil2[$j]['nik']=$data[$i]['id'];
 								$hasil2[$j]['nama']=strtoupper($data[$i]['nama']) ." [".$data[$i]['id']."]";
