@@ -17,7 +17,7 @@
 
 	function get_jenis($id=0){
 		$hasil = $this->db->where('id',$id)->get('jenis_barang')->row_array();
-		$status = $this->status_inventaris($id);
+		$status = $this->get_status_jenis($id,date('Y'));
 		foreach($status as $key => $value){
 			$hasil[$key] = $value;
 		}
@@ -82,58 +82,66 @@
 		$data = $query->result_array();
 		// Isi status setiap jenis barang yang ditampilkan
 		for($i=0; $i<count($data); $i++){
-			$status = $this->status_inventaris($data[$i]['id']);
+			$status = $this->get_status_jenis($data[$i]['id'],date('Y'));
 			foreach($status as $key => $value){
 				$data[$i][$key] = $value;
 			}
-			$status_awal_tahun = $this->status_awal_tahun($data[$i]['id']);
-			foreach($status_awal_tahun as $key => $value){
+			$status = $this->status_awal_tahun($data[$i]['id']);
+			foreach($status as $key => $value){
 				$data[$i][$key] = $value;
 			}
-			$status_akhir_tahun = $this->status_akhir_tahun($data[$i]['id']);
-			foreach($status_akhir_tahun as $key => $value){
-				$data[$i][$key] = $value;
-			}
-			$status_penghapusan = $this->status_penghapusan($data[$i]['id']);
-			foreach($status_penghapusan as $key => $value){
-				$data[$i][$key] = $value;
+			$status = $this->status_akhir_tahun($data[$i]['id']);
+			foreach($status as $key => $value){
+					$data[$i][$key] = $value;
 			}
 		}
 		return $data;
 	}
 
-	function tahun_condition(){
-		if(isset($_SESSION['tahun'])){
-			$tahun = $_SESSION['tahun'];
-			$this->db->where("DATE(tanggal_mutasi) <= '".$tahun."-12-31'");
-		}
-	}
-
-	function status_sebelum_tgl($id_jenis_barang,$tgl_str){
-		if(!isset($_SESSION['tahun'])) return;
-		$kriteria_tanggal = "DATE(tanggal_mutasi) < '".$tgl_str."'";
-		$this->db->where($kriteria_tanggal);
-		$pengadaan = $this->get_pengadaan($id_jenis_barang);
-		$this->db->where($kriteria_tanggal);
-		$penghapusan = $this->get_penghapusan($id_jenis_barang);
-		$total = 0;
-		foreach($pengadaan as $key => $value){
-			$total += ($value - $penghapusan[$key]);
-		}
-		$this->db->where($kriteria_tanggal);
-		$jml_rusak = $this->get_jml_rusak($id_jenis_barang);
-		$this->db->where($kriteria_tanggal);
-		$jml_diperbaiki = $this->get_jml_diperbaiki($id_jenis_barang);
-		$status = array();
-		$status['status_rusak'] = $jml_rusak - $jml_diperbaiki;
-		$status['status_baik'] = $total - $status['status_rusak'];
-		return $status;
+	function get_status_jenis($id_jenis_barang,$tahun){
+		$select = "
+				(select sum(jml_barang) from inventaris where id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as jml_barang,
+				(select sum(jml_barang) from inventaris where asal_barang = 1 and id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as asal_sendiri,
+				(select sum(jml_barang) from inventaris where asal_barang = 2 and id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as asal_pemerintah,
+				(select sum(jml_barang) from inventaris where asal_barang = 3 and id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as asal_provinsi,
+				(select sum(jml_barang) from inventaris where asal_barang = 4 and id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as asal_kab,
+				(select sum(jml_barang) from inventaris where asal_barang = 5 and id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as asal_sumbangan,
+				max(case when jenis_mutasi = 1 then tanggal_mutasi else 0 end) tgl_penghapusan,
+        sum(case when jenis_mutasi = 1 then jml_mutasi else 0 end) penghapusan,
+        sum(case when jenis_mutasi = 1 and asal_barang = 1 then jml_mutasi else 0 end) hapus_asal_sendiri,
+        sum(case when jenis_mutasi = 1 and asal_barang = 2 then jml_mutasi else 0 end) hapus_asal_pemerintah,
+        sum(case when jenis_mutasi = 1 and asal_barang = 3 then jml_mutasi else 0 end) hapus_asal_provinsi,
+        sum(case when jenis_mutasi = 1 and asal_barang = 4 then jml_mutasi else 0 end) hapus_asal_kab,
+        sum(case when jenis_mutasi = 1 and asal_barang = 5 then jml_mutasi else 0 end) hapus_asal_sumbangan,
+        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 1 then jml_mutasi else 0 end) hapus_rusak,
+        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 2 then jml_mutasi else 0 end) hapus_dijual,
+        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 3 then jml_mutasi else 0 end) hapus_sumbangkan,
+        sum(case when jenis_mutasi = 2 then jml_mutasi else 0 end) status_rusak,
+        sum(case when jenis_mutasi = 3 then jml_mutasi else 0 end) status_diperbaiki
+    ";
+    $status = $this->db->select($select)
+			->where("DATE(tanggal_mutasi) <= '".$tahun."-12-31'")
+			->where("DATE(tanggal_pengadaan) <= '".$tahun."-12-31'")
+    	->where('i.id_jenis_barang',$id_jenis_barang)
+			->join('mutasi_inventaris m','i.id = m.id_barang')
+    	->get('inventaris i')
+    	->row_array();
+    $status['asal_sendiri'] = $status['asal_sendiri'] - $status['hapus_asal_sendiri'];
+    $status['asal_pemerintah'] = $status['asal_pemerintah'] - $status['hapus_asal_pemerintah'];
+    $status['asal_provinsi'] = $status['asal_provinsi'] - $status['hapus_asal_provinsi'];
+    $status['asal_kab'] = $status['asal_kab'] - $status['hapus_asal_kab'];
+    $status['asal_sumbangan'] = $status['asal_sumbangan'] - $status['hapus_asal_sumbangan'];
+    $status['jml_sekarang'] = $status['jml_barang'] - $status['penghapusan'];
+    $status['status_rusak'] = $status['status_rusak'] - $status['status_diperbaiki'];
+    $status['status_baik'] = $status['jml_sekarang'] - $status['status_rusak'];
+    return $status;
 	}
 
 	function status_awal_tahun($id_jenis_barang){
 		if(!isset($_SESSION['tahun'])) return;
-		$tgl_str = $_SESSION['tahun']."-01-01";
-		$status = $this->status_sebelum_tgl($id_jenis_barang,$tgl_str);
+		$tahun = $_SESSION['tahun']-1;
+		$status = $this->get_status_jenis($id_jenis_barang,$tahun);
+		$status_awal_tahun = array();
 		$status_awal_tahun['status_rusak_awal'] = $status['status_rusak'];
 		$status_awal_tahun['status_baik_awal'] = $status['status_baik'];
 		return $status_awal_tahun;
@@ -141,79 +149,12 @@
 
 	function status_akhir_tahun($id_jenis_barang){
 		if(!isset($_SESSION['tahun'])) return;
-		$tgl_str = ($_SESSION['tahun']+1)."-01-01";
-		$status = $this->status_sebelum_tgl($id_jenis_barang,$tgl_str);
-		$status_awal_tahun['status_rusak_akhir'] = $status['status_rusak'];
-		$status_awal_tahun['status_baik_akhir'] = $status['status_baik'];
-		return $status_awal_tahun;
-	}
-
-	function jml_asal_sql(){
-		$sql = 'SUM(asal_sendiri) as asal_sendiri, SUM(asal_pemerintah) as asal_pemerintah, SUM(asal_provinsi) as asal_provinsi, SUM(asal_kab) as asal_kab, SUM(asal_sumbangan) as asal_sumbangan';
-		return $sql;
-	}
-
-	function get_pengadaan($id_jenis_barang){
-		$pengadaan = $this->db->select($this->jml_asal_sql())->where('id_jenis_barang',$id_jenis_barang)->where('jenis_mutasi',1)->get('inventaris')->result_array();
-		return $pengadaan[0];
-	}
-
-	function get_penghapusan($id_jenis_barang){
-		$penghapusan = $this->db->select($this->jml_asal_sql())->where('id_jenis_barang',$id_jenis_barang)->where('jenis_mutasi',2)->get('inventaris')->result_array();
-		return $penghapusan[0];
-	}
-
-	function get_jml_rusak($id_jenis_barang){
-		$rusak = $this->db->select($this->jml_asal_sql())->where('id_jenis_barang',$id_jenis_barang)->where('jenis_mutasi',3)->get('inventaris')->result_array();
-		$jml_rusak = 0;
-		foreach($rusak[0] as $key => $value){
-			$jml_rusak += $value;
-		}
-		return $jml_rusak;
-	}
-
-	function get_jml_diperbaiki($id_jenis_barang){
-		$diperbaiki = $this->db->select($this->jml_asal_sql())->where('id_jenis_barang',$id_jenis_barang)->where('jenis_mutasi',4)->get('inventaris')->result_array();
-		$jml_diperbaiki = 0;
-		foreach($diperbaiki[0] as $key => $value){
-			$jml_diperbaiki += $value;
-		}
-		return $jml_diperbaiki;
-	}
-
-	function get_jenis_penghapusan($id_jenis_barang){
-		$jml_hapus = 'SUM(hapus_rusak) as hapus_rusak, SUM(hapus_dijual) as hapus_dijual, SUM(hapus_sumbangkan) as hapus_sumbangkan, MAX(tanggal_mutasi) as tgl_penghapusan';
-		$jenis_penghapusan = $this->db->select($jml_hapus)->where('id_jenis_barang',$id_jenis_barang)->where('jenis_mutasi',2)->get('inventaris')->result_array();
-		return $jenis_penghapusan[0];
-	}
-
-	function status_penghapusan($id_jenis_barang){
-		if(isset($_SESSION['tahun'])){
-			$tahun = $_SESSION['tahun'];
-			$this->db->where("DATE(tanggal_mutasi) >= '".$tahun."-01-01' AND DATE(tanggal_mutasi) <= '".$tahun."-12-31'");
-		}
-		$jenis_penghapusan = $this->get_jenis_penghapusan($id_jenis_barang);
-		return $jenis_penghapusan;
-	}
-
-	function status_inventaris($id_jenis_barang){
-		$this->tahun_condition();
-		$pengadaan = $this->get_pengadaan($id_jenis_barang);
-		$this->tahun_condition();
-		$penghapusan = $this->get_penghapusan($id_jenis_barang);
-		$status = array();
-		$total = 0;
-		foreach($pengadaan as $key => $value){
-			$status[$key] = $value - $penghapusan[$key];
-			$total += $status[$key];
-		}
-		$this->tahun_condition();
-		$jml_rusak = $this->get_jml_rusak($id_jenis_barang);
-		$this->tahun_condition();
-		$jml_diperbaiki = $this->get_jml_diperbaiki($id_jenis_barang);
-		$status['status_rusak'] = $jml_rusak - $jml_diperbaiki;
-		$status['status_baik'] = $total - $status['status_rusak'];
-		return $status;
+		$tahun = $_SESSION['tahun'];
+		$status = $this->get_status_jenis($id_jenis_barang,$tahun);
+		$status_akhir_tahun = array();
+		$status_akhir_tahun['status_rusak_akhir'] = $status['status_rusak'];
+		$status_akhir_tahun['status_baik_akhir'] = $status['status_baik'];
+		return $status_akhir_tahun;
 	}
 
 	function insert_jenis(){
@@ -233,12 +174,31 @@
 		if(!$outp) session_error(); else session_success();
 	}
 
-// ===============
-
 	function get_inventaris($id=0){
 		$hasil = $this->db->where('id',$id)->get('inventaris')->row_array();
-		$hasil['tanggal_mutasi'] = tgl_indo_out($hasil['tanggal_mutasi']);
+		$hasil['tanggal_pengadaan'] = tgl_indo_out($hasil['tanggal_pengadaan']);
+
+    $status = $this->get_status_inventaris($id,$hasil);
+    foreach($status as $key => $value){
+    	$hasil[$key] = $value;
+    }
 		return $hasil;
+	}
+
+	function get_status_inventaris($id_barang,$inventaris){
+		$select = "
+        sum(case when jenis_mutasi = 1 then jml_mutasi else 0 end) penghapusan,
+        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 1 then jml_mutasi else 0 end) hapus_rusak,
+        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 2 then jml_mutasi else 0 end) hapus_dijual,
+        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 3 then jml_mutasi else 0 end) hapus_sumbangkan,
+        sum(case when jenis_mutasi = 2 then jml_mutasi else 0 end) status_rusak,
+        sum(case when jenis_mutasi = 3 then jml_mutasi else 0 end) status_diperbaiki
+    ";
+    $status = $this->db->select($select)->where('id_barang',$id_barang)->get('mutasi_inventaris')->row_array();
+    $status['jml_sekarang'] = $inventaris['jml_barang'] - $status['penghapusan'];
+    $status['status_rusak'] = $status['status_rusak'] - $status['status_diperbaiki'];
+    $status['status_baik'] = $status['jml_sekarang'] - $status['status_rusak'];
+    return $status;
 	}
 
 	function search_sql(){
@@ -284,11 +244,13 @@
 
 		//Ordering SQL
 		switch($o){
-			case 1: $order_sql = ' ORDER BY i.tanggal_mutasi'; break;
-			case 2: $order_sql = ' ORDER BY i.tanggal_mutasi DESC'; break;
-			case 3: $order_sql = ' ORDER BY i.jenis_mutasi'; break;
-			case 4: $order_sql = ' ORDER BY i.jenis_mutasi DESC'; break;
-			default:$order_sql = ' ORDER BY i.tanggal_mutasi DESC';
+			case 1: $order_sql = ' ORDER BY i.nama_barang'; break;
+			case 2: $order_sql = ' ORDER BY i.nama_barang DESC'; break;
+			case 3: $order_sql = ' ORDER BY i.asal_barang'; break;
+			case 4: $order_sql = ' ORDER BY i.asal_barang DESC'; break;
+			case 5: $order_sql = ' ORDER BY i.tanggal_pengadaan'; break;
+			case 6: $order_sql = ' ORDER BY i.tanggal_pengadaan DESC'; break;
+			default:$order_sql = ' ORDER BY i.tanggal_pengadaan DESC';
 		}
 
 		//Paging SQL
@@ -300,20 +262,27 @@
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
+		for($i=0; $i<count($data); $i++){
+			$status = $this->get_status_inventaris($data[$i]['id'],$data[$i]);
+			foreach($status as $key => $value){
+				$data[$i][$key] = $value;
+			}
+		}
+
 		return $data;
 	}
 
 	function insert($id_jenis_barang){
 		$data = $_POST;
 		$data['id_jenis_barang'] = $id_jenis_barang;
-		$data['tanggal_mutasi'] = tgl_indo_in($data['tanggal_mutasi']);
+		$data['tanggal_pengadaan'] = tgl_indo_in($data['tanggal_pengadaan']);
 		$outp = $this->db->insert('inventaris',$data);
 		if(!$outp) session_error(); else session_success();
 	}
 
 	function update($id=''){
 	  $data = $_POST;
-		$data['tanggal_mutasi'] = tgl_indo_in($data['tanggal_mutasi']);
+		$data['tanggal_pengadaan'] = tgl_indo_in($data['tanggal_pengadaan']);
 		$outp = $this->db->where('id',$id)->update('inventaris',$data);
 		if(!$outp) session_error(); else session_success();
 	}
@@ -323,19 +292,39 @@
 		if(!$outp) session_error(); else session_success();
 	}
 
-	function delete_all(){
-		session_success();
-		$id_cb = $_POST['id_cb'];
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$outp = $this->delete($id);
-				if (!$outp) session_error();
-			}
-		}
+	function list_mutasi($id_inventaris){
+		$hasil = $this->db->where('id_barang',$id_inventaris)->order_by('tanggal_mutasi DESC')->get('mutasi_inventaris')->result_array();
+		return $hasil;
+	}
+
+	function get_mutasi($id=0){
+		$hasil = $this->db->where('id',$id)->get('mutasi_inventaris')->row_array();
+		$hasil['tanggal_mutasi'] = tgl_indo_out($hasil['tanggal_mutasi']);
+		return $hasil;
+	}
+
+	function insert_mutasi($id_inventaris){
+		$data = $_POST;
+		$data['id_barang'] = $id_inventaris;
+		$data['tanggal_mutasi'] = tgl_indo_in($data['tanggal_mutasi']);
+		$outp = $this->db->insert('mutasi_inventaris',$data);
+		if(!$outp) session_error(); else session_success();
+	}
+
+	function update_mutasi($id){
+		$data = $_POST;
+		$data['tanggal_mutasi'] = tgl_indo_in($data['tanggal_mutasi']);
+		$outp = $this->db->where('id',$id)->update('mutasi_inventaris',$data);
+		if(!$outp) session_error(); else session_success();
+	}
+
+	function delete_mutasi($id){
+		$outp = $this->db->where('id',$id)->delete('mutasi_inventaris');
+		if(!$outp) session_error(); else session_success();
 	}
 
 	function list_tahun(){
-		$tahun = $this->db->distinct()->select('YEAR(tanggal_mutasi) AS tahun')->order_by('tanggal_mutasi DESC')->get('inventaris')->result_array();
+		$tahun = $this->db->distinct()->select('YEAR(tanggal_pengadaan) AS tahun')->order_by('tanggal_pengadaan DESC')->get('inventaris')->result_array();
 		return $tahun;
 	}
 

@@ -160,8 +160,6 @@
           asal_provinsi int(6),
           asal_kab int(6),
           asal_sumbangan int(6),
-          -- status_baik_awal int(6),
-          -- status_rusak_awal int(6),
           hapus_rusak int(6),
           hapus_dijual int(6),
           hapus_sumbangkan int(6),
@@ -171,6 +169,59 @@
           PRIMARY KEY (id),
           FOREIGN KEY (id_jenis_barang)
             REFERENCES jenis_barang(id)
+            ON DELETE CASCADE
+        );
+      ";
+      $this->db->query($query);
+    } else {
+      // Perubahan pada pra-rilis
+      // Hapus kolom
+      $daftar_kolom = array('asal_sendiri','asal_pemerintah','asal_provinsi','asal_kab','asal_sumbangan','tanggal_mutasi','jenis_mutasi','hapus_rusak','hapus_dijual','hapus_sumbangkan');
+      foreach($daftar_kolom as $kolom){
+        if ($this->db->field_exists($kolom, 'inventaris'))
+          $this->dbforge->drop_column('inventaris', $kolom);
+      }
+      // Tambah kolom
+      $fields = array();
+      if (!$this->db->field_exists('tanggal_pengadaan', 'inventaris')) {
+        $fields['tanggal_pengadaan'] = array(
+            'type' => 'date',
+            'null' => FALSE
+        );
+      }
+      if (!$this->db->field_exists('nama_barang', 'inventaris')) {
+        $fields['nama_barang'] = array(
+            'type' => 'VARCHAR',
+            'constraint' => 100
+        );
+      }
+      if (!$this->db->field_exists('asal_barang', 'inventaris')) {
+        $fields['asal_barang'] = array(
+            'type' => 'tinyint',
+            'constraint' => 2
+        );
+      }
+      if (!$this->db->field_exists('jml_barang', 'inventaris')) {
+        $fields['jml_barang'] = array(
+            'type' => 'int',
+            'constraint' => 6
+        );
+      }
+      $this->dbforge->add_column('inventaris', $fields);
+    }
+    if (!$this->db->table_exists('mutasi_inventaris') ) {
+      $query = "
+        CREATE TABLE mutasi_inventaris (
+          id int NOT NULL AUTO_INCREMENT,
+          id_barang int(6),
+          tanggal_mutasi date NOT NULL,
+          jenis_mutasi tinyint(2),
+          jenis_penghapusan tinyint(2),
+          jml_mutasi int(6),
+          keterangan varchar(100),
+          PRIMARY KEY (id),
+          FOREIGN KEY (id_barang)
+            REFERENCES inventaris(id)
             ON DELETE CASCADE
         );
       ";

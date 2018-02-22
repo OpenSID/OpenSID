@@ -206,10 +206,19 @@ define("PENOLONG_KELAHIRAN", serialize(array(
       "Dukun" => "3",
       "Lainnya" => "4")));
 define("JENIS_MUTASI", serialize(array(
-      "Pengadaan" => "1",
-      "Penghapusan" => "2",
-      "Status rusak" => "3",
-      "Status diperbaiki" => "4")));
+      "Penghapusan" => "1",
+      "Status rusak" => "2",
+      "Status diperbaiki" => "3")));
+define("JENIS_PENGHAPUSAN", serialize(array(
+      "Rusak" => "1",
+      "Dijual" => "2",
+      "Disumbang" => "3")));
+define("ASAL_INVENTARIS", serialize(array(
+      "Dibeli Sendiri" => "1",
+      "Bantuan Pemerintah" => "2",
+      "Bantuan Provinsi" => "3",
+      "Bantuan Kabupaten" => "4",
+      "Sumbangan" => "5")));
 
 /**
  * Ambil Versi

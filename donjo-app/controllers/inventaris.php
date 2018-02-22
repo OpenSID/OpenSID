@@ -107,7 +107,7 @@ class Inventaris extends CI_Controller{
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['jenis_mutasi'] = $this->referensi_model->list_kode_array(JENIS_MUTASI);
+		$data['asal_inventaris'] = $this->referensi_model->list_kode_array(ASAL_INVENTARIS);
 		$data['jenis']	 = $this->inventaris_model->get_jenis($id);
 		$data['paging']  = $this->inventaris_model->paging($id,$p, $o);
 		$data['main']    = $this->inventaris_model->list_data($id, $o, $data['paging']->offset, $data['paging']->per_page);
@@ -135,9 +135,8 @@ class Inventaris extends CI_Controller{
 			$data['form_action'] = site_url("inventaris/insert/$id_jenis");
 		}
 
-		$data['jenis_mutasi'] = $this->referensi_model->list_kode_array(JENIS_MUTASI);
+		$data['jenis']	 = $this->inventaris_model->get_jenis($id_jenis);
 		$data['asal_inventaris'] = $this->referensi_model->list_kode_array(ASAL_INVENTARIS);
-		$data['jenis_penghapusan'] = $this->referensi_model->list_kode_array(JENIS_PENGHAPUSAN);
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('sekretariat/nav',$nav);
@@ -166,6 +165,50 @@ class Inventaris extends CI_Controller{
 	function delete($id_jenis,$p=1,$o=0,$id=''){
 		$this->inventaris_model->delete($id);
 		redirect("inventaris/rincian/$id_jenis/$p/$o");
+	}
+
+	function mutasi($id_jenis,$p=1,$o=0,$id_inventaris,$id=''){
+
+		$data['p'] = $p;
+		$data['o'] = $o;
+		$data['id_jenis'] = $id_jenis;
+
+		if($id){
+			$data['mutasi']  = $this->inventaris_model->get_mutasi($id);
+			$data['form_action'] = site_url("inventaris/update_mutasi/$id_jenis/$p/$o/$id_inventaris/$id");
+		}
+		else{
+			$data['dokumen']     = null;
+			$data['form_action'] = site_url("inventaris/insert_mutasi/$id_jenis/$p/$o/$id_inventaris/");
+		}
+
+		$data['inventaris'] = $this->inventaris_model->get_inventaris($id_inventaris);
+		$data['jenis_mutasi'] = $this->referensi_model->list_kode_array(JENIS_MUTASI);
+		$data['jenis_penghapusan'] = $this->referensi_model->list_kode_array(JENIS_PENGHAPUSAN);
+		$data['jenis']	 = $this->inventaris_model->get_jenis($id_jenis);
+		$data['asal_inventaris'] = $this->referensi_model->list_kode_array(ASAL_INVENTARIS);
+		$data['jenis_penghapusan'] = $this->referensi_model->list_kode_array(JENIS_PENGHAPUSAN);
+		$data['main'] = $this->inventaris_model->list_mutasi($id_inventaris);
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('inventaris/form_mutasi',$data);
+		$this->load->view('footer');
+	}
+
+	function insert_mutasi($id_jenis,$p=1,$o=0,$id_inventaris){
+		$this->inventaris_model->insert_mutasi($id_inventaris);
+		redirect("inventaris/mutasi/$id_jenis/$p/$o/$id_inventaris");
+	}
+
+	function update_mutasi($id_jenis,$p=1,$o=0,$id_inventaris,$id){
+		$this->inventaris_model->update_mutasi($id);
+		redirect("inventaris/mutasi/$id_jenis/$p/$o/$id_inventaris");
+	}
+
+	function delete_mutasi($id_jenis,$p=1,$o=0,$id_inventaris,$id){
+		$this->inventaris_model->delete_mutasi($id);
+		redirect("inventaris/mutasi/$id_jenis/$p/$o/$id_inventaris");
 	}
 
 	function dialog_cetak($o=0){
