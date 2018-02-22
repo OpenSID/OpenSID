@@ -3,20 +3,33 @@
 <title>Data Wilayah</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+	<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+<?php else: ?>
+	<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+<?php endif; ?>
 <link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+<style>
+		.textx{
+		  mso-number-format:"\@";
+		}
+		td,th{
+			font-size:6.5pt;
+		}
+</style>
 </head>
 <body>
 <div id="container">
 
 <!-- Print Body --><div id="body"><div class="header" align="center"><label align="left"><?php echo get_identitas()?></label>
 <h3> DATA WILAYAH ADMINISTRASI </h3>
-<h4>RW</h4> 
+<h4>RW <?php echo strtoupper($this->setting->sebutan_dusun)?> <?php echo strtoupper(ununderscore($dusun))?></h4>
 </div>
 <br>
     <table class="border thick">
 	<thead>
 		<tr class="border thick">
-                <th>No</th>
+                <th width="30">No</th>
 				<th width="50">RW</th>
 				<th width="100">NIK Ketua RW</th>
 				<th width="100">Nama Ketua RW</th>
@@ -30,9 +43,9 @@
 		<tbody>
         <?php  foreach($main as $data): ?>
 		<tr>
-			<td align="center" width="2"><?php echo $data['no']?></td>
-			<td><?php echo $data['rw']?></td>
-			<td><?php echo $data['nik_ketua']?></td>
+			<td align="center"><?php echo $data['no']?></td>
+			<td align="center" class="textx"><?php echo $data['rw']?></td>
+			<td class="textx"><?php echo $data['nik_ketua']?></td>
 			<td><?php echo $data['nama_ketua']?></td>
 			<td align="right"><?php echo $data['jumlah_rt']?></td>
 			<td align="right"><?php echo $data['jumlah_kk']?></td>
@@ -53,7 +66,7 @@
 	</tbody>
 </table>
 </div>
-   
+
    <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>
 
