@@ -98,7 +98,7 @@ class First_Artikel_M extends CI_Model{
 	}
 
 	function arsip_show(){
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=? 
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
 			AND a.tgl_upload < NOW()
 		 ORDER BY a.tgl_upload DESC LIMIT 7 ";
 		$query = $this->db->query($sql,1);
@@ -140,7 +140,7 @@ class First_Artikel_M extends CI_Model{
 
 	function full_arsip($offset=0,$limit=50){
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=? 
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
 			AND a.tgl_upload < NOW()
 		ORDER BY a.tgl_upload DESC";
 
@@ -192,11 +192,11 @@ class First_Artikel_M extends CI_Model{
 		switch ($this->setting->sumber_gambar_slider) {
 			case '1':
 				# 10 gambar utama semua artikel terbaru
-				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->where('tgl_upload <', 'NOW()')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
+				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->where('tgl_upload < NOW()')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
 			case '2':
-				# 10 gambar utama artikel terbaru yang masuk ke slider
+				# 10 gambar utama artikel terbaru yang masuk ke slider atas
 				$slider_gambar['gambar'] = $this->slide_show(true);
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
@@ -214,7 +214,7 @@ class First_Artikel_M extends CI_Model{
 	}
 
 	function agenda_show(){
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='4' 
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='4'
 		AND a.tgl_upload < NOW() ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
