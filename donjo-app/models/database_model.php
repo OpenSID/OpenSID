@@ -138,6 +138,11 @@
   }
 
   function migrasi_29_ke_210(){
+    // Tambah setting timezone
+    $setting = $this->db->where('key','timezone')->get('setting_aplikasi')->row()->id;
+    if(!$setting){
+      $this->db->insert('setting_aplikasi',array('key'=>'timezone','value'=>'Asia/Jakarta','keterangan'=>'Zona waktu perekaman waktu dan tanggal'));
+    }
     // Tambah tabel inventaris
     if (!$this->db->table_exists('jenis_barang') ) {
       $query = "
