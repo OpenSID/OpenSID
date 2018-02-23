@@ -5,7 +5,7 @@ class First_Artikel_M extends CI_Model{
 		parent::__construct();
 	}
 	function get_headline(){
-		$sql   = "SELECT a.*,u.nama AS owner FROM artikel a LEFT JOIN user u ON a.id_user = u.id WHERE headline = 1 ORDER BY tgl_upload DESC LIMIT 1 ";
+		$sql   = "SELECT a.*,u.nama AS owner FROM artikel a LEFT JOIN user u ON a.id_user = u.id WHERE headline = 1 AND a.tgl_upload < NOW() ORDER BY tgl_upload DESC LIMIT 1 ";
 		$query = $this->db->query($sql);
 		$data  = $query->row_array();
 		if(empty($data))
@@ -18,7 +18,7 @@ class First_Artikel_M extends CI_Model{
 		return $data;
 	}
 	function get_teks_berjalan(){
-		$sql   = "SELECT a.isi FROM artikel a LEFT JOIN kategori k ON a.id_kategori = k.id WHERE k.kategori = 'teks_berjalan' AND k.enabled = 1";
+		$sql   = "SELECT a.isi FROM artikel a LEFT JOIN kategori k ON a.id_kategori = k.id WHERE k.kategori = 'teks_berjalan' AND k.enabled = 1 AND a.tgl_upload < NOW()";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		return $data;
@@ -35,7 +35,7 @@ class First_Artikel_M extends CI_Model{
 
 		$sql = "SELECT COUNT(a.id) AS id FROM artikel a
 			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE ((a.enabled=1) AND (headline <> 1)) ";
+			WHERE ((a.enabled=1) AND (headline <> 1)) AND a.tgl_upload < NOW() ";
 		$cari = trim($this->input->get('cari'));
 		if ( ! empty($cari)) {
 			$cari = $this->db->escape_like_str($cari);
@@ -98,7 +98,9 @@ class First_Artikel_M extends CI_Model{
 	}
 
 	function arsip_show(){
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?  ORDER BY a.tgl_upload DESC LIMIT 7 ";
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
+			AND a.tgl_upload < NOW()
+		 ORDER BY a.tgl_upload DESC LIMIT 7 ";
 		$query = $this->db->query($sql,1);
 		$data  = $query->result_array();
 
@@ -122,7 +124,7 @@ class First_Artikel_M extends CI_Model{
 
 
 	function paging_arsip($p=1){
-		$sql      = "SELECT COUNT(a.id) AS id FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1";
+		$sql      = "SELECT COUNT(a.id) AS id FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND a.tgl_upload < NOW()";
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['id'];
@@ -138,7 +140,9 @@ class First_Artikel_M extends CI_Model{
 
 	function full_arsip($offset=0,$limit=50){
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=? ORDER BY a.tgl_upload DESC";
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
+			AND a.tgl_upload < NOW()
+		ORDER BY a.tgl_upload DESC";
 
 		$sql .= $paging_sql;
 
@@ -166,11 +170,11 @@ class First_Artikel_M extends CI_Model{
 
 	// Jika $gambar_utama, hanya tampilkan gambar utama masing2 artikel terbaru
 	function slide_show($gambar_utama=FALSE){
-		$sql   = "SELECT id,judul,gambar FROM artikel WHERE (enabled=1 AND headline=3)";
+		$sql   = "SELECT id,judul,gambar FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())";
 		if (!$gambar_utama) $sql .= "
-			UNION SELECT id,judul,gambar1 FROM artikel WHERE (enabled=1 AND headline=3)
-			UNION SELECT id,judul,gambar2 FROM artikel WHERE (enabled=1 AND headline=3)
-			UNION SELECT id,judul,gambar3 FROM artikel WHERE (enabled=1 AND headline=3)
+			UNION SELECT id,judul,gambar1 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
+			UNION SELECT id,judul,gambar2 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
+			UNION SELECT id,judul,gambar3 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
 		";
 		$sql .= ($gambar_utama) ? "ORDER BY tgl_upload DESC LIMIT 10" : "ORDER BY RAND() LIMIT 10";
 		$query = $this->db->query($sql);
@@ -188,11 +192,11 @@ class First_Artikel_M extends CI_Model{
 		switch ($this->setting->sumber_gambar_slider) {
 			case '1':
 				# 10 gambar utama semua artikel terbaru
-				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
+				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->where('tgl_upload < NOW()')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
 			case '2':
-				# 10 gambar utama artikel terbaru yang masuk ke slider
+				# 10 gambar utama artikel terbaru yang masuk ke slider atas
 				$slider_gambar['gambar'] = $this->slide_show(true);
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
@@ -210,7 +214,8 @@ class First_Artikel_M extends CI_Model{
 	}
 
 	function agenda_show(){
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='4' ORDER BY a.tgl_upload DESC";
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='4'
+		AND a.tgl_upload < NOW() ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;
@@ -254,7 +259,7 @@ class First_Artikel_M extends CI_Model{
 
 
 	function get_artikel($id=0){
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.id=?";
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.id=? AND a.tgl_upload < NOW()";
 		$query = $this->db->query($sql,$id);
 		if($query->num_rows()>0){
 			$data  = $query->row_array();
@@ -266,7 +271,7 @@ class First_Artikel_M extends CI_Model{
 
 	function list_artikel($offset=0,$limit=50,$id=0){
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 ";
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND a.tgl_upload < NOW() ";
 		if($id!=0)
 			$sql .= "AND id_kategori = $id OR parrent = $id";
 		$sql .= " ORDER BY a.tgl_upload DESC ";
