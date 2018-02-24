@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi pasca-2.9:
 14. #783: Cetak & unduh data wilayah sekarang menampilkan nama dusun. Juga dilakukan berbagai perbaikan di fitur ini.
 15. #810: Hapus karakter non-alpha dari no_kk, supaya bisa ditampilkan di pilihan sasaran keluarga di menu Bantuan dan Data Suplemen. [bug-fix]
 16. #793: Sediakan setting zona waktu untuk mencegah error pada entri tanggal/waktu. Default zona waktu Asia/Jakarta (yaitu Waktu Indonesia Barat).
+17: #755: Tambahkan kolom ktp_el dan status_rekam ktp di format impor data penduduk.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.9, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
