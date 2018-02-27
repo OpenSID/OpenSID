@@ -20,3 +20,25 @@ body.login{
 div.contentm{
 	background-color: #f4f4da; /* misalnya coba ganti menjadi #c8f1c8 */
 }
+#sid {
+    font-weight: normal;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #fff;
+    font-size: 25px;
+    text-align: center;
+    text-shadow: 0px 0px 2px #777;
+    margin-top: 16px;
+    padding-right: 7px;
+}
+#logo {
+    margin-top: 5px;
+    margin-left: 30px;
+}
+#desa {
+    font-weight: bold;
+    font-size: 14px;
+    color: #fff;
+    text-align: left;
+    font-family: verdana;
+    padding-top: 0;
+}

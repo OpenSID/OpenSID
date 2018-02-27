@@ -47,7 +47,8 @@ navigasi ke tautannya.
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<?php echo site_url(); ?>first/"><span id="header_sebutan_desa"><?php echo ucwords($this->setting->sebutan_desa)." "?></span><?php echo ucwords($desa['nama_desa'])?></a>
+			<a class="navbar-brand" href="<?php echo site_url(); ?>first/">
+									<img src="<?php echo LogoDesa($desa['logo']);?>" alt="<?php echo $desa['nama_desa']?>" width="30px" style="margin:-7px"/></a>
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
