@@ -73,6 +73,7 @@ class analisis_master extends CI_Controller{
 			$data['form_action'] = site_url("analisis_master/insert");
 		}
 
+		$data['list_format_impor'] = array('1' => 'BDT 2015');
 		$data['list_kelompok'] = $this->analisis_master_model->list_kelompok();
 		$data['list_analisis'] = $this->analisis_master_model->list_analisis_child();
 		$header = $this->header_model->get_data();

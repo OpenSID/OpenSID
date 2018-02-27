@@ -226,11 +226,15 @@
 			else $_SESSION['success']=-1;
 	}
 
-	function update_anggota($id=0){
+	function update_anggota($id=0,$id_kk){
 		$data = $_POST;
 
 		$this->db->where('id',$id);
 		$outp = $this->db->update('tweb_penduduk',$data);
+		// Kalau menjadi kepala rumah tangga, tweb_rtm perlu diupdate juga
+		if($data['rtm_level'] == 1) {
+			$this->db->where('id',$id_kk)->update('tweb_rtm',array('nik_kepala' => $id));
+		}
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;

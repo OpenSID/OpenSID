@@ -77,6 +77,7 @@ function TipeFile($file_upload){
   if (function_exists('finfo_open')) {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $tipe_file = finfo_file($finfo, $lokasi_file);
+    finfo_close($finfo);
   } else
     $tipe_file = $file_upload['type'];
   return $tipe_file;
