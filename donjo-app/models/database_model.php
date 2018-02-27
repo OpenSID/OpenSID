@@ -138,6 +138,15 @@
   }
 
   function migrasi_29_ke_210(){
+    // Tambah kolom untuk format impor respon untuk analisis_master
+      $fields = array();
+      if (!$this->db->field_exists('format_impor', 'analisis_master')) {
+        $fields['format_impor'] = array(
+            'type' => 'tinyint',
+            'constraint' => 2
+        );
+      }
+      $this->dbforge->add_column('analisis_master', $fields);
     // Tambah setting timezone
     $setting = $this->db->where('key','timezone')->get('setting_aplikasi')->row()->id;
     if(!$setting){

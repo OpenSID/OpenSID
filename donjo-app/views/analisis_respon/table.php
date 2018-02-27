@@ -81,6 +81,9 @@
 			<option value="2" <?php if($isi == 2) :?>selected<?php endif?>>Belum Terinput</option>
 		</select>
 		<a href="<?php echo site_url("analisis_respon/data_ajax")?>" class="uibutton special tipsy south" title="Fungsi Impor harap digunakan secara seksama" target="ajax-modal" rel="window" header="Unduh Form Rujukan Impor"><span class="fa fa-upload">&nbsp;</span>Impor</a>
+		<?php if($analisis_master['format_impor'] == 1): ?>
+			<a href="<?php echo site_url("analisis_respon/form_impor_bdt")?>" class="uibutton special tipsy south" title="Impor Data BDT 2015" target="ajax-modal" rel="window" header="Impor Data BDT 2015" modalHeight="auto"><span class="fa fa-upload">&nbsp;</span>Impor BDT 2015</a>
+		<?php endif; ?>
 	</div>
 	<div class="right">
 		<input name="cari" id="cari" type="text" class="inputbox help tipped" size="40" value="<?php echo $cari?>" title="Cari.." onkeypress="if(event.keyCode == 13) $('#'+'mainform').attr('action','<?php echo site_url('analisis_respon/search')?>');$('#'+'mainform').submit();}" />
