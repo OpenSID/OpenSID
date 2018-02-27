@@ -22,16 +22,14 @@
 	<div id="loginform">
 		<a href="<?php echo site_url()?>first">
 		<div id="facebook">
-			<div id="sid">SID</div>
-			<div id="connect">ver.</div>
-			<div id="logo"><img src="<?php echo base_url()?>assets/images/SID-e1351656852451.png"></div>
+			<div id="sid">OpenSID <?php echo substr(AmbilVersi(), 0, 4)?></div>
+			<div id="logo"><img src="<?php echo LogoDesa($desa['logo']);?>" alt="<?php echo $desa['nama_desa']?>"/></a></div>
 			<div id="desa"><?php echo ucwords($this->setting->sebutan_desa)?> <?php echo unpenetration($desa['nama_desa'])?></div>
 			<div id="kec"><?php echo ucwords($this->setting->sebutan_kecamatan)?> <?php echo unpenetration($desa['nama_kecamatan'])?></div>
 			<div id="kab"><?php echo ucwords($this->setting->sebutan_kabupaten)?> <?php echo unpenetration($desa['nama_kabupaten'])?></div>
 		</div>
 		</a>
 		<div id="mainlogin">
-			<div id="or"><?php echo substr(AmbilVersi(), 0, 4)?></div>
 			<form action="<?php echo site_url('siteman/auth')?>" method="post">
 			  <?php if($_SESSION['siteman_wait']==1) : ?>
 					<div id="note">
