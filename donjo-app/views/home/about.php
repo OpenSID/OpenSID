@@ -18,7 +18,7 @@ Aplikasi diinstall dalam komputer server di kantor desa dan dioperasikan sebagai
 <b><br /></b>
 2. Online
 <b><br /></b>
-SID akan optimal jika terhubung ke internet sebagai sistem online berbasis web. SID online akan otomatis berfungsi juga sebagai website desa. Website desa ini memiliki fungsi yang terbagi dalam dua bagian, yakni bagian depan (front-end) yang bisa diakses oleh publik dan bagian dalam (back-end) yang hanya bisa diakses oleh administrator sistem.<br />
+SID akan optimal jika terhubung ke internet sebagai sistem online berbasis web. SID online akan otomatis berfungsi juga sebagai website desa. Website desa ini memiliki fungsi yang terbagi dalam dua bagian, yakni bagian depan yang bisa diakses oleh publik dan bagian dalam yang hanya bisa diakses oleh administrator sistem.<br />
 <b><br /></b>
 <br />
 <b>MANAJEMEN AKSES SID</b><br />

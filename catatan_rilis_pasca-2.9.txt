@@ -1,0 +1,26 @@
+Rilis ini berisi [untuk-diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+
+Terima kasih pada Muhammad (Rarang Selatan) dan Happy Agung, yang kembali berkontribusi.
+
+Lengkapnya, isi rilis versi pasca-2.9:
+
+1. #759: Perbaiki ejaan salah di menu Laporan > Layanan Mandiri.
+2. #762: Perbaiki tampilan jumlah salah di widget statistik penduduk.
+3. #765: Tampilan pilihan penduduk untuk ibu kandung di Surat Keterangan Kelahiran sekarang sudah diperbaiki.
+4. #746: Simpan data kelahiran di tabel tweb_penduduk. Tampilkan dan ubah data kelahiran di menu Penduduk.
+5. #746: Tampilkan data kelahiran dari database di Surat Keterangan Kelahiran. Perubahan data kelahiran di form surat tersimpan pada saat Export Doc. Sediakan tombol untuk menyimpan data kelahiran bayi sebagai penduduk baru.
+6. #764: Tambahkan paginasi di halaman Bantuan.
+7. #779: Perbaiki user tidak bisa login kalau pergi ke menu di mana user tsb tidak mempunyai akses. [bug-fix]
+8. #760: Tambahkan paginasi di halaman menu dinamis/kategori.
+9. #747: Perbaiki filter penduduk di menu Peta untuk kriteria Pendidikan di KK. [bug-fix]
+10. #768: Sediakan menu Sekretariat > Inventaris Desa untuk mengelola inventaris termasuk mencetak Buku Inventaris dan Kekayaan Desa.
+11. #337, #523: Tambahkan fitur cetak/unduh data persil.
+12. #615: Sekarang artikel bisa diberi tanggal kapan akan di-publish. Artikel tidak akan tampil di web sebelum tanggal publish tersebut.
+13. #699: Pilihan kategori dokumen dihapus dari halaman Admin Web > Dokumen, Sekretariat > SK KADES dan Sekretariat > PERDES karena kategorinya ditentukan masing2 submenu/tab.
+14. #783: Cetak & unduh data wilayah sekarang menampilkan nama dusun. Juga dilakukan berbagai perbaikan di fitur ini.
+15. #810: Hapus karakter non-alpha dari no_kk, supaya bisa ditampilkan di pilihan sasaran keluarga di menu Bantuan dan Data Suplemen. [bug-fix]
+16. #793: Sediakan setting zona waktu untuk mencegah error pada entri tanggal/waktu. Default zona waktu Asia/Jakarta (yaitu Waktu Indonesia Barat).
+17: #755: Tambahkan kolom ktp_el dan status_rekam ktp di format impor data penduduk.
+
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.9, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -4,6 +4,11 @@
 		parent::__construct();
 
 		$this->load->model('keluarga_model');
+		$this->ktp_el = array_flip(unserialize(KTP_EL));
+		$this->status_rekam = array_flip(unserialize(STATUS_REKAM));
+		$this->tempat_dilahirkan = array_flip(unserialize(TEMPAT_DILAHIRKAN));
+		$this->jenis_kelahiran = array_flip(unserialize(JENIS_KELAHIRAN));
+		$this->penolong_kelahiran = array_flip(unserialize(PENOLONG_KELAHIRAN));
 	}
 
 	function autocomplete(){
@@ -69,6 +74,14 @@
 			$kf = $_SESSION['rt'];
 			$rt_sql= " AND a.rt = '$kf'";
 		return $rt_sql;
+		}
+	}
+
+	function pendidikan_kk_sql(){
+		if(isset($_SESSION['pendidikan_kk_id'])){
+			$kf = $_SESSION['pendidikan_kk_id'];
+			$pendidikan_sql= " AND u.pendidikan_kk_id = $kf";
+		return $pendidikan_sql;
 		}
 	}
 
@@ -158,6 +171,17 @@
 			$kf = $_SESSION['status_dasar'];
 				$status_dasar= " AND u.status_dasar = $kf";
 		return $status_dasar;
+		}
+	}
+
+	function status_ktp_sql(){
+		// Filter berdasarkan data eKTP
+		if(isset($_SESSION['status_ktp'])){
+			$status_ktp = $this->db->where('id',$_SESSION['status_ktp'])->get('tweb_status_ktp')->row_array();
+			$ktp_el = $status_ktp['ktp_el'];
+			$status_rekam = $status_ktp['status_rekam'];
+			$sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.ktp_el = $ktp_el AND u.status_rekam = $status_rekam";
+		return $sql;
 		}
 	}
 
@@ -255,6 +279,7 @@
 
 		$sql .= $this->cacatx_sql();
 		$sql .= $this->akta_kelahiran_sql();
+		$sql .= $this->status_ktp_sql();
 		$sql .= $this->menahunx_sql();
 		$sql .= $this->umur_min_sql();
 		$sql .= $this->umur_max_sql();
@@ -382,6 +407,7 @@
 		$sql .= $this->dusun_sql();
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
+		$sql .= $this->pendidikan_kk_sql();
 
 		$kolom_kode = array(
 			array('cacat','cacat_id'),
@@ -425,6 +451,8 @@
 		if ($data['tanggalperceraian']) $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
+		// Status hamil tidak berlaku bagi laki-laki
+		if ($data['sex'] == 1) $data['hamil'] = 0;
 
 		$valid = array();
 		if (isset($data['nik'])) {
@@ -512,7 +540,7 @@
 		$log['bulan'] = date("m");
 		$log['tahun'] = date("Y");
 		$log['tgl_peristiwa'] = date("d-m-Y");
-		$outp = $this->db->insert('log_penduduk',$log);
+		$this->tulis_log_penduduk_data($log);
 
 		$log1['id_pend'] = $idku;
 		$log1['id_cluster'] = 1;
@@ -712,14 +740,15 @@
 		$sql   = "SELECT u.sex as id_sex,u.*,a.dusun,a.rw,a.rt,t.nama AS status,o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
 			b.nama AS pendidikan_kk,d.no_kk AS no_kk,d.alamat,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id)
-			 AS umur,x.nama AS sex,w.nama AS warganegara,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat, kb.nama as cara_kb,
+			 AS umur,x.nama AS sex,w.nama AS warganegara,
+			 p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat,
+			 kb.nama as cara_kb, sm.nama as sakit_menahun,
 			 sd.nama as status_dasar, u.status_dasar as status_dasar_id,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = d.nik_kepala)) AS kepala_kk,
 			log.no_kk as log_no_kk
 		 FROM tweb_penduduk u
 			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
 			LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
-			LEFT JOIN tweb_penduduk_pendidikan n ON u.pendidikan_id = n.id
 			LEFT JOIN tweb_penduduk_pendidikan o ON u.pendidikan_sedang_id = o.id
 			LEFT JOIN tweb_penduduk_pendidikan_kk b ON u.pendidikan_kk_id = b.id
 			LEFT JOIN tweb_penduduk_warganegara w ON u.warganegara_id = w.id
@@ -731,6 +760,7 @@
 			LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
 			LEFT JOIN tweb_penduduk_hubungan h on u.kk_level = h.id
 			LEFT JOIN tweb_cacat c ON u.cacat_id = c.id
+			LEFT JOIN tweb_sakit_menahun sm ON u.sakit_menahun_id = sm.id
 			LEFT JOIN tweb_cara_kb kb ON u.cara_kb_id = kb.id
 			LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id
 			LEFT JOIN log_penduduk log ON u.id = log.id_pend
@@ -751,6 +781,17 @@
 			$data['rw'] = $cluster['rw'];
 			$data['rt'] = $cluster['rt'];
 		}
+		// Data ektp: cari tulisan untuk kode
+		$wajib_ktp = $this->is_wajib_ktp($data);
+		if ($wajib_ktp !== null)
+			$data['wajib_ktp'] = $wajib_ktp ? 'WAJIB' : 'BELUM';
+		$data['ktp_el'] = strtoupper($this->ktp_el[$data['ktp_el']]);
+		$data['status_rekam'] = strtoupper($this->status_rekam[$data['status_rekam']]);
+		$data['tempat_dilahirkan_nama'] = strtoupper($this->tempat_dilahirkan[$data['tempat_dilahirkan']]);
+		$data['jenis_kelahiran_nama'] = strtoupper($this->jenis_kelahiran[$data['jenis_kelahiran']]);
+		$data['penolong_kelahiran_nama'] = strtoupper($this->penolong_kelahiran[$data['penolong_kelahiran']]);
+
+
 		return $data;
 	}
 
@@ -1025,6 +1066,7 @@
 				case 14: $sql   = "SELECT * FROM tweb_penduduk_pendidikan WHERE id=?";break;
 				case 16: $sql   = "SELECT * FROM tweb_cara_kb WHERE id=?";break;
 				case 17: $sql   = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
+				case 18: $sql   = "SELECT * FROM tweb_status_ktp WHERE id=?"; break;
 			}
 			$query = $this->db->query($sql,$nomor);
 			$judul = $query->row_array();
@@ -1209,6 +1251,14 @@
 		$query = $this->db->query($sql,$id);
 		$data = $query->row_array();
 		return $data;
+	}
+
+	function is_wajib_ktp($data){
+		// Wajib KTP = sudah umur 17 atau pernah kawin
+		$umur = umur($data['tanggallahir']);
+		if ($umur === null) return null;
+		$wajib_ktp = (($umur > 16) OR (!empty($data['status_kawin']) AND $data['status_kawin'] != 1));
+		return $wajib_ktp;
 	}
 
 }

@@ -4,10 +4,12 @@
   /* define versi opensid dan script migrasi yang harus dijalankan */
   private $versionMigrate = array(
     '2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
-    'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => NULL),
+    'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
     '2.5' => array('migrate' => 'migrasi_25_ke_26','nextVersion' => '2.6'),
     '2.6' => array('migrate' => 'migrasi_26_ke_27','nextVersion' => '2.7'),
-    '2.7' => array('migrate' => 'migrasi_27_ke_28','nextVersion' => NULL)
+    '2.7' => array('migrate' => 'migrasi_27_ke_28','nextVersion' => '2.8'),
+    '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => '2.9'),
+    '2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -131,6 +133,212 @@
     $this->migrasi_25_ke_26();
     $this->migrasi_26_ke_27();
     $this->migrasi_27_ke_28();
+    $this->migrasi_28_ke_29();
+    $this->migrasi_29_ke_210();
+  }
+
+  function migrasi_29_ke_210(){
+    // Tambah setting timezone
+    $setting = $this->db->where('key','timezone')->get('setting_aplikasi')->row()->id;
+    if(!$setting){
+      $this->db->insert('setting_aplikasi',array('key'=>'timezone','value'=>'Asia/Jakarta','keterangan'=>'Zona waktu perekaman waktu dan tanggal'));
+    }
+    // Tambah tabel inventaris
+    if (!$this->db->table_exists('jenis_barang') ) {
+      $query = "
+        CREATE TABLE jenis_barang (
+          id int NOT NULL AUTO_INCREMENT,
+          nama varchar(30),
+          keterangan varchar(100),
+          PRIMARY KEY (id)
+        );
+      ";
+      $this->db->query($query);
+    }
+    if (!$this->db->table_exists('inventaris') ) {
+      $query = "
+        CREATE TABLE inventaris (
+          id int NOT NULL AUTO_INCREMENT,
+          id_jenis_barang int(6),
+          asal_sendiri int(6),
+          asal_pemerintah int(6),
+          asal_provinsi int(6),
+          asal_kab int(6),
+          asal_sumbangan int(6),
+          hapus_rusak int(6),
+          hapus_dijual int(6),
+          hapus_sumbangkan int(6),
+          tanggal_mutasi date NOT NULL,
+          jenis_mutasi int(6),
+          keterangan varchar(100),
+          PRIMARY KEY (id),
+          FOREIGN KEY (id_jenis_barang)
+            REFERENCES jenis_barang(id)
+            ON DELETE CASCADE
+        );
+      ";
+      $this->db->query($query);
+    } else {
+      // Perubahan pada pra-rilis
+      // Hapus kolom
+      $daftar_kolom = array('asal_sendiri','asal_pemerintah','asal_provinsi','asal_kab','asal_sumbangan','tanggal_mutasi','jenis_mutasi','hapus_rusak','hapus_dijual','hapus_sumbangkan');
+      foreach($daftar_kolom as $kolom){
+        if ($this->db->field_exists($kolom, 'inventaris'))
+          $this->dbforge->drop_column('inventaris', $kolom);
+      }
+      // Tambah kolom
+      $fields = array();
+      if (!$this->db->field_exists('tanggal_pengadaan', 'inventaris')) {
+        $fields['tanggal_pengadaan'] = array(
+            'type' => 'date',
+            'null' => FALSE
+        );
+      }
+      if (!$this->db->field_exists('nama_barang', 'inventaris')) {
+        $fields['nama_barang'] = array(
+            'type' => 'VARCHAR',
+            'constraint' => 100
+        );
+      }
+      if (!$this->db->field_exists('asal_barang', 'inventaris')) {
+        $fields['asal_barang'] = array(
+            'type' => 'tinyint',
+            'constraint' => 2
+        );
+      }
+      if (!$this->db->field_exists('jml_barang', 'inventaris')) {
+        $fields['jml_barang'] = array(
+            'type' => 'int',
+            'constraint' => 6
+        );
+      }
+      $this->dbforge->add_column('inventaris', $fields);
+    }
+    if (!$this->db->table_exists('mutasi_inventaris') ) {
+      $query = "
+        CREATE TABLE mutasi_inventaris (
+          id int NOT NULL AUTO_INCREMENT,
+          id_barang int(6),
+          tanggal_mutasi date NOT NULL,
+          jenis_mutasi tinyint(2),
+          jenis_penghapusan tinyint(2),
+          jml_mutasi int(6),
+          keterangan varchar(100),
+          PRIMARY KEY (id),
+          FOREIGN KEY (id_barang)
+            REFERENCES inventaris(id)
+            ON DELETE CASCADE
+        );
+      ";
+      $this->db->query($query);
+    }
+    // Ubah url modul program_bantuan
+    $this->db->where('url','program_bantuan')->update('setting_modul',array('url'=>'program_bantuan/clear'));
+  }
+
+  function migrasi_28_ke_29(){
+    // Tambah data kelahiran ke tweb_penduduk
+    $fields = array();
+    if (!$this->db->field_exists('waktu_lahir', 'tweb_penduduk')) {
+      $fields['waktu_lahir'] = array(
+          'type' => 'VARCHAR',
+          'constraint' => 5
+      );
+    }
+    if (!$this->db->field_exists('tempat_dilahirkan', 'tweb_penduduk')) {
+      $fields['tempat_dilahirkan'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2
+      );
+    }
+    if (!$this->db->field_exists('alamat_tempat_lahir', 'tweb_penduduk')) {
+      $fields['alamat_tempat_lahir'] = array(
+          'type' => 'VARCHAR',
+          'constraint' => 100
+      );
+    }
+    if (!$this->db->field_exists('jenis_kelahiran', 'tweb_penduduk')) {
+      $fields['jenis_kelahiran'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2
+      );
+    }
+    if (!$this->db->field_exists('kelahiran_anak_ke', 'tweb_penduduk')) {
+      $fields['kelahiran_anak_ke'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2
+      );
+    }
+    if (!$this->db->field_exists('penolong_kelahiran', 'tweb_penduduk')) {
+      $fields['penolong_kelahiran'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2
+      );
+    }
+    if (!$this->db->field_exists('berat_lahir', 'tweb_penduduk')) {
+      $fields['berat_lahir'] = array(
+          'type' => 'varchar',
+          'constraint' => 10
+      );
+    }
+    if (!$this->db->field_exists('panjang_lahir', 'tweb_penduduk')) {
+      $fields['panjang_lahir'] = array(
+          'type' => 'varchar',
+          'constraint' => 10
+      );
+    }
+    $this->dbforge->add_column('tweb_penduduk', $fields);
+
+    // Hapus kolom yg tidak digunakan
+    if ($this->db->field_exists('pendidikan_id', 'tweb_penduduk'))
+      $this->dbforge->drop_column('tweb_penduduk', 'pendidikan_id');
+    // Tambah kolom e-ktp di tabel tweb_penduduk
+    if (!$this->db->field_exists('ktp_el', 'tweb_penduduk')) {
+      $fields = array(
+        'ktp_el' => array(
+          'type' => tinyint,
+          'constraint' => 4
+        )
+      );
+      $this->dbforge->add_column('tweb_penduduk', $fields);
+    }
+    if (!$this->db->field_exists('status_rekam', 'tweb_penduduk')) {
+      $fields = array(
+        'status_rekam' => array(
+          'type' => tinyint,
+          'constraint' => 4,
+          'null' => FALSE,
+          'default' => 0
+        )
+      );
+      $this->dbforge->add_column('tweb_penduduk', $fields);
+    }
+     // Tambah tabel status_rekam
+    $query = "DROP TABLE IF EXISTS tweb_status_ktp;";
+    $this->db->query($query);
+
+    $query = "
+      CREATE TABLE tweb_status_ktp (
+        id tinyint(5) NOT NULL AUTO_INCREMENT,
+        nama varchar(50) NOT NULL,
+        ktp_el tinyint(4) NOT NULL,
+        status_rekam varchar(50) NOT NULL,
+        PRIMARY KEY (id)
+      ) ENGINE=".$this->engine." AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+    ";
+    $this->db->query($query);
+
+    $query = "
+      INSERT INTO tweb_status_ktp (id, nama, ktp_el, status_rekam) VALUES
+      (1, 'BELUM REKAM', 1, '2'),
+      (2, 'SUDAH REKAM', 2, '3'),
+      (3, 'CARD PRINTED', 2, '4'),
+      (4, 'PRINT READY RECORD', 2 ,'5'),
+      (5, 'CARD SHIPPED', 2, '6'),
+      (6, 'SENT FOR CARD PRINTING', 2, '7'),
+      (7, 'CARD ISSUED', 2, '8');
+    ";
+    $this->db->query($query);
   }
 
   function migrasi_27_ke_28(){
@@ -161,6 +369,27 @@
         );
       ";
       $this->db->query($query);
+    }
+    // Hapus surat permohonan perubahan kk (yang telah diubah menjadi kartu keluarga)
+    $data = array(
+      'nama'=>'Permohonan Perubahan Kartu Keluarga',
+      'url_surat'=>'surat_permohonan_perubahan_kartu_keluarga',
+      'kode_surat'=>'S-41',
+      'lampiran'=>'f-1.16.php,f-1.01.php',
+      'jenis'=>1);
+    $hasil = $this->db->where('url_surat','surat_permohonan_perubahan_kk')->get('tweb_surat_format');
+    if ($hasil->num_rows() > 0) {
+      $this->db->where('url_surat','surat_permohonan_perubahan_kk')->update('tweb_surat_format', $data);
+    } else {
+      // Tambah surat permohonan perubahan kartu keluarga
+      $sql = $this->db->insert_string('tweb_surat_format', $data);
+      $sql .= " ON DUPLICATE KEY UPDATE
+          nama = VALUES(nama),
+          url_surat = VALUES(url_surat),
+          kode_surat = VALUES(kode_surat),
+          lampiran = VALUES(lampiran),
+          jenis = VALUES(jenis)";
+      $this->db->query($sql);
     }
   }
 
@@ -1602,6 +1831,8 @@
       "provinsi",
       "setting_modul",
       "setting_aplikasi",
+      "suplemen",
+      "suplemen_terdata",
       "tweb_cacat",
       "tweb_cara_kb",
       "tweb_golongan_darah",
@@ -1641,6 +1872,10 @@
         $this->db->query($query);
       }
     }
+    // Tabel suplemen dan suplemen_terdata tidak bisa di TRUNCATE karena ada
+    // relational constraint. Isi suplemen_terdata akan terhapus secara otomatis
+    // pada saat menghapus isi suplemen.
+    $this->db->query('DELETE FROM suplemen WHERE 1');
     $_SESSION['success'] = 1;
   }
 

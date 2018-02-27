@@ -19,6 +19,21 @@ class Program_bantuan_model extends CI_Model{
 		return $data;
 	}
 
+	public function link_statistik_program_bantuan(){
+		$strSQL = "
+			SELECT CONCAT('statistik/50',p.id) as id, p.nama, p.sasaran
+			FROM program p
+			WHERE 1 ORDER BY p.nama";
+		$query = $this->db->query($strSQL);
+		$hasil = $query->result_array();
+		$data = array();
+		$sasaran = unserialize(SASARAN);
+		foreach($hasil as $program){
+			$data[$program['id']] = $program['nama'].' ('.$sasaran[$program['sasaran']].')';
+		}
+		return $data;
+	}
+
 	public function list_program_keluarga($kk_id=0){
 		$this->load->model('keluarga_model'); // Di-load di sini karena tidak bisa diload di constructor
 		$no_kk = $this->keluarga_model->get_nokk($kk_id);
@@ -35,6 +50,21 @@ class Program_bantuan_model extends CI_Model{
 
 	function paging_peserta($p, $slug, $sasaran) {
 		$sql 			= $this->get_peserta_sql($slug,$sasaran,true);
+		$query    = $this->db->query($sql);
+		$row      = $query->row_array();
+		$jml_data = $row['jumlah'];
+
+		$this->load->library('paging');
+		$cfg['page']     = $p;
+		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	function paging_bantuan($p) {
+		$sql 			= "SELECT count(*) as jumlah FROM program";
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
 		$jml_data = $row['jumlah'];
@@ -172,10 +202,13 @@ class Program_bantuan_model extends CI_Model{
 
 	public function get_program($p, $slug){
 		if ($slug === false){
+			$response['paging'] = $this->paging_bantuan($p);
 			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE 1";
+			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
 			$query = $this->db->query($strSQL);
 			$data = $query->result_array();
-			return $data;
+			$response['program'] = $data;
+			return $response;
 		}else{
 			// Untuk program bantuan, $slug berbentuk '50<program_id>'
 			$slug = preg_replace("/^50/", "", $slug);
@@ -258,6 +291,7 @@ class Program_bantuan_model extends CI_Model{
 							$data[$i]['peserta_info']=$data[$i]['nama'];
 							$filter[] = $data[$i]['no_kk'];
 							$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
+
 							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 							$i++;
 						}
@@ -278,6 +312,7 @@ class Program_bantuan_model extends CI_Model{
 						while($i<count($data)){
 							// Abaikan keluarga yang sudah terdaftar pada program
 							if(!in_array($data[$i]['id'],$filter)){
+								$data[$i]['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $data[$i]['id']); //Hapus karakter non alpha di no_kk
 								$hasil2[$j]['id']=$data[$i]['id'];
 								$hasil2[$j]['nik']=$data[$i]['id'];
 								$hasil2[$j]['nama']=strtoupper($data[$i]['nama']) ." [".$data[$i]['id']."]";

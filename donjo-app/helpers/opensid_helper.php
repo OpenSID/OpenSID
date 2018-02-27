@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.7');
+define("VERSION", 'pasca-2.9');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -177,6 +177,48 @@ define("SASARAN", serialize(array(
       "2" => "Keluarga / KK",
       "3" => "Rumah Tangga",
       "4" => "Kelompok/Organisasi Kemasyarakatan")));
+define("KTP_EL", serialize(array(
+      strtolower("BELUM") => "1",
+      strtolower("KTP-EL") => "2")));
+define("STATUS_REKAM", serialize(array(
+      strtolower("BELUM WAJIB") => "1",
+      strtolower("BELUM REKAM") => "2",
+      strtolower("SUDAH REKAM") => "3",
+      strtolower("CARD PRINTED") => "4",
+      strtolower("PRINT READY RECORD") => "5",
+      strtolower("CARD SHIPPED") => "6",
+      strtolower("SENT FOR CARD PRINTING") => "7",
+      strtolower("CARD ISSUED") => "8")));
+define("TEMPAT_DILAHIRKAN", serialize(array(
+      "RS/RB" => "1",
+      "Puskemas" => "2",
+      "Polindes" => "3",
+      "Rumah" => "4",
+      "Lainnya" => "5")));
+define("JENIS_KELAHIRAN", serialize(array(
+      "Tunggal" => "1",
+      "Kembar 2" => "2",
+      "Kembar 3" => "3",
+      "Kembar 4" => "4")));
+define("PENOLONG_KELAHIRAN", serialize(array(
+      "Dokter" => "1",
+      "Bidan Perawat" => "2",
+      "Dukun" => "3",
+      "Lainnya" => "4")));
+define("JENIS_MUTASI", serialize(array(
+      "Penghapusan" => "1",
+      "Status rusak" => "2",
+      "Status diperbaiki" => "3")));
+define("JENIS_PENGHAPUSAN", serialize(array(
+      "Rusak" => "1",
+      "Dijual" => "2",
+      "Disumbang" => "3")));
+define("ASAL_INVENTARIS", serialize(array(
+      "Dibeli Sendiri" => "1",
+      "Bantuan Pemerintah" => "2",
+      "Bantuan Provinsi" => "3",
+      "Bantuan Kabupaten" => "4",
+      "Sumbangan" => "5")));
 
 /**
  * Ambil Versi
@@ -308,9 +350,19 @@ define("SASARAN", serialize(array(
     }
   }
 
-  function session_error($pesan) {
+  function session_error($pesan='') {
     $_SESSION['error_msg'] = $pesan;
-    $_SESSION['success']=-1;
+    $_SESSION['success'] = -1;
+  }
+
+  function session_error_clear() {
+    $_SESSION['error_msg'] = '';
+    unset($_SESSION['success']);
+  }
+
+  function session_success() {
+    $_SESSION['error_msg'] = '';
+    $_SESSION['success'] = 1;
   }
 
   // Untuk mengirim data ke OpenSID tracker
@@ -466,8 +518,15 @@ define("SASARAN", serialize(array(
     error_log($now->format("m-d-Y H:i:s.u")." : ".$msg."\n", 3, "opensid.log");
   }
 
+  /*
+   * @return - null, kalau tgl_lahir bukan string tanggal
+  */
   function umur($tgl_lahir){
-    $date = new DateTime($tgl_lahir);
+    try {
+      $date = new DateTime($tgl_lahir);
+    } catch (Exception $e) {
+      return null;
+    }
     $now = new DateTime();
     $interval = $now->diff($date);
     return $interval->y;

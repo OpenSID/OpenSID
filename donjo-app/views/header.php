@@ -73,30 +73,32 @@
 <div id="sidebar" >
 </div>
 <div class="ui-layout-center" id="wrapper">
-
+	<input id="success-code" type="hidden" value="<?php echo $_SESSION['success']?>">
 	<!-- NOTIFICATION-->
-	<?php  if(@$_SESSION['success']==1): ?>
 	<script type="text/javascript">
-	$('document').ready(function(){
-	notification('success','Data Berhasil Disimpan')();
-	});
-	</script><?php  elseif(@$_SESSION['success']==-1): ?>
-	<script type="text/javascript">
-	$('document').ready(function(){
-	notification('error','Data Gagal Disimpan <?php echo $_SESSION["error_msg"]?>')();
-	});
-	</script><?php  elseif(@$_SESSION['success']==-2): ?>
-	<script type="text/javascript">
-	$('document').ready(function(){
-	notification('error','Simpan data gagal, nama id sudah ada!')();
-	});
-	</script><?php  elseif(@$_SESSION['success']==-3): ?>
-	<script type="text/javascript">
-	$('document').ready(function(){
-	notification('error','Simpan data gagal, nama id sudah ada!')();
-	});
-	</script><?php  endif; ?><?php  $_SESSION['success']=0; ?>
-	<!-- ************ -->
+		$('document').ready(function(){
+			if($('#success-code').val() == 1){
+				notify = 'success';
+				notify_msg = 'Data Berhasil Disimpan';
+			} else if($('#success-code').val() == -1){
+				notify = 'error';
+				notify_msg = 'Data Gagal Disimpan <?php echo $_SESSION["error_msg"]?>';
+			} else if($('#success-code').val() == -2){
+				notify = 'error';
+				notify_msg = 'Simpan data gagal, nama id sudah ada!';
+			} else if($('#success-code').val() == -3){
+				notify = 'error';
+				notify_msg = 'Simpan data gagal, nama id sudah ada!';
+			} else {
+				notify = '';
+				notify_msg = '';
+			}
+			notification(notify,notify_msg);
+			$('#success-code').val('');
+		});
+	</script>
+	<?php  $_SESSION['success']=0; ?>
+ 	<!-- ************ -->
 	<!-- ************ -->
 
 	<div class="module-panel">

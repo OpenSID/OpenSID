@@ -6,7 +6,7 @@
 			<div class="ui-layout-north panel">
 				<div class="left">
 					<div class="uibutton-group">
-						<a href="<?php echo site_url('mandiri/ajax_pin')?>" target="ajax-modal" rel="window" header="PIN Waraga" class="uibutton tipsy south" title="PIN Warga" ><span class="fa fa-plus">&nbsp;</span>Hasilkan PIN</a>
+						<a href="<?php echo site_url('mandiri/ajax_pin')?>" target="ajax-modal" rel="window" header="PIN Warga" class="uibutton tipsy south" title="PIN Warga" ><span class="fa fa-plus">&nbsp;</span>Hasilkan PIN</a>
 					</div>
 				</div>
 			</div>

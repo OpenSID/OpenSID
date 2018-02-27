@@ -7,8 +7,11 @@ class surat_masuk extends CI_Controller{
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+		if($grup!=(1 or 2)) {
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('surat_masuk_model');

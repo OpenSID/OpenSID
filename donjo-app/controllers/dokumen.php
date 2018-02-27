@@ -8,7 +8,10 @@ class Dokumen extends CI_Controller{
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
@@ -60,7 +63,6 @@ class Dokumen extends CI_Controller{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['kat'] = $kat;
-		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
 
 		if($id){
 			$data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);

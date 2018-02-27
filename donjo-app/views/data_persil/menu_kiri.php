@@ -25,10 +25,10 @@
 <div class="blok" id="blok_menu">
 	<div class="lmenu">
 		<ul>
-			<li><a href="<?php echo site_url('data_persil/create')?>"><i class="icon-pencil"></i> Tambah Data Persil Baru</a></li>
-			<li><a href="<?php echo site_url('data_persil/create_ext')?>"><i class="icon-pencil"></i> Tambah Data (Manual)</a></li>
-			<li><a href="<?php echo site_url('data_persil/clear')?>"><i class="icon-th-list"></i> Daftar Persil</a></li>
-			<li><a href="<?php echo site_url('data_persil/import')?>" target="ajax-modal" rel="window" header="Impor Data Persil"><i class="icon-plus"></i> Impor Data Persil</a></li>
+			<li><a href="<?php echo site_url('data_persil/create')?>"><i class="fa fa-plus"></i> Tambah Data Persil Baru</a></li>
+			<li><a href="<?php echo site_url('data_persil/create_ext')?>"><i class="fa fa-pencil"></i> Tambah Data (Manual)</a></li>
+			<li><a href="<?php echo site_url('data_persil/clear')?>"><i class="fa fa-list"></i> Daftar Persil</a></li>
+			<li><a href="<?php echo site_url('data_persil/import')?>" target="ajax-modal" rel="window" header="Impor Data Persil"><i class="fa fa-plus"></i> Impor Data Persil</a></li>
 		</ul>
 	</div>
 </div>
@@ -39,11 +39,11 @@
 		<?php
 		if($persil_jenis){
 			foreach($persil_jenis as $key=>$item){
-				echo "<li><a href=\"".site_url('data_persil/jenis/'.$key.'/')."\" title=\"".$item[1]."\">".$item[0]."</a></li>";
+				echo "<li><a href=\"".site_url('data_persil/index/jenis/'.$key.'/')."\" title=\"".$item[1]."\">".$item[0]."</a></li>";
 			}
 		}
 		?>
-		<li><a href="<?php echo site_url('data_persil/persil_jenis');?>"><i class="icon-plus"></i> Tambah Data Jenis Persil</a></li>
+		<li><a href="<?php echo site_url('data_persil/persil_jenis');?>"><i class="fa fa-plus"></i> Tambah Data Jenis Persil</a></li>
 	</ul></div>
 </div>
 
@@ -53,10 +53,10 @@
 		<?php
 		if($persil_peruntukan){
 			foreach($persil_peruntukan as $key=>$item){
-				echo "<li><a href=\"".site_url('data_persil/peruntukan/'.$key.'/')."\" title=\"".$item[1]."\">".$item[0]."</a></li>";
+				echo "<li><a href=\"".site_url('data_persil/index/peruntukan/'.$key.'/')."\" title=\"".$item[1]."\">".$item[0]."</a></li>";
 			}
 		}
 		?>
-		<li><a href="<?php echo site_url('data_persil/persil_peruntukan');?>"><i class="icon-plus"></i> Tambah Data Peruntukan</a></li>
+		<li><a href="<?php echo site_url('data_persil/persil_peruntukan');?>"><i class="fa fa-plus"></i> Tambah Data Peruntukan</a></li>
 	</ul></div>
 </div>

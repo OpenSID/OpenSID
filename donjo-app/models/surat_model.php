@@ -41,35 +41,39 @@
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']= "RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
 	}
 
 	function list_penduduk_perempuan(){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1 AND sex=2";
+		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE status = 1 AND sex=2";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
 	}
 
 	function list_penduduk_laki(){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1 AND sex=1";
+		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE status = 1 AND sex=1";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
@@ -88,21 +92,23 @@
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']= "RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
 	}
 
 	function list_penduduk_ex($id=0){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1 AND id NOT IN(?)";
+		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u
+			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
+			WHERE status = 1 AND id NOT IN(?)";
 		$query = $this->db->query($sql,$id);
 		$data=$query->result_array();
 
 		//Formating Output
 		$i=0;
 		while($i<count($data)){
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
 			$i++;
 		}
 		return $data;
@@ -115,7 +121,7 @@
 
 	function get_penduduk($id=0){
 		$sql   = "SELECT u.id AS id,u.nama AS nama,u.sex as sex_id,x.nama AS sex,u.id_kk AS id_kk,
-		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,u.no_kk_sebelumnya,s.nama as status,
+		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,u.no_kk_sebelumnya,s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.alamat_tempat_lahir, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
 		w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,

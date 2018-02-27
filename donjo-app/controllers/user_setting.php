@@ -8,7 +8,10 @@ class user_setting extends CI_Controller{
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=(1 OR 2 OR 3 OR 4 OR 5)) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('login');
 		}
 		$this->load->model('header_model');

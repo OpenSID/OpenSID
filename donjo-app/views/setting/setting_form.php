@@ -26,6 +26,12 @@
                                     <option value="1" <?php if($setting->value==1) :?>selected<?php endif?>>Web dan peta hanya bisa diakses admin/operator/redaksi</option>
                                     <option value="2" <?php if($setting->value==2) :?>selected<?php endif?>>Web dan peta non-aktif sama sekali</option>
                                 </select>
+                            <?php elseif($setting->key == 'timezone'): ?>
+                                <select name="<?php echo $setting->key?>" >
+                                    <option value="Asia/Jakarta" <?php if($setting->value=='Asia/Jakarta') :?>selected<?php endif?>>Asia/Jakarta</option>
+                                    <option value="Asia/Makassar" <?php if($setting->value=='Asia/Makassar') :?>selected<?php endif?>>Asia/Makassar</option>
+                                    <option value="Asia/Jayapura" <?php if($setting->value=='Asia/Jayapura') :?>selected<?php endif?>>Asia/Jayapura</option>
+                                </select>
                             <?php elseif($setting->key == 'sumber_gambar_slider'): ?>
                                 <select name="<?php echo $setting->key?>" >
                                     <option value="1" <?php if($setting->value==1) :?>selected<?php endif?>>Gambar utama artikel terbaru</option>

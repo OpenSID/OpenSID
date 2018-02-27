@@ -33,7 +33,9 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   "tanggalperceraian" => "30",
   "cacat_id" => "31",
   "cara_kb_id" => "32",
-  "hamil" => "33")));
+  "hamil" => "33",
+  "ktp_el" => "34",
+  "status_rekam" => "35")));
 
 class import_model extends CI_Model{
 
@@ -87,6 +89,8 @@ class import_model extends CI_Model{
 		if ($isi_baris['cacat_id']!="" AND !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return false;
 		if ($isi_baris['cara_kb_id']!="" AND !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) AND $isi_baris['cara_kb_id']!="99") return false;
 		if ($isi_baris['hamil']!="" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return false;
+		if ($isi_baris['ktp_el']!="" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return false;
+		if ($isi_baris['status_rekam']!="" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return false;
 
 		// Validasi data lain
 		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return false;
@@ -180,6 +184,8 @@ class import_model extends CI_Model{
 		$isi_baris['cacat_id']= trim($data->val($i, $kolom_impor_keluarga['cacat_id']));
 		$isi_baris['cara_kb_id']= trim($data->val($i, $kolom_impor_keluarga['cara_kb_id']));
 		$isi_baris['hamil']= trim($data->val($i, $kolom_impor_keluarga['hamil']));
+		$isi_baris['ktp_el']= trim($data->val($i, $kolom_impor_keluarga['ktp_el']));
+		$isi_baris['status_rekam']= trim($data->val($i, $kolom_impor_keluarga['status_rekam']));
 		return $isi_baris;
 	}
 
@@ -256,40 +262,15 @@ class import_model extends CI_Model{
 
 	function tulis_tweb_penduduk($isi_baris) {
 		// Siapkan data penduduk
-			$data['nama'] = $isi_baris['nama'];
-			$data['nik'] = $isi_baris['nik'];
-			$data['id_kk'] = $isi_baris['id_kk'];
-			$data['kk_level'] = $isi_baris['kk_level'];
-			$data['sex'] = $isi_baris['sex'];
-			$data['tempatlahir'] = $isi_baris['tempatlahir'];
-			$data['tanggallahir'] = $isi_baris['tanggallahir'];
-			$data['agama_id'] = $isi_baris['agama_id'];
-			$data['pendidikan_kk_id'] = $isi_baris['pendidikan_kk_id'];
-			$data['pendidikan_sedang_id'] = $isi_baris['pendidikan_sedang_id'];
-			$data['pekerjaan_id'] = $isi_baris['pekerjaan_id'];
-			$data['status_kawin'] = $isi_baris['status_kawin'];
-			$data['warganegara_id'] = $isi_baris['warganegara_id'];
-			$data['nama_ayah'] = $isi_baris['nama_ayah'];
-			$data['nama_ibu'] = $isi_baris['nama_ibu'];
-			$data['golongan_darah_id'] = $isi_baris['golongan_darah_id'];
-			$data['akta_lahir'] = $isi_baris['akta_lahir'];
-			$data['dokumen_pasport'] = $isi_baris['dokumen_pasport'];
-			$data['tanggal_akhir_paspor'] = $isi_baris['tanggal_akhir_paspor'];
-			$data['dokumen_kitas'] = $isi_baris['dokumen_kitas'];
-			$data['ayah_nik'] = $isi_baris['ayah_nik'];
-			$data['ibu_nik'] = $isi_baris['ibu_nik'];
-			$data['akta_perkawinan'] = $isi_baris['akta_perkawinan'];
-			$data['tanggalperkawinan'] = $isi_baris['tanggalperkawinan'];
-			$data['akta_perceraian'] = $isi_baris['akta_perceraian'];
-			$data['tanggalperceraian'] = $isi_baris['tanggalperceraian'];
-			$data['cacat_id'] = $isi_baris['cacat_id'];
-			$data['cara_kb_id'] = $isi_baris['cara_kb_id'];
-			$data['hamil'] = $isi_baris['hamil'];
-			$data['id_cluster'] = $isi_baris['id_cluster'];
+		$kolom_baris = array('nama','nik','id_kk','kk_level','sex','tempatlahir','tanggallahir','agama_id','pendidikan_kk_id','pendidikan_sedang_id','pekerjaan_id','status_kawin','warganegara_id','nama_ayah','nama_ibu','golongan_darah_id','akta_lahir','dokumen_pasport','tanggal_akhir_paspor','dokumen_kitas','ayah_nik','ibu_nik','akta_perkawinan','tanggalperkawinan','akta_perceraian','tanggalperceraian','cacat_id','cara_kb_id','hamil','id_cluster','ktp_el','status_rekam');
+		foreach($kolom_baris as $kolom){
+			$data[$kolom] = $isi_baris[$kolom];
+		}
+
 			$data['status'] = '1';  // penduduk impor dianggap aktif
 		// Jangan masukkan atau update isian yang kosong
 			foreach ($data as $key => $value) {
-				if ($value == "") {
+				if (empty($value)) {
 					unset($data[$key]);
 				}
 			}
@@ -541,93 +522,6 @@ class import_model extends CI_Model{
 		else $_SESSION['success']=-1;
 	}
 
-
-	function ppls_individu(){
-		$a="DELETE FROM `tweb_penduduk` WHERE status=2; ";
-		$this->db->query($a);
-
-		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
-
-		//master
-		$sheet=0;
-		$baris = $data->rowcount($sheet_index=$sheet);
-		$kolom = $data->colcount($sheet_index=$sheet);
-
-		//echo "<table>";
-		for ($i=2; $i<=$baris; $i++){
-			//echo "<tr>";
-
-			for ($j=1; $j<=$kolom;$j++){
-				$rt = "";
-				$dusun = "";
-				$dusun2 = "";
-				$temp = $data->val($i,$j,$sheet);
-				if($j==11){
-					$p = strlen($temp);
-					if(is_numeric($temp[$p-1])){
-
-						$rt = $temp[$p-3].$temp[$p-2].$temp[$p-1];
-						$dusun = explode(" ",$temp);
-						$dusun2 = $dusun[0];if($dusun[1]!="RT"){$dusun2 = $dusun2." ".$dusun[1];}
-
-					}else{
-
-						$rt = $temp[3].$temp[4].$temp[5];
-						$dusun = explode(" ",$temp);
-						$dusun2 = $dusun[2];if(isset($dusun[3])){$dusun2 = $dusun2." ".$dusun[3];}
-					}
-					$rt2 = $rt*1;
-					//echo "<td>".$rt."</td><td>".$rt2."</td><td>".$dusun2."</td>";
-
-				}elseif($j==17){
-
-					$tlahir = $data->val($i,16,$sheet)."-".$data->val($i,17,$sheet)."-1";
-					//echo "<td>".$tlahir."</td>";
-
-				}else{
-
-					//echo "<td>".$temp."</td>";
-
-				}
-
-				if($j==1)
-					$j+=9;
-			}
-				$sql   		= "SELECT id FROM tweb_wil_clusterdesa WHERE rt = ? OR rt = ?";
-				$query 		= $this->db->query($sql,array($rt,$rt2));
-				$cluster  	= $query->row_array();
-				if($cluster)
-					$id_cluster = $cluster['id'];
-				else
-					$id_cluster = 0;
-				$penduduk = "";
-				$penduduk['id_cluster']		= $id_cluster;
-				$penduduk['status']			= 2;
-				$penduduk['nama']			= $data->val($i,13,$sheet);
-				$penduduk['id_rtm']			= $data->val($i,1,$sheet);
-				$penduduk['tanggallahir']	= $tlahir;
-				$penduduk['rtm_level']		= 2;
-				$penduduk['nik']			= $data->val($i,25,$sheet);
-				$penduduk['kk_level']		= $data->val($i,14,$sheet);
-				$penduduk['sex']			= $data->val($i,15,$sheet);
-				$penduduk['pendidikan_id']			= $data->val($i,22,$sheet);
-				$penduduk['pendidikan_kk_id']			= $data->val($i,22,$sheet);
-
-				$outp = $this->db->insert('tweb_penduduk',$penduduk);
-
-			//echo "</tr>";
-		}
-		//echo "</table>";
-
-		$a="TRUNCATE tweb_rtm; ";
-		$this->db->query($a);
-
-		$a="INSERT INTO tweb_rtm (no_kk) SELECT distinct(id_rtm) AS no_kk FROM tweb_penduduk WHERE tweb_penduduk.status=2 AND tweb_penduduk.id_rtm <> 0; ";
-		$this->db->query($a);
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
 
 		function pbdt_individu(){
 		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);

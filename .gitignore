@@ -38,5 +38,6 @@ coba/
 *.log
 log-*.php
 info.php
+**/.DS_Store
 
 

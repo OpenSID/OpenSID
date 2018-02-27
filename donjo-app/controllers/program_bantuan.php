@@ -7,7 +7,10 @@ class Program_bantuan extends CI_Controller{
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
@@ -15,13 +18,22 @@ class Program_bantuan extends CI_Controller{
 		$this->modul_ini = 6;
 	}
 
-	public function index(){
+	function clear($id=0){
 		$_SESSION['per_page'] = 50;
+		redirect('program_bantuan');
+	}
+
+	public function index($p = 1){
+		if(isset($_POST['per_page']))
+			$_SESSION['per_page']=$_POST['per_page'];
+
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
+
+		$data = $this->program_bantuan_model->get_program($p, false);
 		$data['tampil'] = 0;
-		$data['program'] = $this->program_bantuan_model->get_program(1, false);
+		$data['per_page'] = $_SESSION['per_page'];
 
 		$this->load->view('program_bantuan/program',$data);
 		$this->load->view('footer');

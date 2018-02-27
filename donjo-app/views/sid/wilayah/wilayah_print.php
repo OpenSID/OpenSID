@@ -3,6 +3,11 @@
 <title>Data Wilayah</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+	<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+<?php else: ?>
+	<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+<?php endif; ?>
 <link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -16,7 +21,7 @@
     <table class="border thick">
 	<thead>
 		<tr class="border thick">
-                <th>No</th>
+                <th width="30">No</th>
 				<th width="100">Nama <?php echo ucwords($this->setting->sebutan_dusun)?></th>
 				<th width="100">Nama Kepala <?php echo ucwords($this->setting->sebutan_dusun)?></th>
 				<th width="50">RW</th>
@@ -32,7 +37,7 @@
 		<tr>
           <td align="center" width="2"><?php echo $data['no']?></td>
 
-			<td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+			<td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
 			<td><?php echo $data['nama_kadus']?></td>
 
 			<td align="right"><?php echo $data['jumlah_rw']?></td>
@@ -58,7 +63,6 @@
 </table>
 </div>
 <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
-   <label>Tanggal cetak : &nbsp; </label><?php echo tgl_indo(date("Y m d"))?>
 </div>
 
 </body></html>

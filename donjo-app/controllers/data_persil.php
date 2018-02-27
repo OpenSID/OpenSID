@@ -11,23 +11,30 @@ class Data_persil extends CI_Controller{
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
 		$this->load->model('config_model');
 		$this->load->model('data_persil_model');
 		$this->load->model('penduduk_model');
+		$this->controller = 'data_persil';
 		$this->modul_ini = 7;
 	}
 
 	function clear(){
 		unset($_SESSION['cari']);
+		$_SESSION['per_page'] = 20;
 		redirect('data_persil');
 	}
 
-	function index($page=1){
+	function index($kat=0, $mana=0, $page=1, $o=0){
 		$header = $this->header_model->get_data();
+		$data['kat'] = $kat;
+		$data['mana'] = $mana;
 
 		$this->load->view('header', $header);
 
@@ -35,8 +42,13 @@ class Data_persil extends CI_Controller{
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
+		if(isset($_POST['per_page']))
+			$_SESSION['per_page']=$_POST['per_page'];
+		$data['per_page'] = $_SESSION['per_page'];
+
 		$data["desa"] = $this->config_model->get_data();
-		$data["persil"] = $this->data_persil_model->list_persil('',0,$page);
+		$data['paging']  = $this->data_persil_model->paging($kat,$mana,$page);
+		$data["persil"] = $this->data_persil_model->list_persil($kat,$mana,$data['paging']->offset, $data['paging']->per_page);
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		$data['keyword'] = $this->data_persil_model->autocomplete();
@@ -138,37 +150,11 @@ class Data_persil extends CI_Controller{
 		$this->load->view('header', $header);
 
 		$data["hasil"] = $this->data_persil_model->simpan_persil();
-		$data["persil"] = $this->data_persil_model->list_persil(0,$page);
-
+		$data['paging']  = $this->data_persil_model->paging('',0,$page);
+		$data["persil"] = $this->data_persil_model->list_persil('',0,$data['paging']->offset, $data['paging']->per_page);
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		redirect("data_persil/clear");
-		$this->load->view('data_persil/persil',$data);
-		$this->load->view('footer');
-	}
-
-	function jenis($apa=0,$page=1){
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
-		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
-
-		$data["persil"] = $this->data_persil_model->list_persil('jenis',$apa,$page);;
-
-		$this->load->view('data_persil/persil',$data);
-		$this->load->view('footer');
-	}
-
-	function peruntukan($apa='',$page=1){
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
-		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
-
-		$data["persil"] = $this->data_persil_model->list_persil('peruntukan',$apa,$page);;
-
 		$this->load->view('data_persil/persil',$data);
 		$this->load->view('footer');
 	}
@@ -244,6 +230,15 @@ class Data_persil extends CI_Controller{
 		$this->load->model('import_model');
 		$this->import_model->persil();
 		redirect("data_persil");
+	}
+
+	function cetak($o=0){
+		$data['data_persil']    = $this->data_persil_model->list_persil('', $o,0, 10000);
+		$this->load->view('data_persil/persil_print',$data);
+	}
+	function excel($o=0){
+		$data['data_persil']    = $this->data_persil_model->list_persil('', $o,0, 10000);
+		$this->load->view('data_persil/persil_excel',$data);
 	}
 
 }

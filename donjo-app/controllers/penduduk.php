@@ -7,7 +7,10 @@ class Penduduk extends CI_Controller{
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 
@@ -38,7 +41,6 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['umur_max']);
 		unset($_SESSION['pekerjaan_id']);
 		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_id']);
 		unset($_SESSION['pendidikan_sedang_id']);
 		unset($_SESSION['pendidikan_kk_id']);
 		unset($_SESSION['umurx']);
@@ -47,6 +49,7 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['hamil']);
 		unset($_SESSION['cara_kb_id']);
 		unset($_SESSION['akta_kelahiran']);
+		unset($_SESSION['status_ktp']);
 		$_SESSION['per_page'] = 50;
 		redirect('penduduk');
 	}
@@ -230,11 +233,18 @@ class Penduduk extends CI_Controller{
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
+		$data['sakit_menahun'] = $this->referensi_model->list_data('tweb_sakit_menahun');
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
+		$data['wajib_ktp'] = $this->referensi_model->list_wajib_ktp();
+		$data['ktp_el'] = $this->referensi_model->list_ktp_el();
+		$data['status_rekam'] = $this->referensi_model->list_status_rekam();
+		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
+		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
+		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 
-		$this->load->view('header', $header);
 		$nav['act']= 2;
 		unset($_SESSION['dari_internal']);
+		$this->load->view('header', $header);
 		$this->load->view('sid/nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_form',$data);
 		$this->load->view('footer');
@@ -700,6 +710,10 @@ class Penduduk extends CI_Controller{
 				$_SESSION['akta_kelahiran'] = $nomor;
 				$_SESSION['umurx'] = $nomor;
 				$pre="AKTA KELAHIRAN : ";
+				break;
+			case 18:
+				$_SESSION['status_ktp'] = $nomor;
+				$pre="KEPEMILIKAN WAJIB KTP : ";
 				break;
 		}
 		$judul= $this->penduduk_model->get_judul_statistik($tipe,$nomor,$sex);

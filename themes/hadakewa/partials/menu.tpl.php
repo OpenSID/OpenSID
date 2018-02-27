@@ -53,11 +53,11 @@ navigasi ke tautannya.
 			<ul class="nav navbar-nav">
 				<li><a href="<?php echo site_url()."first"?>"><i class="fa fa-home fa-lg"></i> Beranda</a></li>
 				<?php foreach($menu_atas as $data){?>
-					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo site_url()."first/".$data['link']?>"><i class="fa fa-th-large"></i> <?php echo $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo $data['link']?>"><i class="fa fa-th-large"></i> <?php echo $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
 						<?php if(count($data['submenu'])>0): ?>
 							<ul class="dropdown-menu">
 								<?php foreach($data['submenu'] as $submenu): ?>
-									<li><a href="<?php echo site_url()."first/".$submenu['link']?>"><?php echo $submenu['nama']?></a></li>
+									<li><a href="<?php echo $submenu['link']?>"><?php echo $submenu['nama']?></a></li>
 								<?php endforeach; ?>
 							</ul>
 						<?php endif; ?>

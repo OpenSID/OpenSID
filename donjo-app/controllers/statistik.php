@@ -9,7 +9,10 @@ function __construct(){
 		$this->load->model('program_bantuan_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
@@ -50,7 +53,6 @@ function __construct(){
 		unset($_SESSION['umur_max']);
 		unset($_SESSION['pekerjaan_id']);
 		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_id']);
 		unset($_SESSION['status_penduduk']);
 		redirect('statistik');
 	}
@@ -120,7 +122,7 @@ function __construct(){
 		$data['main']    = $this->laporan_penduduk_model->list_data_rentang();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='2';
+		$nav['act']= 0;
 
 		$this->load->view('header', $header);
 		//$this->load->view('statistik/menu');

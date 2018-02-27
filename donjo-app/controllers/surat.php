@@ -7,7 +7,10 @@ class Surat extends CI_Controller{
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2 AND $grup!=3) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
@@ -16,6 +19,7 @@ class Surat extends CI_Controller{
 		$this->load->model('surat_model');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('config_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 4;
 	}
 
@@ -125,7 +129,6 @@ class Surat extends CI_Controller{
 		$log_surat['pamong_nama']=$_POST['pamong'];
 		$log_surat['id_user']=$_SESSION['user'];
 		$log_surat['no_surat']=$_POST['nomor'];
-
 		$id = $_POST['nik'];
 		switch ($url) {
 			case 'surat_ket_kelahiran':

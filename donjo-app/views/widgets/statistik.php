@@ -25,10 +25,6 @@
                   text: 'Jumlah'
                 }
           },
-          tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage}%</b>',
-            percentageDecimals: 1
-          },
           legend: {
             enabled:false
           },
@@ -43,6 +39,7 @@
           },
             series: [{
                 type: 'column',
+                name: 'Populasi',
                 data: [
             <?php  foreach($stat_widget as $data){?>
               <?php if($data['jumlah'] != "-"){?>

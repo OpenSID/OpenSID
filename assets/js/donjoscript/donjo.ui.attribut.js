@@ -34,6 +34,7 @@ $(function menuSub(){
   });
 });
 function notification(type,message){
+    if( type =='') {return};
     $('#maincontent').prepend(''
         +'<div id="notification" class="'+type+'">'
         +'<span class="icon">&nbsp;</span>'
