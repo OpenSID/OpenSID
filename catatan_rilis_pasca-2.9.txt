@@ -24,5 +24,6 @@ Lengkapnya, isi rilis versi pasca-2.9:
 18. #800: Sediakan fitur impor data BDT 2015 langsung ke respon analisis. Juga melakukan pengelompokan Rumah Tangga secara otomatis.
 19. Kembalikan folder assets/images/icon yg terabaikan tidak masuk ke rilis. [bug-fix]
 20. #820: Kalau anggota rumah tangga baru ditambahkan sebagai kepala rumah tangga, sekarang kepala rumah tangga itu tampil benar di halaman analisis_respon. [bug-fix]
+21. Update tema hadakewa ke v1.1.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.9, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
