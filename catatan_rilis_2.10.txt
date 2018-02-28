@@ -2,7 +2,7 @@ Rilis ini berisi penambahan menu Inventaris Desa dan fitur untuk mengimpor data 
 
 Terima kasih pada Muhammad (Rarang Selatan) dan Happy Agung, yang kembali berkontribusi. Terima kasih pula pada Adi Rahman yang baru mulai berkontribusi, dan juga pada Bimo Aji P yang rajin berkontribusi.
 
-Lengkapnya, isi rilis versi pasca-2.9:
+Lengkapnya, isi rilis versi 2.10:
 
 1. #759: Perbaiki ejaan salah di menu Laporan > Layanan Mandiri.
 2. #762: Perbaiki tampilan jumlah salah di widget statistik penduduk.
@@ -26,4 +26,4 @@ Lengkapnya, isi rilis versi pasca-2.9:
 20. #820: Kalau anggota rumah tangga baru ditambahkan sebagai kepala rumah tangga, sekarang kepala rumah tangga itu tampil benar di halaman analisis_respon. [bug-fix]
 21. Update tema hadakewa ke v1.1.
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.9, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 2.10, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
