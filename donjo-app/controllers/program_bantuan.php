@@ -187,13 +187,15 @@ class Program_bantuan extends CI_Controller{
 
 	public function unduhsheet($id=0){
 		if($id > 0){
+			$temp = $_SESSION['per_page'];
+			$_SESSION['per_page'] = 1000000000;
 			/*
 			 * Print xls untuk data x
 			 * */
 			$data["sasaran"] = array("1"=>"Penduduk","2"=>"Keluarga / KK","3"=>"Rumah Tangga","4"=>"Kelompok/Organisasi Kemasyarakatan");
 			$data['desa'] = $this->header_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
-
+			$_SESSION['per_page'] = $temp;
 			$this->load->view('program_bantuan/unduh-sheet',$data);
 
 		}
