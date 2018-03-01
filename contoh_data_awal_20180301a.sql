@@ -1196,7 +1196,7 @@ CREATE TABLE `jenis_barang` (
   `nama` varchar(30) DEFAULT NULL,
   `keterangan` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: inventaris
@@ -1207,17 +1207,11 @@ DROP TABLE IF EXISTS inventaris;
 CREATE TABLE `inventaris` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_jenis_barang` int(6) DEFAULT NULL,
-  `asal_sendiri` int(6) DEFAULT NULL,
-  `asal_pemerintah` int(6) DEFAULT NULL,
-  `asal_provinsi` int(6) DEFAULT NULL,
-  `asal_kab` int(6) DEFAULT NULL,
-  `asal_sumbangan` int(6) DEFAULT NULL,
-  `hapus_rusak` int(6) DEFAULT NULL,
-  `hapus_dijual` int(6) DEFAULT NULL,
-  `hapus_sumbangkan` int(6) DEFAULT NULL,
-  `tanggal_mutasi` date NOT NULL,
-  `jenis_mutasi` int(6) DEFAULT NULL,
   `keterangan` varchar(100) DEFAULT NULL,
+  `tanggal_pengadaan` date NOT NULL,
+  `nama_barang` varchar(100) NOT NULL,
+  `asal_barang` tinyint(2) NOT NULL,
+  `jml_barang` int(6) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_jenis_barang` (`id_jenis_barang`),
   CONSTRAINT `inventaris_ibfk_1` FOREIGN KEY (`id_jenis_barang`) REFERENCES `jenis_barang` (`id`) ON DELETE CASCADE
@@ -1416,7 +1410,7 @@ INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('8', '97', '46', '51', '37', '2017-11-28 01:51:11', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('9', '97', '46', '51', '37', '2017-12-27 05:03:39', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('10', '97', '46', '51', '37', '2018-01-26 05:30:07', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('11', '97', '46', '51', '37', '2018-02-27 22:25:52', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('11', '97', '46', '51', '37', '2018-03-01 05:47:41', '28', '9');
 
 
 #
@@ -1909,7 +1903,7 @@ INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kate
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('17', 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('18', 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('19', 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.9', 'Versi sekarang untuk migrasi', NULL, NULL);
+INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.10', 'Versi sekarang untuk migrasi', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('21', 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 
 
