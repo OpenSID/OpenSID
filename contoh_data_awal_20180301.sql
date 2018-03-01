@@ -1186,6 +1186,19 @@ CREATE TABLE `inbox` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
+# TABLE STRUCTURE FOR: jenis_barang
+#
+
+DROP TABLE IF EXISTS jenis_barang;
+
+CREATE TABLE `jenis_barang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(30) DEFAULT NULL,
+  `keterangan` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
 # TABLE STRUCTURE FOR: inventaris
 #
 
@@ -1208,19 +1221,6 @@ CREATE TABLE `inventaris` (
   PRIMARY KEY (`id`),
   KEY `id_jenis_barang` (`id_jenis_barang`),
   CONSTRAINT `inventaris_ibfk_1` FOREIGN KEY (`id_jenis_barang`) REFERENCES `jenis_barang` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: jenis_barang
-#
-
-DROP TABLE IF EXISTS jenis_barang;
-
-CREATE TABLE `jenis_barang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(30) DEFAULT NULL,
-  `keterangan` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
