@@ -4,7 +4,8 @@ Terima kasih pada [untuk diisi] yang rajin berkontribusi.
 
 Lengkapnya, isi rilis versi pasca-2.10:
 
-1. #834: Tutup celah untuk mengunggah script PHP melalui foto di user_setting.
+1. #834: Tutup celah untuk mengunggah script PHP melalui foto di user_setting. [security-fix]
+2. #809: Sekarang semua data terunduh di menu Program Bantuan. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.10, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

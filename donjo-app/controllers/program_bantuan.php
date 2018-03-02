@@ -188,7 +188,7 @@ class Program_bantuan extends CI_Controller{
 	public function unduhsheet($id=0){
 		if($id > 0){
 			$temp = $_SESSION['per_page'];
-			$_SESSION['per_page'] = 1000000000;
+			$_SESSION['per_page'] = 1000000000; // Angka besar supaya semua data terunduh
 			/*
 			 * Print xls untuk data x
 			 * */
