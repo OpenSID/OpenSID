@@ -106,18 +106,19 @@
 				(select sum(jml_barang) from inventaris where asal_barang = 3 and id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as asal_provinsi,
 				(select sum(jml_barang) from inventaris where asal_barang = 4 and id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as asal_kab,
 				(select sum(jml_barang) from inventaris where asal_barang = 5 and id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as asal_sumbangan,
-				max(case when jenis_mutasi = 1 then tanggal_mutasi else 0 end) tgl_penghapusan,
-        sum(case when jenis_mutasi = 1 then jml_mutasi else 0 end) penghapusan,
-        sum(case when jenis_mutasi = 1 and asal_barang = 1 then jml_mutasi else 0 end) hapus_asal_sendiri,
-        sum(case when jenis_mutasi = 1 and asal_barang = 2 then jml_mutasi else 0 end) hapus_asal_pemerintah,
-        sum(case when jenis_mutasi = 1 and asal_barang = 3 then jml_mutasi else 0 end) hapus_asal_provinsi,
-        sum(case when jenis_mutasi = 1 and asal_barang = 4 then jml_mutasi else 0 end) hapus_asal_kab,
-        sum(case when jenis_mutasi = 1 and asal_barang = 5 then jml_mutasi else 0 end) hapus_asal_sumbangan,
-        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 1 then jml_mutasi else 0 end) hapus_rusak,
-        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 2 then jml_mutasi else 0 end) hapus_dijual,
-        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 3 then jml_mutasi else 0 end) hapus_sumbangkan,
+				max(case when (jenis_mutasi = 1 or jenis_mutasi = 4) then tanggal_mutasi else 0 end) tgl_penghapusan,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) then jml_mutasi else 0 end) penghapusan,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and asal_barang = 1 then jml_mutasi else 0 end) hapus_asal_sendiri,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and asal_barang = 2 then jml_mutasi else 0 end) hapus_asal_pemerintah,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and asal_barang = 3 then jml_mutasi else 0 end) hapus_asal_provinsi,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and asal_barang = 4 then jml_mutasi else 0 end) hapus_asal_kab,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and asal_barang = 5 then jml_mutasi else 0 end) hapus_asal_sumbangan,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and jenis_penghapusan = 1 then jml_mutasi else 0 end) hapus_rusak,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and jenis_penghapusan = 2 then jml_mutasi else 0 end) hapus_dijual,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and jenis_penghapusan = 3 then jml_mutasi else 0 end) hapus_sumbangkan,
         sum(case when jenis_mutasi = 2 then jml_mutasi else 0 end) status_rusak,
-        sum(case when jenis_mutasi = 3 then jml_mutasi else 0 end) status_diperbaiki
+        sum(case when jenis_mutasi = 3 then jml_mutasi else 0 end) status_diperbaiki,
+        sum(case when jenis_mutasi = 4 then jml_mutasi else 0 end) hapus_barang_rusak
     ";
     $status = $this->db->select($select)
 			->where("DATE(tanggal_mutasi) <= '".$tahun."-12-31'")
@@ -132,7 +133,7 @@
     $status['asal_kab'] = $status['asal_kab'] - $status['hapus_asal_kab'];
     $status['asal_sumbangan'] = $status['asal_sumbangan'] - $status['hapus_asal_sumbangan'];
     $status['jml_sekarang'] = $status['jml_barang'] - $status['penghapusan'];
-    $status['status_rusak'] = $status['status_rusak'] - $status['status_diperbaiki'];
+    $status['status_rusak'] = $status['status_rusak'] - $status['status_diperbaiki'] - $status['hapus_barang_rusak'];
     $status['status_baik'] = $status['jml_sekarang'] - $status['status_rusak'];
     return $status;
 	}
@@ -187,16 +188,17 @@
 
 	function get_status_inventaris($id_barang,$inventaris){
 		$select = "
-        sum(case when jenis_mutasi = 1 then jml_mutasi else 0 end) penghapusan,
-        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 1 then jml_mutasi else 0 end) hapus_rusak,
-        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 2 then jml_mutasi else 0 end) hapus_dijual,
-        sum(case when jenis_mutasi = 1 and jenis_penghapusan = 3 then jml_mutasi else 0 end) hapus_sumbangkan,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) then jml_mutasi else 0 end) penghapusan,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and jenis_penghapusan = 1 then jml_mutasi else 0 end) hapus_rusak,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and jenis_penghapusan = 2 then jml_mutasi else 0 end) hapus_dijual,
+        sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and jenis_penghapusan = 3 then jml_mutasi else 0 end) hapus_sumbangkan,
         sum(case when jenis_mutasi = 2 then jml_mutasi else 0 end) status_rusak,
-        sum(case when jenis_mutasi = 3 then jml_mutasi else 0 end) status_diperbaiki
+        sum(case when jenis_mutasi = 3 then jml_mutasi else 0 end) status_diperbaiki,
+        sum(case when jenis_mutasi = 4 then jml_mutasi else 0 end) hapus_barang_rusak
     ";
     $status = $this->db->select($select)->where('id_barang',$id_barang)->get('mutasi_inventaris')->row_array();
     $status['jml_sekarang'] = $inventaris['jml_barang'] - $status['penghapusan'];
-    $status['status_rusak'] = $status['status_rusak'] - $status['status_diperbaiki'];
+    $status['status_rusak'] = $status['status_rusak'] - $status['status_diperbaiki'] - $status['hapus_barang_rusak'];
     $status['status_baik'] = $status['jml_sekarang'] - $status['status_rusak'];
     return $status;
 	}

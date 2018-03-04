@@ -206,7 +206,8 @@ define("PENOLONG_KELAHIRAN", serialize(array(
       "Dukun" => "3",
       "Lainnya" => "4")));
 define("JENIS_MUTASI", serialize(array(
-      "Penghapusan" => "1",
+      "Hapus barang masih baik" => "1",
+      "Hapus barang rusak" => "4",
       "Status rusak" => "2",
       "Status diperbaiki" => "3")));
 define("JENIS_PENGHAPUSAN", serialize(array(

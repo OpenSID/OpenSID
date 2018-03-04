@@ -1,6 +1,7 @@
 <script type="text/javascript">
   function ubah_jenis_mutasi(jenis){
-    if(jenis!=1){
+    if(jenis!=1 && jenis!=4){
+      // Hapus barang baik atau rusak
       $('.hapus').attr('disabled','disabled');
       $('.hapus > input').removeClass('required');
       $('.hapus > select').removeClass('required');
