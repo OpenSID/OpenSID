@@ -194,12 +194,14 @@
         sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and jenis_penghapusan = 3 then jml_mutasi else 0 end) hapus_sumbangkan,
         sum(case when jenis_mutasi = 2 then jml_mutasi else 0 end) status_rusak,
         sum(case when jenis_mutasi = 3 then jml_mutasi else 0 end) status_diperbaiki,
-        sum(case when jenis_mutasi = 4 then jml_mutasi else 0 end) hapus_barang_rusak
+        sum(case when jenis_mutasi = 4 then jml_mutasi else 0 end) hapus_barang_rusak,
+        max(tanggal_mutasi) as mutasi_terakhir
     ";
     $status = $this->db->select($select)->where('id_barang',$id_barang)->get('mutasi_inventaris')->row_array();
     $status['jml_sekarang'] = $inventaris['jml_barang'] - $status['penghapusan'];
     $status['status_rusak'] = $status['status_rusak'] - $status['status_diperbaiki'] - $status['hapus_barang_rusak'];
     $status['status_baik'] = $status['jml_sekarang'] - $status['status_rusak'];
+    $status['mutasi_terakhir'] = tgl_indo_out($status['mutasi_terakhir']);
     return $status;
 	}
 
