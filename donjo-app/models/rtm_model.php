@@ -226,11 +226,15 @@
 			else $_SESSION['success']=-1;
 	}
 
-	function update_anggota($id=0){
+	function update_anggota($id=0,$id_kk){
 		$data = $_POST;
 
 		$this->db->where('id',$id);
 		$outp = $this->db->update('tweb_penduduk',$data);
+		// Kalau menjadi kepala rumah tangga, tweb_rtm perlu diupdate juga
+		if($data['rtm_level'] == 1) {
+			$this->db->where('id',$id_kk)->update('tweb_rtm',array('nik_kepala' => $id));
+		}
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
@@ -349,12 +353,14 @@
 	function get_kepala_rtm($id, $is_no_kk=false){
 		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
 		$this->load->model('penduduk_model');
-		$sql   = "SELECT u.id,u.nik,u.nama,r.no_kk,u.tempatlahir,u.tanggallahir,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,d.nama as pendidikan,f.nama as warganegara,a.nama as agama
+		$sql   = "SELECT u.id,u.nik,u.nama,r.no_kk,u.tempatlahir,u.tanggallahir,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,d.nama as pendidikan,f.nama as warganegara,a.nama as agama, 
+			wil.rt, wil.rw, wil.dusun
 			FROM tweb_rtm r
 			LEFT JOIN tweb_penduduk u ON u.id= r.nik_kepala
 			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
 			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
 			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+			LEFT JOIN tweb_wil_clusterdesa wil ON wil.id = u.id_cluster
 			WHERE r.$kolom_id = $id LIMIT 1";
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
@@ -386,5 +392,4 @@
 	}
 
 }
-
 ?>

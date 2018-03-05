@@ -264,7 +264,8 @@ function __construct(){
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$nav['act']= 3;
-
+        //var_dump($data['kepala_kk']);
+        //exit();
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);
@@ -295,7 +296,7 @@ function __construct(){
 	}
 
 	function update_anggota($p=1,$o=0,$id_kk=0,$id=0){
-		$this->rtm_model->update_anggota($id);
+		$this->rtm_model->update_anggota($id,$id_kk);
 		redirect("rtm/anggota/$p/$o/$id_kk");
 	}
 
