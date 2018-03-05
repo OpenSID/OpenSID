@@ -33,7 +33,9 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   "tanggalperceraian" => "30",
   "cacat_id" => "31",
   "cara_kb_id" => "32",
-  "hamil" => "33")));
+  "hamil" => "33",
+  "ktp_el" => "34",
+  "status_rekam" => "35")));
 
 class import_model extends CI_Model{
 
@@ -87,6 +89,8 @@ class import_model extends CI_Model{
 		if ($isi_baris['cacat_id']!="" AND !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return false;
 		if ($isi_baris['cara_kb_id']!="" AND !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) AND $isi_baris['cara_kb_id']!="99") return false;
 		if ($isi_baris['hamil']!="" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return false;
+		if ($isi_baris['ktp_el']!="" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return false;
+		if ($isi_baris['status_rekam']!="" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return false;
 
 		// Validasi data lain
 		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return false;
@@ -180,6 +184,8 @@ class import_model extends CI_Model{
 		$isi_baris['cacat_id']= trim($data->val($i, $kolom_impor_keluarga['cacat_id']));
 		$isi_baris['cara_kb_id']= trim($data->val($i, $kolom_impor_keluarga['cara_kb_id']));
 		$isi_baris['hamil']= trim($data->val($i, $kolom_impor_keluarga['hamil']));
+		$isi_baris['ktp_el']= trim($data->val($i, $kolom_impor_keluarga['ktp_el']));
+		$isi_baris['status_rekam']= trim($data->val($i, $kolom_impor_keluarga['status_rekam']));
 		return $isi_baris;
 	}
 

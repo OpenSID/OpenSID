@@ -9,7 +9,10 @@ class analisis_respon extends CI_Controller{
 		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$_SESSION['submenu'] = "Input Data";
@@ -208,5 +211,17 @@ class analisis_respon extends CI_Controller{
 			$_SESSION['rt']=$rt;
 		else unset($_SESSION['rt']);
 		redirect('analisis_respon');
+	}
+	function form_impor_bdt(){
+		$data['form_action'] = site_url("analisis_respon/impor_bdt/");
+		$this->load->view('analisis_respon/import/impor_bdt',$data);
+	}
+	function impor_bdt(){
+		$this->load->model('bdt_model');
+		$this->bdt_model->impor();
+		// redirect('analisis_respon');
+	}
+	function unduh_form_bdt(){
+		header("location:".base_url('assets/import/contoh-data-bdt2015.xls'));
 	}
 }

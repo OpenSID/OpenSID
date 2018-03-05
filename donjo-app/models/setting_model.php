@@ -30,6 +30,13 @@ class Setting_Model extends CI_Model
     }
     $CI->setting = (object) $pre;
     $CI->list_setting = $pr; // Untuk tampilan daftar setting
+    $this->apply_setting();
+  }
+
+  // Setting untuk PHP
+  private function apply_setting(){
+    //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
+    date_default_timezone_set($this->setting->timezone);//ganti ke timezone lokal
   }
 
   function update($data){
@@ -43,6 +50,7 @@ class Setting_Model extends CI_Model
         if(!$outp) $_SESSION['success']=-1;
       }
     }
+    $this->apply_setting();
   }
 
   function update_slider(){

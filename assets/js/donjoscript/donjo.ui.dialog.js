@@ -238,10 +238,9 @@ function ajaxModalx(id,title,url,width,height){
   }
 
 function ajaxModal(id,title,url,width,height){
-  if (width==null || height==null){
-    width='450';
-    height='200';
-  }
+  if (width==null) width='450';
+  if (height==null) height='200';
+
   $('#'+id+'').remove();
 
   $('body').append('<div id="'+id+'" title="'+title+'" style="display:none;position:relative;overflow:scroll;"><div style="width:300px;height:100px;background:url(assets/images/background/fbloading.gif) no-repeat center center"></div></div>');

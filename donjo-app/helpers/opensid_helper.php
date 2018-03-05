@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.9');
+define("VERSION", 'pasca-2.10');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -205,6 +205,21 @@ define("PENOLONG_KELAHIRAN", serialize(array(
       "Bidan Perawat" => "2",
       "Dukun" => "3",
       "Lainnya" => "4")));
+define("JENIS_MUTASI", serialize(array(
+      "Hapus barang masih baik" => "1",
+      "Hapus barang rusak" => "4",
+      "Status rusak" => "2",
+      "Status diperbaiki" => "3")));
+define("JENIS_PENGHAPUSAN", serialize(array(
+      "Rusak" => "1",
+      "Dijual" => "2",
+      "Disumbang" => "3")));
+define("ASAL_INVENTARIS", serialize(array(
+      "Dibeli Sendiri" => "1",
+      "Bantuan Pemerintah" => "2",
+      "Bantuan Provinsi" => "3",
+      "Bantuan Kabupaten" => "4",
+      "Sumbangan" => "5")));
 
 /**
  * Ambil Versi
@@ -336,14 +351,19 @@ define("PENOLONG_KELAHIRAN", serialize(array(
     }
   }
 
-  function session_error($pesan) {
+  function session_error($pesan='') {
     $_SESSION['error_msg'] = $pesan;
-    $_SESSION['success']=-1;
+    $_SESSION['success'] = -1;
   }
 
   function session_error_clear() {
     $_SESSION['error_msg'] = '';
     unset($_SESSION['success']);
+  }
+
+  function session_success() {
+    $_SESSION['error_msg'] = '';
+    $_SESSION['success'] = 1;
   }
 
   // Untuk mengirim data ke OpenSID tracker

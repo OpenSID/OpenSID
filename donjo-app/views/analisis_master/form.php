@@ -22,7 +22,7 @@ $('tr.delik').hide();
 }
 if ($('input[name=subjek_tipe]:checked').next('label').text()=='Kelompok Masyarakat'){
 $('tr.delik').show();
-} 
+}
 $('input[name=subjek_tipe]').click(function(){
 if ($(this).next('label').text()=='Kelompok Masyarakat'){
 $('tr.delik').show();
@@ -40,7 +40,7 @@ display:none;
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 </div>
 <div id="contentpane">
@@ -68,7 +68,7 @@ display:none;
 <tr class="delik">
 <th>Kategori Kelompok</th><td>
 	<select name="id_kelompok">
-		<option value="">-- Pilih Kategori Kelompok --</option>				
+		<option value="">-- Pilih Kategori Kelompok --</option>
 		<?php foreach($list_kelompok AS $data){?>
 		<option value="<?php echo $data['id']?>" <?php if($analisis_master['id_kelompok'] == $data['id']) :?>selected<?php endif?>><?php echo $data['kelompok']?></option>
 		<?php }?>
@@ -76,14 +76,27 @@ display:none;
 </td>
 </tr>
 <tr>
-<th>Status Analisis</th>
-<td>
-<div class="uiradio">
-<?php $ch='checked';?>
-<input type="radio" id="g1" name="lock" value="1"/<?php if($analisis_master['lock'] == '1' OR $analisis_master['lock'] == ''){echo $ch;}?>><label for="g1">Tidak Terkunci</label>
-<input type="radio" id="g2" name="lock" value="2"/<?php if($analisis_master['lock'] == '2'){echo $ch;}?>><label for="g2">Terkunci</label>
-</td>
-</tr> 
+	<th>Status Analisis</th>
+	<td>
+		<div class="uiradio">
+			<?php $ch='checked';?>
+			<input type="radio" id="g1" name="lock" value="1"/<?php if($analisis_master['lock'] == '1' OR $analisis_master['lock'] == ''){echo $ch;}?>><label for="g1">Tidak Terkunci</label>
+			<input type="radio" id="g2" name="lock" value="2"/<?php if($analisis_master['lock'] == '2'){echo $ch;}?>><label for="g2">Terkunci</label>
+		</div>
+	</td>
+</tr>
+<tr>
+	<th>Format Impor Tambahan</th>
+	<td>
+		<select name="format_impor">
+			<option value="">-- Pilih Format Impor --</option>
+			<?php foreach($list_format_impor AS $key => $nama){?>
+			<option value="<?php echo $key?>" <?php if($analisis_master['format_impor'] == $key) :?>selected<?php endif?>><?php echo $nama?></option>
+			<?php }?>
+		</select>
+		*) Kosongi jika tidak ada format impor tambahan.
+	</td>
+</tr>
 <tr>
 <th colspan="2">Rumus Penilaian Analisis</br>Sigma [Bobot (indikator) x Nilai (ukuran)] / "Bilangan Pembagi"</th>
 </tr>
@@ -91,15 +104,18 @@ display:none;
 <th>Bilangan Pembagi</th>
 <td><input name="pembagi" type="text" class="inputbox number" size="20" value="<?php echo $analisis_master['pembagi']?>"/> *) untuk tanda koma "," gunakan tanda titik "." sebagai substitusinya.</td>
 </tr>
-<th>Analisis Terhubung</th><td>
-	<select name="id_child">
-		<option value="">-- Pilih Analisis --</option>				
-		<?php foreach($list_analisis AS $data){?>
-		<option value="<?php echo $data['id']?>" <?php if($analisis_master['id_child'] == $data['id']) :?>selected<?php endif?>><?php echo $data['nama']?></option>
-		<?php }?>
-	</select>
-	*) Kosongi jika tida ada analisis terhubung.
-</td>
+<tr>
+	<th>Analisis Terhubung</th>
+	<td>
+		<select name="id_child">
+			<option value="">-- Pilih Analisis --</option>
+			<?php foreach($list_analisis AS $data){?>
+			<option value="<?php echo $data['id']?>" <?php if($analisis_master['id_child'] == $data['id']) :?>selected<?php endif?>><?php echo $data['nama']?></option>
+			<?php }?>
+		</select>
+		*) Kosongi jika tidak ada analisis terhubung.
+	</td>
+</tr>
 <tr>
 <th width="120" colspan="2">Deskripsi Analisis</th>
 </tr>
@@ -109,12 +125,12 @@ display:none;
 <?php echo $analisis_master['deskripsi']?>
 </textarea>
 </td>
-</tr> 
+</tr>
 </table>
 </div>
 
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
+<div class="left">
 <a href="<?php echo site_url()?>analisis_master" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">

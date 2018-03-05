@@ -6,8 +6,11 @@ function __construct(){
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+		if($grup!=(1 OR 2)) {
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
@@ -292,7 +295,7 @@ function __construct(){
 	}
 
 	function update_anggota($p=1,$o=0,$id_kk=0,$id=0){
-		$this->rtm_model->update_anggota($id);
+		$this->rtm_model->update_anggota($id,$id_kk);
 		redirect("rtm/anggota/$p/$o/$id_kk");
 	}
 

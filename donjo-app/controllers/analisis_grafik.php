@@ -9,7 +9,10 @@ class Analisis_grafik extends CI_Controller{
 		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->modul_ini = 5;

@@ -11,7 +11,10 @@ class Data_persil extends CI_Controller{
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
@@ -227,6 +230,15 @@ class Data_persil extends CI_Controller{
 		$this->load->model('import_model');
 		$this->import_model->persil();
 		redirect("data_persil");
+	}
+
+	function cetak($o=0){
+		$data['data_persil']    = $this->data_persil_model->list_persil('', $o,0, 10000);
+		$this->load->view('data_persil/persil_print',$data);
+	}
+	function excel($o=0){
+		$data['data_persil']    = $this->data_persil_model->list_persil('', $o,0, 10000);
+		$this->load->view('data_persil/persil_excel',$data);
 	}
 
 }

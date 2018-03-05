@@ -7,7 +7,10 @@ class Program_bantuan extends CI_Controller{
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			if(empty($grup))
+				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+			else
+				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
@@ -184,13 +187,15 @@ class Program_bantuan extends CI_Controller{
 
 	public function unduhsheet($id=0){
 		if($id > 0){
+			$temp = $_SESSION['per_page'];
+			$_SESSION['per_page'] = 1000000000; // Angka besar supaya semua data terunduh
 			/*
 			 * Print xls untuk data x
 			 * */
 			$data["sasaran"] = array("1"=>"Penduduk","2"=>"Keluarga / KK","3"=>"Rumah Tangga","4"=>"Kelompok/Organisasi Kemasyarakatan");
 			$data['desa'] = $this->header_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
-
+			$_SESSION['per_page'] = $temp;
 			$this->load->view('program_bantuan/unduh-sheet',$data);
 
 		}

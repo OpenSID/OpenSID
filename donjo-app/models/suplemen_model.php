@@ -132,6 +132,7 @@ class Suplemen_model extends CI_Model{
 		$hasil = array();
 		$data = $this->db->query($strSQL,$terdata)->result_array();
 		foreach($data as $item){
+			$item['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $item['id']); //hapus non_alpha di no_kk
 			$kk = array(
 				'id' => $item['id'],
 				'nik' => $item['id'],
