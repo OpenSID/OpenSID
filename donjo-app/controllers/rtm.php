@@ -264,7 +264,6 @@ function __construct(){
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$nav['act']= 3;
-
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
 		$this->load->view('sid/nav',$nav);

@@ -1,4 +1,26 @@
 <script type="text/javascript">
+  function ganti_rule_validasi(jenis){
+    switch(Number(jenis)) {
+      case 1:
+        // Hapus barang masih baik
+      case 2:
+        // Status rusak
+        $( "#jml_mutasi" ).rules( "add", {
+          range: [0,<?php echo ($inventaris['status_baik'])?>]
+        });
+        break;
+      case 4:
+        // Hapus barang rusak
+      case 3:
+        // Status diperbaiki
+        $( "#jml_mutasi" ).rules( "add", {
+          range: [0,<?php echo ($inventaris['status_rusak'])?>]
+        });
+        break;
+      default:
+    }
+  }
+
   function ubah_jenis_mutasi(jenis){
     if(jenis!=1 && jenis!=4){
       // Hapus barang baik atau rusak
@@ -12,15 +34,19 @@
       $('.hapus > select').addClass('required');
       $('.hapus').show();
     }
+    ganti_rule_validasi(jenis);
   }
 
   $('document').ready(function(){
+    $('input[name=tanggal_mutasi]').datepicker("option", "minDate", new Date("<?php
+      if($mutasi) echo rev_tgl($inventaris['tanggal_pengadaan']);
+      else echo rev_tgl($inventaris['mutasi_terakhir']); ?>"));
+    $('input[name=tanggal_mutasi]').datepicker("option", "maxDate", '+0m +0w');
     ubah_jenis_mutasi($('select[name=jenis_mutasi').val());
     $( "#mutasi" ).validate({
       rules: {
         jml_mutasi: {
-          required: true,
-          range: [1,<?php echo ($inventaris['jml_sekarang']+$mutasi['jml_mutasi'])?>]
+          required: true
         }
       }
     });
