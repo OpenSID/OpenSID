@@ -14,14 +14,14 @@ width: 260,
 noResultsText :'Tidak ada nama / nik yang sesuai..',
 onSelect: function() {
 $('#'+'main').submit();
-} 
+}
 });
 });
 </script>
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
+<td style="background:#fff;padding:0px;">
 <div class="content-header">
 <h3>Form Manajemen KK : <?php echo $kepala_kk['nama']?></h3>
 </div>
@@ -38,29 +38,29 @@ $('#'+'main').submit();
 <table width="100%" cellpadding="3" cellspacing="4">
 <div align="center">
 <h3> KARTU RUMAH TANGGA </h3>
-<h4>No. <?php echo unpenetration($kepala_kk['no_kk'])?> </h4> 
+<h4>No. <?php echo $kepala_kk['no_kk']?> </h4>
 </div>
 <tr>
 <td width="100">Alamat</td>
-<td width="200">: <?php echo strtoupper(unpenetration(ununderscore($kepala_kk['dusun']))) ?></td>
+<td width="200">: <?php echo strtoupper(ununderscore($kepala_kk['dusun'])) ?></td>
 <td width="120">Kabupaten</td>
-<td width="150">: <?php echo strtoupper(unpenetration($desa['nama_kabupaten'])) ?></td>
+<td width="150">: <?php echo strtoupper($desa['nama_kabupaten']) ?></td>
 </tr>
 <tr>
 <td>RT/RW</td>
-<td>: <?php echo unpenetration($kepala_kk['rt']) ?> / <?php echo unpenetration($kepala_kk['rw']) ?> </td>
+<td>: <?php echo $kepala_kk['rt'] ?> / <?php echo $kepala_kk['rw'] ?> </td>
 <td>Kode Pos</td>
 <td>: <?php echo $desa['kode_pos'] ?></td>
 </tr>
 <tr>
 <td>Kelurahan/Desa</td>
-<td>: <?php echo strtoupper(unpenetration($desa['nama_desa'])) ?></td>
+<td>: <?php echo strtoupper($desa['nama_desa']) ?></td>
 <td>Propinsi</td>
-<td>: <?php echo strtoupper(unpenetration($desa['nama_propinsi'])) ?></td>
+<td>: <?php echo strtoupper($desa['nama_propinsi']) ?></td>
 </tr>
 <tr>
 <td>Kecamatan</td>
-<td>: <?php echo strtoupper(unpenetration($desa['nama_kecamatan'])) ?></td>
+<td>: <?php echo strtoupper($desa['nama_kecamatan']) ?></td>
 <td>Jumlah Anggota Rumah Tangga</td>
 <td>: <?php echo count($main)?></td>
 </tr>
@@ -85,14 +85,14 @@ $('#'+'main').submit();
 <?php foreach($main as $data): ?>
 <tr>
 <td align="center" width="2"><?php echo $data['no']?></td>
-<td><?php echo strtoupper(unpenetration($data['nama']))?></td>
+<td><?php echo strtoupper($data['nama'])?></td>
 <td><?php echo $data['nik']?></td>
 <td><?php echo $data['no_kk']?></td>
-<td><?php echo $data['sex']?></td> 
-<td><?php echo $data['tempatlahir']?></td> 
-<td><?php echo $data['tanggallahir']?></td> 
-<td><?php echo $data['agama']?></td> 
-<td><?php echo $data['pendidikan']?></td> 
+<td><?php echo $data['sex']?></td>
+<td><?php echo $data['tempatlahir']?></td>
+<td><?php echo $data['tanggallahir']?></td>
+<td><?php echo $data['agama']?></td>
+<td><?php echo $data['pendidikan']?></td>
 <td><?php echo $data['pekerjaan']?></td>
 </tr>
 <?php endforeach; ?>
@@ -116,9 +116,9 @@ $('#'+'main').submit();
 <td align="center" width="2"><?php echo $data['no']?></td>
 <td><?php echo $data['status_kawin']?></td>
 <td><?php echo $data['hubungan']?></td>
-<td><?php echo $data['warganegara']?></td> 
-<td><?php echo strtoupper($data['nama_ayah'])?></td> 
-<td><?php echo strtoupper($data['nama_ibu'])?></td> 
+<td><?php echo $data['warganegara']?></td>
+<td><?php echo strtoupper($data['nama_ayah'])?></td>
+<td><?php echo strtoupper($data['nama_ibu'])?></td>
 <td><?php echo $data['golongan_darah']?></td>
 </tr>
 <?php endforeach; ?>
@@ -135,7 +135,7 @@ $('#'+'main').submit();
 <tr>
 <td width="100"></td>
 <td width="400"></td>
-<td align="center" width="150"><?php echo unpenetration($desa['nama_desa']) ?>, <?php echo tgl_indo(date("Y m d"))?></td>
+<td align="center" width="150"><?php echo $desa['nama_desa'] ?>, <?php echo tgl_indo(date("Y m d"))?></td>
 </tr>
 <tr></tr>
 <tr></tr>
@@ -160,16 +160,16 @@ $('#'+'main').submit();
 <p style="font-family:verdana,arial,sans-serif;font-size:10px;"></p>
 </div>
 <div class="ui-layout-south panel bottom">
-<div class="left"> 
-<a href="<?php echo site_url()?>rtm" class="uibutton icon prev">Kembali</a>
+<div class="left">
+<a href='<?php echo site_url()."rtm/anggota/$p/$o/$id_kk"?>' class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 <div class="uibutton-group">
 <a href="<?php echo site_url("rtm/cetak_kk/$id_kk")?>" target="_blank" class="uibutton special">Cetak</a>
 </div>
 </div>
-</div> 
-</form> 
+</div>
+</form>
 </div>
 </td></tr>
 </table>

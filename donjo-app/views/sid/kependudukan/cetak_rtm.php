@@ -59,11 +59,11 @@
 		<td><?php echo strtoupper($data['nama'])?></td>
 		<td><?php echo $data['nik']?></td>
 		<td><?php echo $data['no_kk']?></td>
-		<td><?php echo $data['sex']?></td> 
-		<td><?php echo $data['tempatlahir']?></td> 
-		<td><?php echo $data['tanggallahir']?></td> 
-		<td><?php echo $data['agama']?></td> 
-		<td><?php echo $data['pendidikan']?></td> 
+		<td><?php echo $data['sex']?></td>
+		<td><?php echo $data['tempatlahir']?></td>
+		<td><?php echo $data['tanggallahir']?></td>
+		<td><?php echo $data['agama']?></td>
+		<td><?php echo $data['pendidikan']?></td>
 		<td><?php echo $data['pekerjaan']?></td>
 	</tr>
 	<?php endforeach; ?>
@@ -88,9 +88,9 @@
 <td align="center" width="2"><?php echo $data['no']?></td>
 <td><?php echo $data['status_kawin']?></td>
 <td><?php echo $data['hubungan']?></td>
-<td><?php echo $data['warganegara']?></td> 
-<td><?php echo strtoupper($data['nama_ayah'])?></td> 
-<td><?php echo strtoupper($data['nama_ibu'])?></td> 
+<td><?php echo $data['warganegara']?></td>
+<td><?php echo strtoupper($data['nama_ayah'])?></td>
+<td><?php echo strtoupper($data['nama_ibu'])?></td>
 <td align="center"><?php echo $data['golongan_darah']?></td>
 </tr>
 <?php endforeach; ?>
@@ -105,7 +105,7 @@
 	</tr>
 <tr><td>&nbsp;</td></tr>
 <tr>
-	<td width="25%" align="center">KEPALA KELUARGA</td>
+	<td width="25%" align="center">KEPALA RUMAH TANGGA</td>
 	<td width="50%"></td>
 	<td align="center" width="150">KEPALA DESA <?php echo strtoupper($desa['nama_desa']) ?></td>
 	</tr>
