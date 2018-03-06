@@ -33,6 +33,7 @@
 			<th>No. KK</th>
 			<th>Nama</th>
 			<th>NIK</th>
+			<th>Nomor rumah tangga</th>
 			<th>Alamat</th>
 			<th ><?php echo ucwords($this->setting->sebutan_dusun)?></th>
 			<th >RW</th>
@@ -59,6 +60,7 @@
 			<td  class="textx"><?php echo $data['no_kk']?> </td>
 			<td><?php echo strtoupper($data['nama'])?></td>
 			<td class="textx"><?php echo $data['nik']?></td>
+			<td class="textx"><?php echo $data['no_rtm']?></td>
 			<td><?php echo strtoupper($data['alamat'])?></td>
 			<td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
 			<td><?php echo $data['rw']?></td>
