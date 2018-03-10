@@ -271,7 +271,8 @@
 			array('pekerjaan_id','pekerjaan_id'),
 			array('agama','agama_id'),
 			array('warganegara','warganegara_id'),
-			array('golongan_darah','golongan_darah_id')
+			array('golongan_darah','golongan_darah_id'),
+			array('no_rtm','id_rtm')
 		);
 		foreach ($kolom_kode as $kolom){
 			$sql .= $this->get_sql_kolom_kode($kolom[0],$kolom[1]);

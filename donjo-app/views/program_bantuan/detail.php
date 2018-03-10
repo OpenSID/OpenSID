@@ -131,9 +131,9 @@
 			        <form id="paging" action="<?php echo site_url('program_bantuan/detail/1/'.$detail['id'])?>" method="post">
 							  <label>Tampilkan</label>
 			          <select name="per_page" onchange="$('#paging').submit()" >
-			            <option value="50" <?php  selected($per_page,50); ?> >50</option>
-			            <option value="100" <?php  selected($per_page,100); ?> >100</option>
-			            <option value="200" <?php  selected($per_page,200); ?> >200</option>
+			            <option value="50" <?php  selected($per_page); ?> >50</option>
+			            <option value="100" <?php  selected($per_page); ?> >100</option>
+			            <option value="200" <?php  selected($per_page); ?> >200</option>
 			          </select>
 			          <label>Dari</label>
 			          <label><strong><?php echo $paging->num_rows?></strong></label>
