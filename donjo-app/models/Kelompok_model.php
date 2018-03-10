@@ -1,5 +1,5 @@
 <?php
-class kelompok_model extends CI_Model{
+class Kelompok_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}
@@ -169,6 +169,22 @@ class kelompok_model extends CI_Model{
 		$sql = "SELECT * FROM kelompok WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		$data = $query->row_array();
+		return $data;
+	}
+	function get_ketua_kelompok($id){
+		$this->load->model('penduduk_model');
+		$sql   = "SELECT u.id,u.nik,u.nama,k.id as id_kelompok,k.nama as nama_kelompok,u.tempatlahir,u.tanggallahir,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,d.nama as pendidikan,f.nama as warganegara,a.nama as agama,
+			wil.rt, wil.rw, wil.dusun
+			FROM kelompok k
+			LEFT JOIN tweb_penduduk u ON u.id= k.id_ketua
+			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
+			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
+			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+			LEFT JOIN tweb_wil_clusterdesa wil ON wil.id = u.id_cluster
+			WHERE k.id = $id LIMIT 1";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($data['id']);
 		return $data;
 	}
 	function get_anggota($id=0,$id_a=0){

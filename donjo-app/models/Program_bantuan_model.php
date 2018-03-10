@@ -118,7 +118,7 @@ class Program_bantuan_model extends CI_Model{
 				break;
 			case 4:
 				# Data Kelompok
-				$data = $this->kelompok_model->get_ketua_kelompok($peserta_id,true);
+				$data = $this->kelompok_model->get_ketua_kelompok($peserta_id);
 				$data['nik'] = $data['nama_kelompok']; // nama_kelompok untuk tampilan, id_kelompok digunakan sebagai id peserta
 				break;
 
@@ -388,7 +388,7 @@ class Program_bantuan_model extends CI_Model{
 						$i=0;
 						while($i<count($data)){
 							$data[$i]['id']=$data[$i]['id'];
-							$data[$i]['nik']=$data[$i]['peserta'];
+							$data[$i]['nik']=$data[$i]['nama_kelompok'];
 							$data[$i]['peserta_nama']=$data[$i]['nama_kelompok'];
 							$data[$i]['peserta_info']=$data[$i]['nama'];
 							$filter[] = $data[$i]['peserta'];
@@ -503,7 +503,7 @@ class Program_bantuan_model extends CI_Model{
 				$strSQL = "SELECT r.id, r.no_kk, o.nama, o.nik,w.rt,w.rw,w.dusun  FROM tweb_rtm r
 					LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
-					WHERE r.id='".fixSQL($id)."'";
+					WHERE r.no_kk=$id";
 				$query = $this->db->query($strSQL);
 				if($query->num_rows() > 0){
 					$row = $query->row_array();

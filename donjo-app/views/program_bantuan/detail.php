@@ -103,7 +103,9 @@
 						            <?php } ?>
 						          </div>
 						        </td>
-										<td><a href="<?php echo site_url('program_bantuan/peserta/'.$detail["sasaran"].'/'.$item["nik"].'/')?>" title="Daftar program untuk peserta"><?php echo $item["peserta_nama"] ?></a></td>
+						        <!-- id_peserta tergantung sasaran -->
+						        <?php $id_peserta = ($detail['sasaran'] == 4) ? $item['peserta'] : $item['nik'] ?>
+										<td><a href="<?php echo site_url('program_bantuan/peserta/'.$detail["sasaran"].'/'.$id_peserta.'/')?>" title="Daftar program untuk peserta"><?php echo $item["peserta_nama"] ?></a></td>
 										<td><a href="<?php echo site_url('program_bantuan/data_peserta/'.$item["id"])?>" title="Data peserta"><?php echo $item['no_id_kartu'];?></a></td>
 										<td><?php echo $item["peserta_info"]?></td>
 										<td><?php echo $item["info"];?></td>
