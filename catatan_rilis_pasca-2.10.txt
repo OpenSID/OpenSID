@@ -7,10 +7,10 @@ Lengkapnya, isi rilis versi pasca-2.10:
 1. #834: Tutup celah untuk mengunggah script PHP melalui foto di user_setting. [security-fix]
 2. #809: Sekarang semua data terunduh di menu Program Bantuan. [bug-fix]
 3. #822: Di modul inventaris bedakan penghapusan barang yang masih baik dan penghapusan barang rusak.
-4. #822: Tambahkan validasi di form mutasi inventaris supaya jumlah mutasi yang dimasukkan berada dalam kisaran yang dibolehkan.
+4. #822, #804: Tambahkan validasi di form mutasi inventaris supaya jumlah mutasi yang dimasukkan berada dalam kisaran yang dibolehkan.
 5. #819: Tampilan dan cetak Kartu Rumah Tangga sekarang menampilkan alamat kepala rumah tangga. [bug-fix]
 6. #841: Foto artikel sekarang bisa diunggah. [bug-fix]
-7. Sekarang nama penduduk (ibu atau anak) surat keterangan kelahiran tampil di arsip layanan. [bug-fix]
+7. #770: Sekarang nama penduduk (ibu atau anak) surat keterangan kelahiran tampil di arsip layanan. [bug-fix]
 8. #831, #832: Sekarang menu Database > Backup/Restore membuat backup yang berhasil diimpor phpmyadmin, dan bisa di-restore tanpa error. [bug-fix]
 9. #815: Pilihan eKTP dan data kelahiran sekarang tampil di form Tambah KK dan Tambah Anggota KK. [bug-fix]
 10. #817: Sekarang nama berisi petik (') tampil di surat keterangan orang tua/suami/istri. [bug-fix]
