@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi pasca-2.10:
 9. #815: Pilihan eKTP dan data kelahiran sekarang tampil di form Tambah KK dan Tambah Anggota KK. [bug-fix]
 10. #817: Sekarang nama berisi petik (') tampil di surat keterangan orang tua/suami/istri. [bug-fix]
 11. #829: Sekarang tabel statistik penduduk berdasarkan umur dapat diurut pada kolom2 yang disediakan. [bug-fix]
+12. #847: Sekarang bisa menambah peserta program bantuan sasaran Kelompok. Perbaiki menampilkan daftar program yang diikuti peserta. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.10, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
