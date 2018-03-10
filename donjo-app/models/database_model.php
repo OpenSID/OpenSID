@@ -1835,6 +1835,8 @@
       "analisis_tipe_indikator",
       "artikel", //remove everything except widgets 1003
       "data_surat", // view
+      "inventaris",
+      "jenis_barang",
       "media_sosial", //?
       "provinsi",
       "setting_modul",
@@ -1884,6 +1886,10 @@
     // relational constraint. Isi suplemen_terdata akan terhapus secara otomatis
     // pada saat menghapus isi suplemen.
     $this->db->query('DELETE FROM suplemen WHERE 1');
+    // Tabel jenis_barang dan inventaris tidak bisa di TRUNCATE karena ada
+    // relational constraint. Isi inventaris akan terhapus secara otomatis
+    // pada saat menghapus isi jenis_barang.
+    $this->db->query('DELETE FROM jenis_barang WHERE 1');
     $_SESSION['success'] = 1;
   }
 
