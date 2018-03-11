@@ -14,6 +14,7 @@ function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar){
 }
 
 function UploadFoto($fupload_name,$old_foto,$tipe_file=""){
+  $tipe_file = TipeFile($_FILES["foto"]);
   $dimensi = array("width"=>100, "height"=>100);
   if($old_foto!="") {
     // Hapus old_foto
@@ -401,11 +402,6 @@ function UploadLogox($fupload_name){
 function UploadResizeImage($lokasi,$dimensi,$jenis_upload,$fupload_name,$nama_simpan,$old_foto,$tipe_file){
   // Hanya bisa upload jpeg atau png
   $mime_type_image = array("image/jpeg", "image/pjpeg", "image/png", "image/x-png");
-  if (function_exists('finfo_open')) {
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $tipe_file = finfo_file($finfo, $_FILES[$jenis_upload]["tmp_name"]);
-    finfo_close($finfo);
-  }
   if(!in_array($tipe_file, $mime_type_image)){
     $_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
     $_SESSION['success']=-1;

@@ -233,6 +233,12 @@ function __construct(){
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
+		$data['wajib_ktp'] = $this->referensi_model->list_wajib_ktp();
+		$data['ktp_el'] = $this->referensi_model->list_ktp_el();
+		$data['status_rekam'] = $this->referensi_model->list_status_rekam();
+		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
+		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
+		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 
 		unset($_SESSION['dari_internal']);
 		$header = $this->header_model->get_data();
@@ -264,6 +270,13 @@ function __construct(){
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
+		$data['wajib_ktp'] = $this->referensi_model->list_wajib_ktp();
+		$data['ktp_el'] = $this->referensi_model->list_ktp_el();
+		$data['status_rekam'] = $this->referensi_model->list_status_rekam();
+		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
+		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
+		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
+
 		// Validasi dilakukan di keluarga_model sewaktu insert dan update
 		if ($_SESSION['validation_error']) {
 			$data['id_kk'] = $_SESSION['id_kk'];
