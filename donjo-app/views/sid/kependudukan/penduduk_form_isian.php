@@ -73,7 +73,7 @@
 <tr>
   <th>Nomor KK Sebelumnya</th>
   <td>
-    <input name="no_kk_sebelumnya" type="text" class="inputbox" size="30" value="<?php echo $penduduk['no_kk_sebelumnya']?>"/>
+    <input name="no_kk_sebelumnya" type="text" class="inputbox validkk" maxlength="16" size="30" value="<?php echo $penduduk['no_kk_sebelumnya']?>"/>
   </td>
 </tr>
 <tr>
