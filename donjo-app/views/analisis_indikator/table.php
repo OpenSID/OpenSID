@@ -6,6 +6,12 @@
 		});
 	});
 </script>
+<style type="text/css">
+	.disabled {
+	   pointer-events: none;
+	   cursor: default;
+	}
+</style>
 <div id="pageC">
 <?php $this->load->view('analisis_master/left',$data);?>
 <div class="content-header">
@@ -16,8 +22,14 @@
 <h3>Manajemen Indikator Analisis - <a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><a href="<?php echo site_url()?>analisis_master/menu/<?php echo $_SESSION['analisis_master']?>"><?php echo $analisis_master['nama']?></a></a></h3>
 <div class="left">
 <div class="uibutton-group">
-<?php if($analisis_master['lock']==1){?><a href="<?php echo site_url('analisis_indikator/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Indikator Baru</a>
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_indikator/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data<?php }?>
+	<?php if($analisis_master['lock']==1){?>
+		<a href="<?php echo site_url('analisis_indikator/form')?>" class="uibutton tipsy south <?php if($analisis_master['jenis']==1) echo 'disabled'?>" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Indikator Baru</a>
+		<button type="button" title="Hapus Data"
+			<?php if($analisis_master['jenis']!=1): ?>
+				onclick="deleteAllBox('mainform','<?php echo site_url("analisis_indikator/delete_all/$p/$o")?>')"
+			<?php endif; ?>
+			class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
+	<?php }?>
 </div>
 </div>
 </div>
@@ -54,7 +66,7 @@
 <tr>
 <th width="10">No</th>
 <?php if($analisis_master['lock']==1){?> <th><input type="checkbox" class="checkall"/></th>
-<th width="200">Aksi</th><?php }?>
+<th class='nostretch'>Aksi</th><?php }?>
 	 		<?php if($o==2): ?>
 				<th align="left"><a href="<?php echo site_url("analisis_indikator/index/$p/1")?>">Kode <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
 			<?php elseif($o==1): ?>
@@ -113,9 +125,15 @@
 			<td align="center" width="5">
 				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 			</td>
-			<td>
-				<div class="uibutton-group">
-				<?php if($data['id_tipe']==1 OR $data['id_tipe']==2){?><a href="<?php echo site_url("analisis_indikator/parameter/$data[id]")?>" class="uibutton"><span class="fa fa-list"> Jawaban</span></a><?php }?><a href="<?php echo site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"> Ubah </span></a><a href="<?php echo site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+			<td class="nostretch">
+				<div class="uibutton-group" style="display: flex;">
+					<?php if($data['id_tipe']==1 OR $data['id_tipe']==2){?>
+						<a href="<?php echo site_url("analisis_indikator/parameter/$data[id]")?>" class="uibutton"><span class="fa fa-list"> Jawaban</span></a>
+					<?php }?>
+					<a href="<?php echo site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"> Ubah </span></a>
+					<?php if($analisis_master['jenis']!=1): ?>
+						<a href="<?php echo site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+					<?php endif; ?>
 				</div>
 			</td>
 

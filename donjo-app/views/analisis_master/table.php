@@ -78,11 +78,17 @@
 			<tr>
 				<td align="center" width="2"><?php echo $data['no']?></td>
 				<td align="center" width="5">
-					<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
+					<?php if($data['jenis']!=1): ?>
+						<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
+					<?php endif;?>
 				</td>
 				<td>
 					<div class="uibutton-group">
-						<a href="<?php echo site_url("analisis_master/menu/$data[id]")?>" class="uibutton"><span class="fa fa-list"> Rincian </span></a><a href="<?php echo site_url("analisis_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"> Ubah </span></a><a href="<?php echo site_url("analisis_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+						<a href="<?php echo site_url("analisis_master/menu/$data[id]")?>" class="uibutton"><span class="fa fa-list"> Rincian </span></a>
+						<a href="<?php echo site_url("analisis_master/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"> Ubah </span></a>
+						<?php if($data['jenis']!=1): ?>
+							<a href="<?php echo site_url("analisis_master/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+						<?php endif;?>
 					</div>
 				</td>
 				<td><?php echo $data['nama']?></td>

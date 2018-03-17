@@ -58,10 +58,10 @@ display:none;
 <td>
 <div class="uiradio">
 <?php $ch='checked';?>
-<input type="radio" id="group3" name="subjek_tipe" value="1"/<?php if($analisis_master['subjek_tipe'] == '1' OR $analisis_master['subjek_tipe'] == ''){echo $ch;}?>><label for="group3">Penduduk</label>
-<input type="radio" id="group2" name="subjek_tipe" value="2"/<?php if($analisis_master['subjek_tipe'] == '2'){echo $ch;}?>><label for="group2">Keluarga / KK</label>
-<input type="radio" id="group1" name="subjek_tipe" value="3"/<?php if($analisis_master['subjek_tipe'] == '3'){echo $ch;}?>><label for="group1">Rumah Tangga</label>
-<input type="radio" id="group4" name="subjek_tipe" value="4"/<?php if($analisis_master['subjek_tipe'] == '4'){echo $ch;}?>><label for="group4">Kelompok</label>
+<input type="radio" id="group3" name="subjek_tipe" <?php if($analisis_master['jenis']==1) echo 'disabled="disabled"'?> value="1"/<?php if($analisis_master['subjek_tipe'] == '1' OR $analisis_master['subjek_tipe'] == ''){echo $ch;}?>><label for="group3">Penduduk</label>
+<input type="radio" id="group2" name="subjek_tipe" <?php if($analisis_master['jenis']==1) echo 'disabled="disabled"'?> value="2"/<?php if($analisis_master['subjek_tipe'] == '2'){echo $ch;}?>><label for="group2">Keluarga / KK</label>
+<input type="radio" id="group1" name="subjek_tipe" <?php if($analisis_master['jenis']==1) echo 'disabled="disabled"'?> value="3"/<?php if($analisis_master['subjek_tipe'] == '3'){echo $ch;}?>><label for="group1">Rumah Tangga</label>
+<input type="radio" id="group4" name="subjek_tipe" <?php if($analisis_master['jenis']==1) echo 'disabled="disabled"'?> value="4"/<?php if($analisis_master['subjek_tipe'] == '4'){echo $ch;}?>><label for="group4">Kelompok</label>
 </div>
 </td>
 </tr>
@@ -80,15 +80,15 @@ display:none;
 	<td>
 		<div class="uiradio">
 			<?php $ch='checked';?>
-			<input type="radio" id="g1" name="lock" value="1"/<?php if($analisis_master['lock'] == '1' OR $analisis_master['lock'] == ''){echo $ch;}?>><label for="g1">Tidak Terkunci</label>
-			<input type="radio" id="g2" name="lock" value="2"/<?php if($analisis_master['lock'] == '2'){echo $ch;}?>><label for="g2">Terkunci</label>
+			<input type="radio" id="g1" name="lock" <?php if($analisis_master['jenis']==1) echo 'disabled="disabled"'?> value="1"/<?php if($analisis_master['lock'] == '1' OR $analisis_master['lock'] == ''){echo $ch;}?>><label for="g1">Tidak Terkunci</label>
+			<input type="radio" id="g2" name="lock" <?php if($analisis_master['jenis']==1) echo 'disabled="disabled"'?> value="2"/<?php if($analisis_master['lock'] == '2'){echo $ch;}?>><label for="g2">Terkunci</label>
 		</div>
 	</td>
 </tr>
 <tr>
 	<th>Format Impor Tambahan</th>
 	<td>
-		<select name="format_impor">
+		<select name="format_impor" <?php if($analisis_master['jenis']==1) echo 'disabled="disabled"'?>>
 			<option value="">-- Pilih Format Impor --</option>
 			<?php foreach($list_format_impor AS $key => $nama){?>
 			<option value="<?php echo $key?>" <?php if($analisis_master['format_impor'] == $key) :?>selected<?php endif?>><?php echo $nama?></option>

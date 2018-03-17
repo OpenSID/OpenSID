@@ -189,7 +189,7 @@ class analisis_indikator extends CI_Controller{
 		$this->analisis_indikator_model->p_delete($id);
 		redirect("analisis_indikator/parameter/$in");
 	}
-	function p_delete_all(){
+	function p_delete_all($in=''){
 		$this->analisis_indikator_model->p_delete_all();
 		redirect("analisis_indikator/parameter/$in");
 	}

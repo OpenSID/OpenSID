@@ -9,7 +9,8 @@
     '2.6' => array('migrate' => 'migrasi_26_ke_27','nextVersion' => '2.7'),
     '2.7' => array('migrate' => 'migrasi_27_ke_28','nextVersion' => '2.8'),
     '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => '2.9'),
-    '2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => NULL)
+    '2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => '2.10'),
+    '2.10' => array('migrate' => 'migrasi_210_ke_211','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -19,6 +20,7 @@
     $this->load->dbforge();
     $this->load->model('folder_desa_model');
     $this->load->model('surat_master_model');
+    $this->load->model('analisis_import_model');
   }
 
   function cek_engine_db() {
@@ -135,6 +137,35 @@
     $this->migrasi_27_ke_28();
     $this->migrasi_28_ke_29();
     $this->migrasi_29_ke_210();
+    $this->migrasi_210_ke_211();
+  }
+
+  function migrasi_210_ke_211(){
+    // Tambah kolom jenis untuk analisis_master
+    $fields = array();
+    if (!$this->db->field_exists('jenis', 'analisis_master')) {
+      $fields['jenis'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2,
+          'null' => FALSE,
+          'default' => 2 // bukan bawaan sistem
+      );
+    }
+    $this->dbforge->add_column('analisis_master', $fields);
+    // Impor analisis Data Dasar Keluarga kalau belum ada
+    $query = $this->db->where('kode_analisis','DDKPD')
+      ->get('analisis_master')->result_array();
+    if(count($query) == 0){
+      $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xls';
+      $this->analisis_import_model->import_excel($file_analisis,'DDKPD',$jenis=1);
+    }
+    // Impor analisis Data Anggota Keluarga kalau belum ada
+    $query = $this->db->where('kode_analisis','DAKPD')
+      ->get('analisis_master')->result_array();
+    if(count($query) == 0){
+      $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xls';
+      $this->analisis_import_model->import_excel($file_analisis,'DAKPD',$jenis=1);
+    }
   }
 
   function migrasi_29_ke_210(){

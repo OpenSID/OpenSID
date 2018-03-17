@@ -4,17 +4,17 @@
 <table class="form">
 <tr>
 <th>Kode</th>
-<td><input name="kode_jawaban" type="text" class="inputbox" size="5" value="<?php echo $analisis_parameter['kode_jawaban']?>"/></td>
+<td><input name="kode_jawaban" type="text" class="inputbox" size="5" <?php if($analisis_master['jenis']==1) echo 'readonly="readonly"'?> value="<?php echo $analisis_parameter['kode_jawaban']?>"/></td>
 </tr>
 <tr>
 <th>Jawaban</th>
-<td><textarea name="jawaban" class="required" style="resize:none;width:300px;height:30px;"><?php echo $analisis_parameter['jawaban']?></textarea></td>
+<td><textarea name="jawaban" class="required" <?php if($analisis_master['jenis']==1) echo 'readonly="readonly"'?> style="resize:none;width:300px;height:30px;"><?php echo $analisis_parameter['jawaban']?></textarea></td>
 </tr>
 <tr>
 <th>Ukuran/Nilai</th>
 <td><input name="nilai" type="text" class="inputbox" size="10" value="<?php echo $analisis_parameter['nilai']?>"/></td>
 </tr>
-</tr> 
+</tr>
 </table>
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
  <div class="uibutton-group">
