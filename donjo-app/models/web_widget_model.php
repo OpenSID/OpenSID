@@ -182,14 +182,14 @@
 
 		$data = $_POST;
 		$data['enabled'] = 2;
-
+		
 		// Widget diberi urutan terakhir
 		$data['urut'] = $this->urut_max() + 1;
 		if ($data['jenis_widget']==2){
 			$data['isi'] = $data['isi-statis'];
 		}
 		elseif ($data['jenis_widget']==3){
-			$data['isi'] = $data['isi-dinamis'];
+			$data['isi'] = html_entity_decode($data['isi-dinamis']);
 		}
 		unset($data['isi-dinamis']);
 		unset($data['isi-statis']);
@@ -210,7 +210,7 @@
 			$this->db->set('isi',$data['isi-statis']);
 		}
 		elseif ($data['jenis_widget']==3){
-			$this->db->set('isi',$data['isi-dinamis']);
+			$this->db->set('isi',html_entity_decode($data['isi-dinamis']));
 		}
 		unset($data['isi-dinamis']);
 		unset($data['isi-statis']);
