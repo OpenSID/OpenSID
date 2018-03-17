@@ -16,7 +16,9 @@ header("Expires: 0");
 			<th width="25">No</th>
 			<th width="150" >Nomor Rumah Tangga</th>
 			<th width="200">Kepala Rumah Tangga</th>
+			<th   width="100">NIK</th>
 			<th width="100"  >Jumlah Anggota</th>
+			<th   width="100">Alamat</th>
 			<th   width="100">Dusun</th>
 			<th   width="30">RW</th>
 			<th   width="30">RT</th>
@@ -30,7 +32,9 @@ header("Expires: 0");
           <td><?php echo $data['no']?></td>
           <td><?php echo $data['no_kk']?></td>
 		  <td><?php echo strtoupper($data['kepala_kk'])?></td>
+		  <td><?php echo strtoupper($data['nik'])?></td>
           <td><?php echo $data['jumlah_anggota']?></td>
+		  <td><?php echo strtoupper($data['alamat'])?></td>
           <td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
 		  <td><?php echo strtoupper($data['rw'])?></td>
           <td><?php echo strtoupper($data['rt'])?></td>
