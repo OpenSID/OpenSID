@@ -469,7 +469,7 @@ table#kode {
     </tr>
     <tr>
       <td colspan="11" >&nbsp;</td>
-      <td colspan="7">a. Desa/Keluarga</td>
+      <td colspan="7">a. Desa/Kelurahan</td>
       <td colspan="12" class="kotak"><?php echo $input['desaibu'];?></td>
       <td colspan="5">b. Kecamatan</td>
       <td colspan="12" class="kotak"><?php echo $input['kecibu'];?></td>
@@ -651,7 +651,7 @@ table#kode {
     </tr>
     <tr>
       <td colspan="11" >&nbsp;</td>
-      <td colspan="7">a. Desa/Keluarga</td>
+      <td colspan="7">a. Desa/Kelurahan</td>
       <td colspan="12" class="kotak"><?php echo $input['desaayah'];?></td>
       <td colspan="5">b. Kecamatan</td>
       <td colspan="12" class="kotak"><?php echo $input['kecayah'];?></td>
@@ -804,7 +804,7 @@ table#kode {
     </tr>
     <tr>
       <td colspan="11">&nbsp;</td>
-      <td colspan="7">a. Desa/Keluarga</td>
+      <td colspan="7">a. Desa/Kelurahan</td>
       <td colspan="12" class="kotak"><?php echo $input['desapelapor'];?></td>
       <td colspan="5">b. Kecamatan</td>
       <td colspan="12" class="kotak"><?php echo $input['kecpelapor'];?></td>
@@ -941,7 +941,7 @@ table#kode {
     </tr>
     <tr>
       <td colspan="11" >&nbsp;</td>
-      <td colspan="7">a. Desa/Keluarga</td>
+      <td colspan="7">a. Desa/Kelurahan</td>
       <td colspan="12" class="kotak"><?php echo $input['desasaksi1'];?></td>
       <td colspan="5">b. Kecamatan</td>
       <td colspan="12" class="kotak"><?php echo $input['kecsaksi1'];?></td>
@@ -1079,7 +1079,7 @@ table#kode {
     </tr>
     <tr>
       <td colspan="11" >&nbsp;</td>
-      <td colspan="7">a. Desa/Keluarga</td>
+      <td colspan="7">a. Desa/Kelurahan</td>
       <td colspan="12" class="kotak"><?php echo $input['desasaksi2'];?></td>
       <td colspan="5">b. Kecamatan</td>
       <td colspan="12" class="kotak"><?php echo $input['kecsaksi2'];?></td>

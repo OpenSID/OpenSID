@@ -201,7 +201,7 @@ table.disdukcapil td.tengah { text-align: center; }
     </tr>
     <tr>
       <td colspan="11" >&nbsp;</td>
-      <td colspan="7" class="left">a. Desa/Keluarga</td>
+      <td colspan="7" class="left">a. Desa/Kelurahan</td>
       <td colspan="12" class="kotak"><?php echo $config['nama_desa'];?></td>
       <td colspan="5" class="left">b. Kecamatan</td>
       <td colspan="12" class="kotak"><?php echo $config['nama_kecamatan'];?></td>
