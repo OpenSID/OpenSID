@@ -92,8 +92,9 @@
                 				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga <span class="fa fa-sort fa-sm">&nbsp;</span></a>
               				<?php  endif; ?>
                     </th>
-
-            				<th width="100" align="center" align="center">Jumlah Anggota</th>
+                    <th align="center" align="center">NIK</th>    
+            				<th width="100" align="center">Jumlah Anggota</th>
+                    <th align="center" align="center">Alamat</th>
             				<th align="center" width="120"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
             				<th align="center" width="30">RW</th>
             				<th align="center" width="30">RT</th>
@@ -121,9 +122,11 @@
                         <label> <?php echo $data['no_kk']?> </label>
                       </td>
                 		  <td><?php echo strtoupper(unpenetration($data['kepala_kk']))?></td>
+                      <td><?php echo strtoupper($data['nik'])?></td>
                       <td>
                         <a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>"><?php echo $data['jumlah_anggota']?></a>
                       </td>
+                      <td><?php echo strtoupper($data['alamat'])?></td>
                       <td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
                 		  <td><?php echo strtoupper($data['rw'])?></td>
                       <td><?php echo strtoupper($data['rt'])?></td>
