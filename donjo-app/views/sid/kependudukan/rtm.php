@@ -31,7 +31,7 @@
           				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('rtm/dusun')?>')">
                     <option value=""><?php echo ucwords($this->setting->sebutan_dusun)?></option>
           					<?php foreach($list_dusun AS $data){?>
-                      <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+                      <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo strtoupper(ununderscore($data['dusun']))?></option>
           					<?php }?>
                   </select>
 
@@ -92,8 +92,9 @@
                 				<a href="<?php echo site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga <span class="fa fa-sort fa-sm">&nbsp;</span></a>
               				<?php  endif; ?>
                     </th>
-
-            				<th width="100" align="center" align="center">Jumlah Anggota</th>
+                    <th align="center" align="center">NIK</th>
+            				<th width="100" align="center">Jumlah Anggota</th>
+                    <th align="center" align="center">Alamat</th>
             				<th align="center" width="120"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
             				<th align="center" width="30">RW</th>
             				<th align="center" width="30">RT</th>
@@ -120,11 +121,13 @@
                       <td>
                         <label> <?php echo $data['no_kk']?> </label>
                       </td>
-                		  <td><?php echo strtoupper(unpenetration($data['kepala_kk']))?></td>
+                		  <td><?php echo strtoupper($data['kepala_kk'])?></td>
+                      <td><?php echo strtoupper($data['nik'])?></td>
                       <td>
                         <a href="<?php echo site_url("rtm/anggota/$p/$o/$data[id]")?>"><?php echo $data['jumlah_anggota']?></a>
                       </td>
-                      <td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+                      <td><?php echo strtoupper($data['alamat'])?></td>
+                      <td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
                 		  <td><?php echo strtoupper($data['rw'])?></td>
                       <td><?php echo strtoupper($data['rt'])?></td>
                       <td><?php echo tgl_indo($data['tgl_daftar'])?></td>
