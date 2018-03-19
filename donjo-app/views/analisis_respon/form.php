@@ -1,9 +1,9 @@
 <script>
 $(function(){
-	var op_item_width = (parseInt($('#op_item').width())/2);
-	var label_width = (parseInt($('#op_item').width())/2)-32;
-	$('#op_item div').css('clear','both');
-	$('#op_item div').css('float','left');
+	var op_item_width = (parseInt($('#op_item').width())/2-10);
+	var label_width = (parseInt($('#op_item').width())/2)-42;
+	// $('#op_item div').css('clear','both');
+	// $('#op_item div').css('float','left');
 	$('#op_item div').css('width',op_item_width);
 	$('#op_item label').css('width',label_width);
 	$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
@@ -41,6 +41,7 @@ $(function(){
 		font-size:14px;
 		font-weight:bold;
 	}
+	.atas {vertical-align: top;}
 </style>
 <div id="pageC">
 <?php if(!isset($_SESSION['fullscreen'])){?>
@@ -123,7 +124,8 @@ $(function(){
 			$last = $data['id_kategori'];
 			}
 		?>
-			<tr><td width="30%"><label class='tanya'><?php echo $data['nomor']?> ) <?php echo $data['pertanyaan']?></label></td>
+			<tr>
+				<td width="30%" class="atas"><label class='tanya'><?php echo $data['nomor']?> ) <?php echo $data['pertanyaan']?></label></td>
 			<?php if($data['id_tipe']==1){?>
 
 
@@ -137,13 +139,14 @@ $(function(){
 				</select>
 			<?php }elseif($data['id_tipe']==2){?>
 
-				<?php foreach($data['parameter_respon'] AS $data2){?>
 				<td id="op_item">
-				<div>
-					<input type="checkbox" name="cb[<?php echo $data2['id_parameter']?>_<?php echo $data['id']?>]" value="<?php echo $data['id']?>.<?php echo $data2['id_parameter']?>" <?php if($data2['cek']){echo " checked";}?>>
-					<label><?php echo $data2['kode_jawaban']?>. <?php echo $data2['jawaban']?></label>
-				</div>
+				<?php foreach($data['parameter_respon'] AS $data2){?>
+						<div style="display: inline-block;">
+							<input type="checkbox" name="cb[<?php echo $data2['id_parameter']?>_<?php echo $data['id']?>]" value="<?php echo $data['id']?>.<?php echo $data2['id_parameter']?>" <?php if($data2['cek']){echo " checked";}?>>
+							<label><?php echo $data2['kode_jawaban']?>. <?php echo $data2['jawaban']?></label>
+						</div>
 				<?php }?>
+				</td>
 
 			<?php }elseif($data['id_tipe']==3){?>
 
