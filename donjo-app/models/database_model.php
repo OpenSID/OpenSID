@@ -167,11 +167,18 @@
       $this->analisis_import_model->import_excel($file_analisis,'DDK02',$jenis=1);
     }
     // Impor analisis Data Anggota Keluarga kalau belum ada
-    $query = $this->db->where('kode_analisis','DAKPD')
+    // Ubah versi pra-rilis yang sudah diganti menjadi non-sistem
+    $dak_lama = $this->db->where('kode_analisis','DAKPD')->where('jenis',1)
+      ->get('analisis_master')->row();
+    if($dak_lama){
+      $this->db->where('id',$dak_lama->id)
+      ->update('analisis_master',array('jenis' => 2, 'nama' => '[kadaluarsa] '.$dak_lama->nama));
+    }
+    $query = $this->db->where('kode_analisis','DAK02')
       ->get('analisis_master')->result_array();
     if(count($query) == 0){
       $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xls';
-      $this->analisis_import_model->import_excel($file_analisis,'DAKPD',$jenis=1);
+      $this->analisis_import_model->import_excel($file_analisis,'DAK02',$jenis=1);
     }
   }
 
@@ -1930,9 +1937,9 @@
     $this->db->query('DELETE FROM jenis_barang WHERE 1');
     // Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
     $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xls';
-    $this->analisis_import_model->import_excel($file_analisis,'DDKPD',$jenis=1);
+    $this->analisis_import_model->import_excel($file_analisis,'DDK02',$jenis=1);
     $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xls';
-    $this->analisis_import_model->import_excel($file_analisis,'DAKPD',$jenis=1);
+    $this->analisis_import_model->import_excel($file_analisis,'DAK02',$jenis=1);
 
     $_SESSION['success'] = 1;
   }
