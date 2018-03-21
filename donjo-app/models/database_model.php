@@ -152,12 +152,19 @@
       );
     }
     $this->dbforge->add_column('analisis_master', $fields);
-    // Impor analisis Data Dasar Keluarga kalau belum ada
-    $query = $this->db->where('kode_analisis','DDKPD')
+    // Impor analisis Data Dasar Keluarga kalau belum ada.
+    // Ubah versi pra-rilis yang sudah diganti menjadi non-sistem
+    $ddk_lama = $this->db->where('kode_analisis','DDKPD')->where('jenis',1)
+      ->get('analisis_master')->row();
+    if($ddk_lama){
+      $this->db->where('id',$ddk_lama->id)
+      ->update('analisis_master',array('jenis' => 2, 'nama' => '[kadaluarsa] '.$ddk_lama->nama));
+    }
+    $query = $this->db->where('kode_analisis','DDK02')
       ->get('analisis_master')->result_array();
     if(count($query) == 0){
       $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xls';
-      $this->analisis_import_model->import_excel($file_analisis,'DDKPD',$jenis=1);
+      $this->analisis_import_model->import_excel($file_analisis,'DDK02',$jenis=1);
     }
     // Impor analisis Data Anggota Keluarga kalau belum ada
     $query = $this->db->where('kode_analisis','DAKPD')

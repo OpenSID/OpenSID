@@ -18,6 +18,11 @@ Lengkapnya, isi rilis versi pasca-2.10:
 12. #847: Sekarang bisa menambah peserta program bantuan sasaran Kelompok. Perbaiki menampilkan daftar program yang diikuti peserta. [bug-fix]
 13. #572: Hapus Database > Ekspor Database > Ekspor Analisis, karena tidak digunakan. Sekalian hapus fungsi dan file terkait analisis_keluarga yang tidak digunakan.
 14. #813: Tambahkan validasi Nomor KK Sebelumnya di form isian Penduduk.
-
+15. #851: Sekarang tidak error pada waktu mengosongkan DB di menu Database > Backup/Restore > Kosongkan DB. [bug-fix]
+16. #848, #849: Tambahkan Analisis DDK Profil Desa dan Analisis DAK Profil Desa yang sudah disesuaikan dengan form isian Prodeskel online, sebagai analisis sistem yang tidak bisa dihapus atau diubah
+17. Sekarang bisa mengisi kuesioner analisis di mana ada isian pilihan yang kosong. [bug-fix]
+18. Tampilkan pilihan checkbox secara vertikal (tidak lagi horizontal) di form input data respon analisis.
+19. #862: Ganti tulisan 'Desa/Keluarga' menjadi 'Desa/Kelurahan' di Surat Keterangan Lahir, Surat Keterangan Kematian, Surat Permohonan Kartu Keluarga dan Surat Permohonan Perubahan Kartu Keluarga. [bug-fix]
+20. #786: Tambah kolom NIK dan alamat kepala rumah tangga di halaman rumah tangga, di cetakan dan unduhan laporan rumah tangga.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.10, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
