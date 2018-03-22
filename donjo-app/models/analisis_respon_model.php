@@ -710,7 +710,7 @@
 			$data[$i]['no'] 	= $i+1;
 			$data[$i]['par']	= null;
 
-			if($p == 1){
+			if($p == 2){
 				$sql2 	= "SELECT * FROM analisis_parameter WHERE id_indikator = ? AND asign = 1 ";
 				$query2 = $this->db->query($sql2,$data[$i]['id']);
 				$par	= $query2->result_array();

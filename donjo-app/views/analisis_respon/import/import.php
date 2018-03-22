@@ -2,11 +2,11 @@
 	<table class="form">
 		<tr>
 			<td colspan='2'>
-				Pastikan format berkas telah sesuai <?php echo $jml ?>
+				Pastikan format berkas telah sesuai. Format yang dibutuhkan dapat diunduh menggunakan tombol Unduh.
 			</td>
 		</tr>
 		<tr>
-			<th>Unggah Form Excel</th>
+			<th>Unggah Data Respon</th>
 			<td><input name="respon" type="file" /></td>
 		</tr>
 	</table>
