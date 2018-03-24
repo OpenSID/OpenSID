@@ -786,6 +786,7 @@
 		$mas = $_SESSION['analisis_master'];
 		$key = ($per+3)*($mas+7)*($subjek*3);
 		$key = "AN".$key;
+		$respon = array();
 
 		$sql = "SELECT * FROM analisis_indikator WHERE id_master=? ORDER BY id ASC";
 		$query = $this->db->query($sql,$_SESSION['analisis_master']);
@@ -817,7 +818,6 @@
 				}
 			}
 		}
-
 		if($ketemu==1){
 
 			$dels = "";
@@ -844,11 +844,10 @@
 			//cek ada row
 
 			//echo $dels;
-			$sql = "DELETE FROM analisis_respon WHERE id_subjek IN(?) AND id_periode=?";
-			$this->db->query($sql,array($dels,$per));
+
+			$this->db->where("id_subjek in($dels)")->where('id_periode',$per)->delete('analisis_respon');
 			$dels = "";
 
-			$n = 0;
 			for ($i=$br;$i<=$baris;$i++){
 
 				$id_subjek = $data->val($i,$kl-1,$s);
@@ -864,88 +863,68 @@
 				foreach($indikator AS $indi){
 					$isi = $data->val($i,$j,$s);
 					if($isi != ""){
-					if($indi['id_tipe']==1){
-						$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND kode_jawaban = ?;";
-						$query = $this->db->query($sql,array($indi['id'],$isi));
-						$param 	= $query->row_array();
+						if($indi['id_tipe']==1){
+							$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND kode_jawaban = ?;";
+							$query = $this->db->query($sql,array($indi['id'],$isi));
+							$param 	= $query->row_array();
 
-						if($param){
-							$in_param = $param['id'];
-						}else{
-							if($isi == "")
-								$in_param = 0;
-							else
-								$in_param = -1;
+							if($param){
+								$in_param = $param['id'];
+							}else{
+								if($isi == "")
+									$in_param = 0;
+								else
+									$in_param = -1;
 
-						}
-
-						$respon[$n]['id_parameter']		= $in_param;
-						$respon[$n]['id_indikator']		= $indi['id'];
-						$respon[$n]['id_subjek']		= $id_subjek;
-						$respon[$n]['id_periode']		= $per;
-						$n++;
-
-					}elseif($indi['id_tipe']==2){
-						$id_isi = explode(",",$isi);
-
-						//if(count($id_isi) > 1){
-							//foreach($id_isi AS $ids){
-								//echo "<br>".count($id_isi)." -> ";
-							for($q=0;$q<(count($id_isi));$q++){
-								//echo $id_isi[$q]." ";
-								$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND kode_jawaban = ? ;";
-								$query = $this->db->query($sql,array($indi['id'],$id_isi[$q]));
-								$param 	= $query->row_array();
-
-								if($param['id'] != ""){
-									$in_param = $param['id'];
-									$respon[$n]['id_parameter']		= $in_param;
-									$respon[$n]['id_indikator']		= $indi['id'];
-									$respon[$n]['id_subjek']		= $id_subjek;
-									$respon[$n]['id_periode']		= $per;
-									$n++;
-								}
 							}
-						//}
 
-					}else{
+							$respon[] = array(
+								'id_parameter' 	=> $in_param,
+								'id_indikator' 	=> $indi['id'],
+								'id_subjek'			=> $id_subjek,
+								'id_periode'		=> $per);
 
-						$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND jawaban = ?;";
-						$query = $this->db->query($sql,array($indi['id'],$isi));
-						$param 	= $query->row_array();
-
-						// apakah sdh ada jawaban yg sama
-						if($param){
-							$in_param = $param['id'];
+						}elseif($indi['id_tipe']==2){
+							$this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon);
 						}else{
-							$parameter['jawaban']	= $isi;
-							$parameter['id_indikator']	= $indi['id'];
-							$parameter['asign']			= 0;
-
-							$this->db->insert('analisis_parameter',$parameter);
 
 							$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND jawaban = ?;";
 							$query = $this->db->query($sql,array($indi['id'],$isi));
 							$param 	= $query->row_array();
-							//if($param){
-								$in_param = $param['id'];
-							//}else{
-								//$in_param	= $id_param;
-						//	}
-						}
 
-						$respon[$n]['id_parameter']		= $in_param;
-						$respon[$n]['id_indikator']		= $indi['id'];
-						$respon[$n]['id_subjek']		= $id_subjek;
-						$respon[$n]['id_periode']		= $per;
-						$n++;
-					}
+							// apakah sdh ada jawaban yg sama
+							if($param){
+								$in_param = $param['id'];
+							}else{
+								$parameter['jawaban']	= $isi;
+								$parameter['id_indikator']	= $indi['id'];
+								$parameter['asign']			= 0;
+
+								$this->db->insert('analisis_parameter',$parameter);
+
+								$sql = "SELECT id FROM analisis_parameter WHERE id_indikator = ? AND jawaban = ?;";
+								$query = $this->db->query($sql,array($indi['id'],$isi));
+								$param 	= $query->row_array();
+								//if($param){
+									$in_param = $param['id'];
+								//}else{
+									//$in_param	= $id_param;
+							//	}
+							}
+
+							$respon[] = array(
+								'id_parameter' 	=> $in_param,
+								'id_indikator' 	=> $indi['id'],
+								'id_subjek'			=> $id_subjek,
+								'id_periode'		=> $per);
+						}
 					}
 
 					$j++;
 				}
 			}
-			if($n>0)
+
+			if(count($respon)>0)
 				$outp = $this->db->insert_batch('analisis_respon',$respon);
 			else
 				$outp = false;
@@ -956,6 +935,30 @@
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
+
+	private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon) {
+		$list_isi = explode(",",$isi);
+		foreach($list_isi as $isi_ini){
+			if($indi['is_teks'] == 1) {
+				// Isian sebagai teks pilihan bukan kode
+				$teks = strtolower($isi_ini);
+				$param = $this->db->where('id_indikator',$indi['id'])->where("LOWER(jawaban) = '$teks'")
+					->get('analisis_parameter')->row_array();
+			} else {
+				$param = $this->db->where('id_indikator',$indi['id'])->where("kode_jawaban",$isi_ini)
+					->get('analisis_parameter')->row_array();
+			}
+			if($param['id'] != ""){
+				$in_param = $param['id'];
+				$respon[] = array(
+					'id_parameter' 	=> $in_param,
+					'id_indikator' 	=> $indi['id'],
+					'id_subjek'			=> $id_subjek,
+					'id_periode'		=> $per);
+			}
+		}
+	}
+
 //------------------
 
 	function satu_jiwa($op=0){

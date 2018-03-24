@@ -174,12 +174,35 @@
       $this->db->where('id',$dak_lama->id)
       ->update('analisis_master',array('jenis' => 2, 'nama' => '[kadaluarsa] '.$dak_lama->nama));
     }
-    $query = $this->db->where('kode_analisis','DAK02')
-      ->get('analisis_master')->result_array();
-    if(count($query) == 0){
+    $dak = $this->db->where('kode_analisis','DAK02')
+      ->get('analisis_master')->row();
+    if(empty($dak)){
       $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xls';
-      $this->analisis_import_model->import_excel($file_analisis,'DAK02',$jenis=1);
+      $id_dak = $this->analisis_import_model->import_excel($file_analisis,'DAK02',$jenis=1);
+    } else $id_dak = $dak->id;
+    // Tambah kolom is_teks pada analisis_indikator
+    $fields = array();
+    if (!$this->db->field_exists('is_teks', 'analisis_indikator')) {
+      $fields['is_teks'] = array(
+          'type' => 'tinyint',
+          'constraint' => 1,
+          'null' => FALSE,
+          'default' => 0 // isian pertanyaan menggunakan kode
+      );
     }
+    $this->dbforge->add_column('analisis_indikator', $fields);
+    // Ubah pertanyaan2 DAK profil desa menggunakan teks
+    $pertanyaan = array(
+      'Cacat Fisik',
+      'Cacat Mental',
+      'Kedudukan Anggota Keluarga sebagai Wajib Pajak dan Retribusi',
+      'Lembaga Pemerintahan Yang Diikuti Anggota Keluarga',
+      'Lembaga Kemasyarakatan Yang Diikuti Anggota Keluarga',
+      'Lembaga Ekonomi Yang Dimiliki Anggota Keluarga'
+    );
+    $list_pertanyaan = sql_in_list($pertanyaan);
+    $this->db->where('id_master',$id_dak)->where("pertanyaan in($list_pertanyaan)")
+      ->update('analisis_indikator',array('is_teks' => 1));
   }
 
   function migrasi_29_ke_210(){

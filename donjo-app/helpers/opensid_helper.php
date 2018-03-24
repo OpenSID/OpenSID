@@ -600,4 +600,13 @@ define("ASAL_INVENTARIS", serialize(array(
       }
     }
   }
+
+  function sql_in_list($list_array){
+    $prefix = $list = '';
+    foreach($list_array as $key => $value){
+      $list .= $prefix . "'" . $value . "'";
+      $prefix = ', ';
+    }
+    return $list;
+  }
 ?>

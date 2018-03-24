@@ -102,5 +102,7 @@ class analisis_import_Model extends CI_Model{
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
+
+		return $id_master;
 	}
 }

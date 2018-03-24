@@ -48,34 +48,34 @@ td,th{
 			}else{
 				$w = "width='80'";
 			}
-			
+
 			if($pt['id_tipe'] == 1){
-				
+
 				echo "<td $w>";
 				echo $pt['no']."<br>".$pt['pertanyaan'];
-				
+
 				if($pt['par']){
 					foreach($pt['par'] AS $jb){
 						echo "<br>".$jb['kode_jawaban']." ".$jb['jawaban'];
 					}
 				}
-				
+
 				echo "</td>";
-				
+
 			}else
 			if($pt['id_tipe'] == 2){
-				
+
 				echo "<td $w style='background-color:#aaaafe;'>";
 				echo $pt['no']."<br>".$pt['pertanyaan'];
-				
+
 				if($pt['par']){
 					foreach($pt['par'] AS $jb){
 						echo "<br>".$jb['kode_jawaban']." ".$jb['jawaban'];
 					}
 				}
-				
+
 				echo "</td>";
-				
+
 			} elseif($pt['id_tipe'] == 3) {
 				echo "<td style='background-color:#00fe00;'>";
 				echo $pt['no']."<br>".$pt['pertanyaan'];
@@ -116,7 +116,7 @@ td,th{
 				echo "<td></td>";
 			}
 		}else{
-			
+
 			foreach($indikator as $pt){
 				//cumawarna
 				$bx = "";
@@ -124,7 +124,7 @@ td,th{
 				foreach($data['par'] AS $jawab){
 					$isi = "";
 					if($pt['id'] == $jawab['id_indikator'] AND $false == 0){
-						
+
 						if($pt['id_tipe'] == 1){
 							$isi = $jawab['kode_jawaban'];
 						}elseif($pt['id_tipe'] == 2){
@@ -132,65 +132,67 @@ td,th{
 						}else{
 							$isi = $jawab['jawaban'];
 						}
-						
+
 						//kosong dia
 						if($isi == ""){
 							$bx = "style='background-color:#bbffbb;'";
 						}
-						
+
 						//koreksi
 						if($jawab['korek'] == -1){
 							$bx = "style='background-color:#ff9999;'";
 						}
-						
+
 						if($pt['id_tipe'] != 2){
 						$false = 1;
 						}
 					}
 				}
-				
+
 				echo "<td $bx>";
-				
+
 				$false = 0;
 				$isi = "";
 				foreach($data['par'] AS $jawab){
 					if($pt['id'] == $jawab['id_indikator'] AND $false == 0){
-						
+
 						if($pt['id_tipe'] == 1){
 							$isi = $jawab['kode_jawaban'];
-						}elseif($pt['id_tipe'] == 2){
+						}elseif($pt['id_tipe'] == 2 AND $pt['is_teks'] == 0){
 							$isi .= $jawab['kode_jawaban'].",";
+						}elseif($pt['id_tipe'] == 2 AND $pt['is_teks'] == 1){
+							$isi .= $jawab['jawaban'].",";
 						}else{
 							$isi = $jawab['jawaban'];
 						}
-						
+
 						//kosong dia
 						if($isi == ""){
 							$bx = "style='background-color:#bbffbb;'";
 						}
-						
+
 						//koreksi
 						if($jawab['korek'] == -1){
 							$isi = "xxx";
 							$bx = "style='background-color:#ff9999;'";
 						}
-						
+
 						if($pt['id_tipe'] != 2){
 						$false = 1;
 						}
 					}
 				}
-				
+
 				//DEL last koma
 				if($pt['id_tipe'] == 2){
 					$jml = strlen($isi);
 					$isi = substr($isi,0,$jml-1);
 				}
-				
+
 				echo $isi;
 				echo "</td $bx>";
 			}
-			
+
 		}
 		?>
 	</tr>
