@@ -2991,8 +2991,22 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
-INSERT INTO user (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES ('1', 'admin', 'edc64352387aa108dac115ec1493d5d4', '1', 'admin@combine.or.id', '2016-09-11 02:55:19', '1', 'Administrator', 'ADMIN', '321', 'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30');
 
+INSERT INTO user (
+  `id`, `username`,
+   `password`,
+   `id_grup`, `email`, 
+  `last_login`, `active`, `nama`, `company`, `phone`, 
+  `foto`, `session`
+) 
+VALUES (
+  '1', 'admin',
+  # Default password admin: sid304
+  '$2y$10$mujwZFrVY2sMPZvceRli8eACTUviWvX9mtvi2HiWhXqRhDrFEHyJy',
+  '1', 'admin@combine.or.id',
+ '2016-09-11 02:55:19', '1', 'Administrator', 'ADMIN', '321',
+  'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30'
+);
 
 #
 # TABLE STRUCTURE FOR: user_grup
