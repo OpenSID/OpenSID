@@ -3,7 +3,9 @@
 define("KODE_KATEGORI", serialize(array(
 			1 => 'Umum',
 			2 => 'SK Kepala Desa',
-			3 => 'Peraturan Desa')));
+			3 => 'Peraturan Desa',
+			4 => 'SPPD'
+		)));
 
 class Web_Dokumen_Model extends CI_Model{
 

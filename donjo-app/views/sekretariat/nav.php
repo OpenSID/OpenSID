@@ -1,7 +1,7 @@
 <div id="nav">
 <ul>
-	<li class="nonaktif" <?php if($this->tab_ini == 1){?>class="selected"<?php }?>>
-		<a href="#">Surat Keluar</a>
+	<li <?php if($this->tab_ini == 1){?>class="selected"<?php }?>>
+		<a href=<?php echo site_url("surat_internal") ?>>Surat Keluar Internal</a>
 	</li>
 	<li <?php if($this->tab_ini == 2){?>class="selected"<?php }?>>
 		<a href="<?php echo site_url('surat_masuk/clear')?>">Surat Masuk</a>

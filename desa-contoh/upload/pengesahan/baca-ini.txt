@@ -1,5 +1,0 @@
-*******************************
-Folder: desa/upload/pengesahan
-*******************************
-
-Folder ini tempat menyimpan semua gambar yang diunggah sebagai pengesahan analisis.
