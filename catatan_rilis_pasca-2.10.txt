@@ -24,5 +24,9 @@ Lengkapnya, isi rilis versi pasca-2.10:
 18. Tampilkan pilihan checkbox secara vertikal (tidak lagi horizontal) di form input data respon analisis.
 19. #862: Ganti tulisan 'Desa/Keluarga' menjadi 'Desa/Kelurahan' di Surat Keterangan Lahir, Surat Keterangan Kematian, Surat Permohonan Kartu Keluarga dan Surat Permohonan Perubahan Kartu Keluarga. [bug-fix]
 20. #786: Tambah kolom NIK dan alamat kepala rumah tangga di halaman rumah tangga, di cetakan dan unduhan laporan rumah tangga.
+21. #803: Tambahkan baris jumlah di semua tampilan statistik.
+22. #865: Buat tombol unduh dan impor terpisah di halaman Input Data Respon Analisis.
+23. #864: Ekspor dan impor jawaban pertanyaan checkbox analisis DAK profil desa sebagai teks pilihan, bukan kode.
+24. #878: Perbaiki tautan pada bilangan di berbagai laporan di menu Statistik. [bug-fix]
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.10, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

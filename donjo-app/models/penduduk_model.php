@@ -176,18 +176,19 @@
 
 	function status_ktp_sql(){
 		// Filter berdasarkan data eKTP
+		$wajib_ktp_sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) ";
 		if(isset($_SESSION['status_ktp'])){
 			$kf = $_SESSION['status_ktp'];
 			if ($kf == BELUM_MENGISI)
-				$sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND (u.status_rekam IS NULL OR u.status_rekam = '')";
+				$sql = $wajib_ktp_sql." AND (u.status_rekam IS NULL OR u.status_rekam = '')";
 			else {
 				if($kf <> 0){
 					$status_ktp = $this->db->where('id',$kf)->get('tweb_status_ktp')->row_array();
 					$status_rekam = $status_ktp['status_rekam'];
-					$sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = $status_rekam";
+					$sql = $wajib_ktp_sql." AND u.status_rekam = $status_rekam";
 				} else {
 					// TOTAL hanya yang wajib KTP
-					$sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) ";
+					$sql = $wajib_ktp_sql;
 				}
 			}
 		return $sql;
