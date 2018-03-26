@@ -54,6 +54,7 @@ function __construct(){
 		unset($_SESSION['pekerjaan_id']);
 		unset($_SESSION['status']);
 		unset($_SESSION['status_penduduk']);
+		unset($_SESSION['status_ktp']);
 		redirect('statistik');
 	}
 

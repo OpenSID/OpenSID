@@ -152,7 +152,7 @@
 			$kf = $_SESSION['umurx'];
 			if ($kf != BELUM_MENGISI)
 				$umur_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= (SELECT dari FROM tweb_penduduk_umur WHERE id=$kf ) AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= (SELECT sampai FROM tweb_penduduk_umur WHERE id=$kf ) ";
-			else $umur_sql = '';
+			else $umur_sql = " AND u.tanggallahir IS NULL OR u.tanggallahir = '' ";
 		return $umur_sql;
 		}
 	}
@@ -177,10 +177,19 @@
 	function status_ktp_sql(){
 		// Filter berdasarkan data eKTP
 		if(isset($_SESSION['status_ktp'])){
-			$status_ktp = $this->db->where('id',$_SESSION['status_ktp'])->get('tweb_status_ktp')->row_array();
-			$ktp_el = $status_ktp['ktp_el'];
-			$status_rekam = $status_ktp['status_rekam'];
-			$sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.ktp_el = $ktp_el AND u.status_rekam = $status_rekam";
+			$kf = $_SESSION['status_ktp'];
+			if ($kf == BELUM_MENGISI)
+				$sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND (u.status_rekam IS NULL OR u.status_rekam = '')";
+			else {
+				if($kf <> 0){
+					$status_ktp = $this->db->where('id',$kf)->get('tweb_status_ktp')->row_array();
+					$status_rekam = $status_ktp['status_rekam'];
+					$sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = $status_rekam";
+				} else {
+					// TOTAL hanya yang wajib KTP
+					$sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) ";
+				}
+			}
 		return $sql;
 		}
 	}
