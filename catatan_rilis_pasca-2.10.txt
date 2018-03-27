@@ -1,6 +1,6 @@
-Rilis ini berisi [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+Rilis ini menambahkan pengelolaan data Profil Desa (data dasar keluarga dan data anggota keluarga). Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
-Terima kasih pada Bimo Aji P dan [untuk diisi] yang rajin berkontribusi.
+Terima kasih pada Bimo Aji P dan Ahmad Afandi yang rajin berkontribusi.
 
 Lengkapnya, isi rilis versi pasca-2.10:
 
