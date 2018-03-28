@@ -256,7 +256,7 @@ table.form.detail td{
     /
     <input name="tanggal_mati" type="text" class="inputbox required datepicker" size="11" value="<?php echo $_SESSION['post']['tanggal_mati']?>"/>
     /
-    <em>*Isi waktu kelahiran etc : 08:00</em>
+    <em>*Isi waktu kematian etc : 08:00</em>
     <input name="jam" type="text" class="inputbox required" size="10" value="<?php echo $_SESSION['post']['jam']?>"/>
   </td>
 </tr>
