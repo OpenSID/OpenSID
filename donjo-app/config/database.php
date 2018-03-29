@@ -9,7 +9,7 @@ if(is_file($konfigurasi_db)) {
   $db['default']['hostname'] = 'localhost';
   $db['default']['username'] = 'root';
   $db['default']['password'] = '';
-  $db['default']['database'] = 'opensid';
+  $db['default']['database'] = 'dbopensid';
 }
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
