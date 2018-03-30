@@ -1,6 +1,6 @@
 Rilis ini menambahkan pengelolaan data Profil Desa (data dasar keluarga dan data anggota keluarga). Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
-Terima kasih pada Bimo Aji P dan Ahmad Afandi yang rajin berkontribusi.
+Terima kasih pada Bimo Aji P dan Ahmad Afandi yang rajin berkontribusi. Terima kasih pula pada Suyadi Bin Hadi yang mulai kontribusi.
 
 Lengkapnya, isi rilis versi pasca-2.10:
 
@@ -28,5 +28,6 @@ Lengkapnya, isi rilis versi pasca-2.10:
 22. #865: Buat tombol unduh dan impor terpisah di halaman Input Data Respon Analisis.
 23. #864: Ekspor dan impor jawaban pertanyaan checkbox analisis DAK profil desa sebagai teks pilihan, bukan kode.
 24. #878: Perbaiki tautan pada bilangan di berbagai laporan di menu Statistik. [bug-fix]
+25: #884: Sekarang NIK & nama penduduk berisi tanda petik (') yang telah dipilih tampil di Surat Keterangan Pengantar. [bug-fix]
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.10, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
