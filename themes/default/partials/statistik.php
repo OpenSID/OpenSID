@@ -12,7 +12,7 @@ $(function () {
 					xAxis: {
                         categories: [
 						<?php  $i=0;foreach($stat as $data){$i++;?>
-						  <?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){echo "'$i',";}?>
+						  <?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){echo "'$i',";}?>
 						<?php }?>
 						]
 					},
@@ -35,7 +35,7 @@ $(function () {
 				border:1,
                 data: [
 						<?php  foreach($stat as $data){?>
-							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){?>
+							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
 								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
@@ -74,7 +74,7 @@ $(function () {
 				border:1,
                 data: [
 						<?php  foreach($stat as $data){?>
-							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){?>
+							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
 								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
