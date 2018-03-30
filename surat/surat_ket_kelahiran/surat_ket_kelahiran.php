@@ -100,7 +100,9 @@
 
     $('#id_ibu').flexbox(ibu, {
       resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-      watermark: <?php if($ibu){?>'<?php echo $ibu['nik']?> - <?php echo spaceunpenetration($ibu['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+      watermark: '<?php echo $ibu
+        ? $ibu['nik']. ' - '.addslashes(spaceunpenetration($ibu['nama']))
+        : 'Ketik nama / nik di sini..'; ?>',
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {
@@ -120,7 +122,9 @@
 
     $('#id_saksi1').flexbox(saksi1, {
       resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-      watermark: <?php if($saksi1){?>'<?php echo $saksi1['nik']?> - <?php echo $saksi1['nama']?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+      watermark: '<?php echo $saksi1
+        ? $saksi1['nik']. ' - '.addslashes($saksi1['nama'])
+        : 'Ketik nama / nik di sini..'; ?>',
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {
@@ -140,7 +144,9 @@
 
     $('#id_saksi2').flexbox(saksi2, {
       resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-      watermark: <?php if($saksi2){?>'<?php echo $saksi2['nik']?> - <?php echo $saksi2['nama']?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+      watermark: '<?php echo $saksi2
+        ? $saksi2['nik']. ' - '.addslashes($saksi2['nama'])
+        : 'Ketik nama / nik di sini..'; ?>',
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {
@@ -160,7 +166,9 @@
 
     $('#id_pelapor').flexbox(pelapor, {
       resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-      watermark: <?php if($pelapor){?>'<?php echo $pelapor['nik']?> - <?php echo $pelapor['nama']?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+      watermark: '<?php echo $pelapor
+        ? $pelapor['nik']. ' - '.addslashes($pelapor['nama'])
+        : 'Ketik nama / nik di sini..'; ?>',
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {
@@ -180,7 +188,9 @@
 
     $('#id_bayi').flexbox(bayi, {
       resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-      watermark: <?php if($bayi){?>'<?php echo $bayi['nik']?> - <?php echo $bayi['nama']?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+      watermark: '<?php echo $bayi
+        ? $bayi['nik']. ' - '.addslashes($bayi['nama'])
+        : 'Ketik nama / nik di sini..'; ?>',
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {

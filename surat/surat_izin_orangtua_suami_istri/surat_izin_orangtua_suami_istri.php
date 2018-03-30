@@ -9,7 +9,9 @@
 
     $('#nik').flexbox(nik, {
       resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-      watermark: <?php if($individu){?>"<?php echo $individu['nik']?> - <?php echo $individu['nama']?>"<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+      watermark: '<?php echo $individu
+        ? $individu['nik']. ' - '.addslashes($individu['nama'])
+        : 'Ketik nama / nik di sini..'; ?>',
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {
@@ -29,7 +31,9 @@
 
     $('#id_diberi_izin').flexbox(diberi_izin, {
       resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-      watermark: <?php if($diberi_izin){?>'<?php echo $diberi_izin['nik']?> - <?php echo spaceunpenetration($diberi_izin['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+      watermark: '<?php echo $diberi_izin
+        ? $diberi_izin['nik']. ' - '.addslashes(spaceunpenetration($diberi_izin['nama']))
+        : 'Ketik nama / nik di sini..'; ?>',
       width: 260,
       noResultsText :'Tidak ada no nik yang sesuai..',
       onSelect: function() {

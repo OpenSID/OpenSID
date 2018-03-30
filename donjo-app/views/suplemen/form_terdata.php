@@ -11,7 +11,9 @@
 
       $('#nik').flexbox(nik, {
         resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-        watermark: <?php  if($individu){?>'<?php echo $individu['nik']?> - <?php echo ($individu['nama'])?>'<?php  }else{?>'Cari nama di sini..'<?php  }?>,
+        watermark: '<?php echo $individu
+          ? $individu['nik']. ' - '.addslashes($individu['nama'])
+          : 'Ketik nama / nik di sini..'; ?>',
         width: 260,
         noResultsText :'Tidak ada no nik yang sesuai..',
         onSelect: function() {

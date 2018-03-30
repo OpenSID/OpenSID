@@ -11,7 +11,9 @@ nik.results = [
 
 $('#nik').flexbox(nik, {
 resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-watermark: <?php if($individu){?>'<?php echo $individu['nik']?> - <?php echo penetration1($individu['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+watermark: '<?php echo $individu
+	? $individu['nik']. ' - '.addslashes(penetration1($individu['nama']))
+	: 'Ketik nama / nik di sini..'; ?>',
 width: 260,
 noResultsText :'Tidak ada no nik yang sesuai..',
 onSelect: function() {

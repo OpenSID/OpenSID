@@ -58,7 +58,9 @@ pria.results = [
 
 $('#id_pria').flexbox(pria, {
 resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-watermark: <?php if($pria){?>'<?php echo $pria['nik']?> - <?php echo spaceunpenetration($pria['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+watermark: '<?php echo $pria
+	? $pria['nik']. ' - '.addslashes(spaceunpenetration($pria['nama']))
+	: 'Ketik nama / nik di sini..'; ?>',
 width: 260,
 noResultsText :'Tidak ada no nik yang sesuai..',
 onSelect: function() {
@@ -84,7 +86,9 @@ wanita.results = [
 
 $('#id_wanita').flexbox(wanita, {
 resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-watermark: <?php if($wanita){?>'<?php echo $wanita['nik']?> - <?php echo spaceunpenetration($wanita['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+watermark: '<?php echo $wanita
+	? $wanita['nik']. ' - '.addslashes(spaceunpenetration($wanita['nama']))
+	: 'Ketik nama / nik di sini..'; ?>',
 width: 260,
 noResultsText :'Tidak ada no nik yang sesuai..',
 onSelect: function() {
