@@ -230,8 +230,18 @@
 			$data['tanggal'] = date('Y-m-d H:i:s');
 			$this->db->where('id', $log_id);
 			$this->db->update('log_surat',$data);
+			
 		} else {
 			$this->db->insert('log_surat',$data);
+			/** jika nama_surat = surat_perjalanan_dinas, maka insert juga ke dokumen */
+			if(substr($nama_surat,0,22) == "surat_perjalanan_dinas"){
+				$dataDokumen['satuan'] = $nama_surat;
+				$dataDokumen['nama'] = "surat_perjalanan_dinas";
+				$dataDokumen['kategori'] = 4;
+				$dataDokumen['attr'] = json_encode($_POST);
+				$this->db->insert('dokumen',$dataDokumen);
+			//	log_message("error",$this->db->last_query());
+			}
 		}
 
 	}
