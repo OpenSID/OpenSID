@@ -5,6 +5,7 @@ class surat_masuk extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
+		$this->load->helper('download');
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=(1 or 2)) {
@@ -146,5 +147,27 @@ class surat_masuk extends CI_Controller{
 		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
 		$data['surat'] = $this->surat_masuk_model->get_surat_masuk($id);
 		$this->load->view('surat_masuk/disposisi',$data);
+	}
+
+	/**
+	 * Unduh berkas scan berdasarkan kolom surat_masuk.id
+	 * @param   integer  $idBerkasScan  Id berkas scan pada koloam surat_masuk.id
+	 * @return  void
+	 */
+	public function unduh_berkas_scan($idBerkasScan)
+	{
+		$berkas = $this->surat_masuk_model->getNamaBerkasScan($idBerkasScan);
+		$berkas = is_object($berkas) ? $berkas->berkas_scan : NULL;
+
+		$pathBerkas = FCPATH.LOKASI_ARSIP.$berkas;
+		$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+
+		if (is_null($berkas) || !file_exists($pathBerkas))
+		{
+			redirect('surat_masuk');
+		}
+		
+		$data = file_get_contents($pathBerkas);
+		force_download($berkas, $data);
 	}
 }
