@@ -2,7 +2,7 @@ Rilis ini menambahkan pengelolaan data Profil Desa (data dasar keluarga dan data
 
 Terima kasih pada Bimo Aji P dan Ahmad Afandi yang rajin berkontribusi. Terima kasih pula pada Suyadi Bin Hadi yang mulai kontribusi.
 
-Lengkapnya, isi rilis versi pasca-2.10:
+Lengkapnya, isi rilis versi 2.11:
 
 1. #834: Tutup celah untuk mengunggah script PHP melalui foto di user_setting. [security-fix]
 2. #809: Sekarang semua data terunduh di menu Program Bantuan. [bug-fix]
@@ -30,4 +30,4 @@ Lengkapnya, isi rilis versi pasca-2.10:
 24. #878: Perbaiki tautan pada bilangan di berbagai laporan di menu Statistik. [bug-fix]
 25: #884: Sekarang NIK & nama penduduk berisi tanda petik (') yang telah dipilih tampil di Surat Keterangan Pengantar. [bug-fix]
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.10, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 2.11, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
