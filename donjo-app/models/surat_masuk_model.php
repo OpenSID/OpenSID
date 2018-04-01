@@ -258,16 +258,7 @@
     };
     return $ref_disposisi;
 	}
-
-	function _upload_gambar($old_document=''){
-		$lokasi_file = $_FILES['satuan']['tmp_name'];
-		if (!empty($lokasi_file)){
-			$nama_file = $_FILES['satuan']['name'];
-			$nama_file   = time().'-'.urlencode($nama_file); 	 // normalkan nama file
-			UploadKeLokasi(LOKASI_ARSIP,$lokasi_file,$nama_file,$old_document);
-			return $nama_file;
-		}
-	}
+	
 
 	function delete($id=''){
 		$_SESSION['success'] = 1;
