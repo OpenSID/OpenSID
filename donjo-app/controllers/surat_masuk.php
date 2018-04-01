@@ -175,7 +175,7 @@ class surat_masuk extends CI_Controller{
 		$ekstensiFile = end($berkas);
 		unset($berkas[count($berkas)-1]);
 		$berkas = implode('.', $berkas);
-		$berkas = $berkas.'-'.uniqid().'.'.$ekstensiFile;
+		$berkas = urlencode($berkas).'-'.uniqid().'.'.$ekstensiFile;
 		// Paksa browser untuk mendownload berkas
 		force_download($berkas, $data);
 	}
