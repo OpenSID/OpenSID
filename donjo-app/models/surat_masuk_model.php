@@ -108,12 +108,14 @@
 	}
 
 	/**
-	 * [insert description]
-	 * @return  [type]  [description]
+	 * Insert data baru ke tabel surat_masuk
+	 * @return  void
 	 */
 	public function insert()
 	{
+		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+		// Normalkan tanggal
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
 
@@ -125,6 +127,7 @@
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
 		{
+			// Inisialisasi library 'upload'
 			$this->upload->initialize($this->uploadConfig);
 			// Upload sukses
 			if ($this->upload->do_upload('satuan'))
@@ -147,12 +150,14 @@
 	}
 
 	/**
-	 * [update description]
-	 * @param  integer  $idBerkasScan  [description]
-	 * @return  [type]   [description]
+	 * Update data di tabel surat_masuk
+	 * @param   integer  $idBerkasScan  Id berkas untuk query ke database
+	 * @return  void
 	 */
-	function update($idBerkasScan = 0) {
+	function update($idBerkasScan) {
+		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+		// Normalkan tanggal
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
 		// Berkas scan lama
@@ -161,39 +166,52 @@
 		$berkasLama = $dbQuery->row();
 		$berkasLama = is_object($berkasLama) ? $berkasLama->berkas_scan : NULL;
 		$data['berkas_scan'] = $berkasLama;
-
 		// Lokasi berkas scan lama (absolut)
 		$lokasiBerkasLama = $this->uploadConfig['upload_path'].$berkasLama;
+		$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
 
+		$indikatorSukses = FALSE;
+
+		// Hapus lampiran lama?
+		$hapusLampiranLama = ($data['gambar_hapus'] == 'YA');
+		unset($data['gambar_hapus']);
+		// Hapus file lama jika checkbox 'Hapus Berkas' dicentang
+		if ($hapusLampiranLama === TRUE)
+		{
+			$indikatorSukses = unlink($lokasiBerkasLama);
+		}
+		
 		$uploadData = NULL;
 		$uploadError = NULL;
+		
+		// Adakah file baru yang akan diupload?
+		$adaLampiran = !empty($_FILES['satuan']['name']);
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
 		{
+			// Inisialisasi library 'upload'
 			$this->upload->initialize($this->uploadConfig);
 			// Upload sukses
 			if ($this->upload->do_upload('satuan'))
 			{
 				$uploadData = $this->upload->data();
+				$indikatorSukses = TRUE;
+				$data['berkas_scan'] = $uploadData['file_name'];
 			}
 			// Upload gagal
 			else
 			{
 				$uploadError = $this->upload->display_errors(NULL, NULL);
-				$data['berkas_scan'] = is_null($berkasLama) ? NULL : $berkasLama;
+				$indikatorSukses = FALSE;
+				$data['berkas_scan'] = $berkasLama;
 			}
 		}
-		// Hapus lampiran lama?
-		$hapusLampiranLama = $data['gambar_hapus'];
-		unset($data['gambar_hapus']);
-		// die(print_r($data));
-		$data['berkas_scan'] = $adaLampiran && !is_null($uploadData)
-			? $uploadData['file_name'] : $berkasLama;
-
-		if ($hapusLampiranLama) {
-			unlink($lokasiBerkasLama);
-			$data['berkas_scan'] = NULL;
+		else
+		{
+			$indikatorSukses = TRUE;
 		}
+
+		// Data baru untuk mengupdate tabel surat_masuk
 		$newData = array(
 			'nomor_urut' => $data['nomor_urut'],
 			'tanggal_penerimaan' => $data['tanggal_penerimaan'],
@@ -207,15 +225,16 @@
 			'berkas_scan' => $data['berkas_scan']
 		);
 
-		// die(print_r($newData));
-
 		$this->db->where('id', $idBerkasScan);
-		$indikatorSukses = $this->db->update('surat_masuk', $newData);
-
-		$_SESSION['success'] = $indikatorSukses ? 1 : -1;
-		$_SESSION['error_msg'] = $_SESSION['success'] === 1
-			? NULL : ' ->'.$uploadError;
+		$indikatorSukses = $indikatorSukses && $this->db->update('surat_masuk', $newData);
+		// $lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
+		// var_dump($lokasiBerkasLama);
+		// die();
+		$_SESSION['success'] = $indikatorSukses === TRUE ? 1 : -1;
+		$_SESSION['error_msg'] = ($_SESSION['success'] === 1)
+			? NULL : ' -> Gagal memperbarui data di database';
 	}
+
 
 	function get_surat_masuk($id){
 		$surat_masuk = $this->db->where('id',$id)->get('surat_masuk')->row_array();

@@ -5,6 +5,7 @@ class surat_masuk extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
+		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
@@ -156,18 +157,20 @@ class surat_masuk extends CI_Controller{
 	 */
 	public function unduh_berkas_scan($idBerkasScan)
 	{
+		// Ambil nama berkas dari database
 		$berkas = $this->surat_masuk_model->getNamaBerkasScan($idBerkasScan);
 		$berkas = is_object($berkas) ? $berkas->berkas_scan : NULL;
-
+		// Tentukan path berkas (absolut)
 		$pathBerkas = FCPATH.LOKASI_ARSIP.$berkas;
 		$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
-
+		// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
 		if (is_null($berkas) || !file_exists($pathBerkas))
 		{
 			redirect('surat_masuk');
 		}
-		
+		// OK, berkas ada. Ambil konten berkasnya
 		$data = file_get_contents($pathBerkas);
+		// Paksa browser untuk mendownload berkas
 		force_download($berkas, $data);
 	}
 }
