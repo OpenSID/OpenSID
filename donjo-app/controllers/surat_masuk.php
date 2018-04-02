@@ -76,6 +76,13 @@ class surat_masuk extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
+		// Buang unique id pada link nama file 
+		$berkas = explode('__sid__', $data['surat_masuk']['berkas_scan']);
+		$namaFile = $berkas[0];
+		$ekstensiFile = explode('.', end($berkas));
+		$ekstensiFile = end($ekstensiFile);
+		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
+
 		$this->load->view('header', $header);
 		$nav['act']=$this->tab_ini;
 		$this->load->view('sekretariat/nav',$nav);
@@ -170,13 +177,13 @@ class surat_masuk extends CI_Controller{
 		}
 		// OK, berkas ada. Ambil konten berkasnya
 		$data = file_get_contents($pathBerkas);
-		// Tambahkan random id
-		$berkas = explode('.',$berkas);
-		$ekstensiFile = end($berkas);
-		unset($berkas[count($berkas)-1]);
-		$berkas = implode('.', $berkas);
-		$berkas = urlencode($berkas).'-'.uniqid().'.'.$ekstensiFile;
-		// Paksa browser untuk mendownload berkas
+		// Buang unique id pada nama berkas download
+		$berkas = explode('__sid__', $berkas);
+		$namaFile = $berkas[0];
+		$ekstensiFile = explode('.', end($berkas));
+		$ekstensiFile = end($ekstensiFile);
+		$berkas = $namaFile.'.'.$ekstensiFile;
+
 		force_download($berkas, $data);
 	}
 }
