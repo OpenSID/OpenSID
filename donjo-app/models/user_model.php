@@ -541,7 +541,7 @@ class User_Model extends CI_Model {
 	 * @param  [type]  $string  [description]
 	 * @return  [type]  [description]
 	 */
-	public function generatePasswordHash($string)
+	private function generatePasswordHash($string)
 	{
 		// Pastikan inputnya adalah string
 		$string = is_string($string) ? $string : strval($string);
