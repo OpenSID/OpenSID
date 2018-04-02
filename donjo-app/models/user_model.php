@@ -51,11 +51,8 @@ class User_Model extends CI_Model {
 		else {
 			if ($pwMasihMD5) {
 				// Ganti pass md5 jadi bcrypt
-				$pwBcrypt = password_hash($password, PASSWORD_BCRYPT);
-				// Cek kekuatan hash, buat ulang jika masih lemah
-				if (password_needs_rehash($pwBcrypt, PASSWORD_BCRYPT)) {
-					$pwBcrypt = password_hash($password, PASSWORD_BCRYPT);
-				}
+				$pwBcrypt = $this->generatePasswordHash($password);
+
 				// Modifikasi panjang karakter di kolom user.password menjadi 100 untuk -
 				// backward compatibility dengan kolom di database lama yang hanya 40 karakter.
 				// Hal ini menyebabkan string bcrypt (yang default lengthnya 60 karakter) jadi -
@@ -239,11 +236,7 @@ class User_Model extends CI_Model {
 			$data['foto']
 		);
 		// Buat hash password
-		$pwHash = password_hash($data['password'], PASSWORD_BCRYPT);
-		// Cek kekuatan hash, buat ulang jika masih lemah
-		if (password_needs_rehash($pwHash, PASSWORD_BCRYPT)) {
-			$pwHash = password_hash($data['password'], PASSWORD_BCRYPT);
-		}
+		$pwHash = $this->generatePasswordHash($data['password']);
 		// Cek kekuatan hash lolos, simpan ke array data
 		$data['password'] = $pwHash;
 		
@@ -303,11 +296,7 @@ class User_Model extends CI_Model {
 		}
 		else {
 			// Buat hash password
-			$pwHash = password_hash($data['password'], PASSWORD_BCRYPT);
-			// Cek kekuatan hash, regenerate jika masih lemah
-			if (password_needs_rehash($pwHash, PASSWORD_BCRYPT)) {
-				$pwHash = password_hash($data['password'], PASSWORD_BCRYPT);
-			}
+			$pwHash = $this->generatePasswordHash($data['password']);
 			// Cek kekuatan hash lolos, simpan ke array data
 			$data['password'] = $pwHash;
 		}
@@ -417,10 +406,7 @@ class User_Model extends CI_Model {
 				else {
 					$_SESSION['success'] = 1;
 					// Buat hash password
-					$pwHash = password_hash($pass_baru, PASSWORD_BCRYPT);
-					// Cek kekuatan hash, regenerate jika masih lemah
-					if (password_needs_rehash($pwHash, PASSWORD_BCRYPT))
-						$pwHash = password_hash($pass_baru, PASSWORD_BCRYPT);
+					$pwHash = $this->generatePasswordHash($pass_baru);
 					// Cek kekuatan hash lolos, simpan ke array data
 					$data['password'] = $pwHash;
 				}
@@ -544,6 +530,30 @@ class User_Model extends CI_Model {
 			}
 			echo $buffer;
 		}
+	}
+
+	//!===========================================================
+	//! Helper Methods
+	//!===========================================================
+	
+	/**
+	 * Buat hash password (bcrypt) dari string sebuah password
+	 * @param  [type]  $string  [description]
+	 * @return  [type]  [description]
+	 */
+	public function generatePasswordHash($string)
+	{
+		// Pastikan inputnya adalah string
+		$string = is_string($string) ? $string : strval($string);
+		// Buat hash password
+		$pwHash = password_hash($string, PASSWORD_BCRYPT);
+		// Cek kekuatan hash, regenerate jika masih lemah
+		if (password_needs_rehash($pwHash, PASSWORD_BCRYPT))
+		{
+			$pwHash = password_hash($string, PASSWORD_BCRYPT);
+		}
+
+		return $pwHash;
 	}
 
 }
