@@ -566,6 +566,6 @@ function tanbahSuffixUniqueKeNamaFile($namFile, $urlEncode = TRUE, $delimiter = 
 	$namaFileUnik = urlencode($namaFileUnik).$delimiter.uniqid().'.'.$ekstensiFile;
 	// Contoh return:
 	// - nama asli = 'kitten.jpg'
-	// - nama unik = 'kitten-5ac1f3dcdd40a.jpg'
+	// - nama unik = 'kitten__sid__5ac1f3dcdd40a.jpg'
 	return $namaFileUnik;
 }
