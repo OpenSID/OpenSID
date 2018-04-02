@@ -6,11 +6,13 @@
 
 	function __construct() {
 		parent::__construct();
+		// Untuk dapat menggunakan library upload
 		$this->load->library('upload');
-
+		// Untuk dapat menggunakan fungsi tanbahSuffixUniqueKeNamaFile()
+		$this->load->helper('donjolib');
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_ARSIP,
-			'allowed_types' => 'gif|jpg|png',
+			'allowed_types' => 'gif|jpg|png|pdf',
 			'max_size' => 2048,
 		);
 	}
@@ -122,6 +124,15 @@
 		// Adakah lampiran yang disertakan?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
 
+		// Cek nama berkas tidak boleh lebih dari 100 karakter karena -
+		// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter
+		if (strlen($_FILES['satuan']['name']) > 100)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Nama berkas scan tidak boleh lebih dari 100 karakter';
+			redirect('surat_masuk');
+		}
+
 		$uploadData = NULL;
 		$uploadError = NULL;
 		// Ada lampiran file
@@ -133,6 +144,16 @@
 			if ($this->upload->do_upload('satuan'))
 			{
 				$uploadData = $this->upload->data();
+				// Buat nama file unik agar url file susah ditebak dari browser
+				$namaFileUnik = tanbahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+				$fileRenamed = rename(
+					$this->uploadConfig['upload_path'].$uploadData['file_name'],
+					$this->uploadConfig['upload_path'].$namaFileUnik
+				);
+				// Ganti nama di array upload jika file berhasil di-rename --
+				// jika rename gagal, fallback ke nama asli
+				$uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
 			}
 			// Upload gagal
 			else
@@ -186,6 +207,16 @@
 		
 		// Adakah file baru yang akan diupload?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
+
+		// Cek nama berkas tidak boleh lebih dari 100 karakter karena -
+		// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter
+		if (strlen($_FILES['satuan']['name']) > 100)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Nama berkas scan tidak boleh lebih dari 100 karakter';
+			redirect('surat_masuk');
+		}
+		
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
 		{
@@ -196,7 +227,16 @@
 			{
 				$uploadData = $this->upload->data();
 				$indikatorSukses = TRUE;
-				$data['berkas_scan'] = $uploadData['file_name'];
+				// Buat nama file unik
+				$namaFileUnik = tanbahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+				$fileRenamed = rename(
+					$this->uploadConfig['upload_path'].$uploadData['file_name'],
+					$this->uploadConfig['upload_path'].$namaFileUnik
+				);
+				// Ganti nama di array upload jika file berhasil di-rename --
+				// jika rename gagal, fallback ke nama asli
+				$data['berkas_scan'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
 			}
 			// Upload gagal
 			else
@@ -227,9 +267,6 @@
 
 		$this->db->where('id', $idBerkasScan);
 		$indikatorSukses = $indikatorSukses && $this->db->update('surat_masuk', $newData);
-		// $lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
-		// var_dump($lokasiBerkasLama);
-		// die();
 		$_SESSION['success'] = $indikatorSukses === TRUE ? 1 : -1;
 		$_SESSION['error_msg'] = ($_SESSION['success'] === 1)
 			? NULL : ' -> Gagal memperbarui data di database';
@@ -275,6 +312,9 @@
 		}
 	}
 
+	//! ==============================================================
+	//! Helper Methods
+	//! ==============================================================
 	/**
 	 * Ambil data kolom berdasarkan id
 	 * @param  string       $idBerkasScan  Id pada tabel surat_masuk
