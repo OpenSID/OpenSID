@@ -1,7 +1,18 @@
-<?php class surat_masuk_model extends CI_Model{
+<?php class surat_masuk_model extends CI_Model {
 
-	function __construct(){
+	protected
+		// Konfigurasi untuk library 'upload'
+		$uploadConfig = array();
+
+	function __construct() {
 		parent::__construct();
+		$this->load->library('upload');
+
+		$this->uploadConfig = array(
+			'upload_path' => LOKASI_ARSIP,
+			'allowed_types' => 'gif|jpg|png',
+			'max_size' => 2048,
+		);
 	}
 
 	function autocomplete(){
@@ -96,38 +107,134 @@
 		return $query;
 	}
 
-	function insert(){
-		$_SESSION['error_msg'] = '';
-		$_SESSION['success'] = 1;
-		$data = $_POST;
+	/**
+	 * Insert data baru ke tabel surat_masuk
+	 * @return  void
+	 */
+	public function insert()
+	{
+		// Ambil semua data dari var. global $_POST
+		$data = $this->input->post(NULL);
+		// Normalkan tanggal
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
-		// Upload scan surat masuk
-		unset($data['old_gambar']);
-		$file_gambar = $this->_upload_gambar();
-		if($file_gambar) $data['berkas_scan'] = $file_gambar;
-		$outp = $this->db->insert('surat_masuk',$data);
-		if(!$outp) $_SESSION['success'] = -1;
+
+		// Adakah lampiran yang disertakan?
+		$adaLampiran = !empty($_FILES['satuan']['name']);
+
+		$uploadData = NULL;
+		$uploadError = NULL;
+		// Ada lampiran file
+		if ($adaLampiran === TRUE)
+		{
+			// Inisialisasi library 'upload'
+			$this->upload->initialize($this->uploadConfig);
+			// Upload sukses
+			if ($this->upload->do_upload('satuan'))
+			{
+				$uploadData = $this->upload->data();
+			}
+			// Upload gagal
+			else
+			{
+				$uploadError = $this->upload->display_errors(NULL, NULL);
+			}
+		}
+		// Berkas lampiran
+		$data['berkas_scan'] = $adaLampiran && !is_null($uploadData)
+			? $uploadData['file_name'] : NULL;
+		$indikatorSukses = is_null($uploadError) && $this->db->insert('surat_masuk', $data);
+		// Set session berdasarkan hasil operasi
+		$_SESSION['success'] = $indikatorSukses ? 1 : -1;
+		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' ->'.$uploadError;		
 	}
 
-	function update($id=0){
-		$_SESSION['error_msg'] = '';
-		$_SESSION['success'] = 1;
-		$data = $_POST;
-		if($data['gambar_hapus']){
-		  unlink(LOKASI_ARSIP . $data['gambar_hapus']);
-			$data['berkas_scan'] = '';
-		}
-		unset($data['gambar_hapus']);
-		$file_gambar = $this->_upload_gambar($data['old_gambar']);
-		if($file_gambar) $data['berkas_scan'] = $file_gambar;
-		unset($data['old_gambar']);
-		$this->db->where('id',$id);
+	/**
+	 * Update data di tabel surat_masuk
+	 * @param   integer  $idBerkasScan  Id berkas untuk query ke database
+	 * @return  void
+	 */
+	function update($idBerkasScan) {
+		// Ambil semua data dari var. global $_POST
+		$data = $this->input->post(NULL);
+		// Normalkan tanggal
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
-		$outp = $this->db->update('surat_masuk',$data);
-		if(!$outp) $_SESSION['success'] = -1;
+		// Berkas scan lama
+		$sql = "SELECT berkas_scan FROM surat_masuk WHERE id = ?";
+		$dbQuery = $this->db->query($sql, array($idBerkasScan));
+		$berkasLama = $dbQuery->row();
+		$berkasLama = is_object($berkasLama) ? $berkasLama->berkas_scan : NULL;
+		$data['berkas_scan'] = $berkasLama;
+		// Lokasi berkas scan lama (absolut)
+		$lokasiBerkasLama = $this->uploadConfig['upload_path'].$berkasLama;
+		$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
+
+		$indikatorSukses = FALSE;
+
+		// Hapus lampiran lama?
+		$hapusLampiranLama = ($data['gambar_hapus'] == 'YA');
+		unset($data['gambar_hapus']);
+		// Hapus file lama jika checkbox 'Hapus Berkas' dicentang
+		if ($hapusLampiranLama === TRUE)
+		{
+			$indikatorSukses = unlink($lokasiBerkasLama);
+		}
+		
+		$uploadData = NULL;
+		$uploadError = NULL;
+		
+		// Adakah file baru yang akan diupload?
+		$adaLampiran = !empty($_FILES['satuan']['name']);
+		// Ada lampiran file
+		if ($adaLampiran === TRUE)
+		{
+			// Inisialisasi library 'upload'
+			$this->upload->initialize($this->uploadConfig);
+			// Upload sukses
+			if ($this->upload->do_upload('satuan'))
+			{
+				$uploadData = $this->upload->data();
+				$indikatorSukses = TRUE;
+				$data['berkas_scan'] = $uploadData['file_name'];
+			}
+			// Upload gagal
+			else
+			{
+				$uploadError = $this->upload->display_errors(NULL, NULL);
+				$indikatorSukses = FALSE;
+				$data['berkas_scan'] = $berkasLama;
+			}
+		}
+		else
+		{
+			$indikatorSukses = TRUE;
+		}
+
+		// Data baru untuk mengupdate tabel surat_masuk
+		$newData = array(
+			'nomor_urut' => $data['nomor_urut'],
+			'tanggal_penerimaan' => $data['tanggal_penerimaan'],
+			'nomor_surat' => $data['nomor_surat'],
+			'kode_surat' => $data['kode_surat'],
+			'tanggal_surat' => $data['tanggal_surat'],
+			'pengirim' => $data['pengirim'],
+			'isi_singkat' => $data['isi_singkat'],
+			'disposisi_kepada' => $data['disposisi_kepada'],
+			'isi_disposisi' => $data['isi_disposisi'],
+			'berkas_scan' => $data['berkas_scan']
+		);
+
+		$this->db->where('id', $idBerkasScan);
+		$indikatorSukses = $indikatorSukses && $this->db->update('surat_masuk', $newData);
+		// $lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
+		// var_dump($lokasiBerkasLama);
+		// die();
+		$_SESSION['success'] = $indikatorSukses === TRUE ? 1 : -1;
+		$_SESSION['error_msg'] = ($_SESSION['success'] === 1)
+			? NULL : ' -> Gagal memperbarui data di database';
 	}
+
 
 	function get_surat_masuk($id){
 		$surat_masuk = $this->db->where('id',$id)->get('surat_masuk')->row_array();
@@ -151,16 +258,7 @@
     };
     return $ref_disposisi;
 	}
-
-	function _upload_gambar($old_document=''){
-		$lokasi_file = $_FILES['satuan']['tmp_name'];
-		if (!empty($lokasi_file)){
-			$nama_file = $_FILES['satuan']['name'];
-			$nama_file   = time().'-'.urlencode($nama_file); 	 // normalkan nama file
-			UploadKeLokasi(LOKASI_ARSIP,$lokasi_file,$nama_file,$old_document);
-			return $nama_file;
-		}
-	}
+	
 
 	function delete($id=''){
 		$_SESSION['success'] = 1;
@@ -175,6 +273,19 @@
 				$this->delete($id);
 			}
 		}
+	}
+
+	/**
+	 * Ambil data kolom berdasarkan id
+	 * @param  string       $idBerkasScan  Id pada tabel surat_masuk
+	 * @param  string       $kolom         Kolom yang akan diambil datanya
+	 * @return  mixed|NULL
+	 */
+	public function getNamaBerkasScan($idBerkasScan)
+	{
+		$sql = "SELECT berkas_scan FROM surat_masuk WHERE id = ?";
+		$dbQuery = $this->db->query($sql, array($idBerkasScan));
+		return $dbQuery->row();
 	}
 }
 
