@@ -1,0 +1,12 @@
+/*
+ * File ini berisi CSS untuk tema 'default' yang diambil dari theme2.download di
+ * http://tambahrejo.web.id/first/artikel/201 susunan Augush Harry & Dwi Asih Wahyu Saptoto
+ *
+ * default.css ini berisi perubahan untuk styles yang ada di assets/front/css/default.css
+ *
+*/
+
+
+/* Subnavigation */
+#global-nav.top ul{background: #fc0202!important; opacity : 0.8; filter : apha(opacity=80);} /*warna background sub menu*/
+#global-nav.main ul{background: #fc0202!important; opacity : 0.8; filter : apha(opacity=80);}
