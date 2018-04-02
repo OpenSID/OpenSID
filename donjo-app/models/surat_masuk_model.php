@@ -8,7 +8,7 @@
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
 		$this->load->library('upload');
-		// Untuk dapat menggunakan fungsi tanbahSuffixUniqueKeNamaFile()
+		// Untuk dapat menggunakan fungsi tambahSuffixUniqueKeNamaFile()
 		$this->load->helper('donjolib');
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_ARSIP,
@@ -145,7 +145,7 @@
 			{
 				$uploadData = $this->upload->data();
 				// Buat nama file unik agar url file susah ditebak dari browser
-				$namaFileUnik = tanbahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
 				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
@@ -228,7 +228,7 @@
 				$uploadData = $this->upload->data();
 				$indikatorSukses = TRUE;
 				// Buat nama file unik
-				$namaFileUnik = tanbahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
 				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],

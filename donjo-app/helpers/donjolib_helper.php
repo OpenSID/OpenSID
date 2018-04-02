@@ -552,7 +552,7 @@ function potong_teks($teks, $panjang) {
 * @param   string   $delimiter  String pemisah nama asli dengan unique id. untuk explode nama asli
 * @return  string
 */
-function tanbahSuffixUniqueKeNamaFile($namFile, $urlEncode = TRUE, $delimiter = '__sid__')
+function tambahSuffixUniqueKeNamaFile($namFile, $urlEncode = TRUE, $delimiter = '__sid__')
 {
 	// Type check
 	$namFile = is_string($namFile) ? $namFile : strval($namFile);
