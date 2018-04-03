@@ -542,30 +542,3 @@ function potong_teks($teks, $panjang) {
 		$pin = md5($pin);
 		return $pin;
 	}
-
-
-
-/**
-* Tambahkan suffix unik ke nama file
-* @param   string   $namFile    Nama file asli (beserta ekstensinya)
-* @param   boolean  $urlEncode  Saring nama file dengan urlencode() ?
-* @param   string   $delimiter  String pemisah nama asli dengan unique id. untuk explode nama asli
-* @return  string
-*/
-function tambahSuffixUniqueKeNamaFile($namFile, $urlEncode = TRUE, $delimiter = '__sid__')
-{
-	// Type check
-	$namFile = is_string($namFile) ? $namFile : strval($namFile);
-	$urlEncode = is_bool($urlEncode) ? $urlEncode : TRUE;
-	$delimiter = (!is_string($delimiter) || empty($delimiter)) ? '__sid__' : $delimiter ;
-	// Tambahkan suffix nama unik menggunakan uniqid()
-	$namaFileUnik = explode('.', $namFile);
-	$ekstensiFile = end($namaFileUnik);
-	unset($namaFileUnik[count($namaFileUnik) - 1]);
-	$namaFileUnik = implode('.', $namaFileUnik);
-	$namaFileUnik = urlencode($namaFileUnik).$delimiter.uniqid().'.'.$ekstensiFile;
-	// Contoh return:
-	// - nama asli = 'kitten.jpg'
-	// - nama unik = 'kitten__sid__5ac1f3dcdd40a.jpg'
-	return $namaFileUnik;
-}
