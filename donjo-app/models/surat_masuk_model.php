@@ -324,15 +324,15 @@
 
 	/**
 	* Tambahkan suffix unik ke nama file
-	* @param   string        $namFile    Nama file asli (beserta ekstensinya)
+	* @param   string        $namaFile    Nama file asli (beserta ekstensinya)
 	* @param   boolean       $urlEncode  Saring nama file dengan urlencode() ?
 	* @param   string|NULL   $delimiter  String pemisah nama asli dengan unique id
 	* @return  string
 	*/
-	private function tambahSuffixUniqueKeNamaFile($namFile, $urlEncode = TRUE, $delimiter = NULL)
+	private function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter = NULL)
 	{
 		// Type check
-		$namFile = is_string($namFile) ? $namFile : strval($namFile);
+		$namaFile = is_string($namaFile) ? $namaFile : strval($namaFile);
 		$urlEncode = is_bool($urlEncode) ? $urlEncode : TRUE;
 		$this->delimiterUniqueKey = (!is_string($delimiter) || empty($delimiter))
 			? '__sid__' : $delimiter;
@@ -340,7 +340,7 @@
 		// Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
 		$namaFile = str_replace($this->delimiterUniqueKey, '__', $namaFile);
 		// Tambahkan suffix nama unik menggunakan uniqid()
-		$namaFileUnik = explode('.', $namFile);
+		$namaFileUnik = explode('.', $namaFile);
 		$ekstensiFile = end($namaFileUnik);
 		unset($namaFileUnik[count($namaFileUnik) - 1]);
 		$namaFileUnik = implode('.', $namaFileUnik);
