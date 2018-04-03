@@ -133,8 +133,8 @@ class Surat extends CI_Controller{
 		switch ($url) {
 			case 'surat_ket_kelahiran':
 				// surat_ket_kelahiran id-nya ibu atau bayi
-				if (!$id) $id = $_POST['id_ibu'];
-				if (!$id) $id = $_POST['id_bayi'];
+				if (!$id) $id = $_SESSION['id_ibu'];
+				if (!$id) $id = $_SESSION['id_bayi'];
 				break;
 			case 'surat_persetujuan_mempelai':
 				// surat_persetujuan_mempelai id-nya suami atau istri

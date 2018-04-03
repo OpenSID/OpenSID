@@ -49,7 +49,7 @@ $(function () {
                 name: 'Populasi',
                 data: [
 						<?php  foreach($main as $data){?>
-						  <?php if($data['nama'] != "TOTAL"){?>
+						  <?php if($data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH"){?>
 							<?php if($data['jumlah'] != "-"){?>
 								['<?php echo strtoupper($data['nama'])?>',<?php echo $data['jumlah']?>],
 							<?php }?>

@@ -50,30 +50,6 @@
 		echo $return;
 	}
 
-
-	function export_akp()
-	{
-		$return = "";
-		$result = mysql_query('SELECT * FROM analisis_keluarga WHERE 1');
-		$num_fields = mysql_num_fields($result);
-		$return.= "<akpkeluarga>\r\n";
-		for($i = 0; $i < $num_fields; $i++){
-			while($row = mysql_fetch_row($result)){
-
-				for($j=0; $j<$num_fields; $j++){
-
-					if (isset($row[$j])) { $return.= $row[$j] ; } else { $return.= ''; }
-					if ($j<($num_fields-1)) { $return.= '+'; }
-				}
-				$return.= "\r\n";
-			}
-		}
-		$return.="</akpkeluarga>\r\n";
-		Header('Content-type: application/octet-stream');
-		Header('Content-Disposition: attachment; filename=data_akp('.date("d-m-Y").').sid');
-		echo $return;
-	}
-
 	function analisis()
 	{
 
@@ -180,13 +156,7 @@
 
 	}
 
-	function backup() {
-		// Tabel data_surat adalah view, di-backup terpisah
-		$prefs = array(
-				'format'      => 'sql',
-				'ignore'			=> array('data_surat'),
-			  );
-
+	private function do_backup($prefs){
 		// TODO: jika versi CI yang baru sudah mendukung backup untuk mysqli, hapus kondisi untuk mysqli
 		if ($this->db->dbdriver == 'mysqli') {
 			$backup =& $this->_db_mysqli_backup($prefs);
@@ -194,6 +164,31 @@
 			$this->load->dbutil();
 			$backup =& $this->dbutil->backup($prefs);
 		}
+		return $backup;
+	}
+
+	/*
+		Backup menggunakan CI dilakukan per table. Tidak memperhatikan relational constraint antara table. Jadi perlu disesuaikan supaya bisa di-impor menggunakan
+		Database > Backup/Restore > Restore atau menggunakan phpmyadmin.
+
+		TODO: cari cara backup yang menghasilkan .sql seperti menu export di phpmyadmin.
+	*/
+	function backup() {
+		// Tabel inventaris ditambah di belakang, karena tergantung jenis_barang
+		$prefs = array(
+				'format'      => 'sql',
+				'tables'			=> array('inventaris', 'mutasi_inventaris'),
+			  );
+		$inventaris = $this->do_backup($prefs);
+
+		// Tabel data_surat adalah view, di-backup terpisah
+		$prefs = array(
+				'format'      => 'sql',
+				'ignore'			=> array('data_surat', 'inventaris', 'mutasi_inventaris'),
+			  );
+
+		$backup = $this->do_backup($prefs);
+
 		// Hilangkan ketentuan user untuk view data_surat dan baris-baris lain yang
 		// dihasilkan oleh dbutil->backup karena bermasalah
 		// pada waktu import dgn restore ataupun phpmyadmin
@@ -208,9 +203,10 @@
 			}
 			$data_surat = implode("\n", $simpan);
 
-		// Tambahkan data_surat di ujung karena tergantung pada tabel lainnya
-		$backup = $backup . "DROP VIEW IF EXISTS data_surat;\n";
-		$backup = $backup . $data_surat;
+		// Tambahkan data_surat dan inventaris di ujung karena tergantung pada tabel lainnya
+		$backup .= "DROP VIEW IF EXISTS data_surat;\n";
+		$backup .= $data_surat;
+		$backup .= $inventaris;
 
 		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
 		$save = base_url().$db_name;
@@ -230,11 +226,15 @@
 		$sql   = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='$db'";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
-
 		foreach($data AS $dat){
 			$tbl = $dat["TABLE_NAME"];
 			$this->db->simple_query("DROP TABLE $tbl");
 		}
+
+		// Penanganan khusus, karena ada foreign key constraint inventaris -> jenis_barang;
+		$this->db->simple_query("DROP TABLE IF EXISTS inventaris");
+		$this->db->simple_query("DROP TABLE IF EXISTS jenis_barang");
+
 		$_SESSION['success'] = 1;
 		$filename = $_FILES['userfile']['tmp_name'];
 		if ($filename!=''){
@@ -243,13 +243,15 @@
 			foreach($lines as $sql_line){
 				// Abaikan baris apabila kosong atau komentar
 				$sql_line = trim($sql_line);
-			  if($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0)){
+			  if($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0) && $sql_line[0] != '#'){
 					$query .= $sql_line;
 					if (substr(rtrim($query), -1) == ';'){
 					  $result = $this->db->simple_query($query) ;
 					  if (!$result) {
 					  	$_SESSION['success'] = -1;
-					  	echo "Error: ".$query;
+					  	echo "<br><br>>>>>>>>> Error: ".$query.'<br>';
+					  	echo $this->db->_error_message().'<br>'; // (mysql_error equivalent)
+							echo $this->db->_error_number().'<br>'; // (mysql_errno equivalent)
 					  }
 					  $query = "";
 					}

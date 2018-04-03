@@ -491,39 +491,7 @@ class import_model extends CI_Model{
 		else $_SESSION['success']=-1;
 	}
 
-	function import_akp(){
-		$id_desa = $_SESSION['user'];
-		$data = "";
-		$in = "";
-		$outp = "";
-		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename!=''){
-			$lines = file($filename);
-			foreach ($lines as $line){$data .= $line;}
-			$penduduk=Parse_Data($data,"<akpkeluarga>","</akpkeluarga>");
-			//echo $cluster;
-			$penduduk=explode("\r\n",$penduduk);
-
-			$inset = "INSERT INTO analisis_keluarga VALUES ";
-			for($a=1;$a<(count($penduduk)-1);$a++){
-				$p = preg_split("/\+/", $penduduk[$a]);
-				$in .= "(".$id_desa;
-				for($j=0;$j<(count($p));$j++){
-					$in .= ',"'.$p[$j].'"';
-				}
-				$in .= "),";
-			}
-			$x = strlen($in);
-			$in[$x-1] =";";
-			$outp = $this->db->query($inset.$in);
-
-		}
-		if($outp) $_SESSION['success']=1;
-		else $_SESSION['success']=-1;
-	}
-
-
-		function pbdt_individu(){
+	function pbdt_individu(){
 		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
 
 		$sheet=0;

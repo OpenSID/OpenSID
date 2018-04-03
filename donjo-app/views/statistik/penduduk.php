@@ -1,4 +1,9 @@
-
+<style type="text/css">
+  .disabled {
+     pointer-events: none;
+     cursor: default;
+  }
+</style>
 <div id="pageC">
 <!-- Start of Space Admin -->
 	<table class="inner">
@@ -89,10 +94,10 @@
               <td><?php echo strtoupper($data['nama']);?></td>
         			<td align="right">
           			<?php  if($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial'){?>
-            			<a href="<?php echo site_url("keluarga/statistik/$lap/$data[id]")?>/0"><?php echo $data['jumlah']?></a>
+            			<a href="<?php echo site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if($data['id']=='JUMLAH') echo 'class="disabled"'?>><?php echo $data['jumlah']?></a>
           			<?php  } else { ?>
                   <?php if($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-            			<a href="<?php echo $tautan_jumlah ?>/0"><?php echo $data['jumlah']?></a>
+            			<a href="<?php echo $tautan_jumlah ?>/0" <?php if($data['id']=='JUMLAH') echo 'class="disabled"'?>><?php echo $data['jumlah']?></a>
           			<?php }?>
         			</td>
               <td><?php echo $data['persen'];?></td>
@@ -101,9 +106,9 @@
                 } elseif ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");
               ?>
               <?php  if($lap<20 OR ($lap>50 AND $program['sasaran']==1)) : ?>
-          		  <td align="right"><a href="<?php echo $tautan_jumlah?>/1"><?php echo $data['laki']?></a></td>
+          		  <td align="right"><a href="<?php echo $tautan_jumlah?>/1" <?php if($data['id']=='JUMLAH') echo 'class="disabled"'?>><?php echo $data['laki']?></a></td>
                 <td><?php echo $data['persen1'];?></td>
-                <td align="right"><a href="<?php echo $tautan_jumlah?>/2"><?php echo $data['perempuan']?></a></td>
+                <td align="right"><a href="<?php echo $tautan_jumlah?>/2" <?php if($data['id']=='JUMLAH') echo 'class="disabled"'?>><?php echo $data['perempuan']?></a></td>
                 <td><?php echo $data['persen2'];?></td>
               <?php endif; ?>
               <td></td>

@@ -217,12 +217,19 @@
 		}
 
 		$data[$i]['no']="";
+		$data[$i]['id']=JUMLAH;
+		$data[$i]['nama']="JUMLAH";
+		$data[$i]['jumlah']=$total['jumlah'];
+		$data[$i]['perempuan']=$total['perempuan'];
+		$data[$i]['laki']=$total['laki'];
+
+		$i++;
+		$data[$i]['no']="";
 		$data[$i]['id']=BELUM_MENGISI;
 		$data[$i]['nama']="BELUM MENGISI";
 		$data[$i]['jumlah']=$bel['jumlah']-$total['jumlah'];
 		$data[$i]['perempuan']=$bel['perempuan']-$total['perempuan'];
 		$data[$i]['laki']=$bel['laki']-$total['laki'];
-
 
 		$i=0;
 		while($i<count($data)){
@@ -310,7 +317,7 @@
 
 			case "10": $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND  sex=1  AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE sakit_menahun_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_sakit_menahun u WHERE 1"; break;
 
-			case "13": $sql   = "SELECT u.*, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND status_dasar = 1) AS jumlah, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 1 AND status_dasar = 1) AS laki, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_umur u WHERE status=1 ORDER BY u.dari "; break;
+			case "13": $sql   = "SELECT u.*, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND status_dasar = 1) AS jumlah, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 1 AND status_dasar = 1) AS laki, (SELECT COUNT(id) FROM tweb_penduduk WHERE (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=u.dari AND (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=u.sampai  AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_umur u WHERE status=1"; break;
 
 			case "14": $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND status_dasar = 1) AS jumlah,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND sex = 1 AND status_dasar = 1) AS laki,(SELECT COUNT(id) FROM tweb_penduduk WHERE pendidikan_sedang_id = u.id AND sex = 2 AND status_dasar = 1) AS perempuan FROM tweb_penduduk_pendidikan u WHERE left(nama,5)<> 'TAMAT'"; break;
 
@@ -327,9 +334,9 @@
 				break;
 
 			case "18": $sql   = "SELECT u.*,
-				(SELECT COUNT(id) FROM tweb_penduduk WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.ktp_el = ktp_el AND u.status_rekam = status_rekam AND status_dasar = 1) AS jumlah,
-				(SELECT COUNT(id) FROM tweb_penduduk WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.ktp_el = ktp_el AND u.status_rekam = status_rekam AND sex = 1 AND status_dasar = 1) AS laki,
-				(SELECT COUNT(id) FROM tweb_penduduk WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.ktp_el = ktp_el AND u.status_rekam = status_rekam AND sex = 2 AND status_dasar = 1) AS perempuan
+				(SELECT COUNT(id) FROM tweb_penduduk WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam AND status_dasar = 1) AS jumlah,
+				(SELECT COUNT(id) FROM tweb_penduduk WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam AND sex = 1 AND status_dasar = 1) AS laki,
+				(SELECT COUNT(id) FROM tweb_penduduk WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam AND sex = 2 AND status_dasar = 1) AS perempuan
 				FROM tweb_status_ktp u
 				WHERE 1 ";
 				break;
@@ -389,12 +396,19 @@
 		}
 
 		$data[$i]['no']="";
+		$data[$i]['id']=JUMLAH;
+		$data[$i]['nama']="JUMLAH";
+		$data[$i]['jumlah']=$total['jumlah'];
+		$data[$i]['perempuan']=$total['perempuan'];
+		$data[$i]['laki']=$total['laki'];
+
+		$i++;
+		$data[$i]['no']="";
 		$data[$i]['id']=BELUM_MENGISI;
 		$data[$i]['nama']="BELUM MENGISI";
 		$data[$i]['jumlah']=$bel['jumlah']-$total['jumlah'];
 		$data[$i]['perempuan']=$bel['perempuan']-$total['perempuan'];
 		$data[$i]['laki']=$bel['laki']-$total['laki'];
-
 
 		$i=0;
 		while($i<count($data)){

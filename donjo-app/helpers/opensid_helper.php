@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.9');
+define("VERSION", 'pasca-2.11');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -206,7 +206,8 @@ define("PENOLONG_KELAHIRAN", serialize(array(
       "Dukun" => "3",
       "Lainnya" => "4")));
 define("JENIS_MUTASI", serialize(array(
-      "Penghapusan" => "1",
+      "Hapus barang masih baik" => "1",
+      "Hapus barang rusak" => "4",
       "Status rusak" => "2",
       "Status diperbaiki" => "3")));
 define("JENIS_PENGHAPUSAN", serialize(array(
@@ -598,5 +599,14 @@ define("ASAL_INVENTARIS", serialize(array(
         }
       }
     }
+  }
+
+  function sql_in_list($list_array){
+    $prefix = $list = '';
+    foreach($list_array as $key => $value){
+      $list .= $prefix . "'" . $value . "'";
+      $prefix = ', ';
+    }
+    return $list;
   }
 ?>

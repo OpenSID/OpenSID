@@ -42,7 +42,7 @@
                 name: 'Populasi',
                 data: [
             <?php  foreach($stat_widget as $data){?>
-              <?php if($data['jumlah'] != "-"){?>
+              <?php if($data['jumlah'] != "-" AND $data['nama']!= "JUMLAH"){?>
                 ['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
               <?php }?>
             <?php }?>

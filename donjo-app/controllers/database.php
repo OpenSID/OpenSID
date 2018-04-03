@@ -121,22 +121,6 @@ class Database extends CI_Controller{
 		$this->export_model->export_dasar();
 	}
 
-	function export_akp(){
-		$this->export_model->export_akp();
-	}
-
-	function import2(){
-		$nav['act']= 2;
-		$data['form_action'] = site_url("database/import_dasar");
-		$data['form_action2'] = site_url("database/import_akp");
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('export/nav',$nav);
-		$this->load->view('export/imp',$data);
-		$this->load->view('footer');
-
-	}
-
 	function pre_migrate(){
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
@@ -201,11 +185,6 @@ class Database extends CI_Controller{
 		$this->import_model->ppls_rumahtangga();
 		redirect('database/import_ppls/1');
 		//import_das();
-	}
-
-	function import_akp(){
-		$this->import_model->import_akp();
-		redirect('database/import');
 	}
 
 	function jos(){

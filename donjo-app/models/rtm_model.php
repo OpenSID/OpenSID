@@ -115,7 +115,13 @@
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql   = "SELECT u.*,t.nama AS kepala_kk,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN tweb_penduduk t ON u.id = t.id_rtm AND t.rtm_level = 1 LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
+		$sql   = "SELECT u.*,t.nama AS kepala_kk,t.nik,k.alamat AS alamat,
+			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.id ) AS jumlah_anggota,c.dusun,c.rw,c.rt
+			FROM tweb_rtm u
+			LEFT JOIN tweb_penduduk t ON u.id = t.id_rtm AND t.rtm_level = 1
+			LEFT JOIN tweb_keluarga k ON t.id_kk = k.id
+			LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id
+			WHERE 1 ";
 
 		$sql .= $this->search_sql();
 
@@ -353,12 +359,14 @@
 	function get_kepala_rtm($id, $is_no_kk=false){
 		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
 		$this->load->model('penduduk_model');
-		$sql   = "SELECT u.id,u.nik,u.nama,r.no_kk,u.tempatlahir,u.tanggallahir,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,d.nama as pendidikan,f.nama as warganegara,a.nama as agama
+		$sql   = "SELECT u.id,u.nik,u.nama,r.no_kk,u.tempatlahir,u.tanggallahir,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,d.nama as pendidikan,f.nama as warganegara,a.nama as agama,
+			wil.rt, wil.rw, wil.dusun
 			FROM tweb_rtm r
 			LEFT JOIN tweb_penduduk u ON u.id= r.nik_kepala
 			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
 			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
 			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+			LEFT JOIN tweb_wil_clusterdesa wil ON wil.id = u.id_cluster
 			WHERE r.$kolom_id = $id LIMIT 1";
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
@@ -390,5 +398,4 @@
 	}
 
 }
-
 ?>

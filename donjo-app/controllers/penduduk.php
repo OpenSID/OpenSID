@@ -139,10 +139,13 @@ class Penduduk extends CI_Controller{
 			$data['status_penduduk'] = $_SESSION['status_penduduk'];
 		else $data['status_penduduk'] = '';
 
+		if(isset($_SESSION['status_ktp']))
+			$data['status_ktp'] = $_SESSION['status_ktp'];
+		else $data['status_ktp'] = '';
+
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-
 		$data['grup']	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging']  = $this->penduduk_model->paging($p,$o);
 		$data['main']    = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
@@ -678,9 +681,10 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['umurx']);
 		unset($_SESSION['cara_kb_id']);
 		unset($_SESSION['akta_kelahiran']);
-
+		unset($_SESSION['status_ktp']);
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
-		if ($sex == NULL) {
+		// kecuali untuk laporan wajib KTP
+		if ($sex == NULL AND $tipe <> 18) {
 			if ($nomor != 0) $_SESSION['sex'] = $nomor;
 			else unset($_SESSION['sex']);
 			unset($_SESSION['judul_statistik']);
@@ -708,16 +712,22 @@ class Penduduk extends CI_Controller{
 			case 16: $_SESSION['cara_kb_id'] = $nomor; $pre="CARA KB : "; break;
 			case 17:
 				$_SESSION['akta_kelahiran'] = $nomor;
-				$_SESSION['umurx'] = $nomor;
+				if ($nomor <> BELUM_MENGISI) $_SESSION['umurx'] = $nomor;
 				$pre="AKTA KELAHIRAN : ";
 				break;
 			case 18:
-				$_SESSION['status_ktp'] = $nomor;
+				if ($sex == NULL){
+					$_SESSION['status_ktp'] = 0;
+					$_SESSION['sex'] = ($nomor == 0) ? NULL : $nomor;
+					$sex = $_SESSION['sex'];
+					unset($nomor);
+				} else $_SESSION['status_ktp'] = $nomor;
 				$pre="KEPEMILIKAN WAJIB KTP : ";
 				break;
 		}
 		$judul= $this->penduduk_model->get_judul_statistik($tipe,$nomor,$sex);
-		if($judul['nama']){
+		// Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
+		if($judul['nama'] or $tipe = 18){
 			$_SESSION['judul_statistik']=$pre.$judul['nama'];
 		}else{
 			unset($_SESSION['judul_statistik']);
@@ -738,6 +748,7 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['umur_max']);
 		unset($_SESSION['hamil']);
 		unset($_SESSION['status']);
+		unset($_SESSION['warganegara']);
 		$cluster= $this->penduduk_model->get_cluster($id_cluster);
 		switch($tipe){
 			case 1:

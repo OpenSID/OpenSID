@@ -80,7 +80,8 @@
 			<option value="1" <?php if($isi == 1) :?>selected<?php endif?>>Sudah Terinput</option>
 			<option value="2" <?php if($isi == 2) :?>selected<?php endif?>>Belum Terinput</option>
 		</select>
-		<a href="<?php echo site_url("analisis_respon/data_ajax")?>" class="uibutton special tipsy south" title="Fungsi Impor harap digunakan secara seksama" target="ajax-modal" rel="window" header="Unduh Form Rujukan Impor"><span class="fa fa-upload">&nbsp;</span>Impor</a>
+		<a href="<?php echo site_url("analisis_respon/data_ajax")?>" class="uibutton special tipsy south" title="Unduh data respon" modalWidth="500" target="ajax-modal" rel="window" header="Unduh Data Respon"><span class="fa fa-download">&nbsp;</span>Unduh</a>
+		<a href="<?php echo site_url("analisis_respon/import")?>" class="uibutton special tipsy south" title="Impor Data Respon" target="ajax-modal" rel="window" header="Impor Data Respon"><span class="fa fa-upload">&nbsp;</span>Impor</a>
 		<?php if($analisis_master['format_impor'] == 1): ?>
 			<a href="<?php echo site_url("analisis_respon/form_impor_bdt")?>" class="uibutton special tipsy south" title="Impor Data BDT 2015" target="ajax-modal" rel="window" header="Impor Data BDT 2015" modalHeight="auto"><span class="fa fa-upload">&nbsp;</span>Impor BDT 2015</a>
 		<?php endif; ?>

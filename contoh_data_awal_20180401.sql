@@ -14,14 +14,123 @@ CREATE TABLE `analisis_indikator` (
   `act_analisis` tinyint(1) NOT NULL DEFAULT '2',
   `id_kategori` tinyint(4) NOT NULL,
   `is_publik` tinyint(1) NOT NULL DEFAULT '0',
+  `is_teks` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`,`id_tipe`),
   KEY `id_tipe` (`id_tipe`),
   KEY `id_kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=latin1;
 
-INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`) VALUES ('1', '2', '1', 'kepemilikan rumah', '1', '1', '1', '1', '0');
-INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`) VALUES ('2', '2', '2', 'penghasilan perbulan', '1', '4', '1', '2', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('1', '2', '1', 'kepemilikan rumah', '1', '1', '1', '1', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('2', '2', '2', 'penghasilan perbulan', '1', '4', '1', '2', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('3', '3', '1', 'Jumlah Penghasilan Perbulan', '3', '0', '0', '3', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('4', '3', '2', 'Jumlah Pengeluaran Perbulan', '3', '0', '0', '3', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('5', '3', '3', 'Status Kepemilikan Rumah?*', '1', '0', '0', '3', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('6', '3', '4', 'Kategori KK', '1', '0', '0', '3', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('7', '3', '5', 'Penerima Raskin', '1', '0', '0', '3', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('8', '3', '6', 'Penerima BLT/BLSM', '1', '0', '0', '3', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('9', '3', '7', 'Peserta BPJS/Jamkesmas/Jamkesda', '1', '0', '0', '3', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('10', '3', '8', 'Sumber Air Minum?*', '1', '0', '0', '4', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('11', '3', '9', 'Keterangan', '2', '0', '0', '4', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('12', '3', '10', 'Jenis Lahan', '1', '0', '0', '5', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('13', '3', '11', 'Luas Lahan', '1', '0', '0', '5', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('14', '3', '12', 'Jenis Komoditas', '1', '0', '0', '6', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('15', '3', '13', 'Produksi', '3', '0', '0', '6', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('16', '3', '14', 'Satuan', '1', '0', '0', '6', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('17', '3', '15', 'Nilai (Rp)', '3', '0', '0', '6', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('18', '3', '16', 'Pemasaran Hasil', '1', '0', '0', '6', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('19', '3', '17', 'Jenis Komoditas', '1', '0', '0', '7', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('20', '3', '18', 'Jumlah Pohon', '3', '0', '0', '7', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('21', '3', '19', 'Produksi', '3', '0', '0', '7', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('22', '3', '20', 'Satuan', '1', '0', '0', '7', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('23', '3', '21', 'Nilai (Rp)', '3', '0', '0', '7', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('24', '3', '22', 'Pemasaran Hasil', '1', '0', '0', '7', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('25', '3', '23', 'Jenis Komoditas', '1', '0', '0', '8', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('26', '3', '24', 'Produksi', '3', '0', '0', '8', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('27', '3', '25', 'Satuan', '1', '0', '0', '8', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('28', '3', '26', 'Nilai (Rp)', '3', '0', '0', '8', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('29', '3', '27', 'Pemasaran Hasil', '1', '0', '0', '8', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('30', '3', '28', 'Jenis Komoditas', '1', '0', '0', '9', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('31', '3', '29', 'Produksi', '3', '0', '0', '9', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('32', '3', '30', 'Satuan', '1', '0', '0', '9', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('33', '3', '31', 'Nilai (Rp)', '3', '0', '0', '9', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('34', '3', '32', 'Pemasaran Hasil', '1', '0', '0', '9', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('35', '3', '33', 'Jenis Komoditas', '1', '0', '0', '10', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('36', '3', '34', 'Produksi', '3', '0', '0', '10', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('37', '3', '35', 'Satuan', '1', '0', '0', '10', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('38', '3', '36', 'Nilai (Rp)', '3', '0', '0', '10', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('39', '3', '37', 'Pemasaran Hasil', '1', '0', '0', '10', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('40', '3', '38', 'Jenis Komoditas', '1', '0', '0', '11', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('41', '3', '39', 'Produksi', '3', '0', '0', '11', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('42', '3', '40', 'Satuan', '1', '0', '0', '11', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('43', '3', '41', 'Nilai (Rp)', '3', '0', '0', '11', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('44', '3', '42', 'Pemasaran Hasil', '1', '0', '0', '11', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('45', '3', '43', 'Jenis Komoditas', '1', '0', '0', '12', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('46', '3', '44', 'Produksi', '3', '0', '0', '12', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('47', '3', '45', 'Satuan', '1', '0', '0', '12', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('48', '3', '46', 'Nilai (Rp)', '3', '0', '0', '12', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('49', '3', '47', 'Pemasaran Hasil', '1', '0', '0', '12', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('50', '3', '48', 'Jenis Bahan Galian', '1', '0', '0', '13', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('51', '3', '49', 'Milik Perorangan (Ha)', '3', '0', '0', '13', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('52', '3', '50', 'Milik Adat (Ha)', '3', '0', '0', '13', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('53', '3', '51', 'Satuan', '1', '0', '0', '13', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('54', '3', '52', 'Pemasaran', '1', '0', '0', '13', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('55', '3', '53', 'Jenis Komoditas', '1', '0', '0', '14', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('56', '3', '54', 'Produksi', '3', '0', '0', '14', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('57', '3', '55', 'Satuan', '1', '0', '0', '14', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('58', '3', '56', 'Nilai (Rp)', '3', '0', '0', '14', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('59', '3', '57', 'Pemasaran Hasil', '1', '0', '0', '14', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('60', '3', '58', 'Nama Alat', '1', '0', '0', '15', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('61', '3', '59', 'Jumlah', '3', '0', '0', '15', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('62', '3', '60', 'Pemanfaatan Sungai/Waduk DLL', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('63', '3', '61', 'Lembaga Pendidikan', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('64', '3', '62', 'Penguasaan Aset Tanah', '1', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('65', '3', '63', 'Aset Sarana Transportasi Umum', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('66', '3', '64', 'Aset Sarana Produksi', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('67', '3', '65', 'Aset Rumah (Dinding)', '1', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('68', '3', '66', 'Aset Rumah (Lantai)', '1', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('69', '3', '67', 'Aset Rumah (Atap)', '1', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('70', '3', '68', 'Aset Lainnya', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('71', '3', '69', 'Kualitas Ibu Hamil', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('72', '3', '70', 'Kualitas Bayi', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('73', '3', '71', 'Tempat Persalinan', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('74', '3', '72', 'Pertolongan Persalinan', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('75', '3', '73', 'Cakupan Imunisasi', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('76', '3', '74', 'Penderita Sakit Kelainan', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('77', '3', '75', 'Perilaku Hidup Bersih', '1', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('78', '3', '76', 'Pola Makan', '1', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('79', '3', '77', 'Kebiasaan Berobat', '1', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('80', '3', '78', 'Status Gizi Balita', '1', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('81', '3', '79', 'Jenis Penyakit', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('82', '3', '80', 'Kerukunan', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('83', '3', '81', 'Perkelahian', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('84', '3', '82', 'Pencurian', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('85', '3', '83', 'Penjarahan', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('86', '3', '84', 'Perjudian', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('87', '3', '85', 'Pemakaian Miras dan Narkoba', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('88', '3', '86', 'Pembunuhan', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('89', '3', '87', 'Penculikan', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('90', '3', '88', 'Kejahatan Seksual', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('91', '3', '89', 'Kekerasan Dalam Rumah Tangga', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('92', '3', '90', 'Masalah Kesejahteraan Keluarga', '2', '0', '0', '16', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('93', '4', '1', 'Nomor Akte Kelahiran', '4', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('94', '4', '2', 'Hubungan dengan Kepala Keluarga', '1', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('95', '4', '3', 'Status Perkawinan', '1', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('96', '4', '4', 'Agama dan Aliran Kepercayaan', '1', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('97', '4', '5', 'Golongan Darah', '1', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('98', '4', '6', 'Kewarganegaraan', '1', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('99', '4', '7', 'Etnis/Suku', '4', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('100', '4', '8', 'Pendidikan Umum Terakhir', '1', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('101', '4', '9', 'Mata Pencaharian Pokok/Pekerjaan', '1', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('102', '4', '10', 'Nama Bapak Kandung', '4', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('103', '4', '11', 'Nama Ibu Kandung', '4', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('104', '4', '12', 'Akseptor KB', '1', '0', '0', '17', '0', '0');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('105', '4', '13', 'Cacat Fisik', '2', '0', '0', '17', '0', '1');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('106', '4', '14', 'Cacat Mental', '2', '0', '0', '17', '0', '1');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('107', '4', '15', 'Kedudukan Anggota Keluarga sebagai Wajib Pajak dan Retribusi', '2', '0', '0', '17', '0', '1');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('108', '4', '16', 'Lembaga Pemerintahan Yang Diikuti Anggota Keluarga', '2', '0', '0', '17', '0', '1');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('109', '4', '17', 'Lembaga Kemasyarakatan Yang Diikuti Anggota Keluarga', '2', '0', '0', '17', '0', '1');
+INSERT INTO analisis_indikator (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES ('110', '4', '18', 'Lembaga Ekonomi Yang Dimiliki Anggota Keluarga', '2', '0', '0', '17', '0', '1');
 
 
 #
@@ -37,10 +146,25 @@ CREATE TABLE `analisis_kategori_indikator` (
   `kategori_kode` varchar(3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('1', '2', 'Aset', '');
 INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('2', '2', 'Penghasilan', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('3', '3', 'PENGHASILAN DAN PENGELUARAN KELUARGA', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('4', '3', 'SUMBER AIR MINUM KELUARGA', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('5', '3', 'KEPEMILIKAN LAHAN KELUARGA', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('6', '3', 'PRODUKSI TANAMAN PANGAN', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('7', '3', 'PRODUKSI BUAH-BUAHAN', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('8', '3', 'PRODUKSI TANAMAN OBAT', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('9', '3', 'PRODUKSI PERKEBUNAN', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('10', '3', 'PRODUKSI HASIL HUTAN', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('11', '3', 'JENIS TERNAK', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('12', '3', 'PRODUKSI PERIKANAN', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('13', '3', 'PRODUKSI BAHAN GALIAN', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('14', '3', 'PENGOLAHAN HASIL TERNAK', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('15', '3', 'ALAT PRODUKSI PERIKANAN', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('16', '3', 'PEMANFAATAN AIR, ASET RUMAH DLL', '');
+INSERT INTO analisis_kategori_indikator (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES ('17', '4', 'Data Anggota Keluarga', '');
 
 
 #
@@ -81,11 +205,14 @@ CREATE TABLE `analisis_master` (
   `pembagi` varchar(10) NOT NULL DEFAULT '100',
   `id_child` smallint(4) NOT NULL,
   `format_impor` tinyint(2) NOT NULL,
+  `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
-INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`) VALUES ('1', 'Analisis Keahlian Individu', '1', '1', '<p>survey</p>', '00000', '0', '1', '0', '0');
-INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`) VALUES ('2', 'AKP Lombok Tengah', '2', '1', '<p>keterangan</p>', '00000', '0', '1', '0', '0');
+INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`) VALUES ('1', 'Analisis Keahlian Individu', '1', '1', '<p>survey</p>', '00000', '0', '1', '0', '0', '2');
+INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`) VALUES ('2', 'AKP Lombok Tengah', '2', '1', '<p>keterangan</p>', '00000', '0', '1', '0', '0', '2');
+INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`) VALUES ('3', 'Data Dasar Keluarga (Prodeskel)', '2', '1', 'Pendataan Profil Desa', 'DDK02', '0', '', '0', '0', '1');
+INSERT INTO analisis_master (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`) VALUES ('4', 'Data Anggota Keluarga (Prodeskel)', '1', '1', 'Pendataan Profil Desa', 'DAK02', '0', '', '0', '0', '1');
 
 
 #
@@ -103,7 +230,7 @@ CREATE TABLE `analisis_parameter` (
   `asign` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `id_indikator` (`id_indikator`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1052 DEFAULT CHARSET=latin1;
 
 INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1', '1', 'milik sendiri', '5', '0', '0');
 INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('2', '1', 'milik orang tua', '4', '0', '0');
@@ -111,6 +238,1051 @@ INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_
 INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('4', '2', '< Rp.500.000,-', '1', '0', '0');
 INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('5', '2', 'Rp 500.000,- sampa Rp 1.000.000,-', '3', '0', '0');
 INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('6', '2', 'diatas Rp 2.000.000,-', '5', '0', '0');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('7', '5', 'Milik Sendiri', '0', '169', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('8', '5', 'Milik Orang Tua', '0', '170', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('9', '5', 'Milik Keluarga', '0', '171', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('10', '5', 'Sewa/Kontrak', '0', '172', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('11', '5', 'Pinjam Pakai', '0', '173', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('12', '6', 'Pra Sejahtera', '0', '0', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('13', '6', 'Sejahtera 1', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('14', '6', 'Sejahtera 2', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('15', '6', 'Sejahtera 3+', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('16', '7', 'Ya', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('17', '7', 'Tidak', '0', '0', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('18', '8', 'Ya', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('19', '8', 'Tidak', '0', '0', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('20', '9', 'Ya', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('21', '9', 'Tidak', '0', '0', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('22', '10', 'Bak penampung air hujan', '0', '503', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('23', '10', 'Beli dari tangki swasta', '0', '504', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('24', '10', 'Depot isi ulang', '0', '505', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('25', '10', 'Embung', '0', '502', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('26', '10', 'Hidran umum', '0', '498', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('27', '10', 'Mata air', '0', '495', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('28', '10', 'PAM', '0', '499', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('29', '10', 'Pipa', '0', '500', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('30', '10', 'Sumber Air Resapan Umum', '0', '1741', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('31', '10', 'Sumur gali', '0', '496', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('32', '10', 'Sumur pompa', '0', '497', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('33', '10', 'Sungai', '0', '501', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('34', '11', 'Baik', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('35', '11', 'Berasa', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('36', '11', 'Berwarna', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('37', '11', 'Berbau', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('38', '12', 'Hutan', '0', '952', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('39', '12', 'Perkebunan', '0', '951', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('40', '12', 'Tanaman Pangan', '0', '950', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('41', '13', 'Memiliki kurang 0,5 ha', '0', '1732', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('42', '13', 'Memiliki 0,5 - 1,0 ha', '0', '1733', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('43', '13', 'Memiliki lebih dari 1,0 ha', '0', '1734', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('44', '13', 'Tidak memiliki', '0', '1735', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('45', '14', 'Bawah Merah', '0', '12', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('46', '14', 'Bawang Putih', '0', '13', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('47', '14', 'Bayam', '0', '22', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('48', '14', 'Brocoli', '0', '20', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('49', '14', 'Buncis', '0', '19', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('50', '14', 'Cabe', '0', '11', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('51', '14', 'Jagung', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('52', '14', 'Jamur', '0', '78', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('53', '14', 'Jeruk Nipis', '0', '48', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('54', '14', 'Kacang Hijau', '0', '253', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('55', '14', 'Kacang Kedelai', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('56', '14', 'Kacang Merah', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('57', '14', 'Kacang Panjang', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('58', '14', 'Kacang Tanah', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('59', '14', 'Kacang Turis', '0', '24', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('60', '14', 'Kangkung', '0', '23', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('61', '14', 'Kemiri', '0', '96', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('62', '14', 'Kentang', '0', '16', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('63', '14', 'Kubis', '0', '17', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('64', '14', 'Mentimun', '0', '18', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('65', '14', 'Padi Ladang', '0', '8', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('66', '14', 'Padi Sawah', '0', '7', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('67', '14', 'Sawi', '0', '15', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('68', '14', 'Selada', '0', '26', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('69', '14', 'Terong', '0', '21', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('70', '14', 'Tomat', '0', '14', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('71', '14', 'Tumpang Sari', '0', '29', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('72', '14', 'Ubi Jalar', '0', '10', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('73', '14', 'Ubi Kayu', '0', '9', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('74', '14', 'Umbi-Umbian Lain', '0', '25', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('75', '14', 'Wortel', '0', '28', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('76', '16', 'BATANG/TH', '0', '1746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('77', '16', 'BUAH/TH ', '0', '1013', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('78', '16', 'EKOR/TH ', '0', '1745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('79', '16', 'JENIS/TH', '0', '965', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('80', '16', 'KG/TH', '0', '960', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('81', '16', 'LITER/TH', '0', '962', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('82', '16', 'M/TH', '0', '963', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('83', '16', 'M3/TH', '0', '961', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('84', '16', 'TON/TH', '0', '966', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('85', '16', 'UNIT/TH', '0', '964', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('86', '18', 'Dijual ke Lumbung Pangan Desa/kel', '0', '493', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('87', '18', 'Dijual ke pasar', '0', '489', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('88', '18', 'Dijual langsung ke konsumen', '0', '488', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('89', '18', 'Dijual melalui KUD', '0', '490', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('90', '18', 'Dijual melalui Pengecer', '0', '492', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('91', '18', 'Dijual melalui Tengkulak', '0', '491', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('92', '18', 'Tidak dijual', '0', '494', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('93', '19', 'Alpokat', '0', '31', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('94', '19', 'Anggur', '0', '54', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('95', '19', 'Apel', '0', '36', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('96', '19', 'Belimbing', '0', '38', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('97', '19', 'Duku', '0', '41', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('98', '19', 'Durian', '0', '39', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('99', '19', 'Gandaria', '0', '258', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('100', '19', 'Jambu air', '0', '50', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('101', '19', 'Jambu klutuk', '0', '57', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('102', '19', 'Jambu Mete', '0', '88', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('103', '19', 'Jeruk', '0', '30', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('104', '19', 'Kedondong', '0', '53', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('105', '19', 'Kesemek', '0', '257', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('106', '19', 'Kokosan', '0', '42', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('107', '19', 'Lengkeng', '0', '45', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('108', '19', 'Limau', '0', '47', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('109', '19', 'Mangga', '0', '32', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('110', '19', 'Manggis', '0', '34', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('111', '19', 'Markisa', '0', '44', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('112', '19', 'Matoa', '0', '249', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('113', '19', 'Melinjo', '0', '55', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('114', '19', 'Melon', '0', '49', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('115', '19', 'Murbei', '0', '58', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('116', '19', 'Nangka', '0', '51', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('117', '19', 'Nenas', '0', '56', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('118', '19', 'Pepaya', '0', '37', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('119', '19', 'Pisang', '0', '43', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('120', '19', 'Rambutan', '0', '33', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('121', '19', 'Salak', '0', '35', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('122', '19', 'Sawo', '0', '40', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('123', '19', 'Semangka', '0', '46', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('124', '19', 'Sirsak', '0', '52', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('125', '19', 'Stroberi', '0', '255', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('126', '19', 'Talas', '0', '27', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('127', '22', 'BATANG/TH', '0', '1746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('128', '22', 'BUAH/TH ', '0', '1013', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('129', '22', 'EKOR/TH ', '0', '1745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('130', '22', 'JENIS/TH', '0', '965', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('131', '22', 'KG/TH', '0', '960', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('132', '22', 'LITER/TH', '0', '962', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('133', '22', 'M/TH', '0', '963', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('134', '22', 'M3/TH', '0', '961', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('135', '22', 'TON/TH', '0', '966', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('136', '22', 'UNIT/TH', '0', '964', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('137', '24', 'Dijual ke Lumbung Pangan Desa/kel', '0', '493', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('138', '24', 'Dijual ke pasar', '0', '489', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('139', '24', 'Dijual langsung ke konsumen', '0', '488', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('140', '24', 'Dijual melalui KUD', '0', '490', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('141', '24', 'Dijual melalui Pengecer', '0', '492', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('142', '24', 'Dijual melalui Tengkulak', '0', '491', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('143', '24', 'Tidak dijual', '0', '494', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('144', '25', 'Akar Wangi', '0', '76', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('145', '25', 'Buah Merah', '0', '65', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('146', '25', 'Daun Dewa', '0', '63', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('147', '25', 'Daun Sereh', '0', '74', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('148', '25', 'Daun Sirih', '0', '72', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('149', '25', 'Dewi-Dewi', '0', '79', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('150', '25', 'Jahe', '0', '59', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('151', '25', 'Jamur', '0', '252', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('152', '25', 'Kayu Manis', '0', '73', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('153', '25', 'Kencur', '0', '77', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('154', '25', 'Kumis Kucing', '0', '64', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('155', '25', 'Kunyit', '0', '60', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('156', '25', 'Lengkuas', '0', '61', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('157', '25', 'Mahkota Dewa', '0', '75', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('158', '25', 'Mengkudu', '0', '62', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('159', '25', 'Sambiloto', '0', '66', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('160', '25', 'Temu Hitam', '0', '68', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('161', '25', 'Temu Kunci', '0', '71', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('162', '25', 'Temu Putih', '0', '69', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('163', '25', 'Temu Putri', '0', '70', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('164', '25', 'Temulawak', '0', '67', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('165', '27', 'BATANG/TH', '0', '1746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('166', '27', 'BUAH/TH ', '0', '1013', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('167', '27', 'EKOR/TH ', '0', '1745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('168', '27', 'JENIS/TH', '0', '965', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('169', '27', 'KG/TH', '0', '960', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('170', '27', 'LITER/TH', '0', '962', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('171', '27', 'M/TH', '0', '963', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('172', '27', 'M3/TH', '0', '961', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('173', '27', 'TON/TH', '0', '966', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('174', '27', 'UNIT/TH', '0', '964', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('175', '29', 'Dijual ke Lumbung Pangan Desa/kel', '0', '493', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('176', '29', 'Dijual ke pasar', '0', '489', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('177', '29', 'Dijual langsung ke konsumen', '0', '488', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('178', '29', 'Dijual melalui KUD', '0', '490', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('179', '29', 'Dijual melalui Pengecer', '0', '492', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('180', '29', 'Dijual melalui Tengkulak', '0', '491', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('181', '29', 'Tidak dijual', '0', '494', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('182', '30', 'Cengkeh', '0', '83', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('183', '30', 'Coklat', '0', '84', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('184', '30', 'Jarak kepyar', '0', '93', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('185', '30', 'Jarak pagar', '0', '92', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('186', '30', 'Kacang mede', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('187', '30', 'Kapuk', '0', '95', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('188', '30', 'Karet', '0', '87', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('189', '30', 'Kelapa', '0', '80', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('190', '30', 'Kelapa sawit', '0', '81', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('191', '30', 'Kemiri', '0', '256', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('192', '30', 'Kopi', '0', '82', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('193', '30', 'Lada', '0', '86', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('194', '30', 'Pala', '0', '90', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('195', '30', 'Pinang', '0', '85', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('196', '30', 'Tebu', '0', '94', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('197', '30', 'Teh', '0', '97', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('198', '30', 'Tembakau', '0', '89', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('199', '30', 'Vanili', '0', '91', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('200', '32', 'BATANG/TH', '0', '1746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('201', '32', 'BUAH/TH ', '0', '1013', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('202', '32', 'EKOR/TH ', '0', '1745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('203', '32', 'JENIS/TH', '0', '965', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('204', '32', 'KG/TH', '0', '960', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('205', '32', 'LITER/TH', '0', '962', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('206', '32', 'M/TH', '0', '963', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('207', '32', 'M3/TH', '0', '961', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('208', '32', 'TON/TH', '0', '966', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('209', '32', 'UNIT/TH', '0', '964', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('210', '34', 'Dijual ke Lumbung Pangan Desa/kel', '0', '493', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('211', '34', 'Dijual ke pasar', '0', '489', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('212', '34', 'Dijual langsung ke konsumen', '0', '488', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('213', '34', 'Dijual melalui KUD', '0', '490', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('214', '34', 'Dijual melalui Pengecer', '0', '492', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('215', '34', 'Dijual melalui Tengkulak', '0', '491', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('216', '34', 'Tidak dijual', '0', '494', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('217', '35', 'Arang', '0', '121', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('218', '35', 'Bambu', '0', '102', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('219', '35', 'Cemara', '0', '109', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('220', '35', 'Damar', '0', '101', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('221', '35', 'Enau', '0', '107', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('222', '35', 'Gambir', '0', '117', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('223', '35', 'Gula enau', '0', '119', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('224', '35', 'Gula lontar', '0', '120', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('225', '35', 'Ijuk Enau', '0', '245', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('226', '35', 'Jati', '0', '103', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('227', '35', 'Kayu', '0', '98', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('228', '35', 'Kayu Bakar', '0', '247', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('229', '35', 'Kayu besi', '0', '114', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('230', '35', 'Kayu cendana', '0', '110', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('231', '35', 'Kayu gaharu', '0', '111', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('232', '35', 'Kayu Sengon', '0', '246', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('233', '35', 'Kayu ulin', '0', '115', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('234', '35', 'Kemenyan', '0', '116', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('235', '35', 'Lontar', '0', '105', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('236', '35', 'Madu lebah', '0', '99', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('237', '35', 'Mahoni', '0', '108', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('238', '35', 'Meranti', '0', '113', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('239', '35', 'Minyak kayu putih', '0', '118', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('240', '35', 'Nilam', '0', '104', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('241', '35', 'Rotan', '0', '100', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('242', '35', 'Rumbia', '0', '259', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('243', '35', 'Sagu', '0', '106', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('244', '35', 'Sarang burung', '0', '112', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('245', '37', 'BATANG/TH', '0', '1746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('246', '37', 'BUAH/TH ', '0', '1013', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('247', '37', 'EKOR/TH ', '0', '1745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('248', '37', 'JENIS/TH', '0', '965', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('249', '37', 'KG/TH', '0', '960', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('250', '37', 'LITER/TH', '0', '962', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('251', '37', 'M/TH', '0', '963', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('252', '37', 'M3/TH', '0', '961', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('253', '37', 'TON/TH', '0', '966', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('254', '37', 'UNIT/TH', '0', '964', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('255', '39', 'Dijual ke Lumbung Pangan Desa/kel', '0', '493', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('256', '39', 'Dijual ke pasar', '0', '489', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('257', '39', 'Dijual langsung ke konsumen', '0', '488', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('258', '39', 'Dijual melalui KUD', '0', '490', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('259', '39', 'Dijual melalui Pengecer', '0', '492', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('260', '39', 'Dijual melalui Tengkulak', '0', '491', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('261', '39', 'Tidak dijual', '0', '494', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('262', '40', 'Angsa', '0', '131', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('263', '40', 'Anjing', '0', '135', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('264', '40', 'Ayam kampung', '0', '125', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('265', '40', 'Babi', '0', '124', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('266', '40', 'Bebek', '0', '127', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('267', '40', 'Buaya', '0', '145', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('268', '40', 'Burung beo', '0', '142', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('269', '40', 'Burung cendrawasih', '0', '140', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('270', '40', 'Burung kakatua', '0', '141', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('271', '40', 'Burung langka lainnya', '0', '144', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('272', '40', 'Burung merak', '0', '143', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('273', '40', 'Burung Merpati', '0', '244', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('274', '40', 'Burung onta', '0', '138', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('275', '40', 'Burung puyuh', '0', '132', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('276', '40', 'Domba', '0', '130', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('277', '40', 'Jenis ayam broiler', '0', '126', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('278', '40', 'Kambing', '0', '129', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('279', '40', 'Kelinci', '0', '133', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('280', '40', 'Kerbau', '0', '123', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('281', '40', 'Kucing', '0', '136', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('282', '40', 'Kuda', '0', '128', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('283', '40', 'Sapi', '0', '122', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('284', '40', 'Tuna', '0', '146', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('285', '40', 'Ular cobra', '0', '137', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('286', '40', 'Ular pithon', '0', '139', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('287', '42', 'BATANG/TH', '0', '1746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('288', '42', 'BUAH/TH ', '0', '1013', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('289', '42', 'EKOR/TH ', '0', '1745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('290', '42', 'JENIS/TH', '0', '965', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('291', '42', 'KG/TH', '0', '960', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('292', '42', 'LITER/TH', '0', '962', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('293', '42', 'M/TH', '0', '963', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('294', '42', 'M3/TH', '0', '961', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('295', '42', 'TON/TH', '0', '966', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('296', '42', 'UNIT/TH', '0', '964', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('297', '44', 'Dijual ke Lumbung Pangan Desa/kel', '0', '493', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('298', '44', 'Dijual ke pasar', '0', '489', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('299', '44', 'Dijual langsung ke konsumen', '0', '488', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('300', '44', 'Dijual melalui KUD', '0', '490', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('301', '44', 'Dijual melalui Pengecer', '0', '492', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('302', '44', 'Dijual melalui Tengkulak', '0', '491', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('303', '44', 'Tidak dijual', '0', '494', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('304', '45', 'Ayam-ayam', '0', '168', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('305', '45', 'Bandeng', '0', '171', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('306', '45', 'Barabara', '0', '165', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('307', '45', 'Baronang', '0', '160', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('308', '45', 'Bawal', '0', '159', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('309', '45', 'Belanak', '0', '155', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('310', '45', 'Belut', '0', '184', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('311', '45', 'Cucut', '0', '166', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('312', '45', 'Cumi', '0', '156', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('313', '45', 'Gabus', '0', '179', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('314', '45', 'Gurame', '0', '183', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('315', '45', 'Gurita', '0', '157', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('316', '45', 'Hiu', '0', '149', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('317', '45', 'Ikan ekor kuning', '0', '162', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('318', '45', 'Jambal', '0', '152', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('319', '45', 'Kakap', '0', '150', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('320', '45', 'Katak', '0', '188', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('321', '45', 'Kembung', '0', '161', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('322', '45', 'Kepiting', '0', '174', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('323', '45', 'Kerang', '0', '173', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('324', '45', 'Sunuk', '0', '163', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('325', '45', 'Kodok', '0', '187', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('326', '45', 'Kulit kerang', '0', '209', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('327', '45', 'Kuwe', '0', '154', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('328', '45', 'Layur', '0', '167', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('329', '45', 'Lele', '0', '178', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('330', '45', 'Mas', '0', '175', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('331', '45', 'Mujair', '0', '177', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('332', '45', 'Nener', '0', '172', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('333', '45', 'Nila', '0', '181', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('334', '45', 'Pari', '0', '153', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('335', '45', 'Patin', '0', '180', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('336', '45', 'Penyu', '0', '185', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('337', '45', 'Rajungan', '0', '176', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('338', '45', 'Rumput laut', '0', '186', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('339', '45', 'Salmon', '0', '147', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('340', '45', 'Sarden', '0', '158', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('341', '45', 'Sepat', '0', '182', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('342', '45', 'Tembang', '0', '170', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('343', '45', 'Tenggiri', '0', '151', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('344', '45', 'Teri', '0', '254', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('345', '45', 'Teripang', '0', '164', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('346', '45', 'Tongkol/cakalang', '0', '148', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('347', '45', 'Tuna', '0', '251', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('348', '45', 'Udang/lobster', '0', '169', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('349', '47', 'BATANG/TH', '0', '1746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('350', '47', 'BUAH/TH ', '0', '1013', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('351', '47', 'EKOR/TH ', '0', '1745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('352', '47', 'JENIS/TH', '0', '965', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('353', '47', 'KG/TH', '0', '960', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('354', '47', 'LITER/TH', '0', '962', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('355', '47', 'M/TH', '0', '963', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('356', '47', 'M3/TH', '0', '961', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('357', '47', 'TON/TH', '0', '966', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('358', '47', 'UNIT/TH', '0', '964', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('359', '49', 'Dijual ke Lumbung Pangan Desa/kel', '0', '493', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('360', '49', 'Dijual ke pasar', '0', '489', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('361', '49', 'Dijual langsung ke konsumen', '0', '488', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('362', '49', 'Dijual melalui KUD', '0', '490', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('363', '49', 'Dijual melalui Pengecer', '0', '492', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('364', '49', 'Dijual melalui Tengkulak', '0', '491', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('365', '49', 'Tidak dijual', '0', '494', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('366', '50', 'Aluminium', '0', '189', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('367', '50', 'Batu apung', '0', '190', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('368', '50', 'Batu cadas', '0', '191', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('369', '50', 'Batu Gamping', '0', '192', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('370', '50', 'Batu Gips', '0', '193', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('371', '50', 'Batu Granit', '0', '194', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('372', '50', 'Batu gunung', '0', '195', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('373', '50', 'Batu kali', '0', '196', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('374', '50', 'Batu kapur', '0', '197', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('375', '50', 'Batu marmer', '0', '198', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('376', '50', 'Batu Putih', '0', '199', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('377', '50', 'Batu Trass', '0', '200', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('378', '50', 'Batubara', '0', '201', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('379', '50', 'Belerang', '0', '202', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('380', '50', 'Biji Besi', '0', '203', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('381', '50', 'Bouxit', '0', '204', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('382', '50', 'Emas', '0', '205', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('383', '50', 'Garam', '0', '206', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('384', '50', 'Gas Alam', '0', '207', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('385', '50', 'Gips', '0', '208', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('386', '50', 'Kuningan', '0', '210', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('387', '50', 'Mangan', '0', '212', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('388', '50', 'Minyak', '0', '233', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('389', '50', 'Minyak Bumi', '0', '213', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('390', '50', 'Nikel', '0', '214', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('391', '50', 'Pasir', '0', '215', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('392', '50', 'Pasir Batu', '0', '216', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('393', '50', 'Pasir Besi', '0', '217', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('394', '50', 'Pasir kwarsa', '0', '218', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('395', '50', 'Perak', '0', '219', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('396', '50', 'Perunggu', '0', '220', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('397', '50', 'Tanah Garam', '0', '221', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('398', '50', 'Tanah liat', '0', '222', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('399', '50', 'Tembaga', '0', '223', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('400', '50', 'Timah', '0', '224', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('401', '50', 'Uranium', '0', '225', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('402', '53', 'BATANG/TH', '0', '1746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('403', '53', 'BUAH/TH ', '0', '1013', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('404', '53', 'EKOR/TH ', '0', '1745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('405', '53', 'JENIS/TH', '0', '965', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('406', '53', 'KG/TH', '0', '960', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('407', '53', 'LITER/TH', '0', '962', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('408', '53', 'M/TH', '0', '963', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('409', '53', 'M3/TH', '0', '961', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('410', '53', 'TON/TH', '0', '966', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('411', '53', 'UNIT/TH', '0', '964', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('412', '54', 'Dijual ke Lumbung Pangan Desa/kel', '0', '493', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('413', '54', 'Dijual ke pasar', '0', '489', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('414', '54', 'Dijual langsung ke konsumen', '0', '488', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('415', '54', 'Dijual melalui KUD', '0', '490', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('416', '54', 'Dijual melalui Pengecer', '0', '492', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('417', '54', 'Dijual melalui Tengkulak', '0', '491', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('418', '54', 'Tidak dijual', '0', '494', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('419', '55', 'Air liur burung walet', '0', '232', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('420', '55', 'Bulu', '0', '231', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('421', '55', 'Burung walet', '0', '134', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('422', '55', 'Cinderamata', '0', '235', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('423', '55', 'Daging', '0', '229', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('424', '55', 'Hiasan/lukisan', '0', '234', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('425', '55', 'Kerupuk Kulit', '0', '248', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('426', '55', 'Kulit', '0', '227', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('427', '55', 'Madu', '0', '230', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('428', '55', 'Susu', '0', '226', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('429', '55', 'Telur', '0', '228', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('430', '57', 'BATANG/TH', '0', '1746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('431', '57', 'BUAH/TH ', '0', '1013', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('432', '57', 'EKOR/TH ', '0', '1745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('433', '57', 'JENIS/TH', '0', '965', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('434', '57', 'KG/TH', '0', '960', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('435', '57', 'LITER/TH', '0', '962', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('436', '57', 'M/TH', '0', '963', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('437', '57', 'M3/TH', '0', '961', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('438', '57', 'TON/TH', '0', '966', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('439', '57', 'UNIT/TH', '0', '964', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('440', '59', 'Dijual ke Lumbung Pangan Desa/kel', '0', '493', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('441', '59', 'Dijual ke pasar', '0', '489', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('442', '59', 'Dijual langsung ke konsumen', '0', '488', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('443', '59', 'Dijual melalui KUD', '0', '490', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('444', '59', 'Dijual melalui Pengecer', '0', '492', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('445', '59', 'Dijual melalui Tengkulak', '0', '491', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('446', '59', 'Tidak dijual', '0', '494', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('447', '60', 'Jala', '0', '405', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('448', '60', 'Jermal', '0', '402', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('449', '60', 'Karamba', '0', '400', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('450', '60', 'Pancing', '0', '403', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('451', '60', 'Pukat', '0', '404', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('452', '60', 'Tambak', '0', '401', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('453', '62', 'Air minum/air baku', '0', '511', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('454', '62', 'Buang air besar', '0', '514', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('455', '62', 'Cuci dan mandi', '0', '512', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('456', '62', 'Irigasi', '0', '513', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('457', '62', 'Pembangkit listrik', '0', '515', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('458', '62', 'Prasarana transportasi', '0', '516', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('459', '62', 'Sumber air panas', '0', '517', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('460', '62', 'Usaha Perikanan', '0', '510', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('461', '63', 'Biara', '0', '687', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('462', '63', 'Kursus Bahasa', '0', '697', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('463', '63', 'Kursus Bela Diri', '0', '703', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('464', '63', 'Kursus Komputer', '0', '700', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('465', '63', 'Kursus Mengemudi', '0', '701', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('466', '63', 'Kursus Menjahit', '0', '698', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('467', '63', 'Kursus Montir', '0', '699', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('468', '63', 'Kursus Satpam', '0', '702', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('469', '63', 'Lembaga Kursus Keterampilan Swasta Katolik', '0', '692', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('470', '63', 'Lembaga Pendidikan Swasta Budha', '0', '695', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('471', '63', 'Lembaga Pendidikan Swasta Hindu', '0', '694', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('472', '63', 'Lembaga Pendidikan Swasta Konghucu', '0', '696', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('473', '63', 'Lembaga Pendidikan Swasta Kristen Protestan', '0', '693', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('474', '63', 'Madrasah Aliyah', '0', '682', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('475', '63', 'Madrasah Ibtidaiyah', '0', '680', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('476', '63', 'Madrasah Tsanawiyah', '0', '681', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('477', '63', 'Perguruan Tinggi', '0', '676', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('478', '63', 'Perguruan Tinggi Swasta Katolik', '0', '688', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('479', '63', 'Pondok Pesantren', '0', '677', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('480', '63', 'Rhaudatul Athfal (Tk)', '0', '679', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('481', '63', 'SD/Sederajat', '0', '673', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('482', '63', 'Sekolah Dasar Swasta Katolik', '0', '689', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('483', '63', 'Sekolah Tinggi Agama Islam', '0', '683', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('484', '63', 'Seminari Menengah', '0', '685', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('485', '63', 'Seminari Tinggi', '0', '686', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('486', '63', 'SLTA Swasta Katolik', '0', '691', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('487', '63', 'SLTP Swasta Katolik', '0', '690', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('488', '63', 'SMA/Sederajat', '0', '675', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('489', '63', 'SMP/Sederajat', '0', '674', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('490', '63', 'Taman Pendidikan Alqur?an', '0', '678', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('491', '63', 'TK/Preschool/Play Group', '0', '672', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('492', '63', 'Universitas Swasta Islam', '0', '684', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('493', '64', 'Tidak memiliki tanah', '0', '704', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('494', '64', 'Memiliki tanah kurang dari 0,1 ha', '0', '1744', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('495', '64', 'Memiliki tanah antara 0,1 - 0,2 ha', '0', '705', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('496', '64', 'Memiliki tanah antara 0,2 - 0,3 ha', '0', '706', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('497', '64', 'Memiliki tanah antara 0,3 - 0,4 ha', '0', '707', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('498', '64', 'Memiliki tanah antara 0,4 - 0,5 ha', '0', '708', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('499', '64', 'Memiliki tanah antara 0,5 - 0,6 ha', '0', '709', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('500', '64', 'Memiliki tanah antara 0,6 - 0,7 ha', '0', '710', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('501', '64', 'Memiliki tanah antara 0,7 - 0,8 ha', '0', '711', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('502', '64', 'Memiliki tanah antara 0,8 - 0,9 ha', '0', '712', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('503', '64', 'Memiliki tanah antara 0,9 - 1,0 ha', '0', '713', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('504', '64', 'Memiliki tanah antara 1,0 - 5,0 ha', '0', '714', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('505', '64', 'Memiliki tanah lebih dari 5,0 ha', '0', '715', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('506', '65', 'Memiiki cidemo/andong/dokar  ', '0', '718', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('507', '65', 'Memiliki bajaj/kancil', '0', '723', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('508', '65', 'Memiliki becak', '0', '717', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('509', '65', 'Memiliki bus penumpang/angkutan orang/barang', '0', '721', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('510', '65', 'Memiliki ojek motor/sepeda motor/bentor', '0', '716', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('511', '65', 'Memiliki perahu tidak bermotor', '0', '719', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('512', '65', 'Memiliki sepeda dayung', '0', '722', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('513', '65', 'Memiliki tongkang', '0', '720', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('514', '66', 'Memiliki alat pengolahan hasil hutan  ', '0', '731', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('515', '66', 'Memiliki alat pengolahan hasil perikanan  ', '0', '728', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('516', '66', 'Memiliki alat pengolahan hasil perkebunan', '0', '730', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('517', '66', 'Memiliki alat pengolahan hasil peternakan  ', '0', '729', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('518', '66', 'Memiliki alat produksi dan pengolah hasil Industri kerajinan keluarga skala kecil dan menengah  ', '0', '733', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('519', '66', 'Memiliki alat produksi dan pengolah hasil pertambangan  ', '0', '732', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('520', '66', 'Memiliki alat produksi dan pengolahan hasil industri bahan bakar dan gas skala keluarga/rumah tangga  ', '0', '734', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('521', '66', 'Memiliki kapal penangkap ikan  ', '0', '727', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('522', '66', 'Memiliki pabrik pengolahan hasil pertanian  ', '0', '726', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('523', '66', 'Memiliki penggilingan padi  ', '0', '724', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('524', '66', 'Memiliki traktor', '0', '725', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('525', '67', 'Bambu', '0', '737', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('526', '67', 'Dedaunan', '0', '740', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('527', '67', 'Kayu', '0', '736', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('528', '67', 'Pelepah kelapa/lontar/gebang  ', '0', '739', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('529', '67', 'Tanah Liat', '0', '738', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('530', '67', 'Tembok', '0', '735', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('531', '68', 'Kayu', '0', '743', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('532', '68', 'Keramik', '0', '741', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('533', '68', 'Semen', '0', '742', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('534', '68', 'Tanah', '0', '744', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('535', '69', 'Asbes', '0', '747', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('536', '69', 'Bambu', '0', '749', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('537', '69', 'Daun ilalang ', '0', '7752', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('538', '69', 'Daun lontar/gebang/enau  ', '0', '751', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('539', '69', 'Genteng', '0', '745', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('540', '69', 'Kayu', '0', '750', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('541', '69', 'Seng', '0', '746', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('542', '70', 'Berlangganan koran/majalah', '0', '787', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('543', '70', 'Memiliki buku surat berharga', '0', '766', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('544', '70', 'Memiliki buku tabungan bank', '0', '765', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('545', '70', 'Memiliki hiasan emas/berlian', '0', '764', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('546', '70', 'Memiliki HP CDMA', '0', '784', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('547', '70', 'Memiliki HP GSM', '0', '783', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('548', '70', 'Memiliki kapal barang', '0', '757', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('549', '70', 'Memiliki kapal penumpang', '0', '758', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('550', '70', 'Memiliki kapal pesiar', '0', '759', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('551', '70', 'Memiliki mobil pribadi dan sejenisnya', '0', '755', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('552', '70', 'Memiliki parabola', '0', '786', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('553', '70', 'Memiliki perahu bermotor', '0', '756', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('554', '70', 'Memiliki perusahaan industri besar', '0', '770', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('555', '70', 'Memiliki perusahaan industri kecil', '0', '772', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('556', '70', 'Memiliki perusahaan industri menengah', '0', '771', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('557', '70', 'Memiliki saham di perusahaan', '0', '781', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('558', '70', 'Memiliki sepeda motor pribadi', '0', '754', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('559', '70', 'Memiliki sertifikat bangunan', '0', '769', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('560', '70', 'Memiliki sertifikat deposito', '0', '767', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('561', '70', 'Memiliki sertifikat tanah', '0', '768', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('562', '70', 'Memiliki ternak besar', '0', '762', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('563', '70', 'Memiliki ternak kecil', '0', '763', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('564', '70', 'Memiliki TV dan elektronik sejenis lainnya', '0', '753', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('565', '70', 'Memiliki usaha di pasar desa', '0', '779', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('566', '70', 'Memiliki usaha di pasar swalayan', '0', '777', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('567', '70', 'Memiliki usaha di pasar tradisional', '0', '778', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('568', '70', 'Memiliki usaha pasar swalayan', '0', '776', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('569', '70', 'Memiliki usaha perikanan', '0', '773', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('570', '70', 'Memiliki usaha perkebunan', '0', '775', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('571', '70', 'Memiliki usaha peternakan', '0', '774', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('572', '70', 'Memiliki usaha transportasi/pengangkutan', '0', '780', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('573', '70', 'Memiliki Usaha Wartel', '0', '785', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('574', '70', 'Memiliki/menyewa helikopter pribadi', '0', '760', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('575', '70', 'Memiliki/menyewa pesawat terbang pribadi', '0', '761', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('576', '70', 'Pelanggan Telkom', '0', '782', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('577', '71', 'Ibu hamil melahirkan', '0', '796', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('578', '71', 'Ibu hamil periksa di Bidan Praktek', '0', '792', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('579', '71', 'Ibu hamil periksa di Dokter Praktek', '0', '791', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('580', '71', 'Ibu hamil periksa di Dukun Terlatih', '0', '793', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('581', '71', 'Ibu hamil periksa di Posyandu', '0', '788', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('582', '71', 'Ibu hamil periksa di Puskesmas', '0', '789', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('583', '71', 'Ibu hamil periksa di Rumah Sakit', '0', '790', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('584', '71', 'Ibu hamil tidak periksa kesehatan', '0', '794', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('585', '71', 'Ibu hamil yang meninggal', '0', '795', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('586', '71', 'Ibu nifas sakit', '0', '797', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('587', '71', 'Ibu nifas sehat', '0', '799', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('588', '71', 'Kematian ibu nifas', '0', '798', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('589', '71', 'Kematian ibu saat melahirkan', '0', '800', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('590', '72', 'Bayi 0-5 tahun hidup yang menderita kelainan organ tubuh, fisik dan mental  ', '0', '807', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('591', '72', 'Bayi lahir berat kurang dari 2,5 kg', '0', '805', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('592', '72', 'Bayi lahir berat lebih dari 4 kg', '0', '806', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('593', '72', 'Bayi lahir hidup cacat', '0', '803', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('594', '72', 'Bayi lahir hidup normal', '0', '802', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('595', '72', 'Bayi lahir mati', '0', '804', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('596', '72', 'Keguguran kandungan', '0', '801', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('597', '73', 'Rumah dukun', '0', '815', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('598', '73', 'Rumah sendiri', '0', '816', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('599', '73', 'Tempat persalinan Balai Kesehatan Ibu Anak', '0', '812', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('600', '73', 'Tempat persalinan Polindes', '0', '811', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('601', '73', 'Tempat persalinan Puskesmas', '0', '810', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('602', '73', 'Tempat persalinan Rumah Bersalin', '0', '809', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('603', '73', 'Tempat persalinan rumah praktek bidan', '0', '813', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('604', '73', 'Tempat persalinan Rumah Sakit Umum', '0', '808', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('605', '73', 'Tempat praktek dokter', '0', '814', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('606', '74', 'Persalinan ditolong bidan', '0', '818', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('607', '74', 'Persalinan ditolong Dokter', '0', '817', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('608', '74', 'Persalinan ditolong dukun bersalin', '0', '820', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('609', '74', 'Persalinan ditolong keluarga', '0', '821', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('610', '74', 'Persalinan ditolong perawat', '0', '819', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('611', '75', 'BCG', '0', '823', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('612', '75', 'Cacar', '0', '830', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('613', '75', 'Campak', '0', '829', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('614', '75', 'DPT-1', '0', '822', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('615', '75', 'DPT-2', '0', '825', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('616', '75', 'DPT-3', '0', '828', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('617', '75', 'Polio -1', '0', '824', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('618', '75', 'Polio-2', '0', '826', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('619', '75', 'Polio-3', '0', '827', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('620', '75', 'Sudah Semua', '0', '831', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('621', '76', 'Busung Lapar', '0', '838', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('622', '76', 'Cikungunya', '0', '836', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('623', '76', 'Demam Berdarah', '0', '833', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('624', '76', 'Flu Burung', '0', '837', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('625', '76', 'Kelainan fisik', '0', '841', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('626', '76', 'Kelainan mental', '0', '842', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('627', '76', 'Kelaparan', '0', '839', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('628', '76', 'Kolera', '0', '834', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('629', '76', 'Kulit Bersisik', '0', '840', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('630', '76', 'Muntaber', '0', '832', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('631', '76', 'Polio', '0', '835', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('632', '77', 'Biasa buang air besar di sungai/parit/kebun/hutan  ', '0', '845', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('633', '77', 'Memiliki WC yang darurat/kurang memenuhi standar kesehatan  ', '0', '844', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('634', '77', 'Memiliki WC yang permanen/semipermanen  ', '0', '843', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('635', '77', 'Menggunakan fasilitas MCK umum  ', '0', '846', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('636', '78', 'Belum tentu sehari makan 1 kali  ', '0', '851', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('637', '78', 'Kebiasaan makan dalam sehari 1 kali  ', '0', '847', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('638', '78', 'Kebiasaan makan sehari 2 kali  ', '0', '848', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('639', '78', 'Kebiasaan makan sehari 3 kali  ', '0', '849', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('640', '78', 'Kebiasaan makan sehari lebih dari 3 kali  ', '0', '850', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('641', '79', 'Dokter/puskesmas/mantri kesehatan/perawat/ bidan/ posyandu  ', '0', '853', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('642', '79', 'Dukun Terlatih  ', '0', '852', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('643', '79', 'Obat tradisional dari dukun pengobatan alternatif  ', '0', '854', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('644', '79', 'Obat tradisional dari keluarga sendiri  ', '0', '856', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('645', '79', 'Paranormal  ', '0', '855', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('646', '79', 'Tidak diobati  ', '0', '857', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('647', '80', 'Balita bergizi baik  ', '0', '859', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('648', '80', 'Balita bergizi buruk  ', '0', '858', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('649', '80', 'Balita bergizi kurang  ', '0', '860', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('650', '80', 'Balita bergizi lebih', '0', '861', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('651', '81', 'Asma', '0', '874', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('652', '81', 'Diabetes Melitus', '0', '867', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('653', '81', 'Gila/stress', '0', '872', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('654', '81', 'Ginjal', '0', '868', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('655', '81', 'HIV/AIDS', '0', '871', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('656', '81', 'Jantung', '0', '862', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('657', '81', 'Kanker', '0', '865', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('658', '81', 'Lepra/Kusta', '0', '870', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('659', '81', 'Lever', '0', '863', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('660', '81', 'Malaria', '0', '869', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('661', '81', 'Paru-paru', '0', '864', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('662', '81', 'Stroke', '0', '866', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('663', '81', 'TBC', '0', '873', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('664', '82', 'Anak yatim/piatu dalam keluarga akibat konflik Sara  ', '0', '878', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('665', '82', 'Janda/duda dalam keluarga akibat konflik Sara  ', '0', '877', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('666', '82', 'Korban luka dalam keluarga akibat konflik Sara  ', '0', '875', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('667', '82', 'Korban meninggal dalam keluarga akibat konflik Sara ', '0', '876', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('668', '83', 'Korban jiwa akibat perkelahian dalam keluarga  ', '0', '879', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('669', '83', 'Korban luka parah akibat perkelahian dalam keluarga ', '0', '880', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('670', '84', 'Korban pencurian, perampokan dalam keluarga  ', '0', '881', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('671', '85', 'Korban penjarahan yang pelakunya anggota keluarga  ', '0', '882', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('672', '85', 'Korban penjarahan yang pelakunya bukan anggota keluarga  ', '0', '883', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('673', '86', 'Anggota keluarga yang memiliki kebiasaan berjudi', '0', '884', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('674', '87', 'Anggota keluarga mengkonsumsi Miras yang dilarang  ', '0', '885', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('675', '87', 'Anggota keluarga yang mengkonsumsi Narkoba ', '0', '886', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('676', '88', 'Korban pembunuhan dalam keluarga yang pelakunya anggota keluarga  ', '0', '887', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('677', '88', 'Korban pembunuhan dalam keluarga yang pelakunya bukan anggota keluarga', '0', '888', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('678', '89', 'Korban penculikan yang pelakunya anggota keluarga  ', '0', '889', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('679', '89', 'Korban penculikan yang pelakunya bukan anggota keluarga  ', '0', '890', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('680', '90', 'Korban kehamilan di luar nikah yang sah menurut hukum adat  ', '0', '893', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('681', '90', 'Korban kehamilan yang tidak dinikahi pelakunya  ', '0', '894', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('682', '90', 'Korban kehamilan yang tidak/belum disahkan secara hukum agama dan hukum negara  ', '0', '895', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('683', '90', 'Korban perkosaan/pelecehan seksual yang pelakunya anggota keluarga  ', '0', '891', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('684', '90', 'Korban perkosaan/pelecehan seksual yang pelakunya bukan anggota keluarga  ', '0', '892', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('685', '91', 'Adanya pemukulan/tindakan fisik antara anak dengan anggota keluarga lain  ', '0', '903', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('686', '91', 'Adanya pemukulan/tindakan fisik antara anak dengan orang tua  ', '0', '901', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('687', '91', 'Adanya pemukulan/tindakan fisik antara anak dengan pembantu  ', '0', '905', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('688', '91', 'Adanya pemukulan/tindakan fisik antara orang tua dengan anak  ', '0', '902', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('689', '91', 'Adanya pemukulan/tindakan fisik antara orang tua dengan orang tua  ', '0', '904', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('690', '91', 'Adanya pemukulan/tindakan fisik antara orang tua dengan pembantu  ', '0', '906', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('691', '91', 'Adanya pertengkaran dalam keluarga antara anak dan anak  ', '0', '897', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('692', '91', 'Adanya pertengkaran dalam keluarga antara anak dan anggota keluarga lain  ', '0', '900', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('693', '91', 'Adanya pertengkaran dalam keluarga antara anak dan orang tua  ', '0', '896', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('694', '91', 'Adanya pertengkaran dalam keluarga antara anak dan pembantu  ', '0', '899', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('695', '91', 'Adanya pertengkaran dalam keluarga antara ayah dan ibu/orang tua ', '0', '898', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('696', '92', 'Ada anak anggota keluarga yang mengemis', '0', '918', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('697', '92', 'Ada anak dan anggota keluarga yang menjadi pengamen', '0', '919', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('698', '92', 'Ada anak yang membantu orang tua mendapatkan penghasilan', '0', '934', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('699', '92', 'Ada anggota keluarga eks narapidana', '0', '936', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('700', '92', 'Ada anggota keluarga yang bermalam/tidur di jalanan/emperan toko/pusat keramaian/kolong jembatan', '0', '916', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('701', '92', 'Ada anggota keluarga yang cacat fisik', '0', '921', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('702', '92', 'Ada anggota keluarga yang cacat mental', '0', '922', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('703', '92', 'Ada anggota keluarga yang gila/stres', '0', '920', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('704', '92', 'Ada anggota keluarga yang kelainan kulit', '0', '923', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('705', '92', 'Ada anggota keluarga yang menganggur', '0', '933', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('706', '92', 'Ada anggota keluarga yang mengemis', '0', '915', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('707', '92', 'Ada anggota keluarga yang menjadi pengamen', '0', '924', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('708', '92', 'Ada anggota keluarga yang termasuk manusia lanjut usia (di atas 60 thn)', '0', '917', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('709', '92', 'Anggota keluarga yatim/piatu', '0', '925', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('710', '92', 'Keluarga duda', '0', '927', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('711', '92', 'Keluarga janda', '0', '926', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('712', '92', 'Kepala keluarga perempuan', '0', '935', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('713', '92', 'Tinggal di bantaran sungai', '0', '928', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('714', '92', 'Tinggal di daerah kawasan kering, tandus dan kritis', '0', '947', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('715', '92', 'Tinggal di daerah rawan bencana tsunami', '0', '938', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('716', '92', 'Tinggal di desa/kelurahan rawan air bersih', '0', '944', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('717', '92', 'Tinggal di desa/kelurahan rawan banjir', '0', '937', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('718', '92', 'Tinggal di desa/kelurahan rawan bencana kekeringan', '0', '945', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('719', '92', 'Tinggal di desa/kelurahan rawan gagal tanam/panen', '0', '946', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('720', '92', 'Tinggal di desa/kelurahan rawan gunung meletus', '0', '939', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('721', '92', 'Tinggal di desa/kelurahan rawan kelaparan', '0', '943', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('722', '92', 'Tinggal di jalur hijau', '0', '929', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('723', '92', 'Tinggal di jalur rawan gempa bumi', '0', '940', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('724', '92', 'Tinggal di kawasan jalur rel kereta api', '0', '930', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('725', '92', 'Tinggal di kawasan jalur sutet', '0', '931', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('726', '92', 'Tinggal di kawasan kumuh dan padat pemukiman', '0', '932', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('727', '92', 'Tinggal di kawasan rawan kebakaran', '0', '942', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('728', '92', 'Tinggal di kawasan rawan tanah longsor', '0', '941', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('729', '94', 'Kepala Keluarga', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('730', '94', 'Suami', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('731', '94', 'Istri', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('732', '94', 'Anak Kandung', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('733', '94', 'Anak Angkat', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('734', '94', 'Ayah', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('735', '94', 'Ibu', '0', '7', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('736', '94', 'Paman', '0', '8', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('737', '94', 'Tante', '0', '9', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('738', '94', 'Kakak', '0', '10', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('739', '94', 'Adik', '0', '11', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('740', '94', 'Kakek', '0', '12', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('741', '94', 'Nenek', '0', '13', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('742', '94', 'Sepupu', '0', '14', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('743', '94', 'Keponakan', '0', '15', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('744', '94', 'Teman', '0', '16', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('745', '94', 'Mertua', '0', '17', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('746', '94', 'Cucu', '0', '18', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('747', '94', 'Famili lain', '0', '19', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('748', '94', 'Menantu', '0', '21', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('749', '94', 'Lainnya', '0', '22', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('750', '94', 'Anak Tiri', '0', '23', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('751', '95', 'Kawin', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('752', '95', 'Belum Kawin', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('753', '95', 'Janda/Duda', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('754', '96', 'Islam', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('755', '96', 'Kristen Protestan', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('756', '96', 'Kristen Katolik', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('757', '96', 'Hindu', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('758', '96', 'Budha', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('759', '96', 'Konghucu', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('760', '96', 'Aliran Kepercayaan Kepada Tuhan YME', '0', '7', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('761', '97', 'O', '0', '0', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('762', '97', 'A', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('763', '97', 'B', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('764', '97', 'AB', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('765', '97', 'Tidak Tahu', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('766', '98', 'Warga Negara Indonesia', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('767', '98', 'Warga Negara Asing', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('768', '98', 'Dwi Kewarganegaraan', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('769', '100', 'Belum masuk TK/Kelompok Bermain', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('770', '100', 'Sedang TK/Kelompok Bermain', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('771', '100', 'Tidak pernah sekolah', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('772', '100', 'Sedang SD/sederajat', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('773', '100', 'Tamat SD/sederajat', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('774', '100', 'Tidak tamat SD/sederajat', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('775', '100', 'Sedang SLTP/Sederajat', '0', '7', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('776', '100', 'Tamat SLTP/sederajat', '0', '8', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('777', '100', 'Sedang SLTA/sederajat', '0', '9', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('778', '100', 'Tamat SLTA/sederajat', '0', '10', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('779', '100', 'Sedang D-1/sederajat', '0', '11', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('780', '100', 'Tamat D-1/sederajat', '0', '12', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('781', '100', 'Sedang D-2/sederajat', '0', '13', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('782', '100', 'Tamat D-2/sederajat', '0', '14', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('783', '100', 'Sedang D-3/sederajat', '0', '15', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('784', '100', 'Tamat D-4/sederajat', '0', '16', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('785', '100', 'Sedang S-1/sederajat', '0', '17', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('786', '100', 'Tamat S-1/sederajat', '0', '18', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('787', '100', 'Sedang S-2/sederajat', '0', '19', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('788', '100', 'Tamat S-2/sederajat', '0', '20', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('789', '100', 'Sedang S-3/sederajat', '0', '21', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('790', '100', 'Tamat S-3/sederajat', '0', '22', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('791', '100', 'Sedang SLB A/sederajat', '0', '23', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('792', '100', 'Tamat SLB A/sederajat', '0', '24', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('793', '100', 'Sedang SLB B/sederajat', '0', '25', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('794', '100', 'Tamat SLB B/sederajat', '0', '26', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('795', '100', 'Sedang SLB C/sederajat', '0', '27', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('796', '100', 'Tamat SLB C/sederajat', '0', '28', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('797', '100', 'Tidak dapat membaca dan menulis huruf Latin/Arab', '0', '29', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('798', '100', 'Tamat D-3/sederajat', '0', '30', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('799', '101', 'Petani', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('800', '101', 'Buruh Tani', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('801', '101', 'Buruh Migran Perempuan', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('802', '101', 'Buruh Migran laki-laki', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('803', '101', 'Pegawai Negeri Sipil', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('804', '101', 'Karyawan Swasta', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('805', '101', 'Pengrajin', '0', '7', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('806', '101', 'Pedagang barang kelontong', '0', '8', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('807', '101', 'Peternak', '0', '9', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('808', '101', 'Nelayan', '0', '10', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('809', '101', 'Montir', '0', '11', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('810', '101', 'Dokter swasta', '0', '12', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('811', '101', 'Perawat swasta', '0', '13', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('812', '101', 'Bidan swasta', '0', '14', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('813', '101', 'Ahli Pengobatan Alternatif', '0', '15', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('814', '101', 'TNI', '0', '16', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('815', '101', 'POLRI', '0', '17', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('816', '101', 'Pengusaha kecil, menengah dan besar', '0', '18', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('817', '101', 'Guru swasta', '0', '19', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('818', '101', 'Dosen swasta', '0', '20', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('819', '101', 'Seniman/artis', '0', '21', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('820', '101', 'Pedagang Keliling', '0', '22', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('821', '101', 'Penambang', '0', '23', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('822', '101', 'Tukang Kayu', '0', '24', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('823', '101', 'Tukang Batu', '0', '25', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('824', '101', 'Tukang cuci', '0', '26', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('825', '101', 'Pembantu rumah tangga', '0', '27', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('826', '101', 'Pengacara', '0', '28', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('827', '101', 'Notaris', '0', '29', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('828', '101', 'Dukun Tradisional', '0', '30', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('829', '101', 'Arsitektur/Desainer', '0', '31', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('830', '101', 'Karyawan Perusahaan Swasta', '0', '32', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('831', '101', 'Karyawan Perusahaan Pemerintah', '0', '33', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('832', '101', 'Wiraswasta', '0', '34', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('833', '101', 'Konsultan Manajemen dan Teknis', '0', '35', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('834', '101', 'Tidak Mempunyai Pekerjaan Tetap', '0', '36', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('835', '101', 'Belum Bekerja', '0', '37', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('836', '101', 'Pelajar', '0', '38', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('837', '101', 'Ibu Rumah Tangga', '0', '39', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('838', '101', 'Purnawirawan/Pensiunan', '0', '40', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('839', '101', 'Perangkat Desa', '0', '41', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('840', '101', 'Buruh Harian Lepas', '0', '42', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('841', '101', 'Pemilik perusahaan', '0', '55', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('842', '101', 'Pengusaha perdagangan hasil bumi', '0', '56', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('843', '101', 'Buruh jasa perdagangan hasil bumi', '0', '57', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('844', '101', 'Pemilik usaha jasa transportasi dan perhubungan', '0', '58', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('845', '101', 'Buruh usaha jasa transportasi dan perhubungan', '0', '59', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('846', '101', 'Pemilik usaha informasi dan komunikasi', '0', '60', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('847', '101', 'Buruh usaha jasa informasi dan komunikasi', '0', '61', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('848', '101', 'Kontraktor', '0', '62', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('849', '101', 'Pemilik usaha jasa hiburan dan pariwisata', '0', '63', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('850', '101', 'Buruh usaha jasa hiburan dan pariwisata', '0', '64', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('851', '101', 'Pemilik usaha hotel dan penginapan lainnya ', '0', '65', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('852', '101', 'Buruh usaha hotel dan penginapan lainnya', '0', '66', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('853', '101', 'Pemilik usaha warung, rumah makan dan restoran', '0', '67', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('854', '101', 'Dukun/paranormal/supranatural', '0', '68', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('855', '101', 'Jasa pengobatan alternatif', '0', '69', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('856', '101', 'Sopir', '0', '70', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('857', '101', 'Usaha jasa pengerah tenaga kerja', '0', '71', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('858', '101', 'Jasa penyewaan peralatan pesta', '0', '74', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('859', '101', 'Pemulung', '0', '75', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('860', '101', 'Pengrajin industri rumah tangga lainnya', '0', '76', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('861', '101', 'Tukang Anyaman', '0', '77', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('862', '101', 'Tukang Jahit', '0', '78', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('863', '101', 'Tukang Kue', '0', '79', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('864', '101', 'Tukang Rias', '0', '80', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('865', '101', 'Tukang Sumur', '0', '81', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('866', '101', 'Jasa Konsultansi Manajemen dan Teknis ', '0', '82', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('867', '101', 'Juru Masak', '0', '83', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('868', '101', 'Karyawan Honorer', '0', '84', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('869', '101', 'Pialang', '0', '85', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('870', '101', 'Pskiater/Psikolog', '0', '86', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('871', '101', 'Wartawan', '0', '87', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('872', '101', 'Tukang Cukur', '0', '88', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('873', '101', 'Tukang Las', '0', '89', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('874', '101', 'Tukang Gigi', '0', '90', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('875', '101', 'Tukang Listrik', '0', '91', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('876', '101', 'Pemuka Agama', '0', '92', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('877', '101', 'Anggota Legislatif', '0', '93', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('878', '101', 'Kepala Daerah', '0', '94', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('879', '101', 'Apoteker', '0', '96', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('880', '101', 'Presiden', '0', '97', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('881', '101', 'Wakil presiden', '0', '98', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('882', '101', 'Anggota Mahkamah Konstitusi', '0', '99', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('883', '101', 'Anggota Kabinet Kementrian', '0', '100', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('884', '101', 'Duta besar', '0', '101', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('885', '101', 'Gubernur', '0', '102', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('886', '101', 'Wakil bupati', '0', '103', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('887', '101', 'Pilot', '0', '104', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('888', '101', 'Penyiar radio', '0', '105', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('889', '101', 'Pelaut', '0', '106', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('890', '101', 'Peneliti', '0', '107', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('891', '101', 'Satpam/Security', '0', '108', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('892', '101', 'Wakil Gubernur', '0', '109', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('893', '101', 'Bupati/Walikota', '0', '110', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('894', '101', 'Akuntan', '0', '112', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('895', '104', 'Menggunakan alat kontrasepsi Suntik', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('896', '104', 'Menggunakan alat kontrasepsi Spiral', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('897', '104', 'Menggunakan alat kontrasepsi Kondom', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('898', '104', 'Menggunakan alat kontrasepsi vasektomi', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('899', '104', 'Menggunakan alat kontrasepsi Tubektomi', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('900', '104', 'Menggunakan alat kontrasepsi Pil', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('901', '104', 'Menggunakan metode KB Alamiah/Kalender', '0', '7', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('902', '104', 'Menggunakan obat tradisional', '0', '8', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('903', '104', 'Tidak Menggunakan alat kontrasepsi /metode KBA', '0', '9', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('904', '104', 'Susuk KB (Implant)', '0', '10', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('905', '104', 'Tidak Menjawab', '0', '11', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('906', '105', 'Tuna Rungu', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('907', '105', 'Tuna Wicara', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('908', '105', 'Tuna Netra', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('909', '105', 'Lumpuh', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('910', '105', 'Sumbing', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('911', '106', 'Idiot', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('912', '106', 'Gila', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('913', '106', 'Stress', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('914', '107', 'Wajib Pajak Bumi dan Bangunan', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('915', '107', 'Wajib Pajak Penghasilan Perorangan', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('916', '107', 'Wajib Pajak Badan/Perusahaan', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('917', '107', 'Wajib Pajak Kendaraan Bermotor', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('918', '107', 'Wajib Retribusi Kebersihan', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('919', '107', 'Wajib Retribusi Keamanan', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('920', '108', 'Kepala Desa/Lurah', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('921', '108', 'Sekretaris Desa/Kelurahan', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('922', '108', 'Kepala Urusan', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('923', '108', 'Kepala Dusun/Lingkungan', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('924', '108', 'Staf Desa/Kelurahan', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('925', '108', 'Ketua BPD', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('926', '108', 'Wakil Ketua BPD', '0', '7', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('927', '108', 'Sekretaris BPD', '0', '8', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('928', '108', 'Anggota BPD', '0', '9', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('929', '109', 'Pengurus RT', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('930', '109', 'Anggota Pengurus RT', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('931', '109', 'Pengurus RW', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('932', '109', 'Anggota Pengurus RW', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('933', '109', 'Pengurus LKMD/K/LPM', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('934', '109', 'Anggota LKMD/K/LPM', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('935', '109', 'Pengurus PKK', '0', '7', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('936', '109', 'Anggota PKK', '0', '8', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('937', '109', 'Pengurus Lembaga Adat', '0', '9', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('938', '109', 'Pengurus Karang Taruna', '0', '10', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('939', '109', 'Anggota Karang Taruna', '0', '11', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('940', '109', 'Pengurus Hansip/Linmas', '0', '12', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('941', '109', 'Pengurus Poskamling', '0', '13', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('942', '109', 'Pengurus Organisasi Perempuan', '0', '14', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('943', '109', 'Anggota Organisasi Perempuan', '0', '15', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('944', '109', 'Pengurus Organisasi Bapak-bapak', '0', '16', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('945', '109', 'Anggota Organisasi Bapak-bapak', '0', '17', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('946', '109', 'Pengurus Organisasi keagamaan', '0', '18', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('947', '109', 'Anggota Organisasi keagamaan', '0', '19', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('948', '109', 'Pengurus Organisasi profesi wartawan', '0', '20', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('949', '109', 'Anggota Organisasi profesi wartawan', '0', '21', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('950', '109', 'Pengurus Posyandu', '0', '22', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('951', '109', 'Pengurus Posyantekdes', '0', '23', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('952', '109', 'Pengurus Organisasi Kelompok Tani/Nelayan', '0', '24', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('953', '109', 'Anggota Organisasi Kelompok Tani/Nelayan', '0', '25', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('954', '109', 'Pengurus Lembaga Gotong royong', '0', '26', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('955', '109', 'Anggota Lembaga Gotong royong', '0', '27', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('956', '109', 'Pengurus Organisasi Profesi guru', '0', '28', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('957', '109', 'Anggota Organisasi Profesi guru', '0', '29', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('958', '109', 'Pengurus Organisasi profesi dokter/tenaga medis', '0', '30', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('959', '109', 'Anggota Organisasi profesi/tenaga medis', '0', '31', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('960', '109', 'Pengurus organisasi pensiunan', '0', '32', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('961', '109', 'Anggota organisasi pensiunan', '0', '33', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('962', '109', 'Pengurus organisasi pemirsa/pendengar', '0', '34', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('963', '109', 'Anggota organisasi pemirsa/pendengar', '0', '35', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('964', '109', 'Pengurus lembaga pencinta alam', '0', '36', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('965', '109', 'Anggota organisasi pencinta alam', '0', '37', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('966', '109', 'Pengurus organisasi pengembangan ilmu pengetahuan', '0', '38', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('967', '109', 'Anggota organisasi pengembangan ilmu pengetaahuan', '0', '39', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('968', '109', 'Pemilik yayasan', '0', '40', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('969', '109', 'Pengurus yayasan', '0', '41', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('970', '109', 'Anggota yayasan', '0', '42', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('971', '109', 'Pengurus Satgas Kebersihan', '0', '43', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('972', '109', 'Anggota Satgas Kebersihan', '0', '44', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('973', '109', 'Pengurus Satgas Kebakaran', '0', '45', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('974', '109', 'Anggota Satgas Kebakaran', '0', '46', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('975', '109', 'Pengurus Posko Penanggulangan Bencana', '0', '47', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('976', '109', 'Anggota Tim Penanggulangan Bencana', '0', '48', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('977', '110', 'Koperasi', '0', '1', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('978', '110', 'Unit Usaha Simpan Pinjam', '0', '2', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('979', '110', 'Industri Kerajinan Tangan', '0', '3', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('980', '110', 'Industri Pakaian', '0', '4', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('981', '110', 'Industri Usaha Makanan', '0', '5', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('982', '110', 'Industri Alat Rumah Tangga', '0', '6', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('983', '110', 'Industri Usaha Bahan Bangunan', '0', '7', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('984', '110', 'Industri Alat Pertanian', '0', '8', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('985', '110', 'Restoran', '0', '9', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('986', '110', 'Toko/ Swalayan', '0', '10', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('987', '110', 'Warung Kelontongan/Kios', '0', '11', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('988', '110', 'Angkutan Darat', '0', '12', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('989', '110', 'Angkutan Sungai', '0', '13', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('990', '110', 'Angkutan Laut', '0', '14', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('991', '110', 'Angkutan Udara', '0', '15', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('992', '110', 'Jasa Ekspedisi/Pengiriman Barang', '0', '16', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('993', '110', 'Tukang Sumur', '0', '17', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('994', '110', 'Usaha Pasar Harian', '0', '18', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('995', '110', 'Usaha Pasar Mingguan', '0', '19', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('996', '110', 'Usaha Pasar Ternak', '0', '20', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('997', '110', 'Usaha Pasar Hasil Bumi Dan Tambang', '0', '21', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('998', '110', 'Usaha Perdagangan Antar Pulau', '0', '22', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('999', '110', 'Pengijon', '0', '23', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1000', '110', 'Pedagang Pengumpul/Tengkulak', '0', '24', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1001', '110', 'Usaha Peternakan', '0', '25', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1002', '110', 'Usaha Perikanan', '0', '26', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1003', '110', 'Usaha Perkebunan', '0', '27', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1004', '110', 'Kelompok Simpan Pinjam', '0', '28', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1005', '110', 'Usaha Minuman', '0', '29', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1006', '110', 'Industri Farmasi', '0', '30', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1007', '110', 'Industri Karoseri', '0', '31', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1008', '110', 'Penitipan Kendaraan Bermotor', '0', '32', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1009', '110', 'Industri Perakitan Elektronik', '0', '33', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1010', '110', 'Pengolahan Kayu', '0', '34', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1011', '110', 'Bioskop', '0', '35', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1012', '110', 'Film Keliling', '0', '36', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1013', '110', 'Sandiwara/Drama', '0', '37', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1014', '110', 'Group Lawak', '0', '38', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1015', '110', 'Jaipongan', '0', '39', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1016', '110', 'Wayang Orang/Golek', '0', '40', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1017', '110', 'Group Musik/Band', '0', '41', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1018', '110', 'Group Vokal/Paduan Suara', '0', '42', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1019', '110', 'Usaha Persewaan Tenaga Listrik', '0', '43', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1020', '110', 'Usaha Pengecer Gas Dan Bahan Bakar Minyak', '0', '44', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1021', '110', 'Usaha Air Minum Dalam Kemasan', '0', '45', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1022', '110', 'Tukang Kayu', '0', '46', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1023', '110', 'Tukang Batu', '0', '47', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1024', '110', 'Tukang Jahit/Bordir', '0', '48', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1025', '110', 'Tukang Cukur', '0', '49', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1026', '110', 'Tukang Service Elektronik', '0', '50', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1027', '110', 'Tukang Besi', '0', '51', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1028', '110', 'Tukang Pijat/Urut', '0', '52', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1029', '110', 'Tukang Sumur', '0', '53', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1030', '110', 'Notaris', '0', '54', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1031', '110', 'Pengacara/Advokat', '0', '55', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1032', '110', 'Konsultan Manajemen', '0', '56', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1033', '110', 'Konsultan Teknis', '0', '57', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1034', '110', 'Pejabat Pembuat Akta Tanah', '0', '58', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1035', '110', 'Losmen', '0', '59', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1036', '110', 'Wisma', '0', '60', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1037', '110', 'Asrama', '0', '61', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1038', '110', 'Persewaan Kamar', '0', '62', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1039', '110', 'Kontrakan Rumah', '0', '63', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1040', '110', 'Mess', '0', '64', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1041', '110', 'Hotel', '0', '65', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1042', '110', 'Home Stay', '0', '66', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1043', '110', 'Villa', '0', '67', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1044', '110', 'Town House', '0', '68', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1045', '110', 'Usaha Asuransi', '0', '69', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1046', '110', 'Lembaga Keuangan Bukan Bank', '0', '70', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1047', '110', 'Lembaga Perkreditan Rakyat', '0', '71', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1048', '110', 'Pegadaian', '0', '72', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1049', '110', 'Bank Perkreditan Rakyat', '0', '73', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1050', '110', 'Usaha Penyewaan Alat Pesta', '0', '74', '1');
+INSERT INTO analisis_parameter (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES ('1051', '110', 'Usaha Pengolahan dan Penjualan Hasil Hutan', '0', '75', '1');
 
 
 #
@@ -149,10 +1321,12 @@ CREATE TABLE `analisis_periode` (
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`),
   KEY `id_state` (`id_state`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 INSERT INTO analisis_periode (`id`, `id_master`, `nama`, `id_state`, `aktif`, `keterangan`, `tahun_pelaksanaan`) VALUES ('1', '2', 'Pendataan 2014', '2', '2', 'ket', '2014');
 INSERT INTO analisis_periode (`id`, `id_master`, `nama`, `id_state`, `aktif`, `keterangan`, `tahun_pelaksanaan`) VALUES ('2', '2', 'Pendataan 2015', '1', '1', 'nnn', '2015');
+INSERT INTO analisis_periode (`id`, `id_master`, `nama`, `id_state`, `aktif`, `keterangan`, `tahun_pelaksanaan`) VALUES ('3', '3', 'Data Dasar Keluarga ', '1', '1', 'Pendataan Profil Desa', '2018');
+INSERT INTO analisis_periode (`id`, `id_master`, `nama`, `id_state`, `aktif`, `keterangan`, `tahun_pelaksanaan`) VALUES ('4', '4', 'Data Anggota Keluarga', '1', '1', 'Pendataan Profil Desa', '2018');
 
 
 #
@@ -1186,31 +2360,6 @@ CREATE TABLE `inbox` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
-# TABLE STRUCTURE FOR: inventaris
-#
-
-DROP TABLE IF EXISTS inventaris;
-
-CREATE TABLE `inventaris` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_jenis_barang` int(6) DEFAULT NULL,
-  `asal_sendiri` int(6) DEFAULT NULL,
-  `asal_pemerintah` int(6) DEFAULT NULL,
-  `asal_provinsi` int(6) DEFAULT NULL,
-  `asal_kab` int(6) DEFAULT NULL,
-  `asal_sumbangan` int(6) DEFAULT NULL,
-  `hapus_rusak` int(6) DEFAULT NULL,
-  `hapus_dijual` int(6) DEFAULT NULL,
-  `hapus_sumbangkan` int(6) DEFAULT NULL,
-  `tanggal_mutasi` date NOT NULL,
-  `jenis_mutasi` int(6) DEFAULT NULL,
-  `keterangan` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_jenis_barang` (`id_jenis_barang`),
-  CONSTRAINT `inventaris_ibfk_1` FOREIGN KEY (`id_jenis_barang`) REFERENCES `jenis_barang` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
 # TABLE STRUCTURE FOR: jenis_barang
 #
 
@@ -1221,7 +2370,7 @@ CREATE TABLE `jenis_barang` (
   `nama` varchar(30) DEFAULT NULL,
   `keterangan` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: kategori
@@ -1404,7 +2553,7 @@ CREATE TABLE `log_bulanan` (
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9');
@@ -1416,7 +2565,19 @@ INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('8', '97', '46', '51', '37', '2017-11-28 01:51:11', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('9', '97', '46', '51', '37', '2017-12-27 05:03:39', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('10', '97', '46', '51', '37', '2018-01-26 05:30:07', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('11', '97', '46', '51', '37', '2018-02-27 22:25:52', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('11', '97', '46', '51', '37', '2018-03-01 05:47:41', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('12', '97', '46', '51', '37', '2018-03-31 22:40:49', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('13', '97', '46', '51', '37', '2018-03-31 22:40:52', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('14', '97', '46', '51', '37', '2018-03-31 22:40:52', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('15', '97', '46', '51', '37', '2018-03-31 22:40:55', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('16', '97', '46', '51', '37', '2018-03-31 22:40:57', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('17', '97', '46', '51', '37', '2018-03-31 22:40:58', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('18', '97', '46', '51', '37', '2018-03-31 22:40:59', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('19', '97', '46', '51', '37', '2018-03-31 22:41:03', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('20', '97', '46', '51', '37', '2018-03-31 22:41:03', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('21', '97', '46', '51', '37', '2018-03-31 22:41:10', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('22', '97', '46', '51', '37', '2018-03-31 22:41:13', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('23', '97', '46', '51', '37', '2018-03-31 22:41:14', '28', '9');
 
 
 #
@@ -1617,25 +2778,6 @@ INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('113', '', '', '3', '109', '0', '1', NULL);
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('114', 'Sejarah Desa', 'artikel/99', '3', '16', '0', '1', NULL);
 
-
-#
-# TABLE STRUCTURE FOR: mutasi_inventaris
-#
-
-DROP TABLE IF EXISTS mutasi_inventaris;
-
-CREATE TABLE `mutasi_inventaris` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_barang` int(6) DEFAULT NULL,
-  `tanggal_mutasi` date NOT NULL,
-  `jenis_mutasi` tinyint(2) DEFAULT NULL,
-  `jenis_penghapusan` tinyint(2) DEFAULT NULL,
-  `jml_mutasi` int(6) DEFAULT NULL,
-  `keterangan` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_barang` (`id_barang`),
-  CONSTRAINT `mutasi_inventaris_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `inventaris` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: outbox
@@ -1909,7 +3051,7 @@ INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kate
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('17', 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('18', 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('19', 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.9', 'Versi sekarang untuk migrasi', NULL, NULL);
+INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.10', 'Versi sekarang untuk migrasi', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('21', 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 
 
@@ -2883,7 +4025,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
@@ -2918,6 +4060,7 @@ INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampira
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('85', 'Keterangan Izin Orang Tua/Suami/Istri', 'surat_izin_orangtua_suami_istri', 'S-39', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('86', 'Pernyataan Penguasaan Fisik Bidang Tanah (SPORADIK)', 'surat_sporadik', 'S-40', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('89', 'Permohonan Perubahan Kartu Keluarga', 'surat_permohonan_perubahan_kartu_keluarga', 'S-41', 'f-1.16.php,f-1.01.php', '0', '0', '1');
+INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('90', 'Izin Mengambil Kayu', 'surat_izin_mengambil_kayu', '', NULL, '0', '0', '2');
 
 
 #
@@ -3052,3 +4195,41 @@ INSERT INTO widget (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `fo
 
 
 DROP VIEW IF EXISTS data_surat;
+#
+# TABLE STRUCTURE FOR: inventaris
+#
+
+DROP TABLE IF EXISTS inventaris;
+
+CREATE TABLE `inventaris` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_jenis_barang` int(6) DEFAULT NULL,
+  `keterangan` varchar(100) DEFAULT NULL,
+  `tanggal_pengadaan` date NOT NULL,
+  `nama_barang` varchar(100) NOT NULL,
+  `asal_barang` tinyint(2) NOT NULL,
+  `jml_barang` int(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_jenis_barang` (`id_jenis_barang`),
+  CONSTRAINT `inventaris_ibfk_1` FOREIGN KEY (`id_jenis_barang`) REFERENCES `jenis_barang` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: mutasi_inventaris
+#
+
+DROP TABLE IF EXISTS mutasi_inventaris;
+
+CREATE TABLE `mutasi_inventaris` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_barang` int(6) DEFAULT NULL,
+  `tanggal_mutasi` date NOT NULL,
+  `jenis_mutasi` tinyint(2) DEFAULT NULL,
+  `jenis_penghapusan` tinyint(2) DEFAULT NULL,
+  `jml_mutasi` int(6) DEFAULT NULL,
+  `keterangan` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_barang` (`id_barang`),
+  CONSTRAINT `mutasi_inventaris_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `inventaris` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+

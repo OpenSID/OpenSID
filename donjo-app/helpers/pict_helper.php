@@ -14,6 +14,7 @@ function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar){
 }
 
 function UploadFoto($fupload_name,$old_foto,$tipe_file=""){
+  $tipe_file = TipeFile($_FILES["foto"]);
   $dimensi = array("width"=>100, "height"=>100);
   if($old_foto!="") {
     // Hapus old_foto
