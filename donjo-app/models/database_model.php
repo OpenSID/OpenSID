@@ -203,6 +203,9 @@
     $list_pertanyaan = sql_in_list($pertanyaan);
     $this->db->where('id_master',$id_dak)->where("pertanyaan in($list_pertanyaan)")
       ->update('analisis_indikator',array('is_teks' => 1));
+
+      //ubah icon kecil dan besar
+       $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));
   }
 
   function migrasi_29_ke_210(){
