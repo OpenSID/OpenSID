@@ -2,13 +2,15 @@
 
 	protected
 		// Konfigurasi untuk library 'upload'
-		$uploadConfig = array();
+		$uploadConfig = array(),
+		// Delimiter untuk tambahSuffixUniqueKeNamaFile()
+		$delimiterUniqueKey = NULL;
 
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
 		$this->load->library('upload');
-		// Untuk dapat menggunakan fungsi tambahSuffixUniqueKeNamaFile()
+		// Untuk dapat menggunakan fungsi generator()
 		$this->load->helper('donjolib');
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_ARSIP,
@@ -124,12 +126,12 @@
 		// Adakah lampiran yang disertakan?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
 
-		// Cek nama berkas tidak boleh lebih dari 100 karakter karena -
+		// Cek nama berkas user boleh lebih dari 80 karakter (+20 untuk unique id) karena -
 		// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter
-		if (strlen($_FILES['satuan']['name']) > 100)
+		if ((strlen($_FILES['satuan']['name']) + 20 ) >= 100)
 		{
 			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Nama berkas scan tidak boleh lebih dari 100 karakter';
+			$_SESSION['error_msg'] = ' -> Nama berkas scan telalu panjang, maksimal 80 karakter';
 			redirect('surat_masuk');
 		}
 
@@ -145,7 +147,7 @@
 			{
 				$uploadData = $this->upload->data();
 				// Buat nama file unik agar url file susah ditebak dari browser
-				$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				$namaFileUnik = $this->tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
 				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
@@ -175,7 +177,8 @@
 	 * @param   integer  $idBerkasScan  Id berkas untuk query ke database
 	 * @return  void
 	 */
-	function update($idBerkasScan) {
+	public function update($idBerkasScan)
+	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
 		// Normalkan tanggal
@@ -186,7 +189,6 @@
 		$dbQuery = $this->db->query($sql, array($idBerkasScan));
 		$berkasLama = $dbQuery->row();
 		$berkasLama = is_object($berkasLama) ? $berkasLama->berkas_scan : NULL;
-		$data['berkas_scan'] = $berkasLama;
 		// Lokasi berkas scan lama (absolut)
 		$lokasiBerkasLama = $this->uploadConfig['upload_path'].$berkasLama;
 		$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
@@ -196,11 +198,6 @@
 		// Hapus lampiran lama?
 		$hapusLampiranLama = ($data['gambar_hapus'] == 'YA');
 		unset($data['gambar_hapus']);
-		// Hapus file lama jika checkbox 'Hapus Berkas' dicentang
-		if ($hapusLampiranLama === TRUE)
-		{
-			$indikatorSukses = unlink($lokasiBerkasLama);
-		}
 		
 		$uploadData = NULL;
 		$uploadError = NULL;
@@ -208,12 +205,12 @@
 		// Adakah file baru yang akan diupload?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
 
-		// Cek nama berkas tidak boleh lebih dari 100 karakter karena -
+		// Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
 		// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter
-		if (strlen($_FILES['satuan']['name']) > 100)
+		if ((strlen($_FILES['satuan']['name']) + 20 ) >= 100)
 		{
 			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Nama berkas scan tidak boleh lebih dari 100 karakter';
+			$_SESSION['error_msg'] = ' -> Nama berkas scan terlalu panjang, maksimal 80 karakter';
 			redirect('surat_masuk');
 		}
 		
@@ -228,7 +225,7 @@
 				$uploadData = $this->upload->data();
 				$indikatorSukses = TRUE;
 				// Buat nama file unik
-				$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				$namaFileUnik = $this->tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
 				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
@@ -251,22 +248,18 @@
 			$indikatorSukses = TRUE;
 		}
 
-		// Data baru untuk mengupdate tabel surat_masuk
-		$newData = array(
-			'nomor_urut' => $data['nomor_urut'],
-			'tanggal_penerimaan' => $data['tanggal_penerimaan'],
-			'nomor_surat' => $data['nomor_surat'],
-			'kode_surat' => $data['kode_surat'],
-			'tanggal_surat' => $data['tanggal_surat'],
-			'pengirim' => $data['pengirim'],
-			'isi_singkat' => $data['isi_singkat'],
-			'disposisi_kepada' => $data['disposisi_kepada'],
-			'isi_disposisi' => $data['isi_disposisi'],
-			'berkas_scan' => $data['berkas_scan']
-		);
+		$fileTerhapus = FALSE;
+
+		// Hapus file lama jika checkbox 'Hapus Berkas' dicentang
+		if ($hapusLampiranLama === TRUE)
+		{
+			$indikatorSukses = unlink($lokasiBerkasLama) && !file_exists($lokasiBerkasLama);
+			$data['berkas_scan'] = $indikatorSukses ? NULL : $data['berkas_scan'];
+			$data['berkas_scan'] = !empty($namaFileUnik) ? $namaFileUnik : $data['berkas_scan'];
+		}
 
 		$this->db->where('id', $idBerkasScan);
-		$indikatorSukses = $indikatorSukses && $this->db->update('surat_masuk', $newData);
+		$indikatorSukses = $indikatorSukses && $this->db->update('surat_masuk', $data);
 		$_SESSION['success'] = $indikatorSukses === TRUE ? 1 : -1;
 		$_SESSION['error_msg'] = ($_SESSION['success'] === 1)
 			? NULL : ' -> Gagal memperbarui data di database';
@@ -326,6 +319,37 @@
 		$sql = "SELECT berkas_scan FROM surat_masuk WHERE id = ?";
 		$dbQuery = $this->db->query($sql, array($idBerkasScan));
 		return $dbQuery->row();
+	}
+
+
+	/**
+	* Tambahkan suffix unik ke nama file
+	* @param   string        $namFile    Nama file asli (beserta ekstensinya)
+	* @param   boolean       $urlEncode  Saring nama file dengan urlencode() ?
+	* @param   string|NULL   $delimiter  String pemisah nama asli dengan unique id
+	* @return  string
+	*/
+	private function tambahSuffixUniqueKeNamaFile($namFile, $urlEncode = TRUE, $delimiter = NULL)
+	{
+		// Type check
+		$namFile = is_string($namFile) ? $namFile : strval($namFile);
+		$urlEncode = is_bool($urlEncode) ? $urlEncode : TRUE;
+		$this->delimiterUniqueKey = (!is_string($delimiter) || empty($delimiter))
+			? '__sid__' : $delimiter;
+
+		// Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
+		$namaFile = str_replace($this->delimiterUniqueKey, '__', $namaFile);
+		// Tambahkan suffix nama unik menggunakan uniqid()
+		$namaFileUnik = explode('.', $namFile);
+		$ekstensiFile = end($namaFileUnik);
+		unset($namaFileUnik[count($namaFileUnik) - 1]);
+		$namaFileUnik = implode('.', $namaFileUnik);
+		$namaFileUnik = urlencode($namaFileUnik).
+			$this->delimiterUniqueKey.generator().'.'.$ekstensiFile;
+		// Contoh return:
+		// - nama asli = 'kitten.jpg'
+		// - nama unik = 'kitten__sid__xUCc8KO.jpg'
+		return $namaFileUnik;
 	}
 }
 
