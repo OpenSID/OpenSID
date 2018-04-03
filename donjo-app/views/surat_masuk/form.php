@@ -28,7 +28,7 @@
 		        <th>Berkas Scan Surat Masuk</th>
 		        <td>
 		          <?php
-		          if ($surat_masuk['berkas_scan']):
+		          if (!is_null($surat_masuk['berkas_scan']) && $surat_masuk['berkas_scan'] != '.'):
 		          ?>
 		            <div style="margin: 10px 0px 10px 0px;">
 			            <input type="checkbox" name="gambar_hapus" value="YA" />
