@@ -138,7 +138,7 @@
 									<div class="uibutton-group" style="display: flex;">
 										<a href="<?php echo site_url("surat_masuk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
 										<?php if($data['berkas_scan']): ?>
-											<a href="<?php echo base_url(LOKASI_ARSIP.$data['berkas_scan'])?>" class="uibutton tipsy south fa-tipis" title="Unduh Surat"><span class="fa fa-download"></span> Unduh</a>
+											<a href="<?php echo site_url('/surat_masuk/unduh_berkas_scan/'.$data['id'])?>" class="uibutton tipsy south fa-tipis" title="Unduh Surat"><span class="fa fa-download"></span> Unduh</a>
 										<?php endif; ?>
 										<a class="uibutton tipsy south" title="Lembar Disposisi" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/disposisi/'.$data['id'])?>')"><span class="fa fa-file-text-o"></span></a>
 										<a href="<?php echo site_url("surat_masuk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
