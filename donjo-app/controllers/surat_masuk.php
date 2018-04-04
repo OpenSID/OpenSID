@@ -5,6 +5,8 @@ class surat_masuk extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();
+		// Untuk bisa menggunakan helper force_download()
+		$this->load->helper('download');
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=(1 or 2)) {
@@ -73,6 +75,13 @@ class surat_masuk extends CI_Controller{
 		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
 
 		$header = $this->header_model->get_data();
+
+		// Buang unique id pada link nama file 
+		$berkas = explode('__sid__', $data['surat_masuk']['berkas_scan']);
+		$namaFile = $berkas[0];
+		$ekstensiFile = explode('.', end($berkas));
+		$ekstensiFile = end($ekstensiFile);
+		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
 
 		$this->load->view('header', $header);
 		$nav['act']=$this->tab_ini;
@@ -146,5 +155,35 @@ class surat_masuk extends CI_Controller{
 		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
 		$data['surat'] = $this->surat_masuk_model->get_surat_masuk($id);
 		$this->load->view('surat_masuk/disposisi',$data);
+	}
+
+	/**
+	 * Unduh berkas scan berdasarkan kolom surat_masuk.id
+	 * @param   integer  $idBerkasScan  Id berkas scan pada koloam surat_masuk.id
+	 * @return  void
+	 */
+	public function unduh_berkas_scan($idBerkasScan)
+	{
+		// Ambil nama berkas dari database
+		$berkas = $this->surat_masuk_model->getNamaBerkasScan($idBerkasScan);
+		$berkas = is_object($berkas) ? $berkas->berkas_scan : NULL;
+		// Tentukan path berkas (absolut)
+		$pathBerkas = FCPATH.LOKASI_ARSIP.$berkas;
+		$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+		// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
+		if (is_null($berkas) || !file_exists($pathBerkas))
+		{
+			redirect('surat_masuk');
+		}
+		// OK, berkas ada. Ambil konten berkasnya
+		$data = file_get_contents($pathBerkas);
+		// Buang unique id pada nama berkas download
+		$berkas = explode('__sid__', $berkas);
+		$namaFile = $berkas[0];
+		$ekstensiFile = explode('.', end($berkas));
+		$ekstensiFile = end($ekstensiFile);
+		$berkas = $namaFile.'.'.$ekstensiFile;
+
+		force_download($berkas, $data);
 	}
 }
