@@ -236,7 +236,7 @@ table#kode {
 	    <td colspan="2">&nbsp;</td>
   	</tr>
     <tr>
-      <td colspan="10">5. &nbsp;&nbsp;Alamat Dilahirkan </td>
+      <td colspan="10">5. &nbsp;&nbsp;Tempat Kelahiran </td>
       <td>:</td>
       <td colspan="23" class="kotak"><?php echo $input['alamat_tempat_lahir']?></td>
 
