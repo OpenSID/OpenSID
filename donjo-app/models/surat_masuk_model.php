@@ -204,6 +204,8 @@
 		
 		// Adakah file baru yang akan diupload?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
+		// Apakah user mengupload lampiran berkas scan baru?
+		$uploadBerkasScanBaru = FALSE;
 
 		// Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
 		// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter
@@ -234,6 +236,7 @@
 				// Ganti nama di array upload jika file berhasil di-rename --
 				// jika rename gagal, fallback ke nama asli
 				$data['berkas_scan'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+				$uploadBerkasScanBaru = TRUE;
 			}
 			// Upload gagal
 			else
@@ -250,8 +253,9 @@
 
 		$fileTerhapus = FALSE;
 
-		// Hapus file lama jika checkbox 'Hapus Berkas' dicentang
-		if ($hapusLampiranLama === TRUE)
+		// Hapus file lama jika checkbox 'Hapus Berkas' dicentang atau -
+		// user mengupload lampiran berkas scan baru
+		if ($hapusLampiranLama === TRUE || $uploadBerkasScanBaru === TRUE)
 		{
 			$indikatorSukses = unlink($lokasiBerkasLama) && !file_exists($lokasiBerkasLama);
 			$data['berkas_scan'] = $indikatorSukses ? NULL : $data['berkas_scan'];
@@ -260,7 +264,7 @@
 
 		$this->db->where('id', $idBerkasScan);
 		$indikatorSukses = $indikatorSukses && $this->db->update('surat_masuk', $data);
-		$_SESSION['success'] = $indikatorSukses === TRUE ? 1 : -1;
+		$_SESSION['success'] = ($indikatorSukses === TRUE) ? 1 : -1;
 		$_SESSION['error_msg'] = ($_SESSION['success'] === 1)
 			? NULL : ' -> Gagal memperbarui data di database';
 	}
@@ -289,11 +293,54 @@
     return $ref_disposisi;
 	}
 	
+	/**
+	 * Hapus record surat masuk beserta file lampirannya
+	 * @param   string  $idSuratMasuk  Id surat masuk? (/delete/1/2/13)
+	 * @return  void
+	 */
+	public function delete($idSuratMasuk)
+	{
+		// Redirect ke halaman surat masuk jika Id kosong
+		if (empty($idSuratMasuk))
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Data yang anda minta tidak ditemukan';
+			redirect('surat_masuk');
+		}
 
-	function delete($id=''){
-		$_SESSION['success'] = 1;
-		$outp = $this->db->where('id',$id)->delete('surat_masuk');
-		if(!$outp) $_SESSION['success'] = -1;
+		// Type check
+		$idSuratMasuk = is_string($idSuratMasuk) ? $idSuratMasuk : strval($idSuratMasuk);
+		// Ambil nama berkas dari database
+		$sql = "SELECT berkas_scan FROM surat_masuk WHERE id = ? LIMIT 1;";
+		$query = $this->db->query($sql, array($idSuratMasuk));
+		$berkas = $query->row();
+		// $berkas = $this->surat_masuk_model->getNamaBerkasScan($idBerkasScan);
+
+		$berkas = is_object($berkas) ? $berkas->berkas_scan : NULL;
+		// Redirect kembali ke halaman surat masuk jika data tidak eitemukan di database
+		if (is_null($berkas))
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Berkas ini tidak ada di database';
+			redirect('surat_masuk');
+		}
+		
+		// Tentukan path berkas (absolut)
+		$pathBerkas = FCPATH.LOKASI_ARSIP.$berkas;
+		$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+		// Indikator sukses penghapusan file dari disk
+		$indikatorSukses = unlink($pathBerkas) && !file_exists($pathBerkas);
+		// Set session error message berdasarkan hasil operasi hapus
+		$_SESSION['error_msg'] = ($indikatorSukses === FALSE)
+			? ' -> Gagal menghapus berkas scan lama' : NULL;
+		$indikatorSukses = $indikatorSukses
+			? $this->db->where('id', $idSuratMasuk)->delete('surat_masuk')
+			: FALSE;
+		// Set session error message berdasarkan hasil operasi database
+		$_SESSION['error_msg'] = ($indikatorSukses === FALSE)
+			? ' -> Gagal menghapus record di database' : NULL;
+		// Tampilkan pesan (error atau success) berdasarkan value di error_msg yang tadi kita set
+		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
 	}
 
 	function delete_all(){
