@@ -144,7 +144,12 @@
 
 
   function migrasi_211_ke_212(){
-    // Tambahkan perubahan database di sini
+    // update data untuk menggantikan icon pada modul sekertariat
+    $sql = "UPDATE setting_modul
+            SET ikon = 'document-open-8.png', ikon_kecil = 'fa fa-file fa-lg'
+            WHERE id = 15";
+    $this->db->query($sql);
+
   }
 
   function migrasi_210_ke_211(){
