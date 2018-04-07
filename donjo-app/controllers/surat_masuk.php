@@ -159,14 +159,13 @@ class surat_masuk extends CI_Controller{
 
 	/**
 	 * Unduh berkas scan berdasarkan kolom surat_masuk.id
-	 * @param   integer  $idBerkasScan  Id berkas scan pada koloam surat_masuk.id
+	 * @param   integer  $idSuratMasuk  Id berkas scan pada koloam surat_masuk.id
 	 * @return  void
 	 */
-	public function unduh_berkas_scan($idBerkasScan)
+	public function unduh_berkas_scan($idSuratMasuk)
 	{
 		// Ambil nama berkas dari database
-		$berkas = $this->surat_masuk_model->getNamaBerkasScan($idBerkasScan);
-		$berkas = is_object($berkas) ? $berkas->berkas_scan : NULL;
+		$berkas = $this->surat_masuk_model->getNamaBerkasScan($idSuratMasuk);
 		// Tentukan path berkas (absolut)
 		$pathBerkas = FCPATH.LOKASI_ARSIP.$berkas;
 		$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
