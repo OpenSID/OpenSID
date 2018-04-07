@@ -128,10 +128,11 @@
 
 		// Cek nama berkas user boleh lebih dari 80 karakter (+20 untuk unique id) karena -
 		// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter
-		if ((strlen($_FILES['satuan']['name']) + 20 ) >= 100)
+		if ($adaLampiran && ((strlen($_FILES['satuan']['name']) + 20 ) >= 100))
 		{
 			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Nama berkas scan telalu panjang, maksimal 80 karakter';
+			$_SESSION['error_msg'] = ' -> Nama berkas yang coba Anda unggah terlalu panjang, '.
+				'batas maksimal yang diijinkan adalah 80 karakter';
 			redirect('surat_masuk');
 		}
 
@@ -215,7 +216,8 @@
 			if ((strlen($_FILES['satuan']['name']) + 20 ) >= 100)
 			{
 				$_SESSION['success'] = -1;
-				$_SESSION['error_msg'] = ' -> Nama berkas scan terlalu panjang, maksimal 80 karakter';
+				$_SESSION['error_msg'] = ' -> Nama berkas yang coba Anda unggah terlalu panjang, '.
+				'batas maksimal yang diijinkan adalah 80 karakter';
 				redirect('surat_masuk');
 			}
 			// Inisialisasi library 'upload'
@@ -271,7 +273,7 @@
 				? NULL : 'Gagal memperbarui data di database';
 			$adaBerkasLamaDiDB = !is_null($berkasLama);
 		}
-
+		
 		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
 	}
 
