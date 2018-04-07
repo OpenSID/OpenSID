@@ -3,11 +3,26 @@
 class User_Model extends CI_Model {
 
 
+	protected
+		// Konfigurasi untuk library 'upload'
+		$uploadConfig = array(),
+		// Delimiter untuk tambahSuffixUniqueKeNamaFile()
+		$delimiterUniqueKey = NULL;
+
 	const GROUP_REDAKSI = 3;
 
 	
 	function __construct() {
 		parent::__construct();
+		// Untuk dapat menggunakan library upload
+		$this->load->library('upload');
+		// Untuk dapat menggunakan fungsi generator()
+		$this->load->helper('donjolib');
+		$this->uploadConfig = array(
+			'upload_path' => LOKASI_USER_PICT,
+			'allowed_types' => 'gif|jpg|jpeg|png',
+			'max_size' => 2048,
+		);
 		$this->load->model('laporan_bulanan_model');
 		// Untuk password hashing
 		$this->load->helper('password');
@@ -228,95 +243,200 @@ class User_Model extends CI_Model {
 		return $data;
 	}
 
+	/**
+	 * Insert user baru ke database
+	 * @return  void
+	 */
+	public function insert()
+	{
+		$data = $this->input->post(NULL);
+		$adaLampiran = !empty($_FILES['foto']['name']);
 
-	function insert() {
-		$data = $_POST;
-		unset(
-			$data['old_foto'],
-			$data['foto']
-		);
-		// Buat hash password
-		$pwHash = $this->generatePasswordHash($data['password']);
-		// Cek kekuatan hash lolos, simpan ke array data
-		$data['password'] = $pwHash;
+		if ((strlen($_FILES['foto']['name']) + 20 ) >= 100)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Nama berkas scan telalu panjang, maksimal 80 karakter';
+			redirect('man_user');
+		}
+
+		$sql = "SELECT username FROM user WHERE username = ?";
+		$dbQuery = $this->db->query($sql, array($data['username']));
+		$userSudahTerdaftar = $dbQuery->row();
+		$userSudahTerdaftar = is_object($userSudahTerdaftar) ? $userSudahTerdaftar->username : FALSE;
 		
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		// Normalkan nama file
-		$nama_file = str_replace(' ','-',$nama_file);
-		$old_foto = $this->input->post('old_foto');
-		if (!empty($lokasi_file)) {
-			$tipeDiijinkan = array(
-				'image/jpeg',
-				'image/pjpeg',
-				'image/png'
-			);
-			if (!in_array($tipe_file, $tipeDiijinkan)) {
-				$_SESSION['success'] = -1;
-			} else {
-				UploadFoto($nama_file, $old_foto, $tipe_file);
-				$data['foto'] = $nama_file;
+		if ($userSudahTerdaftar !== FALSE)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Username ini sudah ada. silahkan pilih username lain';
+			redirect('man_user');	
+		}
+
+		$uploadData = NULL;
+		$uploadError = NULL;
+
+		if ($adaLampiran === TRUE)
+		{
+			$this->upload->initialize($this->uploadConfig);
+
+			if ($this->upload->do_upload('foto'))
+			{
+				$uploadData = $this->upload->data();
+				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+				$fileRenamed = rename(
+					$this->uploadConfig['upload_path'].$uploadData['file_name'],
+					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+				);
+				$uploadData['file_name'] = $fileRenamed
+					? 'kecil_'.$namaClean : $uploadData['file_name'];
 			}
-		  }
+			// Upload gagal
+			else
+			{
+				$uploadError = $this->upload->display_errors(NULL, NULL);
+				$data['foto'] = NULL;
+			}
+
+			$data['foto'] = $adaLampiran && !is_null($uploadData) ? $uploadData['file_name'] : NULL;
+		}
+		// Tidak ada lampiran foto
+		else
+		{
+			$data['foto'] = NULL;
+			$uploadError = NULL;
+		}
+		$pwHash = $this->generatePasswordHash($data['password']);
+		$data['password'] = $pwHash;
 		$data['session'] = md5(now());
-		$hasil = $this->db->insert('user', $data);
-		$_SESSION['success'] = ($hasil === TRUE ? 1 : -1);
+		// Helper function pict_helper::AmbilFoto() membuat nama file di database dan di disk tidak sama
+		// Fungsi tersebut menambah prefix 'kecil_' pada nama file di disk,
+		// sedangkan nama di database tidak ditambah. Menyulitkan programmer lain.
+		$data['foto'] = is_null($data['foto']) ? 'kuser.png' : str_replace('kecil_', '', $data['foto']);
+
+		$dbInserted = is_null($uploadError) && $this->db->insert('user', $data);
+		
+		$_SESSION['success'] = $dbInserted ? 1 : -1;
+		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
 
+	/**
+	 * Update data user
+	 * @param   integer  $idUser  Id user di database
+	 * @return  void
+	 */
+	public function update($idUser)
+	{
+		$_SESSION['error_msg'] = NULL;
+		$_SESSION['success'] = NULL;
 
-	function update($id = 0) {
-		$_SESSION['success'] = 1;
-		$_SESSION['error_msg'] = '';
-		$data = $_POST;
-		unset(
-			$data['old_foto'],
-			$data['foto']
-		);
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		// Normalkan nama file
-		$nama_file = str_replace(' ', '-', $nama_file);
-		$old_foto = $this->input->post('old_foto');
+		$data = $this->input->post(NULL);
 
-		if (!empty($lokasi_file)) {
-			if (UploadFoto($nama_file, $old_foto, $tipe_file)) {
-				$data['foto'] = $nama_file;
-			}
+		if (empty($idUser))
+		{
+			$_SESSION['error_msg'] = ' -> Pengguna yang hendak Anda ubah tidak ditemukan datanya.';
+			$_SESSION['success'] = -1;
+			redirect('man_user');
 		}
 
-		// Apabila password tidak diganti
-		if ($data['password'] == 'radiisi') {
-			unset($data['password']);
+
+		if (empty($data['username']) || empty($data['password'])
+		|| empty($data['nama']) || !in_array(intval($data['id_grup']), range(1, 4)))
+		{
+			$_SESSION['error_msg'] = ' -> Nama, Username dan Password harus diisi';
+			$_SESSION['success'] = -1;
+			redirect('man_user');
 		}
-	  	// Jangan edit password admin apabila di situs demo
-		elseif ($id == 1 && config_item('demo')) {
+
+		$sql = "SELECT foto FROM user WHERE id = ?";
+		$dbQuery = $this->db->query($sql, array($idUser));
+		$berkasLama = $dbQuery->row();
+		$berkasLama = is_object($berkasLama) ? $berkasLama->foto : 'kuser.png';
+		$lokasiBerkasLama = $this->uploadConfig['upload_path'].'kecil_'.$berkasLama;
+		$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
+
+		$uploadData = NULL;
+		$uploadError = NULL;
+		
+		$indikatorSukses = FALSE;
+		
+		if ($id == 1 && config_item('demo'))
+		{
 			unset($data['username'], $data['password']);
 		}
-		else {
-			// Buat hash password
+		else
+		{
 			$pwHash = $this->generatePasswordHash($data['password']);
-			// Cek kekuatan hash lolos, simpan ke array data
 			$data['password'] = $pwHash;
 		}
+
 		
-		$this->db->where('id', $id);
-		$hasil = $this->db->update('user', $data);
-		if (!$hasil) {
+		$adaLampiran = !empty($_FILES['foto']['name']);
+
+		if ((strlen($_FILES['foto']['name']) + 20 ) >= 100)
+		{
 			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Nama berkas foto terlalu panjang, maksimal 80 karakter';
+			redirect('man_user');
 		}
+		
+		// Ada lampiran file
+		if ($adaLampiran === TRUE)
+		{
+			// Inisialisasi library 'upload'
+			$this->upload->initialize($this->uploadConfig);
+			// Upload sukses
+			if ($this->upload->do_upload('foto'))
+			{
+				$uploadData = $this->upload->data();
+				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+				$fileRenamed = rename(
+					$this->uploadConfig['upload_path'].$uploadData['file_name'],
+					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+				);
+				$data['foto'] = $fileRenamed ? $namaClean : $uploadData['file_name'];
+				
+				if ($berkasLama !== 'kecil_kuser.png') {	
+					unlink($lokasiBerkasLama);
+					$indikatorSukses = !file_exists($lokasiBerkasLama);
+				}
+				else
+				{
+					$indikatorSukses = TRUE;
+				}
+			}
+			// Upload gagal
+			else
+			{
+				$uploadError = $this->upload->display_errors(NULL, NULL);
+				$indikatorSukses = FALSE;
+				$data['foto'] = $berkasLama;
+			}
+		}
+		// Tidak ada lampiran foto
+		else
+		{
+			$data['foto'] = NULL;
+			$uploadError = NULL;
+			$indikatorSukses = TRUE;
+		}
+
+		$data['foto'] = is_null($data['foto']) ? $berkasLama : str_replace('kecil_', '', $data['foto']);
+
+		$this->db->where('id', $idUser);
+		$indikatorSukses = $indikatorSukses && $this->db->update('user', $data);
+		$_SESSION['success'] = $indikatorSukses === TRUE ? 1 : -1;
+		$_SESSION['error_msg'] = ($_SESSION['success'] === 1)
+			? NULL : ' -> Gagal memperbarui data di database';
 	}
 
 
-	function delete($id = '') {
+	function delete($idUser = '') {
 		// Jangan hapus admin
-		if ($id == 1) {
+		if ($idUser == 1) {
 			return;
 		}
 
 		$sql = "DELETE FROM user WHERE id = ?";
-		$hasil = $this->db->query($sql, array($id));
+		$hasil = $this->db->query($sql, array($idUser));
 		if ($hasil) {
 			$_SESSION['success'] = 1;
 		} else {
@@ -554,6 +674,54 @@ class User_Model extends CI_Model {
 		}
 
 		return $pwHash;
+	}
+
+	//! ==============================================================
+	//! Helper Methods
+	//! ==============================================================
+	/**
+	 * Ambil data kolom berdasarkan id
+	 * @param  string       $idBerkasScan  Id pada tabel surat_masuk
+	 * @param  string       $kolom         Kolom yang akan diambil datanya
+	 * @return  mixed|NULL
+	 */
+	public function getNamaBerkasScan($idBerkasScan)
+	{
+		$sql = "SELECT berkas_scan FROM surat_masuk WHERE id = ?";
+		$dbQuery = $this->db->query($sql, array($idBerkasScan));
+		return $dbQuery->row();
+	}
+
+
+	/**
+	* Fungsi ini sama dengan milik surat_masuk_model::tambahSuffixUniqueKeNamaFile()
+	* Seharusnya dipindahkan ke helper agar kodingan tidak berualng - ulang
+	*/
+	private function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter = NULL)
+	{
+		// Type check
+		$namaFile = is_string($namaFile) ? $namaFile : strval($namaFile);
+		$urlEncode = is_bool($urlEncode) ? $urlEncode : TRUE;
+		$this->delimiterUniqueKey = (!is_string($delimiter) || empty($delimiter))
+			? '__sid__' : $delimiter;
+
+		// Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
+		$namaFile = str_replace($this->delimiterUniqueKey, '__', $namaFile);
+		// Tambahkan suffix nama unik menggunakan uniqid()
+		$namaFileUnik = explode('.', $namaFile);
+		$ekstensiFile = end($namaFileUnik);
+		unset($namaFileUnik[count($namaFileUnik) - 1]);
+		$namaFileUnik = implode('.', $namaFileUnik);
+		// TAMBAHAN UNTUK surat_masuk_model::tambahSuffixUniqueKeNamaFile()
+		$namaFileUnik = $urlEncode === TRUE
+			? urlencode($namaFileUnik)
+			: preg_replace('/[^A-Za-z0-9.]/', '_', $namaFileUnik);
+		//-----------
+		$namaFileUnik = $namaFileUnik.$this->delimiterUniqueKey.generator().'.'.$ekstensiFile;
+		// Contoh return:
+		// - nama asli = 'kitten.jpg'
+		// - nama unik = 'kitten__sid__xUCc8KO.jpg'
+		return $namaFileUnik;
 	}
 
 }
