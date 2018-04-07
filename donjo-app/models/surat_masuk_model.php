@@ -14,7 +14,7 @@
 		$this->load->helper('donjolib');
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_ARSIP,
-			'allowed_types' => 'gif|jpg|png|pdf',
+			'allowed_types' => 'gif|jpg|jpeg|png|pdf',
 			'max_size' => 2048,
 		);
 	}
@@ -169,26 +169,28 @@
 		$indikatorSukses = is_null($uploadError) && $this->db->insert('surat_masuk', $data);
 		// Set session berdasarkan hasil operasi
 		$_SESSION['success'] = $indikatorSukses ? 1 : -1;
-		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' ->'.$uploadError;		
+		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;		
 	}
 
 	/**
 	 * Update data di tabel surat_masuk
-	 * @param   integer  $idBerkasScan  Id berkas untuk query ke database
+	 * @param   integer  $idSuratMasuk  Id berkas untuk query ke database
 	 * @return  void
 	 */
-	public function update($idBerkasScan)
+	public function update($idSuratMasuk)
 	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+
+		$_SESSION['error_msg'] = NULL;
+		
 		// Normalkan tanggal
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
-		// Berkas scan lama
-		$sql = "SELECT berkas_scan FROM surat_masuk WHERE id = ?";
-		$dbQuery = $this->db->query($sql, array($idBerkasScan));
-		$berkasLama = $dbQuery->row();
-		$berkasLama = is_object($berkasLama) ? $berkasLama->berkas_scan : NULL;
+		
+		// Ambil nama berkas scan lama dari database
+		$berkasLama = $this->getNamaBerkasScan($idSuratMasuk);
+		
 		// Lokasi berkas scan lama (absolut)
 		$lokasiBerkasLama = $this->uploadConfig['upload_path'].$berkasLama;
 		$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
@@ -204,65 +206,73 @@
 		
 		// Adakah file baru yang akan diupload?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
-
-		// Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
-		// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter
-		if ((strlen($_FILES['satuan']['name']) + 20 ) >= 100)
-		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Nama berkas scan terlalu panjang, maksimal 80 karakter';
-			redirect('surat_masuk');
-		}
 		
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
 		{
+			// Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
+			// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter
+			if ((strlen($_FILES['satuan']['name']) + 20 ) >= 100)
+			{
+				$_SESSION['success'] = -1;
+				$_SESSION['error_msg'] = ' -> Nama berkas scan terlalu panjang, maksimal 80 karakter';
+				redirect('surat_masuk');
+			}
 			// Inisialisasi library 'upload'
 			$this->upload->initialize($this->uploadConfig);
 			// Upload sukses
 			if ($this->upload->do_upload('satuan'))
 			{
 				$uploadData = $this->upload->data();
-				$indikatorSukses = TRUE;
-				// Buat nama file unik
+				// Hapus berkas dari disk
+				$oldFileRemoved = unlink($lokasiBerkasLama) && !file_exists($lokasiBerkasLama);
+				$_SESSION['error_msg'] = ($oldFileRemoved === TRUE)
+					? NULL : ' -> Gagal menghapus berkas lama';
+				// Buat nama file unik untuk nama file upload
 				$namaFileUnik = $this->tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
 				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
-				$fileRenamed = rename(
+				$uploadedFileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
 					$this->uploadConfig['upload_path'].$namaFileUnik
 				);
-				// Ganti nama di array upload jika file berhasil di-rename --
-				// jika rename gagal, fallback ke nama asli
-				$data['berkas_scan'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+				
+				$uploadData['file_name'] = ($uploadedFileRenamed === FALSE) ?: $namaFileUnik;
+
+				$data['berkas_scan'] = $uploadData['file_name'];
+				// Update database dengan `berkas_scan` berisi nama unik
+				$this->db->where('id', $idSuratMasuk);
+				$databaseUpdated = $this->db->update('surat_masuk', $data);
+
+				$_SESSION['error_msg'] = ($databaseUpdated === TRUE)
+					? NULL : 'Gagal memperbarui data di database';
 			}
 			// Upload gagal
 			else
 			{
-				$uploadError = $this->upload->display_errors(NULL, NULL);
-				$indikatorSukses = FALSE;
-				$data['berkas_scan'] = $berkasLama;
+				$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL);
 			}
 		}
+		// Tidak ada file upload
 		else
 		{
-			$indikatorSukses = TRUE;
+			if ($hapusLampiranLama === TRUE)
+			{
+				$adaBerkasLamaDiDisk = file_exists($lokasiBerkasLama);
+				$oldFileRemoved = $adaBerkasLamaDiDisk && unlink($lokasiBerkasLama);
+				$_SESSION['error_msg'] = ($oldFileRemoved === TRUE)
+					? NULL : ' -> Gagal menghapus berkas lama';
+
+			}
+			
+			$data['berkas_scan'] = NULL;
+			$this->db->where('id', $idSuratMasuk);
+			$databaseUpdated = $this->db->update('surat_masuk', $data);
+			$_SESSION['error_msg'] = ($databaseUpdated === TRUE)
+				? NULL : 'Gagal memperbarui data di database';
+			$adaBerkasLamaDiDB = !is_null($berkasLama);
 		}
 
-		$fileTerhapus = FALSE;
-
-		// Hapus file lama jika checkbox 'Hapus Berkas' dicentang
-		if ($hapusLampiranLama === TRUE)
-		{
-			$indikatorSukses = unlink($lokasiBerkasLama) && !file_exists($lokasiBerkasLama);
-			$data['berkas_scan'] = $indikatorSukses ? NULL : $data['berkas_scan'];
-			$data['berkas_scan'] = !empty($namaFileUnik) ? $namaFileUnik : $data['berkas_scan'];
-		}
-
-		$this->db->where('id', $idBerkasScan);
-		$indikatorSukses = $indikatorSukses && $this->db->update('surat_masuk', $data);
-		$_SESSION['success'] = $indikatorSukses === TRUE ? 1 : -1;
-		$_SESSION['error_msg'] = ($_SESSION['success'] === 1)
-			? NULL : ' -> Gagal memperbarui data di database';
+		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
 	}
 
 
@@ -289,11 +299,55 @@
     return $ref_disposisi;
 	}
 	
+	/**
+	 * Hapus record surat masuk beserta file lampirannya (jika ada)
+	 * @param   string  $idSuratMasuk  Id surat masuk
+	 * @return  void
+	 */
+	public function delete($idSuratMasuk)
+	{
+		// Type check
+		$idSuratMasuk = is_string($idSuratMasuk) ? $idSuratMasuk : strval($idSuratMasuk);
+		// Redirect ke halaman surat masuk jika Id kosong
+		if (empty($idSuratMasuk))
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Data yang anda minta tidak ditemukan';
+			redirect('surat_masuk');
+		}
 
-	function delete($id=''){
-		$_SESSION['success'] = 1;
-		$outp = $this->db->where('id',$id)->delete('surat_masuk');
-		if(!$outp) $_SESSION['success'] = -1;
+		$_SESSION['error_msg'] = NULL;
+
+		$namaBerkas = $this->getNamaBerkasScan($idSuratMasuk);
+		
+		if (!is_null($namaBerkas))
+		{
+			$lokasiBerkasLama = $this->uploadConfig['upload_path'].$namaBerkas;
+			$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
+
+			if (file_exists($lokasiBerkasLama))
+			{
+				$hapusLampiranLama = unlink($lokasiBerkasLama);
+				$hapusLampiranLama = !file_exists($lokasiBerkasLama);
+				$_SESSION['error_msg'] = $hapusLampiranLama === TRUE
+					? NULL :' -> Gagal menghapus berkas dari disk';
+			}
+
+			if (is_null($_SESSION['error_msg']))
+			{
+				$hapusRecordDb = $this->db->where('id', $idSuratMasuk)->delete('surat_masuk');
+				$_SESSION['error_msg'] = $hapusRecordDb === TRUE
+					? NULL : ' -> Gagal menghapus record dari database';
+			}
+		}
+		else
+		{
+			$hapusRecordDb = $this->db->where('id', $idSuratMasuk)->delete('surat_masuk');
+			$_SESSION['error_msg'] = $hapusRecordDb === TRUE
+				? NULL : ' -> Gagal menghapus record dari database';
+		}
+
+		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
 	}
 
 	function delete_all(){
@@ -309,16 +363,19 @@
 	//! Helper Methods
 	//! ==============================================================
 	/**
-	 * Ambil data kolom berdasarkan id
-	 * @param  string       $idBerkasScan  Id pada tabel surat_masuk
+	 * Ambil nama berkas scan dari database berdasarkan Id surat masuk
+	 * @param  string       $idSuratMasuk  Id pada tabel surat_masuk
 	 * @param  string       $kolom         Kolom yang akan diambil datanya
-	 * @return  mixed|NULL
+	 * @return  string|NULL
 	 */
-	public function getNamaBerkasScan($idBerkasScan)
+	public function getNamaBerkasScan($idSuratMasuk)
 	{
-		$sql = "SELECT berkas_scan FROM surat_masuk WHERE id = ?";
-		$dbQuery = $this->db->query($sql, array($idBerkasScan));
-		return $dbQuery->row();
+		// Ambil nama berkas dari database
+		$sql = "SELECT berkas_scan FROM surat_masuk WHERE id = ? LIMIT 1;";
+		$query = $this->db->query($sql, array($idSuratMasuk));
+		$namaBerkas = $query->row();
+		$namaBerkas = is_object($namaBerkas) ? $namaBerkas->berkas_scan : NULL;
+		return $namaBerkas;
 	}
 
 
