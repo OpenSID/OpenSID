@@ -5,9 +5,7 @@ class User_Model extends CI_Model {
 
 	protected
 		// Konfigurasi untuk library 'upload'
-		$uploadConfig = array(),
-		// Delimiter untuk tambahSuffixUniqueKeNamaFile()
-		$delimiterUniqueKey = NULL;
+		$uploadConfig = array();
 
 	const GROUP_REDAKSI = 3;
 
@@ -674,54 +672,6 @@ class User_Model extends CI_Model {
 		}
 
 		return $pwHash;
-	}
-
-	//! ==============================================================
-	//! Helper Methods
-	//! ==============================================================
-	/**
-	 * Ambil data kolom berdasarkan id
-	 * @param  string       $idBerkasScan  Id pada tabel surat_masuk
-	 * @param  string       $kolom         Kolom yang akan diambil datanya
-	 * @return  mixed|NULL
-	 */
-	public function getNamaBerkasScan($idBerkasScan)
-	{
-		$sql = "SELECT berkas_scan FROM surat_masuk WHERE id = ?";
-		$dbQuery = $this->db->query($sql, array($idBerkasScan));
-		return $dbQuery->row();
-	}
-
-
-	/**
-	* Fungsi ini sama dengan milik surat_masuk_model::tambahSuffixUniqueKeNamaFile()
-	* Seharusnya dipindahkan ke helper agar kodingan tidak berualng - ulang
-	*/
-	private function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter = NULL)
-	{
-		// Type check
-		$namaFile = is_string($namaFile) ? $namaFile : strval($namaFile);
-		$urlEncode = is_bool($urlEncode) ? $urlEncode : TRUE;
-		$this->delimiterUniqueKey = (!is_string($delimiter) || empty($delimiter))
-			? '__sid__' : $delimiter;
-
-		// Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
-		$namaFile = str_replace($this->delimiterUniqueKey, '__', $namaFile);
-		// Tambahkan suffix nama unik menggunakan uniqid()
-		$namaFileUnik = explode('.', $namaFile);
-		$ekstensiFile = end($namaFileUnik);
-		unset($namaFileUnik[count($namaFileUnik) - 1]);
-		$namaFileUnik = implode('.', $namaFileUnik);
-		// TAMBAHAN UNTUK surat_masuk_model::tambahSuffixUniqueKeNamaFile()
-		$namaFileUnik = $urlEncode === TRUE
-			? urlencode($namaFileUnik)
-			: preg_replace('/[^A-Za-z0-9.]/', '_', $namaFileUnik);
-		//-----------
-		$namaFileUnik = $namaFileUnik.$this->delimiterUniqueKey.generator().'.'.$ekstensiFile;
-		// Contoh return:
-		// - nama asli = 'kitten.jpg'
-		// - nama unik = 'kitten__sid__xUCc8KO.jpg'
-		return $namaFileUnik;
 	}
 
 }
