@@ -39,9 +39,9 @@ Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Versi
 Versi di Github ini dikembangkan oleh OpenSID sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa.
 
 ## DEMO
-Demo aplikasi OpenSID dapat dilihat di http://sid.bangundesa.info. Kami usahakan agar versi yang terlihat di demo itu sesuai dengan status release terakhir repository ini. Demo itu menampilkan aplikasi desa yang dikembangkan di cabang _desa_.
+Demo aplikasi OpenSID dapat dilihat di http://demo.opensid.info. Kami usahakan agar versi yang terlihat di demo itu sesuai dengan status release terakhir repository ini. Demo itu menampilkan aplikasi desa yang dikembangkan di cabang _desa_.
 
-Modul administrasi OpenSID dapat diaskses pada http://sid.bangundesa.info/index.php/siteman. Masukkan Username = admin dan Password = sid304.
+Modul administrasi OpenSID dapat diaskses pada http://demo.opensid.info/index.php/siteman. Masukkan Username = admin dan Password = sid304.
 
 ### FORUM
 
