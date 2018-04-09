@@ -258,7 +258,7 @@
 		unlink(LOKASI_ARSIP.$berkas_surat.".pdf");
 		if (!empty($arsip['lampiran'])) unlink(LOKASI_ARSIP.$arsip['lampiran']);
 		$this->db->where('id', $id)->delete('log_surat');
-		if ($this->db->_error_message()) {
+		if ($this->db->error()) {
 			$_SESSION['success'] = -1;
 		}
 	}

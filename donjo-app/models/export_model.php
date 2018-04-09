@@ -250,8 +250,8 @@
 					  if (!$result) {
 					  	$_SESSION['success'] = -1;
 					  	echo "<br><br>>>>>>>>> Error: ".$query.'<br>';
-					  	echo $this->db->_error_message().'<br>'; // (mysql_error equivalent)
-							echo $this->db->_error_number().'<br>'; // (mysql_errno equivalent)
+					  	echo $this->db->error().'<br>'; // (mysql_error equivalent)
+							echo $this->db->error().'<br>'; // (mysql_errno equivalent)
 					  }
 					  $query = "";
 					}

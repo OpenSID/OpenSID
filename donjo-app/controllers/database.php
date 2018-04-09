@@ -92,7 +92,6 @@ class Database extends CI_Controller{
 		$nav['act']= 6;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
 		$header = $this->header_model->get_data();
-
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('database/migrasi_cri',$data);
