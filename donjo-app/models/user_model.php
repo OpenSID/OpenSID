@@ -1,149 +1,191 @@
 <?php
 
-class User_Model extends CI_Model{
+class User_Model extends CI_Model {
+
+
+	protected
+		// Konfigurasi untuk library 'upload'
+		$uploadConfig = array();
 
 	const GROUP_REDAKSI = 3;
 
-	function __construct(){
+	
+	function __construct() {
 		parent::__construct();
+		// Untuk dapat menggunakan library upload
+		$this->load->library('upload');
+		// Untuk dapat menggunakan fungsi generator()
+		$this->load->helper('donjolib');
+		$this->uploadConfig = array(
+			'upload_path' => LOKASI_USER_PICT,
+			'allowed_types' => 'gif|jpg|jpeg|png',
+			'max_size' => 2048,
+		);
 		$this->load->model('laporan_bulanan_model');
+		// Untuk password hashing
+		$this->load->helper('password');
 	}
 
-	function siteman(){
+
+	function siteman() {
 		$username = $this->input->post('username');
-		$password = md5($this->input->post('password'));
+		$password = $this->input->post('password');
+		$sql = "SELECT id, password, id_grup, session FROM user WHERE username = ?";
 
-		$sql = "SELECT id,password,id_grup,session FROM user WHERE username=?";
 		// User 'admin' tidak bisa di-non-aktifkan
-		if ($username !== 'admin')
+		if ($username !== 'admin') {
 			$sql .= ' AND active = 1';
-		$query=$this->db->query($sql,array($username));
-		$row=$query->row();
+		}
 
-		if($password==$row->password){
-			// Jika offline_mode dalam level yang menyembunyikan website,
-			// redaksi tidak diijinkan login
-			if (($row->id_grup == self::GROUP_REDAKSI) &&
-				($this->setting->offline_mode >= 2)) {
+		$query = $this->db->query($sql, array($username));
+		$row = $query->row();
 
-				$_SESSION['siteman']=-2;
+		// Cek hasil query ke db, ada atau tidak data user ybs.
+		$userAda = is_object($row);
+		$pwMasihMD5 = $userAda ?
+		(
+			(strlen($row->password) == 32) && (stripos($row->password, '$') === FALSE)
+		) : FALSE;
 
+		$authLolos = $pwMasihMD5
+			? (md5($password) == $row->password)
+			: password_verify($password, $row->password);
+
+		// Login gagal: user tidak ada atau tidak lolos verifikasi
+		if ($userAda === FALSE || $authLolos === FALSE) {
+			$_SESSION['siteman'] = -1;
+			if ($_SESSION['siteman_try'] > 2) {
+				$_SESSION['siteman_try'] = $_SESSION['siteman_try']-1;
 			} else {
-				$_SESSION['siteman']    = 1;
-				$_SESSION['sesi']     = $row->session;
-				$_SESSION['user']     = $row->id;
-				$_SESSION['grup']     = $row->id_grup;
+				$_SESSION['siteman_wait'] = 1;
+			}
+		}
+		// Login sukses: ubah pass di db ke bcrypt jika masih md5 dan set session
+		else {
+			if ($pwMasihMD5) {
+				// Ganti pass md5 jadi bcrypt
+				$pwBcrypt = $this->generatePasswordHash($password);
+
+				// Modifikasi panjang karakter di kolom user.password menjadi 100 untuk -
+				// backward compatibility dengan kolom di database lama yang hanya 40 karakter.
+				// Hal ini menyebabkan string bcrypt (yang default lengthnya 60 karakter) jadi -
+				// terpotong sehingga $authLolos selalu mereturn FALSE.
+				$sql = "ALTER TABLE user MODIFY COLUMN password VARCHAR(100) NOT NULL";
+				$this->db->query($sql);
+				// Lanjut ke update password di database
+				$sql = "UPDATE user SET password = ? WHERE id = ?";
+				$this->db->query($sql, array($pwBcrypt, $row->id));
+			}
+			// Lanjut set session
+			if (($row->id_grup == self::GROUP_REDAKSI) && ($this->setting->offline_mode >= 2)) {
+				$_SESSION['siteman'] = -2;
+			} else {
+				$_SESSION['siteman'] = 1;
+				$_SESSION['sesi'] = $row->session;
+				$_SESSION['user'] = $row->id;
+				$_SESSION['grup'] = $row->id_grup;
 				$_SESSION['per_page'] = 10;
 				unset($_SESSION['siteman_timeout']);
 			}
-		} else{
-			$_SESSION['siteman']=-1;
-			if($_SESSION['siteman_try'] > 2){
-				$_SESSION['siteman_try'] = $_SESSION['siteman_try']-1;
-			}else{
-				$_SESSION['siteman_wait']=1;
-			}
 		}
 	}
 
-	function sesi_grup($sesi=''){
 
-		$sql = "SELECT id_grup FROM user WHERE session=?";
-		$query=$this->db->query($sql,array($sesi));
-		$row=$query->row_array();
+	function sesi_grup($sesi = '') {
+		$sql = "SELECT id_grup FROM user WHERE session = ?";
+		$query = $this->db->query($sql, array($sesi));
+		$row = $query->row_array();
 		return $row['id_grup'];
 	}
 
-	function login(){
+
+	function login() {
 		$username = $this->input->post('username');
-		$password = md5($this->input->post('password'));
-
-		$sql = "SELECT id,password,id_grup,session FROM user WHERE id_grup=1 LIMIT 1";
-		$query=$this->db->query($sql);
-		$row=$query->row();
-
-		if($password!=$row->password){
-			$_SESSION['siteman']    = 1;
-			$_SESSION['sesi']     = $row->session;
-			$_SESSION['user']     = $row->id;
-			$_SESSION['grup']     = $row->id_grup;
+		$password = $this->input->post('password');
+		$sql = "SELECT id, password, id_grup, session FROM user WHERE id_grup = 1 LIMIT 1";
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		
+		// Verifikasi password lolos
+		if (password_verify($password, $row->password)) {
+			// Simpan sesi - sesi
+			$_SESSION['siteman'] = 1;
+			$_SESSION['sesi'] = $row->session;
+			$_SESSION['user'] = $row->id;
+			$_SESSION['grup'] = $row->id_grup;
 			$_SESSION['per_page'] = 10;
 		}
-		else{
-			$_SESSION['siteman']=-1;
+		// Verifikasi password gagal
+		else {
+			$_SESSION['siteman'] = -1;
 		}
 	}
 
-	function logout(){
-		if(isset($_SESSION['user'])){
+
+	function logout() {
+		if (isset($_SESSION['user'])) {
 			$id = $_SESSION['user'];
-			$sql = "UPDATE user SET last_login=NOW() WHERE id=?";
+			$sql = "UPDATE user SET last_login = NOW() WHERE id = ?";
 			$this->db->query($sql, $id);
 		}
-
 		// Catat jumlah penduduk saat ini
 		$this->laporan_bulanan_model->tulis_log_bulanan();
+		unset(
+			$_SESSION['user'],
+			$_SESSION['sesi'],
+			$_SESSION['cari'],
+			$_SESSION['filter']
+		);
 
-		unset($_SESSION['user']);
-		unset($_SESSION['sesi']);
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-
-		//$this->create_xml();
-
-		//if($this->sid_online())
-		//	$this->send_data();
-
-
+		// $this->create_xml();
+		// if ($this->sid_online())
+		// 	$this->send_data();
 	}
 
 
-	function autocomplete(){
-		$sql   = "SELECT username FROM user
-					UNION SELECT nama FROM user";
+	function autocomplete() {
+		$sql = "SELECT username FROM user UNION SELECT nama FROM user";
 		$query = $this->db->query($sql);
-		$data  = $query->result_array();
+		$data = $query->result_array();
 
-		$i=0;
-		$outp='';
-		while($i<count($data)){
-			$outp .= ",'" .$data[$i]['username']. "'";
+		$i = 0;
+		$out = '';
+		while ($i < count($data)) {
+			$out .= ",'".$data[$i]['username']."'";
 			$i++;
 		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
+		return '['.strtolower(substr($out,1)).']';
 	}
 
 
-	function search_sql(){
-		if(isset($_SESSION['cari'])){
-		$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.username LIKE '$kw' OR u.nama LIKE '$kw')";
+	function search_sql() {
+		if (isset($_SESSION['cari'])) {
+			$keyword = $_SESSION['cari'];
+			$keyword = '%'.$this->db->escape_like_str($keyword).'%';
+			$search_sql = " AND (u.username LIKE '$keyword' OR u.nama LIKE '$keyword')";
 			return $search_sql;
-			}
-		}
-
-	function filter_sql(){
-		if(isset($_SESSION['filter'])){
-			$kf = $_SESSION['filter'];
-			$filter_sql= " AND u.id_grup = $kf";
-		return $filter_sql;
 		}
 	}
 
-	function paging($p=1,$o=0){
 
-		$sql      = "SELECT COUNT(id) AS id FROM user u WHERE 1";
-		$sql     .= $this->search_sql();
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
+	function filter_sql() {
+		if (isset($_SESSION['filter'])) {
+			$filter = $_SESSION['filter'];
+			$filter_sql = " AND u.id_grup = $filter";
+			return $filter_sql;
+		}
+	}
+
+
+	function paging($page = 1, $o = 0) {
+		$sql = "SELECT COUNT(id) AS id FROM user u WHERE 1";
+		$sql .= $this->search_sql();
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
 		$jml_data = $row['id'];
 
 		$this->load->library('paging');
-		$cfg['page']     = $p;
+		$cfg['page'] = $page;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
@@ -151,307 +193,485 @@ class User_Model extends CI_Model{
 		return $this->paging;
 	}
 
-	function list_data($o=0,$offset=0,$limit=500){
 
-		//Ordering SQL
-		switch($o){
-			case 1: $order_sql = ' ORDER BY u.username'; break;
-			case 2: $order_sql = ' ORDER BY u.username DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.nama'; break;
-			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY g.nama'; break;
-			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
-			default:$order_sql = ' ORDER BY u.username';
+	function list_data($order = 0, $offset = 0, $limit = 500) {
+		// Ordering sql
+		switch($order) {
+			case 1 :
+				$order_sql = ' ORDER BY u.username';
+				break;
+			case 2:
+				$order_sql = ' ORDER BY u.username DESC';
+				break;
+			case 3:
+				$order_sql = ' ORDER BY u.nama';
+				break;
+			case 4:
+				$order_sql = ' ORDER BY u.nama DESC';
+				break;
+			case 5:
+				$order_sql = ' ORDER BY g.nama';
+				break;
+			case 6:
+				$order_sql = ' ORDER BY g.nama DESC';
+				break;
+			default:
+				$order_sql = ' ORDER BY u.username';
 		}
-
-		//Paging SQL
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-
-		//Main Query
-		$sql   = "SELECT u.*,g.nama as grup
-					FROM user u, user_grup g
-					WHERE u.id_grup = g.id";
-
+		// Paging sql
+		$paging_sql = ' LIMIT '.$offset.','.$limit;
+		// Query utama
+		$sql = "SELECT u.*, g.nama as grup FROM user u, user_grup g WHERE u.id_grup = g.id";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 
-		//Formating Output
-		$i=0;
-		$j=$offset;
-		while($i<count($data)){
-			$data[$i]['no']=$j+1;
+		// Formating output
+		$i = 0;
+		$j = $offset;
+		while ($i < count($data)) {
+			$data[$i]['no'] = $j + 1;
 			$i++;
 			$j++;
 		}
 		return $data;
 	}
 
-	function insert(){
-		$data = $_POST;
-		$data['password'] = md5($data['password']);
-		unset($data['old_foto']);
-		unset($data['foto']);
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file   = $_FILES['foto']['type'];
-		$nama_file   = $_FILES['foto']['name'];
-		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		$old_foto    = $this->input->post('old_foto');
-		if (!empty($lokasi_file)){
-			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
-				$_SESSION['success']=-1;
-			} else {
-				UploadFoto($nama_file,$old_foto,$tipe_file);
-				$data['foto'] = $nama_file;
-			}
-		  }
+	/**
+	 * Insert user baru ke database
+	 * @return  void
+	 */
+	public function insert()
+	{
+		$data = $this->input->post(NULL);
+		$adaLampiran = !empty($_FILES['foto']['name']);
 
-		$data['session']			= md5(now());
-
-		$outp = $this->db->insert('user',$data);
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-
-	function update($id=0){
-		$_SESSION['success'] = 1;
-		$_SESSION['error_msg'] = '';
-		$data = $_POST;
-		unset($data['old_foto']);
-		unset($data['foto']);
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file   = $_FILES['foto']['type'];
-		$nama_file   = $_FILES['foto']['name'];
-		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		$old_foto    = $this->input->post('old_foto');
-		if (!empty($lokasi_file)){
-			if (UploadFoto($nama_file,$old_foto,$tipe_file))
-				$data['foto'] = $nama_file;
-	  }
-		if ($data['password']=='radiisi'){
-		// apabila password tidak diganti
-			unset($data['password']);
-		} elseif ($id == 1 AND config_item('demo')) {
-	  // Jangan edit password admin apabila di situs demo
-			unset($data['username']);
-			unset($data['password']);
-		} else {
-			$data['password'] = md5($data['password']);
+		if ((strlen($_FILES['foto']['name']) + 20 ) >= 100)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Nama berkas scan telalu panjang, maksimal 80 karakter';
+			redirect('man_user');
 		}
-		$this->db->where('id',$id);
-		$outp = $this->db->update('user',$data);
 
-		if(!$outp) $_SESSION['success']=-1;
+		$sql = "SELECT username FROM user WHERE username = ?";
+		$dbQuery = $this->db->query($sql, array($data['username']));
+		$userSudahTerdaftar = $dbQuery->row();
+		$userSudahTerdaftar = is_object($userSudahTerdaftar) ? $userSudahTerdaftar->username : FALSE;
+		
+		if ($userSudahTerdaftar !== FALSE)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Username ini sudah ada. silahkan pilih username lain';
+			redirect('man_user');	
+		}
+
+		$uploadData = NULL;
+		$uploadError = NULL;
+
+		if ($adaLampiran === TRUE)
+		{
+			$this->upload->initialize($this->uploadConfig);
+
+			if ($this->upload->do_upload('foto'))
+			{
+				$uploadData = $this->upload->data();
+				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+				$fileRenamed = rename(
+					$this->uploadConfig['upload_path'].$uploadData['file_name'],
+					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+				);
+				$uploadData['file_name'] = $fileRenamed
+					? 'kecil_'.$namaClean : $uploadData['file_name'];
+			}
+			// Upload gagal
+			else
+			{
+				$uploadError = $this->upload->display_errors(NULL, NULL);
+				$data['foto'] = NULL;
+			}
+
+			$data['foto'] = $adaLampiran && !is_null($uploadData) ? $uploadData['file_name'] : NULL;
+		}
+		// Tidak ada lampiran foto
+		else
+		{
+			$data['foto'] = NULL;
+			$uploadError = NULL;
+		}
+		$pwHash = $this->generatePasswordHash($data['password']);
+		$data['password'] = $pwHash;
+		$data['session'] = md5(now());
+		// Helper function pict_helper::AmbilFoto() membuat nama file di database dan di disk tidak sama
+		// Fungsi tersebut menambah prefix 'kecil_' pada nama file di disk,
+		// sedangkan nama di database tidak ditambah. Menyulitkan programmer lain.
+		$data['foto'] = is_null($data['foto']) ? 'kuser.png' : str_replace('kecil_', '', $data['foto']);
+
+		$dbInserted = is_null($uploadError) && $this->db->insert('user', $data);
+		
+		$_SESSION['success'] = $dbInserted ? 1 : -1;
+		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
 
-	function delete($id=''){
+	/**
+	 * Update data user
+	 * @param   integer  $idUser  Id user di database
+	 * @return  void
+	 */
+	public function update($idUser)
+	{
+		$_SESSION['error_msg'] = NULL;
+		$_SESSION['success'] = NULL;
+
+		$data = $this->input->post(NULL);
+
+		if (empty($idUser))
+		{
+			$_SESSION['error_msg'] = ' -> Pengguna yang hendak Anda ubah tidak ditemukan datanya.';
+			$_SESSION['success'] = -1;
+			redirect('man_user');
+		}
+
+
+		if (empty($data['username']) || empty($data['password'])
+		|| empty($data['nama']) || !in_array(intval($data['id_grup']), range(1, 4)))
+		{
+			$_SESSION['error_msg'] = ' -> Nama, Username dan Password harus diisi';
+			$_SESSION['success'] = -1;
+			redirect('man_user');
+		}
+
+		$sql = "SELECT foto FROM user WHERE id = ?";
+		$dbQuery = $this->db->query($sql, array($idUser));
+		$berkasLama = $dbQuery->row();
+		$berkasLama = is_object($berkasLama) ? $berkasLama->foto : 'kuser.png';
+		$lokasiBerkasLama = $this->uploadConfig['upload_path'].'kecil_'.$berkasLama;
+		$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
+
+		$uploadData = NULL;
+		$uploadError = NULL;
+		
+		$indikatorSukses = FALSE;
+		
+		if ($id == 1 && config_item('demo'))
+		{
+			unset($data['username'], $data['password']);
+		}
+		else
+		{
+			$pwHash = $this->generatePasswordHash($data['password']);
+			$data['password'] = $pwHash;
+		}
+
+		
+		$adaLampiran = !empty($_FILES['foto']['name']);
+
+		if ((strlen($_FILES['foto']['name']) + 20 ) >= 100)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Nama berkas foto terlalu panjang, maksimal 80 karakter';
+			redirect('man_user');
+		}
+		
+		// Ada lampiran file
+		if ($adaLampiran === TRUE)
+		{
+			// Inisialisasi library 'upload'
+			$this->upload->initialize($this->uploadConfig);
+			// Upload sukses
+			if ($this->upload->do_upload('foto'))
+			{
+				$uploadData = $this->upload->data();
+				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+				$fileRenamed = rename(
+					$this->uploadConfig['upload_path'].$uploadData['file_name'],
+					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+				);
+				$data['foto'] = $fileRenamed ? $namaClean : $uploadData['file_name'];
+				
+				if ($berkasLama !== 'kecil_kuser.png') {	
+					unlink($lokasiBerkasLama);
+					$indikatorSukses = !file_exists($lokasiBerkasLama);
+				}
+				else
+				{
+					$indikatorSukses = TRUE;
+				}
+			}
+			// Upload gagal
+			else
+			{
+				$uploadError = $this->upload->display_errors(NULL, NULL);
+				$indikatorSukses = FALSE;
+				$data['foto'] = $berkasLama;
+			}
+		}
+		// Tidak ada lampiran foto
+		else
+		{
+			$data['foto'] = NULL;
+			$uploadError = NULL;
+			$indikatorSukses = TRUE;
+		}
+
+		$data['foto'] = is_null($data['foto']) ? $berkasLama : str_replace('kecil_', '', $data['foto']);
+
+		$this->db->where('id', $idUser);
+		$indikatorSukses = $indikatorSukses && $this->db->update('user', $data);
+		$_SESSION['success'] = $indikatorSukses === TRUE ? 1 : -1;
+		$_SESSION['error_msg'] = ($_SESSION['success'] === 1)
+			? NULL : ' -> Gagal memperbarui data di database';
+	}
+
+
+	function delete($idUser = '') {
 		// Jangan hapus admin
-		if ($id == 1) return;
-
-		$sql  = "DELETE FROM user WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-
-	function delete_all(){
-		$id_cb = $_POST['id_cb'];
-
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				// Jangan hapus admin
-				if ($id == 1) continue;
-
-				$sql  = "DELETE FROM user WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
-			}
+		if ($idUser == 1) {
+			return;
 		}
-		else $outp = false;
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$sql = "DELETE FROM user WHERE id = ?";
+		$hasil = $this->db->query($sql, array($idUser));
+		if ($hasil) {
+			$_SESSION['success'] = 1;
+		} else {
+			$_SESSION['success'] = -1;
+		}
 	}
 
-	function user_lock($id='',$val=0){
 
-		$sql  = "UPDATE user SET active=? WHERE id=?";
-		$outp = $this->db->query($sql, array($val,$id));
+	function delete_all() {
+		$id_cb = $_POST['id_cb'];
+		if (count($id_cb)) {
+			foreach ($id_cb as $id) {
+				// Jangan hapus admin
+				if ($id==1) {
+					continue;
+				}
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+				$sql = "DELETE FROM user WHERE id = ?";
+				$hasil = $this->db->query($sql, array($id));
+			}
+		} else {
+			$hasil = false;
+		}
+
+		$_SESSION['success'] = ($hasil === TRUE ? 1 : -1);
 	}
 
-	function get_user($id=0){
-		$sql   = "SELECT * FROM user WHERE id=?";
-		$query = $this->db->query($sql,$id);
-		$data  = $query->row_array();
 
-		//Formating Output
+	function user_lock($id = '', $val = 0) {
+		$sql = "UPDATE user SET active = ? WHERE id = ?";
+		$hasil = $this->db->query($sql, array($val, $id));
+		$_SESSION['success'] = ($hasil === TRUE ? 1 : -1);
+	}
+
+
+	function get_user($id = 0) {
+		$sql = "SELECT * FROM user WHERE id = ?";
+		$query = $this->db->query($sql, $id);
+		$data = $query->row_array();
+		// Formating output
 		$data['password'] = 'radiisi';
 		return $data;
 	}
 
-	function get_user2($user=''){
-		$sql   = "SELECT id,nama,username FROM user WHERE username=?";
-		$query = $this->db->query($sql,$user);
+
+	function get_user2($user = '') {
+		$sql = "SELECT id, nama, username FROM user WHERE username = ?";
+		$query = $this->db->query($sql, $user);
 		return $query->row_array();
 	}
 
-	function update_setting($id=0){
-		$_SESSION['success']=1;
+
+	function update_setting($id = 0) {
+		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
 
 		$data['nama'] = $this->input->post('nama');
+		$password = $this->input->post('pass_lama');
+		$pass_baru = $this->input->post('pass_baru');
+		$pass_baru1 = $this->input->post('pass_baru1');
 
-		$password 		= md5($this->input->post('pass_lama'));
-		$pass_baru 		= $this->input->post('pass_baru');
-		$pass_baru1 	= $this->input->post('pass_baru1');
-
-		if($id == 1 AND config_item('demo')){
-		  // Jangan edit password admin apabila di situs demo
-			unset($data['password']);
-		} else {
-			// Ganti password
-			if($this->input->post('pass_lama') != "" OR $pass_baru != "" OR $pass_baru1 != ""){
-				$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
-				$query=$this->db->query($sql,array($id));
-				$row=$query->row();
-				// Password baru tidak boleh kosong
-				if($password==$row->password AND $pass_baru != "" AND $pass_baru == $pass_baru1){
-					$data['password'] = md5($pass_baru);
-				} else {
-					$_SESSION['error_msg'].= " -> Kode pengaman salah";
-					$_SESSION['success']=-1;
+		// Jangan edit password admin apabila di situs demo
+		if ($id == 1 && config_item('demo')) {
+		  unset($data['password']);
+		}
+		// Ganti password
+		else {
+			if ($this->input->post('pass_lama') != '' || $pass_baru != '' || $pass_baru1 != '') {
+				$sql = "SELECT password,id_grup,session FROM user WHERE id = ?";
+				$query = $this->db->query($sql, array($id));
+				$row = $query->row();
+				// Cek input password
+				if (password_verify($password, $row->password) === FALSE) {
+					$_SESSION['error_msg'] .= ' -> Password lama salah<br />';
 				}
+				if (empty($pass_baru1)) {
+					$_SESSION['error_msg'] .= ' -> Password baru tidak boleh kosong<br />';
+				}
+				if ($pass_baru != $pass_baru1) {
+					$_SESSION['error_msg'] .= ' -> Password baru tidak cocok<br />';
+				}
+
+				if (!empty($_SESSION['error_msg'])) {
+					$_SESSION['success'] = -1;
+				}
+				// Cek input password lolos
+				else {
+					$_SESSION['success'] = 1;
+					// Buat hash password
+					$pwHash = $this->generatePasswordHash($pass_baru);
+					// Cek kekuatan hash lolos, simpan ke array data
+					$data['password'] = $pwHash;
+				}
+
 			}
 		}
 
 		// Update foto
 		// TODO : mestinya pake cara upload CI?
 		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file   = $_FILES['foto']['type'];
-		$nama_file   = $_FILES['foto']['name'];
-		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		$old_foto    = $this->input->post('old_foto');
-		if (!empty($lokasi_file)){
-			if (UploadFoto($nama_file,$old_foto,$tipe_file))
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		// Normalkan nama file
+		$nama_file = str_replace(' ', '-', $nama_file);
+		$old_foto = $this->input->post('old_foto');
+		if (!empty($lokasi_file)) {
+			if (UploadFoto($nama_file, $old_foto, $tipe_file)) {
 				$data['foto'] = $nama_file;
-	  }
-
-		$this->db->where('id',$id);
-		$outp = $this->db->update('user',$data);
-
-		if(!$outp) $_SESSION['success']=-1;
+			}
+		}
+		$this->db->where('id', $id);
+		$hasil = $this->db->update('user', $data);
+		if (!$hasil) {
+			$_SESSION['success'] = -1;
+		}
 	}
 
-	function list_grup(){
-		$sql   = "SELECT * FROM user_grup";
+
+	function list_grup() {
+		$sql = "SELECT * FROM user_grup";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
 
-	function sid_online(){
-		$q=$_GET["q"];
-		$q="sid.web.id";
-		$input="";
+
+	function sid_online() {
+		// $q = $_GET["q"]; // ????
+		$q = "sid.web.id";
+		$input = '';
 		exec("ping -n 1 -w 1 $q", $input, $result);
-		if ($result == 0)
-			return true;
-		else return false;
-
-
+		return ($result == 0);
 	}
 
-	function create_xml(){
-		$sql   = "SELECT * FROM config WHERE 1";
+
+	function create_xml() {
+		$sql = "SELECT * FROM config WHERE 1";
 		$query = $this->db->query($sql);
 		$desa = $query->row_array();
+		$newLine = "\r\n";
+		$string = NULL;
 
-
-		$nl="\r\n";
-		$string = "";
-
-		//DESA
-		$string .= "<desa>".$nl;
-		$string .= "<nama>".$desa['nama_desa']."</nama>".$nl;
-		$string .= "<kode>".$desa['kode_kabupaten'].$desa['kode_kecamatan'].$desa['kode_desa']."</kode>".$nl;
-		$string .= "<lat>".$desa['lat']."</lat>".$nl;
-		$string .= "<lng>".$desa['lng']."</lng>".$nl;
-
-		//.......
-
-		$string .= "</desa>".$nl.$nl;
-
-		//wilayah
-		$sql   = "SELECT DISTINCT(dusun) FROM tweb_wil_clusterdesa";
+		// Desa
+		$string .= '<desa>'.$newLine;
+		$string .= '<nama>'.$desa['nama_desa'].'</nama>'.$newLine;
+		$string .= '<kode>'.
+				$desa['kode_kabupaten'].
+				$desa['kode_kecamatan'].
+				$desa['kode_desa'].
+			'</kode>'.$newLine;
+		$string .= '<lat>'.$desa['lat'].'</lat>'.$newLine;
+		$string .= '<lng>'.$desa['lng'].'</lng>'.$newLine;
+		$string .= '</desa>'.$newLine.$newLine;
+		
+		// Wilayah
+		$sql = "SELECT DISTINCT(dusun) FROM tweb_wil_clusterdesa";
 		$query = $this->db->query($sql);
 		$wilayah = $query->result_array();
 
-		$string .= "<wilayah>".$nl;
-		foreach($wilayah AS $wil){
-
-			$string .= "<dusun>".$wil['dusun']."</dusun>".$nl;
-
+		$string .= '<wilayah>'.$newLine;
+		foreach ($wilayah as $wil) {
+			$string .= '<dusun>'.$wil['dusun'].'</dusun>'.$newLine;
 		}
+		$string .= '</wilayah>'.$newLine.$newLine;
 
-		$string .= "</wilayah>".$nl.$nl;
-
-		//pendeuduk
-
-		$sql   = "SELECT * FROM data_surat";
+		// Pendeuduk
+		$sql = "SELECT * FROM data_surat";
 		$query = $this->db->query($sql);
 		$penduduk = $query->result_array();
 
-		$string .= "<penduduk>".$nl;
-		foreach($penduduk AS $pend){
-
-			$string .= "<individu>".$nl;
-			$string .= "<nik>".$pend['nik']."</nik>".$nl;
-			$string .= "<nama>".$pend['nama']."</nama>".$nl;
-			$string .= "<pekerjaan>".$pend['pekerjaan']."</pekerjaan>".$nl;
-			$string .= "</individu>".$nl;
-
+		$string .= '<penduduk>'.$newLine;
+		foreach ($penduduk as $pend) {
+			$string .= '<individu>'.$newLine;
+			$string .= '<nik>'.$pend['nik'].'</nik>'.$newLine;
+			$string .= '<nama>'.$pend['nama'].'</nama>'.$newLine;
+			$string .= '<pekerjaan>'.$pend['pekerjaan'].'</pekerjaan>'.$newLine;
+			$string .= '</individu>'.$newLine;
 		}
-
-		$string .= "</penduduk>".$nl.$nl;
-
-
-		$mypath="assets\\sync\\";
-		$path = "".str_replace("\\","/",$mypath)."/";
-
-		$ccyymmdd = date("Y-m-d");
+		$string .= '</penduduk>'.$newLine.$newLine;
+		
+		// $mypath = "assets\\sync\\";
+		// $path = str_replace("\\", "/", $mypath).'/';
+		$path = 'assets/sync/'; // ???
+		$ccyymmdd = date('Y-m-d');
 		$handle = fopen($path."sycn_data_".$ccyymmdd.".xml",'w+');
-		fwrite($handle,$string);
+		fwrite($handle, $string);
 		fclose($handle);
-
-
-		//echo $string;
-
+		// echo $string;
 	}
 
-	function send_data(){
-		//$ip = "sid.web.id";
 
-		$ip = "127.0.0.1";
-		$Connect = fsockopen($ip,"80",$errno,$errstr,1);
-		if($Connect){
-			$soap_request="<GetAttLog><ArgComKey xsi:type=\"xsd:integer\">$key</ArgComKey><Arg><PIN xsi:type=\"xsd:integer\">$p[id]</PIN></Arg></GetAttLog>";
-			fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
-			fputs($Connect, "Content-Type: text/xml".$newLine);
-			fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
-			fputs($Connect, $soap_request.$newLine);
-			$buffer="";
-			while($Response=fgets($Connect, 8192)){
-				$buffer.=$Response;
+	function send_data() {
+		// $ip="sid.web.id"; // ???
+		$ip = '127.0.0.1';
+		$connect = fsockopen($ip, '80', $errno, $errstr, 1);
+		if ($connect) {
+			// $p['id'] // ???
+			$soap_request = '<GetAttLog>'.
+				'<ArgComKey xsi:type="xsd:integer">'.$key.'</ArgComKey>'.
+					'<Arg><PIN xsi:type="xsd:integer">'.$p['id'].'</PIN></Arg>'.
+				'</GetAttLog>';
+
+			$newLine = "\r\n";
+			fputs($connect, 'POST /iWsService HTTP/1.0'.$newLine);
+			fputs($connect, 'Content-Type: text/xml'.$newLine);
+			fputs($connect, 'Content-Length: '.strlen($soap_request).$newLine.$newLine);
+			fputs($connect, $soap_request.$newLine);
+			
+			$buffer = '';
+			while ($response = fgets($connect, 8192)) {
+				$buffer .= $response;
 			}
 			echo $buffer;
 		}
+	}
+
+	//!===========================================================
+	//! Helper Methods
+	//!===========================================================
+	
+	/**
+	 * Buat hash password (bcrypt) dari string sebuah password
+	 * @param  [type]  $string  [description]
+	 * @return  [type]  [description]
+	 */
+	private function generatePasswordHash($string)
+	{
+		// Pastikan inputnya adalah string
+		$string = is_string($string) ? $string : strval($string);
+		// Buat hash password
+		$pwHash = password_hash($string, PASSWORD_BCRYPT);
+		// Cek kekuatan hash, regenerate jika masih lemah
+		if (password_needs_rehash($pwHash, PASSWORD_BCRYPT))
+		{
+			$pwHash = password_hash($string, PASSWORD_BCRYPT);
+		}
+
+		return $pwHash;
 	}
 
 }

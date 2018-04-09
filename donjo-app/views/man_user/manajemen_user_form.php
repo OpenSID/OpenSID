@@ -93,7 +93,6 @@ $('tr.uptd').hide();
 <?php }?>
 </div>
 </td>
-<input type="hidden" name="old_foto" value="<?php echo $user['foto']?>">
 </tr>
 <tr>
 <th>Ganti Foto</th>

@@ -27,15 +27,23 @@
 		      <tr>
 		        <th>Berkas Scan Surat Masuk</th>
 		        <td>
-		          <?php if($surat_masuk['berkas_scan']): ?>
+		          <?php
+		          if (!is_null($surat_masuk['berkas_scan']) && $surat_masuk['berkas_scan'] != '.'):
+		          ?>
 		            <div style="margin: 10px 0px 10px 0px;">
-		            	<span>Berkas scan: </span>
-									<a href="<?php echo base_url().LOKASI_ARSIP.$surat_masuk['berkas_scan']?>" title=""><?php echo $surat_masuk['berkas_scan']?></a>
-		            </div>
-		            <input type="checkbox" name="gambar_hapus" value="<?php echo $surat_masuk['berkas_scan']?>" /><span>Hapus Berkas</span>
-		          <?php endif;?>
+			            <input type="checkbox" name="gambar_hapus" value="YA" />
+		            	<span>
+		            		Hapus Berkas Lama? (<a href="<?php
+							echo site_url('/surat_masuk/unduh_berkas_scan/'.$surat_masuk['id']);
+							?>" title=""><?php echo $surat_masuk['berkas_scan'];
+							?></a>)
+						</span>
+						<br />
+					</div>
+		          <?php
+		          endif;
+		          ?>
 		          <input type="file" name="satuan" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah berkas)</span>
-		          <input type="hidden" name="old_gambar" value="<?php echo $surat_masuk['berkas_scan']?>">
 		        </td>
 		       </tr>
 					<tr>
