@@ -28,7 +28,7 @@
 		$this->db->db_debug = FALSE; //disable debugging for queries
 
       $query = $this->db->query("SELECT `engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '". $this->db->database ."' AND table_name = 'user'");
-      if(!$this->db->error()) {
+      if($this->db->error()['code'] != 0) {
       	$this->engine = $query->row()->engine;
       }
 
@@ -57,7 +57,7 @@
       (16, 'google_key','','Google API Key untuk Google Maps','','web'),
       (17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
     ";
-    $this->db->query($query);		
+    $this->db->query($query);
   }
   function migrasi_db_cri(){
     $versi = $this->getCurrentVersion();
