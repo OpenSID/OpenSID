@@ -260,7 +260,7 @@
 		
 		//Jika proses hapus data gagal, maka tampilkan error
 		if (!$this->db->where('id', $id)->delete('log_surat')) {
-			$_SESSION['success'] = -1;
+			$_SESSION['success'] = -1;  // -1 diproses jquery untuk menampilkan error
 		}
 	}
 
