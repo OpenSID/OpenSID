@@ -258,8 +258,9 @@
 		unlink(LOKASI_ARSIP.$berkas_surat.".rtf");
 		unlink(LOKASI_ARSIP.$berkas_surat.".pdf");
 		if (!empty($arsip['lampiran'])) unlink(LOKASI_ARSIP.$arsip['lampiran']);
-		$this->db->where('id', $id)->delete('log_surat');
-		if ($this->db->error()['code'] != 0) {
+
+		//Jika proses hapus data gagal, maka tampilkan error
+		if (!$this->db->where('id', $id)->delete('log_surat')) {
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] = $this->db->error->message();
 		}
