@@ -252,15 +252,17 @@
 
 	function delete($id=''){
 		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
 		$arsip = $this->db->select('nama_surat, lampiran')->where('id',$id)->get('log_surat')->row_array();
 		$berkas_surat = pathinfo($arsip['nama_surat'], PATHINFO_FILENAME);
 		unlink(LOKASI_ARSIP.$berkas_surat.".rtf");
 		unlink(LOKASI_ARSIP.$berkas_surat.".pdf");
 		if (!empty($arsip['lampiran'])) unlink(LOKASI_ARSIP.$arsip['lampiran']);
-		
+
 		//Jika proses hapus data gagal, maka tampilkan error
 		if (!$this->db->where('id', $id)->delete('log_surat')) {
 			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = $this->db->error->message();
 		}
 	}
 
