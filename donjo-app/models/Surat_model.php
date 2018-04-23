@@ -321,10 +321,18 @@
 		$sql = "SELECT u.id
 			FROM tweb_penduduk u
 			WHERE u.nik=? limit 1";
-		$query = $this->db->query($sql,$penduduk['ayah_nik']);
+		
+		// tmp_ayah_nik untuk menampung nik_ayah
+		if(empty($penduduk['ayah_nik'])) { // jika nik_ayah kosong, maka tmp_ayah_nik = kosong
+			$tmp_ayah_nik = null;
+		}else{
+			$tmp_ayah_nik = $penduduk['ayah_nik']; // jika nik_ayah ada, maka tmp_ayah_nik = $penduduk['ayah_nik']
+		}
+		// Mysql menganggap nilai "" sama dengan 0, sehingga nilai "" harus diubah ke null melalui kondisi diatas
+		
+		$query = $this->db->query($sql,$tmp_ayah_nik); // tmp_ayah_nik sudah diubah berdasarkan kondisional diatas
 		$data  = $query->row_array();
-
-		// Kalau tidak ada, cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
+		
 		if (!isset($data['id']) AND $penduduk['kk_level'] == 4 ) {
 			$sql = "SELECT u.id
 				FROM tweb_penduduk u
@@ -345,7 +353,16 @@
 		$sql = "SELECT u.id
 			FROM tweb_penduduk u
 			WHERE u.nik=? limit 1";
-		$query = $this->db->query($sql,$penduduk['ibu_nik']);
+		
+		// tmp_ibu_nik untuk menampung nik_ibu
+		if(empty($penduduk['ibu_nik'])) { // jika nik_ibu kosong, maka tmp_ibu_nik = kosong
+			$tmp_ibu_nik = null;
+		}else{
+			$tmp_ibu_nik = $penduduk['ibu_nik']; // jika nik_ibu ada, maka tmp_ibu_nik = $penduduk['ibu_nik']
+		}
+		// Mysql menganggap nilai "" sama dengan 0, sehingga nilai "" harus diubah ke null melalui kondisi diatas
+		
+		$query = $this->db->query($sql,$tmp_ibu_nik); // tmp_ibu_nik sudah diubah berdasarkan kondisional diatas
 		$data  = $query->row_array();
 
 		// Kalau tidak ada, cari istri keluarga kalau penduduknya seorang anak dalam keluarga
