@@ -49,7 +49,7 @@ class First_Artikel_M extends CI_Model{
 
 		$this->load->library('paging');
 		$cfg['page']     = $p;
-		$cfg['per_page'] = 8;
+		$cfg['per_page'] = 5;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
