@@ -326,6 +326,7 @@
 			$data  = $query->row_array();
 		}
 		
+		// Kalau tidak ada, cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
 		if (!isset($data['id']) AND $penduduk['kk_level'] == 4 ) {
 			$sql = "SELECT u.id
 				FROM tweb_penduduk u
