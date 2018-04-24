@@ -190,4 +190,13 @@ class penduduk_log extends CI_Controller{
 	$this->penduduk_model->delete_all();
 		redirect("penduduk_log/index/$p/$o");
 	}
+
+	function excel($o=0){
+
+		$data['main']    = $this->penduduk_model->list_data($o,0, 10000);
+
+		$this->load->view('sid/kependudukan/penduduk_excel',$data);
+	}
+
+
 }

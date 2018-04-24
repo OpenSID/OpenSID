@@ -21,8 +21,15 @@ source: keyword
     <div class="ui-layout-north panel">
         <div class="left">
             <div class="uibutton-group">
-              <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk_log/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button></button>
-            </div>
+              <div class="uibutton-group">
+                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk_log/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button></button>
+              </div>
+              <div class="uibutton-group">
+                <a href="<?php echo site_url("penduduk_log/cetak/$o")?>" class="uibutton tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+              </div>
+                <div class="uibutton-group">
+            <a href="<?php echo site_url("penduduk_log/excel/$o")?>" class="uibutton tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
+          </div>
         </div>
 <div class="right">
 <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('penduduk_log/search')?>');$('#'+'mainform').submit();}" />
