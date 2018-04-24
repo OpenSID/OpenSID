@@ -20,7 +20,6 @@ source: keyword
 <input type="hidden" name="rt" value="">
     <div class="ui-layout-north panel">
         <div class="left">
-            <div class="uibutton-group">
               <div class="uibutton-group">
                 <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk_log/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button></button>
               </div>
