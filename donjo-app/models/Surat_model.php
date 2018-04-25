@@ -317,13 +317,15 @@
 
 	function get_data_ayah($id=0){
 		$penduduk = $this->get_data_penduduk($id);
-		// Cari berdasarkan ayah_nik dulu
-		$sql = "SELECT u.id
-			FROM tweb_penduduk u
-			WHERE u.nik=? limit 1";
-		$query = $this->db->query($sql,$penduduk['ayah_nik']);
-		$data  = $query->row_array();
-
+		// Cari berdasarkan ayah_nik dulu		
+		if(!empty($penduduk['ayah_nik'])) {
+			$sql = "SELECT u.id
+				FROM tweb_penduduk u
+				WHERE u.nik=? limit 1";
+			$query = $this->db->query($sql,$penduduk['ayah_nik']);
+			$data  = $query->row_array();
+		}
+		
 		// Kalau tidak ada, cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
 		if (!isset($data['id']) AND $penduduk['kk_level'] == 4 ) {
 			$sql = "SELECT u.id
@@ -342,11 +344,13 @@
 	function get_data_ibu($id=0){
 		$penduduk = $this->get_data_penduduk($id);
 		// Cari berdasarkan ibu_nik dulu
-		$sql = "SELECT u.id
-			FROM tweb_penduduk u
-			WHERE u.nik=? limit 1";
-		$query = $this->db->query($sql,$penduduk['ibu_nik']);
-		$data  = $query->row_array();
+		if(!empty($penduduk['ibu_nik'])) {
+			$sql = "SELECT u.id
+				FROM tweb_penduduk u
+				WHERE u.nik=? limit 1";
+			$query = $this->db->query($sql,$penduduk['ibu_nik']);
+			$data  = $query->row_array();
+		}
 
 		// Kalau tidak ada, cari istri keluarga kalau penduduknya seorang anak dalam keluarga
 		// atau kepala keluarga perempuan
