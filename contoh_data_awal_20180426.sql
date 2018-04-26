@@ -4169,6 +4169,20 @@ CREATE TABLE `jenis_barang` (
 
 DROP TABLE IF EXISTS suplemen_terdata;
 #
+# TABLE STRUCTURE FOR: suplemen
+#
+
+DROP TABLE IF EXISTS suplemen;
+
+CREATE TABLE `suplemen` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) DEFAULT NULL,
+  `sasaran` tinyint(4) DEFAULT NULL,
+  `keterangan` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
 # TABLE STRUCTURE FOR: inventaris
 #
 

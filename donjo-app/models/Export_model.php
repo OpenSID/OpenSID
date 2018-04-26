@@ -188,9 +188,9 @@
 		$jenis_barang = $this->do_backup($prefs);
 		$prefs = array(
 				'format'      => 'sql',
-				'tables'			=> array('suplemen_terdata'),
+				'tables'			=> array('suplemen'),
 			  );
-		$suplemen_terdata = $this->do_backup($prefs);
+		$suplemen = $this->do_backup($prefs);
 
 		// Tabel data_surat adalah view, di-backup terpisah
 		$prefs = array(
