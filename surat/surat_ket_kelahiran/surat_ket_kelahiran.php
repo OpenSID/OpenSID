@@ -545,7 +545,7 @@
             </td>
           </tr>
           <tr>
-            <th>Alamat Tempat Lahir </th>
+            <th>Tempat Kelahiran </th>
             <td><input name="alamat_tempat_lahir" type="text" class="inputbox required data_lahir" id="alamat_tempat_lahir" size="100" value="<?php echo $_SESSION['post']['alamat_tempat_lahir']?>"/></td>
           </tr>
           <tr>
