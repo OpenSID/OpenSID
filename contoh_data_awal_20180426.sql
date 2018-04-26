@@ -2360,19 +2360,6 @@ CREATE TABLE `inbox` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
-# TABLE STRUCTURE FOR: jenis_barang
-#
-
-DROP TABLE IF EXISTS jenis_barang;
-
-CREATE TABLE `jenis_barang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(30) DEFAULT NULL,
-  `keterangan` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
-#
 # TABLE STRUCTURE FOR: kategori
 #
 
@@ -2553,7 +2540,7 @@ CREATE TABLE `log_bulanan` (
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9');
@@ -2578,6 +2565,7 @@ INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('21', '97', '46', '51', '37', '2018-03-31 22:41:10', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('22', '97', '46', '51', '37', '2018-03-31 22:41:13', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('23', '97', '46', '51', '37', '2018-03-31 22:41:14', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('24', '97', '46', '51', '37', '2018-04-26 06:39:57', '28', '9');
 
 
 #
@@ -3103,37 +3091,6 @@ CREATE TABLE `setting_sms` (
 
 INSERT INTO setting_sms (`autoreply_text`) VALUES ('Terima kasih pesan Anda telah kami terima.');
 
-
-#
-# TABLE STRUCTURE FOR: suplemen
-#
-
-DROP TABLE IF EXISTS suplemen;
-
-CREATE TABLE `suplemen` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(100) DEFAULT NULL,
-  `sasaran` tinyint(4) DEFAULT NULL,
-  `keterangan` varchar(300) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: suplemen_terdata
-#
-
-DROP TABLE IF EXISTS suplemen_terdata;
-
-CREATE TABLE `suplemen_terdata` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_suplemen` int(10) DEFAULT NULL,
-  `id_terdata` varchar(20) DEFAULT NULL,
-  `sasaran` tinyint(4) DEFAULT NULL,
-  `keterangan` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_suplemen` (`id_suplemen`),
-  CONSTRAINT `suplemen_terdata_ibfk_1` FOREIGN KEY (`id_suplemen`) REFERENCES `suplemen` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: surat_masuk
@@ -4195,6 +4152,22 @@ INSERT INTO widget (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `fo
 
 
 DROP VIEW IF EXISTS data_surat;
+DROP TABLE IF EXISTS mutasi_inventaris;
+DROP TABLE IF EXISTS inventaris;
+#
+# TABLE STRUCTURE FOR: jenis_barang
+#
+
+DROP TABLE IF EXISTS jenis_barang;
+
+CREATE TABLE `jenis_barang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(30) DEFAULT NULL,
+  `keterangan` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS suplemen_terdata;
 #
 # TABLE STRUCTURE FOR: inventaris
 #
@@ -4231,5 +4204,22 @@ CREATE TABLE `mutasi_inventaris` (
   PRIMARY KEY (`id`),
   KEY `id_barang` (`id_barang`),
   CONSTRAINT `mutasi_inventaris_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `inventaris` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: suplemen_terdata
+#
+
+DROP TABLE IF EXISTS suplemen_terdata;
+
+CREATE TABLE `suplemen_terdata` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_suplemen` int(10) DEFAULT NULL,
+  `id_terdata` varchar(20) DEFAULT NULL,
+  `sasaran` tinyint(4) DEFAULT NULL,
+  `keterangan` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_suplemen` (`id_suplemen`),
+  CONSTRAINT `suplemen_terdata_ibfk_1` FOREIGN KEY (`id_suplemen`) REFERENCES `suplemen` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

@@ -175,16 +175,27 @@
 	*/
 	function backup() {
 		// Tabel inventaris ditambah di belakang, karena tergantung jenis_barang
+		// Juga tabel suplemen_terdata yang tergantung suplemen
 		$prefs = array(
 				'format'      => 'sql',
-				'tables'			=> array('inventaris', 'mutasi_inventaris'),
+				'tables'			=> array('inventaris', 'mutasi_inventaris', 'suplemen_terdata'),
 			  );
-		$inventaris = $this->do_backup($prefs);
+		$tabel_dgn_foreign_key = $this->do_backup($prefs);
+		$prefs = array(
+				'format'      => 'sql',
+				'tables'			=> array('jenis_barang'),
+			  );
+		$jenis_barang = $this->do_backup($prefs);
+		$prefs = array(
+				'format'      => 'sql',
+				'tables'			=> array('suplemen_terdata'),
+			  );
+		$suplemen_terdata = $this->do_backup($prefs);
 
 		// Tabel data_surat adalah view, di-backup terpisah
 		$prefs = array(
 				'format'      => 'sql',
-				'ignore'			=> array('data_surat', 'inventaris', 'mutasi_inventaris'),
+				'ignore'			=> array('data_surat', 'jenis_barang', 'inventaris', 'mutasi_inventaris', 'suplemen', 'suplemen_terdata'),
 			  );
 
 		$backup = $this->do_backup($prefs);
@@ -203,10 +214,15 @@
 			}
 			$data_surat = implode("\n", $simpan);
 
-		// Tambahkan data_surat dan inventaris di ujung karena tergantung pada tabel lainnya
+		// Tambahkan data_surat, inventaris dan suplemen_terdata di ujung karena tergantung pada tabel lainnya
 		$backup .= "DROP VIEW IF EXISTS data_surat;\n";
 		$backup .= $data_surat;
-		$backup .= $inventaris;
+		$backup .= "DROP TABLE IF EXISTS mutasi_inventaris;\n";
+		$backup .= "DROP TABLE IF EXISTS inventaris;\n";
+		$backup .= $jenis_barang;
+		$backup .= "DROP TABLE IF EXISTS suplemen_terdata;\n";
+		$backup .= $suplemen;
+		$backup .= $tabel_dgn_foreign_key;
 
 		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
 		$save = base_url().$db_name;
@@ -230,10 +246,6 @@
 			$tbl = $dat["TABLE_NAME"];
 			$this->db->simple_query("DROP TABLE $tbl");
 		}
-
-		// Penanganan khusus, karena ada foreign key constraint inventaris -> jenis_barang;
-		$this->db->simple_query("DROP TABLE IF EXISTS inventaris");
-		$this->db->simple_query("DROP TABLE IF EXISTS jenis_barang");
 
 		$_SESSION['success'] = 1;
 		$filename = $_FILES['userfile']['tmp_name'];
