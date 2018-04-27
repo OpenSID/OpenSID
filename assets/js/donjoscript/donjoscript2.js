@@ -457,3 +457,26 @@ function inputShadow() {
     $('table td.col1 .inputbox,table td.col2 .inputbox,table td.col3 .inputbox,table td.col4 .inputbox').attr("onfocus", "if(this.value=='0,00') this.value=''");
     $('table td.col1 .inputbox,table td.col2 .inputbox,table td.col3 .inputbox,table td.col4 .inputbox').attr("onblur", "if(this.value=='') this.value='0,00'");
 }
+
+function authInfoChangesNoticeUI(data) {
+    $(function() {
+          $dialogBox = $('<div>').html(data.warning)
+          $dialogBox.dialog({
+                title: '<div style="background:pink">Security Warning!</div>',
+                resizable: true,
+                draggable: true,
+                width: 400,
+                modal:true,
+                close:function() { $('a[href$=user_setting]').trigger('click') },
+                buttons: {
+                    "Tutup": function() {
+                        $(this).dialog("close");
+                    }
+                },
+        });
+        $(document).ajaxComplete(function() {
+            $('input[type=password]').attr('required', true)
+        })
+    })
+}
+
