@@ -33,6 +33,10 @@ class Siteman extends CI_Controller {
 	function auth(){
 		$this->user_model->siteman();
 		if($_SESSION['siteman'] == 1){
+                        if ($this->user_model->is_admin_with_default_auth_info()) {
+                            $_SESSION['admin_warning'] = 'Username atau Password harus diganti demi keamanan.';
+                        }
+
 			if(isset($_SESSION['request_uri'])){
 				$request_awal = str_replace(parse_url(site_url(),PHP_URL_PATH),'',$_SESSION['request_uri']);
 				unset($_SESSION['request_uri']);

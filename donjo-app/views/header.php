@@ -69,6 +69,17 @@
 			<li><a href="<?php echo site_url()?>siteman"><i class="fa fa-power-off fa-lg"></i>Log Out</a></li>
 		</ul>
 	</div>
+        <?php if (isset($_SESSION['admin_warning'])): ?>
+            <script type="text/javascript">
+                $(function() {
+                    alert('<?= $_SESSION['admin_warning'] ?>')
+                    $('a[href$=user_setting]').trigger('click')
+                    $(document).ajaxComplete(function() {
+                        $('input[type=password]').attr('required', true)
+                    })
+                })
+            </script>
+        <?php endif ?>
 </div>
 <div id="sidebar" >
 </div>
