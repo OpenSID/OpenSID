@@ -2,7 +2,8 @@
 
 class User_Model extends CI_Model {
 
-
+        private $_username;
+        private $_password;
 	protected
 		// Konfigurasi untuk library 'upload'
 		$uploadConfig = array();
@@ -25,10 +26,6 @@ class User_Model extends CI_Model {
 		// Untuk password hashing
 		$this->load->helper('password');
 	}
-
-
-        private $_username;
-        private $_password;
 
         function siteman() {
                 $this->_username = $username = trim($this->input->post('username'));
