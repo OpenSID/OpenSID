@@ -566,10 +566,10 @@ class User_Model extends CI_Model {
 		$this->db->where('id', $id);
 		$hasil = $this->db->update('user', $data);
 
-                if ($hasil) {
-                        unset($_SESSION['admin_warning']);
-		} else {
+                if (!$hasil) {
 			$_SESSION['success'] = -1;
+		} elseif ($_SESSION['success'] === 1) {
+                        unset($_SESSION['admin_warning']);
                 }
 	}
 
