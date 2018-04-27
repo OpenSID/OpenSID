@@ -71,13 +71,7 @@
 	</div>
         <?php if (isset($_SESSION['admin_warning'])): ?>
             <script type="text/javascript">
-                $(function() {
-                    alert('<?= $_SESSION['admin_warning'] ?>')
-                    $('a[href$=user_setting]').trigger('click')
-                    $(document).ajaxComplete(function() {
-                        $('input[type=password]').attr('required', true)
-                    })
-                })
+                authInfoChangesNoticeUI({warning: '<?= $_SESSION['admin_warning'] ?>'})
             </script>
         <?php endif ?>
 </div>
