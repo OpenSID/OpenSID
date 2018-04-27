@@ -1,5 +1,10 @@
 <?php
 
+function suffixGenerator($nama_file){  // method untuk menghasilkan angka unik
+    $prefix = microtime(true)*(mt_rand(10000,11111)); //prefix acak untuk nama foto
+    return $prefix.'_'.$nama_file;  // hasil = 12345_namafile
+}
+
 function AmbilFoto($foto, $ukuran="kecil_"){
   $ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
   $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;

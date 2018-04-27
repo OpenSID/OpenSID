@@ -15,15 +15,14 @@ class User_Model extends CI_Model {
 		// Untuk dapat menggunakan library upload
 		$this->load->library('upload');
 		// Untuk dapat menggunakan fungsi generator()
-		$this->load->helper('donjolib');
+        // Untuk password hashing
+		$this->load->helper(array('donjolib', 'password', 'pict_helper'));
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_USER_PICT,
 			'allowed_types' => 'gif|jpg|jpeg|png',
 			'max_size' => 2048,
 		);
 		$this->load->model('laporan_bulanan_model');
-		// Untuk password hashing
-		$this->load->helper('password');
 	}
 
 
@@ -278,14 +277,14 @@ class User_Model extends CI_Model {
 
 			if ($this->upload->do_upload('foto'))
 			{
-                $prefix_name = substr(md5(microtime(true)*10000), 0, 5); //prefix acak untuk nama foto
 				$uploadData = $this->upload->data();
 				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+                $namaClean = suffixGenerator($namaClean);  //nama file ditambahkan prefix
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
-					$this->uploadConfig['upload_path'].'kecil_'.$prefix_name.'_'.$namaClean
+					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
 				);
-				$uploadData['file_name'] = $fileRenamed ? 'kecil_'.$prefix_name.'_'.$namaClean : $uploadData['file_name'];
+				$uploadData['file_name'] = $fileRenamed ? 'kecil_'.$namaClean : $uploadData['file_name'];
 			}
 			// Upload gagal
 			else
