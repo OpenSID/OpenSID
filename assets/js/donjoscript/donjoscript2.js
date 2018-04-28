@@ -458,25 +458,33 @@ function inputShadow() {
     $('table td.col1 .inputbox,table td.col2 .inputbox,table td.col3 .inputbox,table td.col4 .inputbox').attr("onblur", "if(this.value=='') this.value='0,00'");
 }
 
-function authInfoChangesNoticeUI(data) {
+function authInfoChangesNoticeUI(warning) {
+    var skip = /skip_admin_warning\s*=\s*1;/.test(document.cookie)
+    if (skip) return
+
     $(function() {
-          $dialogBox = $('<div>').html(data.warning)
-          $dialogBox.dialog({
-                title: '<div style="background:pink">Security Warning!</div>',
-                resizable: true,
-                draggable: true,
+        var $dialogBox = $('<div>')
+        $dialogBox.html(warning[1])
+          .dialog({
+                title: '<div style="background:pink">'+ warning[0] +'</div>',
                 width: 400,
-                modal:true,
-                close:function() { $('a[href$=user_setting]').trigger('click') },
-                buttons: {
-                    "Tutup": function() {
-                        $(this).dialog("close");
-                    }
-                },
-        });
-        $(document).ajaxComplete(function() {
-            $('input[type=password]').attr('required', true)
-        })
+                buttons: {'Ok': ok, 'Lain kali': cancel}
+          });
+
+        function ok() {
+            $(document).ajaxComplete(function() {
+                $('input[type=password]').attr('required', true)
+            })
+            var btn = $('a[href$=user_setting]')[0]
+            document.cookie = 'skip_admin_warning=0'
+            $(btn).trigger('click')
+            $dialogBox.dialog("close");
+        }
+
+        function cancel() {
+            document.cookie = 'skip_admin_warning=1'
+            $dialogBox.dialog("close");
+        }
     })
 }
 

@@ -2,14 +2,12 @@
 
 class User_Model extends CI_Model {
 
-        private $_username;
-        private $_password;
-	protected
-		// Konfigurasi untuk library 'upload'
-		$uploadConfig = array();
-
 	const GROUP_REDAKSI = 3;
 
+    private $_username;
+    private $_password;
+    // Konfigurasi untuk library 'upload'
+	protected $uploadConfig = array();
 
 	function __construct() {
 		parent::__construct();
@@ -27,9 +25,9 @@ class User_Model extends CI_Model {
 		$this->load->helper('password');
 	}
 
-        function siteman() {
-                $this->_username = $username = trim($this->input->post('username'));
-                $this->_password = $password = trim($this->input->post('password'));
+    function siteman() {
+        $this->_username = $username = trim($this->input->post('username'));
+        $this->_password = $password = trim($this->input->post('password'));
 		$sql = "SELECT id, password, id_grup, session FROM user WHERE username = ?";
 
 		// User 'admin' tidak bisa di-non-aktifkan
@@ -90,21 +88,19 @@ class User_Model extends CI_Model {
 		}
 	}
 
-        /**
-         * Cek apakah user adalah admin dan masih menggunakan akun yang pertama kali digunakan.
-         * @return boolean
-         */
-        function is_admin_with_default_auth_info() {
-            $auth_info = $this->config->item('defaultAdminAuthInfo');
+    /**
+     * Pastikan admin sudah mengubah password yang digunakan pertama kali. Berikan warning jika belum.
+     */
+    function validate_admin_has_changed_password() {
+        $auth = $this->config->item('defaultAdminAuthInfo');
 
-            switch (true) {
-                case $this->_username !== $auth_info['username']:
-                case $this->_password !== $auth_info['password']:
-                    return false;
-            }
-
-            return true;
+        if ($this->_username == $auth['username'] && $this->_password == $auth['password']) {
+            $_SESSION['admin_warning'] = [
+                'Pemberitahuan Keamanan Akun',
+                'Penting! Password anda harus diganti demi keamanan.',
+            ];
         }
+    }
 
 	function sesi_grup($sesi = '') {
 		$sql = "SELECT id_grup FROM user WHERE session = ?";
@@ -120,7 +116,7 @@ class User_Model extends CI_Model {
 		$sql = "SELECT id, password, id_grup, session FROM user WHERE id_grup = 1 LIMIT 1";
 		$query = $this->db->query($sql);
 		$row = $query->row();
-
+		
 		// Verifikasi password lolos
 		if (password_verify($password, $row->password)) {
 			// Simpan sesi - sesi
@@ -276,12 +272,12 @@ class User_Model extends CI_Model {
 		$dbQuery = $this->db->query($sql, array($data['username']));
 		$userSudahTerdaftar = $dbQuery->row();
 		$userSudahTerdaftar = is_object($userSudahTerdaftar) ? $userSudahTerdaftar->username : FALSE;
-
+		
 		if ($userSudahTerdaftar !== FALSE)
 		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] = ' -> Username ini sudah ada. silahkan pilih username lain';
-			redirect('man_user');
+			redirect('man_user');	
 		}
 
 		$uploadData = NULL;
@@ -326,7 +322,7 @@ class User_Model extends CI_Model {
 		$data['foto'] = is_null($data['foto']) ? 'kuser.png' : str_replace('kecil_', '', $data['foto']);
 
 		$dbInserted = is_null($uploadError) && $this->db->insert('user', $data);
-
+		
 		$_SESSION['success'] = $dbInserted ? 1 : -1;
 		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
@@ -368,9 +364,9 @@ class User_Model extends CI_Model {
 
 		$uploadData = NULL;
 		$uploadError = NULL;
-
+		
 		$indikatorSukses = FALSE;
-
+		
 		if ($id == 1 && config_item('demo'))
 		{
 			unset($data['username'], $data['password']);
@@ -381,7 +377,7 @@ class User_Model extends CI_Model {
 			$data['password'] = $pwHash;
 		}
 
-
+		
 		$adaLampiran = !empty($_FILES['foto']['name']);
 
 		if ((strlen($_FILES['foto']['name']) + 20 ) >= 100)
@@ -390,7 +386,7 @@ class User_Model extends CI_Model {
 			$_SESSION['error_msg'] = ' -> Nama berkas foto terlalu panjang, maksimal 80 karakter';
 			redirect('man_user');
 		}
-
+		
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
 		{
@@ -406,8 +402,8 @@ class User_Model extends CI_Model {
 					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
 				);
 				$data['foto'] = $fileRenamed ? $namaClean : $uploadData['file_name'];
-
-				if ($berkasLama !== 'kecil_kuser.png') {
+				
+				if ($berkasLama !== 'kecil_kuser.png') {	
 					unlink($lokasiBerkasLama);
 					$indikatorSukses = !file_exists($lokasiBerkasLama);
 				}
@@ -442,7 +438,7 @@ class User_Model extends CI_Model {
 	}
 
 
-        function delete($idUser = '') {
+	function delete($idUser = '') {
 		// Jangan hapus admin
 		if ($idUser == 1) {
 			return;
@@ -563,11 +559,11 @@ class User_Model extends CI_Model {
 		$this->db->where('id', $id);
 		$hasil = $this->db->update('user', $data);
 
-                if (!$hasil) {
+        if (!$hasil) {
 			$_SESSION['success'] = -1;
 		} elseif ($_SESSION['success'] === 1) {
-                        unset($_SESSION['admin_warning']);
-                }
+            unset($_SESSION['admin_warning']);
+        }
 	}
 
 
@@ -605,7 +601,7 @@ class User_Model extends CI_Model {
 		$string .= '<lat>'.$desa['lat'].'</lat>'.$newLine;
 		$string .= '<lng>'.$desa['lng'].'</lng>'.$newLine;
 		$string .= '</desa>'.$newLine.$newLine;
-
+		
 		// Wilayah
 		$sql = "SELECT DISTINCT(dusun) FROM tweb_wil_clusterdesa";
 		$query = $this->db->query($sql);
@@ -631,7 +627,7 @@ class User_Model extends CI_Model {
 			$string .= '</individu>'.$newLine;
 		}
 		$string .= '</penduduk>'.$newLine.$newLine;
-
+		
 		// $mypath = "assets\\sync\\";
 		// $path = str_replace("\\", "/", $mypath).'/';
 		$path = 'assets/sync/'; // ???
@@ -659,7 +655,7 @@ class User_Model extends CI_Model {
 			fputs($connect, 'Content-Type: text/xml'.$newLine);
 			fputs($connect, 'Content-Length: '.strlen($soap_request).$newLine.$newLine);
 			fputs($connect, $soap_request.$newLine);
-
+			
 			$buffer = '';
 			while ($response = fgets($connect, 8192)) {
 				$buffer .= $response;
@@ -671,7 +667,7 @@ class User_Model extends CI_Model {
 	//!===========================================================
 	//! Helper Methods
 	//!===========================================================
-
+	
 	/**
 	 * Buat hash password (bcrypt) dari string sebuah password
 	 * @param  [type]  $string  [description]

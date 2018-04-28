@@ -69,11 +69,11 @@
 			<li><a href="<?php echo site_url()?>siteman"><i class="fa fa-power-off fa-lg"></i>Log Out</a></li>
 		</ul>
 	</div>
-        <?php if (isset($_SESSION['admin_warning'])): ?>
-            <script type="text/javascript">
-                authInfoChangesNoticeUI({warning: '<?= $_SESSION['admin_warning'] ?>'})
-            </script>
-        <?php endif ?>
+    <?php if (isset($_SESSION['admin_warning'])): ?>
+        <script type="text/javascript">
+            authInfoChangesNoticeUI(<?= json_encode($_SESSION['admin_warning']) ?>)
+        </script>
+    <?php endif ?>
 </div>
 <div id="sidebar" >
 </div>
