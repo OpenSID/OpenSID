@@ -280,6 +280,7 @@ class User_Model extends CI_Model {
 			{
 				$uploadData = $this->upload->data();
 				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+                $namaClean = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
 					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
