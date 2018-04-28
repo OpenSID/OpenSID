@@ -8,6 +8,8 @@
 		$this->load->library('upload');
 		// Untuk dapat menggunakan fungsi generator()
 		$this->load->helper('donjolib');
+        // Helper upload file
+		$this->load->helper('pict_helper');
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_ARSIP,
 			'allowed_types' => 'gif|jpg|jpeg|png|pdf',
@@ -144,7 +146,7 @@
 			{
 				$uploadData = $this->upload->data();
 				// Buat nama file unik agar url file susah ditebak dari browser
-				$namaFileUnik = $this->tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
 				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
@@ -227,7 +229,7 @@
 				$_SESSION['error_msg'] = ($oldFileRemoved === TRUE)
 					? NULL : ' -> Gagal menghapus berkas lama';
 				// Buat nama file unik untuk nama file upload
-				$namaFileUnik = $this->tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
 				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 				$uploadedFileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
