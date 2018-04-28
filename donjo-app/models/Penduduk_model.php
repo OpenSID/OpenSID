@@ -1088,14 +1088,8 @@
 
 	// Untuk form surat
 	function list_penduduk_status_dasar($status_dasar=1){
-		$data = $this->db->select('id,nik,nama')->where('status_dasar',$status_dasar)->
-			get('tweb_penduduk')->result_array();
-		//Formating Output untuk form surat
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
-			$i++;
-		}
+        $sql = "SELECT u.id,nik,nama, CONCAT('Alamat : RT-', w.rt, ', RW-', w.rw, ' ',w.dusun) AS alamat,w.rt, w.rw, w.dusun,u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id WHERE u.status_dasar = ?";
+        $data = $this->db->query($sql, array($status_dasar))->result_array();
 		return $data;
 	}
 
