@@ -4,11 +4,12 @@ class User_Model extends CI_Model {
 
 	const GROUP_REDAKSI = 3;
 
-    private $_username;
-    private $_password;
-    // Konfigurasi untuk library 'upload'
+	private $_username;
+	private $_password;
+	// Konfigurasi untuk library 'upload'
 	protected $uploadConfig = array();
-
+	
+	
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
@@ -25,9 +26,10 @@ class User_Model extends CI_Model {
 		$this->load->helper('password');
 	}
 
-    function siteman() {
-        $this->_username = $username = trim($this->input->post('username'));
-        $this->_password = $password = trim($this->input->post('password'));
+
+	function siteman() {
+		$this->_username = $username = trim($this->input->post('username'));
+		$this->_password = $password = trim($this->input->post('password'));
 		$sql = "SELECT id, password, id_grup, session FROM user WHERE username = ?";
 
 		// User 'admin' tidak bisa di-non-aktifkan
@@ -559,11 +561,11 @@ class User_Model extends CI_Model {
 		$this->db->where('id', $id);
 		$hasil = $this->db->update('user', $data);
 
-        if (!$hasil) {
+		if (!$hasil) {
 			$_SESSION['success'] = -1;
 		} elseif ($_SESSION['success'] === 1) {
-            unset($_SESSION['admin_warning']);
-        }
+			unset($_SESSION['admin_warning']);
+		}
 	}
 
 
