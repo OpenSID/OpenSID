@@ -9,7 +9,7 @@ class User_Model extends CI_Model {
 
 	const GROUP_REDAKSI = 3;
 
-	
+
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
@@ -105,7 +105,7 @@ class User_Model extends CI_Model {
 		$sql = "SELECT id, password, id_grup, session FROM user WHERE id_grup = 1 LIMIT 1";
 		$query = $this->db->query($sql);
 		$row = $query->row();
-		
+
 		// Verifikasi password lolos
 		if (password_verify($password, $row->password)) {
 			// Simpan sesi - sesi
@@ -261,12 +261,12 @@ class User_Model extends CI_Model {
 		$dbQuery = $this->db->query($sql, array($data['username']));
 		$userSudahTerdaftar = $dbQuery->row();
 		$userSudahTerdaftar = is_object($userSudahTerdaftar) ? $userSudahTerdaftar->username : FALSE;
-		
+
 		if ($userSudahTerdaftar !== FALSE)
 		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] = ' -> Username ini sudah ada. silahkan pilih username lain';
-			redirect('man_user');	
+			redirect('man_user');
 		}
 
 		$uploadData = NULL;
@@ -274,6 +274,13 @@ class User_Model extends CI_Model {
 
 		if ($adaLampiran === TRUE)
 		{
+			// Tes tidak berisi script PHP
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success']=-1;
+				redirect('man_user');
+			}
+
 			$this->upload->initialize($this->uploadConfig);
 
 			if ($this->upload->do_upload('foto'))
@@ -311,7 +318,7 @@ class User_Model extends CI_Model {
 		$data['foto'] = is_null($data['foto']) ? 'kuser.png' : str_replace('kecil_', '', $data['foto']);
 
 		$dbInserted = is_null($uploadError) && $this->db->insert('user', $data);
-		
+
 		$_SESSION['success'] = $dbInserted ? 1 : -1;
 		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
@@ -353,9 +360,9 @@ class User_Model extends CI_Model {
 
 		$uploadData = NULL;
 		$uploadError = NULL;
-		
+
 		$indikatorSukses = FALSE;
-		
+
 		if ($id == 1 && config_item('demo'))
 		{
 			unset($data['username'], $data['password']);
@@ -366,7 +373,7 @@ class User_Model extends CI_Model {
 			$data['password'] = $pwHash;
 		}
 
-		
+
 		$adaLampiran = !empty($_FILES['foto']['name']);
 
 		if ((strlen($_FILES['foto']['name']) + 20 ) >= 100)
@@ -375,10 +382,17 @@ class User_Model extends CI_Model {
 			$_SESSION['error_msg'] = ' -> Nama berkas foto terlalu panjang, maksimal 80 karakter';
 			redirect('man_user');
 		}
-		
+
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
 		{
+			// Tes tidak berisi script PHP
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success']=-1;
+				redirect('man_user');
+			}
+
 			// Inisialisasi library 'upload'
 			$this->upload->initialize($this->uploadConfig);
 			// Upload sukses
@@ -391,8 +405,8 @@ class User_Model extends CI_Model {
 					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
 				);
 				$data['foto'] = $fileRenamed ? $namaClean : $uploadData['file_name'];
-				
-				if ($berkasLama !== 'kecil_kuser.png') {	
+
+				if ($berkasLama !== 'kecil_kuser.png') {
 					unlink($lokasiBerkasLama);
 					$indikatorSukses = !file_exists($lokasiBerkasLama);
 				}
@@ -587,7 +601,7 @@ class User_Model extends CI_Model {
 		$string .= '<lat>'.$desa['lat'].'</lat>'.$newLine;
 		$string .= '<lng>'.$desa['lng'].'</lng>'.$newLine;
 		$string .= '</desa>'.$newLine.$newLine;
-		
+
 		// Wilayah
 		$sql = "SELECT DISTINCT(dusun) FROM tweb_wil_clusterdesa";
 		$query = $this->db->query($sql);
@@ -613,7 +627,7 @@ class User_Model extends CI_Model {
 			$string .= '</individu>'.$newLine;
 		}
 		$string .= '</penduduk>'.$newLine.$newLine;
-		
+
 		// $mypath = "assets\\sync\\";
 		// $path = str_replace("\\", "/", $mypath).'/';
 		$path = 'assets/sync/'; // ???
@@ -641,7 +655,7 @@ class User_Model extends CI_Model {
 			fputs($connect, 'Content-Type: text/xml'.$newLine);
 			fputs($connect, 'Content-Length: '.strlen($soap_request).$newLine.$newLine);
 			fputs($connect, $soap_request.$newLine);
-			
+
 			$buffer = '';
 			while ($response = fgets($connect, 8192)) {
 				$buffer .= $response;
@@ -653,7 +667,7 @@ class User_Model extends CI_Model {
 	//!===========================================================
 	//! Helper Methods
 	//!===========================================================
-	
+
 	/**
 	 * Buat hash password (bcrypt) dari string sebuah password
 	 * @param  [type]  $string  [description]
