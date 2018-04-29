@@ -555,6 +555,14 @@ class User_Model extends CI_Model {
 		$nama_file = str_replace(' ', '-', $nama_file);
 		$old_foto = $this->input->post('old_foto');
 		if (!empty($lokasi_file)) {
+
+			// Tes tidak berisi script PHP
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success']=-1;
+				return;
+			}
+
 			if (UploadFoto($nama_file, $old_foto, $tipe_file)) {
 				$data['foto'] = $nama_file;
 			}
