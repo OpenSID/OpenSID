@@ -141,6 +141,12 @@
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
 		{
+			// Tes tidak berisi script PHP
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success']=-1;
+				redirect('man_user');
+			}
 			// Inisialisasi library 'upload'
 			$this->upload->initialize($this->uploadConfig);
 			// Upload sukses
@@ -170,7 +176,7 @@
 		$indikatorSukses = is_null($uploadError) && $this->db->insert('surat_masuk', $data);
 		// Set session berdasarkan hasil operasi
 		$_SESSION['success'] = $indikatorSukses ? 1 : -1;
-		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;		
+		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
 
 	/**
@@ -184,14 +190,14 @@
 		$data = $this->input->post(NULL);
 
 		$_SESSION['error_msg'] = NULL;
-		
+
 		// Normalkan tanggal
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
-		
+
 		// Ambil nama berkas scan lama dari database
 		$berkasLama = $this->getNamaBerkasScan($idSuratMasuk);
-		
+
 		// Lokasi berkas scan lama (absolut)
 		$lokasiBerkasLama = $this->uploadConfig['upload_path'].$berkasLama;
 		$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
@@ -201,16 +207,22 @@
 		// Hapus lampiran lama?
 		$hapusLampiranLama = ($data['gambar_hapus'] == 'YA');
 		unset($data['gambar_hapus']);
-		
+
 		$uploadData = NULL;
 		$uploadError = NULL;
-		
+
 		// Adakah file baru yang akan diupload?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
-		
+
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
 		{
+			// Tes tidak berisi script PHP
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success']=-1;
+				redirect('man_user');
+			}
 			// Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
 			// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter
 			if ((strlen($_FILES['satuan']['name']) + 20 ) >= 100)
@@ -237,7 +249,7 @@
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
 					$this->uploadConfig['upload_path'].$namaFileUnik
 				);
-				
+
 				$uploadData['file_name'] = ($uploadedFileRenamed === FALSE) ?: $namaFileUnik;
 
 				$data['berkas_scan'] = $uploadData['file_name'];
@@ -265,7 +277,7 @@
 					? NULL : ' -> Gagal menghapus berkas lama';
 
 			}
-			
+
 			$data['berkas_scan'] = NULL;
 			$this->db->where('id', $idSuratMasuk);
 			$databaseUpdated = $this->db->update('surat_masuk', $data);
@@ -273,7 +285,7 @@
 				? NULL : 'Gagal memperbarui data di database';
 			$adaBerkasLamaDiDB = !is_null($berkasLama);
 		}
-		
+
 		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
 	}
 
@@ -300,7 +312,7 @@
     };
     return $ref_disposisi;
 	}
-	
+
 	/**
 	 * Hapus record surat masuk beserta file lampirannya (jika ada)
 	 * @param   string  $idSuratMasuk  Id surat masuk
@@ -321,7 +333,7 @@
 		$_SESSION['error_msg'] = NULL;
 
 		$namaBerkas = $this->getNamaBerkasScan($idSuratMasuk);
-		
+
 		if (!is_null($namaBerkas))
 		{
 			$lokasiBerkasLama = $this->uploadConfig['upload_path'].$namaBerkas;
