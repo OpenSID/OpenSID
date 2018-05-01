@@ -1,5 +1,5 @@
 <?php
-class Header_Model extends CI_Model{
+class Header_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

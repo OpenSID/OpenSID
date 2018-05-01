@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class mandiri extends CI_Controller{
+class Mandiri extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();

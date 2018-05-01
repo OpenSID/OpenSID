@@ -1,4 +1,4 @@
-<?php class surat_master_model extends CI_Model{
+<?php class Surat_master_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

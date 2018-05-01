@@ -1,6 +1,6 @@
 <?php
 
-class Web_sosmed_Model extends CI_Model{
+class Web_sosmed_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

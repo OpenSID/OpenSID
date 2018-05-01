@@ -1,4 +1,4 @@
-<?php class analisis_respon_model extends CI_Model{
+<?php class Analisis_respon_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 		$this->load->helper('excel');

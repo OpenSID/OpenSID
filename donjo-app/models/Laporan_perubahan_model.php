@@ -1,4 +1,4 @@
-<?php class Laporan_Perubahan_Model extends CI_Model{
+<?php class Laporan_perubahan_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

@@ -1,4 +1,4 @@
-<?php class Referensi_Model extends CI_Model{
+<?php class Referensi_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

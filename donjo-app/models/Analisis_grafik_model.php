@@ -1,4 +1,4 @@
-<?php class analisis_grafik_model extends CI_Model{
+<?php class Analisis_grafik_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}

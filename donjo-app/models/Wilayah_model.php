@@ -1,4 +1,4 @@
-<?php class Wilayah_Model extends CI_Model {
+<?php class Wilayah_model extends CI_Model {
 
 	function __construct(){
 		parent::__construct();

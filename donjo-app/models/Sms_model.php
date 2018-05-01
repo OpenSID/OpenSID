@@ -1,4 +1,4 @@
-<?php class Sms_Model extends CI_Model{
+<?php class Sms_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

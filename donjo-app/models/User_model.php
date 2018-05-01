@@ -1,6 +1,6 @@
 <?php
 
-class User_Model extends CI_Model {
+class User_model extends CI_Model {
 
 
 	protected

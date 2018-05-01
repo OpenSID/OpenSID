@@ -1,4 +1,4 @@
-<?php class surat_masuk_model extends CI_Model {
+<?php class Surat_masuk_model extends CI_Model {
 
 	protected
 		// Konfigurasi untuk library 'upload'
