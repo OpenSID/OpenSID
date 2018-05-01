@@ -466,7 +466,7 @@ function authInfoChangesNoticeUI(warning) {
         var $dialogBox = $('<div>')
         $dialogBox.html(warning[1])
           .dialog({
-                title: '<div style="background:pink">'+ warning[0] +'</div>',
+                title: '<div>'+ warning[0] +'</div>',
                 width: 400,
                 buttons: {'Ok': ok, 'Lain kali': cancel}
           });
