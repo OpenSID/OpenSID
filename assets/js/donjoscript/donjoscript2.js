@@ -457,3 +457,34 @@ function inputShadow() {
     $('table td.col1 .inputbox,table td.col2 .inputbox,table td.col3 .inputbox,table td.col4 .inputbox').attr("onfocus", "if(this.value=='0,00') this.value=''");
     $('table td.col1 .inputbox,table td.col2 .inputbox,table td.col3 .inputbox,table td.col4 .inputbox').attr("onblur", "if(this.value=='') this.value='0,00'");
 }
+
+function authInfoChangesNoticeUI(warning) {
+    var skip = /skip_admin_warning\s*=\s*1;/.test(document.cookie)
+    if (skip) return
+
+    $(function() {
+        var $dialogBox = $('<div>')
+        $dialogBox.html(warning[1])
+          .dialog({
+                title: '<div style="background:pink">'+ warning[0] +'</div>',
+                width: 400,
+                buttons: {'Ok': ok, 'Lain kali': cancel}
+          });
+
+        function ok() {
+            $(document).ajaxComplete(function() {
+                $('input[type=password]').attr('required', true)
+            })
+            var btn = $('a[href$=user_setting]')[0]
+            document.cookie = 'skip_admin_warning=0'
+            $(btn).trigger('click')
+            $dialogBox.dialog("close");
+        }
+
+        function cancel() {
+            document.cookie = 'skip_admin_warning=1'
+            $dialogBox.dialog("close");
+        }
+    })
+}
+

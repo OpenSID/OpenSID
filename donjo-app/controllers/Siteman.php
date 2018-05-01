@@ -32,7 +32,10 @@ class Siteman extends CI_Controller {
 
 	function auth(){
 		$this->user_model->siteman();
-		if($_SESSION['siteman'] == 1){
+
+		if($_SESSION['siteman'] == 1) {
+			$this->user_model->validate_admin_has_changed_password();
+
 			if(isset($_SESSION['request_uri'])){
 				$request_awal = str_replace(parse_url(site_url(),PHP_URL_PATH),'',$_SESSION['request_uri']);
 				unset($_SESSION['request_uri']);
