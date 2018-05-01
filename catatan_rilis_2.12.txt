@@ -2,7 +2,7 @@ Rilis ini memperkuat keamanan OpenSID dan menyelesaikan migrasi script ke Codeig
 
 Terima kasih pada Suyadi bin Hadi dan Adi Rahman yang terus berkontribusi. Juga terima kasih pada Diego Dafma dan Balongbesuk yang mulai kontribusi.
 
-Lengkapnya, isi rilis versi pasca-2.11:
+Lengkapnya, isi rilis versi 2.12:
 
 1. #588: Ganti enkripsi password dari md5 ke password_hash (Bcrypt). [security-fix]
 2. #883: Perbaiki penulisan salah pada form Surat Kematian. [bug-fix]
@@ -19,4 +19,3 @@ Lengkapnya, isi rilis versi pasca-2.11:
 13. #903: Lengkapi penampilan alamat untuk laporan Cetak Surat > Arsip Layanan > Rekam Surat Perorangan.
 14. Perbaiki contoh data awal supaya bisa diimport phpmyadmin dan Database > Backup/Restore. [bug-fix]
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.11, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

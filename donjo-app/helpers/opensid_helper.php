@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.11');
+define("VERSION", '2.12');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
