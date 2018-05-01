@@ -70,6 +70,11 @@
 		</ul>
 	</div>
     <?php if (isset($_SESSION['admin_warning'])): ?>
+    		<style type="text/css">
+    			.ui-dialog-titlebar.ui-widget-header {
+    				background-color: #f8e9e9;
+    			}
+    		</style>
         <script type="text/javascript">
             authInfoChangesNoticeUI(<?= json_encode($_SESSION['admin_warning']) ?>)
         </script>
