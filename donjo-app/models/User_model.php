@@ -2,14 +2,14 @@
 
 class User_Model extends CI_Model {
 
-
-	protected
-		// Konfigurasi untuk library 'upload'
-		$uploadConfig = array();
-
 	const GROUP_REDAKSI = 3;
 
-
+	private $_username;
+	private $_password;
+	// Konfigurasi untuk library 'upload'
+	protected $uploadConfig = array();
+	
+	
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
@@ -28,8 +28,8 @@ class User_Model extends CI_Model {
 
 
 	function siteman() {
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
+		$this->_username = $username = trim($this->input->post('username'));
+		$this->_password = $password = trim($this->input->post('password'));
 		$sql = "SELECT id, password, id_grup, session FROM user WHERE username = ?";
 
 		// User 'admin' tidak bisa di-non-aktifkan
@@ -90,6 +90,19 @@ class User_Model extends CI_Model {
 		}
 	}
 
+    /**
+     * Pastikan admin sudah mengubah password yang digunakan pertama kali. Berikan warning jika belum.
+     */
+    function validate_admin_has_changed_password() {
+        $auth = $this->config->item('defaultAdminAuthInfo');
+
+        if ($this->_username == $auth['username'] && $this->_password == $auth['password']) {
+            $_SESSION['admin_warning'] = [
+                'Pemberitahuan Keamanan Akun',
+                'Penting! Password anda harus diganti demi keamanan.',
+            ];
+        }
+    }
 
 	function sesi_grup($sesi = '') {
 		$sql = "SELECT id_grup FROM user WHERE session = ?";
@@ -569,8 +582,11 @@ class User_Model extends CI_Model {
 		}
 		$this->db->where('id', $id);
 		$hasil = $this->db->update('user', $data);
+
 		if (!$hasil) {
 			$_SESSION['success'] = -1;
+		} elseif ($_SESSION['success'] === 1) {
+			unset($_SESSION['admin_warning']);
 		}
 	}
 
