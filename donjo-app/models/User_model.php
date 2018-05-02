@@ -2,14 +2,14 @@
 
 class User_model extends CI_Model {
 
-
-	protected
-		// Konfigurasi untuk library 'upload'
-		$uploadConfig = array();
-
 	const GROUP_REDAKSI = 3;
 
-
+	private $_username;
+	private $_password;
+	// Konfigurasi untuk library 'upload'
+	protected $uploadConfig = array();
+	
+	
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
@@ -24,12 +24,14 @@ class User_model extends CI_Model {
 		$this->load->model('laporan_bulanan_model');
 		// Untuk password hashing
 		$this->load->helper('password');
+        // Helper upload file
+		$this->load->helper('pict_helper');
 	}
 
 
 	function siteman() {
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
+		$this->_username = $username = trim($this->input->post('username'));
+		$this->_password = $password = trim($this->input->post('password'));
 		$sql = "SELECT id, password, id_grup, session FROM user WHERE username = ?";
 
 		// User 'admin' tidak bisa di-non-aktifkan
@@ -90,6 +92,19 @@ class User_model extends CI_Model {
 		}
 	}
 
+    /**
+     * Pastikan admin sudah mengubah password yang digunakan pertama kali. Berikan warning jika belum.
+     */
+    function validate_admin_has_changed_password() {
+        $auth = $this->config->item('defaultAdminAuthInfo');
+
+        if ($this->_username == $auth['username'] && $this->_password == $auth['password']) {
+            $_SESSION['admin_warning'] = [
+                'Pemberitahuan Keamanan Akun',
+                'Penting! Password anda harus diganti demi keamanan.',
+            ];
+        }
+    }
 
 	function sesi_grup($sesi = '') {
 		$sql = "SELECT id_grup FROM user WHERE session = ?";
@@ -287,12 +302,12 @@ class User_model extends CI_Model {
 			{
 				$uploadData = $this->upload->data();
 				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
-					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+					$this->uploadConfig['upload_path'].'kecil_'.$namaFileUnik
 				);
-				$uploadData['file_name'] = $fileRenamed
-					? 'kecil_'.$namaClean : $uploadData['file_name'];
+				$uploadData['file_name'] = $fileRenamed ? 'kecil_'.$namaFileUnik : $uploadData['file_name'];
 			}
 			// Upload gagal
 			else
@@ -400,13 +415,13 @@ class User_model extends CI_Model {
 			{
 				$uploadData = $this->upload->data();
 				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
-					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+					$this->uploadConfig['upload_path'].'kecil_'.$namaFileUnik
 				);
-				$data['foto'] = $fileRenamed ? $namaClean : $uploadData['file_name'];
-
-				if ($berkasLama !== 'kecil_kuser.png') {
+				$data['foto'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+				if ($berkasLama !== 'kecil_kuser.png') {	
 					unlink($lokasiBerkasLama);
 					$indikatorSukses = !file_exists($lokasiBerkasLama);
 				}
@@ -569,8 +584,11 @@ class User_model extends CI_Model {
 		}
 		$this->db->where('id', $id);
 		$hasil = $this->db->update('user', $data);
+
 		if (!$hasil) {
 			$_SESSION['success'] = -1;
+		} elseif ($_SESSION['success'] === 1) {
+			unset($_SESSION['admin_warning']);
 		}
 	}
 
