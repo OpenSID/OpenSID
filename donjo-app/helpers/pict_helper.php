@@ -1,6 +1,39 @@
 <?php
+/**
+* Tambahkan suffix unik ke nama file
+* @param   string        $namaFile    Nama file asli (beserta ekstensinya)
+* @param   boolean       $urlEncode  Saring nama file dengan urlencode() ?
+* @param   string|NULL   $delimiter  String pemisah nama asli dengan unique id
+* @return  string
+*/
+function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter = NULL)
+{
+    // Delimiter untuk tambahSuffixUniqueKeNamaFile()
+    $delimiterUniqueKey = NULL;
+    
+    // Type check
+    $namaFile = is_string($namaFile) ? $namaFile : strval($namaFile);
+    $urlEncode = is_bool($urlEncode) ? $urlEncode : TRUE;
+    $delimiterUniqueKey = (!is_string($delimiter) || empty($delimiter))
+        ? '__sid__' : $delimiter;
 
-function AmbilFoto($foto, $ukuran="kecil_"){
+    // Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
+    $namaFile = str_replace($delimiterUniqueKey, '__', $namaFile);
+    // Tambahkan suffix nama unik menggunakan uniqid()
+    $namaFileUnik = explode('.', $namaFile);
+    $ekstensiFile = end($namaFileUnik);
+    unset($namaFileUnik[count($namaFileUnik) - 1]);
+    $namaFileUnik = implode('.', $namaFileUnik);
+    $namaFileUnik = urlencode($namaFileUnik).
+    $delimiterUniqueKey.generator().'.'.$ekstensiFile;
+    // Contoh return:
+    // - nama asli = 'kitten.jpg'
+    // - nama unik = 'kitten__sid__xUCc8KO.jpg'
+    return $namaFileUnik;
+}
+
+function AmbilFoto($foto, $ukuran="kecil_")
+{
   $ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
   $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
   return $file_foto;
