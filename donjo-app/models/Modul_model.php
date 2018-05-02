@@ -1,4 +1,4 @@
-<?php class modul_model extends CI_Model{
+<?php class Modul_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}

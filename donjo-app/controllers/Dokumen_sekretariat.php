@@ -1,6 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Dokumen_Sekretariat extends CI_Controller{
+class Dokumen_sekretariat extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();

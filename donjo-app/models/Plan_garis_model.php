@@ -1,4 +1,4 @@
-<?php class plan_garis_model extends CI_Model{
+<?php class Plan_garis_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

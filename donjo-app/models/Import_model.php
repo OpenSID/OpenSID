@@ -37,7 +37,7 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   "ktp_el" => "34",
   "status_rekam" => "35")));
 
-class import_model extends CI_Model{
+class Import_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

@@ -1,6 +1,6 @@
 <?php
 
-class BIP_Model extends CI_Model{
+class Bip_model extends CI_Model{
 
 	function __construct($data){
 		parent::__construct();

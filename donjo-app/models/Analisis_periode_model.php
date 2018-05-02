@@ -1,4 +1,4 @@
-<?php class analisis_periode_model extends CI_Model{
+<?php class Analisis_periode_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}

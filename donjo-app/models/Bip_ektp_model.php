@@ -1,6 +1,6 @@
 <?php
 
-class BIP_Ektp_Model extends import_model{
+class Bip_ektp_model extends Import_model{
 
 	function __construct(){
 		parent::__construct();

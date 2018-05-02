@@ -1,5 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class widget extends CI_Controller{
+class Widget extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();

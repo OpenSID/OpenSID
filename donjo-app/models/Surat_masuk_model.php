@@ -1,7 +1,7 @@
-<?php class surat_masuk_model extends CI_Model {
+<?php class Surat_masuk_model extends CI_Model {
     // Konfigurasi untuk library 'upload'
     protected $uploadConfig = array();
-
+  
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload

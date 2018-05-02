@@ -1,4 +1,4 @@
-<?php class analisis_indikator_model extends CI_Model{
+<?php class Analisis_indikator_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 		$this->load->model('analisis_master_model');

@@ -5,7 +5,7 @@ define("KODE_KATEGORI", serialize(array(
 			2 => 'SK Kepala Desa',
 			3 => 'Peraturan Desa')));
 
-class Web_Dokumen_Model extends CI_Model{
+class Web_dokumen_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

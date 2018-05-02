@@ -1,7 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Hom_Desa extends CI_Controller{
+class Hom_desa extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();

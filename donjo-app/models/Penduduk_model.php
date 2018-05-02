@@ -1,4 +1,4 @@
-<?php class Penduduk_Model extends CI_Model{
+<?php class Penduduk_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

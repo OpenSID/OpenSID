@@ -1,5 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class sosmed extends CI_Controller{
+class Sosmed extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();

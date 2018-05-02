@@ -1,4 +1,4 @@
-<?php class Web_Statis_Model extends CI_Model{
+<?php class Web_statis_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
