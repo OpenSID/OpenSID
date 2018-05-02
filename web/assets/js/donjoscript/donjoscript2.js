@@ -459,7 +459,7 @@ function inputShadow() {
 }
 
 function authInfoChangesNoticeUI(warning) {
-    var skip = /skip_admin_warning\s*=\s*1;/.test(document.cookie)
+    var skip = /skip_admin_warning\s*=\s*1;?/.test(document.cookie)
     if (skip) return
 
     $(function() {
