@@ -1,23 +1,22 @@
 <?php
 
 define("VERSION", 'pasca-2.12');
-define("LOKASI_LOGO_DESA", 'desa/logo/');
-define("LOKASI_ARSIP", 'desa/arsip/');
-define("LOKASI_CONFIG_DESA", 'desa/config/');
-define("LOKASI_SURAT_DESA", 'desa/surat/');
-define("LOKASI_SURAT_FORM_DESA", 'desa/surat/form/');
-define("LOKASI_SURAT_PRINT_DESA", 'desa/surat/print/');
-define("LOKASI_SURAT_EXPORT_DESA", 'desa/surat/export/');
-define("LOKASI_USER_PICT", 'desa/upload/user_pict/');
-define("LOKASI_GALERI", 'desa/upload/galeri/');
-define("LOKASI_FOTO_ARTIKEL", 'desa/upload/artikel/');
-define("LOKASI_FOTO_LOKASI", 'desa/upload/gis/lokasi/');
-define("LOKASI_FOTO_AREA", 'desa/upload/gis/area/');
-define("LOKASI_FOTO_GARIS", 'desa/upload/gis/garis/');
-define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
-define("LOKASI_PENGESAHAN", 'desa/upload/pengesahan/');
-define("LOKASI_WIDGET", 'desa/widget/');
-define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widget/');
+define("LOKASI_LOGO_DESA", STORAGE_PATH .'logo/');
+define("LOKASI_ARSIP", STORAGE_PATH .'arsip/');
+define("LOKASI_SURAT_DESA", STORAGE_PATH .'surat/');
+define("LOKASI_SURAT_FORM_DESA", STORAGE_PATH .'surat/form/');
+define("LOKASI_SURAT_PRINT_DESA", STORAGE_PATH .'surat/print/');
+define("LOKASI_SURAT_EXPORT_DESA", STORAGE_PATH .'surat/export/');
+define("LOKASI_USER_PICT", STORAGE_PATH .'upload/user_pict/');
+define("LOKASI_GALERI", STORAGE_PATH .'upload/galeri/');
+define("LOKASI_FOTO_ARTIKEL", STORAGE_PATH .'upload/artikel/');
+define("LOKASI_FOTO_LOKASI", STORAGE_PATH .'upload/gis/lokasi/');
+define("LOKASI_FOTO_AREA", STORAGE_PATH .'upload/gis/area/');
+define("LOKASI_FOTO_GARIS", STORAGE_PATH .'upload/gis/garis/');
+define("LOKASI_DOKUMEN", STORAGE_PATH .'upload/dokumen/');
+define("LOKASI_PENGESAHAN", STORAGE_PATH .'upload/pengesahan/');
+define("LOKASI_WIDGET", STORAGE_PATH .'widget/');
+define("LOKASI_GAMBAR_WIDGET", STORAGE_PATH .'upload/widget/');
 
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI',777);

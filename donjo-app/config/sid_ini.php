@@ -8,8 +8,9 @@
 | Untuk mengubah letakkan setting yang diinginkan di desa/config/config.php
 |--------------------------------------------------------------------------
 */
-// Ambil setting SID khusus
-define("LOKASI_SID_INI", 'desa/config/');
+// Folder penyimpanan lokal, upload, kustomisasi dll. atau yang sebelumnya dikatakan FOLDER DESA.
+define("STORAGE_PATH", APPPATH .'../desa/');
+define("LOKASI_CONFIG_DESA", STORAGE_PATH .'config/');
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,7 @@ $config['defaultAdminAuthInfo'] = [
 // ==========================================================================
 
 // Konfigurasi tambahan untuk aplikasi
-$extra_app_config = FCPATH . LOKASI_SID_INI . 'config.php';
+$extra_app_config = LOKASI_CONFIG_DESA . 'config.php';
 if (is_file($extra_app_config)) {
 	require_once($extra_app_config);
 } else {
