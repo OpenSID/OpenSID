@@ -146,6 +146,9 @@
 
   function migrasi_211_ke_213(){
     // Tambahkan perubahan database di sini
+
+    //ubah icon kecil dan besar untuk modul Sekretariat
+     $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));
   }
 
   function migrasi_210_ke_211(){
