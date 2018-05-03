@@ -79,15 +79,15 @@
 
 			function showArrays_area_<?php echo $area['id']?>(event) {
 				var vertices = this.getPath();
-				var contentString = '<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+
-        '<h1 id="firstHeading" class="firstHeading"><?php echo $area['nama']?></h1>'+
-        '<div id="bodyContent">'+
-        '<img src="<?php echo base_url().LOKASI_FOTO_AREA?>sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
-        '<p><?php echo $area['desk']?></p>'+
-        '</div>'+
-        '</div>';
+				var contentString = `<div id="content">
+                <div id="siteNotice">
+                </div>
+                <h1 id="firstHeading" class="firstHeading"><?php echo $area[nama]?></h1>+
+                <div id="bodyContent">
+                <img src="<?php echo base_url().LOKASI_FOTO_AREA?>sedang_<?php echo $area[foto]?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>+
+                <p><?php echo $area[desk]?></p>
+                </div>
+                </div>`;
 				//for (var i =0; i < vertices.getLength(); i++) {
 					//var xy = vertices.getAt(i);
 					//contentString += '<br>' + 'Coordinate: ' + i + '<br>' + xy.lat() +',' + xy.lng();
@@ -122,15 +122,15 @@
 
 			function showArrays_line_<?php echo $garis['id']?>(event) {
 				var vertices = this.getPath();
-				var contentString = '<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+
-        '<h1 id="firstHeading" class="firstHeading"><?php echo $garis['nama']?></h1>'+
-        '<div id="bodyContent">'+
-        '<img src="<?php echo base_url().LOKASI_FOTO_GARIS?>sedang_<?php echo $garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
-        '<p><?php echo $garis['desk']?></p>'+
-        '</div>'+
-        '</div>';
+				var contentString = `<div id="content">
+                    <div id="siteNotice">
+                    </div>
+                    <h1 id="firstHeading" class="firstHeading"><?php echo $garis[nama]?></h1>+
+                    <div id="bodyContent">
+                    <img src="<?php echo base_url().LOKASI_FOTO_GARIS?>sedang_<?php echo $garis[foto]?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>+
+                    <p><?php echo $garis[desk]?></p>+
+                    </div>
+                    </div>`;
 
 				//for (var i =0; i < vertices.getLength(); i++) {
 					//var xy = vertices.getAt(i);
@@ -172,13 +172,13 @@
 				infoWindow = new google.maps.InfoWindow();
 			}
 
-			var content = '<table border=0 style="width:400px"><tr>' +
-		<?php if($data['foto']!=""){?>
-			'<td><img src="<?php echo base_url().LOKASI_FOTO_LOKASI?>sedang_<?php echo $data['foto']?>" class="foto"/></td>' +
-		<?php }?>
-			'<td style="padding-left:3px"><font size="2.5" style="font-weight:bold;"><?php echo $data['nama']?></font>' +
-			'<p><?php echo $data['desk']?></p>'+
-			'</tr><tr><td></td></tr></table>';
+			var content = `<table border=0 style="width:400px"><tr> 
+            <?php if($data[foto]!=""){?>
+                <td><img src="<?php echo base_url().LOKASI_FOTO_LOKASI?>sedang_<?php echo $data[foto]?>" class="foto"/></td> 
+            <?php }?>
+                <td style="padding-left:3px"><font size="2.5" style="font-weight:bold;"><?php echo $data[nama]?></font> 
+                <p><?php echo $data[desk]?></p>
+                </tr><tr><td></td></tr></table>`;
 			infoWindow.setContent(content);
 			infoWindow.open(map, prop_<?php echo $data['id']?>);
 		});
@@ -209,12 +209,12 @@
 				var poto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
 			<?php } ?>
 
-			var content = '<table border=0><tr>' + poto +
-				'<td style="padding-left:2px"><font size="2.5" style="bold"><?php echo $data['nama']?></font> - <?php echo ucwords(strtolower($data['sex']))?>' +
-				'<p><?php echo $data['umur']?> Tahun (<?php echo $data['agama']?>)</p>'+
-				'<p><?php echo $data['alamat']?></p>'+
-				'<p><a href="<?php echo site_url("penduduk/detail/1/0/$data[id]")?>" target="ajax-modalx" rel="content" header="Rincian Data <?php echo $data['nama']?>" >Data Rincian</a></p></td>'+
-				'</tr></table>';
+			var content = `<table border=0><tr>  poto 
+				<td style="padding-left:2px"><font size="2.5" style="bold"><?php echo $data[nama]?></font> - <?php echo ucwords(strtolower($data[sex]))?> 
+				<p><?php echo $data[umur]?> Tahun (<?php echo $data[agama]?>)</p>
+				<p><?php echo $data[alamat]?></p>
+				<p><a href="<?php echo site_url("penduduk/detail/1/0/$data[id]")?>" target="ajax-modalx" rel="content" header="Rincian Data <?php echo $data[nama]?>" >Data Rincian</a></p></td>
+				</tr></table>`;
 			infoWindow.setContent(content);
 			infoWindow.open(map, marker_<?php echo $data['id']?>);
 		});
