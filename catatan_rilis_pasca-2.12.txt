@@ -6,6 +6,8 @@ Lengkapnya, isi rilis versi pasca-2.12:
 
 1. #927: Ingatkan admin untuk mengganti password kalau masih menggunakan password default. [security-fix]
 2. #924: Tambahkan suffix acak pada nama berkas foto pengguna. [security-fix]
+3. Perbaiki supaya kembali support PHP 5.3.7. [teknis]
+4. Perbaikan nama class disesuaikan dengan nama file. [teknis]
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
