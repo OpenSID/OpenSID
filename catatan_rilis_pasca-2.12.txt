@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi pasca-2.12:
 2. #924: Tambahkan suffix acak pada nama berkas foto pengguna. [security-fix]
 3. Perbaiki supaya kembali support PHP 5.3.7. [teknis]
 4. Perbaikan nama class disesuaikan dengan nama file. [teknis]
+5. #906: Ubah aikon menu Sekretariat supaya berbeda dengan Cetak Surat.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
