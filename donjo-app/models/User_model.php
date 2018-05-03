@@ -8,8 +8,8 @@ class User_model extends CI_Model {
 	private $_password;
 	// Konfigurasi untuk library 'upload'
 	protected $uploadConfig = array();
-	
-	
+
+
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
@@ -99,10 +99,10 @@ class User_model extends CI_Model {
         $auth = $this->config->item('defaultAdminAuthInfo');
 
         if ($this->_username == $auth['username'] && $this->_password == $auth['password']) {
-            $_SESSION['admin_warning'] = [
+            $_SESSION['admin_warning'] = array(
                 'Pemberitahuan Keamanan Akun',
                 'Penting! Password anda harus diganti demi keamanan.',
-            ];
+            );
         }
     }
 
@@ -421,7 +421,7 @@ class User_model extends CI_Model {
 					$this->uploadConfig['upload_path'].'kecil_'.$namaFileUnik
 				);
 				$data['foto'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
-				if ($berkasLama !== 'kecil_kuser.png') {	
+				if ($berkasLama !== 'kecil_kuser.png') {
 					unlink($lokasiBerkasLama);
 					$indikatorSukses = !file_exists($lokasiBerkasLama);
 				}

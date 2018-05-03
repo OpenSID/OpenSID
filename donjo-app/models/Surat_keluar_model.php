@@ -261,7 +261,8 @@
 
 		if (!$this->db->where('id', $id)->delete('log_surat')) {	// Jika query delete terjadi error
 			$_SESSION['success'] = -1;								// Maka, nilai success jadi -1, untuk memunculkan notifikasi error
-			$_SESSION['error_msg'] = $this->db->error()['message']; // Pesan error ditampung disession
+			$error = $this->db->error();
+			$_SESSION['error_msg'] = $error['message']; // Pesan error ditampung disession
 		}
 	}
 
