@@ -338,12 +338,6 @@
           'constraint' => 2
       );
     }
-    if (!$this->db->field_exists('alamat_tempat_lahir', 'tweb_penduduk')) {
-      $fields['alamat_tempat_lahir'] = array(
-          'type' => 'VARCHAR',
-          'constraint' => 100
-      );
-    }
     if (!$this->db->field_exists('jenis_kelahiran', 'tweb_penduduk')) {
       $fields['jenis_kelahiran'] = array(
           'type' => 'tinyint',
