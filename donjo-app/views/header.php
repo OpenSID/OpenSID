@@ -40,6 +40,7 @@
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.dialog.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/message_id.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->setting->google_key; ?>"></script>
 	</head>
@@ -92,7 +93,7 @@
 				notify_msg = 'Data Berhasil Disimpan';
 			} else if($('#success-code').val() == -1){
 				notify = 'error';
-				notify_msg = 'Data Gagal Disimpan <?php echo $_SESSION["error_msg"]?>';
+				notify_msg = '<?php echo $_SESSION["error_msg"] ?: "Data Gagal disimpan; "?>';
 			} else if($('#success-code').val() == -2){
 				notify = 'error';
 				notify_msg = 'Simpan data gagal, nama id sudah ada!';
