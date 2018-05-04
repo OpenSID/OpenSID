@@ -461,34 +461,107 @@ class User_model extends CI_Model {
 		if ($idUser == 1) {
 			return;
 		}
-
+        $foto = $this->db->get_where('user',array('id' => $idUser))->row()->foto;
 		$sql = "DELETE FROM user WHERE id = ?";
 		$hasil = $this->db->query($sql, array($idUser));
-		if ($hasil) {
-			$_SESSION['success'] = 1;
-		} else {
+        
+		if ($hasil)
+        {
+            if($foto != 'kuser.png')
+            {
+                $foto = basename(AmbilFoto($foto));
+                if(unlink(LOKASI_USER_PICT.$foto))
+                {
+                    $_SESSION['success'] = 1;
+                }
+                else
+                {
+                    $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
+                    $_SESSION['success'] = -1;
+                }
+            }else
+            {
+                $_SESSION['success'] = 1;
+            }
+		}
+        else
+        {
+            $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
 			$_SESSION['success'] = -1;
 		}
 	}
 
 
 	function delete_all() {
-		$id_cb = $_POST['id_cb'];
-		if (count($id_cb)) {
-			foreach ($id_cb as $id) {
-				// Jangan hapus admin
-				if ($id==1) {
-					continue;
-				}
-
-				$sql = "DELETE FROM user WHERE id = ?";
-				$hasil = $this->db->query($sql, array($id));
-			}
-		} else {
-			$hasil = false;
-		}
-
-		$_SESSION['success'] = ($hasil === TRUE ? 1 : -1);
+        //cek apakah ada data yang dicentang atau dipilih
+        if(!is_null($_POST['id_cb']))
+        {
+            // Ambil id dan nama foto dari pengguna yang akan dihapus
+            $list_pengguna = $this->db->select('id, foto')->where_in('id', $_POST['id_cb'])->get('user')->result();
+            
+            if(is_array($list_pengguna))
+            {
+                //mulai transaksi penghapusan pengguna
+                $this->db->trans_start();
+                foreach($list_pengguna as $item)
+                {
+                    if($item->id == 1)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        $this->db->delete('user', array('id' => $item->id));
+                    }
+                }
+                $this->db->trans_complete();
+                
+                //cek apakah penghapusan berhasil atau tidak
+                if ($this->db->trans_status() === FALSE)
+                {
+                    $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
+                    $_SESSION['success'] = -1;
+                }
+                else
+                {
+                    foreach($list_pengguna as $item)
+                    {
+                        //cek apakah user memakai foto default atau foto sendiri
+                        if($item->foto != 'kuser.png')
+                        {
+                            //cek apakah file foto yang diminta ada atau tidak
+                            if(file_exists(LOKASI_USER_PICT.basename(AmbilFoto($item->foto))))
+                            {
+                                //cek apakah penghapusan berhasil atau tidak
+                                if(unlink(LOKASI_USER_PICT.basename(AmbilFoto($item->foto))))
+                                {
+                                    $_SESSION['success'] = 1;
+                                }
+                                else
+                                {
+                                    $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
+                                    $_SESSION['success'] = -1;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $_SESSION['success'] = 1;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
+                $_SESSION['success'] = -1;
+            }
+        }
+        else
+        {
+            $_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
+            $_SESSION['success'] = -1;
+        }
 	}
 
 
