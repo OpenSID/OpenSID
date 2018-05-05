@@ -11,6 +11,7 @@ Lengkapnya, isi rilis versi pasca-2.12:
 5. #906: Ubah aikon menu Sekretariat supaya berbeda dengan Cetak Surat.
 6. #901: Perbaiki Surat Keterangan Kelahiran, menggantikan Alamat Dilahirkan (kolom alamat_tempat_lahir) dengan Tempat Kelahiran (kolom tempatlahir). [bug-fix]
 7. #976: Sekarang berkas foto pengguna juga dihapus kalau usernya dihapus. [bug-fix]
+8. #991: Sekarang bisa menambah program bantuan kembali. [bug-fix]
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
