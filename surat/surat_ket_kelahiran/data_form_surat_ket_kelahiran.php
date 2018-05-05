@@ -66,7 +66,7 @@
 		if($this->input->post('penduduk_baru')){
 			/* Tulis data penduduk baru */
 			$bayi = array();
-			$kolom = array('sex','waktu_lahir','tempat_dilahirkan','alamat_tempat_lahir','jenis_kelahiran','kelahiran_anak_ke','penolong_kelahiran','berat_lahir','panjang_lahir');
+			$kolom = array('sex','waktu_lahir','tempat_dilahirkan','tempatlahir','jenis_kelahiran','kelahiran_anak_ke','penolong_kelahiran','berat_lahir','panjang_lahir');
 			foreach($kolom as $item){
 				$bayi[$item] = $_POST[$item];
 			}
@@ -92,7 +92,7 @@
 					$_SESSION['post']['tanggallahir'] = date('d-m-Y',strtotime($data['bayi']['tanggallahir']));
 					$_SESSION['post']['waktu_lahir'] = $data['bayi']['waktu_lahir'];
 					$_SESSION['post']['tempat_dilahirkan'] = $data['bayi']['tempat_dilahirkan'];
-					$_SESSION['post']['alamat_tempat_lahir'] = $data['bayi']['alamat_tempat_lahir'];
+					$_SESSION['post']['tempatlahir'] = $data['bayi']['tempatlahir'];
 					$_SESSION['post']['jenis_kelahiran'] = $data['bayi']['jenis_kelahiran'];
 					$_SESSION['post']['kelahiran_anak_ke'] = $data['bayi']['kelahiran_anak_ke'];
 					$_SESSION['post']['penolong_kelahiran'] = $data['bayi']['penolong_kelahiran'];
