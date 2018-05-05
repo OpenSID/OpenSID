@@ -461,34 +461,44 @@ class User_model extends CI_Model {
 		if ($idUser == 1) {
 			return;
 		}
-
+    $foto = $this->db->get_where('user',array('id' => $idUser))->row()->foto;
 		$sql = "DELETE FROM user WHERE id = ?";
 		$hasil = $this->db->query($sql, array($idUser));
+
+    // Cek apakah pengguna berhasil dihapus
 		if ($hasil) {
-			$_SESSION['success'] = 1;
+	    // Cek apakah pengguna memiliki foto atau tidak
+	    if($foto != 'kuser.png') {
+        // Ambil nama foto
+        $foto = basename(AmbilFoto($foto));
+        // Cek penghapusan foto pengguna
+        if(unlink(LOKASI_USER_PICT.$foto)) {
+            $_SESSION['success'] = 1;
+        } else {
+          $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
+          $_SESSION['success'] = -1;
+        }
+	    } else {
+	      $_SESSION['success'] = 1;
+	    }
 		} else {
+      $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
 			$_SESSION['success'] = -1;
 		}
 	}
 
 
 	function delete_all() {
-		$id_cb = $_POST['id_cb'];
-		if (count($id_cb)) {
-			foreach ($id_cb as $id) {
-				// Jangan hapus admin
-				if ($id==1) {
-					continue;
-				}
-
-				$sql = "DELETE FROM user WHERE id = ?";
-				$hasil = $this->db->query($sql, array($id));
-			}
-		} else {
-			$hasil = false;
-		}
-
-		$_SESSION['success'] = ($hasil === TRUE ? 1 : -1);
+    $id_cb = $_POST['id_cb'];
+    // Cek apakah ada data yang dicentang atau dipilih
+    if(!is_null($id_cb)) {
+      foreach($id_cb as $id) {
+        $this->delete($id);
+      }
+    } else {
+      $_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
+      $_SESSION['success'] = -1;
+    }
 	}
 
 
