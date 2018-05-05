@@ -121,7 +121,7 @@
 
 	function get_penduduk($id=0){
 		$sql   = "SELECT u.id AS id,u.nama AS nama,u.sex as sex_id,x.nama AS sex,u.id_kk AS id_kk,
-		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,u.no_kk_sebelumnya,s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.alamat_tempat_lahir, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
+		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,u.no_kk_sebelumnya,s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
 		w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,
@@ -317,7 +317,7 @@
 
 	function get_data_ayah($id=0){
 		$penduduk = $this->get_data_penduduk($id);
-		// Cari berdasarkan ayah_nik dulu		
+		// Cari berdasarkan ayah_nik dulu
 		if(!empty($penduduk['ayah_nik'])) {
 			$sql = "SELECT u.id
 				FROM tweb_penduduk u
@@ -325,7 +325,7 @@
 			$query = $this->db->query($sql,$penduduk['ayah_nik']);
 			$data  = $query->row_array();
 		}
-		
+
 		// Kalau tidak ada, cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
 		if (!isset($data['id']) AND $penduduk['kk_level'] == 4 ) {
 			$sql = "SELECT u.id
