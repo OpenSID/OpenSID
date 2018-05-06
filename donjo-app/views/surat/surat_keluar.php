@@ -76,7 +76,7 @@
 									<div class="uibutton-group">
 										<?php
 											if(is_file($theFile)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south fa-tipis" title="Cetak"><span class="fa fa-download"></span> Cetak</a>
+												<a href="<?php echo site_url('keluar/unduh_berkas_scan/'.$data['id']); ?>" class="uibutton tipsy south fa-tipis" title="Cetak"><span class="fa fa-download"></span> Cetak</a>
 										<?php	}?>
 										<?php
 											if(is_file($lampiran)){?>
