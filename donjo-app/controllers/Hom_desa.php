@@ -88,23 +88,4 @@ class Hom_desa extends CI_Controller{
 		redirect("hom_desa/konfigurasi");
 	}
 
-	function upgrade_silent(){
-		$nav['act']= 0;
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('home/nav',$nav);
-		$this->load->view('home/upgrade_form');
-		$this->load->view('footer');
-	}
-
-	function upgrader(){
-		$kode = $_POST['upkode'];
-		if($kode=="formasikombinasi")
-			$this->config_model->upgrade();
-		else
-			$_SESSION['success']=-1;
-
-		redirect("hom_desa/upgrade_silent");
-	}
-
 }
