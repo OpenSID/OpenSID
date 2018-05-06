@@ -19,7 +19,7 @@ class User_model extends CI_Model {
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_USER_PICT,
 			'allowed_types' => 'gif|jpg|jpeg|png',
-			'max_size' => 2048,
+			'max_size' => max_upload()*1024,
 		);
 		$this->load->model('laporan_bulanan_model');
 		// Untuk password hashing

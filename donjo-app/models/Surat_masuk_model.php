@@ -1,7 +1,7 @@
 <?php class Surat_masuk_model extends CI_Model {
     // Konfigurasi untuk library 'upload'
     protected $uploadConfig = array();
-  
+
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
@@ -13,7 +13,7 @@
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_ARSIP,
 			'allowed_types' => 'gif|jpg|jpeg|png|pdf',
-			'max_size' => 2048,
+			'max_size' => max_upload()*1024,
 		);
 	}
 
@@ -216,7 +216,7 @@
 		if ($adaLampiran === TRUE)
 		{
 			// Tes tidak berisi script PHP
-			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['satuan']['name'])){
 				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
 				$_SESSION['success']=-1;
 				redirect('man_user');
