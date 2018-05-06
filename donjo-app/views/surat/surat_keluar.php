@@ -76,11 +76,11 @@
 									<div class="uibutton-group">
 										<?php
 											if(is_file($theFile)){?>
-												<a href="<?php echo site_url('keluar/unduh_berkas_scan/'.$data['id']); ?>" class="uibutton tipsy south fa-tipis" title="Cetak"><span class="fa fa-download"></span> Cetak</a>
+												<a href="<?php echo site_url('keluar/cetak_surat_keluar/'.$data['id']); ?>" class="uibutton tipsy south fa-tipis" title="Cetak"><span class="fa fa-download"></span> Cetak</a>
 										<?php	}?>
 										<?php
 											if(is_file($lampiran)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south fa-tipis" title="Lampiran"><span class="fa fa-download"></span> Lampiran</a>
+												<a href="<?php echo site_url('keluar/unduh_lampiran/'.$data['id']); ?>" target="_blank" class="uibutton tipsy south fa-tipis" title="Lampiran"><span class="fa fa-download"></span> Lampiran</a>
 										<?php	}?>
 										<?php if($this->grup==1):?>
 											<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>

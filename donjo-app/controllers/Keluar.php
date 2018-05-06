@@ -142,8 +142,12 @@ class Keluar extends CI_Controller{
 		redirect('keluar/perorangan');
 	}
     
-    function unduh_berkas_scan($id){
+    function cetak_surat_keluar($id){
         $berkas = $this->db->select('nama_surat')->where('id', $id)->get('log_surat')->row();
         ambil_berkas($berkas->nama_surat, 'keluar');
+    }
+    function unduh_lampiran($id){
+        $berkas = $this->db->select('lampiran')->where('id', $id)->get('log_surat')->row();
+        ambil_berkas($berkas->lampiran, 'keluar');
     }
 }
