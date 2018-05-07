@@ -303,7 +303,7 @@ function SuratExportDesa($nama_surat)
     } else {
         return "";
     }
-    
+
 }
 
 /**
@@ -326,7 +326,7 @@ function SuratCetakDesa($nama_surat)
     } else {
         return "";
     }
-    
+
 }
 
 /**
@@ -394,25 +394,25 @@ function httpPost($url, $params)
 {
     if (!extension_loaded('curl') OR isset($_SESSION['no_curl']))
         return;
-    
+
     $postData = '';
     //create name value pairs seperated by &
     foreach ($params as $k => $v) {
         $postData .= $k . '=' . $v . '&';
     }
     $postData = rtrim($postData, '&');
-    
+
     try {
         $ch = curl_init();
-        
+
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_POST, count($postData));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-        
+
         $output = curl_exec($ch);
-        
+
         if (curl_exec($ch) === false) {
             echo 'Curl error: ' . curl_error($ch);
         }
@@ -499,6 +499,7 @@ function padded_string_fixed_length($str, $awal, $panjang)
     $str             = str_pad($str, (($panjang - $panjang_text) * $panjang_padding) + $panjang_text, $padding, STR_PAD_RIGHT);
     return $str;
 }
+
 function padded_string_center($str, $panjang)
 {
     $padding         = "&nbsp;";
@@ -517,7 +518,7 @@ function get_dynamic_title_page_from_path()
         '/first'
     ), '', $_SERVER['PATH_INFO']);
     $explo = explode('/', $parse);
-    
+
     $title = '';
     for ($i = 0; $i < count($explo); $i++) {
         $t = trim($explo[$i]);
@@ -590,7 +591,7 @@ function isPHP($file, $filename)
     $ext = get_extension($filename);
     if ($ext == '.php')
         return true;
-    
+
     $handle = fopen($file, 'r');
     $buffer = stream_get_contents($handle);
     if (preg_match('/<\?php|<\?=|<script/i', $buffer)) {
@@ -659,7 +660,7 @@ function sql_in_list($list_array)
 
 
 /*
- * ambil_berkas 
+ * ambilBerkas
  * Method untuk mengambil berkas
  * param :
  * nama_berkas : nama berkas yang ingin diambil (hanya nama, bukan lokasi berkas)
@@ -667,7 +668,7 @@ function sql_in_list($list_array)
  * unique_id : diperlukan jika nama file asli tidak sama dengan nama didatabase
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  */
-function ambil_berkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = LOKASI_ARSIP)
+function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = LOKASI_ARSIP)
 {
     // Tentukan path berkas (absolut)
     $pathBerkas = FCPATH . $lokasi . $nama_berkas;

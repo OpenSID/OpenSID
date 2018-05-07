@@ -141,13 +141,13 @@ class Keluar extends CI_Controller{
 		else unset($_SESSION['nik']);
 		redirect('keluar/perorangan');
 	}
-    
+
     function cetak_surat_keluar($id){
         $berkas = $this->db->select('nama_surat')->where('id', $id)->get('log_surat')->row();
-        ambil_berkas($berkas->nama_surat, 'keluar');
+        ambilBerkas($berkas->nama_surat, 'keluar');
     }
     function unduh_lampiran($id){
         $berkas = $this->db->select('lampiran')->where('id', $id)->get('log_surat')->row();
-        ambil_berkas($berkas->lampiran, 'keluar');
+        ambilBerkas($berkas->lampiran, 'keluar');
     }
 }

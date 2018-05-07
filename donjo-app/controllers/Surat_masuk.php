@@ -76,7 +76,7 @@ class Surat_masuk extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		// Buang unique id pada link nama file 
+		// Buang unique id pada link nama file
 		$berkas = explode('__sid__', $data['surat_masuk']['berkas_scan']);
 		$namaFile = $berkas[0];
 		$ekstensiFile = explode('.', end($berkas));
@@ -166,6 +166,6 @@ class Surat_masuk extends CI_Controller{
 	{
 		// Ambil nama berkas dari database
 		$berkas = $this->surat_masuk_model->getNamaBerkasScan($idSuratMasuk);
-        ambil_berkas($berkas, 'surat_masuk', '__sid__');
+        ambilBerkas($berkas, 'surat_masuk', '__sid__');
 	}
 }
