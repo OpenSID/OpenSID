@@ -47,6 +47,7 @@
       				<th align="left">Nama</th>
       				<th align="left" width="150">N.I.P</th>
       				<th align="left">Jabatan</th>
+      				<th align="left">Status</th>
               <th align="left">Foto</th>
       				<th>&nbsp;</th>
       			</tr>
@@ -74,6 +75,7 @@
                 <td><?php echo $data['pamong_nama']?></td>
           			<td><?php echo $data['pamong_nip']?></td>
                 <td><?php echo $data['jabatan']?></td>
+                <td><?php echo $data['pamong_status'] == '1' ? "Aktif" : "Tidak Aktif"; ?></td>
                 <td>
                   <label class="tipsy west" title="<img width='150' src='<?php echo AmbilFoto($data['foto']) ?>'>"><?php echo $data['foto']?></label>
                 </td>
