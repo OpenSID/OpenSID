@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi pasca-2.12:
 7. #976: Sekarang berkas foto pengguna juga dihapus kalau usernya dihapus. [bug-fix]
 8. #991: Sekarang bisa menambah program bantuan kembali. [bug-fix]
 9. #963: Tutup celah mengunggah script PHP melalui unggah berkas logo. [security-fix]
+10: #992: Tampilkan status aktif/non-aktif untuk daftar di SID Home > Pemerintah Desa.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
