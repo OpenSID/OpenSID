@@ -35,7 +35,7 @@
 		$i=0;
 		$outp='';
 		while($i<count($data)){
-			$outp .= ",'" .$data[$i]['pamong_nama']. "'";
+			$outp .= ",'" .addslashes($data[$i]['pamong_nama']). "'";
 			$i++;
 		}
 		$outp = substr($outp, 1);

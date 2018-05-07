@@ -1,3 +1,7 @@
+<style type="text/css">
+  td.center {text-align: center;}
+  .fa-unlock {color: #752100}
+</style>
 <script>
 	$(function() {
 		var keyword = <?php echo $keyword?> ;
@@ -30,7 +34,7 @@
           <select name="filter" onchange="formAction('mainform','<?php echo site_url('pengurus/filter')?>')">
             <option value="">Semua</option>
             <option value="1" <?php if($filter==1 ) :?>selected<?php endif?>>Aktif</option>
-            <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Non Aktif</option>
+            <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Tidak Aktif</option>
           </select>
         </div>
         <div class="right">
@@ -47,6 +51,7 @@
       				<th align="left">Nama</th>
       				<th align="left" width="150">N.I.P</th>
       				<th align="left">Jabatan</th>
+      				<th align="left">Status</th>
               <th align="left">Foto</th>
       				<th>&nbsp;</th>
       			</tr>
@@ -74,6 +79,17 @@
                 <td><?php echo $data['pamong_nama']?></td>
           			<td><?php echo $data['pamong_nip']?></td>
                 <td><?php echo $data['jabatan']?></td>
+                <td class="center">
+                  <?php if($data['pamong_status'] == '1') : ?>
+                    <div class="tipsy south" title="Aktif">
+                      <span class="fa fa-unlock fa-lg"></span>
+                    </div>
+                  <?php else: ?>
+                    <div class="tipsy south" title="Tidak Aktif">
+                      <span class="fa fa-lock fa-lg"></span>
+                    </div>
+                  <?php endif; ?>
+                </td>
                 <td>
                   <label class="tipsy west" title="<img width='150' src='<?php echo AmbilFoto($data['foto']) ?>'>"><?php echo $data['foto']?></label>
                 </td>
