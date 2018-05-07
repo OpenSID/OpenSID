@@ -166,23 +166,6 @@ class Surat_masuk extends CI_Controller{
 	{
 		// Ambil nama berkas dari database
 		$berkas = $this->surat_masuk_model->getNamaBerkasScan($idSuratMasuk);
-		// Tentukan path berkas (absolut)
-		$pathBerkas = FCPATH.LOKASI_ARSIP.$berkas;
-		$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
-		// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-		if (is_null($berkas) || !file_exists($pathBerkas))
-		{
-			redirect('surat_masuk');
-		}
-		// OK, berkas ada. Ambil konten berkasnya
-		$data = file_get_contents($pathBerkas);
-		// Buang unique id pada nama berkas download
-		$berkas = explode('__sid__', $berkas);
-		$namaFile = $berkas[0];
-		$ekstensiFile = explode('.', end($berkas));
-		$ekstensiFile = end($ekstensiFile);
-		$berkas = $namaFile.'.'.$ekstensiFile;
-
-		force_download($berkas, $data);
+        ambil_berkas($berkas, 'surat_masuk', '__sid__');
 	}
 }
