@@ -4,8 +4,9 @@
 		parent::__construct();
 	}
 
-	function list_data(){
+	function list_data($aktif = false){
 		$sql   = "SELECT u.* FROM tweb_desa_pamong u WHERE 1";
+        $sql .= $aktif ? " AND u.pamong_status = '1'" : null;
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 
