@@ -552,7 +552,7 @@ class Program_bantuan_model extends CI_Model{
 			'sasaran' => $this->input->post('cid'),
 			'nama' => fixSQL($this->input->post('nama')),
 			'ndesc' => fixSQL($this->input->post('ndesc')),
-			'userid' => $this->input->post('userid'),
+			'userid' =>  $_SESSION['user'],
 			'sdate' => date("Y-m-d",strtotime($this->input->post('sdate'))),
 			'edate' => date("Y-m-d",strtotime($this->input->post('edate')))
 		);

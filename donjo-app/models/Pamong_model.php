@@ -1,11 +1,12 @@
-<?php class Pamong_Model extends CI_Model{
+<?php class Pamong_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
 	}
 
-	function list_data(){
+	function list_data($aktif = false){
 		$sql   = "SELECT u.* FROM tweb_desa_pamong u WHERE 1";
+        $sql .= $aktif ? " AND u.pamong_status = '1'" : null;
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 
@@ -35,7 +36,7 @@
 		$i=0;
 		$outp='';
 		while($i<count($data)){
-			$outp .= ",'" .$data[$i]['pamong_nama']. "'";
+			$outp .= ",'" .addslashes($data[$i]['pamong_nama']). "'";
 			$i++;
 		}
 		$outp = substr($outp, 1);

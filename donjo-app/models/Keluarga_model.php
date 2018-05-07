@@ -1,4 +1,4 @@
-<?php class Keluarga_Model extends CI_Model{
+<?php class Keluarga_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

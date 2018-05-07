@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class line extends CI_Controller{
+class Line extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();

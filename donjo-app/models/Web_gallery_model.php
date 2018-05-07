@@ -1,4 +1,4 @@
-<?php class Web_Gallery_Model extends CI_Model{
+<?php class Web_gallery_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

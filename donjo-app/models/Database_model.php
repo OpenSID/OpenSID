@@ -146,6 +146,12 @@
 
   function migrasi_211_ke_213(){
     // Tambahkan perubahan database di sini
+
+    //ubah icon kecil dan besar untuk modul Sekretariat
+     $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));
+     // Hapus kolom yg tidak digunakan
+    if ($this->db->field_exists('alamat_tempat_lahir', 'tweb_penduduk'))
+      $this->dbforge->drop_column('tweb_penduduk', 'alamat_tempat_lahir');
   }
 
   function migrasi_210_ke_211(){

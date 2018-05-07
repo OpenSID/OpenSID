@@ -1,4 +1,4 @@
-<?php class analisis_statistik_jawaban_model extends CI_Model{
+<?php class Analisis_statistik_jawaban_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}

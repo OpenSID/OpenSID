@@ -1,4 +1,4 @@
-<?php class rtm_Model extends CI_Model{
+<?php class Rtm_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

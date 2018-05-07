@@ -1,5 +1,5 @@
 <?php
-class analisis_import_Model extends CI_Model{
+class Analisis_import_Model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 		$this->load->helper('excel');

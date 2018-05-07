@@ -1,10 +1,6 @@
-<?php class surat_masuk_model extends CI_Model {
-
-	protected
-		// Konfigurasi untuk library 'upload'
-		$uploadConfig = array(),
-		// Delimiter untuk tambahSuffixUniqueKeNamaFile()
-		$delimiterUniqueKey = NULL;
+<?php class Surat_masuk_model extends CI_Model {
+    // Konfigurasi untuk library 'upload'
+    protected $uploadConfig = array();
 
 	function __construct() {
 		parent::__construct();
@@ -12,10 +8,12 @@
 		$this->load->library('upload');
 		// Untuk dapat menggunakan fungsi generator()
 		$this->load->helper('donjolib');
+        // Helper upload file
+		$this->load->helper('pict_helper');
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_ARSIP,
 			'allowed_types' => 'gif|jpg|jpeg|png|pdf',
-			'max_size' => 2048,
+			'max_size' => max_upload()*1024,
 		);
 	}
 
@@ -154,7 +152,7 @@
 			{
 				$uploadData = $this->upload->data();
 				// Buat nama file unik agar url file susah ditebak dari browser
-				$namaFileUnik = $this->tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
 				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
@@ -218,7 +216,7 @@
 		if ($adaLampiran === TRUE)
 		{
 			// Tes tidak berisi script PHP
-			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['satuan']['name'])){
 				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
 				$_SESSION['success']=-1;
 				redirect('man_user');
@@ -243,7 +241,7 @@
 				$_SESSION['error_msg'] = ($oldFileRemoved === TRUE)
 					? NULL : ' -> Gagal menghapus berkas lama';
 				// Buat nama file unik untuk nama file upload
-				$namaFileUnik = $this->tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+				$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
 				// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 				$uploadedFileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
@@ -392,36 +390,6 @@
 		return $namaBerkas;
 	}
 
-
-	/**
-	* Tambahkan suffix unik ke nama file
-	* @param   string        $namaFile    Nama file asli (beserta ekstensinya)
-	* @param   boolean       $urlEncode  Saring nama file dengan urlencode() ?
-	* @param   string|NULL   $delimiter  String pemisah nama asli dengan unique id
-	* @return  string
-	*/
-	private function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter = NULL)
-	{
-		// Type check
-		$namaFile = is_string($namaFile) ? $namaFile : strval($namaFile);
-		$urlEncode = is_bool($urlEncode) ? $urlEncode : TRUE;
-		$this->delimiterUniqueKey = (!is_string($delimiter) || empty($delimiter))
-			? '__sid__' : $delimiter;
-
-		// Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
-		$namaFile = str_replace($this->delimiterUniqueKey, '__', $namaFile);
-		// Tambahkan suffix nama unik menggunakan uniqid()
-		$namaFileUnik = explode('.', $namaFile);
-		$ekstensiFile = end($namaFileUnik);
-		unset($namaFileUnik[count($namaFileUnik) - 1]);
-		$namaFileUnik = implode('.', $namaFileUnik);
-		$namaFileUnik = urlencode($namaFileUnik).
-			$this->delimiterUniqueKey.generator().'.'.$ekstensiFile;
-		// Contoh return:
-		// - nama asli = 'kitten.jpg'
-		// - nama unik = 'kitten__sid__xUCc8KO.jpg'
-		return $namaFileUnik;
-	}
 }
 
 ?>

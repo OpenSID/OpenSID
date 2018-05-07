@@ -1,4 +1,4 @@
-<?php class Dpt_Model extends Penduduk_Model{
+<?php class Dpt_model extends Penduduk_model{
 
 	function __construct(){
 		parent::__construct();

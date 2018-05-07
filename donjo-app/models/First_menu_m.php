@@ -1,5 +1,5 @@
 <?php
-class First_Menu_M extends CI_Model{
+class First_menu_m extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}

@@ -1,4 +1,4 @@
-<?php class Bdt_Model extends CI_Model{
+<?php class Bdt_model extends CI_Model{
 
 	private $jml_baris;
 	private $baris_pertama;

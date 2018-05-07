@@ -1,6 +1,6 @@
 <?php
 
-class Web_Menu_Model extends CI_Model{
+class Web_menu_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

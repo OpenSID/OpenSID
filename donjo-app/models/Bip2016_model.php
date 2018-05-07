@@ -1,6 +1,6 @@
 <?php
 
-class BIP2016_Model extends import_model{
+class Bip2016_model extends Import_model{
 
 	function __construct(){
 		parent::__construct();

@@ -1,6 +1,6 @@
 <?php
 
-class User_Model extends CI_Model {
+class User_model extends CI_Model {
 
 	const GROUP_REDAKSI = 3;
 
@@ -8,8 +8,8 @@ class User_Model extends CI_Model {
 	private $_password;
 	// Konfigurasi untuk library 'upload'
 	protected $uploadConfig = array();
-	
-	
+
+
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
@@ -19,11 +19,13 @@ class User_Model extends CI_Model {
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_USER_PICT,
 			'allowed_types' => 'gif|jpg|jpeg|png',
-			'max_size' => 2048,
+			'max_size' => max_upload()*1024,
 		);
 		$this->load->model('laporan_bulanan_model');
 		// Untuk password hashing
 		$this->load->helper('password');
+        // Helper upload file
+		$this->load->helper('pict_helper');
 	}
 
 
@@ -97,10 +99,10 @@ class User_Model extends CI_Model {
         $auth = $this->config->item('defaultAdminAuthInfo');
 
         if ($this->_username == $auth['username'] && $this->_password == $auth['password']) {
-            $_SESSION['admin_warning'] = [
+            $_SESSION['admin_warning'] = array(
                 'Pemberitahuan Keamanan Akun',
                 'Penting! Password anda harus diganti demi keamanan.',
-            ];
+            );
         }
     }
 
@@ -300,12 +302,12 @@ class User_Model extends CI_Model {
 			{
 				$uploadData = $this->upload->data();
 				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
-					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+					$this->uploadConfig['upload_path'].'kecil_'.$namaFileUnik
 				);
-				$uploadData['file_name'] = $fileRenamed
-					? 'kecil_'.$namaClean : $uploadData['file_name'];
+				$uploadData['file_name'] = $fileRenamed ? 'kecil_'.$namaFileUnik : $uploadData['file_name'];
 			}
 			// Upload gagal
 			else
@@ -413,12 +415,12 @@ class User_Model extends CI_Model {
 			{
 				$uploadData = $this->upload->data();
 				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
-					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+					$this->uploadConfig['upload_path'].'kecil_'.$namaFileUnik
 				);
-				$data['foto'] = $fileRenamed ? $namaClean : $uploadData['file_name'];
-
+				$data['foto'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
 				if ($berkasLama !== 'kecil_kuser.png') {
 					unlink($lokasiBerkasLama);
 					$indikatorSukses = !file_exists($lokasiBerkasLama);
@@ -459,34 +461,44 @@ class User_Model extends CI_Model {
 		if ($idUser == 1) {
 			return;
 		}
-
+    $foto = $this->db->get_where('user',array('id' => $idUser))->row()->foto;
 		$sql = "DELETE FROM user WHERE id = ?";
 		$hasil = $this->db->query($sql, array($idUser));
+
+    // Cek apakah pengguna berhasil dihapus
 		if ($hasil) {
-			$_SESSION['success'] = 1;
+	    // Cek apakah pengguna memiliki foto atau tidak
+	    if($foto != 'kuser.png') {
+        // Ambil nama foto
+        $foto = basename(AmbilFoto($foto));
+        // Cek penghapusan foto pengguna
+        if(unlink(LOKASI_USER_PICT.$foto)) {
+            $_SESSION['success'] = 1;
+        } else {
+          $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
+          $_SESSION['success'] = -1;
+        }
+	    } else {
+	      $_SESSION['success'] = 1;
+	    }
 		} else {
+      $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
 			$_SESSION['success'] = -1;
 		}
 	}
 
 
 	function delete_all() {
-		$id_cb = $_POST['id_cb'];
-		if (count($id_cb)) {
-			foreach ($id_cb as $id) {
-				// Jangan hapus admin
-				if ($id==1) {
-					continue;
-				}
-
-				$sql = "DELETE FROM user WHERE id = ?";
-				$hasil = $this->db->query($sql, array($id));
-			}
-		} else {
-			$hasil = false;
-		}
-
-		$_SESSION['success'] = ($hasil === TRUE ? 1 : -1);
+    $id_cb = $_POST['id_cb'];
+    // Cek apakah ada data yang dicentang atau dipilih
+    if(!is_null($id_cb)) {
+      foreach($id_cb as $id) {
+        $this->delete($id);
+      }
+    } else {
+      $_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
+      $_SESSION['success'] = -1;
+    }
 	}
 
 

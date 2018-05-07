@@ -1,5 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class modul extends CI_Controller{
+class Modul extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();

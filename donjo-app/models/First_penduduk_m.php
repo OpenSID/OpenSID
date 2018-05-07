@@ -1,6 +1,6 @@
 <?php
 
-class First_Penduduk_M extends CI_Model{
+class First_penduduk_m extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

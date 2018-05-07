@@ -1,4 +1,4 @@
-<?php class analisis_klasifikasi_model extends CI_Model{
+<?php class Analisis_klasifikasi_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}

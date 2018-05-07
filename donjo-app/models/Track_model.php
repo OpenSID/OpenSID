@@ -1,4 +1,4 @@
-<?php class Track_Model extends CI_Model{
+<?php class Track_model extends CI_Model{
 
   function __construct(){
     parent::__construct();
