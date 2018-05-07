@@ -1,0 +1,78 @@
+/*
+ * File ini berisi CSS untuk tema 'hadakewa' susunan Happy Agung
+ *
+ * default.css ini berisi perubahan untuk styles yang ada di assets/front/css/default.css
+ *
+*/
+
+#global-nav-right {
+    float: right;	list-style: none;    margin-left: 0;
+}
+#global-nav.top ul {
+    background: #fdfdfd none repeat scroll 0 0;
+    opacity: 0.8;
+	float: right;
+}
+#global-nav.main ul {
+    background: #fdfdfd none repeat scroll 0 0;
+    opacity: 0.8;
+}
+#global-nav a {
+    color: #444;
+    display: block;
+    font-family: "Roboto","Arial";
+    font-size: 11px;
+    font-weight: normal;
+    height: 33px;
+    line-height: 33px;
+    text-decoration: none;
+    text-shadow: 0 0 0 #444;
+    text-transform: uppercase;
+}
+#global-nav-right a {
+    color: #444;
+    display: block;
+    font-family: "Roboto","Arial";
+    font-size: 11px;
+    font-weight: normal;
+    height: 33px;
+    line-height: 33px;
+    text-decoration: none;
+    text-shadow: 0 0 0 #444;
+    text-transform: uppercase;
+}
+#global-nav li {
+    padding: 0;
+}
+#global-nav > li {
+    border-right: 1px solid #ccc;
+    float: left;
+    height: 33px;
+    padding: 0 10px;
+    position: relative;
+	margin-left: 0;
+}
+#global-nav-right > li {
+    border-right: 0px solid #ccc;
+    float: left;
+    height: 33px;
+    padding: 0px 5px;
+    position: relative;
+    margin-left: 0;
+    position: relative;
+}
+#global-nav li:hover {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%) repeat scroll 0 0;
+}
+#global-nav-right li:hover {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%) repeat scroll 0 0;
+}
+#global-nav ul {
+    display: none;
+    left: 0;
+    padding-bottom: 1px;
+    padding-top: 11px;
+    position: absolute;
+    width: 180px;
+    z-index: 99999999;
+}
