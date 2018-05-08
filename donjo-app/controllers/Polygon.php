@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class polygon extends CI_Controller{
+class Polygon extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();

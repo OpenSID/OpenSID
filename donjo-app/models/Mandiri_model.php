@@ -1,4 +1,4 @@
-<?php class mandiri_model extends CI_Model{
+<?php class Mandiri_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

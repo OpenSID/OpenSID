@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Provinsi_Model extends CI_Model
+class Provinsi_model extends CI_Model
 {
   function __construct()
   {

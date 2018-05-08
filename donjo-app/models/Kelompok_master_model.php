@@ -1,5 +1,5 @@
 <?php
-class kelompok_master_model extends CI_Model{
+class Kelompok_master_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}

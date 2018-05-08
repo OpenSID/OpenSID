@@ -1,4 +1,4 @@
-<?php class Folder_desa_Model extends CI_Model{
+<?php class Folder_desa_model extends CI_Model{
 
 /*
 	Dimasukkan di autoload. Supaya folder desa dibuat secara otomatis menggunakan

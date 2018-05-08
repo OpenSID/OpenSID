@@ -1,5 +1,5 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
-class analisis_laporan extends CI_Controller{
+class Analisis_laporan extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		session_start();

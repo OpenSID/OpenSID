@@ -11,7 +11,8 @@
     '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => '2.9'),
     '2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => '2.10'),
     '2.10' => array('migrate' => 'migrasi_210_ke_211','nextVersion' => '2.11'),
-    '2.11' => array('migrate' => 'migrasi_211_ke_212','nextVersion' => NULL)
+    '2.11' => array('migrate' => 'migrasi_211_ke_213','nextVersion' => NULL),
+    '2.12' => array('migrate' => 'migrasi_211_ke_213','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -139,12 +140,18 @@
     $this->migrasi_28_ke_29();
     $this->migrasi_29_ke_210();
     $this->migrasi_210_ke_211();
-    $this->migrasi_211_ke_212();
+    $this->migrasi_211_ke_213();
   }
 
 
-  function migrasi_211_ke_212(){
+  function migrasi_211_ke_213(){
     // Tambahkan perubahan database di sini
+
+    //ubah icon kecil dan besar untuk modul Sekretariat
+     $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));
+     // Hapus kolom yg tidak digunakan
+    if ($this->db->field_exists('alamat_tempat_lahir', 'tweb_penduduk'))
+      $this->dbforge->drop_column('tweb_penduduk', 'alamat_tempat_lahir');
   }
 
   function migrasi_210_ke_211(){

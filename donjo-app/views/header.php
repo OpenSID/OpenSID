@@ -69,6 +69,16 @@
 			<li><a href="<?php echo site_url()?>siteman"><i class="fa fa-power-off fa-lg"></i>Log Out</a></li>
 		</ul>
 	</div>
+    <?php if (isset($_SESSION['admin_warning']) && !config_item('demo')): ?>
+    		<style type="text/css">
+    			.ui-dialog-titlebar.ui-widget-header {
+    				background-color: #f8e9e9;
+    			}
+    		</style>
+        <script type="text/javascript">
+            authInfoChangesNoticeUI(<?= json_encode($_SESSION['admin_warning']) ?>)
+        </script>
+    <?php endif ?>
 </div>
 <div id="sidebar" >
 </div>

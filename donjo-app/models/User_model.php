@@ -1,15 +1,15 @@
 <?php
 
-class User_Model extends CI_Model {
-
-
-	protected
-		// Konfigurasi untuk library 'upload'
-		$uploadConfig = array();
+class User_model extends CI_Model {
 
 	const GROUP_REDAKSI = 3;
 
-	
+	private $_username;
+	private $_password;
+	// Konfigurasi untuk library 'upload'
+	protected $uploadConfig = array();
+
+
 	function __construct() {
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
@@ -19,17 +19,19 @@ class User_Model extends CI_Model {
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_USER_PICT,
 			'allowed_types' => 'gif|jpg|jpeg|png',
-			'max_size' => 2048,
+			'max_size' => max_upload()*1024,
 		);
 		$this->load->model('laporan_bulanan_model');
 		// Untuk password hashing
 		$this->load->helper('password');
+        // Helper upload file
+		$this->load->helper('pict_helper');
 	}
 
 
 	function siteman() {
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
+		$this->_username = $username = trim($this->input->post('username'));
+		$this->_password = $password = trim($this->input->post('password'));
 		$sql = "SELECT id, password, id_grup, session FROM user WHERE username = ?";
 
 		// User 'admin' tidak bisa di-non-aktifkan
@@ -90,6 +92,19 @@ class User_Model extends CI_Model {
 		}
 	}
 
+    /**
+     * Pastikan admin sudah mengubah password yang digunakan pertama kali. Berikan warning jika belum.
+     */
+    function validate_admin_has_changed_password() {
+        $auth = $this->config->item('defaultAdminAuthInfo');
+
+        if ($this->_username == $auth['username'] && $this->_password == $auth['password']) {
+            $_SESSION['admin_warning'] = array(
+                'Pemberitahuan Keamanan Akun',
+                'Penting! Password anda harus diganti demi keamanan.',
+            );
+        }
+    }
 
 	function sesi_grup($sesi = '') {
 		$sql = "SELECT id_grup FROM user WHERE session = ?";
@@ -105,7 +120,7 @@ class User_Model extends CI_Model {
 		$sql = "SELECT id, password, id_grup, session FROM user WHERE id_grup = 1 LIMIT 1";
 		$query = $this->db->query($sql);
 		$row = $query->row();
-		
+
 		// Verifikasi password lolos
 		if (password_verify($password, $row->password)) {
 			// Simpan sesi - sesi
@@ -261,12 +276,12 @@ class User_Model extends CI_Model {
 		$dbQuery = $this->db->query($sql, array($data['username']));
 		$userSudahTerdaftar = $dbQuery->row();
 		$userSudahTerdaftar = is_object($userSudahTerdaftar) ? $userSudahTerdaftar->username : FALSE;
-		
+
 		if ($userSudahTerdaftar !== FALSE)
 		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] = ' -> Username ini sudah ada. silahkan pilih username lain';
-			redirect('man_user');	
+			redirect('man_user');
 		}
 
 		$uploadData = NULL;
@@ -274,18 +289,25 @@ class User_Model extends CI_Model {
 
 		if ($adaLampiran === TRUE)
 		{
+			// Tes tidak berisi script PHP
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success']=-1;
+				redirect('man_user');
+			}
+
 			$this->upload->initialize($this->uploadConfig);
 
 			if ($this->upload->do_upload('foto'))
 			{
 				$uploadData = $this->upload->data();
 				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
-					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+					$this->uploadConfig['upload_path'].'kecil_'.$namaFileUnik
 				);
-				$uploadData['file_name'] = $fileRenamed
-					? 'kecil_'.$namaClean : $uploadData['file_name'];
+				$uploadData['file_name'] = $fileRenamed ? 'kecil_'.$namaFileUnik : $uploadData['file_name'];
 			}
 			// Upload gagal
 			else
@@ -311,7 +333,7 @@ class User_Model extends CI_Model {
 		$data['foto'] = is_null($data['foto']) ? 'kuser.png' : str_replace('kecil_', '', $data['foto']);
 
 		$dbInserted = is_null($uploadError) && $this->db->insert('user', $data);
-		
+
 		$_SESSION['success'] = $dbInserted ? 1 : -1;
 		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
@@ -353,9 +375,9 @@ class User_Model extends CI_Model {
 
 		$uploadData = NULL;
 		$uploadError = NULL;
-		
+
 		$indikatorSukses = FALSE;
-		
+
 		if ($id == 1 && config_item('demo'))
 		{
 			unset($data['username'], $data['password']);
@@ -366,7 +388,7 @@ class User_Model extends CI_Model {
 			$data['password'] = $pwHash;
 		}
 
-		
+
 		$adaLampiran = !empty($_FILES['foto']['name']);
 
 		if ((strlen($_FILES['foto']['name']) + 20 ) >= 100)
@@ -375,10 +397,17 @@ class User_Model extends CI_Model {
 			$_SESSION['error_msg'] = ' -> Nama berkas foto terlalu panjang, maksimal 80 karakter';
 			redirect('man_user');
 		}
-		
+
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
 		{
+			// Tes tidak berisi script PHP
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success']=-1;
+				redirect('man_user');
+			}
+
 			// Inisialisasi library 'upload'
 			$this->upload->initialize($this->uploadConfig);
 			// Upload sukses
@@ -386,13 +415,13 @@ class User_Model extends CI_Model {
 			{
 				$uploadData = $this->upload->data();
 				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 				$fileRenamed = rename(
 					$this->uploadConfig['upload_path'].$uploadData['file_name'],
-					$this->uploadConfig['upload_path'].'kecil_'.$namaClean
+					$this->uploadConfig['upload_path'].'kecil_'.$namaFileUnik
 				);
-				$data['foto'] = $fileRenamed ? $namaClean : $uploadData['file_name'];
-				
-				if ($berkasLama !== 'kecil_kuser.png') {	
+				$data['foto'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+				if ($berkasLama !== 'kecil_kuser.png') {
 					unlink($lokasiBerkasLama);
 					$indikatorSukses = !file_exists($lokasiBerkasLama);
 				}
@@ -432,34 +461,44 @@ class User_Model extends CI_Model {
 		if ($idUser == 1) {
 			return;
 		}
-
+    $foto = $this->db->get_where('user',array('id' => $idUser))->row()->foto;
 		$sql = "DELETE FROM user WHERE id = ?";
 		$hasil = $this->db->query($sql, array($idUser));
+
+    // Cek apakah pengguna berhasil dihapus
 		if ($hasil) {
-			$_SESSION['success'] = 1;
+	    // Cek apakah pengguna memiliki foto atau tidak
+	    if($foto != 'kuser.png') {
+        // Ambil nama foto
+        $foto = basename(AmbilFoto($foto));
+        // Cek penghapusan foto pengguna
+        if(unlink(LOKASI_USER_PICT.$foto)) {
+            $_SESSION['success'] = 1;
+        } else {
+          $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
+          $_SESSION['success'] = -1;
+        }
+	    } else {
+	      $_SESSION['success'] = 1;
+	    }
 		} else {
+      $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
 			$_SESSION['success'] = -1;
 		}
 	}
 
 
 	function delete_all() {
-		$id_cb = $_POST['id_cb'];
-		if (count($id_cb)) {
-			foreach ($id_cb as $id) {
-				// Jangan hapus admin
-				if ($id==1) {
-					continue;
-				}
-
-				$sql = "DELETE FROM user WHERE id = ?";
-				$hasil = $this->db->query($sql, array($id));
-			}
-		} else {
-			$hasil = false;
-		}
-
-		$_SESSION['success'] = ($hasil === TRUE ? 1 : -1);
+    $id_cb = $_POST['id_cb'];
+    // Cek apakah ada data yang dicentang atau dipilih
+    if(!is_null($id_cb)) {
+      foreach($id_cb as $id) {
+        $this->delete($id);
+      }
+    } else {
+      $_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
+      $_SESSION['success'] = -1;
+    }
 	}
 
 
@@ -541,14 +580,25 @@ class User_Model extends CI_Model {
 		$nama_file = str_replace(' ', '-', $nama_file);
 		$old_foto = $this->input->post('old_foto');
 		if (!empty($lokasi_file)) {
+
+			// Tes tidak berisi script PHP
+			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
+				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success']=-1;
+				return;
+			}
+
 			if (UploadFoto($nama_file, $old_foto, $tipe_file)) {
 				$data['foto'] = $nama_file;
 			}
 		}
 		$this->db->where('id', $id);
 		$hasil = $this->db->update('user', $data);
+
 		if (!$hasil) {
 			$_SESSION['success'] = -1;
+		} elseif ($_SESSION['success'] === 1) {
+			unset($_SESSION['admin_warning']);
 		}
 	}
 
@@ -587,7 +637,7 @@ class User_Model extends CI_Model {
 		$string .= '<lat>'.$desa['lat'].'</lat>'.$newLine;
 		$string .= '<lng>'.$desa['lng'].'</lng>'.$newLine;
 		$string .= '</desa>'.$newLine.$newLine;
-		
+
 		// Wilayah
 		$sql = "SELECT DISTINCT(dusun) FROM tweb_wil_clusterdesa";
 		$query = $this->db->query($sql);
@@ -613,7 +663,7 @@ class User_Model extends CI_Model {
 			$string .= '</individu>'.$newLine;
 		}
 		$string .= '</penduduk>'.$newLine.$newLine;
-		
+
 		// $mypath = "assets\\sync\\";
 		// $path = str_replace("\\", "/", $mypath).'/';
 		$path = 'assets/sync/'; // ???
@@ -641,7 +691,7 @@ class User_Model extends CI_Model {
 			fputs($connect, 'Content-Type: text/xml'.$newLine);
 			fputs($connect, 'Content-Length: '.strlen($soap_request).$newLine.$newLine);
 			fputs($connect, $soap_request.$newLine);
-			
+
 			$buffer = '';
 			while ($response = fgets($connect, 8192)) {
 				$buffer .= $response;
@@ -653,7 +703,7 @@ class User_Model extends CI_Model {
 	//!===========================================================
 	//! Helper Methods
 	//!===========================================================
-	
+
 	/**
 	 * Buat hash password (bcrypt) dari string sebuah password
 	 * @param  [type]  $string  [description]

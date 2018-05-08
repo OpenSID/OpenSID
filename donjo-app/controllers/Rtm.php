@@ -1,5 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class rtm extends CI_Controller{
+class Rtm extends CI_Controller{
 
 function __construct(){
 		parent::__construct();

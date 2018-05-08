@@ -1,8 +1,6 @@
-
-
 <?
 
-class Master_Analisis_Penduduk_Model extends CI_Model{
+class Master_analisis_penduduk_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
