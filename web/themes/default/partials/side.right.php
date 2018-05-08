@@ -16,7 +16,7 @@
 if($w_cos){
 	foreach($w_cos as $data){
 		if($data["jenis_widget"] == 1){
-			include("donjo-app/views/widgets/".trim($data['isi']));
+			include(VIEWPATH ."widgets/".trim($data['isi']));
 		} elseif($data["jenis_widget"] == 2){
 			include(LOKASI_WIDGET.trim($data['isi']));
 		} else {

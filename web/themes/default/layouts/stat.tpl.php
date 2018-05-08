@@ -14,7 +14,7 @@
 						}elseif($tipe == 4){
 							$this->load->view('statistik/dpt.php');
 						}else{
-							$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/statistik.php'));
+							$this->load->view('/partials/statistik.php');
 						}
 						?>
 					</div>
