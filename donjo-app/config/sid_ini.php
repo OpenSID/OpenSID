@@ -8,7 +8,10 @@
 | Untuk mengubah letakkan setting yang diinginkan di desa/config/config.php
 |--------------------------------------------------------------------------
 */
-// Folder penyimpanan lokal, upload, kustomisasi dll. atau yang sebelumnya dikatakan FOLDER DESA.
+
+/**
+ * Folder penyimpanan lokal, upload, kustomisasi dll. atau yang sebelumnya dikatakan FOLDER DESA.
+ */
 define("STORAGE_PATH", realpath(APPPATH .'../desa') .'/');
 define("LOKASI_CONFIG_DESA", STORAGE_PATH .'config/');
 
