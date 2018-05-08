@@ -21,14 +21,14 @@
 		<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
 	<?php endif; ?>
 </head>
-<body>
+<body class="login">
 <div class="top-content">
 			<div class="inner-bg">
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3 form-box">
 							<div class="form-top">
-							
+
 								<a href="<?php echo site_url(); ?>first/"><img src="<?php echo LogoDesa($desa['logo']);?>" alt="<?php echo $desa['nama_desa']?>" class="img-responsive" /></a>
 								<div class="login-footer-top"><h1><?php echo ucwords($this->setting->sebutan_desa)?> <?php echo unpenetration($desa['nama_desa'])?></h1>
 									<h3><br /><?php echo $desa['alamat_kantor']?><br />Kodepos <?php echo $desa['kode_pos']?>
@@ -66,12 +66,12 @@
 										<?php endif; ?>
 								</form>
 								<hr />
-													<div class="login-footer-bottom">powered by: <a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?php echo substr(AmbilVersi(), 0, 4)?></div>
-								
+													<div class="login-footer-bottom">powered by: <a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?php echo substr(AmbilVersi(), 0, 11)?></div>
+
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>	
+			</div>
 </body>
 </html>
