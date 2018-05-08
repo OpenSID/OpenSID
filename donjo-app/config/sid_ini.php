@@ -9,7 +9,7 @@
 |--------------------------------------------------------------------------
 */
 // Folder penyimpanan lokal, upload, kustomisasi dll. atau yang sebelumnya dikatakan FOLDER DESA.
-define("STORAGE_PATH", APPPATH .'../desa/');
+define("STORAGE_PATH", realpath(APPPATH .'../desa') .'/');
 define("LOKASI_CONFIG_DESA", STORAGE_PATH .'config/');
 
 /*

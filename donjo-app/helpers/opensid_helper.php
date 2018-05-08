@@ -263,8 +263,62 @@ function AmbilVersi()
  */
 function LogoDesa($nama_logo)
 {
-    $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
-    return $logo_desa;
+	$file = LOKASI_LOGO_DESA . $nama_logo;
+    return publish_asset($file, 'assets/images/extra/'. $nama_logo);
+}
+
+/**
+ * Publikasi file supaya bisa diakses dari luar web. biasanya digunakan untuk berkas asset, css, js, gambar, dll.
+ *
+ * @param $src alamat berkas lokal
+ * @param $url alamat berkas relatif ke folder web
+ * @return string|false Alamat url yang bisa diakses dari luar web dengan ditambah info host atau false jika file tidak ada.
+ */
+function publish_asset($src, $url) {
+	$dst = FCPATH . $url;
+	create_directory(dirname($dst));
+
+	if (@filemtime($dst) < @filemtime($src)) {
+		copy($src, $dst);
+	}
+
+	return is_file($dst) ? base_url() . $url : false;
+}
+
+/**
+ * Creates a new directory.
+ *
+ * This method is similar to the PHP `mkdir()` function except that
+ * it uses `chmod()` to set the permission of the created directory
+ * in order to avoid the impact of the `umask` setting.
+ * Original code from yiisoft/yii2/blob/master/framework/helpers/BaseFileHelper.php
+ *
+ * @param string $path path of the directory to be created.
+ * @param int $mode the permission to be set for the created directory.
+ * @param bool $recursive whether to create parent directories if they do not exist.
+ * @return bool whether the directory is created successfully
+ */
+function create_directory($path, $mode = 0775, $recursive = true)
+{
+	if (is_dir($path)) {
+		return true;
+	}
+	$parentDir = dirname($path);
+	// recurse if parent dir does not exist and we are not at the root of the file system.
+	if ($recursive && !is_dir($parentDir) && $parentDir !== $path) {
+		create_directory($parentDir, $mode, true);
+	}
+	try {
+		if (!mkdir($path, $mode)) {
+			return false;
+		}
+	} catch (\Exception $e) {
+	}
+	try {
+		chmod($path, $mode);
+		return true;
+	} catch (\Exception $e) {
+	}
 }
 
 /**

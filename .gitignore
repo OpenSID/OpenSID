@@ -39,5 +39,4 @@ coba/
 log-*.php
 info.php
 **/.DS_Store
-
-
+web/assets/images/extra/*
