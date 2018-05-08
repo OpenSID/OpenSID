@@ -32,11 +32,8 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter =
     return $namaFileUnik;
 }
 
-function AmbilFoto($foto, $ukuran="kecil_")
-{
-  $ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
-  $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
-  return $file_foto;
+function AmbilFoto($foto, $ukuran="kecil_") {
+    return site_url('user_setting/avatar/'. $ukuran . $foto);
 }
 
 function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar){

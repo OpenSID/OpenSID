@@ -35,4 +35,9 @@ class User_setting extends CI_Controller{
 		redirect("main");
 	}
 
+	function avatar() {
+		$this->load->helper('download');
+		$avatar = LOKASI_USER_PICT . $this->security->sanitize_filename($this->uri->segments[3]);
+		force_download($avatar, null, true);
+	}
 }
