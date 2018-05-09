@@ -40,8 +40,17 @@
 		//Titik awal dan titik akhir poligon harus sama
 		daerah_desa.push(daerah_desa[0])
 
+		//Style polygon
+		var style_polygon = {
+			stroke: true,
+			color: '#555555',
+			opacity: 0.5,
+			weight: 2,
+			fillColor: '#8888dd',
+			fillOpacity: 0.05
+		}
 		//Menambahkan poligon ke marker
-		semua_marker.push(turf.polygon([daerah_desa], {content: "Wilayah Desa"}))
+		semua_marker.push(turf.polygon([daerah_desa], {content: "Wilayah Desa", style: style_polygon}))
 	<?php }?>
 
 //WILAYAH ADMINISTRATIF - DUSUN RW RT
@@ -199,13 +208,17 @@
 
 //PENDUDUK
 	<?php if($layer_penduduk==1 OR $layer_keluarga==1 ){?>
-	<?php $pendc = base_url()."assets/images/gis/point/pend.png";?>
-	var pend_icon = new google.maps.MarkerImage("<?php echo $pendc; ?>");
 	//Data penduduk
 	var penduduk = <?php echo json_encode($penduduk); ?>;
 	var jml = penduduk.length;
 	var poto;
 	var content;
+	var point_style = L.icon({
+		iconUrl: '<?php echo base_url()."assets/images/gis/point/pend.png";?>',
+		iconSize: [32, 37],
+		iconAnchor: [16, 37],
+		popupAnchor: [0, -28],
+	});
 	for(var x = 0; x < jml;x++){
 		if(penduduk[x].lat || penduduk[x].lng){
 
@@ -223,7 +236,7 @@
 				'<p><a href="<?php echo site_url("penduduk/detail/1/0/")?>'+penduduk[x].id+'" target="ajax-modalx" rel="content" header="Rincian Data '+penduduk[x].nama+'" >Data Rincian</a></p></td>'+
 				'</tr></table>';
 			//Menambahkan point ke marker
-			semua_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {content: content}));
+			semua_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {content: content, style: point_style}));
 		}
 	}
 
@@ -240,6 +253,16 @@
 			onEachFeature: function (feature, layer) {
 				//Menampilkan pesan berisi content pada saat diklik
 				layer.bindPopup(feature.properties.content);
+			},
+			//Method untuk menambahkan style ke polygon dan line
+			style: function(feature){
+				if(feature.properties.style){
+					return feature.properties.style;
+				}
+			},
+			//Method untuk menambahkan style ke point (titik marker)
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng, {icon: feature.properties.style});
 			}
 		}).addTo(mymap);
 	}
