@@ -1,8 +1,7 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
-class analisis_indikator extends CI_Controller{
+class Analisis_indikator extends CI_Controller{
 	function __construct(){
 		parent::__construct();
-		session_start();
 		$this->load->model('analisis_indikator_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');

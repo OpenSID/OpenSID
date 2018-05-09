@@ -104,10 +104,6 @@
                 </td>
               </tr>
               <tr>
-                <td>Alamat Tempat Lahir</td><td >:</td>
-                <td><?php echo $penduduk['alamat_tempat_lahir']?></td>
-              </tr>
-              <tr>
                 <td>Jenis Kelahiran</td><td >:</td>
                 <td>
                   <?php echo $penduduk['jenis_kelahiran_nama'] ?>

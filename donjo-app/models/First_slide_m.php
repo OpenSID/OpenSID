@@ -1,6 +1,6 @@
 <?php
 
-class First_Slide_M extends CI_Model{
+class First_slide_m extends CI_Model{
 
 	function __construct(){
 		parent::__construct();

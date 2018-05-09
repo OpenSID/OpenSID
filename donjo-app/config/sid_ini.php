@@ -31,10 +31,10 @@ $config["useDatabaseConfig"] = true;
 // buat setting berikut menjadi 'y'
 $config['demo'] = '';
 
-$config['defaultAdminAuthInfo'] = [
+$config['defaultAdminAuthInfo'] = array(
     'username' => 'admin',
     'password'=> 'sid304'
-];
+);
 
 // ==========================================================================
 

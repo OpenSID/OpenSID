@@ -1,8 +1,7 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class analisis_master extends CI_Controller{
+class Analisis_master extends CI_Controller{
 	function __construct(){
 		parent::__construct();
-		session_start();
 		$this->load->model('analisis_master_model');
 		$this->load->model('analisis_import_model');
 		$this->load->model('user_model');

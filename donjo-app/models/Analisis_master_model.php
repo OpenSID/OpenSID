@@ -1,5 +1,5 @@
 <?php
-class analisis_master_model extends CI_Model{
+class Analisis_master_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}

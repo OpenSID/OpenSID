@@ -1,10 +1,9 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class garis extends CI_Controller{
+class Garis extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) {

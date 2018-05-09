@@ -1,11 +1,10 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Hom_Desa extends CI_Controller{
+class Hom_desa extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1 AND $grup!=2) {
@@ -86,25 +85,6 @@ class Hom_Desa extends CI_Controller{
 	function update_wilayah_maps(){
 		$this->config_model->update_wilayah();
 		redirect("hom_desa/konfigurasi");
-	}
-
-	function upgrade_silent(){
-		$nav['act']= 0;
-		$header = $this->header_model->get_data();
-		$this->load->view('header',$header);
-		$this->load->view('home/nav',$nav);
-		$this->load->view('home/upgrade_form');
-		$this->load->view('footer');
-	}
-
-	function upgrader(){
-		$kode = $_POST['upkode'];
-		if($kode=="formasikombinasi")
-			$this->config_model->upgrade();
-		else
-			$_SESSION['success']=-1;
-
-		redirect("hom_desa/upgrade_silent");
 	}
 
 }

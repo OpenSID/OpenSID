@@ -118,7 +118,7 @@
 		/*
 			Tulis perubahan data kelahiran di form surat ke database
 		*/
-		$kolom = array('waktu_lahir','tempat_dilahirkan','alamat_tempat_lahir','jenis_kelahiran','kelahiran_anak_ke','penolong_kelahiran','berat_lahir','panjang_lahir');
+		$kolom = array('waktu_lahir','tempat_dilahirkan','tempatlahir','jenis_kelahiran','kelahiran_anak_ke','penolong_kelahiran','berat_lahir','panjang_lahir');
 		foreach($kolom as $item){
 			if($_POST[$item] != $bayi[$item])
 				$data[$item] = $_POST[$item];

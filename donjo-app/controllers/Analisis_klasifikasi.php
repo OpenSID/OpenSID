@@ -2,7 +2,6 @@
 class Analisis_klasifikasi extends CI_Controller{
 	function __construct(){
 		parent::__construct();
-		session_start();
 		$this->load->model('analisis_klasifikasi_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');

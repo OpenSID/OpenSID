@@ -154,10 +154,6 @@
   </td>
 </tr>
 <tr>
-  <th>Alamat Tempat Lahir </th>
-  <td><input name="alamat_tempat_lahir" type="text" class="inputbox" id="alamat_tempat_lahir" size="100" value="<?php echo $penduduk['alamat_tempat_lahir']?>"/></td>
-</tr>
-<tr>
   <th>Jenis Kelahiran </th>
   <td>
     <div class="uiradio">

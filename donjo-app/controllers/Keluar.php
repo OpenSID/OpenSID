@@ -4,7 +4,6 @@ class Keluar extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		session_start();
 		$this->load->model('user_model');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('surat_model');
@@ -17,6 +16,7 @@ class Keluar extends CI_Controller{
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
+        $this->load->helper('download');
 		$this->modul_ini = 4;
 	}
 
@@ -140,4 +140,13 @@ class Keluar extends CI_Controller{
 		else unset($_SESSION['nik']);
 		redirect('keluar/perorangan');
 	}
+
+    function cetak_surat_keluar($id){
+        $berkas = $this->db->select('nama_surat')->where('id', $id)->get('log_surat')->row();
+        ambilBerkas($berkas->nama_surat, 'keluar');
+    }
+    function unduh_lampiran($id){
+        $berkas = $this->db->select('lampiran')->where('id', $id)->get('log_surat')->row();
+        ambilBerkas($berkas->lampiran, 'keluar');
+    }
 }
