@@ -2,17 +2,25 @@
 (function() {
 	var infoWindow;
 	window.onload = function(){
+
+		//Pertama, kita set dulu posisi awal peta
+
+		//Menentukan posisi latitude dan longitude
         var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
+
+		//Besar zoom kepeta
         var zoom = 15;
-        var mymap = L.map('map').setView(posisi, zoom);
-        var daftarMarker = [];
-        var daftarPoint = []
+
+		//Inisialisasi peta, L adalah variabel global leafletJS
+        var peta = L.map('map').setView(posisi, zoom);  // L.map(id_peta_di_html).setView(posisi_lat_long, besar_zoom)
+
+		//Penambahan tile server OSM ke leafletJS
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
             id: 'mapbox.streets'
-        }).addTo(mymap);
-        //EOF Defenisi posisi awal peta
+        }).addTo(peta); // addTo(nama_variabel_peta) yang telah dinisialisasi diatas sebelumnya
+
 
 //WILAYAH DESA
 	<?php if($layer_desa==1){?>
@@ -194,8 +202,6 @@
 	var content;
 	for(var x = 0; x < jml;x++){
 		if(penduduk[x].lat || penduduk[x].lng){	
-			poto = '';
-			content = '';
 			if(penduduk[x].foto){
 				'<td><img src="'+AmbilFoto(penduduk[x].foto)+'" class="foto_pend"/></td>';
 			}else poto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
@@ -217,38 +223,10 @@
         onEachFeature: function (feature, layer) {
             layer.bindPopup(feature.properties.content);
         }
-    }).addTo(mymap);
+    }).addTo(peta);
 
 
-	<?php foreach($penduduk AS $data){if($data['lat'] != ""){?>
-		var pLatLng = new google.maps.LatLng(<?php echo $data['lat']?>,<?php echo $data['lng']?>);
-		var marker_<?php echo $data['id']?> = new google.maps.Marker({
-			position: pLatLng,
-			map: map,
-			title:"<?php echo $data['nama']?>"
-		});
-		bounds.extend(pLatLng);
-		var adaMarker = true;
-		google.maps.event.addListener(marker_<?php echo $data['id']?>, 'click', function(){
-			if(!infoWindow){
-				infoWindow = new google.maps.InfoWindow();
-			}
-			<?php if($data['foto']!=''){ ?>
-				var poto = '<td><img src="<?php echo AmbilFoto($data['foto'])?>" class="foto_pend"/></td>';
-			<?php } else { ?>
-				var poto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
-			<?php } ?>
-
-			var content = '<table border=0><tr>' + poto +
-				'<td style="padding-left:2px"><font size="2.5" style="bold"><?php echo $data['nama']?></font> - <?php echo ucwords(strtolower($data['sex']))?>' +
-				'<p><?php echo $data['umur']?> Tahun (<?php echo $data['agama']?>)</p>'+
-				'<p><?php echo $data['alamat']?></p>'+
-				'<p><a href="<?php echo site_url("penduduk/detail/1/0/$data[id]")?>" target="ajax-modalx" rel="content" header="Rincian Data <?php echo $data['nama']?>" >Data Rincian</a></p></td>'+
-				'</tr></table>';
-			infoWindow.setContent(content);
-			infoWindow.open(map, marker_<?php echo $data['id']?>);
-		});
-	<?php }}}?>
+	}}?>
 	if (adaMarker) { map.fitBounds(bounds) };
 	};
 
