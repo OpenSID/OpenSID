@@ -24,25 +24,24 @@
 //WILAYAH DESA
 	<?php if($layer_desa==1){?>
 	<?php
+		//Daftar path poligon desa. Harus diproses agar membentuk sebuah array yang bisa diproses javascript
 		$path = preg_replace(["/\;/","/\)/","/\(/"],[",","]","["], $desa['path']);
 		$path = substr($path, 0 , -1);
 	?>
+		//daerah_desa berupa kumpulan array berisi lat dan long
 		var daerah_desa = [<?php echo $path; ?>];
 		var jml = daerah_desa.length;
+
+		//TurfJS menangkap nilai lat dan long secara terbalik (long, lat)
+		//Maka perlu dilakukan proses membalikan array agar menjadi (long, lat)
 		for(var x = 0; x < jml; x++){
 			daerah_desa[x].reverse();
 		}
+		//Titik awal dan titik akhir poligon harus sama
 		daerah_desa.push(daerah_desa[0])
-		semua_marker.push(turf.polygon([daerah_desa], {content: "Daerah Desa"}))
-		// var desa = new google.maps.Polygon({
-		// 	paths: path,
-		// 	map: map,
-		// 	strokeColor: '#555555',
-		// 	strokeOpacity: 0.5,
-		// 	strokeWeight: 2,
-		// 	fillColor: '#8888dd',
-		// 	fillOpacity: 0.05
-		// });
+
+		//Menambahkan poligon ke marker
+		semua_marker.push(turf.polygon([daerah_desa], {content: "Wilayah Desa"}))
 	<?php }?>
 
 //WILAYAH ADMINISTRATIF - DUSUN RW RT
@@ -202,22 +201,28 @@
 	<?php if($layer_penduduk==1 OR $layer_keluarga==1 ){?>
 	<?php $pendc = base_url()."assets/images/gis/point/pend.png";?>
 	var pend_icon = new google.maps.MarkerImage("<?php echo $pendc; ?>");
+	//Data penduduk
 	var penduduk = <?php echo json_encode($penduduk); ?>;
 	var jml = penduduk.length;
 	var poto;
 	var content;
 	for(var x = 0; x < jml;x++){
 		if(penduduk[x].lat || penduduk[x].lng){
+
+			//Jika penduduk ada foto, maka pakai foto tersebut
+			//Jika tidak, pakai foto default
 			if(penduduk[x].foto){
 				'<td><img src="'+AmbilFoto(penduduk[x].foto)+'" class="foto_pend"/></td>';
 			}else poto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
-
+			
+			//Konten yang akan ditampilkan saat marker diklik
 			var content = '<table border=0><tr>' + poto +
 				'<td style="padding-left:2px"><font size="2.5" style="bold">'+penduduk[x].nama+'</font> - '+penduduk[x].sex+
 				'<p>'+penduduk[x].umur+' Tahun '+penduduk[x].agama+'</p>'+
 				'<p>'+penduduk[x].alamat+'</p>'+
 				'<p><a href="<?php echo site_url("penduduk/detail/1/0/")?>'+penduduk[x].id+'" target="ajax-modalx" rel="content" header="Rincian Data '+penduduk[x].nama+'" >Data Rincian</a></p></td>'+
 				'</tr></table>';
+			//Menambahkan point ke marker
 			semua_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {content: content}));
 		}
 	}
@@ -225,14 +230,15 @@
 	<?php }?>
 //EOF PENDUDUK
 
-	console.log(semua_marker)
 	//Jika tidak ada centang yang dipilih, maka tidak perlu memproses geojson
 	if (semua_marker.length != 0) {
 		//Menciptakan geojson dengan turf berdasarkan variabel 'semua_marker'
 		var geojson = turf.featureCollection(semua_marker);
 		//Menjalankan geojson menggunakan leaflet
 		L.geoJSON(geojson, {
+			//Method yang dijalankan ketika marker diklik
 			onEachFeature: function (feature, layer) {
+				//Menampilkan pesan berisi content pada saat diklik
 				layer.bindPopup(feature.properties.content);
 			}
 		}).addTo(mymap);
