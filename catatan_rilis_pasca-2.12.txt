@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi pasca-2.12:
 10: #992: Tampilkan status aktif/non-aktif untuk daftar di SID Home > Pemerintah Desa.
 11. #990: Sekarang aparatur desa yang tidak aktif tidak tampil di widget Aparatur Desa. [bug-fix]
 12. #941: Sekarang nama dan lokasi berkas surat dan lampiran di Arsip Layanan tidak tampil di url tombol unduh. [security-fix]
+13. Perubahan halaman login modul Admin supaya menjadi responsif menggunakan bootstrap.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 

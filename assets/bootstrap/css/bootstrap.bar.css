@@ -1121,7 +1121,7 @@ img {
 .thumbnail a > img,
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
-  display: block;
+  /*display: block;*/
   max-width: 100%;
   height: auto;
 }
@@ -1802,7 +1802,7 @@ pre code {
     width: 58.33333333%;
   }
   .col-sm-6 {
-    width: 50%;
+    width: 36%;
   }
   .col-sm-5 {
     width: 41.66666667%;
@@ -1925,7 +1925,7 @@ pre code {
     margin-left: 33.33333333%;
   }
   .col-sm-offset-3 {
-    margin-left: 25%;
+    margin-left: 30%;
   }
   .col-sm-offset-2 {
     margin-left: 16.66666667%;
