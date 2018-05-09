@@ -3,7 +3,6 @@ class Web extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		session_start();
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website

@@ -2,7 +2,6 @@
 class Modul extends CI_Controller{
 	function __construct(){
 		parent::__construct();
-		session_start();
 		$this->load->model('user_model');
 		$this->load->model('modul_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);

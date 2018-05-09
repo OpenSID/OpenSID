@@ -4,7 +4,6 @@ class Siteman extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		session_start();
 		siteman_timeout();
 		$this->load->model('header_model');
 		$this->load->model('user_model');

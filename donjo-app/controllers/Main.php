@@ -1,11 +1,6 @@
 <?php
-class Main extends CI_Controller {
-
-	function __construct(){
-		parent::__construct();
-		session_start();
-	}
-
+class Main extends CI_Controller
+{
 	function index(){
 		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1){
 			$this->load->model('user_model');
