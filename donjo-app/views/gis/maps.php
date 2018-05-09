@@ -17,7 +17,7 @@
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
             id: 'mapbox.streets'
         }).addTo(mymap); //Menambahkan tile layer ke variabel 'peta'
-
+    
 		//Semua marker akan ditampung divariabel ini
 		var semua_marker = [];
 
@@ -208,7 +208,6 @@
 	var content;
 	for(var x = 0; x < jml;x++){
 		if(penduduk[x].lat || penduduk[x].lng){
-
 			//Jika penduduk ada foto, maka pakai foto tersebut
 			//Jika tidak, pakai foto default
 			if(penduduk[x].foto){
@@ -226,7 +225,6 @@
 			semua_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {content: content}));
 		}
 	}
-
 	<?php }?>
 //EOF PENDUDUK
 
