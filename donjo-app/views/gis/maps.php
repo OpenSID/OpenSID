@@ -2,19 +2,17 @@
 (function() {
 	var infoWindow;
 	window.onload = function(){
-		var options = {
-		<?php if($desa['lat']!=""){?>
-			center: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
-			zoom: <?php echo $desa['zoom']?>,
-			mapTypeId: google.maps.MapTypeId.<?php echo strtoupper($desa['map_tipe'])?>
-		<?php }else{?>
-			center: new google.maps.LatLng(<?php echo $desa['lat'].','.$desa['lng']?>),
-			zoom: 14,
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		<?php }?>
-		};
-		var map = new google.maps.Map(document.getElementById('map'), options);
-	  var bounds = new google.maps.LatLngBounds();
+        var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
+        var zoom = 15;
+        var mymap = L.map('map').setView(posisi, zoom);
+        var daftarMarker = [];
+        var daftarPoint = []
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+            id: 'mapbox.streets'
+        }).addTo(mymap);
+        //EOF Defenisi posisi awal peta
 
 //WILAYAH DESA
 	<?php if($layer_desa==1){?>
@@ -188,7 +186,39 @@
 //PENDUDUK
 	<?php if($layer_penduduk==1 OR $layer_keluarga==1 ){?>
 	<?php $pendc = base_url()."assets/images/gis/point/pend.png";?>
-	var pend_icon = new google.maps.MarkerImage("<?php echo $pendc?>");
+	var pend_icon = new google.maps.MarkerImage("<?php echo $pendc; ?>");
+	var penduduk = <?php echo json_encode($penduduk); ?>;
+	var jml = penduduk.length;
+	var penduduk_marker = [];
+	var poto;
+	var content;
+	for(var x = 0; x < jml;x++){
+		if(penduduk[x].lat || penduduk[x].lng){	
+			poto = '';
+			content = '';
+			if(penduduk[x].foto){
+				'<td><img src="'+AmbilFoto(penduduk[x].foto)+'" class="foto_pend"/></td>';
+			}else poto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
+
+			var content = '<table border=0><tr>' + poto +
+				'<td style="padding-left:2px"><font size="2.5" style="bold">'+penduduk[x].nama+'</font> - '+penduduk[x].sex+
+				'<p>'+penduduk[x].umur+' Tahun '+penduduk[x].agama+'</p>'+
+				'<p>'+penduduk[x].alamat+'</p>'+
+				'<p><a href="<?php echo site_url("penduduk/detail/1/0/")?>'+penduduk[x].id+'" target="ajax-modalx" rel="content" header="Rincian Data '+penduduk[x].nama+'" >Data Rincian</a></p></td>'+
+				'</tr></table>';
+			penduduk_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {content: content}));
+		}
+	}
+
+    //Menciptakan geojson dengan turf berdasarkan data sebelumnya
+    var geojson = turf.featureCollection(penduduk_marker);
+    //Menjalankan geojson menggunakan leaflet
+    L.geoJSON(geojson, {
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(feature.properties.content);
+        }
+    }).addTo(mymap);
+
 
 	<?php foreach($penduduk AS $data){if($data['lat'] != ""){?>
 		var pLatLng = new google.maps.LatLng(<?php echo $data['lat']?>,<?php echo $data['lng']?>);
@@ -296,6 +326,12 @@ function handle_line(cb) {
 }
 function handle_point(cb) {
   formAction('mainform','<?php echo site_url('gis')?>/layer_point');
+}
+function AmbilFoto(foto, ukuran = "kecil_")
+{
+  ukuran_foto = ukuran || null
+  file_foto = '<?php echo base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
+  return file_foto;
 }
 </script>
 
