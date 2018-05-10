@@ -1,11 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
-        crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
-        crossorigin=""></script>
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
+    <script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+    <script src="<?php echo base_url()?>assets/js/turf.min.js"></script>
 <title><?php
 	echo $this->setting->admin_title
 		. ' ' . ucwords($this->setting->sebutan_desa)
