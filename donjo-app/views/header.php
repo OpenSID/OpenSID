@@ -27,7 +27,10 @@
 
 		<!-- leafletjs untuk GIS -->
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
-    	<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+		<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+		<!-- leafletjsPM untuk editor GIS -->
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.pm.css" />
+    	<script src="<?php echo base_url()?>assets/js/leaflet.pm.min.js"></script>
 
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>

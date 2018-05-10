@@ -22,23 +22,19 @@
 		var semua_marker = [];
 
 //WILAYAH DESA
-	<?php if($layer_desa==1){?>
-	<?php
-		//Daftar path poligon desa. Harus diproses agar membentuk sebuah array yang bisa diproses javascript
-		$path = preg_replace(["/\;/","/\)/","/\(/"],[",","]","["], $desa['path']);
-		$path = substr($path, 0 , -1);
-	?>
+	<?php if($layer_desa==1 && !empty($desa['path'])){?>
 		//daerah_desa berupa kumpulan array berisi lat dan long
-		var daerah_desa = [<?php echo $path; ?>];
-		var jml = daerah_desa.length;
+		//array polygon memiliki kedalaman 2 array [[latlong]]
+		var daerah_desa = <?php echo $desa['path']; ?>;
+		var jml = daerah_desa[0].length;
 
 		//Titik awal dan titik akhir poligon harus sama
-		daerah_desa.push(daerah_desa[0])
+		daerah_desa[0].push(daerah_desa[0][0]);
 
 		//TurfJS menangkap nilai lat dan long secara terbalik (long, lat)
 		//Maka perlu dilakukan proses membalikan array agar menjadi (long, lat)
 		for(var x = 0; x < jml; x++){
-			daerah_desa[x].reverse();
+			daerah_desa[0][x].reverse();
 		}
 
 		//Style polygon
@@ -51,7 +47,7 @@
 			fillOpacity: 0.05
 		}
 		//Menambahkan poligon ke marker
-		semua_marker.push(turf.polygon([daerah_desa], {content: "Wilayah Desa", style: style_polygon}))
+		semua_marker.push(turf.polygon(daerah_desa, {content: "Wilayah Desa", style: style_polygon}))
 	<?php }?>
 
 //WILAYAH ADMINISTRATIF - DUSUN RW RT
@@ -208,7 +204,7 @@
 	<?php }}}?>
 
 //PENDUDUK
-	<?php if($layer_penduduk==1 OR $layer_keluarga==1 ){?>
+	<?php if($layer_penduduk==1 OR $layer_keluarga==1 AND !empty($penduduk)){?>
 	//Data penduduk
 	var penduduk = <?php echo json_encode($penduduk); ?>;
 	var jml = penduduk.length;

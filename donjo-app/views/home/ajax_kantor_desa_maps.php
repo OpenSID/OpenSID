@@ -15,7 +15,7 @@
 		  document.getElementById('lng').value = e.target._latlng.lng;
 		  document.getElementById('map_tipe').value = "HYBRID"
     })
-    lokasi_kantor.on('zoomend', function(e){
+    lokasi_kantor.on('zoomstart zoomend', function(e){
       document.getElementById('zoom').value = e.target._zoom
     })
 })();
