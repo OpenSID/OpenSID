@@ -32,13 +32,14 @@
 		var daerah_desa = [<?php echo $path; ?>];
 		var jml = daerah_desa.length;
 
+		//Titik awal dan titik akhir poligon harus sama
+		daerah_desa.push(daerah_desa[0])
+
 		//TurfJS menangkap nilai lat dan long secara terbalik (long, lat)
 		//Maka perlu dilakukan proses membalikan array agar menjadi (long, lat)
 		for(var x = 0; x < jml; x++){
 			daerah_desa[x].reverse();
 		}
-		//Titik awal dan titik akhir poligon harus sama
-		daerah_desa.push(daerah_desa[0])
 
 		//Style polygon
 		var style_polygon = {
@@ -55,10 +56,10 @@
 
 //WILAYAH ADMINISTRATIF - DUSUN RW RT
 	<?php if($layer_wilayah==1){?>
+	var path_lokasi = <?php echo json_encode($wilayah); ?>;
 	<?php foreach($wilayah AS $wil){?>
 		<?php $path = preg_split("/\;/", $wil['path']);
 		echo "var path_$wil[id] = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
-
 		var wil = new google.maps.Polygon({
 			paths: path_<?php echo $wil['id']?>,
 			map: map,
@@ -243,10 +244,8 @@
 
 	//Jika tidak ada centang yang dipilih, maka tidak perlu memproses geojson
 	if (semua_marker.length != 0) {
-		//Menciptakan geojson dengan turf berdasarkan variabel 'semua_marker'
-		var geojson = turf.featureCollection(semua_marker);
 		//Menjalankan geojson menggunakan leaflet
-		L.geoJSON(geojson, {
+		var geojson = L.geoJSON(turf.featureCollection(semua_marker), {
 			//Method yang dijalankan ketika marker diklik
 			onEachFeature: function (feature, layer) {
 				//Menampilkan pesan berisi content pada saat diklik
@@ -263,6 +262,9 @@
 				return L.marker(latlng, {icon: feature.properties.style});
 			}
 		}).addTo(mymap);
+
+		//Mempusatkan tampilan map agar semua marker terlihat
+		mymap.fitBounds(geojson.getBounds());
 	}
 	}; //EOF window.onload
 
