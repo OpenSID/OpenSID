@@ -194,28 +194,21 @@
 			else $_SESSION['success']=-1;
 	}
 
-	function upload($url=""){
+	public function upload($url="")
+	{
+		$_SESSION['success']=1;
 		$_SESSION['error_msg'] = '';
 
 		// Folder desa untuk surat ini
 		$folder_surat = LOKASI_SURAT_DESA.$url."/";
 		if (!file_exists($folder_surat)) {
-			mkdir($folder_surat, 0777, true);
+			mkdir($folder_surat, 0755, true);
 		}
 		// index.html untuk menutup akses ke folder melalui browser
 		copy("surat/raw/"."index.html", $folder_surat."index.html");
 
-		$tipe_file   = $_FILES['foto']['type'];
-		$mime_type_rtf = array("application/rtf", "text/rtf", "application/msword");
-		if(!in_array($tipe_file, $mime_type_rtf)){
-			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-			$_SESSION['success']=-1;
-		} else {
-			// Upload ke folder surat ubahan desa
-			$vdir_upload = $folder_surat . $url . ".rtf";
-			move_uploaded_file($_FILES["foto"]["tmp_name"], $vdir_upload);
-			$_SESSION['success']=1;
-		}
+		$nama_file_rtf = $url . ".rtf";
+		$this->uploadBerkas('rtf', $folder_surat, 'foto', 'surat_master', $nama_file_rtf);
 		$this->salin_lampiran($url, $folder_surat);
 	}
 
@@ -370,6 +363,51 @@
 				$this->db->insert('tweb_surat_format',$data);
 			}
 		}
+	}
+
+	/***
+		* @return
+			- success: nama berkas yang diunggah
+			- fail: NULL
+	*/
+	private function uploadBerkas($allowed_types, $upload_path, $lokasi, $redirect, $nama_file)
+	{
+		// Untuk dapat menggunakan library upload
+		$this->load->library('upload');
+		// Untuk dapat menggunakan fungsi generator()
+		$this->load->helper('donjolib');
+		$this->upload_config = array(
+			'upload_path' => $upload_path,
+			'allowed_types' => $allowed_types,
+			'max_size' => max_upload()*1024,
+			'file_name' => $nama_file,
+			'overwrite' => TRUE
+		);
+		// Adakah berkas yang disertakan?
+		$ada_berkas = !empty($_FILES[$lokasi]['name']);
+		if ($ada_berkas !== TRUE) {
+			return NULL;
+		}
+		// Tes tidak berisi script PHP
+		if(isPHP($_FILES[$lokasi]['tmp_name'], $_FILES[$lokasi]['name'])){
+			$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+			$_SESSION['success']=-1;
+			redirect($redirect);
+		}
+
+		$upload_data = NULL;
+		// Inisialisasi library 'upload'
+		$this->upload->initialize($this->upload_config);
+		// Upload sukses
+		if ($this->upload->do_upload($lokasi)) {
+			$upload_data = $this->upload->data();
+		}
+		// Upload gagal
+		else {
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL);
+		}
+		return (!empty($upload_data)) ? $upload_data['file_name'] : NULL;
 	}
 
 }

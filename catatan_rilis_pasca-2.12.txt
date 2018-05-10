@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi pasca-2.12:
 12. #941: Sekarang nama dan lokasi berkas surat dan lampiran di Arsip Layanan tidak tampil di url tombol unduh. [security-fix]
 13. Perubahan halaman login modul Admin supaya menjadi responsif menggunakan bootstrap.
 14. #923: Berkas foto pengguna sekarang tersimpan dalam ukuran 100x100. Proses insert/update foto pengguna dan update foto setting user sekarang digabung supaya konsisten. [teknis]
+15. #1008: Tutup celah unggah script PHP melalui unggah template rtf surat master.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
