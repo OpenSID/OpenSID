@@ -262,15 +262,10 @@ class User_model extends CI_Model {
 	 */
 	public function insert()
 	{
-		$data = $this->input->post(NULL);
-		$adaLampiran = !empty($_FILES['foto']['name']);
+		$_SESSION['error_msg'] = NULL;
+		$_SESSION['success'] = 1;
 
-		if ((strlen($_FILES['foto']['name']) + 20 ) >= 100)
-		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Nama berkas scan telalu panjang, maksimal 80 karakter';
-			redirect('man_user');
-		}
+		$data = $this->input->post(NULL);
 
 		$sql = "SELECT username FROM user WHERE username = ?";
 		$dbQuery = $this->db->query($sql, array($data['username']));
@@ -284,58 +279,16 @@ class User_model extends CI_Model {
 			redirect('man_user');
 		}
 
-		$uploadData = NULL;
-		$uploadError = NULL;
-
-		if ($adaLampiran === TRUE)
-		{
-			// Tes tidak berisi script PHP
-			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
-				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
-				$_SESSION['success']=-1;
-				redirect('man_user');
-			}
-
-			$this->upload->initialize($this->uploadConfig);
-
-			if ($this->upload->do_upload('foto'))
-			{
-				$uploadData = $this->upload->data();
-				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
-                $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
-				$fileRenamed = rename(
-					$this->uploadConfig['upload_path'].$uploadData['file_name'],
-					$this->uploadConfig['upload_path'].'kecil_'.$namaFileUnik
-				);
-				$uploadData['file_name'] = $fileRenamed ? 'kecil_'.$namaFileUnik : $uploadData['file_name'];
-			}
-			// Upload gagal
-			else
-			{
-				$uploadError = $this->upload->display_errors(NULL, NULL);
-				$data['foto'] = NULL;
-			}
-
-			$data['foto'] = $adaLampiran && !is_null($uploadData) ? $uploadData['file_name'] : NULL;
-		}
-		// Tidak ada lampiran foto
-		else
-		{
-			$data['foto'] = NULL;
-			$uploadError = NULL;
-		}
 		$pwHash = $this->generatePasswordHash($data['password']);
 		$data['password'] = $pwHash;
 		$data['session'] = md5(now());
-		// Helper function pict_helper::AmbilFoto() membuat nama file di database dan di disk tidak sama
-		// Fungsi tersebut menambah prefix 'kecil_' pada nama file di disk,
-		// sedangkan nama di database tidak ditambah. Menyulitkan programmer lain.
-		$data['foto'] = is_null($data['foto']) ? 'kuser.png' : str_replace('kecil_', '', $data['foto']);
 
-		$dbInserted = is_null($uploadError) && $this->db->insert('user', $data);
+		$data['foto'] = $this->urusFoto();
 
-		$_SESSION['success'] = $dbInserted ? 1 : -1;
-		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
+		if (!$this->db->insert('user', $data)) {
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Gagal memperbarui data di database';
+		}
 	}
 
 	/**
@@ -346,7 +299,7 @@ class User_model extends CI_Model {
 	public function update($idUser)
 	{
 		$_SESSION['error_msg'] = NULL;
-		$_SESSION['success'] = NULL;
+		$_SESSION['success'] = 1;
 
 		$data = $this->input->post(NULL);
 
@@ -366,18 +319,6 @@ class User_model extends CI_Model {
 			redirect('man_user');
 		}
 
-		$sql = "SELECT foto FROM user WHERE id = ?";
-		$dbQuery = $this->db->query($sql, array($idUser));
-		$berkasLama = $dbQuery->row();
-		$berkasLama = is_object($berkasLama) ? $berkasLama->foto : 'kuser.png';
-		$lokasiBerkasLama = $this->uploadConfig['upload_path'].'kecil_'.$berkasLama;
-		$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
-
-		$uploadData = NULL;
-		$uploadError = NULL;
-
-		$indikatorSukses = FALSE;
-
 		if ($id == 1 && config_item('demo'))
 		{
 			unset($data['username'], $data['password']);
@@ -388,73 +329,13 @@ class User_model extends CI_Model {
 			$data['password'] = $pwHash;
 		}
 
+		$data['foto'] = $this->urusFoto($idUser);
 
-		$adaLampiran = !empty($_FILES['foto']['name']);
-
-		if ((strlen($_FILES['foto']['name']) + 20 ) >= 100)
-		{
+		if (!$this->db->where('id', $idUser)->update('user', $data)) {
 			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Nama berkas foto terlalu panjang, maksimal 80 karakter';
-			redirect('man_user');
+			$_SESSION['error_msg'] = ' -> Gagal memperbarui data di database';
 		}
-
-		// Ada lampiran file
-		if ($adaLampiran === TRUE)
-		{
-			// Tes tidak berisi script PHP
-			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
-				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
-				$_SESSION['success']=-1;
-				redirect('man_user');
-			}
-
-			// Inisialisasi library 'upload'
-			$this->upload->initialize($this->uploadConfig);
-			// Upload sukses
-			if ($this->upload->do_upload('foto'))
-			{
-				$uploadData = $this->upload->data();
-				$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
-                $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
-				$fileRenamed = rename(
-					$this->uploadConfig['upload_path'].$uploadData['file_name'],
-					$this->uploadConfig['upload_path'].'kecil_'.$namaFileUnik
-				);
-				$data['foto'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
-				if ($berkasLama !== 'kecil_kuser.png') {
-					unlink($lokasiBerkasLama);
-					$indikatorSukses = !file_exists($lokasiBerkasLama);
-				}
-				else
-				{
-					$indikatorSukses = TRUE;
-				}
-			}
-			// Upload gagal
-			else
-			{
-				$uploadError = $this->upload->display_errors(NULL, NULL);
-				$indikatorSukses = FALSE;
-				$data['foto'] = $berkasLama;
-			}
-		}
-		// Tidak ada lampiran foto
-		else
-		{
-			$data['foto'] = NULL;
-			$uploadError = NULL;
-			$indikatorSukses = TRUE;
-		}
-
-		$data['foto'] = is_null($data['foto']) ? $berkasLama : str_replace('kecil_', '', $data['foto']);
-
-		$this->db->where('id', $idUser);
-		$indikatorSukses = $indikatorSukses && $this->db->update('user', $data);
-		$_SESSION['success'] = $indikatorSukses === TRUE ? 1 : -1;
-		$_SESSION['error_msg'] = ($_SESSION['success'] === 1)
-			? NULL : ' -> Gagal memperbarui data di database';
 	}
-
 
 	function delete($idUser = '') {
 		// Jangan hapus admin
@@ -572,26 +453,8 @@ class User_model extends CI_Model {
 		}
 
 		// Update foto
-		// TODO : mestinya pake cara upload CI?
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		// Normalkan nama file
-		$nama_file = str_replace(' ', '-', $nama_file);
-		$old_foto = $this->input->post('old_foto');
-		if (!empty($lokasi_file)) {
+		$data['foto'] = $this->urusFoto($id);
 
-			// Tes tidak berisi script PHP
-			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
-				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
-				$_SESSION['success']=-1;
-				return;
-			}
-
-			if (UploadFoto($nama_file, $old_foto, $tipe_file)) {
-				$data['foto'] = $nama_file;
-			}
-		}
 		$this->db->where('id', $id);
 		$hasil = $this->db->update('user', $data);
 
@@ -722,6 +585,98 @@ class User_model extends CI_Model {
 		}
 
 		return $pwHash;
+	}
+
+	/***
+		* @return
+			- success: nama berkas yang diunggah
+			- fail: nama berkas lama, kalau ada
+	*/
+	private function urusFoto($idUser='')
+	{
+		if ($idUser) {
+			$berkasLama = $this->db->select('foto')->where('id', $idUser)->get('user')->row();
+			$berkasLama = is_object($berkasLama) ? $berkasLama->foto : 'kuser.png';
+			$lokasiBerkasLama = $this->uploadConfig['upload_path'].'kecil_'.$berkasLama;
+			$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
+		} else {
+			$berkasLama = NULL;
+		}
+
+		$nama_foto = $this->uploadFoto('gif|jpg|jpeg|png', LOKASI_USER_PICT, 'foto', 'man_user');
+
+		if (!empty($nama_foto)) {
+			// Ada foto yang berhasil diunggah --> simpan ukuran 100 x 100
+			$tipe_file = TipeFile($_FILES['foto']);
+			$dimensi = array("width"=>100, "height"=>100);
+			resizeImage(LOKASI_USER_PICT.$nama_foto, $tipe_file, $dimensi);
+			// Nama berkas diberi prefix 'kecil'
+			$nama_kecil = 'kecil_'.$nama_foto;
+			$fileRenamed = rename(
+				LOKASI_USER_PICT.$nama_foto,
+				LOKASI_USER_PICT.$nama_kecil
+			);
+			if ($fileRenamed) $nama_foto = $nama_kecil;
+			// Hapus berkas lama
+			if ($berkasLama and $berkasLama !== 'kecil_kuser.png') {
+				unlink($lokasiBerkasLama);
+				if (file_exists($lokasiBerkasLama)) $_SESSION['success'] = -1;
+			}
+		}
+
+		return is_null($nama_foto) ? $berkasLama : str_replace('kecil_', '', $nama_foto);
+	}
+
+	/***
+		* @return
+			- success: nama berkas yang diunggah
+			- fail: NULL
+	*/
+	private function uploadFoto($allowed_types, $upload_path, $lokasi, $redirect)
+	{
+		// Adakah berkas yang disertakan?
+		$adaBerkas = !empty($_FILES[$lokasi]['name']);
+		if ($adaBerkas !== TRUE) {
+			return NULL;
+		}
+		// Tes tidak berisi script PHP
+		if(isPHP($_FILES[$lokasi]['tmp_name'], $_FILES[$lokasi]['name'])){
+			$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
+			$_SESSION['success']=-1;
+			redirect($redirect);
+		}
+
+		if ((strlen($_FILES[$lokasi]['name']) + 20 ) >= 100)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Nama berkas foto terlalu panjang, maksimal 80 karakter';
+			redirect($redirect);
+		}
+
+		$uploadData = NULL;
+		// Inisialisasi library 'upload'
+		$this->upload->initialize($this->uploadConfig);
+		// Upload sukses
+		if ($this->upload->do_upload($lokasi)) {
+			$uploadData = $this->upload->data();
+			// Buat nama file unik agar url file susah ditebak dari browser
+			$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+      $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
+			// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+			$fileRenamed = rename(
+				$this->uploadConfig['upload_path'].$uploadData['file_name'],
+				$this->uploadConfig['upload_path'].$namaFileUnik
+			);
+			// Ganti nama di array upload jika file berhasil di-rename --
+			// jika rename gagal, fallback ke nama asli
+			$uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+		}
+		// Upload gagal
+		else {
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL);
+		}
+		return (!empty($uploadData)) ? $uploadData['file_name'] : NULL;
 	}
 
 }
