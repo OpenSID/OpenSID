@@ -2,40 +2,55 @@
 (function() {
 	var infoWindow;
 	window.onload = function(){
-
-		//Pertama, kita set dulu posisi awal peta
-
-		//Menentukan posisi latitude dan longitude
+		//Pertama, tentukan latitude dan longitude posisi awal peta
         var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
 
-		//Besar zoom kepeta
-        var zoom = 15;
+		//Penentuan besar zoom terhadap peta untuk pertama kali
+        var zoom = 13;
 
-		//Inisialisasi peta, L adalah variabel global leafletJS
-        var peta = L.map('map').setView(posisi, zoom);  // L.map(id_peta_di_html).setView(posisi_lat_long, besar_zoom)
+		//Membuat peta, dan menyimpannya ke variabel 'peta' secara global
+        var mymap = L.map('map').setView(posisi, zoom);
 
-		//Penambahan tile server OSM ke leafletJS
+		//Menambahkan tile layer OSM ke peta
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
             id: 'mapbox.streets'
-        }).addTo(peta); // addTo(nama_variabel_peta) yang telah dinisialisasi diatas sebelumnya
-
+        }).addTo(mymap); //Menambahkan tile layer ke variabel 'peta'
+    
+		//Semua marker akan ditampung divariabel ini
+		var semua_marker = [];
 
 //WILAYAH DESA
 	<?php if($layer_desa==1){?>
-	<?php $path = preg_split("/\;/", $desa['path']);
-		echo "var path = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
+	<?php
+		//Daftar path poligon desa. Harus diproses agar membentuk sebuah array yang bisa diproses javascript
+		$path = preg_replace(["/\;/","/\)/","/\(/"],[",","]","["], $desa['path']);
+		$path = substr($path, 0 , -1);
+	?>
+		//daerah_desa berupa kumpulan array berisi lat dan long
+		var daerah_desa = [<?php echo $path; ?>];
+		var jml = daerah_desa.length;
 
-		var desa = new google.maps.Polygon({
-			paths: path,
-			map: map,
-			strokeColor: '#555555',
-			strokeOpacity: 0.5,
-			strokeWeight: 2,
+		//TurfJS menangkap nilai lat dan long secara terbalik (long, lat)
+		//Maka perlu dilakukan proses membalikan array agar menjadi (long, lat)
+		for(var x = 0; x < jml; x++){
+			daerah_desa[x].reverse();
+		}
+		//Titik awal dan titik akhir poligon harus sama
+		daerah_desa.push(daerah_desa[0])
+
+		//Style polygon
+		var style_polygon = {
+			stroke: true,
+			color: '#555555',
+			opacity: 0.5,
+			weight: 2,
 			fillColor: '#8888dd',
 			fillOpacity: 0.05
-		});
+		}
+		//Menambahkan poligon ke marker
+		semua_marker.push(turf.polygon([daerah_desa], {content: "Wilayah Desa", style: style_polygon}))
 	<?php }?>
 
 //WILAYAH ADMINISTRATIF - DUSUN RW RT
@@ -193,42 +208,63 @@
 
 //PENDUDUK
 	<?php if($layer_penduduk==1 OR $layer_keluarga==1 ){?>
-	<?php $pendc = base_url()."assets/images/gis/point/pend.png";?>
-	var pend_icon = new google.maps.MarkerImage("<?php echo $pendc; ?>");
+	//Data penduduk
 	var penduduk = <?php echo json_encode($penduduk); ?>;
 	var jml = penduduk.length;
-	var penduduk_marker = [];
 	var poto;
 	var content;
+	var point_style = L.icon({
+		iconUrl: '<?php echo base_url()."assets/images/gis/point/pend.png";?>',
+		iconSize: [32, 37],
+		iconAnchor: [16, 37],
+		popupAnchor: [0, -28],
+	});
 	for(var x = 0; x < jml;x++){
-		if(penduduk[x].lat || penduduk[x].lng){	
+		if(penduduk[x].lat || penduduk[x].lng){
+			//Jika penduduk ada foto, maka pakai foto tersebut
+			//Jika tidak, pakai foto default
 			if(penduduk[x].foto){
 				'<td><img src="'+AmbilFoto(penduduk[x].foto)+'" class="foto_pend"/></td>';
 			}else poto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
-
+			
+			//Konten yang akan ditampilkan saat marker diklik
 			var content = '<table border=0><tr>' + poto +
 				'<td style="padding-left:2px"><font size="2.5" style="bold">'+penduduk[x].nama+'</font> - '+penduduk[x].sex+
 				'<p>'+penduduk[x].umur+' Tahun '+penduduk[x].agama+'</p>'+
 				'<p>'+penduduk[x].alamat+'</p>'+
 				'<p><a href="<?php echo site_url("penduduk/detail/1/0/")?>'+penduduk[x].id+'" target="ajax-modalx" rel="content" header="Rincian Data '+penduduk[x].nama+'" >Data Rincian</a></p></td>'+
 				'</tr></table>';
-			penduduk_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {content: content}));
+			//Menambahkan point ke marker
+			semua_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {content: content, style: point_style}));
 		}
 	}
+	<?php }?>
+//EOF PENDUDUK
 
-    //Menciptakan geojson dengan turf berdasarkan data sebelumnya
-    var geojson = turf.featureCollection(penduduk_marker);
-    //Menjalankan geojson menggunakan leaflet
-    L.geoJSON(geojson, {
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.content);
-        }
-    }).addTo(peta);
-
-
-	}}?>
-	if (adaMarker) { map.fitBounds(bounds) };
-	};
+	//Jika tidak ada centang yang dipilih, maka tidak perlu memproses geojson
+	if (semua_marker.length != 0) {
+		//Menciptakan geojson dengan turf berdasarkan variabel 'semua_marker'
+		var geojson = turf.featureCollection(semua_marker);
+		//Menjalankan geojson menggunakan leaflet
+		L.geoJSON(geojson, {
+			//Method yang dijalankan ketika marker diklik
+			onEachFeature: function (feature, layer) {
+				//Menampilkan pesan berisi content pada saat diklik
+				layer.bindPopup(feature.properties.content);
+			},
+			//Method untuk menambahkan style ke polygon dan line
+			style: function(feature){
+				if(feature.properties.style){
+					return feature.properties.style;
+				}
+			},
+			//Method untuk menambahkan style ke point (titik marker)
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng, {icon: feature.properties.style});
+			}
+		}).addTo(mymap);
+	}
+	}; //EOF window.onload
 
 	})();
 </script>
