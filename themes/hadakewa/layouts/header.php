@@ -31,6 +31,10 @@
 		<?php endif; ?>
 	  <link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
 
+		<!-- leafletjs untuk GIS -->
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
+    	<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+
 	  <!-- Styles untuk tema dan penyesuaiannya di folder desa -->
 	  <link type='text/css' href="<?php echo base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
 		<?php if(is_file("desa/css/".$this->theme."/desa-web.css")): ?>
