@@ -4,7 +4,7 @@ NAME:
 
 VERSION:
 
-    3.6.4
+    3.6.7
 
 AUTHOR:
 
@@ -22,7 +22,7 @@ DOCUMENTATION:
 
 REQUIREMENTS:
 
-    PHP 5.2 or greater
+    PHP 5.4 or greater
     GD  2.0
     FreeType (Required, for TTF fonts)
     PDO (if using Sqlite, MySQL, or PostgreSQL)
@@ -90,7 +90,7 @@ UPGRADE NOTICE:
 
 COPYRIGHT:
 
-    Copyright (c) 2016 Drew Phillips
+    Copyright (c) 2018 Drew Phillips
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without

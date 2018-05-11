@@ -202,7 +202,7 @@ SecurimageAudio.prototype.replaceElements = function() {
         var sourceEl = document.createElement('source');
         this.copyElementAttributes(sourceEl, this.audioElement.children[c]);
         var cid = (null !== this.captchaId) ? this.captchaId : (Math.random() + '').replace('0.', '');
-        sourceEl.src = sourceEl.src.replace(/id=[a-zA-Z0-9]+/, 'id=' + cid);
+        sourceEl.src = sourceEl.src.replace(/([?|&])id=[a-zA-Z0-9]+/, '$1id=' + cid);
         newAudioEl.appendChild(sourceEl);
     }
 
