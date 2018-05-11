@@ -1,7 +1,20 @@
 <script>
-		var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
-		var zoom = <?php echo $desa['zoom']; ?>;
-
+		<?php
+			//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+			if(!empty($desa['lat'] && !empty($desa['lng']))){
+		?>
+			var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
+			var zoom = <?php echo $desa['zoom'] ?: 10; ?>;
+		<?
+			}else{
+		?>
+			var posisi = [-1.0546279422758742,116.71875000000001];
+			var zoom = 10;
+		<?php
+			}
+		?>
+		
+		//Inisialisasi tampilan peta
 		var peta_desa = L.map('map').setView(posisi, zoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
@@ -33,7 +46,7 @@ peta_desa.fitBounds(poligon_desa.getBounds());
 <?php
 	}
 ?>
-
+		//Tombol yang akan dimunculkan dipeta
 		var options = {
 			position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
 			drawMarker: false, // adds button to draw markers
@@ -46,7 +59,7 @@ peta_desa.fitBounds(poligon_desa.getBounds());
 			removalMode: true, // adds a button to remove layers
 		};
 
-		// add leaflet.pm controls to the map
+		//Menambahkan toolbar ke peta
 		peta_desa.pm.addControls(options);
 
 		//Event untuk menangkap polygon yang dibuat

@@ -2,11 +2,30 @@
 (function() {
 	var infoWindow;
 	window.onload = function(){
-		//Pertama, tentukan latitude dan longitude posisi awal peta
-        var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
-
-		//Penentuan besar zoom terhadap peta untuk pertama kali
-        var zoom = 13;
+		<?php
+			//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+			if(!empty($desa['lat'] && !empty($desa['lng']))){
+		?>
+			var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
+			var zoom = <?php echo $desa['zoom'] ?: 10; ?>;
+		<?
+			}else{
+				if(!empty($desa['path'])){
+		?>
+				var wilayah_desa = <?php echo $desa['path']; ?>;
+				var posisi = wilayah_desa[0][0];
+				var zoom = <?php echo $desa['zoom'] ?: 10; ?>;
+		<?php
+				}else{
+		?>
+				var posisi = [-1.0546279422758742,116.71875000000001];
+				var zoom = 10;
+		<?php
+				}
+		?>
+		<?php
+			}
+		?>
 
 		//Membuat peta, dan menyimpannya ke variabel 'peta' secara global
         var mymap = L.map('map').setView(posisi, zoom);
