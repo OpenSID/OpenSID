@@ -9,23 +9,30 @@
 			id: 'mapbox.streets'
 		}).addTo(peta_desa);
 		
-<?php //if(!empty($desa['path'])){
+<?php
+	if(!empty($desa['path'])){
 ?>
 
-// //Poligon wilayah desa yang tersimpan
-// var daerah_desa = <?php echo $desa['path']; ?>;
+//Poligon wilayah desa yang tersimpan
+var daerah_desa = <?php echo $desa['path']; ?>;
 
-// //Titik awal dan titik akhir poligon harus sama
-// daerah_desa[0].push(daerah_desa[0][0]);
+//Titik awal dan titik akhir poligon harus sama
+daerah_desa[0].push(daerah_desa[0][0]);
 
-// //Tampilkan poligon desa untuk diedit		
-// var poligon_desa = L.polygon(daerah_desa).addTo(peta_desa);
+//Tampilkan poligon desa untuk diedit		
+var poligon_desa = L.polygon(daerah_desa).addTo(peta_desa);
 
-// //Fokuskan peta ke poligon
-// peta_desa.fitBounds(poligon_desa.getBounds());
+//Event untuk mengecek perubahan poligon
+poligon_desa.on('pm:edit', function(e){
+	document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+})
 
-// <?php
-// }?>
+//Fokuskan peta ke poligon
+peta_desa.fitBounds(poligon_desa.getBounds());
+
+<?php
+	}
+?>
 
 		var options = {
 			position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
