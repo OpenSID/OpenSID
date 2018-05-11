@@ -1,8 +1,20 @@
 <script>
 (function() {
-		var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
-    var zoom = <?php echo $desa['zoom']; ?>;
-
+    <?php
+			//Jika posisi wilayah desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+			if(!empty($desa['path'])){
+		?>
+			var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
+      var zoom = <?php echo $desa['zoom'] ?: 10; ?>;
+		<?
+			}else{
+		?>
+			var posisi = [-1.0546279422758742,116.71875000000001];
+      var zoom = 10;
+		<?php
+			}
+		?>
+    //Inisialisasi tampilan peta
     var lokasi_kantor = L.map('mapx').setView(posisi, zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,

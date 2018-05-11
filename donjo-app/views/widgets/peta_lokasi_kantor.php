@@ -14,8 +14,20 @@ if($data_config['lat']!= "0"){?>
   </div>
 
   <script>
-    var posisi = [<?php echo $data_config['lat'].",".$data_config['lng']; ?>];
-    var zoom = <?php echo $data_config['zoom']; ?>;
+    <?php
+			//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+			if(!empty($data_config['lat']) && !empty($data_config['lng'])){
+		?>
+			var posisi = [<?php echo $data_config['lat'].",".$data_config['lng']; ?>];
+      var zoom = <?php echo $data_config['zoom']; ?>;
+		<?
+			}else{
+		?>
+			var posisi = [-1.0546279422758742,116.71875000000001];
+      var zoom = 10;
+		<?php
+			}
+		?>
 
     var lokasi_kantor = L.map('map_canvas').setView(posisi, zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -23,7 +35,14 @@ if($data_config['lat']!= "0"){?>
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
       id: 'mapbox.streets'
     }).addTo(lokasi_kantor);
-    var kantor_desa = L.marker(posisi).addTo(lokasi_kantor);
+    <?php
+			//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+			if(!empty($data_config['lat']) && !empty($data_config['lng'])){
+		?>
+			var kantor_desa = L.marker(posisi).addTo(lokasi_kantor);
+		<?
+			}
+		?>
   </script>
   <?php
 }

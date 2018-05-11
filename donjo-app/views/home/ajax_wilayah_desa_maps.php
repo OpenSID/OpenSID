@@ -1,7 +1,20 @@
 <script>
-		var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
-		var zoom = <?php echo $desa['zoom']; ?>;
-
+		<?php
+			//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+			if(!empty($desa['lat'] && !empty($desa['lng']))){
+		?>
+			var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
+			var zoom = <?php echo $desa['zoom'] ?: 10; ?>;
+		<?
+			}else{
+		?>
+			var posisi = [-1.0546279422758742,116.71875000000001];
+			var zoom = 10;
+		<?php
+			}
+		?>
+		
+		//Inisialisasi tampilan peta
 		var peta_desa = L.map('map').setView(posisi, zoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
@@ -9,24 +22,31 @@
 			id: 'mapbox.streets'
 		}).addTo(peta_desa);
 		
-<?php //if(!empty($desa['path'])){
+<?php
+	if(!empty($desa['path'])){
 ?>
 
-// //Poligon wilayah desa yang tersimpan
-// var daerah_desa = <?php echo $desa['path']; ?>;
+//Poligon wilayah desa yang tersimpan
+var daerah_desa = <?php echo $desa['path']; ?>;
 
-// //Titik awal dan titik akhir poligon harus sama
-// daerah_desa[0].push(daerah_desa[0][0]);
+//Titik awal dan titik akhir poligon harus sama
+daerah_desa[0].push(daerah_desa[0][0]);
 
-// //Tampilkan poligon desa untuk diedit		
-// var poligon_desa = L.polygon(daerah_desa).addTo(peta_desa);
+//Tampilkan poligon desa untuk diedit		
+var poligon_desa = L.polygon(daerah_desa).addTo(peta_desa);
 
-// //Fokuskan peta ke poligon
-// peta_desa.fitBounds(poligon_desa.getBounds());
+//Event untuk mengecek perubahan poligon
+poligon_desa.on('pm:edit', function(e){
+	document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+})
 
-// <?php
-// }?>
+//Fokuskan peta ke poligon
+peta_desa.fitBounds(poligon_desa.getBounds());
 
+<?php
+	}
+?>
+		//Tombol yang akan dimunculkan dipeta
 		var options = {
 			position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
 			drawMarker: false, // adds button to draw markers
@@ -34,16 +54,23 @@
 			drawRectangle: false, // adds button to draw a rectangle
 			drawPolygon: true, // adds button to draw a polygon
 			drawCircle: false, // adds button to draw a cricle
-			cutPolygon: true, // adds button to cut a hole in a polygon
+			cutPolygon: false, // adds button to cut a hole in a polygon
 			editMode: true, // adds button to toggle edit mode for all layers
 			removalMode: true, // adds a button to remove layers
 		};
 
-		// add leaflet.pm controls to the map
+		//Menambahkan toolbar ke peta
 		peta_desa.pm.addControls(options);
 
+		//Event untuk menangkap polygon yang dibuat
 		peta_desa.on('pm:create', function(e) {
-    	document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+			//Ambil list poligon yang ada
+			var keys = Object.keys(peta_desa._layers);
+			//Tambahkan event edit ke poligon yang telah dibuat
+			peta_desa._layers[keys[2]].on('pm:edit', function(f){
+				document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+			})
+    		document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
 		});
 
 		function getLatLong(x, y) {
