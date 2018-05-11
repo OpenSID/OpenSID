@@ -34,7 +34,7 @@
 			drawRectangle: false, // adds button to draw a rectangle
 			drawPolygon: true, // adds button to draw a polygon
 			drawCircle: false, // adds button to draw a cricle
-			cutPolygon: true, // adds button to cut a hole in a polygon
+			cutPolygon: false, // adds button to cut a hole in a polygon
 			editMode: true, // adds button to toggle edit mode for all layers
 			removalMode: true, // adds a button to remove layers
 		};
@@ -42,8 +42,15 @@
 		// add leaflet.pm controls to the map
 		peta_desa.pm.addControls(options);
 
+		//Event untuk menangkap polygon yang dibuat
 		peta_desa.on('pm:create', function(e) {
-    	document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+			//Ambil list poligon yang ada
+			var keys = Object.keys(peta_desa._layers);
+			//Tambahkan event edit ke poligon yang telah dibuat
+			peta_desa._layers[keys[2]].on('pm:edit', function(f){
+				document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+			})
+    		document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
 		});
 
 		function getLatLong(x, y) {
