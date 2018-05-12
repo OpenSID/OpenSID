@@ -93,49 +93,47 @@
 	<?php }}?>
 
 //AREA POLIGON
-	<?php if($layer_area==1){?>
-		<?php foreach($area AS $area){?>
-			<?php $path = preg_split("/\;/", $area['path']);
-			echo "var polygon_$area[id] = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
+	<?php if($layer_area==1 && !empty($area)){?>
+	//Style polygon
+	var area_style = {
+			stroke: true,
+			color: '#555555',
+			opacity: 0.5,
+			weight: 1,
+			fillColor: '#8888dd',
+			fillOpacity: 0.22
+		}
 
-			var area_<?php echo $area['id']?> = new google.maps.Polygon({
-			  paths: polygon_<?php echo $area['id']?>,
-			  map: map,
-			  strokeColor: '#555555',
-			  strokeOpacity: 0.5,
-			  strokeWeight: 1,
-			  fillColor: '#<?php echo $area['color']?>',
-			  fillOpacity: 0.22,
-			  title:"<?php echo $area['nama']?>"
-			});
-
-			google.maps.event.addListener(area_<?php echo $area['id']?>, 'click', showArrays_area_<?php echo $area['id']?>);
-			if(!infoWindow){
-				infoWindow = new google.maps.InfoWindow();
+	//Data penduduk
+	var daftar_area = JSON.parse('<?php echo json_encode($area); ?>');
+	var jml = daftar_area.length;
+	var jml_path;
+	var foto;
+	var lokasi_gambar = "<?php echo base_url().LOKASI_FOTO_AREA; ?>";
+	for(var x = 0; x < jml;x++){
+		if(daftar_area[x].path){
+			daftar_area[x].path = JSON.parse(daftar_area[x].path)
+			jml_path = daftar_area[x].path[0].length;
+			for(var y = 0; y < jml_path; y++){
+				daftar_area[x].path[0][y].reverse()
 			}
-
-			function showArrays_area_<?php echo $area['id']?>(event) {
-				var vertices = this.getPath();
-				var contentString = '<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+
-        '<h1 id="firstHeading" class="firstHeading"><?php echo $area['nama']?></h1>'+
-        '<div id="bodyContent">'+
-        '<img src="<?php echo base_url().LOKASI_FOTO_AREA?>sedang_<?php echo $area['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
-        '<p><?php echo $area['desk']?></p>'+
-        '</div>'+
-        '</div>';
-				//for (var i =0; i < vertices.getLength(); i++) {
-					//var xy = vertices.getAt(i);
-					//contentString += '<br>' + 'Coordinate: ' + i + '<br>' + xy.lat() +',' + xy.lng();
-				//}
-				infoWindow.setContent(contentString);
-				infoWindow.setPosition(event.latLng);
-				infoWindow.open(map);
-			}
-
-
-		<?php }?>
+			if(daftar_area[x].foto){
+				foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_area[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+			}else foto = "";
+			var content_area = '<div id="content">'+
+        		'<div id="siteNotice">'+
+        		'</div>'+
+        		'<h1 id="firstHeading" class="firstHeading">'+daftar_area[x].nama+'</h1>'+
+        		'<div id="bodyContent">'+ foto +
+        		'<p>'+daftar_area[x].desk+'</p>'+
+        		'</div>'+
+        		'</div>';
+			
+			daftar_area[x].path[0].push(daftar_area[x].path[0][0])
+			//Menambahkan point ke marker
+			semua_marker.push(turf.polygon(daftar_area[x].path, {content: content_area, style: area_style}));
+		}
+	}
 	<?php }?>
 
 //GARIS POLILINE
