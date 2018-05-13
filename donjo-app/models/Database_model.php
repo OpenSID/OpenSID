@@ -11,8 +11,8 @@
     '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => '2.9'),
     '2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => '2.10'),
     '2.10' => array('migrate' => 'migrasi_210_ke_211','nextVersion' => '2.11'),
-    '2.11' => array('migrate' => 'migrasi_211_ke_213','nextVersion' => NULL),
-    '2.12' => array('migrate' => 'migrasi_211_ke_213','nextVersion' => NULL)
+    '2.11' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => NULL),
+    '2.12' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -140,11 +140,11 @@
     $this->migrasi_28_ke_29();
     $this->migrasi_29_ke_210();
     $this->migrasi_210_ke_211();
-    $this->migrasi_211_ke_213();
+    $this->migrasi_211_ke_1806();
   }
 
 
-  function migrasi_211_ke_213(){
+  function migrasi_211_ke_1806(){
     // Tambahkan perubahan database di sini
 
     //ubah icon kecil dan besar untuk modul Sekretariat
