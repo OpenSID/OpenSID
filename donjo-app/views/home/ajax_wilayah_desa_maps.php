@@ -94,7 +94,7 @@ peta_desa.fitBounds(poligon_desa.getBounds());
 </style>
 	<div id="map"></div>
 	<form action="<?php echo $form_action?>" method="post">
-	<input type="hidden" id="path" name="path" >
+	<input type="hidden" id="path" name="path" value="<?php echo $desa['path']; ?>">
 	<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
 	<div class="uibutton-group">
 		<button class="uibutton confirm" id="showData" type="submit"><span class="fa fa-save"></span> Simpan</button>

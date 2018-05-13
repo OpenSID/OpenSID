@@ -147,6 +147,33 @@
   function migrasi_211_ke_1806(){
     // Tambahkan perubahan database di sini
 
+    //ambil nilai path
+    $path = $this->db->select('path')->where('id', 1)->get('config')->row();
+    //Cek apakah path kosong atau tidak
+    if(!empty($path->path)){
+        //Cek pola path yang lama untuk diganti dengan yang baru
+       //Jika pola path masih yang lama, ganti dengan yang baru
+       if(preg_match('/((\([-+]?[0-9]{1,3}\.[0-9]*,(\s)?[-+]?[0-9]{1,3}\.[0-9]*\))\;)/', $path->path)){
+          $new_path = str_replace(array(');', '(', '][' ), array(']','[','],['), $path->path);
+         $this->db->where('id', 1)->update('config', array('path' => "[[$new_path]]"));
+        }
+    }
+
+    //Penambahan widget peta wilayah desa
+    $widget = $this->db->select('isi')->where('isi', 'peta_wilayah_desa.php')->get('widget')->row();
+    if(empty($widget)){
+          //Penambahan widget peta wilayah desa sebagai widget sistem
+          $peta_wilayah = array(
+            'isi'           => 'peta_wilayah_desa.php',
+            'enabled'       => 1,
+            'judul'         => 'peta_wilayah_desa.php',
+            'jenis_widget'  => 1,
+            'urut'          => 1,
+            'form_admin'    => 'hom_desa'
+          );
+          $this->db->insert('widget', $peta_wilayah);
+     }
+    
     //ubah icon kecil dan besar untuk modul Sekretariat
      $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));
      // Hapus kolom yg tidak digunakan

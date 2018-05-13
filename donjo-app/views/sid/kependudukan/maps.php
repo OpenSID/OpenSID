@@ -38,8 +38,8 @@
 </style>
 <form action="<?php echo $form_action?>" method="post" id="validasi">
 <div id="map"></div>
-    <input type="hidden" name="lat" id="lat" />
-    <input type="hidden" name="lng" id="lng" />
+    <input type="hidden" name="lat" id="lat" value="<?php echo $penduduk['lat']; ?>" />
+    <input type="hidden" name="lng" id="lng" value="<?php echo $penduduk['lng']; ?>"/>
 <div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
 <div class="uibutton-group">
 	<button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
