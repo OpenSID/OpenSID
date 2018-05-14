@@ -27,7 +27,7 @@ INSERT INTO `rbac_user_action` (`id`, `name`, `description`) VALUES
 DROP TABLE IF EXISTS `rbac_user_role`;
 CREATE TABLE `rbac_user_role` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `nama` varchar(255) NOT NULL,
   `description` text,
   `action` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -39,5 +39,8 @@ INSERT INTO `rbac_user_role` (`id`, `name`, `description`, `action`) VALUES
 (2,	'Operator',	'Operator OpenSID',	'1'),
 (3,	'Redaksi',	'',	'3,4'),
 (4,	'Kontributor',	'',	'1,2');
+
+
+-- DROP TABLE IF EXISTS `user_grup`;
 
 -- 2018-05-14 09:04:50

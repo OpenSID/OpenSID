@@ -215,7 +215,7 @@ class User_model extends CI_Model
     function list_data($order = 0, $offset = 0, $limit = 500) {
         // Ordering sql
         switch($order) {
-            case 1 :
+            case 1:
                 $order_sql = ' ORDER BY u.username';
                 break;
             case 2:
@@ -228,10 +228,10 @@ class User_model extends CI_Model
                 $order_sql = ' ORDER BY u.nama DESC';
                 break;
             case 5:
-                $order_sql = ' ORDER BY g.nama';
+                $order_sql = ' ORDER BY g.name';
                 break;
             case 6:
-                $order_sql = ' ORDER BY g.nama DESC';
+                $order_sql = ' ORDER BY g.name DESC';
                 break;
             default:
                 $order_sql = ' ORDER BY u.username';
@@ -239,7 +239,7 @@ class User_model extends CI_Model
         // Paging sql
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
         // Query utama
-        $sql = "SELECT u.*, g.nama as grup FROM user u, user_grup g WHERE u.id_grup = g.id";
+        $sql = "SELECT u.*, g.name as grup FROM user u, rbac_user_role g WHERE u.id_grup = g.id";
         $sql .= $this->search_sql();
         $sql .= $this->filter_sql();
         $sql .= $order_sql;
@@ -345,11 +345,11 @@ class User_model extends CI_Model
         // Cek apakah pengguna berhasil dihapus
         if ($hasil) {
             // Cek apakah pengguna memiliki foto atau tidak
-            if ($foto != 'kuser.png') {
+            if($foto != 'kuser.png') {
                 // Ambil nama foto
                 $foto = basename(AmbilFoto($foto));
                 // Cek penghapusan foto pengguna
-                if (unlink(LOKASI_USER_PICT . $foto)) {
+                if(unlink(LOKASI_USER_PICT.$foto)) {
                     $_SESSION['success'] = 1;
                 } else {
                     $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
@@ -358,11 +358,11 @@ class User_model extends CI_Model
             } else {
                 $_SESSION['success'] = 1;
             }
-        } else {
+		} else {
             $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
-            $_SESSION['success'] = -1;
-        }
-    }
+			$_SESSION['success'] = -1;
+		}
+	}
 
 
     function delete_all() {
@@ -445,7 +445,7 @@ class User_model extends CI_Model
                     $data['password'] = $pwHash;
                 }
 
-                }
+            }
         }
 
         // Update foto
@@ -463,7 +463,7 @@ class User_model extends CI_Model
 
 
     function list_grup() {
-        $sql = "SELECT * FROM user_grup";
+        $sql = "SELECT * FROM rbac_user_role";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
