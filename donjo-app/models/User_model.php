@@ -141,18 +141,14 @@ class User_model extends CI_Model
 
 
     function logout() {
-        if (isset($_SESSION['user'])) {
-            $id = $_SESSION['user'];
+        if ($id = $this->session->user_id) {
             $sql = "UPDATE user SET last_login = NOW() WHERE id = ?";
             $this->db->query($sql, $id);
         }
         // Catat jumlah penduduk saat ini
         $this->laporan_bulanan_model->tulis_log_bulanan();
-        unset(
-            $_SESSION['user'],
-            $_SESSION['sesi'],
-            $_SESSION['cari'],
-            $_SESSION['filter']
+        $this->session->unset_userdata(
+            array('user_id', 'sesi', 'cari', 'filter')
         );
 
         // $this->create_xml();
