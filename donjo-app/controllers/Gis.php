@@ -65,9 +65,8 @@ class Gis extends CI_Controller{
 		unset($_SESSION['layer_keluarga']);
 		unset($_SESSION['layer_desa']);
 		unset($_SESSION['layer_wilayah']);
+		unset($_SESSION['layer_lokasi']);
 		unset($_SESSION['layer_area']);
-		unset($_SESSION['layer_line']);
-		unset($_SESSION['layer_point']);
 		$_SESSION['layer_keluarga'] == 0;
 		redirect('gis');
 	}
@@ -125,15 +124,14 @@ function index(){
 			$data['layer_wilayah']=$_SESSION['layer_wilayah'];
 		else $data['layer_wilayah']=0;
 
+		if(isset($_SESSION['layer_lokasi']))
+			$data['layer_lokasi']=$_SESSION['layer_lokasi'];
+		else $data['layer_lokasi']= 0;
+
 		if(isset($_SESSION['layer_area']))
 			$data['layer_area']=$_SESSION['layer_area'];
 		else $data['layer_area']= 0;
 
-		if(isset($_SESSION['layer_line']))
-			$data['layer_line']=$_SESSION['layer_line'];
-		else $data['layer_line']=0;
-
-		$data['layer_point']=@$_SESSION['layer_point'];
 
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
@@ -203,19 +201,11 @@ function index(){
 		redirect('gis');
 	}
 
-	function layer_line(){
-		$layer_line = $this->input->post('layer_line');
-		if($layer_line=="")
-			$_SESSION['layer_line']=0;
-		else $_SESSION['layer_line']=1;
-		redirect('gis');
-	}
-
-	function layer_point(){
-		$layer_point = $this->input->post('layer_point');
-		if($layer_point=="")
-			$_SESSION['layer_point']=0;
-		else $_SESSION['layer_point']=1;
+	function layer_lokasi(){
+		$layer_lokasi = $this->input->post('layer_lokasi');
+		if($layer_lokasi=="")
+			$_SESSION['layer_lokasi']=0;
+		else $_SESSION['layer_lokasi']=1;
 		redirect('gis');
 	}
 
