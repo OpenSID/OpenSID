@@ -9,6 +9,8 @@ class Main extends CI_Controller
 
 
     function index() {
+        $this->session->unset_userdata('request_uri');
+        
         if ($this->session->user_id) {
             $this->load->model('user_model');
             switch($this->session->role) {
