@@ -169,17 +169,17 @@ class User_model extends CI_Model
         $i = 0;
         $out = '';
         while ($i < count($data)) {
-            $out .= ",'".$data[$i]['username']."'";
+            $out .= ",'" . $data[$i]['username'] . "'";
             $i++;
         }
-        return '['.strtolower(substr($out,1)).']';
+        return '[' . strtolower(substr($out, 1)) . ']';
     }
 
 
     function search_sql() {
         if (isset($_SESSION['cari'])) {
             $keyword = $_SESSION['cari'];
-            $keyword = '%'.$this->db->escape_like_str($keyword).'%';
+            $keyword = '%' . $this->db->escape_like_str($keyword) . '%';
             $search_sql = " AND (u.username LIKE '$keyword' OR u.nama LIKE '$keyword')";
             return $search_sql;
         }
@@ -263,8 +263,7 @@ class User_model extends CI_Model
      * Insert user baru ke database
      * @return  void
      */
-    public function insert()
-    {
+    public function insert() {
         $_SESSION['error_msg'] = NULL;
         $_SESSION['success'] = 1;
 
@@ -275,8 +274,7 @@ class User_model extends CI_Model
         $userSudahTerdaftar = $dbQuery->row();
         $userSudahTerdaftar = is_object($userSudahTerdaftar) ? $userSudahTerdaftar->username : FALSE;
 
-        if ($userSudahTerdaftar !== FALSE)
-        {
+        if ($userSudahTerdaftar !== FALSE) {
             $_SESSION['success'] = -1;
             $_SESSION['error_msg'] = ' -> Username ini sudah ada. silahkan pilih username lain';
             redirect('man_user');
@@ -299,15 +297,13 @@ class User_model extends CI_Model
      * @param   integer  $idUser  Id user di database
      * @return  void
      */
-    public function update($idUser)
-    {
+    public function update($idUser) {
         $_SESSION['error_msg'] = NULL;
         $_SESSION['success'] = 1;
 
         $data = $this->input->post(NULL);
 
-        if (empty($idUser))
-        {
+        if (empty($idUser)) {
             $_SESSION['error_msg'] = ' -> Pengguna yang hendak Anda ubah tidak ditemukan datanya.';
             $_SESSION['success'] = -1;
             redirect('man_user');
@@ -322,12 +318,9 @@ class User_model extends CI_Model
             redirect('man_user');
         }
 
-        if ($id == 1 && config_item('demo'))
-        {
+        if ($id == 1 && config_item('demo')) {
             unset($data['username'], $data['password']);
-        }
-        else
-        {
+        } else {
             $pwHash = $this->generatePasswordHash($data['password']);
             $data['password'] = $pwHash;
         }
@@ -351,22 +344,22 @@ class User_model extends CI_Model
 
         // Cek apakah pengguna berhasil dihapus
         if ($hasil) {
-        // Cek apakah pengguna memiliki foto atau tidak
-        if($foto != 'kuser.png') {
-        // Ambil nama foto
-        $foto = basename(AmbilFoto($foto));
-        // Cek penghapusan foto pengguna
-        if(unlink(LOKASI_USER_PICT.$foto)) {
-            $_SESSION['success'] = 1;
+            // Cek apakah pengguna memiliki foto atau tidak
+            if ($foto != 'kuser.png') {
+                // Ambil nama foto
+                $foto = basename(AmbilFoto($foto));
+                // Cek penghapusan foto pengguna
+                if (unlink(LOKASI_USER_PICT . $foto)) {
+                    $_SESSION['success'] = 1;
+                } else {
+                    $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
+                    $_SESSION['success'] = -1;
+                }
+            } else {
+                $_SESSION['success'] = 1;
+            }
         } else {
-          $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
-          $_SESSION['success'] = -1;
-        }
-        } else {
-          $_SESSION['success'] = 1;
-        }
-        } else {
-      $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
+            $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
             $_SESSION['success'] = -1;
         }
     }
@@ -493,48 +486,48 @@ class User_model extends CI_Model
         $string = NULL;
 
         // Desa
-        $string .= '<desa>'.$newLine;
-        $string .= '<nama>'.$desa['nama_desa'].'</nama>'.$newLine;
-        $string .= '<kode>'.
-                $desa['kode_kabupaten'].
-                $desa['kode_kecamatan'].
-                $desa['kode_desa'].
-            '</kode>'.$newLine;
-        $string .= '<lat>'.$desa['lat'].'</lat>'.$newLine;
-        $string .= '<lng>'.$desa['lng'].'</lng>'.$newLine;
-        $string .= '</desa>'.$newLine.$newLine;
+        $string .= '<desa>' . $newLine;
+        $string .= '<nama>' . $desa['nama_desa'] . '</nama>' . $newLine;
+        $string .= '<kode>' .
+        $desa['kode_kabupaten'] .
+        $desa['kode_kecamatan'] .
+        $desa['kode_desa'] .
+        '</kode>' . $newLine;
+        $string .= '<lat>' . $desa['lat'] . '</lat>' . $newLine;
+        $string .= '<lng>' . $desa['lng'] . '</lng>' . $newLine;
+        $string .= '</desa>' . $newLine . $newLine;
 
         // Wilayah
         $sql = "SELECT DISTINCT(dusun) FROM tweb_wil_clusterdesa";
         $query = $this->db->query($sql);
         $wilayah = $query->result_array();
 
-        $string .= '<wilayah>'.$newLine;
+        $string .= '<wilayah>' . $newLine;
         foreach ($wilayah as $wil) {
-            $string .= '<dusun>'.$wil['dusun'].'</dusun>'.$newLine;
+            $string .= '<dusun>' . $wil['dusun'] . '</dusun>' . $newLine;
         }
-        $string .= '</wilayah>'.$newLine.$newLine;
+        $string .= '</wilayah>' . $newLine . $newLine;
 
         // Pendeuduk
         $sql = "SELECT * FROM data_surat";
         $query = $this->db->query($sql);
         $penduduk = $query->result_array();
 
-        $string .= '<penduduk>'.$newLine;
+        $string .= '<penduduk>' . $newLine;
         foreach ($penduduk as $pend) {
-            $string .= '<individu>'.$newLine;
-            $string .= '<nik>'.$pend['nik'].'</nik>'.$newLine;
-            $string .= '<nama>'.$pend['nama'].'</nama>'.$newLine;
-            $string .= '<pekerjaan>'.$pend['pekerjaan'].'</pekerjaan>'.$newLine;
-            $string .= '</individu>'.$newLine;
+            $string .= '<individu>' . $newLine;
+            $string .= '<nik>' . $pend['nik'] . '</nik>' . $newLine;
+            $string .= '<nama>' . $pend['nama'] . '</nama>' . $newLine;
+            $string .= '<pekerjaan>' . $pend['pekerjaan'] . '</pekerjaan>' . $newLine;
+            $string .= '</individu>' . $newLine;
         }
-        $string .= '</penduduk>'.$newLine.$newLine;
+        $string .= '</penduduk>' . $newLine . $newLine;
 
         // $mypath = "assets\\sync\\";
         // $path = str_replace("\\", "/", $mypath).'/';
         $path = 'assets/sync/'; // ???
         $ccyymmdd = date('Y-m-d');
-        $handle = fopen($path."sycn_data_".$ccyymmdd.".xml",'w+');
+        $handle = fopen($path . "sycn_data_" . $ccyymmdd . ".xml", 'w+');
         fwrite($handle, $string);
         fclose($handle);
         // echo $string;
@@ -547,16 +540,16 @@ class User_model extends CI_Model
         $connect = fsockopen($ip, '80', $errno, $errstr, 1);
         if ($connect) {
             // $p['id'] // ???
-            $soap_request = '<GetAttLog>'.
-                '<ArgComKey xsi:type="xsd:integer">'.$key.'</ArgComKey>'.
-                    '<Arg><PIN xsi:type="xsd:integer">'.$p['id'].'</PIN></Arg>'.
-                '</GetAttLog>';
+            $soap_request = '<GetAttLog>' .
+            '<ArgComKey xsi:type="xsd:integer">' . $key . '</ArgComKey>' .
+            '<Arg><PIN xsi:type="xsd:integer">' . $p['id'] . '</PIN></Arg>' .
+            '</GetAttLog>';
 
             $newLine = "\r\n";
-            fputs($connect, 'POST /iWsService HTTP/1.0'.$newLine);
-            fputs($connect, 'Content-Type: text/xml'.$newLine);
-            fputs($connect, 'Content-Length: '.strlen($soap_request).$newLine.$newLine);
-            fputs($connect, $soap_request.$newLine);
+            fputs($connect, 'POST /iWsService HTTP/1.0' . $newLine);
+            fputs($connect, 'Content-Type: text/xml' . $newLine);
+            fputs($connect, 'Content-Length: ' . strlen($soap_request) . $newLine . $newLine);
+            fputs($connect, $soap_request . $newLine);
 
             $buffer = '';
             while ($response = fgets($connect, 8192)) {
@@ -592,14 +585,13 @@ class User_model extends CI_Model
         * @return
             - success: nama berkas yang diunggah
             - fail: nama berkas lama, kalau ada
-    */
-    private function urusFoto($idUser='')
-    {
+     */
+    private function urusFoto($idUser = '') {
         if ($idUser) {
             $berkasLama = $this->db->select('foto')->where('id', $idUser)->get('user')->row();
             $berkasLama = is_object($berkasLama) ? $berkasLama->foto : 'kuser.png';
-            $lokasiBerkasLama = $this->uploadConfig['upload_path'].'kecil_'.$berkasLama;
-            $lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
+            $lokasiBerkasLama = $this->uploadConfig['upload_path'] . 'kecil_' . $berkasLama;
+            $lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH . $lokasiBerkasLama);
         } else {
             $berkasLama = NULL;
         }
@@ -609,19 +601,20 @@ class User_model extends CI_Model
         if (!empty($nama_foto)) {
             // Ada foto yang berhasil diunggah --> simpan ukuran 100 x 100
             $tipe_file = TipeFile($_FILES['foto']);
-            $dimensi = array("width"=>100, "height"=>100);
-            resizeImage(LOKASI_USER_PICT.$nama_foto, $tipe_file, $dimensi);
+            $dimensi = array("width" => 100, "height" => 100);
+            resizeImage(LOKASI_USER_PICT . $nama_foto, $tipe_file, $dimensi);
             // Nama berkas diberi prefix 'kecil'
-            $nama_kecil = 'kecil_'.$nama_foto;
+            $nama_kecil = 'kecil_' . $nama_foto;
             $fileRenamed = rename(
-                LOKASI_USER_PICT.$nama_foto,
-                LOKASI_USER_PICT.$nama_kecil
+            LOKASI_USER_PICT . $nama_foto, LOKASI_USER_PICT . $nama_kecil
             );
-            if ($fileRenamed) $nama_foto = $nama_kecil;
+            if ($fileRenamed)
+                $nama_foto = $nama_kecil;
             // Hapus berkas lama
             if ($berkasLama and $berkasLama !== 'kecil_kuser.png') {
                 unlink($lokasiBerkasLama);
-                if (file_exists($lokasiBerkasLama)) $_SESSION['success'] = -1;
+                if (file_exists($lokasiBerkasLama))
+                    $_SESSION['success'] = -1;
             }
         }
 
@@ -632,7 +625,7 @@ class User_model extends CI_Model
         * @return
             - success: nama berkas yang diunggah
             - fail: NULL
-    */
+     */
     private function uploadFoto($allowed_types, $upload_path, $lokasi, $redirect)
     {
         // Adakah berkas yang disertakan?
@@ -641,9 +634,9 @@ class User_model extends CI_Model
             return NULL;
         }
         // Tes tidak berisi script PHP
-        if(isPHP($_FILES[$lokasi]['tmp_name'], $_FILES[$lokasi]['name'])){
-            $_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
-            $_SESSION['success']=-1;
+        if (isPHP($_FILES[$lokasi]['tmp_name'], $_FILES[$lokasi]['name'])) {
+            $_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
+            $_SESSION['success'] = -1;
             redirect($redirect);
         }
 
@@ -662,11 +655,10 @@ class User_model extends CI_Model
             $uploadData = $this->upload->data();
             // Buat nama file unik agar url file susah ditebak dari browser
             $namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
-      $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
+            $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
             // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
             $fileRenamed = rename(
-                $this->uploadConfig['upload_path'].$uploadData['file_name'],
-                $this->uploadConfig['upload_path'].$namaFileUnik
+            $this->uploadConfig['upload_path'] . $uploadData['file_name'], $this->uploadConfig['upload_path'] . $namaFileUnik
             );
             // Ganti nama di array upload jika file berhasil di-rename --
             // jika rename gagal, fallback ke nama asli

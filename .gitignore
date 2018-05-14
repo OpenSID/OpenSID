@@ -41,3 +41,5 @@ info.php
 **/.DS_Store
 
 
+/system/
+/indev.php
