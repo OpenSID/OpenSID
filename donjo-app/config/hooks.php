@@ -20,6 +20,10 @@ $hook['pre_system'] = array(
 
 $hook['post_controller_constructor'][] = function() {
     $ci = get_instance();
-    $ci->load->library('rbac', array('role' => $ci->session->role));
+    $ci->load->library('rbac', array(
+        'role' => $ci->session->role,
+        'role_table' => 'user_grup',
+        'action_table' => 'user_action',
+    ));
     User_access_control::run();
 };

@@ -157,7 +157,7 @@ class User_model extends CI_Model
 
         // $this->create_xml();
         // if ($this->sid_online())
-        //     $this->send_data();
+        //  $this->send_data();
     }
 
 
@@ -239,7 +239,7 @@ class User_model extends CI_Model
         // Paging sql
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
         // Query utama
-        $sql = "SELECT u.*, g.name as grup FROM user u, rbac_user_role g WHERE u.id_grup = g.id";
+        $sql = "SELECT u.*, g.name as grup FROM user u, user_grup g WHERE u.id_grup = g.id";
         $sql .= $this->search_sql();
         $sql .= $this->filter_sql();
         $sql .= $order_sql;
@@ -463,7 +463,7 @@ class User_model extends CI_Model
 
 
     function list_grup() {
-        $sql = "SELECT * FROM rbac_user_role";
+        $sql = "SELECT * FROM user_grup";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
@@ -606,7 +606,8 @@ class User_model extends CI_Model
             // Nama berkas diberi prefix 'kecil'
             $nama_kecil = 'kecil_' . $nama_foto;
             $fileRenamed = rename(
-            LOKASI_USER_PICT . $nama_foto, LOKASI_USER_PICT . $nama_kecil
+                LOKASI_USER_PICT . $nama_foto,
+                LOKASI_USER_PICT . $nama_kecil
             );
             if ($fileRenamed)
                 $nama_foto = $nama_kecil;
@@ -658,7 +659,8 @@ class User_model extends CI_Model
             $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
             // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
             $fileRenamed = rename(
-            $this->uploadConfig['upload_path'] . $uploadData['file_name'], $this->uploadConfig['upload_path'] . $namaFileUnik
+                $this->uploadConfig['upload_path'] . $uploadData['file_name'],
+                $this->uploadConfig['upload_path'] . $namaFileUnik
             );
             // Ganti nama di array upload jika file berhasil di-rename --
             // jika rename gagal, fallback ke nama asli
