@@ -20,7 +20,7 @@ process_si_contact_form();
     <title>Securimage Example Form</title>
     <style type="text/css">
     <!--
-        #success_message { border: 1px solid #000; width: 550px; text-align: left; padding: 10px 7px; background: #33ff33; color: #000; font-weight; bold; font-size: 1.2em; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; }
+        #success_message { border: 1px solid #000; width: 550px; text-align: left; padding: 10px 7px; background: #33ff33; color: #000; font-weight: bold; font-size: 1.2em; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; }
         fieldset { width: 90%; }
         legend { font-size: 24px; }
         .note { font-size: 18px; }
@@ -90,7 +90,7 @@ process_si_contact_form();
             url: '<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) ?>',
             type: 'POST',
             data: jQuery('#contact_form').serialize(),
-            dataType: 'json',
+            dataType: 'json'
         }).done(function(data) {
             if (data.error === 0) {
                 jQuery('#success_message').show();
@@ -182,7 +182,7 @@ function process_si_contact_form()
                      . "<pre>$message</pre>"
                      . "<br /><br />IP Address: {$_SERVER['REMOTE_ADDR']}<br />"
                      . "Time: $time<br />"
-                     . "Browser: {$_SERVER['HTTP_USER_AGENT']}<br />";
+                     . "Browser: " . htmlspecialchars($_SERVER['HTTP_USER_AGENT']) . "<br />";
 
             if (isset($GLOBALS['DEBUG_MODE']) && $GLOBALS['DEBUG_MODE'] == false) {
                 // send the message with mail()
