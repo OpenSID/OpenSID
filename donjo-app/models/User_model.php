@@ -92,6 +92,7 @@ class User_model extends CI_Model
             
             $this->session->user_id = $row->id;
             $this->session->role = $row->id_grup;
+            log_message('debug', __METHOD__ .': Login sukses');
         }
     }
 
