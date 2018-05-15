@@ -16,8 +16,8 @@ CREATE TABLE `user_action` (
 INSERT INTO `user_action` (`id`, `name`, `description`) VALUES
 (1,	'siteman/auth',	'authentication page'),
 (2,	'first/*',	'halaman publik untuk pengguna website desa'),
-(3,	'main/index',	'-')
--- (4,	'products/update',	'Ability to update products.'),
+(3,	'main/index',	''),
+(4,	'web/*',	'Administrasi website desa.')
 -- (5,	'category/edit',	'Ability to edit categories after they have been created. This includes modifying parent/child relationships of categories.'),
 -- (6,	'category/add',	'Ability to create new categories.'),
 -- (7,	'category/update',	'Ability to update categories.'),
@@ -37,7 +37,7 @@ INSERT INTO `user_grup` (`id`, `name`, `description`, `action`) VALUES
 (0,	'Tamu',	'Untuk pengguna halaman publik website desa\r\n',	'1,2,3'),
 (1,	'Administrator',	'Administrator has access to everything',	'*'),
 (2,	'Operator',	'Operator OpenSID',	'1'),
-(3,	'Redaksi',	'',	'3,4'),
-(4,	'Kontributor',	'',	'1,2');
+(3,	'Redaksi',	'',	'1,2,3,4'),
+(4,	'Kontributor',	'',	'1,2,3,4');
 
 -- 2018-05-14 09:04:50
