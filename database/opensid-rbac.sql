@@ -14,11 +14,13 @@ CREATE TABLE `user_action` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `user_action` (`id`, `name`, `description`) VALUES
-(1,	'siteman/auth',	'authentication page'),
-(2,	'first/*',	'halaman publik untuk pengguna website desa'),
-(3,	'main/index',	''),
-(4,	'web/*',	'Administrasi website desa.')
--- (5,	'category/edit',	'Ability to edit categories after they have been created. This includes modifying parent/child relationships of categories.'),
+(1,	'siteman/auth',     'authentication page'),
+(2,	'first/*',          'halaman publik untuk pengguna website desa'),
+(3,	'main/index',       ''),
+(4,	'web/*',            'Administrasi website desa.'),
+(5,	'gallery/*',        'Administrasi gallery di website desa.'),
+(6,	'dokumen/*',        'Administrasi dokumen situs web desa.'),
+(7,	'user_setting/*',   'Ability to view and update user own profile setting.')
 -- (6,	'category/add',	'Ability to create new categories.'),
 -- (7,	'category/update',	'Ability to update categories.'),
 -- (8,	'something/else',	'Ability to do something')
@@ -37,7 +39,7 @@ INSERT INTO `user_grup` (`id`, `name`, `description`, `action`) VALUES
 (0,	'Tamu',	'Untuk pengguna halaman publik website desa\r\n',	'1,2,3'),
 (1,	'Administrator',	'Administrator has access to everything',	'*'),
 (2,	'Operator',	'Operator OpenSID',	'1'),
-(3,	'Redaksi',	'',	'1,2,3,4'),
-(4,	'Kontributor',	'',	'1,2,3,4');
+(3,	'Redaksi',	'',	'1,2,3,4,5,6,7'),
+(4,	'Kontributor',	'',	'1,2,3,4,5,6,7');
 
 -- 2018-05-14 09:04:50
