@@ -10,18 +10,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * CodeIgniter RBAC Class.
  *
- * This class can filter controller by user roles or permissions.
+ * This class manages controller permissions and user roles.
  */
 class Rbac
 {
-    private $_ROLE_GUEST = 0;
     private $_ci;
     private $_roles = array();
     private $_permissions = array();
     private $_actions = array();
     private $_role_table = 'rbac_user_role';
     private $_action_table = 'rbac_user_action';
-    private $_role;
+    
+    /**
+     * @var int User role id
+     */
+    public $role;
 
     /**
      * Constructor
@@ -35,7 +38,7 @@ class Rbac
     public function __construct($config = array()) {
         $this->_ci = $ci = CI_Controller::get_instance();
 
-        $this->_role = (int)$config['role'];
+        $this->role = (int)$config['role'];
 
         !empty($config['role_table']) && $this->_role_table = $config['role_table'];
 
@@ -47,7 +50,7 @@ class Rbac
     }
 
     protected function load_user_role() {
-        $sql = "select id,name,action from {$this->_role_table} where id={$this->_role}";
+        $sql = "select id,name,action from {$this->_role_table} where id=". (int)$this->role;
 
         if ($query = $this->_ci->db->query($sql)) {
             $this->_roles = (array)$query->result_object();
@@ -90,7 +93,6 @@ class Rbac
         }
 
         $sql = "select name from {$this->_action_table} where id in ({$role->action})";
-
         $query = $this->_ci->db->query($sql);
         return $this->_actions[$role->id] = $query ? $query->result_array() : array();
     }
@@ -132,12 +134,16 @@ class User_access_control
     private static $_locker;
 
     /**
-     * Redirect user to locker page and also add current request uri to session data.
+     * If the user doesn't logged in (by checking user role) this function does nothing
+     * otherwise redirect user to locker page and also add current request uri to session data.
      */
     private static function redirect_to_locker_page() {
-        $key_request_uri = self::$_ci->config->item('sess_key_request_uri', 'user');
-        self::$_ci->session->__set($key_request_uri, uri_string());
-        redirect(self::$_locker);
+        if (!self::$_ci->rbac->role) {
+            log_message('debug', __METHOD__);
+            $key_request_uri = self::$_ci->config->item('sess_key_request_uri', 'user');
+            self::$_ci->session->__set($key_request_uri, uri_string());
+            redirect(self::$_locker);
+        }
     }
 
     private static function is_locker_page() {
