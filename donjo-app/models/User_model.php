@@ -148,7 +148,7 @@ class User_model extends CI_Model
         // Catat jumlah penduduk saat ini
         $this->laporan_bulanan_model->tulis_log_bulanan();
         $this->session->unset_userdata(
-            array('user_id', 'sesi', 'cari', 'filter')
+            array('user_id', 'role', 'sesi', 'cari', 'filter')
         );
 
         // $this->create_xml();
