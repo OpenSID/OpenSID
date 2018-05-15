@@ -71,11 +71,12 @@
 
 //WILAYAH ADMINISTRATIF - DUSUN RW RT
 	<?php if($layer_wilayah==1){?>
-	var path_lokasi = <?php echo json_encode($wilayah); ?>;
+	var path_wilayah_adm = <?php echo json_encode($wilayah); ?>);
+	var jml = path_wilayah_adm[0].length;
 	<?php foreach($wilayah AS $wil){?>
 		<?php $path = preg_split("/\;/", $wil['path']);
-		echo "var path_$wil[id] = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
-		var wil = new google.maps.Polygon({
+		// echo "var path_$wil[id] = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
+		var wil = {
 			paths: path_<?php echo $wil['id']?>,
 			map: map,
 			strokeColor: '#00ff00',
@@ -89,10 +90,40 @@
 			fillColor: '#00ffff',
 		<?php }?>
 			fillOpacity: 0.22
-		});
+		};
 	<?php }}?>
 
-//AREA POLIGON
+//LOKASI DAN PROPERTI
+	<?php if($layer_lokasi == 1 && !empty($lokasi)){ ?>
+		var daftar_lokasi = JSON.parse('<?php echo json_encode($lokasi); ?>');
+		var jml = daftar_lokasi.length;
+		var content;
+		var foto;
+		var path_foto = '<?php echo base_url()."assets/images/gis/point/";?>';
+		var point_style = {
+			iconSize: [32, 37],
+			iconAnchor: [16, 37],
+			popupAnchor: [0, -28],
+		};
+		for(var x = 0; x < jml; x++){
+			if(daftar_lokasi[x].lat){
+				point_style.iconUrl = path_foto+daftar_lokasi[x].simbol;
+				if(daftar_lokasi[x].foto){
+					foto = '<td><img src="'+AmbilFotoLokasi(daftar_lokasi[x].foto)+'" class="foto_pend"/></td>';
+				}else foto = '';
+				content = '<div id="content">'+
+        			'<div id="siteNotice">'+
+        			'</div>'+
+        			'<h1 id="firstHeading" class="firstHeading">'+daftar_lokasi[x].nama+'</h1>'+
+        			'<div id="bodyContent">'+ foto +
+        			'<p>'+daftar_lokasi[x].desk+'</p>'+
+        			'</div>'+
+        			'</div>';
+				semua_marker.push(turf.point([daftar_lokasi[x].lng, daftar_lokasi[x].lat], {content: content,style: L.icon(point_style)}));
+			}
+		}
+	<?php }?>
+//AREA
 	<?php if($layer_area==1 && !empty($area)){?>
 	//Style polygon
 	var area_style = {
@@ -104,11 +135,12 @@
 			fillOpacity: 0.22
 		}
 
-	//Data penduduk
+	//Data area
 	var daftar_area = JSON.parse('<?php echo json_encode($area); ?>');
 	var jml = daftar_area.length;
 	var jml_path;
 	var foto;
+	var content_area;
 	var lokasi_gambar = "<?php echo base_url().LOKASI_FOTO_AREA; ?>";
 	for(var x = 0; x < jml;x++){
 		if(daftar_area[x].path){
@@ -120,7 +152,7 @@
 			if(daftar_area[x].foto){
 				foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_area[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
 			}else foto = "";
-			var content_area = '<div id="content">'+
+			content_area = '<div id="content">'+
         		'<div id="siteNotice">'+
         		'</div>'+
         		'<h1 id="firstHeading" class="firstHeading">'+daftar_area[x].nama+'</h1>'+
@@ -136,96 +168,12 @@
 	}
 	<?php }?>
 
-//GARIS POLILINE
-	<?php if($layer_line==1){?>
-		<?php foreach($garis AS $garis){?>
-			<?php $path = preg_split("/\;/", $garis['path']);
-			echo "var line_$garis[id] = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
-
-			var garis_<?php echo $garis['id']?> = new google.maps.Polyline({
-			  path: line_<?php echo $garis['id']?>,
-			  map: map,
-			  strokeColor: '#00bb00',
-			  strokeOpacity: 0.5,
-			  strokeWeight: 5
-			});
-
-			google.maps.event.addListener(garis_<?php echo $garis['id']?>, 'click', showArrays_line_<?php echo $garis['id']?>);
-			if(!infoWindow){
-				infoWindow = new google.maps.InfoWindow();
-			}
-
-			function showArrays_line_<?php echo $garis['id']?>(event) {
-				var vertices = this.getPath();
-				var contentString = '<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+
-        '<h1 id="firstHeading" class="firstHeading"><?php echo $garis['nama']?></h1>'+
-        '<div id="bodyContent">'+
-        '<img src="<?php echo base_url().LOKASI_FOTO_GARIS?>sedang_<?php echo $garis['foto']?>" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>'+
-        '<p><?php echo $garis['desk']?></p>'+
-        '</div>'+
-        '</div>';
-
-				//for (var i =0; i < vertices.getLength(); i++) {
-					//var xy = vertices.getAt(i);
-					//contentString += '<br>' + 'Coordinate: ' + i + '<br>' + xy.lat() +',' + xy.lng();
-				//}
-				infoWindow.setContent(contentString);
-				infoWindow.setPosition(event.latLng);
-				infoWindow.open(map);
-			}
-
-
-		<?php }?>
-	<?php }?>
-
-//PROPERTI DESA
-	<?php if($layer_point==1){?>
-	var shadow = new google.maps.MarkerImage(
-		'<?php echo base_url()?>assets/images/gis/point/shadow.png',
-		null,
-		null,
-		new google.maps.Point(16, 35)
-	);
-
-	<?php foreach($lokasi AS $data){if($data['lat'] != ""){?>
-
-		<?php $simbol = base_url()."assets/images/gis/point/".$data['simbol'];?>
-		var cusicon_<?php echo $data['id']?> = new google.maps.MarkerImage("<?php echo $simbol?>");
-
-		var prop_<?php echo $data['id']?> = new google.maps.Marker({
-			position: new google.maps.LatLng(<?php echo $data['lat']?>,<?php echo $data['lng']?>),
-			map: map,
-			icon: cusicon_<?php echo $data['id']?>,
-			shadow: shadow,
-			title:"<?php echo $data['nama']?>"
-		});
-
-		google.maps.event.addListener(prop_<?php echo $data['id']?>, 'click', function(){
-			if(!infoWindow){
-				infoWindow = new google.maps.InfoWindow();
-			}
-
-			var content = '<table border=0 style="width:400px"><tr>' +
-		<?php if($data['foto']!=""){?>
-			'<td><img src="<?php echo base_url().LOKASI_FOTO_LOKASI?>sedang_<?php echo $data['foto']?>" class="foto"/></td>' +
-		<?php }?>
-			'<td style="padding-left:3px"><font size="2.5" style="font-weight:bold;"><?php echo $data['nama']?></font>' +
-			'<p><?php echo $data['desk']?></p>'+
-			'</tr><tr><td></td></tr></table>';
-			infoWindow.setContent(content);
-			infoWindow.open(map, prop_<?php echo $data['id']?>);
-		});
-
-	<?php }}}?>
-
 //PENDUDUK
 	<?php if($layer_penduduk==1 OR $layer_keluarga==1 AND !empty($penduduk)){?>
 	//Data penduduk
 	var penduduk = <?php echo json_encode($penduduk); ?>;
 	var jml = penduduk.length;
-	var poto;
+	var foto;
 	var content;
 	var point_style = L.icon({
 		iconUrl: '<?php echo base_url()."assets/images/gis/point/pend.png";?>',
@@ -238,11 +186,11 @@
 			//Jika penduduk ada foto, maka pakai foto tersebut
 			//Jika tidak, pakai foto default
 			if(penduduk[x].foto){
-				'<td><img src="'+AmbilFoto(penduduk[x].foto)+'" class="foto_pend"/></td>';
-			}else poto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
+				foto = '<td><img src="'+AmbilFoto(penduduk[x].foto)+'" class="foto_pend"/></td>';
+			}else foto = '<td><img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
 			
 			//Konten yang akan ditampilkan saat marker diklik
-			var content = '<table border=0><tr>' + poto +
+			content = '<table border=0><tr>' + foto +
 				'<td style="padding-left:2px"><font size="2.5" style="bold">'+penduduk[x].nama+'</font> - '+penduduk[x].sex+
 				'<p>'+penduduk[x].umur+' Tahun '+penduduk[x].agama+'</p>'+
 				'<p>'+penduduk[x].alamat+'</p>'+
@@ -253,7 +201,7 @@
 		}
 	}
 	<?php }?>
-//EOF PENDUDUK
+
 
 	//Jika tidak ada centang yang dipilih, maka tidak perlu memproses geojson
 	if (semua_marker.length != 0) {
@@ -326,10 +274,7 @@
 			<input type="checkbox" name="layer_area" value="1"onchange="handle_area(this);" <?php if($layer_area==1){echo "checked";}?>> Area
 		</td></tr>
 		<tr><td>
-			<input type="checkbox" name="layer_line" value="1"onchange="handle_line(this);" <?php if($layer_line==1){echo "checked";}?>> Line
-		</td></tr>
-		<tr><td>
-			<input type="checkbox" name="layer_point" value="1"onchange="handle_point(this);" <?php if($layer_point==1){echo "checked";}?>> Point
+			<input type="checkbox" name="layer_lokasi" value="1"onchange="handle_lokasi(this);" <?php if($layer_lokasi==1){echo "checked";}?>> Lokasi/Properti Desa
 		</td></tr>
 		</table>
 
@@ -350,16 +295,19 @@ function handle_wil(cb) {
 function handle_area(cb) {
   formAction('mainform','<?php echo site_url('gis')?>/layer_area');
 }
-function handle_line(cb) {
-  formAction('mainform','<?php echo site_url('gis')?>/layer_line');
-}
-function handle_point(cb) {
-  formAction('mainform','<?php echo site_url('gis')?>/layer_point');
+function handle_lokasi(cb) {
+  formAction('mainform','<?php echo site_url('gis')?>/layer_lokasi');
 }
 function AmbilFoto(foto, ukuran = "kecil_")
 {
   ukuran_foto = ukuran || null
   file_foto = '<?php echo base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
+  return file_foto;
+}
+function AmbilFotoLokasi(foto, ukuran = "kecil_")
+{
+  ukuran_foto = ukuran || null
+  file_foto = '<?php echo base_url().LOKASI_FOTO_LOKASI;?>'+ukuran_foto+foto;
   return file_foto;
 }
 </script>
