@@ -4,16 +4,7 @@ class Analisis_respon extends CI_Controller{
 		parent::__construct();
 		UNSET($_SESSION['delik']);
 		$this->load->model('analisis_respon_model');
-		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) {
-			if(empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$_SESSION['submenu'] = "Input Data";
 		$_SESSION['asubmenu'] = "analisis_respon";
 		$this->modul_ini = 5;

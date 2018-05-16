@@ -4,16 +4,7 @@ class Analisis_master extends CI_Controller{
 		parent::__construct();
 		$this->load->model('analisis_master_model');
 		$this->load->model('analisis_import_model');
-		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) {
-			if(empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		unset($_SESSION['submenu']);
 		unset($_SESSION['asubmenu']);
 		$this->modul_ini = 5;
