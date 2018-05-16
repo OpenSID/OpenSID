@@ -6,7 +6,8 @@
 		$this->load->model('penduduk_model');
 	}
 
-	function list_surat(){
+	function list_surat()
+	{
 		$sql   = "SELECT * FROM tweb_surat_format WHERE kunci = 0";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
@@ -19,21 +20,24 @@
 		return $data;
 	}
 
-	function list_surat2(){
+	function list_surat2()
+	{
 		$sql   = "SELECT * FROM tweb_surat_format WHERE kunci = 0";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;
 	}
 
-	function list_surat_fav(){
+	function list_surat_fav()
+	{
 		$sql = "SELECT * FROM tweb_surat_format WHERE kunci = 0 AND favorit = 1";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;
 	}
 
-	function list_penduduk(){
+	function list_penduduk()
+	{
 		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
@@ -47,7 +51,8 @@
 		return $data;
 	}
 
-	function list_penduduk_perempuan(){
+	function list_penduduk_perempuan()
+	{
 		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u
 			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
 			WHERE status = 1 AND sex=2";
@@ -63,7 +68,8 @@
 		return $data;
 	}
 
-	function list_penduduk_laki(){
+	function list_penduduk_laki()
+	{
 		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u
 			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
 			WHERE status = 1 AND sex=1";
@@ -79,7 +85,8 @@
 		return $data;
 	}
 
-	function list_anak($id){
+	function list_anak($id)
+	{
 		$sql = "SELECT u.id, u.nik, u.nama,w.dusun,w.rw,w.rt
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
@@ -98,7 +105,8 @@
 		return $data;
 	}
 
-	function list_penduduk_ex($id=0){
+	function list_penduduk_ex($id=0)
+	{
 		$sql   = "SELECT u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex FROM tweb_penduduk u
 			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
 			WHERE status = 1 AND id NOT IN(?)";
@@ -114,12 +122,14 @@
 		return $data;
 	}
 
-	function get_alamat_wilayah($data) {
+	function get_alamat_wilayah($data)
+	{
 		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ucwords(strtolower($this->setting->sebutan_dusun))." ".ucwords(strtolower($data['dusun']));
 		return trim($alamat_wilayah);
 	}
 
-	function get_penduduk($id=0){
+	function get_penduduk($id=0)
+	{
 		$sql   = "SELECT u.id AS id,u.nama AS nama,u.sex as sex_id,x.nama AS sex,u.id_kk AS id_kk,
 		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,u.no_kk_sebelumnya,s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
@@ -143,7 +153,8 @@
 		return $data;
 	}
 
-	function pengikut(){
+	function pengikut()
+	{
 		$id_cb = $_POST['id_cb'];
 		$outp="";
 		if(count($id_cb)){
@@ -173,14 +184,16 @@
 		return $data;
 	}
 
-	function list_pamong(){
+	function list_pamong()
+	{
 		$sql   = "SELECT u.* FROM tweb_desa_pamong u WHERE pamong_status=1 ";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		return $data;
 	}
 
-	function get_data_surat($id=0){
+	function get_data_surat($id=0)
+	{
 		$sql   = "SELECT u.*,g.nama AS gol_darah,x.nama AS sex,u.sex as sex_id,
 			(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
 			w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,h.nama AS hubungan,j.nama AS pekerjaan,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,m.nama as cacat,
@@ -207,7 +220,8 @@
 		return $data;
 	}
 
-	function format_data_surat(&$data){
+	function format_data_surat(&$data)
+	{
 		$kolomUpper = array("tanggallahir","tempatlahir","dusun","pekerjaan","gol_darah","agama","sex",
 			"status_kawin","pendidikan","hubungan","nama_ayah","nama_ibu","alamat","alamat_sebelumnya",
 			"alamat_wilayah","cacat");
@@ -227,22 +241,28 @@
 				$data["alamat_wilayah"] = str_replace($key, $value, $data["alamat_wilayah"]);
 			}
 		}
+		if (isset($data["pekerjaan"])) {
+			$data["pekerjaan"] = $this->penduduk_model->normalkanPekerjaan($data["pekerjaan"]);
+		}
 	}
 
-	function get_data_desa(){
+	function get_data_desa()
+	{
 		$sql   = "SELECT * FROM config WHERE 1";
 		$query = $this->db->query($sql);
 		return $query->row_array();
 	}
 
-	function get_pamong($id=0){
+	function get_pamong($id=0)
+	{
 		$sql   = "SELECT u.* FROM tweb_desa_pamong u WHERE pamong_id=?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		return $data;
 	}
 
-	function get_data_pribadi($id=0){
+	function get_data_pribadi($id=0)
+	{
 		$sql   = "SELECT u.*,h.nama as hubungan, p.nama as kepala_kk,g.nama as gol_darah,d.nama as pendidikan, s.nama as status, r.nama as pek,m.nama as men, w.nama as wn, n.nama as agama,c.rw,c.rt,c.dusun,(DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, sex.nama as sex, k.alamat
 			FROM tweb_penduduk u
 			left join tweb_penduduk_hubungan h on u.kk_level=h.id
@@ -265,21 +285,24 @@
 		return $data;
 	}
 
-	function get_data_kk($id=0){
+	function get_data_kk($id=0)
+	{
 		$sql   = "SELECT b.nik_kepala, b.no_kk,b.id AS id_kk, c.nama as kepala_kk, d.* FROM tweb_penduduk a LEFT JOIN tweb_keluarga b ON a.id_kk=b.id LEFT JOIN tweb_penduduk c ON b.nik_kepala=c.id LEFT JOIN tweb_wil_clusterdesa d ON c.id_cluster=d.id WHERE a.id=? ";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		return $data;
 	}
 
-	function get_data_penduduk($id=0){
+	function get_data_penduduk($id=0)
+	{
 		$sql   = "SELECT u.* FROM tweb_penduduk u WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		return $data;
 	}
 
-	function get_data_istri($id=0){
+	function get_data_istri($id=0)
+	{
 		$sql = "SELECT u.id
 			FROM tweb_penduduk u
 			WHERE u.id=(SELECT id FROM tweb_penduduk WHERE id_kk=(SELECT id_kk FROM tweb_penduduk WHERE id=$id AND kk_level=1) AND kk_level=3 limit 1)";
@@ -293,7 +316,8 @@
 		}
 	}
 
-	function get_data_suami($id=0){
+	function get_data_suami($id=0)
+	{
 		$sql = "SELECT u.id
 			FROM tweb_penduduk u
 			WHERE u.id=(SELECT id FROM tweb_penduduk WHERE id_kk=(SELECT id_kk FROM tweb_penduduk WHERE id=$id AND kk_level=3) AND kk_level=1 limit 1 )";
@@ -307,7 +331,8 @@
 		}
 	}
 
-	function get_data_suami_atau_istri($individu=array()) {
+	function get_data_suami_atau_istri($individu=array())
+	{
 		if (strtolower($individu['sex']) == "laki-laki") {
 			return $this->get_data_istri($individu['id']);
 		} else {
@@ -315,7 +340,8 @@
 		}
 	}
 
-	function get_data_ayah($id=0){
+	function get_data_ayah($id=0)
+	{
 		$penduduk = $this->get_data_penduduk($id);
 		// Cari berdasarkan ayah_nik dulu
 		if(!empty($penduduk['ayah_nik'])) {
@@ -341,7 +367,8 @@
 		}
 	}
 
-	function get_data_ibu($id=0){
+	function get_data_ibu($id=0)
+	{
 		$penduduk = $this->get_data_penduduk($id);
 		// Cari berdasarkan ibu_nik dulu
 		if(!empty($penduduk['ibu_nik'])) {
@@ -370,25 +397,29 @@
 		}
 	}
 
-	function get_dusun($dusun=''){
+	function get_dusun($dusun='')
+	{
 		$sql   = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rt = '0' AND rw = '0'";
 		$query = $this->db->query($sql,$dusun);
 		return $query->row_array();
 	}
 
-	function get_rw($dusun='',$rw=''){
+	function get_rw($dusun='',$rw='')
+	{
 		$sql   = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = '0'";
 		$query = $this->db->query($sql,array($dusun,$rw));
 		return $query->row_array();
 	}
 
-	function get_rt($dusun='',$rw='',$rt=''){
+	function get_rt($dusun='',$rw='',$rt='')
+	{
 		$sql   = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = ?";
 		$query = $this->db->query($sql,array($dusun,$rw,$rt));
 		return $query->row_array();
 	}
 
-	function get_surat($url=''){
+	function get_surat($url='')
+	{
 		$sql   = "SELECT * FROM tweb_surat_format WHERE url_surat = ?";
 		$query = $this->db->query($sql,$url);
 		$data = $query->row_array();
@@ -404,7 +435,8 @@
 		return $data;
 	}
 
-	function bersihkan_kode_isian($buffer_in){
+	function bersihkan_kode_isian($buffer_in)
+	{
 	  $buffer_out = "";
 	  $in = 0;
 	  while ($in < strlen($buffer_in)){
@@ -441,7 +473,8 @@
 	  return $buffer_out;
 	}
 
-	function get_data_form($surat){
+	function get_data_form($surat)
+	{
 		$data_form = LOKASI_SURAT_DESA.$surat."/data_form_".$surat.".php";
 		if (is_file($data_form)) return $data_form;
 		else {
@@ -450,7 +483,8 @@
 		}
 	}
 
-	function get_data_rtf($surat){
+	function get_data_rtf($surat)
+	{
 		$data_rtf = LOKASI_SURAT_DESA.$surat."/data_rtf_".$surat.".php";
 		if (is_file($data_rtf)) return $data_rtf;
 		else {
@@ -459,7 +493,8 @@
 		}
 	}
 
-	function get_daftar_kode_surat($surat) {
+	function get_daftar_kode_surat($surat)
+	 {
 		$kode = array();
 		switch ($surat) {
 			case 'surat_ket_nikah':
@@ -528,14 +563,16 @@
 	}
 
 	// Untuk surat sistem, cek apakah komponen surat sudah disesuaikan oleh desa
-	private function lokasi_komponen($nama_surat, $komponen) {
+	private function lokasi_komponen($nama_surat, $komponen)
+	{
 	  $lokasi = LOKASI_SURAT_DESA . $nama_surat . "/" . $komponen;
 		if ($this->surat['jenis'] == 1 AND !is_file($lokasi))
 			  $lokasi = "surat/$nama_surat/$komponen";
 		return $lokasi;
 	}
 
-	function surat_rtf_khusus($url, $input, &$buffer, $config, &$individu, $ayah, $ibu) {
+	function surat_rtf_khusus($url, $input, &$buffer, $config, &$individu, $ayah, $ibu)
+	{
 		$alamat_desa = ucwords($this->setting->sebutan_desa)." ".$config['nama_desa'].", Kecamatan ".$config['nama_kecamatan'].", ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten'];
 		// Proses surat yang membutuhkan pengambilan data khusus
 
@@ -819,7 +856,8 @@
 		 Huruf pertama kecil --> ganti dengan huruf kecil semua:
 		 		[sebutan_desa] ==> kampung
 	*/
-	function case_replace($dari,$ke,$str){
+	function case_replace($dari,$ke,$str)
+	{
 		$replacer = function($matches) use($ke){
 			$matches = array_map(function($match){
 				return preg_replace("/[\[\]]/", "", $match);
@@ -835,7 +873,8 @@
 		return $str;
 	}
 
-	function surat_rtf($data){
+	function surat_rtf($data)
+	{
 		// Ambil data
         $input = $data['input'];
         $individu = $data['individu'];
@@ -1016,7 +1055,8 @@
 		return $buffer;
 	}
 
-	function lampiran($data, $nama_surat, &$lampiran){
+	function lampiran($data, $nama_surat, &$lampiran)
+	{
 		$surat = $data['surat'];
 		if (!$surat['lampiran']) return;
 
@@ -1052,7 +1092,8 @@
     }
 	}
 
-	function get_data_untuk_surat($url) {
+	function get_data_untuk_surat($url)
+	{
 		$data['input'] = $_POST;
 		// Ambil data
 		$data['config'] = $this->get_data_desa();
@@ -1074,7 +1115,8 @@
 		$this->surat_utama($data, $nama_surat);
 	}
 
-	function surat_utama($data, &$nama_surat){
+	function surat_utama($data, &$nama_surat)
+	{
 		$rtf = $this->surat_rtf($data);
 		// Simpan surat di folder arsip dan download
 		$path_arsip = LOKASI_ARSIP;
@@ -1106,7 +1148,8 @@
 		$_SESSION['success']=8;
 	}
 
-	function get_last_nosurat_log($url){
+	function get_last_nosurat_log($url)
+	{
 
 		// abaikan jenis surat
 		if ($this->setting->nomor_terakhir_semua_surat){
