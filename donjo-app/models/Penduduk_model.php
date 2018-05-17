@@ -371,7 +371,7 @@
 
 	function list_data_map(){
 		//Main Query
-		$sql = "SELECT u.id, u.nik, u.nama, map.lat, map.lng, a.dusun, a.rw, a.rt, d.no_kk AS no_kk,
+		$sql = "SELECT u.id, u.nik, u.nama, map.lat, map.lng, a.dusun, a.rw, a.rt, u.foto, d.no_kk AS no_kk,
 					(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0
 					FROM tweb_penduduk
 					WHERE id = u.id) AS umur,
