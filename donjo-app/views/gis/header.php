@@ -1,9 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
-    <script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
-    <script src="<?php echo base_url()?>assets/js/turf.min.js"></script>
 <title><?php
 	echo $this->setting->admin_title
 		. ' ' . ucwords($this->setting->sebutan_desa)
@@ -25,7 +22,7 @@
 <?php if(is_file("desa/css/siteman.css")): ?>
 	<link type='text/css' href="<?php echo base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 <?php endif; ?>
-
+<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
 
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>
@@ -42,7 +39,9 @@
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.dialog.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script><script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=4&key=<?php echo $this->setting->google_key; ?>"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
+        <script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+        <script src="<?php echo base_url()?>assets/js/turf.min.js"></script>
 <!---->
 <!--[if lte IE 6]>
 <style type="text/css">

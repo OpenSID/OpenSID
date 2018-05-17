@@ -1,19 +1,13 @@
 <script>
 (function() {
-    <?php
-	//Jika posisi peta_lokasi belum ada, maka gunakan peta_lokasi default
-	if(!empty($lokasi['lat']) && !empty($lokasi['lng'])){
-	?>
-		var posisi = [<?php echo $lokasi['lat'].",".$lokasi['lng']; ?>];
-		var zoom = <?php echo $desa['zoom'] ?: 10; ?>;
-		<?
-			}else{
-		?>
-			var posisi = [-7.885619783139936, 110.39893195996092];
-      		var zoom = 10;
-		<?php
-			}
-		?>
+//Jika posisi peta_lokasi belum ada, maka gunakan peta_lokasi default
+<?php if(!empty($lokasi['lat']) && !empty($lokasi['lng'])): ?>
+    var posisi = [<?=$lokasi['lat'].",".$lokasi['lng']?>];
+    var zoom = <?=$desa['zoom'] ?: 10?>;
+<?php else: ?>
+    var posisi = [-7.885619783139936, 110.39893195996092];
+    var zoom = 10;
+<?php endif; ?>
     //Inisialisasi tampilan peta
     var peta_lokasi = L.map('map_lokasi').setView(posisi, zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -26,7 +20,6 @@
       	document.getElementById('lat').value = e.target._latlng.lat;
 		document.getElementById('lng').value = e.target._latlng.lng;
     })
-  
 })();
 </script>
 <style>
@@ -36,14 +29,14 @@
   border: 1px solid #000;
 }
 </style>
-<form action="<?php echo $form_action?>" method="post" id="validasi">
-<div id="map_lokasi"></div>
-    <input type="hidden" name="lat" id="lat" value="<?php echo $lokasi['lat']; ?>"/>
-    <input type="hidden" name="lng" id="lng" value="<?php echo $lokasi['lng']; ?>" />
+<form action="<?=$form_action?>" method="post" id="validasi">
+    <div id="map_lokasi"></div>
+    <input type="hidden" name="lat" id="lat" value="<?=$lokasi['lat']?>"/>
+    <input type="hidden" name="lng" id="lng" value="<?=$lokasi['lng']?>" />
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
-<div class="uibutton-group">
-	<button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
-	<button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
-</div>
+    <div class="uibutton-group">
+        <button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
+        <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
+    </div>
 </div>
 </form>
