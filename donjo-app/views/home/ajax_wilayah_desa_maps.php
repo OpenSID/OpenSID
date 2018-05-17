@@ -5,7 +5,7 @@
     var zoom = <?=$desa['zoom'] ?: 10?>;
 <?php else: ?>
     var posisi = [-1.0546279422758742,116.71875000000001];
-    var zoom = 10;
+    var zoom = 4;
 <?php endif; ?>
 
 //Inisialisasi tampilan peta

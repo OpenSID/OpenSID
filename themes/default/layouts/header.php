@@ -39,7 +39,6 @@
 		<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
-		<!-- leafletjs untuk GIS -->
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
         
     	<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>		
