@@ -3,7 +3,6 @@ class Web extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		session_start();
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
@@ -12,15 +11,6 @@ class Web extends CI_Controller{
 			exit;
 		}
 
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) {
-			if(empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('web_artikel_model');
 		$this->load->model('web_kategori_model');

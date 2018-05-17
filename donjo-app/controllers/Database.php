@@ -4,18 +4,8 @@ class Database extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		session_start();
-		$this->load->model('user_model');
 		$this->load->dbforge();
 		//$this->load->model('wilayah_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1) {
-			if(empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('import_model');
 		$this->load->model('export_model');

@@ -240,6 +240,10 @@ define("ASAL_INVENTARIS", serialize(array(
     "Bantuan Kabupaten" => "4",
     "Sumbangan" => "5"
 )));
+define('GRUP_ADMINISTRATOR', 1);
+define('GRUP_OPERATOR', 2);
+define('GRUP_REDAKSI', 3);
+define('GRUP_KONTRIBUTOR', 4);
 
 /**
  * Ambil Versi
