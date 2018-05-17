@@ -148,14 +148,21 @@
     // Tambahkan perubahan database di sini
 
     //ambil nilai path
-    $path = $this->db->select('path')->where('id', 1)->get('config')->row();
-    //Cek apakah path kosong atau tidak
-    if(!empty($path->path)){
-        //Cek pola path yang lama untuk diganti dengan yang baru
-       //Jika pola path masih yang lama, ganti dengan yang baru
-       if(preg_match('/((\([-+]?[0-9]{1,3}\.[0-9]*,(\s)?[-+]?[0-9]{1,3}\.[0-9]*\))\;)/', $path->path)){
-          $new_path = str_replace(array(');', '(', '][' ), array(']','[','],['), $path->path);
-         $this->db->where('id', 1)->update('config', array('path' => "[[$new_path]]"));
+    $config = $this->db->get('config')->row();
+    if(!empty($config)){
+        //Cek apakah path kosong atau tidak
+        if(!empty($config->path)){
+            //Cek pola path yang lama untuk diganti dengan yang baru
+           //Jika pola path masih yang lama, ganti dengan yang baru
+           if(preg_match('/((\([-+]?[0-9]{1,3}\.[0-9]*,(\s)?[-+]?[0-9]{1,3}\.[0-9]*\))\;)/', $config->path)){
+              $new_path = str_replace(array(');', '(', '][' ), array(']','[','],['), $config->path);
+             $this->db->where('id', $config->id)->update('config', array('path' => "[[$new_path]]"));
+            }
+        }
+        
+        //Cek zoom agar tidak lebih dari 18 dan agar tidak kosong
+        if(empty($config->zoom) || $config->zoom > 18 || $config->zoom == 0){
+            $this->db->where('id', $config->id)->update('config', array('zoom' => 10));
         }
     }
 
