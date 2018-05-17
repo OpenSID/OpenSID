@@ -159,7 +159,7 @@
              $this->db->where('id', $config->id)->update('config', array('path' => "[[$new_path]]"));
             }
         }
-        
+
         //Cek zoom agar tidak lebih dari 18 dan agar tidak kosong
         if(empty($config->zoom) || $config->zoom > 18 || $config->zoom == 0){
             $this->db->where('id', $config->id)->update('config', array('zoom' => 10));
@@ -173,14 +173,14 @@
           $peta_wilayah = array(
             'isi'           => 'peta_wilayah_desa.php',
             'enabled'       => 1,
-            'judul'         => 'peta_wilayah_desa.php',
+            'judul'         => 'Peta Wilayah Desa',
             'jenis_widget'  => 1,
             'urut'          => 1,
             'form_admin'    => 'hom_desa'
           );
           $this->db->insert('widget', $peta_wilayah);
      }
-    
+
     //ubah icon kecil dan besar untuk modul Sekretariat
      $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));
      // Hapus kolom yg tidak digunakan
