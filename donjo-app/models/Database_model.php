@@ -1,4 +1,6 @@
-<?php class Database_model extends CI_Model{
+<?php
+/** @property CI_DB_query_builder $db */
+class Database_model extends CI_Model{
 
   private $engine = 'InnoDB';
   /* define versi opensid dan script migrasi yang harus dijalankan */
@@ -146,10 +148,47 @@
 
   function migrasi_211_ke_1806(){
     // Tambahkan perubahan database di sini
+	  
+    // RBAC manager
+    $sqls = array("DROP TABLE `user_grup`",
+    "CREATE TABLE `user_action` (
+      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+      `name` varchar(16) NOT NULL,
+      `description` text,
+      PRIMARY KEY (`id`)
+    ) ENGINE={$this->engine} DEFAULT CHARSET=utf8;
+    ","
+    INSERT INTO `user_action` (`id`, `name`, `description`) VALUES
+    (1,	'siteman/auth', 'authentication page'),
+    (2,	'first/*', 'halaman publik untuk pengguna website desa'),
+    (3,	'main/index', ''),
+    (4,	'web/*', 'Administrasi website desa.'),
+    (5,	'gallery/*', 'Administrasi gallery di website desa.'),
+    (6,	'dokumen/*', 'Administrasi dokumen situs web desa.'),
+    (7,	'user_setting/*', 'Ability to view and update user own profile setting.');
+    ","
+    CREATE TABLE `user_grup` (
+      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+      `name` varchar(255) NOT NULL,
+      `description` text,
+      `action` varchar(255) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE={$this->engine} DEFAULT CHARSET=utf8;
+    ","
+    INSERT INTO `user_grup` (`id`, `name`, `description`, `action`) VALUES
+    (1,	'Administrator', 'Administrator has access to everything', '*'),
+    (2,	'Operator',	'Operator OpenSID',	'1,2,3,7'),
+    (3,	'Redaksi', '',	'1,2,3,4,5,6,7'),
+    (4,	'Kontributor', '', '1,2,3,4,5,6,7'),
+    (5,	'?',	'Untuk pengguna halaman publik website desa\r\n', '1,2,3')
+    ");
+    foreach ($sqls as $sql) {
+      $this->db->query($sql);
+	}
 
     //ubah icon kecil dan besar untuk modul Sekretariat
-     $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));
-     // Hapus kolom yg tidak digunakan
+    $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));
+    // Hapus kolom yg tidak digunakan
     if ($this->db->field_exists('alamat_tempat_lahir', 'tweb_penduduk'))
       $this->dbforge->drop_column('tweb_penduduk', 'alamat_tempat_lahir');
   }
