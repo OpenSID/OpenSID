@@ -320,7 +320,7 @@ class User_model extends CI_Model {
 			redirect('man_user');
 		}
 
-		if ($id == 1 && config_item('demo'))
+		if ($idUser == 1 && config_item('demo'))
 		{
 			unset($data['username'], $data['password']);
 		}
