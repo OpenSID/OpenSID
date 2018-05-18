@@ -96,6 +96,7 @@ class User_model extends CI_Model {
      * Pastikan admin sudah mengubah password yang digunakan pertama kali. Berikan warning jika belum.
      */
     function validate_admin_has_changed_password() {
+				$_SESSION['admin_warning'] = '';
         $auth = $this->config->item('defaultAdminAuthInfo');
 
         if ($this->_username == $auth['username'] && $this->_password == $auth['password']) {
@@ -431,7 +432,7 @@ class User_model extends CI_Model {
 			if ($this->input->post('pass_lama') != ''
 			|| $pass_baru != '' || $pass_baru1 != '')
 			{
-				$sql = "SELECT password,id_grup,session FROM user WHERE id = ?";
+				$sql = "SELECT password,username,id_grup,session FROM user WHERE id = ?";
 				$query = $this->db->query($sql, array($id));
 				$row = $query->row();
 				// Cek input password
@@ -439,18 +440,20 @@ class User_model extends CI_Model {
 				{
 					$_SESSION['error_msg'] .= ' -> Password lama salah<br />';
 				}
-				
+
 				if (empty($pass_baru1))
 				{
 					$_SESSION['error_msg'] .= ' -> Password baru tidak boleh kosong<br />';
 				}
-				
+
 				if ($pass_baru != $pass_baru1)
 				{
 					$_SESSION['error_msg'] .= ' -> Password baru tidak cocok<br />';
 				}
-
+				$this->_username = $row->username;
+				$this->_password = $pass_baru;
 				$this->validate_admin_has_changed_password();
+				$_SESSION['dari_login'] = '1';
 
 				if (!empty($_SESSION['admin_warning']))
 				{
@@ -469,6 +472,7 @@ class User_model extends CI_Model {
 					$pwHash = $this->generatePasswordHash($pass_baru);
 					// Cek kekuatan hash lolos, simpan ke array data
 					$data['password'] = $pwHash;
+					unset($_SESSION['admin_warning']);
 				}
 
 			}

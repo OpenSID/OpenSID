@@ -72,7 +72,12 @@
     			}
     		</style>
         <script type="text/javascript">
-            authInfoChangesNoticeUI(<?= json_encode($_SESSION['admin_warning']) ?>)
+        		<?php if (isset($_SESSION['dari_login'])): ?>
+	            authInfoChangesNoticeUI(<?= json_encode($_SESSION['admin_warning']) ?>, true)
+        			<?php unset($_SESSION['dari_login']) ?>
+        		<?php else: ?>
+	            authInfoChangesNoticeUI(<?= json_encode($_SESSION['admin_warning']) ?>, false)
+        		<?php endif; ?>
         </script>
     <?php endif ?>
 </div>
