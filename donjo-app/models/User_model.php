@@ -407,7 +407,8 @@ class User_model extends CI_Model {
 	}
 
 
-	function update_setting($id = 0) {
+	public function update_setting($id = 0)
+	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
 
@@ -417,27 +418,40 @@ class User_model extends CI_Model {
 		$pass_baru1 = $this->input->post('pass_baru1');
 
 		// Jangan edit password admin apabila di situs demo
-		if ($id == 1 && config_item('demo')) {
+		if ($id == 1 && config_item('demo'))
+		{
 		  unset($data['password']);
 		}
 		// Ganti password
-		else {
-			if ($this->input->post('pass_lama') != '' || $pass_baru != '' || $pass_baru1 != '') {
+		else
+		{
+			if ($this->input->post('pass_lama') != ''
+			|| $pass_baru != '' || $pass_baru1 != '')
+			{
 				$sql = "SELECT password,id_grup,session FROM user WHERE id = ?";
 				$query = $this->db->query($sql, array($id));
 				$row = $query->row();
 				// Cek input password
-				if (password_verify($password, $row->password) === FALSE) {
+				if (password_verify($password, $row->password) === FALSE)
+				{
 					$_SESSION['error_msg'] .= ' -> Password lama salah<br />';
 				}
-				if (empty($pass_baru1)) {
+
+				if (empty($pass_baru1))
+				{
 					$_SESSION['error_msg'] .= ' -> Password baru tidak boleh kosong<br />';
 				}
-				if ($pass_baru != $pass_baru1) {
+				
+				if ($pass_baru != $pass_baru1)
+				{
 					$_SESSION['error_msg'] .= ' -> Password baru tidak cocok<br />';
 				}
 
-				if (!empty($_SESSION['error_msg'])) {
+				$this->validate_admin_has_changed_password();
+
+				if (!empty($_SESSION['admin_warning']) || !empty($_SESSION['error_msg']))
+				{
+					$_SESSION['error_msg'] = $_SESSION['admin_warning'][1];
 					$_SESSION['success'] = -1;
 				}
 				// Cek input password lolos
