@@ -86,11 +86,7 @@ $('tr.uptd').hide();
 <th class="top">Foto</th>
 <td>
 <div class="userbox-avatar">
-<?php if($user['foto']){?>
-<img src="<?php echo AmbilFoto($user['foto'])?>" alt=""/>
-<?php }else{?>
-<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
-<?php }?>
+	<img src="<?php echo AmbilFoto($user['foto'])?>" alt=""/>
 </div>
 </td>
 </tr>

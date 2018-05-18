@@ -34,11 +34,7 @@
                 <th align="left" class="top">Foto</th>
                 <td>
 				<div class="userbox-avatar">
-				<?if($main['foto']){?>
 					<img src="<?php echo AmbilFoto($main['foto'])?>" alt=""/>
-				<?}else{?>
-					<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
-				<?}?>
 				</div>
 				</td>
 				<input type="hidden" name="old_foto" value="<?php echo $main['foto']?>">
