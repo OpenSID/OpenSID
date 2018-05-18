@@ -415,7 +415,6 @@ class User_model extends CI_Model {
 	public function update_setting($id = 0) {
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
-
 		$data['nama'] = $this->input->post('nama');
 		$password = $this->input->post('pass_lama');
 		$pass_baru = $this->input->post('pass_baru');
@@ -457,7 +456,7 @@ class User_model extends CI_Model {
 
 				if (!empty($_SESSION['admin_warning']))
 				{
-					$_SESSION['error_msg'] = $_SESSION['admin_warning'][1];
+					$_SESSION['error_msg'] .= $_SESSION['admin_warning'][1];
 				}
 
 				if (!empty($_SESSION['error_msg']))
