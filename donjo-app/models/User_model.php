@@ -406,9 +406,12 @@ class User_model extends CI_Model {
 		return $query->row_array();
 	}
 
-
-	public function update_setting($id = 0)
-	{
+	/**
+	 * Update user's settings
+	 * @param  integer $id Id user di database
+	 * @return void
+	 */
+	public function update_setting($id = 0) {
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
 
@@ -436,7 +439,7 @@ class User_model extends CI_Model {
 				{
 					$_SESSION['error_msg'] .= ' -> Password lama salah<br />';
 				}
-
+				
 				if (empty($pass_baru1))
 				{
 					$_SESSION['error_msg'] .= ' -> Password baru tidak boleh kosong<br />';
@@ -449,13 +452,18 @@ class User_model extends CI_Model {
 
 				$this->validate_admin_has_changed_password();
 
-				if (!empty($_SESSION['admin_warning']) || !empty($_SESSION['error_msg']))
+				if (!empty($_SESSION['admin_warning']))
 				{
 					$_SESSION['error_msg'] = $_SESSION['admin_warning'][1];
+				}
+
+				if (!empty($_SESSION['error_msg']))
+				{
 					$_SESSION['success'] = -1;
 				}
 				// Cek input password lolos
-				else {
+				else
+				{
 					$_SESSION['success'] = 1;
 					// Buat hash password
 					$pwHash = $this->generatePasswordHash($pass_baru);
@@ -472,9 +480,12 @@ class User_model extends CI_Model {
 		$this->db->where('id', $id);
 		$hasil = $this->db->update('user', $data);
 
-		if (!$hasil) {
+		if (!$hasil)
+		{
 			$_SESSION['success'] = -1;
-		} elseif ($_SESSION['success'] === 1) {
+		}
+		elseif ($_SESSION['success'] === 1)
+		{
 			unset($_SESSION['admin_warning']);
 		}
 	}
