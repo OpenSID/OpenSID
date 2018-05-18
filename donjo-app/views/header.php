@@ -50,11 +50,7 @@
 	<div id="sid-info"><?php echo ucwords($this->setting->sebutan_desa." ".$desa['nama_desa'].", ".$this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']).", ".$this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']))?></div>
 	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
 	  <div class="avatar">
-			<?php if($foto){?>
-				<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
-			<?php }else{?>
-				<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
-			<?php }?>
+			<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
 		</div>
 		<div class="info">
 			<div><strong>Anda Login sebagai</strong></div>

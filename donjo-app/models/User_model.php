@@ -600,7 +600,7 @@ class User_model extends CI_Model {
 			$lokasiBerkasLama = $this->uploadConfig['upload_path'].'kecil_'.$berkasLama;
 			$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
 		} else {
-			$berkasLama = NULL;
+			$berkasLama = 'kuser.png';
 		}
 
 		$nama_foto = $this->uploadFoto('gif|jpg|jpeg|png', LOKASI_USER_PICT, 'foto', 'man_user');
