@@ -21,6 +21,7 @@ Lengkapnya, isi rilis versi pasca-2.12:
 15. #1008: Tutup celah unggah script PHP melalui unggah template rtf surat master. [security-fix]
 16. #1011: Sekarang captcha untuk komentar artikel berfungsi kembali. [bug-fix]
 17. #934: Perbaiki penampilan huruf besar/kecil di nama pekerjaan di surat. [bug-fix]
+18. #979, #980, #981, #982, #983, #984, #1013: Pindahkan fitur peta dari Google Maps ke OpenStreetMap.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
