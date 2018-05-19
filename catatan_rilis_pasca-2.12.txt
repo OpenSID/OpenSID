@@ -23,6 +23,7 @@ Lengkapnya, isi rilis versi pasca-2.12:
 17. #934: Perbaiki penampilan huruf besar/kecil di nama pekerjaan di surat. [bug-fix]
 18. #979, #980, #981, #982, #983, #984, #1013: Pindahkan fitur peta dari Google Maps ke OpenStreetMap.
 19. #954: Ubah hapus log penduduk menjadi kembalikan status dasar ke hidup.
+20. Sekarang buka/tutup ubah status dasar penduduk berulang-ulang tidak error. [bug-fix]
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 

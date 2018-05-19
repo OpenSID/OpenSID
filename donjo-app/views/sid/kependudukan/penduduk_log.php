@@ -1,3 +1,6 @@
+<style type="text/css">
+    div.center {text-align: center;}
+</style>
 <script  TYPE='text/javascript'>
     $(function() {
         var keyword = <?php echo $keyword?> ;
@@ -28,6 +31,7 @@
                                 <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('penduduk_log/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span> Cari </button>
                                 <a href="<?php echo site_url()?>penduduk" class="uibutton icon prev">Kembali</a>
                             </div>
+                            <div class="center"><h3>Log Penduduk</h3></div>
                         </div>
                         <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
                             <div class="table-panel top">
