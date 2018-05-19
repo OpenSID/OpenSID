@@ -1,13 +1,16 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Penduduk_log extends CI_Controller{
+class Penduduk_log extends CI_Controller
+{
 
-	function __construct(){
+	function __construct()
+	{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) {
+		if($grup!=1 AND $grup!=2 AND $grup!=3)
+		{
 			if(empty($grup))
 				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 			else
@@ -16,11 +19,13 @@ class Penduduk_log extends CI_Controller{
 		}
 
 		$this->load->model('penduduk_model');
+		$this->load->model('penduduk_log_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
 	}
 
-	function clear(){
+	function clear()
+	{
 		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
@@ -38,7 +43,8 @@ class Penduduk_log extends CI_Controller{
 		redirect('penduduk_log');
 	}
 
-	function index($p=1,$o=0){
+	function index($p=1,$o=0)
+	{
 		$data['p']        = $p;
 		$data['o']        = $o;
 
@@ -111,7 +117,8 @@ class Penduduk_log extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-	function search(){
+	function search()
+	{
 		$cari = $this->input->post('cari');
 		if($cari!='')
 			$_SESSION['cari']=$cari;
@@ -119,7 +126,8 @@ class Penduduk_log extends CI_Controller{
 		redirect('penduduk_log');
 	}
 
-	function filter(){
+	function filter()
+	{
 		$filter = $this->input->post('filter');
 		if($filter!="")
 			$_SESSION['filter']=$filter;
@@ -127,7 +135,8 @@ class Penduduk_log extends CI_Controller{
 		redirect('penduduk_log');
 	}
 
-	function sex(){
+	function sex()
+	{
 		$sex = $this->input->post('sex');
 		if($sex!="")
 			$_SESSION['sex']=$sex;
@@ -135,7 +144,8 @@ class Penduduk_log extends CI_Controller{
 		redirect('penduduk_log');
 	}
 
-	function agama(){
+	function agama()
+	{
 		$agama = $this->input->post('agama');
 		if($agama!="")
 			$_SESSION['agama']=$agama;
@@ -143,7 +153,8 @@ class Penduduk_log extends CI_Controller{
 		redirect('penduduk_log');
 	}
 
-	function dusun(){
+	function dusun()
+	{
 		$dusun = $this->input->post('dusun');
 		if($dusun!="")
 			$_SESSION['dusun']=$dusun;
@@ -151,7 +162,8 @@ class Penduduk_log extends CI_Controller{
 		redirect('penduduk_log');
 	}
 
-	function rw(){
+	function rw()
+	{
 		$rw = $this->input->post('rw');
 		if($rw!="")
 			$_SESSION['rw']=$rw;
@@ -159,7 +171,8 @@ class Penduduk_log extends CI_Controller{
 		redirect('penduduk_log');
 	}
 
-	function rt(){
+	function rt()
+	{
 		$rt = $this->input->post('rt');
 		if($rt!="")
 			$_SESSION['rt']=$rt;
@@ -167,27 +180,35 @@ class Penduduk_log extends CI_Controller{
 		redirect('penduduk_log');
 	}
 
-	function edit_status_dasar($p=1,$o=0,$id=0){
-		$data['nik'] = $this->penduduk_model->get_penduduk($id);
-		$data['log_status_dasar'] = $this->penduduk_model->get_log_status_dasar($id);
-		$data['form_action'] = site_url("penduduk_log/update_status_dasar/$p/$o/$id");
-		$this->load->view('sid/kependudukan/ajax_edit_status_dasar',$data);
+	function edit($p=1,$o=0,$id=0)
+	{
+		$data['log_status_dasar'] = $this->penduduk_log_model->get_log($id);
+		$data['form_action'] = site_url("penduduk_log/update/$p/$o/$id");
+		$this->load->view('penduduk_log/ajax_edit',$data);
 	}
 
-	function update_status_dasar($p=1,$o=0,$id=''){
-		$this->penduduk_model->update_status_dasar($id);
+	function update($p=1,$o=0,$id='')
+	{
+		$this->penduduk_log_model->update($id);
 		redirect("penduduk_log/index/$p/$o");
 	}
 
-	function cetak($o=0){
-
+	function cetak($o=0)
+	{
 		$data['main']    = $this->penduduk_model->list_data($o,0, 10000);
-
 		$this->load->view('sid/kependudukan/penduduk_print',$data);
 	}
 
-	function delete_all($p=1,$o=0){
-	$this->penduduk_model->delete_all();
-		redirect("penduduk_log/index/$p/$o");
+	function kembalikan_status($id_log)
+	{
+		unset($_SESSION['success']);
+		$this->penduduk_log_model->kembalikan_status($id_log);
+		redirect("penduduk_log");
+	}
+
+	function kembalikan_status_all()
+	{
+		$this->penduduk_log_model->kembalikan_status_all();
+		redirect("penduduk_log");
 	}
 }
