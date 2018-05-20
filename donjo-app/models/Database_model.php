@@ -11,8 +11,8 @@
     '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => '2.9'),
     '2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => '2.10'),
     '2.10' => array('migrate' => 'migrasi_210_ke_211','nextVersion' => '2.11'),
-    '2.11' => array('migrate' => 'migrasi_211_ke_213','nextVersion' => NULL),
-    '2.12' => array('migrate' => 'migrasi_211_ke_213','nextVersion' => NULL)
+    '2.11' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => NULL),
+    '2.12' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -140,12 +140,46 @@
     $this->migrasi_28_ke_29();
     $this->migrasi_29_ke_210();
     $this->migrasi_210_ke_211();
-    $this->migrasi_211_ke_213();
+    $this->migrasi_211_ke_1806();
   }
 
 
-  function migrasi_211_ke_213(){
+  function migrasi_211_ke_1806(){
     // Tambahkan perubahan database di sini
+
+    //ambil nilai path
+    $config = $this->db->get('config')->row();
+    if(!empty($config)){
+        //Cek apakah path kosong atau tidak
+        if(!empty($config->path)){
+            //Cek pola path yang lama untuk diganti dengan yang baru
+           //Jika pola path masih yang lama, ganti dengan yang baru
+           if(preg_match('/((\([-+]?[0-9]{1,3}\.[0-9]*,(\s)?[-+]?[0-9]{1,3}\.[0-9]*\))\;)/', $config->path)){
+              $new_path = str_replace(array(');', '(', '][' ), array(']','[','],['), $config->path);
+             $this->db->where('id', $config->id)->update('config', array('path' => "[[$new_path]]"));
+            }
+        }
+
+        //Cek zoom agar tidak lebih dari 18 dan agar tidak kosong
+        if(empty($config->zoom) || $config->zoom > 18 || $config->zoom == 0){
+            $this->db->where('id', $config->id)->update('config', array('zoom' => 10));
+        }
+    }
+
+    //Penambahan widget peta wilayah desa
+    $widget = $this->db->select('isi')->where('isi', 'peta_wilayah_desa.php')->get('widget')->row();
+    if(empty($widget)){
+          //Penambahan widget peta wilayah desa sebagai widget sistem
+          $peta_wilayah = array(
+            'isi'           => 'peta_wilayah_desa.php',
+            'enabled'       => 1,
+            'judul'         => 'Peta Wilayah Desa',
+            'jenis_widget'  => 1,
+            'urut'          => 1,
+            'form_admin'    => 'hom_desa'
+          );
+          $this->db->insert('widget', $peta_wilayah);
+     }
 
     //ubah icon kecil dan besar untuk modul Sekretariat
      $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));

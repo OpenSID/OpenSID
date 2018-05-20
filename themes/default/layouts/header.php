@@ -39,9 +39,13 @@
 		<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
+        
+    	<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>		
 		<script src="<?php echo base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.colorbox.js"></script>
+		
 		<script>
 			$(document).ready(function(){
 				$(".group2").colorbox({rel:'group2', transition:"fade"});

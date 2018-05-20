@@ -24,11 +24,7 @@
               <tr>
                 <td>
                   <div class="userbox-avatar">
-                    <?php if($penduduk['foto']){?>
-                      <img src="<?php echo AmbilFoto($penduduk['foto'])?>" alt=""/>
-                    <?php }else{?>
-                      <img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
-                    <?php }?>
+                    <img src="<?php echo AmbilFoto($penduduk['foto'])?>" alt=""/>
                   </div>
                 </td>
               </tr>

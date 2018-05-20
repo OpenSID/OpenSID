@@ -41,6 +41,10 @@ class Setting_model extends CI_Model
     if(empty($this->setting->google_key)){
       $this->setting->google_key = config_item('google_key');
     }
+    // Ambil dev_tracker dari desa/config/config.php kalau tidak ada di database
+    if(empty($this->setting->dev_tracker)){
+      $this->setting->dev_tracker = config_item('dev_tracker');
+    }
   }
 
   function update($data){

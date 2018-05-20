@@ -30,16 +30,18 @@
 			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
 		<?php endif; ?>
 	  <link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
+      <link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
 
 	  <!-- Styles untuk tema dan penyesuaiannya di folder desa -->
 	  <link type='text/css' href="<?php echo base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
 		<?php if(is_file("desa/css/".$this->theme."/desa-web.css")): ?>
 			<link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/desa-web.css" rel='Stylesheet' />
 		<?php endif; ?>
-
 		<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
+        
+        <script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.colorbox.js"></script>

@@ -1,4 +1,7 @@
 <?php
+
+define("FOTO_DEFAULT", base_url() . 'assets/files/user_pict/kuser.png');
+
 /**
 * Tambahkan suffix unik ke nama file
 * @param   string        $namaFile    Nama file asli (beserta ekstensinya)
@@ -34,8 +37,13 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter =
 
 function AmbilFoto($foto, $ukuran="kecil_")
 {
-  $ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
-  $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
+  if (empty($foto) OR $foto == 'kuser.png')
+    $file_foto = FOTO_DEFAULT;
+  else {
+    $ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
+    $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
+    if (!file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto)) $file_foto = FOTO_DEFAULT;
+  }
   return $file_foto;
 }
 

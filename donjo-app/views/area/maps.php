@@ -1,111 +1,98 @@
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/polygon.min.js"></script>
 <script>
-	function PolygonCreator(map){
-		this.map=map;this.pen=new Pen(this.map);
-		var thisOjb=this;
-		this.event=google.maps.event.addListener(thisOjb.map,'click',function(event){thisOjb.pen.draw(event.latLng);});
-
-		this.showData=function(){return this.pen.getData();}
-
-		this.showColor=function(){return this.pen.getColor();}
-
-		this.destroy=function(){
-			this.pen.deleteMis();
-			if(null!=this.pen.polygon){
-				this.pen.polygon.remove();
+		<?php
+			if(!empty($desa['lat'] && !empty($desa['lng']))){
+		?>
+			var posisi = [<?php echo $desa['lat'].",".$desa['lng']; ?>];
+			var zoom = <?php echo $desa['zoom'] ?: 10; ?>;
+		<?
+			}else{
+		?>
+			var posisi = [-7.885619783139936,110.39893195996092];
+			var zoom = 10;
+		<?php
 			}
-		google.maps.event.removeListener(this.event);
-		}
-	}
-
-	$(function(){
-
-    var options = {
-		<?php if($desa['lat']!=""){?>
-		  center: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
-		  zoom: <?php echo $desa['zoom']?>,
-		  mapTypeId: google.maps.MapTypeId.<?php echo strtoupper($desa['map_tipe'])?>
-		<?php }else{?>
-		  center: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
-		  zoom: 14,
-		  mapTypeId: google.maps.MapTypeId.ROADMAP
-		<?php }?>
-    };
-    var map = new google.maps.Map(document.getElementById('map'), options);
+		?>
+		
+		//Inisialisasi tampilan peta
+		var peta_area = L.map('map_area').setView(posisi, zoom);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+			id: 'peta_area'
+		}).addTo(peta_area);
+		
 <?php
-			$path = preg_split("/\;/", $area['path']);
-			echo "var path = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
+	if(!empty($area['path'])){
+?>
 
-			var area = new google.maps.Polygon({
-			  paths: path,
-			  map: map,
-			  strokeColor: '#11ff00',
-			  strokeOpacity: 0.6,
-			  strokeWeight: 1,
-			  fillColor: '#11ff00',
-			  fillOpacity: 0.35
-			});
+//Poligon wilayah desa yang tersimpan
+var area_polygon = <?php echo $area['path']; ?>;
 
-<?php /*
-			$path_desa = preg_split("/\;/", $desa['path']);
-			echo "var path_desa = [";foreach($path_desa AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
+//Titik awal dan titik akhir poligon harus sama
+area_polygon[0].push(area_polygon[0][0]);
 
-			var desa = new google.maps.Polygon({
-			  paths: path_desa,
-			  map: map,
-			  strokeColor: '#11ddff',
-			  strokeOpacity: 0.6,
-			  strokeWeight: 1,
-			  fillColor: '#11ddff',
-			  fillOpacity: 0.25
-			});
-			*/?>
-			google.maps.event.addListener(area, 'mouseover', function(e) {
-			  area.setOptions({
-				fillColor: '#0000ff',
-				strokeColor: '#0000ff'
-			  });
-			});
+//Tampilkan poligon desa untuk diedit		
+var area = L.polygon(area_polygon).addTo(peta_area);
 
-			google.maps.event.addListener(area, 'mouseout', function(e) {
-			  area.setOptions({
-				fillColor: '#11ff00',
-				strokeColor: '#11ff00'
-			  });
-			});
+//Event untuk mengecek perubahan poligon
+area.on('pm:edit', function(e){
+	document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+})
 
-		var creator = new PolygonCreator(map);
-		 $('#reset').click(function(){
-		 		creator.destroy();
-		 		creator=null;
+//Fokuskan peta ke poligon
+peta_area.fitBounds(area.getBounds());
 
-		 		creator=new PolygonCreator(map);
-				document.getElementById('dataPanel').value = creator.showData();
-		 });
+<?php
+	}
+?>
+		//Tombol yang akan dimunculkan dipeta
+		var options = {
+			position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+			drawMarker: false, // adds button to draw markers
+			drawPolyline: false, // adds button to draw a polyline
+			drawRectangle: false, // adds button to draw a rectangle
+			drawPolygon: true, // adds button to draw a polygon
+			drawCircle: false, // adds button to draw a cricle
+			cutPolygon: false, // adds button to cut a hole in a polygon
+			editMode: true, // adds button to toggle edit mode for all layers
+			removalMode: true, // adds a button to remove layers
+		};
 
-		$('#showData').click(function(){
-		 		$('#dataPanel').empty();
-		 		if(null==creator.showData()){
-					this.form.submit();
-		 		}else{
-					document.getElementById('dataPanel').value = creator.showData();
-					this.form.submit();
-		 		}
-		 });
+		//Menambahkan toolbar ke peta
+		peta_area.pm.addControls(options);
 
-	});
+		//Event untuk menangkap polygon yang dibuat
+		peta_area.on('pm:create', function(e) {
+			//Ambil list poligon yang ada
+			var keys = Object.keys(peta_area._layers);
+			//Tambahkan event edit ke poligon yang telah dibuat
+			peta_area._layers[keys[2]].on('pm:edit', function(f){
+				document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+			})
+    		document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+		});
 
+		function getLatLong(x, y) {
+			var hasil;
+			if (x == 'Rectangle' || x == 'Line' || x == 'Poly') {
+				hasil = JSON.stringify(y._latlngs);
+			} else {
+				hasil = JSON.stringify(y._latlng);
+			}
+			hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
+			return hasil
+		}
 </script>
 <style>
-#map {
+#map_area {
   width: 420px;
   height: 320px;
   border: 1px solid #000;
 }
 </style>
-	<div id="map"></div>
-<form action="<?php echo $form_action?>" method="post">
-	<input type="hidden" id="dataPanel" name="path"  value="<?php echo $area['path']?>">
+	<div id="map_area"></div>
+	<form action="<?php echo $form_action?>" method="post">
+	<input type="hidden" id="path" name="path" value="<?php echo $area['path']?>">
 	<div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
 	<div class="uibutton-group">
 		<button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
