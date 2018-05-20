@@ -4,6 +4,7 @@ class Keluar extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
+		session_start();
 		$this->load->model('user_model');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('surat_model');

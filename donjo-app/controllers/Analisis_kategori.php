@@ -2,6 +2,7 @@
 class Analisis_kategori extends CI_Controller{
 	function __construct(){
 		parent::__construct();
+		session_start();
 		$this->load->model('analisis_kategori_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');

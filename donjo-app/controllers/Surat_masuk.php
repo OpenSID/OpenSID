@@ -4,6 +4,7 @@ class Surat_masuk extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
+		session_start();
 		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
 		$this->load->model('user_model');

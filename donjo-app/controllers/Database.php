@@ -4,6 +4,7 @@ class Database extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
+		session_start();
 		$this->load->model('user_model');
 		$this->load->dbforge();
 		//$this->load->model('wilayah_model');

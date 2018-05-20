@@ -3,6 +3,7 @@ class Statistik extends CI_Controller{
 
 function __construct(){
 		parent::__construct();
+		session_start();
 		$this->load->model('user_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('program_bantuan_model');

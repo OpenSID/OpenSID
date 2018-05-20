@@ -1,9 +1,10 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<? if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Master_penduduk extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
+		session_start();
 		$this->load->model('user_model');
 		$this->load->model('master_analisis_penduduk_model');
 		$_SESSION['request_uri'] = $_SESSION['REQUEST_URI'];
