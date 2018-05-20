@@ -184,8 +184,7 @@
 
 	function status_dasar_sql()
 	{
-		// Hanya filter status_dasar kalau bukan log_penduduk
-		if(isset($_SESSION['status_dasar']) AND !isset($_SESSION['log'])){
+		if(isset($_SESSION['status_dasar'])){
 			$kf = $_SESSION['status_dasar'];
 				$status_dasar= " AND u.status_dasar = $kf";
 		return $status_dasar;
@@ -214,15 +213,6 @@
 		}
 	}
 
-	function log_sql()
-	{
-		if(isset($_SESSION['log'])){
-			// Hanya tampilkan penduduk yang status dasarnya bukan 'HIDUP'
-			$log_sql= " AND u.status_dasar > 1 ";
-		}
-		return $log_sql;
-	}
-
 	function get_alamat_wilayah($id)
 	{
 		// Alamat anggota keluarga diambil dari tabel keluarga
@@ -245,10 +235,10 @@
 		return $alamat_wilayah;
 	}
 
-	function paging($p=1,$o=0,$log=0)
+	function paging($p=1,$o=0)
 	{
 
-		$list_data_sql = $this->list_data_sql($log);
+		$list_data_sql = $this->list_data_sql();
 		$sql = "SELECT COUNT(u.id) AS id ".$list_data_sql;
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
@@ -264,7 +254,7 @@
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-	private function list_data_sql($log)
+	private function list_data_sql()
 	{
 		$sql = "
 		FROM tweb_penduduk u
@@ -317,24 +307,16 @@
 		$sql .= $this->umur_min_sql();
 		$sql .= $this->umur_max_sql();
 		$sql .= $this->umur_sql();
-		$sql .= $this->log_sql();
 		$sql .= $this->hamil_sql();
 		return $sql;
 	}
 
-	function list_data($o=0,$offset=0,$limit=500,$log=0)
+	function list_data($o=0,$offset=0,$limit=500)
 	{
 
-		if ($log==1) {
-			$select_sql = "SELECT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,log.id as id_log,log.no_kk AS no_kk,log.catatan as catatan,log.nama_kk as nama_kk,
-				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,log.tanggal,log.tgl_peristiwa,log.id_detail
+		$select_sql = "SELECT DISTINCT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk,
+			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,b.no_kk AS no_rtm,b.id AS id_rtm
 				";
-		} else {
-			// data log tidak di-select, supaya di tabel Penduduk tidak ada duplikat
-			$select_sql = "SELECT DISTINCT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk,
-				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,b.no_kk AS no_rtm,b.id AS id_rtm
-				";
-		}
 		//Main Query
 		$list_data_sql = $this->list_data_sql($log);
 		$sql = $select_sql." ".$list_data_sql;
@@ -349,9 +331,6 @@
 			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
 			case 7: $order_sql = ' ORDER BY umur'; break;
 			case 8: $order_sql = ' ORDER BY umur DESC'; break;
-			// Untuk Log Penduduk
-			case 9: $order_sql = ' ORDER BY log.tgl_peristiwa'; break;
-			case 10: $order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
 			default:$order_sql = '';
 		}
 
