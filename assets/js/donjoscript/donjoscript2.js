@@ -484,7 +484,7 @@ function createCookie(name, value, expires, path, domain) {
   document.cookie = cookie;
 }
 function getCookie(name) {
-  var regexp = new RegExp("(?:^" + name + "|;\s*"+ name + ")=(.*?)(?:;|$)", "g");
+  var regexp = new RegExp("(?:^" + name + "|;\\s*"+ name + ")=(.*?)(?:;|$)", "g");
   var result = regexp.exec(document.cookie);
   return (result === null) ? null : result[1];
 }
