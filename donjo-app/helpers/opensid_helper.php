@@ -537,20 +537,6 @@ function show_zero_as($val, $str)
     return (empty($val) ? $str : $val);
 }
 
-/*
-TODO: mungkin letakkan di penduduk_model
-*/
-function get_log_penduduk_status($id_detail)
-{
-    $log_status = array(
-        1 => "Hidup",
-        2 => "Mati",
-        3 => "Pindah",
-        4 => "Hilang"
-    );
-    return $log_status[$id_detail];
-}
-
 function log_time($msg)
 {
     $now = DateTime::createFromFormat('U.u', microtime(true));

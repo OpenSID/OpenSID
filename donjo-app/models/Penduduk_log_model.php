@@ -174,6 +174,7 @@
 		LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
 		LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 		LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
+		LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend
 		WHERE u.status_dasar > 1 ";
 
@@ -192,8 +193,9 @@
 	function list_data($o=0,$offset=0,$limit=500)
 	{
 
-		$select_sql = "SELECT u.id,u.nik,u.tanggallahir,u.status_dasar,u.id_kk,u.nama,a.dusun,a.rw,a.rt,d.alamat,log.id as id_log,log.no_kk AS no_kk,log.catatan as catatan,log.nama_kk as nama_kk,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,g.nama AS agama,log.tanggal,log.tgl_peristiwa,log.id_detail
+		$select_sql = "SELECT u.id,u.nik,u.tanggallahir,sd.nama as status_dasar,u.id_kk,u.nama,a.dusun,a.rw,a.rt,d.alamat,log.id as id_log,log.no_kk AS no_kk,log.catatan as catatan,log.nama_kk as nama_kk,
+			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
+			x.nama AS sex,g.nama AS agama,log.tanggal,log.tgl_peristiwa,log.id_detail
 				";
 		//Main Query
 		$list_data_sql = $this->list_data_sql();
@@ -207,8 +209,8 @@
 			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
 			case 5: $order_sql = ' ORDER BY d.no_kk'; break;
 			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
-			case 7: $order_sql = ' ORDER BY umur'; break;
-			case 8: $order_sql = ' ORDER BY umur DESC'; break;
+			case 7: $order_sql = ' ORDER BY umur_pada_peristiwa'; break;
+			case 8: $order_sql = ' ORDER BY umur_pada_peristiwa DESC'; break;
 			// Untuk Log Penduduk
 			case 9: $order_sql = ' ORDER BY log.tgl_peristiwa'; break;
 			case 10: $order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
