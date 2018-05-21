@@ -24,6 +24,8 @@ Lengkapnya, isi rilis versi pasca-2.12:
 18. #979, #980, #981, #982, #983, #984, #1013: Pindahkan fitur peta dari Google Maps ke OpenStreetMap.
 19. #954: Ubah hapus log penduduk menjadi kembalikan status dasar ke hidup.
 20. Sekarang buka/tutup ubah status dasar penduduk berulang-ulang tidak error. [bug-fix]
+21. #821: Tambah menu cetak dan unduh log penduduk. Tampilkan umur pada peristiwa bukan umur saat ini. Perbaiki fitur tampilan Log Penduduk.
+22. Di tampilan Log Penduduk, ganti filter menurut status kependudukan menjadi menurut status dasar.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 

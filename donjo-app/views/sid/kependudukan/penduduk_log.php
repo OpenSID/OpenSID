@@ -23,7 +23,9 @@
                         <div class="ui-layout-north panel">
                             <div class="left">
                                 <div class="uibutton-group">
-                                  <button type="button" title="Kembalikan Status" onclick="aksiBorongan('mainform','<?php echo site_url("penduduk_log/kembalikan_status_all")?>', 'Kembalikan Status', 'Apakah Anda yakin?')" class="uibutton tipsy south"><span class="fa fa-undo">&nbsp;</span>Kembalikan Status</button>
+                                    <button type="button" title="Kembalikan Status" onclick="aksiBorongan('mainform','<?php echo site_url("penduduk_log/kembalikan_status_all")?>', 'Kembalikan Status', 'Apakah Anda yakin?')" class="uibutton tipsy south"><span class="fa fa-undo">&nbsp;</span>Kembalikan Status</button>
+                                    <a href="<?php echo site_url("penduduk_log/cetak/$o")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+                                    <a href="<?php echo site_url("penduduk_log/excel/$o")?>" class="uibutton tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
                                 </div>
                             </div>
                             <div class="right">
@@ -36,13 +38,14 @@
                         <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
                             <div class="table-panel top">
                                 <div class="left">
-                                    <select name="filter" onchange="formAction('mainform','<?php echo site_url('penduduk_log/filter')?>')">
+                                    <select name="status_dasar" onchange="formAction('mainform','<?php echo site_url('penduduk_log/status_dasar')?>')">
                                         <option value="">Semua</option>
-                                        <option value="1" <?php if($filter==1 ) :?>selected<?php endif?>>Tetap</option>
-                                        <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Pasif</option>
-                                        <option value="3" <?php if($filter==3) :?>selected<?php endif?>>Pendatang</option>
+                                        <?php foreach ($list_status_dasar as $data): ?>
+                                            <?php if (strtolower($data['nama']) != 'hidup'): ?>
+                                                <option value="<?php echo $data['id']?>" <?php if($status_dasar==$data['id']):?>selected<?php  endif;?>><?php echo ucwords(strtolower($data['nama']))?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
                                     </select>
-
                                     <select name="sex" onchange="formAction('mainform','<?php echo site_url('penduduk_log/sex')?>')">
                                         <option value="">Jenis Kelamin</option>
                                         <option value="1" <?php if($sex==1 ) :?>selected<?php endif?>>Laki-Laki</option>
@@ -166,10 +169,10 @@
                                             <td><?php echo unpenetration($data['dusun'])?></td>
                                             <td><?php echo $data['rw']?></td>
                                             <td><?php echo $data['rt']?></td>
-                                            <td><?php echo $data['umur']?></td>
-                                            <td><?php echo get_log_penduduk_status($data['id_detail'])?></td>
+                                            <td><?php echo $data['umur_pada_peristiwa']?></td>
+                                            <td><?php echo $data['status_dasar']?></td>
                                             <td><?php echo tgl_indo($data['tgl_peristiwa'])?></td>
-                                            <td><?php echo tgl_indo2($data['tanggal'])?></td>
+                                            <td><?php echo tgl_indo($data['tanggal'])?></td>
                                             <td><?php echo $data['catatan']?></td>
 
                                 		</tr>

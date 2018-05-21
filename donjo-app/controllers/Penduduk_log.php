@@ -17,6 +17,8 @@ class Penduduk_log extends CI_Controller
 			redirect('siteman');
 		}
 
+
+		$this->load->model('referensi_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('penduduk_log_model');
 		$this->load->model('header_model');
@@ -25,9 +27,8 @@ class Penduduk_log extends CI_Controller
 
 	function clear()
 	{
-		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		unset($_SESSION['status_dasar']);
 		unset($_SESSION['sex']);
 		unset($_SESSION['dusun']);
 		unset($_SESSION['rw']);
@@ -35,7 +36,6 @@ class Penduduk_log extends CI_Controller
 		unset($_SESSION['agama']);
 		unset($_SESSION['umur_min']);
 		unset($_SESSION['umur_max']);
-		unset($_SESSION['pekerjaan_id']);
 		unset($_SESSION['status']);
 		unset($_SESSION['status_penduduk']);
 		$_SESSION['per_page'] = 200;
@@ -51,9 +51,9 @@ class Penduduk_log extends CI_Controller
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
-		if(isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		if(isset($_SESSION['status_dasar']))
+			$data['status_dasar'] = $_SESSION['status_dasar'];
+		else $data['status_dasar'] = '';
 
 		if(isset($_SESSION['sex']))
 			$data['sex'] = $_SESSION['sex'];
@@ -78,13 +78,10 @@ class Penduduk_log extends CI_Controller
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
+
 		if(isset($_SESSION['agama']))
 			$data['agama'] = $_SESSION['agama'];
 		else $data['agama'] = '';
-
-		if(isset($_SESSION['pekerjaan_id']))
-			$data['pekerjaan_id'] = $_SESSION['pekerjaan_id'];
-		else $data['pekerjaan_id'] = '';
 
 		if(isset($_SESSION['status']))
 			$data['status'] = $_SESSION['status'];
@@ -101,9 +98,10 @@ class Penduduk_log extends CI_Controller
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->penduduk_model->paging($p,$o,1);
-		$data['main']    = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page,1);
+		$data['paging']  = $this->penduduk_log_model->paging($p,$o);
+		$data['main']    = $this->penduduk_log_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();
+		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
@@ -125,12 +123,11 @@ class Penduduk_log extends CI_Controller
 		redirect('penduduk_log');
 	}
 
-	function filter()
-	{
-		$filter = $this->input->post('filter');
-		if($filter!="")
-			$_SESSION['filter']=$filter;
-		else unset($_SESSION['filter']);
+	function status_dasar(){
+		$status_dasar = $this->input->post('status_dasar');
+		if($status_dasar!="")
+			$_SESSION['status_dasar']=$status_dasar;
+		else unset($_SESSION['status_dasar']);
 		redirect('penduduk_log');
 	}
 
@@ -192,12 +189,6 @@ class Penduduk_log extends CI_Controller
 		redirect("penduduk_log/index/$p/$o");
 	}
 
-	function cetak($o=0)
-	{
-		$data['main']    = $this->penduduk_model->list_data($o,0, 10000);
-		$this->load->view('sid/kependudukan/penduduk_print',$data);
-	}
-
 	function kembalikan_status($id_log)
 	{
 		unset($_SESSION['success']);
@@ -210,4 +201,17 @@ class Penduduk_log extends CI_Controller
 		$this->penduduk_log_model->kembalikan_status_all();
 		redirect("penduduk_log");
 	}
+
+	function cetak($o=0)
+	{
+		$data['main'] = $this->penduduk_log_model->list_data($o,0, 10000);
+		$this->load->view('penduduk_log/penduduk_log_print',$data);
+	}
+
+	function excel($o=0)
+	{
+		$data['main'] = $this->penduduk_log_model->list_data($o,0, 10000);
+		$this->load->view('penduduk_log/penduduk_log_excel',$data);
+	}
+
 }

@@ -21,7 +21,6 @@ class Penduduk extends CI_Controller{
 	}
 
 	function clear(){
-		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		unset($_SESSION['status_dasar']);
@@ -54,7 +53,6 @@ class Penduduk extends CI_Controller{
 	}
 
 	function index($p=1,$o=0){
-		unset($_SESSION['log']);
 
 		$data['p']        = $p;
 		$data['o']        = $o;
