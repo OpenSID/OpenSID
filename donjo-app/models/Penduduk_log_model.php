@@ -83,22 +83,12 @@
 		}
 	}
 
-	function filter_sql()
-	{
-		if(isset($_SESSION['filter'])){
-			$kf = $_SESSION['filter'];
-			$filter_sql= " AND u.status = $kf";
-		return $filter_sql;
-		}
-	}
-
 	function status_dasar_sql()
 	{
-		// Hanya filter status_dasar kalau bukan log_penduduk
-		if(isset($_SESSION['status_dasar']) AND !isset($_SESSION['log'])){
+		if(isset($_SESSION['status_dasar'])){
 			$kf = $_SESSION['status_dasar'];
-				$status_dasar= " AND u.status_dasar = $kf";
-		return $status_dasar;
+				$sql= " AND u.status_dasar = $kf";
+		return $sql;
 		}
 	}
 
@@ -179,7 +169,6 @@
 		WHERE u.status_dasar > 1 ";
 
 		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
 		$sql .= $this->status_dasar_sql();
 		$sql .= $this->sex_sql();
 		$sql .= $this->agama_sql();

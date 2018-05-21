@@ -38,13 +38,14 @@
                         <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
                             <div class="table-panel top">
                                 <div class="left">
-                                    <select name="filter" onchange="formAction('mainform','<?php echo site_url('penduduk_log/filter')?>')">
+                                    <select name="status_dasar" onchange="formAction('mainform','<?php echo site_url('penduduk_log/status_dasar')?>')">
                                         <option value="">Semua</option>
-                                        <option value="1" <?php if($filter==1 ) :?>selected<?php endif?>>Tetap</option>
-                                        <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Pasif</option>
-                                        <option value="3" <?php if($filter==3) :?>selected<?php endif?>>Pendatang</option>
+                                        <?php foreach ($list_status_dasar as $data): ?>
+                                            <?php if (strtolower($data['nama']) != 'hidup'): ?>
+                                                <option value="<?php echo $data['id']?>" <?php if($status_dasar==$data['id']):?>selected<?php  endif;?>><?php echo ucwords(strtolower($data['nama']))?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
                                     </select>
-
                                     <select name="sex" onchange="formAction('mainform','<?php echo site_url('penduduk_log/sex')?>')">
                                         <option value="">Jenis Kelamin</option>
                                         <option value="1" <?php if($sex==1 ) :?>selected<?php endif?>>Laki-Laki</option>
