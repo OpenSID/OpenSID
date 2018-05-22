@@ -42,11 +42,10 @@
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
-		//Formating Output
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['alamat']= "Alamat: RT-".$data[$i]['rt'].", RW-".$data[$i]['rw']." ".$data[$i]['dusun'];
-			$i++;
+		//Formating Output untuk nilai variabel di javascript
+		foreach($data as $i => $row) {
+			$data[$i]['nama'] = addslashes($row['nama']);
+			$data[$i]['alamat'] = addslashes("Alamat: RT-{$row[rt]}, RW-{$row[rw]} {$row[dusun]}");
 		}
 		return $data;
 	}

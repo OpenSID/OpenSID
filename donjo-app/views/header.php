@@ -106,7 +106,7 @@
 
  	<!-- ************ -->
 
-    <?php if (isset($_SESSION['admin_warning']) && !config_item('demo')): ?>
+    <?php if ($this->session->admin_warning && !config_item('demo')): ?>
     		<style type="text/css">
     			.ui-dialog-titlebar.ui-widget-header {
     				background-color: #f8e9e9;
