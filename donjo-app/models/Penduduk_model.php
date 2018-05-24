@@ -272,7 +272,6 @@
 		LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
 		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
 		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
-		LEFT JOIN log_penduduk log ON u.id = log.id_pend
 		WHERE 1 ";
 
 		$sql .= $this->search_sql();
