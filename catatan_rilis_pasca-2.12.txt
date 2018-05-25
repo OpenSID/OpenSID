@@ -22,12 +22,14 @@ Lengkapnya, isi rilis versi pasca-2.12:
 16. #1011: Sekarang captcha untuk komentar artikel berfungsi kembali. [bug-fix]
 17. #934: Perbaiki penampilan huruf besar/kecil di nama pekerjaan di surat. [bug-fix]
 18. #979, #980, #981, #982, #983, #984, #1013: Pindahkan fitur peta dari Google Maps ke OpenStreetMap.
-19. #954: Ubah hapus log penduduk menjadi kembalikan status dasar ke hidup.
+19. #954, #921: Ubah hapus log penduduk menjadi kembalikan status dasar ke hidup.
 20. Sekarang buka/tutup ubah status dasar penduduk berulang-ulang tidak error. [bug-fix]
 21. #821: Tambah menu cetak dan unduh log penduduk. Tampilkan umur pada peristiwa bukan umur saat ini. Perbaiki fitur tampilan Log Penduduk.
 22. Di tampilan Log Penduduk, ganti filter menurut status kependudukan menjadi menurut status dasar.
 23. Perbaiki error kalau folder tema ubahan di setting tidak ditemukan. [bug-fix]
 24. #893, #1025: Sekarang nama penduduk berisi tanda petik (') bisa tampil di semua form surat. [bug-fix]
+25. #799: Tambah cetak/unduh laporan dokumen umum, SK Kades dan Perdes menurut tahun.
+26. Perbaiki nama pamong ttd dan mengetahui terbalik di laporan inventaris. [bug-fix]
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 

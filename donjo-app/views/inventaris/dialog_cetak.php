@@ -50,11 +50,12 @@
         <select name="pamong_ketahui"  class="inputbox">
           <option value="">Pilih Staf Mengetahui</option>
           <?php foreach($pamong AS $data){?>
-            <option value="<?php echo $data['pamong_nama']?>" data-jabatan="<?php echo trim($data['jabatan'])?>" <?php if(strpos(strtolower($data['jabatan']),'kepala')!==false) echo 'selected'; ?>><?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)</option>
+            <option value="<?php echo $data['pamong_nama']?>" data-jabatan="<?php echo trim($data['jabatan'])?>" <?php if(strpos(strtolower($data['jabatan']),'kepala')!==false and strpos(strtolower($data['jabatan']),'dusun')===false) echo 'selected'; ?>><?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)</option>
           <?php }?>
         </select>
 			</td>
 		</tr>
+		<tr><td colspan="2">&nbsp;</td></tr>
 	</table>
 	<div class="buttonpane" style="float: right;">
     <div class="uibutton-group">

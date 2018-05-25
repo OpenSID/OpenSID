@@ -230,5 +230,84 @@ class Web_dokumen_model extends CI_Model{
 	function list_kategori(){
 		return unserialize(KODE_KATEGORI);
 	}
+
+	public function listTahun($kat=1)
+	{
+		$list_tahun = array();
+		// Data tanggal berbeda menurut kategori dokumen
+		// Informasi masing2 kategori dokumen tersimpan dalam format json di kolom attr
+		// MySQL baru memiliki fitur query json mulai dari 5.7; jadi di sini dilakukan secara manual
+
+		switch ($kat)
+		{
+			case '1':
+				# Dokumen umum
+			$this->db->select('YEAR(tgl_upload) AS tahun');
+				break;
+			case '2':
+				# SK KADES
+				$attr_str = '"tgl_kep_kades":';
+				$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun");
+				break;
+			case '3':
+				# PERDES
+				$attr_str = '"tgl_ditetapkan":';
+				$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun");
+				break;
+		}
+
+		$list_tahun = $this->db->distinct()
+			->where('kategori', $kat)
+			->order_by('tahun DESC')
+			->get('dokumen')->result_array();
+		return $list_tahun;
+	}
+
+	public function dataCetak($kat=1, $tahun='')
+	{
+		if (!empty($tahun))
+		{
+			switch ($kat)
+			{
+				case '1':
+					# Dokumen umum
+					$this->db->where('YEAR(tgl_upload)', $tahun);
+					break;
+				// Data tanggal berbeda menurut kategori dokumen
+				// Informasi masing2 kategori dokumen tersimpan dalam format json di kolom attr
+				// MySQL baru memiliki fitur query json mulai dari 5.7; jadi di sini dilakukan secara manual
+				case '2':
+					# SK KADES
+					$regex = '"tgl_kep_kades":"[[:digit:]]{2}-[[:digit:]]{2}-' . $tahun;
+					$this->db->where("attr REGEXP '" . $regex . "'");
+					break;
+				case '3':
+					# PERDES
+					$regex = '"tgl_ditetapkan":"[[:digit:]]{2}-[[:digit:]]{2}-'. $tahun;
+					$this->db->where("attr REGEXP '" . $regex . "'");
+					break;
+			}
+		}
+		$data = $this->db->select('*')
+			->where('kategori', $kat)
+			->get('dokumen')->result_array();
+		foreach ($data as $i => $dok)
+		{
+			$data[$i]['no'] = $i + 1;
+			$data[$i]['attr'] = json_decode($dok['attr'], true);
+		}
+		return $data;
+	}
+
+	public function namaKategori($kat)
+	{
+		if ($kat == 2)
+			return 'SK Kepala Desa';
+		elseif ($kat == 3)
+			return 'Peraturan Desa';
+		else
+			return 'Dokumen Umum';
+	}
+
 }
 ?>

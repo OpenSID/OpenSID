@@ -140,6 +140,17 @@ class Dokumen_sekretariat extends CI_Controller{
 		redirect("dokumen_sekretariat/index/$kat/$p/$o");
 	}
 
+	function dialog_cetak($kat=1)
+	{
+		redirect("dokumen/dialog_cetak/$kat");
+	}
+
+	function dialog_excel($kat=1)
+	{
+		redirect("dokumen/dialog_excel/$kat");
+	}
+
+
 	private function _set_tab($kat){
 		switch ($kat) {
 			case '2':
