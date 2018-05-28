@@ -1,4 +1,4 @@
-Rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+Rilis ini memindahkan semua fitur peta dari Google Maps ke OpenStreetMap dan memperbaiki Log Penduduk termasuk menyediakan fitur cetak/unduh laporan. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
 Terima kasih pada Diego Dafma, Adi Rahman dan Happy Agung yang terus berkontribusi. Juga terima kasih pada Yusup Hambali yang mulai kontribusi.
 
