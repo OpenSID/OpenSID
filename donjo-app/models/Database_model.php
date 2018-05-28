@@ -168,7 +168,7 @@
     }
 
     //Penambahan widget peta wilayah desa
-    $widget = $this->db->select('isi')->where('isi', 'peta_wilayah_desa.php')->get('widget')->row();
+    $widget = $this->db->select('id, isi')->where('isi', 'peta_wilayah_desa.php')->get('widget')->row();
     if(empty($widget)){
           //Penambahan widget peta wilayah desa sebagai widget sistem
           $peta_wilayah = array(
@@ -177,10 +177,14 @@
             'judul'         => 'Peta Wilayah Desa',
             'jenis_widget'  => 1,
             'urut'          => 1,
-            'form_admin'    => 'hom_desa'
+            'form_admin'    => 'hom_desa/konfigurasi'
           );
           $this->db->insert('widget', $peta_wilayah);
-     }
+    } else {
+      // Paksa update karena sudah ada yang menggunakan versi pra-rilis sebelumnya
+      $this->db->where('id', $widget->id)
+        ->update('widget', array('form_admin' => 'hom_desa/konfigurasi'));
+    }
 
     //ubah icon kecil dan besar untuk modul Sekretariat
      $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));
