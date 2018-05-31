@@ -2,7 +2,7 @@ Rilis ini memindahkan semua fitur peta dari Google Maps ke OpenStreetMap dan mem
 
 Terima kasih pada Diego Dafma, Adi Rahman dan Happy Agung yang terus berkontribusi. Juga terima kasih pada Yusup Hambali yang mulai kontribusi.
 
-Lengkapnya, isi rilis versi pasca-2.12:
+Lengkapnya, isi rilis versi 18.06:
 
 1. #927: Ingatkan admin untuk mengganti password kalau masih menggunakan password default. [security-fix]
 2. #924: Tambahkan suffix acak pada nama berkas foto pengguna. [security-fix]
@@ -30,7 +30,9 @@ Lengkapnya, isi rilis versi pasca-2.12:
 24. #893, #1025: Sekarang nama penduduk berisi tanda petik (') bisa tampil di semua form surat. [bug-fix]
 25. #799: Tambah cetak/unduh laporan dokumen umum, SK Kades dan Perdes menurut tahun.
 26. Perbaiki nama pamong ttd dan mengetahui terbalik di laporan inventaris. [bug-fix]
+27. #900: Sekarang lokasi penduduk bisa ditampilkan di Peta walaupun nama penduduk berisi tanda petik ('). [bug-fix]
+28. #1015: Contoh data awal sudah ditambahkan contoh penggunaan peta.
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi pasca-2.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
 

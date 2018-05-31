@@ -8,6 +8,7 @@
     var zoom = 4;
 <?php endif; ?>
 
+//Menggunakan https://github.com/codeofsumit/leaflet.pm
 //Inisialisasi tampilan peta
     var peta_desa = L.map('map').setView(posisi, zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -15,22 +16,22 @@
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
         id: 'mapbox.streets'
     }).addTo(peta_desa);
-		
+
 <?php if(!empty($desa['path'])): ?>
     //Poligon wilayah desa yang tersimpan
     var daerah_desa = <?=$desa['path']?>;
-    
+
     //Titik awal dan titik akhir poligon harus sama
     daerah_desa[0].push(daerah_desa[0][0]);
-    
-    //Tampilkan poligon desa untuk diedit		
+
+    //Tampilkan poligon desa untuk diedit
     var poligon_desa = L.polygon(daerah_desa).addTo(peta_desa);
-    
+
     //Event untuk mengecek perubahan poligon
     poligon_desa.on('pm:edit', function(e){
         document.getElementById('path').value = getLatLong('Poly', e.target).toString();
     })
-    
+
     //Fokuskan peta ke poligon
     peta_desa.fitBounds(poligon_desa.getBounds());
 <?php endif; ?>
