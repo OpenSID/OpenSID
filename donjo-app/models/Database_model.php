@@ -11,8 +11,9 @@
     '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => '2.9'),
     '2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => '2.10'),
     '2.10' => array('migrate' => 'migrasi_210_ke_211','nextVersion' => '2.11'),
-    '2.11' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => NULL),
-    '2.12' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => NULL)
+    '2.11' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => '18.06'),
+    '2.12' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => '18.06'),
+    '18.06' => array('migrate' => 'migrasi_1806_ke_1807','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -79,13 +80,10 @@
     $this->surat_master_model->impor_surat_desa();
     /*
       Update current_version di db.
-      'pasca-<versi>' disimpan sebagai '<versi>'
+      'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
     */
-    $prefix = 'pasca-';
     $versi = AmbilVersi();
-    if (substr($versi, 0, strlen($prefix)) == $prefix) {
-        $versi = substr($versi, strlen($prefix));
-    }
+    $versi = preg_replace('/pasca-|-pasca/', '', $versi);
     $newVersion = array(
       'value' => $versi
     );
@@ -142,12 +140,15 @@
     $this->migrasi_29_ke_210();
     $this->migrasi_210_ke_211();
     $this->migrasi_211_ke_1806();
+    $this->migrasi_1806_ke_1807();
   }
 
+  function migrasi_1806_ke_1807()
+  {
+    // Tambahkan perubahan database di sini
+  }
 
   function migrasi_211_ke_1806(){
-    // Tambahkan perubahan database di sini
-
     //ambil nilai path
     $config = $this->db->get('config')->row();
     if(!empty($config)){

@@ -1611,7 +1611,7 @@ CREATE TABLE `config` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO config (`id`, `nama_desa`, `kode_desa`, `nama_kepala_desa`, `nip_kepala_desa`, `kode_pos`, `nama_kecamatan`, `kode_kecamatan`, `nama_kepala_camat`, `nip_kepala_camat`, `nama_kabupaten`, `kode_kabupaten`, `nama_propinsi`, `kode_propinsi`, `logo`, `lat`, `lng`, `zoom`, `map_tipe`, `path`, `alamat_kantor`, `g_analytic`, `email_desa`, `telepon`, `website`) VALUES ('1', 'Senggig1 ', '05', 'Muhammad Ilham ', '--', '83355', 'Batulay4r ', '14', 'Bambang Budi Sanyoto, S. H', '-', 'Lombok Bar4t ', '01', '', '52', 'opensid_logo.png', '-8.48782268404703', '116.04083776474', '13', 'HYBRID', '[[[-8.470247273601585,116.03699684143068],[-8.471775371367853,116.04249000549318],[-8.474831548688417,116.04557991027833],[-8.47754813036,116.04334831237793],[-8.478736628804842,116.0522747039795],[-8.48688623339785,116.04712486267091],[-8.492319207044495,116.04626655578615],[-8.492319207044495,116.04866981506349],[-8.490281850938663,116.05433464050294],[-8.499110315926593,116.06446266174318],[-8.507429260374638,116.06068611145021],[-8.509466525358253,116.05605125427248],[-8.501656950751967,116.04969978332521],[-8.501656950751967,116.046781539917],[-8.503694246430312,116.04454994201662],[-8.496820982890759,116.0453224182129],[-8.494953428786745,116.03931427001955],[-8.48986005320605,116.0365676879883],[-8.48493639256516,116.03364944458009],[-8.47975533883251,116.03768348693849]]]', 'Jl. Raya Senggigi Km 10 Kerandangan ', 'gsgsdgsdgsg', '', '', '');
+INSERT INTO config (`id`, `nama_desa`, `kode_desa`, `nama_kepala_desa`, `nip_kepala_desa`, `kode_pos`, `nama_kecamatan`, `kode_kecamatan`, `nama_kepala_camat`, `nip_kepala_camat`, `nama_kabupaten`, `kode_kabupaten`, `nama_propinsi`, `kode_propinsi`, `logo`, `lat`, `lng`, `zoom`, `map_tipe`, `path`, `alamat_kantor`, `g_analytic`, `email_desa`, `telepon`, `website`) VALUES ('1', 'Senggig1 ', '05', 'Muhammad Ilham ', '--', '83355', 'Batulay4r ', '14', 'Bambang Budi Sanyoto, S. H', '-', 'Lombok Bar4t ', '01', '', '52', 'opensid_logo__sid__bXziTU1.png', '-8.48782268404703', '116.04083776474', '13', 'HYBRID', '[[[-8.470247273601585,116.03699684143068],[-8.471775371367853,116.04249000549318],[-8.474831548688417,116.04557991027833],[-8.47754813036,116.04334831237793],[-8.478736628804842,116.0522747039795],[-8.48688623339785,116.04712486267091],[-8.492319207044495,116.04626655578615],[-8.492319207044495,116.04866981506349],[-8.490281850938663,116.05433464050294],[-8.499110315926593,116.06446266174318],[-8.507429260374638,116.06068611145021],[-8.509466525358253,116.05605125427248],[-8.501656950751967,116.04969978332521],[-8.501656950751967,116.046781539917],[-8.503694246430312,116.04454994201662],[-8.496820982890759,116.0453224182129],[-8.494953428786745,116.03931427001955],[-8.48986005320605,116.0365676879883],[-8.48493639256516,116.03364944458009],[-8.47975533883251,116.03768348693849]]]', 'Jl. Raya Senggigi Km 10 Kerandangan ', 'gsgsdgsdgsg', '', '', '');
 
 
 #
@@ -2570,7 +2570,7 @@ CREATE TABLE `log_bulanan` (
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9');
@@ -2597,6 +2597,7 @@ INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('23', '97', '46', '51', '37', '2018-03-31 22:41:14', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('24', '97', '46', '51', '37', '2018-04-26 06:39:57', '28', '9');
 INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('25', '97', '46', '51', '37', '2018-05-16 17:50:29', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('26', '97', '46', '51', '37', '2018-06-01 20:39:41', '28', '9');
 
 
 #
@@ -3075,7 +3076,7 @@ INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kate
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('17', 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('18', 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('19', 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '2.12', 'Versi sekarang untuk migrasi', NULL, NULL);
+INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '18.06', 'Versi sekarang untuk migrasi', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('21', 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 
 
@@ -4019,7 +4020,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
