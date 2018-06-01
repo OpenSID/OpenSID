@@ -1,0 +1,12 @@
+Rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Juga terima kasih pada [untuk diisi] yang mulai kontribusi.
+
+Lengkapnya, isi rilis versi 18.06-pasca:
+
+1. Tampilkan logo OpenSID sebagai lambang desa default.
+
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+
+

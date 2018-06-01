@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '18.06');
+define("VERSION", '18.06-pasca');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -267,8 +267,8 @@ function LogoDesa($nama_logo)
 	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) {
 		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
 	}
-	
-	return $logo_desa = base_url() . 'assets/files/logo/opensid_logo.php';
+
+	return $logo_desa = base_url() . 'assets/files/logo/opensid_logo.png';
 }
 
 /**
