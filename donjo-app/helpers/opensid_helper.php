@@ -264,8 +264,11 @@ function AmbilVersi()
  */
 function LogoDesa($nama_logo)
 {
-    $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
-    return $logo_desa;
+	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) {
+		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
+	}
+	
+	return $logo_desa = base_url() . 'assets/files/logo/opensid_logo.php';
 }
 
 /**
