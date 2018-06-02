@@ -223,6 +223,7 @@
       var i = t.getDay();
       $(this).closest('td').find('[name=hari]').val(hari[i]);
     });
+    $('input[name=tanggallahir]').trigger('change');
 
     /* set nama_sex dari pilihan */
     $('input[name=nama_sex]').val($('#sex').find(':selected').text())
