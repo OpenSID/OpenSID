@@ -5,13 +5,13 @@
       nik.results = [
         <?php  foreach($program[2]as $item){
           if(strlen($item["id"])>0)?>
-          {id:"<?php echo $item['id']?>",name:"<?php echo $item['nama']?>",info:"<?php echo ($item['info'])?>"},
+          {id:"<?php echo $item['id']?>",name:<?php echo json_encode($item['nama'])?>,info:<?php echo json_encode($item['info'])?>},
         <?php  }?>
       ];
 
       $('#nik').flexbox(nik, {
         resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-        watermark: <?php  if($individu){?>"<?php echo $individu['nik']?> - <?php echo ($individu['nama'])?>"<?php  }else{?>'Cari nama di sini..'<?php  }?>,
+        watermark: <?php  if($individu){?> <?php echo json_encode($individu['nik'].' - '.$individu['nama'])?> <?php  }else{?>'Cari nama di sini..'<?php  }?>,
         width: 260,
         noResultsText :'Tidak ada no nik yang sesuai..',
         onSelect: function() {
