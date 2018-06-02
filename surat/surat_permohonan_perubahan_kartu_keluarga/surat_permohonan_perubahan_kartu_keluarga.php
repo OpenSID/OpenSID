@@ -4,7 +4,7 @@
 	$(function(){
 		var nik = {};
 		nik.results = [
-			<?php  foreach($penduduk as $data){?>
+			<?php  foreach($kepala_keluarga as $data){?>
 				{id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
 			<?php  }?>
 		];
@@ -52,7 +52,7 @@ table.form.detail td{
 				      	1. Surat Permohonan Perubahan Kartu Keluarga<br>
 				      	2. Lampiran F-1.16 FORMULIR PERMOHOHAN PERUBAHAN KARTU KELUARGA (KK) BARU WARGA NEGARA INDONESIA<br>
 						3. Lampiran F-1.01 FORMULIR ISIAN BIODATA PENDUDUK UNTUK WNI (PER KELUARGA) untuk keluarga pemohon.<br><br>
-				      	Pastikan semua biodata pemohon beserta keluarga sudah lengkap sebelum mencetak surat dan lampiran.<br>						
+				      	Pastikan semua biodata pemohon beserta keluarga sudah lengkap sebelum mencetak surat dan lampiran.<br>
 				      	Untuk melengkapi data itu, ubah data pemohon dan anggota keluarganya di form isian penduduk di modul Penduduk.<br><br>
 				      	Formulir di atas mengacu pada Peraturan Menteri Dalam Negeri Nomor 19 Tahun 2010.
 				      	</strong></p>
