@@ -272,6 +272,7 @@
 		LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
 		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
 		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
+		LEFT JOIN log_penduduk log ON u.id = log.id_pend
 		WHERE 1 ";
 
 		$sql .= $this->search_sql();
@@ -314,10 +315,12 @@
 	{
 
 		$select_sql = "SELECT DISTINCT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,b.no_kk AS no_rtm,b.id AS id_rtm
+			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
+			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
+			x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan,b.no_kk AS no_rtm,b.id AS id_rtm
 				";
 		//Main Query
-		$list_data_sql = $this->list_data_sql($log);
+		$list_data_sql = $this->list_data_sql();
 		$sql = $select_sql." ".$list_data_sql;
 
 		//Ordering SQL
@@ -347,6 +350,9 @@
 		$j=$offset;
 		while($i<count($data)){
 
+			// Untuk penduduk mati atau hilang, gunakan umur pada tgl peristiwa
+			if (in_array($data[$i]['status_dasar'], array('2','4')))
+				$data[$i]['umur'] = $data[$i]['umur_pada_peristiwa'];
 			// Ubah alamat penduduk lepas
 			if (!$data[$i]['id_kk'] OR $data[$i]['id_kk'] == 0) {
 				// Ambil alamat penduduk
