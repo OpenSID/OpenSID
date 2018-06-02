@@ -469,6 +469,9 @@
 		if ($data['sex'] == 1) $data['hamil'] = 0;
 
 		$valid = array();
+		if (preg_match("/[^a-zA-Z ']/", $data['nama'])) {
+			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi dan tanda petik");
+		}
 		if (isset($data['nik'])) {
 			if (!ctype_digit($data['nik']))
 				array_push($valid, "NIK hanya berisi angka");
@@ -514,15 +517,13 @@
 		UNSET($data['rw']);
 		UNSET($data['rt']);
 
-		$data['nama'] = penetration($data['nama']);
-		$data['nama_ayah'] = penetration($data['nama_ayah']);
-		$data['nama_ibu'] = penetration($data['nama_ibu']);
-
 		$error_validasi = $this->validasi_data_penduduk($data);
 		if (!empty($error_validasi)){
 			foreach ($error_validasi as $error) {
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
 			}
+			// Tampilkan tanda kutip dalam nama
+			$_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
 			$_SESSION['post'] = $_POST;
 			$_SESSION['success']=-1;
 			return;
@@ -621,6 +622,8 @@
 			foreach ($error_validasi as $error) {
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
 			}
+			// Tampilkan tanda kutip dalam nama
+			$_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
 			$_SESSION['post'] = $_POST;
 			$_SESSION['success']=-1;
 			return;
@@ -814,7 +817,8 @@
 		$data['tempat_dilahirkan_nama'] = strtoupper($this->tempat_dilahirkan[$data['tempat_dilahirkan']]);
 		$data['jenis_kelahiran_nama'] = strtoupper($this->jenis_kelahiran[$data['jenis_kelahiran']]);
 		$data['penolong_kelahiran_nama'] = strtoupper($this->penolong_kelahiran[$data['penolong_kelahiran']]);
-
+		// Tampilkan tanda kutip dalam nama
+		$data['nama'] =  str_replace ( "\"", "&quot;", $data['nama'] ) ;
 
 		return $data;
 	}

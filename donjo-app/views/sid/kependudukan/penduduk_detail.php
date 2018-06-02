@@ -30,7 +30,7 @@
               </tr>
               <tr>
                 <td width="150">Nama</td><td width="1">:</td>
-                <td><?php echo strtoupper(unpenetration($penduduk['nama']))?></td>
+                <td><?php echo strtoupper($penduduk['nama'])?></td>
               </tr>
               <tr>
                 <td>Status Kepemilikan KTP</td><td >:</td>

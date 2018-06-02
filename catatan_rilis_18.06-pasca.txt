@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Juga terima kasih pada
 Lengkapnya, isi rilis versi 18.06-pasca:
 
 1. Tampilkan logo OpenSID sebagai lambang desa default.
+2. #1037: Tambahkan validasi nama penduduk hanya boleh berisi karakter alpha, spasi atau tanda petik. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
