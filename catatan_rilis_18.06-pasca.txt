@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi 18.06-pasca:
 4. #860: Sekarang umur penduduk dengan status dasar mati atau hilang yang ditampilkan di halaman Penduduk adalah umur pada tanggal peristiwa. [bug-fix]
 5. #972: Ubah judul tombol mengunduh surat di Cetak Surat > Arsip Layanan dari Cetak menjadi Surat. [bug-fix]
 6. #935: Form surat keterangan kelahiran sekarang menampilkan hari lahir yang benar bagi data kelahiran dari database penduduk. [bug-fix]
+7. #1033: Sekarang lampiran F-1.15 untuk surat permohonan kartu keluarga menampilkan jumlah dan daftar anggota keluarga tidak termasuk kepala keluarga. Di form, pemohon dibatasi pada kepala keluarga saja. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -58,6 +58,13 @@
 		return $data;
 	}
 
+	function list_kepala_keluarga()
+	{
+		// Setting kriteria, gunakan list_penduduk untuk mengambil data
+		$this->db->where("kk_level", "1");
+		return $this->list_penduduk();
+	}
+
 	function list_penduduk_perempuan()
 	{
 		// Setting kriteria, gunakan list_penduduk untuk mengambil data
