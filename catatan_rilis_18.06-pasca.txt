@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 18.06-pasca:
 2. #1037: Tambahkan validasi nama penduduk hanya boleh berisi karakter alpha, spasi atau tanda petik. [bug-fix]
 3. #1037: Perbaiki tampilkan pilihan penduduk program bantuan di mana nama penduduk berisi tanda kutip. [bug-fix]
 4. #860: Sekarang umur penduduk dengan status dasar mati atau hilang yang ditampilkan di halaman Penduduk adalah umur pada tanggal peristiwa. [bug-fix]
+5. #972: Ubah judul tombol mengunduh surat di Cetak Surat > Arsip Layanan dari Cetak menjadi Surat. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
