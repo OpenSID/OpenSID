@@ -1,4 +1,16 @@
 <script>
+$(document).ready(function(){
+    $('#simpan_wilayah').click(function(){
+        var path = $('#path').val();
+        $.ajax({
+            type: "POST",
+            url: "<?=$form_action?>",
+            dataType: 'json',
+            data: {path: path},
+        });
+        $(this).closest('.ui-dialog-content').dialog('close');
+    });
+});
 //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 <?php if(!empty($desa['lat'] && !empty($desa['lng']))): ?>
     var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
@@ -82,11 +94,10 @@
 }
 </style>
 <div id="map"></div>
-<form action="<?=$form_action?>" method="post">
-	<input type="hidden" id="path" name="path" value="<?=$desa['path']?>">
-	<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
-        <div class="uibutton-group">
-            <button class="uibutton confirm" id="showData" type="submit"><span class="fa fa-save"></span> Simpan</button>
-        </div>
-	</div>
-</form>
+<input type="hidden" id="path" name="path" value="<?=$desa['path']?>">
+<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
+    <div class="uibutton-group">
+        <button class="uibutton" type="button" onclick="$(this).closest('.ui-dialog-content').dialog('close');">Batal</button>
+        <button class="uibutton confirm" id="simpan_wilayah" type="submit"><span class="fa fa-save"></span> Simpan</button>
+    </div>
+</div>

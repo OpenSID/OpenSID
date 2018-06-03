@@ -618,7 +618,6 @@ class Penduduk extends CI_Controller{
 
 	function update_maps($p=1,$o=0,$id=''){
 		$this->penduduk_model->update_position($id);
-		redirect("penduduk/form/$p/$o/$id");
 	}
 	function wilayah_sel($p=1,$o=0,$id=''){
 

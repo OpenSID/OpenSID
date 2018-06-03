@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function(){
-    $('#simpan').click(function(){
+    $('#simpan_kantor').click(function(){
         var lat = $('#lat').val();
         var lng = $('#lng').val();
         var zoom = $('#zoom').val();
@@ -24,7 +24,6 @@ $(document).ready(function(){
         var posisi = [-1.0546279422758742,116.71875000000001];
         var zoom = 4;
     <?php endif; ?>
-    console.log(zoom)
     //Inisialisasi tampilan peta
     var lokasi_kantor = L.map('mapx').setView(posisi, zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -38,11 +37,9 @@ $(document).ready(function(){
             document.getElementById('lng').value = e.target._latlng.lng;
             document.getElementById('map_tipe').value = "HYBRID"
             document.getElementById('zoom').value = lokasi_kantor.getZoom();
-            console.log(lokasi_kantor.getZoom())
     })
     lokasi_kantor.on('zoomstart zoomend', function(e){
         document.getElementById('zoom').value = lokasi_kantor.getZoom();
-        console.log(lokasi_kantor.getZoom())
     })
 })();
 </script>
@@ -63,6 +60,6 @@ $(document).ready(function(){
 <div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
     <div class="uibutton-group">
         <button class="uibutton" type="button" onclick="$(this).closest('.ui-dialog-content').dialog('close');">Batal</button>
-        <button class="uibutton confirm" id="simpan" type="submit"><span class="fa fa-save"></span> Simpan</button>
+        <button class="uibutton confirm" id="simpan_kantor" type="submit"><span class="fa fa-save"></span> Simpan</button>
     </div>
 </div>
