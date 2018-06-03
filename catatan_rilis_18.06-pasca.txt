@@ -13,6 +13,8 @@ Lengkapnya, isi rilis versi 18.06-pasca:
 7. #1033: Sekarang lampiran F-1.15 untuk surat permohonan kartu keluarga menampilkan jumlah dan daftar anggota keluarga tidak termasuk kepala keluarga. Di form, pemohon dibatasi pada kepala keluarga saja. [bug-fix]
 8. #1033: Sekarang lampiran F-1.16 untuk surat permohonan perubahan kartu keluarga menampilkan jumlah dan daftar anggota keluarga tidak termasuk kepala keluarga. Di form, pemohon dibatasi pada kepala keluarga saja. [bug-fix]
 9. Di SID Home > Identitas Desa, sekarang peta lokasi Kantor Desa bisa diubah dan disimpan tanpa mempengaruhi perubahan data identitas desa. [bug-fix]
+10. Di SID Home > Identitas Desa, sekarang peta Wilayah Desa bisa diubah dan disimpan tanpa mempengaruhi perubahan data identitas desa. [bug-fix]
+11. Di Penduduk > Penduduk > Ubah data penduduk, sekarang peta lokasi penduduk bisa diubah dan disimpan tanpa mempengaruhi perubahan data penduduk lainnya. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
