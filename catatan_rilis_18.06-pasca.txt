@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 18.06-pasca:
 10. Di SID Home > Identitas Desa, sekarang peta Wilayah Desa bisa diubah dan disimpan tanpa mempengaruhi perubahan data identitas desa. [bug-fix]
 11. Di Penduduk > Penduduk > Ubah data penduduk, sekarang peta lokasi penduduk bisa diubah dan disimpan tanpa mempengaruhi perubahan data penduduk lainnya. [bug-fix]
 12. #665: Sekarang mencentang checkbox Desa di Peta akan menampilkan lokasi kantor desa dan wilayah desa. Penampilan peta di widget Wilayah Desa dan Kantor Desa diseragamkan dengan tampilan di Peta.
+13. #1035: Sekarang data persil pemilik desa dan luar desa bisa ditambah dan diubah tanpa error. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
