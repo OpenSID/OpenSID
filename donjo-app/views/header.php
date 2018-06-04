@@ -26,7 +26,10 @@
 		<?php endif; ?>
         <link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.pm.css" />
-
+        
+<!--
+        Saya menambah komentar disini...
+-->
         <script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
     	<script src="<?php echo base_url()?>assets/js/leaflet.pm.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
