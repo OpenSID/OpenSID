@@ -3094,26 +3094,67 @@ CREATE TABLE `setting_modul` (
   `ikon` varchar(50) NOT NULL,
   `urut` tinyint(4) NOT NULL,
   `level` tinyint(1) NOT NULL DEFAULT '2',
+  `parent` int(2) NOT NULL DEFAULT '0',
   `hidden` tinyint(1) NOT NULL DEFAULT '0',
   `ikon_kecil` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('1', 'SID Home', 'hom_desa', '1', 'go-home-5.png', '1', '2', '1', 'fa fa-home fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('2', 'Penduduk', 'penduduk/clear', '1', 'preferences-contact-list.png', '2', '2', '0', 'fa fa-group fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('3', 'Statistik', 'statistik', '1', 'statistik.png', '3', '2', '0', 'fa fa-bar-chart fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('4', 'Cetak Surat', 'surat', '1', 'applications-office-5.png', '4', '2', '0', 'fa fa-print fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('5', 'Analisis', 'analisis_master/clear', '1', 'analysis.png', '6', '2', '0', 'fa fa-dashboard fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('6', 'Bantuan', 'program_bantuan/clear', '1', 'program.png', '7', '2', '0', 'fa fa-folder-open fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('7', 'Persil', 'data_persil/clear', '1', 'persil.png', '8', '2', '0', 'fa fa-road fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('8', 'Plan', 'plan', '1', 'plan.png', '9', '2', '0', 'fa fa-sitemap fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('9', 'Peta', 'gis', '1', 'gis.png', '10', '2', '0', 'fa fa-map fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('10', 'SMS', 'sms', '1', 'mail-send-receive.png', '11', '2', '0', 'fa fa-envelope-o fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('11', 'Pengguna', 'man_user/clear', '1', 'system-users.png', '12', '1', '1', 'fa fa-user-plus fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('12', 'Database', 'database', '1', 'database.png', '13', '1', '0', 'fa fa-database fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('13', 'Admin Web', 'web', '1', 'message-news.png', '14', '4', '0', 'fa fa-cloud fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('14', 'Laporan', 'lapor', '1', 'mail-reply-all.png', '15', '2', '0', 'fa fa-comments fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('15', 'Sekretariat', 'sekretariat', '1', 'document-open-8.png', '5', '2', '0', 'fa fa-file fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (1, 'SID Home', 'hom_desa', 1, 'fa-home', 1, 2, 0, 1, 'fa fa-home');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (2, 'Data Penduduk', 'penduduk/clear', 1, 'fa-users', 2, 2, 0, 0, 'fa fa-users');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (3, 'Statistik', 'statistik', 1, 'fa-line-chart', 3, 2, 0, 0, 'fa fa-line-chart');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (4, 'Cetak Surat', 'surat', 1, 'fa-book', 4, 2, 0, 0, 'fa fa-book');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (5, 'Analisis', 'analisis_master/clear', 1, ' 	fa-check-square-o', 6, 2, 0, 0, 'fa fa-check-square-o');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (6, 'Bantuan', 'program_bantuan/clear', 1, 'fa-heart', 7, 2, 0, 0, 'fa fa-heart');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (7, 'Persil', 'data_persil/clear', 1, 'fa-map-signs', 8, 2, 0, 0, 'fa fa-map-signs');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (8, 'Plan', 'plan', 1, 'fa-location-arrow', 9, 2, 0, 0, 'fa fa-location-arrow');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (9, 'Peta', 'gis', 1, 'fa-globe', 10, 2, 0, 0, 'fa fa-globe');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (10, 'SMS', 'sms', 1, 'fa-envelope', 11, 2, 0, 0, 'fa fa-envelope');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (11, 'Pengaturan', 'man_user/clear', 1, 'fa-users', 12, 1, 0, 1, 'fa-users');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (13, 'Admin Web', 'web', 1, 'fa-desktop', 14, 4, 0, 0, 'fa fa-desktop');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (14, 'Laporan', 'lapor', 1, 'fa-inbox', 15, 2, 0, 0, 'fa fa-inbox');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (15, 'Sekretariat', 'sekretariat', 1, 'fa-archive', 5, 2, 0, 0, 'fa fa-archive');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (16, 'SID Home', 'hom_desa', 1, '', 1, 2, 1, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (17, 'Identitas Desa', 'hom_desa/konfigurasi', 1, '', 2, 2, 1, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (18, 'Pemerintahan Desa', 'pengurus', 1, '', 3, 2, 1, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (19, 'Donasi', 'hom_desa/donasi', 1, '', 4, 2, 1, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (20, 'Wilayah Administratif', 'sid_core', 1, '', 1, 2, 2, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (21, 'Penduduk', 'penduduk/clear', 1, '', 2, 2, 2, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (22, 'Keluarga', 'keluarga/clear', 1, '', 3, 2, 2, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (23, 'Rumah Tangga', 'rtm/clear', 1, '', 4, 2, 2, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (24, 'Kelompok', 'kelompok/clear', 1, '', 5, 2, 2, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (25, 'Data Suplemen', 'suplemen', 1, '', 6, 2, 2, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (26, 'Calon Pemilih', 'dpt/clear', 1, '', 7, 2, 2, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (27, 'Statistik Kependudukan', 'statistik', 1, '', 1, 2, 3, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (28, 'Laporan Bulanan', 'laporan/clear', 1, '', 2, 2, 3, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (29, 'Laporan Kelompok Rentan', 'laporan_rentan/clear', 1, '', 3, 2, 3, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (30, 'Setting Format', 'surat_master/clear', 1, '', 1, 2, 4, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (31, 'Cetak Surat', 'surat', 1, '', 2, 2, 4, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (32, 'Layanan Arsip', 'keluar', 1, '', 3, 2, 4, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (33, 'Panduan', 'panduan', 1, '', 4, 2, 4, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (39, 'Inbox', 'surat_masuk', 1, '', 1, 2, 10, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (40, 'Daftar Kontak', 'sms/kontak', 1, '', 2, 2, 10, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (41, 'Pengaturan Surat Masuk', 'sms/setting', 1, '', 3, 2, 10, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (42, 'Modul', 'modul', 1, '', 1, 1, 11, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (43, 'Aplikasi', 'setting', 1, '', 2, 1, 11, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (44, 'Pengguna', 'man_user', 1, '', 3, 1, 11, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (45, 'Database', 'database', 1, '', 4, 1, 11, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (46, 'Info Sistem', 'setting/info_sistem', 1, '', 5, 1, 11, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (47, 'Artikel', 'web/index/1', 1, '', 1, 4, 13, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (48, 'Widget', 'web_widget', 1, '', 2, 4, 13, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (49, 'Menu', 'menu/index/1', 1, '', 3, 4, 13, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (50, 'Komentar', 'komentar', 1, '', 4, 4, 13, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (51, 'Gallery', 'gallery', 1, '', 5, 5, 13, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (52, 'Dokumen', 'dokumen', 1, '', 6, 4, 13, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (53, 'Media Sosial', 'sosmed', 1, '', 7, 4, 13, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (54, 'Slider', 'web/slider', 1, '', 8, 4, 13, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (55, 'Laporan Masuk', ' 	lapor', 1, '', 1, 2, 14, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (56, 'Layanan Mandiri', 'mandiri/clear', 1, '', 2, 2, 14, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (57, 'Surat Masuk', 'surat_masuk', 1, '', 1, 2, 15, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (58, 'Surat Keluar', '', 1, '', 2, 2, 15, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (59, 'SK Kades', 'dokumen_sekretariat/index/2', 1, '', 3, 2, 15, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (60, 'Perdes', 'dokumen_sekretariat/index/3', 1, '', 4, 2, 15, 0, '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES (61, 'Inventaris', 'inventaris', 1, '', 5, 2, 15, 0, '');
 
 
 #
