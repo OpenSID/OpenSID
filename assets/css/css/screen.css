@@ -1,0 +1,141 @@
+ ul {
+ 	list-style: none;
+ } 
+
+ /* Tables still need 'cellspacing="0"' in the markup. */
+ table { border-collapse: separate; border-spacing: 0;  }
+ caption, th, td { text-align: left; font-weight: normal; }
+ table, td, th { vertical-align: middle; }
+
+ /* Remove possible quote marks (") from <q>, <blockquote>. */
+ blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+ blockquote, q { quotes: "" ""; }
+
+ /* Remove annoying border on linked images. */
+ a img { border: none; }
+
+
+ .js-enabled hr {
+     display: none;
+ }
+
+ #content p, #content table, #content-main ul, #content ol, #content dl {
+     margin: 0 0 1em;
+ }
+
+
+ /*-- 1.3 Headings --*/
+ h1,h2,h3,h4,h5 {
+     font-size: 1em;
+     font-weight: normal;
+     margin: 2em 0 1em;
+ }
+ 
+
+ /* -- 1.4 Links -- */
+a {
+     color: #FCFEFF;
+     text-decoration: underline;
+ }
+
+a:hover,
+a:focus {
+     color: #FCFEFF;
+ }
+
+
+ /*-- 1.8 Images --*/
+
+ .align-left {
+     float: left;
+     margin: 0 20px 10px 0;
+     padding: 1px;
+ }
+
+ .align-right {
+     float: right;
+     margin: 0 0 10px 20px;
+     padding: 1px;
+ }
+
+
+
+
+/*
+ --------------------
+ 3. Content Eelemnts
+ --------------------
+ */
+ 
+#feature {
+    position: relative;
+    margin: 20px 0;
+}
+
+    #feature > div {
+        position:relative;
+        margin: 0 -1px;
+    	overflow:hidden;
+    	height: 175px;
+    	width: 620px;
+    }
+    
+     #feature div.items {
+         position:absolute;
+         width:20000em;
+     }
+     
+         #feature div.items div {
+            float: left;
+         }
+         
+        #feature div.items img {
+            border: none;
+        }
+ 
+     #feature .next,
+     #feature .prev {
+         cursor: pointer;
+         display: block;
+         font-size: 30px;
+         line-height: 1;
+         position: absolute;
+         margin-top: -15px;
+         right: -40px;
+         top: 50%;
+         text-decoration: none;
+     }
+
+     #feature .prev {
+         left: -35px;
+         right: auto;
+     }
+     
+     #feature a.disabled {
+         color: #BBB;
+         cursor: auto;
+     }
+
+    
+/* -- 3.X Print preview -- */
+a.print-preview {
+background: url(images/icon-print-preview.png) no-repeat 6% 40%;
+cursor: pointer;
+color:#fff;
+position:fixed;
+top:110px;
+right:0px;
+z-index:300;
+width:90px;
+border:1px solid #ccc;
+border-top-left-radius:4px;
+border-bottom-left-radius:4px;
+background-color:#D74937;
+padding: 0 0 0 35px;
+line-height: 40px;
+font-size: 25px;
+font-weight:bold;
+text-decoration: none;
+
+}
+

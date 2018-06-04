@@ -1,0 +1,95 @@
+/**
+ * Example Print Preview site
+ *
+ *	print.css
+ *	author: Tim Connell
+ */
+
+/* -- Hide screen specific elements -- */
+#nav,
+#footer .footer-links,
+#feature a.prev,
+#feature a.next,
+a.print-preview {
+    display: none;
+    color: #000;
+    font-family: Georgia, serif;
+}
+
+
+/* -- Typography -- */
+body {
+    background: #FFF;
+    color: #000;
+    font-family: Georgia, serif;
+    line-height: 1.2;
+}
+
+p, table, ul, ol, dl, blockquote, pre, code, form {
+    margin: 0 0 1em;
+}
+
+
+/* -- Style site heading -- */
+#header strong {
+    color: #000;
+    display: block;
+    font-weight: normal;
+    font-size: 3em;
+    margin: 0 0 1em;
+    padding: 0;
+}
+    
+
+/* -- Add message re print -- */
+#content:before {
+
+    display: none;
+   
+}
+
+a:link:after,
+a:visited:after {
+  content: " (" attr(href) ") ";
+  font-size: 80%;
+  text-decoration: none;
+}
+
+
+/* -- Accommodate JS driven elements --*/
+#feature > div {
+    border: none;
+    overflow: visible;
+    height: auto;
+}
+
+    #feature div.items {
+        left: auto !important;
+        position: relative;
+        overflow: visible;
+        width: auto;
+    }
+
+    #feature div.items div {
+        float: none;
+        margin: 20px 0;
+        position: relative;
+    }
+
+/* -- Photo galleries -- */
+div.gallery {
+    margin: 1em 0;    
+    overflow: hidden;
+}
+
+    div.gallery div.items div {
+        float: left;
+        margin-right: 10px;
+    }
+    
+/* -- Footer -- */
+#footer {
+    font-size: 0.83em;
+    margin: 2em 0 0;
+    padding: 1em 0 0;
+}
