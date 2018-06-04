@@ -1,3 +1,11 @@
+<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap/dist/css/bootstrap.min.css">
+<!-- OpenStreetMap Css -->
+<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
+<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.pm.css" />
+<!-- OpenStreetMap Js-->
+<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+<script src="<?php echo base_url()?>assets/js/leaflet.pm.min.js"></script>
+
 <script>
 $(document).ready(function(){
     $('#simpan_wilayah').click(function(){
@@ -12,7 +20,7 @@ $(document).ready(function(){
     });
 });
 //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-<?php if(!empty($desa['lat'] && !empty($desa['lng']))): ?>
+<?php if(!empty($desa['lat']) && !empty($desa['lng'])): ?>
     var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
     var zoom = <?=$desa['zoom'] ?: 10?>;
 <?php else: ?>
@@ -88,16 +96,22 @@ $(document).ready(function(){
 </script>
 <style>
 #map {
-    width: 420px;
-    height: 320px;
-    border: 1px solid #000;
+  width: 100%;
+  height: 250px;
+  border: 1px solid #000;
 }
 </style>
-<div id="map"></div>
-<input type="hidden" id="path" name="path" value="<?=$desa['path']?>">
-<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
-    <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$(this).closest('.ui-dialog-content').dialog('close');">Batal</button>
-        <button class="uibutton confirm" id="simpan_wilayah" type="submit"><span class="fa fa-save"></span> Simpan</button>
-    </div>
-</div>
+<form action="<?php echo $form_action?>" method="post">
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">										
+				<div id="map"></div>														
+				<input type="hidden" id="path" name="path" value="<?=$desa['path']?>">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-remove'></i> Batal</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_wilayah"><i class='fa fa-check'></i> Simpan</button>
+	</div>
+</form>

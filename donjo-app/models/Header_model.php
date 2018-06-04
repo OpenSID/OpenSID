@@ -12,6 +12,50 @@ class Header_model extends CI_Model{
 		return $data['id'];
 	}
 
+	// Menampilkan Widget data penduduk di halaman Home
+	function penduduk_total(){
+		$sql   = "SELECT COUNT(id) AS jumlah FROM tweb_penduduk WHERE status_dasar=1";
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+
+		return $data;
+	}
+	function keluarga_total(){
+		$sql   = "SELECT COUNT(id) AS jumlah FROM tweb_penduduk WHERE id_kk=1";
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+
+		return $data;
+	}
+	function miskin_total(){
+		$sql   = "SELECT COUNT(id) AS jumlah FROM program_peserta WHERE program_id=1";
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+
+		return $data;
+	}
+	function kelompok_total(){
+		$sql   = "SELECT COUNT(id) AS jumlah FROM kelompok";
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+
+		return $data;
+	}
+	function rtm_total(){
+		$sql   = "SELECT COUNT(id) AS jumlah FROM tweb_penduduk WHERE rtm_level = 1";
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+
+		return $data;
+	}
+	function dusun_total(){
+		$sql   = "SELECT COUNT(id) AS jumlah FROM tweb_wil_clusterdesa WHERE rt = '0' AND rw = '0' ";
+		$query = $this->db->query($sql);
+		$data=$query->result_array();
+
+		return $data;
+	}
+
 	function get_data(){
 	/*
 	 * global variabel
