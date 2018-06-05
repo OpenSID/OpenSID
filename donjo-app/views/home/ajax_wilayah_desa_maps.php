@@ -103,18 +103,3 @@ $(document).ready(function(){
   border: 1px solid #000;
 }
 </style>
-<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
-<form action="<?php echo $form_action?>" method="post">
-	<div class='modal-body'>
-		<div class="row">
-			<div class="col-sm-12">										
-				<div id="map"></div>														
-				<input type="hidden" id="path" name="path" value="<?=$desa['path']?>">
-			</div>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-remove'></i> Batal</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_wilayah"><i class='fa fa-check'></i> Simpan</button>
-	</div>
-</form>

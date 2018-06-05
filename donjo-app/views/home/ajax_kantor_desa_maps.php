@@ -80,4 +80,3 @@ $(document).ready(function(){
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>
-

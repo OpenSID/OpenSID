@@ -146,6 +146,49 @@
   function migrasi_1806_ke_1807()
   {
     // Tambahkan perubahan database di sini
+    // Tambah kolom di tabel data_persil
+    $fields = array();
+    if (!$this->db->field_exists('jenis_pemilik', 'data_persil')) {
+      $fields['jenis_pemilik'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2,
+          'null' => FALSE,
+          'default' => 1 // pemilik desa
+      );
+    }
+    if (!$this->db->field_exists('pemilik_luar', 'data_persil')) {
+      $fields['pemilik_luar'] = array(
+          'type' => 'varchar',
+          'constraint' => 100
+      );
+    }
+    $this->dbforge->add_column('data_persil', $fields);
+    // Sesuaikan data pemilik luar desa yg sudah ada ke kolom baru
+    if (count($fields) > 0)
+    {
+      $data = $this->db->get('data_persil')->result_array();
+      foreach ($data as $persil)
+      {
+        if(!is_numeric($persil['nik']) AND $persil['nik']<>'')
+        {
+          $data_update = array(
+            'jenis_pemilik' => '2',
+            'pemilik_luar' => $persil['nik'],
+            'nik' => 999   // NIK_LUAR_DESA
+          );
+          $this->db->where('id', $persil['id'])->update('data_persil', $data_update);
+        }
+      }
+    }
+    if ($this->db->field_exists('alamat_ext', 'data_persil')) {
+      $fields = array();
+      $fields['alamat_ext'] = array(
+          'name' => 'alamat_luar',
+          'type' => 'varchar',
+          'constraint' => 100
+      );
+      $this->dbforge->modify_column('data_persil', $fields);
+    }
   }
 
   function migrasi_211_ke_1806(){
