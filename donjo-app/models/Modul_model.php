@@ -17,15 +17,21 @@
 		}
 		return $data;
 	}
-	// Daftar modul yang aktif dan yang dapat ditampilkan untuk pengguna yang login
+	// Menampilkan menu dan sub menu halaman pengguna login berdasarkan daftar modul dan sub modul yang aktif.
 	function list_aktif(){
 		if (empty($_SESSION['grup'])) return array();
-		$modul = $this->db->where('aktif',1)->where("level >= {$_SESSION['grup']}")
+		$data = $this->db->where('aktif',1)->where('parent',0)->where("level >= {$_SESSION['grup']}")
 			->order_by('urut')
 			->get('setting_modul')->result_array();
-		return $modul;
+			for($i=0; $i<count($data); $i++){	
+				$data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);		
+			}
+		return $data;
 	}
-
+	function list_sub_modul_aktif($modul_id){	
+		$data	= $this->db->select('*')->where(array('parent'=>$modul_id,'aktif'=>1))->order_by('urut')->get('setting_modul')->result_array();		
+		return $data;	
+	}
 	function autocomplete(){
 		$sql = "SELECT modul FROM setting_modul WHERE hidden = 0
 					UNION SELECT url FROM setting_modul WHERE  hidden = 0";

@@ -1,56 +1,61 @@
-<style>
-.bawah{
-	position:absolute;
-	bottom:10px;
-	right:10px;
-	width:430px;
-}
-</style>
+<!-- Perubahan script coding untuk bisa menampilkan modal bootstrap edit password pengguna login -->
 <form action="<?php echo site_url("user_setting/update/$main[id]")?>" method="POST" id="validasi" enctype="multipart/form-data">
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-	<table>
-		<input name="nama" type="hidden" value="<?php echo $main['nama']?>" />
-		<tr>
-			<th width="100" align="left">Username</th>
-			<td><input type="text" class="inputbox" size="30" value="<?php echo $main['username']?>" disabled="disabled"/></td>
-		</tr>
-		<tr>
-			<th align="left">Nama</th>
-			<td><input name="nama" type="text" class="inputbox" size="30" value="<?php echo $main['nama']?>"/></td>
-		</tr>
-		<tr>
-			<th align="left">Password Lama</th>
-			<td><input name="pass_lama" type="password" class="inputbox" size="20" /></td>
-		</tr>
-		<tr>
-			<th align="left">Password Baru</th>
-			<td><input name="pass_baru" type="password" class="inputbox" size="20"/></td>
-		</tr>
-		<tr>
-			<th align="left">Password Baru [Ulangi]</th>
-			<td><input name="pass_baru1" type="password" class="inputbox" size="20"/></td>
-		</tr>
-            <tr>
-                <th align="left" class="top">Foto</th>
-                <td>
-				<div class="userbox-avatar">
-					<img src="<?php echo AmbilFoto($main['foto'])?>" alt=""/>
+	<div class="modal-body" id="maincontent">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="box box-primary">
+					<div class="box-body box-profile">
+						<?php if($main['foto']){?>
+							<img class="profile-user-img img-responsive img-circle" src="<?php echo AmbilFoto($main['foto'])?>" alt="Photo">								
+						<?php }else{?>
+							<img class="profile-user-img img-responsive img-circle" src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt="Photo">						 
+						 <?php }?>		
+					</div>				
 				</div>
-				</td>
-				<input type="hidden" name="old_foto" value="<?php echo $main['foto']?>">
-            </tr>
-            <tr>
-                <th>Ganti Foto</th>
-                <td><input type="file" name="foto" /> <span style="color: #aaa;">(Kosongi jika tidak ingin merubah foto)</span></td>
-            </tr>
-	</table>
-</div>
-<div class="ui-layout-south panel bottom bawah">
-	<div class="right">
-        <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$('#window-lok').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
-        <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
+			</div>
+			<div class="col-sm-9">
+				<div class="box box-danger">
+					<div class="box-body">								
+						<div class="form-group">																
+							<label for="tgl_peristiwa">Username</label>
+							<input name="nama" type="hidden" value="<?php echo $main['nama']?>" />
+							<input class="form-control input-sm" type="text"  value="<?php echo $main['username']?>" disabled=""></input>
+						</div>	
+						<div class="form-group">																
+							<label for="catatan">Nama Lengkap</label>
+							<input class="form-control input-sm" type="text" name="nama" value="<?php echo $main['nama']?>" ></input>
+						</div>	
+						<div class="form-group">																
+							<label for="catatan">Password Lama</label>
+							<input class="form-control input-sm" type="password" name="pass_lama" ></input>
+						</div>	
+						<div class="form-group">																
+							<label for="catatan">Password Baru</label>
+							<input class="form-control input-sm" type="password" name="pass_baru" ></input>
+						</div>	
+						<div class="form-group">																
+							<label for="catatan">Password Baru (Ulangi)</label>
+							<input class="form-control input-sm" type="password" name="pass_baru1" ></input>
+						</div>	
+						<div class="form-group">	
+							<label for="catatan">Ganti Photo</label>
+							<div class="input-group input-group-sm">
+								<input type="text" class="form-control" id="file_path" name="foto">
+								<input type="file" class="hidden" id="file" name="foto">
+								<input type="hidden" name="old_foto" value="<?php echo $main['foto']?>">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa  fa-backward'></i> Batal</button>
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
 		</div>
 	</div>
-</div>
 </form>
+	

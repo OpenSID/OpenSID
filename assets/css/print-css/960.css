@@ -1,0 +1,97 @@
+/* Containers
+----------------------------------------------------------------------------------------------------*/
+.container_12 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 560px;
+	border:1px solid #ddd;
+	border-radius:4px;
+	}
+
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+	margin-left: 0 !important;
+}
+
+.omega {
+	margin-right: 0 !important;
+}
+
+
+/* Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+.grid_7, 
+.grid_12{
+	display:inline;
+	float: left;
+	position: relative;
+	margin-left: 10.0px;
+	margin-right: 10.0px;
+
+}
+
+/* Grid >> 2 Columns
+----------------------------------------------------------------------------------------------------*/
+.container_12 .grid_7{
+	width:540px;
+}
+
+/* Prefix Extra Space >> 2 Columns
+----------------------------------------------------------------------------------------------------*/
+    .container_12 .prefix_7 {
+	padding-left:560px;
+}
+
+/* Suffix Extra Space >> 2 Columns
+----------------------------------------------------------------------------------------------------*/
+    .container_12 .suffix_7 {
+	padding-right:560px;
+}
+
+/* Push Space >> 2 Columns
+----------------------------------------------------------------------------------------------------*/
+    .container_12 .push_7 {
+	left:560px;
+}
+
+/* Pull Space >> 2 Columns
+----------------------------------------------------------------------------------------------------*/
+    .container_12 .pull_7 {
+	right:560px;
+}
+
+/* Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix:after {
+	clear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}
