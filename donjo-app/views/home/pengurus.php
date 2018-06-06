@@ -51,7 +51,7 @@
                                 <tr>	
                                   <td><input type="checkbox" name="id_cb[]" value="<?php echo $data['pamong_id']?>" ></td>
                                   <td><?php echo $data['no']?></td>				
-                                  <td>
+                                  <td nowrap>
                                     <?php if($data['pamong_id']!="707"){?>
                                       <a href="<?php echo site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
                                       <?php if($data['pamong_ttd'] == '1'):?>
