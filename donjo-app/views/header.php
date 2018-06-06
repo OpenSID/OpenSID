@@ -2,6 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+		<meta charset="utf-8">
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>
 			<?php
 				echo $this->setting->admin_title
@@ -9,8 +11,8 @@
 				. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']) : '')
 				. get_dynamic_title_page_from_path();
 			?>
-		</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		</title>	
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">	
 		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
