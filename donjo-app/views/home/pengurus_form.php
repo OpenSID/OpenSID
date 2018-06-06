@@ -32,7 +32,10 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-primary">					
+					<div class="box box-primary">
+						<div class="box-header with-border">							
+							<a href="<?php echo site_url()?>pengurus" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left "></i> Kembali Ke Daftar Staf</a>	
+						</div>									
 						<div class="box-body">
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_nama">Nama Pegawai <?php echo ucwords($this->setting->sebutan_desa)?></label>
@@ -67,7 +70,7 @@
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
+						<div class='box-footer'>					
 							<div class='col-xs-12'>	
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
