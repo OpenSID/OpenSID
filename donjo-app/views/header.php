@@ -21,36 +21,41 @@
 		<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?php echo base_url()?>rss.xml" />		
 			
 		<!-- Bootstrap 3.3.7 -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap/dist/css/bootstrap.min.css">				
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap.min.css">				
 		<!-- Font Awesome -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/font-awesome.min.css">
 		<!-- Ionicons -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/Ionicons/css/ionicons.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/ionicons.min.css">
 		<!-- DataTables -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css">	
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/dataTables.bootstrap.min.css">	
 		<!-- bootstrap wysihtml5 - text editor -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap3-wysihtml5.min.css">
 		<!-- Select2 -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/select2/dist/css/select2.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/select2.min.css">
 		<!-- Daterange picker -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap-daterangepicker/daterangepicker.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/daterangepicker.css">
 		<!-- Bootstrap Color Picker -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap-colorpicker.min.css">
 		<!-- Date Picker -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap-datepicker.min.css">
 		<!-- Bootstrap time Picker -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/timepicker/bootstrap-timepicker.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap-timepicker.min.css">
 		<!-- Theme style -->
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/AdminLTE.min.css">
 		<!-- AdminLTE Skins. -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/skins/_all-skins.min.css">
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/pace/pace.min.css">	
-		
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/skins/_all-skins.min.css">		
+		<!-- OpenStreetMap Css -->
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.pm.css" />
+		<!-- OpenStreetMap Js-->
+		<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+		<script src="<?php echo base_url()?>assets/js/leaflet.pm.min.js"></script>
+
 	</head>
-	<body class="skin-purple sidebar-mini  <?php if($hidmenu==1){?>sidebar-collapse<?php }?>">
+	<body class="skin-purple sidebar-mini  <?php if($hidmenu==1):?>sidebar-collapse<?php endif?>">
 		<div class="wrapper">
 			<header class="main-header">
-				<a href="<?php echo site_url()?>first"  target="_blank" class="logo">										
+				<a href="<?=site_url()?>first"  target="_blank" class="logo">										
 					<span class="logo-mini"><b>SID</b></span>										
 					<span class="logo-lg"><b>OpenSID</b></span>
 				</a>								
@@ -62,32 +67,32 @@
 						<ul class="nav navbar-nav">												
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<?php if($foto){?>
-										<img src="<?php echo AmbilFoto($foto)?>" class="user-image" alt="User Image"/>
-									<?php }else{?>
-										<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="user-image" alt="User Image"/>
-									<?php }?>	
-									<span class="hidden-xs"><?php echo $nama?> </span>
+								<?php if($foto): ?>
+									<img src="<?= AmbilFoto($foto)?>" class="user-image" alt="User Image"/>
+								<?php else :?>
+									<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="user-image" alt="User Image"/>
+								<?php endif ?>
+									<span class="hidden-xs"><?=$nama?> </span>
 								</a>
 								<ul class="dropdown-menu">
 									<li class="user-header">
-										<?php if($foto){?>
-											<img src="<?php echo AmbilFoto($foto)?>" class="img-circle" alt="User Image"/>
-										<?php }else{?>
-											<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
-										<?php }?>									
+										<?php if($foto):?>
+											<img src="<?=AmbilFoto($foto)?>" class="img-circle" alt="User Image"/>
+										<?php else :?>
+											<img src="<?=base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
+										<?php endif ?>								
 										<p>Anda Login Sebagai</p>
-										<p><strong><?php echo $nama?></strong></p>
+										<p><strong><?=$nama?></strong></p>
 									</li>            
 									<li class="user-footer">
 										<div class="pull-left">
-											<a href="<?php echo site_url()?>user_setting/"												
+											<a href="<?=site_url()?>user_setting/"												
 												data-toggle="modal" data-target="#modalBox">
 												<button  data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profile</button>
 											</a>																											
 										</div>																								
 										<div class="pull-right">
-											<a href="<?php echo site_url()?>siteman" class="btn bg-maroon btn-flat btn-sm">Logout</a>
+											<a href="<?=site_url()?>siteman" class="btn bg-maroon btn-flat btn-sm">Logout</a>
 										</div>
 									</li>
 								</ul>

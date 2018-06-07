@@ -3,7 +3,7 @@
 	<section class='content-header'>
 		<h1>Donasi</h1>
 		<ol class='breadcrumb'>
-			<li><a href='<?php echo site_url()?>'><i class='fa fa-dashboard'></i> Home</a></li>
+			<li><a href='<?=site_url()?>'><i class='fa fa-dashboard'></i> Home</a></li>
 			<li class='active'>Donasi</li>
 		</ol>
 	</section> 

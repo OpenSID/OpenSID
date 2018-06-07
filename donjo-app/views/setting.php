@@ -5,11 +5,11 @@
 			<div class="col-md-3">
 				<div class="box box-primary">
 					<div class="box-body box-profile">
-						<?php if($main['foto']){?>
-							<img class="profile-user-img img-responsive img-circle" src="<?php echo AmbilFoto($main['foto'])?>" alt="Photo">								
-						<?php }else{?>
-							<img class="profile-user-img img-responsive img-circle" src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt="Photo">						 
-						 <?php }?>		
+						<?php if($main['foto']):?>
+							<img class="profile-user-img img-responsive img-circle" src="<?=AmbilFoto($main['foto'])?>" alt="Photo">								
+						<?php else:?>
+							<img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/files/user_pict/kuser.png" alt="Photo">						 
+						 <?php endif?>		
 					</div>				
 				</div>
 			</div>
@@ -18,12 +18,12 @@
 					<div class="box-body">								
 						<div class="form-group">																
 							<label for="tgl_peristiwa">Username</label>
-							<input name="nama" type="hidden" value="<?php echo $main['nama']?>" />
-							<input class="form-control input-sm" type="text"  value="<?php echo $main['username']?>" disabled=""></input>
+							<input name="nama" type="hidden" value="<?=$main['nama']?>" />
+							<input class="form-control input-sm" type="text"  value="<?=$main['username']?>" disabled=""></input>
 						</div>	
 						<div class="form-group">																
 							<label for="catatan">Nama Lengkap</label>
-							<input class="form-control input-sm" type="text" name="nama" value="<?php echo $main['nama']?>" ></input>
+							<input class="form-control input-sm" type="text" name="nama" value="<?=$main['nama']?>" ></input>
 						</div>	
 						<div class="form-group">																
 							<label for="catatan">Password Lama</label>
@@ -42,7 +42,7 @@
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path" name="foto">
 								<input type="file" class="hidden" id="file" name="foto">
-								<input type="hidden" name="old_foto" value="<?php echo $main['foto']?>">
+								<input type="hidden" name="old_foto" value="<?=$main['foto']?>">
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 								</span>

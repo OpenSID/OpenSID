@@ -1,12 +1,3 @@
-<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap/dist/css/bootstrap.min.css">	
-<script src="<?php echo base_url()?>assets/plugins/jquery/dist/jquery.slim.min.js"></script>
-<script src="<?php echo base_url()?>assets/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- OpenStreetMap Css -->
-<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
-<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.pm.css" />
-<!-- OpenStreetMap Js-->
-<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
-<script src="<?php echo base_url()?>assets/js/leaflet.pm.min.js"></script>
 
 <script>
 $(document).ready(function(){
@@ -21,7 +12,7 @@ $(document).ready(function(){
             dataType: 'json',
             data: {lat: lat, lng: lng, zoom: zoom, map_tipe: map_tipe},
         });
-        $(this).closest('.ui-dialog-content').dialog('close');
+        $(this).closest("#modalBox").modal("hide");       
     });
 });
 
@@ -51,15 +42,17 @@ $(document).ready(function(){
     lokasi_kantor.on('zoomstart zoomend', function(e){
         document.getElementById('zoom').value = lokasi_kantor.getZoom();
     })
-    map.invalidateSize();
+ 
 })();
+
 </script>
 
 <style>
 #mapx {
-  width: 100%;
-  height: 320px;
-  border: 1px solid #000;
+    z-index: 1;
+    width: 100%;
+    height: 320px;
+    border: 1px solid #000;
 }
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
@@ -76,7 +69,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-remove'></i> Batal</button>
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-remove'></i> Batal</button>
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

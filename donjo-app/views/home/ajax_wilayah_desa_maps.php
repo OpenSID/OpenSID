@@ -1,13 +1,3 @@
-<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap/dist/css/bootstrap.min.css">	
-<script src="<?php echo base_url()?>assets/plugins/jquery/dist/jquery.slim.min.js"></script>
-<script src="<?php echo base_url()?>assets/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- OpenStreetMap Css -->
-<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
-<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.pm.css" />
-<!-- OpenStreetMap Js-->
-<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
-<script src="<?php echo base_url()?>assets/js/leaflet.pm.min.js"></script>
-
 <script>
 $(document).ready(function(){
     $('#simpan_wilayah').click(function(){
@@ -17,8 +7,9 @@ $(document).ready(function(){
             url: "<?=$form_action?>",
             dataType: 'json',
             data: {path: path},
-        });
-        $(this).closest('.ui-dialog-content').dialog('close');
+        });        
+        $(this).closest("#modalBox").modal("hide");  
+        
     });
 });
 //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
@@ -103,3 +94,17 @@ $(document).ready(function(){
   border: 1px solid #000;
 }
 </style>
+<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
+<div class='modal-body'>
+	<div class="row">
+		<div class="col-sm-12">										
+            <div id="map"></div>
+            <input type="hidden" id="path" name="path" value="<?=$desa['path']?>">               
+    	</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-remove'></i> Batal</button>
+	<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_wilayah"><i class='fa fa-check'></i> Simpan</button>
+</div>
+
