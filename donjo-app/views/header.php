@@ -21,30 +21,29 @@
 		<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?php echo base_url()?>rss.xml" />		
 			
 		<!-- Bootstrap 3.3.7 -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap/dist/css/bootstrap.min.css">				
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap.min.css">				
 		<!-- Font Awesome -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/font-awesome.min.css">
 		<!-- Ionicons -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/Ionicons/css/ionicons.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/ionicons.min.css">
 		<!-- DataTables -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css">	
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/dataTables.bootstrap.min.css">	
 		<!-- bootstrap wysihtml5 - text editor -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap3-wysihtml5.min.css">
 		<!-- Select2 -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/select2/dist/css/select2.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/select2.min.css">
 		<!-- Daterange picker -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap-daterangepicker/daterangepicker.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/daterangepicker.css">
 		<!-- Bootstrap Color Picker -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap-colorpicker.min.css">
 		<!-- Date Picker -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap-datepicker.min.css">
 		<!-- Bootstrap time Picker -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/timepicker/bootstrap-timepicker.min.css">
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap-timepicker.min.css">
 		<!-- Theme style -->
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/AdminLTE.min.css">
 		<!-- AdminLTE Skins. -->
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/skins/_all-skins.min.css">
-		<link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/pace/pace.min.css">	
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/skins/_all-skins.min.css">		
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.pm.css" />

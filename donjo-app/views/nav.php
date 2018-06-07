@@ -12,13 +12,13 @@
 					$nam_kec = strlen(unpenetration($desa['nama_kecamatan']));
 					$nam_kab = strlen(unpenetration($desa['nama_kabupaten']));
 					if ($nam_kec<=12 AND $nam_kab<=12):
-						ucwords($this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']));
-						"</br>";
-						ucwords($this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']));
+						echo ucwords($this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']));
+						echo "</br>";
+						echo ucwords($this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']));
 					else:
-						ucwords(substr($this->setting->sebutan_kecamatan,0,3).". ".unpenetration($desa['nama_kecamatan']));
-						"</br>";
-						ucwords(substr($this->setting->sebutan_kabupaten,0,3).". ".unpenetration($desa['nama_kabupaten']));
+						echo ucwords(substr($this->setting->sebutan_kecamatan,0,3).". ".unpenetration($desa['nama_kecamatan']));
+						echo "</br>";
+						echo ucwords(substr($this->setting->sebutan_kabupaten,0,3).". ".unpenetration($desa['nama_kabupaten']));
 					endif					
 				?>	
 			</div>
