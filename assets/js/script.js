@@ -3,6 +3,8 @@ $(document).ready(function(){
 	checkAll();
 	//Display Modal Box
 	modalBox();
+	//Display MAP Box
+	mapBox();
 	//Confirm Delete Modal
 	$('#confirm-delete').on('show.bs.modal', function(e) {
 		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
@@ -103,16 +105,28 @@ function deleteAllBox(idForm, action) {
 }
 
 function modalBox() {	
-	$('#modalBox').on('show.bs.modal', function(e) {	
+	$('#modalBox').on('show.bs.modal', function(e){		
 		var link = $(e.relatedTarget);
 		$('.modal-header #myModalLabel').html(link.attr('data-title'));
-		$(this).find('.fetched-data').load(link.attr('href'));
-	
+		$(this).find('.fetched-data').load(link.attr('href'));	
 	});
-	return false;        
+	return false;   	
 }
-
-
+function mapBox() {	
+	$('#mapBox').on('show.bs.modal', function(e){		
+		$.getScript('<?php echo base_url()?>assets/css/leaflet.css');
+		$.getScript('<?php echo base_url()?>assets/css/leaflet.pm.css');		
+		$.getScript('<?php echo base_url()?>assets/js/leaflet.js');
+		$.getScript('<?php echo base_url()?>assets/js/leaflet.pm.min.js');
+		$.getScript('<?php echo base_url()?>assets/bootstrap/js/jquery.min.js');
+		setTimeout(function(e) {
+		  map.invalidateSize(e);
+		}, 10);
+		var link = $(e.relatedTarget);
+		$('.modal-header #myModalLabel').html(link.attr('data-title'));
+		$(this).find('.fetched-data').load(link.attr('href'));	
+	   });	
+}
 function formAction(idForm,action){
 	$('#'+idForm).attr('action',action);
 	$('#'+idForm).submit();
