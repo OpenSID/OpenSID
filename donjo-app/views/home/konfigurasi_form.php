@@ -146,9 +146,9 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_propinsi">Peta Kantor / Wilayah <?php echo ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-5">
-									<a href="<?php echo site_url("hom_desa/ajax_kantor_maps")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Peta Kantor <?php echo ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Kantor <?php echo ucwords($this->setting->sebutan_desa)?></a>
+									<a href="<?php echo site_url("hom_desa/ajax_kantor_maps")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Kantor <?php echo ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Kantor <?php echo ucwords($this->setting->sebutan_desa)?></a>
 
-									<a href="<?php echo site_url("hom_desa/ajax_wilayah_maps")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Peta Wilayah <?php echo ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map''></i> Wilayah <?php echo ucwords($this->setting->sebutan_desa)?></a>
+									<a href="<?php echo site_url("hom_desa/ajax_wilayah_maps")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Wilayah <?php echo ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map''></i> Wilayah <?php echo ucwords($this->setting->sebutan_desa)?></a>
 							</a>		
 								</div>
 							</div>
@@ -159,7 +159,7 @@
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
-						<div  class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class='modal-dialog'>
 								<div class='modal-content'>            
 									<div class='modal-header'>
