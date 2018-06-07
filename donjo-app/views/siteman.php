@@ -12,7 +12,7 @@
   	<link rel="stylesheet" href="<?=base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
   	<link rel="stylesheet" href="<?=base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
   	<!-- Mengganti lokasi link bootstrap.bar.css  -->
-  	<link rel="stylesheet" href="<?=base_url()?>assets/plugins/bootstrap/dist/css/bootstrap.bar.css" media="screen" type="text/css" />
+  	<link rel="stylesheet" href="<?=base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
 	<?php if(is_file("desa/css/siteman.css")): ?>
 		<link type='text/css' href="<?=base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 	<?php endif; ?>
