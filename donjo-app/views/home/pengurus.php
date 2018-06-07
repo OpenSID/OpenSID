@@ -40,7 +40,7 @@
                                 <th><input type="checkbox" id="checkall" ></th>
                                 <th>No</th>     
                                 <th width='12%'>Aksi</th>
-                                <th>Photo</th>	
+                                <th>Foto</th>	
                                 <th width='50%'>Nama / NIP /NIK</th>	
                                 <th>Jabatan</th>
                                 <th>Status</th>		
