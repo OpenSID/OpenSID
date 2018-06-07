@@ -2,28 +2,28 @@
 	<section class="content-header">
 		<h1>Staf Pemerintahan <?php echo ucwords($this->setting->sebutan_desa)?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?php echo site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Staf Pemerintahan <?php echo ucwords($this->setting->sebutan_desa)?></li>
 		</ol>
 	</section> 
 	<section class="content">
 		<div class="row" >
-			<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
+			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<?php if($pamong['foto']){?>
-								<img class="profile-user-img img-responsive img-circle" src="<?php echo AmbilFoto($pamong['foto'])?>" alt="Photo">								
-							<?php }else{?>
+							<?php if($pamong['foto']):?>
+								<img class="profile-user-img img-responsive img-circle" src="<?AmbilFoto($pamong['foto'])?>" alt="Photo">								
+							<?php else:?>
 								<img class="profile-user-img img-responsive img-circle" src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt="Photo">						 
-							<?php }?>			
+							<?php endif?>			
 							<br/>
 							<p class="text-muted text-center"><code>(Kosongkan jika tidak ingin mengubah photo)</code></p>
 							<br/>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path2" name="foto">
 								<input type="file" class="hidden" id="file2" name="foto">
-								<input type="hidden" name="old_foto" value="<?php echo $pamong['foto']?>">
+								<input type="hidden" name="old_foto" value="<?=$pamong['foto']?>">
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
 								</span>
@@ -34,7 +34,7 @@
 				<div class="col-md-9">
 					<div class="box box-primary">
 						<div class="box-header with-border">							
-							<a href="<?php echo site_url()?>pengurus" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left "></i> Kembali Ke Daftar Staf</a>	
+							<a href="<?=site_url()?>pengurus" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left "></i> Kembali Ke Daftar Staf</a>	
 						</div>									
 						<div class="box-body">
 							<div class="form-group">
@@ -47,13 +47,13 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_nip">NIP</label>
 								<div class="col-sm-6">
-									<input id="pamong_nip" name="pamong_nip" class="form-control input-sm" type="text" placeholder="NIP" value="<?php echo $pamong['pamong_nip']?>" ></input>
+									<input id="pamong_nip" name="pamong_nip" class="form-control input-sm" type="text" placeholder="NIP" value="<?=$pamong['pamong_nip']?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_nik">NIK</label>
 								<div class="col-sm-6">
-									<input id="pamong_nik" name="pamong_nik" class="form-control input-sm" type="text" placeholder="NIK" value="<?php echo $pamong['pamong_nik']?>" ></input>
+									<input id="pamong_nik" name="pamong_nik" class="form-control input-sm" type="text" placeholder="NIK" value="<?=$pamong['pamong_nik']?>" ></input>
 								</div>
 							</div>		
 							<div class="form-group">
@@ -65,8 +65,8 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_status">Status</label>
 								<div class="radio col-sm-6">
-									<label><input id="group1" type="radio" value="1" name="pamong_status" <?php if($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == ''){echo 'checked';}?>></input>Aktif</label>&nbsp;&nbsp;
-									<label><input id="group2" type="radio" value="2" name="pamong_status" <?php if($pamong['pamong_status'] == '2' ){echo 'checked';}?>></input>Tidak Aktif</label>
+<label><input id="group1" type="radio" value="1" name="pamong_status" <?php if($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == ''):?>checked<?php endif?>></input>Aktif</label>&nbsp;&nbsp;
+									<label><input id="group2" type="radio" value="2" name="pamong_status" <?php if($pamong['pamong_status'] == '2' ):?>checked<?php endif?>></input>Tidak Aktif</label>
 								</div>
 							</div>
 						</div>

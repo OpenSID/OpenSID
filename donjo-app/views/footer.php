@@ -46,6 +46,9 @@
 		<script src="<?php echo base_url()?>assets/js/highcharts/export-data.js"></script>
 		<!-- Script-->
 		<script src="<?php echo base_url()?>assets/js/script.js"></script>
+		<!-- OpenStreetMap Js-->
+		<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+		<script src="<?php echo base_url()?>assets/js/leaflet.pm.min.js"></script>
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
 			$('document').ready(function(){	
