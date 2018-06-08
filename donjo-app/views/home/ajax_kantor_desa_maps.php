@@ -12,7 +12,7 @@ $(document).ready(function(){
             dataType: 'json',
             data: {lat: lat, lng: lng, zoom: zoom, map_tipe: map_tipe},
         });
-        $(this).closest("#modalBox").modal("hide");       
+        $(this).closest("#modalBox").modal("hide");
     });
 });
 
@@ -42,9 +42,8 @@ $(document).ready(function(){
     lokasi_kantor.on('zoomstart zoomend', function(e){
         document.getElementById('zoom').value = lokasi_kantor.getZoom();
     })
- 
-})();
 
+})();
 </script>
 
 <style>
@@ -59,7 +58,7 @@ $(document).ready(function(){
 <form action="<?php echo $form_action?>" method="post" id="validasi">
 	<div class='modal-body'>
 		<div class="row">
-			<div class="col-sm-12">										
+			<div class="col-sm-12">
                 <div id="mapx"></div>
                 <input type="hidden" name="lat" id="lat" value="<?=$desa['lat']?>"/>
                 <input type="hidden" name="lng" id="lng"  value="<?=$desa['lng']?>"/>
@@ -69,7 +68,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-remove'></i> Batal</button>
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>
