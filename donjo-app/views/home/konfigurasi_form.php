@@ -6,19 +6,19 @@
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Identitas  <?php echo ucwords($this->setting->sebutan_desa)?></li>
 		</ol>
-	</section> 
-	<section class="content" id="maincontent">		
-		<div class="row">		
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
 			<form id="mainform" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
 							<?php if($main['logo']):?>
-								<img class="profile-user-img img-responsive img-circle" src="<?=LogoDesa($main['logo'])?>" alt="Logo">								
+								<img class="profile-user-img img-responsive img-circle" src="<?=LogoDesa($main['logo'])?>" alt="Logo">
 							<?php else:?>
-								<img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/files/logo/home.png" alt="Logo">						 
-							<?php endif?>										 
-							<br/>		
+								<img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/files/logo/home.png" alt="Logo">
+							<?php endif?>
+							<br/>
 							<p class="text-center text-bold">Lambang Desa</p>
 							<p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
 							<br/>
@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-primary">					
+					<div class="box box-primary">
 						<div class="box-body">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?php echo ucwords($this->setting->sebutan_desa)?></label>
@@ -131,12 +131,12 @@
 								<div class="col-sm-5">
 									<select  name="nama_propinsi" class="form-control select2 input-sm required">
 										<option value="">Pilih Propinsi</option>
-										<?php foreach($list_provinsi AS $data){?>
-											<option value="<?php echo $data['nama']?>" data-kode="<?php echo $data['kode']?>" <?php if(strtolower($main['nama_propinsi'])== strtolower($data['nama'])) :?>selected<?php endif?>><?=$data['nama']?></option>
-										<?php }?>
+										<?php foreach($list_provinsi AS $data):?>
+											<option value="<?=$data['nama']?>" data-kode="<?=$data['kode']?>" <?php if(strtolower($main['nama_propinsi'])== strtolower($data['nama'])) :?>selected<?php endif?>><?=$data['nama']?></option>
+										<?php  endforeach; ?>
 									 </select>
 								</div>
-							</div>											
+							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_propinsi">Kode Propinsi</label>
 								<div class="col-sm-2">
@@ -147,21 +147,19 @@
 								<label class="col-sm-3 control-label" for="kode_propinsi">Peta Kantor / Wilayah <?php echo ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-5">
 									<a href="<?php echo site_url("hom_desa/ajax_kantor_maps")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Kantor <?php echo ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Kantor <?php echo ucwords($this->setting->sebutan_desa)?></a>
-
-									<a href="<?php echo site_url("hom_desa/ajax_wilayah_maps")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Wilayah <?php echo ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map''></i> Wilayah <?php echo ucwords($this->setting->sebutan_desa)?></a>
-							</a>		
+									<a href="<?php echo site_url("hom_desa/ajax_wilayah_maps")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Wilayah <?php echo ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map'></i> Wilayah <?php echo ucwords($this->setting->sebutan_desa)?></a>
 								</div>
 							</div>
 						</div>
 						<div class='box-footer'>
-							<div class='col-xs-12'>	
+							<div class='col-xs-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 						<div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class='modal-dialog'>
-								<div class='modal-content'>            
+								<div class='modal-content'>
 									<div class='modal-header'>
 										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
 										<h4 class='modal-title' id='myModalLabel'></h4>
@@ -169,7 +167,7 @@
 									<div class="fetched-data"></div>
 								</div>
 							</div>
-						</div>							
+						</div>
 					</div>
 				</div>
 			</form>

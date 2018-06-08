@@ -7,9 +7,9 @@ $(document).ready(function(){
             url: "<?=$form_action?>",
             dataType: 'json',
             data: {path: path},
-        });        
-        $(this).closest("#modalBox").modal("hide");  
-        
+        });
+        $(this).closest("#modalBox").modal("hide");
+
     });
 });
 //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
@@ -97,9 +97,9 @@ $(document).ready(function(){
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class='modal-body'>
 	<div class="row">
-		<div class="col-sm-12">										
+		<div class="col-sm-12">
             <div id="map"></div>
-            <input type="hidden" id="path" name="path" value="<?=$desa['path']?>">               
+            <input type="hidden" id="path" name="path" value="<?=$desa['path']?>">
     	</div>
 	</div>
 </div>
@@ -107,4 +107,3 @@ $(document).ready(function(){
 	<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 	<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_wilayah"><i class='fa fa-check'></i> Simpan</button>
 </div>
-

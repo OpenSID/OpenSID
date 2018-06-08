@@ -3,7 +3,7 @@
 				<div class="pull-right hidden-xs">
 				  	<b>Version</b> <?php echo AmbilVersi()?>
 				</div>
-				<strong>Aplikasi <a href="https://github.com/OpenSID/OpenSID" target="_blank"> OpenSID</a> Berbasis SID, Dikembangkan oleh <a href="http://www.combine.or.id" target="_blank">Combine.or.id</a>.</strong> 
+				<strong>Aplikasi <a href="https://github.com/OpenSID/OpenSID" target="_blank"> OpenSID</a> Berbasis SID, Dikembangkan oleh <a href="http://www.combine.or.id" target="_blank">Combine.or.id</a>.</strong>
 			</footer>
 		</div>
 
@@ -19,7 +19,7 @@
 		<!-- InputMask -->
 		<script src="<?php echo base_url()?>assets/bootstrap/js/jquery.inputmask.js"></script>
 		<script src="<?php echo base_url()?>assets/bootstrap/js/jquery.inputmask.date.extensions.js"></script>
-		<script src="<?php echo base_url()?>assets/bootstrap/js/jquery.inputmask.extensions.js"></script>		
+		<script src="<?php echo base_url()?>assets/bootstrap/js/jquery.inputmask.extensions.js"></script>
 		<script src="<?php echo base_url()?>assets/bootstrap/js/daterangepicker.js"></script>
 		<!-- datepicker -->
 		<script src="<?php echo base_url()?>assets/bootstrap/js/bootstrap-datepicker.min.js"></script>
@@ -30,17 +30,17 @@
 		<!-- Bootstrap WYSIHTML5 -->
 		<script src="<?php echo base_url()?>assets/bootstrap/js/bootstrap3-wysihtml5.all.min.js"></script>
 		<!-- Slimscroll -->
-		<script src="<?php echo base_url()?>assets/bootstrap/js/jquery.slimscroll.min.js"></script>		
+		<script src="<?php echo base_url()?>assets/bootstrap/js/jquery.slimscroll.min.js"></script>
 		<!-- FastClick -->
-		<script src="<?php echo base_url()?>assets/bootstrap/js/fastclick.js"></script>			
+		<script src="<?php echo base_url()?>assets/bootstrap/js/fastclick.js"></script>
 		<!-- AdminLTE App -->
 		<script src="<?php echo base_url()?>assets/js/adminlte.min.js"></script>
 		<script src="<?php echo base_url()?>assets/js/validasi.js"></script>
-		<script src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>			
+		<script src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 		<!-- Highcharts -->
 		<script src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?php echo base_url()?>assets/js/highcharts/highcharts-more.js"></script>
-		<script src="<?php echo base_url()?>assets/js/highcharts/exporting.js"></script>	
+		<script src="<?php echo base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?php echo base_url()?>assets/js/highcharts/export-data.js"></script>
 		<!-- Script-->
 		<script src="<?php echo base_url()?>assets/js/script.js"></script>
@@ -49,7 +49,7 @@
 		<script src="<?php echo base_url()?>assets/js/leaflet.pm.min.js"></script>
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
-			$('document').ready(function(){	
+			$('document').ready(function(){
 				if($('#success-code').val() == 1){
 					notify = 'success';
 					notify_msg = 'Data berhasil disimpan';
@@ -86,13 +86,13 @@
 						$('#massageBox').modal('show');
 						$('#ok').click(function() {$('#massageBox').modal('hide');});
 					});
-					<?php unset($_SESSION['dari_login']) ?>				
+					<?php unset($_SESSION['dari_login']) ?>
 				<?php endif; ?>
 			</script>
 		<?php endif ?>
 
 		<!-- ************ -->
-		
+
 	</body>
 </html>
 
