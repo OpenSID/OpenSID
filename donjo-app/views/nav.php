@@ -45,6 +45,7 @@
 				<?php endif; ?>	
 			</li>
 			<?php endforeach; ?>
+			     
 		</ul>
 	</section>
  </aside>

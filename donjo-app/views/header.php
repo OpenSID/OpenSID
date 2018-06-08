@@ -53,7 +53,7 @@
 
 	</head>
 	<body class="skin-purple sidebar-mini  <?php if($hidmenu==1):?>sidebar-collapse<?php endif?>">
-		<div class="wrapper">
+		<div class="wrapper">			
 			<header class="main-header">
 				<a href="<?=site_url()?>first"  target="_blank" class="logo">										
 					<span class="logo-mini"><b>SID</b></span>										
