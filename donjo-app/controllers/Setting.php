@@ -15,16 +15,18 @@ class Setting extends CI_Controller{
 		$this->load->model('setting_model');
 		$this->load->model('header_model');
 		$this->load->model('theme_model');
+		$this->modul_ini = 11;
 	}
 
 	function index(){
-		$nav['act']= 2;
+		$nav['act']= 11;
+		$nav['act_sub'] = 43;
 		$header = $this->header_model->get_data();
 		$data['list_tema'] = $this->theme_model->list_all();
 
 		$this->load->view('header',$header);
 
-		$this->load->view('setting/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('setting/setting_form',$data);
 		$this->load->view('footer');
 	}
@@ -35,12 +37,13 @@ class Setting extends CI_Controller{
 	}
 
 	function info_sistem(){
-		$nav['act']= 3;
+		$nav['act']= 11;
+		$nav['act_sub'] = 43;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
 
-		$this->load->view('setting/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('setting/info_php');
 		$this->load->view('footer');
 	}
