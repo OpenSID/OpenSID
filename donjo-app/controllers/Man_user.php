@@ -37,19 +37,16 @@ class Man_user extends CI_Controller{
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
-		if(isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->user_model->paging($p,$o);
-		$data['main']    = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['main']    = $this->user_model->list_data($o);
 		$data['keyword'] = $this->user_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='man_user';
+		$nav['act']= 11;
+		$nav['act_sub'] = 44;
 
 		$this->load->view('header', $header);
-		$this->load->view('man_user/nav');
+		$this->load->view('nav',$nav);
 		$this->load->view('man_user/manajemen_user_table',$data);
 		$this->load->view('footer');
 	}
@@ -71,9 +68,10 @@ class Man_user extends CI_Controller{
 
 		$data['grup'] = $this->user_model->list_grup();
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 11;
+		$nav['act_sub'] = 44;
 		$this->load->view('header', $header);
-		$this->load->view('man_user/nav');
+		$this->load->view('nav',$nav);
 		$this->load->view('man_user/manajemen_user_form',$data);
 		$this->load->view('footer');
 	}
