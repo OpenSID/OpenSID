@@ -38,11 +38,10 @@ class Setting extends CI_Controller{
 
 	function info_sistem(){
 		$nav['act']= 11;
-		$nav['act_sub'] = 43;
+		$nav['act_sub'] = 46;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-
 		$this->load->view('nav',$nav);
 		$this->load->view('setting/info_php');
 		$this->load->view('footer');
