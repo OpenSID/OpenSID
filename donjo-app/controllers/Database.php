@@ -20,7 +20,7 @@ class Database extends CI_Controller{
 		$this->load->model('import_model');
 		$this->load->model('export_model');
 		$this->load->model('database_model');
-		$this->modul_ini = 12;
+		$this->modul_ini = 11;
 	}
 
 	function clear(){
@@ -40,43 +40,54 @@ class Database extends CI_Controller{
 			unset($_SESSION['siteman_timeout']);
     }
 
-		$nav['act']= 1;
+		$nav['act']= 11;
+		$nav['act_sub'] = 45;
+		$nav['act_tab'] = 1;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
 		$this->load->view('export/exp');
 		$this->load->view('footer');
 	}
 
 	function import(){
 
-		$nav['act']= 2;
+		$nav['act']= 11;
+		$nav['act_sub'] = 45;
+		$nav['act_tab'] = 2;
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action3'] = site_url("database/ppls_individu");
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
 		$this->load->view('import/imp',$data);
 		$this->load->view('footer');
 	}
 
 	function import_bip(){
 
-		$nav['act']= 5;
+		$nav['act']= 11;
+		$nav['act_sub'] = 45;
+		$nav['act_tab'] = 3;
 		$data['form_action'] = site_url("database/import_data_bip");
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
 		$this->load->view('import/bip',$data);
 		$this->load->view('footer');
 	}
 
 	function import_ppls(){
 
-		$nav['act']= 4;
+		$nav['act']= 11;
+		$nav['act_sub'] = 45;
+		$nav['act_tab'] = 2;
 		$data['form_action3'] = site_url("database/ppls_individu");
 		$data['form_action2'] = site_url("database/ppls_rumahtangga");
 		$data['form_action'] = site_url("database/ppls_kuisioner");
@@ -84,28 +95,35 @@ class Database extends CI_Controller{
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
 		$this->load->view('import/ppls',$data);
 		$this->load->view('footer');
 	}
 
 	function migrasi_cri(){
-		$nav['act']= 6;
+		$nav['act']= 11;
+		$nav['act_sub'] = 45;
+		$nav['act_tab'] = 5;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
 		$this->load->view('database/migrasi_cri',$data);
 		$this->load->view('footer');
 	}
 
 	function backup(){
 
-		$nav['act']= 3;
+		$nav['act']= 11;
+		$nav['act_sub'] = 45;
+		$nav['act_tab'] = 4;
 		$data['form_action'] = site_url("database/restore");
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
 		$this->load->view('database/backup',$data);
 		$this->load->view('footer');
 	}
@@ -121,10 +139,13 @@ class Database extends CI_Controller{
 	}
 
 	function pre_migrate(){
-		$nav['act']= 3;
+		$nav['act']= 11;
+		$nav['act_sub'] = 45;
+		$nav['act_tab'] = 5;
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
-		$this->load->view('export/nav',$nav);
+		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
 		$this->load->view('export/mig');
 		$this->load->view('footer');
 	}

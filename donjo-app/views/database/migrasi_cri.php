@@ -1,100 +1,104 @@
-<div id="pageC">
-<!-- Start of Space Admin -->
-  <table class="inner">
-  <tr style="vertical-align:top">
-    <td style="background:#fff;padding:0px;">
-      <div class="content-header">
-      </div>
-      <div id="contentpane">
-        <div class="ui-layout-north panel">
-          <h3>Migrasi Database Ke OpenSID <?php echo AmbilVersi()?></h3>
-        </div>
-        <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-          <div class="left">
-              <!--Impor data BIP-->
-              <form action="<?php echo $form_action?>" method="post" enctype="multipart/form-data" id="excell">
-               <table class="form">
-                <tr>
-                  <td width="500" colspan="3">
-                    <p font-size="14px";>
-                      Proses ini untuk mengubah database SID ke struktur database OpenSID <?php echo AmbilVersi()?>.
-                      <br><br>
-                      <div class="box-perhatian">
-                        <strong><span class="fa fa-info-circle" style="color:red"></span> Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
-                      </div>
-                      <br>
-                      Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di
-                      <ul>
-                        <li>
-                          <a href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a>, dan di
-                        </li>
-                        <li>
-                          <a href="https://www.facebook.com/groups/OpenSID/">https://www.facebook.com/groups/OpenSID/</a>
-                        </li>
-                    </p>
-                  </td>
-                  <td>
-                  &nbsp;
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Migrasi Sedang Berjalan."><span class="fa fa-retweet"></span> Migrasi Database Ke OpenSID <?php echo AmbilVersi()?></a>
-                  </td>
-                  <td>
-                    &nbsp;
-                  </td>
-                </tr>
-              <?php if(isset($_SESSION['gagal'])){?>
-                <tr>
-                  <td width="150">
-                  <p>Jumlah Data Penduduk Gagal
-                  </td>
-                  <td colspan="3">
-                    <?php echo $_SESSION['gagal']?>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="150">
-                  <p>Letak Baris Data Gagal:
-                  </td>
-                  <td colspan="3">
-                    <?php echo $_SESSION['baris']?>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="150">
-                  <p>Total Data Penduduk Berhasil:
-                  </td>
-                  <td colspan="3">
-                    <?php echo $_SESSION['total_penduduk']?>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="150">
-                  <p>Total Data Keluarga Berhasil:
-                  </td>
-                  <td colspan="3">
-                    <?php echo $_SESSION['total_keluarga']?>
-                  </td>
-                </tr>
-              <?php }?>
-              </table>
-            </form>
-              <!--Impor data BIP-->
-
-          </div>
-        <div class="ui-layout-south panel bottom">
-          <div class="left">
-            <div class="table-info"></div>
-        </div>
-        <div class="right">
-        </div>
-      </div>
-    </div>
-  </td></tr></table>
+										<div class="tab-pane <?php if($act_tab==5):?> active<?php endif?>">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="box-header with-border">
+														<h3 class="box-title"><strong>Migrasi Database Ke OpenSID <?=AmbilVersi()?></strong></h3>
+													</div>
+													<div class="box-body">
+														<div class="row">
+															<div class="col-sm-12">
+																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
+																	<p>Proses ini untuk mengubah database SID ke struktur database OpenSID <?=AmbilVersi()?>.</p>
+																	<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
+																		<small>
+																			<strong>Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
+																		</small>
+																	</p>
+																	<p>Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di :</P>
+																	<ul>
+																		<li> <a href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a></li>
+																		<li> <a href="https://www.facebook.com/groups/OpenSID/">https://www.facebook.com/groups/OpenSID/</a></li>
+																	</ul>
+																	<table class="table table-bordered" >
+																		<tbody>
+																			<tr>
+																				<td style="padding-top:20px;padding-bottom:10px;">
+																					<div class="form-group">
+																						<div class="col-sm-8 col-lg-4">
+																							<a href="#" class="btn btn-block btn-danger btn-sm ajax"  title="Import" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Migrasi Database Ke OpenSID <?= AmbilVersi()?></a>
+																						</div>
+																					</div>
+																					<div class="ajax-content">
+																				</div>
+																				</td>
+																			</tr>
+																			<?php if(isset($_SESSION['gagal'])):?>
+																				<tr>
+																					<td>
+																						<dl class="dl-horizontal">
+																							<dt>Jumlah Data Penduduk Gagal : </dt>
+																							<dd><?= $_SESSION['gagal']?></dd>
+																						</dl>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<dl class="dl-horizontal">
+																							<dt>Letak Baris Data Gagal : </dt>
+																							<dd><?= $_SESSION['baris']?></dd>
+																						</dl>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<dl class="dl-horizontal">
+																							<dt>Total Data Penduduk Berhasil :</dt>
+																							<dd><?= $_SESSION['total_penduduk']?></dd>
+																						</dl>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<dl class="dl-horizontal">
+																							<dt>Total Data Keluarga Berhasil:</dt>
+																							<dd><?= $_SESSION['total_keluarga']?></dd>
+																						</dl>
+																					</td>
+																				</tr>
+																			<?php endif?>
+																		</tbody>
+																	</table>
+																</form>
+															</div>
+														</div>
+													</div>
+													<div class='modal fade' id='loading' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+														<div class='modal-dialog'>
+															<div class='modal-content'>
+																<div class='modal-header btn-warning'>
+																	<h4 class='modal-title' id='myModalLabel'>Proses Migrasi ......</h4>
+																</div>
+																<div class='modal-body'>
+																	Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.
+																	<div class='text-center'>
+																		<img src='<?php echo base_url()?>assets/images/background/loading.gif'>
+																	</div>
+																</div>
+															</div>
+													</div>
+												</div>
+											</div>
+											<?php unset($_SESSION['sukses']);?>
+											<?php unset($_SESSION['baris']);?>
+											<?php unset($_SESSION['gagal']);?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>
-
-<?php unset($_SESSION['sukses']);?>
-<?php unset($_SESSION['baris']);?>
-<?php unset($_SESSION['gagal']);?>
