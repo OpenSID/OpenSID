@@ -3,7 +3,7 @@
 		parent::__construct();
 	}
 	function list_data(){
-		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0 ORDER BY urut";
+		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0 AND parent = 0 ORDER BY urut";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 
@@ -23,14 +23,29 @@
 		$data = $this->db->where('aktif',1)->where('parent',0)->where("level >= {$_SESSION['grup']}")
 			->order_by('urut')
 			->get('setting_modul')->result_array();
-			for($i=0; $i<count($data); $i++){	
-				$data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);		
+			for($i=0; $i<count($data); $i++){
+				$data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
 			}
 		return $data;
 	}
-	function list_sub_modul_aktif($modul_id){	
-		$data	= $this->db->select('*')->where(array('parent'=>$modul_id,'aktif'=>1))->order_by('urut')->get('setting_modul')->result_array();		
-		return $data;	
+	function list_sub_modul_aktif($modul_id){
+		$data	= $this->db->select('*')->where(array('parent'=>$modul_id,'aktif'=>1))->order_by('urut')->get('setting_modul')->result_array();
+		return $data;
+	}
+	// Menampilkan tabel sub modul
+	function list_sub_modul($modul=1){
+
+		$sql   = "SELECT u.* FROM setting_modul u WHERE hidden = 0 AND parent = ? ORDER BY urut";
+
+		$query = $this->db->query($sql,$modul);
+		$data=$query->result_array();
+
+		$i=0;
+		while($i<count($data)){
+			$data[$i]['no']=$i+1;
+			$i++;
+		}
+		return $data;
 	}
 	function autocomplete(){
 		$sql = "SELECT modul FROM setting_modul WHERE hidden = 0
