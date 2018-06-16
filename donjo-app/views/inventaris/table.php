@@ -22,6 +22,9 @@
 		    <div class="ui-layout-north panel">
 					<div class="content">
 						<h3>Inventaris dan Kekayaan Desa</h3>
+						<div style="padding:1em;margin:1em 0;border:solid 1px #c00;background:#fee;color:#c00;">
+							Modul ini akan dihilangkan pada rilis September 2018 karena telah diganti dengan modul Inventaris baru. Pastikan memindahkan semua data ke format Inventaris baru sebelum rilis tersebut.
+						</div>
 					</div>
 		      <div class="left">
 		        <div class="uibutton-group">

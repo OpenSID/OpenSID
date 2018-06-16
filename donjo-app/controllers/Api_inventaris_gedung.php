@@ -18,11 +18,7 @@ class Api_inventaris_gedung extends CI_Controller
 			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 			redirect('siteman');
 		}
-		$this->load->model('header_model');
 		$this->load->model('inventaris_gedung_model');
-		$this->load->model('referensi_model');
-		$this->load->model('config_model');
-		$this->load->model('surat_model');
 		$this->modul_ini = 16;
 		$this->tab_ini = 3;
 		$this->controller = 'inventaris_gedung';
@@ -49,7 +45,7 @@ class Api_inventaris_gedung extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data); 
+            echo json_encode($data);
     }
 
     public function add_mutasi()
@@ -63,7 +59,7 @@ class Api_inventaris_gedung extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data); 
+            echo json_encode($data);
     }
 
     public function update($id)
@@ -87,7 +83,7 @@ class Api_inventaris_gedung extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            echo json_encode($data); 
+            echo json_encode($data);
     }
 
     public function update_mutasi($id)
@@ -100,20 +96,20 @@ class Api_inventaris_gedung extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            echo json_encode($data); 
+            echo json_encode($data);
     }
 
     public function delete($id)
     {
         json_encode($this->inventaris_gedung_model->delete($id));
-        
+
         redirect('inventaris_gedung');
     }
 
     public function delete_mutasi($id)
     {
         json_encode($this->inventaris_gedung_model->delete_mutasi($id));
-        
+
         redirect('inventaris_gedung/mutasi');
     }
 }

@@ -148,7 +148,7 @@
     // Tambahkan perubahan database di sini
     // Tambah kolom di tabel data_persil
 
-  
+
     // Penambahan database untuk melakukan inventaris
     $query = $this->db->get_where('setting_modul', array('id' => 16));
     if ($query->row() != null){
@@ -156,44 +156,44 @@
         $this->db->query($sql);
     }else{
         $sql = "INSERT INTO `setting_modul`
-                (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) 
+                (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`)
                 VALUES (16,'Inventaris','inventaris_tanah',1,'inventaris.png',16,2,0,'fa fa-money')";
-        $this->db->query($sql); 
-        
-        
+        $this->db->query($sql);
+
+
         $sql = "UPDATE `setting_modul` SET urut = '6'WHERE id = 16";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '7'WHERE id = 5";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '8'WHERE id = 6";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '9'WHERE id = 7";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '10' WHERE id = 8";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '11' WHERE id = 9";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '12' WHERE id = 10";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '13' WHERE id = 11";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '14' WHERE id = 12";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '15' WHERE id = 13";
-        $this->db->query($sql);  
+        $this->db->query($sql);
 
         $sql = "UPDATE `setting_modul` SET urut = '16' WHERE id = 14";
-        $this->db->query($sql); 
-    }  
+        $this->db->query($sql);
+    }
 
     if (!$this->db->table_exists('inventaris_tanah') ) {
       $query = "
@@ -241,7 +241,7 @@
         `visible` int(1) NOT NULL DEFAULT '1',
         PRIMARY KEY (id),
         CONSTRAINT FK_mutasi_inventaris_tanah FOREIGN KEY (id_inventaris_tanah) REFERENCES inventaris_tanah(id)
-      ) 
+      )
       ";
       $this->db->query($query);
 
@@ -295,7 +295,7 @@
         `visible` int(1) NOT NULL DEFAULT '1',
         PRIMARY KEY (id),
         CONSTRAINT FK_mutasi_inventaris_peralatan FOREIGN KEY (id_inventaris_peralatan) REFERENCES inventaris_peralatan(id)
-      ) 
+      )
       ";
       $this->db->query($query);
 
@@ -351,7 +351,7 @@
         `visible` int(1) NOT NULL DEFAULT '1',
         PRIMARY KEY (id),
         CONSTRAINT FK_mutasi_inventaris_gedung FOREIGN KEY (id_inventaris_gedung) REFERENCES inventaris_gedung(id)
-      ) 
+      )
       ";
       $this->db->query($query);
 
@@ -407,12 +407,12 @@
         `visible` int(1) NOT NULL DEFAULT '1',
         PRIMARY KEY (id),
         CONSTRAINT FK_mutasi_inventaris_jalan FOREIGN KEY (id_inventaris_jalan) REFERENCES inventaris_jalan(id)
-      ) 
+      )
       ";
       $this->db->query($query);
 
     }
-    
+
     if (!$this->db->table_exists('inventaris_asset') ) {
       $query = "
       CREATE TABLE `inventaris_asset` (
@@ -465,13 +465,13 @@
         `visible` int(1) NOT NULL DEFAULT '1',
         PRIMARY KEY (id),
         CONSTRAINT FK_mutasi_inventaris_asset FOREIGN KEY (id_inventaris_asset) REFERENCES inventaris_asset(id)
-      ) 
+      )
       ";
       $this->db->query($query);
 
     }
 
-   
+
 
     if (!$this->db->table_exists('inventaris_kontruksi') ) {
       $query = "
@@ -501,7 +501,7 @@
       )
       ";
       $this->db->query($query);
-
+    }
 
     $fields = array();
     if (!$this->db->field_exists('jenis_pemilik', 'data_persil')) {
