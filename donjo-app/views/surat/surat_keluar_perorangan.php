@@ -6,7 +6,7 @@
     {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
     <?php }?>
     ];
-    
+
     $('#nik').flexbox(nik, {
     resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
     watermark: <?php if($individu){?>'<?php echo $individu['nik']?> - <?php echo spaceunpenetration($individu['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
@@ -16,7 +16,7 @@
     $('#'+'main').submit();
     }
     });
-    
+
     });
 </script>
 
@@ -164,11 +164,11 @@
                                         <div class="uibutton-group">
                                             <?php
 											if(is_file($theFile)){?>
-                                            <a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south fa-tipis" title="Cetak"><span class="fa fa-download"></span> Cetak</a>
+                                            <a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south fa-tipis" title="Unduh Surat"><span class="fa fa-download"></span> Surat</a>
                                             <?php	}?>
                                                 <?php
 											if(is_file($lampiran)){?>
-                                                <a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south fa-tipis" title="Lampiran"><span class="fa fa-download"></span> Lampiran</a>
+                                                <a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south fa-tipis" title="Unduh Lampiran"><span class="fa fa-download"></span> Lampiran</a>
                                                 <?php	}?>
                                                     <?php if($this->grup==1):?>
                                                     <a href="<?php echo site_url("keluar/delete/$p/$o/$data[id] ")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>

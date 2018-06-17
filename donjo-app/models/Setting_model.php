@@ -38,8 +38,22 @@ class Setting_model extends CI_Model
     //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
     date_default_timezone_set($this->setting->timezone);//ganti ke timezone lokal
     // Ambil google api key dari desa/config/config.php kalau tidak ada di database
-    if(empty($this->setting->google_key)){
+    if (empty($this->setting->google_key)){
       $this->setting->google_key = config_item('google_key');
+    }
+    // Ambil dev_tracker dari desa/config/config.php kalau tidak ada di database
+    if (empty($this->setting->dev_tracker)){
+      $this->setting->dev_tracker = config_item('dev_tracker');
+    }
+    // Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
+    $pos = strpos($this->setting->web_theme, 'desa/');
+    if ($pos !== false)
+    {
+      $folder = FCPATH . '/desa/themes/' . substr($this->setting->web_theme, $pos + strlen('desa/'));
+      if (!file_exists($folder))
+      {
+        $this->setting->web_theme = "default";
+      }
     }
   }
 

@@ -11,8 +11,9 @@
     '2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => '2.9'),
     '2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => '2.10'),
     '2.10' => array('migrate' => 'migrasi_210_ke_211','nextVersion' => '2.11'),
-    '2.11' => array('migrate' => 'migrasi_211_ke_213','nextVersion' => NULL),
-    '2.12' => array('migrate' => 'migrasi_211_ke_213','nextVersion' => NULL)
+    '2.11' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => '18.06'),
+    '2.12' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => '18.06'),
+    '18.06' => array('migrate' => 'migrasi_1806_ke_1807','nextVersion' => NULL)
   );
 
   function __construct(){
@@ -29,7 +30,8 @@
 		$this->db->db_debug = FALSE; //disable debugging for queries
 
       $query = $this->db->query("SELECT `engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '". $this->db->database ."' AND table_name = 'user'");
-      if($this->db->error()['code'] != 0) {
+      $error = $this->db->error();
+      if($error['code'] != 0) {
       	$this->engine = $query->row()->engine;
       }
 
@@ -78,13 +80,10 @@
     $this->surat_master_model->impor_surat_desa();
     /*
       Update current_version di db.
-      'pasca-<versi>' disimpan sebagai '<versi>'
+      'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
     */
-    $prefix = 'pasca-';
     $versi = AmbilVersi();
-    if (substr($versi, 0, strlen($prefix)) == $prefix) {
-        $versi = substr($versi, strlen($prefix));
-    }
+    $versi = preg_replace('/pasca-|-pasca/', '', $versi);
     $newVersion = array(
       'value' => $versi
     );
@@ -140,12 +139,453 @@
     $this->migrasi_28_ke_29();
     $this->migrasi_29_ke_210();
     $this->migrasi_210_ke_211();
-    $this->migrasi_211_ke_213();
+    $this->migrasi_211_ke_1806();
+    $this->migrasi_1806_ke_1807();
   }
 
-
-  function migrasi_211_ke_213(){
+  function migrasi_1806_ke_1807()
+  {
     // Tambahkan perubahan database di sini
+    // Tambah kolom di tabel data_persil
+
+
+    // Penambahan database untuk melakukan inventaris
+    $query = $this->db->get_where('setting_modul', array('id' => 16));
+    if ($query->row() != null){
+        $sql = "UPDATE `setting_modul` SET modul = 'Inventaris' WHERE id = 16";
+        $this->db->query($sql);
+    }else{
+        $sql = "INSERT INTO `setting_modul`
+                (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`)
+                VALUES (16,'Inventaris','inventaris_tanah',1,'inventaris.png',16,2,0,'fa fa-money')";
+        $this->db->query($sql);
+
+
+        $sql = "UPDATE `setting_modul` SET urut = '6'WHERE id = 16";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '7'WHERE id = 5";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '8'WHERE id = 6";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '9'WHERE id = 7";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '10' WHERE id = 8";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '11' WHERE id = 9";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '12' WHERE id = 10";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '13' WHERE id = 11";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '14' WHERE id = 12";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '15' WHERE id = 13";
+        $this->db->query($sql);
+
+        $sql = "UPDATE `setting_modul` SET urut = '16' WHERE id = 14";
+        $this->db->query($sql);
+    }
+
+    if (!$this->db->table_exists('inventaris_tanah') ) {
+      $query = "
+      CREATE TABLE `inventaris_tanah` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `nama_barang` varchar(255) NOT NULL,
+        `kode_barang` varchar(64) NOT NULL,
+        `register` varchar(64) NOT NULL,
+        `luas` int(64) NOT NULL,
+        `tahun_pengadaan` year(4) NOT NULL,
+        `letak` varchar(255) NOT NULL,
+        `hak` varchar(255) NOT NULL,
+        `no_sertifikat` varchar(255) NOT NULL,
+        `tanggal_sertifikat` date NOT NULL,
+        `penggunaan` varchar(255) NOT NULL,
+        `asal` varchar(255) NOT NULL,
+        `harga` double NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `status` int(1) NOT NULL DEFAULT '0',
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id)
+      )
+      ";
+      $this->db->query($query);
+    }
+
+    if (!$this->db->table_exists('mutasi_inventaris_tanah') ) {
+      $query = "
+      CREATE TABLE `mutasi_inventaris_tanah` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `id_inventaris_tanah` int(11),
+        `jenis_mutasi` varchar(255) NOT NULL,
+        `tahun_mutasi` date NOT NULL,
+        `harga_jual` double NOT NULL,
+        `sumbangkan` varchar(255) NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id),
+        CONSTRAINT FK_mutasi_inventaris_tanah FOREIGN KEY (id_inventaris_tanah) REFERENCES inventaris_tanah(id)
+      )
+      ";
+      $this->db->query($query);
+
+    }
+
+    if (!$this->db->table_exists('inventaris_peralatan') ) {
+      $query = "
+      CREATE TABLE `inventaris_peralatan` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `nama_barang` varchar(255) NOT NULL,
+        `kode_barang` varchar(64) NOT NULL,
+        `register` varchar(64) NOT NULL,
+        `merk` varchar(255) NOT NULL,
+        `ukuran`text NOT NULL,
+        `bahan` text NOT NULL,
+        `tahun_pengadaan` year(4) NOT NULL,
+        `no_pabrik` varchar(255) NULL,
+        `no_rangka` varchar(255) NULL,
+        `no_mesin` varchar(255) NULL,
+        `no_polisi` varchar(255) NULL,
+        `no_bpkb` varchar(255) NULL,
+        `asal` varchar(255) NOT NULL,
+        `harga` double NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `status` int(1) NOT NULL DEFAULT '0',
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id)
+      )
+      ";
+      $this->db->query($query);
+    }
+
+    if (!$this->db->table_exists('mutasi_inventaris_peralatan') ) {
+      $query = "
+      CREATE TABLE `mutasi_inventaris_peralatan` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `id_inventaris_peralatan` int(11),
+        `jenis_mutasi` varchar(255) NOT NULL,
+        `tahun_mutasi` date NOT NULL,
+        `harga_jual` double NOT NULL,
+        `sumbangkan` varchar(255) NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id),
+        CONSTRAINT FK_mutasi_inventaris_peralatan FOREIGN KEY (id_inventaris_peralatan) REFERENCES inventaris_peralatan(id)
+      )
+      ";
+      $this->db->query($query);
+
+    }
+
+    if (!$this->db->table_exists('inventaris_gedung') ) {
+      $query = "
+      CREATE TABLE `inventaris_gedung` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `nama_barang` varchar(255) NOT NULL,
+        `kode_barang` varchar(64) NOT NULL,
+        `register` varchar(64) NOT NULL,
+        `kondisi_bangunan` varchar(255) NOT NULL,
+        `kontruksi_bertingkat` varchar(255) NOT NULL,
+        `kontruksi_beton` int(1) NOT NULL,
+        `luas_bangunan` int(64) NOT NULL,
+        `letak` varchar(255) NOT NULL,
+        `tanggal_dokument`DATE NULL,
+        `no_dokument` varchar(255) NULL,
+        `luas` int(64) NULL,
+        `status_tanah` varchar(255) NULL,
+        `kode_tanah` varchar(255) NULL,
+        `asal` varchar(255) NOT NULL,
+        `harga` double NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `status` int(1) NOT NULL DEFAULT '0',
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id)
+      )
+      ";
+      $this->db->query($query);
+
+    }
+
+    if (!$this->db->table_exists('mutasi_inventaris_gedung') ) {
+      $query = "
+      CREATE TABLE `mutasi_inventaris_gedung` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `id_inventaris_gedung` int(11),
+        `jenis_mutasi` varchar(255) NOT NULL,
+        `tahun_mutasi` date NOT NULL,
+        `harga_jual` double NOT NULL,
+        `sumbangkan` varchar(255) NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id),
+        CONSTRAINT FK_mutasi_inventaris_gedung FOREIGN KEY (id_inventaris_gedung) REFERENCES inventaris_gedung(id)
+      )
+      ";
+      $this->db->query($query);
+
+    }
+
+    if (!$this->db->table_exists('inventaris_jalan') ) {
+      $query = "
+      CREATE TABLE `inventaris_jalan` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `nama_barang` varchar(255) NOT NULL,
+        `kode_barang` varchar(64) NOT NULL,
+        `register` varchar(64) NOT NULL,
+        `kontruksi` varchar(255) NOT NULL,
+        `panjang` int(64) NOT NULL,
+        `lebar`int(64) NOT NULL,
+        `luas` int(64) NOT NULL,
+        `letak` text NULL,
+        `tanggal_dokument` date NOT NULL,
+        `no_dokument` varchar(255) DEFAULT NULL,
+        `status_tanah` varchar(255) DEFAULT NULL,
+        `kode_tanah` varchar(255) DEFAULT NULL,
+        `kondisi` varchar(255) NOT NULL,
+        `asal` varchar(255) NOT NULL,
+        `harga` double NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `status` int(1) NOT NULL DEFAULT '0',
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id)
+      )
+      ";
+      $this->db->query($query);
+
+    }
+
+    if (!$this->db->table_exists('mutasi_inventaris_jalan') ) {
+      $query = "
+      CREATE TABLE `mutasi_inventaris_jalan` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `id_inventaris_jalan` int(11),
+        `jenis_mutasi` varchar(255) NOT NULL,
+        `tahun_mutasi` date NOT NULL,
+        `harga_jual` double NOT NULL,
+        `sumbangkan` varchar(255) NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id),
+        CONSTRAINT FK_mutasi_inventaris_jalan FOREIGN KEY (id_inventaris_jalan) REFERENCES inventaris_jalan(id)
+      )
+      ";
+      $this->db->query($query);
+
+    }
+
+    if (!$this->db->table_exists('inventaris_asset') ) {
+      $query = "
+      CREATE TABLE `inventaris_asset` (
+        `id` int(11) AUTO_INCREMENT NOT NULL,
+        `nama_barang` varchar(255) NOT NULL,
+        `kode_barang` varchar(64) NOT NULL,
+        `register` varchar(64) NOT NULL,
+        `jenis` varchar(255) NOT NULL,
+        `judul_buku` varchar(255) NULL,
+        `spesifikasi_buku` varchar(255) NULL,
+        `asal_daerah` varchar(255) NULL,
+        `pencipta` varchar(255) NULL,
+        `bahan` varchar(255) NULL,
+        `jenis_hewan` varchar(255) NULL,
+        `ukuran_hewan` varchar(255) NULL,
+        `jenis_tumbuhan` varchar(255) NULL,
+        `ukuran_tumbuhan` varchar(255) NULL,
+        `jumlah` int(64) NOT NULL,
+        `tahun_pengadaan` year(4) NOT NULL,
+        `asal` varchar(255) NOT NULL,
+        `harga` double NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `status` int(1) NOT NULL DEFAULT '0',
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id)
+      )
+      ";
+      $this->db->query($query);
+
+    }
+
+    if (!$this->db->table_exists('mutasi_inventaris_asset') ) {
+      $query = "
+      CREATE TABLE `mutasi_inventaris_asset` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `id_inventaris_asset` int(11),
+        `jenis_mutasi` varchar(255) NOT NULL,
+        `tahun_mutasi` date NOT NULL,
+        `harga_jual` double NOT NULL,
+        `sumbangkan` varchar(255) NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id),
+        CONSTRAINT FK_mutasi_inventaris_asset FOREIGN KEY (id_inventaris_asset) REFERENCES inventaris_asset(id)
+      )
+      ";
+      $this->db->query($query);
+
+    }
+
+
+
+    if (!$this->db->table_exists('inventaris_kontruksi') ) {
+      $query = "
+      CREATE TABLE `inventaris_kontruksi` (
+        `id` int(11) AUTO_INCREMENT NOT NULL ,
+        `nama_barang` varchar(255) NOT NULL,
+        `kondisi_bangunan` varchar(255) NOT NULL,
+        `kontruksi_bertingkat` varchar(255) NOT NULL,
+        `kontruksi_beton` int(1) NOT NULL,
+        `luas_bangunan` int(64) NOT NULL,
+        `letak` varchar(255) NOT NULL,
+        `tanggal_dokument` date DEFAULT NULL,
+        `no_dokument` varchar(255) DEFAULT NULL,
+        `tanggal` date DEFAULT NULL,
+        `status_tanah` varchar(255) DEFAULT NULL,
+        `kode_tanah` varchar(255) DEFAULT NULL,
+        `asal` varchar(255) NOT NULL,
+        `harga` double NOT NULL,
+        `keterangan` text NOT NULL,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `created_by` int(11) NOT NULL,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `updated_by` int(11) NOT NULL,
+        `status` int(1) NOT NULL DEFAULT '0',
+        `visible` int(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id)
+      )
+      ";
+      $this->db->query($query);
+    }
+
+    $fields = array();
+    if (!$this->db->field_exists('jenis_pemilik', 'data_persil')) {
+      $fields['jenis_pemilik'] = array(
+          'type' => 'tinyint',
+          'constraint' => 2,
+          'null' => FALSE,
+          'default' => 1 // pemilik desa
+      );
+    }
+    if (!$this->db->field_exists('pemilik_luar', 'data_persil')) {
+      $fields['pemilik_luar'] = array(
+          'type' => 'varchar',
+          'constraint' => 100
+      );
+    }
+    $this->dbforge->add_column('data_persil', $fields);
+    // Sesuaikan data pemilik luar desa yg sudah ada ke kolom baru
+    if (count($fields) > 0)
+    {
+      $data = $this->db->get('data_persil')->result_array();
+      foreach ($data as $persil)
+      {
+        if(!is_numeric($persil['nik']) AND $persil['nik']<>'')
+        {
+          $data_update = array(
+            'jenis_pemilik' => '2',
+            'pemilik_luar' => $persil['nik'],
+            'nik' => 999   // NIK_LUAR_DESA
+          );
+          $this->db->where('id', $persil['id'])->update('data_persil', $data_update);
+        }
+      }
+    }
+    if ($this->db->field_exists('alamat_ext', 'data_persil')) {
+      $fields = array();
+      $fields['alamat_ext'] = array(
+          'name' => 'alamat_luar',
+          'type' => 'varchar',
+          'constraint' => 100
+      );
+      $this->dbforge->modify_column('data_persil', $fields);
+    }
+
+  }
+
+  function migrasi_211_ke_1806(){
+    //ambil nilai path
+    $config = $this->db->get('config')->row();
+    if(!empty($config)){
+        //Cek apakah path kosong atau tidak
+        if(!empty($config->path)){
+            //Cek pola path yang lama untuk diganti dengan yang baru
+           //Jika pola path masih yang lama, ganti dengan yang baru
+           if(preg_match('/((\([-+]?[0-9]{1,3}\.[0-9]*,(\s)?[-+]?[0-9]{1,3}\.[0-9]*\))\;)/', $config->path)){
+              $new_path = str_replace(array(');', '(', '][' ), array(']','[','],['), $config->path);
+             $this->db->where('id', $config->id)->update('config', array('path' => "[[$new_path]]"));
+            }
+        }
+
+        //Cek zoom agar tidak lebih dari 18 dan agar tidak kosong
+        if(empty($config->zoom) || $config->zoom > 18 || $config->zoom == 0){
+            $this->db->where('id', $config->id)->update('config', array('zoom' => 10));
+        }
+    }
+
+    //Penambahan widget peta wilayah desa
+    $widget = $this->db->select('id, isi')->where('isi', 'peta_wilayah_desa.php')->get('widget')->row();
+    if(empty($widget)){
+          //Penambahan widget peta wilayah desa sebagai widget sistem
+          $peta_wilayah = array(
+            'isi'           => 'peta_wilayah_desa.php',
+            'enabled'       => 1,
+            'judul'         => 'Peta Wilayah Desa',
+            'jenis_widget'  => 1,
+            'urut'          => 1,
+            'form_admin'    => 'hom_desa/konfigurasi'
+          );
+          $this->db->insert('widget', $peta_wilayah);
+    } else {
+      // Paksa update karena sudah ada yang menggunakan versi pra-rilis sebelumnya
+      $this->db->where('id', $widget->id)
+        ->update('widget', array('form_admin' => 'hom_desa/konfigurasi'));
+    }
 
     //ubah icon kecil dan besar untuk modul Sekretariat
      $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'document-open-8.png', 'ikon_kecil'=>'fa fa-file fa-lg'));

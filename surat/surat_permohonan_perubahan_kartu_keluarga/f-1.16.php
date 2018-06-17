@@ -367,7 +367,7 @@ table.disdukcapil td.tengah { text-align: center; }
     <tr>
       <td colspan="10" class="kotak">10. Jumlah Anggota Keluarga</td>
       <td>&nbsp;</td>
-      <?php $str_jml = str_pad((string)count($anggota),2,"0",STR_PAD_LEFT); ?>
+      <?php $str_jml = str_pad((string)count($anggota_ikut),2,"0",STR_PAD_LEFT); ?>
       <?php for($j=0; $j<2; $j++) : ?>
         <td class="kotak padat tengah"><?php echo $str_jml[$j];?></td>
       <?php endfor; ?>
@@ -400,20 +400,20 @@ table.disdukcapil td.tengah { text-align: center; }
           <td class="kotak padat tengah"><?php echo $str_i[$j];?></td>
         <?php endfor; ?>
         <td>&nbsp;</td>
-        <?php if ($i < count($anggota)) : ?>
+        <?php if ($i < count($anggota_ikut)) : ?>
           <?php for($j=0; $j<16; $j++) : ?>
             <td class="kotak padat tengah">
-              <?php if(isset($anggota[$i]['nik'][$j]))
-                echo $anggota[$i]['nik'][$j];
+              <?php if(isset($anggota_ikut[$i]['nik'][$j]))
+                echo $anggota_ikut[$i]['nik'][$j];
                 else echo "&nbsp;";
               ?>
             </td>
           <?php endfor; ?>
           <td>&nbsp;</td>
-          <td colspan="22" class="kotak"><?php echo $anggota[$i]['nama']?></td>
+          <td colspan="22" class="kotak"><?php echo $anggota_ikut[$i]['nama']?></td>
           <td>&nbsp;</td>
           <?php for($j=0; $j<2; $j++) : ?>
-            <?php $str_kk_level = str_pad($anggota[$i]['kk_level'],2,"0",STR_PAD_LEFT); ?>
+            <?php $str_kk_level = str_pad($anggota_ikut[$i]['kk_level'],2,"0",STR_PAD_LEFT); ?>
             <td class="kotak padat tengah"><?php echo $str_kk_level[$j];?></td>
           <?php endfor; ?>
           <td colspan="2">&nbsp;</td>

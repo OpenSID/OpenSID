@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", 'pasca-2.12');
+define("VERSION", '18.06-pasca');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -264,8 +264,11 @@ function AmbilVersi()
  */
 function LogoDesa($nama_logo)
 {
-    $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
-    return $logo_desa;
+	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) {
+		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
+	}
+
+	return $logo_desa = base_url() . 'assets/files/logo/opensid_logo.png';
 }
 
 /**
@@ -535,20 +538,6 @@ function get_dynamic_title_page_from_path()
 function show_zero_as($val, $str)
 {
     return (empty($val) ? $str : $val);
-}
-
-/*
-TODO: mungkin letakkan di penduduk_model
-*/
-function get_log_penduduk_status($id_detail)
-{
-    $log_status = array(
-        1 => "Hidup",
-        2 => "Mati",
-        3 => "Pindah",
-        4 => "Hilang"
-    );
-    return $log_status[$id_detail];
 }
 
 function log_time($msg)

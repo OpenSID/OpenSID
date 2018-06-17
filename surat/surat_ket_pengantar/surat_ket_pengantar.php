@@ -10,7 +10,7 @@
 		$('#nik').flexbox(nik, {
 			resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
 			watermark: '<?php echo $individu
-				? $individu['nik']. ' - '.addslashes($individu['nama'])
+				? $individu['nik']. ' - '.$individu['nama']
 				: 'Ketik no nik di sini..'; ?>',
 			width: 260,
 			noResultsText :'Tidak ada no nik yang sesuai..',

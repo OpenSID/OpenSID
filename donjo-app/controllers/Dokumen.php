@@ -16,6 +16,8 @@ class Dokumen extends CI_Controller{
 		}
 		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
+		$this->load->model('config_model');
+		$this->load->model('pamong_model');
 		$this->modul_ini = 13;
 		$this->controller = 'dokumen';
 	}
@@ -139,4 +141,63 @@ class Dokumen extends CI_Controller{
 		$this->web_dokumen_model->dokumen_lock($id,2);
 		redirect("dokumen/index/$kat/$p/$o");
 	}
+
+	function dialog_cetak($kat=1)
+	{
+		$data['form_action'] = site_url("dokumen/cetak/$kat");
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['tahun_laporan'] = $this->web_dokumen_model->listTahun($kat);
+		$this->load->view('dokumen/dialog_cetak', $data);
+	}
+
+	function cetak($kat=1)
+	{
+		$data['main'] = $this->web_dokumen_model->dataCetak($kat, $this->input->post('tahun'));
+		$data['input'] = $this->input->post();
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['kat'] = $kat;
+		$data['tahun'] = $this->input->post('tahun');
+		if ($kat == 1)
+			$data['kategori'] = 'Dokumen Umum';
+		else
+		{
+			$data['desa'] = $this->config_model->get_data();
+			$list_kategori = $this->web_dokumen_model->list_kategori();
+			$data['kategori'] = $list_kategori[$kat];
+		}
+		if ($kat == 2) $template = 'sk_kades_print';
+		elseif ($kat == 3) $template = 'perdes_print';
+		else $template = 'dokumen_print';
+		$this->load->view("dokumen/$template",$data);
+	}
+
+	function dialog_excel($kat=1)
+	{
+		$data['form_action'] = site_url("dokumen/excel/$kat");
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['tahun_laporan'] = $this->web_dokumen_model->listTahun($kat);
+		$this->load->view('dokumen/dialog_cetak', $data);
+	}
+
+	function excel($kat=1)
+	{
+		$data['main'] = $this->web_dokumen_model->dataCetak($kat, $this->input->post('tahun'));
+		$data['input'] = $this->input->post();
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['kat'] = $kat;
+		$data['tahun'] = $this->input->post('tahun');
+		if ($kat == 1)
+			$data['kategori'] = 'Dokumen Umum';
+		else
+		{
+			$data['desa'] = $this->config_model->get_data();
+			$list_kategori = $this->web_dokumen_model->list_kategori();
+			$data['kategori'] = $list_kategori[$kat];
+		}
+		if ($kat == 2) $data['template'] = 'sk_kades_print.php';
+		elseif ($kat == 3) $data['template'] = 'perdes_print.php';
+		else $data['template'] = 'dokumen_print.php';
+		$this->load->view("dokumen/dokumen_excel",$data);
+	}
+
 }

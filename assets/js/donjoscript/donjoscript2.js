@@ -458,14 +458,50 @@ function inputShadow() {
     $('table td.col1 .inputbox,table td.col2 .inputbox,table td.col3 .inputbox,table td.col4 .inputbox').attr("onblur", "if(this.value=='') this.value='0,00'");
 }
 
-function authInfoChangesNoticeUI(warning) {
-    var skip = /skip_admin_warning\s*=\s*1;/.test(document.cookie)
-    if (skip) return
+// https://www.sitepoint.com/how-to-deal-with-cookies-in-javascript/
+
+function createCookie(name, value, expires, path, domain) {
+  var cookie = name + "=" + escape(value) + ";";
+
+  if (expires) {
+    // If it's a date
+    if(expires instanceof Date) {
+      // If it isn't a valid date
+      if (isNaN(expires.getTime()))
+       expires = new Date();
+    }
+    else
+      expires = new Date(new Date().getTime() + parseInt(expires) * 1000 * 60 * 60 * 24);
+
+    cookie += "expires=" + expires.toGMTString() + ";";
+  }
+
+  if (path)
+    cookie += "path=" + path + ";";
+  if (domain)
+    cookie += "domain=" + domain + ";";
+
+  document.cookie = cookie;
+}
+function getCookie(name) {
+  var regexp = new RegExp("(?:^" + name + "|;\\s*"+ name + ")=(.*?)(?:;|$)", "g");
+  var result = regexp.exec(document.cookie);
+  return (result === null) ? null : result[1];
+}
+
+function deleteCookie(name, path, domain) {
+  // If the cookie exists
+  if (getCookie(name))
+    createCookie(name, "", -1, path, domain);
+}
+
+function authInfoChangesNoticeUI(warning, paksa) {
+    if (getCookie("skip_admin_warning") == '1' && !paksa) return;
 
     $(function() {
         var $dialogBox = $('<div>')
         $dialogBox.html(warning[1])
-          .dialog({
+		$dialogBox.dialog({
                 title: '<div>'+ warning[0] +'</div>',
                 width: 400,
                 buttons: {'Ok': ok, 'Lain kali': cancel}
@@ -475,14 +511,15 @@ function authInfoChangesNoticeUI(warning) {
             $(document).ajaxComplete(function() {
                 $('input[type=password]').attr('required', true)
             })
-            var btn = $('a[href$=user_setting]')[0]
-            document.cookie = 'skip_admin_warning=0'
-            $(btn).trigger('click')
+            var btn = $('a[href$=user_setting]')[0];
+            deleteCookie('skip_admin_warning');
+            $(btn).trigger('click');
             $dialogBox.dialog("close");
         }
 
         function cancel() {
-            document.cookie = 'skip_admin_warning=1'
+            deleteCookie('skip_admin_warning');
+            createCookie('skip_admin_warning', '1', 1, '/');
             $dialogBox.dialog("close");
         }
     })

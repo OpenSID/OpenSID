@@ -47,58 +47,54 @@
 						}
 					?>
 
-					<?php
-						/*
-						 * List Data
-						 *
-						 * */
+					<!-- List Data -->
 
-						if($persil){
-							if(count($persil)>0){
-								echo "
-									<div class=\"table-panel top\">
-										<table class=\"list\">
-											<thead><tr><th>#</th><th style=\"width:120px;\"></th>
+					<?php	if ($persil): ?>
+						<?php if (count($persil)>0): ?>
+							<div class="table-panel top">
+								<table class="list">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th style="width:120px;"></th>
 											<th>Nama Pemilik</th><th>NIK</th>
 											<th>NO Persil</th>
 											<th>Luas (m<sup>2</sup>)</th>
 											<th>Nomor SPPT PBB</th>
-											</tr></thead>
-											<tbody>
-								";
-								$nomer =0;
-								foreach($persil as $key=>$item){
-									$nomer++;
-									echo "<tr>
-									<td class=\"angka\">".$item['no']."</td>
-									<td><div class=\"uibutton-group\">
-											<a class=\"uibutton tipsy south fa-tipis\" href=\"". site_url("data_persil/detail/".$item["id"])."\" title=\"Rincian\"><span class=\"fa fa-list\"></span> Rincian</a>
-											<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/create/".$item["id"])."\" title=\"Ubah\"><span class=\"fa fa-pencil\"></span></a>
-											<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/hapus/".$item["id"])."\" title=\"Hapus Data\" target=\"confirm\" message=\"Apakah Anda Yakin?\" header=\"Hapus Data\"><span class=\"fa fa-trash\"></span></a>
-										</div></td>
-									<td>".$item["namapemilik"]."</td>
-									<td>".$item["nik"]."</td>
-									<td>".$item["nopersil"]."</td>
-									<td>".$item["luas"]."</td>
-									<td><a href=\"#\">".$item["no_sppt_pbb"]."</a></td>
-									</tr>";
-								}
-								echo "
-											</tbody>
-										</table>
-									</div>
-								";
-							}
-						}else{
-							echo "
-							<div class=\"box box-warning\">
-								<h3 class=\"box-header\">Belum ada Data</h3>
-								<div class=\"box-body\">Silakan ditambahkan data persil dengan menggunakan formulir dari menu <a href=\"".site_url("data_persil/create")."\"><i class=\"fa fa-plus\"></i> Tambah Data Persil Baru</a></div>
+										</tr>
+									</thead>
+									<tbody>
+										<?php $nomer =0; ?>
+										<?php foreach ($persil as $key=>$item): ?>
+											<?php $nomer++; ?>
+											<tr>
+											<td class="angka"><?= $item['no'] ?></td>
+											<td><div class="uibutton-group">
+													<a class="uibutton tipsy south fa-tipis" href="<?= site_url("data_persil/detail/".$item["id"]) ?>" title="Rincian"><span class="fa fa-list"></span> Rincian</a>
+													<?php if ($item['jenis_pemilik'] == '2'): ?>
+														<a class="uibutton tipsy south" href="<?= site_url("data_persil/create_ext/".$item["id"]) ?>" title="Ubah"><span class="fa fa-pencil"></span></a>
+													<?php else: ?>
+														<a class="uibutton tipsy south" href="<?= site_url("data_persil/create/".$item["id"]) ?>" title="Ubah"><span class="fa fa-pencil"></span></a>
+													<?php endif; ?>
+													<a class="uibutton tipsy south" href="<?= site_url("data_persil/hapus/".$item["id"])?>" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+												</div></td>
+											<td><?= $item["namapemilik"] ?></td>
+											<td><?= $item["nik"] ?></td>
+											<td><?= $item["nopersil"] ?></td>
+											<td><?= $item["luas"] ?></td>
+											<td><a href="#"><?= $item["no_sppt_pbb"] ?></a></td>
+											</tr>
+										<?php endforeach; ?>
+									</tbody>
+								</table>
 							</div>
-							";
-						}
-					?>
-
+						<?php endif; ?>
+					<?php else: ?>
+						<div class="box box-warning">
+							<h3 class="box-header">Belum ada Data</h3>
+							<div class="box-body">Silakan ditambahkan data persil dengan menggunakan formulir dari menu <a href="<?= site_url("data_persil/create") ?>"><i class="fa fa-plus"></i> Tambah Data Persil Baru</a></div>
+						</div>
+					<?php endif; ?>
 
 		    </div>
 			</form>

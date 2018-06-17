@@ -34,6 +34,8 @@
 		        <div class="uibutton-group">
 		          <a href='<?php echo site_url("{$this->controller}/form/$kat")?>' class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Dokumen Baru</a>
 		          <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("{$this->controller}/delete_all/$kat/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+              <a href="<?php echo site_url("{$this->controller}/dialog_cetak/$kat")?>" class="uibutton tipsy south"  title="Cetak Laporan" target="ajax-modal" rel="window" header="Cetak Laporan" modalWidth="auto" modalHeight="auto"><span class="fa fa-print"></span> Cetak</a>
+              <a href="<?php echo site_url("{$this->controller}/dialog_excel/$kat")?>" class="uibutton tipsy south"  title="Unduh Laporan" target="ajax-modal" rel="window" header="Unduh Laporan" modalWidth="auto" modalHeight="auto"><span class="fa fa-download"></span> Unduh</a>
 		        </div>
 		      </div>
 		    </div>

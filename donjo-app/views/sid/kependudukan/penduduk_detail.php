@@ -24,17 +24,13 @@
               <tr>
                 <td>
                   <div class="userbox-avatar">
-                    <?php if($penduduk['foto']){?>
-                      <img src="<?php echo AmbilFoto($penduduk['foto'])?>" alt=""/>
-                    <?php }else{?>
-                      <img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
-                    <?php }?>
+                    <img src="<?php echo AmbilFoto($penduduk['foto'])?>" alt=""/>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td width="150">Nama</td><td width="1">:</td>
-                <td><?php echo strtoupper(unpenetration($penduduk['nama']))?></td>
+                <td><?php echo strtoupper($penduduk['nama'])?></td>
               </tr>
               <tr>
                 <td>Status Kepemilikan KTP</td><td >:</td>

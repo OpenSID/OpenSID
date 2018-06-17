@@ -1,108 +1,103 @@
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/polygon.min.js"></script>
 <script>
-	function PolygonCreator(map){
-		this.map=map;this.pen=new Pen(this.map);
-		var thisOjb=this;
-		this.event=google.maps.event.addListener(thisOjb.map,'click',function(event){thisOjb.pen.draw(event.latLng);});
-		
-		this.showData=function(){return this.pen.getData();}
-		
-		this.showColor=function(){return this.pen.getColor();}
-		
-		this.destroy=function(){
-			this.pen.deleteMis();
-			if(null!=this.pen.polygon){
-				this.pen.polygon.remove();
-			}
-		google.maps.event.removeListener(this.event);
-		}
-	}
-	
-	$(function(){
+$(document).ready(function(){
+    $('#simpan_wilayah').click(function(){
+        var path = $('#path').val();
+        $.ajax({
+            type: "POST",
+            url: "<?=$form_action?>",
+            dataType: 'json',
+            data: {path: path},
+        });
+        $(this).closest('.ui-dialog-content').dialog('close');
+    });
+});
+//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+<?php if(!empty($desa['lat'] && !empty($desa['lng']))): ?>
+    var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+    var zoom = <?=$desa['zoom'] ?: 10?>;
+<?php else: ?>
+    var posisi = [-1.0546279422758742,116.71875000000001];
+    var zoom = 4;
+<?php endif; ?>
 
+//Menggunakan https://github.com/codeofsumit/leaflet.pm
+//Inisialisasi tampilan peta
+    var peta_desa = L.map('map').setView(posisi, zoom);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        id: 'mapbox.streets'
+    }).addTo(peta_desa);
+
+<?php if(!empty($desa['path'])): ?>
+    //Poligon wilayah desa yang tersimpan
+    var daerah_desa = <?=$desa['path']?>;
+
+    //Titik awal dan titik akhir poligon harus sama
+    daerah_desa[0].push(daerah_desa[0][0]);
+
+    //Tampilkan poligon desa untuk diedit
+    var poligon_desa = L.polygon(daerah_desa).addTo(peta_desa);
+
+    //Event untuk mengecek perubahan poligon
+    poligon_desa.on('pm:edit', function(e){
+        document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+    })
+
+    //Fokuskan peta ke poligon
+    peta_desa.fitBounds(poligon_desa.getBounds());
+<?php endif; ?>
+
+    //Tombol yang akan dimunculkan dipeta
     var options = {
-		<?php if($desa['lat']!=""){?>
-		  center: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
-		  zoom: <?php echo $desa['zoom']?>,
-		  mapTypeId: google.maps.MapTypeId.<?php echo strtoupper($desa['map_tipe'])?>
-		<?php }else{?>
-		  center: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
-		  zoom: 14,
-		  mapTypeId: google.maps.MapTypeId.ROADMAP
-		<?php }?>
+        position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+        drawMarker: false, // adds button to draw markers
+        drawPolyline: false, // adds button to draw a polyline
+        drawRectangle: false, // adds button to draw a rectangle
+        drawPolygon: true, // adds button to draw a polygon
+        drawCircle: false, // adds button to draw a cricle
+        cutPolygon: false, // adds button to cut a hole in a polygon
+        editMode: true, // adds button to toggle edit mode for all layers
+        removalMode: true, // adds a button to remove layers
     };
-    var map = new google.maps.Map(document.getElementById('map'), options);
-    	 
-<?php 
-			$path = preg_split("/\;/", $desa['path']);
-			echo "var path = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
-			
-			var desa = new google.maps.Polygon({
-			  paths: path,
-			  map: map,
-			  strokeColor: '#ff0000',
-			  strokeOpacity: 0.6,
-			  strokeWeight: 1,
-			  fillColor: '#ff0000',
-			  fillOpacity: 0.35
-			});
-			
-			google.maps.event.addListener(desa, 'mouseover', function(e) {
-			  desa.setOptions({
-				fillColor: '#0000ff',
-				strokeColor: '#0000ff'
-			  });
-			});
 
-			google.maps.event.addListener(desa, 'mouseout', function(e) {
-			  desa.setOptions({
-				fillColor: '#ff0000',
-				strokeColor: '#ff0000'
-			  });
-			});
-			
-		var creator = new PolygonCreator(map);
-		 $('#reset').click(function(){ 
-		 		creator.destroy();
-		 		creator=null;
-		 		
-		 		creator=new PolygonCreator(map);
-				document.getElementById('dataPanel').value = creator.showData();
-		 });		 
-		 
-		$('#showData').click(function(){ 
-				document.getElementById('zoom').value = map.getZoom();
-				document.getElementById('map_tipe').value = map.getMapTypeId();
-		 		$('#dataPanel').empty();
-		 		if(null==creator.showData()){
-					this.form.submit();
-		 		}else{
-					document.getElementById('dataPanel').value = creator.showData();
-					this.form.submit();
-		 		}
-		 });
-		 
-	});	
-	
+    //Menambahkan toolbar ke peta
+    peta_desa.pm.addControls(options);
+
+    //Event untuk menangkap polygon yang dibuat
+    peta_desa.on('pm:create', function(e) {
+        //Ambil list poligon yang ada
+        var keys = Object.keys(peta_desa._layers);
+        //Tambahkan event edit ke poligon yang telah dibuat
+        peta_desa._layers[keys[2]].on('pm:edit', function(f){
+            document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+        })
+        document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+    });
+
+    function getLatLong(x, y) {
+        var hasil;
+        if (x == 'Rectangle' || x == 'Line' || x == 'Poly') {
+            hasil = JSON.stringify(y._latlngs);
+        } else {
+            hasil = JSON.stringify(y._latlng);
+        }
+        hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
+        return hasil;
+    }
 </script>
 <style>
 #map {
-  width: 420px;
-  height: 320px;
-  border: 1px solid #000;
+    width: 420px;
+    height: 320px;
+    border: 1px solid #000;
 }
 </style>
-	<div id="map"></div>
-<form action="<?php echo $form_action?>" method="post">
-    <input type="hidden" name="lat" id="lat" value="<?php echo $desa['lat']?>"/>
-    <input type="hidden" name="lng" id="lng" value="<?php echo $desa['lng']?>"/>
-    <input type="hidden" name="zoom" id="zoom" value="<?php echo $desa['zoom']?>"/>
-    <input type="hidden" name="map_tipe" id="map_tipe"  value="<?php echo $desa['map_tipe']?>"/>
-	<input type="hidden" id="dataPanel" name="path"  value="<?php echo $desa['path']?>">
-	<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
-	<div class="uibutton-group">
-		<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-		<button class="uibutton confirm" id="showData" type="submit"><span class="fa fa-save"></span> Simpan</button>
-	</div>
-	</div>
-</form>
+<div id="map"></div>
+<input type="hidden" id="path" name="path" value="<?=$desa['path']?>">
+<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
+    <div class="uibutton-group">
+        <button class="uibutton" type="button" onclick="$(this).closest('.ui-dialog-content').dialog('close');">Batal</button>
+        <button class="uibutton confirm" id="simpan_wilayah" type="submit"><span class="fa fa-save"></span> Simpan</button>
+    </div>
+</div>

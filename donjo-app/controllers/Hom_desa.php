@@ -80,12 +80,10 @@ class Hom_desa extends CI_Controller{
 
 	function update_kantor_maps(){
 		$this->config_model->update_kantor();
-		redirect("hom_desa/konfigurasi");
 	}
 
 	function update_wilayah_maps(){
 		$this->config_model->update_wilayah();
-		redirect("hom_desa/konfigurasi");
 	}
 
 }

@@ -122,8 +122,8 @@
 		<tr><td colspan="16">&nbsp;</td></tr>
 		<tr>
 			<td colspan="6">&nbsp;</td>
-			<td colspan="2"><span class="underline"><?php echo strtoupper($input['pamong_ttd'])?></span></td>
 			<td colspan="5"><span class="underline"><?php echo strtoupper($input['pamong_ketahui'])?></span></td>
+			<td colspan="2"><span class="underline"><?php echo strtoupper($input['pamong_ttd'])?></span></td>
 			<td colspan="3">&nbsp;</td>
 		</tr>
 	</table>

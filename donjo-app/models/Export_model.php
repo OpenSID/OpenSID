@@ -261,9 +261,10 @@
 					  $result = $this->db->simple_query($query) ;
 					  if (!$result) {
 					  	$_SESSION['success'] = -1;
+					  	$error = $this->db->error();
 					  	echo "<br><br>>>>>>>>> Error: ".$query.'<br>';
-					  	echo $this->db->error()['message'].'<br>'; // (mysql_error equivalent)
-							echo $this->db->error()['code'].'<br>'; // (mysql_errno equivalent)
+					  	echo $error['message'].'<br>'; // (mysql_error equivalent)
+							echo $error['code'].'<br>'; // (mysql_errno equivalent)
 					  }
 					  $query = "";
 					}

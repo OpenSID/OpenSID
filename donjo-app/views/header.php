@@ -24,7 +24,11 @@
 		<?php if(is_file("desa/css/siteman.css")): ?>
 			<link type='text/css' href="<?php echo base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
+        <link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.pm.css" />
 
+        <script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+    	<script src="<?php echo base_url()?>assets/js/leaflet.pm.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-1.8.16.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui-timepicker-addon.min.js"></script>
@@ -41,20 +45,18 @@
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjo.ui.attribut.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->setting->google_key; ?>"></script>
 	</head>
 <body>
 <div class="ui-layout-north" id="header">
 	<div id="sid-logo"><a href="<?php echo site_url()?>first" target="_blank"><img src="<?php echo LogoDesa($desa['logo']);?>" alt=""/></a></div>
-	<div id="sid-judul">SID Sistem Informasi Desa</div>
+	<div id="sid-judul">
+		SID Sistem Informasi Desa
+	</div>
 	<div id="sid-info"><?php echo ucwords($this->setting->sebutan_desa." ".$desa['nama_desa'].", ".$this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']).", ".$this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']))?></div>
+
 	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
 	  <div class="avatar">
-			<?php if($foto){?>
-				<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
-			<?php }else{?>
-				<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
-			<?php }?>
+			<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
 		</div>
 		<div class="info">
 			<div><strong>Anda Login sebagai</strong></div>
@@ -69,20 +71,13 @@
 			<li><a href="<?php echo site_url()?>siteman"><i class="fa fa-power-off fa-lg"></i>Log Out</a></li>
 		</ul>
 	</div>
-    <?php if (isset($_SESSION['admin_warning']) && !config_item('demo')): ?>
-    		<style type="text/css">
-    			.ui-dialog-titlebar.ui-widget-header {
-    				background-color: #f8e9e9;
-    			}
-    		</style>
-        <script type="text/javascript">
-            authInfoChangesNoticeUI(<?= json_encode($_SESSION['admin_warning']) ?>)
-        </script>
-    <?php endif ?>
 </div>
 <div id="sidebar" >
 </div>
 <div class="ui-layout-center" id="wrapper">
+	<?php if (defined('ENVIRONMENT') AND ENVIRONMENT == 'development'): ?>
+		<div style="width: 120px; margin: 0 auto; background-color: lightgreen;"><h3>DEVELOPMENT</h3></div>
+	<?php endif; ?>
 	<input id="success-code" type="hidden" value="<?php echo $_SESSION['success']?>">
 	<!-- NOTIFICATION-->
 	<script type="text/javascript">
@@ -108,7 +103,25 @@
 		});
 	</script>
 	<?php  $_SESSION['success']=0; ?>
+
  	<!-- ************ -->
+
+    <?php if ($this->session->admin_warning && !config_item('demo')): ?>
+    		<style type="text/css">
+    			.ui-dialog-titlebar.ui-widget-header {
+    				background-color: #f8e9e9;
+    			}
+    		</style>
+        <script type="text/javascript">
+        		<?php if (isset($_SESSION['dari_login'])): ?>
+	            authInfoChangesNoticeUI(<?= json_encode($_SESSION['admin_warning']) ?>, true)
+        			<?php unset($_SESSION['dari_login']) ?>
+        		<?php else: ?>
+	            authInfoChangesNoticeUI(<?= json_encode($_SESSION['admin_warning']) ?>, false)
+        		<?php endif; ?>
+        </script>
+    <?php endif ?>
+
 	<!-- ************ -->
 
 	<div class="module-panel">

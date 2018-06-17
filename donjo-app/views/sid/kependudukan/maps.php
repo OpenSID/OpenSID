@@ -1,47 +1,43 @@
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-1.5.2.min.js"></script>
 <script>
-(function() {
-        var mapOptions = {
-		<?php if($penduduk['lat'] != ""){?>
-          center: new google.maps.LatLng(<?php echo $penduduk['lat']?>,<?php echo $penduduk['lng']?>),
-          zoom: <?php echo $desa['zoom']?>, // from 0 to 23
-          mapTypeId: google.maps.MapTypeId.<?php echo strtoupper($desa['map_tipe'])?> // ROADMAP, TERRAIN, SATELLITE,HYBRID
-		  <?php }else{
-			  if($desa['lat']!=""){?>
-			  center: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
-			  zoom: <?php echo $desa['zoom']?>, // from 0 to 23
-			  mapTypeId: google.maps.MapTypeId.<?php echo strtoupper($desa['map_tipe'])?> // ROADMAP, TERRAIN, SATELLITE,HYBRID
-			<?php }else{?>
-			  center: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
-			  zoom: 14, // from 0 to 23
-			  mapTypeId: google.maps.MapTypeId.ROADMAP // ROADMAP, TERRAIN, SATELLITE,HYBRID
-			<?php }
-		}?>
-
-        }; // end options
-        var map = new google.maps.Map(document.getElementById("map"),mapOptions);
-
-   // map = new google.maps.Map(document.getElementById('map'), options);
-		var marker = new google.maps.Marker({<?php if($penduduk['lat'] != ""){?>
-      		position: new google.maps.LatLng(<?php echo $penduduk['lat']?>,<?php echo $penduduk['lng']?>),
-
-		<?php }else if($desa['lat'] != ""){?>
-			position: new google.maps.LatLng(<?php echo $desa['lat']?>,<?php echo $desa['lng']?>),
-
-		<?php }else{?>
-      		position: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
-		<?php }?>
-      		map: map,
-			draggable: true, // SET DRAGGABLE TO TRUE
-      		title:"<?php echo $penduduk['nama']?>"});
-
-	// WE USE THE "drag" OR "dragend" EVENTS TO GET COORDS OF MARKER AND WRITE THEM
-		google.maps.event.addListener(marker, 'drag', function() {
-			document.getElementById('lat').value = marker.getPosition().lat();
-			document.getElementById('lng').value = marker.getPosition().lng();
-			document.getElementById('zoom').value = map.getZoom();
-			document.getElementById('map_tipe').value = map.getMapTypeId();
+$(document).ready(function(){
+    $('#simpan_penduduk').click(function(){
+        var lat = $('#lat').val();
+        var lng = $('#lng').val();
+        $.ajax({
+            type: "POST",
+            url: "<?=$form_action?>",
+            dataType: 'json',
+            data: {lat: lat, lng: lng},
         });
+        $(this).closest('.ui-dialog-content').dialog('close');
+    });
+});
+(function() {
+	<?php
+		if(!empty($penduduk['lat'])){
+		?>
+			var posisi = [<?php echo $penduduk['lat'].",".$penduduk['lng']; ?>];
+      		var zoom = <?php echo $desa['zoom'] ?: 10; ?>;
+		<?
+			}else{
+		?>
+			var posisi = [-7.885619783139936, 110.39893195996092];
+      		var zoom = 10;
+		<?php
+			}
+		?>
+    //Inisialisasi tampilan peta
+    var peta_penduduk = L.map('map').setView(posisi, zoom);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+      id: 'mapbox.streets'
+    }).addTo(peta_penduduk);
+    var posisi_penduduk = L.marker(posisi, {draggable: true}).addTo(peta_penduduk);
+    posisi_penduduk.on('dragend', function(e){
+      	document.getElementById('lat').value = e.target._latlng.lat;
+		document.getElementById('lng').value = e.target._latlng.lng;
+    })
 
 })();
 </script>
@@ -52,15 +48,12 @@
   border: 1px solid #000;
 }
 </style>
-<form action="<?php echo $form_action?>" method="post" id="validasi">
 <div id="map"></div>
-    <input type="hidden" name="lat" id="lat" />
-    <input type="hidden" name="lng" id="lng" />
-    <input type="hidden" name="zoom" id="zoom" />
-    <input type="hidden" name="map_tipe" id="map_tipe" />
+<input type="hidden" name="lat" id="lat" value="<?php echo $penduduk['lat']; ?>" />
+<input type="hidden" name="lng" id="lng" value="<?php echo $penduduk['lng']; ?>"/>
 <div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
 <div class="uibutton-group">
-	<button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
+    <button class="uibutton reset" type="button" onclick="$(this).closest('.ui-dialog-content').dialog('close');">Batal</button>
+	<button class="uibutton confirm" type="submit" id="simpan_penduduk"><span class="fa fa-save"></span> Simpan</button>
 </div>
 </div>
-</form>

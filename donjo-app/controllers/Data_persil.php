@@ -75,14 +75,7 @@ class Data_persil extends CI_Controller{
 		$this->load->view('header', $header);
 
 		$data["persil_detail"] = $this->data_persil_model->get_persil($id);
-		if($id > 0){
-			$data['pemilik'] = $this->data_persil_model->get_penduduk($data["persil_detail"]["nik"]);
-		}else{
-			$data['pemilik']=false;
-		}
-
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
-
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 
@@ -113,8 +106,6 @@ class Data_persil extends CI_Controller{
 		}
 
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
-
-
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		$this->load->view('data_persil/create',$data);
@@ -128,12 +119,11 @@ class Data_persil extends CI_Controller{
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 
 		$header = $this->header_model->get_data();
-
 		$this->load->view('header', $header);
 
 		$data["penduduk"] = $this->data_persil_model->list_penduduk();
 		$data["persil_detail"] = $this->data_persil_model->get_persil($id);
-
+		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		$this->load->view('data_persil/create_ext',$data);
@@ -150,13 +140,7 @@ class Data_persil extends CI_Controller{
 		$this->load->view('header', $header);
 
 		$data["hasil"] = $this->data_persil_model->simpan_persil();
-		$data['paging']  = $this->data_persil_model->paging('',0,$page);
-		$data["persil"] = $this->data_persil_model->list_persil('',0,$data['paging']->offset, $data['paging']->per_page);
-		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
-		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		redirect("data_persil/clear");
-		$this->load->view('data_persil/persil',$data);
-		$this->load->view('footer');
 	}
 
 	function persil_jenis($id=0){
