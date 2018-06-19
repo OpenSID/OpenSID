@@ -46,20 +46,20 @@
 					</div>
 					<div class="panel-body">
 						<!-- <div class="pull-right">
-              				<a class="btn btn-primary" href="#" style="color:white;"> 
+              				<a class="btn btn-primary" href="#" style="color:white;">
 								<i class="fa fa-plus"></i> Tambah
 							</a>
 		                </div> -->
 						<div class="pull-left">
 							<a ng-click="exportExcel()" class="btn btn-success">
-									<i class="fa fa-file-excel-o"></i> Cetak Excel
+									<i class="fa fa-file-excel-o"></i> Unduh Excel
 							</a>
 							<a ng-click="exportExcel()" class="btn btn-danger">
-									<i class="fa fa-file-pdf-o"></i> Print
+									<i class="fa fa-file-pdf-o"></i> Cetak
 							</a>
                         </div>
 					</div>
-					<div class="panel-body">	
+					<div class="panel-body">
 					<table id="example" class="stripe cell-border table" class="grid">
 						<thead style="background-color:#f9f9f9;" >
 							<!-- <tr>
@@ -97,7 +97,7 @@
 									<th class="text-center" width="100px">Aksi</th>
 							</tr>
 							<!-- <tr>
-									
+
 									<th rowspan="1">Register</th> -->
 									<!-- <th class="text-center" style="text-align:center;" rowspan="1">Hak</th>
 									<th class="text-center" style="text-align:center;" rowspan="1">Nomor Sertifikat</th>
@@ -122,7 +122,7 @@
 								<td align="center">
 									<div class="btn-group" role="group" aria-label="...">
 										<a href="http://localhost/sidak//pemerintahan/data_warga/view/1" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
-										<a href="http://localhost/sidak//pemerintahan/data_warga/update/1" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a> 	
+										<a href="http://localhost/sidak//pemerintahan/data_warga/update/1" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a>
 									</div>
 								</td>
 							</tr>
@@ -135,8 +135,8 @@
 					</div>
 			</form>
 	</div>
-</div>	
-	
+</div>
+
 <script  TYPE='text/javascript'>
 	$(document).ready(function() {
 			$('#example').DataTable( {

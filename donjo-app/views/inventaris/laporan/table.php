@@ -44,7 +44,7 @@
 					<div class="col-sm-9">
 						<select name="penandatangan" id="penandatangan" class="form-control">
 							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>" 
+								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>"
 									<?php if(strpos(strtolower($data['jabatan']),'Kepala Desa')!==false) echo 'selected'; ?>>
 									<?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)
 								</option>
@@ -54,9 +54,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Print</button>		
+				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Cetak</button>
 			</div>
-			
+
 		</form>
     </div>
 
@@ -89,7 +89,7 @@
 					<div class="col-sm-9">
 						<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control">
 							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>" 
+								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>"
 									<?php if(strpos(strtolower($data['jabatan']),'Kepala Desa')!==false) echo 'selected'; ?>>
 									<?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)
 								</option>
@@ -99,9 +99,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_cetak" name="form_cetak"  data-dismiss="modal">Print</button>		
+				<button type="submit" class="btn btn-primary pull-right"  id="form_cetak" name="form_cetak"  data-dismiss="modal">Cetak</button>
 			</div>
-			
+
 		</form>
     </div>
 
@@ -130,20 +130,20 @@
 					</div>
 					<div class="panel-body">
 						<div class="pull-right">
-              				<!-- <a class="btn btn-primary" href="<?php echo site_url('inventaris_laporan/form'); ?>" style="color:white;"> 
+              				<!-- <a class="btn btn-primary" href="<?php echo site_url('inventaris_laporan/form'); ?>" style="color:white;">
 								<i class="fa fa-plus"></i> Tambah
 							</a> -->
 		        		</div>
 						<div class="pull-left">
 							<a type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-								<i class="fa fa-file-pdf-o"></i> Print
+								<i class="fa fa-file-pdf-o"></i> Cetak
 							</a>
 							<a type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalExcel">
 								<i class="fa fa-file-excel-o"></i> Unduh Excel
 							</a>
 						</div>
 					</div>
-					<div class="panel-body">	
+					<div class="panel-body">
 					<table id="example" class="stripe cell-border table" class="grid">
 						<thead style="background-color:#f9f9f9;" >
 							<tr>
@@ -164,61 +164,61 @@
 									<th class="text-center" style="text-align:center;">Kabupaten</th>
 							</tr>
 						</thead>
-						<tbody>	
-							<tr>						
+						<tbody>
+							<tr>
 								<td></td>
 								<td>Tanah Kas Desa</td>
 								<td>
-								Informasi mengenai segala yang menyangkut dengan tanah 
+								Informasi mengenai segala yang menyangkut dengan tanah
 								(dalam hal ini tanah yang digunakan dalam instansi tersebut).
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_tanah.asal) as total');
 										$this->db->where('inventaris_tanah.visible',1);
 										$this->db->where('inventaris_tanah.status',0);
 										$this->db->where('inventaris_tanah.asal','Pembelian Sendiri');
-										$result = $this->db->get('inventaris_tanah')->row();  
+										$result = $this->db->get('inventaris_tanah')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_tanah.asal) as total');
 										$this->db->where('inventaris_tanah.visible',1);
 										$this->db->where('inventaris_tanah.status',0);
 										$this->db->where('inventaris_tanah.asal','Bantuan Pemerintah');
-										$result = $this->db->get('inventaris_tanah')->row();  
+										$result = $this->db->get('inventaris_tanah')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_tanah.asal) as total');
 										$this->db->where('inventaris_tanah.visible',1);
 										$this->db->where('inventaris_tanah.status',0);
 										$this->db->where('inventaris_tanah.asal','Bantuan Provinsi');
-										$result = $this->db->get('inventaris_tanah')->row();  
+										$result = $this->db->get('inventaris_tanah')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_tanah.asal) as total');
 										$this->db->where('inventaris_tanah.visible',1);
 										$this->db->where('inventaris_tanah.status',0);
 										$this->db->where('inventaris_tanah.asal','Bantuan Kabupaten');
-										$result = $this->db->get('inventaris_tanah')->row();  
+										$result = $this->db->get('inventaris_tanah')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_tanah.asal) as total');
 										$this->db->where('inventaris_tanah.visible',1);
 										$this->db->where('inventaris_tanah.status',0);
 										$this->db->where('inventaris_tanah.asal','Sumbangan');
-										$result = $this->db->get('inventaris_tanah')->row();  
+										$result = $this->db->get('inventaris_tanah')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
@@ -228,57 +228,57 @@
 									</div>
 								</td>
 							</tr>
-							<tr>						
+							<tr>
 								<td></td>
 								<td>Peralatan dan Mesin</td>
 								<td>Informasi mengenai peralatan dan mesin</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_peralatan.asal) as total');
 										$this->db->where('inventaris_peralatan.visible',1);
 										$this->db->where('inventaris_peralatan.status',0);
 										$this->db->where('inventaris_peralatan.asal','Pembelian Sendiri');
-										$result = $this->db->get('inventaris_peralatan')->row();  
+										$result = $this->db->get('inventaris_peralatan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_peralatan.asal) as total');
 										$this->db->where('inventaris_peralatan.visible',1);
 										$this->db->where('inventaris_peralatan.status',0);
 										$this->db->where('inventaris_peralatan.asal','Bantuan Pemerintah');
-										$result = $this->db->get('inventaris_peralatan')->row();  
+										$result = $this->db->get('inventaris_peralatan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_peralatan.asal) as total');
 										$this->db->where('inventaris_peralatan.visible',1);
 										$this->db->where('inventaris_peralatan.status',0);
 										$this->db->where('inventaris_peralatan.asal','Bantuan Provinsi');
-										$result = $this->db->get('inventaris_peralatan')->row();  
+										$result = $this->db->get('inventaris_peralatan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_peralatan.asal) as total');
 										$this->db->where('inventaris_peralatan.visible',1);
 										$this->db->where('inventaris_peralatan.status',0);
 										$this->db->where('inventaris_peralatan.asal','Bantuan Kabupaten');
-										$result = $this->db->get('inventaris_peralatan')->row();  
+										$result = $this->db->get('inventaris_peralatan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_peralatan.asal) as total');
 										$this->db->where('inventaris_peralatan.visible',1);
 										$this->db->where('inventaris_peralatan.status',0);
 										$this->db->where('inventaris_peralatan.asal','Sumbangan');
-										$result = $this->db->get('inventaris_peralatan')->row();  
+										$result = $this->db->get('inventaris_peralatan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
@@ -288,57 +288,57 @@
 									</div>
 								</td>
 							</tr>
-							<tr>						
+							<tr>
 								<td></td>
 								<td>Gedung dan Bangunan</td>
 								<td>Informasi mengenai gedung dan bangunan yang dimiliki.</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_gedung.asal) as total');
 										$this->db->where('inventaris_gedung.visible',1);
 										$this->db->where('inventaris_gedung.status',0);
 										$this->db->where('inventaris_gedung.asal','Pembelian Sendiri');
-										$result = $this->db->get('inventaris_gedung')->row();  
+										$result = $this->db->get('inventaris_gedung')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_gedung.asal) as total');
 										$this->db->where('inventaris_gedung.visible',1);
 										$this->db->where('inventaris_gedung.status',0);
 										$this->db->where('inventaris_gedung.asal','Bantuan Pemerintah');
-										$result = $this->db->get('inventaris_gedung')->row();  
+										$result = $this->db->get('inventaris_gedung')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_gedung.asal) as total');
 										$this->db->where('inventaris_gedung.visible',1);
 										$this->db->where('inventaris_gedung.status',0);
 										$this->db->where('inventaris_gedung.asal','Bantuan Provinsi');
-										$result = $this->db->get('inventaris_gedung')->row();  
+										$result = $this->db->get('inventaris_gedung')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_gedung.asal) as total');
 										$this->db->where('inventaris_gedung.visible',1);
 										$this->db->where('inventaris_gedung.status',0);
 										$this->db->where('inventaris_gedung.asal','Bantuan Kabupaten');
-										$result = $this->db->get('inventaris_gedung')->row();  
+										$result = $this->db->get('inventaris_gedung')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_gedung.asal) as total');
 										$this->db->where('inventaris_gedung.visible',1);
 										$this->db->where('inventaris_gedung.status',0);
 										$this->db->where('inventaris_gedung.asal','Sumbangan');
-										$result = $this->db->get('inventaris_gedung')->row();  
+										$result = $this->db->get('inventaris_gedung')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
@@ -348,57 +348,57 @@
 									</div>
 								</td>
 							</tr>
-							<tr>						
+							<tr>
 								<td></td>
 								<td>Jalan Irigasi dan Jaringan</td>
 								<td>Informasi mengenai jaringan, seperti listrik atau Internet.</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_jalan.asal) as total');
 										$this->db->where('inventaris_jalan.visible',1);
 										$this->db->where('inventaris_jalan.status',0);
 										$this->db->where('inventaris_jalan.asal','Pembelian Sendiri');
-										$result = $this->db->get('inventaris_jalan')->row();  
+										$result = $this->db->get('inventaris_jalan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_jalan.asal) as total');
 										$this->db->where('inventaris_jalan.visible',1);
 										$this->db->where('inventaris_jalan.status',0);
 										$this->db->where('inventaris_jalan.asal','Bantuan Pemerintah');
-										$result = $this->db->get('inventaris_jalan')->row();  
+										$result = $this->db->get('inventaris_jalan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_jalan.asal) as total');
 										$this->db->where('inventaris_jalan.visible',1);
 										$this->db->where('inventaris_jalan.status',0);
 										$this->db->where('inventaris_jalan.asal','Bantuan Provinsi');
-										$result = $this->db->get('inventaris_jalan')->row();  
+										$result = $this->db->get('inventaris_jalan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_jalan.asal) as total');
 										$this->db->where('inventaris_jalan.visible',1);
 										$this->db->where('inventaris_jalan.status',0);
 										$this->db->where('inventaris_jalan.asal','Bantuan Kabupaten');
-										$result = $this->db->get('inventaris_jalan')->row();  
+										$result = $this->db->get('inventaris_jalan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_jalan.asal) as total');
 										$this->db->where('inventaris_jalan.visible',1);
 										$this->db->where('inventaris_jalan.status',0);
 										$this->db->where('inventaris_jalan.asal','Sumbangan');
-										$result = $this->db->get('inventaris_jalan')->row();  
+										$result = $this->db->get('inventaris_jalan')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
@@ -408,57 +408,57 @@
 									</div>
 								</td>
 							</tr>
-							<tr>						
+							<tr>
 								<td></td>
 								<td>Asset Tetap Lainnya</td>
 								<td>Informasi mengenai aset tetap seperti barang habis pakai contohnya buku-buku.</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_asset.asal) as total');
 										$this->db->where('inventaris_asset.visible',1);
 										$this->db->where('inventaris_asset.status',0);
 										$this->db->where('inventaris_asset.asal','Pembelian Sendiri');
-										$result = $this->db->get('inventaris_asset')->row();  
+										$result = $this->db->get('inventaris_asset')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_asset.asal) as total');
 										$this->db->where('inventaris_asset.visible',1);
 										$this->db->where('inventaris_asset.status',0);
 										$this->db->where('inventaris_asset.asal','Bantuan Pemerintah');
-										$result = $this->db->get('inventaris_asset')->row();  
+										$result = $this->db->get('inventaris_asset')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_asset.asal) as total');
 										$this->db->where('inventaris_asset.visible',1);
 										$this->db->where('inventaris_asset.status',0);
 										$this->db->where('inventaris_asset.asal','Bantuan Provinsi');
-										$result = $this->db->get('inventaris_asset')->row();  
+										$result = $this->db->get('inventaris_asset')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_asset.asal) as total');
 										$this->db->where('inventaris_asset.visible',1);
 										$this->db->where('inventaris_asset.status',0);
 										$this->db->where('inventaris_asset.asal','Bantuan Kabupaten');
-										$result = $this->db->get('inventaris_asset')->row();  
+										$result = $this->db->get('inventaris_asset')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_asset.asal) as total');
 										$this->db->where('inventaris_asset.visible',1);
 										$this->db->where('inventaris_asset.status',0);
 										$this->db->where('inventaris_asset.asal','Sumbangan');
-										$result = $this->db->get('inventaris_asset')->row();  
+										$result = $this->db->get('inventaris_asset')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
@@ -468,67 +468,67 @@
 									</div>
 								</td>
 							</tr>
-							<tr>						
+							<tr>
 								<td></td>
 								<td>Kontruksi Dalam Pengerjaan</td>
 								<td>Informasi mengenai bangunan yang masih dalam pengerjaan.</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_kontruksi.asal) as total');
 										$this->db->where('inventaris_kontruksi.visible',1);
 										$this->db->where('inventaris_kontruksi.status',0);
 										$this->db->where('inventaris_kontruksi.asal','Pembelian Sendiri');
-										$result = $this->db->get('inventaris_kontruksi')->row();  
+										$result = $this->db->get('inventaris_kontruksi')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_kontruksi.asal) as total');
 										$this->db->where('inventaris_kontruksi.visible',1);
 										$this->db->where('inventaris_kontruksi.status',0);
 										$this->db->where('inventaris_kontruksi.asal','Bantuan Pemerintah');
-										$result = $this->db->get('inventaris_kontruksi')->row();  
+										$result = $this->db->get('inventaris_kontruksi')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_kontruksi.asal) as total');
 										$this->db->where('inventaris_kontruksi.visible',1);
 										$this->db->where('inventaris_kontruksi.status',0);
 										$this->db->where('inventaris_kontruksi.asal','Bantuan Provinsi');
-										$result = $this->db->get('inventaris_kontruksi')->row();  
+										$result = $this->db->get('inventaris_kontruksi')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_kontruksi.asal) as total');
 										$this->db->where('inventaris_kontruksi.visible',1);
 										$this->db->where('inventaris_kontruksi.status',0);
 										$this->db->where('inventaris_kontruksi.asal','Bantuan Kabupaten');
-										$result = $this->db->get('inventaris_kontruksi')->row();  
+										$result = $this->db->get('inventaris_kontruksi')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
-									<?php 
+									<?php
 										$this->db->select('count(inventaris_kontruksi.asal) as total');
 										$this->db->where('inventaris_kontruksi.visible',1);
 										$this->db->where('inventaris_kontruksi.status',0);
 										$this->db->where('inventaris_kontruksi.asal','Sumbangan');
-										$result = $this->db->get('inventaris_kontruksi')->row();  
+										$result = $this->db->get('inventaris_kontruksi')->row();
 										echo (!empty($result->total) ? $result->total : '0');
 									?>
 								</td>
 								<td>
 									<div class="btn-group" role="group" aria-label="...">
-										<a href="<?php echo base_url('index.php/inventaris_kontruksi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>	
+										<a href="<?php echo base_url('index.php/inventaris_kontruksi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 									</div>
 								</td>
 							</tr>
-							
+
 						</tbody>
 						<tfoot>
 							<tr>
@@ -546,8 +546,8 @@
 					</div>
 			</form>
 	</div>
-</div>	
-	
+</div>
+
 <script  TYPE='text/javascript'>
 	function deleteItem($id){
 		swal({
@@ -562,7 +562,7 @@
 					swal("Data berhasil dihapus!", {
 					icon: "success",
 					});
-					
+
 					window.location = "api_inventaris_laporan/delete/" + $id;
 				} else {
 					swal("Data tidak berhasil dihapus!");
@@ -570,7 +570,7 @@
 			});
 
 	}
-	
+
 	$(document).ready(function() {
 		$("#penandatangan").select2({ width: '100%' });
 		var t = $('#example').DataTable( {
@@ -587,7 +587,7 @@
         	"order": [[ 1, 'asc' ]],
 			"footerCallback": function ( row, data, start, end, display ) {
 				var api = this.api(), data;
-	
+
 				// converting to interger to find total
 				var intVal = function ( i ) {
 					return typeof i === 'string' ?
@@ -595,7 +595,7 @@
 						typeof i === 'number' ?
 							i : 0;
 				};
-	
+
 				// Total over all pages
 				var pembelian_sendiri = api
 				.column( 3 )
@@ -603,21 +603,21 @@
 				.reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
-				
+
 				var pemerintah = api
 				.column( 4 )
 				.data()
 				.reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
-				
+
 				var provinsi = api
 				.column( 5 )
 				.data()
 				.reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
-				
+
 				var kabupaten = api
 				.column( 6 )
 				.data()
@@ -631,7 +631,7 @@
 				.reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
-	
+
 				// Update footer
 					$( api.column( 1 ).footer() ).html('Total');
 					$( api.column( 3 ).footer() ).html(pembelian_sendiri);
@@ -639,7 +639,7 @@
 					$( api.column( 5 ).footer() ).html(provinsi);
 					$( api.column( 6 ).footer() ).html(kabupaten);
 					$( api.column( 7 ).footer() ).html(sumbangan);
-				
+
 			}
     	} );
 		t.on( 'order.dt search.dt', function () {
@@ -648,23 +648,23 @@
 			} );
 		} ).draw();
 
-		
+
 	} );
 
 
 	$("#form_cetak").click(function( event ) {
-		
+
 		var link = '<?php echo site_url("laporan_inventaris/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
 		// alert('fell');
     });
 	$("#form_download").click(function( event ) {
-		
+
 		var link = '<?php echo site_url("laporan_inventaris/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
 		// alert('fell');
     });
 
 
-	
+
 </script>

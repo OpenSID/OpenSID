@@ -43,7 +43,7 @@
 					<div class="col-sm-9">
 						<select name="penandatangan" id="penandatangan" class="form-control">
 							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>" 
+								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>"
 									<?php if(strpos(strtolower($data['jabatan']),'Kepala Desa')!==false) echo 'selected'; ?>>
 									<?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)
 								</option>
@@ -53,9 +53,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Print</button>		
+				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Cetak</button>
 			</div>
-			
+
 		</form>
     </div>
 
@@ -88,7 +88,7 @@
 					<div class="col-sm-9">
 						<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control">
 							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>" 
+								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>"
 									<?php if(strpos(strtolower($data['jabatan']),'Kepala Desa')!==false) echo 'selected'; ?>>
 									<?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)
 								</option>
@@ -98,9 +98,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_cetak" name="form_cetak"  data-dismiss="modal">Print</button>		
+				<button type="submit" class="btn btn-primary pull-right"  id="form_cetak" name="form_cetak"  data-dismiss="modal">Cetak</button>
 			</div>
-			
+
 		</form>
     </div>
 
@@ -129,21 +129,21 @@
 					</div>
 					<div class="panel-body">
 						<div class="pull-right">
-              				<a class="btn btn-primary" href="<?php echo base_url('index.php/inventaris_tanah/form'); ?>" style="color:white;"> 
+              				<a class="btn btn-primary" href="<?php echo base_url('index.php/inventaris_tanah/form'); ?>" style="color:white;">
 								<i class="fa fa-plus"></i> Tambah
 							</a>
 		        </div>
 						<div class="pull-left">
 							<a type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-								<i class="fa fa-file-pdf-o"></i> Print
+								<i class="fa fa-file-pdf-o"></i> Cetak
 							</a>
 							<a type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalExcel">
 								<i class="fa fa-file-excel-o"></i> Unduh Excel
 							</a>
 				 		 </div>
-						  
+
 					</div>
-					<div class="panel-body">	
+					<div class="panel-body">
 					<table id="example" class="stripe cell-border table" class="grid" style="width:100%;">
 						<thead style="background-color:#f9f9f9;" >
 							<tr>
@@ -154,7 +154,7 @@
 									<th class="text-center" >Tahun Pengadaan</th>
 									<th class="text-center" >Letak/Alamat</th>
 									<th class="text-center" >Nomor Sertifikat</th>
-									
+
 									<th class="text-center" >Asal Usul</th>
 									<th class="text-center" >Harga (Rp)</th>
 									<th class="text-center"  width="100px">Aksi</th>
@@ -169,7 +169,7 @@
 										echo "<tr>";
 									}
 							?>
-							
+
 								<td></td>
 								<td><?php echo $data->nama_barang;?></td>
 								<td><?php echo $data->kode_barang;?></td>
@@ -185,7 +185,7 @@
 											<a href="<?php echo base_url('index.php/inventaris_tanah/form_mutasi/'.$data->id); ?>" title="Mutasi Data" type="button" class="btn btn-danger btn-sm"><i class="fa fa-external-link-square"></i></a>
 										<?php  }?>
 										<a href="<?php echo base_url('index.php/inventaris_tanah/view/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
-										<a href="<?php echo base_url('index.php/inventaris_tanah/edit/'.$data->id); ?>" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a> 
+										<a href="<?php echo base_url('index.php/inventaris_tanah/edit/'.$data->id); ?>" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a>
 										<button href="" onclick="deleteItem(<?php echo $data->id; ?>)" title="Hapus Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
 									</div>
 								</td>
@@ -206,8 +206,8 @@
 					</div>
 			</form>
 	</div>
-</div>	
-	
+</div>
+
 <script  TYPE='text/javascript'>
 	function deleteItem($id){
 		swal({
@@ -222,7 +222,7 @@
 					swal("Data berhasil dihapus!", {
 					icon: "success",
 					});
-					
+
 					window.location = "api_inventaris_tanah/delete/" + $id;
 				} else {
 					swal("Data tidak berhasil dihapus!");
@@ -230,10 +230,10 @@
 			});
 
 	}
-	
+
 	$(document).ready(function() {
 		$("#penandatangan").select2({ width: '100%' });
-		
+
 		var t = $('#example').DataTable( {
 			scrollY					: '100vh',
 			scrollCollapse			: true,
@@ -255,19 +255,19 @@
 
 
 	$("#form_cetak").click(function( event ) {
-		
+
 		var link = '<?php echo site_url("inventaris_tanah/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
 		// alert('fell');
     });
 	$("#form_download").click(function( event ) {
-		
+
 		var link = '<?php echo site_url("inventaris_tanah/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
 		// alert('fell');
     });
 
-	
 
-	
+
+
 </script>
