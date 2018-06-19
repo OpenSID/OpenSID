@@ -27,7 +27,7 @@
                 <div class='box-body'>
                     <div class="form">
 
-                        <form class="form-horizontal" id="form_mutasi_tanah" name="form_mutasi_tanah" method="post" action="">    
+                        <form class="form-horizontal" id="form_mutasi_tanah" name="form_mutasi_tanah" method="post" action="">
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -105,7 +105,7 @@
                             </div>
                             <div class="pull-right" >
                                 <a href="<?php echo base_url() ?>index.php/inventaris_tanah/mutasi" class="btn btn-default save"
-                                           id="btn_batal" name="yt1" type="button"/>Kemabali</a>
+                                           id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div><!-- form -->
@@ -128,5 +128,5 @@
             $(".harga_jual").hide();
         }
     });
-    
+
 </script>

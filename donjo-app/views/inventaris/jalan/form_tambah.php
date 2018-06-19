@@ -59,7 +59,7 @@
                                             <option value="Baik">Baik</option>
                                             <option value="Rusak Ringan">Rusak Ringan</option>
                                             <option value="Rusak Sedang">Rusak Sedang</option>
-                                            <option value="Rusak Berat">Rusak Berat</option>                                            
+                                            <option value="Rusak Berat">Rusak Berat</option>
                                         </select>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                            
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="alamat">Letak / Lokasi </label>
                                     <div class="col-sm-9">
@@ -168,7 +168,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo site_url() ?>inventaris_jalan" class="btn btn-default save"
-                                    id="btn_batal" name="yt1" type="button"/>Batal</a>  
+                                    id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div>
@@ -223,7 +223,7 @@ $(document).ready(function() {
             error: function(err){
                 console.log('error',err);
             },
-        }); 
+        });
         }
     });
 

@@ -56,11 +56,11 @@
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="kondisi">Kondisi Bangunan</label>
                                     <div class="col-sm-4">
                                         <select name="kondisi" id="kondisi" class="form-control" required>
-                                            <option value="<?php echo $main->kondisi; ?>"> <?php echo $main->kondisi; ?> </option>   
+                                            <option value="<?php echo $main->kondisi; ?>"> <?php echo $main->kondisi; ?> </option>
                                             <option value="Baik">Baik</option>
                                             <option value="Rusak Ringan">Rusak Ringan</option>
                                             <option value="Rusak Sedang">Rusak Sedang</option>
-                                            <option value="Rusak Berat">Rusak Berat</option>                                        
+                                            <option value="Rusak Berat">Rusak Berat</option>
                                         </select>
                                     </div>
                                 </div>
@@ -99,14 +99,14 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                            
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="alamat">Letak / Lokasi </label>
                                     <div class="col-sm-9">
                                         <textarea class="form-control" name="alamat" id="alamat" required><?php echo $main->letak; ?></textarea>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label " style="text-align:left;" for="no_bangunan">Nomor Kepemilikan</label>
                                     <div class="col-sm-9">
@@ -123,11 +123,11 @@
                                     <label class="col-sm-2 control-label " style="text-align:left;" for="status_tanah">Status Tanah</label>
                                     <div class="col-sm-9">
                                         <select name="status_tanah" id="status_tanah" class="form-control">
-                                            <option value="<?php echo $main->status_tanah; ?>"> <?php echo $main->status_tanah; ?> </option>    
+                                            <option value="<?php echo $main->status_tanah; ?>"> <?php echo $main->status_tanah; ?> </option>
                                             <option value="Tanah milik Pemda">Tanah milik Pemda</option>
                                             <option value="Tanah Negara">Tanah Negara (Tanah yang dikuasai langsung oleh Negara)</option>
                                             <option value="Tanah Hak Ulayat">Tanah Hak Ulayat (Tanah masyarakat Hukum Adat)</option>
-                                            <option value="Tanah Hak">Tanah Hak (Tanah kepunyaan perorangan atau Badan Hukum)</option> 
+                                            <option value="Tanah Hak">Tanah Hak (Tanah kepunyaan perorangan atau Badan Hukum)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
                                     <label class="col-sm-2 control-label " style="text-align:left;" for="asal_usul">Asal Usul </label>
                                     <div class="col-sm-9">
                                         <select name="asal_usul" id="asal_usul" class="form-control" required>
-                                            <option value="<?php echo $main->asal; ?>"> <?php echo $main->asal; ?> </option> 
+                                            <option value="<?php echo $main->asal; ?>"> <?php echo $main->asal; ?> </option>
                                             <option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
                                             <option value="Bantuan Pemerintah">Bantuan Pemerintah</option>
                                             <option value="Bantuan Provinsi">Bantuan Provinsi</option>
@@ -170,7 +170,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo site_url() ?>inventaris_jalan" class="btn btn-default save"
-                                    id="btn_batal" name="yt1" type="button"/>Batal</a>  
+                                    id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div>
@@ -226,7 +226,7 @@ $(document).ready(function() {
                 error: function(err){
                     console.log('error',err);
                 },
-            }); 
+            });
             }
         });
 

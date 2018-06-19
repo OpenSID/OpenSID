@@ -30,7 +30,7 @@
                 <div class='box-body'>
                     <div class="form">
 
-                        <form class="form-horizontal" id="update_mutasi_gedung" name="update_mutasi_gedung" method="post" action="">    
+                        <form class="form-horizontal" id="update_mutasi_gedung" name="update_mutasi_gedung" method="post" action="">
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -107,7 +107,7 @@
                             <div class="pull-right" >
                                 <button type="submit" class="btn btn-primary"> Update</button>
                                 <a href="<?php echo base_url() ?>index.php/inventaris_gedung/mutasi" class="btn btn-default save"
-                                           id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                           id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div><!-- form -->
@@ -175,8 +175,8 @@
               error: function(err){
                   console.log('error',err);
               },
-          }); 
+          });
         }
     });
-    
+
 </script>

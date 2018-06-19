@@ -58,7 +58,7 @@
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="kondisi">Kondisi Bangunan</label>
                                     <div class="col-sm-4">
                                         <select name="kondisi" id="kondisi" class="form-control" >
-                                            <option value="<?php echo $main->kondisi_bangunan; ?>"><?php echo $main->kondisi_bangunan; ?></option>                                        
+                                            <option value="<?php echo $main->kondisi_bangunan; ?>"><?php echo $main->kondisi_bangunan; ?></option>
                                         </select>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="kontruksi">Kontruksi Beton</label>
                                     <div class="col-sm-4">
                                         <select name="kontruksi" id="kontruksi" class="form-control">
-                                            <option value="<?php echo $main->kondisi_bangunan; ?>"><?php echo $main->kondisi_bangunan; ?></option>                                         
+                                            <option value="<?php echo $main->kondisi_bangunan; ?>"><?php echo $main->kondisi_bangunan; ?></option>
                                         </select>
                                     </div>
                                 </div>
@@ -164,7 +164,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo site_url() ?>inventaris_gedung" class="btn btn-default save"
-                                       id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                       id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div>
@@ -218,7 +218,7 @@
                 error: function(err){
                     console.log('error',err);
                 },
-            }); 
+            });
             }
         });
 

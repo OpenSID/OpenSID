@@ -59,7 +59,7 @@
                                             <option value="Baik">Baik</option>
                                             <option value="Rusak Ringan">Rusak Ringan</option>
                                             <option value="Rusak Sedang">Rusak Sedang</option>
-                                            <option value="Rusak Berat">Rusak Berat</option>                                            
+                                            <option value="Rusak Berat">Rusak Berat</option>
                                         </select>
                                     </div>
                                 </div>
@@ -77,7 +77,7 @@
                                     <div class="col-sm-4">
                                         <select name="kontruksi" id="kontruksi" class="form-control">
                                             <option value="0">Tidak</option>
-                                            <option value="1">Ya</option>                                            
+                                            <option value="1">Ya</option>
                                         </select>
                                     </div>
                                 </div>
@@ -170,7 +170,7 @@
                             <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                             <a href="<?php echo site_url() ?>inventaris_gedung" class="btn btn-default save"
-                                   id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                   id="btn_batal" name="yt1" type="button"/>Kembali</a>
                         </div>
                     </form>
                 </div>
@@ -225,7 +225,7 @@ $(document).ready(function() {
             error: function(err){
                 console.log('error',err);
             },
-        }); 
+        });
         }
     });
 

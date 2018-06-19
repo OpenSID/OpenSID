@@ -147,7 +147,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo site_url() ?>inventaris_peralatan" class="btn btn-default save"
-                                       id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                       id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div>
@@ -202,7 +202,7 @@
                 error: function(err){
                     console.log('error',err);
                 },
-            }); 
+            });
             }
         });
 

@@ -30,7 +30,7 @@
                 <div class='box-body'>
                     <div class="form">
 
-                        <form class="form-horizontal" id="form_mutasi_tanah" name="form_mutasi_tanah" method="post" action="">    
+                        <form class="form-horizontal" id="form_mutasi_tanah" name="form_mutasi_tanah" method="post" action="">
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -109,7 +109,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo base_url() ?>index.php/inventaris_tanah" class="btn btn-default save"
-                                           id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                           id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div><!-- form -->
@@ -167,7 +167,7 @@ $(document).ready(function(){
               error: function(err){
                   console.log('error',err);
               },
-          }); 
+          });
         }
     });
 });

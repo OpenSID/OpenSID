@@ -55,7 +55,7 @@
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="kondisi">Kondisi Bangunan</label>
                                     <div class="col-sm-4">
                                         <select name="kondisi" id="kondisi" class="form-control" disabled>
-                                            <option value="<?php echo $main->kondisi; ?>"> <?php echo $main->kondisi; ?> </option>                                           
+                                            <option value="<?php echo $main->kondisi; ?>"> <?php echo $main->kondisi; ?> </option>
                                         </select>
                                     </div>
                                 </div>
@@ -94,14 +94,14 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                            
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="alamat">Letak / Lokasi </label>
                                     <div class="col-sm-9">
                                         <textarea class="form-control" name="alamat" id="alamat" disabled><?php echo $main->letak; ?></textarea>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label " style="text-align:left;" for="no_bangunan">Nomor Kepemilikan</label>
                                     <div class="col-sm-9">
@@ -118,7 +118,7 @@
                                     <label class="col-sm-2 control-label " style="text-align:left;" for="status_tanah">Status Tanah</label>
                                     <div class="col-sm-9">
                                         <select name="status_tanah" id="status_tanah" class="form-control" disabled>
-                                            <option value="<?php echo $main->status_tanah; ?>"> <?php echo $main->status_tanah; ?> </option>     
+                                            <option value="<?php echo $main->status_tanah; ?>"> <?php echo $main->status_tanah; ?> </option>
                                         </select>
                                     </div>
                                 </div>
@@ -132,7 +132,7 @@
                                     <label class="col-sm-2 control-label " style="text-align:left;" for="asal_usul">Asal Usul </label>
                                     <div class="col-sm-9">
                                         <select name="asal_usul" id="asal_usul" class="form-control" disabled>
-                                            <option value="<?php echo $main->asal; ?>"> <?php echo $main->asal; ?> </option> 
+                                            <option value="<?php echo $main->asal; ?>"> <?php echo $main->asal; ?> </option>
                                         </select>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
                             </div>
                             <div class="pull-right" >
                                 <a href="<?php echo site_url() ?>inventaris_jalan" class="btn btn-default save"
-                                    id="btn_batal" name="yt1" type="button"/>Batal</a>  
+                                    id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div>
@@ -209,7 +209,7 @@ $(document).ready(function() {
             error: function(err){
                 console.log('error',err);
             },
-        }); 
+        });
         }
     });
 

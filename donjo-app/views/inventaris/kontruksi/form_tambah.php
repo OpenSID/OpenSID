@@ -29,7 +29,7 @@
 
                 <div class='box-body'>
                     <div class="form">
-                        <form class="form-horizontal" id="form_kontruksi" name="form_kontruksi" method="post" action="">  
+                        <form class="form-horizontal" id="form_kontruksi" name="form_kontruksi" method="post" action="">
                               <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="nama_barang">Nama Barang / Jenis Barang</label>
@@ -44,7 +44,7 @@
                                             <option value="">-- Fisik Bangunan --</option>
                                             <option value="Darurat">Darurat</option>
                                             <option value="Permanen">Permanen</option>
-                                            <option value="Semi Permanen">Semi Permanen</option>                                         
+                                            <option value="Semi Permanen">Semi Permanen</option>
                                         </select>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                     <div class="col-sm-4">
                                         <select name="bahan" id="bahan" class="form-control">
                                             <option value="0">Tidak</option>
-                                            <option value="1">Ya</option>                                            
+                                            <option value="1">Ya</option>
                                         </select>
                                     </div>
                                 </div>
@@ -152,7 +152,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo site_url() ?>inventaris_kontruksi" class="btn btn-default save"
-                                   id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                   id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div>
@@ -205,7 +205,7 @@ $(document).ready(function() {
             error: function(err){
                 console.log('error',err);
             },
-        }); 
+        });
         }
     });
 

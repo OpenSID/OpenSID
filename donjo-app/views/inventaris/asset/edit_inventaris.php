@@ -57,11 +57,11 @@
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="jenis_asset">Jenis Asset</label>
                                     <div class="col-sm-6">
                                         <select name="jenis_asset" id="jenis_asset" class="form-control" required>
-                                            <option value="<?php echo $main->jenis; ?>"><?php echo $main->jenis; ?></option>  
+                                            <option value="<?php echo $main->jenis; ?>"><?php echo $main->jenis; ?></option>
                                             <option value="Buku">Buku</option>
                                             <option value="Barang Kesenian">Barang Kesenian</option>
                                             <option value="Hewan Ternak">Hewan Ternak</option>
-                                            <option value="Tumbuhan">Tumbuhan</option>                                         
+                                            <option value="Tumbuhan">Tumbuhan</option>
                                         </select>
                                     </div>
                                 </div>
@@ -80,57 +80,57 @@
                                 <div class="form-group asal_kesenian">
                                     <label class="col-sm-2 control-label required" style="text-align:left;" for="asal_kesenian">Asal Daerah Kesenian</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" value="<?php echo $main->asal_daerah; ?>" id="asal_kesenian" name="asal_kesenian" type="text" /> 
+                                        <input class="form-control" value="<?php echo $main->asal_daerah; ?>" id="asal_kesenian" name="asal_kesenian" type="text" />
                                     </div>
                                 </div>
                                 <div class="form-group pencipta_kesenian">
                                     <label class="col-sm-2 control-label" style="text-align:left;" for="pencipta_kesenian">Pencipta Kesenian </label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" value="<?php echo $main->pencipta; ?>" id="pencipta_kesenian" name="pencipta_kesenian" type="text"/> 
+                                        <input class="form-control" value="<?php echo $main->pencipta; ?>" id="pencipta_kesenian" name="pencipta_kesenian" type="text"/>
                                     </div>
                                 </div>
                                 <div class="form-group bahan_kesenian">
                                     <label class="col-sm-2 control-label required" style="text-align:left;" for="bahan_kesenian">Bahan Kesenian</label>
-                                    <div class="col-sm-9">    
-                                        <input class="form-control" value="<?php echo $main->bahan; ?>" id="bahan_kesenian" name="bahan_kesenian" type="text"/> 
+                                    <div class="col-sm-9">
+                                        <input class="form-control" value="<?php echo $main->bahan; ?>" id="bahan_kesenian" name="bahan_kesenian" type="text"/>
                                     </div>
                                 </div>
                                 <div class="form-group jenis_hewan">
                                     <label class="col-sm-2 control-label required" style="text-align:left;" for="jenis_hewan">Jenis Hewan Ternak</label>
-                                    <div class="col-sm-9">    
-                                        <input class="form-control" value="<?php echo $main->jenis_hewan; ?>" id="jenis_hewan" name="jenis_hewan" type="text"/> 
+                                    <div class="col-sm-9">
+                                        <input class="form-control" value="<?php echo $main->jenis_hewan; ?>" id="jenis_hewan" name="jenis_hewan" type="text"/>
                                     </div>
                                 </div>
                                 <div class="form-group ukuran_hewan">
                                     <label class="col-sm-2 control-label required" style="text-align:left;" for="ukuran_hewan">Ukuran Hewan Ternak</label>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-4">
                                         <div class="input-group">
                                             <input class="form-control" value="<?php echo $main->ukuran_hewan; ?>" id="ukuran_hewan" name="ukuran_hewan" type="number"/>
-                                            <span class="input-group-addon" id="ukuran_hewan-addon">Kg</span>  
-                                        </div> 
+                                            <span class="input-group-addon" id="ukuran_hewan-addon">Kg</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group jenis_tumbuhan">
                                     <label class="col-sm-2 control-label required" style="text-align:left;" for="jenis_tumbuhan">Jenis Tumbuhan</label>
-                                    <div class="col-sm-9">    
-                                        <input class="form-control" value="<?php echo $main->jenis_tumbuhan; ?>" id="jenis_tumbuhan" name="jenis_tumbuhan" type="text"/> 
+                                    <div class="col-sm-9">
+                                        <input class="form-control" value="<?php echo $main->jenis_tumbuhan; ?>" id="jenis_tumbuhan" name="jenis_tumbuhan" type="text"/>
                                     </div>
                                 </div>
                                 <div class="form-group ukuran_tumbuhan">
                                     <label class="col-sm-2 control-label required" style="text-align:left;" for="ukuran_tumbuhan">Ukuran Tumbuhan</label>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-4">
                                         <div class="input-group">
                                             <input class="form-control" value="<?php echo $main->ukuran_tumbuhan; ?>" id="ukuran_tumbuhan" name="ukuran_tumbuhan" type="number"/>
-                                            <span class="input-group-addon" id="ukuran_tumbuhan">M</span>  
-                                        </div> 
+                                            <span class="input-group-addon" id="ukuran_tumbuhan">M</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label required" style="text-align:left;" for="jumlah">Jumlah</label>
-                                    <div class="col-sm-9">    
-                                        <input class="form-control" value="<?php echo $main->jumlah; ?>" id="jumlah" name="jumlah" type="number" required/> 
+                                    <div class="col-sm-9">
+                                        <input class="form-control" value="<?php echo $main->jumlah; ?>" id="jumlah" name="jumlah" type="number" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -177,7 +177,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo site_url() ?>inventaris_asset" class="btn btn-default save"
-                                    id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                    id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div>
@@ -305,7 +305,7 @@ $(document).ready(function() {
             formInput.append('jenis_hewan', $('#jenis_hewan').val());
             formInput.append('ukuran_hewan', $('#ukuran_hewan').val());
             formInput.append('jenis_tumbuhan', $('#jenis_tumbuhan').val());
-            formInput.append('ukuran_tumbuhan', $('#ukuran_tumbuhan').val());        
+            formInput.append('ukuran_tumbuhan', $('#ukuran_tumbuhan').val());
             formInput.append('jumlah', $('#jumlah').val());
             formInput.append('tahun', $('#tahun').val());
             formInput.append('asal_usul', $('#asal_usul').val());
@@ -332,7 +332,7 @@ $(document).ready(function() {
             error: function(err){
                 console.log('error',err);
             },
-        }); 
+        });
         }
     });
 

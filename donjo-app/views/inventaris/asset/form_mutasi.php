@@ -109,7 +109,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo base_url() ?>index.php/inventaris_asset" class="btn btn-default save"
-                                           id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                           id="btn_batal" name="yt1" type="button"/>Kembali</a>
                           </div>
                       </form>
                   </div><!-- form -->
@@ -168,7 +168,7 @@ $("#form_mutasi_asset").validate({
               error: function(err){
                   console.log('error',err);
               },
-          }); 
+          });
         }
     });
 

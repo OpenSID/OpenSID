@@ -45,7 +45,7 @@
                                             <option value="<?php echo $main->kondisi_bangunan; ?>"><?php echo $main->kondisi_bangunan; ?></option>
                                             <option value="Darurat">Darurat</option>
                                             <option value="Permanen">Permanen</option>
-                                            <option value="Semi Permanen">Semi Permanen</option>                                         
+                                            <option value="Semi Permanen">Semi Permanen</option>
                                         </select>
                                     </div>
                                 </div>
@@ -66,16 +66,16 @@
                                                 if($main->kontruksi_beton == 0){
                                                     echo "
                                                     <option value='0'>Tidak</option>
-                                                    <option value='1'>Ya</option> 
+                                                    <option value='1'>Ya</option>
                                                     ";
                                                 }else{
                                                     echo "
                                                     <option value='1'>Ya</option>
-                                                    <option value='0'>Tidak</option> 
+                                                    <option value='0'>Tidak</option>
                                                     ";
                                                 }
                                             ?>
-                                                                                       
+
                                         </select>
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo site_url() ?>inventaris_kontruksi" class="btn btn-default save"
-                                       id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                       id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div>
@@ -217,7 +217,7 @@
                 error: function(err){
                     console.log('error',err);
                 },
-            }); 
+            });
             }
         });
 

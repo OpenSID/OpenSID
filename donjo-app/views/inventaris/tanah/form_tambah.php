@@ -110,7 +110,7 @@
                                             <option value="Jalan">Jalan</option>
                                             <option value="Komersial">Komersial</option>
                                             <option value="Permukiman">Permukiman</option>
-                                            <option value="Tanah Publik">Tanah Publik</option>   
+                                            <option value="Tanah Publik">Tanah Publik</option>
                                             <option value="Tanah Kosong">Tanah Kosong</option>
                                         </select>
                                     </div>
@@ -148,7 +148,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Simpan</button>
 
                                 <a href="<?php echo site_url() ?>inventaris_tanah" class="btn btn-default save"
-                                           id="btn_batal" name="yt1" type="button"/>Batal</a>
+                                           id="btn_batal" name="yt1" type="button"/>Kembali</a>
                             </div>
                         </form>
                     </div><!-- form -->
@@ -204,7 +204,7 @@ $(document).ready(function() {
               error: function(err){
                   console.log('error',err);
               },
-          }); 
+          });
         }
     });
 
