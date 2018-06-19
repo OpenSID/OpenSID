@@ -24,7 +24,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Cetak Inventaris</h4>
+        <h4 class="modal-title">Unduh Inventaris</h4>
       </div>
 	  	<form action="" target="_blank" class="form-horizontal" method="get" >
 			<div class="modal-body">
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Cetak</button>
+				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>
 			</div>
 
 		</form>
