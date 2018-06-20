@@ -1,10 +1,11 @@
-<script src="<?php echo base_url('assets/js/select2/select2.js') ?>"></script>
-<link href="<?php echo base_url('assets/js/select2/select2.css') ?>"rel="stylesheet" />
-<script src="<?php echo base_url('assets/js/sweetalert.min.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/select2/select2.js') ?>"></script>
+<link href="<?= base_url('assets/js/select2/select2.css') ?>"rel="stylesheet" />
+<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
+<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
 <style>
-	#footer {
+	#footer
+	{
 		color: #f83535;
 		text-shadow: 1px 1px 0.5px #444;
 		padding: 8px;
@@ -15,7 +16,7 @@
 		background: #eaa852;
 		height: 34px;
 		position: fixed;
-}
+	}
 </style>
 <div id="myModalExcel" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
@@ -33,9 +34,9 @@
 					<div class="col-sm-9">
 						<select name="tahun" id="tahun" class="form-control">
 							<option value="1">Semua Tahun</option>
-							<?php for($i=date("Y");$i>=date("Y")-30;$i--) {
-								echo "<option value='".$i."'>".$i."</option>";
-							}?>
+							<?php for ($i=date("Y"); $i>=date("Y")-30; $i--): ?>
+								<option value="<?= $i ?>"><?= $i ?></option>
+							<?php endfor; ?>
 						</select>
 					</div>
 				</div>
@@ -43,12 +44,12 @@
 					<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
 					<div class="col-sm-9">
 						<select name="penandatangan" id="penandatangan" class="form-control">
-							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>"
-									<?php if(strpos(strtolower($data['jabatan']),'Kepala Desa')!==false) echo 'selected'; ?>>
-									<?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)
+							<?php foreach ($pamong AS $data): ?>
+								<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
+									<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
+									<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
 								</option>
-							<?php }?>
+							<?php endforeach; ?>
 						</select>
 					</div>
 				</div>
@@ -78,9 +79,9 @@
 					<div class="col-sm-9">
 						<select name="tahun_pdf" id="tahun_pdf" class="form-control">
 							<option value="1">Semua Tahun</option>
-							<?php for($i=date("Y");$i>=date("Y")-30;$i--) {
-								echo "<option value='".$i."'>".$i."</option>";
-							}?>
+							<?php for($i=date("Y"); $i>=date("Y")-30; $i--): ?>
+								<option value="<?= $i ?>"><?= $i ?></option>
+							<?php endfor; ?>
 						</select>
 					</div>
 				</div>
@@ -88,12 +89,12 @@
 					<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
 					<div class="col-sm-9">
 						<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control">
-							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>"
-									<?php if(strpos(strtolower($data['jabatan']),'Kepala Desa')!==false) echo 'selected'; ?>>
-									<?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)
+							<?php foreach ($pamong AS $data): ?>
+								<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
+									<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
+									<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
 								</option>
-							<?php }?>
+							<?php endforeach; ?>
 						</select>
 					</div>
 				</div>
@@ -130,7 +131,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="pull-right">
-              				<a class="btn btn-primary" href="<?php echo site_url('inventaris_kontruksi/form'); ?>" style="color:white;">
+              				<a class="btn btn-primary" href="<?= site_url('inventaris_kontruksi/form'); ?>" style="color:white;">
 								<i class="fa fa-plus"></i> Tambah
 							</a>
 		        </div>
@@ -165,81 +166,47 @@
 
 						</thead>
 						<tbody>
-							<?php
-								foreach($main as $data){
-									if($data->status == "1"){
-										echo "<tr style='background-color:#cacaca'>";
-									}else{
-										echo "<tr>";
-									}
-							?>
+							<?php foreach ($main as $data): ?>
+								<?php if ($data->status == "1"): ?>
+									<tr style='background-color:#cacaca'>
+								<?php else: ?>
+									<tr>
+								<?php endif; ?>
 
-								<td></td>
-								<td><?php echo $data->nama_barang;?></td>
-								<td><?php echo $data->kondisi_bangunan;?></td>
-								<td>
-									<?php
-										if(empty($data->luas)){
-											echo "-";
-										}else{
-											echo $data->luas;
-										}
-									?>
-								</td>
-								<td>
-									<?php
-										if(empty(date('d M Y',strtotime($data->tanggal_dokument)))){
-											echo "-";
-										}else{
-											echo date('d M Y',strtotime($data->tanggal_dokument));
-										}
-									?>
-								</td>
-								<td>
-									<?php
-										if(empty($data->no_dokument)){
-											echo "-";
-										}else{
-											echo $data->no_dokument;
-										}
-									?>
-								</td>
-								<td>
-									<?php
-										if(empty(date('d M Y',strtotime($data->tanggal)))){
-											echo "-";
-										}else{
-											echo date('d M Y',strtotime($data->tanggal));
-										}
-									?>
-								</td>
-								<td>
-									<?php
-										if(empty($data->status_tanah)){
-											echo "-";
-										}else{
-											echo $data->status_tanah;
-										}
-									?>
-								</td>
-								<td><?php echo $data->asal;?></td>
-								<td><?php echo number_format($data->harga,0,".",".");?></td>
-								<td>
-									<div class="btn-group" role="group" aria-label="...">
-										<a href="<?php echo base_url('index.php/inventaris_kontruksi/view/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
-										<a href="<?php echo base_url('index.php/inventaris_kontruksi/edit/'.$data->id); ?>" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a>
-										<button href="" onclick="deleteItem(<?php echo $data->id; ?>)" title="Hapus Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
-									</div>
-								</td>
-							</tr>
-							<?php
-								}
-							?>
+									<td></td>
+									<td><?= $data->nama_barang;?></td>
+									<td><?= $data->kondisi_bangunan;?></td>
+									<td>
+										<?= (empty($data->luas)) ? "-" : $data->luas ?>
+									</td>
+									<td>
+										<?= (empty(date('d M Y',strtotime($data->tanggal_dokument)))) ? "-" : date('d M Y',strtotime($data->tanggal_dokument)) ?>
+									</td>
+									<td>
+										<?= (empty($data->no_dokument)) ? "-" : $data->no_dokument ?>
+									</td>
+									<td>
+										<?= (empty(date('d M Y',strtotime($data->tanggal)))) ? "-" : date('d M Y',strtotime($data->tanggal)) ?>
+									</td>
+									<td>
+										<?= (empty($data->status_tanah)) ? "-" : $data->status_tanah ?>
+									</td>
+									<td><?= $data->asal;?></td>
+									<td><?= number_format($data->harga,0,".",".");?></td>
+									<td>
+										<div class="btn-group" role="group" aria-label="...">
+											<a href="<?= base_url('index.php/inventaris_kontruksi/view/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+											<a href="<?= base_url('index.php/inventaris_kontruksi/edit/'.$data->id); ?>" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a>
+											<button href="" onclick="deleteItem(<?= $data->id; ?>)" title="Hapus Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
+										</div>
+									</td>
+								</tr>
+							<?php endforeach; ?>
 						</tbody>
 						<tfoot>
 							<tr>
 								<th colspan="8" style="text-align:right">Total:</th>
-								<th><?php echo number_format($total,0,".","."); ?></th>
+								<th><?= number_format($total,0,".","."); ?></th>
 								<th></th>
 							</tr>
 						</tfoot>
@@ -251,32 +218,40 @@
 </div>
 
 <script  TYPE='text/javascript'>
-	function deleteItem($id){
-		swal({
-				title: "Apakah Anda Yakin?",
-				text: "Setelah dihapus, Data hanya dapat dipulihkan di database!!",
-				icon: "warning",
-				buttons: true,
-				dangerMode: true,
-			})
-			.then((willDelete) => {
-				if (willDelete) {
-					swal("Data berhasil dihapus!", {
+	function deleteItem($id)
+	{
+		swal(
+		{
+			title: "Apakah Anda Yakin?",
+			text: "Setelah dihapus, Data hanya dapat dipulihkan di database!!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+		.then((willDelete) =>
+		{
+			if (willDelete)
+			{
+				swal("Data berhasil dihapus!",
+				{
 					icon: "success",
-					});
+				});
 
-					window.location = "api_inventaris_kontruksi/delete/" + $id;
-				} else {
-					swal("Data tidak berhasil dihapus!");
-				}
-			});
-
+				window.location = "api_inventaris_kontruksi/delete/" + $id;
+			}
+			else
+			{
+				swal("Data tidak berhasil dihapus!");
+			}
+		});
 	}
 
-	$(document).ready(function() {
+	$(document).ready(function()
+	{
 		$("#penandatangan").select2({ width: '100%' });
 
-		var t = $('#example').DataTable( {
+		var t = $('#example').DataTable(
+		{
 			scrollY					: '100vh',
 			scrollCollapse			: true,
 			autoWidth				: true,
@@ -287,26 +262,26 @@
         	} ],
         	"order": [[ 1, 'asc' ]]
     	} );
-		t.on( 'order.dt search.dt', function () {
-			t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		t.on( 'order.dt search.dt', function ()
+		{
+			t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
+			{
 				cell.innerHTML = i+1;
 			} );
 		} ).draw();
 
 	} );
 
-
-	$("#form_cetak").click(function( event ) {
-		var link = '<?php echo site_url("inventaris_kontruksi/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
+	$("#form_cetak").click(function( event )
+	{
+		var link = '<?= site_url("inventaris_kontruksi/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
-    });
+  });
 
-	$("#form_download").click(function( event ) {
-		var link = '<?php echo site_url("inventaris_kontruksi/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
+	$("#form_download").click(function( event )
+	{
+		var link = '<?= site_url("inventaris_kontruksi/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
-    });
-
-
-
+  });
 
 </script>

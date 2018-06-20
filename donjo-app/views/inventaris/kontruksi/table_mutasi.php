@@ -1,7 +1,8 @@
-<script src="<?php echo base_url('assets/js/sweetalert.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
 <script>
-	$(function() {
-		var keyword = <?php echo $keyword?> ;
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
 		$( "#cari" ).autocomplete({
 			source: keyword
 		});
@@ -9,7 +10,8 @@
 </script>
 
 <style>
-	#footer {
+	#footer
+	{
 		color: #f83535;
 		text-shadow: 1px 1px 0.5px #444;
 		padding: 8px;
@@ -20,7 +22,7 @@
 		background: #eaa852;
 		height: 34px;
 		position: fixed;
-}
+	}
 
 </style>
 
@@ -108,27 +110,23 @@
 							</tr> -->
 						</thead>
 						<tbody>
-							<?php
-								for($i=0; $i<20; $i++){
-							?>
-							<tr>
-								<td>1</td>
-								<td align="center">asd</td>
-								<td align="center">dasd</td>
-								<td align="center">asd</td>
-								<td align="center">asd</td>
-								<td align="center">dasd</td>
-								<td align="center">asd</td>
-								<td align="center">
-									<div class="btn-group" role="group" aria-label="...">
-										<a href="http://localhost/sidak//pemerintahan/data_warga/view/1" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
-										<a href="http://localhost/sidak//pemerintahan/data_warga/update/1" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a>
-									</div>
-								</td>
-							</tr>
-							<?php
-								}
-							?>
+							<?php for ($i=0; $i<20; $i++): ?>
+								<tr>
+									<td>1</td>
+									<td align="center">asd</td>
+									<td align="center">dasd</td>
+									<td align="center">asd</td>
+									<td align="center">asd</td>
+									<td align="center">dasd</td>
+									<td align="center">asd</td>
+									<td align="center">
+										<div class="btn-group" role="group" aria-label="...">
+											<a href="http://localhost/sidak//pemerintahan/data_warga/view/1" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+											<a href="http://localhost/sidak//pemerintahan/data_warga/update/1" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a>
+										</div>
+									</td>
+								</tr>
+							<?php endfor; ?>
 						</tbody>
 					</table>
 					</div>
@@ -138,11 +136,13 @@
 </div>
 
 <script  TYPE='text/javascript'>
-	$(document).ready(function() {
-			$('#example').DataTable( {
-					scrollY					: '100vh',
-					scrollCollapse	: true,
-					autoWidth				: true
-			} );
+	$(document).ready(function()
+	{
+		$('#example').DataTable(
+		{
+			scrollY					: '100vh',
+			scrollCollapse	: true,
+			autoWidth				: true
+		} );
 	} );
 </script>
