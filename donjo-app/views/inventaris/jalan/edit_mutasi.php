@@ -107,7 +107,7 @@
 								</div>
 							</div>
 							<div class="pull-right" >
-								<button type="submit" class="btn btn-primary"> Update</button>
+								<button type="submit" class="btn btn-primary"> Simpan</button>
 								<a href="<?= base_url() ?>index.php/inventaris_jalan/mutasi" class="btn btn-default save"
 										   id="btn_batal" name="yt1" type="button"/>Kembali</a>
 							</div>
