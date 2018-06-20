@@ -1,10 +1,11 @@
-<script src="<?php echo base_url('assets/js/select2/select2.js') ?>"></script>
-<link href="<?php echo base_url('assets/js/select2/select2.css') ?>"rel="stylesheet" />
-<script src="<?php echo base_url('assets/js/sweetalert.min.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/select2/select2.js') ?>"></script>
+<link href="<?= base_url('assets/js/select2/select2.css') ?>"rel="stylesheet" />
+<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
+<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
 <style>
-	#footer {
+	#footer
+	{
 		color: #f83535;
 		text-shadow: 1px 1px 0.5px #444;
 		padding: 8px;
@@ -15,7 +16,7 @@
 		background: #eaa852;
 		height: 34px;
 		position: fixed;
-}
+	}
 </style>
 <div id="myModalExcel" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
@@ -33,9 +34,9 @@
 					<div class="col-sm-9">
 						<select name="tahun" id="tahun" class="form-control">
 							<option value="1">Semua Tahun</option>
-							<?php for($i=date("Y");$i>=date("Y")-30;$i--) {
-								echo "<option value='".$i."'>".$i."</option>";
-							}?>
+							<?php for ($i=date("Y"); $i>=date("Y")-30; $i--): ?>
+								<option value="<?= $i ?>"><?= $i ?></option>
+							<?php endfor; ?>
 						</select>
 					</div>
 				</div>
@@ -43,12 +44,12 @@
 					<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
 					<div class="col-sm-9">
 						<select name="penandatangan" id="penandatangan" class="form-control">
-							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>"
-									<?php if(strpos(strtolower($data['jabatan']),'Kepala Desa')!==false) echo 'selected'; ?>>
-									<?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)
+							<?php foreach ($pamong AS $data): ?>
+								<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
+									<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
+									<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
 								</option>
-							<?php }?>
+							<?php endforeach; ?>
 						</select>
 					</div>
 				</div>
@@ -78,9 +79,9 @@
 					<div class="col-sm-9">
 						<select name="tahun_pdf" id="tahun_pdf" class="form-control">
 							<option value="1">Semua Tahun</option>
-							<?php for($i=date("Y");$i>=date("Y")-30;$i--) {
-								echo "<option value='".$i."'>".$i."</option>";
-							}?>
+							<?php for ($i=date("Y"); $i>=date("Y")-30; $i--): ?>
+								<option value="<?= $i ?>"><?= $i ?></option>
+							<?php endfor; ?>
 						</select>
 					</div>
 				</div>
@@ -88,12 +89,12 @@
 					<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
 					<div class="col-sm-9">
 						<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control">
-							<?php foreach($pamong AS $data){?>
-								<option value="<?php echo $data['pamong_id']?>" data-jabatan="<?php echo trim($data['jabatan'])?>"
-									<?php if(strpos(strtolower($data['jabatan']),'Kepala Desa')!==false) echo 'selected'; ?>>
-									<?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)
+							<?php foreach ($pamong AS $data): ?>
+								<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
+									<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
+									<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
 								</option>
-							<?php }?>
+							<?php endforeach; ?>
 						</select>
 					</div>
 				</div>
@@ -130,7 +131,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="pull-right">
-              				<!-- <a class="btn btn-primary" href="<?php echo site_url('inventaris_laporan/form'); ?>" style="color:white;">
+              				<!-- <a class="btn btn-primary" href="<?= site_url('inventaris_laporan/form'); ?>" style="color:white;">
 								<i class="fa fa-plus"></i> Tambah
 							</a> -->
 		        		</div>
@@ -224,7 +225,7 @@
 								</td>
 								<td>
 									<div class="btn-group" role="group" aria-label="...">
-										<a href="<?php echo base_url('index.php/inventaris'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+										<a href="<?= base_url('index.php/inventaris'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -284,7 +285,7 @@
 								</td>
 								<td>
 									<div class="btn-group" role="group" aria-label="...">
-										<a href="<?php echo base_url('index.php/inventaris_peralatan'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+										<a href="<?= base_url('index.php/inventaris_peralatan'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -344,7 +345,7 @@
 								</td>
 								<td>
 									<div class="btn-group" role="group" aria-label="...">
-										<a href="<?php echo base_url('index.php/inventaris_gedung'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+										<a href="<?= base_url('index.php/inventaris_gedung'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -404,7 +405,7 @@
 								</td>
 								<td>
 									<div class="btn-group" role="group" aria-label="...">
-										<a href="<?php echo base_url('index.php/inventaris_gedung/view/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+										<a href="<?= base_url('index.php/inventaris_gedung/view/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -464,7 +465,7 @@
 								</td>
 								<td>
 									<div class="btn-group" role="group" aria-label="...">
-										<a href="<?php echo base_url('index.php/inventaris_asset'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+										<a href="<?= base_url('index.php/inventaris_asset'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -524,7 +525,7 @@
 								</td>
 								<td>
 									<div class="btn-group" role="group" aria-label="...">
-										<a href="<?php echo base_url('index.php/inventaris_kontruksi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+										<a href="<?= base_url('index.php/inventaris_kontruksi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -549,47 +550,58 @@
 </div>
 
 <script  TYPE='text/javascript'>
-	function deleteItem($id){
-		swal({
-				title: "Apakah Anda Yakin?",
-				text: "Setelah dihapus, Data hanya dapat dipulihkan di database!!",
-				icon: "warning",
-				buttons: true,
-				dangerMode: true,
-			})
-			.then((willDelete) => {
-				if (willDelete) {
-					swal("Data berhasil dihapus!", {
+	function deleteItem($id)
+	{
+		swal(
+		{
+			title: "Apakah Anda Yakin?",
+			text: "Setelah dihapus, Data hanya dapat dipulihkan di database!!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+		.then((willDelete) =>
+		{
+			if (willDelete)
+			{
+				swal("Data berhasil dihapus!",
+				{
 					icon: "success",
-					});
+				});
 
-					window.location = "api_inventaris_laporan/delete/" + $id;
-				} else {
-					swal("Data tidak berhasil dihapus!");
-				}
-			});
-
+				window.location = "api_inventaris_laporan/delete/" + $id;
+			}
+			else
+			{
+				swal("Data tidak berhasil dihapus!");
+			}
+		});
 	}
 
-	$(document).ready(function() {
+	$(document).ready(function()
+	{
 		$("#penandatangan").select2({ width: '100%' });
-		var t = $('#example').DataTable( {
+		var t = $('#example').DataTable(
+		{
 			scrollY					: '100vh',
 			scrollCollapse			: true,
 			autoWidth				: true,
 			"searching"				: false,
 			"paging"				: false,
-        	"columnDefs": [ {
-            	"searchable": false,
-            	"orderable": false,
-            	"targets": 0
-        	} ],
-        	"order": [[ 1, 'asc' ]],
-			"footerCallback": function ( row, data, start, end, display ) {
+      	"columnDefs": [
+      	{
+          	"searchable": false,
+          	"orderable": false,
+          	"targets": 0
+      	} ],
+      	"order": [[ 1, 'asc' ]],
+			"footerCallback": function ( row, data, start, end, display )
+			{
 				var api = this.api(), data;
 
 				// converting to interger to find total
-				var intVal = function ( i ) {
+				var intVal = function ( i )
+				{
 					return typeof i === 'string' ?
 						i.replace(/[\$,]/g, '')*1 :
 						typeof i === 'number' ?
@@ -600,71 +612,76 @@
 				var pembelian_sendiri = api
 				.column( 3 )
 				.data()
-				.reduce( function (a, b) {
+				.reduce( function (a, b)
+				{
 					return intVal(a) + intVal(b);
 				}, 0 );
 
 				var pemerintah = api
 				.column( 4 )
 				.data()
-				.reduce( function (a, b) {
+				.reduce( function (a, b)
+				{
 					return intVal(a) + intVal(b);
 				}, 0 );
 
 				var provinsi = api
 				.column( 5 )
 				.data()
-				.reduce( function (a, b) {
+				.reduce( function (a, b)
+				{
 					return intVal(a) + intVal(b);
 				}, 0 );
 
 				var kabupaten = api
 				.column( 6 )
 				.data()
-				.reduce( function (a, b) {
+				.reduce( function (a, b)
+				{
 					return intVal(a) + intVal(b);
 				}, 0 );
 
 				var sumbangan = api
 				.column( 7 )
 				.data()
-				.reduce( function (a, b) {
+				.reduce( function (a, b)
+				{
 					return intVal(a) + intVal(b);
 				}, 0 );
 
 				// Update footer
-					$( api.column( 1 ).footer() ).html('Total');
-					$( api.column( 3 ).footer() ).html(pembelian_sendiri);
-					$( api.column( 4 ).footer() ).html(pemerintah);
-					$( api.column( 5 ).footer() ).html(provinsi);
-					$( api.column( 6 ).footer() ).html(kabupaten);
-					$( api.column( 7 ).footer() ).html(sumbangan);
+				$( api.column( 1 ).footer() ).html('Total');
+				$( api.column( 3 ).footer() ).html(pembelian_sendiri);
+				$( api.column( 4 ).footer() ).html(pemerintah);
+				$( api.column( 5 ).footer() ).html(provinsi);
+				$( api.column( 6 ).footer() ).html(kabupaten);
+				$( api.column( 7 ).footer() ).html(sumbangan);
 
 			}
-    	} );
-		t.on( 'order.dt search.dt', function () {
-			t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+  	} );
+		t.on( 'order.dt search.dt', function ()
+		{
+			t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
+			{
 				cell.innerHTML = i+1;
 			} );
 		} ).draw();
 
-
 	} );
 
 
-	$("#form_cetak").click(function( event ) {
-
-		var link = '<?php echo site_url("laporan_inventaris/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
+	$("#form_cetak").click(function( event )
+	{
+		var link = '<?= site_url("laporan_inventaris/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
 		// alert('fell');
-    });
-	$("#form_download").click(function( event ) {
+  });
 
-		var link = '<?php echo site_url("laporan_inventaris/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
+	$("#form_download").click(function( event )
+	{
+		var link = '<?= site_url("laporan_inventaris/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
 		// alert('fell');
-    });
-
-
+  });
 
 </script>

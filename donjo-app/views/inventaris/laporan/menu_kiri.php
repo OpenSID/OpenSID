@@ -8,7 +8,7 @@
 
 <div class="sidebar">
 	<ul class="nav nav-sidebar" style="margin: 0px;">
-    	<li <?php if($data == 1){ echo "class='active'";} ?>><a href="<?php echo site_url('laporan_inventaris')?>"><i class="fa fa-list-alt"></i>&nbsp;<span>Laporan Keseluruhan Asset </span></a></li>
-        <!-- <li <?php if($data == 2){ echo "class='active'";} ?>><a href="<?php echo site_url('laporan_inventaris/mutasi')?>"><i class="fa fa-list-alt"></i>&nbsp;<span>Laporan Pertanggung Jawaban </span></a></li> -->
-    </ul>
+  	<li <?= ($data == 1) ? "class='active'" : "" ?>><a href="<?php echo site_url('laporan_inventaris')?>"><i class="fa fa-list-alt"></i>&nbsp;<span>Laporan Keseluruhan Asset </span></a></li>
+      <!-- <li <?php if($data == 2){ echo "class='active'";} ?>><a href="<?php echo site_url('laporan_inventaris/mutasi')?>"><i class="fa fa-list-alt"></i>&nbsp;<span>Laporan Pertanggung Jawaban </span></a></li> -->
+  </ul>
 </div>
