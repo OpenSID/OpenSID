@@ -8,7 +8,7 @@
 
 <div class="sidebar">
 	<ul class="nav nav-sidebar" style="margin: 0px;">
-    	<li <?php if($data == 1){ echo "class='active'";} ?>><a href="<?php echo site_url('inventaris_asset')?>"><i class="fa fa-list-alt"></i>&nbsp;<span>Daftar Inventaris </span></a></li>
-        <li <?php if($data == 2){ echo "class='active'";} ?>><a href="<?php echo site_url('inventaris_asset/mutasi')?>"><i class="fa fa-share-alt"></i>&nbsp;<span>Mutasi Inventaris </span></a></li>
-    </ul>
+		<li <?= ($data == 1) ? "class='active'" : "" ?>><a href="<?= site_url('inventaris_asset')?>"><i class="fa fa-list-alt"></i>&nbsp;<span>Daftar Inventaris </span></a></li>
+		<li <?= ($data == 2) ? "class='active'" : "" ?>><a href="<?= site_url('inventaris_asset/mutasi')?>"><i class="fa fa-share-alt"></i>&nbsp;<span>Mutasi Inventaris </span></a></li>
+	</ul>
 </div>

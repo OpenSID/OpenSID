@@ -2,24 +2,27 @@
 <head>
 	<title>KIB F</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-	<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-		<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+	<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 	<?php else: ?>
-		<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+		<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 	<?php endif; ?>
 	<style>
 		.textx{
 		  mso-number-format:"\@";
 		}
-		td,th{
+		td,th
+		{
 			font-size:9pt;
 		}
-		table#ttd td {
+		table#ttd td
+		{
 			text-align: center;
 			white-space: nowrap;
 		}
-		.underline {
+		.underline
+		{
 			text-decoration: underline;
 		}
 		/* Style berikut untuk unduh excel.
@@ -29,13 +32,15 @@
 		td.border { border: dotted 0.5px gray; }
 		th.border { border: solid 0.5pt gray; }
 
-		.pull-left{
+		.pull-left
+		{
 			position: relative;
 			width: 50%;
 			float: left;
 		}
 
-		.pull-right{
+		.pull-right
+		{
 			position: relative;
 			width: 50%;
 			float: right;
@@ -57,9 +62,15 @@
 	</div>
 	<div style="padding-bottom: 35px;">
 		<div class="pull-left">
-			<?php foreach($header as $desa){ echo strtoupper($this->setting->sebutan_desa.' = '.$desa['nama_desa']);} ?><br>
-			<?php foreach($header as $desa){ echo strtoupper($this->setting->sebutan_kecamatan.' = '.$desa['nama_kecamatan']);} ?><br>
-			<?php foreach($header as $desa){ echo strtoupper($this->setting->sebutan_kabupaten.' = '.$desa['nama_kabupaten']);} ?>
+			<?php foreach ($header as $desa): ?>
+			 	<?= strtoupper($this->setting->sebutan_desa.' = '.$desa['nama_desa']) ?>
+			<?php endforeach; ?><br>
+			<?php foreach ($header as $desa): ?>
+				<?= strtoupper($this->setting->sebutan_kecamatan.' = '.$desa['nama_kecamatan']) ?>
+			<?php endforeach; ?><br>
+			<?php foreach ($header as $desa): ?>
+				<?= strtoupper($this->setting->sebutan_kabupaten.' = '.$desa['nama_kabupaten']) ?>
+			<?php endforeach; ?>
 		</div>
 		<div class="pull-right">
 			KODE LOKASI : _ _ . _ _ . _ _ . _ _ . _ _ . _ _ . _ _ _
@@ -98,45 +109,40 @@
 		</tr>
 		</thead>
 		<tbody>
-			<?php
-				$i = 1;
-				foreach($print as $data){
-					
-			?>
+			<?php $i = 1 ?>
+			<?php foreach($print as $data): ?>
 	    	<tr>
-				<td><?php echo $i ?></td>
-				<td><?php echo $data->nama_barang; ?></td>
-				<td><?php echo $data->kode_barang; ?></td>
-				<td><?php echo $data->register; ?></td>
-				<td><?php echo (empty($data->judul_buku) ? '-': $data->judul_buku); ?></td>
-				<td><?php echo (empty($data->spesifikasi_buku) ? '-': $data->spesifikasi_buku); ?></td>
-				<td><?php echo (empty($data->asal_daerah) ? '-': $data->asal_daerah); ?></td>
-				<td><?php echo (empty($data->pencipta) ? '-': $data->pencipta); ?></td>
-				<td><?php echo (empty($data->bahan) ? '-': $data->bahan); ?></td>
-				<td><?php echo (empty($data->jenis_hewan) ? '-': $data->jenis_hewan); ?></td>
-				<td><?php echo (empty($data->ukuran_hewan) ? '-': $data->ukuran_hewan); ?></td>
-				<td><?php echo (empty($data->jenis_tumbuhan) ? '-': $data->jenis_tumbuhan); ?></td>
-				<td><?php echo (empty($data->ukuran_tumbuhan) ? '-': $data->ukuran_tumbuhan); ?></td>
-				<td><?php echo $data->jumlah; ?></td>
-				<td><?php echo $data->tahun_pengadaan; ?></td>
-				<td><?php echo $data->asal; ?></td>
-				<td><?php echo number_format($data->harga,0,".","."); ?></td>
-				<td><?php echo $data->keterangan; ?></td>
-			</tr>
-			<?php
-				$i = $i+1;
-				} 
-			?>
+					<td><?= $i ?></td>
+					<td><?= $data->nama_barang; ?></td>
+					<td><?= $data->kode_barang; ?></td>
+					<td><?= $data->register; ?></td>
+					<td><?= (empty($data->judul_buku) ? '-': $data->judul_buku); ?></td>
+					<td><?= (empty($data->spesifikasi_buku) ? '-': $data->spesifikasi_buku); ?></td>
+					<td><?= (empty($data->asal_daerah) ? '-': $data->asal_daerah); ?></td>
+					<td><?= (empty($data->pencipta) ? '-': $data->pencipta); ?></td>
+					<td><?= (empty($data->bahan) ? '-': $data->bahan); ?></td>
+					<td><?= (empty($data->jenis_hewan) ? '-': $data->jenis_hewan); ?></td>
+					<td><?= (empty($data->ukuran_hewan) ? '-': $data->ukuran_hewan); ?></td>
+					<td><?= (empty($data->jenis_tumbuhan) ? '-': $data->jenis_tumbuhan); ?></td>
+					<td><?= (empty($data->ukuran_tumbuhan) ? '-': $data->ukuran_tumbuhan); ?></td>
+					<td><?= $data->jumlah; ?></td>
+					<td><?= $data->tahun_pengadaan; ?></td>
+					<td><?= $data->asal; ?></td>
+					<td><?= number_format($data->harga,0,".","."); ?></td>
+					<td><?= $data->keterangan; ?></td>
+				</tr>
+				<?php $i = $i+1 ?>
+			<?php endforeach; ?>
 	  </tbody>
 	  <tfooot>
 			<tr>
 				<th colspan="16" style="text-align:right">Total:</th>
-				<th colspan="2"><?php echo number_format($total,0,".","."); ?></th>
+				<th colspan="2"><?= number_format($total,0,".","."); ?></th>
 			</tr>
 		</tfooot>
 	</table>
 
-	
+
 	<table id="ttd">
 		<tr><td colspan="14">&nbsp;</td></tr>
 		<tr><td colspan="14">&nbsp;</td></tr>
@@ -146,10 +152,10 @@
 			 -->
 			<td colspan="2" width="10%">&nbsp;</td>
 			<td colspan="3" width="30%"	></td>
-			<td colspan="5" width="55%"><span class="underline"><?php echo strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].','.$desa['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
+			<td colspan="5" width="55%"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].','.$desa['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
 			<td colspan="5" width="5%">&nbsp;</td>
 		</tr>
-		
+
 		<tr><td colspan="14">&nbsp;</td></tr>
 		<tr><td colspan="14">&nbsp;</td></tr>
 		<tr>
@@ -162,7 +168,7 @@
 		<tr>
 			<td colspan="2" width="10%">&nbsp;</td>
 			<td colspan="3" width="30%"	>KEPALA SKPD</td>
-			<td colspan="5" width="55%"><?php echo strtoupper($pamong->jabatan)?></td>
+			<td colspan="5" width="55%"><?= strtoupper($pamong->jabatan)?></td>
 			<td colspan="5" width="5%">&nbsp;</td>
 		</tr>
 		<tr>
@@ -177,13 +183,13 @@
 		<tr>
 			<td colspan="2" width="10%">&nbsp;</td>
 			<td colspan="3" width="30%"	>(...................................)</td>
-			<td colspan="5" width="55%">( <?php echo strtoupper($pamong->pamong_nama)?>) </td>
+			<td colspan="5" width="55%">( <?= strtoupper($pamong->pamong_nama)?>) </td>
 			<td colspan="5" width="5%">&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="2" width="10%">&nbsp;</td>
 			<td colspan="3" width="30%"	>NIP ...................................</td>
-			<td colspan="5" width="55%"> <?php echo strtoupper($pamong->pamong_nip)?> </td>
+			<td colspan="5" width="55%"> <?= strtoupper($pamong->pamong_nip)?> </td>
 			<td colspan="5" width="5%">&nbsp;</td>
 		</tr>
 	</table>
