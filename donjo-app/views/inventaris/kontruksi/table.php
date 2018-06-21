@@ -1,5 +1,3 @@
-<script src="<?php echo base_url('assets/js/select2/select2.js') ?>"></script>
-<link href="<?php echo base_url('assets/js/select2/select2.css') ?>"rel="stylesheet" />
 <script src="<?php echo base_url('assets/js/sweetalert.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
@@ -24,7 +22,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Cetak Inventaris</h4>
+        <h4 class="modal-title">Unduh Inventaris</h4>
       </div>
 	  	<form action="" target="_blank" class="form-horizontal" method="get" >
 			<div class="modal-body">
@@ -54,7 +52,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Print</button>		
+				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>		
 			</div>
 			
 		</form>
@@ -274,8 +272,6 @@
 	}
 	
 	$(document).ready(function() {
-		$("#penandatangan").select2({ width: '100%' });
-		
 		var t = $('#example').DataTable( {
 			scrollY					: '100vh',
 			scrollCollapse			: true,
