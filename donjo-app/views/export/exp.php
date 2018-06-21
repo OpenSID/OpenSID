@@ -2,7 +2,7 @@
 												<div class="row">
 													<div class="col-md-12">
 														<div class="box-header with-border">
-															<h3 class="box-title"><strong>Export Data Desa</strong></h3>
+															<h3 class="box-title"><strong>Ekspor Data Desa</strong></h3>
 														</div>
 														<div class="box-body">
 															<div class="row">
@@ -11,22 +11,23 @@
 																		<tr>
 																			<td class="col-sm-10">Ekspor Data Keluarga (Format .xls untuk di impor ke database SID melalui menu Impor Database)</td>
 																			<td class="col-sm-2">
-																				<a href="<?=site_url("database")?>/export_excel" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Download</a>
+																				<a href="<?=site_url("database")?>/export_excel" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Unduh</a>
 																			</td>
 																		</tr>
 																		<tr>
 																			<td>Ekspor Data Dasar Kependudukan (.sid)</td>
 																			<td>
-																				<a href="<?=site_url("database")?>/export_dasar" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Download</a>
+																				<a href="<?=site_url("database")?>/export_dasar" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Unduh</a>
 																			</td>
 																		</tr>
 																		<tr>
-																		<td>Ekspor Data CSV (.csv)</td>
-																		<td>
-																			<a href="<?=site_url("database")?>/export_csv" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Download</a>
-																		</td>
-																	</tr>
-																</table>
+																			<td>Ekspor Data CSV (.csv)</td>
+																			<td>
+																				<a href="<?=site_url("database")?>/export_csv" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Unduh</a>
+																			</td>
+																		</tr>
+																	</table>
+																</div>
 															</div>
 														</div>
 													</div>
