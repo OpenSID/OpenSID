@@ -13,7 +13,11 @@
 		background: #eaa852;
 		height: 34px;
 		position: fixed;
-}
+	}
+	input[type=search] {
+		width: 200px;
+    	height: 30px;
+	}
 </style>
 <div id="myModalExcel" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">

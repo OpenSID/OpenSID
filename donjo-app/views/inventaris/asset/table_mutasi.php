@@ -13,6 +13,10 @@
 		height: 34px;
 		position: fixed;
 	}
+	input[type=search] {
+		width: 200px;
+    	height: 30px;
+	}
 
 </style>
 
