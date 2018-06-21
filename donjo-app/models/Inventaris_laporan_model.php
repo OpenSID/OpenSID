@@ -156,902 +156,120 @@ class Inventaris_laporan_model extends CI_Model
 		return $data;
 	}
 
+	public function laporan_inventaris()
+	{
+		$laporan_inventaris = array(
+			array('inventaris_tanah_pribadi', 'inventaris_tanah', 'Pembelian Sendiri'),
+			array('inventaris_tanah_pemerintah', 'inventaris_tanah', 'Bantuan Pemerintah'),
+			array('inventaris_tanah_provinsi', 'inventaris_tanah', 'Bantuan Provinsi'),
+			array('inventaris_tanah_kabupaten', 'inventaris_tanah', 'Bantuan Kabupaten'),
+			array('inventaris_tanah_sumbangan', 'inventaris_tanah', 'Sumbangan'),
 
+			array('inventaris_peralatan_pribadi', 'inventaris_peralatan', 'Pembelian Sendiri'),
+			array('inventaris_peralatan_pemerintah', 'inventaris_peralatan', 'Bantuan Pemerintah'),
+			array('inventaris_peralatan_provinsi', 'inventaris_peralatan', 'Bantuan Provinsi'),
+			array('inventaris_peralatan_kabupaten', 'inventaris_peralatan', 'Bantuan Kabupaten'),
+			array('inventaris_peralatan_sumbangan', 'inventaris_peralatan', 'Sumbangan'),
 
-	// digunakan untuk menampilkan data inventari tanah
-	function inventaris_tanah_pribadi(){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		$this->db->where('inventaris_tanah.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
+			array('inventaris_gedung_pribadi', 'inventaris_gedung', 'Pembelian Sendiri'),
+			array('inventaris_gedung_pemerintah', 'inventaris_gedung', 'Bantuan Pemerintah'),
+			array('inventaris_gedung_provinsi', 'inventaris_gedung', 'Bantuan Provinsi'),
+			array('inventaris_gedung_kabupaten', 'inventaris_gedung', 'Bantuan Kabupaten'),
+			array('inventaris_gedung_sumbangan', 'inventaris_gedung', 'Sumbangan'),
+
+			array('inventaris_jalan_pribadi', 'inventaris_jalan', 'Pembelian Sendiri'),
+			array('inventaris_jalan_pemerintah', 'inventaris_jalan', 'Bantuan Pemerintah'),
+			array('inventaris_jalan_provinsi', 'inventaris_jalan', 'Bantuan Provinsi'),
+			array('inventaris_jalan_kabupaten', 'inventaris_jalan', 'Bantuan Kabupaten'),
+			array('inventaris_jalan_sumbangan', 'inventaris_jalan', 'Sumbangan'),
+
+			array('inventaris_asset_pribadi', 'inventaris_asset', 'Pembelian Sendiri'),
+			array('inventaris_asset_pemerintah', 'inventaris_asset', 'Bantuan Pemerintah'),
+			array('inventaris_asset_provinsi', 'inventaris_asset', 'Bantuan Provinsi'),
+			array('inventaris_asset_kabupaten', 'inventaris_asset', 'Bantuan Kabupaten'),
+			array('inventaris_asset_sumbangan', 'inventaris_asset', 'Sumbangan'),
+
+			array('inventaris_kontruksi_pribadi', 'inventaris_kontruksi', 'Pembelian Sendiri'),
+			array('inventaris_kontruksi_pemerintah', 'inventaris_kontruksi', 'Bantuan Pemerintah'),
+			array('inventaris_kontruksi_provinsi', 'inventaris_kontruksi', 'Bantuan Provinsi'),
+			array('inventaris_kontruksi_kabupaten', 'inventaris_kontruksi', 'Bantuan Kabupaten'),
+			array('inventaris_kontruksi_sumbangan', 'inventaris_kontruksi', 'Sumbangan')
+		);
+		$result = array();
+		foreach ($laporan_inventaris as $inventaris)
+		{
+			$this->db->select("count($inventaris[1].asal) as total");
+			$this->db->where("$inventaris[1].visible", 1);
+			$this->db->where("$inventaris[1].status", 0);
+			$this->db->where("$inventaris[1].asal", $inventaris[2]);
+			$hasil = $this->db->get($inventaris[1])->row();
+			$result[$inventaris[0]] = !empty($hasil) ? $hasil : 0;
 		}
+		return $result;
 	}
 
-	function inventaris_tanah_pemerintah(){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		$this->db->where('inventaris_tanah.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
+	public function cetak_inventaris($tahun)
+	{
+		$cetak_inventaris = array(
+			array('cetak_inventaris_tanah_pribadi', 'inventaris_tanah', 'Pembelian Sendiri', 'tahun_pengadaan'),
+			array('cetak_inventaris_tanah_pemerintah', 'inventaris_tanah', 'Bantuan Pemerintah', 'tahun_pengadaan'),
+			array('cetak_inventaris_tanah_provinsi', 'inventaris_tanah', 'Bantuan Provinsi', 'tahun_pengadaan'),
+			array('cetak_inventaris_tanah_kabupaten', 'inventaris_tanah', 'Bantuan Kabupaten', 'tahun_pengadaan'),
+			array('cetak_inventaris_tanah_sumbangan', 'inventaris_tanah', 'Sumbangan', 'tahun_pengadaan'),
 
-	function inventaris_tanah_provinsi(){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		$this->db->where('inventaris_tanah.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
+			array('cetak_inventaris_peralatan_pribadi', 'inventaris_peralatan', 'Pembelian Sendiri', 'tahun_pengadaan'),
+			array('cetak_inventaris_peralatan_pemerintah', 'inventaris_peralatan', 'Bantuan Pemerintah', 'tahun_pengadaan'),
+			array('cetak_inventaris_peralatan_provinsi', 'inventaris_peralatan', 'Bantuan Provinsi', 'tahun_pengadaan'),
+			array('cetak_inventaris_peralatan_kabupaten', 'inventaris_peralatan', 'Bantuan Kabupaten', 'tahun_pengadaan'),
+			array('cetak_inventaris_peralatan_sumbangan', 'inventaris_peralatan', 'Sumbangan', 'tahun_pengadaan'),
 
-	function inventaris_tanah_kabupaten(){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		$this->db->where('inventaris_tanah.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
+			array('cetak_inventaris_gedung_pribadi', 'inventaris_gedung', 'Pembelian Sendiri', 'tanggal_dokument'),
+			array('cetak_inventaris_gedung_pemerintah', 'inventaris_gedung', 'Bantuan Pemerintah', 'tanggal_dokument'),
+			array('cetak_inventaris_gedung_provinsi', 'inventaris_gedung', 'Bantuan Provinsi', 'tanggal_dokument'),
+			array('cetak_inventaris_gedung_kabupaten', 'inventaris_gedung', 'Bantuan Kabupaten', 'tanggal_dokument'),
+			array('cetak_inventaris_gedung_sumbangan', 'inventaris_gedung', 'Sumbangan', 'tanggal_dokument'),
 
-	function inventaris_tanah_sumbangan(){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		$this->db->where('inventaris_tanah.asal','Sumbangan');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris tanah
+			array('cetak_inventaris_jalan_pribadi', 'inventaris_jalan', 'Pembelian Sendiri', 'tanggal_dokument'),
+			array('cetak_inventaris_jalan_pemerintah', 'inventaris_jalan', 'Bantuan Pemerintah', 'tanggal_dokument'),
+			array('cetak_inventaris_jalan_provinsi', 'inventaris_jalan', 'Bantuan Provinsi', 'tanggal_dokument'),
+			array('cetak_inventaris_jalan_kabupaten', 'inventaris_jalan', 'Bantuan Kabupaten', 'tanggal_dokument'),
+			array('cetak_inventaris_jalan_sumbangan', 'inventaris_jalan', 'Sumbangan', 'tanggal_dokument'),
 
-	// digunakan untuk menampilkan data inventari peralatan
-	function inventaris_peralatan_pribadi(){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		$this->db->where('inventaris_peralatan.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
+			array('cetak_inventaris_asset_pribadi', 'inventaris_asset', 'Pembelian Sendiri', 'tahun_pengadaan'),
+			array('cetak_inventaris_asset_pemerintah', 'inventaris_asset', 'Bantuan Pemerintah', 'tahun_pengadaan'),
+			array('cetak_inventaris_asset_provinsi', 'inventaris_asset', 'Bantuan Provinsi', 'tahun_pengadaan'),
+			array('cetak_inventaris_asset_kabupaten', 'inventaris_asset', 'Bantuan Kabupaten', 'tahun_pengadaan'),
+			array('cetak_inventaris_asset_sumbangan', 'inventaris_asset', 'Sumbangan', 'tahun_pengadaan'),
 
-	function inventaris_peralatan_pemerintah(){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		$this->db->where('inventaris_peralatan.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
+			array('cetak_inventaris_kontruksi_pribadi', 'inventaris_kontruksi', 'Pembelian Sendiri', 'tanggal_dokument'),
+			array('cetak_inventaris_kontruksi_pemerintah', 'inventaris_kontruksi', 'Bantuan Pemerintah', 'tanggal_dokument'),
+			array('cetak_inventaris_kontruksi_provinsi', 'inventaris_kontruksi', 'Bantuan Provinsi', 'tanggal_dokument'),
+			array('cetak_inventaris_kontruksi_kabupaten', 'inventaris_kontruksi', 'Bantuan Kabupaten', 'tanggal_dokument'),
+			array('cetak_inventaris_kontruksi_sumbangan', 'inventaris_kontruksi', 'Sumbangan', 'tanggal_dokument')
+		);
+		$result = array();
+		foreach ($cetak_inventaris as $inventaris)
+		{
+			$this->db->select("count($inventaris[1].asal) as total");
+			$this->db->where("$inventaris[1].visible", 1);
+			$this->db->where("$inventaris[1].status", 0);
+			if ($tahun != 1)
+			{
+				if ($inventaris[3] == 'tahun_pengadaan')
+				{
+					$this->db->where("$inventaris[1].tahun_pengadaan", $tahun);
+				}
+				else
+				{
+					$this->db->where('year(tanggal_dokument)',$tahun);
+				}
+			}
+			$this->db->where("$inventaris[1].asal", $inventaris[2]);
+			$hasil = $this->db->get($inventaris[1])->row();
+			$result[$inventaris[0]] = !empty($hasil) ? $hasil : 0;
 		}
+		return $result;
 	}
-
-	function inventaris_peralatan_provinsi(){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		$this->db->where('inventaris_peralatan.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_peralatan_kabupaten(){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		$this->db->where('inventaris_peralatan.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_peralatan_sumbangan(){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		$this->db->where('inventaris_peralatan.asal','Sumbangan');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris peralatan
-
-	// digunakan untuk menampilkan data inventari gedung
-	function inventaris_gedung_pribadi(){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		$this->db->where('inventaris_gedung.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_gedung_pemerintah(){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		$this->db->where('inventaris_gedung.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_gedung_provinsi(){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		$this->db->where('inventaris_gedung.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_gedung_kabupaten(){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		$this->db->where('inventaris_gedung.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_gedung_sumbangan(){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		$this->db->where('inventaris_gedung.asal','Sumbangan');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris gedung
-
-	// digunakan untuk menampilkan data inventari jalan
-	function inventaris_jalan_pribadi(){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		$this->db->where('inventaris_jalan.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_jalan_pemerintah(){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		$this->db->where('inventaris_jalan.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_jalan_provinsi(){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		$this->db->where('inventaris_jalan.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_jalan_kabupaten(){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		$this->db->where('inventaris_jalan.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_jalan_sumbangan(){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		$this->db->where('inventaris_jalan.asal','Sumbangan');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris jalan
-
-	// digunakan untuk menampilkan data inventari asset
-	function inventaris_asset_pribadi(){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		$this->db->where('inventaris_asset.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_asset_pemerintah(){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		$this->db->where('inventaris_asset.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_asset_provinsi(){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		$this->db->where('inventaris_asset.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_asset_kabupaten(){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		$this->db->where('inventaris_asset.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_asset_sumbangan(){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		$this->db->where('inventaris_asset.asal','Sumbangan');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris asset
-
-	// digunakan untuk menampilkan data inventari kontruksi
-	function inventaris_kontruksi_pribadi(){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		$this->db->where('inventaris_kontruksi.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_kontruksi_pemerintah(){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		$this->db->where('inventaris_kontruksi.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_kontruksi_provinsi(){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		$this->db->where('inventaris_kontruksi.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_kontruksi_kabupaten(){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		$this->db->where('inventaris_kontruksi.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function inventaris_kontruksi_sumbangan(){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		$this->db->where('inventaris_kontruksi.asal','Sumbangan');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris kontruksi
-
-
-	// digunakan untuk menampilkan data inventari tanah
-	function cetak_inventaris_tanah_pribadi($tahun){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_tanah.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_tanah_pemerintah($tahun){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_tanah.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_tanah_provinsi($tahun){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_tanah.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_tanah_kabupaten($tahun){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_tanah.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_tanah_sumbangan($tahun){
-		$this->db->select('count(inventaris_tanah.asal) as total');
-		$this->db->where('inventaris_tanah.visible',1);
-		$this->db->where('inventaris_tanah.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_tanah.asal','Sumbangan');
-		$result = $this->db->get('inventaris_tanah')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris tanah
-
-	// digunakan untuk menampilkan data inventari peralatan
-	function cetak_inventaris_peralatan_pribadi($tahun){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_peralatan.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_peralatan.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_peralatan_pemerintah($tahun){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_peralatan.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_peralatan.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_peralatan_provinsi($tahun){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_peralatan.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_peralatan.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_peralatan_kabupaten($tahun){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_peralatan.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_peralatan.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_peralatan_sumbangan($tahun){
-		$this->db->select('count(inventaris_peralatan.asal) as total');
-		$this->db->where('inventaris_peralatan.visible',1);
-		$this->db->where('inventaris_peralatan.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_peralatan.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_peralatan.asal','Sumbangan');
-		$result = $this->db->get('inventaris_peralatan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris peralatan
-
-	// digunakan untuk menampilkan data inventari gedung
-	function cetak_inventaris_gedung_pribadi($tahun){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_gedung.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_gedung_pemerintah($tahun){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_gedung.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_gedung_provinsi($tahun){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_gedung.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_gedung_kabupaten($tahun){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_gedung.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_gedung_sumbangan($tahun){
-		$this->db->select('count(inventaris_gedung.asal) as total');
-		$this->db->where('inventaris_gedung.visible',1);
-		$this->db->where('inventaris_gedung.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_gedung.asal','Sumbangan');
-		$result = $this->db->get('inventaris_gedung')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris gedung
-
-	// digunakan untuk menampilkan data inventari jalan
-	function cetak_inventaris_jalan_pribadi($tahun){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_jalan.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_jalan_pemerintah($tahun){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_jalan.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_jalan_provinsi($tahun){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_jalan.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_jalan_kabupaten($tahun){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_jalan.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_jalan_sumbangan($tahun){
-		$this->db->select('count(inventaris_jalan.asal) as total');
-		$this->db->where('inventaris_jalan.visible',1);
-		$this->db->where('inventaris_jalan.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_jalan.asal','Sumbangan');
-		$result = $this->db->get('inventaris_jalan')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris jalan
-
-	// digunakan untuk menampilkan data inventari asset
-	function cetak_inventaris_asset_pribadi($tahun){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_asset.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_asset_pemerintah($tahun){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_asset.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_asset_provinsi($tahun){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_asset.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_asset_kabupaten($tahun){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_asset.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_asset_sumbangan($tahun){
-		$this->db->select('count(inventaris_asset.asal) as total');
-		$this->db->where('inventaris_asset.visible',1);
-		$this->db->where('inventaris_asset.status',0);
-		if($tahun != 1){
-			$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-		}
-		$this->db->where('inventaris_asset.asal','Sumbangan');
-		$result = $this->db->get('inventaris_asset')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris asset
-
-	// digunakan untuk menampilkan data inventari kontruksi
-	function cetak_inventaris_kontruksi_pribadi($tahun){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_kontruksi.asal','Pembelian Sendiri');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_kontruksi_pemerintah($tahun){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_kontruksi.asal','Bantuan Pemerintah');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_kontruksi_provinsi($tahun){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_kontruksi.asal','Bantuan Provinsi');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_kontruksi_kabupaten($tahun){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_kontruksi.asal','Bantuan Kabupaten');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-
-	function cetak_inventaris_kontruksi_sumbangan($tahun){
-		$this->db->select('count(inventaris_kontruksi.asal) as total');
-		$this->db->where('inventaris_kontruksi.visible',1);
-		$this->db->where('inventaris_kontruksi.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);
-		}
-		$this->db->where('inventaris_kontruksi.asal','Sumbangan');
-		$result = $this->db->get('inventaris_kontruksi')->row();
-		if(!empty($result)){
-			return $result;
-		}else{
-			return $result = 0;
-		}
-	}
-	// end data inventaris kontruksi
 
 }
 
