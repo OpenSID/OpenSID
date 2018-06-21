@@ -18,8 +18,8 @@
 								<img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/files/user_pict/kuser.png" alt="Pengguna">
 							<?php endif?>
 							<br/>
-							<p class="text-center text-bold">Photo Pengguna</p>
-							<p class="text-muted text-center text-red">(Kosongkan, jika photo tidak berubah)</p>
+							<p class="text-center text-bold">Foto Pengguna</p>
+							<p class="text-muted text-center text-red">(Kosongkan, jika foto tidak berubah)</p>
 							<br/>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path" name="foto">
@@ -83,7 +83,7 @@
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Cancel</button>
+								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
 								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
 						</div>
