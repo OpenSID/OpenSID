@@ -1,6 +1,6 @@
-<script src="<?php echo base_url('assets/js/sweetalert.min.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
+<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
 <style>
 	#footer
 	{
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>		
+				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>
 			</div>
 
 		</form>
@@ -236,7 +236,7 @@
 			}
 		});
 	}
-	
+
 	$(document).ready(function() {
 		var t = $('#example').DataTable( {
 			scrollY					: '100vh',
