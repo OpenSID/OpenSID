@@ -1,5 +1,3 @@
-<script src="<?= base_url('assets/js/select2/select2.js') ?>"></script>
-<link href="<?= base_url('assets/js/select2/select2.css') ?>"rel="stylesheet" />
 <script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
 <script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
@@ -15,6 +13,11 @@
 		background: #eaa852;
 		height: 34px;
 		position: fixed;
+	}
+
+	input[type=search] {
+		width: 200px;
+    	height: 30px;
 	}
 </style>
 <div id="myModalExcel" class="modal fade" role="dialog" style="padding-top:30px;">
@@ -234,12 +237,8 @@
 		});
 	}
 
-	$(document).ready(function()
-	{
-		$("#penandatangan").select2({ width: '100%' });
-
-		var t = $('#example').DataTable(
-		{
+	$(document).ready(function() {
+		var t = $('#example').DataTable( {
 			scrollY					: '100vh',
 			scrollCollapse	: true,
 			autoWidth				: true,
