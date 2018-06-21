@@ -22,40 +22,36 @@ class Modul extends CI_Controller{
 		unset($_SESSION['filter']);
 		redirect('modul');
 	}
-	function index(){
-
-		if(isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
+	function index()
+	{
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
+
 		$data['main'] = $this->modul_model->list_data();
 		$data['keyword'] = $this->modul_model->autocomplete();
 		$nav['act']= 11;
 		$nav['act_sub'] = 42;
 		$header = $this->header_model->get_data();
-
 		$this->load->view('header',$header);
-
 		$this->load->view('nav',$nav);
 		$this->load->view('setting/modul/table',$data);
 		$this->load->view('footer');
 	}
 
-	function form($id=''){
-		if($id){
+	function form($id='')
+	{
+		if($id)
+		{
 			$data['modul']          = $this->modul_model->get_data($id);
 			$data['form_action'] = site_url("modul/update/$id");
 		}
-		else{
+		else
+		{
 			$data['modul']          = null;
 			$data['form_action'] = site_url("modul/insert");
 		}
-
 		$header = $this->header_model->get_data();
-
 		$this->load->view('header',$header);
 
 		$nav['act']= 11;
@@ -65,9 +61,10 @@ class Modul extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-	function sub_modul($modul=1){
-		$data['submodul']    = $this->modul_model->list_sub_modul($modul);
-		$data['modul'] = $modul;
+	function sub_modul($id='')
+	{
+		$data['submodul']    = $this->modul_model->list_sub_modul($id);
+		$data['modul']          = $this->modul_model->get_data($id);
 		$header = $this->header_model->get_data();
 		$nav['act']= 11;
 		$nav['act_sub'] = 42;

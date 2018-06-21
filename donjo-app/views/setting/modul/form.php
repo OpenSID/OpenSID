@@ -1,6 +1,10 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Form Manajemen Modul</h1>
+		<?php if($modul['parent']!='0'):?>
+		<h1>Form Manajemen Sub Modul</h1>
+		<?php else:?>
+			<h1>Form Manajemen Modul</h1>
+		<?php endif?>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Form Manajemen Modul</li>
@@ -14,17 +18,16 @@
 						<div class="box-header with-border">
 							<a href="<?=site_url()?>modul" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
 							<?php if($modul['parent']!='0'):?>
-								<a href="<?=site_url()?>modul/sub_modul/<?=($modul['parent'])?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Sub Modul</a>
+								<a href="<?=site_url()?>modul/sub_modul/<?=($modul['parent'])?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Sub Modul</a>
 							<?php endif?>
-
 						</div>
 						<div class="box-body">
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="pamong_nama">Nama Modul</label>
+								<label class="col-sm-4 control-label" for="pamong_nama"><?php if($modul['parent']!='0'):?>Nama Sub Modul<?php else:?>Nama Modul<?php endif?></label>
 								<div class="col-sm-6">
 									<input type="hidden" name="modul" value="1">
 									<input type="hidden" name="parent" value="<?=($modul['parent'])?>">
-									<input id="modul" name="modul" class="form-control input-sm required" type="text" placeholder="Nama Modul" value="<?=($modul['modul'])?>"></input>
+									<input id="modul" name="modul" class="form-control input-sm required" type="text" placeholder="Nama Modul/Sub Modul" value="<?=($modul['modul'])?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -40,16 +43,17 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="status">Status</label>
-								<div class="radio col-sm-6">
-									<label>
-										<input id="g1" type="radio" value="1" name="aktif" <?php if($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>checked <?php endif ?>></input>Aktif
-										</label>&nbsp;&nbsp;
-									<label>
-										<input id="g2" type="radio" value="2" name="aktif" <?php if($modul['aktif'] == '2' ):?>checked<?php endif?>></input>Tidak Aktif
+								<label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status</label>
+								<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
+									<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>active<?php endif ?>">
+										<input id="g1" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php if($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									</label>
+									<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if($modul['aktif'] == '2' ):?>active<?php endif?>">
+										<input id="g2" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php if($modul['aktif'] == '2' ):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
+
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>

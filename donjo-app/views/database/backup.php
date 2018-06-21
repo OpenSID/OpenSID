@@ -8,14 +8,14 @@
 														<div class="row">
 															<div class="col-sm-12">
 																<form class="form-horizontal">
-																	<table class="table table-bordered table-hover" >
+																	<table class="table table-bordered">
 																		<tbody>
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file"  class="col-sm-6 col-lg-3 control-label">Backup Seluruh Database SID</label>
-																						<div class="col-sm-4 col-lg-2">
-																							<a href="<?= site_url("database")?>/exec_backup" ><button type="button" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i>  Download</button></a>
+																						<label for="file"  class="col-md-4 col-lg-3 control-label">Backup Seluruh Database SID (.sql)</label>
+																						<div class="col-sm-12 col-md-3 col-lg-2">
+																							<a href="<?= site_url("database")?>/exec_backup" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i>  Unduh</a>
 																						</div>
 																					</div>
 																				</td>
@@ -23,11 +23,13 @@
 																		</tbody>
 																	</table>
 																</form>
-																<p>Proses Download akan mengunduh keseluruhan database SID anda.</p>
-																<ul>
-																	<li> Usahakan untuk melakukan backup secara rutin dan terjadwal. </li>
-																	<li> Backup yang dihasilkan sebaiknya disimpan di komputer terpisah dari server SID. </li>
-																</ul>
+																<p>Proses Unduh akan mengunduh keseluruhan database SID anda.</p>
+																<div class="row">
+																	<ul>
+																		<li> Usahakan untuk melakukan backup secara rutin dan terjadwal. </li>
+																		<li> Backup yang dihasilkan sebaiknya disimpan di komputer terpisah dari server SID. </li>
+																	</ul>
+																</div>
 																<p>Backup yang dibuat dapat dipergunakan untuk me-restore database SID anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
 																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" class="form-horizontal">
 																	<?php if(strlen(@$_SESSION["SIAK"])>1): ?>
@@ -49,8 +51,8 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file"  class="col-sm-3 col-lg-4 control-label">Pilih File .Sql:</label>
-																						<div class="col-sm-6 col-lg-4">
+																						<label for="file"  class="col-md-2 col-lg-3 control-label">Pilih File .Sql:</label>
+																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path" name="userfile">
 																								<input type="file" class="hidden" id="file" name="userfile" accept="application/sql">
@@ -59,7 +61,7 @@
 																								</span>
 																							</div>
 																						</div>
-																						<div class="col-sm-3 col-lg-2">
+																						<div class="col-sm-12 col-md-3 col-lg-2">
 																							<button type="submit" class="btn btn-block btn-success btn-sm"><i class="fa fa-spin fa-refresh"></i>  Restore</button>
 																						</div>
 																					</div>
@@ -84,8 +86,8 @@
 																  Data awal tersebut tentunya mengandung data contoh yang bukan data desa.</p>
 																<p>Sebelum memasukkan data desa yang sebenarnya ke dalam database SID, data contoh tersebut perlu dikosongkan dulu.</p>
 																<p>Klik tomboh <em>Kosongkan DB</em> di bawah untuk mengosongkan database SID siap untuk diisi dengan data desa.</p>
-																<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-																	<small><strong><i class="fa fa-warning text-yellow"></i> Sebelum melalukan proses ini, backup dulu database SID.</strong></small>
+																<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
+																	<small><strong><i class="fa fa-info-circle text-red"></i> Sebelum melalukan proses ini, backup dulu database SID.</strong></small>
 																</p>
 																<form class="form-horizontal">
 																	<table class="table table-bordered">
@@ -93,10 +95,11 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file"  class="col-sm-6 col-lg-3 control-label">Kosongkan Database SID</label>
-																						<div class="col-sm-5 col-lg-3">
-																							<a href="#" data-href="<?= site_url("database/kosongkan_db")?>" class="btn btn-social btn-flat btn-block btn-danger btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Kosong Database</a>
+																						<label for="file"  class="col-md-4 col-lg-3 control-label">Kosongkan Database SID</label>
+																						<div class="col-sm-12 col-md-3 col-lg-2">
+																							<a href="#" data-href="<?= site_url("database/kosongkan_db")?>" class="btn btn-social btn-flat btn-block btn-danger btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Kosongkan DB</a>
 																						</div>
+																						<p class="help-block col-sm-12 col-md-5 col-lg-5"><input type="checkbox" name="kosongkan_menu" value='kosongkan'></input>	Juga kosongkan contoh menu statis dan dinamis</p>
 																					</div>
 																				</td>
 																			</tr>
@@ -109,18 +112,18 @@
 												</div>
 												<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 													<div class='modal-dialog'>
-															<div class='modal-content'>
-																<div class='modal-header'>
-																	<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-																	<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
-																</div>
-																<div class='modal-body btn-danger'>
-																	Apakah anda yakin? Proses ini akan menghapus semua data penduduk dan data masukan lainnya.
-																</div>
-																<div class='modal-footer'>
-																	<button type='button' class='btn btn-social btn-flat btn-warning btn-sm' data-dismiss='modal'><i class='fa fa-sign-out'></i> Tutup</button> <a class='btn btn-social btn-flat btn-danger btn-sm btn-ok'><i class='fa fa-times'></i> Hapus</a>
-																</div>
+														<div class='modal-content'>
+															<div class='modal-header'>
+																<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+																<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
 															</div>
+															<div class='modal-body btn-danger'>
+																Apakah anda yakin? Proses ini akan menghapus semua data penduduk dan data masukan lainnya.
+															</div>
+															<div class='modal-footer'>
+																<button type='button' class='btn btn-social btn-flat btn-warning btn-sm' data-dismiss='modal'><i class='fa fa-sign-out'></i> Tutup</button> <a class='btn btn-social btn-flat btn-danger btn-sm btn-ok'><i class='fa fa-times'></i> Hapus</a>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>

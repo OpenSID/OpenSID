@@ -1,0 +1,14 @@
+.btn-info.active,
+	.btn-info.active:focus,
+	.btn-info.active:hover,
+	.btn-info:active.focus,
+	.btn-info:active:focus,
+	.btn-info:active:hover,
+	.open > .dropdown-toggle.btn-info.focus,
+	.open > .dropdown-toggle.btn-info:focus,
+	.open > .dropdown-toggle.btn-info:hover
+	{
+		color: #fff;
+		background-color: #1788aa;
+		border-color: #1b6d85;
+	}

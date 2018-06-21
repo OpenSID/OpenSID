@@ -44,6 +44,8 @@
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/AdminLTE.min.css">
 		<!-- AdminLTE Skins. -->
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/skins/_all-skins.min.css">
+		<!-- Style Admin Modification Css -->
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/admin-style.css">
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.pm.css" />

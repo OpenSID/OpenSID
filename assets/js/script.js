@@ -8,7 +8,7 @@ $(document).ready(function(){
 	//Confirm Delete Modal
 	$('#confirm-delete').on('show.bs.modal', function(e) {
 		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-	}); 
+	});
 	//Delay Alert
 	setTimeout(function() {
 		$('.alert').fadeIn('slow');
@@ -40,21 +40,21 @@ $(document).ready(function(){
 	$('#file_path2').click(function(){
 		$('#file_browser2').click();
 	});
-	
+
 	//Fortmat Tanggal
-	$(".datemask").inputmask("dd/mm/yyyy", {"placeholder": "00/00/0000"});	
-	$('#datemask').datepicker({autoclose: true}); 	
+	$(".datemask").inputmask("dd/mm/yyyy", {"placeholder": "00/00/0000"});
+	$('#datemask').datepicker({autoclose: true});
 
 	//Fortmat Tabel
     $('#tabel1').DataTable();
     $('#tabel2').DataTable({
-      'paging'      : true,
-      'lengthChange': true,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false,
-	  'scrollX'		: true
+			'paging'      : false,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : false,
+			'autoWidth'   : false,
+			'scrollX'			: true
     });
 	 $('#tabel3').DataTable({
       'paging'      : true,
@@ -68,7 +68,7 @@ $(document).ready(function(){
 
 	//color picker with addon
     $('.my-colorpicker2').colorpicker();
-	
+
 	//Timepicker
     $('.timepicker').timepicker({
 		showInputs: false,
@@ -92,30 +92,30 @@ function checkAll() {
 		}
 	});
 	$("[data-toggle=tooltip]").tooltip();
-}	
+}
 
 function deleteAllBox(idForm, action) {
-	
+
 	$('#confirm-delete').modal('show');
 	$('#ok-delete').click(function () {
 		$('#' + idForm).attr('action', action);
-        $('#' + idForm).submit();	
+        $('#' + idForm).submit();
 	});
-	return false;        
+	return false;
 }
 
-function modalBox() {	
-	$('#modalBox').on('show.bs.modal', function(e){		
+function modalBox() {
+	$('#modalBox').on('show.bs.modal', function(e){
 		var link = $(e.relatedTarget);
 		$('.modal-header #myModalLabel').html(link.attr('data-title'));
-		$(this).find('.fetched-data').load(link.attr('href'));	
+		$(this).find('.fetched-data').load(link.attr('href'));
 	});
-	return false;   	
+	return false;
 }
-function mapBox() {	
-	$('#mapBox').on('show.bs.modal', function(e){		
+function mapBox() {
+	$('#mapBox').on('show.bs.modal', function(e){
 		$.getScript('<?php echo base_url()?>assets/css/leaflet.css');
-		$.getScript('<?php echo base_url()?>assets/css/leaflet.pm.css');		
+		$.getScript('<?php echo base_url()?>assets/css/leaflet.pm.css');
 		$.getScript('<?php echo base_url()?>assets/js/leaflet.js');
 		$.getScript('<?php echo base_url()?>assets/js/leaflet.pm.min.js');
 		$.getScript('<?php echo base_url()?>assets/bootstrap/js/jquery.min.js');
@@ -124,8 +124,8 @@ function mapBox() {
 		}, 10);
 		var link = $(e.relatedTarget);
 		$('.modal-header #myModalLabel').html(link.attr('data-title'));
-		$(this).find('.fetched-data').load(link.attr('href'));	
-	   });	
+		$(this).find('.fetched-data').load(link.attr('href'));
+	   });
 }
 function formAction(idForm,action){
 	$('#'+idForm).attr('action',action);
@@ -137,22 +137,22 @@ function notification(type,message){
 	$('#maincontent').prepend(''
 		+'<div id="notification" class="alert alert-'+type+' alert-dismissible">'
 		+'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'
-		+ message+''											
+		+ message+''
 		+'</div>'
 		+''
-	);										
+	);
 }
 
 function cari_nik(){
-	$('#cari_nik').change(function(){	
+	$('#cari_nik').change(function(){
 		$('#'+'main').submit();
 	});
 
-	$('#cari_nik_suami').change(function(){	
+	$('#cari_nik_suami').change(function(){
 		$('#'+'main').submit();
 	});
 
-	$('#cari_nik_istri').change(function(){	
+	$('#cari_nik_istri').change(function(){
 		$('#'+'main').submit();
 	});
 }

@@ -1,29 +1,34 @@
 										<div class="tab-pane <?php if($act_tab==2):?> active<?php endif?>">
 											<div class="row">
 												<div class="col-md-12">
-													<div class="box-header with-border"><h3 class="box-title"><strong>Import Data PPLS</strong></h3>
+													<div class="box-header with-border">
+														<h3 class="box-title"><strong>Impor Data PPLS</strong></h3>
 													</div>
 													<div class="box-body">
 														<div class="row">
 															<div class="col-sm-12">
-																<p>Mempersiapkan data dengan bentuk excel untuk import ke dalam database SID:</p>
+																<p>Mempersiapkan data dengan bentuk excel untuk Impor ke dalam database SID:</p>
 																<p>
-																	<ol>
-																		<li value="1">Pastikan format data yang akan diimport sudah sesuai dengan aturan import data:</li>
-																			<ul>
-																				<li>  Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama</li>
-																				<li> Struktur RT RW, jika tidak ada dalam struktur wilayah desa diganti dengan tanda � (min/strip/dash)</li>
-																				<li> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah, klasifikasi sosial ekonomi) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2</li>
-																			</ul>
-																		<li>Simpan (Save) file Excel sebagai .xls file (jika Anda memakai excel 2007 gunakan Save As pilih format .xls) </li>
-																		<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</li>
-																		<li>Data yang dibutuhkan untuk Import dengan memenuhi aturan data berikut
-																			<div class="timeline-footer">
-																				<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?=base_url()?>assets/import/ATURANDATA.xls"><i class="fa fa-download"></i>Unduh Aturan data</a>
-																				<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?=base_url()?>assets/import/ContohFormat.xls" ><i class="fa fa-download"></i>Unduh Contoh Urutan Format</a>
-																			</div>
-																		</li>
-																	</ol>
+																	<div class="row">
+																		<ol>
+																			<li value="1">Pastikan format data yang akan diImpor sudah sesuai dengan aturan Impor data:</li>
+																				<div class="row">
+																					<ul>
+																						<li>  Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama</li>
+																						<li> Struktur RT RW, jika tidak ada dalam struktur wilayah desa diganti dengan tanda � (min/strip/dash)</li>
+																						<li> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah, klasifikasi sosial ekonomi) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2</li>
+																					</ul>
+																				</div>
+																			<li>Simpan (Save) file Excel sebagai .xls file (jika Anda memakai excel 2007 gunakan Save As pilih format .xls) </li>
+																			<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</li>
+																			<li>Data yang dibutuhkan untuk Impor dengan memenuhi aturan data berikut
+																				<div class="timeline-footer row">
+																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?=base_url()?>assets/import/ATURANDATA.xls"><i class="fa fa-download"></i>Unduh Aturan data</a>
+																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?=base_url()?>assets/import/ContohFormat.xls" ><i class="fa fa-download"></i>Unduh Contoh Urutan Format</a>
+																				</div>
+																			</li>
+																		</ol>
+																	</div>
 																</p>
 																<table class="table table-bordered" >
 																	<tbody>
@@ -31,8 +36,8 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file"  class="col-sm-2 control-label">Rumah Tangga .xls:</label>
-																						<div class="col-sm-7 col-lg-4">
+																						<label for="file"  class="col-md-3 col-lg-3 control-label">Rumah Tangga .xls:</label>
+																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path2" name="userfile">
 																								<input type="file" class="hidden" id="file2" name="userfile">
@@ -41,8 +46,8 @@
 																								</span>
 																							</div>
 																						</div>
-																						<div class="col-sm-3 col-lg-2">
-																							<button type="submit" class="btn btn-block btn-success btn-sm"><i class="fa fa-spin fa-refresh"></i> Import</button>
+																						<div class="col-sm-12 col-md-2 col-lg-2">
+																							<button type="submit" class="btn btn-block btn-success btn-sm"><i class="fa fa-spin fa-refresh"></i> Impor</button>
 																						</div>
 																					</div>
 																				</td>
@@ -52,8 +57,8 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file"  class="col-sm-2 control-label">Individu .xls: </label>
-																						<div class="col-sm-7 col-lg-4">
+																						<label for="file"  class="col-md-3 col-lg-3 control-label">Individu .xls: </label>
+																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path" name="userfile">
 																								<input type="file" class="hidden" id="file" name="userfile">
@@ -62,38 +67,38 @@
 																								</span>
 																							</div>
 																						</div>
-																						<div class="col-sm-3 col-lg-2">
-																							<button type="submit" class="btn btn-block btn-success btn-sm"><i class="fa fa-spin fa-refresh"></i> Import</button>
+																						<div class="col-sm-12 col-md-2 col-lg-2">
+																							<button type="submit" class="btn btn-block btn-success btn-sm"><i class="fa fa-spin fa-refresh"></i> Impor</button>
 																						</div>
 																					</div>
 																				</td>
 																			</tr>
 																		</form>
 																		<?php if(isset($_SESSION['gagal'])):?>
-																				<tr>
-																					<td>
-																						<dl class="dl-horizontal">
-																							<dt>Jumlah Data Gagal : </dt>
-																							<dd><?=$_SESSION['gagal']?></dd>
-																						</dl>
-																					</td>
-																				</tr>
-																				<tr>
-																					<td>
-																						<dl class="dl-horizontal">
-																							<dt>Letak Baris Data Gagal : </dt>
-																							<dd><?=$_SESSION['baris']?></dd>
-																						</dl>
-																					</td>
-																				</tr>
-																				<tr>
-																					<td>
-																						<dl class="dl-horizontal">
-																							<dt>Total Data Berhasil :</dt>
-																							<dd><?=$_SESSION['sukses']?></dd>
-																						</dl>
-																					</td>
-																				</tr>
+																			<tr>
+																				<td>
+																					<dl class="dl-horizontal">
+																						<dt>Jumlah Data Gagal : </dt>
+																						<dd><?=$_SESSION['gagal']?></dd>
+																					</dl>
+																				</td>
+																			</tr>
+																			<tr>
+																				<td>
+																					<dl class="dl-horizontal">
+																						<dt>Letak Baris Data Gagal : </dt>
+																						<dd><?=$_SESSION['baris']?></dd>
+																					</dl>
+																				</td>
+																			</tr>
+																			<tr>
+																				<td>
+																					<dl class="dl-horizontal">
+																						<dt>Total Data Berhasil :</dt>
+																						<dd><?=$_SESSION['sukses']?></dd>
+																					</dl>
+																				</td>
+																			</tr>
 																		<?php endif?>
 																	</tbody>
 																</table>

@@ -11,7 +11,7 @@
 																	<p>Proses ini untuk mengubah database SID ke struktur database OpenSID <?=AmbilVersi()?>.</p>
 																	<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
 																		<small>
-																			<strong>Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
+																			<strong><i class="fa fa-info-circle text-red"></i> Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
 																		</small>
 																	</p>
 																	<p>Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di :</P>
@@ -28,8 +28,7 @@
 																							<a href="#" class="btn btn-block btn-danger btn-sm ajax"  title="Import" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Migrasi Database Ke OpenSID <?= AmbilVersi()?></a>
 																						</div>
 																					</div>
-																					<div class="ajax-content">
-																				</div>
+																					<div class="ajax-content"></div>
 																				</td>
 																			</tr>
 																			<?php if(isset($_SESSION['gagal'])):?>
@@ -81,21 +80,22 @@
 																<div class='modal-body'>
 																	Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.
 																	<div class='text-center'>
-																		<img src='<?php echo base_url()?>assets/images/background/loading.gif'>
+																		<img src='<?=base_url()?>assets/images/background/loading.gif'>
 																	</div>
 																</div>
 															</div>
+														</div>
 													</div>
 												</div>
+												<?php unset($_SESSION['sukses']);?>
+												<?php unset($_SESSION['baris']);?>
+												<?php unset($_SESSION['gagal']);?>
 											</div>
-											<?php unset($_SESSION['sukses']);?>
-											<?php unset($_SESSION['baris']);?>
-											<?php unset($_SESSION['gagal']);?>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>>
 					</div>
 				</div>
 			</div>
