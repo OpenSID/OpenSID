@@ -107,423 +107,129 @@
 		<tbody>
 			<tr>
 				<td>1</td>
+				<td>Asset Tetap Lainnya</td>
+				<td>
+					<?=$cetak_inventaris_asset_pribadi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_asset_pemerintah->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_asset_provinsi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_asset_kabupaten->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_asset_sumbangan->total?>
+				</td>
+				<td>Informasi mengenai aset tetap seperti barang habis pakai contohnya buku-buku.</td>
+			</tr>
+
+			<tr>
+				<td>2</td>
+				<td>Gedung dan Bangunan</td>
+				<td>
+					<?=$cetak_inventaris_gedung_pribadi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_gedung_pemerintah->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_gedung_provinsi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_gedung_kabupaten->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_gedung_sumbangan->total?>
+				</td>
+				<td>Informasi mengenai gedung dan bangunan yang dimiliki.</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>Jalan Irigasi dan Jaringan</td>
+				<td>
+					<?=$cetak_inventaris_jalan_pribadi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_jalan_pemerintah->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_jalan_provinsi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_jalan_kabupaten->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_jalan_sumbangan->total?>
+				</td>
+				<td>Informasi mengenai jaringan, seperti listrik atau Internet.</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>Kontruksi Dalam Pengerjaan</td>
+				<td>
+					<?=$cetak_inventaris_kontruksi_pribadi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_kontruksi_pemerintah->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_kontruksi_provinsi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_kontruksi_kabupaten->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_kontruksi_sumbangan->total?>
+				</td>
+				<td>Informasi mengenai bangunan yang masih dalam pengerjaan.</td>
+			</tr>
+
+			<tr>
+				<td>5</td>
+				<td>Peralatan dan Mesin</td>
+				<td>
+					<?=$cetak_inventaris_peralatan_pribadi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_peralatan_pemerintah->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_peralatan_provinsi->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_peralatan_kabupaten->total?>
+				</td>
+				<td>
+					<?=$cetak_inventaris_peralatan_sumbangan->total?>
+				</td>
+				<td>Informasi mengenai peralatan dan mesin</td>
+			</tr>
+
+			<tr>
+				<td>6</td>
 				<td>Tanah Kas Desa</td>
 				<td>
-					<?php
-						$this->db->select('count(inventaris_tanah.asal) as total');
-						$this->db->where('inventaris_tanah.visible',1);
-						$this->db->where('inventaris_tanah.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_tanah.asal','Pembelian Sendiri');
-						$result = $this->db->get('inventaris_tanah')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
+					<?=$cetak_inventaris_tanah_pribadi->total?>
 				</td>
 				<td>
-					<?php
-						$this->db->select('count(inventaris_tanah.asal) as total');
-						$this->db->where('inventaris_tanah.visible',1);
-						$this->db->where('inventaris_tanah.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_tanah.asal','Bantuan Pemerintah');
-						$result = $this->db->get('inventaris_tanah')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
+					<?=$cetak_inventaris_tanah_pemerintah->total?>
 				</td>
 				<td>
-					<?php
-						$this->db->select('count(inventaris_tanah.asal) as total');
-						$this->db->where('inventaris_tanah.visible',1);
-						$this->db->where('inventaris_tanah.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_tanah.asal','Bantuan Provinsi');
-						$result = $this->db->get('inventaris_tanah')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
+					<?=$cetak_inventaris_tanah_provinsi->total?>
 				</td>
 				<td>
-					<?php
-						$this->db->select('count(inventaris_tanah.asal) as total');
-						$this->db->where('inventaris_tanah.visible',1);
-						$this->db->where('inventaris_tanah.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_tanah.asal','Bantuan Kabupaten');
-						$result = $this->db->get('inventaris_tanah')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
+					<?=$cetak_inventaris_tanah_kabupaten->total?>
 				</td>
 				<td>
-					<?php
-						$this->db->select('count(inventaris_tanah.asal) as total');
-						$this->db->where('inventaris_tanah.visible',1);
-						$this->db->where('inventaris_tanah.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_tanah.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_tanah.asal','Sumbangan');
-						$result = $this->db->get('inventaris_tanah')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
+					<?=$cetak_inventaris_tanah_sumbangan->total?>
 				</td>
 				<td>
 				Informasi mengenai segala yang menyangkut dengan tanah
 				(dalam hal ini tanah yang digunakan dalam instansi tersebut).
 				</td>
-			</tr>
-			<tr>
-				<td>2</td>
-				<td>Peralatan dan Mesin</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_peralatan.asal) as total');
-						$this->db->where('inventaris_peralatan.visible',1);
-						$this->db->where('inventaris_peralatan.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_peralatan.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_peralatan.asal','Pembelian Sendiri');
-						$result = $this->db->get('inventaris_peralatan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_peralatan.asal) as total');
-						$this->db->where('inventaris_peralatan.visible',1);
-						$this->db->where('inventaris_peralatan.status',0);
-						$this->db->where('inventaris_peralatan.asal','Bantuan Pemerintah');
-						$result = $this->db->get('inventaris_peralatan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_peralatan.asal) as total');
-						$this->db->where('inventaris_peralatan.visible',1);
-						$this->db->where('inventaris_peralatan.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_peralatan.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_peralatan.asal','Bantuan Provinsi');
-						$result = $this->db->get('inventaris_peralatan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_peralatan.asal) as total');
-						$this->db->where('inventaris_peralatan.visible',1);
-						$this->db->where('inventaris_peralatan.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_peralatan.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_peralatan.asal','Bantuan Kabupaten');
-						$result = $this->db->get('inventaris_peralatan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_peralatan.asal) as total');
-						$this->db->where('inventaris_peralatan.visible',1);
-						$this->db->where('inventaris_peralatan.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_peralatan.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_peralatan.asal','Sumbangan');
-						$result = $this->db->get('inventaris_peralatan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>Informasi mengenai peralatan dan mesin</td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>Gedung dan Bangunan</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_gedung.asal) as total');
-						$this->db->where('inventaris_gedung.visible',1);
-						$this->db->where('inventaris_gedung.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_gedung.asal','Pembelian Sendiri');
-						$result = $this->db->get('inventaris_gedung')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_gedung.asal) as total');
-						$this->db->where('inventaris_gedung.visible',1);
-						$this->db->where('inventaris_gedung.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_gedung.asal','Bantuan Pemerintah');
-						$result = $this->db->get('inventaris_gedung')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_gedung.asal) as total');
-						$this->db->where('inventaris_gedung.visible',1);
-						$this->db->where('inventaris_gedung.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_gedung.asal','Bantuan Provinsi');
-						$result = $this->db->get('inventaris_gedung')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_gedung.asal) as total');
-						$this->db->where('inventaris_gedung.visible',1);
-						$this->db->where('inventaris_gedung.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_gedung.asal','Bantuan Kabupaten');
-						$result = $this->db->get('inventaris_gedung')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_gedung.asal) as total');
-						$this->db->where('inventaris_gedung.visible',1);
-						$this->db->where('inventaris_gedung.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_gedung.asal','Sumbangan');
-						$result = $this->db->get('inventaris_gedung')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>Informasi mengenai gedung dan bangunan yang dimiliki.</td>
-			</tr>
-			<tr>
-				<td>4</td>
-				<td>Jalan Irigasi dan Jaringan</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_jalan.asal) as total');
-						$this->db->where('inventaris_jalan.visible',1);
-						$this->db->where('inventaris_jalan.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_jalan.asal','Pembelian Sendiri');
-						$result = $this->db->get('inventaris_jalan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_jalan.asal) as total');
-						$this->db->where('inventaris_jalan.visible',1);
-						$this->db->where('inventaris_jalan.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_jalan.asal','Bantuan Pemerintah');
-						$result = $this->db->get('inventaris_jalan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_jalan.asal) as total');
-						$this->db->where('inventaris_jalan.visible',1);
-						$this->db->where('inventaris_jalan.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_jalan.asal','Bantuan Provinsi');
-						$result = $this->db->get('inventaris_jalan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_jalan.asal) as total');
-						$this->db->where('inventaris_jalan.visible',1);
-						$this->db->where('inventaris_jalan.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_jalan.asal','Bantuan Kabupaten');
-						$result = $this->db->get('inventaris_jalan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_jalan.asal) as total');
-						$this->db->where('inventaris_jalan.visible',1);
-						$this->db->where('inventaris_jalan.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_jalan.asal','Sumbangan');
-						$result = $this->db->get('inventaris_jalan')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>Informasi mengenai jaringan, seperti listrik atau Internet.</td>
-			</tr>
-			<tr>
-				<td>5</td>
-				<td>Asset Tetap Lainnya</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_asset.asal) as total');
-						$this->db->where('inventaris_asset.visible',1);
-						$this->db->where('inventaris_asset.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_asset.asal','Pembelian Sendiri');
-						$result = $this->db->get('inventaris_asset')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_asset.asal) as total');
-						$this->db->where('inventaris_asset.visible',1);
-						$this->db->where('inventaris_asset.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_asset.asal','Bantuan Pemerintah');
-						$result = $this->db->get('inventaris_asset')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_asset.asal) as total');
-						$this->db->where('inventaris_asset.visible',1);
-						$this->db->where('inventaris_asset.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_asset.asal','Bantuan Provinsi');
-						$result = $this->db->get('inventaris_asset')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_asset.asal) as total');
-						$this->db->where('inventaris_asset.visible',1);
-						$this->db->where('inventaris_asset.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_asset.asal','Bantuan Kabupaten');
-						$result = $this->db->get('inventaris_asset')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_asset.asal) as total');
-						$this->db->where('inventaris_asset.visible',1);
-						$this->db->where('inventaris_asset.status',0);
-						if($tahun != 1){
-							$this->db->where('inventaris_asset.tahun_pengadaan',$tahun);
-						}
-						$this->db->where('inventaris_asset.asal','Sumbangan');
-						$result = $this->db->get('inventaris_asset')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>Informasi mengenai aset tetap seperti barang habis pakai contohnya buku-buku.</td>
-			</tr>
-			<tr>
-				<td>6</td>
-				<td>Kontruksi Dalam Pengerjaan</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_kontruksi.asal) as total');
-						$this->db->where('inventaris_kontruksi.visible',1);
-						$this->db->where('inventaris_kontruksi.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_kontruksi.asal','Pembelian Sendiri');
-						$result = $this->db->get('inventaris_kontruksi')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_kontruksi.asal) as total');
-						$this->db->where('inventaris_kontruksi.visible',1);
-						$this->db->where('inventaris_kontruksi.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_kontruksi.asal','Bantuan Pemerintah');
-						$result = $this->db->get('inventaris_kontruksi')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_kontruksi.asal) as total');
-						$this->db->where('inventaris_kontruksi.visible',1);
-						$this->db->where('inventaris_kontruksi.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_kontruksi.asal','Bantuan Provinsi');
-						$result = $this->db->get('inventaris_kontruksi')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_kontruksi.asal) as total');
-						$this->db->where('inventaris_kontruksi.visible',1);
-						$this->db->where('inventaris_kontruksi.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_kontruksi.asal','Bantuan Kabupaten');
-						$result = $this->db->get('inventaris_kontruksi')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>
-					<?php
-						$this->db->select('count(inventaris_kontruksi.asal) as total');
-						$this->db->where('inventaris_kontruksi.visible',1);
-						$this->db->where('inventaris_kontruksi.status',0);
-						if($tahun != 1){
-							$this->db->where('year(tanggal_dokument)',$tahun);
-						}
-						$this->db->where('inventaris_kontruksi.asal','Sumbangan');
-						$result = $this->db->get('inventaris_kontruksi')->row();
-						echo (!empty($result->total) ? $result->total : '0');
-					?>
-				</td>
-				<td>Informasi mengenai bangunan yang masih dalam pengerjaan.</td>
 			</tr>
 
 		</tbody>
