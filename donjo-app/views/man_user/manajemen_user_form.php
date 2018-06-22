@@ -39,7 +39,7 @@
 						<div class="box-body">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="group">Group</label>
-								<div class="col-sm-6">
+								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="id_grup" name="id_grup">
 										<?php if($user['id_grup'] != '1'):?>
 											<option value="4" <?php  if($user['id_grup'] == '4'):?>selected<?php endif?>>Kontributor</option>

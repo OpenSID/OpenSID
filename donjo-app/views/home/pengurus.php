@@ -51,7 +51,7 @@
 																<th><input type="checkbox" id="checkall" ></th>
 																<th>No</th>
 																<th width='12%'>Aksi</th>
-																<th>Foto</th>
+																<th class="text-center">Foto</th>
 																<th width='50%'>Nama / NIP /NIK</th>
 																<th>Jabatan</th>
 																<th>Status</th>
@@ -77,7 +77,7 @@
 																			<a href="#" data-href="<?= site_url("pengurus/delete/$data[pamong_id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif?>
 																	</td>
-																	<td>
+																	<td class="text-center">
 																		<div class="user-panel">
 																			<div class="image">
 																				<?php if($data['foto']):?>
