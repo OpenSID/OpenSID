@@ -1,21 +1,3 @@
-<style>
-	#footer
-	{
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		z-index: 999;
-	}
-</style>
-<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
 <div class="panel">
 	<div class="panel-body">
 		<section class="content">
@@ -26,12 +8,9 @@
 					</h4>
 					<hr>
 				</div>
-
 				<div class='box-body'>
 					<div class="form">
-
 						<form class="form-horizontal" id="form_update_peralatan" name="form_update_peralatan" method="post" action="">
-
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="col-sm-2 control-label " style="text-align:left;" for="nama_barang">Nama Barang / Jenis Barang</label>
@@ -45,15 +24,13 @@
 									<div class="col-sm-9">
 										<input maxlength="50" value="<?= $main->kode_barang; ?>" class="form-control" name="kode_barang" id="kode_barang" type="text"/>
 									</div>
-								</div><!-- row -->
-
+								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 									<div class="col-sm-9">
 										<input maxlength="50" value="<?= $main->register; ?>" class="form-control" name="nomor_register" id="nomor_register" type="text"/>
 									</div>
-								</div><!-- row -->
-
+								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label" style="text-align:left;" for="merk">Merk/Type</label>
 									<div class="col-sm-9">

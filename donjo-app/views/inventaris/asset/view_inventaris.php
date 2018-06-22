@@ -1,22 +1,6 @@
-<style>
-	#footer {
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		z-index: 999;
-}
-</style>
-
 <div class="panel">
 	<div class="panel-body">
 		<section class="content">
-
 			<div class='box box-default'>
 				<div class='box-header with-border'>
 					<h4 class='box-title'>Tambah -
@@ -24,7 +8,6 @@
 					</h4>
 					<hr>
 				</div>
-
 				<div class='box-body'>
 					<div class="form">
 						<form class="form-horizontal" id="form_asset" name="form_asset" method="post" action="">
@@ -40,15 +23,13 @@
 									<div class="col-sm-9">
 										<input maxlength="50" value="<?= $main->kode_barang; ?>" class="form-control" name="kode_barang" id="kode_barang" type="text" disabled/>
 									</div>
-								</div><!-- row -->
-
+								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 									<div class="col-sm-9">
 										<input maxlength="50" value="<?= $main->register; ?>" class="form-control" name="nomor_register" id="nomor_register" type="text" disabled/>
 									</div>
-								</div><!-- row -->
-
+								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label" style="text-align:left;" for="jenis_asset">Jenis Asset</label>
 									<div class="col-sm-6">
@@ -173,16 +154,6 @@
 <script>
 $(document).ready(function()
 {
-	// $(".judul").hide();
-	// $(".spesifikasi").hide();
-	// $(".asal_kesenian").hide();
-	// $(".pencipta_kesenian").hide();
-	// $(".bahan_kesenian").hide();
-	// $(".jenis_hewan").hide();
-	// $(".ukuran_hewan").hide();
-	// $(".jenis_tumbuhan").hide();
-	// $(".ukuran_tumbuhan").hide();
-	// $("#jenis_asset").change(function() {
 		if ($("#jenis_asset").val() == "Buku")
 		{
 			$(".judul").show();
