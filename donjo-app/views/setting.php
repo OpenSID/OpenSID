@@ -1,5 +1,5 @@
 <!-- Perubahan script coding untuk bisa menampilkan modal bootstrap edit password pengguna login -->
-<form action="<?php echo site_url("user_setting/update/$main[id]")?>" method="POST" id="validasi" enctype="multipart/form-data">
+<form action="<?=site_url("user_setting/update/$main[id]")?>" method="POST" id="validasi" enctype="multipart/form-data">
 	<div class="modal-body" id="maincontent">
 		<div class="row">
 			<div class="col-md-3">
@@ -59,14 +59,17 @@
 	</div>
 </form>
 <script>
-	$('#file_browser').click(function(e){
-    	e.preventDefault();
-    	$('#file').click();
+	$('#file_browser').click(function(e)
+	{
+   	e.preventDefault();
+   	$('#file').click();
 	});
-	$('#file').change(function(){
-   		$('#file_path').val($(this).val());
+	$('#file').change(function()
+	{
+ 		$('#file_path').val($(this).val());
 	});
-	$('#file_path').click(function(){
-    	$('#file_browser').click();
+	$('#file_path').click(function()
+	{
+   	$('#file_browser').click();
 	});
 </script>

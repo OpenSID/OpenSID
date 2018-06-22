@@ -1,3 +1,5 @@
+/* Berisi CSS Modifikasi dari CSS AdminLTE */
+/* Modifikasi Check list dengan Tombol Botton */
 .btn-info.active,
 	.btn-info.active:focus,
 	.btn-info.active:hover,
@@ -12,3 +14,25 @@
 		background-color: #1788aa;
 		border-color: #1b6d85;
 	}
+/* Modifikasi warna dan background Navigator Active */
+.nav-stacked > li.active > a, .nav-stacked > li.active > a:hover
+{
+    background-color: #337ab7;
+    color:#fff;
+    border-top: 0;
+    border-left-color: #1f2427;
+}
+/* Modifikasi size gambar mini */
+.user-panel > .image > img
+{
+	width: auto;
+}
+/* Modifikasi margin antar button */
+.btn-margin
+{
+	margin: 0px 5px 5px 0px;
+}
+body
+{
+	line-height: normal;
+}
