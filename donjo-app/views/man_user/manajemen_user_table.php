@@ -43,18 +43,18 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
-													<table id="tabel2" class="table table-bordered dataTable table-hover">
+													<table  class="table table-bordered dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-																<th>No</th>
 																<th><input type="checkbox" id="checkall"/></th>
+																<th>No</th>
 																<th>Aksi</th>
 																<?php  if($o==2): ?>
-																	<th><a href="<?= site_url("man_user/index/$cat/$p/1")?>">Username <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("man_user/index/$cat/$p/1")?>">Username <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php  elseif($o==1): ?>
-																	<th><a href="<?= site_url("man_user/index/$cat/$p/2")?>">Username <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("man_user/index/$cat/$p/2")?>">Username <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php  else: ?>
-																	<th><a href="<?= site_url("man_user/index/$cat/$p/1")?>">Username <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("man_user/index/$cat/$p/1")?>">Username <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php  endif; ?>
 
 																<?php  if($o==6): ?>

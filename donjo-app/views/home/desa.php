@@ -6,13 +6,13 @@
 			<li><a href='<?site_url()?>'><i class='fa fa-dashboard'></i> Home</a></li>
 			<li class='active'>Tentang OpenSID</li>
 		</ol>
-	</section> 
+	</section>
 	<section class='content' id="maincontent">
 		<div class='row'>
 			<div class='col-md-6'>
-				<div class='box box-info'>				
-					 <div class='box-body'>
-						<div class="col-lg-6 col-xs-6">				 
+				<div class='box box-info'>
+				 	<div class='box-body'>
+						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-purple">
 								<div class="inner">
 									<?php  foreach($dusun as $data): ?>
@@ -25,12 +25,12 @@
 								</div>
 								<a href="<?=site_url('dpt/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
-						</div>	
-						<div class="col-lg-6 col-xs-6">						
+						</div>
+						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-aqua">
 								<div class="inner">
 									<?php  foreach($penduduk as $data): ?>
-										 <h3><?=$data['jumlah']?></h3>
+										<h3><?=$data['jumlah']?></h3>
 									<?php  endforeach; ?>
 									<p>Penduduk</p>
 								</div>
@@ -38,13 +38,13 @@
 									<i class="ion ion-person"></i>
 								</div>
 								<a href="<?=site_url('penduduk/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
-							 </div>
-						</div>		
+							</div>
+						</div>
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-green">
 								<div class="inner">
 									<?php  foreach($keluarga as $data): ?>
-										 <h3><?=$data['jumlah']?></h3>
+										<h3><?=$data['jumlah']?></h3>
 									<?php  endforeach; ?>
 									<p>Keluarga</p>
 								</div>
@@ -54,7 +54,7 @@
 								<a href="<?=site_url('keluarga/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
-						<div class="col-lg-6 col-xs-6">				 
+						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-gray">
 								<div class="inner">
 									<?php  foreach($rtm as $data): ?>
@@ -67,8 +67,8 @@
 								</div>
 								<a href="<?=site_url('rtm/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
-						</div>		
-						<div class="col-lg-6 col-xs-6">				 
+						</div>
+						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-yellow">
 								<div class="inner">
 									<?php  foreach($miskin as $data): ?>
@@ -81,8 +81,8 @@
 								</div>
 								<a href="<?=site_url()?>statistik/index/501" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
-						</div>				
-						<div class="col-lg-6 col-xs-6">				 
+						</div>
+						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-red">
 								<div class="inner">
 									<?php  foreach($kelompok as $data): ?>
@@ -95,13 +95,13 @@
 								</div>
 								<a href="<?=site_url('kelompok/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
-						</div>							
-					</div>		
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class='col-md-6'>
-				<div class='box box-info'>				
-					 <?php  $this->load->view('home/about.php');?>				
+				<div class='box box-info'>
+					<?php  $this->load->view('home/about.php');?>
 				</div>
 			</div>
 		</div>

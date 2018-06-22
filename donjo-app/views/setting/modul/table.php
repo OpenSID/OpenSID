@@ -38,7 +38,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table id="tabel2" class="table table-bordered dataTable table-hover">
+														<table class="table table-bordered dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th><input type="checkbox" id="checkall"/></th>

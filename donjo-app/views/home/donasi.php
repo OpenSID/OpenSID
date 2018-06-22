@@ -6,24 +6,22 @@
 			<li><a href='<?=site_url()?>'><i class='fa fa-dashboard'></i> Home</a></li>
 			<li class='active'>Donasi</li>
 		</ol>
-	</section> 
+	</section>
 	<section class='content'>
 		<div class='row'>
 			<div class='col-xs-12'>
-				<div class='box box-danger'>				
+				<div class='box box-danger'>
 					<div class='box-body'>
 						<h4>OpenSID SELALU GRATIS</h4>
 						<div>
 							<p>OpenSID selalu gratis dan bebas digunakan dan dikembangkan desa. OpenSID berlisensi GNU General Public License Version 3, yaitu Open Source, di mana scriptnya selalu bebas diperoleh dan disesuaikan desa.</p>
 						</div>
-
 						<h4>OpenSID DIKELOLA RELAWAN</h4>
 						<div>
 							<p>OpenSID bukan lembaga, dan tidak memiliki staf maupun penghasilan sendiri.</p>
 							<p>Semua kegiatan OpenSID, termasuk dukungan teknis, bantuan penggunaan aplikasi, penyiapan panduan dan pengembangan aplikasi dilakukan dan dikelola oleh relawan dari komunitas OpenSID.&nbsp;</p>
 							<p>Selain menyumbangkan waktu mereka, ada kalanya relawan OpenSID juga mengeluarkan dana pribadi untuk mendukung kegiatan OpenSID.</p>
 						</div>
-
 						<h4>OpenSID MEMERLUKAN BANTUAN</h4>
 						<div>
 							<p>Untuk terus berkembang, OpenSID memerlukan bantuan komunitas SID, termasuk donasi. Tentunya semua donasi bersifat sukarela dan sama sekali tidak ada keharusan. </p>
@@ -38,24 +36,20 @@
 								<li>dll</li>
 							</ul>
 						</div>
-
 						<h4>INFORMASI LEBIH LANJUT</h4>
 						<div>
 							<table>
 							  <tr>
-								<td>Cara membuat donasi dan informasi lebih lanjut ada di: </td>
-								<td style="padding-left: 10px;">
-								  <div class="uibutton-group">
-									  <a class="uibutton special" href="http://www.opensid.info/index.php?id=41:donasi-pengembangan-opensid" target="_blank"><span class="fa fa-heart"></span> Donasi Pengembangan OpenSID</a>
-								  </div>
-								</td>
+									<td>Cara membuat donasi dan informasi lebih lanjut ada di: </td>
+									<td style="padding-left: 10px;">
+										<div class="uibutton-group">
+											<a class="uibutton special" href="http://www.opensid.info/index.php?id=41:donasi-pengembangan-opensid" target="_blank"><span class="fa fa-heart"></span> Donasi Pengembangan OpenSID</a>
+										</div>
+									</td>
 							  </tr>
 							 </table>
 						</div>
-
-
 					</div>
-				
 				</div>
 			</div>
 		</div>
