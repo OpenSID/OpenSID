@@ -1,29 +1,5 @@
-<script src="<?= base_url('assets/js/sweetalert.min.js');?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
-<style>
-	#footer
-	{
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		position: fixed;
-	}
-	input[type=search] {
-		width: 200px;
-    	height: 30px;
-	}
-</style>
 <div id="myModalExcel" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -57,19 +33,15 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>		
+				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>
 			</div>
-
 		</form>
     </div>
-
   </div>
 </div>
 <div id="myModal" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
+	<div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Cetak Inventaris</h4>
@@ -110,8 +82,6 @@
 
   </div>
 </div>
-
-
 <div id="row">
 <div class="col-lg-2">
 	<div class="panel panel-default">
@@ -137,7 +107,7 @@
               				<a class="btn btn-primary" href="<?= site_url('inventaris_asset/form'); ?>" style="color:white;">
 								<i class="fa fa-plus"></i> Tambah
 							</a>
-		        </div>
+			        </div>
 					<div class="pull-left">
 						<a type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
 							<i class="fa fa-file-pdf-o"></i> Cetak
@@ -150,16 +120,15 @@
 					<div class="panel-body">
 					<table id="example" class="stripe cell-border table" class="grid">
 						<thead style="background-color:#f9f9f9;" >
-
 							<tr>
-									<th class="text-center">No</th>
-									<th class="text-center">Nama Barang</th>
-									<th class="text-center">Kode Barang</th>
-									<th class="text-center">Jumlah</th>
-									<th class="text-center">Tahun Pembelian</th>
-									<th class="text-center">Asal Usul</th>
-									<th class="text-center">Harga (Rp)</th>
-									<th class="text-center" width="100px">Aksi</th>
+								<th class="text-center">No</th>
+								<th class="text-center">Nama Barang</th>
+								<th class="text-center">Kode Barang</th>
+								<th class="text-center">Jumlah</th>
+								<th class="text-center">Tahun Pembelian</th>
+								<th class="text-center">Asal Usul</th>
+								<th class="text-center">Harga (Rp)</th>
+								<th class="text-center" width="100px">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -233,7 +202,7 @@
 			});
 
 	}
-	
+
 	$(document).ready(function() {
 		var t = $('#example').DataTable( {
 			scrollY					: '100vh',

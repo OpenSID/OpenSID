@@ -1,28 +1,5 @@
-<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
-<style>
-	#footer {
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		position: fixed;
-	}
-	input[type=search] {
-		width: 200px;
-    	height: 30px;
-	}
-</style>
 <div id="myModalExcel" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -56,18 +33,14 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>		
+				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>
 			</div>
-
 		</form>
     </div>
-
   </div>
 </div>
 <div id="myModal" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -103,13 +76,10 @@
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary pull-right"  id="form_cetak" name="form_cetak"  data-dismiss="modal">Cetak</button>
 			</div>
-
 		</form>
     </div>
-
   </div>
 </div>
-
 <div id="row">
 <div class="col-lg-2">
 	<div class="panel panel-default">
@@ -247,7 +217,7 @@
 			});
 
 	}
-	
+
 	$(document).ready(function() {
 		var t = $('#example').DataTable( {
 			scrollY					: '100vh',

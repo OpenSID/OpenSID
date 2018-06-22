@@ -1,25 +1,6 @@
-<style>
-	#footer
-	{
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		z-index:999;
-	}
-</style>
- <script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
- <script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
- <script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
 <div class="panel">
 	<div class="panel-body">
 		<section class="content">
-
 			<div class='box box-default'>
 				<div class='box-header with-border'>
 					<h4 class='box-title'>View -
@@ -27,7 +8,6 @@
 					</h4>
 					<hr>
 				</div>
-
 				<div class='box-body'>
 					<div class="form">
 						<form class="form-horizontal" id="form_update_tanah" name="form_update_tanah" method="post" action="">
@@ -44,15 +24,13 @@
 									<div class="col-sm-9">
 										<input maxlength="50" value="<?= $main->kode_barang; ?>" class="form-control" name="kode_barang" id="kode_barang" type="text" required/>
 									</div>
-								</div><!-- row -->
-
+								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 									<div class="col-sm-9">
 										<input maxlength="50" value="<?= $main->register; ?>" class="form-control" name="nomor_register" id="nomor_register" type="text" required/>
 									</div>
-								</div><!-- row -->
-
+								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label" style="text-align:left;" for="luas_tanah">Luas Tanah</label>
 									<div class="col-sm-4">
@@ -152,19 +130,14 @@
 										   id="btn_batal" name="yt1" type="button"/>Kembali</a>
 							</div>
 						</form>
-					</div><!-- form -->
+					</div>
 				</div>
 			</div>
 		</section>
 	</div>
 </div>
 
-
-
-
-
 <script>
-
 $(document).ready(function()
 {
 	$("#form_update_tanah").validate(
@@ -215,8 +188,6 @@ $(document).ready(function()
 		  });
 		}
 	});
-
 });
-
 
 </script>

@@ -1,19 +1,3 @@
-<style>
-	#footer
-	{
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		z-index: 999;
-	}
-</style>
-
 <div class="panel">
 	<div class="panel-body">
 		<section class="content">
@@ -42,15 +26,13 @@
 									<div class="col-sm-9">
 										<input maxlength="50" value="<?= $main->kode_barang; ?>" class="form-control" name="kode_barang" id="kode_barang" type="text" disabled/>
 									</div>
-								</div><!-- row -->
-
+								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 									<div class="col-sm-9">
 										<input maxlength="50" value="<?= $main->register; ?>" class="form-control" name="nomor_register" id="nomor_register" type="text" disabled/>
 									</div>
-								</div><!-- row -->
-
+								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label" style="text-align:left;" for="merk">Merk/Type</label>
 									<div class="col-sm-9">
@@ -144,7 +126,6 @@
 		</section>
 	</div>
 </div>
-
 
 <script>
 	$(document).ready(function()

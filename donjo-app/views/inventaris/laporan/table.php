@@ -1,29 +1,5 @@
-<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
-<style>
-	#footer
-	{
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		position: fixed;
-	}
-	input[type=search] {
-		width: 200px;
-    	height: 30px;
-	}
-</style>
 <div id="myModalExcel" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -59,7 +35,6 @@
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>
 			</div>
-
 		</form>
     </div>
 
@@ -67,8 +42,6 @@
 </div>
 <div id="myModal" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -104,10 +77,8 @@
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary pull-right"  id="form_cetak" name="form_cetak"  data-dismiss="modal">Cetak</button>
 			</div>
-
 		</form>
     </div>
-
   </div>
 </div>
 
@@ -133,9 +104,6 @@
 					</div>
 					<div class="panel-body">
 						<div class="pull-right">
-              				<!-- <a class="btn btn-primary" href="<?= site_url('inventaris_laporan/form'); ?>" style="color:white;">
-								<i class="fa fa-plus"></i> Tambah
-							</a> -->
 		        		</div>
 						<div class="pull-left">
 							<a type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
@@ -150,31 +118,28 @@
 					<table id="example" class="stripe cell-border table" class="grid">
 						<thead style="background-color:#f9f9f9;" >
 							<tr>
-									<th class="text-center" rowspan="3">No</th>
-									<th class="text-center" rowspan="3">Jenis Barang</th>
-									<th class="text-center" width="40%" rowspan="3">Keterangan</th>
-									<th class="text-center" colspan="5">Asal barang</th>
-									<th class="text-center" rowspan="3" >Aksi</th>
+								<th class="text-center" rowspan="3">No</th>
+								<th class="text-center" rowspan="3">Jenis Barang</th>
+								<th class="text-center" width="40%" rowspan="3">Keterangan</th>
+								<th class="text-center" colspan="5">Asal barang</th>
+								<th class="text-center" rowspan="3" >Aksi</th>
 							</tr>
 							<tr>
-									<th class="text-center" style="text-align:center;" rowspan="2">Dibeli Sendiri</th>
-									<th class="text-center" style="text-align:center;" colspan="3">Bantuan</th>
-									<th class="text-center" style="text-align:center;" rowspan="2">Sumbangan</th>
+								<th class="text-center" style="text-align:center;" rowspan="2">Dibeli Sendiri</th>
+								<th class="text-center" style="text-align:center;" colspan="3">Bantuan</th>
+								<th class="text-center" style="text-align:center;" rowspan="2">Sumbangan</th>
 							</tr>
 							<tr>
-									<th class="text-center" style="text-align:center;">Pemerintah</th>
-									<th class="text-center" style="text-align:center;">Provinsi</th>
-									<th class="text-center" style="text-align:center;">Kabupaten</th>
+								<th class="text-center" style="text-align:center;">Pemerintah</th>
+								<th class="text-center" style="text-align:center;">Provinsi</th>
+								<th class="text-center" style="text-align:center;">Kabupaten</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td></td>
 								<td>Tanah Kas Desa</td>
-								<td>
-								Informasi mengenai segala yang menyangkut dengan tanah
-								(dalam hal ini tanah yang digunakan dalam instansi tersebut).
-								</td>
+								<td>Informasi mengenai segala yang menyangkut dengan tanah (dalam hal ini tanah yang digunakan dalam instansi tersebut).</td>
 								<td>
 									<?=$inventaris_tanah_pribadi->total?>
 								</td>

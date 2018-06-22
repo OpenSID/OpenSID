@@ -1,26 +1,3 @@
-<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
-
-<style>
-	#footer
-	{
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		position: fixed;
-	}
-	input[type=search] {
-		width: 200px;
-    	height: 30px;
-	}
-
-</style>
-
 <div id="row">
 <div class="col-lg-2">
 	<div class="panel panel-default">

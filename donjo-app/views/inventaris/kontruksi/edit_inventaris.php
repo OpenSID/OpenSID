@@ -1,25 +1,6 @@
-<style>
-	#footer
-	{
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		z-index: 999;
-	}
-</style>
-<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
 <div class="panel">
 	<div class="panel-body">
 		<section class="content">
-
 			<div class='box box-default'>
 				<div class='box-header with-border'>
 					<h4 class='box-title'>Edit -
@@ -27,7 +8,6 @@
 					</h4>
 					<hr>
 				</div>
-
 				<div class='box-body'>
 					<div class="form">
 					<form class="form-horizontal" id="form_update_kontruksi" name="form_update_kontruksi" method="post" action="">
@@ -70,7 +50,6 @@
 												<option value='1'>Ya</option>
 												<option value='0'>Tidak</option>
 											<?php endif; ?>
-
 										</select>
 									</div>
 								</div>

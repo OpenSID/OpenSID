@@ -1,26 +1,3 @@
-<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
-
-<style>
-	#footer
-	{
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		position: fixed;
-	}
-	input[type=search] {
-		width: 200px;
-    	height: 30px;
-	}
-
-</style>
-
 <div id="row">
 <div class="col-lg-2">
 	<div class="panel panel-default">
@@ -41,19 +18,18 @@
 					<div class="panel-heading">
 						Mutasi Inventaris Tanah Desa
 					</div>
-					<!--  -->
 					<div class="panel-body">
 					<table id="example" class="stripe cell-border table" class="grid">
 						<thead style="background-color:#f9f9f9;" >
 							<tr>
-									<th class="text-center">No</th>
-									<th class="text-center">Nama Barang</th>
-									<th class="text-center">Kode Barang</th>
-									<th class="text-center">Tahun Pengadaan</th>
-									<th class="text-center">Tanggal Mutasi</th>
-									<th class="text-center">Jenis Mutasi</th>
-									<th class="text-center" width="300px">Keterangan</th>
-									<th class="text-center" width="100px">Aksi</th>
+								<th class="text-center">No</th>
+								<th class="text-center">Nama Barang</th>
+								<th class="text-center">Kode Barang</th>
+								<th class="text-center">Tahun Pengadaan</th>
+								<th class="text-center">Tanggal Mutasi</th>
+								<th class="text-center">Jenis Mutasi</th>
+								<th class="text-center" width="300px">Keterangan</th>
+								<th class="text-center" width="100px">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>

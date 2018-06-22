@@ -1,29 +1,5 @@
-<script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
-<script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
-<style>
-	#footer
-	{
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		position: fixed;
-	}
-
-	input[type=search] {
-		width: 200px;
-    	height: 30px;
-	}
-</style>
 <div id="myModalExcel" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -59,7 +35,6 @@
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>
 			</div>
-
 		</form>
     </div>
 
@@ -67,8 +42,6 @@
 </div>
 <div id="myModal" class="modal fade" role="dialog" style="padding-top:30px;">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -104,10 +77,8 @@
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary pull-right"  id="form_cetak" name="form_cetak"  data-dismiss="modal">Cetak</button>
 			</div>
-
 		</form>
     </div>
-
   </div>
 </div>
 
@@ -136,7 +107,7 @@
               				<a class="btn btn-primary" href="<?= base_url('index.php/inventaris_tanah/form'); ?>" style="color:white;">
 								<i class="fa fa-plus"></i> Tambah
 							</a>
-		        </div>
+		  			    </div>
 						<div class="pull-left">
 							<a type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
 								<i class="fa fa-file-pdf-o"></i> Cetak
@@ -145,23 +116,21 @@
 								<i class="fa fa-file-excel-o"></i> Unduh Excel
 							</a>
 				 		 </div>
-
 					</div>
 					<div class="panel-body">
 					<table id="example" class="stripe cell-border table" class="grid" style="width:100%;">
 						<thead style="background-color:#f9f9f9;" >
 							<tr>
-									<th class="text-center" >No</th>
-									<th class="text-center" >Nama Barang</th>
-									<th class="text-center" >Kode Barang</th>
-									<th class="text-center" >Luas (M<sup>2</sup>)</th>
-									<th class="text-center" >Tahun Pengadaan</th>
-									<th class="text-center" >Letak/Alamat</th>
-									<th class="text-center" >Nomor Sertifikat</th>
-
-									<th class="text-center" >Asal Usul</th>
-									<th class="text-center" >Harga (Rp)</th>
-									<th class="text-center"  width="100px">Aksi</th>
+								<th class="text-center" >No</th>
+								<th class="text-center" >Nama Barang</th>
+								<th class="text-center" >Kode Barang</th>
+								<th class="text-center" >Luas (M<sup>2</sup>)</th>
+								<th class="text-center" >Tahun Pengadaan</th>
+								<th class="text-center" >Letak/Alamat</th>
+								<th class="text-center" >Nomor Sertifikat</th>
+								<th class="text-center" >Asal Usul</th>
+								<th class="text-center" >Harga (Rp)</th>
+								<th class="text-center"  width="100px">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -171,7 +140,6 @@
 								<?php else: ?>
 									<tr>
 								<?php endif; ?>
-
 									<td></td>
 									<td><?= $data->nama_barang;?></td>
 									<td><?= $data->kode_barang;?></td>
@@ -265,14 +233,12 @@
 	{
 		var link = '<?= site_url("inventaris_tanah/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
-		// alert('fell');
   });
 
 	$("#form_download").click(function( event )
 	{
 		var link = '<?= site_url("inventaris_tanah/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
-		// alert('fell');
   });
 
 </script>
