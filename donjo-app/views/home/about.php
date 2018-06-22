@@ -1,15 +1,13 @@
 <!-- Perubahan script coding untuk bisa menampilkan about dalam bentuk tampilan bootstrap (AdminLTE)  -->
 <div class="box-header with-border">
-	<h3 class="box-title"><strong>Anda sedang menggunakan aplikasi OpenSID <?php echo AmbilVersi()?></strong></h3>
+	<h3 class="box-title"><strong>Anda sedang menggunakan aplikasi OpenSID <?=AmbilVersi()?></strong></h3>
 </div>
 <div class="box-body">
 	<div class="box-group" id="accordion">
 		<div class="panel box box-default">
 			<div class="box-header with-border">
 				<h4 class="box-title">
-					<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-						Aplikasi OpenSID
-                    </a>
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Aplikasi OpenSID</a>
 				</h4>
 			</div>
 			<div id="collapse1" class="panel-collapse collapse in">
@@ -21,9 +19,7 @@
 		<div class="panel box box-default">
 			<div class="box-header with-border">
 				<h4 class="box-title">
-					<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                        Apakah SID ?
-					</a>
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Apakah SID ?</a>
 				</h4>
 			</div>
 			<div id="collapse2" class="panel-collapse collapse">
@@ -31,9 +27,7 @@
 					<p>Aplikasi Sistem Informasi Desa (SID) adalah sistem olah data dan informasi berbasis komputer yang dapat dikelola oleh pemerintah dan komunitas desa dalam dua</p> ranah:
 					<dl>
 						<dt>1. Offline</dt>
-						<dd>Aplikasi diinstall dalam komputer server di kantor desa dan dioperasikan sebagai server (pusat data) yang bersifat lokal. Karena tidak terhubung ke internet, SID offline hanya bisa diakses dalam jaringan lokal. Sistem offline ini direkomendasikan untuk diterapkan dalam penggunaan aplikasi SID harian. Database dari hasil proses olah data secara offline itu dapat diunggah ke sistem online secara berkala.</dd>
-
-						<dt>2. Online</dt>
+						<dd>Aplikasi diinstall dalam komputer server di kantor desa dan dioperasikan sebagai server (pusat data) yang bersifat lokal. Karena tidak terhubung ke internet, SID offline hanya bisa diakses dalam jaringan lokal. Sistem offline ini direkomendasikan untuk diterapkan dalam penggunaan aplikasi SID harian. Database dari hasil proses olah data secara offline itu dapat diunggah ke sistem online secara berkala.</dd>						<dt>2. Online</dt>
 						<dd>SID akan optimal jika terhubung ke internet sebagai sistem online berbasis web. SID online akan otomatis berfungsi juga sebagai website desa. Website desa ini memiliki fungsi yang terbagi dalam dua bagian, yakni bagian depan yang bisa diakses oleh publik dan bagian dalam yang hanya bisa diakses oleh administrator sistem.</dd>
 					</dl>
 				</div>
@@ -42,9 +36,7 @@
 		<div class="panel box box-default">
 			<div class="box-header with-border">
 				<h4 class="box-title">
-					<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                        Manajemen Akses SID
-					</a>
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Manajemen Akses SID</a>
 				</h4>
 			</div>
 			<div id="collapse3" class="panel-collapse collapse">
@@ -80,9 +72,7 @@
 		<div class="panel box box-default">
 			<div class="box-header with-border">
 				<h4 class="box-title">
-					<a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
-                        Tahapan Membangun SID
-					</a>
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Tahapan Membangun SID</a>
 				</h4>
 			</div>
 			<div id="collapse4" class="panel-collapse collapse">
@@ -105,9 +95,7 @@
 		<div class="panel box box-default">
 			<div class="box-header with-border">
 				<h4 class="box-title">
-					<a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
-                        Hak Cipta, Syarat, Dan Ketentuan
-					</a>
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse5">Hak Cipta, Syarat, Dan Ketentuan</a>
 				</h4>
 			</div>
 			<div id="collapse5" class="panel-collapse collapse">
@@ -120,9 +108,7 @@
 		<div class="panel box box-default">
 			<div class="box-header with-border">
 				<h4 class="box-title">
-					<a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
-                        Kontak Dan Informasi
-					</a>
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse6">Kontak Dan Informasi</a>
 				</h4>
 			</div>
 			<div id="collapse6" class="panel-collapse collapse">

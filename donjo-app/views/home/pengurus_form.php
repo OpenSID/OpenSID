@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Staf Pemerintahan <?php echo ucwords($this->setting->sebutan_desa)?></h1>
+		<h1>Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Staf Pemerintahan <?php echo ucwords($this->setting->sebutan_desa)?></li>
+			<li class="active">Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></li>
 		</ol>
 	</section>
 	<section class="content">
@@ -38,10 +38,10 @@
 						</div>
 						<div class="box-body">
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="pamong_nama">Nama Pegawai <?php echo ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-4 control-label" for="pamong_nama">Nama Pegawai <?= ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-6">
 									<input type="hidden" name="pamong_status" value="1">
-									<input id="pamong_nama" name="pamong_nama" class="form-control input-sm required" type="text" placeholder="Nama" value="<?php echo unpenetration($pamong['pamong_nama'])?>"></input>
+									<input id="pamong_nama" name="pamong_nama" class="form-control input-sm required" type="text" placeholder="Nama" value="<?= unpenetration($pamong['pamong_nama'])?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -59,14 +59,18 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="jabatan">Jabtan</label>
 								<div class="col-sm-6">
-									<input id="jabatan" name="jabatan" class="form-control input-sm" type="text" placeholder="Jabatan" value="<?php echo unpenetration($pamong['jabatan'])?>" ></input>
+									<input id="jabatan" name="jabatan" class="form-control input-sm" type="text" placeholder="Jabatan" value="<?= unpenetration($pamong['jabatan'])?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="pamong_status">Status</label>
-								<div class="radio col-sm-6">
-									<label><input id="group1" type="radio" value="1" name="pamong_status" <?php if($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == ''):?>checked<?php endif?>></input>Aktif</label>&nbsp;&nbsp;
-									<label><input id="group2" type="radio" value="2" name="pamong_status" <?php if($pamong['pamong_status'] == '2' ):?>checked<?php endif?>></input>Tidak Aktif</label>
+								<label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status</label>
+								<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
+									<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-2 form-check-label <?php if($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == NULL): ?>active<?php endif ?>">
+										<input id="group1" type="radio" name="pamong_status" class="form-check-input" type="radio" value="1" <?php if($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									</label>
+									<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-2 form-check-label <?php if($pamong['pamong_status'] == '2'):?>active<?php endif?>">
+										<input id="group2" type="radio" name="pamong_status" class="form-check-input" type="radio" value="2" <?php if($pamong['pamong_status'] == '2'):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
+									</label>
 								</div>
 							</div>
 						</div>
