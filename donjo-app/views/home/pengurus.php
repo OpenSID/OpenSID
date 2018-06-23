@@ -79,7 +79,7 @@
 																	</td>
 																	<td class="text-center">
 																		<div class="user-panel">
-																			<div class="image">
+																			<div class="image2">
 																				<?php if($data['foto']):?>
 																					<img src="<?=AmbilFoto($data['foto'])?>" class="img-circle" alt="User Image"/>
 																				<?php else:?>
