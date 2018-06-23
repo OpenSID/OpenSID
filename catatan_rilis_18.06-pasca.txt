@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 18.06-pasca:
 14. Tambah modul Inventaris berdasarkan PERMENDAGRI NO 4 THN 2007.
 15. #1067: Sekarang Log Penduduk tidak lagi menampilkan data ganda untuk penduduk pecah KK atau penduduk baru yang status dasarnya diubah menjadi mati/hilang/pindah. [bug-fix]
 16. #1114: Perbaiki fitur cari dan filter aktif/tidak-aktif di Pengaturan > Manajemen Modul. [bug-fix]
+17. #143: Sekarang Laporan Kependudukan Bulanan menampilkan jumlah penduduk WNA dengan benar. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
