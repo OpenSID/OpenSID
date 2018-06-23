@@ -8,6 +8,7 @@
 
 		<!-- jQuery 3 -->
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+		<script src="<?= base_url()?>assets/bootstrap/js/moment.min.js"></script>
 		<!-- Bootstrap 3.3.7 -->
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap.min.js"></script>
 		<!-- Select2 -->
@@ -26,6 +27,8 @@
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-colorpicker.min.js"></script>
 		<!-- bootstrap time picker -->
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-timepicker.min.js"></script>
+		<!-- bootstrap Date time picker -->
+		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
 		<!-- Bootstrap WYSIHTML5 -->
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap3-wysihtml5.all.min.js"></script>
 		<!-- Slimscroll -->

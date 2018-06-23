@@ -38,6 +38,8 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-datepicker.min.css">
 		<!-- Bootstrap time Picker -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-timepicker.min.css">
+		<!-- Bootstrap Date time Picker -->
+		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-datetimepicker.min.css">
 		<!-- Theme style -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.min.css">
 		<!-- AdminLTE Skins. -->
