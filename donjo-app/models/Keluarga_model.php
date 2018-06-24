@@ -71,7 +71,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND t.nama LIKE '$kw'";
+			$search_sql= " AND (t.nama LIKE '$kw' OR t.nik LIKE '$kw')";
 			return $search_sql;
 		}
 	}
