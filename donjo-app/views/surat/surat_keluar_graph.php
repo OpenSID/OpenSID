@@ -22,10 +22,10 @@ table.form.detail td{
 </div>
 
 </td>
-<td style="background:#fff;padding:5px;"> 
+<td style="background:#fff;padding:5px;">
 
 <div class="content-header">
-   
+
 </div>
 <div id="contentpane">
 <div class="ui-layout-north panel">
@@ -34,15 +34,16 @@ table.form.detail td{
 <table class="form">
 
 
-<div class="block"><head>
+<div class="block">
+<head>
 
-		<script type="text/javascript">
+        <script type="text/javascript">
 $(function () {
     var chart;
-    
+
     $(document).ready(function () {
-    	
-    	// Build the chart
+
+        // Build the chart
         chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'container',
@@ -54,8 +55,8 @@ $(function () {
                 text: 'Surat Keluar'
             },
             tooltip: {
-        	    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
-            	percentageDecimals: 1
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br />Total: <b>{point.y}</b>'
+                percentageDecimals: 1
             },
             plotOptions: {
                 pie: {
@@ -71,16 +72,16 @@ $(function () {
                 type: 'pie',
                 name: 'Prosentase',
                 data: [
-                 				<?php  foreach($stat as $data){?>
-							<?php if($data['jumlah'] != "-"){?>
-								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
-							<?php }?>
-						<?php }?>
+            <?php foreach($stat as $data){?>
+                <?php if($data['jumlah'] != "-"){?>
+                    ['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+                <?php }?>
+            <?php }?>
                 ]
             }]
         });
     });
-    
+
 });
 		</script>
 	</head>
@@ -91,16 +92,13 @@ $(function () {
 
 <div id="container" style="min-width: 500px; height: 500px; margin: 0 auto"></div>
 
-	</body>
-	
-	
-
+    </body>
 
 </table>
 </div>
-   
+
 <div class="ui-layout-south panel bottom">
-<div class="left">     
+<div class="left">
 
 </div>
 <div class="right">
