@@ -39,11 +39,6 @@
 					echo "<li><a href=\"".site_url("first/gallery/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
 				}
 
-				$paging_range = 3;
-				$start_paging = max($paging->start_link, $p - $paging_range);
-				$end_paging = min($paging->end_link, $p + $paging_range);
-				$pages = range($start_paging, $end_paging);
-
 				foreach($pages as $i) {
 					$strC = ($p == $i)? "class=\"active\"":"";
 					echo "<li ".$strC."><a href=\"".site_url("first/gallery/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
