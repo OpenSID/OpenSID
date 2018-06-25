@@ -72,11 +72,11 @@ $(function () {
                 type: 'pie',
                 name: 'Prosentase',
                 data: [
-            <?php foreach($stat as $data){?>
-                <?php if($data['jumlah'] != "-"){?>
-                    ['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
-                <?php }?>
-            <?php }?>
+	<?php foreach($stat as $data){?>
+		<?php if($data['jumlah'] != "-"){?>
+			['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+		<?php }?>
+	<?php }?>
                 ]
             }]
         });
