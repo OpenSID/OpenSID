@@ -59,10 +59,11 @@ class Sms extends CI_Controller{
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='0';
+		$nav['act']= 10;
+		$nav['act_sub'] = 39;
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/manajemen_sms_table',$data);
 		$this->load->view('footer');
 		unset($_SESSION['cari']);
@@ -86,11 +87,12 @@ class Sms extends CI_Controller{
 		$data['form_action'] = site_url("sms/insert_autoreply");
 
 		$header = $this->header_model->get_data();
-		$menu['act']='1';
+		$nav['act']= 10;
+		$nav['act_sub'] = 41;
 
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/setting',$data);
 		$this->load->view('footer');
 	}
@@ -118,10 +120,11 @@ class Sms extends CI_Controller{
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='3';
+		$nav['act']= 10;
+		$nav['act_sub'] = 41;
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/polling',$data);
 		$this->load->view('footer');
 	}
@@ -148,10 +151,11 @@ class Sms extends CI_Controller{
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='0';
+		$nav['act']= 10;
+		$nav['act_sub'] = 39;
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/create_sms',$data);
 		$this->load->view('footer');
 		unset($_SESSION['cari']);
@@ -192,10 +196,11 @@ class Sms extends CI_Controller{
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='0';
+		$nav['act']= 10;
+		$nav['act_sub'] = 39;
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/berita_terkirim',$data);
 		$this->load->view('footer');
 		unset($_SESSION['cari']);
@@ -236,10 +241,11 @@ class Sms extends CI_Controller{
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='0';
+		$nav['act']= 10;
+		$nav['act_sub'] = 39;
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/pesan_tertunda',$data);
 		$this->load->view('footer');
 		unset($_SESSION['cari']);
@@ -393,26 +399,28 @@ class Sms extends CI_Controller{
 
 	function ajax_penduduk_rw($dusun=''){
 		$rw = $this->penduduk_model->list_rw($dusun);
-
-		echo"<td>RW</td>
-		<td><select name='rw' onchange=RWSel('".$dusun."',this.value)>
-		<option value=''>Pilih RW&nbsp;</option>";
-		foreach($rw as $data){
-			echo "<option>".$data['rw']."</option>";
-		}echo"</select>
-		</td>";
+		echo"<div class='form-group'>
+			<label for='rw'>RW</label>
+			<select class='form-control input-sm' name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
+				<option value=''>Pilih RW</option>";
+				foreach($rw as $data){
+					echo "<option>".$data['rw']."</option>";
+				}
+			echo"</select>
+		</div>";
 	}
 
 	function ajax_penduduk_rt($dusun='',$rw=''){
 		$rt = $this->penduduk_model->list_rt($dusun,$rw);
-
-		echo "<td>RT</td>
-		<td><select name='rt'>
-		<option value=''>Pilih RT&nbsp;</option>";
-		foreach($rt as $data){
-			echo "<option value=".$data['rt'].">".$data['rt']."</option>";
-		}echo"</select>
-		</td>";
+		echo"<div class='form-group'>
+			<label for='rt'>RT</label>
+			<select class='form-control input-sm' name='rt'>
+				<option value=''>Pilih RT</option>";
+				foreach($rt as $data){
+					echo "<option value=".$data['rt'].">".$data['rt']."</option>";
+				}
+			echo"</select>
+		</div>";
 	}
 
 	function search(){
@@ -520,10 +528,11 @@ class Sms extends CI_Controller{
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='2';
+		$nav['act']= 10;
+		$nav['act_sub'] = 40;
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/kontak',$data);
 		$this->load->view('footer');
 	unset($_SESSION['cari_kontak']);
@@ -576,10 +585,11 @@ class Sms extends CI_Controller{
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='2';
+		$nav['act']= 10;
+		$nav['act_sub'] = 40;
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/group',$data);
 		$this->load->view('footer');
 		unset($_SESSION['cari_grup']);
@@ -633,10 +643,11 @@ class Sms extends CI_Controller{
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='2';
+		$nav['act']= 10;
+		$nav['act_sub'] = 40;
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/group_detail',$data);
 		$this->load->view('footer');
 		unset($_SESSION['cari_anggota']);
@@ -696,10 +707,11 @@ class Sms extends CI_Controller{
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='2';
+		$nav['act']= 10;
+		$nav['act_sub'] = 39;
 
 		$this->load->view('header', $header);
-		$this->load->view('sms/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('sms/pertanyaan',$data);
 		$this->load->view('footer');
 	}
