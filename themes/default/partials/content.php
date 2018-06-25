@@ -112,6 +112,7 @@ echo "
 if($artikel){
 	echo "
 	<div class=\"box-footer\">
+	<div>Halaman ".$p." dari ".$paging->end_link."</div>
 		<ul class=\"pagination pagination-sm no-margin\">";
 		if($paging->start_link){
 			echo "<li><a href=\"".site_url("first/".$paging_page."/$paging->start_link" . $paging->suffix)."\" title=\"Halaman Pertama\"><i class=\"fa fa-fast-backward\"></i>&nbsp;</a></li>";
@@ -120,9 +121,14 @@ if($artikel){
 			echo "<li><a href=\"".site_url("first/".$paging_page."/$paging->prev" . $paging->suffix)."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
 		}
 
-		for($i=$paging->start_link;$i<=$paging->end_link;$i++){
+		$paging_range = 3;
+		$start_paging = max($paging->start_link, $p - $paging_range);
+		$end_paging = min($paging->end_link, $p + $paging_range);
+		$pages = range($start_paging, $end_paging);
+
+		foreach($pages as $i) {
 			$strC = ($p == $i)? "class=\"active\"":"";
-			echo "<li ".$strC."><a href=\"".site_url("first/".$paging_page."/$i" . $paging->suffix)."\" title=\"Halaman ".$i."\">".$i."</a></li>";
+				echo "<li ".$strC."><a href=\"".site_url("first/".$paging_page."/$i" . $paging->suffix)."\" title=\"Halaman ".$i."\">".$i."</a></li>";
 		}
 
 		if($paging->next){
