@@ -236,18 +236,15 @@
 
 	}
 
-	function grafik(){
-        $sql   = <<<QUERY
-            SELECT
-                f.nama,
-                COUNT(l.id) as jumlah
-            FROM log_surat l
-            LEFT JOIN tweb_surat_format f on l.id_format_surat=f.id
-            GROUP BY f.nama
-        QUERY
-
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
+	function grafik()
+	{
+		$data = $this->db
+				->select('f.nama, COUNT(l.id) as jumlah')
+				->from('log_surat l')
+				->join('tweb_surat_format f', 'l.id_format_surat=f.id')
+				->group_by('f.nama')
+				->get()
+				->result_array();
 		return $data;
 	}
 

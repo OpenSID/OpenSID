@@ -22,6 +22,7 @@ Lengkapnya, isi rilis versi 18.06-pasca:
 16. #1114: Perbaiki fitur cari dan filter aktif/tidak-aktif di Pengaturan > Manajemen Modul. [bug-fix]
 17. #143: Sekarang Laporan Kependudukan Bulanan menampilkan jumlah penduduk WNA dengan benar. [bug-fix]
 18. #1031: Sekarang bisa cari Keluarga berdasarkan nomor KK.
+19. #1032: Sekarang jumlah surat juga ditampilkan di Arsip Layanan > Grafik Surat Keluar.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
