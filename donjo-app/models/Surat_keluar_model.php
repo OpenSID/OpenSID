@@ -237,7 +237,14 @@
 	}
 
 	function grafik(){
-		$sql   = "select round(((jml*100)/(select count(id) from log_surat)),2) as jumlah, nama from (SELECT COUNT(l.id) as jml, f.nama from log_surat l left join tweb_surat_format f on l.id_format_surat=f.id group by l.id_format_surat) as a";
+        $sql   = <<<QUERY
+            SELECT
+                f.nama,
+                COUNT(l.id) as jumlah
+            FROM log_surat l
+            LEFT JOIN tweb_surat_format f on l.id_format_surat=f.id
+            GROUP BY f.nama
+        QUERY
 
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
