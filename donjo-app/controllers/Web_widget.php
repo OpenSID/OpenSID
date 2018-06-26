@@ -60,10 +60,11 @@ class Web_widget extends CI_Controller{
 		$data['keyword'] = $this->web_widget_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act']=7;
+		$nav['act']= 13;
+		$nav['act_sub'] = 48;
 
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('web/artikel/widget',$data);
 		$this->load->view('footer');
 	}
@@ -83,11 +84,12 @@ class Web_widget extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 7;
+		$nav['act']= 13;
+		$nav['act_sub'] = 48;
 
 		$this->load->view('header', $header);
 		//$this->load->view('web/spacer');
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('web/artikel/widget-form',$data);
 		$this->load->view('footer');
 	}
@@ -110,11 +112,13 @@ class Web_widget extends CI_Controller{
 
 	function admin($widget){
 		$header = $this->header_model->get_data();
-		$nav['act'] = 7;
+		$header['minsidebar'] =1;
+		$nav['act']= 13;
+		$nav['act_sub'] = 48;
 		$data['form_action'] = site_url("web_widget/update_setting/".$widget);
 		$data['setting'] = $this->web_widget_model->get_setting($widget);
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('widgets/admin_'.$widget, $data);
 		$this->load->view('footer');
 	}

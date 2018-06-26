@@ -172,3 +172,24 @@
 {
 	padding: 7px;
 }
+
+@media (max-width:480px)
+{
+	.table > tbody > tr td input, .table > tbody > tr td select
+	{
+		width:150px
+	}
+	.form-group {
+    margin-bottom: 0px;
+	}
+}
+@media (max-width:767px)
+{
+	.table > tbody > tr td input, .table > tbody > tr td select
+	{
+		width:150px
+	}
+	.form-group {
+    margin-bottom: 0px;
+	}
+}

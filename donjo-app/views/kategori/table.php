@@ -1,148 +1,173 @@
-<script>
-$(function() {
-var keyword = <?php echo $keyword?> ;
-$( "#cari" ).autocomplete({
-source: keyword
-});
-});
-</script>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Menu Dinamis / Kategori</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Pengaturan Menu Dinamis</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-3">
+          <?php $this->load->view('kategori/menu_kiri.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?=site_url("kategori/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori Baru">
+								<i class="fa fa-plus"></i>Tambah Kategori Baru
+            	</a>
+						  <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("kategori/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<form id="mainform" name="mainform" action="" method="post">
+											<div class="row">
+												<div class="col-sm-6">
+													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('kategori/filter')?>')">
+														<option value="">Semua</option>
+														<option value="1" <?php  if ($filter==1) :?>selected<?php  endif?>>Aktif</option>
+														<option value="2" <?php  if ($filter==2) :?>selected<?php  endif?>>Tidak Aktif</option>
+													</select>
+												</div>
+												<div class="col-sm-6">
+													<div class="box-tools">
+														<div class="input-group input-group-sm pull-right">
+															<input name="cari_kontak" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) :$('#'+'mainform').attr('action', '<?=site_url("kategori/search")?>');$('#'+'mainform').submit();endif">
+															<div class="input-group-btn">
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("kategori/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered dataTable table-hover">
+															<thead class="bg-gray disabled color-palette">
+																<tr>
+																	<th><input type="checkbox" id="checkall"/></th>
+																	<th>No</th>
+																	<th>Aksi</th>
+																	<?php  if ($o==2): ?>
+                                    <th><a href="<?= site_url("kategori/index/$p/1")?>">Nama Kategori<i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                  <?php  elseif ($o==1): ?>
+                                    <th><a href="<?= site_url("kategori/index/$p/2")?>">Nama Kategori<i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                  <?php  else: ?>
+                                    <th><a href="<?= site_url("kategori/index/$p/1")?>">Nama Kategori<i class='fa fa-sort fa-sm'></i></a></th>
+                                  <?php  endif; ?>
+                                  <?php  if ($o==4): ?>
+                                    <th nowrap><a href="<?= site_url("kategori/index/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                  <?php  elseif ($o==3): ?>
+                                    <th nowrap><a href="<?= site_url("kategori/index/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                  <?php  else: ?>
+                                    <th nowrap><a href="<?= site_url("kategori/index/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
+                                  <?php  endif; ?>
+                                  <th>Link</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php foreach ($main as $data):?>
+																	<tr>
+																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<td><?=$data['no']?></td>
+																		<td nowrap>
+																		  <?php if ($_SESSION['grup']==1): ?>
+																				<a href="<?= site_url("kategori/urut/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posis Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																				<a href="<?= site_url("kategori/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posis Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																			<?php endif; ?>
+																			<a href="<?= site_url("kategori/sub_kategori/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Sub Kategori"><i class="fa fa-bars"></i></a>
+																			<a href="<?= site_url("kategori/form/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																			<?php  if ($data['enabled'] == '2'):?>
+																				<a href="<?= site_url("kategori/kategori_lock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock"></i></a>
+																			<?php  elseif ($data['enabled'] == '1'): ?>
+																				<a href="<?= site_url("kategori/kategori_unlock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+                                        <a href="<?=site_url("kategori/ajax_add_sub_kategori/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Menu" title="Tambah Sub Menu"><i class="fa fa-plus"></i></a>
+                                      <?php  endif?>
+																			<a href="#" data-href="<?= site_url("kategori/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	  </td>
+                                    <td width="50%"><?= $data['kategori']?></td>
+                                    <td><?= $data['aktif']?></td>
+                                    <td>-</td>
+																	</tr>
+																<?php endforeach; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</form>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="dataTables_length">
+                          <form id="paging" action="<?= site_url("kategori")?>" method="post" class="form-horizontal">
+                            <label>
+                              Tampilkan
+                              <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+                                <option value="20" <?php  selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php  selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php  selected($per_page, 100); ?> >100</option>
+                              </select>
+                              Dari
+                              <strong><?= $paging->num_rows?></strong>
+                              Total Data
+                            </label>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                          <ul class="pagination">
+                            <?php  if ($paging->start_link): ?>
+                              <li><a href="<?=site_url("kategori/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                            <?php  endif; ?>
+                            <?php  if ($paging->prev): ?>
+                              <li><a href="<?=site_url("kategori/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <?php  endif; ?>
+                            <?php  for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                              <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("kategori/index/$i/$o")?>"><?= $i?></a></li>
+                            <?php  endfor; ?>
+                            <?php  if ($paging->next): ?>
+                              <li><a href="<?=site_url("kategori/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                            <?php  endif; ?>
+                            <?php  if ($paging->end_link): ?>
+                              <li><a href="<?=site_url("kategori/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                            <?php  endif; ?>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
 
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-
-<?php $this->load->view('kategori/menu_kiri.php')?>
-
-<td style="background:#fff;padding:0px;">
-<div id="contentpane">
-<form id="mainform" name="mainform" action="" method="post">
-<div class="ui-layout-north panel">
-<div class="left">
-  <h3>Pengelolaan Kategori</h3>
-<div class="uibutton-group">
-<a href="<?php echo site_url("kategori/form")?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah kategori Baru</a>
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("kategori/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
-</div>
-</div>
-</div>
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<div class="table-panel top">
-<div class="left">
-<select name="filter" onchange="formAction('mainform','<?php echo site_url('kategori/filter')?>')">
-<option value="">Semua</option>
-<option value="1" <?php if($filter==1) :?>selected<?php endif?>>Enabled</option>
-<option value="2" <?php if($filter==2) :?>selected<?php endif?>>Disabled</option>
-</select>
-</div>
-<div class="right">
-<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("kategori/search")?>');$('#'+'mainform').submit();}" />
-<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("kategori/search")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
-</div>
-</div>
-<table class="list">
-  <thead>
-    <tr>
-      <th>No</th>
-      <th><input type="checkbox" class="checkall"/></th>
-      <th>Aksi</th>
-
-      <?php  if($o==2): ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/1")?>">Kategori <span class="fa fa-sort-asc fa-sm">
-      <?php  elseif($o==1): ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/2")?>">Kategori <span class="fa fa-sort-desc fa-sm">
-      <?php  else: ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/1")?>">Kategori <span class="fa fa-sort fa-sm">
-      <?php  endif; ?>&nbsp;</span></a></th>
-
-      <?php  if($o==4): ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/3")?>">Enabled / Disabled <span class="fa fa-sort-asc fa-sm">
-      <?php  elseif($o==3): ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/4")?>">Enabled / Disabled <span class="fa fa-sort-desc fa-sm">
-      <?php  else: ?>
-        <th align="left"><a href="<?php echo site_url("kategori/index/$p/3")?>">Enabled / Disabled <span class="fa fa-sort fa-sm">
-      <?php  endif; ?>&nbsp;</span></a></th>
-      <th>Link</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach($main as $data){?>
-      <tr>
-        <td align="center" width="2"><?php echo $data['no']?></td>
-        <td align="center" width="5">
-          <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-        </td>
-        <td>
-          <div class="uibutton-group">
-            <?php if($_SESSION['grup']==1): ?>
-              <a href="<?php echo site_url("kategori/urut/$data[id]/1")?>" class="uibutton tipsy south" title="Turun"><span class="fa fa-arrow-down"></span></a>
-              <a href="<?php echo site_url("kategori/urut/$data[id]/2")?>" class="uibutton tipsy south" title="Naik"><span class="fa fa-arrow-up"></span></a>
-            <?php endif; ?>
-            <a href="<?php echo site_url("kategori/sub_kategori/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Sub kategori"><span class="fa fa-bars"></span> Rincian</a>
-            <a href="<?php echo site_url("kategori/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
-            <a href="<?php echo site_url("kategori/delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
-            <?php if($data['enabled'] == '2'):?>
-              <a href="<?php echo site_url("kategori/kategori_lock/".$data['id'])?>" class="uibutton" title="Aktivasi kategori"><span class="fa fa-lock"></span></a>
-            <?php elseif($data['enabled'] == '1'): ?>
-              <a href="<?php echo site_url("kategori/kategori_unlock/".$data['id'])?>" class="uibutton tipsy south"  title="Non-aktifkan kategori"><span class="fa fa-unlock"></span></a>
-              <a href="<?php echo site_url("kategori/ajax_add_sub_kategori/$data[id]")?>" class="uibutton tipsy south" target="ajax-modal" rel="window" header="Tambah Sub kategori <?php echo $data['kategori']?>" class="uibutton tipsy south" title="Tambah Sub kategori"><span class="fa fa-plus-circle"></span></a>
-            <?php endif?>
-          </div>
-        </td>
-        <td><?php echo $data['kategori']?></td>
-        <td><?php echo $data['aktif']?></td>
-        <td>-</td>
-        <!--
-        <td><?php echo $data['link']?></td>
-        -->
-      </tr>
-    <?php }?>
-  </tbody>
-</table>
-</div>
-</form>
-<div class="ui-layout-south panel bottom">
-<div class="left">
-<div class="table-info">
-<form id="paging" action="<?php echo site_url('kategori')?>" method="post">
-<label>Tampilkan</label>
-<select name="per_page" onchange="$('#paging').submit()" >
-<option value="20" <?php  selected($per_page,20); ?> >20</option>
-<option value="50" <?php  selected($per_page,50); ?> >50</option>
-<option value="100" <?php  selected($per_page,100); ?> >100</option>
-</select>
-<label>Dari</label>
-<label><strong><?php echo $paging->num_rows?></strong></label>
-<label>Total Data</label>
-</form>
-</div>
-</div>
-<div class="right">
-<div class="uibutton-group">
-<?php  if($paging->start_link): ?>
-<a href="<?php echo site_url("kategori/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
-<?php  endif; ?>
-<?php  if($paging->prev): ?>
-<a href="<?php echo site_url("kategori/index/$paging->prev/$o")?>" class="uibutton">Prev</a>
-<?php  endif; ?>
-</div>
-<div class="uibutton-group">
-
-<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-<a href="<?php echo site_url("kategori/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-<?php  endfor; ?>
-</div>
-<div class="uibutton-group">
-<?php  if($paging->next): ?>
-<a href="<?php echo site_url("kategori/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
-<?php  endif; ?>
-<?php  if($paging->end_link): ?>
-<a href="<?php echo site_url("kategori/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
-<?php  endif; ?>
-</div>
-</div>
-</div>
-</div>
-</td>
-</tr>
-</table>
-</div>

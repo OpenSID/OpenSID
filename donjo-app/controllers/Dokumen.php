@@ -52,10 +52,11 @@ class Dokumen extends CI_Controller{
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act']=4;
+		$nav['act']= 13;
+		$nav['act_sub'] = 52;
 
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/table',$data);
 		$this->load->view('footer');
 	}
@@ -77,9 +78,10 @@ class Dokumen extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$nav['act']=4;
+		$nav['act']= 13;
+		$nav['act_sub'] = 52;
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/form',$data);
 		$this->load->view('footer');
 	}

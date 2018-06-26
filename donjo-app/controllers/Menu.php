@@ -48,10 +48,11 @@ class Menu extends CI_Controller{
 		$data['keyword'] = $this->web_menu_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act']=1;
+		$nav['act']= 13;
+		$nav['act_sub'] = 49;
 
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('menu/table',$data);
 		$this->load->view('footer');
 	}
@@ -86,9 +87,10 @@ class Menu extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$data['tip'] = $tip;
 
-		$nav['act']=1;
+		$nav['act']= 13;
+		$nav['act_sub'] = 49;
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('menu/form',$data);
 		$this->load->view('footer');
 	}
@@ -99,10 +101,11 @@ class Menu extends CI_Controller{
 		$data['tip'] = $tip;
 		$data['menu'] = $menu;
 		$header = $this->header_model->get_data();
-		$nav['act']=1;
+		$nav['act']= 13;
+		$nav['act_sub'] = 49;
 
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('menu/sub_menu_table',$data);
 		$this->load->view('footer');
 	}
