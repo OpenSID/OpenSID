@@ -23,10 +23,11 @@ class Sosmed extends CI_Controller{
 		$id=$data['main']['id'];
 		$data['form_action'] = site_url("sosmed/update/1");
 		$header = $this->header_model->get_data();
-		$nav['act']=6;
+		$nav['act']= 13;
+		$nav['act_sub'] = 53;
 
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sosmed/facebook',$data);
 		$this->load->view('footer');
 	}
@@ -37,9 +38,10 @@ class Sosmed extends CI_Controller{
 		$data['form_action'] = site_url("sosmed/update/2/$id");
 		$header = $this->header_model->get_data();
 
-		$nav['act']=6;
+		$nav['act']= 13;
+		$nav['act_sub'] = 53;
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sosmed/twitter',$data);
 		$this->load->view('footer');
 	}
@@ -49,9 +51,10 @@ class Sosmed extends CI_Controller{
 		$data['form_action'] = site_url("sosmed/update/5");
 		$header = $this->header_model->get_data();
 
-		$nav['act']=6;
+		$nav['act']= 13;
+		$nav['act_sub'] = 53;
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sosmed/instagram',$data);
 		$this->load->view('footer');
 	}
@@ -61,9 +64,10 @@ class Sosmed extends CI_Controller{
 		$data['form_action'] = site_url("sosmed/update/3");
 		$header = $this->header_model->get_data();
 
-		$nav['act']=6;
+		$nav['act']= 13;
+		$nav['act_sub'] = 53;
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sosmed/google',$data);
 		$this->load->view('footer');
 	}
@@ -73,9 +77,10 @@ class Sosmed extends CI_Controller{
 		$data['form_action'] = site_url("sosmed/update/4");
 		$header = $this->header_model->get_data();
 
-		$nav['act']=6;
+		$nav['act']= 13;
+		$nav['act_sub'] = 53;
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sosmed/youtube',$data);
 		$this->load->view('footer');
 	}

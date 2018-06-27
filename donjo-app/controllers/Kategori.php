@@ -48,11 +48,12 @@ class Kategori extends CI_Controller{
 		$data['keyword'] = $this->web_kategori_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act']=1;
+		$nav['act']= 13;
+		$nav['act_sub'] = 49;
 
 
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('kategori/table',$data);
 		$this->load->view('footer');
 	}
@@ -71,9 +72,10 @@ class Kategori extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$nav['act']=1;
+		$nav['act']= 13;
+		$nav['act_sub'] = 49;
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('kategori/form',$data);
 		$this->load->view('footer');
 	}
@@ -84,10 +86,11 @@ class Kategori extends CI_Controller{
 		$data['subkategori']    = $this->web_kategori_model->list_sub_kategori($kategori);
 		$data['kategori'] = $kategori;
 		$header = $this->header_model->get_data();
-		$nav['act']=1;
+		$nav['act']= 13;
+		$nav['act_sub'] = 49;
 
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('kategori/sub_kategori_table',$data);
 		$this->load->view('footer');
 	}

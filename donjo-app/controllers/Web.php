@@ -65,10 +65,12 @@ class Web extends CI_Controller{
 		$data['cat'] = $cat;
 
 		$header = $this->header_model->get_data();
-		$nav['act']=0;
+		$header['minsidebar'] =1;
+		$nav['act']= 13;
+		$nav['act_sub'] = 47;
 
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('web/artikel/table',$data);
 		$this->load->view('footer');
 	}
@@ -91,12 +93,14 @@ class Web extends CI_Controller{
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] =1;
+		$nav['act']= 13;
+		$nav['act_sub'] = 47;
 
-		$nav['act'] = 0;
 
 		$this->load->view('header', $header);
 		//$this->load->view('web/spacer');
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('web/artikel/form',$data);
 
 		$this->load->view('footer');
@@ -201,9 +205,10 @@ class Web extends CI_Controller{
 
 	function slider(){
 		$header = $this->header_model->get_data();
-		$nav['act']=8;
+		$nav['act']= 13;
+		$nav['act_sub'] = 54;
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('slider/admin_slider.php');
 		$this->load->view('footer');
 	}

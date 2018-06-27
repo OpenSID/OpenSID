@@ -1,63 +1,68 @@
-<style type="text/css">
-  #form_dokumen th {
-    width: 1%;
-    white-space: nowrap;
-  }
-</style>
-<div id="pageC">
-	<table class="inner">
-	<tr style="vertical-align:top">
-		<td style="background:#fff;padding:0px;">
-
-<div class="content-header">
-    <h3>Form Manajemen Dokumen</h3>
-</div>
-<div id="contentpane">
-    <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-        <table id="form_dokumen" class="form">
-            <tr>
-              <th>Judul / Tentang</th>
-              <td><input name="nama" type="text" class="inputbox" size="100" value="<?php echo $dokumen['nama']?>"/></td>
-            </tr>
-
-
-      			<?php if($dokumen['satuan']){?>
-              <tr>
-                <th class="top">Dokumen</th>
-                <td>
-          				<div class="slidebox-avatar">
-          					<img src="<?php echo base_url().LOKASI_DOKUMEN.$dokumen['satuan']?>" width="300px" alt="<?php echo $dokumen['satuan']?>"/>
-          				</div>
-        				</td>
-        				<input type="hidden" name="old_file" value="<?php echo $dokumen['satuan']?>">
-              </tr>
-      			<?php }?>
-            <tr>
-                <th>Unggah Dokumen</th>
-                <td><input type="file" name="satuan" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah dokumen)</span></td>
-            </tr>
-            <input name="kategori" type="hidden" value="<?php echo $kat;?>">
-            <?php
-              if($kat == 2)
-                include ("donjo-app/views/dokumen/_sk_kades.php");
-              elseif($kat == 3)
-                include ("donjo-app/views/dokumen/_perdes.php");
-            ?>
-        </table>
-    </div>
-
-    <div class="ui-layout-south panel bottom">
-        <div class="left">
-            <a href="<?php echo site_url().$this->controller.'/index/'.$kat?>" class="uibutton icon prev">Kembali</a>
-        </div>
-        <div class="right">
-            <div class="uibutton-group">
-                <button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-                <button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
-            </div>
-        </div>
-    </div> </form>
-</div>
-</td></tr></table>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Dokumen</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Pengaturan Dokumen</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?=site_url("dokumen/index/$kat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Dokumen
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="nama">Nama Dokumen</label>
+								<div class="col-sm-6">
+									<input name="nama" class="form-control input-sm" type="text" value="<?=$dokumen['nama']?>"></input>
+								</div>
+							</div>
+							<?php if ($dokumen['satuan']):?>
+								<div class="form-group">
+									<label class="control-label col-sm-4" for="nama">Dokumen</label>
+									<div class="col-sm-6">
+										<input type="hidden" name="old_gambar" value="<?= $dokumen['satuan']?>">
+									  <img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_DOKUMEN.$dokumen['satuan'] ?>" alt="<?= $dokumen['satuan']?>">
+									</div>
+								</div>
+							<?php endif;?>
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
+								<div class="col-sm-6">
+									<div class="input-group input-group-sm">
+										<input type="text" class="form-control required" id="file_path">
+										<input id="file" type="file" class="hidden" name="satuan">
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+										</span>
+									</div>
+									<?php $upload_mb = max_upload();?>
+									<p class="small">(Kosongkan jika tidak ingin mengubah dokumen)</p>
+									</div>
+							</div>
+							<input name="kategori" type="hidden" value="<?= $kat;?>">
+							<?php
+								if($kat == 2)
+									include ("donjo-app/views/dokumen/_sk_kades.php");
+								elseif($kat == 3)
+									include ("donjo-app/views/dokumen/_perdes.php");
+							?>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>

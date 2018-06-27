@@ -11,7 +11,7 @@
 			?>
 		</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -30,14 +30,10 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap3-wysihtml5.min.css">
 		<!-- Select2 -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/select2.min.css">
-		<!-- Daterange picker -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/daterangepicker.css">
 		<!-- Bootstrap Color Picker -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-colorpicker.min.css">
-		<!-- Date Picker -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-datepicker.min.css">
-		<!-- Bootstrap time Picker -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-timepicker.min.css">
+		<!-- Bootstrap Date time Picker -->
+		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-datetimepicker.min.css">
 		<!-- Theme style -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.min.css">
 		<!-- AdminLTE Skins. -->
@@ -51,7 +47,7 @@
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 	</head>
-	<body class="skin-purple sidebar-mini  <?php if($hidmenu==1):?>sidebar-collapse<?php endif?>">
+	<body class="skin-purple sidebar-mini  <?php if ($minsidebar==1):?>sidebar-collapse<?php endif?>">
 		<div class="wrapper">
 			<header class="main-header">
 				<a href="<?=site_url()?>first"  target="_blank" class="logo">
@@ -66,7 +62,7 @@
 						<ul class="nav navbar-nav">
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<?php if($foto): ?>
+								<?php if ($foto): ?>
 									<img src="<?= AmbilFoto($foto)?>" class="user-image" alt="User Image"/>
 								<?php else :?>
 									<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="user-image" alt="User Image"/>
@@ -75,7 +71,7 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li class="user-header">
-										<?php if($foto):?>
+										<?php if ($foto):?>
 											<img src="<?=AmbilFoto($foto)?>" class="img-circle" alt="User Image"/>
 										<?php else :?>
 											<img src="<?=base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>

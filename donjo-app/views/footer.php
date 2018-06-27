@@ -8,6 +8,7 @@
 
 		<!-- jQuery 3 -->
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+		<script src="<?= base_url()?>assets/bootstrap/js/moment.min.js"></script>
 		<!-- Bootstrap 3.3.7 -->
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap.min.js"></script>
 		<!-- Select2 -->
@@ -15,17 +16,10 @@
 		<!-- DataTables -->
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
 		<script src="<?= base_url()?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
-		<!-- InputMask -->
-		<script src="<?= base_url()?>assets/bootstrap/js/jquery.inputmask.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/jquery.inputmask.date.extensions.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/jquery.inputmask.extensions.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/daterangepicker.js"></script>
-		<!-- datepicker -->
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datepicker.min.js"></script>
 		<!-- bootstrap color picker -->
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-colorpicker.min.js"></script>
-		<!-- bootstrap time picker -->
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-timepicker.min.js"></script>
+		<!-- bootstrap Date time picker -->
+		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
 		<!-- Bootstrap WYSIHTML5 -->
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap3-wysihtml5.all.min.js"></script>
 		<!-- Slimscroll -->
@@ -50,32 +44,32 @@
 		<script type="text/javascript">
 			$('document').ready(function()
 			{
-				if($('#success-code').val() == 1)
+				if ($('#success-code').val() == 1)
 				{
 					notify = 'success';
 					notify_msg = 'Data berhasil disimpan';
 				}
-				else if($('#success-code').val() == -1)
+				else if ($('#success-code').val() == -1)
 				{
 					notify = 'error';
 					notify_msg = 'Data gagal disimpan <?= $_SESSION["error_msg"]?>';
 				}
-				else if($('#success-code').val() == -2)
+				else if ($('#success-code').val() == -2)
 				{
 					notify = 'error';
 					notify_msg = 'Data gagal diimpan, nama id sudah ada!';
 				}
-				else if($('#success-code').val() == -3)
+				else if ($('#success-code').val() == -3)
 				{
 					notify = 'error';
 					notify_msg = 'Data gagal diimpan, nama id sudah ada!';
 				}
-				else if($('#success-code').val() == 4)
+				else if ($('#success-code').val() == 4)
 				{
 					notify = 'success';
 					notify_msg = 'Data berhasil dihapus';
 				}
-				else if($('#success-code').val() == -4)
+				else if ($('#success-code').val() == -4)
 				{
 					notify = 'error';
 					notify_msg = 'Data gagal dihapus';
@@ -85,7 +79,7 @@
 					notify = '';
 					notify_msg = '';
 				}
-				notification(notify,notify_msg);
+				notification(notify, notify_msg);
 				$('#success-code').val('');
 			});
 		</script>
@@ -95,7 +89,7 @@
 		<?php if ($this->session->admin_warning && !config_item('demo')): ?>
 			<script type="text/javascript">
 				<?php if (isset($_SESSION['dari_login'])): ?>
-					$(window).on('load',function()
+					$(window).on('load', function()
 					{
 						$('#massageBox').modal('show');
 						$('#ok').click(function() {$('#massageBox').modal('hide');});
@@ -107,8 +101,8 @@
 
 		<!-- Notifikasi PIN Warga -->
 		<script type="text/javascript">
-			<?php if($_SESSION['pin']): ?>
-				$(window).on('load',function()
+			<?php if ($_SESSION['pin']): ?>
+				$(window).on('load', function()
 				{
 					$('#pinBox').modal('show');
 				});
