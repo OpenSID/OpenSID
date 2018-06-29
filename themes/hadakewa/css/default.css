@@ -76,3 +76,10 @@
     width: 180px;
     z-index: 99999999;
 }
+
+ul {
+list-style: square;
+margin: 0;
+margin-left: 40px;
+padding: 0px;
+}
