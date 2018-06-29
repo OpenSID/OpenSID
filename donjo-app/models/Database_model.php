@@ -78,6 +78,7 @@
     }
     $this->folder_desa_model->amankan_folder_desa();
     $this->surat_master_model->impor_surat_desa();
+    $this->db->where('id', 13)->update('setting_aplikasi', array('value' => TRUE));
     /*
       Update current_version di db.
       'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
