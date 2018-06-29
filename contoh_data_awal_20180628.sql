@@ -1630,10 +1630,12 @@ CREATE TABLE `data_persil` (
   `no_sppt_pbb` varchar(128) NOT NULL,
   `kelas` varchar(128) DEFAULT NULL,
   `persil_peruntukan_id` tinyint(2) NOT NULL,
-  `alamat_ext` varchar(100) DEFAULT NULL,
+  `alamat_luar` varchar(100) DEFAULT NULL,
   `userID` mediumint(9) DEFAULT NULL,
   `peta` text,
   `rdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `jenis_pemilik` tinyint(2) NOT NULL DEFAULT '1',
+  `pemilik_luar` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2390,6 +2392,220 @@ CREATE TABLE `inbox` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
+# TABLE STRUCTURE FOR: inventaris_asset
+#
+
+DROP TABLE IF EXISTS inventaris_asset;
+
+CREATE TABLE `inventaris_asset` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_barang` varchar(255) NOT NULL,
+  `kode_barang` varchar(64) NOT NULL,
+  `register` varchar(64) NOT NULL,
+  `jenis` varchar(255) NOT NULL,
+  `judul_buku` varchar(255) DEFAULT NULL,
+  `spesifikasi_buku` varchar(255) DEFAULT NULL,
+  `asal_daerah` varchar(255) DEFAULT NULL,
+  `pencipta` varchar(255) DEFAULT NULL,
+  `bahan` varchar(255) DEFAULT NULL,
+  `jenis_hewan` varchar(255) DEFAULT NULL,
+  `ukuran_hewan` varchar(255) DEFAULT NULL,
+  `jenis_tumbuhan` varchar(255) DEFAULT NULL,
+  `ukuran_tumbuhan` varchar(255) DEFAULT NULL,
+  `jumlah` int(64) NOT NULL,
+  `tahun_pengadaan` year(4) NOT NULL,
+  `asal` varchar(255) NOT NULL,
+  `harga` double NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+INSERT INTO inventaris_asset (`id`, `nama_barang`, `kode_barang`, `register`, `jenis`, `judul_buku`, `spesifikasi_buku`, `asal_daerah`, `pencipta`, `bahan`, `jenis_hewan`, `ukuran_hewan`, `jenis_tumbuhan`, `ukuran_tumbuhan`, `jumlah`, `tahun_pengadaan`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('1', 'Server SID', '2', '1', 'Barang Kesenian', '', '', '', '', '', '', '', '', '', '23', '2018', 'Bantuan Pemerintah', '343', 'dsff', '2018-06-20 02:14:04', '0', '0000-00-00 00:00:00', '0', '1', '0');
+
+
+#
+# TABLE STRUCTURE FOR: inventaris_gedung
+#
+
+DROP TABLE IF EXISTS inventaris_gedung;
+
+CREATE TABLE `inventaris_gedung` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_barang` varchar(255) NOT NULL,
+  `kode_barang` varchar(64) NOT NULL,
+  `register` varchar(64) NOT NULL,
+  `kondisi_bangunan` varchar(255) NOT NULL,
+  `kontruksi_bertingkat` varchar(255) NOT NULL,
+  `kontruksi_beton` int(1) NOT NULL,
+  `luas_bangunan` int(64) NOT NULL,
+  `letak` varchar(255) NOT NULL,
+  `tanggal_dokument` date DEFAULT NULL,
+  `no_dokument` varchar(255) DEFAULT NULL,
+  `luas` int(64) DEFAULT NULL,
+  `status_tanah` varchar(255) DEFAULT NULL,
+  `kode_tanah` varchar(255) DEFAULT NULL,
+  `asal` varchar(255) NOT NULL,
+  `harga` double NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+INSERT INTO inventaris_gedung (`id`, `nama_barang`, `kode_barang`, `register`, `kondisi_bangunan`, `kontruksi_bertingkat`, `kontruksi_beton`, `luas_bangunan`, `letak`, `tanggal_dokument`, `no_dokument`, `luas`, `status_tanah`, `kode_tanah`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('1', 'sdf', 'sdfs', 'sdfs', 'Rusak Ringan', '1', '0', '234', 'sdfsfs', '2018-06-14', 'sdfs', '234', 'Tanah Negara', 'sdfs', 'Bantuan Pemerintah', '234', 'xdvs', '2018-06-20 06:40:14', '0', '0000-00-00 00:00:00', '0', '1', '0');
+INSERT INTO inventaris_gedung (`id`, `nama_barang`, `kode_barang`, `register`, `kondisi_bangunan`, `kontruksi_bertingkat`, `kontruksi_beton`, `luas_bangunan`, `letak`, `tanggal_dokument`, `no_dokument`, `luas`, `status_tanah`, `kode_tanah`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('2', 'what', '234rf', '234', 'Baik', '1', '1', '234', 'sdfds', '2018-06-06', '2342', '234', 'Tanah milik Pemda', '234', 'Bantuan Pemerintah', '32', 'sdfsd', '2018-06-20 07:17:15', '0', '0000-00-00 00:00:00', '0', '0', '0');
+
+
+#
+# TABLE STRUCTURE FOR: inventaris_jalan
+#
+
+DROP TABLE IF EXISTS inventaris_jalan;
+
+CREATE TABLE `inventaris_jalan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_barang` varchar(255) NOT NULL,
+  `kode_barang` varchar(64) NOT NULL,
+  `register` varchar(64) NOT NULL,
+  `kontruksi` varchar(255) NOT NULL,
+  `panjang` int(64) NOT NULL,
+  `lebar` int(64) NOT NULL,
+  `luas` int(64) NOT NULL,
+  `letak` text,
+  `tanggal_dokument` date NOT NULL,
+  `no_dokument` varchar(255) DEFAULT NULL,
+  `status_tanah` varchar(255) DEFAULT NULL,
+  `kode_tanah` varchar(255) DEFAULT NULL,
+  `kondisi` varchar(255) NOT NULL,
+  `asal` varchar(255) NOT NULL,
+  `harga` double NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+INSERT INTO inventaris_jalan (`id`, `nama_barang`, `kode_barang`, `register`, `kontruksi`, `panjang`, `lebar`, `luas`, `letak`, `tanggal_dokument`, `no_dokument`, `status_tanah`, `kode_tanah`, `kondisi`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('1', 'sdfssdf', '3rrw', 'sdfsfs', 'sdfsf', '234', '444', '555', 'sdf', '2018-06-07', '24', 'Tanah milik Pemda', 'sfsfsf', 'Baik', 'Bantuan Pemerintah', '343452', 'xvsfvsf', '2018-06-20 07:25:30', '0', '0000-00-00 00:00:00', '0', '1', '0');
+
+
+#
+# TABLE STRUCTURE FOR: inventaris_kontruksi
+#
+
+DROP TABLE IF EXISTS inventaris_kontruksi;
+
+CREATE TABLE `inventaris_kontruksi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_barang` varchar(255) NOT NULL,
+  `kondisi_bangunan` varchar(255) NOT NULL,
+  `kontruksi_bertingkat` varchar(255) NOT NULL,
+  `kontruksi_beton` int(1) NOT NULL,
+  `luas_bangunan` int(64) NOT NULL,
+  `letak` varchar(255) NOT NULL,
+  `tanggal_dokument` date DEFAULT NULL,
+  `no_dokument` varchar(255) DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `status_tanah` varchar(255) DEFAULT NULL,
+  `kode_tanah` varchar(255) DEFAULT NULL,
+  `asal` varchar(255) NOT NULL,
+  `harga` double NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: inventaris_peralatan
+#
+
+DROP TABLE IF EXISTS inventaris_peralatan;
+
+CREATE TABLE `inventaris_peralatan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_barang` varchar(255) NOT NULL,
+  `kode_barang` varchar(64) NOT NULL,
+  `register` varchar(64) NOT NULL,
+  `merk` varchar(255) NOT NULL,
+  `ukuran` text NOT NULL,
+  `bahan` text NOT NULL,
+  `tahun_pengadaan` year(4) NOT NULL,
+  `no_pabrik` varchar(255) DEFAULT NULL,
+  `no_rangka` varchar(255) DEFAULT NULL,
+  `no_mesin` varchar(255) DEFAULT NULL,
+  `no_polisi` varchar(255) DEFAULT NULL,
+  `no_bpkb` varchar(255) DEFAULT NULL,
+  `asal` varchar(255) NOT NULL,
+  `harga` double NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+INSERT INTO inventaris_peralatan (`id`, `nama_barang`, `kode_barang`, `register`, `merk`, `ukuran`, `bahan`, `tahun_pengadaan`, `no_pabrik`, `no_rangka`, `no_mesin`, `no_polisi`, `no_bpkb`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('1', 'Server SID', '234', '1', 'merek', '2', 'b', '2018', '', '', '', '', '', 'Pembelian Sendiri', '3000', 'whatever', '2018-06-18 01:38:09', '0', '0000-00-00 00:00:00', '0', '1', '0');
+INSERT INTO inventaris_peralatan (`id`, `nama_barang`, `kode_barang`, `register`, `merk`, `ukuran`, `bahan`, `tahun_pengadaan`, `no_pabrik`, `no_rangka`, `no_mesin`, `no_polisi`, `no_bpkb`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('2', 'Apa saja', '2', '2', 'whatever', '45', 'ok', '2017', '', '', '', '', '', 'Pembelian Sendiri', '4000', 'Something', '2018-06-18 01:44:57', '0', '0000-00-00 00:00:00', '0', '0', '0');
+INSERT INTO inventaris_peralatan (`id`, `nama_barang`, `kode_barang`, `register`, `merk`, `ukuran`, `bahan`, `tahun_pengadaan`, `no_pabrik`, `no_rangka`, `no_mesin`, `no_polisi`, `no_bpkb`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('3', 'something', '34', '3', 'anything', '343', 'sfd', '2017', '', '', '', '', '', 'Pembelian Sendiri', '343', 'sdfsf', '2018-06-18 05:48:13', '0', '0000-00-00 00:00:00', '0', '0', '0');
+INSERT INTO inventaris_peralatan (`id`, `nama_barang`, `kode_barang`, `register`, `merk`, `ukuran`, `bahan`, `tahun_pengadaan`, `no_pabrik`, `no_rangka`, `no_mesin`, `no_polisi`, `no_bpkb`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('4', 'dfsdfs', '2342', '345', 'merek', '234234', 'sdfsf', '2018', '23423', 'werwer234234', '34234', 'w2342424', 'r5rr2', 'Bantuan Pemerintah', '5345345', 'dfgdgd', '2018-06-20 11:21:00', '0', '0000-00-00 00:00:00', '0', '0', '0');
+
+
+#
+# TABLE STRUCTURE FOR: inventaris_tanah
+#
+
+DROP TABLE IF EXISTS inventaris_tanah;
+
+CREATE TABLE `inventaris_tanah` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_barang` varchar(255) NOT NULL,
+  `kode_barang` varchar(64) NOT NULL,
+  `register` varchar(64) NOT NULL,
+  `luas` int(64) NOT NULL,
+  `tahun_pengadaan` year(4) NOT NULL,
+  `letak` varchar(255) NOT NULL,
+  `hak` varchar(255) NOT NULL,
+  `no_sertifikat` varchar(255) NOT NULL,
+  `tanggal_sertifikat` date NOT NULL,
+  `penggunaan` varchar(255) NOT NULL,
+  `asal` varchar(255) NOT NULL,
+  `harga` double NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+INSERT INTO inventaris_tanah (`id`, `nama_barang`, `kode_barang`, `register`, `luas`, `tahun_pengadaan`, `letak`, `hak`, `no_sertifikat`, `tanggal_sertifikat`, `penggunaan`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('1', 'Server SID', '234', '1', '122', '2018', '53 Giffard Street', 'Hak Pakai', '343', '2018-06-06', 'Permukiman', 'Bantuan Pemerintah', '34544', 'dfsdfs', '2018-06-15 05:55:30', '0', '0000-00-00 00:00:00', '0', '1', '0');
+INSERT INTO inventaris_tanah (`id`, `nama_barang`, `kode_barang`, `register`, `luas`, `tahun_pengadaan`, `letak`, `hak`, `no_sertifikat`, `tanggal_sertifikat`, `penggunaan`, `asal`, `harga`, `keterangan`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `visible`) VALUES ('2', 'ewwer', '3453', '3r43r3', '23452', '2017', 'fffsfs', 'Hak Pakai', '23423', '2018-06-07', 'Permukiman', 'Bantuan Provinsi', '2342342', 'dfgdfgdfg', '2018-06-20 12:09:03', '0', '0000-00-00 00:00:00', '0', '0', '0');
+
+
+#
 # TABLE STRUCTURE FOR: kategori
 #
 
@@ -2563,41 +2779,43 @@ DROP TABLE IF EXISTS log_bulanan;
 CREATE TABLE `log_bulanan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pend` int(11) NOT NULL,
-  `lk` int(11) NOT NULL,
-  `pr` int(11) NOT NULL,
+  `wni_lk` int(11) DEFAULT NULL,
+  `wni_pr` int(11) DEFAULT NULL,
   `kk` int(11) NOT NULL,
   `tgl` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
+  `wna_lk` int(11) DEFAULT NULL,
+  `wna_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('3', '97', '46', '51', '37', '2017-06-05 10:08:30', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('4', '97', '46', '51', '37', '2017-07-03 12:19:17', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('5', '97', '46', '51', '37', '2017-08-01 01:37:30', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('6', '97', '46', '51', '37', '2017-09-05 06:13:41', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('7', '97', '46', '51', '37', '2017-10-29 09:37:57', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('8', '97', '46', '51', '37', '2017-11-28 01:51:11', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('9', '97', '46', '51', '37', '2017-12-27 05:03:39', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('10', '97', '46', '51', '37', '2018-01-26 05:30:07', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('11', '97', '46', '51', '37', '2018-03-01 05:47:41', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('12', '97', '46', '51', '37', '2018-03-31 22:40:49', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('13', '97', '46', '51', '37', '2018-03-31 22:40:52', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('14', '97', '46', '51', '37', '2018-03-31 22:40:52', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('15', '97', '46', '51', '37', '2018-03-31 22:40:55', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('16', '97', '46', '51', '37', '2018-03-31 22:40:57', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('17', '97', '46', '51', '37', '2018-03-31 22:40:58', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('18', '97', '46', '51', '37', '2018-03-31 22:40:59', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('19', '97', '46', '51', '37', '2018-03-31 22:41:03', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('20', '97', '46', '51', '37', '2018-03-31 22:41:03', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('21', '97', '46', '51', '37', '2018-03-31 22:41:10', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('22', '97', '46', '51', '37', '2018-03-31 22:41:13', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('23', '97', '46', '51', '37', '2018-03-31 22:41:14', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('24', '97', '46', '51', '37', '2018-04-26 06:39:57', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('25', '97', '46', '51', '37', '2018-05-16 17:50:29', '28', '9');
-INSERT INTO log_bulanan (`id`, `pend`, `lk`, `pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`) VALUES ('26', '97', '46', '51', '37', '2018-06-01 20:39:41', '28', '9');
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('3', '97', '46', '51', '37', '2017-06-05 10:08:30', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('4', '97', '46', '51', '37', '2017-07-03 12:19:17', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('5', '97', '46', '51', '37', '2017-08-01 01:37:30', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('6', '97', '46', '51', '37', '2017-09-05 06:13:41', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('7', '97', '46', '51', '37', '2017-10-29 09:37:57', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('8', '97', '46', '51', '37', '2017-11-28 01:51:11', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('9', '97', '46', '51', '37', '2017-12-27 05:03:39', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('10', '97', '46', '51', '37', '2018-01-26 05:30:07', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('11', '97', '46', '51', '37', '2018-03-01 05:47:41', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('12', '97', '46', '51', '37', '2018-03-31 22:40:49', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('13', '97', '46', '51', '37', '2018-03-31 22:40:52', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('14', '97', '46', '51', '37', '2018-03-31 22:40:52', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('15', '97', '46', '51', '37', '2018-03-31 22:40:55', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('16', '97', '46', '51', '37', '2018-03-31 22:40:57', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('17', '97', '46', '51', '37', '2018-03-31 22:40:58', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('18', '97', '46', '51', '37', '2018-03-31 22:40:59', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('19', '97', '46', '51', '37', '2018-03-31 22:41:03', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('20', '97', '46', '51', '37', '2018-03-31 22:41:03', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('21', '97', '46', '51', '37', '2018-03-31 22:41:10', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('22', '97', '46', '51', '37', '2018-03-31 22:41:13', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('23', '97', '46', '51', '37', '2018-03-31 22:41:14', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('24', '97', '46', '51', '37', '2018-04-26 06:39:57', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('25', '97', '46', '51', '37', '2018-05-16 17:50:29', '28', '9', NULL, NULL);
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('26', '97', '46', '51', '37', '2018-06-28 03:28:20', '28', '9', '0', '0');
 
 
 #
@@ -2803,6 +3021,126 @@ INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('113', '', '', '3', '109', '0', '1', NULL);
 INSERT INTO menu (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES ('114', 'Sejarah Desa', 'artikel/99', '3', '16', '0', '1', NULL);
 
+
+#
+# TABLE STRUCTURE FOR: mutasi_inventaris_asset
+#
+
+DROP TABLE IF EXISTS mutasi_inventaris_asset;
+
+CREATE TABLE `mutasi_inventaris_asset` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_inventaris_asset` int(11) DEFAULT NULL,
+  `jenis_mutasi` varchar(255) NOT NULL,
+  `tahun_mutasi` date NOT NULL,
+  `harga_jual` double NOT NULL,
+  `sumbangkan` varchar(255) NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `FK_mutasi_inventaris_asset` (`id_inventaris_asset`),
+  CONSTRAINT `FK_mutasi_inventaris_asset` FOREIGN KEY (`id_inventaris_asset`) REFERENCES `inventaris_asset` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: mutasi_inventaris_gedung
+#
+
+DROP TABLE IF EXISTS mutasi_inventaris_gedung;
+
+CREATE TABLE `mutasi_inventaris_gedung` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_inventaris_gedung` int(11) DEFAULT NULL,
+  `jenis_mutasi` varchar(255) NOT NULL,
+  `tahun_mutasi` date NOT NULL,
+  `harga_jual` double NOT NULL,
+  `sumbangkan` varchar(255) NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `FK_mutasi_inventaris_gedung` (`id_inventaris_gedung`),
+  CONSTRAINT `FK_mutasi_inventaris_gedung` FOREIGN KEY (`id_inventaris_gedung`) REFERENCES `inventaris_gedung` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: mutasi_inventaris_jalan
+#
+
+DROP TABLE IF EXISTS mutasi_inventaris_jalan;
+
+CREATE TABLE `mutasi_inventaris_jalan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_inventaris_jalan` int(11) DEFAULT NULL,
+  `jenis_mutasi` varchar(255) NOT NULL,
+  `tahun_mutasi` date NOT NULL,
+  `harga_jual` double NOT NULL,
+  `sumbangkan` varchar(255) NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `FK_mutasi_inventaris_jalan` (`id_inventaris_jalan`),
+  CONSTRAINT `FK_mutasi_inventaris_jalan` FOREIGN KEY (`id_inventaris_jalan`) REFERENCES `inventaris_jalan` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: mutasi_inventaris_peralatan
+#
+
+DROP TABLE IF EXISTS mutasi_inventaris_peralatan;
+
+CREATE TABLE `mutasi_inventaris_peralatan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_inventaris_peralatan` int(11) DEFAULT NULL,
+  `jenis_mutasi` varchar(255) NOT NULL,
+  `tahun_mutasi` date NOT NULL,
+  `harga_jual` double NOT NULL,
+  `sumbangkan` varchar(255) NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `FK_mutasi_inventaris_peralatan` (`id_inventaris_peralatan`),
+  CONSTRAINT `FK_mutasi_inventaris_peralatan` FOREIGN KEY (`id_inventaris_peralatan`) REFERENCES `inventaris_peralatan` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: mutasi_inventaris_tanah
+#
+
+DROP TABLE IF EXISTS mutasi_inventaris_tanah;
+
+CREATE TABLE `mutasi_inventaris_tanah` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_inventaris_tanah` int(11) DEFAULT NULL,
+  `jenis_mutasi` varchar(255) NOT NULL,
+  `tahun_mutasi` date NOT NULL,
+  `harga_jual` double NOT NULL,
+  `sumbangkan` varchar(255) NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL,
+  `visible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `FK_mutasi_inventaris_tanah` (`id_inventaris_tanah`),
+  CONSTRAINT `FK_mutasi_inventaris_tanah` FOREIGN KEY (`id_inventaris_tanah`) REFERENCES `inventaris_tanah` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: outbox
@@ -3097,23 +3435,24 @@ CREATE TABLE `setting_modul` (
   `hidden` tinyint(1) NOT NULL DEFAULT '0',
   `ikon_kecil` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('1', 'SID Home', 'hom_desa', '1', 'go-home-5.png', '1', '2', '1', 'fa fa-home fa-lg');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('2', 'Penduduk', 'penduduk/clear', '1', 'preferences-contact-list.png', '2', '2', '0', 'fa fa-group fa-lg');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('3', 'Statistik', 'statistik', '1', 'statistik.png', '3', '2', '0', 'fa fa-bar-chart fa-lg');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('4', 'Cetak Surat', 'surat', '1', 'applications-office-5.png', '4', '2', '0', 'fa fa-print fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('5', 'Analisis', 'analisis_master/clear', '1', 'analysis.png', '6', '2', '0', 'fa fa-dashboard fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('6', 'Bantuan', 'program_bantuan/clear', '1', 'program.png', '7', '2', '0', 'fa fa-folder-open fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('7', 'Persil', 'data_persil/clear', '1', 'persil.png', '8', '2', '0', 'fa fa-road fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('8', 'Plan', 'plan', '1', 'plan.png', '9', '2', '0', 'fa fa-sitemap fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('9', 'Peta', 'gis', '1', 'gis.png', '10', '2', '0', 'fa fa-map fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('10', 'SMS', 'sms', '1', 'mail-send-receive.png', '11', '2', '0', 'fa fa-envelope-o fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('11', 'Pengguna', 'man_user/clear', '1', 'system-users.png', '12', '1', '1', 'fa fa-user-plus fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('12', 'Database', 'database', '1', 'database.png', '13', '1', '0', 'fa fa-database fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('13', 'Admin Web', 'web', '1', 'message-news.png', '14', '4', '0', 'fa fa-cloud fa-lg');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('14', 'Laporan', 'lapor', '1', 'mail-reply-all.png', '15', '2', '0', 'fa fa-comments fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('5', 'Analisis', 'analisis_master/clear', '1', 'analysis.png', '7', '2', '0', 'fa fa-dashboard fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('6', 'Bantuan', 'program_bantuan/clear', '1', 'program.png', '8', '2', '0', 'fa fa-folder-open fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('7', 'Persil', 'data_persil/clear', '1', 'persil.png', '9', '2', '0', 'fa fa-road fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('8', 'Plan', 'plan', '1', 'plan.png', '10', '2', '0', 'fa fa-sitemap fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('9', 'Peta', 'gis', '1', 'gis.png', '11', '2', '0', 'fa fa-map fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('10', 'SMS', 'sms', '1', 'mail-send-receive.png', '12', '2', '0', 'fa fa-envelope-o fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('11', 'Pengguna', 'man_user/clear', '1', 'system-users.png', '13', '1', '1', 'fa fa-user-plus fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('12', 'Database', 'database', '1', 'database.png', '14', '1', '0', 'fa fa-database fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('13', 'Admin Web', 'web', '1', 'message-news.png', '15', '4', '0', 'fa fa-cloud fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('14', 'Laporan', 'lapor', '1', 'mail-reply-all.png', '16', '2', '0', 'fa fa-comments fa-lg');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('15', 'Sekretariat', 'sekretariat', '1', 'document-open-8.png', '5', '2', '0', 'fa fa-file fa-lg');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`) VALUES ('16', 'Inventaris', 'inventaris_tanah', '1', 'inventaris.png', '6', '2', '0', 'fa fa-money');
 
 
 #
@@ -4020,7 +4359,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
 
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('1', 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, '0', '0', '1');
 INSERT INTO tweb_surat_format (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES ('2', 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, '0', '0', '1');
@@ -4204,7 +4543,7 @@ CREATE TABLE `jenis_barang` (
   `nama` varchar(30) DEFAULT NULL,
   `keterangan` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS suplemen_terdata;
 #

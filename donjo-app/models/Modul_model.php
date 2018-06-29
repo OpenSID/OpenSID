@@ -1,22 +1,26 @@
 <?php class Modul_model extends CI_Model{
-	function __construct(){
+
+	function __construct()
+	{
 		parent::__construct();
 	}
-	function list_data(){
-		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0 ORDER BY urut";
+
+	function list_data()
+	{
+		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
-
+		$sql .= ' ORDER BY urut';
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['no']=$i+1;
-			$i++;
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no'] = $i+1;
 		}
 		return $data;
 	}
+
 	// Daftar modul yang aktif dan yang dapat ditampilkan untuk pengguna yang login
 	function list_aktif(){
 		if (empty($_SESSION['grup'])) return array();

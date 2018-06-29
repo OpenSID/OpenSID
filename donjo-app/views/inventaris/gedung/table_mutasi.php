@@ -1,22 +1,3 @@
-
-<script src="<?php echo base_url('assets/js/sweetalert.min.js') ?>"></script>
-
-<style>
-	#footer {
-		color: #f83535;
-		text-shadow: 1px 1px 0.5px #444;
-		padding: 8px;
-		text-align: center;
-		position: relative;
-		bottom: 0px;
-		width: 100%;
-		background: #eaa852;
-		height: 34px;
-		position: fixed;
-}
-
-</style>
-
 <div id="row">
 <div class="col-lg-2">
 	<div class="panel panel-default">
@@ -38,9 +19,9 @@
 						Mutasi Inventaris Gedung dan Bangunan Desa
 					</div>
 					<div class="panel-body">
-					
+
 					</div>
-					<div class="panel-body">	
+					<div class="panel-body">
 					<table id="example" class="stripe cell-border table" class="grid">
 						<thead style="background-color:#f9f9f9;" >
 							<tr>
@@ -55,52 +36,52 @@
 							</tr>
 						</thead>
 						<tbody>
-						<?php
-								foreach($main as $data){
-							?>
-							<tr>
-								<td></td>
-								<td><?php echo $data->nama_barang;?></td>
-								<td><?php echo $data->kode_barang;?></td>
-								<td><?php echo date('d M Y',strtotime($data->tanggal_dokument));?></td>
-								<td><?php echo date('d M Y',strtotime($data->tahun_mutasi));?></td>
-								<td><?php echo $data->jenis_mutasi;?></td>
-								<td><?php echo $data->keterangan;?></td>
-								<td>
-									<div class="btn-group" role="group" aria-label="...">
-										<a href="<?php echo base_url('index.php/inventaris_gedung/view_mutasi/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
-										<a href="<?php echo base_url('index.php/inventaris_gedung/edit_mutasi/'.$data->id); ?>" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a> 
-										<button href="" onclick="deleteItem(<?php echo $data->id; ?>)" title="Hapus Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
-									</div>
-								</td>
-							</tr>
-							<?php
-								}
-							?>
+							<?php foreach ($main as $data): ?>
+								<tr>
+									<td></td>
+									<td><?= $data->nama_barang;?></td>
+									<td><?= $data->kode_barang;?></td>
+									<td><?= date('d M Y',strtotime($data->tanggal_dokument));?></td>
+									<td><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
+									<td><?= $data->jenis_mutasi;?></td>
+									<td><?= $data->keterangan;?></td>
+									<td>
+										<div class="btn-group" role="group" aria-label="...">
+											<a href="<?= base_url('index.php/inventaris_gedung/view_mutasi/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+											<a href="<?= base_url('index.php/inventaris_gedung/edit_mutasi/'.$data->id); ?>" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a>
+											<button href="" onclick="deleteItem(<?= $data->id; ?>)" title="Hapus Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
+										</div>
+									</td>
+								</tr>
+							<?php endforeach; ?>
 						</tbody>
 					</table>
 					</div>
 					</div>
 			</form>
 	</div>
-</div>	
-	
+</div>
+
 <script  TYPE='text/javascript'>
-	$(document).ready(function() {
-		
-		var t = $('#example').DataTable( {
+	$(document).ready(function()
+	{
+		var t = $('#example').DataTable(
+		{
 			scrollY					: '100vh',
 			scrollCollapse			: true,
 			autoWidth				: true,
-        	"columnDefs": [ {
-            	"searchable": false,
-            	"orderable": false,
-            	"targets": 0
-        	} ],
-        	"order": [[ 1, 'asc' ]]
+      	"columnDefs": [
+      	{
+          	"searchable": false,
+          	"orderable": false,
+          	"targets": 0
+      	} ],
+      	"order": [[ 1, 'asc' ]]
     	} );
-		t.on( 'order.dt search.dt', function () {
-			t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		t.on( 'order.dt search.dt', function ()
+		{
+			t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
+			{
 				cell.innerHTML = i+1;
 			} );
 		} ).draw();
@@ -108,25 +89,30 @@
 	} );
 
 
-	function deleteItem($id){
-		swal({
-				title: "Apakah Anda Yakin?",
-				text: "Setelah dihapus, Data hanya dapat dipulihkan di database!!",
-				icon: "warning",
-				buttons: true,
-				dangerMode: true,
-			})
-			.then((willDelete) => {
-				if (willDelete) {
-					swal("Data berhasil dihapus!", {
+	function deleteItem($id)
+	{
+		swal(
+		{
+			title: "Apakah Anda Yakin?",
+			text: "Setelah dihapus, Data hanya dapat dipulihkan di database!!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+		.then((willDelete) =>
+		{
+			if (willDelete)
+			{
+				swal("Data berhasil dihapus!",
+				{
 					icon: "success",
-					});
-					
-					window.location = "../api_inventaris_gedung/delete_mutasi/" + $id;
-				} else {
-					swal("Data tidak berhasil dihapus!");
-				}
-			});
+				});
 
+				window.location = "../api_inventaris_gedung/delete_mutasi/" + $id;
+			} else
+			{
+				swal("Data tidak berhasil dihapus!");
+			}
+		});
 	}
 </script>

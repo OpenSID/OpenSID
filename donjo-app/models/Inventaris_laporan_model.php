@@ -1,151 +1,15 @@
-<?php 
+<?php
 
-class Inventaris_laporan_model extends CI_Model{
-	
-	protected $table = 'inventaris_gedung';
-	protected $table_mutasi = 'mutasi_inventaris_gedung';
+class Inventaris_laporan_model extends CI_Model
+{
+
 	protected $table_pamong = 'tweb_desa_pamong';
 
-	function __construct(){
+	function __construct()
+	{
 		parent::__construct();
 	}
 
-	function list_inventaris(){
-		$this->db->select('*');
-		$this->db->from($this->table);
-		$this->db->where($this->table.'.visible',1);
-		$data = $this->db->get()->result();
-		return $data;
-	}
-
-	function sum_inventaris(){
-		$this->db->select_sum('harga');
-		$this->db->where($this->table.'.visible',1);
-		$this->db->where($this->table.'.status',0);
-		$result = $this->db->get($this->table)->row();  
-		return $result->harga;
-	}
-
-	function sum_print($tahun){
-		$this->db->select_sum('harga');
-		$this->db->where($this->table.'.visible',1);
-		$this->db->where($this->table.'.status',0);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);	
-		}
-		$result = $this->db->get($this->table)->row();  
-		return $result->harga;
-	}
-
-	function list_mutasi_inventaris(){
-		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*,  inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument');
-		$this->db->from($this->table_mutasi);
-		$this->db->where($this->table_mutasi.'.visible',1);
-		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung');
-		$data = $this->db->get()->result();
-		return $data;
-	}
-
-	public function add($data)
-	{ 
-		$this->db->insert($this->table, $data);
-		$id = $this->db->insert_id();
-		$inserted = $this->db->get_where($this->table, array('id' => $id))->row();
-		
-		return $inserted;
-	}
-
-	public function add_mutasi($data)
-	{ 
-		$this->db->insert($this->table_mutasi, $data);
-		$this->db->update($this->table, array('status' => 1), array('id' => $data['id_inventaris_gedung']));
-		$id = $this->db->insert_id();
-		$inserted = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
-		
-		return $inserted;
-	}
-
-	public function view($id)
-	{ 
-		$this->db->select('*');
-		$this->db->from($this->table);
-        $this->db->where($this->table.'.id', $id);
-		$data = $this->db->get()->row();
-		return $data;
-	}
-
-	function view_mutasi($id){
-		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*,  inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
-		$this->db->from($this->table_mutasi);
-		$this->db->where($this->table_mutasi.'.id',$id);
-		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung');
-		$data = $this->db->get()->row();
-		return $data;
-	}
-
-
-	function edit_mutasi($id){
-		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*,  inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
-		$this->db->from($this->table_mutasi);
-		$this->db->where($this->table_mutasi.'.id',$id);
-		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung');
-		$data = $this->db->get()->row();
-		return $data;
-	}
-
-
-	public function delete($id)
-	{
-		$this->db->update($this->table, array('visible' => 0), array('id' => $id));
-		$id = $this->db->insert_id();
-		$updated = $this->db->get_where($this->table, array('id' => $id))->row();
-		
-		return $updated;
-	}
-
-	public function delete_mutasi($id)
-	{
-		$this->db->update($this->table_mutasi, array('visible' => 0), array('id' => $id));
-		$id = $this->db->insert_id();
-		$updated = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
-		
-		return $updated;
-	}
-
-	public function update($id, $data)
-	{
-		$this->db->update($this->table, $data, array('id' => $id));
-		$id = $this->db->insert_id();
-		$updated = $this->db->get_where($this->table, array('id' => $id))->row();
-		
-		return $updated;
-		
-	}
-
-	public function update_mutasi($id, $data)
-	{
-		$this->db->update($this->table_mutasi, $data, array('id' => $id));
-		$id = $this->db->insert_id();
-		$updated = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
-		
-		return $updated;
-		
-	}
-
-	public function cetak($tahun)
-	{
-		$this->db->select('*');
-		$this->db->from($this->table);
-		$this->db->where($this->table.'.status',0);
-		$this->db->where($this->table.'.visible',1);
-		if($tahun != 1){
-			$this->db->where('year(tanggal_dokument)',$tahun);	
-		}
-		$this->db->order_by('year(tanggal_dokument)', "asc");
-		$data = $this->db->get()->result();
-		return $data;
-		
-	}
 	public function pamong($pamong)
 	{
 		$this->db->select('*');
@@ -154,7 +18,141 @@ class Inventaris_laporan_model extends CI_Model{
 		$this->db->where($this->table_pamong.'.pamong_id', $pamong);
 		$data = $this->db->get()->row();
 		return $data;
-		
+	}
+
+	public function laporan_inventaris()
+	{
+		$laporan_inventaris = array(
+			array('inventaris_tanah_pribadi', 'inventaris_tanah', 'Pembelian Sendiri'),
+			array('inventaris_tanah_pemerintah', 'inventaris_tanah', 'Bantuan Pemerintah'),
+			array('inventaris_tanah_provinsi', 'inventaris_tanah', 'Bantuan Provinsi'),
+			array('inventaris_tanah_kabupaten', 'inventaris_tanah', 'Bantuan Kabupaten'),
+			array('inventaris_tanah_sumbangan', 'inventaris_tanah', 'Sumbangan'),
+
+			array('inventaris_peralatan_pribadi', 'inventaris_peralatan', 'Pembelian Sendiri'),
+			array('inventaris_peralatan_pemerintah', 'inventaris_peralatan', 'Bantuan Pemerintah'),
+			array('inventaris_peralatan_provinsi', 'inventaris_peralatan', 'Bantuan Provinsi'),
+			array('inventaris_peralatan_kabupaten', 'inventaris_peralatan', 'Bantuan Kabupaten'),
+			array('inventaris_peralatan_sumbangan', 'inventaris_peralatan', 'Sumbangan'),
+
+			array('inventaris_gedung_pribadi', 'inventaris_gedung', 'Pembelian Sendiri'),
+			array('inventaris_gedung_pemerintah', 'inventaris_gedung', 'Bantuan Pemerintah'),
+			array('inventaris_gedung_provinsi', 'inventaris_gedung', 'Bantuan Provinsi'),
+			array('inventaris_gedung_kabupaten', 'inventaris_gedung', 'Bantuan Kabupaten'),
+			array('inventaris_gedung_sumbangan', 'inventaris_gedung', 'Sumbangan'),
+
+			array('inventaris_jalan_pribadi', 'inventaris_jalan', 'Pembelian Sendiri'),
+			array('inventaris_jalan_pemerintah', 'inventaris_jalan', 'Bantuan Pemerintah'),
+			array('inventaris_jalan_provinsi', 'inventaris_jalan', 'Bantuan Provinsi'),
+			array('inventaris_jalan_kabupaten', 'inventaris_jalan', 'Bantuan Kabupaten'),
+			array('inventaris_jalan_sumbangan', 'inventaris_jalan', 'Sumbangan'),
+
+			array('inventaris_asset_pribadi', 'inventaris_asset', 'Pembelian Sendiri'),
+			array('inventaris_asset_pemerintah', 'inventaris_asset', 'Bantuan Pemerintah'),
+			array('inventaris_asset_provinsi', 'inventaris_asset', 'Bantuan Provinsi'),
+			array('inventaris_asset_kabupaten', 'inventaris_asset', 'Bantuan Kabupaten'),
+			array('inventaris_asset_sumbangan', 'inventaris_asset', 'Sumbangan'),
+
+			array('inventaris_kontruksi_pribadi', 'inventaris_kontruksi', 'Pembelian Sendiri'),
+			array('inventaris_kontruksi_pemerintah', 'inventaris_kontruksi', 'Bantuan Pemerintah'),
+			array('inventaris_kontruksi_provinsi', 'inventaris_kontruksi', 'Bantuan Provinsi'),
+			array('inventaris_kontruksi_kabupaten', 'inventaris_kontruksi', 'Bantuan Kabupaten'),
+			array('inventaris_kontruksi_sumbangan', 'inventaris_kontruksi', 'Sumbangan')
+		);
+		$result = array();
+		foreach ($laporan_inventaris as $inventaris)
+		{
+			$this->db->select("count($inventaris[1].asal) as total");
+			$this->db->where("$inventaris[1].visible", 1);
+			$this->db->where("$inventaris[1].status", 0);
+			$this->db->where("$inventaris[1].asal", $inventaris[2]);
+			$hasil = $this->db->get($inventaris[1])->row();
+			$result[$inventaris[0]] = !empty($hasil) ? $hasil : 0;
+		}
+		return $result;
+	}
+
+	public function cetak_inventaris($tahun)
+	{
+		$cetak_inventaris = array(
+			array('cetak_inventaris_tanah_pribadi', 'inventaris_tanah', 'Pembelian Sendiri', 'tahun_pengadaan'),
+			array('cetak_inventaris_tanah_pemerintah', 'inventaris_tanah', 'Bantuan Pemerintah', 'tahun_pengadaan'),
+			array('cetak_inventaris_tanah_provinsi', 'inventaris_tanah', 'Bantuan Provinsi', 'tahun_pengadaan'),
+			array('cetak_inventaris_tanah_kabupaten', 'inventaris_tanah', 'Bantuan Kabupaten', 'tahun_pengadaan'),
+			array('cetak_inventaris_tanah_sumbangan', 'inventaris_tanah', 'Sumbangan', 'tahun_pengadaan'),
+
+			array('cetak_inventaris_peralatan_pribadi', 'inventaris_peralatan', 'Pembelian Sendiri', 'tahun_pengadaan'),
+			array('cetak_inventaris_peralatan_pemerintah', 'inventaris_peralatan', 'Bantuan Pemerintah', 'tahun_pengadaan'),
+			array('cetak_inventaris_peralatan_provinsi', 'inventaris_peralatan', 'Bantuan Provinsi', 'tahun_pengadaan'),
+			array('cetak_inventaris_peralatan_kabupaten', 'inventaris_peralatan', 'Bantuan Kabupaten', 'tahun_pengadaan'),
+			array('cetak_inventaris_peralatan_sumbangan', 'inventaris_peralatan', 'Sumbangan', 'tahun_pengadaan'),
+
+			array('cetak_inventaris_gedung_pribadi', 'inventaris_gedung', 'Pembelian Sendiri', 'tanggal_dokument'),
+			array('cetak_inventaris_gedung_pemerintah', 'inventaris_gedung', 'Bantuan Pemerintah', 'tanggal_dokument'),
+			array('cetak_inventaris_gedung_provinsi', 'inventaris_gedung', 'Bantuan Provinsi', 'tanggal_dokument'),
+			array('cetak_inventaris_gedung_kabupaten', 'inventaris_gedung', 'Bantuan Kabupaten', 'tanggal_dokument'),
+			array('cetak_inventaris_gedung_sumbangan', 'inventaris_gedung', 'Sumbangan', 'tanggal_dokument'),
+
+			array('cetak_inventaris_jalan_pribadi', 'inventaris_jalan', 'Pembelian Sendiri', 'tanggal_dokument'),
+			array('cetak_inventaris_jalan_pemerintah', 'inventaris_jalan', 'Bantuan Pemerintah', 'tanggal_dokument'),
+			array('cetak_inventaris_jalan_provinsi', 'inventaris_jalan', 'Bantuan Provinsi', 'tanggal_dokument'),
+			array('cetak_inventaris_jalan_kabupaten', 'inventaris_jalan', 'Bantuan Kabupaten', 'tanggal_dokument'),
+			array('cetak_inventaris_jalan_sumbangan', 'inventaris_jalan', 'Sumbangan', 'tanggal_dokument'),
+
+			array('cetak_inventaris_asset_pribadi', 'inventaris_asset', 'Pembelian Sendiri', 'tahun_pengadaan'),
+			array('cetak_inventaris_asset_pemerintah', 'inventaris_asset', 'Bantuan Pemerintah', 'tahun_pengadaan'),
+			array('cetak_inventaris_asset_provinsi', 'inventaris_asset', 'Bantuan Provinsi', 'tahun_pengadaan'),
+			array('cetak_inventaris_asset_kabupaten', 'inventaris_asset', 'Bantuan Kabupaten', 'tahun_pengadaan'),
+			array('cetak_inventaris_asset_sumbangan', 'inventaris_asset', 'Sumbangan', 'tahun_pengadaan'),
+
+			array('cetak_inventaris_kontruksi_pribadi', 'inventaris_kontruksi', 'Pembelian Sendiri', 'tanggal_dokument'),
+			array('cetak_inventaris_kontruksi_pemerintah', 'inventaris_kontruksi', 'Bantuan Pemerintah', 'tanggal_dokument'),
+			array('cetak_inventaris_kontruksi_provinsi', 'inventaris_kontruksi', 'Bantuan Provinsi', 'tanggal_dokument'),
+			array('cetak_inventaris_kontruksi_kabupaten', 'inventaris_kontruksi', 'Bantuan Kabupaten', 'tanggal_dokument'),
+			array('cetak_inventaris_kontruksi_sumbangan', 'inventaris_kontruksi', 'Sumbangan', 'tanggal_dokument')
+		);
+		$result = array();
+		foreach ($cetak_inventaris as $inventaris)
+		{
+			$this->db->select("count($inventaris[1].asal) as total");
+			$this->db->where("$inventaris[1].visible", 1);
+			$this->db->where("$inventaris[1].status", 0);
+			if ($tahun != 1)
+			{
+				if ($inventaris[3] == 'tahun_pengadaan')
+				{
+					$this->db->where("$inventaris[1].tahun_pengadaan", $tahun);
+				}
+				else
+				{
+					$this->db->where('year(tanggal_dokument)',$tahun);
+				}
+			}
+			$this->db->where("$inventaris[1].asal", $inventaris[2]);
+			$hasil = $this->db->get($inventaris[1])->row();
+			$result[$inventaris[0]] = !empty($hasil) ? $hasil : 0;
+		}
+		return $result;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

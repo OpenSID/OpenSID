@@ -1,12 +1,14 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Laporan extends CI_Controller{
 
-function __construct(){
+	function __construct()
+	{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) {
+		if ($grup!=1 AND $grup!=2 AND $grup!=3)
+		{
 			if(empty($grup))
 				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 			else
@@ -26,7 +28,8 @@ function __construct(){
 		$this->modul_ini = 3;
 	}
 
-    function clear(){
+  function clear()
+  {
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		unset($_SESSION['sex']);
@@ -45,8 +48,8 @@ function __construct(){
 		redirect('laporan');
 	}
 
-	function index($lap=0,$p=1,$o=0){
-
+	function index($lap=0,$p=1,$o=0)
+	{
 		$data['p']        = $p;
 		$data['o']        = $o;
 
@@ -56,11 +59,19 @@ function __construct(){
 
 		if(isset($_SESSION['bulanku']))
 			$data['bulanku'] = $_SESSION['bulanku'];
-		else $data['bulanku'] = date("n");
+		else
+		{
+			$data['bulanku'] = date("n");
+			$_SESSION['bulanku'] = $data['bulanku'];
+		}
 
 		if(isset($_SESSION['tahunku']))
 			$data['tahunku'] = $_SESSION['tahunku'];
-		else $data['tahunku'] = date("Y");
+		else
+		{
+			$data['tahunku'] = date("Y");
+			$_SESSION['tahunku'] = $data['tahunku'];
+		}
 
 		$data['bulan']=$data['bulanku'];
 		$data['tahun']=$data['tahunku'];
@@ -85,8 +96,8 @@ function __construct(){
 		//print_r(	$data['kelahiran'] );
 	}
 
-	function cetak($lap=0){
-
+	function cetak($lap=0)
+	{
 		$data['input'] = $_POST;
 		$data['config'] = $this->laporan_bulanan_model->configku();
 		$data['bulan']=$_SESSION['bulanku'];
@@ -103,9 +114,8 @@ function __construct(){
 		$this->load->view('laporan/bulanan_print',$data);
 	}
 
-
-	function excel($lap=0){
-
+	function excel($lap=0)
+	{
 		$data['input'] = $_POST;
 		$data['config'] = $this->laporan_bulanan_model->configku();
 		$data['bulan']=$_SESSION['bulanku'];
@@ -122,7 +132,8 @@ function __construct(){
 		$this->load->view('laporan/bulanan_excel',$data);
 	}
 
-	function bulan(){
+	function bulan()
+	{
 		$bulanku= $this->input->post('bulan');
 		if($bulanku!="")
 			$_SESSION['bulanku']=$bulanku;

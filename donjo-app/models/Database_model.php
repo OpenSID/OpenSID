@@ -148,6 +148,33 @@
     // Tambahkan perubahan database di sini
     // Tambah kolom di tabel data_persil
 
+		// Tambah wna_lk, wna_pr di log_bulanan
+		// dan ubah lk menjadi wni_lk, dan pr menjadi wni_pr
+		if (!$this->db->field_exists('wni_pr', 'log_bulanan'))
+		{
+			$fields = array();
+			$fields['lk'] = array(
+					'name' => 'wni_lk',
+					'type' => 'int',
+					'constraint' => 11
+			);
+			$fields['pr'] = array(
+					'name' => 'wni_pr',
+					'type' => 'int',
+					'constraint' => 11
+			);
+			$this->dbforge->modify_column('log_bulanan', $fields);
+			$fields = array();
+			$fields['wna_lk'] = array(
+					'type' => 'int',
+					'constraint' => 11
+			);
+			$fields['wna_pr'] = array(
+					'type' => 'int',
+					'constraint' => 11
+			);
+			$this->dbforge->add_column('log_bulanan', $fields);
+		}
 
     // Penambahan database untuk melakukan inventaris
     $query = $this->db->get_where('setting_modul', array('id' => 16));
@@ -159,7 +186,6 @@
                 (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`)
                 VALUES (16,'Inventaris','inventaris_tanah',1,'inventaris.png',16,2,0,'fa fa-money')";
         $this->db->query($sql);
-
 
         $sql = "UPDATE `setting_modul` SET urut = '6'WHERE id = 16";
         $this->db->query($sql);
@@ -244,7 +270,6 @@
       )
       ";
       $this->db->query($query);
-
     }
 
     if (!$this->db->table_exists('inventaris_peralatan') ) {
@@ -298,7 +323,6 @@
       )
       ";
       $this->db->query($query);
-
     }
 
     if (!$this->db->table_exists('inventaris_gedung') ) {
@@ -331,7 +355,6 @@
       )
       ";
       $this->db->query($query);
-
     }
 
     if (!$this->db->table_exists('mutasi_inventaris_gedung') ) {
@@ -354,7 +377,6 @@
       )
       ";
       $this->db->query($query);
-
     }
 
     if (!$this->db->table_exists('inventaris_jalan') ) {
@@ -387,7 +409,6 @@
       )
       ";
       $this->db->query($query);
-
     }
 
     if (!$this->db->table_exists('mutasi_inventaris_jalan') ) {
@@ -410,7 +431,6 @@
       )
       ";
       $this->db->query($query);
-
     }
 
     if (!$this->db->table_exists('inventaris_asset') ) {
@@ -445,7 +465,6 @@
       )
       ";
       $this->db->query($query);
-
     }
 
     if (!$this->db->table_exists('mutasi_inventaris_asset') ) {
@@ -468,10 +487,7 @@
       )
       ";
       $this->db->query($query);
-
     }
-
-
 
     if (!$this->db->table_exists('inventaris_kontruksi') ) {
       $query = "

@@ -74,6 +74,11 @@ class First extends Web_Controller{
 		$data['p'] = $p;
 		$data['paging']  = $this->first_artikel_m->paging($p);
 		$data['paging_page']  = 'index';
+		$data['paging_range'] = 3;
+		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
+		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
+		$data['pages'] = range($data['start_paging'], $data['end_paging']);
+
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 		$data['headline'] = $this->first_artikel_m->get_headline();
 
@@ -213,6 +218,10 @@ class First extends Web_Controller{
 		$data = $this->includes;
 		$data['p'] = $p;
 		$data['paging']  = $this->first_gallery_m->paging($p);
+		$data['paging_range'] = 3;
+		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
+		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
+		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 		$data['gallery'] = $this->first_gallery_m->gallery_show($data['paging']->offset,$data['paging']->per_page);
 
 		$this->_get_common_data($data);
@@ -227,6 +236,11 @@ class First extends Web_Controller{
 		$data['p'] = $p;
 		$data['gal'] = $gal;
 		$data['paging']  = $this->first_gallery_m->paging2($gal,$p);
+		$data['paging_range'] = 3;
+		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
+		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
+		$data['pages'] = range($data['start_paging'], $data['end_paging']);
+
 		$data['gallery'] = $this->first_gallery_m->sub_gallery_show($gal,$data['paging']->offset,$data['paging']->per_page);
 		$data['parrent'] = $this->first_gallery_m->get_parrent($gal);
 		$data['mode']= 1;
@@ -315,6 +329,11 @@ class First extends Web_Controller{
 		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($kat);
 		$data['paging']  = $this->first_artikel_m->paging_kat($p,$kat);
 		$data['paging_page']  = 'kategori/'.$kat;
+		$data['paging_range'] = 3;
+		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
+		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
+		$data['pages'] = range($data['start_paging'], $data['end_paging']);
+
 		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset,$data['paging']->per_page,$kat);
 
 		$this->_get_common_data($data);

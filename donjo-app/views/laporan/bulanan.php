@@ -4,14 +4,14 @@
 
   <td style="background:#fff;padding:0px;">
   <div id="contentpane">
-	<form id="mainform" name="mainform" action="<?php echo site_url('laporan/bulan')?>" method="post">
+	<form id="mainform" name="mainform" action="<?= site_url('laporan')?>" method="post">
     <div class="ui-layout-north panel top">
       <div class="left">
         <div class="uibutton-group">
 
 
-          <a class="uibutton tipsy south" title="Cetak" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('laporan/cetak')?>')"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-          <a class="uibutton tipsy south" title="Unduh" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('laporan/excel')?>')"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
+          <a class="uibutton tipsy south" title="Cetak" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?= site_url('laporan/cetak')?>')"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+          <a class="uibutton tipsy south" title="Unduh" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?= site_url('laporan/excel')?>')"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <table  width="100%">
   			<tbody>
           <tr>	<?php foreach($config as $data){?>
-    				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA  <?php echo strtoupper($data['nama_kabupaten'])?></h4></td>
+    				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA  <?= strtoupper($data['nama_kabupaten'])?></h4></td>
     				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>
           </tr>
   				<tr>
@@ -31,15 +31,15 @@
 			<table>
 				<tbody>
           <tr>
-  					<td><?php echo ucwords($this->setting->sebutan_desa)?>/Kelurahan</td>
+  					<td><?= ucwords($this->setting->sebutan_desa)?>/Kelurahan</td>
   					<td width="3%">:</td>
-  					<td width="38.5%"><?php echo unpenetration($data['nama_desa'])?></h4></td>
+  					<td width="38.5%"><?= unpenetration($data['nama_desa'])?></h4></td>
   					<td></td>
   				</tr>
   				<tr>
-  					<td><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
+  					<td><?= ucwords($this->setting->sebutan_kecamatan)?></td>
   					<td width="3%">:</td>
-  					<td width="38.5%"><?php echo unpenetration($data['nama_kecamatan'])?></td>
+  					<td width="38.5%"><?= unpenetration($data['nama_kecamatan'])?></td>
   					<td></td>
   					<?php  } ?>
   				</tr>
@@ -47,9 +47,9 @@
   					<td>Tahun/Bulan</td>
   					<td width="3%">:</td>
   					<td>
-              <input name="tahun" type="text" class="inputbox required" size="5" value="<?php echo $tahun ?>"  onchange="$('#'+'mainform').attr('target','');formAction('mainform','<?php echo site_url('laporan/tahun')?>')" />
+              <input name="tahun" type="text" class="inputbox required" size="5" value="<?= $tahun ?>" onchange="$('#'+'mainform').attr('target','');$('#'+'mainform').attr('action','<?= site_url("laporan/bulan")?>');$('#'+'mainform').submit();" >
               <span>/</span>
-              <select name="bulan" onchange="$('#'+'mainform').attr('target','');formAction('mainform','<?php echo site_url('laporan/bulan')?>')" >
+              <select name="bulan" onchange="$('#'+'mainform').attr('target','');formAction('mainform','<?= site_url("laporan/bulan")?>')" >
                 <option value="">Pilih bulan</option>
                 <option value="1" <?php  if($bulan=="1"){?>selected<?php  }?>>Januari</option>
                 <option value="2" <?php  if($bulan=="2"){?>selected<?php  }?>>Februari</option>
@@ -70,16 +70,16 @@
             <td>Diketahui</td>
             <td width="3%">:</td>
             <td><select name="pamong"  class="inputbox">
-              <option value="">Pilih Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></option>
+              <option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
               <?php foreach($pamong AS $data){?>
-                <option value="<?php echo $data['pamong_nama']?>"><?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)</option>
+                <option value="<?= $data['pamong_nama']?>"><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
               <?php }?>
               </select></td>
             <td>Sebagai : </th>
             <td><select name="jabatan"  class="inputbox">
               <option value="">Pilih Jabatan</option>
               <?php foreach($pamong AS $data){?>
-                <option ><?php echo $data['jabatan']?></option>
+                <option ><?= $data['jabatan']?></option>
               <?php }?>
               </select></td>
           </tr>
@@ -98,7 +98,7 @@
     </div>
     <div class="ui-layout-south panel bottom">
       <div class="left">
-        <a href="<?php echo site_url()?>sid_wilayah" class="uibutton icon prev">Kembali</a>
+        <a href="<?= site_url()?>sid_wilayah" class="uibutton icon prev">Kembali</a>
       </div>
       <div class="right">
         <div class="uibutton-group">

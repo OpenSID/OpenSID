@@ -156,6 +156,13 @@
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
+	//
+	// Batasi pada rekaman ubah status dasar saja, untuk ditampilkan di Log Penduduk.
+	// Yaitu, batasi pada id_detail berikut:
+	//   2 = status menjadi mati
+	//   3 = status menjadi pindah
+	//   4 = status menjadi hilang
+
 	private function list_data_sql()
 	{
 		$sql = "
@@ -166,7 +173,9 @@
 		LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
 		LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend
-		WHERE u.status_dasar > 1 ";
+		WHERE u.status_dasar > 1
+		AND log.id_detail IN (2,3,4)
+		";
 
 		$sql .= $this->search_sql();
 		$sql .= $this->status_dasar_sql();
