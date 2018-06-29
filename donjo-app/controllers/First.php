@@ -89,11 +89,11 @@ class First extends Web_Controller{
 		}
 
 		$this->_get_common_data($data);
+		$this->track_model->track_desa('first');
 
 		// $this->load->view('layouts/main.tpl.php',$data);
 		// load views
 		$this->load->view($this->template, $data);
-		$this->track_model->track_desa('first');
 	}
 
 	function cetak_biodata($id=''){
