@@ -2,7 +2,7 @@ Rilis ini menambahkan modul Inventaris sesuai dengan PERMENDAGRI NO 4 THN 2007. 
 
 Terima kasih pada Diego Dafma, Yusup Hambali dan tim programmer dari Diskominfo Kab Bandung, yang terus berkontribusi. Juga terima kasih pada https://github.com/LIQRGV yang mulai kontribusi.
 
-Lengkapnya, isi rilis versi 18.06-pasca:
+Lengkapnya, isi rilis versi 18.07:
 
 1. Tampilkan logo OpenSID sebagai lambang desa default.
 2. #1037: Tambahkan validasi nama penduduk hanya boleh berisi karakter alpha, spasi atau tanda petik. [bug-fix]
@@ -25,8 +25,7 @@ Lengkapnya, isi rilis versi 18.06-pasca:
 19. #1032: Sekarang jumlah surat juga ditampilkan di Arsip Layanan > Grafik Surat Keluar.
 20. #1121: Sederhanakan paginasi artikel dan galeri di modul Web untuk mengatasi masalah di mana ada banyak artikel atau gambar galeri.
 
-
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.07, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
 Perhatian: Modul Sekretariat > Inventaris Desa akan dihilangkan pada rilis September 2018 karena telah diganti dengan modul Inventaris baru. Pastikan memindahkan semua data ke format Inventaris baru sebelum rilis tersebut.
 
