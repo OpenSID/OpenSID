@@ -397,26 +397,30 @@ class Sms extends CI_Controller{
 		$this->load->view('sms/ajax_broadcast_form',$data);
 	}
 
-	function ajax_penduduk_rw($dusun=''){
+	function ajax_penduduk_rw($dusun='')
+	{
 		$rw = $this->penduduk_model->list_rw($dusun);
 		echo"<div class='form-group'>
 			<label for='rw'>RW</label>
 			<select class='form-control input-sm' name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
 				<option value=''>Pilih RW</option>";
-				foreach($rw as $data){
+				foreach ($rw as $data)
+				{
 					echo "<option>".$data['rw']."</option>";
 				}
 			echo"</select>
 		</div>";
 	}
 
-	function ajax_penduduk_rt($dusun='',$rw=''){
-		$rt = $this->penduduk_model->list_rt($dusun,$rw);
+	function ajax_penduduk_rt($dusun='', $rw='')
+	{
+		$rt = $this->penduduk_model->list_rt($dusun, $rw);
 		echo"<div class='form-group'>
 			<label for='rt'>RT</label>
 			<select class='form-control input-sm' name='rt'>
 				<option value=''>Pilih RT</option>";
-				foreach($rt as $data){
+				foreach ($rt as $data)
+				{
 					echo "<option value=".$data['rt'].">".$data['rt']."</option>";
 				}
 			echo"</select>

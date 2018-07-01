@@ -18,14 +18,14 @@
 								<option option value="">-- Silakan Cari NIK / Nama Penduduk--</option>
 								<?php foreach ($penduduk as $data):?>
 									<option value="<?=$data['id']?>">NIK :<?=$data['nik']." - ".$data['nama']?></option>
-								<?php  endforeach; ?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="pin">PIN</label>
 							<input id="pin" name="pin" class="form-control input-sm" type="text" placeholder="PIN Warga"></input>
 							<p class="help-block">*) Jika PIN tidak di isi maka sistem akan menghasilkan PIN secara acak.</p>
-							<p class="help-block">**) (enam) digit Angka.</p>
+							<p class="help-block">**) 6 (enam) digit Angka.</p>
 						</div>
 					</div>
 				</div>

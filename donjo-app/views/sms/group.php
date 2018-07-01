@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Manajemen Nomer Kontak</h1>
+		<h1>Pengaturan Daftar Kontak</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Manajemen Nomer Kontak</li>
+			<li class="active">Pengaturan Daftar Kontak</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -40,7 +40,7 @@
 												<div class="col-sm-12">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari_grup" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) :$('#'+'mainform').attr('action', '<?=site_url('sms/search_grup')?>');$('#'+'mainform').submit();endif">
+															<input name="cari_grup" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('sms/search_grup')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
 																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("sms/search_grup")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
@@ -64,12 +64,12 @@
 															<tbody>
 																<?php foreach ($main as $data):?>
 																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['nama_grup']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?=site_url("sms/form_grup/$data[nama_grup]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<a href="#" data-href="<?=site_url("sms/grup_delete/$data[nama_grup]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																			<a href="<?=site_url("sms/anggota/$data[nama_grup]")?>" class="btn bg-purple btn-flat btn-sm" ><i class="fa fa-list"></i></a>
+																			<a href="<?=site_url("sms/anggota/$data[nama_grup]")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Anggota"><i class="fa fa-list"></i></a>
 																		</td>
                                     <td><?=$data['nama_grup']?></td>
 				 														<td><?=$data['jumlah_kontak']?></td>
@@ -88,9 +88,9 @@
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-                                <option value="20" <?php  selected($per_page, 20); ?> >20</option>
-                                <option value="50" <?php  selected($per_page, 50); ?> >50</option>
-                                <option value="100" <?php  selected($per_page, 100); ?> >100</option>
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
                               </select>
                               Dari
                               <strong><?= $paging->num_rows?></strong>
@@ -102,21 +102,21 @@
                       <div class="col-sm-6">
                         <div class="dataTables_paginate paging_simple_numbers">
                           <ul class="pagination">
-                            <?php  if ($paging->start_link): ?>
+                            <?php if ($paging->start_link): ?>
                               <li><a href="<?=site_url("sms/group/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->prev): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
                               <li><a href="<?=site_url("sms/group/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
                               <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("sms/group/$i/$o")?>"><?= $i?></a></li>
-                            <?php  endfor; ?>
-                            <?php  if ($paging->next): ?>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
                               <li><a href="<?=site_url("sms/group/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->end_link): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
                               <li><a href="<?=site_url("sms/group/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                            <?php  endif; ?>
+                            <?php endif; ?>
                           </ul>
                         </div>
                       </div>

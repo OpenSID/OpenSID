@@ -31,14 +31,14 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('menu/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php  if ($filter==1) :?>selected<?php  endif?>>Aktif</option>
-														<option value="2" <?php  if ($filter==2) :?>selected<?php  endif?>>Tidak Aktif</option>
+														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
+														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari_kontak" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) :$('#'+'mainform').attr('action', '<?=site_url("menu/search/$tip")?>');$('#'+'mainform').submit();endif">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url("menu/search/$tip")?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
 																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("menu/search/$tip")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
@@ -55,20 +55,20 @@
 																	<th><input type="checkbox" id="checkall"/></th>
 																	<th>No</th>
 																	<th>Aksi</th>
-																	<?php  if ($o==2): ?>
+																	<?php if ($o==2): ?>
                                     <th><a href="<?= site_url("menu/index/$tip/$p/1")?>">Nama Menu<i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==1): ?>
+                                  <?php elseif ($o==1): ?>
                                     <th><a href="<?= site_url("menu/index/$tip/$p/2")?>">Nama Menu<i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th><a href="<?= site_url("menu/index/$tip/$p/1")?>">Nama Menu<i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
-                                  <?php  if ($o==4): ?>
+                                  <?php endif; ?>
+                                  <?php if ($o==4): ?>
                                     <th nowrap><a href="<?= site_url("menu/index/$tip/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==3): ?>
+                                  <?php elseif ($o==3): ?>
                                     <th nowrap><a href="<?= site_url("menu/index/$tip/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th nowrap><a href="<?= site_url("menu/index/$tip/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
+                                  <?php endif; ?>
                                   <th>Link</th>
 																</tr>
 															</thead>
@@ -79,17 +79,17 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																		  <?php if ($_SESSION['grup']==1): ?>
-																				<a href="<?= site_url("menu/urut/$tip/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posis Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-																				<a href="<?= site_url("menu/urut/$tip/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posis Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																				<a href="<?= site_url("menu/urut/$tip/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																				<a href="<?= site_url("menu/urut/$tip/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																			<?php endif; ?>
 																			<a href="<?= site_url("menu/sub_menu/$tip/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Sub Menu"><i class="fa fa-bars"></i></a>
 																			<a href="<?= site_url("menu/form/$tip/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php  if ($data['enabled'] == '2'):?>
-																				<a href="<?= site_url("menu/menu_lock/$tip/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock"></i></a>
-																			<?php  elseif ($data['enabled'] == '1'): ?>
+																			<?php if ($data['enabled'] == '2'):?>
+																				<a href="<?= site_url("menu/menu_lock/$tip/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																			<?php elseif ($data['enabled'] == '1'): ?>
 																				<a href="<?= site_url("menu/menu_unlock/$tip/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
                                         <a href="<?=site_url("menu/ajax_add_sub_menu/$tip/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Menu" title="Tambah Sub Menu"><i class="fa fa-plus"></i></a>
-                                      <?php  endif?>
+                                      <?php endif?>
 																			<a href="#" data-href="<?= site_url("menu/delete/$tip/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
                                     <td width="50%"><?= $data['nama']?></td>
@@ -110,9 +110,9 @@
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-                                <option value="20" <?php  selected($per_page, 20); ?> >20</option>
-                                <option value="50" <?php  selected($per_page, 50); ?> >50</option>
-                                <option value="100" <?php  selected($per_page, 100); ?> >100</option>
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
                               </select>
                               Dari
                               <strong><?= $paging->num_rows?></strong>
@@ -124,21 +124,21 @@
                       <div class="col-sm-6">
                         <div class="dataTables_paginate paging_simple_numbers">
                           <ul class="pagination">
-                            <?php  if ($paging->start_link): ?>
+                            <?php if ($paging->start_link): ?>
                               <li><a href="<?=site_url("menu/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->prev): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
                               <li><a href="<?=site_url("menu/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
                               <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("menu/index/$i/$o")?>"><?= $i?></a></li>
-                            <?php  endfor; ?>
-                            <?php  if ($paging->next): ?>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
                               <li><a href="<?=site_url("menu/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->end_link): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
                               <li><a href="<?=site_url("menu/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                            <?php  endif; ?>
+                            <?php endif; ?>
                           </ul>
                         </div>
                       </div>

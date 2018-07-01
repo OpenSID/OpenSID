@@ -101,12 +101,10 @@
 		$data=$query->result_array();
 
 		//Formating Output
-		$i=0;
-		$j=$offset;
-		while($i<count($data))
+		$j = $offset;
+		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no']=$j+1;
-			$i++;
+			$data[$i]['no'] = $j+1;
 			$j++;
 		}
 		return $data;

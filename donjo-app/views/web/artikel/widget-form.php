@@ -4,6 +4,7 @@
 		<h1>Pengaturan Widget</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('web_widget')?>"> Daftar Widget</a></li>
 			<li class="active">Pengaturan Widget</li>
 		</ol>
 	</section>
@@ -29,20 +30,20 @@
 								<div class="col-sm-6">
 									<select id="jenis_widget" name="jenis_widget" class="form-control input-sm">
 										<option value="">-- Pilih Jenis Widget --</option>
-                    <option value="2" <?php if ($widget['jenis_widget'] == 2) :?>selected<?php endif?>>Statis</option>
-                    <option value="3" <?php if ($widget['jenis_widget'] == 3) :?>selected<?php endif?>>Dinamis</option>
+                    <option value="2" <?php if ($widget['jenis_widget'] == 2):?>selected<?php endif?>>Statis</option>
+                    <option value="3" <?php if ($widget['jenis_widget'] == 3):?>selected<?php endif?>>Dinamis</option>
 									 </select>
 								</div>
 							</div>
     					<?php if($widget['jenis_widget'] AND $widget['jenis_widget'] != 1 AND $widget['jenis_widget'] !=2) $dinamis = true; ?>
-							<div id="dinamis" class="form-group" ?php if(!$dinamis) echo 'style="display:none;"'?>
+								<div id="dinamis" class="form-group" <?php if (!$dinamis):?>style="display:none;"<?php endif;?>>
 								<label class="col-sm-4 control-label" for="alamat_kantor">Kode Widget</label>
 								<div class="col-sm-6">
 									<textarea id="isi-dinamis" name="isi-dinamis" class="form-control input-sm"><?=$widget['isi']?></textarea>
 								</div>
 							</div>
    			 			<?php if($widget['jenis_widget'] AND $widget['jenis_widget'] ==2) $statis = true; ?>
-							<div id="statis" class="form-group" <?php if(!$statis) echo 'style="display:none;"'?>>
+								<div id="statis" class="form-group" <?php if (!$statis):?>style="display:none;"<?php endif;?>>
 								<label class="col-sm-4 control-label" for="isi-statis">Nama File Widget (.php)</label>
 								<div class="col-sm-6">
 									<input id="isi-statis" name="isi-statis" class="form-control input-sm" type="text" placeholder="Judul Widget" value="<?= $widget['isi']?>"></input>

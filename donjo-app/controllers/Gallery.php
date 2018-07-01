@@ -46,8 +46,8 @@ class Gallery extends CI_Controller{
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act']= 13;
-		$nav['act_sub'] = 51;
+		$nav['act']=13;
+		$nav['act_sub']=51;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -71,8 +71,8 @@ class Gallery extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$nav['act']= 13;
-		$nav['act_sub'] = 51;
+		$nav['act']=13;
+		$nav['act_sub']=51;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gallery/form',$data);
@@ -184,8 +184,8 @@ class Gallery extends CI_Controller{
 		$data['gallery'] = $gal;
 		$data['sub']  = $this->web_gallery_model->get_gallery($gal);
 		$header = $this->header_model->get_data();
-		$nav['act']= 13;
-		$nav['act_sub'] = 51;
+		$nav['act']=13;
+		$nav['act_sub']=51;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -208,8 +208,8 @@ class Gallery extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$nav['act']= 13;
-		$nav['act_sub'] = 51;
+		$nav['act']=13;
+		$nav['act_sub']=51;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gallery/form_sub_gallery',$data);

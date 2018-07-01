@@ -48,21 +48,21 @@
 																	<th>No</th>
 																	<th>Aksi</th>
                                   <th>Nama</th>
-																	<?php  if ($o==2): ?>
+																	<?php if ($o==2): ?>
                                     <th><a href="<?= site_url("sms/pending/$p/1")?>">Nomor HP <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==1): ?>
+                                  <?php elseif ($o==1): ?>
                                     <th><a href="<?= site_url("sms/pending/$p/2")?>">Nomor HP <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th><a href="<?= site_url("sms/pending/$p/1")?>">Nomor HP <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
+                                  <?php endif; ?>
 																	<th>Isi Pesan</th>
-                                  <?php  if ($o==6): ?>
+                                  <?php if ($o==6): ?>
                                     <th nowrap><a href="<?= site_url("sms/pending/$p/5")?>">Dikirim <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==5): ?>
+                                  <?php elseif ($o==5): ?>
                                     <th nowrap><a href="<?= site_url("sms/pending/$p/6")?>">Dikirim <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th nowrap><a href="<?= site_url("sms/pending/$p/5")?>">Dikirim <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
+                                  <?php endif; ?>
 																</tr>
 															</thead>
 															<tbody>
@@ -71,7 +71,7 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['ID']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?=site_url("sms/form/$p/$o/3/$data[ID]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Pesan" title="Lihat Pesan"><i class="fa fa-reply"></i></a>
+																			<a href="<?=site_url("sms/form/$p/$o/3/$data[ID]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Pesan" title="Ubah Pesan"><i class="fa fa-reply"></i></a>
 																			<a href="#" data-href="<?=site_url("sms/delete/$p/$o/3/$data[ID]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                     <td nowrap><?=unpenetration($data['nama'])?></td>
@@ -93,9 +93,9 @@
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-                                <option value="20" <?php  selected($per_page, 20); ?> >20</option>
-                                <option value="50" <?php  selected($per_page, 50); ?> >50</option>
-                                <option value="100" <?php  selected($per_page, 100); ?> >100</option>
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
                               </select>
                               Dari
                               <strong><?= $paging->num_rows?></strong>
@@ -107,21 +107,21 @@
                       <div class="col-sm-6">
                         <div class="dataTables_paginate paging_simple_numbers">
                           <ul class="pagination">
-                            <?php  if ($paging->start_link): ?>
+                            <?php if ($paging->start_link): ?>
                               <li><a href="<?=site_url("sms/pending/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->prev): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
                               <li><a href="<?=site_url("sms/pending/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
                               <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("sms/pending/$i/$o")?>"><?= $i?></a></li>
-                            <?php  endfor; ?>
-                            <?php  if ($paging->next): ?>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
                               <li><a href="<?=site_url("sms/pending/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->end_link): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
                               <li><a href="<?=site_url("sms/pending/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                            <?php  endif; ?>
+                            <?php endif; ?>
                           </ul>
                         </div>
                       </div>

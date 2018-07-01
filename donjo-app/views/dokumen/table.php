@@ -33,10 +33,10 @@
 							<?php if ($_SESSION['grup']<4):?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("dokumen/delete_all/$kat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif;?>
-							<a href="<?=site_url("dokumen/dialog_cetak/$kat")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Cetak Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Dokumen Laporan">
+							<a href="<?=site_url("dokumen/dialog_cetak/$kat")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Cetak Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan">
 								<i class="fa fa-print"></i>Cetak
             	</a>
-							<a href="<?=site_url("dokumen/dialog_excel/$kat")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Dokumen Laporan">
+							<a href="<?=site_url("dokumen/dialog_excel/$kat")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan">
 								<i class="fa fa-download"></i>Unduh
             	</a>
 						</div>
@@ -49,14 +49,14 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('dokumen/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php  if ($filter==1) :?>selected<?php  endif?>>Aktif</option>
-														<option value="2" <?php  if ($filter==2) :?>selected<?php  endif?>>Tidak Aktif</option>
+														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
+														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari_kontak" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) :$('#'+'mainform').attr('action', '<?=site_url("dokumen/search")?>');$('#'+'mainform').submit();endif">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url("dokumen/search")?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
 																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("dokumen/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
@@ -73,27 +73,27 @@
 																	<th><input type="checkbox" id="checkall"/></th>
 																	<th>No</th>
 																	<th>Aksi</th>
-																	<?php  if ($o==2): ?>
+																	<?php if ($o==2): ?>
                                     <th><a href="<?= site_url("dokumen/index/$kat/$p/1")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==1): ?>
+                                  <?php elseif ($o==1): ?>
                                     <th><a href="<?= site_url("dokumen/index/$kat/$p/2")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th><a href="<?= site_url("dokumen/index/$kat/$p/1")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
-                                  <?php  if ($o==4): ?>
+                                  <?php endif; ?>
+                                  <?php if ($o==4): ?>
                                     <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==3): ?>
+                                  <?php elseif ($o==3): ?>
                                     <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
-																	<?php  if ($o==6): ?>
+                                  <?php endif; ?>
+																	<?php if ($o==6): ?>
                                     <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/5")?>">Dimuat Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==5): ?>
+                                  <?php elseif ($o==5): ?>
                                     <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/6")?>">Dimuat Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/5")?>">Dimuat Pada <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
+                                  <?php endif; ?>
 																</tr>
 															</thead>
 															<tbody>
@@ -103,19 +103,19 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("dokumen/form/$kat/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php  if ($data['enabled'] == '2'):?>
-																				<a href="<?= site_url("dokumen/dokumen_lock/$kat/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock"></i></a>
-																			<?php  elseif ($data['enabled'] == '1'): ?>
+																			<?php if ($data['enabled'] == '2'):?>
+																				<a href="<?= site_url("dokumen/dokumen_lock/$kat/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																			<?php elseif ($data['enabled'] == '1'): ?>
 																				<a href="<?= site_url("dokumen/dokumen_unlock/".$kat."/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
-                                      <?php  endif?>
-																			<a href="<?= base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" class="btn bg-purple btn-flat btn-sm"  title="unduh"><i class="fa fa-download"></i></a>
-																			<a href="#" data-href="<?= site_url("dokumen/delete/".$kat."/".$data['id'])?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                                      <?php endif?>
+																			<a href="<?= base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																			<a href="#" data-href="<?= site_url("dokumen/delete/$kat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="50%"><?= $data['nama']?></td>
-																		<?php if ($kat == 2) : ?>
+																		<?php if ($kat == 2): ?>
 																			<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
 																			<td><?= $data['attr']['uraian']?></td>
-																		<?php elseif ($kat == 3) : ?>
+																		<?php elseif ($kat == 3): ?>
 																			<td><?= $data['attr']['no_ditetapkan']." / ".$data['attr']['tgl_ditetapkan']?></td>
 																			<td><?= $data['attr']['uraian']?></td>
 																		<?php endif; ?>
@@ -136,9 +136,9 @@
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-                                <option value="20" <?php  selected($per_page, 20); ?> >20</option>
-                                <option value="50" <?php  selected($per_page, 50); ?> >50</option>
-                                <option value="100" <?php  selected($per_page, 100); ?> >100</option>
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
                               </select>
                               Dari
                               <strong><?= $paging->num_rows?></strong>
@@ -150,21 +150,21 @@
                       <div class="col-sm-6">
                         <div class="dataTables_paginate paging_simple_numbers">
                           <ul class="pagination">
-                            <?php  if ($paging->start_link): ?>
+                            <?php if ($paging->start_link): ?>
                               <li><a href="<?=site_url("dokumen/index/$kat/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->prev): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
                               <li><a href="<?=site_url("dokumen/index/$kat/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
                               <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("dokumen/index/$kat/$i/$o")?>"><?= $i?></a></li>
-                            <?php  endfor; ?>
-                            <?php  if ($paging->next): ?>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
                               <li><a href="<?=site_url("dokumen/index/$kat/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->end_link): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
                               <li><a href="<?=site_url("dokumen/index/$kat/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                            <?php  endif; ?>
+                            <?php endif; ?>
                           </ul>
                         </div>
                       </div>

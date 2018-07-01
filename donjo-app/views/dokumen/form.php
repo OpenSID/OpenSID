@@ -3,6 +3,7 @@
 		<h1>Pengaturan Dokumen</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url("dokumen/index/$kat")?>"><i class="fa fa-dashboard"></i> Daftar Dokumen</a></li>
 			<li class="active">Pengaturan Dokumen</li>
 		</ol>
 	</section>
@@ -27,7 +28,7 @@
 								<div class="form-group">
 									<label class="control-label col-sm-4" for="nama">Dokumen</label>
 									<div class="col-sm-6">
-										<input type="hidden" name="old_gambar" value="<?= $dokumen['satuan']?>">
+										<input type="hidden" name="old_file" value="<?= $dokumen['satuan']?>">
 									  <img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_DOKUMEN.$dokumen['satuan'] ?>" alt="<?= $dokumen['satuan']?>">
 									</div>
 								</div>
@@ -42,9 +43,8 @@
 											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
-									<?php $upload_mb = max_upload();?>
 									<p class="small">(Kosongkan jika tidak ingin mengubah dokumen)</p>
-									</div>
+								</div>
 							</div>
 							<input name="kategori" type="hidden" value="<?= $kat;?>">
 							<?php

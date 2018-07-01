@@ -54,7 +54,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php  foreach($main as $data): ?>
+						<?php foreach($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
 							<td><?= $data['attr']['jenis_peraturan']?></td>
@@ -67,7 +67,7 @@
 							<td><?= 'Nomor '.$data['attr']['no_berita_desa'].", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_berita_desa'])?></td>
 							<td><?= $data['attr']['keterangan']?></td>
 						</tr>
-						<?php  endforeach; ?>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
 				<br><br>

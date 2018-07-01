@@ -1,8 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Sub Menu Dinams / Kategori</h1>
+		<h1>Pengaturan Sub Menu Dinamis / Kategori</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('kategori')?>"> Daftar Kategori</a></li>
 			<li class="active">Pengaturan Sub Menu Dinamis</li>
 		</ol>
 	</section>
@@ -47,15 +48,15 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																		  <?php if ($_SESSION['grup']==1): ?>
-																				<a href="<?= site_url("kategori/urut/$data[id]/1/$kategori")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posis Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-																				<a href="<?= site_url("kategori/urut/$data[id]/2/$kategori")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posis Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																				<a href="<?= site_url("kategori/urut/$data[id]/1/$kategori")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																				<a href="<?= site_url("kategori/urut/$data[id]/2/$kategori")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
                                       <?php endif; ?>
                                       <a href="<?=site_url("kategori/ajax_add_sub_kategori/$kategori/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
-																			<?php  if ($data['enabled'] == '2'):?>
-																				<a href="<?= site_url("kategori/kategori_lock_sub_kategori/$kategori/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock"></i></a>
-																			<?php  elseif ($data['enabled'] == '1'): ?>
+																			<?php if ($data['enabled'] == '2'):?>
+																				<a href="<?= site_url("kategori/kategori_lock_sub_kategori/$kategori/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																			<?php elseif ($data['enabled'] == '1'): ?>
 																				<a href="<?= site_url("kategori/kategori_unlock_sub_kategori/$kategori/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
-                                      <?php  endif?>
+                                      <?php endif?>
 																			<a href="#" data-href="<?= site_url("kategori/delete_sub_kategori/$kategori/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
                                     <td width="50%"><?= $data['kategori']?></td>
