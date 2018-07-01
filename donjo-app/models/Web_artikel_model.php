@@ -158,7 +158,7 @@
         // Upload dokumen lampiran
 
         $lokasi_file = $_FILES['dokumen']['tmp_name'];
-        $tipe_file   = $_FILES['dokumen']['type'];
+        $tipe_file = TipeFile($_FILES['dokumen']);
         $nama_file   = $_FILES['dokumen']['name'];
         $nama_file   = str_replace(' ', '-', $nama_file);    // normalkan nama file
 
@@ -184,7 +184,7 @@
         $tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
         $data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
     }
-    
+
     $outp = $this->db->insert('artikel', $data);
     if (!$outp) $_SESSION['success'] = -1;
     }
@@ -231,7 +231,7 @@
         // Upload dokumen lampiran
 
         $lokasi_file = $_FILES['dokumen']['tmp_name'];
-        $tipe_file   = $_FILES['dokumen']['type'];
+      	$tipe_file = TipeFile($_FILES['dokumen']);
         $nama_file   = $_FILES['dokumen']['name'];
         $nama_file   = str_replace(' ', '-', $nama_file);    // normalkan nama file
 
