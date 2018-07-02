@@ -4,11 +4,7 @@
 .btn-info.active,
 	.btn-info.active:focus,
 	.btn-info.active:hover,
-	.btn-info:active.focus,
-	.btn-info:active:focus,
-	.btn-info:active:hover,
 	.open > .dropdown-toggle.btn-info.focus,
-	.open > .dropdown-toggle.btn-info:focus,
 	.open > .dropdown-toggle.btn-info:hover
 	{
 		color: #fff;
@@ -175,17 +171,23 @@
 
 @media (max-width:480px)
 {
-	.table > tbody > tr td input, .table > tbody > tr td select
+	.selecta, .inputa
 	{
 		width:150px
 	}
-	.form-group {
+	.form-group
+	{
     margin-bottom: 0px;
+	}
+	.leaflet-control-layers-expanded
+	{
+		display:none;
+	}
 	}
 }
 @media (max-width:767px)
 {
-	.table > tbody > tr td input, .table > tbody > tr td select
+	.selecta, .inputa
 	{
 		width:150px
 	}

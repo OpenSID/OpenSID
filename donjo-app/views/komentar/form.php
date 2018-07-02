@@ -1,4 +1,5 @@
-<div class="content-wrapper">
+
+	<div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Komentar</h1>
 		<ol class="breadcrumb">
@@ -38,10 +39,10 @@
               <div class="form-group">
 								<label class="col-xs-12 col-sm-2 col-lg-2 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-									<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>active<?php endif ?>">
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>active<?php endif ?>">
 										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] == '2' ):?>active<?php endif?>">
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] == '2' ):?>active<?php endif?>">
 										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($komentar['enabled'] == '2' ):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
@@ -49,13 +50,27 @@
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+								<button type='button' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
+
 					</div>
 				</div>
 			</div>
 		</form>
 	</section>
 </div>
+<script>
+	function reset_form()
+	{
+		<?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>
+			$("#sx3").addClass('active');
+			$("#sx4").removeClass("active");
+		<?php endif ?>
+		<?php if ($komentar['enabled'] =='2'): ?>
+			$("#sx4").addClass('active');
+			$("#sx3").removeClass("active");
+		<?php endif ?>
+	};
+</script>

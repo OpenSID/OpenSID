@@ -20,17 +20,17 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Link Akun Youtube</label>
 										<div class="col-sm-9">
-											<textarea id="link" name="link" class="form-control input-sm required" placeholder="Link Media Sosial" style="height: 200px;"><?php if ($main):?> <?=$main['link'];?><?php endif; ?></textarea>
+											<textarea id="link" name="link" class="form-control input-sm required" placeholder="Link Media Sosial" style="height: 200px;"><?php if ($main):?><?=$main['link'];?><?php endif; ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label" for="status">Status</label>
 										<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-											<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>active<?php endif ?>">
-												<input id="g1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+											<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($main['enabled'] =='1'): ?>active<?php endif ?>">
+												<input id="g1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($main['enabled'] =='1'): ?>checked <?php endif ?> autocomplete="off"> Aktif
 											</label>
-											<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] == '2' ):?>active<?php endif?>">
-												<input id="g2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($komentar['enabled'] == '2' ):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
+											<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($main['enabled'] =='2'):?>active<?php endif?>">
+												<input id="g2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($main['enabled'] =='2'):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
 											</label>
 										</div>
 									</div>
@@ -39,7 +39,7 @@
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm reset' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
@@ -49,4 +49,17 @@
 		</form>
 	</section>
 </div>
+<script>
+	function reset_form()
+	{
+		<?php if ($main['enabled'] == '1'): ?>
+			$("#sx3").addClass('active');
+			$("#sx4").removeClass("active");
+		<?php endif ?>
+		<?php if ($main['enabled'] == '2'): ?>
+			$("#sx4").addClass('active');
+			$("#sx3").removeClass("active");
+		<?php endif ?>
+	};
+</script>
 

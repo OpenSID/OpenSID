@@ -28,14 +28,14 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('web_widget/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php  if ($filter==1) :?>selected<?php  endif?>>Aktif</option>
-														<option value="2" <?php  if ($filter==2) :?>selected<?php  endif?>>Tidak Aktif</option>
+														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
+														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari_kontak" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) :$('#'+'mainform').attr('action', '<?=site_url('web_widget/search')?>');$('#'+'mainform').submit();endif">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('web_widget/search')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
 																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("web_widget/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
@@ -64,23 +64,23 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-                                      <a href="<?=site_url("web_widget/urut/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posis Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-                                      <a href="<?=site_url("web_widget/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posis Ke Atas"><i class="fa fa-arrow-up"></i></a>
+                                      <a href="<?=site_url("web_widget/urut/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+                                      <a href="<?=site_url("web_widget/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
                                       <?php if ($data['jenis_widget']!=1):?>
                                         <a href="<?=site_url("web_widget/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-                                      <?php  endif?>
+                                      <?php endif?>
                                       <?php if ($data['form_admin']): ?>
                                         <a href="<?=site_url("$data[form_admin]")?>" class="btn btn-info btn-flat btn-sm"  title="Form Admin"><i class="fa fa-sliders"></i></a>
                                       <?php endif; ?>
                                       <?php if ($_SESSION['grup']<4):?>
-                                        <?php  if ($data['enabled'] == '2'):?>
-                                          <a href="<?=site_url("web_widget/lock/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Widget"><i class="fa fa-lock"></i></a>
-                                        <?php  elseif ($data['enabled'] == '1'): ?>
+                                        <?php if ($data['enabled'] == '2'):?>
+                                          <a href="<?=site_url("web_widget/lock/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Widget"><i class="fa fa-lock">&nbsp;</i></a>
+                                        <?php elseif ($data['enabled'] == '1'): ?>
                                           <a href="<?=site_url("web_widget/unlock/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Widget"><i class="fa fa-unlock"></i></a>
-                                        <?php  endif?>
+                                        <?php endif?>
                                         <?php if ($data['jenis_widget']!=1):?>
                                           <a href="#" data-href="<?=site_url("web_widget/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                                        <?php  endif;?>
+                                        <?php endif;?>
                                       <?php endif; ?>
                                     </td>
                                     <td><?=$data['judul']?></td>
@@ -110,9 +110,9 @@
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-                                <option value="20" <?php  selected($per_page, 20); ?> >20</option>
-                                <option value="50" <?php  selected($per_page, 50); ?> >50</option>
-                                <option value="100" <?php  selected($per_page, 100); ?> >100</option>
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
                               </select>
                               Dari
                               <strong><?= $paging->num_rows?></strong>
@@ -124,21 +124,21 @@
                       <div class="col-sm-6">
                         <div class="dataTables_paginate paging_simple_numbers">
                           <ul class="pagination">
-                            <?php  if ($paging->start_link): ?>
+                            <?php if ($paging->start_link): ?>
                               <li><a href="<?=site_url("web_widget/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->prev): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
                               <li><a href="<?=site_url("web_widget/index//$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
                               <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("web_widget/index/$i/$o")?>"><?= $i?></a></li>
-                            <?php  endfor; ?>
-                            <?php  if ($paging->next): ?>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
                               <li><a href="<?=site_url("web_widget/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->end_link): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
                               <li><a href="<?=site_url("web_widget/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                            <?php  endif; ?>
+                            <?php endif; ?>
                           </ul>
                         </div>
                       </div>

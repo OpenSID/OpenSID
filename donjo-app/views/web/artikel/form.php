@@ -38,6 +38,7 @@
     <h1>Form Artikel : <?php if ($kategori):?><?=$kategori['kategori'];?><?php else:?>Artikel Statis<?php endif;?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('web/index/$cat')?>"> Daftar Artikel</a></li>
 			<li class="active">Form Artikel</li>
 		</ol>
 	</section>

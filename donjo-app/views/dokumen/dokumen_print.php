@@ -33,33 +33,33 @@
 						<tr class="border thick">
 							<th>No</th>
 							<th>Judul / Tentang</th>
-							<?php if ($kat == 1) : ?>
+							<?php if ($kat == 1): ?>
 								<th>Diunggah Pada</th>
-							<?php elseif ($kat == 2) : ?>
+							<?php elseif ($kat == 2): ?>
 								<th>Nomor Dan Tanggal Keputusan</th>
 								<th>Uraian Singkat</th>
-							<?php elseif ($kat == 3) : ?>
+							<?php elseif ($kat == 3): ?>
 								<th>Nomor Dan Tanggal Ditetapkan</th>
 								<th>Uraian Singkat</th>
 							<?php endif; ?>
 						</tr>
 					</thead>
 					<tbody>
-						<?php  foreach ($main as $data): ?>
+						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
 							<td><?= $data['nama']?></td>
-							<?php if ($kat == 1) : ?>
+							<?php if ($kat == 1): ?>
 								<td align="center"><?= tgl_indo2($data['tgl_upload'])?></td>
-							<?php elseif ($kat == 2) : ?>
+							<?php elseif ($kat == 2): ?>
 								<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
 								<td><?= $data['attr']['uraian']?></td>
-							<?php elseif ($kat == 3) : ?>
+							<?php elseif ($kat == 3): ?>
 								<td><?= $data['attr']['no_ditetapkan']." / ".$data['attr']['tgl_ditetapkan']?></td>
 								<td><?= $data['attr']['uraian']?></td>
 							<?php endif; ?>
 						</tr>
-						<?php  endforeach; ?>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
 			</div>

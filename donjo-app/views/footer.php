@@ -83,7 +83,7 @@
 				$('#success-code').val('');
 			});
 		</script>
-		<?php  $_SESSION['success']=0; ?>
+		<?php $_SESSION['success']=0; ?>
 
 		<!-- Notifikasi Ganti Password Login -->
 		<?php if ($this->session->admin_warning && !config_item('demo')): ?>

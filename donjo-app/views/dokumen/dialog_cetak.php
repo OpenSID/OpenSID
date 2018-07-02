@@ -24,7 +24,7 @@
 						<div class="form-group">
 							<label class="control-label">Tahun Laporan</label>
 							<select class="form-control input-sm jenis_link"  name="tahun">>
-								<option value="">Pilih Tahun Laporan"</option>
+								<option value="">Pilih Tahun Laporan</option>
 								<?php foreach ($tahun_laporan as $tahun):?>
 									<option value="<?= $tahun['tahun']?>"><?= $tahun['tahun']?></option>
 								<?php endforeach; ?>
@@ -64,3 +64,9 @@
 		</div>
 	</div>
 </form>
+<script type="text/javascript">
+	$('#ok').click(function()
+	{
+    $('#modalBox').modal('hide');
+	});
+</script>

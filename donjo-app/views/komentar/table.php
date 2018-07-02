@@ -23,14 +23,14 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('komentar/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php  if ($filter==1) :?>selected<?php  endif?>>Aktif</option>
-														<option value="2" <?php  if ($filter==2) :?>selected<?php  endif?>>Tidak Aktif</option>
+														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
+														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari_kontak" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) :$('#'+'mainform').attr('action', '<?=site_url('komentar/search')?>');$('#'+'mainform').submit();endif">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('komentar/search')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
 																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("komentar/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
@@ -48,29 +48,29 @@
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<th>Pengirim</th>
-																	<?php  if ($o==2): ?>
+																	<?php if ($o==2): ?>
                                     <th><a href="<?= site_url("komentar/index/$p/1")?>">Isi Komentar <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==1): ?>
+                                  <?php elseif ($o==1): ?>
                                     <th><a href="<?= site_url("komentar/index/$p/2")?>">Isi Komentar <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th><a href="<?= site_url("komentar/index/$p/1")?>">Isi Komentar <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
+                                  <?php endif; ?>
 																	<th>Email Pengirim</th>
 																	<th>Judul Artikel</th>
-                                  <?php  if ($o==4): ?>
+                                  <?php if ($o==4): ?>
                                     <th nowrap><a href="<?= site_url("komentar/index/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==3): ?>
+                                  <?php elseif ($o==3): ?>
                                     <th nowrap><a href="<?= site_url("komentar/index/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th nowrap><a href="<?= site_url("komentar/index/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
-																	<?php  if ($o==6): ?>
+                                  <?php endif; ?>
+																	<?php if ($o==6): ?>
                                     <th nowrap><a href="<?= site_url("komentar/index/$p/5")?>">Dimuat Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php  elseif ($o==5): ?>
+                                  <?php elseif ($o==5): ?>
                                     <th nowrap><a href="<?= site_url("komentar/index/$p/6")?>">Dimuat Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php  else: ?>
+                                  <?php else: ?>
                                     <th nowrap><a href="<?= site_url("komentar/index/$p/5")?>">Dimuat Pada <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php  endif; ?>
+                                  <?php endif; ?>
 																</tr>
 															</thead>
 															<tbody>
@@ -80,12 +80,11 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("komentar/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-
-																			<?php  if($data['enabled'] == '2'):?>
-																			 <a href="<?= site_url('komentar/komentar_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Widget"><i class="fa fa-lock"></i></a>
-																		 	<?php  elseif($data['enabled'] == '1'): ?>
-																			 <a href="<?= site_url('komentar/komentar_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Widget"><i class="fa fa-unlock"></i></a>
-																		 	<?php  endif?>
+																			<?php if($data['enabled'] == '2'):?>
+																			 <a href="<?= site_url('komentar/komentar_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Komentar"><i class="fa fa-lock">&nbsp;</i></a>
+																		 	<?php elseif($data['enabled'] == '1'): ?>
+																			 <a href="<?= site_url('komentar/komentar_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Komentar"><i class="fa fa-unlock"></i></a>
+																		 	<?php endif?>
 																			<a href="#" data-href="<?= site_url("komentar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                     <td nowrap><?= $data['owner']?></td>
@@ -111,9 +110,9 @@
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-                                <option value="20" <?php  selected($per_page, 20); ?> >20</option>
-                                <option value="50" <?php  selected($per_page, 50); ?> >50</option>
-                                <option value="100" <?php  selected($per_page, 100); ?> >100</option>
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
                               </select>
                               Dari
                               <strong><?= $paging->num_rows?></strong>
@@ -125,21 +124,21 @@
                       <div class="col-sm-6">
                         <div class="dataTables_paginate paging_simple_numbers">
                           <ul class="pagination">
-                            <?php  if ($paging->start_link): ?>
+                            <?php if ($paging->start_link): ?>
                               <li><a href="<?=site_url("komentar/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->prev): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
                               <li><a href="<?=site_url("komentar/index//$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
                               <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("komentar/index/$i/$o")?>"><?= $i?></a></li>
-                            <?php  endfor; ?>
-                            <?php  if ($paging->next): ?>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
                               <li><a href="<?=site_url("komentar/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                            <?php  endif; ?>
-                            <?php  if ($paging->end_link): ?>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
                               <li><a href="<?=site_url("komentar/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                            <?php  endif; ?>
+                            <?php endif; ?>
                           </ul>
                         </div>
                       </div>

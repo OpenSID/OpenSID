@@ -123,7 +123,12 @@ $(document).ready(function()
 	{
 		format: 'DD-MM-YYYY'
 	});
-
+	$('[data-rel="popover"]').popover(
+	{
+		html: true,
+		trigger:"hover"
+	});
+$('[checked="checked"]').parent().addClass('active')
 	//Fortmat Tabel
   $('#tabel1').DataTable();
   $('#tabel2').DataTable({
@@ -143,7 +148,7 @@ $(document).ready(function()
     'info'        : true,
     'autoWidth'   : false,
 		'scrollX'	: true
-  });
+	});
 
 	//color picker with addon
   $('.my-colorpicker2').colorpicker();
