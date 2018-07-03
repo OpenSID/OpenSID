@@ -475,8 +475,8 @@
 		if ($data['sex'] == 1) $data['hamil'] = 0;
 
 		$valid = array();
-		if (preg_match("/[^a-zA-Z ']/", $data['nama'])) {
-			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi dan tanda petik");
+		if (preg_match("/[^a-zA-Z '\.]/", $data['nama'])) {
+			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik dan tanda petik");
 		}
 		if (isset($data['nik'])) {
 			if (!ctype_digit($data['nik']))
