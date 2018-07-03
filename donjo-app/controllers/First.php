@@ -93,6 +93,7 @@ class First extends Web_Controller{
 
 		// $this->load->view('layouts/main.tpl.php',$data);
 		// load views
+		$data = $this->security->xss_clean($data);
 		$this->load->view($this->template, $data);
 	}
 
@@ -198,6 +199,7 @@ class First extends Web_Controller{
 			$_SESSION['post']['captcha_code'] = '';
 		}
 		$this->set_template('layouts/artikel.tpl.php');
+		$data = $this->security->xss_clean($data);
 		$this->load->view($this->template,$data);
 	}
 
@@ -338,6 +340,7 @@ class First extends Web_Controller{
 
 		$this->_get_common_data($data);
 
+		$data = $this->security->xss_clean($data);
 		$this->load->view($this->template,$data);
 	}
 
