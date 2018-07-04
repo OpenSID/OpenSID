@@ -155,12 +155,10 @@
 		$data=$query->result_array();
 
 		//Formating Output
-		$i=0;
-		$j=$offset;
-		while($i<count($data))
+		$j = $offset;
+		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no']=$j+1;
-			$i++;
+			$data[$i]['no'] = $j+1;
 			$j++;
 		}
 		return $data;
@@ -211,16 +209,15 @@
 		$data=$query->result_array();
 
 		//Formating Output
-		$i=0;
-		$j=$offset;
-		while($i<count($data))
+		$j = $offset;
+		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no']=$j+1;
-			$i++;
+			$data[$i]['no'] = $j+1;
 			$j++;
 		}
 		return $data;
 	}
+
 
 	function insert(){
 		$data = $_POST;
@@ -504,16 +501,15 @@
 		$data=$query->result_array();
 
 		//Formating Output
-		$i=0;
-		$j=$offset;
-		while($i<count($data))
+		$j = $offset;
+		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no']=$j+1;
-			$i++;
+			$data[$i]['no'] = $j+1;
 			$j++;
 		}
 		return $data;
 	}
+
 	function search_kontak_sql(){
 		if(isset($_SESSION['cari_kontak'])){
 		$cari = $_SESSION['cari_kontak'];
@@ -582,16 +578,15 @@
 		$data=$query->result_array();
 
 		//Formating Output
-		$i=0;
-		$j=$offset;
-		while($i<count($data))
+		$j = $offset;
+		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no']=$j+1;
-			$i++;
+			$data[$i]['no'] = $j+1;
 			$j++;
 		}
 		return $data;
 	}
+
 	function insert_grup($id=0){
 		$data['nama_grup']=$_POST['nama_grup'];
 		$data['id_kontak']="-";
