@@ -3,6 +3,7 @@
 		<h1>Form Manajemen Pengguna</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('man_user')?>"> Daftar Pengguna</a></li>
 			<li class="active">Form Manajemen Pengguna</li>
 		</ol>
 	</section>
