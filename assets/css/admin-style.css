@@ -195,3 +195,17 @@
     margin-bottom: 0px;
 	}
 }
+/* Modifikasi Select2 --- */
+.select2-container--default .select2-selection--single, .select2-selection .select2-selection--single
+{
+	padding: 2px 12px;
+    height: 25px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+    height: 22px;
+}
+.fa
+{
+	width: 13px;
+}

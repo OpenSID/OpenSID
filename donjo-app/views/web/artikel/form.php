@@ -38,7 +38,7 @@
     <h1>Form Artikel : <?php if ($kategori):?><?=$kategori['kategori'];?><?php else:?>Artikel Statis<?php endif;?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('web/index/$cat')?>"> Daftar Artikel</a></li>
+			<li><a href="<?=site_url("web/index/$cat")?>"> Daftar Artikel</a></li>
 			<li class="active">Form Artikel</li>
 		</ol>
 	</section>
@@ -66,8 +66,8 @@
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-					  		<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+					  		<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Bersihkan Artikel</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan Artikel</button>
 							</div>
 						</div>
 					</div>

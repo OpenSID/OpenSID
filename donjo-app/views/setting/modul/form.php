@@ -1,13 +1,17 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<?php if($modul['parent']!='0'):?>
-		<h1>Form Manajemen Sub Modul</h1>
+		<h1>Pengaturan Sub Modul</h1>
 		<?php else:?>
-			<h1>Form Manajemen Modul</h1>
+			<h1>Pengaturan Modul</h1>
 		<?php endif?>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Form Manajemen Modul</li>
+			<li><a href="<?=site_url('modul')?>"> Daftar Modul</a></li>
+			<?php if($modul['parent']!='0'):?>
+			<li><a href="<?=site_url()?>modul/sub_modul/<?=($modul['parent'])?>"> Daftar Sub Modul</a></li>
+			<?php endif?>
+			<li class="active">Pengaturan Modul</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -45,10 +49,10 @@
 							<div class="form-group">
 								<label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
-									<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>active<?php endif ?>">
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>active<?php endif ?>">
 										<input id="g1" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php if($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if($modul['aktif'] == '2' ):?>active<?php endif?>">
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if($modul['aktif'] == '2' ):?>active<?php endif?>">
 										<input id="g2" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php if($modul['aktif'] == '2' ):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
@@ -57,7 +61,7 @@
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
@@ -67,3 +71,16 @@
 		</div>
 	</section>
 </div>
+<script>
+	function reset_form()
+	{
+		<?php if ($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>
+			$("#sx3").addClass('active');
+			$("#sx4").removeClass("active");
+		<?php endif ?>
+		<?php if ($modul['aktif'] =='2'): ?>
+			$("#sx4").addClass('active');
+			$("#sx3").removeClass("active");
+		<?php endif ?>
+	};
+</script>
