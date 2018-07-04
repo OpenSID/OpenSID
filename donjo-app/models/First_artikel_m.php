@@ -94,6 +94,12 @@ class First_artikel_m extends CI_Model{
 
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
+		for ($i=0; $i < count($data); $i++)
+		{
+			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+			if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
+				$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+		}
 		return $data;
 	}
 
@@ -279,6 +285,12 @@ class First_artikel_m extends CI_Model{
 		$query = $this->db->query($sql);
 		if($query->num_rows()>0){
 			$data  = $query->result_array();
+			for ($i=0; $i < count($data); $i++)
+			{
+				$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+				if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
+					$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+			}
 		}else{
 			$data = false;
 		}

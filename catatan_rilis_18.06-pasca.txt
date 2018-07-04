@@ -5,7 +5,7 @@ Terima kasih pada [untuk diisi], yang terus berkontribusi. Juga terima kasih pad
 Lengkapnya, isi rilis versi 18.07-pasca:
 
 1. #1177: Tutup celah unggah berkas lampiran php di form ubah dan tambah artikel. [security-fix]
-2. #1178: Sekarang data artikel dibersihkan dari serangan xss sebelum ditampilkan. [security-fix]
+2. #1178: Sekarang data artikel dan widget dinamis dibersihkan dari serangan xss sebelum ditampilkan. [security-fix]
 3. #1194: Sekarang nama penduduk berisi tanda titik (.) bisa disimpan. [bug-fix]
 
 

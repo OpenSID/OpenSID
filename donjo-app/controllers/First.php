@@ -93,7 +93,6 @@ class First extends Web_Controller{
 
 		// $this->load->view('layouts/main.tpl.php',$data);
 		// load views
-		$data = $this->security->xss_clean($data);
 		$this->load->view($this->template, $data);
 	}
 
@@ -339,8 +338,6 @@ class First extends Web_Controller{
 		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset,$data['paging']->per_page,$kat);
 
 		$this->_get_common_data($data);
-
-		$data = $this->security->xss_clean($data);
 		$this->load->view($this->template,$data);
 	}
 
@@ -392,6 +389,18 @@ class First extends Web_Controller{
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
+
+		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
+		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
+		$list_kolom = array(
+			'arsip',
+			'w_cos'
+		);
+		foreach ($list_kolom as $kolom)
+		{
+			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
+		}
+
 	}
 
 }
