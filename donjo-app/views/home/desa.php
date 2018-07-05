@@ -49,7 +49,7 @@
 									<p>Keluarga</p>
 								</div>
 								<div class="icon">
-									<i class="fa fa-users"></i>
+									<i class="ion ion-ios-people"></i>
 								</div>
 								<a href="<?=site_url('keluarga/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
