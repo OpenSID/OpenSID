@@ -6,7 +6,8 @@ Lengkapnya, isi rilis versi 18.07-pasca:
 
 1. #1177: Tutup celah unggah berkas lampiran php di form ubah dan tambah artikel. [security-fix]
 2. #1178: Sekarang data artikel dan widget dinamis dibersihkan dari serangan xss sebelum ditampilkan. [security-fix]
-3. #1194: Sekarang nama penduduk berisi tanda titik (.) bisa disimpan. [bug-fix]
+3. #1178: Sekarang artikel berisi iframe (misalnya untuk video) dapat ditampilkan untuk artikel yang dibuat oleh user terpecaya.
+4. #1194: Sekarang nama penduduk berisi tanda titik (.) bisa disimpan. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
