@@ -1,34 +1,48 @@
-<style>
-.bawah{
-	position:absolute;
-	bottom:10px;
-	right:10px;
-	width:430px;
-}
-</style>
-<form action="<?php echo $form_action?>" method="POST" id="validasi" enctype="multipart/form-data">
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-	<table width="100%">
-		<tr>
-			<td width="150">Contoh Format Data</td>
-			<td>
-				Contoh urutan format dapat dilihat pada <a href="<?php echo base_url()?>assets/import/data_persil.xls">tautan berikut</a><br>
-			</td>
-		</tr>
-		<tr>
-			<td width="150">Upload Fil XLS</td>
-			<td>
-				<input type="file" name="persil" /><span style="color: #aaa;">(File harus dalam format .xls)</span>
-			</td>
-		</tr>
-	</table>
-</div>
-<div class="ui-layout-south panel bottom bawah">
-	<div class="right">
-        <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
-		<button class="uibutton confirm" type="submit"><span class="fa fa-upload"></span> Upload</button>
+<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script>
+	//File Upload
+	$('#file_browser').click(function(e)
+	{
+		e.preventDefault();
+		$('#file').click();
+	});
+	$('#file').change(function()
+	{
+		$('#file_path').val($(this).val());
+	});
+	$('#file_path').click(function()
+	{
+		$('#file_browser').click();
+	});
+</script>
+<form action="<?=$form_action?>" method="post" id="validasi" enctype="multipart/form-data">
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box box-danger">
+					<div class="box-body">
+						<div class="form-group">
+							<p><label class="control-label">Contoh urutan format dapat dilihat pada <a href="<?= base_url()?>assets/import/data_persil.xls">tautan berikut</a></label></p>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="upload">Upload Fil XLS</label>
+							<div class="input-group input-group-sm">
+								<input type="text" class="form-control required" id="file_path">
+								<input id="file" type="file" class="hidden" name="persil">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+								</span>
+							</div>
+							<p><label class="control-label">(File harus dalam format .xls)</label></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
 		</div>
 	</div>
-</div>
 </form>

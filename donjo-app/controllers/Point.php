@@ -50,11 +50,13 @@ class Point extends CI_Controller{
 		$data['keyword'] = $this->plan_point_model->autocomplete();
 
 		$header= $this->header_model->get_data();
-		$nav['act']=0;
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 0;
 
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('point/table',$data);
 		$this->load->view('footer');
 
@@ -79,10 +81,12 @@ class Point extends CI_Controller{
 		$data['simbol']        = $this->plan_point_model->list_simbol();
 		$header = $this->header_model->get_data();
 
-		$nav['act']=0;
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 0;
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('point/form',$data);
 		$this->load->view('footer');
 
@@ -93,11 +97,13 @@ class Point extends CI_Controller{
 		$data['subpoint']    = $this->plan_point_model->list_sub_point($point);
 		$data['point'] = $point;
 		$header = $this->header_model->get_data();
-		$nav['act']=0;
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 0;
 
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('point/sub_point_table',$data);
 		$this->load->view('footer');
 

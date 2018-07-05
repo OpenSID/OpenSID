@@ -75,10 +75,11 @@ function __construct(){
 		$data['hilang']    = $this->laporan_bulanan_model->hilang();
 		$data['lap']=$lap;
 		$nav['act']= 3;
+		$nav['act_sub'] = 28;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('statistik/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('laporan/bulanan',$data);
 		$this->load->view('footer');
 		//unset($_SESSION['bulan']);

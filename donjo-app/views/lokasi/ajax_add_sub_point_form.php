@@ -1,13 +1,13 @@
-<form id="validasi" action="<?php  echo $form_action?>" method="POST" enctype="multipart/form-data">
+<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
 <table style="width:100%">
 <tr>
 <th width="100">Nama lokasi</th>
-<td><input class="inputbox" type="text" name="nama" value="<?php  echo $lokasi['nama']?>" size="40"/></td>
+<td><input class="inputbox" type="text" name="nama" value="<?php echo $lokasi['nama']?>" size="40"/></td>
 </tr>
 <tr>
 	<th>Simbol</th>
 	<td>
-		<input class="" type="file" name="simbol" value="<?php  echo $lokasi['simbol']?>" size="20"/>
+		<input class="" type="file" name="simbol" value="<?php echo $lokasi['simbol']?>" size="20"/>
 	</td>
 </tr>
 </table>

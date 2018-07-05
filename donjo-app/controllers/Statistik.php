@@ -27,11 +27,11 @@ function __construct(){
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$data['o']=$o;
 		$this->get_data_stat($data, $lap);
-		$nav['act']= 0;
+		$nav['act']= 3;
+		$nav['act_sub'] = 27;
 		$header = $this->header_model->get_data();
-
 		$this->load->view('header',$header);
-		$this->load->view('statistik/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('statistik/penduduk',$data);
 		$this->load->view('footer');
 	}
@@ -63,11 +63,12 @@ function __construct(){
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap']=$lap;
 		$this->get_data_stat($data, $lap);
-		$nav['act']= 0;
+		$nav['act']= 3;
+		$nav['act_sub'] = 27;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('statistik/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('statistik/penduduk_graph',$data);
 		$this->load->view('footer');
 	}
@@ -77,11 +78,12 @@ function __construct(){
 		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap']=$lap;
 		$this->get_data_stat($data, $lap);
-		$nav['act']= 0;
+		$nav['act']= 3;
+		$nav['act_sub'] = 27;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('statistik/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('statistik/penduduk_pie',$data);
 		$this->load->view('footer');
 	}
@@ -123,11 +125,12 @@ function __construct(){
 		$data['main']    = $this->laporan_penduduk_model->list_data_rentang();
 
 		$header = $this->header_model->get_data();
-		$nav['act']= 0;
+		$nav['act']= 3;
+		$nav['act_sub'] = 27;
 
 		$this->load->view('header', $header);
 		//$this->load->view('statistik/menu');
-		$this->load->view('statistik/nav',$menu);
+		$this->load->view('nav',$nav);
 		$this->load->view('statistik/rentang_umur',$data);
 		$this->load->view('footer');
 	}

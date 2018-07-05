@@ -38,6 +38,7 @@ class Gis extends CI_Controller{
 //		$this->load->helper('url');
 //
 //		$this->config->item('ion_auth') ;
+	$this->modul_ini = 9;
 		$this->load->database();
 	}
 
@@ -145,7 +146,12 @@ function index(){
 		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$header = $this->header_model->get_data();
 		//$header ['desa']= $this->header_model->get_data();
-		$this->load->view('gis/header', $header);
+		$header['minsidebar'] =1;
+		$nav['act']= 9;
+
+
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
 		$this->load->view('gis/maps',$data);
 		$this->load->view('footer');
 

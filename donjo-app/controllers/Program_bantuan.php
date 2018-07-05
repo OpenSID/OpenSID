@@ -28,11 +28,13 @@ class Program_bantuan extends CI_Controller{
 			$_SESSION['per_page']=$_POST['per_page'];
 
 		$header = $this->header_model->get_data();
+		$nav['act']= 6;
 
 		$this->load->view('header', $header);
-
+		$this->load->view('nav',$nav);
 		$data = $this->program_bantuan_model->get_program($p, false);
 		$data['tampil'] = 0;
+
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$this->load->view('program_bantuan/program',$data);
@@ -49,19 +51,32 @@ class Program_bantuan extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
+		$nav['act']= 6;
 
 		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
 
 		$data['form_action'] = site_url("program_bantuan/add_peserta");
 		$this->load->view('program_bantuan/form',$data);
 		$this->load->view('footer');
 	}
 
+	function panduan(){
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$nav['act']= 6;
+
+		$this->load->view('nav',$nav);
+		$this->load->view('program_bantuan/panduan',$data);
+		$this->load->view('footer');
+	}
 
 	public function sasaran($sasaran=0){
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
+		$nav['act']= 6;
 
+		$this->load->view('nav',$nav);
 		$data['tampil'] = $sasaran;
 		$data['program'] = $this->program_bantuan_model->list_program($sasaran);
 
@@ -71,8 +86,10 @@ class Program_bantuan extends CI_Controller{
 
 	public function detail($p=1, $id){
 		$header = $this->header_model->get_data();
+		$nav['act']= 6;
 
 		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
 
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -87,7 +104,10 @@ class Program_bantuan extends CI_Controller{
 
 	public function peserta($cat=0,$id=0){
 		$header = $this->header_model->get_data();
+		$nav['act']= 6;
+
 		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
 
 		$data = $this->program_bantuan_model->get_peserta_program($cat,$id);
 
@@ -139,9 +159,11 @@ class Program_bantuan extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
+		$nav['act']= 6;
 		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
 		if ($this->form_validation->run() === FALSE){
-			$this->load->view('program_bantuan/create');
+			$this->load->view('program_bantuan/create',$data);
 		}else{
 			$this->program_bantuan_model->set_program();
 			redirect("program_bantuan/");
@@ -160,8 +182,9 @@ class Program_bantuan extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
+		$nav['act']= 6;
 		$this->load->view('header', $header);
-
+		$this->load->view('nav',$nav);
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);
 
 		if ($this->form_validation->run() === FALSE){
@@ -192,7 +215,7 @@ class Program_bantuan extends CI_Controller{
 			/*
 			 * Print xls untuk data x
 			 * */
-			$data["sasaran"] = array("1"=>"Penduduk","2"=>"Keluarga / KK","3"=>"Rumah Tangga","4"=>"Kelompok/Organisasi Kemasyarakatan");
+			$data["sasaran"] = array("1"=>"Penduduk","2"=>"Keluarga/KK","3"=>"Rumah Tangga","4"=>"Kelompok/Organisasi Kemasyarakatan");
 			$data['desa'] = $this->header_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
 			$_SESSION['per_page'] = $temp;
