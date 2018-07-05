@@ -64,12 +64,6 @@
 								</textarea>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
-					  		<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Bersihkan Artikel</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan Artikel</button>
-							</div>
-						</div>
 					</div>
 				</div>
         <div class="col-md-4">
