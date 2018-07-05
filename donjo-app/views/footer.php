@@ -109,6 +109,135 @@
 				<?php unset($_SESSION['pin']) ?>
 			<?php endif?>
 		</script>
+
+		<!-- Pengaturan Grafik Chart Pie Data Statistik-->
+		<script type="text/javascript">
+			$(document).ready(function ()
+			{
+				chart = new Highcharts.Chart({
+					chart:
+					{
+						renderTo: 'chart',
+						plotBackgroundColor: null,
+						plotBorderWidth: null,
+						plotShadow: false
+					},
+					title:
+					{
+						text: 'Data Statistik Kependudukan'
+					},
+					subtitle:
+					{
+						text: 'Berdasarkan <?= $stat?>'
+					},
+					plotOptions:
+					{
+						index:
+						{
+							allowPointSelect: true,
+							cursor: 'pointer',
+							dataLabels:
+							{
+								enabled: true
+							},
+							showInLegend: true
+						}
+					},
+					legend:
+					{
+						layout: 'vertical',
+						backgroundColor: '#FFFFFF',
+						align: 'right',
+						verticalAlign: 'top',
+						x: -30,
+						y: 0,
+						floating: true,
+						shadow: true,
+            enabled:true
+					},
+					series: [{
+						type: 'pie',
+						name: 'Populasi',
+						data: [
+							<?php  foreach($main as $data):?>
+								<?php if($data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH"):?>
+									<?php if($data['jumlah'] != "-"): ?>
+										['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
+									<?php endif;?>
+								<?php endif;?>
+							<?php endforeach;?>
+						]
+					}]
+				});
+			});
+		</script>
+
+		<!-- Pengaturan Grafik (Graph) Data Statistik-->
+		<script type="text/javascript">
+			var char;
+			$(document).ready(function()
+			{
+				chart = new Highcharts.Chart({
+					chart:
+					{
+						renderTo: 'graph',
+						defaultSeriesType: 'column'
+					},
+					title:
+					{
+						text: 'Statistik <?= $stat?>'
+					},
+					xAxis:
+					{
+						title:
+						{
+							text: '<?= $stat?>'
+						},
+            categories: [
+						<?php  $i=0; foreach ($main as $data): $i++;?>
+						  <?php if ($data['jumlah'] != "-"): "'$i',"; endif;?>
+						<?php endforeach;?>
+						]
+					},
+					yAxis:
+					{
+						title:
+						{
+							text: 'Jumlah Populasi'
+						}
+					},
+					legend:
+					{
+						layout: 'vertical',
+            enabled:false
+					},
+					plotOptions:
+					{
+						series:
+						{
+              colorByPoint: true
+            },
+            column:
+						{
+							pointPadding: 0,
+							borderWidth: 0
+						}
+					},
+				  series: [{
+					shadow:1,
+					border:1,
+					data: [
+						<?php  foreach ($main as $data):?>
+						  <?php if ($data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH"):?>
+						  <?php if ($data['jumlah'] != "-"):?>
+								['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
+							<?php endif;?>
+							<?php endif;?>
+						<?php endforeach;?>]
+					}]
+				});
+			});
+		</script>
 	</body>
 </html>
 

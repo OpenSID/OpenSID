@@ -1624,6 +1624,7 @@ CREATE TABLE `data_persil` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nik` varchar(64) NOT NULL,
   `nama` varchar(128) NOT NULL COMMENT 'nomer persil',
+  `jenis_pemilik` int(2) NOT NULL,
   `persil_jenis_id` tinyint(2) NOT NULL,
   `id_clusterdesa` int(11) NOT NULL,
   `luas` decimal(7,2) NOT NULL,

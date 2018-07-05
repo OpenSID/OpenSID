@@ -69,11 +69,11 @@ class Plan extends CI_Controller{
 		$data['list_subpoint']        = $this->plan_lokasi_model->list_subpoint();
 
 		$header = $this->header_model->get_data();
-
-		$nav['act']=3;
-
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 3;
 		$this->load->view('header', $header);
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('lokasi/table',$data);
 		$this->load->view('footer');
 
@@ -99,10 +99,12 @@ class Plan extends CI_Controller{
 
 		$header= $this->header_model->get_data();
 
-		$nav['act']=3;
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 3;
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('lokasi/form',$data);
 		$this->load->view('footer');
 

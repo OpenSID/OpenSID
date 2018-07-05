@@ -1,81 +1,80 @@
-<?php
-/*
- * program.php
- *
- * Backend View untuk Program Bantuan
- *
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
-
-?>
-<div id="pageC">
-<table class="inner">
-	<tr style="vertical-align:top">
-		<td class="side-menu">
-		<?php
-		$this->load->view('program_bantuan/menu_kiri.php')
-
-
-		?>
-		</td>
-		<td class="contentpane">
-			<legend>Profil Penerima Manfaat Program</legend>
-			<?php
-			echo "
-			<div style=\"margin-bottom:2em;\">
-				<table class=\"form\">
-					<tr><td>Nama</td><td><strong>".strtoupper($profil["nama"])."</strong></td></tr>
-					<tr><td>Keterangan</td><td><strong>".$profil["ndesc"]."</strong></td></tr>
-				</table>
+<div class="content-wrapper">
+	<?php $detail = $data[0];?>
+	<section class="content-header">
+		<h1>Profil Penerima Manfaat Program</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
+			<li class="active">Profil Penerima Program Bantuan</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="box-header with-border">
+												<h3 class="box-title">Profil Penerima Manfaat Program</h3>
+											</div>
+											<div class="box-body">
+												<table class="table table-bordered  table-striped table-hover" >
+													<tbody>
+														<tr>
+															<td style="padding-top : 10px;padding-bottom : 10px; width:30%;" >Nama Penerima</td>
+															<td> : <?= strtoupper($profil["nama"])?></td>
+														</tr>
+														<tr>
+															<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
+															<td> : <?= $profil["ndesc"]?></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="col-sm-12">
+											<div class="box-header with-border">
+												<h3 class="box-title">Program yang pernah diikuti</h3>
+											</div>
+											<div class="table-responsive">
+												<table class="table table-bordered dataTable table-hover">
+													<thead class="bg-gray disabled color-palette">
+														<tr>
+															<th>No</th>
+															<th nowrap>Waktu/Tanggal</th>
+															<th nowrap>Nama Program</th>
+															<th >Keterangan</th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php $nomer = 0;?>
+														<?php foreach ($programkerja as $item): $nomer++;?>
+															<tr>
+																<td><?= $nomer?></td>
+																<td nowrap><?= fTampilTgl($item["sdate"],$item["edate"]);?></td>
+																<td nowrap><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/');?>"><?= $item["nama"] ?></a></td>
+																<td nowrap width="60%"><?= $item["ndesc"];?></td>
+															</tr>
+														<?php endforeach;?>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			";
-
-			?>
-			<legend>Program yang pernah diikuti</legend>
-			<div class="table-panel top">
-				<table class="list">
-					<thead><tr><th>#</th><th>Waktu/Tanggal</th><th>Nama Program</th><th>Keterangan</th></tr></thead>
-					<tbody>
-
-						<?php
-						$nomer = 0;
-						foreach ($programkerja as $item):
-							$nomer++;
-						?>
-							<tr>
-								<td class="angka" style="width:40px;"><?php echo $nomer; ?></td>
-								<td><?php echo fTampilTgl($item["sdate"],$item["edate"]);?></td>
-								<td><a href="<?php echo site_url('program_bantuan/detail/1/'.$item["id"].'/')?>"><?php echo $item["nama"] ?></a></td>
-								<td><?php echo $item["ndesc"];?></td>
-							</tr>
-						<?php endforeach ?>
-					</tbody>
-				</table>
-			</div>
-
-		</td>
-		<td style="width:250px;" class="contentpane">
-		<?php
-		$this->load->view('program_bantuan/panduan.php');
-		?>
-		</td>
-	</tr>
-</table>
+		</div>
+	</section>
 </div>
+

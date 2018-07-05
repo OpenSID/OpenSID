@@ -34,19 +34,19 @@
 								</div>
 							<?php endif;?>
 							<div class="form-group">
-									<label class="control-label col-sm-4" for="upload">Unggah Gambar</label>
-									<div class="col-sm-6">
-										<div class="input-group input-group-sm">
-											<input type="text" class="form-control required" id="file_path">
-											<input id="file" type="file" class="hidden" name="gambar">
-											<span class="input-group-btn">
-												<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
-											</span>
-										</div>
-										<?php $upload_mb = max_upload();?>
-										<p><label class="control-label">Batas maksimal pengunggahan berkas <strong><?=$upload_mb?> MB.</strong></label></p>
+								<label class="control-label col-sm-4" for="upload">Unggah Gambar</label>
+								<div class="col-sm-6">
+									<div class="input-group input-group-sm">
+										<input type="text" class="form-control required" id="file_path">
+										<input id="file" type="file" class="hidden" name="gambar">
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+										</span>
 									</div>
+									<?php $upload_mb = max_upload();?>
+									<p><label class="control-label">Batas maksimal pengunggahan berkas <strong><?=$upload_mb?> MB.</strong></label></p>
 								</div>
+							</div>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>

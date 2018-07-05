@@ -57,11 +57,13 @@ class Polygon extends CI_Controller{
 		$data['keyword'] = $this->plan_polygon_model->autocomplete();
 
 		$header= $this->header_model->get_data();
-		$nav['act']=5;
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 5;
 
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('polygon/table',$data);
 		$this->load->view('footer');
 
@@ -85,10 +87,12 @@ class Polygon extends CI_Controller{
 
 		$header= $this->header_model->get_data();
 
-		$nav['act']=5;
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 5;
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('polygon/form',$data);
 		$this->load->view('footer');
 
@@ -99,11 +103,11 @@ class Polygon extends CI_Controller{
 		$data['subpolygon']    = $this->plan_polygon_model->list_sub_polygon($polygon);
 		$data['polygon'] = $polygon;
 		$header= $this->header_model->get_data();
-		$nav['act']=5;
-
-		$this->load->view('header-gis', $header);
-
-		$this->load->view('plan/nav',$nav);
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 5;
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
 		$this->load->view('polygon/sub_polygon_table',$data);
 		$this->load->view('footer');
 
@@ -120,12 +124,6 @@ class Polygon extends CI_Controller{
 			$data['form_action'] = site_url("polygon/insert_sub_polygon/$polygon");
 		}
 
-		$header= $this->header_model->get_data();
-
-		$nav['act']=5;
-		$this->load->view('header-gis', $header);
-
-		$this->load->view('plan/nav',$nav);
 		$this->load->view("polygon/ajax_add_sub_polygon_form",$data);
 
 	}

@@ -43,11 +43,11 @@
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="id_grup" name="id_grup">
 										<?php if($user['id_grup'] != '1'):?>
-											<option value="4" <?php  if($user['id_grup'] == '4'):?>selected<?php endif?>>Kontributor</option>
-											<option value="3" <?php  if($user['id_grup'] == '3' ):?>selected<?php endif?>>Redaksi</option>
-											<option value="2" <?php  if($user['id_grup'] == '2' ):?>selected<?php endif?>>Operator</option>
+											<option value="4" <?php if($user['id_grup'] == '4'):?>selected<?php endif?>>Kontributor</option>
+											<option value="3" <?php if($user['id_grup'] == '3' ):?>selected<?php endif?>>Redaksi</option>
+											<option value="2" <?php if($user['id_grup'] == '2' ):?>selected<?php endif?>>Operator</option>
 										<?php endif?>
-										<option value="1" <?php  if($user['id_grup'] == '1' ):?>selected<?php endif?>>Administrator</option>
+										<option value="1" <?php if($user['id_grup'] == '1' ):?>selected<?php endif?>>Administrator</option>
 									</select>
 								</div>
 							</div>
