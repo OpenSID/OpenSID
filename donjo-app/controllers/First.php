@@ -186,7 +186,6 @@ class First extends Web_Controller{
 		$data['artikel'] = $this->first_artikel_m->list_artikel(0,$data['paging']->offset,$data['paging']->per_page);
 		$data['single_artikel'] = $this->first_artikel_m->get_artikel($id);
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
-
 		$this->_get_common_data($data);
 
 		// Validasi pengisian komentar di add_comment()
@@ -198,7 +197,6 @@ class First extends Web_Controller{
 			$_SESSION['post']['captcha_code'] = '';
 		}
 		$this->set_template('layouts/artikel.tpl.php');
-		$data = $this->security->xss_clean($data);
 		$this->load->view($this->template,$data);
 	}
 

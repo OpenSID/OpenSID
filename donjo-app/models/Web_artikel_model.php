@@ -312,6 +312,9 @@
         $sql   = "SELECT a.*,u.nama AS owner FROM artikel a LEFT JOIN user u ON a.id_user = u.id WHERE a.id=?";
         $query = $this->db->query($sql,$id);
         $data  = $query->row_array();
+        $data['judul'] = $this->security->xss_clean($data['judul']);
+        if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
+            $data['isi'] = $this->security->xss_clean($data['isi']);
 
             //$judul=str_split($data['nama'],15);
             //$data['judul'] = "<h3>".$judul[6]."</h3>";

@@ -55,7 +55,7 @@ $(document).ready(function(){
 <tr>
 <td colspan="2">
 <textarea name="isi" style="width: 800px; height: 500px;">
-<?php echo $artikel['isi']?>
+  <?= $artikel['isi']?>
 </textarea>
 </td>
 </tr>

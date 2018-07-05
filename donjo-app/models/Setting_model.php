@@ -45,6 +45,7 @@ class Setting_model extends CI_Model
     if (empty($this->setting->dev_tracker)){
       $this->setting->dev_tracker = config_item('dev_tracker');
     }
+    $this->setting->user_admin = config_item('user_admin');
     // Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
     $pos = strpos($this->setting->web_theme, 'desa/');
     if ($pos !== false)

@@ -10,6 +10,7 @@
 	function get_widget($id=''){
 		$data = $this->db->where('id',$id)->get('widget')->row_array();
 		$data['judul'] = htmlentities($data['judul']);
+		$data['isi'] = $this->security->xss_clean($data['isi']);
 		return $data;
 	}
 
