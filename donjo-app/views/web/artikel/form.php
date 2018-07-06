@@ -192,6 +192,7 @@
 										</div>
 										<input class="form-control input-sm pull-right" id="tgl_jam" name="tgl_upload" type="text" value="<?= $artikel['tgl_upload']?>">
 									</div>
+									<span class="help-block"><code>(Kosongkan jika ingin langsung di post, bisa digunakan untuk artikel terjadwal)</code></span>
               	</div>
 							</div>
 						</div>

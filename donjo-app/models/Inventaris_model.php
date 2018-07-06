@@ -1,13 +1,17 @@
-<?php class Inventaris_model extends CI_Model{
+<?php class Inventaris_model extends CI_Model
+{
 
-	function __construct(){
+	function __construct()
+	{
 		parent::__construct();
 	}
 
-	function autocomplete(){
+	function autocomplete()
+	{
 		$data = $this->db->select('nama')->order_by('nama')->get('jenis_barang')->result_array();
 		$outp='';
-		for($i=0; $i<count($data); $i++){
+		for ($i=0; $i<count($data); $i++)
+		{
 			$outp .= ',"'.$data[$i]['nama'].'"';
 		}
 		$outp = substr($outp, 1);
@@ -15,17 +19,21 @@
 		return $outp;
 	}
 
-	function get_jenis($id=0){
+	function get_jenis($id=0)
+	{
 		$hasil = $this->db->where('id',$id)->get('jenis_barang')->row_array();
 		$status = $this->get_status_jenis($id,date('Y'));
-		foreach($status as $key => $value){
+		foreach($status as $key => $value)
+		{
 			$hasil[$key] = $value;
 		}
 		return $hasil;
 	}
 
-	function search_jenis_sql(){
-		if(isset($_SESSION['cari'])){
+	function search_jenis_sql()
+	{
+		if (isset($_SESSION['cari']))
+		{
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
@@ -34,7 +42,8 @@
 		}
 	}
 
-	function paging_jenis($p=1,$o=0){
+	function paging_jenis($p=1, $o=0)
+	{
 		$list_data_sql = $this->list_jenis_sql();
 		$sql = "SELECT COUNT(*) AS jml ".$list_data_sql;
 		$query    = $this->db->query($sql);
@@ -50,7 +59,8 @@
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-	private function list_jenis_sql() {
+	private function list_jenis_sql()
+	{
 		$sql = "
 			FROM jenis_barang j
 			WHERE 1 ";
@@ -58,7 +68,8 @@
 		return $sql;
 	}
 
-	function list_jenis($o=0,$offset=0,$limit=500){
+	function list_jenis($o=0, $offset=0, $limit=500)
+	{
 		$select_sql = "SELECT *
 			";
 		//Main Query
@@ -66,7 +77,8 @@
 		$sql = $select_sql." ".$list_data_sql;
 
 		//Ordering SQL
-		switch($o){
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY j.nama'; break;
 			case 2: $order_sql = ' ORDER BY j.nama DESC'; break;
 			default:$order_sql = '';
@@ -81,24 +93,29 @@
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		// Isi status setiap jenis barang yang ditampilkan
-		for($i=0; $i<count($data); $i++){
+		for ($i=0; $i<count($data); $i++)
+		{
 			$status = $this->get_status_jenis($data[$i]['id'],date('Y'));
-			foreach($status as $key => $value){
+			foreach ($status as $key => $value)
+			{
 				$data[$i][$key] = $value;
 			}
 			$status = $this->status_awal_tahun($data[$i]['id']);
-			foreach($status as $key => $value){
+			foreach ($status as $key => $value)
+			{
 				$data[$i][$key] = $value;
 			}
 			$status = $this->status_akhir_tahun($data[$i]['id']);
-			foreach($status as $key => $value){
+			foreach ($status as $key => $value)
+			{
 					$data[$i][$key] = $value;
 			}
 		}
 		return $data;
 	}
 
-	function get_status_jenis($id_jenis_barang,$tahun){
+	function get_status_jenis($id_jenis_barang, $tahun)
+	{
 		$select = "
 				(select sum(jml_barang) from inventaris where id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as jml_barang,
 				(select sum(jml_barang) from inventaris where asal_barang = 1 and id_jenis_barang = $id_jenis_barang and DATE(tanggal_pengadaan) <= '$tahun-12-31') as asal_sendiri,
@@ -138,8 +155,9 @@
     return $status;
 	}
 
-	function status_awal_tahun($id_jenis_barang){
-		if(!isset($_SESSION['tahun'])) return;
+	function status_awal_tahun($id_jenis_barang)
+	{
+		if (!isset($_SESSION['tahun'])) return;
 		$tahun = $_SESSION['tahun']-1;
 		$status = $this->get_status_jenis($id_jenis_barang,$tahun);
 		$status_awal_tahun = array();
@@ -148,8 +166,9 @@
 		return $status_awal_tahun;
 	}
 
-	function status_akhir_tahun($id_jenis_barang){
-		if(!isset($_SESSION['tahun'])) return;
+	function status_akhir_tahun($id_jenis_barang)
+	{
+		if (!isset($_SESSION['tahun'])) return;
 		$tahun = $_SESSION['tahun'];
 		$status = $this->get_status_jenis($id_jenis_barang,$tahun);
 		$status_akhir_tahun = array();
@@ -158,35 +177,41 @@
 		return $status_akhir_tahun;
 	}
 
-	function insert_jenis(){
+	function insert_jenis()
+	{
 		$data = $_POST;
 		$outp = $this->db->insert('jenis_barang',$data);
-		if(!$outp) session_error(); else session_success();
+		if (!$outp) session_error(); else session_success();
 	}
 
-	function update_jenis($id=''){
+	function update_jenis($id='')
+	{
 	  $data = $_POST;
 		$outp = $this->db->where('id',$id)->update('jenis_barang',$data);
-		if(!$outp) session_error(); else session_success();
+		if (!$outp) session_error(); else session_success();
 	}
 
-	function delete_jenis($id=''){
+	function delete_jenis($id='')
+	{
 		$outp = $this->db->where('id',$id)->delete('jenis_barang');
-		if(!$outp) session_error(); else session_success();
+		if (!$outp) session_error(); else session_success();
 	}
 
-	function get_inventaris($id=0){
+	function get_inventaris($id=0)
+	{
 		$hasil = $this->db->where('id',$id)->get('inventaris')->row_array();
 		$hasil['tanggal_pengadaan'] = tgl_indo_out($hasil['tanggal_pengadaan']);
 
     $status = $this->get_status_inventaris($id,$hasil);
-    foreach($status as $key => $value){
+    foreach ($status as $key => $value)
+    {
     	$hasil[$key] = $value;
     }
 		return $hasil;
 	}
 
-	function get_status_inventaris($id_barang,$inventaris){
+	function get_status_inventaris($id_barang,$inventaris)
+	{
 		$select = "
         sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) then jml_mutasi else 0 end) penghapusan,
         sum(case when (jenis_mutasi = 1 or jenis_mutasi = 4) and jenis_penghapusan = 1 then jml_mutasi else 0 end) hapus_rusak,
@@ -205,8 +230,10 @@
     return $status;
 	}
 
-	function search_sql(){
-		if(isset($_SESSION['cari'])){
+	function search_sql()
+	{
+		if (isset($_SESSION['cari']))
+		{
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
@@ -215,7 +242,8 @@
 		}
 	}
 
-	function paging($id_jenis,$p=1,$o=0){
+	function paging($id_jenis, $p=1, $o=0)
+	{
 		$list_data_sql = $this->list_data_sql($id_jenis);
 		$sql = "SELECT COUNT(*) AS jml ".$list_data_sql;
 		$query    = $this->db->query($sql);
@@ -231,7 +259,8 @@
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-	private function list_data_sql($id_jenis) {
+	private function list_data_sql($id_jenis)
+	{
 		$sql = "
 			FROM inventaris i
 			WHERE i.id_jenis_barang = $id_jenis ";
@@ -239,7 +268,8 @@
 		return $sql;
 	}
 
-	function list_data($id_jenis=0,$o=0,$offset=0,$limit=500){
+	function list_data($id_jenis=0, $o=0, $offset=0, $limit=500)
+	{
 		$select_sql = "SELECT *
 			";
 		//Main Query
@@ -247,7 +277,8 @@
 		$sql = $select_sql." ".$list_data_sql;
 
 		//Ordering SQL
-		switch($o){
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY i.nama_barang'; break;
 			case 2: $order_sql = ' ORDER BY i.nama_barang DESC'; break;
 			case 3: $order_sql = ' ORDER BY i.asal_barang'; break;
@@ -266,9 +297,11 @@
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
-		for($i=0; $i<count($data); $i++){
+		for ($i=0; $i<count($data); $i++)
+		{
 			$status = $this->get_status_inventaris($data[$i]['id'],$data[$i]);
-			foreach($status as $key => $value){
+			foreach ($status as $key => $value)
+			{
 				$data[$i][$key] = $value;
 			}
 		}
@@ -276,58 +309,67 @@
 		return $data;
 	}
 
-	function insert($id_jenis_barang){
+	function insert($id_jenis_barang)
+	{
 		$data = $_POST;
 		$data['id_jenis_barang'] = $id_jenis_barang;
 		$data['tanggal_pengadaan'] = tgl_indo_in($data['tanggal_pengadaan']);
 		$outp = $this->db->insert('inventaris',$data);
-		if(!$outp) session_error(); else session_success();
+		if (!$outp) session_error(); else session_success();
 	}
 
-	function update($id=''){
+	function update($id='')
+	{
 	  $data = $_POST;
 		$data['tanggal_pengadaan'] = tgl_indo_in($data['tanggal_pengadaan']);
 		$outp = $this->db->where('id',$id)->update('inventaris',$data);
-		if(!$outp) session_error(); else session_success();
+		if (!$outp) session_error(); else session_success();
 	}
 
-	function delete($id=''){
+	function delete($id='')
+	{
 		$outp = $this->db->where('id',$id)->delete('inventaris');
-		if(!$outp) session_error(); else session_success();
+		if (!$outp) session_error(); else session_success();
 	}
 
-	function list_mutasi($id_inventaris){
+	function list_mutasi($id_inventaris)
+	{
 		$hasil = $this->db->where('id_barang',$id_inventaris)->order_by('tanggal_mutasi DESC')->get('mutasi_inventaris')->result_array();
 		return $hasil;
 	}
 
-	function get_mutasi($id=0){
+	function get_mutasi($id=0)
+	{
 		$hasil = $this->db->where('id',$id)->get('mutasi_inventaris')->row_array();
 		$hasil['tanggal_mutasi'] = tgl_indo_out($hasil['tanggal_mutasi']);
 		return $hasil;
 	}
 
-	function insert_mutasi($id_inventaris){
+	function insert_mutasi($id_inventaris)
+	{
 		$data = $_POST;
 		$data['id_barang'] = $id_inventaris;
 		$data['tanggal_mutasi'] = tgl_indo_in($data['tanggal_mutasi']);
 		$outp = $this->db->insert('mutasi_inventaris',$data);
-		if(!$outp) session_error(); else session_success();
+		if (!$outp) session_error(); else session_success();
 	}
 
-	function update_mutasi($id){
+	function update_mutasi($id)
+	{
 		$data = $_POST;
 		$data['tanggal_mutasi'] = tgl_indo_in($data['tanggal_mutasi']);
 		$outp = $this->db->where('id',$id)->update('mutasi_inventaris',$data);
-		if(!$outp) session_error(); else session_success();
+		if (!$outp) session_error(); else session_success();
 	}
 
-	function delete_mutasi($id){
+	function delete_mutasi($id)
+	{
 		$outp = $this->db->where('id',$id)->delete('mutasi_inventaris');
-		if(!$outp) session_error(); else session_success();
+		if (!$outp) session_error(); else session_success();
 	}
 
-	function list_tahun(){
+	function list_tahun()
+	{
 		$tahun = $this->db->distinct()->select('YEAR(tanggal_pengadaan) AS tahun')->order_by('tanggal_pengadaan DESC')->get('inventaris')->result_array();
 		return $tahun;
 	}

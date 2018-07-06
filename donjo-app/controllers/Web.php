@@ -71,6 +71,7 @@ class Web extends CI_Controller{
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
+		$data = $this->security->xss_clean($data);
 		$this->load->view('web/artikel/table',$data);
 		$this->load->view('footer');
 	}

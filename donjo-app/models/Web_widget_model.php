@@ -9,6 +9,8 @@
 
 	function get_widget($id=''){
 		$data = $this->db->where('id',$id)->get('widget')->row_array();
+		$data['judul'] = htmlentities($data['judul']);
+		$data['isi'] = $this->security->xss_clean($data['isi']);
 		return $data;
 	}
 
@@ -23,11 +25,10 @@
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 
-		$i=0;
 		$outp='';
-		while($i<count($data)){
-			$outp .= ",'" .$data[$i]['judul']. "'";
-			$i++;
+		for ($i=0; $i<count($data); $i++)
+		{
+			$outp .= ",'" .$this->security->xss_clean($data[$i]['judul']). "'";
 		}
 		$outp = strtolower(substr($outp, 1));
 		$outp = '[' .$outp. ']';
@@ -107,6 +108,7 @@
 			$i++;
 			$j++;
 		}
+		$data = $this->security->xss_clean($data);
 		return $data;
 	}
 

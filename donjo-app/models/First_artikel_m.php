@@ -91,9 +91,14 @@ class First_artikel_m extends CI_Model{
 			$sql .= " AND a.tgl_upload < NOW()";
 			$sql .= " ORDER BY a.tgl_upload DESC LIMIT ".$offset.", ".$limit;
 		}
-
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
+		for ($i=0; $i < count($data); $i++)
+		{
+			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+			if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
+				$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+		}
 		return $data;
 	}
 
@@ -261,15 +266,22 @@ class First_artikel_m extends CI_Model{
 	function get_artikel($id=0){
 		$sql   = "SELECT a.*,u.nama AS owner,k.kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.id=? AND a.tgl_upload < NOW()";
 		$query = $this->db->query($sql,$id);
-		if($query->num_rows()>0){
+		if ($query->num_rows()>0)
+		{
 			$data  = $query->row_array();
-		}else{
+			$data['judul'] = $this->security->xss_clean($data['judul']);
+			if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
+				$data['isi'] = $this->security->xss_clean($data['isi']);
+		}
+		else
+		{
 			$data  = false;
 		}
 		return $data;
 	}
 
-	function list_artikel($offset=0,$limit=50,$id=0){
+	function list_artikel($offset=0,$limit=50,$id=0)
+	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND a.tgl_upload < NOW() ";
 		if($id!=0)
@@ -277,14 +289,22 @@ class First_artikel_m extends CI_Model{
 		$sql .= " ORDER BY a.tgl_upload DESC ";
 		$sql .= $paging_sql;
 		$query = $this->db->query($sql);
-		if($query->num_rows()>0){
+		if ($query->num_rows()>0)
+		{
 			$data  = $query->result_array();
-		}else{
+			for ($i=0; $i < count($data); $i++)
+			{
+				$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+				if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
+					$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+			}
+		}
+		else
+		{
 			$data = false;
 		}
 		return $data;
 	}
-
 
 	/**
 	 * Simpan komentar yang dikirim oleh pengunjung

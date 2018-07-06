@@ -28,8 +28,6 @@
 
         case 'testing':
         case 'production':
-          $koneksi = cek_koneksi_internet();
-          if(!$koneksi) return;
           $tracker = "tracksid.bangundesa.info";
         break;
 
@@ -65,6 +63,7 @@
     // echo "httppost =========== ".$tracker;
     // echo httpPost("http://".$tracker."/index.php/track/desa",$desa);
     httpPost("http://".$tracker."/index.php/track/desa",$desa);
+
     if (strpos(current_url(), 'first') !== FALSE) {
       $_SESSION['track_web'] = date("Y m d");
     } else {
