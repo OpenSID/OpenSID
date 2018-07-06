@@ -7,7 +7,7 @@
 
 	function list_data()
 	{
-		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0 AND parent = 0 ORDER BY urut";
+		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0 AND parent = 0 ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= ' ORDER BY urut';
