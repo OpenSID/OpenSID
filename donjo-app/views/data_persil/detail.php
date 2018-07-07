@@ -58,7 +58,7 @@
 														<tr>
 															<td>Alamat</td>
 															<td >:</td>
-															<td>RT: <?= $persil_detail["alamat_ext"]?></td>
+															<td>RT: <?= $persil_detail["alamat_luar"]?></td>
 														</tr>
 													<?php endif; ?>
 													<tr>
