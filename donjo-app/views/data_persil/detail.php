@@ -27,28 +27,28 @@
 										<div class="col-md-12">
 											<div class="table-responsive">
 												<table class="table table-bordered table-striped table-hover" >
-													<?php if ($pemilik): ?>
+													<?php if ($persil_detail['jenis_pemilik'] != '2'): ?>
 														<tr>
-															<th colspan="3" class="text-red bg-aqua"><strong>DATA PEMILIK</strong></th>
+															<th colspan="3" class="bg-aqua"><strong>DATA PEMILIK</strong></th>
 														</tr>
 														<tr>
 															<td width="300">Nama Penduduk</td>
 															<td width="1">:</td>
-															<td><?= strtoupper(unpenetration($pemilik["nama"]))?></td>
+															<td><?= strtoupper(unpenetration($persil_detail["namapemilik"]))?></td>
 														</tr>
 														<tr>
 															<td>NIK</td>
 															<td >:</td>
-															<td><?= $pemilik["nik"]?></td>
+															<td><?= $persil_detail["nik"]?></td>
 														</tr>
 														<tr>
 															<td>Alamat</td>
 															<td >:</td>
-															<td>RT: <?= $pemilik["rt"]?> RW: <?= $pemilik["rw"]?> Dusun <?= strtoupper($pemilik["dusun"])?></td>
+															<td>RT: <?= $persil_detail["rt"]?> RW: <?= $persil_detail["rw"]?> Dusun <?= strtoupper($persil_detail["dusun"])?></td>
 														</tr>
 													<?php else : ?>
 														<tr>
-															<th colspan="3" class="text-red bg-aqua"><strong>DATA PEMILIK</strong></th>
+															<th colspan="3" class="bg-aqua"><strong>DATA PEMILIK</strong></th>
 														</tr>
 														<tr>
 															<td width="300">Nama Pemilik</td>
@@ -58,11 +58,11 @@
 														<tr>
 															<td>Alamat</td>
 															<td >:</td>
-															<td>RT: <?= $persil_detail["alamat_luar"]?></td>
+	                            <td><?= $persil_detail["alamat_luar"]?></td>
 														</tr>
 													<?php endif; ?>
 													<tr>
-														<th colspan="3" class="text-red bg-aqua"><strong>RINCIAN PERSIL</strong></th>
+														<th colspan="3" class="bg-aqua"><strong>RINCIAN PERSIL</strong></th>
 													</tr>
 													<tr>
 														<td>Nomor Persil</td>
@@ -70,9 +70,9 @@
 														<td><?= $persil_detail["nopersil"]?></td>
 													</tr>
 													<tr>
-														<td>Keterangan</td>
+														<td>Keterangan Persil</td>
 														<td >:</td>
-														<td><?= $persil_jenis[$persil_detail["persil_jenis_id"]][0]?></td>
+														<td><?= $persil_jenis[$persil_detail["persil_jenis_id"]][0]?></br><?= $persil_jenis[$persil_detail["persil_jenis_id"]][1]?></td>
 													</tr>
 													<tr>
 														<td>Luas Tanah</td>

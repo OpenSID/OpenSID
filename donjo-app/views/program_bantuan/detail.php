@@ -36,19 +36,19 @@
 												<table class="table table-bordered  table-striped table-hover" >
 													<tbody>
 														<tr>
-															<td style="padding-top : 10px;padding-bottom : 10px; width:30%;" >Nama Program</td>
+															<td style="padding-top : 10px;padding-bottom : 10px; width:15%;" nowrap>Nama Program</td>
 															<td> : <?= strtoupper($detail["nama"])?></td>
 														</tr>
 														<tr>
-															<td style="padding-top : 10px;padding-bottom : 10px;" >Sasaran Peserta</td>
+															<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Sasaran Peserta</td>
 															<td> :  <?= $sasaran[$detail["sasaran"]]?></td>
 														</tr>
 														<tr>
-															<td style="padding-top : 10px;padding-bottom : 10px;" >Masa Berlaku</td>
+															<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Masa Berlaku</td>
 															<td> : <?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
 														</tr>
 														<tr>
-															<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
+															<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Keterangan</td>
 															<td> : <?= $detail["ndesc"]?></td>
 														</tr>
 													</tbody>
@@ -64,20 +64,20 @@
 												<table class="table table-bordered dataTable table-hover">
 													<thead class="bg-gray disabled color-palette">
 														<tr>
-															<th rowspan="2">No</th>
-															<th rowspan="2">Aksi</th>
-															<th rowspan="2" nowrap><?= $detail["judul_peserta"]?></th>
-															<th rowspan="2" nowrap>No. Kartu Peserta</th>
-															<th rowspan="2" nowrap><?= $detail["judul_peserta_info"]?></th>
-															<th rowspan="2">Alamat</th>
-															<th colspan="5" style="text-align: center;">Identitas di Kartu Peserta</th>
+															<th rowspan="2" class="text-center">No</th>
+															<th rowspan="2" class="text-center">Aksi</th>
+															<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta"]?></th>
+															<th rowspan="2" nowrap class="text-center">No. Kartu Peserta</th>
+															<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_info"]?></th>
+															<th rowspan="2" class="text-center">Alamat</th>
+															<th colspan="5" class="text-center">Identitas di Kartu Peserta</th>
 														</tr>
 														<tr>
-															<th>NIK</th>
-															<th>Nama</th>
-															<th nowrap>Tempat Lahir</th>
-															<th nowrap>Tanggal Lahir</th>
-															<th>Alamat</th>
+															<th class="text-center">NIK</th>
+															<th class="text-center">Nama</th>
+															<th class="text-center" nowrap>Tempat Lahir</th>
+															<th class="text-center" nowrap>Tanggal Lahir</th>
+															<th class="text-center">Alamat</th>
 														</tr>
 													</thead>
 													<tbody>

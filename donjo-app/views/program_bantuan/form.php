@@ -29,15 +29,15 @@
 											<table class="table table-bordered  table-striped table-hover" >
 												<tbody>
 													<tr>
-														<td style="padding-top : 10px;padding-bottom : 10px; width:30%;" >Nama Program</td>
+														<td style="padding-top : 10px;padding-bottom : 10px; width:15%;" nowrap>Nama Program</td>
 														<td> : <?= strtoupper($detail["nama"])?></td>
 													</tr>
 													<tr>
-														<td style="padding-top : 10px;padding-bottom : 10px;" >Sasaran Peserta</td>
+														<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Sasaran Peserta</td>
 														<td> :  <?= $sasaran[$detail["sasaran"]]?></td>
 													</tr>
 													<tr>
-														<td style="padding-top : 10px;padding-bottom : 10px;" >Masa Berlaku</td>
+														<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Masa Berlaku</td>
 														<td> : <?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
 													</tr>
 													<tr>
@@ -55,15 +55,15 @@
                      <div class="box-body">
                        <form action="" id="main" name="main" method="POST"  class="form-horizontal">
 												<div class="form-group" >
-									  			<label class="col-sm-4 control-label"  for="nik">NIK / Nama Penduduk </label>
+									  			<label class="col-sm-4 col-lg-2 control-label"  for="nik">NIK / Nama Penduduk </label>
 													<div class="col-sm-7">
-														<select class="form-control select2 input-sm" id="nik" name="nik"  onchange="formAction('main')" >
+														<select class="form-control select2 input-sm" id="nik" name="nik"  onchange="formAction('main')" style="width:100%" >
 															<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
-															<?php foreach ($program[2]as $item){
-										  					if (strlen($item["id"])>0){?>
-											  				  <option value="<?php echo $item['id']?>" <?php if ($individu['nik']==$item['nik']){?>selected<?php }?>>Nama : <?php echo $item['nama']." - ".$item['info']?></option>
-                                 <?php }
-                              }?>
+															<?php foreach ($program[2]as $item):
+										  					if (strlen($item["id"])>0):?>
+											  				  <option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']):?>selected<?php endif;?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
+																<?php endif;
+                              endforeach;?>
   													</select>
 													</div>
 					    					</div>
@@ -71,16 +71,16 @@
                           <?php include("donjo-app/views/program_bantuan/konfirmasi_peserta.php"); ?>
                         <?php endif; ?>
                       </form>
-                      <form id="validasi" action="<?php echo $form_action?>/<?php echo $detail['id']?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-												<input type="hidden" name="nik" value="<?php echo $individu['nik']?>"  >
+                      <form id="validasi" action="<?= $form_action?>/<?= $detail['id']?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+												<input type="hidden" name="nik" value="<?= $individu['nik']?>"  >
 												<div class="form-group">
-													<label for="no_id_kartu" class="col-sm-4 control-label">Nomor Kartu Peserta</label>
+													<label for="no_id_kartu" class="col-sm-4 col-lg-2  control-label">Nomor Kartu Peserta</label>
 													<div class="col-sm-7">
 								  					<input  id="no_id_kartu" class="form-control input-sm" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" required="" >
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="jenis_keramaian"  class="col-sm-4 control-label">Gambar Kartu Peserta</label>
+													<label for="jenis_keramaian"  class="col-sm-4 col-lg-2 control-label">Gambar Kartu Peserta</label>
 													<div class="col-sm-7">
 														<div class="input-group input-group-sm ">
 															<input type="text" class="form-control" id="file_path">
@@ -93,28 +93,28 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="kartu_nik"  class="col-sm-4 control-label">Identitas Pada Kartu Peserta</label>
+													<label for="kartu_nik"  class="col-sm-4 col-lg-3 control-label">Identitas Pada Kartu Peserta</label>
 												</div>
 												<div class="form-group">
-													<label for="kartu_nik"  class="col-sm-4 control-label">NIK</label>
+													<label for="kartu_nik"  class="col-sm-4 col-lg-2 control-label">NIK</label>
 													<div class="col-sm-7">
 														<input  id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Penduduk" name="kartu_nik"  >
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="kartu_nama"  class="col-sm-4 control-label">Nama</label>
+													<label for="kartu_nama"  class="col-sm-4 col-lg-2 control-label">Nama</label>
 													<div class="col-sm-7">
 														<input  id="kartu_nama" class="form-control input-sm" type="text" placeholder="Nama Penduduk" name="kartu_nama" >
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="kartu_tempat_lahir"  class="col-sm-4 control-label">Tempat Lahir</label>
+													<label for="kartu_tempat_lahir"  class="col-sm-4 col-lg-2 control-label">Tempat Lahir</label>
 													<div class="col-sm-7">
 														<input  id="kartu_tempat_lahir" class="form-control input-sm" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir">
 													</div>
 												</div>
 												<div class="form-group">
-										  		<label for="kartu_tanggal_lahir"  class="col-sm-4 control-label">Tanggal Lahir</label>
+										  		<label for="kartu_tanggal_lahir"  class="col-sm-4 col-lg-2 control-label">Tanggal Lahir</label>
 													<div class="col-sm-7">
 														<div class="input-group input-group-sm date">
 															<div class="input-group-addon">
@@ -125,7 +125,7 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="kartu_alamat"  class="col-sm-4 control-label">Alamat</label>
+													<label for="kartu_alamat"  class="col-sm-4 col-lg-2 control-label">Alamat</label>
 													<div class="col-sm-7">
 											  		<input  id="kartu_alamat" class="form-control input-sm" type="text" placeholder="Alamat" name="kartu_alamat">
 													</div>

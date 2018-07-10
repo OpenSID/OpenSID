@@ -80,7 +80,7 @@
 																		<td nowrap>
 																			<a href="<?= site_url("polygon/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																			<a href="<?= site_url("polygon/sub_polygon/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Polygon"><i class="fa fa-bars"></i></a>
-																			<a href="<?= site_url("polygon/ajax_add_sub_polygon/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Sub Polygon <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Polygon"><i class="fa fa-plus"></i></a>
+																			<a href="<?= site_url("polygon/ajax_add_sub_polygon/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Sub Polygon <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Polygon <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
 																			<?php if ($data['enabled'] == '2'):?>
 																				<a href="<?= site_url('polygon/polygon_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Polygon"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>

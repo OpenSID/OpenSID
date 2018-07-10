@@ -9,10 +9,10 @@
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
-				<div class="col-md-3">
+				<div class="col-md-4 col-lg-3">
           <?php $this->load->view('data_persil/menu_kiri.php')?>
 				</div>
-				<div class="col-md-9">
+				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?=site_url("data_persil/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">

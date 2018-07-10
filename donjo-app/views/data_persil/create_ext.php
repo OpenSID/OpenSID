@@ -36,7 +36,7 @@
 										<div class="form-group">
 											<label for="alamat"  class="col-sm-3 control-label">Alamat Pemilik</label>
 											<div class="col-sm-8">
-												<textarea name="alamat_luar" id="alamat_ext" class="form-control input-sm" placeholder="Alamat Pemilik"><?= $persil_detail["alamat_luar"] ?></textarea>
+	                        <textarea name="alamat_luar" id="alamat_luar" class="form-control input-sm" placeholder="Alamat Pemilik"><?= $persil_detail["alamat_luar"] ?></textarea>
 											</div>
 										</div>
 										<div class="form-group">
@@ -45,7 +45,7 @@
 												<select class="form-control  input-sm select2" id="cid" name="cid">
 													<option >-- Pilih Jenis Persil--</option>
 													<?php foreach ($persil_jenis as $key=>$item):?>
-														<option value="<?= $key ?>" <?php if ($key==$cid):?>selected<?php endif;?>><?= $item[0]?></option>
+														<option value="<?= $key ?>" <?php if ($key==$persil_detail["persil_jenis_id"]):?>selected<?php endif;?>><?= $item[0]?></option>
 													<?php endforeach;?>
 												</select>
 											</div>
@@ -74,7 +74,7 @@
 												<select class="form-control  input-sm select2" id="sid" name="sid">
 													<option >-- Pilih Peruntukan--</option>
 													<?php foreach ($persil_peruntukan as $key=>$item):?>
-														<option value="<?= $key?>" <?php if ($key==$sid):?>selected<?php endif;?>><?= $item[0]?></option>
+														<option value="<?= $key?>" <?php if ($key==$persil_detail["persil_peruntukan_id"]):?>selected<?php endif;?>><?= $item[0]?></option>
 													<?php endforeach;?>
 												</select>
 											</div>
@@ -85,7 +85,7 @@
 												<select class="form-control  input-sm select2" id="pid" name="pid">
 													<option >-- Pilih Lokasi Tanah--</option>
 													<?php foreach ($persil_lokasi as $key=>$item):?>
-														<option value="<?= $item["id"] ?>" <?php if ($item["id"]==$pid):?>selected<?php endif;?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
+														<option value="<?= $item["id"] ?>" <?php if ($item["id"]==$persil_detail["id_clusterdesa"]):?>selected<?php endif;?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
 													<?php endforeach;?>
 												</select>
 											</div>
@@ -99,7 +99,7 @@
 									</div>
 									<div class="box-footer">
 										<div class="col-xs-12">
-											<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Cancel</button>
+											<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
 											<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 										</div>
 									</div>

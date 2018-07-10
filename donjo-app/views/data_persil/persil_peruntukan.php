@@ -61,9 +61,9 @@
 													<th>Ketarangan</th>
 												</thead>
 												<tbody>
-													<?php foreach ($persil_peruntukan as $key=>$item): ?>
+													<?php $nomer =0; foreach ($persil_peruntukan as $key=>$item): $nomer++;?>
 														<tr>
-															<td><?=$item['no']?></td>
+															<td><?=$nomer?></td>
 															<td nowrap>
 																<a href="<?= site_url("data_persil/index/peruntukan/".$key)?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class="fa fa-bars"></i></a>
 																<a href="<?= site_url("data_persil/persil_peruntukan/".$key)?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>

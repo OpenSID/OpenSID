@@ -209,3 +209,11 @@
 {
 	width: 13px;
 }
+input[type="checkbox"], input[type="radio"]
+{
+	margin: 2px 0 0;
+}
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td
+{
+  vertical-align: middle;
+}

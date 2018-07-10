@@ -1,4 +1,5 @@
-<script>
+
+    <script>
 	$(document).ready(function()
 	{
     $('#simpan_wilayah').click(function()

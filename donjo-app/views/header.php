@@ -48,7 +48,7 @@
     <script src="<?php echo base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 	</head>
-	<body class="skin-purple sidebar-mini  <?php if ($minsidebar==1):?>sidebar-collapse<?php endif?>">
+	<body class="skin-purple sidebar-mini fixed <?php if ($minsidebar==1):?>sidebar-collapse<?php endif?>">
 		<div class="wrapper">
 			<header class="main-header">
 				<a href="<?=site_url()?>first"  target="_blank" class="logo">

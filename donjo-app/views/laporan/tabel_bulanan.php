@@ -1,39 +1,39 @@
 <div class="table-responsive">
-	<table class="table table-bordered dataTable table-hover">
+	<table id="tfhover" class="table table-bordered dataTable table-hover tftable lap-bulanan">
 		<thead class="bg-gray disabled color-palette">
 			<tr>
-				<th rowspan="2" width='5%' >No</th>
-				<th rowspan="2" width='25%'>Rincian</th>
-				<th rowspan="1" colspan="2">WNI</th>
-				<th rowspan="1" colspan="2">WNA</th>
-				<th rowspan="1" colspan="3" >Jumlah</th>
-				<th rowspan="1" colspan="3" >Kepala Keluarga</th>
+				<th rowspan="2" width='2%' class="text-center">No</th>
+				<th rowspan="2" width='30%' class="text-center">Rincian</th>
+				<th rowspan="1" colspan="2" class="text-center">WNI</th>
+				<th rowspan="1" colspan="2" class="text-center">WNA</th>
+				<th rowspan="1" colspan="3" class="text-center">Jumlah</th>
+				<th rowspan="1" colspan="3" class="text-center">Kepala Keluarga</th>
 			</tr>
 			<tr>
-				<th>Lk</th>
-				<th>Pr</th>
-				<th>Lk</th>
-				<th>Pr</th>
-				<th>Lk</th>
-				<th>Pr</th>
-				<th>Jumlah</th>
-				<th>Lk</th>
-				<th> Pr</th>
-				<th>Jumlah</th>
+				<th class="text-center">L</th>
+				<th class="text-center">P</th>
+				<th class="text-center">L</th>
+				<th class="text-center">P</th>
+				<th class="text-center">L</th>
+				<th class="text-center">P</th>
+				<th class="text-center">L+P</th>
+				<th class="text-center">L</th>
+				<th class="text-center">P</th>
+				<th class="text-center">L+P</th>
 			</tr>
 			<tr>
-				<th>1</th>
-				<th>2</th>
-				<th>3</th>
-				<th>4</th>
-				<th>5</th>
-				<th>6</th>
-				<th>7</th>
-				<th>8</th>
-				<th>9</th>
-				<th>10</th>
-				<th>11</th>
-				<th>12</th>
+				<th class="text-center">1</th>
+				<th class="text-center">2</th>
+				<th class="text-center">3</th>
+				<th class="text-center">4</th>
+				<th class="text-center">5</th>
+				<th class="text-center">6</th>
+				<th class="text-center">7</th>
+				<th class="text-center">8</th>
+				<th class="text-center">9</th>
+				<th class="text-center">10</th>
+				<th class="text-center">11</th>
+				<th class="text-center">12</th>
 			</tr>
 		</thead>
 		<tbody>

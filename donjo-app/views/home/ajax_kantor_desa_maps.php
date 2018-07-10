@@ -46,7 +46,8 @@
 		{
       document.getElementById('zoom').value = lokasi_kantor.getZoom();
     })
-	})();
+  })();
+
 </script>
 
 <style>

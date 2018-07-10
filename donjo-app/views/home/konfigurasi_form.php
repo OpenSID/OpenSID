@@ -1,3 +1,6 @@
+<script type="text/javascript">
+	var baseURL = "<?= base_url(); ?>";
+</script>
 <!-- Perubahan script coding untuk bisa menampilkan halaman edit form konfigurasi bentuk tampilan bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
 	<section class="content-header">

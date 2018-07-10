@@ -7,7 +7,8 @@
 		<?php endif;?>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Daftar Program Bantuan</li>
+			<li><a href="<?=site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
+			<li class="active"> Bantuan</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">

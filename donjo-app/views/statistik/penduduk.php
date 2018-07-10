@@ -1,3 +1,10 @@
+<style type="text/css">
+  .disabled
+	{
+     pointer-events: none;
+     cursor: default;
+  }
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Statistik Kependudukan</h1>
@@ -9,10 +16,10 @@
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
-				<div class="col-md-3">
+				<div class="col-md-4">
           <?php $this->load->view('statistik/laporan/side-menu.php')?>
 				</div>
-				<div class="col-md-9">
+				<div class="col-md-8">
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?=site_url("statistik/cetak/$lap")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank" title="Cetak Data">
@@ -27,11 +34,11 @@
 							<a href="<?=site_url("statistik/pie/$lap")?>" class="btn btn-social btn-flat bg-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pie Data">
 								<i class="fa fa-pie-chart"></i>Pie Data
             	</a>
-							<?php if ($lap=='13'){?>
+							<?php if ($lap=='13'):?>
 								<a href="<?=site_url("statistik/rentang_umur")?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rentang Umur">
 									<i class="fa fa-arrows-h"></i>Rentang Umur
 								</a>
-							<?php }?>
+							<?php endif;?>
 						</div>
 						<div class="box-body">
 							<div class="col-sm-12">
@@ -41,42 +48,70 @@
 									<h4 class="box-title"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
 								<?php endif; ?>
 								<div class="table-responsive">
-									<table id="tabel2" class="table table-bordered dataTable table-hover nowrap">
-										<thead>
+									<table class="table table-bordered dataTable table-striped table-hover nowrap">
+										<thead class="bg-gray disabled color-palette">
 											<tr>
 												<th width='5%'>No</th>
-												<th width='50%'>Jenis Kelompok</th>
-												<?php if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)){?>
-													<th width='15%' colspan="2">Laki-Laki</th>
-													<th width='15%' colspan="2">Perempuan</th>
-												<?php }?>
-												<th width='15%'colspan="2">Jumlah</th>
+												<?php if ($o==2): ?>
+                          <th><a href="<?= site_url("statistik/index/$lap/1")?>"><?= $judul_kelompok ?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                        <?php elseif ($o==1): ?>
+                          <th><a href="<?= site_url("statistik/index/$lap/2")?>"><?= $judul_kelompok ?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                        <?php else: ?>
+                          <th><a href="<?= site_url("statistik/index/$lap/1")?>"><?= $judul_kelompok ?> <i class='fa fa-sort fa-sm'></i></a></th>
+                        <?php endif; ?>
+                        <?php if ($o==6): ?>
+                          <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/5")?>">Jumlah <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                        <?php elseif ($o==5): ?>
+                          <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/6")?>">Jumlah <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                        <?php else: ?>
+                          <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/5")?>">Jumlah <i class='fa fa-sort fa-sm'></i></a></th>
+                        <?php endif; ?>
+
+												<?php if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)):?>
+													<?php if ($o==4): ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/3")?>">Laki-Laki <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                          <?php elseif ($o==3): ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/4")?>">Laki-Laki <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                          <?php else: ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/3")?>">Laki-Laki <i class='fa fa-sort fa-sm'></i></a></th>
+                          <?php endif; ?>
+													<?php if ($o==8): ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/7")?>">Laki-Laki <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                          <?php elseif ($o==7): ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/8")?>">Laki-Laki <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                          <?php else: ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/7")?>">Laki-Laki <i class='fa fa-sort fa-sm'></i></a></th>
+                          <?php endif; ?>
+												<?php endif;?>
 											</tr>
 										</thead>
 										<tbody>
-											<?php foreach ($main as $data): ?>
-											<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap"); ?>
+											<?php  foreach ($main as $data): ?>
+												<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap"); ?>
 												<tr>
 													<td><?= $data['no']?></td>
 													<td><?= strtoupper($data['nama']);?></td>
-													<?php if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)){?>
-														<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-														<td><a href="<?= $tautan_jumlah?>/1"><?= $data['laki']?></a></td>
-														<td><?= $data['persen1'];?></td>
-														<td><a href="<?= $tautan_jumlah?>/2"><?= $data['perempuan']?></a></td>
-														<td><?= $data['persen2'];?></td>
-													<?php }?>
 													<td>
-														<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27){?>
-															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>"><?= $data['jumlah']?></a>
-														<?php } else { ?>
+														<?php  if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial'):?>
+															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if ($data['id']=='JUMLAH'):?>class="disabled"<?php endif;?>><?= $data['jumlah']?></a>
+														<?php else: ?>
 															<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-															<a href="<?= $tautan_jumlah ?>/0"><?= $data['jumlah']?></a>
-														<?php }?>
+															<a href="<?= $tautan_jumlah ?>/0" <?php if ($data['id']=='JUMLAH'):?> class="disabled"<?php endif;?>><?= $data['jumlah']?></a>
+														<?php endif;?>
 													</td>
 													<td><?= $data['persen'];?></td>
+													<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial'):
+															$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
+															elseif ($lap<50): $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");endif;
+													?>
+													<?php  if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)) : ?>
+														<td><a href="<?= $tautan_jumlah?>/1" <?php if ($data['id']=='JUMLAH'):?>class="disabled"<?php endif;?>><?= $data['laki']?></a></td>
+														<td><?= $data['persen1'];?></td>
+														<td><a href="<?= $tautan_jumlah?>/2" <?php if ($data['id']=='JUMLAH'):?>class="disabled"<?php endif;?>><?= $data['perempuan']?></a></td>
+														<td><?= $data['persen2'];?></td>
+													<?php endif; ?>
 												</tr>
-											<?php endforeach; ?>
+											<?php  endforeach; ?>
 										</tbody>
 									</table>
 								</div>

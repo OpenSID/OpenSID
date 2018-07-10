@@ -120,6 +120,7 @@ class Data_persil_model extends CI_Model{
 				 `nik`='".fixSQL($_POST["nik"])."',
 				 `nama`='".fixSQL($_POST["nama"])."',
 				 `jenis_pemilik`='".fixSQL($_POST["jenis_pemilik"])."',
+				 `alamat_luar`='".fixSQL($_POST["alamat_luar"])."',
 				 `persil_jenis_id`='".fixSQL($_POST["cid"])."',
 				 `id_clusterdesa`='".fixSQL($_POST["pid"])."',
 				 `persil_peruntukan_id`='".fixSQL($_POST["sid"])."',
