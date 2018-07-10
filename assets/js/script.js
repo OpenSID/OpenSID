@@ -14,6 +14,9 @@ $(document).ready(function()
 		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 	});
 
+	$('#confirm-status').on('show.bs.modal', function(e) {
+		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+	});
 	//Delay Alert
 	setTimeout(function()
 	{
@@ -98,7 +101,7 @@ $(document).ready(function()
 		$('#file_browser4').click();
 	});
 
-	//Fortmat Tanggal
+	//Fortmat Tanggal dan Jam
 	$('#tgl_jam').datetimepicker(
 	{
 		format: 'DD-MM-YYYY HH:mm:ss'
@@ -123,6 +126,20 @@ $(document).ready(function()
 	{
 		format: 'DD-MM-YYYY'
 	});
+	$('#jam_1').datetimepicker(
+	{
+		format: 'HH:mm:ss'
+	});
+	$('#jam_2').datetimepicker(
+	{
+		format: 'HH:mm:ss'
+	});
+	$('#jam_3').datetimepicker(
+	{
+		format: 'HH:mm:ss'
+	});
+
+
 	$('[data-rel="popover"]').popover(
 	{
 		html: true,
@@ -189,6 +206,15 @@ function deleteAllBox(idForm, action)
 	});
 	return false;
 }
+function aksiBorongan(idForm, action) {
+	$('#confirm-status').modal('show');
+	$('#ok-status').click(function ()
+	{
+		$('#' + idForm).attr('action', action);
+    $('#' + idForm).submit();
+	});
+	return false;
+}
 
 function modalBox()
 {
@@ -200,18 +226,22 @@ function modalBox()
 	});
 	return false;
 }
+$.expandMap = function()    {
+	if ($(".rightNav").is(':visible')){
+					$(".map-wrap").animate({width:'70%'},'400');
+					$(".rightNav").hide(0);
+					setTimeout(function(){ map.invalidateSize()}, 400);
+			}
+}
 function mapBox()
 {
+
 	$('#mapBox').on('show.bs.modal', function(e){
-		$.getScript('<?php echo base_url()?>assets/css/leaflet.css');
-		$.getScript('<?php echo base_url()?>assets/css/leaflet.pm.css');
-		$.getScript('<?php echo base_url()?>assets/js/leaflet.js');
-		$.getScript('<?php echo base_url()?>assets/js/leaflet.pm.min.js');
-		$.getScript('<?php echo base_url()?>assets/bootstrap/js/jquery.min.js');
-		setTimeout(function(e)
-		{
-		  map.invalidateSize(e);
-		}, 10);
+
+		$.getScript(baseURL + 'assets/js/leaflet.js');
+		$.getScript(baseURL + 'assets/js/turf.min.js');
+		$.getScript(baseURL + 'assets/js/leaflet.pm.min.js');
+		$.getScript(baseURL + 'assets/bootstrap/js/jquery.min.js');
 		var link = $(e.relatedTarget);
 		$('.modal-header #myModalLabel').html(link.attr('data-title'));
 		$(this).find('.fetched-data').load(link.attr('href'));

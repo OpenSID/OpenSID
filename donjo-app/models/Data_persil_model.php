@@ -96,7 +96,7 @@ class Data_persil_model extends CI_Model{
 		$data = false;
 		$strSQL = "SELECT p.`id` as id, p.`nik` as nik, p.`jenis_pemilik` as jenis_pemilik, p.`nama` as nopersil,
 			p.`persil_jenis_id`, p.`id_clusterdesa`, p.`luas`, p.`kelas`,
-			p.`no_sppt_pbb`, p.`persil_peruntukan_id`, u.nama as namapemilik, w.rt, w.rw, w.dusun,alamat_ext
+			p.`no_sppt_pbb`, p.`persil_peruntukan_id`, u.nama as namapemilik, w.rt, w.rw, w.dusun,alamat_luar
 			FROM `data_persil` p
 				LEFT JOIN tweb_penduduk u ON u.nik = p.nik
 				LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_clusterdesa
@@ -120,6 +120,7 @@ class Data_persil_model extends CI_Model{
 				 `nik`='".fixSQL($_POST["nik"])."',
 				 `nama`='".fixSQL($_POST["nama"])."',
 				 `jenis_pemilik`='".fixSQL($_POST["jenis_pemilik"])."',
+				 `alamat_luar`='".fixSQL($_POST["alamat_luar"])."',
 				 `persil_jenis_id`='".fixSQL($_POST["cid"])."',
 				 `id_clusterdesa`='".fixSQL($_POST["pid"])."',
 				 `persil_peruntukan_id`='".fixSQL($_POST["sid"])."',
@@ -135,8 +136,8 @@ class Data_persil_model extends CI_Model{
 					'".fixSQL($_POST["pid"])."','".fixSQL($_POST["sid"])."','".fixSQL($_POST["kelas"])."','".fixSQL($_POST["luas"])."',
 					'".fixSQL($_POST["sppt"])."','".fixSQL($_SESSION['user'])."')";
 				}else{
-					$strSQL = "INSERT INTO data_persil(`nik`,`nama`,`jenis_pemilik`,`alamat_ext`, `persil_jenis_id`, `id_clusterdesa`, `persil_peruntukan_id`,
-					`kelas`,`luas`, `no_sppt_pbb`, `userID`) VALUES('".fixSQL($_POST["nik"])."','".fixSQL($_POST["nama"])."','".fixSQL($_POST["jenis_pemilik"])."','".fixSQL($_POST["alamat_ext"])."','".fixSQL($_POST["cid"])."',
+					$strSQL = "INSERT INTO data_persil(`nik`,`nama`,`jenis_pemilik`,`alamat_luar`, `persil_jenis_id`, `id_clusterdesa`, `persil_peruntukan_id`,
+					`kelas`,`luas`, `no_sppt_pbb`, `userID`) VALUES('".fixSQL($_POST["nik"])."','".fixSQL($_POST["nama"])."','".fixSQL($_POST["jenis_pemilik"])."','".fixSQL($_POST["alamat_luar"])."','".fixSQL($_POST["cid"])."',
 					'".fixSQL($_POST["pid"])."','".fixSQL($_POST["sid"])."','".fixSQL($_POST["kelas"])."','".fixSQL($_POST["luas"])."',
 					'".fixSQL($_POST["sppt"])."','".fixSQL($_SESSION['user'])."')";
 				}

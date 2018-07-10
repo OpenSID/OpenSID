@@ -1,8 +1,8 @@
 <?php
-header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename="."bantuan_".urlencode($peserta[0]["nama"]).".xls");
-header("Pragma: no-cache");
-header("Expires: 0");
+	header("Content-type: application/octet-stream");
+	header("Content-Disposition: attachment; filename="."bantuan_".urlencode($peserta[0]["nama"]).".xls");
+	header("Pragma: no-cache");
+	header("Expires: 0");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -49,23 +49,20 @@ header("Expires: 0");
 						</tr>
 					</thead>
 					<tbody>
-						<?php
-						$i=1;
-						foreach ($peserta[1] as $key=>$item):
-							echo "<tr><td>".$i."</td>
-								<td class='textx'>".$item["nik"]."</td>
-								<td class='textx'>".$item["no_id_kartu"]."</td>
-								<td>".$item["nama"]."</td>
-								<td>".$item["info"]."</td>
-								<td class='textx'>".$item["kartu_nik"]."</td>
-								<td>".$item["kartu_nama"]."</td>
-								<td>".$item["kartu_tempat_lahir"]."</td>
-								<td class='textx'>".tgl_indo_out($item["kartu_tanggal_lahir"])."</td>
-								<td>".$item["kartu_alamat"]."</td>
-							</tr>";
-							$i++;
-						endforeach;
-						?>
+						<?php	$i=1; foreach ($peserta[1] as $key=>$item):?>
+								<tr>
+									<td><?=$i?></td>
+									<td class='textx'><?=$item["nik"]?></td>
+									<td class='textx'><?=$item["no_id_kartu"]?></td>
+									<td><?=$item["nama"]?></td>
+									<td><?=$item["info"]?></td>
+									<td class='textx'>"<?=$item["kartu_nik"]?></td>
+									<td><?=$item["kartu_nama"]?></td>
+									<td><?=$item["kartu_tempat_lahir"]?></td>
+									<td class='textx'><?= tgl_indo_out($item["kartu_tanggal_lahir"])?></td>
+									<td><?=$item["kartu_alamat"]?></td>
+								</tr>
+							<?php $i++; endforeach;?>
 					</tbody>
 				</table>
 			</div>

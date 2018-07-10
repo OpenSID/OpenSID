@@ -92,7 +92,7 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("plan/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<a href=" <?=site_url("plan/ajax_lokasi_maps/$p/$o/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lokasi <?= $data['nama']?>" title="Lokasi <?= $data['nama']?>"><i class="fa fa-map"></i></a>
+																			<a href="<?=site_url("plan/ajax_lokasi_maps/$p/$o/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Lokasi <?= $data['nama']?>" title="Lokasi <?= $data['nama']?>"><i class="fa fa-map"></i></a>
 																			<a href="#" data-href="<?= site_url("plan/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="60%"><?= $data['nama']?></td>
@@ -166,6 +166,17 @@
 												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
 											</a>
 										</div>
+									</div>
+								</div>
+							</div>
+							<div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'></h4>
+										</div>
+										<div class="fetched-data"></div>
 									</div>
 								</div>
 							</div>

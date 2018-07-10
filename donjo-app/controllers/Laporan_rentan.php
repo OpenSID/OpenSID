@@ -49,7 +49,7 @@ function __construct(){
 		$nav['act']= 3;
 		$nav['act_sub'] = 29;
 		$header = $this->header_model->get_data();
-
+		$header['minsidebar'] = 1;
 		$this->load->view('header',$header);
 		$this->load->view('nav',$nav);
 		$this->load->view('laporan/kelompok',$data);

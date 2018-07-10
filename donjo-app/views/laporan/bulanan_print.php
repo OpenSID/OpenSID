@@ -7,6 +7,50 @@
   </head>
   <style type="text/css">
     td.judul {text-align: center; font-size: 14pt;};
+    table.tftable
+    {
+      margin-top: 5px;
+      font-size:12px;
+      color:<?= (isset($warna_font) ? $warna_font : "");?>;
+      width:100%;
+      border-width: 1px;
+      border-style: solid;
+      border-color: <?= (isset($warna_border) ? $warna_border : "");?>;
+      border-collapse: collapse;
+    }
+    table.tftable.lap-bulanan
+    {
+      border-width: 3px;
+    }
+    table.tftable tr.thick
+    {
+      border-width: 3px; border-style: solid;
+    }
+    table.tftable th.thick
+    {
+      border-width: 3px;
+    }
+    table.tftable th.thick-kiri
+    {
+      border-left: 3px solid <?= (isset($warna_border) ? $warna_border : "");?>;
+    }
+    table.tftable td.thick-kanan
+    {
+      border-right: 3px solid <?= (isset($warna_border) ? $warna_border : "");?>;
+    }
+    table.tftable td.angka
+    {
+      text-align: right;
+      }
+    table.tftable th
+    {
+      background-color:<?= (isset($warna_background) ? $warna_background : "");?>;padding: 3px;border: 1px solid <?= (isset($warna_border) ? $warna_border : "");?>;text-align:center;
+    }
+    /*table.tftable tr {background-color:#ffffff;}*/
+    table.tftable td
+    {
+      padding: 8px;border: 1px solid <?= (isset($warna_border) ? $warna_border : "");?>;
+    }
   </style>
 
   <body>
@@ -15,7 +59,7 @@
       <div id="body">
         <table>
           <tbody>
-            <?php foreach($config as $data) : ?>
+            <?php foreach ($config as $data): ?>
               <tr>
                 <td colspan="12" class="judul"><strong>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($data['nama_kabupaten'])?> <?= strtoupper($this->setting->sebutan_kecamatan)?> <?= strtoupper($data['nama_kecamatan'])?></strong></td>
               </tr>

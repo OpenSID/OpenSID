@@ -16,10 +16,10 @@
 						<div class="form-group">
 							<label class="control-label">Warna</label>
 							<div class="input-group my-colorpicker2">
-								<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?php  echo  $line['color']?>">
 								<div class="input-group-addon input-sm">
 									<i></i>
 								</div>
+								<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?php  echo  $line['color']?>">
 							</div>
 						</div>
 					</div>

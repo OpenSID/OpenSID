@@ -1,3 +1,77 @@
+
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<!-- Pengaturan Grafik (Graph) Data Statistik-->
+<script type="text/javascript">
+	var chart;
+	$(document).ready(function()
+	{
+		chart = new Highcharts.Chart(
+		{
+			chart:
+			{
+				renderTo: 'chart',
+				defaultSeriesType: 'column'
+			},
+			title:
+			{
+				text: 'Statistik <?php echo $stat?>'
+			},
+			xAxis:
+			{
+				title:
+				{
+					text: '<?php echo $stat?>'
+				},
+        categories: [
+					<?php  $i=0; foreach ($main as $data): $i++;?>
+					  <?php if ($data['jumlah'] != "-"):?><?= "'$i',";?><?php endif;?>
+					<?php endforeach;?>
+				]
+			},
+			yAxis:
+			{
+				title:
+				{
+					text: 'Jumlah Populasi'
+				}
+			},
+			legend:
+			{
+				layout: 'vertical',
+        enabled:false
+			},
+			plotOptions:
+			{
+				series:
+				{
+          colorByPoint: true
+        },
+      column:
+			{
+				pointPadding: 0,
+				borderWidth: 0
+			}
+		},
+		series: [
+		{
+			shadow:1,
+			border:1,
+			data: [
+				<?php  foreach ($main as $data):?>
+				  <?php if ($data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH"):?>
+					  <?php if ($data['jumlah'] != "-"):?>
+							['<?php echo strtoupper($data['nama'])?>',<?php echo $data['jumlah']?>],
+						<?php endif;?>
+					<?php endif;?>
+				<?php endforeach;?>]
+			}]
+		});
+	});
+</script>
+<!-- Highcharts -->
+<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Statistik Kependudukan (Grafik)</h1>
@@ -15,7 +89,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-body">
-							<div id="graph"> </div>
+							<div id="chart"> </div>
 							<div class="col-sm-12">
 								<?php if ($lap < 50): ?>
 									<h4 class="box-title"><b>Data Kependudukan menurut <?= ($stat);?></b></h4>
@@ -23,7 +97,7 @@
 									<h4 class="box-title"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
 								<?php endif; ?>
 								<div class="table-responsive">
-									<table id="tabel2" class="table table-bordered dataTable table-hover nowrap">
+									<table class="table table-bordered dataTable table-hover nowrap">
 										<thead>
 											<tr>
 												<th width='5%'>No</th>

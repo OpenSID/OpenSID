@@ -34,13 +34,13 @@
 														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
 														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
 													</select>
-													<select class="form-control input-sm" name="line" onchange="formAction('mainform', '<?=site_url('area/polygon')?>')">
+													<select class="form-control input-sm" name="polygon" onchange="formAction('mainform', '<?=site_url('area/polygon')?>')">
 														<option value="">Kategori</option>
-														<?php foreach ($$list_polygon AS $data):?>
+														<?php foreach ($list_polygon AS $data):?>
 															<option value="<?= $data['id']?>" <?php if ($polygon == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
 														<?php endforeach;?>
 													</select>
-													<select class="form-control input-sm" name="subline" onchange="formAction('mainform', '<?=site_url('area/subpolygon')?>')">
+													<select class="form-control input-sm" name="subpolygon" onchange="formAction('mainform', '<?=site_url('area/subpolygon')?>')">
 														<option value="">Jenis</option>
 														<?php foreach ($list_subpolygon AS $data):?>
 															<option value="<?= $data['id']?>" <?php if ($subpolygon == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>

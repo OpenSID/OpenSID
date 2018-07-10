@@ -247,15 +247,12 @@
 
 	})();
 </script>
-
-
 <style>
 	#map
 	{
 		width:100%;
-		height:620px;
+		height:100vh
 	}
-
 	.form-group a
 	{
 		color: #FEFFFF;
@@ -275,8 +272,9 @@
 	}
 	.foto_pend
 	{
-	width:70px;height:70px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;
+		width:70px;height:70px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;
 	}
+
 </style>
 <div class="content-wrapper">
 	<form id="mainform" name="mainform" action="" method="post">
@@ -285,13 +283,13 @@
 				<div id="map">
 					<div class="leaflet-top leaflet-right">
 						<div class="leaflet-control-layers leaflet-bar leaflet-control">
-							<a class="leaflet-control-control icos" href="#" title="Control Panel" role="button" aria-label="Control Panel" onclick="$('#target1').toggle();"><i class="fa fa-gears"></i></a>
-							<a class="leaflet-control-control icos" href="#" title="Legenda" role="button" aria-label="Legenda" onclick="$('#target2').toggle();"><i class="fa fa-list"></i></a>
+							<a class="leaflet-control-control icos" href="#" title="Control Panel" role="button" aria-label="Control Panel" onclick="$('#target1').toggle();$('#target1').removeClass('hidden');$('#target2').hide();"><i class="fa fa-gears"></i></a>
+							<a class="leaflet-control-control icos" href="#" title="Legenda" role="button" aria-label="Legenda" onclick="$('#target2').toggle();$('#target2').removeClass('hidden');$('#target1').hide();"><i class="fa fa-list"></i></a>
 						</div>
-						<div id="target1" class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control " aria-haspopup="true">
+						<div id="target1" class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control hidden" aria-haspopup="true" style="max-width: 250px;">
 							<div class="leaflet-control-layers-overlays">
 								<div class="leaflet-control-layers-group" id="leaflet-control-layers-group-2">
-									<span class="leaflet-control-layers-group-name">CONTROL PANEL</span>
+									<span class="leaflet-control-layers-group-name">CARI PENDUDUK</span>
 									<div class="leaflet-control-layers-separator"></div>
 									<div class="form-group">
 										<label>Status Penduduk</label>
@@ -365,9 +363,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="leaflet-bottom leaflet-left">
-						<div id="target2" class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control" aria-haspopup="true" style="max-height: 315px;">
+						<div id="target2" class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control hidden" aria-haspopup="true" style="max-height: 315px;">
 							<div class="leaflet-control-layers-overlays">
 								<div class="leaflet-control-layers-group" id="leaflet-control-layers-group-3">
 									<span class="leaflet-control-layers-group-name">LEGENDA</span>
@@ -393,7 +389,7 @@
 										<span> Area</span>
 									</label>
 									<label>
-										<input type="checkbox" name="layer_lokasie" value="1"onchange="handle_line(this);" <?php if ($layer_lokasi==1):?>checked<?php endif;?>>
+										<input type="checkbox" name="layer_lokasi" value="1"onchange="handle_lokasi(this);" <?php if ($layer_lokasi==1):?>checked<?php endif;?>>
 										<span> Lokasi/Properti Desa </span>
 									</label>
 								</div>

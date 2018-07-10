@@ -12,7 +12,7 @@
 				<form id="mainform" name="mainform" action="<?= site_url('laporan/bulan')?>" method="post" class="form-horizontal">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("laporan_rentan/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Print</a>
+							<a href="<?= site_url("laporan_rentan/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
 							<a href="<?= site_url("laporan_rentan/excel/$lap")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						</div>
 						<div class="box-header  with-border">
@@ -54,36 +54,36 @@
 										<h4>DATA PILAH <?= strtoupper($this->setting->sebutan_dusun)?> <?= $dusun ?></h4>
 									<?php endif; ?>
 									<div class="table-responsive">
-										<table class="table table-bordered table-hover ">
+										<table class="table table-bordered table-striped table-hover">
 											<thead class="bg-gray disabled color-palette">
 												<tr>
-													<th rowspan="2" ><?= ucwords($this->setting->sebutan_dusun)?></th>
-													<th rowspan="2">RW</th>
-													<th rowspan="2">RT</th>
-													<th colspan="2">KK</th>
+													<th rowspan="2" class="text-center"><?= ucwords($this->setting->sebutan_dusun)?></th>
+													<th rowspan="2" class="text-center">RW</th>
+													<th rowspan="2" class="text-center">RT</th>
+													<th colspan="2" class="text-center">KK</th>
 													<th colspan="6" class="text-center">Kondisi dan Kelompok Umur</th>
 													<th colspan="7" class="text-center">Cacat</th>
-													<th colspan="2">Sakit Menahun</th>
-													<th rowspan="2">Hamil</th>
+													<th colspan="2" class="text-center">Sakit Menahun</th>
+													<th rowspan="2" class="text-center">Hamil</th>
 												</tr>
 												<tr>
-													<th>L</th>
-													<th>P</th>
-													<th>> 1  TH</th>
-													<th>1-5 TH</th>
-													<th>6-12 TH</th>
-													<th>13-15 TH</th>
-													<th>16-18 TH</th>
-													<th>> 60 TH</th>
-													<th>Cacat Fisik</th>
-													<th>Cacat Netra/ Buta</th>
-													<th>Cacat Rungu/ Wicara</th>
-													<th>Cacat Mental/ Jiwa</th>
-													<th>Cacat Fisik dan Mental</th>
-													<th>Cacat Lainnya</th>
-													<th>Tidak Cacat</th>
-													<th>L</th>
-													<th>P</th>
+													<th class="text-center">L</th>
+													<th class="text-center">P</th>
+													<th class="text-center">Dibawah 1 Tahun</th>
+													<th class="text-center">1-5 Tahun</th>
+													<th class="text-center">6-12 Tahun</th>
+													<th class="text-center">13-15 Tahun</th>
+													<th class="text-center">16-18 Tahun</th>
+													<th class="text-center">Diatas 60 Tahun</th>
+													<th class="text-center">Cacat Fisik</th>
+													<th class="text-center">Cacat Netra/ Buta</th>
+													<th class="text-center">Cacat Rungu/ Wicara</th>
+													<th class="text-center">Cacat Mental/ Jiwa</th>
+													<th class="text-center">Cacat Fisik dan Mental</th>
+													<th class="text-center">Cacat Lainnya</th>
+													<th class="text-center">Tidak Cacat</th>
+													<th class="text-center">L</th>
+													<th class="text-center">P</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -103,24 +103,24 @@
 												?>
 												<?php foreach ($main as $data): $id_cluster=$data['id_cluster'];?>
 												<tr>
-													<td><?= $data['dusunnya']?></td>
-													<td><?= $data['rw']?></td>
-													<td><?= $data['rt']?></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/1")?>"><?= $data['L']?></a></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/2")?>"><?= $data['P']?></a></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/3")?>"><?= $data['bayi']?></a></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/4")?>"><?= $data['balita']?></a></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/5")?>"><?= $data['sd']?></a></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/6")?>"><?= $data['smp']?></a></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/7")?>"><?= $data['sma']?></a></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/8")?>"><?= $data['lansia']?></a></td>
-													<?php foreach ($jenis_cacat as $key => $cacat) : ?>
+													<td class="text-right"><?= $data['dusunnya']?></td>
+													<td class="text-right"><?= $data['rw']?></td>
+													<td class="text-right"><?= $data['rt']?></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/1")?>"><?= $data['L']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/2")?>"><?= $data['P']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/3")?>"><?= $data['bayi']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/4")?>"><?= $data['balita']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/5")?>"><?= $data['sd']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/6")?>"><?= $data['smp']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/7")?>"><?= $data['sma']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/8")?>"><?= $data['lansia']?></a></td>
+													<?php foreach ($jenis_cacat as $key => $cacat): ?>
 														<?php $kode_cacat = $key + 1;?>
-														<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/9$kode_cacat")?>"><?= $data[$cacat]?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/9$kode_cacat")?>"><?= $data[$cacat]?></a></td>
 													<?php endforeach; ?>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/10")?>"><?= $data['sakit_L']?></a></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/11")?>"><?= $data['sakit_P']?></a></td>
-													<td><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/12")?>"><?= $data['hamil']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/10")?>"><?= $data['sakit_L']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/11")?>"><?= $data['sakit_P']?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/12")?>"><?= $data['hamil']?></a></td>
 													<?php
 														$bayi=$bayi+$data['bayi'];
 														$balita=$balita+$data['balita'];
@@ -132,23 +132,28 @@
 														$sakit_L=$sakit_L+$data['sakit_L'];
 														$sakit_P=$sakit_P+$data['sakit_P'];
 														$hamil=$hamil+$data['hamil'];
+														foreach ($jenis_cacat as $key => $val):
+															$total_cacat[$key] += $data[$val];
+														endforeach;
 													?>
 												</tr>
 												  <?php endforeach;?>
 											</tbody>
-											<tfoot>
+											<tfoot class="bg-gray disabled color-palette">
 												<tr>
-													<th colspan="5">Total</th>
-													<th><?= $bayi;?></th>
-													<th><?= $balita;?></th>
-													<th><?= $sd;?></th>
-													<th><?= $smp;?></th>
-													<th><?= $sma;?></th>
-													<th><?= $lansia;?></th>
-													<th><?= $cacat;?></th>
-													<th><?= $sakit_L;?></th>
-													<th><?= $sakit_P;?></th>
-													<th><?= $hamil;?></th>
+													<th colspan="5" class="text-right">Total</th>
+													<th class="text-right"><?= $bayi;?></th>
+													<th class="text-right"><?= $balita;?></th>
+													<th class="text-right"><?= $sd;?></th>
+													<th class="text-right"><?= $smp;?></th>
+													<th class="text-right"><?= $sma;?></th>
+													<th class="text-right"><?= $lansia;?></th>
+													<?php foreach ($total_cacat as $cacat):?>
+														<th class="total text-right"><?= $cacat;?></th>
+													<?php endforeach; ?>
+													<th class="text-right"><?= $sakit_L;?></th>
+													<th class="text-right"><?= $sakit_P;?></th>
+													<th class="text-right"><?= $hamil;?></th>
 												</tr>
 											</tfoot>
 										</table>
