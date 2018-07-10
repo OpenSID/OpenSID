@@ -36,7 +36,7 @@
 										<div class="form-group">
 											<label for="alamat"  class="col-sm-3 control-label">Alamat Pemilik</label>
 											<div class="col-sm-8">
-												<textarea name="alamat_luar" id="alamat_luar" class="form-control input-sm" placeholder="Alamat Pemilik"><?= $persil_detail["alamat_luar"] ?></textarea>
+	                        <textarea name="alamat_luar" id="alamat_luar" class="form-control input-sm" placeholder="Alamat Pemilik"><?= $persil_detail["alamat_luar"] ?></textarea>
 											</div>
 										</div>
 										<div class="form-group">
