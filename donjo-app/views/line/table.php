@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Kategori Garis</h1>
+		<h1>Pengaturan Tipe Garis</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Pengaturan Kategori Garis</li>
+			<li class="active">Pengaturan Tipe Garis</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">

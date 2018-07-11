@@ -49,7 +49,7 @@
 								<?php endif; ?>
 								<div class="table-responsive">
 									<table class="table table-bordered dataTable table-striped table-hover nowrap">
-										<thead class="bg-gray disabled color-palette">
+										<thead class="bg-gray color-palette">
 											<tr>
 												<th width='5%'>No</th>
 												<?php if ($o==2): ?>

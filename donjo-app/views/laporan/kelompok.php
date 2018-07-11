@@ -1,3 +1,4 @@
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Laporan Kelompok Rentan</h1>
@@ -54,8 +55,8 @@
 										<h4>DATA PILAH <?= strtoupper($this->setting->sebutan_dusun)?> <?= $dusun ?></h4>
 									<?php endif; ?>
 									<div class="table-responsive">
-										<table class="table table-bordered table-striped table-hover">
-											<thead class="bg-gray disabled color-palette">
+										<table class="table table-bordered table-striped table-hover nowrap">
+											<thead class="bg-gray">
 												<tr>
 													<th rowspan="2" class="text-center"><?= ucwords($this->setting->sebutan_dusun)?></th>
 													<th rowspan="2" class="text-center">RW</th>
@@ -64,7 +65,7 @@
 													<th colspan="6" class="text-center">Kondisi dan Kelompok Umur</th>
 													<th colspan="7" class="text-center">Cacat</th>
 													<th colspan="2" class="text-center">Sakit Menahun</th>
-													<th rowspan="2" class="text-center">Hamil</th>
+													<th rowspan="2" class="text-center" >Hamil</th>
 												</tr>
 												<tr>
 													<th class="text-center">L</th>
