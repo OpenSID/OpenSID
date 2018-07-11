@@ -1,22 +1,4 @@
 <script>
-	$(document).ready(function()
-	{
-    $('#simpan_kantor').click(function()
-		{
-      var lat = $('#lat').val();
-      var lng = $('#lng').val();
-      var zoom = $('#zoom').val();
-      var map_tipe = $('#map_tipe').val();
-      $.ajax({
-      	type: "POST",
-        url: "<?=$form_action?>",
-        dataType: 'json',
-      	data: {lat: lat, lng: lng, zoom: zoom, map_tipe: map_tipe},
-      });
-      $(this).closest("#modalBox").modal("hide");
-    });
-	});
-
 	(function() {
     //Jika posisi wilayah desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
     <?php if(!empty($desa['lat']) && !empty($desa['lng'])): ?>

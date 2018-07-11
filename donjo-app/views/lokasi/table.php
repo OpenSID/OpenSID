@@ -1,3 +1,6 @@
+<script type="text/javascript">
+	var baseURL = "<?= base_url(); ?>";
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Lokasi</h1>

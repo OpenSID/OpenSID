@@ -1,3 +1,6 @@
+<script type="text/javascript">
+	var baseURL = "<?= base_url(); ?>";
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Area</h1>
@@ -92,7 +95,7 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("area/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<a href="<?=site_url("area/ajax_area_maps/$p/$o/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Area <?= $data['nama']?>" title="Area <?= $data['nama']?>"><i class="fa fa-map"></i></a>
+																			<a href="<?=site_url("area/ajax_area_maps/$p/$o/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Area <?= $data['nama']?>" title="Area <?= $data['nama']?>"><i class="fa fa-map"></i></a>
 																			<?php if ($data['enabled'] == '2'):?>
 																				<a href="<?= site_url('area/area_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Area"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
@@ -171,6 +174,17 @@
 												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
 											</a>
 										</div>
+									</div>
+								</div>
+							</div>
+							<div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'></h4>
+										</div>
+										<div class="fetched-data"></div>
 									</div>
 								</div>
 							</div>

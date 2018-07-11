@@ -5,7 +5,8 @@
 		this.map=map;this.pen=new Pen(this.map);
 		var thisOjb=this;
 		var jalur = "";
-		this.event=google.maps.event.addListener(thisOjb.map,'click',function(event){
+		this.event=google.maps.event.addListener(thisOjb.map,'click',function(event)
+		{
 			thisOjb.pen.draw(event.latLng);jalur+=event.latLng;jalur+=";";
 		});
 
@@ -90,7 +91,8 @@
 			});
 		});
 
-		google.maps.event.addListener(polyline, 'mouseout', function(e) {
+		google.maps.event.addListener(polyline, 'mouseout', function(e)
+		{
 		  polyline.setOptions(
 			{
 				fillColor: '#11ff00',

@@ -21,14 +21,14 @@ class Hom_desa extends CI_Controller{
 	}
 
 	function index(){
-		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)		
+		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
 		$data['penduduk'] = $this->header_model->penduduk_total();
 		$data['keluarga'] = $this->header_model->keluarga_total();
 		$data['miskin'] = $this->header_model->miskin_total();
 		$data['kelompok'] = $this->header_model->kelompok_total();
 		$data['rtm'] = $this->header_model->rtm_total();
 		$data['dusun'] = $this->header_model->dusun_total();
-		// Menampilkan menu dan sub menu aktif		
+		// Menampilkan menu dan sub menu aktif
 		$nav['act']= 1;
 		$nav['act_sub'] = 16;
 		$header = $this->header_model->get_data();
@@ -40,7 +40,7 @@ class Hom_desa extends CI_Controller{
 	}
 
 	function donasi(){
-		// Menampilkan menu dan sub menu aktif		
+		// Menampilkan menu dan sub menu aktif
 		$nav['act']= 1;
 		$nav['act_sub'] = 19;
 		$header = $this->header_model->get_data();
@@ -53,7 +53,7 @@ class Hom_desa extends CI_Controller{
 
 	function konfigurasi(){
 		$this->load->model('provinsi_model');
-		// Menampilkan menu dan sub menu aktif		
+		// Menampilkan menu dan sub menu aktif
 		$nav['act']= 1;
 		$nav['act_sub'] = 17;
 		$header = $this->header_model->get_data();
@@ -98,6 +98,7 @@ class Hom_desa extends CI_Controller{
 
 	function update_wilayah_maps(){
 		$this->config_model->update_wilayah();
+			redirect("hom_desa/konfigurasi");
 	}
 
 }

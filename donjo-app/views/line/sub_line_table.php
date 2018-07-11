@@ -3,7 +3,7 @@
 		<h1>Pengaturan Sub Tipe Garis</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('line')?>"> Daftar Kategori Garis</a></li>
+			<li><a href="<?=site_url('line')?>"> Daftar Tipe Garis</a></li>
 			<li class="active">Pengaturan Sub Tipe Garis</li>
 		</ol>
 	</section>

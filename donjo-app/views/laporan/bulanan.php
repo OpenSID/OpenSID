@@ -38,7 +38,7 @@
                    <div class="form-group">
                     <label class="col-sm-2 control-label" for="tahun">Tahun</label>
                     <div class="col-sm-2">
-                      <input name="tahun" placeholder="Tahun" type="text" class="form-control input-sm" value="<?= $tahun ?>"  onchange="formAction('mainform','<?= site_url('laporan/tahun')?>')" /></input>
+                      <input name="tahun" placeholder="Tahun" type="text" class="form-control input-sm required" value="<?= $tahun ?>"  onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("laporan/bulan")?>');$('#'+'mainform').submit();}" /></input>
                     </div>
 										<label class="col-sm-2 col-md-1 control-label" for="tahun">Bulan</label>
                     <div class="col-sm-3 col-md-2">

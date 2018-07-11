@@ -1,5 +1,7 @@
 $(document).ready(function() {
-	$("#validasi").validate({		
+	$("#paging").validate();
+
+	$("#validasi").validate({
 		errorElement: "label",
 		errorClass: "error",
 		highlight:function (element){
@@ -16,12 +18,11 @@ $(document).ready(function() {
 			} else {
 				error.insertAfter(element);
 			}
-		}	
-		
+		}
+
 	});
 
-	
-	$("#mainform").validate({		
+	$("#mainform").validate({
 		errorElement: "label",
 		errorClass: "error",
 		highlight:function (element){
@@ -38,10 +39,10 @@ $(document).ready(function() {
 			} else {
 				error.insertAfter(element);
 			}
-		}			
+		}
 	});
-	
-	$("#maincontent").validate({	
+
+	$("#maincontent").validate({
 		errorElement: "label",
 		errorClass: "error",
 		highlight:function (element){
@@ -58,7 +59,7 @@ $(document).ready(function() {
 			} else {
 				error.insertAfter(element);
 			}
-		}	
+		}
 	});
-	
+
 })
