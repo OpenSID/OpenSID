@@ -76,11 +76,11 @@
                             <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/3")?>">Laki-Laki <i class='fa fa-sort fa-sm'></i></a></th>
                           <?php endif; ?>
 													<?php if ($o==8): ?>
-                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/7")?>">Laki-Laki <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/7")?>">Perempuan <i class='fa fa-sort-asc fa-sm'></i></a></th>
                           <?php elseif ($o==7): ?>
-                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/8")?>">Laki-Laki <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/8")?>">Perempuan <i class='fa fa-sort-desc fa-sm'></i></a></th>
                           <?php else: ?>
-                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/7")?>">Laki-Laki <i class='fa fa-sort fa-sm'></i></a></th>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/7")?>">Perempuan <i class='fa fa-sort fa-sm'></i></a></th>
                           <?php endif; ?>
 												<?php endif;?>
 											</tr>
