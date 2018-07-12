@@ -55,4 +55,35 @@ class Laporan_inventaris extends CI_Controller
 		$this->load->view('inventaris/laporan/inventaris_excel',$data);
 	}
 
+	function mutasi()
+	{
+		$data['pamong'] = $this->surat_model->list_pamong();
+		$header = $this->header_model->get_data();
+
+		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
+
+		$this->load->view('header', $header);
+		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('inventaris/laporan/table_mutasi',$data);
+		$this->load->view('footer');
+	}
+
+	function cetak_mutasi($tahun, $penandatangan)
+	{
+		$data['header'] = $this->header_model->get_config();
+		$data['tahun'] = $tahun;
+		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
+		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
+		$this->load->view('inventaris/laporan/inventaris_print_mutasi',$data);
+	}
+
+	function download_mutasi($tahun, $penandatangan)
+	{
+		$data['header'] = $this->header_model->get_config();
+		$data['tahun'] = $tahun;
+		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
+		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
+		$this->load->view('inventaris/laporan/inventaris_excel_mutasi',$data);
+	}
+
 }
