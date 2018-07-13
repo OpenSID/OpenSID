@@ -181,9 +181,11 @@ class Suplemen extends CI_Controller{
 			/*
 			 * Print xls untuk data x
 			 * */
+			$_SESSION['per_page'] = 0; // Unduh semua data
 			$data = $this->suplemen_model->get_rincian(1, $id);
 			$data['sasaran'] = unserialize(SASARAN);
 			$data['desa'] = $this->header_model->get_data();
+			$_SESSION['per_page'] = 50; // Kembalikan ke paginasi default
 
 			$this->load->view('suplemen/unduh-sheet',$data);
 
