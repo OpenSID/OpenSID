@@ -213,7 +213,14 @@ input[type="checkbox"], input[type="radio"]
 {
 	margin: 2px 0 0;
 }
+/* Modifikasi Header DataTables--- */
 .table-bordered > thead > tr > th, .table-bordered > thead > tr > td
 {
   vertical-align: middle;
+}
+table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable td:last-child {
+	border-right-width: 1px;
+}
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+	border-bottom-width: 0px;
 }

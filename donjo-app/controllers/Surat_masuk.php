@@ -51,9 +51,10 @@ class Surat_masuk extends CI_Controller{
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 15;
+		$nav['act_sub'] = 57;
 		$this->load->view('header', $header);
-		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat_masuk/table',$data);
 		$this->load->view('footer');
 	}
@@ -82,10 +83,11 @@ class Surat_masuk extends CI_Controller{
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
-
+		$nav['act']= 15;
+		$nav['act_sub'] = 57;
 		$this->load->view('header', $header);
 		$nav['act']=$this->tab_ini;
-		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat_masuk/form',$data);
 		$this->load->view('footer');
 	}

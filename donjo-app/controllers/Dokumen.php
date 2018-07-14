@@ -75,7 +75,7 @@ class Dokumen extends CI_Controller{
 			$data['dokumen']     = null;
 			$data['form_action'] = site_url("dokumen/insert");
 		}
-
+		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$header = $this->header_model->get_data();
 
 		$nav['act']= 13;

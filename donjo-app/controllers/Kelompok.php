@@ -45,12 +45,12 @@ class Kelompok extends CI_Controller{
 		$data['main']    = $this->kelompok_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->kelompok_model->autocomplete();
 		$data['list_master'] = $this->kelompok_model->list_master();
+		$nav['act']= 2;
+		$nav['act_sub'] = 24;
 		$header = $this->header_model->get_data();
-
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$nav['act']= 4;
-
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('kelompok/table',$data);
 		$this->load->view('footer');
 	}
@@ -58,12 +58,13 @@ class Kelompok extends CI_Controller{
 		$data['kel']        = $id;
 		$data['kelompok']        = $this->kelompok_model->get_kelompok($id);
 		$data['main']    = $this->kelompok_model->list_anggota($id);
+		$nav['act']= 2;
+		$nav['act_sub'] = 24;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
-		$nav['act']= 4;
-
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('kelompok/anggota/table',$data);
 		$this->load->view('footer');
 	}
@@ -83,12 +84,14 @@ class Kelompok extends CI_Controller{
 
 		$data['list_master'] = $this->kelompok_model->list_master();
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
+		$nav['act']= 2;
+		$nav['act_sub'] = 24;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
-		$nav['act']= 4;
 
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('kelompok/form',$data);
 		$this->load->view('footer');
 	}
@@ -105,12 +108,13 @@ class Kelompok extends CI_Controller{
 		//echo $id.$id_a;
 		}
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
+		$nav['act']= 2;
+		$nav['act_sub'] = 24;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
-		$nav['act']= 4;
-
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('kelompok/anggota/form',$data);
 		$this->load->view('footer');
 	}

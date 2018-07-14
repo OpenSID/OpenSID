@@ -30,7 +30,7 @@ class Analisis_master extends CI_Controller{
 	    unset($_SESSION['analisis_nama']);
 		$data['p']        = $p;
 		$data['o']        = $o;
-		$nav['act']= 1;
+
 
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
@@ -52,16 +52,17 @@ class Analisis_master extends CI_Controller{
 		$data['keyword'] = $this->analisis_master_model->autocomplete();
 		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 5;
+		$header['minsidebar'] =1;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('analisis_master/table',$data);
 		$this->load->view('footer');
 	}
 	function form($p=1,$o=0,$id=''){
 		$data['p'] = $p;
 		$data['o'] = $o;
-		$nav['act']= 1;
+
 
 		if($id){
 			$data['analisis_master']        = $this->analisis_master_model->get_analisis_master($id);
@@ -77,25 +78,27 @@ class Analisis_master extends CI_Controller{
 		$data['list_kelompok'] = $this->analisis_master_model->list_kelompok();
 		$data['list_analisis'] = $this->analisis_master_model->list_analisis_child();
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 5;
+		$header['minsidebar'] =1;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('analisis_master/form',$data);
 		$this->load->view('footer');
 	}
 	function panduan(){
-		$nav['act']= 1;
+		$header['minsidebar'] =1;
+		$nav['act']= 5;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('analisis_master/panduan');
 		$this->load->view('footer');
 	}
 	function import_analisis(){
 		$header = $this->header_model->get_data();
-
-		$nav['act']= 1;
+		$header['minsidebar'] =1;
+		$nav['act']= 5;
 		$data['form_action'] = site_url("analisis_master/import");
 		$this->load->view('analisis_master/import', $data);
 	}
@@ -124,10 +127,10 @@ class Analisis_master extends CI_Controller{
 			$this->analisis_respon_model->pre_update();
 		//}
 		//----
-
-		$nav['act']= 1;
+		$header['minsidebar'] =1;
+		$nav['act']= 5;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('analisis_master/menu',$data);
 		$this->load->view('footer');
 	}

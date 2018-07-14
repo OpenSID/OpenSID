@@ -1,78 +1,109 @@
-<?php
-/*
- * Menampilkan daftar data suplemen yang dapat digunakan untuk menjelaskan status
- * sasaran penduduk, keluarga, rumah tangga atau kelompok warga
- */
-
-?>
-<div id="pageC">
-<table class="inner">
-	<tr style="vertical-align:top">
-		<td class="side-menu">
-		<?php
-		$this->load->view('suplemen/menu_kiri.php')
-		?>
-		</td>
-		<td class="contentpane">
-			<div id="contentpane">
-				<div class="ui-layout-center" id="maincontent">
-					<?php
-					if($tampil == 0){
-						echo "<legend>Daftar Data Suplemen</legend>";
-					}else{
-						echo "<legend>Daftar Data Suplemen dengan Sasaran ".$sasaran[$tampil]."</legend>";
-					}
-
-					if($_SESSION["success"]==1){
-						echo "
-						<div>
-						".$_SESSION["pesan"]."
-						</div>";
-						$_SESSION["success"]==0;
-					}
-
-					?>
-
-					<div class="table-panel top">
-						<table class="list">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>Aksi</th>
-									<th>Nama Data</th>
-									<th>Sasaran</th>
-								</tr>
-							</thead>
-							<tbody>
-							<?php
-							$nomer = 0;
-							foreach ($suplemen as $item):
-								$nomer++;
-							?>
-								<tr>
-									<td class="angka" style="width:40px;"><?php echo $nomer; ?></td>
-									<td style="width:120px;" align="center">
-										<div class="uibutton-group">
-											<a class="uibutton tipsy south fa-tipis" href="<?php echo site_url('suplemen/rincian/1/'.$item["id"].'/'); ?>" title="Rincian"><span class="fa fa-list"></span> Rincian</a>
-											<a class="uibutton tipsy south" href="<?php echo site_url('suplemen/edit/'.$item["id"].'/'); ?>" title="Ubah"><span class="fa fa-pencil"></span></a>
-											<a class="uibutton tipsy south" href="<?php echo site_url('suplemen/hapus/'.$item["id"].'/'); ?>" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+<div class="content-wrapper">
+	<section class="content-header">
+		<?php if($tampil == 0):?>
+			<h1>Data Suplemen</h1>
+		<?php else:?>
+			<h1>Data Suplemen dengan Sasaran <?=$sasaran[$tampil]?></h1>
+		<?php endif;?>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Data Suplemen</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-3">
+					<?php $this->load->view('suplemen/menu_kiri.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<form id="mainform" name="mainform" action="" method="post">
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered dataTable table-hover nowrap">
+															<thead class="bg-gray disabled color-palette">
+																<tr>
+																	<th>#</th>
+																	<th>Aksi</th>
+																	<th>Nama Data</th>
+																	<th>Sasaran</th>
+																</tr>
+															</thead>
+																<tbody>
+																	<?php
+																		$nomer = 0;
+																		foreach ($suplemen as $item):
+																		$nomer++;
+																	?>
+																	<tr>
+																		<td><?= $nomer; ?></td>
+																		<td nowrap>
+																			<a href="<?= site_url('suplemen/rincian/1/'.$item["id"].'/'); ?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Data"><i class="fa fa-list-ol"></i></a>
+																			<a href="<?= site_url('suplemen/edit/'.$item["id"].'/'); ?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class='fa fa-edit'></i></a>
+																			<a href="#" data-href="<?= site_url('suplemen/hapus/'.$item["id"].'/'); ?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		</td>
+																		<td width="70%"><a href="<?= site_url('suplemen/rincian/1/'.$item["id"].'/')?>"><?= $item["nama"] ?></a></td>
+																		<td><a href="<?= site_url('suplemen/sasaran/'.$item["sasaran"])?>"><?= $sasaran[$item["sasaran"]]?></a></td>
+																	</tr>
+																	<?php endforeach; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
 										</div>
-									</td>
-									<td><a href="<?php echo site_url('suplemen/rincian/1/'.$item["id"].'/')?>"><?php echo $item["nama"] ?></a></td>
-									<td><a href="<?php echo site_url('suplemen/sasaran/'.$item["sasaran"])?>"><?php echo $sasaran[$item["sasaran"]]?></a></td>
-								</tr>
-							<?php endforeach ?>
-							</tbody>
-						</table>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin mengembalikan status data penduduk ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-status"><i class='fa fa-check'></i> Ya</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</td>
-		<td style="width:250px;" class="contentpane">
-		<?php
-		$this->load->view('suplemen/panduan.php');
-		?>
-		</td>
-	</tr>
-</table>
+		</form>
+	</section>
 </div>
+

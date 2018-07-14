@@ -154,9 +154,11 @@ class Penduduk extends CI_Controller{
 		$header = $this->header_model->get_data();
 
 		$nav['act']= 2;
+		$nav['act_sub'] = 21;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk',$data);
 		$this->load->view('footer');
 		//unset($_SESSION['judul_statistik']);
@@ -244,9 +246,11 @@ class Penduduk extends CI_Controller{
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 
 		$nav['act']= 2;
+		$nav['act_sub'] = 21;
+		$header['minsidebar'] = 1;
 		unset($_SESSION['dari_internal']);
 		$this->load->view('header', $header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_form',$data);
 		$this->load->view('footer');
 	}
@@ -258,10 +262,11 @@ class Penduduk extends CI_Controller{
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
-
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$nav['act']= 2;
-		$this->load->view('sid/nav',$nav);
+		$nav['act_sub'] = 21;
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_detail',$data);
 		$this->load->view('footer');
 	}
@@ -274,7 +279,8 @@ class Penduduk extends CI_Controller{
 
 		$this->load->view('header', $header);
 		$nav['act']= 2;
-		$this->load->view('sid/nav',$nav);
+		$nav['act_sub'] = 21;
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_dokumen',$data);
 		$this->load->view('footer');
 	}
