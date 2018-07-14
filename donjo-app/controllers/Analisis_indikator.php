@@ -59,9 +59,10 @@ class Analisis_indikator extends CI_Controller{
 		$data['list_tipe'] = $this->analisis_indikator_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
 		$header = $this->header_model->get_data();
-
+		$header['minsidebar'] =1;
+		$nav['act']= 5;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav');
+		$this->load->view('nav');
 		$this->load->view('analisis_indikator/table',$data);
 		$this->load->view('footer');
 	}
@@ -82,9 +83,10 @@ class Analisis_indikator extends CI_Controller{
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
 		$header = $this->header_model->get_data();
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
-
+		$header['minsidebar'] =1;
+		$nav['act']= 5;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav');
+		$this->load->view('nav');
 		$this->load->view('analisis_indikator/form',$data);
 		$this->load->view('footer');
 	}
@@ -98,9 +100,10 @@ class Analisis_indikator extends CI_Controller{
 		$data['main']        = $this->analisis_indikator_model->list_indikator($id);
 
 		$header = $this->header_model->get_data();
-
+		$header['minsidebar'] =1;
+		$nav['act']= 5;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav');
+		$this->load->view('nav');
 		$this->load->view('analisis_indikator/parameter/table',$data);
 		$this->load->view('footer');
 	}
@@ -119,17 +122,18 @@ class Analisis_indikator extends CI_Controller{
 		$data['analisis_indikator']        = $this->analisis_indikator_model->get_analisis_indikator($in);
 
 	//	$this->load->view('header', $header);
-	//	$this->load->view('analisis_master/nav');
+	//	$this->load->view('nav');
 		$this->load->view('analisis_indikator/parameter/ajax_form',$data);
 	//	$this->load->view('footer');
 	}
 	function menu($id=''){
 		$data['analisis_indikator']        = $this->analisis_indikator_model->get_analisis_indikator($id);
-
+		$nav['act']= 5;
+		$header['minsidebar'] =1;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav');
+		$this->load->view('nav');
 		$this->load->view('analisis_indikator/menu',$data);
 		$this->load->view('footer');
 	}

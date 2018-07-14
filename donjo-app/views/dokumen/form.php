@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Dokumen</h1>
+		<h1>Pengaturan Dokumen: <?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url("dokumen/index/$kat")?>"><i class="fa fa-dashboard"></i> Daftar Dokumen</a></li>
+			<li><a href="<?=site_url().$this->controller.'/index/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar Dokumen</a></li>
 			<li class="active">Pengaturan Dokumen</li>
 		</ol>
 	</section>
@@ -13,7 +13,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("dokumen/index/$kat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?=site_url().$this->controller.'/index/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Dokumen
             	</a>
 						</div>
@@ -26,10 +26,10 @@
 							</div>
 							<?php if ($dokumen['satuan']):?>
 								<div class="form-group">
-									<label class="control-label col-sm-4" for="nama">Dokumen</label>
-									<div class="col-sm-6">
+									<label class="col-sm-4 control-label">Dokumen</label>
+									<div class="col-sm-8">
 										<input type="hidden" name="old_file" value="<?= $dokumen['satuan']?>">
-									  <img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_DOKUMEN.$dokumen['satuan'] ?>" alt="<?= $dokumen['satuan']?>">
+										<img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_DOKUMEN.$dokumen['satuan']?>" alt="<?= $dokumen['satuan']?>">
 									</div>
 								</div>
 							<?php endif;?>
@@ -37,7 +37,7 @@
 								<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
 								<div class="col-sm-6">
 									<div class="input-group input-group-sm">
-										<input type="text" class="form-control required" id="file_path">
+										<input type="text" class="form-control" id="file_path">
 										<input id="file" type="file" class="hidden" name="satuan">
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
@@ -48,9 +48,9 @@
 							</div>
 							<input name="kategori" type="hidden" value="<?= $kat;?>">
 							<?php
-								if($kat == 2)
+								if ($kat == 2)
 									include ("donjo-app/views/dokumen/_sk_kades.php");
-								elseif($kat == 3)
+								elseif ($kat == 3)
 									include ("donjo-app/views/dokumen/_perdes.php");
 							?>
 						</div>

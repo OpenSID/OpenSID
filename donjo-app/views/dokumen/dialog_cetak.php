@@ -1,3 +1,4 @@
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script type="text/javascript">
 	$('document').ready(function()
 	{
@@ -32,7 +33,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">Pamong tertanda</label>
-							<select class="form-control input-sm jenis_link"  name="pamong_ttd">
+							<select class="form-control input-sm jenis_link" name="pamong_ttd">
 								<option value="">Pilih Staf Penandatangan</option>
 								<?php foreach ($pamong AS $data):?>
 									<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']), 'sekretaris')!==false):?> selected <?php endif;?>><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
@@ -41,11 +42,11 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">Pamong mengetahui</label>
-							<select class="form-control input-sm jenis_link"  name="pamong_ttd">
+							<select class="form-control input-sm jenis_link"  name="jabatan_ketahui">
 								<option value="">Pilih Staf Mengetahui</option>
 								<?php foreach ($pamong AS $data):?>
-									<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']), 'kepala')!==false and strpos(strtolower($data['jabatan']), 'dusun')===false):?>selected<?php endif;?>><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
-								<?php endforeach; ?>
+									<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']),'kepala')!==false and strpos(strtolower($data['jabatan']),'dusun')===false):?>selected<?php endif; ?>><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
+								<?php endforeach;?>
 							</select>
 						</div>
 					</div>
@@ -65,8 +66,5 @@
 	</div>
 </form>
 <script type="text/javascript">
-	$('#ok').click(function()
-	{
-    $('#modalBox').modal('hide');
-	});
+
 </script>

@@ -47,11 +47,12 @@ function __construct(){
 		$data['keyword'] = $this->wilayah_model->autocomplete();
 		$data['total'] = $this->wilayah_model->total();
 
-		$nav['act']= 0;
+		$nav['act']= 2;
+		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/wilayah/wilayah',$data);
 		$this->load->view('footer');
 	}
@@ -94,11 +95,12 @@ function __construct(){
 			$data['form_action'] = site_url("sid_core/insert");
 		}
 
-		$nav['act']= 0;
+		$nav['act']= 2;
+		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form',$data);
 		$this->load->view('footer');
 	}
@@ -141,11 +143,12 @@ function __construct(){
 		$data['main']     = $this->wilayah_model->list_data_rw($id_dusun );
 		$data['total']     = $this->wilayah_model->total_rw($nama_dusun );
 
-		$nav['act']= 0;
+		$nav['act']= 2;
+		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_rw',$data);
 		$this->load->view('footer');
 	}
@@ -201,11 +204,12 @@ function __construct(){
 			$data['form_action'] = site_url("sid_core/insert_rw/$id_dusun");
 		}
 
-		$nav['act']= 0;
+		$nav['act']= 2;
+		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form_rw',$data);
 		$this->load->view('footer');
 	}
@@ -241,11 +245,12 @@ function __construct(){
 		$data['main']     = $this->wilayah_model->list_data_rt($dusun,$rw);
 		$data['total']     = $this->wilayah_model->total_rt($dusun,$rw);
 
-		$nav['act']= 0;
+		$nav['act']= 2;
+		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_rt',$data);
 		$this->load->view('footer');
 	}
@@ -284,10 +289,11 @@ function __construct(){
 		$data['rw']       = $rw;
 		$data['main']     = $this->wilayah_model->list_data_rt($dusun,$rw);
 
-		$nav['act']= 0;
+		$nav['act']= 2;
+		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/wilayah/list_dusun_rt',$data);
 		$this->load->view('footer');
 	}
@@ -321,11 +327,12 @@ function __construct(){
 			$data['form_action'] = site_url("sid_core/insert_rt/$id_dusun/$rw");
 		}
 
-		$nav['act']= 0;
+		$nav['act']= 2;
+		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/wilayah/wilayah_form_rt',$data);
 		$this->load->view('footer');
 	}
@@ -458,7 +465,7 @@ function __construct(){
 		$nav['act']= 3;
 		$header = $this->header_model->get_data();
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/wilayah/mig');
 		$this->load->view('footer');
 	}

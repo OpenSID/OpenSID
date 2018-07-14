@@ -1,6 +1,19 @@
 
-    <script>
-
+<script>
+	$(document).ready(function()
+	{
+    $('#simpan_wilayah').click(function()
+		{
+      var path = $('#path').val();
+      $.ajax(
+			{
+        type: "POST",
+        url: "<?=$form_action?>",
+        dataType: 'json',
+        data: {path: path},
+      });
+    });
+	});
 	//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 	<?php if(!empty($desa['lat']) && !empty($desa['lng'])): ?>
     var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
@@ -92,7 +105,6 @@
 	}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
-<form action="<?= $form_action?>" method="post" id="validasi">
 <div class='modal-body'>
 	<div class="row">
 		<div class="col-sm-12">
@@ -103,6 +115,5 @@
 </div>
 <div class="modal-footer">
 	<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-	<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_wilayah"><i class='fa fa-check'></i> Simpan</button>
+	<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" data-dismiss="modal" id="simpan_wilayah"><i class='fa fa-check'></i> Simpan</button>
 </div>
-</form>

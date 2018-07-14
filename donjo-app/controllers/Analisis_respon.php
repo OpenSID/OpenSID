@@ -76,11 +76,11 @@ class Analisis_respon extends CI_Controller{
 		$data['keyword'] 			= $this->analisis_respon_model->autocomplete();
 		$data['analisis_master'] 	= $this->analisis_respon_model->get_analisis_master();
 		$data['analisis_periode'] 	= $this->analisis_respon_model->get_periode();
-
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 5;
+		$header['minsidebar'] =1;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav');
+		$this->load->view('nav');
 		$this->load->view('analisis_respon/table',$data);
 		$this->load->view('footer');
 	}
@@ -106,15 +106,16 @@ class Analisis_respon extends CI_Controller{
 		$data['form_action'] 		= site_url("analisis_respon/update_kuisioner/$p/$o/$id");
 
 		$header = $this->header_model->get_data();
+		$nav['act']= 5;
+		$header['minsidebar'] =1;
 		if(isset($_SESSION['fullscreen']))
-			$this->load->view('header-min', $header);
+			$data['layarpenuh']= 1;
 		else{
-			$this->load->view('header', $header);
-			$this->load->view('analisis_master/nav');
+			$data['layarpenuh']= 2;
 		}
-
+		$this->load->view('header', $header);
+		$this->load->view('nav');
 		$this->load->view('analisis_respon/form',$data);
-
 		$this->load->view('footer');
 	}
 	function update_kuisioner($p=1,$o=0,$id=''){

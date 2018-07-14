@@ -103,7 +103,7 @@ class Api_inventaris_tanah extends CI_Controller
     {
         json_encode($this->inventaris_tanah_model->delete($id));
 
-        redirect('inventaris');
+        redirect('inventaris_tanah');
     }
 
     public function delete_mutasi($id)

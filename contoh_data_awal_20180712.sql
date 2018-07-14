@@ -3470,7 +3470,9 @@ INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('55', 'Laporan Masuk', 'lapor', '1', '', '1', '2', '14', '0', '');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('56', 'Layanan Mandiri', 'mandiri/clear', '1', '', '2', '2', '14', '0', '');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('57', 'Surat Masuk', 'surat_masuk', '1', '', '1', '2', '15', '0', '');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('58', 'Surat Keluar', '', '1', '', '2', '2', '15', '0', '');
+
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('58', 'Surat Keluar', '', '2', '', '2', '2', '15', '0', '');
+
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('59', 'SK Kades', 'dokumen_sekretariat/index/2', '1', '', '3', '2', '15', '0', '');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('60', 'Perdes', 'dokumen_sekretariat/index/3', '1', '', '4', '2', '15', '0', '');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('61', 'Inventaris', 'inventaris_tanah', '1', '', '5', '2', '15', '0', '');

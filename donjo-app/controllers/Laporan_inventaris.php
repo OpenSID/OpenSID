@@ -19,7 +19,7 @@ class Laporan_inventaris extends CI_Controller
 		$this->load->model('referensi_model');
 		$this->load->model('config_model');
 		$this->load->model('surat_model');
-		$this->modul_ini = 16;
+		$this->modul_ini = 15;
 		$this->tab_ini = 7;
 		$this->controller = 'inventaris_laporan';
 	}
@@ -30,9 +30,12 @@ class Laporan_inventaris extends CI_Controller
 		$header = $this->header_model->get_data();
 
 		$data = array_merge($data, $this->inventaris_laporan_model->laporan_inventaris());
-
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 1;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/laporan/table',$data);
 		$this->load->view('footer');
 	}

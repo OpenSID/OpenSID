@@ -76,11 +76,12 @@ function __construct(){
 		$data['keyword'] = $this->rtm_model->autocomplete();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
-		$nav['act']= 3;
+		$nav['act']= 2;
+		$nav['act_sub'] = 23;
 		$header = $this->header_model->get_data();
-
+		$header['minsidebar'] = 1;
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/kependudukan/rtm',$data);
 		$this->load->view('footer');
 	}
@@ -207,11 +208,13 @@ function __construct(){
 		$data['main']     = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
 
-		$nav['act']= 3;
+		$nav['act']= 2;
+		$nav['act_sub'] = 23;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/kependudukan/rtm_anggota',$data);
 		$this->load->view('footer');
 	}
@@ -263,10 +266,12 @@ function __construct(){
 			$data['kepala_kk'] = NULL;
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
-		$nav['act']= 3;
+		$nav['act']= 2;
+		$nav['act_sub'] = 23;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header',$header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$data['form_action'] = site_url("rtm/print");
 
 		$this->load->view("sid/kependudukan/kartu_rtm", $data);

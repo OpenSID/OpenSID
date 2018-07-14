@@ -43,10 +43,13 @@ class Inventaris extends CI_Controller{
 		$data['paging']  = $this->inventaris_model->paging_jenis($p, $o);
 		$data['main']    = $this->inventaris_model->list_jenis($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->inventaris_model->autocomplete();
-
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/table',$data);
 		$this->load->view('footer');
 	}
@@ -63,10 +66,13 @@ class Inventaris extends CI_Controller{
 			$data['jenis'] = null;
 			$data['form_action'] = site_url("inventaris/insert_jenis");
 		}
-
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/form_jenis',$data);
 		$this->load->view('footer');
 	}
@@ -112,10 +118,11 @@ class Inventaris extends CI_Controller{
 		$data['paging']  = $this->inventaris_model->paging($id,$p, $o);
 		$data['main']    = $this->inventaris_model->list_data($id, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->inventaris_model->autocomplete();
-
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
-		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/rincian',$data);
 		$this->load->view('footer');
 	}
@@ -137,9 +144,11 @@ class Inventaris extends CI_Controller{
 
 		$data['jenis']	 = $this->inventaris_model->get_jenis($id_jenis);
 		$data['asal_inventaris'] = $this->referensi_model->list_kode_array(ASAL_INVENTARIS);
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
-		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/form',$data);
 		$this->load->view('footer');
 	}
@@ -189,9 +198,11 @@ class Inventaris extends CI_Controller{
 		$data['asal_inventaris'] = $this->referensi_model->list_kode_array(ASAL_INVENTARIS);
 		$data['jenis_penghapusan'] = $this->referensi_model->list_kode_array(JENIS_PENGHAPUSAN);
 		$data['main'] = $this->inventaris_model->list_mutasi($id_inventaris);
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
-		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/form_mutasi',$data);
 		$this->load->view('footer');
 	}

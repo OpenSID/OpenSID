@@ -20,11 +20,13 @@ class Suplemen extends CI_Controller{
 
 	public function index(){
 		$_SESSION['per_page'] = 50;
+		$nav['act']= 2;
+		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
-		$nav['act']= 6;
+		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$data['suplemen'] = $this->suplemen_model->list_data();
 		$this->load->view('suplemen/daftar',$data);
 		$this->load->view('footer');
@@ -40,10 +42,12 @@ class Suplemen extends CI_Controller{
 		}else{
 			$data['individu']=NULL;
 		}
+		$nav['act']= 2;
+		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
-		$nav['act']= 6;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 
 		$data['form_action'] = site_url("suplemen/add_terdata");
 		$this->load->view('suplemen/form_terdata',$data);
@@ -52,10 +56,12 @@ class Suplemen extends CI_Controller{
 
 
 	public function sasaran($sasaran=0){
+		$nav['act']= 2;
+		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
-		$nav['act']= 6;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 
 		$data['tampil'] = $sasaran;
 		$data['program'] = $this->suplemen_model->list_suplemen($sasaran);
@@ -65,10 +71,12 @@ class Suplemen extends CI_Controller{
 	}
 
 	public function rincian($p=1, $id){
+		$nav['act']= 2;
+		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
-		$nav['act']= 6;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -80,10 +88,12 @@ class Suplemen extends CI_Controller{
 	}
 
 	public function terdata($sasaran=0,$id=0){
+		$nav['act']= 2;
+		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
-		$nav['act']= 6;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 
 		$data = $this->suplemen_model->get_terdata_suplemen($sasaran,$id);
 
@@ -92,10 +102,12 @@ class Suplemen extends CI_Controller{
 	}
 
 	public function data_terdata($id){
+		$nav['act']= 2;
+		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
-		$nav['act']= 6;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$data['terdata'] = $this->suplemen_model->get_suplemen_terdata_by_id($id);
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($data['terdata']['id_suplemen']);
 		$data['individu']=$this->suplemen_model->get_terdata($data['terdata']['id_terdata'],$data['suplemen']['sasaran']);
@@ -136,7 +148,7 @@ class Suplemen extends CI_Controller{
 		$nav['act']= 6;
 
 		$this->load->view('header', $header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$data['form_action'] = "suplemen/create";
 		if ($this->form_validation->run() === FALSE){
 			$this->load->view('suplemen/form');

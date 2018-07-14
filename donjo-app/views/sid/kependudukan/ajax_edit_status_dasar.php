@@ -1,50 +1,65 @@
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/donjoscript/donjoscript2.js"></script>
+<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script>
+	$('#tgl_1').datetimepicker(
+	{
+		format: 'DD-MM-YYYY'
+	});
+</script>
 <?php
-	if ($log_status_dasar['tgl_peristiwa']!='') {
+	if ($log_status_dasar['tgl_peristiwa']!=''):
 		$sekarang = $log_status_dasar['tgl_peristiwa'];
-	} else {
+	else:
 		$sekarang = date("d-m-Y");
-	}
+	endif;
 ?>
-<form action="<?php echo $form_action?>" method="post" id="validasi">
-<table id="status-dasar" style="width:100%" class="">
-<tr>
-	<th align="left">Peristiwa Penting :</th>
-	<td>
-	<div class="uiradio">
-	<input type="radio" id="sd1" name="status_dasar" value="1"/<?php if($nik['status_dasar_id'] == '1'){echo 'checked';}?>>
-	<label for="sd1"> Hidup </label>
-	<input type="radio" id="sd2" name="status_dasar" value="4"/<?php if($nik['status_dasar_id'] == '4'){echo 'checked';}?>>
-	<label for="sd2"> Hilang</label>
-	<input type="radio" id="sd3" name="status_dasar" value="3"/<?php if($nik['status_dasar_id'] == '3'){echo 'checked';}?>>
-	<label for="sd3"> Pindah Ke Luar Desa</label>
-	<input type="radio" id="sd4" name="status_dasar" value="2"/<?php if($nik['status_dasar_id'] == '2'){echo 'checked';}?>>
-	<label for="sd4"> Mati </label>
+<form action="<?=$form_action?>" method="post" id="validasi">
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box box-danger">
+					<div class="box-body">
+						<div class="form-group">
+              <div class="radio">
+                <label>
+								  <input name="status_dasar" id="sd1" value="1" <?php if ($nik['status_dasar_id'] == '1'):?>checked<?php endif;?> type="radio">
+                  Hidup
+                </label>
+								<label>
+								  <input name="status_dasar" id="sd2" value="4" <?php if ($nik['status_dasar_id'] == '4'):?>checked<?php endif;?> type="radio">
+                  Hilang
+                </label>
+								<label>
+								  <input name="status_dasar" id="sd3" value="3" <?php if ($nik['status_dasar_id'] == '3'):?>checked<?php endif;?> type="radio">
+                  Pindah Ke Luar Desa
+                </label>
+								<label>
+								  <input name="status_dasar" id="sd4" value="2" <?php if ($nik['status_dasar_id'] == '2'):?>checked<?php endif;?> type="radio">
+                  Mati
+                </label>
+              </div>
+						</div>
+						<div class="form-group">
+							<label for="tgl_peristiwa">Tanggal Peristiwa</label>
+							<div class="input-group input-group-sm date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input class="form-control input-sm pull-right" id="tgl_1" name="tgl_peristiwa" type="text" value="<?= $sekarang;?>">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="catatan">Catatan Peristiwa</label>
+							<textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" style="height: 50px;"><?= $log_status_dasar['catatan'];?></textarea>
+							<p class="help-block">*mati/hilang terangkan penyebabnya, pindah tuliskan alamat pindah</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		</div>
 	</div>
-	</td>
-</tr>
-<tr><th>&nbsp;</th></tr>
-<tr>
-	<th>Tanggal Peristiwa :</th>
-	<td>
-		<input type="text" class="inputbox datepicker" name="tgl_peristiwa" size="18" value="<?php echo $sekarang;?>">
-	</td>
-</tr>
-<tr><th>&nbsp;</th></tr>
-<tr>
-	<th align="left">Catatan Peristiwa :</th>
-	<td>
-		<input type="text" class="inputbox" name="catatan" size="60" value="<?php echo $log_status_dasar['catatan'] ?>"
-	</td>
-</tr>
-<tr>
-	<th>&nbsp;</th>
-	<td>*mati/hilang terangkan penyebabnya, pindah tuliskan alamat pindah</td>
-</tr>
-</table>
-<div class="buttonpane" style="float: right;">
-    <div class="uibutton-group">
-        <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
-    </div>
-</div>
 </form>

@@ -164,7 +164,7 @@ $('[checked="checked"]').parent().addClass('active')
     'ordering'    : true,
     'info'        : true,
     'autoWidth'   : false,
-		'scrollX'	: true
+		'scrollX'			: true
 	});
 
 	//color picker with addon
