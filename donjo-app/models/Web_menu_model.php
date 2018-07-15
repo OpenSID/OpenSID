@@ -22,15 +22,17 @@ class Web_menu_model extends CI_Model{
 		return $outp;
 	}
 
-	function search_sql(){
-		if(isset($_SESSION['cari'])){
-		$cari = $_SESSION['cari'];
+	function search_sql()
+	{
+		if(isset($_SESSION['cari']))
+		{
+			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (nama LIKE '$kw')";
-			//return $search_sql;
-			}
+			return $search_sql;
 		}
+	}
 
 	function filter_sql(){
 		if(isset($_SESSION['filter'])){
