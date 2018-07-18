@@ -678,7 +678,7 @@
 
 		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
 		$sql .= $order_sql;
-		$query 	= $this->db->query($sql,$master);
+		$query 	= $this->db->query($sql,$_SESSION['analisis_master']);
 		$data	= $query->result_array();
 
 		$i=0;
@@ -702,7 +702,7 @@
 
 		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
 		$sql .= $order_sql;
-		$query 	= $this->db->query($sql,$master);
+		$query 	= $this->db->query($sql,$_SESSION['analisis_master']);
 		$data	= $query->result_array();
 
 		$i=0;

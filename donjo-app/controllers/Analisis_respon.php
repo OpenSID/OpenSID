@@ -78,7 +78,6 @@ class Analisis_respon extends CI_Controller{
 		$data['analisis_periode'] 	= $this->analisis_respon_model->get_periode();
 
 		$header = $this->header_model->get_data();
-
 		$this->load->view('header', $header);
 		$this->load->view('analisis_master/nav');
 		$this->load->view('analisis_respon/table',$data);
