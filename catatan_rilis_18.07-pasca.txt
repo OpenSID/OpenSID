@@ -1,6 +1,6 @@
 Rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
-Terima kasih pada [untuk diisi], yang terus berkontribusi. Juga terima kasih pada [untuk diisi] yang mulai kontribusi.
+Terima kasih pada Tim Diskominfo Kab Bandung, yang terus berkontribusi. Juga terima kasih pada [untuk diisi] yang mulai kontribusi.
 
 Lengkapnya, isi rilis versi 18.07-pasca:
 
@@ -8,6 +8,10 @@ Lengkapnya, isi rilis versi 18.07-pasca:
 2. #1178: Sekarang data artikel dan widget dinamis dibersihkan dari serangan xss sebelum ditampilkan. [security-fix]
 3. #1178: Sekarang artikel berisi iframe (misalnya untuk video) dapat ditampilkan untuk artikel yang dibuat oleh user terpecaya.
 4. #1194: Sekarang nama penduduk berisi tanda titik (.) bisa disimpan. [bug-fix]
+5. Tambah laporan asset dihapus di modul Inventaris.
+6. #1126: Paginasi Penduduk > Data Suplemen telah diperbaiki. Sekarang semua data suplemen berhasil diunduh. [bug-fix]
+7. #1144: Perbaiki fungsi Cari di Admin Web > Menu Statis. [bug-fix]
+8. Sekarang bisa unduh data respon analisis. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

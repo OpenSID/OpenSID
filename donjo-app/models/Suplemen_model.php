@@ -156,12 +156,12 @@ class Suplemen_model extends CI_Model{
 			case '1':
 				$suplemen['judul_terdata_nama'] = 'NIK';
 				$suplemen['judul_terdata_info'] = 'Nama Penduduk';
-				$data = $this->_get_penduduk_terdata($suplemen_id);
+				$data = $this->_get_penduduk_terdata($suplemen_id, $p);
 				break;
 			case '2': # sasaran KK
 				$suplemen['judul_terdata_nama'] = 'NO. KK';
 				$suplemen['judul_terdata_info'] = 'Kepala Keluarga';
-				$data = $this->_get_kk_terdata($suplemen_id);
+				$data = $this->_get_kk_terdata($suplemen_id, $p);
 				break;
 
 			default:
@@ -172,7 +172,7 @@ class Suplemen_model extends CI_Model{
 		return $data;
 	}
 
-	private function _paging($get_terdata_sql) {
+	private function _paging($p, $get_terdata_sql) {
 		$sql 			= "SELECT COUNT(*) as jumlah ".$get_terdata_sql;
 		$query    = $this->db->query($sql);
 		$row      = $query->row_array();
@@ -197,16 +197,17 @@ class Suplemen_model extends CI_Model{
 		return $sql;
 	}
 
-	private function _get_penduduk_terdata($suplemen_id){
+	private function _get_penduduk_terdata($suplemen_id, $p){
 		$hasil = array();
 		$get_terdata_sql = $this->_get_penduduk_terdata_sql($suplemen_id);
-		$hasil["paging"] = $this->_paging($get_terdata_sql);
-		$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
-
 		$select_sql = "SELECT s.*,o.nama,w.rt,w.rw,w.dusun ";
-
 		$sql = $select_sql.$get_terdata_sql;
-		$sql .= $paging_sql;
+		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
+		{
+			$hasil["paging"] = $this->_paging($p, $get_terdata_sql);
+			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
+			$sql .= $paging_sql;
+		}
 		$query = $this->db->query($sql);
 
 		if($query->num_rows()>0){
@@ -236,16 +237,17 @@ class Suplemen_model extends CI_Model{
 		return $sql;
 	}
 
-	private function _get_kk_terdata($suplemen_id){
+	private function _get_kk_terdata($suplemen_id, $p){
 		$hasil = array();
 		$get_terdata_sql = $this->_get_kk_terdata_sql($suplemen_id);
-		$hasil["paging"] = $this->_paging($get_terdata_sql);
-		$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
-
 		$select_sql = "SELECT s.*,s.id_suplemen as nama,o.nik_kepala,o.no_kk,q.nama,w.rt,w.rw,w.dusun ";
-
 		$sql = $select_sql.$get_terdata_sql;
-		$sql .= $paging_sql;
+		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
+		{
+			$hasil["paging"] = $this->_paging($p, $get_terdata_sql);
+			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
+			$sql .= $paging_sql;
+		}
 		$query = $this->db->query($sql);
 
 		if($query->num_rows()>0){
