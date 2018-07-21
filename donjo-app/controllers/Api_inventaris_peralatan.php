@@ -43,7 +43,7 @@ class Api_inventaris_peralatan extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+            redirect("inventaris_peralatan");
     }
 
     public function add_mutasi()
@@ -57,7 +57,7 @@ class Api_inventaris_peralatan extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+            redirect("inventaris_peralatan/mutasi");
     }
 
     public function update($id)
@@ -80,7 +80,7 @@ class Api_inventaris_peralatan extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            echo json_encode($data);
+            redirect("inventaris_peralatan");
     }
 
     public function update_mutasi($id)
@@ -93,7 +93,7 @@ class Api_inventaris_peralatan extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            echo json_encode($data);
+            redirect("inventaris_peralatan/mutasi");
     }
 
     public function delete($id)

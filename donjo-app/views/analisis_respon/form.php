@@ -10,20 +10,111 @@
 		<?php endif?>
 	});
 </script>
+<script>
+	$(function(){
+		var op_item_width = (parseInt($('#op_item').width())/2-10);
+		var label_width = (parseInt($('#op_item').width())/2)-42;
+		// $('#op_item div').css('clear','both');
+		// $('#op_item div').css('float','left');
+		$('#op_item div').css('width',op_item_width);
+		$('#op_item label').css('width',label_width);
+		$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+		$('#op_item input').change(function()
+		{
+			if ($(this).is('input:checked'))
+			{
+				$('#op_item input').parent().css({'background':'#ffffff','border':'1px solid #ddd'});
+				$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+				$(this).parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+			}
+			else
+			{
+				$(this).parent().css({'background':'#fafafa','border':'1px solid #ddd'});
+			}
+		});
+		$('#op_item label').click(function()
+		{
+			$(this).prev().trigger('click');
+		})
+	});
+</script>
 <style>
-.panel-fullscreen {
-display: block;
-z-index: 999999;
-position: fixed;
-width: 100%;
-height: 100%;
-top: 0;
-right: 0;
-left: 0;
-bottom: 0;
-overflow: auto;
-}
+	.form-horizontal .checkbox,
+	.form-horizontal .checkbox-inline,
+	.form-horizontal .radio,
+	.form-horizontal .radio-inline
+	{
+			padding: 4px;
+	}
+	.panel-fullscreen
+	{
+		display: block;	z-index: 999999; position: fixed;	width: 100%;
+		height: 100%;	top: 0;	right: 0;	left: 0;bottom: 0;overflow: auto;
+	}
+	#op_item div
+	{
+		margin:1px 0;
+		background:#fafafa;
+		border:1px solid #ddd;
+	}
+	#op_item input
+	{
+		vertical-align:middle;
+		margin:0px 2px;
+	}
+	#op_item label
+	{
+		padding:4px 10px 0px 2px;
+		font-size:11px;
+		line-height:14px;
+		font-weight:normal;
+	}
+	table.head
+	{
+		font-size:14px;
+		font-weight:bold;
+	}
+	.atas {vertical-align: top;}
+	.checkbox input[type="checkbox"],
+	.checkbox-inline input[type="checkbox"],
+	.radio input[type="radio"],
+	.radio-inline input[type="radio"]
+	{
+    position: inherit;
+	}
+	#op_item div
+	{
+		margin:1px 0;
+		background:#fafafa;
+		border:1px solid #ddd;
+	}
+	#op_item input
+	{
+		vertical-align:middle;
+		margin:0px 2px;
+	}
+	#op_item label
+	{
+		padding:4px 10px 0px 2px;
+		font-size:11px;
+		line-height:14px;
+		font-weight:normal;
+	}
+	table.head
+	{
+		font-size:14px;
+		font-weight:bold;
+	}
+	.atas {vertical-align: top;}
+	.form-inline .form-control
+	{
+    width: 100%;
+	}
+	.form-horizontal .control-label {
+    text-align: left;
+	}
 </style>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Input Data Sensus - <?= $analisis_master['nama']?></h1>
@@ -31,7 +122,7 @@ overflow: auto;
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
 			<li><a href="<?=site_url()?>analisis_respon/leave"><?= $analisis_master['nama']?></a></li>
-			<li><a href="<?=site_url()?>analisis_respon">Data sensus</a></li>
+			<li><a href="<?=site_url()?>analisis_respon">Data Sensus</a></li>
 			<li class="active">Input Data</li>
 		</ol>
 	</section>
@@ -54,7 +145,7 @@ overflow: auto;
 								<i class="fa fa-search-plus"></i>Full Screen
             	</a>
 						<?php endif; ?>
-							<a href="<?= site_url()?>analisis_respon" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
+							<a href="<?= site_url()?>analisis_respon" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Data Sensus</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -116,7 +207,7 @@ overflow: auto;
 													</div>
 												<?php endif; ?>
 												<div class="table-responsive">
-													<table class="table table-striped table-hover" >
+													<table class="table" >
 														<?php $new=1;$last=0; foreach ($list_jawab AS $data):$data['no']="";?>
 															<?php
 																if ($data['id_kategori']!=$last OR $last == 0):
@@ -135,41 +226,35 @@ overflow: auto;
 																<td colspan="2"><label><?= $data['nomor']?> ) <?= $data['pertanyaan']?></label></td>
 															</tr>
 															<?php if ($data['id_tipe']==1):?>
-																<div class="form-group">
-																	<?php foreach ($data['parameter_respon'] AS $data2):?>
-																		<tr>
-																			<td width="3px"></td>
-																			<td>
-																			<div class="radio">
-																				<label>
-																					<input name="rb[<?= $data['id']?>]" id="rb[<?= $data['id']?>]" value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']):?> checked<?php endif;?> type="radio">
-																					<?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?>
-																					</label>
-																				</div>
-																			</td>
-																		</tr>
-																	<?php endforeach;?>
-																</div>
+																<tr>
+																	<td width="35px;"></td>
+																	<td class="col-xs-12 col-sm-6 pull-left">
+																		<select class="form-control input-sm" name="kategori" onchange="formAction('mainform', '<?=site_url('analisis_indikator/kategori')?>')">
+																			<option value="">Pilih Jawaban</option>
+																			<?php foreach ($data['parameter_respon'] AS $data2):?>
+																				<option value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']):?>selected<?php endif?>><?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?></option>
+																			<?php endforeach;?>
+																		</select>
+																	</td>
+																</tr>
 															<?php elseif ($data['id_tipe']==2):?>
-																<div class="form-group">
-																	<?php foreach ($data['parameter_respon'] AS $data2):?>
-																	<tr>
-																		<td></td>
-																			<td>
-																				<div class="checkbox">
-																					<label>
-																						<input name="cb[<?= $data2['id_parameter']?>_<?= $data['id']?>]" value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']):?> checked<?php endif;?> type="checkbox">
-																						<?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?>
-																					</label>
-																				</div>
-																			</td>
-																		</tr>
-																	<?php endforeach;?>
-																</div>
+																<tr>
+																	<td></td>
+																	<td id="op_item">
+																		<?php foreach ($data['parameter_respon'] AS $data2):?>
+																			<div class="checkbox">
+																				<label>
+																					<input name="cb[<?= $data2['id_parameter']?>_<?= $data['id']?>]" value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']):?> checked<?php endif;?> type="checkbox">
+																					<?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?>
+																				</label>
+																			</div>
+																		<?php endforeach;?>
+																	</td>
+																</tr>
 															<?php elseif ($data['id_tipe']==3):?>
 																<div class="form-group">
 																	<tr>
-																	<td></td>
+																		<td></td>
 																		<td>
 																			<?php if ($data['parameter_respon']):?>
 																				<?php $data2=$data['parameter_respon'];?>

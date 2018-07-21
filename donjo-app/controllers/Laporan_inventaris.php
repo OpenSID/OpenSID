@@ -62,11 +62,14 @@ class Laporan_inventaris extends CI_Controller
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 2;
+		$header['minsidebar'] = 1;
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
 
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/laporan/table_mutasi',$data);
 		$this->load->view('footer');
 	}

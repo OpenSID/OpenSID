@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Daftar Mutas Inventaris Peralatan Dan Mesin</h1>
+		<h1>Daftar Mutasi Inventaris Peralatan Dan Mesin</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Daftar Mutasi Inventaris Peralatan Dan Mesin</li>
@@ -181,8 +181,7 @@
 			'searching'   : true,
 			'ordering'    : true,
 			'info'        : true,
-			'autoWidth'   : true,
-			'scrollX'			: true
+			'autoWidth'   : true
   	});
 		t.on('order.dt search.dt', function()
 		{

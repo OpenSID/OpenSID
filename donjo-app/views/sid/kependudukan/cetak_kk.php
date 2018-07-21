@@ -52,7 +52,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<?=foreach($main as $key => $data): ?>
+				<?php foreach ($main as $key => $data): ?>
 					<tr class="data">
 						<td align="center" width="2"><?= $key+1?></td>
 						<td><?= strtoupper($data['nama'])?></td>
@@ -64,7 +64,7 @@
 						<td><?= $data['pendidikan']?></td>
 						<td><?= $data['pekerjaan']?></td>
 					</tr>
-				<?=endforeach; ?>
+				<?php endforeach; ?>
 				</tbody>
 			</table>
 
@@ -85,7 +85,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?=foreach($main as $key => $data): ?>
+					<?php foreach ($main as $key => $data): ?>
 						<tr class="data">
 							<td align="center" width="2"><?= $key+1?></td>
 							<td><?= $data['status_kawin']?></td>
@@ -97,7 +97,7 @@
 							<td><?= strtoupper($data['nama_ibu'])?></td>
 							<td align="center"><?= $data['golongan_darah']?></td>
 						</tr>
-					<?=endforeach; ?>
+					<?php endforeach; ?>
 				</tbody>
 			</table>
 

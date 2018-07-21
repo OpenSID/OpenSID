@@ -47,10 +47,11 @@ class Surat_master extends CI_Controller{
 		$data['main']    = $this->surat_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->surat_master_model->autocomplete();
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 4;
+		$nav['act_sub'] = 30;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$nav['act']=3;
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat_master/table',$data);
 		$this->load->view('footer');
 	}
@@ -71,10 +72,11 @@ class Surat_master extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 4;
+		$nav['act_sub'] = 30;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$nav['act']=3;
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat_master/form',$data);
 		$this->load->view('footer');
 	}
@@ -94,7 +96,7 @@ class Surat_master extends CI_Controller{
 
 		$this->load->view('header', $header);
 		$nav['act']=3;
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat_master/atribut/table',$data);
 		$this->load->view('footer');
 	}
@@ -116,7 +118,7 @@ class Surat_master extends CI_Controller{
 		$data['surat_master']        = $this->surat_master_model->get_surat_master($in);
 
 	//	$this->load->view('header', $header);
-	//	$this->load->view('surat/nav');
+	//	$this->load->view('nav');
 		$this->load->view('surat_master/atribut/ajax_form',$data);
 	//	$this->load->view('footer');
 	}
@@ -128,7 +130,7 @@ class Surat_master extends CI_Controller{
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$this->load->view('surat/nav');
+		$this->load->view('nav');
 		$this->load->view('surat_master/menu',$data);
 		$this->load->view('footer');
 	}
@@ -219,10 +221,11 @@ class Surat_master extends CI_Controller{
 		}
 
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 4;
+		$nav['act_sub'] = 30;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$nav['act']=3;
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat_master/kode_isian',$data);
 		$this->load->view('footer');
 	}

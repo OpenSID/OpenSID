@@ -29,7 +29,10 @@ $(document).ready(function()
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2();
-
+	$('button[type="reset"]').click(function()
+	{
+		$('.select2').select2('val', 'All');
+	});
 	//File Upload
 	$('#file_browser').click(function(e)
 	{
@@ -104,41 +107,76 @@ $(document).ready(function()
 	//Fortmat Tanggal dan Jam
 	$('#tgl_jam').datetimepicker(
 	{
-		format: 'DD-MM-YYYY HH:mm:ss'
+		format: 'DD-MM-YYYY HH:mm:ss',
+		locale:'id'
 	});
 	$('#tgl_1').datetimepicker(
 	{
-		format: 'DD-MM-YYYY'
+		format: 'DD-MM-YYYY',
+		locale:'id'
 	});
 	$('#tgl_2').datetimepicker(
 	{
-		format: 'DD-MM-YYYY'
+		format: 'DD-MM-YYYY',
+		locale:'id'
 	});
 	$('#tgl_3').datetimepicker(
 	{
-		format: 'DD-MM-YYYY'
+		format: 'DD-MM-YYYY',
+		locale:'id'
 	});
 	$('#tgl_4').datetimepicker(
 	{
-		format: 'DD-MM-YYYY'
+		format: 'DD-MM-YYYY',
+		locale:'id'
 	});
 	$('#tgl_5').datetimepicker(
 	{
-		format: 'DD-MM-YYYY'
+		format: 'DD-MM-YYYY',
+		locale:'id'
+	});
+	$('#tgl_6').datetimepicker(
+	{
+			format: 'DD-MM-YYYY',
+			locale:'id'
+	});
+	$('#tgl_7').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id'
 	});
 	$('#jam_1').datetimepicker(
 	{
-		format: 'HH:mm:ss'
+		format: 'HH:mm:ss',
+		locale:'id'
 	});
 	$('#jam_2').datetimepicker(
 	{
-		format: 'HH:mm:ss'
+		format: 'HH:mm:ss',
+		locale:'id'
 	});
 	$('#jam_3').datetimepicker(
 	{
-		format: 'HH:mm:ss'
+		format: 'HH:mm:ss',
+		locale:'id'
 	});
 
+	$('#jammenit_1').datetimepicker(
+	{
+		format: 'HH:mm',
+		locale:'id'
+	});
+	$('#jammenit_2').datetimepicker(
+	{
+		format: 'HH:mm',
+		locale:'id'
+	});
+
+	$('#jammenit_3').datetimepicker(
+	{
+		format: 'HH:mm',
+		locale:'id'
+	});
 
 	$('[data-rel="popover"]').popover(
 	{
@@ -226,22 +264,10 @@ function modalBox()
 	});
 	return false;
 }
-$.expandMap = function()    {
-	if ($(".rightNav").is(':visible')){
-					$(".map-wrap").animate({width:'70%'},'400');
-					$(".rightNav").hide(0);
-					setTimeout(function(){ map.invalidateSize()}, 400);
-			}
-}
+
 function mapBox()
 {
-
 	$('#mapBox').on('show.bs.modal', function(e){
-
-		$.getScript(baseURL + 'assets/js/leaflet.js');
-		$.getScript(baseURL + 'assets/js/turf.min.js');
-		$.getScript(baseURL + 'assets/js/leaflet.pm.min.js');
-		$.getScript(baseURL + 'assets/bootstrap/js/jquery.min.js');
 		var link = $(e.relatedTarget);
 		$('.modal-header #myModalLabel').html(link.attr('data-title'));
 		$(this).find('.fetched-data').load(link.attr('href'));

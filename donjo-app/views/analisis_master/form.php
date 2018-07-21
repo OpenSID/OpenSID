@@ -36,7 +36,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="nama">Nama Analisis</label>
 										<div class="col-sm-7">
-											<input  id="nama" class="form-control input-sm" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama']?>" required="">
+											<input  id="nama" class="form-control input-sm" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama']?>">
 										</div>
 									</div>
 								</div>
@@ -76,58 +76,58 @@
 											</select>
 										</div>
 									</div>
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label class="col-sm-3 control-label">Format Impor Tambahan</label>
-											<div class="col-sm-7 col-lg-4">
-												<select class="form-control input-sm" id="format_impor" name="format_impor" <?php if ($analisis_master['jenis']==1) echo 'disabled'?>>
-													<option value="">--Pilih Format Impor--</option>
-													<?php foreach ($list_format_impor AS $key => $nama):?>
-														<option value="<?= $key?>" <?php if ($analisis_master['format_impor'] == $key):?>selected<?php endif?>><?= $nama?></option>
-													<?php endforeach;?>
-												</select>
-											</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Format Impor Tambahan</label>
+										<div class="col-sm-7 col-lg-4">
+											<select class="form-control input-sm" id="format_impor" name="format_impor" <?php if ($analisis_master['jenis']==1) echo 'disabled'?>>
+												<option value="">--Pilih Format Impor--</option>
+												<?php foreach ($list_format_impor AS $key => $nama):?>
+													<option value="<?= $key?>" <?php if ($analisis_master['format_impor'] == $key):?>selected<?php endif?>><?= $nama?></option>
+												<?php endforeach;?>
+											</select>
 										</div>
 									</div>
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label class="col-sm-3 control-label" for="kepala_lama">Rumus Penilaian Analisis</label>
-											<div class="col-sm-7">
-												<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;margin-bottom: 10px;">
-													<code>Sigma (Bobot (indikator) x Nilai (parameter)) / Bilangan Pembagi</code>
-												</P>
-											</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="col-sm-3 control-label" for="kepala_lama">Rumus Penilaian Analisis</label>
+										<div class="col-sm-7">
+											<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;margin-bottom: 10px;">
+												<code>Sigma (Bobot (indikator) x Nilai (parameter)) / Bilangan Pembagi</code>
+											</P>
 										</div>
 									</div>
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label class="col-sm-3 control-label" for="pembagi">Bilangan Pembagi</label>
-											<div class="col-sm-7">
-												<input  id="pembagi" class="form-control input-sm" type="text" placeholder="Bilangan Pembagi" name="pembagi" value="<?= $analisis_master['pembagi']?>" required="">
-												<p class="help-block"><code>Untuk tanda koma "," gunakan tanda titik "." sebagai substitusinya</code></p>
-											</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="col-sm-3 control-label" for="pembagi">Bilangan Pembagi</label>
+										<div class="col-sm-7">
+											<input  id="pembagi" class="form-control input-sm" type="text" placeholder="Bilangan Pembagi" name="pembagi" value="<?= $analisis_master['pembagi']?>">
+											<p class="help-block"><code>Untuk tanda koma "," gunakan tanda titik "." sebagai substitusinya</code></p>
 										</div>
 									</div>
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label class="col-sm-3 control-label" for="nama">Analisis Terhubung</label>
-											<div class="col-sm-7 col-lg-4">
-												<select class="form-control input-sm" id="id_child" name="id_child">
-													<option value="">-- Silakan Masukan Analisis Terhubung--</option>
-													<?php foreach ($list_analisis AS $data):?>
-														<option value="<?= $data['id']?>" <?php if ($analisis_master['id_child'] == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
-												 	<?php endforeach;?>
-												</select>
-												<p class="help-block"><code>Kosongkan jika tidak ada Analisis yang terhubung</code></p>
-											</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="col-sm-3 control-label" for="nama">Analisis Terhubung</label>
+										<div class="col-sm-7 col-lg-4">
+											<select class="form-control input-sm" id="id_child" name="id_child">
+												<option value="">-- Silakan Masukan Analisis Terhubung--</option>
+												<?php foreach ($list_analisis AS $data):?>
+													<option value="<?= $data['id']?>" <?php if ($analisis_master['id_child'] == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
+											 	<?php endforeach;?>
+											</select>
+											<p class="help-block"><code>Kosongkan jika tidak ada Analisis yang terhubung</code></p>
 										</div>
 									</div>
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label class="col-sm-3 control-label" for="nama">Deskripsi Analisis</label>
-											<div class="col-sm-7">
-												<textarea id="deskripsi" class="form-control input-sm" placeholder="Deskripsi Analisis" name="deskripsi" required=""><?= $analisis_master['deskripsi']?></textarea>
-											</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="col-sm-3 control-label" for="nama">Deskripsi Analisis</label>
+										<div class="col-sm-7">
+											<textarea id="deskripsi" class="form-control input-sm" placeholder="Deskripsi Analisis" name="deskripsi"><?= $analisis_master['deskripsi']?></textarea>
 										</div>
 									</div>
 								</div>

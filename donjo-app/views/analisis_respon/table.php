@@ -1,3 +1,16 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <?php
 	$subjek = $_SESSION['subjek_tipe'];
 	switch($subjek):
@@ -20,7 +33,7 @@
 	</section>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+	<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
 					<?php $this->load->view('analisis_master/left',$data);?>
@@ -28,7 +41,7 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("analisis_respon/data_ajax")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh data respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh data respon">
+							<a href="<?=site_url("analisis_respon/data_ajax")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh data respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Respon">
 								<i class="fa fa-download"></i>Unduh
             	</a>
 						  <a href="<?=site_url("analisis_respon/import")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Data Respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Data Respon">
@@ -50,7 +63,7 @@
 										<td><?= $asubjek?></td>
 									</tr>
 									<tr>
-										<td>Priode</td>
+										<td>Periode</td>
 										<td>:</td>
 										<td><?= $analisis_periode?></td>
 									</tr>
@@ -61,7 +74,7 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+
 											<div class="row">
 												<div class="col-sm-8">
 													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('analisis_respon/dusun')?>')">
@@ -113,7 +126,7 @@
 																	<?php if ($o==2): ?>
 																		<th><a href="<?= site_url("analisis_respon/index/$p/1")?>"><?= $nomor?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("analisis_respon/index/$p/2")?>"<?= $nomor?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("analisis_respon/index/$p/2")?>"><?= $nomor?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
 																		<th><a href="<?= site_url("analisis_respon/index/$p/1")?>"><?= $nomor?> <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
@@ -149,12 +162,11 @@
 																	</tr>
 																<?php endforeach; ?>
 															</tbody>
-															</tbody>
 														</table>
 													</div>
 												</div>
 											</div>
-										</form>
+
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="dataTables_length">

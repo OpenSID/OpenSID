@@ -3450,7 +3450,7 @@ INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('30', 'Setting Format', 'surat_master/clear', '1', '', '1', '2', '4', '0', '');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('31', 'Cetak Surat', 'surat', '1', '', '2', '2', '4', '0', '');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('32', 'Layanan Arsip', 'keluar', '1', '', '3', '2', '4', '0', '');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('33', 'Panduan', 'panduan', '1', '', '4', '2', '4', '0', '');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('33', 'Panduan', 'surat/panduan', '1', '', '4', '2', '4', '0', '');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('39', 'SMS', 'sms', '1', '', '1', '2', '10', '0', '');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('40', 'Daftar Kontak', 'sms/kontak', '1', '', '2', '2', '10', '0', '');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES ('41', 'Pengaturan SMS', 'sms/setting', '1', '', '3', '2', '10', '0', '');

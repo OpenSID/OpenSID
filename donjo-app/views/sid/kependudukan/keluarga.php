@@ -1,3 +1,16 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <style>
 	.input-sm
 	{
@@ -29,7 +42,7 @@
 						<a href="<?= site_url("keluarga/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url("keluarga/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						<div class="btn-group btn-group-vertical">
-							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
+							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
 									<a href="#confirm-status" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Kartu Keluarga" onclick="aksiBorongan('mainform','<?= site_url("keluarga/cetak_kk_all")?>')"><i class="fa fa-print"></i> Cetak Kartu Keluarga</a>
@@ -53,15 +66,14 @@
 										<div class="row">
 											<div class="col-sm-9">
 												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('keluarga/status_dasar')?>')">
-													<option value="">Status</option>
-													<?php foreach ($list_status_dasar AS $data):?>
-														<option value="<?= $data['id']?>" <?php if ($list_status_dasar == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
-													<?php endforeach;?>
+													<option value="">Semua KK</option>
+													<option value="1" <?php if($status_dasar == 1) :?>selected<?php endif?>>KK Aktif</option>
+													<option value="2" <?php if($status_dasar == 2) :?>selected<?php endif?>>KK Hilang/Pindah/Mati</option>
 												</select>
-												<select class="form-control input-sm" name="subpoint" onchange="formAction('mainform', '<?=site_url('keluarga/sex')?>')">
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('keluarga/sex')?>')">
 													<option value="">Jenis Kelamin</option>
-													<option value="1" <?php if ($sex==1 ):?>selected<?php endif?>>Laki-Laki</option>
-													<option value="2" <?php if ($sex==2 ):?>selected<?php endif?>>Perempuan</option>
+													<option value="1" <?php if($sex==1 ) :?>selected<?php endif?>>Laki-Laki</option>
+													<option value="2" <?php if($sex==2 ) :?>selected<?php endif?>>Perempuan</option>
 												</select>
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('keluarga/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
@@ -88,7 +100,7 @@
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
-													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url("keluarga/search")?>');$('#'+'mainform').submit();endif">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("keluarga/search")?>');$('#'+'mainform').submit();}">
 													<div class="input-group-btn">
 														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("keluarga/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
@@ -143,7 +155,7 @@
 																			<a href="#" data-href="<?= site_url("keluarga/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus/Keluar Dari Daftar Keluarga" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif;?>
 																	</td>
-																	<td> <?= $data['no_kk']?></td>
+																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"><?= $data['no_kk']?></a></td>
 																	<td nowrap><?= strtoupper(unpenetration($data['kepala_kk']))?></td>
 																	<td><?= strtoupper(unpenetration($data['nik']))?></td>
 																	<td><a href="<?= site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?= $data['jumlah_anggota']?></a></td>

@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_gedung" method="post" action="<?= $form_action?>">
+		<form class="form-horizontal" id="validasi" name="form_gedung" method="post" action="<?= site_url("api_inventaris_gedung/add"); ?>">
 			<div class="row">
 				<div class="col-md-3">
           <?php	$this->load->view('inventaris/gedung/menu_kiri.php')?>
@@ -34,9 +34,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="register">Nomor Register</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="nomor_register" id="nomor_register" type="text"/>
+											<input maxlength="50" class="form-control input-sm required" name="register" id="_register" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -70,10 +70,10 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="luas_bangunan">Luas Bangunan</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="luas">Luas Bangunan</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input class="form-control input-sm number required" id="luas_bangunan" name="luas_bangunan" type="text"/>
+												<input class="form-control input-sm number required" id="luas" name="luas" type="text"/>
 												<span class="input-group-addon" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>
@@ -112,7 +112,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas Tanah </label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input class="form-control input-sm number required" id="luas_tanah" name="luas_tanah" type="text"/>
+												<input class="form-control input-sm number required" id="luas" name="luas" type="text"/>
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>
@@ -126,7 +126,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="asal_usul">Asal Usul </label>
 										<div class="col-sm-4">
-											<select name="asal_usul" id="asal_usul" class="form-control input-sm required">
+											<select name="asal" id="asal" class="form-control input-sm required">
 												<option value="">-- Pilih Asal Usul Lahan --</option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>

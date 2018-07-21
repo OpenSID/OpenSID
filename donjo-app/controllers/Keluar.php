@@ -52,9 +52,10 @@ class Keluar extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$nav['act']= 2;
+		$nav['act']= 4;
+		$nav['act_sub'] = 32;
 		$this->load->view('header', $header);
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat/surat_keluar',$data);
 		$this->load->view('footer');
 	}
@@ -102,25 +103,25 @@ class Keluar extends CI_Controller{
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['form_action'] = site_url("sid_surat_keluar/perorangan/$nik");
 		$data['nik']['no']=$nik;
-		$nav['act']= 2;
+
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 4;
+		$nav['act_sub'] = 32;
 		$this->load->view('header',$header);
-
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat/surat_keluar_perorangan',$data);
 		$this->load->view('footer');
 	}
 
 	function graph(){
 		$data['form_action'] = site_url("sid_cetak_surat/print_surat_ket_pengantar");
-		$nav['act']= 2;
+		$nav['act']= 4;
+		$nav['act_sub'] = 32;
 		$header = $this->header_model->get_data();
 
 		$data['stat']  = $this->surat_keluar_model->grafik();
 		$this->load->view('header',$header);
-
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat/surat_keluar_graph',$data);
 		$this->load->view('footer');
 

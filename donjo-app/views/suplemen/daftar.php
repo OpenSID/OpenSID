@@ -3,7 +3,7 @@
 		<?php if($tampil == 0):?>
 			<h1>Data Suplemen</h1>
 		<?php else:?>
-			<h1>Data Suplemen dengan Sasaran <?=$sasaran[$tampil]?></h1>
+			<h1>Data Suplemen Dengan Sasaran <?=$sasaran[$tampil]?></h1>
 		<?php endif;?>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>

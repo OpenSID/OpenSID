@@ -54,6 +54,16 @@ class Suplemen extends CI_Controller{
 		$this->load->view('footer');
 	}
 
+	function panduan(){
+
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$nav['act']= 2;
+		$nav['act_sub'] = 25;
+		$this->load->view('nav',$nav);
+		$this->load->view('suplemen/panduan');
+		$this->load->view('footer');
+	}
 
 	public function sasaran($sasaran=0){
 		$nav['act']= 2;
@@ -143,9 +153,10 @@ class Suplemen extends CI_Controller{
 
 		$this->form_validation->set_rules('cid', 'Sasaran', 'required');
 		$this->form_validation->set_rules('nama', 'Nama Data', 'required');
-
+		$nav['act']= 2;
+		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
-		$nav['act']= 6;
+		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);

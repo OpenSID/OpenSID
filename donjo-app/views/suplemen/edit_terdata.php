@@ -1,4 +1,4 @@
-<form action="<?php echo $form_action?>" method="post" id="validasi" enctype="multipart/form-data">
+<form action="<?= $form_action?>" method="post" id="validasi" enctype="multipart/form-data">
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
@@ -6,13 +6,13 @@
 					<div class="box-body">
 						<table class="table table-bordered table-striped table-hover" >
 							<tbody>
-								<tr >
-									<td style="padding-top : 10px;padding-bottom : 10px; width:40%;" ><?php echo $judul_terdata_nama?></td>
-									<td> : <?php echo $terdata_nama?></td>
+								<tr>
+									<td style="padding-top : 10px;padding-bottom : 10px; width:40%;" ><?= $judul_terdata_nama?></td>
+									<td> : <?= $terdata_nama?></td>
 								</tr>
 								<tr>
-									<td style="padding-top : 10px;padding-bottom : 10px; width:40%;" ><?php echo $judul_terdata_info?></td>
-									<td> :  <?php echo $terdata_info?></td>
+									<td style="padding-top : 10px;padding-bottom : 10px; width:40%;" ><?= $judul_terdata_info?></td>
+									<td> :  <?= $terdata_info?></td>
 								</tr>
 							</tbody>
 						</table>
@@ -24,8 +24,8 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="keterangan">Keterangan</label>
-							<input type="hidden" name="id_suplemen" value="<?php echo $id_suplemen?>"/>
-							 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan"  rows="3"><?php echo $keterangan?></textarea>
+							<input type="hidden" name="id_suplemen" value="<?= $id_suplemen?>"/>
+							 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan"  rows="3"><?= $keterangan?></textarea>
 						</div>
 					</div>
 				</div>

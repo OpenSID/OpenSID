@@ -53,7 +53,7 @@
 					</tr>
 					</thead>
 					<tbody>
-					<?php foreach($main as $data): ?>
+					<?php foreach ($main as $data): ?>
 					<tr class="data">
 						<td align="center" width="2"><?= $data['no']?></td>
 						<td><?= strtoupper($data['nama'])?></td>
@@ -83,7 +83,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach($main as $data): ?>
+						<?php foreach ($main as $data): ?>
 							<tr class="data">
 								<td align="center" width="2"><?= $data['no']?></td>
 								<td><?= $data['status_kawin']?></td>

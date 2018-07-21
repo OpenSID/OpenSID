@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= $form_action?>">
+		<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= site_url("api_inventaris_tanah/update_mutasi"); ?>">
 			<div class="row">
 				<div class="col-md-3">
           <?php	$this->load->view('inventaris/tanah/menu_kiri.php')?>
@@ -37,31 +37,31 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text" disabled/>
+											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control input-sm required" name="register" id="register" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="jenis_mutasi">Jenis Mutasi </label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm required">
+											<select name="jenis_mutasi" id="jenis_mutasi" class="form-control input-sm required">
 												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
 												<option value="Rusak">Status Rusak</option>
 												<option value="Diperbaiki">Status Diperbaiki</option>
 												<optgroup label="Barang Masih Baik">
-												<option value="Masih Baik Disumbangkan">Sumbangakan</option>
-												<option value="Masih Baik Dijual">Jual</option>
+													<option value="Masih Baik Disumbangkan">Sumbangakan</option>
+													<option value="Masih Baik Dijual">Jual</option>
 												</optgroup>
 												<optgroup label="Barang Sudah Rusak">
-												<option value="Barang Rusak Disumbangkan">Sumbangakan</option>
-												<option value="Barang Rusak Dijual">Jual</option>
+													<option value="Barang Rusak Disumbangkan">Sumbangakan</option>
+													<option value="Barang Rusak Dijual">Jual</option>
 												</optgroup>
 											</select>
 										</div>
 									</div>
 									<div class="form-group disumbangkan">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="disumbangkan">Disumbangkan ke-</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="sumbangkan">Disumbangkan ke-</label>
 										<div class="col-sm-8">
-											<input maxlength="50"  class="form-control input-sm required" name="disumbangkan" id="disumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
+											<input maxlength="50"  class="form-control input-sm required" name="sumbangkan" id="sumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
 										</div>
 									</div>
 									<div class="form-group harga_jual">

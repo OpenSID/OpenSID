@@ -1,3 +1,16 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Klasifikasi - <?= $analisis_master['nama']?></h1>
@@ -75,7 +88,7 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																		<td><?= $data['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("analisis_klasifikasi/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data Kategori Indikator"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Kategori Indikator"><i class='fa fa-edit'></i></a>
+																			<a href="<?= site_url("analisis_klasifikasi/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Kategori Indikator"><i class='fa fa-edit'></i></a>
 																			<a href="#" data-href="<?= site_url("analisis_klasifikasi/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
 																		<td width="60%"><?= $data['nama']?></td>

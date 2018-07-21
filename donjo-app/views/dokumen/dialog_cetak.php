@@ -1,21 +1,8 @@
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script type="text/javascript">
-	$('document').ready(function()
-	{
-		$('select[name=pamong_ttd]').change(function(e)
-		{
-			$('input[name=jabatan_ttd]').val($(this).find(':selected').data('jabatan'));
-		});
-		$('select[name=pamong_ketahui]').change(function(e)
-		{
-			$('input[name=jabatan_ketahui]').val($(this).find(':selected').data('jabatan'));
-		});
-		$('select[name=pamong_ttd]').trigger('change');
-		$('select[name=pamong_ketahui]').trigger('change');
+	$('#validasi').submit(function() {
+		$('#modalBox').modal('hide');
 	});
 </script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
 <form action="<?=$form_action?>" method="post" id="validasi">
 	<div class='modal-body'>
 		<div class="row">
@@ -55,7 +42,7 @@
 		</div>
 		<div class="modal-footer">
 			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok">
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="btn-ok" >
 				<?php if (strpos($form_action, '/cetak') !== false): ?>
 					<i class='fa fa-print'></i> Cetak
 				<?php else: ?>
@@ -65,6 +52,3 @@
 		</div>
 	</div>
 </form>
-<script type="text/javascript">
-
-</script>

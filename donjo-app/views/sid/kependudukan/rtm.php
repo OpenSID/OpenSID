@@ -1,3 +1,16 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <style>
 .input-sm
 {
@@ -101,10 +114,10 @@
                                   <td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
                                   <td><?= $data['no']?></td>
                                   <td nowrap>
-                                    <a href="<?= site_url("rtm/anggota/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Anggota Rumah Keluarga"><i class="fa fa-list-ol"></i></a>
+                                    <a href="<?= site_url("rtm/anggota/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>
                                     <a href="<?= site_url("rtm/ajax_add_anggota/$p/$o/$data[id]")?>" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-flat btn-sm"><i class="fa fa-plus"></i></a>
                                     <?php if ($grup==1):?>
-                                      <a href="<?= site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Edit Rumah Tangga" class="btn bg-orange btn-flat btn-sm"><i class='fa fa-edit'></i></a>
+                                      <a href="<?= site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rumah Tangga" class="btn bg-orange btn-flat btn-sm"><i class='fa fa-edit'></i></a>
                                       <a href="#" data-href="<?= site_url("rtm/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     <?php endif;?>
                                   </td>
@@ -132,7 +145,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("keluarga")?>" method="post" class="form-horizontal">
+												<form id="paging" action="<?= site_url("rtm")?>" method="post" class="form-horizontal">
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

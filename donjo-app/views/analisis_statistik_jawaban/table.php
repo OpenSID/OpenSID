@@ -1,3 +1,16 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Laporan Statistik Jawaban</h1>
@@ -18,12 +31,15 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-						<a href="<?=site_url("analisis_statistik_jawaban/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+							<a href="<?=site_url("analisis_statistik_jawaban/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
 								<i class="fa fa-print"></i>Cetak
             	</a>
 						  <a href="<?=site_url("analisis_statistik_jawaban/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
 								<i class="fa fa-download"></i>Unduh
             	</a>
+							<a href="<?= site_url()?>analisis_laporan/leave" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke <?= $analisis_master['nama']?>
+							</a>
 						</div>
 						<div class="box-header with-border">
 							<h5>Analisis Statistik Jawaban - <a href="<?= site_url()?>analisis_master/menu/<?= $_SESSION['analisis_master']?>"><a href="<?= site_url()?>analisis_master/menu/<?= $_SESSION['analisis_master']?>"><?= $analisis_master['nama']?></a></a></h5>
@@ -87,7 +103,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover nowrap">
+														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th>No</th>

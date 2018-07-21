@@ -1,10 +1,10 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Dokumen: <?= $kat_nama?></h1>
+		<h1>Pengaturan <?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url().$this->controller.'/index/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar Dokumen</a></li>
-			<li class="active">Pengaturan Dokumen</li>
+			<li><a href="<?=site_url().$this->controller.'/index/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
+			<li class="active">Pengaturan <?= $kat_nama?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -14,7 +14,7 @@
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?=site_url().$this->controller.'/index/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Dokumen
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
             	</a>
 						</div>
 						<div class="box-body">
@@ -27,7 +27,7 @@
 							<?php if ($dokumen['satuan']):?>
 								<div class="form-group">
 									<label class="col-sm-4 control-label">Dokumen</label>
-									<div class="col-sm-8">
+									<div class="col-sm-4">
 										<input type="hidden" name="old_file" value="<?= $dokumen['satuan']?>">
 										<img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_DOKUMEN.$dokumen['satuan']?>" alt="<?= $dokumen['satuan']?>">
 									</div>

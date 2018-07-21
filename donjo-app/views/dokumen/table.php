@@ -1,15 +1,15 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Dokumen: <?php echo $kat_nama?></h1>
+		<h1><?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Pengaturan Dokumen</li>
+			<li class="active"><?= $kat_nama?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
-				<?php if($this->modul_ini <> 15): ?>
+				<?php if ($this->modul_ini <> 15): ?>
 					<div class="col-md-3">
 						<div class="box box-info">
 							<div class="box-header with-border">
@@ -26,11 +26,11 @@
 						</div>
 					</div>
 				<?php endif; ?>
-				<div class="<?php if($this->modul_ini <> 15): ?>col-md-9<?php else:?>col-md-12<?php endif;?>">
+				<div class="<?php if ($this->modul_ini <> 15): ?>col-md-9<?php else:?>col-md-12<?php endif;?>">
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?=site_url("{$this->controller}/form/$kat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Menu Baru">
-								<i class="fa fa-plus"></i>Tambah Dokumen Baru
+								<i class="fa fa-plus"></i>Tambah <?= $kat_nama?> Baru
             	</a>
 							<?php if ($_SESSION['grup']<4):?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("{$this->controller}/delete_all/$kat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
@@ -47,9 +47,10 @@
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 										<form id="mainform" name="mainform" action="" method="post">
+											<input name="kategori" type="hidden" value="<?= $kat?>">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('dokumen/filter')?>')">
+													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
 														<option value="">Semua</option>
 														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
 														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
@@ -58,9 +59,9 @@
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("dokumen/search")?>');$('#'+'mainform').submit();}">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();}">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("dokumen/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -76,16 +77,16 @@
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
-                                    <th><a href="<?= site_url("dokumen/index/$kat/$p/1")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==1): ?>
-                                    <th><a href="<?= site_url("dokumen/index/$kat/$p/2")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/2")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th><a href="<?= site_url("dokumen/index/$kat/$p/1")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
-																	<?php if ($kat == 2) : ?>
+																	<?php if ($kat == 2): ?>
 																		<th nowrap>Nomor Dan Tanggal Keputusan</th>
 																		<th nowrap>Uraian Singkat</th>
-																	<?php elseif ($kat == 3) : ?>
+																	<?php elseif ($kat == 3): ?>
 																		<th nowrap>Nomor Dan Tanggal Ditetapkan</th>
 																		<th nowrap>Uraian Singkat</th>
 																	<?php endif; ?>

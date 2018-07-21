@@ -76,9 +76,10 @@ class Dokumen_sekretariat extends CI_Controller{
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$header = $this->header_model->get_data();
-		$nav['act']= 15;
-		$nav['act_sub'] = 59;
 		$this->_set_tab($kat);
+		$nav['act']= 15;
+		$nav['act_sub'] = $this->tab_ini;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/form',$data);
