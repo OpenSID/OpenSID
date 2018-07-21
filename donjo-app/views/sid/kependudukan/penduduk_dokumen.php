@@ -14,20 +14,20 @@
 					<div class="box-header with-border">
 						<a href="<?= site_url("penduduk/dokumen_form/$penduduk[id]")?>" title="Tambah Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Dokumen" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i>Tambah Dokumen</a>
 						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("penduduk/delete_all_dokumen/$penduduk[id]")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-						<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa  fa-backward"></i> Kembali Ke Daftar Penduduk</a>
+						<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
 					</div>
 					<div class="box-body ">
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped table-hover">
 								<tbody>
 									<tr>
-										<td style="padding-top : 10px;padding-bottom : 10px; width:30%;" >Nama Penduduk</td><td> : <?= $penduduk['nama']?></td>
+										<td nowrap style="padding-top : 10px;padding-bottom : 10px; width:15%;" >Nama Penduduk</td><td nowrap > : <?= $penduduk['nama']?></td>
 									</tr>
 									<tr>
-										<td style="padding-top : 10px;padding-bottom : 10px;" >NIK</td><td> :  <?= $penduduk['nik']?></td>
+										<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >NIK</td><td nowrap > :  <?= $penduduk['nik']?></td>
 									</tr>
 									<tr>
-										<td style="padding-top : 10px;padding-bottom : 10px;" >Alamat</td><td> : <?= $penduduk['alamat']?> RT/RW :  <?= $penduduk['rt']?>/<?= $penduduk['rw']?> <?= strtoupper($this->setting->sebutan_dusun)?> :  <?= $penduduk['dusun']?> </td>
+										<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >Alamat</td><td nowrap > : <?= $penduduk['alamat']?> RT/RW :  <?= $penduduk['rt']?>/<?= $penduduk['rw']?> <?= strtoupper($this->setting->sebutan_dusun)?> :  <?= $penduduk['dusun']?> </td>
 									</tr>
 								</tbody>
 							</table>
@@ -47,33 +47,25 @@
 																<th><input type="checkbox" id="checkall"></th>
 																<th>No</th>
 																<th >Aksi</th>
-																<th>NIK</th>
-																<th>Nama</th>
-																<th>Tanggal Lahir</th>
-																<th>Jenis Kelamin</th>
-																<th>Hubungan</th>
+																<th>Nama Dokumen</th>
+																<th>File</th>
+																<th>Tanggal Upload</th>
 															</tr>
 														</thead>
 														<tbody>
-															<?php  foreach($main as $key => $data): ?>
+															<?php foreach ($list_dokumen as $data): ?>
 																<tr>
-																	<td><input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" ></td>
+																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" ></td>
 																	<td><?= $key+1?></td>
-																	<td>
-																		<a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" class="btn btn-info btn-flat btn-sm"  title="Lihat Biodata Penduduk"><i class="fa fa-eye"></i></a>
-																		<a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
-																		<a href="#" data-href="<?php echo site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Pecah KK" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-cut"></i></a>
-																		<?php if($data['kk_level']!=0){?>
-																			<a href="<?php echo site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Keluarga" title="Ubah Hubungan Keluarga" class="btn bg-navy btn-flat btn-sm"><i class='fa fa-exchange'></i></a>
-																		<?php }?>
+																	<td nowrap>
+																		<a href="<?= site_url("penduduk/dokumen_form/$penduduk[id]/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+																		<a href="#" data-href="<?= site_url("penduduk/delete_dokumen/$penduduk[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
-																	<td><?php echo $data['nik']?></td>
-																	<td><?php echo strtoupper(unpenetration($data['nama']))?></td>
-																	<td><?php echo tgl_indo_out($data['tanggallahir'])?></td>
-																	<td><?php echo $data['sex']?></td>
-																	<td><?php echo $data['hubungan']?></td>
+																	<td width="40%"><?= $data['nama']?></td>
+																	<td width="30%"><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" ><?= $data['satuan']?></a></td>
+																	<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>
 																</tr>
-																<?php  endforeach; ?>
+																<?php endforeach; ?>
 														</tbody>
 													</table>
 												</div>

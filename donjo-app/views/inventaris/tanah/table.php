@@ -202,8 +202,7 @@
 			'searching'   : true,
 			'ordering'    : true,
 			'info'        : true,
-			'autoWidth'   : true,
-			'scrollX'			: true
+			'autoWidth'   : true
   	});
 		t.on('order.dt search.dt', function()
 		{

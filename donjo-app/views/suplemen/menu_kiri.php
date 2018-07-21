@@ -13,6 +13,9 @@
 			<li>
 				<a href="<?= site_url("suplemen")?>"><i class="fa fa-list"></i> Data Suplemen</a>
 			</li>
+			<li>
+				<a href="<?= site_url("suplemen/panduan")?>"><i class="fa fa-question-circle"></i> Panduan</a>
+			</li>
 		</ul>
 	</div>
 </div>

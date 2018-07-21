@@ -224,3 +224,42 @@ table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:
 .table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
 	border-bottom-width: 0px;
 }
+.box-perhatian
+{
+	display: block;
+	padding: 9.5px;
+	margin: 0 0 10px;
+	font-size: 12px;
+	line-height: 1.42857143;
+	color: #333;
+	word-break: break-all;
+	word-wrap: break-word;
+	background-color:  rgb(248, 209, 209);
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.head-padding
+{
+	padding:5px;
+}
+/* Modifikasi Font Size Autocomplate */
+.ui-widget-content {
+	font-size: 11px;
+}
+
+/* Modifikasi Datetimepicker */
+.bootstrap-datetimepicker-widget.dropdown-menu
+{
+	width: auto;
+}
+/*
+Jika hanya untuk hari ahad yang berwarna merah
+.bootstrap-datetimepicker-widget td:nth-last-child(7)
+{
+	color: red !important;
+}
+*/
+.bootstrap-datetimepicker-widget .weekend
+{
+	color: red;
+}

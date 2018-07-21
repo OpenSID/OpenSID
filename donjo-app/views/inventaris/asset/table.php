@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Daftar Asset Lainnya</h1>
+		<h1>Daftar Inventaris Asset Tetap Lainnya</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Daftar Asset Lainnya</li>
+			<li class="active">Daftar Inventaris Asset Tetap Lainnya</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">

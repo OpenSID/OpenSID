@@ -1,3 +1,16 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <style>
 	.input-sm
 	{
@@ -10,6 +23,7 @@
 			display: block;
 		}
 	}
+}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -62,10 +76,10 @@
 												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk/status_dasar')?>')">
 													<option value="">Status</option>
 													<?php foreach ($list_status_dasar AS $data):?>
-														<option value="<?= $data['id']?>" <?php if ($list_status_dasar == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
+														<option value="<?= $data['id']?>" <?php if ($status_dasar == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
 													<?php endforeach;?>
 												</select>
-												<select class="form-control input-sm" name="subpoint" onchange="formAction('mainform', '<?=site_url('penduduk/sex')?>')">
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('penduduk/sex')?>')">
 													<option value="">Jenis Kelamin</option>
 													<option value="1" <?php if ($sex==1 ):?>selected<?php endif?>>Laki-Laki</option>
 													<option value="2" <?php if ($sex==2 ):?>selected<?php endif?>>Perempuan</option>
@@ -166,7 +180,7 @@
 																				</li>
 																				<li>
 
-																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cari Lokasi Tempat Tinggal" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?php echo $data['nama']?>" data-title="Lokasi <?php echo $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
 																				</li>
 																				<li>
 																					<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
@@ -280,4 +294,3 @@
 		</div>
 	</section>
 </div>
-

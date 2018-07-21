@@ -46,7 +46,7 @@ class Api_inventaris_tanah extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+            redirect("inventaris_tanah");
     }
 
     public function add_mutasi()
@@ -60,7 +60,7 @@ class Api_inventaris_tanah extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+						redirect("inventaris_tanah/mutasi");
     }
 
     public function update($id)
@@ -82,7 +82,7 @@ class Api_inventaris_tanah extends CI_Controller
                 'updated_at' => date("m/d/Y"),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+            redirect("inventaris_tanah");
     }
 
     public function update_mutasi($id)
@@ -96,20 +96,18 @@ class Api_inventaris_tanah extends CI_Controller
                 'updated_at' => date("m/d/Y"),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+						redirect("inventaris_tanah/mutasi");
     }
 
     public function delete($id)
     {
         json_encode($this->inventaris_tanah_model->delete($id));
-
         redirect('inventaris_tanah');
     }
 
     public function delete_mutasi($id)
     {
         json_encode($this->inventaris_tanah_model->delete_mutasi($id));
-
-        redirect('inventaris/mutasi');
+        redirect("inventaris_tanah/mutasi");
     }
 }

@@ -1,3 +1,16 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengelolaan Kelompok</h1>
@@ -46,8 +59,8 @@
 										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-9">
-													<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('kelompok/filter')?>')">
-														<option value="">Kelompok</option>
+													<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('kelompok/filter')?>')">
+														<option value="">Kategori Kelompok</option>
 														<?php foreach ($list_master AS $data):?>
 															<option value="<?= $data['id']?>" <?php if ($filter == $data['id']):?>selected<?php endif?>><?= $data['kelompok']?></option>
 														<?php endforeach;?>

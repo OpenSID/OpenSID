@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Laporan Asset Desa</h1>
+		<h1>Laporan Keseluruhan Asset Desa</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Laporan Asset Desa</li>
+			<li class="active">Laporan Keseluruhan Asset Desa</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -72,7 +72,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= base_url('index.php/inventaris'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= base_url('index.php/inventaris_tanah'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -128,7 +128,7 @@
 																</tr>
 																<tr>
 																	<td></td>
-																	<td nowrap> nowrapJalan Irigasi dan Jaringan</td>
+																	<td nowrap> Jalan Irigasi dan Jaringan</td>
 																	<td>Informasi mengenai jaringan, seperti listrik atau Internet.</td>
 																	<td>
 																		<?=$inventaris_jalan_pribadi->total?>
@@ -147,7 +147,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= base_url('index.php/inventaris_gedung/view/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= base_url('index.php/inventaris_jalan/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>

@@ -4,7 +4,7 @@
 		<h1>Form Data Suplemen</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?= site_url('hom_desa')?>"> Data Suplemen</a></li>
+			<li><a href="<?= site_url('suplemen')?>"> Data Suplemen</a></li>
 			<li class="active">Form Data Suplemen</li>
 		</ol>
 	</section>

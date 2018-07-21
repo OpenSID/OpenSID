@@ -1,10 +1,16 @@
+<style>
+	.table
+	{
+    font-size: 12px;
+	}
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>BiodataPenduduk</h1>
+		<h1>Biodata Penduduk</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?= site_url('penduduk/clear')?>"> Daftar Penduduk</a></li>
-			<li class="active">BiodataPenduduk</li>
+			<li class="active">Biodata Penduduk</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -17,7 +23,7 @@
 							<a href="<?= site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Biodata</a>
               <a href="<?= site_url("penduduk/cetak_biodata/$penduduk[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
 							<a href="<?= site_url("penduduk/clear")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Penduduk">
-								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Penduduk
+								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Penduduk
 							</a>
 						</div>
 						<div class="box-body">
@@ -38,6 +44,13 @@
 														<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Photo">
   												<?php endif;?>
 												</td>
+											</tr>
+										</table>
+									</div>
+									<div class="table-responsive">
+										<table class="table table-bordered table-striped table-hover" >
+											<tr>
+			  								<td>Status Dasar</td><td >:</td><td><span class="<?= ($penduduk['status_dasar_id']!=1) ? 'label label-danger' : ''?>"><strong><?= strtoupper($penduduk['status_dasar'])?></strong></span></td>
 											</tr>
 											<tr>
 												<td width="300">Nama</td><td width="1">:</td>
@@ -85,10 +98,7 @@
 												<td>Status Penduduk</td><td >:</td><td><?= strtoupper($penduduk['status'])?></td>
 		  								</tr>
 											<tr>
-			  								<td>Status Dasar</td><td >:</td><td class="<?= ($penduduk['status_dasar_id']!=1) ? 'non-hidup' : ''?>"><?= strtoupper($penduduk['status_dasar'])?></td>
-											</tr>
-											<tr>
-												<th colspan="3" class="text-red bg-aqua"><strong>DATA KELAHIRAN</strong></th>
+												<th colspan="3" class="bg-aqua"><strong>DATA KELAHIRAN</strong></th>
 											</tr>
 											<tr>
 												<td>Akta Kelahiran</td><td >:</td><td><?= strtoupper($penduduk['akta_lahir'])?></td>
@@ -98,9 +108,6 @@
 											</tr>
 											<tr>
 												<td>Tempat Dilahirkan</td><td >:</td><td><?= $penduduk['tempat_dilahirkan_nama'] ?></td>
-											</tr>
-											<tr>
-												<td>Alamat Tempat Lahir</td><td >:</td><td><?= $penduduk['alamat_tempat_lahir']?></td>
 											</tr>
 											<tr>
 												<td>Jenis Kelahiran</td><td >:</td><td><?= $penduduk['jenis_kelahiran_nama'] ?></td>
@@ -118,7 +125,7 @@
 												<td>Panjang Lahir</td><td >:</td><td><?= $penduduk['panjang_lahir']?> cm</td>
 											</tr>
 											<tr>
-												<th colspan="3" class="text-red bg-aqua"><strong>PENDIDIKAN DAN PEKERJAAN</strong></th>
+												<th colspan="3" class="bg-aqua"><strong>PENDIDIKAN DAN PEKERJAAN</strong></th>
 											</tr>
 											<tr>
 												<td>Pendidikan dalam KK</td><td >:</td><td><?= strtoupper($penduduk['pendidikan_kk'])?></td>
@@ -130,7 +137,7 @@
 												<td>Pekerjaan</td><td >:</td><td><?= strtoupper($penduduk['pekerjaan'])?></td>
 											</tr>
 											<tr>
-												<th colspan="3" class="text-red bg-aqua"><strong>DATA KEWARGANEGARAAN</strong></th>
+												<th colspan="3" class="bg-aqua"><strong>DATA KEWARGANEGARAAN</strong></th>
 											</tr>
 											<tr>
 												<td>Warga Negara</td><td >:</td><td><?= strtoupper($penduduk['warganegara'])?></td>
@@ -145,7 +152,7 @@
 												<td>Nomor KITAS/KITAP</td><td >:</td><td><?= strtoupper($penduduk['dokumen_kitas'])?></td>
 											</tr>
 											<tr>
-												<th colspan="2" class="bagian">ORANG TUA</th>
+												<th colspan="3" class="bg-aqua"><strong>ORANG TUA</strong></th>
 											</tr>
 											<tr>
 												<td>NIK Ayah</td><td >:</td><td><?= strtoupper($penduduk['ayah_nik'])?></td>
@@ -160,7 +167,7 @@
 												<td>Nama Ibu</td><td >:</td><td><?= strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
 											</tr>
 											<tr>
-												<th colspan="2" class="bagian">ALAMAT</th>
+												<th colspan="3" class="bg-aqua"><strong>ALAMAT</strong></th>
 											</tr>
 											<tr>
 												<td>Nomor Telepon</td><td >:</td><td><?= strtoupper($penduduk['telepon'])?></td>
@@ -181,7 +188,7 @@
 												<td>Alamat Sekarang</td><td >:</td><td><?= strtoupper($penduduk['alamat_sekarang'])?></td>
 											</tr>
 											<tr>
-												<th colspan="3" class="text-red bg-aqua"><strong>STATUS KAWIN</strong></th>
+												<th colspan="3" class="bg-aqua"><strong>STATUS KAWIN</strong></th>
 											</tr>
 											<tr>
 												<td>Status Kawin</td><td >:</td><td><?= strtoupper($penduduk['kawin'])?></td>
@@ -199,7 +206,7 @@
 												<td>Tanggal perceraian</td><td >:</td><td><?= strtoupper($penduduk['tanggalperceraian'])?></td>
 											</tr>
 											<tr>
-												<th colspan="3" class="text-red bg-aqua"><strong>DATA KESEHATAN</strong></th>
+												<th colspan="3" class="bg-aqua"><strong>DATA KESEHATAN</strong></th>
 											</tr>
 											<tr>
 												<td>Golongan Darah</td><td >:</td><td><?= $penduduk['golongan_darah']?></td>

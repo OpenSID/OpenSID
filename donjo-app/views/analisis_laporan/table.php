@@ -1,3 +1,16 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <?php
 	$subjek = $_SESSION['subjek_tipe'];
 	switch ($subjek):
@@ -15,7 +28,7 @@
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
 			<li><a href="<?=site_url()?>analisis_laporan/leave"><?= $analisis_master['nama']?></a></li>
-			<li class="active">Laporan Per Klasifikasi</li>
+			<li class="active">Laporan Hasil Klasifikasi</li>
 		</ol>
 	</section>
 	</section>
@@ -28,7 +41,7 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-						<a href="<?=site_url("analisis_laporan/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+							<a href="<?=site_url("analisis_laporan/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
 								<i class="fa fa-print"></i>Cetak
             	</a>
 						  <a href="<?=site_url("analisis_laporan/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
@@ -37,6 +50,9 @@
 							<a href="<?=site_url("analisis_laporan/ajax_multi_jawab")?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Filter Indikator" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Filter Indikator">
 								<i class="fa fa-search"></i>Filter Indikator
             	</a>
+							<a href="<?= site_url()?>analisis_laporan/leave" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke <?= $analisis_master['nama']?>
+							</a>
 						</div>
 						<div class="box-header with-border">
 							<div class="table-responsive">
@@ -66,6 +82,12 @@
 										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-8">
+													<select class="form-control input-sm" name="klasifikasi" onchange="formAction('mainform', '<?=site_url('analisis_laporan/klasifikasi')?>')">
+														<option value=""> --- Klasifikasi --- </option>
+														<?php foreach ($list_klasifikasi AS $data):?>
+															<option value="<?= $data['id']?>" <?php if ($klasifikasi == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
+														<?php endforeach;?>
+													</select>
 													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('analisis_laporan/dusun')?>')">
 														<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 														<?php foreach ($list_dusun AS $data):?>
@@ -88,12 +110,6 @@
 															<?php endforeach;?>
 														</select>
 													<?php endif;?>
-													<select class="form-control input-sm" name="klasifikasi" onchange="formAction('mainform', '<?=site_url('analisis_laporan/klasifikasi')?>')">
-														<option value=""> --- Klasifikasi --- </option>
-														<?php foreach ($list_klasifikasi AS $data):?>
-															<option value="<?= $data['id']?>" <?php if ($klasifikasi == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
-														<?php endforeach;?>
-													</select>
 												</div>
 												<div class="col-sm-4">
 													<div class="input-group input-group-sm pull-right">

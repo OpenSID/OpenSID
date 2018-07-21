@@ -41,7 +41,7 @@
 									<div class="col-sm-8">
 										<div class="mailbox-attachment-info">
 											<a href="<?= site_url('/surat_masuk/unduh_berkas_scan/'.$surat_masuk['id']);?>" title=""><i class="fa fa-paperclip"></i> <?= $surat_masuk['berkas_scan'];?></a>
-											<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?=  $surat_masuk['berkas_scan']?>" /> Hapus Berkas Lamar</label></p>
+											<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?=  $surat_masuk['berkas_scan']?>" /> Hapus Berkas Lama</label></p>
 										</div>
 									</div>
 								</div>
@@ -56,6 +56,7 @@
 											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
+									<p class="help-block small">(Kosongkan jika tidak ingin mengubah berkas)</p>
 								</div>
 							</div>
 							<div class="form-group">

@@ -10,7 +10,7 @@
 			<li <?php if ($_SESSION['submenu'] == "Data Kategori"): ?>class="active"<?php endif;?>><a href="<?=site_url("analisis_kategori/clear")."/".$analisis_master['id']?>">Kategori/Variabel</a></li>
       <li <?php if ($_SESSION['submenu'] == "Data Indikator"): ?>class="active"<?php endif;?>><a href="<?=site_url("analisis_indikator/clear")."/".$analisis_master['id']?>">Indikator & Pertanyaan</a></li>
       <li <?php if ($_SESSION['submenu'] == "Data Klasifikasi"): ?>class="active"<?php endif;?>><a href="<?=site_url("analisis_klasifikasi/clear")."/".$analisis_master['id']?>">Klasifikasi Analisis</a></li>
-      <li <?php if ($_SESSION['submenu'] == "Data Periode"): ?>class="active"<?php endif;?>><a href="<?=site_url("analisis_periode/clear")."/".$analisis_master['id']?>">Priode Sensus/Survei</a></li>
+      <li <?php if ($_SESSION['submenu'] == "Data Periode"): ?>class="active"<?php endif;?>><a href="<?=site_url("analisis_periode/clear")."/".$analisis_master['id']?>">Periode Sensus/Survei</a></li>
 		</ul>
 	</div>
 </div>

@@ -76,7 +76,7 @@
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
-				<div class="col-md-4 col-lg-3">
+				<div class="col-md-3">
 					<?php $this->load->view('analisis_master/left',$data);?>
 				</div>
 				<div class="col-md-9">
@@ -106,12 +106,12 @@
 											<?php endforeach;?>
 										</select>
 									<?php endif;?>
-									<a href="<?= site_url()?>analisis_statistik_jawaban" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
+									<a href="<?= site_url()?>analisis_statistik_jawaban" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Laporan Per Indikator</a>
 								</div>
 								<div class="col-sm-12">
 									<h5 class="box-title"><b><?php echo $analisis_statistik_jawaban['pertanyaan']?></b></h5>
 									<div class="table-responsive">
-										<table class="table table-bordered dataTable table-hover nowrap">
+										<table class="table table-bordered dataTable table-hover table-striped">
 											<thead>
 												<tr>
 													<th>No</th>
@@ -129,10 +129,11 @@
 												<?php endforeach; ?>
 											</tbody>
 										</table>
+										<div id="chart"></div>
 									</div>
 								</div>
-							</DIV>
-							<div id="chart"> </div>
+							</div>
+
 						</div>
 					</div>
 				</div>

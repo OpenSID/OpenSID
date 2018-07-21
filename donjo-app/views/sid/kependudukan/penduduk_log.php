@@ -1,3 +1,16 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Log Penduduk</h1>
@@ -11,36 +24,38 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<div class="box-header with-border">
-						<div class="row">
-							<div class="col-sm-9">
-								<a href="#confirm-status" title="Kembalikan Status" onclick="aksiBorongan('mainform','<?= site_url("penduduk_log/kembalikan_status_all")?>')" class="btn btn-social btn-flat	btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-undo'></i> Kembalikan Status</a>
-								<a href="<?= site_url("penduduk_log/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-								<a href="<?= site_url("penduduk_log/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
-								<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
-							</div>
-							<div class="col-sm-3">
-								<div class="input-group input-group-sm pull-right">
-									<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("plan/search")?>');$('#'+'mainform').submit();}">
-									<div class="input-group-btn">
-										<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("plan/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+					<form id="mainform" name="mainform" action="" method="post">
+						<div class="box-header with-border">
+							<div class="row">
+								<div class="col-sm-9">
+									<a href="#confirm-status" title="Kembalikan Status" onclick="aksiBorongan('mainform','<?= site_url("penduduk_log/kembalikan_status_all")?>')" class="btn btn-social btn-flat	btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-undo'></i> Kembalikan Status</a>
+									<a href="<?= site_url("penduduk_log/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
+									<a href="<?= site_url("penduduk_log/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
+									<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm pull-right">
+										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url('penduduk_log/search')?>');$('#'+'mainform').submit();}">
+										<div class="input-group-btn">
+											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url('penduduk_log/search')?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="box-body">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
-									<div class="row">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<div class="row">
 											<div class="col-sm-12">
 												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk_log/status_dasar')?>')">
-													<option value="">Status</option>
-													<?php foreach ($list_status_dasar AS $data):?>
-														<option value="<?= $data['id']?>" <?php if ($list_status_dasar == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
-													<?php endforeach;?>
+													<option value="">Semua</option>
+													<?php foreach ($list_status_dasar as $data): ?>
+                            <?php if (strtolower($data['nama']) != 'hidup'): ?>
+                              <option value="<?= $data['id']?>" <?php if($status_dasar==$data['id']):?>selected<?php  endif;?>><?= ucwords(strtolower($data['nama']))?></option>
+                            <?php endif; ?>
+                          <?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/sex')?>')">
                           <option value="">Jenis Kelamin</option>

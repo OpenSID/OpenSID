@@ -544,6 +544,7 @@ class Penduduk extends CI_Controller{
 	}
 
 	function ajax_penduduk_pindah($id=0){
+		$data['kepala_keluarga'] = $this->penduduk_model->get_penduduk($id);
 		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($id);
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['is_anggota_keluarga'] = $this->penduduk_model->is_anggota_keluarga($id);
@@ -555,26 +556,27 @@ class Penduduk extends CI_Controller{
 	function ajax_penduduk_pindah_rw($dusun=''){
 		$dusun = urldecode($dusun);
 		$rw = $this->penduduk_model->list_rw($dusun);
-		echo"<td>RW</td>
-		<td><select name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
-		<option value=''>Pilih RW&nbsp;</option>";
-		foreach($rw as $data){
-			echo "<option>".$data['rw']."</option>";
-		}echo"</select>
-		</td>";
+		echo"<div class='form-group'><label>RW</label>
+		<select class='form-control input-sm' name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
+			<option value=''>Pilih RW</option>";
+			foreach ($rw as $data):
+				echo "<option>".$data['rw']."</option>";
+			endforeach;
+		echo "</select>
+	</div>";
 	}
 
 	function ajax_penduduk_pindah_rt($dusun='',$rw=''){
 		$dusun = urldecode($dusun);
 		$rt = $this->penduduk_model->list_rt($dusun,$rw);
-
-		echo "<td>RT</td>
-		<td><select name='id_cluster'>
-		<option value=''>Pilih RT&nbsp;</option>";
-		foreach($rt as $data){
-			echo "<option value=".$data['id'].">".$data['rt']."</option>";
-		}echo"</select>
-		</td>";
+		echo"<div class='form-group'><label>RT</label>
+		<select class='form-control input-sm' name='id_cluster'>
+			<option value=''>Pilih RT</option>";
+			foreach ($rt as $data):
+				echo "<option value=".$data['id'].">".$data['rt']."</option>";
+			endforeach;
+		echo "</select>
+	</div>";
 	}
 
 

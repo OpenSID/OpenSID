@@ -27,7 +27,7 @@
 				<div class="header" align="center">
 					<label align="left"><?= get_identitas()?></label>
 					<h3> DATA PENDUDUK </h3>
-					<h3> <?php echo $_SESSION['judul_statistik']; ?></h3>
+					<h3> <?= $_SESSION['judul_statistik']; ?></h3>
 				</div>
 				<br>
    		 	<table class="border thick">
@@ -38,29 +38,28 @@
 							<th>Nama</th>
 							<th>NIK</th>
 							<th>Alamat</th>
-							<th ><?= ucwords($this->setting->sebutan_dusun)?></th>
-							<th >RW</th>
-							<th >RT</th>
-							<th >Jenis Kelamin</th>
-							<th >Tempat Lahir</th>
-							<th >Tanggal Lahir</th>
-							<th >Umur</th>
-							<th >Agama</th>
-							<th >Pendidikan (dlm KK)</th>
-							<th >Pekerjaan</th>
-							<th >Kawin</th>
-							<th >Hub. Keluarga</th>
-							<th >Nama Ayah</th>
-							<th >Nama Ibu</th>
-							<th >Status</th>
-
+							<th><?= ucwords($this->setting->sebutan_dusun)?></th>
+							<th>RW</th>
+							<th>RT</th>
+							<th>Jenis Kelamin</th>
+							<th>Tempat Lahir</th>
+							<th>Tanggal Lahir</th>
+							<th>Umur</th>
+							<th>Agama</th>
+							<th>Pendidikan (dlm KK)</th>
+							<th>Pekerjaan</th>
+							<th>Kawin</th>
+							<th>Hub. Keluarga</th>
+							<th>Nama Ayah</th>
+							<th>Nama Ibu</th>
+							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
-							<td  class="textx"><?= $data['no_kk']?> </td>
+							<td class="textx"><?= $data['no_kk']?> </td>
 							<td><?= strtoupper($data['nama'])?></td>
 							<td class="textx"><?= $data['nik']?></td>
 							<td><?= strtoupper($data['alamat'])?></td>

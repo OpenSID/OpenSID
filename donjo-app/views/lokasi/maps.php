@@ -1,6 +1,12 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<!-- OpenStreetMap Js-->
+<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+<script src="<?php echo base_url()?>assets/js/turf.min.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 <script>
 	(function() {
-	//Jika posisi peta_lokasi belum ada, maka gunakan peta_lokasi default
+	//Jika posisi peta_desa belum ada, maka gunakan peta_desa default
 	<?php if(!empty($lokasi['lat']) && !empty($lokasi['lng'])): ?>
 		var posisi = [<?=$lokasi['lat'].",".$lokasi['lng']?>];
 		var zoom = <?=$desa['zoom'] ?: 10?>;
@@ -9,13 +15,13 @@
 		var zoom = 10;
 	<?php endif; ?>
 		//Inisialisasi tampilan peta
-		var peta_lokasi = L.map('map_lokasi').setView(posisi, zoom);
+		var peta_desa = L.map('map_lokasi').setView(posisi, zoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
 			id: 'map_lokasi'
-		}).addTo(peta_lokasi);
-		var lokasi_marker = L.marker(posisi, {draggable: true}).addTo(peta_lokasi);
+		}).addTo(peta_desa);
+		var lokasi_marker = L.marker(posisi, {draggable: true}).addTo(peta_desa);
 		lokasi_marker.on('dragend', function(e){
 			document.getElementById('lat').value = e.target._latlng.lat;
 			document.getElementById('lng').value = e.target._latlng.lng;

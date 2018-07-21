@@ -573,6 +573,7 @@ function __construct(){
 	}
 
 	function ajax_penduduk_pindah($id=0){
+		$data['kepala_keluarga'] 		  = $this->keluarga_model->get_kepala_kk($id);
 		$data['alamat_wilayah'] = $this->keluarga_model->get_alamat_wilayah($id);
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 

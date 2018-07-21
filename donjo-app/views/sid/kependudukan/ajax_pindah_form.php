@@ -9,15 +9,18 @@
 		if (window.XMLHttpRequest)
 		{
 			xmlhttp=new XMLHttpRequest();
-		}else{
+		}
+		else
+		{
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			xmlhttp.onreadystatechange=function()
+		}
+		xmlhttp.onreadystatechange=function()
+		{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)
 			{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200){
 				document.getElementById("rw").innerHTML=xmlhttp.responseText;
-				}
 			}
+		}
 		xmlhttp.open("GET","<?= site_url()?>penduduk/ajax_penduduk_pindah_rw/"+str,true);
 		xmlhttp.send();
 	}
@@ -32,7 +35,9 @@
 		if (window.XMLHttpRequest)
 		{
 			xmlhttp=new XMLHttpRequest();
-		}else{
+		}
+		else
+		{
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		xmlhttp.onreadystatechange=function()
@@ -83,7 +88,7 @@
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Alamat Sekarang</td>
 								<td> : </td>
-								<td><?= $alamat_wilayah?></td>
+								<td><?= $alamat_wilayah ?></td>
 							</tr>
 						</table>
 					</div>
@@ -94,11 +99,11 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label>Alamat Baru</label>
-							<input id="alamat" name="alamat" class="form-control input-sm required" type="text" placeholder="Nama Jalan" value="<?= $data['alamat']?>"></input>
+							<input id="alamat" name="alamat" class="form-control input-sm" type="text" placeholder="Nama Jalan" value="<?= $data['alamat']?>"></input>
 						</div>
 						<div class="form-group">
 							<label>Dusun</label>
-							<select class="form-control input-sm required" name="dusun1" onchange="DusSel(this.value)">
+							<select class="form-control input-sm" name="dusun1" onchange="DusSel(this.value)">
 								<option value="">Pilih Dusun</option>
 								<?php foreach ($dusun as $data):?>
 								<?php ///$data['dusun']=myUrlEncode($data['dusun']);?>

@@ -20,6 +20,8 @@
 
 		<!-- Bootstrap 3.3.7 -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.min.css">
+		<!-- Jquery UI -->
+		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/jquery-ui.min.css">
 		<!-- Font Awesome -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/font-awesome.min.css">
 		<!-- Ionicons -->
@@ -44,8 +46,8 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.pm.css" />
 		<!-- OpenStreetMap Js-->
-		<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
-    <script src="<?php echo base_url()?>assets/js/turf.min.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
+    <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 	</head>
 	<body class="skin-purple sidebar-mini fixed <?php if ($minsidebar==1):?>sidebar-collapse<?php endif?>">

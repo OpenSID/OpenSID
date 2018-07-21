@@ -43,7 +43,7 @@
 						<div class="form-group">
 							<label for="nik">NIK / Nama Penduduk</label>
 							<select class="form-control input-sm select2 required"  id="nik" name="nik" style="width:100%;">
-								<option option value="">-- Silakan Cari NIK / Nama Penduduk--</option>
+								<option option value="">-- Silakan Cari NIK / Nama Penduduk --</option>
 								<?php foreach($penduduk as $data){?>
 									<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
 								<?php }?>
@@ -52,7 +52,7 @@
 						<div class="form-group">
 							<label for="kk_level">Hubungan Keluarga</label>
 							<select class="form-control input-sm required"  id="kk_level" name="kk_level" style="width:100%;">
-								<option option value="">-- Silakan Cari Hubungan Keluarga--</option>
+								<option option value="">-- Silakan Cari Hubungan Keluarga --</option>
 								<?php foreach($hubungan as $data):?>
 									<option value="<?= $data['id']?>"><?= $data['nama']?></option>
 								<?php endforeach;?>

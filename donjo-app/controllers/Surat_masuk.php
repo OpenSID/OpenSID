@@ -53,6 +53,7 @@ class Surat_masuk extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$nav['act']= 15;
 		$nav['act_sub'] = 57;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('surat_masuk/table',$data);
@@ -85,6 +86,7 @@ class Surat_masuk extends CI_Controller{
 		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
 		$nav['act']= 15;
 		$nav['act_sub'] = 57;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$nav['act']=$this->tab_ini;
 		$this->load->view('nav',$nav);

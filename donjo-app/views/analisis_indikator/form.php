@@ -125,7 +125,7 @@
 														<option selected="selected">-- Kategori Indikator--</option>
 														<?php foreach ($list_kategori AS $data):?>
 															<option value="<?= $data['id']?>"  <?php if ($analisis_indikator['id_kategori'] == $data['id']){echo selected;}?>><?= $data['kategori']?></option>
-														<?php endif;?>
+														<?php endforeach;?>
 													</select>
 												</div>
 											</div>
@@ -141,7 +141,7 @@
 										<div class="col-sm-12">
 											<div class="form-group" id="delik">
 												<label class="col-sm-3 control-label" for="act_analisis">Publikasi Indikator</label>
-												<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
+												<div class="btn-group col-sm-7" data-toggle="buttons">
 													<label id="ss1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_indikator['is_publik'] =='1' OR $analisis_indikator['is_publik'] ==NULL): ?>active<?php endif ?>">
 														<input id="g1" type="radio" name="is_publik" class="form-check-input" type="radio" value="1" <?php if ($analisis_indikator['is_publik']=='1' OR $analisis_indikator['is_publik'] ==NULL): ?>checked <?php endif ?> autocomplete="off"> Ya
 													</label>
@@ -149,6 +149,8 @@
 														<input id="g2" type="radio" name="is_publik" class="form-check-input" type="radio" value="2" <?php if ($analisis_indikator['is_publik'] == '2' ):?>checked<?php endif?> autocomplete="off"> Tidak
 													</label>
 												</div>
+												<label class="col-sm-3 control-label"></label>
+												<div class="col-sm-7"><p class="help-block small">*) Tampilkan data indikator di halaman depan website desa (Menu Data Desa -> Data Analisis).</p></div>
 											</div>
 										</div>
 									</div>

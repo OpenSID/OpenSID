@@ -35,19 +35,19 @@
 							<th width="200">Kepala Keluarga</th>
 							<th width="200">NIK</th>
 							<th width="100"  >Jumlah Anggota</th>
-							<th   width="100">Jenis Kelamin</th>
+							<th width="100">Jenis Kelamin</th>
 							<th align="center" width="180">Alamat</th>
-							<th   width="100"><?= ucwords($this->setting->sebutan_dusun)?></th>
-							<th   width="30">RW</th>
-							<th   width="30">RT</th>
-							<th   width="100">Tanggal Terdaftar</th>
-							<th   width="100">Tanggal Cetak KK</th>
+							<th width="100"><?= ucwords($this->setting->sebutan_dusun)?></th>
+							<th width="30">RW</th>
+							<th width="30">RT</th>
+							<th width="100">Tanggal Terdaftar</th>
+							<th width="100">Tanggal Cetak KK</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach($main as $data): ?>
+						<?php foreach ($main as $data): ?>
 							<tr>
-								<td  width="2"><?= $data['no']?></td>
+								<td width="2"><?= $data['no']?></td>
 								<td class="textx"><?= $data['no_kk']?></td>
 								<td><?= strtoupper($data['kepala_kk'])?></td>
 								<td class="textx"><?= strtoupper(unpenetration($data['nik']))?></td>

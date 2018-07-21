@@ -7,8 +7,8 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<li <?php if ($tip==1): ?>class="active"<?php endif;?>><a href="<?=site_url('inventaris_tanah')?>"><i class="fa fa-list"></i> Daftar Inventaris</a></li>
-      <li <?php if ($tip==2): ?>class="active"<?php endif;?>><a href="<?=site_url('inventaris_tanah/mutasi')?>"><i class="fa fa-share"></i> Mutasi Inventaris</a></li>
+			<li <?php if ($tip==1): ?>class="active"<?php endif;?>><a href="<?=site_url('laporan_inventaris')?>"><i class="fa fa-list"></i> Laporan Semua Asset</a></li>
+			<li <?php if ($tip==2): ?>class="active"<?php endif;?>><a href="<?=site_url('laporan_inventaris/mutasi')?>"><i class="fa fa-list"></i> Laporan Asset Yang Dihapus</a></li>
 		</ul>
 	</div>
 </div>
