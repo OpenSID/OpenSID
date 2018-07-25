@@ -5,7 +5,8 @@
 				<img src="<?=LogoDesa($desa['logo']);?>" class="img-circle" alt="User Image">
 			</div>
 			<div class="pull-left info">
-				<p><?=ucwords($this->setting->sebutan_desa." ".$desa['nama_desa']);?></p>
+				<strong><?=ucwords($this->setting->sebutan_desa." ".$desa['nama_desa']);?></strong>
+				</br>
 				<?php
 					$nam_kec = strlen(unpenetration($desa['nama_kecamatan']));
 					$nam_kab = strlen(unpenetration($desa['nama_kabupaten']));

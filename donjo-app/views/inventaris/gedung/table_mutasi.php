@@ -28,7 +28,7 @@
 																<th class="text-center" >Aksi</th>
 																<th class="text-center">Nama Barang</th>
 																<th class="text-center">Kode Barang</th>
-																<th class="text-center">Tahun Pengadaan</th>
+																<th class="text-center">Tahun Dokumen</th>
 																<th class="text-center">Tanggal Mutasi</th>
 																<th class="text-center">Jenis Mutasi</th>
 																<th class="text-center" width="300px">Keterangan</th>

@@ -7,66 +7,66 @@
 				<div align="center">
 					<h3>KARTU RUMAH TANGGA</h3>
 					<h4>SALINAN</h4>
-					<h5>No. <?= $kepala_kk['no_kk']?> </h4>
+					<h5>No. <?= $kepala_kk['no_kk']?> </h5>
 				</div>
 				<br>
 				<table width="100%" cellpadding="3" cellspacing="4">
 					<tr>
-					<td width="100">Nama KK</td>
-					<td width="600">: <?= strtoupper($kepala_kk['nama']) ?></td>
-					<td width="160">Kecamatan</td>
-					<td width="150">: <?= strtoupper($desa['nama_kecamatan']) ?></td>
+						<td width="100">Nama KK</td>
+						<td width="600">: <?= strtoupper($kepala_kk['nama']) ?></td>
+						<td width="160">Kecamatan</td>
+						<td width="150">: <?= strtoupper($desa['nama_kecamatan']) ?></td>
 					</tr>
 					<tr>
-					<td>Alamat</td>
-					<td>: <?= strtoupper($kepala_kk['dusun']) ?> </td>
-					<td>Kabupaten/Kota</td>
-					<td>: <?= $desa['nama_kabupaten'] ?></td>
+						<td>Alamat</td>
+						<td>: <?= strtoupper($kepala_kk['dusun']) ?> </td>
+						<td>Kabupaten/Kota</td>
+						<td>: <?= $desa['nama_kabupaten'] ?></td>
 					</tr>
 					<tr>
-					<td>RT / RW</td>
-					<td>: <?= $kepala_kk['rt'] ?> / <?= $kepala_kk['rw'] ?></td>
-					<td>Kode Pos</td>
-					<td>: <?= strtoupper($desa['kode_pos']) ?></td>
+						<td>RT / RW</td>
+						<td>: <?= $kepala_kk['rt'] ?> / <?= $kepala_kk['rw'] ?></td>
+						<td>Kode Pos</td>
+						<td>: <?= strtoupper($desa['kode_pos']) ?></td>
 					</tr>
 					<tr>
-					<td>Kelurahan/Desa</td>
-					<td>: <?= strtoupper($desa['nama_desa']) ?></td>
-					<td>Provinsi</td>
-					<td>: <?= strtoupper($desa['nama_propinsi']) ?></td>
+						<td>Kelurahan/Desa</td>
+						<td>: <?= strtoupper($desa['nama_desa']) ?></td>
+						<td>Provinsi</td>
+						<td>: <?= strtoupper($desa['nama_propinsi']) ?></td>
 					</tr>
 				</table>
 				<br>
 				<table class="border thick ">
 					<thead>
-					<tr class="border thick">
-						<th width="7">No</th>
-						<th width='180'>Nama</th>
-						<th width='100'>NIK</th>
-						<th width='100'>NOMOR KK</th>
-						<th width='100'>Jenis Kelamin</th>
-						<th width='100'>Tempat Lahir</th>
-						<th width='120'>Tanggal Lahir</th>
-						<th width='100'>Agama</th>
-						<th width='100'>Pendidikan</th>
-						<th width='100'>Pekerjaan</th>
-					</tr>
+						<tr class="border thick">
+							<th width="7">No</th>
+							<th width='180'>Nama</th>
+							<th width='100'>NIK</th>
+							<th width='100'>NOMOR KK</th>
+							<th width='100'>Jenis Kelamin</th>
+							<th width='100'>Tempat Lahir</th>
+							<th width='120'>Tanggal Lahir</th>
+							<th width='100'>Agama</th>
+							<th width='100'>Pendidikan</th>
+							<th width='100'>Pekerjaan</th>
+						</tr>
 					</thead>
 					<tbody>
-					<?php foreach ($main as $data): ?>
-					<tr class="data">
-						<td align="center" width="2"><?= $data['no']?></td>
-						<td><?= strtoupper($data['nama'])?></td>
-						<td><?= $data['nik']?></td>
-						<td><?= $data['no_kk']?></td>
-						<td><?= $data['sex']?></td>
-						<td><?= $data['tempatlahir']?></td>
-						<td><?= $data['tanggallahir']?></td>
-						<td><?= $data['agama']?></td>
-						<td><?= $data['pendidikan']?></td>
-						<td><?= $data['pekerjaan']?></td>
-					</tr>
-					<?php endforeach; ?>
+						<?php foreach ($main as $data): ?>
+						<tr class="data">
+							<td align="center" width="2"><?= $data['no']?></td>
+							<td><?= strtoupper($data['nama'])?></td>
+							<td><?= $data['nik']?></td>
+							<td><?= $data['no_kk']?></td>
+							<td><?= $data['sex']?></td>
+							<td><?= $data['tempatlahir']?></td>
+							<td><?= $data['tanggallahir']?></td>
+							<td><?= $data['agama']?></td>
+							<td><?= $data['pendidikan']?></td>
+							<td><?= $data['pekerjaan']?></td>
+						</tr>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
 				<br>

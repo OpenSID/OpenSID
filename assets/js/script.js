@@ -20,11 +20,11 @@ $(document).ready(function()
 	//Delay Alert
 	setTimeout(function()
 	{
-		$('.alert').fadeIn('slow');
+		$('#notification').fadeIn('slow');
 	}, 500);
 	setTimeout(function()
 	{
-		$('.alert').fadeOut('slow');
+		$('#notification').fadeOut('slow');
 	}, 2000);
 
 	// Select2 dengan fitur pencarian
@@ -145,6 +145,21 @@ $(document).ready(function()
 		format: 'DD-MM-YYYY',
 		locale:'id'
 	});
+	$('#tgl_8').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id'
+	});
+	$('#tgl_9').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id'
+	});
+	$('#tgl_10').datetimepicker(
+		{
+			format: 'DD-MM-YYYY',
+			locale:'id'
+		});
 	$('#jam_1').datetimepicker(
 	{
 		format: 'HH:mm:ss',

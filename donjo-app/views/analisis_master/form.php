@@ -4,11 +4,10 @@
 	{
 		$('#subjek_tipe').change(function()
 		{
-			if ($(this).val()==4):
+			if ($(this).val()==4)
 				$('#idelik').addClass("show").removeClass("hide");
-			else:
+			else
 				$('#idelik').removeClass("show").addClass("hide");
-			endif;
 		});
 	});
 </script>

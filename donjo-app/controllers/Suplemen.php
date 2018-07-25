@@ -177,10 +177,13 @@ class Suplemen extends CI_Controller{
 		$this->form_validation->set_rules('cid', 'Sasaran', 'required');
 		$this->form_validation->set_rules('nama', 'Nama Data', 'required');
 
+		$nav['act']= 2;
+		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
-
+		$this->load->view('nav',$nav);
 		$data['form_action'] = "suplemen/edit/$id";
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($id);
 

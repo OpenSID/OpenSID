@@ -31,9 +31,15 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url('analisis_indikator/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Indikator Baru"><i class="fa fa-plus"></i> Tambah Indikator Baru</a>
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("analisis_indikator/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<a href="<?= site_url()?>analisis_indikator/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
+							<?php if ($analisis_master['lock']==1):?>
+								<a href="<?=site_url('analisis_indikator/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block <?php if($analisis_master['jenis']==1):?>disabled<?php endif;?>" title="Tambah Indikator Baru"><i class="fa fa-plus"></i> Tambah Indikator Baru</a>
+								<a href="#confirm-delete" title="Hapus Data"
+									<?php if($analisis_master['jenis']!=1): ?>
+										onclick="deleteAllBox('mainform', '<?=site_url("analisis_indikator/delete_all/$p/$o")?>')"
+									<?php endif; ?>
+									class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+								<a href="<?= site_url()?>analisis_indikator/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
+							<?php endif;?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -79,46 +85,46 @@
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Kode <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Kode <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/2")?>">Kode <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/2")?>">Kode <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Kode <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Kode <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==4): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/3")?>">Pertanyaan/Indikator <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/3")?>">Pertanyaan/Indikator <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==3): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/4")?>">Pertanyaan/Indikator <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/4")?>">Pertanyaan/Indikator <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/3")?>">Pertanyaan/Indikator <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/3")?>">Pertanyaan/Indikator <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==6): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Tipe Pertanyaan <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Tipe Pertanyaan <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==5): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/6")?>">Tipe Pertanyaan <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/6")?>">Tipe Pertanyaan <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Tipe Pertanyaan <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Tipe Pertanyaan <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==6): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Kategori/Variabel <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Kategori/Variabel <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==5): ?>
 																		<th><a href="<?= site_url("analisis_indikator/index/$p/6")?>">Kategori/Variabel <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Kategori/Variabel <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Kategori/Variabel <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==2): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Bobot <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Bobot <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/2")?>">Bobot <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/2")?>">Bobot <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Bobot <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Bobot <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==2): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Aksi Analisis <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Aksi Analisis <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/2")?>">Aksi Analisis <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/2")?>">Aksi Analisis <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Aksi Analisis <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Aksi Analisis <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																</tr>
 															</thead>

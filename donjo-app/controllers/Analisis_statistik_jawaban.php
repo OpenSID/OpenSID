@@ -86,7 +86,7 @@ class Analisis_statistik_jawaban extends CI_Controller{
 		$header['minsidebar'] =1;
 		$nav['act']= 5;
 		$this->load->view('header', $header);
-		$this->load->view('nav');
+		$this->load->view('nav', $nav);
 		$this->load->view('analisis_statistik_jawaban/table',$data);
 		$this->load->view('footer');
 	}
