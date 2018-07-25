@@ -91,18 +91,18 @@
 																		<th nowrap>Uraian Singkat</th>
 																	<?php endif; ?>
                                   <?php if ($o==4): ?>
-                                    <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==3): ?>
-                                    <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
 																	<?php if ($o==6): ?>
-                                    <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/5")?>">Dimuat Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/5")?>">Dimuat Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==5): ?>
-                                    <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/6")?>">Dimuat Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/6")?>">Dimuat Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("dokumen/index/$kat/$p/5")?>">Dimuat Pada <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/5")?>">Dimuat Pada <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
 																</tr>
 															</thead>

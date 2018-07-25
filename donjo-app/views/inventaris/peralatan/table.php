@@ -28,64 +28,60 @@
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="table-responsive">
-													<table id="tabel4" class="table table-bordered dataTable table-hover">
-														<thead class="bg-gray">
-															<tr>
-																<th class="text-center" rowspan="2">No</th>
-																<th class="text-center" rowspan="2">Aksi</th>
-																<th class="text-center" rowspan="2">Nama Barang</th>
-																<th class="text-center" rowspan="2">Kode Barang</th>
-																<th class="text-center" rowspan="2">Merk/Type</th>
-																<th class="text-center" rowspan="2">Tahun Pembelian</th>
-																<th class="text-center" colspan="2">Nomor</th>
-																<th class="text-center" rowspan="2">Asal Usul</th>
-																<th class="text-center" rowspan="2">Harga (Rp)</th>
-															</tr>
-															<tr>
-																<th class="text-center" rowspan="1">Polisi</th>
-																<th class="text-center" rowspan="1">BPKB</th>
-															</tr>
-														</thead>
-														<tbody>
-															<?php foreach ($main as $data):?>
-																<tr>
-																	<td></td>
-																	<td nowrap>
-																		<?php if($data->status == "0"): ?>
-																			<a href="<?= base_url('index.php/inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
-																		<?php endif;?>
-																		<a href="<?= base_url('index.php/inventaris_peralatan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																		<a href="<?= base_url('index.php/inventaris_peralatan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-																		<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																	</td>
-																	<td><?= $data->nama_barang;?></td>
-																	<td><?= $data->kode_barang;?></td>
-																	<td><?= $data->merk;?></td>
-																	<td><?= $data->tahun_pengadaan;?></td>
-																	<td>
-																		<?= (empty($data->no_polisi)) ? "-" : $data->no_polisi ?>
-																	</td>
-																	<td>
-																		<?= (empty($data->no_bpkb)) ? "-" : $data->no_bpkb ?>
-																	</td>
-																	<td><?= $data->asal;?></td>
-																	<td><?= number_format($data->harga,0,".",".");?></td>
-																</tr>
-															<?php endforeach; ?>
-														</tbody>
-														<tfoot>
-															<tr>
-																<th colspan="9" class="text-right" >Total:</th>
-																<th><?= number_format($total,0,".","."); ?></th>
-															</tr>
-														</tfoot>
-													</table>
-												</div>
-											</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<table id="tabel4" class="table table-bordered dataTable table-hover">
+												<thead class="bg-gray">
+													<tr>
+														<th class="text-center" rowspan="2">No</th>
+														<th class="text-center" rowspan="2">Aksi</th>
+														<th class="text-center" rowspan="2">Nama Barang</th>
+														<th class="text-center" rowspan="2">Kode Barang</th>
+														<th class="text-center" rowspan="2">Merk/Type</th>
+														<th class="text-center" rowspan="2">Tahun Pembelian</th>
+														<th class="text-center" colspan="2">Nomor</th>
+														<th class="text-center" rowspan="2">Asal Usul</th>
+														<th class="text-center" rowspan="2">Harga (Rp)</th>
+													</tr>
+													<tr>
+														<th class="text-center" rowspan="1">Polisi</th>
+														<th class="text-center" rowspan="1">BPKB</th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php foreach ($main as $data):?>
+														<tr>
+															<td></td>
+															<td nowrap>
+																<?php if($data->status == "0"): ?>
+																	<a href="<?= base_url('index.php/inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																<?php endif;?>
+																<a href="<?= base_url('index.php/inventaris_peralatan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																<a href="<?= base_url('index.php/inventaris_peralatan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+																<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+															</td>
+															<td><?= $data->nama_barang;?></td>
+															<td><?= $data->kode_barang;?></td>
+															<td><?= $data->merk;?></td>
+															<td><?= $data->tahun_pengadaan;?></td>
+															<td>
+																<?= (empty($data->no_polisi)) ? "-" : $data->no_polisi ?>
+															</td>
+															<td>
+																<?= (empty($data->no_bpkb)) ? "-" : $data->no_bpkb ?>
+															</td>
+															<td><?= $data->asal;?></td>
+															<td><?= number_format($data->harga,0,".",".");?></td>
+														</tr>
+													<?php endforeach; ?>
+												</tbody>
+												<tfoot>
+													<tr>
+														<th colspan="9" class="text-right" >Total:</th>
+														<th><?= number_format($total,0,".","."); ?></th>
+													</tr>
+												</tfoot>
+											</table>
 										</div>
 									</div>
 								</div>
@@ -205,13 +201,12 @@
 <script>
 	$(document).ready(function(){
 		var t = $('#tabel4').DataTable({
-		'paging'      : true,
-    'lengthChange': true,
-    'searching'   : true,
-    'ordering'    : true,
-    'info'        : true,
-    'autoWidth'   : false,
-		'scrollX'			: false
+			'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
   	});
 		t.on('order.dt search.dt', function()
 		{

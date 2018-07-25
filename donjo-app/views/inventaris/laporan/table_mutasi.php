@@ -336,18 +336,18 @@
 <script>
 	$(document).ready(function(){
 		var t = $('#tabel4').DataTable( {
-			scrollY					: '100vh',
-			scrollCollapse			: true,
-			autoWidth				: true,
-			"searching"				: false,
-			"paging"				: false,
-      	"columnDefs": [
-      	{
-          	"searchable": false,
-          	"orderable": false,
-          	"targets": 0
-      	} ],
-      	"order": [[ 1, 'asc' ]],
+			'paging'      : false,
+      'lengthChange': false,
+      'searching'   : false,
+      'info'        : false,
+      'autoWidth'   : false,
+      "columnDefs": [
+      {
+       	"searchable": false,
+       	"orderable": false,
+       	"targets": 0
+      }],
+      "order": [[ 1, 'asc' ]],
 			"footerCallback": function ( row, data, start, end, display )
 			{
 				var api = this.api(), data;

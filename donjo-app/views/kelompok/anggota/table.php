@@ -15,7 +15,7 @@
             <div class="box-header with-border">
 						<a href="<?= site_url("kelompok/form_anggota/$kel")?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Anggota Kelompok"><i class="fa fa-plus"></i> Tambah Anggota Kelompok</a>
 							<a href="<?= site_url("kelompok/cetak_a/$kel")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?= site_url("kelompok/excel_a/$kel")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa  fa-file-excel-o"></i> Unduh</a>
+							<a href="<?= site_url("kelompok/excel_a/$kel")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
 							<a href="<?= site_url()?>kelompok" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
 						</div>
 						<div class="box-body">

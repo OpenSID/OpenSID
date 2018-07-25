@@ -28,11 +28,9 @@
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="table-responsive">
-													<table id="tabel4" class="table table-bordered dataTable table-hover">
+									<div class="row">
+										<div class="col-sm-12">
+											<table id="tabel4" class="table table-bordered table-hover">
 														<thead class="bg-gray">
 															<tr>
 																<th class="text-center" rowspan="2">No</th>
@@ -92,8 +90,7 @@
 															</tr>
 														</tfoot>
 													</table>
-												</div>
-											</div>
+
 										</div>
 									</div>
 								</div>
@@ -213,12 +210,11 @@
 	$(document).ready(function(){
 		var t = $('#tabel4').DataTable({
 			'paging'      : true,
-			'lengthChange': true,
-			'searching'   : true,
-			'ordering'    : true,
-			'info'        : true,
-			'autoWidth'   : true,
-			'scrollX'			: true
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
   	});
 		t.on('order.dt search.dt', function()
 		{

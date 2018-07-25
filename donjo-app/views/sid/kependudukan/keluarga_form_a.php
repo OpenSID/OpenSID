@@ -145,7 +145,7 @@
                         <label for="sex">Jenis Kelamin </label>
                         <select class="form-control input-sm required" name="sex">
                           <option value="">Jenis Kelamin</option>
-                          <option value="1" <?php if ($penduduk['id_sex'] == '1' OR $penduduk['id_sex'] == ''):?>selected<?php endif;?>>Laki-Laki</option>
+                          <option value="1" <?php if ($penduduk['id_sex'] == '1'):?>selected<?php endif;?>>Laki-Laki</option>
                           <option value="2" <?php if ($penduduk['id_sex'] == '2'):?>selected<?php endif;?> >Perempuan</option>
                         </select>
                       </div>
@@ -181,7 +181,7 @@
                     <div class='col-sm-4'>
                       <div class='form-group'>
                         <label for="akta_lahir">Nomor Akta Kelahiran </label>
-                        <input id="akta_lahir" name="akta_lahir" class="form-control input-sm" type="text" placeholder="Nomor Akta kelahiran" value="<?= $penduduk['akta_lahir']?>"></input>
+                        <input id="akta_lahir" name="akta_lahir" class="form-control input-sm" type="text" placeholder="Nomor Akta Kelahiran" value="<?= $penduduk['akta_lahir']?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-7'>
@@ -324,7 +324,7 @@
                     <div class='col-sm-7'>
                       <div class='form-group'>
                         <label for="dokumen_pasport">Nomor Paspor </label>
-                        <input id="dokumen_pasport"  name="dokumen_pasport" class="form-control input-sm" type="text" placeholder="Nomor Pasport" value="<?= strtoupper($penduduk['dokumen_pasport'])?>"></input>
+                        <input id="dokumen_pasport"  name="dokumen_pasport" class="form-control input-sm" type="text" placeholder="Nomor Paspor" value="<?= strtoupper($penduduk['dokumen_pasport'])?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -372,7 +372,7 @@
                     <div class='col-sm-7'>
                       <div class='form-group'>
                         <label for="nama_ibu">Nama Ibu </label>
-                        <input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama IBU"  value="<?= strtoupper(unpenetration($penduduk['nama_ibu']))?>"></input>
+                        <input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper(unpenetration($penduduk['nama_ibu']))?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>

@@ -240,7 +240,6 @@
 													<th width="220">Nama Dokumen</th>
 													<th width="360">File</th>
 													<th width="200">Tanggal Upload</th>
-													<th></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -250,12 +249,8 @@
 														<td><?= $data['nama']?></td>
 														<td><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" ><?= $data['satuan']?></a></td>
 														<td><?= tgl_indo2($data['tgl_upload'])?></td>
-														<td></td>
 													</tr>
 												<?php endforeach;?>
-												<tr>
-													<td>&nbsp;</td>
-												</tr>
 											</tbody>
 										</table>
 									</div>
