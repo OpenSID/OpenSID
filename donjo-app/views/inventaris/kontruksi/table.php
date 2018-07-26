@@ -30,67 +30,68 @@
 								<div class="col-sm-12">
 									<div class="row">
 										<div class="col-sm-12">
-											<table id="tabel4" class="table table-bordered table-hover">
-														<thead class="bg-gray">
+											<div class="table-responsive">
+												<table id="tabel4" class="table table-bordered table-hover">
+													<thead class="bg-gray">
+														<tr>
+															<th class="text-center" rowspan="2">No</th>
+															<th class="text-center" rowspan="2">Aksi</th>
+															<th class="text-center" rowspan="2">Nama Barang</th>
+															<th class="text-center" rowspan="2">Fisik Bangunan (P, SP, D)</th>
+															<th class="text-center" rowspan="2">Luas (M<sup>2</sup>)</th>
+															<th class="text-center" colspan="2">Dokumen</th>
+															<th class="text-center" rowspan="2">Tgl,bln,thn Mulai</th>
+															<th class="text-center" rowspan="2">Status Tanah</th>
+															<th class="text-center" rowspan="2">Asal Usul Biaya</th>
+															<th class="text-center" rowspan="2">Nilai Kontrak (Rp)</th>
+														</tr>
+														<tr>
+															<th class="text-center" rowspan="1">Tanggal</th>
+															<th class="text-center" rowspan="1">Nomor</th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php foreach ($main as $data):?>
 															<tr>
-																<th class="text-center" rowspan="2">No</th>
-																<th class="text-center" rowspan="2">Aksi</th>
-																<th class="text-center" rowspan="2">Nama Barang</th>
-																<th class="text-center" rowspan="2">Fisik Bangunan (P, SP, D)</th>
-																<th class="text-center" rowspan="2">Luas (M<sup>2</sup>)</th>
-																<th class="text-center" colspan="2">Dokumen</th>
-																<th class="text-center" rowspan="2">Tgl,bln,thn Mulai</th>
-																<th class="text-center" rowspan="2">Status Tanah</th>
-																<th class="text-center" rowspan="2">Asal Usul Biaya</th>
-																<th class="text-center" rowspan="2">Nilai Kontrak (Rp)</th>
+																<td></td>
+																<td nowrap>
+																	<?php if($data->status == "0"): ?>
+																		<a href="<?= base_url('index.php/inventaris_kontruksi/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																	<?php  endif;?>
+																	<a href="<?= base_url('index.php/inventaris_kontruksi/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= base_url('index.php/inventaris_kontruksi/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+																	<a href="#" data-href="<?= site_url("api_inventaris_kontruksi/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																</td>
+																<td><?= $data->nama_barang;?></td>
+																<td><?= $data->kondisi_bangunan;?></td>
+																<td>
+																	<?= (empty($data->luas)) ? "-" : $data->luas ?>
+																</td>
+																<td>
+																	<?= (empty(date('d M Y',strtotime($data->tanggal_dokument)))) ? "-" : date('d M Y',strtotime($data->tanggal_dokument)) ?>
+																</td>
+																<td>
+																	<?= (empty($data->no_dokument)) ? "-" : $data->no_dokument ?>
+																</td>
+																<td nowrap>
+																	<?= (empty(date('d M Y',strtotime($data->tanggal)))) ? "-" : date('d M Y',strtotime($data->tanggal)) ?>
+																</td>
+																<td>
+																	<?= (empty($data->status_tanah)) ? "-" : $data->status_tanah ?>
+																</td>
+																<td><?= $data->asal;?></td>
+																<td><?= number_format($data->harga,0,".",".");?></td>
 															</tr>
-															<tr>
-																<th class="text-center" rowspan="1">Tanggal</th>
-																<th class="text-center" rowspan="1">Nomor</th>
-															</tr>
-														</thead>
-														<tbody>
-															<?php foreach ($main as $data):?>
-																<tr>
-																	<td></td>
-																	<td nowrap>
-																		<?php if($data->status == "0"): ?>
-																			<a href="<?= base_url('index.php/inventaris_kontruksi/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
-																		<?php  endif;?>
-																		<a href="<?= base_url('index.php/inventaris_kontruksi/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																		<a href="<?= base_url('index.php/inventaris_kontruksi/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-																		<a href="#" data-href="<?= site_url("api_inventaris_kontruksi/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																	</td>
-																	<td><?= $data->nama_barang;?></td>
-																	<td><?= $data->kondisi_bangunan;?></td>
-																	<td>
-																		<?= (empty($data->luas)) ? "-" : $data->luas ?>
-																	</td>
-																	<td>
-																		<?= (empty(date('d M Y',strtotime($data->tanggal_dokument)))) ? "-" : date('d M Y',strtotime($data->tanggal_dokument)) ?>
-																	</td>
-																	<td>
-																		<?= (empty($data->no_dokument)) ? "-" : $data->no_dokument ?>
-																	</td>
-																	<td nowrap>
-																		<?= (empty(date('d M Y',strtotime($data->tanggal)))) ? "-" : date('d M Y',strtotime($data->tanggal)) ?>
-																	</td>
-																	<td>
-																		<?= (empty($data->status_tanah)) ? "-" : $data->status_tanah ?>
-																	</td>
-																	<td><?= $data->asal;?></td>
-																	<td><?= number_format($data->harga,0,".",".");?></td>
-																</tr>
-															<?php endforeach; ?>
-														</tbody>
-														<tfoot>
-															<tr>
-																<th colspan="9" class="text-right">Total:</th>
-																<th><?= number_format($total,0,".","."); ?></th>
-															</tr>
-														</tfoot>
-													</table>
-
+														<?php endforeach; ?>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th colspan="9" class="text-right">Total:</th>
+															<th><?= number_format($total,0,".","."); ?></th>
+														</tr>
+													</tfoot>
+												</table>
+											</div>
 										</div>
 									</div>
 								</div>

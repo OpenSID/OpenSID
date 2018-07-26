@@ -168,7 +168,7 @@
 																	<tr>
 																		<td><?= $data['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("analisis_laporan/kuisioner/$p/$o/$data[id]]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class='fa fa-list'></i></a>
+																			<a href="<?= site_url("analisis_laporan/kuisioner/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class='fa fa-list'></i></a>
 																		</td>
 																		<td><?= $data['uid']?></td>
 																		<td nowrap><?= $data['nama']?></td>

@@ -178,22 +178,22 @@
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th>No</th>
-																<?php if ($analisis_master['id_child']!=0):?>
+																	<?php if ($analisis_master['id_child']!=0):?>
 																		<th>Aksi</th>
 																	<?php endif;?>
-																<th>NIK</th>
-																<th>Nama</th>
+																	<th>NIK</th>
+																	<th>Nama</th>
 																	<th>Tanggal Lahir</th>
 																	<th>Jenis Kelamin</th>
 																</tr>
 															</thead>
 															<tbody>
-																<?php $i=1; foreach ($list_anggota AS $ang): ?>
+																<?php $i=1; foreach ($list_anggota AS $ang): $idc = $ang['id'];?>
 																	<tr>
 																		<td><?= $i?></td>
 																		<?php if ($analisis_master['id_child']!=0):?>
 																			<td nowrap>
-																				<a href="<?= site_url("analisis_respon/kuisioner_child/$p/$o/$id/$idc")?>" class="btn bg-purple btn-flat btn-sm"  title="Input Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="<?= $ang['nik']?> <?= $ang['nama']?>"><i class='fa fa-check-square-o'></i></a>
+																				<a href="<?= site_url("analisis_respon/kuisioner_child/$p/$o/$id/$idc")?>" class="btn bg-purple btn-flat btn-sm"  title="Input Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="<?= $ang['nama']?> - [<?= $ang['nik']?>]"><i class='fa fa-check-square-o'></i></a>
 																			</td>
 																		<?php endif;?>
 																		<td><?= $ang['nik']?></td>
@@ -229,7 +229,7 @@
 																<tr>
 																	<td width="35px;"></td>
 																	<td class="col-xs-12 col-sm-6 pull-left">
-																		<select class="form-control input-sm" name="kategori" onchange="formAction('mainform', '<?=site_url('analisis_indikator/kategori')?>')">
+																		<select class="form-control input-sm" name="rb[<?= $data['id']?>]" onchange="formAction('mainform', '<?=site_url('analisis_indikator/kategori')?>')">
 																			<option value="">Pilih Jawaban</option>
 																			<?php foreach ($data['parameter_respon'] AS $data2):?>
 																				<option value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']):?>selected<?php endif?>><?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?></option>

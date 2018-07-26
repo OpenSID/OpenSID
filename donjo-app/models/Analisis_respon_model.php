@@ -596,7 +596,7 @@
 		}
 		return $data;
 	}
-	function data_unduh($p=0,$o=0){
+	function data_unduh(){
 		$per 			= $this->get_aktif_periode();
 		$master 		= $this->get_analisis_master();
 		$id_kelompok 	= $master['id_kelompok'];
@@ -678,7 +678,7 @@
 
 		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
 		$sql .= $order_sql;
-		$query 	= $this->db->query($sql,$master);
+		$query 	= $this->db->query($sql,$_SESSION['analisis_master']);
 		$data	= $query->result_array();
 
 		$i=0;
@@ -702,7 +702,7 @@
 
 		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
 		$sql .= $order_sql;
-		$query 	= $this->db->query($sql,$master);
+		$query 	= $this->db->query($sql,$_SESSION['analisis_master']);
 		$data	= $query->result_array();
 
 		$i=0;
