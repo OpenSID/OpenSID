@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 18.07-pasca:
 8. Sekarang bisa unduh data respon analisis. [bug-fix]
 9. #1163: Perbaiki tampilan bullet list di artikel web. [bug-fix]
 10. #1203: Sekarang nama penduduk berisi tanda koma (,) bisa disimpan. [bug-fix]
+11. #1197: Sekarang pilihan Sakit Menahun ditampilkan di form isian Tambah Anggota Keluarga. [bug-fix]
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
