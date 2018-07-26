@@ -19,41 +19,43 @@
 								<div class="col-sm-12">
 									<div class="row">
 										<div class="col-sm-12">
-											<table id="tabel4" class="table table-bordered dataTable table-hover">
-												<thead class="bg-gray">
-													<tr>
-														<th class="text-center" >No</th>
-														<th class="text-center" >Aksi</th>
-														<th class="text-center">Nama Barang</th>
-														<th class="text-center">Kode Barang</th>
-														<th class="text-center">Tahun Pengadaan</th>
-														<th class="text-center">Tanggal Mutasi</th>
-														<th class="text-center">Jenis Mutasi</th>
-														<th class="text-center" width="300px">Keterangan</th>
-													</tr>
-												</thead>
-												<tbody>
-													<?php foreach ($main as $data):?>
+											<div class="table-responsive">
+												<table id="tabel4" class="table table-bordered dataTable table-hover">
+													<thead class="bg-gray">
 														<tr>
-															<td></td>
-															<td nowrap>
-																<?php if ($data->status == "0"): ?>
-																	<a href="<?= base_url('index.php/inventaris_tanah/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
-																<?php  endif;?>
-																<a href="<?= base_url('index.php/inventaris_tanah/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																<a href="<?= base_url('index.php/inventaris_tanah/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-																<a href="#" data-href="<?= site_url("api_inventaris_tanah/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-															</td>
-														  <td><?= $data->nama_barang;?></td>
-															<td><?= $data->kode_barang;?></td>
-															<td><?= $data->tahun_pengadaan;?></td>
-															<td nowrap><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
-															<td><?= $data->jenis_mutasi;?></td>
-															<td><?= $data->keterangan;?></td>
+															<th class="text-center" >No</th>
+															<th class="text-center" >Aksi</th>
+															<th class="text-center">Nama Barang</th>
+															<th class="text-center">Kode Barang</th>
+															<th class="text-center">Tahun Pengadaan</th>
+															<th class="text-center">Tanggal Mutasi</th>
+															<th class="text-center">Jenis Mutasi</th>
+															<th class="text-center" width="300px">Keterangan</th>
 														</tr>
-													<?php endforeach; ?>
-												</tbody>
-											</table>
+													</thead>
+													<tbody>
+														<?php foreach ($main as $data):?>
+															<tr>
+																<td></td>
+																<td nowrap>
+																	<?php if ($data->status == "0"): ?>
+																		<a href="<?= base_url('index.php/inventaris_tanah/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																	<?php  endif;?>
+																	<a href="<?= base_url('index.php/inventaris_tanah/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= base_url('index.php/inventaris_tanah/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+																	<a href="#" data-href="<?= site_url("api_inventaris_tanah/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																</td>
+																<td><?= $data->nama_barang;?></td>
+																<td><?= $data->kode_barang;?></td>
+																<td><?= $data->tahun_pengadaan;?></td>
+																<td nowrap><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
+																<td><?= $data->jenis_mutasi;?></td>
+																<td><?= $data->keterangan;?></td>
+															</tr>
+														<?php endforeach; ?>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 								</div>
