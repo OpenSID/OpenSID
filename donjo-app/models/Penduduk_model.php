@@ -1081,11 +1081,15 @@
 	function pindah_proses($id=0,$id_cluster='',$alamat)
 	{
 		$this->db->where('id',$id);
-		$data['alamat_sekarang'] = $alamat;
-		if ($id_cluster != '') $data['id_cluster'] = $id_cluster;
-		$outp = $this->db->update('tweb_penduduk',$data);
-
-		$this->tulis_log_penduduk($id, '6', date('m'), date('Y'));
+		if (!empty($alamat)) $data['alamat_sekarang'] = $alamat;
+		if ($id_cluster AND $id_cluster != '') $data['id_cluster'] = $id_cluster;
+		if (!empty($data))
+		{
+			$outp = $this->db->update('tweb_penduduk', $data);
+			$this->tulis_log_penduduk($id, '6', date('m'), date('Y'));
+		}
+		else
+			$outp = true;
 
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
