@@ -11,6 +11,13 @@ $(document).ready(function()
 
 	//Confirm Delete Modal
 	$('#confirm-delete').on('show.bs.modal', function(e) {
+		var string = document.getElementById("confirm-delete").innerHTML;
+		var hasil = string.replace("fa fa-text-width text-yellow","fa fa-exclamation-triangle text-red");
+		document.getElementById("confirm-delete").innerHTML = hasil;
+
+		var string2 = document.getElementById("confirm-delete").innerHTML;
+		var hasil2 = string2.replace("Konfirmasi", "&nbspKonfirmasi");
+		document.getElementById("confirm-delete").innerHTML = hasil2;
 		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 	});
 
@@ -274,7 +281,9 @@ function modalBox()
 	$('#modalBox').on('show.bs.modal', function(e)
 	{
 		var link = $(e.relatedTarget);
-		$('.modal-header #myModalLabel').html(link.attr('data-title'));
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
 		$(this).find('.fetched-data').load(link.attr('href'));
 	});
 	return false;
