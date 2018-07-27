@@ -1,3 +1,4 @@
+
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(document).ready(function()
@@ -127,7 +128,7 @@
 		</ol>
 	</section>
 	</section>
-	<section class="content" id="maincontent">
+	<section class="content"  id="maincontent">
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
@@ -315,4 +316,18 @@
 		</form>
 	</section>
 </div>
+<?php if(@$_SESSION['sukses']==1): ?>
+	<script>
+		$(function(){
+			notification('success','Data Berhasil Disimpan')();
+		});
+	</script>
+<?php elseif(@$_SESSION['sukses']==-1): ?>
+	<script>
+		$(function(){
+			notification('error','Data Gagal Disimpan')();
+		});
+	</script>
+<?php endif; ?>
+<?php $_SESSION['sukses']=0;?>
 
