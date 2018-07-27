@@ -1,61 +1,75 @@
-<script>
-$(function(){
-var nik = {};
-nik.results = [
-<?php foreach($menu_surat2 as $data){?>
-{id:'<?php echo $data['url_surat']?>',name:"<?php echo strtoupper($data['nama'])?>",info:"<?php echo ($data['url_surat']);?>"},
-<?php }?>
-];
-$('#nik').flexbox(nik, {
-resultTemplate: '<div><label style="font-size:14px;">{name}</label></div><div style="font-size:12px;">{info}</div>',
-watermark: 'TULIS JUDUL SURAT',
-width: 360,
-noResultsText :'Tidak ada surat yang sesuai..',
-onSelect: function() {
-$('#'+'main').submit();
-}
-});
-});
-</script>
-<div id="pageC">
-	<div id="contentpane">
-		<div class="ui-layout-north panel">
-		</div>
-		<div class="ui-layout-center" id="maincontent" style="padding: 10px;">
-			<div>
-			<h3>Menu Cepat Pencarian / Cetak Layanan Surat<h3>
-				<form action="<?php echo site_url()?>surat/search" id="main" name="main" method="POST">
-					<div id="nik" name="nik"></div>
-				</form>
-
-				<hr>
-				<br>
-			</div>
-			<div>
-				<h3>Layanan Surat Administrasi Kependudukan</h3>
-				<div>
-				<?php foreach($surat_favorit AS $data){?>
-				<a class="csurat" href="<?php echo site_url()?>surat/form/<?php echo $data['url_surat']?>">
-					<img src="<?php echo base_url()?>assets/images/cpanel/edit-select-all-1.png"/>
-					<span><?php echo strtoupper($data['nama'])?></span>
-				</a>
-				<?php }?>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Cetak Layanan Surat</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Cetak Layanan Surat</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<form id="main" name="main" action="<?= site_url()?>surat/search" method="post">
+							<div class="row">
+								<div class="col-sm-6">
+									<select class="form-control select2 " id="nik" name="nik" onchange="formAction('main')">
+										<option selected="selected">-- Cari Judul Surat--</option>
+										<?php foreach ($menu_surat2 as $data):?>
+											<option value="<?= $data['url_surat']?>"><?= strtoupper($data['nama'])?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="table-responsive">
+												<table class="table table-bordered dataTable table-hover">
+													<thead class="bg-gray disabled color-palette">
+														<tr>
+															<th width="50%">Layanan Administrasi Surat</th>
+															<th>Kode Surat</th>
+															<th>Link</th>
+															<th width="7%">Aksi</th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php foreach ($menu_surat2 AS $data):?>
+															<?php
+																if ($data['url_surat'] == 'surat_persetujuan_mempelai'):
+																	$surat_url = site_url()."surat/form/".$data['url_surat']."/clear";
+																else:
+																	$surat_url = site_url()."surat/form/".$data['url_surat'];
+																endif;
+															?>
+															<tr>
+																<td><?= $data['nama']?></td>
+																<td><?= $data['kode_surat']?></td>
+																<td><?= $data['url_surat']?></td>
+																<td>
+																	<a href="<?= $surat_url?>" class="btn btn-social btn-flat bg-purple btn-sm"  title="Kode Isian"><i class="fa fa-file-word-o"></i>Buat Surat</a>
+																</td>
+															</tr>
+														<?php endforeach;?>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div style="clear: both;">
-				<hr>
-				<br>
-				<div>
-				<?php foreach($menu_surat2 AS $data){
-					if($data['favorit']!=1){?>
-				<a class="csurat" href="<?php echo site_url()?>surat/form/<?php echo $data['url_surat']?>">
-					<img src="<?php echo base_url()?>assets/images/cpanel/edit-select-all-2.png"/>
-					<span><?php echo strtoupper($data['nama'])?></span>
-				</a>
-				<?php }
-				}?>
-				</div>
-			</div>
 		</div>
-	</div>
+	</section>
 </div>
+

@@ -1,58 +1,67 @@
 <style type="text/css">
+  table.disdukcapil
+  {
+    font-size: 9pt;
+    width: 100%;
+    /*border-collapse: collapse;*/
+  }
+  table.disdukcapil td
+  {
+    padding: 1px 1px 1px 3px;
+  }
+  table.disdukcapil td.satu
+  {
+    width: 10px;
+    text-align: center;
+  }
+  table.disdukcapil td.padat
+  {
+    padding: 0px;
+    margin: 0px;
+    font-size: 9pt;
+  }
+  table.disdukcapil td.kotak
+  {
+    border: solid 1px #000000;
+  }
+  table.disdukcapil td.kanan { text-align: right; }
+  table.disdukcapil td.tengah { text-align: center; }
 
-table.disdukcapil {
-  font-size: 9pt;
-  width: 100%;
-  /*border-collapse: collapse;*/
-}
-table.disdukcapil td {
-  padding: 1px 1px 1px 3px;
-}
-table.disdukcapil td.satu {
-  width: 10px;
-  text-align: center;
-}
-table.disdukcapil td.padat {
-  padding: 0px;
-  margin: 0px;
-  font-size: 9pt;
-}
-table.disdukcapil td.kotak {
-  border: solid 1px #000000;
-}
-table.disdukcapil td.kanan { text-align: right; }
-table.disdukcapil td.tengah { text-align: center; }
+  table.pengikut
+  {
+    margin-left: 28px;
+    font-size: 9pt;
+    border-collapse: collapse;
+    border: solid 1px black;
+    width:96%;
+  }
+  table.pengikut td,th
+  {
+    border: solid 1px black;
+    padding: 1px 1px 1px 3px;
+  }
+  table.pengikut th
+  {
+    text-align: center;
+    vertical-align: middle;
+  }
+  table.pengikut td.tengah { text-align: center; }
 
-table.pengikut {
-  margin-left: 28px;
-  font-size: 9pt;
-  border-collapse: collapse;
-  border: solid 1px black;
-  width:96%;
-}
-table.pengikut td,th {
-  border: solid 1px black;
-  padding: 1px 1px 1px 3px;
-}
-table.pengikut th {
-  text-align: center;
-  vertical-align: middle;
-}
-table.pengikut td.tengah { text-align: center; }
-
-table.kode_format {
-  font-size: 12pt;
-  padding: 5px 20px;
-  border: solid 1px black;"
-}
-table.ttd {
-  font-size: 8.5pt;
-  margin-top: 10px;
-  width: 100%;
-  border-collapse: collapse;
-  padding: 0px;
-}
-table.ttd td { text-align: center; }
+  table.kode_format
+  {
+    font-size: 12pt;
+    padding: 5px 20px;
+    border: solid 1px black;"
+  }
+  table.ttd
+  {
+    font-size: 8.5pt;
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    padding: 0px;
+  }
+  table.ttd td { text-align: center; }
 
 </style>
 
@@ -78,10 +87,11 @@ table.ttd td { text-align: center; }
       <td>Nomor Kartu Keluarga</td>
       <?php for($i=0; $i<16; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($individu['no_kk'][$i]))
-            echo $individu['no_kk'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($individu['no_kk'][$i])):?>
+            <?= $individu['no_kk'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan=6>&nbsp;</td>
@@ -89,46 +99,48 @@ table.ttd td { text-align: center; }
     <tr>
       <td>2.</td>
       <td>Nama Kepala Keluarga</td>
-      <td colspan=22 class="kotak"><?php echo $individu['kepala_kk']; ?></td>
+      <td colspan=22 class="kotak"><?= $individu['kepala_kk']; ?></td>
     </tr>
 
     <tr>
       <td>3.</td>
       <td>Alamat</td>
-      <td colspan=12 class="kotak"><?php echo $individu['alamat']; ?></td>
+      <td colspan=12 class="kotak"><?= $individu['alamat']; ?></td>
       <td colspan=2 style="text-align: center;">RT</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($individu['rt'][$i]))
-            echo $individu['rt'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($individu['rt'][$i])):?>
+            <?= $individu['rt'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan=2 style="text-align: center;">RW</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($individu['rw'][$i]))
-            echo $individu['rw'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($individu['rw'][$i])):?>
+            <?= $individu['rw'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
     </tr>
     <tr>
       <td>&nbsp;</td>
       <td>a. Desa/Kelurahan</td>
-      <td colspan=8 class="kotak"><?php echo $config['nama_desa'];?></td>
+      <td colspan=8 class="kotak"><?= $config['nama_desa'];?></td>
       <td colspan=4>c. Kab/Kota</td>
-      <td colspan=10 class="kotak"><?php echo $config['nama_kabupaten'];?></td>
+      <td colspan=10 class="kotak"><?= $config['nama_kabupaten'];?></td>
     </tr>
 
     <tr>
       <td>&nbsp;</td>
       <td>b. Kecamatan</td>
-      <td colspan=8 class="kotak"><?php echo $config['nama_kecamatan'];?></td>
+      <td colspan=8 class="kotak"><?= $config['nama_kecamatan'];?></td>
       <td colspan=4>d. Provinsi</td>
-      <td colspan=10 class="kotak"><?php echo $config['nama_propinsi'];?></td>
+      <td colspan=10 class="kotak"><?= $config['nama_propinsi'];?></td>
     </tr>
 
     <tr>
@@ -136,19 +148,21 @@ table.ttd td { text-align: center; }
       <td colspan=3>Kode Pos</td>
       <?php for($i=0; $i<5; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($config['kode_pos'][$i]))
-            echo $config['kode_pos'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($config['kode_pos'][$i])):?>
+            <?= $config['kode_pos'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan=4>Telepon</td>
       <?php for($i=0; $i<10; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($input['telepon'][$i]))
-            echo trim($input['telepon'][$i]);
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($input['telepon'][$i])):?>
+            <?= trim($input['telepon'][$i]);?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
     </tr>
@@ -161,7 +175,7 @@ table.ttd td { text-align: center; }
     <tr>
       <td rowspan="2">1.</td>
       <td rowspan="2">Alasan Pindah</td>
-      <td rowspan="2" class="kotak satu"><?php echo trim($input['alasan_pindah_id'],"'"); ?></td>
+      <td rowspan="2" class="kotak satu"><?= trim($input['alasan_pindah_id'],"'"); ?></td>
       <td rowspan="2">&nbsp;</td>
       <td colspan=4 class="padat">1. Pekerjaan</td>
       <td colspan=4 class="padat">3. Keamanan</td>
@@ -174,33 +188,36 @@ table.ttd td { text-align: center; }
       <td colspan=4 class="padat">4. Kesehatan</td>
       <td colspan=4 class="padat">6. Keluarga</td>
       <td colspan=8 class="padat">
-        <?php if($input['sebut_alasan'])
-          echo "<span style='text-decoration: none; border-bottom: 1px dotted black;'>".$input['sebut_alasan']."</span>";
-          else echo '..............................';
-        ?>
+        <?php if ($input['sebut_alasan']):?>
+          <span style='text-decoration: none; border-bottom: 1px dotted black;'><?= $input['sebut_alasan'];?></span>
+        <?php else:?>
+          ..............................
+        <?php endif;?>
       </td>
     </tr>
 
     <tr>
       <td>2.</td>
       <td>Alamat Tujuan Pindah</td>
-      <td colspan=12 class="kotak"><?php echo $input['alamat_tujuan']; ?></td>
+      <td colspan=12 class="kotak"><?= $input['alamat_tujuan']; ?></td>
       <td colspan=2 style="text-align: center;">RT</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($input['rt_tujuan'][$i]))
-            echo $input['rt_tujuan'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($input['rt_tujuan'][$i])):?>
+            <?= $input['rt_tujuan'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan=2 style="text-align: center;">RW</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($input['rw_tujuan'][$i]))
-            echo $input['rw_tujuan'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($input['rw_tujuan'][$i])):?>
+            <?= $input['rw_tujuan'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
     </tr>
@@ -208,16 +225,16 @@ table.ttd td { text-align: center; }
     <tr>
       <td>&nbsp;</td>
       <td>a. Desa/Kelurahan</td>
-      <td colspan=8 class="kotak"><?php echo $input['desa_tujuan'];?></td>
+      <td colspan=8 class="kotak"><?= $input['desa_tujuan'];?></td>
       <td colspan=4>c. Kab/Kota</td>
-      <td colspan=10 class="kotak"><?php echo $input['kabupaten_tujuan'];?></td>
+      <td colspan=10 class="kotak"><?= $input['kabupaten_tujuan'];?></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
       <td>b. Kecamatan</td>
-      <td colspan=8 class="kotak"><?php echo $input['kecamatan_tujuan'];?></td>
+      <td colspan=8 class="kotak"><?= $input['kecamatan_tujuan'];?></td>
       <td colspan=4>d. Provinsi</td>
-      <td colspan=10 class="kotak"><?php echo $input['provinsi_tujuan'];?></td>
+      <td colspan=10 class="kotak"><?= $input['provinsi_tujuan'];?></td>
     </tr>
 
     <tr>
@@ -225,26 +242,28 @@ table.ttd td { text-align: center; }
       <td colspan=3>Kode Pos</td>
       <?php for($i=0; $i<5; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($input['kode_pos_tujuan'][$i]))
-            echo $input['kode_pos_tujuan'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($input['kode_pos_tujuan'][$i])):?>
+            <?= $input['kode_pos_tujuan'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan=4>Telepon</td>
       <?php for($i=0; $i<10; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($input['telepon_tujuan'][$i]))
-            echo trim($input['telepon_tujuan'][$i]);
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($input['telepon_tujuan'][$i])):?>
+            <?= trim($input['telepon_tujuan'][$i]);?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
     </tr>
     <tr>
       <td rowspan="2">3.</td>
       <td rowspan="2">Klasifikasi Pindah</td>
-      <td rowspan="2" class="kotak satu"><?php echo trim($input['klasifikasi_pindah_id'],"'"); ?></td>
+      <td rowspan="2" class="kotak satu"><?= trim($input['klasifikasi_pindah_id'],"'"); ?></td>
       <td colspan=8 class="padat">1. Dalam satu Desa/Kelurahan</td>
       <td colspan=5 class="padat">3. Antar Kecamatan</td>
       <td colspan=5 class="padat">5. Antar Provinsi</td>
@@ -257,7 +276,7 @@ table.ttd td { text-align: center; }
     <tr>
       <td rowspan="2">4.</td>
       <td rowspan="2">Jenis Kepindahan</td>
-      <td rowspan="2" class="kotak satu"><?php echo trim($input['jenis_kepindahan_id'],"'"); ?></td>
+      <td rowspan="2" class="kotak satu"><?= trim($input['jenis_kepindahan_id'],"'"); ?></td>
       <td colspan=11 class="padat">1. Kep. Keluarga</td>
       <td colspan=10 class="padat">3. Kep. Keluarga dan Sbg. Angg. Keluarga</td>
     </tr>
@@ -269,7 +288,7 @@ table.ttd td { text-align: center; }
     <tr>
       <td rowspan="2">5.</td>
       <td rowspan="2">Status Nomor KK Bagi Yang Tidak Pindah</td>
-      <td rowspan="2" class="kotak satu"><?php echo $input['status_kk_tidak_pindah_id']; ?></td>
+      <td rowspan="2" class="kotak satu"><?= $input['status_kk_tidak_pindah_id']; ?></td>
       <td colspan=8 class="padat">1. Numpang KK</td>
       <td colspan=13 class="padat">3. Tidak Ada Angg. Keluarga Yang Ditinggal</td>
     </tr>
@@ -281,7 +300,7 @@ table.ttd td { text-align: center; }
     <tr>
       <td>6.</td>
       <td>Status Nomor KK Bagi Yang Pindah</td>
-      <td class="kotak satu"><?php echo $input['status_kk_pindah_id']; ?></td>
+      <td class="kotak satu"><?= $input['status_kk_pindah_id']; ?></td>
       <td colspan=4 class="padat">1. Numpang KK</td>
       <td colspan=5 class="padat">2. Membuat KK Baru</td>
       <td colspan=13 class="padat">3. Nama Kep. Keluarga dan Nomor KK Tetap</td>
@@ -295,28 +314,31 @@ table.ttd td { text-align: center; }
       ?>
       <?php for($j=0; $j<2; $j++):?>
         <td class="kotak tengah">
-          <?php if(isset($tgl[$j]))
-            echo $tgl[$j];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($tgl[$j])):?>
+            <?= $tgl[$j];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td>&nbsp;</td>
       <?php for($j=0; $j<2; $j++):?>
         <td class="kotak tengah">
-          <?php if(isset($bln[$j]))
-            echo $bln[$j];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($bln[$j])):?>
+            <?= $bln[$j];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td>&nbsp;</td>
       <?php for($j=0; $j<4; $j++):?>
         <td class="kotak tengah">
-          <?php if(isset($thn[$j]))
-            echo $thn[$j];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($thn[$j])):?>
+            <?= $thn[$j];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan="12">&nbsp;</td>
@@ -337,39 +359,39 @@ table.ttd td { text-align: center; }
     </tr>
 
     <?php
-      for ($i = 0; $i < MAX_PINDAH; $i++) {
+      for ($i = 0; $i < MAX_PINDAH; $i++):
         $nomor = $i+1;
-        if ($i < count($input['id_cb'])) {
+        if ($i < count($input['id_cb'])):
           $id = trim($input['id_cb'][$i],"'");
           $penduduk = $this->penduduk_model->get_penduduk($id); ?>
-
           <tr>
-            <td class="tengah"><?php echo $nomor;?></td>
+            <td class="tengah"><?= $nomor;?></td>
             <?php for($j=0; $j<16; $j++):?>
               <td class="tengah">
-                <?php if(isset($penduduk['nik'][$j]))
-                  echo $penduduk['nik'][$j];
-                  else echo "&nbsp;";
-                ?>
+                <?php if (isset($penduduk['nik'][$j])):?>
+                  <?= $penduduk['nik'][$j];?>
+                <?php else:?>
+                  &nbsp;
+                <?php endif;?>
               </td>
             <?php endfor; ?>
-            <td><?php echo $penduduk['nama']; ?></td>
+            <td><?= $penduduk['nama']; ?></td>
             <?php $shdk = str_pad($penduduk['kk_level'],2,"0",STR_PAD_LEFT);?>
             <?php for($j=0; $j<2; $j++):?>
               <td class="tengah">
-                <?php echo $shdk[$j];?>
+                <?= $shdk[$j];?>
               </td>
             <?php endfor; ?>
           </tr>
 
-        <?php } else { ?>
+        <?php else: ?>
           <tr>
             <?php for($k=0; $k<20; $k++): ?>
               <td>&nbsp;</td>
             <?php endfor; ?>
           </tr>
-        <?php } ?>
-      <?php } ?>
+        <?php endif; ?>
+      <?php endfor; ?>
 
    </table>
 
@@ -388,9 +410,9 @@ table.ttd td { text-align: center; }
       <td>Kepala Desa/Lurah</td>
     </tr>
     <tr class="pendek">
-      <td><?php echo str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20")?></td>
+      <td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20")?></td>
       <td>&nbsp;</td>
-      <td><?php echo str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20")?></td>
+      <td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20")?></td>
     </tr>
     <tr style="font-size: 8mm; line-height: normal;">
       <td>&nbsp;</td>
@@ -422,10 +444,11 @@ table.ttd td { text-align: center; }
       <td>Nomor Kartu Keluarga</td>
       <?php for($i=0; $i<16; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($individu['no_kk'][$i]) AND $input['jenis_kepindahan_id'] != '4')
-            echo $individu['no_kk'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($individu['no_kk'][$i]) AND $input['jenis_kepindahan_id'] != '4'):?>
+            <?= $individu['no_kk'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan=6>&nbsp;</td>
@@ -434,7 +457,7 @@ table.ttd td { text-align: center; }
     <tr>
       <td>2.</td>
       <td>Nama Kepala Keluarga</td>
-      <td colspan=22 class="kotak"><?php if($input['jenis_kepindahan_id'] != '4') echo $individu['kepala_kk']; ?></td>
+        <td colspan=22 class="kotak"><?php if ($input['jenis_kepindahan_id'] != '4'):?><?=$individu['kepala_kk']; ?><?php endif;?></td>
     </tr>
 
     <tr>
@@ -442,10 +465,11 @@ table.ttd td { text-align: center; }
       <td>NIK Kepala Keluarga</td>
       <?php for($i=0; $i<16; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($individu['nik_kk'][$i]) AND $input['jenis_kepindahan_id'] != '4')
-            echo $individu['nik_kk'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($individu['nik_kk'][$i]) AND $input['jenis_kepindahan_id'] != '4'):?>
+            <?= $individu['nik_kk'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan=6>&nbsp;</td>
@@ -453,7 +477,7 @@ table.ttd td { text-align: center; }
     <tr>
       <td>4.</td>
       <td>Status Nomor KK Bagi Yang Pindah</td>
-      <td class="kotak satu"><?php echo $input['status_kk_pindah_id']; ?></td>
+      <td class="kotak satu"><?= $input['status_kk_pindah_id']; ?></td>
       <td colspan=5 class="padat">1. Numpang KK</td>
       <td colspan=5 class="padat">2. Membuat KK Baru</td>
       <td colspan=11 class="padat">3. Nama Kep. Keluarga dan Nomor KK Tetap</td>
@@ -463,28 +487,31 @@ table.ttd td { text-align: center; }
       <td>Tanggal Kedatangan</td>
       <?php for($j=0; $j<2; $j++):?>
         <td class="kotak tengah">
-          <?php if(isset($tgl[$j]))
-            echo $tgl[$j];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($tgl[$j])):?>
+            <?= $tgl[$j];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td>&nbsp;</td>
       <?php for($j=0; $j<2; $j++):?>
         <td class="kotak tengah">
-          <?php if(isset($bln[$j]))
-            echo $bln[$j];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($bln[$j])):?>
+            <?= $bln[$j];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td>&nbsp;</td>
       <?php for($j=0; $j<4; $j++):?>
         <td class="kotak tengah">
-          <?php if(isset($thn[$j]))
-            echo $thn[$j];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($thn[$j])):?>
+            <?= $thn[$j];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan="12">&nbsp;</td>
@@ -492,39 +519,41 @@ table.ttd td { text-align: center; }
     <tr>
       <td>6.</td>
       <td>Alamat</td>
-      <td colspan=12 class="kotak"><?php echo $input['alamat_tujuan']; ?></td>
+      <td colspan=12 class="kotak"><?= $input['alamat_tujuan']; ?></td>
       <td colspan=2 style="text-align: center;">RT</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($input['rt_tujuan'][$i]))
-            echo $input['rt_tujuan'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($input['rt_tujuan'][$i])):?>
+            <?= $input['rt_tujuan'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan=2 style="text-align: center;">RW</td>
       <?php for($i=0; $i<3; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($input['rw_tujuan'][$i]))
-            echo $input['rw_tujuan'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($input['rw_tujuan'][$i])):?>
+            <?= $input['rw_tujuan'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
     </tr>
     <tr>
       <td>&nbsp;</td>
       <td>a. Desa/Kelurahan</td>
-      <td colspan=8 class="kotak"><?php echo $input['desa_tujuan'];?></td>
+      <td colspan=8 class="kotak"><?= $input['desa_tujuan'];?></td>
       <td colspan=4>c. Kab/Kota</td>
-      <td colspan=10 class="kotak"><?php echo $input['kabupaten_tujuan'];?></td>
+      <td colspan=10 class="kotak"><?= $input['kabupaten_tujuan'];?></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
       <td>b. Kecamatan</td>
-      <td colspan=8 class="kotak"><?php echo $input['kecamatan_tujuan'];?></td>
+      <td colspan=8 class="kotak"><?= $input['kecamatan_tujuan'];?></td>
       <td colspan=4>d. Provinsi</td>
-      <td colspan=10 class="kotak"><?php echo $input['provinsi_tujuan'];?></td>
+      <td colspan=10 class="kotak"><?= $input['provinsi_tujuan'];?></td>
     </tr>
 
     <tr>
@@ -532,19 +561,21 @@ table.ttd td { text-align: center; }
       <td colspan=3>Kode Pos</td>
       <?php for($i=0; $i<5; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($input['kode_pos_tujuan'][$i]))
-            echo $input['kode_pos_tujuan'][$i];
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($input['kode_pos_tujuan'][$i])):?>
+            <?= $input['kode_pos_tujuan'][$i];?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
       <td colspan=4>Telepon</td>
       <?php for($i=0; $i<10; $i++): ?>
         <td class="kotak satu">
-          <?php if(isset($input['telepon_tujuan'][$i]))
-            echo trim($input['telepon_tujuan'][$i]);
-            else echo "&nbsp;";
-          ?>
+          <?php if (isset($input['telepon_tujuan'][$i])):?>
+            <?= trim($input['telepon_tujuan'][$i]);?>
+          <?php else:?>
+            &nbsp;
+          <?php endif;?>
         </td>
       <?php endfor; ?>
     </tr>
@@ -564,39 +595,40 @@ table.ttd td { text-align: center; }
     </tr>
 
     <?php
-      for ($i = 0; $i < MAX_PINDAH; $i++) {
+      for ($i = 0; $i < MAX_PINDAH; $i++):
         $nomor = $i+1;
-        if ($i < count($input['id_cb'])) {
+        if ($i < count($input['id_cb'])):
           $id = trim($input['id_cb'][$i],"'");
           $penduduk = $this->penduduk_model->get_penduduk($id); ?>
 
           <tr>
-            <td class="tengah"><?php echo $nomor;?></td>
+            <td class="tengah"><?= $nomor;?></td>
             <?php for($j=0; $j<16; $j++):?>
               <td class="tengah">
-                <?php if(isset($penduduk['nik'][$j]))
-                  echo $penduduk['nik'][$j];
-                  else echo "&nbsp;";
-                ?>
+                <?php if (isset($penduduk['nik'][$j])):?>
+                  <?= $penduduk['nik'][$j];?>
+                <?php else:?>
+                  &nbsp;
+                <?php endif;?>
               </td>
             <?php endfor; ?>
-            <td><?php echo $penduduk['nama']; ?></td>
+            <td><?= $penduduk['nama']; ?></td>
             <?php $shdk = str_pad($penduduk['kk_level'],2,"0",STR_PAD_LEFT);?>
             <?php for($j=0; $j<2; $j++):?>
               <td class="tengah">
-                <?php echo $shdk[$j];?>
+                <?= $shdk[$j];?>
               </td>
             <?php endfor; ?>
           </tr>
 
-        <?php } else { ?>
+        <?php else: ?>
           <tr>
             <?php for($k=0; $k<20; $k++): ?>
               <td>&nbsp;</td>
             <?php endfor; ?>
           </tr>
-        <?php } ?>
-      <?php } ?>
+        <?php endif; ?>
+      <?php endfor; ?>
 
    </table>
 
@@ -616,8 +648,8 @@ table.ttd td { text-align: center; }
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><?php echo str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20")?></td>
-      <td><?php echo str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20")?></td>
+      <td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20")?></td>
+      <td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20")?></td>
     </tr>
     <tr style="font-size: 8mm; line-height: normal;">
       <td>&nbsp;</td>

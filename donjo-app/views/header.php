@@ -84,7 +84,7 @@
 									</li>
 									<li class="user-footer">
 										<div class="pull-left">
-											<a href="<?=site_url()?>user_setting/" data-toggle="modal" data-target="#modalBox">
+											<a href="<?=site_url()?>user_setting/" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox">
 												<button  data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profile</button>
 											</a>
 										</div>
@@ -105,7 +105,7 @@
 					<div class='modal-content'>
 						<div class='modal-header'>
 							<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-							<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Ubah Password</h4>
+							<h4 class='modal-title' id='myModalLabel'> Pengaturan Pengguna</h4>
 						</div>
 						<div class="fetched-data"></div>
 					</div>
@@ -117,14 +117,14 @@
 					<div class='modal-content'>
 						<div class='modal-header btn-info'>
 							<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-							<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-white'></i> <?= $_SESSION['admin_warning'][0]; ?></h4>
+							<h4 class='modal-title' id='myModalLabel'><i class='fa fa-info-circle'></i> &nbsp;<?= $_SESSION['admin_warning'][0]; ?></h4>
 						</div>
 						<div class='modal-body'>
 							<?= $_SESSION['admin_warning'][1]; ?>
 						</div>
 						<div class='modal-footer'>
 							<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-arrow-circle-o-left'></i> Lain Kali</button>
-							<a href="<?= site_url()?>user_setting/" data-toggle="modal" data-target="#modalBox" id="ok">
+							<a href="<?= site_url()?>user_setting/" data-remote="false" data-tittle="Pengaturan Pengguna" data-toggle="modal" data-target="#modalBox" id="ok">
 								<button type="button" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-edit'></i> Ubah</button>
 							</a>
 						</div>
