@@ -927,13 +927,17 @@
 			if(count($respon)>0)
 				$outp = $this->db->insert_batch('analisis_respon',$respon);
 			else
+			{
 				$outp = false;
+				$_SESSION['error_msg'] = 'Tidak ada data';
+			}
 		}
 
 		$this->pre_update();
 
 		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		else
+			$_SESSION['success']=-1;
 	}
 
 	private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon) {
