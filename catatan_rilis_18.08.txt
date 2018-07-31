@@ -1,8 +1,8 @@
-Rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+Rilis ini menambah laporan asset dihapus di modul Inventaris. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
 Terima kasih pada Tim Diskominfo Kab Bandung, yang terus berkontribusi. Juga terima kasih pada [untuk diisi] yang mulai kontribusi.
 
-Lengkapnya, isi rilis versi 18.07-pasca:
+Lengkapnya, isi rilis versi 18.08:
 
 1. #1177: Tutup celah unggah berkas lampiran php di form ubah dan tambah artikel. [security-fix]
 2. #1178: Sekarang data artikel dan widget dinamis dibersihkan dari serangan xss sebelum ditampilkan. [security-fix]
@@ -17,7 +17,7 @@ Lengkapnya, isi rilis versi 18.07-pasca:
 11. #1197: Sekarang pilihan Sakit Menahun ditampilkan di form isian Tambah Anggota Keluarga. [bug-fix]
 12. #1429: Sekarang alamat jalan penduduk dan keluarga tidak terhapus kalau dikosongkan di form pindah alamat penduduk/keluarga dalam desa. [bug-fix]
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
 Perhatian: Modul Sekretariat > Inventaris Desa akan dihilangkan pada rilis September 2018 karena telah diganti dengan modul Inventaris baru. Pastikan memindahkan semua data ke format Inventaris baru sebelum rilis tersebut.
 
