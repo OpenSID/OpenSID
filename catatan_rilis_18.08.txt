@@ -1,6 +1,6 @@
 Rilis ini menambah laporan asset dihapus di modul Inventaris. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
-Terima kasih pada Tim Diskominfo Kab Bandung, yang terus berkontribusi. Juga terima kasih pada [untuk diisi] yang mulai kontribusi.
+Terima kasih pada Tim Diskominfo Kab Bandung, yang terus berkontribusi.
 
 Lengkapnya, isi rilis versi 18.08:
 
