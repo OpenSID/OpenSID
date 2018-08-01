@@ -47,10 +47,11 @@ class Komentar extends CI_Controller{
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act']=2;
+		$nav['act']= 13;
+		$nav['act_sub'] = 50;
 
 		$this->load->view('header', $header);
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('komentar/table',$data);
 		$this->load->view('footer');
 	}
@@ -73,10 +74,10 @@ class Komentar extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$nav['act']=2;
+		$nav['act']= 13;
+		$nav['act_sub'] = 50;
 		$this->load->view('header', $header);
-		$this->load->view('web/spacer');
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('komentar/form',$data);
 		$this->load->view('footer');
 	}

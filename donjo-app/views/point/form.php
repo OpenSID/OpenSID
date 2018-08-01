@@ -1,81 +1,142 @@
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
-<div id="contentpane">
-<form id="validasi" action="<?php  echo $form_action?>" method="POST" enctype="multipart/form-data">
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<table class="form">
-<tr>
-<th width="100">Nama Kategori</th>
-<td><input class="inputbox" type="text" name="nama" value="<?php  echo $point['nama']?>" size="40"/></td>
-</tr>
-			<tr>
-				<th>Simbol</th>
-				<td>
-					<div id="simbol" style="float:left;padding-top:6px;"></div>
-					<div style="float:left;margin-left:10px;">
-						<?php if($point['simbol']!=""){?>
-						<img src="<?php  echo base_url(); ?>assets/images/gis/point/<?php  echo $point['simbol']?>">
-						<?php }else{?>
-						<img src="<?php  echo base_url(); ?>assets/images/gis/point/default.png">
-						<?php }?>
+<style>
+	.bs-glyphicons
+	{
+		padding-left: 0;
+		padding-bottom: 1px;
+		margin-bottom: 20px;
+		list-style: none;
+		overflow: hidden;
+	}
+
+	.bs-glyphicons .glyphicon
+	{
+		margin-top: 5px;
+		margin-bottom: 10px;
+		font-size: 24px;
+	}
+
+	.bs-glyphicons .glyphicon-class
+	{
+		display: block;
+		text-align: center;
+		word-wrap: break-word; /* Help out IE10+ with class names */
+	}
+
+	.bs-glyphicons li
+	{
+		float: left;
+		width: 25%;
+		height: 115px;
+		padding: 10px;
+		margin: 0 -1px -1px 0;
+		font-size: 12px;
+		line-height: 1.4;
+		text-align: center;
+		border: 1px solid #ddd;
+	}
+	.bs-glyphicons li:hover, .bs-glyphicons li.active
+	{
+		background-color: #605ca8;
+		color:#fff;
+	}
+
+	@media (min-width: 768px)
+	{
+		.bs-glyphicons li
+		{
+			width: 12.5%;
+		}
+	}
+
+	.vertical-scrollbar
+	{
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+</style>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Kategori Point</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('point')?>"><i class="fa fa-dashboard"></i> Daftar Kategori Point</a></li>
+			<li class="active">Pengaturan Kategori Point</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-3">
+          <?php $this->load->view('plan/nav.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?=site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Kategori Point
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="form-group">
+								<label for="nama"  class="col-sm-2 control-label">Nama Tipe Point</label>
+								<div class="col-sm-8">
+									<input  id="nama" class="form-control input-sm" type="text" placeholder="Nama Point" name="nama" required=""  value="<?= $point['nama']?>">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="nomor"  class="col-sm-2 control-label">Simbol</label>
+								<div class="col-sm-4">
+									<?php if ($point['simbol']!=""):?>
+										<img src="<?= base_url(); ?>assets/images/gis/point/<?= $point['simbol']?>"/>
+									<?php else:?>
+										<img src="<?= base_url(); ?>assets/images/gis/point/default.png"/>
+									<?php endif;?>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="id_master"  class="col-sm-2 control-label">Ganti Simbol</label>
+								<div class="col-sm-10">
+									<div  class="vertical-scrollbar" style="max-height:300px;">
+									  <ul id="icons" class="bs-glyphicons">
+											<?php foreach ($simbol as $data):?>
+												<li <?php if ($point['simbol']==$data['simbol']):?>class="active" id="simbol_active" <?php endif; ?> onclick="li_active($(this).val());">
+													<label>
+														<input type="radio" name="simbol" id="simbol" class="hidden" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']):?>checked<?php endif; ?>>
+														<img src="<?= base_url(); ?>assets/images/gis/point/<?= $data['simbol']?>">
+														<span class="glyphicon-class"><?= $data['simbol']?></span>
+													</label>
+												</li>
+											<?php endforeach;?>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+							</div>
+						</div>
 					</div>
-				</td>
-			</tr>
-<?php   /*
-<th>Tipe point</th>
-	<td>
-		<div class="uiradio">
-			<input type="radio" id="sx1" name="tipe" value="1"/<?php  if($point['tipe'] == '1' OR $point['tipe'] == ''){echo 'checked';}?>>
-			<label for="sx1">point Atas</label>
-			<input type="radio" id="sx2" name="tipe" value="2"/<?php  if($point['tipe'] == '2'){echo 'checked';}?>>
-			<label for="sx2">point Kiri</label>
-		</div>
-	</td>
-</tr>
-<tr>
-	<th>Simbol</th>
-	<td>
-		<input class="" type="file" name="simbol" value="<?php  echo $point['simbol']?>" size="20"/>
-	</td>
-</tr>
-*/?>
-</table>
-</div>
-   
-<div class="ui-layout-south panel bottom">
-<div class="left">
-<a href="<?php  echo site_url()?>point" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
-</div>
-</div>
-</div> </form>
-</div>
-</td></tr></table>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>
 <script>
-	$(function(){
-		var nik = {};
-		nik.results = [
-			<?php  foreach($simbol as $data){?>
-				{id:'<?php  echo $data['simbol']?>',name:"<?php  echo $data['simbol']?>",info:'<img src="<?php  echo base_url(); ?>assets/images/gis/point/<?php  echo $data['simbol']?>">'},
-			<?php  }?>
-		];
-		
-		nik.total = nik.results.length;
-		$('#simbol').flexbox(nik, {
-			resultTemplate: '<div style=height:33px;margin-top:-4px;>{info}</div><div style="display:none;">{name}</div>',
-			watermark: <?php  if($point){?>'<?php  echo $point['simbol']?>'<?php  }else{?>'Ketik nama simbol di sini..'<?php  }?>,
-			width: 100,
-			noResultsText :'...'
-			//onSelect: function() {
-			//	$('#'+'main').submit();
-		//}  
-		});
-	});
+	function li_active()
+	{
+    $('li').click( function()
+		{
+      $('li.active').removeClass('active');
+      $(this).addClass('active');
+      $(this).children("input[type=radio]").click();
+    });
+	};
+	function reset_form()
+	{
+		$('li.active').removeClass('active');
+		$('#simbol_active').addClass('active');
+	};
 </script>

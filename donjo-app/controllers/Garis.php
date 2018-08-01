@@ -69,11 +69,13 @@ class Garis extends CI_Controller{
 		$data['list_subline']        = $this->plan_garis_model->list_subline();
 
 		$header= $this->header_model->get_data();
-		$nav['act']=1;
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 1;
 
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('garis/table',$data);
 		$this->load->view('footer');
 
@@ -95,11 +97,12 @@ class Garis extends CI_Controller{
 		}
 
 		$header= $this->header_model->get_data();
-
-		$nav['act']=1;
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 1;
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('garis/form',$data);
 		$this->load->view('footer');
 

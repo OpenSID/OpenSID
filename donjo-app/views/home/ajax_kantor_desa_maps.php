@@ -11,7 +11,6 @@ $(document).ready(function(){
             dataType: 'json',
             data: {lat: lat, lng: lng, zoom: zoom, map_tipe: map_tipe},
         });
-        $(this).closest('.ui-dialog-content').dialog('close');
     });
 });
 
@@ -45,21 +44,28 @@ $(document).ready(function(){
 </script>
 
 <style>
-    #mapx {
-      width: 420px;
-      height: 320px;
-      border: 1px solid #000;
-    }
+	#mapx
+	{
+    z-index: 1;
+    width: 100%;
+    height: 320px;
+    border: 1px solid #000;
+	}
 </style>
+<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">
+        <div id="mapx"></div>
+        <input type="hidden" name="lat" id="lat" value="<?=$desa['lat']?>"/>
+        <input type="hidden" name="lng" id="lng"  value="<?=$desa['lng']?>"/>
+        <input type="hidden" name="zoom" id="zoom"  value="<?=$desa['zoom']?>"/>
+        <input type="hidden" name="map_tipe" id="map_tipe"  value="<?=$desa['map_tipe']?>"/>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" data-dismiss="modal" id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
+	</div>
 
-<div id="mapx"></div>
-<input type="hidden" name="lat" id="lat" value="<?=$desa['lat']?>"/>
-<input type="hidden" name="lng" id="lng"  value="<?=$desa['lng']?>"/>
-<input type="hidden" name="zoom" id="zoom"  value="<?=$desa['zoom']?>"/>
-<input type="hidden" name="map_tipe" id="map_tipe"  value="<?=$desa['map_tipe']?>"/>
-<div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
-    <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$(this).closest('.ui-dialog-content').dialog('close');">Batal</button>
-        <button class="uibutton confirm" id="simpan_kantor" type="submit"><span class="fa fa-save"></span> Simpan</button>
-    </div>
-</div>

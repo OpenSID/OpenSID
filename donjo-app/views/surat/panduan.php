@@ -1,12 +1,20 @@
-<div id="pageC"> 
-	<div id="contentpane">
-		<div class="ui-layout-north panel">
-			<h3>Panduan Pembuatan Surat Administrasi Kependudukan</h3>
-		</div>
-		<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-			<div class="teks">
-			<?php $this->load->view('surat/signature.php');?>
+<div class="content-wrapper">
+	<section class='content-header'>
+		<h1>Panduan Pembuatan Surat</h1>
+		<ol class='breadcrumb'>
+			<li><a href='<?php echo site_url()?>'><i class='fa fa-dashboard'></i> Home</a></li>
+			<li class='active'>Panduan Pembuatan Surat</li>
+		</ol>
+	</section>
+	<section class='content'>
+		<div class='row'>
+			<div class='col-xs-12'>
+				<div class='box box-danger'>
+					<div class='box-body'>
+						<?php $this->load->view('surat/signature.php');?>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 </div>

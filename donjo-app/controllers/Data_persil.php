@@ -52,6 +52,8 @@ class Data_persil extends CI_Controller{
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		$data['keyword'] = $this->data_persil_model->autocomplete();
+		$nav['act']=7;
+		$this->load->view('nav',$nav);
 		$this->load->view('data_persil/persil',$data);
 		$this->load->view('footer');
 	}
@@ -78,7 +80,8 @@ class Data_persil extends CI_Controller{
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
-
+		$nav['act']=7;
+		$this->load->view('nav',$nav);
 		$this->load->view('data_persil/detail',$data);
 		$this->load->view('footer');
 	}
@@ -108,6 +111,8 @@ class Data_persil extends CI_Controller{
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
+		$nav['act']=7;
+		$this->load->view('nav',$nav);
 		$this->load->view('data_persil/create',$data);
 		$this->load->view('footer');
 	}
@@ -126,6 +131,8 @@ class Data_persil extends CI_Controller{
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
+		$nav['act']=7;
+		$this->load->view('nav',$nav);
 		$this->load->view('data_persil/create_ext',$data);
 		$this->load->view('footer');
 	}
@@ -152,6 +159,8 @@ class Data_persil extends CI_Controller{
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
+		$nav['act']=7;
+		$this->load->view('nav',$nav);
 		$data["id"]=$id;
 		if ($this->form_validation->run() === FALSE){
 			$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
@@ -183,6 +192,8 @@ class Data_persil extends CI_Controller{
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
+		$nav['act']=7;
+		$this->load->view('nav',$nav);
 		$data["id"]=$id;
 		if ($this->form_validation->run() === FALSE){
 			$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
@@ -200,6 +211,17 @@ class Data_persil extends CI_Controller{
 		$this->load->view('footer');
 	}
 
+	function panduan(){
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$nav['act']=7;
+		$this->load->view('nav',$nav);
+		$this->load->view('data_persil/panduan');
+		$this->load->view('footer');
+	}
 	public function hapus_persil_peruntukan($id){
 		$this->data_persil_model->hapus_peruntukan($id);
 		redirect("data_persil/persil_peruntukan");

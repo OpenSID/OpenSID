@@ -1,76 +1,150 @@
-<div id="pageC">
-	<table class="inner">
-	<tr style="vertical-align:top">
-	<td style="background:#fff;padding:0px;">
-<div id="contentpane">
-<div class="content-header">
+<style>
+.input-sm
+{
+  padding: 4px 4px;
+}
+</style>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Daftar Anggota Keluarga</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
+			<li class="active">Daftar Anggota Keluarga</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?= site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Keluarga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
+						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i>  Kartu Keluarga</a>
+						<a href="<?=site_url("keluarga/index/$p/$o")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Keluarga">
+							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
+						</a>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped table-hover">
+										<tbody>
+											<tr>
+												<td nowrap style="padding-top : 10px;padding-bottom : 10px; width:15%;" >Nomor Kartu Keluarga (KK)</td>
+												<td nowrap > : <?= $kepala_kk['no_kk']?></td>
+											</tr>
+											<tr>
+												<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >Kepala Keluarga</td>
+												<td nowrap > :  <?= unpenetration($kepala_kk['nama'])?></td>
+											</tr>
+											<tr>
+												<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >Alamat</td>
+												<td nowrap > : <?= $kepala_kk['alamat_wilayah']?></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<form id="mainform" name="mainform" action="" method="post">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table id="tabel2" class="table table-bordered dataTable table-hover nowrap">
+														<thead class="bg-gray disabled color-palette">
+															<tr>
+																<th><input type="checkbox" class="checkall"/></th>
+																<th>No</th>
+																<th>Aksi</th>
+																<th>NIK</th>
+																<th>Nama</th>
+																<th>Tanggal Lahir</th>
+																<th>Jenis Kelamin</th>
+																<th>Hubungan</th>
+															</tr>
+														</thead>
+														<tbody>
+															<?php foreach ($main as $key => $data): ?>
+																<tr>
+																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
+																	<td><?= $key+1;?></td>
+																	<td nowrap>
+																		<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
+																		<a href="#" data-href="<?= site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Pecah KK" data-toggle="modal" data-target="#confirm-status"><i class="fa fa-cut"></i></a>
+																		<?php if ($data['kk_level']!=0):?>
+																			<a href="<?= site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Keluarga" title="Ubah Hubungan Keluarga" class="btn bg-navy btn-flat btn-sm"><i class='fa fa-link'></i></a>
+																		<?php endif;?>
+																	</td>
+																	<td><?= $data['nik']?></td>
+																	<td nowrap width="45%"><?= strtoupper(unpenetration($data['nama']))?></td>
+																	<td nowrap><?= tgl_indo($data['tanggallahir'])?></td>
+																	<td><?= $data['sex']?></td>
+																	<td nowrap><?= $data['hubungan']?></td>
+																</tr>
+															<?php endforeach; ?>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+									</div>
+									<div class='modal-body btn-info'>
+										Apakah Anda yakin ingin menghapus data ini?
+									</div>
+									<div class='modal-footer'>
+										<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+										<a class='btn-ok'>
+											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+									</div>
+									<div class='modal-body btn-info'>
+										Apakah Anda yakin ingin memecah Data Keluarga ini?
+									</div>
+									<div class='modal-footer'>
+										<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+										<a class='btn-ok'>
+											<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-delete"><i class='fa fa-check'></i> Simpan</button>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div  class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+										<h4 class='modal-title' id='myModalLabel'></h4>
+									</div>
+									<div class="fetched-data"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>
-	<form id="mainform" name="mainform" action="" method="post">
-    <div class="ui-layout-north panel">
-    <h3>Daftar Anggota KK No.<?php echo $kepala_kk['no_kk']?> Keluarga : <?php echo unpenetration($kepala_kk['nama'])?>; Alamat : <?php echo $kepala_kk['alamat_wilayah']?></h3>
-        <div class="left">
-            <div class="uibutton-group">
-                <a href="<?php echo site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="uibutton tipsy west" title="Tambah anggota keluarga dari penduduk yang sudah ada" header="Tambah Anggota" target="ajax-modalx" rel="window"><span class="fa fa-plus">&nbsp;</span>Tambah Anggota</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
-                <?php /*<a href="<?php echo site_url("keluarga/lepas_anggota/$p/$o/$kk")?>" type="button" title="Lepas KK" class="uibutton tipsy south"  target="ajax-modal" rel="window" header="Lepas KK"><span class="ui-icon ui-icon-next">&nbsp;</span>Lepas KK</a>*/?>
-            </div>
-        </div>
-    </div>
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-        <div class="table-panel top">
-            <div class="left">
-            </div>
-            <div class="right">
-            </div>
-        </div>
-        <table class="list">
-		<thead>
-      <tr>
-        <th>No</th>
-        <th><input type="checkbox" class="checkall"/></th>
-        <th>Aksi</th>
-				<th>NIK</th>
-				<th>Nama</th>
-				<th>Tanggal Lahir</th>
-        <th>Jenis Kelamin</th>
-				<th>Hubungan</th>
-			</tr>
-		</thead>
-		<tbody>
-      <?php  foreach($main as $key => $data): ?>
-  		<tr>
-        <td align="center" width="2"><?php echo $key+1?></td>
-  			<td align="center" width="5">
-  				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-  			</td>
-        <td>
-          <div class="uibutton-group">
-            <a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
-            <a href="<?php echo site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Pecah KK" target="confirm" message="Apakah Anda Yakin?" header="Pecah KK"><span class="fa fa-minus-circle"></span></a>
-            <?php if($data['kk_level']!=0){?>
-              <a href="<?php echo site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" class="uibutton tipsy south" title="Ubah Hubungan Keluarga" target="ajax-modal" rel="window" header="Ubah Data"><span class="fa fa-link"></span></a>
-            <?php }?>
-          </div>
-        </td>
-        <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo $data['nik']?></td>
-  		  <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper($data['nama'])?></a></td>
-        <td><?php echo tgl_indo($data['tanggallahir'])?></td>
-        <td><?php echo $data['sex']?></td>
-  		  <td><?php echo $data['hubungan']?></td>
-		  </tr>
-      <?php  endforeach; ?>
-		</tbody>
-        </table>
-    </div>
-	</form>
-    <div class="ui-layout-south panel bottom">
-        <div class="left">
-            <a href="<?php echo site_url("keluarga/index/$p/$o")?>" class="uibutton icon prev">Kembali</a>
-        </div>
-        <div class="right">
-            <a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="uibutton confirm icon next">Kartu Keluarga</a>
-        </div>
-    </div>
-</div>
-</td></tr></table>
-</div>
+

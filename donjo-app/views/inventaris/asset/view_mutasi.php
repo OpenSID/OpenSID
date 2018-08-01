@@ -1,115 +1,108 @@
-<div class="panel">
-	<div class="panel-body">
-		<section class="content">
-			<div class='box box-default'>
-				<div class='box-header with-border'>
-					<h4 class='box-title'>View Mutasi -
-						<small>Data Inventaris Asset Tetap Lainnya</small>
-					</h4>
-					<hr>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Rincian Data Mutasi Asset Lainnya</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url() ?>inventaris_asset/mutasi"><i class="fa fa-dashboard"></i>Daftar Asset Lainnya</a></li>
+			<li class="active">Rincian Data Mutasi</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form class="form-horizontal" id="validasi" name="form_asset" method="post" action="<?= $form_action?>">
+			<div class="row">
+				<div class="col-md-3">
+          <?php	$this->load->view('inventaris/asset/menu_kiri.php')?>
 				</div>
-				<div class='box-body'>
-					<div class="form">
-						<form class="form-horizontal" id="form_mutasi_asset" name="form_mutasi_asset" method="post" action="">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="col-sm-2 control-label required" style="text-align:left;" for="nama_barang">Nama Barang</label>
-									<div class="col-sm-9">
-										<input type="hidden" name="id_asset" id="id_asset" value="<?= $main->id; ?>">
-										<input maxlength="50" value="<?= $main->nama_barang; ?>"  class="form-control" name="nama_barang" id="nama_barang" type="text" disabled/>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+						<a href="<?= site_url() ?>inventaris_asset/mutasi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Asset Lainnya</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="col-sm-3 control-label required" style="text-align:left;" for="nama_barang">Nama Barang</label>
+										<div class="col-sm-8">
+											<input type="hidden" name="id_inventaris" id="id_inventaris" value="<?= $main->id; ?>">
+											<input maxlength="50" value="<?= $main->nama_barang; ?>"  class="form-control input-sm" name="nama_barang" id="nama_barang" type="text" disabled/>
+										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label" style="text-align:left;" for="kode_barang">Kode Barang</label>
-									<div class="col-sm-9">
-										<input maxlength="50" value="<?= $main->kode_barang; ?>"  class="form-control" name="kode_barang" id="kode_barang" type="text" disabled/>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Kode Barang</label>
+										<div class="col-sm-8">
+											<input maxlength="50" value="<?= $main->kode_barang; ?>"  class="form-control input-sm" name="kode_barang" id="kode_barang" type="text" disabled/>
+										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
-									<div class="col-sm-9">
-										<input maxlength="50" value="<?= $main->register; ?>"  class="form-control" name="kode_barang" id="kode_barang" type="text" disabled/>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
+										<div class="col-sm-8">
+											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control input-sm" name="kode_barang" id="kode_barang" type="text" disabled/>
+										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
-									<div class="col-sm-9">
-										<select name="mutasi" id="mutasi" class="form-control" disabled>
-										  <option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
-										  <option value="Rusak">Status Rusak</option>
-										  <option value="Diperbaiki">Status Diperbaiki</option>
-										  <optgroup label="Barang Masih Baik">
-											<option value="Masih Baik Disumbangkan">Sumbangakan</option>
-											<option value="Masih Baik Dijual">Jual</option>
-										  </optgroup>
-										  <optgroup label="Barang Sudah Rusak">
-											<option value="Barang Rusak Disumbangkan">Sumbangakan</option>
-											<option value="Barang Rusak Dijual">Jual</option>
-										  </optgroup>
-										</select>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
+										<div class="col-sm-4">
+											<select name="mutasi" id="mutasi" class="form-control input-sm" disabled>
+												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
+												<option value="Rusak">Status Rusak</option>
+												<option value="Diperbaiki">Status Diperbaiki</option>
+												<optgroup label="Barang Masih Baik">
+													<option value="Masih Baik Disumbangkan">Sumbangakan</option>
+													<option value="Masih Baik Dijual">Jual</option>
+												</optgroup>
+												<optgroup label="Barang Sudah Rusak">
+													<option value="Barang Rusak Disumbangkan">Sumbangakan</option>
+													<option value="Barang Rusak Dijual">Jual</option>
+												</optgroup>
+											</select>
+										</div>
 									</div>
-								</div>
-								<div class="form-group disumbangkan">
-									<label class="col-sm-2 control-label" style="text-align:left;" for="disumbangkan">Disumbangkan ke-</label>
-									<div class="col-sm-9">
-										<input maxlength="50"  class="form-control" name="disumbangkan" id="disumbangkan" type="text" value="<?= $main->sumbangkan; ?>" disabled/>
+									<div class="form-group disumbangkan">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="disumbangkan">Disumbangkan ke-</label>
+										<div class="col-sm-8">
+											<input maxlength="50"  class="form-control input-sm" name="disumbangkan" id="disumbangkan" type="text" value="<?= $main->sumbangkan; ?>" disabled/>
+										</div>
 									</div>
-								</div>
-								<div class="form-group harga_jual">
-									<label class="col-sm-2 control-label " style="text-align:left;" for="harga_jual">Harga Penjualan</label>
-									<div class="col-sm-9">
-										<input maxlength="50"  class="form-control" name="harga_jual" id="harga_jual" type="text" value="Rp. <?= number_format( $main->harga_jual,0,".","."); ?>" disabled/>
+									<div class="form-group harga_jual">
+										<label class="col-sm-3 control-label " style="text-align:left;" for="harga_jual">Harga Penjualan</label>
+										<div class="col-sm-4">
+											<input maxlength="50"  class="form-control number input-sm" name="harga_jual" id="harga_jual" type="text" value="Rp. <?= number_format( $main->harga_jual,0,".","."); ?>" disabled/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pengadaan </label>
+										<div class="col-sm-4">
+											<select name="tahun" id="tahun" class="form-control input-sm" disabled>
+												<option value="<?= $main->tahun_pengadaan; ?>"><?= $main->tahun_pengadaan; ?></option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label required" style="text-align:left;" for="tahun_mutasi">Tahun Mutasi</label>
+										<div class="col-sm-4">
+											<input maxlength="50" class="form-control input-sm" name="tahun_mutasi" id="tahun_mutasi" value="<?= date('d M Y',strtotime($main->tahun_mutasi));;?>" disabled/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
+										<div class="col-sm-8">
+											<textarea rows="5" class="form-control input-sm" name="keterangan" id="keterangan" disabled><?= $main->keterangan; ?></textarea>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="col-sm-2 control-label" style="text-align:left;" for="tahun">Tahun Pengadaan </label>
-									<div class="col-sm-9">
-										<input maxlength="50" class="form-control" name="tanggal_bangunan" id="tanggal_bangunan" type="text" disabled value="<?= $main->tahun_pengadaan; ?>"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label required" style="text-align:left;" for="tahun_mutasi">Tahun Mutasi</label>
-									<div class="col-sm-9">
-										<input maxlength="50" class="form-control" name="tahun_mutasi" id="tahun_mutasi" value="<?= date('d M Y',strtotime($main->tahun_mutasi));;?>" disabled/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
-									<div class="col-sm-9">
-										<textarea rows="5" class="form-control" name="keterangan" id="keterangan" disabled><?= $main->keterangan; ?></textarea>
-									</div>
-								</div>
+						</div>
+						<div class="box-footer">
+							<div class="col-xs-12">
+								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
-							<div class="pull-right" >
-								<a href="<?= base_url() ?>index.php/inventaris_asset/mutasi" class="btn btn-default save"
-										   id="btn_batal" name="yt1" type="button"/>Kembali</a>
-							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
-		</section>
-	</div>
+		</form>
+	</section>
 </div>
 
-<script>
-	$(document).ready(function()
-	{
-		if($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
-		{
-			$(".disumbangkan").show();
-			$(".harga_jual").hide();
-		} else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
-		{
-			$(".disumbangkan").hide();
-			$(".harga_jual").show();
-		} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
-		{
-			$(".disumbangkan").hide();
-			$(".harga_jual").hide();
-		}
-	});
-
-</script>

@@ -57,11 +57,12 @@ class Line extends CI_Controller{
 		$data['keyword'] = $this->plan_line_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act']=2;
-
+		$header['minsidebar'] =1;
+		$nav['act']=8;
+		$nav['tip']= 2;
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('line/table',$data);
 		$this->load->view('footer');
 
@@ -85,10 +86,12 @@ class Line extends CI_Controller{
 
 		$header= $this->header_model->get_data();
 
-		$nav['act']=2;
+		$header['minsidebar'] =1;
+		$nav['act']=8;
+		$nav['tip']= 2;
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('line/form',$data);
 		$this->load->view('footer');
 
@@ -99,11 +102,11 @@ class Line extends CI_Controller{
 		$data['subline']    = $this->plan_line_model->list_sub_line($line);
 		$data['line'] = $line;
 		$header= $this->header_model->get_data();
-		$nav['act']=2;
-
-		$this->load->view('header-gis', $header);
-
-		$this->load->view('plan/nav',$nav);
+		$header['minsidebar'] =1;
+		$nav['act']= 8;
+		$nav['tip']= 2;
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
 		$this->load->view('line/sub_line_table',$data);
 		$this->load->view('footer');
 

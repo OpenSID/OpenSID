@@ -1,70 +1,119 @@
-
-<style type="text/css">
-  table.form th.indented {
-    padding-left: 40px;
-    font-weight: normal;
-  }
-</style>
-
-<div id="pageC">
-<table class="inner">
-  <tr style="vertical-align:top">
-    <td class="side-menu">
-    <?php
-    $this->load->view('suplemen/menu_kiri.php')
-    ?>
-    </td>
-    <td class="contentpane">
-      <div id="contentpane">
-        <div class="ui-layout-center" id="maincontent">
-          <legend>Data Terdata Suplemen</legend>
-
-          <div>
-            <legend style="margin-top: 30px;">Rincian Suplemen</legend>
-            <table class="form">
-              <tr><td width="30%">Nama Suplemen</td><td><strong><?php echo strtoupper($suplemen["nama"])?></strong></td></tr>
-              <tr><td>Sasaran Suplemen</td><td><strong><?php echo $sasaran[$suplemen["sasaran"]]?></strong></td></tr>
-              <tr><td>Keterangan</td><td><strong><?php echo $suplemen["keterangan"]?></strong></td></tr>
-            </table>
-          </div>
-
-          <legend style="margin-top: 30px;">Data Terdata</legend>
-          <div style="margin-top: 10px;">
-
-            <div id="form-cari-peserta">
-                <table class="form">
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Data Terdata Suplemen</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Data Terdata Suplemen</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-3">
+				<?php $this->load->view('suplemen/menu_kiri.php')?>
+			</div>
+			<div class="col-md-9">
+				<div class="box box-info">
+          <div class="box-header with-border">
+						<a href="<?= site_url()?>suplemen/rincian/1/<?= $suplemen['id']?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Suplemen</a>
+					</div>
+					<div class="box-header with-border">
+						<h3 class="box-title">Rincian Suplemen</h3>
+					</div>
+					<div class="box-body ">
+						<table class="table table-bordered" >
+							<tbody>
+								<tr>
+									<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Nama Suplemen</td>
+									<td> : <?= strtoupper($suplemen["nama"])?></td>
+								</tr>
+								<tr>
+									<td style="padding-top : 10px;padding-bottom : 10px;" >Sasaran</td>
+									<td> : <?= $sasaran[$suplemen["sasaran"]]?></td>
+								</tr>
+                <tr>
+									<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
+									<td> : <?= $suplemen["keterangan"]?></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="box-header with-border">
+						<h3 class="box-title">Data Terdata</h3>
+					</div>
+					<div class="box-body">
+						<div class="table-responsive">
+              <table class="table table-bordered" >
+                <tbody>
                   <tr>
-                    <?php if($suplemen["sasaran"] == 1): ?>
-                      <th width="30%">NIK / Nama</td>
-                    <?php elseif($suplemen["sasaran"] == 2): ?>
-                      <th width="30%">No. KK / Nama KK</td>
+                    <?php if ($suplemen["sasaran"] == 1): ?>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >NIK /Nama</td>
+                    <?php elseif ($suplemen["sasaran"] == 2): ?>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >No. KK / Nama KK</td>
                     <?php endif; ?>
-                    <td>
-                      <?php echo $terdata["terdata_nama"]." / ".$terdata["terdata_info"]; ?>
-                    </td>
+                    <td> <?= $terdata["terdata_nama"]." / ".$terdata["terdata_info"]?></td>
                   </tr>
-                  <?php if($individu){?>
-                    <?php include("donjo-app/views/suplemen/konfirmasi_terdata.php"); ?>
-                  <?php } ?>
+                  <?php if($suplemen["sasaran"] == 1): ?>
+                    <tr>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Alamat</td>
+                      <td>
+                        <?= $individu['alamat_wilayah']; ?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Tempat Tanggal Lahir (Umur)</td>
+                      <td>
+                        <?= $individu['tempatlahir']?> <?= tgl_indo($individu['tanggallahir'])?> (<?= $individu['umur']?> Tahun)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Pendidikan</td>
+                      <td>
+                        <?= $individu['pendidikan']?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Warganegara / Agama</td>
+                      <td>
+                        <?= $individu['warganegara']?> / <?= $individu['agama']?>
+                      </td>
+                    </tr>
+                  <?php elseif($suplemen["sasaran"] == 2): ?>
+                    <tr>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Alamat Keluarga</td>
+                      <td>
+                        <?= $individu['alamat_wilayah']; ?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Tempat Tanggal Lahir (Umur) KK</td>
+                      <td>
+                        <?= $individu['tempatlahir']?> <?= tgl_indo($individu['tanggallahir'])?> (<?= $individu['umur']?> Tahun)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Pendidikan KK</td>
+                      <td>
+                        <?= $individu['pendidikan']?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Warganegara / Agama KK</td>
+                      <td>
+                        <?= $individu['warganegara']?> / <?= $individu['agama']?>
+                      </td>
+                    </tr>
+                  <?php endif; ?>
                   <tr>
-                    <th>Keterangan</th>
-                    <td><?php echo $terdata["keterangan"]; ?></td>
+                    <td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
+                    <td> <?= $terdata["keterangan"]?></td>
                   </tr>
-                </table>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="ui-layout-south panel bottom">
-          <div class="left">
-            <a href="<?php echo site_url()?>suplemen/rincian/1/<?php echo $suplemen['id']?>" class="uibutton icon prev">Kembali</a>
-          </div>
-        </div>
-
-      </div>
-    </td>
-  </tr>
-</table>
+                </tbody>
+              </table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>
 

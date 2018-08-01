@@ -309,15 +309,38 @@
     foreach($html->find('input') as $input) {
       if ($input->type == 'hidden') {
         continue;
+			}
+			if ($input->title == 'Pilih Tanggal') {
+				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
+				continue;
+			}
+			if ($input->type == 'radio') {
+				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
+				continue;
+			}
+			if ($input->id == 'jam_1') {
+				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
+				continue;
+			}
+			if ($input->id == 'input_group') {
+				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
+				continue;
+			}
+      $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
+		}
+    foreach($html->find('textarea') as $input) {
+      if ($input->type == 'hidden') {
+        continue;
       }
       $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-    }
+		}
     foreach($html->find('select') as $input) {
       if ($input->type == 'hidden') {
         continue;
       }
       $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-    }
+		}
+
     $html->clear();
     unset($html);
     return $inputs;

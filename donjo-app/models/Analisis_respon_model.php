@@ -596,7 +596,7 @@
 		}
 		return $data;
 	}
-	function data_unduh($p=0,$o=0){
+	function data_unduh(){
 		$per 			= $this->get_aktif_periode();
 		$master 		= $this->get_analisis_master();
 		$id_kelompok 	= $master['id_kelompok'];

@@ -1,25 +1,24 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');?>
-
 <script>
-$(function(){
-var nik = {};
-nik.results = [
-<?php foreach($penduduk as $data){?>
-{id:'<?php echo $data['id']?>',name:'<?php echo $data['nik']." - ".penetration1($data['nama'])?>',info:'<?php echo penetration1($data['alamat'])?>'},
-<?php }?>
-];
+  $(function(){
+  var nik = {};
+  nik.results = [
+  <?php foreach($penduduk as $data){?>
+  {id:'<?php echo $data['id']?>',name:'<?php echo $data['nik']." - ".penetration1($data['nama'])?>',info:'<?php echo penetration1($data['alamat'])?>'},
+  <?php }?>
+  ];
 
-$('#nik').flexbox(nik, {
-resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-watermark: <?php if($individu){?>'<?php echo $individu['nik']?> - <?php echo penetration1($individu['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
-width: 260,
-noResultsText :'Tidak ada no nik yang sesuai..',
-onSelect: function() {
-$('#'+'main').submit();
-}
-});
+  $('#nik').flexbox(nik, {
+  resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
+  watermark: <?php if($individu){?>'<?php echo $individu['nik']?> - <?php echo penetration1($individu['nama'])?>'<?php }else{?>'Ketik no nik di sini..'<?php }?>,
+  width: 260,
+  noResultsText :'Tidak ada no nik yang sesuai..',
+  onSelect: function() {
+  $('#'+'main').submit();
+  }
+  });
 
-});
+  });
 </script>
 
 
@@ -33,6 +32,9 @@ table.form.detail td{
 padding:5px;
 }
 </style>
+
+
+
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">

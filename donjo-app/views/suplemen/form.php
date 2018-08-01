@@ -1,93 +1,55 @@
-<div id="pageC">
-<table class="inner">
-	<tr style="vertical-align:top">
-		<td class="side-menu">
-		<?php
-		$this->load->view('suplemen/menu_kiri.php')
-		?>
-		</td>
-		<td class="contentpane">
-			<legend>Form Penulisan Data Suplemen</legend>
-			<div id="contentpane">
-				<div class="ui-layout-center" id="maincontent" style="width:96%">
-				<?php
-				if(validation_errors()){
-					echo "
-					<div class=\"error\" style=\"border:solid 2px #c00;color:#c00;margin:1em 0;\">
-						<div style=\"background:#c00;color:#fff;padding:1em;font-weight:bolder;\">
-						Ada Kesalahan
-						</div>
-						<div style=\"padding:1em 2em;\">
-					".validation_errors()."
-						</div>
-					</div>
-					";
-				}
-				$cid = @$_REQUEST["cid"];
 
-				 ?>
-				<?php echo form_open($form_action)."\n"; ?>
-					<div class="form-group">
-						<label>Sasaran Data</label>
-						<select class="form-control" name="cid" id="cid">
-							<option value="">Pilih Sasaran Data <?php echo $cid;?></option>
-							<?php
-							$strC = ($cid == 1 OR $suplemen['sasaran'] == 1)?"selected=\"selected\"":"";
-							echo "<option value=\"1\" ".$strC.">Penduduk Perorangan</option>";
-							$strC = ($cid == 2 OR $suplemen['sasaran'] == 2)?"selected=\"selected\"":"";
-							echo "<option value=\"2\" ".$strC.">Keluarga - KK</option>";
-							?>
-						</select>
-					</div>
-					<div class="form-group">
-						<label>Nama Data</label>
-						<input type="text" class="form-control" name="nama" id="nama" placeholder="Tuliskan nama data" value="<?php echo $suplemen['nama']?>"/>
-					</div>
-					<div class="form-group">
-						<label>Keterangan</label>
-						<textarea class="form-control" name="keterangan" id="keterangan"><?php echo $suplemen['keterangan']?></textarea>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Form Data Suplemen</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('suplemen')?>"> Data Suplemen</a></li>
+			<li class="active">Form Data Suplemen</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?= site_url('suplemen')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Suplemen</a>
 					</div>
 
-					<div class="form-group">
-						<div class="uibutton-group">
-							<button class="uibutton" type="reset" name="tombolreset" id="tombolreset"><span class="fa fa-times"></span> Batal</button>
-							<button class="uibutton confirm" type="submit" name="tombol" id="tombol"><span class="fa fa-save"></span> Simpan</button>
+					<form id="validasi" action="<?= $form_action?>" method="POST" class="form-horizontal">
+						<div class="box-body">
+							<div class="form-group">
+								<label  class="col-sm-3 control-label" for="id_master">Sasaran Data</label>
+								<div class="col-sm-7">
+									<select class="form-control input-sm required" name="cid" id="cid">
+										<option value="">-- Pilih Sasaran Data Suplemen --</option>
+										<option value="1" <?php if($cid == 1 OR $suplemen['sasaran'] == 1) :?>selected<?php endif?>>Penduduk Perorangan</option>
+										<option value="2" <?php if($cid == 2 OR $suplemen['sasaran'] == 2) :?>selected<?php endif?>>Keluarga - KK</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-3 control-label" for="nama">Nama Data Suplemen</label>
+								<div class="col-sm-7">
+									<input  class="form-control input-sm required" type="text" placeholder="Nama Data Suplemen" name="nama" id="nama" value="<?= $suplemen['nama']?>">
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-3 control-label" for="keterangan">Keterangan</label>
+								<div class="col-sm-7">
+									 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan"  rows="3"><?= $suplemen['keterangan']?></textarea>
+								 </div>
+							</div>
 						</div>
-					</div>
-				</form>
-				<div style="height:5em;"></div>
+						<div class="box-footer">
+							<div class="col-xs-12">
+								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
-		</td>
-		<td style="width:250px;" class="contentpane">
-		<?php
-		$this->load->view('suplemen/panduan.php')
-		?>
-		</td>
-	</tr>
-</table>
-
-<script type="text/javascript" src="<?php echo base_url()?>assets/tiny_mce/tiny_mce_src.js"></script>
-<script type="text/javascript">
-tinyMCE.init({
-        // General options
-		mode : "textareas",
-		theme : "advanced",
-		relative_urls: false,
-		language : "en",
-		skin : "o2k7",
-        plugins : "jbimages,lists,pagebreak,table,advlink,preview,paste,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
-
-        // Theme options
-        theme_advanced_buttons1 : "pastetext,pasteword,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,link,unlink,jbimages,cleanup,help,code,|,preview,|,forecolor,backcolor|,fullscreen",
-        theme_advanced_toolbar_location : "top",
-        theme_advanced_toolbar_align : "left",
-        theme_advanced_statusbar_location : "bottom",
-        theme_advanced_resizing : true,
-
-        // Skin options
-        skin : "o2k7",
-        skin_variant : "blue"
-});
-</script>
+		</div>
+	</section>
 </div>

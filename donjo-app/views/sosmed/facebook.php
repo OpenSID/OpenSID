@@ -1,43 +1,64 @@
-<div id="pageC">
-  <table class="inner">
-  <tr style="vertical-align:top">
-    <td class="side-menu">
-      <?php $this->load->view('sosmed/_side-menu.php',array('media' => 'facebook')); ?>
-    </td>
-    <td>
-      <div id="contentpane">
-        <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
-          <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-            <h3>Pengaturan Facebook</h3>
-            <table class="form">
-              <tr>
-                <td width="150">Link Akun Facebook</td><td><textarea name="link" style="resize: none; height:100px; width:250px;" size="300" maxlength='160'><?php  if($main){echo $main['link'];} ?></textarea></td>
-              </tr>
-              <tr>
-                <th>Aktif</th>
-                <td>
-                  <div class="uiradio">
-                    <?php $ch='checked';?>
-                    <input type="radio" id="g1" name="enabled" value="1"/<?php if($main['enabled'] == '1'){echo $ch;}?>><label for="g1">Ya</label>
-                    <input type="radio" id="g2" name="enabled" value="2"/<?php if($main['enabled'] == '2'){echo $ch;}?>><label for="g2">Tidak</label>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </div>
-
-          <div class="ui-layout-south panel bottom">
-
-            <div class="right">
-              <div class="uibutton-group">
-                <button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-                <button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </td>
-  </tr>
-  </table>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Facebook</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Pengaturan Facebook</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-3">
+					<?php $this->load->view('sosmed/_side-menu.php', array('media' => 'facebook')); ?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Link Akun Facebook</label>
+										<div class="col-sm-9">
+											<textarea id="link" name="link" class="form-control input-sm required" placeholder="Link Media Sosial" style="height: 200px;"><?php if ($main):?><?=$main['link'];?><?php endif; ?></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-3 col-lg-3 control-label" for="status">Status</label>
+										<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
+											<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($main['enabled'] =='1'): ?>active<?php endif ?>">
+												<input id="g1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($main['enabled'] =='1'): ?>checked <?php endif ?> autocomplete="off"> Aktif
+											</label>
+											<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($main['enabled'] =='2'):?>active<?php endif?>">
+												<input id="g2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($main['enabled'] =='2'):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm reset' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>
+<script>
+	function reset_form()
+	{
+		<?php if ($main['enabled'] == '1'): ?>
+			$("#sx3").addClass('active');
+			$("#sx4").removeClass("active");
+		<?php endif ?>
+		<?php if ($main['enabled'] == '2'): ?>
+			$("#sx4").addClass('active');
+			$("#sx3").removeClass("active");
+		<?php endif ?>
+	};
+</script>

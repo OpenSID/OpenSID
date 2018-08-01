@@ -78,9 +78,10 @@ class Analisis_laporan extends CI_Controller{
 		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_laporan_model->get_periode();
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 5;
+		$header['minsidebar'] =1;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav');
+		$this->load->view('nav');
 		$this->load->view('analisis_laporan/table',$data);
 		$this->load->view('footer');
 	}
@@ -99,8 +100,10 @@ class Analisis_laporan extends CI_Controller{
 		$data['form_action'] 		= site_url("analisis_laporan/update_kuisioner/$p/$o/$id");
 
 		$header = $this->header_model->get_data();
+		$nav['act']= 5;
+		$header['minsidebar'] =1;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav');
+		$this->load->view('nav');
 		$this->load->view('analisis_laporan/form',$data);
 		$this->load->view('footer');
 	}
@@ -123,6 +126,7 @@ class Analisis_laporan extends CI_Controller{
 		print_r($idcb);
 		//redirect('analisis_laporan');
 	}
+
 	function ajax_multi_jawab(){
 		if(isset($_SESSION['jawab']))
 			$data['jawab'] = $_SESSION['jawab'];

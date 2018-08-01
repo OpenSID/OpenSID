@@ -50,10 +50,11 @@ class Mandiri extends CI_Controller{
 		//$data['form_action'] = site_url("mandiri/insert/");
 		$header = $this->header_model->get_data();
 
-		$nav['act']= 1;
+		$nav['act']= 14;
+		$nav['act_sub'] = 56;
 		$this->load->view('header', $header);
 
-		$this->load->view('lapor/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('mandiri/mandiri',$data);
 		$this->load->view('footer');
 	}

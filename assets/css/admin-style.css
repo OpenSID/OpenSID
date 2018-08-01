@@ -1,0 +1,251 @@
+/* Berisi CSS Modifikasi dari CSS AdminLTE */
+
+/* Modifikasi Check list dengan Tombol Botton */
+.btn-info.active,
+	.btn-info.active:focus,
+	.btn-info.active:hover,
+	.open > .dropdown-toggle.btn-info.focus,
+	.open > .dropdown-toggle.btn-info:hover
+	{
+		color: #fff;
+		background-color: #1788aa;
+		border-color: #1b6d85;
+	}
+
+/* Modifikasi warna dan background Navigator Active */
+.nav-stacked > li.active > a, .nav-stacked > li.active > a:hover
+{
+    background-color: #337ab7;
+    color:#fff;
+    border-top: 0;
+    border-left-color: #1f2427;
+}
+
+/* Modifikasi input group */
+.input-group .form-control, .input-group-addon, .input-group-btn
+{
+	display: table-cell;
+}
+.input-group-sm > .form-control, .input-group-sm > .input-group-addon, .input-group-sm > .input-group-btn > .btn
+{
+	height: 25px;
+	padding: 5px 10px;
+	font-size: 11px;
+	line-height: 1.2;
+	border-radius: 3px;
+			border-top-right-radius: 3px;
+			border-bottom-right-radius: 3px;
+}
+.input-group .form-control
+{
+	position: relative;
+	z-index: 2;
+	float: left;
+	width: 100%;
+	margin-bottom: 0;
+}
+.btn-group-sm > .btn, .btn-sm
+{
+	line-height: 1.2;
+}
+.btn-social.btn-sm > :first-child
+{
+	line-height: 25px;
+	width: 28px;
+	font-size: 1.4em;
+}
+
+/* Modifikasi size gambar mini */
+.user-panel > .image2 > img
+{
+	width: auto;
+	max-width: 45px;
+	height: auto;
+}
+
+/* Modifikasi margin antar button */
+.btn-margin
+{
+	margin: 0px 5px 5px 0px;
+}
+
+/* Modifikasi Sidabar menu */
+.main-sidebar
+{
+	width: 270px;
+}
+.main-header .navbar
+{
+	margin-left: 270px;
+}
+.main-header .logo
+{
+	width: 270px;
+}
+.content-wrapper, .main-footer
+{
+	margin-left: 270px;
+}
+.user-panel
+{
+	padding: 10px 10px 25px 10px;
+}
+.user-panel > .info
+{
+	font-size: 12px;
+}
+.sidebar-menu, .main-sidebar .user-panel, .sidebar-menu > li.header
+{
+	white-space: normal;
+}
+.treeview-menu > li > a
+{
+	font-size: 13px;
+}
+.sidebar-menu > li > a
+{
+	padding: 10px 5px 10px 15px;
+}
+.sidebar-menu li > a > .pull-right-container
+{
+	margin-top: -7px;
+}
+.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > span
+{
+	padding: 14px 5px 12px 20px;
+}
+.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > .pull-right-container
+{
+
+	width: auto !important;
+	left: 210px !important;
+	top: -15px !important;
+}
+.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > span:not(.pull-right), .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > .treeview-menu
+{
+	width: 210px;
+}
+@media (max-width:767px)
+{
+	.main-sidebar
+	{
+    -webkit-transform: translate(-270px, 0);
+    -ms-transform: translate(-270px, 0);
+    -o-transform: translate(-270px, 0);
+    transform: translate(-270px, 0);
+	}
+	.main-header .logo, .main-header .navbar
+	{
+		width: 100%;
+	}
+	.main-header .navbar
+	{
+    margin: 0;
+	}
+	.content-wrapper, .main-footer
+	{
+		margin-left: 0;
+	}
+}
+
+/* Modifikasi Ukuran Huruf pada header box--- */
+.content-header > h1
+{
+	font-size: 18px;
+}
+.box-header > .fa, .box-header > .glyphicon, .box-header > .ion, .box-header .box-title
+{
+	font-size: 16px;
+}
+.small-box .icon
+{
+	top: 7px;
+	font-size: 80px;
+}
+
+/* Modifikasi Tabel --- */
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td
+{
+	padding: 7px;
+}
+
+@media (max-width:480px)
+{
+	.selecta, .inputa
+	{
+		width:150px
+	}
+	.form-group
+	{
+    margin-bottom: 0px;
+	}
+	.leaflet-control-layers-expanded
+	{
+		display:none;
+	}
+	}
+}
+@media (max-width:767px)
+{
+	.selecta, .inputa
+	{
+		width:150px
+	}
+	.form-group {
+    margin-bottom: 0px;
+	}
+}
+/* Modifikasi Select2 --- */
+.select2-container--default .select2-selection--single, .select2-selection .select2-selection--single
+{
+	padding: 2px 12px;
+    height: 25px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+    height: 22px;
+}
+.fa
+{
+	width: 13px;
+}
+input[type="checkbox"], input[type="radio"]
+{
+	margin: 2px 0 0;
+}
+/* Modifikasi Header DataTables--- */
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td
+{
+  vertical-align: middle;
+}
+table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable td:last-child {
+	border-right-width: 1px;
+}
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+	border-bottom-width: 0px;
+}
+.head-padding
+{
+	padding:5px;
+}
+/* Modifikasi Font Size Autocomplate */
+.ui-widget-content {
+	font-size: 11px;
+}
+
+/* Modifikasi Datetimepicker */
+.bootstrap-datetimepicker-widget.dropdown-menu
+{
+	width: auto;
+}
+/*
+Jika hanya untuk hari ahad yang berwarna merah
+.bootstrap-datetimepicker-widget td:nth-last-child(7)
+{
+	color: red !important;
+}
+*/
+.bootstrap-datetimepicker-widget .weekend
+{
+	color: red;
+}

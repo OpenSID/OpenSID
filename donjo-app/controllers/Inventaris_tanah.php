@@ -19,7 +19,7 @@ class inventaris_tanah extends CI_Controller
 		$this->load->model('referensi_model');
 		$this->load->model('config_model');
 		$this->load->model('surat_model');
-		$this->modul_ini = 16;
+		$this->modul_ini = 15;
 		$this->tab_ini = 1;
 		$this->controller = 'inventaris_tanah';
 	}
@@ -36,9 +36,13 @@ class inventaris_tanah extends CI_Controller
 		$data['main'] = $this->inventaris_tanah_model->list_inventaris();
 		$data['total'] = $this->inventaris_tanah_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/tanah/table',$data);
 		$this->load->view('footer');
 	}
@@ -46,9 +50,13 @@ class inventaris_tanah extends CI_Controller
 	function view($id)
 	{
 		$data['main'] = $this->inventaris_tanah_model->view($id);
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/tanah/view_inventaris',$data);
 		$this->load->view('footer');
 	}
@@ -56,9 +64,13 @@ class inventaris_tanah extends CI_Controller
 	function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_tanah_model->view_mutasi($id);
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/tanah/view_mutasi',$data);
 		$this->load->view('footer');
 	}
@@ -66,9 +78,13 @@ class inventaris_tanah extends CI_Controller
 	function edit($id)
 	{
 		$data['main'] = $this->inventaris_tanah_model->view($id);
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/tanah/edit_inventaris',$data);
 		$this->load->view('footer');
 	}
@@ -76,18 +92,26 @@ class inventaris_tanah extends CI_Controller
 	function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_tanah_model->edit_mutasi($id);
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/tanah/edit_mutasi',$data);
 		$this->load->view('footer');
 	}
 
 	function form()
 	{
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/tanah/form_tambah',$data);
 		$this->load->view('footer');
 	}
@@ -95,9 +119,13 @@ class inventaris_tanah extends CI_Controller
 	function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_tanah_model->view($id);
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/tanah/form_mutasi',$data);
 		$this->load->view('footer');
 	}
@@ -105,9 +133,13 @@ class inventaris_tanah extends CI_Controller
 	function mutasi()
 	{
 		$data['main'] = $this->inventaris_tanah_model->list_mutasi_inventaris();
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
+		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('inventaris/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('inventaris/tanah/table_mutasi',$data);
 		$this->load->view('footer');
 	}

@@ -45,9 +45,10 @@ class Analisis_klasifikasi extends CI_Controller{
 		$data['keyword'] = $this->analisis_klasifikasi_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_klasifikasi_model->get_analisis_master();
 		$header = $this->header_model->get_data();
-
+		$nav['act']= 5;
+		$header['minsidebar'] =1;
 		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav');
+		$this->load->view('nav');
 		$this->load->view('analisis_klasifikasi/table',$data);
 		$this->load->view('footer');
 	}

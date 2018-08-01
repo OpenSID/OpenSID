@@ -40,22 +40,21 @@ class Surat extends CI_Controller{
 		unset($_SESSION['id_diberi_izin']);
 		unset($_SESSION['post']);
 
-
+		$nav['act']= 4;
+		$nav['act_sub'] = 31;
 		$this->load->view('header', $header);
-		$nav['act']= 1;
-
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat/format_surat',$data);
 		$this->load->view('footer');
 	}
 
 	function panduan(){
+		$nav['act']= 4;
+		$nav['act_sub'] = 33;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$nav['act']= 4;
-
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('surat/panduan');
 		$this->load->view('footer');
 	}
@@ -81,10 +80,12 @@ class Surat extends CI_Controller{
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['form_action2'] = site_url("surat/doc/$url");
-		$nav['act']= 1;
+		$nav['act']= 4;
+		$nav['act_sub'] = 31;
 		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
 		$this->load->view('header',$header);
-		$this->load->view('surat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view("surat/form_surat",$data);
 		$this->load->view('footer');
 

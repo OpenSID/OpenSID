@@ -1,96 +1,102 @@
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-<?php  /*
-<td class="side-point">
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Sub Kategori Point</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('point')?>"> Daftar Kategori Point</a></li>
+			<li class="active">Pengaturan Sub Kategori Point</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-3">
+          <?php $this->load->view('plan/nav.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?=site_url("point/ajax_add_sub_point/$point")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Sub Point Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Point">
+								<i class="fa fa-plus"></i>Tambah Sub Point Baru
+            	</a>
+							<?php if ($_SESSION['grup']<4):?>
+								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("point/delete_all/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<?php endif;?>
+							<a href="<?=site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Kategori Point
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<form id="mainform" name="mainform" action="" method="post">
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered dataTable table-hover">
+															<thead class="bg-gray disabled color-palette">
+																<tr>
+																	<th><input type="checkbox" id="checkall"/></th>
+																	<th>No</th>
+																	<th>Aksi</th>
+																	<th>Nama</th>
+																	<th>Aktif</th>
+																	<th>Simbol</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php foreach ($subpoint as $data):?>
+																	<tr>
+																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<td><?=$data['no']?></td>
+																		<td nowrap>
+																			<a href="<?= site_url("point/ajax_add_sub_point/$point/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Sub Point"><i class="fa fa-edit"></i></a>
+																			<?php if ($data['enabled'] == '2'):?>
+																				<a href="<?= site_url("point/point_lock_sub_point/$point/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Sub Point"><i class="fa fa-lock">&nbsp;</i></a>
+																			<?php elseif ($data['enabled'] == '1'): ?>
+																				<a href="<?= site_url("point/point_unlock_sub_point/$point/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Sub Point"><i class="fa fa-unlock"></i></a>
+																			<?php endif?>
+																			<a href="#" data-href="<?= site_url("point/delete_sub_point/$point/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	  </td>
+																		<td width="70%"><?= $data['nama']?></td>
+																		<td><?= $data['aktif']?></td>
+																		<td><img src="<?= base_url("assets/images/gis/point")?>/<?= $data['simbol']?>"></td>
+																	</tr>
+																<?php endforeach; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
 
-<fieldset>
-<legend>Kategori point</legend>
-<div class="lpoint">
-<ul>
-<li <?php  if($tip==1)echo "class='selected'";?>><a href="<?php  echo site_url("point/index/1")?>">Atas</a></li>
-<li <?php  if($tip==2)echo "class='selected'";?>><a href="<?php  echo site_url("point/index/2")?>">Atas Kiri</a></li>
-
-<?php  /*
-<li ><a href="Samping">Samping</a></li>
-<li ><a href="Tengah">Tengah</a></li>
-<li ><a href="Bawah">Bawah</a></li>
-
-</ul>
-</div>
-</fieldset>
-
-</td>
-*/?>
-<td style="background:#fff;padding:0px;">
-<div class="content-header">
-<h3>Manajemen Sub point</h3>
-</div>
-<div id="contentpane">
-<form id="mainform" name="mainform" action="" method="post">
-<div class="ui-layout-north panel">
-<div class="left">
-<div class="uibutton-group">
-<a href="<?php  echo site_url("point/ajax_add_sub_point/$point")?>" target="ajax-modalc" rel="window" header="Tambah Sub point" class="uibutton tipsy south" title="Tambah point"><span class="fa fa-plus-square">&nbsp;</span>Tambah point Baru</a>
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php  echo site_url("point/delete_all/")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button></button>
-</div>
-</div>
-</div>
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<div class="table-panel top">
-<div class="left">
-</div>
-<div class="right">
-</div>
-</div>
-<table class="list">
-<thead>
-<tr>
-<th>No</th>
-<th><input type="checkbox" class="checkall"/></th>
-<th width="100">Aksi</th>
-<th align="center">Nama</th>
-<th align="center">Enabled</th>
-<th>Simbol</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<?php  foreach($subpoint as $data){?>
-<tr>
-<td align="center" width="2"><?php  echo $data['no']?></td>
-<td align="center" width="5">
-<input type="checkbox" name="id_cb[]" value="<?php  echo $data['id']?>" />
-</td>
-<td>
-	<div class="uibutton-group">
-		<a href="<?php  echo site_url("point/ajax_add_sub_point/$point/$data[id]")?>" class="uibutton tipsy south fa fa-edit" target="ajax-modalc" rel="window" header="Edit Point" title="Ubah Data"></a>
-		<a href="<?php  echo site_url("point/delete_sub_point/$point/$data[id]")?>" class="uibutton tipsy south fa fa-trash" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
-		<?php  if($data['enabled'] == '2'):?>
-			<a href="<?php  echo site_url("point/point_lock_sub_point/$point/$data[id]")?>" class="uibutton tipsy south fa fa-lock" title="Aktifkan point"></a>
-		<?php  elseif($data['enabled'] == '1'): ?>
-			<a href="<?php  echo site_url("point/point_unlock_sub_point/$point/$data[id]")?>" class="uibutton tipsy south fa fa-unlock" title="Non-aktifkan point"></a>
-		<?php  endif;?>
-	</div>
-</td>
-<td width="150"><?php  echo $data['nama']?></td>
-<td width="50"><?php  echo $data['aktif']?></td>
-<td align="center" width="50"><img src="<?php  echo base_url("assets/images/gis/point")?>/<?php  echo $data['simbol']?>"></td>
-<td></td>
-<?php  }?>
-</tbody>
-</table>
-</div>
-</form>
-<div class="ui-layout-south panel bottom">
-<div class="left">
-<a href="<?php  echo site_url()?>point/index/1" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-</div>
-</div>
-</div>
-</td>
-</tr>
-</table>
-</div>

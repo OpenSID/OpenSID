@@ -1,62 +1,52 @@
-<script>
-$(function(){
- var nik = {};
- nik.results = [
-		<?php foreach($list_penduduk as $data){?>
-	 {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
-		<?php }?>
-		 ];
-nik.total = nik.results.length;
-$('#id_penduduk').flexbox(nik, {
-	resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-	watermark: 'Ketik no nik di sini..',
- width: 260,
- noResultsText :'Tidak ada no nik yang sesuai..',
-	 onSelect: function() {
-		$('#'+'main').submit();
- } 
-});
-$("#nik_detail").show();
-});
-</script>
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
-<div class="content-header">
-</div>
-<div id="contentpane">
-<div class="ui-layout-north panel"><h3>Form Input Anggota</h3>
-</div>
-<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<table class="form">
-<?php if(!@$pend){?>
-<tr>
- <th width=100>NIK / Nama Penduduk</th>
- <td>
- <div id="id_penduduk" name="id_penduduk"></div>
- </td>
- </tr>
- <?php }?>
- <tr>
- <th>Nomor Anggota</th>
- <td><input class="inputbox" name="no_anggota" type="text" size="20" value="<?php echo$pend['no_anggota']; ?>"></th>
- </tr>
-</table>
-</div>
- 
-<div class="ui-layout-south panel bottom">
-<div class="left"> 
-<a href="<?php echo site_url()?>kelompok" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-
-<button class="uibutton confirm" type="submit" >Simpan</button>
-</div>
-</div>
-</div> </form>
-</div>
-</td></tr></table>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Data Anggota Kelompok</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
+			<li class="active">Data Anggota Kelompok</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+					<a href="<?= site_url()?>kelompok" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
+					</div>
+					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
+						<div class="box-body">
+							<div class='col-xs-12'>
+								<?php if (!@$pend):?>
+									<div class="form-group">
+										<label class="col-sm-3 control-label"  for="id_penduduk">Nama Anggota</label>
+										<div class="col-sm-5">
+											<select class="form-control input-sm select2 required" id="id_penduduk" name="id_penduduk">
+												<option value="">-- Silakan Masukan NIK / Nama--</option>
+												<?php foreach ($list_penduduk as $data):?>
+													 <option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
+												<?php endforeach;?>
+											</select>
+										</div>
+									</div>
+								<?php endif;?>
+								<div class="form-group">
+									<label  class="col-sm-3 control-label" for="no_anggota">Nomor Anggota</label>
+									<div class="col-sm-5">
+										<input  id="no_anggota" class="form-control input-sm" type="text" placeholder="Nomor Anggota" name="no_anggota" value="<?=$pend['no_anggota']; ?>">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="box-footer">
+							<div class="col-xs-12">
+								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>

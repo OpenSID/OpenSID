@@ -1,9 +1,9 @@
 <?php
 
 define("KODE_KATEGORI", serialize(array(
-			1 => 'Umum',
-			2 => 'SK Kepala Desa',
-			3 => 'Peraturan Desa')));
+			1 => 'Dokumen Umum',
+			2 => 'SK Kades',
+			3 => 'Perdes')));
 
 class Web_dokumen_model extends CI_Model{
 

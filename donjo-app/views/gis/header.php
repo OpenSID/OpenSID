@@ -4,7 +4,7 @@
 <title><?php
 	echo $this->setting->admin_title
 		. ' ' . ucwords($this->setting->sebutan_desa)
-		. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']) : '')
+		. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']): '')
 		. get_dynamic_title_page_from_path();
 ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -101,9 +101,9 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 
 <ul class="dropdown" tabindex="1">
 	<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="fa fa-user fa-lg"></i>Setting User</a></li>
-	<?php  if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
+	<?php if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
 		<li><a href="<?php echo site_url()?>modul/clear"><i class="fa fa-gear fa-lg"></i>Pengaturan</a></li>
-	<?php  }?>
+	<?php }?>
 	<?php foreach ($modul AS $mod){?>
 		<?php
 			if ($this->setting->offline_mode >= 2 &&
