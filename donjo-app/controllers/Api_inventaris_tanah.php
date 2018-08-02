@@ -30,6 +30,7 @@ class Api_inventaris_tanah extends CI_Controller
 
     public function add()
     {
+
             $data = $this->inventaris_tanah_model->add(array(
                 'nama_barang' => $this->input->post('nama_barang'),
                 'kode_barang' => $this->input->post('kode_barang'),
@@ -46,25 +47,28 @@ class Api_inventaris_tanah extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
+            if ($data) $_SESSION['success']=1;
             redirect("inventaris_tanah");
     }
 
     public function add_mutasi()
     {
+            $_SESSION['success']=1;
             $data = $this->inventaris_tanah_model->add_mutasi(array(
                 'id_inventaris_tanah' => $this->input->post('id_inventaris_tanah'),
-                'jenis_mutasi' => $this->input->post('jenis_mutasi'),
+                'jenis_mutasi' => $this->input->post('mutasi'),
                 'tahun_mutasi' => $this->input->post('tahun_mutasi'),
                 'harga_jual' => $this->input->post('harga_jual'),
                 'sumbangkan' => $this->input->post('sumbangkan'),
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-						redirect("inventaris_tanah/mutasi");
+			redirect("inventaris_tanah/mutasi");
     }
 
     public function update($id)
     {
+            $_SESSION['success']=1;
             $data = $this->inventaris_tanah_model->update($id,array(
                 'nama_barang' => $this->input->post('nama_barang'),
                 'kode_barang' => $this->input->post('kode_barang'),
@@ -82,13 +86,15 @@ class Api_inventaris_tanah extends CI_Controller
                 'updated_at' => date("m/d/Y"),
                 'visible' => 1
                 ));
+            if (!$data) $_SESSION['success']=-1;
             redirect("inventaris_tanah");
     }
 
     public function update_mutasi($id)
     {
+            $_SESSION['success']=1;
             $data = $this->inventaris_tanah_model->update_mutasi($id,array(
-                'jenis_mutasi' => $this->input->post('jenis_mutasi'),
+                'jenis_mutasi' => $this->input->post('mutasi'),
                 'tahun_mutasi' => $this->input->post('tahun_mutasi'),
                 'harga_jual' => $this->input->post('harga_jual'),
                 'sumbangkan' => $this->input->post('sumbangkan'),
@@ -96,7 +102,8 @@ class Api_inventaris_tanah extends CI_Controller
                 'updated_at' => date("m/d/Y"),
                 'visible' => 1
                 ));
-						redirect("inventaris_tanah/mutasi");
+            if (!$data) $_SESSION['success']=-1;
+			redirect("inventaris_tanah/mutasi");
     }
 
     public function delete($id)

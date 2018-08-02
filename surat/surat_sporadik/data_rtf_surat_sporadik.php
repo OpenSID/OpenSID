@@ -1,8 +1,9 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 	/*
-		Jika pemohon warga desa, ganti kolom isiannya dengan data dari database penduduk
+	Jika pemohon warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if ($input['nik']):
+	if ($input['nik'])
+	{
 		$array_replace = array(
 		  "[nama_non_warga]"        => $individu['nama'],
 	    "[tempatlahir_pemohon]"		=> $individu['tempatlahir'],
@@ -13,17 +14,20 @@
 		  "[alamat_pemohon]"   			=> $individu['alamat_wilayah']." ".ucwords($this->setting->sebutan_desa)." ".$config['nama_desa']." ".ucwords($this->setting->sebutan_kecamatan)." ".$config['nama_kecamatan']." ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-	else:
+	}
+	else
+	{
 		$array_replace = array(
-	                "[umur_pemohon]"  				=> umur($input['tanggallahir_pemohon'])
+      "[umur_pemohon]"  				=> umur($input['tanggallahir_pemohon'])
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-	endif;
+	}
 
 	/*
 		Jika saksi1 warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if ($input['id_saksi1']):
+	if ($input['id_saksi1'])
+	{
 		$saksi1 = $this->get_data_surat($input['id_saksi1']);
 		$array_replace = array(
 	    "[namasaksii]"        		=> $saksi1['nama'],
@@ -32,12 +36,13 @@
 	    "[alamatsaksii]"   				=> $saksi1['alamat_wilayah']." ".ucwords($this->setting->sebutan_desa)." ".$config['nama_desa']." ".ucwords($this->setting->sebutan_kecamatan)." ".$config['nama_kecamatan']." ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-	endif;
+	}
 
 	/*
 		Jika saksi2 warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if ($input['id_saksi2']):
+	if ($input['id_saksi2'])
+	{
 		$saksi2 = $this->get_data_surat($input['id_saksi2']);
 		$array_replace = array(
 	    "[namasaksiii]"        		=> $saksi2['nama'],
@@ -46,6 +51,6 @@
 	    "[alamatsaksiii]"  				=> $saksi2['alamat_wilayah']." ".ucwords($this->setting->sebutan_desa)." ".$config['nama_desa']." ".ucwords($this->setting->sebutan_kecamatan)." ".$config['nama_kecamatan']." ".ucwords($this->setting->sebutan_kabupaten)." ".$config['nama_kabupaten']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-	endif;
+	}
 
 ?>

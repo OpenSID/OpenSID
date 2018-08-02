@@ -13,7 +13,7 @@
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<?php if($pamong['foto']):?>
+							<?php if ($pamong['foto']):?>
 								<img class="profile-user-img img-responsive img-circle" src="<?=AmbilFoto($pamong['foto'])?>" alt="Photo">
 							<?php else:?>
 								<img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/files/user_pict/kuser.png" alt="Photo">
@@ -66,11 +66,11 @@
 							<div class="form-group">
 								<label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == NULL): ?>active<?php endif ?>">
-										<input id="group1" type="radio" name="pamong_status" class="form-check-input" type="radio" value="1" <?php if($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if ($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == NULL): ?>active<?php endif ?>">
+										<input id="group1" type="radio" name="pamong_status" class="form-check-input" type="radio" value="1" <?php if ($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if($pamong['pamong_status'] == '2'):?>active<?php endif?>">
-										<input id="group2" type="radio" name="pamong_status" class="form-check-input" type="radio" value="2" <?php if($pamong['pamong_status'] == '2'):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if ($pamong['pamong_status'] == '2'):?>active<?php endif?>">
+										<input id="group2" type="radio" name="pamong_status" class="form-check-input" type="radio" value="2" <?php if ($pamong['pamong_status'] == '2'):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>

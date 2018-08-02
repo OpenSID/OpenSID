@@ -20,10 +20,10 @@
 						<table width="100%">
 							<tr>
 								<td width="10%"></td><td></td><td width="43%" align="left">  </td>
-								<td align="left"><?php  echo unpenetration($desa['nama_desa'])?>, <?= $tanggal_sekarang?></td>
+								<td align="left"><?= unpenetration($desa['nama_desa'])?>, <?= $tanggal_sekarang?></td>
 							</tr>
 							<tr>
-								<td width="10%">Nomor</td><td>:</td><td width="43%" align="left"><?php  echo $input['nomor'] ?>  </td>
+								<td width="10%">Nomor</td><td>:</td><td width="43%" align="left"><?= $input['nomor'] ?>  </td>
 								<td align="left"></td>
 							</tr>
 							<tr>
@@ -32,7 +32,7 @@
 							</tr>
 							<tr>
 								<td width="10%"></td><td></td><td width="43%" align="left">  </td>
-								<td align="left"><p>Kepada Yth. Kepala Kepala Pengadilan Agama <?= ucwords($this->setting->sebutan_kabupaten)?>  <?php  echo unpenetration($desa['nama_kabupaten'])?></td>
+								<td align="left"><p>Kepada Yth. Kepala Kepala Pengadilan Agama <?= ucwords($this->setting->sebutan_kabupaten)?>  <?= unpenetration($desa['nama_kabupaten'])?></td>
 							</tr>
 							<tr></tr>
 							<tr></tr>
@@ -48,18 +48,18 @@
 						<table width="100%">
 							<tr><td colspan="3">Dengan ini kami kirimkan dengan hormat permohonan cerai dari pasangan suami istri : </td></tr>
 							<tr><td width="30%">A. SUAMI</td><td>:</td><td></td></tr>
-							<tr><td>Nama</td><td>:</td><td><?php  echo unpenetration($pribadi['nama'])?></td></tr>
-							<tr><td>NIK</td><td>:</td><td><?php  echo $pribadi['nik']?></td></tr>
-							<tr><td>Tempat dan Tanggal Lahir </td><td>:</td><td><?php  echo $pribadi['tempatlahir']?>, <?php  echo tgl_indo(($pribadi['tanggallahir']))?> </td></tr>
-							<tr><td>Pekerjaan</td><td>:</td><td><?php  echo $pribadi['pek']?></td></tr>
-							<tr><td>Agama</td><td>:</td><td><?php  echo $pribadi['agama']?></td></tr>
+							<tr><td>Nama</td><td>:</td><td><?= unpenetration($pribadi['nama'])?></td></tr>
+							<tr><td>NIK</td><td>:</td><td><?= $pribadi['nik']?></td></tr>
+							<tr><td>Tempat dan Tanggal Lahir </td><td>:</td><td><?= $pribadi['tempatlahir']?>, <?= tgl_indo(($pribadi['tanggallahir']))?> </td></tr>
+							<tr><td>Pekerjaan</td><td>:</td><td><?= $pribadi['pek']?></td></tr>
+							<tr><td>Agama</td><td>:</td><td><?= $pribadi['agama']?></td></tr>
 							<tr><td>Alamat</td><td>:</td><td>RT. <?= $pribadi['rt']?>, RW. <?= $pribadi['rw']?>, Dusun <?= unpenetration(ununderscore($pribadi['dusun']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, Kec. <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?></td></tr>
 							<tr><td>B. ISTRI</td><td>:</td><td></td></tr>
-							<tr><td>Nama</td><td>:</td><td><?php  echo $istri['nama']?></td></tr>
-							<tr><td>NIK</td><td>:</td><td><?php  echo $istri['nik']?></td></tr>
-							<tr><td>Tempat dan Tanggal Lahir </td><td>:</td><td><?php  echo $istri['tempatlahir']?> <?php  echo tgl_indo(($istri['tanggallahir']))?> </td></tr>
-							<tr><td>Pekerjaan</td><td>:</td><td><?php  echo $istri['pek']?></td></tr>
-							<tr><td>Agama</td><td>:</td><td><?php  echo $istri['agama']?></td></tr>
+							<tr><td>Nama</td><td>:</td><td><?= $istri['nama']?></td></tr>
+							<tr><td>NIK</td><td>:</td><td><?= $istri['nik']?></td></tr>
+							<tr><td>Tempat dan Tanggal Lahir </td><td>:</td><td><?= $istri['tempatlahir']?> <?= tgl_indo(($istri['tanggallahir']))?> </td></tr>
+							<tr><td>Pekerjaan</td><td>:</td><td><?= $istri['pek']?></td></tr>
+							<tr><td>Agama</td><td>:</td><td><?= $istri['agama']?></td></tr>
 							<tr><td>Alamat</td><td>:</td><td>RT. <?= $istri['rt']?>, RW. <?= $istri['rw']?>, Dusun <?= unpenetration(ununderscore($istri['dusun']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, Kec. <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?></td></tr>
 							<tr></tr>
 							<tr><td colspan="3">Adapun sebab-sebab menurut keterangannya sebagai berikut :</td></tr>

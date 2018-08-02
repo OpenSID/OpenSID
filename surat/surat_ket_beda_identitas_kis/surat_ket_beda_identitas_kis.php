@@ -51,7 +51,7 @@
 		<h1>Surat Keterangan Beda Identitas KIS</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?= site_url('surat')?>"> Cetak Surat</a></li>
+			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
 			<li class="active">Surat Keterangan Beda Identitas KIS</li>
 		</ol>
 	</section>
@@ -61,7 +61,7 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
-							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Cetak Surat
+							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
            	</a>
 					</div>
 					<div class="box-body">
@@ -69,25 +69,30 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
-									<div class="col-sm-6">
+									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-											<option value="">--  Cari NIK Penduduk--</option>
+											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data):?>
-												<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
 								</div>
 							</div>
 						</form>
-						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
+						<form id="validasi" action="" method="POST" target="_blank" class="form-horizontal">
 							<div class="col-md-12">
-								<input type="hidden" name="nik" value="<?= $individu['id']?>">
+								<div class="row jar_form">
+									<label for="nomor" class="col-sm-3"></label>
+									<div class="col-sm-8">
+										<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
+									</div>
+								</div>
 								<?php if ($individu):?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 								<?php	endif;?>
-								<div class="form-group pria_luar_desa bg-info" style="padding-top:10px;padding-bottom:5px">
-									<label class="col-sm-3 text-right text-red"><strong>DATA KELUARGA / KK</strong></label>
+								<div class="form-group pria_luar_desa subtitle_head">
+									<label class="col-sm-3 text-right"><strong>DATA KELUARGA / KK</strong></label>
 								</div>
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Keluarga</label>
@@ -124,8 +129,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group pria_luar_desa bg-info" style="padding-top:10px;padding-bottom:5px">
-									<label class="col-sm-3 text-right text-red"><strong>DATA KELUARGA DI KARTU KIS</strong></label>
+								<div class="form-group pria_luar_desa subtitle_head">
+									<label class="col-sm-3 text-right"><strong>DATA KELUARGA DI KARTU KIS</strong></label>
 								</div>
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Keluarga</label>
@@ -152,7 +157,7 @@
 															<td> <input name="nik<?= $i?>" type="text" class="form-control input-sm" disabled="disabled" style="background-color: lightgrey;"/></td>
 															<td> <input name="alamat<?= $i?>" type="text" class="form-control input-sm" disabled="disabled" style="background-color: lightgrey;"/></td>
 															<td>
-																<input class="form-control input-sm" name="tanggallahir<?= $i?>" type="date" disabled="disabled" style="background-color: lightgrey;"/>
+																<input class="form-control input-sm datepicker" name="tanggallahir<?= $i?>" type="text" disabled="disabled" style="background-color: lightgrey;"/>
 															</td>
 															<td> <input name="faskes<?= $i?>" type="text" class="form-control input-sm" disabled="disabled" style="background-color: lightgrey;"/></td>
 														</tr>
@@ -172,13 +177,13 @@
 								<div class="form-group">
 									<label for="keperluan"  class="col-sm-3 control-label">Keperluan</label>
 									<div class="col-sm-8">
-										<textarea name="keperluan" class="form-control input-sm required" placeholder="keperluan"></textarea>
+										<textarea name="keperluan" class="form-control input-sm required" placeholder="Keperluan"></textarea>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="nik"  class="col-sm-3 control-label">Tertanda Atas Nama</label>
-									<div class="col-sm-5">
-										<select class="form-control  input-sm select2" id="nik" name="nik" style ="width:100%;">
+									<label for="atas_nama"  class="col-sm-3 control-label">Tertanda Atas Nama</label>
+									<div class="col-sm-6 col-lg-4">
+										<select class="form-control  input-sm select2" id="atas_nama" name="atas_nama" style ="width:100%;">
 											<option value="">--  Atas Nama --</option>
 											<option value="An. Kepala Desa <?= unpenetration($desa['nama_desa'])?>"> An. Kepala Desa <?= unpenetration($desa['nama_desa'])?> </option>
 											<option value="Ub. Kepala Desa <?= unpenetration($desa['nama_desa'])?>"> Ub. Kepala Desa <?= unpenetration($desa['nama_desa'])?> </option>

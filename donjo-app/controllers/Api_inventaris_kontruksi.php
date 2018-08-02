@@ -25,6 +25,7 @@ class Api_inventaris_kontruksi extends CI_Controller
 
     public function add()
     {
+
             $data = $this->inventaris_kontruksi_model->add(array(
                 'nama_barang' => $this->input->post('nama_barang'),
                 'kondisi_bangunan' => $this->input->post('fisik_bangunan'),
@@ -42,11 +43,13 @@ class Api_inventaris_kontruksi extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+            if ($data) $_SESSION['success']=1;
+            redirect("inventaris_kontruksi");
     }
 
     public function add_mutasi()
     {
+            $_SESSION['success']=1;
             $data = $this->inventaris_kontruksi_model->add_mutasi(array(
                 'id_inventaris_kontruksi' => $this->input->post('id_inventaris_kontruksi'),
                 'jenis_mutasi' => $this->input->post('jenis_mutasi'),
@@ -56,11 +59,12 @@ class Api_inventaris_kontruksi extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+            redirect("inventaris_kontruksi/mutasi");
     }
 
     public function update($id)
     {
+            $_SESSION['success']=1;
             $data = $this->inventaris_kontruksi_model->update($id,array(
                 'nama_barang' => $this->input->post('nama_barang'),
                 'kondisi_bangunan' => $this->input->post('fisik_bangunan'),
@@ -78,11 +82,13 @@ class Api_inventaris_kontruksi extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            echo json_encode($data);
+            if (!$data) $_SESSION['success']=-1;
+            redirect("inventaris_kontruksi");
     }
 
     public function update_mutasi($id)
     {
+            $_SESSION['success']=1;
             $data = $this->inventaris_kontruksi_model->update_mutasi($id,array(
                 'jenis_mutasi' => $this->input->post('jenis_mutasi'),
                 'tahun_mutasi' => $this->input->post('tahun_mutasi'),
@@ -91,7 +97,8 @@ class Api_inventaris_kontruksi extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            echo json_encode($data);
+            if (!$data) $_SESSION['success']=-1;
+            redirect("inventaris_kontruksi/mutasi");
     }
 
     public function delete($id)

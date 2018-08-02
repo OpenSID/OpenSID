@@ -3,7 +3,7 @@
 		<h1>Surat Pengantar Permohonan Duplikat Kelahiran</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?= site_url('surat')?>"> Cetak Surat</a></li>
+			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
 			<li class="active">Surat Pengantar Permohonan Duplikat Kelahiran</li>
 		</ol>
 	</section>
@@ -13,7 +13,7 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
-							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Cetak Surat
+							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
            	</a>
 					</div>
 					<div class="box-body">
@@ -21,11 +21,11 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
-									<div class="col-sm-6">
+									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-											<option value="">--  Cari NIK Penduduk--</option>
+											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data):?>
-												<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -34,6 +34,12 @@
 						</form>
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
 							<div class="col-md-12">
+								<div class="row jar_form">
+									<label for="nomor" class="col-sm-3"></label>
+									<div class="col-sm-8">
+										<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
+									</div>
+								</div>
 								<?php if ($individu):?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 								<?php	endif;?>
@@ -41,29 +47,20 @@
 									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 									<div class="col-sm-8">
 										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor">
-										<input type="hidden" name="nik" value="<?= $individu['id']?>">
 										<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="ttl"  class="col-sm-3 control-label">Hari / Tanggal / Jam Lahir</label>
+									<label for="ttl"  class="col-sm-3 control-label">Hari / Jam Lahir</label>
 									<div class="col-sm-4">
 										<input  id="hari_bayi"  class="form-control input-sm" type="text" placeholder="Hari Lahir" name="hari_bayi">
 									</div>
 									<div class="col-sm-2">
 										<div class="input-group input-group-sm date">
 											<div class="input-group-addon">
-												<i class="fa fa-calendar"></i>
-											</div>
-											<input title="Pilih Tanggal" class="form-control input-sm required" name="tanggal_bayi" id="tgl_1" type="text"/>
-										</div>
-									</div>
-									<div class="col-sm-2">
-										<div class="input-group input-group-sm date">
-											<div class="input-group-addon">
 												<i class="fa fa-clock-o"></i>
 											</div>
-											<input class="form-control input-sm required" name="jam_bayi" id="jam_1" type="text"/>
+											<input class="form-control input-sm required" name="jam_bayi" id="jammenit_1" type="text"/>
 										</div>
 									</div>
 								</div>
@@ -73,8 +70,8 @@
 										<input type="text" name="tempatlahir_bayi" class="form-control input-sm required" placeholder="Tempat Lahir"></input>
 									</div>
 								</div>
-								<div class="form-group bg-info" style="padding-top:10px;padding-bottom:5px">
-									<label class="col-sm-3 text-right text-red"><strong>IDENTITAS PELAPOR :</strong></label>
+								<div class="form-group subtitle_head">
+									<label class="col-sm-3 text-right"><strong>IDENTITAS PELAPOR :</strong></label>
 								</div>
 								<div class="form-group">
 									<label for="nama_pelapor"  class="col-sm-3 control-label">Nama Pelapor</label>
@@ -99,12 +96,12 @@
 									<div class="col-sm-4">
 										<input type="text"  name="tempatlahir_pelapor" class="form-control input-sm required" placeholder="Tempat Lahir Pelapor"></input>
 									</div>
-									<div class="col-sm-2">
+									<div class="col-sm-3 col-lg-2">
 										<div class="input-group input-group-sm date">
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input title="Pilih Tanggal" class="form-control input-sm required" name="tanggallahir_pelapor" id="tgl_2" type="text"/>
+											<input title="Pilih Tanggal" class="form-control input-sm datepicker required" name="tanggallahir_pelapor" type="text"/>
 										</div>
 									</div>
 								</div>

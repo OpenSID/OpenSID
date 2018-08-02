@@ -36,7 +36,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="register">Nomor Register</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="register" id="_register" type="text"/>
+											<input maxlength="50" class="form-control input-sm required" name="register" id="register" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -73,7 +73,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="luas">Luas Bangunan</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input class="form-control input-sm number required" id="luas" name="luas" type="text"/>
+												<input class="form-control input-sm number required" id="luas_bangunan" name="luas_bangunan" type="text"/>
 												<span class="input-group-addon" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>
@@ -112,7 +112,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas Tanah </label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input class="form-control input-sm number required" id="luas" name="luas" type="text"/>
+												<input class="form-control input-sm number required" id="luas_tanah" name="luas_tanah" type="text"/>
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>
