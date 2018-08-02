@@ -43,7 +43,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
 										<div class="col-sm-4">
-											<select name="jenis_mutasi" id="jenis_mutasi" class="form-control input-sm required">
+											<select name="mutasi" id="mutasi" class="form-control input-sm required">
 												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
 												<option value="Rusak">Status Rusak</option>
 												<option value="Diperbaiki">Status Diperbaiki</option>
@@ -61,7 +61,7 @@
 									<div class="form-group disumbangkan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="sumbangkan">Disumbangkan ke-</label>
 										<div class="col-sm-8">
-											<input maxlength="50"  class="form-control input-sm required" name="sumbangkan" id="sumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
+											<input maxlength="50"  class="form-control input-sm" name="sumbangkan" id="sumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -73,7 +73,7 @@
 									<div class="form-group harga_jual">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="harga_jual">Harga Penjualan</label>
 										<div class="col-sm-4">
-											<input maxlength="50"  class="form-control input-sm number required" name="harga_jual" id="harga_jual" type="text" value="<?= $main->harga_jual; ?>"/>
+											<input maxlength="50"  class="form-control input-sm number" name="harga_jual" id="harga_jual" type="text" value="<?= $main->harga_jual; ?>"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -103,4 +103,31 @@
 		</form>
 	</section>
 </div>
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+		$(".disumbangkan").hide();
+		$(".harga_jual").hide();
+		$("#mutasi").change(function()
+		{
+			if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
+			{
+				$(".disumbangkan").show();
+				$(".harga_jual").hide();
+			}
+			else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+			{
+				$(".disumbangkan").hide();
+				$(".harga_jual").show();
+			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+			{
+				$(".disumbangkan").hide();
+				$(".harga_jual").hide();
+			}
+		});
+	});
+</script>
+
+
 

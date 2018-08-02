@@ -26,6 +26,7 @@ class Api_inventaris_gedung extends CI_Controller
 
     public function add()
     {
+
             $data = $this->inventaris_gedung_model->add(array(
                 'nama_barang' => $this->input->post('nama_barang'),
                 'kode_barang' => $this->input->post('kode_barang'),
@@ -45,25 +46,28 @@ class Api_inventaris_gedung extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+            if ($data) $_SESSION['success']=1;
+            redirect("inventaris_gedung");
     }
 
     public function add_mutasi()
     {
+            $_SESSION['success']=1;
             $data = $this->inventaris_gedung_model->add_mutasi(array(
                 'id_inventaris_gedung' => $this->input->post('id_inventaris_gedung'),
-                'jenis_mutasi' => $this->input->post('jenis_mutasi'),
+                'jenis_mutasi' => $this->input->post('mutasi'),
                 'tahun_mutasi' => $this->input->post('tahun_mutasi'),
                 'harga_jual' => $this->input->post('harga_jual'),
                 'sumbangkan' => $this->input->post('sumbangkan'),
                 'keterangan' => $this->input->post('keterangan'),
                 'visible' => 1
                 ));
-            echo json_encode($data);
+            redirect("inventaris_gedung/mutasi");
     }
 
     public function update($id)
     {
+            $_SESSION['success']=1;
             $data = $this->inventaris_gedung_model->update($id,array(
                 'nama_barang' => $this->input->post('nama_barang'),
                 'kode_barang' => $this->input->post('kode_barang'),
@@ -83,20 +87,23 @@ class Api_inventaris_gedung extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            echo json_encode($data);
+            if (!$data) $_SESSION['success']=-1;
+            redirect("inventaris_gedung");
     }
 
     public function update_mutasi($id)
     {
+            $_SESSION['success']=1;
             $data = $this->inventaris_gedung_model->update_mutasi($id,array(
-                'jenis_mutasi' => $this->input->post('jenis_mutasi'),
+                'jenis_mutasi' => $this->input->post('mutasi'),
                 'tahun_mutasi' => $this->input->post('tahun_mutasi'),
                 'harga_jual' => $this->input->post('harga_jual'),
                 'sumbangkan' => $this->input->post('sumbangkan'),
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            echo json_encode($data);
+            if (!$data) $_SESSION['success']=-1;
+            redirect("inventaris_gedung/mutasi");
     }
 
     public function delete($id)

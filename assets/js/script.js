@@ -110,8 +110,32 @@ $(document).ready(function()
 	{
 		$('#file_browser4').click();
 	});
-
 	//Fortmat Tanggal dan Jam
+	$('.datepicker').datepicker(
+	{
+		weekStart : 1,
+		language:'id',
+		format: 'dd-mm-yyyy',
+		autoclose: true
+	});
+	$('#tgl_mulai,#tgl_akhir').datetimepicker({
+		locale:'id',
+		format: 'DD-MM-YYYY',
+		useCurrent: false,
+		minDate: moment()
+	});
+	$('#tgl_mulai').datetimepicker().on('dp.change', function (e) {
+		var incrementDay = moment(new Date(e.date));
+		incrementDay.add(1, 'days');
+		$('#tgl_akhir').data('DateTimePicker').minDate(incrementDay);
+		$(this).data("DateTimePicker").hide();
+	});
+	$('#tgl_akhir').datetimepicker().on('dp.change', function (e) {
+		var decrementDay = moment(new Date(e.date));
+		decrementDay.subtract(1, 'days');
+		$('#tgl_mulai').data('DateTimePicker').maxDate(decrementDay);
+		 $(this).data("DateTimePicker").hide();
+	});
 	$('#tgl_jam').datetimepicker(
 	{
 		format: 'DD-MM-YYYY HH:mm:ss',
@@ -147,26 +171,6 @@ $(document).ready(function()
 			format: 'DD-MM-YYYY',
 			locale:'id'
 	});
-	$('#tgl_7').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('#tgl_8').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('#tgl_9').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('#tgl_10').datetimepicker(
-		{
-			format: 'DD-MM-YYYY',
-			locale:'id'
-		});
 	$('#jam_1').datetimepicker(
 	{
 		format: 'HH:mm:ss',
@@ -243,7 +247,6 @@ function checkAll()
 			{
 				$(this).prop("checked", true);
 			});
-
 		}
 		else
 		{
@@ -262,7 +265,7 @@ function deleteAllBox(idForm, action)
 	$('#ok-delete').click(function ()
 	{
 		$('#' + idForm).attr('action', action);
-        $('#' + idForm).submit();
+    $('#' + idForm).submit();
 	});
 	return false;
 }

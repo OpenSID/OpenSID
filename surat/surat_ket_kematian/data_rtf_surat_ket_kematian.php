@@ -1,9 +1,9 @@
 <?php if (!defined('BASEPATH')) exit ('No direct script access allowed');
-
 	/*
 		Jika saksi1 warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if ($input['id_saksi1']):
+	if ($input['id_saksi1'])
+	{
 		$saksi1 = $this->get_data_surat($input['id_saksi1']);
 		$array_replace = array(
 	    "[nama_saksi1]"        		=> $saksi1['nama'],
@@ -18,12 +18,13 @@
 	    "[form_provinsisaksi1]"   => $config['nama_propinsi']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-	endif;
+	}
 
 	/*
 		Jika saksi2 warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if ($input['id_saksi2']):
+	if ($input['id_saksi2'])
+	{
 		$saksi2 = $this->get_data_surat($input['id_saksi2']);
 		$array_replace = array(
 	  	"[nama_saksi2]"        		=> $saksi2['nama'],
@@ -38,12 +39,13 @@
 	    "[form_provinsisaksi2]"   => $config['nama_propinsi']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-	endif;
+	}
 
 	/*
 		Jika pelapor warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
-	if ($input['id_pelapor']):
+	if ($input['id_pelapor'])
+	{
 		$pelapor = $this->get_data_surat($input['id_pelapor']);
 		$array_replace = array(
 	    "[nama_pelapor]"      		=> $pelapor['nama'],
@@ -61,6 +63,6 @@
 	    "[provinsipelapor]"   		=> $config['nama_propinsi']
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
-	endif;
+	}
 
 	?>

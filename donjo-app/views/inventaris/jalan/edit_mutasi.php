@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= $form_action?>">
+		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url("api_inventaris_jalan/mutasi_update"); ?>">
 			<div class="row">
 				<div class="col-md-3">
           <?php	$this->load->view('inventaris/jalan/menu_kiri.php')?>
@@ -48,12 +48,12 @@
 												<option value="Rusak">Status Rusak</option>
 												<option value="Diperbaiki">Status Diperbaiki</option>
 												<optgroup label="Barang Masih Baik">
-												<option value="Masih Baik Disumbangkan">Sumbangakan</option>
-												<option value="Masih Baik Dijual">Jual</option>
+													<option value="Masih Baik Disumbangkan">Sumbangakan</option>
+													<option value="Masih Baik Dijual">Jual</option>
 												</optgroup>
 												<optgroup label="Barang Sudah Rusak">
-												<option value="Barang Rusak Disumbangkan">Sumbangakan</option>
-												<option value="Barang Rusak Dijual">Jual</option>
+													<option value="Barang Rusak Disumbangkan">Sumbangakan</option>
+													<option value="Barang Rusak Dijual">Jual</option>
 												</optgroup>
 											</select>
 										</div>
@@ -61,13 +61,13 @@
 									<div class="form-group disumbangkan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="disumbangkan">Disumbangkan ke-</label>
 										<div class="col-sm-8">
-											<input maxlength="50"  class="form-control input-sm required" name="disumbangkan" id="disumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
+											<input maxlength="50"  class="form-control input-sm" name="disumbangkan" id="disumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
 										</div>
 									</div>
 									<div class="form-group harga_jual">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="harga_jual">Harga Penjualan</label>
 										<div class="col-sm-4">
-											<input maxlength="50"  class="form-control input-sm number required" name="harga_jual" id="harga_jual" type="text" value="<?= $main->harga_jual; ?>"/>
+											<input maxlength="50"  class="form-control input-sm number" name="harga_jual" id="harga_jual" type="text" value="<?= $main->harga_jual; ?>"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -105,4 +105,31 @@
 		</form>
 	</section>
 </div>
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+		$(".disumbangkan").hide();
+		$(".harga_jual").hide();
+		$("#mutasi").change(function()
+		{
+			if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
+			{
+				$(".disumbangkan").show();
+				$(".harga_jual").hide();
+			}
+			else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+			{
+				$(".disumbangkan").hide();
+				$(".harga_jual").show();
+			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+			{
+				$(".disumbangkan").hide();
+				$(".harga_jual").hide();
+			}
+		});
+	});
+</script>
+
+
 

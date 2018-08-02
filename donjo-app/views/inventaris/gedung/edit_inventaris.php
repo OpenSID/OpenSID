@@ -95,16 +95,16 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="status_gedung">Status Tanah</label>
 										<div class="col-sm-4">
-											<select name="status_gedung" id="status_gedung" class="form-control input-sm required" >
-												<option value="<?= $main->status_gedung; ?>"><?= $main->status_gedung; ?></option>
+											<select name="status_tanah" id="status_tanah" class="form-control input-sm required" >
+												<option value="<?= $main->status_tanah; ?>"><?= $main->status_tanah; ?></option>
 											</select>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="luas_gedung">Luas Tanah </label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas Tanah </label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input class="form-control input-sm number required" id="luas_gedung" name="luas_gedung" type="text" value="<?= $main->luas; ?>" />
+												<input class="form-control input-sm number required" id="luas_tanah" name="luas_tanah" type="text" value="<?= $main->luas; ?>" />
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>

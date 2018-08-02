@@ -15,9 +15,9 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-purple">
 								<div class="inner">
-									<?php  foreach($dusun as $data): ?>
+									<?php foreach($dusun as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
-									<?php  endforeach; ?>
+									<?php endforeach; ?>
 									<p>Wilayah Dusun</p>
 								</div>
 								<div class="icon">
@@ -29,9 +29,9 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-aqua">
 								<div class="inner">
-									<?php  foreach($penduduk as $data): ?>
+									<?php foreach($penduduk as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
-									<?php  endforeach; ?>
+									<?php endforeach; ?>
 									<p>Penduduk</p>
 								</div>
 								<div class="icon">
@@ -43,9 +43,9 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-green">
 								<div class="inner">
-									<?php  foreach($keluarga as $data): ?>
+									<?php foreach($keluarga as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
-									<?php  endforeach; ?>
+									<?php endforeach; ?>
 									<p>Keluarga</p>
 								</div>
 								<div class="icon">
@@ -57,9 +57,9 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-gray">
 								<div class="inner">
-									<?php  foreach($rtm as $data): ?>
+									<?php foreach($rtm as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
-									<?php  endforeach; ?>
+									<?php endforeach; ?>
 									<p>Rumah Tangga</p>
 								</div>
 								<div class="icon">
@@ -71,9 +71,9 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-yellow">
 								<div class="inner">
-									<?php  foreach($miskin as $data): ?>
+									<?php foreach($miskin as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
-									<?php  endforeach; ?>
+									<?php endforeach; ?>
 									<p>Raskin</p>
 								</div>
 								<div class="icon">
@@ -85,9 +85,9 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-red">
 								<div class="inner">
-									<?php  foreach($kelompok as $data): ?>
+									<?php foreach($kelompok as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
-									<?php  endforeach; ?>
+									<?php endforeach; ?>
 									<p>Kelompok</p>
 								</div>
 								<div class="icon">
@@ -101,7 +101,7 @@
 			</div>
 			<div class='col-md-6'>
 				<div class='box box-info'>
-					<?php  $this->load->view('home/about.php');?>
+					<?php $this->load->view('home/about.php');?>
 				</div>
 			</div>
 		</div>

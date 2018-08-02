@@ -39,10 +39,8 @@
                 <div class='box-body'>
                   <div class="row">
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <div class="bg-aqua head-padding">
-                          <strong>DATA KELUARGA :</strong>
-                        </div>
+                      <div class="form-group subtitle_head">
+                        <label class="text-right"><strong>DATA KELUARGA :</strong></label>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -67,10 +65,8 @@
                       </div>
                     </div>
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <div class="bg-aqua head-padding">
-                          <strong>DATA ANGGOTA :</strong>
-                        </div>
+                      <div class="form-group subtitle_head">
+                        <label class="text-right"><strong>DATA ANGGOTA :</strong></label>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -172,10 +168,8 @@
                       </div>
                     </div>
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <div class="bg-aqua head-padding">
-                          <strong>DATA KELAHIRAN :</strong>
-                        </div>
+                      <div class="form-group subtitle_head">
+                        <label class="text-right"><strong>DATA KELAHIRAN :</strong></label>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -272,10 +266,8 @@
                       </div>
                     </div>
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <div class="bg-aqua head-padding">
-                          <strong>PENDIDIKAN DAN PEKERJAAN :</strong>
-                        </div>
+                      <div class="form-group subtitle_head">
+                        <label class="text-right"><strong>PENDIDIKAN DAN PEKERJAAN :</strong></label>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -312,10 +304,8 @@
                       </div>
                     </div>
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <div class="bg-aqua head-padding">
-                          <strong>DATA KEWARGANEGARAAN :</strong>
-                        </div>
+                      <div class="form-group subtitle_head">
+                        <label class="text-right"><strong>DATA KEWARGANEGARAAN :</strong></label>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -353,10 +343,8 @@
                       </div>
                     </div>
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <div class="bg-aqua head-padding">
-                          <strong>DATA ORANG TUA :</strong>
-                        </div>
+                      <div class="form-group subtitle_head">
+                        <label class="text-right"><strong>DATA ORANG TUA :</strong></label>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -384,10 +372,8 @@
                       </div>
                     </div>
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <div class="bg-aqua head-padding">
-                          <strong>ALAMAT :</strong>
-                        </div>
+                      <div class="form-group subtitle_head">
+                        <label class="text-right"><strong>ALAMAT :</strong></label>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -416,10 +402,8 @@
                       </div>
                     </div>
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <div class="bg-aqua head-padding">
-                          <strong>STATUS PERKAWINAN :</strong>
-                        </div>
+                      <div class="form-group subtitle_head">
+                        <label class="text-right"><strong>STATUS PERKAWINAN :</strong></label>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -474,10 +458,8 @@
                       </div>
                     </div>
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <div class="bg-aqua head-padding">
-                          <strong>DATA KESEHATAN :</strong>
-                        </div>
+                      <div class="form-group subtitle_head">
+                        <label class="text-right"><strong>DATA KESEHATAN :</strong></label>
                       </div>
                     </div>
                     <div class='col-sm-4'>

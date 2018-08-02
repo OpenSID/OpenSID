@@ -42,7 +42,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="jenis_asset">Jenis Asset</label>
 										<div class="col-sm-4">
-											<select name="jenis_asset" id="jenis_asset" class="form-control input-sm required">
+											<select name="jenis_asset" id="jenis_asset" class="form-control input-sm  required">
 												<option value="">-- Pilih Jensi Asset --</option>
 												<option value="Buku">Buku</option>
 												<option value="Barang Kesenian">Barang Kesenian</option>
@@ -54,44 +54,44 @@
 									<div class="form-group judul">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="judul">Judul dan Pencipta Buku</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" id="judul" name="judul" type="text"/>
+											<input class="form-control input-sm" id="judul" name="judul" type="text"/>
 										</div>
 									</div>
 									<div class="form-group spesifikasi">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="spesifikasi">Spesifikasi Buku</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" id="spesifikasi" name="spesifikasi" type="text"/>
+											<input class="form-control input-sm" id="spesifikasi" name="spesifikasi" type="text"/>
 										</div>
 									</div>
 									<div class="form-group asal_kesenian">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="asal_kesenian">Asal Daerah Kesenian</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" id="asal_kesenian" name="asal_kesenian" type="text"/>
+											<input class="form-control input-sm" id="asal_kesenian" name="asal_kesenian" type="text"/>
 										</div>
 									</div>
 									<div class="form-group pencipta_kesenian">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="pencipta_kesenian">Pencipta Kesenian </label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" id="pencipta_kesenian" name="pencipta_kesenian" type="text"/>
+											<input class="form-control input-sm" id="pencipta_kesenian" name="pencipta_kesenian" type="text"/>
 										</div>
 									</div>
 									<div class="form-group bahan_kesenian">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="bahan_kesenian">Bahan Kesenian</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" id="bahan_kesenian" name="bahan_kesenian" type="text"/>
+											<input class="form-control input-sm" id="bahan_kesenian" name="bahan_kesenian" type="text"/>
 										</div>
 									</div>
 									<div class="form-group jenis_hewan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="jenis_hewan">Jenis Hewan Ternak</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" id="jenis_hewan" name="jenis_hewan" type="text"/>
+											<input class="form-control input-sm" id="jenis_hewan" name="jenis_hewan" type="text"/>
 										</div>
 									</div>
 									<div class="form-group ukuran_hewan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="ukuran_hewan">Ukuran Hewan Ternak</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input class="form-control input-sm number required" id="ukuran_hewan" name="ukuran_hewan" type="text"/>
+												<input class="form-control input-sm number" id="ukuran_hewan" name="ukuran_hewan" type="text"/>
 												<span class="input-group-addon input-sm" id="ukuran_hewan-addon">Kg</span>
 											</div>
 										</div>
@@ -99,14 +99,14 @@
 									<div class="form-group jenis_tumbuhan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="jenis_tumbuhan">Jenis Tumbuhan</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" id="jenis_tumbuhan" name="jenis_tumbuhan" type="text"/>
+											<input class="form-control input-sm" id="jenis_tumbuhan" name="jenis_tumbuhan" type="text"/>
 										</div>
 									</div>
 									<div class="form-group ukuran_tumbuhan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="ukuran_tumbuhan">Ukuran Tumbuhan</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input class="form-control input-sm number required" id="ukuran_tumbuhan" name="ukuran_tumbuhan" type="text"/>
+												<input class="form-control input-sm number" id="ukuran_tumbuhan" name="ukuran_tumbuhan" type="text"/>
 												<span class="input-group-addon input-sm" id="ukuran_tumbuhan">M</span>
 											</div>
 										</div>
@@ -120,7 +120,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pembelian </label>
 										<div class="col-sm-4">
-											<select name="tahun" id="tahun" class="form-control input-sm required">
+											<select name="tahun" id="tahun" class="form-control input-sm">
 												<?php for ($i=date("Y");$i>=1980;$i--): ?>
 													<option value="<?= $i ?>"><?= $i ?></option>
 												<?php endfor; ?>
@@ -130,7 +130,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="asal_usul">Asal Usul </label>
 										<div class="col-sm-4">
-											<select name="asal_usul" id="asal_usul" class="form-control input-sm required">
+											<select name="asal_usul" id="asal_usul" class="form-control input-sm">
 												<option value="">-- Pilih Asal Usul Lahan --</option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>
@@ -171,3 +171,66 @@
 	</section>
 </div>
 
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+$(document).ready(function()
+{
+	$(".judul").hide();
+	$(".spesifikasi").hide();
+	$(".asal_kesenian").hide();
+	$(".pencipta_kesenian").hide();
+	$(".bahan_kesenian").hide();
+	$(".jenis_hewan").hide();
+	$(".ukuran_hewan").hide();
+	$(".jenis_tumbuhan").hide();
+	$(".ukuran_tumbuhan").hide();
+	$("#jenis_asset").change(function()
+	{
+		if($("#jenis_asset").val() == "Buku")
+		{
+			$(".judul").show();
+			$(".spesifikasi").show();
+			$(".asal_kesenian").hide();
+			$(".pencipta_kesenian").hide();
+			$(".bahan_kesenian").hide();
+			$(".jenis_hewan").hide();
+			$(".ukuran_hewan").hide();
+			$(".jenis_tumbuhan").hide();
+			$(".ukuran_tumbuhan").hide();
+		} else if ($("#jenis_asset").val() == "Barang Kesenian")
+		{
+			$(".judul").hide();
+			$(".spesifikasi").hide();
+			$(".asal_kesenian").show();
+			$(".pencipta_kesenian").show();
+			$(".bahan_kesenian").show();
+			$(".jenis_hewan").hide();
+			$(".ukuran_hewan").hide();
+			$(".jenis_tumbuhan").hide();
+			$(".ukuran_tumbuhan").hide();
+		} else if ($("#jenis_asset").val() == "Hewan Ternak")
+		{
+			$(".judul").hide();
+			$(".spesifikasi").hide();
+			$(".asal_kesenian").hide();
+			$(".pencipta_kesenian").hide();
+			$(".bahan_kesenian").hide();
+			$(".jenis_hewan").show();
+			$(".ukuran_hewan").show();
+			$(".jenis_tumbuhan").hide();
+			$(".ukuran_tumbuhan").hide();
+		} else if ($("#jenis_asset").val() == "Tumbuhan")
+		{
+			$(".judul").hide();
+			$(".spesifikasi").hide();
+			$(".asal_kesenian").hide();
+			$(".pencipta_kesenian").hide();
+			$(".bahan_kesenian").hide();
+			$(".jenis_hewan").hide();
+			$(".ukuran_hewan").hide();
+			$(".jenis_tumbuhan").show();
+			$(".ukuran_tumbuhan").show();
+		}
+	});
+});
+</script>

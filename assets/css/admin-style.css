@@ -213,6 +213,9 @@ input[type="checkbox"], input[type="radio"]
 {
 	margin: 2px 0 0;
 }
+.error {
+	color: #dd4b39;
+}
 /* Modifikasi Header DataTables--- */
 .table-bordered > thead > tr > th, .table-bordered > thead > tr > td
 {
@@ -233,19 +236,30 @@ table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:
 	font-size: 11px;
 }
 
-/* Modifikasi Datetimepicker */
+/* Modifikasi Datepicker dan DateTimePicker*/
 .bootstrap-datetimepicker-widget.dropdown-menu
 {
 	width: auto;
 }
-/*
-Jika hanya untuk hari ahad yang berwarna merah
-.bootstrap-datetimepicker-widget td:nth-last-child(7)
+.datepicker table tr td:first-child + td + td + td + td + td, .datepicker table tr td:last-child
 {
-	color: red !important;
+	color:red;
 }
-*/
-.bootstrap-datetimepicker-widget .weekend
+/* mengatur jarak atar isian yang berbeda group form*/
+.jar_form
 {
-	color: red;
+	margin-top: -6px;
+}
+/* mengatur Judul Sub Title*/
+.subtitle_head
+{
+	padding:10px 50px 10px 5px;
+	background-color: #a2f2ef;
+	margin: 15px 0px 10px 0px;
+	text-align:left;
+	color: #111
+}
+.subtitle_head label
+{
+	margin-bottom: 0px;
 }
