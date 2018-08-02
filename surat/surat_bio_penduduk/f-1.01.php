@@ -145,7 +145,7 @@
 			<td class="kotak"><?= $config['nama_kabupaten'];?></td>
 		</tr>
 
-		 <tr>
+		<tr>
 			<td class="pakai-padding">Alamat</td>
 			<td>:</td>
 			<td colspan="20" class="kotak"><div><?= $individu['alamat_wilayah']; ?></div></td>
@@ -390,7 +390,7 @@
 			<td class="judul tengah">NIK Ayah</td>
 			<td class="judul tengah">Nama Lengkap Ayah</td>
 		</tr>
-		 <tr>
+		<tr>
 			<td class="judul abu tengah"></td>
 			<td class="judul abu tengah">22</td>
 			<td class="judul abu tengah">23</td>

@@ -107,7 +107,7 @@
 			<td colspan=12>&nbsp;</td>
 		</tr>
 
-		 <tr>
+		<tr>
 			<td colspan="13" class=" left"><strong>KECAMATAN</strong></td>
 			<td>:</td>
 			<?php for ($i=0; $i<2; $i++): ?>
@@ -171,7 +171,7 @@
 			<?php endfor; ?>
 			<td colspan=21>&nbsp;</td>
 		</tr>
-	<tr>
+		<tr>
 			<td colspan="10" class="kotak">3. Nama Kepala Keluarga</td>
 			<td>:</td>
 			<?php for ($i=0; $i<33; $i++): ?>
@@ -266,7 +266,7 @@
 			<?php endfor; ?>
 			<td colspan="5">&nbsp;</td>
 		</tr>
-	<tr>
+		<tr>
 			<td colspan="10" class="kotak">6. Kepala Keluarga Lama</td>
 			<td>:</td>
 			<?php for ($i=0; $i<33; $i++): ?>
@@ -280,7 +280,7 @@
 			<?php endfor; ?>
 			<td colspan="4">&nbsp;</td>
 		</tr>
-	<tr>
+		<tr>
 			<td colspan=10 class="kotak">7. No. KK Lama</td>
 			<td>:</td>
 			<?php for ($i=0; $i<16; $i++): ?>
@@ -294,7 +294,7 @@
 			<?php endfor; ?>
 			<td colspan=21 class="left">*) Diisi oleh petugas</td>
 		</tr>
-	<tr>
+		<tr>
 			<td colspan="10" class="kotak">8. Alamat Keluarga Lama</td>
 			<td>:</td>
 			<td colspan="23" class="kotak"><?= $individu['alamat']?></td>
@@ -320,7 +320,7 @@
 			<?php endfor; ?>
 			<td colspan="2">&nbsp;</td>
 		</tr>
-	<tr>
+		<tr>
 			<td colspan="11" >&nbsp;</td>
 			<td colspan="7" class="left">a. Desa/Kelurahan</td>
 			<td colspan="12" class="kotak"><?= $config['nama_desa'];?></td>
@@ -379,7 +379,7 @@
 			<td colspan="12">&nbsp;</td>
 			<td colspan=36>2. Karena Pengurangan Anggota Keluarga (Kematian, Kepindahan) </td>
 		</tr>
-	<tr>
+		<tr>
 			<td colspan="12">&nbsp;</td>
 			<td colspan=6>3. Lainnya :</td>
 			<td colspan=18 style="border-bottom:1px solid #000"><?= $input['alasan_lainnya'];?></td>
