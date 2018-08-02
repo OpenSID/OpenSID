@@ -3,7 +3,7 @@
 		<h1>Surat Permohonan Perubahan Kartu Keluarga (F-1.16 & F-1.01)</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?= site_url('surat')?>"> Cetak Surat</a></li>
+			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
 			<li class="active">Surat Permohonan Perubahan Kartu Keluarga (F-1.16 & F-1.01)</li>
 		</ol>
 	</section>
@@ -13,7 +13,7 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
-							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Cetak Surat
+							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
            	</a>
 					 	<a href="#" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Lihat Info Isian Surat"  data-toggle="modal" data-target="#infoBox" data-title="Lihat Info Isian Surat">
 						 	<i class="fa fa-info-circle"></i> Info Isian Surat
@@ -25,9 +25,9 @@
 								<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
 								<div class="col-sm-6">
 									<select class="form-control  input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-										<option value="">--  Cari NIK Penduduk--</option>
+										<option value="">--  Cari NIK / Nama Penduduk--</option>
 										<?php foreach ($kepala_keluarga as $data):?>
-											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
+											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -47,9 +47,9 @@
 							</div>
 							<div class="form-group">
 								<input name="sebab_nama" type="hidden">
-								<label for="alasan"  class="col-sm-3 control-label">Alasan Permohonan</label>
+								<label for="sebab"  class="col-sm-3 control-label">Alasan Permohonan</label>
 								<div class="col-sm-5">
-									<select class="form-control input-sm" name="sebab" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));">
+									<select class="form-control input-sm required" name="sebab" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));">
 									<option value="">Pilih Alasan Permohonan</option>
 						      <?php foreach ($sebab as $id => $nama):?>
 						        <option value="<?= $id?>" data-sebabnama="<?= $nama; ?>" <?php if ($id==$_SESSION['post']['sebab']):?>selected<?php endif;?>><?= $nama; ?></option>
@@ -60,8 +60,8 @@
 							<div class="form-group">
 								<label for="Alasan Lainnya"  class="col-sm-3 control-label">Alasan Lainnya</label>
 								<div class="col-sm-8">
-									<textarea name="alasan_lainnya" class="form-control input-sm required" placeholder="Alasan Lainnya"></textarea>
-									<p class="help-block">*)<i>Diisi apabila pilihan Alasan Permohonan yang dipilih adalah Lainnya.</i>
+									<textarea name="alasan_lainnya" class="form-control input-sm" placeholder="Alasan Lainnya"></textarea>
+									<p class="help-block">*)<i>Diisi apabila pilihan alasan permohonan yang dipilih adalah Lainnya.</i>
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
@@ -71,7 +71,6 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-print"></i> Cetak</button>
 								<?php if (SuratExport($url)):?>
 									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
 								<?php endif;?>

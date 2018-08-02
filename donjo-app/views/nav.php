@@ -11,7 +11,7 @@
 					$nam_kec = strlen(unpenetration($desa['nama_kecamatan']));
 					$nam_kab = strlen(unpenetration($desa['nama_kabupaten']));
 				?>
-				<?php	if($nam_kec<=12 AND $nam_kab<=12):?>
+				<?php	if ($nam_kec<=12 AND $nam_kab<=12):?>
 					<?=ucwords($this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']));?>
 					</br>
 					<?=ucwords($this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']));?>
@@ -25,17 +25,17 @@
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">MENU UTAMA</li>
 			<?php foreach ($modul AS $mod):?>
-				<li class="<?php if(count($mod['submodul'])>0): ?>treeview<?php endif ?> <?php if($this->modul_ini==$mod['id']):?>active<?php endif?>">
+				<li class="<?php if (count($mod['submodul'])>0): ?>treeview<?php endif ?> <?php if ($this->modul_ini==$mod['id']):?>active<?php endif?>">
 					<a href="<?=site_url()?><?=$mod['url']?>">
-						<i class="fa <?=$mod['ikon']?> <?php if($this->modul_ini==$mod['id']):?>text-aqua<?php endif?>"></i> <span><?=$mod['modul']?></span>
-						<span class="pull-right-container"><?php if(count($mod['submodul'])>0):?><i class='fa fa-angle-left pull-right'></i><?php endif ?> </span>
+						<i class="fa <?=$mod['ikon']?> <?php if ($this->modul_ini==$mod['id']):?>text-aqua<?php endif?>"></i> <span><?=$mod['modul']?></span>
+						<span class="pull-right-container"><?php if (count($mod['submodul'])>0):?><i class='fa fa-angle-left pull-right'></i><?php endif ?> </span>
 					</a>
-					<?php if(count($mod['submodul'])>0): ?>
-						<ul class="treeview-menu <?php if($this->modul_ini==$mod['id']):?>active<?php endif?>">
-							<?php foreach($mod['submodul'] as $submod): ?>
-								<li class="<?php if($act_sub==$submod['id']):?>active<?php endif?>">
+					<?php if (count($mod['submodul'])>0): ?>
+						<ul class="treeview-menu <?php if ($this->modul_ini==$mod['id']):?>active<?php endif?>">
+							<?php foreach ($mod['submodul'] as $submod): ?>
+								<li class="<?php if ($act_sub==$submod['id']):?>active<?php endif?>">
 									<a href="<?=site_url()?><?=$submod['url']?>">
-										<i class="fa <?php if($submod['ikon']!=NULL):?><?=$submod['ikon']?><?php else: ?> fa-circle-o<?php endif?> <?php if($act_sub==$submod['id']):?>text-red<?php endif?>"></i>
+										<i class="fa <?php if ($submod['ikon']!=NULL):?><?=$submod['ikon']?><?php else: ?> fa-circle-o<?php endif?> <?php if ($act_sub==$submod['id']):?>text-red<?php endif?>"></i>
 										<?=$submod['modul']?>
 									</a>
 								</li>

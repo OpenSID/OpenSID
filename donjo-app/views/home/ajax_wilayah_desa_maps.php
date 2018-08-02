@@ -13,16 +13,16 @@
         data: {path: path},
       });
     });
-	});
-	//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-	<?php if(!empty($desa['lat']) && !empty($desa['lng'])): ?>
+  });
+
+  //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+	<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
     var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
     var zoom = <?=$desa['zoom'] ?: 10?>;
 	<?php else: ?>
     var posisi = [-1.0546279422758742,116.71875000000001];
     var zoom = 4;
 	<?php endif; ?>
-
 	//Menggunakan https://github.com/codeofsumit/leaflet.pm
 	//Inisialisasi tampilan peta
   var peta_desa = L.map('map').setView(posisi, zoom);
@@ -33,7 +33,7 @@
     id: 'mapbox.streets'
   }).addTo(peta_desa);
 
-	<?php if(!empty($desa['path'])): ?>
+	<?php if (!empty($desa['path'])): ?>
     //Poligon wilayah desa yang tersimpan
     var daerah_desa = <?=$desa['path']?>;
 
@@ -48,8 +48,9 @@
 		{
         document.getElementById('path').value = getLatLong('Poly', e.target).toString();
     })
+    setTimeout(function() {peta_desa.invalidateSize();peta_desa.fitBounds(poligon_desa.getBounds());}, 500);
     //Fokuskan peta ke poligon
-    peta_desa.fitBounds(poligon_desa.getBounds());
+
 	<?php endif; ?>
 
   //Tombol yang akan dimunculkan dipeta
@@ -95,6 +96,7 @@
     hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
     return hasil;
   }
+
 </script>
 <style>
 	#map

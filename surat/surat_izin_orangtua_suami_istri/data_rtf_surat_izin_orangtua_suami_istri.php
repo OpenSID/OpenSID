@@ -1,6 +1,7 @@
 <?php if (!defined('BASEPATH')) exit ('No direct script access allowed');
 	# Data yang diberi izin dari database penduduk
-	if ($input['id_diberi_izin']):
+	if ($input['id_diberi_izin'])
+	{
 		$diberi_izin = $this->get_data_surat($input['id_diberi_izin']);
 		if ($diberi_izin['sex_id'] == '1')
 			$status_pekerja = "Tenaga Kerja Indonesia (TKI)";
@@ -21,5 +22,5 @@
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 		$buffer=$this->case_replace("[selaku]",$input['selaku'],$buffer); //Di judul huruf besar semua
-	endif;
+	}
 ?>

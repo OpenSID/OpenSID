@@ -190,7 +190,7 @@
 		<h1>Surat Keterangan Pindah Penduduk</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?= site_url('surat')?>"> Cetak Surat</a></li>
+			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
 			<li class="active">Surat Keterangan Pindah Penduduk</li>
 		</ol>
 	</section>
@@ -200,25 +200,30 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
-							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Cetak Surat
+							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
            	</a>
 					</div>
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
 							<div class="form-group">
-								<label for="nik"  class="col-sm-3 control-label">NIK Pemohon</label>
-								<div class="col-sm-6">
+								<label for="nik"  class="col-sm-3 control-label">NIK / Nama Pemohon</label>
+								<div class="col-sm-6 col-lg-4">
 									<select class="form-control  input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-										<option value="">--  Cari NIK Penduduk--</option>
+										<option value="">--  Cari NIK / Nama Penduduk--</option>
 										<?php foreach ($penduduk as $data):?>
-											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
+											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
 							</div>
 						</form>
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
-							<input type="hidden" name="nik" value="<?= $individu['id']?>">
+							<div class="row jar_form">
+								<label for="nomor" class="col-sm-3"></label>
+								<div class="col-sm-8">
+									<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
+								</div>
+							</div>
 							<input id="kode_format" type="hidden" name="kode_format" value="bukan_f108">
 							<?php if ($individu):?>
 								<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
@@ -257,7 +262,7 @@
 									</select>
 								</div>
 								<div  id="sebut_alasan" class="col-sm-5" style="display:none;">
-									<input class="form-control input-sm required" type="text" placeholder="Sebut Alasan Lainnya" name="sebut_alasan">
+									<input class="form-control input-sm" type="text" placeholder="Sebut Alasan Lainnya" name="sebut_alasan">
 								</div>
 							</div>
 							<div class="form-group">
@@ -279,10 +284,10 @@
 							</div>
 							<div class="form-group">
 								<label for="rt_tujuan"  class="col-sm-3 control-label">RT/RW/Dusun Tujuan</label>
-								<div class="col-sm-3 col-lg-2">
+								<div class="col-sm-2">
 									<input  id="rt_tujuan" name="rt_tujuan" class="form-control input-sm required" type="text" placeholder="RT ">
 								</div>
-								<div class="col-sm-3 col-lg-2">
+								<div class="col-sm-2">
 									<input  id="rw_tujuan" name="rw_tujuan" class="form-control input-sm required" type="text" placeholder="RW ">
 								</div>
 								<div class="col-sm-4">
@@ -313,7 +318,7 @@
 							</div>
 							<div class="form-group">
 								<label for="kode_pos_tujuan"  class="col-sm-3 control-label">Kode Pos/ Telpon</label>
-								<div class="col-sm-3 col-lg-2">
+								<div class="col-sm-2">
 									<input  id="kode_pos_tujuan" name="kode_pos_tujuan" class="form-control input-sm" type="text" placeholder="Kode Pos">
 								</div>
 								<div class="col-sm-3">
@@ -333,15 +338,15 @@
 							</div>
 							<input id='status_kk_tidak_pindah' type="hidden" name="status_kk_tidak_pindah_id"/>
 							<div class="form-group">
-								<label for="status_kk_tidak_pindahw"  class="col-sm-3 control-label">Status KK Bagi Yang Tidak Pindah</label>
+								<label for="status_kk_tidak_pindah"  class="col-sm-3 control-label">Status KK Bagi Yang Tidak Pindah</label>
 								<div class="col-sm-4">
-									<select id="status_kk_tidak_pindah_show" class="form-control input-sm required" onchange="$('#status_kk_tidak_pindah').val($(this).val());">
+									<select id="status_kk_tidak_pindah_show" class="form-control input-sm" onchange="$('#status_kk_tidak_pindah').val($(this).val());">
 										<option value="">Pilih Status KK Tidak Pindah</option>
 										<?php foreach ($kode['status_kk_tidak_pindah'] as $key => $value):?>
 											<option value="<?= $key?>"><?= strtoupper($value)?></option>
 										<?php endforeach;?>
 									</select>
-									<select id="status_kk_tidak_pindah_f108_show" style="display: none" class="form-control input-sm required" onchange="$('#status_kk_tidak_pindah').val($(this).val());">
+									<select id="status_kk_tidak_pindah_f108_show" style="display: none" class="form-control input-sm" onchange="$('#status_kk_tidak_pindah').val($(this).val());">
 										<option value="">Pilih Status KK Tidak Pindah</option>
 										<?php foreach ($kode['status_kk_tidak_pindah_f108'] as $key => $value):?>
 											<option value="<?= $key?>"><?= strtoupper($value)?></option>
@@ -413,19 +418,19 @@
 							</div>
 							<div class="form-group">
 								<label for="tanggal_pindah"  class="col-sm-3 control-label">Tanggal Pindah</label>
-								<div class="col-sm-4">
+								<div class="col-sm-3 col-lg-2">
 									<div class="input-group input-group-sm date">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input title="Pilih Tanggal" class="form-control input-sm required" name="tanggal_pindah" id="tgl_1" type="text"/>
+										<input title="Pilih Tanggal" class="form-control input-sm datepicker required" name="tanggal_pindah" type="text"/>
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="keterangan"  class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-8">
-									<input  id="keterangan" class="form-control input-sm" type="text" placeholder="Keterangan" name="keterangan" required="">
+									<input  id="keterangan" class="form-control input-sm required" type="text" placeholder="Keterangan" name="keterangan" required="">
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
@@ -439,7 +444,7 @@
 									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-print"></i> Cetak</button>
 								<?php endif;?>
 								<?php if (SuratExport($url)):?>
-									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Expor Doc</button>
+									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
 								<?php endif;?>
 							</div>
 						</div>

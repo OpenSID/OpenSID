@@ -27,8 +27,8 @@
 											<div class="col-sm-6">
 												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?=site_url('pengurus/filter')?>')">
 													<option value="">Semua</option>
-													<option value="1" <?php if($filter==1 ) :?>selected<?php endif?>>Aktif</option>
-													<option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Tidak Aktif</option>
+													<option value="1" <?php if ($filter==1 ):?>selected<?php endif?>>Aktif</option>
+													<option value="2" <?php if ($filter==2 ):?>selected<?php endif?>>Tidak Aktif</option>
 												</select>
 											</div>
 											<div class="col-sm-6">
@@ -58,18 +58,18 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php  foreach($main as $data): ?>
+															<?php foreach ($main as $data): ?>
 																<tr>
 																	<td>
-																		<?php  if($data['username']!='siteman') :?>
+																		<?php if ($data['username']!='siteman'):?>
 																			<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
-																		<?php  endif; ?>
+																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['no']?></td>
 																	<td nowrap>
-																		<?php if($data['pamong_id']!="707"):?>
+																		<?php if ($data['pamong_id']!="707"):?>
 																			<a href="<?= site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
-																			<?php if($data['pamong_ttd'] == '1'):?>
+																			<?php if ($data['pamong_ttd'] == '1'):?>
 																				<a href="<?= site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD default"><i class="fa fa-pencil"></i></a>
 																			<?php else : ?>
 																				<a href="<?= site_url('pengurus/ttd_on/'.$data['pamong_id'])?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD default"><i  class="fa fa-user"></i></a>
@@ -80,7 +80,7 @@
 																	<td class="text-center">
 																		<div class="user-panel">
 																			<div class="image2">
-																				<?php if($data['foto']):?>
+																				<?php if ($data['foto']):?>
 																					<img src="<?=AmbilFoto($data['foto'])?>" class="img-circle" alt="User Image"/>
 																				<?php else:?>
 																					<img src="<?=base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
@@ -97,7 +97,7 @@
 																	</td>
 																	<td><?= unpenetration($data['jabatan'])?></td>
 																	<td>
-																		<?php if($data['pamong_status'] == '1') : ?>
+																		<?php if ($data['pamong_status'] == '1'): ?>
 																			<div title="Aktif">
 																				<center><i class='fa fa-unlock fa-lg text-yellow'></i></center>
 																			</div>

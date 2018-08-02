@@ -13,7 +13,7 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?=site_url("keluar")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
-							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Surat keluar
+							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Surat Keluar
            	</a>
 					</div>
 					<div class="box-header with-border">
@@ -42,7 +42,7 @@
 										</tr>
 										<tr>
 											<td style="padding-top : 10px;padding-bottom : 10px;" >Alamat</td>
-											<td> <?= unpenetration($individu['alamat']); ?></td>
+											<td> <?= $individu['alamat_wilayah']; ?></td>
 										</tr>
 										<tr>
 											<td style="padding-top : 10px;padding-bottom : 10px;" >Pendidikan</td>
@@ -113,19 +113,20 @@
 																<td nowrap>
 																	<?php
 																		if (is_file($theFile)):?>
-																			<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm"  target="_blank"><i class="fa fa-file-word-o"></i> Ekspor</a>
+																			<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm"  target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>
 																		<?php	endif;?>
 																	<?php
 																		if (is_file($lampiran)):?>
-																			<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-purple btn-sm" title="Lampiran"><i class="fa fa-download"></i>  Lampiran</a>
+																			<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Lampiran"><i class="fa fa-paperclip"></i>  Lampiran</a>
 																		<?php	endif;?>
-																	<a href="#" data-href="<?= site_url("surat_keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data['no_surat']?></td>
 																<td><?= $data['format']?></td>
 																<td><?= unpenetration($data['nama'])?></td>
 																<td><?= $data['pamong']?></td>
-																<td nowrap><?= tgl_indo2($data['tanggal'])?></td>																							</tr>
+																<td nowrap><?= tgl_indo2($data['tanggal'])?></td>
+															</tr>
 															<?php endforeach; ?>
 														</tbody>
 													</table>

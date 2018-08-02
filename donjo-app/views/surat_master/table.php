@@ -54,7 +54,7 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
-													<table class="table table-bordered dataTable table-hover">
+													<table class="table table-bordered dataTable table-striped table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th><input type="checkbox" id="checkall"/></th>
@@ -81,7 +81,7 @@
 														</thead>
 														<tbody>
 															<?php foreach ($main as $data): ?>
-																<tr>
+																<tr <?php if($data['jenis']!=1):?>style='background-color:#f8deb5 !important;'<?php endif;?>>
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
@@ -106,7 +106,7 @@
 																	<td><?= $data['lampiran']?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-info btn-sm"  title="Kode Isian"><i class="fa fa-code"></i>Kode Isian</a>
-																		<a href="<?= site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unggah Template Format Surat" class="btn btn-social btn-flat bg-orange btn-sm"><i class='fa fa-upload'></i> Unggah</a>
+																		<a href="<?= site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Unggah Template Format Surat" data-title="Unggah Template Format Surat" class="btn btn-social btn-flat bg-orange btn-sm"><i class='fa fa-upload'></i> Unggah</a>
 																		<?php $surat = SuratExport($data[url_surat]); ?>
 																		<?php if ($surat != ""): ?>
 																			<a href="<?= base_url($surat)?>" class="btn btn-social btn-flat bg-purple btn-sm"  title="Unduh Template Format Surat"><i class="fa fa-download"></i>Unduh </a>
