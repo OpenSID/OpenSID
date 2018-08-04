@@ -43,7 +43,7 @@
 									<td>Cara membuat donasi dan informasi lebih lanjut ada di: </td>
 									<td style="padding-left: 10px;">
 										<div class="uibutton-group">
-											<a class="uibutton special" href="http://www.opensid.info/index.php?id=41:donasi-pengembangan-opensid" target="_blank"><span class="fa fa-heart"></span> Donasi Pengembangan OpenSID</a>
+											<a class="uibutton special" href="https://www.opensid.info/donasi.html" target="_blank"><span class="fa fa-heart"></span> Donasi Pengembangan OpenSID</a>
 										</div>
 									</td>
 							  </tr>
