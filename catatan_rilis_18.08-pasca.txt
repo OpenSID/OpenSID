@@ -7,7 +7,7 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 1. Perubahan tampilan modul Admin, termasuk perbaikan semua script terkait.
 2. #1438: Sekarang penduduk lepas dengan status mati/pindah/hilang tidak tampil ganda. [bug-fix]
 3. #1184: Sekarang judul dan jenis widget bisa diubah. [bug-fix]
-
+4. Perbaiki tautan ke info donasi di opensid.info
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
