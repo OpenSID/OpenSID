@@ -59,7 +59,7 @@
                 <label for="sex" class="col-sm-3 control-label" >Jenis Kelamin / Warga Negara / Agama</label>
                 <div class="col-sm-3">
                   <select class="form-control input-sm" name="sex" id="sex">
-										<option value="">Pilih jenis kelamin</option>
+										<option value="">Pilih Jenis Kelamin</option>
 										<?php foreach ($sex as $data):?>
 											<option value="<?= ucwords(strtolower($data['nama']))?>"><?= $data['nama']?></option>
 										<?php endforeach;?>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="col-sm-2">
                   <select class="form-control input-sm" name="warga_negara" id="warga_negara">
-										<option value="">Pilih warganegara</option>
+										<option value="">Pilih Warganegara</option>
 										<?php foreach ($warganegara as $data):?>
 											<option value="<?= $data['id']=='3' ? ucwords(strtolower($data['nama'])): strtoupper($data['nama'])?>"><?= $data['nama']?></option>
 										<?php endforeach;?>

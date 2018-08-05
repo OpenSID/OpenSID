@@ -99,7 +99,7 @@
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" onchange="nomor_surat(this.value);">
+										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>" onchange="nomor_surat(this.value);">
 										<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
@@ -662,7 +662,7 @@
 									<div class="form-group ayah_wanita">
 										<label class="col-sm-3 control-label">Tempat Tanggal Lahir</label>
 										<div class="col-sm-5 col-lg-6">
-											<input class="form-control input-sm" type="text" name="tempatlahir_ayah__wanita" id="tempatlahir_ayah__wanita" placeholder="Tempat Lahir" value="<?= $_SESSION['post']['tempatlahir_ayah__wanita']?>">
+											<input class="form-control input-sm" type="text" name="tempatlahir_ayah_wanita" id="tempatlahir_ayah_wanita" placeholder="Tempat Lahir" value="<?= $_SESSION['post']['tempatlahir_ayah_wanita']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
 											<div class="input-group input-group-sm date">
@@ -952,7 +952,7 @@
 											<div class="input-group-addon">
 												<i class="fa fa-clock-o"></i>
 											</div>
-											<input class="form-control input-sm required" name="jam_nikah" id="jam_1" type="text" placeholder="Jam Nikah" value="<?= $_SESSION['post']['jam_nikah']?>"/>
+											<input class="form-control input-sm required" name="jam_nikah" id="jammenit_1" type="text" placeholder="Jam Nikah" value="<?= $_SESSION['post']['jam_nikah']?>"/>
 										</div>
 									</div>
 								</div>
