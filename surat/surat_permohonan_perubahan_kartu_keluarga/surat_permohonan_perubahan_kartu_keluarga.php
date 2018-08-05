@@ -34,6 +34,12 @@
 							</div>
 						</form>
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
+							<div class="row jar_form">
+								<label for="nomor" class="col-sm-3"></label>
+								<div class="col-sm-8">
+									<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
+								</div>
+							</div>
 							<?php if ($individu):?>
 								<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 							<?php	endif;?>
@@ -41,7 +47,6 @@
 								<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 								<div class="col-sm-8">
 									<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor">
-									<input type="hidden" name="nik" value="<?= $individu['id']?>">
 									<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 								</div>
 							</div>

@@ -22,8 +22,8 @@
 					<table width="100%">
 						<tr>
 							<td class="indentasi">
-								Yang bertanda tangan dibawah ini <?php  echo unpenetration($input['jabatan'])?> <?php  echo unpenetration($desa['nama_desa'])?>, Kecamatan <?php  echo unpenetration($desa['nama_kecamatan'])?>,
-								<?= ucwords($this->setting->sebutan_kabupaten)?> <?= unpenetration($desa['nama_kabupaten'])?>, Provinsi <?php  echo unpenetration($desa['nama_propinsi'])?> menerangkan dengan sebenarnya bahwa:
+								Yang bertanda tangan dibawah ini <?= unpenetration($input['jabatan'])?> <?= unpenetration($desa['nama_desa'])?>, Kecamatan <?= unpenetration($desa['nama_kecamatan'])?>,
+								<?= ucwords($this->setting->sebutan_kabupaten)?> <?= unpenetration($desa['nama_kabupaten'])?>, Provinsi <?= unpenetration($desa['nama_propinsi'])?> menerangkan dengan sebenarnya bahwa:
 							</td>
 						</tr>
 					</table>
@@ -31,18 +31,18 @@
 						<table width="100%">
 							<tr></tr>
 							<tr><td colspan="3">I. Identitas dalam KK</td></tr>
-							<tr><td width="30%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?php  echo unpenetration($data['nama'])?></td></tr>
+							<tr><td width="30%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?= unpenetration($data['nama'])?></td></tr>
 							<tr><td>Tempat dan Tgl. Lahir </td><td>:</td><td><?= ($data['tempatlahir'])?>, <?= tgl_indo($data['tanggallahir'])?> </td></tr>
 							<tr><td>Jenis Kelamin</td><td>:</td><td><?= $data['sex']?></td></tr>
-							<tr><td>Alamat/ Tempat Tinggal</td><td>:</td><td>RW. <?= $data['rw']?>, RT. <?= $data['rt']?>, Dusun <?php  echo unpenetration(ununderscore($data['dusun']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?php  echo unpenetration($desa['nama_desa'])?>, Kec. <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?php  echo unpenetration($desa['nama_kabupaten'])?></td></tr>
-							<tr><td>Agama</td><td>:</td><td><?php  echo $data['agama']?></td></tr>
+							<tr><td>Alamat/ Tempat Tinggal</td><td>:</td><td>RW. <?= $data['rw']?>, RT. <?= $data['rt']?>, Dusun <?= unpenetration(ununderscore($data['dusun']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, Kec. <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?></td></tr>
+							<tr><td>Agama</td><td>:</td><td><?= $data['agama']?></td></tr>
 							<tr><td>Pekerjaan</td><td>:</td><td><?= $data['pekerjaan']?></td></tr>
 							<tr></tr>
 							<tr></tr>
 							<tr></tr>
-							<tr><td colspan="3">II. Identitas dalam <?php  echo $input['kartu']?></td><td width="3%"></td><td width="64%"></td></tr>
-							<tr><td width="30%">No Identitas</td><td width="3%">:</td><td width="64%"><?php  echo $input['identitas']?></td></tr>
-							<tr><td>Nama</td><td>:</td><td><?php  echo $input['nama']?></td></tr>
+							<tr><td colspan="3">II. Identitas dalam <?= $input['kartu']?></td><td width="3%"></td><td width="64%"></td></tr>
+							<tr><td width="30%">No Identitas</td><td width="3%">:</td><td width="64%"><?= $input['identitas']?></td></tr>
+							<tr><td>Nama</td><td>:</td><td><?= $input['nama']?></td></tr>
 							<tr><td>Tempat dan Tanggal Lahir<td>:</td><td><?= ($input['tempatlahir'])?> <?= tgl_indo(tgl_indo_in($input['tanggallahir']))?> </td></tr>
 							<tr><td>Jenis Kelamin</td><td>:</td><td><?= $input['sex']?></td></tr>
 							<tr><td>Alamat/ Tempat Tinggal</td><td>:</td><td><?= $input['alamat']?></td></tr>
@@ -53,7 +53,7 @@
 						<table width="100%">
 							<tr></tr>
 							<tr></tr>
-							<tr><td class="indentasi">Adalah benar-benar warga <?= ucwords($this->setting->sebutan_desa)?> <?php  echo unpenetration($desa['nama_desa'])?> dan merupakan orang yang sama namun terdapat perbedaan <?php  echo $input['perbedaan'] ?> seperti tersebut di atas. Adapun data yang benar dan dipakai seperti yang tercantum di Kartu Keluarga (KK). </td></tr>
+							<tr><td class="indentasi">Adalah benar-benar warga <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?> dan merupakan orang yang sama namun terdapat perbedaan <?= $input['perbedaan'] ?> seperti tersebut di atas. Adapun data yang benar dan dipakai seperti yang tercantum di Kartu Keluarga (KK). </td></tr>
 							<tr><td class="indentasi">Demikian surat keterangan ini dibuat dengan sesungguhnya agar dapat dipergunakan sebagaimana mestinya</td></tr>
 							<tr></tr>
 							<tr></tr>
