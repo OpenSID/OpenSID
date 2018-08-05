@@ -94,7 +94,7 @@
 									<label for="nik"  class="col-sm-3 control-label">Memberi Izin Selaku</label>
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control input-sm select2" name="selaku" id="selaku" onchange="pemberi_izin($(this).val());" style ="width:100%;">
-										<option value="" selected="selected">Pilih selaku</option>
+										<option value="">Pilih Selaku</option>
 										<?php foreach ($selaku as $data):?>
 											<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['selaku']):?>selected<?php endif;?>><?= $data?></option>
 										<?php endforeach;?>
@@ -109,7 +109,7 @@
 									<div class="col-sm-6 col-lg-4">
 										<input id='mengizinkan' type="hidden" name="mengizinkan" value="<?= $_SESSION['post']['mengizinkan']?>"/>
 										<select class="form-control input-sm" id="mengizinkan_show" disabled="disabled">
-											<option value="">Pilih hubungan</option>
+											<option value="">Pilih Hubungan</option>
 											<?php foreach ($yang_diberi_izin as $data):?>
 												<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['mengizinkan']):?>selected<?php endif;?>><?= $data?></option>
 											<?php endforeach;?>
@@ -170,7 +170,7 @@
 								<div class="form-group">
 									<label for="nik"  class="col-sm-3 control-label">Tertanda Atas Nama</label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control  input-sm select2" id="atas_nama" name="atas_nama" style ="width:100%;">
+										<select class="form-control input-sm select2" id="atas_nama" name="atas_nama" style ="width:100%;">
 											<option value="">-- Atas Nama --</option>
 											<?php foreach ($atas_nama as $data):?>
 												<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['atas_nama']):?>selected<?php endif;?>><?= $data?></option>

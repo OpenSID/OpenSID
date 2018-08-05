@@ -405,7 +405,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label">Atas Nama</label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control required input-sm select2" id="atas_nama" name="atas_nama" <?= $disabled ?>>
+										<select class="form-control input-sm select2" id="atas_nama" name="atas_nama" <?= $disabled ?>>
 											<option value="">-- Atas Nama --</option>
 											<?php foreach ($atas_nama as $data):?>
 												<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['atas_nama']):?>selected<?php endif;?>>
@@ -426,7 +426,7 @@
 								<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right"><i class="fa fa-print"></i>Cetak</button>
 							<?php endif; ?>
 							<?php if (SuratExport($url)):?>
-							 	<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-file-text"></i>Expor Doc</button>
+							 	<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-file-text"></i>Ekspor Dok</button>
 							<?php endif; ?>
 						</div>
 					</div>

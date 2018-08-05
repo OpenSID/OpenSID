@@ -187,7 +187,7 @@
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor">
+										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>" onchange="nomor_surat(this.value);">
 										<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
@@ -206,7 +206,7 @@
 									<label for="ibu_desa"  class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA IBU DARI DATABASE </strong></label>
 								</div>
 								<div class="form-group ibu_desa" <?php if (empty($ibu)):?>style="display: none;"<?php endif; ?>>
-									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama Ibu :</strong></label>
+									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama Ibu</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control  input-sm select2" id="id_ibu" name="id_ibu" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Ibu--</option>
@@ -244,13 +244,13 @@
 									<div class="form-group ibu_luar_desa">
 										<label for="nama_ibu"  class="col-sm-3 control-label">Nama Ibu</label>
 										<div class="col-sm-8">
-											<input  class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nama_ibu" value="<?= $_SESSION['post']['nama_ibu']?>">
+											<input  class="form-control input-sm required" type="text" placeholder="Nama Ibu" name="nama_ibu" value="<?= $_SESSION['post']['nama_ibu']?>">
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
 										<label for="nik_ibu"  class="col-sm-3 control-label">NIK Ibu</label>
 										<div class="col-sm-8">
-											<input  class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nama_ibu" value="<?= $_SESSION['post']['nik_ibu']?>">
+											<input  class="form-control input-sm required" type="text" placeholder="NIK Ibu" name="nik_ibu" value="<?= $_SESSION['post']['nik_ibu']?>">
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
@@ -271,7 +271,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
-										<label for="pekerjaanibu" class="col-sm-3 control-label" ><strong>Pekerjaan :</strong></label>
+										<label for="pekerjaanibu" class="col-sm-3 control-label" ><strong>Pekerjaan</strong></label>
 										<div class="col-sm-4">
 											<select class="form-control input-sm" name="pekerjaanibu" id="pekerjaanibu" onchange="$('input[name=pekerjaanid_ibu]').val($(this).find(':selected').data('pekerjaanid'));">
 												<option value="">-- Pekerjaan --</option>
@@ -293,7 +293,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
-										<label for="alamat_ibu"  class="col-sm-3 control-label">Alamat / RT / RW :</label>
+										<label for="alamat_ibu"  class="col-sm-3 control-label">Alamat / RT / RW</label>
 										<div class="col-sm-4">
 											<input class="form-control input-sm" type="text" name="alamat_ibu" id="alamat_ibu" placeholder="Alamat Ibu" value="<?= $_SESSION['post']['alamat_ibu']?>">
 										</div>
@@ -305,7 +305,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
-										<label for="alamat_ibu"  class="col-sm-3 control-label">Desa / Kecamatan :</label>
+										<label for="alamat_ibu"  class="col-sm-3 control-label">Desa / Kecamatan</label>
 										<div class="col-sm-4">
 											<input class="form-control input-sm" type="text" name="desaibu" id="desaibu" placeholder="Desa" value="<?= $_SESSION['post']['desaibu']?>">
 										</div>
@@ -314,7 +314,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
-										<label for="alamat_ibu"  class="col-sm-3 control-label">Kabupaten / Provinsi :</label>
+										<label for="alamat_ibu"  class="col-sm-3 control-label">Kabupaten / Provinsi</label>
 										<div class="col-sm-4">
 											<input class="form-control input-sm" type="text" name="kabibu" id="kabibu" placeholder="Kabupaten" value="<?= $_SESSION['post']['kabibu']?>">
 										</div>
@@ -357,7 +357,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
-										<label for="pekerjaanayah" class="col-sm-3 control-label" ><strong>Pekerjaan :</strong></label>
+										<label for="pekerjaanayah" class="col-sm-3 control-label" ><strong>Pekerjaan</strong></label>
 										<div class="col-sm-4">
 											<select class="form-control input-sm select2" name="pekerjaanayah" id="pekerjaanayah" style ="width:100%;"  onchange="$('input[name=pekerjaanid_ayah').val($(this).find(':selected').data('pekerjaanid'));">
 												<option value="">-- Pekerjaan --</option>
@@ -368,7 +368,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
-										<label for="alamat_ayah"  class="col-sm-3 control-label">Alamat / RT / RW:</label>
+										<label for="alamat_ayah"  class="col-sm-3 control-label">Alamat / RT / RW</label>
 										<div class="col-sm-4">
 											<input class="form-control input-sm" type="text" name="alamat_ayah" id="alamat_ayah" placeholder="Alamat" value="<?= $_SESSION['post']['alamat_ayah']?>">
 										</div>
@@ -380,7 +380,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
-										<label for="alamat_ayah"  class="col-sm-3 control-label">Desa / Kecamatan :</label>
+										<label for="alamat_ayah"  class="col-sm-3 control-label">Desa / Kecamatan</label>
 										<div class="col-sm-4">
 											<input class="form-control input-sm" type="text" name="desaayah" id="desaayah" placeholder="Desa" value="<?= $_SESSION['post']['desaayah']?>">
 										</div>
@@ -389,7 +389,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
-										<label for="alamat_ayah"  class="col-sm-3 control-label">Kabupaten / Provinsi:</label>
+										<label for="alamat_ayah"  class="col-sm-3 control-label">Kabupaten / Provinsi</label>
 										<div class="col-sm-4">
 											<input class="form-control input-sm" type="text" name="kabayah" id="kabayah" placeholder="Kabupaten" value="<?= $_SESSION['post']['kabayah']?>">
 										</div>
@@ -413,7 +413,7 @@
 									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA KELAHIRAN DARI DATABASE</strong></label>
 								</div>
 								<div class="form-group bayi_desa" <?php if (empty($bayi)):?>style="display: none;"<?php endif; ?>>
-									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
+									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control  input-sm select2" id="id_bayi" name="id_bayi" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
@@ -483,6 +483,7 @@
 									<label for="nama_sex"  class="col-sm-3 control-label">Tempat Dilahirkan</label>
 									<div class="col-sm-4">
 										<select name="tempat_dilahirkan" class="form-control input-sm required data_lahir" id="tempat_dilahirkan">
+											<option value="">Pilih Tempat Dilahirkan</option>
 											<?php foreach ($tempat_dilahirkan as $id => $nama):?>
 												<option value="<?= $id?>" <?php if ($_SESSION['post']['tempat_dilahirkan']==$id):?>selected<?php endif;?>><?= $nama?></option>
 											<?php endforeach;?>
@@ -565,7 +566,7 @@
 									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA PELAPOR DARI DATABASE</strong></label>
 								</div>
 								<div class="form-group pelapor_desa" <?php if (empty($pelapor)):?>style="display: none;"<?php endif; ?>>
-									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
+									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control  input-sm select2" id="id_pelapor" name="id_pelapor" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
@@ -686,7 +687,7 @@
 									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA SAKSI 1 DARI DATABASE</strong></label>
 								</div>
 								<div class="form-group saksi1_desa" <?php if (empty($saksi1)):?>style="display: none;"<?php endif; ?>>
-									<label for="saksi1_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
+									<label for="saksi1_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control input-sm select2" id="id_saksi1" name="id_saksi1" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
@@ -801,7 +802,7 @@
 									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA SAKSI 2 DARI DATABASE</strong></label>
 								</div>
 								<div class="form-group saksi2_desa" <?php if (empty($saksi2)):?>style="display: none;"<?php endif; ?>>
-									<label for="saksi2_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
+									<label for="saksi2_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control input-sm select2" id="id_saksi2" name="id_saksi2" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
