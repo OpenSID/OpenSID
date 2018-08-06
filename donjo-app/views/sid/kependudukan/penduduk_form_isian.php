@@ -477,12 +477,14 @@
 				</div>
 			</div>
 		</div>
-		<div class='box-footer'>
-			<div class='col-xs-12'>
-				<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-				<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
-			</div>
-		</div>
+    <?php if($penduduk['status_dasar_id'] == 1): ?>
+      <div class='box-footer'>
+        <div class='col-xs-12'>
+          <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+          <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+        </div>
+      </div>
+    <?php endif; ?>
 		<div  class="modal fade" id="rumah-penduduk" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class='modal-dialog'>
 				<div class='modal-content'>
