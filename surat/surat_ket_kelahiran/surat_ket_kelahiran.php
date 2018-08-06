@@ -207,7 +207,7 @@
 								</div>
 								<div class="form-group ibu_desa" <?php if (empty($ibu)):?>style="display: none;"<?php endif; ?>>
 									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama Ibu</strong></label>
-									<div class="col-sm-5">
+									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2" id="id_ibu" name="id_ibu" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Ibu--</option>
 											<?php foreach ($perempuan as $data):?>
@@ -414,7 +414,7 @@
 								</div>
 								<div class="form-group bayi_desa" <?php if (empty($bayi)):?>style="display: none;"<?php endif; ?>>
 									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
-									<div class="col-sm-5">
+									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2" id="id_bayi" name="id_bayi" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($anak as $data):?>
@@ -567,7 +567,7 @@
 								</div>
 								<div class="form-group pelapor_desa" <?php if (empty($pelapor)):?>style="display: none;"<?php endif; ?>>
 									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
-									<div class="col-sm-5">
+									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2" id="id_pelapor" name="id_pelapor" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data):?>
@@ -688,7 +688,7 @@
 								</div>
 								<div class="form-group saksi1_desa" <?php if (empty($saksi1)):?>style="display: none;"<?php endif; ?>>
 									<label for="saksi1_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
-									<div class="col-sm-5">
+									<div class="col-sm-6 col-lg-4">
 										<select class="form-control input-sm select2" id="id_saksi1" name="id_saksi1" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data):?>
@@ -803,7 +803,7 @@
 								</div>
 								<div class="form-group saksi2_desa" <?php if (empty($saksi2)):?>style="display: none;"<?php endif; ?>>
 									<label for="saksi2_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
-									<div class="col-sm-5">
+									<div class="col-sm-6 col-lg-4">
 										<select class="form-control input-sm select2" id="id_saksi2" name="id_saksi2" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data):?>

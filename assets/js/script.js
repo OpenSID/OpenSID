@@ -121,8 +121,7 @@ $(document).ready(function()
 	$('#tgl_mulai,#tgl_akhir').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY',
-		useCurrent: false,
-		minDate: moment()
+		useCurrent: false
 	});
 	$('#tgl_mulai').datetimepicker().on('dp.change', function (e) {
 		var incrementDay = moment(new Date(e.date));
@@ -136,6 +135,25 @@ $(document).ready(function()
 		$('#tgl_mulai').data('DateTimePicker').maxDate(decrementDay);
 		 $(this).data("DateTimePicker").hide();
 	});
+
+	$('#tgljam_mulai,#tgljam_akhir').datetimepicker({
+		locale:'id',
+		format: 'DD-MM-YYYY HH:mm',
+		useCurrent: false,
+		sideBySide:true
+	});
+	$('#tgljam_mulai').datetimepicker().on('dp.change', function (e) {
+		var incrementDay = moment(new Date(e.date));
+		incrementDay.add(1, 'days');
+		$('#tgljam_akhir').data('DateTimePicker').minDate(incrementDay);
+
+	});
+	$('#tgljam_akhir').datetimepicker().on('dp.change', function (e) {
+		var decrementDay = moment(new Date(e.date));
+		decrementDay.subtract(1, 'days');
+		$('#tgljam_mulai').data('DateTimePicker').maxDate(decrementDay);
+	});
+
 	$('#tgl_jam').datetimepicker(
 	{
 		format: 'DD-MM-YYYY HH:mm:ss',
