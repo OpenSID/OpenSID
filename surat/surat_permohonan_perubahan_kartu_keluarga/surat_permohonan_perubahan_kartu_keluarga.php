@@ -23,7 +23,7 @@
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
 							<div class="form-group">
 								<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
-								<div class="col-sm-6">
+								<div class="col-sm-6 col-lg-4">
 									<select class="form-control  input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
 										<option value="">--  Cari NIK / Nama Penduduk--</option>
 										<?php foreach ($kepala_keluarga as $data):?>
@@ -53,7 +53,7 @@
 							<div class="form-group">
 								<input name="sebab_nama" type="hidden">
 								<label for="sebab"  class="col-sm-3 control-label">Alasan Permohonan</label>
-								<div class="col-sm-5">
+								<div class="col-sm-6 col-lg-4">
 									<select class="form-control input-sm required" name="sebab" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));">
 									<option value="">Pilih Alasan Permohonan</option>
 						      <?php foreach ($sebab as $id => $nama):?>
