@@ -576,104 +576,127 @@
 		return $idku;
 	}
 
-	function update($id=0)
+	public function update($id=0)
 	{
 		unset($_SESSION['validation_error']);
 		unset($_SESSION['success']);
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
 
-		$sql   = "SELECT id_kk FROM tweb_penduduk WHERE id=?";
+    $sql   = "SELECT id_kk,status_dasar FROM tweb_penduduk WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		$pend = $query->row_array();
+    if ($pend['status_dasar'] != 1)
+    {
+      $_SESSION['success'] = -1;
+      $_SESSION['error_msg'] = "Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!";
+      return;
+    }
 
-		if($data['kk_level']==1){
-			$lvl['kk_level'] = 11;
-			$this->db->where('id_kk',$pend['id_kk']);
-			$this->db->where('kk_level',1);
-			$this->db->update('tweb_penduduk',$lvl);
+    if ($data['kk_level']==1)
+    {
+      $lvl['kk_level'] = 11;
+      $this->db->where('id_kk',$pend['id_kk']);
+      $this->db->where('kk_level',1);
+      $this->db->update('tweb_penduduk',$lvl);
 
-			$nik['nik_kepala'] = $id;
-			$this->db->where('id',$pend['id_kk']);
-			$outp = $this->db->update('tweb_keluarga',$nik);
-		}
+      $nik['nik_kepala'] = $id;
+      $this->db->where('id',$pend['id_kk']);
+      $outp = $this->db->update('tweb_keluarga',$nik);
+    }
 
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file   = $_FILES['foto']['type'];
-		$nama_file   = $_FILES['foto']['name'];
-		$nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		$old_foto    = $data['old_foto'];
-		if (!empty($lokasi_file)){
-			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
-				unset($data['foto']);
-			} else {
-				UploadFoto($nama_file,$old_foto,$tipe_file);
-				$data['foto'] = $nama_file;
-			}
-		}else{
-			unset($data['foto']);
-		}
+    $lokasi_file = $_FILES['foto']['tmp_name'];
+    $tipe_file   = $_FILES['foto']['type'];
+    $nama_file   = $_FILES['foto']['name'];
+    $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+    $old_foto    = $data['old_foto'];
+    if (!empty($lokasi_file))
+    {
+      if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png")
+      {
+        unset($data['foto']);
+      }
+      else
+      {
+        UploadFoto($nama_file,$old_foto,$tipe_file);
+        $data['foto'] = $nama_file;
+      }
+    } else
+    {
+      unset($data['foto']);
+    }
 
-		unset($data['file_foto']);
-		unset($data['old_foto']);
+    unset($data['file_foto']);
+    unset($data['old_foto']);
 
-		// Jangan update nik apabila tidak berubah
-		if ($data['nik_lama'] == $data['nik']) {
-			unset($data['nik']);
-		}
-		unset($data['nik_lama']);
+    // Jangan update nik apabila tidak berubah
+    if ($data['nik_lama'] == $data['nik'])
+    {
+      unset($data['nik']);
+    }
+    unset($data['nik_lama']);
 
-		$error_validasi = $this->validasi_data_penduduk($data);
-		if (!empty($error_validasi)){
-			foreach ($error_validasi as $error) {
-				$_SESSION['error_msg'] .= ': ' . $error . '\n';
-			}
-			// Tampilkan tanda kutip dalam nama
-			$_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
-			$_SESSION['post'] = $_POST;
-			$_SESSION['success']=-1;
-			return;
-		}
+    $error_validasi = $this->validasi_data_penduduk($data);
+    if (!empty($error_validasi))
+    {
+      foreach ($error_validasi as $error)
+      {
+        $_SESSION['error_msg'] .= ': ' . $error . '\n';
+      }
+      // Tampilkan tanda kutip dalam nama
+      $_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
+      $_SESSION['post'] = $_POST;
+      $_SESSION['success']=-1;
+      return;
+    }
 
-		$this->db->where('id',$id);
-		$outp = $this->db->update('tweb_penduduk',$data);
+    $this->db->where('id',$id);
+    $outp = $this->db->update('tweb_penduduk',$data);
 
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+    if ($outp) $_SESSION['success']=1;
+      else $_SESSION['success']=-1;
 	}
 
-	function update_position($id=0)
+	public function update_position($id=0)
 	{
-		$sql  = "SELECT id FROM tweb_penduduk_map WHERE id=?";
+    $sql  = "SELECT m.id,p.status_dasar FROM tweb_penduduk_map m RIGHT JOIN tweb_penduduk p ON m.id = p.id WHERE p.id=?";
 		$query = $this->db->query($sql,$id);
 		$cek = $query->row_array();
-
-		$data = $_POST;
-		unset($data['zoom']);
-		unset($data['map_tipe']);
-		if($cek['id']==$id){
-			if($data['lat']){
-				$this->db->where('id',$id);
-				$outp = $this->db->update('tweb_penduduk_map',$data);
-			}
-		}else{
-			if($data['lat']){
-				$data['id'] = $id;
-				$outp = $this->db->insert('tweb_penduduk_map',$data);
-			}
-		}
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+    if ($cek['status_dasar'] != 1)
+    {
+      $_SESSION['success'] = -1;
+      $_SESSION['error_msg'] = "Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!";
+      return;
+    }
+    $data = $_POST;
+    unset($data['zoom']);
+    unset($data['map_tipe']);
+    if ($cek['id']==$id)
+    {
+      if ($data['lat'])
+      {
+        $this->db->where('id',$id);
+        $outp = $this->db->update('tweb_penduduk_map',$data);
+      }
+    }
+    else
+    {
+      if ($data['lat'])
+      {
+        $data['id'] = $id;
+        $outp = $this->db->insert('tweb_penduduk_map',$data);
+      }
+    }
+    if ($outp) $_SESSION['success']=1;
+      else $_SESSION['success']=-1;
 	}
 
 	function get_penduduk_map($id=0)
 	{
-		$sql   = "SELECT m.*,p.nama FROM tweb_penduduk_map m LEFT JOIN tweb_penduduk p ON m.id = p.id WHERE m.id = ? ";
+    $sql   = "SELECT m.*,p.nama,p.status_dasar FROM tweb_penduduk_map m RIGHT JOIN tweb_penduduk p ON m.id = p.id WHERE p.id = ? ";
 		$query = $this->db->query($sql,$id);
 		return $query->row_array();
 	}
-
 
 	function get_log_status_dasar($id)
 	{
