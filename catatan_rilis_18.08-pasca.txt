@@ -11,6 +11,8 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 5. #1439: Sekarang biodata penduduk dgn status mati/pindah/hilang tidak bisa diubah. [bug-fix]
 6. #1381: Sekarang fitur cari periode analisis berfungsi normal. [bug-fix]
 7. #1173: Sekarang di SMS > Kontak > Daftar Kontak, detail kontak penduduk menampilkan data penduduk yang benar. [bug-fix]
+8. #1411: Tombol paginasi di Admin Web > Artikel sekarang tampil dengan benar. [bug-fix]
+
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
