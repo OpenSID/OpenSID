@@ -41,9 +41,9 @@ class Web extends CI_Controller{
 
 	function index($cat=1,$p=1,$o=0){
 
-		$data['p']        = $this->security->xss_clean($p);
-		$data['o']        = $this->security->xss_clean($o);
-		$data['cat']	    = $this->security->xss_clean($cat);
+		$data['p']        = $p;
+		$data['o']        = $o;
+		$data['cat']	  = $cat;
 
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
@@ -57,8 +57,8 @@ class Web extends CI_Controller{
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->web_artikel_model->paging($cat,$p,$o);
-		$data['main']    = $this->web_artikel_model->list_data($cat,$o, $data['paging']->offset, $data['paging']->per_page);
+		$paging  = $this->web_artikel_model->paging($cat,$p,$o);
+		$data['main']    = $this->web_artikel_model->list_data($cat,$o, $paging->offset, $paging->per_page);
 		$data['keyword'] = $this->web_artikel_model->autocomplete();
 		$data['list_kategori'] = $this->web_artikel_model->list_kategori();
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
@@ -68,7 +68,10 @@ class Web extends CI_Controller{
 		$header['minsidebar'] =1;
 		$nav['act']= 13;
 		$nav['act_sub'] = 47;
-
+    
+    $data = $this->security->xss_clean($data);
+    $data['paging'] = $paging;
+    
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('web/artikel/table',$data);
