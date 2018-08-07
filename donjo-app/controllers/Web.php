@@ -41,9 +41,9 @@ class Web extends CI_Controller{
 
 	function index($cat=1,$p=1,$o=0){
 
-		$data['p']        = $p;
-		$data['o']        = $o;
-		$data['cat']	  = $cat;
+		$data['p']        = $this->security->xss_clean($p);
+		$data['o']        = $this->security->xss_clean($o);
+		$data['cat']	    = $this->security->xss_clean($cat);
 
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
@@ -71,7 +71,6 @@ class Web extends CI_Controller{
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
-		$data = $this->security->xss_clean($data);
 		$this->load->view('web/artikel/table',$data);
 		$this->load->view('footer');
 	}
