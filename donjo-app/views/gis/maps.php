@@ -63,7 +63,7 @@
 
     //WILAYAH ADMINISTRATIF - DUSUN RW RT
     <?php if ($layer_wilayah==1 AND !empty($wilayah)): ?>
-      var path_wilayah_adm = <?=json_encode($wilayah)?>;
+      var path_wilayah_adm = JSON.parse('<?=addslashes(json_encode($wilayah))?>');
       var jml = path_wilayah_adm[0].length;
       var wil = {
           paths: path_<?=$wil['id']?>,
@@ -84,7 +84,7 @@
 
     //LOKASI DAN PROPERTI
     <?php if ($layer_lokasi == 1 AND !empty($lokasi)): ?>
-      var daftar_lokasi = JSON.parse('<?=json_encode($lokasi)?>');
+      var daftar_lokasi = JSON.parse('<?=addslashes(json_encode($lokasi))?>');
       var jml = daftar_lokasi.length;
     	var content;
       var foto;
@@ -130,7 +130,7 @@
           fillColor: '#8888dd',
           fillOpacity: 0.22
       }
-      var daftar_area = JSON.parse('<?=json_encode($area)?>');
+      var daftar_area = JSON.parse('<?=addslashes(json_encode($area))?>');
       var jml = daftar_area.length;
       var jml_path;
       var foto;
@@ -172,7 +172,7 @@
     //PENDUDUK
     <?php if ($layer_penduduk==1 OR $layer_keluarga==1 AND !empty($penduduk)): ?>
       //Data penduduk
-      var penduduk = <?=json_encode($penduduk)?>;
+      var penduduk = JSON.parse('<?=addslashes(json_encode($penduduk))?>');
       var jml = penduduk.length;
       var foto;
       var content;
