@@ -53,12 +53,6 @@
 									<input  id="usaha" class="form-control input-sm required" type="text" placeholder="Nama / Jenis Usaha" name="usaha">
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="keterangan"  class="col-sm-3 control-label">Keterangan</label>
-								<div class="col-sm-8">
-									<textarea name="keterangan" class="form-control input-sm required" placeholder="Keterangan"></textarea>
-								</div>
-							</div>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 						</form>
 					</div>
