@@ -109,8 +109,10 @@ class Penduduk_log extends CI_Controller
 		$header = $this->header_model->get_data();
 
 		$nav['act']= 2;
+		$nav['act_sub'] = 21;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('sid/kependudukan/penduduk_log',$data);
 		$this->load->view('footer');
 	}

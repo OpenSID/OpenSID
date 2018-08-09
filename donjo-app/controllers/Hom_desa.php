@@ -21,33 +21,46 @@ class Hom_desa extends CI_Controller{
 	}
 
 	function index(){
-		$nav['act']= 2;
+		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
+		$data['penduduk'] = $this->header_model->penduduk_total();
+		$data['keluarga'] = $this->header_model->keluarga_total();
+		$data['miskin'] = $this->header_model->miskin_total();
+		$data['kelompok'] = $this->header_model->kelompok_total();
+		$data['rtm'] = $this->header_model->rtm_total();
+		$data['dusun'] = $this->header_model->dusun_total();
+		// Menampilkan menu dan sub menu aktif
+		$nav['act']= 1;
+		$nav['act_sub'] = 16;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('home/nav',$nav);
-		$this->load->view('home/desa');
+		$this->load->view('nav',$nav);
+		$this->load->view('home/desa',$data);
 		$this->load->view('footer');
 	}
 
 	function donasi(){
-		$nav['act']= 3;
+		// Menampilkan menu dan sub menu aktif
+		$nav['act']= 1;
+		$nav['act_sub'] = 19;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		$this->load->view('home/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('home/donasi');
 		$this->load->view('footer');
 	}
 
 	function konfigurasi(){
 		$this->load->model('provinsi_model');
-		$nav['act']= 0;
+		// Menampilkan menu dan sub menu aktif
+		$nav['act']= 1;
+		$nav['act_sub'] = 17;
 		$header = $this->header_model->get_data();
 
 		$data['main'] = $this->config_model->get_data();
 		$this->load->view('header',$header);
-		$this->load->view('home/nav',$nav);
+		$this->load->view('nav',$nav);
 		// Buat row data desa di konfigurasi_form apabila belum ada data desa
 		if ($data['main']) $data['form_action'] = site_url("hom_desa/update/".$data['main']['id']);
 			else $data['form_action'] = site_url("hom_desa/insert/");
@@ -80,10 +93,12 @@ class Hom_desa extends CI_Controller{
 
 	function update_kantor_maps(){
 		$this->config_model->update_kantor();
+		redirect("hom_desa/konfigurasi");
 	}
 
 	function update_wilayah_maps(){
 		$this->config_model->update_wilayah();
+			redirect("hom_desa/konfigurasi");
 	}
 
 }

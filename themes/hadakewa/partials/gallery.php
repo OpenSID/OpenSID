@@ -29,6 +29,7 @@
 			</div>
 
 			<div class=\"box-footer\">
+			<div>Halaman ".$p." dari ".$paging->end_link."</div>
 				<ul class=\"pagination pagination-sm no-margin\">";
 				// TODO : butuh helper untuk menggenerate html tag untuk paging
 				if($paging->start_link){
@@ -38,7 +39,7 @@
 					echo "<li><a href=\"".site_url("first/gallery/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
 				}
 
-				for($i=$paging->start_link;$i<=$paging->end_link;$i++){
+				foreach($pages as $i) {
 					$strC = ($p == $i)? "class=\"active\"":"";
 					echo "<li ".$strC."><a href=\"".site_url("first/gallery/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
 				}

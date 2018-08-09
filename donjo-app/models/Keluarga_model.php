@@ -71,7 +71,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND t.nama LIKE '$kw'";
+			$search_sql= " AND (t.nama LIKE '$kw' OR u.no_kk LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -740,9 +740,9 @@
 		$this->load->model('penduduk_model');
 		// Ubah alamat keluarga
 		$this->db->where('id',$id);
-		$data_kel['alamat'] = $alamat;
+		if (!empty($alamat)) $data_kel['alamat'] = $alamat;
 		if ($id_cluster AND $id_cluster != '') $data_kel['id_cluster'] = $id_cluster;
-		$this->db->update('tweb_keluarga', $data_kel);
+		if (!empty($data_kel)) $this->db->update('tweb_keluarga', $data_kel);
 		// Ubah dusun/rw/rt untuk semua anggota keluarga
 		if ($id_cluster AND $id_cluster != '') {
 			$this->db->where('id_kk',$id);

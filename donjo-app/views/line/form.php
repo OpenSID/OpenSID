@@ -1,54 +1,53 @@
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
-<div id="contentpane">
-<form id="validasi" action="<?php  echo $form_action?>" method="POST">
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<table class="form">
-<tr>
-<th width="100">Nama Kategori</th>
-<td><input class="inputbox" type="text" name="nama" value="<?php  echo $line['nama']?>" size="40"/></td>
-</tr>
-<tr>
-	<th>Warna</th>
-	<td>
-		<input class="color inputbox" size="7" value="<?php  echo $line['color']?>" name="color">
-	</td>
-</tr>
-<?php   /*
-<tr>
-	<th>Simbol</th>
-	<td>
-		<input class="" type="file" name="simbol" value="<?php  echo $line['simbol']?>" size="20"/>
-	</td>
-</tr>
-<th>Tipe line</th>
-	<td>
-		<input class="inputbox" type="file" name="simbol" value="<?php  echo $line['simbol']?>" size="20"/>
-		<div class="uiradio">
-			<input type="radio" id="sx1" name="tipe" value="1"/<?php  if($line['tipe'] == '1' OR $line['tipe'] == ''){echo 'checked';}?>>
-			<label for="sx1">line Atas</label>
-			<input type="radio" id="sx2" name="tipe" value="2"/<?php  if($line['tipe'] == '2'){echo 'checked';}?>>
-			<label for="sx2">line Kiri</label>
-		</div>
-	</td>
-</tr>
-*/?>
-</table>
-</div>
-   
-<div class="ui-layout-south panel bottom">
-<div class="left">
-<a href="<?php  echo site_url()?>line" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
-</div>
-</div>
-</div> </form>
-</div>
-</td></tr></table>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Kategori Tipe Garis</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('line')?>"><i class="fa fa-dashboard"></i> Daftar Tipe Garis</a></li>
+			<li class="active">Pengaturan Kategori Tipe Garis</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+	<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-3">
+          <?php $this->load->view('plan/nav.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?=site_url("line")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Garis
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-sm-3">Nama Kategori Garis</label>
+								<div class="col-sm-7">
+									<input name="nama" class="form-control input-sm" type="text" value="<?=$line['nama']?>"></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-3">Warna</label>
+								<div class="col-sm-4">
+									<div class="input-group my-colorpicker2">
+										<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?=  $line['color']?>">
+										<div class="input-group-addon input-sm">
+											<i></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>

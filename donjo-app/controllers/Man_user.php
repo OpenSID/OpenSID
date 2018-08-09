@@ -46,10 +46,11 @@ class Man_user extends CI_Controller{
 		$data['keyword'] = $this->user_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$menu['act']='man_user';
+		$nav['act']= 11;
+		$nav['act_sub'] = 44;
 
 		$this->load->view('header', $header);
-		$this->load->view('man_user/nav');
+		$this->load->view('nav', $nav);
 		$this->load->view('man_user/manajemen_user_table',$data);
 		$this->load->view('footer');
 	}
@@ -71,9 +72,11 @@ class Man_user extends CI_Controller{
 
 		$data['grup'] = $this->user_model->list_grup();
 		$header = $this->header_model->get_data();
+		$nav['act']= 11;
+		$nav['act_sub'] = 44;
 
 		$this->load->view('header', $header);
-		$this->load->view('man_user/nav');
+		$this->load->view('nav', $nav);
 		$this->load->view('man_user/manajemen_user_form',$data);
 		$this->load->view('footer');
 	}

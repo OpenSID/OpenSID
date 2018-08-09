@@ -2,17 +2,17 @@
 <div id="pageC">
 <table class="inner">
 <tr style="vertical-align:top">
-<?php  /*
+<?php /*
 <td class="side-lokasi">
 
 <fieldset>
 <legend>Kategori lokasi</legend>
 <div class="llokasi">
 <ul>
-<li <?php  if($tip==1)echo "class='selected'";?>><a href="<?php  echo site_url("plan/index/1")?>">Atas</a></li>
-<li <?php  if($tip==2)echo "class='selected'";?>><a href="<?php  echo site_url("plan/index/2")?>">Atas Kiri</a></li>
+<li <?php if($tip==1)echo "class='selected'";?>><a href="<?php echo site_url("plan/index/1")?>">Atas</a></li>
+<li <?php if($tip==2)echo "class='selected'";?>><a href="<?php echo site_url("plan/index/2")?>">Atas Kiri</a></li>
 
-<?php  /*
+<?php /*
 <li ><a href="Samping">Samping</a></li>
 <li ><a href="Tengah">Tengah</a></li>
 <li ><a href="Bawah">Bawah</a></li>
@@ -34,8 +34,8 @@
 <div class="ui-layout-north panel">
 <div class="left">
 <div class="uibutton-group">
-<a href="<?php  echo site_url("plan/ajax_add_sub_lokasi/$lokasi")?>" target="ajax-modal" rel="window" header="Tambah Sub lokasi" class="uibutton tipsy south" title="Tambah Sub lokasi"><span class="fa fa-plus-square">&nbsp;</span>Tambah lokasi Baru</a>
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php  echo site_url("plan/delete_all/")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
+<a href="<?php echo site_url("plan/ajax_add_sub_lokasi/$lokasi")?>" target="ajax-modal" rel="window" header="Tambah Sub lokasi" class="uibutton tipsy south" title="Tambah Sub lokasi"><span class="fa fa-plus-square">&nbsp;</span>Tambah lokasi Baru</a>
+<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("plan/delete_all/")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
 </div>
 </div>
 </div>
@@ -59,33 +59,33 @@
 </tr>
 </thead>
 <tbody>
-<?php  foreach($sublokasi as $data){?>
+<?php foreach($sublokasi as $data){?>
 <tr>
-<td align="center" width="2"><?php  echo $data['no']?></td>
+<td align="center" width="2"><?php echo $data['no']?></td>
 <td align="center" width="5">
-<input type="checkbox" name="id_cb[]" value="<?php  echo $data['id']?>" />
+<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
 </td>
 <td>
-	<a href="<?php  echo site_url("plan/ajax_add_sub_lokasi/$lokasi/$data[id]")?>" class="fa fa-edit tipsy south" target="ajax-modal" rel="window" header="Edit lokasi" title="Ubah Data"></a>
-	<a href="<?php  echo site_url("plan/delete_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
-	<?php  if($data['enabled'] == '2'):?>
-		<a href="<?php  echo site_url("lokasi_lock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-lock tipsy south" title="Enable lokasi"></a>
-	<?php  elseif($data['enabled'] == '1'): ?>
-		<a href="<?php  echo site_url("lokasi_unlock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-unlock tipsy south" title="Disable lokasi"></a>
-	<?php  endif;?>
+	<a href="<?php echo site_url("plan/ajax_add_sub_lokasi/$lokasi/$data[id]")?>" class="fa fa-edit tipsy south" target="ajax-modal" rel="window" header="Edit lokasi" title="Ubah Data"></a>
+	<a href="<?php echo site_url("plan/delete_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-trash tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"></a>
+	<?php if($data['enabled'] == '2'):?>
+		<a href="<?php echo site_url("lokasi_lock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-lock tipsy south" title="Enable lokasi"></a>
+	<?php elseif($data['enabled'] == '1'): ?>
+		<a href="<?php echo site_url("lokasi_unlock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-unlock tipsy south" title="Disable lokasi"></a>
+	<?php endif;?>
 </td>
-<td width="150"><?php  echo $data['nama']?></td>
-<td width="50"><?php  echo $data['aktif']?></td>
-<td align="center" width="50"><img src="<?php  echo base_url(LOKASI_FOTO_LOKASI)?>/<?php  echo $data['simbol']?>"></td>
+<td width="150"><?php echo $data['nama']?></td>
+<td width="50"><?php echo $data['aktif']?></td>
+<td align="center" width="50"><img src="<?php echo base_url(LOKASI_FOTO_LOKASI)?>/<?php echo $data['simbol']?>"></td>
 <td></td>
-<?php  }?>
+<?php }?>
 </tbody>
 </table>
 </div>
 </form>
 <div class="ui-layout-south panel bottom">
 <div class="left">
-<a href="<?php  echo site_url()?>plan/index/1" class="uibutton icon prev">Kembali</a>
+<a href="<?php echo site_url()?>plan/index/1" class="uibutton icon prev">Kembali</a>
 </div>
 <div class="right">
 </div>

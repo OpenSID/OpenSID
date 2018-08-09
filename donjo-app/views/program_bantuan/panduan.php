@@ -1,47 +1,48 @@
-<?php
-/*
- * program.php
- * 
- * Backend View untuk Program Bantuan
- * 
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- * 
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- * 
- * 
- */
+<div class="content-wrapper">
+	<section class="content-header">
+		<?php if ($tampil == 0):?>
+			<h1>Panduan Program Bantuan</h1>
+		<?php else:?>
+			<h1>Panduan Program Bantuan dengan Sasaran <?=$sasaran[$tampil];?></h1>
+		<?php endif;?>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
+			<li class="active"> Bantuan</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+					</div>
+					<div class="box-body">
+						<h4>Keterangan</h4>
+						<p><strong>Program Bantuan</strong> adalah modul untuk pengelolaan data aktivitas program kerja dan keterlibatan warga, baik secara personal, keluarga, rumah tangga, maupun kelompok/organisasi.</p>
+						<h4>Panduan</h4>
+						<p>Cara menyimpan/memperbarui data Program Bantuan adalah dengan mengisikan formulir yang terdapat dari menu Tulis Program Bantuan Baru:</p>
+						<p>
+							<ul>
+								<li>Kolom <strong>Sasaran Program</strong>
+									<p>Pilihlah salah satu dari sasaran program, apakah pribadi/perorangan, keluarga/kk, Rumah Tangga, ataupu Organisasi/kelompok warga</p>
+								</li>
+								<li>Kolom <strong>Nama Program</strong>
+									<p>Nama program wajib diisi</p>
+								</li>
+								<li>Kolom <strong>Keterangan Program</strong>
+									<p>Isikan keterangan program ini</p>
+								</li>
+								<li>Kolom <strong>Rentang Waktu</strong>
+									<p>Isikan keterangan waktu masa kerja program akan berlangsung</p>
+								</li>
+							</ul>
+						</p>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
 
-?>
-<h4>Keterangan</h4>
-<p><strong>Program Bantuan</strong> adalah modul untuk pengelolaan data aktivitas program kerja dan keterlibatan warga, baik secara personal, keluarga, rumah tangga, maupun kelompok/organisasi.</p>
-<h4>Panduan</h4>
-<p>Cara menyimpan/memperbarui data Program Bantuan adalah dengan mengisikan formulir yang terdapat dari menu Tulis Program Bantuan Baru:</p>
-<p>
-	<ul>
-		<li>Kolom <strong>Sasaran Program</strong>
-		<p>Pilihlah salah satu dari sasaran program, apakah pribadi/perorangan, keluarga/kk, Rumah Tangga, ataupu Organisasi/kelompok warga</p>
-		</li>
-		<li>Kolom <strong>Nama Program</strong>
-		<p>Nama program wajib diisi</p>
-		</li>
-		<li>Kolom <strong>Keterangan Program</strong>
-		<p>Isikan keterangan program ini</p>
-		</li>
-		<li>Kolom <strong>Rentang Waktu</strong>
-		<p>Isikan keterangan waktu masa kerja program akan berlangsung</p>
-		</li>
-	</ul>
-</p>

@@ -69,11 +69,11 @@ class Area extends CI_Controller{
 		$data['list_subpolygon']        = $this->plan_area_model->list_subpolygon();
 
 		$header= $this->header_model->get_data();
-		$nav['act']=4;
-
+		$header['minsidebar'] =1;
+		$nav['act']=8;
+		$nav['tip']= 4;
 		$this->load->view('header', $header);
-
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('area/table',$data);
 		$this->load->view('footer');
 
@@ -98,11 +98,12 @@ class Area extends CI_Controller{
 		}
 
 		$header= $this->header_model->get_data();
-
-		$nav['act']=4;
+		$header['minsidebar'] =1;
+		$nav['act']=8;
+		$nav['tip']= 4;
 		$this->load->view('header', $header);
 
-		$this->load->view('plan/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('area/form',$data);
 		$this->load->view('footer');
 

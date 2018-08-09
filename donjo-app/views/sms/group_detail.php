@@ -1,124 +1,155 @@
-<script>
-	$(function() {
-		var keyword = <?php echo $keyword?> ;
-		$( "#cari" ).autocomplete({
-			source: keyword
-		});
-	});
-</script>
-
-<div id="pageC">
-	<table class="inner">
-	<tr style="vertical-align:top">
-	<td class="side-menu">
-		<fieldset>
-			<div class="lmenu">
-				<ul>
-				<li><a href="<?php echo site_url('sms/kontak')?>">Daftar Kontak</a></li>
-				<li  class="selected"><a href="<?php echo site_url('sms/group')?>">Group Kontak</a></li>
-				</ul>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Daftar Kontak</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Pengaturan Daftar Kontak</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">SMS</h3>
+							<div class="box-tools">
+								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+							</div>
+						</div>
+						<div class="box-body no-padding">
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="<?=site_url('sms/kontak')?>"><i class="fa fa-phone"></i> Daftar Kontak</a></li>
+               	<li class="active"><a href="<?=site_url('sms/group')?>"><i class="fa fa-list"></i> Group Kontak</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?=site_url("sms/form_anggota/$grup[nama_grup]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Group"  class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("sms/delete_all_anggota/$grup[nama_grup]")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<form id="mainform" name="mainform" action="" method="post">
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="box-tools">
+														<div class="input-group input-group-sm pull-right">
+															<input name="cari_anggota" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('sms/search_anggota/$grup[nama_grup]')?>');$('#'+'mainform').submit();endif">
+															<div class="input-group-btn">
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered dataTable table-hover">
+															<thead class="bg-gray disabled color-palette">
+																<tr>
+																	<th><input type="checkbox" id="checkall"/></th>
+																	<th>No</th>
+																	<th>Aksi</th>
+																	<th>Nama Anggota</th>
+																	<th>Jenis Kelamin</th>
+																	<th>Alamat</th>
+																	<th>No HP</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php foreach ($main as $data):?>
+																	<tr>
+																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id_kontak']?>" /></td>
+																		<td><?=$data['no']?></td>
+																		<td nowrap>
+																			<a href="#" data-href="<?=site_url("sms/anggota_delete/$data[nama_grup]/$data[id_kontak]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		</td>
+                                    <td><a href="<?=site_url("penduduk/detail/$p/$o/$data[id]")?>"><?=unpenetration($data['nama'])?></a></td>
+																		<td><?=$data['sex']?></td>
+																		<td><?=$data['alamat_sekarang']?></td>
+																		<td><?=$data['no_hp']?></td>
+																	</tr>
+																<?php endforeach; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</form>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="dataTables_length">
+                          <form id="paging" action="<?= site_url("sms/anggota/$data[nama_grup]")?>" method="post" class="form-horizontal">
+                            <label>
+                              Tampilkan
+                              <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
+                              </select>
+                              Dari
+                              <strong><?= $paging->num_rows?></strong>
+                              Total Data
+                            </label>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                          <ul class="pagination">
+                            <?php if ($paging->start_link): ?>
+                              <li><a href="<?=site_url("sms/anggota/$data[nama_grup]/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
+                              <li><a href="<?=site_url("sms/anggota/$data[nama_grup]/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                              <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("sms/anggota/$data[nama_grup]/$i/$o")?>"><?= $i?></a></li>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
+                              <li><a href="<?=site_url("sms/anggota/$data[nama_grup]/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
+                              <li><a href="<?=site_url("sms/anggota/$data[nama_grup]/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                            <?php endif; ?>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-		</fieldset>
-		
-	</td>
-		</td>
-		<td style="background:#fff;padding:5px;"> 
-<div class="content-header">
-    <h3>Manajemen Anggota Group Kontak <?php  //foreach($main as $data): endforeach;?><?php echo $grup['nama_grup']?><?php   ?></h3>
+		</form>
+	</section>
 </div>
-<div id="contentpane">    
-	<form id="mainform" name="mainform" action="" method="post">
-    <div class="ui-layout-north panel">
-        <div class="left">
-            <div class="uibutton-group">
-                <a href="<?php echo site_url("sms/form_anggota/$grup[nama_grup]")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modalx" rel="window" header="Tambah Anggota"><span class="fa fa-plus-square">&nbsp;</span>Tambah Anggota</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("sms/delete_all_anggota/$grup[nama_grup]")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
-            </div>
-        </div>
-    </div>
 
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-        <div class="table-panel top">
-            <div class="right">
-                <input name="cari_anggota" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari_anggota?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
-            </div>
-        </div>
-
-        <table class="list">
-		<thead>
-		    	<tr>
-				<th width="5%">No</th>
-				<th width="5%"><input type="checkbox" class="checkall"/></th>
-				<th width="5%" >Aksi</th>
-				<th width="25%">Nama Anggota</th>
-			    <th width="15%">Jenis Kelamin</th>	
-			    <th >Alamat</th>	
-			    <th width="15%">No HP</th>	
-		   	 </tr>
-		</thead>
-		<tbody>
-        		<?php  $no=1; foreach($main as $data): ?>
-			<tr>
-		  		<td align="center" width="2"><?php echo $no?></td>
-				<td align="center" width="5">
-					<input type="checkbox" name="id_cb[]" value="<?php echo $data['id_kontak']?>" />
-				</td>
-		  		<td align="center">
-				    <a href="<?php echo site_url("sms/anggota_delete/$data[nama_grup]/$data[id_kontak]")?>" class="uibutton tipsy south"  title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
-		  		</td>
-				 <td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo unpenetration($data['nama'])?></a></td>
-				 <td><?php echo $data['sex']?></td>
-				 <td><?php echo $data['alamat_sekarang']?></td>
-				 <td align="center"><?php echo $data['no_hp']?></td>
-			</tr>
-      			<?php  $no++; endforeach; ?>
-		</tbody>
-        </table>
-	<?php  if($main){ ?>
-    	</div>
-	</form>
-    <div class="ui-layout-south panel bottom">
-        <div class="left"> 
-		<div class="table-info">
-          <form id="paging" action="<?php echo site_url("sms/anggota/$data[nama_grup]")?>" method="post">
-		  <label>Tampilkan</label>
-            <select name="per_page" onchange="$('#paging').submit()" >
-              <option value="20" <?php  selected($per_page,20); ?> >20</option>
-              <option value="50" <?php  selected($per_page,50); ?> >50</option>
-              <option value="100" <?php  selected($per_page,100); ?> >100</option>
-            </select>
-            <label>Dari</label>
-            <label><strong><?php echo $paging->num_rows?></strong></label>
-            <label>Total Data</label>
-          </form>
-          </div>
-        </div>
-        <div class="right">
-            <div class="uibutton-group">
-            <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
-			<?php  endif; ?>
-			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
-			<?php  endif; ?>
-            </div>
-            <div class="uibutton-group">
-                
-				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-				<?php  endfor; ?>
-            </div>
-            <div class="uibutton-group">
-			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
-			<?php  endif; ?>
-			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("sms/anggota/$data[nama_grup]/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
-			<?php  endif; }?>
-            </div>
-        </div>
-    </div>
-</div>
-</td></tr></table>
-</div>

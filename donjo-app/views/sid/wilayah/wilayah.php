@@ -1,159 +1,195 @@
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
-	$(function() {
-		var keyword = <?php echo $keyword?> ;
-		$( "#cari" ).autocomplete({
-			source: keyword
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
 		});
 	});
 </script>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Wilayah Administratif <?= ucwords($this->setting->sebutan_dusun)?></h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Daftar <?= ucwords($this->setting->sebutan_dusun)?></li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?=site_url('sid_core/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah Dusun</a>
+						<a href="<?= site_url('sid_core/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
+						<a href="<?= site_url('sid_core/excel')?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<form id="mainform" name="mainform" action="" method="post">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="box-tools">
+													<div class="input-group input-group-sm pull-right">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action','<?=site_url('sid_core/search')?>');$('#'+'mainform').submit();};">
+														<div class="input-group-btn">
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?=site_url("sid_core/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered dataTable table-hover">
+														<thead class="bg-gray disabled color-palette">
+															<tr>
+																<th><input type="checkbox" id="checkall"/></th>
+																<th>No</th>
+																<th>Aksi</th>
+																<th width="25%"> <?= ucwords($this->setting->sebutan_dusun)?></th>
+																<th width="35%">Kepala <?= ucwords($this->setting->sebutan_dusun)?></th>
+																<th>RW</th>
+																<th>RT</th>
+																<th>KK</th>
+																<th>Jiwa</th>
+																<th>LK</th>
+																<th>PR</th>
 
-<div id="pageC">
-<!-- Start of Space Admin -->
-	<table class="inner">
-	<tr style="vertical-align:top">
+															</tr>
+														</thead>
+														<tbody>
+															<?php
+																$total = array();
 
-<td style="background:#fff;padding:0px;">
-<div id="contentpane">
-	<form id="mainform" name="mainform" action="" method="post">
-    <div class="ui-layout-north panel">
-    <h3>Wilayah Administratif <?php echo ucwords($this->setting->sebutan_dusun)?></h3>
-        <div class="left">
-            <div class="uibutton-group">
-                <a href="<?php echo site_url('sid_core/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah <?php echo ucwords($this->setting->sebutan_dusun)?></a>
-                <a href="<?php echo site_url('sid_core/cetak')?>" target="_blank" class="uibutton tipsy south" title="Cetak Data" ><span class="fa fa-print">&nbsp;</span>Cetak</a>
-		<a href="<?php echo site_url('sid_core/excel')?>" target="_blank" class="uibutton tipsy south" title="Unduh Data" ><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
-            </div>
-        </div>
-		<div class="right">
-			<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('sid_core/search')?>');$('#'+'mainform').submit();}" />
-			<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('sid_core/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
+																$total['total_rw'] = 0;
+																$total['total_rt'] = 0;
+																$total['total_kk'] = 0;
+																$total['total_warga'] = 0;
+																$total['total_warga_l'] = 0;
+																$total['total_warga_p'] = 0;
+
+																foreach ($main as $data):
+															?>
+																	<tr>
+																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
+																		<td><?= $data['no']?></td>
+																		<td nowrap>
+																			<a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a>
+																			<a href="<?= site_url("sid_core/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																			<?php if ($grup==1):?>
+																				<a href="#" data-href="<?= site_url("sid_core/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php endif; ?>
+																		</td>
+																		<td><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+																		<td nowrap><strong><?= strtoupper(unpenetration($data['nama_kadus']))?></strong> - <?= $data['nik_kadus']?></td>
+																		<td><a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rw']?></a></td>
+																		<td><?= $data['jumlah_rt']?></td>
+																		<td><a href="<?= site_url("sid_core/warga_kk/$data[id]")?>"><?= $data['jumlah_kk']?></a></td>
+																		<td><a href="<?= site_url("sid_core/warga/$data[id]")?>"><?= $data['jumlah_warga']?></a></td>
+																		<td><a href="<?= site_url("sid_core/warga_l/$data[id]")?>"><?= $data['jumlah_warga_l']?></a></td>
+																		<td><a href="<?= site_url("sid_core/warga_p/$data[id]")?>"><?= $data['jumlah_warga_p']?></a></td>
+																	</tr>
+																	<?php
+																		$total['total_rw'] += $data['jumlah_rw'];
+																		$total['total_rt'] += $data['jumlah_rt'];
+																		$total['total_kk'] += $data['jumlah_kk'];
+																		$total['total_warga'] += $data['jumlah_warga'];
+																		$total['total_warga_l'] += $data['jumlah_warga_l'];
+																		$total['total_warga_p'] += $data['jumlah_warga_p'];
+
+																endforeach;
+															?>
+														</tbody>
+														<tfoot>
+															<tr>
+																<th colspan="5"><label>TOTAL</label></th>
+																<th><?= $total['total_rw']?></th>
+																<th><?= $total['total_rt']?></th>
+																<th><?= $total['total_kk']?></th>
+																<th><?= $total['total_warga']?></th>
+																<th><?= $total['total_warga_l']?></th>
+																<th><?= $total['total_warga_p']?></th>
+															</tr>
+														</tfoot>
+													</table>
+												</div>
+											</div>
+										</div>
+									</form>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="dataTables_length">
+												<form id="paging" action="<?= site_url("sid_core")?>" method="post" class="form-horizontal">
+													<label>
+														Tampilkan
+														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+															<option value="20" <?php selected($per_page,20); ?> >20</option>
+															<option value="50" <?php selected($per_page,50); ?> >50</option>
+															<option value="100" <?php selected($per_page,100); ?> >100</option>
+														</select>
+														Dari
+														<strong><?= $paging->num_rows?></strong>
+														Total Data
+													</label>
+												</form>
+											</div>
+										</div>
+										<div class="col-sm-6">
+                      <div class="dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                          <?php if ($paging->start_link): ?>
+                            <li><a href="<?=site_url("sid_core/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                          <?php endif; ?>
+                          <?php if ($paging->prev): ?>
+                            <li><a href="<?=site_url("sid_core/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                          <?php endif; ?>
+                          <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+               	            <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("sid_core/index/$i/$o")?>"><?= $i?></a></li>
+                          <?php endfor; ?>
+                          <?php if ($paging->next): ?>
+                            <li><a href="<?=site_url("sid_core/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                          <?php endif; ?>
+                          <?php if ($paging->end_link): ?>
+                            <li><a href="<?=site_url("sid_core/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                          <?php endif; ?>
+                        </ul>
+                      </div>
+                    </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+									</div>
+									<div class='modal-body btn-info'>
+										Apakah Anda yakin ingin menghapus data ini?
+									</div>
+									<div class='modal-footer'>
+										<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+										<a class='btn-ok'>
+											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-    </div>
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-        <div class="table-panel top">
-            <div class="left">
-            </div>
-        </div>
-        <table class="list">
-		<thead>
-            <tr>
-                <th width="5">No</th>
-                <th width="5"><input type="checkbox" class="checkall"/></th>
-                <th width="120">Aksi</th>
-				<th width="200">Nama <?php echo ucwords($this->setting->sebutan_dusun)?></th>
-				<th width="200">Nama Kepala <?php echo ucwords($this->setting->sebutan_dusun)?></th>
-				<th width="50">RW</th>
-				<th width="50">RT</th>
-				<th width="50">KK</th>
-				<th width="50">Jiwa</th>
-				<th width="50">LK</th>
-				<th width="50">PR</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-        <?php
-        $total = array();
-
-        $total['total_rw'] = 0;
-        $total['total_rt'] = 0;
-        $total['total_kk'] = 0;
-        $total['total_warga'] = 0;
-        $total['total_warga_l'] = 0;
-        $total['total_warga_p'] = 0;
-
-        foreach($main as $data): ?>
-		<tr>
-          <td align="center" width="2"><?php echo $data['no']?></td>
-			<td align="center" width="5">
-				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-			</td>
-			<td width="4" align="center"><div class="uibutton-group">
-
-<a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Rincian Sub Wilayah"><span class="fa fa-bars"></span> Rincian</a>
-<a href="<?php echo site_url("sid_core/form/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a>
-
-<?php  if($grup==1){?>
-				<a href="<?php echo site_url("sid_core/delete/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin? Menghapus data dusun akan mempengaruhi struktur data yang ada dibawah dusun. pilih tidak untuk membatalkan penghapusan." header="Hapus Data"><span class="fa fa-trash"></span></a><?php  } ?>
+	</section>
 </div>
-			</td>
-			<td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
-			<td><?php echo strtoupper(unpenetration($data['nama_kadus']))?></td>
 
-			<td align="center"><a href="<?php echo site_url("sid_core/sub_rw/$data[id]")?>" title="Rincian Sub Wilayah"><?php echo $data['jumlah_rw']?></a></td>
-			<td align="center"><?php echo $data['jumlah_rt']?></td>
-			<td align="center"><a href="<?php echo site_url("sid_core/warga_kk/$data[id]")?>"><?php echo $data['jumlah_kk']?></a></td>
-			<td align="center"><a href="<?php echo site_url("sid_core/warga/$data[id]")?>"><?php echo $data['jumlah_warga']?></a></td>
-			<td align="center"><a href="<?php echo site_url("sid_core/warga_l/$data[id]")?>"><?php echo $data['jumlah_warga_l']?></a></td>
-			<td align="center"><a href="<?php echo site_url("sid_core/warga_p/$data[id]")?>"><?php echo $data['jumlah_warga_p']?></a></td>
-				<td></td>
-		</tr>
-        <?php
-        $total['total_rw'] += $data['jumlah_rw'];
-        $total['total_rt'] += $data['jumlah_rt'];
-        $total['total_kk'] += $data['jumlah_kk'];
-        $total['total_warga'] += $data['jumlah_warga'];
-        $total['total_warga_l'] += $data['jumlah_warga_l'];
-        $total['total_warga_p'] += $data['jumlah_warga_p'];
-
-
-        endforeach; ?>
-		</tbody>
-
-            <tr style="background-color:#BDD498;font-weight:bold;">
-                <td colspan="5" align="center"><label>TOTAL</label></td>
-				<td align="center"><?php echo $total['total_rw']?></td>
-				<td align="center"><?php echo $total['total_rt']?></td>
-				<td align="center"><?php echo $total['total_kk']?></td>
-				<td align="center"><?php echo $total['total_warga']?></td>
-				<td align="center"><?php echo $total['total_warga_l']?></td>
-				<td align="center"><?php echo $total['total_warga_p']?></td>
-				<td></td>
-			</tr>
-        </table>
-    </div>
-	</form>
-    <div class="ui-layout-south panel bottom">
-        <div class="left">
-		<div class="table-info">
-          <form id="paging" action="<?php echo site_url('sid_core')?>" method="post">
-		  <label>Tampilkan</label>
-            <select name="per_page" onchange="$('#paging').submit()" >
-              <option value="50" <?php  selected($per_page,50); ?> >50</option>
-              <option value="100" <?php  selected($per_page,100); ?> >100</option>
-              <option value="200" <?php  selected($per_page,200); ?> >200</option>
-            </select>
-            <label>Dari</label>
-            <label><strong><?php echo $paging->num_rows?></strong></label>
-            <label>Total Data</label>
-          </form>
-          </div>
-        </div>
-        <div class="right">
-            <div class="uibutton-group">
-            <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("sid_core/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
-			<?php  endif; ?>
-			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("sid_core/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
-			<?php  endif; ?>
-            </div>
-            <div class="uibutton-group">
-
-				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-				<a href="<?php echo site_url("sid_core/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-				<?php  endfor; ?>
-            </div>
-            <div class="uibutton-group">
-			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("sid_core/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
-			<?php  endif; ?>
-			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("sid_core/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
-			<?php  endif; ?>
-            </div>
-        </div>
-    </div>
-</div>
-</td></tr></table>
-</div>

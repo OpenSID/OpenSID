@@ -1,48 +1,97 @@
-<tr class="perdes">
-	<th>Uraian Singkat</th>
-  <td><input name="attr[uraian]" type="text" class="perdes inputbox" size="100" value="<?php echo $dokumen['attr']['uraian']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>Jenis Peraturan</th>
-  <td><input name="attr[jenis_peraturan]" type="text" class="perdes inputbox" size="30" value="<?php echo $dokumen['attr']['jenis_peraturan']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>Nomor Ditetapkan</th>
-  <td><input name="attr[no_ditetapkan]" type="text" class="perdes inputbox" size="30" value="<?php echo $dokumen['attr']['no_ditetapkan']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>Tgl Ditetapkan</th>
-  <td><input name="attr[tgl_ditetapkan]" type="text" class="perdes inputbox datepicker" size="20" value="<?php echo $dokumen['attr']['tgl_ditetapkan']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>Tgl Kesepakatan</th>
-  <td><input name="attr[tgl_kesepakatan]" type="text" class="perdes inputbox datepicker" size="20" value="<?php echo $dokumen['attr']['tgl_kesepakatan']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>Nomor Dilaporkan</th>
-  <td><input name="attr[no_lapor]" type="text" class="perdes inputbox" size="30" value="<?php echo $dokumen['attr']['no_lapor']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>Tgl Dilaporkan</th>
-  <td><input name="attr[tgl_lapor]" type="text" class="perdes inputbox datepicker" size="20" value="<?php echo $dokumen['attr']['tgl_lapor']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>No. Diundangkan Dlm Lembaran Desa</th>
-  <td><input name="attr[no_lembaran_desa]" type="text" class="perdes inputbox" size="30" value="<?php echo $dokumen['attr']['no_lembaran_desa']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>Tgl Diundangkan Dlm Lembaran Desa</th>
-  <td><input name="attr[tgl_lembaran_desa]" type="text" class="perdes inputbox datepicker" size="20" value="<?php echo $dokumen['attr']['tgl_lembaran_desa']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>No. Diundangkan Dlm Berita Desa</th>
-  <td><input name="attr[no_berita_desa]" type="text" class="perdes inputbox" size="30" value="<?php echo $dokumen['attr']['no_berita_desa']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>Tgl Diundangkan Dlm Berita Desa</th>
-  <td><input name="attr[tgl_berita_desa]" type="text" class="perdes inputbox datepicker" size="20" value="<?php echo $dokumen['attr']['tgl_berita_desa']?>"/></td>
-</tr>
-<tr class="perdes">
-	<th>Keterangan</th>
-  <td><input name="attr[keterangan]" type="text" class="perdes inputbox" size="100" value="<?php echo $dokumen['attr']['keterangan']?>"/></td>
-</tr>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Uraian Singkat</label>
+	<div class="col-sm-6">
+		<input name="attr[uraian]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['uraian']?>"></input>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Jenis Peraturan</label>
+	<div class="col-sm-6">
+		<input name="attr[jenis_peraturan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['jenis_peraturan']?>"></input>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Nomor Ditetapkan</label>
+	<div class="col-sm-6">
+		<input name="attr[no_ditetapkan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_ditetapkan']?>"></input>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Tgl Ditetapkan</label>
+	<div class="col-sm-6">
+    <div class="input-group input-group-sm date">
+			<div class="input-group-addon">
+		  	<i class="fa fa-calendar"></i>
+			</div>
+		  <input id="tgl_1" name="attr[tgl_ditetapkan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_ditetapkan']?>"></input>
+    </div>
+  </div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Tgl Kesepakatan</label>
+	<div class="col-sm-6">
+    <div class="input-group input-group-sm date">
+			<div class="input-group-addon">
+		  	<i class="fa fa-calendar"></i>
+			</div>
+		  <input id="tgl_2" name="attr[tgl_kesepakatan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_kesepakatan']?>"></input>
+    </div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Nomor Dilaporkan</label>
+	<div class="col-sm-6">
+		<input name="attr[no_lapor]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_lapor']?>"></input>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Tgl Dilaporkan</label>
+	<div class="col-sm-6">
+    <div class="input-group input-group-sm date">
+			<div class="input-group-addon">
+		  	<i class="fa fa-calendar"></i>
+			</div>
+		  <input id="tgl_3" name="attr[tgl_lapor]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_lapor']?>"></input>
+    </div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">No. Diundangkan Dlm Lembaran Desa</label>
+	<div class="col-sm-6">
+		<input name="attr[no_lembaran_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_lembaran_desa']?>"></input>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Tgl Diundangkan Dlm Lembaran Desa</label>
+	<div class="col-sm-6">
+    <div class="input-group input-group-sm date">
+			<div class="input-group-addon">
+		  	<i class="fa fa-calendar"></i>
+			</div>
+		  <input id="tgl_4" name="attr[tgl_lembaran_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_lembaran_desa']?>"></input>
+    </div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">No. Diundangkan Dlm Berita Desa</label>
+	<div class="col-sm-6">
+		<input name="attr[no_berita_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_berita_desa']?>"></input>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Tgl Diundangkan Dlm Berita Desa</label>
+	<div class="col-sm-6">
+    <div class="input-group input-group-sm date">
+			<div class="input-group-addon">
+		  	<i class="fa fa-calendar"></i>
+			</div>
+		  <input id="tgl_5" name="attr[tgl_berita_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_berita_desa']?>"></input>
+    </div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-4" for="nama">Tgl Diundangkan Dlm Berita Desa</label>
+	<div class="col-sm-6">
+		<input name="attr[keterangan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['keterangan']?>"></input>
+	</div>
+</div>

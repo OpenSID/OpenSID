@@ -1,0 +1,23 @@
+Rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+
+Terima kasih pada Diego Dafma, yang terus berkontribusi. Terima kasih juga pada Agung Sugiarto yang baru mulai kontribusi.
+
+Lengkapnya, isi rilis versi 18.08-pasca:
+
+1. Perubahan tampilan modul Admin, termasuk perbaikan semua script terkait.
+2. #1438: Sekarang penduduk lepas dengan status mati/pindah/hilang tidak tampil ganda. [bug-fix]
+3. #1184: Sekarang judul dan jenis widget bisa diubah. [bug-fix]
+4. Perbaiki tautan ke info donasi di opensid.info
+5. #1439: Sekarang biodata penduduk dgn status mati/pindah/hilang tidak bisa diubah. [bug-fix]
+6. #1381: Sekarang fitur cari periode analisis berfungsi normal. [bug-fix]
+7. #1173: Sekarang di SMS > Kontak > Daftar Kontak, detail kontak penduduk menampilkan data penduduk yang benar. [bug-fix]
+8. #1411: Tombol paginasi di Admin Web > Artikel sekarang tampil dengan benar. [bug-fix]
+9. #1483: Kolom isian yg tdk digunakan di Surat Keterangan Domisili Usaha telah dihapus. [bug-fix]
+10. #1261: Sekarang Peta muncul walaupun terdapat tanda kutip pada nama item peta. [bug-fix]
+
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+
+Perhatian: Modul Sekretariat > Inventaris Desa akan dihilangkan pada rilis September 2018 karena telah diganti dengan modul Inventaris baru. Pastikan memindahkan semua data ke format Inventaris baru sebelum rilis tersebut.
+
+

@@ -133,12 +133,13 @@ class Dpt extends CI_Controller{
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
+		$nav['act']= 2;
+		$nav['act_sub'] = 26;
 		$header = $this->header_model->get_data();
-
-		$nav['act']= 5;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 
-		$this->load->view('sid/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('dpt/dpt',$data);
 		$this->load->view('footer');
 	}

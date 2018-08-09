@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '18.06-pasca');
+define("VERSION", '18.08-pasca');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -414,10 +414,16 @@ function httpPost($url, $params)
         curl_setopt($ch, CURLOPT_POST, count($postData));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
+        // Paksa tidak menunggu hasil tracker
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+        curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
         $output = curl_exec($ch);
 
-        if (curl_exec($ch) === false) {
-            echo 'Curl error: ' . curl_error($ch);
+        if ($output === false) {
+            // echo 'Curl error: ' . curl_error($ch);
         }
         curl_close($ch);
         return $output;
@@ -608,7 +614,13 @@ function max_upload()
 
 function get_external_ip()
 {
-    $externalContent = file_get_contents('http://checkip.dyndns.com/');
+    // Batasi waktu mencoba
+    $options = stream_context_create(array('http'=>
+        array(
+        'timeout' => 2 //2 seconds
+        )
+    ));
+    $externalContent = file_get_contents('http://checkip.dyndns.com/', false, $options);
     preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $externalContent, $m);
     $externalIp = $m[0];
     return $externalIp;

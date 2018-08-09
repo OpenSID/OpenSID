@@ -1,111 +1,146 @@
-<style type="text/css">
-  td.center {text-align: center;}
-  .fa-unlock {color: #752100}
-</style>
-<script>
-	$(function() {
-		var keyword = <?php echo $keyword?> ;
-		$( "#cari" ).autocomplete({
-			source: keyword
-		});
-	});
-</script>
-<div id="pageC">
-<!-- Start of Space Admin -->
-	<table class="inner">
-	<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;">
-<div class="content-header">
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?=site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Staf">
+  	          <i class="fa fa-plus"></i>Tambah Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?>
+            </a>
+            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("pengurus/delete_all")?>')" class="btn btn-social btn-flat		btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+              <i class='fa fa-trash-o'></i> Hapus Data Terpilih
+            </a>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<form id="mainform" name="mainform" action="" method="post">
+										<div class="row">
+											<div class="col-sm-6">
+												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?=site_url('pengurus/filter')?>')">
+													<option value="">Semua</option>
+													<option value="1" <?php if ($filter==1 ):?>selected<?php endif?>>Aktif</option>
+													<option value="2" <?php if ($filter==2 ):?>selected<?php endif?>>Tidak Aktif</option>
+												</select>
+											</div>
+											<div class="col-sm-6">
+												<div class="box-tools">
+													<div class="input-group input-group-sm pull-right">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?=site_url('pengurus/search')?>');$('#'+'mainform').submit();}">
+														<div class="input-group-btn">
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?=site_url("pengurus/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table  class="table table-bordered dataTable table-hover">
+														<thead class="bg-gray disabled color-palette">
+															<tr>
+																<th><input type="checkbox" id="checkall" ></th>
+																<th>No</th>
+																<th width='12%'>Aksi</th>
+																<th class="text-center">Foto</th>
+																<th width='50%'>Nama / NIP /NIK</th>
+																<th>Jabatan</th>
+																<th>Status</th>
+															</tr>
+														</thead>
+														<tbody>
+															<?php foreach ($main as $data): ?>
+																<tr>
+																	<td>
+																		<?php if ($data['username']!='siteman'):?>
+																			<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+																		<?php endif; ?>
+																	</td>
+																	<td><?=$data['no']?></td>
+																	<td nowrap>
+																		<?php if ($data['pamong_id']!="707"):?>
+																			<a href="<?= site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+																			<?php if ($data['pamong_ttd'] == '1'):?>
+																				<a href="<?= site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD default"><i class="fa fa-pencil"></i></a>
+																			<?php else : ?>
+																				<a href="<?= site_url('pengurus/ttd_on/'.$data['pamong_id'])?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD default"><i  class="fa fa-user"></i></a>
+																			<?php endif?>
+																			<a href="#" data-href="<?= site_url("pengurus/delete/$data[pamong_id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php endif?>
+																	</td>
+																	<td class="text-center">
+																		<div class="user-panel">
+																			<div class="image2">
+																				<?php if ($data['foto']):?>
+																					<img src="<?=AmbilFoto($data['foto'])?>" class="img-circle" alt="User Image"/>
+																				<?php else:?>
+																					<img src="<?=base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
+																				<?php endif?>
+																			</div>
+																		</div>
+																	</td>
+																	<td>
+																		<?= unpenetration($data['pamong_nama'])?>
+																		<p class='text-blue'>
+																			<i>NIP :<?=$data['pamong_nip']?></i></br>
+																			<i>NIK :<?=$data['pamong_nik']?></i>
+																		</p>
+																	</td>
+																	<td><?= unpenetration($data['jabatan'])?></td>
+																	<td>
+																		<?php if ($data['pamong_status'] == '1'): ?>
+																			<div title="Aktif">
+																				<center><i class='fa fa-unlock fa-lg text-yellow'></i></center>
+																			</div>
+																		<?php else: ?>
+																			<div title="Tidak Aktif">
+																				<center><i class='fa fa-lock fa-lg text-green'></i></center>
+																			</div>
+																		<?php endif; ?>
+																	</td>
+																</tr>
+															<?php endforeach; ?>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+									</div>
+									<div class='modal-body btn-info'>
+										Apakah Anda yakin ingin menghapus data ini?
+									</div>
+									<div class='modal-footer'>
+										<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+										<a class='btn-ok'>
+											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
 
-</div>
-<div id="contentpane">
-	<form id="mainform" name="mainform" action="" method="post">
-    <div class="ui-layout-north panel">
-      <div class="left"><h3>Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></h3>
-        <div class="uibutton-group">
-          <a href="<?php echo site_url('pengurus/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></a>
-          <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("pengurus/delete_all")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
-        </div>
-      </div>
-    </div>
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-      <div class="table-panel top">
-        <div class="left">
-          <select name="filter" onchange="formAction('mainform','<?php echo site_url('pengurus/filter')?>')">
-            <option value="">Semua</option>
-            <option value="1" <?php if($filter==1 ) :?>selected<?php endif?>>Aktif</option>
-            <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Tidak Aktif</option>
-          </select>
-        </div>
-        <div class="right">
-          <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('pengurus/search')?>');$('#'+'mainform').submit();}" />
-          <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('pengurus/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
-        </div>
-      </div>
-        <table class="list">
-      		<thead>
-            <tr>
-              <th width="5">No</th>
-              <th width="10"><input type="checkbox" class="checkall"/></th>
-              <th width="100">Aksi</th>
-      				<th align="left">Nama</th>
-      				<th align="left" width="150">N.I.P</th>
-      				<th align="left">Jabatan</th>
-      				<th align="left">Status</th>
-              <th align="left">Foto</th>
-      				<th>&nbsp;</th>
-      			</tr>
-      		</thead>
-      		<tbody>
-            <?php  foreach($main as $data){ ?>
-          		<tr>
-                <td align="center" width="2"><?php echo $data['no']?></td>
-          			<td align="center" width="5">
-          				<input type="checkbox" name="id_cb[]" value="<?php echo $data['pamong_id']?>" />
-          			</td>
-                <td width="5">
-                  <div class="uibutton-group">
-                    <?php if($data['pamong_id']!="707"){?>
-                      <a href="<?php echo site_url("pengurus/form/$data[pamong_id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
-                      <?php if($data['pamong_ttd'] == '1'):?>
-                          <a href="<?php echo site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Bukan TTD default"><span  class="fa fa-pencil"></span></a>
-                      <?php else : ?>
-                          <a href="<?php echo site_url('pengurus/ttd_on/'.$data['pamong_id'])?>" class="uibutton tipsy south" title="Jadikan TTD default"><span  class="fa fa-user"></span></a>
-                      <?php endif?>
-                      <a href="<?php echo site_url("pengurus/delete/$data[pamong_id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
-                    <?php }?>
-                  </div>
-                </td>
-                <td><?php echo $data['pamong_nama']?></td>
-          			<td><?php echo $data['pamong_nip']?></td>
-                <td><?php echo $data['jabatan']?></td>
-                <td class="center">
-                  <?php if($data['pamong_status'] == '1') : ?>
-                    <div class="tipsy south" title="Aktif">
-                      <span class="fa fa-unlock fa-lg"></span>
-                    </div>
-                  <?php else: ?>
-                    <div class="tipsy south" title="Tidak Aktif">
-                      <span class="fa fa-lock fa-lg"></span>
-                    </div>
-                  <?php endif; ?>
-                </td>
-                <td>
-                  <label class="tipsy west" title="<img width='150' src='<?php echo AmbilFoto($data['foto']) ?>'>"><?php echo $data['foto']?></label>
-                </td>
-        				<td>&nbsp;</td>
-        		  </tr>
-            <?php }?>
-      		</tbody>
-        </table>
-      </div>
-  	</form>
-    <div class="ui-layout-south panel bottom">
-      <div class="left">
-      </div>
-      <div class="right">
-      </div>
-    </div>
-  </div>
-</td></tr></table>
-</div>

@@ -1,5 +1,5 @@
 <script>
-$(function(){ 
+$(function(){
 	var skpd_select_width = (parseInt($('#skpd_select').width())/2)-100;
 	$('#skpd_select div').css('width',700);
 	$('#skpd_select input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
@@ -11,7 +11,7 @@ $(function(){
 		} else {
 			$(this).parent().css({'background':'#fafafa','border':'1px solid #ddd'});
 		}
-	});	
+	});
 	$('#skpd_select label').click(function(){
 		$(this).prev().trigger('click');
 	})
@@ -55,9 +55,9 @@ $(function(){
 	}?>
 </table>
     </div>
-   
+
     <div class="ui-layout-south panel bottom">
-        <div class="left">     
+        <div class="left">
             <a href="<?php echo site_url()?>admin_manajemen_responden" class="uibutton icon prev">Kembali</a>
         </div>
         <div class="right">

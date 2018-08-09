@@ -1,131 +1,145 @@
-<div id="pageC">
-	<table class="inner">
-	<tr style="vertical-align:top">
-		<td style="background:#fff;padding:5px;">
-			<div id="contentpane">
-			<div class="ui-layout-north panel">
-				<div class="left">
-					<div class="uibutton-group">
-						<a href="<?php echo site_url('mandiri/ajax_pin')?>" target="ajax-modal" rel="window" header="PIN Warga" class="uibutton tipsy south" title="PIN Warga" ><span class="fa fa-plus">&nbsp;</span>Hasilkan PIN</a>
-					</div>
-				</div>
-			</div>
-			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-				<table class="list">
-					<thead>
-						<tr>
-							<th>No</th>
-							<th width="100px">Aksi</th>
-							<th align="left">NIK</th>
-							<th align="left">Nama Penduduk</th>
-							<th align="left" width='160'>Tanggal Buat</th>
-							<th align="left" width='160'>Login Terakhir</th>
-
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach($main as $data): ?>
-							<tr>
-								<td align="center" width="2"><?php echo $data['no']?></td>
-								<td> <div class="uibutton-group">
-									<a href="<?php echo site_url("mandiri/delete/$p/$o/$data[id_pend]")?>" class="uibutton tipsy south fa-tipis" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span> Hapus</a>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Layanan Mandiri</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Layanan Mandiri</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?=site_url('mandiri/ajax_pin')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-plus'></i> Hasilkan PIN</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<form id="mainform" name="mainform" action="" method="post">
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered dataTable table-hover">
+															<thead class="bg-gray disabled color-palette">
+																<tr>
+																	<th>No</th>
+																	<th>Aksi</th>
+																	<th>NIK</th>
+																	<th>Nama Penduduk</th>
+																	<th>Tanggal Buat</th>
+																	<th>Login Terakhir</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php foreach ($main as $data):?>
+																	<tr>
+																		<td><?=$data['no']?></td>
+																		<td nowrap>
+																			<a href="#" data-href="<?=site_url("mandiri/delete/$p/$o/$data[id_pend]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		</td>
+																		<td>
+																			<?=$data['nik'];?>
+																			<?php if ($data['nik'] != $data['nik_lama']): ?>
+																				(Berubah dari: <?=$data['nik_lama']?>)
+																			<?php endif?>
+																		</td>
+																		<td width="50%"><?=unpenetration($data['nama'])?></td>
+																		<td nowrap><?=tgl_indo2($data['tanggal_buat'])?></td>
+																		<td nowrap><?=tgl_indo2($data['last_login'])?></td>
+																	</tr>
+																<?php endforeach; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</form>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="dataTables_length">
+                          <form id="paging" action="<?= site_url("mandiri")?>" method="post" class="form-horizontal">
+                            <label>
+                              Tampilkan
+                              <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
+                              </select>
+                              Dari
+                              <strong><?= $paging->num_rows?></strong>
+                              Total Data
+                            </label>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                          <ul class="pagination">
+                            <?php if ($paging->start_link): ?>
+                              <li><a href="<?=site_url("mandiri/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
+                              <li><a href="<?=site_url("mandiri/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                              <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("mandiri/index/$i/$o")?>"><?= $i?></a></li>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
+                              <li><a href="<?=site_url("mandiri/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
+                              <li><a href="<?=site_url("mandiri/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                            <?php endif; ?>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
 									</div>
-								</td>
-								<td>
-									<?php echo $data['nik'];
-										if ($data['nik'] != $data['nik_lama'])
-											echo " (Berubah dari: ".$data['nik_lama'].")";
-									?>
-
-								</td>
-								<td><?php echo unpenetration($data['nama'])?></td>
-								<td><?php echo tgl_indo2($data['tanggal_buat'])?></td>
-								<td><?php echo tgl_indo2($data['last_login'])?></td>
-							</tr>
-						<?php
-						endforeach;
-						?>
-					</tbody>
-				</table>
-			</div>
-			<div class="ui-layout-south panel bottom">
-				<div class="left">
-					<div class="table-info">
-					<form id="paging" action="<?php echo site_url('mandiri')?>" method="post">
-						<label>Tampilkan</label>
-						<select name="per_page" onchange="$('#paging').submit()" >
-							<option value="20" <?php  selected($per_page,20); ?> >20</option>
-							<option value="50" <?php  selected($per_page,50); ?> >50</option>
-							<option value="100" <?php  selected($per_page,100); ?> >100</option>
-						</select>
-						<label>Dari</label>
-						<label><strong><?php echo $paging->num_rows?></strong></label>
-						<label>Total Data</label>
-					</form>
-					</div>
-				</div>
-				<div class="right">
-					<div class="uibutton-group">
-						<?php  if($paging->start_link): ?>
-						<a href="<?php echo site_url("mandiri/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
-						<?php  endif; ?>
-						<?php  if($paging->prev): ?>
-						<a href="<?php echo site_url("mandiri/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
-						<?php  endif; ?>
-					</div>
-					<div class="uibutton-group">
-						<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-						<a href="<?php echo site_url("mandiri/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-						<?php  endfor; ?>
+								</div>
 							</div>
-							<div class="uibutton-group">
-						<?php  if($paging->next): ?>
-						<a href="<?php echo site_url("mandiri/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
-						<?php  endif; ?>
-						<?php  if($paging->end_link): ?>
-									<a href="<?php echo site_url("mandiri/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
-						<?php  endif; ?>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div  class="modal fade" id="pinBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header btn-info'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-white'></i> PIN Warga</h4>
+										</div>
+										<div class='modal-body'>
+											Berikut adalah kode pin yang baru saja di hasilkan, silakan dicatat atau di ingat dengan baik, kode pin ini sangat rahasia, dan hanya bisa dilihat sekali ini lalu setelah itu hanya bisa di reset saja. <br /> <h4>Kode PIN : <?=$_SESSION['pin'];?>
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		</td></tr>
-	</table>
+		</form>
+	</section>
 </div>
-<script type="text/javascript">
-	$(function(){
-	<?php if($_SESSION['pin']){ ?>
-		modalpin('pin','PIN WARGA','Berikut adalah kode pin yang baru saja di hasilkan, silakan dicatat atau di ingat dengan baik, kode pin ini sangat rahasia, dan hanya bisa dilihat sekali ini lalu setelah itu hanya bisa di reset saja. <br /> <h4>Kode PIN : <?php echo $_SESSION['pin']; ?></h4>');
-	<?php }?>
 
-	function modalpin(id,title,message,width,height){
-	  if (width==null || height==null){
-		width='500';
-		height='auto';
-	  }
-	  $('#'+id+'').remove();
-	  $('body').append('<div id="'+id+'" title="'+title+'" style="display:none;">'+message+'</div>');
-			$('#'+id+'').dialog({
-				resizable: false,
-				draggable: true,
-		  width:width,
-		  height:height,
-		  autoOpen: true,
-			modal: false,
-		  dragStart: function(event, ui) {
-			$(this).parent().addClass('drag');
-		  },
-		  dragStop: function(event, ui) {
-			$(this).parent().removeClass('drag');
-		  },buttons: {
-					"OK": function() {
-						$('#'+id+'').remove();
-						$( this ).dialog( "close" );
-				}
-			}
-		});
-	  $('#'+id+'').dialog('open');
-	  }
-	});
-</script>
-<?php unset($_SESSION['pin']); ?>

@@ -596,7 +596,7 @@
 		}
 		return $data;
 	}
-	function data_unduh($p=0,$o=0){
+	function data_unduh(){
 		$per 			= $this->get_aktif_periode();
 		$master 		= $this->get_analisis_master();
 		$id_kelompok 	= $master['id_kelompok'];
@@ -678,7 +678,7 @@
 
 		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
 		$sql .= $order_sql;
-		$query 	= $this->db->query($sql,$master);
+		$query 	= $this->db->query($sql,$_SESSION['analisis_master']);
 		$data	= $query->result_array();
 
 		$i=0;
@@ -702,7 +702,7 @@
 
 		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
 		$sql .= $order_sql;
-		$query 	= $this->db->query($sql,$master);
+		$query 	= $this->db->query($sql,$_SESSION['analisis_master']);
 		$data	= $query->result_array();
 
 		$i=0;
@@ -927,13 +927,17 @@
 			if(count($respon)>0)
 				$outp = $this->db->insert_batch('analisis_respon',$respon);
 			else
+			{
 				$outp = false;
+				$_SESSION['error_msg'] = 'Tidak ada data';
+			}
 		}
 
 		$this->pre_update();
 
 		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		else
+			$_SESSION['success']=-1;
 	}
 
 	private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon) {

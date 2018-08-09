@@ -51,8 +51,10 @@ class Dokumen_sekretariat extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
+		$nav['act']= 15;
+		$nav['act_sub'] = $this->tab_ini;
 		$this->load->view('header', $header);
-		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/table',$data);
 		$this->load->view('footer');
 	}
@@ -72,12 +74,14 @@ class Dokumen_sekretariat extends CI_Controller{
 			$data['dokumen']     = null;
 			$data['form_action'] = site_url("dokumen_sekretariat/insert");
 		}
-
+		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$header = $this->header_model->get_data();
-
 		$this->_set_tab($kat);
+		$nav['act']= 15;
+		$nav['act_sub'] = $this->tab_ini;
+
 		$this->load->view('header', $header);
-		$this->load->view('sekretariat/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/form',$data);
 		$this->load->view('footer');
 	}
@@ -154,15 +158,15 @@ class Dokumen_sekretariat extends CI_Controller{
 	private function _set_tab($kat){
 		switch ($kat) {
 			case '2':
-				$this->tab_ini = 3;
+				$this->tab_ini = 59;
 				break;
 
 			case '3':
-				$this->tab_ini = 4;
+				$this->tab_ini = 60;
 				break;
 
 			default:
-				$this->tab_ini = 3;
+				$this->tab_ini = 59;
 				break;
 		}
 	}

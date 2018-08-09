@@ -1,17 +1,22 @@
-<form action="<?php echo $form_action?>" method="post" id="validasi">
-<table style="width:100%">
-<tr>
-	<th align="left">Nomor Rumah Tangga</th>
-	<td>
-		<input type="text" name="no_kk" value="<?php echo $kk['no_kk']?>" class="inputbox required">
-	</td>
-</tr>
-</tbody>
- </table>
-<div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
- <div class="uibutton-group">
- <button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span>Tutup</button>
- <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
- </div>
-</div>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<form action="<?= $form_action?>" method="post" id="validasi">
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box box-danger">
+					<div class="box-body">
+						<div class="form-group">
+							<label for="rtm_nomor">Nomor Rumah Tangga</label>
+							<input id="no_kk" name="no_kk" class="form-control input-sm required" type="text" placeholder="Nomor Rumah Tangga" value="<?php echo $kk['no_kk']?>" ></input>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+	</div>
 </form>

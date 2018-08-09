@@ -1,89 +1,104 @@
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;">
-<div class="content-header">
-<h3>Edit Properti / Lokasi</h3>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Lokasi</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('plan')?>"><i class="fa fa-dashboard"></i> Daftar Lokasi</a></li>
+			<li class="active">Pengaturan Lokasi</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+	<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-3">
+          <?php $this->load->view('plan/nav.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?=site_url("plan")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Lokasi
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-sm-3">Nama Lokasi / Properti</label>
+								<div class="col-sm-7">
+									<input name="nama" class="form-control input-sm required" type="text" value="<?=$lokasi['nama']?>"></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-3">Kategori</label>
+								<div class="col-sm-7">
+									<select class="form-control input-sm" id="ref_point" name="ref_point" style="width:100%;">
+									<option value="">Kategori</option>
+									<?php  foreach ($list_point AS $data):?>
+										<option <?php  if ($lokasi['ref_point']==$data['id']):?>selected<?php  endif?> value="<?= $data['id']?>"><?= $data['nama']?></option>
+									<?php  endforeach;?>
+									</select>
+								</div>
+							</div>
+							<?php if ($lokasi["foto"]):?>
+								<div class="form-group">
+									<label class="control-label col-sm-3"></label>
+									<div class="col-sm-7">
+									  <img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_FOTO_LOKASI?>kecil_<?= $lokasi['foto']?>" alt="Photo">
+									</div>
+								</div>
+							<?php endif;?>
+							<div class="form-group">
+								<label class="control-label col-sm-3">Ganti Foto</label>
+								<div class="col-sm-7">
+									<div class="input-group input-group-sm">
+										<input type="text" class="form-control" id="file_path">
+										<input id="file" type="file" class="hidden" name="foto">
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+										</span>
+									</div>
+									<p class="help-block small">Kosongi jika tidak ingin merubah Foto.</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Keterangan</label>
+								<div class="col-sm-7">
+									<textarea id="desk" name="desk" class="form-control input-sm required" style="height: 200px;"><?= $lokasi['desk']?></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-lg-3 control-label" for="status">Status</label>
+								<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($lokasi['enabled'] =='1' OR $lokasi['enabled'] == NULL): ?>active<?php endif ?>">
+										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($lokasi['enabled'] =='1' OR $lokasi['enabled'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									</label>
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($lokasi['enabled'] == '2' ):?>active<?php endif?>">
+										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($lokasi['enabled'] == '2' ):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>
-<div id="contentpane">
-<form id="validasi" action="<?php  echo $form_action?>" method="POST" enctype="multipart/form-data">
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<table class="form">
-<tr>
-<th width="100">Nama Lokasi / Porperti</th>
-<td><input class="inputbox" type="text" name="nama" value="<?php  echo $lokasi['nama']?>" size="60"/></td>
-</tr>
-<tr>
-	<th>Kategori</th>
-	<td>
-		<select name="ref_point">
-			<option value="">Kategori</option>
-			<?php  foreach($list_point AS $data){?>
-			<option <?php  if($lokasi['ref_point']==$data['id']) :?>selected<?php  endif?> value="<?php  echo $data['id']?>"><?php  echo $data['nama']?></option>
-			<?php  }?>
-		</select>
-	</td>
-</tr>
-
-<?php  if($lokasi["foto"]!=""){?>
-<tr>
-	<th>Foto</th>
-	<td>
-		<div class="userbox-avatar">
-			<img src="<?php  echo base_url().LOKASI_FOTO_LOKASI?>kecil_<?php  echo $lokasi['foto']?>"/>
-		</div>
-	</td>
-</tr>
-<?php  }?>
-<tr>
-	<th>Ganti Foto</th>
-	<td>
-		<input class="" type="file" name="foto" value="<?php  echo $lokasi['foto']?>" size="30"/>
-		)* Kosongi jika tidak ingin merubah Foto.
-	</td>
-</tr>
-<tr>
-<th width="100">Keterangan</th>
-<td><textarea name="desk" style="resize:none;width:400px;height:200px;"><?php  echo $lokasi['desk']?></textarea></td>
-</tr>
-<tr>
-<th>Status</th>
-	<td>
-		<div class="uiradio">
-			<input type="radio" id="sx1" name="enabled" value="1"/<?php  if($lokasi['enabled'] == '1' OR $lokasi['enabled'] == ''){echo 'checked';}?>>
-			<label for="sx1">Aktif</label>
-			<input type="radio" id="sx2" name="enabled" value="2"/<?php  if($lokasi['enabled'] == '2'){echo 'checked';}?>>
-			<label for="sx2">Non Aktif</label>
-		</div>
-	</td>
-</tr>
-
-<?php   /*
-<th>Tipe lokasi</th>
-	<td>
-		<div class="uiradio">
-			<input type="radio" id="sx1" name="tipe" value="1"/<?php  if($lokasi['tipe'] == '1' OR $lokasi['tipe'] == ''){echo 'checked';}?>>
-			<label for="sx1">lokasi Atas</label>
-			<input type="radio" id="sx2" name="tipe" value="2"/<?php  if($lokasi['tipe'] == '2'){echo 'checked';}?>>
-			<label for="sx2">lokasi Kiri</label>
-		</div>
-	</td>
-</tr>
-*/?>
-</table>
-</div>
-
-<div class="ui-layout-south panel bottom">
-<div class="left">
-<a href="<?php  echo site_url()?>plan" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
-</div>
-</div>
-</div> </form>
-</div>
-</td></tr></table>
-</div>
+<script>
+	function reset_form()
+	{
+		<?php if ($lokasi['enabled'] =='1' OR $lokasi['enabled'] == NULL): ?>
+			$("#sx3").addClass('active');
+			$("#sx4").removeClass("active");
+		<?php endif ?>
+		<?php if ($lokasi['enabled'] =='2'): ?>
+			$("#sx4").addClass('active');
+			$("#sx3").removeClass("active");
+		<?php endif ?>
+	};
+</script>
