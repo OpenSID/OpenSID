@@ -32,7 +32,7 @@
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
 			id: 'mapbox.streets'
 		}).addTo(peta_desa);
-		var posisi_penduduk = L.marker(posisi, {draggable: <?php echo ($penduduk['status_dasar'] == 1 ? "true" : "false"); ?>}).addTo(peta_desa);
+		var posisi_penduduk = L.marker(posisi, {draggable: <?php echo ($penduduk['status_dasar'] == 1  || !isset($penduduk['status_dasar']) ? "true" : "false"); ?>}).addTo(peta_desa);
 		posisi_penduduk.on('dragend', function(e){
 			document.getElementById('lat').value = e.target._latlng.lat;
 			document.getElementById('lng').value = e.target._latlng.lng;
@@ -59,7 +59,7 @@
 	</div>
 	<div class="modal-footer">
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-    <?php if($penduduk['status_dasar'] == 1): ?>
+    <?php if($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
 		  <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_penduduk" data-dismiss="modal"><i class='fa fa-check'></i> Simpan</button>
 	  <?php endif; ?>
   </div>

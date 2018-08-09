@@ -477,7 +477,7 @@
 				</div>
 			</div>
 		</div>
-    <?php if($penduduk['status_dasar_id'] == 1): ?>
+    <?php if($penduduk['status_dasar_id'] == 1 || !isset($penduduk['status_dasar_id'])): ?>
       <div class='box-footer'>
         <div class='col-xs-12'>
           <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
