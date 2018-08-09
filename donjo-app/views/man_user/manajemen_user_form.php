@@ -1,3 +1,4 @@
+<?php $this->load->helper('form') ?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Form Manajemen Pengguna</h1>
@@ -9,7 +10,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<?=form_open($form_action, 'id="validasi" enctype="multipart/form-data" class="form-horizontal"')?>
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">

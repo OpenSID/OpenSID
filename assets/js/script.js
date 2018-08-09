@@ -354,3 +354,28 @@ function cari_nik()
 	});
 }
 
+;(function()
+{
+	$(document).ready(updateCsrfToken)
+	$(document).ajaxComplete(updateCsrfToken)
+
+	function updateCsrfToken()
+	{
+		var csrf_param = $('meta[name=csrf-param]').attr('content')
+		var csrf_token = document.cookie.match(new RegExp(csrf_param +'=(\\w+)'))[1]
+		$('meta[name=csrf-token]').attr('content', csrf_token)
+		$('form').find('input[name='+ csrf_param +']').val(csrf_token)
+	}
+
+	// automatically send CSRF token for all AJAX requests
+	$.ajaxPrefilter(function (options, originalOptions, xhr)
+	{
+		var csrf_param = $('meta[name=csrf-param]').attr('content')
+		var csrf_token = $('meta[name=csrf-token]').attr('content')
+
+		if (!options.crossDomain && options.type !== 'GET')
+		{
+			options.data = (options.data||'') + '&'+ csrf_param +'='+ csrf_token
+		}
+	})
+})()

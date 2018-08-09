@@ -1,3 +1,4 @@
+<?php $this->load->helper('form') ?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Setting Aplikasi</h1>
@@ -8,7 +9,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form action="<?=site_url('setting/update')?>" method="POST" class="form-horizontal">
+			<?=form_open(site_url('setting/update'), 'class="form-horizontal"')?>
 				<div class="col-md-12">
 					<div class="box box-primary">
 						<div class="box-body">
