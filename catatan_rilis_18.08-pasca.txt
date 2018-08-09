@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 8. #1411: Tombol paginasi di Admin Web > Artikel sekarang tampil dengan benar. [bug-fix]
 9. #1483: Kolom isian yg tdk digunakan di Surat Keterangan Domisili Usaha telah dihapus. [bug-fix]
 10. #1261: Sekarang Peta muncul walaupun terdapat tanda kutip pada nama item peta. [bug-fix]
+11. #1138: Sekarang fitur cari berjalan normal di Sekretariat > SK Kades, Sekretariat > Perdes dan Admin Web > Dokumen. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
