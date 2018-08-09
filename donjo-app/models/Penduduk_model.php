@@ -417,7 +417,7 @@
 				LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
 				LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
 				LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
-				LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE 1 ";
+				LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE u.status_dasar = 1 ";
 
 		$sql .= $this->keluarga_sql();
 		$sql .= $this->search_sql();
