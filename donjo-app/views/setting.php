@@ -1,3 +1,4 @@
+<?php $this->load->helper('form') ?>
 <style>
 .bawah{
 	position:absolute;
@@ -6,7 +7,8 @@
 	width:430px;
 }
 </style>
-<form action="<?php echo site_url("user_setting/update/$main[id]")?>" method="POST" id="validasi" enctype="multipart/form-data">
+<?=form_open(site_url("user_setting/update/$main[id]"), 'id="validasi" enctype="multipart/form-data"')?>
+<form action="<?php echo site_url()?>" method="POST" >
 <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 	<table>
 		<input name="nama" type="hidden" value="<?php echo $main['nama']?>" />
