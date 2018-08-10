@@ -1,6 +1,6 @@
-Rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
+Rilis ini menggabungkan hasil pekerjaan Memodernkan Tampilan Modul Administrasi. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
-Terima kasih pada Diego Dafma, yang terus berkontribusi. Terima kasih juga pada Agung Sugiarto yang baru mulai kontribusi.
+Terima kasih pada Diego Dafma dan Yusup Hambali yang terus berkontribusi. Terima kasih juga pada Agung Sugiarto yang baru mulai kontribusi.
 
 Lengkapnya, isi rilis versi 18.08-pasca:
 
@@ -17,6 +17,7 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 11. #1138: Sekarang fitur cari berjalan normal di Sekretariat > SK Kades, Sekretariat > Perdes dan Admin Web > Dokumen. [bug-fix]
 12. #1584: Sekarang peta hanya menampilkan lokasi penduduk dengan status dasar HIDUP. [bug-fix]
 13. #1553: Sekarang Surat Izin Keramaian menampilkan waktu berlaku tidak tanggal saja. [bug-fix]
+14. #1176: Sekarang fitur anti-CSRF CI sudah diaktifkan untuk mencegah serangan CSRF. [security-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
