@@ -1,3 +1,4 @@
+<?php $this->load->helper('form') ?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<?php if($modul['parent']!='0'):?>
@@ -16,7 +17,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row" >
-			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
+			<?=form_open($form_action, 'id=validasi enctype=multipart/form-data class=form-horizontal')?>
 				<div class="col-md-12">
 					<div class="box box-primary">
 						<div class="box-header with-border">

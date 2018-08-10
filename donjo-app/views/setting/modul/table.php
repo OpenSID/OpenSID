@@ -1,3 +1,4 @@
+<?php $this->load->helper('form') ?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Manajemen modul</h1>
@@ -7,7 +8,8 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<?=form_open(null, 'id=mainform name=mainform')?>
+		<!-- <form id="mainform" name="mainform" action="" method="post"> -->
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
@@ -101,4 +103,3 @@
 		</form>
 	</section>
 </div>
-

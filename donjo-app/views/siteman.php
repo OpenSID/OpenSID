@@ -1,3 +1,4 @@
+<?php $this->load->helper('form') ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -39,7 +40,7 @@
 								<hr />
 							</div>
 							<div class="form-bottom">
-								<form class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
+								<?=form_open(site_url('siteman/auth'), 'class=login-form')?>
 									<?php if ($_SESSION['siteman_wait']==1): ?>
 										<div class="error login-footer-top">
 										<p style="color:red; text-transform:uppercase">Gagal 3 kali, silakan coba kembali dalam <?= waktu_ind((time()- $_SESSION['siteman_timeout'])*(-1));?> lagi</p>

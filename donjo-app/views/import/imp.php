@@ -5,7 +5,7 @@
 															<h3 class="box-title"><strong>Impor Data Kependudukan</strong></h3>
 														</div>
 														<div class="box-body">
-															<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
+															<?=form_open($form_action, 'id=excell enctype="multipart/form-data" class="form-horizontal"')?>
 																<div class="row">
 																	<div class="col-sm-12">
 																		<p>Mempersiapkan data dengan bentuk excel untuk Impor ke dalam database SID : </p>
@@ -104,7 +104,7 @@
 														<h3 class="box-title"><strong>Impor Pengelompokan Data Rumah Tanggal</strong></h3>
 													</div>
 													<div class="box-body">
-														<form action="<?=$form_action3?>" method="post" enctype="multipart/form-data" id="kelompok" class="form-horizontal">
+														<?=form_open($form_action3, 'id=kelompok enctype="multipart/form-data" class="form-horizontal"')?>
 															<div class="row">
 																<div class="col-sm-12">
 																	<p>Pengelompokan data penduduk yang sudah tersimpan di dalam database SID, sehingga terkelompokkan secara otomatis berdasarkan nomor urut rumah tangga: </p>
