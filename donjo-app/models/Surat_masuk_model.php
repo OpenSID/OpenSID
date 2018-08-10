@@ -203,7 +203,7 @@
 		$indikatorSukses = FALSE;
 
 		// Hapus lampiran lama?
-		$hapusLampiranLama = ($data['gambar_hapus'] == 'YA');
+		$hapusLampiranLama = $data['gambar_hapus'];
 		unset($data['gambar_hapus']);
 
 		$uploadData = NULL;
@@ -267,16 +267,15 @@
 		// Tidak ada file upload
 		else
 		{
-			if ($hapusLampiranLama === TRUE)
+			unset($data['berkas_scan']);
+			if ($hapusLampiranLama)
 			{
+				$data['berkas_scan'] = NULL;
 				$adaBerkasLamaDiDisk = file_exists($lokasiBerkasLama);
 				$oldFileRemoved = $adaBerkasLamaDiDisk && unlink($lokasiBerkasLama);
 				$_SESSION['error_msg'] = ($oldFileRemoved === TRUE)
 					? NULL : ' -> Gagal menghapus berkas lama';
-
 			}
-
-			$data['berkas_scan'] = NULL;
 			$this->db->where('id', $idSuratMasuk);
 			$databaseUpdated = $this->db->update('surat_masuk', $data);
 			$_SESSION['error_msg'] = ($databaseUpdated === TRUE)
