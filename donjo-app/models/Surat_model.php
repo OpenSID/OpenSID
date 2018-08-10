@@ -1000,19 +1000,28 @@
 				"tanggallahir_ayah", "tanggallahir_ibu", "tgl_lahir_wali", "tgl_nikah",
 				"tanggal_pindah", "tanggal_nikah", "tanggallahir_wali", "tanggallahir_suami_dulu", "tanggallahir_istri_dulu", "tanggallahir_ayah_pria", "tanggallahir_ibu_pria"
 				);
-			foreach ($input as $key => $entry){
+			foreach ($input as $key => $entry)
+      {
 				// Isian tanggal diganti dengan format tanggal standar
-				if (in_array($key, $isian_tanggal)){
-					if (is_array($entry)) {
-						for ($i=1; $i<=count($entry); $i++){
+				if (in_array($key, $isian_tanggal))
+        {
+					if (is_array($entry)) 
+          {
+						for ($i=1; $i<=count($entry); $i++)
+            {
 							$str = $key.$i;
-							$buffer=preg_replace("/\[$str\]|\[form_$str\]/",tgl_indo_dari_str($entry[$i-1]),$buffer);
+              //Jika format tanggal adalah 31-12-2018 atau terdapat 10 karakter, maka jalankan tgl_indo_dari_str($waktu)
+              //Jika format tanggal adalah 31-12-2018 23:59 atau terdapat lebih dari 10 karakter, maka jalankan tgl_indo2(tgl_indo_in($waktu))
+							$buffer=preg_replace("/\[$str\]|\[form_$str\]/",(strlen($entry[$i-1]) > 10 ? tgl_indo2(tgl_indo_in($entry[$i-1])) : tgl_indo_dari_str($entry[$i-1])),$buffer);
 						}
-					} else {
-						$buffer=preg_replace("/\[$key\]|\[form_$key\]/",tgl_indo_dari_str($entry),$buffer);
+					}
+          else
+          {
+						$buffer=preg_replace("/\[$key\]|\[form_$key\]/",(strlen($entry) > 10 ? tgl_indo2(tgl_indo_in($entry)) : tgl_indo_dari_str($entry)),$buffer);
 					}
 				}
-				if (!is_array($entry)) {
+				if (!is_array($entry)) 
+        {
 					$buffer=str_replace("[form_$key]",$entry,$buffer);
 					// Diletakkan di bagian akhir karena bisa sama dengan kode isian sebelumnya
 					// dan kalau masih ada dianggap sebagai kode dari form isian
