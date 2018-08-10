@@ -14,6 +14,7 @@ class Dokumen extends CI_Controller{
 				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
+		$this->load->helper('form');
 		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('config_model');
