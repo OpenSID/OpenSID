@@ -7,6 +7,7 @@ class Surat_masuk extends CI_Controller{
 		session_start();
 		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
+		$this->load->helper('form');
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=(1 or 2)) {
