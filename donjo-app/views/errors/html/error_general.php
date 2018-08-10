@@ -1,16 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<?php
-	$ci = new CI_Controller();
-	$ci =& get_instance();
-	$ci->load->helper('url');
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>Error</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css'); ?>" />
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/font-awesome.min.css'); ?>" />
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/errors.css'); ?>" />
+	<<link rel="stylesheet" type="text/css" href="<?php echo '../../assets/bootstrap/css/bootstrap.min.css' ?>" />
+	<link rel="stylesheet" type="text/css" href="<?php echo '../../assets/css/font-awesome.min.css' ?>" />
+	<link rel="stylesheet" type="text/css" href="<?php echo '../../assets/css/errors.css' ?>" />
 </head>
 <body>
 <div class="container">
@@ -24,7 +19,7 @@
 				<?php echo $message; ?>
 
 				Harap laporkan masalah ini, agar kami dapat mencarikan solusinya.
-				Untuk sementara Anda dapat kembali ke halaman <a href="<?php echo base_url(); ?>">awal</a>.
+				Untuk sementara Anda dapat kembali ke halaman <a href="../../index.php">awal</a>.
 			</p>
 		</div>
 
