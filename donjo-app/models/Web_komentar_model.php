@@ -59,10 +59,12 @@
 	function list_data($o=0,$offset=0,$limit=500,$cas=0){
 
 		switch($o){
-			case 1: $order_sql = ' ORDER BY tgl_upload DESC'; break;
-			case 2: $order_sql = ' ORDER BY owner'; break;
-			case 3: $order_sql = ' ORDER BY email'; break;
-			case 4: $order_sql = ' ORDER BY komentar'; break;
+			case 1: $order_sql = ' ORDER BY komentar DESC'; break;
+			case 2: $order_sql = ' ORDER BY komentar'; break;
+			case 3: $order_sql = ' ORDER BY enabled DESC'; break;
+			case 4: $order_sql = ' ORDER BY enabled'; break;
+			case 5: $order_sql = ' ORDER BY tgl_upload DESC'; break;
+			case 6: $order_sql = ' ORDER BY tgl_upload'; break;
 
 			default:$order_sql = ' ORDER BY tgl_upload DESC';
 		}
