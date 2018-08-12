@@ -598,15 +598,20 @@ class Sms extends CI_Controller{
 		$this->load->view('footer');
 		unset($_SESSION['cari_grup']);
 	}
-	function form_grup($id=0){
-		if($id=="0"){
+	function form_grup($id=0)
+  {
+		if ($id == "0")
+    {
 			$data['form_action'] = site_url("sms/grup_insert");
-			$data['grup']['nama_grup']       = "";
-		}else{
-			$data['form_action'] = site_url("sms/grup_update");
-			$data['grup']        = $this->sms_model->get_grup($id);
+			$data['grup']['nama_grup'] = "";
+      $this->load->view('sms/ajax_grup_form',$data);
 		}
-		$this->load->view('sms/ajax_grup_form',$data);
+    else
+    {
+			$data['form_action'] = site_url("sms/grup_update");
+			$data['grup'] = $this->sms_model->get_grup($id);
+      $this->load->view('sms/ajax_grup_form_edit',$data);
+		}
 	}
 
 	function grup_insert(){

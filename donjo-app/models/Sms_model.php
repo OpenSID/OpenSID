@@ -304,7 +304,7 @@
 		return $data;
 	}
 	function get_grup($id=0){
-		$sql   = "SELECT * FROM kontak_grup WHERE nama_grup ='$id' AND id_kontak='0' ";
+		$sql   = "SELECT * FROM kontak_grup WHERE nama_grup ='".rawurldecode($id)."' AND id_kontak='0' ";
 
 		$query = $this->db->query($sql);
 		$data  = $query->row_array();
@@ -567,7 +567,7 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-		$sql   = "SELECT * FROM (SELECT a.nama_grup, (SELECT COUNT(id_kontak) FROM kontak_grup WHERE id_kontak<>'0' AND nama_grup=a.nama_grup) as jumlah_kontak FROM kontak_grup  a WHERE id_kontak='0'  ) AS TB WHERE 1 ";
+		$sql   = "SELECT * FROM (SELECT a.nama_grup, count(a.id_kontak)-1 as jumlah_kontak FROM kontak_grup a group by a.nama_grup) AS TB WHERE 1 ";
 
 		$sql .= $this->search_grup_sql();
 		//$sql .= $this->filter_sql();
@@ -588,19 +588,38 @@
 	}
 
 	function insert_grup($id=0){
-		$data['nama_grup']=$_POST['nama_grup'];
+		$data['nama_grup'] = $_POST['nama_grup'];
 		$data['id_kontak']="-";
-		$outp = $this->db->insert('kontak_grup',$data);
+    $duplikat = count($this->get_grup($data['nama_grup']));
+    if ($duplikat == 0)
+    {
+      $_SESSION['success'] = 1;
+      $outp = $this->db->insert('kontak_grup',$data);
+    }
+    else
+    {
+      $_SESSION['success'] = -1;
+      $_SESSION['error_msg'] = "Nama grup sudah digunakan!";
+    }
 	}
 	function update_grup($id=0){
-		$nama_baru=$_POST['nama_grup'];
-		$nama_awal=$_POST['nama_grup_awal'];
-		$sql   = "UPDATE kontak_grup SET nama_grup='$nama_baru' WHERE nama_grup='$nama_awal'";
-		echo $sql;
-		$query = $this->db->query($sql);
+    $nama_baru= $_POST['nama_grup'];
+    $duplikat = count($this->get_grup($nama_baru));
+    if ($duplikat == 1)
+    {
+		  $nama_awal=$_POST['nama_grup_awal'];
+		  $sql   = "UPDATE kontak_grup SET nama_grup='$nama_baru' WHERE nama_grup='$nama_awal'";
+      $query = $this->db->query($sql);
+      $_SESSION['success'] = 1;
+    }
+    else
+    {
+      $_SESSION['success'] = -1;
+      $_SESSION['error_msg'] = "Nama grup sudah digunakan!";
+    }
 	}
 	function delete_grup($id=0){
-		$sql   = "DELETE FROM kontak_grup WHERE nama_grup='$id' ";
+		$sql   = "DELETE FROM kontak_grup WHERE nama_grup='".rawurldecode($id)."'";
 		$query = $this->db->query($sql);
 	}
 	function delete_all_grup(){
@@ -619,7 +638,7 @@
 	}
 	function search_grup_sql(){
 		if(isset($_SESSION['cari_grup'])){
-		$cari = $_SESSION['cari_grup'];
+		  $cari = $_SESSION['cari_grup'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_grup_sql= " AND (nama_grup LIKE '$kw')";
@@ -654,7 +673,7 @@
 	function list_data_anggota($id=0,$o=0,$offset=0,$limit=500){
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql   = "SELECT a.*,c.*,b.*,(CASE when sex='1' then 'Laki-laki' else 'Perempuan' end) as sex FROM kontak_grup a LEFT JOIN kontak b ON a.id_kontak=b.id LEFT JOIN tweb_penduduk c ON b.id_pend=c.id WHERE a.id_kontak<>'0' AND nama_grup='$id' ";
+		$sql   = "SELECT a.*,c.*,b.*,(CASE when sex='1' then 'Laki-laki' else 'Perempuan' end) as sex FROM kontak_grup a LEFT JOIN kontak b ON a.id_kontak=b.id LEFT JOIN tweb_penduduk c ON b.id_pend=c.id WHERE a.id_kontak<>'0' AND nama_grup='".rawurldecode($id)."' ";
 
 		$sql .= $this->search_anggota_sql();
 		$sql .= $paging_sql;
@@ -684,7 +703,7 @@
 		$id_cb = $_POST['id_cb'];
 		if(count($id_cb)){
 			foreach($id_cb as $a){
-				$sql  =  "INSERT INTO kontak_grup(nama_grup, id_kontak)VALUES('$id','$a')";
+				$sql  =  "INSERT INTO kontak_grup(nama_grup, id_kontak)VALUES('".rawurldecode($id)."','$a')";
 				$outp = $this->db->query($sql,array($id));
 			}
 		}
@@ -694,7 +713,7 @@
 	}
 
 	function delete_anggota($grup=0,$id=0){
-		$sql   = "DELETE FROM kontak_grup WHERE nama_grup='$grup' AND id_kontak='$id'";
+		$sql   = "DELETE FROM kontak_grup WHERE nama_grup='".rawurldecode($grup)."' AND id_kontak='$id'";
 		$query = $this->db->query($sql);
 	}
 
@@ -702,7 +721,7 @@
 		$id_cb = $_POST['id_cb'];
 		if(count($id_cb)){
 			foreach($id_cb as $id){
-				$sql  =  "DELETE FROM kontak_grup WHERE nama_grup='$grup' AND id_kontak='$id'";
+				$sql  =  "DELETE FROM kontak_grup WHERE nama_grup='".rawurldecode($grup)."' AND id_kontak='$id'";
 				$outp = $this->db->query($sql,array($id));
 			}
 		}
