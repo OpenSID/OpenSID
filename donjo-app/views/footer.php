@@ -108,7 +108,7 @@
 					$('#pinBox').modal('show');
 				});
 				<?php unset($_SESSION['pin']) ?>
-			<?php endif?>
+			<?php endif ?>
 		</script>
 	</body>
 </html>

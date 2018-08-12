@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>SMS</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">SMS</li>
 		</ol>
 	</section>
@@ -10,7 +10,7 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
-					<a href="<?=site_url('sms/form/0/0/3')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tulis Pesan Baru"  class="btn btn-primary btn-block margin-bottom">Tulis Pesan Baru</a>
+					<a href="<?= site_url('sms/form/0/0/3')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tulis Pesan Baru"  class="btn btn-primary btn-block margin-bottom">Tulis Pesan Baru</a>
 					<div class="box box-info">
 						<div class="box-header with-border">
 							<h3 class="box-title">SMS</h3>
@@ -20,10 +20,10 @@
 						</div>
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="<?=site_url('sms/clear')?>"><i class="fa fa-inbox"></i> Kotak Masuk</a></li>
-								<li><a href="<?=site_url('sms/outbox')?>"><i class="fa fa-pencil"></i> Tulis Pesan</a></li>
-								<li><a href="<?=site_url('sms/sentitem')?>"><i class="fa fa-envelope-o"></i> Pesan Terkirim</a></li>
-								<li class="active"><a href="<?=site_url('sms/pending')?>"><i class="fa fa-file-text-o"></i> Pesan Tertunda</a></li>
+								<li><a href="<?= site_url('sms/clear')?>"><i class="fa fa-inbox"></i> Kotak Masuk</a></li>
+								<li><a href="<?= site_url('sms/outbox')?>"><i class="fa fa-pencil"></i> Tulis Pesan</a></li>
+								<li><a href="<?= site_url('sms/sentitem')?>"><i class="fa fa-envelope-o"></i> Pesan Terkirim</a></li>
+								<li class="active"><a href="<?= site_url('sms/pending')?>"><i class="fa fa-file-text-o"></i> Pesan Tertunda</a></li>
 							</ul>
 						</div>
 					</div>
@@ -31,7 +31,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("sms/delete_all/$p/$o/3")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("sms/delete_all/$p/$o/3")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -66,13 +66,13 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['ID']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?=site_url("sms/form/$p/$o/3/$data[ID]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Pesan" title="Ubah Pesan"><i class="fa fa-reply"></i></a>
-																			<a href="#" data-href="<?=site_url("sms/delete/$p/$o/3/$data[ID]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="<?= site_url("sms/form/$p/$o/3/$data[ID]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Pesan" title="Ubah Pesan"><i class="fa fa-reply"></i></a>
+																			<a href="#" data-href="<?= site_url("sms/delete/$p/$o/3/$data[ID]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                     <td nowrap><?=unpenetration($data['nama'])?></td>
 																		<td><?=$data['DestinationNumber']?></td>
@@ -108,19 +108,19 @@
                         <div class="dataTables_paginate paging_simple_numbers">
                           <ul class="pagination">
                             <?php if ($paging->start_link): ?>
-                              <li><a href="<?=site_url("sms/pending/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                              <li><a href="<?= site_url("sms/pending/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
                             <?php endif; ?>
                             <?php if ($paging->prev): ?>
-                              <li><a href="<?=site_url("sms/pending/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                              <li><a href="<?= site_url("sms/pending/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                             <?php endif; ?>
                             <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
                               <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("sms/pending/$i/$o")?>"><?= $i?></a></li>
                             <?php endfor; ?>
                             <?php if ($paging->next): ?>
-                              <li><a href="<?=site_url("sms/pending/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                              <li><a href="<?= site_url("sms/pending/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                             <?php endif; ?>
                             <?php if ($paging->end_link): ?>
-                              <li><a href="<?=site_url("sms/pending/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                              <li><a href="<?= site_url("sms/pending/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
                             <?php endif; ?>
                           </ul>
                         </div>

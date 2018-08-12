@@ -50,29 +50,29 @@
 						<input type="hidden" name="rt" value="">
 						<div class="table-responsive" style="height:60vh;">
 							<table class="table table-bordered dataTable nowrap">
-								<?php $last=""; foreach ($main AS $data):?>
-									<?php	if ($data['pertanyaan']!=$last):?>
+								<?php $last=""; foreach ($main AS $data): ?>
+									<?php	if ($data['pertanyaan']!=$last): ?>
 										<tr><td><label><?= $data['pertanyaan']?></label></td></tr>
 										<tr>
 											<td id="opsi">
 												<div style="display:inline-block;">
-													<input type="checkbox" name="id_cb[]" value="<?= $data['id_jawaban']?>"<?php if ($data['cek']):?>checked<?php endif;?>>
+													<input type="checkbox" name="id_cb[]" value="<?= $data['id_jawaban']?>"<?php if ($data['cek']): ?>checked<?php endif; ?>>
 													<label><?= $data['kode_jawaban'].". ".$data['jawaban']?></label>
 												</div>
 											</td>
 										</tr>
-									<?php	else:?>
+									<?php	else: ?>
 										<tr>
 											<td id="opsi">
 												<div style="display:inline-block;">
-													<input type="checkbox" name="id_cb[]" value="<?= $data['id_jawaban']?>"<?php if ($data['cek']):?>checked<?php endif;?>>
+													<input type="checkbox" name="id_cb[]" value="<?= $data['id_jawaban']?>"<?php if ($data['cek']): ?>checked<?php endif; ?>>
 													<label><?= $data['kode_jawaban'].". ".$data['jawaban']?></label>
 												</div>
 											</td>
 										</tr>
 									<?php	endif;
 									$last=$data['pertanyaan'];
-								endforeach;?>
+								endforeach; ?>
 							</table>
 						</div>
 					</div>

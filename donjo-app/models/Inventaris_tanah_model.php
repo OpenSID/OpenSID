@@ -120,6 +120,7 @@ class Inventaris_tanah_Model extends CI_Model
 
 	public function update($id, $data)
 	{
+		$id = $this->input->post('id');
 		$this->db->update($this->table, $data, array('id' => $id));
 		$id = $this->db->insert_id();
 		$updated = $this->db->get_where($this->table, array('id' => $id))->row();
@@ -128,6 +129,7 @@ class Inventaris_tanah_Model extends CI_Model
 
 	public function update_mutasi($id, $data)
 	{
+		$id = $this->input->post('id');
 		$this->db->update($this->table_mutasi, $data, array('id' => $id));
 		$id = $this->db->insert_id();
 		$updated = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();

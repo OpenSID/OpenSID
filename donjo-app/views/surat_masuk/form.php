@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Disposisi Surat Masuk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('surat_masuk')?>"> Daftar Surat Masuk</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('surat_masuk')?>"> Daftar Surat Masuk</a></li>
 			<li class="active">Disposisi Surat Masuk</li>
 		</ol>
 	</section>
@@ -12,7 +12,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url("surat_masuk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+						<a href="<?= site_url("surat_masuk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Surat Masuk
            	</a>
 					</div>
@@ -45,7 +45,7 @@
 										</div>
 									</div>
 								</div>
-							<?php endif;?>
+							<?php endif; ?>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_pos">Berkas Scan Surat Masuk</label>
 								<div class="col-sm-8">
@@ -99,9 +99,9 @@
 								<div class="col-sm-8 col-lg-4">
 									<select name="disposisi_kepada"  class="form-control input-sm required">
 										<option value="">Pilih tujuan disposisi</option>
-										<?php foreach ($ref_disposisi as $data):?>
-											<option value="<?= $data?>" <?php if ($surat_masuk['disposisi_kepada']==$data):?>selected<?php endif;?>><?= strtoupper($data)?></option>
-										<?php endforeach;?>
+										<?php foreach ($ref_disposisi as $data): ?>
+											<option value="<?= $data?>" <?php if ($surat_masuk['disposisi_kepada']==$data): ?>selected<?php endif; ?>><?= strtoupper($data)?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>

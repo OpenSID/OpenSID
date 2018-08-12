@@ -55,7 +55,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php  foreach($main as $data): ?>
+																<?php foreach ($main as $data): ?>
 																<tr>
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $data['no']?></td>
@@ -68,9 +68,9 @@
 																	<td nowrap><?= $data['nama']?></td>
 																	<td width="50%"><?= $data['alamat']?></td>
 																	<td><?= $data['umur']?></td>
-																	<td><?php if($data['sex']==1) echo "Laki-laki"; else echo "Perempuan";?></td>
+																	<td><?php if ($data['sex']==1): ?>Laki-laki <?php else: ?>Perempuan <?php endif; ?></td>
 																</tr>
-																	<?php  endforeach; ?>
+																	<?php endforeach; ?>
 															</tbody>
 														</table>
 													</div>

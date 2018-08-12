@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
  	$('.my-colorpicker2').colorpicker();
 </script>
@@ -19,7 +19,7 @@
 								<div class="input-group-addon input-sm">
 									<i></i>
 								</div>
-								<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?php  echo  $line['color']?>">
+								<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?= $line['color']?>">
 							</div>
 						</div>
 					</div>

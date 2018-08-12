@@ -9,7 +9,7 @@
 ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 	<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
 <?php else: ?>
 	<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style2.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/noJS.css" /></noscript>
-<?php if(is_file("desa/css/siteman.css")): ?>
+<?php if (is_file("desa/css/siteman.css")): ?>
 	<link type='text/css' href="<?php echo base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 <?php endif; ?>
 <link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
@@ -88,7 +88,7 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 	<div id="sid-info"><?php echo ucwords($this->setting->sebutan_desa." ".$desa['nama_desa'].", ".$this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']).", ".$this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']))?></div>
 	<div id="userbox" class="wrapper-dropdown-3" tabindex="1">
   <div class="avatar">
-		<?php if($foto){?>
+		<?php if ($foto){?>
 			<img src="<?php echo AmbilFoto($foto)?>" alt=""/>
 		<?php }else{?>
 			<img src="<?php echo base_url()?>assets/files/user_pict/kuser.png" alt=""/>
@@ -101,7 +101,7 @@ img, div,span,a,button { behavior: url(assets/js/iepngfix.htc) }
 
 <ul class="dropdown" tabindex="1">
 	<li><a href="<?php echo site_url()?>user_setting" target="ajax-modalz" rel="window-lok" header="Pengaturan Pengguna" title="Pengaturan Pengguna"><i class="fa fa-user fa-lg"></i>Setting User</a></li>
-	<?php if($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
+	<?php if ($_SESSION['grup']==1 OR $_SESSION['grup']==2){?>
 		<li><a href="<?php echo site_url()?>modul/clear"><i class="fa fa-gear fa-lg"></i>Pengaturan</a></li>
 	<?php }?>
 	<?php foreach ($modul AS $mod){?>

@@ -2,15 +2,12 @@
 	<body>
 		<div id="content" class="container_12 clearfix">
 			<div id="content-main" class="grid_7">
-
 				<link href="<?= base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
-
 				<table width="100%" style="border: solid 0px black; text-align: left;">
 					<tr>
 						<td width="8%">NIK</td>
 						<td width="2%">:</td>
 						<td width="90%"><?= $penduduk['nik']?></td>
-
 					</tr>
 					<tr>
 						<td width="8%">No.KK</td>
@@ -28,7 +25,6 @@
 						<td>
 							<h3>BIODATA PENDUDUK WARGA NEGARA INDONESIA</h3>
 							<h5><?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= $desa['nama_kabupaten']?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= $desa['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?></h5>
-
 						</td>
 					</tr>
 				</table>
@@ -40,9 +36,9 @@
 						<td width="220">Nama Lengkap</td><td width="2%">:</td>
 						<td><?= strtoupper($penduduk['nama'])?></td>
 						<td rowspan="18" style="vertical-align: middle;">
-							<?php if ($penduduk['foto']):?>
+							<?php if ($penduduk['foto']): ?>
 								<img src="<?= AmbilFoto($penduduk['foto'])?>" alt="" style="border: solid 1px black; padding: 5px;"/>
-							<?php endif;?>
+							<?php endif; ?>
 						</td>
 					</tr>
 					<tr>
@@ -175,8 +171,6 @@
 						<td align="center"><b>( <?= $desa['nama_kepala_desa']?> )</b></td>
 					</tr>
 				</table>
-
-
 			</div>
 			<div id="aside">
 			</div>

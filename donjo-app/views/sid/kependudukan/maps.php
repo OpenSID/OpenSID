@@ -7,7 +7,8 @@
 		{
 			var lat = $('#lat').val();
 			var lng = $('#lng').val();
-			$.ajax({
+			$.ajax(
+			{
 				type: "POST",
 				url: "<?=$form_action?>",
 				dataType: 'json',
@@ -21,10 +22,10 @@
 		<?php if (!empty($penduduk['lat'])):	?>
 			var posisi = [<?= $penduduk['lat'].",".$penduduk['lng']; ?>];
 			var zoom = <?= $desa['zoom'] ?: 10; ?>;
-		<?php else:?>
+		<?php else: ?>
 			var posisi = [-7.885619783139936, 110.39893195996092];
 			var zoom = 10;
-		<?php	endif;?>
+		<?php	endif; ?>
 		//Inisialisasi tampilan peta
 		var peta_desa = L.map('map').setView(posisi, zoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

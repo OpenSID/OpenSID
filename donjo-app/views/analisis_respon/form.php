@@ -3,12 +3,12 @@
 <script>
 	$(document).ready(function()
 	{
-		<?php if ($layarpenuh==1):?>
+		<?php if ($layarpenuh==1): ?>
 			$('#box-full-screen').addClass("panel-fullscreen")
-		<?php endif?>
-		<?php if ($layarpenuh==2):?>
+		<?php endif ?>
+		<?php if ($layarpenuh==2): ?>
 			$('#box-full-screen').removeClass("panel-fullscreen")
-		<?php endif?>
+		<?php endif ?>
 	});
 </script>
 <script>
@@ -120,10 +120,10 @@
 	<section class="content-header">
 		<h1>Input Data Sensus - <?= $analisis_master['nama']?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
-			<li><a href="<?=site_url()?>analisis_respon/leave"><?= $analisis_master['nama']?></a></li>
-			<li><a href="<?=site_url()?>analisis_respon">Data Sensus</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url()?>analisis_respon/leave"><?= $analisis_master['nama']?></a></li>
+			<li><a href="<?= site_url()?>analisis_respon">Data Sensus</a></li>
 			<li class="active">Input Data</li>
 		</ol>
 	</section>
@@ -137,7 +137,7 @@
 				<div class="col-md-8 col-lg-9">
 					<div id="box-full-screen" class="box box-info">
             <div class="box-header with-border">
-						<?php if (isset($_SESSION['fullscreen'])):?>
+						<?php if (isset($_SESSION['fullscreen'])): ?>
 							<a id="toggle-btn" href="<?= current_url()?>/2" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
 								<i class="fa fa-search-minus"></i>Normal
             	</a>
@@ -173,15 +173,15 @@
 														</tr>
 													</table>
 												</div>
-												<?php if ($list_anggota):?>
+												<?php if ($list_anggota): ?>
 													<div class="table-responsive">
 														<table class="table table-bordered dataTable table-hover nowrap">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th>No</th>
-																	<?php if ($analisis_master['id_child']!=0):?>
+																	<?php if ($analisis_master['id_child']!=0): ?>
 																		<th>Aksi</th>
-																	<?php endif;?>
+																	<?php endif; ?>
 																	<th>NIK</th>
 																	<th>Nama</th>
 																	<th>Tanggal Lahir</th>
@@ -192,15 +192,15 @@
 																<?php $i=1; foreach ($list_anggota AS $ang): $idc = $ang['id'];?>
 																	<tr>
 																		<td><?= $i?></td>
-																		<?php if ($analisis_master['id_child']!=0):?>
+																		<?php if ($analisis_master['id_child']!=0): ?>
 																			<td nowrap>
 																				<a href="<?= site_url("analisis_respon/kuisioner_child/$p/$o/$id/$idc")?>" class="btn bg-purple btn-flat btn-sm"  title="Input Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="<?= $ang['nama']?> - [<?= $ang['nik']?>]"><i class='fa fa-check-square-o'></i></a>
 																			</td>
-																		<?php endif;?>
+																		<?php endif; ?>
 																		<td><?= $ang['nik']?></td>
 																		<td nowrap><?= $ang['nama']?></td>
 																		<td nowrap><?= tgl_indo($ang['tanggallahir'])?></td>
-																		<td><?php if ($ang['sex'] == 1):?>LAKI-LAKI<?php endif;?><?php if ($ang['sex'] == 2):?> PEREMPUAN<?php endif;?></td>
+																		<td><?php if ($ang['sex'] == 1): ?>LAKI-LAKI<?php endif; ?><?php if ($ang['sex'] == 2): ?> PEREMPUAN<?php endif; ?></td>
 																	</tr>
 															<?php $i++; endforeach; ?>
 															</tbody>
@@ -214,7 +214,7 @@
 																if ($data['id_kategori']!=$last OR $last == 0):
 																	$new = 1;
 																endif;
-																if ($new == 1):?>
+																if ($new == 1): ?>
 																	<tr>
 																		<th colspan="2" class="bg-aqua"><strong><?= $data['kategori']?></strong></th>
 																	</tr>
@@ -226,61 +226,61 @@
 															<tr>
 																<td colspan="2"><label><?= $data['nomor']?> ) <?= $data['pertanyaan']?></label></td>
 															</tr>
-															<?php if ($data['id_tipe']==1):?>
+															<?php if ($data['id_tipe']==1): ?>
 																<tr>
 																	<td width="35px;"></td>
 																	<td class="col-xs-12 col-sm-6 pull-left">
-																		<select class="form-control input-sm" name="rb[<?= $data['id']?>]" onchange="formAction('mainform', '<?=site_url('analisis_indikator/kategori')?>')">
+																		<select class="form-control input-sm" name="rb[<?= $data['id']?>]" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori')?>')">
 																			<option value="">Pilih Jawaban</option>
-																			<?php foreach ($data['parameter_respon'] AS $data2):?>
-																				<option value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']):?>selected<?php endif?>><?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?></option>
+																			<?php foreach ($data['parameter_respon'] AS $data2): ?>
+																				<option value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']): ?>selected<?php endif ?>><?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?></option>
 																			<?php endforeach;?>
 																		</select>
 																	</td>
 																</tr>
-															<?php elseif ($data['id_tipe']==2):?>
+															<?php elseif ($data['id_tipe']==2): ?>
 																<tr>
 																	<td></td>
 																	<td id="op_item">
-																		<?php foreach ($data['parameter_respon'] AS $data2):?>
+																		<?php foreach ($data['parameter_respon'] AS $data2): ?>
 																			<div class="checkbox">
 																				<label>
-																					<input name="cb[<?= $data2['id_parameter']?>_<?= $data['id']?>]" value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']):?> checked<?php endif;?> type="checkbox">
+																					<input name="cb[<?= $data2['id_parameter']?>_<?= $data['id']?>]" value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']): ?> checked<?php endif; ?> type="checkbox">
 																					<?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?>
 																				</label>
 																			</div>
 																		<?php endforeach;?>
 																	</td>
 																</tr>
-															<?php elseif ($data['id_tipe']==3):?>
+															<?php elseif ($data['id_tipe']==3): ?>
 																<div class="form-group">
 																	<tr>
 																		<td></td>
 																		<td>
-																			<?php if ($data['parameter_respon']):?>
+																			<?php if ($data['parameter_respon']): ?>
 																				<?php $data2=$data['parameter_respon'];?>
 																				<input class="form-control input-sm" name="ia[<?= $data['id']?>]" value="<?= $data2['jawaban']?>" type="text">
-																			<?php else:?>
+																			<?php else: ?>
 																				<input class="form-control input-sm" name="ia[<?= $data['id']?>]" value="" type="text">
-																			<?php endif;?>
+																			<?php endif; ?>
 																		</td>
 																	</tr>
 																</div>
-															<?php elseif ($data['id_tipe']==4):?>
+															<?php elseif ($data['id_tipe']==4): ?>
 																<div class="form-group">
 																	<tr>
 																		<td></td>
 																		<td>
-																			<?php if ($data['parameter_respon']):?>
+																			<?php if ($data['parameter_respon']): ?>
 																				<?php $data2=$data['parameter_respon'];?>
 																				<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"><?= $data2['jawaban']?></textarea>
-																			<?php else:?>
+																			<?php else: ?>
 																				<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"></textarea>
-																			<?php endif;?>
+																			<?php endif; ?>
 																		</td>
 																	</tr>
 																</div>
-															<?php endif;?>
+															<?php endif; ?>
 														<?php endforeach;?>
 												</table>
 											</div>
@@ -316,13 +316,13 @@
 		</form>
 	</section>
 </div>
-<?php if(@$_SESSION['sukses']==1): ?>
+<?php if (@$_SESSION['sukses']==1): ?>
 	<script>
 		$(function(){
 			notification('success','Data Berhasil Disimpan')();
 		});
 	</script>
-<?php elseif(@$_SESSION['sukses']==-1): ?>
+<?php elseif (@$_SESSION['sukses']==-1): ?>
 	<script>
 		$(function(){
 			notification('error','Data Gagal Disimpan')();

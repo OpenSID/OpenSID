@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Daftar Mutasi Inventaris Peralatan Dan Mesin</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Daftar Mutasi Inventaris Peralatan Dan Mesin</li>
 		</ol>
 	</section>
@@ -35,13 +35,13 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($main as $data):?>
+															<?php foreach ($main as $data): ?>
 																<tr>
 																	<td></td>
 																	<td nowrap>
-																		<?php if($data->status == "0"): ?>
+																		<?php if ($data->status == "0"): ?>
 																			<a href="<?= base_url('index.php/inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
-																		<?php  endif;?>
+																		<?php endif; ?>
 																		<a href="<?= base_url('index.php/inventaris_peralatan/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 																		<a href="<?= base_url('index.php/inventaris_peralatan/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
 																		<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

@@ -19,12 +19,12 @@
 						</div>
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
-								<?php foreach ($list_kategori AS $data):	?>
-									<li <?php if ($cat == $data['id']): ?>class="active"<?php endif;?>>
+								<?php foreach ($list_kategori AS $data): ?>
+									<li <?php if ($cat == $data['id']): ?>class="active"<?php endif; ?>>
 										<a href='<?=site_url("web/index/$data[id]")?>'>
-											<?php if ($data['kategori']!="teks_berjalan"):?>
+											<?php if ($data['kategori']!="teks_berjalan"): ?>
 												<?=$data['kategori'];?>
-											<?php else : ?>
+											<?php else: ?>
 												Teks Berjalan
 											<?php endif; ?>
 										</a>
@@ -42,8 +42,8 @@
 						</div>
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
-								<li <?php if ($cat == 999): ?>class="active"<?php endif;?>><a href="<?=site_url('web/index/999')?>">Halaman Statis</a></li>
-               	<li <?php if ($cat == 1000): ?>class="active"<?php endif;?>><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
+								<li <?php if ($cat == 999): ?>class="active"<?php endif; ?>><a href="<?=site_url('web/index/999')?>">Halaman Statis</a></li>
+               	<li <?php if ($cat == 1000): ?>class="active"<?php endif; ?>><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
 							</ul>
 						</div>
 					</div>
@@ -52,14 +52,14 @@
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?=site_url("web/form/$cat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-								<i class="fa fa-plus"></i>Tambah <?php if ($kategori):?><?=$kategori['kategori'];?><?php else:?>Artikel Statis<?php endif;?> Baru
+								<i class="fa fa-plus"></i>Tambah <?php if ($kategori): ?><?=$kategori['kategori'];?><?php else: ?>Artikel Statis<?php endif; ?> Baru
             	</a>
-							<?php if ($_SESSION['grup']<4):?>
+							<?php if ($_SESSION['grup']<4): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("web/delete_all/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<?php endif;?>
-							<?php if ($cat < 999):?>
+							<?php endif; ?>
+							<?php if ($cat < 999): ?>
 								<a href="#confirm-delete" title="Hapus Kategori <?=$kategori['kategori']?>" onclick="deleteAllBox('mainform', '<?=site_url("web/hapus/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Kategori <?=$kategori['kategori']?></a>
-							<?php endif;?>
+							<?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -70,8 +70,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('web/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
-														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -118,27 +118,27 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?=site_url("web/form/$cat/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<a href="<?=site_url("web/ubah_kategori_form/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori" title="Ubah Kategori"><i class="fa fa-folder-open"></i></a>
-																			<?php if ($data['boleh_komentar']):?>
+																			<?php if ($data['boleh_komentar']): ?>
 																				<a href="<?=site_url("web/komentar_lock/$cat/$data[id]")?>" class="btn bg-info btn-flat btn-sm" title="Tutup komentar artikel"><i class="fa fa-comment-o"></i></a>
-																			<?php else : ?>
+																			<?php else: ?>
 																				<a href="<?=site_url("web/komentar_unlock/$cat/$data[id]")?>" class="btn bg-info btn-flat btn-sm" title="Buka komentar artikel"><i class="fa fa-comment"></i></a>
 																			<?php endif; ?>
-																			<?php if ($_SESSION['grup']<4):?>
+																			<?php if ($_SESSION['grup']<4): ?>
 																				<a href="#" data-href="<?=site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																				<?php if ($data['enabled'] == '2'):?>
+																				<?php if ($data['enabled'] == '2'): ?>
 																					<a href="<?=site_url("web/artikel_lock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock">&nbsp;</i></a>
 																				<?php elseif ($data['enabled'] == '1'): ?>
 																					<a href="<?=site_url("web/artikel_unlock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a>
-																					<a href="<?=site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Headline"><i class="<?php if ($data['headline']==1):?>fa fa-star-o <?php else:?> fa fa-star <?php endif;?>"></i></a>
-																					<a href="<?=site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="btn bg-gray btn-flat btn-sm" title="<?php if ($data['headline']==3):?>Keluarkan dari slide <?php else:?>Masukkan ke dalam slide<?php endif?>"><i class="<?php if ($data['headline']==3):?>fa fa-pause <?php else:?> fa fa-play  <?php endif;?>"></i></a>
-																				<?php endif?>
+																					<a href="<?=site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Headline"><i class="<?php if ($data['headline']==1): ?>fa fa-star-o <?php else: ?> fa fa-star <?php endif; ?>"></i></a>
+																					<a href="<?=site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="btn bg-gray btn-flat btn-sm" title="<?php if ($data['headline']==3): ?>Keluarkan dari slide <?php else: ?>Masukkan ke dalam slide<?php endif ?>"><i class="<?php if ($data['headline']==3): ?>fa fa-pause <?php else: ?> fa fa-play  <?php endif; ?>"></i></a>
+																				<?php endif; ?>
 																			<?php endif; ?>
                                     </td>
                                     <td width="50%"><?= $data['judul']?></td>

@@ -1,5 +1,5 @@
 <html>
-	<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');?>
+	<?php if (!defined('BASEPATH')) exit('No direct script access allowed');?>
 	<?php $this->load->view('print/headjs.php');?>
 	<body>
 		<div id="content" class="container_12 clearfix">

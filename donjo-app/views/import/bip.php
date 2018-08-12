@@ -1,4 +1,4 @@
-										<div class="tab-pane <?php if($act_tab==3):?> active<?php endif?>">
+										<div class="tab-pane <?php if ($act_tab==3): ?> active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
 													<div class="box-header with-border">
@@ -57,7 +57,7 @@
 																					</div>
 																				</td>
 																			</tr>
-																			<?php if(isset($_SESSION['gagal'])):?>
+																			<?php if (isset($_SESSION['gagal'])): ?>
 																				<tr>
 																					<td>
 																						<dl class="dl-horizontal">
@@ -82,7 +82,7 @@
 																						</dl>
 																					</td>
 																				</tr>
-																			<?php endif?>
+																			<?php endif ?>
 																		</tbody>
 																	</table>
 																</form>
@@ -99,7 +99,7 @@
 															<div class='modal-body'>
 																Harap tunggu sampai proses impor selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan..
 																<div class='text-center'>
-																	<img src='<?=base_url()?>assets/images/background/loading.gif'>
+																	<img src='<?= base_url()?>assets/images/background/loading.gif'>
 																</div>
 															</div>
 														</div>

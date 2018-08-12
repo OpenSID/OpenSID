@@ -1,11 +1,11 @@
 <script>
-	<?php if (!empty($desa['lat'] && !empty($desa['lng']))):?>
+	<?php if (!empty($desa['lat'] && !empty($desa['lng']))): ?>
 		var posisi = [<?= $desa['lat'].",".$desa['lng']; ?>];
 		var zoom = <?= $desa['zoom'] ?: 10; ?>;
-	<?php else:?>
+	<?php else: ?>
 			var posisi = [-7.885619783139936,110.39893195996092];
 			var zoom = 10;
-	<?php endif;?>
+	<?php endif; ?>
 
 		//Inisialisasi tampilan peta
 		var peta_area = L.map('map_area').setView(posisi, zoom);
@@ -16,7 +16,7 @@
 			id: 'peta_area'
 		}).addTo(peta_area);
 
-	<?php if (!empty($area['path'])):?>
+	<?php if (!empty($area['path'])): ?>
 
 		//Poligon wilayah desa yang tersimpan
 		var area_polygon = <?= $area['path']; ?>;
@@ -35,8 +35,8 @@
 
 		//Fokuskan peta ke poligon
 		peta_area.fitBounds(area.getBounds());
-
-	<?php endif;?>
+		setTimeout(function() {peta_area.invalidateSize();peta_area.fitBounds(area.getBounds());}, 500);
+	<?php endif; ?>
 	//Tombol yang akan dimunculkan dipeta
 	var options = {
 		position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
@@ -69,11 +69,14 @@
 	function getLatLong(x, y)
 	{
 		var hasil;
-		if (x == 'Rectangle' || x == 'Line' || x == 'Poly'):
+		if (x == 'Rectangle' || x == 'Line' || x == 'Poly')
+		{
 			hasil = JSON.stringify(y._latlngs);
-		else:
+		}
+		else
+		{
 			hasil = JSON.stringify(y._latlng);
-		endif;
+		}
 
 		hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
 		return hasil

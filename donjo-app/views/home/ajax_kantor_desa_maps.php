@@ -57,10 +57,10 @@
 		<div class="row">
 			<div class="col-sm-12">
         <div id="mapx"></div>
-        <input type="hidden" name="lat" id="lat" value="<?=$desa['lat']?>"/>
-        <input type="hidden" name="lng" id="lng"  value="<?=$desa['lng']?>"/>
-        <input type="hidden" name="zoom" id="zoom"  value="<?=$desa['zoom']?>"/>
-        <input type="hidden" name="map_tipe" id="map_tipe"  value="<?=$desa['map_tipe']?>"/>
+        <input type="hidden" name="lat" id="lat" value="<?= $desa['lat']?>"/>
+        <input type="hidden" name="lng" id="lng"  value="<?= $desa['lng']?>"/>
+        <input type="hidden" name="zoom" id="zoom"  value="<?= $desa['zoom']?>"/>
+        <input type="hidden" name="map_tipe" id="map_tipe"  value="<?= $desa['map_tipe']?>"/>
 			</div>
 		</div>
 	</div>

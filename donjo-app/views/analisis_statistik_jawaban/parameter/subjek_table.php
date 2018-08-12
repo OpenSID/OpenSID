@@ -1,11 +1,11 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Daftar Responden - <?php echo $analisis_master['nama']?> </h1>
+		<h1>Daftar Responden - <?= $analisis_master['nama']?> </h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
-			<li><a href="<?=site_url()?>analisis_statistik_jawaban/leave"><?= $analisis_master['nama']?></a></li>
-			<li><a href="<?=site_url()?>analisis_statistik_jawaban">Laporan Per Indikator</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url()?>analisis_statistik_jawaban/leave"><?= $analisis_master['nama']?></a></li>
+			<li><a href="<?= site_url()?>analisis_statistik_jawaban">Laporan Per Indikator</a></li>
 			<li class="active">Daftar Responden</li>
 		</ol>
 	</section>
@@ -19,10 +19,10 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("analisis_statistik_jawaban/cetak2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+							<a href="<?= site_url("analisis_statistik_jawaban/cetak2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
 								<i class="fa fa-print"></i>Cetak
             	</a>
-						  <a href="<?=site_url("analisis_statistik_jawaban/excel2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
+						  <a href="<?= site_url("analisis_statistik_jawaban/excel2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
 								<i class="fa fa-download"></i>Unduh
             	</a>
 							<a href="<?= site_url()?>analisis_statistik_jawaban" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Laporan Per Indikator</a>
@@ -33,12 +33,12 @@
 									<tr>
 										<td width="150">Indikator Pertanyaan</td>
 										<td width="1">:</td>
-										<td><?php echo $analisis_statistik_pertanyaan['pertanyaan']?></td>
+										<td><?= $analisis_statistik_pertanyaan['pertanyaan']?></td>
 									</tr>
 									<tr>
 										<td>Jawaban</td>
 										<td>:</td>
-										<td><?php echo $analisis_statistik_jawaban['jawaban']?></td>
+										<td><?= $analisis_statistik_jawaban['jawaban']?></td>
 									</tr>
 								</table>
 							</div>
@@ -55,26 +55,26 @@
 												<div class="col-sm-12">
 													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/dusun2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')">
 														<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-														<?php foreach ($list_dusun AS $data):?>
-															<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']):?>selected<?php endif?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+														<?php foreach ($list_dusun AS $data): ?>
+															<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
 														<?php endforeach;?>
 													</select>
-													<?php if ($dusun):?>
+													<?php if ($dusun): ?>
 														<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rw2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')" >
 															<option value="">RW</option>
-															<?php foreach ($list_rw AS $data):?>
-																<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']):?>selected<?php endif?>><?= $data['rw']?></option>
+															<?php foreach ($list_rw AS $data): ?>
+																<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
 															<?php endforeach;?>
 														</select>
-													<?php endif;?>
-													<?php if ($rw):?>
+													<?php endif; ?>
+													<?php if ($rw): ?>
 														<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rt2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')">
 															<option value="">RT</option>
-															<?php foreach ($list_rt AS $data):?>
-																<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']):?>selected<?php endif?>><?= $data['rt']?></option>
+															<?php foreach ($list_rt AS $data): ?>
+																<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
 															<?php endforeach;?>
 														</select>
-													<?php endif;?>
+													<?php endif; ?>
 												</div>
 											</div>
 											<div class="row">
@@ -96,16 +96,16 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<td align="center" width="2"><?php echo $data['no']?></td>
-																		<td><a href="<?php echo site_url("penduduk/detail/1/0/$data[id_pend]");?>" target="_blank"><?php echo $data['nik']?></a></td>
-																		<td nowrap width="30%"><a href="<?php echo site_url("penduduk/detail/1/0/$data[id_pend]");?>" target="_blank"><?php echo $data['nama']?></a></td>
-																		<td><?php echo strtoupper(ununderscore($data['dusun']))?></td>
-																		<td><?php echo $data['rw']?></td>
-																		<td><?php echo $data['rt']?></td>
-																		<td><?php echo $data['umur']?></td>
-																		<td><?php echo $data['sex']?></td>
+																		<td align="center" width="2"><?= $data['no']?></td>
+																		<td><a href="<?= site_url("penduduk/detail/1/0/$data[id_pend]");?>" target="_blank"><?= $data['nik']?></a></td>
+																		<td nowrap width="30%"><a href="<?= site_url("penduduk/detail/1/0/$data[id_pend]");?>" target="_blank"><?= $data['nama']?></a></td>
+																		<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+																		<td><?= $data['rw']?></td>
+																		<td><?= $data['rt']?></td>
+																		<td><?= $data['umur']?></td>
+																		<td><?= $data['sex']?></td>
 																	</tr>
-																<?php  endforeach; ?>
+																<?php endforeach; ?>
 															</tbody>
 														</table>
 													</div>

@@ -2,9 +2,9 @@
 	<section class="content-header">
 		<h1>Wilayah Administratif RT</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('sid_core')?>"> Daftar Wilayah <?= ucwords($this->setting->sebutan_dusun)?></a></li>
-			<li><a href="<?=site_url("sid_core/sub_rw/$id_dusun")?>"> Daftar Wilayah RW</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('sid_core')?>"> Daftar Wilayah <?= ucwords($this->setting->sebutan_dusun)?></a></li>
+			<li><a href="<?= site_url("sid_core/sub_rw/$id_dusun")?>"> Daftar Wilayah RW</a></li>
 			<li class="active">Daftar Wilayah RT</li>
 		</ol>
 	</section>
@@ -13,10 +13,10 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url("sid_core/form_rt/$id_dusun/$rw")?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah RT</a>
+						<a href="<?= site_url("sid_core/form_rt/$id_dusun/$rw")?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah RT</a>
 						<a href="<?= site_url("sid_core/cetak_rt/$id_dusun/$rw")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url("sid_core/excel_rt/$id_dusun/$rw")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
-						 <a href="<?=site_url("sid_core/sub_rw/$id_dusun")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
+						<a href="<?= site_url("sid_core/sub_rw/$id_dusun")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RW
            	</a>
 					</div>
@@ -52,10 +52,10 @@
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
-																		<?php if ($data['rt']!="-"):?>
+																		<?php if ($data['rt']!="-"): ?>
 																			<a href="<?= site_url("sid_core/form_rt/$id_dusun/$rw/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
 																			<a href="#" data-href="<?= site_url("sid_core/delete_rt/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php endif;?>
+																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['rt']?></td>
 																	<td nowrap><strong><?= unpenetration($data['nama_ketua'])?></strong></td>

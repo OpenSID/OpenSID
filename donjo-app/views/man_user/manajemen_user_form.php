@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Form Manajemen Pengguna</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('man_user')?>"> Daftar Pengguna</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('man_user')?>"> Daftar Pengguna</a></li>
 			<li class="active">Form Manajemen Pengguna</li>
 		</ol>
 	</section>
@@ -13,11 +13,11 @@
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<?php if($user['foto']):?>
+							<?php if ($user['foto']): ?>
 								 <img class="profile-user-img img-responsive img-circle" src="<?=AmbilFoto($user['foto'])?>" alt="Pengguna">
-							<?php else:?>
-								<img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/files/user_pict/kuser.png" alt="Pengguna">
-							<?php endif?>
+							<?php else: ?>
+								<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Pengguna">
+							<?php endif ?>
 							<br/>
 							<p class="text-center text-bold">Foto Pengguna</p>
 							<p class="text-muted text-center text-red">(Kosongkan, jika foto tidak berubah)</p>
@@ -42,12 +42,12 @@
 								<label class="col-sm-3 control-label" for="group">Group</label>
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="id_grup" name="id_grup">
-										<?php if($user['id_grup'] != '1'):?>
-											<option value="4" <?php if($user['id_grup'] == '4'):?>selected<?php endif?>>Kontributor</option>
-											<option value="3" <?php if($user['id_grup'] == '3' ):?>selected<?php endif?>>Redaksi</option>
-											<option value="2" <?php if($user['id_grup'] == '2' ):?>selected<?php endif?>>Operator</option>
-										<?php endif?>
-										<option value="1" <?php if($user['id_grup'] == '1' ):?>selected<?php endif?>>Administrator</option>
+										<?php if ($user['id_grup'] != '1'): ?>
+											<option value="4" <?php if ($user['id_grup'] == '4'): ?>selected<?php endif ?>>Kontributor</option>
+											<option value="3" <?php if ($user['id_grup'] == '3' ): ?>selected<?php endif ?>>Redaksi</option>
+											<option value="2" <?php if ($user['id_grup'] == '2' ): ?>selected<?php endif ?>>Operator</option>
+										<?php endif ?>
+										<option value="1" <?php if ($user['id_grup'] == '1' ): ?>selected<?php endif ?>>Administrator</option>
 									</select>
 								</div>
 							</div>
@@ -60,7 +60,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="password">Password</label>
 								<div class="col-sm-8">
-									<input id="password" name="password" class="form-control input-sm required" type="password" placeholder="Password" <?php if($user):?>value="radiisi"<?php endif?> ></input>
+									<input id="password" name="password" class="form-control input-sm required" type="password" placeholder="Password" <?php if ($user): ?>value="radiisi"<?php endif ?> ></input>
 								</div>
 							</div>
 							<div class="form-group">

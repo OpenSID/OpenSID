@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <style>
 	.input-hidden[type=radio]:checked  +  label
 	{
@@ -79,26 +79,26 @@
 						</div>
 						<div class="form-group">
 							<label for="nomor"  class="control-label">Simbol</label>
-							<?php if ($point['simbol']!=""):?>
+							<?php if ($point['simbol']!=""): ?>
 								<img src="<?= base_url(); ?>assets/images/gis/point/<?= $point['simbol']?>"/>
-							<?php else:?>
+							<?php else: ?>
 								<img src="<?= base_url(); ?>assets/images/gis/point/default.png"/>
-							<?php endif;?>
+							<?php endif; ?>
 						</div>
 						<div class="form-group">
 							<label for="id_master" class="control-label">Ganti Simbol</label>
 							<div  class="vertical-scrollbar" style="max-height:200px;">
 								<div class="bs-glyphicons">
 								  <ul class="bs-glyphicons">
-										<?php foreach ($simbol as $data):?>
-											<li <?php if ($point['simbol']==$data['simbol']):?>class="active"<?php endif; ?> onclick="li_active($(this).val());">
+										<?php foreach ($simbol as $data): ?>
+											<li <?php if ($point['simbol']==$data['simbol']): ?>class="active"<?php endif; ?> onclick="li_active($(this).val());">
 												<label>
-													<input type="radio" name="simbol" id="simbol" class="input-hidden hidden" value="<?= $data['simbol']?>" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']):?>checked<?php endif; ?>>
+													<input type="radio" name="simbol" id="simbol" class="input-hidden hidden" value="<?= $data['simbol']?>" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']): ?>checked<?php endif; ?>>
 													<img src="<?= base_url(); ?>assets/images/gis/point/<?= $data['simbol']?>">
 													<span class="glyphicon-class"><?= $data['simbol']?></span>
 												</label>
 											</li>
-										<?php endforeach;?>
+										<?php endforeach; ?>
 									</ul>
 								</div>
 							</div>

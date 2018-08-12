@@ -8,9 +8,9 @@
 <html lang="en">
 <head>
 	<title>404 Page Not Found</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css'); ?>" />
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/font-awesome.min.css'); ?>" />
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/errors.css'); ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css'); ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/font-awesome.min.css'); ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/errors.css'); ?>" />
 </head>
 <body>
 <div class="container">
@@ -18,10 +18,10 @@
 		<h2 class="headline text-yellow">404</h2>
 
 		<div class="error-content">
-			<h3><i class="fa fa-warning text-yellow"></i> <?php echo strip_tags($message); ?></h3>
+			<h3><i class="fa fa-warning text-yellow"></i> <?= strip_tags($message); ?></h3>
 			<p>
 				Kami tidak dapat menemukan halaman yang Anda inginkan.
-				Untuk sementara Anda dapat kembali ke halaman <a href="<?php echo base_url(); ?>">awal</a>.
+				Untuk sementara Anda dapat kembali ke halaman <a href="<?= base_url(); ?>">awal</a>.
 			</p>
 		</div>
 

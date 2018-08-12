@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Rincian Program Bantuan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
 			<li class="active">Rincian Program Bantuan</li>
 		</ol>
 	</section>
@@ -13,11 +13,11 @@
 				<?php $detail = $program[0];?>
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<?php if ($program[0]["status"] == 0):?>
+						<?php if ($program[0]["status"] == 0): ?>
 							<a href="<?=site_url("program_bantuan/form/".$program[0]['id'])?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Peserta Baru">
 								<i class="fa fa-plus"></i>Tambah Peserta Baru
 							</a>
-						 <?php endif;?>
+						 <?php endif; ?>
 						 <a href="<?=site_url("program_bantuan/unduhsheet/$detail[id]/")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank">
 							<i class="fa fa-download"></i>Unduh
             </a>
@@ -101,8 +101,8 @@
 																	<td nowrap><?= $item["kartu_tanggal_lahir"];?></td>
 																	<td><?= $item["kartu_alamat"];?></td>
 																</tr>
-															<?php endforeach;?>
-														<?php endif;?>
+															<?php endforeach; ?>
+														<?php endif; ?>
 													</tbody>
 												</table>
 											</div>

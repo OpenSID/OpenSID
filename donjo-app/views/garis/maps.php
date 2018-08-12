@@ -39,22 +39,22 @@
 	{
 		var options =
 		{
-			<?php if ($desa['lat']!=""):?>
+			<?php if ($desa['lat']!=""): ?>
 				center: new google.maps.LatLng(<?= $desa['lat']?>,<?= $desa['lng']?>),
 				zoom: <?= $desa['zoom']?>,
 				mapTypeId: google.maps.MapTypeId.<?= strtoupper($desa['map_tipe'])?>
-			<?php else:?>
+			<?php else: ?>
 				center: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
 				zoom: 14,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
-			<?php endif;?>
+			<?php endif; ?>
     };
     var map = new google.maps.Map(document.getElementById('map'), options);
 
 
 	<?php
 		$path = preg_split("/\;/", $garis['path']);?>
-		var path = [<?php foreach ($path AS $p): if ($p!=""):?> new google.maps.LatLng<?=$p?>, <?php endif; endforeach;?>]
+		var path = [<?php foreach ($path AS $p): if ($p!=""): ?> new google.maps.LatLng<?=$p?>, <?php endif; endforeach;?>]
 
     // Creating the polyline object
     var polyline = new google.maps.Polyline(

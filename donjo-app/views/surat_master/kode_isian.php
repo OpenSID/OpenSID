@@ -38,7 +38,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										 <?php foreach ($inputs as $kode => $keterangan):?>
+										 <?php foreach ($inputs as $kode => $keterangan): ?>
 											<tr>
 												<td style="padding-top : 10px;padding-bottom : 10px; " >[form_<?= $kode?>]</td>
 												<td><?= $keterangan?></td>

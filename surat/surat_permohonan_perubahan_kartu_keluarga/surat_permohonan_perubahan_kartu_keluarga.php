@@ -26,8 +26,8 @@
 								<div class="col-sm-6 col-lg-4">
 									<select class="form-control  input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
 										<option value="">--  Cari NIK / Nama Penduduk--</option>
-										<?php foreach ($kepala_keluarga as $data):?>
-											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+										<?php foreach ($kepala_keluarga as $data): ?>
+											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -40,9 +40,9 @@
 									<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
 								</div>
 							</div>
-							<?php if ($individu):?>
+							<?php if ($individu): ?>
 								<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
-							<?php	endif;?>
+							<?php	endif; ?>
 							<div class="form-group">
 								<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 								<div class="col-sm-8">
@@ -56,8 +56,8 @@
 								<div class="col-sm-6 col-lg-4">
 									<select class="form-control input-sm required" name="sebab" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));">
 									<option value="">Pilih Alasan Permohonan</option>
-						      <?php foreach ($sebab as $id => $nama):?>
-						        <option value="<?= $id?>" data-sebabnama="<?= $nama; ?>" <?php if ($id==$_SESSION['post']['sebab']):?>selected<?php endif;?>><?= $nama; ?></option>
+						      <?php foreach ($sebab as $id => $nama): ?>
+						        <option value="<?= $id?>" data-sebabnama="<?= $nama; ?>" <?php if ($id==$_SESSION['post']['sebab']): ?>selected<?php endif; ?>><?= $nama; ?></option>
 						      <?php endforeach;?>
 									</select>
 								</div>
@@ -76,9 +76,9 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<?php if (SuratExport($url)):?>
+								<?php if (SuratExport($url)): ?>
 									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
-								<?php endif;?>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>

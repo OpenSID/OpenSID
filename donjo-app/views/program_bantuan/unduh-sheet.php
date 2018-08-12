@@ -49,7 +49,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php	$i=1; foreach ($peserta[1] as $key=>$item):?>
+						<?php	$i=1; foreach ($peserta[1] as $key=>$item): ?>
 								<tr>
 									<td><?=$i?></td>
 									<td class='textx'><?=$item["nik"]?></td>

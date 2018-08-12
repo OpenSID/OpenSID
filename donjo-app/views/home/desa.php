@@ -15,7 +15,7 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-purple">
 								<div class="inner">
-									<?php foreach($dusun as $data): ?>
+									<?php foreach ($dusun as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
 									<?php endforeach; ?>
 									<p>Wilayah Dusun</p>
@@ -23,13 +23,13 @@
 								<div class="icon">
 									<i class="ion ion-location"></i>
 								</div>
-								<a href="<?=site_url('dpt/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+								<a href="<?=site_url('sid_core')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-aqua">
 								<div class="inner">
-									<?php foreach($penduduk as $data): ?>
+									<?php foreach ($penduduk as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
 									<?php endforeach; ?>
 									<p>Penduduk</p>
@@ -43,7 +43,7 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-green">
 								<div class="inner">
-									<?php foreach($keluarga as $data): ?>
+									<?php foreach ($keluarga as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
 									<?php endforeach; ?>
 									<p>Keluarga</p>
@@ -57,7 +57,7 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-gray">
 								<div class="inner">
-									<?php foreach($rtm as $data): ?>
+									<?php foreach ($rtm as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
 									<?php endforeach; ?>
 									<p>Rumah Tangga</p>
@@ -71,7 +71,7 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-yellow">
 								<div class="inner">
-									<?php foreach($miskin as $data): ?>
+									<?php foreach ($miskin as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
 									<?php endforeach; ?>
 									<p>Raskin</p>
@@ -85,7 +85,7 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-red">
 								<div class="inner">
-									<?php foreach($kelompok as $data): ?>
+									<?php foreach ($kelompok as $data): ?>
 										<h3><?=$data['jumlah']?></h3>
 									<?php endforeach; ?>
 									<p>Kelompok</p>
