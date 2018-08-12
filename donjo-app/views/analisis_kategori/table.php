@@ -64,7 +64,7 @@
 																	<?php elseif ($o==3): ?>
 																		<th><a href="<?= site_url("analisis_kategori/index/$p/4")?>">Kategori/Variabel <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_kategori/index/$p/3")?>">Kategori/Variabel <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("analisis_kategori/index/$p/4")?>">Kategori/Variabel <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																</tr>
 															</thead>
