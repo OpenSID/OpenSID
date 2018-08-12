@@ -38,14 +38,14 @@
 					*<?= $data['tipe_indikator']?>
 				</td>
 				<td><?= $data['nomor']?></td>
-				<?php if($data['id_tipe'] == 1): ?>
+				<?php if ($data['id_tipe'] == 1): ?>
 					<td>
-						<?php foreach($data['par'] as $par): ?>
+						<?php foreach ($data['par'] as $par): ?>
 							<?= $par['kode_jawaban']?>.<br>
 						<?php endforeach; ?>
 					</td>
 					<td>
-						<?php foreach($data['par'] as $par): ?>
+						<?php foreach ($data['par'] as $par): ?>
 							<?= $par['jawaban']?><br>
 						<?php endforeach; ?>
 					</td>

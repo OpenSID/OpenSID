@@ -109,7 +109,7 @@
 					</thead>
 					<tbody>
 						<?php $i = 1 ?>
-						<?php foreach($print as $data): ?>
+						<?php foreach ($print as $data): ?>
 							<tr>
 								<td><?= $i ?></td>
 								<td><?= $data->nama_barang; ?></td>

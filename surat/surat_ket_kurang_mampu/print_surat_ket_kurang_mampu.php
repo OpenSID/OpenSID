@@ -65,7 +65,7 @@
 												</tr>
 											<tbody>
 												<?php $i=0;?>
-												<?php foreach($anggota AS $data1):
+												<?php foreach ($anggota AS $data1):
 													if ($data1['kk_level'] == 1) continue;
 													$i++;?>
 													<tr>

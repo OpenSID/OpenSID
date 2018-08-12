@@ -5,9 +5,7 @@
 				<h4>SALINAN</h4>
 				<h5>No. <?= $kepala_kk['no_kk']?> </h4>
 			</div>
-
 			<br>
-
 			<table width="100%" cellpadding="3" cellspacing="4">
 				<tr>
 					<td width="100">Nama KK</td>

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Laporan Masuk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Laporan Masuk</li>
 		</ol>
 	</section>
@@ -23,8 +23,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?=site_url('lapor/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Sudah Tindak Lanjut</option>
-														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Belum Tindak Lanjut</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Sudah Tindak Lanjut</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Belum Tindak Lanjut</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -75,13 +75,13 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
                                       <a href="#" data-href="<?=site_url("lapor/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                                      <?php if ($data['enabled'] == '2'):?>
+                                      <?php if ($data['enabled'] == '2'): ?>
                                         <a href="<?=site_url('lapor/komentar_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tindak-lanjuti laporan"><i class="fa fa-lock">&nbsp;</i></a>
                                       <?php elseif ($data['enabled'] == '1'): ?>
                                         <a href="<?=site_url('lapor/komentar_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Kembalikan ke status awal"><i class="fa fa-unlock"></i></a>

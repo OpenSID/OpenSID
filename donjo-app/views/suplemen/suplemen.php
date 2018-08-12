@@ -1,10 +1,10 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<?php if ($tampil == 0):?>
+		<?php if ($tampil == 0): ?>
 			<h1>Data Suplemen</h1>
-		<?php else:?>
+		<?php else: ?>
 			<h1>Data Suplemen Dengan Sasaran <?=$sasaran[$tampil]?></h1>
-		<?php endif;?>
+		<?php endif; ?>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Data Suplemen</li>

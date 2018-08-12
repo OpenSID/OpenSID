@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Pengaturan Area</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('area')?>"><i class="fa fa-dashboard"></i> Daftar Area</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('area')?>"><i class="fa fa-dashboard"></i> Daftar Area</a></li>
 			<li class="active">Pengaturan Area</li>
 		</ol>
 	</section>
@@ -16,7 +16,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("area")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+							<a href="<?= site_url("area")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Area
             	</a>
 						</div>
@@ -32,20 +32,20 @@
 								<div class="col-sm-7">
 									<select class="form-control input-sm" id="ref_polygon" name="ref_polygon" style="width:100%;">
 									<option value="">Kategori</option>
-									<?php foreach ($list_polygon AS $data):?>
-										<option <?php if ($area['ref_polygon']==$data['id']):?>selected<?php endif?> value="<?= $data['id']?>"><?= $data['nama']?></option>
+									<?php foreach ($list_polygon AS $data): ?>
+										<option <?php if ($area['ref_polygon']==$data['id']): ?>selected<?php endif ?> value="<?= $data['id']?>"><?= $data['nama']?></option>
 									<?php endforeach;?>
 									</select>
 								</div>
 							</div>
-							<?php if ($area["foto"]):?>
+							<?php if ($area["foto"]): ?>
 								<div class="form-group">
 									<label class="control-label col-sm-3"></label>
 									<div class="col-sm-7">
 									  <img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_FOTO_AREA?>kecil_<?= $area['foto']?>" alt="Photo">
 									</div>
 								</div>
-							<?php endif;?>
+							<?php endif; ?>
 							<div class="form-group">
 								<label class="control-label col-sm-3">Ganti Foto</label>
 								<div class="col-sm-7">
@@ -71,8 +71,8 @@
 									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($area['enabled'] =='1' OR $area['enabled'] == NULL): ?>active<?php endif ?>">
 										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($area['enabled'] =='1' OR $area['enabled'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($area['enabled'] == '2' ):?>active<?php endif?>">
-										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($area['enabled'] == '2' ):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($area['enabled'] == '2' ): ?>active<?php endif ?>">
+										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($area['enabled'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>

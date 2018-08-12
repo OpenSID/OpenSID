@@ -22,14 +22,14 @@
 							<tr>
 								<td width="10%"></td><td></td>
 								<td width="50%" align="left"></td>
-								<td align="left"><?= $desa['nama_desa']?>, <?php  echo $tanggal_sekarang?></td>
+								<td align="left"><?= $desa['nama_desa']?>, <?= $tanggal_sekarang?></td>
 							</tr>
 							<tr>
 								<td ></td><td></td>
 								<td align="left"></td>
 							</tr>
 							<tr>
-								<td >Nomor</td><td>:</td><td  align="left"><?php  echo $input['nomor'] ?>  </td></tr><tr>
+								<td >Nomor</td><td>:</td><td  align="left"><?= $input['nomor'] ?>  </td></tr><tr>
 								<td>Perihal</td><td>:</td><td>Permohonan Akta Kelahiran </td>
 							</tr>
 						</table>
@@ -43,7 +43,7 @@
 							<tr></tr>
 							<tr><td colspan="3" align="left"><p>Kepada Yth. </td></tr>
 							<tr><td>Kepala Pengadilan Agama</td></tr>
-							<tr><td><?= ucwords($this->setting->sebutan_kabupaten)?>  <?php  echo unpenetration($desa['nama_kabupaten']) ?></td></tr>
+							<tr><td><?= ucwords($this->setting->sebutan_kabupaten)?>  <?= unpenetration($desa['nama_kabupaten']) ?></td></tr>
 							</tr>
 							<tr></tr>
 							<tr></tr>

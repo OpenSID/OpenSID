@@ -5,11 +5,11 @@
 			<div class="col-md-3">
 				<div class="box box-primary">
 					<div class="box-body box-profile">
-						<?php if ($main['foto']):?>
+						<?php if ($main['foto']): ?>
 							<img class="profile-user-img img-responsive img-circle" src="<?=AmbilFoto($main['foto'])?>" alt="Photo">
-						<?php else:?>
-							<img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/files/user_pict/kuser.png" alt="Photo">
-						 <?php endif?>
+						<?php else: ?>
+							<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Photo">
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>

@@ -77,7 +77,7 @@
 							<td><?= $data['hubungan']?></td>
 							<td><?= $data['nama_ayah']?></td>
 							<td><?= $data['nama_ibu']?></td>
-							<td><?php if ($data['status']==1):?>Tetap<?php else:?>Pendatang<?php endif;?></td>
+							<td><?php if ($data['status']==1): ?>Tetap<?php else: ?>Pendatang<?php endif; ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Komentar</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Pengaturan Komentar</li>
 		</ol>
 	</section>
@@ -23,8 +23,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('komentar/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
-														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -74,24 +74,24 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("komentar/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php if($data['enabled'] == '2'):?>
+																			<?php if ($data['enabled'] == '2'): ?>
 																			 <a href="<?= site_url('komentar/komentar_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Komentar"><i class="fa fa-lock">&nbsp;</i></a>
-																		 	<?php elseif($data['enabled'] == '1'): ?>
+																		 	<?php elseif ($data['enabled'] == '1'): ?>
 																			 <a href="<?= site_url('komentar/komentar_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Komentar"><i class="fa fa-unlock"></i></a>
-																		 	<?php endif?>
+																		 	<?php endif ?>
 																			<a href="#" data-href="<?= site_url("komentar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                     <td nowrap><?= $data['owner']?></td>
 																		<td><?= $data['komentar']?></td>
 																		<td><?= $data['email']?></td>
 																		<td>
-																			<a href="<?= site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?php echo $data['artikel']?></a>
+																			<a href="<?= site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?= $data['artikel']?></a>
 																		</td>
 																		<td><?= $data['aktif']?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>

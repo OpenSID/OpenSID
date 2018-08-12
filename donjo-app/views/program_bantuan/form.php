@@ -3,9 +3,9 @@
 	<section class="content-header">
 		<h1>Peserta Program Bantuan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
-      <li><a href="<?=site_url("program_bantuan/detail/1/$detail[id]")?>"> Rincian Program Bantuan</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
+      <li><a href="<?= site_url("program_bantuan/detail/1/$detail[id]")?>"> Rincian Program Bantuan</a></li>
 			<li class="active">Peserta Program Bantuan</li>
 		</ol>
 	</section>
@@ -15,8 +15,8 @@
 				<div class="box box-info">
 					<div class="box-body">
 						<div class="box-header with-border">
-							<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
-							<a href="<?=site_url("program_bantuan/detail/1/$detail[id]")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
+							<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+							<a href="<?= site_url("program_bantuan/detail/1/$detail[id]")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
@@ -60,14 +60,14 @@
 														<select class="form-control select2 input-sm" id="nik" name="nik"  onchange="formAction('main')" style="width:100%" >
 															<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
 															<?php foreach ($program[2]as $item):
-										  					if (strlen($item["id"])>0):?>
-											  				  <option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']):?>selected<?php endif;?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
+										  					if (strlen($item["id"])>0): ?>
+											  				  <option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
 																<?php endif;
                               endforeach;?>
   													</select>
 													</div>
 					    					</div>
-                        <?php if ($individu):?>
+                        <?php if ($individu): ?>
                           <?php include("donjo-app/views/program_bantuan/konfirmasi_peserta.php"); ?>
                         <?php endif; ?>
                       </form>

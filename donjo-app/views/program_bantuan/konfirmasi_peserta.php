@@ -24,7 +24,7 @@
 			<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
 		</div>
 	</div>
-<?php elseif($detail["sasaran"] == 2): ?>
+<?php elseif ($detail["sasaran"] == 2): ?>
   <div class="form-group">
 		<label class="col-sm-4 col-lg-2 control-label">Alamat Keluarga</label>
 		<div class="col-sm-7">
@@ -49,7 +49,7 @@
 			<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
 		</div>
 	</div>
-<?php elseif($detail["sasaran"] == 4): ?>
+<?php elseif ($detail["sasaran"] == 4): ?>
   <div class="form-group">
 		<label class="col-sm-4 col-lg-2 control-label">Alamat Kepala Rumah Tangga</label>
 		<div class="col-sm-7">
@@ -74,7 +74,7 @@
 			<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
 		</div>
 	</div>
-<?php elseif($detail["sasaran"] == 4): ?>
+<?php elseif ($detail["sasaran"] == 4): ?>
   <div class="form-group">
 		<label class="col-sm-4 col-lg-2 control-label">Alamat Ketua Kelompok</label>
 		<div class="col-sm-7">

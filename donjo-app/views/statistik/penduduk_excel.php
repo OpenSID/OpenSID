@@ -32,7 +32,7 @@ header("Expires: 0");
 										</tr>
 									</thead>
 									<tbody>
-										<?php foreach($main as $data): ?>
+										<?php foreach ($main as $data): ?>
 											<tr>
 												<td class="thick" align="center" width="2"><?= $data['no']?></td>
 												<td class="thick"><?= strtoupper($data['nama'])?></td>

@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
 	$('#tgl_1').datetimepicker(
 	{
@@ -22,19 +22,19 @@
 						<div class="form-group">
               <div class="radio">
                 <label>
-								  <input name="status_dasar" id="sd1" value="1" <?php if ($nik['status_dasar_id'] == '1'):?>checked<?php endif;?> type="radio">
+								  <input name="status_dasar" id="sd1" value="1" <?php if ($nik['status_dasar_id'] == '1'): ?>checked<?php endif; ?> type="radio">
                   Hidup
                 </label>
 								<label>
-								  <input name="status_dasar" id="sd2" value="4" <?php if ($nik['status_dasar_id'] == '4'):?>checked<?php endif;?> type="radio">
+								  <input name="status_dasar" id="sd2" value="4" <?php if ($nik['status_dasar_id'] == '4'): ?>checked<?php endif; ?> type="radio">
                   Hilang
                 </label>
 								<label>
-								  <input name="status_dasar" id="sd3" value="3" <?php if ($nik['status_dasar_id'] == '3'):?>checked<?php endif;?> type="radio">
+								  <input name="status_dasar" id="sd3" value="3" <?php if ($nik['status_dasar_id'] == '3'): ?>checked<?php endif; ?> type="radio">
                   Pindah Ke Luar Desa
                 </label>
 								<label>
-								  <input name="status_dasar" id="sd4" value="2" <?php if ($nik['status_dasar_id'] == '2'):?>checked<?php endif;?> type="radio">
+								  <input name="status_dasar" id="sd4" value="2" <?php if ($nik['status_dasar_id'] == '2'): ?>checked<?php endif; ?> type="radio">
                   Mati
                 </label>
               </div>

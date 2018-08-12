@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Pengelolaan Data <?= ucwords($this->setting->sebutan_dusun)?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('sid_core')?>"> Daftar <?= ucwords($this->setting->sebutan_dusun)?></a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('sid_core')?>"> Daftar <?= ucwords($this->setting->sebutan_dusun)?></a></li>
 			<li class="active">Data <?= ucwords($this->setting->sebutan_dusun)?></li>
 		</ol>
 	</section>
@@ -12,7 +12,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url("sid_core")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+						<a href="<?= site_url("sid_core")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar <?= ucwords($this->setting->sebutan_dusun)?>
            	</a>
 					</div>
@@ -30,7 +30,7 @@
 													</div>
 												</div>
 											</div>
-											<?php if ($dusun):?>
+											<?php if ($dusun): ?>
 												<div class="col-sm-12">
 													<div class="form-group">
 														<label class="col-sm-3 control-label" for="kepala_lama">Kepala  <?= ucwords($this->setting->sebutan_dusun)?> Sebelumnya</label>
@@ -42,16 +42,16 @@
 														</div>
 													</div>
 												</div>
-											<?php endif;?>
+											<?php endif; ?>
 											<div class="col-sm-12">
 												<div class="form-group">
 													<label class="col-sm-3 control-label" for="id_kepala">NIK / Nama Kepala  <?= ucwords($this->setting->sebutan_dusun)?></label>
 													<div class="col-sm-7">
 														<select class="form-control select2" style="width: 100%;" id="id_kepala" name="id_kepala">
 															<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
-															<?php foreach ($penduduk as $data):?>
+															<?php foreach ($penduduk as $data): ?>
 																<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
-															<?php endforeach;?>
+															<?php endforeach; ?>
 														</select>
 													</div>
 												</div>

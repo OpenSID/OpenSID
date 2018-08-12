@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Rincian Data Inventaris Kontruksi</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Kontruksi</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Kontruksi</a></li>
 			<li class="active">Rincian Data</li>
 		</ol>
 	</section>
@@ -51,7 +51,7 @@
 										<label class="col-sm-3  control-label" style="text-align:left;" for="bahan">Kontruksi Beton</label>
 										<div class="col-sm-4">
 											<select name="bahan" id="bahan" class="form-control input-sm" disabled>
-												<?php if($main->kontruksi_beton == 0): ?>
+												<?php if ($main->kontruksi_beton == 0): ?>
 													<option value='0'>Tidak</option>
 													<option value='1'>Ya</option>
 												<?php else: ?>

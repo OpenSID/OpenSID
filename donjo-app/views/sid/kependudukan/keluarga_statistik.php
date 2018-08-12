@@ -49,7 +49,7 @@
 				<select name="dusun" onchange="formAction('mainform','<?php echo site_url('keluarga/dusun')?>')">
                     <option value="">Dusun</option>
 					<?php foreach($list_dusun AS $data){?>
-                    <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+                    <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif ?>><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
 					<?php }?>
                 </select>
 
@@ -57,7 +57,7 @@
                 <select name="rw" onchange="formAction('mainform','<?php echo site_url('keluarga/rw')?>')">
                     <option value="">RW</option>
 					<?php foreach($list_rw AS $data){?>
-                    <option value="<?php echo $data['rw']?>" <?php if($rw == $data['rw']) :?>selected<?php endif?>><?php echo $data['rw']?></option>
+                    <option value="<?php echo $data['rw']?>" <?php if($rw == $data['rw']) :?>selected<?php endif ?>><?php echo $data['rw']?></option>
 					<?php }?>
                 </select>
 				<?php }?>
@@ -66,7 +66,7 @@
                 <select name="rt" onchange="formAction('mainform','<?php echo site_url('keluarga/rt')?>')">
                     <option value="">RT</option>
 					<?php foreach($list_rt AS $data){?>
-                    <option value="<?php echo $data['rt']?>" <?php if($rt == $data['rt']) :?>selected<?php endif?>><?php echo $data['rt']?></option>
+                    <option value="<?php echo $data['rt']?>" <?php if($rt == $data['rt']) :?>selected<?php endif ?>><?php echo $data['rt']?></option>
 					<?php }?>
                 </select>
 				<?php }?>

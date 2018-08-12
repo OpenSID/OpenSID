@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Pengaturan Sub Tipe Garis</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('line')?>"> Daftar Tipe Garis</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('line')?>"> Daftar Tipe Garis</a></li>
 			<li class="active">Pengaturan Sub Tipe Garis</li>
 		</ol>
 	</section>
@@ -16,11 +16,11 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("line/ajax_add_sub_line/$line")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Sub Line Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Line">
+							<a href="<?= site_url("line/ajax_add_sub_line/$line")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Sub Line Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Line">
 								<i class="fa fa-plus"></i>Tambah Sub Tipe Garis Baru
             	</a>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("line/delete_all_sub_line/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<a href="<?=site_url("line")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?= site_url("line")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Garis
            		</a>
 						</div>
@@ -44,17 +44,17 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($subline as $data):?>
+																<?php foreach ($subline as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("line/ajax_add_sub_line/$line/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Sub Line"><i class="fa fa-edit"></i></a>
-																			<?php if ($data['enabled'] == '2'):?>
+																			<?php if ($data['enabled'] == '2'): ?>
 																				<a href="<?= site_url("line/line_lock_sub_line/$line/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Sub Line"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
 																				<a href="<?= site_url("line/line_unlock_sub_line/$line/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Sub Line"><i class="fa fa-unlock"></i></a>
-																			<?php endif?>
+																			<?php endif; ?>
 																			<a href="#" data-href="<?= site_url("line/delete_sub_line/$line/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="70%"><?= $data['nama']?></td>

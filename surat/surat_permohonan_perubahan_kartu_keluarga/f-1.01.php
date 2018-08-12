@@ -115,11 +115,11 @@
 			<td>:</td>
 			<?php for ($i=0; $i<2; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_propinsi'][$i])):?>
+					<?php if (isset($config['kode_propinsi'][$i])): ?>
 						<?= $config['kode_propinsi'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2>&nbsp;</td>
@@ -134,11 +134,11 @@
 			<td>:</td>
 			<?php for ($i=0; $i<2; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_kabupaten'][$i])):?>
+					<?php if (isset($config['kode_kabupaten'][$i])): ?>
 						<?= $config['kode_kabupaten'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2>&nbsp;</td>
@@ -153,11 +153,11 @@
 			<td>:</td>
 			<?php for ($i=0; $i<2; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_kecamatan'][$i])):?>
+					<?php if (isset($config['kode_kecamatan'][$i])): ?>
 						<?= $config['kode_kecamatan'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2>&nbsp;</td>
@@ -167,38 +167,38 @@
 		<tr>
 			<td class="pakai-padding">Kode Pos</td>
 			<td>:</td>
-			<?php for ($i=0; $i<5; $i++) : ?>
+			<?php for ($i=0; $i<5; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_desa'][$i])):?>
+					<?php if (isset($config['kode_desa'][$i])): ?>
 						<?= $config['kode_desa'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">RT</td>
-			<?php for ($i=0; $i<3; $i++) : ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($individu['rt'][$i])):?>
+					<?php if (isset($individu['rt'][$i])): ?>
 						<?= $individu['rt'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td>RW</td>
-			<?php for ($i=0; $i<3; $i++) : ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak tengah">
-					<?php if (isset($individu['rw'][$i])):?>
+					<?php if (isset($individu['rw'][$i])): ?>
 						<?= $individu['rw'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td>Jumlah Anggota Keluarga</td>
 			<?php $jml = str_pad((string)count($anggota), 2, ' ', STR_PAD_LEFT);?>
-			<?php for ($i=0; $i<2; $i++) : ?>
+			<?php for ($i=0; $i<2; $i++): ?>
 				<td class="kotak padat tengah"><?= $jml[$i]?></td>
 			<?php endfor; ?>
 			<td>orang</td>
@@ -206,11 +206,11 @@
 			<td>:</td>
 			<?php for ($i=0; $i<4; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_desa'][$i])):?>
+					<?php if (isset($config['kode_desa'][$i])): ?>
 						<?= $config['kode_desa'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td class="kotak"><?= $config['nama_desa'];?></td>
@@ -219,13 +219,13 @@
 		<tr>
 			<td class="pakai-padding">Telepon</td>
 			<td>:</td>
-			<?php for ($i=0; $i<12; $i++) : ?>
+			<?php for ($i=0; $i<12; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['telepon_kk'][$i])):?>
+					<?php if (isset($config['telepon_kk'][$i])): ?>
 						<?= $config['telepon_kk'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="8">&nbsp;</td>
@@ -271,7 +271,7 @@
 			<tr>
 				<?php $class = ($i==10-1) ? "bawah" : "anggota";?>
 				<td class="tengah <?= $class?>"><?= $i+1; ?></td>
-				<?php if ($i < count($anggota)) : ?>
+				<?php if ($i < count($anggota)): ?>
 					<td class="tengah <?= $class?>"><?= $anggota[$i]['nama']?></td>
 					<td class="tengah <?= $class?>"><?= $anggota[$i]['nik']?></td>
 					<td class="tengah <?= $class?>"><?= $anggota[$i]['alamat_sebelumnya']?></td>
@@ -281,7 +281,7 @@
 					<?php for ($k=0; $k<5; $k++): ?>
 						<td class="tengah <?= $class?>">&nbsp;</td>
 					<?php endfor; ?>
-				<?php endif;?>
+				<?php endif; ?>
 			</tr>
 		<?php endfor; ?>
 	</table>
@@ -343,7 +343,7 @@
 			<tr>
 				<?php $class = ($i==10-1) ? "bawah" : "anggota";?>
 				<td class="tengah <?= $class?>"><?= $i+1; ?></td>
-				<?php if ($i < count($anggota)) : ?>
+				<?php if ($i < count($anggota)): ?>
 					<td class="kode <?= $class?>"><div><?= $anggota[$i]['sex_id']?></div></td>
 					<td class="tengah <?= $class?>"><?= $anggota[$i]['tempatlahir']?></td>
 					<td class="tengah <?= $class?>"><?= tgl_indo($anggota[$i]['tanggallahir'])?></td>
@@ -363,7 +363,7 @@
 					<?php for ($k=0; $k<15; $k++): ?>
 						<td class="tengah <?= $class?>">&nbsp;</td>
 					<?php endfor; ?>
-				<?php endif;?>
+				<?php endif; ?>
 			</tr>
 		<?php endfor; ?>
 	</table>
@@ -407,7 +407,7 @@
 			<tr>
 				<?php $class = ($i==10-1) ? "bawah" : "anggota";?>
 				<td class="tengah <?= $class?>"><?= $i+1; ?></td>
-				<?php if ($i < count($anggota)) : ?>
+				<?php if ($i < count($anggota)): ?>
 					<td class="kode <?= $class?>"><div><?= $anggota[$i]['kk_level']?></div></td>
 					<td class="kode <?= $class?>"><div><?= ($anggota[$i]['cacat_id'] ? '2' : '1')?></div></td>
 					<td class="kode <?= $class?>"><div><?= $anggota[$i]['cacat_id']?></div></td>
@@ -421,7 +421,7 @@
 					<?php for ($k=0; $k<9; $k++): ?>
 						<td class="tengah <?= $class?>">&nbsp;</td>
 					<?php endfor; ?>
-				<?php endif;?>
+				<?php endif; ?>
 			</tr>
 		<?php endfor; ?>
 	</table>

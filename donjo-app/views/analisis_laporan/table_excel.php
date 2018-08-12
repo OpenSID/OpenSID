@@ -1,7 +1,7 @@
 <?php
 	$tgl =  date('d_m_Y');
 	$subjek = $_SESSION['subjek_tipe'];
-	switch($subjek):
+	switch ($subjek):
 		case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
 		case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
 		case 3: $sql = $nama="Kepala Rumahtangga"; $nomor="Nomor Rumahtangga";$asubjek="Rumahtangga"; break;

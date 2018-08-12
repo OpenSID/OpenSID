@@ -74,8 +74,8 @@
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
-											<?php foreach ($penduduk as $data):?>
-												<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']):?>selected<?php endif;?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+											<?php foreach ($penduduk as $data): ?>
+												<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -87,16 +87,16 @@
 								<input id="nomor" name="nomor" type="hidden" value="<?= $_SESSION['post']['nomor']; ?>"/>
 								<input id="nik_validasi" name="nik" type="hidden" value="<?= $_SESSION['post']['nik']?>">
 								<input id="id_diberi_izin_validasi" name="id_diberi_izin" type="hidden" value="<?= $_SESSION['id_diberi_izin']?>"/>
-								<?php if ($individu):?>
+								<?php if ($individu): ?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
-								<?php	endif;?>
+								<?php	endif; ?>
 								<div class="form-group">
 									<label for="nik"  class="col-sm-3 control-label">Memberi Izin Selaku</label>
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control input-sm select2" name="selaku" id="selaku" onchange="pemberi_izin($(this).val());" style ="width:100%;">
 										<option value="">Pilih Selaku</option>
-										<?php foreach ($selaku as $data):?>
-											<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['selaku']):?>selected<?php endif;?>><?= $data?></option>
+										<?php foreach ($selaku as $data): ?>
+											<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['selaku']): ?>selected<?php endif; ?>><?= $data?></option>
 										<?php endforeach;?>
 										</select>
 									</div>
@@ -110,8 +110,8 @@
 										<input id='mengizinkan' type="hidden" name="mengizinkan" value="<?= $_SESSION['post']['mengizinkan']?>"/>
 										<select class="form-control input-sm" id="mengizinkan_show" disabled="disabled">
 											<option value="">Pilih Hubungan</option>
-											<?php foreach ($yang_diberi_izin as $data):?>
-												<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['mengizinkan']):?>selected<?php endif;?>><?= $data?></option>
+											<?php foreach ($yang_diberi_izin as $data): ?>
+												<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['mengizinkan']): ?>selected<?php endif; ?>><?= $data?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -121,14 +121,14 @@
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control input-sm select2" id="id_diberi_izin" name="id_diberi_izin" style ="width:100%;" onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
-											<?php foreach ($penduduk_diberi_izin as $data):?>
-												<option value="<?= $data['id']?>" <?php if ($diberi_izin['nik']==$data['nik']):?>selected<?php endif;?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+											<?php foreach ($penduduk_diberi_izin as $data): ?>
+												<option value="<?= $data['id']?>" <?php if ($diberi_izin['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
 								</div>
 								<?php if ($diberi_izin): ?>
-									<?php  //bagian info setelah terpilih
+									<?php //bagian info setelah terpilih
 										$individu = $diberi_izin;
 										include("donjo-app/views/surat/form/konfirmasi_pemohon.php");
 									?>
@@ -152,8 +152,8 @@
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control input-sm" id="pekerja_show" disabled="disabled">
 											<option value="">Pilih Status Pekerjaan/ TKI/ TKW</option>
-											<?php  foreach($status_pekerjaan as $data):?>
-												<option value="<?= $data?>" <?php if($data==$status_diberi_izin):?>selected<?php endif;?>><?= $data?></option>
+											<?php foreach ($status_pekerjaan as $data): ?>
+												<option value="<?= $data?>" <?php if ($data==$status_diberi_izin): ?>selected<?php endif; ?>><?= $data?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -172,8 +172,8 @@
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control input-sm select2" id="atas_nama" name="atas_nama" style ="width:100%;">
 											<option value="">-- Atas Nama --</option>
-											<?php foreach ($atas_nama as $data):?>
-												<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['atas_nama']):?>selected<?php endif;?>><?= $data?></option>
+											<?php foreach ($atas_nama as $data): ?>
+												<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['atas_nama']): ?>selected<?php endif; ?>><?= $data?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -189,9 +189,9 @@
 								<?php if (SuratCetak($url)): ?>
                   <button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-print"></i> Cetak</button>
                 <?php endif; ?>
-								<?php if (SuratExport($url)):?>
+								<?php if (SuratExport($url)): ?>
 									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
-								<?php endif;?>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>

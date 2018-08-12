@@ -15,7 +15,7 @@
 	<section class="content-header">
 		<h1>Pengelolaan Kelompok</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Pengelolaan Kelompok</li>
 		</ol>
 	</section>
@@ -33,12 +33,12 @@
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<?php foreach ($list_master AS $data): ?>
-									<li <?php if ($filter == $data['id']):?>class="active"<?php endif;?>>
+									<li <?php if ($filter == $data['id']): ?>class="active"<?php endif; ?>>
 										<a href="<?= site_url("kelompok/to_master/$data[id]")?>"><?= $data['kelompok']; ?></a>
 									</li>
 								<?php endforeach; ?>
 								<li>
-									<a href="<?= site_url("kelompok_master/clear")?>"><i class="fa fa-plus"></i> Kelola Kategori Kelompok</a>
+									<a class="btn btn-flat bg-purple btn-sm" href="<?= site_url("kelompok_master/clear")?>"><i class="fa fa-plus"></i> Kelola Kategori Kelompok</a>
 								</li>
 							</ul>
 						</div>
@@ -61,8 +61,8 @@
 												<div class="col-sm-9">
 													<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('kelompok/filter')?>')">
 														<option value="">Kategori Kelompok</option>
-														<?php foreach ($list_master AS $data):?>
-															<option value="<?= $data['id']?>" <?php if ($filter == $data['id']):?>selected<?php endif?>><?= $data['kelompok']?></option>
+														<?php foreach ($list_master AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($filter == $data['id']): ?>selected<?php endif ?>><?= $data['kelompok']?></option>
 														<?php endforeach;?>
 													</select>
 												</div>
@@ -103,7 +103,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php  foreach ($main as $data): ?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																		<td><?= $data['no']?></td>
@@ -117,7 +117,7 @@
 																		<td><?= $data['master']?></td>
 																		<td><?= $data['jml_anggota']?></td>
 																	</tr>
-																<?php  endforeach; ?>
+																<?php endforeach; ?>
 															</tbody>
 															</tbody>
 														</table>

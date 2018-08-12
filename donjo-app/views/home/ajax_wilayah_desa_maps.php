@@ -111,7 +111,7 @@
 	<div class="row">
 		<div class="col-sm-12">
       <div id="map"></div>
-      <input type="hidden" id="path" name="path" value="<?=$desa['path']?>">
+      <input type="hidden" id="path" name="path" value="<?= $desa['path']?>">
    	</div>
 	</div>
 </div>

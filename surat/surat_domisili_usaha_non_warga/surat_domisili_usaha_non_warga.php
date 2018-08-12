@@ -60,7 +60,7 @@
                 <div class="col-sm-3">
                   <select class="form-control input-sm" name="sex" id="sex">
 										<option value="">Pilih Jenis Kelamin</option>
-										<?php foreach ($sex as $data):?>
+										<?php foreach ($sex as $data): ?>
 											<option value="<?= ucwords(strtolower($data['nama']))?>"><?= $data['nama']?></option>
 										<?php endforeach;?>
                   </select>
@@ -68,7 +68,7 @@
                 <div class="col-sm-2">
                   <select class="form-control input-sm" name="warga_negara" id="warga_negara">
 										<option value="">Pilih Warganegara</option>
-										<?php foreach ($warganegara as $data):?>
+										<?php foreach ($warganegara as $data): ?>
 											<option value="<?= $data['id']=='3' ? ucwords(strtolower($data['nama'])): strtoupper($data['nama'])?>"><?= $data['nama']?></option>
 										<?php endforeach;?>
                   </select>
@@ -76,7 +76,7 @@
                 <div class="col-sm-3">
                   <select class="form-control input-sm" name="agama" id="agama">
 										<option value="">Pilih Agama</option>
-										<?php foreach ($agama as $data):?>
+										<?php foreach ($agama as $data): ?>
 											<option value="<?= $data['id']=='7' ? $data['nama'] : ucwords(strtolower($data['nama']))?>"><?= $data['nama']?></option>
 										<?php endforeach;?>
                   </select>
@@ -87,7 +87,7 @@
                 <div class="col-sm-4">
                   <select class="form-control input-sm" name="pekerjaan" id="pekerjaan">
 										<option value="">Pilih Pekerjaan</option>
-										<?php foreach ($pekerjaan as $data):?>
+										<?php foreach ($pekerjaan as $data): ?>
 											<option value="<?= $data['nama']?>"><?= $data['nama']?></option>
 										<?php endforeach;?>
                   </select>
@@ -147,10 +147,10 @@
 								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
 								<?php if (SuratCetak($url)): ?>
 									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-print"></i> Cetak</button>
-								<?php endif;?>
-								<?php if (SuratExport($url)):?>
+								<?php endif; ?>
+								<?php if (SuratExport($url)): ?>
 									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
-								<?php endif;?>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
