@@ -290,7 +290,6 @@
 
 	function multi_jawab($p=0,$o=0){
 		$master 		= $this->get_analisis_master();
-
 		if(isset($_SESSION['jawab']))
 			$kf = $_SESSION['jawab'];
 		else
@@ -306,7 +305,7 @@
 		$asign_sql = ' AND i.asign = 1';
 		$order_sql = ' ORDER BY u.nomor,i.kode_jawaban ASC';
 
-		$sql = "SELECT u.pertanyaan,u.nomor,i.jawaban,i.id AS id_jawaban,i.kode_jawaban,(SELECT count(id) FROM analisis_parameter WHERE id IN ($kf) AND id = i.id) AS cek FROM analisis_indikator u LEFT JOIN analisis_parameter i ON u.id = i.id_indikator WHERE u.id_master = ? ";
+		$sql = "SELECT u.pertanyaan,u.nomor,i.jawaban,i.id AS id_jawaban,i.kode_jawaban,(SELECT count(id) FROM analisis_parameter WHERE id IN ($kf) AND id = i.id) AS cek FROM analisis_indikator u LEFT JOIN analisis_parameter i ON u.id = i.id_indikator WHERE u.id_master = $master[id] ";
 		$sql .= $asign_sql;
 		$sql .= $order_sql;
 		$query 	= $this->db->query($sql,$master);
