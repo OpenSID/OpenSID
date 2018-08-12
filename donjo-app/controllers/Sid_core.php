@@ -354,7 +354,7 @@ function __construct(){
 		$dusun=$temp['dusun'];
 		$rw=$temp['rw'];
 		$this->wilayah_model->delete_rt($id_cluster);
-		echo "<script>self.history.back();self.history.back();</script>";
+		echo "<script>self.history.back();</script>";
 	}
 
 	function delete_all_rt(){
