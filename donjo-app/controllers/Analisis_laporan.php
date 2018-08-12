@@ -139,6 +139,7 @@ class Analisis_laporan extends CI_Controller{
 		$data['form_action'] = site_url("analisis_laporan/multi_jawab_proses");
 		$this->load->view("analisis_laporan/ajax_multi", $data);
 	}
+
 	function multi_jawab_proses(){
 		if(isset($_POST['id_cb'])){
 			unset($_SESSION['jawab']);
