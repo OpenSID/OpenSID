@@ -15,7 +15,6 @@
 	}
 
 	function get_widget_aktif(){
-
 		$data = $this->db->where('enabled',1)->order_by('urut')->get('widget')->result_array();
 		return $data;
 	}
