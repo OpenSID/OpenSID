@@ -12,8 +12,8 @@
 	<section class="content-header">
 		<h1>Pengelolaan Data Peruntukan Persil</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('data_persil/clear')?>"> Daftar Persil</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('data_persil/clear')?>"> Daftar Persil</a></li>
 			<li class="active">Pengelolaan Peruntukan Persil</li>
 		</ol>
 	</section>
@@ -48,8 +48,8 @@
 						</div>
 					</form>
 					<div class="box-body">
-						<?php if ($persil_peruntukan):?>
-								<?php if (count($persil_peruntukan)>0):?>
+						<?php if ($persil_peruntukan): ?>
+								<?php if (count($persil_peruntukan)>0): ?>
 									<div class="col-sm-12">
 										<div class="table-responsive">
 											<table class="table table-bordered dataTable table-hover">

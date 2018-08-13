@@ -219,7 +219,7 @@ class First_artikel_m extends CI_Model{
 	}
 
 	function agenda_show(){
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='4'
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='4' AND a.enabled = 1 
 		AND a.tgl_upload < NOW() ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();

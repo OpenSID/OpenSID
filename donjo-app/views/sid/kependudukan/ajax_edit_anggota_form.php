@@ -20,11 +20,11 @@
 							<label for="kk_level">Hubungan</label>
 							<select name="kk_level" class="form-control input-sm required" style="width:100%;">
 								<option value=""> ----- Pilih Hubungan ----- </option>
-								<?php foreach ($hubungan as $data):?>
-									<?php if ($data['id']>0):?>
-										<option value="<?= $data['id']?>" <?php if($data['id']==$main['kk_level']){?>selected<?php }?>><?= $data['hubungan']?></option>
-									<?php endif;?>
-								<?php endforeach;?>
+								<?php foreach ($hubungan as $data): ?>
+									<?php if ($data['id']>0): ?>
+										<option value="<?= $data['id']?>" <?php if ($data['id']==$main['kk_level']): ?>selected<?php endif; ?>><?= $data['hubungan']?></option>
+									<?php endif; ?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>

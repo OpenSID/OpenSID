@@ -89,7 +89,7 @@
 								<label for="pekerjaan">Pekerjaan</label>
 								<select class="form-control input-sm"  id="pekerjaan1"  name="pekerjaan1">
 									<option value=""> -- </option>
-									<?php foreach ($pekerjaan AS $data):?>
+									<?php foreach ($pekerjaan AS $data): ?>
 										<option value="<?=$data['id']?>"><?=$data['nama']?></option>
 									<?php endforeach; ?>
 								</select>
@@ -113,7 +113,7 @@
 								<label for="agama">Agama</label>
 								<select class="form-control  input-sm" id="agama1" name="agama1">
 									<option value=""> -- </option>
-									<?php foreach ($agama AS $data):?>
+									<?php foreach ($agama AS $data): ?>
 										<option value="<?=$data['id']?>"><?=$data['nama']?></option>
 									<?php endforeach; ?>
 								</select>
@@ -124,7 +124,7 @@
 								<label for="endidikan1">Pendidikan Terakhir</label>
 								<select class="form-control  input-sm"  id="endidikan1"  name="endidikan1">
 									<option value=""> -- </option>
-									<?php foreach ($pendidikan AS $data):?>
+									<?php foreach ($pendidikan AS $data): ?>
 										<option value="<?=$data['id']?>"><?=$data['nama']?></option>
 									<?php endforeach; ?>
 								</select>
@@ -145,7 +145,7 @@
 								<label>Dusun</label>
 								<select class="form-control input-sm required" name="dusun1" onchange="DusSel(this.value)">
 									<option value="">Pilih Dusun</option>
-									<?php foreach ($dusun as $data):?>
+									<?php foreach ($dusun as $data): ?>
 										<option value="<?=($data['dusun'])?>"><?=ununderscore(unpenetration($data['dusun']))?></option>
 									<?php endforeach; ?>
 								</select>
@@ -158,7 +158,7 @@
 								<label for="grup1">Group Kontak</label>
 								<select class="form-control input-sm"  id="grup1"  name="grup1" >
 									<option value=""> -- </option>
-									<?php foreach ($grup AS $data):?>
+									<?php foreach ($grup AS $data): ?>
 										<option value="<?=$data['nama_grup']?>"><?=$data['nama_grup']?></option>
 									<?php endforeach; ?>
 								</select>

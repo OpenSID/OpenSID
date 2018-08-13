@@ -3,11 +3,11 @@
 	<head>
 		<title>Data Penduduk</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-			<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
-			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
 		<style>
 			.textx{
@@ -36,8 +36,8 @@
 			<!-- Print Body -->
 			<div id="body">
 				<div class="header" align="center">
-					<label align="left"><?php echo get_identitas()?></label>
-					<h3> BUKU INVENTARIS DAN KEKAYAAN DESA - Tahun <?php echo $input['tahun']?></h3>
+					<label align="left"><?= get_identitas()?></label>
+					<h3> BUKU INVENTARIS DAN KEKAYAAN DESA - Tahun <?= $input['tahun']?></h3>
 					<br>
 				</div>
 				<table id="inventaris" class="list border thick">
@@ -72,27 +72,27 @@
 					</thead>
 					<tbody>
 						<?php $i = 0;
-							foreach($main as $data){
+							foreach ($main as $data):
 								$i++; ?>
 							<tr>
-								<td class="border" align="center" width="2"><?php echo $i+$paging->offset?></td>
-								<td class="border"><?php echo $data['nama']?></td>
-								<td class="border"><?php echo $data['asal_sendiri']?></td>
-								<td class="border"><?php echo $data['asal_pemerintah']?></td>
-								<td class="border"><?php echo $data['asal_provinsi']?></td>
-								<td class="border"><?php echo $data['asal_kab']?></td>
-								<td class="border"><?php echo $data['asal_sumbangan']?></td>
-								<td class="border"><?php echo $data['status_baik_awal']?></td>
-								<td class="border"><?php echo $data['status_rusak_awal']?></td>
-								<td class="border"><?php echo $data['hapus_rusak']?></td>
-								<td class="border"><?php echo $data['hapus_dijual']?></td>
-								<td class="border"><?php echo $data['hapus_sumbangkan']?></td>
-								<td class="border"><?php echo tgl_indo_out($data['tgl_penghapusan'])?></td>
-								<td class="border"><?php echo $data['status_baik_akhir']?></td>
-								<td class="border"><?php echo $data['status_rusak_akhir']?></td>
-								<td class="border"><?php echo $data['keterangan']?></td>
+								<td class="border" align="center" width="2"><?= $i+$paging->offset?></td>
+								<td class="border"><?= $data['nama']?></td>
+								<td class="border"><?= $data['asal_sendiri']?></td>
+								<td class="border"><?= $data['asal_pemerintah']?></td>
+								<td class="border"><?= $data['asal_provinsi']?></td>
+								<td class="border"><?= $data['asal_kab']?></td>
+								<td class="border"><?= $data['asal_sumbangan']?></td>
+								<td class="border"><?= $data['status_baik_awal']?></td>
+								<td class="border"><?= $data['status_rusak_awal']?></td>
+								<td class="border"><?= $data['hapus_rusak']?></td>
+								<td class="border"><?= $data['hapus_dijual']?></td>
+								<td class="border"><?= $data['hapus_sumbangkan']?></td>
+								<td class="border"><?= tgl_indo_out($data['tgl_penghapusan'])?></td>
+								<td class="border"><?= $data['status_baik_akhir']?></td>
+								<td class="border"><?= $data['status_rusak_akhir']?></td>
+								<td class="border"><?= $data['keterangan']?></td>
 							</tr>
-						<?php }?>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
 				<table id="ttd">
@@ -104,13 +104,13 @@
 						-->
 						<td colspan="6" width="35%">&nbsp;</td>
 						<td colspan="2" width="15%"	>MENGETAHUI</td>
-						<td colspan="5" width="25%"><span class="underline"><?php echo strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].','.$desa['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
+						<td colspan="5" width="25%"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].','.$desa['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
 						<td colspan="3" width="25%">&nbsp;</td>
 					</tr>
 					<tr>
 						<td colspan="6">&nbsp;</td>
-						<td colspan="2"><?php echo strtoupper($input['jabatan_ketahui'])?></td>
-						<td colspan="5"><?php echo strtoupper($input['jabatan_ttd'])?></td>
+						<td colspan="2"><?= strtoupper($input['jabatan_ketahui'])?></td>
+						<td colspan="5"><?= strtoupper($input['jabatan_ttd'])?></td>
 						<td colspan="3">&nbsp;</td>
 					</tr>
 					<tr><td colspan="16">&nbsp;</td></tr>
@@ -121,8 +121,8 @@
 					<tr><td colspan="16">&nbsp;</td></tr>
 					<tr>
 						<td colspan="6">&nbsp;</td>
-						<td colspan="5"><span class="underline"><?php echo strtoupper($input['pamong_ketahui'])?></span></td>
-						<td colspan="2"><span class="underline"><?php echo strtoupper($input['pamong_ttd'])?></span></td>
+						<td colspan="5"><span class="underline"><?= strtoupper($input['pamong_ketahui'])?></span></td>
+						<td colspan="2"><span class="underline"><?= strtoupper($input['pamong_ttd'])?></span></td>
 						<td colspan="3">&nbsp;</td>
 					</tr>
 				</table>

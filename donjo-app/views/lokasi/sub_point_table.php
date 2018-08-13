@@ -72,7 +72,7 @@
 		<a href="<?php echo site_url("lokasi_lock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-lock tipsy south" title="Enable lokasi"></a>
 	<?php elseif($data['enabled'] == '1'): ?>
 		<a href="<?php echo site_url("lokasi_unlock_sub_lokasi/$lokasi/$data[id]")?>" class="ui-icons fa fa-unlock tipsy south" title="Disable lokasi"></a>
-	<?php endif;?>
+	<?php endif; ?>
 </td>
 <td width="150"><?php echo $data['nama']?></td>
 <td width="50"><?php echo $data['aktif']?></td>

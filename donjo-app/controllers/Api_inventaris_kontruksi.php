@@ -64,7 +64,6 @@ class Api_inventaris_kontruksi extends CI_Controller
 
     public function update($id)
     {
-            $_SESSION['success']=1;
             $data = $this->inventaris_kontruksi_model->update($id,array(
                 'nama_barang' => $this->input->post('nama_barang'),
                 'kondisi_bangunan' => $this->input->post('fisik_bangunan'),
@@ -82,7 +81,7 @@ class Api_inventaris_kontruksi extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            if (!$data) $_SESSION['success']=-1;
+            if (!$data) $_SESSION['success']=1;
             redirect("inventaris_kontruksi");
     }
 
@@ -97,7 +96,7 @@ class Api_inventaris_kontruksi extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            if (!$data) $_SESSION['success']=-1;
+            if (!$data) $_SESSION['success']=1;
             redirect("inventaris_kontruksi/mutasi");
     }
 

@@ -1,6 +1,6 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<form action="<?= $form_action?>" method="post" id="validasi">
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">

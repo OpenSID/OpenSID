@@ -15,9 +15,9 @@
 	<section class="content-header">
 		<h1>Pengaturan Periode - <?= $analisis_master['nama']?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
-			<li><a href="<?=site_url()?>analisis_periode/leave"><?= $analisis_master['nama']?></a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url()?>analisis_periode/leave"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Pengaturan Periode</li>
 		</ol>
 	</section>
@@ -31,8 +31,8 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url('analisis_periode/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Priode Baru"><i class="fa fa-plus"></i> Tambah Periode Baru</a>
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("analisis_periode/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="<?= site_url('analisis_periode/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Priode Baru"><i class="fa fa-plus"></i> Tambah Periode Baru</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("analisis_periode/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<a href="<?= site_url()?>analisis_periode/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
 						</div>
 						<div class="box-body">
@@ -44,16 +44,16 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="state" onchange="formAction('mainform','<?= site_url('analisis_periode/state')?>')">
 														<option value="">-- Status Pendataan --</option>
-														<?php foreach ($list_state AS $data):?>
-															<option value="<?= $data['id']?>" <?php if ($state == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
+														<?php foreach ($list_state AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($state == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
 														<?php endforeach;?>
 													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="input-group input-group-sm pull-right">
-														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("analisis_periode/search")?>');$('#'+'mainform').submit();}">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("analisis_periode/search")?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("analisis_periode/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("analisis_periode/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
@@ -131,19 +131,19 @@
 												<div class="dataTables_paginate paging_simple_numbers">
 													<ul class="pagination">
 														<?php if ($paging->start_link): ?>
-															<li><a href="<?=site_url("analisis_periode/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+															<li><a href="<?= site_url("analisis_periode/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->prev): ?>
-															<li><a href="<?=site_url("analisis_periode/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+															<li><a href="<?= site_url("analisis_periode/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 														<?php endif; ?>
 														<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("analisis_periode/index/$i/$o")?>"><?= $i?></a></li>
 														<?php endfor; ?>
 														<?php if ($paging->next): ?>
-															<li><a href="<?=site_url("analisis_periode/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+															<li><a href="<?= site_url("analisis_periode/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->end_link): ?>
-															<li><a href="<?=site_url("analisis_periode/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+															<li><a href="<?= site_url("analisis_periode/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 														<?php endif; ?>
 													</ul>
 												</div>

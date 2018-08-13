@@ -10,16 +10,16 @@
 			?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="<?=base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
-		<link rel="stylesheet" href="<?=base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
-		<link rel="stylesheet" href="<?=base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
 		<?php if (is_file("desa/css/siteman.css")): ?>
-			<link type='text/css' href="<?=base_url()?>desa/css/siteman.css" rel='Stylesheet' />
+			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
 		<?php if (is_file(LOKASI_LOGO_DESA ."favicon.ico")): ?>
-			<link rel="shortcut icon" href="<?=base_url()?><?=LOKASI_LOGO_DESA?>favicon.ico" />
+			<link rel="shortcut icon" href="<?= base_url()?><?=LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
-			<link rel="shortcut icon" href="<?=base_url()?>favicon.ico" />
+			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
 	</head>
 	<body class="login">
@@ -46,10 +46,10 @@
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<input name="username" type="text" placeholder="Username" <?php if ($_SESSION['siteman_wait']==1):?> disabled="disabled"<?php endif?> value="" required class="form-username form-control input-error">
+											<input name="username" type="text" placeholder="Username" <?php if ($_SESSION['siteman_wait']==1): ?> disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
 										</div>
 										<div class="form-group">
-											<input name="password" type="password" placeholder="Password" <?php if ($_SESSION['siteman_wait']==1):?>disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
+											<input name="password" type="password" placeholder="Password" <?php if ($_SESSION['siteman_wait']==1): ?>disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
 										</div>
 										<hr />
 										<button type="submit" class="btn">LOGIN</button>
@@ -58,16 +58,16 @@
 												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Username atau Password yang Anda masukkan salah!<br />
 												<?php if ($_SESSION['siteman_try']): ?>
 													Kesempatan mencoba <?= ($_SESSION['siteman_try']-1); ?> kali lagi.</p>
-												<?php endif?>
+												<?php endif; ?>
 											</div>
 										<?php elseif ($_SESSION['siteman']==-2): ?>
 											<div class="error">
 												Redaksi belum boleh login, SID belum memiliki sambungan internet!
 											</div>
-										<?php endif?>
+										<?php endif; ?>
 									<?php endif; ?>
 								</form>
-								<hr />
+								<hr/>
 								<div class="login-footer-bottom">powered by: <a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?></div>
 							</div>
 						</div>

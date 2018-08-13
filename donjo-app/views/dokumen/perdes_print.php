@@ -4,7 +4,7 @@
 		<title>Data Peraturan Desa</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -54,7 +54,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach($main as $data): ?>
+						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
 							<td><?= $data['attr']['jenis_peraturan']?></td>

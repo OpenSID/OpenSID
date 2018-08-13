@@ -1,5 +1,8 @@
 <style type="text/css">
-	h3 { margin: 0px; padding: 0px;}
+	h3
+	{
+		margin: 0px; padding: 0px;
+	}
 </style>
 <?php
 	header("Content-type: application/octet-stream");

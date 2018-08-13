@@ -110,7 +110,7 @@ if ($_SESSION['id_pelapor'])
 Jika bayi warga desa, ganti kolom isiannya dengan data dari database penduduk
 */
 $data = array();
-if($_SESSION['id_bayi'])
+if ($_SESSION['id_bayi'])
 {
 	$bayi = $this->get_data_surat($_SESSION['id_bayi']);
 	$array_replace = array(

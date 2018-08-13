@@ -58,10 +58,10 @@
 													<select class="form-control select2" id="nik" name="nik"  onchange="formAction('main')" >
 														<option value="">-- Silakan Masukan NIK / Nama--</option>
 														<?php foreach ($list_sasaran as $item):
-															if (strlen($item["id"])>0):?>
-																<option value="<?= $item['id']?>" <?php  if ($individu['nik']==$item['nik']):?>selected<?php endif;?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
+															if (strlen($item["id"])>0): ?>
+																<option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
 															<?php endif;
-														endforeach;?>
+														endforeach; ?>
 													</select>
 												</div>
 											</div>
@@ -72,10 +72,10 @@
 													<select class="form-control select2 required" id="nik" name="nik"  onchange="formAction('main')" >
 														<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
 														<?php foreach ($list_sasaran as $item):
-															if (strlen($item["id"])>0):?>
-																<option value="<?= $item['id']?>" <?php  if ($individu['nik']==$item['nik']):?>selected<?php endif;?>>Nama :<?= $item['nama']." - ".$item['info']?></option>
+															if (strlen($item["id"])>0): ?>
+																<option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']): ?>selected<?php endif; ?>>Nama :<?= $item['nama']." - ".$item['info']?></option>
 															<?php endif;
-														endforeach;?>
+														endforeach; ?>
 													</select>
 												</div>
 											</div>
@@ -89,9 +89,9 @@
 													 <input type="hidden" name="nik" value="<?= $individu['nik']?>" class="form-control input-sm required">
 												 </div>
 											</div>
-											<?php if ($individu):?>
+											<?php if ($individu): ?>
 												<?php include("donjo-app/views/suplemen/konfirmasi_terdata.php"); ?>
-											<?php endif;?>
+											<?php endif; ?>
 											<div class="form-group">
 												<label  class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 												<div class="col-sm-8">

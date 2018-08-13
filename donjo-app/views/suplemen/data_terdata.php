@@ -52,7 +52,7 @@
                     <?php endif; ?>
                     <td> <?= $terdata["terdata_nama"]." / ".$terdata["terdata_info"]?></td>
                   </tr>
-                  <?php if($suplemen["sasaran"] == 1): ?>
+                  <?php if ($suplemen["sasaran"] == 1): ?>
                     <tr>
                       <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Alamat</td>
                       <td>
@@ -77,7 +77,7 @@
                         <?= $individu['warganegara']?> / <?= $individu['agama']?>
                       </td>
                     </tr>
-                  <?php elseif($suplemen["sasaran"] == 2): ?>
+                  <?php elseif ($suplemen["sasaran"] == 2): ?>
                     <tr>
                       <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Alamat Keluarga</td>
                       <td>

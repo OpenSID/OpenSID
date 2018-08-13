@@ -52,7 +52,7 @@
     <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 	</head>
-	<body class="skin-purple sidebar-mini fixed <?php if ($minsidebar==1):?>sidebar-collapse<?php endif?>">
+	<body class="skin-purple sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">
 			<header class="main-header">
 				<a href="<?=site_url()?>first"  target="_blank" class="logo">
@@ -71,16 +71,16 @@
 									<img src="<?= AmbilFoto($foto)?>" class="user-image" alt="User Image"/>
 								<?php else :?>
 									<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="user-image" alt="User Image"/>
-								<?php endif ?>
+								<?php endif; ?>
 									<span class="hidden-xs"><?=$nama?> </span>
 								</a>
 								<ul class="dropdown-menu">
 									<li class="user-header">
-										<?php if ($foto):?>
+										<?php if ($foto): ?>
 											<img src="<?=AmbilFoto($foto)?>" class="img-circle" alt="User Image"/>
 										<?php else :?>
-											<img src="<?=base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
-										<?php endif ?>
+											<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
+										<?php endif; ?>
 										<p>Anda Login Sebagai</p>
 										<p><strong><?=$nama?></strong></p>
 									</li>

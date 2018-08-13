@@ -72,7 +72,6 @@ class Api_inventaris_asset extends CI_Controller
 
     public function update($id)
     {
-            $_SESSION['success']=1;
             $data = $this->inventaris_asset_model->update($id,array(
                 'nama_barang' => $this->input->post('nama_barang'),
                 'kode_barang' => $this->input->post('kode_barang'),
@@ -94,7 +93,7 @@ class Api_inventaris_asset extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            if (!$data) $_SESSION['success']=-1;
+            if (!$data) $_SESSION['success']=1;
             redirect("inventaris_asset");
     }
 
@@ -109,7 +108,7 @@ class Api_inventaris_asset extends CI_Controller
                 'keterangan' => $this->input->post('keterangan'),
                 'updated_at' => date("m/d/Y")
                 ));
-            if (!$data) $_SESSION['success']=-1;
+            if (!$data) $_SESSION['success']=1;
             redirect("inventaris_asset/mutasi");
     }
 

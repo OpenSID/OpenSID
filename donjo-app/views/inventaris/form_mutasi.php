@@ -22,7 +22,7 @@
   }
 
   function ubah_jenis_mutasi(jenis){
-    if(jenis!=1 && jenis!=4){
+    if (jenis!=1 && jenis!=4){
       // Hapus barang baik atau rusak
       $('.hapus').attr('disabled','disabled');
       $('.hapus > input').removeClass('required');
@@ -39,7 +39,7 @@
 
   $('document').ready(function(){
     $('input[name=tanggal_mutasi]').datepicker("option", "minDate", new Date("<?php
-      if($mutasi) echo rev_tgl($inventaris['tanggal_pengadaan']);
+      if ($mutasi) echo rev_tgl($inventaris['tanggal_pengadaan']);
       else echo rev_tgl($inventaris['mutasi_terakhir']); ?>"));
     $('input[name=tanggal_mutasi]').datepicker("option", "maxDate", '+0m +0w');
     ubah_jenis_mutasi($('select[name=jenis_mutasi').val());
@@ -109,7 +109,7 @@
             <select name="jenis_mutasi" class="required" onchange="ubah_jenis_mutasi($(this).val())">
               <option value="">Pilih Jenis Mutasi</option>
               <?php foreach($jenis_mutasi as $id => $nama){?>
-                <option value="<?php echo $id?>"<?php if($mutasi['jenis_mutasi']==$id){?> selected<?php }?>><?php echo strtoupper($nama)?></option>
+                <option value="<?php echo $id?>"<?php if ($mutasi['jenis_mutasi']==$id){?> selected<?php }?>><?php echo strtoupper($nama)?></option>
               <?php }?>
             </select>
           </td>
@@ -120,7 +120,7 @@
             <select name="jenis_penghapusan" class="required">
               <option value="">Pilih Jenis Penghapusan</option>
               <?php foreach($jenis_penghapusan as $id => $nama){?>
-                <option value="<?php echo $id?>"<?php if($mutasi['jenis_penghapusan']==$id){?> selected<?php }?>><?php echo strtoupper($nama)?></option>
+                <option value="<?php echo $id?>"<?php if ($mutasi['jenis_penghapusan']==$id){?> selected<?php }?>><?php echo strtoupper($nama)?></option>
               <?php }?>
             </select>
           </td>

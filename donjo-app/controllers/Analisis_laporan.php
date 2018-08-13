@@ -116,7 +116,6 @@ class Analisis_laporan extends CI_Controller{
 		$this->load->view('analisis_laporan/table_excel',$data);
 	}
 	function multi_jawab(){
-		//echo phpinfo();
 		$data['form_action'] 	= site_url("analisis_laporan/multi_exec");
 		$data['main']    		= $this->analisis_laporan_model->multi_jawab(1,1);
 		$this->load->view('analisis_laporan/ajax_multi',$data);
@@ -128,13 +127,19 @@ class Analisis_laporan extends CI_Controller{
 	}
 
 	function ajax_multi_jawab(){
-		if(isset($_SESSION['jawab']))
-			$data['jawab'] = $_SESSION['jawab'];
-		else $data['jawab'] = '';
+		if (isset($_SESSION['jawab']))
+    {
+      $data['jawab'] = $_SESSION['jawab'];
+    }
+		else
+    {
+      $data['jawab'] = '';
+    }
 		$data['main']    		= $this->analisis_laporan_model->multi_jawab(1,1);
 		$data['form_action'] = site_url("analisis_laporan/multi_jawab_proses");
 		$this->load->view("analisis_laporan/ajax_multi", $data);
 	}
+
 	function multi_jawab_proses(){
 		if(isset($_POST['id_cb'])){
 			unset($_SESSION['jawab']);

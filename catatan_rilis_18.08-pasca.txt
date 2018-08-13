@@ -18,6 +18,12 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 12. #1584: Sekarang peta hanya menampilkan lokasi penduduk dengan status dasar HIDUP. [bug-fix]
 13. #1553: Sekarang Surat Izin Keramaian menampilkan waktu berlaku tidak tanggal saja. [bug-fix]
 14. #1322: Sekarang berkas Surat Masuk tidak hilang ketika dilakukan perubahan. Berkas Surat Masuk lama sekarang juga bisa dihapus. [bug-fix]
+15. #1265, #1046: Sekarang pesan error akan tampil secara lebih informatif. [bug-fix]
+16. #1155: Urut kolom Web Admin > Komentar sekarang bekerja normal. [bug-fix]
+17. #1277: Sekarang artikel agenda desa yg non-aktif tidak ditampilkan di widget Agenda. [bug-fix]
+18. #1327: Sekarang halaman Pendudduk > Wilayah Administratif > Dusun > RW > daftar RT akan ditampilkan sesudah menghapus RT. [bug-fix]
+19. #1374: Sekarang fitur sortir-kolom dan cari di tabel Analisis > Rincian analisis > Kategori/Variabel berjalan normal. [bug-fix]
+20. #1387: Sekarang Analisis > Rincian Data Analisis > Laporan Hasil Klasifikasi > Filter Indikator menampilkan form untuk memilah indikator. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

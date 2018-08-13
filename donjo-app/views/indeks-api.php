@@ -37,7 +37,7 @@ $format=@$_REQUEST["f"];
 $format = (isset($format))? $format : "json";
 $data=@$_REQUEST["d"];
 $hasil = array();
-if(empty($data)):
+if (empty($data)):
 	$hasil["error"] = true;
 	$hasil["kode"] = 100;
 	$hasil["pesan"] = "Anda belum memasukkan perintah permintaan data, silakan baca di http://sid.web.id/dokumentasi/apis.html";
@@ -45,7 +45,7 @@ else:
 	echo $data."disini";
 endif;
 
-if($format=="json"):
+if ($format=="json"):
 	echo json_encode($hasil);
 else:
 	$xml = new SimpleXMLElement('<sid/>');

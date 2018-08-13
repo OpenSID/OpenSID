@@ -50,8 +50,8 @@ source: keyword
 <div class="left">
 <select name="filter" onchange="formAction('mainform','<?php echo site_url('point/filter')?>')">
 <option value="">Semua</option>
-<option value="1" <?php if($filter==1):?>selected<?php endif?>>Enabled</option>
-<option value="2" <?php if($filter==2):?>selected<?php endif?>>Disabled</option>
+<option value="1" <?php if($filter==1):?>selected<?php endif ?>>Enabled</option>
+<option value="2" <?php if($filter==2):?>selected<?php endif ?>>Disabled</option>
 </select>
 </div>
 <div class="right">
@@ -95,7 +95,7 @@ source: keyword
 <td>
 <div class="uibutton-group">
 <a href="<?php echo site_url("point/form/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Data"><span class="fa fa-edit"></span></a><a href="<?php echo site_url("point/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('point/point_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktifkan point"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('point/point_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan point"><span class="fa fa-unlock"></span></a><a href="<?php echo site_url("point/sub_point/$data[id]")?>" class="uibutton tipsy south" title="Rincian Sub point"><span class="fa fa-list"></span> Rincian</a><a href="<?php echo site_url("point/ajax_add_sub_point/$data[id]")?>" target="ajax-modal" rel="window" header="Tambah Sub point <?php echo $data['nama']?>" class="uibutton tipsy south" title="Tambah Sub point"><span class="icon-plus"></span></a>
-<?php endif?>
+<?php endif ?>
 </div>
 </td>
 <td width="150"><?php echo $data['nama']?></td>

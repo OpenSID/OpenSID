@@ -288,38 +288,42 @@
 		return $query->row_array();
 	}
 
-	function multi_jawab($p=0,$o=0){
+	public function multi_jawab($p=0, $o=0){
 		$master 		= $this->get_analisis_master();
-
 		if(isset($_SESSION['jawab']))
 			$kf = $_SESSION['jawab'];
 		else
 			$kf = "7777777";
 
-		switch($o){
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY u.id'; break;
 			case 2: $order_sql = ' ORDER BY u.id DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.id'; break;
 			case 4: $order_sql = ' ORDER BY u.id DESC'; break;
 			default:
 		}
+
 		$asign_sql = ' AND i.asign = 1';
 		$order_sql = ' ORDER BY u.nomor,i.kode_jawaban ASC';
 
-		$sql = "SELECT u.pertanyaan,u.nomor,i.jawaban,i.id AS id_jawaban,i.kode_jawaban,(SELECT count(id) FROM analisis_parameter WHERE id IN ($kf) AND id = i.id) AS cek FROM analisis_indikator u LEFT JOIN analisis_parameter i ON u.id = i.id_indikator WHERE u.id_master = ? ";
+		$sql = "SELECT u.pertanyaan,u.nomor,i.jawaban,i.id AS id_jawaban,i.kode_jawaban,
+				(SELECT count(id) FROM analisis_parameter WHERE id IN ($kf) AND id = i.id) AS cek
+			FROM analisis_indikator u
+			LEFT JOIN analisis_parameter i ON u.id = i.id_indikator
+			WHERE u.id_master = $master[id] ";
 		$sql .= $asign_sql;
 		$sql .= $order_sql;
 		$query 	= $this->db->query($sql,$master);
 		$data	= $query->result_array();
 
-		$i=0;
-		while($i<count($data)){
+		for ($i=0; $i<count($data); $i++){
 			$data[$i]['no'] 	= $i+1;
 			//$data[$i]['cek'] 	= null;
-			$i++;
 		}
 		return $data;
 	}
+
 	function group_parameter(){
 		if(isset($_SESSION['jawab'])){
 			$idcb = $_SESSION['jawab'];

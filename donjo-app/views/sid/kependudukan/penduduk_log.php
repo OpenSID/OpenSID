@@ -45,43 +45,43 @@
 													<option value="">Semua</option>
 													<?php foreach ($list_status_dasar as $data): ?>
                             <?php if (strtolower($data['nama']) != 'hidup'): ?>
-                              <option value="<?= $data['id']?>" <?php if($status_dasar==$data['id']):?>selected<?php  endif;?>><?= ucwords(strtolower($data['nama']))?></option>
+                              <option value="<?= $data['id']?>" <?php if ($status_dasar==$data['id']): ?>selected<?php endif; ?>><?= ucwords(strtolower($data['nama']))?></option>
                             <?php endif; ?>
                           <?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/sex')?>')">
                           <option value="">Jenis Kelamin</option>
-                          <option value="1" <?php if ($sex==1 ):?>selected<?php endif?>>Laki-Laki</option>
-                 	        <option value="2" <?php if ($sex==2 ):?>selected<?php endif?>>Perempuan</option>
+                          <option value="1" <?php if ($sex==1 ): ?>selected<?php endif ?>>Laki-Laki</option>
+                 	        <option value="2" <?php if ($sex==2 ): ?>selected<?php endif ?>>Perempuan</option>
                         </select>
                         <select class="form-control input-sm" name="agama" onchange="formAction('mainform','<?= site_url('penduduk_log/agama')?>')">
                           <option value="">Agama</option>
-                 					<?php foreach ($list_agama AS $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($agama == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
-                					<?php endforeach;?>
+                 					<?php foreach ($list_agama AS $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($agama == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
+                					<?php endforeach; ?>
                         </select>
-												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk_log/dusun')?>')">
+												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk_log/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-													<?php foreach ($list_dusun AS $data):?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']):?>selected<?php endif?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
-													<?php endforeach;?>
+													<?php foreach ($list_dusun AS $data): ?>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+													<?php endforeach; ?>
 												</select>
-												<?php if ($dusun):?>
+												<?php if ($dusun): ?>
 													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk_log/rw')?>')" >
 														<option value="">RW</option>
-														<?php foreach ($list_rw AS $data):?>
-															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']):?>selected<?php endif?>><?= $data['rw']?></option>
-														<?php endforeach;?>
+														<?php foreach ($list_rw AS $data): ?>
+															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
+														<?php endforeach; ?>
 													</select>
-												<?php endif;?>
-												<?php if ($rw):?>
+												<?php endif; ?>
+												<?php if ($rw): ?>
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk_log/rt')?>')">
 														<option value="">RT</option>
-														<?php foreach ($list_rt AS $data):?>
-															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']):?>selected<?php endif?>><?= $data['rt']?></option>
-														<?php endforeach;?>
+														<?php foreach ($list_rt AS $data): ?>
+															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
+														<?php endforeach; ?>
 													</select>
-												<?php endif;?>
+												<?php endif; ?>
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">

@@ -9,7 +9,7 @@
 		<div id="container">
 			<!-- Print Body -->
 			<div id="body">
-				<?php foreach ($config as $data):?>
+				<?php foreach ($config as $data): ?>
 					<table  width="100%">
 						<tbody>
 							<tr>
@@ -44,7 +44,7 @@
 								<td><?= $bln?> </td>
 								<td width="40%"></td>
 							</tr>
-							<?php if ($dusun):?>
+							<?php if ($dusun): ?>
 								<tr>
 									<td>Dusun</td>
 									<td width="3%">:</td>
@@ -53,17 +53,17 @@
 									</td>
 									<td width="40%"></td>
 								</tr>
-							<?php endif;?>
+							<?php endif; ?>
 						</tbody>
 					</table>
 					<br>
 					<table class="border thick">
 						<thead>
-							<?php if ($_SESSION['dusun']!=''):?>
+							<?php if ($_SESSION['dusun']!=''): ?>
 								<tr>
 									<h3>DATA PILAH <?= strtoupper($this->setting->sebutan_dusun)?> <?= $_SESSION['dusun'] ?></h3>
 								</tr>
-							<?php endif;?>
+							<?php endif; ?>
 							<tr class="border thick">
 								<th rowspan="2"><div align="center"><?= strtoupper($this->setting->sebutan_dusun)?></div></th>
 								<th rowspan="2"><div align="center">RW</div></th>
@@ -100,7 +100,7 @@
 								$sakit_P=0;
 								$hamil=0;
 							?>
-							<?php foreach ($main as $data):?>
+							<?php foreach ($main as $data): ?>
 								<tr>
 									<td align="right"><?= $data['dusunnya']?></td>
 									<td align="right"><?= $data['rw']?></td>
@@ -130,7 +130,7 @@
 										$hamil=$hamil+$data['hamil'];
 									?>
 								</tr>
-  						<?php endforeach;?>
+  						<?php endforeach; ?>
   					</tbody>
 
 						<thead>
@@ -149,7 +149,7 @@
 							</tr>
 						</thead>
 					</table>
-				<?php endforeach;?>
+				<?php endforeach; ?>
 				<p>&nbsp;</p>
 				<p>&nbsp;</p>
 				<p>&nbsp;</p>

@@ -44,9 +44,9 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?=site_url('penduduk/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Penduduk Domisili</a>
-						<?php if ($grup==1):?>
+						<?php if ($grup==1): ?>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("penduduk/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data</a>
-						<?php endif;?>
+						<?php endif; ?>
 						<div class="btn-group-vertical">
 							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
 							<ul class="dropdown-menu" role="menu">
@@ -75,42 +75,42 @@
 											<div class="col-sm-9">
 												<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('penduduk/filter')?>')">
 													<option value="">Semua</option>
-													<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
-													<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
+													<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+													<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 												</select>
 												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk/status_dasar')?>')">
 													<option value="">Status</option>
-													<?php foreach ($list_status_dasar AS $data):?>
-														<option value="<?= $data['id']?>" <?php if ($status_dasar == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
-													<?php endforeach;?>
+													<?php foreach ($list_status_dasar AS $data): ?>
+														<option value="<?= $data['id']?>" <?php if ($status_dasar == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
+													<?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('penduduk/sex')?>')">
 													<option value="">Jenis Kelamin</option>
-													<option value="1" <?php if ($sex==1 ):?>selected<?php endif?>>Laki-Laki</option>
-													<option value="2" <?php if ($sex==2 ):?>selected<?php endif?>>Perempuan</option>
+													<option value="1" <?php if ($sex==1 ): ?>selected<?php endif ?>>Laki-Laki</option>
+													<option value="2" <?php if ($sex==2 ): ?>selected<?php endif ?>>Perempuan</option>
 												</select>
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-													<?php foreach ($list_dusun AS $data):?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']):?>selected<?php endif?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
-													<?php endforeach;?>
+													<?php foreach ($list_dusun AS $data): ?>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+													<?php endforeach; ?>
 												</select>
-												<?php if ($dusun):?>
+												<?php if ($dusun): ?>
 													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk/rw')?>')" >
 														<option value="">RW</option>
-														<?php foreach ($list_rw AS $data):?>
-															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']):?>selected<?php endif?>><?= $data['rw']?></option>
-														<?php endforeach;?>
+														<?php foreach ($list_rw AS $data): ?>
+															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
+														<?php endforeach; ?>
 													</select>
-												<?php endif;?>
-												<?php if ($rw):?>
+												<?php endif; ?>
+												<?php if ($rw): ?>
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk/rt')?>')">
 														<option value="">RT</option>
-														<?php foreach ($list_rt AS $data):?>
-															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']):?>selected<?php endif?>><?= $data['rt']?></option>
-														<?php endforeach;?>
+														<?php foreach ($list_rt AS $data): ?>
+															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
+														<?php endforeach; ?>
 													</select>
-												<?php endif;?>
+												<?php endif; ?>
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
@@ -180,13 +180,13 @@
 																				<li>
 																					<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
 																				</li>
-																				<?php if($data['status_dasar']==1): ?>
+																				<?php if ($data['status_dasar']==1): ?>
 																					<li>
 																						<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
 																					</li>
 																					<li>
 
-																						<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?php echo $data['nama']?>" data-title="Lokasi <?php echo $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+																						<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?= $data['nama']?>" data-title="Lokasi <?= $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
 																					</li>
 																					<li>
 																						<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
@@ -202,11 +202,11 @@
 																					<li>
 																						<a href="<?= site_url("penduduk/cetak_biodata/$data[id]")?>"  target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
 																					</li>
-																					<?php if ($grup==1):?>
+																					<?php if ($grup==1): ?>
 																						<li>
 																							<a href="#" data-href="<?= site_url("penduduk/delete/$p/$o/$data[id]")?>"  class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
 																						</li>
-																					<?php endif;?>
+																					<?php endif; ?>
 																				<?php endif; ?>
 																			</ul>
 																		</div>

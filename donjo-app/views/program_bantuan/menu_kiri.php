@@ -7,9 +7,9 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<li <?php if ($lap=='1'): ?>class="active"<?php endif;?>><a href="<?=site_url('program_bantuan/create')?>"><i class="fa fa-pencil"></i> Tambah Program Bantuan</a></li>
-      <li <?php if ($lap=='0'): ?>class="active"<?php endif;?>><a href="<?=site_url('program_bantuan')?>"><i class="fa fa-list"></i> Daftar Program Bantuan</a></li>
-			<li <?php if ($lap=='2'): ?>class="active"<?php endif;?>><a href="<?=site_url('program_bantuan/panduan')?>"><i class="fa fa-question-circle"></i> Panduan</a></li>
+			<li <?php if ($lap=='1'): ?>class="active"<?php endif; ?>><a href="<?=site_url('program_bantuan/create')?>"><i class="fa fa-pencil"></i> Tambah Program Bantuan</a></li>
+      <li <?php if ($lap=='0'): ?>class="active"<?php endif; ?>><a href="<?=site_url('program_bantuan')?>"><i class="fa fa-list"></i> Daftar Program Bantuan</a></li>
+			<li <?php if ($lap=='2'): ?>class="active"<?php endif; ?>><a href="<?=site_url('program_bantuan/panduan')?>"><i class="fa fa-question-circle"></i> Panduan</a></li>
 		</ul>
 	</div>
 </div>

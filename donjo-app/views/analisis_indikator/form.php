@@ -123,7 +123,7 @@
 												<div class="col-sm-5">
 													<select class="form-control select2"  id="id_kategori" name="id_kategori">
 														<option selected="selected">-- Kategori Indikator--</option>
-														<?php foreach ($list_kategori AS $data):?>
+														<?php foreach ($list_kategori AS $data): ?>
 															<option value="<?= $data['id']?>"  <?php if ($analisis_indikator['id_kategori'] == $data['id']){echo selected;}?>><?= $data['kategori']?></option>
 														<?php endforeach;?>
 													</select>
@@ -134,7 +134,7 @@
 											<div class="form-group" id="delik">
 												<label class="col-sm-3 control-label" for="bobot">Bobot</label>
 												<div class="col-sm-2">
-													<input  id="bobot" class="form-control input-sm" type="text" placeholder="Bobot Pertanyaan" name="bobot" value="<?php if ($analisis_indikator['bobot']==""):?>1<?php else:?><?=$analisis_indikator['bobot'];?><?php endif;?>">
+													<input  id="bobot" class="form-control input-sm" type="text" placeholder="Bobot Pertanyaan" name="bobot" value="<?php if ($analisis_indikator['bobot']==""): ?>1<?php else: ?><?=$analisis_indikator['bobot'];?><?php endif; ?>">
 												</div>
 											</div>
 										</div>
@@ -145,8 +145,8 @@
 													<label id="ss1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_indikator['is_publik'] =='1' OR $analisis_indikator['is_publik'] ==NULL): ?>active<?php endif ?>">
 														<input id="g1" type="radio" name="is_publik" class="form-check-input" type="radio" value="1" <?php if ($analisis_indikator['is_publik']=='1' OR $analisis_indikator['is_publik'] ==NULL): ?>checked <?php endif ?> autocomplete="off"> Ya
 													</label>
-													<label id="ss2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_indikator['is_publik'] == '2' ):?>active<?php endif?>">
-														<input id="g2" type="radio" name="is_publik" class="form-check-input" type="radio" value="2" <?php if ($analisis_indikator['is_publik'] == '2' ):?>checked<?php endif?> autocomplete="off"> Tidak
+													<label id="ss2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_indikator['is_publik'] == '2' ): ?>active<?php endif ?>">
+														<input id="g2" type="radio" name="is_publik" class="form-check-input" type="radio" value="2" <?php if ($analisis_indikator['is_publik'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak
 													</label>
 												</div>
 												<label class="col-sm-3 control-label"></label>
