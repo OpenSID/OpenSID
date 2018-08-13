@@ -91,11 +91,18 @@ class Mandiri extends CI_Controller{
 		redirect('mandiri/perorangan');
 	}
 
-	function insert(){
-		$pin = $this->mandiri_model->insert();
-		$_SESSION['pin'] = $pin;
-		redirect('mandiri');
-	}
+	public function insert()
+    {
+        $pin = $this->mandiri_model->insert();
+        if ($pin) {
+            $_SESSION['success'] = 1;
+        } else {
+            $_SESSION['success'] = -1;
+        }
+
+        $_SESSION['pin'] = $pin;
+        redirect('mandiri');
+    }
 
 	function delete($p=1,$o=0,$id=''){
 		$outp = $this->mandiri_model->delete($id);
