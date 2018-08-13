@@ -33,7 +33,7 @@
 										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?= site_url('gallery/filter/$gallery')?>')">
+													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?= site_url("gallery/filter/$gallery")?>')">
 														<option value="">Semua</option>
 														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
 														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
@@ -60,25 +60,25 @@
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
-                                    <th><a href="<?= site_url("gallery/sub_gallery/$p/1")?>">Nama Gambar <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/1")?>">Nama Gambar <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==1): ?>
-                                    <th><a href="<?= site_url("gallery/sub_gallery/$p/2")?>">Nama Gambar <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/2")?>">Nama Gambar <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th><a href="<?= site_url("gallery/sub_gallery/$p/1")?>">Nama Gambar <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/1")?>">Nama Gambar <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
                                   <?php if ($o==4): ?>
-                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==3): ?>
-                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
 																	<?php if ($o==6): ?>
-                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$p/5")?>">Dimuat Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/5")?>">Dimuat Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==5): ?>
-                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$p/6")?>">Dimuat Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/6")?>">Dimuat Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$p/5")?>">Dimuat Pada <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/5")?>">Dimuat Pada <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
 																</tr>
 															</thead>
@@ -114,7 +114,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("gallery/form_sub_gallery")?>" method="post" class="form-horizontal">
+                          <form id="paging" action="<?= site_url("gallery/sub_gallery/$gallery")?>" method="post" class="form-horizontal">
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
@@ -133,19 +133,19 @@
                         <div class="dataTables_paginate paging_simple_numbers">
                           <ul class="pagination">
                             <?php if ($paging->start_link): ?>
-                              <li><a href="<?= site_url("gallery/sub_gallery/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                              <li><a href="<?= site_url("gallery/sub_gallery/$gallery/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
                             <?php endif; ?>
                             <?php if ($paging->prev): ?>
-                              <li><a href="<?= site_url("gallery/sub_gallery/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                              <li><a href="<?= site_url("gallery/sub_gallery/$gallery/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                             <?php endif; ?>
                             <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-                              <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("gallery/sub_gallery/$i/$o")?>"><?= $i?></a></li>
+                              <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("gallery/sub_gallery/$gallery/$i/$o")?>"><?= $i?></a></li>
                             <?php endfor; ?>
                             <?php if ($paging->next): ?>
-                              <li><a href="<?= site_url("gallery/sub_gallery/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                              <li><a href="<?= site_url("gallery/sub_gallery/$gallery/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                             <?php endif; ?>
                             <?php if ($paging->end_link): ?>
-                              <li><a href="<?= site_url("gallery/sub_gallery/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                              <li><a href="<?= site_url("gallery/sub_gallery/$gallery/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
                             <?php endif; ?>
                           </ul>
                         </div>
