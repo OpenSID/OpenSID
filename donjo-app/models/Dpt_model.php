@@ -113,16 +113,18 @@
 
 	function umur_max_sql(){
 		if(isset($_SESSION['umur_max'])){
+      $tanggal_pemilihan = $this->tanggal_pemilihan();
 			$kf = $_SESSION['umur_max'];
-			$umur_max_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf ";
+			$umur_max_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf ";
 		return $umur_max_sql;
 		}
 	}
 
 	function umur_min_sql(){
 		if(isset($_SESSION['umur_min'])){
+      $tanggal_pemilihan = $this->tanggal_pemilihan();
 			$kf = $_SESSION['umur_min'];
-			$umur_min_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf ";
+			$umur_min_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf ";
 		return $umur_min_sql;
 		}
 	}
@@ -291,7 +293,6 @@
 
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
-
 		//Formating Output
 		$i=0;
 		$j=$offset;
