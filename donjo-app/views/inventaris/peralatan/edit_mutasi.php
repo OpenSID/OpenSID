@@ -2,13 +2,13 @@
 	<section class="content-header">
 		<h1>Ubah Data Mutasi Inventaris Peralatan Dan Mesin</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_peralatan/mutasi"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Peralatan Dan Mesin</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_peralatan/mutasi"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Peralatan Dan Mesin</a></li>
 			<li class="active">Ubah Data</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= $form_action?>">
+		<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= site_url("api_inventaris_peralatan/update_mutasi"); ?>">
 			<div class="row">
 				<div class="col-md-3">
           <?php	$this->load->view('inventaris/peralatan/menu_kiri.php')?>

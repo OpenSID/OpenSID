@@ -40,7 +40,7 @@
 											</div>
 										</div>
 									</div>
-									<?php if (strpos($form_action, 'insert') !== false) :?>
+									<?php if (strpos($form_action, 'insert') !== false): ?>
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="nama">Pemohon Surat</label>

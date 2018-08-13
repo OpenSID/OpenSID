@@ -18,7 +18,10 @@
 							<a href="<?= site_url("keluarga/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
 							<a href="<?= site_url("keluarga/doc_kk/$id_kk")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
 							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Anggota Keluarga">
-								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Anggota Keluarga
+								<i class="fa fa-arrow-circle-left "></i>Daftar Anggota Keluarga
+							</a>
+							<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Anggota Keluarga">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
 							</a>
 						</div>
 						<div class="box-header">
@@ -150,10 +153,32 @@
 											</tbody>
 										</table>
 									</div>
+									<div class="table-responsive">
+										<table class="table no-border">
+											<tbody>
+												<tr>
+													<td width="25%">&nbsp;</td>
+													<td width="50%">&nbsp;</td>
+													<td class="text-center" width="25%"><?= unpenetration($desa['nama_desa']) ?>, <?= tgl_indo(date("Y m d"))?></td>
+												</tr>
+												<tr>
+													<td class="text-center">KEPALA KELUARGA</td>
+													<td>&nbsp;</td>
+													<td class="text-center">KEPALA <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?></td>
+												</tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr>
+													<td class="text-center"><?= strtoupper($kepala_kk['nama'])?></td>
+													<td width="50%">&nbsp;</td>
+													<td class="text-center"><?= strtoupper($desa['nama_kepala_desa']) ?></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
-							</div>
-							<div class="box-footer">
-								<p class="pull-right">Dikeluarkan Tanggal : <?= tgl_indo(date("Y m d"))?></p>
 							</div>
 						</div>
 					</div>

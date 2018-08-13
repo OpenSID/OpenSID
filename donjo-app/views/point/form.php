@@ -58,8 +58,8 @@
 	<section class="content-header">
 		<h1>Pengaturan Kategori Point</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('point')?>"><i class="fa fa-dashboard"></i> Daftar Kategori Point</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('point')?>"><i class="fa fa-dashboard"></i> Daftar Kategori Point</a></li>
 			<li class="active">Pengaturan Kategori Point</li>
 		</ol>
 	</section>
@@ -72,7 +72,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?= site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Kategori Point
             	</a>
 						</div>
@@ -86,11 +86,11 @@
 							<div class="form-group">
 								<label for="nomor"  class="col-sm-2 control-label">Simbol</label>
 								<div class="col-sm-4">
-									<?php if ($point['simbol']!=""):?>
+									<?php if ($point['simbol']!=""): ?>
 										<img src="<?= base_url(); ?>assets/images/gis/point/<?= $point['simbol']?>"/>
-									<?php else:?>
+									<?php else: ?>
 										<img src="<?= base_url(); ?>assets/images/gis/point/default.png"/>
-									<?php endif;?>
+									<?php endif; ?>
 								</div>
 							</div>
 							<div class="form-group">
@@ -98,10 +98,10 @@
 								<div class="col-sm-10">
 									<div  class="vertical-scrollbar" style="max-height:300px;">
 									  <ul id="icons" class="bs-glyphicons">
-											<?php foreach ($simbol as $data):?>
-												<li <?php if ($point['simbol']==$data['simbol']):?>class="active" id="simbol_active" <?php endif; ?> onclick="li_active($(this).val());">
+											<?php foreach ($simbol as $data): ?>
+												<li <?php if ($point['simbol']==$data['simbol']): ?>class="active" id="simbol_active" <?php endif; ?> onclick="li_active($(this).val());">
 													<label>
-														<input type="radio" name="simbol" id="simbol" class="hidden" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']):?>checked<?php endif; ?>>
+														<input type="radio" name="simbol" id="simbol" class="hidden" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']): ?>checked<?php endif; ?>>
 														<img src="<?= base_url(); ?>assets/images/gis/point/<?= $data['simbol']?>">
 														<span class="glyphicon-class"><?= $data['simbol']?></span>
 													</label>

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Manajemen modul</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Manajemen Modul</li>
 		</ol>
 	</section>
@@ -20,16 +20,16 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?=site_url('modul/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php  if($filter==1) :?>selected<?php  endif?>>Aktif</option>
-														<option value="2" <?php  if($filter==2) :?>selected<?php  endif?>>Tidak Aktif</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) :$('#'+'mainform').attr('action','<?=site_url('modul/search')?>');$('#'+'mainform').submit();endif;">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action','<?=site_url('modul/search')?>');$('#'+'mainform').submit();endif;">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?php echo site_url("modul/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url("modul/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -50,19 +50,19 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?=site_url("modul/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a>
-																			<?php if(count($data['submodul'])>0): ?>
+																			<?php if (count($data['submodul'])>0): ?>
 																				<a href="<?=site_url("modul/sub_modul/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" title="Lihat Sub Modul" ><i class="fa fa-list"></i></a>
-																			<?php endif?>
+																			<?php endif; ?>
 																		</td>
 																		<td><?=$data['modul']?></td>
 																		<td><?=$data['url']?></td>
-																		<td><?php	if($data['aktif']==1):?>Aktif<?php else:?>Tidak Aktif <?php endif?></td>
+																		<td><?php	if ($data['aktif']==1): ?>Aktif<?php else: ?>Tidak Aktif <?php endif; ?></td>
 																	</tr>
 																<?php endforeach; ?>
 															</tbody>

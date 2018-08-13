@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Laporan Kependudukan Bulanan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Laporan Kependudukan Bulanan</li>
 		</ol>
 	</section>
@@ -18,7 +18,7 @@
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
-                  <?php foreach ($config as $data):?>
+                  <?php foreach ($config as $data): ?>
                     <h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($data['nama_kabupaten'])?></strong></h4>
                     <h5 class="text-center"><strong>LAPORAN PERKEMBANGAN PENDUDUK (LAMPIRAN A - 9)</strong></h5>
                     <br/>
@@ -44,18 +44,18 @@
                     <div class="col-sm-3 col-md-2">
                       <select class="form-control input-sm" name="bulan" onchange="formAction('mainform','<?= site_url('laporan/bulan')?>')" width="100%">
                         <option value="">Pilih bulan</option>
-                        <option value="1" <?php if ($bulan=="1"):?>selected<?php endif;?>>Januari</option>
-                        <option value="2" <?php if ($bulan=="2"):?>selected<?php endif;?>>Februari</option>
-                        <option value="3" <?php if ($bulan=="3"):?>selected<?php endif;?>>Maret</option>
-                        <option value="4" <?php if ($bulan=="4"):?>selected<?php endif;?>>April</option>
-                        <option value="5" <?php if ($bulan=="5"):?>selected<?php endif;?>>Mei</option>
-                        <option value="6" <?php if ($bulan=="6"):?>selected<?php endif;?>>Juni</option>
-                        <option value="7" <?php if ($bulan=="7"):?>selected<?php endif;?>>Juli</option>
-                        <option value="8" <?php if ($bulan=="8"):?>selected<?php endif;?>>Agustus</option>
-                        <option value="9" <?php if ($bulan=="9"):?>selected<?php endif;?>>September</option>
-                        <option value="10" <?php if ($bulan=="10"):?>selected<?php endif;?>>Oktober</option>
-                        <option value="11" <?php if ($bulan=="11"):?>selected<?php endif;?>>November</option>
-                        <option value="12" <?php if ($bulan=="12"):?>selected<?php endif;?>>Desember</option>
+                        <option value="1" <?php if ($bulan=="1"): ?>selected<?php endif; ?>>Januari</option>
+                        <option value="2" <?php if ($bulan=="2"): ?>selected<?php endif; ?>>Februari</option>
+                        <option value="3" <?php if ($bulan=="3"): ?>selected<?php endif; ?>>Maret</option>
+                        <option value="4" <?php if ($bulan=="4"): ?>selected<?php endif; ?>>April</option>
+                        <option value="5" <?php if ($bulan=="5"): ?>selected<?php endif; ?>>Mei</option>
+                        <option value="6" <?php if ($bulan=="6"): ?>selected<?php endif; ?>>Juni</option>
+                        <option value="7" <?php if ($bulan=="7"): ?>selected<?php endif; ?>>Juli</option>
+                        <option value="8" <?php if ($bulan=="8"): ?>selected<?php endif; ?>>Agustus</option>
+                        <option value="9" <?php if ($bulan=="9"): ?>selected<?php endif; ?>>September</option>
+                        <option value="10" <?php if ($bulan=="10"): ?>selected<?php endif; ?>>Oktober</option>
+                        <option value="11" <?php if ($bulan=="11"): ?>selected<?php endif; ?>>November</option>
+                        <option value="12" <?php if ($bulan=="12"): ?>selected<?php endif; ?>>Desember</option>
                       </select>
                     </div>
                   </div>
@@ -64,7 +64,7 @@
 										<div class="col-sm-4 col-md-3">
 											<select name="pamong" class="form-control input-sm" >
 												<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
-												<?php foreach ($pamong AS $data):?>
+												<?php foreach ($pamong AS $data): ?>
 													<option value="<?= $data['pamong_nama']?>"><?= $data['pamong_nama']?> (<?= $data['jabatan']?>)</option>
 												<?php endforeach;?>
 											</select>
@@ -73,7 +73,7 @@
 										<div class="col-sm-3">
 											<select name="jabatan"  class="form-control input-sm">
 												<option value="">Pilih Jabatan</option>
-												<?php foreach ($pamong AS $data):?>
+												<?php foreach ($pamong AS $data): ?>
 													<option ><?= $data['jabatan']?></option>
 												<?php endforeach;?>
 											</select>

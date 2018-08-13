@@ -1,5 +1,6 @@
 <script type="text/javascript">
-	$('#validasi').submit(function() {
+	$('#validasi').submit(function()
+	{
 		$('#modalBox').modal('hide');
 	});
 </script>
@@ -13,7 +14,7 @@
 							<label class="control-label">Tahun Laporan</label>
 							<select class="form-control input-sm jenis_link"  name="tahun">>
 								<option value="">Pilih Tahun Laporan</option>
-								<?php foreach ($tahun_laporan as $tahun):?>
+								<?php foreach ($tahun_laporan as $tahun): ?>
 									<option value="<?= $tahun['tahun']?>"><?= $tahun['tahun']?></option>
 								<?php endforeach; ?>
 							</select>
@@ -22,8 +23,8 @@
 							<label class="control-label">Pamong tertanda</label>
 							<select class="form-control input-sm jenis_link" name="pamong_ttd">
 								<option value="">Pilih Staf Penandatangan</option>
-								<?php foreach ($pamong AS $data):?>
-									<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']), 'sekretaris')!==false):?> selected <?php endif;?>><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
+								<?php foreach ($pamong AS $data): ?>
+									<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']), 'sekretaris')!==false): ?> selected <?php endif; ?>><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
 								<?php endforeach; ?>
 							</select>
 						</div>
@@ -31,8 +32,8 @@
 							<label class="control-label">Pamong mengetahui</label>
 							<select class="form-control input-sm jenis_link"  name="jabatan_ketahui">
 								<option value="">Pilih Staf Mengetahui</option>
-								<?php foreach ($pamong AS $data):?>
-									<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']),'kepala')!==false and strpos(strtolower($data['jabatan']),'dusun')===false):?>selected<?php endif; ?>><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
+								<?php foreach ($pamong AS $data): ?>
+									<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']),'kepala')!==false and strpos(strtolower($data['jabatan']),'dusun')===false): ?>selected<?php endif; ?>><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
 								<?php endforeach;?>
 							</select>
 						</div>

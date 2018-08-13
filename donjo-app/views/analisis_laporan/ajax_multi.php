@@ -49,9 +49,9 @@
 					<div class="box-body">
 						<input type="hidden" name="rt" value="">
 						<div class="table-responsive" style="height:60vh;">
-                <?php $jumlah = count($main); ?>
-                <?php if ($jumlah != 0): ?>
-                  <table class="table table-bordered dataTable nowrap">
+              <?php $jumlah = count($main); ?>
+              <?php if ($jumlah != 0): ?>
+                <table class="table table-bordered dataTable nowrap">
                   <?php $last=""; foreach ($main AS $data):?>
                     <?php	if ($data['pertanyaan']!=$last):?>
                       <tr><td><label><?= $data['pertanyaan']?></label></td></tr>
@@ -75,10 +75,10 @@
                     <?php	endif;
                     $last=$data['pertanyaan'];
                   endforeach;?>
-                  </table>
-                <?php else: ?>
-                  <div class="text-center"><h4>Tidak Ada Data...</h4></div>
-                <?php endif; ?>
+                </table>
+              <?php else: ?>
+                <div class="text-center"><h4>Tidak Ada Data...</h4></div>
+              <?php endif; ?>
 						</div>
 					</div>
 					<div class="modal-footer">

@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
  	//File Upload
 	$('#file_browser').click(function(e)
@@ -71,7 +71,7 @@
                               <p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $kartu_peserta?>" /> Hapus Gambar</label></p>
                            </div>
                           </div>
-                        <?php endif;?>
+                        <?php endif; ?>
 												<div class="form-group">
 													<label for="gambar_peserta" class="col-sm-4 control-label">Gambar Kartu Peserta</label>
 													<div class="col-sm-7">

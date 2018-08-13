@@ -17,7 +17,7 @@
 							<a href="<?= site_url("laporan_rentan/excel/$lap")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						</div>
 						<div class="box-header  with-border">
-							<?php foreach ($config as $data):?>
+							<?php foreach ($config as $data): ?>
 							<h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($data['nama_kabupaten'])?></strong></h4>
 							<h5 class="text-center"><strong>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN (LAMPIRAN A - 9)</strong></h5>
 						</div>
@@ -41,8 +41,8 @@
 								<div class="col-sm-4 col-md-2">
 									<select class="form-control input-sm" name="dusun" onchange="formAction('mainform','<?= site_url('laporan_rentan/dusun')?>')">
 										<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-										<?php foreach ($list_dusun as $data):?>
-											<option value="<?= $data['dusun']?>" <?php if ($dusun==$data['dusun']):?>selected<?php endif;?>><?= ununderscore(unpenetration($data['dusun']))?></option>
+										<?php foreach ($list_dusun as $data): ?>
+											<option value="<?= $data['dusun']?>" <?php if ($dusun==$data['dusun']): ?>selected<?php endif; ?>><?= ununderscore(unpenetration($data['dusun']))?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -51,7 +51,7 @@
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<?php if ($dusun!=''):?>
+									<?php if ($dusun!=''): ?>
 										<h4>DATA PILAH <?= strtoupper($this->setting->sebutan_dusun)?> <?= $dusun ?></h4>
 									<?php endif; ?>
 									<div class="table-responsive">
@@ -149,7 +149,7 @@
 													<th class="text-right"><?= $smp;?></th>
 													<th class="text-right"><?= $sma;?></th>
 													<th class="text-right"><?= $lansia;?></th>
-													<?php foreach ($total_cacat as $cacat):?>
+													<?php foreach ($total_cacat as $cacat): ?>
 														<th class="total text-right"><?= $cacat;?></th>
 													<?php endforeach; ?>
 													<th class="text-right"><?= $sakit_L;?></th>

@@ -1,4 +1,4 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 	$buffer=str_replace("[jumlah_pengikut]",count($input['id_cb']),$buffer);
 	for ($i = 0; $i < MAX_PINDAH; $i++)
 	{

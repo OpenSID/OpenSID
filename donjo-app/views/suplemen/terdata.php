@@ -54,7 +54,7 @@
 											<td><a href="<?= site_url('suplemen/rincian/1/'.$item["id"].'/')?>"><?= $item["nama"] ?></a></td>
 											<td><?= $item["keterangan"];?></td>
 										</tr>
-									<?php endforeach ?>
+									<?php endforeach; ?>
 								</tbody>
 							</table>
 						</div>

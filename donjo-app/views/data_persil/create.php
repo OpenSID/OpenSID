@@ -24,7 +24,7 @@
 												<div class="col-sm-8">
 														<select class="form-control input-sm select2" style="width: 100%;" id="nik" name="nik" onchange="$('#'+'main').submit();">
 															<option selected="selected">-- Silakan Masukan NIK / Nama --</option>
-															<?php foreach ($penduduk as $item):?>
+															<?php foreach ($penduduk as $item): ?>
 																<option value="<?= $item['id']?>">Nama : <?= $item['nama']." Alamat : ".$item['info']?></option>
 															<?php endforeach;?>
 														</select>
@@ -68,8 +68,8 @@
 											<div class="col-sm-4">
 												<select class="form-control  input-sm select2" id="cid" name="cid">
 													<option >-- Pilih Jenis Persil--</option>
-													<?php foreach ($persil_jenis as $key=>$item):?>
-														<option value="<?= $key ?>" <?php if ($key==$persil_detail["persil_jenis_id"]):?>selected<?php endif;?>><?= $item[0]?></option>
+													<?php foreach ($persil_jenis as $key=>$item): ?>
+														<option value="<?= $key ?>" <?php if ($key==$persil_detail["persil_jenis_id"]): ?>selected<?php endif; ?>><?= $item[0]?></option>
 													<?php endforeach;?>
 												</select>
 											</div>
@@ -97,8 +97,8 @@
 											<div class="col-sm-4">
 												<select class="form-control  input-sm select2" id="sid" name="sid">
 													<option >-- Pilih Peruntukan--</option>
-													<?php foreach ($persil_peruntukan as $key=>$item):?>
-														<option value="<?= $key?>" <?php if ($key==$persil_detail["persil_peruntukan_id"]):?>selected<?php endif;?>><?= $item[0]?></option>
+													<?php foreach ($persil_peruntukan as $key=>$item): ?>
+														<option value="<?= $key?>" <?php if ($key==$persil_detail["persil_peruntukan_id"]): ?>selected<?php endif; ?>><?= $item[0]?></option>
 													<?php endforeach;?>
 												</select>
 											</div>
@@ -108,8 +108,8 @@
 											<div class="col-sm-4">
 												<select class="form-control  input-sm select2" id="pid" name="pid">
 													<option >-- Pilih Lokasi Tanah--</option>
-													<?php foreach ($persil_lokasi as $key=>$item):?>
-														<option value="<?= $item["id"] ?>" <?php if ($item["id"]==$persil_detail["id_clusterdesa"]):?>selected<?php endif;?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
+													<?php foreach ($persil_lokasi as $key=>$item): ?>
+														<option value="<?= $item["id"] ?>" <?php if ($item["id"]==$persil_detail["id_clusterdesa"]): ?>selected<?php endif; ?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
 													<?php endforeach;?>
 												</select>
 											</div>

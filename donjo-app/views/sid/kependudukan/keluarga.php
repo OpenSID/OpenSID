@@ -28,7 +28,7 @@
 	<section class="content-header">
 		<h1>Data Keluarga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Data Keluarga</li>
 		</ol>
 	</section>
@@ -37,8 +37,8 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url('keluarga/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data KK Baru"><i class="fa fa-plus"></i> Tambah KK Baru</a>
-						<a href="<?=site_url('keluarga/form_old')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data KK dari keluarga yang sudah ter-input" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Kepala Keluarga"><i class="fa fa-plus"></i> Tambah KK</a>
+						<a href="<?= site_url('keluarga/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data KK Baru"><i class="fa fa-plus"></i> Tambah KK Baru</a>
+						<a href="<?= site_url('keluarga/form_old')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data KK dari keluarga yang sudah ter-input" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Kepala Keluarga"><i class="fa fa-plus"></i> Tambah KK</a>
 						<a href="<?= site_url("keluarga/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url("keluarga/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						<div class="btn-group btn-group-vertical">
@@ -50,11 +50,11 @@
 								<li>
 									<a href="#confirm-status" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Kartu Keluarga" onclick="aksiBorongan('mainform','<?= site_url("keluarga/doc_kk_all")?>')"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
 								</li>
-								<?php if ($grup==1):?>
+								<?php if ($grup==1): ?>
 									<li>
 										<a href="#confirm-delete" class="btn btn-social btn-flat btn-block btn-sm" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("keluarga/delete_all/$p/$o")?>')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
 									</li>
-								<?php endif;?>
+								<?php endif; ?>
 							</ul>
 						</div>
 					</div>
@@ -67,36 +67,36 @@
 											<div class="col-sm-9">
 												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('keluarga/status_dasar')?>')">
 													<option value="">Semua KK</option>
-													<option value="1" <?php if($status_dasar == 1) :?>selected<?php endif?>>KK Aktif</option>
-													<option value="2" <?php if($status_dasar == 2) :?>selected<?php endif?>>KK Hilang/Pindah/Mati</option>
+													<option value="1" <?php if ($status_dasar == 1): ?>selected<?php endif ?>>KK Aktif</option>
+													<option value="2" <?php if ($status_dasar == 2): ?>selected<?php endif ?>>KK Hilang/Pindah/Mati</option>
 												</select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('keluarga/sex')?>')">
 													<option value="">Jenis Kelamin</option>
-													<option value="1" <?php if($sex==1 ) :?>selected<?php endif?>>Laki-Laki</option>
-													<option value="2" <?php if($sex==2 ) :?>selected<?php endif?>>Perempuan</option>
+													<option value="1" <?php if ($sex==1 ): ?>selected<?php endif ?>>Laki-Laki</option>
+													<option value="2" <?php if ($sex==2 ): ?>selected<?php endif ?>>Perempuan</option>
 												</select>
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('keluarga/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-													<?php foreach ($list_dusun AS $data):?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']):?>selected<?php endif?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+													<?php foreach ($list_dusun AS $data): ?>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
 													<?php endforeach;?>
 												</select>
-												<?php if ($dusun):?>
+												<?php if ($dusun): ?>
 													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('keluarga/rw')?>')" >
 														<option value="">RW</option>
-														<?php foreach ($list_rw AS $data):?>
-															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']):?>selected<?php endif?>><?= $data['rw']?></option>
+														<?php foreach ($list_rw AS $data): ?>
+															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
 														<?php endforeach;?>
 													</select>
-												<?php endif;?>
-												<?php if ($rw):?>
+												<?php endif; ?>
+												<?php if ($rw): ?>
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('keluarga/rt')?>')">
 														<option value="">RT</option>
-														<?php foreach ($list_rt AS $data):?>
-															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']):?>selected<?php endif?>><?= $data['rt']?></option>
+														<?php foreach ($list_rt AS $data): ?>
+															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
 														<?php endforeach;?>
 													</select>
-												<?php endif;?>
+												<?php endif; ?>
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
@@ -151,9 +151,9 @@
 																		<a href="<?= site_url("keluarga/form_a/$p/$o/$data[id]")?>" class="btn btn-success btn-flat btn-sm " title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> </a>
 																		<a href="<?= site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data KK" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																		<a href="<?= site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Alamat/Pindah Keluarga (KK) Dalam Desa" class="btn bg-navy btn-flat btn-sm"  title="Ubah Alamat/Pindah Keluarga dalam Desa"><i class="fa fa-location-arrow"></i></a>
-																		<?php if ($grup==1):?>
+																		<?php if ($grup==1): ?>
 																			<a href="#" data-href="<?= site_url("keluarga/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus/Keluar Dari Daftar Keluarga" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php endif;?>
+																		<?php endif; ?>
 																	</td>
 																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"><?= $data['no_kk']?></a></td>
 																	<td nowrap><?= strtoupper(unpenetration($data['kepala_kk']))?></td>

@@ -20,7 +20,7 @@
 	<section class="content-header">
 		<h1>Data Calon Pemilih</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Data Calon Pemilih</li>
 		</ol>
 	</section>
@@ -35,7 +35,7 @@
 								<div class="row">
 									<a href="<?= site_url("dpt/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 									<a href="<?= site_url("dpt/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-									<a href="<?= site_url("dpt/ajax_adv_search")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Dengan Kreteria" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pencarian Spesifik"><i class='fa fa-search'></i> Pencarian Spesifik</a>
+									<a href="<?= site_url("dpt/ajax_adv_search")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pencarian Spesifik"><i class='fa fa-search'></i> Pencarian Spesifik</a>
 									<a href="<?= site_url("dpt/clear")?>" class="btn btn-social btn-flat btn-default btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Pencarian"><i class="fa fa-refresh"></i>Bersihkan</a>
 								</div>
 							</div>
@@ -47,7 +47,7 @@
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input class="form-control input-sm pull-right" id="tgl_1" onchange="$('#mainform').attr('action', '<?= site_url('dpt/index/1/'.$o)?>'); $('#mainform').submit();" name="tanggal_pemilihan" type="text" value="<?= $_SESSION['tanggal_pemilihan']?>">
+											<input class="form-control input-sm datepicker pull-right" onchange="$('#mainform').attr('action', '<?= site_url('dpt/index/1/'.$o)?>'); $('#mainform').submit();" name="tanggal_pemilihan" type="text" value="<?= $_SESSION['tanggal_pemilihan']?>">
 										</div>
 									</div>
 								</div>
@@ -62,39 +62,39 @@
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 										<div class="row">
 											<div class="col-sm-9">
-												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('dpt/sex/1/'.$o)?>')">
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/sex/1/'.$o)?>')">
 													<option value="">Jenis Kelamin</option>
-													<option value="1" <?php if ($sex==1 ):?>selected<?php endif?>>Laki-Laki</option>
-													<option value="2" <?php if ($sex==2 ):?>selected<?php endif?>>Perempuan</option>
+													<option value="1" <?php if ($sex==1 ): ?>selected<?php endif ?>>Laki-Laki</option>
+													<option value="2" <?php if ($sex==2 ): ?>selected<?php endif ?>>Perempuan</option>
 												</select>
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('dpt/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-													<?php foreach ($list_dusun AS $data):?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']):?>selected<?php endif?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+													<?php foreach ($list_dusun AS $data): ?>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
 													<?php endforeach;?>
 												</select>
-												<?php if ($dusun):?>
+												<?php if ($dusun): ?>
 													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('dpt/rw')?>')" >
 														<option value="">RW</option>
-														<?php foreach ($list_rw AS $data):?>
-															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']):?>selected<?php endif?>><?= $data['rw']?></option>
+														<?php foreach ($list_rw AS $data): ?>
+															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
 														<?php endforeach;?>
 													</select>
-												<?php endif;?>
-												<?php if ($rw):?>
+												<?php endif; ?>
+												<?php if ($rw): ?>
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('dpt/rt')?>')">
 														<option value="">RT</option>
-														<?php foreach ($list_rt AS $data):?>
-															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']):?>selected<?php endif?>><?= $data['rt']?></option>
+														<?php foreach ($list_rt AS $data): ?>
+															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
 														<?php endforeach;?>
 													</select>
-												<?php endif;?>
+												<?php endif; ?>
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
-													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("dpt/search")?>');$('#'+'mainform').submit();}">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();}">
 													<div class="input-group-btn">
-														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("dpt/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</div>
@@ -144,7 +144,7 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php  foreach($main as $data): ?>
+															<?php foreach ($main as $data): ?>
 																<tr>
 																	<td><?= $data['no']?></td>
 																	<td>
@@ -161,7 +161,7 @@
 																	<td><?= $data['pekerjaan']?></td>
 																	<td><?= $data['kawin']?></td>
 																</tr>
-															<?php  endforeach; ?>
+															<?php endforeach; ?>
 														</tbody>
 													</table>
 												</div>
@@ -189,19 +189,19 @@
 												<div class="dataTables_paginate paging_simple_numbers">
 													<ul class="pagination">
 														<?php if ($paging->start_link): ?>
-															<li><a href="<?=site_url("dpt/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+															<li><a href="<?= site_url("dpt/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->prev): ?>
-															<li><a href="<?=site_url("dpt/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+															<li><a href="<?= site_url("dpt/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 														<?php endif; ?>
 														<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("dpt/index/$i/$o")?>"><?= $i?></a></li>
 														<?php endfor; ?>
 														<?php if ($paging->next): ?>
-															<li><a href="<?=site_url("dpt/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+															<li><a href="<?= site_url("dpt/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->end_link): ?>
-															<li><a href="<?=site_url("dpt/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+															<li><a href="<?= site_url("dpt/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 														<?php endif; ?>
 													</ul>
 												</div>

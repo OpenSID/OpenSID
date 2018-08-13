@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
 	$(function ()
 	{
@@ -14,7 +14,7 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="nama">Nama</label>
-							<input name="no_hp" class="form-control input-sm" type="text" value="<?=unpenetration($kontak['nama']);?>" disabled=""></input>
+							<input name="no_hp" class="form-control input-sm" type="text" value="<?= unpenetration($kontak['nama']);?>" disabled=""></input>
 							<input name="id_pend" type="hidden" value="<?=$kontak['id_pend']?>"></input>
 						</div>
 						<div class="form-group">

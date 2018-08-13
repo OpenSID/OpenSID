@@ -16,9 +16,9 @@
 							<label for="nik_kepala">Kepala Keluarga</label>
 							<select class="form-control input-sm required select2" id="nik_kepala" name="nik_kepala" style="width:100%;">
 								<option value="">-- Silakan Cari NIK / Nama Kepala Keluarga --</option>
-								<?php foreach ($penduduk as $data):?>
+								<?php foreach ($penduduk as $data): ?>
 									<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 						<div class="form-group">

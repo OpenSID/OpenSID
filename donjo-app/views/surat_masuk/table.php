@@ -39,9 +39,9 @@
 										<div class="col-md-2">
 											<select name="filter" class="form-control input-sm" onchange="formAction('mainform','<?= site_url('surat_masuk/filter')?>')">
 												<option value="">Semua</option>
-												<?php foreach ($tahun_penerimaan as $tahun):?>
-													<option value="<?= $tahun['tahun']?>"  <?php if ($filter==$tahun['tahun']):?>selected<?php endif?>><?= $data['pamong_nama']?> (<?= $tahun['tahun']?>)</option>
-												<?php endforeach;?>
+												<?php foreach ($tahun_penerimaan as $tahun): ?>
+													<option value="<?= $tahun['tahun']?>" <?php if ($filter==$tahun['tahun']): ?>selected<?php endif; ?>><?= $data['pamong_nama']?> (<?= $tahun['tahun']?>)</option>
+												<?php endforeach; ?>
 											</select>
 										</div>
 									</div>
@@ -50,18 +50,18 @@
                     <div class="col-md-3">
                       <select class="form-control input-sm" name="pamong_ttd" width="100%">
 												<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
-												<?php foreach ($pamong AS $data):?>
+												<?php foreach ($pamong AS $data): ?>
 													<option value="<?=  $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>"><?= $data['pamong_nama']?><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
-												<?php endforeach;?>
+												<?php endforeach; ?>
                       </select>
                     </div>
 										<label class="col-md-1 control-label" for="jabatan_ttd">Sebagai</label>
                     <div class="col-md-3">
                       <select class="form-control input-sm" name="jabatan_ttd" width="100%">
 												<option value="">Pilih Jabatan</option>
-												<?php foreach ($pamong AS $data):?>
+												<?php foreach ($pamong AS $data): ?>
 													<option><?= $data['jabatan']?></option>
-												<?php endforeach;?>
+												<?php endforeach; ?>
                       </select>
                     </div>
                   </div>
@@ -70,18 +70,18 @@
                     <div class="col-md-3">
                       <select class="form-control input-sm" name="pamong_ketahui" width="100%">
 												<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
-												<?php foreach ($pamong AS $data):?>
+												<?php foreach ($pamong AS $data): ?>
 													<option value="<?=  $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>"><?= $data['pamong_nama']?><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
-												<?php endforeach;?>
+												<?php endforeach; ?>
                       </select>
                     </div>
 										<label class="col-md-1 control-label" for="jabatan_ketahui">Sebagai</label>
                     <div class="col-md-3">
                       <select class="form-control input-sm" name="jabatan_ketahui" width="100%">
 												<option value="">Pilih Jabatan</option>
-												<?php foreach ($pamong AS $data):?>
+												<?php foreach ($pamong AS $data): ?>
 													<option><?= $data['jabatan']?></option>
-												<?php endforeach;?>
+												<?php endforeach; ?>
                       </select>
                     </div>
                   </div>
@@ -134,7 +134,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																		<td><?= $data['nomor_urut']?></td>
