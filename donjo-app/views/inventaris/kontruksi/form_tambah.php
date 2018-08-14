@@ -125,7 +125,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="harga">Harga</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<span class="input-group-addon" id="koefisien_dasar_bangunan-addon">Rp</span>
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Rp</span>
 												<input class="form-control number input-sm" id="harga" name="harga" type="text"/>
 											</div>
 										</div>

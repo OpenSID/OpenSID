@@ -53,7 +53,7 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
-													<table id="tabel2" class="table table-bordered dataTable table-hover nowrap">
+													<table class="table table-bordered dataTable table-striped table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th>No</th>
@@ -80,9 +80,9 @@
 																		<?php endif; ?>
 																	</td>
 																	<td nowrap><a href="<?= site_url('suplemen/terdata/'.$suplemen["sasaran"].'/'.$item["nik"].'/')?>" title="Daftar suplemen untuk terdata"><?= $item["terdata_nama"] ?></a></td>
-																	<td><a href="<?= site_url('suplemen/data_terdata/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
+																	<td nowrap><a href="<?= site_url('suplemen/data_terdata/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
 																	<td><?= $item["info"];?></td>
-																	<td width="40%"><?= $item["keterangan"];?></td>
+																	<td width="25%"><?= $item["keterangan"];?></td>
 																</tr>
 																	<?php
 																	endforeach;

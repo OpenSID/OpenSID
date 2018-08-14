@@ -263,3 +263,9 @@ table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:
 {
 	margin-bottom: 0px;
 }
+/* Modifikasi template AdminLTE: menambah scrollbar pada bagian sidebar menu*/
+.slimScrollBar
+{
+	background-color: white !important;
+	opacity: 0.3 !important;
+}

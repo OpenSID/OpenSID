@@ -109,8 +109,22 @@
 <script>
 	$(document).ready(function()
 	{
-		$(".disumbangkan").hide();
-		$(".harga_jual").hide();
+		if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
+		{
+			$(".disumbangkan").show();
+			$(".harga_jual").hide();
+		}
+		else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+		{
+			$(".disumbangkan").hide();
+			$(".harga_jual").show();
+		}
+		else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+		{
+			$(".disumbangkan").hide();
+			$(".harga_jual").hide();
+		}
+
 		$("#mutasi").change(function()
 		{
 			if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
@@ -122,7 +136,8 @@
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+			}
+			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();
