@@ -222,6 +222,29 @@
       ";
       $this->db->query($query);
     }
+    //Perubahan tabel untuk modul SMS
+    if (!$this->db->field_exists('kontak','id'))
+      $this->db->query("ALTER TABLE kontak CHANGE `id` `id_kontak` INT(11) NOT NULL AUTO_INCREMENT");
+    if (!$this->db->field_exists('kontak_grup','id_kontak'))
+      $this->db->query("ALTER TABLE kontak_grup DROP COLUMN `id_kontak`");
+    if (!$this->db->field_exists('kontak_grup','id'))
+      $this->db->query("ALTER TABLE kontak_grup CHANGE `id` `id_grup` INT(11) NOT NULL AUTO_INCREMENT");
+    if (!$this->db->table_exists('anggota_grup_kontak'))
+    {
+      $sql = "CREATE TABLE `anggota_grup_kontak` (
+                `id_grup_kontak` int(11) NOT NULL AUTO_INCREMENT,
+                `id_grup` int(11) NOT NULL,
+                `id_kontak` int(11) NOT NULL,
+                PRIMARY KEY (`id_grup_kontak`)
+              ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1"; 
+      $this->db->query($sql);
+    }
+    $this->db->query("DROP VIEW IF EXISTS `daftar_kontak`");
+    $this->db->query("CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,(case when (`b`.`sex` = '1') then 'Laki-laki' else 'Perempuan' end) AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on((`a`.`id_pend` = `b`.`id`)))");
+    $this->db->query("DROP VIEW IF EXISTS `daftar_grup`");
+    $this->db->query("CREATE VIEW `daftar_grup` AS select `a`.*,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where (`a`.`id_grup` = `anggota_grup_kontak`.`id_grup`)) AS `jumlah_anggota` from `kontak_grup` `a`");
+    $this->db->query("DROP VIEW IF EXISTS `daftar_anggota_grup`");
+    $this->db->query("CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)))");
   }
 
   function migrasi_1806_ke_1807()
