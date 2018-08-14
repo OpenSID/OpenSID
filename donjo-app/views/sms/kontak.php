@@ -66,11 +66,11 @@
 															<tbody>
 																<?php foreach ($main as $data):?>
 																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id_kontak']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?=site_url("sms/form_kontak/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
-																			<a href="#" data-href="<?=site_url("sms/kontak_delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="<?=site_url("sms/form_kontak/$data[id_kontak]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
+																			<a href="#" data-href="<?=site_url("sms/kontak_delete/$data[id_kontak]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                     <td><a href="<?=site_url("penduduk/detail/$p/$o/$data[id_pend]")?>"><?=unpenetration($data['nama'])?></a></td>
 																		<td><?=$data['sex']?></td>

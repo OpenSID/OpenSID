@@ -19,7 +19,7 @@
 								<tbody>
 									<?php $no=1; foreach ($main as $data): ?>
 										<tr>
-											<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+											<td><input type="checkbox" name="id_cb[]" value="<?=$data['id_kontak']?>" /></td>
 											<td><?= $no;?></td>
 											<td><?= unpenetration($data['nama'])?></td>
 											<td><?= $data['sex']?></td>

@@ -15,7 +15,7 @@
 						<div class="form-group">
 							<label for="nama">Nama</label>
 							<input name="no_hp" class="form-control input-sm" type="text" value="<?=unpenetration($kontak['nama']);?>" disabled=""></input>
-							<input name="id_pend" type="hidden" value="<?=$kontak['id_pend']?>"></input>
+							<input name="id_kontak" type="hidden" value="<?=$kontak['id_kontak']?>"></input>
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="hp">No HP</label>
