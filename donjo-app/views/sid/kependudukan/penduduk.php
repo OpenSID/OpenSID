@@ -124,6 +124,9 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
+													<?php if ($judul_statistik): ?>
+														<h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
+													<?php endif; ?>
 													<table class="table table-bordered dataTable table-hover nowrap">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
@@ -185,17 +188,14 @@
 																						<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
 																					</li>
 																					<li>
-
 																						<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?= $data['nama']?>" data-title="Lokasi <?= $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
 																					</li>
 																					<li>
 																						<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
 																					</li>
-
-																						<li>
-																							<a href="<?= site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah/Pindah Alamat Penduduk Lepas" class="btn btn-social btn-flat btn-block btn-sm"  title="Ubah Alamat/Pindah Penduduk dalam Desa"><i class="fa fa-location-arrow"></i> Pindah Penduduk Dalam Desa</a>
-																						</li>
-
+																					<li>
+																						<a href="<?= site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah/Pindah Alamat Penduduk Lepas" class="btn btn-social btn-flat btn-block btn-sm"  title="Ubah Alamat/Pindah Penduduk dalam Desa"><i class="fa fa-location-arrow"></i> Pindah Penduduk Dalam Desa</a>
+																					</li>
 																					<li>
 																						<a href="<?= site_url("penduduk/dokumen/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
 																					</li>

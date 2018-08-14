@@ -37,7 +37,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="nomor_register" id="nomor_register" type="text"/>
+											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -61,7 +61,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pembelian</label>
 										<div class="col-sm-4">
-											<select name="tahun" id="tahun" class="form-control input-sm required">
+											<select name="tahun_pengadaan" id="tahun_pengadaan" class="form-control input-sm required">
 												<option value="<?= $main->tahun_pengadaan; ?>"><?= $main->tahun_pengadaan; ?></option>
 												<?php for ($i=date("Y"); $i>=1980; $i--): ?>
 													<option value="<?= $i ?>"><?= $i ?></option>
@@ -96,13 +96,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="bpkb">BPKB</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (!empty($main->no_bpkb) ? $main->no_bpkb : '-'); ?>" class="form-control input-sm required" name="bpkb" id="bpkb" type="text"/>
+											<input maxlength="50" value="<?= (!empty($main->no_bpkb) ? $main->no_bpkb : '-'); ?>" class="form-control input-sm required" name="no_bpkb" id="no_bpkb" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="asal_usul">Asal Usul </label>
 										<div class="col-sm-4">
-											<select name="asal_usul" id="asal_usul" class="form-control input-sm required">
+											<select name="asal" id="asal" class="form-control input-sm required">
 												<option value="<?= $main->asal; ?>"><?= $main->asal; ?></option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>
