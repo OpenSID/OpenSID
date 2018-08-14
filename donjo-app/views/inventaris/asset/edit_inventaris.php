@@ -172,4 +172,109 @@
 		</form>
 	</section>
 </div>
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+			if($("#jenis_asset").val() == "Buku")
+			{
+				$(".judul").show();
+				$(".spesifikasi").show();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Barang Kesenian")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").show();
+				$(".pencipta_kesenian").show();
+				$(".bahan_kesenian").show();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Hewan Ternak")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").show();
+				$(".ukuran_hewan").show();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Tumbuhan")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").show();
+				$(".ukuran_tumbuhan").show();
+			}
 
+		$("#jenis_asset").change(function()
+		{
+			if ($("#jenis_asset").val() == "Buku")
+			{
+				$(".judul").show();
+				$(".spesifikasi").show();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Barang Kesenian")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").show();
+				$(".pencipta_kesenian").show();
+				$(".bahan_kesenian").show();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Hewan Ternak")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").show();
+				$(".ukuran_hewan").show();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Tumbuhan")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").show();
+				$(".ukuran_tumbuhan").show();
+			}
+		});
+	});
+</script>

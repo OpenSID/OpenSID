@@ -271,6 +271,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
+										<input type="hidden" name="pekerjaanid_ibu">
 										<label for="pekerjaanibu" class="col-sm-3 control-label" ><strong>Pekerjaan</strong></label>
 										<div class="col-sm-4">
 											<select class="form-control input-sm" name="pekerjaanibu" id="pekerjaanibu" onchange="$('input[name=pekerjaanid_ibu]').val($(this).find(':selected').data('pekerjaanid'));">
@@ -357,6 +358,7 @@
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
+										<input type="hidden" name="pekerjaanid_ayah">
 										<label for="pekerjaanayah" class="col-sm-3 control-label" ><strong>Pekerjaan</strong></label>
 										<div class="col-sm-4">
 											<select class="form-control input-sm select2" name="pekerjaanayah" id="pekerjaanayah" style ="width:100%;"  onchange="$('input[name=pekerjaanid_ayah').val($(this).find(':selected').data('pekerjaanid'));">
@@ -416,9 +418,9 @@
 									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2" id="id_bayi" name="id_bayi" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
-											<option value="">--  Cari NIK / Nama Penduduk--</option>
+											<option value=""><?php if($bayi): ?>NIK : <?= $bayi['nik']?> - <?= $bayi['nama']?><?php else: ?>-- Cari NIK / Nama Penduduk --<?php endif; ?></option>
 											<?php foreach ($anak as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($bayi['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" >NIK : <?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -626,6 +628,7 @@
 										</div>
 									</div>
 									<div class="form-group pelapor_luar_desa">
+										<input type="hidden" name="pekerjaanid_pelapor">
 										<label for="pekerjaanpelapor" class="col-sm-3 control-label" ><strong>Pekerjaan </strong></label>
 										<div class="col-sm-4">
 											<select class="form-control input-sm" name="pekerjaanpelapor" id="pekerjaanpelapor" onchange="$('input[name=pekerjaanid_pelapor]').val($(this).find(':selected').data('pekerjaanid'));">
@@ -747,6 +750,7 @@
 										</div>
 									</div>
 									<div class="form-group saksi1_luar_desa">
+										<input type="hidden" name="pekerjaanid_saksi1">
 										<label for="pekerjaansaksi1" class="col-sm-3 control-label" ><strong>Pekerjaan </strong></label>
 										<div class="col-sm-4">
 											<select class="form-control input-sm" name="pekerjaansaksi1" id="pekerjaansaksi1" onchange="$('input[name=pekerjaanid_saksi1]').val($(this).find(':selected').data('pekerjaanid'));">
@@ -862,6 +866,7 @@
 										</div>
 									</div>
 									<div class="form-group saksi2_luar_desa">
+										<input type="hidden" name="pekerjaanid_saksi2">
 										<label for="pekerjaansaksi2" class="col-sm-3 control-label" ><strong>Pekerjaan </strong></label>
 										<div class="col-sm-4">
 											<select class="form-control input-sm" name="pekerjaansaksi2" id="pekerjaansaksi2" onchange="$('input[name=pekerjaanid_saksi2]').val($(this).find(':selected').data('pekerjaanid'));">

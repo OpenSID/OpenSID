@@ -341,7 +341,7 @@
 									<div class="form-group ibu_luar_desa">
 										<label for="nik_ibu"  class="col-sm-3 control-label">NIK Ibu</label>
 										<div class="col-sm-8">
-											<input  class="form-control input-sm required" type="text" placeholder="NIK Ibu" name="nik_ibu" value="<?= $_SESSION['post']['nik_ibu']?>">
+											<input  class="form-control input-sm" type="text" placeholder="NIK Ibu" name="nik_ibu" value="<?= $_SESSION['post']['nik_ibu']?>">
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">

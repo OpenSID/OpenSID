@@ -59,9 +59,9 @@
 										</div>
 									</div>
 									<div class="form-group disumbangkan">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="disumbangkan">Disumbangkan ke-</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="sumbangkan">Disumbangkan ke-</label>
 										<div class="col-sm-8">
-											<input maxlength="50"  class="form-control input-sm" name="disumbangkan" id="disumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
+											<input maxlength="50"  class="form-control input-sm" name="sumbangkan" id="sumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
 										</div>
 									</div>
 									<div class="form-group harga_jual">
@@ -109,16 +109,26 @@
 <script>
 	$(document).ready(function()
 	{
-		$(".disumbangkan").hide();
-		$(".harga_jual").hide();
+		if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
+		{
+			$(".disumbangkan").show();
+			$(".harga_jual").hide();
+		} else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+		{
+			$(".disumbangkan").hide();
+			$(".harga_jual").show();
+		} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+		{
+			$(".disumbangkan").hide();
+			$(".harga_jual").hide();
+		}
 		$("#mutasi").change(function()
 		{
 			if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
 			{
 				$(".disumbangkan").show();
 				$(".harga_jual").hide();
-			}
-			else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+			} else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();

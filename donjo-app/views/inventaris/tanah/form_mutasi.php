@@ -86,7 +86,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 										<div class="col-sm-8">
-											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" ><?= $main->keterangan; ?></textarea>
+											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" ></textarea>
 										</div>
 									</div>
 								</div>
