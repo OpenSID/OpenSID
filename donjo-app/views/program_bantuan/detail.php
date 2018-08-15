@@ -61,7 +61,7 @@
 											</div>
 											<?php $peserta = $program[1];?>
 											<div class="table-responsive">
-												<table class="table table-bordered dataTable table-hover">
+												<table class="table table-bordered table-striped dataTable table-hover">
 													<thead class="bg-gray disabled color-palette">
 														<tr>
 															<th rowspan="2" class="text-center">No</th>

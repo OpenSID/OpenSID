@@ -43,7 +43,7 @@
 												<select class="form-control input-sm <?php if ($rt): ?>required<?php endif; ?>" name="rt" onchange="formAction('mainform','<?= site_url('penduduk/form')?>')" >
 													<option value="">Pilih RT</option>
 													<?php foreach ($rt as $data): ?>
-														<option value="<?= $data['rt']?>" <?php if ($rt_sel==$data['rt']): ?>selected<?php endif; ?>><?= $data['rt']?></option>
+														<option value="<?= $data['id']?>" <?php if ($rt_sel==$data['id']): ?>selected<?php endif; ?>><?= $data['rt']?></option>
 													<?php endforeach; ?>
 												</select>
 											</div>
