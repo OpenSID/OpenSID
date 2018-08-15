@@ -2,13 +2,13 @@
 	<section class="content-header">
 		<h1>Ubah Data Asset Lainnya</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_asset"><i class="fa fa-dashboard"></i>Daftar Asset Lainnya</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_asset"><i class="fa fa-dashboard"></i>Daftar Asset Lainnya</a></li>
 			<li class="active">Ubah Data</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_asset" method="post" action="<?= $form_action?>">
+		<form class="form-horizontal" id="validasi" name="form_asset" method="post" action="<?= site_url("api_inventaris_asset/update"); ?>">
 			<div class="row">
 				<div class="col-md-3">
           <?php	$this->load->view('inventaris/asset/menu_kiri.php')?>
@@ -172,4 +172,109 @@
 		</form>
 	</section>
 </div>
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+			if($("#jenis_asset").val() == "Buku")
+			{
+				$(".judul").show();
+				$(".spesifikasi").show();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Barang Kesenian")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").show();
+				$(".pencipta_kesenian").show();
+				$(".bahan_kesenian").show();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Hewan Ternak")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").show();
+				$(".ukuran_hewan").show();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Tumbuhan")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").show();
+				$(".ukuran_tumbuhan").show();
+			}
 
+		$("#jenis_asset").change(function()
+		{
+			if ($("#jenis_asset").val() == "Buku")
+			{
+				$(".judul").show();
+				$(".spesifikasi").show();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Barang Kesenian")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").show();
+				$(".pencipta_kesenian").show();
+				$(".bahan_kesenian").show();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Hewan Ternak")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").show();
+				$(".ukuran_hewan").show();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			}
+			else if ($("#jenis_asset").val() == "Tumbuhan")
+			{
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").show();
+				$(".ukuran_tumbuhan").show();
+			}
+		});
+	});
+</script>

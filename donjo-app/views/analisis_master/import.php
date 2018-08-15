@@ -16,7 +16,7 @@
 			$('#file_browser2').click();
 	});
 </script>
-<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
+<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data">
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
@@ -31,8 +31,8 @@
 									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
 								</span>
 							</div>
-							<p class="help-block small">1. Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut <a href="<?= base_url()?>assets/import/analisis.xls">Aturan Data</a></p>
-							<p class="help-block small">2. Contoh format upload Sensus dapat dilihat pada tautan berikut <a href="<?= base_url()?>assets/import/ppls2.xls">Contoh</a></p>
+							<p class="help-block small">1. Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut <a href="<?= base_url() ?>assets/import/analisis.xls">Aturan Data</a></p>
+							<p class="help-block small">2. Contoh format upload Sensus dapat dilihat pada tautan berikut <a href="<?= base_url() ?>assets/import/ppls2.xls">Contoh</a></p>
 						</div>
 					</div>
 					<div class="modal-footer">

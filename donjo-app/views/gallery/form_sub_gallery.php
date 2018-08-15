@@ -2,9 +2,9 @@
 	<section class="content-header">
 		<h1>Pengaturan Gambar Album</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('gallery')?>"><i class="fa fa-dashboard"></i> Daftar Album</a></li>
-			<li><a href="<?=site_url('gallery')?>"><i class="fa fa-dashboard"></i> Daftar Gambar Album</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('gallery')?>"><i class="fa fa-dashboard"></i> Daftar Album</a></li>
+			<li><a href='<?= site_url("gallery/sub_gallery/$gallery[parrent]")?>'><i class="fa fa-dashboard"></i> Daftar Gambar Album</a></li>
 			<li class="active">Pengaturan Gambar Album</li>
 		</ol>
 	</section>
@@ -14,8 +14,8 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("gallery")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Album
+							<a href="<?= site_url("gallery/sub_gallery/$gallery[parrent]")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Gambar Album
             	</a>
 						</div>
 						<div class="box-body">
@@ -25,7 +25,7 @@
 									<input name="nama" class="form-control input-sm" type="text" value="<?=$gallery['nama']?>"></input>
 								</div>
 							</div>
-							<?php if ($gallery['gambar']):?>
+							<?php if ($gallery['gambar']): ?>
 								<div class="form-group">
 									<label class="control-label col-sm-4" for="nama"></label>
 									<div class="col-sm-6">
@@ -33,7 +33,7 @@
 									  <img class="attachment-img img-responsive img-circle" src="<?= AmbilGaleri($gallery['gambar'], 'sedang') ?>" alt="Gambar Album">
 									</div>
 								</div>
-							<?php endif;?>
+							<?php endif; ?>
 							<div class="form-group">
 									<label class="control-label col-sm-4" for="upload">Unggah Gambar</label>
 									<div class="col-sm-6">

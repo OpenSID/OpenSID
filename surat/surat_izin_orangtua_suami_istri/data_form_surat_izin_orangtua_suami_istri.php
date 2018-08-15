@@ -21,18 +21,18 @@
 		unset($data['diberi_izin']);
 		unset($_SESSION['id_diberi_izin']);
 	}
-	if(isset($data['diberi_izin']))
+	if (isset($data['diberi_izin']))
 	{
-		if($data['diberi_izin']['sex_id'] == '1')
+		if ($data['diberi_izin']['sex_id'] == '1')
 			$data['status_diberi_izin'] = "Tenaga Kerja Indonesia (TKI)";
 		else
 			$data['status_diberi_izin'] = "Tenaga Kerja Wanita (TKW)";
 	}
 
-	if($data['individu'])
+	if ($data['individu'])
 	{
 		// Tentukan penduduk yang diberi izin dari pilihan 'selaku'
-		if($_POST['selaku'] == 'Orang Tua')
+		if ($_POST['selaku'] == 'Orang Tua')
 		{
 			$data['penduduk_diberi_izin'] = $this->surat_model->list_anak($_POST['nik']);
 		}

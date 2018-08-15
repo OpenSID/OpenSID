@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Rincian Data Mutasi Asset Lainnya</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_asset/mutasi"><i class="fa fa-dashboard"></i>Daftar Asset Lainnya</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_asset/mutasi"><i class="fa fa-dashboard"></i>Daftar Asset Lainnya</a></li>
 			<li class="active">Rincian Data Mutasi</li>
 		</ol>
 	</section>

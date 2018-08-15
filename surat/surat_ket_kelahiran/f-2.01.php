@@ -115,7 +115,7 @@ table#kode
 		</tr>
 		<tr>
 			<td colspan="11">&nbsp;</td>
-			<?php for($i=0; $i<9; $i++): ?>
+			<?php for ($i=0; $i<9; $i++): ?>
 				<td style="border-bottom: 1px solid black;">&nbsp;</td>
 			<?php endfor; ?>
 			<td colspan="14">&nbsp;</td>
@@ -126,7 +126,7 @@ table#kode
 		<tr>
 			<td colspan="10">Kode Wilayah</td>
 			<td style="border-right: 1px solid black;">:</td>
-			<?php for($i=0; $i<9; $i++): ?>
+			<?php for ($i=0; $i<9; $i++): ?>
 				<td class="kotak padat tengah">
 					&nbsp;
 				</td>
@@ -135,7 +135,7 @@ table#kode
 		</tr>
 		<!-- Untuk memaksa penampilan setiap kolom -->
 		<tr>
-			<?php for($i=0; $i<48; $i++): ?>
+			<?php for ($i=0; $i<48; $i++): ?>
 				<td>&nbsp;</td>
 			<?php endfor; ?>
 		</tr>
@@ -147,18 +147,18 @@ table#kode
 		<col span="48" style="width: 2.0833%;">
 		<!-- Untuk memaksa penampilan setiap kolom -->
 		<tr>
-			<?php for($i=0; $i<48; $i++): ?>
+			<?php for ($i=0; $i<48; $i++): ?>
 				<td>&nbsp;</td>
 			<?php endfor; ?>
 		</tr>
 		<tr>
 			<td colspan="10">Nama Kepala Keluarga</td>
 			<td>:</td>
-			<?php for($i=0; $i<33; $i++): ?>
+			<?php for ($i=0; $i<33; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['kepala_kk'][$i])):?>
+					<?php if (isset($input['kepala_kk'][$i])): ?>
 						<?= $input['kepala_kk'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -168,11 +168,11 @@ table#kode
 		<tr>
 			<td colspan="10">Nomor Kartu Keluarga</td>
 			<td>:</td>
-			<?php for($i=0; $i<16; $i++): ?>
+			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['no_kk'][$i])):?>
+					<?php if (isset($input['no_kk'][$i])): ?>
 						<?= $input['no_kk'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -188,11 +188,11 @@ table#kode
 		<tr>
 			<td colspan="10">1. &nbsp;&nbsp;Nama Lengkap</td>
 			<td>:</td>
-			<?php for($i=0; $i<33; $i++): ?>
+			<?php for ($i=0; $i<33; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nama_bayi'][$i])):?>
+					<?php if (isset($input['nama_bayi'][$i])): ?>
 						<?= $input['nama_bayi'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -202,11 +202,11 @@ table#kode
 		<tr>
 			<td colspan="10">2. &nbsp;&nbsp;NIK </td>
 			<td>:</td>
-			<?php for($i=0; $i<16; $i++): ?>
+			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nik_bayi'][$i])):?>
+					<?php if (isset($input['nik_bayi'][$i])): ?>
 						<?= $input['nik_bayi'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -226,11 +226,11 @@ table#kode
 		<tr>
 			<td colspan=10>4. &nbsp;&nbsp;Tempat Dilahirkan </td>
 			<td>:</td>
-			<?php for($i=0; $i<1; $i++): ?>
+			<?php for ($i=0; $i<1; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['tempat_dilahirkan'][$i])):?>
+					<?php if (isset($input['tempat_dilahirkan'][$i])): ?>
 						<?= $input['tempat_dilahirkan'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -259,33 +259,33 @@ table#kode
 					$thn = date('Y',strtotime($input['tanggallahir']));
 					?>
 			<td colspan="4" class="kanan">Tgl : </td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($tgl[$j])):?>
+					<?php if (isset($tgl[$j])): ?>
 						<?= $tgl[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						 &nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Bln : </td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($bln[$j])):?>
+					<?php if (isset($bln[$j])): ?>
 						<?= $bln[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						 &nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Thn : </td>
-			<?php for($j=0; $j<4; $j++):?>
+			<?php for ($j=0; $j<4; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($thn[$j])):?>
+					<?php if (isset($thn[$j])): ?>
 						<?= $thn[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						 &nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="12">&nbsp;</td>
@@ -294,13 +294,13 @@ table#kode
 		<tr>
 			<td colspan="10">7. &nbsp;&nbsp;Pukul </td>
 			<td>:</td>
-			<?php for($i=0; $i<5; $i++): ?>
+			<?php for ($i=0; $i<5; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['waktu_lahir'][$i])):?>
+					<?php if (isset($input['waktu_lahir'][$i])): ?>
 						<?= $input['waktu_lahir'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						 &nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">&nbsp;</td>
@@ -308,13 +308,13 @@ table#kode
 		<tr>
 			<td colspan=10>8. &nbsp;&nbsp;Jenis Kelahiran </td>
 			<td>:</td>
-			<?php for($i=0; $i<1; $i++): ?>
+			<?php for ($i=0; $i<1; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['jenis_kelahiran'][$i])):?>
+					<?php if (isset($input['jenis_kelahiran'][$i])): ?>
 						<?= $input['jenis_kelahiran'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						 &nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=4>1. Tunggal</td>
@@ -326,13 +326,13 @@ table#kode
 		<tr>
 			<td colspan="10">9. &nbsp;&nbsp;Kelahiran Anak Ke </td>
 			<td>:</td>
-			<?php for($i=0; $i<1; $i++): ?>
+			<?php for ($i=0; $i<1; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['kelahiran_anak_ke'][$i])):?>
+					<?php if (isset($input['kelahiran_anak_ke'][$i])): ?>
 						<?= $input['kelahiran_anak_ke'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						 &nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=4>1. Satu </td>
@@ -344,13 +344,13 @@ table#kode
 		<tr>
 			<td colspan="10">10. Penolong Kelahiran </td>
 			<td>:</td>
-			<?php for($i=0; $i<1; $i++): ?>
+			<?php for ($i=0; $i<1; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['penolong_kelahiran'][$i])):?>
+					<?php if (isset($input['penolong_kelahiran'][$i])): ?>
 						<?= $input['penolong_kelahiran'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						 &nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=4>1. Dokter </td>
@@ -380,11 +380,11 @@ table#kode
 		<tr>
 			<td colspan="10">1. &nbsp;&nbsp;NIK</td>
 			<td>:</td>
-			<?php for($i=0; $i<16; $i++): ?>
+			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nik_ibu'][$i])):?>
+					<?php if (isset($input['nik_ibu'][$i])): ?>
 						<?= $input['nik_ibu'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -394,13 +394,13 @@ table#kode
 		<tr>
 			<td colspan="10">2. &nbsp;&nbsp;Nama Lengkap</td>
 			<td>:</td>
-			<?php for($i=0; $i<33; $i++): ?>
+			<?php for ($i=0; $i<33; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nama_ibu'][$i])):?>
+					<?php if (isset($input['nama_ibu'][$i])): ?>
 						<?= $input['nama_ibu'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=21>&nbsp;</td>
@@ -413,43 +413,43 @@ table#kode
 				$thn = date('Y',strtotime($input['tanggal_lahir_ibu']));
 			?>
 			<td colspan="4">Tgl :</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($tgl[$j])):?>
+					<?php if (isset($tgl[$j])): ?>
 						<?= $tgl[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Bln : </td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($bln[$j])):?>
+					<?php if (isset($bln[$j])): ?>
 						<?= $bln[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Thn : </td>
-			<?php for($j=0; $j<4; $j++):?>
+			<?php for ($j=0; $j<4; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($thn[$j])):?>
+					<?php if (isset($thn[$j])): ?>
 						<?= $thn[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="5" class="kanan">Umur : </td>
-			<?php for($j=0; $j<3; $j++):?>
+			<?php for ($j=0; $j<3; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['umur_ibu'][$j])):?>
+					<?php if (isset($input['umur_ibu'][$j])): ?>
 						<?= $input['umur_ibu'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">&nbsp;</td>
@@ -457,13 +457,13 @@ table#kode
 		<tr>
 			<td colspan="10">4. &nbsp;&nbsp;Pekerjaan</td>
 			<td>:</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['pekerjaanid_ibu'][$j])):?>
+					<?php if (isset($input['pekerjaanid_ibu'][$j])): ?>
 						<?= $input['pekerjaanid_ibu'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="21" class="kotak"><?= $input['pekerjaanibu']?></td>
@@ -473,21 +473,21 @@ table#kode
 			<td>:</td>
 			<td colspan="23" class="kotak"><?= $input['alamat_ibu']?></td>
 			<td colspan="3" class="tengah">RT:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rt_ibu'][$i])):?>
+					<?php if (isset($input['rt_ibu'][$i])): ?>
 						<?= $input['rt_ibu'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="3" class="tengah">RW:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rw_ibu'][$i])):?>
+					<?php if (isset($input['rw_ibu'][$i])): ?>
 						<?= $input['rw_ibu'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -536,33 +536,33 @@ table#kode
 			endif;
 			?>
 			<td colspan="4">Tgl :</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($tgl[$j])):?>
+					<?php if (isset($tgl[$j])): ?>
 						<?= $tgl[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Bln : </td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($bln[$j])):?>
+					<?php if (isset($bln[$j])): ?>
 						<?= $bln[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Thn : </td>
-			<?php for($j=0; $j<4; $j++):?>
+			<?php for ($j=0; $j<4; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($thn[$j])):?>
+					<?php if (isset($thn[$j])): ?>
 						<?= $thn[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="12">&nbsp;</td>
@@ -576,13 +576,13 @@ table#kode
 		<tr>
 			<td colspan="10">1. &nbsp;&nbsp;NIK</td>
 			<td>:</td>
-			<?php for($i=0; $i<16; $i++): ?>
+			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nik_ayah'][$i])):?>
+					<?php if (isset($input['nik_ayah'][$i])): ?>
 						<?= $input['nik_ayah'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">&nbsp;</td>
@@ -590,13 +590,13 @@ table#kode
 		<tr>
 			<td colspan="10">2. &nbsp;&nbsp;Nama Lengkap</td>
 			<td>:</td>
-			<?php for($i=0; $i<33; $i++): ?>
+			<?php for ($i=0; $i<33; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nama_ayah'][$i])):?>
+					<?php if (isset($input['nama_ayah'][$i])): ?>
 						<?= $input['nama_ayah'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=21>&nbsp;</td>
@@ -609,43 +609,43 @@ table#kode
 					$thn = date('Y',strtotime($input['tanggal_lahir_ayah']));
 				?>
 			<td colspan="4">Tgl :</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($tgl[$j])):?>
+					<?php if (isset($tgl[$j])): ?>
 						<?= $tgl[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Bln : </td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($bln[$j])):?>
+					<?php if (isset($bln[$j])): ?>
 						<?= $bln[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Thn : </td>
-			<?php for($j=0; $j<4; $j++):?>
+			<?php for ($j=0; $j<4; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($thn[$j])):?>
+					<?php if (isset($thn[$j])): ?>
 						<?= $thn[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="5" class="kanan">Umur : </td>
-			<?php for($j=0; $j<3; $j++):?>
+			<?php for ($j=0; $j<3; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['umur_ayah'][$j])):?>
+					<?php if (isset($input['umur_ayah'][$j])): ?>
 						<?= $input['umur_ayah'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">&nbsp;</td>
@@ -653,13 +653,13 @@ table#kode
 		<tr>
 			<td colspan="10">4. &nbsp;&nbsp;Pekerjaan</td>
 			<td>:</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['pekerjaanid_ayah'][$j])):?>
+					<?php if (isset($input['pekerjaanid_ayah'][$j])): ?>
 						<?= $input['pekerjaanid_ayah'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="21" class="kotak"><?= $input['pekerjaanayah']?></td>
@@ -670,21 +670,21 @@ table#kode
 			<td>:</td>
 			<td colspan="23" class="kotak"><?= $input['alamat_ayah']?></td>
 			<td colspan="3" class="tengah">RT:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rt_ayah'][$i])):?>
+					<?php if (isset($input['rt_ayah'][$i])): ?>
 						<?= $input['rt_ayah'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="3" class="tengah">RW:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rw_ayah'][$i])):?>
+					<?php if (isset($input['rw_ayah'][$i])): ?>
 						<?= $input['rw_ayah'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -730,13 +730,13 @@ table#kode
 		<tr>
 			<td colspan="10">1. &nbsp;&nbsp;NIK</td>
 			<td>:</td>
-			<?php for($i=0; $i<16; $i++): ?>
+			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nik_pelapor'][$i])):?>
+					<?php if (isset($input['nik_pelapor'][$i])): ?>
 						<?= $input['nik_pelapor'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">&nbsp;</td>
@@ -744,13 +744,13 @@ table#kode
 		<tr>
 			<td colspan="10">2. &nbsp;&nbsp;Nama Lengkap</td>
 			<td>:</td>
-			<?php for($i=0; $i<33; $i++): ?>
+			<?php for ($i=0; $i<33; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nama_pelapor'][$i])):?>
+					<?php if (isset($input['nama_pelapor'][$i])): ?>
 						<?= $input['nama_pelapor'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=21>&nbsp;</td>
@@ -763,43 +763,43 @@ table#kode
 					$thn = date('Y',strtotime($input['tanggal_lahir_pelapor']));
 				?>
 			<td colspan="4">Tgl :</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($tgl[$j])):?>
+					<?php if (isset($tgl[$j])): ?>
 						<?= $tgl[$j];?>
-					<?php else:?>
+					<?php else: ?>
 							&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Bln : </td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($bln[$j])):?>
+					<?php if (isset($bln[$j])): ?>
 						<?= $bln[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Thn : </td>
-			<?php for($j=0; $j<4; $j++):?>
+			<?php for ($j=0; $j<4; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($thn[$j])):?>
+					<?php if (isset($thn[$j])): ?>
 						<?= $thn[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="5" class="kanan">Umur : </td>
-			<?php for($j=0; $j<3; $j++):?>
+			<?php for ($j=0; $j<3; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['umur_pelapor'][$j])):?>
+					<?php if (isset($input['umur_pelapor'][$j])): ?>
 						<?= $input['umur_pelapor'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">&nbsp;</td>
@@ -817,13 +817,13 @@ table#kode
 		<tr>
 			<td colspan="10">5. &nbsp;&nbsp;Pekerjaan</td>
 			<td>:</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['pekerjaanid_pelapor'][$j])):?>
+					<?php if (isset($input['pekerjaanid_pelapor'][$j])): ?>
 						<?= $input['pekerjaanid_pelapor'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="21" class="kotak"><?= $input['pekerjaanpelapor']?></td>
@@ -834,20 +834,20 @@ table#kode
 			<td>:</td>
 			<td colspan="23" class="kotak"><?= $input['alamat_pelapor']?></td>
 			<td colspan="3" class="tengah">RT:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rt_pelapor'][$i])):?>
+					<?php if (isset($input['rt_pelapor'][$i])): ?>
 						<?= $input['rt_pelapor'][$i];?>
-						<?php else:?> &nbsp;
+						<?php else: ?> &nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="3" class="tengah">RW:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rw_pelapor'][$i])):?>
+					<?php if (isset($input['rw_pelapor'][$i])): ?>
 						<?= $input['rw_pelapor'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -879,11 +879,11 @@ table#kode
 		<tr>
 			<td colspan="10">1. &nbsp;&nbsp;NIK</td>
 			<td>:</td>
-			<?php for($i=0; $i<16; $i++): ?>
+			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nik_saksi1'][$i])):?>
+					<?php if (isset($input['nik_saksi1'][$i])): ?>
 						<?= $input['nik_saksi1'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -893,13 +893,13 @@ table#kode
 		<tr>
 			<td colspan="10">2. &nbsp;&nbsp;Nama Lengkap</td>
 			<td>:</td>
-			<?php for($i=0; $i<33; $i++): ?>
+			<?php for ($i=0; $i<33; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nama_saksi1'][$i])):?>
+					<?php if (isset($input['nama_saksi1'][$i])): ?>
 						<?= $input['nama_saksi1'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=21>&nbsp;</td>
@@ -912,43 +912,43 @@ table#kode
 					$thn = date('Y',strtotime($input['tanggal_lahir_saksi1']));
 				?>
 			<td colspan="4">Tgl :</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($tgl[$j])):?>
+					<?php if (isset($tgl[$j])): ?>
 						<?= $tgl[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						 &nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Bln : </td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($bln[$j])):?>
+					<?php if (isset($bln[$j])): ?>
 						<?= $bln[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Thn : </td>
-			<?php for($j=0; $j<4; $j++):?>
+			<?php for ($j=0; $j<4; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($thn[$j])):?>
+					<?php if (isset($thn[$j])): ?>
 						<?= $thn[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="5" class="kanan">Umur : </td>
-			<?php for($j=0; $j<3; $j++):?>
+			<?php for ($j=0; $j<3; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['umur_saksi1'][$j])):?>
+					<?php if (isset($input['umur_saksi1'][$j])): ?>
 						<?= $input['umur_saksi1'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">&nbsp;</td>
@@ -966,13 +966,13 @@ table#kode
 		<tr>
 			<td colspan="10">5. &nbsp;&nbsp;Pekerjaan</td>
 			<td>:</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['pekerjaanid_saksi1'][$j])):?>
+					<?php if (isset($input['pekerjaanid_saksi1'][$j])): ?>
 						<?= $input['pekerjaanid_saksi1'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="21" class="kotak"><?= $input['pekerjaansaksi1']?></td>
@@ -983,21 +983,21 @@ table#kode
 			<td>:</td>
 			<td colspan="23" class="kotak"><?= $input['alamat_saksi1']?></td>
 			<td colspan="3" class="tengah">RT:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rt_saksi1'][$i])):?>
+					<?php if (isset($input['rt_saksi1'][$i])): ?>
 						<?= $input['rt_saksi1'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="3" class="tengah">RW:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rw_saksi1'][$i])):?>
+					<?php if (isset($input['rw_saksi1'][$i])): ?>
 						<?= $input['rw_saksi1'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -1029,11 +1029,11 @@ table#kode
 		<tr>
 			<td colspan="10">1. &nbsp;&nbsp;NIK</td>
 			<td>:</td>
-			<?php for($i=0; $i<16; $i++): ?>
+			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nik_saksi2'][$i])):?>
+					<?php if (isset($input['nik_saksi2'][$i])): ?>
 						<?= $input['nik_saksi2'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
@@ -1043,13 +1043,13 @@ table#kode
 		<tr>
 			<td colspan="10">2. &nbsp;&nbsp;Nama </td>
 			<td>:</td>
-			<?php for($i=0; $i<33; $i++): ?>
+			<?php for ($i=0; $i<33; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nama_saksi2'][$i])):?>
+					<?php if (isset($input['nama_saksi2'][$i])): ?>
 						<?= $input['nama_saksi2'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=21>&nbsp;</td>
@@ -1062,43 +1062,43 @@ table#kode
 					$thn = date('Y',strtotime($input['tanggal_lahir_saksi2']));
 				?>
 			<td colspan="4">Tgl :</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($tgl[$j])):?>
+					<?php if (isset($tgl[$j])): ?>
 						<?= $tgl[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Bln : </td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($bln[$j])):?>
+					<?php if (isset($bln[$j])): ?>
 						<?= $bln[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4" class="kanan">Thn : </td>
-			<?php for($j=0; $j<4; $j++):?>
+			<?php for ($j=0; $j<4; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($thn[$j])):?>
+					<?php if (isset($thn[$j])): ?>
 						<?= $thn[$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="5" class="kanan">Umur : </td>
-			<?php for($j=0; $j<3; $j++):?>
+			<?php for ($j=0; $j<3; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['umur_saksi2'][$j])):?>
+					<?php if (isset($input['umur_saksi2'][$j])): ?>
 						<?= $input['umur_saksi2'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">&nbsp;</td>
@@ -1116,13 +1116,13 @@ table#kode
 		<tr>
 			<td colspan="10">5. &nbsp;&nbsp;Pekerjaan</td>
 			<td>:</td>
-			<?php for($j=0; $j<2; $j++):?>
+			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['pekerjaanid_saksi2'][$j])):?>
+					<?php if (isset($input['pekerjaanid_saksi2'][$j])): ?>
 						<?= $input['pekerjaanid_saksi2'][$j];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="21" class="kotak"><?= $input['pekerjaansaksi2']?></td>
@@ -1133,23 +1133,23 @@ table#kode
 			<td>:</td>
 			<td colspan="23" class="kotak"><?= $input['alamat_saksi2']?></td>
 			<td colspan="3" class="tengah">RT:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rt_saksi2'][$i])):?>
+					<?php if (isset($input['rt_saksi2'][$i])): ?>
 						<?= $input['rt_saksi2'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="3" class="tengah">RW:</td>
-			<?php for($i=0; $i<3; $i++): ?>
+			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['rw_saksi2'][$i])):?>
+					<?php if (isset($input['rw_saksi2'][$i])): ?>
 						<?= $input['rw_saksi2'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="2">&nbsp;</td>
@@ -1172,7 +1172,7 @@ table#kode
 		</tr>
 		<!-- Untuk memaksa penampilan setiap kolom -->
 		<tr style="line-height: 1px; height: 1px; margin-bottom: -10px;">
-			<?php for($i=0; $i<48; $i++): ?>
+			<?php for ($i=0; $i<48; $i++): ?>
 				<td style="line-height: 1px; height: 1px;">&nbsp;</td>
 			<?php endfor; ?>
 		</tr>
@@ -1203,7 +1203,7 @@ table#kode
 		<tr><td colspan="48">&nbsp;</td></tr>
 		<!-- Untuk memaksa penampilan setiap kolom -->
 		<tr>
-			<?php for($i=0; $i<48; $i++): ?>
+			<?php for ($i=0; $i<48; $i++): ?>
 				<td>&nbsp;</td>
 			<?php endfor; ?>
 		</tr>

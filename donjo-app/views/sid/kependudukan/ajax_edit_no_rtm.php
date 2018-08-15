@@ -8,7 +8,7 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="rtm_nomor">Nomor Rumah Tangga</label>
-							<input id="no_kk" name="no_kk" class="form-control input-sm required" type="text" placeholder="Nomor Rumah Tangga" value="<?php echo $kk['no_kk']?>" ></input>
+							<input id="no_kk" name="no_kk" class="form-control input-sm required" type="text" placeholder="Nomor Rumah Tangga" value="<?= $kk['no_kk']?>" ></input>
 						</div>
 					</div>
 				</div>

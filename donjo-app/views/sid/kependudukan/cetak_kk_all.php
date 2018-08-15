@@ -9,7 +9,7 @@
 		<div id="container">
 			<link href="<?php echo base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 			<?php
-				foreach($all_kk as $kk):
+				foreach ($all_kk as $kk):
 					$this->load->view("sid/kependudukan/cetak_kk", $kk);
 				endforeach;
 			?>

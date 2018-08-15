@@ -23,8 +23,8 @@
 								<div class="col-sm-7">
 									<select class="form-control input-sm required" name="cid" id="cid">
 										<option value="">-- Pilih Sasaran Data Suplemen --</option>
-										<option value="1" <?php if($cid == 1 OR $suplemen['sasaran'] == 1) :?>selected<?php endif?>>Penduduk Perorangan</option>
-										<option value="2" <?php if($cid == 2 OR $suplemen['sasaran'] == 2) :?>selected<?php endif?>>Keluarga - KK</option>
+										<option value="1" <?php if ($cid == 1 OR $suplemen['sasaran'] == 1): ?>selected<?php endif ?>>Penduduk Perorangan</option>
+										<option value="2" <?php if ($cid == 2 OR $suplemen['sasaran'] == 2): ?>selected<?php endif ?>>Keluarga - KK</option>
 									</select>
 								</div>
 							</div>

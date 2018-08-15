@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Isi Data Inventaris Kontruksi</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_kontruksi"><i class="fa fa-dashboard"></i>Daftar Inventaris Kontruksi</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_kontruksi"><i class="fa fa-dashboard"></i>Daftar Inventaris Kontruksi</a></li>
 			<li class="active">Isi Data</li>
 		</ol>
 	</section>
@@ -125,7 +125,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="harga">Harga</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<span class="input-group-addon" id="koefisien_dasar_bangunan-addon">Rp</span>
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Rp</span>
 												<input class="form-control number input-sm" id="harga" name="harga" type="text"/>
 											</div>
 										</div>

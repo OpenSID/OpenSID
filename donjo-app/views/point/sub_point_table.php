@@ -19,9 +19,9 @@
 							<a href="<?=site_url("point/ajax_add_sub_point/$point")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Sub Point Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Point">
 								<i class="fa fa-plus"></i>Tambah Sub Point Baru
             	</a>
-							<?php if ($_SESSION['grup']<4):?>
+							<?php if ($_SESSION['grup']<4): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("point/delete_all/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<?php endif;?>
+							<?php endif; ?>
 							<a href="<?=site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Kategori Point
             	</a>
@@ -46,17 +46,17 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($subpoint as $data):?>
+																<?php foreach ($subpoint as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("point/ajax_add_sub_point/$point/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Sub Point"><i class="fa fa-edit"></i></a>
-																			<?php if ($data['enabled'] == '2'):?>
+																			<?php if ($data['enabled'] == '2'): ?>
 																				<a href="<?= site_url("point/point_lock_sub_point/$point/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Sub Point"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
 																				<a href="<?= site_url("point/point_unlock_sub_point/$point/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Sub Point"><i class="fa fa-unlock"></i></a>
-																			<?php endif?>
+																			<?php endif; ?>
 																			<a href="#" data-href="<?= site_url("point/delete_sub_point/$point/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="70%"><?= $data['nama']?></td>

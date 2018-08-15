@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Layanan Mandiri</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Layanan Mandiri</li>
 		</ol>
 	</section>
@@ -34,7 +34,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
@@ -44,7 +44,7 @@
 																			<?=$data['nik'];?>
 																			<?php if ($data['nik'] != $data['nik_lama']): ?>
 																				(Berubah dari: <?=$data['nik_lama']?>)
-																			<?php endif?>
+																			<?php endif ?>
 																		</td>
 																		<td width="50%"><?=unpenetration($data['nama'])?></td>
 																		<td nowrap><?=tgl_indo2($data['tanggal_buat'])?></td>
@@ -124,7 +124,7 @@
 									<div class='modal-content'>
 										<div class='modal-header btn-info'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-white'></i> PIN Warga</h4>
+											<h4 class='modal-title' id='myModalLabel'> PIN Warga</h4>
 										</div>
 										<div class='modal-body'>
 											Berikut adalah kode pin yang baru saja di hasilkan, silakan dicatat atau di ingat dengan baik, kode pin ini sangat rahasia, dan hanya bisa dilihat sekali ini lalu setelah itu hanya bisa di reset saja. <br /> <h4>Kode PIN : <?=$_SESSION['pin'];?>

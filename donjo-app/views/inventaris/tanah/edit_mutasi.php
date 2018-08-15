@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Ubah Data Mutasi Inventaris Tanah</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_tanah/mutasi"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Tanah</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_tanah/mutasi"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Tanah</a></li>
 			<li class="active">Ubah Data</li>
 		</ol>
 	</section>
@@ -109,12 +109,25 @@
 <script>
 	$(document).ready(function()
 	{
-		$(".disumbangkan").hide();
-		$(".harga_jual").hide();
+		if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
+		{
+			$(".disumbangkan").show();
+			$(".harga_jual").hide();
+		}
+		else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+		{
+			$(".disumbangkan").hide();
+			$(".harga_jual").show();
+		}
+		else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+		{
+			$(".disumbangkan").hide();
+			$(".harga_jual").hide();
+		}
+
 		$("#mutasi").change(function()
 		{
-			if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
-			{
+			if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" ){
 				$(".disumbangkan").show();
 				$(".harga_jual").hide();
 			}
@@ -122,7 +135,8 @@
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+			}
+			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();

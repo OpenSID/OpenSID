@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Kategori Kelompok</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
 			<li class="active">Kategori Kelompok</li>
 		</ol>
@@ -52,7 +52,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach($main as $data): ?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" ></td>
 																		<td><?= $data['no']?></td>

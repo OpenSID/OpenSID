@@ -255,28 +255,36 @@
 		return $slide_galeri;
 	}
 
-	function list_sub_gallery($gal=1,$offset=0,$limit=500){
+	public function list_sub_gallery($gal=1, $o=0, $offset=0, $limit=500)
+	{
+		switch($o)
+		{
+			case 1: $order_sql = ' ORDER BY nama'; break;
+			case 2: $order_sql = ' ORDER BY nama DESC'; break;
+			case 3: $order_sql = ' ORDER BY enabled'; break;
+			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
+			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
+			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
+			default:$order_sql = ' ORDER BY id';
+		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 		$sql   = "SELECT * FROM gambar_gallery WHERE parrent = ? AND tipe = 2 ";
 
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
-
+		$sql .= $order_sql;
 		$sql .= $paging_sql;
 		$query = $this->db->query($sql,$gal);
 		$data=$query->result_array();
 
-		$i=0;
-		while($i<count($data)){
+		for ($i=0; $i<count($data); $i++){
 			$data[$i]['no']=$i+1;
 
 			if($data[$i]['enabled']==1)
 				$data[$i]['aktif']="Ya";
 			else
 				$data[$i]['aktif']="Tidak";
-
-			$i++;
 		}
 		return $data;
 	}

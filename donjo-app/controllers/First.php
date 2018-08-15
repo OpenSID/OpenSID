@@ -85,7 +85,7 @@ class First extends Web_Controller{
 		$cari = trim($this->input->get('cari'));
 		if ( ! empty($cari)) {
 			// kok harus judul_kategori? :)
-			$data["judul_kategori"] = "Hasil pencarian: $cari";
+			$data["judul_kategori"] = $this->security->xss_clean("Hasil pencarian: $cari");
 		}
 
 		$this->_get_common_data($data);

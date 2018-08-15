@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Rincian Data Mutasi Inventaris Gedung Dan Bangunan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_gedung/mutasi"><i class="fa fa-dashboard"></i>Rincian Data Mutasi Inventaris Gedung Dan Bangunan</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_gedung/mutasi"><i class="fa fa-dashboard"></i>Rincian Data Mutasi Inventaris Gedung Dan Bangunan</a></li>
 			<li class="active">Pengaturan Inventaris Tanah</li>
 		</ol>
 	</section>

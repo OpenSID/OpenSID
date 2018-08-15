@@ -2,13 +2,13 @@
 	<section class="content-header">
 		<h1>Ubah Data Inventaris Kontruksi</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_kontruksi"><i class="fa fa-dashboard"></i>Daftar Inventaris Kontruksi</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_kontruksi"><i class="fa fa-dashboard"></i>Daftar Inventaris Kontruksi</a></li>
 			<li class="active">Ubah Data</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_kontruksi" method="post" action="<?= $form_action?>">
+		<form class="form-horizontal" id="validasi" name="form_kontruksi" method="post" action="<?= site_url("api_inventaris_kontruksi/update"); ?>">
 			<div class="row">
 				<div class="col-md-3">
           <?php	$this->load->view('inventaris/kontruksi/menu_kiri.php')?>
@@ -52,7 +52,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="bahan">Kontruksi Beton</label>
 										<div class="col-sm-4">
 											<select name="bahan" id="bahan" class="form-control input-sm required">
-												<?php if($main->kontruksi_beton == 0): ?>
+												<?php if ($main->kontruksi_beton == 0): ?>
 													<option value='0'>Tidak</option>
 													<option value='1'>Ya</option>
 												<?php else: ?>
@@ -116,7 +116,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="asal_usul">Asal Usul </label>
 										<div class="col-sm-4">
-											<select name="asal_usul" id="asal_usul" class="form-control input-sm required">
+											<select name="asal" id="asal" class="form-control input-sm required">
 												<option value="<?= $main->asal; ?>"><?= $main->asal; ?></option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>

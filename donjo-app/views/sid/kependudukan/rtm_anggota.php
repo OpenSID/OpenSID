@@ -8,7 +8,7 @@
 	<section class="content-header">
 		<h1>Daftar Anggota Rumah Tangga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?= site_url('rtm/clear')?>"> Daftar Rumah Tangga</a></li>
 			<li class="active">Daftar Anggota Rumah Tangga</li>
 		</ol>
@@ -21,7 +21,7 @@
 						<a href="<?= site_url("rtm/ajax_add_anggota/$p/$o/$kk")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
 						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("rtm/delete_all_anggota/$p/$o/$kk")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<a href="<?= site_url("rtm/kartu_rtm/$p/$o/$kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i>  Kartu Rumah Tangga</a>
-						<a href="<?=site_url("rtm/clear")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Rumah Tangga">
+						<a href="<?= site_url("rtm/clear")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Rumah Tangga">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Rumah Tangga
 						</a>
 					</div>
@@ -71,8 +71,8 @@
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $key+1;?></td>
 																	<td nowrap>
-																		<a href="<?php echo site_url("rtm/edit_anggota/$p/$o/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Rumah Tangga" title="Ubah Hubungan Rumah Tangga" class="btn bg-navy btn-flat btn-sm"><i class="fa fa-link"></i></a>
-																		<a href="#" data-href="<?php echo site_url("rtm/delete_anggota/$p/$o/$kk/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<a href="<?= site_url("rtm/edit_anggota/$p/$o/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Rumah Tangga" title="Ubah Hubungan Rumah Tangga" class="btn bg-navy btn-flat btn-sm"><i class="fa fa-link"></i></a>
+																		<a href="#" data-href="<?= site_url("rtm/delete_anggota/$p/$o/$kk/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																	<td><?= $data['nik']?></td>
 																	<td><?= $data['no_kk']?></td>

@@ -1,6 +1,6 @@
 <!-- Perubahan script coding untuk bisa menampilkan about dalam bentuk tampilan bootstrap (AdminLTE)  -->
 <div class="box-header with-border">
-	<h3 class="box-title"><strong>Anda sedang menggunakan aplikasi OpenSID <?=AmbilVersi()?></strong></h3>
+	<h3 class="box-title"><strong>Anda sedang menggunakan aplikasi OpenSID <?= AmbilVersi()?></strong></h3>
 </div>
 <div class="box-body">
 	<div class="box-group" id="accordion">

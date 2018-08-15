@@ -1,10 +1,10 @@
 <!-- Perubahan script coding untuk bisa menampilkan halaman edit form konfigurasi bentuk tampilan bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Identitas  <?=ucwords($this->setting->sebutan_desa)?></h1>
+		<h1>Identitas <?=ucwords($this->setting->sebutan_desa)?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Identitas  <?=ucwords($this->setting->sebutan_desa)?></li>
+			<li class="active">Identitas <?=ucwords($this->setting->sebutan_desa)?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -13,11 +13,11 @@
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<?php if($main['logo']):?>
+							<?php if ($main['logo']): ?>
 								<img class="profile-user-img img-responsive img-circle" src="<?=LogoDesa($main['logo'])?>" alt="Logo">
-							<?php else:?>
-								<img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/files/logo/home.png" alt="Logo">
-							<?php endif?>
+							<?php else: ?>
+								<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Logo">
+							<?php endif ?>
 							<br/>
 							<p class="text-center text-bold">Lambang Desa</p>
 							<p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
@@ -129,11 +129,11 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="propinsi">Propinsi</label>
 								<div class="col-sm-5">
-									<select  name="nama_propinsi" class="form-control select2 input-sm required">
+									<select  name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));">
 										<option value="">Pilih Propinsi</option>
-										<?php foreach($list_provinsi AS $data):?>
-											<option value="<?=$data['nama']?>" data-kode="<?=$data['kode']?>" <?php if(strtolower($main['nama_propinsi'])== strtolower($data['nama'])) :?>selected<?php endif?>><?=$data['nama']?></option>
-										<?php  endforeach; ?>
+										<?php foreach ($list_provinsi AS $data): ?>
+											<option value="<?=$data['nama']?>" data-kode="<?=$data['kode']?>" <?php if (strtolower($main['nama_propinsi'])== strtolower($data['nama'])): ?>selected<?php endif ?>><?=$data['nama']?></option>
+										<?php endforeach; ?>
 									 </select>
 								</div>
 							</div>

@@ -114,7 +114,7 @@
 							<td colspan="6">
 								<table>
 									<?php $kolom_1 = count($ref_disposisi) / 2;?>
-									<?php for($i=0; $i<$kolom_1; $i++): ?>
+									<?php for ($i=0; $i<$kolom_1; $i++): ?>
 										<tr>
 											<td class="nostretch no-border-kanan" style="vertical-align: text-top;">
 												<?= $ref_disposisi[$i]?>

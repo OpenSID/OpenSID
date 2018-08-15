@@ -18,9 +18,9 @@
 							<a href="<?=site_url("plan/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
 								<i class="fa fa-plus"></i>Tambah Data Baru
             	</a>
-							<?php if ($_SESSION['grup']<4):?>
+							<?php if ($_SESSION['grup']<4): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("plan/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<?php endif;?>
+							<?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -31,19 +31,19 @@
 												<div class="col-sm-9">
 													<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('plan/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
-														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 													</select>
 													<select class="form-control input-sm" name="point" onchange="formAction('mainform', '<?=site_url('plan/point')?>')">
 														<option value="">Kategori</option>
-														<?php foreach ($list_point AS $data):?>
-															<option value="<?= $data['id']?>" <?php if ($point == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
+														<?php foreach ($list_point AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($point == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
 														<?php endforeach;?>
 													</select>
 													<select class="form-control input-sm" name="subpoint" onchange="formAction('mainform', '<?=site_url('plan/subpoint')?>')">
 														<option value="">Jenis</option>
-														<?php foreach ($list_subpoint AS $data):?>
-															<option value="<?= $data['id']?>" <?php if ($subpoint == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
+														<?php foreach ($list_subpoint AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($subpoint == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
 														<?php endforeach;?>
 													</select>
 												</div>
@@ -86,7 +86,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>

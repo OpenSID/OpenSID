@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Rekam Surat Perseorangan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('keluar')?>"> Daftar Surat Keluar</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('keluar')?>"> Daftar Surat Keluar</a></li>
 			<li class="active">Rekam Surat Perseorangan</li>
 		</ol>
 	</section>
@@ -12,7 +12,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url("keluar")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+						<a href="<?= site_url("keluar")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Surat Keluar
            	</a>
 					</div>
@@ -27,9 +27,9 @@
 												<div class="col-md-6 row">
 													<select class="form-control select2"  id="nik" name="nik" onchange="formAction('main')" style="width:100%;" >
 														<option >-- Silakan Cari NIK / Nama Penduduk--</option>
-														<?php foreach ($penduduk as $data):?>
-															<option <?php if ($individu['id']==$data['id']):?>selected="selected"<?php endif;?>value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
-														<?php endforeach;?>
+														<?php foreach ($penduduk as $data): ?>
+															<option <?php if ($individu['id']==$data['id']): ?>selected="selected"<?php endif; ?>value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
+														<?php endforeach; ?>
 													</select>
 												</div>
 											</td>
@@ -52,7 +52,7 @@
 											<td style="padding-top : 10px;padding-bottom : 10px;" >Warganegara / Agama</td>
 											<td> <?= $individu['warganegara']?> / <?= $individu['agama']?></td>
 										</tr>
-									<?php endif;?>
+									<?php endif; ?>
 								</tbody>
 							</table>
 						</div>
@@ -98,7 +98,7 @@
 														</thead>
 														<tbody>
 															<?php
-																foreach($main as $data):
+																foreach ($main as $data):
 																if ($data['nama_surat']):
 																	$berkas = $data['nama_surat'];
 																else:
@@ -112,13 +112,13 @@
 																<td><?= $data['no']?></td>
 																<td nowrap>
 																	<?php
-																		if (is_file($theFile)):?>
+																		if (is_file($theFile)): ?>
 																			<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm" title="Unduh Surat" target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>
-																		<?php	endif;?>
+																		<?php	endif; ?>
 																	<?php
-																		if (is_file($lampiran)):?>
+																		if (is_file($lampiran)): ?>
 																			<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i>  Lampiran</a>
-																		<?php	endif;?>
+																		<?php	endif; ?>
 																	<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data['no_surat']?></td>

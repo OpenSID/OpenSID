@@ -13,7 +13,7 @@
 
 <script>
 //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-<?php if(!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
+<?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
     var posisi = [<?=$data_config['lat'].",".$data_config['lng']?>];
     var zoom = <?=$data_config['zoom'] ?: 10?>;
 <? else: ?>
@@ -28,7 +28,7 @@
         id: 'mapbox.streets'
     }).addTo(lokasi_kantor);
 //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-<?php if(!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
+<?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
     var kantor_desa = L.marker(posisi).addTo(lokasi_kantor);
 <?php endif; ?>
 </script>

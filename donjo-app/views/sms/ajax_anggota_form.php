@@ -1,4 +1,4 @@
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?= $form_action?>" method="post" id="validasi">
 	<div class="box-body">
 		<div class="row">
 			<div class="col-sm-12">

@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Pengelolaan Data Persil <?=ucwords($this->setting->sebutan_desa)?> <?= $desa["nama_desa"];?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('data_persil/clear')?>"> Daftar Persil</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('data_persil/clear')?>"> Daftar Persil</a></li>
 			<li class="active">Pengelolaan Data Persil</li>
 		</ol>
 	</section>
@@ -44,8 +44,8 @@
 											<div class="col-sm-4">
 												<select class="form-control  input-sm select2" id="cid" name="cid">
 													<option >-- Pilih Jenis Persil--</option>
-													<?php foreach ($persil_jenis as $key=>$item):?>
-														<option value="<?= $key ?>" <?php if ($key==$persil_detail["persil_jenis_id"]):?>selected<?php endif;?>><?= $item[0]?></option>
+													<?php foreach ($persil_jenis as $key=>$item): ?>
+														<option value="<?= $key ?>" <?php if ($key==$persil_detail["persil_jenis_id"]): ?>selected<?php endif; ?>><?= $item[0]?></option>
 													<?php endforeach;?>
 												</select>
 											</div>
@@ -73,8 +73,8 @@
 											<div class="col-sm-4">
 												<select class="form-control  input-sm select2" id="sid" name="sid">
 													<option >-- Pilih Peruntukan--</option>
-													<?php foreach ($persil_peruntukan as $key=>$item):?>
-														<option value="<?= $key?>" <?php if ($key==$persil_detail["persil_peruntukan_id"]):?>selected<?php endif;?>><?= $item[0]?></option>
+													<?php foreach ($persil_peruntukan as $key=>$item): ?>
+														<option value="<?= $key?>" <?php if ($key==$persil_detail["persil_peruntukan_id"]): ?>selected<?php endif; ?>><?= $item[0]?></option>
 													<?php endforeach;?>
 												</select>
 											</div>
@@ -84,8 +84,8 @@
 											<div class="col-sm-4">
 												<select class="form-control  input-sm select2" id="pid" name="pid">
 													<option >-- Pilih Lokasi Tanah--</option>
-													<?php foreach ($persil_lokasi as $key=>$item):?>
-														<option value="<?= $item["id"] ?>" <?php if ($item["id"]==$persil_detail["id_clusterdesa"]):?>selected<?php endif;?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
+													<?php foreach ($persil_lokasi as $key=>$item): ?>
+														<option value="<?= $item["id"] ?>" <?php if ($item["id"]==$persil_detail["id_clusterdesa"]): ?>selected<?php endif; ?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
 													<?php endforeach;?>
 												</select>
 											</div>

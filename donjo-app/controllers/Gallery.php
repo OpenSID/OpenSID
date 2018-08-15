@@ -162,9 +162,10 @@ class Gallery extends CI_Controller{
 		}
 	}
 
-	function sub_gallery($gal=0,$p=1){
-		$data['p']        = 1;
-		$data['o']        = 0;
+	public function sub_gallery($gal=0, $p=1, $o=0)
+	{
+		$data['p']        = $p;
+		$data['o']        = $o;
 
 		if(isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
@@ -178,9 +179,8 @@ class Gallery extends CI_Controller{
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->web_gallery_model->paging2($gal,$p);
-		//$data['main']    = $this->web_gallery_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['sub_gallery']    = $this->web_gallery_model->list_sub_gallery($gal,$data['paging']->offset, $data['paging']->per_page);
+		$data['paging'] = $this->web_gallery_model->paging2($gal, $p);
+		$data['sub_gallery'] = $this->web_gallery_model->list_sub_gallery($gal, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['gallery'] = $gal;
 		$data['sub']  = $this->web_gallery_model->get_gallery($gal);
 		$header = $this->header_model->get_data();

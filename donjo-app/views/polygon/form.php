@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Pengaturan Kategori Tipe Polygon</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('polygon')?>"><i class="fa fa-dashboard"></i> Daftar Tipe Polygon</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('polygon')?>"><i class="fa fa-dashboard"></i> Daftar Tipe Polygon</a></li>
 			<li class="active">Pengaturan Kategori Tipe Polygon</li>
 		</ol>
 	</section>
@@ -16,7 +16,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("polygon")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+							<a href="<?= site_url("polygon")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Polygon
             	</a>
 						</div>

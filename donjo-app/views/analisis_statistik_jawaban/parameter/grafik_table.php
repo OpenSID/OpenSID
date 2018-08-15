@@ -19,8 +19,8 @@
 					text:''
 				},
 				categories: [
-				<?php $i=0;foreach($main as $data){$i++;?>
-				 <?php if($data['nilai'] != "-"){echo "'$data[jawaban]',";}?>
+				<?php $i=0;foreach ($main as $data){$i++;?>
+				 <?php if ($data['nilai'] != "-"){echo "'$data[jawaban]',";}?>
 				<?php }?>
 				]
 			},
@@ -46,10 +46,10 @@
 				shadow:1,
 				border:0,
 				data: [
-				<?php foreach($main as $data){?>
-				 <?php if($data['jawaban'] != "TOTAL"){?>
-				 <?php if($data['nilai'] != "-"){?>
-						<?php echo $data['nilai']?>,
+				<?php foreach ($main as $data){?>
+				 <?php if ($data['jawaban'] != "TOTAL"){?>
+				 <?php if ($data['nilai'] != "-"){?>
+						<?= $data['nilai']?>,
 					<?php }?>
 					<?php }?>
 				<?php }?>]
@@ -86,30 +86,30 @@
 								<div class="col-sm-12">
 									<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/dusun3/$analisis_statistik_jawaban[id]")?>')">
 										<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-										<?php foreach ($list_dusun AS $data):?>
-											<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']):?>selected<?php endif?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+										<?php foreach ($list_dusun AS $data): ?>
+											<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
 										<?php endforeach;?>
 									</select>
-									<?php if ($dusun):?>
+									<?php if ($dusun): ?>
 										<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rw3/$analisis_statistik_jawaban[id]")?>')" >
 											<option value="">RW</option>
-											<?php foreach ($list_rw AS $data):?>
-												<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']):?>selected<?php endif?>><?= $data['rw']?></option>
+											<?php foreach ($list_rw AS $data): ?>
+												<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
 											<?php endforeach;?>
 										</select>
-									<?php endif;?>
-									<?php if ($rw):?>
+									<?php endif; ?>
+									<?php if ($rw): ?>
 										<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rt3/$analisis_statistik_jawaban[id]")?>')">
 											<option value="">RT</option>
-											<?php foreach ($list_rt AS $data):?>
-												<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']):?>selected<?php endif?>><?= $data['rt']?></option>
+											<?php foreach ($list_rt AS $data): ?>
+												<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
 											<?php endforeach;?>
 										</select>
-									<?php endif;?>
+									<?php endif; ?>
 									<a href="<?= site_url()?>analisis_statistik_jawaban" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Laporan Per Indikator</a>
 								</div>
 								<div class="col-sm-12">
-									<h5 class="box-title"><b><?php echo $analisis_statistik_jawaban['pertanyaan']?></b></h5>
+									<h5 class="box-title"><b><?= $analisis_statistik_jawaban['pertanyaan']?></b></h5>
 									<div class="table-responsive">
 										<table class="table table-bordered dataTable table-hover table-striped">
 											<thead>
@@ -122,9 +122,9 @@
 											<tbody>
 												<?php foreach ($main as $data): ?>
 													<tr>
-														<td align="center" width="2"><?php echo $data['no']?></td>
-														<td><?php echo $data['jawaban']?></td>
-														<td><?php echo $data['nilai']?></td>
+														<td align="center" width="2"><?= $data['no']?></td>
+														<td><?= $data['jawaban']?></td>
+														<td><?= $data['nilai']?></td>
 													</tr>
 												<?php endforeach; ?>
 											</tbody>

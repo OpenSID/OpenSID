@@ -22,6 +22,15 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 16. #1155: Urut kolom Web Admin > Komentar sekarang bekerja normal. [bug-fix]
 17. #1277: Sekarang artikel agenda desa yg non-aktif tidak ditampilkan di widget Agenda. [bug-fix]
 18. #1327: Sekarang halaman Pendudduk > Wilayah Administratif > Dusun > RW > daftar RT akan ditampilkan sesudah menghapus RT. [bug-fix]
+19. #1374: Sekarang fitur sortir-kolom dan cari di tabel Analisis > Rincian analisis > Kategori/Variabel berjalan normal. [bug-fix]
+20. #1387: Sekarang Analisis > Rincian Data Analisis > Laporan Hasil Klasifikasi > Filter Indikator menampilkan form untuk memilah indikator. [bug-fix]
+21. #1182: Sekarang sortir-kolom, filter dan paging berfungsi normal di Admin Web > Galeri > Rincian Album. [bug-fix]
+22. #1183: Sekarang tombol kembali di Admin Web > Galeri > Rincian Album > Ubah Gambar kembali ke rincian album yang bersangkutan. [bug-fix]
+23. #1604: Tambahkan validasi supaya PIN Layanan Mandiri harus 6 (enam) digit angka. [bug-fix]
+24. #1259: Pencarian spesifik di halaman Calon Pemilih sekarang mencari berdasarkan umur pada tanggal pemilihan, bukan tanggal sekarang. [bug-fix]
+25. #1246, #1247: Sekarang fitur cari dan filter Plan > Area berfungsi normal. [bug-fix]
+26. #1254: Hapus berkas script yang tidak digunakan. [tugas-dapur]
+27. #1175: Jaga terhadap serangan XSS di fitur Cari modul Web. [security-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

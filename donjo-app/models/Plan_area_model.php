@@ -94,9 +94,11 @@
 		return $this->paging;
 	}
 
-	function list_data($o=0,$offset=0,$limit=500){
+	public function list_data($o=0,$offset=0,$limit=500)
+	{
 
-		switch($o){
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY nama'; break;
 			case 2: $order_sql = ' ORDER BY nama DESC'; break;
 			case 3: $order_sql = ' ORDER BY enabled'; break;
@@ -106,7 +108,11 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql   = "SELECT l.*,p.nama AS kategori,m.nama AS jenis,p.simbol AS simbol,p.color AS color FROM area l LEFT JOIN polygon p ON l.ref_polygon = p.id LEFT JOIN polygon m ON p.parrent = m.id ";
+		$sql   = "SELECT l.*,p.nama AS kategori,m.nama AS jenis,p.simbol AS simbol,p.color AS color
+			FROM area l
+			LEFT JOIN polygon p ON l.ref_polygon = p.id
+			LEFT JOIN polygon m ON p.parrent = m.id
+			WHERE 1";
 
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
@@ -120,7 +126,7 @@
 
 		$i=0;
 		$j=$offset;
-		while($i<count($data)){
+		for ($i=0; $i<count($data); $i++){
 			$data[$i]['no']=$j+1;
 
 			if($data[$i]['enabled']==1)
@@ -128,7 +134,6 @@
 			else
 				$data[$i]['aktif']="Tidak";
 
-			$i++;
 			$j++;
 		}
 		return $data;

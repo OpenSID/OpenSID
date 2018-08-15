@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Rincian Data Asset Lainnya</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_asset"><i class="fa fa-dashboard"></i>Daftar Inventaris Asset Lainnya</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_asset"><i class="fa fa-dashboard"></i>Daftar Inventaris Asset Lainnya</a></li>
 			<li class="active">Rincian Data</li>
 		</ol>
 	</section>
