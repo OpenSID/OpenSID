@@ -82,7 +82,7 @@ class First extends Web_Controller{
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 		$data['headline'] = $this->first_artikel_m->get_headline();
 
-		$cari = trim($this->input->get('cari'));
+		$cari = trim($this->input->input_stream('cari',TRUE));
 		if ( ! empty($cari)) {
 			// kok harus judul_kategori? :)
 			$data["judul_kategori"] = "Hasil pencarian: $cari";
