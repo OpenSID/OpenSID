@@ -30,6 +30,7 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 24. #1259: Pencarian spesifik di halaman Calon Pemilih sekarang mencari berdasarkan umur pada tanggal pemilihan, bukan tanggal sekarang. [bug-fix]
 25. #1246, #1247: Sekarang fitur cari dan filter Plan > Area berfungsi normal. [bug-fix]
 26. #1254: Hapus berkas script yang tidak digunakan. [tugas-dapur]
+27. #1175: Jaga terhadap serangan XSS di fitur Cari modul Web. [security-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
