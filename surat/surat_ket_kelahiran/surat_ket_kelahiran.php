@@ -738,7 +738,7 @@
 											<input class="form-control input-sm" name="umur_saksi1" readonly="readonly" placeholder="Umur (Tahun)" type="text" value="<?= $_SESSION['post']['umur_saksi1']?>">
 										</div>
 									</div>
-									<div class="form-group pelapor_luar_desa">
+									<div class="form-group saksi1_luar_desa">
 										<label for="pekerjaanpelapor" class="col-sm-3 control-label" ><strong>Jenis Kelamin </strong></label>
 										<div class="col-sm-4">
 											<select class="form-control input-sm" name="jksaksi1" id="jksaksi1">
@@ -854,7 +854,7 @@
 											<input class="form-control input-sm" name="umur_saksi2" readonly="readonly" placeholder="Umur (Tahun)" type="text" value="<?= $_SESSION['post']['umur_saksi2']?>">
 										</div>
 									</div>
-									<div class="form-group pelapor_luar_desa">
+									<div class="form-group saksi2_luar_desa">
 										<label for="pekerjaanpelapor" class="col-sm-3 control-label" ><strong>Jenis Kelamin </strong></label>
 										<div class="col-sm-4">
 											<select class="form-control input-sm" name="jksaksi2" id="jksaksi2">

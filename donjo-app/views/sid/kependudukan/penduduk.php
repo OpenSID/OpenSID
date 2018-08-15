@@ -127,7 +127,7 @@
 													<?php if ($judul_statistik): ?>
 														<h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
 													<?php endif; ?>
-													<table class="table table-bordered dataTable table-hover nowrap">
+													<table class="table table-bordered table-striped dataTable table-hover nowrap">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th><input type="checkbox" id="checkall"/></th>
