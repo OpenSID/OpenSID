@@ -222,32 +222,53 @@
       ";
       $this->db->query($query);
     }
-    //Perubahan tabel untuk modul SMS
-    if (!$this->db->field_exists('kontak','id'))
-      $this->dbforge->modify_column('kontak', array('id', array('name'  =>  'id_kontak', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
-    if (!$this->db->field_exists('kontak_grup','id_kontak'))
+    // Perubahan tabel untuk modul SMS
+    if ($this->db->field_exists('id', 'kontak'))
+      $this->dbforge->modify_column('kontak', array('id' => array('name'  =>  'id_kontak', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
+    if ($this->db->field_exists('id_kontak', 'kontak_grup'))
       $this->dbforge->drop_column('kontak_grup', 'id_kontak');
-    if (!$this->db->field_exists('kontak_grup','id'))
-      $this->dbforge->modify_column('kontak_grup', array('id', array('name'  =>  'id_grup', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
-    $sql = array(
-      'id_grup_kontak'  =>  array(
-          'type' => 'INT',
-          'constraint' => 11,
-          'unsigned' => TRUE,
-          'auto_increment' => TRUE
-        ),
-      'id_grup'  =>  array(
-          'type' => 'INT',
-          'constraint' => 11,
-          'unsigned' => TRUE
-        ),
-      'id_kontak'  =>  array(
-          'type' => 'INT',
-          'constraint' => 11,
-          'unsigned' => TRUE
-        )
-      );
-    $this->dbforge->add_field($sql)->create_table('anggota_grup_kontak', TRUE, array('ENGINE' => 'InnoDB'));
+    if ($this->db->field_exists('id', 'kontak_grup'))
+      $this->dbforge->modify_column('kontak_grup', array('id' => array('name'  =>  'id_grup', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
+    if ($this->db->table_exists('anggota_grup_kontak'))
+    {
+      $this->db->query('
+        CREATE TABLE `anggota_grup_kontak` (
+          `id_grup_kontak` int(11) NOT NULL AUTO_INCREMENT,
+          `id_grup` int(11) NOT NULL,
+          `id_kontak` int(11) NOT NULL,
+          PRIMARY KEY (`id_grup_kontak`),
+          KEY `id_grup` (`id_grup`),
+          KEY `id_kontak` (`id_kontak`),
+          CONSTRAINT `anggota_grup_kontak_ke_kontak` FOREIGN KEY (`id_kontak`) REFERENCES `kontak` (`id_kontak`) ON DELETE CASCADE ON UPDATE CASCADE,
+          CONSTRAINT `anggota_grup_kontak_ke_kontak_grup` FOREIGN KEY (`id_grup`) REFERENCES `kontak_grup` (`id_grup`) ON DELETE CASCADE ON UPDATE CASCADE
+        ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1
+      ');
+      $sql = array( 
+        'id_grup_kontak'  =>  array( 
+            'type' => 'INT', 
+            'constraint' => 11, 
+            'unsigned' => TRUE, 
+            'auto_increment' => FALSE
+          ), 
+        'id_grup'  =>  array( 
+            'type' => 'INT', 
+            'constraint' => 11, 
+            'unsigned' => FALSE 
+          ), 
+        'id_kontak'  =>  array( 
+            'type' => 'INT', 
+            'constraint' => 11, 
+            'unsigned' => FALSE
+          ) 
+        ); 
+      $this->dbforge->add_field($sql);
+      $this->dbforge->add_field("CONSTRAINT `anggota_grup_kontak_ke_kontak` FOREIGN KEY (`id_kontak`) REFERENCES `kontak` (`id_kontak`) ON DELETE CASCADE ON UPDATE CASCADE");
+      $this->dbforge->add_field("CONSTRAINT `anggota_grup_kontak_ke_kontak_grup` FOREIGN KEY (`id_grup`) REFERENCES `kontak_grup` (`id_grup`) ON DELETE CASCADE ON UPDATE CASCADE");
+      $this->dbforge->create_table('anggota_grup_kontak', TRUE, array('ENGINE' => 'InnoDB')); 
+    }
+    $this->dbforge->add_column('kontak',array(
+      'CONSTRAINT `kontak_ke_tweb_penduduk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+    ));
     $this->db->query("DROP VIEW IF EXISTS `daftar_kontak`");
     $this->db->query("CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,(case when (`b`.`sex` = '1') then 'Laki-laki' else 'Perempuan' end) AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on((`a`.`id_pend` = `b`.`id`)))");
     $this->db->query("DROP VIEW IF EXISTS `daftar_grup`");

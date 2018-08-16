@@ -8,7 +8,7 @@
 							<table id="tabel2" class="table table-bordered dataTable table-hover">
 								<thead class="bg-gray disabled color-palette">
 									<tr>
-										<th><input type="checkbox" id="checkall"/></th>
+										<th><input type="checkbox" id="checkallanggota"/></th>
 										<th>No</th>
 										<th>Nama</th>
 										<th>Jenis Kelamin</th>
@@ -41,3 +41,4 @@
 		</div>
 	</div>
 </form>
+<script>checkAll("#checkallanggota");</script>

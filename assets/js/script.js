@@ -255,11 +255,11 @@ $('[checked="checked"]').parent().addClass('active')
 	$('#min-textarea').wysihtml5();
 });
 
-function checkAll()
+function checkAll(id = "#checkall")
 {
-	$("#checkall").click(function ()
+	$(id).click(function ()
 	{
-		if ($(".table #checkall").is(':checked'))
+		if ($(".table " + id).is(':checked'))
 		{
 			$(".table input[type=checkbox]").each(function ()
 			{
