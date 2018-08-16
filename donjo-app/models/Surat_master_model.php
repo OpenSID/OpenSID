@@ -297,8 +297,13 @@
   function get_kode_isian($surat) {
 		// Lokasi instalasi SID mungkin di sub-folder
     include FCPATH . '/vendor/simple_html_dom.php';
-    $html = file_get_html(FCPATH . "/surat/".$surat['url_surat']."/".$surat['url_surat'].".php");
-
+    $path_bawaan = FCPATH . "/surat/".$surat['url_surat']."/".$surat['url_surat'].".php";
+    $path_lokal = FCPATH . "/desa/surat/".$surat['url_surat']."/".$surat['url_surat'].".php";
+    if(file_exists($path_bawaan))
+	    $html = file_get_html($path_bawaan);
+	else if(file_exists($path_lokal))
+		$html = file_get_html($path_lokal);
+	else return array();
     // Kumpulkan semua isian (tag input) di form surat
     // Asumsi di form surat, struktur input seperti ini
     // <tr>
