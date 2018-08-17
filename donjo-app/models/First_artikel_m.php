@@ -219,7 +219,7 @@ class First_artikel_m extends CI_Model{
 	}
 
 	function agenda_show(){
-		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='4' AND a.enabled = 1 
+		$sql   = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='1000' AND a.enabled = 1 
 		AND a.tgl_upload < NOW() ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
@@ -255,8 +255,13 @@ class First_artikel_m extends CI_Model{
 		$query = $this->db->query($sql,$id);
 		if($query->num_rows()>0){
 			$data  = $query->row_array();
-		}else{
-			$data  = false;
+		}else if(!empty($id)){
+			// untuk artikel jenis statis = "AGENDA"
+			$judul = [999 => "Halaman Statis",
+				1000	=> "Agenda"];
+			$data = $judul[$id];
+		} else {
+			$data = false;
 		}
 		return $data;
 	}
