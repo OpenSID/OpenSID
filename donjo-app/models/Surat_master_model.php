@@ -294,16 +294,17 @@
 		return $query->result_array();
 	}
 
-  function get_kode_isian($surat) {
+  public function get_kode_isian($surat)
+  {
 		// Lokasi instalasi SID mungkin di sub-folder
     include FCPATH . '/vendor/simple_html_dom.php';
-    $path_bawaan = FCPATH . "/surat/".$surat['url_surat']."/".$surat['url_surat'].".php";
-    $path_lokal = FCPATH . "/desa/surat/".$surat['url_surat']."/".$surat['url_surat'].".php";
-    if(file_exists($path_bawaan))
-	    $html = file_get_html($path_bawaan);
-	else if(file_exists($path_lokal))
-		$html = file_get_html($path_lokal);
-	else return array();
+    $path_bawaan = FCPATH . "/surat/".$surat['url_surat']."/". $surat['url_surat'].".php";
+    $path_lokal = FCPATH . LOKASI_SURAT_DESA .$surat['url_surat']."/".$surat['url_surat'].".php";
+    if (file_exists($path_lokal))
+	    $html = file_get_html($path_lokal);
+		else if (file_exists($path_bawaan))
+			$html = file_get_html($path_bawaan);
+		else return array();
     // Kumpulkan semua isian (tag input) di form surat
     // Asumsi di form surat, struktur input seperti ini
     // <tr>
@@ -311,36 +312,46 @@
     // 		<td><input><td>
     // </tr>
     $inputs = array();
-    foreach($html->find('input') as $input) {
-      if ($input->type == 'hidden') {
+    foreach ($html->find('input') as $input)
+    {
+      if ($input->type == 'hidden')
+      {
         continue;
 			}
-			if ($input->title == 'Pilih Tanggal') {
+			if ($input->title == 'Pilih Tanggal')
+			{
 				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
 				continue;
 			}
-			if ($input->type == 'radio') {
+			if ($input->type == 'radio')
+			{
 				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
 				continue;
 			}
-			if ($input->id == 'jam_1') {
+			if ($input->id == 'jam_1')
+			{
 				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
 				continue;
 			}
-			if ($input->id == 'input_group') {
+			if ($input->id == 'input_group')
+			{
 				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
 				continue;
 			}
       $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
 		}
-    foreach($html->find('textarea') as $input) {
-      if ($input->type == 'hidden') {
+    foreach ($html->find('textarea') as $input)
+    {
+      if ($input->type == 'hidden')
+      {
         continue;
       }
       $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
 		}
-    foreach($html->find('select') as $input) {
-      if ($input->type == 'hidden') {
+    foreach ($html->find('select') as $input)
+     {
+      if ($input->type == 'hidden')
+      {
         continue;
       }
       $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
