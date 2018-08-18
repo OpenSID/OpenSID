@@ -77,14 +77,14 @@
 																	<?= (empty($data->status_tanah)) ? "-" : $data->status_tanah ?>
 																</td>
 																<td><?= $data->asal;?></td>
-																<td><?= number_format($data->harga,0,".",".");?></td>
+																<td class="text-right"><?= number_format($data->harga,0,".",".");?></td>
 															</tr>
 														<?php endforeach; ?>
 													</tbody>
 													<tfoot>
 														<tr>
-															<th colspan="9" class="text-right">Total:</th>
-															<th><?= number_format($total,0,".","."); ?></th>
+															<th colspan="10" class="text-right">Total:</th>
+															<th class="text-right"><?= number_format($total,0,".","."); ?></th>
 														</tr>
 													</tfoot>
 												</table>
