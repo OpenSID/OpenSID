@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Garis</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
 			<li><a href="<?= site_url('garis')?>"><i class="fa fa-dashboard"></i> Daftar Garis</a></li>
 			<li class="active">Pengaturan Garis</li>
 		</ol>

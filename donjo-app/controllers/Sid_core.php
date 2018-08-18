@@ -16,7 +16,7 @@ function __construct(){
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
-		$this->modul_ini = 2;
+		$this->modul_ini = 200;
 	}
 
 	function clear(){

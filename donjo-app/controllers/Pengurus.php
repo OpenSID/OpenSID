@@ -16,7 +16,7 @@ class Pengurus extends CI_Controller{
 		}
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 1;
+		$this->modul_ini = 200;
 	}
 
 	function clear(){
@@ -38,7 +38,7 @@ class Pengurus extends CI_Controller{
 		$data['main'] = $this->pamong_model->list_data();
 		$data['keyword'] = $this->pamong_model->autocomplete();
 		$header = $this->header_model->get_data();
-		// Menampilkan menu dan sub menu aktif		
+		// Menampilkan menu dan sub menu aktif
 		$nav['act']= 1;
 		$nav['act_sub'] = 18;
 		$this->load->view('header',$header);
@@ -62,7 +62,7 @@ class Pengurus extends CI_Controller{
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header',$header);
-		// Menampilkan menu dan sub menu aktif		
+		// Menampilkan menu dan sub menu aktif
 		$nav['act']= 1;
 		$nav['act_sub'] = 18;
 		$this->load->view('nav',$nav);

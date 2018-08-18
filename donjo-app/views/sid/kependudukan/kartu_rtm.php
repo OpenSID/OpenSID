@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Kartu Rumah Tangga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
 			<li><a href="<?= site_url('rtm/clear')?>"> Daftar Rumah Tangga</a></li>
 			<li><a href="<?= site_url("rtm/anggota/$p/$o/$id_kk")?>"> Daftar Anggota Rumah Tangga</a></li>
 			<li class="active">Kartu Rumah Tangga</li>

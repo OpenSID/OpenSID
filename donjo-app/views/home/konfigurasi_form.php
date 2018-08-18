@@ -3,7 +3,7 @@
 	<section class="content-header">
 		<h1>Identitas <?=ucwords($this->setting->sebutan_desa)?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
 			<li class="active">Identitas <?=ucwords($this->setting->sebutan_desa)?></li>
 		</ol>
 	</section>

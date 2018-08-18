@@ -35,7 +35,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Priode Analisis [ <?= $analisis_master['nama']?> ]</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
 			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
 			<li><a href="<?= site_url()?>analisis_indikator">Indikator Analisis</a></li>
 			<li><a href="<?= site_url()?>analisis_periode">Pengaturan Priode</a></li>

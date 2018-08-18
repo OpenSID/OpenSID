@@ -148,6 +148,7 @@ function index(){
 		//$header ['desa']= $this->header_model->get_data();
 		$header['minsidebar'] =1;
 		$nav['act']= 9;
+		$nav['act_sub'] = 62;
 
 
 		$this->load->view('header', $header);

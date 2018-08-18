@@ -6,7 +6,7 @@
 			<h1>Data Suplemen Dengan Sasaran <?=$sasaran[$tampil]?></h1>
 		<?php endif; ?>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
 			<li class="active">Data Suplemen</li>
 		</ol>
 	</section>

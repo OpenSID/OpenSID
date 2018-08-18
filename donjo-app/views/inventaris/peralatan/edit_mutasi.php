@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Ubah Data Mutasi Inventaris Peralatan Dan Mesin</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
 			<li><a href="<?= site_url() ?>inventaris_peralatan/mutasi"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Peralatan Dan Mesin</a></li>
 			<li class="active">Ubah Data</li>
 		</ol>
