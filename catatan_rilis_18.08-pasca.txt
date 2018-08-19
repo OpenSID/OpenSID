@@ -35,6 +35,7 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 29. #1599: Sekarang widget Agenda menampilkan artikel statis Agenda, bukan artikel dinamis. [bug-fix]
 30. #1458: Di Cetak Surat > Pengaturan Surat, kode isian sekarang tampil untuk surat ubahan desa. [bug-fix]
 31. #1628: Sekarang nilai jenis kelamin yg diisi sebelumnya tampil kembali jika pengisian Tambah KK Baru gagal validasi. [bug-fix]
+32. #1275: Sekarang halaman rincian polygon yg benar ditampilkan sesudah menghapus sub-polygon terpilih. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
