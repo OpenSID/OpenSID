@@ -246,6 +246,9 @@
     $this->dbforge->add_field($sql);
     $this->dbforge->add_key("id_grup_kontak", TRUE);
     $this->dbforge->create_table('anggota_grup_kontak', FALSE, array('ENGINE' => 'InnoDB')); 
+    
+    //perbaikan penamaan grup agar tidak ada html url code
+    $this->db->query("UPDATE kontak_grup SET nama_grup = REPLACE(nama_grup, '%20', ' ')");
     //memindahkan isi kontak_grup ke anggota_grup_kontak
     $this->db->query("INSERT INTO anggota_grup_kontak (id_grup, id_kontak) SELECT b.id as id_grup, a.id_kontak FROM kontak_grup a RIGHT JOIN (SELECT id,nama_grup FROM kontak_grup GROUP BY nama_grup) b on a.nama_grup = b.nama_grup");
     //Memperbaiki record kontak_grup agar tidak duplikat
