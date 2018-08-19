@@ -790,7 +790,7 @@ class Sms_model extends CI_Model
     
     function list_data_nama($id = 0)
     {
-        $sql   = "SELECT * FROM daftar_kontak WHERE id_kontak NOT IN (SELECT id_kontak FROM anggota_grup_kontak) ";
+        $sql   = "SELECT * FROM daftar_kontak WHERE id_kontak NOT IN (SELECT id_kontak FROM anggota_grup_kontak WHERE id_grup = $id) ";
         $query = $this->db->query($sql);
         $data  = $query->result_array();
         return $data;
