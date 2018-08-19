@@ -25,7 +25,7 @@ class Plan extends CI_Controller{
 
 		//$this->config->item('ion_auth') ;
 		$this->load->database();
-		$this->modul_ini = 8;
+		$this->modul_ini = 9;
 
 	}
 
@@ -71,6 +71,7 @@ class Plan extends CI_Controller{
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] =1;
 		$nav['act']= 8;
+		$nav['act_sub'] = 8;
 		$nav['tip']= 3;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);

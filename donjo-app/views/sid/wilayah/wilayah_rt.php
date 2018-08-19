@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Wilayah Administratif RT</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('sid_core')?>"> Daftar Wilayah <?= ucwords($this->setting->sebutan_dusun)?></a></li>
 			<li><a href="<?= site_url("sid_core/sub_rw/$id_dusun")?>"> Daftar Wilayah RW</a></li>
 			<li class="active">Daftar Wilayah RT</li>
@@ -31,7 +31,7 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
-													<table class="table table-bordered dataTable table-hover">
+													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th width="2%"><input type="checkbox" id="checkall"/></th>

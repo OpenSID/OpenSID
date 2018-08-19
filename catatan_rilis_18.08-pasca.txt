@@ -1,6 +1,6 @@
 Rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta oleh komunitas SID.
 
-Terima kasih pada Diego Dafma, yang terus berkontribusi. Terima kasih juga pada Agung Sugiarto yang baru mulai kontribusi.
+Terima kasih pada Diego Dafma, yang terus berkontribusi. Terima kasih juga pada Agung Sugiarto dan andialrizki yang baru mulai kontribusi.
 
 Lengkapnya, isi rilis versi 18.08-pasca:
 
@@ -31,6 +31,12 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 25. #1246, #1247: Sekarang fitur cari dan filter Plan > Area berfungsi normal. [bug-fix]
 26. #1254: Hapus berkas script yang tidak digunakan. [tugas-dapur]
 27. #1175: Jaga terhadap serangan XSS di fitur Cari modul Web. [security-fix]
+28. #1603: Sekarang sebab kematian tampil dalam Surat Keterangan Kematian. [bug-fix]
+29. #1599: Sekarang widget Agenda menampilkan artikel statis Agenda, bukan artikel dinamis. [bug-fix]
+30. #1458: Di Cetak Surat > Pengaturan Surat, kode isian sekarang tampil untuk surat ubahan desa. [bug-fix]
+31. #1628: Sekarang nilai jenis kelamin yg diisi sebelumnya tampil kembali jika pengisian Tambah KK Baru gagal validasi. [bug-fix]
+32. #1275: Sekarang halaman rincian polygon yg benar ditampilkan sesudah menghapus sub-polygon terpilih. [bug-fix]
+33. #1240: Sekarang filter Kategori dan Jenis di Plan > Lokasi berfungsi normal. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

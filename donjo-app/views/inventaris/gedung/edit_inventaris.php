@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Ubah Data Inventaris Gedung Dan Bangunan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url() ?>inventaris_gedung"><i class="fa fa-dashboard"></i>Daftar Inventaris Gedung Dan Bangunan</a></li>
 			<li class="active">Ubah Data</li>
 		</ol>
@@ -16,7 +16,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-						<a href="<?= site_url() ?>inventaris_gedung" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris bGedung Dan Bangunan</a>
+						<a href="<?= site_url() ?>inventaris_gedung" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Gedung Dan Bangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -37,7 +37,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="nomor_register" id="nomor_register" type="text" />
+											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -116,9 +116,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="asal_usul">Asal Usul </label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="asal">Asal Usul </label>
 										<div class="col-sm-4">
-											<select name="asal_usul" id="asal_usul" class="form-control input-sm required" >
+											<select name="asal" id="asal" class="form-control input-sm required" >
 												<option value="<?= $main->asal; ?>"><?= $main->asal; ?></option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>

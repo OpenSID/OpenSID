@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Data Keluarga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
 			<li class="active">Data Keluarga</li>
 		</ol>
@@ -63,7 +63,7 @@
 												<select class="form-control input-sm <?php if ($rt): ?>required<?php endif; ?>" name="rt" onchange="formAction('mainform','<?= site_url('keluarga/form/0/1')?>')">
 													<option value="">Pilih RT</option>
 													<?php foreach ($rt as $data): ?>
-														<option value="<?= $data['rt']?>" <?php if ($rt_sel==$data['rt']): ?>selected<?php endif; ?>><?= $data['rt']?></option>
+														<option value="<?= $data['id']?>" <?php if ($rt_sel==$data['id']): ?>selected<?php endif; ?>><?= $data['rt']?></option>
 													<?php endforeach; ?>
 												</select>
 											</div>

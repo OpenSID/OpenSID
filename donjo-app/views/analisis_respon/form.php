@@ -120,7 +120,7 @@
 	<section class="content-header">
 		<h1>Input Data Sensus - <?= $analisis_master['nama']?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
 			<li><a href="<?= site_url()?>analisis_respon/leave"><?= $analisis_master['nama']?></a></li>
 			<li><a href="<?= site_url()?>analisis_respon">Data Sensus</a></li>

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Laporan Keseluruhan Asset Desa</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Laporan Keseluruhan Asset Desa</li>
 		</ol>
 	</section>
@@ -30,7 +30,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table id="tabel4" class="table table-bordered dataTable table-hover">
+														<table id="tabel4" class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray">
 																<tr>
 																	<th class="text-center" rowspan="3">No</th>

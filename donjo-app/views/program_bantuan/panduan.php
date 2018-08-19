@@ -6,7 +6,7 @@
 			<h1>Panduan Program Bantuan dengan Sasaran <?=$sasaran[$tampil];?></h1>
 		<?php endif; ?>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
 			<li class="active"> Bantuan</li>
 		</ol>

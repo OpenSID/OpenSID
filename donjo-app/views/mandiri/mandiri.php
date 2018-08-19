@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Layanan Mandiri</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Layanan Mandiri</li>
 		</ol>
 	</section>
@@ -22,7 +22,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover">
+														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th>No</th>

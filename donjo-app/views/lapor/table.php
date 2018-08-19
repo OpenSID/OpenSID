@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Laporan Masuk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Laporan Masuk</li>
 		</ol>
 	</section>
@@ -41,7 +41,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover">
+														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th><input type="checkbox" id="checkall"/></th>
@@ -76,7 +76,7 @@
 															</thead>
 															<tbody>
 																<?php foreach ($main as $data): ?>
-																	<tr>
+																	<tr <?php if ($data['enabled']!=1): ?>style='background-color:#ffeeaa;'<?php endif; ?>>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>

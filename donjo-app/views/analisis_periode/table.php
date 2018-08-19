@@ -15,7 +15,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Periode - <?= $analisis_master['nama']?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
 			<li><a href="<?= site_url()?>analisis_periode/leave"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Pengaturan Periode</li>
@@ -61,7 +61,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover nowrap">
+														<table class="table table-bordered table-striped dataTable table-hover nowrap">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th><input type="checkbox" id="checkall"/></th>

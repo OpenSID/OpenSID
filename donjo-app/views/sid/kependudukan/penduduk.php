@@ -34,7 +34,7 @@
 	<section class="content-header">
 		<h1>Data Penduduk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Data Penduduk</li>
 		</ol>
 	</section>
@@ -127,7 +127,7 @@
 													<?php if ($judul_statistik): ?>
 														<h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
 													<?php endif; ?>
-													<table class="table table-bordered dataTable table-hover nowrap">
+													<table class="table table-bordered table-striped dataTable table-hover nowrap">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th><input type="checkbox" id="checkall"/></th>

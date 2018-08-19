@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Gambar Album</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('gallery')?>"><i class="fa fa-dashboard"></i> Daftar Album</a></li>
 			<li><a href='<?= site_url("gallery/sub_gallery/$gallery[parrent]")?>'><i class="fa fa-dashboard"></i> Daftar Gambar Album</a></li>
 			<li class="active">Pengaturan Gambar Album</li>

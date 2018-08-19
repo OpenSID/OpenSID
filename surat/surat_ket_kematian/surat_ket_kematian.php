@@ -184,7 +184,7 @@
 								<div class="form-group">
 									<label for="sebab" class="col-sm-3 control-label" >Penyebab Kematian</label>
 									<div class="col-sm-4">
-										<input name="sebab_nama" type="hidden">
+										<input name="sebab_nama" type="hidden" value="<?= $sebab[$_SESSION['post']['sebab']] ?>">
 										<select class="form-control input-sm required" name="sebab" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));">
 											<option value="">Pilih Sebab</option>
 											<?php foreach ($sebab as $id => $nama): ?>

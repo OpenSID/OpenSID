@@ -15,7 +15,7 @@
 	<section class="content-header">
 		<h1>Laporan Statistik Jawaban</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
 			<li><a href="<?=site_url()?>analisis_statistik_jawaban/leave"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Laporan Per Indikator</li>
