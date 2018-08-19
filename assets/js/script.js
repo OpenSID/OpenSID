@@ -363,8 +363,15 @@ function cari_nik()
 	{
 		var csrf_param = $('meta[name=csrf-param]').attr('content')
 		var csrf_token = document.cookie.match(new RegExp(csrf_param +'=(\\w+)'))[1]
-		$('meta[name=csrf-token]').attr('content', csrf_token)
-		$('form').find('input[name='+ csrf_param +']').val(csrf_token)
+		$('form').each(function(i, form) {
+			if (form.method.toLowerCase() !== 'post') {
+				return
+			}
+			if (!form[csrf_param]) {
+				$(form).append($('<input type=hidden name='+ csrf_param +'>'))
+			}
+			form[csrf_param].value = csrf_token
+		})
 	}
 
 	// automatically send CSRF token for all AJAX requests
