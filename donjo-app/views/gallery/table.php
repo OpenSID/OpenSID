@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Daftar Album</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Daftar Album</li>
 		</ol>
 	</section>

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Formulir Penambahan Terdata</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('suplemen')?>"> Data Suplemen</a></li>
 			<li><a href="<?= site_url()?>suplemen/rincian/1/<?= $suplemen['id']?>"> Rincian Data Suplemen</a></li>
 			<li class="active">Formulir Penambahan Terdata</li>

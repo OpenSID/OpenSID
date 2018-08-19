@@ -3,7 +3,7 @@
 	<section class="content-header">
 		<h1>Peserta Program Bantuan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
       <li><a href="<?= site_url("program_bantuan/detail/1/$detail[id]")?>"> Rincian Program Bantuan</a></li>
 			<li class="active">Peserta Program Bantuan</li>

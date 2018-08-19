@@ -3,7 +3,7 @@
 	<section class='content-header'>
 		<h1>Tentang OpenSID</h1>
 		<ol class='breadcrumb'>
-			<li><a href='<?site_url()?>'><i class='fa fa-dashboard'></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
+			<li><a href='<?site_url()?>'><i class='fa fa-home'></i> Home</a></li>
 			<li class='active'>Tentang OpenSID</li>
 		</ol>
 	</section>

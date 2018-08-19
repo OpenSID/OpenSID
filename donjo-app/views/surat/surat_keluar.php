@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Manajemen Surat Keluar</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> <?=ucwords($this->setting->sebutan_desa)?></a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Manajemen Surat Keluar</li>
 		</ol>
 	</section>
