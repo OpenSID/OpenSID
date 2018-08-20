@@ -174,55 +174,46 @@
 		TODO: cari cara backup yang menghasilkan .sql seperti menu export di phpmyadmin.
 	*/
 	function backup() {
-		// Tabel inventaris ditambah di belakang, karena tergantung jenis_barang
-		// Juga tabel suplemen_terdata yang tergantung suplemen
+		// Tabel dengan foreign key dan
+		// semua views ditambah di belakang.
+		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup');
+		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
+		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah');
 		$prefs = array(
 				'format'      => 'sql',
-				'tables'			=> array('inventaris', 'mutasi_inventaris', 'suplemen_terdata'),
+				'tables'			=> array_merge($ada_foreign_key, $views),
 			  );
-		$tabel_dgn_foreign_key = $this->do_backup($prefs);
-		$prefs = array(
-				'format'      => 'sql',
-				'tables'			=> array('jenis_barang'),
-			  );
-		$jenis_barang = $this->do_backup($prefs);
+		$tabel_foreign_key_dan_views = $this->do_backup($prefs);
 		$prefs = array(
 				'format'      => 'sql',
 				'tables'			=> array('suplemen'),
 			  );
-		$suplemen = $this->do_backup($prefs);
 
-		// Tabel data_surat adalah view, di-backup terpisah
+		$backup = '';
+		// Hapus semua views dulu
+		foreach ($views as $view)
+		{
+			$backup .= "DROP VIEW IF EXISTS ".$view.";\n";
+		}
+		// Hapus tabel dgn foreign key
+		foreach (array_reverse($ada_foreign_key) as $table)
+		{
+			$backup .= "DROP TABLE IF EXISTS ".$table.";\n";
+		}
+
+		// Semua views dan tabel dgn foreign key di-backup terpisah
 		$prefs = array(
 				'format'      => 'sql',
-				'ignore'			=> array('data_surat', 'jenis_barang', 'inventaris', 'mutasi_inventaris', 'suplemen', 'suplemen_terdata'),
+				'ignore'			=> array_merge($views, $ada_foreign_key),
 			  );
+		$backup .= $this->do_backup($prefs);
+		$backup .= $tabel_foreign_key_dan_views;
 
-		$backup = $this->do_backup($prefs);
-
-		// Hilangkan ketentuan user untuk view data_surat dan baris-baris lain yang
-		// dihasilkan oleh dbutil->backup karena bermasalah
+		// Hilangkan ketentuan user dan baris-baris lain yang
+		// dihasilkan oleh dbutil->backup untuk view karena bermasalah
 		// pada waktu import dgn restore ataupun phpmyadmin
-		$data_surat = preg_replace("/DEFINER=`root`@`localhost`/", "", $data_surat);
-		$data_surat = preg_replace("/utf8_general_ci;/", "", $data_surat);
-		$baris_baris = explode("\n", $data_surat);
-		foreach ($baris_baris as $baris) {
-			if (strpos($baris, 'INSERT INTO data_surat') !== FALSE) {
-				 continue;
-			}
-			$simpan[] = $baris;
-			}
-			$data_surat = implode("\n", $simpan);
-
-		// Tambahkan data_surat, inventaris dan suplemen_terdata di ujung karena tergantung pada tabel lainnya
-		$backup .= "DROP VIEW IF EXISTS data_surat;\n";
-		$backup .= $data_surat;
-		$backup .= "DROP TABLE IF EXISTS mutasi_inventaris;\n";
-		$backup .= "DROP TABLE IF EXISTS inventaris;\n";
-		$backup .= $jenis_barang;
-		$backup .= "DROP TABLE IF EXISTS suplemen_terdata;\n";
-		$backup .= $suplemen;
-		$backup .= $tabel_dgn_foreign_key;
+		$backup = preg_replace("/ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER /", "", $backup);
+		$backup = preg_replace("/utf8_general_ci;/", "", $backup);
 
 		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
 		$save = base_url().$db_name;

@@ -148,6 +148,14 @@
 
   function migrasi_1808_ke_1809()
   {
+    // Hapus tabel inventaris lama
+    $query = "DROP TABLE IF EXISTS mutasi_inventaris;";
+    $this->db->query($query);
+    $query = "DROP TABLE IF EXISTS inventaris;";
+    $this->db->query($query);
+    $query = "DROP TABLE IF EXISTS jenis_barang;";
+    $this->db->query($query);
+
     // Siapkan warna polygon dan line supaya tampak di tampilan-admin baru
 		$sql = "UPDATE polygon SET color = CONCAT('#', color)
 				WHERE color NOT LIKE '#%' AND color <> ''
