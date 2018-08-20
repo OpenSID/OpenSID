@@ -42,8 +42,8 @@ class Lapor extends CI_Controller{
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->web_komentar_model->paging($p,$o);
-		$data['main']    = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page,2);
+		$data['paging']  = $this->web_komentar_model->paging($p, $o, 2);
+		$data['main']    = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page, 2);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
 
 		$header = $this->header_model->get_data();

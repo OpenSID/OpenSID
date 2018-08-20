@@ -38,14 +38,12 @@
 		}
 	}
 
-	function paging($p=1,$o=0){
-
-		$sql      = "SELECT COUNT(id) AS id FROM komentar k WHERE 1";
-		$sql     .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
-		$jml_data = $row['id'];
+	public function paging($p=1, $o=0, $cas=0)
+	{
+		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql($cas);
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
 		$cfg['page']     = $p;
@@ -56,9 +54,24 @@
 		return $this->paging;
 	}
 
-	function list_data($o=0,$offset=0,$limit=500,$cas=0){
+	private function list_data_sql($cas=0)
+	{
+		$sql = "FROM komentar k
+			LEFT JOIN artikel a ON k.id_artikel = a.id
+			WHERE 1 ";
+		if($cas == 2)
+			$sql .= " AND id_artikel = 775";
+		else
+			$sql .= " AND id_artikel <> 775";
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		return $sql;
+	}
 
-		switch($o){
+	public function list_data($o=0, $offset=0, $limit=500, $cas=0)
+	{
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY komentar DESC'; break;
 			case 2: $order_sql = ' ORDER BY komentar'; break;
 			case 3: $order_sql = ' ORDER BY enabled DESC'; break;
@@ -68,38 +81,23 @@
 
 			default:$order_sql = ' ORDER BY tgl_upload DESC';
 		}
-
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql   = "SELECT k.*, a.judul as artikel FROM komentar k
-			LEFT JOIN artikel a ON k.id_artikel = a.id
-			WHERE 1 ";
-
-		if($cas==2)
-			$sql .= " AND id_artikel = 775";
-		else
-			$sql .= " AND id_artikel <> 775";
-
-
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
+		$sql = "SELECT k.*, a.judul as artikel " . $this->list_data_sql($cas);
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
-		$i=0;
 		$j=$offset;
-		while($i<count($data)){
+		for ($i=0; $i<count($data); $i++)
+		{
 			$data[$i]['no']=$j+1;
-
 			if($data[$i]['enabled']==1)
 				$data[$i]['aktif']="Ya";
 			else
 				$data[$i]['aktif']="Tidak";
-
-			$i++;
 			$j++;
 		}
 		return $data;

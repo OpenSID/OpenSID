@@ -38,6 +38,8 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 32. #1275: Sekarang halaman rincian polygon yg benar ditampilkan sesudah menghapus sub-polygon terpilih. [bug-fix]
 33. #1240: Sekarang filter Kategori dan Jenis di Plan > Lokasi berfungsi normal. [bug-fix]
 34. #1160: Penyimpanan Kontak dan Group Kontak SMS ditata ulang untuk memperbaiki kesalahan pengelolaan kontak SMS. [bug-fix]
+35. #1573: Sekarang Total Data yang ditampilkan di Laporan > Laporan Masuk benar. [bug-fix]
+36. #1571: Sekarang Total Data yang ditampilkan di Admin Web > Komentar benar. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
