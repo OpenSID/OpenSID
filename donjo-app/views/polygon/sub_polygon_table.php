@@ -1,10 +1,10 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Sub Tipe Polygon</h1>
+		<h1>Pengaturan Kategori Area</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('polygon')?>"> Daftar Tipe Polygon</a></li>
-			<li class="active">Pengaturan Tipe Polygon</li>
+			<li><a href="<?= site_url('polygon')?>"> Daftar Tipe Area</a></li>
+			<li class="active">Pengaturan Tipe Area</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -16,12 +16,12 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url("polygon/ajax_add_sub_polygon/$polygon")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Tipe Polygon Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Tipe Polygon">
-								<i class="fa fa-plus"></i>Tambah Tipe Polygon Baru
+							<a href="<?= site_url("polygon/ajax_add_sub_polygon/$polygon")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori Area Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori Area">
+								<i class="fa fa-plus"></i>Tambah Kategori Area Baru
             	</a>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("polygon/delete_all_sub_polygon/$polygon")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<a href="<?= site_url("polygon")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Polygon
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Area
             	</a>
 						</div>
 						<div class="box-body">

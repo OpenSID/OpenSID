@@ -39,14 +39,14 @@
 													</select>
 													<select class="form-control input-sm" name="line" onchange="formAction('mainform', '<?= site_url('garis/line')?>')">
 														<option value="">Kategori</option>
-														<?php foreach ($list_line AS $data): ?>
-															<option value="<?= $data['id']?>" <?php if ($line == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
+														<?php foreach ($list_subline AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($subline == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
 														<?php endforeach;?>
 													</select>
 													<select class="form-control input-sm" name="subline" onchange="formAction('mainform', '<?= site_url('garis/subline')?>')">
 														<option value="">Jenis</option>
-														<?php foreach ($list_subline AS $data): ?>
-															<option value="<?= $data['id']?>" <?php if ($subline == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
+														<?php foreach ($list_line AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($line == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
 														<?php endforeach;?>
 													</select>
 												</div>

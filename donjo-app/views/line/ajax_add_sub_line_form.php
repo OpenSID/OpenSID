@@ -10,7 +10,7 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<label class="control-label">Nama Tipe Line</label>
+							<label class="control-label">Nama Kategori Garis</label>
 							<input name="nama" class="form-control input-sm" type="text" value="<?=$line['nama']?>"></input>
 						</div>
 						<div class="form-group">

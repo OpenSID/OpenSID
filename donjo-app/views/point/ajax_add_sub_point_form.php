@@ -74,8 +74,8 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<label class="control-label" for="nama">Nama Sub Point</label>
-							<input id="nama" name="nama" class="form-control input-sm" type="text" placeholder="Nama Sub Point"></input>
+							<label class="control-label" for="nama">Nama Kategori Lokasi</label>
+							<input id="nama" name="nama" class="form-control input-sm" type="text" placeholder="Nama Kategori Lokasi"></input>
 						</div>
 						<div class="form-group">
 							<label for="nomor"  class="control-label">Simbol</label>

@@ -103,7 +103,7 @@
 																			<?php endif ?>
 																			<a href="#" data-href="<?= site_url("area/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
-																		<td width="50%"><?= $data['nama']?></td>
+																		<td width="40%"><?= $data['nama']?></td>
 																		<td><?= $data['aktif']?></td>
 																		<td nowrap><?= $data['kategori']?></td>
 																		<td><?= $data['jenis']?></td>

@@ -16,7 +16,7 @@
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?=site_url("line/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
-								<i class="fa fa-plus"></i>Tambah Kategori Baru
+								<i class="fa fa-plus"></i>Tambah Jenis Garis Baru
             	</a>
 							<?php if ($_SESSION['grup']<4): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("line/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
@@ -56,11 +56,11 @@
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
-                                    <th><a href="<?= site_url("line/index/$p/1")?>">Kategori <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("line/index/$p/1")?>">Jenis <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==1): ?>
-                                    <th><a href="<?= site_url("line/index/$p/2")?>">Kategori <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("line/index/$p/2")?>">Jenis <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th><a href="<?= site_url("line/index/$p/1")?>">Kategori <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("line/index/$p/1")?>">Jenis <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
                                   <?php if ($o==4): ?>
                                     <th nowrap><a href="<?= site_url("line/index/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
@@ -80,7 +80,7 @@
 																		<td nowrap>
 																			<a href="<?= site_url("line/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																			<a href="<?= site_url("line/sub_line/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Line"><i class="fa fa-bars"></i></a>
-																			<a href="<?= site_url("line/ajax_add_sub_line/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Sub Line <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Line <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
+																			<a href="<?= site_url("line/ajax_add_sub_line/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Kategori Garis <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori Garis <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
 																			<?php if ($data['enabled'] == '2'): ?>
 																				<a href="<?= site_url('line/line_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Line"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>

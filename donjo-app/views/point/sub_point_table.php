@@ -1,10 +1,10 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Sub Kategori Point</h1>
+		<h1>Pengaturan Kategori Lokasi</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?=site_url('point')?>"> Daftar Kategori Point</a></li>
-			<li class="active">Pengaturan Sub Kategori Point</li>
+			<li><a href="<?=site_url('point')?>"> Daftar Tipe Lokasi</a></li>
+			<li class="active">Pengaturan Kategori Lokasi</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -16,14 +16,14 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("point/ajax_add_sub_point/$point")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Sub Point Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Point">
-								<i class="fa fa-plus"></i>Tambah Sub Point Baru
+							<a href="<?=site_url("point/ajax_add_sub_point/$point")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori Lokasi Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori Lokasi">
+								<i class="fa fa-plus"></i>Tambah Kategori Lokasi Baru
             	</a>
 							<?php if ($_SESSION['grup']<4): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("point/delete_all/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 							<a href="<?=site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Kategori Point
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Lokasi
             	</a>
 						</div>
 						<div class="box-body">
