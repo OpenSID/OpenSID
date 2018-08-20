@@ -56,7 +56,7 @@
 		return $this->paging;
 	}
 
-	function list_data($o=0,$offset=0,$limit=500,$cas=0){
+	function list_data($o=0,$offset=0,$limit=500){
 
 		switch($o){
 			case 1: $order_sql = ' ORDER BY komentar DESC'; break;
@@ -74,13 +74,7 @@
 		$sql   = "SELECT k.*, a.judul as artikel FROM komentar k
 			LEFT JOIN artikel a ON k.id_artikel = a.id
 			WHERE 1 ";
-
-		if($cas==2)
-			$sql .= " AND id_artikel = 775";
-		else
-			$sql .= " AND id_artikel <> 775";
-
-
+			
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $order_sql;
