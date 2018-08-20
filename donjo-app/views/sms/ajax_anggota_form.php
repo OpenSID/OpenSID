@@ -8,7 +8,7 @@
 							<table id="tabel2" class="table table-bordered dataTable table-hover">
 								<thead class="bg-gray disabled color-palette">
 									<tr>
-										<th><input type="checkbox" id="checkall"/></th>
+										<th><input type="checkbox" id="checkallanggota"/></th>
 										<th>No</th>
 										<th>Nama</th>
 										<th>Jenis Kelamin</th>
@@ -19,7 +19,7 @@
 								<tbody>
 									<?php $no=1; foreach ($main as $data): ?>
 										<tr>
-											<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+											<td><input type="checkbox" name="id_cb[]" value="<?=$data['id_kontak']?>" /></td>
 											<td><?= $no;?></td>
 											<td><?= unpenetration($data['nama'])?></td>
 											<td><?= $data['sex']?></td>
@@ -41,3 +41,4 @@
 		</div>
 	</div>
 </form>
+<script>checkAll("#checkallanggota");</script>

@@ -543,20 +543,26 @@ class Sms extends CI_Controller{
 	}
 
 	function form_kontak($id=0){
-		$data['nama'] = $this->sms_model->list_nama();
-		$data['form_action'] = site_url("sms/kontak_insert");
-		$data['kontak']        = $this->sms_model->get_kontak($id);
 		if($id==0){
+      $data['nama'] = $this->sms_model->list_nama();
+		  $data['form_action'] = site_url("sms/kontak_insert");
 			$this->load->view('sms/ajax_kontak_form',$data);
 		}
 		else{
+      $data['form_action'] = site_url("sms/kontak_update");
+		  $data['kontak'] = $this->sms_model->get_kontak($id);
 			$this->load->view('sms/ajax_kontak_form_edit',$data);
 		}
 	}
 
 	function kontak_insert(){
-		$data['input'] = $_POST;
-		$data['insert'] = $this->sms_model->insert_kontak($data);
+		$data = $_POST;
+    $this->sms_model->insert_kontak($data);
+		redirect('sms/kontak');
+	}
+	function kontak_update(){
+		$data = $_POST;
+		$this->sms_model->update_kontak($data);
 		redirect('sms/kontak');
 	}
 
@@ -599,7 +605,7 @@ class Sms extends CI_Controller{
 		unset($_SESSION['cari_grup']);
 	}
 	function form_grup($id=0){
-		if($id=="0"){
+		if($id == "0"){
 			$data['form_action'] = site_url("sms/grup_insert");
 			$data['grup']['nama_grup']       = "";
 		}else{
@@ -660,20 +666,21 @@ class Sms extends CI_Controller{
 	function form_anggota($id=0){
 		$data['form_action'] = site_url("sms/anggota_insert/$id");
 		$data['main']    = $this->sms_model->list_data_nama($id);
+    $data['id_grup'] = $id;
 		$this->load->view('sms/ajax_anggota_form',$data);
 	}
 
-	function anggota_insert($id=0){
-		$data['insert'] = $this->sms_model->insert_anggota($id);
-		redirect("sms/anggota/$id");
-	}
-	function anggota_delete($grup=0,$id=0){
-		$data['hapus'] = $this->sms_model->delete_anggota($grup,$id);
+	function anggota_insert($grup){
+		$data['insert'] = $this->sms_model->insert_anggota($grup);
 		redirect("sms/anggota/$grup");
+	}
+	function anggota_delete($id=0){
+		$data['hapus'] = $this->sms_model->delete_anggota($id);
+		echo "<script>self.history.back();</script>";
 	}
 	function delete_all_anggota($grup=0){
 		$this->sms_model->delete_all_anggota($grup);
-		redirect("sms/anggota/$grup");
+		echo "<script>self.history.back();</script>";
 	}
 	function form_polling($id=0){
 		/*if($id==0){
