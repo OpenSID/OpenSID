@@ -64,7 +64,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Kontruksi Beton</label>
 										<div class="col-sm-4">
-											<select name="kontruksi_beton" id="kontruksi_beton" class="form-control input-sm required">
+											<select name="kontruksi" id="kontruksi" class="form-control input-sm required">
 												<option value="0" <?= ($main->kontruksi_beton==0?'selected':''); ?>>Tidak</option>
 												<option value="1" <?= ($main->kontruksi_beton==1?'selected':''); ?>>Ya</option>
 											</select>
@@ -119,9 +119,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_gedung">Nomor Kode Tanah</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="kode_gedung" id="kode_gedung" type="text" value="<?= (!empty($main->kode_gedung) ? $main->kode_gedung : '-'); ?>" />
+											<input maxlength="50" class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text" value="<?= (!empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>" />
 										</div>
 									</div>
 									<div class="form-group">
