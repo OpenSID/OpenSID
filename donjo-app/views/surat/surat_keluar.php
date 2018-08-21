@@ -79,7 +79,14 @@
 																	</td>
 																	<td><?= $data['no_surat']?></td>
 																	<td><?= $data['format']?></td>
-																	<td><?= unpenetration($data['nama'])?></td>
+																	<td>
+																		<?php if ($data['nama']): ?>
+																			<?= unpenetration($data['nama']); ?>
+																		<?php elseif ($data['nama_non_warga']): ?>
+																			<strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
+																			<strong>NIK: </strong><?= $data['nik_non_warga']; ?>
+																		<?php endif; ?>
+																	</td>
 																	<td><?= $data['pamong']?></td>
 																	<td nowrap><?= tgl_indo2($data['tanggal'])?></td>
 																	<td><?= $data['nama_user']?></td>
