@@ -2478,20 +2478,20 @@
 	}
 
 	function kosongkan_db(){
+    // Views tidak perlu dikosongkan.
+    $views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup');
+    // Tabel dengan foreign key akan terkosongkan secara otomatis melalui delete
+    // tabel rujukannya
+    $ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah');
 		$table_lookup = array(
 			"analisis_ref_state",
 			"analisis_ref_subjek",
 			"analisis_tipe_indikator",
 			"artikel", //remove everything except widgets 1003
-			"data_surat", // view
-			"inventaris",
-			"jenis_barang",
 			"media_sosial", //?
 			"provinsi",
 			"setting_modul",
 			"setting_aplikasi",
-			"suplemen",
-			"suplemen_terdata",
 			"tweb_cacat",
 			"tweb_cara_kb",
 			"tweb_golongan_darah",
@@ -2520,25 +2520,20 @@
 			array_push($table_lookup,"kategori","menu");
 		}
 
+    $jangan_kosongkan = array_merge($views, $ada_foreign_key, $table_lookup);
+
 		// Hapus semua artikel kecuali artikel widget dengan kategori 1003
 		$this->db->where("id_kategori !=", "1003");
 		$query = $this->db->delete('artikel');
-		// Hapus semua tabel kecuali table lookup
+		// Kosongkan semua tabel kecuali table lookup dan views
+    // Tabel yang ada foreign key akan dikosongkan secara otomatis
 		$semua_table = $this->db->list_tables();
 		foreach ($semua_table as $table){
-			if (!in_array($table, $table_lookup)) {
-				$query = "TRUNCATE ".$table;
+			if (!in_array($table, $jangan_kosongkan)) {
+				$query = "DELETE FROM " . $table . " WHERE 1";
 				$this->db->query($query);
 			}
 		}
-		// Tabel suplemen dan suplemen_terdata tidak bisa di TRUNCATE karena ada
-		// relational constraint. Isi suplemen_terdata akan terhapus secara otomatis
-		// pada saat menghapus isi suplemen.
-		$this->db->query('DELETE FROM suplemen WHERE 1');
-		// Tabel jenis_barang dan inventaris tidak bisa di TRUNCATE karena ada
-		// relational constraint. Isi inventaris akan terhapus secara otomatis
-		// pada saat menghapus isi jenis_barang.
-		$this->db->query('DELETE FROM jenis_barang WHERE 1');
 		// Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
 		$file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xls';
 		$this->analisis_import_model->import_excel($file_analisis,'DDK02',$jenis=1);
