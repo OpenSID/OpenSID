@@ -81,31 +81,29 @@ class Garis extends CI_Controller{
 
 	}
 
-	function form($p=1,$o=0,$id=''){
-
+	function form($p=1, $o=0, $id='')
+	{
 		$data['desa'] = $this->plan_garis_model->get_desa();
-		$data['list_line']        = $this->plan_garis_model->list_line();
+		$data['list_subline'] = $this->plan_garis_model->list_subline();
 		$data['dusun'] = $this->plan_garis_model->list_dusun();
-
-		if($id){
-			$data['garis']        = $this->plan_garis_model->get_garis($id);
+		if ($id)
+		{
+			$data['garis'] = $this->plan_garis_model->get_garis($id);
 			$data['form_action'] = site_url("garis/update/$id/$p/$o");
 		}
-		else{
-			$data['garis']        = null;
+		else
+		{
+			$data['garis'] = null;
 			$data['form_action'] = site_url("garis/insert");
 		}
-
 		$header= $this->header_model->get_data();
-		$header['minsidebar'] =1;
-		$nav['act']= 8;
-		$nav['tip']= 1;
+		$header['minsidebar'] = 1;
+		$nav['act'] = 8;
+		$nav['tip'] = 1;
 		$this->load->view('header', $header);
-
 		$this->load->view('nav',$nav);
 		$this->load->view('garis/form',$data);
 		$this->load->view('footer');
-
 	}
 
 	function ajax_garis_maps($p=1,$o=0,$id=''){

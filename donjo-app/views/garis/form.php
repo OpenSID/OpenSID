@@ -32,7 +32,7 @@
 								<div class="col-sm-7">
 									<select class="form-control input-sm" id="ref_line" name="ref_line" style="width:100%;">
 									<option value="">Kategori</option>
-									<?php foreach ($list_line AS $data): ?>
+									<?php foreach ($list_subline AS $data): ?>
 										<option <?php if ($garis['ref_line']==$data['id']): ?>selected<?php endif ?> value="<?= $data['id']?>"><?= $data['nama']?></option>
 									<?php endforeach;?>
 									</select>
