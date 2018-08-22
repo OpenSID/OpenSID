@@ -35,7 +35,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="register">Nomor Register</label>
 										<div class="col-sm-8">
 											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text" />
 										</div>
@@ -45,6 +45,10 @@
 										<div class="col-sm-4">
 											<select name="kondisi" id="kondisi" class="form-control input-sm required" >
 												<option value="<?= $main->kondisi_bangunan; ?>"><?= $main->kondisi_bangunan; ?></option>
+												<option value="Baik">Baik</option>
+												<option value="Rusak Ringan">Rusak Ringan</option>
+												<option value="Rusak Sedang">Rusak Sedang</option>
+												<option value="Rusak Berat">Rusak Berat</option>
 											</select>
 										</div>
 									</div>
@@ -61,7 +65,8 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Kontruksi Beton</label>
 										<div class="col-sm-4">
 											<select name="kontruksi" id="kontruksi" class="form-control input-sm required">
-												<option value="<?= $main->kondisi_bangunan; ?>"><?= $main->kondisi_bangunan; ?></option>
+												<option value="0" <?= ($main->kontruksi_beton==0?'selected':''); ?>>Tidak</option>
+												<option value="1" <?= ($main->kontruksi_beton==1?'selected':''); ?>>Ya</option>
 											</select>
 										</div>
 									</div>
@@ -97,6 +102,10 @@
 										<div class="col-sm-4">
 											<select name="status_tanah" id="status_tanah" class="form-control input-sm required" >
 												<option value="<?= $main->status_tanah; ?>"><?= $main->status_tanah; ?></option>
+												<option value="Tanah milik Pemda">Tanah milik Pemda</option>
+												<option value="Tanah Negara">Tanah Negara (Tanah yang dikuasai langsung oleh Negara)</option>
+												<option value="Tanah Hak Ulayat">Tanah Hak Ulayat (Tanah masyarakat Hukum Adat)</option>
+												<option value="Tanah Hak">Tanah Hak (Tanah kepunyaan perorangan atau Badan Hukum)</option>
 											</select>
 										</div>
 									</div>
@@ -110,9 +119,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_gedung">Nomor Kode Tanah</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="kode_gedung" id="kode_gedung" type="text" value="<?= (!empty($main->kode_gedung) ? $main->kode_gedung : '-'); ?>" />
+											<input maxlength="50" class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text" value="<?= (!empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>" />
 										</div>
 									</div>
 									<div class="form-group">
