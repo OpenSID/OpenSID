@@ -4,6 +4,7 @@ class Analisis_laporan extends CI_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('analisis_laporan_model');
+		$this->load->model('analisis_respon_model');
 		$this->load->model('user_model');
 		$this->load->model('header_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
@@ -34,6 +35,12 @@ class Analisis_laporan extends CI_Controller{
 		redirect("analisis_master/menu/$id");
 	}
 	function index($p=1,$o=0){
+		if (empty($this->analisis_respon_model->get_periode()))
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = 'Tidak ada periode aktif. Untuk laporan ini harus ada periode aktif.';
+			redirect('analisis_periode');
+		}
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;

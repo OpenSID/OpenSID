@@ -119,7 +119,7 @@
 					<div class='modal-content'>
 						<div class='modal-header btn-info'>
 							<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-							<h4 class='modal-title' id='myModalLabel'><i class='fa fa-info-circle'></i> &nbsp;<?= $_SESSION['admin_warning'][0]; ?></h4>
+							<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> &nbsp;<?= $_SESSION['admin_warning'][0]; ?></h4>
 						</div>
 						<div class='modal-body'>
 							<?= $_SESSION['admin_warning'][1]; ?>

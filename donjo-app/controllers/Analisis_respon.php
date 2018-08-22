@@ -34,6 +34,12 @@ class Analisis_respon extends CI_Controller{
 		redirect("analisis_master/menu/$id");
 	}
 	function index($p=1,$o=0){
+		if (empty($this->analisis_respon_model->get_periode()))
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = 'Tidak ada periode aktif. Entri data respon harus ada periode aktif.';
+			redirect('analisis_periode');
+		}
 		unset($_SESSION['cari2']);
 		$data['p']        = $p;
 		$data['o']        = $o;
@@ -74,8 +80,8 @@ class Analisis_respon extends CI_Controller{
 		$data['paging']  			= $this->analisis_respon_model->paging($p,$o);
 		$data['main']    			= $this->analisis_respon_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] 			= $this->analisis_respon_model->autocomplete();
-		$data['analisis_master'] 	= $this->analisis_respon_model->get_analisis_master();
-		$data['analisis_periode'] 	= $this->analisis_respon_model->get_periode();
+		$data['analisis_master'] = $this->analisis_respon_model->get_analisis_master();
+		$data['analisis_periode'] = $this->analisis_respon_model->get_periode();
 		$header = $this->header_model->get_data();
 		$nav['act']= 5;
 		$header['minsidebar'] =1;
