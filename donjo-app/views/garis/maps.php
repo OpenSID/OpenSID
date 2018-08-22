@@ -1,4 +1,5 @@
 <script>
+	setTimeout(function() {peta_area.invalidateSize();}, 500);
 	<?php if (!empty($desa['lat'] && !empty($desa['lng']))): ?>
 		var posisi = [<?= $desa['lat'].",".$desa['lng']; ?>];
 		var zoom = <?= $desa['zoom'] ?: 10; ?>;

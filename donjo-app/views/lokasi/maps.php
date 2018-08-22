@@ -6,15 +6,15 @@
 <script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 <script>
 	(function() {
-	setTimeout(function() {peta_desa.invalidateSize();}, 500);
-	//Jika posisi peta_desa belum ada, maka gunakan peta_desa default
-	<?php if (!empty($lokasi['lat']) && !empty($lokasi['lng'])): ?>
-		var posisi = [<?=$lokasi['lat'].",".$lokasi['lng']?>];
-		var zoom = <?=$desa['zoom'] ?: 10?>;
-	<?php else: ?>
-		var posisi = [-7.885619783139936, 110.39893195996092];
-		var zoom = 10;
-	<?php endif; ?>
+		setTimeout(function() {peta_desa.invalidateSize();}, 500);
+		//Jika posisi peta_desa belum ada, maka gunakan peta_desa default
+		<?php if (!empty($lokasi['lat']) && !empty($lokasi['lng'])): ?>
+			var posisi = [<?=$lokasi['lat'].",".$lokasi['lng']?>];
+			var zoom = <?=$desa['zoom'] ?: 10?>;
+		<?php else: ?>
+			var posisi = [-7.885619783139936, 110.39893195996092];
+			var zoom = 10;
+		<?php endif; ?>
 		//Inisialisasi tampilan peta
 		var peta_desa = L.map('map_lokasi').setView(posisi, zoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
