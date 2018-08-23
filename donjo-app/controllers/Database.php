@@ -180,13 +180,26 @@ class Database extends CI_Controller{
 		redirect('database/migrasi_cri/1');
 	}
 
+	public function kosongkan(){
+		$nav['act']= 11;
+		$nav['act_sub'] = 45;
+		$nav['act_tab'] = 6;
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
+		$this->load->view('database/kosongkan',$data);
+		$this->load->view('footer');
+	}
+
 	function kosongkan_db(){
 		if($_SESSION['grup']!=1) {
 			session_error("Anda tidak mempunyai akses pada fitur ini");
 			redirect('database/backup'); // hanya untuk administrator
 		}
 		$this->database_model->kosongkan_db();
-		redirect('database/backup');
+		redirect('database/kosongkan');
 	}
 
 	function ppls_kuisioner(){
