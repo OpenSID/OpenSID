@@ -167,18 +167,21 @@
 		$this->db->query($sql);
 
     // Tambahkan perubahan menu untuk tampilan-admin baru
-    if (!$this->db->field_exists('parent', 'setting_modul'))
+    if (!$this->db->field_exists('parent', 'setting_modul') or strpos($this->getCurrentVersion(), '18.08') !== false)
     {
-      $this->db->truncate('setting_modul');
-      $fields = array();
-      $fields['parent'] = array(
-          'type' => 'int',
-          'constraint' => 2,
-          'null' => FALSE,
-          'default' => 0
-      );
-      $this->dbforge->add_column('setting_modul', $fields);
+      if (!$this->db->field_exists('parent', 'setting_modul'))
+      {
+        $fields = array();
+        $fields['parent'] = array(
+            'type' => 'int',
+            'constraint' => 2,
+            'null' => FALSE,
+            'default' => 0
+        );
+        $this->dbforge->add_column('setting_modul', $fields);
+      }
 
+      $this->db->truncate('setting_modul');
       $query = "
         INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
         ('1', 'Home', 'hom_sid', '1', 'fa-home', '1', '2', '0', '1', 'fa fa-home'),
