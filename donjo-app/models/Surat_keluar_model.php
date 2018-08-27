@@ -312,6 +312,11 @@
 		return $query->result_array();
 	}
 
+	public function jml_surat_keluar()
+	{
+		$jml = $this->db->select('count(*) as jml')->get('log_surat')->row()->jml;
+		return $jml;
+	}
 }
 
 ?>

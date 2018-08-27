@@ -2,6 +2,9 @@
 
   function __construct(){
     parent::__construct();
+    $this->load->model('penduduk_model');
+    $this->load->model('web_artikel_model');
+    $this->load->model('surat_keluar_model');
 
     session_start();
   }
@@ -55,7 +58,10 @@
      "url" => current_url(),
      "ip_address" => $_SERVER['SERVER_ADDR'],
      "external_ip" => get_external_ip(),
-     "version" => AmbilVersi()
+     "version" => AmbilVersi(),
+     "jml_penduduk" => $this->penduduk_model->jml_penduduk(),
+     "jml_artikel" => $this->web_artikel_model->jml_artikel(),
+     "jml_surat_keluar" => $this->surat_keluar_model->jml_surat_keluar()
     );
 
     if($this->abaikan($desa)) return;

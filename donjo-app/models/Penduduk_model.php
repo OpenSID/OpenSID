@@ -1295,4 +1295,11 @@
 		return $wajib_ktp;
 	}
 
+	public function jml_penduduk()
+	{
+		$jml = $this->db->select('count(*) as jml')->where('status', '1')->
+				get('tweb_penduduk')->row()->jml;
+		return $jml;
+	}
+
 }
