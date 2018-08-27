@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Layanan Mandiri</h1>
+		<h1>Pendaftar Layanan Mandiri</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Layanan Mandiri</li>
+			<li class="active">Pendaftar Layanan Mandiri</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
