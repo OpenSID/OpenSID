@@ -181,56 +181,79 @@
 		return $nama_surat;
 	}
 
-	function log_surat($data_log_surat){
-
+	public function log_surat($data_log_surat)
+	{
 		$url_surat = $data_log_surat['url_surat'];
 		$nama_surat = $data_log_surat['nama_surat'];
 		unset($data_log_surat['url_surat']);
 		$pamong_nama = $data_log_surat['pamong_nama'];
 		unset($data_log_surat['pamong_nama']);
 
-		foreach($data_log_surat as $key => $val){
+		foreach ($data_log_surat as $key => $val)
+		{
 			$data[$key] = $val;
 		}
 
 		$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
-		$query = $this->db->query($sql,$url_surat);
-		if($query->num_rows() > 0){
+		$query = $this->db->query($sql, $url_surat);
+		if ($query->num_rows() > 0)
+		{
 			$pam=$query->row_array();
 			$data['id_format_surat']=$pam['id'];
-		}else{
+		}
+		else
+		{
 			$data['id_format_surat'] = $url_surat;
 		}
 
 		$sql   = "SELECT pamong_id FROM tweb_desa_pamong WHERE pamong_nama = ?";
-		$query = $this->db->query($sql,$pamong_nama);
-		if($query->num_rows() > 0){
+		$query = $this->db->query($sql, $pamong_nama);
+		if ($query->num_rows() > 0)
+		{
 			$pam=$query->row_array();
 			$data['id_pamong']=$pam['pamong_id'];
-		}else{
+		} else
+		{
 			$data['id_pamong'] = 1;
 		}
 
-
-		if($data['id_pamong']=='')
+		if ($data['id_pamong']=='')
 			$data['id_pamong'] = 1;
 
-		$data['bulan']=date('m');
-		$data['tahun']=date('Y');
+		$data['bulan'] = date('m');
+		$data['tahun'] = date('Y');
+		$data['tanggal'] = date('Y-m-d H:i:s');
 		//print_r($data);
+		if (!empty($nama_surat))
 		/**
+			Ekspor Dok:
 			Penambahan atau update log disesuaikan dengan file surat yang tersimpan di arsip,
 			sehingga hanya ada satu entri di log surat untuk setiap versi surat di arsip.
 			File surat disimpan di arsip untuk setiap URL-NIK-nomor surat-tanggal yang unik,
 			lihat fungsi nama_surat_arsip (kolom nama_surat di tabel log_surat).
 			Entri itu akan berisi timestamp (pencetakan) terakhir untuk file surat yang bersangkutan.
 		*/
-		$log_id = $this->db->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
-		if($log_id){
-			$data['tanggal'] = date('Y-m-d H:i:s');
+		{
+			$log_id = $this->db->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
+		}
+		else
+		// Cetak:
+		// Sama dengan aturan Ekspor Dok, hanya URL-NIK-nomor surat-tanggal diambil dari data kolom
+		{
+			$log_id = $this->db->select('id')->from('log_surat')->
+				where('id_format_surat', $data['id_format_surat'])->
+				where('id_pend', $data['id_pend'])->
+				where('no_surat', $data['no_surat'])->
+				where('DATE_FORMAT(tanggal, "%Y-%m-%d") =', date('Y-m-d'))->
+				limit(1)->get()->row()->id;
+		}
+		if ($log_id)
+		{
 			$this->db->where('id', $log_id);
-			$this->db->update('log_surat',$data);
-		} else {
+			$this->db->update('log_surat', $data);
+		}
+		else
+		{
 			$this->db->insert('log_surat',$data);
 		}
 

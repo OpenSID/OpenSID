@@ -43,6 +43,7 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 37. #1621: Beberapa kesalahan di form edit inventaris gedung dan bangunan telah diperbaiki. [bug-fix]
 38. #1245: Sekarang pemetaan Pemetaan > Pengaturan Peta > Garis berhasil dilakukan (misalnya untuk sungai atau jalan). [bug-fix]
 39. #1412: Sekarang menu input data sensus, laporan hasil klasifikasi dan laporan per indikator tidak bisa diakses kalau tidak ada periode analisis aktif. [bug-fix]
+40. #1463: Pencetakan surat menggunakan tombol 'Cetak' sekarang direkam di Arsip Layanan. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
