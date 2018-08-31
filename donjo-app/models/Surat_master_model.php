@@ -394,7 +394,7 @@
 		foreach ($folder_surat_desa as $surat) {
 			$surat = str_replace('desa/surat/', '', $surat);
 			$hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
-			if ($hasil->num_rows == 0){
+			if ($hasil->num_rows() == 0){
 				$data = array();
 				$data['jenis'] = 2;
 				$data['url_surat'] = $surat;

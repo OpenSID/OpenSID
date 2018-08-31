@@ -244,9 +244,11 @@
       ";
       $this->db->query($query);
     }
+
+    if ($this->db->table_exists('anggota_grup_kontak'))
+        return;
     // Perubahan tabel untuk modul SMS
-    //buat table anggota_grup_kontak
-    $this->db->query("DROP TABLE IF EXIST anggota_grup_kontak");
+    // buat table anggota_grup_kontak
     $sql = array(
       'id_grup_kontak'  =>  array(
           'type' => 'INT',
@@ -267,7 +269,7 @@
       );
     $this->dbforge->add_field($sql);
     $this->dbforge->add_key("id_grup_kontak", TRUE);
-    $this->dbforge->create_table('anggota_grup_kontak', FALSE, array('ENGINE' => 'InnoDB'));
+    $this->dbforge->create_table('anggota_grup_kontak', FALSE, array('ENGINE' => $this->engine));
 
     //perbaikan penamaan grup agar tidak ada html url code
     $this->db->query("UPDATE kontak_grup SET nama_grup = REPLACE(nama_grup, '%20', ' ')");
