@@ -50,6 +50,6 @@ Lengkapnya, isi rilis versi 18.09:
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
-Perhatian: Modul Sekretariat > Inventaris Desa akan dihilangkan pada rilis September 2018 karena telah diganti dengan modul Inventaris baru. Pastikan memindahkan semua data ke format Inventaris baru sebelum rilis tersebut.
+Perhatian: Di rilis ini modul Sekretariat > Inventaris Desa telah dihilangkan karena telah diganti dengan modul Inventaris baru.
 
 
