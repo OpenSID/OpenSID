@@ -2,7 +2,7 @@ Rilis ini berisi perubahan total tampilan modul Admin, yang sekarang menggunakan
 
 Terima kasih pada Diego Dafma dan Ahmad Afandi, yang terus berkontribusi. Terima kasih juga pada Agung Sugiarto, Mochamad Arifin dan andialrizki yang baru mulai kontribusi.
 
-Lengkapnya, isi rilis versi 18.08-pasca:
+Lengkapnya, isi rilis versi 18.09:
 
 1. Perubahan tampilan modul Admin, termasuk perbaikan semua script terkait.
 2. #1438: Sekarang penduduk lepas dengan status mati/pindah/hilang tidak tampil ganda. [bug-fix]
@@ -48,7 +48,7 @@ Lengkapnya, isi rilis versi 18.08-pasca:
 42. #761: Sekarang teks artikel rata tengah di form isian artikel tampil benar di modul Web. [bug-fix]
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
 Perhatian: Modul Sekretariat > Inventaris Desa akan dihilangkan pada rilis September 2018 karena telah diganti dengan modul Inventaris baru. Pastikan memindahkan semua data ke format Inventaris baru sebelum rilis tersebut.
 
