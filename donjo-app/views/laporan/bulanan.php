@@ -1,112 +1,100 @@
-<div id="pageC">
-	<table class="inner">
-	<tr style="vertical-align:top">
-
-  <td style="background:#fff;padding:0px;">
-  <div id="contentpane">
-	<form id="mainform" name="mainform" action="<?php echo site_url('laporan/bulan')?>" method="post">
-    <div class="ui-layout-north panel top">
-      <div class="left">
-        <div class="uibutton-group">
-
-
-          <a class="uibutton tipsy south" title="Cetak" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('laporan/cetak')?>')"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-          <a class="uibutton tipsy south" title="Unduh" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('laporan/excel')?>')"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
-        </div>
-      </div>
-    </div>
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-      <table  width="100%">
-  			<tbody>
-          <tr>	<?php foreach($config as $data){?>
-    				<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA  <?php echo strtoupper($data['nama_kabupaten'])?></h4></td>
-    				<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td>
-          </tr>
-  				<tr>
-  					<td></td>
-  					<td width="100%"><h3>LAPORAN PERKEMBANGAN PENDUDUK</h3></td>
-  				</tr>
-  			</tbody>
-      </table>
-			<table>
-				<tbody>
-          <tr>
-  					<td><?php echo ucwords($this->setting->sebutan_desa)?>/Kelurahan</td>
-  					<td width="3%">:</td>
-  					<td width="38.5%"><?php echo unpenetration($data['nama_desa'])?></h4></td>
-  					<td></td>
-  				</tr>
-  				<tr>
-  					<td><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
-  					<td width="3%">:</td>
-  					<td width="38.5%"><?php echo unpenetration($data['nama_kecamatan'])?></td>
-  					<td></td>
-  					<?php  } ?>
-  				</tr>
-  				<tr>
-  					<td>Tahun/Bulan</td>
-  					<td width="3%">:</td>
-  					<td>
-              <input name="tahun" type="text" class="inputbox required" size="5" value="<?php echo $tahun ?>"  onchange="$('#'+'mainform').attr('target','');formAction('mainform','<?php echo site_url('laporan/tahun')?>')" />
-              <span>/</span>
-              <select name="bulan" onchange="$('#'+'mainform').attr('target','');formAction('mainform','<?php echo site_url('laporan/bulan')?>')" >
-                <option value="">Pilih bulan</option>
-                <option value="1" <?php  if($bulan=="1"){?>selected<?php  }?>>Januari</option>
-                <option value="2" <?php  if($bulan=="2"){?>selected<?php  }?>>Februari</option>
-                <option value="3" <?php  if($bulan=="3"){?>selected<?php  }?>>Maret</option>
-                <option value="4" <?php  if($bulan=="4"){?>selected<?php  }?>>April</option>
-                <option value="5" <?php  if($bulan=="5"){?>selected<?php  }?>>Mei</option>
-                <option value="6" <?php  if($bulan=="6"){?>selected<?php  }?>>Juni</option>
-                <option value="7" <?php  if($bulan=="7"){?>selected<?php  }?>>Juli</option>
-                <option value="8" <?php  if($bulan=="8"){?>selected<?php  }?>>Agustus</option>
-                <option value="9" <?php  if($bulan=="9"){?>selected<?php  }?>>September</option>
-                <option value="10" <?php  if($bulan=="10"){?>selected<?php  }?>>Oktober</option>
-                <option value="11" <?php  if($bulan=="11"){?>selected<?php  }?>>November</option>
-                <option value="12" <?php  if($bulan=="12"){?>selected<?php  }?>>Desember</option>
-              </select>
-            </td>
-  				</tr>
-          <tr>
-            <td>Diketahui</td>
-            <td width="3%">:</td>
-            <td><select name="pamong"  class="inputbox">
-              <option value="">Pilih Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></option>
-              <?php foreach($pamong AS $data){?>
-                <option value="<?php echo $data['pamong_nama']?>"><?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)</option>
-              <?php }?>
-              </select></td>
-            <td>Sebagai : </th>
-            <td><select name="jabatan"  class="inputbox">
-              <option value="">Pilih Jabatan</option>
-              <?php foreach($pamong AS $data){?>
-                <option ><?php echo $data['jabatan']?></option>
-              <?php }?>
-              </select></td>
-          </tr>
-		    </tbody>
-      </table>
-
-      <?php $warna_border = '#729ea5';?>
-      <?php $warna_font = '#333333';?>
-      <?php $warna_background = '#8DABD4';?>
-      <?php include ("donjo-app/views/laporan/tabel_bulanan.php"); ?>
-
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
-
-      </div>
-    </div>
-    <div class="ui-layout-south panel bottom">
-      <div class="left">
-        <a href="<?php echo site_url()?>sid_wilayah" class="uibutton icon prev">Kembali</a>
-      </div>
-      <div class="right">
-        <div class="uibutton-group">
-          <button class="uibutton confirm" type="submit" ><span class="fa fa-print"></span> Cetak</button>
-        </div>
-      </div>
-    </div>
-	</form>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Laporan Kependudukan Bulanan</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Laporan Kependudukan Bulanan</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="<?= site_url('laporan')?>" method="post" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="#" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?= site_url('laporan/cetak')?>')" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-print "></i> Cetak</a>
+							<a href="#" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?= site_url('laporan/excel')?>')"><i class="fa fa-download"></i> Unduh</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+                  <?php foreach ($config as $data): ?>
+                    <h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($data['nama_kabupaten'])?></strong></h4>
+                    <h5 class="text-center"><strong>LAPORAN PERKEMBANGAN PENDUDUK (LAMPIRAN A - 9)</strong></h5>
+                    <br/>
+										<div class="form-group">
+                      <label class="col-sm-2 control-label" for="kelurahan"><?= ucwords($this->setting->sebutan_desa)?>/Kelurahan</label>
+                      <div class="col-sm-7 col-md-5">
+                        <input type="text" class="form-control input-sm" value="<?= unpenetration($data['nama_desa'])?>" disabled/></input>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="kecamatan"><?= ucwords($this->setting->sebutan_kecamatan)?></label>
+                      <div class="col-sm-7 col-md-5">
+                        <input type="text" class="form-control input-sm" value="<?= unpenetration($data['nama_kecamatan'])?>" disabled/></input>
+                      </div>
+                    </div>
+                   <?php endforeach; ?>
+                   <div class="form-group">
+                    <label class="col-sm-2 control-label" for="tahun">Tahun</label>
+                    <div class="col-sm-2">
+                      <input name="tahun" placeholder="Tahun" type="text" class="form-control input-sm required" value="<?= $tahun ?>"  onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("laporan/bulan")?>');$('#'+'mainform').submit();}" /></input>
+                    </div>
+										<label class="col-sm-2 col-md-1 control-label" for="tahun">Bulan</label>
+                    <div class="col-sm-3 col-md-2">
+                      <select class="form-control input-sm" name="bulan" onchange="formAction('mainform','<?= site_url('laporan/bulan')?>')" width="100%">
+                        <option value="">Pilih bulan</option>
+                        <option value="1" <?php if ($bulan=="1"): ?>selected<?php endif; ?>>Januari</option>
+                        <option value="2" <?php if ($bulan=="2"): ?>selected<?php endif; ?>>Februari</option>
+                        <option value="3" <?php if ($bulan=="3"): ?>selected<?php endif; ?>>Maret</option>
+                        <option value="4" <?php if ($bulan=="4"): ?>selected<?php endif; ?>>April</option>
+                        <option value="5" <?php if ($bulan=="5"): ?>selected<?php endif; ?>>Mei</option>
+                        <option value="6" <?php if ($bulan=="6"): ?>selected<?php endif; ?>>Juni</option>
+                        <option value="7" <?php if ($bulan=="7"): ?>selected<?php endif; ?>>Juli</option>
+                        <option value="8" <?php if ($bulan=="8"): ?>selected<?php endif; ?>>Agustus</option>
+                        <option value="9" <?php if ($bulan=="9"): ?>selected<?php endif; ?>>September</option>
+                        <option value="10" <?php if ($bulan=="10"): ?>selected<?php endif; ?>>Oktober</option>
+                        <option value="11" <?php if ($bulan=="11"): ?>selected<?php endif; ?>>November</option>
+                        <option value="12" <?php if ($bulan=="12"): ?>selected<?php endif; ?>>Desember</option>
+                      </select>
+                    </div>
+                  </div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="diketahui">Diketahui</label>
+										<div class="col-sm-4 col-md-3">
+											<select name="pamong" class="form-control input-sm" >
+												<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
+												<?php foreach ($pamong AS $data): ?>
+													<option value="<?= $data['pamong_nama']?>"><?= $data['pamong_nama']?> (<?= $data['jabatan']?>)</option>
+												<?php endforeach;?>
+											</select>
+										</div>
+										<label class="col-sm-2 col-md-1 control-label" for="sebagai">Sebagai </label>
+										<div class="col-sm-3">
+											<select name="jabatan"  class="form-control input-sm">
+												<option value="">Pilih Jabatan</option>
+												<?php foreach ($pamong AS $data): ?>
+													<option ><?= $data['jabatan']?></option>
+												<?php endforeach;?>
+											</select>
+										</div>
+									</div>
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+											<div class="row">
+												<div class="col-sm-12">
+													<?php include ("donjo-app/views/laporan/tabel_bulanan.php"); ?>
+												</div>
+											</div>
+										</form>
+									</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>
-</td></tr></table>
-</div>
+

@@ -200,7 +200,7 @@ function process_si_contact_form()
                     . "<pre>$message</pre>"
                     . "<br /><br /><em>IP Address:</em> {$_SERVER['REMOTE_ADDR']}<br />"
                     . "<em>Time:</em> $time<br />"
-                    . "<em>Browser:</em> {$_SERVER['HTTP_USER_AGENT']}<br />";
+                    . "<em>Browser:</em> " . htmlspecialchars($_SERVER['HTTP_USER_AGENT']) . "<br />";
 
       $message = wordwrap($message, 70);
 

@@ -1,215 +1,303 @@
-<script  TYPE='text/javascript'>
-$(function() {
-var keyword = <?php echo $keyword?> ;
-$( "#cari" ).autocomplete({
-source: keyword
-});
-});
+<!-- jQuery 3 -->
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+
 </script>
-
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-
-<td style="background:#fff;padding:0px;">
-<div class="content-header">
-    <h3>Manajemen Penduduk</h3>
-</div>
-<div id="contentpane">
-<form id="mainform" name="mainform" action="" method="post">
-<input type="hidden" name="rt" value="">
-    <div class="ui-layout-north panel">
-        <div class="left">
-            <div class="uibutton-group">
-                <a href="<?php echo site_url('penduduk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Penduduk Domisili</a>
-				<?php  if($grup==1){?><button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("penduduk/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button><?php  }?>
-                <a href="<?php echo site_url("penduduk/cetak/$o")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-				<a href="<?php echo site_url("penduduk/excel/$o")?>" class="uibutton tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
-            </div>
-        </div>
-        <div class="right">
-            <div class="uibutton-group">
-                <a href="<?php echo site_url("penduduk_log/clear")?>" class="uibutton tipsy south" title="Log Data" ><span class="fa fa-book">&nbsp;</span>Log Penduduk</a>
-            </div>
-        </div>
-            <div class="left">
-                <select name="filter" onchange="formAction('mainform','<?php echo site_url('penduduk/filter')?>')">
-                    <option value="">Semua</option>
-                    <option value="1" <?php if($filter==1 ) :?>selected<?php endif?>>Tetap</option>
-                    <option value="2" <?php if($filter==2 ) :?>selected<?php endif?>>Tidak Aktif</option>
-                    <option value="3" <?php if($filter==3) :?>selected<?php endif?>>Pendatang</option>
-                </select>
-
-                <select name="sex" onchange="formAction('mainform','<?php echo site_url('penduduk/sex')?>')">
-                    <option value="">Jenis Kelamin</option>
-                    <option value="1" <?php if($sex==1 ) :?>selected<?php endif?>>Laki-Laki</option>
-                    <option value="2" <?php if($sex==2 ) :?>selected<?php endif?>>Perempuan</option>
-                </select>
-
-                <select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk/dusun')?>')">
-                    <option value=""><?php echo ucwords($this->setting->sebutan_dusun)?></option>
-					<?php foreach($list_dusun AS $data){?>
-                    <option value="<?php echo $data['dusun']?>" <?php if($dusun == $data['dusun']) :?>selected<?php endif?>><?php echo ununderscore(unpenetration($data['dusun']))?></option>
-					<?php }?>
-                </select>
-
-				<?php if($dusun){?>
-                <select name="rw" onchange="formAction('mainform','<?php echo site_url('penduduk/rw')?>')">
-                    <option value="">RW</option>
-					<?php foreach($list_rw AS $data){?>
-                    <option value="<?php echo $data['rw']?>" <?php if($rw == $data['rw']) :?>selected<?php endif?>><?php echo $data['rw']?></option>
-					<?php }?>
-                </select>
-				<?php }?>
-
-				<?php if($rw){?>
-                <select name="rt" onchange="formAction('mainform','<?php echo site_url('penduduk/rt')?>')">
-                    <option value="">RT</option>
-					<?php foreach($list_rt AS $data){?>
-                    <option value="<?php echo $data['rt']?>" <?php if($rt == $data['rt']) :?>selected<?php endif?>><?php echo $data['rt']?></option>
-					<?php }?>
-                </select>
-				<?php }?>
-				<button href="<?php echo site_url("penduduk/ajax_adv_search")?>"  target="ajax-modalx" rel="window" header="Pencarian Spesifik"  class="uibutton tipsy south"  title="Pencarian Spesifik"><span class="fa fa-search">&nbsp;</span>Pencarian Spesifik</button><a href="<?php echo site_url("penduduk/clear")?>"  class="uibutton tipsy south"  title="Bersihkan Pencarian"><span class="fa fa-refresh">&nbsp;</span>Bersihkan</a>
-			  </div>
-            <div class="right">
-                <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('penduduk/search')?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('penduduk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span> Cari </button>
-            </div>
-    </div>
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-        <table class="list">
-	<thead>
-    <?php if ($judul_statistik): ?>
-      <tr>
-        <td colspan="15" style="text-align: center;"><strong style="font-size:14px;"><?php  echo $judul_statistik; ?></strong></td>
-      </tr>
-    <?php endif; ?>
-		<tr>
-			<th>No</th>
-			<th><input type="checkbox" class="checkall"/></th>
-			<th width="140">Aksi</th>
-			<?php  if($o==2): ?>
-			<th align="center" width='100'><a href="<?php echo site_url("penduduk/index/$p/1")?>">NIK <span class="fa fa-sort-asc fa-sm"></span></a></th>
-			<?php  elseif($o==1): ?>
-			<th align="center" width='100'><a href="<?php echo site_url("penduduk/index/$p/2")?>">NIK <span class="fa fa-sort-desc fa-sm"></span></a></th>
-			<?php  else: ?>
-			<th align="center" width='100'><a href="<?php echo site_url("penduduk/index/$p/1")?>">NIK <span class="fa fa-sort fa-sm"></span></a></th>
-			<?php  endif; ?>
-
-			<?php  if($o==4): ?>
-			<th align="center"><a href="<?php echo site_url("penduduk/index/$p/3")?>">Nama <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
-			<?php  elseif($o==3): ?>
-			<th align="center"><a href="<?php echo site_url("penduduk/index/$p/4")?>">Nama <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
-			<?php  else: ?>
-			<th align="center"><a href="<?php echo site_url("penduduk/index/$p/3")?>">Nama <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
-			<?php  endif; ?>
-
-			<th width="100" align="center">
-			<?php  if($o==6): ?>
-			<a href="<?php echo site_url("penduduk/index/$p/5")?>">No. KK <span class="fa fa-sort-asc fa-sm">
-			<?php  elseif($o==5): ?>
-			<a href="<?php echo site_url("penduduk/index/$p/6")?>">No. KK <span class="fa fa-sort-desc fa-sm">
-			<?php  else: ?><a href="<?php echo site_url("penduduk/index/$p/5")?>">No. KK <span class="fa fa-sort fa-sm">
-			<?php  endif; ?>
-			&nbsp;</span></a></th>
-
-			<th align="center" align="center">Alamat</th>
-            <th align="center" align="center"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
-            <th align="center" align="center">RW</th>
-            <th align="center" align="center">RT</th>
-			<th align="center" align="center">Pendidikan dalam KK</th>
-
-			<th width="45" align="center">
-			<?php  if($o==8): ?>
-			<a href="<?php echo site_url("penduduk/index/$p/7")?>">Umur <span class="fa fa-sort-asc fa-sm">
-			<?php  elseif($o==7): ?>
-			<a href="<?php echo site_url("penduduk/index/$p/8")?>">Umur <span class="fa fa-sort-desc fa-sm">
-			<?php  else: ?><a href="<?php echo site_url("penduduk/index/$p/7")?>">Umur <span class="fa fa-sort fa-sm">
-			<?php  endif; ?>
-			&nbsp;</span></a></th>
-
-			<th align="center">Pekerjaan</th>
-			<th width="75" align="center">Kawin</th>
-			<th align="center">Status</th>
-
-		</tr>
-</thead>
-<tbody>
-        <?php  foreach($main as $data): ?>
-<tr>
-          <td align="center" width="2"><?php echo $data['no']?></td>
-<td align="center" width="5">
-<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-</td>
-<td>
-	<div class="uibutton-group">
-		<a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"  class="uibutton tipsy south fa-tipis"  title="Rincian Data Penduduk"> <span class="fa fa-address-book"></span> Rincian </a>
-		<a href="<?php echo site_url("penduduk/form/$p/$o/$data[id]")?>"  class="uibutton tipsy south"  title="Ubah Data"> <span class="fa fa-edit"></span> </a>
-		<a href="<?php echo site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Ubah Status Dasar" target="ajax-modal" rel="window" header="Ubah Status Dasar" modalWidth="auto" modalHeight="auto"><span class="fa fa-wrench"></span></a>
-		<a href="<?php echo site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" class="uibutton tipsy south" title="Ubah Alamat/Pindah Penduduk dalam Desa" target="ajax-modal" rel="window" header="Ubah/Pindah Alamat Penduduk Lepas" modalWidth="auto" modalHeight="auto"><span class="fa fa-share-square-o"></span></a>
-		<?php  if($grup==1){?><a href="<?php echo site_url("penduduk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south"  title="Hapus Data"  target="confirm" message="Apakah Anda Yakin?" rel="window" header="Hapus Data"><span class="fa fa-trash"></span></a><?php  }?>
-	</div>
-</td>
-<td align="center"><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?php echo $data['id']?>"><?php echo $data['nik']?></a></td>
-<td><a href="<?php echo site_url("penduduk/detail/$p/$o/$data[id]")?>"><?php echo strtoupper(unpenetration($data['nama']))?></a></td>
-<td align="center"><a href="<?php echo site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?php echo $data['no_kk']?> </a> </td>
-<td><?php echo strtoupper($data['alamat'])?></td>
-<td><?php echo strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
-<td align="center"><?php echo $data['rw']?></td>
-<td align="center"><?php echo $data['rt']?></td>
-<td><?php echo $data['pendidikan']?></td>
-<td align="center"><?php echo $data['umur']?></td>
-<td><?php echo $data['pekerjaan']?></td>
-<td><?php echo $data['kawin']?></td>
-
-  <td><?php if($data['status']==1){echo "Tetap";}elseif($data['status']==2){echo "Tidak Aktif";}else{echo "Pendatang";}?></td>
-  </tr>
-        <?php  endforeach; ?>
-</tbody>
-        </table>
-    </div>
-</form>
-    <div class="ui-layout-south panel bottom">
-        <div class="left">
-<div class="table-info">
-          <form id="paging" action="<?php echo site_url('penduduk')?>" method="post">
-  <label>Tampilkan</label>
-            <select name="per_page" onchange="$('#paging').submit()" >
-              <option value="50" <?php  selected($per_page,50); ?> >50</option>
-              <option value="100" <?php  selected($per_page,100); ?> >100</option>
-              <option value="200" <?php  selected($per_page,200); ?> >200</option>
-            </select>
-            <label>Dari</label>
-            <label><strong><?php echo $paging->num_rows?></strong></label>
-            <label>Total Data</label>
-          </form>
-          </div>
-        </div>
-        <div class="right">
-            <div class="uibutton-group">
-				<?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("penduduk/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
-				<?php  endif; ?>
-				<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("penduduk/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
-				<?php  endif; ?>
+<style>
+	.input-sm
+	{
+		padding: 4px 4px;
+	}
+	@media (max-width:780px)
+	{
+		.btn-group-vertical
+		{
+			display: block;
+		}
+	}
+	.table-responsive
+	{
+		min-height:275px;
+	}
+}
+</style>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Data Penduduk</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Data Penduduk</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?=site_url('penduduk/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Penduduk Domisili</a>
+						<?php if ($grup==1): ?>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("penduduk/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data</a>
+						<?php endif; ?>
+						<div class="btn-group-vertical">
+							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<a href="<?= site_url("penduduk/cetak")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+								</li>
+								<li>
+									<a href="<?= site_url("penduduk/excel")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+								</li>
+								<li>
+									<a href="<?= site_url("penduduk/ajax_adv_search")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Spesifik" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik"><i class="fa fa-search"></i> Pencarian Spesifik</a>
+								</li>
+								<li>
+									<a href="<?= site_url("penduduk_log/clear")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Log Data Penduduk"><i class="fa fa-book"></i> Log Penduduk</a>
+								</li>
+							</ul>
+						</div>
+						<a href="<?= site_url("penduduk/clear")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<form id="mainform" name="mainform" action="" method="post">
+										<div class="row">
+											<div class="col-sm-9">
+												<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('penduduk/filter')?>')">
+													<option value="">Semua</option>
+													<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+													<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
+												</select>
+												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk/status_dasar')?>')">
+													<option value="">Status</option>
+													<?php foreach ($list_status_dasar AS $data): ?>
+														<option value="<?= $data['id']?>" <?php if ($status_dasar == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
+													<?php endforeach; ?>
+												</select>
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('penduduk/sex')?>')">
+													<option value="">Jenis Kelamin</option>
+													<option value="1" <?php if ($sex==1 ): ?>selected<?php endif ?>>Laki-Laki</option>
+													<option value="2" <?php if ($sex==2 ): ?>selected<?php endif ?>>Perempuan</option>
+												</select>
+												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk/dusun')?>')">
+													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
+													<?php foreach ($list_dusun AS $data): ?>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+													<?php endforeach; ?>
+												</select>
+												<?php if ($dusun): ?>
+													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk/rw')?>')" >
+														<option value="">RW</option>
+														<?php foreach ($list_rw AS $data): ?>
+															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
+														<?php endforeach; ?>
+													</select>
+												<?php endif; ?>
+												<?php if ($rw): ?>
+													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk/rt')?>')">
+														<option value="">RT</option>
+														<?php foreach ($list_rt AS $data): ?>
+															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
+														<?php endforeach; ?>
+													</select>
+												<?php endif; ?>
+											</div>
+											<div class="col-sm-3">
+												<div class="input-group input-group-sm pull-right">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("penduduk/search")?>');$('#'+'mainform').submit();}">
+													<div class="input-group-btn">
+														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("penduduk/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<?php if ($judul_statistik): ?>
+														<h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
+													<?php endif; ?>
+													<table class="table table-bordered table-striped dataTable table-hover nowrap">
+														<thead class="bg-gray disabled color-palette">
+															<tr>
+																<th><input type="checkbox" id="checkall"/></th>
+																<th>No</th>
+																<th >Aksi</th>
+																<?php if ($o==2): ?>
+                                  <th><a href="<?= site_url("penduduk/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                 <?php elseif ($o==1): ?>
+                                  <th><a href="<?= site_url("penduduk/index/$p/2")?>">NIK <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                <?php else: ?>
+                                  <th><a href="<?= site_url("penduduk/index/$p/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
+                                <?php endif; ?>
+                                <?php if ($o==4): ?>
+                                  <th nowrap><a href="<?= site_url("penduduk/index/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                <?php elseif ($o==3): ?>
+                                  <th nowrap><a href="<?= site_url("penduduk/index/$p/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                <?php else: ?>
+                                  <th nowrap><a href="<?= site_url("penduduk/index/$p/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+                                <?php endif; ?>
+																<?php if ($o==6): ?>
+                                  <th nowrap><a href="<?= site_url("penduduk/index/$p/5")?>">No. KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                <?php elseif ($o==5): ?>
+                              	  <th nowrap><a href="<?= site_url("penduduk/index/$p/6")?>">No. KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                <?php else: ?>
+                                  <th nowrap><a href="<?= site_url("penduduk/index/$p/5")?>">No. KK <i class='fa fa-sort fa-sm'></i></a></th>
+                                <?php endif; ?>
+																<th>No. Rumah Tangga</th>
+																<th>Alamat</th>
+																<th><?= ucwords($this->setting->sebutan_dusun)?></th>
+																<th>RW</th>
+																<th>RT</th>
+																<th>Pendidikan dalam KK</th>
+																<?php if ($o==8): ?>
+                                  <th nowrap><a href="<?= site_url("penduduk/index/$p/7")?>">Umur <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                <?php elseif ($o==7): ?>
+                              	  <th nowrap><a href="<?= site_url("penduduk/index/$p/8")?>">Umur <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                <?php else: ?>
+                                  <th nowrap><a href="<?= site_url("penduduk/index/$p/7")?>">Umur <i class='fa fa-sort fa-sm'></i></a></th>
+                                <?php endif; ?>
+																<th >Pekerjaan</th>
+																<th>Kawin</th>
+															</tr>
+														</thead>
+														<tbody>
+															<?php foreach ($main as $data): ?>
+																<tr>
+																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
+																	<td><?= $data['no']?></td>
+																	<td nowrap>
+																		<div class="btn-group">
+																			<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi</button>
+																			<ul class="dropdown-menu" role="menu">
+																				<li>
+																					<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
+																				</li>
+																				<?php if ($data['status_dasar']==1): ?>
+																					<li>
+																						<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?= $data['nama']?>" data-title="Lokasi <?= $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah/Pindah Alamat Penduduk Lepas" class="btn btn-social btn-flat btn-block btn-sm"  title="Ubah Alamat/Pindah Penduduk dalam Desa"><i class="fa fa-location-arrow"></i> Pindah Penduduk Dalam Desa</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("penduduk/dokumen/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("penduduk/cetak_biodata/$data[id]")?>"  target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
+																					</li>
+																					<?php if ($grup==1): ?>
+																						<li>
+																							<a href="#" data-href="<?= site_url("penduduk/delete/$p/$o/$data[id]")?>"  class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
+																						</li>
+																					<?php endif; ?>
+																				<?php endif; ?>
+																			</ul>
+																		</div>
+																	</td>
+																	<td>
+																		<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
+																	</td>
+																	<td nowrap><?= strtoupper(unpenetration($data['nama']))?></td>
+																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
+																	<td><a href="<?= site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?= $data['no_rtm']?></a></td>
+																	<td><?= strtoupper($data['alamat'])?></td>
+																	<td><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+																	<td><?= $data['rw']?></td>
+																	<td><?= $data['rt']?></td>
+																	<td><?= $data['pendidikan']?></td>
+																	<td><?= $data['umur']?></td>
+																	<td><?= $data['pekerjaan']?></td>
+																	<td><?= $data['kawin']?></td>
+																</tr>
+															<?php endforeach; ?>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</form>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="dataTables_length">
+												<form id="paging" action="<?= site_url("penduduk")?>" method="post" class="form-horizontal">
+													<label>
+														Tampilkan
+														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+															<option value="50" <?php selected($per_page,50); ?> >50</option>
+															<option value="100" <?php selected($per_page,100); ?> >100</option>
+															<option value="200" <?php selected($per_page,200); ?> >200</option>
+														</select>
+														Dari
+														<strong><?= $paging->num_rows?></strong>
+														Total Data
+													</label>
+												</form>
+											</div>
+										</div>
+										<div class="col-sm-6">
+                      <div class="dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                          <?php if ($paging->start_link): ?>
+                            <li><a href="<?=site_url("penduduk/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                          <?php endif; ?>
+                          <?php if ($paging->prev): ?>
+                            <li><a href="<?=site_url("penduduk/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                          <?php endif; ?>
+                          <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+               	            <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("penduduk/index/$i/$o")?>"><?= $i?></a></li>
+                          <?php endfor; ?>
+                          <?php if ($paging->next): ?>
+                            <li><a href="<?=site_url("penduduk/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                          <?php endif; ?>
+                          <?php if ($paging->end_link): ?>
+                            <li><a href="<?=site_url("penduduk/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                          <?php endif; ?>
+                        </ul>
+                      </div>
+                    </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+									</div>
+									<div class='modal-body btn-info'>
+										Apakah Anda yakin ingin menghapus data ini?
+									</div>
+									<div class='modal-footer'>
+										<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+										<a class='btn-ok'>
+											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="uibutton-group">
-				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-				<a href="<?php echo site_url("penduduk/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-				<?php  endfor; ?>
-			</div>
-			<div class="uibutton-group">
-				<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("penduduk/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
-				<?php  endif; ?>
-				<?php  if($paging->end_link): ?>
-				<a href="<?php echo site_url("penduduk/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
-				<?php  endif; ?>
-			</div>
-        </div>
-    </div>
-</div>
-</td></tr></table>
+		</div>
+	</section>
 </div>

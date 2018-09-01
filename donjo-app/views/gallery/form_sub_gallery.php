@@ -1,70 +1,63 @@
-<script type="text/javascript">
-$("document").ready(function(){
-	$("#validasi").bind("submit",function(evt){
-    var file = $('#file').attr('files')[0];
-    if(file && file.size > <?php echo max_upload()*1000000?>) { // ukuran berkas dalam bytes)
-      //Prevent default and display error
-      evt.preventDefault();
-      $('#dialog').html("<p>Berkas itu melebihi batas "+<?php echo "'".max_upload()."'" ?>+"MB.</p>");
-			$('#dialog').show();
-			$('#dialog').dialog();
-    }
-  });
-});
-</script>
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;">
-
-	<div id="dialog" title="Perhatian" style="display: none;">
-	  <p>Berkas itu melebihi batas x MB.</p>
-	</div>
-
-<div class="content-header">
-<h3>Form Gambar Galeri</h3>
-</div>
-<div id="contentpane">
-<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<table class="form">
-<tr>
-<th>Judul Gambar</th>
-<td><input name="nama" type="text" class="inputbox" size="60" value="<?php echo $gallery['nama']?>"/></td>
-</tr>
-<?php if($gallery['gambar']){?>
-<tr>
-<th class="top">Gambar</th>
-<td>
-<div class="gallerybox-avatar">
-<img width="440" height="300" src="<?php echo AmbilGaleri($gallery['gambar'], 'sedang') ?>" alt=""/>
-</div>
-</td>
-<input type="hidden" name="old_gambar" value="<?php echo $gallery['gambar']?>">
-</tr>
-<?php }?>
-<tr>
-	<th>Upload Gambar</th>
-	<td>
-		<input id="file" type="file" name="gambar" /> <span style="color: #aaa;">(Kosongi jika tidak ingin mengubah gambar)</span>
-    <?php $upload_mb = max_upload();
-    	echo "<p>Batas maksimal pengunggahan berkas <strong>".$upload_mb." MB.</strong></p>"
-    ?>
-</tr>
-</table>
-</div>
-
-<div class="ui-layout-south panel bottom">
-<div class="left">
-<a href="<?php echo site_url()?>gallery" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
-</div>
-</div>
-</div> </form>
-</div>
-</td></tr></table>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Gambar Album</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('gallery')?>"><i class="fa fa-dashboard"></i> Daftar Album</a></li>
+			<li><a href='<?= site_url("gallery/sub_gallery/$gallery[parrent]")?>'><i class="fa fa-dashboard"></i> Daftar Gambar Album</a></li>
+			<li class="active">Pengaturan Gambar Album</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?= site_url("gallery/sub_gallery/$gallery[parrent]")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Gambar Album
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="nama">Nama Gambar</label>
+								<div class="col-sm-6">
+									<input name="nama" class="form-control input-sm" type="text" value="<?=$gallery['nama']?>"></input>
+								</div>
+							</div>
+							<?php if ($gallery['gambar']): ?>
+								<div class="form-group">
+									<label class="control-label col-sm-4" for="nama"></label>
+									<div class="col-sm-6">
+										<input type="hidden" name="old_gambar" value="<?=  $gallery['gambar']?>">
+									  <img class="attachment-img img-responsive img-circle" src="<?= AmbilGaleri($gallery['gambar'], 'sedang') ?>" alt="Gambar Album">
+									</div>
+								</div>
+							<?php endif; ?>
+							<div class="form-group">
+									<label class="control-label col-sm-4" for="upload">Unggah Gambar</label>
+									<div class="col-sm-6">
+										<div class="input-group input-group-sm">
+											<input type="text" class="form-control required" id="file_path">
+											<input id="file" type="file" class="hidden" name="gambar">
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+											</span>
+										</div>
+										<?php $upload_mb = max_upload();?>
+										<p><label class="control-label">Batas maksimal pengunggahan berkas <strong><?=$upload_mb?> MB.</strong></label></p>
+									</div>
+								</div>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>

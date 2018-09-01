@@ -1,9 +1,10 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
-	if($input['id_ibu']) {
-		$ibu = $this->get_data_surat($input['id_ibu']);
+	if ($_SESSION['id_ibu'])
+	{
+		$ibu = $this->get_data_surat($_SESSION['id_ibu']);
 		$input['nik_ibu'] 							= $ibu['nik'];
 		$input['nama_ibu'] 							= $ibu['nama'];
     $input['tanggal_lahir_ibu']			= $ibu['tanggallahir'];
@@ -21,7 +22,8 @@
 		$input['tanggalperkawinan_ibu']	= $ibu['tanggalperkawinan'];
 
 		$ayah = $this->get_data_suami($ibu['id']);
-		if ($ayah) {
+		if ($ayah)
+		{
 			$input['nik_ayah'] 								= $ayah['nik'];
 			$input['nama_ayah'] 							= $ayah['nama'];
 	    $input['tanggal_lahir_ayah']			= $ayah['tanggallahir'];
@@ -36,35 +38,44 @@
 	    $input['kabayah']       					= $config['nama_kabupaten'];
 	    $input['provinsiayah']   					= $config['nama_propinsi'];
 			$input['wn_ayah']									= $ayah['warganegara_id'];
-		} else {
+		}
+		else
+		{
 	    $input['pekerjaanid_ayah'] 				= str_pad($input['pekerjaanid_ayah'], 2, "0", STR_PAD_LEFT);
 			$input['umur_ayah']								= str_pad($input['umur_ayah'], 3, " ", STR_PAD_LEFT);
 		}
-	} else {
+	}
+	else
+	{
     $input['pekerjaanid_ibu'] 					= str_pad($input['pekerjaanid_ibu'], 2, "0", STR_PAD_LEFT);
 		$input['umur_ibu']									= str_pad($input['umur_ibu'], 3, " ", STR_PAD_LEFT);
     $input['pekerjaanid_ayah'] 					= str_pad($input['pekerjaanid_ayah'], 2, "0", STR_PAD_LEFT);
 		$input['umur_ayah']									= str_pad($input['umur_ayah'], 3, " ", STR_PAD_LEFT);
 	}
-	if($input['id_bayi']) {
-		$bayi = $this->get_data_surat($input['id_bayi']);
+	if ($_SESSION['id_bayi'])
+	{
+		$bayi = $this->get_data_surat($_SESSION['id_bayi']);
 		$input['nik_bayi'] 		= $bayi['nik'];
 		$input['nama_bayi'] 	= $bayi['nama'];
 		$input['sex']					= $bayi['sex_id'];
-		$input['hari']	  		= hari($bayi['tanggallahir']);
+		$input['hari']	  		= hari(strtotime($bayi['tanggallahir']));
 		$input['tanggal']	  	= $bayi['tanggallahir'];
 	}
 	// Jika ibu dari database, gunakan data ibu untuk info kepala keluarga.
 	// Kalau tidak, gunakan data yang lahir. Salah satu harus dari database.
-	if($ibu){
+	if ($ibu)
+	{
 		$input['kepala_kk'] 	= $ibu['kepala_kk'];
 		$input['no_kk'] 			= $ibu['no_kk'];
-	} elseif ($bayi) {
+	}
+	elseif ($bayi)
+	{
 		$input['kepala_kk'] 	= $bayi['kepala_kk'];
 		$input['no_kk'] 			= $bayi['no_kk'];
 	}
-	if($input['id_pelapor']) {
-		$pelapor = $this->get_data_surat($input['id_pelapor']);
+	if ($_SESSION['id_pelapor'])
+	{
+		$pelapor = $this->get_data_surat($_SESSION['id_pelapor']);
 		$input['nik_pelapor'] 					= $pelapor['nik'];
 		$input['nama_pelapor'] 					= $pelapor['nama'];
     $input['tanggal_lahir_pelapor']	= $pelapor['tanggallahir'];
@@ -79,12 +90,15 @@
 		$input['kecpelapor']						= $config['nama_kecamatan'];
 		$input['kabpelapor']						= $config['nama_kabupaten'];
 		$input['provinsipelapor']				= $config['nama_propinsi'];
-	} else {
+	}
+	else
+	{
     $input['pekerjaanid_pelapor'] 	= str_pad($input['pekerjaanid_pelapor'], 2, "0", STR_PAD_LEFT);
 		$input['umur_pelapor']					= str_pad($input['umur_pelapor'], 3, " ", STR_PAD_LEFT);
 	}
-	if($input['id_saksi1']) {
-		$saksi1 = $this->get_data_surat($input['id_saksi1']);
+	if ($_SESSION['id_saksi1'])
+	{
+		$saksi1 = $this->get_data_surat($_SESSION['id_saksi1']);
 		$input['nik_saksi1'] 						= $saksi1['nik'];
 		$input['nama_saksi1'] 					= $saksi1['nama'];
     $input['tanggal_lahir_saksi1']	= $saksi1['tanggallahir'];
@@ -99,12 +113,15 @@
 		$input['kecsaksi1']							= $config['nama_kecamatan'];
 		$input['kabsaksi1']							= $config['nama_kabupaten'];
 		$input['provinsisaksi1']				= $config['nama_propinsi'];
-	} else {
+	}
+	else
+	{
     $input['pekerjaanid_saksi1'] 		= str_pad($input['pekerjaanid_saksi1'], 2, "0", STR_PAD_LEFT);
 		$input['umur_saksi1']						= str_pad($input['umur_saksi1'], 3, " ", STR_PAD_LEFT);
 	}
-	if($input['id_saksi2']) {
-		$saksi2 = $this->get_data_surat($input['id_saksi2']);
+	if ($_SESSION['id_saksi2'])
+	{
+		$saksi2 = $this->get_data_surat($_SESSION['id_saksi2']);
 		$input['nik_saksi2'] 						= $saksi2['nik'];
 		$input['nama_saksi2'] 					= $saksi2['nama'];
     $input['tanggal_lahir_saksi2']	= $saksi2['tanggallahir'];
@@ -119,7 +136,9 @@
 		$input['kecsaksi2']							= $config['nama_kecamatan'];
 		$input['kabsaksi2']							= $config['nama_kabupaten'];
 		$input['provinsisaksi2']				= $config['nama_propinsi'];
-	} else {
+	}
+	else
+	{
     $input['pekerjaanid_saksi2'] 		= str_pad($input['pekerjaanid_saksi2'], 2, "0", STR_PAD_LEFT);
 		$input['umur_saksi2']						= str_pad($input['umur_saksi2'], 3, " ", STR_PAD_LEFT);
 	}

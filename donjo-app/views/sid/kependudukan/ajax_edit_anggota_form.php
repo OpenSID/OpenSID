@@ -1,41 +1,39 @@
-<form action="<?php echo $form_action?>" method="post" id="validasi">
-
-<div class="content-header">
-    <h4>KK No.<?php echo $kepala_kk['no_kk']?> Keluarga : <?php echo $kepala_kk['nama']?></h4>
-</div>
-<table style="width:100%">
-<tr>
-<th width="100" align="left">NIK</th>
-<td>
-	<?php echo $main['nik']?>
-</td>
-</tr>
-<tr>
-<th align="left">Nama Penduduk</th>
-<td>
-	<?php echo $main['nama']?>
-</td>
-</tr>
-<tr>
-<th></th>
-<td>
-</td>
-	</tr>
-	<tr>
-	<tr>
-<th align="left">Hubungan</th>
-<td><select name="kk_level" class="required" width="50">
-<option value=""> ----- Pilih Hubungan ----- </option>
-<?php foreach($hubungan as $data){if($data['id']>0){?>
-	<option value="<?php echo $data['id']?>" <?php if($data['id']==$main['kk_level']){?>selected<?php }?>><?php echo $data['hubungan']?></option>
-<?php }}?></select>
-</td>
-	</tr>
-</table>
-<div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
-    <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span>Tutup</button>
-        <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
-    </div>
-</div>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<form action="<?= $form_action?>" method="post" id="validasi">
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">
+				<table id="tabel3" class="table table-hover" >
+					<tr>
+						<td style="padding-top : 10px;padding-bottom : 10px; width:40%;" >NIK</td>
+						<td> : <?= $main['nik']?></td>
+					</tr>
+					<tr>
+						<td style="padding-top : 10px;padding-bottom : 10px; width:40%;" >Nama Penduduk</td>
+						<td> : <?= $main['nama']?></td>
+					</tr>
+				</table>
+				<div class="box box-danger">
+					<div class="box-body">
+						<div class="form-group">
+							<label for="kk_level">Hubungan</label>
+							<select name="kk_level" class="form-control input-sm required" style="width:100%;">
+								<option value=""> ----- Pilih Hubungan ----- </option>
+								<?php foreach ($hubungan as $data): ?>
+									<?php if ($data['id']>0): ?>
+										<option value="<?= $data['id']?>" <?php if ($data['id']==$main['kk_level']): ?>selected<?php endif; ?>><?= $data['hubungan']?></option>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+	<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+	</div>
 </form>

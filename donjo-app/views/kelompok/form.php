@@ -1,120 +1,71 @@
-<script type="text/javascript" src="<?php echo base_url()?>assets/tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript">
-tinyMCE.init({
-        // General options
-		mode : "textareas",
-		theme : "advanced",
-		skin : "o2k7",
-        plugins : "autolink,lists,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
-
-        // Theme options
-        theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
-        theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
-        theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
-        theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,spellchecker,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,blockquote,pagebreak,|,insertfile,insertimage",
-        theme_advanced_toolbar_location : "top",
-        theme_advanced_toolbar_align : "left",
-        theme_advanced_statusbar_location : "bottom",
-        theme_advanced_resizing : true,
-
-        // Skin options
-        skin : "o2k7",
-        skin_variant : "blue",
-
-        // Example content CSS (should be your site CSS)
-        content_css : "css/example.css",
-
-        // Drop lists for link/image/media/template dialogs
-        template_external_list_url : "js/template_list.js",
-        external_link_list_url : "js/link_list.js",
-        external_image_list_url : "js/image_list.js",
-        media_external_list_url : "js/media_list.js",
-
-        // Replace values for the template plugin
-        template_replace_values : {
-                username : "Some User",
-                staffid : "991234"
-        }
-});
-</script>
-<script>
-$(function(){
-    var nik = {};
-    nik.results = [
-		<?php foreach($list_penduduk as $data){?>
-	   {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
-		<?php }?>
-		    ];
-nik.total = nik.results.length;
-
-$('#id_ketua').flexbox(nik, {
-	resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-	watermark: 'Ketik no nik di sini..',
-    width: 260,
-    noResultsText :'Tidak ada no nik yang sesuai..',
-	    onSelect: function() {
-		$('#'+'main').submit();
-    }  
-});
-$("#nik_detail").show();
-});
-</script>
-<div id="pageC">
-	<table class="inner">
-		<tr style="vertical-align:top">
-			<td style="background:#fff;padding:0px;"> 
-				<div class="content-header"></div>
-				<div id="contentpane">
-					<div class="ui-layout-north panel"><h3>Form Master kelompok</h3></div>
-					<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
-						<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-							<table class="form">
-								<tr>
-									<th>Nama kelompok</th>
-									<td><input name="nama" type="text" class="inputbox" size="80" value="<?php echo $kelompok['nama']?>"/></td>
-								</tr>
-								<tr>
-									<th width="100">Master Kelompok</th>
-									<td>
-										<select name="id_master" onchange="formAction('mainform','<?php echo site_url('kelompok/filter')?>')" class="required">	
-											<option value="">-- Mater Kelompok --</option>
-											<?php  foreach($list_master AS $data){?>
-												<option value="<?php echo $data['id']?>" <?php if($kelompok['id_master'] == $data['id']) :?>selected<?php endif?>><?php echo $data['kelompok']?></option>
-											<?php  }?>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<th>Nama/NIK Pimpinan</th>
-									<td>
-										<div id="id_ketua" name="id_ketua"></div>
-									</td>
-								</tr>
-								<th colspan="2">Deskripsi kelompok</th>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<textarea  name="keterangan" style="width: 800px; height: 500px;">
-											<?php echo $kelompok['keterangan']?>
-										</textarea>
-									</td>
-								</tr> 
-							</table>
-						</div>
-						<div class="ui-layout-south panel bottom">
-							<div class="left"> 
-								<a href="<?php echo site_url()?>kelompok" class="uibutton icon prev">Kembali</a>
-							</div>
-							<div class="right">
-								<div class="uibutton-group">
-									<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-									<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Master Kelompok</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
+			<li class="active">Master Kelompok</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?= site_url()?>kelompok" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
+					</div>
+					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+						<div class="box-body">
+							<div class="form-group">
+								<label  class="col-sm-3 control-label" for="nama">Nama Kelompok</label>
+								<div class="col-sm-7">
+									<input  id="nama" class="form-control input-sm required" type="text" placeholder="Nama Kelompok" name="nama" value="<?= $kelompok['nama']?>">
 								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-3 control-label" for="kode">Kode Kelompok</label>
+								<div class="col-sm-7">
+									<input  id="kode" class="form-control input-sm" type="text" placeholder="Kode Kelompok" name="kode" value="<?= $kelompok['kode']?>">
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-3 control-label" for="id_master">Kategori Kelompok</label>
+								<div class="col-sm-7">
+									<select class="form-control input-sm select2 required" id="id_master" name="id_master">
+										<option value="">-- Silakan Masukkan Kategori Kelompok--</option>
+										<?php foreach ($list_master AS $data): ?>
+											<option value="<?= $data['id']?>" <?php if ($kelompok['id_master'] == $data['id']): ?>selected<?php endif ?>><?= $data['kelompok']?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-3 control-label" for="id_ketua">Ketua Kelompok</label>
+								<div class="col-sm-7">
+									<select class="form-control input-sm select2 required" id="id_ketua" name="id_ketua">
+										<option value="">-- Silakan Masukkan NIK / Nama--</option>
+										<?php foreach ($list_penduduk as $data): ?>
+										 	<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-3 control-label" for="keterangan">Deskripsi Kelompok</label>
+								<div class="col-sm-7">
+									 <textarea name="keterangan" class="form-control input-sm" placeholder="Deskripsi Kelompok"  rows="3"><?= $kelompok['keterangan']?></textarea>
+								 </div>
+							</div>
+						</div>
+						<div class="box-footer">
+							<div class="col-xs-12">
+								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
 						</div>
 					</form>
 				</div>
-			</td>
-		</tr>
-	</table>
+			</div>
+		</div>
+	</section>
 </div>

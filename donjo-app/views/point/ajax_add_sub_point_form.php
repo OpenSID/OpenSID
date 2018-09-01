@@ -1,49 +1,126 @@
-<form id="validasi" action="<?php  echo $form_action?>" method="POST" enctype="multipart/form-data">
-<table style="width:100%">
-<tr>
-<th width="100">Nama Point</th>
-<td><input class="inputbox" type="text" name="nama" value="<?php  echo $point['nama']?>" size="40"/></td>
-</tr>
-			<tr>
-				<th>Simbol</th>
-				<td>
-					<div id="simbol" style="float:left;padding-top:6px;"></div>
-					<div style="float:left;margin-left:10px;">
-						<?php if($point['simbol']!=""){?>
-						<img src="<?php  echo base_url(); ?>assets/images/gis/point/<?php  echo $point['simbol']?>">
-						<?php }else{?>
-						<img src="<?php  echo base_url(); ?>assets/images/gis/point/default.png">
-						<?php }?>
-					</div>
-				</td>
-			</tr>
-</table>
-<div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
-    <div class="uibutton-group">
-        <button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
-        <button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
-    </div>
-</div>
-</form>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<style>
+	.input-hidden[type=radio]:checked  +  label
+	{
+		border : 1px solid #fff;
+		box-shadow:0 0 3px 3px #090;
+	}
 
+	.bs-glyphicons
+	{
+		padding-left: 0;
+		padding-bottom: 1px;
+		margin-bottom: 20px;
+		list-style: none;
+		overflow: hidden;
+	}
+
+	.bs-glyphicons li
+	{
+		float: left;
+		width: 25%;
+		height: 115px;
+		padding: 10px;
+		margin: 0 -1px -1px 0;
+		font-size: 12px;
+		line-height: 1.4;
+		text-align: center;
+		border: 1px solid #ddd;
+	}
+
+	.bs-glyphicons .glyphicon
+	{
+		margin-top: 5px;
+		margin-bottom: 10px;
+		font-size: 24px;
+	}
+
+	.bs-glyphicons .glyphicon-class
+	{
+		display: block;
+		text-align: center;
+		word-wrap: break-word; /* Help out IE10+ with class names */
+	}
+
+	.bs-glyphicons li:hover
+	{
+		background-color: #605ca8;
+		color:#fff;
+	}
+	.bs-glyphicons li.active
+	{
+		background-color: #605ca8;
+		color:#fff;
+	}
+	@media (min-width: 768px)
+	{
+		.bs-glyphicons li
+		{
+			width: 12.5%;
+		}
+	}
+
+	.vertical-scrollbar
+	{
+		overflow-x: hidden; /*for hiding horizontal scroll bar*/
+		overflow-y: auto; /*for vertical scroll bar*/
+	}
+</style>
+<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box box-danger">
+					<div class="box-body">
+						<div class="form-group">
+							<label class="control-label" for="nama">Nama Kategori Lokasi</label>
+							<input id="nama" name="nama" class="form-control input-sm" type="text" placeholder="Nama Kategori Lokasi"></input>
+						</div>
+						<div class="form-group">
+							<label for="nomor"  class="control-label">Simbol</label>
+							<?php if ($point['simbol']!=""): ?>
+								<img src="<?= base_url(); ?>assets/images/gis/point/<?= $point['simbol']?>"/>
+							<?php else: ?>
+								<img src="<?= base_url(); ?>assets/images/gis/point/default.png"/>
+							<?php endif; ?>
+						</div>
+						<div class="form-group">
+							<label for="id_master" class="control-label">Ganti Simbol</label>
+							<div  class="vertical-scrollbar" style="max-height:200px;">
+								<div class="bs-glyphicons">
+								  <ul class="bs-glyphicons">
+										<?php foreach ($simbol as $data): ?>
+											<li <?php if ($point['simbol']==$data['simbol']): ?>class="active"<?php endif; ?> onclick="li_active($(this).val());">
+												<label>
+													<input type="radio" name="simbol" id="simbol" class="input-hidden hidden" value="<?= $data['simbol']?>" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']): ?>checked<?php endif; ?>>
+													<img src="<?= base_url(); ?>assets/images/gis/point/<?= $data['simbol']?>">
+													<span class="glyphicon-class"><?= $data['simbol']?></span>
+												</label>
+											</li>
+										<?php endforeach; ?>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		</div>
+	</div>
+</form>
 <script>
-	$(function(){
-		var nik = {};
-		nik.results = [
-			<?php  foreach($simbol as $data){?>
-				{id:'<?php  echo $data['simbol']?>',name:"<?php  echo $data['simbol']?>",info:'<img src="<?php  echo base_url(); ?>assets/images/gis/point/<?php  echo $data['simbol']?>">'},
-			<?php  }?>
-		];
-		
-		nik.total = nik.results.length;
-		$('#simbol').flexbox(nik, {
-			resultTemplate: '<div style=height:33px;margin-top:-4px;>{info}</div><div style="display:none;">{name}</div>',
-			watermark: <?php  if($point){?>'<?php  echo $point['simbol']?>'<?php  }else{?>'Ketik nama simbol di sini..'<?php  }?>,
-			width: 100,
-			noResultsText :'...'
-			//onSelect: function() {
-			//	$('#'+'main').submit();
-		//}  
-		});
-	});
+	function li_active()
+	{
+    $('li').click( function()
+		{
+      $('li.active').removeClass('active');
+      $(this).addClass('active');
+      $(this).children("input[type=radio]").click();
+    });
+	};
 </script>

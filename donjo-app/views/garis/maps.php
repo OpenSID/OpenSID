@@ -1,121 +1,105 @@
-<script type="text/javascript" src="<?php  echo base_url()?>assets/js/polygon.min.js"></script>
 <script>
-	function PolygonCreator(map){
-		this.map=map;this.pen=new Pen(this.map);
-		var thisOjb=this;
-		var jalur = "";
-		this.event=google.maps.event.addListener(thisOjb.map,'click',function(event){thisOjb.pen.draw(event.latLng);jalur+=event.latLng;jalur+=";";});
-		
-		this.showData=function(){return this.pen.getData();}
-		
-		this.showColor=function(){return this.pen.getColor();}
-		this.showJalur=function(){return jalur;}
-		
-		this.destroy=function(){
-			this.pen.deleteMis();
-			if(null!=this.pen.polygon){
-				this.pen.polygon.remove();
-			}
-		google.maps.event.removeListener(this.event);
+	setTimeout(function() {peta_area.invalidateSize();}, 500);
+	<?php if (!empty($desa['lat'] && !empty($desa['lng']))): ?>
+		var posisi = [<?= $desa['lat'].",".$desa['lng']; ?>];
+		var zoom = <?= $desa['zoom'] ?: 10; ?>;
+	<?php else: ?>
+    var posisi = [-7.885619783139936,110.39893195996092];
+    var zoom = 10;
+	<?php endif; ?>
+
+		//Inisialisasi tampilan peta
+		var peta_area = L.map('map_area').setView(posisi, zoom);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		{
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+			id: 'peta_area'
+		}).addTo(peta_area);
+
+	<?php if (!empty($garis['path'])): ?>
+
+		//Garis yang tersimpan
+		var kordinat_garis = <?= $garis['path']; ?>;
+
+		//Tampilkan garis untuk diedit
+		var garis = L.polyline(kordinat_garis).addTo(peta_area);
+
+		//Event untuk mengecek perubahan poligon
+		garis.on('pm:edit', function(e)
+		{
+			document.getElementById('path').value = getLatLong('Line', e.target).toString();
+		})
+
+		//Fokuskan peta ke poligon
+		peta_area.fitBounds(garis.getBounds());
+		setTimeout(function() {peta_area.invalidateSize();peta_area.fitBounds(garis.getBounds());}, 500);
+	<?php endif; ?>
+	//Tombol yang akan dimunculkan dipeta
+	var options = {
+		position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+		drawMarker: false, // adds button to draw markers
+		drawPolyline: true, // adds button to draw a polyline
+		drawRectangle: false, // adds button to draw a rectangle
+		drawPolygon: false, // adds button to draw a polygon
+		drawCircle: false, // adds button to draw a cricle
+		cutPolygon: false, // adds button to cut a hole in a polygon
+		editMode: true, // adds button to toggle edit mode for all layers
+		removalMode: true, // adds a button to remove layers
+	};
+
+	//Menambahkan toolbar ke peta
+	peta_area.pm.addControls(options);
+
+	//Event untuk menangkap garis yang dibuat
+	peta_area.on('pm:create', function(e)
+	{
+		//Ambil list garis yang ada
+		var keys = Object.keys(peta_area._layers);
+		//Tambahkan event edit ke poligon yang telah dibuat
+		peta_area._layers[keys[2]].on('pm:edit', function(f)
+		{
+			document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+		})
+		document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
+	});
+
+	function getLatLong(x, y)
+	{
+		var hasil;
+		if (x == 'Rectangle' || x == 'Line' || x == 'Poly')
+		{
+			hasil = JSON.stringify(y._latlngs);
 		}
+		else
+		{
+			hasil = JSON.stringify(y._latlng);
+		}
+
+		hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
+		return hasil
 	}
-	
-	$(function(){
-
-    var options = {
-		<?php  if($desa['lat']!=""){?>
-		  center: new google.maps.LatLng(<?php  echo $desa['lat']?>,<?php  echo $desa['lng']?>),
-		  zoom: <?php  echo $desa['zoom']?>,
-		  mapTypeId: google.maps.MapTypeId.<?php  echo strtoupper($desa['map_tipe'])?>
-		<?php  }else{?>
-		  center: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
-		  zoom: 14,
-		  mapTypeId: google.maps.MapTypeId.ROADMAP
-		<?php  }?>
-    };
-    var map = new google.maps.Map(document.getElementById('map'), options);
-
-
-<?php  
-			$path = preg_split("/\;/", $garis['path']);
-			echo "var path = [";foreach($path AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
-			
-    // Creating the polyline object
-    var polyline = new google.maps.Polyline({
-      path: path,
-      strokeColor: "#00ff00",
-      strokeOpacity: 0.6,
-      strokeWeight: 5
-    });
-    
-    // Adding the polyline to the map
-    polyline.setMap(map);
-  
-			    	 
-<?php  /*
-			$path_desa = preg_split("/\;/", $desa['path']);
-			echo "var path_desa = [";foreach($path_desa AS $p){if($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
-			
-			var desa = new google.maps.Polygon({
-			  paths: path_desa,
-			  map: map,
-			  strokeColor: '#11ddff',
-			  strokeOpacity: 0.6,
-			  strokeWeight: 1,
-			  fillColor: '#11ddff',
-			  fillOpacity: 0.25
-			});
-			*/?>
-			google.maps.event.addListener(polyline, 'mouseover', function(e) {
-			  polyline.setOptions({
-				fillColor: '#0000ff',
-				strokeColor: '#0000ff'
-			  });
-			});
-
-			google.maps.event.addListener(polyline, 'mouseout', function(e) {
-			  polyline.setOptions({
-				fillColor: '#11ff00',
-				strokeColor: '#11ff00'
-			  });
-			});
-			
-		var creator = new PolygonCreator(map);
-		 $('#reset').click(function(){ 
-		 		creator.destroy();
-		 		creator=null;
-		 		
-		 		creator=new PolygonCreator(map);
-				document.getElementById('dataPanel').value = creator.showData();
-		 });		 
-		 
-		$('#showData').click(function(){ 
-		 		$('#dataPanel').empty();
-		 		if(null==creator.showJalur()){
-					this.form.submit();
-		 		}else{
-					document.getElementById('dataPanel').value = creator.showJalur();
-					this.form.submit();
-		 		}
-		 });
-		 
-	});	
-	
 </script>
 <style>
-#map {
-  width: 420px;
-  height: 320px;
-  border: 1px solid #000;
-}
+  #map_area
+  {
+		z-index: 1;
+    width: 100%;
+    height: 320px;
+    border: 1px solid #000;
+  }
 </style>
-	<div id="map"></div>
-<form action="<?php  echo $form_action?>" method="post">
-	<input type="hidden" id="dataPanel" name="path"  value="<?php  echo $garis['path']?>">
-	<div class="buttonpane" style="text-align: right; width:400px;position:absolute;bottom:0px;">
-	<div class="uibutton-group">
-		<button class="uibutton" type="button" onclick="$('#window').dialog('close');"><span class="fa fa-times"></span> Tutup</button>
-		<button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
+<form action="<?= $form_action?>" method="post" id="validasi">
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">
+				<div id="map_area"></div>
+				<input type="hidden" name="path" id="path" value="<?= $garis['path']?>">
+			</div>
+		</div>
 	</div>
+	<div class="modal-footer">
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

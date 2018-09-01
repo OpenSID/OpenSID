@@ -1,75 +1,105 @@
-<script>
-	$(function() {
-		var keyword = <?php echo $keyword?> ;
-		$( "#cari" ).autocomplete({
-			source: keyword
-		});
-	});
-</script>
-<div id="pageC">
-<div class="content-header">
-</div>
-<div id="contentpane">
-	<form id="mainform" name="mainform" action="" method="post">
- <div class="ui-layout-north panel">
- <h3>Manajemen Parameter Analisis</h3>
-	<p> &nbsp; Pertanyaan : <?php echo $analisis_indikator['pertanyaan']?></p>
- <div class="left">
- <div class="uibutton-group">
- <?php if($analisis_master['lock']==1){?> <a href="<?php echo site_url("analisis_indikator/form_parameter/$analisis_indikator[id]")?>" class="uibutton tipsy south" title="Tambah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="fa fa-plus-square">&nbsp;</span>Tambah Parameter Baru</a>
- <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("analisis_indikator/p_delete_all_parameter]")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data<?php }?>
- </div>
- </div>
- </div>
- <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
- <div class="table-panel top">
- <div class="left">
- </div>
- <div class="right">
- </div>
- </div>
- <table class="list">
-		<thead>
- <tr>
- <th width="10">No</th>
-				<?php if($analisis_master['lock']==1){?>
- <th width="10"><input type="checkbox" class="checkall"/></th>
- <th width="80">Aksi</th>
-				<?php }?>
- <th width="80">Kode</th>
- <th width="400">Jawaban</th>
- <th width="20">Nilai</th>
- <th></th>
-			</tr>
-		</thead>
-		<tbody>
- <?php foreach($main as $data): ?>
-		<tr>
- <td align="center" width="2"><?php echo $data['no']?></td>
-		 <?php if($analisis_master['lock']==1){?>
-			<td align="center" width="5">
-				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-			</td>
- <td><div class="uibutton-group">
- <a href="<?php echo site_url("analisis_indikator/form_parameter/$analisis_indikator[id]/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data" target="ajax-modal" rel="window" header="Form Data Parameter"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("analisis_indikator/delete_parameter/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Ukuran/Nilai Indikator Analisis</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('analisis_master') ?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url() ?>analisis_indikator/leave"><?= $analisis_master['nama']?></a></li>
+			<li><a href="<?= site_url() ?>analisis_indikator">Pengaturan Indikator Analisis</a></li>
+			<li class="active">Pengaturan Nilai</li>
+		</ol>
+	</section>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-4 col-lg-3">
+					<?php $this->load->view('analisis_master/left',$data);?>
+				</div>
+				<div class="col-md-8 col-lg-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?= site_url("analisis_indikator/form_parameter/$analisis_indikator[id]") ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Ukuran Ukuran/Nilai Baru"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Parameter"><i class="fa fa-plus"></i> Tambah Ukuran Ukuran/Nilai Baru</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("analisis_indikator/p_delete_all/$analisis_indikator[id]") ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="<?= site_url() ?>analisis_indikator" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Indikator Analisis</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<form id="mainform" name="mainform" action="" method="post">
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered dataTable table-hover nowrap">
+															<thead class="bg-gray disabled color-palette">
+																<tr>
+																	<?php if ($analisis_master['lock']==1): ?>
+																		<th><input type="checkbox" id="checkall"/></th>
+																	<?php endif; ?>
+																	<th>No</th>
+																	<?php if ($analisis_master['lock']==1): ?>
+																		<th>Aksi</th>
+																	<?php endif; ?>
+																	<th>Kode</th>
+																	<th>Jawaban</th>
+																	<th>Nilai/Ukuran</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php foreach ($main as $data): ?>
+																	<tr>
+																		<?php if ($analisis_master['lock']==1): ?>
+																			<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
+																		<?php endif; ?>
+																		<td><?= $data['no']?></td>
+																		<?php if ($analisis_master['lock']==1): ?>
+																			<td nowrap>
+																				<a href="<?= site_url("analisis_indikator/form_parameter/$analisis_indikator[id]/$data[id]") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Parameter"><i class='fa fa-edit'></i></a>
+																				<?php if ($analisis_master['jenis']!=1): ?>
+																					<a href="#" data-href="<?= site_url("analisis_indikator/p_delete/$analisis_indikator[id]/$data[id]") ?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																				<?php endif; ?>
+																			</td>
+																		<?php endif; ?>
+																		<td><?= $data['kode_jawaban']?></td>
+																		<td width="70%"><?= $data['jawaban']?></td>
+																		<td><?= $data['nilai']?></td>
+																	</tr>
+																<?php endforeach; ?>
+															</tbody>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
- </td>
-		 <?php }?>
- <td><?php echo $data['kode_jawaban']?></td>
- <td><?php echo $data['jawaban']?></td>
- <td><?php echo $data['nilai']?></td>
- <td></td>
-		 </tr>
- <?php endforeach; ?>
-		</tbody>
- </table>
- </div>
-	</form>
- <div class="ui-layout-south panel bottom">
- <div class="left">
-<a href="<?php echo site_url()?>analisis_indikator" class="uibutton icon prev">Kembali</a>
- <div class="right">
- </div>
- </div>
+		</form>
+	</section>
 </div>
-</div>
+

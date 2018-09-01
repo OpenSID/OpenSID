@@ -12,7 +12,7 @@ $(function () {
 					xAxis: {
                         categories: [
 						<?php  $i=0;foreach($stat as $data){$i++;?>
-						  <?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){echo "'$i',";}?>
+						  <?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){echo "'$i',";}?>
 						<?php }?>
 						]
 					},
@@ -35,7 +35,7 @@ $(function () {
 				border:1,
                 data: [
 						<?php  foreach($stat as $data){?>
-							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){?>
+							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
 								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
@@ -74,7 +74,7 @@ $(function () {
 				border:1,
                 data: [
 						<?php  foreach($stat as $data){?>
-							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL"){?>
+							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
 								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
@@ -89,6 +89,19 @@ $(function () {
 <script src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
 <script src="<?php echo base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 <script src="<?php echo base_url()?>assets/js/highcharts/exporting.js"></script>
+<style>
+	tr.lebih{
+		display:none;
+	}
+</style>
+<script>
+$(function(){
+	$('#showData').click(function(){
+		$('tr.lebih').show();
+		$('#showData').hide();
+	});
+});
+</script>
 <?php
 
 	echo "
@@ -122,7 +135,7 @@ $(function () {
 				<thead>
 				<tr>
 					<th rowspan=\"2\">No</th>
-					<th rowspan=\"2\">Kelompok</th>
+					<th rowspan=\"2\" style='text-align:left;'>Kelompok</th>
 					<th colspan=\"2\">Jumlah</th>";
           if($jenis_laporan == 'penduduk'){
             echo "<th colspan=\"2\">Laki-laki</th>
@@ -141,8 +154,12 @@ $(function () {
 				</thead>
 				<tbody>";
 				$i=0; $l=0; $p=0;
+				$hide="";$h=0;
+				$jm = count($stat);
 				foreach($stat as $data){
-					echo "<tr>
+					$h++;
+					if($h > 10 AND $jm > 11)$hide="lebih";
+					echo "<tr class=\"$hide\">
 						<td class=\"angka\">".$data['no']."</td>
 						<td>".$data['nama']."</td>
 						<td class=\"angka\">".$data['jumlah']."</td>
@@ -160,6 +177,13 @@ $(function () {
 				echo "
 				</tbody>
 			</table>";
+			if($hide=="lebih"){
+				echo "
+				<div style='margin-left:20px;'>
+				<button class='uibutton special' id='showData'>Selengkapnya...</button>
+				</div>
+				";
+			}
 
 		echo "
 		</div>

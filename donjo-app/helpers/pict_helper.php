@@ -1,8 +1,49 @@
 <?php
 
-function AmbilFoto($foto, $ukuran="kecil_"){
-  $ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
-  $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
+define("FOTO_DEFAULT", base_url() . 'assets/files/user_pict/kuser.png');
+
+/**
+* Tambahkan suffix unik ke nama file
+* @param   string        $namaFile    Nama file asli (beserta ekstensinya)
+* @param   boolean       $urlEncode  Saring nama file dengan urlencode() ?
+* @param   string|NULL   $delimiter  String pemisah nama asli dengan unique id
+* @return  string
+*/
+function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter = NULL)
+{
+    // Delimiter untuk tambahSuffixUniqueKeNamaFile()
+    $delimiterUniqueKey = NULL;
+
+    // Type check
+    $namaFile = is_string($namaFile) ? $namaFile : strval($namaFile);
+    $urlEncode = is_bool($urlEncode) ? $urlEncode : TRUE;
+    $delimiterUniqueKey = (!is_string($delimiter) || empty($delimiter))
+        ? '__sid__' : $delimiter;
+
+    // Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
+    $namaFile = str_replace($delimiterUniqueKey, '__', $namaFile);
+    // Tambahkan suffix nama unik menggunakan uniqid()
+    $namaFileUnik = explode('.', $namaFile);
+    $ekstensiFile = end($namaFileUnik);
+    unset($namaFileUnik[count($namaFileUnik) - 1]);
+    $namaFileUnik = implode('.', $namaFileUnik);
+    $namaFileUnik = urlencode($namaFileUnik).
+    $delimiterUniqueKey.generator().'.'.$ekstensiFile;
+    // Contoh return:
+    // - nama asli = 'kitten.jpg'
+    // - nama unik = 'kitten__sid__xUCc8KO.jpg'
+    return $namaFileUnik;
+}
+
+function AmbilFoto($foto, $ukuran="kecil_")
+{
+  if (empty($foto) OR $foto == 'kuser.png')
+    $file_foto = FOTO_DEFAULT;
+  else {
+    $ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
+    $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
+    if (!file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto)) $file_foto = FOTO_DEFAULT;
+  }
   return $file_foto;
 }
 
@@ -14,6 +55,7 @@ function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar){
 }
 
 function UploadFoto($fupload_name,$old_foto,$tipe_file=""){
+  $tipe_file = TipeFile($_FILES["foto"]);
   $dimensi = array("width"=>100, "height"=>100);
   if($old_foto!="") {
     // Hapus old_foto
@@ -77,6 +119,7 @@ function TipeFile($file_upload){
   if (function_exists('finfo_open')) {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $tipe_file = finfo_file($finfo, $lokasi_file);
+    finfo_close($finfo);
   } else
     $tipe_file = $file_upload['type'];
   return $tipe_file;
@@ -380,18 +423,64 @@ function UploadArea($fupload_name){
   return true;
 }
 
-function UploadLogo($fupload_name,$old_foto,$tipe_file){
-  $dimensi = array("width"=>100, "height"=>100);
-  return UploadResizeImage(LOKASI_LOGO_DESA,$dimensi,"logo",$fupload_name,$fupload_name,$old_foto,$tipe_file);
+/*
+  $dimensi = array("width"=>lebar, "height"=>tinggi)
+*/
+function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out='')
+{
+  // Hanya bisa resize jpeg atau png
+  $mime_type_image = array("image/jpeg", "image/pjpeg", "image/png", "image/x-png");
+  if(!in_array($tipe_file, $mime_type_image)){
+    $_SESSION['error_msg'].= " -> Jenis file tidak bisa di-resize: " . $tipe_file;
+    $_SESSION['success']=-1;
+    return FALSE;
+  }
+
+  if (empty($filepath_out)) $filepath_out = $filepath_in;
+
+  $is_png = ($tipe_file == "image/png" OR $tipe_file == "image/x-png");
+
+  $image = ($is_png) ? imagecreatefrompng($filepath_in) : imagecreatefromjpeg($filepath_in);
+  $width = imageSX($image);
+  $height = imageSY($image);
+  $new_width = $dimensi["width"];
+  $new_height = $dimensi["height"];
+  if($width>$new_width && $height>$new_height)
+  {
+    if($width < $height){
+      $dst_width = $new_width;
+      $dst_height = ($dst_width/$width)*$height;
+      $cut_height = $dst_height - $new_height;
+      $cut_width = 0;
+    }else{
+      $dst_height = $new_height;
+      $dst_width = ($dst_height/$height)*$width;
+      $cut_width = $dst_width - $new_width;
+      $cut_height = 0;
+    }
+
+    $image_p = imagecreatetruecolor($new_width, $new_height);
+    if ($is_png) {
+      // http://stackoverflow.com/questions/279236/how-do-i-resize-pngs-with-transparency-in-php
+      imagealphablending($image_p, false);
+      imagesavealpha($image_p, true);
+    }
+    imagecopyresampled($image_p, $image, 0, 0, $cut_width, $cut_height, $dst_width, $dst_height, $width, $height);
+    if ($is_png)
+      imagepng($image_p,$filepath_out,5);
+    else
+      imagejpeg($image_p,$filepath_out);
+    imagedestroy($image_p);
+    imagedestroy($image);
+  } else {
+    // Ukuran file tidak perlu di-resize
+    copy($filepath_in, $filepath_out);
+    imagedestroy($image);
+  }
+  return TRUE;
 }
 
-function UploadLogox($fupload_name){
- $vdir_upload = "assets/images/background/";
-  $vfile_upload = $vdir_upload . $fupload_name;
-
-  move_uploaded_file($_FILES["logo"]["tmp_name"], $vfile_upload);
-}
-/**
+/**   TODO: tulis ulang semua penggunaan supaya menggunakan resizeImage()
 * $jenis_upload contoh "logo", "foto"
 * $dimensi = array("width"=>lebar, "height"=>tinggi)
 * $lokasi contoh LOKASI_LOGO_DESA

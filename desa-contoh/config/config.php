@@ -15,3 +15,8 @@
 	Gunakan password yg sulit ditebak manusia maupun program otomatis.
 */
 	$config['file_manager'] = "GantiKunciDesa";
+
+// Setting ini untuk menentukan user yang dipercaya. User dengan id di setting ini
+// dapat membuat artikel berisi video yang aktif ditampilkan di Web.
+// Misalnya, ganti dengan id = 1 jika ingin membuat pengguna admin sebagai pengguna terpecaya.
+	$config['user_admin'] = 0;

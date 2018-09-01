@@ -1,36 +1,56 @@
-<div id="pageC" class = "kode-isian">
-  <div class="content-header">
-  </div>
-  <div id="contentpane">
-    <div class="ui-layout-north panel"><h3>Kode Isian Form Surat <?php echo $surat_master['nama']?></h3></div>
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-      <p>
-        Kode isian pada tabel di bawah dapat dimasukkan ke dalam template RTF Export Doc untuk jenis surat ini.
-      </p><p>
-        Pada waktu mencetak surat Export Doc memakai template itu, kode isian di bawah akan diganti
-        dengan data yang diisi pada form isian untuk jenis surat ini.
-      </p>
-      <table class="list">
-        <thead>
-          <tr>
-            <th>Kode</th>
-            <th>Data di Form Isian</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach($inputs as $kode => $keterangan) {?>
-            <tr>
-              <td>[form_<?php echo $kode?>]</td>
-              <td><?php echo $keterangan?></td>
-            </tr>
-          <?php } ?>
-        </tbody>
-      </table>
-    </div>
-    <div class="ui-layout-south panel bottom">
-      <div class="left">
-      <a href="<?php echo site_url()?>surat_master" class="uibutton icon prev">Kembali</a>
-      </div>
-    </div>
-  </div>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Kode Isian Form Surat</h1>
+		<ol class="breadcrumb">
+      <li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('surat_master')?>"> Format Surat Desa</a></li>
+			<li class="active">Kode Isian Form Surat</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+				  <div class="box-header with-border">
+						<a href="<?=site_url("surat_master")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Format Surat
+           	</a>
+					</div>
+					<div class="box-header with-border">
+						<h3 class="box-title"><i class="fa fa-info-circle"></i> <strong>Kode Isian Format Surat <?= $surat_master['nama']?></strong></h3>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-7">
+								<p>
+									Kode isian pada tabel di bawah dapat dimasukkan ke dalam template/Format RTF Ekspor Dok untuk jenis surat ini.
+								</p>
+								<p>
+									Pada waktu mencetak surat Ekspor Dok memakai template itu, kode isian di bawah akan diganti dengan data yang diisi pada form isian untuk jenis surat ini.
+								</p>
+							</div>
+							<div class="col-sm-5">
+								<table class="table table-bordered table-hover ">
+									<thead class="bg-gray disabled color-palette">
+										<tr>
+											<th>Kode</th>
+											<th >Data di Form Isian</th>
+										</tr>
+									</thead>
+									<tbody>
+										 <?php foreach ($inputs as $kode => $keterangan): ?>
+											<tr>
+												<td style="padding-top : 10px;padding-bottom : 10px; " >[form_<?= $kode?>]</td>
+												<td><?= $keterangan?></td>
+											</tr>
+										  <?php endforeach; ?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>
