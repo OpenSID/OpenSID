@@ -5,17 +5,18 @@
 	private $versionMigrate = array(
 		'2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
 		'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
-		'2.5' => array('migrate' => 'migrasi_25_ke_26','nextVersion' => '2.6'),
-		'2.6' => array('migrate' => 'migrasi_26_ke_27','nextVersion' => '2.7'),
-		'2.7' => array('migrate' => 'migrasi_27_ke_28','nextVersion' => '2.8'),
-		'2.8' => array('migrate' => 'migrasi_28_ke_29','nextVersion' => '2.9'),
-		'2.9' => array('migrate' => 'migrasi_29_ke_210','nextVersion' => '2.10'),
-		'2.10' => array('migrate' => 'migrasi_210_ke_211','nextVersion' => '2.11'),
-		'2.11' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => '18.06'),
-		'2.12' => array('migrate' => 'migrasi_211_ke_1806','nextVersion' => '18.06'),
-		'18.06' => array('migrate' => 'migrasi_1806_ke_1807','nextVersion' => '18.08'),
-		'18.07' => array('migrate' => 'migrasi_1806_ke_1807','nextVersion' => '18.08'),
-		'18.08' => array('migrate' => 'migrasi_1808_ke_1809','nextVersion' => NULL)
+		'2.5' => array('migrate' => 'migrasi_25_ke_26', 'nextVersion' => '2.6'),
+		'2.6' => array('migrate' => 'migrasi_26_ke_27', 'nextVersion' => '2.7'),
+		'2.7' => array('migrate' => 'migrasi_27_ke_28', 'nextVersion' => '2.8'),
+		'2.8' => array('migrate' => 'migrasi_28_ke_29', 'nextVersion' => '2.9'),
+		'2.9' => array('migrate' => 'migrasi_29_ke_210', 'nextVersion' => '2.10'),
+		'2.10' => array('migrate' => 'migrasi_210_ke_211', 'nextVersion' => '2.11'),
+		'2.11' => array('migrate' => 'migrasi_211_ke_1806', 'nextVersion' => '18.06'),
+		'2.12' => array('migrate' => 'migrasi_211_ke_1806', 'nextVersion' => '18.06'),
+		'18.06' => array('migrate' => 'migrasi_1806_ke_1807', 'nextVersion' => '18.08'),
+		'18.07' => array('migrate' => 'migrasi_1806_ke_1807', 'nextVersion' => '18.08'),
+		'18.08' => array('migrate' => 'migrasi_1808_ke_1809', 'nextVersion' => '18.09'),
+		'18.09' => array('migrate' => 'migrasi_1809_ke_1810', 'nextVersion' => NULL)
 	);
 
 	function __construct(){
@@ -95,68 +96,75 @@
   }
 
   private function getCurrentVersion(){
-    // Untuk kasus tabel setting_aplikasi belum ada
-    if (!$this->db->table_exists('setting_aplikasi')) return NULL;
-    $result = NULL;
-    $_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
-    if(!empty($_result)){
-      $result = $_result->value;
-    }
-    return $result;
+	// Untuk kasus tabel setting_aplikasi belum ada
+	if (!$this->db->table_exists('setting_aplikasi')) return NULL;
+	$result = NULL;
+	$_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
+	if(!empty($_result)){
+	  $result = $_result->value;
+	}
+	return $result;
   }
 
   function _migrasi_db_cri() {
-    $this->migrasi_cri_lama();
-    $this->migrasi_03_ke_04();
-    $this->migrasi_08_ke_081();
-    $this->migrasi_082_ke_09();
-    $this->migrasi_092_ke_010();
-    $this->migrasi_010_ke_10();
-    $this->migrasi_10_ke_11();
-    $this->migrasi_111_ke_12();
-    $this->migrasi_124_ke_13();
-    $this->migrasi_13_ke_14();
-    $this->migrasi_14_ke_15();
-    $this->migrasi_15_ke_16();
-    $this->migrasi_16_ke_17();
-    $this->migrasi_17_ke_18();
-    $this->migrasi_18_ke_19();
-    $this->migrasi_19_ke_110();
-    $this->migrasi_110_ke_111();
-    $this->migrasi_111_ke_112();
-    $this->migrasi_112_ke_113();
-    $this->migrasi_113_ke_114();
-    $this->migrasi_114_ke_115();
-    $this->migrasi_115_ke_116();
-    $this->migrasi_116_ke_117();
-    $this->migrasi_117_ke_20();
-    $this->migrasi_20_ke_21();
-    $this->migrasi_21_ke_22();
-    $this->migrasi_22_ke_23();
-    $this->migrasi_23_ke_24();
-    $this->migrasi_24_ke_25();
-    $this->migrasi_25_ke_26();
-    $this->migrasi_26_ke_27();
-    $this->migrasi_27_ke_28();
-    $this->migrasi_28_ke_29();
-    $this->migrasi_29_ke_210();
-    $this->migrasi_210_ke_211();
-    $this->migrasi_211_ke_1806();
-    $this->migrasi_1806_ke_1807();
-    $this->migrasi_1808_ke_1809();
+	$this->migrasi_cri_lama();
+	$this->migrasi_03_ke_04();
+	$this->migrasi_08_ke_081();
+	$this->migrasi_082_ke_09();
+	$this->migrasi_092_ke_010();
+	$this->migrasi_010_ke_10();
+	$this->migrasi_10_ke_11();
+	$this->migrasi_111_ke_12();
+	$this->migrasi_124_ke_13();
+	$this->migrasi_13_ke_14();
+	$this->migrasi_14_ke_15();
+	$this->migrasi_15_ke_16();
+	$this->migrasi_16_ke_17();
+	$this->migrasi_17_ke_18();
+	$this->migrasi_18_ke_19();
+	$this->migrasi_19_ke_110();
+	$this->migrasi_110_ke_111();
+	$this->migrasi_111_ke_112();
+	$this->migrasi_112_ke_113();
+	$this->migrasi_113_ke_114();
+	$this->migrasi_114_ke_115();
+	$this->migrasi_115_ke_116();
+	$this->migrasi_116_ke_117();
+	$this->migrasi_117_ke_20();
+	$this->migrasi_20_ke_21();
+	$this->migrasi_21_ke_22();
+	$this->migrasi_22_ke_23();
+	$this->migrasi_23_ke_24();
+	$this->migrasi_24_ke_25();
+	$this->migrasi_25_ke_26();
+	$this->migrasi_26_ke_27();
+	$this->migrasi_27_ke_28();
+	$this->migrasi_28_ke_29();
+	$this->migrasi_29_ke_210();
+	$this->migrasi_210_ke_211();
+	$this->migrasi_211_ke_1806();
+	$this->migrasi_1806_ke_1807();
+	$this->migrasi_1808_ke_1809();
+	$this->migrasi_1809_ke_1810();
   }
+
+  private function migrasi_1809_ke_1810()
+  {
+		//Perbaiki ikon untuk modul Sekretariat
+		 $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'fa-archive'));
+	}
 
   function migrasi_1808_ke_1809()
   {
-    // Hapus tabel inventaris lama
-    $query = "DROP TABLE IF EXISTS mutasi_inventaris;";
-    $this->db->query($query);
-    $query = "DROP TABLE IF EXISTS inventaris;";
-    $this->db->query($query);
-    $query = "DROP TABLE IF EXISTS jenis_barang;";
-    $this->db->query($query);
+	// Hapus tabel inventaris lama
+	$query = "DROP TABLE IF EXISTS mutasi_inventaris;";
+	$this->db->query($query);
+	$query = "DROP TABLE IF EXISTS inventaris;";
+	$this->db->query($query);
+	$query = "DROP TABLE IF EXISTS jenis_barang;";
+	$this->db->query($query);
 
-    // Siapkan warna polygon dan line supaya tampak di tampilan-admin baru
+	// Siapkan warna polygon dan line supaya tampak di tampilan-admin baru
 		$sql = "UPDATE polygon SET color = CONCAT('#', color)
 				WHERE color NOT LIKE '#%' AND color <> ''
 		";
@@ -166,148 +174,148 @@
 		";
 		$this->db->query($sql);
 
-    // Tambahkan perubahan menu untuk tampilan-admin baru
-    if (!$this->db->field_exists('parent', 'setting_modul') or strpos($this->getCurrentVersion(), '18.08') !== false)
-    {
-      if (!$this->db->field_exists('parent', 'setting_modul'))
-      {
-        $fields = array();
-        $fields['parent'] = array(
-            'type' => 'int',
-            'constraint' => 2,
-            'null' => FALSE,
-            'default' => 0
-        );
-        $this->dbforge->add_column('setting_modul', $fields);
-      }
+	// Tambahkan perubahan menu untuk tampilan-admin baru
+	if (!$this->db->field_exists('parent', 'setting_modul') or strpos($this->getCurrentVersion(), '18.08') !== false)
+	{
+	  if (!$this->db->field_exists('parent', 'setting_modul'))
+	  {
+		$fields = array();
+		$fields['parent'] = array(
+			'type' => 'int',
+			'constraint' => 2,
+			'null' => FALSE,
+			'default' => 0
+		);
+		$this->dbforge->add_column('setting_modul', $fields);
+	  }
 
-      $this->db->truncate('setting_modul');
-      $query = "
-        INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
-        ('1', 'Home', 'hom_sid', '1', 'fa-home', '1', '2', '0', '1', 'fa fa-home'),
-        ('200', 'Info [Desa]', 'hom_desa', '1', 'fa-dashboard', '2', '2', '0', '1', 'fa fa-home'),
-        ('2', 'Kependudukan', 'penduduk/clear', '1', 'fa-users', '3', '2', '0', '0', 'fa fa-users'),
-        ('3', 'Statistik', 'statistik', '1', 'fa-line-chart', '4', '2', '0', '0', 'fa fa-line-chart'),
-        ('4', 'Layanan Surat', 'surat', '1', 'fa-book', '5', '2', '0', '0', 'fa fa-book'),
-        ('5', 'Analisis', 'analisis_master/clear', '1', '   fa-check-square-o', '6', '2', '0', '0', 'fa fa-check-square-o'),
-        ('6', 'Bantuan', 'program_bantuan/clear', '1', 'fa-heart', '7', '2', '0', '0', 'fa fa-heart'),
-        ('7', 'Pertanahan', 'data_persil/clear', '1', 'fa-map-signs', '8', '2', '0', '0', 'fa fa-map-signs'),
-        ('8', 'Pengaturan Peta', 'plan', '1', 'fa-location-arrow', '9', '2', '9', '0', 'fa fa-location-arrow'),
-        ('9', 'Pemetaan', 'gis', '1', 'fa-globe', '10', '2', '0', '0', 'fa fa-globe'),
-        ('10', 'SMS', 'sms', '1', 'fa-envelope', '11', '2', '0', '0', 'fa fa-envelope'),
-        ('11', 'Pengaturan', 'man_user/clear', '1', 'fa-users', '12', '1', '0', '1', 'fa-users'),
-        ('13', 'Admin Web', 'web', '1', 'fa-desktop', '14', '4', '0', '0', 'fa fa-desktop'),
-        ('14', 'Layanan Mandiri', 'lapor', '1', 'fa-inbox', '15', '2', '0', '0', 'fa fa-inbox'),
-        ('15', 'Sekretariat', 'sekretariat', '1', 'fa-archive', '5', '2', '0', '0', 'fa fa-archive'),
-        ('16', 'SID', 'hom_sid', '1', 'fa-globe', '1', '2', '1', '0', ''),
-        ('17', 'Identitas [Desa]', 'hom_desa/konfigurasi', '1', 'fa-id-card', '2', '2', '200', '0', ''),
-        ('18', 'Pemerintahan [Desa]', 'pengurus', '1', 'fa-sitemap', '3', '2', '200', '0', ''),
-        ('19', 'Donasi', 'hom_sid/donasi', '1', 'fa-money', '4', '2', '1', '0', ''),
-        ('20', 'Wilayah Administratif', 'sid_core', '1', 'fa-map', '2', '2', '200', '0', ''),
-        ('21', 'Penduduk', 'penduduk/clear', '1', 'fa-user', '2', '2', '2', '0', ''),
-        ('22', 'Keluarga', 'keluarga/clear', '1', 'fa-users', '3', '2', '2', '0', ''),
-        ('23', 'Rumah Tangga', 'rtm/clear', '1', 'fa-venus-mars', '4', '2', '2', '0', ''),
-        ('24', 'Kelompok', 'kelompok/clear', '1', 'fa-sitemap', '5', '2', '2', '0', ''),
-        ('25', 'Data Suplemen', 'suplemen', '1', 'fa-slideshare', '6', '2', '2', '0', ''),
-        ('26', 'Calon Pemilih', 'dpt/clear', '1', 'fa-podcast', '7', '2', '2', '0', ''),
-        ('27', 'Statistik Kependudukan', 'statistik', '1', 'fa-bar-chart', '1', '2', '3', '0', ''),
-        ('28', 'Laporan Bulanan', 'laporan/clear', '1', 'fa-file-text', '2', '2', '3', '0', ''),
-        ('29', 'Laporan Kelompok Rentan', 'laporan_rentan/clear', '1', 'fa-wheelchair', '3', '2', '3', '0', ''),
-        ('30', 'Pengaturan Surat', 'surat_master/clear', '1', 'fa-cog', '1', '2', '4', '0', ''),
-        ('31', 'Cetak Surat', 'surat', '1', 'fa-files-o', '2', '2', '4', '0', ''),
-        ('32', 'Arsip Layanan', 'keluar', '1', 'fa-folder-open', '3', '2', '4', '0', ''),
-        ('33', 'Panduan', 'surat/panduan', '1', 'fa fa-book', '4', '2', '4', '0', ''),
-        ('39', 'SMS', 'sms', '1', 'fa-envelope-open-o', '1', '2', '10', '0', ''),
-        ('40', 'Daftar Kontak', 'sms/kontak', '1', 'fa-id-card-o', '2', '2', '10', '0', ''),
-        ('41', 'Pengaturan SMS', 'sms/setting', '1', 'fa-gear', '3', '2', '10', '0', ''),
-        ('42', 'Modul', 'modul', '1', 'fa-tags', '1', '1', '11', '0', ''),
-        ('43', 'Aplikasi', 'setting', '1', 'fa-codepen', '2', '1', '11', '0', ''),
-        ('44', 'Pengguna', 'man_user', '1', 'fa-users', '3', '1', '11', '0', ''),
-        ('45', 'Database', 'database', '1', 'fa-database', '4', '1', '11', '0', ''),
-        ('46', 'Info Sistem', 'setting/info_sistem', '1', 'fa-server', '5', '1', '11', '0', ''),
-        ('47', 'Artikel', 'web/index/1', '1', 'fa-file-movie-o', '1', '4', '13', '0', ''),
-        ('48', 'Widget', 'web_widget', '1', 'fa-windows', '2', '4', '13', '0', ''),
-        ('49', 'Menu', 'menu/index/1', '1', 'fa-bars', '3', '4', '13', '0', ''),
-        ('50', 'Komentar', 'komentar', '1', 'fa-comments', '4', '4', '13', '0', ''),
-        ('51', 'Galeri', 'gallery', '1', 'fa-image', '5', '5', '13', '0', ''),
-        ('52', 'Dokumen', 'dokumen', '1', 'fa-file-text', '6', '4', '13', '0', ''),
-        ('53', 'Media Sosial', 'sosmed', '1', 'fa-facebook', '7', '4', '13', '0', ''),
-        ('54', 'Slider', 'web/slider', '1', 'fa-film', '8', '4', '13', '0', ''),
-        ('55', 'Laporan Masuk', 'lapor', '1', 'fa-wechat', '1', '2', '14', '0', ''),
-        ('56', 'Pendaftar Layanan Mandiri', 'mandiri/clear', '1', 'fa-500px', '2', '2', '14', '0', ''),
-        ('57', 'Surat Masuk', 'surat_masuk', '1', 'fa-sign-in', '1', '2', '15', '0', ''),
-        ('58', 'Surat Keluar', '', '2', 'fa-sign-out', '2', '2', '15', '0', ''),
-        ('59', 'SK Kades', 'dokumen_sekretariat/index/2', '1', 'fa-legal', '3', '2', '15', '0', ''),
-        ('60', 'Perdes', 'dokumen_sekretariat/index/3', '1', 'fa-newspaper-o', '4', '2', '15', '0', ''),
-        ('61', 'Inventaris', 'inventaris_tanah', '1', 'fa-cubes', '5', '2', '15', '0', ''),
-        ('62', 'Peta', 'gis', '1', 'fa-globe', '1', '2', '9', '0', 'fa fa-globe');
-      ";
-      $this->db->query($query);
-    }
+	  $this->db->truncate('setting_modul');
+	  $query = "
+		INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
+		('1', 'Home', 'hom_sid', '1', 'fa-home', '1', '2', '0', '1', 'fa fa-home'),
+		('200', 'Info [Desa]', 'hom_desa', '1', 'fa-dashboard', '2', '2', '0', '1', 'fa fa-home'),
+		('2', 'Kependudukan', 'penduduk/clear', '1', 'fa-users', '3', '2', '0', '0', 'fa fa-users'),
+		('3', 'Statistik', 'statistik', '1', 'fa-line-chart', '4', '2', '0', '0', 'fa fa-line-chart'),
+		('4', 'Layanan Surat', 'surat', '1', 'fa-book', '5', '2', '0', '0', 'fa fa-book'),
+		('5', 'Analisis', 'analisis_master/clear', '1', '   fa-check-square-o', '6', '2', '0', '0', 'fa fa-check-square-o'),
+		('6', 'Bantuan', 'program_bantuan/clear', '1', 'fa-heart', '7', '2', '0', '0', 'fa fa-heart'),
+		('7', 'Pertanahan', 'data_persil/clear', '1', 'fa-map-signs', '8', '2', '0', '0', 'fa fa-map-signs'),
+		('8', 'Pengaturan Peta', 'plan', '1', 'fa-location-arrow', '9', '2', '9', '0', 'fa fa-location-arrow'),
+		('9', 'Pemetaan', 'gis', '1', 'fa-globe', '10', '2', '0', '0', 'fa fa-globe'),
+		('10', 'SMS', 'sms', '1', 'fa-envelope', '11', '2', '0', '0', 'fa fa-envelope'),
+		('11', 'Pengaturan', 'man_user/clear', '1', 'fa-users', '12', '1', '0', '1', 'fa-users'),
+		('13', 'Admin Web', 'web', '1', 'fa-desktop', '14', '4', '0', '0', 'fa fa-desktop'),
+		('14', 'Layanan Mandiri', 'lapor', '1', 'fa-inbox', '15', '2', '0', '0', 'fa fa-inbox'),
+		('15', 'Sekretariat', 'sekretariat', '1', 'fa-archive', '5', '2', '0', '0', 'fa fa-archive'),
+		('16', 'SID', 'hom_sid', '1', 'fa-globe', '1', '2', '1', '0', ''),
+		('17', 'Identitas [Desa]', 'hom_desa/konfigurasi', '1', 'fa-id-card', '2', '2', '200', '0', ''),
+		('18', 'Pemerintahan [Desa]', 'pengurus', '1', 'fa-sitemap', '3', '2', '200', '0', ''),
+		('19', 'Donasi', 'hom_sid/donasi', '1', 'fa-money', '4', '2', '1', '0', ''),
+		('20', 'Wilayah Administratif', 'sid_core', '1', 'fa-map', '2', '2', '200', '0', ''),
+		('21', 'Penduduk', 'penduduk/clear', '1', 'fa-user', '2', '2', '2', '0', ''),
+		('22', 'Keluarga', 'keluarga/clear', '1', 'fa-users', '3', '2', '2', '0', ''),
+		('23', 'Rumah Tangga', 'rtm/clear', '1', 'fa-venus-mars', '4', '2', '2', '0', ''),
+		('24', 'Kelompok', 'kelompok/clear', '1', 'fa-sitemap', '5', '2', '2', '0', ''),
+		('25', 'Data Suplemen', 'suplemen', '1', 'fa-slideshare', '6', '2', '2', '0', ''),
+		('26', 'Calon Pemilih', 'dpt/clear', '1', 'fa-podcast', '7', '2', '2', '0', ''),
+		('27', 'Statistik Kependudukan', 'statistik', '1', 'fa-bar-chart', '1', '2', '3', '0', ''),
+		('28', 'Laporan Bulanan', 'laporan/clear', '1', 'fa-file-text', '2', '2', '3', '0', ''),
+		('29', 'Laporan Kelompok Rentan', 'laporan_rentan/clear', '1', 'fa-wheelchair', '3', '2', '3', '0', ''),
+		('30', 'Pengaturan Surat', 'surat_master/clear', '1', 'fa-cog', '1', '2', '4', '0', ''),
+		('31', 'Cetak Surat', 'surat', '1', 'fa-files-o', '2', '2', '4', '0', ''),
+		('32', 'Arsip Layanan', 'keluar', '1', 'fa-folder-open', '3', '2', '4', '0', ''),
+		('33', 'Panduan', 'surat/panduan', '1', 'fa fa-book', '4', '2', '4', '0', ''),
+		('39', 'SMS', 'sms', '1', 'fa-envelope-open-o', '1', '2', '10', '0', ''),
+		('40', 'Daftar Kontak', 'sms/kontak', '1', 'fa-id-card-o', '2', '2', '10', '0', ''),
+		('41', 'Pengaturan SMS', 'sms/setting', '1', 'fa-gear', '3', '2', '10', '0', ''),
+		('42', 'Modul', 'modul', '1', 'fa-tags', '1', '1', '11', '0', ''),
+		('43', 'Aplikasi', 'setting', '1', 'fa-codepen', '2', '1', '11', '0', ''),
+		('44', 'Pengguna', 'man_user', '1', 'fa-users', '3', '1', '11', '0', ''),
+		('45', 'Database', 'database', '1', 'fa-database', '4', '1', '11', '0', ''),
+		('46', 'Info Sistem', 'setting/info_sistem', '1', 'fa-server', '5', '1', '11', '0', ''),
+		('47', 'Artikel', 'web/index/1', '1', 'fa-file-movie-o', '1', '4', '13', '0', ''),
+		('48', 'Widget', 'web_widget', '1', 'fa-windows', '2', '4', '13', '0', ''),
+		('49', 'Menu', 'menu/index/1', '1', 'fa-bars', '3', '4', '13', '0', ''),
+		('50', 'Komentar', 'komentar', '1', 'fa-comments', '4', '4', '13', '0', ''),
+		('51', 'Galeri', 'gallery', '1', 'fa-image', '5', '5', '13', '0', ''),
+		('52', 'Dokumen', 'dokumen', '1', 'fa-file-text', '6', '4', '13', '0', ''),
+		('53', 'Media Sosial', 'sosmed', '1', 'fa-facebook', '7', '4', '13', '0', ''),
+		('54', 'Slider', 'web/slider', '1', 'fa-film', '8', '4', '13', '0', ''),
+		('55', 'Laporan Masuk', 'lapor', '1', 'fa-wechat', '1', '2', '14', '0', ''),
+		('56', 'Pendaftar Layanan Mandiri', 'mandiri/clear', '1', 'fa-500px', '2', '2', '14', '0', ''),
+		('57', 'Surat Masuk', 'surat_masuk', '1', 'fa-sign-in', '1', '2', '15', '0', ''),
+		('58', 'Surat Keluar', '', '2', 'fa-sign-out', '2', '2', '15', '0', ''),
+		('59', 'SK Kades', 'dokumen_sekretariat/index/2', '1', 'fa-legal', '3', '2', '15', '0', ''),
+		('60', 'Perdes', 'dokumen_sekretariat/index/3', '1', 'fa-newspaper-o', '4', '2', '15', '0', ''),
+		('61', 'Inventaris', 'inventaris_tanah', '1', 'fa-cubes', '5', '2', '15', '0', ''),
+		('62', 'Peta', 'gis', '1', 'fa-globe', '1', '2', '9', '0', 'fa fa-globe');
+	  ";
+	  $this->db->query($query);
+	}
 
-    if ($this->db->table_exists('anggota_grup_kontak'))
-        return;
-    // Perubahan tabel untuk modul SMS
-    // buat table anggota_grup_kontak
-    $sql = array(
-      'id_grup_kontak'  =>  array(
-          'type' => 'INT',
-          'constraint' => 11,
-          'unsigned' => FALSE,
-          'auto_increment' => TRUE
-        ),
-      'id_grup'  =>  array(
-          'type' => 'INT',
-          'constraint' => 11,
-          'unsigned' => FALSE
-        ),
-      'id_kontak'  =>  array(
-          'type' => 'INT',
-          'constraint' => 11,
-          'unsigned' => FALSE
-        )
-      );
-    $this->dbforge->add_field($sql);
-    $this->dbforge->add_key("id_grup_kontak", TRUE);
-    $this->dbforge->create_table('anggota_grup_kontak', FALSE, array('ENGINE' => $this->engine));
+	if ($this->db->table_exists('anggota_grup_kontak'))
+		return;
+	// Perubahan tabel untuk modul SMS
+	// buat table anggota_grup_kontak
+	$sql = array(
+	  'id_grup_kontak'  =>  array(
+		  'type' => 'INT',
+		  'constraint' => 11,
+		  'unsigned' => FALSE,
+		  'auto_increment' => TRUE
+		),
+	  'id_grup'  =>  array(
+		  'type' => 'INT',
+		  'constraint' => 11,
+		  'unsigned' => FALSE
+		),
+	  'id_kontak'  =>  array(
+		  'type' => 'INT',
+		  'constraint' => 11,
+		  'unsigned' => FALSE
+		)
+	  );
+	$this->dbforge->add_field($sql);
+	$this->dbforge->add_key("id_grup_kontak", TRUE);
+	$this->dbforge->create_table('anggota_grup_kontak', FALSE, array('ENGINE' => $this->engine));
 
-    //perbaikan penamaan grup agar tidak ada html url code
-    $this->db->query("UPDATE kontak_grup SET nama_grup = REPLACE(nama_grup, '%20', ' ')");
-    //memindahkan isi kontak_grup ke anggota_grup_kontak
-    $this->db->query("INSERT INTO anggota_grup_kontak (id_grup, id_kontak) SELECT b.id as id_grup, a.id_kontak FROM kontak_grup a RIGHT JOIN (SELECT id,nama_grup FROM kontak_grup GROUP BY nama_grup) b on a.nama_grup = b.nama_grup WHERE a.id_kontak <> 0");
-    //Memperbaiki record kontak_grup agar tidak duplikat
-    $this->db->query("DELETE t1 FROM kontak_grup t1 INNER JOIN kontak_grup t2  WHERE t1.id > t2.id AND t1.nama_grup = t2.nama_grup");
+	//perbaikan penamaan grup agar tidak ada html url code
+	$this->db->query("UPDATE kontak_grup SET nama_grup = REPLACE(nama_grup, '%20', ' ')");
+	//memindahkan isi kontak_grup ke anggota_grup_kontak
+	$this->db->query("INSERT INTO anggota_grup_kontak (id_grup, id_kontak) SELECT b.id as id_grup, a.id_kontak FROM kontak_grup a RIGHT JOIN (SELECT id,nama_grup FROM kontak_grup GROUP BY nama_grup) b on a.nama_grup = b.nama_grup WHERE a.id_kontak <> 0");
+	//Memperbaiki record kontak_grup agar tidak duplikat
+	$this->db->query("DELETE t1 FROM kontak_grup t1 INNER JOIN kontak_grup t2  WHERE t1.id > t2.id AND t1.nama_grup = t2.nama_grup");
 
-    //modifikasi tabel kontak dan kontak_grup
-    if ($this->db->field_exists('id', 'kontak'))
-      $this->dbforge->modify_column('kontak', array('id' => array('name'  =>  'id_kontak', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
-    if ($this->db->field_exists('id_kontak', 'kontak_grup'))
-      $this->dbforge->drop_column('kontak_grup', 'id_kontak');
-    if ($this->db->field_exists('id', 'kontak_grup'))
-      $this->dbforge->modify_column('kontak_grup', array('id' => array('name'  =>  'id_grup', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
+	//modifikasi tabel kontak dan kontak_grup
+	if ($this->db->field_exists('id', 'kontak'))
+	  $this->dbforge->modify_column('kontak', array('id' => array('name'  =>  'id_kontak', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
+	if ($this->db->field_exists('id_kontak', 'kontak_grup'))
+	  $this->dbforge->drop_column('kontak_grup', 'id_kontak');
+	if ($this->db->field_exists('id', 'kontak_grup'))
+	  $this->dbforge->modify_column('kontak_grup', array('id' => array('name'  =>  'id_grup', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
 
-    //menambahkan constraint kolom tabel
-    $this->dbforge->add_column('anggota_grup_kontak',array(
-      'CONSTRAINT `anggota_grup_kontak_ke_kontak` FOREIGN KEY (`id_kontak`) REFERENCES `kontak` (`id_kontak`) ON DELETE CASCADE ON UPDATE CASCADE',
-      'CONSTRAINT `anggota_grup_kontak_ke_kontak_grup` FOREIGN KEY (`id_grup`) REFERENCES `kontak_grup` (`id_grup`) ON DELETE CASCADE ON UPDATE CASCADE'
-    ));
-    $this->dbforge->add_column('kontak',array(
-      'CONSTRAINT `kontak_ke_tweb_penduduk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
-    ));
-    //buat view
-    $this->db->query("DROP VIEW IF EXISTS `daftar_kontak`");
-    $this->db->query("CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,(case when (`b`.`sex` = '1') then 'Laki-laki' else 'Perempuan' end) AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on((`a`.`id_pend` = `b`.`id`)))");
-    $this->db->query("DROP VIEW IF EXISTS `daftar_grup`");
-    $this->db->query("CREATE VIEW `daftar_grup` AS select `a`.*,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where (`a`.`id_grup` = `anggota_grup_kontak`.`id_grup`)) AS `jumlah_anggota` from `kontak_grup` `a`");
-    $this->db->query("DROP VIEW IF EXISTS `daftar_anggota_grup`");
-    $this->db->query("CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)))");
+	//menambahkan constraint kolom tabel
+	$this->dbforge->add_column('anggota_grup_kontak',array(
+	  'CONSTRAINT `anggota_grup_kontak_ke_kontak` FOREIGN KEY (`id_kontak`) REFERENCES `kontak` (`id_kontak`) ON DELETE CASCADE ON UPDATE CASCADE',
+	  'CONSTRAINT `anggota_grup_kontak_ke_kontak_grup` FOREIGN KEY (`id_grup`) REFERENCES `kontak_grup` (`id_grup`) ON DELETE CASCADE ON UPDATE CASCADE'
+	));
+	$this->dbforge->add_column('kontak',array(
+	  'CONSTRAINT `kontak_ke_tweb_penduduk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+	));
+	//buat view
+	$this->db->query("DROP VIEW IF EXISTS `daftar_kontak`");
+	$this->db->query("CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,(case when (`b`.`sex` = '1') then 'Laki-laki' else 'Perempuan' end) AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on((`a`.`id_pend` = `b`.`id`)))");
+	$this->db->query("DROP VIEW IF EXISTS `daftar_grup`");
+	$this->db->query("CREATE VIEW `daftar_grup` AS select `a`.*,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where (`a`.`id_grup` = `anggota_grup_kontak`.`id_grup`)) AS `jumlah_anggota` from `kontak_grup` `a`");
+	$this->db->query("DROP VIEW IF EXISTS `daftar_anggota_grup`");
+	$this->db->query("CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)))");
 
   }
 
   function migrasi_1806_ke_1807()
   {
-    // Tambahkan perubahan database di sini
-    // Tambah kolom di tabel data_persil
+	// Tambahkan perubahan database di sini
+	// Tambah kolom di tabel data_persil
 
 		// Tambah wna_lk, wna_pr di log_bulanan
 		// dan ubah lk menjadi wni_lk, dan pr menjadi wni_pr
@@ -2483,11 +2491,11 @@
 	}
 
 	function kosongkan_db(){
-    // Views tidak perlu dikosongkan.
-    $views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup');
-    // Tabel dengan foreign key akan terkosongkan secara otomatis melalui delete
-    // tabel rujukannya
-    $ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah');
+	// Views tidak perlu dikosongkan.
+	$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup');
+	// Tabel dengan foreign key akan terkosongkan secara otomatis melalui delete
+	// tabel rujukannya
+	$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah');
 		$table_lookup = array(
 			"analisis_ref_state",
 			"analisis_ref_subjek",
@@ -2525,13 +2533,13 @@
 			array_push($table_lookup,"kategori","menu");
 		}
 
-    $jangan_kosongkan = array_merge($views, $ada_foreign_key, $table_lookup);
+	$jangan_kosongkan = array_merge($views, $ada_foreign_key, $table_lookup);
 
 		// Hapus semua artikel kecuali artikel widget dengan kategori 1003
 		$this->db->where("id_kategori !=", "1003");
 		$query = $this->db->delete('artikel');
 		// Kosongkan semua tabel kecuali table lookup dan views
-    // Tabel yang ada foreign key akan dikosongkan secara otomatis
+	// Tabel yang ada foreign key akan dikosongkan secara otomatis
 		$semua_table = $this->db->list_tables();
 		foreach ($semua_table as $table){
 			if (!in_array($table, $jangan_kosongkan)) {

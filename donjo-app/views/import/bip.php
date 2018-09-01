@@ -97,7 +97,7 @@
 																<h4 class='modal-title' id='myModalLabel'>Proses Impor ......</h4>
 															</div>
 															<div class='modal-body'>
-																Harap tunggu sampai proses impor selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan..
+																Harap tunggu sampai proses impor selesai. Proses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan..
 																<div class='text-center'>
 																	<img src='<?= base_url()?>assets/images/background/loading.gif'>
 																</div>
