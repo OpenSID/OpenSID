@@ -303,14 +303,15 @@ class Import_model extends CI_Model{
 		}
 	}
 
-	function hapus_data_penduduk() {
-		$a="TRUNCATE tweb_wil_clusterdesa";
+	private function hapus_data_penduduk()
+	{
+		$a = "DELETE FROM tweb_wil_clusterdesa WHERE 1";
 		$this->db->query($a);
 
-		$a="TRUNCATE tweb_keluarga";
+		$a = "DELETE FROM tweb_keluarga WHERE 1";
 		$this->db->query($a);
 
-		$a="TRUNCATE tweb_penduduk";
+		$a = "DELETE FROM tweb_penduduk WHERE 1";
 		$this->db->query($a);
 	}
 
