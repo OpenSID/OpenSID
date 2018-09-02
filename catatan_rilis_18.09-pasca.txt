@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi], yang terus berkontribusi. Terima kasih juga pad
 Lengkapnya, isi rilis versi 18.09-pasca:
 
 1. #1650: Perbaiki ikon Sekretariat di menu utama. [bug-fix]
+2. #1652: Tautan Nomor KK di tabel calon pemilih sekarang benar menampilkan salinan kartu keluarga. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -151,7 +151,7 @@
 																		<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
 																	</td>
 																	<td><?= strtoupper(unpenetration($data['nama']))?></td>
-																	<td><a href="<?= site_url("dpt/kartu_dpt/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
+																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
 																	<td><?= strtoupper($data['alamat'])?></td>
 																	<td><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
 																	<td><?= $data['rw']?></td>
