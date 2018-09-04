@@ -190,6 +190,8 @@
 			  );
 
 		$backup = '';
+		// Hapus view data_surat yg mungkin ada di database warisan
+		$backup .= "DROP VIEW IF EXISTS "."data_surat".";\n";
 		// Hapus semua views dulu
 		foreach ($views as $view)
 		{
@@ -204,7 +206,7 @@
 		// Semua views dan tabel dgn foreign key di-backup terpisah
 		$prefs = array(
 				'format'      => 'sql',
-				'ignore'			=> array_merge($views, $ada_foreign_key),
+				'ignore'			=> array_merge(array('data_surat'), $views, $ada_foreign_key),
 			  );
 		$backup .= $this->do_backup($prefs);
 		$backup .= $tabel_foreign_key_dan_views;

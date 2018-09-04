@@ -492,6 +492,7 @@ class Import_model extends CI_Model{
 		else $_SESSION['success']=-1;
 	}
 
+	// Impor Pengelompokan Data Rumah Tangga
 	function pbdt_individu(){
 		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
 
@@ -559,7 +560,7 @@ class Import_model extends CI_Model{
 			else $_SESSION['success']=-1;
 
 		echo "<br>JUMLAH GAGAL : $gg</br>";
-		echo "<a href='".site_url()."database/import_ppls'>LANJUT</a>";
+		echo "<a href='".site_url()."database/import'>LANJUT</a>";
 	}
 
 	function ppls_rumahtangga(){

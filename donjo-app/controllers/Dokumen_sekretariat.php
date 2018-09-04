@@ -1,8 +1,9 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Dokumen_sekretariat extends CI_Controller{
+class Dokumen_sekretariat extends CI_Controller {
 
-	function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
@@ -20,27 +21,28 @@ class Dokumen_sekretariat extends CI_Controller{
 		$this->controller = 'dokumen_sekretariat';
 	}
 
-	function clear(){
+	public function clear()
+	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		redirect('dokumen_sekretariat');
 	}
 
-	function index($kat=1, $p=1,$o=0){
+	public function index($kat=1, $p=1, $o=0)
+	{
+		$data['p'] = $p;
+		$data['o'] = $o;
+		$data['kat'] = $kat;
 
-		$data['p']        = $p;
-		$data['o']        = $o;
-		$data['kat']			= $kat;
-
-		if(isset($_SESSION['cari']))
+		if (isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
-		if(isset($_SESSION['filter']))
+		if (isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
-		if(isset($_POST['per_page']))
+		if (isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
@@ -51,112 +53,123 @@ class Dokumen_sekretariat extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-		$nav['act']= 15;
+		$nav['act'] = 15;
 		$nav['act_sub'] = $this->tab_ini;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('dokumen/table',$data);
+		$this->load->view('nav', $nav);
+		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
 	}
 
-	function form($kat=1,$p=1,$o=0,$id=''){
-
+	public function form($kat=1, $p=1, $o=0, $id='')
+	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['kat'] = $kat;
 		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
 
-		if($id){
-			$data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);
+		if ($id)
+		{
+			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id);
 			$data['form_action'] = site_url("dokumen_sekretariat/update/$kat/$id/$p/$o");
 		}
-		else{
-			$data['dokumen']     = null;
+		else
+		{
+			$data['dokumen'] = null;
 			$data['form_action'] = site_url("dokumen_sekretariat/insert");
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-		$nav['act']= 15;
+		$nav['act'] = 15;
 		$nav['act_sub'] = $this->tab_ini;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
-		$this->load->view('dokumen/form',$data);
+		$this->load->view('dokumen/form', $data);
 		$this->load->view('footer');
 	}
 
-	function search(){
+	public function search()
+	{
 		$cari = $this->input->post('cari');
 		$kat = $this->input->post('kategori');
-		if($cari!='')
+		if ($cari != '')
 			$_SESSION['cari']=$cari;
 		else unset($_SESSION['cari']);
 		redirect("dokumen_sekretariat/index/$kat");
 	}
 
-	function filter(){
+	public function filter()
+	{
 		$filter = $this->input->post('filter');
 		$kat = $this->input->post('kategori');
-		if($filter!=0)
+		if ($filter != 0)
 			$_SESSION['filter']=$filter;
 		else unset($_SESSION['filter']);
 		redirect("dokumen_sekretariat/index/$kat");
 	}
 
-	function insert(){
-		$_SESSION['success']=1;
+	public function insert()
+	{
+		$_SESSION['success'] = 1;
 		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->insert();
-		if (!$outp) $_SESSION['success']=-1;
+		if (!$outp) $_SESSION['success'] = -1;
 		redirect("dokumen_sekretariat/index/$kat");
 	}
 
-	function update($kat,$id='',$p=1,$o=0){
-		$_SESSION['success']=1;
+	public function update($kat, $id='', $p=1, $o=0)
+	{
+		$_SESSION['success'] = 1;
 		$kategori = $this->input->post('kategori');
 		if (!empty($kategori))
 			$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->update($id);
-		if (!$outp) $_SESSION['success']=-1;
+		if (!$outp) $_SESSION['success'] = -1;
 		redirect("dokumen_sekretariat/index/$kat/$p/$o");
 	}
 
-	function delete($kat=1,$p=1,$o=0,$id=''){
-		$_SESSION['success']=1;
+	public function delete($kat=1, $p=1, $o=0, $id='')
+	{
+		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen_sekretariat/index/$kat/$p/$o");
 	}
 
-	function delete_all($kat=1,$p=1,$o=0){
-		$_SESSION['success']=1;
+	public function delete_all($kat=1, $p=1, $o=0)
+	{
+		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen_sekretariat/index/$kat/$p/$o");
 	}
 
-	function dokumen_lock($kat=1,$id=''){
-		$this->web_dokumen_model->dokumen_lock($id,1);
+	public function dokumen_lock($kat=1, $id='')
+	{
+		$this->web_dokumen_model->dokumen_lock($id, 1);
 		redirect("dokumen_sekretariat/index/$kat/$p/$o");
 	}
 
-	function dokumen_unlock($kat=1,$id=''){
-		$this->web_dokumen_model->dokumen_lock($id,2);
+	public function dokumen_unlock($kat=1,$id='')
+	{
+		$this->web_dokumen_model->dokumen_lock($id, 2);
 		redirect("dokumen_sekretariat/index/$kat/$p/$o");
 	}
 
-	function dialog_cetak($kat=1)
+	public function dialog_cetak($kat=1)
 	{
 		redirect("dokumen/dialog_cetak/$kat");
 	}
 
-	function dialog_excel($kat=1)
+	public function dialog_excel($kat=1)
 	{
 		redirect("dokumen/dialog_excel/$kat");
 	}
 
-
-	private function _set_tab($kat){
-		switch ($kat) {
+	private function _set_tab($kat)
+	{
+		switch ($kat)
+		{
 			case '2':
 				$this->tab_ini = 59;
 				break;
