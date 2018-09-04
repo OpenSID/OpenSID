@@ -268,4 +268,5 @@ table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:
 {
 	background-color: white !important;
 	opacity: 0.3 !important;
+	width: 6px !important;
 }
