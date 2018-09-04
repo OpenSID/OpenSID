@@ -64,8 +64,8 @@ class Inventaris_asset_model extends CI_Model
 	public function add_mutasi($data)
 	{
 		$this->db->insert($this->table_mutasi, $data);
-		$this->db->update($this->table, array('status' => 1), array('id' => $data['id_inventaris_asset']));
 		$id = $this->db->insert_id();
+		$this->db->update($this->table, array('status' => 1), array('id' => $data['id_inventaris_asset']));
 		$inserted = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
 		return $inserted;
 	}
@@ -103,36 +103,28 @@ class Inventaris_asset_model extends CI_Model
 
 	public function delete($id)
 	{
-		$this->db->update($this->table, array('visible' => 0), array('id' => $id));
-		$id = $this->db->insert_id();
-		$updated = $this->db->get_where($this->table, array('id' => $id))->row();
-		return $updated;
+		$hasil = $this->db->update($this->table, array('visible' => 0), array('id' => $id));
+		return $hasil;
 	}
 
 	public function delete_mutasi($id)
 	{
-		$this->db->update($this->table_mutasi, array('visible' => 0), array('id' => $id));
-		$id = $this->db->insert_id();
-		$updated = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
-		return $updated;
+		$hasil = $this->db->update($this->table_mutasi, array('visible' => 0), array('id' => $id));
+		return $hasil;
 	}
 
 	public function update($id, $data)
 	{
 		$id = $this->input->post('id');
-		$this->db->update($this->table, $data, array('id' => $id));
-		$id = $this->db->insert_id();
-		$updated = $this->db->get_where($this->table, array('id' => $id))->row();
-		return $updated;
+		$hasil = $this->db->update($this->table, $data, array('id' => $id));
+		return $hasil;
 	}
 
 	public function update_mutasi($id, $data)
 	{
 		$id = $this->input->post('id');
-		$this->db->update($this->table_mutasi, $data, array('id' => $id));
-		$id = $this->db->insert_id();
-		$updated = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
-		return $updated;
+		$hasil = $this->db->update($this->table_mutasi, $data, array('id' => $id));
+		return $hasil;
 	}
 
 	public function cetak($tahun)
