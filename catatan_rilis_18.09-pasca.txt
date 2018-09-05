@@ -11,6 +11,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 5. #711: Sekarang penulisan artikel web sudah bisa lagi memilih jenis dan ukuran font yang akan digunakan. [bug-fix]
 6. #1452: Scrollbar di menu navigasi telah diperlebar.
 7. #1663: Sekarang Impor BIP berjalan normal di hosting. [bug-fix]
+8. #1665: Sekarang cetak dan unduh Sekretariat > Surat Masuk berjalan normal kembali. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

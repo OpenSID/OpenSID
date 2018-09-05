@@ -18,7 +18,9 @@
 					<label align="left"><?= get_identitas()?></label>
 					<h3>
 						<span>AGENDA SURAT MASUK</span>
-						<?php if (!empty($_SESSION['filter'])): ?> TAHUN <?= $_SESSION['filter']; ?>
+						<?php if (!empty($_SESSION['filter'])): ?>
+							TAHUN <?= $_SESSION['filter']; ?>
+						<?php endif; ?>
 					</h3>
 					<br>
 				</div>
