@@ -1191,40 +1191,6 @@
 		return $query->row_array();
 	}
 
-	function randomap()
-	{
-
-		$sql   = "SELECT u.id,id_cluster,map.lat,map.lng FROM tweb_penduduk u LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE 1 ";
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
-
-
-		//Formating Output
-		$i=0;
-		while($i<count($data)){
-
-		$lat = "-7.5";
-		$lng = "110.4";
-			$id = $data[$i]['id'];
-
-			//$lat .= random_int(549081020,610339140);
-			//$lng .= random_int(366521873,445829429);
-
-			$lat .= $this->generateRandomString2(1);
-			$lng .= $this->generateRandomString2(1);
-
-			$lat .= $this->generateRandomString(17);
-			$lng .= $this->generateRandomString(17);
-
-			$data2['lat'] = $lat;
-			$data2['lng'] = $lng;
-			$data2['id'] = $id;
-			$this->db->insert('tweb_penduduk_map',$data2);
-
-			$i++;
-		}
-	}
-
 	function generateRandomString($length = 5)
 	{
 		$characters = '0123456789';
