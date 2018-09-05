@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 4. #1658: Sekarang sortir kolom tabel di halaman Analisis Master berjalan normal. [bug-fix]
 5. #711: Sekarang penulisan artikel web sudah bisa lagi memilih jenis dan ukuran font yang akan digunakan. [bug-fix]
 6. #1452: Scrollbar di menu navigasi telah diperlebar.
+7. #1663: Sekarang Impor BIP berjalan normal di hosting. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

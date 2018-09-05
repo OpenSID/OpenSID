@@ -424,7 +424,7 @@ class Import_model extends CI_Model{
 		// atau tidak sebelum melakukan impor
 		if ($hapus) { $this->hapus_data_penduduk(); }
 
-	  require_once APPPATH.'/models/bip_model.php';
+	  require_once APPPATH.'/models/Bip_model.php';
 		$bip = new BIP_Model($data);
 		$bip->impor_bip();
 	}
