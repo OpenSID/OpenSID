@@ -12,6 +12,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 6. #1452: Scrollbar di menu navigasi telah diperlebar.
 7. #1663: Sekarang Impor BIP berjalan normal di hosting. [bug-fix]
 8. #1665: Sekarang cetak dan unduh Sekretariat > Surat Masuk berjalan normal kembali. [bug-fix]
+9. #1668: Sekarang Tanggal Cetak Kartu Keluarga tidak wajib diisi di form Ubah Data KK. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
