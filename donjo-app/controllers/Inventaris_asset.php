@@ -41,7 +41,7 @@ class inventaris_asset extends CI_Controller {
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/asset/table', $data);
 		$this->load->view('footer');
 	}
@@ -55,7 +55,7 @@ class inventaris_asset extends CI_Controller {
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/asset/view_inventaris', $data);
 		$this->load->view('footer');
 	}
@@ -69,7 +69,7 @@ class inventaris_asset extends CI_Controller {
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/asset/view_mutasi', $data);
 		$this->load->view('footer');
 	}
@@ -83,7 +83,7 @@ class inventaris_asset extends CI_Controller {
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/asset/edit_inventaris', $data);
 		$this->load->view('footer');
 	}
@@ -97,7 +97,7 @@ class inventaris_asset extends CI_Controller {
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/asset/edit_mutasi', $data);
 		$this->load->view('footer');
 	}
@@ -110,7 +110,7 @@ class inventaris_asset extends CI_Controller {
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/asset/form_tambah', $data);
 		$this->load->view('footer');
 	}
@@ -124,7 +124,7 @@ class inventaris_asset extends CI_Controller {
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/asset/form_mutasi', $data);
 		$this->load->view('footer');
 	}
@@ -139,7 +139,7 @@ class inventaris_asset extends CI_Controller {
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/asset/table_mutasi', $data);
 		$this->load->view('footer');
 	}
