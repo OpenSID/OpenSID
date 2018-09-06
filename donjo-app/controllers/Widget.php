@@ -2,7 +2,7 @@
 
 class Widget extends CI_Controller {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		session_start();
@@ -20,7 +20,7 @@ class Widget extends CI_Controller {
 		$this->load->model('web_widget_model');
 	}
 
-	function index()
+	public function index()
 	{
 		$data['main'] = $this->web_widget_model->get_widget();
 		$id = $data['main']['id'];
@@ -34,7 +34,7 @@ class Widget extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	function twitter()
+	public function twitter()
 	{
 		$data['main'] = $this->web_widget_model->get_widget();
 		$id = $data['main']['id'];
@@ -48,7 +48,7 @@ class Widget extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	function update($tipe = '', $id = '')
+	public function update($tipe = '', $id = '')
 	{
 		$this->web_widget_model->update($id);
 		if ($tipe == '1')

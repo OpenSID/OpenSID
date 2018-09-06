@@ -2,7 +2,7 @@
 
 class Web_widget extends CI_Controller {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		session_start();
@@ -30,7 +30,7 @@ class Web_widget extends CI_Controller {
 		$this->modul_ini = 13;
 	}
 
-	function clear()
+	public function clear()
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
@@ -38,14 +38,14 @@ class Web_widget extends CI_Controller {
 		redirect('web_widget');
 	}
 
-	function pager()
+	public function pager()
 	{
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		redirect("web_widget");
 	}
 
-	function index($p = 1, $o = 0)
+	public function index($p = 1, $o = 0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -76,7 +76,7 @@ class Web_widget extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	function form($p = 1, $o = 0, $id = '')
+	public function form($p = 1, $o = 0, $id = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -85,7 +85,9 @@ class Web_widget extends CI_Controller {
 		{
 			$data['widget'] = $this->web_widget_model->get_widget($id);
 			$data['form_action'] = site_url("web_widget/update/$id/$p/$o");
-		} else {
+		}
+		else
+		{
 			$data['widget'] = null;
 			$data['form_action'] = site_url("web_widget/insert");
 		}
@@ -101,7 +103,7 @@ class Web_widget extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	function search()
+	public function search()
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
@@ -110,7 +112,7 @@ class Web_widget extends CI_Controller {
 		redirect("web_widget");
 	}
 
-	function filter()
+	public function filter()
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
@@ -119,7 +121,7 @@ class Web_widget extends CI_Controller {
 		redirect("web_widget");
 	}
 
-	function admin($widget)
+	public function admin($widget)
 	{
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -133,48 +135,50 @@ class Web_widget extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	function update_setting($widget)
+	public function update_setting($widget)
 	{
 		$setting = $this->input->post('setting');
-		$this->web_widget_model->update_setting($widget,$setting);
+		$this->web_widget_model->update_setting($widget, $setting);
 		redirect("web_widget/admin/$widget");
 	}
 
-	function insert()
+	public function insert()
 	{
 		$this->web_widget_model->insert();
 		redirect("web_widget");
 	}
 
-	function update($id = '', $p = 1, $o = 0)
+	public function update($id = '', $p = 1, $o = 0)
 	{
 		$this->web_widget_model->update($id);
 		redirect("web_widget");
 	}
 
-	function delete($p = 1, $o = 0, $id = '')
+	public function delete($p = 1, $o = 0, $id = '')
 	{
 		$this->web_widget_model->delete($id);
 		redirect("web_widget");
 	}
 
-	function delete_all($p=1,$o=0){
+	public function delete_all($p = 1,$o = 0)
+	{
 		$this->web_widget_model->delete_all();
 		redirect("web_widget");
 	}
 
-	function urut($id = 0, $arah = 0){
+	public function urut($id = 0, $arah = 0)
+	{
 		$this->web_widget_model->urut($id, $arah);
 		redirect("web_widget");
 	}
 
-	function lock($id = 0)
+	public function lock($id = 0)
 	{
 		$this->web_widget_model->lock($id, 1);
 		redirect("web_widget");
 	}
 
-	function unlock($id = 0)
+	public function unlock($id = 0)
 	{
 		$this->web_widget_model->lock($id, 2);
 		redirect("web_widget");

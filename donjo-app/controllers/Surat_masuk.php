@@ -2,7 +2,7 @@
 
 class Surat_masuk extends CI_Controller {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		session_start();
@@ -26,7 +26,7 @@ class Surat_masuk extends CI_Controller {
 		$this->tab_ini = 2;
 	}
 
-	function clear($id = 0)
+	public function clear($id = 0)
 	{
 		$_SESSION['per_page'] = 20;
 		$_SESSION['surat'] = $id;
@@ -35,7 +35,7 @@ class Surat_masuk extends CI_Controller {
 		redirect('surat_masuk');
 	}
 
-	function index($p = 1, $o = 2)
+	public function index($p = 1, $o = 2)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -67,16 +67,19 @@ class Surat_masuk extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	function form($p = 1, $o = 0, $id = '')
+	public function form($p = 1, $o = 0, $id = '')
 	{
 		$data['pengirim'] = $this->surat_masuk_model->autocomplete_pengirim();
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if ($id) {
+		if ($id)
+		{
 			$data['surat_masuk'] = $this->surat_masuk_model->get_surat_masuk($id);
 			$data['form_action'] = site_url("surat_masuk/update/$p/$o/$id");
-		} else {
+		}
+		else
+		{
 			$data['surat_masuk'] = null;
 			$data['form_action'] = site_url("surat_masuk/insert");
 		}
@@ -95,17 +98,17 @@ class Surat_masuk extends CI_Controller {
 		$this->load->view('header', $header);
 		$nav['act'] = $this->tab_ini;
 		$this->load->view('nav', $nav);
-		$this->load->view('surat_masuk/form',$data);
+		$this->load->view('surat_masuk/form', $data);
 		$this->load->view('footer');
 	}
 
-	function form_upload($p = 1, $o = 0, $url = '')
+	public function form_upload($p = 1, $o = 0, $url = '')
 	{
 		$data['form_action'] = site_url("surat_masuk/upload/$p/$o/$url");
 		$this->load->view('surat_masuk/ajax-upload', $data);
 	}
 
-	function search()
+	public function search()
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
@@ -114,7 +117,7 @@ class Surat_masuk extends CI_Controller {
 		redirect('surat_masuk');
 	}
 
-	function filter()
+	public function filter()
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0) $_SESSION['filter'] = $filter;
@@ -122,37 +125,37 @@ class Surat_masuk extends CI_Controller {
 		redirect('surat_masuk');
 	}
 
-	function insert()
+	public function insert()
 	{
 		$this->surat_masuk_model->insert();
 		redirect('surat_masuk');
 	}
 
-	function update($p = 1, $o = 0, $id = '')
+	public function update($p = 1, $o = 0, $id = '')
 	{
 		$this->surat_masuk_model->update($id);
 		redirect("surat_masuk/index/$p/$o");
 	}
 
-	function upload($p = 1, $o = 0, $url = '')
+	public function upload($p = 1, $o = 0, $url = '')
 	{
 		$this->surat_masuk_model->upload($url);
 		redirect("surat_masuk/index/$p/$o");
 	}
 
-	function delete($p = 1, $o = 0, $id = '')
+	public function delete($p = 1, $o = 0, $id = '')
 	{
 		$this->surat_masuk_model->delete($id);
 		redirect("surat_masuk/index/$p/$o");
 	}
 
-	function delete_all($p = 1, $o = 0)
+	public function delete_all($p = 1, $o = 0)
 	{
 		$this->surat_masuk_model->delete_all();
 		redirect("surat_masuk/index/$p/$o");
 	}
 
-	function cetak($o = 0)
+	public function cetak($o = 0)
 	{
 		$data['input'] = $_POST;
 		$data['desa'] = $this->config_model->get_data();
@@ -160,15 +163,15 @@ class Surat_masuk extends CI_Controller {
 		$this->load->view('surat_masuk/surat_masuk_print', $data);
 	}
 
-	function excel($o = 0)
+	public function excel($o = 0)
 	{
 		$data['input'] = $_POST;
 		$data['desa'] = $this->config_model->get_data();
 		$data['main'] = $this->surat_masuk_model->list_data($o, 0, 10000);
-		$this->load->view('surat_masuk/surat_masuk_excel',$data);
+		$this->load->view('surat_masuk/surat_masuk_excel', $data);
 	}
 
-	function disposisi($id)
+	public function disposisi($id)
 	{
 		$data['input'] = $_POST;
 		$data['desa'] = $this->config_model->get_data();

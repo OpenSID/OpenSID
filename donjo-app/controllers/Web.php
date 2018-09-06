@@ -2,7 +2,7 @@
 
 class Web extends CI_Controller {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		session_start();
@@ -31,23 +31,22 @@ class Web extends CI_Controller {
 		$this->modul_ini = 13;
 	}
 
-	function clear()
+	public function clear()
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		redirect('web');
 	}
 
-	function pager($cat = 1)
+	public function pager($cat = 1)
 	{
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		redirect("web/index/$cat");
 	}
 
-	function index($cat = 1, $p = 1, $o = 0)
+	public function index($cat = 1, $p = 1, $o = 0)
 	{
-
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['cat'] = $cat;
@@ -85,7 +84,7 @@ class Web extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	function form($cat = 1, $p = 1, $o = 0, $id = '')
+	public function form($cat = 1, $p = 1, $o = 0, $id = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -95,7 +94,9 @@ class Web extends CI_Controller {
 		{
 			$data['artikel'] = $this->web_artikel_model->get_artikel($id);
 			$data['form_action'] = site_url("web/update/$cat/$id/$p/$o");
-		} else {
+		}
+		else
+		{
 			$data['artikel'] = null;
 			$data['form_action'] = site_url("web/insert/$cat");
 		}
@@ -108,13 +109,12 @@ class Web extends CI_Controller {
 		$nav['act_sub'] = 47;
 
 		$this->load->view('header', $header);
-		//$this->load->view('web/spacer');
 		$this->load->view('nav', $nav);
 		$this->load->view('web/artikel/form',$data);
 		$this->load->view('footer');
 	}
 
-	function search($cat = 1)
+	public function search($cat = 1)
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
@@ -123,7 +123,7 @@ class Web extends CI_Controller {
 		redirect("web/index/$cat");
 	}
 
-	function filter($cat = 1)
+	public function filter($cat = 1)
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
@@ -132,18 +132,18 @@ class Web extends CI_Controller {
 		redirect("web/index/$cat");
 	}
 
-	function insert($cat = 1)
+	public function insert($cat = 1)
 	{
 		$this->web_artikel_model->insert($cat);
 		redirect("web/index/$cat");
 	}
 
-	function update($cat = 0, $id = '', $p = 1, $o = 0){
+	public function update($cat = 0, $id = '', $p = 1, $o = 0){
 		$this->web_artikel_model->update($cat, $id);
 		redirect("web/index/$cat/$p/$o");
 	}
 
-	function delete($cat = 1, $p = 1, $o = 0, $id = '')
+	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
 	{
 		$_SESSION['success'] = 1;
 		$outp = $this->web_artikel_model->delete($id);
@@ -151,19 +151,19 @@ class Web extends CI_Controller {
 		redirect("web/index/$cat/$p/$o");
 	}
 
-	function hapus($cat = 1, $p = 1, $o = 0)
+	public function hapus($cat = 1, $p = 1, $o = 0)
 	{
 		$this->web_artikel_model->hapus($cat);
 		redirect("web/index/1/$p/$o");
 	}
 
-	function delete_all($cat = 1, $p = 1, $o = 0)
+	public function delete_all($cat = 1, $p = 1, $o = 0)
 	{
 		$this->web_artikel_model->delete_all();
 		redirect("web/index/$p/$o");
 	}
 
-	function ubah_kategori_form($id = 0)
+	public function ubah_kategori_form($id = 0)
 	{
 		$data['list_kategori'] = $this->web_kategori_model->list_kategori("kategori");
 		$data['form_action'] = site_url("web/update_kategori/$id");
@@ -171,63 +171,63 @@ class Web extends CI_Controller {
 		$this->load->view('web/artikel/ajax_ubah_kategori_form', $data);
 	}
 
-	function update_kategori($id = 0)
+	public function update_kategori($id = 0)
 	{
 		$cat = $_POST['kategori'];
 		$this->web_artikel_model->update_kategori($id, $cat);
 		redirect("web/index/$cat");
 	}
 
-	function artikel_lock($cat = 1, $id = 0)
+	public function artikel_lock($cat = 1, $id = 0)
 	{
 		$this->web_artikel_model->artikel_lock($id, 1);
 		redirect("web/index/$cat");
 	}
 
-	function artikel_unlock($cat = 1, $id = 0)
+	public function artikel_unlock($cat = 1, $id = 0)
 	{
 		$this->web_artikel_model->artikel_lock($id, 2);
 		redirect("web/index/$cat");
 	}
 
-	function komentar_lock($cat = 1, $id = 0)
+	public function komentar_lock($cat = 1, $id = 0)
 	{
 		$this->web_artikel_model->komentar_lock($id, 0);
 		redirect("web/index/$cat");
 	}
 
-	function komentar_unlock($cat = 1, $id = 0)
+	public function komentar_unlock($cat = 1, $id = 0)
 	{
 		$this->web_artikel_model->komentar_lock($id, 1);
 		redirect("web/index/$cat");
 	}
 
-	function ajax_add_kategori($cat = 1, $p = 1, $o = 0)
+	public function ajax_add_kategori($cat = 1, $p = 1, $o = 0)
 	{
 
 		$data['form_action'] = site_url("web/insert_kategori/$cat/$p/$o");
 		$this->load->view('web/artikel/ajax_add_kategori_form', $data);
 	}
 
-	function insert_kategori($cat = 1, $p = 1, $o = 0)
+	public function insert_kategori($cat = 1, $p = 1, $o = 0)
 	{
 		$this->web_artikel_model->insert_kategori();
 		redirect("web/index/$cat/$p/$o");
 	}
 
-	function headline($cat = 1, $p = 1, $o = 0, $id = 0)
+	public function headline($cat = 1, $p = 1, $o = 0, $id = 0)
 	{
 		$this->web_artikel_model->headline($id);
 		redirect("web/index/$cat/$p/$o");
 	}
 
-	function slide($cat = 1, $p = 1, $o = 0, $id = 0)
+	public function slide($cat = 1, $p = 1, $o = 0, $id = 0)
 	{
 		$this->web_artikel_model->slide($id);
 		redirect("web/index/$cat/$p/$o");
 	}
 
-	function slider()
+	public function slider()
 	{
 		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
@@ -238,7 +238,7 @@ class Web extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	function update_slider()
+	public function update_slider()
 	{
 		$this->setting_model->update_slider();
 		redirect("web/slider");
