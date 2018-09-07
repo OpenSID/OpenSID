@@ -34,6 +34,7 @@ class Keluarga extends CI_Controller {
 		unset($_SESSION['sex']);
 		unset($_SESSION['kelas']);
 		unset($_SESSION['id_bos']);
+		unset($_SESSION['judul_statistik']);
 		$_SESSION['per_page'] = 100;
 		redirect('keluarga');
 	}

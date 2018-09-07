@@ -13,6 +13,8 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 7. #1663: Sekarang Impor BIP berjalan normal di hosting. [bug-fix]
 8. #1665: Sekarang cetak dan unduh Sekretariat > Surat Masuk berjalan normal kembali. [bug-fix]
 9. #1668: Sekarang Tanggal Cetak Kartu Keluarga tidak wajib diisi di form Ubah Data KK. [bug-fix]
+10. #1672: Sekarang statistik Laporan Kelompok Rentan hanya menampilkan penduduk dengan status dasar 'hidup'. [bug-fix]
+11. #1669: Sekarang judul statistik ditunjukkan pada waktu menampilkan rincian statistik keluarga. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
