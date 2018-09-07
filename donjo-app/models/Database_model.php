@@ -151,7 +151,10 @@
   private function migrasi_1809_ke_1810()
   {
 		//Perbaiki ikon untuk modul Sekretariat
-		 $this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'fa-archive'));
+		$this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'fa-archive'));
+		 // Buat view untuk penduduk hidup -- untuk memudahkan query
+		if (!$this->db->table_exists('penduduk_hidup'))
+			$this->db->query("CREATE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
 	}
 
   function migrasi_1808_ke_1809()

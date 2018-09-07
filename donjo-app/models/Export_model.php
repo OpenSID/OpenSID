@@ -176,18 +176,20 @@
 	function backup() {
 		// Tabel dengan foreign key dan
 		// semua views ditambah di belakang.
-		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup');
+		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup');
 		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah');
 		$prefs = array(
 				'format'      => 'sql',
-				'tables'			=> array_merge($ada_foreign_key, $views),
+				'tables'			=> $ada_foreign_key,
 			  );
-		$tabel_foreign_key_dan_views = $this->do_backup($prefs);
+		$tabel_foreign_key = $this->do_backup($prefs);
 		$prefs = array(
 				'format'      => 'sql',
-				'tables'			=> array('suplemen'),
+				'tables'			=> $views,
+				'add_insert'	=> FALSE
 			  );
+		$create_views = $this->do_backup($prefs);
 
 		$backup = '';
 		// Hapus view data_surat yg mungkin ada di database warisan
@@ -209,7 +211,8 @@
 				'ignore'			=> array_merge(array('data_surat'), $views, $ada_foreign_key),
 			  );
 		$backup .= $this->do_backup($prefs);
-		$backup .= $tabel_foreign_key_dan_views;
+		$backup .= $tabel_foreign_key;
+		$backup .= $create_views;
 
 		// Hilangkan ketentuan user dan baris-baris lain yang
 		// dihasilkan oleh dbutil->backup untuk view karena bermasalah
