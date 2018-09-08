@@ -253,6 +253,17 @@ $('[checked="checked"]').parent().addClass('active')
   $('.my-colorpicker2').colorpicker();
 	//Text Editor with addon
 	$('#min-textarea').wysihtml5();
+
+	// preparing var for scroll via query selector
+	var activated_menu = document.querySelector(
+		'li.treeview.active.menu-open');
+	// autscroll to activated menu/sub menu
+	activated_menu.scrollIntoViewIfNeeded({behavior: 'smooth'});
+
+	$('ul').on('expanded.tree', function(){
+		document.querySelector('li.treeview.menu-open')
+			.scrollIntoViewIfNeeded({behavior: 'smooth'});
+	});
 });
 
 function checkAll(id = "#checkall")
