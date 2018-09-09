@@ -1,3 +1,14 @@
+$( window ).on( "load", function() {
+	// Scroll ke menu aktif perlu dilakukan di onload sesudah semua loading halaman selesai
+	// Tidak bisa di document.ready
+	// preparing var for scroll via query selector
+	var activated_menu = $('li.treeview.active.menu-open')[0];
+	// autscroll to activated menu/sub menu
+	if (activated_menu){
+		activated_menu.scrollIntoView({behavior: 'smooth'});
+	}
+});
+
 $(document).ready(function()
 {
 	//CheckBox All Selected
@@ -253,7 +264,20 @@ $('[checked="checked"]').parent().addClass('active')
   $('.my-colorpicker2').colorpicker();
 	//Text Editor with addon
 	$('#min-textarea').wysihtml5();
+
+	$('ul.sidebar-menu').on('expanded.tree', function(e){
+		// Manipulasi menu perlu ada tenggang waktu -- supaya dilakukan sesudah
+		// event lain selesai
+		e.stopImmediatePropagation();
+		setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
+	});
+
 });
+
+function scrollTampil(elem)
+{
+	elem.scrollIntoView({behavior: 'smooth'});
+}
 
 function checkAll(id = "#checkall")
 {
