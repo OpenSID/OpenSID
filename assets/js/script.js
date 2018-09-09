@@ -253,6 +253,29 @@ $('[checked="checked"]').parent().addClass('active')
   $('.my-colorpicker2').colorpicker();
 	//Text Editor with addon
 	$('#min-textarea').wysihtml5();
+
+	if ($('li.treeview.active.menu-open')[0] !== undefined) {
+
+		// preparing var for scroll via query selector
+		var activated_menu = $('li.treeview.active.menu-open')[0];
+		// autscroll to activated menu/sub menu
+		activated_menu.scrollIntoView({behavior: 'smooth'});
+	}
+
+	// scroll full menu by scrolling into last sub menu
+	$('ul').on('expanded.tree', function(){
+		var last_li = $(this)
+			.find('.treeview.menu-open ul.treeview-menu li')
+			.last().get(0);
+
+		last_li.scrollIntoView({behavior: 'smooth'});
+	});
+
+	// scroll when collapsed
+	$('ul').on('collapsed.tree', function(){
+		$(this)[0]
+			.scrollIntoView({behavior: 'smooth'});
+	});
 });
 
 function checkAll(id = "#checkall")
