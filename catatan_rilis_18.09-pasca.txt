@@ -1,6 +1,6 @@
 Rilis ini berisi [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan bug yang dilaporkan Komunitas SID.
 
-Terima kasih pada [untuk diisi], yang terus berkontribusi. Terima kasih juga pada [untuk diisi] yang baru mulai kontribusi.
+Terima kasih pada Bimo Aji Pamungkas dan Yusup Hambali yang terus berkontribusi. Terima kasih juga pada Muhammad Irwan Andriawan yang baru mulai kontribusi.
 
 Lengkapnya, isi rilis versi 18.09-pasca:
 
@@ -15,6 +15,8 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 9. #1668: Sekarang Tanggal Cetak Kartu Keluarga tidak wajib diisi di form Ubah Data KK. [bug-fix]
 10. #1672: Sekarang statistik Laporan Kelompok Rentan hanya menampilkan penduduk dengan status dasar 'hidup'. [bug-fix]
 11. #1669: Sekarang judul statistik ditunjukkan pada waktu menampilkan rincian statistik keluarga. [bug-fix]
+12. #1667: Sekarang data ketua kelompok tidak hilang pada waktu mengubah data Kelompok. [bug-fix]
+13. #1666: Sekarang menu navigasi menampilkan menu yg dipilih dan submenu yg dikembangkan
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
