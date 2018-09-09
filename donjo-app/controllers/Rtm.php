@@ -121,24 +121,6 @@ class Rtm extends CI_Controller {
 		$this->load->view('sid/kependudukan/ajax_add_rtm', $data);
 	}
 
-	public function blt()
-	{
-		$id_blt = $this->input->post('id_blt');
-		if ($id_blt != "")
-			$_SESSION['id_blt'] = $id_blt;
-		else unset($_SESSION['id_blt']);
-		redirect('rtm');
-	}
-
-	public function bos()
-	{
-		$id_bos = $this->input->post('id_bos');
-		if ($id_bos != "")
-			$_SESSION['id_bos'] = $id_bos;
-		else unset($_SESSION['id_bos']);
-		redirect('rtm');
-	}
-
 	public function search()
 	{
 		$cari = $this->input->post('cari');
@@ -341,6 +323,9 @@ class Rtm extends CI_Controller {
 		redirect("rtm/anggota/$p/$o/$kk");
 	}
 
+	/*
+		TODO: aktifkan di menu. Kalau tidak diperlukan lagi, hapus
+	*/
 	public function cetak_statistik($tipe = 0)
 	{
 		$data['main'] = $this->rtm_model->list_data_statistik($tipe);

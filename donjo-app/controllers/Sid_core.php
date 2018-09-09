@@ -482,29 +482,4 @@ class Sid_Core extends CI_Controller {
 		$_SESSION['sex'] = 2;
 		redirect("penduduk/index/1/0");
 	}
-
-	public function migrate()
-	{
-		$this->wilayah_model->migrate();
-
-		$this->dbforge->drop_table('tweb_dusun_x');
-		$this->dbforge->drop_table('tweb_rw_x');
-		$this->dbforge->drop_table('tweb_rt_x');
-		$this->dbforge->drop_table('tweb_keluarga_x');
-		$this->dbforge->drop_table('tweb_keluarga_x_pindah');
-		$this->dbforge->drop_table('tweb_penduduk_x');
-		$this->dbforge->drop_table('tweb_penduduk_x_pindah');
-
-		redirect("penduduk/clear");
-	}
-
-	public function pre_migrate()
-	{
-		$nav['act'] = 3;
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sid/wilayah/mig');
-		$this->load->view('footer');
-	}
 }
