@@ -255,14 +255,13 @@ $('[checked="checked"]').parent().addClass('active')
 	$('#min-textarea').wysihtml5();
 
 	// preparing var for scroll via query selector
-	var activated_menu = document.querySelector(
-		'li.treeview.active.menu-open');
+	var activated_menu = $('li.treeview.active.menu-open')[0];
 	// autscroll to activated menu/sub menu
-	activated_menu.scrollIntoViewIfNeeded({behavior: 'smooth'});
+	activated_menu.scrollIntoView({behavior: 'smooth'});
 
 	$('ul').on('expanded.tree', function(){
-		document.querySelector('li.treeview.menu-open')
-			.scrollIntoViewIfNeeded({behavior: 'smooth'});
+		$('li.treeview.menu-open')[0]
+			.scrollIntoView({behavior: 'smooth'});
 	});
 });
 
