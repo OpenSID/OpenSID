@@ -294,6 +294,7 @@
 															<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 														</span>
 													</div>
+													<p class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></p>
 													<p><label class="control-label">*) Format file harus *.jpg</label></p>
 													<p><label class="control-label">*) Berkas form pendataan digunakan sebagai penguat / bukti pendataan maupun untuk verifikasi data yang sudah terinput.</label></p>
 													<p><label class="control-label">*) Berkas Bukti / pengesahan harus berupa file gambar dengan format .jpg, dengan ukuran maksimal 1 Mb (1 megabyte)</label></p>
