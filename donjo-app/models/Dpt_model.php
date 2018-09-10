@@ -209,6 +209,7 @@
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
+	// Penduduk dengan pekerjaan sebagai TNI atau POLRI tidak masuk dalam daftar calon pemilih
 	private function list_data_sql($log) {
 		$sql = "
 		FROM tweb_penduduk u
@@ -226,7 +227,7 @@
 		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
 		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend
-		WHERE 1 ";
+		WHERE u.pekerjaan_id NOT IN ('6', '7') ";
 
 		$sql .= $this->syarat_dpt_sql();
 		$sql .= $this->search_sql();

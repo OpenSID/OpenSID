@@ -46,7 +46,7 @@ class Dokumen extends CI_Controller {
 		else $data['filter'] = '';
 
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
+			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);

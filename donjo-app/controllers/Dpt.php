@@ -67,6 +67,10 @@ class Dpt extends CI_Controller {
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
+		if (isset($_POST['per_page']))
+			$_SESSION['per_page'] = $_POST['per_page'];
+		$data['per_page'] = $_SESSION['per_page'];
+
 		if (isset($_SESSION['sex']))
 			$data['sex'] = $_SESSION['sex'];
 		else $data['sex'] = '';
@@ -85,7 +89,6 @@ class Dpt extends CI_Controller {
 				else $data['rt'] = '';
 			}
 			else $data['rw'] = '';
-
 		}
 		else
 		{
