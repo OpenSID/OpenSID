@@ -1,6 +1,8 @@
+DROP VIEW IF EXISTS data_surat;
 DROP VIEW IF EXISTS daftar_kontak;
 DROP VIEW IF EXISTS daftar_anggota_grup;
 DROP VIEW IF EXISTS daftar_grup;
+DROP VIEW IF EXISTS penduduk_hidup;
 DROP TABLE IF EXISTS mutasi_inventaris_tanah;
 DROP TABLE IF EXISTS mutasi_inventaris_peralatan;
 DROP TABLE IF EXISTS mutasi_inventaris_jalan;
@@ -2758,7 +2760,7 @@ CREATE TABLE `log_bulanan` (
   `wna_lk` int(11) DEFAULT NULL,
   `wna_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('1', '97', '46', '51', '37', '2017-04-11 02:01:54', '28', '9', NULL, NULL);
 INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('2', '97', '46', '51', '37', '2017-05-10 21:03:26', '28', '9', NULL, NULL);
@@ -2788,6 +2790,7 @@ INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`,
 INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('26', '97', '46', '51', '37', '2018-06-01 20:39:41', '28', '9', NULL, NULL);
 INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('27', '97', '46', '51', '37', '2018-07-06 10:00:35', '28', '9', '0', '0');
 INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('28', '97', '46', '51', '37', '2018-08-20 05:14:04', '28', '9', '0', '0');
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('29', '97', '46', '51', '37', '2018-09-10 22:49:13', '28', '9', '0', '0');
 
 
 #
@@ -3266,7 +3269,7 @@ INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kate
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('17', 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('18', 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('19', 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '18.08', 'Versi sekarang untuk migrasi', NULL, NULL);
+INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('20', 'current_version', '18.09', 'Versi sekarang untuk migrasi', NULL, NULL);
 INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('21', 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 
 
@@ -3302,7 +3305,7 @@ INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('10', 'SMS', 'sms', '1', 'fa-envelope', '11', '2', '0', 'fa fa-envelope', '0');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('11', 'Pengaturan', 'man_user/clear', '1', 'fa-users', '12', '1', '1', 'fa-users', '0');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('13', 'Admin Web', 'web', '1', 'fa-desktop', '14', '4', '0', 'fa fa-desktop', '0');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('14', 'Laporan', 'lapor', '1', 'fa-inbox', '15', '2', '0', 'fa fa-inbox', '0');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('14', 'Layanan Mandiri', 'lapor', '1', 'fa-inbox', '15', '2', '0', 'fa fa-inbox', '0');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('15', 'Sekretariat', 'sekretariat', '1', 'fa-archive', '5', '2', '0', 'fa fa-archive', '0');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('16', 'SID', 'hom_sid', '1', 'fa-globe', '1', '2', '0', '', '1');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('17', 'Identitas [Desa]', 'hom_desa/konfigurasi', '1', 'fa-id-card', '2', '2', '0', '', '200');
@@ -3339,7 +3342,7 @@ INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('53', 'Media Sosial', 'sosmed', '1', 'fa-facebook', '7', '4', '0', '', '13');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('54', 'Slider', 'web/slider', '1', 'fa-film', '8', '4', '0', '', '13');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('55', 'Laporan Masuk', 'lapor', '1', 'fa-wechat', '1', '2', '0', '', '14');
-INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('56', 'Layanan Mandiri', 'mandiri/clear', '1', 'fa-500px', '2', '2', '0', '', '14');
+INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('56', 'Pendaftar Layanan Mandiri', 'mandiri/clear', '1', 'fa-500px', '2', '2', '0', '', '14');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('57', 'Surat Masuk', 'surat_masuk', '1', 'fa-sign-in', '1', '2', '0', '', '15');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('58', 'Surat Keluar', '', '2', 'fa-sign-out', '2', '2', '0', '', '15');
 INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES ('59', 'SK Kades', 'dokumen_sekretariat/index/2', '1', 'fa-legal', '3', '2', '0', '', '15');
@@ -3907,7 +3910,7 @@ INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('5', 'PEGAWAI NEGERI 
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('6', 'TENTARA NASIONAL INDONESIA (TNI)');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('7', 'KEPOLISIAN RI (POLRI)');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('8', 'PERDAGANGAN');
-INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('9', 'PETANI/PERKEBUNAN');
+INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('9', 'PETANI/PEKEBUN');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('10', 'PETERNAK');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('11', 'NELAYAN/PERIKANAN');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('12', 'INDUSTRI');
@@ -4634,6 +4637,16 @@ CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kon
 DROP TABLE IF EXISTS daftar_grup;
 
 CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` AS `nama_grup`,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where (`a`.`id_grup` = `anggota_grup_kontak`.`id_grup`)) AS `jumlah_anggota` from `kontak_grup` `a`;
+
+
+
+#
+# TABLE STRUCTURE FOR: penduduk_hidup
+#
+
+DROP TABLE IF EXISTS penduduk_hidup;
+
+CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir` from `tweb_penduduk` where (`tweb_penduduk`.`status_dasar` = 1);
 
 
 

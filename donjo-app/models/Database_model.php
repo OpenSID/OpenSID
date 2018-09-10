@@ -150,12 +150,17 @@
 
   private function migrasi_1809_ke_1810()
   {
-		//Perbaiki ikon untuk modul Sekretariat
-		$this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'fa-archive'));
-		 // Buat view untuk penduduk hidup -- untuk memudahkan query
-		if (!$this->db->table_exists('penduduk_hidup'))
-			$this->db->query("CREATE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
-	}
+	//Perbaiki ikon untuk modul Sekretariat
+	$this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'fa-archive'));
+	 // Buat view untuk penduduk hidup -- untuk memudahkan query
+	if (!$this->db->table_exists('penduduk_hidup'))
+		$this->db->query("CREATE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
+	// update jenis pekerjaan PETANI/PERKEBUNAN ke 'PETANI/PEKEBUN' 
+	// sesuai dengan issue https://github.com/OpenSID/OpenSID/issues/999
+	if ($this->db->table_exists('tweb_penduduk_pekerjaan'))
+		$this->db->where('nama', 'PETANI/PERKEBUNAN')->update(
+				'tweb_penduduk_pekerjaan',  array('nama' => 'PETANI/PEKEBUN'));
+  }
 
   function migrasi_1808_ke_1809()
   {
