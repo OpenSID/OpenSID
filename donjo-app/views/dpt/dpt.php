@@ -1,5 +1,9 @@
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
+	$(document).ready(function()
+	{
+		$('#tglform').validate();
+	});
 	$(function()
 	{
 		var keyword = <?= $keyword?> ;
@@ -27,19 +31,18 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<form id="mainform" name="mainform" action="" method="post">
-					<input type="hidden" name="rt" value="">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<div class="col-sm-8 col-lg-9">
-								<div class="row">
-									<a href="<?= site_url("dpt/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-									<a href="<?= site_url("dpt/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-									<a href="<?= site_url("dpt/ajax_adv_search")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pencarian Spesifik"><i class='fa fa-search'></i> Pencarian Spesifik</a>
-									<a href="<?= site_url("dpt/clear")?>" class="btn btn-social btn-flat btn-default btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Pencarian"><i class="fa fa-refresh"></i>Bersihkan</a>
-								</div>
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<div class="col-sm-8 col-lg-9">
+							<div class="row">
+								<a href="<?= site_url("dpt/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
+								<a href="<?= site_url("dpt/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+								<a href="<?= site_url("dpt/ajax_adv_search")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pencarian Spesifik"><i class='fa fa-search'></i> Pencarian Spesifik</a>
+								<a href="<?= site_url("dpt/clear")?>" class="btn btn-social btn-flat btn-default btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Pencarian"><i class="fa fa-refresh"></i>Bersihkan</a>
 							</div>
-							<div class="col-sm-4 col-md-3">
+						</div>
+						<div class="col-sm-4 col-md-3">
+							<form id="tglform" name="tglform" action="" method="post">
 								<div class="row">
 									<div class="input-group">
 										<span class="input-group-addon input-sm">Tanggal Pemilihan</span>
@@ -47,19 +50,24 @@
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input class="form-control input-sm datepicker pull-right" onchange="$('#mainform').attr('action', '<?= site_url('dpt/index/1/'.$o)?>'); $('#mainform').submit();" name="tanggal_pemilihan" type="text" value="<?= $_SESSION['tanggal_pemilihan']?>">
+											<input class="form-control input-sm datepicker pull-right" onchange="$('#tglform').submit()" name="tanggal_pemilihan" type="text" value="<?= $_SESSION['tanggal_pemilihan']?>">
 										</div>
 									</div>
 								</div>
-							</div>
+							</form>
 						</div>
-						<div class="box-header">
-							<h4 class="text-center"><strong>DAFTAR CALON PEMILIH UNTUK TANGGAL PEMILIHAN <?= $_SESSION['tanggal_pemilihan']?></strong></h4>
-						</div>
-						<div class="box-body">
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+					</div>
+					<div class="box-header">
+						<h4 class="text-center"><strong>DAFTAR CALON PEMILIH UNTUK TANGGAL PEMILIHAN <?= $_SESSION['tanggal_pemilihan']?></strong></h4>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+
+									<form id="mainform" name="mainform" action="" method="post">
+										<input type="hidden" name="rt" value="">
+
 										<div class="row">
 											<div class="col-sm-9">
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/sex/1/'.$o)?>')">
@@ -167,89 +175,89 @@
 												</div>
 											</div>
 										</div>
-										<div class="row">
-											<div class="col-sm-6">
-												<div class="dataTables_length">
-													<form id="paging" action="<?= site_url("dpt")?>" method="post" class="form-horizontal">
-														<label>
-															Tampilkan
-															<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-																<option value="50" <?php selected($per_page,50); ?> >50</option>
-																<option value="100" <?php selected($per_page,100); ?> >100</option>
-																<option value="200" <?php selected($per_page,200); ?> >200</option>
-															</select>
-															Dari
-															<strong><?= $paging->num_rows?></strong>
-															Total Data
-														</label>
-													</form>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="dataTables_paginate paging_simple_numbers">
-													<ul class="pagination">
-														<?php if ($paging->start_link): ?>
-															<li><a href="<?= site_url("dpt/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-														<?php endif; ?>
-														<?php if ($paging->prev): ?>
-															<li><a href="<?= site_url("dpt/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-														<?php endif; ?>
-														<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("dpt/index/$i/$o")?>"><?= $i?></a></li>
-														<?php endfor; ?>
-														<?php if ($paging->next): ?>
-															<li><a href="<?= site_url("dpt/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-														<?php endif; ?>
-														<?php if ($paging->end_link): ?>
-															<li><a href="<?= site_url("dpt/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-														<?php endif; ?>
-													</ul>
-												</div>
+									</form>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="dataTables_length">
+												<form id="paging" action="<?= site_url("dpt")?>" method="post" class="form-horizontal">
+													<label>
+														Tampilkan
+														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+															<option value="50" <?php selected($per_page,50); ?> >50</option>
+															<option value="100" <?php selected($per_page,100); ?> >100</option>
+															<option value="200" <?php selected($per_page,200); ?> >200</option>
+														</select>
+														Dari
+														<strong><?= $paging->num_rows?></strong>
+														Total Data
+													</label>
+												</form>
 											</div>
 										</div>
-								</div>
+										<div class="col-sm-6">
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">
+													<?php if ($paging->start_link): ?>
+														<li><a href="<?= site_url("dpt/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+													<?php endif; ?>
+													<?php if ($paging->prev): ?>
+														<li><a href="<?= site_url("dpt/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+													<?php endif; ?>
+													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("dpt/index/$i/$o")?>"><?= $i?></a></li>
+													<?php endfor; ?>
+													<?php if ($paging->next): ?>
+														<li><a href="<?= site_url("dpt/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+													<?php endif; ?>
+													<?php if ($paging->end_link): ?>
+														<li><a href="<?= site_url("dpt/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+													<?php endif; ?>
+												</ul>
+											</div>
+										</div>
+									</div>
 							</div>
 						</div>
-						<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-							<div class='modal-dialog'>
-								<div class='modal-content'>
-									<div class='modal-header'>
-										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-									</div>
-									<div class='modal-body btn-info'>
-										Apakah Anda yakin ingin menghapus data ini?
-									</div>
-									<div class='modal-footer'>
-										<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-										<a class='btn-ok'>
-											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
-										</a>
-									</div>
+					</div>
+					<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+						<div class='modal-dialog'>
+							<div class='modal-content'>
+								<div class='modal-header'>
+									<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+									<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 								</div>
-							</div>
-						</div>
-						<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-							<div class='modal-dialog'>
-								<div class='modal-content'>
-									<div class='modal-header'>
-										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-									</div>
-									<div class='modal-body btn-info'>
-										Apakah Anda yakin ingin mengembalikan status data penduduk ini?
-									</div>
-									<div class='modal-footer'>
-										<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-										<a class='btn-ok'>
-											<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-status"><i class='fa fa-check'></i> Ya</button>
-										</a>
-									</div>
+								<div class='modal-body btn-info'>
+									Apakah Anda yakin ingin menghapus data ini?
+								</div>
+								<div class='modal-footer'>
+									<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+									<a class='btn-ok'>
+										<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+									</a>
 								</div>
 							</div>
 						</div>
 					</div>
-				</form>
+					<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+						<div class='modal-dialog'>
+							<div class='modal-content'>
+								<div class='modal-header'>
+									<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+									<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+								</div>
+								<div class='modal-body btn-info'>
+									Apakah Anda yakin ingin mengembalikan status data penduduk ini?
+								</div>
+								<div class='modal-footer'>
+									<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+									<a class='btn-ok'>
+										<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-status"><i class='fa fa-check'></i> Ya</button>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
