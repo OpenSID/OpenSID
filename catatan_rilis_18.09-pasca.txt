@@ -23,6 +23,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 17. Sekarang perubahan jumlah baris paging di halaman daftar calon pemilih berjalan normal. [bug-fix]
 18. Tampilkan tgl pemilihan default waktu pertama kali membuka daftar calon pemilih. [bug-fix]
 19. #999: Jenis pekerjaan PETANI/PERKEBUNAN telah diperbaiki menjadi PETANI/PEKEBUN. [bug-fix]
+20. #1185: Hilangkan kolom URL dari tampilan pengaturan Modul aplikasi.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -35,12 +35,6 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="url">URL</label>
-								<div class="col-sm-6">
-									<input id="url" name="url" class="form-control input-sm" type="text" placeholder="URL Modul" value="<?=$modul['url']?>" ></input>
-								</div>
-							</div>
-							<div class="form-group">
 								<label class="col-sm-4 control-label" for="ikon">Ikon</label>
 								<div class="col-sm-6">
 									<input id="ikon" name="ikon" class="form-control input-sm" type="text" placeholder="Ikon" value="<?=($modul['ikon'])?>" ></input>
