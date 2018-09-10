@@ -29,7 +29,6 @@
                           <th>No</th>
                           <th>Aksi</th>
                           <th width="50%">Nama Sub Modul</th>
-                          <th width="30%">URL</th>
                           <th>Aktif</th>
                         </tr>
                       </thead>
@@ -42,7 +41,6 @@
                               <a href="<?=site_url("modul/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a>
                             </td>
                             <td><?=$data['modul']?></td>
-                            <td><?=$data['url']?></td>
                             <td>
                               <?php	if ($data['aktif']==1): ?>Aktif<?php else: ?>Tidak Aktif <?php endif; ?>
                             </td>
