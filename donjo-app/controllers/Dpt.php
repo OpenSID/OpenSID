@@ -50,6 +50,7 @@ class Dpt extends CI_Controller {
 		unset($_SESSION['hamil']);
 		unset($_SESSION['cara_kb_id']);
 		unset($_SESSION['akta_kelahiran']);
+		unset($_SESSION['tanggal_pemilihan']);
 		$_SESSION['per_page'] = 50;
 		redirect('dpt');
 	}

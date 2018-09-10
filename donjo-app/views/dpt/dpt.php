@@ -42,7 +42,7 @@
 							</div>
 						</div>
 						<div class="col-sm-4 col-md-3">
-							<form id="tglform" name="tglform" action="" method="post">
+							<form id="tglform" name="tglform" action="<?= site_url('dpt/index/1/'.$o)?>" method="post">
 								<div class="row">
 									<div class="input-group">
 										<span class="input-group-addon input-sm">Tanggal Pemilihan</span>
