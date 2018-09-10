@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 12. #1667: Sekarang data ketua kelompok tidak hilang pada waktu mengubah data Kelompok. [bug-fix]
 13. #1666: Sekarang menu navigasi menampilkan menu yg dipilih dan submenu yg dikembangkan
 14. #1654: Sekarang pengisian pesan SMS berhasil setelah mengisi No HP Tujuan. [bug-fix]
+15. #1385: Tampilkan berkas bukti pengesahan pendataan survei analisis. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
