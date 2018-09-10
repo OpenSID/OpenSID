@@ -3907,7 +3907,7 @@ INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('5', 'PEGAWAI NEGERI 
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('6', 'TENTARA NASIONAL INDONESIA (TNI)');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('7', 'KEPOLISIAN RI (POLRI)');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('8', 'PERDAGANGAN');
-INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('9', 'PETANI/PERKEBUNAN');
+INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('9', 'PETANI/PEKEBUN');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('10', 'PETERNAK');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('11', 'NELAYAN/PERIKANAN');
 INSERT INTO tweb_penduduk_pekerjaan (`id`, `nama`) VALUES ('12', 'INDUSTRI');
