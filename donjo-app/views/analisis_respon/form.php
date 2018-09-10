@@ -114,6 +114,9 @@
 	.form-horizontal .control-label {
     text-align: left;
 	}
+	img { margin-bottom: 5px; }
+	.no-padding { padding: 0px; }
+
 </style>
 
 <div class="content-wrapper">
@@ -285,6 +288,15 @@
 												</table>
 											</div>
 											<div class="col-sm-12">
+												<?php if (!empty($list_bukti)): ?>
+													<div class="form-group">
+														<label class="col-sm-2 no-padding">Berkas Form Pendaftaran</label>
+														<div class="col-sm-2">
+															<input type="hidden" name="old_file" value="<?= $list_bukti[0]['pengesahan']?>">
+															<img class="attachment-img img-responsive" src="<?= base_url().LOKASI_PENGESAHAN.$list_bukti[0]['pengesahan']?>" alt="Bukti Pengesahan">
+														</div>
+													</div>
+												<?php endif; ?>
 												<div class="form-group">
 													<label class="control-label" for="upload">Unggah Berkas Form Pendataan</label>
 													<div class="input-group input-group-sm">
@@ -294,7 +306,9 @@
 															<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 														</span>
 													</div>
-													<p class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></p>
+													<?php if (!empty($list_bukti)): ?>
+														<p class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></p>
+													<?php endif; ?>
 													<p><label class="control-label">*) Format file harus *.jpg</label></p>
 													<p><label class="control-label">*) Berkas form pendataan digunakan sebagai penguat / bukti pendataan maupun untuk verifikasi data yang sudah terinput.</label></p>
 													<p><label class="control-label">*) Berkas Bukti / pengesahan harus berupa file gambar dengan format .jpg, dengan ukuran maksimal 1 Mb (1 megabyte)</label></p>

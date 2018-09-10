@@ -156,6 +156,9 @@
 																		<td><?= $data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("analisis_respon/kuisioner/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Input Data"><i class='fa fa-check-square-o'></i></a>
+																			<?php if ($data['bukti_pengesahan']): ?>
+																				<a href="<?= base_url(LOKASI_PENGESAHAN.$data['bukti_pengesahan'])?>" class="btn bg-olive btn-flat btn-sm"  title="Unduh Bukti Pengesahan" target="_blank"><i class="fa fa-paperclip"></i></a>
+																			<?php endif; ?>
 																		</td>
 																		<td><?= $data['nid']?></td>
 																		<td nowrap><?= $data['nama']?></td>
