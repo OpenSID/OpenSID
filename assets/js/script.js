@@ -47,6 +47,11 @@ $(document).ready(function()
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2();
+	// Select2 untuk disposisi pada form
+	// surat masuk
+	$('#disposisi_kepada').select2({
+		placeholder: "Pilih tujuan disposisi"
+	});
 	$('button[type="reset"]').click(function()
 	{
 		$('.select2').select2('val', 'All');

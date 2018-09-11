@@ -120,13 +120,25 @@
 												<?= $ref_disposisi[$i]?>
 											</td>
 											<td class="no-border-kiri" style="vertical-align: text-top;">
-												<input type="checkbox" style="zoom: 2; padding: 10px" disabled="disabled" <?php if ($ref_disposisi[$i]==$surat['disposisi_kepada']) echo 'checked'?>/>
+												<input type="checkbox" style="zoom: 2; padding: 10px" disabled="disabled" 
+
+												<?php foreach ($disposisi_surat_masuk as $value): ?>
+													<?php if ($ref_disposisi[$i]==$value['disposisi_ke']) echo 'checked'?>
+												<?php endforeach ?>
+
+												/>
 											</td>
 											<td class="nostretch no-border-kanan" style="vertical-align: text-top;">
 												<?php if ($ref_disposisi[$i+$kolom_1+1]) echo $ref_disposisi[$i+$kolom_1+1]?>
 											</td>
 											<td class="no-border-kiri" style="vertical-align: text-top;">
-												<input type="checkbox" style="zoom: 2; padding: 10px" disabled="disabled" <?php if ($ref_disposisi[$i+$kolom_1+1]==$surat['disposisi_kepada']) echo 'checked'?>/>
+												<input type="checkbox" style="zoom: 2; padding: 10px" disabled="disabled" 
+
+												<?php foreach ($disposisi_surat_masuk as $value): ?>
+													<?php if ($ref_disposisi[$i+$kolom_1+1]==$value['disposisi_ke']) echo 'checked'?>
+												<?php endforeach ?>
+												/>
+												
 											</td>
 										</tr>
 									<?php endfor; ?>

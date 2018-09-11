@@ -160,6 +160,43 @@
 	if ($this->db->table_exists('tweb_penduduk_pekerjaan'))
 		$this->db->where('nama', 'PETANI/PERKEBUNAN')->update(
 				'tweb_penduduk_pekerjaan',  array('nama' => 'PETANI/PEKEBUN'));
+	// buat tabel disposisi denga relasi ke surat masuk dan tweb_desa_pamong
+	if (!$this->db->table_exists('disposisi_surat_masuk'))
+	{
+		$sql = array(
+		  'id_disposisi'  =>  array(
+			  'type' => 'INT',
+			  'constraint' => 11,
+			  'unsigned' => FALSE,
+			  'auto_increment' => TRUE
+			),
+		  'id_surat_masuk'  =>  array(
+			  'type' => 'INT',
+			  'constraint' => 11,
+			  'unsigned' => FALSE
+			),
+		  'id_desa_pamong'  =>  array(
+			  'type' => 'INT',
+			  'constraint' => 11,
+			  'unsigned' => FALSE,
+			  'null' => TRUE,
+			),
+		  'disposisi_ke' => array(
+			  'type' => 'VARCHAR',
+			  'constraint' => 50,
+			  'null' => TRUE,
+			)
+		);
+		$this->dbforge->add_field($sql);
+		$this->dbforge->add_key("id_disposisi", TRUE);
+		$this->dbforge->create_table('disposisi_surat_masuk', FALSE, array('ENGINE' => $this->engine));
+
+		//menambahkan constraint kolom tabel
+		$this->dbforge->add_column('disposisi_surat_masuk',[
+	    	'CONSTRAINT `id_surat_fk` FOREIGN KEY (`id_surat_masuk`) REFERENCES `surat_masuk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE', 
+	    	'CONSTRAINT `desa_pamong_fk` FOREIGN KEY (`id_desa_pamong`) REFERENCES `tweb_desa_pamong` (`pamong_id`) ON DELETE CASCADE ON UPDATE CASCADE'
+		]);
+	}
   }
 
   function migrasi_1808_ke_1809()
