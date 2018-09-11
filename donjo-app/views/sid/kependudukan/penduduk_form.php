@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
+		<form id="mainform" name="mainform" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" onreset="reset_hamil();">
 			<div class="row">
 				<?php $edit_lokasi = ((empty($penduduk) OR $_SESSION['validation_error']) AND empty($id)); ?>
 				<?php if ($edit_lokasi): ?>

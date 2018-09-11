@@ -223,9 +223,11 @@
 												<tr>
 													<td>Akseptor KB</td><td >:</td><td><?= strtoupper($penduduk['cara_kb'])?></td>
 												</tr>
-												<tr>
-													<td>Status Kehamilan</td><td >:</td><td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'?></td>
-												</tr>
+												<?php if ($penduduk['id_sex'] == 2): ?>
+													<tr>
+														<td>Status Kehamilan</td><td >:</td><td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'?></td>
+													</tr>
+												<?php endif; ?>
 											</thead>
 										</table>
 									</div>

@@ -29,8 +29,6 @@ class Penduduk extends CI_Controller{
 		unset($_SESSION['warganegara']);
 		unset($_SESSION['cacat']);
 		unset($_SESSION['menahun']);
-		unset($_SESSION['cacatx']);
-		unset($_SESSION['menahunx']);
 		unset($_SESSION['golongan_darah']);
 		unset($_SESSION['dusun']);
 		unset($_SESSION['rw']);
@@ -743,9 +741,7 @@ class Penduduk extends CI_Controller{
 	function lap_statistik($id_cluster=0,$tipe=0,$nomor=0){
 		unset($_SESSION['sex']);
 		unset($_SESSION['cacat']);
-		unset($_SESSION['cacatx']);
 		unset($_SESSION['menahun']);
-		unset($_SESSION['menahunx']);
 		unset($_SESSION['dusun']);
 		unset($_SESSION['rw']);
 		unset($_SESSION['rt']);
@@ -828,7 +824,7 @@ class Penduduk extends CI_Controller{
 				$pre = $stat['nama'];
 				break;
 			case 10:
-				$_SESSION['menahunx'] = '14';
+				$_SESSION['menahun'] = '14';
 				$_SESSION['sex']='1' ;
 				$_SESSION['dusun']=$cluster['dusun'];
 				$_SESSION['rw']=$cluster['rw'];
@@ -836,7 +832,7 @@ class Penduduk extends CI_Controller{
 				$pre="SAKIT MENAHUN LAKI-LAKI ";
 				break;
 			case 11:
-				$_SESSION['menahunx'] = '14';
+				$_SESSION['menahun'] = '14';
 				$_SESSION['sex']='2';
 				$_SESSION['dusun']=$cluster['dusun'];
 				$_SESSION['rw']=$cluster['rw'];
