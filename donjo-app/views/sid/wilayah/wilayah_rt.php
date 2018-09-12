@@ -21,7 +21,7 @@
            	</a>
 					</div>
 					<div class="box-header with-border">
-						<strong>RW <?= $rw?> / <?= unpenetration(ununderscore($dusun))?> <?= ucwords($this->setting->sebutan_dusun)?> </strong>
+						<strong>RW <?= $rw?> / <?= ucwords($this->setting->sebutan_dusun)?> <?= unpenetration(ununderscore($dusun))?>  </strong>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -41,9 +41,9 @@
 																<th width="30%">Ketua RT</th>
 																<th>NIK Ketua RT</th>
 																<th>KK</th>
-																<th>Jiwa</th>
-																<th>LK</th>
-																<th>PR</th>
+																<th>L+P</th>
+																<th>L</th>
+																<th>P</th>
 															</tr>
 														</thead>
 														<tbody>
