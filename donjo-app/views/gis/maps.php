@@ -4,7 +4,7 @@
 	var infoWindow;
 	window.onload = function()
 	{
-    <?php if (!empty($desa['lat'] AND !empty($desa['lng']))): ?>
+    <?php if (!empty($desa['lat']) AND !empty($desa['lng'])): ?>
       var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
       var zoom   = <?=$desa['zoom'] ?: 10?>;
     <?php elseif (!empty($desa['path'])): ?>
