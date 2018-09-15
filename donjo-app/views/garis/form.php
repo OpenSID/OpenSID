@@ -42,7 +42,7 @@
 								<div class="form-group">
 									<label class="control-label col-sm-3"></label>
 									<div class="col-sm-7">
-									  <img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_FOTO_GARIS?>kecil_<?= $garis['foto']?>" alt="Photo">
+									  <img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_FOTO_GARIS?>kecil_<?= $garis['foto']?>" alt="Foto">
 									</div>
 								</div>
 							<?php endif; ?>

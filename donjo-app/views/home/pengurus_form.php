@@ -14,12 +14,12 @@
 					<div class="box box-primary">
 						<div class="box-body box-profile">
 							<?php if ($pamong['foto']): ?>
-								<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($pamong['foto'])?>" alt="Photo">
+								<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($pamong['foto'])?>" alt="Foto">
 							<?php else: ?>
-								<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Photo">
+								<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
 							<?php endif; ?>
 							<br/>
-							<p class="text-muted text-center"><code>(Kosongkan jika tidak ingin mengubah photo)</code></p>
+							<p class="text-muted text-center"><code>(Kosongkan jika tidak ingin mengubah foto)</code></p>
 							<br/>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path2" name="foto">
