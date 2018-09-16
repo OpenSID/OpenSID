@@ -121,7 +121,9 @@
 		// ambil disposisi ke variabel lain karena
 		// tidak lagi digunakan pada tabel surat masuk
 		$jabatan = $data['disposisi_kepada'];
-		$data['disposisi_kepada'] = 'empty';
+		// hapus data disposisi dari post
+		// surat masuk
+		unset($data['disposisi_kepada']);
 		// Normalkan tanggal
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
@@ -209,7 +211,9 @@
 		// ambil disposisi ke variabel lain karena
 		// tidak lagi digunakan pada tabel surat masuk
 		$jabatan = $data['disposisi_kepada'];
-		$data['disposisi_kepada'] = 'empty';
+		// hapus data disposisi dari post
+		// surat masuk
+		unset($data['disposisi_kepada']);
 
 		$_SESSION['error_msg'] = NULL;
 
