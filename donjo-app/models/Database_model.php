@@ -160,7 +160,7 @@
 	if ($this->db->table_exists('tweb_penduduk_pekerjaan'))
 		$this->db->where('nama', 'PETANI/PERKEBUNAN')->update(
 				'tweb_penduduk_pekerjaan',  array('nama' => 'PETANI/PEKEBUN'));
-	// buat tabel disposisi denga relasi ke surat masuk dan tweb_desa_pamong
+	// buat tabel disposisi dengan relasi ke surat masuk dan tweb_desa_pamong
 	if (!$this->db->table_exists('disposisi_surat_masuk'))
 	{
 		$sql = array(
@@ -196,22 +196,11 @@
 	    	'CONSTRAINT `id_surat_fk` FOREIGN KEY (`id_surat_masuk`) REFERENCES `surat_masuk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE', 
 	    	'CONSTRAINT `desa_pamong_fk` FOREIGN KEY (`id_desa_pamong`) REFERENCES `tweb_desa_pamong` (`pamong_id`) ON DELETE CASCADE ON UPDATE CASCADE'
 		]);
-	}
 
-	// konversi data kolom disposisi_ke ke table disposisi_surat_masuk
-	if ($this->db->table_exists('surat_masuk')) {
-
-		
 		if ($this->db->field_exists('disposisi_kepada', 'surat_masuk')) {
-			
-			// hapus kolom disposisi dari surat masuk	
-			$this->dbforge->drop_column('surat_masuk','disposisi_kepada');
 
 			// ambil semua data surat masuk
 			$data = $this->db->select()->from('surat_masuk')->get()->result();
-
-			// kosongkan tabel disposisi_surat_masuk
-			$this->db->truncate('disposisi_surat_masuk'); 
 
 			// konversi data yang diperlukan
 			// ke table disposisi_surat_masuk
@@ -229,8 +218,12 @@
 					)
 				);
 			}
+
+			// hapus kolom disposisi dari surat masuk	
+			$this->dbforge->drop_column('surat_masuk','disposisi_kepada');
 		}
 	}
+	
   }
 
   function migrasi_1808_ke_1809()
