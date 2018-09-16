@@ -201,32 +201,34 @@
 	// konversi data kolom disposisi_ke ke table disposisi_surat_masuk
 	if ($this->db->table_exists('surat_masuk')) {
 
-		// ambil semua data surat masuk
-		$data = $this->db->select()->from('surat_masuk')->get()->result();
-
-		// kosongkan tabel disposisi_surat_masuk
-		$this->db->truncate('disposisi_surat_masuk'); 
-
-		// konversi data yang diperlukan
-		// ke table disposisi_surat_masuk
-		foreach ($data as $value) {
-			$data_pamong = $this->db->select('pamong_id')
-				->from('tweb_desa_pamong')
-				->where('jabatan', $value->disposisi_kepada)
-				->get()->row();
-
-			$this->db->insert(
-				'disposisi_surat_masuk', array(
-					'id_surat_masuk' => $value->id,
-					'id_desa_pamong' => $data_pamong->pamong_id,
-					'disposisi_ke' => $value->disposisi_kepada
-				)
-			);
-		}
-
-		// hapus kolom disposisi dari surat masuk
+		
 		if ($this->db->field_exists('disposisi_kepada', 'surat_masuk')) {
+			
+			// hapus kolom disposisi dari surat masuk	
 			$this->dbforge->drop_column('surat_masuk','disposisi_kepada');
+
+			// ambil semua data surat masuk
+			$data = $this->db->select()->from('surat_masuk')->get()->result();
+
+			// kosongkan tabel disposisi_surat_masuk
+			$this->db->truncate('disposisi_surat_masuk'); 
+
+			// konversi data yang diperlukan
+			// ke table disposisi_surat_masuk
+			foreach ($data as $value) {
+				$data_pamong = $this->db->select('pamong_id')
+					->from('tweb_desa_pamong')
+					->where('jabatan', $value->disposisi_kepada)
+					->get()->row();
+
+				$this->db->insert(
+					'disposisi_surat_masuk', array(
+						'id_surat_masuk' => $value->id,
+						'id_desa_pamong' => $data_pamong->pamong_id,
+						'disposisi_ke' => $value->disposisi_kepada
+					)
+				);
+			}
 		}
 	}
   }
