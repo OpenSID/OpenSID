@@ -79,12 +79,12 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("line/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<a href="<?= site_url("line/sub_line/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Line"><i class="fa fa-bars"></i></a>
+																			<a href="<?= site_url("line/sub_line/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian <?= $data['nama'] ?>"><i class="fa fa-bars"></i></a>
 																			<a href="<?= site_url("line/ajax_add_sub_line/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Kategori <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
 																			<?php if ($data['enabled'] == '2'): ?>
-																				<a href="<?= site_url('line/line_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Line"><i class="fa fa-lock">&nbsp;</i></a>
+																				<a href="<?= site_url('line/line_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
-																				<a href="<?= site_url('line/line_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Line"><i class="fa fa-unlock"></i></a>
+																				<a href="<?= site_url('line/line_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 																			<?php endif ?>
 																			<a href="#" data-href="<?= site_url("line/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>

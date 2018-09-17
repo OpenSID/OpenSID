@@ -92,7 +92,7 @@ class Polygon extends CI_Controller {
 	public function sub_polygon($polygon = 1)
 	{
 		$data['subpolygon'] = $this->plan_polygon_model->list_sub_polygon($polygon);
-		$data['polygon'] = $polygon;
+		$data['polygon'] = $this->plan_polygon_model->get_polygon($polygon);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$nav['act'] = 8;

@@ -32,7 +32,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<h5 class="box-title text-center">Daftar Kategori Untuk <?= $line['nama']; ?></h5>
+														<h5 class="box-title text-center">Daftar Kategori <?= $line['nama']; ?></h5>
 														<table class="table table-bordered dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
@@ -52,9 +52,9 @@
 																		<td nowrap>
 																			<a href="<?= site_url("line/ajax_add_sub_line/$line[id]/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori <?= $line['nama'] ?>"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['enabled'] == '2'): ?>
-																				<a href="<?= site_url("line/line_lock_sub_line/$line[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Sub Line"><i class="fa fa-lock">&nbsp;</i></a>
+																				<a href="<?= site_url("line/line_lock_sub_line/$line[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
-																				<a href="<?= site_url("line/line_unlock_sub_line/$line[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Sub Line"><i class="fa fa-unlock"></i></a>
+																				<a href="<?= site_url("line/line_unlock_sub_line/$line[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 																			<?php endif; ?>
 																			<a href="#" data-href="<?= site_url("line/delete_sub_line/$line[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
