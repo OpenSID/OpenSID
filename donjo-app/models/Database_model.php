@@ -160,6 +160,70 @@
 	if ($this->db->table_exists('tweb_penduduk_pekerjaan'))
 		$this->db->where('nama', 'PETANI/PERKEBUNAN')->update(
 				'tweb_penduduk_pekerjaan',  array('nama' => 'PETANI/PEKEBUN'));
+	// buat tabel disposisi dengan relasi ke surat masuk dan tweb_desa_pamong
+	if (!$this->db->table_exists('disposisi_surat_masuk'))
+	{
+		$sql = array(
+		  'id_disposisi'  =>  array(
+			  'type' => 'INT',
+			  'constraint' => 11,
+			  'unsigned' => FALSE,
+			  'auto_increment' => TRUE
+			),
+		  'id_surat_masuk'  =>  array(
+			  'type' => 'INT',
+			  'constraint' => 11,
+			  'unsigned' => FALSE
+			),
+		  'id_desa_pamong'  =>  array(
+			  'type' => 'INT',
+			  'constraint' => 11,
+			  'unsigned' => FALSE,
+			  'null' => TRUE,
+			),
+		  'disposisi_ke' => array(
+			  'type' => 'VARCHAR',
+			  'constraint' => 50,
+			  'null' => TRUE,
+			)
+		);
+		$this->dbforge->add_field($sql);
+		$this->dbforge->add_key("id_disposisi", TRUE);
+		$this->dbforge->create_table('disposisi_surat_masuk', FALSE, array('ENGINE' => $this->engine));
+
+		//menambahkan constraint kolom tabel
+		$this->dbforge->add_column('disposisi_surat_masuk',[
+	    	'CONSTRAINT `id_surat_fk` FOREIGN KEY (`id_surat_masuk`) REFERENCES `surat_masuk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE', 
+	    	'CONSTRAINT `desa_pamong_fk` FOREIGN KEY (`id_desa_pamong`) REFERENCES `tweb_desa_pamong` (`pamong_id`) ON DELETE CASCADE ON UPDATE CASCADE'
+		]);
+
+		if ($this->db->field_exists('disposisi_kepada', 'surat_masuk')) {
+
+			// ambil semua data surat masuk
+			$data = $this->db->select()->from('surat_masuk')->get()->result();
+
+			// konversi data yang diperlukan
+			// ke table disposisi_surat_masuk
+			foreach ($data as $value) {
+				$data_pamong = $this->db->select('pamong_id')
+					->from('tweb_desa_pamong')
+					->where('jabatan', $value->disposisi_kepada)
+					->get()->row();
+
+				$this->db->insert(
+					'disposisi_surat_masuk', array(
+						'id_surat_masuk' => $value->id,
+						'id_desa_pamong' => $data_pamong->pamong_id,
+						'disposisi_ke' => $value->disposisi_kepada
+					)
+				);
+			}
+
+			// hapus kolom disposisi dari surat masuk	
+			$this->dbforge->drop_column('surat_masuk','disposisi_kepada');
+		}
+	}
+	
   }
 
   function migrasi_1808_ke_1809()

@@ -77,11 +77,14 @@ class Surat_masuk extends CI_Controller {
 		{
 			$data['surat_masuk'] = $this->surat_masuk_model->get_surat_masuk($id);
 			$data['form_action'] = site_url("surat_masuk/update/$p/$o/$id");
+			$data['disposisi_surat_masuk'] = 
+				$this->surat_masuk_model->get_disposisi_surat_masuk($id);
 		}
 		else
 		{
 			$data['surat_masuk'] = null;
 			$data['form_action'] = site_url("surat_masuk/insert");
+			$data['disposisi_surat_masuk'] = null;
 		}
 		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
 		$header = $this->header_model->get_data();
@@ -176,6 +179,7 @@ class Surat_masuk extends CI_Controller {
 		$data['input'] = $_POST;
 		$data['desa'] = $this->config_model->get_data();
 		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
+		$data['disposisi_surat_masuk'] = $this->surat_masuk_model->get_disposisi_surat_masuk($id);
 		$data['surat'] = $this->surat_masuk_model->get_surat_masuk($id);
 		$this->load->view('surat_masuk/disposisi', $data);
 	}
