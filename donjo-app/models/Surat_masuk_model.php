@@ -117,6 +117,13 @@
 	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+
+		// ambil disposisi ke variabel lain karena
+		// tidak lagi digunakan pada tabel surat masuk
+		$jabatan = $data['disposisi_kepada'];
+		// hapus data disposisi dari post
+		// surat masuk
+		unset($data['disposisi_kepada']);
 		// Normalkan tanggal
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
@@ -171,7 +178,21 @@
 		// Berkas lampiran
 		$data['berkas_scan'] = $adaLampiran && !is_null($uploadData)
 			? $uploadData['file_name'] : NULL;
+
+		// penerapan transcation karena insert ke 2 tabel
+		$this->db->trans_start();
+
 		$indikatorSukses = is_null($uploadError) && $this->db->insert('surat_masuk', $data);
+
+		$insert_id = $this->db->insert_id();
+
+		// insert ke tabel disposisi surat masuk
+		$this->insert_disposisi_surat_masuk($insert_id, $jabatan);
+
+		// transaction selesai
+		$this->db->trans_complete();
+
+
 		// Set session berdasarkan hasil operasi
 		$_SESSION['success'] = $indikatorSukses ? 1 : -1;
 		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
@@ -186,6 +207,13 @@
 	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+
+		// ambil disposisi ke variabel lain karena
+		// tidak lagi digunakan pada tabel surat masuk
+		$jabatan = $data['disposisi_kepada'];
+		// hapus data disposisi dari post
+		// surat masuk
+		unset($data['disposisi_kepada']);
 
 		$_SESSION['error_msg'] = NULL;
 
@@ -211,6 +239,9 @@
 
 		// Adakah file baru yang akan diupload?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
+
+		// penerapan transcation karena insert ke 2 tabel
+		$this->db->trans_start();
 
 		// Ada lampiran file
 		if ($adaLampiran === TRUE)
@@ -282,6 +313,10 @@
 				? NULL : 'Gagal memperbarui data di database';
 			$adaBerkasLamaDiDB = !is_null($berkasLama);
 		}
+
+		$this->update_disposisi_surat_masuk($idSuratMasuk, $jabatan);
+
+		$this->db->trans_complete();
 
 		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
 	}
@@ -387,6 +422,70 @@
 		$namaBerkas = $query->row();
 		$namaBerkas = is_object($namaBerkas) ? $namaBerkas->berkas_scan : NULL;
 		return $namaBerkas;
+	}
+
+	public function get_pamong($jabatan)
+	{
+		$query = $this->db
+			->select('*')
+			->from('tweb_desa_pamong')
+			->where('jabatan', $jabatan)
+			->get()
+			->row();
+
+		return $query;
+	}
+
+	public function insert_disposisi_surat_masuk($id_surat_masuk, array $jabatan)
+	{
+		foreach ($jabatan as $value) {
+
+			$pamong = $this->get_pamong($value);
+
+			$this->db->insert(
+				'disposisi_surat_masuk', array(
+					'id_surat_masuk' => $id_surat_masuk,
+					'id_desa_pamong' => $pamong->pamong_id,
+					'disposisi_ke' => $value
+				)
+			);
+		}
+	}
+
+	public function update_disposisi_surat_masuk($id_surat_masuk, array $jabatan)
+	{
+		$this->delete_disposisi_surat($id_surat_masuk);
+
+		foreach ($jabatan as $value) {
+
+			$pamong = $this->get_pamong($value);
+
+			$this->db->insert(
+				'disposisi_surat_masuk', array(
+					'id_surat_masuk' => $id_surat_masuk,
+					'id_desa_pamong' => $pamong->pamong_id,
+					'disposisi_ke' => $value
+				)
+			);
+		}
+	}
+
+	public function get_disposisi_surat_masuk($id_surat_masuk)
+	{
+		$query = $this->db
+			->select('*')
+			->from('disposisi_surat_masuk')
+			->where('id_surat_masuk', $id_surat_masuk)
+			->get()
+			->result_array();
+
+		return $query;
+	}
+
+	public function delete_disposisi_surat($id_surat_masuk)
+	{
+		$this->db->where('id_surat_masuk', $id_surat_masuk);
+		$this->db->delete('disposisi_surat_masuk');
 	}
 
 }

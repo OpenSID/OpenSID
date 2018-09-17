@@ -97,11 +97,19 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="disposisi_kepada">Disposisi Kepada</label>
 								<div class="col-sm-8 col-lg-4">
-									<select name="disposisi_kepada"  class="form-control input-sm required">
-										<option value="">Pilih tujuan disposisi</option>
+									<select name="disposisi_kepada[]" multiple id="disposisi_kepada" class="form-control input-sm required">
 										<?php foreach ($ref_disposisi as $data): ?>
-											<option value="<?= $data?>" <?php if ($surat_masuk['disposisi_kepada']==$data): ?>selected<?php endif; ?>><?= strtoupper($data)?></option>
-										<?php endforeach; ?>
+
+												<option value="<?= $data?>" 
+													<?php foreach ($disposisi_surat_masuk as $value): ?>
+														<?php if ($value['disposisi_ke'] == $data): ?>
+															selected
+														<?php endif; ?>
+													<?php endforeach; ?>>
+													<?= strtoupper($data)?>
+												</option>
+												
+										<?php endforeach ?>
 									</select>
 								</div>
 							</div>
