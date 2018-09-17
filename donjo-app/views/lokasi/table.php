@@ -93,6 +93,11 @@
 																		<td nowrap>
 																			<a href="<?= site_url("plan/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																			<a href="<?=site_url("plan/ajax_lokasi_maps/$p/$o/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Lokasi <?= $data['nama']?>" title="Lokasi <?= $data['nama']?>"><i class="fa fa-map"></i></a>
+																			<?php if ($data['enabled'] == '2'): ?>
+																				<a href="<?= site_url('plan/lokasi_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																			<?php elseif ($data['enabled'] == '1'): ?>
+																				<a href="<?= site_url('plan/lokasi_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																			<?php endif ?>
 																			<a href="#" data-href="<?= site_url("plan/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="30%"><?= $data['nama']?></td>

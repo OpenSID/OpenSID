@@ -79,12 +79,12 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("point/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<a href="<?= site_url("point/sub_point/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Point"><i class="fa fa-bars"></i></a>
-																			<a href="<?= site_url("point/ajax_add_sub_point/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Kategori Lokasi <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori Lokasi <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
+																			<a href="<?= site_url("point/sub_point/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian <?= $data['nama']?>"><i class="fa fa-bars"></i></a>
+																			<a href="<?= site_url("point/ajax_add_sub_point/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Kategori <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
 																			<?php if ($data['enabled'] == '2'): ?>
-																				<a href="<?= site_url('point/point_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Point"><i class="fa fa-lock">&nbsp;</i></a>
+																				<a href="<?= site_url('point/point_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
-																				<a href="<?= site_url('point/point_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Point"><i class="fa fa-unlock"></i></a>
+																				<a href="<?= site_url('point/point_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 																			<?php endif; ?>
 																			<a href="#" data-href="<?= site_url("point/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>

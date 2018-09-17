@@ -97,7 +97,7 @@ class Point extends CI_Controller {
 	public function sub_point($point = 1)
 	{
 		$data['subpoint'] = $this->plan_point_model->list_sub_point($point);
-		$data['point'] = $point;
+		$data['point'] = $this->plan_point_model->get_point($point);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$nav['act'] = 8;
