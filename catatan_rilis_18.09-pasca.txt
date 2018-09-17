@@ -26,6 +26,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 20. #1185: Hilangkan kolom URL dari tampilan pengaturan Modul aplikasi.
 21. #1234: Sekarang kolom isian Status Kehamilan hanya ditampilkan untuk penduduk perempuan.
 22. #675: Sekarang tujuan disposisi pada surat masuk bisa memilih lebih dari satu pamong.
+23. #1272: Sekarang form penambahan dan perubahan kategori garis menampilkan judul garis bersangkutan.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

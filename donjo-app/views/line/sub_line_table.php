@@ -16,8 +16,8 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url("line/ajax_add_sub_line/$line")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori Garis Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori Garis Baru">
-								<i class="fa fa-plus"></i>Tambah Kategori Garis Baru
+							<a href="<?= site_url("line/ajax_add_sub_line/$line[id]")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori <?= $line['nama'] ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $line['nama'] ?>">
+								<i class="fa fa-plus"></i>Tambah Kategori <?= $line['nama'] ?>
             	</a>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("line/delete_all_sub_line/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<a href="<?= site_url("line")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
@@ -32,6 +32,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
+														<h5 class="box-title text-center">Daftar Kategori Untuk <?= $line['nama']; ?></h5>
 														<table class="table table-bordered dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
@@ -49,13 +50,13 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("line/ajax_add_sub_line/$line/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Sub Line"><i class="fa fa-edit"></i></a>
+																			<a href="<?= site_url("line/ajax_add_sub_line/$line[id]/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori <?= $line['nama'] ?>"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['enabled'] == '2'): ?>
-																				<a href="<?= site_url("line/line_lock_sub_line/$line/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Sub Line"><i class="fa fa-lock">&nbsp;</i></a>
+																				<a href="<?= site_url("line/line_lock_sub_line/$line[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Sub Line"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
-																				<a href="<?= site_url("line/line_unlock_sub_line/$line/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Sub Line"><i class="fa fa-unlock"></i></a>
+																				<a href="<?= site_url("line/line_unlock_sub_line/$line[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Sub Line"><i class="fa fa-unlock"></i></a>
 																			<?php endif; ?>
-																			<a href="#" data-href="<?= site_url("line/delete_sub_line/$line/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("line/delete_sub_line/$line[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="70%"><?= $data['nama']?></td>
 																		<td><?= $data['aktif']?></td>
