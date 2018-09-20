@@ -51,6 +51,8 @@
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
     <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
+		<!-- Diperlukan untuk script jquery khusus halaman -->
+		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 	</head>
 	<body class="skin-purple sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">

@@ -1,4 +1,15 @@
 <script language="javascript" type="text/javascript">
+
+	$(document).ready(function()
+	{
+	  $('#reset_form').on('click', function()
+	  {
+	  	$('#nomor').val('');
+	  	$('#calon_pria').val('2');
+	  	$('#calon_wanita').val('2');
+	  });
+	});
+
 	function calon_wanita_asal(asal)
 	{
 		$('#calon_wanita').val(asal);
@@ -17,6 +28,7 @@
 			submit_form_ambil_data_pria();
 		}
 	}
+
 	function calon_pria_asal(asal)
 	{
 		$('#calon_pria').val(asal);
@@ -37,6 +49,7 @@
 			submit_form_ambil_data_pria();
 		}
 	}
+
 	function nomor_surat(nomor)
 	{
 		$('#nomor').val(nomor);
@@ -53,6 +66,7 @@
 		$('#'+'main').attr('target','')
 		$('#'+'main').submit();
 	}
+
 	function submit_form_ambil_data_wanita()
 	{
 		$('#id_wanita_validasi').val($('#id_wanita_hidden').val());
@@ -74,6 +88,7 @@
 		$('#'+'validasi').attr('action','<?= $form_action2?>');
 		$('#'+'validasi').submit();
 	}
+
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -141,7 +156,7 @@
 								<?php	endif; ?>
 							</div>
 						</form>
-						<form id="validasi" action="<?= $form_action?>"  method="POST" target="_blank" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
 							<div class="col-md-12">
 								<input id="nomor" name="nomor" type="hidden" value="<?= $_SESSION['post']['nomor']; ?>"/>
 								<input id="id_pria_validasi" type="hidden" name="id_pria" value="<?= $_SESSION['id_pria']?>">
@@ -536,7 +551,7 @@
 									<div class="form-group">
 										<label for="status_kawin_pria" class="col-sm-3 control-label" ><strong>Jika wanita, terangkan perawan atau janda</strong></label>
 										<div class="col-sm-4">
-											<select class="form-control input-sm select2" name="status_kawin_wanita" id="status_kawin_wanita" style ="width:100%;">
+											<select class="form-control input-sm select2 required" name="status_kawin_wanita" id="status_kawin_wanita" style ="width:100%;">
 												<option value="">-- Pilih Status Kawin --</option>
 												<?php foreach ($kode['status_kawin_wanita'] as $data): ?>
 													<option value="<?= $data?>" <?php if ($wanita['status_kawin_wanita']==$data): ?>selected<?php endif; ?>><?= ucwords($data)?></option>
@@ -981,7 +996,7 @@
 					<div class="box-footer">
 						<div class="row">
 							<div class="col-xs-12">
-								<button type="button" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+								<button id="reset_form" type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
 								<?php if (SuratCetak($url)): ?>
 									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-print"></i> Cetak</button>
 								<?php endif; ?>

@@ -1,5 +1,3 @@
-<!-- jQuery 3 -->
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');?>
 <script language="javascript" type="text/javascript">
 	function ubah_saksi1(asal)

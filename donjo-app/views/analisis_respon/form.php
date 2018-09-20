@@ -1,5 +1,4 @@
 
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(document).ready(function()
 	{

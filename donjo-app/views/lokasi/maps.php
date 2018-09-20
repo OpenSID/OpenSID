@@ -1,5 +1,3 @@
-<!-- jQuery 3 -->
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <!-- OpenStreetMap Js-->
 <script src="<?= base_url()?>assets/js/leaflet.js"></script>
 <script src="<?= base_url()?>assets/js/turf.min.js"></script>

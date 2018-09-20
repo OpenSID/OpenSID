@@ -1,5 +1,3 @@
-<!-- jQuery 3 -->
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 
 <!-- Pengaturan Grafik Chart Pie Data Statistik-->
 <script type="text/javascript">
