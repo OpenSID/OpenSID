@@ -83,4 +83,14 @@
 	{
 		$data['wanita']['status_kawin_wanita'] = $status_kawin_wanita[$data['wanita']['status_kawin']];
 	}
+
+	$data['kode']['status_kawin_pria'] = array(
+	  "Jejaka",
+	  "Duda",
+	  "Beristri"
+	);
+	$data['kode']['status_kawin_wanita'] = array(
+	  "Perawan",
+	  "Janda"
+	);
 ?>

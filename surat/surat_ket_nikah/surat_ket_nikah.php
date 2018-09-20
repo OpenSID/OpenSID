@@ -101,15 +101,16 @@
 		}
 	}
 
-	function janda(status)
+	function cerai_mati(status)
 	{
+		// Untuk calon wanita luar desa pilihan hanya 'perawan' atau 'janda'
 		if (status.toUpperCase() == 'janda'.toUpperCase())
 		{
-			$('#janda').show();
+			$('#cerai_mati').show();
 		}
 		else
 		{
-			$('#janda').hide();
+			$('#cerai_mati').hide();
 		}
 	}
 
@@ -264,7 +265,7 @@
 									<div class="form-group">
 										<label for="status_kawin_pria" class="col-sm-3 control-label" ><strong>Jika pria, terangkan jejaka, duda atau beristri</strong></label>
 										<div class="col-sm-4">
-											<select class="form-control input-sm select2" name="status_kawin_pria" id="status_kawin_pria" disabled="disabled" style ="width:100%;">
+											<select class="form-control input-sm select2" disabled="disabled" style ="width:100%;">
 												<option value="">-- Pilih Status Kawin --</option>
 												<?php foreach ($kode['status_kawin_pria'] as $data): ?>
 													<option value="<?= $data?>" <?php if ($pria['status_kawin_pria']==$data): ?>selected<?php endif; ?>><?= ucwords($data)?></option>
@@ -272,6 +273,7 @@
 											</select>
 										</div>
 										<p class="help-block">(Status kawin: <?= $pria['status_kawin']?>)</p>
+										<input type="hidden" name="status_kawin_pria" id="status_kawin_pria" value="<?= $pria['status_kawin_pria']?>">
 									</div>
 									<?php if ($pria['status_kawin']=="KAWIN"): ?>
 										<div class="form-group">
@@ -568,7 +570,7 @@
 									<div class="form-group">
 										<label for="status_kawin_pria" class="col-sm-3 control-label" ><strong>Jika wanita, terangkan perawan atau janda</strong></label>
 										<div class="col-sm-4">
-											<select class="form-control input-sm select2 required" name="status_kawin_wanita" id="status_kawin_wanita" style ="width:100%;" disabled="disabled">
+											<select class="form-control input-sm select2 required" style ="width:100%;" disabled="disabled">
 												<option value="">-- Pilih Status Kawin --</option>
 												<?php foreach ($kode['status_kawin_wanita'] as $data): ?>
 													<option value="<?= $data?>" <?php if ($wanita['status_kawin_wanita']==$data): ?>selected<?php endif; ?>><?= ucwords($data)?></option>
@@ -576,6 +578,7 @@
 											</select>
 										</div>
 										<p class="help-block">(Status kawin: <?= $wanita['status_kawin']?>)</p>
+										<input type="hidden" name="status_kawin_wanita" id="status_kawin_wanita" value="<?= $wanita['status_kawin_wanita']?>">
 									</div>
 								<?php endif; ?>
 								<?php if (empty($wanita)): ?>
@@ -638,7 +641,7 @@
 									<div class="form-group wanita_luar_desa">
 										<label for="wanita_luar_desa" class="col-sm-3 control-label" ><strong>Jika wanita, terangkan perawan atau janda</strong></label>
 										<div class="col-sm-4">
-											<select class="form-control input-sm select2" name="status_kawin_wanita" id="status_kawin_wanita" onchange="janda($(this).val())" style ="width:100%;">
+											<select class="form-control input-sm select2" name="status_kawin_wanita" id="status_kawin_wanita" onchange="cerai_mati($(this).val())" style ="width:100%;">
 												<option value="">-- Pilih Status Kawin --</option>
 												<?php foreach ($kode['status_kawin_wanita'] as $data): ?>
 													<option value="<?= $data?>" <?php if ($data['nama']==$_SESSION['post']['status_kawin_wanita']): ?>selected<?php endif; ?>><?= ucwords($data)?></option>
@@ -831,14 +834,14 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if (empty($wanita) OR strtolower($wanita['status_kawin_wanita'])=="janda"): ?>
-									<div id="janda" class="form-group" >
+								<?php if (empty($wanita) OR strtolower($wanita['status_kawin'])=="cerai mati"): ?>
+									<div id="cerai_mati" class="form-group" >
 											<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>B.4 DATA SUAMI TERDAHULU </strong></label>
 										</div>
 										<div class="form-group suami_dulu">
 											<label class="col-sm-3 control-label" ><strong>Nama <?= ucwords($jenis_pasangan)?> Terdahulu / Bin</strong></label>
 											<div class="col-sm-3">
-												<input name="suami_dulu" class="form-control input-sm" type="text" placeholder="Nama Suami Terdahulu" value="<?= $_SESSION['post']['suami_dulu']?>">
+												<input name="nama_suami_dulu" class="form-control input-sm" type="text" placeholder="Nama Suami Terdahulu" value="<?= $_SESSION['post']['nama_suami_dulu']?>">
 											</div>
 											<div class="col-sm-3">
 												<input name="bin_suami_dulu" class="form-control input-sm" type="text" placeholder="Bin" value="<?= $_SESSION['post']['binti_suami_dulu']?>">

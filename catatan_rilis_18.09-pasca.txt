@@ -31,6 +31,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 24. Sekarang form penambahan dan perubahan kategori lokasi menampilkan judul lokasi bersangkutan.
 25. #1498: Sekarang tombol batal di form surat_ket_nikah berfungsi normal. [bug-fix]
 26. #1498: Sekarang isian jumlah istri dan suami terdahulu tampil berdasarkan status kawin calon pria dan calon wanita.
+27. #1489: Perbaiki data yang dimunculkan di cetakan Surat Keterangan Nikah. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
