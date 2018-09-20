@@ -2,7 +2,7 @@
 
 $lang['profiler_database']		= 'BASIS DATA';
 $lang['profiler_controller_info'] = 'KELAS/METODE';
-$lang['profiler_benchmarks']	= 'TOLOK UKUR';
+$lang['profiler_benchmarks']	= 'TOLAK UKUR';
 $lang['profiler_queries']		= 'KUERI';
 $lang['profiler_get_data']		= 'DATA GET';
 $lang['profiler_post_data']		= 'DATA POST';
