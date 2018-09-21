@@ -31,6 +31,7 @@ assets/files/dokumen/*
 !assets/files/dokumen/index.html
 # Jangan simpan isi folder desa. Isinya khusus desa.
 desa/*
+desa-contoh/*
 surat/arsip/
 !surat/arsip/.keep
 generatedata-3.2.4/
