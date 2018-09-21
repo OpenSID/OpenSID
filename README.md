@@ -53,8 +53,25 @@ Pengguna dan pegiat SID dapat melaporkan dan mendaftarkan masalah/usulan/permint
 
 Komunitas SID juga bebas, bahkan diajak, untuk turut membuat kontribusi pada panduan OpenSID di https://github.com/OpenSID/OpenSID/wiki, dan pada script OpenSID di (https://github.com/OpenSID/OpenSID).
 
+## DONASI
+
+[![Backers on Open Collective](https://opencollective.com/OpenSID/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/OpenSID/sponsors/badge.svg)](#sponsors)
+
+### Pendukung
+
+Peduli dengan OpenSID dan misinya membangun desa? [Jadilah pendudukung OpenSID](https://opencollective.com/OpenSID#backer).
+<a href="https://opencollective.com/OpenSID#backers" target="_blank"><img src="https://opencollective.com/OpenSID/backers.svg?width=890"></a>
+
+Atau bisa donasi langsung ke rekening bank. Lihat detailnya [di sini](https://www.opensid.info/donasi.html).
+
+### Sponsor
+
+Apakah desa/lembaga/perusahaan anda mendapat manfaat dari OpenSID? Bantu kami terus kembangkan OpenSID dengan [menjadi sponsor](https://opencollective.com/OpenSID#sponsor). Logo sponsor akan tampil di sini bersama tautan ke website anda. 
+<a href="https://opencollective.com/OpenSID#backers" target="_blank"><img src="https://opencollective.com/OpenSID/sponsors.svg?width=890"></a>
+
 ## KONTRIBUTOR
-Berikut adalah teman-teman luar biasa yang telah berkontribusi mengembangkan aplikasi OpenSID. ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key))
+Berikut adalah teman-teman luar biasa yang telah berkontribusi langsung mengembangkan aplikasi OpenSID. ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key))
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 | [<img src="https://avatars2.githubusercontent.com/u/16488673?s=400&v=4" width="100px;"/><br /><sub><b>Abdul Gani</b></sub>](https://github.com/batudaa)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=batudaa "Code") [🔧](https://github.com/batudaa/batudaa-theme) | [<img src="https://avatars0.githubusercontent.com/u/19917739?s=460&v=4" width="100px;"/><br /><sub><b>Happy Agung</b></sub>](https://github.com/metalab25)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=metalab25 "Code") | [<img src="https://avatars2.githubusercontent.com/u/10582583?s=460&v=4" width="100px;"/><br /><sub><b>Suyadi</b></sub>](https://github.com/esyede)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=esyede "Code") | [<img src="https://avatars3.githubusercontent.com/u/1905469?s=460&v=4" width="100px;"/><br /><sub><b>cafeiklan</b></sub>](https://github.com/cafeiklan)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=cafeiklan "Code") | [<img src="https://scontent.fmel5-1.fna.fbcdn.net/v/t1.0-1/c1.0.295.295/13006503_10206151340131094_1877719533061445211_n.jpg?_nc_cat=0&oh=47afde62179860ed0c59c94974875eac&oe=5BF79D49" width="100px;"/><br /><sub><b>Bimo Aji Pamungkas</b></sub>](https://www.facebook.com/i177o)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=ombimo "Code") | [<img src="https://avatars2.githubusercontent.com/u/1229849?s=460&v=4" width="100px;"/><br /><sub><b>Ayi Sumarna</b></sub>](https://github.com/siayi)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=siayi "Code") [🐛](https://github.com/OpenSID/OpenSID/issues?q=author%3Asiayi) | [<img src="https://avatars3.githubusercontent.com/u/1853475?s=460&v=4" width="100px;"/><br /><sub><b>Ahmad Afandi</b></sub>](https://github.com/pandigresik)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=pandigresik "Code") |
