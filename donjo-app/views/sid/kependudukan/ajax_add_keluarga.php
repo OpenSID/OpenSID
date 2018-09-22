@@ -13,7 +13,7 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<label for="nik_kepala">Kepala Keluarga</label>
+							<label for="nik_kepala">Kepala Keluarga (dari penduduk yang tidak memiliki No. KK)</label>
 							<select class="form-control input-sm required select2" id="nik_kepala" name="nik_kepala" style="width:100%;">
 								<option value="">-- Silakan Cari NIK / Nama Kepala Keluarga --</option>
 								<?php foreach ($penduduk as $data): ?>

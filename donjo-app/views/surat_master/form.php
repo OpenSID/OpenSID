@@ -25,7 +25,18 @@
 										<div class="form-group">
 											<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
 											<div class="col-sm-7">
-												<input  id="kode_surat" name="kode_surat" class="form-control input-sm required" type="text" placeholder="Kode/Klasifikasi Surat" value="<?= $surat_master['kode_surat']?>">
+												<select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat">
+													<option >
+														<?php if (!empty($surat_master['kode_surat'])): ?>
+															<?= $surat_master['kode_surat']?>
+														<?php else: ?>
+															-- Pilih Kode/Klasifikasi Surat --
+														<?php endif; ?>
+													</option>
+													<?php foreach ($klasifikasi as $item): ?>
+														<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_master["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
+													<?php endforeach;?>
+												</select>
 											</div>
 										</div>
 									</div>

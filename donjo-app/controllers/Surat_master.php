@@ -17,6 +17,7 @@ class Surat_master extends CI_Controller {
 			redirect('siteman');
 		}
 		$this->load->model('surat_master_model');
+		$this->load->model('klasifikasi_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 4;
 	}
@@ -66,6 +67,7 @@ class Surat_master extends CI_Controller {
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
+		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
 
 		if ($id)
 		{

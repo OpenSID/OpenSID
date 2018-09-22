@@ -41,7 +41,7 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<label for="nik">NIK / Nama Penduduk</label>
+							<label for="nik">NIK / Nama Penduduk (dari penduduk yang tidak memiliki No. KK)</label>
 							<select class="form-control input-sm select2 required"  id="nik" name="nik" style="width:100%;">
 								<option option value="">-- Silakan Cari NIK / Nama Penduduk --</option>
 								<?php foreach ($penduduk as $data): ?>
