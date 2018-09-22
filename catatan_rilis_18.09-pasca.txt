@@ -33,6 +33,8 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 26. #1498: Sekarang isian jumlah istri dan suami terdahulu tampil berdasarkan status kawin calon pria dan calon wanita.
 27. #1489: Perbaiki data yang dimunculkan di cetakan Surat Keterangan Nikah. [bug-fix]
 28. Perbaiki tampilan web supaya jalan kembali menggunakan PHP 5.3.7.
+29. #252: Sediakan daftar kode klasifikasi surat.
+30. Gunakan daftar kode klasifikasi surat di form isian Surat Masuk.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

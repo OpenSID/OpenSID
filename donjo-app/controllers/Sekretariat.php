@@ -7,10 +7,10 @@ class Sekretariat extends CI_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != (1 or 2 or 3))
+		$this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
+		if ($this->grup != (1 or 2 or 3))
 		{
-			if (empty($grup))
+			if (empty($this->grup))
 				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 			else
 				unset($_SESSION['request_uri']);
@@ -18,6 +18,7 @@ class Sekretariat extends CI_Controller {
 		}
 		$this->load->model('header_model');
 		$this->modul_ini = 15;
+		$this->controller = 'sekretariat';
 	}
 
 	public function index()

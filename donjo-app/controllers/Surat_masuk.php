@@ -19,6 +19,7 @@ class Surat_masuk extends CI_Controller {
 			redirect('siteman');
 		}
 		$this->load->model('surat_masuk_model');
+		$this->load->model('klasifikasi_model');
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
@@ -70,6 +71,7 @@ class Surat_masuk extends CI_Controller {
 	public function form($p = 1, $o = 0, $id = '')
 	{
 		$data['pengirim'] = $this->surat_masuk_model->autocomplete_pengirim();
+		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -77,7 +79,7 @@ class Surat_masuk extends CI_Controller {
 		{
 			$data['surat_masuk'] = $this->surat_masuk_model->get_surat_masuk($id);
 			$data['form_action'] = site_url("surat_masuk/update/$p/$o/$id");
-			$data['disposisi_surat_masuk'] = 
+			$data['disposisi_surat_masuk'] =
 				$this->surat_masuk_model->get_disposisi_surat_masuk($id);
 		}
 		else

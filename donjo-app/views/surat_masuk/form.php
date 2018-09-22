@@ -62,7 +62,18 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
 								<div class="col-sm-8">
-									<input id="kode_surat" name="kode_surat" class="form-control input-sm  required" type="text" placeholder="Kode/Klasifikasi Surat" value="<?= $surat_masuk['kode_surat']?>"></input>
+									<select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat">
+										<option >
+											<?php if (!empty($surat_masuk['kode_surat'])): ?>
+												<?= $surat_masuk['kode_surat']?>
+											<?php else: ?>
+												-- Pilih Kode/Klasifikasi Surat --
+											<?php endif; ?>
+										</option>
+										<?php foreach ($klasifikasi as $item): ?>
+											<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_masuk["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
+										<?php endforeach;?>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">
@@ -100,7 +111,7 @@
 									<select name="disposisi_kepada[]" multiple id="disposisi_kepada" class="form-control input-sm required">
 										<?php foreach ($ref_disposisi as $data): ?>
 
-												<option value="<?= $data?>" 
+												<option value="<?= $data?>"
 													<?php foreach ($disposisi_surat_masuk as $value): ?>
 														<?php if ($value['disposisi_ke'] == $data): ?>
 															selected
@@ -108,7 +119,7 @@
 													<?php endforeach; ?>>
 													<?= strtoupper($data)?>
 												</option>
-												
+
 										<?php endforeach ?>
 									</select>
 								</div>

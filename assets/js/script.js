@@ -47,6 +47,11 @@ $(document).ready(function()
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2();
+	// Select2 dengan fitur pencarian dan boleh isi sendiri
+	$('.select2-tags').select2(
+		{
+			tags: true
+		});
 	// Select2 untuk disposisi pada form
 	// surat masuk
 	$('#disposisi_kepada').select2({
