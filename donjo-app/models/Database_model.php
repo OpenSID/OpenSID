@@ -360,8 +360,9 @@
 		  $this->db->query($query);
 		}
 
-		//Perbaiki url untuk modul Surat Masuk
+		//Perbaiki url untuk modul Surat Masuk dan Arsip Layanan
 		$this->db->where('url','surat_masuk')->update('setting_modul',array('url'=>'surat_masuk/clear'));
+		$this->db->where('url','keluar')->update('setting_modul',array('url'=>'keluar/clear'));
 		//Perbaiki ikon untuk modul Sekretariat
 		$this->db->where('url','sekretariat')->update('setting_modul',array('ikon'=>'fa-archive'));
 		 // Buat view untuk penduduk hidup -- untuk memudahkan query
