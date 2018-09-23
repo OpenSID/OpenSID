@@ -28,7 +28,7 @@
 	}
 
 
-	private function search_sql()
+	protected function search_sql()
 	{
 		if (isset($_SESSION['cari']))
 		{
@@ -40,7 +40,7 @@
 		}
 	}
 
-	private function keluarga_sql()
+	protected function keluarga_sql()
 	{
 		if ($_SESSION['layer_keluarga'] == 1)
 		{
@@ -49,7 +49,7 @@
 		}
 	}
 
-	private function sex_sql()
+	protected function sex_sql()
 	{
 		if (isset($_SESSION['sex']))
 		{
@@ -59,7 +59,7 @@
 		}
 	}
 
-	private function dusun_sql()
+	protected function dusun_sql()
 	{
 		if (isset($_SESSION['dusun']))
 		{
@@ -69,7 +69,7 @@
 		}
 	}
 
-	private function rw_sql()
+	protected function rw_sql()
 	{
 		if (isset($_SESSION['rw']))
 		{
@@ -79,7 +79,7 @@
 		}
 	}
 
-	private function rt_sql()
+	protected function rt_sql()
 	{
 		if (isset($_SESSION['rt']))
 		{
@@ -89,7 +89,7 @@
 		}
 	}
 
-	private function pendidikan_kk_sql()
+	protected function pendidikan_kk_sql()
 	{
 		if (isset($_SESSION['pendidikan_kk_id']))
 		{
@@ -99,7 +99,7 @@
 		}
 	}
 
-	private function get_sql_kolom_kode($kode_session,$kode_kolom)
+	protected function get_sql_kolom_kode($kode_session,$kode_kolom)
 	{
 		if (isset($_SESSION[$kode_session]))
 		{
@@ -112,7 +112,7 @@
 		}
 	}
 
-	private function akta_kelahiran_sql()
+	protected function akta_kelahiran_sql()
 	{
 		if (isset($_SESSION['akta_kelahiran']))
 		{
@@ -125,7 +125,7 @@
 		}
 	}
 
-	private function cacat_sql()
+	protected function cacat_sql()
 	{
 		if (isset($_SESSION['cacat']))
 		{
@@ -135,7 +135,7 @@
 		}
 	}
 
-	private function menahun_sql()
+	protected function menahun_sql()
 	{
 		if (isset($_SESSION['menahun']))
 		{
@@ -145,7 +145,7 @@
 		}
 	}
 
-	private function hamil_sql()
+	protected function hamil_sql()
 	{
 		if (isset($_SESSION['hamil']))
 		{
@@ -155,7 +155,7 @@
 		}
 	}
 
-	private function umur_max_sql()
+	protected function umur_max_sql()
 	{
 		if (isset($_SESSION['umur_max']))
 		{
@@ -165,7 +165,7 @@
 		}
 	}
 
-	private function umur_min_sql()
+	protected function umur_min_sql()
 	{
 		if (isset($_SESSION['umur_min']))
 		{
@@ -175,7 +175,7 @@
 		}
 	}
 
-	private function umur_sql()
+	protected function umur_sql()
 	{
 		if (isset($_SESSION['umurx']))
 		{
@@ -187,7 +187,7 @@
 		}
 	}
 
-	private function filter_sql()
+	protected function filter_sql()
 	{
 		if (isset($_SESSION['filter']))
 		{
@@ -197,7 +197,7 @@
 		}
 	}
 
-	private function status_dasar_sql()
+	protected function status_dasar_sql()
 	{
 		if (isset($_SESSION['status_dasar']))
 		{
@@ -207,7 +207,7 @@
 		}
 	}
 
-	private function status_ktp_sql()
+	protected function status_ktp_sql()
 	{
 		// Filter berdasarkan data eKTP
 		$wajib_ktp_sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) ";
