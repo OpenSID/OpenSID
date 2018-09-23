@@ -1,3 +1,14 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $pengirim?> ;
+		$( "#pengirim" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Disposisi Surat Masuk</h1>

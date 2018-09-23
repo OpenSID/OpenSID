@@ -70,7 +70,7 @@ class Surat_masuk extends CI_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
-		$data['pengirim'] = $this->surat_masuk_model->autocomplete_pengirim();
+		$data['pengirim'] = $this->surat_masuk_model->autocomplete();
 		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
 		$data['p'] = $p;
 		$data['o'] = $o;

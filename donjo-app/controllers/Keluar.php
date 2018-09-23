@@ -7,7 +7,7 @@ class Keluar extends CI_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
-		$this->load->model('surat_keluar_model');
+		$this->load->model('keluar_model');
 		$this->load->model('surat_model');
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if ($this->grup != 1 AND $this->grup != 2 AND $this->grup != 3)
@@ -49,9 +49,9 @@ class Keluar extends CI_Controller {
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging'] = $this->surat_keluar_model->paging($p,$o);
-		$data['main'] = $this->surat_keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->surat_keluar_model->autocomplete();
+		$data['paging'] = $this->keluar_model->paging($p,$o);
+		$data['main'] = $this->keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['keyword'] = $this->keluar_model->autocomplete();
 
 		$header = $this->header_model->get_data();
 
@@ -71,7 +71,7 @@ class Keluar extends CI_Controller {
 			session_error('Anda tidak mempunyai izin melakukan ini');
 			redirect("keluar/index/$p/$o"); // Batasi hanya admin yang boleh hapus
 		}
-		$this->surat_keluar_model->delete($id);
+		$this->keluar_model->delete($id);
 		redirect("keluar/index/$p/$o");
 	}
 
@@ -106,8 +106,8 @@ class Keluar extends CI_Controller {
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging'] = $this->surat_keluar_model->paging_perorangan($nik,$p,$o);
-		$data['main'] = $this->surat_keluar_model->list_data_surat($nik,$o, $data['paging']->offset, $data['paging']->per_page);
+		$data['paging'] = $this->keluar_model->paging_perorangan($nik,$p,$o);
+		$data['main'] = $this->keluar_model->list_data_surat($nik,$o, $data['paging']->offset, $data['paging']->per_page);
 
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['form_action'] = site_url("sid_surat_keluar/perorangan/$nik");
@@ -128,7 +128,7 @@ class Keluar extends CI_Controller {
 		$nav['act_sub'] = 32;
 		$header = $this->header_model->get_data();
 
-		$data['stat'] = $this->surat_keluar_model->grafik();
+		$data['stat'] = $this->keluar_model->grafik();
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/surat_keluar_graph', $data);

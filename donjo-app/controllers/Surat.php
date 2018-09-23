@@ -20,7 +20,7 @@ class Surat extends CI_Controller {
 		$this->load->model('penduduk_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('surat_model');
-		$this->load->model('surat_keluar_model');
+		$this->load->model('keluar_model');
 		$this->load->model('config_model');
 		$this->load->model('referensi_model');
 		$this->modul_ini = 4;
@@ -126,7 +126,7 @@ class Surat extends CI_Controller {
 
 		$data['pengikut'] = $this->surat_model->pengikut();
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['kk']['id_kk']);
-		$this->surat_keluar_model->log_surat($log_surat);
+		$this->keluar_model->log_surat($log_surat);
 
 		$data['url'] = $url;
 		$this->load->view("surat/print_surat", $data);
@@ -176,12 +176,12 @@ class Surat extends CI_Controller {
 			$nik = $log_surat['nik_non_warga'];
 		}
 
-		$nama_surat = $this->surat_keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
+		$nama_surat = $this->keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
 		$lampiran = '';
 		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
 		$log_surat['nama_surat'] = $nama_surat;
 		$log_surat['lampiran'] = $lampiran;
-		$this->surat_keluar_model->log_surat($log_surat);
+		$this->keluar_model->log_surat($log_surat);
 
 		header("location:".base_url(LOKASI_ARSIP.$nama_surat));
 	}

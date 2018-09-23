@@ -39,7 +39,7 @@
 											<select name="filter" class="form-control input-sm" onchange="formAction('mainform','<?= site_url('surat_masuk/filter')?>')">
 												<option value="">Semua</option>
 												<?php foreach ($tahun_penerimaan as $tahun): ?>
-													<option value="<?= $tahun['tahun']?>" <?php if ($filter==$tahun['tahun']): ?>selected<?php endif; ?>><?= $data['pamong_nama']?> (<?= $tahun['tahun']?>)</option>
+													<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>

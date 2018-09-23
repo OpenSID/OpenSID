@@ -150,6 +150,27 @@
 
   private function migrasi_1809_ke_1810()
   {
+		// Tambah tabel surat_keluar
+		//Perbaiki url untuk modul Surat Keluar
+		$this->db->where('id', 58)->update('setting_modul',array('url'=>'surat_keluar/clear', 'aktif'=>'1'));
+		if (!$this->db->table_exists('surat_keluar') ) {
+			$query = "
+				CREATE TABLE `surat_keluar` (
+					`id` int NOT NULL AUTO_INCREMENT,
+					`nomor_urut` smallint(5),
+					`nomor_surat` varchar(20),
+					`kode_surat` varchar(10),
+					`tanggal_surat` date NOT NULL,
+					`tanggal_catat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+					`tujuan` varchar(100),
+					`isi_singkat` varchar(200),
+					`berkas_scan` varchar(100),
+					PRIMARY KEY  (`id`)
+				);
+			";
+			$this->db->query($query);
+		}
+
   	// Tambah klasifikasi surat
 		if (!$this->db->table_exists('klasifikasi_surat') ) {
 			$data = array(
@@ -164,7 +185,6 @@
 				'hidden' => '0',
 				'ikon_kecil' => 'fa-code'
 			);
-			$this->db->insert('setting_modul', $data);
 			$sql = $this->db->insert_string('setting_modul', $data) . " ON DUPLICATE KEY UPDATE url=VALUES(url)";
 			$this->db->query($sql);
 
