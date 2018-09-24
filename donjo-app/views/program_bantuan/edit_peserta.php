@@ -52,7 +52,7 @@
 									</div>
 									<div class="col-sm-12">
 										<div class="box-header with-border">
-											<h3 class="box-title">Tambah Peserta Program</h3>
+											<h3 class="box-title">Identitas Pada Kartu Peserta</h3>
 										</div>
                      <div class="box-body">
                         <input type="hidden" name="program_id" value="<?= $program_id?>"/>
@@ -84,9 +84,6 @@
 														</div>
 														<p class="help-block">Kosongkan jika tidak ingin mengunggah gambar.</p>
 													</div>
-												</div>
-												<div class="form-group">
-													<label for="kartu_nik"  class="col-sm-4 control-label">Identitas Pada Kartu Peserta</label>
 												</div>
 												<div class="form-group">
 													<label for="kartu_nik"  class="col-sm-4 control-label">NIK</label>

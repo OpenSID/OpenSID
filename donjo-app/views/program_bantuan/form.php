@@ -1,3 +1,6 @@
+<style type="text/css">
+	label.control-label.text-left { text-align: left }
+</style>
 <div class="content-wrapper">
   <?php $detail = $program[0];?>
 	<section class="content-header">
@@ -74,6 +77,9 @@
                       <form id="validasi" action="<?= $form_action?>/<?= $detail['id']?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 												<input type="hidden" name="nik" value="<?= $individu['nik']?>"  >
 												<div class="form-group">
+													<label for="kartu_nik" class="col-sm-11 control-label text-left">IDENTITAS PADA KARTU PESERTA</label>
+												</div>
+												<div class="form-group">
 													<label for="no_id_kartu" class="col-sm-4 col-lg-2  control-label">Nomor Kartu Peserta</label>
 													<div class="col-sm-7">
 								  					<input  id="no_id_kartu" class="form-control input-sm" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" required="" >
@@ -91,9 +97,6 @@
 														</div>
 														<p class="help-block">Kosongkan jika tidak ingin mengunggah gambar.</p>
 													</div>
-												</div>
-												<div class="form-group">
-													<label for="kartu_nik"  class="col-sm-4 col-lg-3 control-label">Identitas Pada Kartu Peserta</label>
 												</div>
 												<div class="form-group">
 													<label for="kartu_nik"  class="col-sm-4 col-lg-2 control-label">NIK</label>
