@@ -89,7 +89,7 @@
 						<tr class="data">
 							<td class="text-center" width="2"><?= $key+1?></td>
 							<td><?= $data['status_kawin']?></td>
-							<td class="text-center"><?= tgl_indo2($data['tanggalperkawinan'])?></td>
+							<td class="text-center"><?= tgl_indo_out($data['tanggalperkawinan'])?></td>
 							<td><?= $data['hubungan']?></td>
 							<td><?= $data['warganegara']?></td>
 							<td><?= $data['dokumen_pasport']?></td>
