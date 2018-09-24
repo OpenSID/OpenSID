@@ -1,16 +1,22 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class Program_bantuan_model extends CI_Model{
+class Program_bantuan_model extends CI_Model {
 
-	function __construct(){
+	public function __construct()
+	{
 		$this->load->database();
 		$this->load->model('rtm_model');
 		$this->load->model('kelompok_model');
 	}
-	public function list_program($sasaran=0){
-		if ($sasaran > 0){
+
+	public function list_program($sasaran=0)
+	{
+		if ($sasaran > 0)
+		{
 			$strSQL = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status
 				FROM program p WHERE p.sasaran=".$sasaran;
-		}else{
+		}
+		else
+		{
 			$strSQL = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status, CONCAT('50',p.id) as lap
 				FROM program p WHERE 1";
 		}
@@ -19,7 +25,8 @@ class Program_bantuan_model extends CI_Model{
 		return $data;
 	}
 
-	public function link_statistik_program_bantuan(){
+	public function link_statistik_program_bantuan()
+	{
 		$strSQL = "
 			SELECT CONCAT('statistik/50',p.id) as id, p.nama, p.sasaran
 			FROM program p
@@ -28,14 +35,16 @@ class Program_bantuan_model extends CI_Model{
 		$hasil = $query->result_array();
 		$data = array();
 		$sasaran = unserialize(SASARAN);
-		foreach($hasil as $program){
+		foreach ($hasil as $program)
+		{
 			$data[$program['id']] = $program['nama'].' ('.$sasaran[$program['sasaran']].')';
 		}
 		return $data;
 	}
 
-	public function list_program_keluarga($kk_id=0){
-		$this->load->model('keluarga_model'); // Di-load di sini karena tidak bisa diload di constructor
+	public function list_program_keluarga($kk_id=0)
+	{
+		$this->load->model('keluarga_model'); // Di-load di sini karena tidak bisa diload di constructor, karena keluarga_model juga load program_bantuan_model
 		$no_kk = $this->keluarga_model->get_nokk($kk_id);
 		$sasaran = 2;
 		$strSQL = "
@@ -48,14 +57,15 @@ class Program_bantuan_model extends CI_Model{
 		return $data;
 	}
 
-	function paging_peserta($p, $slug, $sasaran) {
-		$sql 			= $this->get_peserta_sql($slug,$sasaran,true);
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
+	public function paging_peserta($p, $slug, $sasaran)
+	{
+		$sql = $this->get_peserta_sql($slug,$sasaran, true);
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
 		$jml_data = $row['jumlah'];
 
 		$this->load->library('paging');
-		$cfg['page']     = $p;
+		$cfg['page'] = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
@@ -63,14 +73,15 @@ class Program_bantuan_model extends CI_Model{
 		return $this->paging;
 	}
 
-	function paging_bantuan($p) {
-		$sql 			= "SELECT count(*) as jumlah FROM program";
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
+	public function paging_bantuan($p)
+	{
+		$sql = "SELECT count(*) as jumlah FROM program";
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
 		$jml_data = $row['jumlah'];
 
 		$this->load->library('paging');
-		$cfg['page']     = $p;
+		$cfg['page'] = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
@@ -81,9 +92,12 @@ class Program_bantuan_model extends CI_Model{
 	/*
 		Mengambil data individu peserta
 	*/
-	function get_peserta($peserta_id, $sasaran) {
+	public function get_peserta($peserta_id, $sasaran)
+	{
 		$this->load->model('surat_model');
-		switch ($sasaran) {
+		$this->load->model('keluarga_model');
+		switch ($sasaran)
+		{
 			case 1:
 				# Data penduduk
 				$sql   = "SELECT u.id AS id,u.nama AS nama,x.nama AS sex,u.id_kk AS id_kk,
@@ -130,9 +144,11 @@ class Program_bantuan_model extends CI_Model{
 
 	// Query dibuat pada satu tempat, supaya penghitungan baris untuk paging selalu
 	// konsisten dengan data yang diperoleh
-	function get_peserta_sql($slug, $sasaran, $jumlah=false) {
+	private function get_peserta_sql($slug, $sasaran, $jumlah=false)
+	{
 		if ($jumlah) $select_sql = "COUNT(*) as jumlah";
-		switch ($sasaran) {
+		switch ($sasaran)
+		{
 			case 1:
 				# Data penduduk
 				if (!$jumlah) $select_sql = "p.*,o.nama,w.rt,w.rw,w.dusun";
@@ -174,12 +190,14 @@ class Program_bantuan_model extends CI_Model{
 		return $strSQL;
 	}
 
-	function get_sasaran($id) {
+	public function get_sasaran($id)
+	{
 		$this->db->select('sasaran, nama');
 		$this->db->where('id', $id);
 		$query = $this->db->get('program');
 		$data = $query->row_array();
-		switch ($data['sasaran']) {
+		switch ($data['sasaran'])
+		{
 			case 1:
 				$data['judul_sasaran'] = 'Sasaran Penduduk';
 				break;
@@ -200,8 +218,10 @@ class Program_bantuan_model extends CI_Model{
 		return $data;
 	}
 
-	public function get_program($p, $slug){
-		if ($slug === false){
+	public function get_program($p, $slug)
+	{
+		if ($slug === false)
+		{
 			$response['paging'] = $this->paging_bantuan($p);
 			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE 1";
 			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
@@ -209,7 +229,9 @@ class Program_bantuan_model extends CI_Model{
 			$data = $query->result_array();
 			$response['program'] = $data;
 			return $response;
-		}else{
+		}
+		else
+		{
 			// Untuk program bantuan, $slug berbentuk '50<program_id>'
 			$slug = preg_replace("/^50/", "", $slug);
 			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE p.id=".$slug;
@@ -222,7 +244,8 @@ class Program_bantuan_model extends CI_Model{
 			$strSQL .= $paging_sql;
 			$query = $this->db->query($strSQL);
 
-			switch ($hasil0["sasaran"]){
+			switch ($hasil0["sasaran"])
+			{
 				case 1:
 					/*
 					 * Data penduduk
@@ -230,10 +253,11 @@ class Program_bantuan_model extends CI_Model{
 					$hasil0['judul_peserta'] = 'NIK';
 					$hasil0['judul_peserta_info'] = 'Nama Peserta';
 					$filter = array();
-					if($query->num_rows()>0){
-						$data=$query->result_array();
-						$i=0;
-						while($i<count($data)){
+					if ($query->num_rows()>0)
+					{
+						$data = $query->result_array();
+						for ($i=0; $i<count($data); $i++)
+						{
 							$data[$i]['id']=$data[$i]['id'];
 							$data[$i]['nik']=$data[$i]['peserta'];
 							$data[$i]['peserta_nama']=$data[$i]['peserta'];
@@ -241,10 +265,11 @@ class Program_bantuan_model extends CI_Model{
 							$filter[] = $data[$i]['peserta'];
 							$data[$i]['nama']=strtoupper($data[$i]['nama']);
 							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-							$i++;
 						}
 						$hasil1 = $data;
-					}else{
+					}
+					else
+					{
 						$hasil1 = false;
 					}
 
@@ -253,24 +278,28 @@ class Program_bantuan_model extends CI_Model{
 						WHERE 1 ORDER BY nama";
 					$query = $this->db->query($strSQL);
 					$data = "";
-					$data=$query->result_array();
-					if($query->num_rows() > 0){
-						$i=0;$j=0;
-						while($i<count($data)){
+					$data = $query->result_array();
+					if ($query->num_rows() > 0)
+					{
+						$j = 0;
+						for ($i=0; $i<count($data); $i++)
+						{
 							// Abaikan penduduk yang sudah terdaftar pada program
-							if(!in_array($data[$i]['nik'],$filter)){
-								if($data[$i]['nik']!=""){
-									$data1[$j]['id']=$data[$i]['nik'];
-									$data1[$j]['nik']=$data[$i]['nik'];
-									$data1[$j]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['nik']."]";
-									$data1[$j]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+							if (!in_array($data[$i]['nik'], $filter))
+							{
+								if($data[$i]['nik'] != ""){
+									$data1[$j]['id'] = $data[$i]['nik'];
+									$data1[$j]['nik'] = $data[$i]['nik'];
+									$data1[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nik']."]";
+									$data1[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 									$j++;
 								}
 							}
-							$i++;
 						}
 						$hasil2 = $data1;
-					}else{
+					}
+					else
+					{
 						$hasil2 = false;
 					}
 					break;
@@ -281,10 +310,11 @@ class Program_bantuan_model extends CI_Model{
 					$hasil0['judul_peserta'] = 'NO. KK';
 					$hasil0['judul_peserta_info'] = 'Kepala Keluarga';
 					$filter = array();
-					if($query->num_rows()>0){
+					if ($query->num_rows()>0)
+					{
 						$data=$query->result_array();
-						$i=0;
-						while($i<count($data)){
+						for ($i=0; $i<count($data); $i++)
+						{
 							$data[$i]['id']=$data[$i]['id'];
 							$data[$i]['nik']=$data[$i]['no_kk'];
 							$data[$i]['peserta_nama']=$data[$i]['no_kk'];
@@ -293,10 +323,11 @@ class Program_bantuan_model extends CI_Model{
 							$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
 
 							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-							$i++;
 						}
 						$hasil1 = $data;
-					}else{
+					}
+					else
+					{
 						$hasil1 = false;
 					}
 					// Daftar keluarga, tidak termasuk keluarga yang sudah menjadi peserta
@@ -306,12 +337,14 @@ class Program_bantuan_model extends CI_Model{
 					WHERE 1";
 					$query = $this->db->query($strSQL);
 					$hasil2 = array();
-					$data=$query->result_array();
-					if($query->num_rows() > 0){
-						$i=0;$j=0;
-						while($i<count($data)){
+					$data = $query->result_array();
+					if ($query->num_rows() > 0)
+					{
+						$j = 0;
+						for ($i=0; $i<count($data); $i++)
+						{
 							// Abaikan keluarga yang sudah terdaftar pada program
-							if(!in_array($data[$i]['id'],$filter)){
+							if(!in_array($data[$i]['id'], $filter)){
 								$data[$i]['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $data[$i]['id']); //Hapus karakter non alpha di no_kk
 								$hasil2[$j]['id']=$data[$i]['id'];
 								$hasil2[$j]['nik']=$data[$i]['id'];
@@ -319,9 +352,10 @@ class Program_bantuan_model extends CI_Model{
 								$hasil2[$j]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 								$j++;
 							}
-							$i++;
 						}
-					}else{
+					}
+					else
+					{
 						$hasil2 = false;
 					}
 					break;
@@ -332,10 +366,11 @@ class Program_bantuan_model extends CI_Model{
 					$hasil0['judul_peserta'] = 'NO. Rumah Tangga';
 					$hasil0['judul_peserta_info'] = 'Kepala Rumah Tangga';
 					$filter = array();
-					if($query->num_rows()>0){
+					if ($query->num_rows()>0)
+					{
 						$data=$query->result_array();
-						$i=0;
-						while($i<count($data)){
+						for ($i=0; $i<count($data); $i++)
+						{
 							$data[$i]['id']=$data[$i]['id'];
 							$data[$i]['nik']=$data[$i]['peserta'];
 							$data[$i]['peserta_nama']=$data[$i]['no_kk'];
@@ -343,10 +378,11 @@ class Program_bantuan_model extends CI_Model{
 							$filter[] = $data[$i]['peserta'];
 							$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['nik']." - ".$data[$i]['no_kk']."]";
 							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-							$i++;
 						}
 						$hasil1 = $data;
-					}else{
+					}
+					else
+					{
 						$hasil1 = false;
 					}
 
@@ -357,21 +393,25 @@ class Program_bantuan_model extends CI_Model{
 						";
 					$query = $this->db->query($strSQL);
 					$hasil2 = array();;
-					$data=$query->result_array();
-					if($query->num_rows() > 0){
-						$i=0;$j=0;
-						while($i<count($data)){
+					$data = $query->result_array();
+					if ($query->num_rows() > 0)
+					{
+						$j = 0;
+						for ($i=0; $i<count($data); $i++)
+						{
 							// Abaikan RTM yang sudah terdaftar pada program
-							if(!in_array($data[$i]['id'],$filter)){
-								$hasil2[$j]['id']=$data[$i]['id'];
-								$hasil2[$j]['nik']=$data[$i]['id'];
-								$hasil2[$j]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['id']."]";
-								$hasil2[$j]['info']="RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+							if (!in_array($data[$i]['id'], $filter))
+							{
+								$hasil2[$j]['id'] = $data[$i]['id'];
+								$hasil2[$j]['nik'] = $data[$i]['id'];
+								$hasil2[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['id']."]";
+								$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 								$j++;
 							}
-							$i++;
 						}
-					}else{
+					}
+					else
+					{
 						$hasil2 = false;
 					}
 					break;
@@ -383,21 +423,23 @@ class Program_bantuan_model extends CI_Model{
 					$hasil0['judul_peserta'] = 'Nama Kelompok';
 					$hasil0['judul_peserta_info'] = 'Ketua Kelompok';
 					$filter = array();
-					if($query->num_rows()>0){
-						$data=$query->result_array();
-						$i=0;
-						while($i<count($data)){
-							$data[$i]['id']=$data[$i]['id'];
-							$data[$i]['nik']=$data[$i]['nama_kelompok'];
-							$data[$i]['peserta_nama']=$data[$i]['nama_kelompok'];
-							$data[$i]['peserta_info']=$data[$i]['nama'];
+					if ($query->num_rows()>0)
+					{
+						$data = $query->result_array();
+						for ($i=0; $i<count($data); $i++)
+						{
+							$data[$i]['id'] = $data[$i]['id'];
+							$data[$i]['nik'] = $data[$i]['nama_kelompok'];
+							$data[$i]['peserta_nama'] = $data[$i]['nama_kelompok'];
+							$data[$i]['peserta_info'] = $data[$i]['nama'];
 							$filter[] = $data[$i]['peserta'];
-							$data[$i]['nama']=strtoupper($data[$i]['nama']);
-							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-							$i++;
+							$data[$i]['nama'] = strtoupper($data[$i]['nama']);
+							$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 						}
 						$hasil1 = $data;
-					}else{
+					}
+					else
+					{
 						$hasil1 = false;
 					}
 
@@ -407,40 +449,46 @@ class Program_bantuan_model extends CI_Model{
 						WHERE 1";
 					$query = $this->db->query($strSQL);
 					$hasil2 = array();
-					$data=$query->result_array();
-					if($query->num_rows() > 0){
-						$i=0; $j=0;
-						while($i<count($data)){
+					$data = $query->result_array();
+					if ($query->num_rows() > 0)
+					{
+						$j = 0;
+						for ($i=0; $i<count($data); $i++)
+						{
 							// Abaikan kelompok yang sudah terdaftar pada program
-							if(!in_array($data[$i]['id'],$filter)){
-								$hasil2[$j]['id']=$data[$i]['id'];
-								$hasil2[$j]['nik']=$data[$i]['id'];
-								$hasil2[$j]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['nama_kelompok']."]";
-								$hasil2[$j]['info']="RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+							if (!in_array($data[$i]['id'], $filter))
+							{
+								$hasil2[$j]['id'] = $data[$i]['id'];
+								$hasil2[$j]['nik'] = $data[$i]['id'];
+								$hasil2[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nama_kelompok']."]";
+								$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 								$j++;
 							}
-							$i++;
 						}
-					}else{
+					}
+					else
+					{
 						$hasil2 = false;
 					}
 					break;
 				default:
 
 			}
-			$hasil = array($hasil0,$hasil1,$hasil2);
+			$hasil = array($hasil0, $hasil1, $hasil2);
 			return $hasil;
 		}
 	}
 
 	// Ambil data program
-	function get_data_program($id){
+	function get_data_program($id)
+	{
 		// Untuk program bantuan, $id '50<program_id>'
 		$program_id = preg_replace("/^50/", "", $id);
-		return $this->db->select("*")->where("id",$program_id)->get("program")->row_array();
+		return $this->db->select("*")->where("id", $program_id)->get("program")->row_array();
 	}
 
-	public function get_peserta_program($cat,$id){
+	public function get_peserta_program($cat, $id)
+	{
 		$data_program = false;
 		/*
 		 * fungsi untuk menampilkan keterlibatan $id dalam program intervensi yg telah dilakukan,
@@ -452,11 +500,13 @@ class Program_bantuan_model extends CI_Model{
 			LEFT JOIN program p ON p.id = o.program_id
 			WHERE ((o.peserta='".fixSQL($id)."') AND (o.sasaran='".fixSQL($cat)."'))";
 		$query = $this->db->query($strSQL);
-		if($query->num_rows() > 0){
+		if ($query->num_rows() > 0)
+		{
 			$data_program = $query->result_array();
 		}
 
-		switch ($cat){
+		switch ($cat)
+		{
 			case 1:
 				/*
 				 * Rincian Penduduk
@@ -466,7 +516,8 @@ class Program_bantuan_model extends CI_Model{
 				 	LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
 				 	WHERE o.nik='".fixSQL($id)."'";
 				$query = $this->db->query($strSQL);
-				if($query->num_rows() > 0){
+				if ($query->num_rows() > 0)
+				{
 					$row = $query->row_array();
 					$data_profil = array(
 						"id"=>$id,
@@ -485,7 +536,8 @@ class Program_bantuan_model extends CI_Model{
 					LEFT JOIN tweb_penduduk p ON o.nik_kepala=p.id
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_cluster WHERE o.no_kk='".fixSQL($id)."'";
 				$query = $this->db->query($strSQL);
-				if($query->num_rows() > 0){
+				if ($query->num_rows() > 0)
+				{
 					$row = $query->row_array();
 					$data_profil = array(
 						"id"=>$id,
@@ -494,7 +546,6 @@ class Program_bantuan_model extends CI_Model{
 						"foto"=>""
 						);
 				}
-
 				break;
 			case 3:
 				/*
@@ -505,7 +556,8 @@ class Program_bantuan_model extends CI_Model{
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
 					WHERE r.no_kk=$id";
 				$query = $this->db->query($strSQL);
-				if($query->num_rows() > 0){
+				if ($query->num_rows() > 0)
+				{
 					$row = $query->row_array();
 					$data_profil = array(
 						"id"=>$id,
@@ -525,7 +577,8 @@ class Program_bantuan_model extends CI_Model{
 				 LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_cluster
 				 WHERE k.id='".fixSQL($id)."'";
 				$query = $this->db->query($strSQL);
-				if($query->num_rows() > 0){
+				if ($query->num_rows() > 0)
+				{
 					$row = $query->row_array();
 					$data_profil = array(
 						"id"=>$id,
@@ -538,16 +591,19 @@ class Program_bantuan_model extends CI_Model{
 			default:
 
 		}
-		if(!$data_program==false){
-			$hasil = array("programkerja"=>$data_program,"profil"=>$data_profil);
+		if (!$data_program==false)
+		{
+			$hasil = array("programkerja" => $data_program, "profil" => $data_profil);
 			return $hasil;
-		}else{
+		}
+		else
+		{
 			return null;
 		}
 	}
 
-	public function set_program(){
-
+	public function set_program()
+	{
 		$data = array(
 			'sasaran' => $this->input->post('cid'),
 			'nama' => fixSQL($this->input->post('nama')),
@@ -559,7 +615,8 @@ class Program_bantuan_model extends CI_Model{
 		return $this->db->insert('program', $data);
 	}
 
-	public function add_peserta($post,$id){
+	public function add_peserta($post, $id)
+	{
 		$nik = $post['nik'];
 		$strSQL = "SELECT sasaran FROM program WHERE id=".$id;
 		$hasil = $this->db->query($strSQL);
@@ -567,18 +624,22 @@ class Program_bantuan_model extends CI_Model{
 		$sasaran = $row['sasaran'];
 		// Untuk sasaran kelompok, $id adalah nama kelompok, jadi perlu mengambil
 		// id kelompok yang digunakan sebagai id peserta
-		if ($sasaran == 4){
+		if ($sasaran == 4)
+		{
 			$this->db->select('id');
-			$this->db->where('nama',$nik);
+			$this->db->where('nama', $nik);
 			$query = $this->db->get('kelompok');
 			$kelompok = $query->row_array();
 			$nik = $kelompok['id'];
 		}
 		$strSQL = "SELECT id FROM `program_peserta` WHERE program_id='".fixSQL($id)."' AND peserta='".fixSQL($nik)."'";
 		$hasil = $this->db->query($strSQL);
-		if($hasil->num_rows()>0){
+		if ($hasil->num_rows()>0)
+		{
 			return false;
-		}else{
+		}
+		else
+		{
 			$data = array(
 				'program_id' => $id,
 				'peserta' => fixSQL($nik),
@@ -591,30 +652,34 @@ class Program_bantuan_model extends CI_Model{
 				'kartu_alamat' => $post['kartu_alamat']
 			);
 			$file_gambar = $this->_upload_gambar();
-			if($file_gambar) $data['kartu_peserta'] = $file_gambar;
-			return $this->db->insert('program_peserta',$data);
+			if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
+			return $this->db->insert('program_peserta', $data);
 		}
 	}
 
 	// $id = program_peserta.id
-	public function edit_peserta($post,$id){
+	public function edit_peserta($post,$id)
+	{
 		$data = $post;
-		if($data['gambar_hapus']){
+		if ($data['gambar_hapus'])
+		{
 		  unlink(LOKASI_DOKUMEN . $data['gambar_hapus']);
 			$data['kartu_peserta'] = '';
 		}
 		unset($data['gambar_hapus']);
 		$file_gambar = $this->_upload_gambar($data['old_gambar']);
-		if($file_gambar) $data['kartu_peserta'] = $file_gambar;
+		if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
 		unset($data['old_gambar']);
 		$this->db->where('id',$id);
 		$data['kartu_tanggal_lahir'] = tgl_indo_in($data['kartu_tanggal_lahir']);
 		$outp = $this->db->update('program_peserta', $data);
 	}
 
-	function _upload_gambar($old_document=''){
+	private function _upload_gambar($old_document='')
+	{
 		$lokasi_file = $_FILES['satuan']['tmp_name'];
-		if (!empty($lokasi_file)){
+		if (!empty($lokasi_file))
+		{
 			$nama_file = $_FILES['satuan']['name'];
 			$nama_file   = time().'-'.urlencode($nama_file); 	 // normalkan nama file
 			UploadDocument($nama_file,$old_document);
@@ -623,12 +688,14 @@ class Program_bantuan_model extends CI_Model{
 	}
 
 
-	public function hapus_peserta_program($peserta_id, $program_id) {
+	public function hapus_peserta_program($peserta_id, $program_id)
+	{
 		$this->db->where(array('peserta' => $peserta_id, 'program_id' => $program_id));
 		$this->db->delete('program_peserta');
 	}
 
-	public function hapus_peserta($peserta_id) {
+	public function hapus_peserta($peserta_id)
+	{
 		$this->db->where('id', $peserta_id);
 		$this->db->delete('program_peserta');
 	}
@@ -636,13 +703,15 @@ class Program_bantuan_model extends CI_Model{
 	/*
 		Mengambil data individu peserta menggunakan id tabel program_peserta
 	*/
-	public function get_program_peserta_by_id($id) {
+	public function get_program_peserta_by_id($id)
+	{
 		$this->db->where('id', $id);
 		$query = $this->db->get('program_peserta');
 		$data = $query->row_array();
 		// Data tambahan untuk ditampilkan
 		$peserta = $this->get_peserta($data['peserta'], $data['sasaran']);
-		switch ($data['sasaran']){
+		switch ($data['sasaran'])
+		{
 			case 1:
 				$data['judul_peserta'] = 'NIK';
 				$data['judul_peserta_info'] = 'Nama Peserta';
@@ -673,7 +742,8 @@ class Program_bantuan_model extends CI_Model{
 	}
 
 
-	public function update_program($id){
+	public function update_program($id)
+	{
 		$strSQL = "UPDATE `program` SET `sasaran`='".$this->input->post('cid')."',
 		`nama`='".fixSQL($this->input->post('nama'))."',
 		`ndesc`='".fixSQL($this->input->post('ndesc'))."',
@@ -683,21 +753,28 @@ class Program_bantuan_model extends CI_Model{
 		 WHERE id=".$id;
 
 		$hasil = $this->db->query($strSQL);
-		if($hasil){
+		if ($hasil)
+		{
 			$_SESSION["success"] = 1;
 			$_SESSION["pesan"] = "Data program telah diperbarui";
-		}else{
+		}
+		else
+		{
 			$_SESSION["success"] = -1;
 		}
 	}
 
-	public function hapus_program($id){
+	public function hapus_program($id)
+	{
 		$strSQL = "DELETE FROM `program` WHERE id=".$id;
 		$hasil = $this->db->query($strSQL);
-		if($hasil){
+		if ($hasil)
+		{
 			$_SESSION["success"] = 1;
 			$_SESSION["pesan"] = "Data program telah dihapus";
-		}else{
+		}
+		else
+		{
 			$_SESSION["success"] = -1;
 		}
 	}
@@ -706,7 +783,8 @@ class Program_bantuan_model extends CI_Model{
 		 parameter pencarian yang digunakan adalah nik ( data nik disimpan pada kolom peserta tabel program_peserta ).
 		 Saat ini terbatas pada program bantuan perorangan
 	*/
-	public function daftar_bantuan_yang_diterima($nik){
+	public function daftar_bantuan_yang_diterima($nik)
+	{
 		return $this->db->select('p.*,pp.*')
 					->where(array('peserta' => $nik))
 					->join('program p','p.id = pp.program_id')

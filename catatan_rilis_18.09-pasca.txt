@@ -39,6 +39,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 32. #1687: Sekarang Arsip Layanan menampilkan data yang benar meskipun ada tab browser lain yang membuka halaman berbeda. [bug-fix]
 33. Atasi masalah penyimpanan data session pada beberapa server. [bug-fix]
 34. #558: Tambahkan modul pengelolaan Surat Keluar.
+35. #1691: Perbaiki menambahkan peserta pada program bantuan sasaran Keluarga. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
