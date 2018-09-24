@@ -1,19 +1,20 @@
-<?php class Keluar_model extends CI_Model{
+<?php class Keluar_model extends CI_Model {
 
-	function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 	}
 
-	function autocomplete(){
+	public function autocomplete()
+	{
 		$sql   = "SELECT no_surat FROM log_surat";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 
-		$i=0;
 		$outp='';
-		while($i<count($data)){
+		for ($i=0; $i<count($data); $i++)
+		{
 			$outp .= ",'" .$data[$i]['no_surat']. "'";
-			$i++;
 		}
 		$outp = substr($outp, 1);
 		$outp = '[' .$outp. ']';
@@ -21,42 +22,59 @@
 		return $outp;
 	}
 
-	function search_sql(){
-		if(isset($_SESSION['cari'])){
-		$cari = $_SESSION['cari'];
+	private function search_sql()
+	{
+		if (isset($_SESSION['cari']))
+		{
+			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (u.no_surat LIKE '$kw' OR u.id_pend LIKE '$kw')";
 			return $search_sql;
-			}
-		}
-
-	function filter_sql(){
-		if(isset($_SESSION['nik'])){
-			$kf = $_SESSION['nik'];
-			if($kf=="0"){
-			$filter_sql= "";} else {
-			$filter_sql= " AND n.id = '".$kf."'";}
-		return $filter_sql;
 		}
 	}
-	function filterku_sql($nik=0){
-			$kf = $nik;
-			if($kf==0){
-			$filterku_sql= "";} else {
-			$filterku_sql= " AND u.id_pend = '".$kf."'";}
+
+	private function filter_sql()
+	{
+		if (isset($_SESSION['nik']))
+		{
+			$kf = $_SESSION['nik'];
+			if ($kf == "0")
+			{
+				$filter_sql= "";
+			}
+			else
+			{
+				$filter_sql= " AND n.id = '".$kf."'";
+			}
+			return $filter_sql;
+		}
+	}
+
+	private function filterku_sql($nik=0)
+	{
+		$kf = $nik;
+		if ($kf == 0)
+		{
+			$filterku_sql= "";
+		}
+		else
+		{
+			$filterku_sql= " AND u.id_pend = '".$kf."'";
+		}
 		return $filterku_sql;
 	}
-	function paging($p=1,$o=0){
 
-		$sql      = "SELECT COUNT(id) AS id FROM log_surat u WHERE 1";
-		$sql     .= $this->search_sql();
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
+	public function paging($p=1, $o=0)
+	{
+		$sql = "SELECT COUNT(id) AS id FROM log_surat u WHERE 1";
+		$sql .= $this->search_sql();
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
 		$jml_data = $row['id'];
 
 		$this->load->library('paging');
-		$cfg['page']     = $p;
+		$cfg['page'] = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
@@ -64,17 +82,16 @@
 		return $this->paging;
 	}
 
-	function paging_perorangan($nik=0,$p=1,$o=0){
-
-		$sql   = "SELECT count(id_format_surat) as id FROM log_surat u LEFT JOIN tweb_penduduk n ON u.id_pend = n.id LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id  WHERE 1 ";
+	public function paging_perorangan($nik=0, $p=1, $o=0)
+	{
+		$sql = "SELECT count(id_format_surat) as id FROM log_surat u LEFT JOIN tweb_penduduk n ON u.id_pend = n.id LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id  WHERE 1 ";
 		$sql .= $this->filterku_sql($nik);
-		//$sql     .= $this->search_sql();
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
+		$query  = $this->db->query($sql);
+		$row = $query->row_array();
 		$jml_data = $row['id'];
 
 		$this->load->library('paging');
-		$cfg['page']     = $p;
+		$cfg['page'] = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
@@ -82,10 +99,11 @@
 		return $this->paging;
 	}
 
-	function list_data_surat($nik=0,$o=0,$offset=0,$limit=500){
-
+	public function list_data_surat($nik=0, $o=0, $offset=0, $limit=500)
+	{
 		//Ordering SQL
-		switch($o){
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY u.no_surat'; break;
 			case 2: $order_sql = ' ORDER BY u.no_surat DESC'; break;
 
@@ -94,7 +112,7 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql   = "SELECT u.*,n.nama AS nama,w.nama AS nama_user, n.nik AS nik,k.nama AS format, k.url_surat as berkas,s.pamong_nama AS pamong
+		$sql = "SELECT u.*,n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas,s.pamong_nama AS pamong
 			FROM log_surat u
 			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
 			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
@@ -108,23 +126,23 @@
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 
 		//Formating Output
-		$i=0;
-		$j=$offset;
-		while($i<count($data)){
+		$j = $offset;
+		for ($i=0; $i<count($data); $i++)
+		{
 			$data[$i]['no']=$j+3;
-			$i++;
 			$j++;
 		}
 		return $data;
 	}
 
-	function list_data($o=0,$offset=0,$limit=500){
-
+	public function list_data($o=0, $offset=0, $limit=500)
+	{
 		//Ordering SQL
-		switch($o){
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY u.no_surat'; break;
 			case 2: $order_sql = ' ORDER BY u.no_surat DESC'; break;
 
@@ -135,8 +153,7 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-
-		$sql   = "SELECT u.*,n.nama AS nama,w.nama AS nama_user, n.nik AS nik,k.nama AS format, k.url_surat as berkas,s.pamong_nama AS pamong
+		$sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas,s.pamong_nama AS pamong
 			FROM log_surat u
 			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
 			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
@@ -144,19 +161,18 @@
 			LEFT JOIN user w ON u.id_user = w.id
 			WHERE 1 ";
 
-
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 
 		//Formating Output
-		$i=0;
 		$j=$offset;
-		while($i<count($data)){
+		for ($i=0; $i<count($data); $i++)
+		{
 			$data[$i]['no']=$j+1;
 			$data[$i]['t']=$data[$i]['id_pend'];
 
@@ -165,13 +181,13 @@
 			else
 				$data[$i]['id_pend'] = "Keluar";
 
-			$i++;
 			$j++;
 		}
 		return $data;
 	}
 
-	function nama_surat_arsip($url,$nik,$nomor){
+	public function nama_surat_arsip($url, $nik, $nomor)
+	{
 		// Nama surat untuk surat keterangan di mana NIK = 1234567890123456 dan
 		// nomor surat = 503/V.58.IV.135/III pada tanggal 27 Juli 2016 akan seperti ini:
 		// surat_ket_pengantar_1234567890123456_2016-07-27_503-V.58.IV.135-III.rtf
@@ -259,7 +275,7 @@
 
 	}
 
-	function grafik()
+	public function grafik()
 	{
 		$data = $this->db
 				->select('f.nama, COUNT(l.id) as jumlah')
@@ -271,68 +287,45 @@
 		return $data;
 	}
 
-	function update($id=0){
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+	public function update($id=0)
+	{
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
-	function delete($id=''){
+	public function delete($id='')
+	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
-		$arsip = $this->db->select('nama_surat, lampiran')->where('id',$id)->get('log_surat')->row_array();
+		$arsip = $this->db->select('nama_surat, lampiran')->
+			where('id',$id)->
+			get('log_surat')->
+			row_array();
 		$berkas_surat = pathinfo($arsip['nama_surat'], PATHINFO_FILENAME);
 		unlink(LOKASI_ARSIP.$berkas_surat.".rtf");
 		unlink(LOKASI_ARSIP.$berkas_surat.".pdf");
 		if (!empty($arsip['lampiran'])) unlink(LOKASI_ARSIP.$arsip['lampiran']);
 
-		if (!$this->db->where('id', $id)->delete('log_surat')) {	// Jika query delete terjadi error
+		if (!$this->db->where('id', $id)->delete('log_surat'))
+		{	// Jika query delete terjadi error
 			$_SESSION['success'] = -1;								// Maka, nilai success jadi -1, untuk memunculkan notifikasi error
 			$error = $this->db->error();
 			$_SESSION['error_msg'] = $error['message']; // Pesan error ditampung disession
 		}
 	}
 
-	function list_penduduk(){
-		$sql   = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1";
+	public function list_penduduk()
+	{
+		$sql = "SELECT id, nik, nama FROM tweb_penduduk WHERE status = 1";
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 
 		//Formating Output
-		$i=0;
-		while($i<count($data)){
+		for ($i=0; $i<count($data); $i++)
+		{
 			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
-			$i++;
 		}
 		return $data;
-	}
-
-	function update_setting($id=0){
-		$password 		= md5($this->input->post('pass_lama'));
-		$pass_baru 		= $this->input->post('pass_baru');
-		$pass_baru1 	= $this->input->post('pass_baru1');
-		$nama 			= $this->input->post('nama');
-
-		$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
-		$query=$this->db->query($sql,array($id));
-		$row=$query->row();
-
-		if($password==$row->password){
-			if($pass_baru == $pass_baru1){
-				$pass_baru = md5($pass_baru);
-				$sql  = "UPDATE user SET password=?,nama=? WHERE id=?";
-				$outp = $this->db->query($sql,array($pass_baru,$nama,$id));
-			}
-		}
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-
-	function list_grup(){
-		$sql   = "SELECT * FROM user_grup";
-		$query = $this->db->query($sql);
-		return $query->result_array();
 	}
 
 	public function jml_surat_keluar()
