@@ -1,126 +1,126 @@
 <style type="text/css">
-  .disabled {
+  .disabled
+	{
      pointer-events: none;
      cursor: default;
   }
 </style>
-<div id="pageC">
-<!-- Start of Space Admin -->
-	<table class="inner">
-	<tr style="vertical-align:top">
-	<td class="side-menu">
-    <?php include("donjo-app/views/statistik/laporan/side-menu.php"); ?>
-  </td>
-<td style="background:#fff;padding:0px;">
-<div class="content-header">
-    <h3>Statistik</h3>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Statistik Kependudukan</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Statistik Kependudukan</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-4">
+          <?php $this->load->view('statistik/laporan/side-menu.php')?>
+				</div>
+				<div class="col-md-8">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?=site_url("statistik/cetak/$lap")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank" title="Cetak Data">
+								<i class="fa fa-print"></i>Cetak
+            	</a>
+							<a href="<?=site_url("statistik/excel/$lap")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank" title="Download Data">
+								<i class="fa fa-download"></i>Unduh
+            	</a>
+							<a href="<?=site_url("statistik/graph/$lap")?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Grafik Data">
+								<i class="fa  fa-bar-chart"></i>Grafik Data
+            	</a>
+							<a href="<?=site_url("statistik/pie/$lap")?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pie Data">
+								<i class="fa fa-pie-chart"></i>Pie Data
+            	</a>
+							<?php if ($lap=='13'): ?>
+								<a href="<?=site_url("statistik/rentang_umur")?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rentang Umur">
+									<i class="fa fa-arrows-h"></i>Rentang Umur
+								</a>
+							<?php endif; ?>
+						</div>
+						<div class="box-body">
+							<div class="col-sm-12">
+								<?php if ($lap < 50): ?>
+									<h4 class="box-title"><b>Data Kependudukan menurut <?= ($stat);?></b></h4>
+								<?php else: ?>
+									<h4 class="box-title"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
+								<?php endif; ?>
+								<div class="table-responsive">
+									<table class="table table-bordered dataTable table-striped table-hover nowrap">
+										<thead class="bg-gray color-palette">
+											<tr>
+												<th width='5%'>No</th>
+												<?php if ($o==2): ?>
+                          <th><a href="<?= site_url("statistik/index/$lap/1")?>"><?= $judul_kelompok ?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                        <?php elseif ($o==1): ?>
+                          <th><a href="<?= site_url("statistik/index/$lap/2")?>"><?= $judul_kelompok ?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                        <?php else: ?>
+                          <th><a href="<?= site_url("statistik/index/$lap/1")?>"><?= $judul_kelompok ?> <i class='fa fa-sort fa-sm'></i></a></th>
+                        <?php endif; ?>
+                        <?php if ($o==6): ?>
+                          <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/5")?>">Jumlah <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                        <?php elseif ($o==5): ?>
+                          <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/6")?>">Jumlah <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                        <?php else: ?>
+                          <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/5")?>">Jumlah <i class='fa fa-sort fa-sm'></i></a></th>
+                        <?php endif; ?>
+
+												<?php if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)): ?>
+													<?php if ($o==4): ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/3")?>">Laki-Laki <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                          <?php elseif ($o==3): ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/4")?>">Laki-Laki <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                          <?php else: ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/3")?>">Laki-Laki <i class='fa fa-sort fa-sm'></i></a></th>
+                          <?php endif; ?>
+													<?php if ($o==8): ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/7")?>">Perempuan <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                          <?php elseif ($o==7): ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/8")?>">Perempuan <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                          <?php else: ?>
+                            <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/7")?>">Perempuan <i class='fa fa-sort fa-sm'></i></a></th>
+                          <?php endif; ?>
+												<?php endif; ?>
+											</tr>
+										</thead>
+										<tbody>
+											<?php foreach ($main as $data): ?>
+												<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap"); ?>
+												<tr>
+													<td><?= $data['no']?></td>
+													<td><?= strtoupper($data['nama']);?></td>
+													<td>
+														<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial'): ?>
+															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
+														<?php else: ?>
+															<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
+															<a href="<?= $tautan_jumlah ?>/0" <?php if ($data['id']=='JUMLAH'): ?> class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
+														<?php endif; ?>
+													</td>
+													<td><?= $data['persen'];?></td>
+													<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial'):
+															$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
+															elseif ($lap<50): $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");endif;
+													?>
+													<?php if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)): ?>
+														<td><a href="<?= $tautan_jumlah?>/1" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['laki']?></a></td>
+														<td><?= $data['persen1'];?></td>
+														<td><a href="<?= $tautan_jumlah?>/2" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['perempuan']?></a></td>
+														<td><?= $data['persen2'];?></td>
+													<?php endif; ?>
+												</tr>
+											<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>
-<div id="contentpane" style="overflow:auto;">
-	<form id="mainform" name="mainform" action="" method="post">
-    <div class="ui-layout-north panel top">
-      <div class="left">
-        <div class="uibutton-group">
-    			<a href="<?php echo site_url("statistik/cetak/$lap")?>" class="uibutton tipsy south" title="Cetak Data" target="_blank"><span class="fa fa-print">&nbsp;</span>Cetak</a>
-    			<a href="<?php echo site_url("statistik/excel/$lap")?>" class="uibutton tipsy south" title="Unduh Data" target="_blank"><span class="fa fa-file-text">&nbsp;</span>Unduh</a>
-    			<a href="<?php echo site_url("statistik/graph/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="fa fa-bar-chart">&nbsp;</span>Grafik Data</a>
-    			<a href="<?php echo site_url("statistik/pie/$lap")?>" class="uibutton tipsy south" title="Grafik"><span class="fa fa-pie-chart">&nbsp;</span>Pie Chart</a>
-    			<?php  if($lap=='13'){?>
-    			<a href="<?php echo site_url("statistik/rentang_umur")?>" class="uibutton tipsy south" title="Rentang Umut"><span class="fa fa-sort-numeric-asc">&nbsp;</span>Atur Rentang Umur</a><?php  }?>
-        </div>
-      </div>
-    </div>
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-      <div class="table-panel top">
-        <div class="left">
-        </div>
-        <div class="right">
-        </div>
-        <?php if($lap < 50): ?>
-    			<h4 align="center">Tabel Data Kependudukan menurut <?php echo ($stat);?></h4>
-        <?php else: ?>
-          <h4 align="center">Tabel Data Peserta Program <?php echo ($program['nama'])?></h4>
-        <?php endif; ?>
-      </div>
-       <table class="list">
-    		<thead>
-          <tr>
-            <th>No</th>
 
-      	 		<?php  if($o==2): ?>
-      				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>"><?php echo $judul_kelompok ?> <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
-      			<?php  elseif($o==1): ?>
-      				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/2")?>"><?php echo $judul_kelompok ?> <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
-      			<?php  else: ?>
-      				<th width="250" align="left"><a href="<?php echo site_url("statistik/index/$lap/1")?>"><?php echo $judul_kelompok ?> <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
-      			<?php  endif; ?>
-
-      	 		<?php  if($o==6): ?>
-      				<th width="100" align="left"><a href="<?php echo site_url("statistik/index/$lap/5")?>">Jumlah  <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
-      			<?php  elseif($o==5): ?>
-      				<th width="100" align="left"><a href="<?php echo site_url("statistik/index/$lap/6")?>">Jumlah  <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
-      			<?php  else: ?>
-      				<th width="100" align="left"><a href="<?php echo site_url("statistik/index/$lap/5")?>">Jumlah  <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
-      			<?php  endif; ?>
-            <th width="5"></th>
-
-        		<?php  if($lap<20 OR ($lap>50 AND $program['sasaran']==1)){?>
-        	 		<?php  if($o==4): ?>
-        				<th width="60" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
-        			<?php  elseif($o==3): ?>
-        				<th width="60" align="left"><a href="<?php echo site_url("statistik/index/$lap/4")?>">Laki-Laki <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
-        			<?php  else: ?>
-        				<th width="60" align="left"><a href="<?php echo site_url("statistik/index/$lap/3")?>">Laki-Laki <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
-        			<?php  endif; ?>
-              <th width="5"></th>
-
-        	 		<?php  if($o==8): ?>
-        				<th width="75" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan <span class="fa fa-sort-asc fa-sm">&nbsp;</span></a></th>
-        			<?php  elseif($o==7): ?>
-        				<th width="75" align="left"><a href="<?php echo site_url("statistik/index/$lap/8")?>">Perempuan <span class="fa fa-sort-desc fa-sm">&nbsp;</span></a></th>
-        			<?php  else: ?>
-        				<th width="75" align="left"><a href="<?php echo site_url("statistik/index/$lap/7")?>">Perempuan <span class="fa fa-sort fa-sm">&nbsp;</span></a></th>
-          		<?php  endif; ?>
-              <th width="5"></th>
-              <th></th>
-          	<?php  }?>
-    			</tr>
-    		</thead>
-    		<tbody>
-
-          <?php  foreach($main as $data): ?>
-            <?php if($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap"); ?>
-        		<tr>
-              <td align="center" width="2"><?php echo $data['no']?></td>
-              <td><?php echo strtoupper($data['nama']);?></td>
-        			<td align="right">
-          			<?php  if($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial'){?>
-            			<a href="<?php echo site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if($data['id']=='JUMLAH') echo 'class="disabled"'?>><?php echo $data['jumlah']?></a>
-          			<?php  } else { ?>
-                  <?php if($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-            			<a href="<?php echo $tautan_jumlah ?>/0" <?php if($data['id']=='JUMLAH') echo 'class="disabled"'?>><?php echo $data['jumlah']?></a>
-          			<?php }?>
-        			</td>
-              <td><?php echo $data['persen'];?></td>
-              <?php if($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial'){
-                  $tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
-                } elseif ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");
-              ?>
-              <?php  if($lap<20 OR ($lap>50 AND $program['sasaran']==1)) : ?>
-          		  <td align="right"><a href="<?php echo $tautan_jumlah?>/1" <?php if($data['id']=='JUMLAH') echo 'class="disabled"'?>><?php echo $data['laki']?></a></td>
-                <td><?php echo $data['persen1'];?></td>
-                <td align="right"><a href="<?php echo $tautan_jumlah?>/2" <?php if($data['id']=='JUMLAH') echo 'class="disabled"'?>><?php echo $data['perempuan']?></a></td>
-                <td><?php echo $data['persen2'];?></td>
-              <?php endif; ?>
-              <td></td>
-      		  </tr>
-          <?php  endforeach; ?>
-
-    		</tbody>
-      </table>
-    </div>
-  </form>
-    <div class="ui-layout-south panel bottom">
-    </div>
-</div>
-</td></tr></table>
-</div>

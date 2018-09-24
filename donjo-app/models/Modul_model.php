@@ -3,11 +3,18 @@
 	function __construct()
 	{
 		parent::__construct();
+    // Terpaksa menjalankan migrasi, karena apabila kolom parent
+    // belum ada, menu navigasi tidak bisa ditampilkan
+    if (!$this->db->field_exists('parent', 'setting_modul'))
+    {
+      $this->load->model('database_model');
+      $this->database_model->migrasi_db_cri();
+    }
 	}
 
 	function list_data()
 	{
-		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0";
+		$sql = "SELECT u.* FROM setting_modul u WHERE hidden = 0 AND parent = 0 ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= ' ORDER BY urut';
@@ -16,21 +23,53 @@
 
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no'] = $i+1;
+			$data[$i]['no']=$i+1;
+			$data[$i]['submodul'] = $this->list_sub_modul($data[$i]['id']);
 		}
 		return $data;
 	}
 
-	// Daftar modul yang aktif dan yang dapat ditampilkan untuk pengguna yang login
-	function list_aktif(){
+	// Menampilkan menu dan sub menu halaman pengguna login berdasarkan daftar modul dan sub modul yang aktif.
+	public function list_aktif()
+	{
 		if (empty($_SESSION['grup'])) return array();
-		$modul = $this->db->where('aktif',1)->where("level >= {$_SESSION['grup']}")
+		$data = $this->db->where('aktif',1)->where('parent',0)->where("level >= {$_SESSION['grup']}")
 			->order_by('urut')
 			->get('setting_modul')->result_array();
-		return $modul;
+			for ($i=0; $i<count($data); $i++)
+			{
+				$data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
+				$data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
+			}
+		return $data;
 	}
 
-	function autocomplete(){
+	private function list_sub_modul_aktif($modul_id)
+	{
+		$this->db->where('aktif', 1);
+		$data	= $this->list_sub_modul($modul_id);
+		return $data;
+	}
+
+	// Menampilkan tabel sub modul
+	public function list_sub_modul($modul_id=1)
+	{
+		// $sql   = "SELECT u.* FROM setting_modul u WHERE hidden = 0 AND parent = ? ORDER BY urut";
+		// $query = $this->db->query($sql,$modul);
+		// $data=$query->result_array();
+
+		$data	= $this->db->select('*')->where('parent', $modul_id)->order_by('urut')->get('setting_modul')->result_array();
+
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no']=$i+1;
+			$data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
+		}
+		return $data;
+	}
+
+	function autocomplete()
+	{
 		$sql = "SELECT modul FROM setting_modul WHERE hidden = 0
 					UNION SELECT url FROM setting_modul WHERE  hidden = 0";
 		$query = $this->db->query($sql);
@@ -46,6 +85,7 @@
 		$outp = '[' .$outp. ']';
 		return $outp;
 	}
+
 	function search_sql(){
 		if(isset($_SESSION['cari'])){
 		$cari = $_SESSION['cari'];
@@ -63,12 +103,14 @@
 		return $filter_sql;
 		}
 	}
+
 	function get_data($id=0){
 		$sql = "SELECT * FROM setting_modul WHERE id=?";
 		$query = $this->db->query($sql,$id);
 		$data = $query->row_array();
 		return $data;
 	 }
+
 	function update($id=0){
 		$data = $_POST;
 		$this->db->where('id',$id);
@@ -76,6 +118,7 @@
 		if($outp) $_SESSION['success']=1;
 			else $_SESSION['success']=-1;
 	}
+
 	function delete($id=''){
 		$sql = "DELETE FROM setting_modul WHERE id=?";
 		$outp = $this->db->query($sql,array($id));

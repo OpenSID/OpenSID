@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit ('No direct script access allowed');
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
@@ -6,7 +6,8 @@
 	$individu['umur'] = str_pad($individu['umur'], 3, " ", STR_PAD_LEFT);
 
 	$ibu = $this->get_data_ibu($individu['id']);
-	if($ibu) {
+	if ($ibu)
+	{
 		$input['nik_ibu'] 							= $ibu['nik'];
 		$input['nama_ibu'] 							= $ibu['nama'];
     $input['tanggal_lahir_ibu']			= $ibu['tanggallahir'];
@@ -20,13 +21,16 @@
     $input['kecibu']       					= $config['nama_kecamatan'];
     $input['kabibu']       					= $config['nama_kabupaten'];
     $input['provinsiibu']   				= $config['nama_propinsi'];
-	} else {
+	}
+	else
+	{
     $input['pekerjaanid_ibu'] 					= str_pad($input['pekerjaanid_ibu'], 2, "0", STR_PAD_LEFT);
 		$input['umur_ibu']									= str_pad($input['umur_ibu'], 3, " ", STR_PAD_LEFT);
 	}
 
 	$ayah = $this->get_data_ayah($individu['id']);
-	if ($ayah) {
+	if ($ayah)
+	{
 		$input['nik_ayah'] 								= $ayah['nik'];
 		$input['nama_ayah'] 							= $ayah['nama'];
     $input['tanggal_lahir_ayah']			= $ayah['tanggallahir'];
@@ -40,12 +44,15 @@
     $input['kecayah']       					= $config['nama_kecamatan'];
     $input['kabayah']       					= $config['nama_kabupaten'];
     $input['provinsiayah']   					= $config['nama_propinsi'];
-	} else {
+	}
+	else
+	{
     $input['pekerjaanid_ayah'] 				= str_pad($input['pekerjaanid_ayah'], 2, "0", STR_PAD_LEFT);
 		$input['umur_ayah']								= str_pad($input['umur_ayah'], 3, " ", STR_PAD_LEFT);
 	}
 
-	if($input['id_pelapor']) {
+	if ($input['id_pelapor'])
+	{
 		$pelapor = $this->get_data_surat($input['id_pelapor']);
 		$input['nik_pelapor'] 					= $pelapor['nik'];
 		$input['nama_pelapor'] 					= $pelapor['nama'];
@@ -61,12 +68,15 @@
 		$input['kecpelapor']						= $config['nama_kecamatan'];
 		$input['kabpelapor']						= $config['nama_kabupaten'];
 		$input['provinsipelapor']				= $config['nama_propinsi'];
-	} else {
+	}
+	else
+	{
     $input['pekerjaanid_pelapor'] 	= str_pad($input['pekerjaanid_pelapor'], 2, "0", STR_PAD_LEFT);
 		$input['umur_pelapor']					= str_pad($input['umur_pelapor'], 3, " ", STR_PAD_LEFT);
 	}
 
-	if($input['id_saksi1']) {
+	if ($input['id_saksi1'])
+	{
 		$saksi1 = $this->get_data_surat($input['id_saksi1']);
 		$input['nik_saksi1'] 						= $saksi1['nik'];
 		$input['nama_saksi1'] 					= $saksi1['nama'];
@@ -82,12 +92,15 @@
 		$input['kecsaksi1']							= $config['nama_kecamatan'];
 		$input['kabsaksi1']							= $config['nama_kabupaten'];
 		$input['provinsisaksi1']				= $config['nama_propinsi'];
-	} else {
+	}
+	else
+	{
     $input['pekerjaanid_saksi1'] 		= str_pad($input['pekerjaanid_saksi1'], 2, "0", STR_PAD_LEFT);
 		$input['umur_saksi1']						= str_pad($input['umur_saksi1'], 3, " ", STR_PAD_LEFT);
 	}
 
-	if($input['id_saksi2']) {
+	if ($input['id_saksi2'])
+	{
 		$saksi2 = $this->get_data_surat($input['id_saksi2']);
 		$input['nik_saksi2'] 						= $saksi2['nik'];
 		$input['nama_saksi2'] 					= $saksi2['nama'];
@@ -103,17 +116,23 @@
 		$input['kecsaksi2']							= $config['nama_kecamatan'];
 		$input['kabsaksi2']							= $config['nama_kabupaten'];
 		$input['provinsisaksi2']				= $config['nama_propinsi'];
-	} else {
+	}
+	else
+	{
     $input['pekerjaanid_saksi2'] 		= str_pad($input['pekerjaanid_saksi2'], 2, "0", STR_PAD_LEFT);
 		$input['umur_saksi2']						= str_pad($input['umur_saksi2'], 3, " ", STR_PAD_LEFT);
 	}
 
 	$desa = $this->keluarga_model->get_desa();
 	// Gunakan data identitas desa, jika ada
-	if ($desa['nip_kepala_desa']){
+	if ($desa['nip_kepala_desa'])
+	{
 		$kepala_desa['pamong_nama'] = $desa['nama_kepala_desa'];
 		$kepala_desa['pamong_nip'] = $desa['nip_kepala_desa'];
-	} else
+	}
+	else
+	{
 		$kepala_desa = $this->pamong_model->get_pamong_by_nama($desa['nama_kepala_desa']);
+	}
 
 ?>

@@ -2,9 +2,9 @@
 
 <h4>A PHP Error was encountered</h4>
 
-<p>Severity: <?php echo $severity; ?></p>
-<p>Message:  <?php echo $message; ?></p>
-<p>Filename: <?php echo $filepath; ?></p>
-<p>Line Number: <?php echo $line; ?></p>
+<p>Severity: <?= $severity; ?></p>
+<p>Message:  <?= $message; ?></p>
+<p>Filename: <?= $filepath; ?></p>
+<p>Line Number: <?= $line; ?></p>
 
 </div>

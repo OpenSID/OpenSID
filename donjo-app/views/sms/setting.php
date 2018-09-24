@@ -1,72 +1,53 @@
-<script>
-$(function(){
-    var nik = {};
-    nik.results = [
-		<?php foreach($penduduk as $data){?>
-	   {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
-		<?php }?>
-		    ];
-nik.total = nik.results.length;
-
-$('#id_kepala').flexbox(nik, {
-	resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-	watermark: 'Ketik no nik di sini..',
-    width: 260,
-    noResultsText :'Tidak ada no nik yang sesuai..',
-	    onSelect: function() {
-		$('#'+'main').submit();
-    }  
-});
-$("#nik_detail").show();
-});
-</script>
-<style>
-table.form.detail th{
-    padding:5px;
-    background:#fafafa;
-    border-right:1px solid #eee;
-}
-table.form.detail td{
-    padding:5px;
-}
-</style>
-<div id="pageC">
-	<table class="inner">
-	<tr style="vertical-align:top">
-	<td class="side-menu">
-		<fieldset>
-			<div class="lmenu">
-				<ul>
-				<li class="selected"><a href="<?php echo site_url('sms/setting')?>">Pengaturan Balas Otomatis</a></li>
-				</ul>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan SMS</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Pengaturan SMS</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">SMS</h3>
+							<div class="box-tools">
+								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+							</div>
+						</div>
+						<div class="box-body no-padding">
+							<ul class="nav nav-pills nav-stacked">
+								<li class="active"><a href="<?= site_url('sms/setting')?>"><i class="fa fa-inbox"></i> Pengaturan Balas Otomatis</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+								  <div class="form-group">
+									<label class="col-sm-3 control-label" for="pesan">Isi Pesan Autoreply</label>
+									<div class="col-sm-8">
+									  <textarea id="autoreply_text" name="autoreply_text" class="form-control input-sm required" placeholder="Isi Pesan Autoreply"><?php if ($main): ?><?=$main['autoreply_text'];?><?php endif ?></textarea>
+									</div>
+								  </div>
+								</div>
+							</div>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-		</fieldset>
-		
-	</td>
-		<td style="background:#fff;padding:5px;"> 
+		</form>
+	</section>
+</div>
 
-<div class="content-header">
-    <h3>Pengaturan Balas Otomatis</h3>
-</div>
-<div id="contentpane">
-    <form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-        <table class="form">
-		<tr>
-			<td width="100">Isi Pesan Autoreply</td><td><textarea name="autoreply_text" class=" required" style="resize: none; height:100px; width:250px;" size="300" maxlength='160'><?php  if($main){echo $main['autoreply_text'];} ?></textarea></td>
-		</tr>
-        </table>
-    </div>
-   
-    <div class="ui-layout-south panel bottom">
-        
-        <div class="right">
-            <div class="uibutton-group">
-                <button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-                <button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
-            </div>
-        </div>
-    </div> </form>
-</div>
-</td></tr></table>
-</div>

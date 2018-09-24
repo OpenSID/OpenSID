@@ -186,7 +186,7 @@
 	}
 
 	function list_line(){
-		$sql   = "SELECT * FROM line WHERE tipe = 2 ";
+		$sql   = "SELECT * FROM line WHERE tipe = 0 ";
 
 		if(isset($_SESSION['subline'])){
 			$kf = $_SESSION['subline'];
@@ -199,7 +199,7 @@
 	}
 
 	function list_subline(){
-		$sql   = "SELECT * FROM line WHERE tipe = 0 ";
+		$sql   = "SELECT * FROM line WHERE tipe = 2 ";
 
 		if(isset($_SESSION['line'])){
 

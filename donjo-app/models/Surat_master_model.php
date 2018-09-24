@@ -294,11 +294,17 @@
 		return $query->result_array();
 	}
 
-  function get_kode_isian($surat) {
+  public function get_kode_isian($surat)
+  {
 		// Lokasi instalasi SID mungkin di sub-folder
     include FCPATH . '/vendor/simple_html_dom.php';
-    $html = file_get_html(FCPATH . "/surat/".$surat['url_surat']."/".$surat['url_surat'].".php");
-
+    $path_bawaan = FCPATH . "/surat/".$surat['url_surat']."/". $surat['url_surat'].".php";
+    $path_lokal = FCPATH . LOKASI_SURAT_DESA .$surat['url_surat']."/".$surat['url_surat'].".php";
+    if (file_exists($path_lokal))
+	    $html = file_get_html($path_lokal);
+		else if (file_exists($path_bawaan))
+			$html = file_get_html($path_bawaan);
+		else return array();
     // Kumpulkan semua isian (tag input) di form surat
     // Asumsi di form surat, struktur input seperti ini
     // <tr>
@@ -306,18 +312,51 @@
     // 		<td><input><td>
     // </tr>
     $inputs = array();
-    foreach($html->find('input') as $input) {
-      if ($input->type == 'hidden') {
+    foreach ($html->find('input') as $input)
+    {
+      if ($input->type == 'hidden')
+      {
+        continue;
+			}
+			if ($input->title == 'Pilih Tanggal')
+			{
+				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
+				continue;
+			}
+			if ($input->type == 'radio')
+			{
+				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
+				continue;
+			}
+			if ($input->id == 'jam_1')
+			{
+				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
+				continue;
+			}
+			if ($input->id == 'input_group')
+			{
+				$inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
+				continue;
+			}
+      $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
+		}
+    foreach ($html->find('textarea') as $input)
+    {
+      if ($input->type == 'hidden')
+      {
         continue;
       }
       $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-    }
-    foreach($html->find('select') as $input) {
-      if ($input->type == 'hidden') {
+		}
+    foreach ($html->find('select') as $input)
+     {
+      if ($input->type == 'hidden')
+      {
         continue;
       }
       $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-    }
+		}
+
     $html->clear();
     unset($html);
     return $inputs;
@@ -355,7 +394,7 @@
 		foreach ($folder_surat_desa as $surat) {
 			$surat = str_replace('desa/surat/', '', $surat);
 			$hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
-			if ($hasil->num_rows == 0){
+			if ($hasil->num_rows() == 0){
 				$data = array();
 				$data['jenis'] = 2;
 				$data['url_surat'] = $surat;

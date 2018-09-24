@@ -9,11 +9,12 @@
 
 	function get_widget($id=''){
 		$data = $this->db->where('id',$id)->get('widget')->row_array();
+		$data['judul'] = htmlentities($data['judul']);
+		$data['isi'] = $this->security->xss_clean($data['isi']);
 		return $data;
 	}
 
 	function get_widget_aktif(){
-
 		$data = $this->db->where('enabled',1)->order_by('urut')->get('widget')->result_array();
 		return $data;
 	}
@@ -23,11 +24,10 @@
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 
-		$i=0;
 		$outp='';
-		while($i<count($data)){
-			$outp .= ",'" .$data[$i]['judul']. "'";
-			$i++;
+		for ($i=0; $i<count($data); $i++)
+		{
+			$outp .= ",'" .$this->security->xss_clean($data[$i]['judul']). "'";
 		}
 		$outp = strtolower(substr($outp, 1));
 		$outp = '[' .$outp. ']';
@@ -107,6 +107,7 @@
 			$i++;
 			$j++;
 		}
+		$data = $this->security->xss_clean($data);
 		return $data;
 	}
 
@@ -198,7 +199,8 @@
 		if(!$outp) $_SESSION['success']=-1;
 	}
 
-	function update($id=0){
+	function update($id=0)
+	{
 		$_SESSION['success']=1;
 		$_SESSION['error_msg'] = "";
 
@@ -206,17 +208,19 @@
 	  unset($data['isi']);
 
 		// Widget isinya tergantung jenis widget
-		if ($data['jenis_widget']==2){
+		if ($data['jenis_widget']==2)
+		{
 			$this->db->set('isi',$data['isi-statis']);
 		}
-		elseif ($data['jenis_widget']==3){
+		elseif ($data['jenis_widget']==3)
+		{
 			$this->db->set('isi',$data['isi-dinamis']);
 		}
 		unset($data['isi-dinamis']);
 		unset($data['isi-statis']);
 
 		$this->db->where('id',$id);
-		$outp = $this->db->update('widget');
+		$outp = $this->db->update('widget', $data);
 		if(!$outp) $_SESSION['success']=-1;
 	}
 

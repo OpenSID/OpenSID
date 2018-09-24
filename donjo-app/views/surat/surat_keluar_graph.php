@@ -1,101 +1,79 @@
-<style>
-	table.form.detail th{
-		padding:5px;
-		background:#fafafa;
-		border-right:1px solid #eee;
-	}
-	table.form.detail td{
-		padding:5px;
-	}
-</style>
-<div id="pageC">
-	<table class="inner">
-		<tr style="vertical-align:top">
-			<td class="side-menu">
-				<legend>Menu Surat Keluar</legend>
-				<div class="lmenu">
-					<ul>
-						<li ><a href="<?= site_url('keluar')?>">Surat Keluar</a></li>
-						<li ><a href="<?= site_url('keluar/perorangan')?>">Rekam Surat Perorangan</a></li>
-						<li class="selected"><a href="<?= site_url('keluar/graph')?>">Grafik surat keluar</a></li>
-					</ul>
-				</div>
-			</td>
-			<td style="background:#fff;padding:5px;">
-				<div class="content-header">
-				</div>
-				<div id="contentpane">
-					<div class="ui-layout-north panel">
-						<h3>Grafik Surat Keluar</h3></div>
-					<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-						<table class="form">
-							<div class="block">
-								<head>
-									<script type="text/javascript">
-										$(function () {
-											var chart;
-
-											$(document).ready(function () {
-
-												// Build the chart
-												chart = new Highcharts.Chart({
-													chart: {
-														renderTo: 'container',
-														plotBackgroundColor: null,
-														plotBorderWidth: null,
-														plotShadow: false
-													},
-													title: {
-														text: 'Surat Keluar'
-													},
-													tooltip: {
-														pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br />Total: <b>{point.y}</b>',
-															percentageDecimals: 1
-													},
-													plotOptions: {
-														pie: {
-															allowPointSelect: true,
-															cursor: 'pointer',
-															dataLabels: {
-																enabled: false
-															},
-															showInLegend: true
-														}
-													},
-													series: [{
-														type: 'pie',
-														name: 'Persentase',
-														data: [
-															<?php foreach ($stat as $data): ?>
-																<?php if ($data['jumlah'] != "-"): ?>
-																	['<?= $data['nama']?>',<?= $data['jumlah']?>],
-																<?php endif; ?>
-															<?php endforeach; ?>
-														]
-													}]
-												});
-											});
-										});
-									</script>
-								</head>
-								<body>
-									<script type="text/javascript" src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
-									<div id="container" style="min-width: 500px; height: 500px; margin: 0 auto"></div>
-								</body>
-							</div>
-						</table>
-					</div>
-
-					<div class="ui-layout-south panel bottom">
-						<div class="left">
-						</div>
-						<div class="right">
-							<div class="uibutton-group">
+<script type="text/javascript">
+	$(function ()
+	{
+		var chart;
+		$(document).ready(function ()
+		{
+			// Build the chart
+			chart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'container',
+					plotBackgroundColor: null,
+					plotBorderWidth: null,
+					plotShadow: false
+				},
+				title:
+				{
+					text: 'Surat Keluar'
+				},
+				tooltip:
+				{
+					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br />Total: <b>{point.y}</b>',
+					percentageDecimals: 1
+				},
+				plotOptions:
+				{
+					pie:
+					{
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+							enabled: false
+						},
+						showInLegend: true
+					}
+				},
+				series: [{
+					type: 'pie',
+					name: 'Persentase',
+					data: [
+						<?php foreach ($stat as $data): ?>
+							<?php if ($data['jumlah'] != "-"): ?>
+								['<?= $data['nama']?>',<?= $data['jumlah']?>],
+							<?php endif; ?>
+						<?php endforeach; ?>
+					]
+				}]
+			});
+		});
+	});
+</script>
+<!-- Highcharts -->
+<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Grafik Surat Keluar</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('keluar')?>"> Daftar Surat Keluar</a></li>
+			<li class="active">Grafik Surat Keluar</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div id="container"></div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</td>
-		</tr>
-	</table>
+			</div>
+		</div>
+	</section>
 </div>

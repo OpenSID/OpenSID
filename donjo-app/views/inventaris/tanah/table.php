@@ -1,244 +1,228 @@
-<div id="myModalExcel" class="modal fade" role="dialog" style="padding-top:30px;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Unduh Inventaris</h4>
-      </div>
-	  	<form action="" target="_blank" class="form-horizontal" method="get" >
-			<div class="modal-body">
-				<div class="form-group">
-					<label class="col-sm-2 control-label required" style="text-align:left;" for="nama_barang">Tahun</label>
-					<div class="col-sm-9">
-						<select name="tahun" id="tahun" class="form-control">
-							<option value="1">Semua Tahun</option>
-							<?php for ($i=date("Y"); $i>=date("Y")-30; $i--): ?>
-								<option value="<?= $i ?>"><?= $i ?></option>
-							<?php endfor; ?>
-						</select>
-					</div>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Daftar Inventaris Tanah</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Daftar Inventaris Tanah</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainformexcel" name="mainformexcel" action="" method="post" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-3">
+          <?php	$this->load->view('inventaris/tanah/menu_kiri.php')?>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
-					<div class="col-sm-9">
-						<select name="penandatangan" id="penandatangan" class="form-control">
-							<?php foreach ($pamong AS $data): ?>
-								<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
-									<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
-									<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
-								</option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_download" name="form_download"  data-dismiss="modal">Unduh</button>
-			</div>
-		</form>
-    </div>
-
-  </div>
-</div>
-<div id="myModal" class="modal fade" role="dialog" style="padding-top:30px;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Cetak Inventaris</h4>
-      </div>
-	  	<form action="" target="_blank" class="form-horizontal" method="get" >
-			<div class="modal-body">
-				<div class="form-group">
-					<label class="col-sm-2 control-label required" style="text-align:left;" for="tahun_pdf">Tahun</label>
-					<div class="col-sm-9">
-						<select name="tahun_pdf" id="tahun_pdf" class="form-control">
-							<option value="1">Semua Tahun</option>
-							<?php for ($i = date("Y"); $i >= date("Y")-30; $i--): ?>
-								<option value="<?= $i ?>"><?= $i ?></option>
-							<?php endfor; ?>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
-					<div class="col-sm-9">
-						<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control">
-							<?php foreach ($pamong AS $data): ?>
-								<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
-									<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
-									<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
-								</option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary pull-right"  id="form_cetak" name="form_cetak"  data-dismiss="modal">Cetak</button>
-			</div>
-		</form>
-    </div>
-  </div>
-</div>
-
-<div id="row">
-<div class="col-lg-2">
-	<div class="panel panel-default">
-		<div class="panel-heading">Menu</div>
-		<div class="panel-body">
-			<?php
-				$data['data'] = 1;
-				$this->load->view('inventaris/tanah/menu_kiri.php',$data);
-			?>
-		</div>
-	</div>
-</div>
-<div class="col-lg-10">
-	<div id="container">
-		<form id="mainformexcel" name="mainformexcel" action="" method="post">
-		  <div class="ui-layout-north panel">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						Daftar Inventaris Tanah Desa
-					</div>
-					<div class="panel-body">
-						<div class="pull-right">
-              				<a class="btn btn-primary" href="<?= base_url('index.php/inventaris_tanah/form'); ?>" style="color:white;">
-								<i class="fa fa-plus"></i> Tambah
-							</a>
-		  			    </div>
-						<div class="pull-left">
-							<a type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-								<i class="fa fa-file-pdf-o"></i> Cetak
-							</a>
-							<a type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalExcel">
-								<i class="fa fa-file-excel-o"></i> Unduh Excel
-							</a>
-				 		 </div>
-					</div>
-					<div class="panel-body">
-					<table id="example" class="stripe cell-border table" class="grid" style="width:100%;">
-						<thead style="background-color:#f9f9f9;" >
-							<tr>
-								<th class="text-center" >No</th>
-								<th class="text-center" >Nama Barang</th>
-								<th class="text-center" >Kode Barang</th>
-								<th class="text-center" >Luas (M<sup>2</sup>)</th>
-								<th class="text-center" >Tahun Pengadaan</th>
-								<th class="text-center" >Letak/Alamat</th>
-								<th class="text-center" >Nomor Sertifikat</th>
-								<th class="text-center" >Asal Usul</th>
-								<th class="text-center" >Harga (Rp)</th>
-								<th class="text-center"  width="100px">Aksi</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ($main as $data): ?>
-								<?php if ($data->status == "1"): ?>
-									<tr style='background-color:#cacaca'>
-								<?php else: ?>
-									<tr>
-								<?php endif; ?>
-									<td></td>
-									<td><?= $data->nama_barang;?></td>
-									<td><?= $data->kode_barang;?></td>
-									<td><?= $data->luas;?></td>
-									<td><?= $data->tahun_pengadaan;?></td>
-									<td><?= $data->letak;?></td>
-									<td><?= $data->no_sertifikat;?></td>
-									<td><?= $data->asal;?></td>
-									<td><?= number_format($data->harga,0,".",".");?></td>
-									<td>
-										<div class="btn-group" role="group" aria-label="...">
-											<?php if($data->status == "0"){ ?>
-												<a href="<?= base_url('index.php/inventaris_tanah/form_mutasi/'.$data->id); ?>" title="Mutasi Data" type="button" class="btn btn-danger btn-sm"><i class="fa fa-external-link-square"></i></a>
-											<?php  }?>
-											<a href="<?= base_url('index.php/inventaris_tanah/view/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
-											<a href="<?= base_url('index.php/inventaris_tanah/edit/'.$data->id); ?>" title="Edit Data"  type="button" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> </a>
-											<button href="" onclick="deleteItem(<?= $data->id; ?>)" title="Hapus Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?= base_url('index.php/inventaris_tanah/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
+								<i class="fa fa-plus"></i>Tambah Data
+            	</a>
+							<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
+								<i class="fa fa-print"></i>Cetak
+            	</a>
+							<a href="#" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Inventaris">
+								<i class="fa fa-download"></i>Unduh
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="table-responsive">
+												<table id="tabel4" class="table table-bordered dataTable table-hover">
+													<thead class="bg-gray">
+														<tr>
+															<th class="text-center" >No</th>
+															<th class="text-center" >Aksi</th>
+															<th class="text-center" >Nama Barang</th>
+															<th class="text-center" >Kode Barang</th>
+															<th class="text-center" >Luas (M<sup>2</sup>)</th>
+															<th class="text-center" >Tahun Pengadaan</th>
+															<th class="text-center" >Letak/Alamat</th>
+															<th class="text-center" >Nomor Sertifikat</th>
+															<th class="text-center" >Asal Usul</th>
+															<th class="text-center" >Harga (Rp)</th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php foreach ($main as $data): ?>
+															<?php if ($data->status == "1"): ?>
+																<tr style='background-color:#cacaca'>
+															<?php else: ?>
+																<tr>
+															<?php endif; ?>
+																<td></td>
+																<td nowrap>
+																	<?php if ($data->status == "0"): ?>
+																		<a href="<?= base_url('index.php/inventaris_tanah/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																	<?php endif; ?>
+																	<a href="<?= base_url('index.php/inventaris_tanah/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= base_url('index.php/inventaris_tanah/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+																	<a href="#" data-href="<?= site_url("api_inventaris_tanah/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																</td>
+																<td><?= $data->nama_barang;?></td>
+																<td><?= $data->kode_barang;?></td>
+																<td><?= $data->luas;?></td>
+																<td><?= $data->tahun_pengadaan;?></td>
+																<td><?= $data->letak;?></td>
+																<td><?= $data->no_sertifikat;?></td>
+																<td><?= $data->asal;?></td>
+																<td><?= number_format($data->harga,0,".",".");?></td>
+															</tr>
+														<?php endforeach; ?>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th colspan="9" class="text-right">Total:</th>
+															<th class="text-right"><?= number_format($total,0,".","."); ?></th>
+														</tr>
+													</tfoot>
+												</table>
+											</div>
 										</div>
-									</td>
-								</tr>
-							<?php endforeach; ?>
-						</tbody>
-						<tfoot>
-							<tr>
-								<th colspan="8" style="text-align:right">Total:</th>
-								<th><?= number_format($total,0,".","."); ?></th>
-								<th></th>
-							</tr>
-						</tfoot>
-					</table>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="unduhBox" class="modal fade" role="dialog" style="padding-top:30px;">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Unduh Inventaris</h4>
+										</div>
+										<form action="" target="_blank" class="form-horizontal" method="get" >
+											<div class="modal-body">
+												<div class="form-group">
+													<label class="col-sm-2 control-label required" style="text-align:left;" for="nama_barang">Tahun</label>
+													<div class="col-sm-9">
+														<select name="tahun" id="tahun" class="form-control select2 input-sm" style="width:100%;">
+															<option value="1">Semua Tahun</option>
+															<?php for ($i=date("Y"); $i>=date("Y")-30; $i--): ?>
+																<option value="<?= $i ?>"><?= $i ?></option>
+															<?php endfor; ?>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
+													<div class="col-sm-9">
+														<select name="penandatangan" id="penandatangan" class="form-control input-sm">
+															<?php foreach ($pamong AS $data): ?>
+																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
+																	<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
+																	<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
+																</option>
+															<?php endforeach; ?>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+												<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_download" name="form_download" data-dismiss="modal"><i class='fa fa-check'></i> Unduh</button>
+											</div>
+
+										</form>
+									</div>
+								</div>
+							</div>
+							<div id="cetakBox" class="modal fade" role="dialog" style="padding-top:30px;">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Cetak Inventaris</h4>
+										</div>
+										<form action="" target="_blank" class="form-horizontal" method="get">
+											<div class="modal-body">
+												<div class="form-group">
+													<label class="col-sm-2 control-label required" style="text-align:left;" for="tahun_pdf">Tahun</label>
+													<div class="col-sm-9">
+														<select name="tahun_pdf" id="tahun_pdf" class="form-control select2 input-sm" style="width:100%;">
+															<option value="1">Semua Tahun</option>
+															<?php for ($i = date("Y"); $i >= date("Y")-30; $i--): ?>
+																<option value="<?= $i ?>"><?= $i ?></option>
+															<?php endfor; ?>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
+													<div class="col-sm-9">
+														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control input-sm">
+															<?php foreach ($pamong AS $data): ?>
+																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
+																	<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
+																	<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
+																</option>
+															<?php endforeach; ?>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+												<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_cetak" name="form_cetak"  data-dismiss="modal"><i class='fa fa-check'></i> Cetak</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					</div>
-			</form>
-	</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>
-
-<script  TYPE='text/javascript'>
-	function deleteItem($id)
-	{
-		swal(
-		{
-			title: "Apakah Anda Yakin?",
-			text: "Setelah dihapus, Data hanya dapat dipulihkan di database!!",
-			icon: "warning",
-			buttons: true,
-			dangerMode: true,
-		})
-		.then((willDelete) =>
-		{
-			if (willDelete)
-			{
-				swal("Data berhasil dihapus!",
-				{
-				icon: "success",
-				});
-
-				window.location = "api_inventaris_tanah/delete/" + $id;
-			}
-			else
-			{
-				swal("Data tidak berhasil dihapus!");
-			}
-		});
-	}
-
-	$(document).ready(function() {
-		var t = $('#example').DataTable( {
-			scrollY					: '100vh',
-			scrollCollapse	: true,
-			autoWidth				: true,
-    	"columnDefs": [
-    	{
-        	"searchable": false,
-        	"orderable": false,
-        	"targets": 0
-    	} ],
-    	"order": [[ 1, 'asc' ]]
-  	} );
-		t.on( 'order.dt search.dt', function ()
+<script>
+	$(document).ready(function(){
+		var t = $('#tabel4').DataTable({
+			'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+  	});
+		t.on('order.dt search.dt', function()
 		{
 			t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
 			{
 				cell.innerHTML = i+1;
-			} );
-		} ).draw();
+			});
+		}).draw();
+	});
 
-	} );
-
-
-	$("#form_cetak").click(function( event )
+	$("#form_cetak").click(function(event)
 	{
 		var link = '<?= site_url("inventaris_tanah/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
   });
-
-	$("#form_download").click(function( event )
+	$("#form_download").click(function(event)
 	{
 		var link = '<?= site_url("inventaris_tanah/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
   });
-
 </script>

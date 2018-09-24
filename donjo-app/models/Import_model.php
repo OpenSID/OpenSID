@@ -303,14 +303,15 @@ class Import_model extends CI_Model{
 		}
 	}
 
-	function hapus_data_penduduk() {
-		$a="TRUNCATE tweb_wil_clusterdesa";
+	private function hapus_data_penduduk()
+	{
+		$a = "DELETE FROM tweb_wil_clusterdesa WHERE 1";
 		$this->db->query($a);
 
-		$a="TRUNCATE tweb_keluarga";
+		$a = "DELETE FROM tweb_keluarga WHERE 1";
 		$this->db->query($a);
 
-		$a="TRUNCATE tweb_penduduk";
+		$a = "DELETE FROM tweb_penduduk WHERE 1";
 		$this->db->query($a);
 	}
 
@@ -423,7 +424,7 @@ class Import_model extends CI_Model{
 		// atau tidak sebelum melakukan impor
 		if ($hapus) { $this->hapus_data_penduduk(); }
 
-	  require_once APPPATH.'/models/bip_model.php';
+	  require_once APPPATH.'/models/Bip_model.php';
 		$bip = new BIP_Model($data);
 		$bip->impor_bip();
 	}
@@ -491,6 +492,7 @@ class Import_model extends CI_Model{
 		else $_SESSION['success']=-1;
 	}
 
+	// Impor Pengelompokan Data Rumah Tangga
 	function pbdt_individu(){
 		$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
 
@@ -558,7 +560,7 @@ class Import_model extends CI_Model{
 			else $_SESSION['success']=-1;
 
 		echo "<br>JUMLAH GAGAL : $gg</br>";
-		echo "<a href='".site_url()."database/import_ppls'>LANJUT</a>";
+		echo "<a href='".site_url()."database/import'>LANJUT</a>";
 	}
 
 	function ppls_rumahtangga(){

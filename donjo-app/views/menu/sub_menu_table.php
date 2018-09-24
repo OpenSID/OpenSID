@@ -1,96 +1,102 @@
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengaturan Sub Menu Statis</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('menu')?>"><i class="fa fa-dashboard"></i> Daftar Menu</a></li>
+			<li class="active">Pengaturan Sub Menu Statis</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-3">
+          <?php $this->load->view('kategori/menu_kiri.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+              <a href="<?= site_url("menu/ajax_add_sub_menu/$tip/$menu")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Menu"  class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Sub Menu</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("menu/delete_all_sub_menu/$tip/$menu")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="<?= site_url("menu")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Menu
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<form id="mainform" name="mainform" action="" method="post">
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered table-striped dataTable table-hover">
+															<thead class="bg-gray disabled color-palette">
+																<tr>
+																	<th><input type="checkbox" id="checkall"/></th>
+																	<th>No</th>
+																	<th>Aksi</th>
+                                  <th>Nama Sub Menu</th>
+                                  <th>Aktif</th>
+                                  <th>Link</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php foreach ($submenu as $data): ?>
+																	<tr>
+																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<td><?=$data['no']?></td>
+																		<td nowrap>
+																		  <?php if ($_SESSION['grup']==1): ?>
+																				<a href="<?= site_url("menu/urut/$tip/$data[id]/1/$menu")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																				<a href="<?= site_url("menu/urut/$tip/$data[id]/2/$menu")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+                                      <?php endif; ?>
+                                      <a href="<?=site_url("menu/ajax_add_sub_menu/$tip/$menu/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
+																			<?php if ($data['enabled'] == '2'): ?>
+																				<a href="<?= site_url("menu/menu_lock_sub_menu/$tip/$menu/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																			<?php elseif ($data['enabled'] == '1'): ?>
+																				<a href="<?= site_url("menu/menu_unlock_sub_menu/$tip/$menu/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+                                      <?php endif ?>
+																			<a href="#" data-href="<?= site_url("menu/delete_sub_menu/$tip/$menu/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	  </td>
+                                    <td width="50%"><?= $data['nama']?></td>
+                                    <td><?= $data['aktif']?></td>
+                                    <td><?= $data['link']?></td>
+																	</tr>
+																<?php endforeach; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
 
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-
-<td class="side-menu">
-
-<fieldset>
-<legend>Kategori Menu</legend>
-<div class="lmenu">
-<ul>
-<li <?php if($tip==1)echo "class='selected'";?>><a href="<?php echo site_url("menu/index/1")?>">Statis</a></li>
-<li <?php if($tip==2)echo "class='selected'";?>><a href="<?php echo site_url("menu/index/2")?>">Dinamis</a></li>
-
-
-</ul>
-</div>
-</fieldset>
-
-</td>
-
-<td style="background:#fff;padding:0px;">
-<div class="content-header">
-<h3>Manajemen Sub Menu</h3>
-</div>
-<div id="contentpane">
-<form id="mainform" name="mainform" action="" method="post">
-<div class="ui-layout-north panel">
-<div class="left">
-<div class="uibutton-group">
-<a href="<?php echo site_url("menu/ajax_add_sub_menu/$tip/$menu")?>" target="ajax-modalx" rel="window" header="Tambah Sub Menu Statis" class="uibutton tipsy south" title="Tambah Sub Menu"><span class="fa fa-plus">&nbsp;</span>Tambah Menu Baru</a>
-<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("menu/delete_all_sub_menu/$tip/$menu")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data
-</div>
-</div>
-</div>
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<div class="table-panel top">
-<div class="left">
-</div>
-<div class="right">
-</div>
-</div>
-<table class="list">
-  <thead>
-    <tr>
-      <th>No</th>
-      <th><input type="checkbox" class="checkall"/></th>
-      <th>Aksi</th>
-      <th align="center">Nama</th>
-      <th align="center">Enabled</th>
-      <th>Link</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach($submenu as $data){?>
-      <tr>
-        <td align="center" width="2"><?php echo $data['no']?></td>
-        <td align="center" width="5">
-          <input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-        </td>
-        <td>
-          <div class="uibutton-group">
-            <?php if($_SESSION['grup']==1): ?>
-              <a href="<?php echo site_url("menu/urut/$tip/$data[id]/1/$menu")?>" class="uibutton tipsy south" title="Turun"><span class="fa fa-arrow-down"></span></a>
-              <a href="<?php echo site_url("menu/urut/$tip/$data[id]/2/$menu")?>" class="uibutton tipsy south" title="Naik"><span class="fa fa-arrow-up"></span></a>
-            <?php endif; ?>
-            <a href="<?php echo site_url("menu/ajax_add_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south fa-tipis" target="ajax-modalx" rel="window" header="Edit Menu Statis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
-            <a href="<?php echo site_url("menu/delete_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
-            <?php if($data['enabled'] == '2'):?>
-              <a href="<?php echo site_url("menu/menu_lock_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south" title="Enable menu"><span class="fa fa-lock"></span></a>
-            <?php elseif($data['enabled'] == '1'): ?>
-              <a href="<?php echo site_url("menu/menu_unlock_sub_menu/$tip/$menu/$data[id]")?>"  class="uibutton tipsy south" title="Disable menu"><span class="fa fa-unlock"></span></a>
-            <?php endif;?>
-          </div>
-        </td>
-        <td><?php echo $data['nama']?></td>
-        <td><?php echo $data['aktif']?></td>
-        <td><?php echo $data['link']?></td>
-      </tr>
-    <?php }?>
-  </tbody>
-</table>
-  </div>
-  </form>
-  <div class="ui-layout-south panel bottom">
-  <div class="left">
-  <a href="<?php echo site_url()?>menu/index/<?php echo $tip?>" class="uibutton icon prev">Kembali</a>
-  </div>
-  <div class="right">
-  </div>
-  </div>
-  </div>
-  </td>
-  </tr>
-</table>
-</div>

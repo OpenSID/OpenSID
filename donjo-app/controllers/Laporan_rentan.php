@@ -46,11 +46,12 @@ function __construct(){
 		$data['config'] = $this->laporan_bulanan_model->configku();
 		$data['main']    = $this->laporan_bulanan_model->list_data();
 		//$data['keyword'] = $this->laporan_bulanan_model->autocomplete();
-		$nav['act']= 2;
+		$nav['act']= 3;
+		$nav['act_sub'] = 29;
 		$header = $this->header_model->get_data();
-
+		$header['minsidebar'] = 1;
 		$this->load->view('header',$header);
-		$this->load->view('statistik/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('laporan/kelompok',$data);
 		$this->load->view('footer');
 	}

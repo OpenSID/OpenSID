@@ -1,117 +1,122 @@
-<div id="pageC">
-<!-- Start of Space Admin -->
-  <table class="inner">
-  <tr style="vertical-align:top">
-    <td style="background:#fff;padding:0px;">
-      <div class="content-header">
-      </div>
-      <div id="contentpane">
-        <div class="ui-layout-north panel">
-          <h3>Impor Data Buku Induk Penduduk</h3>
-        </div>
-        <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-          <div class="left">
-              <!--Impor data BIP-->
-              <form action="<?php echo $form_action?>" method="post" enctype="multipart/form-data" id="excell">
-               <table class="form">
-                <tr>
-                  <td width="500" colspan="3">
-                    <p font-size="14px";>
-                      Proses ini untuk mengimpor data Buku Induk Penduduk (BIP) yang diperoleh dari Disdukcapil dalam format Excel.
-                      <br>
-                      BIP yang dapat dibaca proses ini adalah yang tersusun
-                      berdasarkan keluarga, seperti contoh yang dapat dilihat pada tautan berikut</a>.
-                      <br><br>
-                      UNDUH :
-                      <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_2012.xls"><span class="fa fa-download"></span> Contoh BIP 2012</a>
-                      <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_2016.xls"><span class="fa fa-download"></span> Contoh BIP 2016</a>
-                      <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_ektp.xls"><span class="fa fa-download"></span> Contoh BIP eKTP</a>
-                      <a class="uibutton confirm" href="<?php echo base_url()?>assets/import/format_bip_2016_luwutimur.xls"><span class="fa fa-download"></span> Contoh BIP 2016 Luwu Timur</a>
-                      <br><br>
-                      Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun menjadi satu worksheet per dusun, proses ini akan mengimpor  data semua dusun.
-                    </p><br>
-                    <div class="box-perhatian">
-                      <strong>Pastikan berkas BIP format Excel 2003, ber-ekstensi .xls <br><br>
-                      Sebelum di-impor ganti semua format tanggal (seperti tanggal lahir) menjadi dd/mm/yyyy (misalnya 26/07/1964).</strong>
-                    </div>
-                    <div style='margin-top: 1em;'>
-                      <?php
-                        $upload_mb = max_upload();
-                        echo "<p>Batas maksimal pengunggahan berkas <strong>".$upload_mb." MB.</strong></p><br>
-                        <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi
-                        komputer server SID, banyaknya data dan sambungan internet yang tersedia.</p>";
-                      ?>
-                    </div>
-
-                  </td>
-                  <td>
-                  &nbsp;
-                  </td>
-                </tr>
-                <tr>
-                  <td width="150">
-                    Pilih File .xls:
-                  </td>
-                  <td width="250">
-                    <input name="userfile" type="file" />
-                  <td>
-                    <a href="#" onclick="document.getElementById('excell').submit();" class="uibutton special" value="Import" target="confirm2" message="Harap tunggu sampai proses impor selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan.<div align='center'><img src='<?php echo base_url()?>assets/images/background/loading.gif'></div>" header="Proses Impor Sedang Berjalan."><span class="fa fa-upload"></span> Impor</a>
-                    <input type="checkbox" name="hapus_data" value='hapus' /> Hapus data penduduk sebelum impor
-                  </td>
-                  <td>
-                    &nbsp;
-                  </td>
-                </tr>
-              <?php if(isset($_SESSION['gagal'])){?>
-                <tr>
-                  <td width="150">
-                  <p>Jumlah Data Penduduk Gagal
-                  </td>
-                  <td colspan="3">
-                    <?php echo $_SESSION['gagal']?>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="150">
-                  <p>Letak Baris Data Gagal:
-                  </td>
-                  <td colspan="3">
-                    <?php echo $_SESSION['baris']?>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="150">
-                  <p>Total Data Penduduk Berhasil:
-                  </td>
-                  <td colspan="3">
-                    <?php echo $_SESSION['total_penduduk']?>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="150">
-                  <p>Total Data Keluarga Berhasil:
-                  </td>
-                  <td colspan="3">
-                    <?php echo $_SESSION['total_keluarga']?>
-                  </td>
-                </tr>
-              <?php }?>
-              </table>
-            </form>
-              <!--Impor data BIP-->
-
-          </div>
-        <div class="ui-layout-south panel bottom">
-          <div class="left">
-            <div class="table-info"></div>
-        </div>
-        <div class="right">
-        </div>
-      </div>
-    </div>
-  </td></tr></table>
+										<div class="tab-pane <?php if ($act_tab==3): ?> active<?php endif ?>">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="box-header with-border">
+														<h3 class="box-title"><strong>Impor Data Buku Induk Penduduk</strong></h3>
+													</div>
+													<div class="box-body">
+														<div class="row">
+															<div class="col-sm-12">
+																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
+																	<p>Proses ini untuk mengimpor data Buku Induk Penduduk (BIP) yang diperoleh dari Disdukcapil dalam format Excel.</p>
+																	<p>BIP yang dapat dibaca proses ini adalah yang tersusun berdasarkan keluarga, seperti contoh yang dapat dilihat pada tautan berikut :</P>
+																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_2012.xls" ><i class="fa fa-download"></i>Contoh BIP 2012</a>
+																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_2016.xls" ><i class="fa fa-download"></i>Contoh BIP 2016</a>
+																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_ektp.xls"><i class="fa fa-download"></i>Contoh BIP eKTP</a>
+																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_2016_luwutimur.xls"><i class="fa fa-download"></i>Contoh BIP 2016 Luwu Timur</a>
+																	<p></p>
+																	<p>Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun menjadi satu worksheet per dusun, proses ini akan mengimpor data semua dusun.</p>
+																	<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
+																		<small>
+																			<strong>
+																				<i class="fa fa-info-circle text-red"></i> Pastikan berkas BIP format Excel 2003, ber-ekstensi .xls <br>
+																				<i class="fa fa-info-circle text-red"></i> Sebelum di-impor ganti semua format tanggal (seperti tanggal lahir) menjadi dd/mm/yyyy (misalnya 26/07/1964).
+																			</strong>
+																		</small>
+																	</p>
+																	<p>
+																	 	<?php
+																		  $max_upload = (int)(ini_get('upload_max_filesize'));
+																		  $max_post = (int)(ini_get('post_max_size'));
+																		  $memory_limit = (int)(ini_get('memory_limit'));
+																			$upload_mb = min($max_upload, $max_post, $memory_limit);
+																		?>
+																		<p>Batas maksimal pengunggahan berkas <strong><?=$upload_mb?> MB.</strong></p>
+																		<p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi
+																			komputer server SID, banyaknya data dan sambungan internet yang tersedia.</p>
+																	</p>
+																	<table class="table table-bordered" >
+																		<tbody>
+																			<tr>
+																				<td style="padding-top:20px;padding-bottom:10px;">
+																					<div class="form-group">
+																						<label for="file" class="col-md-3 control-label">Pilih File .xls:</label>
+																						<div class="col-md-5">
+																							<div class="input-group input-group-sm">
+																								<input type="text" class="form-control" id="file_path2" name="userfile">
+																								<input type="file" class="hidden" id="file2" name="userfile">
+																								<span class="input-group-btn">
+																									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
+																								</span>
+																							</div>
+																							<p class="help-block"><input type="checkbox" name="hapus_data" value="hapus"></input>	Hapus data penduduk sebelum Impor</p>
+																						</div>
+																						<div class="col-md-2">
+																							<a href="#" class="btn btn-block btn-success btn-sm"  title="Impor Database" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor</a>
+																						</div>
+																					</div>
+																				</td>
+																			</tr>
+																			<?php if (isset($_SESSION['gagal'])): ?>
+																				<tr>
+																					<td>
+																						<dl class="dl-horizontal">
+																							<dt>Jumlah Data Gagal : </dt>
+																							<dd><?= $_SESSION['gagal']?></dd>
+																						</dl>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<dl class="dl-horizontal">
+																							<dt>Letak Baris Data Gagal : </dt>
+																							<dd><?= $_SESSION['baris']?></dd>
+																						</dl>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<dl class="dl-horizontal">
+																							<dt>Total Data Berhasil :</dt>
+																							<dd><?= $_SESSION['sukses']?></dd>
+																						</dl>
+																					</td>
+																				</tr>
+																			<?php endif ?>
+																		</tbody>
+																	</table>
+																</form>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class='modal fade' id='loading' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+													<div class='modal-dialog'>
+														<div class='modal-content'>
+															<div class='modal-header btn-warning'>
+																<h4 class='modal-title' id='myModalLabel'>Proses Impor ......</h4>
+															</div>
+															<div class='modal-body'>
+																Harap tunggu sampai proses impor selesai. Proses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan..
+																<div class='text-center'>
+																	<img src='<?= base_url()?>assets/images/background/loading.gif'>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<?php unset($_SESSION['sukses']);?>
+											<?php unset($_SESSION['baris']);?>
+											<?php unset($_SESSION['gagal']);?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>
-
-<?php unset($_SESSION['sukses']);?>
-<?php unset($_SESSION['baris']);?>
-<?php unset($_SESSION['gagal']);?>

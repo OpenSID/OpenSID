@@ -2,6 +2,9 @@
 
   function __construct(){
     parent::__construct();
+    $this->load->model('penduduk_model');
+    $this->load->model('web_artikel_model');
+    $this->load->model('keluar_model');
 
     session_start();
   }
@@ -28,8 +31,6 @@
 
         case 'testing':
         case 'production':
-          $koneksi = cek_koneksi_internet();
-          if(!$koneksi) return;
           $tracker = "tracksid.bangundesa.info";
         break;
 
@@ -57,7 +58,10 @@
      "url" => current_url(),
      "ip_address" => $_SERVER['SERVER_ADDR'],
      "external_ip" => get_external_ip(),
-     "version" => AmbilVersi()
+     "version" => AmbilVersi(),
+     "jml_penduduk" => $this->penduduk_model->jml_penduduk(),
+     "jml_artikel" => $this->web_artikel_model->jml_artikel(),
+     "jml_surat_keluar" => $this->keluar_model->jml_surat_keluar()
     );
 
     if($this->abaikan($desa)) return;
@@ -65,6 +69,7 @@
     // echo "httppost =========== ".$tracker;
     // echo httpPost("http://".$tracker."/index.php/track/desa",$desa);
     httpPost("http://".$tracker."/index.php/track/desa",$desa);
+
     if (strpos(current_url(), 'first') !== FALSE) {
       $_SESSION['track_web'] = date("Y m d");
     } else {

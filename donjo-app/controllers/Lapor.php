@@ -42,15 +42,16 @@ class Lapor extends CI_Controller{
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->web_komentar_model->paging($p,$o);
-		$data['main']    = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page,2);
+		$data['paging']  = $this->web_komentar_model->paging($p, $o, 2);
+		$data['main']    = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page, 2);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act']=0;
+		$nav['act']= 14;
+		$nav['act_sub'] = 55;
 
 		$this->load->view('header', $header);
-		$this->load->view('lapor/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('lapor/table',$data);
 		$this->load->view('footer');
 	}
@@ -73,10 +74,11 @@ class Lapor extends CI_Controller{
 
 		$header = $this->header_model->get_data();
 
-		$nav['act']=2;
+		$nav['act']= 14;
+		$nav['act_sub'] = 55;
 		$this->load->view('header', $header);
 		$this->load->view('web/spacer');
-		$this->load->view('web/nav',$nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('lapor/form',$data);
 		$this->load->view('footer');
 	}

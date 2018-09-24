@@ -106,37 +106,56 @@
 		return $data;
 	}
 
-	function generate_pin($pin=""){
-		if($pin==""){
-			$pin = rand(100000,999999);
+	private function generate_pin($pin="")
+	{
+		if ($pin == "")
+		{
+			$pin = rand(100000, 999999);
 			$pin = strrev($pin);
 		}
 		return $pin;
 	}
 
+	public function insert()
+  {
+    if ($_POST['nik'] == "") {
+        redirect("mandiri");
+    }
+    if (empty($_POST['pin']))
+    {
+    	$rpin = $this->generate_pin($_POST['pin']);
+    }
+    else
+    {
+	    // load library form_validation
+	    $this->load->library('form_validation');
+	    $this->form_validation->set_rules('pin', 'Pin', 'trim|numeric|required|min_length[6]|max_length[6]');
+	    if ($this->form_validation->run() !== true)
+	    {
+	    	$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
+	    	return;
+	    }
+	    $rpin = $_POST['pin'];
+    }
 
-	function insert(){
-		if($_POST['nik']=="")
-			redirect("mandiri");
-
-		$sql  = "DELETE FROM tweb_penduduk_mandiri WHERE nik=?";
-		$outp = $this->db->query($sql,array($_POST['nik']));
-
-		$rpin = $this->generate_pin($_POST['pin']);
-		$hash_pin = hash_pin($rpin);
-		$data['pin'] = $hash_pin;
-		$data['nik'] = $_POST['nik'];
-		$data['id_pend'] = $this->db->select('id')->where('nik',$_POST['nik'])
-					->get('tweb_penduduk')->row()->id;
-		$data['tanggal_buat'] = date("Y-m-d H:i:s");
-
-		$outp = $this->db->insert('tweb_penduduk_mandiri',$data);
-
-		if($_POST['pin']!="")
-			return $_POST['pin'];
-		else
-			return $rpin;
-	}
+    $sql = "DELETE FROM tweb_penduduk_mandiri WHERE nik=?";
+    $outp = $this->db->query($sql, array($_POST['nik']));
+    $hash_pin = hash_pin($rpin);
+    $data['pin'] = $hash_pin;
+    $data['nik'] = $_POST['nik'];
+    $data['id_pend'] = $this->db->select('id')->where('nik', $_POST['nik'])
+        ->get('tweb_penduduk')->row()->id;
+    $data['tanggal_buat'] = date("Y-m-d H:i:s");
+    $outp = $this->db->insert('tweb_penduduk_mandiri', $data);
+    if ($_POST['pin'] != "")
+    {
+      return $_POST['pin'];
+    }
+    else
+    {
+      return $rpin;
+    }
+  }
 
 	function delete($id_pend=''){
 		$sql  = "DELETE FROM tweb_penduduk_mandiri WHERE id_pend=?";

@@ -111,19 +111,25 @@
 		}
 	}
 
-	function umur_max_sql(){
-		if(isset($_SESSION['umur_max'])){
+	public function umur_max_sql()
+	{
+		if (isset($_SESSION['umur_max']))
+		{
+      $tanggal_pemilihan = $this->tanggal_pemilihan();
 			$kf = $_SESSION['umur_max'];
-			$umur_max_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf ";
-		return $umur_max_sql;
+			$umur_max_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf ";
+			return $umur_max_sql;
 		}
 	}
 
-	function umur_min_sql(){
-		if(isset($_SESSION['umur_min'])){
+	public function umur_min_sql()
+	{
+		if (isset($_SESSION['umur_min']))
+		{
+      $tanggal_pemilihan = $this->tanggal_pemilihan();
 			$kf = $_SESSION['umur_min'];
-			$umur_min_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf ";
-		return $umur_min_sql;
+			$umur_min_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf ";
+			return $umur_min_sql;
 		}
 	}
 
@@ -203,6 +209,7 @@
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
+	// Penduduk dengan pekerjaan sebagai TNI atau POLRI tidak masuk dalam daftar calon pemilih
 	private function list_data_sql($log) {
 		$sql = "
 		FROM tweb_penduduk u
@@ -220,7 +227,7 @@
 		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
 		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend
-		WHERE 1 ";
+		WHERE u.pekerjaan_id NOT IN ('6', '7') ";
 
 		$sql .= $this->syarat_dpt_sql();
 		$sql .= $this->search_sql();
@@ -291,7 +298,6 @@
 
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
-
 		//Formating Output
 		$i=0;
 		$j=$offset;

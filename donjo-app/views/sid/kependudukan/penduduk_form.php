@@ -1,76 +1,64 @@
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;">
-
-<div class="content-header">
-<h3>Form Data Penduduk</h3>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Biodata Penduduk</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('penduduk/clear')?>"> Daftar Penduduk</a></li>
+			<li class="active">Biodata Penduduk</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" onreset="reset_hamil();">
+			<div class="row">
+				<?php $edit_lokasi = ((empty($penduduk) OR $_SESSION['validation_error']) AND empty($id)); ?>
+				<?php if ($edit_lokasi): ?>
+					<div class="col-md-12">
+						<div class='box box-primary'>
+							<div class="box-header with-border">
+								<a href="<?=site_url("penduduk/clear")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Penduduk">
+									<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Penduduk
+								</a>
+							</div>
+							<div class='box-body'>
+								<div class="row">
+									<div class='col-sm-12'>
+										<div class="row">
+											<div class='form-group col-sm-3'>
+												<select name="dusun" class="form-control input-sm <?php if ($dusun): ?>required<?php endif; ?>" onchange="formAction('mainform','<?= site_url('penduduk/form')?>')">
+													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
+														<?php foreach ($dusun as $data): ?>
+															<option value="<?= $data['dusun']?>" <?php if ($dus_sel==$data['dusun']): ?>selected<?php endif; ?>><?= unpenetration(ununderscore($data['dusun']))?></option>
+														<?php endforeach; ?>
+												</select>
+											</div>
+											<div class='form-group col-sm-2'>
+												<select class="form-control input-sm <?php if ($rw): ?>required<?php endif; ?>" name="rw" onchange="formAction('mainform','<?= site_url('penduduk/form')?>')">
+													<option value="">Pilih RW</option>
+													<?php foreach ($rw as $data): ?>
+														<option value="<?= $data['rw']?>" <?php if ($rw_sel==$data['rw']): ?>selected<?php endif; ?>><?= $data['rw']?></option>
+													<?php endforeach; ?>
+												</select>
+											</div>
+											<div class='form-group col-sm-2'>
+												<select class="form-control input-sm <?php if ($rt): ?>required<?php endif; ?>" name="rt" onchange="formAction('mainform','<?= site_url('penduduk/form')?>')" >
+													<option value="">Pilih RT</option>
+													<?php foreach ($rt as $data): ?>
+														<option value="<?= $data['id']?>" <?php if ($rt_sel==$data['id']): ?>selected<?php endif; ?>><?= $data['rt']?></option>
+													<?php endforeach; ?>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				<?php endif; ?>
+				<?php if (!empty($rt_sel) OR (!empty($penduduk))): ?>
+					<?php include("donjo-app/views/sid/kependudukan/penduduk_form_isian.php"); ?>
+				<?php endif; ?>
+			</div>
+		</form>
+	</section>
 </div>
-<div id="contentpane">
 
-<form id="mainform" name="mainform" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
-  <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-    <table class="form">
-      <?php $edit_lokasi = ((empty($penduduk) OR (isset($_SESSION['validation_error']) AND $_SESSION['validation_error'])) AND empty($id)); ?>
-      <?php if($edit_lokasi) {?>
-        <tr>
-          <th width="100"><?php echo ucwords($this->setting->sebutan_dusun)?></th>
-          <td>
-            <select name="dusun" onchange="formAction('mainform','<?php echo site_url('penduduk/form')?>')" <?php if($dusun){?>class="required"<?php }?>>
-              <option value="">Pilih <?php echo ucwords($this->setting->sebutan_dusun)?></option>
-              <?php foreach($dusun as $data){?>
-                <option value="<?php echo $data['dusun']?>" <?php if($dus_sel==$data['dusun']){?>selected<?php }?>><?php echo unpenetration(ununderscore($data['dusun']))?></option>
-              <?php }?>
-            </select>
-          </td>
-        </tr>
-
-        <tr>
-          <th>RW</th>
-          <td>
-            <select name="rw" onchange="formAction('mainform','<?php echo site_url('penduduk/form')?>')" <?php if($rw){?>class="required"<?php }?>>
-              <option value="">Pilih RW</option>
-              <?php foreach($rw as $data){?>
-                <option value="<?php echo $data['rw']?>" <?php if($rw_sel==$data['rw']){?>selected<?php }?>><?php echo $data['rw']?></option>
-              <?php }?>
-            </select>
-          </td>
-        </tr>
-
-        <tr>
-          <th>RT</th>
-          <td>
-            <select name="rt" onchange="formAction('mainform','<?php echo site_url('penduduk/form')?>')" <?php if($rt){?>class="required"<?php }?>>
-              <option value="">Pilih RT</option>
-              <?php foreach($rt as $data){?>
-                <option value="<?php echo $data['id']?>" <?php if($rt_sel==$data['id']){?>selected<?php }?>><?php echo $data['rt']?></option>
-              <?php }?>
-            </select>
-          </td>
-        </tr>
-      <?php }?>
-      <?php if(!empty($rt_sel) OR (!empty($penduduk))){?>
-      	<?php include("donjo-app/views/sid/kependudukan/penduduk_form_isian.php"); ?>
-      <?php }?>
-    </table>
-  </div>
-
-  <div class="ui-layout-south panel bottom">
-    <div class="left">
-      <?php if($penduduk['id']): ?>
-        <a href="<?php echo site_url()?>penduduk/detail/1/0/<?php echo $penduduk['id']?>" class="uibutton icon prev">Kembali</a>
-      <?php else: ?>
-        <a href="<?php echo site_url()?>penduduk" class="uibutton icon prev">Kembali</a>
-      <?php endif; ?>
-    </div>
-    <div class="right">
-      <div class="uibutton-group">
-        <button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-        <button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
-      </div>
-    </div>
-  </div>
-</form>
-</div>
-</td></tr></table>
-</div>

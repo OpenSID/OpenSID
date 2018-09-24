@@ -1,42 +1,47 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class Statistik extends CI_Controller{
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-function __construct(){
+class Statistik extends CI_Controller {
+
+	public function __construct()
+	{
 		parent::__construct();
 		session_start();
 		$this->load->model('user_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('program_bantuan_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3) {
-			if(empty($grup))
+		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
+		if ($grup != 1 AND $grup != 2 AND $grup != 3)
+		{
+			if (empty($grup))
 				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 			else
 				unset($_SESSION['request_uri']);
 			redirect('siteman');
 		}
 		$this->load->model('header_model');
-		$_SESSION['per_page']= 500;
+		$_SESSION['per_page'] = 500;
 		$this->modul_ini = 3;
 	}
 
-	function index($lap=0,$o=0){
+	public function index($lap = 0, $o = 0)
+	{
 		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap,$o);
-		$data['lap']=$lap;
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap, $o);
+		$data['lap'] = $lap;
 		$data['judul_kelompok'] = "Jenis Kelompok";
-		$data['o']=$o;
+		$data['o'] = $o;
 		$this->get_data_stat($data, $lap);
-		$nav['act']= 0;
+		$nav['act'] = 3;
+		$nav['act_sub'] = 27;
 		$header = $this->header_model->get_data();
-
-		$this->load->view('header',$header);
-		$this->load->view('statistik/nav',$nav);
-		$this->load->view('statistik/penduduk',$data);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('statistik/penduduk', $data);
 		$this->load->view('footer');
 	}
 
-	function clear(){
+	public function clear()
+	{
 		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
@@ -58,112 +63,129 @@ function __construct(){
 		redirect('statistik');
 	}
 
-   function graph($lap=0){
-
-		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
-		$data['lap']=$lap;
+	public function graph($lap = 0)
+	{
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['lap'] = $lap;
 		$this->get_data_stat($data, $lap);
-		$nav['act']= 0;
+		$nav['act'] = 3;
+		$nav['act_sub'] = 27;
 		$header = $this->header_model->get_data();
 
-		$this->load->view('header',$header);
-		$this->load->view('statistik/nav',$nav);
-		$this->load->view('statistik/penduduk_graph',$data);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('statistik/penduduk_graph', $data);
 		$this->load->view('footer');
 	}
 
-   function pie($lap=0){
-
-		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
-		$data['lap']=$lap;
+	public function pie($lap = 0)
+	{
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['lap'] = $lap;
 		$this->get_data_stat($data, $lap);
-		$nav['act']= 0;
+		$nav['act'] = 3;
+		$nav['act_sub'] = 27;
 		$header = $this->header_model->get_data();
 
-		$this->load->view('header',$header);
-		$this->load->view('statistik/nav',$nav);
-		$this->load->view('statistik/penduduk_pie',$data);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('statistik/penduduk_pie', $data);
 		$this->load->view('footer');
 	}
 
-	private function get_data_stat(&$data, $lap){
+	private function get_data_stat(&$data, $lap)
+	{
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
-		if ($lap>50) {
+		if ($lap > 50)
+		{
 			// Untuk program bantuan, $lap berbentuk '50<program_id>'
 			$program_id = preg_replace('/^50/', '', $lap);
 			$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
 			$data['kategori'] = 'bantuan';
-		} elseif ($lap>20 OR "$lap" == 'kelas_sosial') {
+		}
+		elseif ($lap > 20 OR "$lap" == 'kelas_sosial')
+		{
 			$data['kategori'] = 'keluarga';
-		} else {
+		}
+		else
+		{
 			$data['kategori'] = 'penduduk';
 		}
 	}
 
-  function cetak($lap=0){
-		$data['lap']=$lap;
+	public function cetak($lap = 0)
+	{
+		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['config']  = $this->laporan_penduduk_model->get_config();
-		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
-		$this->load->view('statistik/penduduk_print',$data);
+		$data['config'] = $this->laporan_penduduk_model->get_config();
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$this->load->view('statistik/penduduk_print', $data);
 	}
 
-	function excel($lap=0){
-		$data['lap']=$lap;
+	public function excel($lap = 0)
+	{
+		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['config']  = $this->laporan_penduduk_model->get_config();
-		$data['main']    = $this->laporan_penduduk_model->list_data($lap);
-		$this->load->view('statistik/penduduk_excel',$data);
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$this->load->view('statistik/penduduk_excel', $data);
 	}
 
-	function rentang_umur(){
-		$data['lap']=13;
-		$data['main']    = $this->laporan_penduduk_model->list_data_rentang();
+	public function rentang_umur()
+	{
+		$data['lap'] = 13;
+		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
 
 		$header = $this->header_model->get_data();
-		$nav['act']= 0;
+		$nav['act'] = 3;
+		$nav['act_sub'] = 27;
 
 		$this->load->view('header', $header);
-		//$this->load->view('statistik/menu');
-		$this->load->view('statistik/nav',$menu);
-		$this->load->view('statistik/rentang_umur',$data);
+		$this->load->view('nav', $nav);
+		$this->load->view('statistik/rentang_umur', $data);
 		$this->load->view('footer');
 	}
 
-	function form_rentang($id=0){
-
-		if($id==0){
+	public function form_rentang($id = 0)
+	{
+		if ($id == 0)
+		{
 			$data['form_action'] = site_url("statistik/rentang_insert");
-			$data['rentang']= $this->laporan_penduduk_model->get_rentang_terakhir();
-			$data['rentang']['nama']="";
-			$data['rentang']['sampai']="";
+			$data['rentang'] = $this->laporan_penduduk_model->get_rentang_terakhir();
+			$data['rentang']['nama'] = "";
+			$data['rentang']['sampai'] = "";
 		}
-		else{
+		else
+		{
 			$data['form_action'] = site_url("statistik/rentang_update/$id");
-			$data['rentang']     = $this->laporan_penduduk_model->get_rentang($id);
+			$data['rentang'] = $this->laporan_penduduk_model->get_rentang($id);
 		}
-		$this->load->view('statistik/ajax_rentang_form',$data);
+		$this->load->view('statistik/ajax_rentang_form', $data);
 
 	}
 
-	function rentang_insert(){
+	public function rentang_insert()
+	{
 		$data['insert'] = $this->laporan_penduduk_model->insert_rentang();
 		redirect('statistik/rentang_umur');
 	}
 
-	function rentang_update($id=0){
+	public function rentang_update($id = 0)
+	{
 		$this->laporan_penduduk_model->update_rentang($id);
 		redirect('statistik/rentang_umur');
 	}
 
-	function rentang_delete($id=0){
+	public function rentang_delete($id = 0)
+	{
 		$this->laporan_penduduk_model->delete_rentang($id);
 		redirect('statistik/rentang_umur');
 	}
 
-	function delete_all_rentang(){
+	public function delete_all_rentang()
+	{
 		$this->laporan_penduduk_model->delete_all_rentang();
 		redirect('statistik/rentang_umur');
 	}

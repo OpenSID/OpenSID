@@ -1,0 +1,47 @@
+Rilis ini berisi [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan bug yang dilaporkan Komunitas SID.
+
+Terima kasih pada Bimo Aji Pamungkas, Suyadi dan Yusup Hambali yang terus berkontribusi. Terima kasih juga pada Muhammad Irwan Andriawan yang baru mulai kontribusi.
+
+Lengkapnya, isi rilis versi 18.09-pasca:
+
+1. #1650: Perbaiki ikon Sekretariat di menu utama. [bug-fix]
+2. #1652: Tautan Nomor KK di tabel calon pemilih sekarang benar menampilkan salinan kartu keluarga. [bug-fix]
+3. #1656: Opsi 'Hapus data penduduk sebelum Impor' di Pengaturan > Database > Impor BIP sekarang berfungsi normal. [bug-fix]
+4. #1658: Sekarang sortir kolom tabel di halaman Analisis Master berjalan normal. [bug-fix]
+5. #711: Sekarang penulisan artikel web sudah bisa lagi memilih jenis dan ukuran font yang akan digunakan. [bug-fix]
+6. #1452: Scrollbar di menu navigasi telah diperlebar.
+7. #1663: Sekarang Impor BIP berjalan normal di hosting. [bug-fix]
+8. #1665: Sekarang cetak dan unduh Sekretariat > Surat Masuk berjalan normal kembali. [bug-fix]
+9. #1668: Sekarang Tanggal Cetak Kartu Keluarga tidak wajib diisi di form Ubah Data KK. [bug-fix]
+10. #1672: Sekarang statistik Laporan Kelompok Rentan hanya menampilkan penduduk dengan status dasar 'hidup'. [bug-fix]
+11. #1669: Sekarang judul statistik ditunjukkan pada waktu menampilkan rincian statistik keluarga. [bug-fix]
+12. #1667: Sekarang data ketua kelompok tidak hilang pada waktu mengubah data Kelompok. [bug-fix]
+13. #1666: Sekarang menu navigasi menampilkan menu yg dipilih dan submenu yg dikembangkan
+14. #1654: Sekarang pengisian pesan SMS berhasil setelah mengisi No HP Tujuan. [bug-fix]
+15. #1385: Tampilkan berkas bukti pengesahan pendataan survei analisis. [bug-fix]
+16. #1258: Sekarang penduduk dengan pekerjaan TNI/POLRI tidak masuk dalam daftar calon pemilih.
+17. Sekarang perubahan jumlah baris paging di halaman daftar calon pemilih berjalan normal. [bug-fix]
+18. Tampilkan tgl pemilihan default waktu pertama kali membuka daftar calon pemilih. [bug-fix]
+19. #999: Jenis pekerjaan PETANI/PERKEBUNAN telah diperbaiki menjadi PETANI/PEKEBUN. [bug-fix]
+20. #1185: Hilangkan kolom URL dari tampilan pengaturan Modul aplikasi.
+21. #1234: Sekarang kolom isian Status Kehamilan hanya ditampilkan untuk penduduk perempuan.
+22. #675: Sekarang tujuan disposisi pada surat masuk bisa memilih lebih dari satu pamong.
+23. #1272: Sekarang form penambahan dan perubahan kategori garis menampilkan judul garis bersangkutan.
+24. #1274: Sekarang form penambahan dan perubahan kategori area menampilkan judul area bersangkutan.
+24. Sekarang form penambahan dan perubahan kategori lokasi menampilkan judul lokasi bersangkutan.
+25. #1498: Sekarang tombol batal di form surat_ket_nikah berfungsi normal. [bug-fix]
+26. #1498: Sekarang isian jumlah istri dan suami terdahulu tampil berdasarkan status kawin calon pria dan calon wanita.
+27. #1489: Perbaiki data yang dimunculkan di cetakan Surat Keterangan Nikah. [bug-fix]
+28. Perbaiki tampilan web supaya jalan kembali menggunakan PHP 5.3.7.
+29. #252: Sediakan daftar kode klasifikasi surat.
+30. Gunakan daftar kode klasifikasi surat di form isian Surat Masuk dan di form pengaturan surat layanan.
+31. Keterangan di form tambah KK baru dan form tambah anggota KK dari penduduk lepas (yang tidak memiliki nomor KK) diperjelas.
+32. #1687: Sekarang Arsip Layanan menampilkan data yang benar meskipun ada tab browser lain yang membuka halaman berbeda. [bug-fix]
+33. Atasi masalah penyimpanan data session pada beberapa server. [bug-fix]
+34. #558: Tambahkan modul pengelolaan Surat Keluar.
+35. #1691: Perbaiki menambahkan peserta pada program bantuan sasaran Keluarga. [bug-fix]
+
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+
+

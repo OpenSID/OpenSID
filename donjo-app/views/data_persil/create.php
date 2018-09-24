@@ -1,164 +1,139 @@
-<?php
-/*
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- * *
- */
-
-?>
-<script>
-	$(document).ready(function() {
-		var nik = {};
-		nik.results = [
-			<?php  foreach($penduduk as $item){?>
-				{id:'<?= $item["id"] ?>', name:"<?= $item["nama"] ?>",info:"<?= $item["info"] ?>"},
-			<?php  }?>
-		];
-
-		$('#nik').flexbox(nik, {
-			resultTemplate: '<div><label>Nama : </label>{name}</div><div><label>Alamat : </label>{info}</div>',
-			watermark: "Cari nama di sini..",
-			width: 400,
-			noResultsText :'Tidak ada no nik yang sesuai..',
-			onSelect: function() {
-				$('#'+'main').submit();
-			}
-		});
-	});
-</script>
-
-<div id="pageC">
-<table class="inner">
-	<tr style="vertical-align:top">
-		<td class="side-menu">
-		<?php
-		$this->load->view('data_persil/menu_kiri.php')
-		?>
-		</td>
-		<td class="contentpane">
-			<legend>Pengelolaan Data Persil <?php echo $desa['nama_desa'];?></legend>
-			<div id="contentpane">
-				<div id="maincontent" class="ui-layout-center" style="padding:0 3em 0 0;">
-
-					<?php
-					if($_SESSION["success"]==1){
-						echo "
-						<div>
-						".$_SESSION["pesan"]."
-						</div>";
-						$_SESSION["success"]==0;
-					}
-
-					?>
-
-					<fieldset>
-						<legend>Formulir Penambahan/Pembaruan Data Peruntukan Persil</legend>
-						<fieldset>
-							<legend>Pemilik Persil</legend>
-							<div>
-								<form action="" id="main" name="main" method="POST">
-								<label>Cari Nama Penduduk dari Database <?= ucwords($this->setting->sebutan_desa) ?></label>
-								<div id="nik" name="nik" class="form-control"></div>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengelolaan Data Persil <?=ucwords($this->setting->sebutan_desa)?> <?= $desa["nama_desa"];?></h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?=site_url('data_persil/clear')?>"> Daftar Persil</a></li>
+			<li class="active">Pengelolaan Data Persil</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+			<div class="row">
+				<div class="col-md-3">
+          <?php $this->load->view('data_persil/menu_kiri.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<form action="" id="main" name="main" method="POST" class="form-horizontal">
+										<div class="box-body">
+											<div class="form-group">
+												<label class="col-sm-3 control-label" >Cari Nama Pemilik</label>
+												<div class="col-sm-8">
+														<select class="form-control input-sm select2" style="width: 100%;" id="nik" name="nik" onchange="$('#'+'main').submit();">
+															<option selected="selected">-- Silakan Masukan NIK / Nama --</option>
+															<?php foreach ($penduduk as $item): ?>
+																<option value="<?= $item['id']?>">Nama : <?= $item['nama']." Alamat : ".$item['info']?></option>
+															<?php endforeach;?>
+														</select>
+												</div>
+											</div>
+										</div>
+									</form>
+									<form name='mainform' action="<?= site_url('data_persil/simpan_persil')?>" method="POST"  class="form-horizontal">
+										<div class="box-body">
+											<input name="jenis_pemilik" type="hidden" value="1">
+											<?php if ($pemilik): ?>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">Nama Penduduk</label>
+												<div class="col-sm-8">
+													<input  class="form-control input-sm" type="text" placeholder="Nama Pemilik" value="<?= $pemilik["nama"] ?>" disabled >
+													<input type="hidden" name="nik" value="<?= $pemilik["nik"] ?>"/>
+													<input type="hidden" name="id" value="<?= $persil_detail["id"] ?>"/>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">NIK Pemilik</label>
+												<div class="col-sm-8">
+													<input  class="form-control input-sm" type="text" placeholder="NIK Pemilik" value="<?= $pemilik["nik"] ?>" disabled >
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="alamat"  class="col-sm-3 control-label">Alamat Pemilik</label>
+												<div class="col-sm-8">
+													<textarea  class="form-control input-sm" placeholder="Alamat Pemilik" disabled><?= "RT ".$pemilik["rt"]." / RT ".$pemilik["rw"]." - ".strtoupper($pemilik["dusun"]) ?></textarea>
+												</div>
+											</div>
+										<?php endif; ?>
+										<div class="form-group">
+											<label for="nama"  class="col-sm-3 control-label">Nomor Persil</label>
+											<div class="col-sm-8">
+												<input  id="nama" class="form-control input-sm required" type="text" placeholder="Nomor Surat Persil" name="nama" value="<?= $persil_detail["nopersil"] ?>">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="id_master"  class="col-sm-3 control-label">Jenis Persil</label>
+											<div class="col-sm-4">
+												<select class="form-control  input-sm select2" id="cid" name="cid">
+													<option >-- Pilih Jenis Persil--</option>
+													<?php foreach ($persil_jenis as $key=>$item): ?>
+														<option value="<?= $key ?>" <?php if ($key==$persil_detail["persil_jenis_id"]): ?>selected<?php endif; ?>><?= $item[0]?></option>
+													<?php endforeach;?>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="luas_tanah"  class="col-sm-3 control-label">Luas Tanah (M<sup>2</sup>)</label>
+											<div class="col-sm-4">
+												<input  id="luas" name="luas"  type="text"  class="form-control input-sm" placeholder="Luas" value="<?= $persil_detail["luas"] ?>"></input>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for=""  class="col-sm-3 control-label"></label>
+											<div class="col-sm-8">
+												<p class="help-block"><code>Gunakan tanda titik (.) untuk bilangan pecahan</code></p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="kelas_tanah"  class="col-sm-3 control-label">Kelas Tanah</label>
+											<div class="col-sm-8">
+												<input  id="kelas" name="kelas"  type="text"  class="form-control input-sm" placeholder="Tuliskan Kelas Tanah" value="<?= $persil_detail["kelas"] ?>"></input>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="sid"  class="col-sm-3 control-label">Peruntukan</label>
+											<div class="col-sm-4">
+												<select class="form-control  input-sm select2" id="sid" name="sid">
+													<option >-- Pilih Peruntukan--</option>
+													<?php foreach ($persil_peruntukan as $key=>$item): ?>
+														<option value="<?= $key?>" <?php if ($key==$persil_detail["persil_peruntukan_id"]): ?>selected<?php endif; ?>><?= $item[0]?></option>
+													<?php endforeach;?>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="pid"  class="col-sm-3 control-label">Lokasi Tanah</label>
+											<div class="col-sm-4">
+												<select class="form-control  input-sm select2" id="pid" name="pid">
+													<option >-- Pilih Lokasi Tanah--</option>
+													<?php foreach ($persil_lokasi as $key=>$item): ?>
+														<option value="<?= $item["id"] ?>" <?php if ($item["id"]==$persil_detail["id_clusterdesa"]): ?>selected<?php endif; ?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
+													<?php endforeach;?>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="sppt"  class="col-sm-3 control-label">Nomor SPPT PBB</label>
+											<div class="col-sm-8">
+												<input  id="sppt" name="sppt"  type="text"  class="form-control input-sm" placeholder="Tuliskan Nomor SPPT PBB" value="<?= $persil_detail["no_sppt_pbb"] ?>"></input>
+											</div>
+										</div>
+									</div>
+									<div class="box-footer">
+										<div class="col-xs-12">
+											<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+											<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+										</div>
+									</div>
 								</form>
 							</div>
-						</fieldset>
-
-						<form name='mainform' action="<?= site_url('data_persil/simpan_persil') ?>" method="POST">
-							<input name="jenis_pemilik" type="hidden" value="1">
-							<?php if ($pemilik): ?>
-								<div class="form-group">
-									<fieldset>
-										<legend>Data Pemilik</legend>
-										<input type="hidden" name="nik" value="<?= $pemilik["nik"] ?>"/>
-										<dl>
-											<dt>Nama Penduduk</dt>
-												<dd>: <?= $pemilik["nama"] ?></dd>
-											<dt>NIK</dt>
-												<dd>: <?= $pemilik["nik"] ?></dd>
-											<dt>Alamat</dt>
-												<dd>: <?= "RT ".$pemilik["rt"]." / RT ".$pemilik["rw"]." - ".strtoupper($pemilik["dusun"]) ?></dd>
-										</dl>
-									</fieldset>
-								</div>
-							<?php endif; ?>
-
-							<div class="form-group">
-								<label>NOMOR PERSIL</label>
-								<input type="text" class="form-control" name="nama" id="nama" placeholder="Tuliskan Nomor Persil" value="<?= $persil_detail["nopersil"] ?>"/>
-							</div>
-							<div class="form-group">
-								<label>KETERANGAN SURAT</label>
-								<select class="form-control" id="cid" name="cid">";
-									<?php foreach($persil_jenis as $key=>$item): ?>
-										<?php $strC = ($key==$persil_detail["persil_jenis_id"])? 'selected="selected"' : "" ?>
-										<option value="<?= $key ?>" <?= $strC ?>><?= $item[0] ?></option>
-									<?php endforeach; ?>
-								</select>
-							</div>
-							<div class="form-group">
-								<label>LUAS TANAH (M<sup>2</sup>)</label>
-								<input type="text" class="form-control" name="luas" id="luas" placeholder="Tuliskan Luas Tanah dalam meter persegi" value="<?= $persil_detail["luas"] ?>"/>
-							</div>
-							<div class="form-group">
-								<label>KELAS TANAH</label>
-								<input type="text" class="form-control" name="kelas" id="kelas" placeholder="Tuliskan Kelas Tanah" value="<?= $persil_detail["kelas"] ?>"/>
-							</div>
-							<div class="form-group">
-								<label>PERUNTUKAN</label>
-								<select class="form-control" id="sid" name="sid">
-									<?php foreach($persil_peruntukan as $key=>$item): ?>
-										<?php $strC = ($key==$persil_detail["persil_peruntukan_id"])? 'selected="selected"' : "" ?>
-										<option value="<?= $key ?>" <?= $strC ?>><?= $item[0] ?></option>
-									<?php endforeach; ?>
-								</select>
-							</div>
-							<div class="form-group">
-								<label>LOKASI TANAH</label>
-								<select class="form-control" id="pid" name="pid">";
-									<?php foreach($persil_lokasi as $key=>$item): ?>
-										<?php $strC = ($item['id']==$persil_detail["id_clusterdesa"])? 'selected="selected"' : "" ?>
-										<option value="<?= $item["id"] ?>" <?= $strC ?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
-									<?php endforeach; ?>
-								</select>
-							</div>
-							<div class="form-group">
-								<label>NOMOR SPPT PBB</label>
-								<input type="text" class="form-control" name="sppt" id="sppt" placeholder="Tuliskan Nomor SPPT PBB" value="<?= $persil_detail["no_sppt_pbb"] ?>"/>
-							</div>
-
-							<div class="form-group" style="margin-bottom:3em;">
-								<div class="uibutton-group">
-								<input type="hidden" name="id" value="<?= $persil_detail["id"] ?>"/>
-								<input type="submit" class="uibutton confirm" name="tombol" id="tombol" value="Simpan"/>
-								<input type="reset" class="uibutton" name="tombolreset" id="tombolreset" value="Batal"/>
-								</div>
-							</div>
-						</form>
-					</fieldset>
-
-					<div style="height:10em;"></div>
+						</div>
+					</div>
 				</div>
 			</div>
-		</td>
-		<td style="width:250px;" class="contentpane">
-			<?php
-				$this->load->view('data_persil/panduan.php');
-			?>
-		</td>
-	</tr>
-</table>
+		</div>
+	</section>
 </div>
+

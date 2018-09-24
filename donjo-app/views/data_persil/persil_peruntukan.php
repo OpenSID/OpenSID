@@ -1,133 +1,117 @@
 <?php
-/*
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
-
+	if ($persil_peruntukan_detail):
+		$nama = $persil_peruntukan_detail[$id]["nama"];
+		$ndesc = $persil_peruntukan_detail[$id]["ndesc"];
+	else:
+		$nama = "";
+		$ndesc = "";
+		$id = 0;
+	endif;
 ?>
-<div id="pageC">
-<table class="inner">
-	<tr style="vertical-align:top">
-		<td class="side-menu">
-		<?php
-		$this->load->view('data_persil/menu_kiri.php')
-		?>
-		</td>
-		<td class="contentpane">
-			<legend>Pengelolaan Data Peruntukan Persil</legend>
-			<div id="contentpane">
-				<div id="maincontent" class="ui-layout-center" style="padding:0 3em 0 0;">
-<?php
-/*
- * Form Add/Edit
- *
- * */
-
-if($persil_peruntukan_detail){
-	$nama = $persil_peruntukan_detail[$id]["nama"];
-	$ndesc = $persil_peruntukan_detail[$id]["ndesc"];
-}else{
-	$nama = "";
-	$ndesc = "";
-	$id = 0;
-}
-echo "
-	<fieldset>
-	<legend>Formulir Penambahan/Pembaruan Data Peruntukan Persil</legend>
-";
-echo form_open('data_persil/persil_peruntukan')."\n";
-echo "
-	<div class=\"form-group\">
-		<label>Nama Peruntukan Persil</label>
-		<input type=\"text\" class=\"form-control\" name=\"nama\" id=\"nama\" placeholder=\"Tuliskan Peruntukan Persil\" value=\"".$nama."\"/>
-	</div>
-	<div class=\"form-group\">
-		<label>Keterangan</label>
-		<textarea class=\"form-control\" name=\"ndesc\" id=\"ndesc\">".$ndesc."</textarea>
-	</div>
-	<div class=\"form-group\">
-		<div class=\"uibutton-group\">
-		<input type=\"hidden\" name=\"id\" value=\"".$id."\"/>
-		<input type=\"submit\" class=\"uibutton confirm\" name=\"tombol\" id=\"tombol\" value=\"Simpan\"/>
-		<input type=\"reset\" class=\"uibutton\" name=\"tombolreset\" id=\"tombolreset\" value=\"Batal\"/>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Pengelolaan Data Peruntukan Persil</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('data_persil/clear')?>"> Daftar Persil</a></li>
+			<li class="active">Pengelolaan Peruntukan Persil</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-3">
+				<?php $this->load->view('data_persil/menu_kiri.php')?>
+			</div>
+			<div class="col-md-9">
+				<div class="box box-info">
+					<form id="validasi" action="<?= $form_action?>" method="POST" class="form-horizontal">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-sm-3" for="nama">Nama Peruntukan Persil</label>
+								<div class="col-sm-8">
+									<input name="nama" class="form-control input-sm" type="text" placeholder="Tuliskan Peruntukan Persil" value="<?=$nama?>"></input>
+									<input type="hidden" name="id" value="<?=$id?>">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="ndesc">Keterangan</label>
+								<div class="col-sm-8">
+									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Keterangan"><?=$ndesc?></textarea>
+								</div>
+							</div>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+							</div>
+						</div>
+					</form>
+					<div class="box-body">
+						<?php if ($persil_peruntukan): ?>
+								<?php if (count($persil_peruntukan)>0): ?>
+									<div class="col-sm-12">
+										<div class="table-responsive">
+											<table class="table table-bordered dataTable table-hover">
+												<thead class="bg-gray disabled color-palette">
+													<tr>
+													<th>No</th>
+													<th>Aksi</th>
+													<th>Nama</th>
+													<th>Ketarangan</th>
+												</thead>
+												<tbody>
+													<?php $nomer =0; foreach ($persil_peruntukan as $key=>$item): $nomer++;?>
+														<tr>
+															<td><?=$nomer?></td>
+															<td nowrap>
+																<a href="<?= site_url("data_persil/index/peruntukan/".$key)?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class="fa fa-bars"></i></a>
+																<a href="<?= site_url("data_persil/persil_peruntukan/".$key)?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																<a href="#" data-href="<?= site_url("data_persil/hapus_persil_peruntukan/".$key)?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+															</td>
+															<td width="30%"><a href="<?php site_url('data_persil/index/peruntukan/'.$key.'/')?>"><?=$item[0]?></a></td>
+															<td width="50%"><?= $item[1] ?></td>
+														</tr>
+													<?php endforeach; ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								<?php	endif ?>
+							<?php	else: ?>
+								<div class="col-md-12">
+									<div class="box box-warning box-solid">
+										<div class="box-header with-border">
+											<h3 class="box-title">Belum Ada Data</h3>
+										</div>
+										<div class="box-body">
+										Silakan ditambahkan data Peruntukan Persil dengan menggunakan formulir dari menu <a href="<?php site_url("data_persil/persil_peruntukan")?>"><i class="icon-plus"></i> Tambah Data Peruntukan Persil</a>
+										</div>
+									</div>
+								</div>
+							<?php	endif ?>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-
-";
-echo "</form>
-</fieldset>";
-?>
-
-<?php
-/*
- * List Data
- *
- * */
-if($persil_peruntukan){
-	if(count($persil_peruntukan)>0){
-		echo "
-			<div class=\"table-panel top\">
-				<table class=\"list\">
-					<thead><tr><th>#</th><th style=\"width:120px;\"></th><th style=\"width:200px;\">Nama</th><th>Keterangan</th></tr></thead>
-					<tbody>
-		";
-		$nomer =0;
-		foreach($persil_peruntukan as $key=>$item){
-			$nomer++;
-			echo "<tr>
-			<td>".$nomer."</td>
-			<td>
-				<div class=\"uibutton-group\">
-					<a class=\"uibutton tipsy south fa-tipis\" href=\"". site_url("data_persil/index/peruntukan/".$key) ."\" title=\"Rincian\"><span class=\"fa fa-list\"></span> Rincian</a>
-					<a class=\"uibutton tipsy south fa-tipis\" href=\"". site_url("data_persil/persil_peruntukan/".$key) ."\" title=\"Ubah\"><span class=\"fa fa-pencil\"></span></a>
-					<a class=\"uibutton tipsy south fa-tipis\" href=\"". site_url("data_persil/hapus_persil_peruntukan/".$key) ."\" title=\"Hapus Data\" target=\"confirm\" message=\"Apakah Anda Yakin?\" header=\"Hapus Data\"><span class=\"fa fa-trash\"></span></a>
-				</div>
-			</td>
-			<td><a href=\"".site_url('data_persil/index/peruntukan/'.$key.'/')."\">".$item[0]."</a></td>
-			<td>".$item[1]."</td>
-			</tr>";
-		}
-		echo "
-					</tbody>
-				</table>
-			</div>
-		";
-	}
-}else{
-	echo "
-	<div class=\"box box-warning\">
-		<h3 class=\"box-header\">Belum ada Data</h3>
-		<div class=\"box-body\">Silakan ditambahkan data Jenis Persil dengan menggunakan formulir dari menu <a href=\"".site_url("data_persil/persil_jenis")."\"><i class=\"icon-plus\"></i> Tambah Data Jenis Persil</a></div>
-	</div>
-	";
-}
-?>
-				<div style="height:10em;"></div>
+		<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+			<div class='modal-dialog'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+						<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+					</div>
+					<div class='modal-body btn-info'>
+						Apakah Anda yakin ingin menghapus data ini?
+					</div>
+					<div class='modal-footer'>
+						<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+						<a class='btn-ok'>
+							<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+						</a>
+					</div>
 				</div>
 			</div>
-		</td>
-		<td style="width:250px;" class="contentpane">
-		<?php
-		$this->load->view('data_persil/panduan.php');
-		?>
-		</td>
-	</tr>
-</table>
+		</div>
+	</section>
 </div>
-

@@ -1,58 +1,67 @@
-<div id="pageC">
-<table class="inner">
-	<tr style="vertical-align:top">
-		<td class="side-menu">
-		<?php
-		$this->load->view('suplemen/menu_kiri.php')
-
-
-		?>
-		</td>
-		<td class="contentpane">
-			<legend>Profil Terdata Data Suplemen</legend>
-			<?php
-			echo "
-			<div style=\"margin-bottom:2em;\">
-				<table class=\"form\">
-					<tr><td>Nama</td><td><strong>".strtoupper($profil["nama"])."</strong></td></tr>
-					<tr><td>Keterangan</td><td><strong>".$profil["ndesc"]."</strong></td></tr>
-				</table>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Profil Terdata Data Suplemen</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Rincian Data Suplemen</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-3">
+				<?php $this->load->view('suplemen/menu_kiri.php')?>
 			</div>
-			";
-
-			?>
-			<legend>Suplemen yang terdata</legend>
-			<div class="table-panel top">
-				<table class="list">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Nama Suplemen</th>
-							<th>Keterangan</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php
-						$nomer = 0;
-						foreach ($daftar_suplemen as $item):
-							$nomer++;
-						?>
-							<tr>
-								<td class="angka" style="width:40px;"><?php echo $nomer; ?></td>
-								<td><a href="<?php echo site_url('suplemen/rincian/1/'.$item["id"].'/')?>"><?php echo $item["nama"] ?></a></td>
-								<td><?php echo $item["keterangan"];?></td>
-							</tr>
-						<?php endforeach ?>
-					</tbody>
-				</table>
+			<div class="col-md-9">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Profil Terdata Data Suplemen</h3>
+					</div>
+					<div class="box-body ">
+						<table class="table table-bordered" >
+							<tbody>
+								<tr>
+									<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Nama</td>
+									<td> : <?= strtoupper($profil["nama"])?></td>
+								</tr>
+								<tr>
+									<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
+									<td> : <?= $profil["ndesc"]?></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="box-header with-border">
+						<h3 class="box-title">Suplemen Yang Terdata</h3>
+					</div>
+					<div class="box-body">
+						<div class="table-responsive">
+							<table class="table table-bordered dataTable table-hover">
+								<thead class="bg-gray disabled color-palette">
+									<tr>
+										<th>No</th>
+										<th>Nama Suplemen</th>
+										<th width="65%">Keterangan</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+										$nomer = 0;
+										foreach ($daftar_suplemen as $item):
+											$nomer++;
+									?>
+										<tr>
+											<td align="center" width="2"><?= $nomer; ?></td>
+											<td><a href="<?= site_url('suplemen/rincian/1/'.$item["id"].'/')?>"><?= $item["nama"] ?></a></td>
+											<td><?= $item["keterangan"];?></td>
+										</tr>
+									<?php endforeach; ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
-
-		</td>
-		<td style="width:250px;" class="contentpane">
-		<?php
-		$this->load->view('suplemen/panduan.php');
-		?>
-		</td>
-	</tr>
-</table>
+		</div>
+	</section>
 </div>
+
