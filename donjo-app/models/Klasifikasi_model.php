@@ -125,7 +125,7 @@
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
+		$data = $_POST;
 		return $this->db->where('id',$id)->update('klasifikasi_surat',$data);
 	}
 
@@ -164,5 +164,35 @@
 		return $data;
 	}
 
+	/**
+	 * Hapus tabel klasifikasi_surat dan ganti isinya
+	 * dengan data dari berkas csv.
+	 * Baris pertama berisi nama kolom tabel.
+	*/
+	public function impor($file)
+	{
+		if (($handle = fopen($file, "r")) == FALSE)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = 'Berkas tidak ada atau bermasalah';
+			return;
+		}
+		$this->db->trans_start();
+		$this->db->truncate('klasifikasi_surat');
+		$header = fgetcsv($handle);
+		$jml_kolom = count($header);
+		while (($csv = fgetcsv($handle)) !== FALSE)
+		{
+			$data = array();
+			for ($c=0; $c < $jml_kolom; $c++)
+			{
+				$data[$header[$c]] = $csv[$c];
+			}
+			$this->db->insert('klasifikasi_surat', $data);
+		}
+		$this->db->trans_complete();
+		fclose($handle);
+		$_SESSION['success'] = 1;
+	}
 
 }

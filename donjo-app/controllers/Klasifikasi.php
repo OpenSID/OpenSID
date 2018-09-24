@@ -163,4 +163,23 @@ class Klasifikasi extends CI_Controller {
 		redirect("klasifikasi/index/$p/$o");
 	}
 
+	public function ekspor()
+	{
+		download_send_headers("klasifikasi_surat_" . date("Y-m-d") . ".csv");
+		echo get_csv('klasifikasi_surat');
+	}
+
+	public function impor()
+	{
+		$data['form_action'] = site_url("klasifikasi/proses_impor");
+		$this->load->view('klasifikasi/impor', $data);
+	}
+
+	public function proses_impor()
+	{
+		$this->klasifikasi_model->impor($_FILES['klasifikasi']['tmp_name']);
+		redirect('klasifikasi');
+	}
+
+
 }

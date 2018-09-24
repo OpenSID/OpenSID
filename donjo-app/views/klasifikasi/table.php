@@ -31,6 +31,8 @@
 									<i class="fa fa-plus"></i>Tambah Klasifikasi Baru
 	            	</a>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("{$this->controller}/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+								<a href="<?= site_url("{$this->controller}/impor")?>" class="btn btn-social btn-flat bg-black btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Klasifikasi" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Klasifikasi"><i class="fa fa-upload "></i> Impor</a>
+								<a href="<?= site_url("{$this->controller}/ekspor")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ekspor Klasifikasi"><i class="fa fa-download"></i> Unduh</a>
 							<?php endif; ?>
 						</div>
 						<div class="box-body">
