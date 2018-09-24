@@ -1,9 +1,8 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Laporan_inventaris extends CI_Controller
-{
+class Laporan_inventaris extends CI_Controller {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		session_start();
@@ -24,7 +23,7 @@ class Laporan_inventaris extends CI_Controller
 		$this->controller = 'inventaris_laporan';
 	}
 
-	function index()
+	public function index()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$header = $this->header_model->get_data();
@@ -35,30 +34,30 @@ class Laporan_inventaris extends CI_Controller
 		$data['tip'] = 1;
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('inventaris/laporan/table',$data);
+		$this->load->view('nav', $nav);
+		$this->load->view('inventaris/laporan/table', $data);
 		$this->load->view('footer');
 	}
 
-	function cetak($tahun, $penandatangan)
+	public function cetak($tahun, $penandatangan)
 	{
 		$data['header'] = $this->header_model->get_config();
 		$data['tahun'] = $tahun;
 		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
-		$this->load->view('inventaris/laporan/inventaris_print',$data);
+		$this->load->view('inventaris/laporan/inventaris_print', $data);
 	}
 
-	function download($tahun, $penandatangan)
+	public function download($tahun, $penandatangan)
 	{
 		$data['header'] = $this->header_model->get_config();
 		$data['tahun'] = $tahun;
 		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
-		$this->load->view('inventaris/laporan/inventaris_excel',$data);
+		$this->load->view('inventaris/laporan/inventaris_excel', $data);
 	}
 
-	function mutasi()
+	public function mutasi()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$header = $this->header_model->get_data();
@@ -69,27 +68,26 @@ class Laporan_inventaris extends CI_Controller
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
 
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('inventaris/laporan/table_mutasi',$data);
+		$this->load->view('nav', $nav);
+		$this->load->view('inventaris/laporan/table_mutasi', $data);
 		$this->load->view('footer');
 	}
 
-	function cetak_mutasi($tahun, $penandatangan)
+	public function cetak_mutasi($tahun, $penandatangan)
 	{
 		$data['header'] = $this->header_model->get_config();
 		$data['tahun'] = $tahun;
 		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
-		$this->load->view('inventaris/laporan/inventaris_print_mutasi',$data);
+		$this->load->view('inventaris/laporan/inventaris_print_mutasi', $data);
 	}
 
-	function download_mutasi($tahun, $penandatangan)
+	public function download_mutasi($tahun, $penandatangan)
 	{
 		$data['header'] = $this->header_model->get_config();
 		$data['tahun'] = $tahun;
 		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
-		$this->load->view('inventaris/laporan/inventaris_excel_mutasi',$data);
+		$this->load->view('inventaris/laporan/inventaris_excel_mutasi', $data);
 	}
-
 }
