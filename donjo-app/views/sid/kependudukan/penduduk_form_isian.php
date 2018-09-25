@@ -59,7 +59,7 @@
 				</div>
 				<div class='col-sm-8'>
 					<div class='form-group'>
-						<label for="nama">Nama Lengkap <code> (Tanpa Gelar )</code> </label>
+						<label for="nama">Nama Lengkap <code> (Tanpa Gelar) </code> </label>
 						<input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" value="<?= strtoupper(unpenetration($penduduk['nama']))?>"></input>
 					</div>
 				</div>
@@ -70,14 +70,14 @@
 							<table id="tabel4" class="table table-bordered table-hover">
 								<thead class="bg-gray disabled color-palette">
 									<tr>
-										<th width='50%'>Wajib KTP</th>
+										<th width='33%'>Wajib KTP</th>
 										<th>KTP Elektrtonik</th>
 										<th>Status Rekam</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td><?= strtoupper($penduduk['wajib_ktp'])?></td>
+										<td width='33%'><?= strtoupper($penduduk['wajib_ktp'])?></td>
 										<td>
 										  <select name="ktp_el" class="form-control input-sm">
 											<option value="">Pilih KTP-EL</option>
@@ -86,7 +86,7 @@
 											<?php endforeach;?>
 										  </select>
 										</td>
-										<td>
+										<td width='33%'>
 										  <select name="status_rekam" class="form-control input-sm">
 											<option value="">Pilih Status Rekam</option>
 											<?php foreach ($status_rekam as $id => $nama): ?>
@@ -213,7 +213,7 @@
 						</div>
 						<div class='col-sm-4'>
 							<div class='form-group'>
-								<label for="kelahiran_anak_ke">Anak Ke <code>Isi dengan angka</code></label>
+								<label for="kelahiran_anak_ke">Anak Ke <code>(Isi dengan angka)</code></label>
 								<input id="kelahiran_anak_ke" name="kelahiran_anak_ke" class="form-control input-sm" type="text" placeholder="Anak Ke" value="<?= strtoupper($penduduk['kelahiran_anak_ke'])?>"></input>
 							</div>
 						</div>
@@ -360,14 +360,13 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="lokasi">Lokasi Tempat Tinggal </label>
-            <a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]")?>" title="Lokasi <?= $penduduk['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
-
+						<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]")?>" title="Lokasi <?= $penduduk['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
 					</div>
 				</div>
-				<div class='col-sm-8'>
+				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="telepon"> Nomor Telepon </label>
-						<input id="telepon"  name="telepon"  class="form-control input-sm" type="text" placeholder="Nomor Telepon"  value="<?= $penduduk['telepon']?>"></input>
+						<input id="telepon"  name="telepon"  class="form-control input-sm" type="text" placeholder="Nomor Telepon" size="20" value="<?= $penduduk['telepon']?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>
@@ -412,7 +411,7 @@
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
-						<label for="tanggalperkawinan">Tanggal Perkawinan</label>
+						<label for="tanggalperkawinan">Tanggal Perkawinan <code>(Wajib diisi apabila status KAWIN)</code></label>
 						<div class="input-group input-group-sm date">
 							<div class="input-group-addon">
 								<i class="fa fa-calendar"></i>
@@ -429,7 +428,7 @@
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
-						<label for="tanggalperceraian">Tanggal Perceraian </label>
+						<label for="tanggalperceraian">Tanggal Perceraian <code>(Wajib diisi apabila status CERAI)</code></label>
 						<div class="input-group input-group-sm date">
 							<div class="input-group-addon">
 								<i class="fa fa-calendar"></i>
