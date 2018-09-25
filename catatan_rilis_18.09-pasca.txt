@@ -41,6 +41,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 34. #558: Tambahkan modul pengelolaan Surat Keluar.
 35. #1691: Perbaiki menambahkan peserta pada program bantuan sasaran Keluarga. [bug-fix]
 36. #1233: Pindahkan posisi Identitas Pada Kartu Peserta di daftar peserta dan di form tambah/ubah peserta Program Bantuan.
+37. #1673: Format salinan Kartu Keluarga, termasuk versi cetak dan unduh telah disesuaikan dengan Permendagri 118 Tahun 2017.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -38,21 +38,22 @@
 			<table class="border thick ">
 				<thead>
 				<tr class="border thick">
-					<th width="7">No</th>
-					<th width='180'>Nama</th>
-					<th width='100'>NIK</th>
-					<th width='100'>Jenis Kelamin</th>
-					<th width='100'>Tempat Lahir</th>
-					<th width='120'>Tanggal Lahir</th>
-					<th width='100'>Agama</th>
-					<th width='100'>Pendidikan</th>
-					<th width='100'>Pekerjaan</th>
+					<th class="text-center" width="7">No</th>
+					<th class="text-center" width='180'>Nama</th>
+					<th class="text-center" width='100'>NIK</th>
+					<th class="text-center" width='100'>Jenis Kelamin</th>
+					<th class="text-center" width='100'>Tempat Lahir</th>
+					<th class="text-center" width='120'>Tanggal Lahir</th>
+					<th class="text-center" width='100'>Agama</th>
+					<th class="text-center" width='100'>Pendidikan</th>
+					<th class="text-center" width='100'>Pekerjaan</th>
+					<th class="text-center" width='70'>Golongan darah</th>
 				</tr>
 				</thead>
 				<tbody>
 				<?php foreach ($main as $key => $data): ?>
 					<tr class="data">
-						<td align="center" width="2"><?= $key+1?></td>
+						<td class="text-center" width="2"><?= $key+1?></td>
 						<td><?= strtoupper($data['nama'])?></td>
 						<td><?= $data['nik']?></td>
 						<td><?= $data['sex']?></td>
@@ -61,6 +62,7 @@
 						<td><?= $data['agama']?></td>
 						<td><?= $data['pendidikan']?></td>
 						<td><?= $data['pekerjaan']?></td>
+						<td align="center"><?= $data['golongan_darah']?></td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
@@ -71,29 +73,29 @@
 			<table class="border thick ">
 				<thead>
 					<tr class="border thick">
-						<th width="7">No</th>
-						<th width='150'>Status Perkawinan</th>
-						<th width='240'>Status Hubungan dalam Keluarga</th>
-						<th width='140'>Kewarganegaraan</th>
-						<th width='100'>No. Paspor</th>
-						<th width='100'>No. KITAS / KITAP</th>
-						<th width='170'>Nama Ayah</th>
-						<th width='170'>Nama Ibu</th>
-						<th width='70'>Golongan darah</th>
+						<th class="text-center" width="7">No</th>
+						<th class="text-center" width='150'>Status Perkawinan</th>
+						<th class="text-center" width='150'>Tanggal Perkawinan</th>
+						<th class="text-center" width='240'>Status Hubungan dalam Keluarga</th>
+						<th class="text-center" width='140'>Kewarganegaraan</th>
+						<th class="text-center" width='100'>No. Paspor</th>
+						<th class="text-center" width='100'>No. KITAS / KITAP</th>
+						<th class="text-center" width='170'>Nama Ayah</th>
+						<th class="text-center" width='170'>Nama Ibu</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach ($main as $key => $data): ?>
 						<tr class="data">
-							<td align="center" width="2"><?= $key+1?></td>
+							<td class="text-center" width="2"><?= $key+1?></td>
 							<td><?= $data['status_kawin']?></td>
+							<td class="text-center"><?= tgl_indo_out($data['tanggalperkawinan'])?></td>
 							<td><?= $data['hubungan']?></td>
 							<td><?= $data['warganegara']?></td>
 							<td><?= $data['dokumen_pasport']?></td>
 							<td><?= $data['dokumen_kitas']?></td>
 							<td><?= strtoupper($data['nama_ayah'])?></td>
 							<td><?= strtoupper($data['nama_ibu'])?></td>
-							<td align="center"><?= $data['golongan_darah']?></td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
@@ -122,4 +124,3 @@
 				</tr>
 			</table>
 		</div>
-
