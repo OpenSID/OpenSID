@@ -134,8 +134,8 @@
 													<th class="text-center">Kewarganegaraan</th>
 													<th class="text-center">No. Paspor</th>
 													<th class="text-center">No. KITAS / KITAP</th>
-													<th class="text-center">Ayah</th>
-													<th class="text-center">Ibu</th>
+													<th class="text-center">Nama Ayah</th>
+													<th class="text-center">Nama Ibu</th>
 												</tr>
 											</thead>
 											<tbody>
