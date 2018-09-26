@@ -1,39 +1,51 @@
-<?php class Analisis_klasifikasi_model extends CI_Model{
-	function __construct(){
+<?php class Analisis_klasifikasi_model extends CI_Model {
+
+	public function __construct()
+	{
 		parent::__construct();
 	}
-	function autocomplete(){
+
+	// TODO: ganti menggunakan method helper
+	public function autocomplete()
+	{
 		$sql = "SELECT nama FROM analisis_klasifikasi";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
-		$i=0;
-		$outp='';
-		while($i<count($data)){
+		$outp = '';
+		for ($i=0; $i<count($data); $i++)
+		{
 			$outp .= ',"' .$data[$i]['nama']. '"';
-			$i++;
 		}
 		$outp = strtolower(substr($outp, 1));
 		$outp = '[' .$outp. ']';
 		return $outp;
 	}
-	function search_sql(){
-		if(isset($_SESSION['cari'])){
-		$cari = $_SESSION['cari'];
+
+	public function search_sql()
+	{
+		if (isset($_SESSION['cari']))
+		{
+			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (u.pertanyaan LIKE '$kw' OR u.pertanyaan LIKE '$kw')";
 			return $search_sql;
-			}
-		}
-	function master_sql(){
-		if(isset($_SESSION['analisis_master'])){
-			$kf = $_SESSION['analisis_master'];
-			$filter_sql= " AND u.id_master = $kf";
-		return $filter_sql;
 		}
 	}
-	function paging($p=1,$o=0){
+
+	public function master_sql()
+	{
+		if (isset($_SESSION['analisis_master']))
+		{
+			$kf = $_SESSION['analisis_master'];
+			$filter_sql= " AND u.id_master = $kf";
+			return $filter_sql;
+		}
+	}
+
+	public function paging($p=1, $o=0)
+	{
 		$sql = "SELECT COUNT(id) AS id FROM analisis_klasifikasi u WHERE 1";
 		$sql .= $this->search_sql();
 		$sql .= $this->master_sql();
@@ -49,9 +61,11 @@
 
 		return $this->paging;
 	}
-	function list_data($o=0,$offset=0,$limit=500){
 
-		switch($o){
+	public function list_data($o=0, $offset=0, $limit=500)
+	{
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY u.minval'; break;
 			case 2: $order_sql = ' ORDER BY u.minval DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.minval'; break;
@@ -63,7 +77,6 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-
 		$sql = "SELECT u.* FROM analisis_klasifikasi u WHERE 1 ";
 
 		$sql .= $this->search_sql();
@@ -72,65 +85,76 @@
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 
-
-		$i=0;
-		$j=$offset;
-		while($i<count($data)){
-			$data[$i]['no']=$j+1;
-
-			$i++;
+		$j = $offset;
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no'] = $j + 1;
 			$j++;
 		}
 		return $data;
 	}
-	function insert(){
+
+	public function insert()
+	{
 		$data = $_POST;
 		$data['id_master']=$_SESSION['analisis_master'];
-		$outp = $this->db->insert('analisis_klasifikasi',$data);
+		$outp = $this->db->insert('analisis_klasifikasi', $data);
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
-	function update($id=0){
+
+	public function update($id=0)
+	{
 		$data = $_POST;
 		$data['id_master']=$_SESSION['analisis_master'];
 		$this->db->where('id',$id);
-		$outp = $this->db->update('analisis_klasifikasi',$data);
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$outp = $this->db->update('analisis_klasifikasi', $data);
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
-	function delete($id=''){
-		$sql = "DELETE FROM analisis_klasifikasi WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+	public function delete($id='')
+	{
+		$sql = "DELETE FROM analisis_klasifikasi WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
-	function delete_all(){
+
+	public function delete_all()
+	{
 		$id_cb = $_POST['id_cb'];
 
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$sql = "DELETE FROM analisis_klasifikasi WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
+		if (count($id_cb))
+		{
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM analisis_klasifikasi WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
 			}
 		}
 		else $outp = false;
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
-	function get_analisis_klasifikasi($id=0){
-		$sql = "SELECT * FROM analisis_klasifikasi WHERE id=?";
-		$query = $this->db->query($sql,$id);
+
+	public function get_analisis_klasifikasi($id=0)
+	{
+		$sql = "SELECT * FROM analisis_klasifikasi WHERE id = ?";
+		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		return $data;
 	}
-	function get_analisis_master(){
-		$sql = "SELECT * FROM analisis_master WHERE id=?";
-		$query = $this->db->query($sql,$_SESSION['analisis_master']);
+
+	public function get_analisis_master()
+	{
+		$sql = "SELECT * FROM analisis_master WHERE id = ?";
+		$query = $this->db->query($sql, $_SESSION['analisis_master']);
 		return $query->row_array();
 	}
 }

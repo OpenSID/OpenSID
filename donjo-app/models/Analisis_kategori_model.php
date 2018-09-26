@@ -1,17 +1,20 @@
-<?php class Analisis_kategori_model extends CI_Model{
-	function __construct(){
+<?php class Analisis_kategori_model extends CI_Model {
+
+	public function __construct()
+	{
 		parent::__construct();
 	}
-	function autocomplete(){
+
+	public function autocomplete()
+	{
 		$sql = "SELECT kategori FROM analisis_kategori_indikator";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
-		$i=0;
-		$outp='';
-		while($i<count($data)){
+		$outp = '';
+		for ($i=0; $i<count($data); $i++)
+		{
 			$outp .= ',"' .$data[$i]['kategori']. '"';
-			$i++;
 		}
 		$outp = strtolower(substr($outp, 1));
 		$outp = '[' .$outp. ']';
@@ -30,14 +33,18 @@
 		}
 	}
 
-	function master_sql(){
-		if(isset($_SESSION['analisis_master'])){
+	private function master_sql()
+	{
+		if (isset($_SESSION['analisis_master']))
+		{
 			$kf = $_SESSION['analisis_master'];
-			$filter_sql= " AND u.id_master = $kf";
-		return $filter_sql;
+			$filter_sql = " AND u.id_master = $kf";
+			return $filter_sql;
 		}
 	}
-	function paging($p=1,$o=0){
+
+	public function paging($p=1, $o=0)
+	{
 		$sql = "SELECT COUNT(id) AS id FROM analisis_kategori_indikator u WHERE 1";
 		$sql .= $this->search_sql();
 		$sql .= $this->master_sql();
@@ -54,7 +61,7 @@
 		return $this->paging;
 	}
 
-	public function list_data($o=0,$offset=0,$limit=500)
+	public function list_data($o=0, $offset=0, $limit=500)
 	{
 		switch ($o)
 		{
@@ -74,60 +81,72 @@
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
-		$j=$offset;
+		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no']=$j+1;
+			$data[$i]['no'] = $j + 1;
 			$j++;
 		}
 		return $data;
 	}
 
-	function insert(){
+	public function insert()
+	{
+		$data = $_POST;
+		$data['id_master'] = $_SESSION['analisis_master'];
+		$outp = $this->db->insert('analisis_kategori_indikator', $data);
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+	public function update($id=0)
+	{
 		$data = $_POST;
 		$data['id_master']=$_SESSION['analisis_master'];
-		$outp = $this->db->insert('analisis_kategori_indikator',$data);
+		$this->db->where('id', $id);
+		$outp = $this->db->update('analisis_kategori_indikator', $data);
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-	function update($id=0){
-		$data = $_POST;
-		$data['id_master']=$_SESSION['analisis_master'];
-		$this->db->where('id',$id);
-		$outp = $this->db->update('analisis_kategori_indikator',$data);
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
-	}
-	function delete($id=''){
-		$sql = "DELETE FROM analisis_kategori_indikator WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
+	public function delete($id='')
+	{
+		$sql = "DELETE FROM analisis_kategori_indikator WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
-	function delete_all(){
+
+	public function delete_all()
+	{
 		$id_cb = $_POST['id_cb'];
-
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$sql = "DELETE FROM analisis_kategori_indikator WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
+		if (count($id_cb))
+		{
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM analisis_kategori_indikator WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
 			}
 		}
 		else $outp = false;
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
-	function get_analisis_kategori($id=0){
-		$sql = "SELECT * FROM analisis_kategori_indikator WHERE id=?";
+
+	public function get_analisis_kategori($id=0)
+	{
+		$sql = "SELECT * FROM analisis_kategori_indikator WHERE id = ?";
 		$query = $this->db->query($sql,$id);
 		$data = $query->row_array();
 		return $data;
 	}
-	function get_analisis_master(){
-		$sql = "SELECT * FROM analisis_master WHERE id=?";
+
+	public function get_analisis_master()
+	{
+		$sql = "SELECT * FROM analisis_master WHERE id = ?";
 		$query = $this->db->query($sql,$_SESSION['analisis_master']);
 		return $query->row_array();
 	}
