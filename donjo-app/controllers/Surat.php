@@ -248,4 +248,11 @@ class Surat extends CI_Controller {
 		}
 	}
 
+	public function favorit($id = 0, $k = 0)
+	{
+		$this->load->model('surat_master_model');
+		$this->surat_master_model->favorit($id, $k);
+		redirect("surat");
+	}
+
 }
