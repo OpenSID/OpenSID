@@ -36,7 +36,7 @@
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th width="1%">No</th>
-																<th width="16%">Aksi</th>
+																<th>Aksi</th>
 																<th width="50%">Layanan Administrasi Surat (Daftar Favorit)</th>
 																<th>Kode Surat</th>
 																<th>Lampiran</th>
@@ -47,7 +47,7 @@
 															<?php $i=1; foreach ($surat_favorit AS $data): ?>
 																<tr <?php if ($data['jenis']!=1): ?>style='background-color:#f8deb5 !important;'<?php endif; ?>>
 																	<td><?= $i;?></td>
-																	<td>
+																	<td class="nostretch">
 																		<a href="<?= site_url()?>surat/form/<?= $data['url_surat']?>" class="btn btn-social btn-flat bg-olive btn-sm"  title="Buat Surat"><i class="fa fa-file-word-o"></i>Buat Surat</a>
 																		<a href="<?= site_url("surat/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-sm" title="Keluarkan dari Daftar Favorit" ><i class="fa fa-star"></i></a>
 																	</td>
@@ -85,7 +85,7 @@
 													<thead class="bg-gray disabled color-palette">
 														<tr>
 															<th width="1%">No</th>
-															<th width="16%">Aksi</th>
+															<th>Aksi</th>
 															<th width="50%">Layanan Administrasi Surat</th>
 															<th>Kode Surat</th>
 															<th>Lampiran</th>
@@ -96,7 +96,7 @@
 															<?php if ($data['favorit']!=1): ?>
 																<tr <?php if ($data['jenis']!=1): ?>style='background-color:#f8deb5 !important;'<?php endif; ?>>
 																	<td><?= $nomer;?></td>
-																	<td>
+																	<td class="nostretch">
 																		<a href="<?= site_url()?>surat/form/<?= $data['url_surat']?>" class="btn btn-social btn-flat bg-purple btn-sm"  title="Buat Surat"><i class="fa fa-file-word-o"></i>Buat Surat</a>
 																		<a href="<?= site_url("surat/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-sm"  title="Tambahkan ke Daftar Favorit" ><i class="fa fa-star-o"></i></a>
 																	</td>

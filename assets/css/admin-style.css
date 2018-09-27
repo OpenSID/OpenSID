@@ -270,3 +270,8 @@ table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:
 	opacity: 0.3 !important;
 	width: 6px !important;
 }
+/* Supaya kolom tabel tidak wrap dan menggunakan spasi terkecil */
+td.nostretch, th.nostretch{
+  width:1%;
+  white-space:nowrap;
+}
