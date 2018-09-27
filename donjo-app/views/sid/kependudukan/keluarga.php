@@ -43,10 +43,10 @@
 							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="#confirm-status" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Kartu Keluarga" onclick="aksiBorongan('mainform','<?= site_url("keluarga/cetak_kk_all")?>')"><i class="fa fa-print"></i> Cetak Kartu Keluarga</a>
+									<a href="" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/cetak_kk_all")?>', '_blank'); return false;"><i class="fa fa-print"></i> Cetak Kartu Keluarga</a>
 								</li>
 								<li>
-									<a href="#confirm-status" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Kartu Keluarga" onclick="aksiBorongan('mainform','<?= site_url("keluarga/doc_kk_all")?>')"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
+									<a href="" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/doc_kk_all")?>'); return false;"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
 								</li>
 								<?php if ($grup==1): ?>
 									<li>

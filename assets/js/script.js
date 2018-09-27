@@ -352,8 +352,12 @@ function mapBox()
 		$(this).find('.fetched-data').load(link.attr('href'));
 	});
 }
-function formAction(idForm, action)
+function formAction(idForm, action, target = '')
 {
+	if (target != '')
+	{
+		$('#'+idForm).attr('target', target);
+	}
 	$('#'+idForm).attr('action', action);
 	$('#'+idForm).submit();
 }
