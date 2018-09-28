@@ -2695,12 +2695,12 @@ CREATE TABLE `klasifikasi_surat` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=latin1;
 
-INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('1', 'KU.00', 'RENCANA DAN PENYUSUNAN ANGGARAN', 'Rencana dan Penyusunan Anggarans\r\n', '1');
+INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('1', 'KU.00', 'RENCANA DAN PENYUSUNAN ANGGARAN', 'Rencana dan Penyusunan Anggaran', '1');
 INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('2', 'KU.00.1', 'RENCANA ANGGARAN', 'Berkenaan dgn perencanaan anggaran seperti RAKIP, RKA-KL, RASKIP, usulan RAPBN', '1');
 INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('3', 'KU.00.2', 'PENYUSUNAN ANGGARAN', 'Surat-surat yang berkenaan dengan anggaran belanja, seperti PAGU Indikatif, Pagu Definitif, RKA, DIPA, POK, Revisi Anggaran', '1');
 INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('4', 'KU.00.3', 'NON BUDGETER', 'Berkaitan dgn penyusunan anggaran non budgeter (NTCR, Biaya petugas haji, Badan Kesejahteraan Masjid, BP4, MTQ)', '1');
 INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('5', 'KU.01', 'BELANJA', '-', '1');
-INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('6', 'KU.01.1', 'SURAT PERMINTAAN PEMBAYARAN', 'Surat-surat   yang   berkenaan   dengan   pengajuan   dan   pengeluaran surat permintaan pembayaran (SPP) meliputi SPPGU, SPPDU/TU, SPPLS,   ABT   rutin,   termasuk   gaji   pegawai,  Surat   Pernyataan  Pengajuan   Tambahan   Uang   Persediaan,  Surat   Permohonan  Tambahan   Uang   Persediaan,  Surat   Pernyataan   Permintaan \r\nDispensasi   Tambahan   Uang   Persediaan,  Penambahan  Anggaran/Anggaran Pendapatan Belanja Negara Perubahan.', '1');
+INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('6', 'KU.01.1', 'SURAT PERMINTAAN PEMBAYARAN', 'Surat-surat   yang   berkenaan   dengan   pengajuan   dan   pengeluaran surat permintaan pembayaran (SPP) meliputi SPPGU, SPPDU/TU, SPPLS,   ABT   rutin,   termasuk   gaji   pegawai,  Surat   Pernyataan  Pengajuan   Tambahan   Uang   Persediaan,  Surat   Permohonan  Tambahan   Uang   Persediaan,  Surat   Pernyataan   Permintaan\nDispensasi   Tambahan   Uang   Persediaan,  Penambahan  Anggaran/Anggaran Pendapatan Belanja Negara Perubahan.', '1');
 INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('7', 'KU.01.2', 'SPJ', 'Surat-surat   yang   berkenaan   dengan   pengajuan   dan   pengeluaran surat   permintaan   pembayaran   (SPP)   beban   tetap   dan sementara/UUDP   (Uang   Untuk   Dipertanggungjawabkan) pembangunan.', '1');
 INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('8', 'KU.02', 'SPJ', '-', '1');
 INSERT INTO klasifikasi_surat (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES ('9', 'KU.02.1', 'SPJ APBN ', 'Surat-surat yang berkenaan dengan pertanggungjawaban keuangan anggaran belanja rutin, seperti: laporan Realisasi Keuangan, surat Pernyataan Tanggung Jawab Belanja, surat Keterangan Tanggung Jawab Mutlak, laporan Realisasi Anggaran ', '1');
@@ -2983,7 +2983,7 @@ INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`,
 INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('26', '97', '46', '51', '37', '2018-06-01 20:39:41', '28', '9', NULL, NULL);
 INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('27', '97', '46', '51', '37', '2018-07-06 10:00:35', '28', '9', '0', '0');
 INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('28', '97', '46', '51', '37', '2018-08-20 05:14:04', '28', '9', '0', '0');
-INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('29', '97', '46', '51', '37', '2018-09-23 10:58:05', '28', '9', '0', '0');
+INSERT INTO log_bulanan (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES ('29', '97', '46', '51', '37', '2018-09-28 10:40:30', '28', '9', '0', '0');
 
 
 #
@@ -3590,7 +3590,7 @@ CREATE TABLE `surat_keluar` (
   `isi_singkat` varchar(200) DEFAULT NULL,
   `berkas_scan` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: surat_masuk

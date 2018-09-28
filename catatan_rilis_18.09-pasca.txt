@@ -1,4 +1,4 @@
-Rilis ini berisi [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan bug yang dilaporkan Komunitas SID.
+Rilis ini berisi penambahan modul pengelolaan Surat Keluar sesuai dengan Permendagri Nomor 47 Tahun 2016 termasuk penambahan daftar kode/klasifikasi surat. OpenSID sekarang juga sudah bisa jalan di PHP v7.x. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Bimo Aji Pamungkas, Suyadi, Happy Agung dan Yusup Hambali yang terus berkontribusi. Terima kasih juga pada Muhammad Irwan Andriawan yang baru mulai kontribusi.
 

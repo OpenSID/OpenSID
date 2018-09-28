@@ -61,7 +61,7 @@ class Surat_keluar extends CI_Controller {
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 		$header = $this->header_model->get_data();
 		$nav['act'] = 15;
-		$nav['act_sub'] = 57;
+		$nav['act_sub'] = 58;
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -95,7 +95,7 @@ class Surat_keluar extends CI_Controller {
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_keluar']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
 		$nav['act'] = 15;
-		$nav['act_sub'] = 57;
+		$nav['act_sub'] = 58;
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$nav['act'] = $this->tab_ini;
