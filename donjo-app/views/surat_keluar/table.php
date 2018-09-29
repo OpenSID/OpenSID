@@ -61,16 +61,16 @@
 														<table class="table table-bordered dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th><input type="checkbox" id="checkall"/></th>
+																	<th class="nostretch"><input type="checkbox" id="checkall"/></th>
 																	<?php if ($o==2): ?>
-																		<th><a href="<?= site_url("{$this->controller}/index/$p/1")?>">No. Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th class="nostretch"><a href="<?= site_url("{$this->controller}/index/$p/1")?>">No. Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("{$this->controller}/index/$p/2")?>">No. Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th class="nostretch"><a href="<?= site_url("{$this->controller}/index/$p/2")?>">No. Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("{$this->controller}/index/$p/1")?>">No. Urut <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th class="nostretch"><a href="<?= site_url("{$this->controller}/index/$p/1")?>">No. Urut <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
-																	<th>Aksi</th>
-																	<th>Nomor Surat</th>
+																	<th class="nostretch">Aksi</th>
+																	<th class="nostretch">Nomor Surat</th>
 																	<?php if ($o==4): ?>
 																		<th><a href="<?= site_url("{$this->controller}/index/$p/3")?>">Tanggal Surat <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==3): ?>
@@ -92,15 +92,15 @@
 																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
-																		<td><?= $data['nomor_urut']?></td>
-																		<td>
+																		<td class="nostretch"><?= $data['nomor_urut']?></td>
+																		<td class="nostretch">
 																			<a href="<?= site_url("{$this->controller}/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['berkas_scan']): ?>
 																				<a href='<?= site_url("{$this->controller}/unduh_berkas_scan/$data[id]")?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>
 																			<?php endif; ?>
 																			<a href="#" data-href="<?= site_url("{$this->controller}/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
-																		<td nowrap><?= $data['nomor_surat']?></td>
+																		<td class="nostretch"><?= $data['nomor_surat']?></td>
 																		<td nowrap><?= tgl_indo_out($data['tanggal_surat'])?></td>
 																		<td nowrap><?= $data['tujuan']?></td>
 																		<td><?= $data['isi_singkat']?></td>

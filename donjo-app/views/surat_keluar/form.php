@@ -47,7 +47,7 @@
 								</div>
 							<?php endif; ?>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_pos">Berkas Scan Surat Masuk</label>
+								<label class="col-sm-3 control-label" for="kode_pos">Berkas Scan Surat Keluar</label>
 								<div class="col-sm-8">
 									<div class="input-group input-group-sm col-sm-8 col-lg-6">
 										<input type="text" class="form-control" id="file_path">

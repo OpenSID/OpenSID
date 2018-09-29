@@ -104,15 +104,15 @@
 														<table class="table table-bordered dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th><input type="checkbox" id="checkall"/></th>
+																	<th class="nostretch"><input type="checkbox" id="checkall"/></th>
 																	<?php if ($o==2): ?>
-																		<th><a href="<?= site_url("surat_masuk/index/$p/1")?>">No. Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th class="nostretch"><a href="<?= site_url("surat_masuk/index/$p/1")?>">No. Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("surat_masuk/index/$p/2")?>">No. Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th class="nostretch"><a href="<?= site_url("surat_masuk/index/$p/2")?>">No. Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("surat_masuk/index/$p/1")?>">No. Urut <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th class="nostretch"><a href="<?= site_url("surat_masuk/index/$p/1")?>">No. Urut <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
-																	<th>Aksi</th>
+																	<th class="nostretch">Aksi</th>
 																	<?php if ($o==4): ?>
 																		<th><a href="<?= site_url("surat_masuk/index/$p/3")?>">Tanggal Penerimaan <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==3): ?>
@@ -137,7 +137,7 @@
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																		<td><?= $data['nomor_urut']?></td>
-																		<td>
+																		<td class="nostretch">
 																			<a href="<?= site_url("surat_masuk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['berkas_scan']): ?>
 																				<a href="<?= base_url(LOKASI_ARSIP.$data['berkas_scan'])?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>
