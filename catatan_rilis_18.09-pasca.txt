@@ -37,7 +37,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 30. Gunakan daftar kode klasifikasi surat di form isian Surat Masuk dan di form pengaturan surat layanan.
 31. Keterangan di form tambah KK baru dan form tambah anggota KK dari penduduk lepas (yang tidak memiliki nomor KK) diperjelas.
 32. #1687: Sekarang Arsip Layanan menampilkan data yang benar meskipun ada tab browser lain yang membuka halaman berbeda. [bug-fix]
-33. Atasi masalah penyimpanan data session pada beberapa server. [bug-fix]
+33. Atasi masalah penyimpanan data session yang dialami pada beberapa server. [bug-fix]
 34. #558: Tambahkan modul pengelolaan Surat Keluar.
 35. #1691: Perbaiki menambahkan peserta pada program bantuan sasaran Keluarga. [bug-fix]
 36. #1233: Pindahkan posisi Identitas Pada Kartu Peserta di daftar peserta dan di form tambah/ubah peserta Program Bantuan.
@@ -46,6 +46,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 39. Surat favorit sekarang bisa diatur langsung di halaman Cetak Surat.
 40. Sekarang nama dan rentang waktu wajib diisi pada waktu membuat program bantuan baru. [bug-fix]
 41. Sekarang nama, subjek dan deskripsi analisis wajib diisi pada waktu membuat analisis baru. [bug-fix]
+42. Sekarang nama dan warna wajib diisi pada waktu menambah Tipe Garis dan Tipe Area di Pengaturan Peta. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
