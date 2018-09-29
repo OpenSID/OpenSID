@@ -44,6 +44,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 37. #1673: Format salinan Kartu Keluarga, termasuk versi cetak dan unduh telah disesuaikan dengan Permendagri 118 Tahun 2017.
 38. #1697: Sekarang aksi data terpilih untuk halaman Keluarga tidak lagi menampilkan peringatan tidak relevan. [bug-fix]
 39. Surat favorit sekarang bisa diatur langsung di halaman Cetak Surat.
+40. Sekarang nama dan rentang waktu wajib diisi pada waktu membuat program bantuan baru. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
