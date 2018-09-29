@@ -45,6 +45,7 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 38. #1697: Sekarang aksi data terpilih untuk halaman Keluarga tidak lagi menampilkan peringatan tidak relevan. [bug-fix]
 39. Surat favorit sekarang bisa diatur langsung di halaman Cetak Surat.
 40. Sekarang nama dan rentang waktu wajib diisi pada waktu membuat program bantuan baru. [bug-fix]
+41. Sekarang nama, subjek dan deskripsi analisis wajib diisi pada waktu membuat analisis baru. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

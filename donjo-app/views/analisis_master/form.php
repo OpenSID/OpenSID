@@ -34,7 +34,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="nama">Nama Analisis</label>
 										<div class="col-sm-7">
-											<input  id="nama" class="form-control input-sm" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama'] ?>">
+											<input  id="nama" class="form-control input-sm required" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama'] ?>">
 										</div>
 									</div>
 								</div>
@@ -42,7 +42,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="nama">Subjek/Unit Analisis</label>
 										<div class="col-sm-7 col-lg-4">
-											<select class="form-control input-sm" id="subjek_tipe" name="subjek_tipe">
+											<select class="form-control input-sm required" id="subjek_tipe" name="subjek_tipe">
 												<option value="1" <?php if ($analisis_master['subjek_tipe'] == '1' OR $analisis_master['subjek_tipe'] == ''): ?>selected<?php endif; ?>>Penduduk</option>
 												<option value="2" <?php if ($analisis_master['subjek_tipe'] == '2'): ?>selected<?php endif; ?>>Keluarga / KK</option>
 												<option value="3" <?php if ($analisis_master['subjek_tipe'] == '3'): ?>selected<?php endif; ?>>Rumah Tangga</option>
@@ -125,7 +125,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="nama">Deskripsi Analisis</label>
 										<div class="col-sm-7">
-											<textarea id="deskripsi" class="form-control input-sm" placeholder="Deskripsi Analisis" name="deskripsi"><?= $analisis_master['deskripsi'] ?></textarea>
+											<textarea id="deskripsi" class="form-control input-sm required" placeholder="Deskripsi Analisis" name="deskripsi"><?= $analisis_master['deskripsi'] ?></textarea>
 										</div>
 									</div>
 								</div>
