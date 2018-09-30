@@ -2,7 +2,7 @@ Rilis ini berisi penambahan modul pengelolaan Surat Keluar sesuai dengan Permend
 
 Terima kasih pada Bimo Aji Pamungkas, Suyadi, Happy Agung dan Yusup Hambali yang terus berkontribusi. Terima kasih juga pada Muhammad Irwan Andriawan yang baru mulai kontribusi.
 
-Lengkapnya, isi rilis versi 18.09-pasca:
+Lengkapnya, isi rilis versi 18.10:
 
 1. #1650: Perbaiki ikon Sekretariat di menu utama. [bug-fix]
 2. #1652: Tautan Nomor KK di tabel calon pemilih sekarang benar menampilkan salinan kartu keluarga. [bug-fix]
@@ -49,6 +49,6 @@ Lengkapnya, isi rilis versi 18.09-pasca:
 42. Sekarang nama dan warna wajib diisi pada waktu menambah Tipe Garis dan Tipe Area di Pengaturan Peta. [bug-fix]
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.10, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
 
