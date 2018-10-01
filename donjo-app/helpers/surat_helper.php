@@ -16,9 +16,12 @@ function SuratExportDesa($nama_surat)
 		return $surat_export_desa;
 	else
 		$surat_export_desa = LOKASI_SURAT_EXPORT_DESA . $nama_surat . ".rtf";
-	if (is_file($surat_export_desa)) {
+	if (is_file($surat_export_desa))
+	{
 		return $surat_export_desa;
-	} else {
+	}
+	else
+	{
 		return "";
 	}
 
@@ -72,19 +75,28 @@ function SuratExport($nama_surat)
  * SuratCetak
  *
  * Mengembalikan path surat cetak apabila ada, dengan prioritas:
- *    1. surat export ubahan desa
- *    2. surat export asli SID
+ *    1. surat cetak ubahan desa
+ *    2. surat cetak asli SID
+ * Path surat hanya dikembalikan apabila setting tombol_cetak_surat bernilai TRUE
  *
  * @access  public
  * @return  string
  */
 function SuratCetak($nama_surat)
 {
-	if (SuratCetakDesa($nama_surat) != "") {
+	$CI =& get_instance();
+	if (!$CI->setting->tombol_cetak_surat) return "";
+
+	if (SuratCetakDesa($nama_surat) != "")
+	{
 		return SuratCetakDesa($nama_surat);
-	} elseif (is_file("surat/$nama_surat/print_" . $nama_surat . ".php")) {
+	}
+	elseif (is_file("surat/$nama_surat/print_" . $nama_surat . ".php"))
+	{
 		return "surat/$nama_surat/print_" . $nama_surat . ".php";
-	} else {
+	}
+	else
+	{
 		return "";
 	}
 }
@@ -110,21 +122,22 @@ function ikut_case($format, $str)
  */
 function padded_string_fixed_length($str, $awal, $panjang)
 {
-	$padding         = "&nbsp;";
+	$padding = "&nbsp;";
 	$panjang_padding = strlen($padding);
-	$panjang_text    = strlen($str);
-	$str             = str_pad($str, ($awal * $panjang_padding) + $panjang_text, $padding, STR_PAD_LEFT);
-	$str             = str_pad($str, (($panjang - $panjang_text) * $panjang_padding) + $panjang_text, $padding, STR_PAD_RIGHT);
+	$panjang_text = strlen($str);
+	$str = str_pad($str, ($awal * $panjang_padding) + $panjang_text, $padding, STR_PAD_LEFT);
+	$str = str_pad($str, (($panjang - $panjang_text) * $panjang_padding) + $panjang_text, $padding, STR_PAD_RIGHT);
 	return $str;
 }
 
 function padded_string_center($str, $panjang)
 {
-	$padding         = "&nbsp;";
+	$padding = "&nbsp;";
 	$panjang_padding = strlen($padding);
-	$panjang_text    = strlen($str);
-	$to_pad          = ($panjang - $panjang_text) / 2;
-	for ($i = 0; $i < $to_pad; $i++) {
+	$panjang_text = strlen($str);
+	$to_pad = ($panjang - $panjang_text) / 2;
+	for ($i = 0; $i < $to_pad; $i++)
+	{
 		$str = $padding . $str . $padding;
 	}
 	return $str;

@@ -153,6 +153,11 @@
   private function migrasi_1810_ke_1811()
   {
   	// Tambah perubahan database di sini
+		// Tambah setting tombol_cetak_surat
+		$setting = $this->db->where('key','tombol_cetak_surat')->get('setting_aplikasi')->row()->id;
+		if(!$setting){
+			$this->db->insert('setting_aplikasi', array('key'=>'tombol_cetak_surat', 'value'=>FALSE, 'jenis'=>'boolean', 'keterangan'=>'Tampilkan tombol cetak langsung di form surat'));
+		}
   }
 
   private function migrasi_1809_ke_1810()
