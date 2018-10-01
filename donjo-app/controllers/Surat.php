@@ -66,11 +66,6 @@ class Surat extends CI_Controller {
 
 	public function form($url = '', $clear = '')
 	{
-		// Ada surat yang memakai SESSION
-		if ($clear != '') {
-			unset($_SESSION['id_suami']);
-			unset($_SESSION['id_istri']);
-		}
 		$data['url'] = $url;
 		$data['anchor'] = $this->input->post('anchor');
 		if (!empty($_POST['nik']))
@@ -107,9 +102,6 @@ class Surat extends CI_Controller {
 		$log_surat['no_surat'] = $_POST['nomor'];
 
 		$id = $_POST['nik'];
-		// surat_persetujuan_mempelai id-nya suami atau istri
-		if (!$id) $id = $_POST['id_suami'];
-		if (!$id) $id = $_POST['id_istri'];
 		$log_surat['id_pend'] = $id;
 		$data['input'] = $_POST;
 		$data['tanggal_sekarang'] = tgl_indo(date("Y m d"));
@@ -146,11 +138,6 @@ class Surat extends CI_Controller {
 				// surat_ket_kelahiran id-nya ibu atau bayi
 				if (!$id) $id = $_SESSION['id_ibu'];
 				if (!$id) $id = $_SESSION['id_bayi'];
-				break;
-			case 'surat_persetujuan_mempelai':
-				// surat_persetujuan_mempelai id-nya suami atau istri
-				if (!$id) $id = $_POST['id_suami'];
-				if (!$id) $id = $_POST['id_istri'];
 				break;
 			case 'surat_ket_nikah':
 				// id-nya calon pasangan pria atau wanita
@@ -201,51 +188,10 @@ class Surat extends CI_Controller {
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
-		$data['kode'] = $this->surat_model->get_daftar_kode_surat($url);
 
 		$data_form = $this->surat_model->get_data_form($url);
 		if (is_file($data_form))
 			include($data_form);
-
-		switch ($url)
-		{
-			case 'surat_persetujuan_mempelai':
-				// Perlu disimpan di SESSION karena belum ketemu cara
-				// memanggil flexbox memakai ajax atau menyimpan data
-				// TODO: cari pengganti flexbox yang sudah tidak di-support lagi
-				if ($_POST['id_suami'] != '')
-				{
-					$data['suami'] = $this->surat_model->get_penduduk($_POST['id_suami']);
-					$_SESSION['id_suami'] = $_POST['id_suami'];
-				}
-				elseif (isset($_SESSION['id_suami']))
-				{
-					$data['suami'] = $this->surat_model->get_penduduk($_SESSION['id_suami']);
-				}
-				else
-				{
-					unset($data['suami']);
-				}
-
-				if ($_POST['id_istri'] != '')
-				{
-					$data['istri'] = $this->surat_model->get_penduduk($_POST['id_istri']);
-					$_SESSION['id_istri'] = $_POST['id_istri'];
-				}
-				elseif (isset($_SESSION['id_istri']))
-				{
-					$data['istri'] = $this->surat_model->get_penduduk($_SESSION['id_istri']);
-				}
-				else
-				{
-					$data['istri'] = NULL;
-				}
-				$data['laki'] = $this->surat_model->list_penduduk_laki();
-				break;
-			case 'surat_pernyataan_akta':
-				$data['laki'] = $this->surat_model->list_penduduk_laki();
-				break;
-		}
 	}
 
 	public function favorit($id = 0, $k = 0)

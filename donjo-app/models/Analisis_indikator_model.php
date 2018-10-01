@@ -8,18 +8,8 @@
 
 	public function autocomplete()
 	{
-		$sql = "SELECT pertanyaan FROM analisis_indikator";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ",'" .$data[$i]['pertanyaan']. "'";
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
+		$str = autocomplete_str('pertanyaan', 'analisis_indikator');
+		return $str;
 	}
 
 	private function search_sql()

@@ -1,8 +1,9 @@
 <?php
 
-class Bip_model extends CI_Model{
+class Bip_model extends CI_Model {
 
-	function __construct($data){
+	public function __construct($data)
+	{
 		parent::__construct();
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
@@ -18,7 +19,8 @@ class Bip_model extends CI_Model{
 	 * @param		sheet		data excel berisi bip
 	 * @return	model 	format BIP yang akan digunakan
 	 */
-	private function cari_format_bip($data){
+	private function cari_format_bip($data)
+	{
 		$data_sheet = $data->sheets[0]['cells'];
 		if ($data_sheet[1][1] == "BUKU INDUK PENDUDUK WNI") {
 		  require_once APPPATH.'/models/Bip2016_model.php';
@@ -35,7 +37,8 @@ class Bip_model extends CI_Model{
 		}
 	}
 
-	function impor_bip(){
+	public function impor_bip()
+	{
 		$this->format_bip->impor_data_bip($this->data);
 	}
 

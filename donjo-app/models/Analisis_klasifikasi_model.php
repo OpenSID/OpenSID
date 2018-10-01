@@ -5,21 +5,10 @@
 		parent::__construct();
 	}
 
-	// TODO: ganti menggunakan method helper
 	public function autocomplete()
 	{
-		$sql = "SELECT nama FROM analisis_klasifikasi";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ',"' .$data[$i]['nama']. '"';
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
+		$str = autocomplete_str('nama', 'analisis_klasifikasi');
+		return $str;
 	}
 
 	public function search_sql()

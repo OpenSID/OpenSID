@@ -7,18 +7,8 @@
 
 	public function autocomplete()
 	{
-		$sql = "SELECT kategori FROM analisis_kategori_indikator";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ',"' .$data[$i]['kategori']. '"';
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
+		$str = autocomplete_str('kategori', 'analisis_kategori_indikator');
+		return $str;
 	}
 
 	private function search_sql()

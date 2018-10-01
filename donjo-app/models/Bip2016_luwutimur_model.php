@@ -1,8 +1,9 @@
 <?php
 
-class Bip2016_luwutimur_model extends Import_model{
+class Bip2016_luwutimur_model extends Import_model {
 
-	function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
@@ -30,14 +31,17 @@ class Bip2016_luwutimur_model extends Import_model{
 	 * @param 	integer		cari dari baris ini
 	 * @return	integer 	baris pertama blok keluarga
 	 */
-	private function cari_bip_kk($data_sheet, $baris, $dari=1){
+	private function cari_bip_kk($data_sheet, $baris, $dari=1)
+	{
 		if ($baris <= 1 )
 			return 0;
 
 		$baris_kk = 0;
-		for ($i=$dari; $i<=$baris; $i++){
+		for ($i=$dari; $i<=$baris; $i++)
+		{
 			// Baris dengan kolom[2] yang mulai dengan "BUKU INDUK KEPENDUDUKAN" menunjukkan mulainya data keluarga dan anggotanya
-			if (strpos($data_sheet[$i][2], 'BUKU INDUK KEPENDUDUKAN') === 0) {
+			if (strpos($data_sheet[$i][2], 'BUKU INDUK KEPENDUDUKAN') === 0)
+			{
 				$baris_kk = $i;
 				break;
 			}
@@ -53,7 +57,8 @@ class Bip2016_luwutimur_model extends Import_model{
 	 * @param 	integer	cari dari baris ini
 	 * @return	array 	data keluarga
 	 */
-	private function get_bip_keluarga($data_sheet, $i){
+	private function get_bip_keluarga($data_sheet, $i)
+	{
 		/* $i = baris berisi data keluarga.
 		 * Contoh:
 		BUKU INDUK KEPENDUDUKAN KABUPATEN LUWU TIMUR (DAFTAR  KELUARGA)
@@ -64,20 +69,21 @@ class Bip2016_luwutimur_model extends Import_model{
 			DESA :	KALAENA KIRI								NO.RT/RW :	001/001
 		 */
 		$data_keluarga = array();
-		$baris = $i+2;
+		$baris = $i + 2;
 		$data_keluarga['no_kk'] = trim($data_sheet[$baris][12]);
 		// abaikan nama KK, karena ada di daftar anggota keluarga
 
-		$alamat = $data_sheet[$baris+2][12];
+		$alamat = $data_sheet[$baris + 2][12];
 		$dusun = trim(substr($alamat, 0, strpos($alamat, ',', 0)));
 		$data_keluarga['dusun'] = trim(preg_replace('/DSN.|DUSUN/', '', $dusun));
 		$pos_telp = strpos($alamat, 'Telp :');
-		if ($pos_telp !== false){
+		if ($pos_telp !== false)
+		{
 			$telepon = trim(substr($alamat, $pos_telp));
 			$data_keluarga['telepon'] = trim(preg_replace('/Telp :|,/', '', $telepon));
 		}
 
-		$rt_rw = trim($data_sheet[$baris+3][12]);
+		$rt_rw = trim($data_sheet[$baris + 3][12]);
 		list($data_keluarga['rt'],$data_keluarga['rw']) = split('/',$rt_rw);
 		return $data_keluarga;
 	}
@@ -91,7 +97,8 @@ class Bip2016_luwutimur_model extends Import_model{
 	 * @param 	array		data keluarga untuk anggota yg dicari
 	 * @return	array 	data anggota keluarga
 	 */
-	private function get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga){
+	private function get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga)
+	{
 		/* $i = baris data anggota keluarga
 		 * Contoh:
 2		3									4								5		6					7						8			9			10					11
@@ -118,12 +125,14 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
 		$data_anggota['pendidikan_kk_id'] = $this->kode_pendidikan[strtolower(trim($data_sheet[$i][12]))];
 		$data_anggota['pekerjaan_id'] = $this->kode_pekerjaan[strtolower(trim($data_sheet[$i][13]))];
 		$nama_ibu = trim($data_sheet[$i][14]);
-		if($nama_ibu==""){
+		if ($nama_ibu == "")
+		{
 			$nama_ibu = "-";
 		}
 		$data_anggota['nama_ibu'] = $nama_ibu;
 		$nama_ayah = trim($data_sheet[$i][15]);
-		if($nama_ayah==""){
+		if ($nama_ayah == "")
+		{
 			$nama_ayah = "-";
 		}
 		$data_anggota['nama_ayah'] = $nama_ayah;
@@ -147,7 +156,8 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
 			$_SESSION['total_penduduk']=	jumlah penduduk yang diimpor
 			$_SESSION['baris']=						daftar baris yang gagal
 	 */
-	function impor_data_bip($data) {
+	function impor_data_bip($data)
+	{
 		$gagal_penduduk = 0;
 		$baris_gagal = "";
 		$total_keluarga = 0;
@@ -155,18 +165,21 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
 
 		// BIP bisa terdiri dari beberapa worksheet
 		// Proses sheet satu-per-satu
-		for ($sheet_index=0; $sheet_index<count($data->boundsheets); $sheet_index++){
+		for ($sheet_index=0; $sheet_index<count($data->boundsheets); $sheet_index++)
+		{
 			// membaca jumlah baris di sheet ini
 			$baris = $data->rowcount($sheet_index);
 			$data_sheet = $data->sheets[$sheet_index]['cells'];
-			if ($this->cari_bip_kk($data_sheet, $baris, 1) < 1) {
+			if ($this->cari_bip_kk($data_sheet, $baris, 1) < 1)
+			{
 				// Tidak ada data keluarga
 				continue;
 			}
 			// Import data sheet ini mulai baris pertama
-			for ($i=1; $i<=$baris; $i++){
+			for ($i=1; $i<=$baris; $i++)
+			{
 				// Cari keluarga berikutnya
-				if(strpos($data_sheet[$i][2], 'BUKU INDUK KEPENDUDUKAN') !== 0) continue;
+				if (strpos($data_sheet[$i][2], 'BUKU INDUK KEPENDUDUKAN') !== 0) continue;
 				// Proses keluarga
 				$data_keluarga = $this->get_bip_keluarga($data_sheet, $i);
 				$this->tulis_tweb_wil_clusterdesa($data_keluarga);
@@ -175,15 +188,19 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
 				// Pergi ke data anggota keluarga
 				$i = $i + 8;
 				// Proses setiap anggota keluarga
-				while (trim($data_sheet[$i][2]) != '' AND $i <= $baris) {
-					if(!is_numeric(trim($data_sheet[$i][2]))) break;
+				while (trim($data_sheet[$i][2]) != '' AND $i <= $baris)
+				{
+					if (!is_numeric(trim($data_sheet[$i][2]))) break;
 					$data_anggota = $this->get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga);
-					if ($this->data_import_valid($data_anggota)) {
+					if ($this->data_import_valid($data_anggota))
+					{
 						$this->tulis_tweb_penduduk($data_anggota);
 						$total_penduduk++;
-					}else{
+					}
+					else
+					{
 						$gagal_penduduk++;
-						$baris_gagal .=$i.",";
+						$baris_gagal .= $i.",";
 					}
 					$i++;
 				}
@@ -191,14 +208,14 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
 			}
 		}
 
-		if($gagal_penduduk==0)
-			$baris_gagal ="tidak ada data yang gagal di import.";
-		else $_SESSION['success']=-1;
+		if ($gagal_penduduk == 0)
+			$baris_gagal = "tidak ada data yang gagal di import.";
+		else $_SESSION['success'] = -1;
 
-		$_SESSION['gagal']=$gagal_penduduk;
-		$_SESSION['total_keluarga']=$total_keluarga;
-		$_SESSION['total_penduduk']=$total_penduduk;
-		$_SESSION['baris']=$baris_gagal;
+		$_SESSION['gagal'] = $gagal_penduduk;
+		$_SESSION['total_keluarga'] = $total_keluarga;
+		$_SESSION['total_penduduk'] = $total_penduduk;
+		$_SESSION['baris'] = $baris_gagal;
 	}
 
 }

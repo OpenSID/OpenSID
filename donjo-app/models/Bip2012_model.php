@@ -1,8 +1,9 @@
 <?php
 
-class Bip2012_model extends Import_model{
+class Bip2012_model extends Import_model {
 
-	function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
@@ -23,14 +24,17 @@ class Bip2012_model extends Import_model{
 	 * @param 	integer		cari dari baris ini
 	 * @return	integer 	baris pertama blok keluarga
 	 */
-	private function cari_bip_kk($data_sheet, $baris, $dari=1){
+	private function cari_bip_kk($data_sheet, $baris, $dari=1)
+	{
 		if ($baris <=1 )
 			return 0;
 
 		$baris_kk = 0;
-		for ($i=$dari; $i<=$baris; $i++){
+		for ($i=$dari; $i<=$baris; $i++)
+		{
 			// Baris dengan kolom[2] = "NO.KK" menunjukkan mulainya data keluarga dan anggotanya
-			if($data_sheet[$i][2] == 'NO.KK') {
+			if ($data_sheet[$i][2] == 'NO.KK')
+			{
 				$baris_kk = $i;
 				break;
 			}
@@ -46,26 +50,30 @@ class Bip2012_model extends Import_model{
 	 * @param 	integer	cari dari baris ini
 	 * @return	array 	data keluarga
 	 */
-	private function get_bip_keluarga($data_sheet, $i){
+	private function get_bip_keluarga($data_sheet, $i)
+	{
 		// Contoh alamat: "DUSUN KERANDANGAN, RT:001, RW:001, Kodepos:83355,-"
 		// $i = baris judul data keluarga. Data keluarga ada di baris berikutnya
 		$baris = $i + 1;
 		$alamat = $data_sheet[$baris][7];
 		$pos_awal = strpos($alamat, 'DUSUN');
-		if ($pos_awal !== false){
+		if ($pos_awal !== false)
+		{
 			$pos = $pos_awal + 5;
 			$data_keluarga['dusun'] = trim(substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos));
 			$alamat = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
 		} else $data_keluarga['dusun'] = 'LAINNYA';
 		$pos_awal = strpos($alamat, 'RW:');
-		if ($pos_awal !== false){
+		if ($pos_awal !== false)
+		{
 			$pos = $pos + 3;
 			$data_keluarga['rw'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
 			$alamat = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
 		} else $data_keluarga['rw'] = '-';
 		if ($data_keluarga['rw'] == '') $data_keluarga['rw'] = '-';
 		$pos_awal = strpos($alamat, 'RT:');
-		if ($pos_awal !== false){
+		if ($pos_awal !== false)
+		{
 			$pos = $pos_awal + 3;
 			$data_keluarga['rt'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
 			$alamat = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
@@ -87,7 +95,8 @@ class Bip2012_model extends Import_model{
 	 * @param 	array		data keluarga untuk anggota yg dicari
 	 * @return	array 	data anggota keluarga
 	 */
-	private function get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga){
+	private function get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga)
+	{
 		// $i = baris data anggota keluarga
 		$data_anggota = $data_keluarga;
 		$data_anggota['nik'] = preg_replace('/[^0-9]/', '', trim($data_sheet[$i][3]));
@@ -108,12 +117,14 @@ class Bip2012_model extends Import_model{
 		$tmp = unserialize(KODE_PEKERJAAN);
 		$data_anggota['pekerjaan_id'] = $tmp[strtolower(trim($data_sheet[$i][13]))];
 		$nama_ibu = trim($data_sheet[$i][14]);
-		if($nama_ibu==""){
+		if ($nama_ibu == "")
+		{
 			$nama_ibu = "-";
 		}
 		$data_anggota['nama_ibu'] = $nama_ibu;
 		$nama_ayah = trim($data_sheet[$i][15]);
-		if($nama_ayah==""){
+		if ($nama_ayah == "")
+		{
 			$nama_ayah = "-";
 		}
 		$data_anggota['nama_ayah'] = $nama_ayah;
@@ -138,7 +149,8 @@ class Bip2012_model extends Import_model{
 			$_SESSION['total_penduduk']=	jumlah penduduk yang diimpor
 			$_SESSION['baris']=						daftar baris yang gagal
 	 */
-	function impor_data_bip($data) {
+	function impor_data_bip($data)
+	{
 		$gagal_penduduk = 0;
 		$baris_gagal = "";
 		$total_keluarga = 0;
@@ -146,16 +158,19 @@ class Bip2012_model extends Import_model{
 
 		// BIP bisa terdiri dari beberapa worksheet
 		// Proses sheet satu-per-satu
-		for ($sheet_index=0; $sheet_index<count($data->boundsheets); $sheet_index++){
+		for ($sheet_index=0; $sheet_index<count($data->boundsheets); $sheet_index++)
+		{
 			// membaca jumlah baris di sheet ini
 			$baris = $data->rowcount($sheet_index);
 			$data_sheet = $data->sheets[$sheet_index]['cells'];
-			if ($this->cari_bip_kk($data_sheet, $baris, 1) < 1) {
+			if ($this->cari_bip_kk($data_sheet, $baris, 1) < 1)
+			{
 				// Tidak ada data keluarga
 				continue;
 			}
 			// Import data sheet ini mulai baris pertama
-			for ($i=1; $i<=$baris; $i++){
+			for ($i=1; $i<=$baris; $i++)
+			{
 				// Cari keluarga berikutnya
 				if ($data_sheet[$i][2] != "NO.KK") continue;
 				// Proses keluarga
@@ -166,12 +181,16 @@ class Bip2012_model extends Import_model{
 				// Pergi ke data anggota keluarga
 				$i = $i + 3;
 				// Proses setiap anggota keluarga
-				while ($data_sheet[$i][2] != "NO.KK" AND $i <= $baris) {
+				while ($data_sheet[$i][2] != "NO.KK" AND $i <= $baris)
+				{
 					$data_anggota = $this->get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga);
-					if ($this->data_import_valid($data_anggota)) {
+					if ($this->data_import_valid($data_anggota))
+					{
 						$this->tulis_tweb_penduduk($data_anggota);
 						$total_penduduk++;
-					}else{
+					}
+					else
+					{
 						$gagal_penduduk++;
 						$baris_gagal .=$i.",";
 					}
@@ -181,14 +200,14 @@ class Bip2012_model extends Import_model{
 			}
 		}
 
-		if($gagal_penduduk==0)
-			$baris_gagal ="tidak ada data yang gagal di import.";
-		else $_SESSION['success']=-1;
+		if ($gagal_penduduk == 0)
+			$baris_gagal = "tidak ada data yang gagal di import.";
+		else $_SESSION['success'] = -1;
 
-		$_SESSION['gagal']=$gagal_penduduk;
-		$_SESSION['total_keluarga']=$total_keluarga;
-		$_SESSION['total_penduduk']=$total_penduduk;
-		$_SESSION['baris']=$baris_gagal;
+		$_SESSION['gagal'] = $gagal_penduduk;
+		$_SESSION['total_keluarga'] = $total_keluarga;
+		$_SESSION['total_penduduk'] = $total_penduduk;
+		$_SESSION['baris'] = $baris_gagal;
 	}
 
 }

@@ -8,20 +8,8 @@ class Analisis_master_model extends CI_Model {
 
 	public function autocomplete()
 	{
-		$sql = "SELECT nama FROM analisis_master";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		$i = 0;
-		$outp = '';
-		while ($i<count($data))
-		{
-			$outp .= ",'" .$data[$i]['nama']. "'";
-			$i++;
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
+		$str = autocomplete_str('nama', 'analisis_master');
+		return $str;
 	}
 
 	private function search_sql()
@@ -117,7 +105,7 @@ class Analisis_master_model extends CI_Model {
 	public function insert()
 	{
 		$data = $_POST;
-		$outp = $this->db->insert('analisis_master',$data);
+		$outp = $this->db->insert('analisis_master', $data);
 
 		if ($outp)
 			$_SESSION['success'] = 1;
@@ -129,13 +117,14 @@ class Analisis_master_model extends CI_Model {
 	{
 		$data = $_POST;
 		// Kolom yang tidak boleh diubah untuk analisis sistem
-		if($this->is_analisis_sistem($id)){
+		if ($this->is_analisis_sistem($id))
+		{
 			unset($data['subjek_tipe']);
 			unset($data['lock']);
 			unset($data['format_impor']);
 		}
 		$this->db->where('id',$id);
-		$outp = $this->db->update('analisis_master',$data);
+		$outp = $this->db->update('analisis_master', $data);
 		if ($outp)
 			$_SESSION['success'] = 1;
 		else
@@ -144,7 +133,7 @@ class Analisis_master_model extends CI_Model {
 
 	public function is_analisis_sistem($id)
 	{
-		$jenis = $this->db->select('jenis')->where('id',$id)
+		$jenis = $this->db->select('jenis')->where('id', $id)
 			->get('analisis_master')->row()->jenis;
 		return $jenis == 1;
 	}
@@ -155,8 +144,8 @@ class Analisis_master_model extends CI_Model {
 
 		$this->sub_delete($id);
 
-		$sql = "DELETE FROM analisis_master WHERE id=?";
-		$outp = $this->db->query($sql,array($id));
+		$sql = "DELETE FROM analisis_master WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
 
 		if ($outp)
 			$_SESSION['success'] = 1;
@@ -164,7 +153,8 @@ class Analisis_master_model extends CI_Model {
 			$_SESSION['success'] = -1;
 	}
 
-	public function delete_all(){
+	public function delete_all()
+	{
 		$id_cb = $_POST['id_cb'];
 
 		if (count($id_cb))
@@ -186,34 +176,34 @@ class Analisis_master_model extends CI_Model {
 	private function sub_delete($id='')
 	{
 		$sql = "DELETE FROM analisis_parameter WHERE id_indikator IN(SELECT id FROM analisis_indikator WHERE id_master = ?)";
-		$this->db->query($sql,$id);
+		$this->db->query($sql, $id);
 
-		$sql = "DELETE FROM analisis_respon WHERE id_periode IN(SELECT id FROM analisis_periode WHERE id_master=?)";
-		$this->db->query($sql,$id);
+		$sql = "DELETE FROM analisis_respon WHERE id_periode IN(SELECT id FROM analisis_periode WHERE id_master = ?)";
+		$this->db->query($sql, $id);
 
-		$sql = "DELETE FROM analisis_kategori_indikator WHERE id_master=?";
-		$this->db->query($sql,$id);
+		$sql = "DELETE FROM analisis_kategori_indikator WHERE id_master = ?";
+		$this->db->query($sql, $id);
 
-		$sql = "DELETE FROM analisis_klasifikasi WHERE id_master=?";
-		$this->db->query($sql,$id);
+		$sql = "DELETE FROM analisis_klasifikasi WHERE id_master = ?";
+		$this->db->query($sql, $id);
 
-		$sql = "DELETE FROM analisis_respon_hasil WHERE id_master=?";
-		$this->db->query($sql,$id);
+		$sql = "DELETE FROM analisis_respon_hasil WHERE id_master = ?";
+		$this->db->query($sql, $id);
 
-		$sql = "DELETE FROM analisis_partisipasi WHERE id_master=?";
-		$this->db->query($sql,$id);
+		$sql = "DELETE FROM analisis_partisipasi WHERE id_master = ?";
+		$this->db->query($sql, $id);
 
-		$sql = "DELETE FROM analisis_periode WHERE id_master=?";
-		$this->db->query($sql,$id);
+		$sql = "DELETE FROM analisis_periode WHERE id_master = ?";
+		$this->db->query($sql, $id);
 
-		$sql = "DELETE FROM analisis_indikator WHERE id_master=?";
-		$this->db->query($sql,$id);
+		$sql = "DELETE FROM analisis_indikator WHERE id_master = ?";
+		$this->db->query($sql, $id);
 	}
 
 	public function get_analisis_master($id=0)
 	{
-		$sql = "SELECT * FROM analisis_master WHERE id=?";
-		$query = $this->db->query($sql,$id);
+		$sql = "SELECT * FROM analisis_master WHERE id = ?";
+		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		return $data;
 	}
