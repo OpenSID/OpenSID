@@ -16,7 +16,8 @@
 		'18.06' => array('migrate' => 'migrasi_1806_ke_1807', 'nextVersion' => '18.08'),
 		'18.07' => array('migrate' => 'migrasi_1806_ke_1807', 'nextVersion' => '18.08'),
 		'18.08' => array('migrate' => 'migrasi_1808_ke_1809', 'nextVersion' => '18.09'),
-		'18.09' => array('migrate' => 'migrasi_1809_ke_1810', 'nextVersion' => NULL)
+		'18.09' => array('migrate' => 'migrasi_1809_ke_1810', 'nextVersion' => '18.10'),
+		'18.10' => array('migrate' => 'migrasi_1810_ke_1811', 'nextVersion' => NULL)
 	);
 
 	function __construct(){
@@ -146,6 +147,12 @@
 	$this->migrasi_1806_ke_1807();
 	$this->migrasi_1808_ke_1809();
 	$this->migrasi_1809_ke_1810();
+	$this->migrasi_1810_ke_1811();
+  }
+
+  private function migrasi_1810_ke_1811()
+  {
+  	// Tambah perubahan database di sini
   }
 
   private function migrasi_1809_ke_1810()
