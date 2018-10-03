@@ -32,7 +32,8 @@ class Data_persil extends CI_Controller {
 		redirect('data_persil');
 	}
 
-	public function index($kat=0, $mana=0, $page=1, $o=0){
+	public function index($kat=0, $mana=0, $page=1, $o=0)
+	{
 		$header = $this->header_model->get_data();
 		$data['kat'] = $kat;
 		$data['mana'] = $mana;
@@ -48,13 +49,13 @@ class Data_persil extends CI_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data["desa"] = $this->config_model->get_data();
-		$data['paging']  = $this->data_persil_model->paging($kat,$mana,$page);
-		$data["persil"] = $this->data_persil_model->list_persil($kat,$mana,$data['paging']->offset, $data['paging']->per_page);
+		$data['paging']  = $this->data_persil_model->paging($kat, $mana, $page);
+		$data["persil"] = $this->data_persil_model->list_persil($kat, $mana, $data['paging']->offset, $data['paging']->per_page);
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		$data['keyword'] = $this->data_persil_model->autocomplete();
 		$nav['act'] = 7;
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('data_persil/persil', $data);
 		$this->load->view('footer');
 	}
@@ -84,7 +85,7 @@ class Data_persil extends CI_Controller {
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		$nav['act'] = 7;
 		$this->load->view('nav',$nav);
-		$this->load->view('data_persil/detail',$data);
+		$this->load->view('data_persil/detail', $data);
 		$this->load->view('footer');
 	}
 
@@ -116,8 +117,8 @@ class Data_persil extends CI_Controller {
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		$nav['act']=7;
-		$this->load->view('nav',$nav);
-		$this->load->view('data_persil/create',$data);
+		$this->load->view('nav', $nav);
+		$this->load->view('data_persil/create', $data);
 		$this->load->view('footer');
 	}
 
@@ -136,7 +137,7 @@ class Data_persil extends CI_Controller {
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		$nav['act'] = 7;
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('data_persil/create_ext', $data);
 		$this->load->view('footer');
 	}
@@ -227,7 +228,7 @@ class Data_persil extends CI_Controller {
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$nav['act'] = 7;
-		$this->load->view('nav',$nav);
+		$this->load->view('nav', $nav);
 		$this->load->view('data_persil/panduan');
 		$this->load->view('footer');
 	}

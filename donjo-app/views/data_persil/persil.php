@@ -72,7 +72,7 @@
 																		<td><?= $item["nik"] ?></td>
 																		<td><?= $item["nopersil"] ?></td>
 																		<td><?= $item["luas"] ?></td>
-																		<td><a href="#"><?= $item["no_sppt_pbb"] ?></a></td>
+																		<td><?= $item["no_sppt_pbb"] ?></a></td>
 
 																	</tr>
 																<?php endforeach; ?>

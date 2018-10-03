@@ -38,7 +38,7 @@ class Data_persil_model extends CI_Model {
 	private function main_sql()
 	{
 		$sql = " FROM `data_persil` p
-				LEFT JOIN tweb_penduduk u ON u.nik = p.nik
+				LEFT JOIN tweb_penduduk u ON u.nik = p.nik AND p.nik <> 0
 				LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_clusterdesa
 			 WHERE 1 ";
 		return $sql;
