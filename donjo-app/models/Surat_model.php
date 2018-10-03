@@ -565,9 +565,7 @@
     $url = $surat['url_surat'];
     $tgl = tgl_indo(date("Y m d"));
     $thn = date("Y");
-		$array_bulan = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
 		$bulan = $array_bulan[date('n')];
-
 		$tgllhr = ucwords(tgl_indo($individu['tanggallahir']));
 		$individu['nama'] = strtoupper($individu['nama']);
 
@@ -596,7 +594,7 @@
 				"[judul_surat]" => strtoupper("surat ".$surat['nama']),
 				"[tgl_surat]" => "$tgl",
 				"[tahun]" => "$thn",
-				"[bulan]" => "$bulan",
+				"[bulan_romawi]" => bulan_romawi(date("m")),
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
