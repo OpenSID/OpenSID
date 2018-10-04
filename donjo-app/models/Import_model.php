@@ -305,14 +305,11 @@ class Import_model extends CI_Model{
 
 	private function hapus_data_penduduk()
 	{
-		$a = "DELETE FROM tweb_wil_clusterdesa WHERE 1";
-		$this->db->query($a);
-
-		$a = "DELETE FROM tweb_keluarga WHERE 1";
-		$this->db->query($a);
-
-		$a = "DELETE FROM tweb_penduduk WHERE 1";
-		$this->db->query($a);
+		$tabel_penduduk = array('tweb_wil_clusterdesa', 'tweb_keluarga', 'tweb_penduduk', 'log_bulanan', 'log_keluarga', 'log_penduduk', 'log_perubahan_penduduk', 'log_surat', 'tweb_rtm');
+		foreach ($tabel_penduduk as $tabel)
+		{
+			$this->db->empty_table($tabel);
+		}
 	}
 
 	function cari_baris_pertama($data, $baris) {
