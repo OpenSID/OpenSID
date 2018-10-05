@@ -165,6 +165,12 @@
 
   private function migrasi_1810_ke_1811()
   {
+  	// Hapus kolom tweb_penduduk_mandiri.nik
+		if ($this->db->field_exists('nik', 'tweb_penduduk_mandiri'))
+		{
+			$this->dbforge->drop_column('tweb_penduduk_mandiri', 'nik');
+		}
+
   	// Tambah perubahan database di sini
 		// Tambah setting tombol_cetak_surat
 		$setting = $this->db->where('key','tombol_cetak_surat')->get('setting_aplikasi')->row()->id;

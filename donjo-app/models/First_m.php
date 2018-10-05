@@ -21,9 +21,12 @@ class First_m extends CI_Model {
 		$pin = $this->input->post('pin');
 		$hash_pin = hash_pin($pin);
 
-		$sql = "SELECT pin,last_login FROM tweb_penduduk_mandiri WHERE strcmp(nik,?) = 0";
-		$query = $this->db->query($sql, array($nik));
-		$row = $query->row();
+		$row = $this->db->select('pin, last_login')
+			->where('p.nik', $nik)
+			->from('tweb_penduduk_mandiri m')
+			->join('tweb_penduduk p', 'm.id_pend = p.id')
+			->get()->row();
+
 		$lg = $row->last_login;
 
 		if ($hash_pin == $row->pin)
@@ -62,9 +65,10 @@ class First_m extends CI_Model {
 	{
 		if (isset($_SESSION['nik']))
 		{
-			$id = $_SESSION['nik'];
-			$sql = "UPDATE tweb_penduduk_mandiri SET last_login = NOW() WHERE strcmp(nik,?) = 0";
-			$this->db->query($sql, $id);
+			$nik = $_SESSION['nik'];
+			$sql = "UPDATE tweb_penduduk_mandiri SET last_login = NOW()
+				WHERE id_pend = (SELECT id FROM tweb_penduduk WHERE strcmp(nik, ?) = 0)";
+			$this->db->query($sql, $nik);
 		}
 		unset($_SESSION['mandiri']);
 		unset($_SESSION['id']);
@@ -82,7 +86,7 @@ class First_m extends CI_Model {
 		}
 		$hash_pin = hash_pin($_POST['pin1']);
 		$data['pin'] = $hash_pin;
-		$this->db->where('nik', $_SESSION['nik']);
+		$this->db->where("id_pend = (SELECT id FROM tweb_penduduk WHERE strcmp(nik, {$_SESSION['nik']}) = 0)");
 		$outp = $this->db->update('tweb_penduduk_mandiri', $data);
 		$_SESSION['lg'] = 2;
 	}

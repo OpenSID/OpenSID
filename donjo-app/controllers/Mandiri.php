@@ -60,6 +60,15 @@ class Mandiri extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function search()
+	{
+		$cari = $this->input->post('cari');
+		if ($cari != '')
+			$_SESSION['cari']=$cari;
+		else unset($_SESSION['cari']);
+		redirect('mandiri');
+	}
+
 	public function ajax_pin($p = 1, $o = 0, $id = 0)
 	{
 		$data['penduduk'] = $this->mandiri_model->list_penduduk();
