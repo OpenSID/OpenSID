@@ -8,6 +8,27 @@
 			maxShowItems: 10,
 		});
 	});
+
+	$(function(){
+		$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+		$('#op_item input').change(function()
+		{
+			if ($(this).is('input:checked'))
+			{
+				$('#op_item input').parent().css({'background':'#ffffff','border':'1px solid #ddd'});
+				$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+				$(this).parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+			}
+			else
+			{
+				$(this).parent().css({'background':'#fafafa','border':'1px solid #ddd'});
+			}
+		});
+		$('#op_item label').click(function()
+		{
+			$(this).prev().trigger('click');
+		})
+	});
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -118,21 +139,23 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="disposisi_kepada">Disposisi Kepada</label>
-								<div class="col-sm-8 col-lg-4">
-									<select name="disposisi_kepada[]" multiple id="disposisi_kepada" class="form-control input-sm required">
+								<div class="col-sm-8 col-lg-8">
+									<div id="op_item">
 										<?php foreach ($ref_disposisi as $data): ?>
-
-												<option value="<?= $data?>"
-													<?php foreach ($disposisi_surat_masuk as $value): ?>
-														<?php if ($value['disposisi_ke'] == $data): ?>
-															selected
+											<div class="col-sm-12 col-lg-6 checkbox">
+												<label>
+													<input name="disposisi_kepada[]" value="<?= $data?>" 
+														<?php foreach ($disposisi_surat_masuk as $value): ?>
+															<?php if ($value['disposisi_ke'] == $data): ?>
+																checked
 														<?php endif; ?>
-													<?php endforeach; ?>>
+													<?php endforeach; ?>
+													type="checkbox">
 													<?= strtoupper($data)?>
-												</option>
-
-										<?php endforeach ?>
-									</select>
+												</label>
+											</div>
+										<?php endforeach;?>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -155,3 +178,83 @@
 	</section>
 </div>
 
+<style>
+	.form-horizontal .checkbox,
+	.form-horizontal .checkbox-inline,
+	.form-horizontal .radio,
+	.form-horizontal .radio-inline
+	{
+			padding: 4px;
+	}
+	.panel-fullscreen
+	{
+		display: block;	z-index: 999999; position: fixed;	width: 100%;
+		height: 100%;	top: 0;	right: 0;	left: 0;bottom: 0;overflow: auto;
+	}
+	#op_item div
+	{
+		margin:1px 0;
+		background:#fafafa;
+		border:1px solid #ddd;
+	}
+	#op_item input
+	{
+		vertical-align:middle;
+		margin:0px 2px;
+	}
+	#op_item label
+	{
+		width: 100%;
+		padding:4px 10px 0px 2px;
+		font-size:11px;
+		line-height:14px;
+		font-weight:normal;
+	}
+	table.head
+	{
+		font-size:14px;
+		font-weight:bold;
+	}
+	.atas {vertical-align: top;}
+	.checkbox input[type="checkbox"],
+	.checkbox-inline input[type="checkbox"],
+	.radio input[type="radio"],
+	.radio-inline input[type="radio"]
+	{
+    position: inherit;
+	}
+	#op_item div
+	{
+		margin:1px 0;
+		background:#fafafa;
+		border:1px solid #ddd;
+	}
+	#op_item input
+	{
+		vertical-align:middle;
+		margin:0px 2px;
+	}
+	#op_item label
+	{
+		padding:4px 10px 0px 2px;
+		font-size:11px;
+		line-height:14px;
+		font-weight:normal;
+	}
+	table.head
+	{
+		font-size:14px;
+		font-weight:bold;
+	}
+	.atas {vertical-align: top;}
+	.form-inline .form-control
+	{
+    width: 100%;
+	}
+	.form-horizontal .control-label {
+    text-align: left;
+	}
+	img { margin-bottom: 5px; }
+	.no-padding { padding: 0px; }
+
+</style>
