@@ -839,7 +839,7 @@
 			$data = $this->db->get('data_persil')->result_array();
 			foreach ($data as $persil)
 			{
-				if(!is_numeric($persil['nik']) AND $persil['nik']<>'')
+				if (!is_numeric($persil['nik']) AND $persil['nik']<>'')
 				{
 					$data_update = array(
 						'jenis_pemilik' => '2',

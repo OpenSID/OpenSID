@@ -8,8 +8,12 @@ class Data_persil_model extends CI_Model {
 
 	public function autocomplete()
 	{
-		$sql = "SELECT nik FROM data_persil
-					UNION SELECT p.nama AS nik FROM data_persil u LEFT JOIN tweb_penduduk p ON u.nik = p.nik";
+		$sql = "SELECT nik
+			FROM data_persil
+			UNION
+				SELECT p.nama AS nik
+				FROM data_persil u
+				LEFT JOIN tweb_penduduk p ON u.nik = p.nik";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
@@ -39,15 +43,15 @@ class Data_persil_model extends CI_Model {
 	{
 		$sql = " FROM `data_persil` p
 				LEFT JOIN tweb_penduduk u ON u.nik = p.nik AND p.nik <> 0
-				LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_clusterdesa
-			 WHERE 1 ";
+				LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_clusterdesa
+			 	WHERE 1 ";
 		return $sql;
 	}
 
 	private function filtered_sql($kat='', $mana=0)
 	{
 		$sql = $this->main_sql();
-		if ($kat =="jenis")
+		if ($kat == "jenis")
 		{
 			if ($mana > 0)
 			{
