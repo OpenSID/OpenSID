@@ -170,6 +170,10 @@
 		{
 			$this->dbforge->drop_column('tweb_penduduk_mandiri', 'nik');
 		}
+		//menambahkan constraint kolom tabel
+		$this->dbforge->add_column('tweb_penduduk_mandiri',[
+	    	'CONSTRAINT `id_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+		]);
 
   	// Tambah perubahan database di sini
 		// Tambah setting tombol_cetak_surat
