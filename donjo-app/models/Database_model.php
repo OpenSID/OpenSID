@@ -165,15 +165,52 @@
 
   private function migrasi_1810_ke_1811()
   {
+  	// Ubah nama kolom 'nik' menjadi 'id_pend' dan hanya gunakan untuk pemilik desa
+  	if ($this->db->field_exists('nik', 'data_persil'))
+  	{
+	  	$data = $this->db->select('d.*, d.nik as nama_pemilik, p.id as id_pend')
+	  		->from('data_persil d')
+	  		->join('tweb_penduduk p','p.nik = d.nik')
+	  		->get()->result_array();
+	  	foreach ($data as $persil)
+	  	{
+	  		$tulis = array();
+	  		// Kalau pemilik luar pindahkan isi kolom 'nik' sebagai nama pemilik luar
+	  		if ($persil['jenis_pemilik'] == 1 and empty($persil['pemilik_luar']))
+	  		{
+	  			$tulis['pemilik_luar'] = $persil['nama_pemilik'];
+	  			$tulis['nik'] = NULL;
+	  		}
+	  		else
+		  		// Untuk pemilik desa ganti menjadi id penduduk
+	  			$tulis['nik'] = $persil['id_pend'];
+	  		$this->db->where('id', $persil['id'])->update('data_persil', $tulis);
+	  	}
+	  	// Tambahkan relational constraint
+		  $this->dbforge->modify_column('data_persil',
+		  	array('nik' => array('name'  =>  'id_pend',	'type' => 'int', 'constraint' => 11 )));
+			$this->db->query("ALTER TABLE `data_persil` ADD INDEX `id_pend` (`id_pend`)");
+			$this->dbforge->add_column('data_persil',[
+	    	'CONSTRAINT `persil_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+			]);
+  	}
   	// Hapus kolom tweb_penduduk_mandiri.nik
 		if ($this->db->field_exists('nik', 'tweb_penduduk_mandiri'))
 		{
 			$this->dbforge->drop_column('tweb_penduduk_mandiri', 'nik');
 		}
 		//menambahkan constraint kolom tabel
-		$this->dbforge->add_column('tweb_penduduk_mandiri',[
+		$sql = "SELECT *
+	    FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+	    WHERE CONSTRAINT_NAME = 'id_pend_fk'
+			AND TABLE_NAME = 'tweb_penduduk_mandiri'";
+	  $query = $this->db->query($sql);
+	  if ($query->num_rows() == 0)
+	  {
+			$this->dbforge->add_column('tweb_penduduk_mandiri',[
 	    	'CONSTRAINT `id_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
-		]);
+			]);
+	  }
 
   	// Tambah perubahan database di sini
 		// Tambah setting tombol_cetak_surat
