@@ -176,7 +176,7 @@
 	  	{
 	  		$tulis = array();
 	  		// Kalau pemilik luar pindahkan isi kolom 'nik' sebagai nama pemilik luar
-	  		if ($persil['jenis_pemilik'] == 1 and empty($persil['pemilik_luar']))
+	  		if ($persil['jenis_pemilik'] == 2 and empty($persil['pemilik_luar']))
 	  		{
 	  			$tulis['pemilik_luar'] = $persil['nama_pemilik'];
 	  			$tulis['nik'] = NULL;

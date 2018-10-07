@@ -102,7 +102,8 @@ class Data_persil extends CI_Controller {
 		$data["persil_detail"] = $this->data_persil_model->get_persil($id);
 		if ($id > 0)
 		{
-			$data['pemilik'] = $this->data_persil_model->get_penduduk($data["persil_detail"]["nik"]);
+			$data['pemilik'] = $this->data_persil_model->get_penduduk($data["persil_detail"]["id_pend"]);
+			$data['pemilik']['nik_lama'] = $data['pemilik']['nik'];
 		}
 		else
 		{
@@ -110,7 +111,7 @@ class Data_persil extends CI_Controller {
 		}
 
 		if(isset($_POST['nik'])){
-			$data['pemilik']=$this->data_persil_model->get_penduduk($_POST['nik']);
+			$data['pemilik'] = $this->data_persil_model->get_penduduk($_POST['nik'], $nik=true);
 		}
 
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
