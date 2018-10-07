@@ -109,15 +109,14 @@ class Data_persil extends CI_Controller {
 		{
 			$data['pemilik'] = false;
 		}
-
-		if(isset($_POST['nik'])){
+		if (isset($_POST['nik']))
+		{
 			$data['pemilik'] = $this->data_persil_model->get_penduduk($_POST['nik'], $nik=true);
 		}
-
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
-		$nav['act']=7;
+		$nav['act'] = 7;
 		$this->load->view('nav', $nav);
 		$this->load->view('data_persil/create', $data);
 		$this->load->view('footer');
