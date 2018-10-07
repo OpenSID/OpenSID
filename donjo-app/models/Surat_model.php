@@ -61,7 +61,7 @@
 		$this->db
 				->select('u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex')
 				->from('tweb_penduduk u')
-				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id')
+				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
 				->where('status_dasar', '1');
 		$data = $this->db->get()->result_array();
 

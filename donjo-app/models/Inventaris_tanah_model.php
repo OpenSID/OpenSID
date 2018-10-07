@@ -26,7 +26,7 @@ class Inventaris_tanah_Model extends CI_Model
 		$this->db->select('mutasi_inventaris_tanah.id as id,mutasi_inventaris_tanah.*,  inventaris_tanah.nama_barang, inventaris_tanah.kode_barang, inventaris_tanah.tahun_pengadaan');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.visible', 1);
-		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_tanah');
+		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_tanah', 'left');
 		$data = $this->db->get()->result();
 		return $data;
 	}
@@ -84,7 +84,7 @@ class Inventaris_tanah_Model extends CI_Model
 		$this->db->select('mutasi_inventaris_tanah.id as id,mutasi_inventaris_tanah.*,  inventaris_tanah.nama_barang, inventaris_tanah.kode_barang, inventaris_tanah.tahun_pengadaan, inventaris_tanah.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
-		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_tanah');
+		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_tanah', 'left');
 		$data = $this->db->get()->row();
 		return $data;
 	}
@@ -94,7 +94,7 @@ class Inventaris_tanah_Model extends CI_Model
 		$this->db->select('mutasi_inventaris_tanah.id as id,mutasi_inventaris_tanah.*,  inventaris_tanah.nama_barang, inventaris_tanah.kode_barang, inventaris_tanah.tahun_pengadaan, inventaris_tanah.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
-		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_tanah');
+		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_tanah', 'left');
 		$data = $this->db->get()->row();
 		return $data;
 	}

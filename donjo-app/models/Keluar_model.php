@@ -280,7 +280,7 @@
 		$data = $this->db
 				->select('f.nama, COUNT(l.id) as jumlah')
 				->from('log_surat l')
-				->join('tweb_surat_format f', 'l.id_format_surat=f.id')
+				->join('tweb_surat_format f', 'l.id_format_surat=f.id', 'left')
 				->group_by('f.nama')
 				->get()
 				->result_array();

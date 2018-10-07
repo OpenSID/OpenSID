@@ -787,7 +787,7 @@ class Program_bantuan_model extends CI_Model {
 	{
 		return $this->db->select('p.*,pp.*')
 					->where(array('peserta' => $nik))
-					->join('program p','p.id = pp.program_id')
+					->join('program p','p.id = pp.program_id', 'left')
 					->get('program_peserta pp')
 					->result_array();
 	}

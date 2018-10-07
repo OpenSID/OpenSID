@@ -17,8 +17,8 @@
 		$log = $this->db
 					->select("s.nama as status, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, id_detail, catatan")
 					->where('l.id', $id_log)
-					->join('tweb_penduduk p','l.id_pend = p.id')
-					->join('tweb_status_dasar s','s.id = p.status_dasar')
+					->join('tweb_penduduk p','l.id_pend = p.id', 'left')
+					->join('tweb_status_dasar s','s.id = p.status_dasar', 'left')
 					->get('log_penduduk l')->row_array();
 		if (empty($log['tgl_peristiwa'])) $log['tgl_peristiwa'] = date("d-m-Y");
 		return $log;

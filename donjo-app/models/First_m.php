@@ -24,7 +24,7 @@ class First_m extends CI_Model {
 		$row = $this->db->select('pin, last_login')
 			->where('p.nik', $nik)
 			->from('tweb_penduduk_mandiri m')
-			->join('tweb_penduduk p', 'm.id_pend = p.id')
+			->join('tweb_penduduk p', 'm.id_pend = p.id', 'left')
 			->get()->row();
 
 		$lg = $row->last_login;

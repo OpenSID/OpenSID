@@ -170,7 +170,7 @@
   	{
 	  	$data = $this->db->select('d.*, d.nik as nama_pemilik, p.id as id_pend')
 	  		->from('data_persil d')
-	  		->join('tweb_penduduk p','p.nik = d.nik')
+	  		->join('tweb_penduduk p','p.nik = d.nik', 'left')
 	  		->get()->result_array();
 	  	foreach ($data as $persil)
 	  	{
