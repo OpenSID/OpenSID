@@ -248,8 +248,7 @@ class Data_persil extends CI_Controller {
 
 	public function import_proses()
 	{
-		$this->load->model('import_model');
-		$this->import_model->persil();
+		$this->data_persil_model->impor_persil();
 		redirect("data_persil");
 	}
 

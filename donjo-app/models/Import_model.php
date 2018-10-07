@@ -598,8 +598,6 @@ class Import_model extends CI_Model {
 
 				$gg++;
 			}
-
-
 		}
 
 		$a = "TRUNCATE tweb_rtm; ";
@@ -617,31 +615,6 @@ class Import_model extends CI_Model {
 		echo "<a href='".site_url()."database/import'>LANJUT</a>";
 	}
 
-	public function persil()
-	{
-		$data = new Spreadsheet_Excel_Reader($_FILES['persil']['tmp_name']);
-
-		$sheet = 0;
-		$baris = $data->rowcount($sheet_index = $sheet);
-		$kolom = $data->colcount($sheet_index = $sheet);
-
-		for ($i=2; $i<=$baris; $i++)
-		{
-			$upd['nik'] = $data->val($i, 2, $sheet);
-			$upd['nama'] = $data->val($i, 3, $sheet);
-			$upd['persil_jenis_id'] = $data->val($i, 4, $sheet);
-			$upd['id_clusterdesa'] = $data->val($i, 5, $sheet);
-			$upd['luas'] = $data->val($i, 6, $sheet);
-			$upd['kelas'] = $data->val($i, 7, $sheet);
-			$upd['no_sppt_pbb'] = $data->val($i, 8, $sheet);
-			$upd['persil_peruntukan_id'] = $data->val($i, 9, $sheet);
-
-			$outp = $this->db->insert('data_persil',$upd);
-		}
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
 }
 
 ?>
