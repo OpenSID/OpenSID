@@ -10,5 +10,6 @@ Catatan singkat tentang penggunaan javascript /library pada projek tampilan admi
 Library yang digunakan:
 
 - https://select2.org/, untuk select box
+- https://jquery.com, untuk manipulasi DOM
 
 
