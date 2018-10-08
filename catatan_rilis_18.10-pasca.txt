@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 2. Sekarang daftar Persil di menu Pertanahan tidak lagi menampilkan baris ganda untuk persil dengan pemilik dari luar desa di mana di database ada penduduk yang masih memiliki NIK 0. [bug-fix]
 3. Tambah fitur cari di halaman pendaftar layanan mandiri.
 4. Kotak cari data persil sekarang menampilkan autocomplete nama dan NIK pemilik.
+5. #1705: Tutup celah unggah file PHP melalui unggah gambar artikel. [security-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

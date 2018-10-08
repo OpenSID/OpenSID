@@ -111,16 +111,24 @@ function AmbilGaleri($foto, $ukuran){
 /*
   $file_upload = $_FILES['<lokasi>']
 */
-function TipeFile($file_upload){
+function TipeFile($file_upload)
+{
   $lokasi_file = $file_upload['tmp_name'];
-  if(empty($lokasi_file)){
+  if (empty($lokasi_file))
+  {
     return "";
   }
-  if (function_exists('finfo_open')) {
+  if (isPHP($file_upload['tmp_name'], $file_upload['name']))
+  {
+    return "application/x-php";
+  }
+  if (function_exists('finfo_open'))
+  {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $tipe_file = finfo_file($finfo, $lokasi_file);
     finfo_close($finfo);
-  } else
+  }
+  else
     $tipe_file = $file_upload['type'];
   return $tipe_file;
 }
