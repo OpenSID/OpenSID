@@ -706,7 +706,7 @@
 		return $data;
 	}
 
-	public function data_unduh()
+	public function data_unduh($p, $o)
 	{
 		$per = $this->get_aktif_periode();
 		$master = $this->get_analisis_master();
