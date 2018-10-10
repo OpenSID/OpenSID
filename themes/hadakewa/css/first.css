@@ -321,8 +321,6 @@ body{
 }
 .artikel .teks img{
 	margin-right: 7px;
-	max-width: 260px;
-    max-height: 155px;
 }
 .artikel .teks p {
     margin: 0 0 0.5em 0;

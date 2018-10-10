@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 4. Kotak cari data persil sekarang menampilkan autocomplete nama dan NIK pemilik.
 5. #1705: Tutup celah unggah file PHP melalui unggah gambar artikel. [security-fix]
 6. #1702: Sekarang simbol Pemetaan > Pengaturan Peta > Tipe Lokasi muncul setelah Kosongkan DB. [bug-fix]
+7. #1704: Penampilan gambar di artikel web sekarang ditampilkan standar dan bisa diatur di form isian artikel. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
