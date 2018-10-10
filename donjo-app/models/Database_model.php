@@ -2887,6 +2887,7 @@
 			"analisis_ref_subjek",
 			"analisis_tipe_indikator",
 			"artikel", //remove everything except widgets 1003
+			"gis_simbol",
 			"media_sosial", //?
 			"provinsi",
 			"setting_modul",

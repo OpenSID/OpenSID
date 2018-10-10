@@ -20,7 +20,7 @@ class Line extends CI_Controller {
 		$this->load->model('header_model');
 		$this->load->model('plan_line_model');
 		$this->load->database();
-		$this->modul_ini = 8;
+		$this->modul_ini = 9;
 	}
 
 	public function clear()
@@ -53,7 +53,7 @@ class Line extends CI_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 2;
 
 		$this->load->view('header', $header);
@@ -81,7 +81,7 @@ class Line extends CI_Controller {
 		$header = $this->header_model->get_data();
 
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 2;
 
 		$this->load->view('header', $header);
@@ -96,7 +96,7 @@ class Line extends CI_Controller {
 		$data['line'] = $this->plan_line_model->get_line($line);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 2;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
