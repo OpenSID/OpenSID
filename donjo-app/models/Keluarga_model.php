@@ -32,11 +32,13 @@
 	/*
 		1 - tampilkan keluarga di mana KK mempunyai status dasar 'hidup'
 		2 - tampilkan keluarga di mana KK mempunyai status dasar 'hilang/pindah/mati'
+		3 - tampilkan keluarga di mana KK tidak ada'
 	*/
 	function status_dasar_sql(){
 		if(isset($_SESSION['status_dasar'])){
 			$kf = $_SESSION['status_dasar'];
-			if ($kf == '1')	$status_dasar_sql= " AND t.status_dasar = 1";
+			if ($kf == '1')	$status_dasar_sql = " AND t.status_dasar = 1";
+			elseif ($kf == '3') $status_dasar_sql = 'AND t.status_dasar IS NULL';
 			else $status_dasar_sql= " AND t.status_dasar <> 1";
 		return $status_dasar_sql;
 		}

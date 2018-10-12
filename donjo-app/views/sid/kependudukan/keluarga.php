@@ -67,6 +67,7 @@
 													<option value="">Semua KK</option>
 													<option value="1" <?php if ($status_dasar == 1): ?>selected<?php endif ?>>KK Aktif</option>
 													<option value="2" <?php if ($status_dasar == 2): ?>selected<?php endif ?>>KK Hilang/Pindah/Mati</option>
+													<option value="3" <?php if ($status_dasar == 3): ?>selected<?php endif ?>>KK Kosong</option>
 												</select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('keluarga/sex')?>')">
 													<option value="">Jenis Kelamin</option>

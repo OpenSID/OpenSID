@@ -17,9 +17,11 @@ class Header_model extends CI_Model {
 
 	public function keluarga_total()
 	{
-		$sql = "SELECT COUNT(id) AS jumlah FROM tweb_keluarga";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db->select('COUNT(*) AS jumlah')
+			->from('tweb_keluarga u')
+			->join('tweb_penduduk t', 'u.nik_kepala = t.id', 'left')
+			->where('t.status_dasar', '1')
+			->get()->result_array();
 		return $data;
 	}
 
