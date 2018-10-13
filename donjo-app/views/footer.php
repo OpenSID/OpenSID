@@ -43,16 +43,6 @@
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
-			
-			$(function()
-			{
-				var keyword = <?= $pengirim?> ;
-				$( "#pengirim" ).autocomplete(
-				{
-					source: keyword,
-					maxShowItems: 10,
-				});
-			});
 
 			$('document').ready(function()
 			{
