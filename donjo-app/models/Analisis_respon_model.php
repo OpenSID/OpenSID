@@ -11,8 +11,8 @@
 		$subjek = $_SESSION['subjek_tipe'];
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT nik AS no_kk FROM tweb_penduduk UNION SELECT u.nama FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE status_dasar=1 "; break;
-			case 2: $sql = "SELECT no_kk FROM tweb_keluarga UNION SELECT p.nama FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
+			case 1: $sql = "SELECT nik AS no_kk FROM tweb_penduduk UNION SELECT u.nama FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE status_dasar = 1 "; break;
+			case 2: $sql = "SELECT no_kk FROM tweb_keluarga UNION SELECT p.nama FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE p.status_dasar = 1"; break;
 			case 3: $sql = "SELECT no_kk FROM tweb_rtm UNION SELECT p.nama FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
 			case 4: $sql = "SELECT u.nama AS no_kk FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
 			default: return null;
@@ -106,25 +106,8 @@
 
 	public function paging($p=1, $o=0)
 	{
-		$master = $this->get_analisis_master();
-		$id_kelompok = $master['id_kelompok'];
-		$subjek = $_SESSION['subjek_tipe'];
-		switch ($subjek)
-		{
-			case 1: $sql = "SELECT COUNT(u.id) AS id FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE status_dasar=1 "; break;
-			case 2: $sql = "SELECT COUNT(u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
-			case 3: $sql = "SELECT COUNT(u.id) AS id FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
-			case 4: $sql = "SELECT COUNT(u.id) AS id FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
-			default: return null;
-		}
-		if ($id_kelompok != 0)
-			$sql .= $this->kelompok_sql($id_kelompok);
-
-		$sql .= $this->search_sql();
-		$sql .= $this->dusun_sql();
-		$sql .= $this->rw_sql();
-		$sql .= $this->rt_sql();
-		$sql .= $this->isi_sql();
+		$sql = "SELECT COUNT(u.id) AS id ";
+		$sql .= $this->list_data_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
 		$jml_data = $row['id'];
@@ -138,11 +121,62 @@
 		return $this->paging;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	private function list_data_sql()
 	{
 		$per = $this->get_aktif_periode();
 		$master = $this->get_analisis_master();
 		$id_kelompok = $master['id_kelompok'];
+		$subjek = $_SESSION['subjek_tipe'];
+		switch ($subjek)
+		{
+			case 1:
+				$sql = " FROM tweb_penduduk u
+					LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
+					WHERE u.status_dasar = 1
+				";
+				break;
+
+			case 2:
+				$sql = " FROM tweb_keluarga u
+					LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
+					WHERE p.status_dasar = 1
+				" ;
+				break;
+
+			case 3:
+				$sql = " FROM tweb_rtm u
+					LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
+					WHERE 1
+				";
+				break;
+
+			case 4:
+				$sql = " FROM kelompok u
+					LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id
+					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
+					WHERE 1
+				";
+				break;
+
+			default: return null;
+		}
+		if ($id_kelompok != 0)
+			$sql .= $this->kelompok_sql($id_kelompok);
+
+		$sql .= $this->search_sql();
+		$sql .= $this->dusun_sql();
+		$sql .= $this->rw_sql();
+		$sql .= $this->rt_sql();
+		$sql .= $this->isi_sql();
+		return $sql;
+	}
+
+	public function list_data($o=0, $offset=0, $limit=500)
+	{
+		$per = $this->get_aktif_periode();
+		$master = $this->get_analisis_master();
 
 		switch ($o)
 		{
@@ -161,52 +195,30 @@
 			case 1:
 				$sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek,
 					(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = ? AND b.id_periode = ? AND b.id_subjek = u.id) as bukti_pengesahan
-					FROM tweb_penduduk u
-					LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
-					WHERE u.status_dasar = 1
 				";
 				break;
 
 			case 2:
 				$sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode = ? LIMIT 1) as cek,
 					(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = ? AND b.id_periode = ? AND b.id_subjek = u.id) as bukti_pengesahan
-					FROM tweb_keluarga u
-					LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
-					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
-					WHERE 1
 				" ;
 				break;
 
 			case 3:
 				$sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek,
 					(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = ? AND b.id_periode = ? AND b.id_subjek = u.id) as bukti_pengesahan
-					FROM tweb_rtm u
-					LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
-					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
-					WHERE 1
 				";
 				break;
 
 			case 4:
 				$sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek,
 					(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = ? AND b.id_periode = ? AND b.id_subjek = u.id) as bukti_pengesahan
-					FROM kelompok u
-					LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id
-					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
-					WHERE 1
 				";
 				break;
 
 			default: return null;
 		}
-		if ($id_kelompok != 0)
-			$sql .= $this->kelompok_sql($id_kelompok);
-
-		$sql .= $this->search_sql();
-		$sql .= $this->dusun_sql();
-		$sql .= $this->rw_sql();
-		$sql .= $this->rt_sql();
-		$sql .= $this->isi_sql();
+		$sql .= $this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 

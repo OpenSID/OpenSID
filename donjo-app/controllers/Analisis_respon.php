@@ -86,7 +86,7 @@ class Analisis_respon extends CI_Controller {
 		}
 
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
+			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['list_dusun'] = $this->analisis_respon_model->list_dusun();

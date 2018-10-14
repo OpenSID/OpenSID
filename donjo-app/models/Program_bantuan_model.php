@@ -273,8 +273,9 @@ class Program_bantuan_model extends CI_Model {
 						$hasil1 = false;
 					}
 
-					$strSQL = "SELECT p.nik,p.nama,w.rt,w.rw,w.dusun FROM tweb_penduduk p
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_cluster
+					$strSQL = "SELECT p.nik, p.nama, w.rt, w.rw, w.dusun
+						FROM penduduk_hidup p
+						LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
 						WHERE 1 ORDER BY nama";
 					$query = $this->db->query($strSQL);
 					$data = "";
@@ -331,10 +332,11 @@ class Program_bantuan_model extends CI_Model {
 						$hasil1 = false;
 					}
 					// Daftar keluarga, tidak termasuk keluarga yang sudah menjadi peserta
-					$strSQL = "SELECT k.no_kk as id,p.nama as nama,w.rt,w.rw,w.dusun FROM tweb_keluarga k
-						LEFT JOIN tweb_penduduk p ON p.id=k.nik_kepala
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_cluster
-					WHERE 1";
+					$strSQL = "SELECT k.no_kk as id, p.nama as nama, w.rt, w.rw, w.dusun
+						FROM tweb_keluarga k
+						LEFT JOIN tweb_penduduk p ON p.id = k.nik_kepala
+						LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
+						WHERE p.status_dasar = 1";
 					$query = $this->db->query($strSQL);
 					$hasil2 = array();
 					$data = $query->result_array();
