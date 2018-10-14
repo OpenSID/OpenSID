@@ -393,18 +393,18 @@ function cari_nik()
 }
 
 $(function(){
-	$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+	$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'0.5px solid #7a82eb'});
 	$('#op_item input').change(function()
 	{
 		if ($(this).is('input:checked'))
 		{
-			$('#op_item input').parent().css({'background':'#ffffff','border':'1px solid #ddd'});
-			$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
-			$(this).parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+			$('#op_item input').parent().css({'background':'#fafafa'});
+			$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'0.5px solid #7a82eb'});
+			$(this).parent().css({'background':'#c9cdff'});
 		}
 		else
 		{
-			$(this).parent().css({'background':'#fafafa','border':'1px solid #ddd'});
+			$(this).parent().css({'background':'#fafafa','border':'0px'});
 		}
 	});
 	$('#op_item label').click(function()

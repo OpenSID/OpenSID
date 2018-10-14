@@ -112,13 +112,11 @@
 										<?php foreach ($ref_disposisi as $data): ?>
 											<div class="col-sm-12 col-lg-6 checkbox">
 												<label>
-													<input name="disposisi_kepada[]" value="<?= $data?>" 
+													<input name="disposisi_kepada[]" value="<?= $data?>" type="checkbox"
 														<?php foreach ($disposisi_surat_masuk as $value): ?>
-															<?php if ($value['disposisi_ke'] == $data): ?>
-																checked
-														<?php endif; ?>
-													<?php endforeach; ?>
-													type="checkbox">
+															<?php selected($value['disposisi_ke'], $data, 1) ?>
+														<?php endforeach; ?>
+													>
 													<?= strtoupper($data)?>
 												</label>
 											</div>

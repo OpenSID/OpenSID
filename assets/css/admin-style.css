@@ -276,6 +276,7 @@ td.nostretch, th.nostretch{
   white-space:nowrap;
 }
 
+/* Style untuk isian checkbox berkolom (input analisis, surat masuk) */
 .form-horizontal .checkbox,
 .form-horizontal .checkbox-inline,
 .form-horizontal .radio,
