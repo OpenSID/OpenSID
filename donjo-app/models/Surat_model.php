@@ -851,24 +851,30 @@
 
 	public function get_last_nosurat_log($url)
 	{
-		// abaikan jenis surat
+		if (!$this->setting->nomor_terakhir_semua_surat)
+		{
+			// Nomor terkahir berdasarkan jenis surat
+			$id_format_surat = $this->db->select('id, nama')
+				->where('url_surat', $url)
+				->get('tweb_surat_format')
+				->row();
+			$this->db->where('id_format_surat', $id_format_surat->id);
+		}
+		$data = $this->db->select('no_surat, tanggal')
+			->from('log_surat')
+			->where('YEAR(tanggal) = YEAR(CURRENT_DATE())')
+			->order_by('no_surat DESC')
+			->limit(1)
+			->get()
+			->row_array();
+
+		if (empty($data)) $data['no_surat'] = 0;
+		$data['no_surat_berikutnya'] = $data['no_surat'] + 1;
 		if ($this->setting->nomor_terakhir_semua_surat)
-		{
-			$sql = "SELECT no_surat,tanggal FROM log_surat ORDER BY tanggal DESC LIMIT 1";
-			$query = $this->db->query($sql);
-		}
+			$data['ket_nomor'] = "Terakhir untuk semua surat: ";
 		else
-		{
-			$sql = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
-			$query = $this->db->query($sql, $url);
-
-			$id_format_surat = $query->row()->id;
-
-			$sql = "SELECT no_surat,tanggal FROM log_surat WHERE id_format_surat = ? ORDER BY tanggal DESC LIMIT 1";
-			$query = $this->db->query($sql, $id_format_surat);
-		}
-
-		return $query->row_array();
+			$data['ket_nomor'] = "Terakhir untuk jenis surat {$id_format_surat->nama}: ";
+		return $data;
 	}
 
 }
