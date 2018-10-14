@@ -1,14 +1,3 @@
-<script>
-	$(function()
-	{
-		var keyword = <?= $pengirim?> ;
-		$( "#pengirim" ).autocomplete(
-		{
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
-</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Disposisi Surat Masuk</h1>
@@ -118,21 +107,23 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="disposisi_kepada">Disposisi Kepada</label>
-								<div class="col-sm-8 col-lg-4">
-									<select name="disposisi_kepada[]" multiple id="disposisi_kepada" class="form-control input-sm required">
+								<div class="col-sm-8 col-lg-8">
+									<div id="op_item">
 										<?php foreach ($ref_disposisi as $data): ?>
-
-												<option value="<?= $data?>"
-													<?php foreach ($disposisi_surat_masuk as $value): ?>
-														<?php if ($value['disposisi_ke'] == $data): ?>
-															selected
+											<div class="col-sm-12 col-lg-6 checkbox">
+												<label>
+													<input name="disposisi_kepada[]" value="<?= $data?>" 
+														<?php foreach ($disposisi_surat_masuk as $value): ?>
+															<?php if ($value['disposisi_ke'] == $data): ?>
+																checked
 														<?php endif; ?>
-													<?php endforeach; ?>>
+													<?php endforeach; ?>
+													type="checkbox">
 													<?= strtoupper($data)?>
-												</option>
-
-										<?php endforeach ?>
-									</select>
+												</label>
+											</div>
+										<?php endforeach;?>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -154,4 +145,14 @@
 		</div>
 	</section>
 </div>
-
+<script type="text/javascript">
+	$(function()
+	{
+		var keyword = <?= $pengirim?> ;
+		$( "#pengirim" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>

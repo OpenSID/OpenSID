@@ -39,10 +39,11 @@
 		<script src="<?= base_url()?>assets/js/validasi.js"></script>
 		<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 		<!-- Script-->
-		<script src="<?= base_url()?>assets/js/script.js"></script>
+		<script src="<?= base_url()?>assets/js/script.js?v=112131"></script>
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
+
 			$('document').ready(function()
 			{
 				if ($('#success-code').val() == 1)

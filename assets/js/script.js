@@ -392,3 +392,23 @@ function cari_nik()
 	});
 }
 
+$(function(){
+	$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+	$('#op_item input').change(function()
+	{
+		if ($(this).is('input:checked'))
+		{
+			$('#op_item input').parent().css({'background':'#ffffff','border':'1px solid #ddd'});
+			$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+			$(this).parent().css({'background':'#c9cdff','border':'1px solid #7a82eb'});
+		}
+		else
+		{
+			$(this).parent().css({'background':'#fafafa','border':'1px solid #ddd'});
+		}
+	});
+	$('#op_item label').click(function()
+	{
+		$(this).prev().trigger('click');
+	})
+});
