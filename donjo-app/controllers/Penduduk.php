@@ -886,4 +886,33 @@ class Penduduk extends CI_Controller {
 		}
 		redirect("penduduk");
 	}
+
+	public function ubah_nik()
+	{
+		$data = $this->db->select('id, nik')->get('tweb_penduduk')->result_array();
+		foreach ($data as $penduduk)
+		{
+			$nik = $penduduk['nik'];
+			$urut = $this->acak(substr($nik, 12));
+			$nik_baru = substr_replace($nik, $urut, 12);
+			echo 'nik: '.$nik.' nik_baru: '.$nik_baru."<br>";
+		}
+	}
+
+	private function acak($str)
+	{
+		$jangan = str_pad('', strlen($str), '0');
+		$baru = $jangan;
+		while (true)
+		{
+			for ($i=0; $i<strlen($str); $i++)
+			{
+				$baru[$i] = rand(0, 9);
+			}
+			if ($baru != $jangan) break;
+			$baru = $jangan;
+		}
+		return $baru;
+	}
+
 }
