@@ -68,7 +68,7 @@
 							<td><?= $data['rt']?></td>
 							<td><?= $data['sex']?></td>
 							<td><?= $data['tempatlahir']?></td>
-							<td><?= tgl_indo($data['tanggallahir'])?></td>
+							<td class="textx"><?= tgl_indo($data['tanggallahir'])?></td>
 							<td align="right"><?= $data['umur']?></td>
 							<td><?= $data['agama']?></td>
 							<td><?= $data['pendidikan']?></td>
