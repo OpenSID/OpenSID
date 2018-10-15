@@ -245,7 +245,7 @@ if(isset($_POST['database'])){
 					<div class="content">
 						<p>
 							<div class="success">
-								Looks like everything was set up correctly.
+								Selamat ! instalasi berhasil dilakukan.
 							</div>
 							<div class="error">
 								Sangat Disarankan: Hapus folder <strong>install</strong>, atau pindahkan ke folder yang tidak dapat diakses oleh publik!
