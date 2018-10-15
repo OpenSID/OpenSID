@@ -1,7 +1,7 @@
 <style>
-.error {
-    color: #dd4b39;
-}
+	.error {
+		color: #dd4b39;
+	}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -19,7 +19,7 @@
 					<div class="box-header with-border">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
-           	</a>
+						</a>
 					</div>
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
@@ -35,7 +35,9 @@
 								</div>
 							</div>
 						</form>
-						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<?php if ($individu): ?>
 								<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 							<?php	endif; ?>
@@ -79,7 +81,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input title="Pilih Tanggal" id="tgl_akhir" class="form-control input-sm" name="berlaku_sampai" type="text"/>
+										<input title="Pilih Tanggal" id="tgl_akhir" class="form-control input-sm required" name="berlaku_sampai" type="text"/>
 									</div>
 								</div>
 							</div>

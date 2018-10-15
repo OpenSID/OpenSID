@@ -877,4 +877,29 @@
 		return $data;
 	}
 
+	public function nomor_surat_duplikat($url, $nomor_surat)
+	{
+		if (!$this->setting->nomor_terakhir_semua_surat)
+		{
+			// Nomor terkahir berdasarkan jenis surat
+			$id_format_surat = $this->db->select('id, nama')
+				->where('url_surat', $url)
+				->get('tweb_surat_format')
+				->row();
+			$this->db->where('id_format_surat', $id_format_surat->id);
+		}
+		$this->db->where('no_surat', $nomor_surat);
+		$data = $this->db->select('no_surat, tanggal')
+			->from('log_surat')
+			->where('YEAR(tanggal) = YEAR(CURRENT_DATE())')
+			->order_by('no_surat DESC')
+			->limit(1)
+			->get()
+			->row_array();
+		if (empty($data))
+			return false;
+		else
+			return true;
+	}
+
 }

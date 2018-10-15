@@ -173,6 +173,12 @@ class Surat extends CI_Controller {
 		header("location:".base_url(LOKASI_ARSIP.$nama_surat));
 	}
 
+	public function nomor_surat_duplikat()
+	{
+		$hasil = $this->surat_model->nomor_surat_duplikat($_POST['url'], $_POST['nomor']);
+   	echo $hasil ? 'false' : 'true';
+	}
+
 	public function search()
 	{
 		$cari = $this->input->post('nik');

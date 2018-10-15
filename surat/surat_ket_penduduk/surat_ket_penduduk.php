@@ -30,7 +30,9 @@
 								</div>
 							</div>
 						</form>
-						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<div class="row jar_form">
 								<label for="nomor" class="col-sm-3"></label>
 								<div class="col-sm-8">
