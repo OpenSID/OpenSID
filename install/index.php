@@ -69,6 +69,10 @@ if(isset($_POST['database'])){
 
 				// Write the file
 				if(fwrite($handle,$temp)) {
+					$handle = fopen($valid_file,'w+');
+					$template = 'files/valid.php';
+					$temp = file_get_contents($template);	
+					fwrite($handle,$temp);
 					$info = TRUE;
 				} else {
 					$info = FALSE;
@@ -100,44 +104,6 @@ if(isset($_POST['database'])){
 		if(!$dbDumb){
 			$error .= '<br />Could not execute queries in the file';
 		}
-	}
-}elseif(isset($_POST['config'])){
-	//Configuration
-	$info = TRUE;
-	$baseurl = $_POST['baseurl'];
-	$indexpage = $_POST['indexpage'];
-	$enckey = $_POST['enckey'];
-	if(isset($baseurl) && isset($enckey)){
-		@chmod($db_file,0777);
-		$handle = fopen($db_file,'w+');
-		if(is_writable($db_file)) {
-			//Save database information
-			$template = 'files/config.php';
-			$temp = file_get_contents($template);
-			$temp = str_replace("%BASE_URL%", $baseurl, $temp);
-			$temp = str_replace("%INDEX_PAGE%", $indexpage, $temp);
-			$temp = str_replace("%ENC_KEY%", $enckey, $temp);
-			// Write the file
-			if(fwrite($handle,$temp)) {
-				$template = 'files/valid.php';
-				$temp = file_get_contents($template);	
-				fwrite($handle,$temp);
-				$info = TRUE;
-			} else {
-				$info = FALSE;
-				$error = 'Failed to save information';
-			}
-
-		} else {
-			$info = FALSE;
-			$error = "File '$db_file' is not writable. Add write permissions (0777)";
-		}
-	}else{
-		$info = FALSE;
-		$error = 'Base URL and Encryption Key are required';
-	}
-	if($info){
-		header('Location: index.php?page=3&url='.$baseurl);
 	}
 }
 ?>
