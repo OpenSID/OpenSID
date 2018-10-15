@@ -824,11 +824,11 @@
 
 	public function get_penduduk($id=0)
 	{
-		$sql = "SELECT u.sex as id_sex,u.*,a.dusun,a.rw,a.rt,t.nama AS status,o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
-			b.nama AS pendidikan_kk,d.no_kk AS no_kk,d.alamat,
+		$sql = "SELECT u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
+			b.nama AS pendidikan_kk,d.no_kk AS no_kk, d.alamat,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id)
-			 AS umur,x.nama AS sex,w.nama AS warganegara,
-			 p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama, c.nama as cacat,
+			 AS umur, x.nama AS sex, w.nama AS warganegara,
+			 p.nama AS pekerjaan, k.nama AS kawin, g.nama AS agama, c.nama as cacat,
 			 kb.nama as cara_kb, sm.nama as sakit_menahun,
 			 sd.nama as status_dasar, u.status_dasar as status_dasar_id,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = d.nik_kepala)) AS kepala_kk,

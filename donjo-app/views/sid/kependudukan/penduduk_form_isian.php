@@ -308,12 +308,12 @@
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
-						<label for="tanggalpasport">Tgl Berakhir Paspor</label>
+						<label for="tanggal_akhir_paspor">Tgl Berakhir Paspor</label>
 						<div class="input-group input-group-sm date">
 							<div class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input class="form-control input-sm pull-right" id="tgl_2" name="dokumen_pasport" type="text" value="<?= $penduduk['dokumen_pasport']?>">
+							<input class="form-control input-sm pull-right" id="tgl_2" name="tanggal_akhir_paspor" type="text" value="<?= $penduduk['tanggal_akhir_paspor']?>">
 						</div>
 					</div>
 				</div>

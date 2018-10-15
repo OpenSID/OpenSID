@@ -17,6 +17,8 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 11. Perbaiki daftar sasaran Penduduk dan Keluarga di Input Data Sensus - Pengaturan Analisis supaya hanya menampilkan penduduk dan kepala keluarga dengan status dasar 'HIDUP'. [bug-fix]
 12. Perbaiki pilihan Penduduk dan Keluarga di form Peserta Program Bantuan supaya hanya menampilkan penduduk dan kepala keluarga dengan status dasar 'HIDUP'. [bug-fix]
 13. Perbaiki supaya tampilan Total Data di daftar Input Data Sensus - Pengaturan Analisis cocok dengan jumlah data yang ditampilkan. [bug-fix]
+14. Sekarang data Tgl Berakhir Paspor tersimpan dengan benar di form isian penduduk. [bug-fix]
+15. #1709: Sekarang Pengaturan > Database > Expor Database > Ekspor Data Keluarga mengunduh semua tanggal dalam format yyyy-mm-dd. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

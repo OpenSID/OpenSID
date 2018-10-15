@@ -34,6 +34,14 @@
 		{
 			$baris = $data[$i];
 			array_walk($baris, array($this, 'bersihkanData'));
+			if (!empty($baris['tanggallahir']))
+				$baris['tanggallahir'] = date_format(date_create($baris['tanggallahir']),"Y-m-d");
+			if (!empty($baris['tanggalperceraian']))
+				$baris['tanggalperceraian'] = date_format(date_create($baris['tanggalperceraian']),"Y-m-d");
+			if (!empty($baris['tanggalperkawinan']))
+				$baris['tanggalperkawinan'] = date_format(date_create($baris['tanggalperkawinan']),"Y-m-d");
+			if (!empty($baris['tanggal_akhir_paspor']))
+				$baris['tanggal_akhir_paspor'] = date_format(date_create($baris['tanggal_akhir_paspor']),"Y-m-d");
 			$data[$i] = $baris;
 		}
 		return $data;

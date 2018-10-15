@@ -52,8 +52,8 @@
 							<th>Nama Ibu</th>
 							<th>Gol. Darah</th>
 							<th>Akta Lahir</th>
-							<th>Nomor Dokumen Pasport</th>
-							<th>Tanggal Akhir Pasport</th>
+							<th>Nomor Dokumen Paspor</th>
+							<th>Tanggal Akhir Paspor</th>
 							<th>Nomor Dokumen KITAS</th>
 							<th>NIK Ayah</th>
 							<th>NIK Ibu</th>
