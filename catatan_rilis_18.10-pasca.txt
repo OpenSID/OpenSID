@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 14. Sekarang data Tgl Berakhir Paspor tersimpan dengan benar di form isian penduduk. [bug-fix]
 15. #1709: Sekarang Pengaturan > Database > Expor Database > Ekspor Data Keluarga mengunduh semua tanggal dalam format yyyy-mm-dd. [bug-fix]
 16. #1709: Sekarang Kependudukan > Penduduk > Pilih Aksi Lainnya > Unduh mengekspor tanggal lahir dengan format yang sama. [bug-fix]
+17. #997: Sekarang setiap form isian surat bawaan sistem mengisi nomor surat secara otomatis dan memeriksa nomor surat yang diisi belum digunakan, sebelum surat bisa dicetak.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -80,7 +80,6 @@ class Surat extends CI_Controller {
 		}
 		$this->get_data_untuk_form($url, $data);
 
-		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['form_action2'] = site_url("surat/doc/$url");
@@ -190,6 +189,7 @@ class Surat extends CI_Controller {
 
 	private function get_data_untuk_form($url, &$data)
 	{
+		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
 		$data['lokasi'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();

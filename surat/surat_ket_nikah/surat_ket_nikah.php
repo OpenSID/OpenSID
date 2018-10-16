@@ -50,21 +50,15 @@
 		}
 	}
 
-	function nomor_surat(nomor)
-	{
-		$('#nomor').val(nomor);
-		$('#nomor_main').val(nomor);
-	}
-
 	function submit_form_ambil_data_pria(asal)
 	{
 	 	$('#id_wanita').val('*'); // Hapus $id_wanita
 		$('#id_wanita_copy').val($('#id_wanita_hidden').val());
 		$('input').removeClass('required');
 		$('select').removeClass('required');
-		$('#'+'main').attr('action','')
-		$('#'+'main').attr('target','')
-		$('#'+'main').submit();
+		$('#'+'validasi').attr('action','')
+		$('#'+'validasi').attr('target','')
+		$('#'+'validasi').submit();
 	}
 
 	function submit_form_ambil_data_wanita()
@@ -134,13 +128,15 @@
 					 	</a>
 					</div>
 					<div class="box-body">
-						<form action="" id="main" name="main" method="POST" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>" onchange="nomor_surat(this.value);">
-										<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
+										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>">
+										<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
 								<?php $jenis_pasangan = "Istri"; ?>
@@ -159,7 +155,6 @@
 									<label for="pria_desa"  class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>A.1 DATA CALON PASANGAN PRIA WARGA DESA</strong></label>
 								</div>
 								<div class="form-group pria_desa" <?php if (empty($pria)): ?>style="display: none;"<?php endif; ?>>
-									<input id="nomor_main" name="nomor_main" type="hidden" value="<?= $nomor; ?>"/>
 									<input id="calon_pria" name="calon_pria" type="hidden" value=""/>
 
 									<label for="pria_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
@@ -180,11 +175,7 @@
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 								<?php	endif; ?>
 							</div>
-						</form>
-						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
 							<div class="col-md-12">
-								<input id="nomor" name="nomor" type="hidden" value="<?= $_SESSION['post']['nomor']; ?>"/>
-								<input id="id_pria_validasi" type="hidden" name="id_pria" value="<?= $_SESSION['id_pria']?>">
 								<input id="id_wanita" name="id_wanita" type="hidden" value="<?= $_SESSION['id_wanita']?>"/>
 								<?php if (empty($pria)): ?>
 									<div class="form-group pria_luar_desa" >

@@ -8,12 +8,6 @@
     $('#'+'validasi').submit();
   }
 
-  function nomor_surat(nomor)
-  {
-    $('#nomor').val(nomor);
-    // $('#nomor_main').val(nomor);
-  }
-
   function pemberi_izin(selaku)
   {
     var yang_diizinkan;
@@ -59,13 +53,6 @@
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
 							<div class="col-md-12">
-								<div class="form-group">
-									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
-									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>" onchange="nomor_surat(this.value);">
-										<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
-									</div>
-								</div>
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 text-right"><strong>PIHAK YANG MEMBERI IZIN</strong></label>
 								</div>
@@ -82,9 +69,10 @@
 								</div>
 							</div>
 						</form>
-						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<div class="col-md-12">
-								<input id="nomor" name="nomor" type="hidden" value="<?= $_SESSION['post']['nomor']; ?>"/>
 								<input id="nik_validasi" name="nik" type="hidden" value="<?= $_SESSION['post']['nik']?>">
 								<input id="id_diberi_izin_validasi" name="id_diberi_izin" type="hidden" value="<?= $_SESSION['id_diberi_izin']?>"/>
 								<?php if ($individu): ?>
@@ -99,6 +87,13 @@
 											<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['selaku']): ?>selected<?php endif; ?>><?= $data?></option>
 										<?php endforeach;?>
 										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
+									<div class="col-sm-8">
+										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>">
+										<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
 								<div class="form-group subtitle_head">

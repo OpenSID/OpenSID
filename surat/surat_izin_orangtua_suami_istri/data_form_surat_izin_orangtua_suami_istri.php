@@ -6,6 +6,7 @@
 	$data['atas_nama'] = array("An. Kepala $str_desa","Ub. Kepala $str_desa");
 	$data['nomor'] = $this->input->post('nomor_main');
 	$_SESSION['post'] = $_POST;
+	$_SESSION['post']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 
 	if ($_POST['id_diberi_izin'] != '' AND $_POST['id_diberi_izin'] !='*')
 	{
