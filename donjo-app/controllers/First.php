@@ -175,7 +175,7 @@ class First extends Web_Controller {
 				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
 				break;
 			case 2:
-				$data['surat_keluar'] = $this->keluar_model->list_data_surat($_SESSION['id']);
+				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($_SESSION['id']);
 				break;
 			case 4:
 				$this->load->model('program_bantuan_model','pb');
