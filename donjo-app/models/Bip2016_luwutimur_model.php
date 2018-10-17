@@ -8,13 +8,6 @@ class Bip2016_luwutimur_model extends Import_model {
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
 		$this->load->helper('excel');
-		$this->kode_sex = unserialize(KODE_SEX);
-		$this->kode_golongan_darah = unserialize(KODE_GOLONGAN_DARAH);
-		$this->kode_agama = unserialize(KODE_AGAMA);
-		$this->kode_status = unserialize(KODE_STATUS);
-		$this->kode_hubungan = unserialize(KODE_HUBUNGAN);
-		$this->kode_pendidikan = unserialize(KODE_PENDIDIKAN);
-		$this->kode_pekerjaan = unserialize(KODE_PEKERJAAN);
 	}
 
 	/* 	======================================================
@@ -112,18 +105,18 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
 		$data_anggota = $data_keluarga;
 		$data_anggota['nik'] = preg_replace('/[^0-9]/', '', trim($data_sheet[$i][3]));
 		$data_anggota['nama'] = trim($data_sheet[$i][4]);
-		$data_anggota['sex'] = $this->kode_sex[trim($data_sheet[$i][5])];
+		$data_anggota['sex'] = $this->get_kode($this->kode_sex, trim($data_sheet[$i][5]));
 		$data_anggota['tempatlahir'] = trim($data_sheet[$i][6]);
 		$tanggallahir = trim($data_sheet[$i][7]);
 		$data_anggota['tanggallahir'] = $this->format_tanggal($tanggallahir);
-		$data_anggota['golongan_darah_id'] = $this->kode_golongan_darah[strtolower(trim($data_sheet[$i][8]))];
+		$data_anggota['golongan_darah_id'] = $this->get_kode($this->kode_golongan_darah, strtolower(trim($data_sheet[$i][8])));
 		if (empty($data_anggota['golongan_darah_id']) OR $data_anggota['golongan_darah_id'] == '-')
 			$data_anggota['golongan_darah_id'] = 13;
-		$data_anggota['agama_id'] = $this->kode_agama[strtolower(trim($data_sheet[$i][9]))];
-		$data_anggota['status_kawin'] = $this->kode_status[strtolower(trim($data_sheet[$i][10]))];
-		$data_anggota['kk_level'] = $this->kode_hubungan[strtolower(trim($data_sheet[$i][11]))];
-		$data_anggota['pendidikan_kk_id'] = $this->kode_pendidikan[strtolower(trim($data_sheet[$i][12]))];
-		$data_anggota['pekerjaan_id'] = $this->kode_pekerjaan[strtolower(trim($data_sheet[$i][13]))];
+		$data_anggota['agama_id'] = $this->get_kode($this->kode_agama, strtolower(trim($data_sheet[$i][9])));
+		$data_anggota['status_kawin'] = $this->get_kode($this->kode_status, strtolower(trim($data_sheet[$i][10])));
+		$data_anggota['kk_level'] = $this->get_kode($this->kode_hubungan, strtolower(trim($data_sheet[$i][11])));
+		$data_anggota['pendidikan_kk_id'] = $this->get_kode($this->kode_pendidikan, strtolower(trim($data_sheet[$i][12])));
+		$data_anggota['pekerjaan_id'] = $this->get_kode($this->kode_pekerjaan, strtolower(trim($data_sheet[$i][13])));
 		$nama_ibu = trim($data_sheet[$i][14]);
 		if ($nama_ibu == "")
 		{

@@ -8,16 +8,6 @@ class Bip_ektp_model extends Import_model {
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
 		$this->load->helper('excel');
-		$this->kode_sex = unserialize(KODE_SEX);
-		$this->kode_golongan_darah = unserialize(KODE_GOLONGAN_DARAH);
-		$this->kode_agama = unserialize(KODE_AGAMA);
-		$this->kode_status = unserialize(KODE_STATUS);
-		$this->kode_hubungan = unserialize(KODE_HUBUNGAN);
-		$this->kode_pendidikan = unserialize(KODE_PENDIDIKAN);
-		$this->kode_pekerjaan = unserialize(KODE_PEKERJAAN);
-		$this->kode_wajib_ktp = unserialize(WAJIB_KTP);
-		$this->kode_ktp_el = unserialize(KTP_EL);
-		$this->kode_status_rekam = unserialize(STATUS_REKAM);
 	}
 
 	/* 	======================================================
@@ -160,16 +150,16 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
 		$data_anggota['tempatlahir'] = trim($data_sheet[$i][4]);
 		$tanggallahir = trim($data_sheet[$i][5]);
 		$data_anggota['tanggallahir'] = $this->format_tanggal($tanggallahir);
-		$data_anggota['sex'] = $this->kode_sex[trim($data_sheet[$i][6])];
-		$data_anggota['status_kawin'] = $this->kode_status[strtolower(trim($data_sheet[$i][7]))];
-		$data_anggota['golongan_darah_id'] = $this->kode_golongan_darah[strtolower(trim($data_sheet[$i][8]))];
+		$data_anggota['sex'] = $this->get_kode($this->kode_sex, trim($data_sheet[$i][6]));
+		$data_anggota['status_kawin'] = $this->get_kode($this->kode_status, strtolower(trim($data_sheet[$i][7])));
+		$data_anggota['golongan_darah_id'] = $this->get_kode($this->kode_golongan_darah, strtolower(trim($data_sheet[$i][8])));
 		if (empty($data_anggota['golongan_darah_id']) OR $data_anggota['golongan_darah_id'] == '-')
 			$data_anggota['golongan_darah_id'] = 13;
-		$data_anggota['kk_level'] = $this->kode_hubungan[strtolower(trim($data_sheet[$i][9]))];
-		$data_anggota['agama_id'] = $this->kode_agama[strtolower(trim($data_sheet[$i][10]))];
-		$data_anggota['pendidikan_kk_id'] = $this->kode_pendidikan[$this->normalkan_data($data_sheet[$i][11])];
+		$data_anggota['kk_level'] = $this->get_kode($this->kode_hubungan, strtolower(trim($data_sheet[$i][9])));
+		$data_anggota['agama_id'] = $this->get_kode($this->kode_agama, strtolower(trim($data_sheet[$i][10])));
+		$data_anggota['pendidikan_kk_id'] = $this->get_kode($this->kode_pendidikan, $this->normalkan_data($data_sheet[$i][11]));
 		$data_anggota['akta_lahir'] = trim($data_sheet[$i][12]);
-		$data_anggota['pekerjaan_id'] = $this->kode_pekerjaan[$this->normalkan_data($data_sheet[$i][13])];
+		$data_anggota['pekerjaan_id'] = $this->get_kode($this->kode_pekerjaan, $this->normalkan_data($data_sheet[$i][13]));
 		$nama_ibu = trim($data_sheet[$i][14]);
 		if ($nama_ibu == "")
 		{

@@ -45,6 +45,16 @@ class Import_model extends CI_Model {
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
 		$this->load->helper('excel');
+		$this->kode_sex = unserialize(KODE_SEX);
+		$this->kode_hubungan = unserialize(KODE_HUBUNGAN);
+		$this->kode_agama = unserialize(KODE_AGAMA);
+		$this->kode_pendidikan = unserialize(KODE_PENDIDIKAN);
+		$this->kode_pekerjaan = unserialize(KODE_PEKERJAAN);
+		$this->kode_status = unserialize(KODE_STATUS);
+		$this->kode_golongan_darah = unserialize(KODE_GOLONGAN_DARAH);
+		$this->kode_wajib_ktp = unserialize(WAJIB_KTP);
+		$this->kode_ktp_el = unserialize(KTP_EL);
+		$this->kode_status_rekam = unserialize(STATUS_REKAM);
 	}
 
 /* 	========================================================
@@ -74,12 +84,26 @@ class Import_model extends CI_Model {
 		return true;
 	}
 
+	/**
+	 * Konversi tulisan menjadi kode angka
+	 *
+	 * @access	protected
+	 * @param		array		tulisan => kode angka
+	 * @param 	string	tulisan yang akan dikonversi
+	 * @return	integer kode angka, -1 kalau tidak ada kodenya
+	 */
+	protected function get_kode($daftar_kode, $nilai)
+	{
+		if (!empty($nilai) and $nilai != '-' and !array_key_exists($nilai, $daftar_kode))
+			return -1; // kode salah
+		return $daftar_kode[$nilai];
+	}
+
 	protected function data_import_valid($isi_baris)
 	{
 		// Kolom yang harus diisi
 		if ($isi_baris['nama'] == "" OR $isi_baris['nik'] == "" OR $isi_baris['dusun'] == "" OR $isi_baris['rt'] == "" OR $isi_baris['rw'] == "")
 			return false;
-
 		// Validasi data setiap kolom ber-kode
 		if ($isi_baris['sex'] != "" AND !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return false;
 		if ($isi_baris['agama_id'] != "" AND !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return false;

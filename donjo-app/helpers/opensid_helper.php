@@ -68,6 +68,7 @@ define("KODE_HUBUNGAN", serialize(array(
 define("KODE_PENDIDIKAN", serialize(array(
 	strtolower("Tidak/Belum Sekolah") => "1",
 	strtolower("Belum Tamat SD/Sederajat") => "2",
+	strtolower("Tidak Tamat SD/Sederajat") => "2",
 	strtolower("Tamat SD/Sederajat") => "3",
 	strtolower("SLTP/Sederajat") => "4",
 	strtolower("SLTA/Sederajat") => "5",

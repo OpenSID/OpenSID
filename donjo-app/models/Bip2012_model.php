@@ -101,21 +101,15 @@ class Bip2012_model extends Import_model {
 		$data_anggota = $data_keluarga;
 		$data_anggota['nik'] = preg_replace('/[^0-9]/', '', trim($data_sheet[$i][3]));
 		$data_anggota['nama'] = trim($data_sheet[$i][4]);
-		$tmp = unserialize(KODE_SEX);
-		$data_anggota['sex'] = $tmp[trim($data_sheet[$i][5])];
+		$data_anggota['sex'] = $this->get_kode($this->kode_sex, trim($data_sheet[$i][5]));
 		$data_anggota['tempatlahir'] = trim($data_sheet[$i][6]);
 		$tanggallahir = trim($data_sheet[$i][7]);
 		$data_anggota['tanggallahir'] = $this->format_tanggal($tanggallahir);
-		$tmp = unserialize(KODE_AGAMA);
-		$data_anggota['agama_id'] = $tmp[strtolower(trim($data_sheet[$i][9]))];
-		$tmp = unserialize(KODE_STATUS);
-		$data_anggota['status_kawin'] = $tmp[strtolower(trim($data_sheet[$i][10]))];
-		$tmp = unserialize(KODE_HUBUNGAN);
-		$data_anggota['kk_level'] = $tmp[strtolower(trim($data_sheet[$i][11]))];
-		$tmp = unserialize(KODE_PENDIDIKAN);
-		$data_anggota['pendidikan_kk_id'] = $tmp[strtolower(trim($data_sheet[$i][12]))];
-		$tmp = unserialize(KODE_PEKERJAAN);
-		$data_anggota['pekerjaan_id'] = $tmp[strtolower(trim($data_sheet[$i][13]))];
+		$data_anggota['agama_id'] = $this->get_kode($this->kode_agama, strtolower(trim($data_sheet[$i][9])));
+		$data_anggota['status_kawin'] = $this->get_kode($this->kode_status, strtolower(trim($data_sheet[$i][10])));
+		$data_anggota['kk_level'] = $this->get_kode($this->kode_hubungan, strtolower(trim($data_sheet[$i][11])));
+		$data_anggota['pendidikan_kk_id'] = $this->get_kode($this->kode_pendidikan, strtolower(trim($data_sheet[$i][12])));
+		$data_anggota['pekerjaan_id'] = $this->get_kode($this->kode_pekerjaan, strtolower(trim($data_sheet[$i][13])));
 		$nama_ibu = trim($data_sheet[$i][14]);
 		if ($nama_ibu == "")
 		{

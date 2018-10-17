@@ -23,6 +23,7 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 17. #997: Sekarang setiap form isian surat bawaan sistem mengisi nomor surat secara otomatis dan memeriksa nomor surat yang diisi belum digunakan, sebelum surat bisa dicetak.
 18. Perbaiki sortir kolom daftar Arsip Layanan dan Rekaman Surat Perorangan. [bug-fix]
 19. #1418: Sekarang disediakan kode isian surat [bulan_romawi] untuk menampilkan bulan sekarang dalam angka Romawi di surat.
+20. #1715: Sekarang impor BIP menampilkan jumlah keluarga dan penduduk yang berhasil diimpor. Juga sekarang gagal impor apabila kode tulisan yang diisi salah. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
