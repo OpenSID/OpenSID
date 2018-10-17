@@ -22,10 +22,10 @@
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
 							<div class="form-group">
-								<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
+								<label for="nik"  class="col-sm-3 control-label">NIK / Nama KK</label>
 								<div class="col-sm-6 col-lg-4">
 									<select class="form-control  input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-										<option value="">--  Cari NIK / Nama Penduduk--</option>
+										<option value="">-- Cari NIK / Nama Kepala Keluarga --</option>
 										<?php foreach ($kepala_keluarga as $data): ?>
 											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 										<?php endforeach;?>
