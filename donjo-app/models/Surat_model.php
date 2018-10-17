@@ -594,6 +594,7 @@
 				"[judul_surat]" => strtoupper("surat ".$surat['nama']),
 				"[tgl_surat]" => "$tgl",
 				"[tahun]" => "$thn",
+				"[bulan_romawi]" => bulan_romawi(date("m"))
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 

@@ -588,4 +588,25 @@ function autocomplete_str($kolom, $tabel)
 	return $str;
 }
 
+function bulan_romawi($bulan)
+{
+	if ($bulan < 1 or $bulan > 12) return false;
+
+	$bulan_romawi = array(
+		1 => "I",
+		2 => "II",
+		3 => "III",
+		4 => "IV",
+		5 => "V",
+		6 => "VI",
+		7 => "VII",
+		8 => "VIII",
+		9 => "IX",
+		10 => "X",
+		11 => "XI",
+		12 => "XII"
+	);
+	return ($bulan_romawi[$bulan]);
+}
+
 ?>
