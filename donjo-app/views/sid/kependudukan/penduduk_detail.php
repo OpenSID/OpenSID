@@ -57,7 +57,7 @@
 												</tr>
 												<tr>
 													<td width="300">Nama</td><td width="1">:</td>
-													<td><?= strtoupper(unpenetration($penduduk['nama']))?></td>
+													<td><?= strtoupper($penduduk['nama'])?></td>
 												</tr>
 												<tr>
 													<td>Status Kepemilikan KTP</td><td >:</td>
@@ -161,13 +161,13 @@
 													<td>NIK Ayah</td><td >:</td><td><?= strtoupper($penduduk['ayah_nik'])?></td>
 												</tr>
 												<tr>
-													<td>Nama Ayah</td><td >:</td><td><?= strtoupper(unpenetration($penduduk['nama_ayah']))?></td>
+													<td>Nama Ayah</td><td >:</td><td><?= strtoupper($penduduk['nama_ayah'])?></td>
 												</tr>
 												<tr>
 													<td>NIK Ibu</td><td >:</td><td><?= strtoupper($penduduk['ibu_nik'])?></td>
 												</tr>
 												<tr>
-													<td>Nama Ibu</td><td >:</td><td><?= strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
+													<td>Nama Ibu</td><td >:</td><td><?= strtoupper($penduduk['nama_ibu'])?></td>
 												</tr>
 												<tr>
 													<th colspan="3" class="subtitle_head"><strong>ALAMAT</strong></th>
@@ -179,7 +179,7 @@
 													<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat'])?></td>
 												</tr>
 												<tr>
-													<td>Dusun</td><td >:</td><td><?= strtoupper(ununderscore(unpenetration($penduduk['dusun'])))?></td>
+													<td>Dusun</td><td >:</td><td><?= strtoupper(ununderscore($penduduk['dusun']))?></td>
 												</tr>
 												<tr>
 													<td>RT/ RW</td><td >:</td><td><?= strtoupper($penduduk['rt'])?> / <?= $penduduk['rw']?></td>

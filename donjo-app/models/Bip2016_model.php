@@ -124,17 +124,10 @@ class Bip2016_model extends Import_model {
 		$tmp = unserialize(KODE_PEKERJAAN);
 		$data_anggota['pekerjaan_id'] = $tmp[strtolower(trim($data_sheet[$i][10]))];
 		$nama_ibu = trim($data_sheet[$i][11]);
-		if ($nama_ibu == "")
-		{
-			$nama_ibu = "-";
-		}
-		$data_anggota['nama_ibu'] = $nama_ibu;
+		$data_anggota['nama_ibu'] = ($nama_ibu == "") ? "-" : $nama_ibu;
 		$nama_ayah = trim($data_sheet[$i][12]);
-		if($nama_ayah==""){
-			$nama_ayah = "-";
-		}
-		$data_anggota['nama_ayah'] = $nama_ayah;
-		
+		$data_anggota['nama_ayah'] = ($nama_ayah == "") ? "-" : $nama_ayah;
+
 		// Isi kolom default
 		$data_anggota['status_kawin'] = "";
 		$data_anggota['akta_lahir'] = "";
