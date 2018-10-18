@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 19. #1418: Sekarang disediakan kode isian surat [bulan_romawi] untuk menampilkan bulan sekarang dalam angka Romawi di surat.
 20. #1715: Sekarang impor BIP menampilkan jumlah keluarga dan penduduk yang berhasil diimpor. Juga sekarang gagal impor apabila kode tulisan yang diisi salah. [bug-fix]
 21. Sekarang surat permohonan/perubahan kartu keluarga lebih jelas bahwa pilihan pemohon adalah kepala keluarga.
+22. #1714: Klasifikasi surat sudah diganti menggunakan kode dari Lampiran Permendagri Nomor 78 Tahun 2012.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -72,11 +72,11 @@
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.kode'; break;
-			case 2: $order_sql = ' ORDER BY u.kode DESC'; break;
+			case 1: $order_sql = ' ORDER BY u.kode * 1'; break;
+			case 2: $order_sql = ' ORDER BY u.kode * 1 DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.nama'; break;
 			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
-			default:$order_sql = ' ORDER BY u.kode';
+			default:$order_sql = ' ORDER BY u.kode * 1';
 		}
 
 		//Paging SQL
@@ -161,6 +161,7 @@
 	*/
 	public function impor($file)
 	{
+		ini_set('auto_detect_line_endings', '1');
 		if (($handle = fopen($file, "r")) == FALSE)
 		{
 			$_SESSION['success'] = -1;
