@@ -190,9 +190,9 @@
 		  $this->dbforge->modify_column('data_persil',
 		  	array('nik' => array('name'  =>  'id_pend',	'type' => 'int', 'constraint' => 11 )));
 			$this->db->query("ALTER TABLE `data_persil` ADD INDEX `id_pend` (`id_pend`)");
-			$this->dbforge->add_column('data_persil',[
+			$this->dbforge->add_column('data_persil', array(
 	    	'CONSTRAINT `persil_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
-			]);
+			));
   	}
   	// Hapus kolom tweb_penduduk_mandiri.nik
 		if ($this->db->field_exists('nik', 'tweb_penduduk_mandiri'))
@@ -207,9 +207,9 @@
 	  $query = $this->db->query($sql);
 	  if ($query->num_rows() == 0)
 	  {
-			$this->dbforge->add_column('tweb_penduduk_mandiri',[
+			$this->dbforge->add_column('tweb_penduduk_mandiri', array(
 	    	'CONSTRAINT `id_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
-			]);
+			));
 	  }
 
   	// Tambah perubahan database di sini
@@ -323,10 +323,10 @@
 			$this->dbforge->create_table('disposisi_surat_masuk', FALSE, array('ENGINE' => $this->engine));
 
 			//menambahkan constraint kolom tabel
-			$this->dbforge->add_column('disposisi_surat_masuk',[
+			$this->dbforge->add_column('disposisi_surat_masuk', array(
 		    	'CONSTRAINT `id_surat_fk` FOREIGN KEY (`id_surat_masuk`) REFERENCES `surat_masuk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
 		    	'CONSTRAINT `desa_pamong_fk` FOREIGN KEY (`id_desa_pamong`) REFERENCES `tweb_desa_pamong` (`pamong_id`) ON DELETE CASCADE ON UPDATE CASCADE'
-			]);
+			));
 
 			if ($this->db->field_exists('disposisi_kepada', 'surat_masuk')) {
 
