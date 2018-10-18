@@ -1,164 +1,164 @@
 id,kode,nama,uraian,enabled
-1,0,UMUM,-,1
-2,1,Lambang,-,1
-3,1.1,Garuda,-,1
-4,1.2,"Bendera Kebangsaan",-,1
-5,1.3,"Lagu Kebangsaan",-,1
-6,1.4,Daerah,-,1
-7,1.31,Provinsi,-,1
-8,1.32,Kabupaten/Kota,-,1
-9,2,"Tanda Kehormatan/Penghargaan untuk pegawai ","lihat 861.1",1
-10,2.1,Bintang,-,1
-11,2.2,Satyalencana,-,1
-12,2.3,"Samkarya Nugraha",-,1
-13,2.4,Monumen,-,1
-14,2.5,"Penghargaan Secara Adat",-,1
-15,2.6,"Penghargaan lainnya",-,1
-16,3,"Hari Raya/Besar",-,1
-17,3.1,"Nasional 17 Agustus, Hari Pahlawan, dan sebagainya",-,1
-18,3.2,"Hari Raya Keagamaan",-,1
-19,3.3,"Hari Ulang Tahun",-,1
-20,3.4,"Hari-hari Besar Internasional",-,1
-21,4,Ucapan,-,1
-22,4.1,"Ucapan Terima Kasih",-,1
-23,4.2,"Ucapan Selamat",-,1
-24,4.3,"Ucapan Belasungkawa",-,1
-25,4.4,"Ucapan Lainnya",-,1
-26,5,Undangan,-,1
-27,6,"Tanda Jabatan",-,1
-28,6.1,"Pamong Praja",-,1
-29,6.2,"Tanda Pengenal",-,1
-30,6.3,"Pejabat lainnya",-,1
-31,7,-,-,1
-32,8,-,-,1
-33,9,-,-,1
-34,10,"URUSAN DALAM ","Gedung Kantor/Termasuk Instalasi Prasarana Fisik Pamong",1
-35,11,"Kantor Dinas",-,1
-36,12,"Rumah Dinas",-,1
-37,12.1,"Tanah Untuk Rumah Dinas",-,1
-38,12.2,"Perabot Rumah Dinas",-,1
-39,12.3,"Rumah Dinas Golongan 1",-,1
-40,12.4,"Rumah Dinas Golongan 2",-,1
-41,12.5,"Rumah Dinas Golongan 3",-,1
-42,12.6,"Rumah/Bangunan Lainnya",-,1
-43,12.7,"Rumah Pejabat Negara",-,1
-44,13,"Mess/Guest House",-,1
-45,14,"Rumah Susun/Apartemen",-,1
-46,15,"Penerangan Listrik/Jasa Listrik",-,1
-47,16,Telepon/Faximile/Internet,-,1
-48,17,"Keamanan/Ketertiban Kantor",-,1
-49,18,"Kebersihan Kantor",-,1
-50,19,Protokol,-,1
-51,19.1,"Upacara Bendera",-,1
-52,19.2,"Tata Tempat",-,1
-53,19.21,"Pemasangan Gambar Presiden/Wakil Presiden",-,1
-54,19.3,"Audiensi / Menghadap Pimpinan",-,1
-55,19.4,"Alamat-Alamat Kantor Pejabat",-,1
-56,19.5,Bandir/Umbul-Umbul/Spanduk,-,1
-57,20,PERALATAN,-,1
-58,20.1,Penawaran,-,1
-59,21,"Alat Tulis",-,1
-60,22,"Mesin Kantor",-,1
-61,23,"Perabot Kantor",-,1
-62,24,"Alat Angkutan",-,1
-63,25,"Pakaian Dinas",-,1
-64,26,Senjata,-,1
-65,27,Pengadaan,-,1
-66,28,Inventaris,-,1
-67,29,-,-,1
-68,30,"KEKAYAAN DAERAH",-,1
-69,31,"Sumber Daya Alam",-,1
-70,32,"Asset Daerah",-,1
-71,33,-,-,1
-72,34,-,-,1
-73,35,-,-,1
-74,36,-,-,1
-75,40,"PERPUSTAKAAN DOKUMENTASI / KEARSIPAN / SANDI",-,1
-76,41,Perpustakaan,-,1
-77,41.1,Umum,-,1
-78,41.2,Khusus,-,1
-79,41.3,"Perguruan Tinggi",-,1
-80,41.4,Sekolah,-,1
-81,41.5,Keliling,-,1
-82,42,Dokumentasi,-,1
-83,43,-,-,1
-84,44,-,-,1
-85,45,Kearsipan,-,1
-86,45.1,"Pola Klasifikasi",-,1
-87,45.2,"Penataan Berkas",-,1
-88,45.3,"Penyusutan Arsip",-,1
-89,45.31,"Jadwal Retensi Arsip",-,1
-90,45.32,"Pemindahan Arsip",-,1
-91,45.33,"Penilaian Arsip",-,1
-92,45.34,"Pemusnahan Arsip",-,1
-93,45.35,"Penyerahan Arsip",-,1
-94,45.36,"Berita Acara Penyusutan Arsip",-,1
-95,45.37,"Daftar Pencarian Arsip",-,1
-96,45.4,"Pembinaan Kearsipan",-,1
-97,45.41,"Bimbingan Teknis",-,1
-98,45.5,"Pemeliharaan /Perawatan Arsip",-,1
-99,45.6,Pengawetan/Fumigasi,-,1
-100,46,Sandi,-,1
-101,47,Website,-,1
-102,48,"Pengelolaan Data",-,1
-103,49,"Jaringan Komunikasi Data",-,1
-104,50,PERENCANAAN,-,1
-105,50.1,"Repelita/8 Sukses",-,1
-106,50.11,"Pelita Daerah",-,1
-107,50.12,"Bantuan Pembangunan Daerah",-,1
-108,50.13,Bappeda,-,1
-109,51,"Proyek Bidang Pemerintahan, ","Klasifikasikan Disini : Proyek Prasaran Fisik Pemerintahan, Tambahkan Perincian 100 Pada 051 Contoh: Proyek Kepenjaraan 051.86",1
-110,52,"Bidang Politik",-,1
-111,53,"Bidang Keamanan Dan Ketertiban","Tambahkan Perincian 300 Pada 053 Contoh: Proyek Ketataprajaan 053.311 ",1
-112,54,"Bidang Kesejahteraan Rakyat ","Tambahkan Peincian 400 pada 054 Contoh: Proyek Resettlement Desa 054.671",1
-113,55,"Bidang Perekonomian ","Tambahkan Perincian 500 Pada 055 Contoh: Proyek Pasar 055.112",1
-114,56,"Bidang Pekerjaan Umum ","Tambahkan Perincian 600 pada 056 Contoh: Proyek Jembatan 056.3",1
-115,57,"Bidang Pengawasan",-,1
-116,58,"Bidang Kepegawaian",-,1
-117,59,"Bidang Keuangan",-,1
-118,60,"ORGANISASI / KETATALAKSANAAN",-,1
-119,60.1,"Program Kerja",-,1
-120,61,"Organisasi Instansi Pemerintah (struktur organisasi)",-,1
-121,61.1,"Susunan dan Tata Kerja",-,1
-122,61.2,"Tata Tertib Kantor, Jam Kerja di Bulan Puasa",-,1
-123,62,"Organisasi Badan Non Pemerintah",-,1
-124,63,"Organisasi Badan Internasional",-,1
-125,64,"Organisasi Semi Pemerintah, BKS-AKSI",-,1
-126,65,"Ketatalaksanaan / Tata Naskah / Sistem",-,1
-127,66,"Stempel Dinas",-,1
-128,67,"Pelayanan Umum / Pelayanan Publik / Analisis",-,1
-129,68,"Komputerisasi / Siskomdagri",-,1
-130,69,"Standar Pelayanan Minimal",-,1
-131,70,PENELITIAN,-,1
-132,71,Riset,-,1
-133,72,Survey,-,1
-134,73,Kajian,-,1
-135,74,"Kerjasama Penelitian Dengan Perguruan Tinggi",-,1
-136,75,"Kementerian Lainnya",-,1
-137,76,"Non Kementerian",-,1
-138,77,Provinsi,-,1
-139,78,Kabupaten/Kota,-,1
-140,79,"Kecamatan /Desa",-,1
-141,80,"KONFERENSI / RAPAT / SEMINAR",-,1
-142,81,Gubernur,-,1
-143,82,"Bupati / Walikota",-,1
-144,83,"Komponen, Eselon Lainnya",-,1
-145,84,"Instansi Lainnya",-,1
-146,85,"Internasional Di Dalam Negeri",-,1
-147,86,"Internasional Di Luar Negeri",-,1
-148,87,-,-,1
-149,88,-,-,1
-150,89,-,-,1
-151,90,"PERJALANAN DINAS",-,1
-152,91,"Perjalanan Presiden/Wakil Presiden Ke Daerah",-,1
-153,92,"Perjalanan Menteri Ke Daerah",-,1
-154,93,"Perjalanan Pejabat Tinggi (Pejabat Eselon 1)",-,1
-155,94,"Perjalanan Pegawai Termasuk Pemanggilan Pegawai",-,1
-156,95,"Perjalanan Tamu Asing Ke Daerah",-,1
-157,96,"Perjalanan Presiden/Wakil Presiden Ke Luar Negeri",-,1
-158,97,"Perjalanan Menteri Ke Luar Negeri",-,1
-159,98,"Perjalanan Pejabat Tinggi Ke Luar Negeri",-,1
-160,99,"Perjalanan Pegawai ke Luar Negeri",-,1
+1,000,UMUM,-,1
+2,001,Lambang,-,1
+3,001.1,Garuda,-,1
+4,001.2,"Bendera Kebangsaan",-,1
+5,001.3,"Lagu Kebangsaan",-,1
+6,001.4,Daerah,-,1
+7,001.31,Provinsi,-,1
+8,001.32,Kabupaten/Kota,-,1
+9,002,"Tanda Kehormatan/Penghargaan untuk pegawai ","lihat 861.1",1
+10,002.1,Bintang,-,1
+11,002.2,Satyalencana,-,1
+12,002.3,"Samkarya Nugraha",-,1
+13,002.4,Monumen,-,1
+14,002.5,"Penghargaan Secara Adat",-,1
+15,002.6,"Penghargaan lainnya",-,1
+16,003,"Hari Raya/Besar",-,1
+17,003.1,"Nasional 17 Agustus, Hari Pahlawan, dan sebagainya",-,1
+18,003.2,"Hari Raya Keagamaan",-,1
+19,003.3,"Hari Ulang Tahun",-,1
+20,003.4,"Hari-hari Besar Internasional",-,1
+21,004,Ucapan,-,1
+22,004.1,"Ucapan Terima Kasih",-,1
+23,004.2,"Ucapan Selamat",-,1
+24,004.3,"Ucapan Belasungkawa",-,1
+25,004.4,"Ucapan Lainnya",-,1
+26,005,Undangan,-,1
+27,006,"Tanda Jabatan",-,1
+28,006.1,"Pamong Praja",-,1
+29,006.2,"Tanda Pengenal",-,1
+30,006.3,"Pejabat lainnya",-,1
+31,007,-,-,1
+32,008,-,-,1
+33,009,-,-,1
+34,010,"URUSAN DALAM ","Gedung Kantor/Termasuk Instalasi Prasarana Fisik Pamong",1
+35,011,"Kantor Dinas",-,1
+36,012,"Rumah Dinas",-,1
+37,012.1,"Tanah Untuk Rumah Dinas",-,1
+38,012.2,"Perabot Rumah Dinas",-,1
+39,012.3,"Rumah Dinas Golongan 1",-,1
+40,012.4,"Rumah Dinas Golongan 2",-,1
+41,012.5,"Rumah Dinas Golongan 3",-,1
+42,012.6,"Rumah/Bangunan Lainnya",-,1
+43,012.7,"Rumah Pejabat Negara",-,1
+44,013,"Mess/Guest House",-,1
+45,014,"Rumah Susun/Apartemen",-,1
+46,015,"Penerangan Listrik/Jasa Listrik",-,1
+47,016,Telepon/Faximile/Internet,-,1
+48,017,"Keamanan/Ketertiban Kantor",-,1
+49,018,"Kebersihan Kantor",-,1
+50,019,Protokol,-,1
+51,019.1,"Upacara Bendera",-,1
+52,019.2,"Tata Tempat",-,1
+53,019.21,"Pemasangan Gambar Presiden/Wakil Presiden",-,1
+54,019.3,"Audiensi / Menghadap Pimpinan",-,1
+55,019.4,"Alamat-Alamat Kantor Pejabat",-,1
+56,019.5,Bandir/Umbul-Umbul/Spanduk,-,1
+57,020,PERALATAN,-,1
+58,020.1,Penawaran,-,1
+59,021,"Alat Tulis",-,1
+60,022,"Mesin Kantor",-,1
+61,023,"Perabot Kantor",-,1
+62,024,"Alat Angkutan",-,1
+63,025,"Pakaian Dinas",-,1
+64,026,Senjata,-,1
+65,027,Pengadaan,-,1
+66,028,Inventaris,-,1
+67,029,-,-,1
+68,030,"KEKAYAAN DAERAH",-,1
+69,031,"Sumber Daya Alam",-,1
+70,032,"Asset Daerah",-,1
+71,033,-,-,1
+72,034,-,-,1
+73,035,-,-,1
+74,036,-,-,1
+75,040,"PERPUSTAKAAN DOKUMENTASI / KEARSIPAN / SANDI",-,1
+76,041,Perpustakaan,-,1
+77,041.1,Umum,-,1
+78,041.2,Khusus,-,1
+79,041.3,"Perguruan Tinggi",-,1
+80,041.4,Sekolah,-,1
+81,041.5,Keliling,-,1
+82,042,Dokumentasi,-,1
+83,043,-,-,1
+84,044,-,-,1
+85,045,Kearsipan,-,1
+86,045.1,"Pola Klasifikasi",-,1
+87,045.2,"Penataan Berkas",-,1
+88,045.3,"Penyusutan Arsip",-,1
+89,045.31,"Jadwal Retensi Arsip",-,1
+90,045.32,"Pemindahan Arsip",-,1
+91,045.33,"Penilaian Arsip",-,1
+92,045.34,"Pemusnahan Arsip",-,1
+93,045.35,"Penyerahan Arsip",-,1
+94,045.36,"Berita Acara Penyusutan Arsip",-,1
+95,045.37,"Daftar Pencarian Arsip",-,1
+96,045.4,"Pembinaan Kearsipan",-,1
+97,045.41,"Bimbingan Teknis",-,1
+98,045.5,"Pemeliharaan /Perawatan Arsip",-,1
+99,045.6,Pengawetan/Fumigasi,-,1
+100,046,Sandi,-,1
+101,047,Website,-,1
+102,048,"Pengelolaan Data",-,1
+103,049,"Jaringan Komunikasi Data",-,1
+104,050,PERENCANAAN,-,1
+105,050.1,"Repelita/8 Sukses",-,1
+106,050.11,"Pelita Daerah",-,1
+107,050.12,"Bantuan Pembangunan Daerah",-,1
+108,050.13,Bappeda,-,1
+109,051,"Proyek Bidang Pemerintahan, ","Klasifikasikan Disini : Proyek Prasaran Fisik Pemerintahan, Tambahkan Perincian 100 Pada 051 Contoh: Proyek Kepenjaraan 051.86",1
+110,052,"Bidang Politik",-,1
+111,053,"Bidang Keamanan Dan Ketertiban","Tambahkan Perincian 300 Pada 053 Contoh: Proyek Ketataprajaan 053.311 ",1
+112,054,"Bidang Kesejahteraan Rakyat ","Tambahkan Peincian 400 pada 054 Contoh: Proyek Resettlement Desa 054.671",1
+113,055,"Bidang Perekonomian ","Tambahkan Perincian 500 Pada 055 Contoh: Proyek Pasar 055.112",1
+114,056,"Bidang Pekerjaan Umum ","Tambahkan Perincian 600 pada 056 Contoh: Proyek Jembatan 056.3",1
+115,057,"Bidang Pengawasan",-,1
+116,058,"Bidang Kepegawaian",-,1
+117,059,"Bidang Keuangan",-,1
+118,060,"ORGANISASI / KETATALAKSANAAN",-,1
+119,060.1,"Program Kerja",-,1
+120,061,"Organisasi Instansi Pemerintah (struktur organisasi)",-,1
+121,061.1,"Susunan dan Tata Kerja",-,1
+122,061.2,"Tata Tertib Kantor, Jam Kerja di Bulan Puasa",-,1
+123,062,"Organisasi Badan Non Pemerintah",-,1
+124,063,"Organisasi Badan Internasional",-,1
+125,064,"Organisasi Semi Pemerintah, BKS-AKSI",-,1
+126,065,"Ketatalaksanaan / Tata Naskah / Sistem",-,1
+127,066,"Stempel Dinas",-,1
+128,067,"Pelayanan Umum / Pelayanan Publik / Analisis",-,1
+129,068,"Komputerisasi / Siskomdagri",-,1
+130,069,"Standar Pelayanan Minimal",-,1
+131,070,PENELITIAN,-,1
+132,071,Riset,-,1
+133,072,Survey,-,1
+134,073,Kajian,-,1
+135,074,"Kerjasama Penelitian Dengan Perguruan Tinggi",-,1
+136,075,"Kementerian Lainnya",-,1
+137,076,"Non Kementerian",-,1
+138,077,Provinsi,-,1
+139,078,Kabupaten/Kota,-,1
+140,079,"Kecamatan /Desa",-,1
+141,080,"KONFERENSI / RAPAT / SEMINAR",-,1
+142,081,Gubernur,-,1
+143,082,"Bupati / Walikota",-,1
+144,083,"Komponen, Eselon Lainnya",-,1
+145,084,"Instansi Lainnya",-,1
+146,085,"Internasional Di Dalam Negeri",-,1
+147,086,"Internasional Di Luar Negeri",-,1
+148,087,-,-,1
+149,088,-,-,1
+150,089,-,-,1
+151,090,"PERJALANAN DINAS",-,1
+152,091,"Perjalanan Presiden/Wakil Presiden Ke Daerah",-,1
+153,092,"Perjalanan Menteri Ke Daerah",-,1
+154,093,"Perjalanan Pejabat Tinggi (Pejabat Eselon 1)",-,1
+155,094,"Perjalanan Pegawai Termasuk Pemanggilan Pegawai",-,1
+156,095,"Perjalanan Tamu Asing Ke Daerah",-,1
+157,096,"Perjalanan Presiden/Wakil Presiden Ke Luar Negeri",-,1
+158,097,"Perjalanan Menteri Ke Luar Negeri",-,1
+159,098,"Perjalanan Pejabat Tinggi Ke Luar Negeri",-,1
+160,099,"Perjalanan Pegawai ke Luar Negeri",-,1
 161,100,PEMERINTAHAN,"Meliputi: Tata Praja, Legislatif, Yudikatif, Hubungan luar",1
 162,101,negeri,-,1
 163,102,GDN,-,1
