@@ -1,30 +1,22 @@
-<?php class Laporan_penduduk_model extends CI_Model{
+<?php class Laporan_penduduk_model extends CI_Model {
 
-	function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load->model('program_bantuan_model');
 	}
 
-
-	function autocomplete(){
-		$sql   = "SELECT dusun_nama FROM tweb_wil_dusun";
-		$query = $this->db->query($sql);
-		$data  = $query->result_array();
-
-		$i=0;
-		$outp='';
-		while($i<count($data)){
-			$outp .= ",'" .$data[$i]['dusun_nama']. "'";
-			$i++;
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
+	public function autocomplete()
+	{
+		$str = autocomplete_str('dusun_nama', 'dusun_nama');
+		return $str;
 	}
 
-	function search_sql(){
-		if(isset($_SESSION['cari'])){
-		$cari = $_SESSION['cari'];
+	public function search_sql()
+	{
+		if (isset($_SESSION['cari']))
+		{
+			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND u.nama LIKE '$kw'";
@@ -32,43 +24,48 @@
 			}
 		}
 
-	function link_statistik_penduduk(){
+	public function link_statistik_penduduk()
+	{
 		$statistik = array(
-			"statistik/3" => "Agama",
-			"statistik/17"=> "Akte Kelahiran",
-			"statistik/16"=> "Akseptor KB",
-			"statistik/9" => "Cacat",
-			"statistik/7" => "Golongan Darah",
-			"statistik/4" => "Jenis Kelamin",
-			"statistik/0" => "Pendidikan Dalam KK",
-			"statistik/14"=> "Pendidikan Sedang Ditempuh",
-			"statistik/1" => "Pekerjaan",
-			"statistik/6" => "Status Penduduk",
-			"statistik/2" => "Status Perkawinan",
-			"statistik/13"=> "Umur",
-			"statistik/18"=> "Kepemilikan Wajib KTP",
-			"statistik/5" => "Warga Negara"
+			"statistik/3"  => "Agama",
+			"statistik/17" => "Akte Kelahiran",
+			"statistik/16" => "Akseptor KB",
+			"statistik/9"  => "Cacat",
+			"statistik/7"  => "Golongan Darah",
+			"statistik/4"  => "Jenis Kelamin",
+			"statistik/0"  => "Pendidikan Dalam KK",
+			"statistik/14" => "Pendidikan Sedang Ditempuh",
+			"statistik/1"  => "Pekerjaan",
+			"statistik/6"  => "Status Penduduk",
+			"statistik/2"  => "Status Perkawinan",
+			"statistik/13" => "Umur",
+			"statistik/18" => "Kepemilikan Wajib KTP",
+			"statistik/5"  => "Warga Negara"
 		);
 		return $statistik;
 	}
 
-	function link_statistik_keluarga(){
+	public function link_statistik_keluarga()
+	{
 		$statistik = array(
 			"statistik/kelas_sosial" => "Kelas Sosial"
 		);
 		return $statistik;
 	}
 
-	function link_statistik_lainnya(){
+	public function link_statistik_lainnya()
+	{
 		$statistik = array(
 			"wilayah" => "Wilayah Administratif"
 		);
 		return $statistik;
 	}
 
-	function judul_statistik($lap){
+	public function judul_statistik($lap)
+	{
 		// Program bantuan berbentuk '50<program_id>'
-		if ($lap > 50) {
+		if ($lap > 50)
+		{
 			$program_id = preg_replace("/^50/", "", $lap);
 			$this->db->select("nama");
 			$this->db->where('id', $program_id);
@@ -77,7 +74,8 @@
 			return $program['nama'];
 		}
 
-		switch("$lap"){
+		switch ("$lap")
+		{
 			case "kelas_sosial": return "Klasifikasi Sosial"; break;
 			case "0": return "Pendidikan Dalam KK"; break;
 			case "1": return "Pekerjaan"; break;
@@ -101,25 +99,31 @@
 		}
 	}
 
-	function jenis_laporan($lap) {
+	public function jenis_laporan($lap)
+	{
 		$jenis_laporan = "penduduk";
-		if ($lap>50) {
+		if ($lap>50)
+		{
 			// Untuk program bantuan, $lap berbentuk '50<program_id>'
 			$program_id = preg_replace('/^50/', '', $lap);
 			$program = $this->program_bantuan_model->get_sasaran($program_id);
 			// Hanya sasaran=1 yang sasarannya penduduk, yang lain keluarga atau kelompok
 			if ($program['sasaran'] != 1) $jenis_laporan = "keluarga_kelompok";
-		} elseif ($lap>20) {
+		}
+		elseif ($lap>20)
+		{
 			$jenis_laporan = "keluarga_kelompok";
 		}
 		return $jenis_laporan;
 	}
 
 	// $lap berbentuk '50<program_id>'
-	function statistik_program_bantuan($lap=0){
+	public function statistik_program_bantuan($lap=0)
+	{
 		$program_id = preg_replace('/^50/', '', $lap);
 		$program = $this->program_bantuan_model->get_sasaran($program_id);
-		switch ($program['sasaran']) {
+		switch ($program['sasaran'])
+		{
 			case 1:
 				# Data penduduk
 				$sql = "SELECT
@@ -188,94 +192,93 @@
 
 		// Peserta
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
-		$data[0]['no']=1;
-		$data[0]['nama']="PESERTA";
+		$data = $query->result_array();
+		$data[0]['no'] = 1;
+		$data[0]['nama'] ="PESERTA";
 
 		// Total sasaran
 		$query_sasaran = $this->db->query($sql_sasaran);
 		$bel = $query_sasaran->row_array();
 
 		// Yang tidak terdaftar
-		$data[1]['no']=2;
-		$data[1]['id']="";
-		$data[1]['nama']="BUKAN PESERTA";
-		$data[1]['jumlah']=$bel['jumlah']-$data[0]['jumlah'];
-		$data[1]['perempuan']=$bel['perempuan']-$data[0]['perempuan'];
-		$data[1]['laki']=$bel['laki']-$data[0]['laki'];
+		$data[1]['no'] = 2;
+		$data[1]['id'] = "";
+		$data[1]['nama'] = "BUKAN PESERTA";
+		$data[1]['jumlah'] = $bel['jumlah'] - $data[0]['jumlah'];
+		$data[1]['perempuan'] = $bel['perempuan'] - $data[0]['perempuan'];
+		$data[1]['laki'] = $bel['laki'] - $data[0]['laki'];
 
-		$total['jumlah']=0;
-		$total['laki']=0;
-		$total['perempuan']=0;
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['no']=$i+1;
-			$total['jumlah']+=$data[$i]['jumlah'];
-			$total['laki']+=$data[$i]['laki'];
-			$total['perempuan']+=$data[$i]['perempuan'];
-			$i++;
+		$total['jumlah'] = 0;
+		$total['laki'] = 0;
+		$total['perempuan'] = 0;
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no'] = $i + 1;
+			$total['jumlah'] += $data[$i]['jumlah'];
+			$total['laki'] += $data[$i]['laki'];
+			$total['perempuan'] += $data[$i]['perempuan'];
 		}
 
-		$data[$i]['no']="";
-		$data[$i]['id']=JUMLAH;
-		$data[$i]['nama']="JUMLAH";
-		$data[$i]['jumlah']=$total['jumlah'];
-		$data[$i]['perempuan']=$total['perempuan'];
-		$data[$i]['laki']=$total['laki'];
+		$data[$i]['no'] = "";
+		$data[$i]['id'] = JUMLAH;
+		$data[$i]['nama'] = "JUMLAH";
+		$data[$i]['jumlah'] = $total['jumlah'];
+		$data[$i]['perempuan'] = $total['perempuan'];
+		$data[$i]['laki'] = $total['laki'];
 
 		$i++;
-		$data[$i]['no']="";
-		$data[$i]['id']=BELUM_MENGISI;
-		$data[$i]['nama']="BELUM MENGISI";
-		$data[$i]['jumlah']=$bel['jumlah']-$total['jumlah'];
-		$data[$i]['perempuan']=$bel['perempuan']-$total['perempuan'];
-		$data[$i]['laki']=$bel['laki']-$total['laki'];
+		$data[$i]['no'] = "";
+		$data[$i]['id'] = BELUM_MENGISI;
+		$data[$i]['nama'] = "BELUM MENGISI";
+		$data[$i]['jumlah'] = $bel['jumlah'] - $total['jumlah'];
+		$data[$i]['perempuan'] = $bel['perempuan'] - $total['perempuan'];
+		$data[$i]['laki'] = $bel['laki'] - $total['laki'];
 
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['persen']=$data[$i]['jumlah']/$bel['jumlah']*100;
-			$data[$i]['persen']=number_format((float)$data[$i]['persen'], 2, '.', '');
-			$data[$i]['persen']=$data[$i]['persen']."%";
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['persen'] = $data[$i]['jumlah']/$bel['jumlah']*100;
+			$data[$i]['persen'] = number_format((float)$data[$i]['persen'], 2, '.', '');
+			$data[$i]['persen'] = $data[$i]['persen']."%";
 
-			$data[$i]['persen1']=$data[$i]['laki']/$bel['jumlah']*100;
-			$data[$i]['persen1']=number_format((float)$data[$i]['persen1'], 2, '.', '');
-			$data[$i]['persen1']=$data[$i]['persen1']."%";
+			$data[$i]['persen1'] = $data[$i]['laki']/$bel['jumlah']*100;
+			$data[$i]['persen1'] = number_format((float)$data[$i]['persen1'], 2, '.', '');
+			$data[$i]['persen1'] = $data[$i]['persen1']."%";
 
-			$data[$i]['persen2']=$data[$i]['perempuan']/$bel['jumlah']*100;
-			$data[$i]['persen2']=number_format((float)$data[$i]['persen2'], 2, '.', '');
-			$data[$i]['persen2']=$data[$i]['persen2']."%";
-
-
-			$i++;
+			$data[$i]['persen2'] = $data[$i]['perempuan']/$bel['jumlah']*100;
+			$data[$i]['persen2'] = number_format((float)$data[$i]['persen2'], 2, '.', '');
+			$data[$i]['persen2'] = $data[$i]['persen2']."%";
 		}
 
-		$bel['no']="";
-		$bel['id']="";
-		$bel['nama']="TOTAL";
-		$bel['persen']="100%";
+		$bel['no'] = "";
+		$bel['id'] = "";
+		$bel['nama'] = "TOTAL";
+		$bel['persen'] = "100%";
 
-		$bel['persen1']=$bel['laki']/$bel['jumlah']*100;
-		$bel['persen1']=number_format((float)$bel['persen1'], 2, '.', '');
-		$bel['persen1']=$bel['persen1']."%";
+		$bel['persen1'] = $bel['laki']/$bel['jumlah']*100;
+		$bel['persen1'] = number_format((float)$bel['persen1'], 2, '.', '');
+		$bel['persen1'] = $bel['persen1']."%";
 
-		$bel['persen2']=$bel['perempuan']/$bel['jumlah']*100;
-		$bel['persen2']=number_format((float)$bel['persen2'], 2, '.', '');
-		$bel['persen2']=$bel['persen2']."%";
+		$bel['persen2'] = $bel['perempuan']/$bel['jumlah']*100;
+		$bel['persen2'] = number_format((float)$bel['persen2'], 2, '.', '');
+		$bel['persen2'] = $bel['persen2']."%";
 
-		$data['total']=$bel;
+		$data['total'] = $bel;
 
 		return $data;
 
 	}
 
-	function list_data($lap=0,$o=0){
+	public function list_data($lap=0, $o=0)
+	{
 		// Laporan program bantuan
-		if ($lap > 50) {
+		if ($lap > 50)
+		{
 			return $this->statistik_program_bantuan($lap, $o);
 		}
 
 		//Ordering SQL
-		switch($o){
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY u.id'; break;
 			case 2: $order_sql = ' ORDER BY u.id DESC'; break;
 			case 3: $order_sql = ' ORDER BY laki'; break;
@@ -286,7 +289,8 @@
 			case 8: $order_sql = ' ORDER BY perempuan DESC'; break;
 			default:$order_sql = '';
 		}
-		switch("$lap"){
+		switch ("$lap")
+		{
 			//Bagian Keluarga
 			case 'kelas_sosial': $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 1) AS laki,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 2) AS perempuan FROM tweb_keluarga_sejahtera u"; break;
 			case "21": $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM klasifikasi_analisis_keluarga u WHERE jenis='1'"; break;
@@ -346,19 +350,23 @@
 
 		$sql .= $order_sql;
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 
 		//Formating Output
-		if ($lap==18){
+		if ($lap == 18)
+		{
 			$sql3 = "SELECT (SELECT COUNT(p.id) FROM tweb_penduduk p WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND p.status_dasar=1) AS jumlah,
 			(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND p.sex = 1 and status_dasar=1) AS laki,
 			(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND p.sex = 2 and status_dasar=1) AS perempuan";
 		}
-		elseif($lap<=20 AND "$lap" <> 'kelas_sosial'){
+		elseif ($lap<=20 AND "$lap" <> 'kelas_sosial')
+		{
 			$sql3 = "SELECT (SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.status_dasar=1) AS jumlah,
 			(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.sex = 1 and status_dasar=1) AS laki,
 			(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.sex = 2 and status_dasar=1) AS perempuan";
-		}else{
+		}
+		else
+		{
 			$sql3 = "SELECT (SELECT COUNT(k.id) FROM tweb_keluarga k WHERE 1) AS jumlah,
 			(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE p.sex = 1) AS laki,
 			(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE p.sex = 2) AS perempuan";
@@ -367,152 +375,145 @@
 		$query3 = $this->db->query($sql3);
 		$bel = $query3->row_array();
 
-		$total['jumlah']=0;
-		$bel['no']="";
-		$bel['id']="";
-		$bel['nama']="TOTAL";
-		$total['laki']=0;
-		$total['perempuan']=0;
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['no']=$i+1;
-
-			//if($data[$i]['jumlah']<1)
-			//	$data[$i]['jumlah']="-";
-			//else
-				$total['jumlah']+=$data[$i]['jumlah'];
-
-			//if($data[$i]['laki']<1)
-			//	$data[$i]['laki']="-";
-			//else
-				$total['laki']+=$data[$i]['laki'];
-
-			//if($data[$i]['perempuan']<1)
-			//	$data[$i]['perempuan']="-";
-			//else
-				$total['perempuan']+=$data[$i]['perempuan'];
-
-			$i++;
+		$total['jumlah'] = 0;
+		$bel['no'] = "";
+		$bel['id'] = "";
+		$bel['nama'] = "TOTAL";
+		$total['laki'] = 0;
+		$total['perempuan'] = 0;
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no'] = $i + 1;
+			$total['jumlah'] += $data[$i]['jumlah'];
+			$total['laki'] += $data[$i]['laki'];
+			$total['perempuan'] += $data[$i]['perempuan'];
 		}
 
-		$data[$i]['no']="";
-		$data[$i]['id']=JUMLAH;
-		$data[$i]['nama']="JUMLAH";
-		$data[$i]['jumlah']=$total['jumlah'];
-		$data[$i]['perempuan']=$total['perempuan'];
-		$data[$i]['laki']=$total['laki'];
+		$data[$i]['no'] = "";
+		$data[$i]['id'] = JUMLAH;
+		$data[$i]['nama'] = "JUMLAH";
+		$data[$i]['jumlah'] = $total['jumlah'];
+		$data[$i]['perempuan'] = $total['perempuan'];
+		$data[$i]['laki'] = $total['laki'];
 
 		$i++;
-		$data[$i]['no']="";
-		$data[$i]['id']=BELUM_MENGISI;
-		$data[$i]['nama']="BELUM MENGISI";
-		$data[$i]['jumlah']=$bel['jumlah']-$total['jumlah'];
-		$data[$i]['perempuan']=$bel['perempuan']-$total['perempuan'];
-		$data[$i]['laki']=$bel['laki']-$total['laki'];
+		$data[$i]['no'] = "";
+		$data[$i]['id'] = BELUM_MENGISI;
+		$data[$i]['nama'] = "BELUM MENGISI";
+		$data[$i]['jumlah'] = $bel['jumlah'] - $total['jumlah'];
+		$data[$i]['perempuan'] = $bel['perempuan'] - $total['perempuan'];
+		$data[$i]['laki'] = $bel['laki'] - $total['laki'];
 
-		$i=0;
-		while($i<count($data)){
-			$data[$i]['persen']=$data[$i]['jumlah']/$bel['jumlah']*100;
-			$data[$i]['persen']=number_format((float)$data[$i]['persen'], 2, '.', '');
-			$data[$i]['persen']=$data[$i]['persen']."%";
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['persen'] = $data[$i]['jumlah']/$bel['jumlah']*100;
+			$data[$i]['persen'] = number_format((float)$data[$i]['persen'], 2, '.', '');
+			$data[$i]['persen'] = $data[$i]['persen']."%";
 
-			$data[$i]['persen1']=$data[$i]['laki']/$bel['jumlah']*100;
-			$data[$i]['persen1']=number_format((float)$data[$i]['persen1'], 2, '.', '');
-			$data[$i]['persen1']=$data[$i]['persen1']."%";
+			$data[$i]['persen1'] = $data[$i]['laki']/$bel['jumlah']*100;
+			$data[$i]['persen1'] = number_format((float)$data[$i]['persen1'], 2, '.', '');
+			$data[$i]['persen1'] = $data[$i]['persen1']."%";
 
-			$data[$i]['persen2']=$data[$i]['perempuan']/$bel['jumlah']*100;
-			$data[$i]['persen2']=number_format((float)$data[$i]['persen2'], 2, '.', '');
-			$data[$i]['persen2']=$data[$i]['persen2']."%";
-
-
-			$i++;
+			$data[$i]['persen2'] = $data[$i]['perempuan']/$bel['jumlah']*100;
+			$data[$i]['persen2'] = number_format((float)$data[$i]['persen2'], 2, '.', '');
+			$data[$i]['persen2'] = $data[$i]['persen2']."%";
 		}
 
-			$bel['persen']="100%";
+		$bel['persen'] = "100%";
 
-			$bel['persen1']=$bel['laki']/$bel['jumlah']*100;
-			$bel['persen1']=number_format((float)$bel['persen1'], 2, '.', '');
-			$bel['persen1']=$bel['persen1']."%";
+		$bel['persen1'] = $bel['laki']/$bel['jumlah']*100;
+		$bel['persen1'] = number_format((float)$bel['persen1'], 2, '.', '');
+		$bel['persen1'] = $bel['persen1']."%";
 
-			$bel['persen2']=$bel['perempuan']/$bel['jumlah']*100;
-			$bel['persen2']=number_format((float)$bel['persen2'], 2, '.', '');
-			$bel['persen2']=$bel['persen2']."%";
+ 		$bel['persen2'] = $bel['perempuan']/$bel['jumlah']*100;
+		$bel['persen2'] = number_format((float)$bel['persen2'], 2, '.', '');
+		$bel['persen2'] = $bel['persen2']."%";
 
-		$data['total']=$bel;
+		$data['total'] = $bel;
 		return $data;
 	}
 
-	function get_config(){
-		$sql   = "SELECT * FROM config WHERE 1";
+	public function get_config()
+	{
+		$sql = "SELECT * FROM config WHERE 1";
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
 		return $data;
 	}
 
-	function list_data_rentang(){
-		$query = $this->db->where('status',1)->order_by('dari')->get('tweb_penduduk_umur');
+	public function list_data_rentang()
+	{
+		$query = $this->db->where('status', 1)->order_by('dari')->get('tweb_penduduk_umur');
 		$data = $query->result_array();
 		return $data;
 	}
 
-	function get_rentang($id=0){
-		$sql   = "SELECT * FROM tweb_penduduk_umur WHERE id= $id ";
+	public function get_rentang($id=0)
+	{
+		$sql = "SELECT * FROM tweb_penduduk_umur WHERE id = $id ";
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
 		return $data;
 	}
 
-	function get_rentang_terakhir(){
-		$sql   = "SELECT (case when max(sampai) is null then '0' else (max(sampai)+1) end) as dari FROM tweb_penduduk_umur WHERE status=1 ";
+	public function get_rentang_terakhir()
+	{
+		$sql = "SELECT (case when max(sampai) is null then '0' else (max(sampai)+1) end) as dari FROM tweb_penduduk_umur WHERE status = 1 ";
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
 		return $data;
 	}
 
-	function insert_rentang(){
+	public function insert_rentang()
+	{
 		$data = $_POST;
-		$data['status']=1;
+		$data['status'] = 1;
 		if ($data['sampai'] != '99999')
 			$data['nama'] = $data['dari'].' s/d '.$data['sampai'].' Tahun';
 		else
 			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
-		$outp = $this->db->insert('tweb_penduduk_umur',$data);
+		$outp = $this->db->insert('tweb_penduduk_umur', $data);
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
-	function update_rentang($id=0){
+	public function update_rentang($id=0)
+	{
 		$data = $_POST;
 		if ($data['sampai'] != '99999')
 			$data['nama'] = $data['dari'].' s/d '.$data['sampai'].' Tahun';
 		else
 			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
 		$outp = $this->db->where('id',$id)->update('tweb_penduduk_umur', $data);
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
-	function delete_rentang($id=0){
-		$sql   = "DELETE FROM tweb_penduduk_umur WHERE id='$id' ";
-		$outp=$this->db->query($sql);
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+	public function delete_rentang($id=0)
+	{
+		$sql = "DELETE FROM tweb_penduduk_umur WHERE id = '$id' ";
+		$outp = $this->db->query($sql);
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
-	function delete_all_rentang(){
+	public function delete_all_rentang()
+	{
 		$id_cb = $_POST['id_cb'];
 
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$sql  = "DELETE FROM tweb_penduduk_umur WHERE id=?";
-				$outp = $this->db->query($sql,array($id));
+		if (count($id_cb))
+		{
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM tweb_penduduk_umur WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
 			}
 		}
 		else $outp = false;
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 }

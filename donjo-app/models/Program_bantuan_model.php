@@ -12,12 +12,12 @@ class Program_bantuan_model extends CI_Model {
 	{
 		if ($sasaran > 0)
 		{
-			$strSQL = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status
+			$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status
 				FROM program p WHERE p.sasaran=".$sasaran;
 		}
 		else
 		{
-			$strSQL = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status, CONCAT('50',p.id) as lap
+			$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, CONCAT('50',p.id) as lap
 				FROM program p WHERE 1";
 		}
 		$query = $this->db->query($strSQL);
@@ -48,7 +48,7 @@ class Program_bantuan_model extends CI_Model {
 		$no_kk = $this->keluarga_model->get_nokk($kk_id);
 		$sasaran = 2;
 		$strSQL = "
-			SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status, CONCAT('50',p.id) as lap, pp.peserta
+			SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, CONCAT('50',p.id) as lap, pp.peserta
 			FROM program p
 			LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = '$no_kk'
 			WHERE p.sasaran = $sasaran";
@@ -100,11 +100,11 @@ class Program_bantuan_model extends CI_Model {
 		{
 			case 1:
 				# Data penduduk
-				$sql   = "SELECT u.id AS id,u.nama AS nama,x.nama AS sex,u.id_kk AS id_kk,
-				u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,
+				$sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
+				u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
 				(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 				from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-				w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,
+				w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
 				(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
 				from tweb_penduduk u
 				left join tweb_penduduk_sex x on u.sex = x.id
@@ -127,7 +127,7 @@ class Program_bantuan_model extends CI_Model {
 				break;
 			case 3:
 				# Data RTM
-				$data = $this->rtm_model->get_kepala_rtm($peserta_id,true);
+				$data = $this->rtm_model->get_kepala_rtm($peserta_id, true);
 				$data['nik'] = $data['no_kk']; // no_kk digunakan sebagai id peserta
 				break;
 			case 4:
@@ -223,7 +223,7 @@ class Program_bantuan_model extends CI_Model {
 		if ($slug === false)
 		{
 			$response['paging'] = $this->paging_bantuan($p);
-			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE 1";
+			$strSQL   = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status FROM program p WHERE 1";
 			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
 			$query = $this->db->query($strSQL);
 			$data = $query->result_array();
@@ -234,7 +234,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			// Untuk program bantuan, $slug berbentuk '50<program_id>'
 			$slug = preg_replace("/^50/", "", $slug);
-			$strSQL   = "SELECT p.id,p.nama,p.sasaran,p.ndesc,p.sdate,p.edate,p.userid,p.status  FROM program p WHERE p.id=".$slug;
+			$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status FROM program p WHERE p.id = ".$slug;
 			$query = $this->db->query($strSQL);
 			$hasil0 = $query->row_array();
 
@@ -388,9 +388,9 @@ class Program_bantuan_model extends CI_Model {
 						$hasil1 = false;
 					}
 
-					$strSQL = "SELECT r.no_kk as id, o.nama,w.rt,w.rw,w.dusun  FROM tweb_rtm r
-						LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
+					$strSQL = "SELECT r.no_kk as id, o.nama, w.rt, w.rw, w.dusun  FROM tweb_rtm r
+						LEFT JOIN tweb_penduduk o ON o.id = r.nik_kepala
+						LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 						WHERE 1
 						";
 					$query = $this->db->query($strSQL);
@@ -445,9 +445,9 @@ class Program_bantuan_model extends CI_Model {
 						$hasil1 = false;
 					}
 
-					$strSQL = "SELECT k.id,k.nama as nama_kelompok,o.nama,w.rt,w.rw,w.dusun FROM kelompok k
-						LEFT JOIN tweb_penduduk o ON o.id=k.id_ketua
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
+					$strSQL = "SELECT k.id,k.nama as nama_kelompok, o.nama, w.rt, w.rw, w.dusun FROM kelompok k
+						LEFT JOIN tweb_penduduk o ON o.id = k.id_ketua
+						LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 						WHERE 1";
 					$query = $this->db->query($strSQL);
 					$hasil2 = array();
@@ -513,9 +513,9 @@ class Program_bantuan_model extends CI_Model {
 				/*
 				 * Rincian Penduduk
 				 * */
-				$strSQL = "SELECT o.nama,o.foto,o.nik,w.rt,w.rw,w.dusun
+				$strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun
 					FROM tweb_penduduk o
-				 	LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
+				 	LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 				 	WHERE o.nik='".fixSQL($id)."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
@@ -534,9 +534,9 @@ class Program_bantuan_model extends CI_Model {
 				/*
 				 * KK
 				 * */
-				$strSQL = "SELECT o.nik_kepala,o.no_kk,p.nama,w.rt,w.rw,w.dusun FROM tweb_keluarga o
-					LEFT JOIN tweb_penduduk p ON o.nik_kepala=p.id
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_cluster WHERE o.no_kk='".fixSQL($id)."'";
+				$strSQL = "SELECT o.nik_kepala, o.no_kk, p.nama, w.rt, w.rw, w.dusun FROM tweb_keluarga o
+					LEFT JOIN tweb_penduduk p ON o.nik_kepala = p.id
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster WHERE o.no_kk = '".fixSQL($id)."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
 				{
@@ -553,9 +553,9 @@ class Program_bantuan_model extends CI_Model {
 				/*
 				 * RTM
 				 * */
-				$strSQL = "SELECT r.id, r.no_kk, o.nama, o.nik,w.rt,w.rw,w.dusun  FROM tweb_rtm r
-					LEFT JOIN tweb_penduduk o ON o.id=r.nik_kepala
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
+				$strSQL = "SELECT r.id, r.no_kk, o.nama, o.nik, w.rt, w.rw, w.dusun  FROM tweb_rtm r
+					LEFT JOIN tweb_penduduk o ON o.id = r.nik_kepala
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE r.no_kk=$id";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
@@ -574,9 +574,9 @@ class Program_bantuan_model extends CI_Model {
 				/*
 				 * Kelompok
 				 * */
-				$strSQL = "SELECT k.id as id,k.nama as nama,p.nama as ketua,p.nik as nik,w.rt,w.rw,w.dusun FROM kelompok k
-				 LEFT JOIN tweb_penduduk p ON p.id=k.id_ketua
-				 LEFT JOIN tweb_wil_clusterdesa w ON w.id=p.id_cluster
+				$strSQL = "SELECT k.id as id, k.nama as nama, p.nama as ketua, p.nik as nik, w.rt, w.rw, w.dusun FROM kelompok k
+				 LEFT JOIN tweb_penduduk p ON p.id = k.id_ketua
+				 LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
 				 WHERE k.id='".fixSQL($id)."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)

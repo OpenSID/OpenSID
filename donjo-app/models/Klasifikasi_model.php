@@ -7,18 +7,8 @@
 
 	public function autocomplete()
 	{
-		$sql = "SELECT nama FROM klasifikasi_surat";
-		$query = $this->db->query($sql);
-		$data  = $query->result_array();
-
-		$outp='';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ',"'.$data[$i]['nama'].'"';
-		}
-		$outp = substr($outp, 1);
-		$outp = '[' .$outp. ']';
-		return $outp;
+		$str = autocomplete_str('nama', 'klasifikasi_surat');
+		return $str;
 	}
 
 	public function search_sql()
@@ -28,7 +18,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.nama LIKE '$kw' OR u.uraian LIKE '$kw')";
+			$search_sql = " AND (u.nama LIKE '$kw' OR u.uraian LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -38,7 +28,7 @@
 		if (isset($_SESSION['filter']))
 		{
 			$kf = $_SESSION['filter'];
-			$filter_sql= " AND enabled = $kf";
+			$filter_sql = " AND enabled = $kf";
 		return $filter_sql;
 		}
 	}

@@ -54,7 +54,7 @@ class Garis extends CI_Controller {
 		else $data['subline'] = '';
 
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
+			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->plan_garis_model->paging($p,$o);
@@ -141,7 +141,7 @@ class Garis extends CI_Controller {
 	{
 		$line = $this->input->post('line');
 		if ($line != 0)
-			$_SESSION['line']=$line;
+			$_SESSION['line'] = $line;
 		else unset($_SESSION['line']);
 		redirect('garis');
 	}
@@ -151,7 +151,7 @@ class Garis extends CI_Controller {
 		unset($_SESSION['line']);
 		$subline = $this->input->post('subline');
 		if ($subline != 0)
-			$_SESSION['subline']=$subline;
+			$_SESSION['subline'] = $subline;
 		else unset($_SESSION['subline']);
 		redirect('garis');
 	}
