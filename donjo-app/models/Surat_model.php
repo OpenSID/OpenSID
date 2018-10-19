@@ -9,7 +9,7 @@
 
 	public function list_surat()
 	{
-		$sql   = "SELECT * FROM tweb_surat_format WHERE kunci = 0";
+		$sql = "SELECT * FROM tweb_surat_format WHERE kunci = 0";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		//Formating Output
@@ -113,11 +113,10 @@
 
 	public function get_penduduk($id=0)
 	{
-		$sql   = "SELECT u.id AS id,u.nama AS nama,u.sex as sex_id,x.nama AS sex,u.id_kk AS id_kk,
-		u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,u.no_kk_sebelumnya,s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
+		$sql   = "SELECT u.id AS id, u.nama AS nama, u.sex as sex_id, x.nama AS sex, u.id_kk AS id_kk, u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir, u.no_kk_sebelumnya, s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-		w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,
+		w.nama AS status_kawin, f.nama AS warganegara,a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
 		(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
 		from tweb_penduduk u
 		left join tweb_penduduk_sex x on u.sex = x.id
@@ -130,7 +129,7 @@
 		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
 		left join tweb_penduduk_status s on u.status = s.id
 		WHERE u.id = ?";
-		$query = $this->db->query($sql,$id);
+		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
 		$data['nama'] = addslashes($data['nama']);
 		$data['alamat_wilayah']= $this->get_alamat_wilayah($data);
@@ -150,9 +149,10 @@
 			}
 			$outp = $outp.'7070';
 
-		$sql = "SELECT u.id AS id,u.nama AS nama,x.nama AS sex,u.tempatlahir AS tempatlahir,u.tanggallahir AS tanggallahir,
+		$sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
 			(select (date_format(from_days((to_days(now()) - to_days(`tweb_penduduk`.`tanggallahir`))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-			w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,h.nama AS hubungan,j.nama AS pekerjaan,u.nik AS nik,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
+			w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk,
+			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_sex x on u.sex = x.id
 			LEFT JOIN tweb_penduduk_kawin w on u.status_kawin = w.id
@@ -172,7 +172,7 @@
 
 	public function list_pamong()
 	{
-		$sql = "SELECT u.* FROM tweb_desa_pamong u WHERE pamong_status=1 ";
+		$sql = "SELECT u.* FROM tweb_desa_pamong u WHERE pamong_status = 1 ";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		return $data;
@@ -180,9 +180,9 @@
 
 	public function get_data_surat($id=0)
 	{
-		$sql = "SELECT u.*,g.nama AS gol_darah,x.nama AS sex,u.sex as sex_id,
+		$sql = "SELECT u.*, g.nama AS gol_darah, x.nama AS sex, u.sex as sex_id,
 			(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-			w.nama AS status_kawin,f.nama AS warganegara,a.nama AS agama,d.nama AS pendidikan,h.nama AS hubungan,j.nama AS pekerjaan,c.rt AS rt,c.rw AS rw,c.dusun AS dusun,k.no_kk AS no_kk,k.alamat,m.nama as cacat,
+			w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat, m.nama as cacat,
 			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
 			(select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
@@ -246,7 +246,7 @@
 
 	public function get_pamong($id=0)
 	{
-		$sql = "SELECT u.* FROM tweb_desa_pamong u WHERE pamong_id=?";
+		$sql = "SELECT u.* FROM tweb_desa_pamong u WHERE pamong_id = ?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		return $data;
@@ -254,21 +254,21 @@
 
 	public function get_data_pribadi($id=0)
 	{
-		$sql = "SELECT u.*,h.nama as hubungan, p.nama as kepala_kk,g.nama as gol_darah,d.nama as pendidikan, s.nama as status, r.nama as pek,m.nama as men, w.nama as wn, n.nama as agama,c.rw,c.rt,c.dusun,(DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, sex.nama as sex, k.alamat
+		$sql = "SELECT u.*, h.nama as hubungan, p.nama as kepala_kk, g.nama as gol_darah, d.nama as pendidikan, s.nama as status, r.nama as pek, m.nama as men, w.nama as wn, n.nama as agama, c.rw, c.rt, c.dusun, (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, sex.nama as sex, k.alamat
 			FROM tweb_penduduk u
-			left join tweb_penduduk_hubungan h on u.kk_level=h.id
-			left join tweb_keluarga k on u.id_kk=k.id
-			left join tweb_penduduk p on k.nik_kepala=p.id
-			left join tweb_golongan_darah g on u.golongan_darah_id=g.id
-			left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id=d.id
-			left join tweb_penduduk_pekerjaan r on u.pekerjaan_id=r.id
-			left join tweb_cacat m on u.cacat_id=m.id
-			left join tweb_wil_clusterdesa c on u.id_cluster=c.id
-			left join tweb_penduduk_warganegara w on u.warganegara_id=w.id
-			left join tweb_penduduk_agama n on u.agama_id=n.id
-			LEFT JOIN tweb_penduduk_sex sex ON u.sex=sex.id
+			left join tweb_penduduk_hubungan h on u.kk_level = h.id
+			left join tweb_keluarga k on u.id_kk = k.id
+			left join tweb_penduduk p on k.nik_kepala = p.id
+			left join tweb_golongan_darah g on u.golongan_darah_id = g.id
+			left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
+			left join tweb_penduduk_pekerjaan r on u.pekerjaan_id = r.id
+			left join tweb_cacat m on u.cacat_id = m.id
+			left join tweb_wil_clusterdesa c on u.id_cluster = c.id
+			left join tweb_penduduk_warganegara w on u.warganegara_id = w.id
+			left join tweb_penduduk_agama n on u.agama_id = n.id
+			LEFT JOIN tweb_penduduk_sex sex ON u.sex = sex.id
 			left join tweb_penduduk_status s on u.status = s.id
-			WHERE u.id=?";
+			WHERE u.id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
 		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data);
@@ -278,7 +278,12 @@
 
 	public function get_data_kk($id=0)
 	{
-		$sql = "SELECT b.nik_kepala, b.no_kk,b.id AS id_kk, c.nama as kepala_kk, d.* FROM tweb_penduduk a LEFT JOIN tweb_keluarga b ON a.id_kk=b.id LEFT JOIN tweb_penduduk c ON b.nik_kepala=c.id LEFT JOIN tweb_wil_clusterdesa d ON c.id_cluster=d.id WHERE a.id=? ";
+		$sql = "SELECT b.nik_kepala, b.no_kk,b.id AS id_kk, c.nama as kepala_kk, d.*
+			FROM tweb_penduduk a
+			LEFT JOIN tweb_keluarga b ON a.id_kk = b.id
+			LEFT JOIN tweb_penduduk c ON b.nik_kepala = c.id
+			LEFT JOIN tweb_wil_clusterdesa d ON c.id_cluster = d.id
+			WHERE a.id = ? ";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		return $data;
@@ -345,7 +350,7 @@
 			$sql = "SELECT u.id
 				FROM tweb_penduduk u
 				WHERE u.nik = ? limit 1";
-			$query = $this->db->query($sql,$penduduk['ayah_nik']);
+			$query = $this->db->query($sql, $penduduk['ayah_nik']);
 			$data = $query->row_array();
 		}
 
@@ -488,7 +493,7 @@
 		else
 		{
 			$data_form = "surat/$surat/data_form_$surat.php";
-			if(is_file($data_form)) return $data_form;
+			if (is_file($data_form)) return $data_form;
 		}
 	}
 
@@ -825,7 +830,8 @@
 		if (!empty($this->setting->libreoffice_path))
 		{
 			// Untuk konversi rtf ke pdf, libreoffice harus terinstall
-			if (strpos(strtoupper(php_uname('s')), 'WIN') !== false) {
+			if (strpos(strtoupper(php_uname('s')), 'WIN') !== false)
+			{
 				// Windows O/S
 				$berkas_arsip_win = str_replace('/', "\\", $berkas_arsip);
 				$fcpath = str_replace('/', "\\", FCPATH);

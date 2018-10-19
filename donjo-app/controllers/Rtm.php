@@ -47,9 +47,9 @@ class Rtm extends CI_Controller {
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
-		if (isset($_SESSION['id_bos']))
-			$data['id_bos'] = $_SESSION['id_bos'];
-		else $data['id_bos'] = '';
+		if (isset($_SESSION['kelas']))
+			$data['kelas'] = $_SESSION['kelas'];
+		else $data['kelas'] = '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];

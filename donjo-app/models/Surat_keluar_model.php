@@ -1,6 +1,6 @@
 <?php class Surat_keluar_model extends CI_Model {
-    // Konfigurasi untuk library 'upload'
-    protected $uploadConfig = array();
+  // Konfigurasi untuk library 'upload'
+  protected $uploadConfig = array();
 
 	public function __construct()
 	{
@@ -9,7 +9,7 @@
 		$this->load->library('upload');
 		// Untuk dapat menggunakan fungsi generator()
 		$this->load->helper('donjolib');
-        // Helper upload file
+    // Helper upload file
 		$this->load->helper('pict_helper');
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_ARSIP,
@@ -21,19 +21,7 @@
 	public function autocomplete()
 	{
 		// TODO: tambahkan kata2 dari isi_singkat
-		$str = $this->autocomplete_tujuan();
-		return $str;
-	}
-
-	private function autocomplete_tujuan()
-	{
-		$data = $this->db->distinct()->select('tujuan')->order_by('tujuan')->get('surat_keluar')->result_array();
-		$str = '';
-		foreach ($data as $item)
-		{
-			$str .= ",'".$item['tujuan']."'";
-		}
-		$str = '[' .substr($str, 1). ']';
+		$str = autocomplete_str('tujuan', 'surat_keluar');
 		return $str;
 	}
 
@@ -317,7 +305,7 @@
 
 	public function get_surat_keluar($id)
 	{
-		$surat_keluar = $this->db->where('id',$id)->get('surat_keluar')->row_array();
+		$surat_keluar = $this->db->where('id', $id)->get('surat_keluar')->row_array();
 		return $surat_keluar;
 	}
 

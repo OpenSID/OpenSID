@@ -1,4 +1,13 @@
 <script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
 	$('document').ready(function()
 	{
 		$('select[name=pamong_ttd]').change(function(e)

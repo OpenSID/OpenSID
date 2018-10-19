@@ -578,7 +578,9 @@ function autocomplete_str($kolom, $tabel)
 {
 	$CI =& get_instance();
 	$CI->load->database();
-	$data = $CI->db->select($kolom)->
+	$data = $CI->db->distinct()->
+		select($kolom)->
+		order_by($kolom)->
 		get($tabel)->result_array();
 	$str = '';
 	foreach ($data as $baris)

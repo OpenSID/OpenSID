@@ -165,6 +165,8 @@
 
   private function migrasi_1810_ke_1811()
   {
+  	// Ubah url untuk Admin Web > Artikel
+		$this->db->where('id', 47)->update('setting_modul', array('url'=>'web/clear', 'aktif'=>'1'));
   	// Ubah nama kolom 'nik' menjadi 'id_pend' dan hanya gunakan untuk pemilik desa
   	if ($this->db->field_exists('nik', 'data_persil'))
   	{

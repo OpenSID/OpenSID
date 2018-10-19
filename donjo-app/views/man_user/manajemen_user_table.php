@@ -1,3 +1,14 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Manajemen Pengguna</h1>
@@ -57,20 +68,20 @@
 																	<th nowrap><a href="<?= site_url("man_user/index/$cat/$p/1")?>">Username <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 
-																<?php if ($o==6): ?>
-																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/5")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==5): ?>
-																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/6")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o==4): ?>
+																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==3): ?>
+																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/5")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 
-																<?php if ($o==4): ?>
-																	<th><a href="<?= site_url("man_user/index/$cat/$p/3")?>">Group <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==3): ?>
-																	<th><a href="<?= site_url("man_user/index/$cat/$p/4")?>">Group <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o==6): ?>
+																	<th><a href="<?= site_url("man_user/index/$cat/$p/5")?>">Group <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==5): ?>
+																	<th><a href="<?= site_url("man_user/index/$cat/$p/6")?>">Group <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("man_user/index/$cat/$p/3")?>">Group <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("man_user/index/$cat/$p/5")?>">Group <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Login Terakhir</th>
 															</tr>

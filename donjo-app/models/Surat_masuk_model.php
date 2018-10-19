@@ -1,8 +1,9 @@
 <?php class Surat_masuk_model extends CI_Model {
-    // Konfigurasi untuk library 'upload'
-    protected $uploadConfig = array();
+  // Konfigurasi untuk library 'upload'
+  protected $uploadConfig = array();
 
-	function __construct() {
+	public function __construct()
+	{
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
 		$this->load->library('upload');
@@ -17,60 +18,56 @@
 		);
 	}
 
-	function autocomplete(){
+	public function autocomplete()
+	{
 		// TODO: tambahkan kata2 dari isi_singkat
-		$str = $this->autocomplete_pengirim();
+		$str = autocomplete_str('pengirim', 'surat_masuk');
 		return $str;
 	}
 
-	function autocomplete_pengirim(){
-		$data = $this->db->distinct()->select('pengirim')->order_by('pengirim')->get('surat_masuk')->result_array();
-		$str = '';
-		foreach($data as $item){
-			$str .= ",'".$item['pengirim']."'";
-		}
-		$str = '[' .substr($str, 1). ']';
-		return $str;
-	}
-
-	function search_sql(){
-		if(isset($_SESSION['cari'])){
-		$cari = $_SESSION['cari'];
+	private function search_sql()
+	{
+		if (isset($_SESSION['cari']))
+		{
+			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (u.pengirim LIKE '$kw' OR u.isi_singkat LIKE '$kw')";
 			return $search_sql;
-			}
 		}
+	}
 
-	function filter_sql(){
-		if(isset($_SESSION['filter'])){
+	private function filter_sql()
+	{
+		if (isset($_SESSION['filter']))
+		{
 			$kf = $_SESSION['filter'];
-			if(!empty($kf)) {
+			if (!empty($kf))
+			{
 				$filter_sql= " AND YEAR(u.tanggal_penerimaan) = $kf";
 			}
-		return $filter_sql;
+			return $filter_sql;
 		}
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-	private function list_data_sql() {
-		$sql = "
-			FROM surat_masuk u WHERE 1 ";
+	private function list_data_sql()
+	{
+		$sql = " FROM surat_masuk u WHERE 1 ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		return $sql;
 	}
 
-	function paging($p=1,$o=0){
-
-		$sql = "SELECT COUNT(id) AS id ".$this->list_data_sql();
-		$query    = $this->db->query($sql);
-		$row      = $query->row_array();
-		$jml_data = $row['id'];
+	public function paging($p=1, $o=0)
+	{
+		$sql = "SELECT COUNT(*) AS jml ".$this->list_data_sql();
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
-		$cfg['page']     = $p;
+		$cfg['page'] = $p;
 		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
@@ -78,10 +75,11 @@
 		return $this->paging;
 	}
 
-	function list_data($o=0,$offset=0,$limit=500){
-
+	public function list_data($o=0, $offset=0, $limit=500)
+	{
 		//Ordering SQL
-		switch($o){
+		switch ($o)
+		{
 			case 1: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) ASC, u.nomor_urut ASC'; break;
 			case 2: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) DESC, u.nomor_urut DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.tanggal_penerimaan'; break;
@@ -95,16 +93,17 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-		$sql   = "SELECT u.* ".$this->list_data_sql();
+		$sql = "SELECT u.* ".$this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 		return $data;
 	}
 
-	function list_tahun_penerimaan(){
+	public function list_tahun_penerimaan()
+	{
 		$query = $this->db->distinct()->select('YEAR(tanggal_penerimaan) AS tahun')->order_by('tanggal_penerimaan DESC')->get('surat_masuk')->result_array();
 		return $query;
 	}
@@ -147,9 +146,10 @@
 		if ($adaLampiran === TRUE)
 		{
 			// Tes tidak berisi script PHP
-			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
-				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
-				$_SESSION['success']=-1;
+			if (isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name']))
+			{
+				$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success'] = -1;
 				redirect('man_user');
 			}
 			// Inisialisasi library 'upload'
@@ -191,7 +191,6 @@
 
 		// transaction selesai
 		$this->db->trans_complete();
-
 
 		// Set session berdasarkan hasil operasi
 		$_SESSION['success'] = $indikatorSukses ? 1 : -1;
@@ -247,9 +246,10 @@
 		if ($adaLampiran === TRUE)
 		{
 			// Tes tidak berisi script PHP
-			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['satuan']['name'])){
-				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
-				$_SESSION['success']=-1;
+			if (isPHP($_FILES['foto']['tmp_name'], $_FILES['satuan']['name']))
+			{
+				$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success'] = -1;
 				redirect('man_user');
 			}
 			// Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
@@ -321,14 +321,15 @@
 		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
 	}
 
-
-	function get_surat_masuk($id){
-		$surat_masuk = $this->db->where('id',$id)->get('surat_masuk')->row_array();
+	public function get_surat_masuk($id)
+	{
+		$surat_masuk = $this->db->where('id', $id)->get('surat_masuk')->row_array();
 		return $surat_masuk;
 	}
 
 	// TODO: apakah perlu diambil dari tweb_desa_pamong?
-	function get_pengolah_disposisi(){
+	public function get_pengolah_disposisi()
+	{
 		$this->load->model('wilayah_model');
     $ref_disposisi[] = 'Sekretaris '.ucwords($this->setting->sebutan_desa);
     array_push($ref_disposisi,
@@ -339,7 +340,8 @@
       'Kaur Tata Usaha dan Umum',
       'Kaur Perencanaan');
     $list_dusun = $this->wilayah_model->list_data();
-    foreach($list_dusun as $dusun){
+    foreach ($list_dusun as $dusun)
+    {
     	array_push($ref_disposisi, ucwords($this->setting->sebutan_singkatan_kadus).' '.ucwords(strtolower($dusun['dusun'])));
     };
     return $ref_disposisi;
@@ -396,10 +398,13 @@
 		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
 	}
 
-	function delete_all(){
+	public function delete_all()
+	{
 		$id_cb = $_POST['id_cb'];
-		if(count($id_cb)){
-			foreach($id_cb as $id){
+		if (count($id_cb))
+		{
+			foreach ($id_cb as $id)
+			{
 				$this->delete($id);
 			}
 		}
@@ -438,8 +443,8 @@
 
 	public function insert_disposisi_surat_masuk($id_surat_masuk, array $jabatan)
 	{
-		foreach ($jabatan as $value) {
-
+		foreach ($jabatan as $value)
+		{
 			$pamong = $this->get_pamong($value);
 
 			$this->db->insert(
@@ -456,8 +461,8 @@
 	{
 		$this->delete_disposisi_surat($id_surat_masuk);
 
-		foreach ($jabatan as $value) {
-
+		foreach ($jabatan as $value)
+		{
 			$pamong = $this->get_pamong($value);
 
 			$this->db->insert(
