@@ -12,4 +12,8 @@ Library yang digunakan:
 - https://select2.org/, untuk select box
 - https://jquery.com, untuk manipulasi DOM
 
+Library PHP yang digunakan:
+
+- https://code.google.com/archive/p/php-excel-reader/, untuk membaca file Excel format 2003
+
 
