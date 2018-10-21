@@ -166,12 +166,14 @@ class Menu extends CI_Controller {
 
 	public function delete($tip = 1, $id = '')
 	{
+		$_SESSION['success'] = 1;
 		$this->web_menu_model->delete($id);
 		redirect("menu/index/$tip");
 	}
 
 	public function delete_all($tip = 1, $p = 1, $o = 0)
 	{
+		$_SESSION['success'] = 1;
 		$this->web_menu_model->delete_all();
 		redirect("menu/index/$tip/$p/$o");
 	}

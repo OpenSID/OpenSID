@@ -582,10 +582,19 @@ function autocomplete_str($kolom, $tabel)
 		select($kolom)->
 		order_by($kolom)->
 		get($tabel)->result_array();
+
+	return autocomplete_data_ke_str($data);
+}
+/**
+ * @param array 		(0 => (kolom => teks), 1 => (kolom => teks), ..)
+ * @return string 	dalam bentuk siap untuk autocomplete
+ */
+function autocomplete_data_ke_str($data)
+{
 	$str = '';
 	foreach ($data as $baris)
 	{
-		$str .= ',"' .$baris[$kolom]. '"';
+		$str .= ','.json_encode(substr($baris[array_keys($baris)[0]], 0, 30));
 	}
 	$str = '[' . strtolower(substr($str, 1)) . ']';
 	return $str;

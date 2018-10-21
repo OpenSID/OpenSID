@@ -1,3 +1,14 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Widget</h1>
@@ -55,7 +66,7 @@
 																	<th nowrap>Judul</th>
                                   <th nowrap>Jenis Widget</th>
                                   <th>Aktif</th>
-                                  <th nowrap>Isi</th>
+                                  <th>Isi</th>
 																</tr>
 															</thead>
 															<tbody>

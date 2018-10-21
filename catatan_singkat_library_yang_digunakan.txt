@@ -11,6 +11,7 @@ Library yang digunakan:
 
 - https://select2.org/, untuk select box
 - https://jquery.com, untuk manipulasi DOM
+- https://jqueryvalidation.org/documentation/, untuk validasi form
 
 Library PHP yang digunakan:
 

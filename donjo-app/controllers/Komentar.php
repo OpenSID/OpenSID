@@ -19,6 +19,7 @@ class Komentar extends CI_Controller {
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
 		$this->modul_ini = 13;
+		$this->controller = 'komentar';
 	}
 
 	public function clear()

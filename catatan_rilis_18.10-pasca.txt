@@ -7,7 +7,7 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 1. #1529: Sekarang ada setting aplikasi untuk menampilkan/menyembunyikan tombol cetak surat langsung di form surat.
 2. Sekarang daftar Persil di menu Pertanahan tidak lagi menampilkan baris ganda untuk persil dengan pemilik dari luar desa di mana di database ada penduduk yang masih memiliki NIK 0. [bug-fix]
 3. Tambah fitur cari di halaman pendaftar layanan mandiri.
-4. Kotak cari data persil sekarang menampilkan autocomplete nama dan NIK pemilik.
+4. Kotak cari data persil sekarang menampilkan autocomplete nama dan NIK pemilik. Juga perbaiki autocomplete kotak cari di beberapa halaman lain.
 5. #1705: Tutup celah unggah file PHP melalui unggah gambar artikel. [security-fix]
 6. #1702: Sekarang simbol Pemetaan > Pengaturan Peta > Tipe Lokasi muncul setelah Kosongkan DB. [bug-fix]
 7. #1704: Penampilan gambar di artikel web sekarang ditampilkan standar dan bisa diatur di form isian artikel. [bug-fix]
@@ -16,7 +16,7 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 10. Perbaiki pengubahan jumlah tampilan per halaman di daftar Input Data Sensus - Pengaturan Analisis. [bug-fix]
 11. Perbaiki daftar sasaran Penduduk dan Keluarga di Input Data Sensus - Pengaturan Analisis supaya hanya menampilkan penduduk dan kepala keluarga dengan status dasar 'HIDUP'. [bug-fix]
 12. Perbaiki pilihan Penduduk dan Keluarga di form Peserta Program Bantuan supaya hanya menampilkan penduduk dan kepala keluarga dengan status dasar 'HIDUP'. [bug-fix]
-13. Perbaiki supaya tampilan Total Data di daftar Input Data Sensus - Pengaturan Analisis cocok dengan jumlah data yang ditampilkan. [bug-fix]
+13. Perbaiki supaya tampilan Total Data di daftar Input Data Sensus - Pengaturan Analisis cocok dengan jumlah data yang ditampilkan. Juga perbaiki tampilan Total Data di beberapa halaman lain. [bug-fix]
 14. Sekarang data Tgl Berakhir Paspor tersimpan dengan benar di form isian penduduk. [bug-fix]
 15. #1709: Sekarang Pengaturan > Database > Expor Database > Ekspor Data Keluarga mengunduh semua tanggal dalam format yyyy-mm-dd. [bug-fix]
 16. #1709: Sekarang Kependudukan > Penduduk > Pilih Aksi Lainnya > Unduh mengekspor tanggal lahir dengan format yang sama. [bug-fix]
@@ -26,6 +26,9 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 20. #1715: Sekarang impor BIP menampilkan jumlah keluarga dan penduduk yang berhasil diimpor. Juga sekarang gagal impor apabila kode tulisan yang diisi salah. [bug-fix]
 21. Sekarang surat permohonan/perubahan kartu keluarga lebih jelas bahwa pilihan pemohon adalah kepala keluarga.
 22. #1714: Klasifikasi surat sudah diganti menggunakan kode dari Lampiran Permendagri Nomor 78 Tahun 2012.
+23. Tambahkan validasi form RW dan RT di Info Desa > Wilayah Administratif supaya nomor RW/RT hanya boleh terdiri dari bilangan.
+24. Sekarang filter dibersihkan sebelum menampilkan beberapa menu, supaya semua data ditampilkan. [bug-fix]
+
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
