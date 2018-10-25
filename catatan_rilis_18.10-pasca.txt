@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 22. #1714: Klasifikasi surat sudah diganti menggunakan kode dari Lampiran Permendagri Nomor 78 Tahun 2012.
 23. Tambahkan validasi form RW dan RT di Info Desa > Wilayah Administratif supaya nomor RW/RT hanya boleh terdiri dari bilangan.
 24. Sekarang filter dibersihkan sebelum menampilkan beberapa menu, supaya semua data ditampilkan. [bug-fix]
+25. #1565: Zoom untuk tampilan Peta telah diperbesar supaya lokasi penduduk tidak berhimpitan.
 
 
 

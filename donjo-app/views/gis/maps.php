@@ -21,7 +21,7 @@
 
     //Menambahkan tile layer OSM ke peta
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',	{
-      maxZoom: 18,
+      maxZoom: 19,
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
       id: 'mapbox.streets'
     }).addTo(mymap); //Menambahkan tile layer ke variabel 'peta'
