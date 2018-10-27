@@ -1,4 +1,4 @@
-Rilis ini berisi [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini Klasifikasi Surat sudah diganti menggunakan kode dari Lampiran Permendagri Nomor 78 Tahun 2012. Juga nomor surat diisi otomatis dan nomor surat duplikat tidak diperbolehkan. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Il Ham yang terus berkontribusi. Terima kasih juga pada Rizal Alfiannor yang baru mulai kontribusi.
 
