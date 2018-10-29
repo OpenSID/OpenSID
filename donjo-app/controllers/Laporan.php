@@ -31,18 +31,6 @@ class Laporan extends CI_Controller {
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['sex']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['agama']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['pekerjaan_id']);
-		unset($_SESSION['status']);
-		unset($_SESSION['status_penduduk']);
 		$_SESSION['bulanku'] = date("n");
 		$_SESSION['tahunku'] = date("Y");
 		$_SESSION['per_page'] = 200;

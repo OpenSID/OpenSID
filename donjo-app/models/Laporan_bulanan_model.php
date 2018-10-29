@@ -49,36 +49,11 @@
 		}
 	}
 
-	public function autocomplete()
-	{
-		$str = autocomplete_str('dusun_nama', 'tweb_wil_dusun');
-		return $str;
-	}
-
-	private function search_sql()
-	{
-		if (isset($_SESSION['cari']))
-		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND u.nama LIKE '$kw'";
-			return $search_sql;
-		}
-	}
-
-	private function dusun_sql()
-	{
-		$dusun = $_SESSION['dusun'];
-		if ( ! empty($dusun)) {
-			return " AND c.dusun = '".$dusun."'";
-		}
-	}
-
 	private function bulan_sql()
 	{
 		$bulan = $_SESSION['bulanku'];
-		if ( ! empty($bulan)) {
+		if ( ! empty($bulan))
+		{
 			return " AND bulan = '".$bulan."'";
 		}
 	}
@@ -86,7 +61,8 @@
 	private function tahun_sql()
 	{
 		$tahun = $_SESSION['tahunku'];
-		if ( ! empty($tahun)) {
+		if ( ! empty($tahun))
+		{
 			return " AND tahun = '".$tahun."'";
 		}
 	}
@@ -133,8 +109,6 @@
 			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='2') as sakit_P,
 			(select count(id) from penduduk_hidup where hamil='1' and id_cluster=c.id) as hamil
 			from  tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) from tweb_penduduk where id_cluster=c.id)>0  ";
-
-		$sql .= $this->dusun_sql();
 
 		$sql .= " ORDER BY c.dusun,c.rw,c.rt ";
 		$query = $this->db->query($sql);
