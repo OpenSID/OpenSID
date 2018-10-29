@@ -69,20 +69,26 @@
 
 	private function dusun_sql()
 	{
-		if (!empty($kf = $_SESSION['dusun']))
-			return " AND c.dusun = '".$kf."'";
+		$dusun = $_SESSION['dusun'];
+		if ( ! empty($dusun)) {
+			return " AND c.dusun = '".$dusun."'";
+		}
 	}
 
 	private function bulan_sql()
 	{
-		if (!empty($kf = $_SESSION['bulanku']))
-			return " AND bulan = '".$kf."'";
+		$bulan = $_SESSION['bulanku'];
+		if ( ! empty($bulan)) {
+			return " AND bulan = '".$bulan."'";
+		}
 	}
 
 	private function tahun_sql()
 	{
-		if (!empty($kf = $_SESSION['tahunku']))
-			return " AND tahun = '".$kf."'";
+		$tahun = $_SESSION['tahunku'];
+		if ( ! empty($tahun)) {
+			return " AND tahun = '".$tahun."'";
+		}
 	}
 
 	public function bulan($bulan)
