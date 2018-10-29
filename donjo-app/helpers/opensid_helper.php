@@ -594,7 +594,9 @@ function autocomplete_data_ke_str($data)
 	$str = '';
 	foreach ($data as $baris)
 	{
-		$str .= ','.json_encode(substr($baris[array_keys($baris)[0]], 0, 30));
+		$keys = array_keys($baris);
+		$first_key = $keys[0];
+		$str .= ','.json_encode(substr($baris[$first_key], 0, 30));
 	}
 	$str = '[' . strtolower(substr($str, 1)) . ']';
 	return $str;
