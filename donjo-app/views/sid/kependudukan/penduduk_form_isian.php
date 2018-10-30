@@ -122,8 +122,8 @@
 						<label for="sex">Jenis Kelamin </label>
 						<select class="form-control input-sm required" name="sex" onchange="show_hide_hamil($(this).find(':selected').val());">
 							<option value="">Jenis Kelamin</option>
-							<option value="1" <?php selected($penduduk['id_sex'], '1'); ?>>Laki-Laki</option>
-							<option value="2" <?php selected($penduduk['id_sex'], '2'); ?> >Perempuan</option>
+							<option value="1" <?php selected($penduduk['sex'], '1'); ?>>Laki-Laki</option>
+							<option value="2" <?php selected($penduduk['sex'], '2'); ?> >Perempuan</option>
 						</select>
 					</div>
 				</div>
