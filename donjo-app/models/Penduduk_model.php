@@ -546,6 +546,8 @@
 			{
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
 			}
+			// Form menggunakan kolom id_sex = sex
+			$_POST['id_sex'] = $_POST['sex'];
 			// Tampilkan tanda kutip dalam nama
 			$_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
 			$_SESSION['post'] = $_POST;
@@ -667,6 +669,8 @@
       {
         $_SESSION['error_msg'] .= ': ' . $error . '\n';
       }
+			// Form menggunakan kolom id_sex = sex
+			$_POST['id_sex'] = $_POST['sex'];
       // Tampilkan tanda kutip dalam nama
       $_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
       $_SESSION['post'] = $_POST;

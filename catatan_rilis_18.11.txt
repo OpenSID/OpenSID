@@ -1,6 +1,6 @@
 Di rilis ini Klasifikasi Surat sudah diganti menggunakan kode dari Lampiran Permendagri Nomor 78 Tahun 2012. Juga nomor surat diisi otomatis dan nomor surat duplikat tidak diperbolehkan. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Il Ham yang terus berkontribusi. Terima kasih juga pada Rizal Alfiannor yang baru mulai kontribusi.
+Terima kasih pada Il Ham yang terus berkontribusi dan Abdul Gani yang kembali berkontribusi. Terima kasih juga pada Rizal Alfiannor yang baru mulai kontribusi.
 
 Lengkapnya, isi rilis versi 18.10-pasca:
 
@@ -29,9 +29,10 @@ Lengkapnya, isi rilis versi 18.10-pasca:
 23. Tambahkan validasi form RW dan RT di Info Desa > Wilayah Administratif supaya nomor RW/RT hanya boleh terdiri dari bilangan.
 24. Sekarang filter dibersihkan sebelum menampilkan beberapa menu, supaya semua data ditampilkan. [bug-fix]
 25. #1565: Zoom untuk tampilan Peta telah diperbesar supaya lokasi penduduk tidak berhimpitan.
+26. Di form isian penduduk, sekarang isian jenis kelamin tidak hilang apabila terjadi gagal validasi. [bug-fix]
 
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.11, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
 
