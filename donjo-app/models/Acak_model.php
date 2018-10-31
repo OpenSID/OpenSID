@@ -36,7 +36,6 @@ class Acak_model extends CI_Model {
 		foreach ($data as $penduduk)
 		{
 			if ($penduduk['nik'] == 0) continue;
-
 			$nik = $penduduk['nik'];
 			$urut = $this->acak_angka(substr($nik, 12));
 			$nik_acak = substr_replace($nik, $urut, 12);
@@ -79,6 +78,8 @@ class Acak_model extends CI_Model {
 				$kata_acak = $kata_penduduk_acak[$urut_kata_acak];
 				// Hapus supaya kata ini tidak digunakan lagi
 				unset($kata_penduduk_acak[$urut_kata_acak]);
+				// https://www.codeproject.com/Questions/608574/unsetplusNotplusWorkingplusPHPplusArray
+				$kata_penduduk_acak = array_values($kata_penduduk_acak);
 			}
 			if ($kata_acak != '.')
 				$nama_acak .= ($i == 0) ? $kata_acak : ' ' . $kata_acak;
