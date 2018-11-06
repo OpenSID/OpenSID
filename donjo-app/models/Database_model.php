@@ -18,7 +18,8 @@
 		'18.08' => array('migrate' => 'migrasi_1808_ke_1809', 'nextVersion' => '18.09'),
 		'18.09' => array('migrate' => 'migrasi_1809_ke_1810', 'nextVersion' => '18.10'),
 		'18.10' => array('migrate' => 'migrasi_1810_ke_1811', 'nextVersion' => '18.11'),
-		'18.11' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => NULL),
+		'18.12' => array('migrate' => NULL, 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -162,6 +163,24 @@
 	$this->migrasi_1808_ke_1809();
 	$this->migrasi_1809_ke_1810();
 	$this->migrasi_1810_ke_1811();
+	$this->migrasi_1811_ke_1812();
+  }
+
+  private function migrasi_1811_ke_1812()
+  {
+		// Tambah surat keterangan domisili
+		$data = array(
+			'nama'=>'Keterangan Domisili',
+			'url_surat'=>'surat_ket_domisili',
+			'kode_surat'=>'S-41',
+			'jenis'=>1);
+		$sql = $this->db->insert_string('tweb_surat_format', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				nama = VALUES(nama),
+				url_surat = VALUES(url_surat),
+				kode_surat = VALUES(kode_surat),
+				jenis = VALUES(jenis)";
+		$this->db->query($sql);
   }
 
   private function migrasi_1810_ke_1811()
