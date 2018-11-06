@@ -30,6 +30,7 @@
 			"statistik/3"  => "Agama",
 			"statistik/17" => "Akte Kelahiran",
 			"statistik/16" => "Akseptor KB",
+			"dpt" 				 => "Calon Pemilih",
 			"statistik/9"  => "Cacat",
 			"statistik/7"  => "Golongan Darah",
 			"statistik/4"  => "Jenis Kelamin",

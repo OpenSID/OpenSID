@@ -1,38 +1,13 @@
-Di rilis ini Klasifikasi Surat sudah diganti menggunakan kode dari Lampiran Permendagri Nomor 78 Tahun 2012. Juga nomor surat diisi otomatis dan nomor surat duplikat tidak diperbolehkan. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Il Ham yang terus berkontribusi dan Abdul Gani yang kembali berkontribusi. Terima kasih juga pada Rizal Alfiannor yang baru mulai kontribusi.
+Terima kasih pada [untuk diisi] yang terus berkontribusi dan [untuk diisi] yang kembali berkontribusi. Terima kasih juga pada [untuk diisi] yang baru mulai kontribusi.
 
-Lengkapnya, isi rilis versi 18.10-pasca:
+Lengkapnya, isi rilis versi 18.11-pasca:
 
-1. #1529: Sekarang ada setting aplikasi untuk menampilkan/menyembunyikan tombol cetak surat langsung di form surat.
-2. Sekarang daftar Persil di menu Pertanahan tidak lagi menampilkan baris ganda untuk persil dengan pemilik dari luar desa di mana di database ada penduduk yang masih memiliki NIK 0. [bug-fix]
-3. Tambah fitur cari di halaman pendaftar layanan mandiri.
-4. Kotak cari data persil sekarang menampilkan autocomplete nama dan NIK pemilik. Juga perbaiki autocomplete kotak cari di beberapa halaman lain.
-5. #1705: Tutup celah unggah file PHP melalui unggah gambar artikel. [security-fix]
-6. #1702: Sekarang simbol Pemetaan > Pengaturan Peta > Tipe Lokasi muncul setelah Kosongkan DB. [bug-fix]
-7. #1704: Penampilan gambar di artikel web sekarang ditampilkan standar dan bisa diatur di form isian artikel. [bug-fix]
-8. #1685: Sekarang halaman dashboard Home > SID menampilkan jumlah keluarga yang mempunyai kepala keluarga dengan status dasar 'HIDUP' saja. [bug-fix]
-9. #1686: Tampilkan pilihan tujuan disposisi Surat Masuk dalam format checkbox.
-10. Perbaiki pengubahan jumlah tampilan per halaman di daftar Input Data Sensus - Pengaturan Analisis. [bug-fix]
-11. Perbaiki daftar sasaran Penduduk dan Keluarga di Input Data Sensus - Pengaturan Analisis supaya hanya menampilkan penduduk dan kepala keluarga dengan status dasar 'HIDUP'. [bug-fix]
-12. Perbaiki pilihan Penduduk dan Keluarga di form Peserta Program Bantuan supaya hanya menampilkan penduduk dan kepala keluarga dengan status dasar 'HIDUP'. [bug-fix]
-13. Perbaiki supaya tampilan Total Data di daftar Input Data Sensus - Pengaturan Analisis cocok dengan jumlah data yang ditampilkan. Juga perbaiki tampilan Total Data di beberapa halaman lain. [bug-fix]
-14. Sekarang data Tgl Berakhir Paspor tersimpan dengan benar di form isian penduduk. [bug-fix]
-15. #1709: Sekarang Pengaturan > Database > Expor Database > Ekspor Data Keluarga mengunduh semua tanggal dalam format yyyy-mm-dd. [bug-fix]
-16. #1709: Sekarang Kependudukan > Penduduk > Pilih Aksi Lainnya > Unduh mengekspor tanggal lahir dengan format yang sama. [bug-fix]
-17. #997: Sekarang setiap form isian surat bawaan sistem mengisi nomor surat secara otomatis dan memeriksa nomor surat yang diisi belum digunakan, sebelum surat bisa dicetak.
-18. Perbaiki sortir kolom daftar Arsip Layanan dan Rekaman Surat Perorangan. [bug-fix]
-19. #1418: Sekarang disediakan kode isian surat [bulan_romawi] untuk menampilkan bulan sekarang dalam angka Romawi di surat.
-20. #1715: Sekarang impor BIP menampilkan jumlah keluarga dan penduduk yang berhasil diimpor. Juga sekarang gagal impor apabila kode tulisan yang diisi salah. [bug-fix]
-21. Sekarang surat permohonan/perubahan kartu keluarga lebih jelas bahwa pilihan pemohon adalah kepala keluarga.
-22. #1714: Klasifikasi surat sudah diganti menggunakan kode dari Lampiran Permendagri Nomor 78 Tahun 2012.
-23. Tambahkan validasi form RW dan RT di Info Desa > Wilayah Administratif supaya nomor RW/RT hanya boleh terdiri dari bilangan.
-24. Sekarang filter dibersihkan sebelum menampilkan beberapa menu, supaya semua data ditampilkan. [bug-fix]
-25. #1565: Zoom untuk tampilan Peta telah diperbesar supaya lokasi penduduk tidak berhimpitan.
-26. Di form isian penduduk, sekarang isian jenis kelamin tidak hilang apabila terjadi gagal validasi. [bug-fix]
+1. #1732: Sekarang statistik calon pemilih dapat ditampilkan kembali di Web. [bug-fix]
 
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.11, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
 
