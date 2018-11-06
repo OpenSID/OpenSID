@@ -356,33 +356,28 @@ function cari_nik()
 
 ;(function()
 {
-	$(document).ready(updateCsrfToken)
-	$(document).ajaxComplete(updateCsrfToken)
+	var csrf_param = $('meta[name=csrf-param]').attr('content')
 
-	function updateCsrfToken()
+	function getCsrfToken()
 	{
-		var csrf_param = $('meta[name=csrf-param]').attr('content')
-		var csrf_token = document.cookie.match(new RegExp(csrf_param +'=(\\w+)'))[1]
-		$('form').each(function(i, form) {
-			if (form.method.toLowerCase() !== 'post') {
-				return
-			}
-			if (!form[csrf_param]) {
-				$(form).append($('<input type=hidden name='+ csrf_param +'>'))
-			}
-			form[csrf_param].value = csrf_token
-		})
+		return document.cookie.match(new RegExp(csrf_param +'=(\\w+)'))[1]
 	}
+
+	$(document).on('submit', 'form', function()
+	{
+		if (this.method.toLowerCase() !== 'get')
+		{
+			this[csrf_param] || $(this).append($('<input type=hidden name='+ csrf_param +'>'))
+			this[csrf_param].value = getCsrfToken()
+		}
+	})
 
 	// automatically send CSRF token for all AJAX requests
 	$.ajaxPrefilter(function (options, originalOptions, xhr)
 	{
-		var csrf_param = $('meta[name=csrf-param]').attr('content')
-		var csrf_token = $('meta[name=csrf-token]').attr('content')
-
 		if (!options.crossDomain && options.type !== 'GET')
 		{
-			options.data = (options.data||'') + '&'+ csrf_param +'='+ csrf_token
+			options.data = (options.data||'') + '&'+ csrf_param +'='+ getCsrfToken()
 		}
 	})
 })()
