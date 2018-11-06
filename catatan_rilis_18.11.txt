@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi dan [untuk diisi] yang 
 Lengkapnya, isi rilis versi 18.11-pasca:
 
 1. #1732: Sekarang statistik calon pemilih dapat ditampilkan kembali di Web. [bug-fix]
+2. #211: Tambah surat keterangan domisili.
 
 
 
