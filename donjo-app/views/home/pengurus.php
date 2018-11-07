@@ -11,12 +11,8 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Staf">
-  	          <i class="fa fa-plus"></i>Tambah Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?>
-            </a>
-            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("pengurus/delete_all")?>')" class="btn btn-social btn-flat		btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-              <i class='fa fa-trash-o'></i> Hapus Data Terpilih
-            </a>
+						<a href="<?= site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Staf"><i class="fa fa-plus"></i>Tambah Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></a>
+						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("pengurus/delete_all")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -62,7 +58,7 @@
 																<tr>
 																	<td>
 																		<?php if ($data['username']!='siteman'): ?>
-																			<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+																			<input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
 																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['no']?></td>

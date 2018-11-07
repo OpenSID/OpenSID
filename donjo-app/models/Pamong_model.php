@@ -171,17 +171,20 @@
 
 	public function delete_all()
 	{
-		$_SESSION['success'] = 1;
 		$id_cb = $_POST['id_cb'];
-
 		if (count($id_cb))
 		{
-			foreach ($id_cb as $id)
-			{
-				$outp = $this->delete($id);
-				if (!$outp) $_SESSION['success'] = -1;
-			}
+			$list_id = implode(",", $id_cb);
+			$this->db->query("DELETE FROM tweb_desa_pamong WHERE pamong_id IN (" . $list_id . ")");
+			$outp = true;
 		}
+		else
+			$outp = false;
+
+		if ($outp)
+			$_SESSION['success'] = 1;
+		else
+			$_SESSION['success'] = -1;
 	}
 
 	public function ttd($id='', $val=0)
