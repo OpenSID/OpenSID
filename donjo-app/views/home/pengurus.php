@@ -62,7 +62,7 @@
 																<tr>
 																	<td>
 																		<?php if ($data['username']!='siteman'): ?>
-																			<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+																			<input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
 																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['no']?></td>
