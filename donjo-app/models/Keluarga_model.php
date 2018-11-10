@@ -42,8 +42,8 @@
 		if (isset($_SESSION['status_dasar']))
 		{
 			$kf = $_SESSION['status_dasar'];
-			if ($kf == '1')	$status_dasar_sql = " AND t.status_dasar = 1";
-			elseif ($kf == '3') $status_dasar_sql = 'AND t.status_dasar IS NULL';
+			if ($kf == '1')	$status_dasar_sql = " AND t.status_dasar = 1 AND t.kk_level = 1";
+			elseif ($kf == '3') $status_dasar_sql = 'AND (t.status_dasar IS NULL OR t.kk_level <> 1)';
 			else $status_dasar_sql = " AND t.status_dasar <> 1";
 			return $status_dasar_sql;
 		}
@@ -175,7 +175,7 @@
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*,t.nama AS kepala_kk,t.nik,t.sex,t.status_dasar,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,c.dusun,c.rw,c.rt ".$this->list_data_sql();
+		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.sex, t.status_dasar, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota, c.dusun, c.rw, c.rt ".$this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 

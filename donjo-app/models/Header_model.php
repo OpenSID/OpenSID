@@ -21,6 +21,7 @@ class Header_model extends CI_Model {
 			->from('tweb_keluarga u')
 			->join('tweb_penduduk t', 'u.nik_kepala = t.id', 'left')
 			->where('t.status_dasar', '1')
+			->where('t.kk_level', '1')
 			->get()->result_array();
 		return $data;
 	}

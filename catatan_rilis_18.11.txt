@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 18.11-pasca:
 2. #211: Tambah surat keterangan domisili.
 3. #1737: Sekarang Layanan Surat > Pengaturan Surat menampilkan kode isian surat di PHP 7.1. [bug-fix]
 4. #1733: Sekarang data Info Desa > Pemerintahan Desa bisa dihapus menggunakan tombol Hapus Data Terpilih. [bug-fix]
+5. #1730: Sekarang perubahan status hubungan dalam keluarga di form ubah data penduduk ditangani secara konsisten dengan status keluarga. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
