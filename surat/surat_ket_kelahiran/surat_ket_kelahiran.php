@@ -99,7 +99,7 @@
 	function _calculateAge(birthday)
 	{
 		// birthday is a date (dd-mm-yyyy)
-		var parts =birthday.explode('-');
+		var parts = birthday.split('-');
 		// Ubah menjadi format ISO yyyy-mm-dd
 		// please put attention to the month (parts[0]), Javascript counts months from 0:
 		// January - 0, February - 1, etc
