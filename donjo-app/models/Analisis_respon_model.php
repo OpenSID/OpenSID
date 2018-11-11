@@ -3,7 +3,7 @@
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('excel');
+		$this->load->library('Spreadsheet_Excel_Reader');
 	}
 
 	public function autocomplete()

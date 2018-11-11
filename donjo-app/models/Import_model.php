@@ -44,7 +44,7 @@ class Import_model extends CI_Model {
 		parent::__construct();
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
-		$this->load->helper('excel');
+		$this->load->library('Spreadsheet_Excel_Reader');
 		$this->kode_sex = unserialize(KODE_SEX);
 		$this->kode_hubungan = unserialize(KODE_HUBUNGAN);
 		$this->kode_agama = unserialize(KODE_AGAMA);
