@@ -60,7 +60,7 @@
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="nama">Nama Lengkap <code> (Tanpa Gelar) </code> </label>
-						<input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" value="<?= strtoupper(unpenetration($penduduk['nama']))?>"></input>
+						<input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" value="<?= strtoupper($penduduk['nama'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>

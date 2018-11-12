@@ -78,7 +78,7 @@
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px; width:30%;" >Nama / NIK</td>
 								<td> : </td>
-								<td><strong><?= strtoupper(unpenetration($kepala_keluarga['nama']))?></strong> - [<?= $kepala_keluarga['nik']?>]</td>
+								<td><strong><?= strtoupper($kepala_keluarga['nama'])?></strong> - [<?= $kepala_keluarga['nik']?>]</td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Tempat / Tgl. Lahir</td>
