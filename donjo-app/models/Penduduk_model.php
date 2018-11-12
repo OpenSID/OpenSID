@@ -485,7 +485,7 @@
 		$valid = array();
 		if (preg_match("/[^a-zA-Z '\.,-]/", $data['nama']))
 		{
-			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma tanda petik dan strip");
+			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 		}
 		if (isset($data['nik']))
 		{
