@@ -212,11 +212,11 @@
 																	<td>
 																		<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
 																	</td>
-																	<td nowrap><?= strtoupper(unpenetration($data['nama']))?></td>
+																	<td nowrap><?= strtoupper($data['nama'])?></td>
 																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
 																	<td><a href="<?= site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?= $data['no_rtm']?></a></td>
 																	<td><?= strtoupper($data['alamat'])?></td>
-																	<td><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+																	<td><?= strtoupper(ununderscore($data['dusun']))?></td>
 																	<td><?= $data['rw']?></td>
 																	<td><?= $data['rt']?></td>
 																	<td><?= $data['pendidikan']?></td>
