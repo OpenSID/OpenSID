@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 18.11-pasca:
 7. Sekarang impor data penduduk berjalan normal untuk PHP v7. [bug-fix]
 8. Sekarang Pengaturan > Database > Impor Data Kependudukan dapat mengimpor data berisi kode tulisan, seperti 'ISTRI' untuk kode hubungan dalam keluarga.
 9. #1532: Sekarang nama penduduk dapat berisi tanda strip '-'.
+10. #936: Tambah setting web_artikel_per_page untuk menentukan jumlah artikel yg ditampilkan di halaman web.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

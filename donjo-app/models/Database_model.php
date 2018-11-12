@@ -192,7 +192,7 @@
 				jenis = VALUES(jenis)";
 		$this->db->query($sql);
 
-		$query = $this->db->query("SELECT 1 FROM setting_aplikasi where `key`='web_artikel_per_page'");
+		$query = $this->db->select('1')->where('key', 'web_artikel_per_page')->get('setting_aplikasi');
 		$query->result() OR	$this->db->insert('setting_aplikasi', array('key'=>'web_artikel_per_page', 'value'=>8, 'jenis'=>'int', 'keterangan'=>'Jumlah artikel dalam satu halaman', 'kategori'=>'web_theme'));
   }
 
