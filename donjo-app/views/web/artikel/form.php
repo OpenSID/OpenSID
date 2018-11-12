@@ -11,7 +11,7 @@
 					"table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
 		],
 		toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
-		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
+		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code | fontselect fontsizeselect",
 		image_advtab: true ,
 		external_filemanager_path:"<?= base_url()?>assets/filemanager/",
 		filemanager_title:"Responsive Filemanager" ,
@@ -35,9 +35,9 @@
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
-    <h1>Form Artikel : <?php if ($kategori):?><?=$kategori['kategori'];?><?php else:?>Artikel Statis<?php endif;?></h1>
+    <h1>Form Artikel : <?php if ($kategori): ?><?=$kategori['kategori'];?><?php else: ?>Artikel Statis<?php endif; ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url("web/index/$cat")?>"> Daftar Artikel</a></li>
 			<li class="active">Form Artikel</li>
 		</ol>
@@ -77,13 +77,13 @@
 						<div class="box-body no-padding">
               <div class="col-sm-12">
 				  			<div class="form-group">
-									<?php if ($artikel['gambar']):?>
+									<?php if ($artikel['gambar']): ?>
 					          <input type="hidden" name="old_gambar" value="<?= $artikel['gambar']?>">
 									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar'], 'kecil')?>" alt="Gambar Utama">
 									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $artikel['gambar']?>" /> Hapus Gambar</label></p>
-									<?php else:?>
+									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
-									<?php endif;?>
+									<?php endif; ?>
 									<label class="control-label" for="gambar">Gambar Utama</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path">
@@ -96,13 +96,13 @@
 							</div>
               <div class="col-sm-12">
 				  			<div class="form-group">
-									<?php if ($artikel['gambar1']):?>
+									<?php if ($artikel['gambar1']): ?>
 					          <input type="hidden" name="old_gambar1" value="<?= $artikel['gambar1']?>">
 									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar1'], 'kecil')?>" alt="Gambar Utama">
 									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar1_hapus" value="<?= $artikel['gambar1']?>" /> Hapus Gambar</label></p>
-									<?php else:?>
+									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
-									<?php endif;?>
+									<?php endif; ?>
 									<label class="control-label" for="gambar1">Gambar Tambahan</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path1">
@@ -115,13 +115,13 @@
 							</div>
 							<div class="col-sm-12">
 				  			<div class="form-group">
-									<?php if ($artikel['gambar2']):?>
+									<?php if ($artikel['gambar2']): ?>
 					          <input type="hidden" name="old_gambar2" value="<?= $artikel['gambar2']?>">
 									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar2'], 'kecil')?>" alt="Gambar Utama">
 									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar2_hapus" value="<?= $artikel['gambar2']?>" /> Hapus Gambar</label></p>
-									<?php else:?>
+									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
-									<?php endif;?>
+									<?php endif; ?>
 									<label class="control-label" for="gambar2">Gambar Tambahan</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path2">
@@ -134,13 +134,13 @@
 							</div>
 							<div class="col-sm-12">
 				  			<div class="form-group">
-									<?php if ($artikel['gambar3']):?>
+									<?php if ($artikel['gambar3']): ?>
 					          <input type="hidden" name="old_gambar3" value="<?= $artikel['gambar3']?>">
 									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar3'], 'kecil')?>" alt="Gambar Utama">
 									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar3_hapus" value="<?= $artikel['gambar3']?>" /> Hapus Gambar</label></p>
-									<?php else:?>
+									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
-									<?php endif;?>
+									<?php endif; ?>
 									<label class="control-label" for="gambar3">Gambar Tambahan</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path3">
@@ -162,13 +162,13 @@
 						</div>
 						<div class="box-body no-padding">
 							<div class="col-sm-12">
-								<?php if ($artikel['dokumen']):?>
+								<?php if ($artikel['dokumen']): ?>
 									<div class="form-group">
 										<div class="mailbox-attachment-info">
-											<a href="<?=base_url().LOKASI_DOKUMEN.$artikel['dokumen']?>" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Unduh Dokumen</a>
+											<a href="<?= base_url().LOKASI_DOKUMEN.$artikel['dokumen']?>" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Unduh Dokumen</a>
 										</div>
 									</div>
-								<?php endif;?>
+								<?php endif; ?>
 				  			<div class="form-group">
 									<label class="control-label" for="dokumen">Dokumen Lampiran</label>
 									<div class="input-group input-group-sm">

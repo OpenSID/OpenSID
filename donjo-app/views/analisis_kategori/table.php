@@ -1,5 +1,3 @@
-<!-- jQuery 3 -->
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(function()
 	{
@@ -15,9 +13,9 @@
 	<section class="content-header">
 		<h1>Pengaturan Kategori - <?= $analisis_master['nama']?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
-			<li><a href="<?=site_url()?>analisis_kategori/leave"><?= $analisis_master['nama']?></a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url()?>analisis_kategori/leave"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Pengaturan Kategori</li>
 		</ol>
 	</section>
@@ -31,8 +29,8 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url('analisis_kategori/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Kategori / Variabel Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Kategori Indikator"><i class="fa fa-plus"></i> Tambah Kategori/Variabel Baru</a>
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("analisis_kategori/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="<?= site_url('analisis_kategori/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Kategori / Variabel Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Kategori Indikator"><i class="fa fa-plus"></i> Tambah Kategori/Variabel Baru</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("analisis_kategori/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<a href="<?= site_url()?>analisis_kategori/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
 						</div>
 						<div class="box-body">
@@ -43,9 +41,9 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="input-group input-group-sm pull-right">
-														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("analisis_kategori/search")?>');$('#'+'mainform').submit();}">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("analisis_kategori/search")?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("analisis_kategori/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("analisis_kategori/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
@@ -53,7 +51,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover nowrap">
+														<table class="table table-bordered table-striped dataTable table-hover nowrap">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th><input type="checkbox" id="checkall"/></th>
@@ -64,7 +62,7 @@
 																	<?php elseif ($o==3): ?>
 																		<th><a href="<?= site_url("analisis_kategori/index/$p/4")?>">Kategori/Variabel <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_kategori/index/$p/3")?>">Kategori/Variabel <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("analisis_kategori/index/$p/4")?>">Kategori/Variabel <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																</tr>
 															</thead>
@@ -109,19 +107,19 @@
 												<div class="dataTables_paginate paging_simple_numbers">
 													<ul class="pagination">
 														<?php if ($paging->start_link): ?>
-															<li><a href="<?=site_url("analisis_kategori/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+															<li><a href="<?= site_url("analisis_kategori/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->prev): ?>
-															<li><a href="<?=site_url("analisis_kategori/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+															<li><a href="<?= site_url("analisis_kategori/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 														<?php endif; ?>
 														<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("analisis_kategori/index/$i/$o")?>"><?= $i?></a></li>
 														<?php endfor; ?>
 														<?php if ($paging->next): ?>
-															<li><a href="<?=site_url("analisis_kategori/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+															<li><a href="<?= site_url("analisis_kategori/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->end_link): ?>
-															<li><a href="<?=site_url("analisis_kategori/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+															<li><a href="<?= site_url("analisis_kategori/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 														<?php endif; ?>
 													</ul>
 												</div>
@@ -135,7 +133,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?
@@ -154,7 +152,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin mengembalikan status data penduduk ini?

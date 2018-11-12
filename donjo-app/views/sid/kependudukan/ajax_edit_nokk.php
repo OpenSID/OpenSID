@@ -23,15 +23,15 @@
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm required" name="tgl_cetak_kk" id="tgl_1" type="text" value="<?= $kk['tgl_cetak_kk']?>"/>
+								<input class="form-control input-sm" name="tgl_cetak_kk" id="tgl_1" type="text" value="<?= $kk['tgl_cetak_kk']?>"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label>Kelas SosiaL</label>
+							<label>Kelas Sosial</label>
 							<select class="form-control input-sm"  id="kelas_sosial" name="kelas_sosial">
 								<option value="">Pilih Tingkatan Keluarga Sejahtera</option>
-								<?php foreach ($keluarga_sejahtera as $data):?>
-									<option value="<?= $data['id']?>" <?php if ($kk['kelas_sosial']==$data['id']){?>selected<?php }?>><?= strtoupper($data['nama'])?></option>
+								<?php foreach ($keluarga_sejahtera as $data): ?>
+									<option value="<?= $data['id']?>" <?php if ($kk['kelas_sosial'] == $data['id']): ?>selected <?php endif; ?>><?= strtoupper($data['nama'])?></option>
 								<?php endforeach;?>
 							</select>
 						</div>
@@ -40,7 +40,7 @@
 							<?php foreach ($program as $bantuan): ?>
 								<div class="checkbox">
 									<label>
-										<input type="checkbox" name="id_program[]" value="<?= $bantuan['id']?>"/<?php if ($bantuan['peserta'] != ''):?>checked<?php endif;?>>
+										<input type="checkbox" name="id_program[]" value="<?= $bantuan['id']?>"/<?php if ($bantuan['peserta'] != ''): ?>checked <?php endif; ?>>
 										<a href="<?= site_url('program_bantuan/detail/1/'.$bantuan['id'])?>" target="_blank"><?= $bantuan['nama']?></a>
 									</label>
 								</div>

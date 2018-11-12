@@ -1,3 +1,14 @@
+$( window ).on( "load", function() {
+	// Scroll ke menu aktif perlu dilakukan di onload sesudah semua loading halaman selesai
+	// Tidak bisa di document.ready
+	// preparing var for scroll via query selector
+	var activated_menu = $('li.treeview.active.menu-open')[0];
+	// autscroll to activated menu/sub menu
+	if (activated_menu){
+		activated_menu.scrollIntoView({behavior: 'smooth'});
+	}
+});
+
 $(document).ready(function()
 {
 	//CheckBox All Selected
@@ -36,6 +47,16 @@ $(document).ready(function()
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2();
+	// Select2 dengan fitur pencarian dan boleh isi sendiri
+	$('.select2-tags').select2(
+		{
+			tags: true
+		});
+	// Select2 untuk disposisi pada form
+	// surat masuk
+	$('#disposisi_kepada').select2({
+		placeholder: "Pilih tujuan disposisi"
+	});
 	$('button[type="reset"]').click(function()
 	{
 		$('.select2').select2('val', 'All');
@@ -253,13 +274,26 @@ $('[checked="checked"]').parent().addClass('active')
   $('.my-colorpicker2').colorpicker();
 	//Text Editor with addon
 	$('#min-textarea').wysihtml5();
+
+	$('ul.sidebar-menu').on('expanded.tree', function(e){
+		// Manipulasi menu perlu ada tenggang waktu -- supaya dilakukan sesudah
+		// event lain selesai
+		e.stopImmediatePropagation();
+		setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
+	});
+
 });
 
-function checkAll()
+function scrollTampil(elem)
 {
-	$("#checkall").click(function ()
+	elem.scrollIntoView({behavior: 'smooth'});
+}
+
+function checkAll(id = "#checkall")
+{
+	$(id).click(function ()
 	{
-		if ($(".table #checkall").is(':checked'))
+		if ($(".table " + id).is(':checked'))
 		{
 			$(".table input[type=checkbox]").each(function ()
 			{
@@ -318,8 +352,12 @@ function mapBox()
 		$(this).find('.fetched-data').load(link.attr('href'));
 	});
 }
-function formAction(idForm, action)
+function formAction(idForm, action, target = '')
 {
+	if (target != '')
+	{
+		$('#'+idForm).attr('target', target);
+	}
 	$('#'+idForm).attr('action', action);
 	$('#'+idForm).submit();
 }
@@ -354,29 +392,44 @@ function cari_nik()
 	});
 }
 
-;(function()
-{
+$(function(){
+	$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'0.5px solid #7a82eb'});
+	$('#op_item input').change(function()
+	{
+		if ($(this).is('input:checked'))
+		{
+			$('#op_item input').parent().css({'background':'#fafafa'});
+			$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'0.5px solid #7a82eb'});
+			$(this).parent().css({'background':'#c9cdff'});
+		}
+		else
+		{
+			$(this).parent().css({'background':'#fafafa','border':'0px'});
+		}
+	});
+	$('#op_item label').click(function()
+	{
+		$(this).prev().trigger('click');
+	})
+});
+
+// automatically send CSRF token for all AJAX and/or POST requests
+(function() {
 	var csrf_param = $('meta[name=csrf-param]').attr('content')
 
-	function getCsrfToken()
-	{
+	function getCsrfToken() {
 		return document.cookie.match(new RegExp(csrf_param +'=(\\w+)'))[1]
 	}
 
-	$(document).on('submit', 'form', function()
-	{
-		if (this.method.toLowerCase() !== 'get')
-		{
+	$(document).on('submit', 'form', function() {
+		if (this.method.toLowerCase() !== 'get') {
 			this[csrf_param] || $(this).append($('<input type=hidden name='+ csrf_param +'>'))
 			this[csrf_param].value = getCsrfToken()
 		}
 	})
 
-	// automatically send CSRF token for all AJAX requests
-	$.ajaxPrefilter(function (options, originalOptions, xhr)
-	{
-		if (!options.crossDomain && options.type !== 'GET')
-		{
+	$.ajaxPrefilter(function (options, originalOptions, xhr) {
+		if (!options.crossDomain && options.type !== 'GET') {
 			options.data = (options.data||'') + '&'+ csrf_param +'='+ getCsrfToken()
 		}
 	})

@@ -1,5 +1,3 @@
-<!-- jQuery 3 -->
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(function()
 	{
@@ -15,7 +13,7 @@
 	<section class="content-header">
 		<h1>Format Surat Desa</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Format Surat Desa</li>
 		</ol>
 	</section>
@@ -36,8 +34,8 @@
 											<div class="col-sm-6">
 												<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url('surat_master/filter')?>')">
 													<option value="">Semua</option>
-													<option value="1" <?php if ($filter==1 ):?>selected<?php endif?>>Surat Sistem</option>
-													<option value="2" <?php if ($filter==2 ):?>selected<?php endif?>>Surat Desa</option>
+													<option value="1" <?php if ($filter==1 ): ?>selected<?php endif; ?>>Surat Sistem</option>
+													<option value="2" <?php if ($filter==2 ): ?>selected<?php endif; ?>>Surat Desa</option>
 												</select>
 											</div>
 											<div class="col-sm-6">
@@ -81,12 +79,12 @@
 														</thead>
 														<tbody>
 															<?php foreach ($main as $data): ?>
-																<tr <?php if($data['jenis']!=1):?>style='background-color:#f8deb5 !important;'<?php endif;?>>
+																<tr <?php if ($data['jenis']!=1): ?>style='background-color:#f8deb5 !important;'<?php endif; ?>>
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("surat_master/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
-																		<?php if ($data['kunci'] == '0'):?>
+																		<?php if ($data['kunci'] == '0'): ?>
 																			<a href="<?= site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="btn bg-navy btn-flat btn-sm" title="Non-Aktifkan Surat" ><i class="fa fa-unlock"></i></a>
 																			<?php if ($data['favorit']==1): ?>
 																				<a href="<?= site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-sm" title="Keluarkan dari Daftar Favorit" ><i class="fa fa-star"></i></a>
@@ -95,10 +93,10 @@
 																			<?php endif; ?>
 																		<?php elseif ($data['kunci'] == '1'): ?>
 																			<a href="<?= site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a>
-																		<?php endif?>
+																		<?php endif ?>
 																		<?php if ($data['jenis']!=1): ?>
 																			<a href="#" data-href="<?= site_url("surat_master/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php endif;?>
+																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['nama']?></td>
 																	<td><?= $data['kode_surat']?></td>
@@ -169,7 +167,7 @@
 								<div class='modal-content'>
 									<div class='modal-header'>
 										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 									</div>
 									<div class='modal-body btn-info'>
 										Apakah Anda yakin ingin menghapus data ini?

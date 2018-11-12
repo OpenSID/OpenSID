@@ -1,19 +1,18 @@
-<!-- jQuery 3 -->
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <!-- OpenStreetMap Js-->
-<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
-<script src="<?php echo base_url()?>assets/js/turf.min.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.js"></script>
+<script src="<?= base_url()?>assets/js/turf.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 <script>
 	(function() {
-	//Jika posisi peta_desa belum ada, maka gunakan peta_desa default
-	<?php if(!empty($lokasi['lat']) && !empty($lokasi['lng'])): ?>
-		var posisi = [<?=$lokasi['lat'].",".$lokasi['lng']?>];
-		var zoom = <?=$desa['zoom'] ?: 10?>;
-	<?php else: ?>
-		var posisi = [-7.885619783139936, 110.39893195996092];
-		var zoom = 10;
-	<?php endif; ?>
+		setTimeout(function() {peta_desa.invalidateSize();}, 500);
+		//Jika posisi peta_desa belum ada, maka gunakan peta_desa default
+		<?php if (!empty($lokasi['lat']) && !empty($lokasi['lng'])): ?>
+			var posisi = [<?=$lokasi['lat'].",".$lokasi['lng']?>];
+			var zoom = <?=$desa['zoom'] ?: 10?>;
+		<?php else: ?>
+			var posisi = [-7.885619783139936, 110.39893195996092];
+			var zoom = 10;
+		<?php endif; ?>
 		//Inisialisasi tampilan peta
 		var peta_desa = L.map('map_lokasi').setView(posisi, zoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -42,8 +41,8 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div id="map_lokasi"></div>
-				<input type="hidden" name="lat" id="lat" value="<?=$lokasi['lat']?>"/>
-    		<input type="hidden" name="lng" id="lng" value="<?=$lokasi['lng']?>" />>
+				<input type="hidden" name="lat" id="lat" value="<?= $lokasi['lat']?>"/>
+    		<input type="hidden" name="lng" id="lng" value="<?= $lokasi['lng']?>" />>
 			</div>
 		</div>
 	</div>

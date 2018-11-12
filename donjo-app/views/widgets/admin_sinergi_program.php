@@ -13,7 +13,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Sinergi Program</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Pengaturan Sinergi Program</li>
 		</ol>
 	</section>
@@ -58,8 +58,8 @@
                                       <div class="form-group">
                                         <select class="form-control input-sm" name="setting[<?= $s?>][baris]">
                                           <option value="">-- Pilih Baris --</option>
-                                          <?php for ($i=1; $i<11; $i++):?>
-                                            <option value="<?= $i;?>" <?php if ($program['baris']==$i):?>selected<?php endif?>><?= $i;?></option>
+                                          <?php for ($i=1; $i<11; $i++): ?>
+                                            <option value="<?= $i;?>" <?php if ($program['baris']==$i): ?>selected<?php endif ?>><?= $i;?></option>
                                           <?php endfor?>
                                         </select>
                                       </div>
@@ -68,8 +68,8 @@
                                       <div class="form-group">
                                         <select class="form-control input-sm" name="setting[<?= $s?>][kolom]">
                                           <option value="">-- Pilih Kolom --</option>
-                                          <?php for ($i=1; $i<4; $i++):?>
-                                            <option value="<?= $i;?>" <?php if ($program['kolom']==$i):?>selected<?php endif?>><?= $i;?></option>
+                                          <?php for ($i=1; $i<4; $i++): ?>
+                                            <option value="<?= $i;?>" <?php if ($program['kolom']==$i): ?>selected<?php endif ?>><?= $i;?></option>
                                           <?php endfor?>
                                         </select>
                                       </div>
@@ -97,7 +97,7 @@
                                       <div class="form-group">
                                         <select class="form-control input-sm" name="setting[<?= $s?>][baris]">
                                           <option value="">-- Pilih Baris --</option>
-                                          <?php for ($i=1; $i<11; $i++):?>
+                                          <?php for ($i=1; $i<11; $i++): ?>
                                             <option value="<?= $i;?>"><?= $i;?></option>
                                           <?php endfor?>
                                         </select>
@@ -107,7 +107,7 @@
                                       <div class="form-group">
                                         <select class="form-control input-sm" name="setting[<?= $s?>][kolom]">
                                           <option value="">-- Pilih Kolom --</option>
-                                          <?php for ($i=1; $i<4; $i++):?>
+                                          <?php for ($i=1; $i<4; $i++): ?>
                                             <option value="<?= $i;?>"><?= $i;?></option>
                                           <?php endfor?>
                                         </select>

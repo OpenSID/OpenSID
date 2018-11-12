@@ -2,10 +2,10 @@
 	<section class="content-header">
 		<h1>Pengelolaan Data RT</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('sid_core')?>"> Daftar <?= ucwords($this->setting->sebutan_dusun)?></a></li>
-			<li><a href="<?=site_url("sid_core/sub_rw/$id_dusun")?>"> Daftar RW</a></li>
-			<li><a href="<?=site_url("sid_core/sub_rt/$id_dusun/$rw")?>"> Daftar RT</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('sid_core')?>"> Daftar <?= ucwords($this->setting->sebutan_dusun)?></a></li>
+			<li><a href="<?= site_url("sid_core/sub_rw/$id_dusun")?>"> Daftar RW</a></li>
+			<li><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$rw")?>"> Daftar RT</a></li>
 			<li class="active">Data RT</li>
 		</ol>
 	</section>
@@ -14,7 +14,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						 <a href="<?=site_url("sid_core/sub_rt/$id_dusun/$rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
+						 <a href="<?= site_url("sid_core/sub_rt/$id_dusun/$rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RT
            	</a>
 					</div>
@@ -28,11 +28,11 @@
 												<div class="form-group">
 													<label class="col-sm-3 control-label" for="rt">RT</label>
 													<div class="col-sm-7">
-														<input  id="rt" class="form-control input-sm required" type="text" placeholder="Nomor RT" name="rt" value="<?= $rt?>">
+														<input  id="rt" class="form-control input-sm digits required" type="text" placeholder="Nomor RT" name="rt" value="<?= $rt?>">
 													</div>
 												</div>
 											</div>
-											<?php if ($rt):?>
+											<?php if ($rt): ?>
 												<div class="col-sm-12">
 													<div class="form-group">
 														<label class="col-sm-3 control-label" for="kepala_lama">Ketua RT Sebelumnya</label>
@@ -44,16 +44,16 @@
 														</div>
 													</div>
 												</div>
-											<?php endif;?>
+											<?php endif; ?>
 											<div class="col-sm-12">
 												<div class="form-group">
 													<label class="col-sm-3 control-label" for="id_kepala">Ketua RT</label>
 													<div class="col-sm-7">
 														<select class="form-control select2 input-sm" style="width: 100%;" id="id_kepala" name="id_kepala">
 															<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
-															<?php foreach ($penduduk as $data):?>
+															<?php foreach ($penduduk as $data): ?>
 																<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
-															<?php endforeach;?>
+															<?php endforeach; ?>
 														</select>
 													</div>
 												</div>

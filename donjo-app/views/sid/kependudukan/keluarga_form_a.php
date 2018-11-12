@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Biodata Anggota Keluarga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
       <li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
 			<li class="active">Biodata Anggota Keluarga</li>
 		</ol>
@@ -15,11 +15,11 @@
             <div class="col-md-3">
               <div class="box box-primary">
                 <div class="box-body box-profile">
-                  <?php if ($penduduk['foto']):?>
-                    <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Photo">
-                  <?php else:?>
-                    <img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Photo">
-                  <?php endif;?>
+                  <?php if ($penduduk['foto']): ?>
+                    <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+                  <?php else: ?>
+                    <img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+                  <?php endif; ?>
                   <br/>
                   <p class="text-muted text-center"> (Kosongkan jika tidak ingin mengubah foto)</p>
                   <br/>
@@ -100,16 +100,16 @@
                                 <td>
                                   <select name="ktp_el" class="form-control input-sm">
                                   <option value="">Pilih KTP-EL</option>
-                                  <?php foreach ($ktp_el as $id => $nama):?>
-                                    <option value="<?= $id?>" <?php if (strtolower($penduduk['ktp_el'])==$nama):?>selected<?php endif;?>><?= strtoupper($nama)?></option>
+                                  <?php foreach ($ktp_el as $id => $nama): ?>
+                                    <option value="<?= $id?>" <?php if (strtolower($penduduk['ktp_el'])==$nama): ?>selected<?php endif; ?>><?= strtoupper($nama)?></option>
                                   <?php endforeach;?>
                                   </select>
                                 </td>
                                 <td>
                                   <select name="status_rekam" class="form-control input-sm">
                                   <option value="">Pilih Status Rekam</option>
-                                  <?php foreach ($status_rekam as $id => $nama):?>
-                                    <option value="<?= $id?>" <?php if (strtolower($penduduk['status_rekam'])==$nama):?>selected<?php endif;?>><?= strtoupper($nama)?></option>
+                                  <?php foreach ($status_rekam as $id => $nama): ?>
+                                    <option value="<?= $id?>" <?php if (strtolower($penduduk['status_rekam'])==$nama): ?>selected<?php endif; ?>><?= strtoupper($nama)?></option>
                                   <?php endforeach;?>
                                   </select>
                                 </td>
@@ -130,8 +130,8 @@
                         <label for="kk_level">Hubungan Dalam Keluarga</label>
                         <select class="form-control input-sm required" name="kk_level">
                           <option value="">Pilih Hubungan Keluarga</option>
-                          <?php foreach ($hubungan as $data):?>
-                            <option value="<?= $data['id']?>"<?php if ($penduduk['kk_level']==$data['id']):?> selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($hubungan as $data): ?>
+                            <option value="<?= $data['id']?>"<?php if ($penduduk['kk_level']==$data['id']): ?> selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -141,8 +141,8 @@
                         <label for="sex">Jenis Kelamin </label>
                         <select class="form-control input-sm required" name="sex">
                           <option value="">Jenis Kelamin</option>
-                          <option value="1" <?php if ($penduduk['id_sex'] == '1'):?>selected<?php endif;?>>Laki-Laki</option>
-                          <option value="2" <?php if ($penduduk['id_sex'] == '2'):?>selected<?php endif;?> >Perempuan</option>
+                          <option value="1" <?php if ($penduduk['id_sex'] == '1'): ?>selected<?php endif; ?>>Laki-Laki</option>
+                          <option value="2" <?php if ($penduduk['id_sex'] == '2'): ?>selected<?php endif; ?> >Perempuan</option>
                         </select>
                       </div>
                     </div>
@@ -151,8 +151,8 @@
                         <label for="agama_id">Agama</label>
                         <select class="form-control input-sm required" name="agama_id">
                           <option value="">Pilih Agama</option>
-                          <?php foreach ($agama as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['agama_id']==$data['id']):?> selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($agama as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['agama_id']==$data['id']): ?> selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -161,9 +161,9 @@
                       <div class='form-group'>
                         <label for="status">Status Penduduk </label>
                         <select class="form-control input-sm required" name="status">
-                          <option value="1" <?php if ($penduduk['status'] == "TETAP" OR $penduduk['status'] == "1" OR $penduduk['status'] == ""):?>selected<?php endif;?>>Tetap</option>
-                          <option value="2" <?php if ($penduduk['status'] == "TIDAK AKTIF" OR $penduduk['status'] == "2"):?>selected<?php endif;?>>Tidak Tetap</option>
-                          <option value="3" <?php if ($penduduk['status'] == "PENDATANG" OR $penduduk['status'] == "3"):?>selected<?php endif;?> >Pendatang</option>
+                          <option value="1" <?php if ($penduduk['status'] == "TETAP" OR $penduduk['status'] == "1" OR $penduduk['status'] == ""): ?>selected<?php endif; ?>>Tetap</option>
+                          <option value="2" <?php if ($penduduk['status'] == "TIDAK AKTIF" OR $penduduk['status'] == "2"): ?>selected<?php endif; ?>>Tidak Tetap</option>
+                          <option value="3" <?php if ($penduduk['status'] == "PENDATANG" OR $penduduk['status'] == "3"): ?>selected<?php endif; ?> >Pendatang</option>
                         </select>
                       </div>
                     </div>
@@ -212,7 +212,7 @@
                         <select class="form-control input-sm" name="tempat_dilahirkan">
                           <option value="">Pilih Tempat Dilahirkan</option>
                           <?php foreach ($tempat_dilahirkan as $id => $nama): ?>
-                            <option value="<?= $id?>" <?php if ($penduduk['tempat_dilahirkan']==$id):?>selected<?php endif;?>><?= strtoupper($nama)?></option>
+                            <option value="<?= $id?>" <?php if ($penduduk['tempat_dilahirkan']==$id): ?>selected<?php endif; ?>><?= strtoupper($nama)?></option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -225,7 +225,7 @@
                             <select class="form-control input-sm" name="jenis_kelahiran">
                               <option value="">Pilih Jenis Kelahiran</option>
                               <?php foreach ($jenis_kelahiran as $id => $nama): ?>
-                                <option value="<?= $id?>" <?php if ($penduduk['jenis_kelahiran']==$id):?>selected<?php endif;?>><?= strtoupper($nama)?></option>
+                                <option value="<?= $id?>" <?php if ($penduduk['jenis_kelahiran']==$id): ?>selected<?php endif; ?>><?= strtoupper($nama)?></option>
                               <?php endforeach; ?>
                             </select>
                           </div>
@@ -242,7 +242,7 @@
                             <select class="form-control input-sm" name="penolong_kelahiran">
                               <option value="">Pilih Penolong Kelahiran</option>
                               <?php foreach ($penolong_kelahiran as $id => $nama): ?>
-                                <option value="<?= $id?>" <?php if ($penduduk['penolong_kelahiran']==$id):?>selected<?php endif;?>><?= strtoupper($nama)?></option>
+                                <option value="<?= $id?>" <?php if ($penduduk['penolong_kelahiran']==$id): ?>selected<?php endif; ?>><?= strtoupper($nama)?></option>
                               <?php endforeach; ?>
                             </select>
                           </div>
@@ -275,8 +275,8 @@
                         <label for="pendidikan_kk_id">Pendidikan Dalam KK </label>
                         <select class="form-control input-sm" name="pendidikan_kk_id">
                           <option value="">Pilih Pendidikan (Dalam KK) </option>
-                          <?php foreach ($pendidikan_kk as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['pendidikan_kk_id']==$data['id']):?>selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($pendidikan_kk as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['pendidikan_kk_id']==$data['id']): ?>selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach?>
                         </select>
                       </div>
@@ -286,8 +286,8 @@
                         <label for="pendidikan_sedang_id">Pendidikan Sedang Ditempuh </label>
                         <select class="form-control input-sm" name="pendidikan_sedang_id" >
                           <option value="">Pilih Pendidikan</option>
-                          <?php foreach ($pendidikan_sedang as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['pendidikan_sedang_id']==$data['id']):?>selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($pendidikan_sedang as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['pendidikan_sedang_id']==$data['id']): ?>selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -297,8 +297,8 @@
                         <label for="pekerjaan_id">Pekerjaaan</label>
                         <select class="form-control input-sm required" name="pekerjaan_id">
                           <option value="">Pilih Pekerjaan</option>
-                          <?php foreach ($pekerjaan as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['pekerjaan_id']==$data['id']):?>selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($pekerjaan as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['pekerjaan_id']==$data['id']): ?>selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -313,8 +313,8 @@
                         <label for="warganegara_id">Status Warga Negara</label>
                         <select class="form-control input-sm required" name="warganegara_id">
                           <option value="">Pilih Warga Negara</option>
-                          <?php foreach ($warganegara as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['warganegara_id']==$data['id']):?>selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($warganegara as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['warganegara_id']==$data['id']): ?>selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -411,8 +411,8 @@
                         <label for="status_kawin">Status Perkawinan</label>
                         <select class="form-control input-sm required" name="status_kawin">
                           <option value="">Pilih Status Perkawinan</option>
-                          <?php foreach ($kawin as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['status_kawin']==$data['id']):?>selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($kawin as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['status_kawin']==$data['id']): ?>selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -467,8 +467,8 @@
                         <label for="golongan_darah_id">Golongan Darah</label>
                         <select class="form-control input-sm" name="golongan_darah_id">
                           <option value="">Pilih Golongan Darah</option>
-                          <?php foreach ($golongan_darah as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['golongan_darah_id']==$data['id']):?>selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($golongan_darah as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['golongan_darah_id']==$data['id']): ?>selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -478,8 +478,8 @@
                         <label for="cacat_id">Cacat</label>
                         <select class="form-control input-sm" name="cacat_id" >
                           <option value="">Pilih Jenis Cacat</option>
-                          <?php foreach ($cacat as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['cacat_id']==$data['id']):?>selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($cacat as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['cacat_id']==$data['id']): ?>selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -489,8 +489,8 @@
                         <label for="sakit_menahun_id">Sakit Menahun</label>
                         <select class="form-control input-sm" name="sakit_menahun_id">
                           <option value="">Pilih Sakit Menahun</option>
-                          <?php foreach ($sakit_menahun as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['sakit_menahun_id']==$data['id']):?>selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($sakit_menahun as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['sakit_menahun_id']==$data['id']): ?>selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -500,8 +500,8 @@
                         <label for="cara_kb_id">Akseptor KB</label>
                         <select class="form-control input-sm" name="cara_kb_id" >
                           <option value="">Pilih Cara KB Saat Ini</option>
-                          <?php foreach ($cara_kb as $data):?>
-                            <option value="<?= $data['id']?>" <?php if ($penduduk['cara_kb_id']==$data['id']):?>selected<?php endif;?>><?= strtoupper($data['nama'])?></option>
+                          <?php foreach ($cara_kb as $data): ?>
+                            <option value="<?= $data['id']?>" <?php if ($penduduk['cara_kb_id']==$data['id']): ?>selected<?php endif; ?>><?= strtoupper($data['nama'])?></option>
                           <?php endforeach;?>
                         </select>
                       </div>
@@ -511,8 +511,8 @@
                         <label for="hamil">Status Kehamilan </label>
                         <select class="form-control input-sm" name="hamil">
                           <option value="">Pilih Status Kehamilan</option>
-                          <option value="0" <?php if ($penduduk['hamil'] == '0'):?>selected<?php endif;?>>Tidak Hamil</option>
-                          <option value="1" <?php if ($penduduk['hamil'] == '1'):?>selected<?php endif;?> >Hamil</option>
+                          <option value="0" <?php if ($penduduk['hamil'] == '0'): ?>selected<?php endif; ?>>Tidak Hamil</option>
+                          <option value="1" <?php if ($penduduk['hamil'] == '1'): ?>selected<?php endif; ?> >Hamil</option>
                         </select>
                       </div>
                     </div>
@@ -529,7 +529,7 @@
                     <div class='modal-content'>
                       <div class='modal-header'>
                         <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                        <h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Cari Lokasi Tempat Tinggal</h4>
+                        <h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Cari Lokasi Tempat Tinggal</h4>
                       </div>
                       <div class="fetched-data"></div>
                     </div>

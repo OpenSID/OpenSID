@@ -1,4 +1,4 @@
-										<div class="tab-pane <?php if($act_tab==3):?> active<?php endif?>">
+										<div class="tab-pane <?php if ($act_tab==3): ?> active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
 													<div class="box-header with-border">
@@ -57,7 +57,7 @@
 																					</div>
 																				</td>
 																			</tr>
-																			<?php if(isset($_SESSION['gagal'])):?>
+																			<?php if (isset($_SESSION['gagal'])): ?>
 																				<tr>
 																					<td>
 																						<dl class="dl-horizontal">
@@ -77,12 +77,20 @@
 																				<tr>
 																					<td>
 																						<dl class="dl-horizontal">
-																							<dt>Total Data Berhasil :</dt>
-																							<dd><?= $_SESSION['sukses']?></dd>
+																							<dt>Total Keluarga Terimpor :</dt>
+																							<dd><?= $_SESSION['total_keluarga']?></dd>
 																						</dl>
 																					</td>
 																				</tr>
-																			<?php endif?>
+																				<tr>
+																					<td>
+																						<dl class="dl-horizontal">
+																							<dt>Total Penduduk Terimpor :</dt>
+																							<dd><?= $_SESSION['total_penduduk']?></dd>
+																						</dl>
+																					</td>
+																				</tr>
+																			<?php endif ?>
 																		</tbody>
 																	</table>
 																</form>
@@ -97,16 +105,17 @@
 																<h4 class='modal-title' id='myModalLabel'>Proses Impor ......</h4>
 															</div>
 															<div class='modal-body'>
-																Harap tunggu sampai proses impor selesai. Prosses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan..
+																Harap tunggu sampai proses impor selesai. Proses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan..
 																<div class='text-center'>
-																	<img src='<?=base_url()?>assets/images/background/loading.gif'>
+																	<img src='<?= base_url()?>assets/images/background/loading.gif'>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-											<?php unset($_SESSION['sukses']);?>
+											<?php unset($_SESSION['total_keluarga']);?>
+											<?php unset($_SESSION['total_penduduk']);?>
 											<?php unset($_SESSION['baris']);?>
 											<?php unset($_SESSION['gagal']);?>
 										</div>

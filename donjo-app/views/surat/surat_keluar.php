@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Manajemen Surat Keluar</h1>
+		<h1>Arsip Layanan Surat</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Manajemen Surat Keluar</li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Arsip Layanan Surat</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -11,7 +11,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url('keluar/perorangan')?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
+						<a href="<?= site_url('keluar/perorangan_clear')?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
 						<a href="<?= site_url('keluar/graph')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Grafik Surat Keluar</a>
 					</div>
 					<div class="box-body">
@@ -54,7 +54,7 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php	foreach($main as $data):
+															<?php	foreach ($main as $data):
 																if ($data['nama_surat']):
 																	$berkas = $data['nama_surat'];
 																else:
@@ -68,18 +68,25 @@
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
 																		<?php
-																			if (is_file($theFile)):?>
+																			if (is_file($theFile)): ?>
 																				<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm" title="Unduh Surat" target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>
-																			<?php	endif;?>
+																			<?php	endif; ?>
 																		<?php
-																			if (is_file($lampiran)):?>
+																			if (is_file($lampiran)): ?>
 																				<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
-																			<?php	endif;?>
+																			<?php	endif; ?>
 																		<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																	<td><?= $data['no_surat']?></td>
 																	<td><?= $data['format']?></td>
-																	<td><?= unpenetration($data['nama'])?></td>
+																	<td>
+																		<?php if ($data['nama']): ?>
+																			<?= unpenetration($data['nama']); ?>
+																		<?php elseif ($data['nama_non_warga']): ?>
+																			<strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
+																			<strong>NIK: </strong><?= $data['nik_non_warga']; ?>
+																		<?php endif; ?>
+																	</td>
 																	<td><?= $data['pamong']?></td>
 																	<td nowrap><?= tgl_indo2($data['tanggal'])?></td>
 																	<td><?= $data['nama_user']?></td>
@@ -139,7 +146,7 @@
 								<div class='modal-content'>
 									<div class='modal-header'>
 										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 									</div>
 									<div class='modal-body btn-info'>
 										Apakah Anda yakin ingin menghapus data ini?

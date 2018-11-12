@@ -8,6 +8,7 @@
 	$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 	$data['nomor'] = $this->input->post('nomor_main');
 	$_SESSION['post'] = $_POST;
+	$_SESSION['post']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 
 	if ($this->input->post('saksi1')==2) unset($_SESSION['id_saksi1']);
 	if ($_POST['id_saksi1'] != '' AND $_POST['id_saksi1'] !='*')

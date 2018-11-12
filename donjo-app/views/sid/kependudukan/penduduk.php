@@ -1,5 +1,3 @@
-<!-- jQuery 3 -->
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(function()
 	{
@@ -34,7 +32,7 @@
 	<section class="content-header">
 		<h1>Data Penduduk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Data Penduduk</li>
 		</ol>
 	</section>
@@ -44,9 +42,9 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?=site_url('penduduk/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Penduduk Domisili</a>
-						<?php if ($grup==1):?>
+						<?php if ($grup==1): ?>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("penduduk/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data</a>
-						<?php endif;?>
+						<?php endif; ?>
 						<div class="btn-group-vertical">
 							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
 							<ul class="dropdown-menu" role="menu">
@@ -75,42 +73,42 @@
 											<div class="col-sm-9">
 												<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('penduduk/filter')?>')">
 													<option value="">Semua</option>
-													<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
-													<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
+													<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+													<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 												</select>
 												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk/status_dasar')?>')">
 													<option value="">Status</option>
-													<?php foreach ($list_status_dasar AS $data):?>
-														<option value="<?= $data['id']?>" <?php if ($status_dasar == $data['id']):?>selected<?php endif?>><?= $data['nama']?></option>
-													<?php endforeach;?>
+													<?php foreach ($list_status_dasar AS $data): ?>
+														<option value="<?= $data['id']?>" <?php if ($status_dasar == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
+													<?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('penduduk/sex')?>')">
 													<option value="">Jenis Kelamin</option>
-													<option value="1" <?php if ($sex==1 ):?>selected<?php endif?>>Laki-Laki</option>
-													<option value="2" <?php if ($sex==2 ):?>selected<?php endif?>>Perempuan</option>
+													<option value="1" <?php if ($sex==1 ): ?>selected<?php endif ?>>Laki-Laki</option>
+													<option value="2" <?php if ($sex==2 ): ?>selected<?php endif ?>>Perempuan</option>
 												</select>
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-													<?php foreach ($list_dusun AS $data):?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']):?>selected<?php endif?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
-													<?php endforeach;?>
+													<?php foreach ($list_dusun AS $data): ?>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+													<?php endforeach; ?>
 												</select>
-												<?php if ($dusun):?>
+												<?php if ($dusun): ?>
 													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk/rw')?>')" >
 														<option value="">RW</option>
-														<?php foreach ($list_rw AS $data):?>
-															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']):?>selected<?php endif?>><?= $data['rw']?></option>
-														<?php endforeach;?>
+														<?php foreach ($list_rw AS $data): ?>
+															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
+														<?php endforeach; ?>
 													</select>
-												<?php endif;?>
-												<?php if ($rw):?>
+												<?php endif; ?>
+												<?php if ($rw): ?>
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk/rt')?>')">
 														<option value="">RT</option>
-														<?php foreach ($list_rt AS $data):?>
-															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']):?>selected<?php endif?>><?= $data['rt']?></option>
-														<?php endforeach;?>
+														<?php foreach ($list_rt AS $data): ?>
+															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
+														<?php endforeach; ?>
 													</select>
-												<?php endif;?>
+												<?php endif; ?>
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
@@ -124,7 +122,10 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
-													<table class="table table-bordered dataTable table-hover nowrap">
+													<?php if ($judul_statistik): ?>
+														<h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
+													<?php endif; ?>
+													<table class="table table-bordered table-striped dataTable table-hover nowrap">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th><input type="checkbox" id="checkall"/></th>
@@ -180,33 +181,30 @@
 																				<li>
 																					<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
 																				</li>
-																				<?php if($data['status_dasar']==1): ?>
+																				<?php if ($data['status_dasar']==1): ?>
 																					<li>
 																						<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
 																					</li>
 																					<li>
-
-																						<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?php echo $data['nama']?>" data-title="Lokasi <?php echo $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+																						<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?= $data['nama']?>" data-title="Lokasi <?= $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
 																					</li>
 																					<li>
 																						<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
 																					</li>
-
-																						<li>
-																							<a href="<?= site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah/Pindah Alamat Penduduk Lepas" class="btn btn-social btn-flat btn-block btn-sm"  title="Ubah Alamat/Pindah Penduduk dalam Desa"><i class="fa fa-location-arrow"></i> Pindah Penduduk Dalam Desa</a>
-																						</li>
-
+																					<li>
+																						<a href="<?= site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah/Pindah Alamat Penduduk Lepas" class="btn btn-social btn-flat btn-block btn-sm"  title="Ubah Alamat/Pindah Penduduk dalam Desa"><i class="fa fa-location-arrow"></i> Pindah Penduduk Dalam Desa</a>
+																					</li>
 																					<li>
 																						<a href="<?= site_url("penduduk/dokumen/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
 																					</li>
 																					<li>
 																						<a href="<?= site_url("penduduk/cetak_biodata/$data[id]")?>"  target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
 																					</li>
-																					<?php if ($grup==1):?>
+																					<?php if ($grup==1): ?>
 																						<li>
 																							<a href="#" data-href="<?= site_url("penduduk/delete/$p/$o/$data[id]")?>"  class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
 																						</li>
-																					<?php endif;?>
+																					<?php endif; ?>
 																				<?php endif; ?>
 																			</ul>
 																		</div>
@@ -214,11 +212,11 @@
 																	<td>
 																		<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
 																	</td>
-																	<td nowrap><?= strtoupper(unpenetration($data['nama']))?></td>
+																	<td nowrap><?= strtoupper($data['nama'])?></td>
 																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
 																	<td><a href="<?= site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?= $data['no_rtm']?></a></td>
 																	<td><?= strtoupper($data['alamat'])?></td>
-																	<td><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+																	<td><?= strtoupper(ununderscore($data['dusun']))?></td>
 																	<td><?= $data['rw']?></td>
 																	<td><?= $data['rt']?></td>
 																	<td><?= $data['pendidikan']?></td>
@@ -240,9 +238,9 @@
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="50" <?php selected($per_page,50); ?> >50</option>
-															<option value="100" <?php selected($per_page,100); ?> >100</option>
-															<option value="200" <?php selected($per_page,200); ?> >200</option>
+															<option value="50" <?php selected($per_page, 50); ?> >50</option>
+															<option value="100" <?php selected($per_page, 100); ?> >100</option>
+															<option value="200" <?php selected($per_page, 200); ?> >200</option>
 														</select>
 														Dari
 														<strong><?= $paging->num_rows?></strong>
@@ -281,7 +279,7 @@
 								<div class='modal-content'>
 									<div class='modal-header'>
 										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 									</div>
 									<div class='modal-body btn-info'>
 										Apakah Anda yakin ingin menghapus data ini?

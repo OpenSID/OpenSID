@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Ubah Data Inventaris Jalan, Irigasi dan Jaringan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Jalan, Irigasi dan Jaringan</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Jalan, Irigasi dan Jaringan</a></li>
 			<li class="active">Ubah Data</li>
 		</ol>
 	</section>
@@ -24,7 +24,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="nama_barang">Nama Barang / Jenis Barang</label>
 										<div class="col-sm-8">
-											<input type="hidden" id="id" value="<?= $main->id; ?>">
+											<input type="hidden" id="id" name="id" value="<?= $main->id; ?>">
 											<input maxlength="50" value="<?= $main->nama_barang; ?>" class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text" />
 										</div>
 									</div>
@@ -122,9 +122,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label " style="text-align:left;" for="asal_usul">Asal Usul </label>
+										<label class="col-sm-3 control-label " style="text-align:left;" for="asal">Asal Usul </label>
 										<div class="col-sm-8">
-											<select name="asal_usul" id="asal_usul" class="form-control input-sm required" >
+											<select name="asal" id="asal" class="form-control input-sm required" >
 												<option value="<?= $main->asal; ?>"> <?= $main->asal; ?> </option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>

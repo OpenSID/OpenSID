@@ -1,5 +1,3 @@
-<!-- jQuery 3 -->
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(function()
 	{
@@ -15,7 +13,7 @@
 	<section class="content-header">
 		<h1>Laporan Statistik Jawaban</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
 			<li><a href="<?=site_url()?>analisis_statistik_jawaban/leave"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Laporan Per Indikator</li>
@@ -53,43 +51,43 @@
 												<div class="col-sm-9">
 													<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<?=site_url('analisis_statistik_jawaban/tipe')?>')">
 														<option value="">Tipe Indikator</option>
-														<?php foreach ($list_tipe AS $data):?>
-															<option value="<?= $data['id']?>" <?php if ($tipe == $data['id']):?>selected<?php endif?>><?= $data['tipe']?></option>
+														<?php foreach ($list_tipe AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($tipe == $data['id']): ?>selected<?php endif ?>><?= $data['tipe']?></option>
 														<?php endforeach;?>
 													</select>
 													<select class="form-control input-sm" name="kategori" onchange="formAction('mainform', '<?=site_url('analisis_statistik_jawaban/kategori')?>')">
 														<option value="">Tipe Kategori</option>
-														<?php foreach ($list_kategori AS $data):?>
-															<option value="<?= $data['id']?>" <?php if ($kategori == $data['id']):?>selected<?php endif?>><?= $data['kategori']?></option>
+														<?php foreach ($list_kategori AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($kategori == $data['id']): ?>selected<?php endif ?>><?= $data['kategori']?></option>
 														<?php endforeach;?>
 													</select>
 													<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('analisis_statistik_jawaban/filter')?>')">
 														<option value="">Aksi Analisis</option>
-														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Ya</option>
-														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Ya</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak</option>
 													</select>
 													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/dusun')?>')">
 														<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-														<?php foreach ($list_dusun AS $data):?>
-															<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']):?>selected<?php endif?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+														<?php foreach ($list_dusun AS $data): ?>
+															<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
 														<?php endforeach;?>
 													</select>
-													<?php if ($dusun):?>
+													<?php if ($dusun): ?>
 														<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/rw')?>')" >
 															<option value="">RW</option>
-															<?php foreach ($list_rw AS $data):?>
-																<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']):?>selected<?php endif?>><?= $data['rw']?></option>
+															<?php foreach ($list_rw AS $data): ?>
+																<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
 															<?php endforeach;?>
 														</select>
-													<?php endif;?>
-													<?php if ($rw):?>
+													<?php endif; ?>
+													<?php if ($rw): ?>
 														<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/rt')?>')">
 															<option value="">RT</option>
-															<?php foreach ($list_rt AS $data):?>
-																<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']):?>selected<?php endif?>><?= $data['rt']?></option>
+															<?php foreach ($list_rt AS $data): ?>
+																<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
 															<?php endforeach;?>
 														</select>
-													<?php endif;?>
+													<?php endif; ?>
 												</div>
 												<div class="col-sm-3">
 													<div class="input-group input-group-sm pull-right">
@@ -180,7 +178,7 @@
 																			$total += $data['jumlah'];
 																		endif;
 																	?>
-																<?php  endforeach; ?>
+																<?php endforeach; ?>
 															</tbody>
 															<?php if ($total != 0): ?>
 																<tfooty>
@@ -190,7 +188,7 @@
 																		<td colspan="3"></td>
 																	</tr>
 																</tfoot>
-															<?php endif;?>
+															<?php endif; ?>
 														</table>
 													</div>
 												</div>
@@ -244,7 +242,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?

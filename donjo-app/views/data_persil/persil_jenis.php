@@ -12,8 +12,8 @@
 	<section class="content-header">
 		<h1>Pengelolaan Data Jenis Persil</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('data_persil/clear')?>"> Daftar Persil</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('data_persil/clear')?>"> Daftar Persil</a></li>
 			<li class="active">Pengelolaan Jenis Persil</li>
 		</ol>
 	</section>
@@ -48,8 +48,8 @@
 						</div>
 					</form>
 					<div class="box-body">
-						<?php if ($persil_jenis):?>
-								<?php if (count($persil_jenis)>0):?>
+						<?php if ($persil_jenis): ?>
+								<?php if (count($persil_jenis)>0): ?>
 									<div class="col-sm-12">
 										<div class="table-responsive">
 											<table class="table table-bordered dataTable table-hover">
@@ -99,7 +99,7 @@
 				<div class='modal-content'>
 					<div class='modal-header'>
 						<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-						<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+						<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 					</div>
 					<div class='modal-body btn-info'>
 						Apakah Anda yakin ingin menghapus data ini?

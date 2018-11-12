@@ -1,9 +1,20 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Layanan Mandiri</h1>
+		<h1>Pendaftar Layanan Mandiri</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Layanan Mandiri</li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Pendaftar Layanan Mandiri</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -16,13 +27,25 @@
 						</div>
 						<div class="box-body">
 							<div class="row">
+								<div class="col-sm-9">
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm pull-right">
+										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("mandiri/search")?>');$('#'+'mainform').submit();}">
+										<div class="input-group-btn">
+											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("mandiri/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover">
+														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th>No</th>
@@ -34,7 +57,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
@@ -42,9 +65,6 @@
 																		</td>
 																		<td>
 																			<?=$data['nik'];?>
-																			<?php if ($data['nik'] != $data['nik_lama']): ?>
-																				(Berubah dari: <?=$data['nik_lama']?>)
-																			<?php endif?>
 																		</td>
 																		<td width="50%"><?=unpenetration($data['nama'])?></td>
 																		<td nowrap><?=tgl_indo2($data['tanggal_buat'])?></td>
@@ -105,7 +125,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?
@@ -124,7 +144,7 @@
 									<div class='modal-content'>
 										<div class='modal-header btn-info'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-white'></i> PIN Warga</h4>
+											<h4 class='modal-title' id='myModalLabel'> PIN Warga</h4>
 										</div>
 										<div class='modal-body'>
 											Berikut adalah kode pin yang baru saja di hasilkan, silakan dicatat atau di ingat dengan baik, kode pin ini sangat rahasia, dan hanya bisa dilihat sekali ini lalu setelah itu hanya bisa di reset saja. <br /> <h4>Kode PIN : <?=$_SESSION['pin'];?>

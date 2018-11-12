@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Data Terdata Suplemen</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Data Terdata Suplemen</li>
 		</ol>
 	</section>
@@ -52,7 +52,7 @@
                     <?php endif; ?>
                     <td> <?= $terdata["terdata_nama"]." / ".$terdata["terdata_info"]?></td>
                   </tr>
-                  <?php if($suplemen["sasaran"] == 1): ?>
+                  <?php if ($suplemen["sasaran"] == 1): ?>
                     <tr>
                       <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Alamat</td>
                       <td>
@@ -77,7 +77,7 @@
                         <?= $individu['warganegara']?> / <?= $individu['agama']?>
                       </td>
                     </tr>
-                  <?php elseif($suplemen["sasaran"] == 2): ?>
+                  <?php elseif ($suplemen["sasaran"] == 2): ?>
                     <tr>
                       <td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Alamat Keluarga</td>
                       <td>

@@ -1,4 +1,4 @@
-										<div class="tab-pane <?php if($act_tab==5):?> active<?php endif?>">
+										<div class="tab-pane <?php if ($act_tab==5): ?>active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
 													<div class="box-header with-border">
@@ -31,7 +31,7 @@
 																					<div class="ajax-content"></div>
 																				</td>
 																			</tr>
-																			<?php if(isset($_SESSION['gagal'])):?>
+																			<?php if (isset($_SESSION['gagal'])): ?>
 																				<tr>
 																					<td>
 																						<dl class="dl-horizontal">
@@ -64,7 +64,7 @@
 																						</dl>
 																					</td>
 																				</tr>
-																			<?php endif?>
+																			<?php endif ?>
 																		</tbody>
 																	</table>
 																</form>
@@ -78,9 +78,9 @@
 																	<h4 class='modal-title' id='myModalLabel'>Proses Migrasi ......</h4>
 																</div>
 																<div class='modal-body'>
-																	Harap tunggu sampai proses migrasi selesai. Prosses ini biasa memakan waktu beberapa menit.
+																	Harap tunggu sampai proses migrasi selesai. Proses ini biasa memakan waktu beberapa menit.
 																	<div class='text-center'>
-																		<img src='<?=base_url()?>assets/images/background/loading.gif'>
+																		<img src='<?= base_url()?>assets/images/background/loading.gif'>
 																	</div>
 																</div>
 															</div>

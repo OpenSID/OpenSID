@@ -68,7 +68,7 @@
 							<td><?= $data['rt']?></td>
 							<td><?= $data['sex']?></td>
 							<td><?= $data['tempatlahir']?></td>
-							<td><?= tgl_indo($data['tanggallahir'])?></td>
+							<td class="textx"><?= tgl_indo($data['tanggallahir'])?></td>
 							<td align="right"><?= $data['umur']?></td>
 							<td><?= $data['agama']?></td>
 							<td><?= $data['pendidikan']?></td>
@@ -77,7 +77,7 @@
 							<td><?= $data['hubungan']?></td>
 							<td><?= $data['nama_ayah']?></td>
 							<td><?= $data['nama_ibu']?></td>
-							<td><?php if ($data['status']==1):?>Tetap<?php else:?>Pendatang<?php endif;?></td>
+							<td><?php if ($data['status']==1): ?>Tetap<?php else: ?>Pendatang<?php endif; ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

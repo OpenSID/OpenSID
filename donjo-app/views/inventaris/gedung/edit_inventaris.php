@@ -2,13 +2,13 @@
 	<section class="content-header">
 		<h1>Ubah Data Inventaris Gedung Dan Bangunan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_gedung"><i class="fa fa-dashboard"></i>Daftar Inventaris Gedung Dan Bangunan</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_gedung"><i class="fa fa-dashboard"></i>Daftar Inventaris Gedung Dan Bangunan</a></li>
 			<li class="active">Ubah Data</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_gedung" method="post" action="<?= $form_action?>">
+		<form class="form-horizontal" id="validasi" name="form_gedung" method="post" action="<?= site_url("api_inventaris_gedung/update"); ?>">
 			<div class="row">
 				<div class="col-md-3">
           <?php	$this->load->view('inventaris/gedung/menu_kiri.php')?>
@@ -16,7 +16,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-						<a href="<?= site_url() ?>inventaris_gedung" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris bGedung Dan Bangunan</a>
+						<a href="<?= site_url() ?>inventaris_gedung" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Gedung Dan Bangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -35,9 +35,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="register">Nomor Register</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="nomor_register" id="nomor_register" type="text" />
+											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -45,6 +45,10 @@
 										<div class="col-sm-4">
 											<select name="kondisi" id="kondisi" class="form-control input-sm required" >
 												<option value="<?= $main->kondisi_bangunan; ?>"><?= $main->kondisi_bangunan; ?></option>
+												<option value="Baik">Baik</option>
+												<option value="Rusak Ringan">Rusak Ringan</option>
+												<option value="Rusak Sedang">Rusak Sedang</option>
+												<option value="Rusak Berat">Rusak Berat</option>
 											</select>
 										</div>
 									</div>
@@ -61,7 +65,8 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Kontruksi Beton</label>
 										<div class="col-sm-4">
 											<select name="kontruksi" id="kontruksi" class="form-control input-sm required">
-												<option value="<?= $main->kondisi_bangunan; ?>"><?= $main->kondisi_bangunan; ?></option>
+												<option value="0" <?= ($main->kontruksi_beton==0?'selected':''); ?>>Tidak</option>
+												<option value="1" <?= ($main->kontruksi_beton==1?'selected':''); ?>>Ya</option>
 											</select>
 										</div>
 									</div>
@@ -97,6 +102,10 @@
 										<div class="col-sm-4">
 											<select name="status_tanah" id="status_tanah" class="form-control input-sm required" >
 												<option value="<?= $main->status_tanah; ?>"><?= $main->status_tanah; ?></option>
+												<option value="Tanah milik Pemda">Tanah milik Pemda</option>
+												<option value="Tanah Negara">Tanah Negara (Tanah yang dikuasai langsung oleh Negara)</option>
+												<option value="Tanah Hak Ulayat">Tanah Hak Ulayat (Tanah masyarakat Hukum Adat)</option>
+												<option value="Tanah Hak">Tanah Hak (Tanah kepunyaan perorangan atau Badan Hukum)</option>
 											</select>
 										</div>
 									</div>
@@ -110,15 +119,15 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_gedung">Nomor Kode Tanah</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="kode_gedung" id="kode_gedung" type="text" value="<?= (!empty($main->kode_gedung) ? $main->kode_gedung : '-'); ?>" />
+											<input maxlength="50" class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text" value="<?= (!empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>" />
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="asal_usul">Asal Usul </label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="asal">Asal Usul </label>
 										<div class="col-sm-4">
-											<select name="asal_usul" id="asal_usul" class="form-control input-sm required" >
+											<select name="asal" id="asal" class="form-control input-sm required" >
 												<option value="<?= $main->asal; ?>"><?= $main->asal; ?></option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>

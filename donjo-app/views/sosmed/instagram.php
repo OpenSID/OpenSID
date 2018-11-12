@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Instagram</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Pengaturan Instagram</li>
 		</ol>
 	</section>
@@ -20,7 +20,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Link Akun Instagram</label>
 										<div class="col-sm-9">
-											<textarea id="link" name="link" class="form-control input-sm required" placeholder="Link Media Sosial" style="height: 200px;"><?php if ($main):?><?=$main['link'];?><?php endif; ?></textarea>
+											<textarea id="link" name="link" class="form-control input-sm required" placeholder="Link Media Sosial" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">
@@ -29,8 +29,8 @@
 											<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($main['enabled'] =='1'): ?>active<?php endif ?>">
 												<input id="g1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($main['enabled'] =='1'): ?>checked <?php endif ?> autocomplete="off"> Aktif
 											</label>
-											<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($main['enabled'] =='2'):?>active<?php endif?>">
-												<input id="g2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($main['enabled'] =='2'):?>checked<?php endif?> autocomplete="off"> Tidak Aktif
+											<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($main['enabled'] =='2'): ?>active<?php endif ?>">
+												<input id="g2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($main['enabled'] =='2'): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 											</label>
 										</div>
 									</div>

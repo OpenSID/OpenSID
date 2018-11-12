@@ -3,7 +3,7 @@
 	<section class="content-header">
 		<h1>Form Data Suplemen</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('suplemen')?>"> Data Suplemen</a></li>
 			<li class="active">Form Data Suplemen</li>
 		</ol>
@@ -23,8 +23,8 @@
 								<div class="col-sm-7">
 									<select class="form-control input-sm required" name="cid" id="cid">
 										<option value="">-- Pilih Sasaran Data Suplemen --</option>
-										<option value="1" <?php if($cid == 1 OR $suplemen['sasaran'] == 1) :?>selected<?php endif?>>Penduduk Perorangan</option>
-										<option value="2" <?php if($cid == 2 OR $suplemen['sasaran'] == 2) :?>selected<?php endif?>>Keluarga - KK</option>
+										<option value="1" <?php if ($cid == 1 OR $suplemen['sasaran'] == 1): ?>selected<?php endif ?>>Penduduk Perorangan</option>
+										<option value="2" <?php if ($cid == 2 OR $suplemen['sasaran'] == 2): ?>selected<?php endif ?>>Keluarga - KK</option>
 									</select>
 								</div>
 							</div>

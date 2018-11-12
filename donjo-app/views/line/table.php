@@ -1,8 +1,19 @@
+<script type="text/javascript">
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Tipe Garis</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Pengaturan Tipe Garis</li>
 		</ol>
 	</section>
@@ -16,11 +27,11 @@
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?=site_url("line/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
-								<i class="fa fa-plus"></i>Tambah Kategori Baru
+								<i class="fa fa-plus"></i>Tambah Jenis Garis Baru
             	</a>
-							<?php if ($_SESSION['grup']<4):?>
+							<?php if ($_SESSION['grup']<4): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("line/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<?php endif;?>
+							<?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -31,8 +42,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('line/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
-														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -49,18 +60,18 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover">
+														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th><input type="checkbox" id="checkall"/></th>
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
-                                    <th><a href="<?= site_url("line/index/$p/1")?>">Kategori <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("line/index/$p/1")?>">Jenis <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==1): ?>
-                                    <th><a href="<?= site_url("line/index/$p/2")?>">Kategori <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("line/index/$p/2")?>">Jenis <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th><a href="<?= site_url("line/index/$p/1")?>">Kategori <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("line/index/$p/1")?>">Jenis <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
                                   <?php if ($o==4): ?>
                                     <th nowrap><a href="<?= site_url("line/index/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
@@ -73,19 +84,19 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("line/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<a href="<?= site_url("line/sub_line/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Line"><i class="fa fa-bars"></i></a>
-																			<a href="<?= site_url("line/ajax_add_sub_line/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Sub Line <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Line <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
-																			<?php if ($data['enabled'] == '2'):?>
-																				<a href="<?= site_url('line/line_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Line"><i class="fa fa-lock">&nbsp;</i></a>
+																			<a href="<?= site_url("line/sub_line/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian <?= $data['nama'] ?>"><i class="fa fa-bars"></i></a>
+																			<a href="<?= site_url("line/ajax_add_sub_line/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Kategori <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
+																			<?php if ($data['enabled'] == '2'): ?>
+																				<a href="<?= site_url('line/line_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
-																				<a href="<?= site_url('line/line_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Line"><i class="fa fa-unlock"></i></a>
-																			<?php endif?>
+																				<a href="<?= site_url('line/line_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																			<?php endif ?>
 																			<a href="#" data-href="<?= site_url("line/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="60%"><?= $data['nama']?></td>
@@ -147,7 +158,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?

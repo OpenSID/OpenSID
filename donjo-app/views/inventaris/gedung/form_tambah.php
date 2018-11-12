@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Isi Data Inventaris Gedung Dan Bangunan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_gedung"><i class="fa fa-dashboard"></i>Daftar Inventaris Gedung Dan Bangunan</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_gedung"><i class="fa fa-dashboard"></i>Daftar Inventaris Gedung Dan Bangunan</a></li>
 			<li class="active">Isi Data</li>
 		</ol>
 	</section>
@@ -74,7 +74,7 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<input class="form-control input-sm number required" id="luas_bangunan" name="luas_bangunan" type="text"/>
-												<span class="input-group-addon" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>
 									</div>

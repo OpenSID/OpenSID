@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Master Kelompok</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
 			<li class="active">Master Kelompok</li>
 		</ol>
@@ -33,9 +33,9 @@
 								<div class="col-sm-7">
 									<select class="form-control input-sm select2 required" id="id_master" name="id_master">
 										<option value="">-- Silakan Masukkan Kategori Kelompok--</option>
-										<?php foreach ($list_master AS $data):?>
-											<option value="<?= $data['id']?>" <?php if ($kelompok['id_master'] == $data['id']):?>selected<?php endif?>><?= $data['kelompok']?></option>
-										<?php endforeach;?>
+										<?php foreach ($list_master AS $data): ?>
+											<option value="<?= $data['id']?>" <?php if ($kelompok['id_master'] == $data['id']): ?>selected<?php endif ?>><?= $data['kelompok']?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
@@ -44,9 +44,13 @@
 								<div class="col-sm-7">
 									<select class="form-control input-sm select2 required" id="id_ketua" name="id_ketua">
 										<option value="">-- Silakan Masukkan NIK / Nama--</option>
-										<?php foreach($list_penduduk as $data):?>
-										 	<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
-										<?php endforeach;?>
+										<?php foreach ($list_penduduk as $data): ?>
+											<?php if ($data['id'] === $kelompok['id_ketua']): ?>
+												<option value="<?= $data['id']?>" selected>NIK :<?= $data['nik']." - ".$data['nama']?></option>
+											<?php else: ?>
+												<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
+											<?php endif ?>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Data Anggota Kelompok</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
 			<li class="active">Data Anggota Kelompok</li>
 		</ol>
@@ -17,19 +17,19 @@
 					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 						<div class="box-body">
 							<div class='col-xs-12'>
-								<?php if (!@$pend):?>
+								<?php if (!@$pend): ?>
 									<div class="form-group">
 										<label class="col-sm-3 control-label"  for="id_penduduk">Nama Anggota</label>
 										<div class="col-sm-5">
 											<select class="form-control input-sm select2 required" id="id_penduduk" name="id_penduduk">
-												<option value="">-- Silakan Masukan NIK / Nama--</option>
-												<?php foreach ($list_penduduk as $data):?>
+												<option value="">-- Silakan Masukan NIK / Nama --</option>
+												<?php foreach ($list_penduduk as $data): ?>
 													 <option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 									</div>
-								<?php endif;?>
+								<?php endif; ?>
 								<div class="form-group">
 									<label  class="col-sm-3 control-label" for="no_anggota">Nomor Anggota</label>
 									<div class="col-sm-5">

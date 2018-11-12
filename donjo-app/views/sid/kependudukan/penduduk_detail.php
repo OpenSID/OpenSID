@@ -8,7 +8,7 @@
 	<section class="content-header">
 		<h1>Biodata Penduduk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('penduduk/clear')?>"> Daftar Penduduk</a></li>
 			<li class="active">Biodata Penduduk</li>
 		</ol>
@@ -20,7 +20,7 @@
 					<div class="box box-info">
 						<div class="box-header">
 							<a href="<?= site_url("penduduk/dokumen/$penduduk[id]")?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Manajemen Dokumen Penduduk" ><i class="fa fa-book"></i> Manajemen Dokumen</a>
-							<?php if($penduduk['status_dasar_id']==1): ?>
+							<?php if ($penduduk['status_dasar_id']==1): ?>
 								<a href="<?= site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Biodata</a>
 							<?php endif; ?>
               <a href="<?= site_url("penduduk/cetak_biodata/$penduduk[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
@@ -40,11 +40,11 @@
 										<table class="table table-bordered table-striped table-hover" >
 											<tr>
 												<td colspan="3">
-													<?php if ($penduduk['foto']):?>
-														 <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Photo">
-													<?php else:?>
-														<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Photo">
-  												<?php endif;?>
+													<?php if ($penduduk['foto']): ?>
+														 <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+													<?php else: ?>
+														<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+  												<?php endif; ?>
 												</td>
 											</tr>
 										</table>
@@ -57,7 +57,7 @@
 												</tr>
 												<tr>
 													<td width="300">Nama</td><td width="1">:</td>
-													<td><?= strtoupper(unpenetration($penduduk['nama']))?></td>
+													<td><?= strtoupper($penduduk['nama'])?></td>
 												</tr>
 												<tr>
 													<td>Status Kepemilikan KTP</td><td >:</td>
@@ -80,9 +80,9 @@
 													<td>Nomor Kartu Keluarga</td><td >:</td>
 													<td>
 														<?= $penduduk['no_kk']?>
-														<?php if ($penduduk['status_dasar_id'] <> '1' AND $penduduk['no_kk'] <> $penduduk['log_no_kk']):?>
+														<?php if ($penduduk['status_dasar_id'] <> '1' AND $penduduk['no_kk'] <> $penduduk['log_no_kk']): ?>
 															(waktu peristiwa {<?= $penduduk['status_dasar']?>}: {<?= $penduduk['log_no_kk']?>})
-														<?php endif;?>
+														<?php endif; ?>
 													</td>
 												</tr>
 												<tr>
@@ -161,13 +161,13 @@
 													<td>NIK Ayah</td><td >:</td><td><?= strtoupper($penduduk['ayah_nik'])?></td>
 												</tr>
 												<tr>
-													<td>Nama Ayah</td><td >:</td><td><?= strtoupper(unpenetration($penduduk['nama_ayah']))?></td>
+													<td>Nama Ayah</td><td >:</td><td><?= strtoupper($penduduk['nama_ayah'])?></td>
 												</tr>
 												<tr>
 													<td>NIK Ibu</td><td >:</td><td><?= strtoupper($penduduk['ibu_nik'])?></td>
 												</tr>
 												<tr>
-													<td>Nama Ibu</td><td >:</td><td><?= strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
+													<td>Nama Ibu</td><td >:</td><td><?= strtoupper($penduduk['nama_ibu'])?></td>
 												</tr>
 												<tr>
 													<th colspan="3" class="subtitle_head"><strong>ALAMAT</strong></th>
@@ -179,7 +179,7 @@
 													<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat'])?></td>
 												</tr>
 												<tr>
-													<td>Dusun</td><td >:</td><td><?= strtoupper(ununderscore(unpenetration($penduduk['dusun'])))?></td>
+													<td>Dusun</td><td >:</td><td><?= strtoupper(ununderscore($penduduk['dusun']))?></td>
 												</tr>
 												<tr>
 													<td>RT/ RW</td><td >:</td><td><?= strtoupper($penduduk['rt'])?> / <?= $penduduk['rw']?></td>
@@ -223,9 +223,11 @@
 												<tr>
 													<td>Akseptor KB</td><td >:</td><td><?= strtoupper($penduduk['cara_kb'])?></td>
 												</tr>
-												<tr>
-													<td>Status Kehamilan</td><td >:</td><td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'?></td>
-												</tr>
+												<?php if ($penduduk['id_sex'] == 2): ?>
+													<tr>
+														<td>Status Kehamilan</td><td >:</td><td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'?></td>
+													</tr>
+												<?php endif; ?>
 											</thead>
 										</table>
 									</div>
@@ -247,7 +249,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<?php foreach ($list_dokumen as $data):?>
+												<?php foreach ($list_dokumen as $data): ?>
 													<tr>
 														<td align="center" width="2"><?= $data['no']?></td>
 														<td><?= $data['nama']?></td>

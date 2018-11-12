@@ -1,4 +1,15 @@
 <script language="javascript" type="text/javascript">
+
+	$(document).ready(function()
+	{
+	  $('#reset_form').on('click', function()
+	  {
+	  	$('#nomor').val('');
+	  	$('#calon_pria').val('2');
+	  	$('#calon_wanita').val('2');
+	  });
+	});
+
 	function calon_wanita_asal(asal)
 	{
 		$('#calon_wanita').val(asal);
@@ -17,6 +28,7 @@
 			submit_form_ambil_data_pria();
 		}
 	}
+
 	function calon_pria_asal(asal)
 	{
 		$('#calon_pria').val(asal);
@@ -37,11 +49,6 @@
 			submit_form_ambil_data_pria();
 		}
 	}
-	function nomor_surat(nomor)
-	{
-		$('#nomor').val(nomor);
-		$('#nomor_main').val(nomor);
-	}
 
 	function submit_form_ambil_data_pria(asal)
 	{
@@ -49,10 +56,11 @@
 		$('#id_wanita_copy').val($('#id_wanita_hidden').val());
 		$('input').removeClass('required');
 		$('select').removeClass('required');
-		$('#'+'main').attr('action','')
-		$('#'+'main').attr('target','')
-		$('#'+'main').submit();
+		$('#'+'validasi').attr('action','')
+		$('#'+'validasi').attr('target','')
+		$('#'+'validasi').submit();
 	}
+
 	function submit_form_ambil_data_wanita()
 	{
 		$('#id_wanita_validasi').val($('#id_wanita_hidden').val());
@@ -74,6 +82,32 @@
 		$('#'+'validasi').attr('action','<?= $form_action2?>');
 		$('#'+'validasi').submit();
 	}
+
+	function status_beristri(status)
+	{
+		if (status.toUpperCase() == 'beristri'.toUpperCase())
+		{
+			$('#beristri').show();
+		}
+		else
+		{
+			$('#beristri').hide();
+		}
+	}
+
+	function cerai_mati(status)
+	{
+		// Untuk calon wanita luar desa pilihan hanya 'perawan' atau 'janda'
+		if (status.toUpperCase() == 'janda'.toUpperCase())
+		{
+			$('#cerai_mati').show();
+		}
+		else
+		{
+			$('#cerai_mati').hide();
+		}
+	}
+
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -94,40 +128,41 @@
 					 	</a>
 					</div>
 					<div class="box-body">
-						<form action="" id="main" name="main" method="POST" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>" onchange="nomor_surat(this.value);">
-										<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
+										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>">
+										<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
 								<?php $jenis_pasangan = "Istri"; ?>
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 control-label" for="status">A. CALON PASANGAN PRIA</label>
 									<div class="btn-group col-sm-8" data-toggle="buttons">
-										<label for="calon_pria_1" class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($pria)):?>active<?php endif ?>">
-											<input id="calon_pria_1" type="radio"  name="calon_pria" class="form-check-input" type="radio" value="1" <?php if (!empty($pria)):?>checked<?php endif;?> autocomplete="off" onchange="calon_pria_asal(this.value);"> Warga Desa
+										<label for="calon_pria_1" class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($pria)): ?>active<?php endif ?>">
+											<input id="calon_pria_1" type="radio"  name="calon_pria" class="form-check-input" type="radio" value="1" <?php if (!empty($pria)): ?>checked<?php endif; ?> autocomplete="off" onchange="calon_pria_asal(this.value);"> Warga Desa
 										</label>
-										<label for="calon_pria_2" class="btn btn-info btn-flat btn-sm col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (empty($pria)):?>active<?php endif?>">
-											<input id="calon_pria_2" type="radio"  name="calon_pria" class="form-check-input" type="radio" value="2" <?php if (empty($pria)):?>checked<?php endif;?> autocomplete="off" onchange="calon_pria_asal(this.value);"> Warga Luar Desa
+										<label for="calon_pria_2" class="btn btn-info btn-flat btn-sm col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (empty($pria)): ?>active<?php endif; ?>">
+											<input id="calon_pria_2" type="radio"  name="calon_pria" class="form-check-input" type="radio" value="2" <?php if (empty($pria)): ?>checked<?php endif; ?> autocomplete="off" onchange="calon_pria_asal(this.value);"> Warga Luar Desa
 										</label>
 									</div>
 								</div>
-								<div class="form-group pria_desa" <?php if (empty($pria)):?>style="display: none;"<?php endif;?>>
+								<div class="form-group pria_desa" <?php if (empty($pria)): ?>style="display: none;"<?php endif; ?>>
 									<label for="pria_desa"  class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>A.1 DATA CALON PASANGAN PRIA WARGA DESA</strong></label>
 								</div>
-								<div class="form-group pria_desa" <?php if (empty($pria)):?>style="display: none;"<?php endif;?>>
-									<input id="nomor_main" name="nomor_main" type="hidden" value="<?= $nomor; ?>"/>
+								<div class="form-group pria_desa" <?php if (empty($pria)): ?>style="display: none;"<?php endif; ?>>
 									<input id="calon_pria" name="calon_pria" type="hidden" value=""/>
 
 									<label for="pria_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control  input-sm select2" id="id_pria" name="id_pria" style ="width:100%;" onchange="submit_form_ambil_data_pria(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
-											<?php foreach ($laki as $data):?>
-												<option value="<?= $data['id']?>" <?php if ($pria['nik']==$data['nik']):?>selected<?php endif;?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
+											<?php foreach ($laki as $data): ?>
+												<option value="<?= $data['id']?>" <?php if ($pria['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -135,16 +170,12 @@
 									<!-- Diisi oleh script flexbox wanita -->
 									<input id="id_wanita_copy" name="id_wanita" type="hidden" value="kosong"/>
 								</div>
-								<?php if ($pria):?>
+								<?php if ($pria): ?>
 									<?php $individu = $pria;?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
-								<?php	endif;?>
+								<?php	endif; ?>
 							</div>
-						</form>
-						<form id="validasi" action="<?= $form_action?>"  method="POST" target="_blank" class="form-horizontal">
 							<div class="col-md-12">
-								<input id="nomor" name="nomor" type="hidden" value="<?= $_SESSION['post']['nomor']; ?>"/>
-								<input id="id_pria_validasi" type="hidden" name="id_pria" value="<?= $_SESSION['id_pria']?>">
 								<input id="id_wanita" name="id_wanita" type="hidden" value="<?= $_SESSION['id_wanita']?>"/>
 								<?php if (empty($pria)): ?>
 									<div class="form-group pria_luar_desa" >
@@ -175,24 +206,24 @@
 										<div class="col-sm-2">
 											<select class="form-control input-sm select2" name="wn_pria" id="wn_pria" style ="width:100%;">
 												<option value="">-- Pilih warganegara --</option>
-												<?php foreach ($warganegara as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_pria']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($warganegara as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_pria']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="agama_pria" id="agama_pria" style ="width:100%;">
 												<option value="">-- Pilih Agama --</option>
-												<?php foreach ($agama as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_pria']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($agama as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_pria']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="pekerjaan_pria" id="pekerjaan_pria" style ="width:100%;">
 												<option value="">-- Pekerjaan --</option>
-												<?php foreach ($pekerjaan as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_pria']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($pekerjaan as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_pria']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -206,15 +237,15 @@
 									<div class="form-group pria_luar_desa">
 										<label for="pria_luar_desa" class="col-sm-3 control-label" ><strong>Jika pria, terangkan jejaka, duda atau beristri</strong></label>
 										<div class="col-sm-4">
-											<select class="form-control input-sm select2" name="status_kawin_pria" id="status_kawin_pria" style ="width:100%;">
+											<select class="form-control input-sm select2 required" name="status_kawin_pria" id="status_kawin_pria" style ="width:100%;" onchange="status_beristri($(this).val())">
 												<option value="">-- Pilih Status Kawin --</option>
-												<?php foreach ($kode['status_kawin_pria'] as $data):?>
-													<option value="<?= $data?>" <?php if ($data['nama']==$_SESSION['post']['status_kawin_pria']):?>selected<?php endif;?>><?= ucwords($data)?></option>
+												<?php foreach ($kode['status_kawin_pria'] as $data): ?>
+													<option value="<?= $data?>" <?php if ($data['nama']==$_SESSION['post']['status_kawin_pria']): ?>selected<?php endif; ?>><?= ucwords($data)?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 									</div>
-									<div class="form-group pria_luar_desa">
+									<div id="beristri" class="form-group pria_luar_desa">
 										<label for="pria_luar_desa" class="col-sm-3 control-label" ><strong>Jika beristri, berapa istrinya</strong></label>
 										<div class="col-sm-4">
 											<input  name="jumlah_istri" class="form-control input-sm" type="text" placeholder="Jumlah Istri" value="<?= $_SESSION['post']['jumlah_istri']?>">
@@ -225,27 +256,21 @@
 									<div class="form-group">
 										<label for="status_kawin_pria" class="col-sm-3 control-label" ><strong>Jika pria, terangkan jejaka, duda atau beristri</strong></label>
 										<div class="col-sm-4">
-											<select class="form-control input-sm select2" name="status_kawin_pria" id="status_kawin_pria" style ="width:100%;">
+											<select class="form-control input-sm select2" disabled="disabled" style ="width:100%;">
 												<option value="">-- Pilih Status Kawin --</option>
-												<?php foreach ($kode['status_kawin_pria'] as $data):?>
-													<option value="<?= $data?>" <?php if ($pria['status_kawin_pria']==$data):?>selected<?php endif;?>><?= ucwords($data)?></option>
+												<?php foreach ($kode['status_kawin_pria'] as $data): ?>
+													<option value="<?= $data?>" <?php if ($pria['status_kawin_pria']==$data): ?>selected<?php endif; ?>><?= ucwords($data)?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<p class="help-block">(Status kawin: <?= $pria['status_kawin']?>)</p>
+										<input type="hidden" name="status_kawin_pria" id="status_kawin_pria" value="<?= $pria['status_kawin_pria']?>">
 									</div>
 									<?php if ($pria['status_kawin']=="KAWIN"): ?>
 										<div class="form-group">
 											<label for="jumlah_istri" class="col-sm-3 control-label" ><strong>Jika beristri, berapa istrinya</strong></label>
 											<div class="col-sm-4">
-												<input  name="jumlah_istri" class="form-control input-sm" type="text" placeholder="Jumlah Istri" value="1">
-											</div>
-										</div>
-									<?php else:?>
-										<div class="form-group">
-											<label for="jumlah_istri" class="col-sm-3 control-label" ><strong>Jika beristri, berapa istrinya</strong></label>
-											<div class="col-sm-4">
-												<input  name="jumlah_istri" class="form-control input-sm" type="text" placeholder="Jumlah Istri" value="">
+												<input  name="jumlah_istri" class="form-control input-sm required" type="text" placeholder="Jumlah Istri" value="1">
 											</div>
 										</div>
 									<?php endif; ?>
@@ -313,24 +338,24 @@
 										<div class="col-sm-2">
 											<select class="form-control input-sm select2" name="wn_ayah_pria" id="wn_ayah_pria" style ="width:100%;">
 												<option value="">-- Pilih warganegara --</option>
-												<?php foreach ($warganegara as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_ayah_pria']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($warganegara as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_ayah_pria']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="agama_ayah_pria" id="agama_ayah_pria" style ="width:100%;">
 												<option value="">-- Pilih Agama --</option>
-												<?php foreach ($agama as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_ayah_pria']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($agama as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_ayah_pria']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="pekerjaan_ayah_pria" id="pekerjaan_ayah_pria" style ="width:100%;">
 												<option value="">-- Pekerjaan --</option>
-												<?php foreach ($pekerjaan as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_ayah_pria']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($pekerjaan as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_ayah_pria']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -405,24 +430,24 @@
 										<div class="col-sm-2">
 											<select class="form-control input-sm select2" name="wn_ibu_pria" id="wn_ibu_pria" style ="width:100%;">
 												<option value="">-- Pilih warganegara --</option>
-												<?php foreach ($warganegara as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_ibu_pria']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($warganegara as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_ibu_pria']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="agama_ibu_pria" id="agama_ibu_pria" style ="width:100%;">
 												<option value="">-- Pilih Agama --</option>
-												<?php foreach ($agama as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_ibu_pria']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($agama as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_ibu_pria']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="pekerjaan_ibu_pria" id="pekerjaan_ibu_pria" style ="width:100%;">
 												<option value="">-- Pekerjaan --</option>
-												<?php foreach ($pekerjaan as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_ibu_pria']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($pekerjaan as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_ibu_pria']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -466,24 +491,24 @@
 										<div class="col-sm-2">
 											<select class="form-control input-sm select2" name="wn_istri_dulu" id="wn_istri_dulu" style ="width:100%;">
 												<option value="">-- Pilih warganegara --</option>
-												<?php foreach ($warganegara as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_istri_dulu']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($warganegara as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_istri_dulu']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="agama_istri_dulu" id="agama_istri_dulu" style ="width:100%;">
 												<option value="">-- Pilih Agama --</option>
-												<?php foreach ($agama as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_istri_dulu']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($agama as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_istri_dulu']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="pek_istri_dulu" id="pek_istri_dulu" style ="width:100%;">
 												<option value="">-- Pekerjaan --</option>
-												<?php foreach ($pekerjaan as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pek_istri_dulu']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($pekerjaan as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pek_istri_dulu']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -506,24 +531,24 @@
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 control-label" for="status">B. CALON PASANGAN WANITA</label>
 									<div class="btn-group col-sm-8" data-toggle="buttons">
-										<label for="calon_wanita_1" class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($wanita)):?>active<?php endif ?>">
-											<input id="calon_wanita_1" type="radio"  name="calon_wanita" class="form-check-input" type="radio" value="1" <?php if (!empty($wanita)):?>checked<?php endif;?> autocomplete="off" onchange="calon_wanita_asal(this.value);"> Warga Desa
+										<label for="calon_wanita_1" class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($wanita)): ?>active<?php endif ?>">
+											<input id="calon_wanita_1" type="radio"  name="calon_wanita" class="form-check-input" type="radio" value="1" <?php if (!empty($wanita)): ?>checked<?php endif; ?> autocomplete="off" onchange="calon_wanita_asal(this.value);"> Warga Desa
 										</label>
-										<label id="label_calon_wanita_2" for="calon_wanita_2" class="btn btn-info btn-flat btn-sm col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (empty($wanita)):?>active<?php endif?>">
-											<input id="calon_wanita_2" type="radio"  name="calon_wanita" class="form-check-input" type="radio" value="2" <?php if (empty($wanita)):?>checked<?php endif;?> autocomplete="off" onchange="calon_wanita_asal(this.value);"> Warga Luar Desa
+										<label id="label_calon_wanita_2" for="calon_wanita_2" class="btn btn-info btn-flat btn-sm col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (empty($wanita)): ?>active<?php endif; ?>">
+											<input id="calon_wanita_2" type="radio"  name="calon_wanita" class="form-check-input" type="radio" value="2" <?php if (empty($wanita)): ?>checked<?php endif; ?> autocomplete="off" onchange="calon_wanita_asal(this.value);"> Warga Luar Desa
 										</label>
 									</div>
 								</div>
-								<div class="form-group wanita_desa" <?php if (empty($wanita)):?>style="display: none;"<?php endif;?>>
+								<div class="form-group wanita_desa" <?php if (empty($wanita)): ?>style="display: none;"<?php endif; ?>>
 									<label for="wanita_desa" class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>B.1 DATA CALON PASANGAN WANITA WARGA DESA</strong></label>
 								</div>
-								<div class="form-group wanita_desa" <?php if (empty($wanita)):?>style="display: none;"<?php endif;?>>
+								<div class="form-group wanita_desa" <?php if (empty($wanita)): ?>style="display: none;"<?php endif; ?>>
 									<label for="$wanita" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control  input-sm select2" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data_wanita(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
-											<?php foreach ($perempuan as $data):?>
-												<option value="<?= $data['id']?>" <?php if ($wanita['nik']==$data['nik']):?>selected<?php endif;?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+											<?php foreach ($perempuan as $data): ?>
+												<option value="<?= $data['id']?>" <?php if ($wanita['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -532,18 +557,19 @@
 									<?php if ($wanita): //bagian info setelah terpilih
 										$individu = $wanita;
 										include("donjo-app/views/surat/form/konfirmasi_pemohon.php");
-									endif;?>
+									endif; ?>
 									<div class="form-group">
 										<label for="status_kawin_pria" class="col-sm-3 control-label" ><strong>Jika wanita, terangkan perawan atau janda</strong></label>
 										<div class="col-sm-4">
-											<select class="form-control input-sm select2" name="status_kawin_wanita" id="status_kawin_wanita" style ="width:100%;">
+											<select class="form-control input-sm select2 required" style ="width:100%;" disabled="disabled">
 												<option value="">-- Pilih Status Kawin --</option>
-												<?php foreach ($kode['status_kawin_wanita'] as $data):?>
-													<option value="<?= $data?>" <?php if ($wanita['status_kawin_wanita']==$data):?>selected<?php endif;?>><?= ucwords($data)?></option>
+												<?php foreach ($kode['status_kawin_wanita'] as $data): ?>
+													<option value="<?= $data?>" <?php if ($wanita['status_kawin_wanita']==$data): ?>selected<?php endif; ?>><?= ucwords($data)?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<p class="help-block">(Status kawin: <?= $wanita['status_kawin']?>)</p>
+										<input type="hidden" name="status_kawin_wanita" id="status_kawin_wanita" value="<?= $wanita['status_kawin_wanita']?>">
 									</div>
 								<?php endif; ?>
 								<?php if (empty($wanita)): ?>
@@ -575,24 +601,24 @@
 										<div class="col-sm-2">
 											<select class="form-control input-sm select2" name="wn_wanita" id="wn_wanita" style ="width:100%;">
 												<option value="">-- Pilih warganegara --</option>
-												<?php foreach ($warganegara as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_wanita']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($warganegara as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="agama_wanita" id="agama_wanita" style ="width:100%;">
 												<option value="">-- Pilih Agama --</option>
-												<?php foreach ($agama as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_wanita']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($agama as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="pekerjaan_wanita" id="pekerjaan_wanita" style ="width:100%;">
 												<option value="">-- Pekerjaan --</option>
-												<?php foreach ($pekerjaan as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_wanita']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($pekerjaan as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -606,10 +632,10 @@
 									<div class="form-group wanita_luar_desa">
 										<label for="wanita_luar_desa" class="col-sm-3 control-label" ><strong>Jika wanita, terangkan perawan atau janda</strong></label>
 										<div class="col-sm-4">
-											<select class="form-control input-sm select2" name="status_kawin_wanita" id="status_kawin_wanita" style ="width:100%;">
+											<select class="form-control input-sm select2" name="status_kawin_wanita" id="status_kawin_wanita" onchange="cerai_mati($(this).val())" style ="width:100%;">
 												<option value="">-- Pilih Status Kawin --</option>
-												<?php foreach ($kode['status_kawin_wanita'] as $data):?>
-													<option value="<?= $data?>" <?php if ($data['nama']==$_SESSION['post']['status_kawin_wanita']):?>selected<?php endif;?>><?= ucwords($data)?></option>
+												<?php foreach ($kode['status_kawin_wanita'] as $data): ?>
+													<option value="<?= $data?>" <?php if ($data['nama']==$_SESSION['post']['status_kawin_wanita']): ?>selected<?php endif; ?>><?= ucwords($data)?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -678,24 +704,24 @@
 										<div class="col-sm-2">
 											<select class="form-control input-sm select2" name="wn_ayah_wanita" id="wn_ayah_wanita" style ="width:100%;">
 												<option value="">-- Pilih warganegara --</option>
-												<?php foreach ($warganegara as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_ayah_wanita']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($warganegara as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_ayah_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="agama_ayah_wanita" id="agama_ayah_wanita" style ="width:100%;">
 												<option value="">-- Pilih Agama --</option>
-												<?php foreach ($agama as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_ayah_wanita']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($agama as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_ayah_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="pekerjaan_ayah_wanita" id="pekerjaan_ayah_wanita" style ="width:100%;">
 												<option value="">-- Pekerjaan --</option>
-												<?php foreach ($pekerjaan as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_ayah_wanita']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($pekerjaan as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_ayah_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -770,24 +796,24 @@
 										<div class="col-sm-2">
 											<select class="form-control input-sm select2" name="wn_ibu_wanita" id="wn_ibu_wanita" style ="width:100%;">
 												<option value="">-- Pilih warganegara --</option>
-												<?php foreach ($warganegara as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_ibu_wanita']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($warganegara as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_ibu_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="agama_ibu_wanita" id="agama_ibu_wanita" style ="width:100%;">
 												<option value="">-- Pilih Agama --</option>
-												<?php foreach ($agama as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_ibu_wanita']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($agama as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_ibu_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="pekerjaan_ibu_wanita" id="pekerjaan_ibu_wanita" style ="width:100%;">
 												<option value="">-- Pekerjaan --</option>
-												<?php foreach ($pekerjaan as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_ibu_wanita']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($pekerjaan as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_ibu_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -799,14 +825,14 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if (empty($wanita) OR $wanita['status_kawin']=="CERAI MATI"): ?>
-									<div class="form-group" >
+								<?php if (empty($wanita) OR strtolower($wanita['status_kawin'])=="cerai mati"): ?>
+									<div id="cerai_mati" class="form-group" >
 											<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>B.4 DATA SUAMI TERDAHULU </strong></label>
 										</div>
 										<div class="form-group suami_dulu">
 											<label class="col-sm-3 control-label" ><strong>Nama <?= ucwords($jenis_pasangan)?> Terdahulu / Bin</strong></label>
 											<div class="col-sm-3">
-												<input name="suami_dulu" class="form-control input-sm" type="text" placeholder="Nama Suami Terdahulu" value="<?= $_SESSION['post']['suami_dulu']?>">
+												<input name="nama_suami_dulu" class="form-control input-sm" type="text" placeholder="Nama Suami Terdahulu" value="<?= $_SESSION['post']['nama_suami_dulu']?>">
 											</div>
 											<div class="col-sm-3">
 												<input name="bin_suami_dulu" class="form-control input-sm" type="text" placeholder="Bin" value="<?= $_SESSION['post']['binti_suami_dulu']?>">
@@ -831,24 +857,24 @@
 										<div class="col-sm-2">
 											<select class="form-control input-sm select2" name="wn_suami_dulu" id="wn_suami_dulu" style ="width:100%;">
 												<option value="">-- Pilih warganegara --</option>
-												<?php foreach ($warganegara as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_suami_dulu']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($warganegara as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_suami_dulu']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="agama_suami_dulu" id="agama_suami_dulu" style ="width:100%;">
 												<option value="">-- Pilih Agama --</option>
-												<?php foreach ($agama as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_suami_dulu']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($agama as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_suami_dulu']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<select class="form-control input-sm select2" name="pek_suami_dulu" id="pek_suami_dulu" style ="width:100%;">
 												<option value="">-- Pekerjaan --</option>
-												<?php foreach ($pekerjaan as $data):?>
-													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pek_suami_dulu']):?>selected<?php endif;?>><?= $data['nama']?></option>
+												<?php foreach ($pekerjaan as $data): ?>
+													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pek_suami_dulu']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -897,24 +923,24 @@
 									<div class="col-sm-2">
 										<select class="form-control input-sm select2" name="wn_wali" id="wn_wali" style ="width:100%;">
 											<option value="">-- Pilih warganegara --</option>
-											<?php foreach ($warganegara as $data):?>
-												<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_wali']):?>selected<?php endif;?>><?= $data['nama']?></option>
+											<?php foreach ($warganegara as $data): ?>
+												<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['wn_wali']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
 									<div class="col-sm-3">
 										<select class="form-control input-sm select2" name="agama_wali" id="agama_wali" style ="width:100%;">
 											<option value="">-- Pilih Agama --</option>
-											<?php foreach ($agama as $data):?>
-												<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_wali']):?>selected<?php endif;?>><?= $data['nama']?></option>
+											<?php foreach ($agama as $data): ?>
+												<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['agama_wali']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
 									<div class="col-sm-3">
 										<select class="form-control input-sm select2" name="pek_wali" id="pek_wali" style ="width:100%;">
 											<option value="">-- Pekerjaan --</option>
-											<?php foreach ($pekerjaan as $data):?>
-												<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pek_wali']):?>selected<?php endif;?>><?= $data['nama']?></option>
+											<?php foreach ($pekerjaan as $data): ?>
+												<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pek_wali']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -978,19 +1004,7 @@
 							</div>
 						</form>
 					</div>
-					<div class="box-footer">
-						<div class="row">
-							<div class="col-xs-12">
-								<button type="button" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<?php if (SuratCetak($url)): ?>
-									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-print"></i> Cetak</button>
-								<?php endif; ?>
-								<?php if (SuratExport($url)):?>
-									<button type="button" onclick="submit_form_doc();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
-								<?php endif;?>
-							</div>
-						</div>
-					</div>
+					<?php include("donjo-app/views/surat/form/tombol_cetak.php"); ?>
 				</div>
 				<div class='modal fade' id='dialog' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 					<div class='modal-dialog'>

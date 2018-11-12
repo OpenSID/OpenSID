@@ -1,10 +1,10 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Sub Kategori Point</h1>
+		<h1>Pengaturan Kategori Lokasi</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('point')?>"> Daftar Kategori Point</a></li>
-			<li class="active">Pengaturan Sub Kategori Point</li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?=site_url('point')?>"> Daftar Tipe Lokasi</a></li>
+			<li class="active">Pengaturan Kategori Lokasi</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -16,14 +16,14 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("point/ajax_add_sub_point/$point")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Sub Point Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Point">
-								<i class="fa fa-plus"></i>Tambah Sub Point Baru
+							<a href="<?=site_url("point/ajax_add_sub_point/$point[id]")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori <?= $point['nama']; ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $point['nama']; ?>">
+								<i class="fa fa-plus"></i>Tambah Kategori <?= $point['nama']; ?>
             	</a>
-							<?php if ($_SESSION['grup']<4):?>
+							<?php if ($_SESSION['grup']<4): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("point/delete_all/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<?php endif;?>
+							<?php endif; ?>
 							<a href="<?=site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Kategori Point
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Lokasi
             	</a>
 						</div>
 						<div class="box-body">
@@ -34,6 +34,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
+														<h5 class="box-title text-center">Daftar Kategori <?= $point['nama']; ?></h5>
 														<table class="table table-bordered dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
@@ -46,18 +47,18 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($subpoint as $data):?>
+																<?php foreach ($subpoint as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("point/ajax_add_sub_point/$point/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Sub Point"><i class="fa fa-edit"></i></a>
-																			<?php if ($data['enabled'] == '2'):?>
-																				<a href="<?= site_url("point/point_lock_sub_point/$point/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Sub Point"><i class="fa fa-lock">&nbsp;</i></a>
+																			<a href="<?= site_url("point/ajax_add_sub_point/$point[id]/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah"><i class="fa fa-edit"></i></a>
+																			<?php if ($data['enabled'] == '2'): ?>
+																				<a href="<?= site_url("point/point_lock_sub_point/$point[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
-																				<a href="<?= site_url("point/point_unlock_sub_point/$point/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Sub Point"><i class="fa fa-unlock"></i></a>
-																			<?php endif?>
-																			<a href="#" data-href="<?= site_url("point/delete_sub_point/$point/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																				<a href="<?= site_url("point/point_unlock_sub_point/$point[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																			<?php endif; ?>
+																			<a href="#" data-href="<?= site_url("point/delete_sub_point/$point[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="70%"><?= $data['nama']?></td>
 																		<td><?= $data['aktif']?></td>
@@ -78,7 +79,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?

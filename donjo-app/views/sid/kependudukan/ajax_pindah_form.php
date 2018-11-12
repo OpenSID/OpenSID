@@ -53,7 +53,7 @@
 </script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
-<?php if ($is_anggota_keluarga):?>
+<?php if ($is_anggota_keluarga): ?>
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
@@ -66,7 +66,7 @@
 			</div>
 		</div>
 	</div>
-<?php else:?>
+<?php else: ?>
 <form action="<?= $form_action?>" method="post" id="validasi">
 	<input type="hidden" name="rt" value="">
 	<div class='modal-body'>
@@ -78,7 +78,7 @@
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px; width:30%;" >Nama / NIK</td>
 								<td> : </td>
-								<td><strong><?= strtoupper(unpenetration($kepala_keluarga['nama']))?></strong> - [<?= $kepala_keluarga['nik']?>]</td>
+								<td><strong><?= strtoupper($kepala_keluarga['nama'])?></strong> - [<?= $kepala_keluarga['nik']?>]</td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Tempat / Tgl. Lahir</td>
@@ -105,7 +105,7 @@
 							<label>Dusun</label>
 							<select class="form-control input-sm" name="dusun1" onchange="DusSel(this.value)">
 								<option value="">Pilih Dusun</option>
-								<?php foreach ($dusun as $data):?>
+								<?php foreach ($dusun as $data): ?>
 								<?php ///$data['dusun']=myUrlEncode($data['dusun']);?>
 									<option value="<?= ($data['dusun'])?>"><?= ununderscore(unpenetration($data['dusun']))?></option>
 								<?php endforeach;?>

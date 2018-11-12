@@ -1,6 +1,6 @@
 			<footer class="main-footer">
 				<div class="pull-right hidden-xs">
-			  	<b>Version</b> <?= AmbilVersi()?>
+			  	<b>Versi</b> <?= AmbilVersi()?>
 				</div>
 				<strong>Aplikasi <a href="https://github.com/OpenSID/OpenSID" target="_blank"> OpenSID</a>, dikembangkan oleh <a href="https://www.facebook.com/groups/OpenSID/" target="_blank">Komunitas OpenSID</a>.</strong>
 			</footer>
@@ -43,6 +43,7 @@
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
+
 			$('document').ready(function()
 			{
 				if ($('#success-code').val() == 1)
@@ -108,7 +109,7 @@
 					$('#pinBox').modal('show');
 				});
 				<?php unset($_SESSION['pin']) ?>
-			<?php endif?>
+			<?php endif ?>
 		</script>
 	</body>
 </html>

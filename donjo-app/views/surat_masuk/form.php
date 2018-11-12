@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Disposisi Surat Masuk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('surat_masuk')?>"> Daftar Surat Masuk</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('surat_masuk')?>"> Daftar Surat Masuk</a></li>
 			<li class="active">Disposisi Surat Masuk</li>
 		</ol>
 	</section>
@@ -12,7 +12,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url("surat_masuk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+						<a href="<?= site_url("surat_masuk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Surat Masuk
            	</a>
 					</div>
@@ -45,7 +45,7 @@
 										</div>
 									</div>
 								</div>
-							<?php endif;?>
+							<?php endif; ?>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_pos">Berkas Scan Surat Masuk</label>
 								<div class="col-sm-8">
@@ -62,7 +62,18 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
 								<div class="col-sm-8">
-									<input id="kode_surat" name="kode_surat" class="form-control input-sm  required" type="text" placeholder="Kode/Klasifikasi Surat" value="<?= $surat_masuk['kode_surat']?>"></input>
+									<select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat">
+										<option >
+											<?php if (!empty($surat_masuk['kode_surat'])): ?>
+												<?= $surat_masuk['kode_surat']?>
+											<?php else: ?>
+												-- Pilih Kode/Klasifikasi Surat --
+											<?php endif; ?>
+										</option>
+										<?php foreach ($klasifikasi as $item): ?>
+											<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_masuk["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
+										<?php endforeach;?>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">
@@ -96,13 +107,21 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="disposisi_kepada">Disposisi Kepada</label>
-								<div class="col-sm-8 col-lg-4">
-									<select name="disposisi_kepada"  class="form-control input-sm required">
-										<option value="">Pilih tujuan disposisi</option>
-										<?php foreach ($ref_disposisi as $data):?>
-											<option value="<?= $data?>" <?php if ($surat_masuk['disposisi_kepada']==$data):?>selected<?php endif;?>><?= strtoupper($data)?></option>
+								<div class="col-sm-8 col-lg-8">
+									<div id="op_item">
+										<?php foreach ($ref_disposisi as $data): ?>
+											<div class="col-sm-12 col-lg-6 checkbox">
+												<label>
+													<input name="disposisi_kepada[]" value="<?= $data?>" type="checkbox"
+														<?php foreach ($disposisi_surat_masuk as $value): ?>
+															<?php selected($value['disposisi_ke'], $data, 1) ?>
+														<?php endforeach; ?>
+													>
+													<?= strtoupper($data)?>
+												</label>
+											</div>
 										<?php endforeach;?>
-									</select>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -124,4 +143,14 @@
 		</div>
 	</section>
 </div>
-
+<script type="text/javascript">
+	$(function()
+	{
+		var keyword = <?= $pengirim?> ;
+		$( "#pengirim" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>

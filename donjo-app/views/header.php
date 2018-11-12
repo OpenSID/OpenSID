@@ -54,8 +54,10 @@
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
     <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
+		<!-- Diperlukan untuk script jquery khusus halaman -->
+		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 	</head>
-	<body class="skin-purple sidebar-mini fixed <?php if ($minsidebar==1):?>sidebar-collapse<?php endif?>">
+	<body class="skin-purple sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">
 			<header class="main-header">
 				<a href="<?=site_url()?>first"  target="_blank" class="logo">
@@ -74,27 +76,27 @@
 									<img src="<?= AmbilFoto($foto)?>" class="user-image" alt="User Image"/>
 								<?php else :?>
 									<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="user-image" alt="User Image"/>
-								<?php endif ?>
+								<?php endif; ?>
 									<span class="hidden-xs"><?=$nama?> </span>
 								</a>
 								<ul class="dropdown-menu">
 									<li class="user-header">
-										<?php if ($foto):?>
+										<?php if ($foto): ?>
 											<img src="<?=AmbilFoto($foto)?>" class="img-circle" alt="User Image"/>
 										<?php else :?>
-											<img src="<?=base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
-										<?php endif ?>
+											<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
+										<?php endif; ?>
 										<p>Anda Login Sebagai</p>
 										<p><strong><?=$nama?></strong></p>
 									</li>
 									<li class="user-footer">
 										<div class="pull-left">
 											<a href="<?=site_url()?>user_setting/" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox">
-												<button  data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profile</button>
+												<button  data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profil</button>
 											</a>
 										</div>
 										<div class="pull-right">
-											<a href="<?=site_url()?>siteman" class="btn bg-maroon btn-flat btn-sm">Logout</a>
+											<a href="<?=site_url()?>siteman" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
 										</div>
 									</li>
 								</ul>
@@ -122,7 +124,7 @@
 					<div class='modal-content'>
 						<div class='modal-header btn-info'>
 							<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-							<h4 class='modal-title' id='myModalLabel'><i class='fa fa-info-circle'></i> &nbsp;<?= $_SESSION['admin_warning'][0]; ?></h4>
+							<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> &nbsp;<?= $_SESSION['admin_warning'][0]; ?></h4>
 						</div>
 						<div class='modal-body'>
 							<?= $_SESSION['admin_warning'][1]; ?>

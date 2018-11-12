@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Salinan Kartu Keluarga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
 			<li><a href="<?= site_url("keluarga/anggota/$p/$o/$id_kk")?>"> Daftar Anggota Keluarga</a></li>
 			<li class="active">Kartu Keluarga</li>
@@ -18,7 +18,10 @@
 							<a href="<?= site_url("keluarga/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
 							<a href="<?= site_url("keluarga/doc_kk/$id_kk")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
 							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Anggota Keluarga">
-								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Anggota Keluarga
+								<i class="fa fa-arrow-circle-left "></i>Daftar Anggota Keluarga
+							</a>
+							<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Anggota Keluarga">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
 							</a>
 						</div>
 						<div class="box-header">
@@ -86,21 +89,22 @@
 										<table class="table table-bordered table-hover ">
 											<thead class="bg-gray disabled color-palette">
 												<tr>
-													<th>No</th>
-													<th>Nama Lengkap</th>
-													<th>NIK</th>
-													<th>Jenis Kelamin</th>
-													<th>Tempat Lahir</th>
-													<th>Tanggal Lahir</th>
-													<th>Agama</th>
-													<th>Pendidikan</th>
-													<th>Jenis Pekerjaan</th>
+													<th class="text-center">No</th>
+													<th class="text-center">Nama Lengkap</th>
+													<th class="text-center">NIK</th>
+													<th class="text-center">Jenis Kelamin</th>
+													<th class="text-center">Tempat Lahir</th>
+													<th class="text-center">Tanggal Lahir</th>
+													<th class="text-center">Agama</th>
+													<th class="text-center">Pendidikan</th>
+													<th class="text-center">Jenis Pekerjaan</th>
+													<th class="text-center">Golongan Darah</th>
 												</tr>
 											</thead>
 											<tbody>
 												<?php foreach ($main as $key => $data): ?>
 												<tr>
-													<td><?= $key+1?></td>
+													<td class="text-center" ><?= $key+1?></td>
 													<td><?= strtoupper(unpenetration($data['nama']))?></td>
 													<td><?= $data['nik']?></td>
 													<td><?= $data['sex']?></td>
@@ -109,6 +113,7 @@
 													<td><?= $data['agama']?></td>
 													<td><?= $data['pendidikan']?></td>
 													<td><?= $data['pekerjaan']?></td>
+													<td><?= $data['golongan_darah']?></td>
 												</tr>
 												<?php endforeach; ?>
 											</tbody>
@@ -122,38 +127,60 @@
 										<table class="table table-bordered table-hover ">
 											<thead class="bg-gray disabled color-palette">
 												<tr>
-													<th>No</th>
-													<th>Status Perkawinan</th>
-													<th>Status Hubungan Dalam Keluarga</th>
-													<th>Kewarganegaraan</th>
-													<th>No. Paspor</th>
-													<th>No. KITAS / KITAP</th>
-													<th>Ayah</th>
-													<th>Ibu</th>
-													<th>Golongan Darah</th>
+													<th class="text-center">No</th>
+													<th class="text-center">Status Perkawinan</th>
+													<th class="text-center">Tanggal Perkawinan</th>
+													<th class="text-center">Status Hubungan Dalam Keluarga</th>
+													<th class="text-center">Kewarganegaraan</th>
+													<th class="text-center">No. Paspor</th>
+													<th class="text-center">No. KITAS / KITAP</th>
+													<th class="text-center">Nama Ayah</th>
+													<th class="text-center">Nama Ibu</th>
 												</tr>
 											</thead>
 											<tbody>
 												<?php foreach ($main as $key => $data): ?>
 												<tr>
-													<td><?= $key+1?></td>
+													<td class="text-center" ><?= $key+1?></td>
 													<td><?= $data['status_kawin']?></td>
+													<td class="text-center"><?= tgl_indo_out($data['tanggalperkawinan'])?></td>
 													<td><?= $data['hubungan']?></td>
 													<td><?= $data['warganegara']?></td>
 													<td><?= $data['dokumen_pasport']?></td>
 													<td><?= $data['dokumen_kitas']?></td>
 													<td><?= strtoupper($data['nama_ayah'])?></td>
 													<td><?= strtoupper($data['nama_ibu'])?></td>
-													<td><?= $data['golongan_darah']?></td>
 												</tr>
 												<?php endforeach; ?>
 											</tbody>
 										</table>
 									</div>
+									<div class="table-responsive">
+										<table class="table no-border">
+											<tbody>
+												<tr>
+													<td width="25%">&nbsp;</td>
+													<td width="50%">&nbsp;</td>
+													<td class="text-center" width="25%"><?= unpenetration($desa['nama_desa']) ?>, <?= tgl_indo(date("Y m d"))?></td>
+												</tr>
+												<tr>
+													<td class="text-center">KEPALA KELUARGA</td>
+													<td>&nbsp;</td>
+													<td class="text-center">KEPALA <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?></td>
+												</tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr>
+													<td class="text-center"><?= strtoupper($kepala_kk['nama'])?></td>
+													<td width="50%">&nbsp;</td>
+													<td class="text-center"><?= strtoupper($desa['nama_kepala_desa']) ?></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
-							</div>
-							<div class="box-footer">
-								<p class="pull-right">Dikeluarkan Tanggal : <?= tgl_indo(date("Y m d"))?></p>
 							</div>
 						</div>
 					</div>
@@ -162,4 +189,6 @@
 		</form>
 	</section>
 </div>
+
+
 

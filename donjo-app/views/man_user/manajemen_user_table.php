@@ -1,8 +1,19 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Manajemen Pengguna</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Manajemen Pengguna</li>
 		</ol>
 	</section>
@@ -11,7 +22,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url('man_user/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Pengguna Baru</a>
+						<a href="<?= site_url('man_user/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Pengguna Baru</a>
 						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("man_user/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 					</div>
 					<div class="box-body">
@@ -24,10 +35,10 @@
 											<div class="col-sm-6">
 												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?=site_url('man_user/filter')?>')">
 													<option value="">Semua</option>
-													<option value="1" <?php if($filter==1) :?>selected<?php endif?>>Administrator</option>
-													<option value="2" <?php if($filter==2) :?>selected<?php endif?>>Operator</option>
-													<option value="3" <?php if($filter==3) :?>selected<?php endif?>>Redaksi</option>
-													<option value="4" <?php if($filter==4) :?>selected<?php endif?>>Kontributor</option>
+													<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Administrator</option>
+													<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Operator</option>
+													<option value="3" <?php if ($filter==3): ?>selected<?php endif ?>>Redaksi</option>
+													<option value="4" <?php if ($filter==4): ?>selected<?php endif ?>>Kontributor</option>
 												</select>
 											</div>
 											<div class="col-sm-6">
@@ -44,57 +55,57 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
-													<table  class="table table-bordered dataTable table-hover">
+													<table  class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th><input type="checkbox" id="checkall"/></th>
 																<th>No</th>
 																<th>Aksi</th>
-																<?php  if($o==2): ?>
+																<?php if ($o==2): ?>
 																	<th nowrap><a href="<?= site_url("man_user/index/$cat/$p/1")?>">Username <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php  elseif($o==1): ?>
+																<?php elseif ($o==1): ?>
 																	<th nowrap><a href="<?= site_url("man_user/index/$cat/$p/2")?>">Username <i class='fa fa-sort-desc fa-sm'></i></a></th>
-																<?php  else: ?>
+																<?php else: ?>
 																	<th nowrap><a href="<?= site_url("man_user/index/$cat/$p/1")?>">Username <i class='fa fa-sort fa-sm'></i></a></th>
-																<?php  endif; ?>
+																<?php endif; ?>
 
-																<?php  if($o==6): ?>
-																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/5")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php  elseif($o==5): ?>
-																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/6")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
-																<?php  else: ?>
-																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/5")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
-																<?php  endif; ?>
+																<?php if ($o==4): ?>
+																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==3): ?>
+																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th width='50%'><a href="<?= site_url("man_user/index/$cat/$p/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
 
-																<?php  if($o==4): ?>
-																	<th><a href="<?= site_url("man_user/index/$cat/$p/3")?>">Group <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php  elseif($o==3): ?>
-																	<th><a href="<?= site_url("man_user/index/$cat/$p/4")?>">Group <i class='fa fa-sort-desc fa-sm'></i></a></th>
-																<?php  else: ?>
-																	<th><a href="<?= site_url("man_user/index/$cat/$p/3")?>">Group <i class='fa fa-sort fa-sm'></i></a></th>
-																<?php  endif; ?>
+																<?php if ($o==6): ?>
+																	<th><a href="<?= site_url("man_user/index/$cat/$p/5")?>">Group <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==5): ?>
+																	<th><a href="<?= site_url("man_user/index/$cat/$p/6")?>">Group <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th><a href="<?= site_url("man_user/index/$cat/$p/5")?>">Group <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
 																<th>Login Terakhir</th>
 															</tr>
 														</thead>
 														<tbody>
-															<?php  foreach($main as $data): ?>
+															<?php foreach ($main as $data): ?>
 																<tr>
 																	<td>
-																		<?php  if($data['username']!='siteman') :?>
+																		<?php if ($data['username']!='siteman'): ?>
 																			<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
-																		<?php  endif; ?>
+																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['no']?></td>
 																	<td nowrap>
 																		<a href="<?=site_url("Man_user/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																		<?php if($data['username']!='admin'):?>
-																			<?php if($data['active'] == '0'): ?>
+																		<?php if ($data['username']!='admin'): ?>
+																			<?php if ($data['active'] == '0'): ?>
 																				<a href="<?=site_url('Man_user/user_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Pengguna"><i class="fa fa-lock">&nbsp;</i></a>
-																			<?php elseif($data['active'] == '1'): ?>
+																			<?php elseif ($data['active'] == '1'): ?>
 																				<a href="<?=site_url('Man_user/user_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Pengguna"><i class="fa fa-unlock"></i></a>
 																			<?php endif; ?>
 																			<a href="#" data-href="<?=site_url("Man_user/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php  endif; ?>
+																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['username']?></td>
 																	<td><?=$data['nama']?></td>
@@ -115,9 +126,9 @@
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="20" <?php  selected($per_page,20); ?> >20</option>
-															<option value="50" <?php  selected($per_page,50); ?> >50</option>
-															<option value="100" <?php  selected($per_page,100); ?> >100</option>
+															<option value="20" <?php selected($per_page,20); ?> >20</option>
+															<option value="50" <?php selected($per_page,50); ?> >50</option>
+															<option value="100" <?php selected($per_page,100); ?> >100</option>
 														</select>
 														Dari
 														<strong><?= $paging->num_rows?></strong>
@@ -129,21 +140,21 @@
 										<div class="col-sm-6">
 											<div class="dataTables_paginate paging_simple_numbers">
 												<ul class="pagination">
-													<?php  if($paging->start_link): ?>
+													<?php if ($paging->start_link): ?>
 														<li><a href="<?=site_url("man_user/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-													<?php  endif; ?>
-													<?php  if($paging->prev): ?>
+													<?php endif; ?>
+													<?php if ($paging->prev): ?>
 														<li><a href="<?=site_url("man_user/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-													<?php  endif; ?>
-													<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+													<?php endif; ?>
+													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 														<li><a href="<?= site_url("man_user/index/$cat/$i/$o")?>"><?= $i?></a></li>
-													<?php  endfor; ?>
-													<?php  if($paging->next): ?>
+													<?php endfor; ?>
+													<?php if ($paging->next): ?>
 														<li><a href="<?=site_url("man_user/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-													<?php  endif; ?>
-													<?php  if($paging->end_link): ?>
+													<?php endif; ?>
+													<?php if ($paging->end_link): ?>
 														<li><a href="<?=site_url("man_user/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-													<?php  endif; ?>
+													<?php endif; ?>
 												</ul>
 											</div>
 										</div>
@@ -156,7 +167,7 @@
 								<div class='modal-content'>
 									<div class='modal-header'>
 										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 									</div>
 									<div class='modal-body btn-info'>
 										Apakah Anda yakin ingin menghapus data ini?

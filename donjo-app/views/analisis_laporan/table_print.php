@@ -1,6 +1,6 @@
 <?php
 	$subjek = $_SESSION['subjek_tipe'];
-	switch($subjek){
+	switch ($subjek){
 		case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
 		case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
 		case 3: $sql = $nama="Kepala Rumahtangga"; $nomor="Nomor Rumahtangga";$asubjek="Rumahtangga"; break;
@@ -50,17 +50,17 @@
 					</thead>
 					<tbody>
 
-						<?php foreach($main as $data): ?>
+						<?php foreach ($main as $data): ?>
 							<tr>
-								<td align="center" width="2"><?= $data['no']?></td>
-								<td><?= $data['uid']?></td>
-								<td><?= $data['nama']?></td>
-								<td align="center"><?= $data['jk']?></td>
-								<td><?= $data['dusun']?></td>
-								<td><?= $data['rw']?></td>
-								<td><?= $data['rt']?></td>
-								<td align="right"><?= $data['nilai']?></td>
-								<td align="right"><?= $data['klasifikasi']?></td>
+								<td align="center" width="2"><?= $data['no'] ?></td>
+								<td><?= $data['uid'] ?></td>
+								<td><?= $data['nama'] ?></td>
+								<td align="center"><?= $data['jk'] ?></td>
+								<td><?= $data['dusun'] ?></td>
+								<td><?= $data['rw'] ?></td>
+								<td><?= $data['rt'] ?></td>
+								<td align="right"><?= $data['nilai'] ?></td>
+								<td align="right"><?= $data['klasifikasi'] ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>

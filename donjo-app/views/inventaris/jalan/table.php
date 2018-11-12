@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Daftar Inventaris Jalan, Irigasi Dan Jaringan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Daftar Inventaris Jalan, Irigasi Dan Jaringan</li>
 		</ol>
 	</section>
@@ -31,7 +31,7 @@
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="table-responsive">
-												<table id="tabel4" class="table dataTable table-hover">
+												<table id="tabel4" class="table table-bordered dataTable table-hover">
 													<thead class="bg-gray">
 														<tr>
 															<th class="text-center" rowspan="2">No</th>
@@ -52,13 +52,17 @@
 														</tr>
 													</thead>
 													<tbody>
-														<?php foreach ($main as $data):?>
-															<tr>
+														<?php foreach ($main as $data): ?>
+															<?php if ($data->status == "1"): ?>
+																<tr style='background-color:#cacaca'>
+															<?php else: ?>
+																<tr>
+															<?php endif; ?>
 																<td></td>
 																<td nowrap>
-																	<?php if($data->status == "0"): ?>
+																	<?php if ($data->status == "0"): ?>
 																		<a href="<?= base_url('index.php/inventaris_jalan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
-																	<?php  endif;?>
+																	<?php endif; ?>
 																	<a href="<?= base_url('index.php/inventaris_jalan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 																	<a href="<?= base_url('index.php/inventaris_jalan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
 																	<a href="#" data-href="<?= site_url("api_inventaris_jalan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
@@ -99,7 +103,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?
@@ -205,7 +209,6 @@
 		</form>
 	</section>
 </div>
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(document).ready(function(){
 		var t = $('#tabel4').DataTable({

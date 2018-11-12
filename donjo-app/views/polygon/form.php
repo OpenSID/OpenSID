@@ -1,10 +1,10 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Kategori Tipe Polygon</h1>
+		<h1>Pengaturan Tipe Area</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('polygon')?>"><i class="fa fa-dashboard"></i> Daftar Tipe Polygon</a></li>
-			<li class="active">Pengaturan Kategori Tipe Polygon</li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('polygon')?>"><i class="fa fa-dashboard"></i> Daftar Tipe Area</a></li>
+			<li class="active">Pengaturan Tipe Area</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -16,22 +16,22 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("polygon")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Polygon
+							<a href="<?= site_url("polygon")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Area
             	</a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
-								<label class="control-label col-sm-3">Nama Kategori Area</label>
+								<label class="control-label col-sm-3">Nama Jenis Area</label>
 								<div class="col-sm-7">
-									<input name="nama" class="form-control input-sm" type="text" value="<?=$polygon['nama']?>"></input>
+									<input name="nama" class="form-control input-sm required" type="text" value="<?=$polygon['nama']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-3">Warna</label>
 								<div class="col-sm-4">
 									<div class="input-group my-colorpicker2">
-										<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?= $polygon['color']?>">
+										<input type="text" id="color" name="color" class="form-control input-sm required" placeholder="#FFFFFF" value="<?= $polygon['color']?>">
 										<div class="input-group-addon input-sm">
 											<i></i>
 										</div>

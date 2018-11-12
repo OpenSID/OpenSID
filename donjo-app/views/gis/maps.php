@@ -4,7 +4,7 @@
 	var infoWindow;
 	window.onload = function()
 	{
-    <?php if (!empty($desa['lat'] AND !empty($desa['lng']))): ?>
+    <?php if (!empty($desa['lat']) AND !empty($desa['lng'])): ?>
       var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
       var zoom   = <?=$desa['zoom'] ?: 10?>;
     <?php elseif (!empty($desa['path'])): ?>
@@ -21,7 +21,7 @@
 
     //Menambahkan tile layer OSM ke peta
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',	{
-      maxZoom: 18,
+      maxZoom: 19,
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
       id: 'mapbox.streets'
     }).addTo(mymap); //Menambahkan tile layer ke variabel 'peta'
@@ -88,7 +88,7 @@
       var jml = daftar_lokasi.length;
     	var content;
       var foto;
-      var path_foto = '<?=base_url()."assets/images/gis/point/"?>';
+      var path_foto = '<?= base_url()."assets/images/gis/point/"?>';
       var point_style = {
           iconSize: [32, 37],
           iconAnchor: [16, 37],
@@ -135,7 +135,7 @@
       var jml_path;
       var foto;
       var content_area;
-      var lokasi_gambar = "<?=base_url().LOKASI_FOTO_AREA?>";
+      var lokasi_gambar = "<?= base_url().LOKASI_FOTO_AREA?>";
 
 			for (var x = 0; x < jml;x++)
 			{
@@ -177,7 +177,7 @@
       var foto;
       var content;
       var point_style = L.icon({
-          iconUrl: '<?=base_url()."assets/images/gis/point/pend.png"?>',
+          iconUrl: '<?= base_url()."assets/images/gis/point/pend.png"?>',
           iconSize: [32, 37],
           iconAnchor: [16, 37],
           popupAnchor: [0, -28],
@@ -193,7 +193,7 @@
             foto = '<td><img src="'+AmbilFoto(penduduk[x].foto)+'" class="foto_pend"/></td>';
           }
 					else
-						foto = '<td><img src="<?=base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
+						foto = '<td><img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
 
           //Konten yang akan ditampilkan saat marker diklik
           content = 	'<table border=0><tr>' + foto +
@@ -251,7 +251,7 @@
 	#map
 	{
 		width:100%;
-		height:100vh
+		height:86vh
 	}
 	.form-group a
 	{
@@ -295,50 +295,50 @@
 										<label>Status Penduduk</label>
 										<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url('gis/filter')?>')">
 											<option value="">Status</option>
-											<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
-											<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Pasif</option>
-											<option value="2" <?php if ($filter==3):?>selected<?php endif?>>Pendatang</option>
+											<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+											<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Pasif</option>
+											<option value="2" <?php if ($filter==3): ?>selected<?php endif ?>>Pendatang</option>
 										</select>
 									</div>
 									<div class="form-group">
 										<label>Jenis Kelamin</label>
 										<select class="form-control input-sm " name="sex" onchange="formAction('mainform','<?= site_url('gis/sex')?>')">
 											<option value="">Jenis Kelamin</option>
-											<option value="1" <?php if ($sex==1):?>selected<?php endif?>>Laki-laki</option>
-											<option value="2" <?php if ($sex==2):?>selected<?php endif?>>Perempuan</option>
+											<option value="1" <?php if ($sex==1): ?>selected<?php endif ?>>Laki-laki</option>
+											<option value="2" <?php if ($sex==2): ?>selected<?php endif ?>>Perempuan</option>
 										</select>
 									</div>
 									<div class="form-group">
 										<label>Dusun</label>
 										<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('gis/dusun')?>')">
 											<option value=""><?=ucwords($this->setting->sebutan_dusun)?></option>
-											<?php foreach ($list_dusun AS $data):?>
-												<option <?php if ($dusun==$data['dusun']):?>selected<?php endif?> value="<?=$data['dusun']?>"><?=$data['dusun']?></option>
+											<?php foreach ($list_dusun AS $data): ?>
+												<option <?php if ($dusun==$data['dusun']): ?>selected<?php endif ?> value="<?=$data['dusun']?>"><?=$data['dusun']?></option>
 											<?php endforeach; ?>
 										</select>
 									</div>
-									<?php if ($dusun):?>
+									<?php if ($dusun): ?>
 										<div class="form-group">
 											<label>RW</label>
 											<select class="form-control input-sm " name="rw" onchange="formAction('mainform','<?= site_url('gis/rw')?>')">
 												<option value="">RW</option>
-												<?php foreach ($list_rw AS $data):?>
-													<option <?php if ($rw==$data['rw']):?>selected<?php endif?>><?=$data['rw']?></option>
+												<?php foreach ($list_rw AS $data): ?>
+													<option <?php if ($rw==$data['rw']): ?>selected<?php endif ?>><?=$data['rw']?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
-										<?php if ($rw):?>
+										<?php if ($rw): ?>
 											<div class="form-group">
 												<label>RT</label>
 												<select class="form-control input-sm " name="rt" onchange="formAction('mainform','<?= site_url('gis/rt')?>')">
 													<option value="">RT</option>
-													<?php foreach ($list_rt AS $data):?>
-														<option <?php if ($rt==$data['rt']):?>selected<?php endif?>><?=$data['rt']?></option>
+													<?php foreach ($list_rt AS $data): ?>
+														<option <?php if ($rt==$data['rt']): ?>selected<?php endif ?>><?=$data['rt']?></option>
 													<?php endforeach; ?>
 												</select>
 											</div>
-										<?php endif;?>
-									<?php endif;?>
+										<?php endif; ?>
+									<?php endif; ?>
 									<div class="col-sm-12">
 										<div class="form-group row">
 											<label>Cari</label>
@@ -369,27 +369,27 @@
 									<span class="leaflet-control-layers-group-name">LEGENDA</span>
 									<div class="leaflet-control-layers-separator"></div>
 									<label>
-										<input class="leaflet-control-layers-selector" type="checkbox" name="layer_penduduk" value="1" onchange="handle_pend(this);" <?php if ($layer_penduduk==1):?>checked<?php endif;?>>
+										<input class="leaflet-control-layers-selector" type="checkbox" name="layer_penduduk" value="1" onchange="handle_pend(this);" <?php if ($layer_penduduk==1): ?>checked<?php endif; ?>>
 										<span> Penduduk	</span>
 									</label>
 									<label>
-										<input class="leaflet-control-layers-selector" type="checkbox" name="layer_keluarga" value="1" onchange="handle_kel(this);" <?php if ($layer_keluarga==1):?>checked<?php endif;?>>
+										<input class="leaflet-control-layers-selector" type="checkbox" name="layer_keluarga" value="1" onchange="handle_kel(this);" <?php if ($layer_keluarga==1): ?>checked<?php endif; ?>>
 										<span> Keluarga</span>
 									</label>
 									<label>
-										<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if ($layer_desa==1):?>checked<?php endif;?>>
+										<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if ($layer_desa==1): ?>checked<?php endif; ?>>
 										<span> <?= ucwords($this->setting->sebutan_desa)?></span>
 									</label>
 									<label>
-										<input type="checkbox" name="layer_wilayah" value="1"onchange="handle_wil(this);" <?php if ($layer_wilayah==1):?>checked<?php endif;?>>
+										<input type="checkbox" name="layer_wilayah" value="1"onchange="handle_wil(this);" <?php if ($layer_wilayah==1): ?>checked<?php endif; ?>>
 										<span> Wilayah Administratif</span>
 									</label>
 									<label>
-										<input type="checkbox" name="layer_area" value="1"onchange="handle_area(this);" <?php if ($layer_area==1):?>checked<?php endif;?>>
+										<input type="checkbox" name="layer_area" value="1"onchange="handle_area(this);" <?php if ($layer_area==1): ?>checked<?php endif; ?>>
 										<span> Area</span>
 									</label>
 									<label>
-										<input type="checkbox" name="layer_lokasi" value="1"onchange="handle_lokasi(this);" <?php if ($layer_lokasi==1):?>checked<?php endif;?>>
+										<input type="checkbox" name="layer_lokasi" value="1"onchange="handle_lokasi(this);" <?php if ($layer_lokasi==1): ?>checked<?php endif; ?>>
 										<span> Lokasi/Properti Desa </span>
 									</label>
 								</div>
@@ -422,13 +422,13 @@
 								function AmbilFoto(foto, ukuran = "kecil_")
 								{
 									ukuran_foto = ukuran || null
-									file_foto = '<?=base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
+									file_foto = '<?= base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
 									return file_foto;
 								}
 								function AmbilFotoLokasi(foto, ukuran = "kecil_")
 								{
 									ukuran_foto = ukuran || null
-									file_foto = '<?=base_url().LOKASI_FOTO_LOKASI;?>'+ukuran_foto+foto;
+									file_foto = '<?= base_url().LOKASI_FOTO_LOKASI;?>'+ukuran_foto+foto;
 									return file_foto;
 								}
 							</script>

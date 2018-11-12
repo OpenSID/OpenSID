@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');?>
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');?>
 <style type="text/css">
 	table.disdukcapil
 	{
@@ -115,11 +115,11 @@
 			<td>:</td>
 			<?php for ($i=0; $i<2; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_propinsi'][$i])):?>
+					<?php if (isset($config['kode_propinsi'][$i])): ?>
 						<?= $config['kode_propinsi'][$i]; ?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2>&nbsp;</td>
@@ -134,11 +134,11 @@
 			<td>:</td>
 			<?php for ($i=0; $i<2; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_kabupaten'][$i])):?>
+					<?php if (isset($config['kode_kabupaten'][$i])): ?>
 						<?= $config['kode_kabupaten'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2>&nbsp;</td>
@@ -153,11 +153,11 @@
 			<td>:</td>
 			<?php for ($i=0; $i<2; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_kecamatan'][$i])):?>
+					<?php if (isset($config['kode_kecamatan'][$i])): ?>
 						<?= $config['kode_kecamatan'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2>&nbsp;</td>
@@ -169,31 +169,31 @@
 			<td>:</td>
 			<?php for ($i=0; $i<5; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_pos'][$i])):?>
+					<?php if (isset($config['kode_pos'][$i])): ?>
 						<?= $config['kode_pos'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="4">RT</td>
 			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($individu['rt'][$i])):?>
+					<?php if (isset($individu['rt'][$i])): ?>
 						<?= $individu['rt'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td>RW</td>
 			<?php for ($i=0; $i<3; $i++): ?>
 				<td class="kotak tengah">
-					<?php if (isset($individu['rw'][$i])):?>
+					<?php if (isset($individu['rw'][$i])): ?>
 						<?= $individu['rw'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td>Jumlah Anggota Keluarga</td>
@@ -206,11 +206,11 @@
 			<td>:</td>
 			<?php for ($i=0; $i<4; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_desa'][$i])):?>
+					<?php if (isset($config['kode_desa'][$i])): ?>
 						<?= $config['kode_desa'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td class="kotak"><?= $config['nama_desa'];?></td>
@@ -220,11 +220,11 @@
 			<td>:</td>
 			<?php for ($i=0; $i<12; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($individu['telepon_kk'][$i])):?>
+					<?php if (isset($individu['telepon_kk'][$i])): ?>
 						<?= $individu['telepon_kk'][$i];?>
-					<?php else:?>
+					<?php else: ?>
 						&nbsp;
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="8">&nbsp;</td>
@@ -279,7 +279,7 @@
 					<?php for ($k=0; $k<5; $k++): ?>
 						<td class="tengah <?= $class?>">&nbsp;</td>
 					<?php endfor; ?>
-				<?php endif;?>
+				<?php endif; ?>
 			</tr>
 		<?php endfor; ?>
 	</table>
@@ -361,7 +361,7 @@
 					<?php for ($k=0; $k<15; $k++): ?>
 						<td class="tengah <?= $class?>">&nbsp;</td>
 					<?php endfor; ?>
-				<?php endif;?>
+				<?php endif; ?>
 			</tr>
 		<?php endfor; ?>
 	</table>
@@ -419,7 +419,7 @@
 					<?php for ($k=0; $k<9; $k++): ?>
 						<td class="tengah <?= $class?>">&nbsp;</td>
 					<?php endfor; ?>
-				<?php endif;?>
+				<?php endif; ?>
 			</tr>
 		<?php endfor; ?>
 	</table>

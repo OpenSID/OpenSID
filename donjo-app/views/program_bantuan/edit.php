@@ -1,12 +1,12 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<?php if ($tampil == 0):?>
+		<?php if ($tampil == 0): ?>
 			<h1>Pengelolaan Program Bantuan</h1>
-		<?php else:?>
+		<?php else: ?>
 			<h1>Pengelolaan Program Bantuan dengan Sasaran <?=$sasaran[$tampil];?></h1>
-		<?php endif;?>
+		<?php endif; ?>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
 			<li class="active">Pengelolaan Program Bantuan</li>
 		</ol>
@@ -26,10 +26,10 @@
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" name="cid" id="cid">
 										<option value="">Pilih Sasaran Program <?= $cid;?></option>
-										<option value="1" <?php if ($cid == 1):?>selected<?php endif?>>Penduduk Perorangan</option>
-										<option value="2" <?php if ($cid == 2):?>selected<?php endif?>>Keluarga - KK</option>
-										<option value="3" <?php if ($cid == 3):?>selected<?php endif?>>Rumah Tangga</option>
-										<option value="4" <?php if ($cid == 4):?>selected<?php endif?>>Kelompok / Organisasi</option>
+										<option value="1" <?php if ($cid == 1): ?>selected<?php endif; ?>>Penduduk Perorangan</option>
+										<option value="2" <?php if ($cid == 2): ?>selected<?php endif; ?>>Keluarga - KK</option>
+										<option value="3" <?php if ($cid == 3): ?>selected<?php endif; ?>>Rumah Tangga</option>
+										<option value="4" <?php if ($cid == 4): ?>selected<?php endif; ?>>Kelompok / Organisasi</option>
 									</select>
 								</div>
 							</div>

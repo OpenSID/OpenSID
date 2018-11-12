@@ -2,9 +2,9 @@
 	<section class="content-header">
 		<h1>Data Peserta Program Bantuan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
-			<li><a href=<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?>> Rincian Program Bantuan</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
+			<li><a href="<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?>"> Rincian Program Bantuan</a></li>
 			<li class="active">Data Peserta Program Bantuan</li>
 		</ol>
 	</section>
@@ -13,8 +13,8 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
-						<a href=<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?> class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
+						<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+						<a href="<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -69,8 +69,8 @@
                               </td>
 															<td> : <?= $peserta["peserta_nama"]." / ".$peserta["peserta_info"]?></td>
 														</tr>
-                            <?php if ($individu):?>
-                              <?php if($detail["sasaran"] == 1): ?>
+                            <?php if ($individu): ?>
+                              <?php if ($detail["sasaran"] == 1): ?>
                                 <tr>
                                   <td style="padding-top : 10px;padding-bottom : 10px;" >Alamat</td>
                                   <td>
@@ -95,7 +95,7 @@
                                     <?= $individu['warganegara']?> / <?= $individu['agama']?>
                                   </td>
                                 </tr>
-                              <?php elseif($detail["sasaran"] == 2): ?>
+                              <?php elseif ($detail["sasaran"] == 2): ?>
                                 <tr>
                                   <td style="padding-top : 10px;padding-bottom : 10px;" >Alamat Keluarga</td>
                                   <td>
@@ -120,7 +120,7 @@
                                     <?= $individu['warganegara']?> / <?= $individu['agama']?>
                                   </td>
                                 </tr>
-                              <?php elseif($detail["sasaran"] == 3): ?>
+                              <?php elseif ($detail["sasaran"] == 3): ?>
                                 <tr>
                                   <td style="padding-top : 10px;padding-bottom : 10px;" >Alamat Kepala Rumah Tangga</td>
                                   <td>
@@ -145,7 +145,7 @@
                                     <?= $individu['warganegara']?> / <?= $individu['agama']?>
                                   </td>
                                 </tr>
-                              <?php elseif($detail["sasaran"] == 4): ?>
+                              <?php elseif ($detail["sasaran"] == 4): ?>
                                 <tr>
                                   <td style="padding-top : 10px;padding-bottom : 10px;" >Alamat Ketua Kelompok</td>
                                   <td>
@@ -172,7 +172,7 @@
                                 </tr>
 
                               <?php endif; ?>
-                            <?php endif;?>
+                            <?php endif; ?>
 														<tr>
 															<td style="padding-top : 10px;padding-bottom : 10px;" >Nomor Kartu Peserta</td>
 															<td> : <?= $peserta["no_id_kartu"]?></td>

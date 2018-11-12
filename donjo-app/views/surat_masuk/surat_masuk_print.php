@@ -18,7 +18,9 @@
 					<label align="left"><?= get_identitas()?></label>
 					<h3>
 						<span>AGENDA SURAT MASUK</span>
-						<?php if (!empty($_SESSION['filter'])) echo " TAHUN ".$_SESSION['filter'];?>
+						<?php if (!empty($_SESSION['filter'])): ?>
+							TAHUN <?= $_SESSION['filter']; ?>
+						<?php endif; ?>
 					</h3>
 					<br>
 				</div>
@@ -39,7 +41,7 @@
 							<td><?= $data['nomor_urut']?></td>
 							<td><?= tgl_indo($data['tanggal_penerimaan'])?> </td>
 							<td><?= $data['nomor_surat']?></td>
-							<td><?= $data['tanggal_surat']?></td>
+							<td><?= tgl_indo($data['tanggal_surat'])?></td>
 							<td><?= $data['pengirim']?></td>
 							<td><?= $data['isi_singkat']?></td>
 

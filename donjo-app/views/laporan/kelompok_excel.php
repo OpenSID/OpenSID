@@ -9,7 +9,7 @@ header("Expires: 0");
 	<!-- Print Body -->
 	<div id="body">
    	<table  width="100%">
-		 	<?php foreach ($config as $data):?>
+		 	<?php foreach ($config as $data): ?>
 				<tbody>
 					<tr>
 						<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?= $data['nama_kabupaten']?></h4></td>
@@ -42,7 +42,7 @@ header("Expires: 0");
 						<td><?= $bln?> </td>
 						<td width="40%"></td>
 					</tr>
-					<?php if ($dusun):?>
+					<?php if ($dusun): ?>
 						<tr>
 							<td><?= ucwords($this->setting->sebutan_dusun)?></td>
 							<td width="3%">:</td>
@@ -51,14 +51,14 @@ header("Expires: 0");
 							</td>
 							<td width="40%"></td>
 						</tr>
-						<?php endif;?>
+						<?php endif; ?>
 					</tbody>
 				</table>
-			<?php endforeach;?>
+			<?php endforeach; ?>
 			<br>
 				<table class="border thick">
 					<thead>
-						<?php if ($_SESSION['dusun']!=''):?>
+						<?php if ($_SESSION['dusun']!=''): ?>
 							<tr>
 								<h3>DATA PILAH <?= strtoupper($this->setting->sebutan_dusun)?> <?= $_SESSION['dusun'] ?></h3>
 							</tr>
@@ -99,7 +99,7 @@ header("Expires: 0");
 							$sakit_P=0;
 							$hamil=0;
 						?>
-						<?php foreach ($main as $data):?>
+						<?php foreach ($main as $data): ?>
 							<tr>
 								<td align="right"><?= $data['dusunnya']?></td>
 								<td align="right"><?= $data['rw']?></td>

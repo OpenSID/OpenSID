@@ -113,20 +113,27 @@
 						<tr>
 							<td colspan="6">
 								<table>
-									<?php $kolom_1 = count($ref_disposisi) / 2;?>
-									<?php for($i=0; $i<$kolom_1; $i++): ?>
+									<?php for ($i=0; $i<count($ref_disposisi); $i+=2): ?>
 										<tr>
 											<td class="nostretch no-border-kanan" style="vertical-align: text-top;">
 												<?= $ref_disposisi[$i]?>
 											</td>
 											<td class="no-border-kiri" style="vertical-align: text-top;">
-												<input type="checkbox" style="zoom: 2; padding: 10px" disabled="disabled" <?php if ($ref_disposisi[$i]==$surat['disposisi_kepada']) echo 'checked'?>/>
+												<input type="checkbox" style="zoom: 2; padding: 10px" disabled="disabled"
+													<?php foreach ($disposisi_surat_masuk as $value): ?>
+														<?= selected($ref_disposisi[$i], $value['disposisi_ke'], true) ?>
+													<?php endforeach ?>
+												/>
 											</td>
 											<td class="nostretch no-border-kanan" style="vertical-align: text-top;">
-												<?php if ($ref_disposisi[$i+$kolom_1+1]) echo $ref_disposisi[$i+$kolom_1+1]?>
+												<?php if ($ref_disposisi[$i + 1]) echo $ref_disposisi[$i + 1]?>
 											</td>
 											<td class="no-border-kiri" style="vertical-align: text-top;">
-												<input type="checkbox" style="zoom: 2; padding: 10px" disabled="disabled" <?php if ($ref_disposisi[$i+$kolom_1+1]==$surat['disposisi_kepada']) echo 'checked'?>/>
+												<input type="checkbox" style="zoom: 2; padding: 10px" disabled="disabled"
+													<?php foreach ($disposisi_surat_masuk as $value): ?>
+														<?= selected($ref_disposisi[$i + 1], $value['disposisi_ke'], true) ?>
+													<?php endforeach ?>
+												/>
 											</td>
 										</tr>
 									<?php endfor; ?>

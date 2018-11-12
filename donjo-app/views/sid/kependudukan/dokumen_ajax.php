@@ -13,13 +13,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach ($list_dokumen as $data):?>
+								<?php foreach ($list_dokumen as $data): ?>
 									<tr>
 										<td><?= $data['no']?></td>
 										<td><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" ><?= $data['nama']?></a></td>
 										<td><?= tgl_indo2($data['tgl_upload'])?></td>
 									</tr>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</tbody>
 						</table>
 					</div>

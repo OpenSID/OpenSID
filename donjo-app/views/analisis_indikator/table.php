@@ -1,5 +1,3 @@
-<!-- jQuery 3 -->
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(function()
 	{
@@ -15,9 +13,9 @@
 	<section class="content-header">
 		<h1>Pengaturan Indikator - <?= $analisis_master['nama']?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
-			<li><a href="<?=site_url()?>analisis_indikator/leave"><?= $analisis_master['nama']?></a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url()?>analisis_indikator/leave"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Pengaturan Indikator</li>
 		</ol>
 	</section>
@@ -31,15 +29,15 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<?php if ($analisis_master['lock']==1):?>
-								<a href="<?=site_url('analisis_indikator/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block <?php if($analisis_master['jenis']==1):?>disabled<?php endif;?>" title="Tambah Indikator Baru"><i class="fa fa-plus"></i> Tambah Indikator Baru</a>
+							<?php if ($analisis_master['lock']==1): ?>
+								<a href="<?= site_url('analisis_indikator/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block <?php if ($analisis_master['jenis']==1): ?>disabled<?php endif; ?>" title="Tambah Indikator Baru"><i class="fa fa-plus"></i> Tambah Indikator Baru</a>
 								<a href="#confirm-delete" title="Hapus Data"
-									<?php if($analisis_master['jenis']!=1): ?>
-										onclick="deleteAllBox('mainform', '<?=site_url("analisis_indikator/delete_all/$p/$o")?>')"
+									<?php if ($analisis_master['jenis']!=1): ?>
+										onclick="deleteAllBox('mainform', '<?= site_url("analisis_indikator/delete_all/$p/$o")?>')"
 									<?php endif; ?>
 									class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 								<a href="<?= site_url()?>analisis_indikator/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
-							<?php endif;?>
+							<?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -48,29 +46,29 @@
 										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-8">
-													<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<?=site_url('analisis_indikator/tipe')?>')">
+													<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<?= site_url('analisis_indikator/tipe')?>')">
 														<option value="">Tipe Pertanyaan</option>
-														<?php foreach ($list_tipe AS $data):?>
-															<option value="<?= $data['id']?>" <?php if ($tipe == $data['id']):?>selected<?php endif?>><?= $data['tipe']?></option>
+														<?php foreach ($list_tipe AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($tipe == $data['id']): ?>selected<?php endif ?>><?= $data['tipe']?></option>
 														<?php endforeach;?>
 													</select>
-													<select class="form-control input-sm" name="kategori" onchange="formAction('mainform', '<?=site_url('analisis_indikator/kategori')?>')">
+													<select class="form-control input-sm" name="kategori" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori')?>')">
 														<option value="">Tipe Kategori</option>
-														<?php foreach ($list_kategori AS $data):?>
-															<option value="<?= $data['id']?>" <?php if ($kategori == $data['id']):?>selected<?php endif?>><?= $data['kategori']?></option>
+														<?php foreach ($list_kategori AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($kategori == $data['id']): ?>selected<?php endif ?>><?= $data['kategori']?></option>
 														<?php endforeach;?>
 													</select>
-													<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('analisis_indikator/filter')?>')">
+													<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url('analisis_indikator/filter')?>')">
 														<option value="">Aksi Analisis</option>
-														<option value="1" <?php if ($filter==1) :?>selected<?php endif?>>Ya</option>
-														<option value="2" <?php if ($filter==2) :?>selected<?php endif?>>Tidak</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Ya</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak</option>
 													</select>
 												</div>
 												<div class="col-sm-4">
 													<div class="input-group input-group-sm pull-right">
-														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("analisis_indikator/search")?>');$('#'+'mainform').submit();}">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("analisis_indikator/search")?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("analisis_indikator/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("analisis_indikator/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
@@ -78,7 +76,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover">
+														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th><input type="checkbox" id="checkall"/></th>
@@ -131,21 +129,21 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<?php if ($analisis_master['lock']==1):?>
+																		<?php if ($analisis_master['lock']==1): ?>
 																			<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
-																		<?php endif;?>
+																		<?php endif; ?>
 																		<td><?= $data['no']?></td>
-																		<?php if ($analisis_master['lock']==1):?>
+																		<?php if ($analisis_master['lock']==1): ?>
 																			<td nowrap>
-																				<?php if ($data['id_tipe']==1 OR $data['id_tipe']==2):?>
+																				<?php if ($data['id_tipe']==1 OR $data['id_tipe']==2): ?>
 																					<a href="<?= site_url("analisis_indikator/parameter/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Jawaban"><i class='fa fa-list'></i></a>
-																				<?php endif;?>
+																				<?php endif; ?>
 																				<a href="<?= site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class='fa fa-edit'></i></a>
 																				<?php if ($analisis_master['jenis']!=1): ?>
 																					<a href="#" data-href="<?= site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
 																			</td>
-																		<?php endif;?>
+																		<?php endif; ?>
 																		<td><label><?= $data['nomor']?></label></td>
 																		<td><?= $data['pertanyaan']?></td>
 																		<td><?= $data['tipe_indikator']?></td>
@@ -183,19 +181,19 @@
 												<div class="dataTables_paginate paging_simple_numbers">
 													<ul class="pagination">
 														<?php if ($paging->start_link): ?>
-															<li><a href="<?=site_url("analisis_indikator/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+															<li><a href="<?= site_url("analisis_indikator/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->prev): ?>
-															<li><a href="<?=site_url("analisis_indikator/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+															<li><a href="<?= site_url("analisis_indikator/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 														<?php endif; ?>
 														<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("analisis_indikator/index/$i/$o")?>"><?= $i?></a></li>
 														<?php endfor; ?>
 														<?php if ($paging->next): ?>
-															<li><a href="<?=site_url("analisis_indikator/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+															<li><a href="<?= site_url("analisis_indikator/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->end_link): ?>
-															<li><a href="<?=site_url("analisis_indikator/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+															<li><a href="<?= site_url("analisis_indikator/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 														<?php endif; ?>
 													</ul>
 												</div>
@@ -209,7 +207,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?
@@ -228,7 +226,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin mengembalikan status data penduduk ini?

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Laporan Masuk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Laporan Masuk</li>
 		</ol>
 	</section>
@@ -23,8 +23,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?=site_url('lapor/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Sudah Tindak Lanjut</option>
-														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Belum Tindak Lanjut</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Sudah Tindak Lanjut</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Belum Tindak Lanjut</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -41,7 +41,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover">
+														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th><input type="checkbox" id="checkall"/></th>
@@ -75,13 +75,13 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
-																	<tr>
+																<?php foreach ($main as $data): ?>
+																	<tr <?php if ($data['enabled']!=1): ?>style='background-color:#ffeeaa;'<?php endif; ?>>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
                                       <a href="#" data-href="<?=site_url("lapor/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                                      <?php if ($data['enabled'] == '2'):?>
+                                      <?php if ($data['enabled'] == '2'): ?>
                                         <a href="<?=site_url('lapor/komentar_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tindak-lanjuti laporan"><i class="fa fa-lock">&nbsp;</i></a>
                                       <?php elseif ($data['enabled'] == '1'): ?>
                                         <a href="<?=site_url('lapor/komentar_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Kembalikan ke status awal"><i class="fa fa-unlock"></i></a>
@@ -148,7 +148,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?

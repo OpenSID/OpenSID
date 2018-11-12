@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Daftar Mutasi Inventaris Jalan, Irigasi Dan Jaringan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Daftar Mutasi Inventaris Jalan, Irigasi Dan Jaringan</li>
 		</ol>
 	</section>
@@ -34,20 +34,20 @@
 														</tr>
 													</thead>
 													<tbody>
-														<?php foreach ($main as $data):?>
+														<?php foreach ($main as $data): ?>
 															<tr>
 																<td></td>
 																<td nowrap>
-																	<?php if($data->status == "0"): ?>
+																	<?php if ($data->status == "0"): ?>
 																		<a href="<?= base_url('index.php/inventaris_jalan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
-																	<?php endif;?>
+																	<?php endif; ?>
 																	<a href="<?= base_url('index.php/inventaris_jalan/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 																	<a href="<?= base_url('index.php/inventaris_jalan/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
 																	<a href="#" data-href="<?= site_url("api_inventaris_jalan/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>
 																<td><?= $data->kode_barang;?></td>
-																<td><?= $data->tahun_pengadaan;?></td>
+																<td nowrap><?= date('d M Y',strtotime($data->tanggal_dokument));?></td>
 																<td nowrap><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
 																<td><?= $data->jenis_mutasi;?></td>
 																<td><?= $data->keterangan;?></td>
@@ -65,7 +65,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?
@@ -171,7 +171,6 @@
 		</form>
 	</section>
 </div>
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(document).ready(function(){
 		var t = $('#tabel4').DataTable({

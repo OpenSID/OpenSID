@@ -41,7 +41,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php	$i=1;	foreach ($terdata as $key=>$item):?>
+						<?php	$i=1;	foreach ($terdata as $key=>$item): ?>
 							<tr>
 								<td><?= $i?></td>
 								<td class='textx'><?= $item["terdata_nama"]?></td>

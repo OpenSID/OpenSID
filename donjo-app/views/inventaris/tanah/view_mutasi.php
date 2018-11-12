@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Rincian Mutasi Inventaris Tanah</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_tanah/mutasi"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Tanah</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_tanah/mutasi"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Tanah</a></li>
 			<li class="active">Rincian Mutasi</li>
 		</ol>
 	</section>

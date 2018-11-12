@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Daftar Inventaris Kontruksi</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Daftar Inventaris Kontruksi</li>
 		</ol>
 	</section>
@@ -51,7 +51,7 @@
 														</tr>
 													</thead>
 													<tbody>
-														<?php foreach ($main as $data):?>
+														<?php foreach ($main as $data): ?>
 															<tr>
 																<td></td>
 																<td nowrap>
@@ -77,14 +77,14 @@
 																	<?= (empty($data->status_tanah)) ? "-" : $data->status_tanah ?>
 																</td>
 																<td><?= $data->asal;?></td>
-																<td><?= number_format($data->harga,0,".",".");?></td>
+																<td class="text-right"><?= number_format($data->harga,0,".",".");?></td>
 															</tr>
 														<?php endforeach; ?>
 													</tbody>
 													<tfoot>
 														<tr>
-															<th colspan="9" class="text-right">Total:</th>
-															<th><?= number_format($total,0,".","."); ?></th>
+															<th colspan="10" class="text-right">Total:</th>
+															<th class="text-right"><?= number_format($total,0,".","."); ?></th>
 														</tr>
 													</tfoot>
 												</table>
@@ -98,7 +98,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?
@@ -203,7 +203,6 @@
 		</form>
 	</section>
 </div>
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(document).ready(function(){
 		var t = $('#tabel4').DataTable({

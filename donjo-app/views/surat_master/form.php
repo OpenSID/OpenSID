@@ -3,7 +3,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Format Surat Desa</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('surat_master')?>"> Format Surat Desa</a></li>
 			<li class="active">Pengaturan Format Surat</li>
 		</ol>
@@ -25,7 +25,18 @@
 										<div class="form-group">
 											<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
 											<div class="col-sm-7">
-												<input  id="kode_surat" name="kode_surat" class="form-control input-sm required" type="text" placeholder="Kode/Klasifikasi Surat" value="<?= $surat_master['kode_surat']?>">
+												<select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat">
+													<option >
+														<?php if (!empty($surat_master['kode_surat'])): ?>
+															<?= $surat_master['kode_surat']?>
+														<?php else: ?>
+															-- Pilih Kode/Klasifikasi Surat --
+														<?php endif; ?>
+													</option>
+													<?php foreach ($klasifikasi as $item): ?>
+														<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_master["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
+													<?php endforeach;?>
+												</select>
 											</div>
 										</div>
 									</div>
@@ -40,7 +51,7 @@
 											</div>
 										</div>
 									</div>
-									<?php if (strpos($form_action, 'insert') !== false) :?>
+									<?php if (strpos($form_action, 'insert') !== false): ?>
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="nama">Pemohon Surat</label>

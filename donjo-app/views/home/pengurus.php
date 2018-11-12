@@ -3,7 +3,7 @@
 	<section class="content-header">
 		<h1>Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></li>
 		</ol>
 	</section>
@@ -12,10 +12,10 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Staf">
+						<a href="<?= site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Staf">
   	          <i class="fa fa-plus"></i>Tambah Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?>
             </a>
-            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("pengurus/delete_all")?>')" class="btn btn-social btn-flat		btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("pengurus/delete_all")?>')" class="btn btn-social btn-flat		btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
               <i class='fa fa-trash-o'></i> Hapus Data Terpilih
             </a>
 					</div>
@@ -26,18 +26,18 @@
 									<?=form_open(null, 'id=mainform name=mainform')?>
 										<div class="row">
 											<div class="col-sm-6">
-												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?=site_url('pengurus/filter')?>')">
+												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?= site_url('pengurus/filter')?>')">
 													<option value="">Semua</option>
-													<option value="1" <?php if ($filter==1 ):?>selected<?php endif?>>Aktif</option>
-													<option value="2" <?php if ($filter==2 ):?>selected<?php endif?>>Tidak Aktif</option>
+													<option value="1" <?php if ($filter==1 ): ?>selected<?php endif ?>>Aktif</option>
+													<option value="2" <?php if ($filter==2 ): ?>selected<?php endif ?>>Tidak Aktif</option>
 												</select>
 											</div>
 											<div class="col-sm-6">
 												<div class="box-tools">
 													<div class="input-group input-group-sm pull-right">
-														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?=site_url('pengurus/search')?>');$('#'+'mainform').submit();}">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?= site_url('pengurus/search')?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?=site_url("pengurus/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url("pengurus/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
@@ -46,7 +46,7 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
-													<table  class="table table-bordered dataTable table-hover">
+													<table  class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th><input type="checkbox" id="checkall" ></th>
@@ -62,30 +62,30 @@
 															<?php foreach ($main as $data): ?>
 																<tr>
 																	<td>
-																		<?php if ($data['username']!='siteman'):?>
-																			<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+																		<?php if ($data['username']!='siteman'): ?>
+																			<input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
 																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['no']?></td>
 																	<td nowrap>
-																		<?php if ($data['pamong_id']!="707"):?>
+																		<?php if ($data['pamong_id']!="707"): ?>
 																			<a href="<?= site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
-																			<?php if ($data['pamong_ttd'] == '1'):?>
+																			<?php if ($data['pamong_ttd'] == '1'): ?>
 																				<a href="<?= site_url('pengurus/ttd_off/'.$data['pamong_id'])?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD default"><i class="fa fa-pencil"></i></a>
-																			<?php else : ?>
+																			<?php else: ?>
 																				<a href="<?= site_url('pengurus/ttd_on/'.$data['pamong_id'])?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD default"><i  class="fa fa-user"></i></a>
-																			<?php endif?>
+																			<?php endif ?>
 																			<a href="#" data-href="<?= site_url("pengurus/delete/$data[pamong_id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php endif?>
+																		<?php endif ?>
 																	</td>
 																	<td class="text-center">
 																		<div class="user-panel">
 																			<div class="image2">
-																				<?php if ($data['foto']):?>
+																				<?php if ($data['foto']): ?>
 																					<img src="<?=AmbilFoto($data['foto'])?>" class="img-circle" alt="User Image"/>
-																				<?php else:?>
-																					<img src="<?=base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
-																				<?php endif?>
+																				<?php else: ?>
+																					<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
+																				<?php endif ?>
 																			</div>
 																		</div>
 																	</td>
@@ -124,7 +124,7 @@
 								<div class='modal-content'>
 									<div class='modal-header'>
 										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 									</div>
 									<div class='modal-body btn-info'>
 										Apakah Anda yakin ingin menghapus data ini?

@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
  	//File Upload
 	$('#file_browser').click(function(e)
@@ -52,7 +52,7 @@
 									</div>
 									<div class="col-sm-12">
 										<div class="box-header with-border">
-											<h3 class="box-title">Tambah Peserta Program</h3>
+											<h3 class="box-title">Identitas Pada Kartu Peserta</h3>
 										</div>
                      <div class="box-body">
                         <input type="hidden" name="program_id" value="<?= $program_id?>"/>
@@ -71,7 +71,7 @@
                               <p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $kartu_peserta?>" /> Hapus Gambar</label></p>
                            </div>
                           </div>
-                        <?php endif;?>
+                        <?php endif; ?>
 												<div class="form-group">
 													<label for="gambar_peserta" class="col-sm-4 control-label">Gambar Kartu Peserta</label>
 													<div class="col-sm-7">
@@ -84,9 +84,6 @@
 														</div>
 														<p class="help-block">Kosongkan jika tidak ingin mengunggah gambar.</p>
 													</div>
-												</div>
-												<div class="form-group">
-													<label for="kartu_nik"  class="col-sm-4 control-label">Identitas Pada Kartu Peserta</label>
 												</div>
 												<div class="form-group">
 													<label for="kartu_nik"  class="col-sm-4 control-label">NIK</label>

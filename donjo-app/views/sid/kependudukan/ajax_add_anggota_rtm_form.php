@@ -29,7 +29,7 @@
 										<td><?= $data['nama']?></td>
 									<td><?= $data['hubungan']?></td>
 									</tr>
-       					<?php  endforeach; ?>
+       					<?php endforeach; ?>
 						</tbody>
 					</table>
 					</div>
@@ -42,9 +42,9 @@
 							<label for="nik">NIK / Nama Penduduk</label>
 							<select class="form-control input-sm select2 required"  id="nik" name="nik" style="width:100%;">
 								<option option value="">-- Silakan Cari NIK / Nama Penduduk--</option>
-								<?php foreach($penduduk as $data):?>
+								<?php foreach ($penduduk as $data): ?>
 									<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>

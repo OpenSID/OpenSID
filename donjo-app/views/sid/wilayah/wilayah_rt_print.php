@@ -38,9 +38,9 @@
 								<th width="100">NIK Ketua RT</th>
 								<th width="100">Nama Ketua RT</th>
 								<th width="50">Jumlah KK</th>
-								<th width="50">Jiwa</th>
-								<th width="50">LK</th>
-								<th width="50">PR</th>
+								<th width="50">L+P</th>
+								<th width="50">L</th>
+								<th width="50">P</th>
 							</tr>
 						</thead>
 						<tbody>

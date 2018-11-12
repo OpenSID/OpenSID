@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Isi Data Asset Lainnya</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_asset"><i class="fa fa-dashboard"></i>Daftar Asset Lainnya</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_asset"><i class="fa fa-dashboard"></i>Daftar Asset Lainnya</a></li>
 			<li class="active">Isi Data</li>
 		</ol>
 	</section>
@@ -171,7 +171,6 @@
 	</section>
 </div>
 
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 $(document).ready(function()
 {
@@ -186,7 +185,7 @@ $(document).ready(function()
 	$(".ukuran_tumbuhan").hide();
 	$("#jenis_asset").change(function()
 	{
-		if($("#jenis_asset").val() == "Buku")
+		if ($("#jenis_asset").val() == "Buku")
 		{
 			$(".judul").show();
 			$(".spesifikasi").show();
