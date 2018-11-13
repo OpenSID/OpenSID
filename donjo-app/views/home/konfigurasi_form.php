@@ -1,4 +1,3 @@
-<?php $this->load->helper('form') ?>
 <!-- Perubahan script coding untuk bisa menampilkan halaman edit form konfigurasi bentuk tampilan bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
 	<section class="content-header">
@@ -10,7 +9,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<?=form_open($form_action, 'id="mainform" enctype="multipart/form-data" class="form-horizontal"')?>
+			<form id="mainform" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">

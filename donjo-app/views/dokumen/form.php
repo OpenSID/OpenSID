@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<?=form_open($form_action, 'id="validasi" enctype="multipart/form-data" class="form-horizontal"')?>
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">

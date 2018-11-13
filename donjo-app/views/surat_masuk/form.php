@@ -17,7 +17,7 @@
            	</a>
 					</div>
 					<div class="box-body">
-						<?=form_open($form_action, 'id="validasi" enctype="multipart/form-data" class="form-horizontal"')?>
+						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nomor_urut">Nomor Urut</label>
 								<div class="col-sm-8">

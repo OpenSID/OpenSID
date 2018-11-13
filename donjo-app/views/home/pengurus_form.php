@@ -1,4 +1,3 @@
-<?php $this->load->helper('form') ?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></h1>
@@ -10,7 +9,7 @@
 	</section>
 	<section class="content">
 		<div class="row" >
-			<?=form_open($form_action, 'id="validasi" enctype="multipart/form-data" class="form-horizontal"')?>
+			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">

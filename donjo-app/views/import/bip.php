@@ -7,7 +7,7 @@
 													<div class="box-body">
 														<div class="row">
 															<div class="col-sm-12">
-																<?=form_open($form_action, 'enctype="multipart/form-data" id="excell" class="form-horizontal"')?>
+																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
 																	<p>Proses ini untuk mengimpor data Buku Induk Penduduk (BIP) yang diperoleh dari Disdukcapil dalam format Excel.</p>
 																	<p>BIP yang dapat dibaca proses ini adalah yang tersusun berdasarkan keluarga, seperti contoh yang dapat dilihat pada tautan berikut :</P>
 																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_2012.xls" ><i class="fa fa-download"></i>Contoh BIP 2012</a>
