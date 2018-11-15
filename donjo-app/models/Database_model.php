@@ -194,7 +194,9 @@
 
 		$query = $this->db->select('1')->where('key', 'web_artikel_per_page')->get('setting_aplikasi');
 		$query->result() OR	$this->db->insert('setting_aplikasi', array('key'=>'web_artikel_per_page', 'value'=>8, 'jenis'=>'int', 'keterangan'=>'Jumlah artikel dalam satu halaman', 'kategori'=>'web_theme'));
-  }
+
+		$this->db->where('id', 42)->update('setting_modul', array('url'=>'modul/clear', 'aktif'=>'1'));
+	}
 
   private function migrasi_1810_ke_1811()
   {
