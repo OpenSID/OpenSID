@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 18.11-pasca:
 9. #1532: Sekarang nama penduduk dapat berisi tanda strip '-'.
 10. #936: Tambah setting web_artikel_per_page untuk menentukan jumlah artikel yg ditampilkan di halaman web.
 11. #1744: Sekarang Pengaturan > Modul tampil lengkap walaupun sesudah melakukan cari di menu lain. [bug-fix]
+12. #1747: Sekarang nomor surat terakhir untuk form surat layanan sudah benar. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -874,7 +874,7 @@
 		$data = $this->db->select('no_surat, tanggal')
 			->from('log_surat')
 			->where('YEAR(tanggal) = YEAR(CURRENT_DATE())')
-			->order_by('no_surat DESC')
+			->order_by('CAST(no_surat as unsigned) DESC')
 			->limit(1)
 			->get()
 			->row_array();
