@@ -7,7 +7,6 @@ class Bip2016_luwutimur_model extends Import_model {
 		parent::__construct();
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
-		$this->load->helper('excel');
 	}
 
 	/* 	======================================================
@@ -77,7 +76,7 @@ class Bip2016_luwutimur_model extends Import_model {
 		}
 
 		$rt_rw = trim($data_sheet[$baris + 3][12]);
-		list($data_keluarga['rt'],$data_keluarga['rw']) = split('/',$rt_rw);
+		list($data_keluarga['rt'],$data_keluarga['rw']) = explode('/',$rt_rw);
 		return $data_keluarga;
 	}
 

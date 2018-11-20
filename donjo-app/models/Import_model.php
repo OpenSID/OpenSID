@@ -44,17 +44,17 @@ class Import_model extends CI_Model {
 		parent::__construct();
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
-		$this->load->helper('excel');
-		$this->kode_sex = unserialize(KODE_SEX);
-		$this->kode_hubungan = unserialize(KODE_HUBUNGAN);
-		$this->kode_agama = unserialize(KODE_AGAMA);
-		$this->kode_pendidikan = unserialize(KODE_PENDIDIKAN);
-		$this->kode_pekerjaan = unserialize(KODE_PEKERJAAN);
-		$this->kode_status = unserialize(KODE_STATUS);
-		$this->kode_golongan_darah = unserialize(KODE_GOLONGAN_DARAH);
-		$this->kode_wajib_ktp = unserialize(WAJIB_KTP);
-		$this->kode_ktp_el = unserialize(KTP_EL);
-		$this->kode_status_rekam = unserialize(STATUS_REKAM);
+		$this->load->library('Spreadsheet_Excel_Reader');
+		$this->kode_sex = array_change_key_case(unserialize(KODE_SEX));
+		$this->kode_hubungan = array_change_key_case(unserialize(KODE_HUBUNGAN));
+		$this->kode_agama = array_change_key_case(unserialize(KODE_AGAMA));
+		$this->kode_pendidikan = array_change_key_case(unserialize(KODE_PENDIDIKAN));
+		$this->kode_pekerjaan = array_change_key_case(unserialize(KODE_PEKERJAAN));
+		$this->kode_status = array_change_key_case(unserialize(KODE_STATUS));
+		$this->kode_golongan_darah = array_change_key_case(unserialize(KODE_GOLONGAN_DARAH));
+		$this->kode_wajib_ktp = array_change_key_case(unserialize(WAJIB_KTP));
+		$this->kode_ktp_el = array_change_key_case(unserialize(KTP_EL));
+		$this->kode_status_rekam = array_change_key_case(unserialize(STATUS_REKAM));
 	}
 
 /* 	========================================================
@@ -94,9 +94,18 @@ class Import_model extends CI_Model {
 	 */
 	protected function get_kode($daftar_kode, $nilai)
 	{
+		$nilai = strtolower($nilai);
 		if (!empty($nilai) and $nilai != '-' and !array_key_exists($nilai, $daftar_kode))
 			return -1; // kode salah
 		return $daftar_kode[$nilai];
+	}
+
+	protected function get_konversi_kode($daftar_kode, $nilai)
+	{
+		if (ctype_digit($nilai))
+			return $nilai;
+		else
+			return $this->get_kode($daftar_kode, $nilai);
 	}
 
 	protected function data_import_valid($isi_baris)
@@ -171,22 +180,23 @@ class Import_model extends CI_Model {
 		$nik = preg_replace('/[^0-9]/', '', $nik);
 		$isi_baris['nik'] = $nik;
 
-		$isi_baris['sex'] = trim($data->val($i, $kolom_impor_keluarga['sex']));
+		$isi_baris['sex'] = $this->get_konversi_kode($this->kode_sex, trim($data->val($i, $kolom_impor_keluarga['sex'])));
 		$isi_baris['tempatlahir']= trim($data->val($i, $kolom_impor_keluarga['tempatlahir']));
 
 		$isi_baris['tanggallahir'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggallahir']));
 
-		$isi_baris['agama_id']= trim($data->val($i, $kolom_impor_keluarga['agama_id']));
-		$isi_baris['pendidikan_kk_id']= trim($data->val($i, $kolom_impor_keluarga['pendidikan_kk_id']));
-
+		$isi_baris['agama_id']= $this->get_konversi_kode($this->kode_agama, trim($data->val($i, $kolom_impor_keluarga['agama_id'])));
+		$isi_baris['pendidikan_kk_id']= $this->get_konversi_kode($this->kode_pendidikan, trim($data->val($i, $kolom_impor_keluarga['pendidikan_kk_id'])));
+		// TODO: belum ada kode_pendudukan_sedang
 		$pendidikan_sedang_id= trim($data->val($i, $kolom_impor_keluarga['pendidikan_sedang_id']));
 		if ($pendidikan_sedang_id == "")
 			$pendidikan_sedang_id = 18;
 		$isi_baris['pendidikan_sedang_id'] = $pendidikan_sedang_id;
 
-		$isi_baris['pekerjaan_id']= trim($data->val($i, $kolom_impor_keluarga['pekerjaan_id']));
-		$isi_baris['status_kawin']= trim($data->val($i, $kolom_impor_keluarga['status_kawin']));
-		$isi_baris['kk_level']= trim($data->val($i, $kolom_impor_keluarga['kk_level']));
+		$isi_baris['pekerjaan_id']= $this->get_konversi_kode($this->kode_pekerjaan, trim($data->val($i, $kolom_impor_keluarga['pekerjaan_id'])));
+		$isi_baris['status_kawin']= $this->get_konversi_kode($this->kode_status, trim($data->val($i, $kolom_impor_keluarga['status_kawin'])));
+		$isi_baris['kk_level']= $this->get_konversi_kode($this->kode_hubungan, trim($data->val($i, $kolom_impor_keluarga['kk_level'])));
+		// TODO: belum ada kode_warganegara
 		$isi_baris['warganegara_id']= trim($data->val($i, $kolom_impor_keluarga['warganegara_id']));
 
 		$nama_ayah = trim($data->val($i,$kolom_impor_keluarga['nama_ayah']));
@@ -203,7 +213,7 @@ class Import_model extends CI_Model {
 		}
 		$isi_baris['nama_ibu'] = $nama_ibu;
 
-		$isi_baris['golongan_darah_id'] = trim($data->val($i, $kolom_impor_keluarga['golongan_darah_id']));
+		$isi_baris['golongan_darah_id'] = $this->get_konversi_kode($this->kode_golongan_darah, trim($data->val($i, $kolom_impor_keluarga['golongan_darah_id'])));
 		$isi_baris['akta_lahir'] = trim($data->val($i, $kolom_impor_keluarga['akta_lahir']));
 		$isi_baris['dokumen_pasport'] = trim($data->val($i, $kolom_impor_keluarga['dokumen_pasport']));
 		$isi_baris['tanggal_akhir_paspor'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggal_akhir_paspor']));
@@ -215,11 +225,13 @@ class Import_model extends CI_Model {
 		$isi_baris['tanggalperkawinan'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggalperkawinan']));
 		$isi_baris['akta_perceraian'] = trim($data->val($i, $kolom_impor_keluarga['akta_perceraian']));
 		$isi_baris['tanggalperceraian'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggalperceraian']));
+		// TODO: belum ada kode_cacat
 		$isi_baris['cacat_id'] = trim($data->val($i, $kolom_impor_keluarga['cacat_id']));
+		// TODO: belum ada kode_cara_kb
 		$isi_baris['cara_kb_id'] = trim($data->val($i, $kolom_impor_keluarga['cara_kb_id']));
 		$isi_baris['hamil'] = trim($data->val($i, $kolom_impor_keluarga['hamil']));
-		$isi_baris['ktp_el'] = trim($data->val($i, $kolom_impor_keluarga['ktp_el']));
-		$isi_baris['status_rekam']= trim($data->val($i, $kolom_impor_keluarga['status_rekam']));
+		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($data->val($i, $kolom_impor_keluarga['ktp_el'])));
+		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($data->val($i, $kolom_impor_keluarga['status_rekam'])));
 		return $isi_baris;
 	}
 

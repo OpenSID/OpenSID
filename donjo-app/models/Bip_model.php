@@ -7,7 +7,7 @@ class Bip_model extends CI_Model {
 		parent::__construct();
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
-		$this->load->helper('excel');
+		$this->load->library('Spreadsheet_Excel_Reader');
 		$this->format_bip = $this->cari_format_bip($data);
 		$this->data = $data;
 	}

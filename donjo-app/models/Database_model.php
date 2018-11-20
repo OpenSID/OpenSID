@@ -168,6 +168,16 @@
 
   private function migrasi_1811_ke_1812()
   {
+  	// Pada tweb_keluarga kosongkan nik_kepala kalau tdk ada penduduk dgn kk_level=1 dan id=nik_kepala untuk keluarga itu
+  	$kk_kosong = $this->db->select('k.id')
+  	  ->where('p.id is NULL')
+  		->from('tweb_keluarga k')
+  		->join('tweb_penduduk p', 'p.id = k.nik_kepala and p.kk_level = 1', 'left')
+  		->get()->result_array();
+  	foreach ($kk_kosong as $kk)
+  	{
+  		$this->db->where('id', $kk['id'])->update('tweb_keluarga', array('nik_kepala' => NULL));
+  	}
 		// Tambah surat keterangan domisili
 		$data = array(
 			'nama'=>'Keterangan Domisili',
@@ -181,7 +191,12 @@
 				kode_surat = VALUES(kode_surat),
 				jenis = VALUES(jenis)";
 		$this->db->query($sql);
-  }
+
+		$query = $this->db->select('1')->where('key', 'web_artikel_per_page')->get('setting_aplikasi');
+		$query->result() OR	$this->db->insert('setting_aplikasi', array('key'=>'web_artikel_per_page', 'value'=>8, 'jenis'=>'int', 'keterangan'=>'Jumlah artikel dalam satu halaman', 'kategori'=>'web_theme'));
+
+		$this->db->where('id', 42)->update('setting_modul', array('url'=>'modul/clear', 'aktif'=>'1'));
+	}
 
   private function migrasi_1810_ke_1811()
   {

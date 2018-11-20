@@ -4,7 +4,7 @@ class Analisis_import_Model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('excel');
+		$this->load->library('Spreadsheet_Excel_Reader');
 	}
 
 	public function import_excel($file='', $kode='00000', $jenis=2)

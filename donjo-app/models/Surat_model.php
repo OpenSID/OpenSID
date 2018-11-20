@@ -559,17 +559,19 @@
 
 	public function surat_rtf($data)
 	{
+		$this->load->library('date_conv');
 		// Ambil data
-    $input = $data['input'];
-    $individu = $data['individu'];
-    $ayah = $data['ayah'];
-    $ibu = $data['ibu'];
-    $config = $data['config'];
-    $surat = $data['surat'];
-    $id = $input['nik'];
-    $url = $surat['url_surat'];
-    $tgl = tgl_indo(date("Y m d"));
-    $thn = date("Y");
+		$input = $data['input'];
+		$individu = $data['individu'];
+		$ayah = $data['ayah'];
+		$ibu = $data['ibu'];
+		$config = $data['config'];
+		$surat = $data['surat'];
+		$id = $input['nik'];
+		$url = $surat['url_surat'];
+		$tgl = tgl_indo(date("Y m d"));
+		$tgl_hijri = Hijri_date_id::date('j F Y');
+		$thn = date("Y");
 
 		$tgllhr = ucwords(tgl_indo($individu['tanggallahir']));
 		$individu['nama'] = strtoupper($individu['nama']);
@@ -598,6 +600,7 @@
 				"[kode_surat]" => "$surat[kode_surat]",
 				"[judul_surat]" => strtoupper("surat ".$surat['nama']),
 				"[tgl_surat]" => "$tgl",
+				"[tgl_surat_hijri]" => $tgl_hijri,
 				"[tahun]" => "$thn",
 				"[bulan_romawi]" => bulan_romawi(date("m"))
 			);
@@ -676,7 +679,7 @@
                 "[ttl]"                  => "$individu[tempatlahir]/$tgllhr",
                 "[usia]"                 => "$individu[umur] Tahun",
                 "*usia"                  => "$individu[umur] Tahun",
-                "[warga_negara]"         => $individu[warganegara],
+                "[warga_negara]"         => "$individu[warganegara]",
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
@@ -722,28 +725,29 @@
 				"tanggallahir_ayah", "tanggallahir_ibu", "tgl_lahir_wali", "tgl_nikah",
 				"tanggal_pindah", "tanggal_nikah", "tanggallahir_wali", "tanggallahir_suami_dulu", "tanggallahir_istri_dulu", "tanggallahir_ayah_pria", "tanggallahir_ibu_pria"
 				);
+
 			foreach ($input as $key => $entry)
-      {
+			{
 				// Isian tanggal diganti dengan format tanggal standar
 				if (in_array($key, $isian_tanggal))
-        {
+				{
 					if (is_array($entry))
-          {
+					{
 						for ($i=1; $i<=count($entry); $i++)
-            {
+						{
 							$str = $key.$i;
-              //Jika format tanggal adalah 31-12-2018 atau terdapat 10 karakter, maka jalankan tgl_indo_dari_str($waktu)
-              //Jika format tanggal adalah 31-12-2018 23:59 atau terdapat lebih dari 10 karakter, maka jalankan tgl_indo2(tgl_indo_in($waktu))
+							//Jika format tanggal adalah 31-12-2018 atau terdapat 10 karakter, maka jalankan tgl_indo_dari_str($waktu)
+							//Jika format tanggal adalah 31-12-2018 23:59 atau terdapat lebih dari 10 karakter, maka jalankan tgl_indo2(tgl_indo_in($waktu))
 							$buffer = preg_replace("/\[$str\]|\[form_$str\]/",(strlen($entry[$i-1]) > 10 ? tgl_indo2(tgl_indo_in($entry[$i-1])) : tgl_indo_dari_str($entry[$i-1])), $buffer);
 						}
 					}
-          else
-          {
+					else
+					{
 						$buffer = preg_replace("/\[$key\]|\[form_$key\]/",(strlen($entry) > 10 ? tgl_indo2(tgl_indo_in($entry)) : tgl_indo_dari_str($entry)), $buffer);
 					}
 				}
 				if (!is_array($entry))
-        {
+				{
 					$buffer = str_replace("[form_$key]", $entry, $buffer);
 					// Diletakkan di bagian akhir karena bisa sama dengan kode isian sebelumnya
 					// dan kalau masih ada dianggap sebagai kode dari form isian
@@ -870,7 +874,7 @@
 		$data = $this->db->select('no_surat, tanggal')
 			->from('log_surat')
 			->where('YEAR(tanggal) = YEAR(CURRENT_DATE())')
-			->order_by('no_surat DESC')
+			->order_by('CAST(no_surat as unsigned) DESC')
 			->limit(1)
 			->get()
 			->row_array();

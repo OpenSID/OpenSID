@@ -7,7 +7,6 @@ class Bip2012_model extends Import_model {
 		parent::__construct();
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
-		$this->load->helper('excel');
 	}
 
 	/* 	===============================

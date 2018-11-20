@@ -483,9 +483,9 @@
 		if ($data['sex'] == 1) $data['hamil'] = 0;
 
 		$valid = array();
-		if (preg_match("/[^a-zA-Z '\.,]/", $data['nama']))
+		if (preg_match("/[^a-zA-Z '\.,-]/", $data['nama']))
 		{
-			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma dan tanda petik");
+			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 		}
 		if (isset($data['nik']))
 		{
@@ -594,7 +594,7 @@
 		$log1['id_cluster'] = 1;
 		$log1['tanggal'] = date("m-d-y");
 
-		$outp = $this->db->insert('log_perubahan_penduduk',$log1);
+		$outp = $this->db->insert('log_perubahan_penduduk', $log1);
 
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -619,17 +619,8 @@
       return;
     }
 
-    if ($data['kk_level'] == 1)
-    {
-      $lvl['kk_level'] = 11;
-      $this->db->where('id_kk', $pend['id_kk']);
-      $this->db->where('kk_level', 1);
-      $this->db->update('tweb_penduduk', $lvl);
-
-      $nik['nik_kepala'] = $id;
-      $this->db->where('id', $pend['id_kk']);
-      $outp = $this->db->update('tweb_keluarga', $nik);
-    }
+		$this->keluarga_model->update_kk_level($id, $pend['id_kk'], $data['kk_level'], $data['kk_level_lama']);
+    unset($data['kk_level_lama']);
 
     $lokasi_file = $_FILES['foto']['tmp_name'];
     $tipe_file = $_FILES['foto']['type'];

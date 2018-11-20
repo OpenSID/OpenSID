@@ -60,7 +60,7 @@
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="nama">Nama Lengkap <code> (Tanpa Gelar) </code> </label>
-						<input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" value="<?= strtoupper(unpenetration($penduduk['nama']))?>"></input>
+						<input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" value="<?= strtoupper($penduduk['nama'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>
@@ -108,6 +108,9 @@
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
+						<?php if (!empty($penduduk)): ?>
+							<input type="hidden" name="kk_level_lama" value="<?= $penduduk['kk_level']?>">
+						<?php endif; ?>
 						<label for="kk_level">Hubungan Dalam Keluarga</label>
 						<select class="form-control input-sm" name="kk_level">
 							<option value="">Pilih Hubungan Keluarga</option>

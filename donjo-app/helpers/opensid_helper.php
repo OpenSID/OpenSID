@@ -70,6 +70,7 @@ define("KODE_PENDIDIKAN", serialize(array(
 	strtolower("Belum Tamat SD/Sederajat") => "2",
 	strtolower("Tidak Tamat SD/Sederajat") => "2",
 	strtolower("Tamat SD/Sederajat") => "3",
+	strtolower("Tamat SD / Sederajat") => "3",
 	strtolower("SLTP/Sederajat") => "4",
 	strtolower("SLTA/Sederajat") => "5",
 	strtolower("Diploma I/II") => "6",

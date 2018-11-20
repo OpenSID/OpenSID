@@ -7,7 +7,6 @@ class Bip_ektp_model extends Import_model {
 		parent::__construct();
 		ini_set('memory_limit', '512M');
 		set_time_limit(3600);
-		$this->load->helper('excel');
 	}
 
 	/* 	======================================================
@@ -101,7 +100,7 @@ class Bip_ektp_model extends Import_model {
 		$rtrw = $this->ambil_kolom($alamat, 'RT/RW :', ' DUSUN :');
 		if ($rtrw)
 		{
-			list($data_keluarga['rt'],$data_keluarga['rw']) = split('/',$rtrw);
+			list($data_keluarga['rt'],$data_keluarga['rw']) = explode('/',$rtrw);
 		}
 
 		$dusun = $this->ambil_kolom($alamat, 'DUSUN :');

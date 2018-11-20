@@ -42,8 +42,8 @@
 		if (isset($_SESSION['status_dasar']))
 		{
 			$kf = $_SESSION['status_dasar'];
-			if ($kf == '1')	$status_dasar_sql = " AND t.status_dasar = 1";
-			elseif ($kf == '3') $status_dasar_sql = 'AND t.status_dasar IS NULL';
+			if ($kf == '1')	$status_dasar_sql = " AND t.status_dasar = 1 AND t.kk_level = 1";
+			elseif ($kf == '3') $status_dasar_sql = 'AND (t.status_dasar IS NULL OR t.kk_level <> 1)';
 			else $status_dasar_sql = " AND t.status_dasar <> 1";
 			return $status_dasar_sql;
 		}
@@ -175,7 +175,7 @@
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*,t.nama AS kepala_kk,t.nik,t.sex,t.status_dasar,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,c.dusun,c.rw,c.rt ".$this->list_data_sql();
+		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.sex, t.status_dasar, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota, c.dusun, c.rw, c.rt ".$this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -448,21 +448,41 @@
 	public function add_anggota($id=0)
 	{
 		$data = $_POST;
+		$this->update_kk_level($data['nik'], $id, $data['kk_level'], null);
+
 		$temp['id_kk'] = $id;
 		$temp['kk_level'] = $data['kk_level'];
 
-		$this->db->where('id',$data['nik']);
+		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
-
-		if ($temp['kk_level'] == "1")
-		{
-			$temp2['nik_kepala'] = $data['nik'];
-			$this->db->where('id',$temp['id_kk']);
-			$outp = $this->db->update('tweb_keluarga', $temp2);
-		}
 
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
+	}
+
+	public function update_kk_level($id, $id_kk, $kk_level, $kk_level_lama)
+	{
+		$outp = true;
+		if ($kk_level == 1 and $kk_level_lama != 1)
+		{
+    	// Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
+			$lvl['kk_level'] = 11;
+			$this->db->where('id_kk', $id_kk);
+			$this->db->where('kk_level', 1);
+			$this->db->update('tweb_penduduk', $lvl);
+
+			$nik['nik_kepala'] = $id;
+			$this->db->where('id', $id_kk);
+			$outp = $this->db->update('tweb_keluarga', $nik);
+		}
+    elseif ($kk_level_lama == 1)
+    {
+    	// Ubah kepala keluarga menjadi kosong
+      $nik['nik_kepala'] = NULL;
+      $this->db->where('id', $id_kk);
+      $outp = $this->db->update('tweb_keluarga', $nik);
+    }
+    return $outp;
 	}
 
 	public function update_anggota($id=0)
@@ -473,17 +493,8 @@
 		$query = $this->db->query($sql, $id);
 		$pend = $query->row_array();
 
-		if ($data['kk_level'] == 1)
-		{
-			$lvl['kk_level'] = 11;
-			$this->db->where('id_kk', $pend['id_kk']);
-			$this->db->where('kk_level', 1);
-			$this->db->update('tweb_penduduk', $lvl);
-
-			$nik['nik_kepala'] = $id;
-			$this->db->where('id', $pend['id_kk']);
-			$this->db->update('tweb_keluarga', $nik);
-		}
+		$this->update_kk_level($id, $pend['id_kk'], $data['kk_level'], $data['kk_level_lama']);
+    unset($data['kk_level_lama']);
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);

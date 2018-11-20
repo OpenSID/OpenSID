@@ -447,7 +447,7 @@ class Data_persil_model extends CI_Model {
 
 	public function impor_persil()
 	{
-		$this->load->helper('excel');
+		$this->load->library('Spreadsheet_Excel_Reader');
 		$data = new Spreadsheet_Excel_Reader($_FILES['persil']['tmp_name']);
 
 		$sheet = 0;

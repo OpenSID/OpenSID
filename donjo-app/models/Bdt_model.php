@@ -62,6 +62,7 @@
 
 		// Pakai parameter 'false' untuk mengurangi penggunaan memori
 		// https://github.com/jasonrogena/php-excel-reader/issues/96
+		$this->load->library('Spreadsheet_Excel_Reader');
 		$data = new Spreadsheet_Excel_Reader($_FILES['bdt']['tmp_name'], false);
 		// Baca jumlah baris berkas BDT
 		$this->jml_baris = $data->rowcount($sheet_index=0);
