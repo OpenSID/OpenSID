@@ -95,6 +95,7 @@ class Import_model extends CI_Model {
 	protected function get_kode($daftar_kode, $nilai)
 	{
 		$nilai = strtolower($nilai);
+		$nilai = preg_replace("/\s*\/\s*/", '/', $nilai);
 		if (!empty($nilai) and $nilai != '-' and !array_key_exists($nilai, $daftar_kode))
 			return -1; // kode salah
 		return $daftar_kode[$nilai];
