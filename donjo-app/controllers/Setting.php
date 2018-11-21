@@ -28,6 +28,7 @@ class Setting extends CI_Controller {
 		$nav['act_sub'] = 43;
 		$header = $this->header_model->get_data();
 		$data['list_tema'] = $this->theme_model->list_all();
+		$this->setting_model->load_options();
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

@@ -24,6 +24,14 @@
 													<option value="2" <?php if ($setting->value==2): ?>selected<?php endif; ?>>Web dan peta non-aktif sama sekali</option>
 												</select>
 											</div>
+										<?php elseif ($setting->jenis == 'option'): ?>
+											<div class="col-sm-12 col-md-4">
+												<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
+													<?php foreach ($setting->options as $key => $label): ?>
+													<option value="<?= $key ?>" <?php ($setting->value == $key) and print('selected') ?>><?= $label ?></option>
+													<?php endforeach ?>
+												</select>
+											</div>
 										<?php elseif ($setting->key == 'timezone'): ?>
 											<div class="col-sm-12 col-md-4">
 												<select class="form-control input-sm" name="<?= $setting->key?>" >
