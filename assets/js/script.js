@@ -421,11 +421,19 @@ $(function(){
 		return document.cookie.match(new RegExp(csrf_param +'=(\\w+)'))[1]
 	}
 
-	$(document).on('submit', 'form', function() {
-		if (this.method.toLowerCase() !== 'get') {
-			this[csrf_param] || $(this).append($('<input type=hidden name='+ csrf_param +'>'))
-			this[csrf_param].value = getCsrfToken()
+	function addCsrfField(form) {
+		if (form.method.toUpperCase() !== 'GET') {
+			form[csrf_param] || $(form).append($('<input type=hidden name='+ csrf_param +'>'))
+			form[csrf_param].value = getCsrfToken()
 		}
+	}
+
+	$('form').each(function(i, form) {
+		addCsrfField(form)
+	})
+
+	$(document).on('submit', 'form', function()	{
+		addCsrfField(this)
 	})
 
 	$.ajaxPrefilter(function (options, originalOptions, xhr) {
