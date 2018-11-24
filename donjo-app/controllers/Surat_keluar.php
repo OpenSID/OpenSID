@@ -83,7 +83,7 @@ class Surat_keluar extends CI_Controller {
 		}
 		else
 		{
-			$last_surat = get_surat_terakhir('surat_masuk');
+			$last_surat = get_surat_terakhir('surat_keluar');
 			$data['surat_keluar']['nomor_urut'] = $last_surat['no_surat'] + 1;
 			$data['form_action'] = site_url("surat_keluar/insert");
 		}
