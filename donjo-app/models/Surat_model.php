@@ -862,29 +862,16 @@
 
 	public function get_last_nosurat_log($url)
 	{
-		if (!$this->setting->nomor_terakhir_semua_surat)
-		{
-			// Nomor terkahir berdasarkan jenis surat
-			$id_format_surat = $this->db->select('id, nama')
-				->where('url_surat', $url)
-				->get('tweb_surat_format')
-				->row();
-			$this->db->where('id_format_surat', $id_format_surat->id);
-		}
-		$data = $this->db->select('no_surat, tanggal')
-			->from('log_surat')
-			->where('YEAR(tanggal) = YEAR(CURRENT_DATE())')
-			->order_by('CAST(no_surat as unsigned) DESC')
-			->limit(1)
-			->get()
-			->row_array();
+		$data = get_surat_terakhir('log_surat', $url);
 
-		if (empty($data)) $data['no_surat'] = 0;
+		$ket = array(
+			1 => "Terakhir untuk semua surat layanan: ",
+			2 => "Terakhir untuk jenis surat {$data[nama]}: ",
+			3 => "Terakhir untuk semua surat: "
+		);
 		$data['no_surat_berikutnya'] = $data['no_surat'] + 1;
-		if ($this->setting->nomor_terakhir_semua_surat)
-			$data['ket_nomor'] = "Terakhir untuk semua surat: ";
-		else
-			$data['ket_nomor'] = "Terakhir untuk jenis surat {$id_format_surat->nama}: ";
+		$data['ket_nomor'] = $ket[$this->setting->penomoran_surat];
+
 		return $data;
 	}
 

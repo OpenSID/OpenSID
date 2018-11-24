@@ -84,7 +84,8 @@ class Surat_masuk extends CI_Controller {
 		}
 		else
 		{
-			$data['surat_masuk'] = null;
+			$last_surat = get_surat_terakhir('surat_masuk');
+			$data['surat_masuk']['nomor_urut'] = $last_surat['no_surat'] + 1;
 			$data['form_action'] = site_url("surat_masuk/insert");
 			$data['disposisi_surat_masuk'] = null;
 		}
