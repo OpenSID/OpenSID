@@ -169,36 +169,39 @@ function get_surat_terakhir($type, $url=null, $setting=0)
 		default: show_error("Function $self(): Unknown type `$type`");
 
 		case 'log_surat':
-			$ci->db->where('YEAR(tanggal)', $thn)
-			       ->order_by('CAST(no_surat as unsigned) DESC')
-			       ->limit(1);
-			$sql[1] = $ci->db->get_compiled_select($type);
-
-			$ci->db->from("$type l")
-			       ->join('tweb_surat_format f', 'f.id=id_format_surat', 'RIGHT')
-			       ->select('*, f.nama, l.id id_surat')
-			       ->where('url_surat', $url)
-			       ->where('YEAR(l.tanggal)', $thn)
-			       ->order_by('CAST(no_surat as unsigned) DESC');
-			$sql[2] = $ci->db->get_compiled_select();
+			if ($setting == 1)
+			{
+				$ci->db->where('YEAR(tanggal)', $thn)
+				       ->order_by('CAST(no_surat as unsigned) DESC')
+				       ->limit(1);
+				$sql = $ci->db->get_compiled_select($type);
+			}
+			else
+			{
+				$ci->db->from("$type l")
+				       ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
+				       ->select('*, f.nama, l.id id_surat')
+				       ->where('url_surat', $url)
+				       ->where('YEAR(l.tanggal)', $thn)
+				       ->order_by('CAST(l.no_surat as unsigned) DESC');
+				$sql = $ci->db->get_compiled_select();
+			}
 			break;
 
 		case 'surat_masuk':
 			$ci->db->where('YEAR(tanggal_surat)', $thn)
-		           ->order_by('CAST(nomor_urut as unsigned) DESC')
+		         ->order_by('CAST(nomor_urut as unsigned) DESC')
 			       ->limit(1);
-			$sql[1] = $ci->db->get_compiled_select($type);
-			$sql[2] = $sql[1];
+			$sql = $ci->db->get_compiled_select($type);
 			break;
 
 		case 'surat_keluar':
 			$ci->db->where('YEAR(tanggal_surat)', $thn)
 			       ->order_by('CAST(nomor_urut as unsigned) DESC')
 			       ->limit(1);
-			$sql[1] = $ci->db->get_compiled_select($type);
-			$sql[2] = $sql[1];
+			$sql = $ci->db->get_compiled_select($type);
 	}
-	$surat = $ci->db->query($sql[$setting])->result_array();
+	$surat = $ci->db->query($sql)->result_array();
 	$surat = $surat[0];
 	$surat['nomor_urut'] OR $surat['nomor_urut'] = $surat['no_surat'];
 	$surat['no_surat'] OR $surat['no_surat'] = $surat['nomor_urut'];
