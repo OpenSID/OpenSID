@@ -253,9 +253,9 @@
 			$this->db->insert_batch(
 				$tb_option,
 				array(
-					array('id'=>1, 'id_setting'=>$set->id, 'value'=>'Nomor berurutan untuk setiap surat yang sejenis'),
-					array('id'=>2, 'id_setting'=>$set->id, 'value'=>'Nomor berurutan untuk setiap surat dengan jenis layanan yang sama'),
-					array('id'=>3, 'id_setting'=>$set->id, 'value'=>'Nomor berurutan untuk setiap surat'),
+					array('id'=>1, 'id_setting'=>$set->id, 'value'=>'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama'),
+					array('id'=>2, 'id_setting'=>$set->id, 'value'=>'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan'),
+					array('id'=>3, 'id_setting'=>$set->id, 'value'=>'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar'),
 				)
 			);
 		}
