@@ -881,7 +881,7 @@
 
 	public function nomor_surat_duplikat($url, $nomor_surat)
 	{
-		if (!$this->setting->nomor_terakhir_semua_surat)
+		if ($this->setting->penomoran_surat == 2)
 		{
 			// Nomor terkahir berdasarkan jenis surat
 			$id_format_surat = $this->db->select('id, nama')

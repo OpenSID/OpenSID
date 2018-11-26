@@ -210,9 +210,11 @@
 					'key' => 'penomoran_surat',
 					'value' => $setting->value ?: 2,
 					'jenis' => 'option',
-					'keterangan' => 'Penomoran surat mulai dari satu (1) setiap setahun'
+					'keterangan' => 'Penomoran surat mulai dari satu (1) setiap tahun'
 				)
 			);
+			// Hapus setting nomor_terakhir_semua_surat
+			$this->db->where('key', 'nomor_terakhir_semua_surat')->delete('setting_aplikasi');
 		}
 
 		$tb_option = 'setting_aplikasi_options';
