@@ -176,22 +176,11 @@ function get_surat_terakhir($type, $url=null, $setting=0)
 
 			$ci->db->from("$type l")
 			       ->join('tweb_surat_format f', 'f.id=id_format_surat', 'RIGHT')
-			       ->select('*,l.id id_surat')
+			       ->select('*, f.nama, l.id id_surat')
 			       ->where('url_surat', $url)
-			       ->order_by('tanggal DESC')
+			       ->where('YEAR(l.tanggal)', $thn)
 			       ->order_by('CAST(no_surat as unsigned) DESC');
 			$sql[2] = $ci->db->get_compiled_select();
-
-			$filter[2] = function($rows) use($thn)
-			{
-				foreach ($rows as $row)
-				{
-					if ($thn == substr($row['tanggal'], 0, 4))
-					{
-						return $row;
-					}
-				}
-			};
 			break;
 
 		case 'surat_masuk':
@@ -210,15 +199,7 @@ function get_surat_terakhir($type, $url=null, $setting=0)
 			$sql[2] = $sql[1];
 	}
 	$surat = $ci->db->query($sql[$setting])->result_array();
-
-	if ($filter[$setting] && $row['id_surat'])
-	{
-		$surat = $filter[$setting]($surat);
-	}
-	else
-	{
-		$surat = $surat[0];
-	}
+	$surat = $surat[0];
 	$surat['nomor_urut'] OR $surat['nomor_urut'] = $surat['no_surat'];
 	$surat['no_surat'] OR $surat['no_surat'] = $surat['nomor_urut'];
 	$surat['tanggal_surat'] OR $surat['tanggal_surat'] = $surat['tanggal'];

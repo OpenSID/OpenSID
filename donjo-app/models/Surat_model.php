@@ -863,11 +863,15 @@
 	public function get_last_nosurat_log($url)
 	{
 		$data = get_surat_terakhir('log_surat', $url);
-
+		if ($this->setting->penomoran_surat == 2 and empty($data['nama']))
+		{
+			$surat = $this->get_surat($url);
+			$data['nama'] = $surat['nama'];
+		}
 		$ket = array(
 			1 => "Terakhir untuk semua surat layanan: ",
-			2 => "Terakhir untuk jenis surat {$data[nama]}: ",
-			3 => "Terakhir untuk semua surat: "
+			2 => "Terakhir untuk jenis surat {$data['nama']}: ",
+			3 => "Terakhir untuk semua surat layanan, keluar dan masuk: "
 		);
 		$data['no_surat_berikutnya'] = $data['no_surat'] + 1;
 		$data['ket_nomor'] = $ket[$this->setting->penomoran_surat];
