@@ -5,6 +5,7 @@
 		parent::__construct();
 		$this->load->model('surat_master_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('penomoran_surat_model');
 	}
 
 	public function list_surat()
@@ -862,7 +863,7 @@
 
 	public function get_last_nosurat_log($url)
 	{
-		$data = get_surat_terakhir('log_surat', $url);
+		$data = $this->penomoran_surat_model->get_surat_terakhir('log_surat', $url);
 		if ($this->setting->penomoran_surat == 2 and empty($data['nama']))
 		{
 			$surat = $this->get_surat($url);
@@ -877,31 +878,6 @@
 		$data['ket_nomor'] = $ket[$this->setting->penomoran_surat];
 
 		return $data;
-	}
-
-	public function nomor_surat_duplikat($url, $nomor_surat)
-	{
-		if ($this->setting->penomoran_surat == 2)
-		{
-			// Nomor terkahir berdasarkan jenis surat
-			$id_format_surat = $this->db->select('id, nama')
-				->where('url_surat', $url)
-				->get('tweb_surat_format')
-				->row();
-			$this->db->where('id_format_surat', $id_format_surat->id);
-		}
-		$this->db->where('no_surat', $nomor_surat);
-		$data = $this->db->select('no_surat, tanggal')
-			->from('log_surat')
-			->where('YEAR(tanggal) = YEAR(CURRENT_DATE())')
-			->order_by('no_surat DESC')
-			->limit(1)
-			->get()
-			->row_array();
-		if (empty($data))
-			return false;
-		else
-			return true;
 	}
 
 }

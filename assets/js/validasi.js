@@ -45,6 +45,47 @@ $(document).ready(function() {
 		}
 	});
 
+	// Untuk form surat masuk/keluar memeriksa nomor urut secara remote/ajax
+	$("#validasi.nomor-urut").validate({
+		errorElement: "label",
+		errorClass: "error",
+		highlight:function (element){
+			$(element).closest(".form-group").addClass("has-error");
+		},
+		unhighlight:function (element){
+			$(element).closest(".form-group").removeClass("has-error");
+		},
+		errorPlacement: function (error, element) {
+			if (element.parent('.input-group').length) {
+				error.insertAfter(element.parent());
+			} else if (element.hasClass('select2')) {
+				error.insertAfter(element.next('span'));
+			} else {
+				error.insertAfter(element);
+			}
+		},
+		// https://www.bladephp.co/jquery-validation-remote-codeigniter
+		rules: {
+			nomor_urut: {
+				required: true,
+				remote: {
+					url: $('#url_remote').val(),
+					type: "post",
+			    data:{
+			      nomor_urut_lama: function() {
+			        return $('#nomor_urut_lama').val()
+			      }
+					}
+				}
+			}
+		},
+		messages: {
+			nomor_urut: {
+				remote: "Nomor urut itu sudah digunakan",
+			},
+		}
+	});
+
 	$("#validasi").validate({
 		errorElement: "label",
 		errorClass: "error",
