@@ -168,16 +168,67 @@
 
   private function migrasi_1811_ke_1812()
   {
-		// Pada tweb_keluarga kosongkan nik_kepala kalau tdk ada penduduk dgn kk_level=1 dan id=nik_kepala untuk keluarga itu
-		$kk_kosong = $this->db->select('k.id')
-		  ->where('p.id is NULL')
-			->from('tweb_keluarga k')
-			->join('tweb_penduduk p', 'p.id = k.nik_kepala and p.kk_level = 1', 'left')
-			->get()->result_array();
-		foreach ($kk_kosong as $kk)
-		{
-			$this->db->where('id', $kk['id'])->update('tweb_keluarga', array('nik_kepala' => NULL));
-		}
+  	// Ubah struktur tabel tweb_desa_pamong
+  	if (!$this->db->field_exists('id_pend', 'tweb_desa_pamong'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['id_pend'] = array(
+					'type' => 'int',
+					'constraint' => 11
+			);
+			$fields['pamong_tempatlahir'] = array(
+					'type' => 'varchar',
+					'constraint' => 100,
+					'default' => NULL
+			);
+			$fields['pamong_tanggallahir'] = array(
+					'type' => 'date',
+					'default' => NULL
+			);
+			$fields['pamong_sex'] = array(
+					'type' => 'tinyint',
+					'constraint' => 4,
+					'default' => NULL
+			);
+			$fields['pamong_pendidikan'] = array(
+					'type' => 'int',
+					'constraint' => 10,
+					'default' => NULL
+			);
+			$fields['pamong_agama'] = array(
+					'type' => 'int',
+					'constraint' => 10,
+					'default' => NULL
+			);
+			$fields['pamong_nosk'] = array(
+					'type' => 'varchar',
+					'constraint' => 20,
+					'default' => NULL
+			);
+			$fields['pamong_tglsk'] = array(
+					'type' => 'date',
+					'default' => NULL
+			);
+			$fields['pamong_masajab'] = array(
+					'type' => 'varchar',
+					'constraint' => 120,
+					'default' => NULL
+			);
+			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+  	}
+
+  	// Pada tweb_keluarga kosongkan nik_kepala kalau tdk ada penduduk dgn kk_level=1 dan id=nik_kepala untuk keluarga itu
+  	$kk_kosong = $this->db->select('k.id')
+  	  ->where('p.id is NULL')
+  		->from('tweb_keluarga k')
+  		->join('tweb_penduduk p', 'p.id = k.nik_kepala and p.kk_level = 1', 'left')
+  		->get()->result_array();
+  	foreach ($kk_kosong as $kk)
+  	{
+  		$this->db->where('id', $kk['id'])->update('tweb_keluarga', array('nik_kepala' => NULL));
+  	}
+
 		// Tambah surat keterangan domisili
 		$data = array(
 			'nama'=>'Keterangan Domisili',

@@ -185,6 +185,11 @@ $(document).ready(function()
 		format: 'DD-MM-YYYY',
 		locale:'id'
 	});
+	$('.tgl_1').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id'
+	});
 	$('#tgl_2').datetimepicker(
 	{
 		format: 'DD-MM-YYYY',

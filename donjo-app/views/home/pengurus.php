@@ -1,3 +1,14 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></h1>
@@ -52,8 +63,15 @@
 																<th>No</th>
 																<th width='12%'>Aksi</th>
 																<th class="text-center">Foto</th>
-																<th width='50%'>Nama / NIP /NIK</th>
+																<th>Nama / NIP /NIK</th>
+																<th>Tempat, Tanggal Lahir</th>
+																<th>Jenis Kelamin</th>
+																<th>Pendidikan</th>
+																<th>Agama</th>
 																<th>Jabatan</th>
+																<th>Nomor SK</th>
+																<th>Tanggal SK</th>
+																<th>Masa/Periode Jabatan</th>
 																<th>Status</th>
 															</tr>
 														</thead>
@@ -89,13 +107,22 @@
 																		</div>
 																	</td>
 																	<td>
-																		<?= unpenetration($data['pamong_nama'])?>
+																		<?= $data['nama']?>
 																		<p class='text-blue'>
 																			<i>NIP :<?=$data['pamong_nip']?></i></br>
-																			<i>NIK :<?=$data['pamong_nik']?></i>
+																			<i>NIK :<?=$data['nik']?></i>
 																		</p>
 																	</td>
-																	<td><?= unpenetration($data['jabatan'])?></td>
+
+																	<td><?= $data['tempatlahir'].', '.tgl_indo_out($data['tanggallahir'])?></td>
+																	<td><?= $data['sex']?></td>
+																	<td><?= $data['pendidikan_kk']?></td>
+																	<td><?= $data['agama']?></td>
+
+																	<td><?= $data['jabatan']?></td>
+																	<th><?= $data['pamong_nosk']?></td>
+																	<td><?= tgl_indo_out($data['pamong_tglsk'])?></td>
+																	<td><?= $data['pamong_masajab']?></td>
 																	<td>
 																		<?php if ($data['pamong_status'] == '1'): ?>
 																			<div title="Aktif">
