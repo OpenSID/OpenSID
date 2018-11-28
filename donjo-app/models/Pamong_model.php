@@ -20,19 +20,24 @@
     $sql .= $aktif ? " AND u.pamong_status = '1'" : null;
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
+		$sql .= ' ORDER BY jabatan';
 
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['nama'] = !empty($data[$i]['nama']) ? $data[$i]['nama'] : $data[$i]['pamong_nama'];
-			$data[$i]['nik'] = !empty($data[$i]['nik']) ? $data[$i]['nik'] : $data[$i]['pamong_nik'];
-			$data[$i]['tempatlahir'] = !empty($data[$i]['tempatlahir']) ? $data[$i]['tempatlahir'] : $data[$i]['pamong_tempatlahir'];
-			$data[$i]['tanggallahir'] = !empty($data[$i]['tanggallahir']) ? $data[$i]['tanggallahir'] : $data[$i]['pamong_tanggallahir'];
-			$data[$i]['sex'] = !empty($data[$i]['sex']) ? $data[$i]['sex'] : $data[$i]['pamong_sex'];
-			$data[$i]['pendidikan_kk'] = !empty($data[$i]['pendidikan_kk']) ? $data[$i]['pendidikan_kk'] : $data[$i]['pamong_pendidikan'];
-			$data[$i]['agama'] = !empty($data[$i]['agama']) ? $data[$i]['agama'] : $data[$i]['pamong_agama'];
+			if (empty($data[$i]['id_pend']))
+			{
+				// Dari luar desa
+				$data[$i]['nama'] = $data[$i]['pamong_nama'];
+				$data[$i]['nik'] = $data[$i]['pamong_nik'];
+				$data[$i]['tempatlahir'] = $data[$i]['pamong_tempatlahir'];
+				$data[$i]['tanggallahir'] = $data[$i]['pamong_tanggallahir'];
+				$data[$i]['sex'] = $data[$i]['pamong_sex'];
+				$data[$i]['pendidikan_kk'] = $data[$i]['pamong_pendidikan'];
+				$data[$i]['agama'] = $data[$i]['pamong_agama'];
+			}
 			$data[$i]['no'] = $i + 1;
 		}
 		return $data;
@@ -127,15 +132,9 @@
 		}
 
 		$data['id_pend'] = $this->input->post('id_pend');
-		$data['pamong_nama'] = $this->input->post('pamong_nama');
+		$this->data_pamong_asal($data);
 		$data['pamong_nip'] = $this->input->post('pamong_nip');
-		$data['pamong_nik'] = $this->input->post('pamong_nik');
-		$data['pamong_tempatlahir'] = $this->input->post('pamong_tempatlahir');
-		$data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir'));
 		$data['jabatan'] = $this->input->post('jabatan');
-		$data['pamong_sex'] = $this->input->post('pamong_sex');
-		$data['pamong_pendidikan'] = $this->input->post('pamong_pendidikan');
-		$data['pamong_agama'] = $this->input->post('pamong_agama');
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
@@ -145,6 +144,30 @@
 		$outp = $this->db->insert('tweb_desa_pamong', $data);
 
 		if (!$outp) $_SESSION['success'] = -1;
+	}
+
+	private function data_pamong_asal(&$data)
+	{
+		if (empty($data['id_pend']))
+		{
+			$data['pamong_nama'] = $this->input->post('pamong_nama');
+			$data['pamong_nik'] = $this->input->post('pamong_nik');
+			$data['pamong_tempatlahir'] = $this->input->post('pamong_tempatlahir');
+			$data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir'));
+			$data['pamong_sex'] = $this->input->post('pamong_sex');
+			$data['pamong_pendidikan'] = $this->input->post('pamong_pendidikan');
+			$data['pamong_agama'] = $this->input->post('pamong_agama');
+		}
+		else
+		{
+			$data['pamong_nama'] = null;
+			$data['pamong_nik'] = null;
+			$data['pamong_tempatlahir'] = null;
+			$data['pamong_tanggallahir'] = null;
+			$data['pamong_sex'] = null;
+			$data['pamong_pendidikan'] = null;
+			$data['pamong_agama'] = null;
+		}
 	}
 
 	public function update($id=0)
@@ -172,15 +195,9 @@
 		}
 
 		$data['id_pend'] = $this->input->post('id_pend');
-		$data['pamong_nama'] = $this->input->post('pamong_nama');
+		$this->data_pamong_asal($data);
 		$data['pamong_nip'] = $this->input->post('pamong_nip');
-		$data['pamong_nik'] = $this->input->post('pamong_nik');
-		$data['pamong_tempatlahir'] = $this->input->post('pamong_tempatlahir');
-		$data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir'));
 		$data['jabatan'] = $this->input->post('jabatan');
-		$data['pamong_sex'] = $this->input->post('pamong_sex');
-		$data['pamong_pendidikan'] = $this->input->post('pamong_pendidikan');
-		$data['pamong_agama'] = $this->input->post('pamong_agama');
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));

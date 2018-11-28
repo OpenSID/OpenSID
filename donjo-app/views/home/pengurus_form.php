@@ -204,6 +204,10 @@
 	$('document').ready(function()
 	{
 		$("input[name='pengurus']:checked").change();
+		if ($("#validasi input[name='id_pend']").val() != '')
+		{
+			$('#pamong_nama').removeClass('required');
+		}
 	});
 
 	function reset_form()
@@ -225,14 +229,12 @@
 			$('#main').show();
 			$('.pengurus-luar-desa').hide();
 			$('.pengurus-desa').show();
-			if ($("input[name='pamong_desa']").val() != '')
-			{
-				$('#pamong_nama').removeClass('required');
-			}
+			$('#pamong_nama').val('');
 		}
 		else
 		{
 			$('#main').hide();
+			$("input[name='id_pend']").val('');
 			$('.pengurus-luar-desa').show();
 			$('.pengurus-desa').hide();
 			$('#pamong_nama').addClass('required');
