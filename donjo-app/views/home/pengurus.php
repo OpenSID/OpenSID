@@ -14,9 +14,12 @@
 						<a href="<?= site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Staf">
   	          <i class="fa fa-plus"></i>Tambah Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?>
             </a>
-            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("pengurus/delete_all")?>')" class="btn btn-social btn-flat		btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("pengurus/delete_all")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
               <i class='fa fa-trash-o'></i> Hapus Data Terpilih
             </a>
+            <a href="<?= site_url("pengurus/cetak")?>" class="btn btn-social btn-flat bg-aqua btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+            <a href="<?= site_url("pengurus/excel")?>" class="btn btn-social btn-flat bg-gray btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+
 					</div>
 					<div class="box-body">
 						<div class="row">

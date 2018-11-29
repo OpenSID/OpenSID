@@ -131,4 +131,14 @@ class Pengurus extends CI_Controller {
 		$this->pamong_model->ttd($id, 0);
 		redirect('pengurus');
 	}
+    public function cetak($o=0)
+    {
+        $data['main'] = $this->pamong_model->list_data();
+        $this->load->view('home/pengurus_print', $data);
+    }
+    public function excel($o=0)
+    {
+        $data['main'] = $this->pamong_model->list_data();
+        $this->load->view('home/pengurus_excel', $data);
+    }
 }
