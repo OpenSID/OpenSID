@@ -1,8 +1,8 @@
-Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini nomor urut surat diisi secara otomatis dan menjaga tidak ada nomor urut duplikat. Data staf pemerintahan desa sekarang bisa diambil dari database penduduk. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ayi Sumarna dan Yusup Hambali yang terus berkontribusi dan [untuk diisi] yang kembali berkontribusi. Terima kasih juga pada [untuk diisi] yang baru mulai kontribusi.
+Terima kasih pada Ayi Sumarna, Parso Widodo, Agung Sugiarto dan Yusup Hambali yang terus berkontribusi dan [untuk diisi] yang kembali berkontribusi.
 
-Lengkapnya, isi rilis versi 18.11-pasca:
+Lengkapnya, isi rilis versi 18.12:
 
 1. #1732: Sekarang statistik calon pemilih dapat ditampilkan kembali di Web. [bug-fix]
 2. #211: Tambah surat keterangan domisili.
@@ -21,6 +21,6 @@ Lengkapnya, isi rilis versi 18.11-pasca:
 15. #1750: Penambahan kolom pada data Info Desa > Pemerintahan Desa. Data staf desa sekarang juga bisa diambil dari database penduduk.
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
 
 
