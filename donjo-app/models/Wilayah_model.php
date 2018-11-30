@@ -245,8 +245,7 @@
 			UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
-		print_r($data);
-		exit();
+
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
