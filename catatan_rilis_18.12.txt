@@ -1,6 +1,6 @@
 Di rilis ini nomor urut surat diisi secara otomatis dan menjaga tidak ada nomor urut duplikat. Data staf pemerintahan desa sekarang bisa diambil dari database penduduk. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ayi Sumarna, Parso Widodo, Agung Sugiarto dan Yusup Hambali yang terus berkontribusi dan [untuk diisi] yang kembali berkontribusi.
+Terima kasih pada Ayi Sumarna, Parso Widodo, Agung Sugiarto dan Yusup Hambali yang terus berkontribusi.
 
 Lengkapnya, isi rilis versi 18.12:
 
