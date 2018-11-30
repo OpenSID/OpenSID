@@ -240,10 +240,13 @@
 
 	public function update_rt($id=0)
 	{
-		if (empty($_POST['id_kepala']))
+		//Untuk mengakali update Nama RT saja tidak dengan kepala, sehingga ambil kepala sebelumnya
+		if (empty($_POST['id_kepala']) || ($_POST['id_kepala'] === '-- Silakan Masukan NIK / Nama--'))
 			UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
+		print_r($data);
+		exit();
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
