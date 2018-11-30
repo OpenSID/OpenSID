@@ -181,9 +181,11 @@
 			UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
+
 		$temp = $this->wilayah_model->cluster_by_id($dusun);
 		$this->db->where('dusun', $temp['dusun']);
 		$this->db->where('rw', $rw);
+        $this->db->where('rt', 0);//rw pasti data rt 0
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		if ($outp) $_SESSION['success'] = 1;
