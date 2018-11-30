@@ -177,8 +177,9 @@
 
 	public function update_rw($dusun='', $rw='')
 	{
-		if (empty($_POST['id_kepala']))
-			UNSET($_POST['id_kepala']);
+        if (empty($_POST['id_kepala']) || ($_POST['id_kepala'] === '-- Silakan Masukan NIK / Nama--'))
+            UNSET($_POST['id_kepala']);
+
 
 		$data = $_POST;
 
@@ -255,6 +256,9 @@
 
 	public function update_dusun_map($dusun='')
 	{
+        if (empty($_POST['id_kepala']) || ($_POST['id_kepala'] === '-- Silakan Masukan NIK / Nama--'))
+            UNSET($_POST['id_kepala']);
+
 		$data = $_POST;
 		$this->db->where('id', $dusun);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
