@@ -311,7 +311,7 @@ class Sid_Core extends CI_Controller {
 	public function form_rt($id_dusun = '', $rw = '', $rt = '')
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
+
 		$data['dusun'] = $temp['dusun'];
 		$data['id_dusun'] = $id_dusun;
 
