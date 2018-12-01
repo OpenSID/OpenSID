@@ -116,6 +116,8 @@
 	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+		unset($data['url_remote']);
+		unset($data['nomor_urut_lama']);
 
 		// ambil disposisi ke variabel lain karena
 		// tidak lagi digunakan pada tabel surat masuk
@@ -206,6 +208,8 @@
 	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+		unset($data['url_remote']);
+		unset($data['nomor_urut_lama']);
 
 		// ambil disposisi ke variabel lain karena
 		// tidak lagi digunakan pada tabel surat masuk

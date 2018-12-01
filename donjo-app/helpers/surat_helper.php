@@ -142,5 +142,3 @@ function padded_string_center($str, $panjang)
 	}
 	return $str;
 }
-
-?>
