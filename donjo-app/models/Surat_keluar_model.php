@@ -107,7 +107,7 @@
 	{
 		$query = $this->db->distinct()->
 			select('YEAR(tanggal_surat) AS tahun')->
-			order_by('tanggal_surat DESC')->
+			order_by('YEAR(tanggal_surat)','DESC')->
 			get('surat_keluar')->result_array();
 		return $query;
 	}
