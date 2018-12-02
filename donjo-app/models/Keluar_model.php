@@ -70,6 +70,7 @@
 			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
 			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
 			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
+			LEFT JOIN tweb_penduduk p ON s.id_pend = p.id
 			LEFT JOIN user w ON u.id_user = w.id
 			WHERE 1 ";
 		$sql .= $this->search_sql();
@@ -96,7 +97,7 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.pamong_nama AS pamong ";
+		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
 
 		$sql = $select_sql . $this->list_data_sql();
 		$sql .= $order_sql;
@@ -109,13 +110,16 @@
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no']=$j+1;
-			$data[$i]['t']=$data[$i]['id_pend'];
+			$data[$i]['no'] = $j+1;
+			$data[$i]['t'] = $data[$i]['id_pend'];
 
-			if($data[$i]['id_pend'] == -1)
+			if ($data[$i]['id_pend'] == -1)
 				$data[$i]['id_pend'] = "Masuk";
 			else
 				$data[$i]['id_pend'] = "Keluar";
+			if (!empty($data[$i]['pamong_id_pend']))
+				// Pamong desa
+				$data[$i]['pamong'] = $data[$i]['nama_pamong_desa'];
 
 			$j++;
 		}
@@ -204,7 +208,6 @@
 		$url_surat = $data_log_surat['url_surat'];
 		$nama_surat = $data_log_surat['nama_surat'];
 		unset($data_log_surat['url_surat']);
-		$pamong_nama = $data_log_surat['pamong_nama'];
 		unset($data_log_surat['pamong_nama']);
 
 		foreach ($data_log_surat as $key => $val)
@@ -212,30 +215,20 @@
 			$data[$key] = $val;
 		}
 
-		$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
+		$sql = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
 		$query = $this->db->query($sql, $url_surat);
 		if ($query->num_rows() > 0)
 		{
-			$pam=$query->row_array();
-			$data['id_format_surat']=$pam['id'];
+			$pam = $query->row_array();
+			$data['id_format_surat'] = $pam['id'];
 		}
 		else
 		{
 			$data['id_format_surat'] = $url_surat;
 		}
 
-		$sql   = "SELECT pamong_id FROM tweb_desa_pamong WHERE pamong_nama = ?";
-		$query = $this->db->query($sql, $pamong_nama);
-		if ($query->num_rows() > 0)
-		{
-			$pam=$query->row_array();
-			$data['id_pamong']=$pam['pamong_id'];
-		} else
-		{
-			$data['id_pamong'] = 1;
-		}
-
-		if ($data['id_pamong']=='')
+		$data['id_pamong'] = $data_log_surat['id_pamong'];
+		if ($data['id_pamong'] == '')
 			$data['id_pamong'] = 1;
 
 		$data['bulan'] = date('m');
