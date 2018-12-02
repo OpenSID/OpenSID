@@ -173,9 +173,21 @@
 
 	public function list_pamong()
 	{
-		$sql = "SELECT u.* FROM tweb_desa_pamong u WHERE pamong_status = 1 ";
+		$sql = "SELECT u.*, p.nama as nama
+			FROM tweb_desa_pamong u
+			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+			WHERE pamong_status = 1";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
+		for ($i=0; $i<count($data); $i++)
+		{
+			if (!empty($data[$i]['id_pend']))
+			{
+				// Dari database penduduk
+				$data[$i]['pamong_nama'] = $data[$i]['nama'];
+			}
+			$data[$i]['no'] = $i + 1;
+		}
 		return $data;
 	}
 
