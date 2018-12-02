@@ -8,17 +8,6 @@
 			maxShowItems: 10,
 		});
 	});
-	$('document').ready(function()
-	{
-		$('select[name=pamong_ttd]').change(function(e)
-		{
-			$('select[name=jabatan_ttd]').val($(this).find(':selected').data('jabatan'));
-		});
-		$('select[name=pamong_ketahui]').change(function(e)
-		{
-			$('select[name=jabatan_ketahui]').val($(this).find(':selected').data('jabatan'));
-		});
-	});
 </script>
 <div class="content-wrapper">
 	<section class="content-header">

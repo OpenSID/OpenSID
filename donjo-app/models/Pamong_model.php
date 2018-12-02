@@ -43,12 +43,6 @@
 		return $data;
 	}
 
-	public function list_semua()
-	{
-		$data = $this->db->select('*')->get('tweb_desa_pamong')->result_array();
-		return $data;
-	}
-
 	public function autocomplete()
 	{
 		$sql = "SELECT * FROM
@@ -96,9 +90,15 @@
 
 	public function get_data($id=0)
 	{
-		$sql = "SELECT * FROM tweb_desa_pamong WHERE pamong_id = ?";
+		$sql = "SELECT u.*, p.nama as nama
+			FROM tweb_desa_pamong u
+			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+			WHERE pamong_id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
+			if (!empty($data['id_pend']))
+				// Dari database penduduk
+		$data['pamong_nama'] = $data['nama'];
 		return $data;
 	 }
 

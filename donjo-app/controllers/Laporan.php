@@ -65,7 +65,7 @@ class Laporan extends CI_Controller {
 		$data['bulan'] = $data['bulanku'];
 		$data['tahun'] = $data['tahunku'];
 		$data['config'] = $this->laporan_bulanan_model->configku();
-		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
 		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();

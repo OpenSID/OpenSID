@@ -57,7 +57,6 @@ class Surat_keluar extends CI_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->surat_keluar_model->paging($p, $o);
 		$data['main'] = $this->surat_keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['pamong'] = $this->pamong_model->list_semua();
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 		$header = $this->header_model->get_data();
@@ -162,7 +161,7 @@ class Surat_keluar extends CI_Controller {
 	public function dialog_cetak($o = 0)
 	{
 		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_semua();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_keluar/cetak/$o");
 		$this->load->view('surat_keluar/ajax_cetak', $data);
@@ -171,7 +170,7 @@ class Surat_keluar extends CI_Controller {
 	public function dialog_unduh($o = 0)
 	{
 		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_semua();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_keluar/unduh/$o");
 		$this->load->view('surat_keluar/ajax_cetak', $data);
