@@ -34,34 +34,6 @@
 		}
 	}
 
-	private function master_sql()
-	{
-		if (isset($_SESSION['analisis_master']))
-		{
-			$kf = $_SESSION['analisis_master'];
-			$filter_sql = " AND u.id_master = $kf";
-			return $filter_sql;
-		}
-	}
-
-	private function tipe_sql()
-	{
-		if (isset($_SESSION['tipe']))
-		{
-			$kf = $_SESSION['tipe'];
-			$filter_sql = " AND u.id_tipe = $kf";
-			return $filter_sql;
-		}
-	}
-
-	function kategori_sql(){
-		if(isset($_SESSION['kategori'])){
-			$kf = $_SESSION['kategori'];
-			$filter_sql = " AND u.id_kategori = $kf";
-		return $filter_sql;
-		}
-	}
-
 	public function paging($p=1, $o=0)
 	{
 		$sql = "SELECT COUNT(*) AS jml ". $this->list_data_sql();
@@ -130,7 +102,8 @@
 		$data['url_surat'] = "surat_".strtolower($data['url_surat']);
 		// $data['url_surat'] = "surat_".$data['url_surat'];
 		/** pastikan belum ada url suratnya */
-		if($this->isExist($data['url_surat'])){
+		if ($this->isExist($data['url_surat']))
+		{
 			$_SESSION['success'] = -2;
 			return;
 		}
@@ -433,11 +406,12 @@
 		return (!empty($upload_data)) ? $upload_data['file_name'] : NULL;
 	}
 
-	private function isExist($url_surat){
+	private function isExist($url_surat)
+	{
 		$sudahAda = $this->db->select('count(*) ada')
 				->where(array('url_surat' => $url_surat))
 				->get('tweb_surat_format')->row_array();
-		return $sudahAda['ada'];		
+		return $sudahAda['ada'];
 	}
 }
 
