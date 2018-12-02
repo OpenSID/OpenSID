@@ -129,6 +129,11 @@
 		$data['url_surat'] = str_replace(" ", "_", $data['nama']);
 		$data['url_surat'] = "surat_".strtolower($data['url_surat']);
 		// $data['url_surat'] = "surat_".$data['url_surat'];
+		/** pastikan belum ada url suratnya */
+		if($this->isExist($data['url_surat'])){
+			$_SESSION['success'] = -2;
+			return;
+		}
 		$outp = $this->db->insert('tweb_surat_format', $data);
 		$raw_path = "surat/raw/";
 
@@ -428,6 +433,12 @@
 		return (!empty($upload_data)) ? $upload_data['file_name'] : NULL;
 	}
 
+	private function isExist($url_surat){
+		$sudahAda = $this->db->select('count(*) ada')
+				->where(array('url_surat' => $url_surat))
+				->get('tweb_surat_format')->row_array();
+		return $sudahAda['ada'];		
+	}
 }
 
 ?>
