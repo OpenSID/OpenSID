@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 2. #1771: Sekarang nama Ketua RT tidak menjadi kosong setelah mengubah data RT lainnya. [bug-fix]
 3. #1766: Sekarang nama Ketua RT tidak ikut diubah pada waktu mengubah nama Ketua RW. [bug-fix]
 4. #1782: Sekarang pesan error ditampilkan apabila menambah surat dengan nama yang sudah ada. [bug-fix]
+5. #1786: Error pada waktu menampilkan Sekretariat > Surat Masuk/Surat Keluar (kalau menggunakan strict mode by Mysql) telah diperbaiki. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
