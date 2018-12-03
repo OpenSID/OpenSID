@@ -258,10 +258,7 @@
     if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
       UNSET($_POST['id_kepala']);
 
-        print_r($_POST);
-		$data = $_POST;
-		print_r($data);
-		exit();
+        $data = $_POST;
 		$this->db->where('id', $dusun);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
