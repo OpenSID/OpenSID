@@ -255,10 +255,10 @@
 
 	public function update_dusun_map($dusun='')
 	{
-    	if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-      		UNSET($_POST['id_kepala']);
+  	if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
+  		UNSET($_POST['id_kepala']);
 
-        $data = $_POST;
+    $data = $_POST;
 		$this->db->where('id', $dusun);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
@@ -275,10 +275,10 @@
 
 	public function update_rw_map($dus=0, $id=0)
 	{
-        if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-            UNSET($_POST['id_kepala']);
+    if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
+      UNSET($_POST['id_kepala']);
 
-        $data = $_POST;
+    $data = $_POST;
 		$this->db->where('dusun', $dus);
 		$this->db->where('rw', $id);
 		$this->db->where('rt', '0');
@@ -290,10 +290,10 @@
 
 	public function update_rt_map($dus=0, $rw=0, $id=0)
 	{
-        if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-            UNSET($_POST['id_kepala']);
+    if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
+      UNSET($_POST['id_kepala']);
 
-        $data = $_POST;
+    $data = $_POST;
 		$this->db->where('dusun', $dus);
 		$this->db->where('rw', $rw);
 		$this->db->where('rt', $id);

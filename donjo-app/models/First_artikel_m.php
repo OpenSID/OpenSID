@@ -25,8 +25,11 @@ class First_artikel_m extends CI_Model {
 
 	public function get_teks_berjalan()
 	{
-	    //update text berjalan yang kategori dan artikelnya enable
-		$sql = "SELECT a.isi FROM artikel a LEFT JOIN kategori k ON a.id_kategori = k.id WHERE k.kategori = 'teks_berjalan' AND k.enabled = 1 AND a.tgl_upload < NOW() AND a.enabled=1 ";
+    //update text berjalan yang kategori dan artikelnya enable
+		$sql = "SELECT a.isi
+			FROM artikel a
+			LEFT JOIN kategori k ON a.id_kategori = k.id
+			WHERE k.kategori = 'teks_berjalan' AND k.enabled = 1 AND a.tgl_upload < NOW() AND a.enabled = 1 ";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;
