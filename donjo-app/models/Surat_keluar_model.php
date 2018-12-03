@@ -107,7 +107,7 @@
 	{
 		$query = $this->db->distinct()->
 			select('YEAR(tanggal_surat) AS tahun')->
-			order_by('tanggal_surat DESC')->
+			order_by('YEAR(tanggal_surat)','DESC')->
 			get('surat_keluar')->result_array();
 		return $query;
 	}
@@ -120,6 +120,8 @@
 	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+		unset($data['url_remote']);
+		unset($data['nomor_urut_lama']);
 
 		// Normalkan tanggal
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
@@ -199,6 +201,8 @@
 	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+		unset($data['url_remote']);
+		unset($data['nomor_urut_lama']);
 
 		$_SESSION['error_msg'] = NULL;
 

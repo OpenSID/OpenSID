@@ -21,36 +21,46 @@
 
 		<!-- Print Body -->
 			<div id="body">
-				<div class="header" align="center">
+				<div align="center">
 					<label align="left"><?= get_identitas()?></label>
-					<h3> DATA APARATUR PEMERINTAHAN DESSA </h3>
-					<strong><?= $_SESSION['judul_statistik']; ?></strong>
+					<h3> DATA APARATUR PEMERINTAHAN <?= strtoupper($this->setting->sebutan_desa) ?> </h3>
 				</div>
 				<br>
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
 							<th>No</th>
-							<th width="150">NIK</th>
-                            <th width="150">NIP</th>
-							<th width="200">Nama</th>
-							<th width="200">Jabatan</th>
-							<th width="100">Status</th>
-
+							<th>NIK</th>
+              <th>NIP</th>
+							<th>Nama</th>
+							<th>Tempat, Tanggal Lahir</th>
+							<th>Jenis Kelamin</th>
+							<th>Pendidikan</th>
+							<th>Agama</th>
+							<th>Jabatan</th>
+							<th>Nomor SK</th>
+							<th>Tanggal SK</th>
+							<th>Masa/Periode Jabatan</th>
+							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ($main as $data): ?>
 							<tr>
-                                <td width="2"><?= $data['no']?></td>
-								<td width="2"><?= $data['pamong_nik']?></td>
+                <td><?= $data['no']?></td>
+								<td class="textx"><?= $data['nik']?></td>
 								<td class="textx"><?= $data['pamong_nip']?></td>
-								<td><?= unpenetration($data['pamong_nama'])?></td>
-								<td class="textx"><?= unpenetration($data['jabatan'])?></td>
-								<td><?php if ($data['pamong_status'] == '1'): echo "Aktif" ?>
-                                    <?php else: echo "Tidak Aktif" ?>
-                                    <?php endif; ?></td>
-							</tr>
+								<td><?= $data['nama']?></td>
+								<td><?= $data['tempatlahir'].', '.tgl_indo_out($data['tanggallahir'])?></td>
+								<td><?= $data['sex']?></td>
+								<td><?= $data['pendidikan_kk']?></td>
+								<td><?= $data['agama']?></td>
+								<td><?= $data['jabatan']?></td>
+								<td><?= $data['pamong_nosk']?></td>
+								<td><?= tgl_indo_out($data['pamong_tglsk'])?></td>
+								<td><?= $data['pamong_masajab']?></td>
+								<td><?= ($data['pamong_status'] == '1') ? "Aktif" : "Tidak Aktif" ?>
+ 							</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>

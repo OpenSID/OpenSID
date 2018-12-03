@@ -104,7 +104,7 @@
 
 	public function list_tahun_penerimaan()
 	{
-		$query = $this->db->distinct()->select('YEAR(tanggal_penerimaan) AS tahun')->order_by('tanggal_penerimaan DESC')->get('surat_masuk')->result_array();
+		$query = $this->db->distinct()->select('YEAR(tanggal_penerimaan) AS tahun')->order_by('YEAR(tanggal_penerimaan)','DESC')->get('surat_masuk')->result_array();
 		return $query;
 	}
 
@@ -116,6 +116,8 @@
 	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+		unset($data['url_remote']);
+		unset($data['nomor_urut_lama']);
 
 		// ambil disposisi ke variabel lain karena
 		// tidak lagi digunakan pada tabel surat masuk
@@ -206,6 +208,8 @@
 	{
 		// Ambil semua data dari var. global $_POST
 		$data = $this->input->post(NULL);
+		unset($data['url_remote']);
+		unset($data['nomor_urut_lama']);
 
 		// ambil disposisi ke variabel lain karena
 		// tidak lagi digunakan pada tabel surat masuk

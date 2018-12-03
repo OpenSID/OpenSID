@@ -65,7 +65,7 @@
 											<select name="pamong" class="form-control input-sm" >
 												<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
 												<?php foreach ($pamong AS $data): ?>
-													<option value="<?= $data['pamong_nama']?>"><?= $data['pamong_nama']?> (<?= $data['jabatan']?>)</option>
+													<option value="<?= $data['nama']?>"><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 												<?php endforeach;?>
 											</select>
 										</div>

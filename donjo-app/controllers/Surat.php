@@ -23,6 +23,7 @@ class Surat extends CI_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('config_model');
 		$this->load->model('referensi_model');
+		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 4;
 	}
 
@@ -127,7 +128,7 @@ class Surat extends CI_Controller {
 	{
 		$format = $this->surat_model->get_surat($url);
 		$log_surat['url_surat'] = $format['id'];
-		$log_surat['pamong_nama'] = $_POST['pamong'];
+		$log_surat['id_pamong'] = $_POST['pamong_id'];
 		$log_surat['id_user'] = $_SESSION['user'];
 		$log_surat['no_surat'] = $_POST['nomor'];
 		$id = $_POST['nik'];
@@ -174,7 +175,7 @@ class Surat extends CI_Controller {
 
 	public function nomor_surat_duplikat()
 	{
-		$hasil = $this->surat_model->nomor_surat_duplikat($_POST['url'], $_POST['nomor']);
+		$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('log_surat', $_POST['nomor'], $_POST['url']);
    	echo $hasil ? 'false' : 'true';
 	}
 

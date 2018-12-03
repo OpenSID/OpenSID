@@ -18,6 +18,7 @@ class Pengurus extends CI_Controller {
 		}
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
+		$this->load->model('penduduk_model');
 		$this->modul_ini = 200;
 	}
 
@@ -57,6 +58,7 @@ class Pengurus extends CI_Controller {
 		if ($id)
 		{
 			$data['pamong'] = $this->pamong_model->get_data($id);
+			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $data['pamong']['id_pend'];
 			$data['form_action'] = site_url("pengurus/update/$id");
 		}
 		else
@@ -65,6 +67,13 @@ class Pengurus extends CI_Controller {
 			$data['form_action'] = site_url("pengurus/insert");
 		}
 
+		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
+		$data['agama'] = $this->penduduk_model->list_agama();
+		$data['penduduk'] = $this->penduduk_model->list_penduduk();
+		if (!empty($_POST['id_pend']))
+			$data['individu'] = $this->penduduk_model->get_penduduk($_POST['id_pend']);
+		else
+			$data['individu'] = NULL;
 		$header = $this->header_model->get_data();
 		// Menampilkan menu dan sub menu aktif
 		$nav['act'] = 1;
@@ -131,14 +140,16 @@ class Pengurus extends CI_Controller {
 		$this->pamong_model->ttd($id, 0);
 		redirect('pengurus');
 	}
-    public function cetak($o=0)
-    {
-        $data['main'] = $this->pamong_model->list_data();
-        $this->load->view('home/pengurus_print', $data);
-    }
-    public function excel($o=0)
-    {
-        $data['main'] = $this->pamong_model->list_data();
-        $this->load->view('home/pengurus_excel', $data);
-    }
+
+  public function cetak($o=0)
+  {
+    $data['main'] = $this->pamong_model->list_data();
+    $this->load->view('home/pengurus_print', $data);
+  }
+
+  public function excel($o=0)
+  {
+    $data['main'] = $this->pamong_model->list_data();
+    $this->load->view('home/pengurus_excel', $data);
+  }
 }

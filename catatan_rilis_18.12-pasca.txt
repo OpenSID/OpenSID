@@ -1,0 +1,19 @@
+Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Ahmad Afandi yang terus berkontribusi. Terima kasih pula pada Lukman Hakim yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 18.12-pasca:
+
+1. #1778: Sekarang daftar staf pemerintahan desa bisa dicetak dan diunduh dalam format Excel.
+2. #1771: Sekarang nama Ketua RT tidak menjadi kosong setelah mengubah data RT lainnya. [bug-fix]
+3. #1766: Sekarang nama Ketua RT tidak ikut diubah pada waktu mengubah nama Ketua RW. [bug-fix]
+4. #1782: Sekarang pesan error ditampilkan apabila menambah surat dengan nama yang sudah ada. [bug-fix]
+5. #1786: Error pada waktu menampilkan Sekretariat > Surat Masuk/Surat Keluar (kalau menggunakan strict mode by Mysql) telah diperbaiki. [bug-fix]
+6. #1790: Perbaiki error tidak menampilkan nama staf pemerintah desa penandatangan surat. [bug-fix]
+7. Perbaiki pilihan dan tampilan staf pemerintah penandatangan di Surat Keluar, Surat Masuk, cetak/unduh Dokumen dan Laporan Bulanan. [bug-fix]
+8. Perbaiki pencatatan dan penampilan penandatangan surat ekspor dok di Arsip Layanan. [bug-fix]
+
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+
+

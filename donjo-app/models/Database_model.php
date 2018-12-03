@@ -168,6 +168,56 @@
 
   private function migrasi_1811_ke_1812()
   {
+  	// Ubah struktur tabel tweb_desa_pamong
+  	if (!$this->db->field_exists('id_pend', 'tweb_desa_pamong'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['id_pend'] = array(
+					'type' => 'int',
+					'constraint' => 11
+			);
+			$fields['pamong_tempatlahir'] = array(
+					'type' => 'varchar',
+					'constraint' => 100,
+					'default' => NULL
+			);
+			$fields['pamong_tanggallahir'] = array(
+					'type' => 'date',
+					'default' => NULL
+			);
+			$fields['pamong_sex'] = array(
+					'type' => 'tinyint',
+					'constraint' => 4,
+					'default' => NULL
+			);
+			$fields['pamong_pendidikan'] = array(
+					'type' => 'int',
+					'constraint' => 10,
+					'default' => NULL
+			);
+			$fields['pamong_agama'] = array(
+					'type' => 'int',
+					'constraint' => 10,
+					'default' => NULL
+			);
+			$fields['pamong_nosk'] = array(
+					'type' => 'varchar',
+					'constraint' => 20,
+					'default' => NULL
+			);
+			$fields['pamong_tglsk'] = array(
+					'type' => 'date',
+					'default' => NULL
+			);
+			$fields['pamong_masajab'] = array(
+					'type' => 'varchar',
+					'constraint' => 120,
+					'default' => NULL
+			);
+			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+  	}
+
   	// Pada tweb_keluarga kosongkan nik_kepala kalau tdk ada penduduk dgn kk_level=1 dan id=nik_kepala untuk keluarga itu
   	$kk_kosong = $this->db->select('k.id')
   	  ->where('p.id is NULL')
@@ -178,6 +228,7 @@
   	{
   		$this->db->where('id', $kk['id'])->update('tweb_keluarga', array('nik_kepala' => NULL));
   	}
+
 		// Tambah surat keterangan domisili
 		$data = array(
 			'nama'=>'Keterangan Domisili',
@@ -196,6 +247,71 @@
 		$query->result() OR	$this->db->insert('setting_aplikasi', array('key'=>'web_artikel_per_page', 'value'=>8, 'jenis'=>'int', 'keterangan'=>'Jumlah artikel dalam satu halaman', 'kategori'=>'web_theme'));
 
 		$this->db->where('id', 42)->update('setting_modul', array('url'=>'modul/clear', 'aktif'=>'1'));
+
+		// tambah setting penomoran_surat
+		if ($this->setting->penomoran_surat == null)
+		{
+			$setting = $this->db->select('value')
+			                    ->where('key', 'nomor_terakhir_semua_surat')
+			                    ->get('setting_aplikasi')
+			                    ->row();
+			$this->db->insert(
+				'setting_aplikasi',
+				array(
+					'key' => 'penomoran_surat',
+					'value' => $setting->value ?: 2,
+					'jenis' => 'option',
+					'keterangan' => 'Penomoran surat mulai dari satu (1) setiap tahun'
+				)
+			);
+			// Hapus setting nomor_terakhir_semua_surat
+			$this->db->where('key', 'nomor_terakhir_semua_surat')->delete('setting_aplikasi');
+		}
+
+		$tb_option = 'setting_aplikasi_options';
+		if (!$this->db->table_exists($tb_option))
+		{
+			$this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'unsigned' => FALSE,
+					'auto_increment' => TRUE
+				),
+				'id_setting' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'unsigned' => FALSE
+				),
+				'value' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 512
+				)
+			));
+			$this->dbforge->add_key('id', true);
+			$this->dbforge->create_table($tb_option, false, array('ENGINE' => $this->engine));
+			$this->dbforge->add_column(
+				$tb_option,
+				array('CONSTRAINT `id_setting_fk` FOREIGN KEY (`id_setting`) REFERENCES `setting_aplikasi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE')
+			);
+		}
+
+		$set = $this->db->select('s.id,o.id oid')
+		                ->where('key', 'penomoran_surat')
+		                ->join("$tb_option o", 's.id=o.id_setting', 'LEFT')
+		                ->get('setting_aplikasi s')
+		                ->row();
+		if (!$set->oid)
+		{
+			$this->db->insert_batch(
+				$tb_option,
+				array(
+					array('id'=>1, 'id_setting'=>$set->id, 'value'=>'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan'),
+					array('id'=>2, 'id_setting'=>$set->id, 'value'=>'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama'),
+					array('id'=>3, 'id_setting'=>$set->id, 'value'=>'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar'),
+				)
+			);
+		}
 	}
 
   private function migrasi_1810_ke_1811()

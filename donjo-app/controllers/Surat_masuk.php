@@ -23,6 +23,7 @@ class Surat_masuk extends CI_Controller {
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
+		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 15;
 		$this->tab_ini = 2;
 	}
@@ -55,7 +56,7 @@ class Surat_masuk extends CI_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->surat_masuk_model->paging($p, $o);
 		$data['main'] = $this->surat_masuk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['pamong'] = $this->pamong_model->list_semua();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
 		$header = $this->header_model->get_data();
@@ -84,7 +85,8 @@ class Surat_masuk extends CI_Controller {
 		}
 		else
 		{
-			$data['surat_masuk'] = null;
+			$last_surat = $this->penomoran_surat_model->get_surat_terakhir('surat_masuk');
+			$data['surat_masuk']['nomor_urut'] = $last_surat['no_surat'] + 1;
 			$data['form_action'] = site_url("surat_masuk/insert");
 			$data['disposisi_surat_masuk'] = null;
 		}
@@ -196,5 +198,14 @@ class Surat_masuk extends CI_Controller {
 		// Ambil nama berkas dari database
 		$berkas = $this->surat_masuk_model->getNamaBerkasScan($idSuratMasuk);
 		ambilBerkas($berkas, 'surat_masuk', '__sid__');
+	}
+
+	public function nomor_surat_duplikat()
+	{
+		if ($_POST['nomor_urut'] == $_POST['nomor_urut_lama'])
+			$hasil = false;
+		else
+			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_masuk', $_POST['nomor_urut']);
+   	echo $hasil ? 'false' : 'true';
 	}
 }
