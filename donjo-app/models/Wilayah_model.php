@@ -104,7 +104,7 @@
 
 	public function update($id='')
 	{
-		if (empty($_POST['id_kepala']))
+		if (empty($_POST['id_kepala']) || ($_POST['id_kepala'] === '-- Silakan Masukan NIK / Nama--'))
 			UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
@@ -259,7 +259,10 @@
         if (empty($_POST['id_kepala']) || ($_POST['id_kepala'] === '-- Silakan Masukan NIK / Nama--'))
             UNSET($_POST['id_kepala']);
 
+        print_r($_POST);
 		$data = $_POST;
+		print_r($data);
+		exit();
 		$this->db->where('id', $dusun);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
