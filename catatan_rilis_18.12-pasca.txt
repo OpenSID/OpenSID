@@ -12,6 +12,8 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 6. #1790: Perbaiki error tidak menampilkan nama staf pemerintah desa penandatangan surat. [bug-fix]
 7. Perbaiki pilihan dan tampilan staf pemerintah penandatangan di Surat Keluar, Surat Masuk, cetak/unduh Dokumen dan Laporan Bulanan. [bug-fix]
 8. Perbaiki pencatatan dan penampilan penandatangan surat ekspor dok di Arsip Layanan. [bug-fix]
+9. #1794: Sekarang teks berjalan tidak tampil apabila artikel terkait tidak aktif. [bug-fix]
+10. #1792: Nama kepala dusun sekarang tidak menjadi kosong setelah mengubah data dusun lainnya. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
