@@ -21,6 +21,19 @@
 		$data['zoom'] = '19';
 		$data['map_tipe'] = 'roadmap';
 		unset($data['old_logo']);
+		$data['logo'] = $this->uploadLogo();
+		if (!empty($data['logo']))
+		{
+			// Ada logo yang berhasil diunggah --> simpan ukuran 100 x 100
+			$tipe_file = TipeFile($_FILES['logo']);
+			$dimensi = array("width"=>100, "height"=>100);
+			resizeImage(LOKASI_LOGO_DESA.$data['logo'], $tipe_file, $dimensi);
+		}
+		else
+		{
+			unset($data['logo']);
+		}
+		unset($data['file_logo']);
 		$outp = $this->db->insert('config', $data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

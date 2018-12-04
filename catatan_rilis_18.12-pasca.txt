@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 10. #1792: Nama kepala dusun sekarang tidak menjadi kosong setelah mengubah data dusun lainnya. [bug-fix]
 11. #1797: Sekarang disediakan tombol aksi untuk mengubah urutan staf pemerintahan desa di menu Info Desa > Pemerintahan Desa.
 12. Tampilan Info Desa > Pemerintahan Desa sekarang tidak terpengaruh oleh filter atau teks pencarian dari tampilan sebelumnya. [bug-fix]
+13. #1776: Lambang desa sekarang dapat diunggah pada waktu pertama kali mengisi Identitas Desa. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
