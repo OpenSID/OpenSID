@@ -7,7 +7,27 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('no_surat', 'log_surat');
+		$sql = array();
+		$sql[] = '('.$this->db->select('no_surat')
+							->from("log_surat")
+							->get_compiled_select()
+							.')';
+		$sql[] = '('.$this->db->select('n.nama')
+							->from("log_surat u")
+							->join("tweb_penduduk n", "u.id_pend = n.id", "left")
+							->get_compiled_select()
+							.')';
+		$sql[] = '('.$this->db->select('p.nama')
+							->from("log_surat u")
+							->join("tweb_desa_pamong s", "u.id_pamong = s.pamong_id", "left")
+							->join("tweb_penduduk p", "s.id_pend = p.id", "left")
+							->get_compiled_select()
+							.')';
+		$sql = implode('
+		UNION
+		', $sql);
+		$data = $this->db->query($sql)->result_array();
+		$str = autocomplete_data_ke_str($data);
 		return $str;
 	}
 
@@ -18,25 +38,35 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.no_surat LIKE '$kw' OR u.id_pend LIKE '$kw')";
+			$search_sql = " AND (u.no_surat LIKE '$kw' OR n.nama LIKE '$kw' OR
+					s.pamong_nama like '$kw' OR p.nama like '$kw')";
 			return $search_sql;
 		}
 	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['nik']))
+		if (isset($_SESSION['filter']))
 		{
-			$kf = $_SESSION['nik'];
+			$kf = $_SESSION['filter'];
 			if ($kf == "0")
-			{
-				$filter_sql= "";
-			}
+				$filter_sql = "";
 			else
-			{
-				$filter_sql= " AND n.id = '".$kf."'";
-			}
+				$filter_sql = " AND YEAR(u.tanggal) = '".$kf."'";
 			return $filter_sql;
+		}
+	}
+
+	private function jenis_sql()
+	{
+		if (isset($_SESSION['jenis']))
+		{
+			$kf = $_SESSION['jenis'];
+			if (empty($kf))
+				$sql = "";
+			else
+				$sql = " AND k.nama = '".$kf."'";
+			return $sql;
 		}
 	}
 
@@ -75,6 +105,7 @@
 			WHERE 1 ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
+		$sql .= $this->jenis_sql();
 		return $sql;
 	}
 
@@ -328,6 +359,26 @@
 		$jml = $this->db->select('count(*) as jml')->get('log_surat')->row()->jml;
 		return $jml;
 	}
-}
 
+	public function list_tahun_surat()
+	{
+		$query = $this->db->distinct()->
+			select('YEAR(tanggal) AS tahun')->
+			order_by('YEAR(tanggal)','DESC')->
+			get('log_surat')->result_array();
+		return $query;
+	}
+
+	public function list_jenis_surat()
+	{
+		$query = $this->db->distinct()->
+			select('k.nama as nama_surat')->
+			from('log_surat u')->
+			join('tweb_surat_format k', 'u.id_format_surat = k.id', 'left')->
+			order_by('nama_surat')->
+			get()->result_array();
+		return $query;
+	}
+
+}
 ?>

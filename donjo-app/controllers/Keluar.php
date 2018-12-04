@@ -21,13 +21,14 @@ class Keluar extends CI_Controller {
 		$this->load->model('header_model');
         $this->load->helper('download');
 		$this->modul_ini = 4;
+		$this->controller = 'keluar';
 	}
 
 	public function clear()
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
-		unset($_SESSION['nik']);
+		unset($_SESSION['jenis']);
 		$_SESSION['per_page'] = 20;
 		redirect('keluar');
 	}
@@ -45,12 +46,18 @@ class Keluar extends CI_Controller {
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
+		if (isset($_SESSION['jenis']))
+			$data['jenis'] = $_SESSION['jenis'];
+		else $data['jenis'] = '';
+
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->keluar_model->paging($p,$o);
 		$data['main'] = $this->keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
+		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
 
 		$header = $this->header_model->get_data();
@@ -146,20 +153,20 @@ class Keluar extends CI_Controller {
 
 	public function filter()
 	{
-		$filter = $this->input->post('nik');
+		$filter = $this->input->post('filter');
 		if ($filter != 0)
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);
-		redirect('keluar/perorangan');
+		redirect('keluar');
 	}
 
-	public function nik()
+	public function jenis()
 	{
-		$nik = $this->input->post('nik');
-		if ($nik != 0)
-			$_SESSION['nik'] = $_POST['nik'];
-		else unset($_SESSION['nik']);
-		redirect('keluar/perorangan');
+		$jenis = $this->input->post('jenis');
+		if (!empty($jenis))
+			$_SESSION['jenis'] = $jenis;
+		else unset($_SESSION['jenis']);
+		redirect('keluar');
 	}
 
   public function cetak_surat_keluar($id)
