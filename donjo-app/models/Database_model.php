@@ -18,8 +18,8 @@
 		'18.08' => array('migrate' => 'migrasi_1808_ke_1809', 'nextVersion' => '18.09'),
 		'18.09' => array('migrate' => 'migrasi_1809_ke_1810', 'nextVersion' => '18.10'),
 		'18.10' => array('migrate' => 'migrasi_1810_ke_1811', 'nextVersion' => '18.11'),
-		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => NULL),
-		'18.12' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
+		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -164,6 +164,23 @@
 	$this->migrasi_1809_ke_1810();
 	$this->migrasi_1810_ke_1811();
 	$this->migrasi_1811_ke_1812();
+	$this->migrasi_1812_ke_1901();
+  }
+
+  private function migrasi_1812_ke_1901()
+  {
+  	// Urut tabel tweb_desa_pamong
+  	if (!$this->db->field_exists('urut', 'tweb_desa_pamong'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['urut'] = array(
+					'type' => 'int',
+					'constraint' => 5
+			);
+			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+  	}
+		$this->db->where('id', 18)->update('setting_modul', array('url'=>'pengurus/clear', 'aktif'=>'1'));
   }
 
   private function migrasi_1811_ke_1812()

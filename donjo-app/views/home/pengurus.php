@@ -87,6 +87,8 @@
 																	</td>
 																	<td><?=$data['no']?></td>
 																	<td nowrap>
+                                    <a href="<?=site_url("pengurus/urut/$data[pamong_id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+                                    <a href="<?=site_url("pengurus/urut/$data[pamong_id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																		<?php if ($data['pamong_id']!="707"): ?>
 																			<a href="<?= site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['pamong_ttd'] == '1'): ?>

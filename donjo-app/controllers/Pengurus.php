@@ -152,4 +152,10 @@ class Pengurus extends CI_Controller {
     $data['main'] = $this->pamong_model->list_data();
     $this->load->view('home/pengurus_excel', $data);
   }
+
+	public function urut($id = 0, $arah = 0)
+	{
+		$this->pamong_model->urut($id, $arah);
+		redirect("pengurus");
+	}
 }

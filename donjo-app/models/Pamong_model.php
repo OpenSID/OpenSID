@@ -20,7 +20,7 @@
     $sql .= $aktif ? " AND u.pamong_status = '1'" : null;
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
-		$sql .= ' ORDER BY jabatan';
+		$sql .= ' ORDER BY urut';
 
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
@@ -131,6 +131,8 @@
 			}
 		}
 
+		// Beri urutan terakhir
+		$data['urut'] = $this->urut_max() + 1;
 		$data['id_pend'] = $this->input->post('id_pend');
 		$this->data_pamong_asal($data);
 		$data['pamong_nip'] = $this->input->post('pamong_nip');
@@ -245,6 +247,72 @@
 			$this->db->where('pamong_ttd', 1)->update('tweb_desa_pamong', array('pamong_ttd'=>0));
 		}
 		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ttd'=>$val));
+	}
+
+  private function urut_max()
+  {
+    $this->db->select_max('urut');
+    $query = $this->db->get('tweb_desa_pamong');
+    $data = $query->row_array();
+    return $data['urut'];
+  }
+
+	private function urut_semua()
+	{
+		$sql = "SELECT urut, COUNT(*) c FROM tweb_desa_pamong GROUP BY urut HAVING c > 1";
+		$query = $this->db->query($sql);
+		$urut_duplikat = $query->result_array();
+		if ($urut_duplikat)
+		{
+			$this->db->select("pamong_id");
+			$this->db->order_by("urut");
+			$q = $this->db->get('tweb_desa_pamong');
+			$pamong = $q->result_array();
+			for ($i=0; $i<count($pamong); $i++)
+			{
+				$this->db->where('pamong_id', $pamong[$i]['pamong_id']);
+				$data['urut'] = $i + 1;
+				$this->db->update('tweb_desa_pamong', $data);
+			}
+		}
+	}
+
+	// $arah:
+	//		1 - turun
+	// 		2 - naik
+	public function urut($id, $arah)
+	{
+		$this->urut_semua();
+		$this->db->where('pamong_id', $id);
+		$q = $this->db->get('tweb_desa_pamong');
+		$pamong1 = $q->row_array();
+
+		$this->db->select("pamong_id, urut");
+		$this->db->order_by("urut");
+		$q = $this->db->get('tweb_desa_pamong');
+		$pamong = $q->result_array();
+		for ($i=0; $i<count($pamong); $i++)
+		{
+			if ($pamong[$i]['pamong_id'] == $id)
+				break;
+		}
+
+		if ($arah == 1)
+		{
+			if ($i >= count($pamong) - 1) return;
+			$pamong2 = $pamong[$i + 1];
+		}
+		if ($arah == 2)
+		{
+			if ($i <= 0) return;
+			$pamong2 = $pamong[$i - 1];
+		}
+
+		// Tukar urutan
+		$this->db->where('pamong_id', $pamong2['pamong_id'])->
+			update('tweb_desa_pamong', array('urut' => $pamong1['urut']));
+		$this->db->where('pamong_id', $pamong1['pamong_id'])->
+			update('tweb_desa_pamong', array('urut' => $pamong2['urut']));
 	}
 
 }
