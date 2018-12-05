@@ -180,4 +180,16 @@ class Keluar extends CI_Controller {
     $berkas = $this->db->select('lampiran')->where('id', $id)->get('log_surat')->row();
     ambilBerkas($berkas->lampiran, 'keluar');
   }
+
+  public function cetak($o=0)
+  {
+	  $data['main'] = $this->keluar_model->list_data();
+	  $this->load->view('surat/keluar_print', $data);
+  }
+
+  public function excel($o=0)
+  {
+	  $data['main'] = $this->keluar_model->list_data();
+	  $this->load->view('surat/keluar_excel', $data);
+  }
 }
