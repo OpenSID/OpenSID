@@ -34,7 +34,8 @@ class Web_widget extends CI_Controller {
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
-		$_SESSION['per_page'] = 20;
+		unset($_SESSION['table_curpage']);
+ 		$this->session->per_page = 20;
 		redirect('web_widget');
 	}
 
@@ -45,10 +46,17 @@ class Web_widget extends CI_Controller {
 		redirect("web_widget");
 	}
 
-	public function index($p = 1, $o = 0)
+	public function index($page=0, $o=0)
 	{
-		$data['p'] = $p;
+		if (!$page)
+		{
+		 	$page = $this->session->table_curpage;
+		}
+
+		$data['paging'] = $this->web_widget_model->paging($page, $o);
+		$data['p'] = $data['paging']->page;
 		$data['o'] = $o;
+		$this->session->table_curpage = $data['paging']->page;
 
 		if (isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
@@ -62,7 +70,6 @@ class Web_widget extends CI_Controller {
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging'] = $this->web_widget_model->paging($p,$o);
 		$data['main'] = $this->web_widget_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_widget_model->autocomplete();
 
@@ -97,7 +104,6 @@ class Web_widget extends CI_Controller {
 		$nav['act_sub'] = 48;
 
 		$this->load->view('header', $header);
-		//$this->load->view('web/spacer');
 		$this->load->view('nav', $nav);
 		$this->load->view('web/artikel/widget-form', $data);
 		$this->load->view('footer');
