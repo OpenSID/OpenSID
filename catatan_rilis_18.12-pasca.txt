@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 14. #1287: Arsip Layanan sekarang dapat dicari berdasarkan nomor surat, nama pemohon dan nama penandatangan. Arsip Layanan dapat juga dipilih menurut tahun dan jenis surat.
 15. #1801: Arsip Layanan sekarang dapat dicetak dan diunduh dalam format Excel.
 16. #1768: Perbaiki tulisan sasaran pilihan peserta di form tambah peserta program bantuan. [bug-fix]
+17. #1180: Sekarang artikel dinamis tidak berkategori bisa ditemukan dan diubah.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
