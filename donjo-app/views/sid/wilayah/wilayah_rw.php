@@ -69,7 +69,7 @@
 																	<?php else: ?>
 																		<td nowrap><strong><?= unpenetration($data['nama_ketua'])?></strong></td>
 																		<td><?= $data['nik_ketua']?></td>
-																		<td><a href="<?= site_url("wilayah/sub_rt/$id_dusun/$data[rw]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rt']?></a></td>
+																		<td><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rt']?></a></td>
 																		<td><?= $data['jumlah_kk']?></td>
 																		<td><?= $data['jumlah_warga']?></td>
 																		<td><?= $data['jumlah_warga_l']?></td>
