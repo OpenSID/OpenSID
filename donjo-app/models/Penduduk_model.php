@@ -913,9 +913,12 @@
 
 	public function list_rw($dusun='')
 	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND dusun = ? AND rw <> '0'";
-		$query = $this->db->query($sql,$dusun);
-		$data = $query->result_array();
+		$data = $this->db->
+			where('rt', '0')->
+			where('dusun', $dusun)->
+			where("rw <> '0'")->
+			get('tweb_wil_clusterdesa')->
+			result_array();
 		return $data;
 	}
 
