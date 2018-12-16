@@ -139,22 +139,38 @@ $(document).ready(function()
 		format: 'dd-mm-yyyy',
 		autoclose: true
 	});
-	$('#tgl_mulai,#tgl_akhir').datetimepicker({
+
+	$.fn.datetimepicker.defaults = $.extend($.fn.datetimepicker.defaults, {
 		locale:'id',
 		format: 'DD-MM-YYYY',
 		useCurrent: false
 	});
-	$('#tgl_mulai').datetimepicker().on('dp.change', function (e) {
-		var incrementDay = moment(new Date(e.date));
-		incrementDay.add(1, 'days');
-		$('#tgl_akhir').data('DateTimePicker').minDate(incrementDay);
-		$(this).data("DateTimePicker").hide();
+
+	var dtpStart = $('#tgl_mulai').datetimepicker().data('DateTimePicker');
+	var dtpEnd = $('#tgl_akhir').datetimepicker().data('DateTimePicker');
+	dtpStart.date(now=moment());
+	dtpStart.minDate(now);
+
+	var start = dtpStart.date().format(dtpStart.format());
+	var end = dtpStart.date() .add(masa.angka, masa.unit).format(dtpStart.format());
+
+	$('#tgl_mulai').val(start);
+	$('#tgl_akhir').val(end);
+
+	$('#tgl_mulai').on('dp.change', function (e) {
+// error:  setelah memilih tanggal bukan hari ini tidak bisa memilih lagi hari ini. (hapus catatan ini jika sudah ok)
+
+		//var nextDay = moment(e.date)
+		var nextDay = dtpStart.date().clone()
+		.add(1, 'days');
+		dtpEnd.minDate(nextDay);
+		//dtpStart.hide();
 	});
-	$('#tgl_akhir').datetimepicker().on('dp.change', function (e) {
+	$('#tgl_akhir').on('dp.change', function (e) {
 		var decrementDay = moment(new Date(e.date));
 		decrementDay.subtract(1, 'days');
-		$('#tgl_mulai').data('DateTimePicker').maxDate(decrementDay);
-		 $(this).data("DateTimePicker").hide();
+		//$('#tgl_mulai').data('DateTimePicker').maxDate(decrementDay);
+		//$(this).data("DateTimePicker").hide();
 	});
 
 	$('#tgljam_mulai,#tgljam_akhir').datetimepicker({

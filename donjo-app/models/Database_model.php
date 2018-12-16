@@ -180,7 +180,20 @@
 			);
 			$this->dbforge->add_column('tweb_desa_pamong', $fields);
   	}
-		$this->db->where('id', 18)->update('setting_modul', array('url'=>'pengurus/clear', 'aktif'=>'1'));
+  	$this->db->where('id', 18)->update('setting_modul', array('url'=>'pengurus/clear', 'aktif'=>'1'));
+
+  	// tambah setting masa berlaku surat
+  	if ($this->setting->masa_berlaku_surat == null)
+  	{
+  	 	$this->db->insert(
+				'setting_aplikasi',
+				array(
+					'key' => 'masa_berlaku_surat',
+					'value' => '1 bulan',
+					'keterangan' => 'Masa berlaku surat. Isi dengan angka dan unit tanggal (hari/pekan/bulan/tahun)'
+				)
+  	 	);
+  	}
   }
 
   private function migrasi_1811_ke_1812()
