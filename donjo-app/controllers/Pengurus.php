@@ -19,7 +19,9 @@ class Pengurus extends CI_Controller {
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 200;
+		$this->controller = 'pengurus';
 	}
 
 	public function clear()
@@ -44,6 +46,7 @@ class Pengurus extends CI_Controller {
 		$header = $this->header_model->get_data();
 
 		// Menampilkan menu dan sub menu aktif
+		$header['minsidebar'] = 1;
 		$nav['act'] = 1;
 		$nav['act_sub'] = 18;
 
@@ -141,17 +144,41 @@ class Pengurus extends CI_Controller {
 		redirect('pengurus');
 	}
 
-  public function cetak($o=0)
-  {
-    $data['main'] = $this->pamong_model->list_data();
-    $this->load->view('home/pengurus_print', $data);
-  }
+	public function dialog_cetak($o = 0)
+	{
+		$data['aksi'] = "Cetak";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['form_action'] = site_url("pengurus/cetak/$o");
+		$this->load->view('home/ajax_cetak_pengurus', $data);
+	}
 
-  public function excel($o=0)
-  {
+	public function dialog_unduh($o = 0)
+	{
+		$data['aksi'] = "Unduh";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['form_action'] = site_url("pengurus/unduh/$o");
+		$this->load->view('home/ajax_cetak_pengurus', $data);
+	}
+
+	public function cetak($o = 0)
+	{
+		$data['input'] = $_POST;
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+  	$data['desa'] = $this->config_model->get_data();
     $data['main'] = $this->pamong_model->list_data();
-    $this->load->view('home/pengurus_excel', $data);
-  }
+		$this->load->view('home/pengurus_print', $data);
+	}
+
+	public function unduh($o = 0)
+	{
+		$data['input'] = $_POST;
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+  	$data['desa'] = $this->config_model->get_data();
+    $data['main'] = $this->pamong_model->list_data();
+		$this->load->view('home/pengurus_excel', $data);
+	}
 
 	public function urut($id = 0, $arah = 0)
 	{

@@ -169,6 +169,33 @@
 
   private function migrasi_1812_ke_1901()
   {
+  	// Tambah kolom tweb_desa_pamong
+  	if (!$this->db->field_exists('pamong_pangkat', 'tweb_desa_pamong'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['pamong_niap'] = array(
+					'type' => 'varchar',
+					'constraint' => 20,
+					'default' => NULL
+			);
+			$fields['pamong_pangkat'] = array(
+					'type' => 'varchar',
+					'constraint' => 20,
+					'default' => NULL
+			);
+			$fields['pamong_nohenti'] = array(
+					'type' => 'varchar',
+					'constraint' => 20,
+					'default' => NULL
+			);
+			$fields['pamong_tglhenti'] = array(
+					'type' => 'date',
+					'default' => NULL
+			);
+			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+  	}
+
   	// Urut tabel tweb_desa_pamong
   	if (!$this->db->field_exists('urut', 'tweb_desa_pamong'))
   	{
