@@ -340,9 +340,19 @@ class First_artikel_m extends CI_Model {
 		$data['owner'] = strip_tags($_POST["owner"]);
 		$data['email'] = strip_tags($_POST["email"]);
 
-		$data['enabled'] = 2;
-		$data['id_artikel'] = $id;
-		$outp = $this->db->insert('komentar',$data);
+		// load library form_validation
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('komentar', 'Komentar', 'required');
+		$this->form_validation->set_rules('owner', 'Owner', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[komentar.email]',
+		array('is_unique' => 'Email sudah digunakan'));
+
+		if ($this->form_validation->run() == TRUE)
+		{
+			$data['enabled'] = 2;
+			$data['id_artikel'] = $id;
+			$outp = $this->db->insert('komentar',$data);
+		}
 
 		if ($outp)
 		{
