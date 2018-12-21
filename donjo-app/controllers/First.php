@@ -387,7 +387,11 @@ class First extends Web_Controller {
 		}
 		else
 		{
-			$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
+			$_SESSION['post'] = $_POST;
+			if (!empty($_SESSION['validation_error']))
+				$this->session->set_flashdata('flash_message', validation_errors());
+			else
+				$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
 		}
 
 		if ($id != 775)

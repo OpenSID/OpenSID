@@ -338,12 +338,26 @@ class First_artikel_m extends CI_Model {
 	{
 		$data['komentar'] = strip_tags($_POST["komentar"]);
 		$data['owner'] = strip_tags($_POST["owner"]);
+		$data['no_hp'] = strip_tags($_POST["no_hp"]);
 		$data['email'] = strip_tags($_POST["email"]);
 
-		$data['enabled'] = 2;
-		$data['id_artikel'] = $id;
-		$outp = $this->db->insert('komentar',$data);
+		// load library form_validation
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('komentar', 'Komentar', 'required');
+		$this->form_validation->set_rules('owner', 'Nama', 'required');
+		$this->form_validation->set_rules('no_hp', 'No HP', 'required|is_unique[komentar.no_hp]', array('is_unique' => 'Komentar ini sudah dikirim sebelumnya'));
+		$this->form_validation->set_rules('email', 'Email', 'valid_email|is_unique[komentar.email]', array('is_unique' => 'Komentar ini sudah dikirim sebelumnya'));
 
+		if ($this->form_validation->run() == TRUE)
+		{
+			$data['enabled'] = 2;
+			$data['id_artikel'] = $id;
+			$outp = $this->db->insert('komentar',$data);
+		}
+		else
+		{
+			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
+		}
 		if ($outp)
 		{
 			$_SESSION['success'] = 1;
