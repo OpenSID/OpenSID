@@ -345,8 +345,8 @@ class First_artikel_m extends CI_Model {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('komentar', 'Komentar', 'required');
 		$this->form_validation->set_rules('owner', 'Nama', 'required');
-		$this->form_validation->set_rules('no_hp', 'No HP', 'required|is_unique[komentar.no_hp]', array('is_unique' => 'Komentar ini sudah dikirim sebelumnya'));
-		$this->form_validation->set_rules('email', 'Email', 'valid_email|is_unique[komentar.email]', array('is_unique' => 'Komentar ini sudah dikirim sebelumnya'));
+		$this->form_validation->set_rules('no_hp', 'No HP', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'valid_email');
 
 		if ($this->form_validation->run() == TRUE)
 		{
