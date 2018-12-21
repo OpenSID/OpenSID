@@ -170,6 +170,19 @@
   private function migrasi_1812_ke_1901()
   {
   	// Tambah kolom tweb_desa_pamong
+  	if (!$this->db->field_exists('no_hp', 'komentar'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['no_hp'] = array(
+					'type' => 'varchar',
+					'constraint' => 15,
+					'default' => NULL
+			);
+			$this->dbforge->add_column('komentar', $fields);
+  	}
+
+  	// Tambah kolom tweb_desa_pamong
   	if (!$this->db->field_exists('pamong_pangkat', 'tweb_desa_pamong'))
   	{
 			// Tambah kolom
