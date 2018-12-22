@@ -221,6 +221,7 @@
 			$this->dbforge->add_column('tweb_desa_pamong', $fields);
   	}
 		$this->db->where('id', 18)->update('setting_modul', array('url'=>'pengurus/clear', 'aktif'=>'1'));
+		$this->db->where('id', 48)->update('setting_modul', array('url'=>'web_widget/clear', 'aktif'=>'1'));
   }
 
   private function migrasi_1811_ke_1812()

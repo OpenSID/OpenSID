@@ -113,28 +113,28 @@ class Import_model extends CI_Model {
 	{
 		// Kolom yang harus diisi
 		if ($isi_baris['nama'] == "" OR $isi_baris['nik'] == "" OR $isi_baris['dusun'] == "" OR $isi_baris['rt'] == "" OR $isi_baris['rw'] == "")
-			return false;
+			return 'nama/nik/dusun/rt/rw kosong';
 		// Validasi data setiap kolom ber-kode
-		if ($isi_baris['sex'] != "" AND !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return false;
-		if ($isi_baris['agama_id'] != "" AND !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return false;
-		if ($isi_baris['pendidikan_kk_id'] != "" AND !($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) return false;
-		if ($isi_baris['pendidikan_sedang_id'] != "" AND !($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) return false;
-		if ($isi_baris['pekerjaan_id'] != "" AND !($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) return false;
-		if ($isi_baris['status_kawin'] != "" AND !($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) return false;
-		if ($isi_baris['kk_level'] != "" AND !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return false;
-		if ($isi_baris['warganegara_id'] != "" AND !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return false;
-		if ($isi_baris['golongan_darah_id'] != "" AND !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return false;
+		if ($isi_baris['sex'] != "" AND !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return 'kode sex tidak dikenal';
+		if ($isi_baris['agama_id'] != "" AND !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return 'kode agama tidak dikenal';
+		if ($isi_baris['pendidikan_kk_id'] != "" AND !($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) return 'kode pendidikan tidak dikenal';
+		if ($isi_baris['pendidikan_sedang_id'] != "" AND !($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) return 'kode pendidikan_sedang tidak dikenal';
+		if ($isi_baris['pekerjaan_id'] != "" AND !($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) return 'kode pekerjaan tidak dikenal';
+		if ($isi_baris['status_kawin'] != "" AND !($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) return 'kode status_kawin tidak dikenal';
+		if ($isi_baris['kk_level'] != "" AND !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return 'kode status hubungan tidak dikenal';
+		if ($isi_baris['warganegara_id'] != "" AND !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return 'kode warganegara tidak dikenal';
+		if ($isi_baris['golongan_darah_id'] != "" AND !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return 'kode golongan_darah tidak dikenal';
 
-		if ($isi_baris['cacat_id'] != "" AND !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return false;
-		if ($isi_baris['cara_kb_id'] != "" AND !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) AND $isi_baris['cara_kb_id']!="99") return false;
-		if ($isi_baris['hamil'] != "" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return false;
-		if ($isi_baris['ktp_el'] != "" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return false;
-		if ($isi_baris['status_rekam'] != "" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return false;
+		if ($isi_baris['cacat_id'] != "" AND !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return 'kode cacat tidak dikenal';
+		if ($isi_baris['cara_kb_id'] != "" AND !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) AND $isi_baris['cara_kb_id']!="99") return 'kode cara_kb tidak dikenal';
+		if ($isi_baris['hamil'] != "" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return 'kode hamil tidak dikenal';
+		if ($isi_baris['ktp_el'] != "" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return 'kode ktp_el tidak dikenal';
+		if ($isi_baris['status_rekam'] != "" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return 'kode status_rekam tidak dikenal';
 
 		// Validasi data lain
-		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return false;
+		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return 'nik salah';
 
-		return true;
+		return '';
 	}
 
 	protected function format_tanggal($kolom_tanggal)
@@ -459,7 +459,8 @@ class Import_model extends CI_Model {
 			}
 
 			$isi_baris = $this->get_isi_baris($data, $i);
-			if ($this->data_import_valid($isi_baris))
+			$error_validasi = $this->data_import_valid($isi_baris);
+			if (empty($error_validasi))
 			{
 				$this->tulis_tweb_wil_clusterdesa($isi_baris);
 				$this->tulis_tweb_keluarga($isi_baris);
@@ -468,7 +469,7 @@ class Import_model extends CI_Model {
 			else
 			{
 				$gagal++;
-				$baris_gagal .= $i.",";
+				$baris_gagal .= $i." (".$error_validasi.")<br>";
 			}
 		}
 

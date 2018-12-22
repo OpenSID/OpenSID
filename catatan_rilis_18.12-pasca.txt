@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 19. #1814: Perbaiki error mengubah data kepala keluarga menyebabkan terhapus dari Keluarga. [bug-fix]
 20. #1810: Sesuaikan cetak dan unduh data staf pemerintahan desa dengan format Buku Data Aparat Pemerintahan Desa Model A.4.
 21. #32: Sekarang form komentar di artikel web di-validasi, supaya komentar kosong tidak tersimpan. Juga ditambah kolom No. HP di form komentar. [bug-fix]
+22. Sekarang pesan kesalahan impor data penduduk/BIP lebih rinci.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
