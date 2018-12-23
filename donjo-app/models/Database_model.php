@@ -169,6 +169,15 @@
 
   private function migrasi_1812_ke_1901()
   {
+  	// Tambah status dasar 'Tidak Valid'
+		$data = array(
+			'id' => 9,
+			'nama' => 'TIDAK VALID');
+		$sql = $this->db->insert_string('tweb_status_dasar', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				id = VALUES(id),
+				nama = VALUES(nama)";
+		$this->db->query($sql);
   	// Tambah kolom tweb_desa_pamong
   	if (!$this->db->field_exists('no_hp', 'komentar'))
   	{

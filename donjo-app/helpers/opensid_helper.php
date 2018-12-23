@@ -27,11 +27,21 @@ define("MAX_PINDAH", 7);
 define("MAX_ANGGOTA", 7);
 
 // Konversi tulisan kode Buku Induk Penduduk ke kode SID
+define("STATUS_DASAR", serialize(array(
+	strtolower("HIDUP") => "1",
+	strtolower("MATI") => "2",
+	strtolower("PINDAH") => "3",
+	strtolower("PINDAH DALAM NEGERI") => "3",
+	strtolower("PINDAH LUAR NEGERI") => "3",
+	strtolower("HILANG") => "4"
+)));
 define("KODE_SEX", serialize(array(
 	"L" => "1",
 	"Lk" => "1",
+	"Laki-Laki" => "1",
 	"P" => "2",
-	"Pr" => "2"
+	"Pr" => "2",
+	"Perempuan" => "2"
 )));
 define("KODE_AGAMA", serialize(array(
 	strtolower("Islam") => "1",
@@ -183,7 +193,17 @@ define("KODE_GOLONGAN_DARAH", serialize(array(
 	strtolower('AB-') => '10',
 	strtolower('O+') => '11',
 	strtolower('O-') => '12',
-	strtolower('TIDAK TAHU') => '13'
+	strtolower('TIDAK TAHU') => '13',
+	strtolower('Tdk Th') => '13'
+)));
+define("KODE_CACAT", serialize(array(
+	strtolower('CACAT FISIK') => '1',
+	strtolower('CACAT NETRA/BUTA') => '2',
+	strtolower('CACAT RUNGU/WICARA') => '3',
+	strtolower('CACAT MENTAL/JIWA') => '4',
+	strtolower('CACAT FISIK DAN MENTAL') => '5',
+	strtolower('CACAT LAINNYA') => '6',
+	strtolower('TIDAK CACAT') => '7'
 )));
 define("SASARAN", serialize(array(
 	"1" => "Penduduk",
@@ -622,6 +642,11 @@ function bulan_romawi($bulan)
 		12 => "XII"
 	);
 	return ($bulan_romawi[$bulan]);
+}
+
+function buang_nondigit($str)
+{
+	return preg_replace('/[^0-9]/', '', $str);
 }
 
 ?>

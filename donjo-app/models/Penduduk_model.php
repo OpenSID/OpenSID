@@ -744,6 +744,20 @@
 		$this->tulis_log_penduduk_data($log);
 	}
 
+	/**
+	 * Kembalikan status dasar penduduk ke hidup
+	 *
+	 * @param $id 			id penduduk
+	 * @return void
+	 */
+	public function kembalikan_status($id)
+	{
+		$_SESSION['success'] = 1;
+		$data['status_dasar'] = 1; // status dasar hidup
+		if (!$this->db->where('id', $id)->update('tweb_penduduk', $data))
+			$_SESSION['success'] = - 1;
+	}
+
 	public function delete($id='')
 	{
 		$sql = "DELETE FROM tweb_penduduk WHERE id = ?";

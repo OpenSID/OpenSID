@@ -666,6 +666,12 @@ class Penduduk extends CI_Controller {
 		redirect("penduduk/index/$p/$o");
 	}
 
+	public function kembalikan_status($p = 1, $o = 0, $id = '')
+	{
+		$this->penduduk_model->kembalikan_status($id);
+		redirect("penduduk/index/$p/$o");
+	}
+
 	public function cetak($o = 0)
 	{
 		$data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
