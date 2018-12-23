@@ -121,7 +121,7 @@
 		{
 			$kf = $_SESSION['cacat'];
 			if ($kf == BELUM_MENGISI)
-				$cacat_sql = $wajib_ktp_sql." AND (u.cacat_id IS NULL OR u.cacat_id = '')";
+				$cacat_sql = " AND (u.cacat_id IS NULL OR u.cacat_id = '')";
 			else 
 				$cacat_sql = " AND u.cacat_id = $kf AND u.cacat_id is not null and u.cacat_id<>''";
 			return $cacat_sql;
