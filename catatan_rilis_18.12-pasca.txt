@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ahmad Afandi dan Agung Sugiarto yang terus berkontribusi. Terima kasih pula pada Lukman Hakim yang baru mulai berkontribusi.
+Terima kasih pada Ahmad Afandi dan Agung Sugiarto yang terus berkontribusi. Terima kasih pula pada Lukman Hakim dan Diki Siswanto yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 18.12-pasca:
 
@@ -27,6 +27,7 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 21. #32: Sekarang form komentar di artikel web di-validasi, supaya komentar kosong tidak tersimpan. Juga ditambah kolom No. HP di form komentar. [bug-fix]
 22. Sekarang pesan kesalahan impor data penduduk/BIP lebih rinci.
 23. #1817: Data penduduk sekarang bisa diimpor menggunakan format data ekspor SIAK.
+24. #1818: Statistik penyandang cacat sekarang dapat menampilkan penduduk untuk setiap jumlah di tampilan statistik. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
