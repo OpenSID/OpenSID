@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 22. Sekarang pesan kesalahan impor data penduduk/BIP lebih rinci.
 23. #1817: Data penduduk sekarang bisa diimpor menggunakan format data ekspor SIAK.
 24. #1818: Statistik penyandang cacat sekarang dapat menampilkan penduduk untuk setiap jumlah di tampilan statistik. [bug-fix]
+25. #1819: Tampilkan statistik kependudukan berdasarkan data sakit menahun.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

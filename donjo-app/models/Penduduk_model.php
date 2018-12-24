@@ -133,8 +133,11 @@
 		if (isset($_SESSION['menahun']))
 		{
 			$kf = $_SESSION['menahun'];
-			$menahun_sql = " AND u.sakit_menahun_id <> $kf and u.sakit_menahun_id is not null and u.sakit_menahun_id<>'0' ";
-		return $menahun_sql;
+			if ($kf == BELUM_MENGISI)
+				$menahun_sql = " AND (u.sakit_menahun_id IS NULL OR u.sakit_menahun_id = '0')";
+			else 
+				$menahun_sql = " AND u.sakit_menahun_id = $kf and u.sakit_menahun_id IS NOT NULL and u.sakit_menahun_id<>'0' ";
+			return $menahun_sql;
 		}
 	}
 
