@@ -60,6 +60,8 @@
 																<th>Aksi</th>
 																<th><?= $suplemen["judul_terdata_nama"]?></th>
 																<th><?= $suplemen["judul_terdata_info"]?></th>
+																<th>Tempat Lahir</th>
+																<th>Tanggal Lahir</th>
 																<th>Alamat</th>
 																<th>Keterangan</th>
 															</tr>
@@ -81,6 +83,8 @@
 																	</td>
 																	<td nowrap><a href="<?= site_url('suplemen/terdata/'.$suplemen["sasaran"].'/'.$item["nik"].'/')?>" title="Daftar suplemen untuk terdata"><?= $item["terdata_nama"] ?></a></td>
 																	<td nowrap><a href="<?= site_url('suplemen/data_terdata/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
+																	<td><?= $item["tempat_lahir"] ?></td>
+																	<td><?= $item["tanggal_lahir"] ?></td>
 																	<td><?= $item["info"];?></td>
 																	<td width="25%"><?= $item["keterangan"];?></td>
 																</tr>
