@@ -90,7 +90,8 @@
 	private function dusun_sql()
 	{
 		$dusun = $_SESSION['dusun'];
-		if (! empty($dusun)) {
+		if ( ! empty($dusun)) 
+		{
 			return " AND dusun = '" .$dusun. "'";
 		}
 	}
