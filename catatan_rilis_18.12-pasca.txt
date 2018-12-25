@@ -32,6 +32,7 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 26. #1719: Rincian data suplemen ditambahkan kolom tempat dan tanggal lahir. Hilangkan menu kiri modul Data Suplemen supaya konsisten dengan menu lain.
 27. #1756: Tambah tombol Kembali di form Ubah Biodata Penduduk.
 28. #1836: Sekarang Laporan Kelompok Rentan bisa dipilah berdasarkan dusun. [bug-fix]
+29. #1829: Sekarang tombol share artikel di komponen web ditampilkan di tab browser baru.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
