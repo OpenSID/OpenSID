@@ -30,6 +30,7 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 24. #1818: Statistik penyandang cacat sekarang dapat menampilkan penduduk untuk setiap jumlah di tampilan statistik. [bug-fix]
 25. #1819: Tampilkan statistik kependudukan berdasarkan data sakit menahun.
 26. #1719: Rincian data suplemen ditambahkan kolom tempat dan tanggal lahir. Hilangkan menu kiri modul Data Suplemen supaya konsisten dengan menu lain.
+27. #1756: Tambah tombol Kembali di form Ubah Biodata Penduduk.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
