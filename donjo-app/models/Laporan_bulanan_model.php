@@ -67,6 +67,7 @@
 		}
 	}
 
+
 	public function bulan($bulan)
 	{
 		switch ($bulan)
@@ -85,6 +86,14 @@
 	    case 12 : $bulan = "Desember"; break;
     }
 		return $bulan;
+	}
+
+	private function dusun_sql()
+	{
+		$dusun = $_SESSION['dusun'];
+		if (! empty($dusun)) {
+			return " AND dusun = '" .$dusun. "'";
+		}
 	}
 
 	public function list_data()
@@ -108,8 +117,9 @@
 			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='1') as sakit_L,
 			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='2') as sakit_P,
 			(select count(id) from penduduk_hidup where hamil='1' and id_cluster=c.id) as hamil
-			from  tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) from tweb_penduduk where id_cluster=c.id)>0  ";
+			from  tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) from tweb_penduduk where id_cluster=c.id)>0 ";
 
+		$sql .= $this->dusun_sql();
 		$sql .= " ORDER BY c.dusun,c.rw,c.rt ";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
