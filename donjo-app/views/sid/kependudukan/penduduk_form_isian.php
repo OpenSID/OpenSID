@@ -49,7 +49,7 @@
 <div class="col-md-9">
 	<div class='box box-primary'>
 		<div class="box-header with-border">
-			<a href="<?=site_url()?>penduduk/clear" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Data Penduduk</a>
+			<a href="<?=site_url()?>penduduk/clear" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Penduduk</a>
 		</div>
 		<div class='box-body'>
 			<div class="row">
