@@ -67,7 +67,6 @@
 		}
 	}
 
-
 	public function bulan($bulan)
 	{
 		switch ($bulan)
