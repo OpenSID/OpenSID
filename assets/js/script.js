@@ -139,7 +139,12 @@ $(document).ready(function()
 		format: 'dd-mm-yyyy',
 		autoclose: true
 	});
-	$('#tgl_mulai,#tgl_akhir').datetimepicker({
+	$('#tgl_mulai').datetimepicker({
+		locale:'id',
+		format: 'DD-MM-YYYY',
+		useCurrent: true
+	});
+	$('#tgl_akhir').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY',
 		useCurrent: false
@@ -149,6 +154,9 @@ $(document).ready(function()
 		incrementDay.add(1, 'days');
 		$('#tgl_akhir').data('DateTimePicker').minDate(incrementDay);
 		$(this).data("DateTimePicker").hide();
+		var tglAkhir = moment(new Date(e.date));
+		tglAkhir.add(1, 'M').format('DD-MM-YYYY');
+		$('#tgl_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 	$('#tgl_akhir').datetimepicker().on('dp.change', function (e) {
 		var decrementDay = moment(new Date(e.date));
@@ -157,7 +165,13 @@ $(document).ready(function()
 		 $(this).data("DateTimePicker").hide();
 	});
 
-	$('#tgljam_mulai,#tgljam_akhir').datetimepicker({
+	$('#tgljam_mulai').datetimepicker({
+		locale:'id',
+		format: 'DD-MM-YYYY HH:mm',
+		useCurrent: true,
+		sideBySide:true
+	});
+	$('#tgljam_akhir').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY HH:mm',
 		useCurrent: false,
@@ -167,7 +181,6 @@ $(document).ready(function()
 		var incrementDay = moment(new Date(e.date));
 		incrementDay.add(1, 'days');
 		$('#tgljam_akhir').data('DateTimePicker').minDate(incrementDay);
-
 	});
 	$('#tgljam_akhir').datetimepicker().on('dp.change', function (e) {
 		var decrementDay = moment(new Date(e.date));
