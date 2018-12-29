@@ -34,7 +34,7 @@ Lengkapnya, isi rilis versi 18.12-pasca:
 28. #1836: Sekarang Laporan Kelompok Rentan bisa dipilah berdasarkan dusun. [bug-fix]
 29. #1829: Sekarang tombol share artikel di komponen web ditampilkan di tab browser baru.
 30. Isian kolom notaris sekarang tampil di surat domisili usaha non-warga. [bug-fix]
-31. Sekarang di semua form surat, isian tgl-berlaku-akhir harus sesudah tgl-berlaku-mulai. Tgl_mulai default diisi tgl sekarang. Isi tgl_akhir dengan tanggal 1 bulan setelah tgl_mulai.
+31. Sekarang di semua form surat, isian tgl-berlaku-akhir harus sama atau sesudah tgl-berlaku-mulai. Tgl_mulai default diisi tgl sekarang. Isi tgl_akhir dengan tanggal 1 bulan setelah tgl_mulai.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 18.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

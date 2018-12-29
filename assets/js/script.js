@@ -142,23 +142,21 @@ $(document).ready(function()
 	$('#tgl_mulai').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY',
-		date: new Date()
+		useCurrent: false,
+		date: moment(new Date())
 	});
-	var tglAkhir = moment(new Date());
-	tglAkhir.add(1, 'M').format('DD-MM-YYYY');
 	$('#tgl_akhir').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY',
 		useCurrent: false,
-		date: tglAkhir
+		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
+		date: moment(new Date()).add(1, 'M')
 	});
 	$('#tgl_mulai').datetimepicker().on('dp.change', function (e) {
-		var incrementDay = moment(new Date(e.date));
-		incrementDay.add(1, 'days');
-		$('#tgl_akhir').data('DateTimePicker').minDate(incrementDay);
+		$('#tgl_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
 		$(this).data("DateTimePicker").hide();
 		var tglAkhir = moment(new Date(e.date));
-		tglAkhir.add(1, 'M').format('DD-MM-YYYY');
+		tglAkhir.add(1, 'M');
 		$('#tgl_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
