@@ -5880,6 +5880,7 @@ DROP TABLE IF EXISTS `tweb_desa_pamong`;
 CREATE TABLE `tweb_desa_pamong` (
   `pamong_id` int(5) NOT NULL AUTO_INCREMENT,
   `pamong_nama` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pamong_niap` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nip` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nik` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `jabatan` varchar(50) COLLATE utf8_unicode_ci DEFAULT '0',
