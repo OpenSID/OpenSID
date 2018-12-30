@@ -163,24 +163,23 @@ $(document).ready(function()
 	$('#tgljam_mulai').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY HH:mm',
-		useCurrent: true,
+		useCurrent: false,
+		date: moment(new Date()),
 		sideBySide:true
 	});
 	$('#tgljam_akhir').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY HH:mm',
 		useCurrent: false,
+		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
+		date: moment(new Date()).add(1, 'day'),
 		sideBySide:true
 	});
 	$('#tgljam_mulai').datetimepicker().on('dp.change', function (e) {
-		var incrementDay = moment(new Date(e.date));
-		incrementDay.add(1, 'days');
-		$('#tgljam_akhir').data('DateTimePicker').minDate(incrementDay);
-	});
-	$('#tgljam_akhir').datetimepicker().on('dp.change', function (e) {
-		var decrementDay = moment(new Date(e.date));
-		decrementDay.subtract(1, 'days');
-		$('#tgljam_mulai').data('DateTimePicker').maxDate(decrementDay);
+		$('#tgljam_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
+		var tglAkhir = moment(new Date(e.date));
+		tglAkhir.add(1, 'day');
+		$('#tgljam_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
 	$('#tgl_jam').datetimepicker(
