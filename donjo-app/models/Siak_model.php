@@ -74,15 +74,16 @@ class Siak_model extends Import_model {
 		$kolom_impor = unserialize(KOLOM_IMPOR_SIAK);
 		$isi_baris['alamat'] = trim($data->val($i, $kolom_impor['alamat']));
 		// alamat berbentuk 'DSN LIWET'
-		$pecah_alamat = preg_split("/DSN /", $isi_baris['alamat']);
+		$pecah_alamat = preg_split("/DSN |DS |DUSUN |DSN\. |DS\. |DUSUN\. /i", $isi_baris['alamat']);
 		$isi_baris['alamat'] = $pecah_alamat[0];
 		$isi_baris['dusun'] = $pecah_alamat[1];
+		if (empty($isi_baris['dusun'])) $isi_baris['dusun'] = $isi_baris['alamat'];
 
 		$isi_baris['rw'] = ltrim(trim($data->val($i, $kolom_impor['rw'])), "'");
 		$isi_baris['rt'] = ltrim(trim($data->val($i, $kolom_impor['rt'])), "'");
 
 		$nama = trim($data->val($i, $kolom_impor['nama']));
-		$nama = preg_replace('/[^a-zA-Z0-9,\.]/', ' ', $nama);
+		$nama = preg_replace("/[^a-zA-Z,\.'-]/", ' ', $nama);
 		$isi_baris['nama'] = $nama;
 
 		$isi_baris['status_dasar'] = $this->get_konversi_kode($this->kode_status_dasar, trim($data->val($i, $kolom_impor['status_dasar'])));
