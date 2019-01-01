@@ -19,7 +19,8 @@
 		'18.09' => array('migrate' => 'migrasi_1809_ke_1810', 'nextVersion' => '18.10'),
 		'18.10' => array('migrate' => 'migrasi_1810_ke_1811', 'nextVersion' => '18.11'),
 		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
-		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => NULL)
+		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => '19.01'),
+		'19.01' => array('migrate' => null, 'nextVersion' => NULL)
 	);
 
 	public function __construct()
