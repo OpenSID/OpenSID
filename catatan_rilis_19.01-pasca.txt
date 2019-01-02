@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 Lengkapnya, isi rilis versi 19.01-pasca:
 
 1. Perbaiki Migrasi DB tidak bisa dijalankan ulang pada v19.01. [bug-fix]
+2. Perbaiki masalah kode isian [bulan_romawi] kadang-kadang tidak tampil di surat ekspor dok. [bug-fix]
 
 
 

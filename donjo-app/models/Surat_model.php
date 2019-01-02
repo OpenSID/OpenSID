@@ -615,7 +615,7 @@
 				"[tgl_surat]" => "$tgl",
 				"[tgl_surat_hijri]" => $tgl_hijri,
 				"[tahun]" => "$thn",
-				"[bulan_romawi]" => bulan_romawi(date("m"))
+				"[bulan_romawi]" => bulan_romawi((int)date("m"))
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
