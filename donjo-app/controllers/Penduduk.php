@@ -198,7 +198,6 @@ class Penduduk extends CI_Controller {
 		else
 			$data['rt_sel'] = '';
 
-
 		if ($id)
 		{
 			$data['id'] = $id;

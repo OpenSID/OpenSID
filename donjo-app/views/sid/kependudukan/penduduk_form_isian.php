@@ -3,8 +3,8 @@
 	{
 		$("select[name='sex']").change();
 
-		var source_nik = <?= $source_nik ?> ;
-		var source_nama = <?= $source_nama ?>;
+		const source_nik = <?= $source_nik ?> ;
+		const source_nama = <?= $source_nama ?> ;
 
 		$('input[data-id=1]').autocomplete(
 		{
@@ -13,18 +13,18 @@
 			select: function (event, ui) 
 			{
 				$(this).val(ui.item.label);
-				var nilai = ui.item.value;
-				const elemen = '#nama_'+$(this).attr('id').split('_')[0];
-				console.log(elemen);
+				const nilai = ui.item.value;
+				const elemenId = '#nama_' + $(this).attr('id').split('_')[0];
 				$.ajax(
 				{
 					type: 'post',
 					url: "<?= site_url('penduduk/autocomplete_ortu') ?>",
 					data: {'tipe': 1, 'nilai': nilai},
 					dataType: 'json',
-					success: function (respon) {
-						let namanya = respon.nama;
-						$(elemen).val(namanya);
+					success: function (respon) 
+					{
+						const namanya = respon.nama;
+						$(elemenId).val(namanya);
 					}
 				})
 			}
@@ -37,17 +37,18 @@
 			select: function (event, ui) 
 			{
 				$(this).val(ui.item.label);
-				var nilai = ui.item.value;
-				const elemen = '#'+$(this).attr('id').split('_')[1]+'_nik';
+				const nilai = ui.item.value;
+				const elemenId = '#' + $(this).attr('id').split('_')[1] + '_nik';
 				$.ajax(
 				{
 					type: 'post',
 					url: "<?= site_url('penduduk/autocomplete_ortu') ?>",
 					data: {'tipe': 2, 'nilai': nilai},
 					dataType: 'json',
-					success: function (respon) {
-						let niknya = respon.nik;
-						$(elemen).val(niknya);
+					success: function (respon) 
+					{
+						const niknya = respon.nik;
+						$(elemenId).val(niknya);
 					}
 				})
 			}
