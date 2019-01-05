@@ -2,7 +2,57 @@
 	$(document).ready(function()
 	{
 		$("select[name='sex']").change();
+
+		var source_nik = <?= $source_nik ?> ;
+		var source_nama = <?= $source_nama ?>;
+
+		$('input[data-id=1]').autocomplete(
+		{
+			source: source_nik,
+			maxShowItems: 6,
+			select: function (event, ui) 
+			{
+				$(this).val(ui.item.label);
+				var nilai = ui.item.value;
+				const elemen = '#nama_'+$(this).attr('id').split('_')[0];
+				console.log(elemen);
+				$.ajax(
+				{
+					type: 'post',
+					url: "<?= site_url('penduduk/autocomplete_ortu') ?>",
+					data: {'tipe': 1, 'nilai': nilai},
+					dataType: 'json',
+					success: function (respon) {
+						let namanya = respon.nama;
+						$(elemen).val(namanya);
+					}
+				})
+			}
+		});
+		$('input[data-id=2]').autocomplete(
+		{
+			source: source_nama,
+			maxShowItems: 6,
+			select: function (event, ui) 
+			{
+				$(this).val(ui.item.label);
+				var nilai = ui.item.value;
+				const elemen = '#'+$(this).attr('id').split('_')[1]+'_nik';
+				$.ajax(
+				{
+					type: 'post',
+					url: "<?= site_url('penduduk/autocomplete_ortu') ?>",
+					data: {'tipe': 2, 'nilai': nilai},
+					dataType: 'json',
+					success: function (respon) {
+						let niknya = respon.nik;
+						$(elemen).val(niknya);
+					}
+				})
+			}
+		})
 	});
+	
 	function show_hide_hamil(sex)
 	{
 		if (sex == '2')
@@ -337,25 +387,25 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="ayah_nik"> NIK Ayah </label>
-						<input id="ayah_nik"  name="ayah_nik"  class="form-control input-sm" type="text" placeholder="Nomor NIK Ayah"  value="<?= $penduduk['ayah_nik']?>"></input>
+						<input id="ayah_nik"  name="ayah_nik"  class="form-control input-sm" type="text" placeholder="Nomor NIK Ayah"  value="<?= $penduduk['ayah_nik']?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("penduduk/search_ortu")?>');$('#'+'mainform').submit();}" data-id="1"></input>
 					</div>
 				</div>
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="nama_ayah">Nama Ayah </label>
-						<input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper(unpenetration($penduduk['nama_ayah']))?>"></input>
+						<input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper(unpenetration($penduduk['nama_ayah']))?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("penduduk/search_ortu")?>');$('#'+'mainform').submit();}" data-id="2"></input>
 					</div>
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="ibu_nik"> NIK Ibu </label>
-						<input id="ibu_nik"  name="ibu_nik"  class="form-control input-sm" type="text" placeholder="Nomor NIK Ibu" value="<?= $penduduk['ibu_nik']?>"></input>
+						<input id="ibu_nik"  name="ibu_nik"  class="form-control input-sm" type="text" placeholder="Nomor NIK Ibu" value="<?= $penduduk['ibu_nik']?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("penduduk/search_ortu")?>');$('#'+'mainform').submit();}" data-id="1"></input>
 					</div>
 				</div>
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="nama_ibu">Nama Ibu </label>
-						<input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper(unpenetration($penduduk['nama_ibu']))?>"></input>
+						<input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper(unpenetration($penduduk['nama_ibu']))?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("penduduk/search_ortu")?>');$('#'+'mainform').submit();}" data-id="2"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>

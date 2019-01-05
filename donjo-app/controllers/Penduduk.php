@@ -179,6 +179,10 @@ class Penduduk extends CI_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
+		if (isset($_SESSION['cari']))
+			$data['cari'] = $_SESSION['cari'];
+		else $data['cari'] = '';
+
 		if (isset($_POST['dusun']))
 			$data['dus_sel'] = $_POST['dusun'];
 		else
@@ -193,6 +197,10 @@ class Penduduk extends CI_Controller {
 			$data['rt_sel'] = $_POST['rt'];
 		else
 			$data['rt_sel'] = '';
+
+		
+			$data['source_nik'] = strtoupper($this->penduduk_model->autocomplete('nik'));
+			$data['source_nama'] = strtoupper($this->penduduk_model->autocomplete('nama'));
 
 		if ($id)
 		{
@@ -891,5 +899,42 @@ class Penduduk extends CI_Controller {
 			unset($_SESSION['judul_statistik']);
 		}
 		redirect("penduduk");
+	}
+
+	public function search_ortu()
+	{
+		if(! empty($this->input->post('ayah_nik')))
+			$_SESSION['cari'] = $this->input->post('ayah_nik');
+		else if(! empty($this->input->post('ibu_nik')))
+			$_SESSION['cari'] = $this->input->post('ibu_nik');
+		else if(! empty($this->input->post('nama_ayah')))
+			$_SESSION['cari'] = $this->input->post('nama_ayah');
+		else if(! empty($this->input->post('nama_ibu')))
+			$_SESSION['cari'] = $this->input->post('nama_ibu');
+		else unset($_SESSION['cari']);
+		redirect('penduduk/form');
+	}
+
+	public function autocomplete_ortu()
+	{
+		$tipe_cari = $this->input->post('tipe');
+		
+		// Tipe Cari 1 adalah cari berdasarkan nik, tipe 2 menurut nama
+		if ($tipe_cari == 1) 
+		{
+			$nik = $this->input->post('nilai');
+			$data = $this->penduduk_model->get_penduduk_by_nik($nik);
+			$data = array('nama' => $data['nama']);
+		}
+		else {
+			$nama = $this->input->post('nilai');
+			$data = $this->penduduk_model->get_penduduk_by_nama($nama);
+			$data = array('nik' => $data['nik']);
+		}
+		$this->output
+			->set_content_type('application/json', 'utf-8')
+			->set_output(json_encode($data, JSON_PRETTY_PRINT))
+			->_display();
+		exit;
 	}
 }
