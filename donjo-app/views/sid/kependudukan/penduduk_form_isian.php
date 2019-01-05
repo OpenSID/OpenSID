@@ -29,6 +29,7 @@
 				})
 			}
 		});
+		
 		$('input[data-id=2]').autocomplete(
 		{
 			source: source_nama,
@@ -52,7 +53,7 @@
 			}
 		})
 	});
-	
+
 	function show_hide_hamil(sex)
 	{
 		if (sex == '2')

@@ -918,8 +918,8 @@ class Penduduk extends CI_Controller {
 	public function autocomplete_ortu()
 	{
 		$tipe_cari = $this->input->post('tipe');
-		
-		// Tipe Cari 1 adalah cari berdasarkan nik, tipe 2 menurut nama
+
+		// Tipe 1 adalah cari berdasarkan nik, tipe 2 menurut nama
 		if ($tipe_cari == 1) 
 		{
 			$nik = $this->input->post('nilai');
