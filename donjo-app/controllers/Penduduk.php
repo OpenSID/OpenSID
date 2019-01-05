@@ -925,11 +925,13 @@ class Penduduk extends CI_Controller {
 			$data = $this->penduduk_model->get_penduduk_by_nik($nik);
 			$data = array('nama' => $data['nama']);
 		}
-		else {
+		else 
+		{
 			$nama = $this->input->post('nilai');
 			$data = $this->penduduk_model->get_penduduk_by_nama($nama);
 			$data = array('nik' => $data['nik']);
 		}
+		
 		$this->output
 			->set_content_type('application/json', 'utf-8')
 			->set_output(json_encode($data, JSON_PRETTY_PRINT))
