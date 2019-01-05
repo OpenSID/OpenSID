@@ -198,9 +198,6 @@ class Penduduk extends CI_Controller {
 		else
 			$data['rt_sel'] = '';
 
-		
-			$data['source_nik'] = strtoupper($this->penduduk_model->autocomplete('nik'));
-			$data['source_nama'] = strtoupper($this->penduduk_model->autocomplete('nama'));
 
 		if ($id)
 		{
@@ -273,6 +270,8 @@ class Penduduk extends CI_Controller {
 		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
 		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
+		$data['source_nik'] = strtoupper($this->penduduk_model->autocomplete('nik'));
+		$data['source_nama'] = strtoupper($this->penduduk_model->autocomplete('nama'));
 
 		$nav['act']= 2;
 		$nav['act_sub'] = 21;
