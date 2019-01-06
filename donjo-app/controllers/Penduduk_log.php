@@ -186,6 +186,7 @@ class Penduduk_log extends CI_Controller {
 	public function edit($p = 1, $o = 0, $id = 0)
 	{
 		$data['log_status_dasar'] = $this->penduduk_log_model->get_log($id);
+		$data['list_ref_pindah'] = $this->referensi_model->list_data('ref_pindah');
 		$data['form_action'] = site_url("penduduk_log/update/$p/$o/$id");
 		$this->load->view('penduduk_log/ajax_edit', $data);
 	}

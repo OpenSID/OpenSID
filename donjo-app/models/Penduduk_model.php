@@ -122,7 +122,7 @@
 			$kf = $_SESSION['cacat'];
 			if ($kf == BELUM_MENGISI)
 				$cacat_sql = " AND (u.cacat_id IS NULL OR u.cacat_id = '')";
-			else 
+			else
 				$cacat_sql = " AND u.cacat_id = $kf AND u.cacat_id is not null and u.cacat_id<>''";
 			return $cacat_sql;
 		}
@@ -135,7 +135,7 @@
 			$kf = $_SESSION['menahun'];
 			if ($kf == BELUM_MENGISI)
 				$menahun_sql = " AND (u.sakit_menahun_id IS NULL OR u.sakit_menahun_id = '0')";
-			else 
+			else
 				$menahun_sql = " AND u.sakit_menahun_id = $kf and u.sakit_menahun_id IS NOT NULL and u.sakit_menahun_id<>'0' ";
 			return $menahun_sql;
 		}
@@ -743,6 +743,8 @@
 		$log['nama_kk'] = $penduduk['kepala_kk'];
 		$log['tgl_peristiwa'] = rev_tgl($_POST['tgl_peristiwa']);
 		$log['id_detail'] = $data['status_dasar'];
+		if ($log['id_detail'] == 3)
+			$log['ref_pindah'] = !empty($_POST['ref_pindah']) ? $_POST['ref_pindah'] : 1;
 		$log['bulan'] = date("m");
 		$log['tahun'] = date("Y");
 		$log['catatan'] = $_POST['catatan'];
