@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 19.01-pasca:
 2. Perbaiki masalah kode isian [bulan_romawi] kadang-kadang tidak tampil di surat ekspor dok. [bug-fix]
 3. #1840: Sekarang pilihan sakit menahun tampil di form tambah KK baru. [bug-fix]
 4. Sekarang tambah KK baru bisa disimpan. [bug-fix]
+5. #1820: Sesuaikan format cetak Statistik > Laporan Bulanan dengan format Model A-9. Tambah perincian tujuan pindah penduduk.
 
 
 
