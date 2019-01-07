@@ -487,7 +487,7 @@
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
 		if ($data['sex'] == 1) $data['hamil'] = 0;
-		// Status 'belum kawin' dan cerai mati tidak berlaku akta perkawinan dan perceraian
+		// Status 'belum kawin' dan 'cerai mati' tidak berlaku akta perkawinan dan perceraian
 		if ($data['status_kawin'] == 1 OR $data['status_kawin'] == 4) 
 		{
 			$data['akta_perkawinan'] = NULL;
