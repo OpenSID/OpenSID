@@ -2,6 +2,7 @@
 	$(document).ready(function()
 	{
 		$("select[name='sex']").change();
+		$("select[name='status_kawin']").change();
 	});
 	function show_hide_hamil(sex)
 	{
@@ -21,24 +22,24 @@
 			$('select[name=sex]').change();
 		});
 	};
-	function disable_kawin_cerai(status) 
+	function disable_kawin_cerai(status)
 	{
 		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
-		if (status == '1' || status == '4') 
+		if (status == '1' || status == '4')
 		{
 			$("#akta_perkawinan").attr('disabled', true);
 			$("input[name=tanggalperkawinan]").attr('disabled', true);
 			$("#akta_perceraian").attr('disabled', true);
 			$("input[name=tanggalperceraian]").attr('disabled', true);
 		}
-		else if (status == '2') 
+		else if (status == '2')
 		{
 			$("#akta_perkawinan").attr('disabled', false);
 			$("input[name=tanggalperkawinan]").attr('disabled', false);
 			$("#akta_perceraian").attr('disabled', true);
 			$("input[name=tanggalperceraian]").attr('disabled', true);
 		}
-		else if (status == '3') 
+		else if (status == '3')
 		{
 			$("#akta_perkawinan").attr('disabled', true);
 			$("input[name=tanggalperkawinan]").attr('disabled', true);

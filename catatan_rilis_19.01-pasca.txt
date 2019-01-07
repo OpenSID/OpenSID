@@ -9,6 +9,7 @@ Lengkapnya, isi rilis versi 19.01-pasca:
 3. #1840: Sekarang pilihan sakit menahun tampil di form tambah KK baru. [bug-fix]
 4. Sekarang tambah KK baru bisa disimpan. [bug-fix]
 5. #1820: Sesuaikan format cetak Statistik > Laporan Bulanan dengan format Model A-9. Tambah perincian tujuan pindah penduduk.
+6. #1854: Sekarang kolom No Akta Nikah, Tgl Perkawinan, No Akta Perceraian dan Tgl Perceraian diaktifkan/ditampilkan/dikosongkan di form isian dan laporan biodata penduduk sesuai Status Kawin penduduk.
 
 
 
