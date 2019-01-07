@@ -497,6 +497,7 @@
 			case 2:
 				$data['akta_perceraian'] = NULL;
 				$data['tanggalperceraian'] = NULL;
+				break;
 			case 3:
 			case 4:
 				break;
