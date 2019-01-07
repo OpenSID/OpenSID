@@ -479,10 +479,8 @@
 		if ($data['tanggallahir']) $data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
 		if ($data['tanggal_akhir_paspor'] == '') $data['tanggal_akhir_paspor'] = NULL;
 		if ($data['tanggal_akhir_paspor']) $data['tanggal_akhir_paspor'] = tgl_indo_in($data['tanggal_akhir_paspor']);
-		if ($data['tanggalperkawinan'] == '') $data['tanggalperkawinan'] = NULL;
-		if ($data['tanggalperkawinan']) $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
-		if ($data['tanggalperceraian'] == '') $data['tanggalperceraian'] = NULL;
-		if ($data['tanggalperceraian']) $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
+		if (!empty($data['tanggalperkawinan'])) $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
+		if (!empty($data['tanggalperceraian'])) $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
@@ -496,17 +494,12 @@
 				$data['tanggalperceraian'] = NULL;
 				break;
 			case 2:
-				// Status 'kawin' tidak berlaku akta dan tanggal perceraian
+				// Status 'kawin' tidak berlaku akta perceraian
 				$data['akta_perceraian'] = NULL;
 				$data['tanggalperceraian'] = NULL;
 				break;
 			case 3:
-				// Status 'cerai hidup' maka akta dan tanggal perkawinan tidak berlaku
-				$data['akta_perceraian'] = NULL;
-				$data['tanggalperceraian'] = NULL;
-				break;
 			case 4:
-				// Status 'cerai mati' data yg sudah terisi tidak dihapus
 				break;
 		}
 
