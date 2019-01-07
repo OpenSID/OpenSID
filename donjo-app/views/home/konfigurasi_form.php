@@ -127,10 +127,10 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="propinsi">Propinsi</label>
+								<label class="col-sm-3 control-label" for="propinsi">Provinsi</label>
 								<div class="col-sm-5">
 									<select  name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));">
-										<option value="">Pilih Propinsi</option>
+										<option value="">Pilih Provinsi</option>
 										<?php foreach ($list_provinsi AS $data): ?>
 											<option value="<?=$data['nama']?>" data-kode="<?=$data['kode']?>" <?php if (strtolower($main['nama_propinsi'])== strtolower($data['nama'])): ?>selected<?php endif ?>><?=$data['nama']?></option>
 										<?php endforeach; ?>
@@ -138,9 +138,9 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_propinsi">Kode Propinsi</label>
+								<label class="col-sm-3 control-label" for="kode_propinsi">Kode Provinsi</label>
 								<div class="col-sm-2">
-									<input id="kode_propinsi" name="kode_propinsi" class="form-control input-sm required" type="text" placeholder="Kode Propinsi" value="<?=$main["kode_propinsi"]?>"></input>
+									<input id="kode_propinsi" name="kode_propinsi" class="form-control input-sm required" type="text" placeholder="Kode Provinsi" value="<?=$main["kode_propinsi"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">

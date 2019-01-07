@@ -22,7 +22,7 @@
 			$('select[name=sex]').change();
 		});
 	};
-	function disable_kawin_cerai(status) 
+	function disable_kawin_cerai(status)
 	{
 		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
 		switch(status)

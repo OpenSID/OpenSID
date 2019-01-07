@@ -20,7 +20,7 @@
 		'18.10' => array('migrate' => 'migrasi_1810_ke_1811', 'nextVersion' => '18.11'),
 		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
 		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => '19.01'),
-		'19.01' => array('migrate' => null, 'nextVersion' => NULL)
+		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -166,6 +166,52 @@
 	$this->migrasi_1810_ke_1811();
 	$this->migrasi_1811_ke_1812();
 	$this->migrasi_1812_ke_1901();
+	$this->migrasi_1901_ke_1902();
+  }
+
+  private function migrasi_1901_ke_1902()
+  {
+  	// Tambah rincian pindah di log_penduduk
+		$tb_option = 'ref_pindah';
+		if (!$this->db->table_exists($tb_option))
+		{
+			$this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'TINYINT',
+					'constraint' => 4
+				),
+				'nama' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50
+				)
+			));
+			$this->dbforge->add_key('id', true);
+			$this->dbforge->create_table($tb_option, false, array('ENGINE' => $this->engine));
+			$this->db->insert_batch(
+				$tb_option,
+				array(
+					array('id'=>1, 'nama'=>'Pindah keluar Desa/Kelurahan'),
+					array('id'=>2, 'nama'=>'Pindah keluar Kecamatan'),
+					array('id'=>3, 'nama'=>'Pindah keluar Kabupaten/Kota'),
+					array('id'=>4, 'nama'=>'Pindah keluar Provinsi'),
+				)
+			);
+		}
+  	if (!$this->db->field_exists('ref_pindah', 'log_penduduk'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['ref_pindah'] = array(
+					'type' => 'TINYINT',
+					'constraint' => 4,
+					'default' => 1
+			);
+			$this->dbforge->add_column('log_penduduk', $fields);
+			$this->dbforge->add_column(
+				'log_penduduk',
+				array('CONSTRAINT `id_ref_pindah` FOREIGN KEY (`ref_pindah`) REFERENCES `ref_pindah` (`id`) ON DELETE CASCADE ON UPDATE CASCADE')
+			);
+  	}
   }
 
   private function migrasi_1812_ke_1901()
