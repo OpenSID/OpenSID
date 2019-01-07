@@ -487,6 +487,25 @@
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
 		if ($data['sex'] == 1) $data['hamil'] = 0;
+		// Status 'belum kawin' dan cerai mati tidak berlaku akta perkawinan dan perceraian
+		if ($data['status_kawin'] == 1 OR $data['status_kawin'] == 4) 
+		{
+			$data['akta_perkawinan'] = NULL;
+			$data['akta_perceraian'] = NULL;
+			$data['tanggalperkawinan'] = NULL;
+			$data['tanggalperceraian'] = NULL;
+		}
+		// Status 'kawin' tidak berlaku akta dan tanggal perceraian
+		if($data['status_kawin'] == 2)
+		{
+			$data['akta_perceraian'] = NULL;
+			$data['tanggalperceraian'] = NULL;
+		}
+		// Status 'cerai hidup' maka akta dan tanggal perkawinan tidak berlaku
+		if ($data['status_kawin'] == 3) {
+			$data['akta_perkawinan'] = NULL;
+			$data['tanggalperkawinan'] = NULL;
+		}
 
 		$valid = array();
 		if (preg_match("/[^a-zA-Z '\.,-]/", $data['nama']))
