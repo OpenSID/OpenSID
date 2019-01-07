@@ -110,7 +110,7 @@
       <td>:</td>
       <td><?php echo strtoupper($penduduk['alamat'])?></td>
     </tr>
-    <?php if ($penduduk['status_kawin'] == 2): ?>
+    <?php if ($penduduk['status_kawin'] <> 1): ?>
       <tr>
         <td>Akta Perkawinan</td>
         <td>:</td>
@@ -122,7 +122,7 @@
         <td><?php echo strtoupper($penduduk['tanggalperkawinan'])?></td>
       </tr>
     <?php endif ?>
-    <?php if ($penduduk['status_kawin'] == 3): ?>
+    <?php if ($penduduk['status_kawin'] <> 1 and $penduduk['status_kawin'] <> 2): ?>
       <tr>
         <td>Akta Perceraian</td>
         <td>:</td>

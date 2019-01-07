@@ -479,32 +479,27 @@
 		if ($data['tanggallahir']) $data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
 		if ($data['tanggal_akhir_paspor'] == '') $data['tanggal_akhir_paspor'] = NULL;
 		if ($data['tanggal_akhir_paspor']) $data['tanggal_akhir_paspor'] = tgl_indo_in($data['tanggal_akhir_paspor']);
-		if ($data['tanggalperkawinan'] == '') $data['tanggalperkawinan'] = NULL;
 		if ($data['tanggalperkawinan']) $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
-		if ($data['tanggalperceraian'] == '') $data['tanggalperceraian'] = NULL;
 		if ($data['tanggalperceraian']) $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
 		if ($data['sex'] == 1) $data['hamil'] = 0;
-		// Status 'belum kawin' dan 'cerai mati' tidak berlaku akta perkawinan dan perceraian
-		if ($data['status_kawin'] == 1 OR $data['status_kawin'] == 4) 
-		{
-			$data['akta_perkawinan'] = NULL;
-			$data['akta_perceraian'] = NULL;
-			$data['tanggalperkawinan'] = NULL;
-			$data['tanggalperceraian'] = NULL;
-		}
-		// Status 'kawin' tidak berlaku akta dan tanggal perceraian
-		if($data['status_kawin'] == 2)
-		{
-			$data['akta_perceraian'] = NULL;
-			$data['tanggalperceraian'] = NULL;
-		}
-		// Status 'cerai hidup' maka akta dan tanggal perkawinan tidak berlaku
-		if ($data['status_kawin'] == 3) {
-			$data['akta_perkawinan'] = NULL;
-			$data['tanggalperkawinan'] = NULL;
+		switch ($data['status_kawin']) {
+			// Status 'belum kawin' tidak berlaku akta perkawinan dan perceraian
+			case 1:
+				$data['akta_perkawinan'] = NULL;
+				$data['akta_perceraian'] = NULL;
+				$data['tanggalperkawinan'] = NULL;
+				$data['tanggalperceraian'] = NULL;
+				break;
+			// Status 'kawin' tidak berlaku akta perceraian
+			case 2:
+				$data['akta_perceraian'] = NULL;
+				$data['tanggalperceraian'] = NULL;
+			case 3:
+			case 4:
+				break;
 		}
 
 		$valid = array();

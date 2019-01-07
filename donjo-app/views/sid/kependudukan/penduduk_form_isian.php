@@ -25,29 +25,32 @@
 	function disable_kawin_cerai(status) 
 	{
 		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
-		if (status == '1' || status == '4' || status == '') 
+		switch(status)
 		{
-			$("#akta_perkawinan").attr('disabled', true);
-			$("input[name=tanggalperkawinan]").attr('disabled', true);
-			$("#akta_perceraian").attr('disabled', true);
-			$("input[name=tanggalperceraian]").attr('disabled', true);
-			$("#akseptor_kb").hide();
-		}
-		else if (status == '2') 
-		{
-			$("#akta_perkawinan").attr('disabled', false);
-			$("input[name=tanggalperkawinan]").attr('disabled', false);
-			$("#akta_perceraian").attr('disabled', true);
-			$("input[name=tanggalperceraian]").attr('disabled', true);
-			$("#akseptor_kb").show();
-		}
-		else if (status == '3') 
-		{
-			$("#akta_perkawinan").attr('disabled', true);
-			$("input[name=tanggalperkawinan]").attr('disabled', true);
-			$("#akta_perceraian").attr('disabled', false);
-			$("input[name=tanggalperceraian]").attr('disabled', false);
-			$("#akseptor_kb").hide();
+			case '1':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
+				break;
+			case '2':
+				$("#akta_perkawinan").attr('disabled', false);
+				$("input[name=tanggalperkawinan]").attr('disabled', false);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
+				break;
+			case '3':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', false);
+				$("input[name=tanggalperceraian]").attr('disabled', false);
+				break;
+			default:
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
+				break;
 		}
 	}
 </script>
