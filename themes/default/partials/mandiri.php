@@ -110,26 +110,30 @@
       <td>:</td>
       <td><?php echo strtoupper($penduduk['alamat'])?></td>
     </tr>
-    <tr>
-      <td>Akta Perkawinan</td>
-      <td>:</td>
-      <td><?php echo strtoupper($penduduk['akta_perkawinan'])?></td>
-    </tr>
-    <tr class="shaded">
-      <td>Tanggal Perkawinan</td>
-      <td>:</td>
-      <td><?php echo strtoupper($penduduk['tanggalperkawinan'])?></td>
-    </tr>
-    <tr>
-      <td>Akta Perceraian</td>
-      <td>:</td>
-      <td><?php echo strtoupper($penduduk['akta_perceraian'])?></td>
-    </tr>
-    <tr class="shaded">
-      <td>Tanggal Perceraian</td>
-      <td>:</td>
-      <td><?php echo strtoupper($penduduk['tanggalperceraian'])?></td>
-    </tr>
+    <?php if ($penduduk['status_kawin'] == 2 or $penduduk['status_kawin'] == 4): ?>
+      <tr>
+        <td>Akta Perkawinan</td>
+        <td>:</td>
+        <td><?php echo strtoupper($penduduk['akta_perkawinan'])?></td>
+      </tr>
+      <tr class="shaded">
+        <td>Tanggal Perkawinan</td>
+        <td>:</td>
+        <td><?php echo strtoupper($penduduk['tanggalperkawinan'])?></td>
+      </tr>
+    <?php endif ?>
+    <?php if ($penduduk['status_kawin'] == 3  or $penduduk['status_kawin'] == 4): ?>
+      <tr>
+        <td>Akta Perceraian</td>
+        <td>:</td>
+        <td><?php echo strtoupper($penduduk['akta_perceraian'])?></td>
+      </tr>
+      <tr class="shaded">
+        <td>Tanggal Perceraian</td>
+        <td>:</td>
+        <td><?php echo strtoupper($penduduk['tanggalperceraian'])?></td>
+      </tr>
+    <?php endif ?>
     <tr class="judul">
       <td><b>Data Orang Tua</b></td>
       <td>&nbsp;</td>
