@@ -18,6 +18,8 @@ class Lapor extends CI_Controller {
 		}
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
+		$this->load->model('lapor_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 14;
 	}
 
@@ -75,6 +77,30 @@ class Lapor extends CI_Controller {
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);
 		redirect('lapor');
+	}
+
+	public function insert()
+	{
+		// id = 775 dipakai untuk laporan mandiri, bukan komentar artikel
+
+		$_SESSION['success'] = 1;
+		$res = $this->lapor_model->insert();
+		$data['data_config'] = $this->config_model->get_data();
+		// cek kalau berhasil disimpan dalam database
+		if ($res)
+		{
+			$this->session->set_flashdata('flash_message', 'Laporan anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
+		}
+		else
+		{
+			$_SESSION['post'] = $_POST;
+			if (!empty($_SESSION['validation_error']))
+				$this->session->set_flashdata('flash_message', validation_errors());
+			else
+				$this->session->set_flashdata('flash_message', 'Laporan anda gagal dikirim. Silakan ulangi lagi.');
+		}
+
+		redirect("first/mandiri/1/3");
 	}
 
 	public function delete($p = 1, $o = 0, $id = '')
