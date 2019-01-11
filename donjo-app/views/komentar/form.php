@@ -25,6 +25,12 @@
 								</div>
 							</div>
               <div class="form-group">
+								<label class="control-label col-sm-2" for="no_hp">No. HP</label>
+								<div class="col-sm-9">
+									<input name="no_hp" class="form-control input-sm" type="text" value="<?= $komentar['no_hp']?>"></input>
+								</div>
+							</div>
+              <div class="form-group">
 								<label class="control-label col-sm-2" for="email">Email</label>
 								<div class="col-sm-9">
 									<input name="email" class="form-control input-sm email" type="text" value="<?= $komentar['email']?>"></input>

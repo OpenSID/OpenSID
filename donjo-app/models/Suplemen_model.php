@@ -221,7 +221,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_penduduk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, o.nama, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, o.nama, o.tempatlahir, o.tanggallahir, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
 		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
@@ -241,6 +241,8 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['terdata_nama'] = $data[$i]['id_terdata'];
 				$data[$i]['terdata_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
+				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
+				$data[$i]['tanggal_lahir'] = $data[$i]['tanggallahir'];
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;
@@ -263,7 +265,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_suplemen as nama, o.nik_kepala, o.no_kk, q.nama, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, s.id_suplemen as nama, o.nik_kepala, o.no_kk, q.nama, q.tempatlahir, q.tanggallahir, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
 		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
@@ -283,6 +285,8 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['terdata_nama'] = $data[$i]['no_kk'];
 				$data[$i]['terdata_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
+				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
+				$data[$i]['tanggal_lahir'] = $data[$i]['tanggallahir'];
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;

@@ -88,7 +88,7 @@
 
   /*
     Jangan rekam, jika:
-    - ada kolom nama wilayah kurang dari 4 karakter
+    - ada kolom nama wilayah kurang dari 4 karakter, kecuali desa boleh 3 karakter
     - ada kolom wilayah yang masih merupakan contoh (berisi karakter non-alpha atau tulisan 'contoh', 'demo' atau 'sampel')
   */
   public function abaikan($data)
@@ -99,7 +99,7 @@
     $kec = trim($data['nama_kecamatan']);
     $kab = trim($data['nama_kabupaten']);
     $prov = trim($data['nama_provinsi']);
-    if ( strlen($desa)<4 OR strlen($kec)<4 OR strlen($kab)<4 OR strlen($prov)<4 )
+    if ( strlen($desa)<3 OR strlen($kec)<4 OR strlen($kab)<4 OR strlen($prov)<4 )
     {
       $abaikan = true;
     }

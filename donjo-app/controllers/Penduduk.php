@@ -657,12 +657,20 @@ class Penduduk extends CI_Controller {
 	{
 		$data['nik'] = $this->penduduk_model->get_penduduk($id);
 		$data['form_action'] = site_url("penduduk/update_status_dasar/$p/$o/$id");
+		$data['list_ref_pindah'] = $this->referensi_model->list_data('ref_pindah');
+		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar', '9'); //Kecuali status dasar 'TIDAK VALID'
 		$this->load->view('sid/kependudukan/ajax_edit_status_dasar', $data);
 	}
 
 	public function update_status_dasar($p = 1, $o = 0, $id = '')
 	{
 		$this->penduduk_model->update_status_dasar($id);
+		redirect("penduduk/index/$p/$o");
+	}
+
+	public function kembalikan_status($p = 1, $o = 0, $id = '')
+	{
+		$this->penduduk_model->kembalikan_status($id);
 		redirect("penduduk/index/$p/$o");
 	}
 

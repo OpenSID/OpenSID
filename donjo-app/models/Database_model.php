@@ -18,8 +18,9 @@
 		'18.08' => array('migrate' => 'migrasi_1808_ke_1809', 'nextVersion' => '18.09'),
 		'18.09' => array('migrate' => 'migrasi_1809_ke_1810', 'nextVersion' => '18.10'),
 		'18.10' => array('migrate' => 'migrasi_1810_ke_1811', 'nextVersion' => '18.11'),
-		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => NULL),
-		'18.12' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
+		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => '19.01'),
+		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -164,6 +165,119 @@
 	$this->migrasi_1809_ke_1810();
 	$this->migrasi_1810_ke_1811();
 	$this->migrasi_1811_ke_1812();
+	$this->migrasi_1812_ke_1901();
+	$this->migrasi_1901_ke_1902();
+  }
+
+  private function migrasi_1901_ke_1902()
+  {
+  	// Tambah rincian pindah di log_penduduk
+		$tb_option = 'ref_pindah';
+		if (!$this->db->table_exists($tb_option))
+		{
+			$this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'TINYINT',
+					'constraint' => 4
+				),
+				'nama' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50
+				)
+			));
+			$this->dbforge->add_key('id', true);
+			$this->dbforge->create_table($tb_option, false, array('ENGINE' => $this->engine));
+			$this->db->insert_batch(
+				$tb_option,
+				array(
+					array('id'=>1, 'nama'=>'Pindah keluar Desa/Kelurahan'),
+					array('id'=>2, 'nama'=>'Pindah keluar Kecamatan'),
+					array('id'=>3, 'nama'=>'Pindah keluar Kabupaten/Kota'),
+					array('id'=>4, 'nama'=>'Pindah keluar Provinsi'),
+				)
+			);
+		}
+  	if (!$this->db->field_exists('ref_pindah', 'log_penduduk'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['ref_pindah'] = array(
+					'type' => 'TINYINT',
+					'constraint' => 4,
+					'default' => 1
+			);
+			$this->dbforge->add_column('log_penduduk', $fields);
+			$this->dbforge->add_column(
+				'log_penduduk',
+				array('CONSTRAINT `id_ref_pindah` FOREIGN KEY (`ref_pindah`) REFERENCES `ref_pindah` (`id`) ON DELETE CASCADE ON UPDATE CASCADE')
+			);
+  	}
+  }
+
+  private function migrasi_1812_ke_1901()
+  {
+  	// Tambah status dasar 'Tidak Valid'
+		$data = array(
+			'id' => 9,
+			'nama' => 'TIDAK VALID');
+		$sql = $this->db->insert_string('tweb_status_dasar', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				id = VALUES(id),
+				nama = VALUES(nama)";
+		$this->db->query($sql);
+  	// Tambah kolom tweb_desa_pamong
+  	if (!$this->db->field_exists('no_hp', 'komentar'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['no_hp'] = array(
+					'type' => 'varchar',
+					'constraint' => 15,
+					'default' => NULL
+			);
+			$this->dbforge->add_column('komentar', $fields);
+  	}
+
+  	// Tambah kolom tweb_desa_pamong
+  	if (!$this->db->field_exists('pamong_pangkat', 'tweb_desa_pamong'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['pamong_niap'] = array(
+					'type' => 'varchar',
+					'constraint' => 20,
+					'default' => NULL
+			);
+			$fields['pamong_pangkat'] = array(
+					'type' => 'varchar',
+					'constraint' => 20,
+					'default' => NULL
+			);
+			$fields['pamong_nohenti'] = array(
+					'type' => 'varchar',
+					'constraint' => 20,
+					'default' => NULL
+			);
+			$fields['pamong_tglhenti'] = array(
+					'type' => 'date',
+					'default' => NULL
+			);
+			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+  	}
+
+  	// Urut tabel tweb_desa_pamong
+  	if (!$this->db->field_exists('urut', 'tweb_desa_pamong'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['urut'] = array(
+					'type' => 'int',
+					'constraint' => 5
+			);
+			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+  	}
+		$this->db->where('id', 18)->update('setting_modul', array('url'=>'pengurus/clear', 'aktif'=>'1'));
+		$this->db->where('id', 48)->update('setting_modul', array('url'=>'web_widget/clear', 'aktif'=>'1'));
   }
 
   private function migrasi_1811_ke_1812()

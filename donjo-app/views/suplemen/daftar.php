@@ -13,11 +13,12 @@
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
-				<div class="col-md-3">
-					<?php $this->load->view('suplemen/menu_kiri.php')?>
-				</div>
-				<div class="col-md-9">
+				<div class="col-md-12">
 					<div class="box box-info">
+						<div class="box-header with-border">
+							<a href="<?=site_url('suplemen/create')?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Suplemen Baru"><i class="fa fa-plus"></i> Tambah Suplemen Baru</a>
+							<a href="<?=site_url('suplemen/panduan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Program Bantuan Baru"><i class="fa fa-question-circle"></i> Panduan</a>
+						</div>
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">

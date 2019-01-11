@@ -87,6 +87,15 @@
 		return $bulan;
 	}
 
+	private function dusun_sql()
+	{
+		$dusun = $_SESSION['dusun'];
+		if ( ! empty($dusun))
+		{
+			return " AND dusun = '" .$dusun. "'";
+		}
+	}
+
 	public function list_data()
 	{
 		$sql = "select c.id as id_cluster,c.rt,c.rw,c.dusun as dusunnya,
@@ -108,8 +117,9 @@
 			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='1') as sakit_L,
 			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='2') as sakit_P,
 			(select count(id) from penduduk_hidup where hamil='1' and id_cluster=c.id) as hamil
-			from  tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) from tweb_penduduk where id_cluster=c.id)>0  ";
+			from  tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) from tweb_penduduk where id_cluster=c.id)>0 ";
 
+		$sql .= $this->dusun_sql();
 		$sql .= " ORDER BY c.dusun,c.rw,c.rt ";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
@@ -282,6 +292,37 @@
 			";
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
+		return $data;
+	}
+
+	public function rincian_pindah()
+	{
+		$bln = $this->db->escape($_SESSION['bulanku']);
+		$thn = $this->db->escape($_SESSION['tahunku']);
+		$sql = "SELECT
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex =1 AND id_detail = 3 AND ref_pindah = 1) AS DESA_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex = 2 AND id_detail = 3 AND ref_pindah = 1) AS DESA_P,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 1 AND id_detail = 3 AND ref_pindah = 1) AS DESA_KK_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 2 AND id_detail = 3 AND ref_pindah = 1) AS DESA_KK_P,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex =1 AND id_detail = 3 AND ref_pindah = 2) AS KEC_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex = 2 AND id_detail = 3 AND ref_pindah = 2) AS KEC_P,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 1 AND id_detail = 3 AND ref_pindah = 2) AS KEC_KK_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 2 AND id_detail = 3 AND ref_pindah = 2) AS KEC_KK_P,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex =1 AND id_detail = 3 AND ref_pindah = 3) AS KAB_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex = 2 AND id_detail = 3 AND ref_pindah = 3) AS KAB_P,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 1 AND id_detail = 3 AND ref_pindah = 3) AS KAB_KK_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 2 AND id_detail = 3 AND ref_pindah = 3) AS KAB_KK_P,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex =1 AND id_detail = 3 AND ref_pindah = 4) AS PROV_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND sex = 2 AND id_detail = 3 AND ref_pindah = 4) AS PROV_P,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 1 AND id_detail = 3 AND ref_pindah = 4) AS PROV_KK_L,
+			(SELECT COUNT(u.id) FROM log_penduduk u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND p.kk_level = 1 AND sex = 2 AND id_detail = 3 AND ref_pindah = 4) AS PROV_KK_P
+			";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+		$data['TOTAL_L'] = $data['DESA_L'] + $data['KEC_L'] + $data['KAB_L'] + $data['PROV_L'];
+		$data['TOTAL_P'] = $data['DESA_P'] + $data['KEC_P'] + $data['KAB_P'] + $data['PROV_P'];
+		$data['TOTAL_KK_L'] = $data['DESA_KK_L'] + $data['KEC_KK_L'] + $data['KAB_KK_L'] + $data['PROV_KK_L'];
+		$data['TOTAL_KK_P'] = $data['DESA_KK_P'] + $data['KEC_KK_P'] + $data['KAB_KK_P'] + $data['PROV_KK_P'];
 		return $data;
 	}
 

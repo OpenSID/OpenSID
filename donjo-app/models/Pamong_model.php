@@ -20,7 +20,7 @@
     $sql .= $aktif ? " AND u.pamong_status = '1'" : null;
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
-		$sql .= ' ORDER BY jabatan';
+		$sql .= ' ORDER BY urut';
 
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
@@ -32,20 +32,20 @@
 				// Dari luar desa
 				$data[$i]['nama'] = $data[$i]['pamong_nama'];
 				$data[$i]['nik'] = $data[$i]['pamong_nik'];
-				$data[$i]['tempatlahir'] = $data[$i]['pamong_tempatlahir'];
+				$data[$i]['tempatlahir'] = !empty($data[$i]['pamong_tempatlahir']) ? $data[$i]['pamong_tempatlahir'] : '-';
 				$data[$i]['tanggallahir'] = $data[$i]['pamong_tanggallahir'];
 				$data[$i]['sex'] = $data[$i]['pamong_sex'];
 				$data[$i]['pendidikan_kk'] = $data[$i]['pamong_pendidikan'];
 				$data[$i]['agama'] = $data[$i]['pamong_agama'];
+				if (empty($data[$i]['pamong_nosk'])) $data[$i]['pamong_nosk'] = '-';
+				if (empty($data[$i]['pamong_nohenti'])) $data[$i]['pamong_nohenti'] = '-';
+			}
+			else
+			{
+				if (empty($data[$i]['tempatlahir'])) $data[$i]['tempatlahir'] = '-';
 			}
 			$data[$i]['no'] = $i + 1;
 		}
-		return $data;
-	}
-
-	public function list_semua()
-	{
-		$data = $this->db->select('*')->get('tweb_desa_pamong')->result_array();
 		return $data;
 	}
 
@@ -58,6 +58,7 @@
 				UNION SELECT p.nik
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+				UNION SELECT pamong_niap FROM tweb_desa_pamong
 				UNION SELECT pamong_nip FROM tweb_desa_pamong";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
@@ -79,7 +80,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR p.nik LIKE '$kw')";
+			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR p.nik LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -96,9 +97,16 @@
 
 	public function get_data($id=0)
 	{
-		$sql = "SELECT * FROM tweb_desa_pamong WHERE pamong_id = ?";
+		$sql = "SELECT u.*, p.nama as nama
+			FROM tweb_desa_pamong u
+			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+			WHERE pamong_id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
+		$data['pamong_niap_nip'] = (!empty($data['pamong_nip'] and $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap']);
+		if (!empty($data['id_pend']))
+			// Dari database penduduk
+			$data['pamong_nama'] = $data['nama'];
 		return $data;
 	 }
 
@@ -131,13 +139,19 @@
 			}
 		}
 
+		// Beri urutan terakhir
+		$data['urut'] = $this->urut_max() + 1;
 		$data['id_pend'] = $this->input->post('id_pend');
 		$this->data_pamong_asal($data);
 		$data['pamong_nip'] = $this->input->post('pamong_nip');
+		$data['pamong_niap'] = $this->input->post('pamong_niap');
 		$data['jabatan'] = $this->input->post('jabatan');
+		$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
+		$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
+		$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
 		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
 		$data['pamong_tgl_terdaftar'] = NOW();
 		$data['foto'] = $nama_file;
@@ -197,10 +211,15 @@
 		$data['id_pend'] = $this->input->post('id_pend');
 		$this->data_pamong_asal($data);
 		$data['pamong_nip'] = $this->input->post('pamong_nip');
+		$data['pamong_niap'] = $this->input->post('pamong_niap');
 		$data['jabatan'] = $this->input->post('jabatan');
+		$data['jabatan'] = $this->input->post('jabatan');
+		$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
+		$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
+		$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
 		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
 		if (!empty($nama_file))
 		{
@@ -245,6 +264,72 @@
 			$this->db->where('pamong_ttd', 1)->update('tweb_desa_pamong', array('pamong_ttd'=>0));
 		}
 		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ttd'=>$val));
+	}
+
+  private function urut_max()
+  {
+    $this->db->select_max('urut');
+    $query = $this->db->get('tweb_desa_pamong');
+    $data = $query->row_array();
+    return $data['urut'];
+  }
+
+	private function urut_semua()
+	{
+		$sql = "SELECT urut, COUNT(*) c FROM tweb_desa_pamong GROUP BY urut HAVING c > 1";
+		$query = $this->db->query($sql);
+		$urut_duplikat = $query->result_array();
+		if ($urut_duplikat)
+		{
+			$this->db->select("pamong_id");
+			$this->db->order_by("urut");
+			$q = $this->db->get('tweb_desa_pamong');
+			$pamong = $q->result_array();
+			for ($i=0; $i<count($pamong); $i++)
+			{
+				$this->db->where('pamong_id', $pamong[$i]['pamong_id']);
+				$data['urut'] = $i + 1;
+				$this->db->update('tweb_desa_pamong', $data);
+			}
+		}
+	}
+
+	// $arah:
+	//		1 - turun
+	// 		2 - naik
+	public function urut($id, $arah)
+	{
+		$this->urut_semua();
+		$this->db->where('pamong_id', $id);
+		$q = $this->db->get('tweb_desa_pamong');
+		$pamong1 = $q->row_array();
+
+		$this->db->select("pamong_id, urut");
+		$this->db->order_by("urut");
+		$q = $this->db->get('tweb_desa_pamong');
+		$pamong = $q->result_array();
+		for ($i=0; $i<count($pamong); $i++)
+		{
+			if ($pamong[$i]['pamong_id'] == $id)
+				break;
+		}
+
+		if ($arah == 1)
+		{
+			if ($i >= count($pamong) - 1) return;
+			$pamong2 = $pamong[$i + 1];
+		}
+		if ($arah == 2)
+		{
+			if ($i <= 0) return;
+			$pamong2 = $pamong[$i - 1];
+		}
+
+		// Tukar urutan
+		$this->db->where('pamong_id', $pamong2['pamong_id'])->
+			update('tweb_desa_pamong', array('urut' => $pamong1['urut']));
+		$this->db->where('pamong_id', $pamong1['pamong_id'])->
+			update('tweb_desa_pamong', array('urut' => $pamong2['urut']));
 	}
 
 }

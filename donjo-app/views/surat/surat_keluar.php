@@ -1,3 +1,14 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Arsip Layanan Surat</h1>
@@ -12,13 +23,41 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url('keluar/perorangan_clear')?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
-						<a href="<?= site_url('keluar/graph')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Grafik Surat Keluar</a>
+						<a href="<?= site_url('keluar/graph')?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
+						<a href="<?= site_url('keluar/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+						<a href="<?= site_url('keluar/excel')?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-download"></i> Unduh</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<form id="mainform" name="mainform" action="" method="post">
+										<div class="row">
+											<div class="col-sm-9">
+												<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
+													<option value="">Tahun</option>
+													<?php foreach ($tahun_surat as $tahun): ?>
+														<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
+													<?php endforeach; ?>
+												</select>
+												<select class="form-control input-sm " name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/jenis')?>')">
+													<option value="">Pilih Jenis Surat</option>
+													<?php foreach ($jenis_surat as $data): ?>
+														<option value="<?= $data['nama_surat']?>" <?php selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>
+													<?php endforeach; ?>
+												</select>
+											</div>
+											<div class="col-sm-3">
+												<div class="box-tools">
+													<div class="input-group input-group-sm pull-right">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();}">
+														<div class="input-group-btn">
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">

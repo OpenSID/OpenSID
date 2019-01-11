@@ -25,7 +25,11 @@ class First_artikel_m extends CI_Model {
 
 	public function get_teks_berjalan()
 	{
-		$sql = "SELECT a.isi FROM artikel a LEFT JOIN kategori k ON a.id_kategori = k.id WHERE k.kategori = 'teks_berjalan' AND k.enabled = 1 AND a.tgl_upload < NOW()";
+    //update text berjalan yang kategori dan artikelnya enable
+		$sql = "SELECT a.isi
+			FROM artikel a
+			LEFT JOIN kategori k ON a.id_kategori = k.id
+			WHERE k.kategori = 'teks_berjalan' AND k.enabled = 1 AND a.tgl_upload < NOW() AND a.enabled = 1 ";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;
@@ -334,12 +338,26 @@ class First_artikel_m extends CI_Model {
 	{
 		$data['komentar'] = strip_tags($_POST["komentar"]);
 		$data['owner'] = strip_tags($_POST["owner"]);
+		$data['no_hp'] = strip_tags($_POST["no_hp"]);
 		$data['email'] = strip_tags($_POST["email"]);
 
-		$data['enabled'] = 2;
-		$data['id_artikel'] = $id;
-		$outp = $this->db->insert('komentar',$data);
+		// load library form_validation
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('komentar', 'Komentar', 'required');
+		$this->form_validation->set_rules('owner', 'Nama', 'required');
+		$this->form_validation->set_rules('no_hp', 'No HP', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'valid_email');
 
+		if ($this->form_validation->run() == TRUE)
+		{
+			$data['enabled'] = 2;
+			$data['id_artikel'] = $id;
+			$outp = $this->db->insert('komentar',$data);
+		}
+		else
+		{
+			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
+		}
 		if ($outp)
 		{
 			$_SESSION['success'] = 1;
