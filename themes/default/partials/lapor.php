@@ -13,10 +13,6 @@
 	<div class="box-header <?= $label?>"><?= $flash_message?></div>
 <?php endif; ?>
 <div class="artikel">
-	<?php if($_SESSION['success']==1): ?>
-		Data telah terkirim, dan akan segera kami proses.
-		<?php unset($_SESSION['success']); ?>
-	<?php endif; ?>
 	<form id="validasi" action="<?= site_url()?>lapor/insert" method="POST" enctype="multipart/form-data" onSubmit="return validasi(this);">
 		<p>Silakan laporkan perubahan data kependudukan anda.</p>
 		<table class="form">

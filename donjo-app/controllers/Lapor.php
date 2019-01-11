@@ -89,7 +89,7 @@ class Lapor extends CI_Controller {
 		// cek kalau berhasil disimpan dalam database
 		if ($res)
 		{
-			$this->session->set_flashdata('flash_message', 'Laporan anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
+			$this->session->set_flashdata('flash_message', 'Laporan anda telah berhasil dikirim dan akan segera diproses.');
 		}
 		else
 		{

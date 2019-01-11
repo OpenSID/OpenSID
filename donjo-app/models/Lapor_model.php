@@ -27,6 +27,7 @@
 
 		if ($this->form_validation->run() == TRUE)
 		{
+			unset($_SESSION['validation_error']);
 			$data['enabled'] = 2;
 			$data['id_artikel'] = 775; //id_artikel untuk laporan layanan mandiri
 			$outp = $this->db->insert('komentar',$data);
@@ -38,6 +39,7 @@
 		}
 		if (!$outp)
 			$_SESSION['success'] = -1;
+		return ($_SESSION['success'] == 1);
 	}
 
 }
