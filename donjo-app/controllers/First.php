@@ -13,7 +13,8 @@ class First extends Web_Controller {
 		{
 			redirect('siteman');
 			exit;
-		} elseif ($this->setting->offline_mode == 1)
+		}
+		elseif ($this->setting->offline_mode == 1)
 		{
 			// Jangan tampilkan website jika bukan admin/operator/redaksi
 			$this->load->model('user_model');
