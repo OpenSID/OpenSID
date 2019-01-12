@@ -114,7 +114,7 @@
 								<div class="form-group">
 									<label for="nik"  class="col-sm-3 control-label">NIK / Nama Yang Diberi Izin</label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control input-sm select2" id="id_diberi_izin" name="id_diberi_izin" style ="width:100%;" onchange="submit_form_ambil_data(this.id);">
+										<select class="form-control input-sm select2-nik" id="id_diberi_izin" name="id_diberi_izin" style ="width:100%;" onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk_diberi_izin as $data): ?>
 												<option value="<?= $data['id']?>" <?php if ($diberi_izin['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']."\n".$data['alamat']?></option>

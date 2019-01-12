@@ -295,7 +295,7 @@
 								<div class="form-group saksi1_desa" <?php if (empty($saksi1)): ?>style="display: none;"<?php endif; ?>>
 									<label for="id_saksi1"  class="col-sm-3 control-label">NIK / Nama</label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control input-sm select2" id="id_saksi1" name="id_saksi1" style ="width:100%;" onchange="submit_form_ambil_data();">
+										<select class="form-control input-sm select2-nik" id="id_saksi1" name="id_saksi1" style ="width:100%;" onchange="submit_form_ambil_data();">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
 												<option value="<?= $data['id']?>" <?php if ($saksi1['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']."\n".$data['alamat']?></option>
@@ -356,7 +356,7 @@
 								<div class="form-group saksi2_desa" <?php if (empty($saksi2)): ?>style="display: none;"<?php endif; ?>>
 									<label for="id_saksi2"  class="col-sm-3 control-label">NIK / Nama</label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control input-sm select2" id="id_saksi2" name="id_saksi2" style ="width:100%;" onchange="submit_form_ambil_data();">
+										<select class="form-control input-sm select2-nik" id="id_saksi2" name="id_saksi2" style ="width:100%;" onchange="submit_form_ambil_data();">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
 												<option value="<?= $data['id']?>" <?php if ($saksi2['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']."\n".$data['alamat']?></option>
