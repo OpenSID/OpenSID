@@ -210,7 +210,7 @@
 										<select class="form-control  input-sm select2" id="id_ibu" name="id_ibu" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Ibu--</option>
 											<?php foreach ($perempuan as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($ibu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php if ($ibu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']."\n".$data['alamat']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -419,7 +419,7 @@
 										<select class="form-control  input-sm select2" id="id_bayi" name="id_bayi" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value=""><?php if($bayi): ?>NIK : <?= $bayi['nik']?> - <?= $bayi['nama']?><?php else: ?>-- Cari NIK / Nama Penduduk --<?php endif; ?></option>
 											<?php foreach ($anak as $data): ?>
-												<option value="<?= $data['id']?>" >NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" >NIK : <?= $data['nik']." - ".$data['nama']."\n".$data['alamat']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -573,7 +573,7 @@
 										<select class="form-control  input-sm select2" id="id_pelapor" name="id_pelapor" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($pelapor['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php if ($pelapor['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']."\n".$data['alamat']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -695,7 +695,7 @@
 										<select class="form-control input-sm select2" id="id_saksi1" name="id_saksi1" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($saksi1['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php if ($saksi1['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']."\n".$data['alamat']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -811,7 +811,7 @@
 										<select class="form-control input-sm select2" id="id_saksi2" name="id_saksi2" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($saksi2['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php if ($saksi2['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']."\n".$data['alamat']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>

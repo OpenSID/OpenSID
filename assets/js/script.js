@@ -47,6 +47,21 @@ $(document).ready(function()
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2();
+	
+	
+
+	$('.select2-nik').select2({
+		templateResult: function (penduduk) {
+			if (!penduduk.id) {
+			  return penduduk.text;
+			}
+			var _tmpPenduduk = penduduk.text.split('\n');
+			var $penduduk = $(
+			  '<div>'+_tmpPenduduk[0]+'</div><div>'+_tmpPenduduk[1]+'</div>'
+			);
+			return $penduduk;
+		}
+	});
 	// Select2 dengan fitur pencarian dan boleh isi sendiri
 	$('.select2-tags').select2(
 		{
