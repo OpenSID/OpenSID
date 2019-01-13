@@ -458,11 +458,12 @@ function siteman_timeout(){
 	}
 }
 
-function get_identitas(){
+function get_identitas()
+{
 	$ci =& get_instance();
-	$sql="SELECT * FROM config";
-	$a=$ci->db->query($sql);
-	$hsl=$a->row_array();
+	$sql = "SELECT * FROM config";
+	$a = $ci->db->query($sql);
+	$hsl = $a->row_array();
 	//print_r($hsl);
 	$string = ucwords($ci->setting->sebutan_desa)." : ".$hsl['nama_desa']." ".ucwords($ci->setting->sebutan_kecamatan_singkat)." : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;

@@ -66,6 +66,7 @@
                                   <?php else: ?>
                                     <th><a href="<?= site_url("komentar/index/$p/1")?>">Isi Komentar <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
+                                  <th>No. HP Pengirim</th>
 																	<th>Email Pengirim</th>
 																	<th>Judul Artikel</th>
                                   <?php if ($o==4): ?>
@@ -100,6 +101,7 @@
                                     </td>
                                     <td nowrap><?= $data['owner']?></td>
 																		<td><?= $data['komentar']?></td>
+																		<td><?= $data['no_hp']?></td>
 																		<td><?= $data['email']?></td>
 																		<td>
 																			<a href="<?= site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?= $data['artikel']?></a>

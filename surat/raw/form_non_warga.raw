@@ -34,7 +34,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="berlaku_dari"  class="col-sm-3 control-label">Identitas (KTP / KK)</label>
+								<label for="nik_non_warga"  class="col-sm-3 control-label">Identitas (KTP / KK)</label>
 								<div class="col-sm-4">
 									<input class="form-control input-sm required" placeholder="Nomor KTP" name="nik_non_warga" type="text"/>
 								</div>
@@ -118,7 +118,7 @@
 									<input id="akta_tahun" class="form-control input-sm required" type="text" placeholder="Tahun" name="akta_tahun">
 								</div>
 								<div class="col-sm-3">
-									<input id="notaris" class="form-control input-sm required" type="text" placeholder="Notaris" name="notarisn">
+									<input id="notaris" class="form-control input-sm required" type="text" placeholder="Notaris" name="notaris">
 								</div>
 							</div>
 							<div class="form-group">

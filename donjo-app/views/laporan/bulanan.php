@@ -12,8 +12,8 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="#" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?= site_url('laporan/cetak')?>')" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-print "></i> Cetak</a>
-							<a href="#" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?= site_url('laporan/excel')?>')"><i class="fa fa-download"></i> Unduh</a>
+							<a href="<?= site_url("{$this->controller}/dialog_cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan"><i class="fa fa-print "></i> Cetak</a>
+							<a href="<?= site_url("{$this->controller}/dialog_unduh")?>" title="Unduh Laporan" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan"><i class="fa fa-download"></i> Unduh</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -59,26 +59,6 @@
                       </select>
                     </div>
                   </div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label" for="diketahui">Diketahui</label>
-										<div class="col-sm-4 col-md-3">
-											<select name="pamong" class="form-control input-sm" >
-												<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
-												<?php foreach ($pamong AS $data): ?>
-													<option value="<?= $data['pamong_nama']?>"><?= $data['pamong_nama']?> (<?= $data['jabatan']?>)</option>
-												<?php endforeach;?>
-											</select>
-										</div>
-										<label class="col-sm-2 col-md-1 control-label" for="sebagai">Sebagai </label>
-										<div class="col-sm-3">
-											<select name="jabatan"  class="form-control input-sm">
-												<option value="">Pilih Jabatan</option>
-												<?php foreach ($pamong AS $data): ?>
-													<option ><?= $data['jabatan']?></option>
-												<?php endforeach;?>
-											</select>
-										</div>
-									</div>
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 											<div class="row">
 												<div class="col-sm-12">

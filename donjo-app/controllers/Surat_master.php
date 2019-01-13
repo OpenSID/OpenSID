@@ -28,8 +28,6 @@ class Surat_master extends CI_Controller {
 		$_SESSION['surat'] = $id;
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
-		unset($_SESSION['tipe']);
-		unset($_SESSION['kategori']);
 		redirect('surat_master');
 	}
 
@@ -111,24 +109,6 @@ class Surat_master extends CI_Controller {
 		if ($filter != 0)
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);
-		redirect('surat_master');
-	}
-
-	public function tipe()
-	{
-		$filter = $this->input->post('tipe');
-		if ($filter != 0)
-			$_SESSION['tipe'] = $filter;
-		else unset($_SESSION['tipe']);
-		redirect('surat_master');
-	}
-
-	public function kategori()
-	{
-		$filter = $this->input->post('kategori');
-		if ($filter != 0)
-			$_SESSION['kategori'] = $filter;
-		else unset($_SESSION['kategori']);
 		redirect('surat_master');
 	}
 

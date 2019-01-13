@@ -7,15 +7,6 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<label for="tahun">Tahun</label>
-							<select class="form-control input-sm" name="tahun">
-								<option value="">Semua</option>
-								<?php foreach ($tahun_surat as $tahun): ?>
-									<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
-						<div class="form-group">
 							<label for="pamong_ttd">Laporan Ditandatangani</label>
               <select class="form-control input-sm required" name="pamong_ttd" width="100%">
 								<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>

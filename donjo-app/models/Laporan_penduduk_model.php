@@ -36,6 +36,7 @@
 			"statistik/4"  => "Jenis Kelamin",
 			"statistik/0"  => "Pendidikan Dalam KK",
 			"statistik/14" => "Pendidikan Sedang Ditempuh",
+			"statistik/10" => "Penyakit Menahun",
 			"statistik/1"  => "Pekerjaan",
 			"statistik/6"  => "Status Penduduk",
 			"statistik/2"  => "Status Perkawinan",

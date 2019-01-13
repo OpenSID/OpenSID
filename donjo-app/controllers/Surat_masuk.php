@@ -56,7 +56,7 @@ class Surat_masuk extends CI_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->surat_masuk_model->paging($p, $o);
 		$data['main'] = $this->surat_masuk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['pamong'] = $this->pamong_model->list_semua();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
 		$header = $this->header_model->get_data();

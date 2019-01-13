@@ -308,6 +308,7 @@
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 		unset($data['nik_lama']);
+		unset($data['kk_level_lama']);
 
 		$error_validasi = array_merge($this->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
 		if (!empty($error_validasi))
@@ -475,7 +476,7 @@
 			$this->db->where('id', $id_kk);
 			$outp = $this->db->update('tweb_keluarga', $nik);
 		}
-    elseif ($kk_level_lama == 1)
+    elseif ($kk_level_lama == 1 and $kk_level != 1)
     {
     	// Ubah kepala keluarga menjadi kosong
       $nik['nik_kepala'] = NULL;

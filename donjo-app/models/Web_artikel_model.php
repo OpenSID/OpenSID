@@ -45,7 +45,7 @@
 
 	public function paging($cat=0, $p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(a.id) AS id " . $this->list_data_sql();
+		$sql = "SELECT COUNT(a.id) AS id " . $this->list_data_sql($cat);
 		$query = $this->db->query($sql, $cat);
 		$row = $query->row_array();
 		$jml_data = $row['id'];
@@ -59,11 +59,17 @@
 		return $this->paging;
 	}
 
-	private function list_data_sql()
+	private function list_data_sql($cat)
 	{
-		$sql = "FROM artikel a
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE id_kategori = ? ";
+		if ($cat > 0)
+			$sql = "FROM artikel a
+				LEFT JOIN kategori k ON a.id_kategori = k.id
+				WHERE id_kategori = ? ";
+		else
+			// Artikel dinamis tidak berkategori
+			$sql = "FROM artikel a
+				LEFT JOIN kategori k ON a.id_kategori = k.id
+				WHERE a.id_kategori <> 999 AND a.id_kategori <> 1000 AND k.id IS NULL ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $this->grup_sql();
@@ -85,7 +91,7 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT a.*,k.kategori AS kategori " . $this->list_data_sql();
+		$sql = "SELECT a.*,k.kategori AS kategori " . $this->list_data_sql($cat);
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -111,7 +117,11 @@
 	{
 		$sql = "SELECT * FROM kategori WHERE 1 order by urut";
 		$query = $this->db->query($sql);
-		return  $query->result_array();
+		$data = $query->result_array();
+		$data[] = array(
+			'id' => '0',
+			'kategori' => '[Tidak Berkategori]');
+		return  $data;
 	}
 
 	public function get_kategori_artikel($id)

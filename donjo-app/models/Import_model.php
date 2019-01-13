@@ -55,6 +55,8 @@ class Import_model extends CI_Model {
 		$this->kode_wajib_ktp = array_change_key_case(unserialize(WAJIB_KTP));
 		$this->kode_ktp_el = array_change_key_case(unserialize(KTP_EL));
 		$this->kode_status_rekam = array_change_key_case(unserialize(STATUS_REKAM));
+		$this->kode_status_dasar = array_change_key_case(unserialize(STATUS_DASAR));
+		$this->kode_cacat = array_change_key_case(unserialize(KODE_CACAT));
 	}
 
 /* 	========================================================
@@ -113,28 +115,28 @@ class Import_model extends CI_Model {
 	{
 		// Kolom yang harus diisi
 		if ($isi_baris['nama'] == "" OR $isi_baris['nik'] == "" OR $isi_baris['dusun'] == "" OR $isi_baris['rt'] == "" OR $isi_baris['rw'] == "")
-			return false;
+			return 'nama/nik/dusun/rt/rw kosong';
 		// Validasi data setiap kolom ber-kode
-		if ($isi_baris['sex'] != "" AND !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return false;
-		if ($isi_baris['agama_id'] != "" AND !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return false;
-		if ($isi_baris['pendidikan_kk_id'] != "" AND !($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) return false;
-		if ($isi_baris['pendidikan_sedang_id'] != "" AND !($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) return false;
-		if ($isi_baris['pekerjaan_id'] != "" AND !($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) return false;
-		if ($isi_baris['status_kawin'] != "" AND !($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) return false;
-		if ($isi_baris['kk_level'] != "" AND !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return false;
-		if ($isi_baris['warganegara_id'] != "" AND !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return false;
-		if ($isi_baris['golongan_darah_id'] != "" AND !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return false;
+		if ($isi_baris['sex'] != "" AND !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return 'kode sex tidak dikenal';
+		if ($isi_baris['agama_id'] != "" AND !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return 'kode agama tidak dikenal';
+		if ($isi_baris['pendidikan_kk_id'] != "" AND !($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) return 'kode pendidikan tidak dikenal';
+		if ($isi_baris['pendidikan_sedang_id'] != "" AND !($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) return 'kode pendidikan_sedang tidak dikenal';
+		if ($isi_baris['pekerjaan_id'] != "" AND !($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) return 'kode pekerjaan tidak dikenal';
+		if ($isi_baris['status_kawin'] != "" AND !($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) return 'kode status_kawin tidak dikenal';
+		if ($isi_baris['kk_level'] != "" AND !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return 'kode status hubungan tidak dikenal';
+		if ($isi_baris['warganegara_id'] != "" AND !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return 'kode warganegara tidak dikenal';
+		if ($isi_baris['golongan_darah_id'] != "" AND !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return 'kode golongan_darah tidak dikenal';
 
-		if ($isi_baris['cacat_id'] != "" AND !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return false;
-		if ($isi_baris['cara_kb_id'] != "" AND !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) AND $isi_baris['cara_kb_id']!="99") return false;
-		if ($isi_baris['hamil'] != "" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return false;
-		if ($isi_baris['ktp_el'] != "" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return false;
-		if ($isi_baris['status_rekam'] != "" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return false;
+		if ($isi_baris['cacat_id'] != "" AND !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return 'kode cacat tidak dikenal';
+		if ($isi_baris['cara_kb_id'] != "" AND !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) AND $isi_baris['cara_kb_id']!="99") return 'kode cara_kb tidak dikenal';
+		if ($isi_baris['hamil'] != "" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return 'kode hamil tidak dikenal';
+		if ($isi_baris['ktp_el'] != "" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return 'kode ktp_el tidak dikenal';
+		if ($isi_baris['status_rekam'] != "" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return 'kode status_rekam tidak dikenal';
 
 		// Validasi data lain
-		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return false;
+		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return 'nik salah';
 
-		return true;
+		return '';
 	}
 
 	protected function format_tanggal($kolom_tanggal)
@@ -290,10 +292,11 @@ class Import_model extends CI_Model {
 		// Penduduk dengan no_kk adalah penduduk lepas
 		if ($isi_baris['no_kk'] == '')
 		{
-			return;
+			return false;
 		}
 		// Masukkan keluarga ke tabel tweb_keluarga apabila
 		// keluarga ini belum ada
+		$keluarga_baru = false;
 		$query = "SELECT id from tweb_keluarga WHERE no_kk=?";
 		$hasil = $this->db->query($query, $isi_baris['no_kk']);
 		$res = $hasil->row_array();
@@ -315,20 +318,21 @@ class Import_model extends CI_Model {
 			$data['alamat'] = $isi_baris['alamat'];
 			$hasil = $this->db->insert('tweb_keluarga', $data);
 			$isi_baris['id_kk'] = $this->db->insert_id();
+			$keluarga_baru = true;
 		}
+		return $keluarga_baru;
 	}
 
 	protected function tulis_tweb_penduduk($isi_baris)
 	{
 		// Siapkan data penduduk
-		$kolom_baris = array('nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam');
+		$kolom_baris = array('nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'status_dasar');
 		foreach ($kolom_baris as $kolom)
 		{
 			$data[$kolom] = $isi_baris[$kolom];
 		}
-
 		$data['status'] = '1';  // penduduk impor dianggap aktif
-	// Jangan masukkan atau update isian yang kosong
+		// Jangan masukkan atau update isian yang kosong
 		foreach ($data as $key => $value)
 		{
 			if (empty($value))
@@ -339,6 +343,7 @@ class Import_model extends CI_Model {
 		// Masukkan penduduk ke tabel tweb_penduduk apabila
 		// penduduk ini belum ada
 		// Penduduk dianggap baru apabila NIK tidak diketahui (nilai 0)
+		$penduduk_baru = false;
 		if ($isi_baris['nik'] != 0)
 		{
 			// Update data penduduk yang sudah ada
@@ -347,20 +352,28 @@ class Import_model extends CI_Model {
 			$res = $hasil->row_array();
 			if (!empty($res))
 			{
-				$id = $res['id'];
-				$this->db->where('id',$id);
-				$hasil = $this->db->update('tweb_penduduk', $data);
+				if ($data['status_dasar'] != -1)
+				{
+					// Hanya update apabila status dasar valid (data SIAK)
+					$id = $res['id'];
+					$this->db->where('id',$id);
+					$hasil = $this->db->update('tweb_penduduk', $data);
+				}
 			}
 			else
 			{
+				if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
 				$hasil = $this->db->insert('tweb_penduduk', $data);
 				$id = $this->db->insert_id();
+				$penduduk_baru = $id;
 			}
 		}
 		else
 		{
+			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
 			$hasil = $this->db->insert('tweb_penduduk', $data);
 			$id = $this->db->insert_id();
+			$penduduk_baru = $id;
 		}
 
 		// Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
@@ -370,6 +383,7 @@ class Import_model extends CI_Model {
       $this->db->where('id', $data['id_kk']);
       $this->db->update('tweb_keluarga', array('nik_kepala' => $id, 'id_cluster' => $isi_baris['id_cluster'], 'alamat' => $isi_baris['alamat']));
 		}
+		return $penduduk_baru;
 	}
 
 	private function hapus_data_penduduk()
@@ -459,7 +473,8 @@ class Import_model extends CI_Model {
 			}
 
 			$isi_baris = $this->get_isi_baris($data, $i);
-			if ($this->data_import_valid($isi_baris))
+			$error_validasi = $this->data_import_valid($isi_baris);
+			if (empty($error_validasi))
 			{
 				$this->tulis_tweb_wil_clusterdesa($isi_baris);
 				$this->tulis_tweb_keluarga($isi_baris);
@@ -468,7 +483,7 @@ class Import_model extends CI_Model {
 			else
 			{
 				$gagal++;
-				$baris_gagal .= $i.",";
+				$baris_gagal .= $i." (".$error_validasi.")<br>";
 			}
 		}
 
@@ -509,76 +524,6 @@ class Import_model extends CI_Model {
 	  require_once APPPATH.'/models/Bip_model.php';
 		$bip = new BIP_Model($data);
 		$bip->impor_bip();
-	}
-
-	public function import_dasar()
-	{
-		$data = "";
-		$in = "";
-		$outp = "";
-		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename != '')
-		{
-			$lines = file($filename);
-			foreach ($lines as $line){$data .= $line;}
-			$penduduk = Parse_Data($data,"<penduduk>", "</penduduk>");
-			$keluarga = Parse_Data($data,"<keluarga>", "</keluarga>");
-			$cluster = Parse_Data($data,"<cluster>", "</cluster>");
-			//echo $cluster;
-			$penduduk = explode("\r\n", $penduduk);
-			$keluarga = explode("\r\n", $keluarga);
-			$cluster = explode("\r\n", $cluster);
-
-			$inset = "INSERT INTO tweb_penduduk VALUES ";
-			for ($a=1; $a<(count($penduduk)-1); $a++)
-			{
-				$p = preg_split("/\+/", $penduduk[$a]);
-				$in .= "(";
-				for ($j=0; $j<(count($p)); $j++)
-				{
-					$in .= ',"'.$p[$j].'"';
-				}
-				$in .= "),";
-			}
-			$x = strlen($in);
-			$in[$x-1] = ";";
-			$outp = $this->db->query($inset.$in);
-			//echo $inset.$in;
-
-			$in = "";
-			$inset = "INSERT INTO tweb_wil_clusterdesa VALUES ";
-			for ($a=1; $a<(count($cluster)-1); $a++)
-			{
-				$p = preg_split("/\+/", $cluster[$a]);
-				$in .= "(";
-				for ($j=0; $j<(count($p)); $j++)
-				{
-					$in .= ',"'.$p[$j].'"';
-				}
-				$in .= "),";
-			}
-			$x = strlen($in);
-			$in[$x-1] = ";";
-			$outp = $this->db->query($inset.$in);
-
-			$in = "";
-			$inset = "INSERT INTO tweb_keluarga VALUES ";
-			for($a=1; $a<(count($keluarga)-1); $a++)
-			{
-				$p = preg_split("/\+/", $keluarga[$a]);
-				$in .= "(";
-				for ($j=0; $j<(count($p)); $j++)
-				{
-					$in .= ',"'.$p[$j].'"';
-				}
-				$in .= "),";
-			}
-			$x = strlen($in);
-			$in[$x-1] = ";";
-			$outp = $this->db->query($inset.$in);
-		}
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	// Impor Pengelompokan Data Rumah Tangga

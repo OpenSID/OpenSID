@@ -15,7 +15,7 @@
 	public function get_log($id_log)
 	{
 		$log = $this->db
-					->select("s.nama as status, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, id_detail, catatan")
+					->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, id_detail, ref_pindah, catatan")
 					->where('l.id', $id_log)
 					->join('tweb_penduduk p','l.id_pend = p.id', 'left')
 					->join('tweb_status_dasar s','s.id = p.status_dasar', 'left')
@@ -179,6 +179,7 @@
 		LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
 		LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend
+		LEFT JOIN ref_pindah rp ON rp.id = log.ref_pindah
 		WHERE u.status_dasar > 1
 		AND log.id_detail IN (2,3,4)
 		";
@@ -196,7 +197,8 @@
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
-		$select_sql = "SELECT u.id,u.nik,u.tanggallahir,sd.nama as status_dasar,u.id_kk,u.nama,a.dusun,a.rw,a.rt,d.alamat,log.id as id_log,log.no_kk AS no_kk,log.catatan as catatan,log.nama_kk as nama_kk,
+		$select_sql = "SELECT u.id, u.nik, u.tanggallahir, u.id_kk, u.nama, a.dusun, a.rw, a.rt, d.alamat, log.id as id_log, log.no_kk AS no_kk, log.catatan as catatan, log.nama_kk as nama_kk,
+			(CASE when log.id_detail = 3 then rp.nama else sd.nama end) as status_dasar,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
 			x.nama AS sex,g.nama AS agama,log.tanggal,log.tgl_peristiwa,log.id_detail
 				";
