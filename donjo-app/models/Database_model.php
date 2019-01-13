@@ -171,6 +171,9 @@
 
   private function migrasi_1901_ke_1902()
   {
+  	// Tambah setting panjang nomor surat
+		$query = $this->db->select('1')->where('key', 'panjang_nomor_surat')->get('setting_aplikasi');
+		$query->result() OR	$this->db->insert('setting_aplikasi', array('key'=>'panjang_nomor_surat', 'value'=>'', 'jenis'=>'int', 'keterangan'=>"Nomor akan diisi '0' di sebelah kiri, kalau perlu", 'kategori'=>'surat'));
   	// Tambah rincian pindah di log_penduduk
 		$tb_option = 'ref_pindah';
 		if (!$this->db->table_exists($tb_option))

@@ -905,6 +905,7 @@
 			3 => "Terakhir untuk semua surat layanan, keluar dan masuk: "
 		);
 		$data['no_surat_berikutnya'] = $data['no_surat'] + 1;
+		$data['no_surat_berikutnya'] = str_pad((string)$data['no_surat_berikutnya'], (int)$this->setting->panjang_nomor_surat, '0', STR_PAD_LEFT);
 		$data['ket_nomor'] = $ket[$this->setting->penomoran_surat];
 
 		return $data;
