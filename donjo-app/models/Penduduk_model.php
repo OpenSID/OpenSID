@@ -1330,7 +1330,7 @@
 				->where('status_dasar', '1');
 		$data = $this->db->get()->result_array();
 
-		//Formating Output untuk nilai variabel di javascript
+		//Formating Output untuk nilai variabel di javascript, di form surat
 		foreach($data as $i => $row)
 		{
 			$data[$i]['nama'] = addslashes($row['nama']);

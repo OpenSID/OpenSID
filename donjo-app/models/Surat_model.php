@@ -66,11 +66,12 @@
 				->where('status_dasar', '1');
 		$data = $this->db->get()->result_array();
 
-		//Formating Output untuk nilai variabel di javascript
+		//Formating Output untuk nilai variabel di javascript, di form surat
 		foreach($data as $i => $row)
 		{
 			$data[$i]['nama'] = addslashes($row['nama']);
 			$data[$i]['alamat'] = addslashes("Alamat: RT-{$row[rt]}, RW-{$row[rw]} {$row[dusun]}");
+			$data[$i]['info_pilihan_penduduk'] = "NIK : {$data[$i]['nik']} - {$data[$i]['nama']}\n{$data[$i]['alamat']}";
 		}
 		return $data;
 	}
