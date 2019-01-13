@@ -21,7 +21,17 @@
 					</div>
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
-							<?php include("donjo-app/views/surat/form/_cari_nik.php"); ?>
+							<div class="form-group">
+								<label for="nik"  class="col-sm-3 control-label">NIK / Nama KK</label>
+								<div class="col-sm-6 col-lg-4">
+									<select class="form-control  input-sm select2-nik" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
+										<option value="">-- Cari NIK / Nama Kepala Keluarga --</option>
+										<?php foreach ($kepala_keluarga as $data): ?>
+											<option value="<?= $data['id']?>" <?php selected($individu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
 						</form>
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
 							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
