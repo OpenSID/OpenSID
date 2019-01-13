@@ -3,6 +3,7 @@ DROP VIEW IF EXISTS daftar_kontak;
 DROP VIEW IF EXISTS daftar_anggota_grup;
 DROP VIEW IF EXISTS daftar_grup;
 DROP VIEW IF EXISTS penduduk_hidup;
+DROP TABLE IF EXISTS log_penduduk;
 DROP TABLE IF EXISTS setting_aplikasi_options;
 DROP TABLE IF EXISTS data_persil;
 DROP TABLE IF EXISTS tweb_penduduk_mandiri;
@@ -5161,27 +5162,6 @@ CREATE TABLE `log_keluarga` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
-# TABLE STRUCTURE FOR: log_penduduk
-#
-
-DROP TABLE IF EXISTS `log_penduduk`;
-
-CREATE TABLE `log_penduduk` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `id_pend` int(11) NOT NULL,
-  `id_detail` int(4) NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `bulan` varchar(2) NOT NULL,
-  `tahun` varchar(4) NOT NULL,
-  `tgl_peristiwa` date NOT NULL,
-  `catatan` text,
-  `no_kk` decimal(16,0) DEFAULT NULL,
-  `nama_kk` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_pend` (`id_pend`,`id_detail`,`tgl_peristiwa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-#
 # TABLE STRUCTURE FOR: log_perubahan_penduduk
 #
 
@@ -5464,7 +5444,7 @@ CREATE TABLE `program` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (1, 'Raskin', 2, '', '2015-12-13', '2017-12-13', 0, NULL);
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (1, 'BPNT', 2, 'Bantuan Pemerintah Non Tunai', '2015-12-13', '2017-12-13', 0, NULL);
 INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (2, 'BLSM', 2, '', '2015-12-13', '2017-12-13', 0, NULL);
 INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (3, 'PKH', 2, '', '2015-12-13', '2017-12-13', 0, NULL);
 INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (4, 'Bedah Rumah', 2, '', '2015-12-13', '2017-12-13', 0, NULL);
@@ -5550,6 +5530,24 @@ INSERT INTO `provinsi` (`kode`, `nama`) VALUES (81, 'Maluku');
 INSERT INTO `provinsi` (`kode`, `nama`) VALUES (82, 'Maluku Utara');
 INSERT INTO `provinsi` (`kode`, `nama`) VALUES (91, 'Papua');
 INSERT INTO `provinsi` (`kode`, `nama`) VALUES (92, 'Papua Barat');
+
+
+#
+# TABLE STRUCTURE FOR: ref_pindah
+#
+
+DROP TABLE IF EXISTS `ref_pindah`;
+
+CREATE TABLE `ref_pindah` (
+  `id` tinyint(4) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `ref_pindah` (`id`, `nama`) VALUES (1, 'Pindah keluar Desa/Kelurahan');
+INSERT INTO `ref_pindah` (`id`, `nama`) VALUES (2, 'Pindah keluar Kecamatan');
+INSERT INTO `ref_pindah` (`id`, `nama`) VALUES (3, 'Pindah keluar Kabupaten/Kota');
+INSERT INTO `ref_pindah` (`id`, `nama`) VALUES (4, 'Pindah keluar Provinsi');
 
 
 #
