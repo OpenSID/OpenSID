@@ -16,8 +16,9 @@
 	public function insert()
 	{
 		$data['komentar'] = strip_tags($_POST["komentar"]);
-		$data['owner'] = strip_tags($_POST["owner"]);
-		$data['email'] = strip_tags($_POST["email"]);
+		/** ambil dari data session saja */
+		$data['owner'] = $_SESSION['nama'];
+		$data['email'] = $_SESSION['nik'];
 
 		// load library form_validation
 		$this->load->library('form_validation');
