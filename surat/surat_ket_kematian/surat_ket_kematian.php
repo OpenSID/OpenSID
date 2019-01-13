@@ -120,7 +120,7 @@
 									<label for="nik"  class="col-sm-3 control-label">NIK / Nama Yang Meninggal</label>
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2-nik" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-											<option value="">--  Cari NIK / Nama Penduduk--</option>
+											<option value="">--  Cari NIK / Nama Penduduk Berstatus Dasar 'MATI' --</option>
 											<?php foreach ($mati as $data): ?>
 												<option value="<?= $data['id']?>" <?php selected($individu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>

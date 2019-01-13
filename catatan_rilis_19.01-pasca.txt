@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 19.01-pasca:
 9. #1807: Laporan pengguna Layanan Mandiri sekarang selalu berisi nama dan NIK pengguna, tidak bisa diubah di browser. [bug-fix]
 10. #1851: Tampilkan alamat di info pilihan penduduk pada form surat.
 11. #1845: Perbaiki error ubah program bantuan karena tidak ada data status. Ubah nama program bantuan Raskin menjadi BPNT di contoh data awal. [bug-fix]
+12. Ubah form surat keterangan kematian supaya lebih jelas pilihan penduduk adalah yang nilai status dasarnya 'MATI'.
 
 
 
