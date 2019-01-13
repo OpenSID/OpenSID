@@ -1248,7 +1248,10 @@
 	// Untuk form surat
 	public function list_penduduk_status_dasar($status_dasar=1)
 	{
-    $sql = "SELECT u.id, nik, nama, CONCAT('Alamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS alamat, w.rt, w.rw, w.dusun, u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id WHERE u.status_dasar = ?";
+    $sql = "SELECT u.id, nik, nama,
+    	CONCAT('Alamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS alamat,
+    	CONCAT('NIK: ', nik, ' - ', nama, '\nAlamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS info_pilihan_penduduk,
+    	w.rt, w.rw, w.dusun, u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id WHERE u.status_dasar = ?";
     $data = $this->db->query($sql, array($status_dasar))->result_array();
 		return $data;
 	}
@@ -1330,7 +1333,7 @@
 				->where('status_dasar', '1');
 		$data = $this->db->get()->result_array();
 
-		//Formating Output untuk nilai variabel di javascript
+		//Formating Output untuk nilai variabel di javascript, di form surat
 		foreach($data as $i => $row)
 		{
 			$data[$i]['nama'] = addslashes($row['nama']);
