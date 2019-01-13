@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 19.01-pasca:
 10. #1851: Tampilkan alamat di info pilihan penduduk pada form surat.
 11. #1845: Perbaiki error ubah program bantuan karena tidak ada data status. Ubah nama program bantuan Raskin menjadi BPNT di contoh data awal. [bug-fix]
 12. Ubah form surat keterangan kematian supaya lebih jelas pilihan penduduk adalah yang nilai status dasarnya 'MATI'.
+13. #1865: Kode isian nomor_surat sekarang bisa ditentukan panjangnya, diisi karakter '0' di sebelah kiri kalau perlu. Contoh [nomor_surat,3] menghasilkan '012'.
 
 
 

@@ -481,7 +481,7 @@
 	          $in++;
 	        }
 	        // Ganti karakter non-alphanumerik supaya bisa di-cek
-	        $kode_isian = preg_replace('/[^a-zA-Z0-9_\{\}\[\]\-]/', '#', $kode_isian);
+	        $kode_isian = preg_replace('/[^a-zA-Z0-9,_\{\}\[\]\-]/', '#', $kode_isian);
 	        // Regex ini untuk membersihkan kode isian dari karakter yang dimasukkan oleh Word
 	        // Regex ini disusun berdasarkan RTF yang dihasilkan oleh Word 2011 di Mac.
 	        // Perlu diverifikasi regex ini berlaku juga untuk RTF yang dihasilkan oleh versi Word lain.
@@ -719,7 +719,7 @@
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 			//DATA DARI FORM INPUT SURAT
 			// Kode isian yang disediakan pada SID CRI
-			$buffer = str_replace("[nomor_surat]","$input[nomor]", $buffer);
+			$this->substitusi_nomor_surat($input['nomor'], $buffer);
 			$buffer = str_replace("[nomor_sorat]","$input[nomor]", $buffer);
 			if (isset($input['berlaku_dari']))
 				$buffer = str_replace("[mulai_berlaku]", tgl_indo(date('Y m d',strtotime($input['berlaku_dari']))), $buffer);
@@ -771,6 +771,23 @@
 		}
 		return $buffer;
 	}
+
+	// Kode isian nomor_surat bisa ditentukan panjangnya, diisi dengan '0' di sebelah kiri
+	// Misalnya [nomor_surat, 3] akan menghasilkan seperti '012'
+  private function substitusi_nomor_surat($nomor, &$buffer)
+  {
+		$buffer = str_replace("[nomor_surat]","$nomor", $buffer);
+		if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $buffer, $matches))
+		{
+			foreach ($matches[0] as $match)
+			{
+				$parts = explode(',', $match);
+				$panjang = (int)trim(rtrim($parts[1], ']'));
+				$nomor_panjang = str_pad("$nomor", $panjang, '0', STR_PAD_LEFT);
+				$buffer = str_replace($match, $nomor_panjang, $buffer);
+			}
+		}
+  }
 
 	public function lampiran($data, $nama_surat, &$lampiran)
 	{
