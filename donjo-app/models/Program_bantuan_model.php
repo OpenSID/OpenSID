@@ -754,8 +754,8 @@ class Program_bantuan_model extends CI_Model {
 		`nama`='".fixSQL($this->input->post('nama'))."',
 		`ndesc`='".fixSQL($this->input->post('ndesc'))."',
 		`sdate`='".date("Y-m-d",strtotime($this->input->post('sdate')))."',
-		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."',
-		`status`='".$this->input->post('status')."'
+		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."'
+		-- `status`='".$this->input->post('status')."'
 		 WHERE id=".$id;
 
 		$hasil = $this->db->query($strSQL);
