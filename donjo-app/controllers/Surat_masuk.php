@@ -162,6 +162,15 @@ class Surat_masuk extends CI_Controller {
 		redirect("surat_masuk/index/$p/$o");
 	}
 
+	public function dialog_cetak($o = 0, $id)
+	{
+		$data['aksi'] = "Cetak";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_penerimaan();
+		$data['form_action'] = site_url("surat_masuk/disposisi/$id");
+		$this->load->view('surat_masuk/ajax_cetak', $data);
+	}
+
 	public function cetak($o = 0)
 	{
 		$data['input'] = $_POST;
@@ -182,6 +191,8 @@ class Surat_masuk extends CI_Controller {
 	{
 		$data['input'] = $_POST;
 		$data['desa'] = $this->config_model->get_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
 		$data['disposisi_surat_masuk'] = $this->surat_masuk_model->get_disposisi_surat_masuk($id);
 		$data['surat'] = $this->surat_masuk_model->get_surat_masuk($id);

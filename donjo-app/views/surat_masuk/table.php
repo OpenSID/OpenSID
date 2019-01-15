@@ -151,7 +151,7 @@
 																			<?php if ($data['berkas_scan']): ?>
 																				<a href="<?= base_url(LOKASI_ARSIP.$data['berkas_scan'])?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>
 																			<?php endif; ?>
-																			<a href="<?= site_url('surat_masuk/disposisi/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Lembar Disposisi Surat" target="_blank"><i class="fa fa-file-archive-o"></i></a>
+																			<a href="<?= site_url("surat_masuk/dialog_cetak/$o/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Lembar Disposisi Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lembar Disposisi Surat"><i class="fa fa-file-archive-o"></i></a>
 																			<a href="#" data-href="<?= site_url("surat_masuk/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
 																		<td nowrap><?= tgl_indo_out($data['tanggal_penerimaan'])?></td>
