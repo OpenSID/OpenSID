@@ -777,12 +777,12 @@ class Program_bantuan_model extends CI_Model {
 		$hasil = $this->db->query($strSQL);
 		if ($hasil)
 		{
-			$_SESSION["success"] = 1;
+			$_SESSION["success"] = 4;
 			$_SESSION["pesan"] = "Data program telah dihapus";
 		}
 		else
 		{
-			$_SESSION["success"] = -1;
+			$_SESSION["success"] = -4;
 		}
 	}
 
