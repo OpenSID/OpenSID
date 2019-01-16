@@ -171,6 +171,8 @@
 
   private function migrasi_1901_ke_1902()
   {
+  	// Ubah judul status hubungan dalam keluarga
+  	$this->db->where('id', 9)->update('tweb_penduduk_hubungan', array('nama' => 'FAMILI'));
   	// Perpanjang nomor surat di surat masuk dan keluar
 	  $this->dbforge->modify_column('surat_masuk', array('nomor_surat' => array('name'  =>  'nomor_surat', 'type' =>  'VARCHAR',  'constraint'  =>  35 )));
 	  $this->dbforge->modify_column('surat_keluar', array('nomor_surat' => array('name'  =>  'nomor_surat', 'type' =>  'VARCHAR',  'constraint'  =>  35 )));
