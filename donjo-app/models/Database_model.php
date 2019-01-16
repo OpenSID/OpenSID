@@ -171,6 +171,9 @@
 
   private function migrasi_1901_ke_1902()
   {
+  	// Perpanjang nomor surat di surat masuk dan keluar
+	  $this->dbforge->modify_column('surat_masuk', array('nomor_surat' => array('name'  =>  'nomor_surat', 'type' =>  'VARCHAR',  'constraint'  =>  35 )));
+	  $this->dbforge->modify_column('surat_keluar', array('nomor_surat' => array('name'  =>  'nomor_surat', 'type' =>  'VARCHAR',  'constraint'  =>  35 )));
   	// Tambah setting panjang nomor surat
 		$query = $this->db->select('1')->where('key', 'panjang_nomor_surat')->get('setting_aplikasi');
 		$query->result() OR	$this->db->insert('setting_aplikasi', array('key'=>'panjang_nomor_surat', 'value'=>'', 'jenis'=>'int', 'keterangan'=>"Nomor akan diisi '0' di sebelah kiri, kalau perlu", 'kategori'=>'surat'));
