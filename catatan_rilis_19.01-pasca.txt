@@ -19,6 +19,7 @@ Lengkapnya, isi rilis versi 19.01-pasca:
 13. #1865: Kode isian nomor_surat sekarang bisa ditentukan panjangnya, diisi karakter '0' di sebelah kiri kalau perlu. Contoh [nomor_surat,3] menghasilkan '012'.
 14. #1865: Tambah setting aplikasi panjang_nomor_surat untuk menentukan panjang nomor surat yang ditampilkan di form surat.
 15. #1850: Panjang maksimum nomor surat di Surat Keluar dan Surat Masuk telah diubah menjadi 35 karakter.
+16. #1872: Sekarang di halaman Info Desa > Wilayah Administratif > Wilayah Administratif RW, tautan di link RW dapat diklik. Juga informasi RT untuk RW default '-' ditampilkan. [bug-fix]
 
 
 
