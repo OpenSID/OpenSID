@@ -143,7 +143,7 @@
 		$dusun = $temp['dusun'];
 
 		$sql = "SELECT u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
-		(SELECT COUNT(rt.id) FROM tweb_wil_clusterdesa rt WHERE dusun = u.dusun AND rw = u.rw AND rw <> '-' AND rt <> '-' AND rt <> '0' ) AS jumlah_rt,
+		(SELECT COUNT(rt.id) FROM tweb_wil_clusterdesa rt WHERE dusun = u.dusun AND rw = u.rw AND rt <> '-' AND rt <> '0' ) AS jumlah_rt,
 		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.status_dasar=1) AS jumlah_warga,
 		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1 AND p.status_dasar=1) AS jumlah_warga_l,
 		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2 AND p.status_dasar=1) AS jumlah_warga_p,
@@ -400,7 +400,7 @@
 		$sql = "SELECT sum(jumlah_rt) as jmlrt, sum(jumlah_warga) as jmlwarga, sum(jumlah_warga_l) as jmlwargal, sum(jumlah_warga_p) as jmlwargap, sum(jumlah_kk) as jmlkk
 			FROM
 			(SELECT u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
-				(SELECT COUNT(rt.id) FROM tweb_wil_clusterdesa rt WHERE dusun = u.dusun AND rw = u.rw AND rw <> '-' AND rt <> '-' AND rt <> '0' ) AS jumlah_rt,
+				(SELECT COUNT(rt.id) FROM tweb_wil_clusterdesa rt WHERE dusun = u.dusun AND rw = u.rw AND rt <> '-' AND rt <> '0' ) AS jumlah_rt,
 				(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw ) and status_dasar = 1) AS jumlah_warga,
 				(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1 and status_dasar = 1) AS jumlah_warga_l,
 				(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2 and status_dasar = 1) AS jumlah_warga_p,

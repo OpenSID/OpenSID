@@ -7062,6 +7062,30 @@ INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (3, 
 
 
 #
+# TABLE STRUCTURE FOR: log_penduduk
+#
+
+DROP TABLE IF EXISTS `log_penduduk`;
+
+CREATE TABLE `log_penduduk` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id_pend` int(11) NOT NULL,
+  `id_detail` int(4) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `bulan` varchar(2) NOT NULL,
+  `tahun` varchar(4) NOT NULL,
+  `tgl_peristiwa` date NOT NULL,
+  `catatan` text,
+  `no_kk` decimal(16,0) DEFAULT NULL,
+  `nama_kk` varchar(100) DEFAULT NULL,
+  `ref_pindah` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_pend` (`id_pend`,`id_detail`,`tgl_peristiwa`),
+  KEY `id_ref_pindah` (`ref_pindah`),
+  CONSTRAINT `id_ref_pindah` FOREIGN KEY (`ref_pindah`) REFERENCES `ref_pindah` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
 # TABLE STRUCTURE FOR: daftar_kontak
 #
 

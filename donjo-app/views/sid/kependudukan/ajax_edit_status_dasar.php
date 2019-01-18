@@ -12,10 +12,12 @@
 			if ($(this).val() == '3')
 			{
 				$('.pindah').show();
+				$("select[name='ref_pindah']").addClass('required');
 			}
 			else
 			{
 				$('.pindah').hide();
+				$("select[name='ref_pindah']").removeClass('required');
 			}
 		});
 		$('#status_dasar').trigger('change');
