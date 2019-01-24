@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Diki Siswanto dan Ahmad Afandi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Diki Siswanto dan Ahmad Afandi yang terus berkontribusi. Terima kasih pula pada Andi Pratama Suparminto yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.01-pasca:
 
