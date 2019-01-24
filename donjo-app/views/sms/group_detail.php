@@ -40,7 +40,7 @@
 												<div class="col-sm-12">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari_anggota" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url('sms/search_anggota/$grup[nama_grup]')?>');$('#'+'mainform').submit();endif">
+															<input name="cari_anggota" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url('sms/search_anggota/$grup[nama_grup]')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
 																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
