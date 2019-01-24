@@ -5,8 +5,10 @@
 		parent::__construct();
 	}
 
-	public function list_data($tabel)
+	public function list_data($tabel, $kecuali='')
 	{
+		if (!empty($kecuali))
+			$this->db->where("id NOT IN ($kecuali)");
 		$data = $this->db->select('*')->order_by('id')->get($tabel)->result_array();
 		return $data;
 	}

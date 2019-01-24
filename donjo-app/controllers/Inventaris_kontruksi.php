@@ -1,6 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class inventaris_kontruksi extends CI_Controller {
+class Inventaris_kontruksi extends CI_Controller {
 
 	public function __construct()
 	{

@@ -159,10 +159,10 @@
 
 									<label for="pria_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control  input-sm select2" id="id_pria" name="id_pria" style ="width:100%;" onchange="submit_form_ambil_data_pria(this.id);">
+										<select class="form-control  input-sm select2-nik" id="id_pria" name="id_pria" style ="width:100%;" onchange="submit_form_ambil_data_pria(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
 											<?php foreach ($laki as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($pria['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php selected($pria['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -545,10 +545,10 @@
 								<div class="form-group wanita_desa" <?php if (empty($wanita)): ?>style="display: none;"<?php endif; ?>>
 									<label for="$wanita" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control  input-sm select2" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data_wanita(this.id);">
+										<select class="form-control  input-sm select2-nik" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data_wanita(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
 											<?php foreach ($perempuan as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($wanita['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php selected($wanita['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>

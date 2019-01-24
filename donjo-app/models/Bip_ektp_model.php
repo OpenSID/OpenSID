@@ -250,7 +250,8 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
 				while (trim($data_sheet[$i][1]) > 0 AND trim($data_sheet[$i][2]) != '' AND $i <= $baris)
 				{
 					$data_anggota = $this->get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga);
-					if ($this->data_import_valid($data_anggota))
+					$error_validasi = $this->data_import_valid($data_anggota);
+					if (empty($error_validasi))
 					{
 						$this->tulis_tweb_penduduk($data_anggota);
 						$total_penduduk++;
@@ -258,7 +259,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
 					else
 					{
 						$gagal_penduduk++;
-						$baris_gagal .=$i.",";
+						$baris_gagal .= $i." (".$error_validasi.")<br>";
 					}
 					$i++;
 				}

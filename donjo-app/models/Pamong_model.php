@@ -32,11 +32,17 @@
 				// Dari luar desa
 				$data[$i]['nama'] = $data[$i]['pamong_nama'];
 				$data[$i]['nik'] = $data[$i]['pamong_nik'];
-				$data[$i]['tempatlahir'] = $data[$i]['pamong_tempatlahir'];
+				$data[$i]['tempatlahir'] = !empty($data[$i]['pamong_tempatlahir']) ? $data[$i]['pamong_tempatlahir'] : '-';
 				$data[$i]['tanggallahir'] = $data[$i]['pamong_tanggallahir'];
 				$data[$i]['sex'] = $data[$i]['pamong_sex'];
 				$data[$i]['pendidikan_kk'] = $data[$i]['pamong_pendidikan'];
 				$data[$i]['agama'] = $data[$i]['pamong_agama'];
+				if (empty($data[$i]['pamong_nosk'])) $data[$i]['pamong_nosk'] = '-';
+				if (empty($data[$i]['pamong_nohenti'])) $data[$i]['pamong_nohenti'] = '-';
+			}
+			else
+			{
+				if (empty($data[$i]['tempatlahir'])) $data[$i]['tempatlahir'] = '-';
 			}
 			$data[$i]['no'] = $i + 1;
 		}
@@ -52,6 +58,7 @@
 				UNION SELECT p.nik
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+				UNION SELECT pamong_niap FROM tweb_desa_pamong
 				UNION SELECT pamong_nip FROM tweb_desa_pamong";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
@@ -73,7 +80,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR p.nik LIKE '$kw')";
+			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR p.nik LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -96,9 +103,10 @@
 			WHERE pamong_id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
-			if (!empty($data['id_pend']))
-				// Dari database penduduk
-		$data['pamong_nama'] = $data['nama'];
+		$data['pamong_niap_nip'] = (!empty($data['pamong_nip'] and $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap']);
+		if (!empty($data['id_pend']))
+			// Dari database penduduk
+			$data['pamong_nama'] = $data['nama'];
 		return $data;
 	 }
 
@@ -136,10 +144,14 @@
 		$data['id_pend'] = $this->input->post('id_pend');
 		$this->data_pamong_asal($data);
 		$data['pamong_nip'] = $this->input->post('pamong_nip');
+		$data['pamong_niap'] = $this->input->post('pamong_niap');
 		$data['jabatan'] = $this->input->post('jabatan');
+		$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
+		$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
+		$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
 		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
 		$data['pamong_tgl_terdaftar'] = NOW();
 		$data['foto'] = $nama_file;
@@ -199,10 +211,15 @@
 		$data['id_pend'] = $this->input->post('id_pend');
 		$this->data_pamong_asal($data);
 		$data['pamong_nip'] = $this->input->post('pamong_nip');
+		$data['pamong_niap'] = $this->input->post('pamong_niap');
 		$data['jabatan'] = $this->input->post('jabatan');
+		$data['jabatan'] = $this->input->post('jabatan');
+		$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
+		$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
+		$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
 		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
 		if (!empty($nama_file))
 		{

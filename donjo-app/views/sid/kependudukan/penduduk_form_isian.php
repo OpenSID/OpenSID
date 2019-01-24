@@ -2,6 +2,14 @@
 	$(document).ready(function()
 	{
 		$("select[name='sex']").change();
+		$("select[name='status_kawin']").change();
+	});
+	$('#mainform').on('reset', function(e)
+	{
+	  setTimeout(function() {
+			$("select[name='sex']").change();
+			$("select[name='status_kawin']").change();
+	  });
 	});
 	function show_hide_hamil(sex)
 	{
@@ -21,7 +29,32 @@
 			$('select[name=sex]').change();
 		});
 	};
-
+	function disable_kawin_cerai(status)
+	{
+		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
+		switch (status)
+		{
+			case '1':
+			case '4':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
+				break;
+			case '2':
+				$("#akta_perkawinan").attr('disabled', false);
+				$("input[name=tanggalperkawinan]").attr('disabled', false);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
+				break;
+			case '3':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', false);
+				$("input[name=tanggalperceraian]").attr('disabled', false);
+				break;
+		}
+	}
 </script>
 
 <div class="col-md-3">
@@ -48,6 +81,9 @@
 </div>
 <div class="col-md-9">
 	<div class='box box-primary'>
+		<div class="box-header with-border">
+			<a href="<?=site_url()?>penduduk/clear" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Penduduk</a>
+		</div>
 		<div class='box-body'>
 			<div class="row">
 				<div class='col-sm-4'>
@@ -392,7 +428,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="status_kawin">Status Perkawinan</label>
-						<select class="form-control input-sm" name="status_kawin">
+						<select class="form-control input-sm" name="status_kawin" onchange="disable_kawin_cerai($(this).find(':selected').val())">
 							<option value="">Pilih Status Perkawinan</option>
 							<?php foreach ($kawin as $data): ?>
 								<option value="<?= $data['id']?>" <?php selected($penduduk['status_kawin'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
@@ -482,7 +518,7 @@
 						</div>
 					</div>
 				</div>
-				<div class='col-sm-4'>
+				<div class='col-sm-4' id="akseptor_kb">
 					<div class='form-group'>
 						<label for="cara_kb_id">Akseptor KB</label>
 						<select class="form-control input-sm" name="cara_kb_id" >

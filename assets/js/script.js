@@ -47,6 +47,21 @@ $(document).ready(function()
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2();
+	
+	
+
+	$('.select2-nik').select2({
+		templateResult: function (penduduk) {
+			if (!penduduk.id) {
+			  return penduduk.text;
+			}
+			var _tmpPenduduk = penduduk.text.split('\n');
+			var $penduduk = $(
+			  '<div>'+_tmpPenduduk[0]+'</div><div>'+_tmpPenduduk[1]+'</div>'
+			);
+			return $penduduk;
+		}
+	});
 	// Select2 dengan fitur pencarian dan boleh isi sendiri
 	$('.select2-tags').select2(
 		{
@@ -139,40 +154,47 @@ $(document).ready(function()
 		format: 'dd-mm-yyyy',
 		autoclose: true
 	});
-	$('#tgl_mulai,#tgl_akhir').datetimepicker({
+	$('#tgl_mulai').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY',
-		useCurrent: false
+		useCurrent: false,
+		date: moment(new Date())
+	});
+	$('#tgl_akhir').datetimepicker({
+		locale:'id',
+		format: 'DD-MM-YYYY',
+		useCurrent: false,
+		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
+		date: moment(new Date()).add(1, 'M')
 	});
 	$('#tgl_mulai').datetimepicker().on('dp.change', function (e) {
-		var incrementDay = moment(new Date(e.date));
-		incrementDay.add(1, 'days');
-		$('#tgl_akhir').data('DateTimePicker').minDate(incrementDay);
+		$('#tgl_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
 		$(this).data("DateTimePicker").hide();
-	});
-	$('#tgl_akhir').datetimepicker().on('dp.change', function (e) {
-		var decrementDay = moment(new Date(e.date));
-		decrementDay.subtract(1, 'days');
-		$('#tgl_mulai').data('DateTimePicker').maxDate(decrementDay);
-		 $(this).data("DateTimePicker").hide();
+		var tglAkhir = moment(new Date(e.date));
+		tglAkhir.add(1, 'M');
+		$('#tgl_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
-	$('#tgljam_mulai,#tgljam_akhir').datetimepicker({
+	$('#tgljam_mulai').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY HH:mm',
 		useCurrent: false,
+		date: moment(new Date()),
+		sideBySide:true
+	});
+	$('#tgljam_akhir').datetimepicker({
+		locale:'id',
+		format: 'DD-MM-YYYY HH:mm',
+		useCurrent: false,
+		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
+		date: moment(new Date()).add(1, 'day'),
 		sideBySide:true
 	});
 	$('#tgljam_mulai').datetimepicker().on('dp.change', function (e) {
-		var incrementDay = moment(new Date(e.date));
-		incrementDay.add(1, 'days');
-		$('#tgljam_akhir').data('DateTimePicker').minDate(incrementDay);
-
-	});
-	$('#tgljam_akhir').datetimepicker().on('dp.change', function (e) {
-		var decrementDay = moment(new Date(e.date));
-		decrementDay.subtract(1, 'days');
-		$('#tgljam_mulai').data('DateTimePicker').maxDate(decrementDay);
+		$('#tgljam_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
+		var tglAkhir = moment(new Date(e.date));
+		tglAkhir.add(1, 'day');
+		$('#tgljam_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
 	$('#tgl_jam').datetimepicker(

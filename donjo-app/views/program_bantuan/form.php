@@ -1,5 +1,6 @@
 <style type="text/css">
 	label.control-label.text-left { text-align: left }
+	label.control-label.no-padding-top { padding-top: 0px }
 </style>
 <div class="content-wrapper">
   <?php $detail = $program[0];?>
@@ -58,10 +59,10 @@
                      <div class="box-body">
                        <form action="" id="main" name="main" method="POST"  class="form-horizontal">
 												<div class="form-group" >
-									  			<label class="col-sm-4 col-lg-2 control-label"  for="nik">NIK / Nama Penduduk </label>
+									  			<label class="col-sm-4 col-lg-2 control-label <?php ($detail['sasaran'] != 1) and print('no-padding-top') ?>" for="nik"><?= $detail['judul_cari_peserta']?></label>
 													<div class="col-sm-7">
 														<select class="form-control select2 input-sm" id="nik" name="nik"  onchange="formAction('main')" style="width:100%" >
-															<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
+															<option selected="selected">-- Silakan Masukan <?= $detail['judul_cari_peserta']?> --</option>
 															<?php foreach ($program[2]as $item):
 										  					if (strlen($item["id"])>0): ?>
 											  				  <option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
@@ -101,13 +102,13 @@
 												<div class="form-group">
 													<label for="kartu_nik"  class="col-sm-4 col-lg-2 control-label">NIK</label>
 													<div class="col-sm-7">
-														<input  id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Penduduk" name="kartu_nik"  >
+														<input  id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  >
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="kartu_nama"  class="col-sm-4 col-lg-2 control-label">Nama</label>
 													<div class="col-sm-7">
-														<input  id="kartu_nama" class="form-control input-sm" type="text" placeholder="Nama Penduduk" name="kartu_nama" >
+														<input  id="kartu_nama" class="form-control input-sm" type="text" placeholder="Nama Peserta" name="kartu_nama" >
 													</div>
 												</div>
 												<div class="form-group">

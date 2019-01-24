@@ -120,7 +120,10 @@
 		if (isset($_SESSION['cacat']))
 		{
 			$kf = $_SESSION['cacat'];
-			$cacat_sql = " AND u.cacat_id <> $kf AND u.cacat_id is not null and u.cacat_id<>''";
+			if ($kf == BELUM_MENGISI)
+				$cacat_sql = " AND (u.cacat_id IS NULL OR u.cacat_id = '')";
+			else
+				$cacat_sql = " AND u.cacat_id = $kf AND u.cacat_id is not null and u.cacat_id<>''";
 			return $cacat_sql;
 		}
 	}
@@ -130,8 +133,11 @@
 		if (isset($_SESSION['menahun']))
 		{
 			$kf = $_SESSION['menahun'];
-			$menahun_sql = " AND u.sakit_menahun_id <> $kf and u.sakit_menahun_id is not null and u.sakit_menahun_id<>'0' ";
-		return $menahun_sql;
+			if ($kf == BELUM_MENGISI)
+				$menahun_sql = " AND (u.sakit_menahun_id IS NULL OR u.sakit_menahun_id = '0')";
+			else
+				$menahun_sql = " AND u.sakit_menahun_id = $kf and u.sakit_menahun_id IS NOT NULL and u.sakit_menahun_id<>'0' ";
+			return $menahun_sql;
 		}
 	}
 
@@ -326,9 +332,17 @@
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
 		$select_sql = "SELECT DISTINCT u.id, u.nik, u.tanggallahir, u.tempatlahir, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk,
+			(CASE when u.status_kawin <> 2
+				then k.nama
+				else
+					case when u.akta_perkawinan = ''
+						then 'KAWIN TIDAK TERCATAT'
+						else 'KAWIN TERCATAT'
+					end
+				end) as kawin,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
-			x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, k.nama AS kawin, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan, b.no_kk AS no_rtm, b.id AS id_rtm
+			x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan, b.no_kk AS no_rtm, b.id AS id_rtm
 		";
 		//Main Query
 		$list_data_sql = $this->list_data_sql();
@@ -473,14 +487,29 @@
 		if ($data['tanggallahir']) $data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
 		if ($data['tanggal_akhir_paspor'] == '') $data['tanggal_akhir_paspor'] = NULL;
 		if ($data['tanggal_akhir_paspor']) $data['tanggal_akhir_paspor'] = tgl_indo_in($data['tanggal_akhir_paspor']);
-		if ($data['tanggalperkawinan'] == '') $data['tanggalperkawinan'] = NULL;
-		if ($data['tanggalperkawinan']) $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
-		if ($data['tanggalperceraian'] == '') $data['tanggalperceraian'] = NULL;
-		if ($data['tanggalperceraian']) $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
+		if (!empty($data['tanggalperkawinan'])) $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
+		if (!empty($data['tanggalperceraian'])) $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
 		if ($data['sex'] == 1) $data['hamil'] = 0;
+		switch ($data['status_kawin']) {
+			case 1:
+				// Status 'belum kawin' tidak berlaku akta perkawinan dan perceraian
+				$data['akta_perkawinan'] = NULL;
+				$data['akta_perceraian'] = NULL;
+				$data['tanggalperkawinan'] = NULL;
+				$data['tanggalperceraian'] = NULL;
+				break;
+			case 2:
+				// Status 'kawin' tidak berlaku akta perceraian
+				$data['akta_perceraian'] = NULL;
+				$data['tanggalperceraian'] = NULL;
+				break;
+			case 3:
+			case 4:
+				break;
+		}
 
 		$valid = array();
 		if (preg_match("/[^a-zA-Z '\.,-]/", $data['nama']))
@@ -737,11 +766,27 @@
 		$log['nama_kk'] = $penduduk['kepala_kk'];
 		$log['tgl_peristiwa'] = rev_tgl($_POST['tgl_peristiwa']);
 		$log['id_detail'] = $data['status_dasar'];
+		if ($log['id_detail'] == 3)
+			$log['ref_pindah'] = !empty($_POST['ref_pindah']) ? $_POST['ref_pindah'] : 1;
 		$log['bulan'] = date("m");
 		$log['tahun'] = date("Y");
 		$log['catatan'] = $_POST['catatan'];
 
 		$this->tulis_log_penduduk_data($log);
+	}
+
+	/**
+	 * Kembalikan status dasar penduduk ke hidup
+	 *
+	 * @param $id 			id penduduk
+	 * @return void
+	 */
+	public function kembalikan_status($id)
+	{
+		$_SESSION['success'] = 1;
+		$data['status_dasar'] = 1; // status dasar hidup
+		if (!$this->db->where('id', $id)->update('tweb_penduduk', $data))
+			$_SESSION['success'] = - 1;
 	}
 
 	public function delete($id='')
@@ -811,9 +856,17 @@
 	{
 		$sql = "SELECT u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
 			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat,
+			(CASE when u.status_kawin <> 2
+				then k.nama
+				else
+					case when u.akta_perkawinan = ''
+						then 'KAWIN TIDAK TERCATAT'
+						else 'KAWIN TERCATAT'
+					end
+				end) as kawin,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id)
 			 AS umur, x.nama AS sex, w.nama AS warganegara,
-			 p.nama AS pekerjaan, k.nama AS kawin, g.nama AS agama, c.nama as cacat,
+			 p.nama AS pekerjaan, g.nama AS agama, c.nama as cacat,
 			 kb.nama as cara_kb, sm.nama as sakit_menahun,
 			 sd.nama as status_dasar, u.status_dasar as status_dasar_id,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = d.nik_kepala)) AS kepala_kk,
@@ -913,9 +966,12 @@
 
 	public function list_rw($dusun='')
 	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND dusun = ? AND rw <> '0'";
-		$query = $this->db->query($sql,$dusun);
-		$data = $query->result_array();
+		$data = $this->db->
+			where('rt', '0')->
+			where('dusun', $dusun)->
+			where("rw <> '0'")->
+			get('tweb_wil_clusterdesa')->
+			result_array();
 		return $data;
 	}
 
@@ -1208,7 +1264,10 @@
 	// Untuk form surat
 	public function list_penduduk_status_dasar($status_dasar=1)
 	{
-    $sql = "SELECT u.id, nik, nama, CONCAT('Alamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS alamat, w.rt, w.rw, w.dusun, u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id WHERE u.status_dasar = ?";
+    $sql = "SELECT u.id, nik, nama,
+    	CONCAT('Alamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS alamat,
+    	CONCAT('NIK: ', nik, ' - ', nama, '\nAlamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS info_pilihan_penduduk,
+    	w.rt, w.rw, w.dusun, u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id WHERE u.status_dasar = ?";
     $data = $this->db->query($sql, array($status_dasar))->result_array();
 		return $data;
 	}
@@ -1290,7 +1349,7 @@
 				->where('status_dasar', '1');
 		$data = $this->db->get()->result_array();
 
-		//Formating Output untuk nilai variabel di javascript
+		//Formating Output untuk nilai variabel di javascript, di form surat
 		foreach($data as $i => $row)
 		{
 			$data[$i]['nama'] = addslashes($row['nama']);

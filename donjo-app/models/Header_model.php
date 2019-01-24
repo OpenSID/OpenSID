@@ -28,9 +28,27 @@ class Header_model extends CI_Model {
 
 	public function miskin_total()
 	{
-		$sql = "SELECT COUNT(id) AS jumlah FROM program_peserta WHERE program_id = 1";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$jml_program = $this->db->select('COUNT(id) as jml')
+			->get('program')
+			->row()->jml;
+		if (empty($jml_program))
+		{
+			$data['jumlah'] = 0;
+			$data['nama'] = 'PROGRAM BANTUAN';
+			$data['link_detail'] = 'program_bantuan';
+			return $data;
+		}
+
+		if (empty($this->setting->dashboard_program_bantuan))
+			$this->setting->dashboard_program_bantuan = 1;
+		$data = $this->db->select('COUNT(pp.id) AS jumlah')
+			->select('nama')
+			->from('program p')
+			->join('program_peserta pp', 'p.id = pp.program_id', 'left')
+			->where('p.id', $this->setting->dashboard_program_bantuan)
+			->get()
+			->row_array();
+		$data['link_detail'] = 'statistik/index/50'.$this->setting->dashboard_program_bantuan;
 		return $data;
 	}
 

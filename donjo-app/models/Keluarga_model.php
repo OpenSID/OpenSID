@@ -308,6 +308,7 @@
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 		unset($data['nik_lama']);
+		unset($data['kk_level_lama']);
 
 		$error_validasi = array_merge($this->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
 		if (!empty($error_validasi))
@@ -475,7 +476,7 @@
 			$this->db->where('id', $id_kk);
 			$outp = $this->db->update('tweb_keluarga', $nik);
 		}
-    elseif ($kk_level_lama == 1)
+    elseif ($kk_level_lama == 1 and $kk_level != 1)
     {
     	// Ubah kepala keluarga menjadi kosong
       $nik['nik_kepala'] = NULL;
@@ -601,7 +602,15 @@
 	{
 		$sql = "SELECT u.*, u.sex as sex_id, u.status_kawin as status_kawin_id,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
-				b.dusun, b.rw, b.rt, x.nama as sex, u.kk_level, a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan, w.nama as status_kawin, f.nama as warganegara, g.nama as golongan_darah, h.nama AS hubungan, k.alamat
+			(CASE when u.status_kawin <> 2
+				then w.nama
+				else
+					case when u.akta_perkawinan = ''
+						then 'KAWIN TIDAK TERCATAT'
+						else 'KAWIN TERCATAT'
+					end
+				end) as status_kawin,
+			b.dusun, b.rw, b.rt, x.nama as sex, u.kk_level, a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan, f.nama as warganegara, g.nama as golongan_darah, h.nama AS hubungan, k.alamat
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
 			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id

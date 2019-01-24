@@ -6,7 +6,29 @@
     <link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
   </head>
   <style type="text/css">
-    td.judul {text-align: center; font-size: 14pt;};
+    .underline { text-decoration: underline; }
+    td.judul {font-size: 14pt; font-weight: bold;}
+    td.judul2 {font-size: 12pt; font-weight: bold;}
+    td.text-bold {font-weight: bold;}
+    table.tftable td.no-border {
+      border: 0px;
+      border-style: hidden;
+    }
+    table.tftable td.no-border-kecuali-kiri {
+      border-top-style: hidden;
+      border-bottom-style: hidden;
+      border-right-style: hidden;
+    }
+    table.tftable td.no-border-kecuali-atas {
+      border-left-style: hidden;
+      border-bottom-style: hidden;
+      border-right-style: hidden;
+    }
+    table.tftable td.no-border-kecuali-bawah {
+      border-left-style: hidden;
+      border-top-style: hidden;
+      border-right-style: hidden;
+    }
     table.tftable
     {
       margin-top: 5px;
@@ -58,50 +80,125 @@
       <!-- Print Body -->
       <div id="body">
         <table>
-          <tbody>
-            <?php foreach ($config as $data): ?>
-              <tr>
-                <td colspan="12" class="judul"><strong>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($data['nama_kabupaten'])?> <?= strtoupper($this->setting->sebutan_kecamatan)?> <?= strtoupper($data['nama_kecamatan'])?></strong></td>
-              </tr>
-              <tr>
-                <td colspan="12" class="judul"><strong>LAPORAN PENDUDUK <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($data['nama_desa'])?></strong></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
+          <tr>
+            <td colspan="11" class='text-bold'>PEMERINTAH KABUPATEN/KOTA</td>
+            <td colspan="2" class="text-bold"><span style="float: right; border: solid 1px black; font-size: 12pt; text-align: center; padding: 5px 20px;">LAMPIRAN A-9</span></td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text"><span style="border-bottom: 2px solid;"><?= strtoupper($config[0]['nama_kabupaten'])?></span></td>
+            <td colspan="11">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+            <td colspan="10" class="judul" style="padding-bottom: 10px;"><span style="border-bottom: 2px solid;">LAPORAN BULANAN DESA/KELURAHAN</span></td>
+          <tr>
+          <?php foreach ($config as $data): ?>
+            <tr>
+              <td colspan="3" width="32%">&nbsp;</td>
+              <td colspan="3" width="15%" class="text-bold">Desa/Kelurahan</td>
+              <td colspan="7" width="53%">: <?= strtoupper($data['nama_desa'])?></td>
+            </tr>
+            <tr>
+              <td colspan="3">&nbsp;</td>
+              <td colspan="3" class="text-bold">Kecamatan</td>
+              <td colspan="7">: <?= strtoupper($data['nama_kecamatan'])?></td>
+            </tr>
+          <?php endforeach; ?>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+            <td colspan="3" class="text-bold">Laporan Bulan</td>
+            <td colspan="7">: <?= $bln?> <?= $tahun?></td>
+          </tr>
         </table>
         <br>
-        <table>
-          <tbody>
-            <tr>
-              <td style="text-align: left;">Bulan : <?= $bln?> <?= $tahun?> </td>
-              <td width="40%"></td>
-            </tr>
-          </tbody>
-        </table>
         <?php include ("donjo-app/views/laporan/tabel_bulanan.php"); ?>
-        <table>
-          <col span="9" style="width: 8%">
-          <col style="width: 28%">
-          <tr><td colspan="10">&nbsp;</td>
-          <tr><td colspan="10">&nbsp;</td>
+        <table class="tftable">
+          <tr><td colspan="13" class="no-border">&nbsp;</td></tr>
           <tr>
-            <td colspan="9">&nbsp;</td>
-            <td><?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($data['nama_desa'])?>, <?= tgl_indo(date("Y m d"))?></td>
+            <td colspan="8" class="judul2 no-border-kecuali-bawah" style="padding-bottom: 10px;">
+              <span style="border-bottom: 2px solid;">PERINCIAN PINDAH</span>
+            </td>
+            <td colspan="5" class="no-border">&nbsp;</td>
           </tr>
           <tr>
-            <td colspan="9">&nbsp;</td>
-            <td><?= unpenetration($input['jabatan'])?> <?= unpenetration($data['nama_desa'])?></td>
+            <th rowspan="2" width='2%' class="text-center">NO</th>
+            <th rowspan="2" width='20%' class="text-center">KETERANGAN</th>
+            <th colspan="3" class="text-center">PENDUDUK</th>
+            <th colspan="3" class="text-center">KELUARGA (KK)</th>
+            <td rowspan="7" colspan="2" width="30%" class="no-border-kecuali-kiri">&nbsp;</td>
+            <td rowspan="2" colspan="3" class="no-border" style="vertical-align: top;">
+              <?= ucwords($this->setting->sebutan_desa)?> <?= $data['nama_desa']?>, <?= tgl_indo(date("Y m d"))?><br>
+              KEPALA DESA/LURAH <?= $data['nama_desa']?><br>
+            </td>
           </tr>
-          <tr><td colspan="10">&nbsp;</td>
-          <tr><td colspan="10">&nbsp;</td>
-          <tr><td colspan="10">&nbsp;</td>
-          <tr><td colspan="10">&nbsp;</td>
           <tr>
-            <td colspan="9">&nbsp;</td>
-            <td>( <?= unpenetration($input['pamong'])?> )</td>
+            <th class="text-center">L</th>
+            <th class="text-center">P</th>
+            <th class="text-center">L+P</th>
+            <th class="text-center">L</th>
+            <th class="text-center">P</th>
+            <th class="text-center">L+P</th>
+          </tr>
+          <tr>
+            <td class="text-center">1</td>
+            <td>Pindah keluar Desa/Kelurahan</td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['DESA_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['DESA_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['DESA_L']+$rincian_pindah['DESA_P']),'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['DESA_KK_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['DESA_KK_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['DESA_KK_L']+$rincian_pindah['DESA_KK_P']),'-')?></td>
+            <td colspan="3" class="no-border">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="text-center">2</td>
+            <td>Pindah keluar Kecamatan</td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['KEC_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['KEC_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['KEC_L']+$rincian_pindah['KEC_P']),'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['KEC_KK_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['KEC_KK_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['KEC_KK_L']+$rincian_pindah['KEC_KK_P']),'-')?></td>
+            <td colspan="3" class="no-border">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="text-center">3</td>
+            <td>Pindah keluar Kabupaten/Kota</td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['KAB_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['KAB_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['KAB_L']+$rincian_pindah['KAB_P']),'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['KAB_KK_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['KAB_KK_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['KAB_KK_L']+$rincian_pindah['KAB_KK_P']),'-')?></td>
+            <td colspan="3" class="no-border">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="text-center">4</td>
+            <td>Pindah keluar Provinsi</td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['PROV_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['PROV_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['PROV_L']+$rincian_pindah['PROV_P']),'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['PROV_KK_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['PROV_KK_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['PROV_KK_L']+$rincian_pindah['PROV_KK_P']),'-')?></td>
+            <td rowspan="2" colspan="3" class="no-border" style="vertical-align: top;">
+              ( <?= $pamong_ttd['pamong_nama']?> )<br>
+              NIP/NIAP <?= $pamong_ttd['pamong_niap_nip']?>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text-center text-bold">JUMLAH:</td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['TOTAL_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['TOTAL_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['TOTAL_L']+$rincian_pindah['TOTAL_P']),'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['TOTAL_KK_L'],'-')?></td>
+            <td class="text-right"><?= show_zero_as($rincian_pindah['TOTAL_KK_P'],'-')?></td>
+            <td class="text-right"><?= show_zero_as(($rincian_pindah['TOTAL_KK_L']+$rincian_pindah['TOTAL_KK_P']),'-')?></td>
+          </tr>
+          <tr>
+            <td colspan="8" class="no-border-kecuali-atas">&nbsp;</td>
           </tr>
         </table>
-
       </div>
     </div>
   </body>

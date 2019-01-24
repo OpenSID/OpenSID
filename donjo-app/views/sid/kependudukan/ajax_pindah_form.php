@@ -21,7 +21,7 @@
 				document.getElementById("rw").innerHTML=xmlhttp.responseText;
 			}
 		}
-		xmlhttp.open("GET","<?= site_url()?>penduduk/ajax_penduduk_pindah_rw/"+str,true);
+		xmlhttp.open("GET","<?= site_url()?>penduduk/ajax_penduduk_pindah_rw/"+encodeURIComponent(str).replace(/\(/g, "%28").replace(/\)/g, "%29"), true);
 		xmlhttp.send();
 	}
 
@@ -107,7 +107,7 @@
 								<option value="">Pilih Dusun</option>
 								<?php foreach ($dusun as $data): ?>
 								<?php ///$data['dusun']=myUrlEncode($data['dusun']);?>
-									<option value="<?= ($data['dusun'])?>"><?= ununderscore(unpenetration($data['dusun']))?></option>
+									<option value="<?= ($data['dusun'])?>"><?= $data['dusun']?></option>
 								<?php endforeach;?>
 							</select>
 						</div>

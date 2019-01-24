@@ -21,10 +21,10 @@
 							<div class="form-group">
 								<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
 								<div class="col-sm-6 col-lg-4">
-									<select class="form-control  input-sm select2" id="cari_nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-										<option selected="selected">--  Cari NIK / Nama Penduduk--</option>
+									<select class="form-control  input-sm select2-nik" id="cari_nik" name="nik" style ="width:100%;" onchange="formAction('main')">
+										<option value="">--  Cari NIK / Nama Penduduk--</option>
 										<?php foreach ($penduduk as $data): ?>
-											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+											<option value="<?= $data['id']?>" <?php selected($individu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -55,25 +55,7 @@
 									<textarea  id="keterangan" class="form-control input-sm required" placeholder="Keterangan" name="keterangan"></textarea>
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="berlaku_dari" class="col-sm-3 control-label">Berlaku Dari - Sampai</label>
-								<div class="col-sm-3 col-lg-2">
-									<div class="input-group input-group-sm date">
-										<div class="input-group-addon">
-											<i class="fa fa-calendar"></i>
-										</div>
-										<input title="Pilih Tanggal" name="berlaku_dari" class="form-control input-sm datepicker required" type="text"/>
-									</div>
-								</div>
-								<div class="col-sm-3 col-lg-2">
-									<div class="input-group input-group-sm date">
-										<div class="input-group-addon">
-											<i class="fa fa-calendar"></i>
-										</div>
-										<input title="Pilih Tanggal" class="form-control input-sm datepicker required" name="berlaku_sampai" type="text"/>
-									</div>
-								</div>
-							</div>
+							<?php include("donjo-app/views/surat/form/tgl_berlaku.php"); ?>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 						</div>
 						<?php include("donjo-app/views/surat/form/tombol_cetak.php"); ?>

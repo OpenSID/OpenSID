@@ -1,4 +1,8 @@
 <!-- Perubahan script coding untuk bisa menampilkan SID Home dalam bentuk tampilan bootstrap (AdminLTE)  -->
+<style type="text/css">
+	.text-white {color: white;}
+	.pengaturan {float: left; padding-left: 10px;}
+</style>
 <div class="content-wrapper">
 	<section class='content-header'>
 		<h1>Tentang OpenSID</h1>
@@ -71,15 +75,18 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-yellow">
 								<div class="inner">
-									<?php foreach ($miskin as $data): ?>
-										<h3><?=$data['jumlah']?></h3>
-									<?php endforeach; ?>
-									<p>Raskin</p>
+									<h3><?=$miskin['jumlah']?></h3>
+									<p><?=$miskin['nama']?></p>
 								</div>
 								<div class="icon">
 									<i class="ion ion-ios-pie"></i>
 								</div>
-								<a href="<?=site_url()?>statistik/index/501" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+								<div class="small-box-footer">
+									<?php if ($_SESSION['grup'] == 1 ): ?>
+										<a href="<?= site_url("{$this->controller}/dialog_pengaturan")?>" class="inner text-white pengaturan" title="Pengaturan Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Program Bantuan"><i class="fa fa-gear"></i></a>
+									<?php endif; ?>
+									<a href="<?=site_url().$miskin['link_detail']?>" class="inner text-white">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+								</div>
 							</div>
 						</div>
 						<div class="col-lg-6 col-xs-6">

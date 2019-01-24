@@ -182,7 +182,8 @@ class Bip2016_model extends Import_model {
 				{
 					if (!is_numeric($data_sheet[$i][1])) break;
 					$data_anggota = $this->get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga);
-					if ($this->data_import_valid($data_anggota))
+					$error_validasi = $this->data_import_valid($data_anggota);
+					if (empty($error_validasi))
 					{
 						$this->tulis_tweb_penduduk($data_anggota);
 						$total_penduduk++;
@@ -190,7 +191,7 @@ class Bip2016_model extends Import_model {
 					else
 					{
 						$gagal_penduduk++;
-						$baris_gagal .= $i.",";
+						$baris_gagal .= $i." (".$error_validasi.")<br>";
 					}
 					$i++;
 				}
