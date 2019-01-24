@@ -101,7 +101,7 @@ class First_artikel_m extends CI_Model {
 			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1";
-			$cari = trim($this->input->post('cari'));
+			$cari = trim($this->input->get('cari'));
 			if ( ! empty($cari))
 			{
 				$cari = $this->db->escape_like_str($cari);

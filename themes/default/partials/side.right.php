@@ -3,8 +3,8 @@
 
 <div class="box box-primary box-solid">
 	<div class="box-body">
-	<form method=post action="<?php echo site_url('first');?>" class="form-inline">
-		<input type="text" name="cari" class="form-control" value="<?= html_escape($_POST['cari']); ?>" placeholder="Cari artikel...">
+	<form method=get action="<?php echo site_url('first');?>" class="form-inline">
+		<input type="text" name="cari" class="form-control" value="<?= html_escape($_GET['cari']); ?>" placeholder="Cari artikel...">
 		<button type="submit" class="btn btn-primary">Cari</button>
 	</form>
 	</div>
