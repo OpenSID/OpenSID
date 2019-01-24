@@ -22,9 +22,7 @@ Lengkapnya, isi rilis versi 19.01-pasca:
 16. #1872: Sekarang di halaman Info Desa > Wilayah Administratif > Wilayah Administratif RW, tautan di link RW dapat diklik. Juga informasi RT untuk RW default '-' ditampilkan. [bug-fix]
 17. #1673: Tampilkan status kawin penduduk sebagai tercatat/tidak tercatat tergantung ada tidaknya akta perkawinan. Ganti SHDK 'FAMILI LAIN' menjadi 'FAMILI'.
 18. Sekarang di dashboard Home > SID, panel statistik yg dulunya RASKIN bisa diubah oleh Admin untuk menampilkan Program Bantuan yang diinginkan.
-
+19. #1880: XSS bypass parameter cari di theme default dan hadakewa sudah ditambal. [security-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.01-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
-
-
