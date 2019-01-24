@@ -86,11 +86,11 @@ class First extends Web_Controller {
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 		$data['headline'] = $this->first_artikel_m->get_headline();
 
-		$cari = trim($this->input->get('cari'));
+		$cari = trim($this->input->post('cari'));
 		if ( ! empty($cari))
 		{
 			// Judul artikel bisa digunakan untuk serangan XSS
-			$data["judul_kategori"] = html_escape($this->security->xss_clean("Hasil pencarian: $cari"));
+			$data["judul_kategori"] = $this->security->xss_clean("Hasil pencarian: $cari");
 		}
 
 		$this->_get_common_data($data);
