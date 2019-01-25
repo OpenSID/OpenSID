@@ -166,7 +166,6 @@ class Surat_masuk extends CI_Controller {
 	{
 		$data['aksi'] = "Cetak";
 		$data['pamong'] = $this->pamong_model->list_data(true);
-		// $data['tahun_surat'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['form_action'] = site_url("surat_masuk/disposisi/$id");
 		$this->load->view('surat_masuk/ajax_disposisi', $data);
 	}
