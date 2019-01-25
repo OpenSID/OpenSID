@@ -162,13 +162,13 @@ class Surat_masuk extends CI_Controller {
 		redirect("surat_masuk/index/$p/$o");
 	}
 
-	public function dialog_cetak($o = 0, $id)
+	public function dialog_disposisi($o = 0, $id)
 	{
 		$data['aksi'] = "Cetak";
 		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_penerimaan();
+		// $data['tahun_surat'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['form_action'] = site_url("surat_masuk/disposisi/$id");
-		$this->load->view('surat_masuk/ajax_cetak', $data);
+		$this->load->view('surat_masuk/ajax_disposisi', $data);
 	}
 
 	public function cetak($o = 0)
