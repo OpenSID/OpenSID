@@ -21,6 +21,7 @@
 	);
 
 	$_SESSION['post'] = $_POST;
+	$_SESSION['post']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 
 	$data['ibu'] = $this->surat_model->get_data_ibu($data['individu']['id']);
 	$data['ayah'] = $this->surat_model->get_data_ayah($data['individu']['id']);

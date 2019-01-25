@@ -1,14 +1,3 @@
-<script>
-	$(function()
-	{
-		var keyword = <?= $pengirim?> ;
-		$( "#pengirim" ).autocomplete(
-		{
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
-</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Disposisi Surat Masuk</h1>
@@ -28,7 +17,9 @@
            	</a>
 					</div>
 					<div class="box-body">
-						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal nomor-urut">
+							<input type="hidden" id="nomor_urut_lama" name="nomor_urut_lama" value="<?= $surat_masuk['nomor_urut']?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat_masuk/nomor_surat_duplikat')?>">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nomor_urut">Nomor Urut</label>
 								<div class="col-sm-8">
@@ -90,7 +81,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nomor_surat">Nomor Surat</label>
 								<div class="col-sm-8">
-									<input id="nomor_surat" name="nomor_surat" class="form-control input-sm required" type="text" placeholder="Nomor Surat" value="<?= $surat_masuk['nomor_surat']?>"></input>
+									<input id="nomor_surat" name="nomor_surat" maxlength="35" class="form-control input-sm required" type="text" placeholder="Nomor Surat" value="<?= $surat_masuk['nomor_surat']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -118,21 +109,21 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="disposisi_kepada">Disposisi Kepada</label>
-								<div class="col-sm-8 col-lg-4">
-									<select name="disposisi_kepada[]" multiple id="disposisi_kepada" class="form-control input-sm required">
+								<div class="col-sm-8 col-lg-8">
+									<div id="op_item">
 										<?php foreach ($ref_disposisi as $data): ?>
-
-												<option value="<?= $data?>"
-													<?php foreach ($disposisi_surat_masuk as $value): ?>
-														<?php if ($value['disposisi_ke'] == $data): ?>
-															selected
-														<?php endif; ?>
-													<?php endforeach; ?>>
+											<div class="col-sm-12 col-lg-6 checkbox">
+												<label>
+													<input name="disposisi_kepada[]" value="<?= $data?>" type="checkbox"
+														<?php foreach ($disposisi_surat_masuk as $value): ?>
+															<?php selected($value['disposisi_ke'], $data, 1) ?>
+														<?php endforeach; ?>
+													>
 													<?= strtoupper($data)?>
-												</option>
-
-										<?php endforeach ?>
-									</select>
+												</label>
+											</div>
+										<?php endforeach;?>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -154,4 +145,14 @@
 		</div>
 	</section>
 </div>
-
+<script type="text/javascript">
+	$(function()
+	{
+		var keyword = <?= $pengirim?> ;
+		$( "#pengirim" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>

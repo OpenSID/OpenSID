@@ -7,19 +7,28 @@
 
 	public function autocomplete()
 	{
-		$sql   = "SELECT no_surat FROM log_surat";
-		$query = $this->db->query($sql);
-		$data  = $query->result_array();
-
-		$outp='';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ",'" .$data[$i]['no_surat']. "'";
-		}
-		$outp = substr($outp, 1);
-		$outp = '[' .$outp. ']';
-
-		return $outp;
+		$sql = array();
+		$sql[] = '('.$this->db->select('no_surat')
+							->from("log_surat")
+							->get_compiled_select()
+							.')';
+		$sql[] = '('.$this->db->select('n.nama')
+							->from("log_surat u")
+							->join("tweb_penduduk n", "u.id_pend = n.id", "left")
+							->get_compiled_select()
+							.')';
+		$sql[] = '('.$this->db->select('p.nama')
+							->from("log_surat u")
+							->join("tweb_desa_pamong s", "u.id_pamong = s.pamong_id", "left")
+							->join("tweb_penduduk p", "s.id_pend = p.id", "left")
+							->get_compiled_select()
+							.')';
+		$sql = implode('
+		UNION
+		', $sql);
+		$data = $this->db->query($sql)->result_array();
+		$str = autocomplete_data_ke_str($data);
+		return $str;
 	}
 
 	private function search_sql()
@@ -29,49 +38,52 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.no_surat LIKE '$kw' OR u.id_pend LIKE '$kw')";
+			$search_sql = " AND (u.no_surat LIKE '$kw' OR n.nama LIKE '$kw' OR
+					s.pamong_nama like '$kw' OR p.nama like '$kw')";
 			return $search_sql;
 		}
 	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['nik']))
+		if (isset($_SESSION['filter']))
 		{
-			$kf = $_SESSION['nik'];
+			$kf = $_SESSION['filter'];
 			if ($kf == "0")
-			{
-				$filter_sql= "";
-			}
+				$filter_sql = "";
 			else
-			{
-				$filter_sql= " AND n.id = '".$kf."'";
-			}
+				$filter_sql = " AND YEAR(u.tanggal) = '".$kf."'";
 			return $filter_sql;
+		}
+	}
+
+	private function jenis_sql()
+	{
+		if (isset($_SESSION['jenis']))
+		{
+			$kf = $_SESSION['jenis'];
+			if (empty($kf))
+				$sql = "";
+			else
+				$sql = " AND k.nama = '".$kf."'";
+			return $sql;
 		}
 	}
 
 	private function filterku_sql($nik=0)
 	{
+		if (empty($nik)) return "";
 		$kf = $nik;
-		if ($kf == 0)
-		{
-			$filterku_sql= "";
-		}
-		else
-		{
-			$filterku_sql= " AND u.id_pend = '".$kf."'";
-		}
+		$filterku_sql= " AND u.id_pend = '".$kf."'";
 		return $filterku_sql;
 	}
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(id) AS id FROM log_surat u WHERE 1";
-		$sql .= $this->search_sql();
+		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
-		$jml_data = $row['id'];
+		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -82,46 +94,119 @@
 		return $this->paging;
 	}
 
-	public function paging_perorangan($nik=0, $p=1, $o=0)
+	private function list_data_sql()
 	{
-		$sql = "SELECT count(id_format_surat) as id FROM log_surat u LEFT JOIN tweb_penduduk n ON u.id_pend = n.id LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id  WHERE 1 ";
-		$sql .= $this->filterku_sql($nik);
-		$query  = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['id'];
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		$sql = " FROM log_surat u
+			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
+			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
+			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
+			LEFT JOIN tweb_penduduk p ON s.id_pend = p.id
+			LEFT JOIN user w ON u.id_user = w.id
+			WHERE 1 ";
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		$sql .= $this->jenis_sql();
+		return $sql;
 	}
 
-	public function list_data_surat($nik=0, $o=0, $offset=0, $limit=500)
+	public function list_data($o=0, $offset=0, $limit=500)
 	{
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.no_surat'; break;
-			case 2: $order_sql = ' ORDER BY u.no_surat DESC'; break;
+			case 1: $order_sql = ' ORDER BY u.no_surat * 1'; break;
+			case 2: $order_sql = ' ORDER BY u.no_surat * 1 DESC'; break;
+			case 3: $order_sql = ' ORDER BY nama'; break;
+			case 4: $order_sql = ' ORDER BY nama DESC'; break;
+			case 5: $order_sql = ' ORDER BY u.tanggal'; break;
+			case 6: $order_sql = ' ORDER BY u.tanggal DESC'; break;
+
+			default:$order_sql = ' ORDER BY u.tanggal DESC';
+		}
+
+		//Paging SQL
+		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+
+		//Main Query
+		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
+
+		$sql = $select_sql . $this->list_data_sql();
+		$sql .= $order_sql;
+		$sql .= $paging_sql;
+
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+
+		//Formating Output
+		$j = $offset;
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no'] = $j+1;
+			$data[$i]['t'] = $data[$i]['id_pend'];
+
+			if ($data[$i]['id_pend'] == -1)
+				$data[$i]['id_pend'] = "Masuk";
+			else
+				$data[$i]['id_pend'] = "Keluar";
+			if (!empty($data[$i]['pamong_id_pend']))
+				// Pamong desa
+				$data[$i]['pamong'] = $data[$i]['nama_pamong_desa'];
+
+			$j++;
+		}
+		return $data;
+	}
+
+	public function paging_perorangan($nik=0, $p=1, $o=0)
+	{
+		$sql = "SELECT count(*) as jml " . $this->list_data_perorangan_sql($nik);
+
+		$query  = $this->db->query($sql);
+		$row = $query->row_array();
+		$jml_data = $row['jml'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	private function list_data_perorangan_sql($nik)
+	{
+		$sql = " FROM log_surat u
+			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
+			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
+			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
+			LEFT JOIN user w ON u.id_user = w.id
+			WHERE 1 ";
+		$sql .= $this->search_sql();
+		$sql .= $this->filterku_sql($nik);
+		return $sql;
+	}
+
+	public function list_data_perorangan($nik=0, $o=0, $offset=0, $limit=500)
+	{
+		//Ordering SQL
+		switch ($o)
+		{
+			case 1: $order_sql = ' ORDER BY u.no_surat * 1'; break;
+			case 2: $order_sql = ' ORDER BY u.no_surat * 1 DESC'; break;
+			case 3: $order_sql = ' ORDER BY nama'; break;
+			case 4: $order_sql = ' ORDER BY nama DESC'; break;
+			case 5: $order_sql = ' ORDER BY u.tanggal'; break;
+			case 6: $order_sql = ' ORDER BY u.tanggal DESC'; break;
 
 			default:$order_sql = ' ORDER BY u.tanggal DESC';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*,n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas,s.pamong_nama AS pamong
-			FROM log_surat u
-			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
-			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
-			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
-			LEFT JOIN user w ON u.id_user = w.id
-			WHERE 1 ";
+		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.pamong_nama AS pamong ";
 
-		$sql .= $this->search_sql();
-		$sql .= $this->filterku_sql($nik);
+		$sql = $select_sql . $this->list_data_perorangan_sql($nik);
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -133,54 +218,6 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no']=$j+3;
-			$j++;
-		}
-		return $data;
-	}
-
-	public function list_data($o=0, $offset=0, $limit=500)
-	{
-		//Ordering SQL
-		switch ($o)
-		{
-			case 1: $order_sql = ' ORDER BY u.no_surat'; break;
-			case 2: $order_sql = ' ORDER BY u.no_surat DESC'; break;
-
-			default:$order_sql = ' ORDER BY u.tanggal DESC';
-		}
-
-		//Paging SQL
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-
-		//Main Query
-		$sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas,s.pamong_nama AS pamong
-			FROM log_surat u
-			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
-			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
-			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
-			LEFT JOIN user w ON u.id_user = w.id
-			WHERE 1 ";
-
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		//Formating Output
-		$j=$offset;
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no']=$j+1;
-			$data[$i]['t']=$data[$i]['id_pend'];
-
-			if($data[$i]['id_pend'] == -1)
-				$data[$i]['id_pend'] = "Masuk";
-			else
-				$data[$i]['id_pend'] = "Keluar";
-
 			$j++;
 		}
 		return $data;
@@ -202,7 +239,6 @@
 		$url_surat = $data_log_surat['url_surat'];
 		$nama_surat = $data_log_surat['nama_surat'];
 		unset($data_log_surat['url_surat']);
-		$pamong_nama = $data_log_surat['pamong_nama'];
 		unset($data_log_surat['pamong_nama']);
 
 		foreach ($data_log_surat as $key => $val)
@@ -210,30 +246,20 @@
 			$data[$key] = $val;
 		}
 
-		$sql   = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
+		$sql = "SELECT id FROM tweb_surat_format WHERE url_surat = ?";
 		$query = $this->db->query($sql, $url_surat);
 		if ($query->num_rows() > 0)
 		{
-			$pam=$query->row_array();
-			$data['id_format_surat']=$pam['id'];
+			$pam = $query->row_array();
+			$data['id_format_surat'] = $pam['id'];
 		}
 		else
 		{
 			$data['id_format_surat'] = $url_surat;
 		}
 
-		$sql   = "SELECT pamong_id FROM tweb_desa_pamong WHERE pamong_nama = ?";
-		$query = $this->db->query($sql, $pamong_nama);
-		if ($query->num_rows() > 0)
-		{
-			$pam=$query->row_array();
-			$data['id_pamong']=$pam['pamong_id'];
-		} else
-		{
-			$data['id_pamong'] = 1;
-		}
-
-		if ($data['id_pamong']=='')
+		$data['id_pamong'] = $data_log_surat['id_pamong'];
+		if ($data['id_pamong'] == '')
 			$data['id_pamong'] = 1;
 
 		$data['bulan'] = date('m');
@@ -280,7 +306,7 @@
 		$data = $this->db
 				->select('f.nama, COUNT(l.id) as jumlah')
 				->from('log_surat l')
-				->join('tweb_surat_format f', 'l.id_format_surat=f.id')
+				->join('tweb_surat_format f', 'l.id_format_surat=f.id', 'left')
 				->group_by('f.nama')
 				->get()
 				->result_array();
@@ -333,6 +359,26 @@
 		$jml = $this->db->select('count(*) as jml')->get('log_surat')->row()->jml;
 		return $jml;
 	}
-}
 
+	public function list_tahun_surat()
+	{
+		$query = $this->db->distinct()->
+			select('YEAR(tanggal) AS tahun')->
+			order_by('YEAR(tanggal)','DESC')->
+			get('log_surat')->result_array();
+		return $query;
+	}
+
+	public function list_jenis_surat()
+	{
+		$query = $this->db->distinct()->
+			select('k.nama as nama_surat')->
+			from('log_surat u')->
+			join('tweb_surat_format k', 'u.id_format_surat = k.id', 'left')->
+			order_by('nama_surat')->
+			get()->result_array();
+		return $query;
+	}
+
+}
 ?>

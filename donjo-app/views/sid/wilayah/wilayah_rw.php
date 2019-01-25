@@ -20,7 +20,7 @@
            	</a>
 					</div>
 					<div class="box-header with-border">
-						<strong><?= ucwords($this->setting->sebutan_dusun)?> <?= unpenetration(ununderscore($dusun))?></strong>
+						<strong><?= ucwords($this->setting->sebutan_dusun)?> <?= $dusun?></strong>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -37,7 +37,7 @@
 																<th>No</th>
 																<th>Aksi</th>
 																<th> RW</th>
-																<th width="45%">Ketua RW</th>
+																<th>Ketua RW</th>
 																<th>NIK Ketua RW</th>
 																<th>RT</th>
 																<th>KK</th>
@@ -63,18 +63,18 @@
 																	</td>
 																	<td><?= $data['rw']?></td>
 																	<?php if ($data['rw']=="-"): ?>
-																		<td colspan="7">
+																		<td colspan="2">
 																			Pergunakan RW ini apabila RT berada langsung di bawah <?= ucwords($this->setting->sebutan_dusun)?>, yaitu tidak ada RW
 																		</td>
 																	<?php else: ?>
-																		<td nowrap><strong><?= unpenetration($data['nama_ketua'])?></strong></td>
+																		<td nowrap><strong><?= $data['nama_ketua']?></strong></td>
 																		<td><?= $data['nik_ketua']?></td>
-																		<td><a href="<?= site_url("wilayah/sub_rt/$id_dusun/$data[rw]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rt']?></a></td>
-																		<td><?= $data['jumlah_kk']?></td>
-																		<td><?= $data['jumlah_warga']?></td>
-																		<td><?= $data['jumlah_warga_l']?></td>
-																		<td><?= $data['jumlah_warga_p']?></td>
 																	<?php endif; ?>
+																	<td><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rt']?></a></td>
+																	<td><?= $data['jumlah_kk']?></td>
+																	<td><?= $data['jumlah_warga']?></td>
+																	<td><?= $data['jumlah_warga_l']?></td>
+																	<td><?= $data['jumlah_warga_p']?></td>
 																</tr>
 																<?php endforeach; ?>
 															</tbody>

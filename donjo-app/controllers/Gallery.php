@@ -199,6 +199,7 @@ class Gallery extends CI_Controller {
 		$data['sub_gallery'] = $this->web_gallery_model->list_sub_gallery($gal, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['gallery'] = $gal;
 		$data['sub'] = $this->web_gallery_model->get_gallery($gal);
+		$data['keyword'] = $this->web_gallery_model->autocomplete();
 		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 51;

@@ -28,7 +28,9 @@
            	</a>
 					</div>
 					<div class="box-body">
-						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal nomor-urut">
+							<input type="hidden" id="nomor_urut_lama" name="nomor_urut_lama" value="<?= $surat_keluar['nomor_urut']?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat_keluar/nomor_surat_duplikat')?>">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nomor_urut">Nomor Urut</label>
 								<div class="col-sm-8">
@@ -47,7 +49,7 @@
 								</div>
 							<?php endif; ?>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_pos">Berkas Scan Surat Masuk</label>
+								<label class="col-sm-3 control-label" for="kode_pos">Berkas Scan Surat Keluar</label>
 								<div class="col-sm-8">
 									<div class="input-group input-group-sm col-sm-8 col-lg-6">
 										<input type="text" class="form-control" id="file_path">
@@ -79,7 +81,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nomor_surat">Nomor Surat</label>
 								<div class="col-sm-8">
-									<input id="nomor_surat" name="nomor_surat" class="form-control input-sm required" type="text" placeholder="Nomor Surat" value="<?= $surat_keluar['nomor_surat']?>"></input>
+									<input id="nomor_surat" name="nomor_surat" maxlength="35" class="form-control input-sm required" type="text" placeholder="Nomor Surat" value="<?= $surat_keluar['nomor_surat']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">

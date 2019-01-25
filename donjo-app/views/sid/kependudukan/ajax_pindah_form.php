@@ -21,7 +21,7 @@
 				document.getElementById("rw").innerHTML=xmlhttp.responseText;
 			}
 		}
-		xmlhttp.open("GET","<?= site_url()?>penduduk/ajax_penduduk_pindah_rw/"+str,true);
+		xmlhttp.open("GET","<?= site_url()?>penduduk/ajax_penduduk_pindah_rw/"+encodeURIComponent(str).replace(/\(/g, "%28").replace(/\)/g, "%29"), true);
 		xmlhttp.send();
 	}
 
@@ -78,7 +78,7 @@
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px; width:30%;" >Nama / NIK</td>
 								<td> : </td>
-								<td><strong><?= strtoupper(unpenetration($kepala_keluarga['nama']))?></strong> - [<?= $kepala_keluarga['nik']?>]</td>
+								<td><strong><?= strtoupper($kepala_keluarga['nama'])?></strong> - [<?= $kepala_keluarga['nik']?>]</td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Tempat / Tgl. Lahir</td>
@@ -107,7 +107,7 @@
 								<option value="">Pilih Dusun</option>
 								<?php foreach ($dusun as $data): ?>
 								<?php ///$data['dusun']=myUrlEncode($data['dusun']);?>
-									<option value="<?= ($data['dusun'])?>"><?= ununderscore(unpenetration($data['dusun']))?></option>
+									<option value="<?= ($data['dusun'])?>"><?= $data['dusun']?></option>
 								<?php endforeach;?>
 							</select>
 						</div>

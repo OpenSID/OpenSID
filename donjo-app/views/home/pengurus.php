@@ -1,3 +1,17 @@
+<style type="text/css">
+	td.nowrap { white-space: nowrap; }
+</style>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></h1>
@@ -12,11 +26,13 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Staf">
-  	          <i class="fa fa-plus"></i>Tambah Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?>
+  	          <i class="fa fa-plus"></i>Tambah Aparat Pemerintahan <?= ucwords($this->setting->sebutan_desa)?>
             </a>
-            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("pengurus/delete_all")?>')" class="btn btn-social btn-flat		btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("pengurus/delete_all")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
               <i class='fa fa-trash-o'></i> Hapus Data Terpilih
             </a>
+						<a href="<?= site_url("{$this->controller}/dialog_cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print "></i> Cetak</a>
+						<a href="<?= site_url("{$this->controller}/dialog_unduh/$o")?>" title="Unduh Data" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"><i class="fa fa-download"></i> Unduh</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -34,7 +50,7 @@
 											<div class="col-sm-6">
 												<div class="box-tools">
 													<div class="input-group input-group-sm pull-right">
-														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?= site_url('pengurus/search')?>');$('#'+'mainform').submit();}">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?= site_url('pengurus/search')?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
 															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url("pengurus/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
@@ -52,8 +68,18 @@
 																<th>No</th>
 																<th width='12%'>Aksi</th>
 																<th class="text-center">Foto</th>
-																<th width='50%'>Nama / NIP /NIK</th>
+																<th>Nama, NIP/NIAP, NIK</th>
+																<th>Tempat, Tanggal Lahir</th>
+																<th>Jenis Kelamin</th>
+																<th>Agama</th>
+																<th>Pangkat / Golongan</th>
 																<th>Jabatan</th>
+																<th>Pendidikan Terakhir</th>
+																<th>Nomor SK Pengangkatan</th>
+																<th>Tanggal SK Pengangkatan</th>
+																<th>Nomor SK Pemberhentian</th>
+																<th>Tanggal SK Pemberhentian</th>
+																<th>Masa/Periode Jabatan</th>
 																<th>Status</th>
 															</tr>
 														</thead>
@@ -62,11 +88,13 @@
 																<tr>
 																	<td>
 																		<?php if ($data['username']!='siteman'): ?>
-																			<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
+																			<input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
 																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['no']?></td>
 																	<td nowrap>
+                                    <a href="<?=site_url("pengurus/urut/$data[pamong_id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+                                    <a href="<?=site_url("pengurus/urut/$data[pamong_id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																		<?php if ($data['pamong_id']!="707"): ?>
 																			<a href="<?= site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['pamong_ttd'] == '1'): ?>
@@ -88,14 +116,29 @@
 																			</div>
 																		</div>
 																	</td>
-																	<td>
-																		<?= unpenetration($data['pamong_nama'])?>
+																	<td class="nowrap">
+																		<?= $data['nama']?>
 																		<p class='text-blue'>
-																			<i>NIP :<?=$data['pamong_nip']?></i></br>
-																			<i>NIK :<?=$data['pamong_nik']?></i>
+																			<?php if (!empty($data['pamong_nip']) and $data['pamong_nip'] != '-'): ?>
+																				<i>NIP :<?=$data['pamong_nip']?></i></br>
+																			<?php else: ?>
+																				<i>NIAP :<?=$data['pamong_niap']?></i></br>
+																			<?php endif; ?>
+																			<i>NIK :<?=$data['nik']?></i>
 																		</p>
 																	</td>
-																	<td><?= unpenetration($data['jabatan'])?></td>
+
+																	<td><?= $data['tempatlahir'].', '.tgl_indo_out($data['tanggallahir'])?></td>
+																	<td><?= $data['sex']?></td>
+																	<td><?= $data['agama']?></td>
+																	<td><?= $data['pamong_pangkat']?></td>
+																	<td><?= $data['jabatan']?></td>
+																	<td><?= $data['pendidikan_kk']?></td>
+																	<td><?= $data['pamong_nosk']?></td>
+																	<td><?= tgl_indo_out($data['pamong_tglsk'])?></td>
+																	<td><?= $data['pamong_nohenti']?></td>
+																	<td><?= tgl_indo_out($data['pamong_tglhenti'])?></td>
+																	<td><?= $data['pamong_masajab']?></td>
 																	<td>
 																		<?php if ($data['pamong_status'] == '1'): ?>
 																			<div title="Aktif">

@@ -43,6 +43,7 @@
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
+
 			$('document').ready(function()
 			{
 				if ($('#success-code').val() == 1)

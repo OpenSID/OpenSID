@@ -1,3 +1,14 @@
+<script type="text/javascript">
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Komentar</h1>
@@ -30,9 +41,9 @@
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('komentar/search')?>');$('#'+'mainform').submit();endif">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();}">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("komentar/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -55,6 +66,7 @@
                                   <?php else: ?>
                                     <th><a href="<?= site_url("komentar/index/$p/1")?>">Isi Komentar <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
+                                  <th>No. HP Pengirim</th>
 																	<th>Email Pengirim</th>
 																	<th>Judul Artikel</th>
                                   <?php if ($o==4): ?>
@@ -89,6 +101,7 @@
                                     </td>
                                     <td nowrap><?= $data['owner']?></td>
 																		<td><?= $data['komentar']?></td>
+																		<td><?= $data['no_hp']?></td>
 																		<td><?= $data['email']?></td>
 																		<td>
 																			<a href="<?= site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?= $data['artikel']?></a>

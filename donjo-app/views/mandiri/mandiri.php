@@ -1,3 +1,14 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pendaftar Layanan Mandiri</h1>
@@ -15,6 +26,18 @@
 							<a href="<?=site_url('mandiri/ajax_pin')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-plus'></i> Hasilkan PIN</a>
 						</div>
 						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-9">
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm pull-right">
+										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("mandiri/search")?>');$('#'+'mainform').submit();}">
+										<div class="input-group-btn">
+											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("mandiri/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -42,9 +65,6 @@
 																		</td>
 																		<td>
 																			<?=$data['nik'];?>
-																			<?php if ($data['nik'] != $data['nik_lama']): ?>
-																				(Berubah dari: <?=$data['nik_lama']?>)
-																			<?php endif ?>
 																		</td>
 																		<td width="50%"><?=unpenetration($data['nama'])?></td>
 																		<td nowrap><?=tgl_indo2($data['tanggal_buat'])?></td>

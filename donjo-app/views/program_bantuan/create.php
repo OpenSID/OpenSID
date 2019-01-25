@@ -37,7 +37,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-3" for="nama">Nama Program</label>
 								<div class="col-sm-8">
-									<input name="nama" class="form-control input-sm" placeholder="Nama Program"  type="text"></input>
+									<input name="nama" class="form-control input-sm required" placeholder="Nama Program"  type="text"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -53,7 +53,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right" id="tgl_1" name="sdate" placeholder="Tgl. Mulai" type="text">
+										<input class="form-control input-sm pull-right required" id="tgl_1" name="sdate" placeholder="Tgl. Mulai" type="text">
 									</div>
 								</div>
 								<div class="col-sm-4">
@@ -61,7 +61,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right" id="tgl_2" name="edate" placeholder="Tgl. Akhir" type="text">
+										<input class="form-control input-sm pull-right required" id="tgl_2" name="edate" placeholder="Tgl. Akhir" type="text">
 									</div>
 								</div>
              	</div>

@@ -89,21 +89,22 @@
 										<table class="table table-bordered table-hover ">
 											<thead class="bg-gray disabled color-palette">
 												<tr>
-													<th>No</th>
-													<th>Nama Lengkap</th>
-													<th>NIK</th>
-													<th>Jenis Kelamin</th>
-													<th>Tempat Lahir</th>
-													<th>Tanggal Lahir</th>
-													<th>Agama</th>
-													<th>Pendidikan</th>
-													<th>Jenis Pekerjaan</th>
+													<th class="text-center">No</th>
+													<th class="text-center">Nama Lengkap</th>
+													<th class="text-center">NIK</th>
+													<th class="text-center">Jenis Kelamin</th>
+													<th class="text-center">Tempat Lahir</th>
+													<th class="text-center">Tanggal Lahir</th>
+													<th class="text-center">Agama</th>
+													<th class="text-center">Pendidikan</th>
+													<th class="text-center">Jenis Pekerjaan</th>
+													<th class="text-center">Golongan Darah</th>
 												</tr>
 											</thead>
 											<tbody>
 												<?php foreach ($main as $key => $data): ?>
 												<tr>
-													<td><?= $key+1?></td>
+													<td class="text-center" ><?= $key+1?></td>
 													<td><?= strtoupper(unpenetration($data['nama']))?></td>
 													<td><?= $data['nik']?></td>
 													<td><?= $data['sex']?></td>
@@ -112,6 +113,7 @@
 													<td><?= $data['agama']?></td>
 													<td><?= $data['pendidikan']?></td>
 													<td><?= $data['pekerjaan']?></td>
+													<td><?= $data['golongan_darah']?></td>
 												</tr>
 												<?php endforeach; ?>
 											</tbody>
@@ -125,29 +127,29 @@
 										<table class="table table-bordered table-hover ">
 											<thead class="bg-gray disabled color-palette">
 												<tr>
-													<th>No</th>
-													<th>Status Perkawinan</th>
-													<th>Status Hubungan Dalam Keluarga</th>
-													<th>Kewarganegaraan</th>
-													<th>No. Paspor</th>
-													<th>No. KITAS / KITAP</th>
-													<th>Ayah</th>
-													<th>Ibu</th>
-													<th>Golongan Darah</th>
+													<th class="text-center">No</th>
+													<th class="text-center">Status Perkawinan</th>
+													<th class="text-center">Tanggal Perkawinan</th>
+													<th class="text-center">Status Hubungan Dalam Keluarga</th>
+													<th class="text-center">Kewarganegaraan</th>
+													<th class="text-center">No. Paspor</th>
+													<th class="text-center">No. KITAS / KITAP</th>
+													<th class="text-center">Nama Ayah</th>
+													<th class="text-center">Nama Ibu</th>
 												</tr>
 											</thead>
 											<tbody>
 												<?php foreach ($main as $key => $data): ?>
 												<tr>
-													<td><?= $key+1?></td>
+													<td class="text-center" ><?= $key+1?></td>
 													<td><?= $data['status_kawin']?></td>
+													<td class="text-center"><?= tgl_indo_out($data['tanggalperkawinan'])?></td>
 													<td><?= $data['hubungan']?></td>
 													<td><?= $data['warganegara']?></td>
 													<td><?= $data['dokumen_pasport']?></td>
 													<td><?= $data['dokumen_kitas']?></td>
 													<td><?= strtoupper($data['nama_ayah'])?></td>
 													<td><?= strtoupper($data['nama_ibu'])?></td>
-													<td><?= $data['golongan_darah']?></td>
 												</tr>
 												<?php endforeach; ?>
 											</tbody>
@@ -187,4 +189,6 @@
 		</form>
 	</section>
 </div>
+
+
 

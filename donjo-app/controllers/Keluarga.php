@@ -67,7 +67,6 @@ class Keluarga extends CI_Controller {
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-
 		if (isset($_SESSION['dusun']))
 		{
 			$data['dusun'] = $_SESSION['dusun'];
@@ -207,6 +206,7 @@ class Keluarga extends CI_Controller {
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
+		$data['sakit_menahun'] = $this->referensi_model->list_data('tweb_sakit_menahun');
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
 		$data['wajib_ktp'] = $this->referensi_model->list_wajib_ktp();
 		$data['ktp_el'] = $this->referensi_model->list_ktp_el();

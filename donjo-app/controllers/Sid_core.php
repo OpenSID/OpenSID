@@ -141,12 +141,6 @@ class Sid_Core extends CI_Controller {
 		redirect('sid_core');
 	}
 
-	public function delete_all()
-	{
-		$this->wilayah_model->delete_all();
-		redirect('sid_core');
-	}
-
 	public function sub_rw($id_dusun = '')
 	{
 		$dusun = $this->wilayah_model->cluster_by_id($id_dusun);
@@ -249,12 +243,6 @@ class Sid_Core extends CI_Controller {
 		redirect("sid_core/sub_rw/$id_dusun");
 	}
 
-	public function delete_all_rw($dusun = '')
-	{
-		$this->wilayah_model->delete_all_rw();
-		redirect("sid_core/sub_rw/$dusun");
-	}
-
 	public function sub_rt($id_dusun = '', $rw = '')
 	{
 
@@ -323,7 +311,7 @@ class Sid_Core extends CI_Controller {
 	public function form_rt($id_dusun = '', $rw = '', $rt = '')
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
+
 		$data['dusun'] = $temp['dusun'];
 		$data['id_dusun'] = $id_dusun;
 
@@ -376,21 +364,10 @@ class Sid_Core extends CI_Controller {
 	public function delete_rt($id_cluster = '')
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_cluster);
-		$id_dusun = $temp['id'];
-		$dusun = $temp['dusun'];
+		$id_dusun = $temp['id_dusun'];
 		$rw = $temp['rw'];
 		$this->wilayah_model->delete_rt($id_cluster);
-		echo "<script>self.history.back();</script>";
-	}
-
-	public function delete_all_rt()
-	{
-		$temp = $this->wilayah_model->cluster_by_id($id_cluster);
-		$id_dusun = $temp['id'];
-		$dusun = $temp['dusun'];
-		$rw = $temp['rw'];
-		$this->wilayah_model->delete_all_rt();
-		redirect("sid_core");
+		redirect("sid_core/sub_rt/$id_dusun/$rw");
 	}
 
 	public function ajax_wil_maps($id = 0)

@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '18.09-pasca');
+define("VERSION", '19.01-pasca');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -27,11 +27,21 @@ define("MAX_PINDAH", 7);
 define("MAX_ANGGOTA", 7);
 
 // Konversi tulisan kode Buku Induk Penduduk ke kode SID
+define("STATUS_DASAR", serialize(array(
+	strtolower("HIDUP") => "1",
+	strtolower("MATI") => "2",
+	strtolower("PINDAH") => "3",
+	strtolower("PINDAH DALAM NEGERI") => "3",
+	strtolower("PINDAH LUAR NEGERI") => "3",
+	strtolower("HILANG") => "4"
+)));
 define("KODE_SEX", serialize(array(
 	"L" => "1",
 	"Lk" => "1",
+	"Laki-Laki" => "1",
 	"P" => "2",
-	"Pr" => "2"
+	"Pr" => "2",
+	"Perempuan" => "2"
 )));
 define("KODE_AGAMA", serialize(array(
 	strtolower("Islam") => "1",
@@ -68,7 +78,9 @@ define("KODE_HUBUNGAN", serialize(array(
 define("KODE_PENDIDIKAN", serialize(array(
 	strtolower("Tidak/Belum Sekolah") => "1",
 	strtolower("Belum Tamat SD/Sederajat") => "2",
+	strtolower("Tidak Tamat SD/Sederajat") => "2",
 	strtolower("Tamat SD/Sederajat") => "3",
+	strtolower("Tamat SD / Sederajat") => "3",
 	strtolower("SLTP/Sederajat") => "4",
 	strtolower("SLTA/Sederajat") => "5",
 	strtolower("Diploma I/II") => "6",
@@ -181,7 +193,17 @@ define("KODE_GOLONGAN_DARAH", serialize(array(
 	strtolower('AB-') => '10',
 	strtolower('O+') => '11',
 	strtolower('O-') => '12',
-	strtolower('TIDAK TAHU') => '13'
+	strtolower('TIDAK TAHU') => '13',
+	strtolower('Tdk Th') => '13'
+)));
+define("KODE_CACAT", serialize(array(
+	strtolower('CACAT FISIK') => '1',
+	strtolower('CACAT NETRA/BUTA') => '2',
+	strtolower('CACAT RUNGU/WICARA') => '3',
+	strtolower('CACAT MENTAL/JIWA') => '4',
+	strtolower('CACAT FISIK DAN MENTAL') => '5',
+	strtolower('CACAT LAINNYA') => '6',
+	strtolower('TIDAK CACAT') => '7'
 )));
 define("SASARAN", serialize(array(
 	"1" => "Penduduk",
@@ -283,95 +305,6 @@ function KonfigurasiDatabase()
 {
 	$konfigurasi_database = LOKASI_CONFIG_DESA . 'database.php';
 	return $konfigurasi_database;
-}
-
-/**
- * SuratExportDesa
- *
- * Mengembalikan path surat ubahan desa apabila ada.
- * Cek folder semua komponen surat dulu, baru cek folder export
- *
- * @access  public
- * @return  string
- */
-function SuratExportDesa($nama_surat)
-{
-	$surat_export_desa = LOKASI_SURAT_DESA . $nama_surat . "/" . $nama_surat . ".rtf";
-	if (is_file($surat_export_desa))
-		return $surat_export_desa;
-	else
-		$surat_export_desa = LOKASI_SURAT_EXPORT_DESA . $nama_surat . ".rtf";
-	if (is_file($surat_export_desa)) {
-		return $surat_export_desa;
-	} else {
-		return "";
-	}
-
-}
-
-/**
- * SuratCetakDesa
- *
- * Mengembalikan path surat ubahan desa apabila ada
- *
- * @access  public
- * @return  string
- */
-function SuratCetakDesa($nama_surat)
-{
-	$surat_cetak_desa = LOKASI_SURAT_DESA . $nama_surat . "/print_" . $nama_surat . ".php";
-	if (is_file($surat_cetak_desa))
-		return $surat_cetak_desa;
-	else
-		$surat_cetak_desa = LOKASI_SURAT_PRINT_DESA . "print_" . $nama_surat . ".php";
-	if (is_file($surat_cetak_desa)) {
-		return $surat_cetak_desa;
-	} else {
-		return "";
-	}
-
-}
-
-/**
- * SuratExport
- *
- * Mengembalikan path surat export apabila ada, dengan prioritas:
- *    1. surat export ubahan desa
- *    2. surat export asli SID
- *
- * @access  public
- * @return  string
- */
-function SuratExport($nama_surat)
-{
-	if (SuratExportDesa($nama_surat) != "") {
-		return SuratExportDesa($nama_surat);
-	} elseif (is_file("surat/$nama_surat/$nama_surat.rtf")) {
-		return "surat/$nama_surat/$nama_surat.rtf";
-	} else {
-		return "";
-	}
-}
-
-/**
- * SuratCetak
- *
- * Mengembalikan path surat cetak apabila ada, dengan prioritas:
- *    1. surat export ubahan desa
- *    2. surat export asli SID
- *
- * @access  public
- * @return  string
- */
-function SuratCetak($nama_surat)
-{
-	if (SuratCetakDesa($nama_surat) != "") {
-		return SuratCetakDesa($nama_surat);
-	} elseif (is_file("surat/$nama_surat/print_" . $nama_surat . ".php")) {
-		return "surat/$nama_surat/print_" . $nama_surat . ".php";
-	} else {
-		return "";
-	}
 }
 
 function session_error($pesan = '')
@@ -488,47 +421,6 @@ function fatalErrorShutdownHandler()
 		// fatal error
 		myErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
 	}
-}
-
-function ikut_case($format, $str)
-{
-	$str = strtolower($str);
-	if (ctype_upper($format[0]) AND ctype_upper($format[1]))
-		return strtoupper($str);
-	elseif (ctype_upper($format[0]))
-		return ucwords($str);
-	else
-		return $str;
-}
-/**
- * Membuat string yang diisi &nbsp; di awal dan di akhir, dengan panjang yang ditentukan.
- *
- * @param            str      Text yang akan ditambahi awal dan akhiran
- * @param            awal     Jumlah karakter &nbsp; pada awal text
- * @param            panjang  Panjang string yang dihasilkan,
- *                            di mana setiap &nbsp; dihitung sebagai satu karakter
- * @return           string berisi text yang telah diberi awalan dan akhiran &nbsp;
- */
-function padded_string_fixed_length($str, $awal, $panjang)
-{
-	$padding         = "&nbsp;";
-	$panjang_padding = strlen($padding);
-	$panjang_text    = strlen($str);
-	$str             = str_pad($str, ($awal * $panjang_padding) + $panjang_text, $padding, STR_PAD_LEFT);
-	$str             = str_pad($str, (($panjang - $panjang_text) * $panjang_padding) + $panjang_text, $padding, STR_PAD_RIGHT);
-	return $str;
-}
-
-function padded_string_center($str, $panjang)
-{
-	$padding         = "&nbsp;";
-	$panjang_padding = strlen($padding);
-	$panjang_text    = strlen($str);
-	$to_pad          = ($panjang - $panjang_text) / 2;
-	for ($i = 0; $i < $to_pad; $i++) {
-		$str = $padding . $str . $padding;
-	}
-	return $str;
 }
 
 function get_dynamic_title_page_from_path()
@@ -702,4 +594,59 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 	}
 	force_download($nama_berkas, $data);
 }
+
+function autocomplete_str($kolom, $tabel)
+{
+	$CI =& get_instance();
+	$CI->load->database();
+	$data = $CI->db->distinct()->
+		select($kolom)->
+		order_by($kolom)->
+		get($tabel)->result_array();
+
+	return autocomplete_data_ke_str($data);
+}
+/**
+ * @param array 		(0 => (kolom => teks), 1 => (kolom => teks), ..)
+ * @return string 	dalam bentuk siap untuk autocomplete
+ */
+function autocomplete_data_ke_str($data)
+{
+	$str = '';
+	foreach ($data as $baris)
+	{
+		$keys = array_keys($baris);
+		$first_key = $keys[0];
+		$str .= ','.json_encode(substr($baris[$first_key], 0, 30));
+	}
+	$str = '[' . strtolower(substr($str, 1)) . ']';
+	return $str;
+}
+
+function bulan_romawi($bulan)
+{
+	if ($bulan < 1 or $bulan > 12) return false;
+
+	$bulan_romawi = array(
+		1 => "I",
+		2 => "II",
+		3 => "III",
+		4 => "IV",
+		5 => "V",
+		6 => "VI",
+		7 => "VII",
+		8 => "VIII",
+		9 => "IX",
+		10 => "X",
+		11 => "XI",
+		12 => "XII"
+	);
+	return ($bulan_romawi[$bulan]);
+}
+
+function buang_nondigit($str)
+{
+	return preg_replace('/[^0-9]/', '', $str);
+}
+
 ?>

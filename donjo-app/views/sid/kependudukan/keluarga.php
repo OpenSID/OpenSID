@@ -43,10 +43,10 @@
 							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="#confirm-status" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Kartu Keluarga" onclick="aksiBorongan('mainform','<?= site_url("keluarga/cetak_kk_all")?>')"><i class="fa fa-print"></i> Cetak Kartu Keluarga</a>
+									<a href="" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/cetak_kk_all")?>', '_blank'); return false;"><i class="fa fa-print"></i> Cetak Kartu Keluarga</a>
 								</li>
 								<li>
-									<a href="#confirm-status" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Kartu Keluarga" onclick="aksiBorongan('mainform','<?= site_url("keluarga/doc_kk_all")?>')"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
+									<a href="" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/doc_kk_all")?>'); return false;"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
 								</li>
 								<?php if ($grup==1): ?>
 									<li>
@@ -67,6 +67,7 @@
 													<option value="">Semua KK</option>
 													<option value="1" <?php if ($status_dasar == 1): ?>selected<?php endif ?>>KK Aktif</option>
 													<option value="2" <?php if ($status_dasar == 2): ?>selected<?php endif ?>>KK Hilang/Pindah/Mati</option>
+													<option value="3" <?php if ($status_dasar == 3): ?>selected<?php endif ?>>KK Kosong</option>
 												</select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('keluarga/sex')?>')">
 													<option value="">Jenis Kelamin</option>
@@ -98,7 +99,7 @@
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
-													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("keluarga/search")?>');$('#'+'mainform').submit();}">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("keluarga/search")?>');$('#'+'mainform').submit();}">
 													<div class="input-group-btn">
 														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("keluarga/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>

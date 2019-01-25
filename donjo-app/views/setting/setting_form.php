@@ -8,7 +8,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form action="<?=site_url('setting/update')?>" method="POST" class="form-horizontal">
+			<form id="validasi" action="<?=site_url('setting/update')?>" method="POST" class="form-horizontal">
 				<div class="col-md-12">
 					<div class="box box-primary">
 						<div class="box-body">
@@ -22,6 +22,14 @@
 													<option value="0" <?php if ($setting->value==0): ?>selected<?php endif; ?>>Web bisa diakses publik</option>
 													<option value="1" <?php if ($setting->value==1): ?>selected<?php endif; ?>>Web dan peta hanya bisa diakses admin/operator/redaksi</option>
 													<option value="2" <?php if ($setting->value==2): ?>selected<?php endif; ?>>Web dan peta non-aktif sama sekali</option>
+												</select>
+											</div>
+										<?php elseif ($setting->jenis == 'option'): ?>
+											<div class="col-sm-12 col-md-4">
+												<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
+													<?php foreach ($setting->options as $key => $label): ?>
+													<option value="<?= $key ?>" <?php ($setting->value == $key) and print('selected') ?>><?= $label ?></option>
+													<?php endforeach ?>
 												</select>
 											</div>
 										<?php elseif ($setting->key == 'timezone'): ?>
@@ -57,7 +65,7 @@
 											</div>
 										<?php else : ?>
 											<div class="col-sm-12 col-md-4">
-												<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm" type="text"  value="<?= $setting->value?>"></input>
+												<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') or print 'digits'?>" type="text"  value="<?= $setting->value?>"></input>
 											</div>
 										<?php endif; ?>
 										<label class="col-sm-12 col-md-5 pull-left" for="nama"><?= $setting->keterangan?></label>

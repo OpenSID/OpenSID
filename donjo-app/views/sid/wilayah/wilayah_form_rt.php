@@ -28,7 +28,7 @@
 												<div class="form-group">
 													<label class="col-sm-3 control-label" for="rt">RT</label>
 													<div class="col-sm-7">
-														<input  id="rt" class="form-control input-sm required" type="text" placeholder="Nomor RT" name="rt" value="<?= $rt?>">
+														<input  id="rt" class="form-control input-sm digits required" type="text" placeholder="Nomor RT" name="rt" value="<?= $rt?>">
 													</div>
 												</div>
 											</div>

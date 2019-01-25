@@ -807,7 +807,7 @@ if (!defined('__CLASS_HTML2PDF__')) {
         protected function _setPageHeader()
         {
             if (!count($this->_subHEADER)) return false;
-            
+
             if (in_array($this->pdf->getPage(), $this->_hideHeader)) return false;
 
             $oldParsePos = $this->_parsePos;
@@ -2244,9 +2244,9 @@ if (!defined('__CLASS_HTML2PDF__')) {
             $newPageSet= (!isset($param['pageset']) || $param['pageset']!='old');
 
             $resetPageNumber = (isset($param['pagegroup']) && $param['pagegroup']=='new');
-            
+
             if (array_key_exists('hideheader', $param) && $param['hideheader']!='false' && !empty($param['hideheader'])) {
-                $this->_hideHeader = (array) array_merge($this->_hideHeader, split(',', $param['hideheader']));
+                $this->_hideHeader = (array) array_merge($this->_hideHeader, explode(',', $param['hideheader']));
             }
 
             $this->_maxH = 0;

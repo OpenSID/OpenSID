@@ -21,7 +21,7 @@ class Point extends CI_Controller {
 		$this->load->model('plan_point_model');
 
 		$this->load->database();
-		$this->modul_ini = 8;
+		$this->modul_ini = 9;
 	}
 
 	public function clear()
@@ -54,7 +54,7 @@ class Point extends CI_Controller {
 
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 0;
 
 		$this->load->view('header', $header);
@@ -85,7 +85,7 @@ class Point extends CI_Controller {
 		$header = $this->header_model->get_data();
 
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 0;
 		$this->load->view('header', $header);
 
@@ -100,7 +100,7 @@ class Point extends CI_Controller {
 		$data['point'] = $this->plan_point_model->get_point($point);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 0;
 
 		$this->load->view('header', $header);

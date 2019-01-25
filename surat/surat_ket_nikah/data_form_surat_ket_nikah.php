@@ -1,9 +1,9 @@
 <?php if (!defined('BASEPATH')) exit ('No direct script access allowed');
-
 	// Perlu disimpan di SESSION karena belum ketemu cara
 	// memanggil flexbox memakai ajax atau menyimpan data
 	// TODO: cari pengganti flexbox yang sudah tidak di-support lagi
 	$_SESSION['post'] = $_POST;
+	$_SESSION['post']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 	if ($this->input->post('calon_pria') == 2) unset($_SESSION['id_pria']);
 	if ($_POST['id_pria'] != '' AND $_POST['id_pria'] != '*')
 	{

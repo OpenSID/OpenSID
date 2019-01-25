@@ -21,7 +21,7 @@
 
     //Menambahkan tile layer OSM ke peta
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',	{
-      maxZoom: 18,
+      maxZoom: 19,
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
       id: 'mapbox.streets'
     }).addTo(mymap); //Menambahkan tile layer ke variabel 'peta'
@@ -344,7 +344,7 @@
 											<label>Cari</label>
 											<div class="box-tools">
 												<div class="input-group input-group-sm pull-right">
-													<input name="cari_kontak" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform').submit();endif">
+													<input name="cari_kontak" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform').submit();endif">
 													<div class="input-group-btn">
 														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>

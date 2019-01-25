@@ -270,3 +270,83 @@ table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:
 	opacity: 0.3 !important;
 	width: 6px !important;
 }
+/* Supaya kolom tabel tidak wrap dan menggunakan spasi terkecil */
+td.nostretch, th.nostretch{
+  width:1%;
+  white-space:nowrap;
+}
+
+/* Style untuk isian checkbox berkolom (input analisis, surat masuk) */
+.form-horizontal .checkbox,
+.form-horizontal .checkbox-inline,
+.form-horizontal .radio,
+.form-horizontal .radio-inline
+{
+		padding: 4px;
+}
+.panel-fullscreen
+{
+	display: block;	z-index: 999999; position: fixed;	width: 100%;
+	height: 100%;	top: 0;	right: 0;	left: 0;bottom: 0;overflow: auto;
+}
+#op_item div
+{
+	margin:1px 0;
+	background:#fafafa;
+	border:1px solid #ddd;
+}
+#op_item input
+{
+	vertical-align:middle;
+	margin:0px 2px;
+}
+#op_item label
+{
+	width: 100%;
+	padding:4px 10px 0px 2px;
+	font-size:11px;
+	line-height:14px;
+	font-weight:normal;
+}
+table.head
+{
+	font-size:14px;
+	font-weight:bold;
+}
+.atas {vertical-align: top;}
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"],
+.radio input[type="radio"],
+.radio-inline input[type="radio"]
+{
+position: inherit;
+}
+#op_item div
+{
+	margin:1px 0;
+	background:#fafafa;
+	border:1px solid #ddd;
+}
+#op_item input
+{
+	vertical-align:middle;
+	margin:0px 2px;
+}
+#op_item label
+{
+	padding:4px 10px 0px 2px;
+	font-size:11px;
+	line-height:14px;
+	font-weight:normal;
+}
+table.head
+{
+	font-size:14px;
+	font-weight:bold;
+}
+.atas {vertical-align: top;}
+.form-horizontal .control-label {
+text-align: left;
+}
+img { margin-bottom: 5px; }
+.no-padding { padding: 0px; }

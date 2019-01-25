@@ -1,4 +1,13 @@
 <script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
 	$('document').ready(function()
 	{
 		$('select[name=pamong_ttd]').change(function(e)
@@ -50,7 +59,7 @@
                       <select class="form-control input-sm" name="pamong_ttd" width="100%">
 												<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
 												<?php foreach ($pamong AS $data): ?>
-													<option value="<?=  $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>"><?= $data['pamong_nama']?><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
+													<option value="<?=  $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>"><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 												<?php endforeach; ?>
                       </select>
                     </div>
@@ -70,7 +79,7 @@
                       <select class="form-control input-sm" name="pamong_ketahui" width="100%">
 												<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
 												<?php foreach ($pamong AS $data): ?>
-													<option value="<?=  $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan'])?>"><?= $data['pamong_nama']?><?= $data['pamong_nama']?>(<?= $data['jabatan']?>)</option>
+													<option value="<?=  $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>"><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 												<?php endforeach; ?>
                       </select>
                     </div>
@@ -90,7 +99,7 @@
 												<div class="col-sm-12">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("surat_masuk/search")?>');$('#'+'mainform').submit();}">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("surat_masuk/search")?>');$('#'+'mainform').submit();}">
 															<div class="input-group-btn">
 																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("surat_masuk/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
@@ -104,15 +113,15 @@
 														<table class="table table-bordered dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th><input type="checkbox" id="checkall"/></th>
+																	<th class="nostretch"><input type="checkbox" id="checkall"/></th>
 																	<?php if ($o==2): ?>
-																		<th><a href="<?= site_url("surat_masuk/index/$p/1")?>">No. Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th class="nostretch"><a href="<?= site_url("surat_masuk/index/$p/1")?>">No. Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("surat_masuk/index/$p/2")?>">No. Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th class="nostretch"><a href="<?= site_url("surat_masuk/index/$p/2")?>">No. Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("surat_masuk/index/$p/1")?>">No. Urut <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th class="nostretch"><a href="<?= site_url("surat_masuk/index/$p/1")?>">No. Urut <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
-																	<th>Aksi</th>
+																	<th class="nostretch">Aksi</th>
 																	<?php if ($o==4): ?>
 																		<th><a href="<?= site_url("surat_masuk/index/$p/3")?>">Tanggal Penerimaan <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==3): ?>
@@ -137,7 +146,7 @@
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																		<td><?= $data['nomor_urut']?></td>
-																		<td>
+																		<td class="nostretch">
 																			<a href="<?= site_url("surat_masuk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['berkas_scan']): ?>
 																				<a href="<?= base_url(LOKASI_ARSIP.$data['berkas_scan'])?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>

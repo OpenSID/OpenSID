@@ -20,7 +20,7 @@ class Garis extends CI_Controller {
 		$this->load->model('header_model');
 		$this->load->model('plan_garis_model');
 		$this->load->database();
-		$this->modul_ini = 8;
+		$this->modul_ini = 9;
 	}
 
 	public function clear()
@@ -54,7 +54,7 @@ class Garis extends CI_Controller {
 		else $data['subline'] = '';
 
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
+			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->plan_garis_model->paging($p,$o);
@@ -65,7 +65,7 @@ class Garis extends CI_Controller {
 
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 1;
 
 		$this->load->view('header', $header);
@@ -91,7 +91,7 @@ class Garis extends CI_Controller {
 		}
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -141,7 +141,7 @@ class Garis extends CI_Controller {
 	{
 		$line = $this->input->post('line');
 		if ($line != 0)
-			$_SESSION['line']=$line;
+			$_SESSION['line'] = $line;
 		else unset($_SESSION['line']);
 		redirect('garis');
 	}
@@ -151,7 +151,7 @@ class Garis extends CI_Controller {
 		unset($_SESSION['line']);
 		$subline = $this->input->post('subline');
 		if ($subline != 0)
-			$_SESSION['subline']=$subline;
+			$_SESSION['subline'] = $subline;
 		else unset($_SESSION['subline']);
 		redirect('garis');
 	}

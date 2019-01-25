@@ -66,7 +66,6 @@ class Plan extends CI_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 3;
 		$this->load->view('header', $header);
@@ -98,7 +97,7 @@ class Plan extends CI_Controller {
 		$header= $this->header_model->get_data();
 
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 3;
 
 		$this->load->view('header', $header);

@@ -20,7 +20,7 @@ class Polygon extends CI_Controller {
 		$this->load->model('header_model');
 		$this->load->model('plan_polygon_model');
 		$this->load->database();
-		$this->modul_ini = 8;
+		$this->modul_ini = 9;
 	}
 
 	public function clear()
@@ -53,7 +53,7 @@ class Polygon extends CI_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 5;
 
 		$this->load->view('header', $header);
@@ -80,7 +80,7 @@ class Polygon extends CI_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 5;
 
 		$this->load->view('header', $header);
@@ -95,7 +95,7 @@ class Polygon extends CI_Controller {
 		$data['polygon'] = $this->plan_polygon_model->get_polygon($polygon);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 5;
 
 		$this->load->view('header', $header);

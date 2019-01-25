@@ -15,10 +15,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<div class="col-md-3">
-				<?php $this->load->view('suplemen/menu_kiri.php')?>
-			</div>
-			<div class="col-md-9">
+			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
@@ -60,6 +57,8 @@
 																<th>Aksi</th>
 																<th><?= $suplemen["judul_terdata_nama"]?></th>
 																<th><?= $suplemen["judul_terdata_info"]?></th>
+																<th>Tempat Lahir</th>
+																<th>Tanggal Lahir</th>
 																<th>Alamat</th>
 																<th>Keterangan</th>
 															</tr>
@@ -81,6 +80,8 @@
 																	</td>
 																	<td nowrap><a href="<?= site_url('suplemen/terdata/'.$suplemen["sasaran"].'/'.$item["nik"].'/')?>" title="Daftar suplemen untuk terdata"><?= $item["terdata_nama"] ?></a></td>
 																	<td nowrap><a href="<?= site_url('suplemen/data_terdata/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
+																	<td><?= $item["tempat_lahir"] ?></td>
+																	<td><?= $item["tanggal_lahir"] ?></td>
 																	<td><?= $item["info"];?></td>
 																	<td width="25%"><?= $item["keterangan"];?></td>
 																</tr>

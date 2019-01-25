@@ -99,7 +99,7 @@
 	function _calculateAge(birthday)
 	{
 		// birthday is a date (dd-mm-yyyy)
-		var parts =birthday.split('-');
+		var parts = birthday.split('-');
 		// Ubah menjadi format ISO yyyy-mm-dd
 		// please put attention to the month (parts[0]), Javascript counts months from 0:
 		// January - 0, February - 1, etc
@@ -175,9 +175,10 @@
 						</a>
 					</div>
 					<div class="box-body">
-						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<div class="col-md-12">
-								<input id="nomor" name="nomor" type="hidden" value="<?= $_SESSION['post']['nomor']; ?>"/>
 								<input name="anchor" type="hidden" value="<?= $anchor; ?>"/>
 								<?php if ($individu): ?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
@@ -185,8 +186,8 @@
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>" onchange="nomor_surat(this.value);">
-										<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
+										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>">
+										<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
 								<div class="form-group subtitle_head">
@@ -206,10 +207,10 @@
 								<div class="form-group ibu_desa" <?php if (empty($ibu)): ?>style="display: none;"<?php endif; ?>>
 									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama Ibu</strong></label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control  input-sm select2" id="id_ibu" name="id_ibu" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
+										<select class="form-control  input-sm select2-nik" id="id_ibu" name="id_ibu" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Ibu--</option>
 											<?php foreach ($perempuan as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($ibu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php selected($ibu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -569,10 +570,10 @@
 								<div class="form-group pelapor_desa" <?php if (empty($pelapor)): ?>style="display: none;"<?php endif; ?>>
 									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control  input-sm select2" id="id_pelapor" name="id_pelapor" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
+										<select class="form-control  input-sm select2-nik" id="id_pelapor" name="id_pelapor" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($pelapor['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php selected($pelapor['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -691,10 +692,10 @@
 								<div class="form-group saksi1_desa" <?php if (empty($saksi1)): ?>style="display: none;"<?php endif; ?>>
 									<label for="saksi1_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control input-sm select2" id="id_saksi1" name="id_saksi1" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
+										<select class="form-control input-sm select2-nik" id="id_saksi1" name="id_saksi1" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($saksi1['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php selected($saksi1['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -807,10 +808,10 @@
 								<div class="form-group saksi2_desa" <?php if (empty($saksi2)): ?>style="display: none;"<?php endif; ?>>
 									<label for="saksi2_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control input-sm select2" id="id_saksi2" name="id_saksi2" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
+										<select class="form-control input-sm select2-nik" id="id_saksi2" name="id_saksi2" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($saksi2['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php selected($saksi2['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -919,17 +920,7 @@
 							</div>
 						</form>
 					</div>
-					<div class="box-footer">
-						<div class="row">
-							<div class="col-xs-12">
-								<button type="button" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-print"></i> Cetak</button>
-								<?php if (SuratExport($url)): ?>
-									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
-								<?php endif; ?>
-							</div>
-						</div>
-					</div>
+					<?php include("donjo-app/views/surat/form/tombol_cetak.php"); ?>
 				</div>
 				<div class='modal fade' id='infoBox' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 					<div class='modal-dialog'>

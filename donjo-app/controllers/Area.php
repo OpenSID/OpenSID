@@ -20,7 +20,7 @@ class Area extends CI_Controller {
 		$this->load->model('header_model');
 		$this->load->model('plan_area_model');
 		$this->load->database();
-		$this->modul_ini = 8;
+		$this->modul_ini = 9;
 	}
 
 	public function clear()
@@ -65,7 +65,7 @@ class Area extends CI_Controller {
 
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 4;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -95,7 +95,7 @@ class Area extends CI_Controller {
 
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 8;
+		$nav['act_sub'] = 8;
 		$nav['tip'] = 4;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);

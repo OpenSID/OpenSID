@@ -1,3 +1,14 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Kategori Kelompok</h1>
@@ -25,7 +36,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="input-group input-group-sm pull-right">
-														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("kelompok_master/search")?>');$('#'+'mainform').submit();}">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("kelompok_master/search")?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
 															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("kelompok_master/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>

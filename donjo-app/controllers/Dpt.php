@@ -135,7 +135,7 @@ class Dpt extends CI_Controller {
 		else $data['status_penduduk'] = '';
 
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
+			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['grup']	= $this->user_model->sesi_grup($_SESSION['sesi']);

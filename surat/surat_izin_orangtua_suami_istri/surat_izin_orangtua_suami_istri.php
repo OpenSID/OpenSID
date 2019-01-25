@@ -8,12 +8,6 @@
     $('#'+'validasi').submit();
   }
 
-  function nomor_surat(nomor)
-  {
-    $('#nomor').val(nomor);
-    // $('#nomor_main').val(nomor);
-  }
-
   function pemberi_izin(selaku)
   {
     var yang_diizinkan;
@@ -59,32 +53,16 @@
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
 							<div class="col-md-12">
-								<div class="form-group">
-									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
-									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>" onchange="nomor_surat(this.value);">
-										<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
-									</div>
-								</div>
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 text-right"><strong>PIHAK YANG MEMBERI IZIN</strong></label>
 								</div>
-								<div class="form-group">
-									<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
-									<div class="col-sm-6 col-lg-4">
-										<select class="form-control input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-											<option value="">--  Cari NIK / Nama Penduduk--</option>
-											<?php foreach ($penduduk as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
-											<?php endforeach;?>
-										</select>
-									</div>
-								</div>
+								<?php include("donjo-app/views/surat/form/_cari_nik.php"); ?>
 							</div>
 						</form>
-						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<div class="col-md-12">
-								<input id="nomor" name="nomor" type="hidden" value="<?= $_SESSION['post']['nomor']; ?>"/>
 								<input id="nik_validasi" name="nik" type="hidden" value="<?= $_SESSION['post']['nik']?>">
 								<input id="id_diberi_izin_validasi" name="id_diberi_izin" type="hidden" value="<?= $_SESSION['id_diberi_izin']?>"/>
 								<?php if ($individu): ?>
@@ -99,6 +77,13 @@
 											<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['selaku']): ?>selected<?php endif; ?>><?= $data?></option>
 										<?php endforeach;?>
 										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
+									<div class="col-sm-8">
+										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>">
+										<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
 								<div class="form-group subtitle_head">
@@ -119,10 +104,10 @@
 								<div class="form-group">
 									<label for="nik"  class="col-sm-3 control-label">NIK / Nama Yang Diberi Izin</label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control input-sm select2" id="id_diberi_izin" name="id_diberi_izin" style ="width:100%;" onchange="submit_form_ambil_data(this.id);">
+										<select class="form-control input-sm select2-nik" id="id_diberi_izin" name="id_diberi_izin" style ="width:100%;" onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk_diberi_izin as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($diberi_izin['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php selected($diberi_izin['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -182,19 +167,7 @@
 							</div>
 						</form>
 					</div>
-					<div class="box-footer">
-						<div class="row">
-							<div class="col-xs-12">
-								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<?php if (SuratCetak($url)): ?>
-                  <button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-print"></i> Cetak</button>
-                <?php endif; ?>
-								<?php if (SuratExport($url)): ?>
-									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action2?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
-								<?php endif; ?>
-							</div>
-						</div>
-					</div>
+					<?php include("donjo-app/views/surat/form/tombol_cetak.php"); ?>
 				</div>
 			</div>
 		</div>

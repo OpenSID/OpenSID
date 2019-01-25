@@ -50,21 +50,15 @@
 		}
 	}
 
-	function nomor_surat(nomor)
-	{
-		$('#nomor').val(nomor);
-		$('#nomor_main').val(nomor);
-	}
-
 	function submit_form_ambil_data_pria(asal)
 	{
 	 	$('#id_wanita').val('*'); // Hapus $id_wanita
 		$('#id_wanita_copy').val($('#id_wanita_hidden').val());
 		$('input').removeClass('required');
 		$('select').removeClass('required');
-		$('#'+'main').attr('action','')
-		$('#'+'main').attr('target','')
-		$('#'+'main').submit();
+		$('#'+'validasi').attr('action','')
+		$('#'+'validasi').attr('target','')
+		$('#'+'validasi').submit();
 	}
 
 	function submit_form_ambil_data_wanita()
@@ -134,13 +128,15 @@
 					 	</a>
 					</div>
 					<div class="box-body">
-						<form action="" id="main" name="main" method="POST" class="form-horizontal">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>" onchange="nomor_surat(this.value);">
-										<p class="help-block text-red small">Terakhir: <strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
+										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>">
+										<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
 								<?php $jenis_pasangan = "Istri"; ?>
@@ -159,15 +155,14 @@
 									<label for="pria_desa"  class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>A.1 DATA CALON PASANGAN PRIA WARGA DESA</strong></label>
 								</div>
 								<div class="form-group pria_desa" <?php if (empty($pria)): ?>style="display: none;"<?php endif; ?>>
-									<input id="nomor_main" name="nomor_main" type="hidden" value="<?= $nomor; ?>"/>
 									<input id="calon_pria" name="calon_pria" type="hidden" value=""/>
 
 									<label for="pria_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control  input-sm select2" id="id_pria" name="id_pria" style ="width:100%;" onchange="submit_form_ambil_data_pria(this.id);">
+										<select class="form-control  input-sm select2-nik" id="id_pria" name="id_pria" style ="width:100%;" onchange="submit_form_ambil_data_pria(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
 											<?php foreach ($laki as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($pria['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php selected($pria['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -180,11 +175,7 @@
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 								<?php	endif; ?>
 							</div>
-						</form>
-						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-horizontal">
 							<div class="col-md-12">
-								<input id="nomor" name="nomor" type="hidden" value="<?= $_SESSION['post']['nomor']; ?>"/>
-								<input id="id_pria_validasi" type="hidden" name="id_pria" value="<?= $_SESSION['id_pria']?>">
 								<input id="id_wanita" name="id_wanita" type="hidden" value="<?= $_SESSION['id_wanita']?>"/>
 								<?php if (empty($pria)): ?>
 									<div class="form-group pria_luar_desa" >
@@ -554,10 +545,10 @@
 								<div class="form-group wanita_desa" <?php if (empty($wanita)): ?>style="display: none;"<?php endif; ?>>
 									<label for="$wanita" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control  input-sm select2" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data_wanita(this.id);">
+										<select class="form-control  input-sm select2-nik" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data_wanita(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
 											<?php foreach ($perempuan as $data): ?>
-												<option value="<?= $data['id']?>" <?php if ($wanita['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" <?php selected($wanita['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -1013,19 +1004,7 @@
 							</div>
 						</form>
 					</div>
-					<div class="box-footer">
-						<div class="row">
-							<div class="col-xs-12">
-								<button id="reset_form" type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<?php if (SuratCetak($url)): ?>
-									<button type="button" onclick="$('#'+'validasi').attr('action','<?= $form_action?>');$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-print"></i> Cetak</button>
-								<?php endif; ?>
-								<?php if (SuratExport($url)): ?>
-									<button type="button" onclick="submit_form_doc();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
-								<?php endif; ?>
-							</div>
-						</div>
-					</div>
+					<?php include("donjo-app/views/surat/form/tombol_cetak.php"); ?>
 				</div>
 				<div class='modal fade' id='dialog' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 					<div class='modal-dialog'>

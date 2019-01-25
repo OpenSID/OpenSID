@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_kontruksi" method="post" action="<?= site_url("api_inventaris_kontruksi/update"); ?>">
+		<form class="form-horizontal" id="validasi" name="form_kontruksi" method="post" action="<?= site_url("api_inventaris_kontruksi/update/$main->id"); ?>">
 			<div class="row">
 				<div class="col-md-3">
           <?php	$this->load->view('inventaris/kontruksi/menu_kiri.php')?>

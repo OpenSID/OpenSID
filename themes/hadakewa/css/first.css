@@ -198,6 +198,10 @@ body{
 	background: linear-gradient(to bottom, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
 }
+.box-header.label-danger {
+  background-color: #d9534f;
+  background-image: none !important;
+}
 .box-header > .fa,
 .box-header > .glyphicon,
 .box-header > .ion,
@@ -321,8 +325,6 @@ body{
 }
 .artikel .teks img{
 	margin-right: 7px;
-	max-width: 260px;
-    max-height: 155px;
 }
 .artikel .teks p {
     margin: 0 0 0.5em 0;

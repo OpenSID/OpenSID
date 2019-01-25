@@ -5,7 +5,7 @@ class Inventaris_laporan_model extends CI_Model
 
 	protected $table_pamong = 'tweb_desa_pamong';
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
@@ -14,7 +14,6 @@ class Inventaris_laporan_model extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from($this->table_pamong);
-		// $this->db->where($this->table.'.tahun_pengadaan',$tahun);
 		$this->db->where($this->table_pamong.'.pamong_id', $pamong);
 		$data = $this->db->get()->row();
 		return $data;
@@ -176,7 +175,7 @@ class Inventaris_laporan_model extends CI_Model
 				}
 				else
 				{
-					$this->db->where('year(tanggal_dokument)',$tahun);
+					$this->db->where('year(tanggal_dokument)', $tahun);
 				}
 			}
 			$this->db->where("$inventaris[1].asal", $inventaris[2]);
@@ -185,7 +184,6 @@ class Inventaris_laporan_model extends CI_Model
 		}
 		return $result;
 	}
-
 
 	public function mutasi_cetak_inventaris($tahun)
 	{
@@ -239,7 +237,7 @@ class Inventaris_laporan_model extends CI_Model
 				}
 				else
 				{
-					$this->db->where('year(tanggal_dokument)',$tahun);
+					$this->db->where('year(tanggal_dokument)', $tahun);
 				}
 			}
 			$this->db->where("$inventaris[1].asal", $inventaris[2]);

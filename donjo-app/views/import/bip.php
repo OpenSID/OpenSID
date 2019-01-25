@@ -14,6 +14,7 @@
 																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_2016.xls" ><i class="fa fa-download"></i>Contoh BIP 2016</a>
 																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_ektp.xls"><i class="fa fa-download"></i>Contoh BIP eKTP</a>
 																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_2016_luwutimur.xls"><i class="fa fa-download"></i>Contoh BIP 2016 Luwu Timur</a>
+																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_siak.xls"><i class="fa fa-download"></i>Contoh Data SIAK</a>
 																	<p></p>
 																	<p>Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun menjadi satu worksheet per dusun, proses ini akan mengimpor data semua dusun.</p>
 																	<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
@@ -77,8 +78,16 @@
 																				<tr>
 																					<td>
 																						<dl class="dl-horizontal">
-																							<dt>Total Data Berhasil :</dt>
-																							<dd><?= $_SESSION['sukses']?></dd>
+																							<dt>Total Keluarga Terimpor :</dt>
+																							<dd><?= $_SESSION['total_keluarga']?></dd>
+																						</dl>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<dl class="dl-horizontal">
+																							<dt>Total Penduduk Terimpor :</dt>
+																							<dd><?= $_SESSION['total_penduduk']?></dd>
 																						</dl>
 																					</td>
 																				</tr>
@@ -106,7 +115,8 @@
 													</div>
 												</div>
 											</div>
-											<?php unset($_SESSION['sukses']);?>
+											<?php unset($_SESSION['total_keluarga']);?>
+											<?php unset($_SESSION['total_penduduk']);?>
 											<?php unset($_SESSION['baris']);?>
 											<?php unset($_SESSION['gagal']);?>
 										</div>

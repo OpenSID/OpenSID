@@ -1,5 +1,13 @@
 <script type="text/javascript">
-	var baseURL = "<?= base_url(); ?>";
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -34,26 +42,26 @@
 												<div class="col-sm-7">
 													<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url('garis/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
-														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
-													</select>
-													<select class="form-control input-sm" name="line" onchange="formAction('mainform', '<?= site_url('garis/line')?>')">
-														<option value="">Kategori</option>
-														<?php foreach ($list_subline AS $data): ?>
-															<option value="<?= $data['id']?>" <?php if ($subline == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
-														<?php endforeach;?>
+														<option value="1" <?= selected($filter, 1) ?>>Aktif</option>
+														<option value="2" <?= selected($filter, 2) ?>>Tidak Aktif</option>
 													</select>
 													<select class="form-control input-sm" name="subline" onchange="formAction('mainform', '<?= site_url('garis/subline')?>')">
+														<option value="">Kategori</option>
+														<?php foreach ($list_subline AS $data): ?>
+															<option value="<?= $data['id']?>" <?= selected($subline, $data['id']) ?>><?= $data['nama']?></option>
+														<?php endforeach;?>
+													</select>
+													<select class="form-control input-sm" name="line" onchange="formAction('mainform', '<?= site_url('garis/line')?>')">
 														<option value="">Jenis</option>
 														<?php foreach ($list_line AS $data): ?>
-															<option value="<?= $data['id']?>" <?php if ($line == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
+															<option value="<?= $data['id']?>" <?= selected($line, $data['id']) ?>><?= $data['nama']?></option>
 														<?php endforeach;?>
 													</select>
 												</div>
 												<div class="col-sm-5">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url("garis/search")?>');$('#'+'mainform').submit();endif">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url("garis/search")?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
 																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("garis/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
