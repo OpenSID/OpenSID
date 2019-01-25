@@ -26,6 +26,7 @@ class Surat_masuk extends CI_Controller {
 		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 15;
 		$this->tab_ini = 2;
+		$this->controller = 'surat_masuk';
 	}
 
 	public function clear($id = 0)
@@ -170,17 +171,41 @@ class Surat_masuk extends CI_Controller {
 		$this->load->view('surat_masuk/ajax_disposisi', $data);
 	}
 
+	public function dialog_cetak($o = 0)
+	{
+		$data['aksi'] = "Cetak";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
+		$data['form_action'] = site_url("surat_masuk/cetak/$o");
+		$this->load->view('surat_masuk/ajax_cetak', $data);
+	}
+
+	public function dialog_unduh($o = 0)
+	{
+		$data['aksi'] = "Unduh";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
+		$data['form_action'] = site_url("surat_masuk/unduh/$o");
+		$this->load->view('surat_masuk/ajax_cetak', $data);
+	}
+
 	public function cetak($o = 0)
 	{
 		$data['input'] = $_POST;
+		$_SESSION['filter'] = $data['input']['tahun'];
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['desa'] = $this->config_model->get_data();
 		$data['main'] = $this->surat_masuk_model->list_data($o, 0, 10000);
 		$this->load->view('surat_masuk/surat_masuk_print', $data);
 	}
 
-	public function excel($o = 0)
+	public function unduh($o = 0)
 	{
 		$data['input'] = $_POST;
+		$_SESSION['filter'] = $data['input']['tahun'];
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['desa'] = $this->config_model->get_data();
 		$data['main'] = $this->surat_masuk_model->list_data($o, 0, 10000);
 		$this->load->view('surat_masuk/surat_masuk_excel', $data);
