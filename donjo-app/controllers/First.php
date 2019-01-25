@@ -90,7 +90,7 @@ class First extends Web_Controller {
 		if ( ! empty($cari))
 		{
 			// Judul artikel bisa digunakan untuk serangan XSS
-			$data["judul_kategori"] = $this->security->xss_clean("Hasil pencarian: $cari");
+			$data["judul_kategori"] = html_escape("Hasil pencarian: $cari");
 		}
 
 		$this->_get_common_data($data);
