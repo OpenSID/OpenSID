@@ -17,9 +17,8 @@
 			LEFT JOIN tweb_penduduk_sex x2 ON u.pamong_sex = x2.id
 			LEFT JOIN tweb_penduduk_agama g2 ON u.pamong_agama = g2.id
 			WHERE 1";
-    $sql .= $aktif ? " AND u.pamong_status = '1'" : null;
 		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
+		$sql .= $this->filter_sql($aktif);
 		$sql .= ' ORDER BY urut';
 
 		$query = $this->db->query($sql);
@@ -85,14 +84,17 @@
 		}
 	}
 
-	private function filter_sql()
+	private function filter_sql($aktif=false)
 	{
-		if (isset($_SESSION['filter']))
-		{
-			$kf = $_SESSION['filter'];
-			$filter_sql = " AND u.pamong_status = $kf";
-			return $filter_sql;
-		}
+    if ($aktif)
+    	return " AND u.pamong_status = '1'";
+    else
+			if (!empty($_SESSION['filter']))
+			{
+				$kf = $_SESSION['filter'];
+				$filter_sql = " AND u.pamong_status = $kf";
+				return $filter_sql;
+			}
 	}
 
 	public function get_data($id=0)

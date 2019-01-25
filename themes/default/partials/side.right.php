@@ -4,7 +4,7 @@
 <div class="box box-primary box-solid">
 	<div class="box-body">
 	<form method=get action="<?php echo site_url('first');?>" class="form-inline">
-		<input type="text" name="cari" class="form-control" value="<?= $this->security->xss_clean($_GET['cari']); ?>" placeholder="Cari artikel...">
+		<input type="text" name="cari" class="form-control" value="<?= html_escape($_GET['cari']); ?>" placeholder="Cari artikel...">
 		<button type="submit" class="btn btn-primary">Cari</button>
 	</form>
 	</div>
@@ -35,4 +35,3 @@ if($w_cos){
 }
 
 ?>
-

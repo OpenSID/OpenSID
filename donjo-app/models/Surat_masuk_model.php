@@ -108,6 +108,15 @@
 		return $query;
 	}
 
+	public function list_tahun_surat()
+	{
+		$query = $this->db->distinct()->
+			select('YEAR(tanggal_penerimaan) AS tahun')->
+			order_by('YEAR(tanggal_penerimaan)','DESC')->
+			get('surat_masuk')->result_array();
+		return $query;
+	}
+
 	/**
 	 * Insert data baru ke tabel surat_masuk
 	 * @return  void

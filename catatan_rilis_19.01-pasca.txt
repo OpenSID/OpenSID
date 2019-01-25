@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Diki Siswanto dan Ahmad Afandi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Diki Siswanto, Agung Sugiarto dan Ahmad Afandi yang terus berkontribusi. Terima kasih pula pada Andi Pratama Suparminto yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.01-pasca:
 
@@ -22,9 +22,10 @@ Lengkapnya, isi rilis versi 19.01-pasca:
 16. #1872: Sekarang di halaman Info Desa > Wilayah Administratif > Wilayah Administratif RW, tautan di link RW dapat diklik. Juga informasi RT untuk RW default '-' ditampilkan. [bug-fix]
 17. #1673: Tampilkan status kawin penduduk sebagai tercatat/tidak tercatat tergantung ada tidaknya akta perkawinan. Ganti SHDK 'FAMILI LAIN' menjadi 'FAMILI'.
 18. Sekarang di dashboard Home > SID, panel statistik yg dulunya RASKIN bisa diubah oleh Admin untuk menampilkan Program Bantuan yang diinginkan.
+19. #1880: XSS bypass parameter cari di theme default dan hadakewa sudah ditambal. Celah serupa di semua kotak cari di komponen Admin juga sudah ditutup. [security-fix]
+20. #1850: Sekretariat > Surat Masuk > Disposisi sekarang dibubuhi penanda tangan dan yang mengetahui.
+21. Samakan proses cetak/unduh Surat Masuk dengan Surat Keluar, memilih penanda tangan dan yang mengetahui pada waktu cetak/unduh.
 
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.01-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
-
-
