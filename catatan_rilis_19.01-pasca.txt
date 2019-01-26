@@ -25,7 +25,7 @@ Lengkapnya, isi rilis versi 19.01-pasca:
 19. #1880: XSS bypass parameter cari di theme default dan hadakewa sudah ditambal. Celah serupa di semua kotak cari di komponen Admin juga sudah ditutup. [security-fix]
 20. #1850: Sekretariat > Surat Masuk > Disposisi sekarang dibubuhi penanda tangan dan yang mengetahui.
 21. Samakan proses cetak/unduh Surat Masuk dengan Surat Keluar, memilih penanda tangan dan yang mengetahui pada waktu cetak/unduh.
-22. #1884: Perbaiki error membuka Layanan Surat > Arsip Layanan > Rekam Surat Perorangan jika setting MySQL menggunakan strict mode. [bug-fix]
+22. #1884: Perbaiki error membuka Layanan Surat > Arsip Layanan > Rekam Surat Perorangan dan Layanan Mandiri > Layanan, jika setting MySQL menggunakan strict mode. [bug-fix]
 
 
 
