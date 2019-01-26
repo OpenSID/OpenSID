@@ -48,34 +48,29 @@ class Web_widget extends CI_Controller {
 
 	public function index($page=0, $o=0)
 	{
-		if (!$page)
-		{
-		 	$page = $this->session->table_curpage;
-		}
-
 		$data['paging'] = $this->web_widget_model->paging($page, $o);
 		$data['p'] = $data['paging']->page;
 		$data['o'] = $o;
-		$this->session->table_curpage = $data['paging']->page;
-
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		$data['cari'] = $this->session->cari;
+		$data['filter'] = $this->session->filter;
 
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
+		{
+			$this->session->per_page = $_POST['per_page'];
+		}
+		$data['per_page'] = $this->session->per_page;
 		$data['main'] = $this->web_widget_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_widget_model->autocomplete();
 
 		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 48;
+
+		$this->session->page = $data['p'];
+		$this->session->urut_range = array(
+				'min' => $data['main'][0]['urut'],
+				'max' => $data['main'][count($data['main'])-1]['urut']
+		);
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -174,8 +169,20 @@ class Web_widget extends CI_Controller {
 
 	public function urut($id = 0, $arah = 0)
 	{
-		$this->web_widget_model->urut($id, $arah);
-		redirect("web_widget");
+		$urut = $this->web_widget_model->urut($id, $arah);
+		$range = $this->session->urut_range;
+		$page = $this->session->page;
+
+		if ($urut <= 0);
+		elseif ($urut < $range['min'])
+		{
+			$page--;
+		}
+		elseif ($urut > $range['max'])
+		{
+			$page++;
+		}
+ 		redirect("web_widget/index/$page");
 	}
 
 	public function lock($id = 0)
