@@ -1,4 +1,4 @@
-Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini Laporan Penduduk Bulanan diubah mengikuti format Model A-9, dan kolom terkait perkawinan di biodata penduduk disesuaikan dengan status kawin penduduk. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Diki Siswanto, Agung Sugiarto dan Ahmad Afandi yang terus berkontribusi. Terima kasih pula pada Andi Pratama Suparminto yang baru mulai berkontribusi.
 
