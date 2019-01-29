@@ -26,7 +26,7 @@ Lengkapnya, isi rilis versi 19.01-pasca:
 20. #1850: Sekretariat > Surat Masuk > Disposisi sekarang dibubuhi penanda tangan dan yang mengetahui.
 21. Samakan proses cetak/unduh Surat Masuk dengan Surat Keluar, memilih penanda tangan dan yang mengetahui pada waktu cetak/unduh.
 22. #1884: Perbaiki error membuka Layanan Surat > Arsip Layanan > Rekam Surat Perorangan dan Layanan Mandiri > Layanan, jika setting MySQL menggunakan strict mode. [bug-fix]
-
+23. #1826: Sekarang setelah melakukan komentar pada artikel, user langsung diarahkan ke kolom komentar, sehingga respon dari server (berhasil dan sedang dimoderasi/kode captcha salah/dll) langsung dibaca oleh user.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.01-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

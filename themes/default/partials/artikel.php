@@ -47,7 +47,7 @@
 			-->
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="kolom-komentar">
 			<?php if(is_array($komentar)): ?>
 				<div class="box box-default box-solid">
 					<div class="box-header">
@@ -147,5 +147,3 @@
 		</div>
 	</div>
 <?php endif; ?>
-
-
