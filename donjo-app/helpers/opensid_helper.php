@@ -339,7 +339,10 @@ function punya_akses($grup, $list_grup_boleh)
 function httpPost($url, $params)
 {
 	if (!extension_loaded('curl') OR isset($_SESSION['no_curl']))
+	{
+		log_message('error', 'curl tidak bisa dijalankan 1.'.$_SESSION['no_curl'].' 2.'.extension_loaded('curl'));
 		return;
+	}
 
 	$postData = '';
 	//create name value pairs seperated by &

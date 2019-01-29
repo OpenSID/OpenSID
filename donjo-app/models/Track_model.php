@@ -93,7 +93,7 @@
   */
   public function abaikan($data)
   {
-    $regex = '/[^a-zA-Z\s:]|contoh|demo\s+|sampel\s+/i';
+    $regex = '/[^\.a-zA-Z\s:-]|contoh|demo\s+|sampel\s+/i';
     $abaikan = false;
     $desa = trim($data['nama_desa']);
     $kec = trim($data['nama_kecamatan']);
