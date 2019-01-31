@@ -5597,7 +5597,7 @@ CREATE TABLE `setting_aplikasi` (
   `jenis` varchar(30) DEFAULT NULL,
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (1, 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (2, 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -5617,11 +5617,13 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '19.01', 'Versi sekarang untuk migrasi', NULL, NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '19.02', 'Versi sekarang untuk migrasi', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (22, 'tombol_cetak_surat', '0', 'Tampilkan tombol cetak langsung di form surat', 'boolean', NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (24, 'penomoran_surat', '2', 'Penomoran surat mulai dari satu (1) setiap tahun', 'option', NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (25, 'dashboard_program_bantuan', '1	', 'ID program bantuan yang ditampilkan di dashboard', 'int', 'dashboard');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (26, 'panjang_nomor_surat', '', 'Nomor akan diisi \'0\' di sebelah kiri, kalau perlu', 'int', 'surat');
 
 
 #
@@ -5740,7 +5742,7 @@ DROP TABLE IF EXISTS `surat_keluar`;
 CREATE TABLE `surat_keluar` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nomor_urut` smallint(5) DEFAULT NULL,
-  `nomor_surat` varchar(20) DEFAULT NULL,
+  `nomor_surat` varchar(35) DEFAULT NULL,
   `kode_surat` varchar(10) DEFAULT NULL,
   `tanggal_surat` date NOT NULL,
   `tanggal_catat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -5760,7 +5762,7 @@ CREATE TABLE `surat_masuk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nomor_urut` smallint(5) DEFAULT NULL,
   `tanggal_penerimaan` date NOT NULL,
-  `nomor_surat` varchar(20) DEFAULT NULL,
+  `nomor_surat` varchar(35) DEFAULT NULL,
   `kode_surat` varchar(10) DEFAULT NULL,
   `tanggal_surat` date NOT NULL,
   `pengirim` varchar(100) DEFAULT NULL,
@@ -6217,7 +6219,7 @@ INSERT INTO `tweb_penduduk_hubungan` (`id`, `nama`) VALUES (5, 'MENANTU');
 INSERT INTO `tweb_penduduk_hubungan` (`id`, `nama`) VALUES (6, 'CUCU');
 INSERT INTO `tweb_penduduk_hubungan` (`id`, `nama`) VALUES (7, 'ORANGTUA');
 INSERT INTO `tweb_penduduk_hubungan` (`id`, `nama`) VALUES (8, 'MERTUA');
-INSERT INTO `tweb_penduduk_hubungan` (`id`, `nama`) VALUES (9, 'FAMILI LAIN');
+INSERT INTO `tweb_penduduk_hubungan` (`id`, `nama`) VALUES (9, 'FAMILI');
 INSERT INTO `tweb_penduduk_hubungan` (`id`, `nama`) VALUES (10, 'PEMBANTU');
 INSERT INTO `tweb_penduduk_hubungan` (`id`, `nama`) VALUES (11, 'LAINNYA');
 
