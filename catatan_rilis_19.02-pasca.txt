@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Il Ham dan Andi Pratama Suparminto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Il Ham, Happy Agung dan Andi Pratama Suparminto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.02-pasca:
 
@@ -8,6 +8,8 @@ Lengkapnya, isi rilis versi 19.02-pasca:
 2. #1896: Tambahkan alamat di informasi pilihan penduduk di Layanan Surat > Arsip Layanan > Rekam Surat Perorangan.
 3. Sekarang setelah melakukan komentar pada artikel, user langsung diarahkan ke kolom komentar.
 4. #1893: Judul tombol Hapus Data Terpilih di Kependudukan > Penduduk sekarang disamakan dengan tombol serupa di menu lain.
+5. Perbaikan penampilan beranda tema hadakewa: tombol artikel 'selengkapnya'; penampilan list; tulisan di footer.
+6. Tambah foto-foto artikel pada contoh data awal.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
