@@ -8,10 +8,6 @@
  *
 */
 
-html{
-  <param name="quality" value="high" />
-  <embed src="http://www.4shared.com/embed/487028039/72ce44cf/preview.swf" quality="high" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="147" height="34" ></embed>
-}
 a, a:active {
 	color: #0404fd;
 }
@@ -310,8 +306,9 @@ body{
     color: #333;
     font-family: Roboto, sans-serif;
     font-weight: normal;
-    margin-bottom: 0em;
-	margin-top: 0px;
+    margin-bottom: 5px;
+	margin-top: 5px;
+	text-transform: uppercase;
 }
 .artikel .kecil{
 	font-size:11px;
@@ -325,6 +322,7 @@ body{
 }
 .artikel .teks img{
 	margin-right: 7px;
+	max-width: 100%;
 }
 .artikel .teks p {
     margin: 0 0 0.5em 0;
@@ -551,5 +549,36 @@ table.counter {
 }
 table.counter tr td {
     border-right: silver 0px solid;
+	font:  12px Arial,Helvetica;
+	text-transform: uppercase;
 }
+}
+.post {
+	font-size: 15px;
+	line-height: 1.5em;
+}
+.readmore {
+	background: #03A9F4;
+    width: 130px;
+    text-align: center;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 27px;
+}
+.readmore a {
+    color: #fff;
+	text-transform: uppercase;
+	font-size: 12px;
+}
+.artikel .teks ol li {
+    list-style: decimal;
+	padding-bottom: 5px;
+	margin: 0 1em;
+    padding: 0 1em;
+}
+.artikel .teks ul li {
+    list-style: disc;
+	padding-bottom: 5px;
+	margin: 0 1em;
+    padding: 0 1em;
 }
