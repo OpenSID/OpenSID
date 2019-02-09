@@ -39,7 +39,7 @@
 				<li class="sbutton" id="fb"><a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?= site_url().'first/artikel/'.$single_artikel['id']?>" target="_blank"><i class="fa fa-facebook-square"></i>&nbsp;Share</a></li>
 				<li class="sbutton" id="rt"><a href="http://twitter.com/share" class="twitter-share-button" target="_blank"><i class="fa fa-twitter"></i>&nbsp;Tweet</a></li>
 				<li class="sbutton" id="gpshare"><a href="https://plus.google.com/share?url=<?= site_url().'first/artikel/'.$single_artikel['id'].'&hl=id'?>" target="_blank"><i class="fa fa-google-plus" style="color:red"></i>&nbsp;Bagikan</a></li>
-				<li class="sbutton" id="wa_share"><a href="whatsapp://send?text=<?= site_url().'first/artikel/'.$single_artikel['id']?>" target="_blank"><i class="fa fa-whatsapp" style="color:green"></i>&nbsp;WhatsApp</a></li>
+				<li class="sbutton" id="wa_share"><a href="https://api.whatsapp.com/send?text=<?= site_url().'first/artikel/'.$single_artikel['id']?>" target="_blank"><i class="fa fa-whatsapp" style="color:green"></i>&nbsp;WhatsApp</a></li>
 			</ul>
 			<!--
 			<script src=\"http://static.ak.fbcdn.net/connect.php/js/FB.Share\" type=\"text/javascript\"></script>
@@ -47,7 +47,7 @@
 			-->
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="kolom-komentar">
 			<?php if(is_array($komentar)): ?>
 				<div class="box box-default box-solid">
 					<div class="box-header">
@@ -147,5 +147,3 @@
 		</div>
 	</div>
 <?php endif; ?>
-
-

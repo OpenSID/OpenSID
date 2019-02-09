@@ -549,6 +549,7 @@
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
 		$data['alamat_plus_dusun'] = $data['alamat'];
+		$data['tgl_cetak_kk'] = tgl_indo_out($data['tgl_cetak_kk']);
 		return $data;
 	}
 
@@ -801,7 +802,7 @@
 				$this->program_bantuan_model->hapus_peserta_program($no_kk, $bantuan['id']);
 			}
 		}
-		if ($data['tgl_cetak_kk']) $data['tgl_cetak_kk'] = date("Y-m-d H:i:s",strtotime($data['tgl_cetak_kk']));
+		if (!empty($data['tgl_cetak_kk'])) $data['tgl_cetak_kk'] = date("Y-m-d H:i:s", strtotime($data['tgl_cetak_kk']));
 		else $data['tgl_cetak_kk'] = NULL;
 		$this->db->where("id", $id);
 		$outp=$this->db->update("tweb_keluarga", $data);

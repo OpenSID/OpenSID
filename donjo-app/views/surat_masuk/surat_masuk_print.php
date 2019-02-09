@@ -63,9 +63,9 @@
 					</tr>
 					<tr>
 						<td colspan="1">&nbsp;</td>
-						<td colspan="2"><?= $input['jabatan_ketahui']?> <?= $desa['nama_desa']?></td>
+						<td colspan="2"><?= $pamong_ketahui['jabatan']?> <?= $desa['nama_desa']?></td>
 						<td colspan="2">&nbsp;</td>
-						<td><?= $input['jabatan_ttd']?> <?= $desa['nama_desa']?></td>
+						<td><?= $pamong_ttd['jabatan']?> <?= $desa['nama_desa']?></td>
 					</tr>
 					<tr><td colspan="6">&nbsp;</td>
 					<tr><td colspan="6">&nbsp;</td>
@@ -73,9 +73,9 @@
 					<tr><td colspan="6">&nbsp;</td>
 					<tr>
 						<td colspan="1">&nbsp;</td>
-						<td colspan="2">( <?= $input['pamong_ketahui']?> )</td>
+						<td colspan="2">( <?= $pamong_ketahui['pamong_nama']?> )</td>
 						<td colspan="2">&nbsp;</td>
-						<td>( <?= $input['pamong_ttd']?> )</td>
+						<td>( <?= $pamong_ttd['pamong_nama']?> )</td>
 					</tr>
 				</table>
 			</div>

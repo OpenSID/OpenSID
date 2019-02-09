@@ -150,6 +150,35 @@
 						</tr>
 					</tbody>
 				</table>
+				<table>
+					<col span="5" style="width: 8%">
+					<col style="width: 28%">
+					<tr>
+						<td colspan="6">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="2">Mengetahui</td>
+						<td colspan="2">&nbsp;</td>
+						<td><?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, <?= tgl_indo(date("Y m d"))?></td>
+					</tr>
+					<tr>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="2"><?= $pamong_ketahui['jabatan']?> <?= $desa['nama_desa']?></td>
+						<td colspan="2">&nbsp;</td>
+						<td><?= $pamong_ttd['jabatan']?> <?= $desa['nama_desa']?></td>
+					</tr>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="2">( <?= $pamong_ketahui['pamong_nama']?> )</td>
+						<td colspan="2">&nbsp;</td>
+						<td>( <?= $pamong_ttd['pamong_nama']?> )</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</body>
