@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 19.02-pasca:
 7. #1791: Saat menaikan / menurunkan posisi widget, halaman sekarang dipertahankan pada posisi widget.
 8. #1892: Sekarang tombol Hapus Data Terpilih hanya aktif apabila ada baris data yang terpilih.
 9. #1901: Sekarang tgl cetak KK tidak berubah setelah mengubah data keluarga. [bug-fix]
+10. #1908: Ubah tautan sasaran di halaman Bantuan menjadi filter untuk menampilkan program bantuan untuk sasaran tertentu. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
