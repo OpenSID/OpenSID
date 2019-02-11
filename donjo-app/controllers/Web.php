@@ -93,7 +93,12 @@ class Web extends CI_Controller {
 		if ($id)
 		{
 			$data['artikel'] = $this->web_artikel_model->get_artikel($id);
-			$data['form_action'] = site_url("web/update/$cat/$id/$p/$o");
+
+			if (!empty($data['artikel'])) {
+				$data['form_action'] = site_url("web/update/$cat/$id/$p/$o");
+			} else {
+				redirect("web/index");
+			}
 		}
 		else
 		{

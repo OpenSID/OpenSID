@@ -61,15 +61,26 @@
 
 	private function list_data_sql($cat)
 	{
+		$user = $_SESSION['user'];
+		$grup = $_SESSION['grup'];
+		$user_sql = "";
+
+		if ($grup != 1) {
+			$user_sql = "AND id_user = $user";
+		}
+
 		if ($cat > 0)
 			$sql = "FROM artikel a
 				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE id_kategori = ? ";
+				WHERE id_kategori = ? 
+				$user_sql";
 		else
 			// Artikel dinamis tidak berkategori
 			$sql = "FROM artikel a
 				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE a.id_kategori <> 999 AND a.id_kategori <> 1000 AND k.id IS NULL ";
+				WHERE a.id_kategori <> 999 AND a.id_kategori <> 1000 AND k.id IS NULL 
+				$user_sql";
+				
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $this->grup_sql();
@@ -362,21 +373,35 @@
 
 	public function get_artikel($id=0)
 	{
+		$user = $_SESSION['user'];
+		$grup = $_SESSION['grup'];
+		$user_sql = "";
+
+		if ($grup != 1) {
+			$user_sql = "AND id_user = $user";
+		}
+
 		$sql = "SELECT a.*, u.nama AS owner
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
-			WHERE a.id = ?";
+			WHERE a.id = ?
+			$user_sql";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
-		$data['judul'] = $this->security->xss_clean($data['judul']);
-		if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
-			$data['isi'] = $this->security->xss_clean($data['isi']);
 
-		//digunakan untuk timepicker
-		$tempTgl = date_create_from_format('Y-m-d H:i:s', $data['tgl_upload']);
-		$data['tgl_upload'] = $tempTgl->format('d-m-Y H:i:s');
+		if ($data > 0) {
+			$data['judul'] = $this->security->xss_clean($data['judul']);
+			if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
+				$data['isi'] = $this->security->xss_clean($data['isi']);
 
-		return $data;
+			//digunakan untuk timepicker
+			$tempTgl = date_create_from_format('Y-m-d H:i:s', $data['tgl_upload']);
+			$data['tgl_upload'] = $tempTgl->format('d-m-Y H:i:s');
+
+			return $data;
+		} else {
+			return null;
+		}
 	}
 
 	public function get_headline()
