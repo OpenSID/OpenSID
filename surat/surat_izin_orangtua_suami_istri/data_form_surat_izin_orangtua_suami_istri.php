@@ -45,7 +45,7 @@
 		elseif ($_POST['selaku'] == 'Istri')
 		{
 			$suami = $this->surat_model->get_data_suami($_POST['nik']);
-			$data['penduduk_diberi_izin'][] = array('id'=>$suami['id'],'nik'=>$suami['nik'],'nama'=>$suami['nama'],'info_pilihan_penduduk'=>"NIK : {$istri['nik']} - {$istri['nama']}\nAlamat: RT-{$istri['rt']}, RW-{$istri['rw']} {$istri['dusun']}");
+			$data['penduduk_diberi_izin'][] = array('id'=>$suami['id'],'nik'=>$suami['nik'],'nama'=>$suami['nama'],'info_pilihan_penduduk'=>"NIK : {$suami['nik']} - {$suami['nama']}\nAlamat: RT-{$suami['rt']}, RW-{$suami['rw']} {$suami['dusun']}");
 		
 		}
 		else
