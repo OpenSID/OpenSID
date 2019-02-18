@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Il Ham, Happy Agung, Yusup Hambali dan Andi Pratama Suparminto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Il Ham, Happy Agung, Yusup Hambali, Diki Siswanto dan Andi Pratama Suparminto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.02-pasca:
 
@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 19.02-pasca:
 8. #1892: Sekarang tombol Hapus Data Terpilih hanya aktif apabila ada baris data yang terpilih.
 9. #1901: Sekarang tgl cetak KK tidak berubah setelah mengubah data keluarga. [bug-fix]
 10. #1908: Ubah tautan sasaran di halaman Bantuan menjadi filter untuk menampilkan program bantuan untuk sasaran tertentu. [bug-fix]
+11. #1912: Sekarang data suami/istri tampil pada Surat Keterangan Izin Suami/Istri sesuai pilihan pemberi izin. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
