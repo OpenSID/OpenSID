@@ -19,6 +19,7 @@ Lengkapnya, isi rilis versi 19.02-pasca:
 13. #1931: Setelah memilih pelapor, saksi1 dan saksi2 di form Surat Keterangan Kematian, form sekarang tetapi di pilihan itu (tidak loncat ke awal form).
 14. #1929: Sediakan pencarian di filter jenis surat pada Arsip Layanan Surat.
 15. #1918: Sekarang data penduduk bisa disimpan setelah mengosongkan database. [bug-fix]
+16. #1925: Sekarang tabel web_status_ktp dan setting_aplikasi_options tidak dikosongkan pada waktu mengosongkan database. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

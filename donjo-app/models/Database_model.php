@@ -3194,6 +3194,7 @@
 			"tweb_rtm_hubungan",
 			"tweb_sakit_menahun",
 			"tweb_status_dasar",
+			"tweb_status_ktp",
 			"tweb_surat_format",
 			"user",
 			"user_grup",
