@@ -81,7 +81,7 @@
 	{
 		/* pergi ke bagian halaman sesudah mengisi warga desa */
 		location.hash = "#" + $('input[name=anchor]').val();
-		$(document).scrollTop($(location.hash).offset().top - 60);
+		$(document).scrollTop($(location.hash).offset().top - 55);
 		/* set otomatis hari */
 		$('input[name=tanggal_mati]').change(function(){
 			var hari = {
