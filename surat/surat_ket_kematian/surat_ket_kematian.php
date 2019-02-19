@@ -81,6 +81,7 @@
 	{
 		/* pergi ke bagian halaman sesudah mengisi warga desa */
 		location.hash = "#" + $('input[name=anchor]').val();
+		$(document).scrollTop($(location.hash).offset().top - 60);
 		/* set otomatis hari */
 		$('input[name=tanggal_mati]').change(function(){
 			var hari = {
@@ -414,7 +415,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<div class="form-group subtitle_head">
+								<div class="form-group subtitle_head" id="pelapor">
 									<label class="col-sm-3 control-label" for="status">PELAPOR</label>
 									<div class="btn-group col-sm-8" data-toggle="buttons">
 										<label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($pelapor)): ?>active<?php endif ?>">
@@ -533,7 +534,7 @@
 										<input class="form-control input-sm required" type="text" placeholder="Hubungan pelapor dengan yang mati" name="hubungan_pelapor" value="<?= $_SESSION['post']['hubungan_pelapor']?>">
 									</div>
 								</div>
-								<div class="form-group subtitle_head">
+								<div class="form-group subtitle_head" id="saksi1">
 									<label class="col-sm-3 control-label" for="status">SAKSI 1</label>
 									<div class="btn-group col-sm-8" data-toggle="buttons">
 										<label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($saksi1)): ?>active<?php endif ?>">
@@ -646,7 +647,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<div class="form-group subtitle_head">
+								<div class="form-group subtitle_head" id="saksi2">
 									<label class="col-sm-3 control-label" for="status">SAKSI 2</label>
 									<div class="btn-group col-sm-8" data-toggle="buttons">
 										<label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($saksi2)): ?>active<?php endif ?>">
