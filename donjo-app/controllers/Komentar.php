@@ -6,6 +6,7 @@ class Komentar extends CI_Controller {
 	{
 		parent::__construct();
 		session_start();
+
 		$this->load->model('user_model');
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if ($grup != 1 AND $grup != 2 AND $grup != 3)
@@ -20,6 +21,7 @@ class Komentar extends CI_Controller {
 		$this->load->model('web_komentar_model');
 		$this->modul_ini = 13;
 		$this->controller = 'komentar';
+
 	}
 
 	public function clear()

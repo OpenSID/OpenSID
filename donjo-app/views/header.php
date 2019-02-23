@@ -67,6 +67,16 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
+							<li>
+								<a href="<?=site_url()?>komentar">
+									<i class="fa fa-commenting fa-lg" title="Komentar baru"></i><span class="badge" id="b_komentar"></span>
+								</a>
+							</li>
+							<li>
+								<a href="<?=site_url()?>lapor">
+									<i class="fa fa-envelope fa-lg" title="Laporan mandiri baru"></i><span class="badge" id="b_lapor"></span>
+								</a>
+							</li>
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<?php if ($foto): ?>

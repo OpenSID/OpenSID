@@ -22,6 +22,9 @@ define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widget/');
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI', 777);
 
+// Kode laporan mandiri di tabel komentar
+define('LAPORAN_MANDIRI', 775);
+
 //
 define("MAX_PINDAH", 7);
 define("MAX_ANGGOTA", 7);
