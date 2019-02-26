@@ -22,6 +22,7 @@ Lengkapnya, isi rilis versi 19.02-pasca:
 16. #1925: Sekarang tabel web_status_ktp dan setting_aplikasi_options tidak dikosongkan pada waktu mengosongkan database. [bug-fix]
 17. #1910: Kecuali admin, sekarang pengguna hanya dapat mengubah artikel yang dibuat oleh pengguna itu sendiri.
 18. #1899: Di header komponen Admin sekarang ada notifikasi komentar web dan laporan mandiri yang belum ditindaklanjuti.
+19. #1940: Sekarang kolom tgl lahir dan tgl SK pengangkatan tidak berubah-ubah pada waktu mengubah data staf pemerintahan desa. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
