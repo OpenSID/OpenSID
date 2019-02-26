@@ -114,7 +114,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right tgl_1" name="pamong_tanggallahir" type="text" value="<?= $pamong['pamong_tanggallahir']?>">
+										<input class="form-control input-sm pull-right tgl_1" name="pamong_tanggallahir" type="text" value="<?= tgl_indo_out($pamong['pamong_tanggallahir'])?>">
 									</div>
 								</div>
 							</div>
@@ -172,7 +172,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right tgl_1" name="pamong_tglsk" type="text" value="<?= $pamong['pamong_tglsk']?>">
+										<input class="form-control input-sm pull-right tgl_1" name="pamong_tglsk" type="text" value="<?= tgl_indo_out($pamong['pamong_tglsk'])?>">
 									</div>
 								</div>
 							</div>
@@ -189,7 +189,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right tgl_1" name="pamong_tglhenti" type="text" value="<?= $pamong['pamong_tglhenti']?>">
+										<input class="form-control input-sm pull-right tgl_1" name="pamong_tglhenti" type="text" value="<?= tgl_indo_out($pamong['pamong_tglhenti'])?>">
 									</div>
 								</div>
 							</div>
