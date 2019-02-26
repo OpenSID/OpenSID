@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Il Ham, Happy Agung, Yusup Hambali, Parso Widodo, Diki Siswanto dan Andi Pratama Suparminto yang terus berkontribusi. Terima kasih pula pada Ariandi Ryan Kahfi dan Edwin Potte yang baru mulai berkontribusi.
+Terima kasih pada Il Ham, Happy Agung, Yusup Hambali, Parso Widodo, Diki Siswanto, Agung Sugiarto dan Andi Pratama Suparminto yang terus berkontribusi. Terima kasih pula pada Ariandi Ryan Kahfi dan Edwin Potte yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.02-pasca:
 
