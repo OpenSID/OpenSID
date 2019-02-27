@@ -489,4 +489,10 @@
 		$jml = $this->db->select('count(*) as jml')->get('artikel')->row()->jml;
 		return $jml;
 	}
+
+	public function boleh_ubah($id, $user)
+	{
+		$id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
+		return ($user == $id_user or $_SESSION['grup'] == 1);
+	}
 }

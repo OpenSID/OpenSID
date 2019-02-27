@@ -496,14 +496,14 @@
 		switch ($data['status_kawin']) {
 			case 1:
 				// Status 'belum kawin' tidak berlaku akta perkawinan dan perceraian
-				$data['akta_perkawinan'] = NULL;
-				$data['akta_perceraian'] = NULL;
+				$data['akta_perkawinan'] = '';
+				$data['akta_perceraian'] = '';
 				$data['tanggalperkawinan'] = NULL;
 				$data['tanggalperceraian'] = NULL;
 				break;
 			case 2:
 				// Status 'kawin' tidak berlaku akta perceraian
-				$data['akta_perceraian'] = NULL;
+				$data['akta_perceraian'] = '';
 				$data['tanggalperceraian'] = NULL;
 				break;
 			case 3:
@@ -562,6 +562,7 @@
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 		unset($data['nik_lama']);
+    unset($data['kk_level_lama']);
 
 		$data['id_cluster'] = $data['rt'];
 		UNSET($data['dusun']);

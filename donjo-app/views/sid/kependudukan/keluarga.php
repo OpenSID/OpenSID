@@ -50,7 +50,7 @@
 								</li>
 								<?php if ($grup==1): ?>
 									<li>
-										<a href="#confirm-delete" class="btn btn-social btn-flat btn-block btn-sm" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("keluarga/delete_all/$p/$o")?>')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
+										<a href="#confirm-delete" class="btn btn-social btn-flat btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("keluarga/delete_all/$p/$o")?>')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
 									</li>
 								<?php endif; ?>
 							</ul>

@@ -23,7 +23,14 @@ class Program_bantuan extends CI_Controller {
 
 	public function clear($id = 0)
 	{
-		$_SESSION['per_page'] = 50;
+		$_SESSION['per_page'] = 20;
+		$this->session->sasaran = '';
+		redirect('program_bantuan');
+	}
+
+	public function filter($filter)
+	{
+		$_SESSION[$filter] = $this->input->post($filter);
 		redirect('program_bantuan');
 	}
 
@@ -39,7 +46,7 @@ class Program_bantuan extends CI_Controller {
 		$this->load->view('nav', $nav);
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
-
+		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$this->load->view('program_bantuan/program', $data);
@@ -78,20 +85,6 @@ class Program_bantuan extends CI_Controller {
 
 		$this->load->view('nav', $nav);
 		$this->load->view('program_bantuan/panduan', $data);
-		$this->load->view('footer');
-	}
-
-	public function sasaran($sasaran = 0)
-	{
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$nav['act']= 6;
-
-		$this->load->view('nav', $nav);
-		$data['tampil'] = $sasaran;
-		$data['program'] = $this->program_bantuan_model->list_program($sasaran);
-
-		$this->load->view('program_bantuan/program', $data);
 		$this->load->view('footer');
 	}
 

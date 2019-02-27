@@ -145,9 +145,11 @@
 		}
 	}
 
-	// $arah:
-	//		1 - turun
-	// 		2 - naik
+	/**
+	 * @param $id Id widget
+	 * @param $arah Arah untuk menukar dengan widget: 1) bawah, 2) atas
+	 * @return int Nomer urut widget lain yang ditukar
+	 */
 	public function urut($id, $arah)
 	{
 		$this->urut_semua();
@@ -181,6 +183,8 @@
 			update('widget', array('urut' => $widget1['urut']));
 		$this->db->where('id', $widget1['id'])->
 			update('widget', array('urut' => $widget2['urut']));
+
+		return (int)$widget2['urut'];
 	}
 
 	public function lock($id='', $val=0)

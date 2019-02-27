@@ -40,7 +40,7 @@
 														<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
 													<?php endforeach; ?>
 												</select>
-												<select class="form-control input-sm " name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/jenis')?>')">
+												<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/jenis')?>')">
 													<option value="">Pilih Jenis Surat</option>
 													<?php foreach ($jenis_surat as $data): ?>
 														<option value="<?= $data['nama_surat']?>" <?php selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>

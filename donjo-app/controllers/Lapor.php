@@ -6,6 +6,7 @@ class Lapor extends CI_Controller {
 	{
 		parent::__construct();
 		session_start();
+
 		$this->load->model('user_model');
 		$this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 		if ($this->grup != 1 AND $this->grup != 2 AND $this->grup != 3)

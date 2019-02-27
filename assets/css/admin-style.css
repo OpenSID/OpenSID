@@ -350,3 +350,21 @@ text-align: left;
 }
 img { margin-bottom: 5px; }
 .no-padding { padding: 0px; }
+
+/* Notif */
+.badge {
+  display: inline-block;
+	min-width: 10px;
+	padding: 4px;
+	margin-left: 3px;
+	font-size: 10px;
+	font-weight: normal;
+	margin-top: -11px;
+	line-height: 0.5;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	background-color: #ff0505;
+	border-radius: 6px
+}

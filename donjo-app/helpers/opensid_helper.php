@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '19.01-pasca');
+define("VERSION", '19.02-pasca');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -21,6 +21,9 @@ define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widget/');
 
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI', 777);
+
+// Kode laporan mandiri di tabel komentar
+define('LAPORAN_MANDIRI', 775);
 
 //
 define("MAX_PINDAH", 7);
@@ -339,7 +342,10 @@ function punya_akses($grup, $list_grup_boleh)
 function httpPost($url, $params)
 {
 	if (!extension_loaded('curl') OR isset($_SESSION['no_curl']))
+	{
+		log_message('error', 'curl tidak bisa dijalankan 1.'.$_SESSION['no_curl'].' 2.'.extension_loaded('curl'));
 		return;
+	}
 
 	$postData = '';
 	//create name value pairs seperated by &

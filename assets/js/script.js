@@ -13,6 +13,10 @@ $(document).ready(function()
 {
 	//CheckBox All Selected
 	checkAll();
+  $("input[name='id_cb[]'").click(function(){
+  	enableHapusTerpilih();
+  });
+	enableHapusTerpilih();
 
 	//Display Modal Box
 	modalBox();
@@ -47,8 +51,7 @@ $(document).ready(function()
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2();
-	
-	
+
 
 	$('.select2-nik').select2({
 		templateResult: function (penduduk) {
@@ -334,8 +337,23 @@ function checkAll(id = "#checkall")
 				$(this).prop("checked", false);
 			});
 		}
+		enableHapusTerpilih();
 	});
 	$("[data-toggle=tooltip]").tooltip();
+}
+
+function enableHapusTerpilih()
+{
+  if ($("input[name='id_cb[]']:checked").length <= 0)
+  {
+    $(".hapus-terpilih").addClass('disabled');
+    $(".hapus-terpilih").attr('href','#');
+  }
+  else
+  {
+    $(".hapus-terpilih").removeClass('disabled');
+    $(".hapus-terpilih").attr('href','#confirm-delete');
+  }
 }
 
 function deleteAllBox(idForm, action)

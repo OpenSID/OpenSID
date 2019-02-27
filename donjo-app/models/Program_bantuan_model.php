@@ -75,7 +75,7 @@ class Program_bantuan_model extends CI_Model {
 
 	public function paging_bantuan($p)
 	{
-		$sql = "SELECT count(*) as jumlah FROM program";
+		$sql = "SELECT count(*) as jumlah " . $this->get_program_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
 		$jml_data = $row['jumlah'];
@@ -218,12 +218,29 @@ class Program_bantuan_model extends CI_Model {
 		return $data;
 	}
 
+	private function sasaran_sql()
+	{
+		if ($kf = $this->session->sasaran)
+		{
+			$sql = " AND p.sasaran = '$kf'";
+			return $sql;
+		}
+	}
+
+	private function get_program_sql()
+	{
+		$sql = ' FROM program p WHERE 1 ';
+		$sql .= $this->sasaran_sql();
+		return $sql;
+	}
+
 	public function get_program($p, $slug)
 	{
 		if ($slug === false)
 		{
 			$response['paging'] = $this->paging_bantuan($p);
-			$strSQL   = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status FROM program p WHERE 1";
+			$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status";
+			$strSQL .= $this->get_program_sql();
 			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
 			$query = $this->db->query($strSQL);
 			$data = $query->result_array();

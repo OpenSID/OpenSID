@@ -46,6 +46,15 @@
 
 			$('document').ready(function()
 			{
+
+				$("#b_komentar").load("<?= site_url()?>notif/komentar");
+				$("#b_lapor").load("<?= site_url()?>notif/lapor");
+				var refreshId = setInterval(function()
+				{
+					$("#b_komentar").load("<?= site_url()?>notif/komentar");
+					$("#b_lapor").load("<?= site_url()?>notif/lapor");
+				}, 3000);
+
 				if ($('#success-code').val() == 1)
 				{
 					notify = 'success';

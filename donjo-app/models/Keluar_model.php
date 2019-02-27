@@ -182,7 +182,6 @@
 			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
 			LEFT JOIN user w ON u.id_user = w.id
 			WHERE 1 ";
-		$sql .= $this->search_sql();
 		$sql .= $this->filterku_sql($nik);
 		return $sql;
 	}

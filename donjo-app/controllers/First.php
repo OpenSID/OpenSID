@@ -90,7 +90,7 @@ class First extends Web_Controller {
 		if ( ! empty($cari))
 		{
 			// Judul artikel bisa digunakan untuk serangan XSS
-			$data["judul_kategori"] = $this->security->xss_clean("Hasil pencarian: $cari");
+			$data["judul_kategori"] = html_escape("Hasil pencarian:". substr($cari, 0, 50));
 		}
 
 		$this->_get_common_data($data);
@@ -374,7 +374,7 @@ class First extends Web_Controller {
 			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
 			$_SESSION['post'] = $_POST;
 			$_SESSION['validation_error'] = true;
-			redirect("first/artikel/$id");
+			redirect("first/artikel/$id#kolom-komentar");
 		}
 
 		$res = $this->first_artikel_m->insert_comment($id);
@@ -394,7 +394,7 @@ class First extends Web_Controller {
 		}
 
 		$_SESSION['sukses'] = 1;
-		redirect("first/artikel/$id");
+		redirect("first/artikel/$id#kolom-komentar");
 	}
 
 	private function _get_common_data(&$data)
