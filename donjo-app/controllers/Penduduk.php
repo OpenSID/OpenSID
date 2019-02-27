@@ -218,7 +218,7 @@ class Penduduk extends CI_Controller {
 				$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 				$_SESSION['nik_lama'] = $data['penduduk']['nik'];
 			}
-			$data['form_action'] = site_url("penduduk/update/1/$o/$id/1");
+			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
 		}
 		else
 		{
