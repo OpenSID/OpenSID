@@ -7,8 +7,41 @@
     </div>
     <div class="box-body">
         <div id="map_canvas" style="height:200px;"></div>
-        <a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>">Buka peta</a>
+		<button class="btn btn-success btn-block"><a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>" style="color:#fff;" target="_blank">Buka Peta</a></button>
     </div>
+	
+	<div class="info-desa">	
+		<table width="100%">
+			<tr style="border-bottom: 1px solid #ddd;">
+				<td class="label-info-desa" width="25%" height="30px">Alamat</td>
+				<td class="isi-info-desa" width="70%"><?php echo $desa['alamat_kantor']?></td>
+			</tr>
+			<tr style="border-bottom: 1px solid #ddd;">
+				<td class="label-info-desa" width="25%" height="30px"><?php echo ucwords($this->setting->sebutan_desa)." "?></td>
+				<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_desa']?></td>
+			</tr>
+			<tr style="border-bottom: 1px solid #ddd;">
+				<td class="label-info-desa" width="25%" height="30px"><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
+				<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_kecamatan']?></td>
+			</tr>
+			<tr style="border-bottom: 1px solid #ddd;">
+				<td class="label-info-desa" width="25%" height="30px"><?php echo ucwords($this->setting->sebutan_kabupaten)?></td>
+				<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_kabupaten']?></td>
+			</tr>
+			<tr style="border-bottom: 1px solid #ddd;">
+				<td class="label-info-desa" width="25%" height="30px">Kodepos</td>
+				<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['kode_pos']?></td>
+			</tr>
+			<tr style="border-bottom: 1px solid #ddd;">
+				<td class="label-info-desa" width="25%" height="30px">Telepon</td>
+				<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['telepon']?></td>
+			</tr>
+			<tr>
+				<td class="label-info-desa" width="25%" height="40px">Email</td>
+				<td class="isi-info-desa" width="70%" height="40px"><?php echo $desa['email_desa']?></td>
+			</tr>
+		</table>
+	</div>
 </div>
 
 <script>
