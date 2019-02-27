@@ -63,13 +63,13 @@
 	{
 		if ($cat > 0)
 			$sql = "FROM artikel a
-				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE id_kategori = ? ";
+		LEFT JOIN kategori k ON a.id_kategori = k.id
+		WHERE id_kategori = ? ";
 		else
 			// Artikel dinamis tidak berkategori
 			$sql = "FROM artikel a
-				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE a.id_kategori <> 999 AND a.id_kategori <> 1000 AND k.id IS NULL ";
+		LEFT JOIN kategori k ON a.id_kategori = k.id
+		WHERE a.id_kategori <> 999 AND a.id_kategori <> 1000 AND k.id IS NULL ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $this->grup_sql();
@@ -80,13 +80,13 @@
 	{
 		switch ($o)
 		{
-		case 1: $order_sql = ' ORDER BY judul'; break;
-		case 2: $order_sql = ' ORDER BY judul DESC'; break;
-		case 3: $order_sql = ' ORDER BY enabled'; break;
-		case 4: $order_sql = ' ORDER BY enabled DESC'; break;
-		case 5: $order_sql = ' ORDER BY tgl_upload'; break;
-		case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
-		default:$order_sql = ' ORDER BY id DESC';
+			case 1: $order_sql = ' ORDER BY judul'; break;
+			case 2: $order_sql = ' ORDER BY judul DESC'; break;
+			case 3: $order_sql = ' ORDER BY enabled'; break;
+			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
+			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
+			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
+			default:$order_sql = ' ORDER BY id DESC';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
@@ -145,22 +145,22 @@
 		if (empty($data['judul'])  || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";
-		  $_SESSION['success'] = -1;
-		  return;
+			$_SESSION['success'] = -1;
+			return;
 		}
 
 		$fp = time();
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
 		foreach ($list_gambar as $gambar)
 		{
-		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
-		  if (!empty($lokasi_file))
-		  {
-			  $tipe_file = TipeFile($_FILES[$gambar]);
+			$lokasi_file = $_FILES[$gambar]['tmp_name'];
+			$nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
+			if (!empty($lokasi_file))
+			{
+				$tipe_file = TipeFile($_FILES[$gambar]);
 				$hasil = UploadArtikel($nama_file, $gambar, $fp, $tipe_file);
 				if ($hasil) $data[$gambar] = $nama_file;
-		  }
+			}
 		}
 		$data['id_kategori'] = $cat;
 		$data['id_user'] = $_SESSION['user'];
@@ -189,7 +189,7 @@
 			{
 				$data['dokumen'] = $nama_file;
 				if($data['link_dokumen'] == '')
-				$data['link_dokumen'] = $data['judul'];
+					$data['link_dokumen'] = $data['judul'];
 				UploadDocument2($nama_file);
 			}
 		}
@@ -198,6 +198,7 @@
 		{
 			unset($data['old_'.$gambar]);
 		}
+
 		if ($data['tgl_upload'] == '')
 		{
 			unset($data['tgl_upload']);
@@ -206,6 +207,17 @@
 		{
 			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
 			$data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
+		}
+
+		// tanggal agenda
+		if ($data['tgl_agenda'] == '')
+		{
+			unset($data['tgl_agenda']);
+		}
+		else
+		{
+			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_agenda']);
+			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
 		}
 
 		$outp = $this->db->insert('artikel', $data);
@@ -217,24 +229,24 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
 
-	  $data = $_POST;
+		$data = $_POST;
 		if (empty($data['judul']) || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";
-		  $_SESSION['success'] = -1;
-		  return;
+			$_SESSION['success'] = -1;
+			return;
 		}
 
-	  $fp = time();
+		$fp = time();
 		$list_gambar = array('gambar', 'gambar1', 'gambar2', 'gambar3');
 		foreach ($list_gambar as $gambar)
 		{
-		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
+			$lokasi_file = $_FILES[$gambar]['tmp_name'];
+			$nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
 
-		  if (!empty($lokasi_file))
-		  {
-			  $tipe_file = TipeFile($_FILES[$gambar]);
+			if (!empty($lokasi_file))
+			{
+				$tipe_file = TipeFile($_FILES[$gambar]);
 				$hasil = UploadArtikel($nama_file, $gambar, $fp, $tipe_file);
 				if ($hasil)
 				{
@@ -245,11 +257,11 @@
 				{
 					unset($data[$gambar]);
 				}
-		  }
-		  else
-		  {
+			}
+			else
+			{
 				unset($data[$gambar]);
-		  }
+			}
 		}
 
 		foreach ($list_gambar as $gambar)
@@ -281,7 +293,7 @@
 			{
 				$data['dokumen'] = $nama_file;
 				if ($data['link_dokumen'] == '')
-				$data['link_dokumen'] = $data['judul'];
+					$data['link_dokumen'] = $data['judul'];
 				UploadDocument2($nama_file);
 			}
 		}
@@ -300,6 +312,17 @@
 			$data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
 		}
 
+		// tanggal agenda
+		if ($data['tgl_agenda'] == '')
+		{
+			unset($data['tgl_agenda']);
+		}
+		else
+		{
+			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_agenda']);
+			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
+		}
+
 		$this->db->where('id',$id);
 		$outp = $this->db->update('artikel', $data);
 		if (!$outp) $_SESSION['success'] = -1;
@@ -313,9 +336,9 @@
 	public function delete($id='')
 	{
 		$list_gambar = $this->db->
-			select('gambar, gambar1, gambar2, gambar3')->
-			where('id', $id)->
-			get('artikel')->row_array();
+		select('gambar, gambar1, gambar2, gambar3')->
+		where('id', $id)->
+		get('artikel')->row_array();
 		foreach ($list_gambar as $key => $gambar)
 		{
 			HapusArtikel($gambar);
@@ -363,9 +386,9 @@
 	public function get_artikel($id=0)
 	{
 		$sql = "SELECT a.*, u.nama AS owner
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			WHERE a.id = ?";
+		FROM artikel a
+		LEFT JOIN user u ON a.id_user = u.id
+		WHERE a.id = ?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		$data['judul'] = $this->security->xss_clean($data['judul']);
@@ -382,10 +405,10 @@
 	public function get_headline()
 	{
 		$sql = "SELECT a.*, u.nama AS owner
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			WHERE headline = 1
-			ORDER BY tgl_upload DESC LIMIT 1 ";
+		FROM artikel a
+		LEFT JOIN user u ON a.id_user = u.id
+		WHERE headline = 1
+		ORDER BY tgl_upload DESC LIMIT 1 ";
 		$query = $this->db->query($sql);
 		$data  = $query->row_array();
 
@@ -403,11 +426,11 @@
 	public function artikel_show()
 	{
 		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE a.enabled=? AND k.tipe = 1
-			ORDER BY a.tgl_upload DESC LIMIT 4";
+		FROM artikel a
+		LEFT JOIN user u ON a.id_user = u.id
+		LEFT JOIN kategori k ON a.id_kategori = k.id
+		WHERE a.enabled=? AND k.tipe = 1
+		ORDER BY a.tgl_upload DESC LIMIT 4";
 		$query = $this->db->query($sql,1);
 		$data  = $query->result_array();
 
@@ -488,11 +511,5 @@
 	{
 		$jml = $this->db->select('count(*) as jml')->get('artikel')->row()->jml;
 		return $jml;
-	}
-
-	public function boleh_ubah($id, $user)
-	{
-		$id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
-		return ($user == $id_user or $_SESSION['grup'] == 1);
 	}
 }
