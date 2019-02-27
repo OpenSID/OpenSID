@@ -29,7 +29,7 @@
 				<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_kabupaten']?></td>
 			</tr>
 			<tr style="border-bottom: 1px solid #ddd;">
-				<td class="label-info-desa" width="25%" height="30px">Kodepos</td>
+				<td class="label-info-desa" width="25%" height="30px">Kode Pos</td>
 				<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['kode_pos']?></td>
 			</tr>
 			<tr style="border-bottom: 1px solid #ddd;">
