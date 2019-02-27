@@ -379,7 +379,19 @@
                     <div class='col-sm-4'>
                       <div class='form-group'>
                         <label for="lokasi">Lokasi Tempat Tinggal </label>
-                        <a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]")?>" title="Lokasi <?= $penduduk['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+												<?php
+													if ($p == '') {
+														$p = 0;
+													}
+													if ($o == '') {
+														$o = 0;
+													}
+													if ($penduduk[id] == '') {
+														$penduduk[id] = 0;
+													}
+													 ?>
+
+                        <a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/1")?>" title="Lokasi <?= $penduduk['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
 
                       </div>
                     </div>
