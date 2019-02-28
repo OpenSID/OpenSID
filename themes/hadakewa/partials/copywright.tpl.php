@@ -8,5 +8,6 @@
 	  <li><a href="<?php echo $sosmed[nested_array_search('YouTube',$sosmed)]['link']?>" target="_blank"><span style="color:#fff"><i class="fa fa-youtube-square fa-2x"></i></span></a></li>
 	  <li><a href="<?php echo $sosmed[nested_array_search('Google Plus',$sosmed)]['link']?>" target="_blank"><span style="color:#fff"><i class="fa fa-google-plus-square fa-2x"></i></span></a></li>
 	  <li><a href="<?php echo $sosmed[nested_array_search('Instagram',$sosmed)]['link']?>" target="_blank"><span style="color:#fff"><i class="fa fa-instagram fa-2x"></i></span></a></li>
+	  <li><a href="<?php echo $sosmed[nested_array_search('WhatsApp',$sosmed)]['link']?>" target="_blank"><span style="color:#fff"><i class="fa fa-whatsapp fa-2x"></i></span></a></li>
 	</ul>
 </div>
