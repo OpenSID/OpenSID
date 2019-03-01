@@ -1,8 +1,8 @@
-Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini ditambah notifikasi komentar web dan laporan layanan mandiri. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Il Ham, Happy Agung, Yusup Hambali, Parso Widodo, Diki Siswanto, Agung Sugiarto dan Andi Pratama Suparminto yang terus berkontribusi. Terima kasih pula pada Ariandi Ryan Kahfi dan Edwin Potte yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 19.02-pasca:
+Lengkapnya, isi rilis versi 19.03:
 
 1. Sekarang penduduk baru dengan status belum kawin atau mengubah penduduk menjadi status belum kawin dapat disimpan. [bug-fix]
 2. #1896: Tambahkan alamat di informasi pilihan penduduk di Layanan Surat > Arsip Layanan > Rekam Surat Perorangan.
@@ -25,4 +25,4 @@ Lengkapnya, isi rilis versi 19.02-pasca:
 19. #1940: Sekarang kolom tgl lahir dan tgl SK pengangkatan tidak berubah-ubah pada waktu mengubah data staf pemerintahan desa. [bug-fix]
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
