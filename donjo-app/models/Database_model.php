@@ -21,7 +21,8 @@
 		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
 		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => '19.01'),
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
-		'19.02' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'19.02' => array('migrate' => NULL, 'nextVersion' => '19.03'),
+		'19.03' => array('migrate' => NULL, 'nextVersion' => NULL)
 	);
 
 	public function __construct()
