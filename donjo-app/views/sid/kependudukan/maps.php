@@ -60,12 +60,9 @@
 	</div>
 	<div class="modal-footer">
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-    <?php
-
-			if ($edit == 1) {
-				if($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
-				 <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_penduduk" data-dismiss="modal"><i class='fa fa-check'></i> Simpan</button>
-			 <?php endif;
-		 }
-			  ?>
+		<?php if ($edit == 1): ?>
+			<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
+					 <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_penduduk" data-dismiss="modal"><i class='fa fa-check'></i> Simpan</button>
+			<?php endif; ?>
+		<?php endif; ?>
 		  </div>
