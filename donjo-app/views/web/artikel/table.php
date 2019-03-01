@@ -64,7 +64,14 @@
             <div class="box-header with-border">
 							<?php if ($cat > 0): ?>
 								<a href="<?=site_url("web/form/$cat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-										<i class="fa fa-plus"></i>Tambah <?php if ($kategori): ?><?=$kategori['kategori'];?><?php else: ?>Artikel Statis<?php endif; ?> Baru
+										<i class="fa fa-plus"></i>Tambah
+											<?php if ($kategori): ?>
+												<?=$kategori['kategori'];?>
+											<?php elseif ($cat == 1000): ?>
+												Agenda
+											<?php else: ?>
+												Artikel Statis
+											<?php endif; ?> Baru
 	            	</a>
 							<?php endif; ?>
 							<?php if ($_SESSION['grup']<4): ?>

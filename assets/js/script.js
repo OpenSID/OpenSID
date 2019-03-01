@@ -200,7 +200,7 @@ $(document).ready(function()
 		$('#tgljam_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
-	$('#tgl_jam').datetimepicker(
+	$('.tgl_jam').datetimepicker(
 	{
 		format: 'DD-MM-YYYY HH:mm:ss',
 		locale:'id'

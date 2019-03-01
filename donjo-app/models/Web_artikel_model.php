@@ -199,13 +199,18 @@
 			unset($data['old_'.$gambar]);
 		}
 		if ($data['tgl_upload'] == '')
-		{
 			unset($data['tgl_upload']);
-		}
 		else
 		{
 			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
 			$data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
+		}
+		if ($data['tgl_agenda'] == '')
+			unset($data['tgl_agenda']);
+		else
+		{
+			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_agenda']);
+			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
 		}
 
 		$outp = $this->db->insert('artikel', $data);
@@ -291,13 +296,18 @@
 			unset($data['old_'.$gambar]);
 		}
 		if ($data['tgl_upload'] == '')
-		{
 			unset($data['tgl_upload']);
-		}
 		else
 		{
 			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
 			$data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
+		}
+		if ($data['tgl_agenda'] == '')
+			unset($data['tgl_agenda']);
+		else
+		{
+			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_agenda']);
+			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
 		}
 
 		$this->db->where('id',$id);
@@ -375,6 +385,8 @@
 		//digunakan untuk timepicker
 		$tempTgl = date_create_from_format('Y-m-d H:i:s', $data['tgl_upload']);
 		$data['tgl_upload'] = $tempTgl->format('d-m-Y H:i:s');
+		$tempTgl = date_create_from_format('Y-m-d H:i:s', $data['tgl_agenda']);
+		$data['tgl_agenda'] = $tempTgl->format('d-m-Y H:i:s');
 
 		return $data;
 	}
