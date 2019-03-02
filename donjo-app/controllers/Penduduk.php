@@ -635,7 +635,7 @@ class Penduduk extends CI_Controller {
 		redirect("penduduk");
 	}
 
-	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '',$edit = '')
+	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '', $edit = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
