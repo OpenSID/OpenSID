@@ -635,14 +635,15 @@ class Penduduk extends CI_Controller {
 		redirect("penduduk");
 	}
 
-	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '')
+	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '', $edit = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
+		$data['id'] = $id;
+		$data['edit'] = $edit;
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
 		$data['desa'] = $this->penduduk_model->get_desa();
-
 		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id");
 
 		$this->load->view("sid/kependudukan/maps", $data);
