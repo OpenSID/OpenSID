@@ -8,7 +8,7 @@
     <div class="box-body">
       <ul id="ul-menu" class="sidebar-latest">
         <?php foreach ($agenda as $l): ?>
-          <li><div id="small-agenda"><?= tgl_indo($l['tgl_upload'])?></div><a href="<?= site_url("first/artikel/$l[id]")?>"><?= $l['judul']?></a></li>
+          <li><div id="small-agenda"><?= tgl_indo($l['tgl_agenda'])?></div><a href="<?= site_url("first/artikel/$l[id]")?>"><?= $l['judul']?></a></li>
         <?php endforeach; ?>
       </ul>
     </div>

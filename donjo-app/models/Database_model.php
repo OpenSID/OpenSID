@@ -21,8 +21,8 @@
 		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
 		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => '19.01'),
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
-		'19.02' => array('migrate' => NULL, 'nextVersion' => '19.03'),
-		'19.03' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
+		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -124,6 +124,11 @@
 	return $result;
   }
 
+  private function nop()
+  {
+  	// Tidak lakukan apa-apa
+  }
+
   private function _migrasi_db_cri()
   {
 	$this->migrasi_cri_lama();
@@ -169,6 +174,16 @@
 	$this->migrasi_1811_ke_1812();
 	$this->migrasi_1812_ke_1901();
 	$this->migrasi_1901_ke_1902();
+	$this->migrasi_1903_ke_1904();
+  }
+
+  private function migrasi_1903_ke_1904()
+  {
+  	// Tambah kolom untuk agenda
+		if (!$this->db->field_exists('tgl_agenda', 'artikel'))
+		{
+	    $this->dbforge->add_column('artikel', array('tgl_agenda' => array('type' => 'timestamp')));
+		}
   }
 
   private function migrasi_1901_ke_1902()
