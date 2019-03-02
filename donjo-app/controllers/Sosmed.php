@@ -93,6 +93,19 @@ class Sosmed extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function whatsapp()
+	{
+		$data['main'] = $this->web_sosmed_model->get_sosmed(6);
+		$data['form_action'] = site_url("sosmed/update/6");
+		$header = $this->header_model->get_data();
+		$nav['act'] = 13;
+		$nav['act_sub'] = 53;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('sosmed/whatsapp', $data);
+		$this->load->view('footer');
+	}
+
 	public function update($id = '')
 	{
 		$this->web_sosmed_model->update($id);
@@ -112,6 +125,9 @@ class Sosmed extends CI_Controller {
 				break;
 			case '5':
 				redirect("sosmed/instagram");
+				break;
+			case '6':
+				redirect("sosmed/whatsapp");
 				break;
 			default:
 				redirect("sosmed");
