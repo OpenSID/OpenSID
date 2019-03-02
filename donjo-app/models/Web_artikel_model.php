@@ -107,6 +107,7 @@
 				$data[$i]['aktif'] = "Ya";
 			else
 				$data[$i]['aktif'] = "Tidak";
+			$data[$i]['boleh_ubah'] = $this->boleh_ubah($data[$i]['id'], $this->session->user);
 
 			$j++;
 		}
@@ -340,8 +341,11 @@
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$outp = $this->delete($id);
-			if (!$outp) $_SESSION['success'] = -1;
+			if ($this->boleh_ubah($id, $_SESSION['user']))
+			{
+				$outp = $this->delete($id);
+				if (!$outp) $_SESSION['success'] = -1;
+			}
 		}
 	}
 

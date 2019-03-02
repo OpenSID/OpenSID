@@ -7,6 +7,7 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 1. #1944: Tambah tanggal kegiatan agenda untuk artikel statis agenda. Tampilkan tanggal agenda di widget agenda.
 2. #1952: Tambah tombol WhatsApp pada widget Sosial Media.
 3. #1954: Sekarang pengguna tingkatan operator, redaksi dan kontributor dapat membuat artikel baru kembali. [bug-fix]
+4. Sekarang artikel yg tidak boleh dihapus pengguna tidak dapat dihapus menggunakan fitur Hapus Data Terpilih. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

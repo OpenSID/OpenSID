@@ -344,7 +344,7 @@ function checkAll(id = "#checkall")
 
 function enableHapusTerpilih()
 {
-  if ($("input[name='id_cb[]']:checked").length <= 0)
+  if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0)
   {
     $(".hapus-terpilih").addClass('disabled');
     $(".hapus-terpilih").attr('href','#');
