@@ -143,6 +143,9 @@ ul.submenu {
     list-style: disc;
     margin-left: 20px;
 }
+#ul-agenda {
+    list-style-type: none;
+}
 #table-agenda {
 	margin-bottom: 10px;
 }
