@@ -6,7 +6,7 @@
       <h3 class="box-title"><a href="<?= site_url();?>first/kategori/1000"><i class="fa fa-calendar"></i> Agenda</a></h3>
     </div>
     <div class="box-body">
-      <ul id="ul-menu" class="sidebar-latest">
+      <ul id="ul-agenda" class="sidebar-latest">
         <?php foreach ($agenda as $l): ?>
           <li>
 		  <table id="table-agenda" width="100%">		  
