@@ -135,8 +135,8 @@ ul.nav.navbar-nav {
 }
 
 #ul-menu {
-    list-style-type: none;
-  margin-left: 0px;
+    list-style-type: disc;
+  margin-left: 20px;
   margin-bottom: 0px;
 }
 ul.submenu {
