@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Happy Agung yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Happy Agung, Yusup Cimbar yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.03-pasca:
 
@@ -9,6 +9,7 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 3. #1954: Sekarang pengguna tingkatan operator, redaksi dan kontributor dapat membuat artikel baru kembali. [bug-fix]
 4. Sekarang artikel yg tidak boleh dihapus pengguna tidak dapat dihapus menggunakan fitur Hapus Data Terpilih. [bug-fix]
 5. #1602: Tombol simpan tidak ditampilkan di form Lokasi Tempat Tinggal (peta) kalau hanya untuk dilihat saja atau penduduk belum disimpan di database.
+6. Data pamong desa sekarang dapat dibuka pada waktu menggunakan PHP v5.5 ke bawah. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
