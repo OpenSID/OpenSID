@@ -500,13 +500,27 @@ textarea {
     margin-top: 8px;
 }
 #ul-menu {
-    list-style-type: square;
-	margin-left: 20px;
+    list-style-type: none;
+	margin-left: 0px;
 	margin-bottom: 0px;
 }
 ul.submenu {
     list-style: disc;
     margin-left: 20px;
+}
+#table-agenda {
+	margin-bottom: 10px;
+}
+#label-meta-agenda {
+    color: #ca0b0b;
+    font-size: 12px;
+	margin-bottom: 0px;
+}
+#isi-meta-agenda {
+    font-weight: bold;
+    color: #ca0b0b;
+    font-size: 11.3px;
+	margin-bottom: 0px;
 }
 #li-komentar {
     list-style: none;
@@ -581,4 +595,18 @@ table.counter tr td {
 	padding-bottom: 5px;
 	margin: 0 1em;
     padding: 0 1em;
+}
+.info-desa{
+	margin: 0 10px;
+	font-size: 13px;
+}
+.label-info-desa {
+	font-weight: bold;
+}
+.desa-info {
+    position: absolute;
+    display: table-column;
+    z-index: 10;
+    top: 20px;
+    left: 140px;
 }
