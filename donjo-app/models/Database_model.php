@@ -179,12 +179,11 @@
 
   private function migrasi_1903_ke_1904()
   {
-  	// Tambah kolom tanggal agenda untuk agenda
+  	// Tambah kolom untuk agenda
 		if (!$this->db->field_exists('tgl_agenda', 'artikel'))
 		{
 	    $this->dbforge->add_column('artikel', array('tgl_agenda' => array('type' => 'timestamp')));
 		}
-	
 	// Tambahkan kolom koordinator untuk agenda
 		if (!$this->db->field_exists('koordinator_kegiatan', 'artikel'))
 		{
@@ -195,8 +194,14 @@
 		{
 	    $this->dbforge->add_column('artikel', array('lokasi_kegiatan' => array('type' =>  'VARCHAR',  'constraint'  =>  100)));
 		}
+	// Tambah tombol media sosial whatsapp
+		$query = "
+			INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('6', 'wa.png', '', 'WhatsApp', '1')
+			ON DUPLICATE KEY UPDATE
+				gambar = VALUES(gambar),
+				nama = VALUES(nama)";
+		$this->db->query($query);
   }
-
 
   private function migrasi_1901_ke_1902()
   {
