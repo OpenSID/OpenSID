@@ -500,13 +500,16 @@ textarea {
     margin-top: 8px;
 }
 #ul-menu {
-    list-style-type: none;
-	margin-left: 0px;
+    list-style-type: disc;
+	margin-left: 20px;
 	margin-bottom: 0px;
 }
 ul.submenu {
     list-style: disc;
     margin-left: 20px;
+}
+#ul-agenda {
+    list-style-type: none;
 }
 #table-agenda {
 	margin-bottom: 10px;
