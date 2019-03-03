@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 4. Sekarang artikel yg tidak boleh dihapus pengguna tidak dapat dihapus menggunakan fitur Hapus Data Terpilih. [bug-fix]
 5. #1602: Tombol simpan tidak ditampilkan di form Lokasi Tempat Tinggal (peta) kalau hanya untuk dilihat saja atau penduduk belum disimpan di database.
 6. Data pamong desa sekarang dapat dibuka pada waktu menggunakan PHP v5.5 ke bawah. [bug-fix]
+7. Tampilkan informasi tambahan di widget Lokasi Kantor Desa.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
