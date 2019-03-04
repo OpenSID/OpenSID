@@ -188,7 +188,7 @@
 										</div>
 										<div class="col-sm-3 col-lg-2">
 											<input  name="no_ktp_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['no_ktp_pria']?>">
-										</div>	
+										</div>
 									</div>
 									<div class="form-group pria_luar_desa">
 										<label for="tempatlahir_pria"  class="col-sm-3 control-label">Tempat Tanggal Lahir</label>
@@ -993,7 +993,7 @@
 								<div class="form-group wali">
 									<label class="col-sm-3 control-label" ><strong>Hubungan Dengan Wali</strong></label>
 									<div class="col-sm-8">
-										<input name="hub_wali" class="form-control input-sm" type="text" placeholder="Tempat Tinggal" value="<?= $_SESSION['post']['hub_wali']?>">
+										<input name="hub_wali" class="form-control input-sm" type="text" placeholder="Hubungan Dengan Wali" value="<?= $_SESSION['post']['hub_wali']?>">
 									</div>
 								</div>
 								<div class="form-group" >
