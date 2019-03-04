@@ -159,10 +159,10 @@
 
 									<label for="pria_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control  input-sm select2-nik" id="id_pria" name="id_pria" style ="width:100%;" onchange="submit_form_ambil_data_pria(this.id);">
+										<select class="form-control  input-sm select2" id="id_pria" name="id_pria" style ="width:100%;" onchange="submit_form_ambil_data_pria(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
 											<?php foreach ($laki as $data): ?>
-												<option value="<?= $data['id']?>" <?php selected($pria['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
+												<option value="<?= $data['id']?>" <?php if ($pria['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -182,9 +182,12 @@
 										<label for="pria_luar_desa"  class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>A.1 DATA CALON PASANGAN PRIA LUAR DESA</strong></label>
 									</div>
 									<div class="form-group pria_luar_desa">
-										<label for="pria_luar_desa" class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
-										<div class="col-sm-8">
+										<label for="pria_luar_desa" class="col-sm-3 control-label" ><strong>Nama Lengkap / NIK KTP</strong></label>
+										<div class="col-sm-5 col-lg-6">
 											<input  name="nama_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_pria']?>">
+										</div>
+										<div class="col-sm-3 col-lg-2">
+											<input  name="no_ktp_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['no_ktp_pria']?>">
 										</div>
 									</div>
 									<div class="form-group pria_luar_desa">
@@ -281,7 +284,7 @@
 									</div>
 									<div class="form-group">
 										<label for="pria_luar_desa" class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
-										<div class="col-sm-8">
+										<div class="col-sm-5">
 											<input  class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $ayah_pria['nama']?>" disabled>
 										</div>
 									</div>
@@ -315,8 +318,14 @@
 									</div>
 									<div class="form-group ayah_pria">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
-										<div class="col-sm-8">
+										<div class="col-sm-3">
 											<input  name="nama_ayah_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_pria']?>">
+										</div>
+										<div class="col-sm-3 col-lg-3">
+											<input  name="bin_ayah_pria" class="form-control input-sm" type="text" placeholder="Bin Ayah Pria" value="<?= $_SESSION['post']['form_bin_ayah_pria']?>">
+										</div>
+										<div class="col-sm-3 col-lg-2">
+											<input  name="no_ktp_ayah_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP Ayah Pria" value="<?= $_SESSION['post']['form_noktp_ayah_pria']?>">
 										</div>
 									</div>
 									<div class="form-group ayah_pria">
@@ -407,8 +416,14 @@
 									</div>
 									<div class="form-group ibu_pria">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
-										<div class="col-sm-8">
+										<div class="col-sm-3">
 											<input  name="nama_ibu_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_pria']?>">
+										</div>
+										<div class="col-sm-3 col-lg-3">
+											<input  name="binti_ibu_pria" class="form-control input-sm" type="text" placeholder="Binti Ibu Pria" value="<?= $_SESSION['post']['form_binti_ibu_pria']?>">
+										</div>
+										<div class="col-sm-3 col-lg-2">
+											<input  name="no_ktp_ibu_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP Ibu Pria" value="<?= $_SESSION['post']['form_noktp_ibu_pria']?>">
 										</div>
 									</div>
 									<div class="form-group ibu_pria">
@@ -471,6 +486,9 @@
 											<div class="col-sm-3">
 												<input name="binti" class="form-control input-sm" type="text" placeholder="Binti" value="<?= $_SESSION['post']['binti']?>">
 											</div>
+											<div class="col-sm-2">
+												<input name="noktp_istri_dulu" class="form-control input-sm" type="text" placeholder="No KTP Istri Dulu" value="<?= $_SESSION['post']['noktp_istri_dulu']?>">
+											</div>
 									</div>
 									<div class="form-group istri_dulu">
 										<label class="col-sm-3 control-label">Tempat Tanggal Lahir</label>
@@ -520,9 +538,23 @@
 										</div>
 									</div>
 									<div class="form-group istri_dulu">
-										<label class="col-sm-3 control-label" ><strong>Keterangan <?= ucwords($jenis_pasangan)?> Dulu</strong></label>
+										<label class="col-sm-3 control-label">Hari Tanggal Meninggal</label>
+										<div class="col-sm-5 col-lg-6">
+											<input class="form-control input-sm" type="text" name="harimeninggal_istri_dulu" id="harimeninggal_istri_dulu" placeholder="Hari Meninggal" value="<?= $_SESSION['post']['harimeninggal_istri_dulu']?>">
+										</div>
+										<div class="col-sm-3 col-lg-2">
+											<div class="input-group input-group-sm date">
+												<div class="input-group-addon">
+													<i class="fa fa-calendar"></i>
+												</div>
+												<input title="Pilih Tanggal"  class="form-control input-sm datepicker" name="tanggalmeninggal_istri_dulu" type="text" placeholder="Tgl. Meninggal" value="<?= $_SESSION['post']['tanggalmeninggal_istri_dulu']?>"/>
+											</div>
+										</div>
+									</div>
+									<div class="form-group istri_dulu">
+										<label class="col-sm-3 control-label" ><strong>Tempat Meninggal <?= ucwords($jenis_pasangan)?> Dulu</strong></label>
 										<div class="col-sm-8">
-											<textarea name="ket_istri_dulu" class="form-control input-sm" placeholder="Keterangan" ><?= $_SESSION['post']['ket_istri_dulu']?></textarea>
+											<textarea name="ket_istri_dulu" class="form-control input-sm" placeholder="Meninggal Di" ><?= $_SESSION['post']['ket_istri_dulu']?></textarea>
 										</div>
 									</div>
 								<?php endif; ?>
@@ -545,10 +577,10 @@
 								<div class="form-group wanita_desa" <?php if (empty($wanita)): ?>style="display: none;"<?php endif; ?>>
 									<label for="$wanita" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control  input-sm select2-nik" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data_wanita(this.id);">
+										<select class="form-control  input-sm select2" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data_wanita(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
 											<?php foreach ($perempuan as $data): ?>
-												<option value="<?= $data['id']?>" <?php selected($wanita['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
+												<option value="<?= $data['id']?>" <?php if ($wanita['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -578,8 +610,11 @@
 									</div>
 									<div class="form-group wanita_luar_desa">
 										<label for="wanita_luar_desa" class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
-										<div class="col-sm-8">
+										<div class="col-sm-6">
 											<input  name="nama_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_wanita']?>">
+										</div>
+										<div class="col-sm-3 col-lg-2">
+											<input  name="no_ktp_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Wanita" value="<?= $_SESSION['post']['noktp_wanita']?>">
 										</div>
 									</div>
 									<div class="form-group wanita_luar_desa">
@@ -681,8 +716,14 @@
 									</div>
 									<div class="form-group ayah_wanita">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
-										<div class="col-sm-8">
+										<div class="col-sm-3">
 											<input  name="nama_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_wanita']?>">
+										</div>
+										<div class="col-sm-3 col-lg-3">
+											<input  name="bin_ayah_wanita" class="form-control input-sm" type="text" placeholder="Bin Ayah Wanita" value="<?= $_SESSION['post']['form_bin_ayah_wanita']?>">
+										</div>
+										<div class="col-sm-3 col-lg-2">
+											<input  name="form_noktp_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Ayah Wanita" value="<?= $_SESSION['post']['form_noktp_ayah_wanita']?>">
 										</div>
 									</div>
 									<div class="form-group ayah_wanita">
@@ -773,8 +814,14 @@
 									</div>
 									<div class="form-group ibu_wanita">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
-										<div class="col-sm-8">
-											<input  name="nama_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_wanita']?>">
+										<div class="col-sm-3">
+											<input  name="nama_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['form_nama_ibu_wanita']?>">
+										</div>
+										<div class="col-sm-3 col-lg-3">
+											<input  name="binti_ibu_wanita" class="form-control input-sm" type="text" placeholder="Binti Ibu Wanita" value="<?= $_SESSION['post']['form_binti_ibu_wanita']?>">
+										</div>
+										<div class="col-sm-3 col-lg-2">
+											<input  name="form_noktp_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Ibu Wanita" value="<?= $_SESSION['post']['form_noktp_ibu_wanita']?>">
 										</div>
 									</div>
 									<div class="form-group  ibu_wanita">
@@ -837,20 +884,9 @@
 											<div class="col-sm-3">
 												<input name="bin_suami_dulu" class="form-control input-sm" type="text" placeholder="Bin" value="<?= $_SESSION['post']['binti_suami_dulu']?>">
 											</div>
-									</div>
-									<div class="form-group suami_dulu">
-										<label class="col-sm-3 control-label">Tempat Tanggal Lahir</label>
-										<div class="col-sm-5 col-lg-6">
-											<input class="form-control input-sm" type="text" name="tempatlahir_suami_dulu" id="tempatlahir_suami_dulu" placeholder="Tempat Lahir" value="<?= $_SESSION['post']['tempatlahir_suami_dulu']?>">
-										</div>
-										<div class="col-sm-3 col-lg-2">
-											<div class="input-group input-group-sm date">
-												<div class="input-group-addon">
-													<i class="fa fa-calendar"></i>
-												</div>
-												<input title="Pilih Tanggal"  class="form-control input-sm datepicker" name="tanggallahir_suami_dulu" type="text" placeholder="Tgl. Lahir" value="<?= $_SESSION['post']['tanggallahir_suami_dulu']?>"/>
+											<div class="col-sm-2">
+												<input name="noktp_suami_dulu" class="form-control input-sm" type="text" placeholder="No KTP Suami Dulu" value="<?= $_SESSION['post']['noktp_suami_dulu']?>">
 											</div>
-										</div>
 									</div>
 									<div class="form-group suami_dulu">
 										<label class="col-sm-3 control-label">Warganegara / Agama / Pekerjaan</label>
@@ -903,6 +939,9 @@
 									<div class="col-sm-3">
 										<input name="bin_wali" class="form-control input-sm" type="text" placeholder="Bin" value="<?= $_SESSION['post']['bin_wali']?>">
 									</div>
+									<div class="col-sm-2">
+										<input name="noktp_wali" class="form-control input-sm" type="text" placeholder="No KTP Wali" value="<?= $_SESSION['post']['noktp_wali']?>">
+									</div>
 								</div>
 								<div class="form-group wali">
 									<label class="col-sm-3 control-label">Tempat Tanggal Lahir</label>
@@ -954,7 +993,7 @@
 								<div class="form-group wali">
 									<label class="col-sm-3 control-label" ><strong>Hubungan Dengan Wali</strong></label>
 									<div class="col-sm-8">
-										<input name="hub_wali" class="form-control input-sm" type="text" placeholder="Tempat Tinggal" value="<?= $_SESSION['post']['hub_wali']?>">
+										<input name="hub_wali" class="form-control input-sm" type="text" placeholder="Hubungan Dengan Wali" value="<?= $_SESSION['post']['hub_wali']?>">
 									</div>
 								</div>
 								<div class="form-group" >
