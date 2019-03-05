@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Happy Agung, Yusup Cimbar yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Happy Agung, Yusup Cimbar dan Diki Siswqnto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.03-pasca:
 
@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 7. Tampilkan informasi tambahan di widget Lokasi Kantor Desa.
 8. #1814, #1915: Surat Keterangan Untuk Nikah (N-1 s/d N-7) disesuaikan dengan Keputusan Dirjen Bimas Islam Nomor 713 Tahun 2018.
 9. #1961: Tombol 'Batal' sekarang berfungsi di semua Layanan Surat. [bug-fix]
+10. #1966: Tautan breadcrumb pada laman Home > SID sekarang berfungsi normal. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
