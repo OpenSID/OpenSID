@@ -11,12 +11,11 @@ header("Expires: 0");
    	<table  width="100%">
 		 	<?php foreach ($config as $data): ?>
 				<tbody>
-					<tr>
-						<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?= $data['nama_kabupaten']?></h4></td>
-						<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td></tr>
-					<tr>
-						<td></td>
-						<td width="100%"><h3>LAPORAN BULANAN <?= strtoupper($this->setting->sebutan_desa)?>/KELURAHAN</h3></td>
+					<tr align="center">
+						<td width="100%" colspan="15"><h3>PEMERINTAH KABUPATEN/KOTA <?= strtoupper(unpenetration($data['nama_kabupaten'])) ?></h3></td>
+					</tr>
+					<tr align="center">
+						<td width="100%" colspan="15"><h4>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN (LAMPIRAN A - 9)</h4></td>
 					</tr>
 				</tbody>
 			</table>
