@@ -14,6 +14,8 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 8. #1814, #1915: Surat Keterangan Untuk Nikah (N-1 s/d N-7) disesuaikan dengan Keputusan Dirjen Bimas Islam Nomor 713 Tahun 2018.
 9. #1961: Tombol 'Batal' sekarang berfungsi di semua Layanan Surat. [bug-fix]
 10. #1966: Tautan breadcrumb pada laman Home > SID sekarang berfungsi normal. [bug-fix]
+11. #1856: Sesuaikan cetak dan unduh Laporan Kelompok Rentan dengan tampilan halaman menu. Nama file unduhan juga diperbaiki.
+12. Sekarang jumlah di kolom cacat tampil normal di menu cetak dan unduh Laporan Kelompok Rentan. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
