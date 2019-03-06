@@ -107,6 +107,7 @@
 			(select count(id) from penduduk_hidup where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=13 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=15  and id_cluster=c.id ) as smp,
 			(select count(id) from penduduk_hidup where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=16 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=18  and id_cluster=c.id ) as sma,
 			(select count(id) from penduduk_hidup where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>60 and id_cluster=c.id ) as lansia,
+			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id) as cacat,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='1') as cacat_fisik,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='2') as cacat_netra,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='3') as cacat_rungu,
