@@ -25,7 +25,7 @@
 			$('.wanita_desa').hide();
 			$('.wanita_luar_desa').show();
 		 	$('#id_wanita').val('*'); // Hapus $id_wanita
-			submit_form_ambil_data_pria();
+			submit_form_ambil_data();
 		}
 	}
 
@@ -43,43 +43,17 @@
 		{
 			$('.pria_desa').hide();
 			$('.pria_luar_desa').show();
-			$('#id_wanita_copy').val($('#id_wanita_hidden').val());
-			$('#id_wanita_validasi').val($('#id_wanita_hidden').val());
 			$('#id_pria').val('*'); // Hapus $id_pria
-			submit_form_ambil_data_pria();
+			submit_form_ambil_data();
 		}
 	}
 
-	function submit_form_ambil_data_pria(asal)
+	function submit_form_ambil_data()
 	{
-	 	$('#id_wanita').val('*'); // Hapus $id_wanita
-		$('#id_wanita_copy').val($('#id_wanita_hidden').val());
 		$('input').removeClass('required');
 		$('select').removeClass('required');
 		$('#'+'validasi').attr('action','')
 		$('#'+'validasi').attr('target','')
-		$('#'+'validasi').submit();
-	}
-
-	function submit_form_ambil_data_wanita()
-	{
-		$('#id_wanita_validasi').val($('#id_wanita_hidden').val());
-		$('input').removeClass('required');
-		$('select').removeClass('required');
-		$('#'+'validasi').attr('action','')
-		$('#'+'validasi').attr('target','')
-		$('#'+'validasi').submit();
-	}
-
-	function submit_form_doc()
-	{
-		if (($('#id_pria').val()=='' || $('#id_pria').val()=='*') && ($('#id_wanita').val()=='' || $('#id_wanita').val()=='*'))
-		{
-			$('#dialog').modal('show');
-
-			return;
-		}
-		$('#'+'validasi').attr('action','<?= $form_action2?>');
 		$('#'+'validasi').submit();
 	}
 
@@ -159,24 +133,18 @@
 
 									<label for="pria_desa" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control  input-sm select2" id="id_pria" name="id_pria" style ="width:100%;" onchange="submit_form_ambil_data_pria(this.id);">
+										<select class="form-control  input-sm select2" id="id_pria" name="id_pria" style ="width:100%;" onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
 											<?php foreach ($laki as $data): ?>
 												<option value="<?= $data['id']?>" <?php if ($pria['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK :<?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
-									<input id="calon_wanita" name="calon_wanita" type="hidden" value=""/>
-									<!-- Diisi oleh script flexbox wanita -->
-									<input id="id_wanita_copy" name="id_wanita" type="hidden" value="kosong"/>
 								</div>
 								<?php if ($pria): ?>
 									<?php $individu = $pria;?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 								<?php	endif; ?>
-							</div>
-							<div class="col-md-12">
-								<input id="id_wanita" name="id_wanita" type="hidden" value="<?= $_SESSION['id_wanita']?>"/>
 								<?php if (empty($pria)): ?>
 									<div class="form-group pria_luar_desa" >
 										<label for="pria_luar_desa"  class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>A.1 DATA CALON PASANGAN PRIA LUAR DESA</strong></label>
@@ -575,9 +543,9 @@
 									<label for="wanita_desa" class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>B.1 DATA CALON PASANGAN WANITA WARGA DESA</strong></label>
 								</div>
 								<div class="form-group wanita_desa" <?php if (empty($wanita)): ?>style="display: none;"<?php endif; ?>>
-									<label for="$wanita" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
+									<label for="id_wanita" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control  input-sm select2" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data_wanita(this.id);">
+										<select class="form-control  input-sm select2" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
 											<option value="">--  Cari NIK / Nama--</option>
 											<?php foreach ($perempuan as $data): ?>
 												<option value="<?= $data['id']?>" <?php if ($wanita['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>

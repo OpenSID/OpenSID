@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 10. #1966: Tautan breadcrumb pada laman Home > SID sekarang berfungsi normal. [bug-fix]
 11. #1856: Sesuaikan cetak dan unduh Laporan Kelompok Rentan dengan tampilan halaman menu. Nama file unduhan juga diperbaiki.
 12. Sekarang jumlah di kolom cacat tampil normal di menu cetak dan unduh Laporan Kelompok Rentan. [bug-fix]
+13. Perbaiki Surat Keterangan Nikah, supaya calon wanita bisa diubah-ubah dari warga desa dan luar desa. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
