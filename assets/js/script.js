@@ -278,6 +278,18 @@ $(document).ready(function()
 		html: true,
 		trigger:"hover"
 	});
+
+	/* set otomatis hari */
+	$('.datepicker.data_hari').change(function()
+	{
+		var hari = {
+			0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
+		};
+		var t = $(this).datepicker('getDate');
+		var i = t.getDay();
+		$(this).closest('.form-group').find('.hari').val(hari[i]);
+	});
+
 $('[checked="checked"]').parent().addClass('active')
 	//Fortmat Tabel
   $('#tabel1').DataTable();

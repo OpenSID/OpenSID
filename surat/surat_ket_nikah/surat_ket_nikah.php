@@ -1002,14 +1002,14 @@
 								<div class="form-group wali">
 									<label class="col-sm-3 control-label">Hari, Tanggal, Jam</label>
 									<div class="col-sm-3 col-lg-4">
-										<input class="form-control input-sm required" type="text" name="hari_nikah" id="hari_nikah" placeholder="Hari Nikah" value="<?= $_SESSION['post']['hari_nikah']?>">
+										<input class="form-control input-sm required hari" type="text" name="hari_nikah" id="hari_nikah" readonly="readonly" placeholder="Hari Nikah" value="<?= $_SESSION['post']['hari_nikah']?>">
 									</div>
 									<div class="col-sm-3 col-lg-2">
 										<div class="input-group input-group-sm date">
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input title="Pilih Tanggal"  class="form-control input-sm datepicker required" name="tanggal_nikah" type="text" placeholder="Tgl. Nikah" value="<?= $_SESSION['post']['tanggal_nikah']?>"/>
+											<input title="Pilih Tanggal"  class="form-control input-sm datepicker data_hari required" name="tanggal_nikah" type="text" placeholder="Tgl. Nikah" value="<?= $_SESSION['post']['tanggal_nikah']?>"/>
 										</div>
 									</div>
 									<div class="col-sm-2">
@@ -1019,18 +1019,6 @@
 											</div>
 											<input class="form-control input-sm required" name="jam_nikah" id="jammenit_1" type="text" placeholder="Jam Nikah" value="<?= $_SESSION['post']['jam_nikah']?>"/>
 										</div>
-									</div>
-								</div>
-								<div class="form-group wali">
-									<label class="col-sm-3 control-label" ><strong>Mas Kawin</strong></label>
-									<div class="col-sm-8">
-										<input name="mas_kawin" class="form-control input-sm required" type="text" placeholder="Mas Kawin" value="<?= $_SESSION['post']['mas_kawin']?>">
-									</div>
-								</div>
-								<div class="form-group wali">
-									<label class="col-sm-3 control-label" ><strong>Tunai / Hutang</strong></label>
-									<div class="col-sm-8">
-										<input name="tunai" class="form-control input-sm required" type="text" placeholder="Tunai / Hutang" value="<?= $_SESSION['post']['tunai']?>">
 									</div>
 								</div>
 								<div class="form-group wali">
