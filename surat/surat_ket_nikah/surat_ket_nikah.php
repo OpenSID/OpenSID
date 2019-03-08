@@ -74,12 +74,12 @@
 		// Untuk calon wanita luar desa pilihan hanya 'perawan' atau 'janda'
 		if (status.toUpperCase() == 'janda'.toUpperCase())
 		{
-			$('#cerai_mati').show();
+			$('.cerai_mati').show();
 			$('.suami_dulu').attr('disabled', false);
 		}
 		else
 		{
-			$('#cerai_mati').hide();
+			$('.cerai_mati').hide();
 			$('.suami_dulu').attr('disabled', true);
 		}
 	}
@@ -107,6 +107,8 @@
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
 							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
 							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
+							<input type="hidden" name="sex_pria" value="Laki-laki">
+							<input type="hidden" name="sex_wanita" value="Perempuan">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
@@ -843,22 +845,22 @@
 									</div>
 								<?php endif; ?>
 								<?php if (empty($wanita) OR strtolower($wanita['status_kawin'])=="cerai mati"): ?>
-									<div id="cerai_mati" class="form-group" >
-											<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>B.4 DATA SUAMI TERDAHULU </strong></label>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label" ><strong>Nama <?= ucwords($jenis_pasangan)?> Terdahulu / Bin</strong></label>
-											<div class="col-sm-3">
-												<input name="nama_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="Nama Suami Terdahulu" value="<?= $_SESSION['post']['nama_suami_dulu']?>">
-											</div>
-											<div class="col-sm-3">
-												<input name="bin_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="Bin" value="<?= $_SESSION['post']['binti_suami_dulu']?>">
-											</div>
-											<div class="col-sm-2">
-												<input name="noktp_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="No KTP Suami Dulu" value="<?= $_SESSION['post']['noktp_suami_dulu']?>">
-											</div>
+									<div class="form-group cerai_mati">
+										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>B.4 DATA SUAMI TERDAHULU </strong></label>
 									</div>
-									<div class="form-group">
+									<div class="form-group cerai_mati">
+										<label class="col-sm-3 control-label" ><strong>Nama <?= ucwords($jenis_pasangan)?> Terdahulu / Bin</strong></label>
+										<div class="col-sm-3">
+											<input name="nama_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="Nama Suami Terdahulu" value="<?= $_SESSION['post']['nama_suami_dulu']?>">
+										</div>
+										<div class="col-sm-3">
+											<input name="bin_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="Bin" value="<?= $_SESSION['post']['binti_suami_dulu']?>">
+										</div>
+										<div class="col-sm-2">
+											<input name="noktp_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="No KTP Suami Dulu" value="<?= $_SESSION['post']['noktp_suami_dulu']?>">
+										</div>
+									</div>
+									<div class="form-group cerai_mati">
 										<label class="col-sm-3 control-label">Tempat Tanggal Lahir</label>
 										<div class="col-sm-5 col-lg-6">
 											<input class="form-control input-sm suami_dulu" type="text" name="tempatlahir_suami_dulu" id="tempatlahir_suami_dulu" placeholder="Tempat Lahir" value="<?= $_SESSION['post']['tempatlahir_suami_dulu']?>">
@@ -872,7 +874,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group cerai_mati">
 										<label class="col-sm-3 control-label">Warganegara / Agama / Pekerjaan</label>
 										<div class="col-sm-2">
 											<select class="form-control input-sm select2 suami_dulu" name="wn_suami_dulu" id="wn_suami_dulu" style ="width:100%;">
@@ -899,13 +901,13 @@
 											</select>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group cerai_mati">
 										<label class="col-sm-3 control-label" ><strong>Tempat Tinggal</strong></label>
 										<div class="col-sm-8">
 											<input name="alamat_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="Tempat Tinggal" value="<?= $_SESSION['post']['alamat_suami_dulu']?>">
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group cerai_mati">
 										<label class="col-sm-3 control-label">Meninggal Dunia Pada Tanggal / Tempat</label>
 										<div class="col-sm-3 col-lg-2">
 											<div class="input-group input-group-sm date">
@@ -919,7 +921,7 @@
 											<input name="tempatmeninggal_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="Tempat Meninggal" value="<?= $_SESSION['post']['tempatmeninggal_suami_dulu']?>">
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group cerai_mati">
 										<label class="col-sm-3 control-label" ><strong>Keterangan <?= ucwords($jenis_pasangan)?> Dulu</strong></label>
 										<div class="col-sm-8">
 											<textarea name="ket_suami_dulu" class="form-control input-sm suami_dulu" placeholder="Keterangan" ><?= $_SESSION['post']['ket_suami_dulu']?></textarea>
