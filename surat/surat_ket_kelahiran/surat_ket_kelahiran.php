@@ -137,17 +137,6 @@
 		/* pergi ke bagian halaman sesudah mengisi warga desa */
 		location.hash = "#" + $('input[name=anchor]').val();
 
-		/* set otomatis hari */
-		$('input[name=tanggallahir]').change(function()
-		{
-			var hari = {
-				0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
-			};
-			var t = $(this).datepicker('getDate');
-			var i = t.getDay();
-			$(this).closest('.form-group').find('[name=hari]').val(hari[i]);
-		});
-
 		/* set nama_sex dari pilihan */
 		$('input[name=nama_sex]').val($('#sex').find(':selected').text())
 
@@ -461,14 +450,14 @@
 								<div class="form-group">
 									<label for="ttl"  class="col-sm-3 control-label">Hari / Tanggal / Jam</label>
 									<div class="col-sm-3 col-lg-4">
-										<input id="hari" readonly="readonly" class="form-control input-sm data_lahir" type="text" placeholder="Hari Lahir" name="hari" value="<?= $_SESSION['post']['hari']?>">
+										<input id="hari" readonly="readonly" class="form-control input-sm data_lahir hari" type="text" placeholder="Hari Lahir" name="hari" value="<?= $_SESSION['post']['hari']?>">
 									</div>
 									<div class="col-sm-3 col-lg-2">
 										<div class="input-group input-group-sm date">
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input title="Pilih Tanggal" class="form-control input-sm data_lahir required datepicker" placeholder="Tgl. Lahir" name="tanggallahir" type="text" value="<?= $_SESSION['post']['tanggallahir']?>"/>
+											<input title="Pilih Tanggal" class="form-control input-sm data_lahir data_hari required datepicker" placeholder="Tgl. Lahir" name="tanggallahir" type="text" value="<?= $_SESSION['post']['tanggallahir']?>"/>
 										</div>
 									</div>
 									<div class="col-sm-2">
