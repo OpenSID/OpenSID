@@ -237,9 +237,9 @@
 										</div>
 									</div>
 									<div id="beristri" class="form-group pria_luar_desa">
-										<label for="pria_luar_desa" class="col-sm-3 control-label" ><strong>Jika beristri, berapa istrinya</strong></label>
+										<label for="pria_luar_desa" class="col-sm-3 control-label" ><strong>Jika beristri, istri ke</strong></label>
 										<div class="col-sm-4">
-											<input  name="jumlah_istri" class="form-control input-sm" type="text" placeholder="Jumlah Istri" value="<?= $_SESSION['post']['jumlah_istri']?>">
+											<input  name="istri_ke" class="form-control input-sm" type="text" placeholder="Istri Keberapa" value="<?= $_SESSION['post']['istri_ke']?>">
 										</div>
 									</div>
 								<?php endif; ?>
