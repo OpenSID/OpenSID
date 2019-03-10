@@ -184,7 +184,17 @@
 		{
 	    $this->dbforge->add_column('artikel', array('tgl_agenda' => array('type' => 'timestamp')));
 		}
-		// Tambah tombol media sosial whatsapp
+	// Tambahkan kolom koordinator untuk agenda
+		if (!$this->db->field_exists('koordinator_kegiatan', 'artikel'))
+		{
+	    $this->dbforge->add_column('artikel', array('koordinator_kegiatan' => array('type' =>  'VARCHAR',  'constraint'  =>  50)));
+		}
+	// Tambahkan kolom koordinator untuk agenda
+		if (!$this->db->field_exists('lokasi_kegiatan', 'artikel'))
+		{
+	    $this->dbforge->add_column('artikel', array('lokasi_kegiatan' => array('type' =>  'VARCHAR',  'constraint'  =>  100)));
+		}
+	// Tambah tombol media sosial whatsapp
 		$query = "
 			INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('6', 'wa.png', '', 'WhatsApp', '1')
 			ON DUPLICATE KEY UPDATE
