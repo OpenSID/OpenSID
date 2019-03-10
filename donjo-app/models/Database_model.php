@@ -179,6 +179,8 @@
 
   private function migrasi_1903_ke_1904()
   {
+		$this->db->where('id', 59)->update('setting_modul', array('url'=>'dokumen_sekretariat/clear/2', 'aktif'=>'1'));
+		$this->db->where('id', 60)->update('setting_modul', array('url'=>'dokumen_sekretariat/clear/3', 'aktif'=>'1'));
   	// Tambah tabel agenda
 		$tb = 'agenda';
 		if (!$this->db->table_exists($tb))

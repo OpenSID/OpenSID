@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 14. #1970: Rapikan tampilan arsip artikel di web.
 15. #1956: Tambah detail agenda kegiatan pada artikel terkait.
 16. #1973: Tampilkan jabatan penandatangan dan yg mengetahui di laporan cetak/unduh SK Kades dan Perdes. [bug-fix]
+17. SK Kades dan Perdes sekarang tidak error kalau ada filter aktif dari menu lain sebelumnya. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
