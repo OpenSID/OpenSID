@@ -324,6 +324,18 @@ $('[checked="checked"]').parent().addClass('active')
 		setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
 	});
 
+	// ========== Tanda tangan laporan dan surat
+	$('select[name=pamong_ttd]').change(function(e)
+	{
+		$('input[name=jabatan_ttd]').val($(this).find(':selected').data('jabatan'));
+	});
+	$('select[name=pamong_ketahui]').change(function(e)
+	{
+		$('input[name=jabatan_ketahui]').val($(this).find(':selected').data('jabatan'));
+	});
+	$('select[name=pamong_ttd]').trigger('change');
+	$('select[name=pamong_ketahui]').trigger('change');
+
 });
 
 function scrollTampil(elem)

@@ -1,10 +1,14 @@
+<script type="text/javascript" src="<?= base_url()?>assets/js/script.js"></script>
 <script type="text/javascript">
-	$('#validasi').submit(function()
+	$('document').ready(function()
 	{
-		$('#modalBox').modal('hide');
+		$('#validasi').submit(function()
+		{
+			$('#modalBox').modal('hide');
+		});
 	});
 </script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?=$form_action?>" method="post" target="_blank" id="validasi">
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
@@ -27,15 +31,17 @@
 									<option value="<?= $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']), 'sekretaris')!==false): ?> selected <?php endif; ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 								<?php endforeach; ?>
 							</select>
+							<input type="hidden" name="jabatan_ttd">
 						</div>
 						<div class="form-group">
 							<label class="control-label">Pamong mengetahui</label>
-							<select class="form-control input-sm jenis_link"  name="jabatan_ketahui">
+							<select class="form-control input-sm jenis_link"  name="pamong_ketahui">
 								<option value="">Pilih Staf Mengetahui</option>
 								<?php foreach ($pamong AS $data): ?>
 									<option value="<?= $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']),'kepala')!==false and strpos(strtolower($data['jabatan']),'dusun')===false): ?>selected<?php endif; ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 								<?php endforeach;?>
 							</select>
+							<input type="hidden" name="jabatan_ketahui">
 						</div>
 					</div>
 				</div>
