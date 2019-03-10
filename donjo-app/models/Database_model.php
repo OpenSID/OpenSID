@@ -179,11 +179,56 @@
 
   private function migrasi_1903_ke_1904()
   {
-  	// Tambah kolom untuk agenda
-		if (!$this->db->field_exists('tgl_agenda', 'artikel'))
+  	// Tambah tabel agenda
+		$tb = 'agenda';
+		if (!$this->db->table_exists($tb))
 		{
-	    $this->dbforge->add_column('artikel', array('tgl_agenda' => array('type' => 'timestamp')));
+			$this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'auto_increment' => TRUE
+				),
+				'id_artikel' => array(
+					'type' => 'INT',
+					'constraint' => 11
+				),
+				'tgl_agenda' => array(
+					'type' => 'timestamp'
+				),
+				'koordinator_kegiatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50
+				),
+				'lokasi_kegiatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100
+				)
+			));
+			$this->dbforge->add_key('id', true);
+			$this->dbforge->create_table($tb, false, array('ENGINE' => $this->engine));
+			$this->dbforge->add_column(
+				'agenda',
+				array('CONSTRAINT `id_artikel_fk` FOREIGN KEY (`id_artikel`) REFERENCES `artikel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE')
+			);
 		}
+		// Pindahkan tgl_agenda kalau sudah sempat membuatnya
+  	if ($this->db->field_exists('tgl_agenda', 'artikel'))
+  	{
+  		$data = $this->db->select('id, tgl_agenda')->where('id_kategori', AGENDA)
+  			->get('artikel')
+  			->result_array();
+  		if (count($data))
+  		{
+	  		$artikel_agenda = array();
+	  		foreach ($data as $agenda)
+	  		{
+	  			$artikel_agenda[] = array('id_artikel'=>$agenda['id'], 'tgl_agenda'=>$agenda['tgl_agenda']);
+	  		}
+	  		$this->db->insert_batch('agenda', $artikel_agenda);
+  		}
+			$this->dbforge->drop_column('artikel', 'tgl_agenda');
+  	}
 		// Tambah tombol media sosial whatsapp
 		$query = "
 			INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('6', 'wa.png', '', 'WhatsApp', '1')
