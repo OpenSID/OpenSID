@@ -1,10 +1,13 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/script.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <script type="text/javascript">
 	$('document').ready(function()
 	{
 		$('#validasi').submit(function()
 		{
-			$('#modalBox').modal('hide');
+			if ($('#validasi').valid())
+				$('#modalBox').modal('hide');
 		});
 	});
 </script>
@@ -25,7 +28,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">Pamong tertanda</label>
-							<select class="form-control input-sm jenis_link" name="pamong_ttd">
+							<select class="form-control input-sm jenis_link required" name="pamong_ttd">
 								<option value="">Pilih Staf Penandatangan</option>
 								<?php foreach ($pamong AS $data): ?>
 									<option value="<?= $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']), 'sekretaris')!==false): ?> selected <?php endif; ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
@@ -35,7 +38,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">Pamong mengetahui</label>
-							<select class="form-control input-sm jenis_link"  name="pamong_ketahui">
+							<select class="form-control input-sm jenis_link required"  name="pamong_ketahui">
 								<option value="">Pilih Staf Mengetahui</option>
 								<?php foreach ($pamong AS $data): ?>
 									<option value="<?= $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']),'kepala')!==false and strpos(strtolower($data['jabatan']),'dusun')===false): ?>selected<?php endif; ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
