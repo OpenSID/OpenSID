@@ -9,9 +9,9 @@
       <ul id="ul-agenda" class="sidebar-latest">
         <?php foreach ($agenda as $l): ?>
           <li>
-		  <table id="table-agenda" width="100%">		  
+		  <table id="table-agenda" width="100%">
 			<tr>
-				<td colspan="3"><a href="<?= site_url("first/artikel/$l[id]")?>"><?= $l['judul']?></td>
+				<td colspan="3"><a href="<?= site_url("first/artikel/$l[id_artikel]")?>"><?= $l['judul']?></td>
 			</tr>
 			<tr>
 				<th id="label-meta-agenda" width="40%">Waktu</th>
@@ -29,7 +29,7 @@
 				<td id="isi-meta-agenda"><?= $l['koordinator_kegiatan']?></td>
 			</tr>
 		  </table>
-		  
+
 		  </li>
         <?php endforeach; ?>
       </ul>
