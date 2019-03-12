@@ -86,7 +86,7 @@ class Web extends CI_Controller {
 
 	public function form($cat = 1, $p = 1, $o = 0, $id = '')
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
+		if (!empty($id) and !$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
 			redirect("web/index/$cat/$p/$o");
 
 		$data['p'] = $p;

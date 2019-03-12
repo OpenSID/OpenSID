@@ -278,6 +278,18 @@ $(document).ready(function()
 		html: true,
 		trigger:"hover"
 	});
+
+	/* set otomatis hari */
+	$('.datepicker.data_hari').change(function()
+	{
+		var hari = {
+			0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
+		};
+		var t = $(this).datepicker('getDate');
+		var i = t.getDay();
+		$(this).closest('.form-group').find('.hari').val(hari[i]);
+	});
+
 $('[checked="checked"]').parent().addClass('active')
 	//Fortmat Tabel
   $('#tabel1').DataTable();
@@ -312,6 +324,18 @@ $('[checked="checked"]').parent().addClass('active')
 		setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
 	});
 
+	// ========== Tanda tangan laporan dan surat
+	$('select[name=pamong_ttd]').change(function(e)
+	{
+		$('input[name=jabatan_ttd]').val($(this).find(':selected').data('jabatan'));
+	});
+	$('select[name=pamong_ketahui]').change(function(e)
+	{
+		$('input[name=jabatan_ketahui]').val($(this).find(':selected').data('jabatan'));
+	});
+	$('select[name=pamong_ttd]').trigger('change');
+	$('select[name=pamong_ketahui]').trigger('change');
+
 });
 
 function scrollTampil(elem)
@@ -344,7 +368,7 @@ function checkAll(id = "#checkall")
 
 function enableHapusTerpilih()
 {
-  if ($("input[name='id_cb[]']:checked").length <= 0)
+  if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0)
   {
     $(".hapus-terpilih").addClass('disabled');
     $(".hapus-terpilih").attr('href','#');

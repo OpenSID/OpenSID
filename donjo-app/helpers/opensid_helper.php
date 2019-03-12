@@ -25,6 +25,9 @@ define('BELUM_MENGISI', 777);
 // Kode laporan mandiri di tabel komentar
 define('LAPORAN_MANDIRI', 775);
 
+// Kode artikel terkait agenda
+define('AGENDA', 1000);
+
 //
 define("MAX_PINDAH", 7);
 define("MAX_ANGGOTA", 7);
