@@ -22,6 +22,7 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 16. #1973: Tampilkan jabatan penandatangan dan yg mengetahui di laporan cetak/unduh SK Kades dan Perdes. [bug-fix]
 17. SK Kades dan Perdes sekarang tidak error kalau ada filter aktif dari menu lain sebelumnya. [bug-fix]
 18. Form cetak/unduh Surat Masuk, Surat Keluar, SK Kades dan Perdes sekarang mengharuskan penandatangan dan yg mengetahui telah terisi.
+19. #1974: Tambahkan tombol kembali ke daftar anggota keluarga di halaman biodata penduduk.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
