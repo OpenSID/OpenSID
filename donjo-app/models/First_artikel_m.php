@@ -301,6 +301,7 @@ class First_artikel_m extends CI_Model {
 		{
 			$data = $query->row_array();
 			$data['slug'] = $this->security->xss_clean($data['slug']);
+			$data['tgl_artikel'] =strtotime($data['tgl_upload']);
 			if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
 				$data['isi'] = $this->security->xss_clean($data['isi']);
 		}
