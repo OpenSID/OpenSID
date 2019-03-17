@@ -6,11 +6,17 @@
 
 <?php if ($headline): ?>
 	<?php $abstrak_headline = potong_teks($headline['isi'], 700) ?>
-	<?php $thn='2019';$bln='03';$hri='12' ?>
+	<?php 
+			$tgl_artikel = $headline['tgl_upload'];
+						$ambil = strtotime($tgl_artikel);
+						$thn = date('Y', $ambil);
+						$bln = date('m', $ambil);
+						$hri = date('d', $ambil);
+	 ?>
 	<div id="headline" class="box box-danger">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				<a href="<?= site_url('first/artikel/$thn/$bln/$hri/'.$headline['slug']) ?>"> <?= $headline['judul'] ?></a>
+				<a href="<?= site_url('first/artikel/'.$thn.'/'.$bln.'/'.$hri.'/'.$data['slug']) ?>"> <?= $headline['judul'] ?></a>
 			</h3>
 			<div class="pull-right small">
 				<?= $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])?>
@@ -25,7 +31,7 @@
 					<?php endif; ?>
 				<?php endif; ?>
 				<?= $abstrak_headline ?>
-				<a href="<?= site_url('first/artikel/$thn/$bln/$hri/'.$headline['slug']) ?>">..selengkapnya</a>
+				<a href="<?= site_url('first/artikel/'.$thn.'/'.$bln.'/'.$hri.'/'.$data['slug']) ?>">..selengkapnya</a>
 			</div>
 		</div>
 	<?php endif; ?>
