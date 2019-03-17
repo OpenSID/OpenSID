@@ -143,7 +143,7 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
 		$data = $_POST;
-
+		$slug = url_title($this->input->post('judul'), 'dash', TRUE); // merubah sepasi pada judul untuk slug
 		if (empty($data['judul'])  || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";
@@ -221,6 +221,7 @@
 		}
 		else
 		{
+			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->insert('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
@@ -256,7 +257,7 @@
 	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
-
+		$slug = url_title($this->input->post('judul'), 'dash', TRUE); // merubah sepasi pada judul untuk slug
 	  $data = $_POST;
 		if (empty($data['judul']) || empty($data['isi']))
 		{
@@ -352,6 +353,7 @@
 		else
 		{
 			$this->db->where('id', $id);
+			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->update('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;

@@ -293,14 +293,14 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function get_artikel($id=0)
+	public function get_artikel($slug)
 	{
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.id=? AND a.tgl_upload < NOW()";
-		$query = $this->db->query($sql,$id);
+		$sql = "SELECT a.*,u.nama AS owner,k.kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.slug=? AND a.tgl_upload < NOW()";
+		$query = $this->db->query($sql, $slug); // Ganti ID dengan SLug
 		if ($query->num_rows()>0)
 		{
 			$data = $query->row_array();
-			$data['judul'] = $this->security->xss_clean($data['judul']);
+			$data['slug'] = $this->security->xss_clean($data['slug']);
 			if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
 				$data['isi'] = $this->security->xss_clean($data['isi']);
 		}

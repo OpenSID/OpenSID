@@ -1,15 +1,16 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php if (count($slide_galeri)>0 OR count($slide_artikel)>0): ?>
-	<?php $this->load->view($folder_themes."/layouts/slider.php") ?>
+<?php $this->load->view($folder_themes."/layouts/slider.php") ?>
 <?php endif; ?>
 
 <?php if ($headline): ?>
 	<?php $abstrak_headline = potong_teks($headline['isi'], 700) ?>
+	<?php $thn='2019';$bln='03';$hri='12' ?>
 	<div id="headline" class="box box-danger">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				<a href="<?= site_url("first/artikel/$headline[id]") ?>"> <?= $headline['judul'] ?></a>
+				<a href="<?= site_url('first/artikel/$thn/$bln/$hri/'.$headline['slug']) ?>"> <?= $headline['judul'] ?></a>
 			</h3>
 			<div class="pull-right small">
 				<?= $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])?>
@@ -19,19 +20,19 @@
 			<?php if ($headline["gambar"] != ""): ?>
 				<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
 					<a class="group2" href="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" title=""><img src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" /></a>
-				<?php else: ?>
-					<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" width="300" height="180"/>
+					<?php else: ?>
+						<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" width="300" height="180"/>
+					<?php endif; ?>
 				<?php endif; ?>
-			<?php endif; ?>
-			<?= $abstrak_headline ?>
-			<a href="<?= site_url('first/artikel/'.$headline['id']) ?>">..selengkapnya</a>
+				<?= $abstrak_headline ?>
+				<a href="<?= site_url('first/artikel/$thn/$bln/$hri/'.$headline['slug']) ?>">..selengkapnya</a>
+			</div>
 		</div>
-	</div>
-<?php endif; ?>
+	<?php endif; ?>
 
 <!--
  List Konten
- -->
+-->
 <?php $title = (!empty($judul_kategori))? $judul_kategori : "Artikel Terkini" ?>
 
 <?php if (is_array($title)): ?>
@@ -50,10 +51,18 @@
 			<div>
 				<ul class="artikel-list artikel-list-in-box">
 					<?php foreach ($artikel as $data): ?>
+						<?php 
+						// Pecah tanggal
+						$tgl_artikel = $data['tgl_upload'];
+						$ambil = strtotime($tgl_artikel);
+						$thn = date('Y', $ambil);
+						$bln = date('m', $ambil);
+						$hri = date('d', $ambil);
+						?>	
 						<?php $abstrak = potong_teks($data['isi'], 300) ?>
 						<li class="artikel">
 							<h3 class="judul">
-								<a href="<?= site_url("first/artikel/$data[id]") ?>"><?= $data["judul"] ?></a>
+								<a href="<?= site_url('first/artikel/'.$thn.'/'.$bln.'/'.$hri.'/'.$data['slug']) ?>"><?= $data["judul"] ?></a>
 							</h3>
 
 							<div class="teks">
@@ -68,23 +77,23 @@
 									<?php if ($data['gambar']!=''): ?>
 										<?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_".$data['gambar'])): ?>
 											<img src="<?= AmbilFotoArtikel($data['gambar'],'kecil') ?>" alt="<?= $data["judul"] ?>"/>
-										<?php else: ?>
-											<img src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="<?= $data["judul"] ?>" />
-										<?php endif;?>
-									<?php endif; ?>
+											<?php else: ?>
+												<img src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="<?= $data["judul"] ?>" />
+											<?php endif;?>
+										<?php endif; ?>
+									</div>
+									<?= $abstrak ?>
+									<a href="<?= site_url('first/artikel/'.$thn.'/'.$bln.'/'.$hri.'/'.$data['slug']) ?>"> ..selengkapnya</a>
 								</div>
-								<?= $abstrak ?>
-								<a href="<?= site_url("first/artikel/".$data["id"]) ?>"> ..selengkapnya</a>
-							</div>
-							<br class="clearboth gb"/>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
+								<br class="clearboth gb"/>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
 
 		<!--
 			Pengaturan halaman
-		 -->
+		-->
 		<?php else: ?>
 			<div class="artikel" id="artikel-blank">
 				<div class="box box-warning box-solid">
