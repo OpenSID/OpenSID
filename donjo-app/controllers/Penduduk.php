@@ -24,8 +24,9 @@ class Penduduk extends CI_Controller {
 		$this->modul_ini = 2;
 	}
 
-	public function clear()
+	private function clear_session()
 	{
+		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		unset($_SESSION['status_dasar']);
@@ -51,6 +52,11 @@ class Penduduk extends CI_Controller {
 		unset($_SESSION['cara_kb_id']);
 		unset($_SESSION['akta_kelahiran']);
 		unset($_SESSION['status_ktp']);
+	}
+
+	public function clear()
+	{
+		$this->clear_session();
 		$_SESSION['per_page'] = 50;
 		redirect('penduduk');
 	}
@@ -690,28 +696,7 @@ class Penduduk extends CI_Controller {
 	public function statistik($tipe = 0, $nomor = 0, $sex = NULL)
 	{
 		$_SESSION['per_page'] = 50;
-		unset($_SESSION['log']);
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['warganegara']);
-		unset($_SESSION['cacat']);
-		unset($_SESSION['menahun']);
-		unset($_SESSION['golongan_darah']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['agama']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['pekerjaan_id']);
-		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_sedang_id']);
-		unset($_SESSION['pendidikan_kk_id']);
-		unset($_SESSION['status_penduduk']);
-		unset($_SESSION['umurx']);
-		unset($_SESSION['cara_kb_id']);
-		unset($_SESSION['akta_kelahiran']);
-		unset($_SESSION['status_ktp']);
+		$this->clear_session();
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		// kecuali untuk laporan wajib KTP
 		if ($sex == NULL AND $tipe <> 18)
@@ -775,17 +760,7 @@ class Penduduk extends CI_Controller {
 
 	public function lap_statistik($id_cluster = 0, $tipe = 0, $nomor = 0)
 	{
-		unset($_SESSION['sex']);
-		unset($_SESSION['cacat']);
-		unset($_SESSION['menahun']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['hamil']);
-		unset($_SESSION['status']);
-		unset($_SESSION['warganegara']);
+		$this->clear_session();
 		$cluster = $this->penduduk_model->get_cluster($id_cluster);
 		switch ($tipe)
 		{
@@ -861,7 +836,7 @@ class Penduduk extends CI_Controller {
 				$pre = $stat['nama'];
 				break;
 			case 10:
-				$_SESSION['menahun'] = '14';
+				$_SESSION['menahun'] = '90';
 				$_SESSION['sex'] = '1';
 				$_SESSION['dusun'] = $cluster['dusun'];
 				$_SESSION['rw'] = $cluster['rw'];
@@ -869,7 +844,7 @@ class Penduduk extends CI_Controller {
 				$pre = "SAKIT MENAHUN LAKI-LAKI ";
 				break;
 			case 11:
-				$_SESSION['menahun'] = '14';
+				$_SESSION['menahun'] = '90';
 				$_SESSION['sex'] = '2';
 				$_SESSION['dusun'] = $cluster['dusun'];
 				$_SESSION['rw'] = $cluster['rw'];

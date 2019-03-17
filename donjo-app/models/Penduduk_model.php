@@ -51,30 +51,30 @@
 
 	protected function dusun_sql()
 	{
-		if (isset($_SESSION['dusun']))
+		if (!empty($_SESSION['dusun']))
 		{
 			$kf = $_SESSION['dusun'];
-			$dusun_sql = " AND a.dusun = '$kf'";
+			$dusun_sql = " AND ((u.id_kk <> '0' AND a.dusun = '$kf') OR (u.id_kk = '0' AND a2.dusun = '$kf'))";
 			return $dusun_sql;
 		}
 	}
 
 	protected function rw_sql()
 	{
-		if (isset($_SESSION['rw']))
+		if (!empty($_SESSION['rw']))
 		{
 			$kf = $_SESSION['rw'];
-			$rw_sql = " AND a.rw = '$kf'";
+			$rw_sql = " AND ((u.id_kk <> '0' AND a.rw = '$kf') OR (u.id_kk = '0' AND a2.rw = '$kf'))";
 			return $rw_sql;
 		}
 	}
 
 	protected function rt_sql()
 	{
-		if (isset($_SESSION['rt']))
+		if (!empty($_SESSION['rt']))
 		{
 			$kf = $_SESSION['rt'];
-			$rt_sql = " AND a.rt = '$kf'";
+			$rt_sql = " AND ((u.id_kk <> '0' AND a.rt = '$kf') OR (u.id_kk = '0' AND a2.rt = '$kf'))";
 			return $rt_sql;
 		}
 	}
@@ -130,13 +130,15 @@
 
 	protected function menahun_sql()
 	{
-		if (isset($_SESSION['menahun']))
+		if (!empty($_SESSION['menahun']))
 		{
 			$kf = $_SESSION['menahun'];
 			if ($kf == BELUM_MENGISI)
 				$menahun_sql = " AND (u.sakit_menahun_id IS NULL OR u.sakit_menahun_id = '0')";
+			elseif ($kf == 90) // semabarang sakit manahun
+				$menahun_sql = " AND (u.sakit_menahun_id <> 14 AND u.sakit_menahun_id IS NOT NULL AND u.sakit_menahun_id <> '0')";
 			else
-				$menahun_sql = " AND u.sakit_menahun_id = $kf and u.sakit_menahun_id IS NOT NULL and u.sakit_menahun_id<>'0' ";
+				$menahun_sql = " AND u.sakit_menahun_id = $kf ";
 			return $menahun_sql;
 		}
 	}
@@ -278,6 +280,7 @@
 		LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
 		LEFT JOIN tweb_rtm b ON u.id_rtm = b.id
 		LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
+		LEFT JOIN tweb_wil_clusterdesa a2 ON u.id_cluster = a2.id
 		LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
 		LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id
 		LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
@@ -303,7 +306,6 @@
 		$kolom_kode = array(
 			array('cacat','cacat_id'),
 			array('cara_kb_id','cara_kb_id'),
-			array('menahun','sakit_menahun_id'),
 			array('status','status_kawin'),
 			array('pendidikan_kk_id','pendidikan_kk_id'),
 			array('pendidikan_sedang_id','pendidikan_sedang_id'),
