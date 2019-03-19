@@ -71,8 +71,7 @@
 			(14, 'dev_tracker','','Host untuk tracker pada development','','development'),
 			(15, 'nomor_terakhir_semua_surat', FALSE,'Gunakan nomor surat terakhir untuk seluruh surat tidak per jenis surat','boolean',''),
 			(16, 'google_key','','Google API Key untuk Google Maps','','web'),
-			(17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','',''),
-			(27, 'skin_sid','skin-purple','Skin atau warna tema SID','','')
+			(17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
 		";
 		$this->db->query($query);
 	}
@@ -3294,6 +3293,7 @@
 			"ref_pindah",
 			"setting_modul",
 			"setting_aplikasi",
+			"skin_sid",
 			"tweb_cacat",
 			"tweb_cara_kb",
 			"tweb_golongan_darah",
