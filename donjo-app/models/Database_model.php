@@ -71,7 +71,8 @@
 			(14, 'dev_tracker','','Host untuk tracker pada development','','development'),
 			(15, 'nomor_terakhir_semua_surat', FALSE,'Gunakan nomor surat terakhir untuk seluruh surat tidak per jenis surat','boolean',''),
 			(16, 'google_key','','Google API Key untuk Google Maps','','web'),
-			(17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
+			(17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','',''),
+			(27, 'skin_sid','skin-purple','Skin atau warna tema SID','','')
 		";
 		$this->db->query($query);
 	}
@@ -238,6 +239,52 @@
 				gambar = VALUES(gambar),
 				nama = VALUES(nama)";
 		$this->db->query($query);
+		// Tambahkan tabel skin_sid yang berisi list skin
+		$tb_skin = 'skin_sid';
+		if (!$this->db->table_exists($tb_skin))
+		{
+			$this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'int',
+					'constraint' => 11,
+					'auto_increment' => TRUE
+				),
+				'nama' => array(
+					'type' => 'varchar',
+					'constraint' => 100
+				)
+				));
+			$this->dbforge->add_key('id', true);
+			$this->dbforge->create_table($tb_skin, false, array('ENGINE' => $this->engine));
+			$this->db->insert_batch(
+				$tb_skin,
+				array(
+					array('id'=>1, 'nama'=>'skin-blue'),
+					array('id'=>2, 'nama'=>'skin-blue-light'),
+					array('id'=>3, 'nama'=>'skin-yellow'),
+					array('id'=>4, 'nama'=>'skin-yellow-light'),
+					array('id'=>5, 'nama'=>'skin-green'),
+					array('id'=>6, 'nama'=>'skin-green-light'),
+					array('id'=>7, 'nama'=>'skin-purple'),
+					array('id'=>8, 'nama'=>'skin-purple-light'),
+					array('id'=>9, 'nama'=>'skin-red'),
+					array('id'=>10, 'nama'=>'skin-red-light'),
+					array('id'=>11, 'nama'=>'skin-black'),
+					array('id'=>12, 'nama'=>'skin-black-light')
+				)
+			);
+		}
+		// tambahkan record skin_sid ke dalam setting aplikasi
+		$data = array(
+			'id' => 27,
+			'key' => 'skin_sid',
+			'value' => 'skin-purple',
+			'keterangan' => 'Skin atau warna tema SID'
+		);
+		$sql = $this->db->insert_string('setting_aplikasi', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				id = VALUES(id)";
+		$this->db->query($sql);
   }
 
   private function migrasi_1901_ke_1902()

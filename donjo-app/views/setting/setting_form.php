@@ -63,6 +63,14 @@
 													<?php endforeach;?>
 												</select>
 											</div>
+										<?php elseif ($setting->key == 'skin_sid'): ?>
+											<div class="col-sm-12 col-md-4">
+												<select name="<?= $setting->key ?>" class="form-control input-sm">
+													<?php foreach($list_skin as $skin) : ?>
+														<option value="<?= $skin->nama ?>" <?php $setting->value==$skin->nama and print('selected')?>><?= $skin->nama ?></option>
+													<?php endforeach ?>
+												</select>
+											</div>
 										<?php else : ?>
 											<div class="col-sm-12 col-md-4">
 												<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') or print 'digits'?>" type="text"  value="<?= $setting->value?>"></input>
