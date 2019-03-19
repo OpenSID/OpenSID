@@ -21,7 +21,7 @@
 		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
 		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => '19.01'),
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
-		'19.02' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'19.02' => array('migrate' => 'migrasi_1902_ke_1903', 'nextVersion' => '19.03')
 	);
 
 	public function __construct()
@@ -168,8 +168,19 @@
 	$this->migrasi_1811_ke_1812();
 	$this->migrasi_1812_ke_1901();
 	$this->migrasi_1901_ke_1902();
+	$this->migrasi_1902_ke_1903();
   }
 
+  private function migrasi_1902_ke_1903()
+  {
+		$this->db->truncate('setting_modul');
+		$query = "
+			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`,`urut`,`level`,`hidden`,`ikon_kecil`,`parent`) VALUES
+			(201, 'Keuangan','keuangan','1','fa-balance-scale','6','2','0','fa-balance-scale','0'),
+			(202, 'Impor Data','keuangan/import_data','1','fa-cloud-upload','6','2','0','fa-cloud-upload','201')
+		";
+		$this->db->query($query);
+	}
   private function migrasi_1901_ke_1902()
   {
   	// Ubah judul status hubungan dalam keluarga
