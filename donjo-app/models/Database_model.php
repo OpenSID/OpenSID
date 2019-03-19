@@ -3293,6 +3293,7 @@
 			"ref_pindah",
 			"setting_modul",
 			"setting_aplikasi",
+			"setting_aplikasi_options",
 			"skin_sid",
 			"tweb_cacat",
 			"tweb_cara_kb",
