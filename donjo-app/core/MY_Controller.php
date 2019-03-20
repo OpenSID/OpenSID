@@ -133,15 +133,17 @@ class Web_Controller extends MY_Controller
  */
 class Admin_Controller extends MY_Controller
 {
+	public $grup;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if (!$this->user_model->hak_akses($grup, $this->controller, 'b'))
+		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
 		{
-			if (empty($grup))
+			if (empty($this->grup))
 			{
 				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 				redirect('siteman');

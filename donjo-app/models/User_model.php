@@ -664,6 +664,8 @@ class User_model extends CI_Model {
 		// Group admin punya akses global
 		// b = baca; u = ubah; h= hapus
 		if ($group == 1) return true;
+		// Controller yang boleh diakses oleh semua pengguna yg telah login
+		if ($group and in_array($controller, array('user_setting'))) return true;
 
 		$hak_akses = array(
 			// Redaksi
@@ -708,7 +710,9 @@ class User_model extends CI_Model {
 				'menu' => array('b','u'),
 				'sosmed' => array('b','u'),
 				'web' => array('b','u'),
-				'web_widget' => array('b','u')
+				'web_widget' => array('b','u'),
+				// pengaturan
+				'modul' => array('b','u')
 			)
 		);
 		return in_array($akses, $hak_akses[$group][$controller]);
