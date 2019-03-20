@@ -32,6 +32,14 @@
 													<?php endforeach ?>
 												</select>
 											</div>
+										<?php elseif ($setting->jenis == 'option-value'): ?>
+											<div class="col-sm-12 col-md-4">
+												<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
+													<?php foreach ($setting->options as $key => $label): ?>
+													<option value="<?= $label ?>" <?php ($setting->value == $label) and print('selected') ?>><?= $label ?></option>
+													<?php endforeach ?>
+												</select>
+											</div>
 										<?php elseif ($setting->key == 'timezone'): ?>
 											<div class="col-sm-12 col-md-4">
 												<select class="form-control input-sm" name="<?= $setting->key?>" >
@@ -61,14 +69,6 @@
 													<?php foreach ($list_tema as $tema): ?>
 														<option value="<?= $tema?>" <?php if ($setting->value==$tema): ?>selected<?php endif; ?>><?= $tema?></option>
 													<?php endforeach;?>
-												</select>
-											</div>
-										<?php elseif ($setting->key == 'skin_sid'): ?>
-											<div class="col-sm-12 col-md-4">
-												<select name="<?= $setting->key ?>" class="form-control input-sm">
-													<?php foreach($list_skin as $skin) : ?>
-														<option value="<?= $skin->nama ?>" <?php $setting->value==$skin->nama and print('selected')?>><?= $skin->nama ?></option>
-													<?php endforeach ?>
 												</select>
 											</div>
 										<?php else : ?>

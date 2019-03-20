@@ -21,11 +21,5 @@
 		return $list_tema;
 	}
 
-	public function list_skin()
-	{
-		$sql = $this->db->select('nama')->get('skin_sid');
-		return $sql->result();
-	}
-
 }
 ?>
