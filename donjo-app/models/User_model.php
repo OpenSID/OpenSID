@@ -712,7 +712,16 @@ class User_model extends CI_Model {
 				'web' => array('b','u'),
 				'web_widget' => array('b','u'),
 				// pengaturan
-				'modul' => array('b','u')
+				'modul' => array('b','u'),
+				// sekretariat
+				'surat_masuk' => array('b','u'),
+				'surat_keluar' => array('b','u'),
+				'dokumen_sekretariat' => array('b','u'),
+				//  layanan surat
+				'keluar' => array('b','u'),
+				'surat' => array('b','u'),
+				'surat_master' => array('b','u')
+
 			)
 		);
 		return in_array($akses, $hak_akses[$group][$controller]);

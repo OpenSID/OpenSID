@@ -1,27 +1,16 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Keluar extends CI_Controller {
+class Keluar extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
 		$this->load->model('keluar_model');
 		$this->load->model('surat_model');
-		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($this->grup != 1 AND $this->grup != 2 AND $this->grup != 3)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
         $this->load->helper('download');
 		$this->modul_ini = 4;
-		$this->controller = 'keluar';
 	}
 
 	public function clear()
