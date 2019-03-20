@@ -655,6 +655,53 @@ class User_model extends CI_Model {
 		return (!empty($uploadData)) ? $uploadData['file_name'] : NULL;
 	}
 
+	/*
+	 * Hak akses setiap controller.
+	 * TODO: pindahkan menggunakan authentication/authorisation library
+	*/
+	public function hak_akses($group, $controller, $akses)
+	{
+		// Group admin punya akses global
+		// b = baca; u = ubah; h= hapus
+		if ($group == 1) return true;
+
+		$hak_akses = array(
+			2 => array(
+				// analisis
+				'analisis_indikator' => array('b','u'),
+				'analisis_kategori' => array('b','u'),
+				'analisis_klasifikasi' => array('b','u'),
+				'analisis_laporan' => array('b','u'),
+				'analisis_master' => array('b','u'),
+				'analisis_periode' => array('b','u'),
+				'analisis_respon' => array('b','u'),
+				'analisis_statistik_jawaban' => array('b','u'),
+				// inventaris
+				'api_inventaris_asset' => array('b','u'),
+				'api_inventaris_gedung' => array('b','u'),
+				'api_inventaris_jalan' => array('b','u'),
+				'api_inventaris_kontruksi' => array('b','u'),
+				'api_inventaris_peralatan' => array('b','u'),
+				'api_inventaris_tanah' => array('b','u'),
+				'inventaris_asset' => array('b','u'),
+				'inventaris_gedung' => array('b','u'),
+				'inventaris_jalan' => array('b','u'),
+				'inventaris_kontruksi' => array('b','u'),
+				'inventaris_peralatan' => array('b','u'),
+				'inventaris_tanah' => array('b','u'),
+				// pemetaan
+				'area' => array('b','u'),
+				'garis' => array('b','u'),
+				'gis' => array('b','u'),
+				'line' => array('b','u'),
+				'plan' => array('b','u'),
+				'point' => array('b','u'),
+				'polygon' => array('b','u')
+			)
+		);
+		return in_array($akses, $hak_akses[$group][$controller]);
+	}
+
 }
 
 ?>

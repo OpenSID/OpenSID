@@ -1,18 +1,11 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Inventaris_peralatan extends CI_Controller {
+class Inventaris_peralatan extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('inventaris_peralatan_model');
 		$this->load->model('referensi_model');
@@ -20,7 +13,6 @@ class Inventaris_peralatan extends CI_Controller {
 		$this->load->model('surat_model');
 		$this->modul_ini = 15;
 		$this->tab_ini = 2;
-		$this->controller = 'Inventaris_peralatan';
 	}
 
 	public function clear()

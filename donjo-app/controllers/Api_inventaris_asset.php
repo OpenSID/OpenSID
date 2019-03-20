@@ -6,22 +6,16 @@
 * Time: 06:59
 */
 
-class Api_inventaris_asset extends CI_Controller {
+class Api_inventaris_asset extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			redirect('siteman');
-		}
 		$this->load->model('inventaris_asset_model');
 		$this->modul_ini = 16;
 		$this->tab_ini = 5;
-		$this->controller = 'Inventaris_asset';
+		// $this->controller = 'Inventaris_asset';
 	}
 
 	function index(){
