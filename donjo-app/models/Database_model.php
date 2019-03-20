@@ -238,6 +238,36 @@
 				gambar = VALUES(gambar),
 				nama = VALUES(nama)";
 		$this->db->query($query);
+		// Tambahkan setting aplikasi untuk mengubah warna tema komponen Admin
+		$query = $this->db->select('1')->where('key', 'warna_tema_admin')->get('setting_aplikasi');
+		if (!$query->result())
+		{
+			$data = array(
+				'key' => 'warna_tema_admin',
+				'value' => $setting->value ?: 'skin-purple',
+				'jenis' => 'option-value',
+				'keterangan' => 'Warna dasar tema komponen Admin'
+			);
+			$this->db->insert('setting_aplikasi', $data);
+			$setting_id = $this->db->insert_id();
+			$this->db->insert_batch(
+				'setting_aplikasi_options',
+				array(
+					array('id_setting'=>$setting_id, 'value'=>'skin-blue'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-blue-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-yellow'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-yellow-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-green'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-green-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-purple'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-purple-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-red'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-red-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-black'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-black-light')
+				)
+			);
+		}
   }
 
   private function migrasi_1901_ke_1902()
@@ -3247,6 +3277,8 @@
 			"ref_pindah",
 			"setting_modul",
 			"setting_aplikasi",
+			"setting_aplikasi_options",
+			"skin_sid",
 			"tweb_cacat",
 			"tweb_cara_kb",
 			"tweb_golongan_darah",

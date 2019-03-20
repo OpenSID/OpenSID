@@ -91,7 +91,7 @@ class Setting_model extends CI_Model {
 	{
 		foreach ($this->list_setting as $i => $set)
 		{
-			if ($set->jenis == 'option')
+			if ($set->jenis == 'option' or $set->jenis == 'option-value')
 			{
 				$this->list_setting[$i]->options = $this->get_options($set->id);
 			}
