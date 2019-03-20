@@ -666,6 +666,7 @@ class User_model extends CI_Model {
 		if ($group == 1) return true;
 
 		$hak_akses = array(
+			// Redaksi
 			2 => array(
 				// analisis
 				'analisis_indikator' => array('b','u'),
@@ -696,7 +697,18 @@ class User_model extends CI_Model {
 				'line' => array('b','u'),
 				'plan' => array('b','u'),
 				'point' => array('b','u'),
-				'polygon' => array('b','u')
+				'polygon' => array('b','u'),
+				// pertanahan
+				'data_persil' => array('b','u'),
+				// admin web
+				'dokumen' => array('b','u'),
+				'gallery' => array('b','u'),
+				'kategori' => array('b','u'),
+				'komentar' => array('b','u','h'),
+				'menu' => array('b','u'),
+				'sosmed' => array('b','u'),
+				'web' => array('b','u'),
+				'web_widget' => array('b','u')
 			)
 		);
 		return in_array($akses, $hak_akses[$group][$controller]);
