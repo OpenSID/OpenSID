@@ -32,7 +32,7 @@ class Laporan extends CI_Controller {
 
 	public function clear()
 	{
-		$_SESSION['bulanku'] = date("n");
+		$_SESSION['bulanku'] = date("m");
 		$_SESSION['tahunku'] = date("Y");
 		$_SESSION['per_page'] = 200;
 		redirect('laporan');
@@ -51,7 +51,7 @@ class Laporan extends CI_Controller {
 			$data['bulanku'] = $_SESSION['bulanku'];
 		else
 		{
-			$data['bulanku'] = date("n");
+			$data['bulanku'] = date("m");
 			$_SESSION['bulanku'] = $data['bulanku'];
 		}
 
