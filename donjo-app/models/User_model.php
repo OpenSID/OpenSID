@@ -670,6 +670,20 @@ class User_model extends CI_Model {
 		$hak_akses = array(
 			// Redaksi
 			2 => array(
+				// home
+				'hom_sid' => array('b','u'),
+				// info desa
+				'hom_desa' => array('b','u'),
+				'pengurus' => array('b','u'),
+				'sid_core' => array('b','u'),
+				// kependudukan
+				'dpt' => array('b','u'),
+				'keluarga' => array('b','u'),
+				'kelompok' => array('b','u'),
+				'kelompok_master' => array('b','u'),
+				'penduduk' => array('b','u'),
+				'rtm' => array('b','u'),
+				'suplemen' => array('b','u'),
 				// analisis
 				'analisis_indikator' => array('b','u'),
 				'analisis_kategori' => array('b','u'),
