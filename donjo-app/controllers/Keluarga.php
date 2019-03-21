@@ -1,4 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+
 class Keluarga extends Admin_Controller {
 
 	public function __construct()

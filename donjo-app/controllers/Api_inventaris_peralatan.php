@@ -8,7 +8,6 @@
 
 class Api_inventaris_peralatan extends Admin_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();

@@ -682,8 +682,13 @@ class User_model extends CI_Model {
 				'kelompok' => array('b','u'),
 				'kelompok_master' => array('b','u'),
 				'penduduk' => array('b','u'),
+				'penduduk_log' => array('b','u'),
 				'rtm' => array('b','u'),
 				'suplemen' => array('b','u'),
+				// statistik
+				'laporan' => array('b','u'),
+				'laporan_rentan' => array('b','u'),
+				'statistik' => array('b','u'),
 				// analisis
 				'analisis_indikator' => array('b','u'),
 				'analisis_kategori' => array('b','u'),
@@ -693,6 +698,8 @@ class User_model extends CI_Model {
 				'analisis_periode' => array('b','u'),
 				'analisis_respon' => array('b','u'),
 				'analisis_statistik_jawaban' => array('b','u'),
+				// bantuan
+				'program_bantuan' => array('b','u'),
 				// inventaris
 				'api_inventaris_asset' => array('b','u'),
 				'api_inventaris_gedung' => array('b','u'),
@@ -706,6 +713,7 @@ class User_model extends CI_Model {
 				'inventaris_kontruksi' => array('b','u'),
 				'inventaris_peralatan' => array('b','u'),
 				'inventaris_tanah' => array('b','u'),
+				'laporan_inventaris' => array('b','u'),
 				// pemetaan
 				'area' => array('b','u'),
 				'garis' => array('b','u'),
@@ -714,6 +722,8 @@ class User_model extends CI_Model {
 				'plan' => array('b','u'),
 				'point' => array('b','u'),
 				'polygon' => array('b','u'),
+				// sms
+				'sms' => array('b','u'),
 				// pertanahan
 				'data_persil' => array('b','u'),
 				// admin web
@@ -728,14 +738,19 @@ class User_model extends CI_Model {
 				// pengaturan
 				'modul' => array('b','u'),
 				// sekretariat
+				'sekretariat' => array('b','u'),
 				'surat_masuk' => array('b','u'),
 				'surat_keluar' => array('b','u'),
 				'dokumen_sekretariat' => array('b','u'),
-				//  layanan surat
+				// layanan surat
 				'keluar' => array('b','u'),
 				'surat' => array('b','u'),
-				'surat_master' => array('b','u')
-
+				'surat_master' => array('b','u'),
+				// layanan mandiri
+				'lapor' => array('b','u'),
+				'mandiri' => array('b','u'),
+				// notifikasi
+				'notif' => array('b','u')
 			)
 		);
 		return in_array($akses, $hak_akses[$group][$controller]);
