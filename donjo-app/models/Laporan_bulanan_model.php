@@ -328,7 +328,10 @@
 	}
 
 	public function pendatang()
-	{	
+	{
+		$bln = $_SESSION['bulanku'];
+		$thn = $_SESSION['tahunku'];
+
 		$paging_sql = ' LIMIT 1';
 		$sql = "SELECT
 		(select count(s.id) from log_penduduk s INNER join tweb_penduduk p on s.id_pend=p.id and warganegara_id<>'2' and sex='1' and id_detail in ('8','5') and month(tanggal)=month(curdate()) and year(tanggal)=year(curdate()) ) as WNI_L,
