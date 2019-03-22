@@ -56,10 +56,7 @@ class Hom_sid extends Admin_Controller {
 
 	public function ubah_program_bantuan()
 	{
-		if ($_SESSION['grup'] != 1 )
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-		else
-			$this->db->where('key','dashboard_program_bantuan')->update('setting_aplikasi', array('value'=>$this->input->post('program_bantuan')));
+		$this->db->where('key','dashboard_program_bantuan')->update('setting_aplikasi', array('value'=>$this->input->post('program_bantuan')));
 		redirect('hom_sid');
 	}
 }

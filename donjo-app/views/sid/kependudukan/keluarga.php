@@ -48,7 +48,7 @@
 								<li>
 									<a href="" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/doc_kk_all")?>'); return false;"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
 								</li>
-								<?php if ($grup==1): ?>
+								<?php if ($this->CI->cek_hak_akses('h')): ?>
 									<li>
 										<a href="#confirm-delete" class="btn btn-social btn-flat btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("keluarga/delete_all/$p/$o")?>')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
 									</li>
@@ -153,7 +153,7 @@
 																		<a href="<?= site_url("keluarga/form_a/$p/$o/$data[id]")?>" class="btn btn-success btn-flat btn-sm " title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> </a>
 																		<a href="<?= site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data KK" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																		<a href="<?= site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Alamat/Pindah Keluarga (KK) Dalam Desa" class="btn bg-navy btn-flat btn-sm"  title="Ubah Alamat/Pindah Keluarga dalam Desa"><i class="fa fa-location-arrow"></i></a>
-																		<?php if ($grup==1): ?>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
 																			<a href="#" data-href="<?= site_url("keluarga/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus/Keluar Dari Daftar Keluarga" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>

@@ -222,11 +222,6 @@ class Menu extends Admin_Controller {
 
 	public function urut($tip = 1, $id = 0, $arah = 0, $menu = '')
 	{
-		if ($_SESSION['grup'] != 1)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect('menu'); // hanya untuk administrator
-		}
 		$this->web_menu_model->urut($id, $arah, $tip, $menu);
 		if ($menu != '')
 			redirect("menu/sub_menu/$tip/$menu");

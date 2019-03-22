@@ -82,7 +82,7 @@
 																		<td nowrap>
 																			<a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a>
 																			<a href="<?= site_url("sid_core/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php if ($grup==1): ?>
+																			<?php if ($this->CI->cek_hak_akses('h')): ?>
 																				<a href="#" data-href="<?= site_url("sid_core/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
 																		</td>

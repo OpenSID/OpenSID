@@ -203,11 +203,6 @@ class Kategori extends Admin_Controller {
 
 	public function urut($id=0, $arah=0, $kategori='')
 	{
-		if ($_SESSION['grup'] != 1)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect('kategori'); // hanya untuk administrator
-		}
 		$this->web_kategori_model->urut($id,$arah,$kategori);
 		if ($kategori != '')
 			redirect("kategori/sub_kategori/$kategori");
