@@ -331,16 +331,6 @@ function session_success()
 	$_SESSION['success']   = 1;
 }
 
-function punya_akses($grup, $list_grup_boleh)
-{
-	if (!in_array($grup, $list_grup_boleh))
-	{
-		session_error("Anda tidak mempunyai akses pada fitur ini");
-		return false;
-	}
-	return true;
-}
-
 // Untuk mengirim data ke OpenSID tracker
 function httpPost($url, $params)
 {

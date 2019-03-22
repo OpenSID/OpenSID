@@ -12,7 +12,6 @@ class Api_inventaris_peralatan extends Admin_Controller
 	{
 		parent::__construct();
 		session_start();
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		$this->load->model('inventaris_peralatan_model');
 		$this->modul_ini = 16;
 		$this->tab_ini = 2;

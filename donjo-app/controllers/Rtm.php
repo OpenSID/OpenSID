@@ -69,7 +69,6 @@ class Rtm extends Admin_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		$data['grup'] = $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging']  = $this->rtm_model->paging($p, $o);
 		$data['main'] = $this->rtm_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();

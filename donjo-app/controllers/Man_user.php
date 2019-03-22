@@ -64,7 +64,6 @@ class Man_user extends Admin_Controller {
 			$data['form_action'] = site_url("man_user/insert");
 		}
 
-		$data['grup'] = $this->user_model->list_grup();
 		$header = $this->header_model->get_data();
 		$nav['act'] = 11;
 		$nav['act_sub'] = 44;

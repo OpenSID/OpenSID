@@ -146,7 +146,6 @@ class Penduduk extends Admin_Controller {
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-		$data['grup'] = $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging'] = $this->penduduk_model->paging($p, $o);
 		$data['main'] = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();

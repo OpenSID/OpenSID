@@ -36,7 +36,6 @@ class Sid_Core extends Admin_Controller {
 			$_SESSION['per_page'] = $_POST['per_page'];
 
 		$data['per_page'] = $_SESSION['per_page'];
-		$data['grup'] = $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging'] = $this->wilayah_model->paging($p, $o);
 		$data['main'] = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->wilayah_model->autocomplete();

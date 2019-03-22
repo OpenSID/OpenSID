@@ -79,7 +79,6 @@ class Keluarga extends Admin_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		$data['grup']	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging'] = $this->keluarga_model->paging($p,$o);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->keluarga_model->autocomplete();

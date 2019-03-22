@@ -159,9 +159,11 @@ class Admin_Controller extends MY_Controller
 		}
 	}
 
-	protected function redirect_hak_akses($akses, $redirect='')
+	protected function redirect_hak_akses($akses, $redirect='', $controller='')
 	{
-		if (!$this->user_model->hak_akses($this->grup, $this->controller, $akses))
+		if (empty($controller))
+			$controller = $this->controller;
+		if (!$this->user_model->hak_akses($this->grup, $controller, $akses))
 		{
 			session_error("Anda tidak mempunyai akses pada fitur ini");
 			empty($redirect) ? redirect('/') : redirect($redirect);
