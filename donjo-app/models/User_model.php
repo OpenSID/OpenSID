@@ -668,7 +668,7 @@ class User_model extends CI_Model {
 		if ($group and in_array($controller, array('user_setting'))) return true;
 
 		$hak_akses = array(
-			// Redaksi
+			// Operator
 			2 => array(
 				// home
 				'hom_sid' => array('b','u'),
@@ -749,6 +749,22 @@ class User_model extends CI_Model {
 				// layanan mandiri
 				'lapor' => array('b','u'),
 				'mandiri' => array('b','u'),
+				// notifikasi
+				'notif' => array('b','u')
+			),
+			// Redaktur
+			3 => array(
+				// admin web
+				'komentar' => array('b','u'),
+				'web' => array('b','u'),
+				// notifikasi
+				'notif' => array('b','u')
+			),
+			// Kontributor
+			4 => array(
+				// admin web
+				'komentar' => array('b','u'),
+				'web' => array('b','u'),
 				// notifikasi
 				'notif' => array('b','u')
 			)

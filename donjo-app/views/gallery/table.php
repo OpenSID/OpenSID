@@ -97,12 +97,12 @@
 																			<?php else: ?>
 																				<a href="<?= site_url("gallery/slider_on/".$data['id'])?>" class="btn bg-gray btn-flat btn-sm"  title="Tampilkan Di Slider"><i class="fa fa-eject"></i></a>
 																			<?php endif; ?>
-																			<?php if ($_SESSION['grup']<4): ?>
-                                        <?php if ($data['enabled'] == '2'): ?>
-                                          <a href="<?= site_url("gallery/gallery_lock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Album"><i class="fa fa-lock"></i></a>
-                                        <?php elseif ($data['enabled'] == '1'): ?>
-                                          <a href="<?= site_url("gallery/gallery_unlock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Album"><i class="fa fa-unlock"></i></a>
-                                        <?php endif ?>
+                                      <?php if ($data['enabled'] == '2'): ?>
+                                        <a href="<?= site_url("gallery/gallery_lock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Album"><i class="fa fa-lock"></i></a>
+                                      <?php elseif ($data['enabled'] == '1'): ?>
+                                        <a href="<?= site_url("gallery/gallery_unlock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Album"><i class="fa fa-unlock"></i></a>
+                                      <?php endif ?>
+																			<?php if ($this->CI->cek_hak_akses('h')): ?>
 																				<a href="#" data-href="<?= site_url("gallery/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                       <?php endif; ?>
                                     </td>

@@ -188,12 +188,14 @@ class Rtm extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->delete($id);
 		redirect('rtm');
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->delete_all();
 		redirect('rtm');
 	}
@@ -303,12 +305,14 @@ class Rtm extends Admin_Controller {
 
 	public function delete_anggota($p = 1, $o = 0, $kk = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->rem_anggota($kk, $id);
 		redirect("rtm/anggota/$p/$o/$kk");
 	}
 
 	public function delete_all_anggota($p = 1, $o = 0, $kk = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->rem_all_anggota($kk);
 		redirect("rtm/anggota/$p/$o/$kk");
 	}

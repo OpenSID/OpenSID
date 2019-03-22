@@ -61,6 +61,7 @@ class Keluar extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h');
 		session_error_clear();
 		if ($this->grup != 1)
 		{

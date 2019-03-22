@@ -152,6 +152,7 @@ class Web extends Admin_Controller {
 
 	public function hapus($cat = 1, $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->web_artikel_model->hapus($cat);
 		redirect("web/index/1/$p/$o");
 	}

@@ -141,12 +141,14 @@ class Polygon extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->plan_polygon_model->delete($id);
 		redirect("polygon/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->plan_polygon_model->delete_all();
 		redirect("polygon/index/$p/$o");
 	}
@@ -177,12 +179,14 @@ class Polygon extends Admin_Controller {
 
 	public function delete_sub_polygon($polygon = '', $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->plan_polygon_model->delete_sub_polygon($id);
 		redirect("polygon/sub_polygon/$polygon");
 	}
 
 	public function delete_all_sub_polygon($polygon = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->plan_polygon_model->delete_all_sub_polygon();
 		redirect("polygon/sub_polygon/$polygon");
 	}

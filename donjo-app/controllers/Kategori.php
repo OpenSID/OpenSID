@@ -141,12 +141,14 @@ class Kategori extends Admin_Controller {
 
 	public function delete($id='')
 	{
+		$this->redirect_hak_akses('h');
 		$this->web_kategori_model->delete($id);
 		redirect("kategori/index");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->web_kategori_model->delete_all();
 		redirect("kategori/index/$p/$o");
 	}

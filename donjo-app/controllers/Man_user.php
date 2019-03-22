@@ -107,12 +107,14 @@ class Man_user extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->user_model->delete($id);
 		redirect("man_user/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->user_model->delete_all();
 		redirect("man_user/index/$p/$o");
 	}

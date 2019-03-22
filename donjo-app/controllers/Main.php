@@ -14,7 +14,7 @@ class Main extends CI_Controller {
 		{
 			$this->load->model('user_model');
 			$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-			switch($grup)
+			switch ($grup)
 			{
 				case 1 : redirect('hom_sid'); break;
 				case 2 : redirect('hom_sid'); break;

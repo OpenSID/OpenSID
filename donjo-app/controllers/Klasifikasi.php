@@ -116,9 +116,7 @@ class Klasifikasi extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		if (!punya_akses($this->grup, array(1)))
-			redirect("klasifikasi/index/$p/$o");
-
+		$this->redirect_hak_akses('h', "klasifikasi/index/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->klasifikasi_model->delete($id);
 		redirect("klasifikasi/index/$p/$o");
@@ -126,9 +124,7 @@ class Klasifikasi extends Admin_Controller {
 
 	public function delete_all($p=1, $o=0)
 	{
-		if (!punya_akses($this->grup, array(1)))
-			redirect("klasifikasi/index/$p/$o");
-
+		$this->redirect_hak_akses('h', "klasifikasi/index/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->klasifikasi_model->delete_all();
 		redirect("klasifikasi/index/$p/$o");

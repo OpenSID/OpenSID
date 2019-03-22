@@ -134,11 +134,13 @@ class Web_Controller extends MY_Controller
 class Admin_Controller extends MY_Controller
 {
 	public $grup;
+	public $CI = NULL;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->controller = strtolower($this->router->fetch_class());
+		$this->CI = & get_instance();
+ 		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model('user_model');
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
@@ -150,10 +152,27 @@ class Admin_Controller extends MY_Controller
 			}
 			else
 			{
+				session_error("Anda tidak mempunyai akses pada fitur ini");
 				unset($_SESSION['request_uri']);
 				redirect('/');
 			}
 		}
+	}
+
+	protected function redirect_hak_akses($akses, $redirect='')
+	{
+		if (!$this->user_model->hak_akses($this->grup, $this->controller, $akses))
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
+			empty($redirect) ? redirect('/') : redirect($redirect);
+		}
+	}
+
+	public function cek_hak_akses($akses, $controller='')
+	{
+		if (empty($controller))
+			$controller = $this->controller;
+		return $this->user_model->hak_akses($this->grup, $controller, $akses);
 	}
 }
 

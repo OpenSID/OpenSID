@@ -120,12 +120,14 @@ class Kelompok_master extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h');
 		$this->kelompok_master_model->delete($id);
 		redirect("kelompok_master/index/$p/$o");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->kelompok_master_model->delete_all();
 		redirect("kelompok_master/index/$p/$o");
 	}

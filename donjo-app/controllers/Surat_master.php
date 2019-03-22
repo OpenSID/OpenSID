@@ -122,12 +122,14 @@ class Surat_master extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->surat_master_model->delete($id);
 		redirect("surat_master/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->surat_master_model->delete_all();
 		redirect("surat_master/index/$p/$o");
 	}
@@ -146,12 +148,14 @@ class Surat_master extends Admin_Controller {
 
 	public function p_delete($in = '', $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->surat_master_model->p_delete($id);
 		redirect("surat_master/atribut/$in");
 	}
 
 	public function p_delete_all()
 	{
+		$this->redirect_hak_akses('h');
 		$this->surat_master_model->p_delete_all();
 		redirect("surat_master/atribut/$in");
 	}

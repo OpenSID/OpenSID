@@ -130,6 +130,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function hapus_peserta($id, $peserta_id)
 	{
+		$this->redirect_hak_akses('h');
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
 		redirect("program_bantuan/detail/1/$id");
 	}
@@ -211,6 +212,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function hapus($id)
 	{
+		$this->redirect_hak_akses('h');
 		$this->program_bantuan_model->hapus_program($id);
 		redirect("program_bantuan/");
 	}
