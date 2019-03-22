@@ -8,12 +8,10 @@
 
 class Api_inventaris_peralatan extends Admin_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		$this->load->model('inventaris_peralatan_model');
 		$this->modul_ini = 16;
 		$this->tab_ini = 2;
@@ -103,6 +101,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function delete($id)
 	{
+		$this->redirect_hak_akses('h');
 		$data = $this->inventaris_peralatan_model->delete($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -111,6 +110,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function delete_mutasi($id)
 	{
+		$this->redirect_hak_akses('h');
 		$data = $this->inventaris_peralatan_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

@@ -61,12 +61,8 @@ class Keluar extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h');
 		session_error_clear();
-		if ($this->grup != 1)
-		{
-			session_error('Anda tidak mempunyai izin melakukan ini');
-			redirect("keluar/index/$p/$o"); // Batasi hanya admin yang boleh hapus
-		}
 		$this->keluar_model->delete($id);
 		redirect("keluar/index/$p/$o");
 	}

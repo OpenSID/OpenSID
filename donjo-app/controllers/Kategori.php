@@ -1,4 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+
 class Kategori extends Admin_Controller {
 
 	public function __construct()
@@ -140,12 +141,14 @@ class Kategori extends Admin_Controller {
 
 	public function delete($id='')
 	{
+		$this->redirect_hak_akses('h');
 		$this->web_kategori_model->delete($id);
 		redirect("kategori/index");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->web_kategori_model->delete_all();
 		redirect("kategori/index/$p/$o");
 	}
@@ -200,11 +203,6 @@ class Kategori extends Admin_Controller {
 
 	public function urut($id=0, $arah=0, $kategori='')
 	{
-		if ($_SESSION['grup'] != 1)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect('kategori'); // hanya untuk administrator
-		}
 		$this->web_kategori_model->urut($id,$arah,$kategori);
 		if ($kategori != '')
 			redirect("kategori/sub_kategori/$kategori");

@@ -1,27 +1,16 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Pengurus extends CI_Controller {
+class Pengurus extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 200;
-		$this->controller = 'pengurus';
 	}
 
 	public function clear()
@@ -120,6 +109,7 @@ class Pengurus extends CI_Controller {
 
 	public function delete($id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$_SESSION['success'] = 1;
 		$outp = $this->pamong_model->delete($id);
 		if (!$outp) $_SESSION['success'] = -1;
@@ -128,6 +118,7 @@ class Pengurus extends CI_Controller {
 
 	public function delete_all()
 	{
+		$this->redirect_hak_akses('h');
 		$this->pamong_model->delete_all();
 		redirect('pengurus');
 	}

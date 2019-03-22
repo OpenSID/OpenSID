@@ -1,20 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Sms extends CI_Controller {
+class Sms extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2 AND $grup != 3) {
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('sms_model');
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
@@ -513,6 +504,7 @@ class Sms extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $tipe = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->sms_model->delete($tipe, $id);
 		if ($tipe == 1) redirect('sms');
 		elseif ($tipe == 2) redirect('sms/sentitem');
@@ -522,6 +514,7 @@ class Sms extends CI_Controller {
 
 	public function delete_all($p = 1, $o = 0, $tipe = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->sms_model->delete_all($tipe);
 		if ($tipe == 1) redirect('sms');
 		elseif ($tipe == 2) redirect('sms/sentitem');
@@ -606,12 +599,14 @@ class Sms extends CI_Controller {
 
 	public function kontak_delete($id = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$data['hapus'] = $this->sms_model->delete_kontak($id);
 		redirect('sms/kontak');
 	}
 
 	public function delete_all_kontak()
 	{
+		$this->redirect_hak_akses('h');
 		$this->sms_model->delete_all_kontak();
 		redirect('sms/kontak');
 	}
@@ -675,12 +670,14 @@ class Sms extends CI_Controller {
 
 	public function grup_delete($id = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$data['hapus'] = $this->sms_model->delete_grup($id);
 		redirect('sms/group');
 	}
 
 	public function delete_all_grup()
 	{
+		$this->redirect_hak_akses('h');
 		$this->sms_model->delete_all_grup();
 		redirect('sms/group');
 	}
@@ -730,12 +727,14 @@ class Sms extends CI_Controller {
 
 	public function anggota_delete($id = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$data['hapus'] = $this->sms_model->delete_anggota($id);
 		echo "<script>self.history.back();</script>";
 	}
 
 	public function delete_all_anggota($grup = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->sms_model->delete_all_anggota($grup);
 		echo "<script>self.history.back();</script>";
 	}
@@ -754,12 +753,14 @@ class Sms extends CI_Controller {
 
 	public function polling_delete($id = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$data['hapus'] = $this->sms_model->delete_polling($id);
 		redirect("sms/polling");
 	}
 
 	public function delete_all_polling()
 	{
+		$this->redirect_hak_akses('h');
 		$this->sms_model->delete_all_polling();
 		redirect("sms/polling");
 	}

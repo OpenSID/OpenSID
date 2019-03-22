@@ -1,21 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rtm extends CI_Controller {
+class Rtm extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != (1 OR 2))
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('rtm_model');
 		$this->load->model('penduduk_model');
@@ -79,7 +69,6 @@ class Rtm extends CI_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		$data['grup'] = $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging']  = $this->rtm_model->paging($p, $o);
 		$data['main'] = $this->rtm_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
@@ -198,12 +187,14 @@ class Rtm extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->delete($id);
 		redirect('rtm');
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->delete_all();
 		redirect('rtm');
 	}
@@ -313,12 +304,14 @@ class Rtm extends CI_Controller {
 
 	public function delete_anggota($p = 1, $o = 0, $kk = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->rem_anggota($kk, $id);
 		redirect("rtm/anggota/$p/$o/$kk");
 	}
 
 	public function delete_all_anggota($p = 1, $o = 0, $kk = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->rem_all_anggota($kk);
 		redirect("rtm/anggota/$p/$o/$kk");
 	}

@@ -154,11 +154,6 @@ class Database extends Admin_Controller {
 
 	public function kosongkan_db()
 	{
-		if ($_SESSION['grup'] !=1 )
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect('database/backup'); // hanya untuk administrator
-		}
 		$this->database_model->kosongkan_db();
 		redirect('database/kosongkan');
 	}
@@ -176,11 +171,6 @@ class Database extends Admin_Controller {
 
 	public function restore()
 	{
-		if ($_SESSION['grup'] != 1)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect('database/backup'); // hanya untuk administrator
-		}
 		$this->export_model->restore();
 		if ($_SESSION['success'] == 1)
 			redirect('database/backup');

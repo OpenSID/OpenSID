@@ -1,22 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Penduduk extends CI_Controller {
+class Penduduk extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
-
 		$this->load->model('penduduk_model');
 		$this->load->model('referensi_model');
 		$this->load->model('web_dokumen_model');
@@ -157,7 +146,6 @@ class Penduduk extends CI_Controller {
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-		$data['grup'] = $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging'] = $this->penduduk_model->paging($p, $o);
 		$data['main'] = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();
@@ -352,6 +340,7 @@ class Penduduk extends CI_Controller {
 
 	public function delete_dokumen($id_pend = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("penduduk/dokumen/$id_pend");
@@ -359,6 +348,7 @@ class Penduduk extends CI_Controller {
 
 	public function delete_all_dokumen($id_pend = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("penduduk/dokumen/$id_pend");
@@ -477,12 +467,14 @@ class Penduduk extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->penduduk_model->delete($id);
 		redirect("penduduk/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->penduduk_model->delete_all();
 		redirect("penduduk/index/$p/$o");
 	}

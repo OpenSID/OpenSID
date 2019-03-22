@@ -36,6 +36,7 @@
 
 	private function grup_sql()
 	{
+		// Kontributor hanya dapat melihat artikel yg dibuatnya sendiri
 		if ($_SESSION['grup'] == 4)
 		{
 			$kf = $_SESSION['user'];
@@ -167,6 +168,7 @@
 		$data['id_kategori'] = $cat;
 		$data['id_user'] = $_SESSION['user'];
 
+		// Kontributor tidak dapat mengaktifkan artikel
 		if ($_SESSION['grup'] == 4)
 		{
 			$data['enabled'] = 2;
@@ -577,7 +579,8 @@
 
 	public function boleh_ubah($id, $user)
 	{
+		// Kontributor hanya boleh mengubah artikel yg ditulisnya sendiri
 		$id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
-		return ($user == $id_user or $_SESSION['grup'] == 1);
+		return ($user == $id_user or $_SESSION['grup'] != 4);
 	}
 }

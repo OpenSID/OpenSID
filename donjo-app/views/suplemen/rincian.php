@@ -73,7 +73,7 @@
 																<tr>
 																	<td align="center" width="2"><?= $nomer; ?></td>
 																	<td nowrap>
-																		<?php if ($_SESSION['grup']==1): ?>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
 																			<a href="<?= site_url("suplemen/edit_terdata_form/$item[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																			<a href="#" data-href="<?= site_url('suplemen/hapus_terdata/'.$suplemen["id"].'/'.$item["id"])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>

@@ -176,6 +176,7 @@ class Data_persil extends Admin_Controller {
 	}
 
 	public function hapus_persil_jenis($id){
+		$this->redirect_hak_akses('h');
 		$this->data_persil_model->hapus_jenis($id);
 		redirect("data_persil/persil_jenis");
 	}
@@ -225,12 +226,14 @@ class Data_persil extends Admin_Controller {
 
 	public function hapus_persil_peruntukan($id)
 	{
+		$this->redirect_hak_akses('h');
 		$this->data_persil_model->hapus_peruntukan($id);
 		redirect("data_persil/persil_peruntukan");
 	}
 
 	public function hapus($id)
 	{
+		$this->redirect_hak_akses('h');
 		$this->data_persil_model->hapus_persil($id);
 		redirect("data_persil");
 	}

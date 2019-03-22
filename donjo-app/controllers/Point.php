@@ -146,12 +146,14 @@ class Point extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->plan_point_model->delete($id);
 		redirect("point/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->plan_point_model->delete_all();
 		redirect("point/index/$p/$o");
 	}
@@ -182,12 +184,14 @@ class Point extends Admin_Controller {
 
 	public function delete_sub_point($point = '', $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->plan_point_model->delete_sub_point($id);
 		redirect("point/sub_point/$point");
 	}
 
 	public function delete_all_sub_point($point = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->plan_point_model->delete_all_sub_point();
 		redirect("point/sub_point/$point");
 	}

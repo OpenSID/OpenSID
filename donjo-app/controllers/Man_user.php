@@ -64,7 +64,6 @@ class Man_user extends Admin_Controller {
 			$data['form_action'] = site_url("man_user/insert");
 		}
 
-		$data['grup'] = $this->user_model->list_grup();
 		$header = $this->header_model->get_data();
 		$nav['act'] = 11;
 		$nav['act_sub'] = 44;
@@ -107,12 +106,14 @@ class Man_user extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->user_model->delete($id);
 		redirect("man_user/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->user_model->delete_all();
 		redirect("man_user/index/$p/$o");
 	}

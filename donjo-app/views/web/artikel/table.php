@@ -74,7 +74,7 @@
 											<?php endif; ?> Baru
 	            	</a>
 							<?php endif; ?>
-							<?php if ($_SESSION['grup']<4): ?>
+							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("web/delete_all/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 							<?php if ($cat > 0 and $cat < 999): ?>
@@ -151,15 +151,15 @@
 																				<?php else: ?>
 																					<a href="<?=site_url("web/komentar_unlock/$cat/$data[id]")?>" class="btn bg-info btn-flat btn-sm" title="Buka komentar artikel"><i class="fa fa-comment"></i></a>
 																				<?php endif; ?>
-																				<?php if ($_SESSION['grup']<4): ?>
+																				<?php if ($this->CI->cek_hak_akses('h')): ?>
 																					<a href="#" data-href="<?=site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																					<?php if ($data['enabled'] == '2'): ?>
-																						<a href="<?=site_url("web/artikel_lock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock">&nbsp;</i></a>
-																					<?php elseif ($data['enabled'] == '1'): ?>
-																						<a href="<?=site_url("web/artikel_unlock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a>
-																						<a href="<?=site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Headline"><i class="<?php if ($data['headline']==1): ?>fa fa-star-o <?php else: ?> fa fa-star <?php endif; ?>"></i></a>
-																						<a href="<?=site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="btn bg-gray btn-flat btn-sm" title="<?php if ($data['headline']==3): ?>Keluarkan dari slide <?php else: ?>Masukkan ke dalam slide<?php endif ?>"><i class="<?php if ($data['headline']==3): ?>fa fa-pause <?php else: ?> fa fa-play  <?php endif; ?>"></i></a>
-																					<?php endif; ?>
+																				<?php endif; ?>
+																				<?php if ($data['enabled'] == '2'): ?>
+																					<a href="<?=site_url("web/artikel_lock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock">&nbsp;</i></a>
+																				<?php elseif ($data['enabled'] == '1'): ?>
+																					<a href="<?=site_url("web/artikel_unlock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a>
+																					<a href="<?=site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Headline"><i class="<?php if ($data['headline']==1): ?>fa fa-star-o <?php else: ?> fa fa-star <?php endif; ?>"></i></a>
+																					<a href="<?=site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="btn bg-gray btn-flat btn-sm" title="<?php if ($data['headline']==3): ?>Keluarkan dari slide <?php else: ?>Masukkan ke dalam slide<?php endif ?>"><i class="<?php if ($data['headline']==3): ?>fa fa-pause <?php else: ?> fa fa-play  <?php endif; ?>"></i></a>
 																				<?php endif; ?>
 																			<?php endif; ?>
                                     </td>

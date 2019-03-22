@@ -111,6 +111,7 @@ class Api_inventaris_asset extends Admin_Controller {
 
 	public function delete($id)
 	{
+		$this->redirect_hak_akses('h');
 		$data = $this->inventaris_asset_model->delete($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -119,6 +120,7 @@ class Api_inventaris_asset extends Admin_Controller {
 
 	public function delete_mutasi($id)
 	{
+		$this->redirect_hak_akses('h');
 		$data = $this->inventaris_asset_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

@@ -50,9 +50,6 @@ class Klasifikasi extends Admin_Controller {
 
 	public function form($p=1, $o=0, $id='')
 	{
-		if (!punya_akses($this->grup, array(1)))
-			redirect("klasifikasi/index/$p/$o");
-
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -95,8 +92,6 @@ class Klasifikasi extends Admin_Controller {
 
 	public function insert()
 	{
-		if (!punya_akses($this->grup, array(1)))
-			redirect("klasifikasi");
 		$_SESSION['success'] = 1;
 		$outp = $this->klasifikasi_model->insert();
 		if (!$outp) $_SESSION['success'] = -1;
@@ -105,9 +100,6 @@ class Klasifikasi extends Admin_Controller {
 
 	public function update($id='', $p=1, $o=0)
 	{
-		if (!punya_akses($this->grup, array(1)))
-			redirect("klasifikasi/index/$p/$o");
-
 		$_SESSION['success'] = 1;
 		$outp = $this->klasifikasi_model->update($id);
 		if (!$outp) $_SESSION['success'] = -1;
@@ -116,9 +108,7 @@ class Klasifikasi extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		if (!punya_akses($this->grup, array(1)))
-			redirect("klasifikasi/index/$p/$o");
-
+		$this->redirect_hak_akses('h', "klasifikasi/index/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->klasifikasi_model->delete($id);
 		redirect("klasifikasi/index/$p/$o");
@@ -126,9 +116,7 @@ class Klasifikasi extends Admin_Controller {
 
 	public function delete_all($p=1, $o=0)
 	{
-		if (!punya_akses($this->grup, array(1)))
-			redirect("klasifikasi/index/$p/$o");
-
+		$this->redirect_hak_akses('h', "klasifikasi/index/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->klasifikasi_model->delete_all();
 		redirect("klasifikasi/index/$p/$o");
@@ -136,18 +124,12 @@ class Klasifikasi extends Admin_Controller {
 
 	public function lock($p=1, $o=0, $id='')
 	{
-		if (!punya_akses($this->grup, array(1)))
-			redirect("klasifikasi/index/$p/$o");
-
 		$this->klasifikasi_model->lock($id, 0);
 		redirect("klasifikasi/index/$p/$o");
 	}
 
 	public function unlock($p=1, $o=0, $id='')
 	{
-		if (!punya_akses($this->grup, array(1)))
-			redirect("klasifikasi/index/$p/$o");
-
 		$this->klasifikasi_model->lock($id, 1);
 		redirect("klasifikasi/index/$p/$o");
 	}

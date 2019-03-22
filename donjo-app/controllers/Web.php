@@ -141,8 +141,7 @@ class Web extends Admin_Controller {
 
 	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
-			redirect("web/index/$cat/$p/$o");
+		$this->redirect_hak_akses('h');
 
 		$_SESSION['success'] = 1;
 		$outp = $this->web_artikel_model->delete($id);
@@ -150,14 +149,17 @@ class Web extends Admin_Controller {
 		redirect("web/index/$cat/$p/$o");
 	}
 
+	// Hapus kategori
 	public function hapus($cat = 1, $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h', "web/index/1/$p/$o", 'kategori');
 		$this->web_artikel_model->hapus($cat);
 		redirect("web/index/1/$p/$o");
 	}
 
 	public function delete_all($cat = 1, $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->web_artikel_model->delete_all();
 		redirect("web/index/$p/$o");
 	}
@@ -175,6 +177,9 @@ class Web extends Admin_Controller {
 
 	public function update_kategori($id = 0)
 	{
+		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
+			redirect("web/index/$cat");
+
 		$cat = $_POST['kategori'];
 		$this->web_artikel_model->update_kategori($id, $cat);
 		redirect("web/index/$cat");
@@ -182,8 +187,12 @@ class Web extends Admin_Controller {
 
 	public function artikel_lock($cat = 1, $id = 0)
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
+		// Kontributor tidak boleh mengubah status aktif artikel
+		if ($_SESSION['grup'] == 4)
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
 			redirect("web/index/$cat");
+		}
 
 		$this->web_artikel_model->artikel_lock($id, 1);
 		redirect("web/index/$cat");
@@ -191,8 +200,12 @@ class Web extends Admin_Controller {
 
 	public function artikel_unlock($cat = 1, $id = 0)
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
+		// Kontributor tidak boleh mengubah status aktif artikel
+		if ($_SESSION['grup'] == 4)
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
 			redirect("web/index/$cat");
+		}
 
 		$this->web_artikel_model->artikel_lock($id, 2);
 		redirect("web/index/$cat");
@@ -200,8 +213,12 @@ class Web extends Admin_Controller {
 
 	public function komentar_lock($cat = 1, $id = 0)
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
+		// Kontributor tidak boleh mengubah status komentar artikel
+		if ($_SESSION['grup'] == 4)
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
 			redirect("web/index/$cat");
+		}
 
 		$this->web_artikel_model->komentar_lock($id, 0);
 		redirect("web/index/$cat");
@@ -209,8 +226,12 @@ class Web extends Admin_Controller {
 
 	public function komentar_unlock($cat = 1, $id = 0)
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
+		// Kontributor tidak boleh mengubah status komentar artikel
+		if ($_SESSION['grup'] == 4)
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
 			redirect("web/index/$cat");
+		}
 
 		$this->web_artikel_model->komentar_lock($id, 1);
 		redirect("web/index/$cat");
@@ -218,21 +239,25 @@ class Web extends Admin_Controller {
 
 	public function ajax_add_kategori($cat = 1, $p = 1, $o = 0)
 	{
-
 		$data['form_action'] = site_url("web/insert_kategori/$cat/$p/$o");
 		$this->load->view('web/artikel/ajax_add_kategori_form', $data);
 	}
 
 	public function insert_kategori($cat = 1, $p = 1, $o = 0)
 	{
+		redirect_hak_akses('u', "web/index/$cat/$p/$o", 'kategori');
 		$this->web_artikel_model->insert_kategori();
 		redirect("web/index/$cat/$p/$o");
 	}
 
 	public function headline($cat = 1, $p = 1, $o = 0, $id = 0)
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
+		// Kontributor tidak boleh melakukan ini
+		if ($_SESSION['grup'] == 4)
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
 			redirect("web/index/$cat/$p/$o");
+		}
 
 		$this->web_artikel_model->headline($id);
 		redirect("web/index/$cat/$p/$o");
@@ -240,8 +265,12 @@ class Web extends Admin_Controller {
 
 	public function slide($cat = 1, $p = 1, $o = 0, $id = 0)
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
+		// Kontributor tidak boleh melakukan ini
+		if ($_SESSION['grup'] == 4)
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
 			redirect("web/index/$cat/$p/$o");
+		}
 
 		$this->web_artikel_model->slide($id);
 		redirect("web/index/$cat/$p/$o");
@@ -260,6 +289,13 @@ class Web extends Admin_Controller {
 
 	public function update_slider()
 	{
+		// Kontributor tidak boleh melakukan ini
+		if ($_SESSION['grup'] == 4)
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
+			redirect("web/slider");
+		}
+
 		$this->setting_model->update_slider();
 		redirect("web/slider");
 	}

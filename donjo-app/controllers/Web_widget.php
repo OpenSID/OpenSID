@@ -147,12 +147,14 @@ class Web_widget extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->web_widget_model->delete($id);
 		redirect("web_widget");
 	}
 
 	public function delete_all($p = 1,$o = 0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->web_widget_model->delete_all();
 		redirect("web_widget");
 	}

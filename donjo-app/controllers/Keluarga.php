@@ -1,20 +1,11 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class Keluarga extends CI_Controller {
+
+class Keluarga extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('penduduk_model');
@@ -88,7 +79,6 @@ class Keluarga extends CI_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		$data['grup']	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging'] = $this->keluarga_model->paging($p,$o);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->keluarga_model->autocomplete();
@@ -396,12 +386,14 @@ class Keluarga extends CI_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h');
 		$this->keluarga_model->delete($id);
 		redirect('keluarga');
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->keluarga_model->delete_all();
 		redirect('keluarga');
 	}
@@ -529,12 +521,14 @@ class Keluarga extends CI_Controller {
 
 	public function delete_anggota($p=1, $o=0, $kk=0, $id='')
 	{
+		$this->redirect_hak_akses('h');
 		$this->keluarga_model->rem_anggota($kk,$id);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
 
 	public function delete_all_anggota($p=1, $o=0, $kk=0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->keluarga_model->rem_all_anggota($kk);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
