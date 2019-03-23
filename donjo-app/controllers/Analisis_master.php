@@ -201,14 +201,14 @@ class Analisis_master extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "analisis_master/index/$p/$o");
 		$this->analisis_master_model->delete($id);
 		redirect("analisis_master/index/$p/$o");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "analisis_master/index/$p/$o");
 		$this->analisis_master_model->delete_all();
 		redirect("analisis_master/index/$p/$o");
 	}

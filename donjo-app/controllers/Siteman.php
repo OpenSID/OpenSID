@@ -47,7 +47,10 @@ class Siteman extends CI_Controller {
 				redirect($request_awal);
 			}
 			else
+			{
+				unset($_SESSION['request_uri']);
 				redirect('main');
+			}
 		}
 		else
 			redirect('siteman');

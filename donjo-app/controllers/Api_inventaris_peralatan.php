@@ -101,7 +101,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function delete($id)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', 'inventaris_peralatan');
 		$data = $this->inventaris_peralatan_model->delete($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -110,7 +110,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function delete_mutasi($id)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', 'inventaris_peralatan/mutasi');
 		$data = $this->inventaris_peralatan_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

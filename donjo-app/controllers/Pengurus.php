@@ -109,7 +109,7 @@ class Pengurus extends Admin_Controller {
 
 	public function delete($id = '')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', 'pengurus');
 		$_SESSION['success'] = 1;
 		$outp = $this->pamong_model->delete($id);
 		if (!$outp) $_SESSION['success'] = -1;
@@ -118,7 +118,7 @@ class Pengurus extends Admin_Controller {
 
 	public function delete_all()
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', 'pengurus');
 		$this->pamong_model->delete_all();
 		redirect('pengurus');
 	}

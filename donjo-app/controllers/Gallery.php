@@ -120,7 +120,7 @@ class Gallery extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "gallery/index/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_gallery_model->delete_gallery($id);
 		redirect("gallery/index/$p/$o");
@@ -128,7 +128,7 @@ class Gallery extends Admin_Controller {
 
 	public function delete_all($p=1, $o=0)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "gallery/index/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_gallery_model->delete_all_gallery();
 		redirect("gallery/index/$p/$o");
@@ -239,7 +239,7 @@ class Gallery extends Admin_Controller {
 
 	public function delete_sub_gallery($gallery='', $id='')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "gallery/sub_gallery/$gallery");
 		$_SESSION['success']=1;
 		$this->web_gallery_model->delete($id);
 		redirect("gallery/sub_gallery/$gallery");
@@ -247,7 +247,7 @@ class Gallery extends Admin_Controller {
 
 	public function delete_all_sub_gallery($gallery='')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "gallery/sub_gallery/$gallery");
 		$_SESSION['success']=1;
 		$this->web_gallery_model->delete_all();
 		redirect("gallery/sub_gallery/$gallery");

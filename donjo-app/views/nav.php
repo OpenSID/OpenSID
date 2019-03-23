@@ -25,24 +25,31 @@
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">MENU UTAMA</li>
 			<?php foreach ($modul AS $mod): ?>
-				<li class="<?php if (count($mod['submodul'])>0): ?>treeview<?php endif ?> <?php if ($this->modul_ini==$mod['id']): ?>active<?php endif ?>">
-					<a href="<?= site_url()?><?=$mod['url']?>">
-						<i class="fa <?= $mod['ikon']?> <?php if ($this->modul_ini==$mod['id']): ?>text-aqua<?php endif ?>"></i> <span><?=$mod['modul']?></span>
-						<span class="pull-right-container"><?php if (count($mod['submodul'])>0): ?><i class='fa fa-angle-left pull-right'></i><?php endif ?> </span>
-					</a>
-					<?php if (count($mod['submodul'])>0): ?>
-						<ul class="treeview-menu <?php if ($this->modul_ini==$mod['id']): ?>active<?php endif ?>">
+				<?php if (count($mod['submodul'])==0): ?>
+					<li class="<?php ($this->modul_ini==$mod['id']) and print('active')?>">
+						<a href="<?= site_url()?><?=$mod['url']?>">
+							<i class="fa <?= $mod['ikon']?> <?php ($this->modul_ini==$mod['id']) and print('text-aqua')?>"></i> <span><?=$mod['modul']?></span>
+							<span class="pull-right-container"></span>
+						</a>
+					</li>
+				<?php else : ?>
+					<li class="treeview <?php ($this->modul_ini==$mod['id']) and print('active')?>">
+						<a href="<?= site_url()?><?=$mod['url']?>">
+							<i class="fa <?= $mod['ikon']?> <?php ($this->modul_ini==$mod['id']) and print('text-aqua')?>"></i> <span><?=$mod['modul']?></span>
+							<span class="pull-right-container"><i class='fa fa-angle-left pull-right'></i></span>
+						</a>
+						<ul class="treeview-menu <?php ($this->modul_ini==$mod['id']) and print('active')?>">
 							<?php foreach ($mod['submodul'] as $submod): ?>
-								<li class="<?php if ($act_sub==$submod['id']): ?>active<?php endif ?>">
+								<li class="<?php ($act_sub==$submod['id']) and print('active')?>">
 									<a href="<?= site_url()?><?=$submod['url']?>">
-										<i class="fa <?php if ($submod['ikon']!=NULL): ?><?=$submod['ikon']?><?php else: ?> fa-circle-o<?php endif ?> <?php if ($act_sub==$submod['id']): ?>text-red<?php endif ?>"></i>
+										<i class="fa fa-circle-o <?php ($submod['ikon']!=NULL) and print($submod['ikon'])?> <?php ($act_sub==$submod['id']) and print('text-red')?>"></i>
 										<?=$submod['modul']?>
 									</a>
 								</li>
 							<?php endforeach; ?>
 						</ul>
-					<?php endif; ?>
-				</li>
+					</li>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
 	</section>

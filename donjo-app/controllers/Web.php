@@ -141,7 +141,7 @@ class Web extends Admin_Controller {
 
 	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
 
 		$_SESSION['success'] = 1;
 		$outp = $this->web_artikel_model->delete($id);
@@ -159,7 +159,7 @@ class Web extends Admin_Controller {
 
 	public function delete_all($cat = 1, $p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "web/index/$p/$o");
 		$this->web_artikel_model->delete_all();
 		redirect("web/index/$p/$o");
 	}

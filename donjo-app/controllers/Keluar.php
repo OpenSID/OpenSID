@@ -61,7 +61,7 @@ class Keluar extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "keluar/index/$p/$o");
 		session_error_clear();
 		$this->keluar_model->delete($id);
 		redirect("keluar/index/$p/$o");

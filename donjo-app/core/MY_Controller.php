@@ -166,6 +166,7 @@ class Admin_Controller extends MY_Controller
 		if (!$this->user_model->hak_akses($this->grup, $controller, $akses))
 		{
 			session_error("Anda tidak mempunyai akses pada fitur ini");
+			if (empty($this->grup)) redirect('siteman');
 			empty($redirect) ? redirect('/') : redirect($redirect);
 		}
 	}

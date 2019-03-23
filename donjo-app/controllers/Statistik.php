@@ -170,14 +170,14 @@ class Statistik extends Admin_Controller {
 
 	public function rentang_delete($id = 0)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', 'statistik/rentang_umur');
 		$this->laporan_penduduk_model->delete_rentang($id);
 		redirect('statistik/rentang_umur');
 	}
 
 	public function delete_all_rentang()
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', 'statistik/rentang_umur');
 		$this->laporan_penduduk_model->delete_all_rentang();
 		redirect('statistik/rentang_umur');
 	}

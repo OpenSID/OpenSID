@@ -126,7 +126,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function delete($id = '')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', 'sid_core');
 		$this->wilayah_model->delete($id);
 		redirect('sid_core');
 	}
@@ -229,7 +229,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function delete_rw($id_dusun = '', $id = '')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "sid_core/sub_rw/$id_dusun");
 		$this->wilayah_model->delete_rw($id);
 		redirect("sid_core/sub_rw/$id_dusun");
 	}
@@ -354,7 +354,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function delete_rt($id_cluster = '')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "sid_core/sub_rt/$id_dusun/$rw");
 		$temp = $this->wilayah_model->cluster_by_id($id_cluster);
 		$id_dusun = $temp['id_dusun'];
 		$rw = $temp['rw'];

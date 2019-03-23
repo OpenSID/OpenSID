@@ -159,14 +159,14 @@ class Garis extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "garis/index/$p/$o");
 		$this->plan_garis_model->delete($id);
 		redirect("garis/index/$p/$o");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "garis/index/$p/$o");
 		$this->plan_garis_model->delete_all();
 		redirect("garis/index/$p/$o");
 	}

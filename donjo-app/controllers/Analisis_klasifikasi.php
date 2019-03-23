@@ -96,14 +96,14 @@ class Analisis_klasifikasi extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "analisis_klasifikasi/index/$p/$o");
 		$this->analisis_klasifikasi_model->delete($id);
 		redirect("analisis_klasifikasi/index/$p/$o");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "analisis_klasifikasi/index/$p/$o");
 		$this->analisis_klasifikasi_model->delete_all();
 		redirect("analisis_klasifikasi/index/$p/$o");
 	}

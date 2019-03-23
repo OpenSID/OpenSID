@@ -131,7 +131,7 @@ class Suplemen extends Admin_Controller {
 
 	public function hapus_terdata($id_suplemen, $terdata_id)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "suplemen/rincian/1/$id_suplemen");
 		$this->suplemen_model->hapus_terdata($terdata_id);
 		redirect("suplemen/rincian/1/$id_suplemen");
 	}
@@ -210,7 +210,7 @@ class Suplemen extends Admin_Controller {
 
 	public function hapus($id)
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "suplemen/");
 		$this->suplemen_model->hapus($id);
 		redirect("suplemen/");
 	}

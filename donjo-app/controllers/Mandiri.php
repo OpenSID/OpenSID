@@ -84,7 +84,7 @@ class Mandiri extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', "mandiri");
 		$outp = $this->mandiri_model->delete($id);
 		if ($outp) $_SESSION['success'] = 1;
 			else $_SESSION['success'] = -1;
