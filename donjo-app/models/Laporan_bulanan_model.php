@@ -54,7 +54,7 @@
 		$bulan = $_SESSION['bulanku'];
 		if ( ! empty($bulan))
 		{
-			return " AND bulan = '".$bulan."'";
+			return " AND cast(bulan as signed) = '".$bulan."'";
 		}
 	}
 
