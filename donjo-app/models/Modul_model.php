@@ -8,6 +8,7 @@
     if (!$this->db->field_exists('parent', 'setting_modul'))
     {
       $this->load->model('database_model');
+      $this->load->model('user_model');
       $this->database_model->migrasi_db_cri();
     }
 	}
@@ -33,22 +34,53 @@
 	public function list_aktif()
 	{
 		if (empty($_SESSION['grup'])) return array();
-		$data = $this->db->where('aktif', 1)->where('parent', 0)->where("level >= {$_SESSION['grup']}")
+		$aktif = array();
+		$data = $this->db->where('aktif', 1)->where('parent', 0)
 			->order_by('urut')
 			->get('setting_modul')->result_array();
-			for ($i=0; $i<count($data); $i++)
+		for ($i=0; $i<count($data); $i++)
+		{
+			if ($this->ada_sub_modul($data[$i]['id']))
 			{
 				$data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
 				$data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
+				// Kelompok submenu yg kosong tidak dimasukkan
+				if (!empty($data[$i]['submodul']))
+					$aktif[] = $data[$i];
 			}
-		return $data;
+			else
+			{
+				// Modul yang tidak boleh diakses tidak dimasukkan
+				if ($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b'))
+				{
+					$data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
+					$aktif[] = $data[$i];
+				}
+			}
+		}
+		return $aktif;
+	}
+
+	private function ada_sub_modul($modul_id)
+	{
+		$jml = $this->db->select("count('id') as jml")->
+			where('parent', $modul_id)->
+			get('setting_modul')->row()->jml;
+		return $jml > 0;
 	}
 
 	private function list_sub_modul_aktif($modul_id)
 	{
 		$this->db->where('aktif', 1);
 		$data	= $this->list_sub_modul($modul_id);
-		return $data;
+		$aktif = array();
+		foreach ($data as $sub_modul)
+		{
+			// Modul yang tidak boleh diakses tidak dimasukkan
+			if ($this->user_model->hak_akses($_SESSION['grup'], $sub_modul['url'], 'b'))
+				$aktif[] = $sub_modul;
+		}
+		return $aktif;
 	}
 
 	// Menampilkan tabel sub modul

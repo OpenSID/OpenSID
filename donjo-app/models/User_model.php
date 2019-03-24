@@ -665,7 +665,8 @@ class User_model extends CI_Model {
 		// b = baca; u = ubah; h= hapus
 		if ($group == 1) return true;
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
-		if ($group and in_array($controller, array('user_setting'))) return true;
+		$controller = explode('/', $controller);
+		if ($group and in_array($controller[0], array('user_setting'))) return true;
 
 		$hak_akses = array(
 			// Operator
@@ -769,7 +770,7 @@ class User_model extends CI_Model {
 				'notif' => array('b','u')
 			)
 		);
-		return in_array($akses, $hak_akses[$group][$controller]);
+		return in_array($akses, $hak_akses[$group][$controller[0]]);
 	}
 
 }

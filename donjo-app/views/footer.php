@@ -47,22 +47,25 @@
 			$('document').ready(function()
 			{
 
-				if ( $("#b_komentar").length )
+				setTimeout(function()
 				{
-					$("#b_komentar").load("<?= site_url()?>notif/komentar");
-					var refreshKomentar = setInterval(function()
+					if ( $("#b_komentar").length )
 					{
 						$("#b_komentar").load("<?= site_url()?>notif/komentar");
-					}, 3000);
-				}
-				if ( $("#b_lapor").length )
-				{
-					$("#b_lapor").load("<?= site_url()?>notif/lapor");
-					var refreshLapor = setInterval(function()
+						var refreshKomentar = setInterval(function()
+						{
+							$("#b_komentar").load("<?= site_url()?>notif/komentar");
+						}, 3000);
+					}
+					if ( $("#b_lapor").length )
 					{
 						$("#b_lapor").load("<?= site_url()?>notif/lapor");
-					}, 3000);
-				}
+						var refreshLapor = setInterval(function()
+						{
+							$("#b_lapor").load("<?= site_url()?>notif/lapor");
+						}, 3000);
+					}
+				});
 				if ($('#success-code').val() == 1)
 				{
 					notify = 'success';
