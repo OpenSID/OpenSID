@@ -497,7 +497,9 @@ function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out='')
 function UploadResizeImage($lokasi,$dimensi,$jenis_upload,$fupload_name,$nama_simpan,$old_foto,$tipe_file){
   // Hanya bisa upload jpeg atau png
   $mime_type_image = array("image/jpeg", "image/pjpeg", "image/png", "image/x-png");
-  if(!in_array($tipe_file, $mime_type_image)){
+  $ext_type_image = array(".jpg", ".jpeg", ".png");
+  $ext = get_extension($fupload_name);
+  if(!in_array($tipe_file, $mime_type_image) or !in_array($ext, $ext_type_image)){
     $_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
     $_SESSION['success']=-1;
     return FALSE;

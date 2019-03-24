@@ -27,6 +27,7 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 21. #1981: Tambah setting untuk mengubah warna dasar tema komponen Admin.
 22. #1963: Sekarang Laporan Perkembangan Penduduk (Laporan Bulanan) menampilkan jumlah penduduk pendatang. [bug-fix]
 23. #845, #99, $698 dan semua issue terkait penataan hak akses: sekarang telah diterapkan penataan hak akses pengguna sesuai spesifikasi di http://bit.ly/2Vhqmyz.
+24. #1988: Sekarang nama file gambar yang diunggah di artikel harus berekstensi .jpg, .jpeg atau .png [security-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

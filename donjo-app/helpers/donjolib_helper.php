@@ -538,10 +538,12 @@ function potong_teks($teks, $panjang) {
 	return $abstrak;
 }
 
-	function hash_pin($pin=""){
-		$pin = strrev($pin);
-		$pin = $pin*77;
-		$pin .= "!#@$#%";
-		$pin = md5($pin);
-		return $pin;
-	}
+function hash_pin($pin="")
+{
+	$pin = strrev($pin);
+	$pin = $pin*77;
+	$pin .= "!#@$#%";
+	$pin = md5($pin);
+	return $pin;
+}
+
