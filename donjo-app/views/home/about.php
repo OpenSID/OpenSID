@@ -45,7 +45,8 @@
 					<p>Tingkat user (pengguna) dalam SID:</p>
 					<p>
 						<ol>
-							<li>Administrator : adalah orang/tim yang bertanggung jawab penuh atas olah data dan informasi dalam SID dan website desa. Orang/tim ini ditunjuk oleh pemerintah desa disahkan dengan surat keputusan kepala desa.
+							<li>
+								Administrator : adalah orang/tim yang bertanggung jawab penuh atas olah data dan informasi dalam SID dan website desa. Orang/tim ini ditunjuk oleh pemerintah desa disahkan dengan surat keputusan kepala desa.
 								<ol>
 									<li>Peran olah data : entry, edit, delete data dasar</li>
 									<li>Peran olah informasi : tulis, edit, publish artikel website</li>
@@ -55,13 +56,19 @@
 								Operator: adalah orang/tim yang bertugas membantu administrator mengelola data dan informasi, tetapi dengan kewenangan yang lebih terbatas.
 								<ol>
 									<li>Peran olah data : entry, edit data dasar</li>
-									<li>Peran olah informasi : tulis, edit artikel website</li>
+									<li>Peran olah informasi : tulis, edit artikel website.</li>
 								</ol>
 							</li>
 							<li>
 								Redaksi: adalah orang/tim yang bertugas sebagai redaksi media website desa dan hanya dapat melakukan olah informasi berupa artikel website.
 								<ol>
-									<li>Peran olah informasi : tulis, edit artikel</li>
+									<li>Peran olah informasi : tulis, edit artikel. Redaksi boleh mengubah semua artikel, termasuk menjadikan headline, aktif/non-aktifkan, masukkan ke slider, dsbnya</li>
+								</ol>
+							</li>
+							<li>
+								Kontributor: adalah orang/tim yang bertugas menulis artikel untuk disetujui redaksi untuk ditampilkan di website desa.
+								<ol>
+									<li>Peran olah informasi : tulis, edit artikel yang dibuatnya sendiri. Kontributor tidak dapat menjadikan artikel manapun menjadi headline, aktif/non-aktifkan atau memasukkan ke slider.</li>
 								</ol>
 							</li>
 						</ol>
@@ -100,8 +107,10 @@
 			</div>
 			<div id="collapse5" class="panel-collapse collapse">
 				<div class="box-body">
-					<P>Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Version 3.</P>
-					<P>OpenSID dikembangkan sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa.</P>
+					<p>Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Version 3.</p>
+					<p>Dengan lisensi GPL v3, semua ubahan OpenSID juga berlisensi GPL v3, yaitu bersifat sumber terbuka.<p>
+					<p>OpenSID dikembangkan sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa.</p>
+					<p>Sejak Januari 2019, OpenSID dikelola oleh Perkumpulan Desa Digital Terbuka (OpenDesa). OpenDesa adalah pemegang hak cipta utama OpenSID.
 				</div>
 			</div>
 		</div>
@@ -114,8 +123,8 @@
 			<div id="collapse6" class="panel-collapse collapse">
 				<div class="box-body">
 					<ol>
-						<li>Segala macam informasi OpenSID: </li>
-						<a href="http://opensid.info/" target="_blank">Website resmi OpenSID </a>
+						<li>Website OpenDesa, pengelola OpenSID: </li>
+						<a href="http://opendesa.id/" target="_blank">Website OpenDesa, pengelola OpenSID </a>
 						<li>Group Facebook, tempat mendapatkan bantuan dan berbagi pengalaman: </li>
 						<a href="https://www.facebook.com/groups/opensid/" target="_blank">Forum Pengguna dan Pegiat OpenSID </a>
 						<li>Tempat mengunduh rilis OpenSID:</li>
