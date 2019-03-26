@@ -70,9 +70,18 @@ class First extends Web_Controller {
 		$this->first_m->ganti();
 		redirect('first');
 	}
+	
+	private function cek_migrasi() {
+		$targetVersion = preg_replace('/[^\d\.]/', '', VERSION);
+
+		if (version_compare($this->setting->current_version, $targetVersion, '<')) {
+			redirect('database/migrasi_cri');
+		}
+	}
 
 	public function index($p=1)
 	{
+		$this->cek_migrasi();
 		$data = $this->includes;
 
 		$data['p'] = $p;
