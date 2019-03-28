@@ -71,6 +71,7 @@ class Setting_model extends CI_Model {
 			// Update setting yang diubah
 			if ($this->setting->$key != $value)
 			{
+				$value = strip_tags($value);
 				$outp = $this->db->where('key', $key)->update('setting_aplikasi', array('key'=>$key, 'value'=>$value));
 				$this->setting->$key = $value;
 				if (!$outp) $_SESSION['success'] = -1;
