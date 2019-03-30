@@ -1,16 +1,16 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Facebook</h1>
+		<h1>Pengaturan WhatsApp</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Pengaturan Facebook</li>
+			<li class="active">Pengaturan WhatsApp</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-					<?php $this->load->view('sosmed/_side-menu.php', array('media' => 'facebook')); ?>
+					<?php $this->load->view('sosmed/_side-menu.php', array('media' => 'whatsapp')); ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -18,9 +18,9 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label">Link Akun Facebook</label>
+										<label class="col-sm-3 control-label">Link Nomor WhatsApp</label>
 										<div class="col-sm-9">
-											<textarea id="link" name="link" class="form-control input-sm" placeholder="Link Media Sosial" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
+											<textarea id="link" name="link" class="form-control input-sm" placeholder="Nomor WhatsApp Pelayanan (Misal : +6281234567890)" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">

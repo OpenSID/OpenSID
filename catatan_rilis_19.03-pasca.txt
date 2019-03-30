@@ -1,0 +1,27 @@
+Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Happy Agung, Yusup Cimbar dan Diki Siswqnto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 19.03-pasca:
+
+1. #1944: Tambah tanggal kegiatan agenda untuk artikel statis agenda. Tampilkan tanggal agenda di widget agenda.
+2. #1952: Tambah tombol WhatsApp pada widget Sosial Media.
+3. #1954: Sekarang pengguna tingkatan operator, redaksi dan kontributor dapat membuat artikel baru kembali. [bug-fix]
+4. Sekarang artikel yg tidak boleh dihapus pengguna tidak dapat dihapus menggunakan fitur Hapus Data Terpilih. [bug-fix]
+5. #1602: Tombol simpan tidak ditampilkan di form Lokasi Tempat Tinggal (peta) kalau hanya untuk dilihat saja atau penduduk belum disimpan di database.
+6. Data pamong desa sekarang dapat dibuka pada waktu menggunakan PHP v5.5 ke bawah. [bug-fix]
+7. Tampilkan informasi tambahan di widget Lokasi Kantor Desa.
+8. #1814, #1915: Surat Keterangan Untuk Nikah (N-1 s/d N-7) disesuaikan dengan Keputusan Dirjen Bimas Islam Nomor 713 Tahun 2018.
+9. #1961: Tombol 'Batal' sekarang berfungsi di semua Layanan Surat. [bug-fix]
+10. #1966: Tautan breadcrumb pada laman Home > SID sekarang berfungsi normal. [bug-fix]
+11. #1856: Sesuaikan cetak dan unduh Laporan Kelompok Rentan dengan tampilan halaman menu. Nama file unduhan juga diperbaiki.
+12. Sekarang jumlah di kolom cacat tampil normal di menu cetak dan unduh Laporan Kelompok Rentan. [bug-fix]
+13. Perbaiki Surat Keterangan Nikah, supaya calon wanita bisa diubah-ubah dari warga desa dan luar desa. [bug-fix]
+14. #1970: Rapikan tampilan arsip artikel di web.
+15. #1956: Tambah detail agenda kegiatan pada artikel terkait.
+16. #1973: Tampilkan jabatan penandatangan dan yg mengetahui di laporan cetak/unduh SK Kades dan Perdes. [bug-fix]
+17. SK Kades dan Perdes sekarang tidak error kalau ada filter aktif dari menu lain sebelumnya. [bug-fix]
+18. Form cetak/unduh Surat Masuk, Surat Keluar, SK Kades dan Perdes sekarang mengharuskan penandatangan dan yg mengetahui telah terisi.
+
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -45,5 +45,21 @@ class Web_sosmed_model extends CI_Model {
 		else $_SESSION['success'] = -1;
 	}
 
+	// Penanganan khusus sesuai jenis sosmed
+	public function link_sosmed($id, $link)
+	{
+		if (empty($link)) return $link;
+
+		switch ($id) {
+			case '6':
+				// Whatsapp. $link adalah nomor telpon WA seperti +6281234567890
+				$link = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $link);
+				break;
+			default:
+				break;
+		}
+		return $link;
+	}
+
 }
 ?>

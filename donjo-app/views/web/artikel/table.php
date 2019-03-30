@@ -64,7 +64,14 @@
             <div class="box-header with-border">
 							<?php if ($cat > 0): ?>
 								<a href="<?=site_url("web/form/$cat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-										<i class="fa fa-plus"></i>Tambah <?php if ($kategori): ?><?=$kategori['kategori'];?><?php else: ?>Artikel Statis<?php endif; ?> Baru
+										<i class="fa fa-plus"></i>Tambah
+											<?php if ($kategori): ?>
+												<?=$kategori['kategori'];?>
+											<?php elseif ($cat == 1000): ?>
+												Agenda
+											<?php else: ?>
+												Artikel Statis
+											<?php endif; ?> Baru
 	            	</a>
 							<?php endif; ?>
 							<?php if ($_SESSION['grup']<4): ?>
@@ -133,10 +140,10 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" <?php $data['boleh_ubah'] or print('disabled')?> /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<?php if ($_SESSION['grup'] == 1 or $_SESSION['user'] == $data['id_user']): ?>
+																			<?php if ($data['boleh_ubah']): ?>
 																				<a href="<?=site_url("web/form/$cat/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																				<a href="<?=site_url("web/ubah_kategori_form/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori" title="Ubah Kategori"><i class="fa fa-folder-open"></i></a>
 																				<?php if ($data['boleh_komentar']): ?>

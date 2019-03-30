@@ -21,11 +21,11 @@ class Dokumen_sekretariat extends CI_Controller {
 		$this->controller = 'dokumen_sekretariat';
 	}
 
-	public function clear()
+	public function clear($kat=1)
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
-		redirect('dokumen_sekretariat');
+		redirect("dokumen_sekretariat/index/$kat");
 	}
 
 	public function index($kat=1, $p=1, $o=0)

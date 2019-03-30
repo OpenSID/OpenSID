@@ -5,6 +5,7 @@ class First_artikel_m extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('web_sosmed_model');
 	}
 
 	public function get_headline()
@@ -240,8 +241,13 @@ class First_artikel_m extends CI_Model {
 
 	public function agenda_show()
 	{
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE id_kategori='1000' AND a.enabled = 1
-		AND a.tgl_upload < NOW() ORDER BY a.tgl_upload DESC";
+		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori
+			FROM artikel a
+			LEFT JOIN user u ON a.id_user = u.id
+			LEFT JOIN agenda g ON g.id_artikel = a.id
+			LEFT JOIN kategori k ON a.id_kategori = k.id
+			WHERE id_kategori='1000' AND a.enabled = 1 AND a.tgl_upload < NOW()
+			ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;
@@ -383,6 +389,7 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
+	// Tampilan di widget sosmed
 	public function list_sosmed()
 	{
 		$sql = "SELECT * FROM media_sosial WHERE enabled=1";
@@ -390,6 +397,10 @@ class First_artikel_m extends CI_Model {
 		if ($query->num_rows()>0)
 		{
 			$data  = $query->result_array();
+			for ($i=0; $i<count($data); $i++)
+			{
+				$data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link']);
+			}
 		}
 		else
 		{

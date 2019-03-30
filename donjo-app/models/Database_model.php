@@ -21,7 +21,8 @@
 		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
 		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => '19.01'),
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
-		'19.02' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
+		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -123,6 +124,11 @@
 	return $result;
   }
 
+  private function nop()
+  {
+  	// Tidak lakukan apa-apa
+  }
+
   private function _migrasi_db_cri()
   {
 	$this->migrasi_cri_lama();
@@ -168,6 +174,70 @@
 	$this->migrasi_1811_ke_1812();
 	$this->migrasi_1812_ke_1901();
 	$this->migrasi_1901_ke_1902();
+	$this->migrasi_1903_ke_1904();
+  }
+
+  private function migrasi_1903_ke_1904()
+  {
+		$this->db->where('id', 59)->update('setting_modul', array('url'=>'dokumen_sekretariat/clear/2', 'aktif'=>'1'));
+		$this->db->where('id', 60)->update('setting_modul', array('url'=>'dokumen_sekretariat/clear/3', 'aktif'=>'1'));
+  	// Tambah tabel agenda
+		$tb = 'agenda';
+		if (!$this->db->table_exists($tb))
+		{
+			$this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'auto_increment' => TRUE
+				),
+				'id_artikel' => array(
+					'type' => 'INT',
+					'constraint' => 11
+				),
+				'tgl_agenda' => array(
+					'type' => 'timestamp'
+				),
+				'koordinator_kegiatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50
+				),
+				'lokasi_kegiatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100
+				)
+			));
+			$this->dbforge->add_key('id', true);
+			$this->dbforge->create_table($tb, false, array('ENGINE' => $this->engine));
+			$this->dbforge->add_column(
+				'agenda',
+				array('CONSTRAINT `id_artikel_fk` FOREIGN KEY (`id_artikel`) REFERENCES `artikel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE')
+			);
+		}
+		// Pindahkan tgl_agenda kalau sudah sempat membuatnya
+  	if ($this->db->field_exists('tgl_agenda', 'artikel'))
+  	{
+  		$data = $this->db->select('id, tgl_agenda')->where('id_kategori', AGENDA)
+  			->get('artikel')
+  			->result_array();
+  		if (count($data))
+  		{
+	  		$artikel_agenda = array();
+	  		foreach ($data as $agenda)
+	  		{
+	  			$artikel_agenda[] = array('id_artikel'=>$agenda['id'], 'tgl_agenda'=>$agenda['tgl_agenda']);
+	  		}
+	  		$this->db->insert_batch('agenda', $artikel_agenda);
+  		}
+			$this->dbforge->drop_column('artikel', 'tgl_agenda');
+  	}
+		// Tambah tombol media sosial whatsapp
+		$query = "
+			INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('6', 'wa.png', '', 'WhatsApp', '1')
+			ON DUPLICATE KEY UPDATE
+				gambar = VALUES(gambar),
+				nama = VALUES(nama)";
+		$this->db->query($query);
   }
 
   private function migrasi_1901_ke_1902()

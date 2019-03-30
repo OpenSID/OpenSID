@@ -19,6 +19,7 @@
 		unset($data['pria']);
 		unset($_SESSION['id_pria']);
 	}
+
 	$data['calon_wanita_berbeda'] = true;
 	if ($this->input->post('calon_wanita') == 2) unset($_SESSION['id_wanita']);
 	if ($_POST['id_wanita'] != '' AND $_POST['id_wanita'] != '*'){
