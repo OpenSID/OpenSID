@@ -179,11 +179,12 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
+	  $ext = get_extension($nama_file);
 		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
-			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)))
+			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) or !in_array($ext, unserialize(EXT_DOKUMEN)))
 			{
 				unset($data['link_dokumen']);
 				$_SESSION['error_msg'] .= " -> Jenis file salah: " . $tipe_file;
@@ -309,11 +310,12 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
+	  $ext = get_extension($nama_file);
 		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
-			if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)))
+			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) or !in_array($ext, unserialize(EXT_DOKUMEN)))
 			{
 				unset($data['link_dokumen']);
 				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;

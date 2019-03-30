@@ -29,6 +29,8 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 23. #845, #99, $698 dan semua issue terkait penataan hak akses: sekarang telah diterapkan penataan hak akses pengguna sesuai spesifikasi di http://bit.ly/2Vhqmyz.
 24. #1988: Sekarang nama file gambar yang diunggah di artikel harus berekstensi .jpg, .jpeg atau .png [security-fix]
 25. #1989: Tutup celah xss di pengisian nama menu di form menu. Tutup celah memasukkan html pada setting di Pengaturan Aplikasi. [security-fix]
+26. #1990: Sekarang nama file dokumen lampiran yang diunggah di artikel harus berekstensi .pdf, .ppt, .pptx, .pps, .ppsx, .doc, .docx, .rtf, .xls atau .xlsx [security-fix]
+ [security-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
