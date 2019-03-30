@@ -1,4 +1,4 @@
-Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini hak akses pengguna ditata ulang dan artikel agenda ditambahkan rincian agenda. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Happy Agung, Yusup Cimbar dan Diki Siswanto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
