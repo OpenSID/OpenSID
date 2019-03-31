@@ -1,8 +1,8 @@
 Di rilis ini hak akses pengguna ditata ulang dan artikel agenda ditambahkan rincian agenda. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Happy Agung, Yusup Cimbar dan Diki Siswanto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Happy Agung, Yusup Cimbar dan Diki Siswanto yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi 19.03-pasca:
+Lengkapnya, isi rilis versi 19.04:
 
 1. #1944: Tambah tanggal kegiatan agenda untuk artikel statis agenda. Tampilkan tanggal agenda di widget agenda.
 2. #1952: Tambah tombol WhatsApp pada widget Sosial Media.
@@ -34,4 +34,4 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 27. Jalankan Migrasi DB secara otomatis apabila versi di setting aplikasi sebelum versi rilis.
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
