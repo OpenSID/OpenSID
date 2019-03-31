@@ -65,7 +65,7 @@
 							$("#b_lapor").load("<?= site_url()?>notif/lapor");
 						}, 3000);
 					}
-				});
+				}, 500);
 				if ($('#success-code').val() == 1)
 				{
 					notify = 'success';
