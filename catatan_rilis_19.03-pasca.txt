@@ -31,6 +31,7 @@ Lengkapnya, isi rilis versi 19.03-pasca:
 25. #1989: Tutup celah xss di pengisian nama menu di form menu. Tutup celah memasukkan html pada setting di Pengaturan Aplikasi. [security-fix]
 26. #1990: Sekarang nama file dokumen lampiran yang diunggah di artikel harus berekstensi .pdf, .ppt, .pptx, .pps, .ppsx, .doc, .docx, .rtf, .xls atau .xlsx [security-fix]
  [security-fix]
+27. Jalankan Migrasi DB secara otomatis apabila versi di setting aplikasi sebelum versi rilis.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

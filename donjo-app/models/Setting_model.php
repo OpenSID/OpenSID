@@ -8,17 +8,19 @@ class Setting_model extends CI_Model {
 		$pre = array();
 		$CI = &get_instance();
 
-		if ($this->setting) return;
+		if ($this->setting)
+		{
+			return;
+		}
 		if ($this->config->item("useDatabaseConfig"))
 		{
-			// Terpaksa menjalankan migrasi, karena apabila tabel setting_aplikasi
-			// belum ada, aplikasi tidak bisa di-load, karena model ini di-autoload
-			if (!$this->db->table_exists('setting_aplikasi') )
+			// Paksa menjalankan migrasi kalau tabel setting_aplikasi
+			// belum ada
+			if (!$this->db->table_exists('setting_aplikasi'))
 			{
 				$this->load->model('database_model');
 				$this->database_model->migrasi_db_cri();
 			}
-
 			$pr = $this->db->order_by('key')->get("setting_aplikasi")->result();
 			foreach($pr as $p)
 			{
@@ -32,6 +34,18 @@ class Setting_model extends CI_Model {
 		$CI->setting = (object) $pre;
 		$CI->list_setting = $pr; // Untuk tampilan daftar setting
 		$this->apply_setting();
+	}
+
+	// Cek apakah migrasi perlu dijalankan
+	private function cek_migrasi()
+	{
+		// Paksa menjalankan migrasi kalau versi di setting sebelum versi rilis.
+		$versi_rilis = preg_replace('/[^\d\.]/', '', AmbilVersi());
+		if (version_compare($this->setting->current_version, $versi_rilis, '<'))
+		{
+			$this->load->model('database_model');
+			$this->database_model->migrasi_db_cri();
+		}
 	}
 
 	// Setting untuk PHP
@@ -60,6 +74,7 @@ class Setting_model extends CI_Model {
 				$this->setting->web_theme = "default";
 			}
 		}
+		$this->cek_migrasi();
 	}
 
 	public function update($data)

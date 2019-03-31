@@ -109,13 +109,6 @@ class Header_model extends CI_Model {
 		$lap = $query->row_array();
 		$outp['lapor'] = $lap['jml'];
 
-		// Terpaksa menjalankan migrasi, karena apabila tabel setting_modul
-		// belum ada, menu modul tidak tampil, dan pengguna tidak bisa menjalankan Migrasi DB
-		if (!$this->db->table_exists('setting_modul') )
-		{
-			$this->load->model('database_model');
-			$this->database_model->migrasi_db_cri();
-		}
 		$this->load->model('modul_model');
 		$outp['modul'] = $this->modul_model->list_aktif();
 
