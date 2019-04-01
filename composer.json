@@ -1,0 +1,5 @@
+{
+    "require": {
+        "rebasedata/php-client": "^0.0.3"
+    }
+}
