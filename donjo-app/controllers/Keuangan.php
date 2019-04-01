@@ -46,22 +46,34 @@ class Keuangan extends CI_Controller {
 
   public function proses_impor()
   {
-    $inputFiles = $_FILES['keuangan']['tmp_name'];
-    $ekstensi_diperbolehkan	= array('mde');
-    $nama = $_FILES['keuangan']['name'];
-    $x = explode('.', $nama);
-    $ekstensi = strtolower(end($x));
-    $ukuran	= $_FILES['keuangan']['size'];
-    $file_tmp = $_FILES['keuangan']['tmp_name'];
+    $data['versi_database'] = $_POST['versi_database'];
+    $data['tahun_anggaran'] = $_POST['tahun_anggaran'];
 
-    if(in_array($ekstensi, $ekstensi_diperbolehkan) === true){
-      if (move_uploaded_file($file_tmp, 'upload/keuangan/'.$nama)) {
-        $file = 'upload/keuangan/'.$nama;
-        $this->keuangan_model->convertMDE($file);
-        redirect('keuangan/import_data');
-      }
-    }else{
-      echo 'EKSTENSI FILE YANG DI UPLOAD TIDAK DI PERBOLEHKAN';
-    }
+    // $cek = $this->keuangan_model->cekMasterKeuangan('V'.$_POST['versi_database'],$_POST['tahun_anggaran']);
+    // if ($cek) {
+
+      // print_r('ada');
+    // }else{
+      $inputFiles = $_FILES['keuangan']['tmp_name'];
+      $ekstensi_diperbolehkan	= array('mde');
+      $nama = $_FILES['keuangan']['name'];
+      $x = explode('.', $nama);
+      $ekstensi = strtolower(end($x));
+      $ukuran	= $_FILES['keuangan']['size'];
+      $file_tmp = $_FILES['keuangan']['tmp_name'];
+      $file = 'upload/keuangan/DataAPBDES2018Banglidemulih.mde';
+      	// $inputFiles = ['upload/keuangan/DataAPBDES2018Banglidemulih.mde'];
+      // if(in_array($ekstensi, $ekstensi_diperbolehkan) === true){
+      //   if (move_uploaded_file($file_tmp, 'upload/keuangan/'.$nama)) {
+      //     $file = 'upload/keuangan/'.$nama;
+          $this->keuangan_model->convertMDE($file,$data);
+      //     redirect('keuangan/import_data');
+      //   }
+      // }else{
+      //   echo 'EKSTENSI FILE YANG DI UPLOAD TIDAK DI PERBOLEHKAN';
+      // }
+    // }
+
+
   }
 }
