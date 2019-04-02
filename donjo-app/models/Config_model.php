@@ -13,7 +13,7 @@
 
 	public function insert()
 	{
-		$data = $_POST;
+		$data = $this->bersihkan_post();
 		$data['id'] = 1; // Hanya ada satu row data desa
 		// Data lokasi peta default. Diperlukan untuk menampilkan widget peta lokasi
 		$data['lat'] = '-8.488005310891758';
@@ -39,12 +39,23 @@
 		else $_SESSION['success'] = -1;
 	}
 
+	// TODO: tambahkan validasi di form Identitas Desa
+	private function bersihkan_post()
+	{
+		$data = array();
+		foreach ($this->input->post() as $key => $value)
+		{
+			$data[$key] = strip_tags($value);
+		}
+		return $data;
+	}
+
 	public function update($id=0)
 	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
 
-		$data = $_POST;
+		$data = $this->bersihkan_post();
 		$data['logo'] = $this->uploadLogo();
 
 		if (!empty($data['logo']))
