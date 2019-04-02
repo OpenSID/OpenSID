@@ -430,6 +430,7 @@
 				end as alamat
 				FROM tweb_penduduk u
 				LEFT JOIN tweb_wil_clusterdesa a ON u.id_cluster = a.id
+				LEFT JOIN tweb_wil_clusterdesa a2 ON u.id_cluster = a2.id
 				LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
 				LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
 				LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id

@@ -23,7 +23,7 @@
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
 		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
 		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
-		'19.04' => array('migrate' => 'nop', 'nextVersion' => NULL)
+		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -176,6 +176,12 @@
 	$this->migrasi_1812_ke_1901();
 	$this->migrasi_1901_ke_1902();
 	$this->migrasi_1903_ke_1904();
+	$this->migrasi_1904_ke_1905();
+  }
+
+  private function migrasi_1904_ke_1905()
+  {
+		$this->db->where('id', 62)->update('setting_modul', array('url'=>'gis/clear', 'aktif'=>'1'));
   }
 
   private function migrasi_1903_ke_1904()
