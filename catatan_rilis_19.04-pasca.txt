@@ -7,6 +7,7 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 1. #1995: Perbaiki filter Dusun di halaman Data Calon Pemilih [bug-fix]
 2. Perbaiki filter Dusun menampilkan penduduk di Peta [bug-fix]
 3. Tutup celah menyelipkan html di data Identitas Desa [security-fix]
+4. #1973: Rapikan tampilan ttd di cetak Perdes dan SK Kades.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
