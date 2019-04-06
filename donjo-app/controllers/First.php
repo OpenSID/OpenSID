@@ -109,8 +109,7 @@ class First extends Web_Controller {
 		// Hanya boleh mencetak data pengguna yang login
 		$id = $_SESSION['id'];
 
-		$header = $this->header_model->get_data();
-		$data['desa'] = $header['desa'];
+		$data['desa'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$this->load->view('sid/kependudukan/cetak_biodata',$data);
 	}
@@ -129,7 +128,6 @@ class First extends Web_Controller {
 		$id_kk = $this->penduduk_model->get_id_kk($id);
 		$data = $this->keluarga_model->get_data_cetak_kk($id_kk);
 
-		$header = $this->header_model->get_data();
 		$this->load->view("sid/kependudukan/cetak_kk_all", $data);
 	}
 
