@@ -23,7 +23,8 @@
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
 		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
 		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
-		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => NULL)
+		'19.04' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.05'),
+		'19.05' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => NULL),
 	);
 
 	public function __construct()
@@ -177,8 +178,18 @@
 	$this->migrasi_1901_ke_1902();
 	$this->migrasi_1903_ke_1904();
 	$this->migrasi_1904_ke_1905();
+	$this->migrasi_1905_ke_1906();
   }
 
+	private function migrasi_1904_ke_1905()
+	{
+		$this->db->truncate('widget');
+	  $query = "
+		INSERT INTO setting_modul (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES
+		('16', 'keuangan.php', '1', 'Keuangan', '1', '15', 'keuangan/widget', '');
+	  ";
+	  $this->db->query($query);
+	}
 	private function migrasi_1904_ke_1905()
 	{
 		$this->db->truncate('setting_modul');
