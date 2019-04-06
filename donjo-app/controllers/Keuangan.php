@@ -25,11 +25,15 @@ class Keuangan extends CI_Controller {
 
   public function widget()
   {
+    $data['tahun_anggaran'] = $this->keuangan_model->tahun_anggaran();
+    $data['anggaran_keuangan'] = $this->keuangan_model->anggaran_keuangan();
+    $data['anggaranPAK'] = $this->keuangan_model->anggaranPAK();
+    $data['anggaranStlhPAK'] = $this->keuangan_model->anggaranStlhPAK();
     $header = $this->header_model->get_data();
     $nav['act_sub'] = 203;
     $this->load->view('header', $header);
     $this->load->view('nav', $nav);
-    $this->load->view('keuangan/widget');
+    $this->load->view('keuangan/widget',$data);
     $this->load->view('footer');
   }
 
