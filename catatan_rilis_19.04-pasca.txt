@@ -9,7 +9,7 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 3. Tutup celah menyelipkan html di data Identitas Desa [security-fix]
 4. #1973: Rapikan tampilan ttd di cetak Perdes dan SK Kades.
 5. #1992: Tampilkan foto penduduk menjadi maksimum 200px x 250px.
-6. #1997: Perbaiki link ke informasi dan website terkait OpenSID dan OpenDesa. [bug-fix]
+6. #1997, #1985: Perbaiki link ke informasi dan website terkait OpenSID dan OpenDesa. [bug-fix]
 7. Error Cetak Biodata dan Cetak KK di Layanan Mandiri telah diperbaiki. [bug-fix]
 8. #1998: Sekarang semua ikon submodul di menu navigasi utama komponen Admin muncul kembali. [bug-fix]
 
