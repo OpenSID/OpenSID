@@ -42,7 +42,7 @@
 							<?php foreach ($mod['submodul'] as $submod): ?>
 								<li class="<?php ($act_sub==$submod['id']) and print('active')?>">
 									<a href="<?= site_url()?><?=$submod['url']?>">
-										<i class="fa fa-circle-o <?php ($submod['ikon']!=NULL) and print($submod['ikon'])?> <?php ($act_sub==$submod['id']) and print('text-red')?>"></i>
+										<i class="fa <?= ($submod['ikon'] != NULL) ? $submod['ikon'] : 'fa-circle-o'?> <?php ($act_sub==$submod['id']) and print('text-red')?>"></i>
 										<?=$submod['modul']?>
 									</a>
 								</li>
