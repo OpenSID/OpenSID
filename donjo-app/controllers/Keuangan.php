@@ -29,6 +29,7 @@ class Keuangan extends CI_Controller {
     $data['anggaran_keuangan'] = $this->keuangan_model->anggaran_keuangan();
     $data['anggaranPAK'] = $this->keuangan_model->anggaranPAK();
     $data['anggaranStlhPAK'] = $this->keuangan_model->anggaranStlhPAK();
+    $data['data_grafik'] = $this->keuangan_model->data_grafik();
     $header = $this->header_model->get_data();
     $nav['act_sub'] = 203;
     $this->load->view('header', $header);
@@ -52,12 +53,6 @@ class Keuangan extends CI_Controller {
   {
     $data['versi_database'] = $_POST['versi_database'];
     $data['tahun_anggaran'] = $_POST['tahun_anggaran'];
-
-    // $cek = $this->keuangan_model->cekMasterKeuangan('V'.$_POST['versi_database'],$_POST['tahun_anggaran']);
-    // if ($cek) {
-
-      // print_r('ada');
-    // }else{
       $inputFiles = $_FILES['keuangan']['tmp_name'];
       $ekstensi_diperbolehkan	= array('mde');
       $nama = $_FILES['keuangan']['name'];
@@ -65,19 +60,26 @@ class Keuangan extends CI_Controller {
       $ekstensi = strtolower(end($x));
       $ukuran	= $_FILES['keuangan']['size'];
       $file_tmp = $_FILES['keuangan']['tmp_name'];
-      $file = 'upload/keuangan/DataAPBDES2018Banglidemulih.mde';
-      	// $inputFiles = ['upload/keuangan/DataAPBDES2018Banglidemulih.mde'];
-      // if(in_array($ekstensi, $ekstensi_diperbolehkan) === true){
-      //   if (move_uploaded_file($file_tmp, 'upload/keuangan/'.$nama)) {
-      //     $file = 'upload/keuangan/'.$nama;
+      if(in_array($ekstensi, $ekstensi_diperbolehkan) === true){
+        if (move_uploaded_file($file_tmp, 'upload/keuangan/'.$nama)) {
+          $file = 'upload/keuangan/'.$nama;
           $this->keuangan_model->convertMDE($file,$data);
-      //     redirect('keuangan/import_data');
-      //   }
-      // }else{
-      //   echo 'EKSTENSI FILE YANG DI UPLOAD TIDAK DI PERBOLEHKAN';
-      // }
-    // }
+          redirect('keuangan/import_data');
+        }
+      }else{
+        $_SESSION['success'] = -1;
+        $_SESSION['error_msg'] = 'File Harus Extension .mde';
+        return;
+      }
+  }
 
-
+  public function cekVersiDatabase()
+  {
+    $cek = $this->keuangan_model->cekMasterKeuangan('V'.$_POST['versi_database'],$_POST['tahun_anggaran']);
+    if ($cek) {
+      echo json_encode(1);
+    }else{
+      echo json_encode(0);
+    }
   }
 }
