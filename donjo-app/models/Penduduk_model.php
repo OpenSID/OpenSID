@@ -361,7 +361,7 @@
 			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
 			case 7: $order_sql = ' ORDER BY umur'; break;
 			case 8: $order_sql = ' ORDER BY umur DESC'; break;
-			default:$order_sql = '';
+			default:$order_sql = ' ORDER BY CONCAT(d.no_kk, u.kk_level)';
 		}
 
 		//Paging SQL

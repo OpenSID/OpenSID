@@ -12,5 +12,6 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 6. #1997, #1985: Perbaiki link ke informasi dan website terkait OpenSID dan OpenDesa. [bug-fix]
 7. Error Cetak Biodata dan Cetak KK di Layanan Mandiri telah diperbaiki. [bug-fix]
 8. #1998: Sekarang semua ikon submodul di menu navigasi utama komponen Admin muncul kembali. [bug-fix]
+9. #1982: Sekarang bisa ubah alamat/dusun/rw/rt keluarga di form Ubah Data KK.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

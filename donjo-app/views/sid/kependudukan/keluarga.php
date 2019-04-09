@@ -152,18 +152,17 @@
 																		<a href="<?= site_url("keluarga/anggota/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Anggota Keluarga (KK)"><i class="fa fa-list-ol"></i></a>
 																		<a href="<?= site_url("keluarga/form_a/$p/$o/$data[id]")?>" class="btn btn-success btn-flat btn-sm " title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> </a>
 																		<a href="<?= site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data KK" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-																		<a href="<?= site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Alamat/Pindah Keluarga (KK) Dalam Desa" class="btn bg-navy btn-flat btn-sm"  title="Ubah Alamat/Pindah Keluarga dalam Desa"><i class="fa fa-location-arrow"></i></a>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
 																			<a href="#" data-href="<?= site_url("keluarga/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus/Keluar Dari Daftar Keluarga" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
 																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"><?= $data['no_kk']?></a></td>
-																	<td nowrap><?= strtoupper(unpenetration($data['kepala_kk']))?></td>
+																	<td nowrap><?= strtoupper($data['kepala_kk'])?></td>
 																	<td><?= strtoupper(unpenetration($data['nik']))?></td>
 																	<td><a href="<?= site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?= $data['jumlah_anggota']?></a></td>
 																	<td><?= strtoupper($data['sex'])?></td>
 																	<td><?= strtoupper($data['alamat'])?></td>
-																	<td><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+																	<td><?= strtoupper($data['dusun'])?></td>
 																	<td><?= strtoupper($data['rw'])?></td>
 																	<td><?= strtoupper($data['rt'])?></td>
 																	<td><?= tgl_indo($data['tgl_daftar'])?></td>

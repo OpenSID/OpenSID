@@ -144,7 +144,7 @@
 	{
 		$sql = "FROM tweb_keluarga u
 			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
-			LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id
+			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
 			WHERE 1 ";
 
 		$sql .=	$this->search_sql();
@@ -169,13 +169,16 @@
 			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
 			case 5: $order_sql = ' ORDER BY g.nama'; break;
 			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
-			default:$order_sql = ' ORDER BY u.tgl_daftar DESC';
+			default:$order_sql = ' ORDER BY u.no_kk DESC';
 		}
 
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.sex, t.status_dasar, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota, c.dusun, c.rw, c.rt ".$this->list_data_sql();
+		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.sex, t.status_dasar,
+			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
+			c.dusun, c.rw, c.rt ";
+		$sql .= $this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -545,7 +548,10 @@
 
 	public function get_keluarga($id=0)
 	{
-		$sql = "SELECT * FROM tweb_keluarga WHERE id = ?";
+		$sql = "SELECT k.*, b.dusun as dusun, b.rw as rw
+			FROM tweb_keluarga k
+			LEFT JOIN tweb_wil_clusterdesa b ON k.id_cluster = b.id
+			WHERE k.id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
 		$data['alamat_plus_dusun'] = $data['alamat'];
@@ -784,6 +790,14 @@
 
 		if (!$this->cek_nokk($data)) return;
 
+		// Pindah dusun/rw/rt anggota keluarga kalau berubah
+		if ($data['id_cluster'] != $data['id_cluster_lama']){
+			$this->keluarga_model->pindah_anggota_keluarga($id, $data['id_cluster']);
+		}
+		unset($data['dusun']);
+		unset($data['rw']);
+		unset($data['id_cluster_lama']);
+
 		$id_program = $data['id_program'];
 		unset($data['id_program']);
 		// Update peserta program bantuan untuk kk ini
@@ -811,23 +825,17 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function pindah_proses($id=0, $id_cluster='', $alamat='')
+	private function pindah_anggota_keluarga($id_kk, $id_cluster)
 	{
-		$this->load->model('penduduk_model');
-		// Ubah alamat keluarga
-		$this->db->where('id',$id);
-		if (!empty($alamat)) $data_kel['alamat'] = $alamat;
-		if ($id_cluster AND $id_cluster != '') $data_kel['id_cluster'] = $id_cluster;
-		if (!empty($data_kel)) $this->db->update('tweb_keluarga', $data_kel);
 		// Ubah dusun/rw/rt untuk semua anggota keluarga
-		if ($id_cluster AND $id_cluster != '')
+		if (!empty($id_cluster))
 		{
-			$this->db->where('id_kk',$id);
+			$this->db->where('id_kk', $id_kk);
 			$data['id_cluster'] = $id_cluster;
-			$outp = $this->db->update('tweb_penduduk',$data);
+			$outp = $this->db->update('tweb_penduduk', $data);
 
 			// Tulis log pindah untuk setiap anggota keluarga
-			$sql = "SELECT id FROM tweb_penduduk WHERE id_kk=$id";
+			$sql = "SELECT id FROM tweb_penduduk WHERE id_kk = $id_kk";
 			$query = $this->db->query($sql);
 			$data2 = $query->result_array();
 			foreach ($data2 as $datanya)
@@ -835,7 +843,6 @@
 				$this->penduduk_model->tulis_log_penduduk($datanya[id], '6', date('m'), date('Y'));
 			}
 		}
-
 	}
 
 	public function get_alamat_wilayah($id_kk)
