@@ -15,11 +15,10 @@ class Keuangan_model extends CI_model {
 	*/
 	public function convertMDE($inputFiles,$data)
 	{
-		// print_r($data['tahun_anggaran']);die();
+		
 		$inputFiles = ['upload/keuangan/DataAPBDES2018Banglidemulih.mde'];
 		$client = new Client('freemium');
   	$tables = $client->getDatabaseTables($inputFiles);
-		// print_r($tables);die();
 		if ($tables) {
 			$versi_siskeudes = $client->getDatabaseTableRows($inputFiles,'Ref_Version');
 			if ($versi_siskeudes) {
@@ -241,8 +240,12 @@ class Keuangan_model extends CI_model {
 
 				}
 
-			}else{
 				$_SESSION['success'] = 1;
+				$_SESSION['error_msg'] = '';
+				return;
+
+			}else{
+				$_SESSION['success'] = -1;
 				$_SESSION['error_msg'] = 'File Berhasil Di import';
 				return;
 			}
@@ -341,10 +344,9 @@ FROM ( 	keuangan_mutasi AS A
 
 	public function cekMasterKeuangan($versi_database,$tahun_anggaran)
 	{
-		$sql = "SELECT * FROM keuangan_master WHERE versi_database like '".$versi_database."%' and tahun_anggaran = '".$tahun_anggaran."'  ";
-		$query	= $this->db->query($sql);
-		$data	= $query->result_array();
-		return $data;
+		$this->db->select('versi_database');
+		$result = $this->db->get('keuangan_master')->row();
+		return $result;
 	}
 
 }
