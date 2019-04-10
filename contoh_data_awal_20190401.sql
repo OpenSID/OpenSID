@@ -7195,3 +7195,8 @@ CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_pendud
 
 
 
+#
+# Add login LOCK and  Fail counter support per mandiri user
+#
+
+ALTER TABLE `tweb_penduduk_mandiri` ADD `locked` INT UNSIGNED NULL, ADD `fail_count` SMALLINT UNSIGNED NOT NULL DEFAULT '0';

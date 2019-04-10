@@ -29,7 +29,6 @@ class First extends Web_Controller {
 			}
 		}
 
-		mandiri_timeout();
 		$this->load->model('header_model');
 		$this->load->model('config_model');
 		$this->load->model('first_m');
@@ -49,14 +48,22 @@ class First extends Web_Controller {
 
 	public function auth()
 	{
-		if ($_SESSION['mandiri_wait'] != 1)
+		$result = $this->first_m->siteman();
+		// JSON Response
+		if($this->input->is_ajax_request())
 		{
-			$this->first_m->siteman();
-		}
-		if ($_SESSION['mandiri'] == 1)
-			redirect('first/mandiri/1/1');
-		else
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode(array(
+					'sukses' => $result === true,
+					'pesan' => is_string( $result ) ? $result : null
+				)));
+		}else{
+			if( is_string($result) ){
+				$this->session->set_flashdata('LOGIN_ERROR', $result);
+			}
 			redirect('first');
+		}
 	}
 
 	public function logout()
