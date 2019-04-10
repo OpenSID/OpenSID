@@ -23,8 +23,6 @@
 		// load library form_validation
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('komentar', 'Laporan', 'required');
-		$this->form_validation->set_rules('owner', 'Nama', 'required');
-		$this->form_validation->set_rules('email', 'NIK', 'required');
 
 		if ($this->form_validation->run() == TRUE)
 		{
