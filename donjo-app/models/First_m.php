@@ -72,7 +72,7 @@ class First_m extends CI_Model {
 
 		if ($hash_pin == $row->pin)
 		{
-			if( !isset($lock_updated) ){
+			if( !$lock_updated ){
 				// Reset LOCK dan fail_count
 				$this->db->update('tweb_penduduk_mandiri', array(
 					'locked' => NULL,
