@@ -305,12 +305,21 @@ function LogoDesa($nama_logo)
  * Mengembalikan path file konfigurasi database desa
  *
  * @access  public
- * @return  string
+ * @return  string|bool
  */
 function KonfigurasiDatabase()
 {
-	$konfigurasi_database = LOKASI_CONFIG_DESA . 'database.php';
-	return $konfigurasi_database;
+	// Check konfigurasi DB sesuai Environment
+	if( is_file(LOKASI_CONFIG_DESA . ENVIRONMENT . '/database.php' ) )
+	{
+		return LOKASI_CONFIG_DESA . ENVIRONMENT . '/database.php';
+	}elseif( is_file( LOKASI_CONFIG_DESA . 'database.php' ) )
+	{
+		return LOKASI_CONFIG_DESA . 'database.php';
+	}else
+	{
+		return false;
+	}
 }
 
 function session_error($pesan = '')

@@ -75,7 +75,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $konfigurasi_db = KonfigurasiDatabase();
-if(is_file($konfigurasi_db)) {
+if( $konfigurasi_db ) {
   include($konfigurasi_db);
 }else{
 	$db['default']['hostname'] = 'localhost';
