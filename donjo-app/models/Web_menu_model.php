@@ -98,6 +98,7 @@ class Web_menu_model extends CI_Model {
 		$data = $_POST;
 		$data['tipe'] = $tip;
 		$data['urut'] = $this->urut_max($tip) + 1;
+		$data['nama'] = strip_tags($data['nama']);
 		$outp = $this->db->insert('menu',$data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -107,6 +108,7 @@ class Web_menu_model extends CI_Model {
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data['nama'] = strip_tags($data['nama']);
 		if ($data['link']=="")
 			UNSET($data['link']);
 

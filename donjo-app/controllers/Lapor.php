@@ -1,22 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Lapor extends CI_Controller {
+class Lapor extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-
-		$this->load->model('user_model');
-		$this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($this->grup != 1 AND $this->grup != 2 AND $this->grup != 3)
-		{
-			$this->auth = false;
-		}
-		else
-		{
-			$this->auth = true;
-		}
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
 		$this->load->model('lapor_model');
@@ -24,18 +13,8 @@ class Lapor extends CI_Controller {
 		$this->modul_ini = 14;
 	}
 
-	private function redirect_auth()
-	{
-		if (empty($this->grup))
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-		else
-			unset($_SESSION['request_uri']);
-		redirect('siteman');
-	}
-
 	public function clear()
 	{
-		if (!$this->auth) $this->redirect_auth();
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		redirect('lapor');
@@ -43,7 +22,6 @@ class Lapor extends CI_Controller {
 
 	public function index($p = 1, $o = 0)
 	{
-		if (!$this->auth) $this->redirect_auth();
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -75,7 +53,6 @@ class Lapor extends CI_Controller {
 
 	public function search()
 	{
-		if (!$this->auth) $this->redirect_auth();
 		$cari = $this->input->post('cari');
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
@@ -85,7 +62,6 @@ class Lapor extends CI_Controller {
 
 	public function filter()
 	{
-		if (!$this->auth) $this->redirect_auth();
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
 			$_SESSION['filter'] = $filter;
@@ -128,28 +104,26 @@ class Lapor extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-		if (!$this->auth) $this->redirect_auth();
+		$this->redirect_hak_akses('h', "lapor/index/$p/$o");
 		$this->web_komentar_model->delete($id);
 		redirect("lapor/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		if (!$this->auth) $this->redirect_auth();
+		$this->redirect_hak_akses('h', "lapor/index/$p/$o");
 		$this->web_komentar_model->delete_all();
 		redirect("lapor/index/$p/$o");
 	}
 
 	public function komentar_lock($id = '')
 	{
-		if (!$this->auth) $this->redirect_auth();
 		$this->web_komentar_model->komentar_lock($id, 1);
 		redirect("lapor/index/$p/$o");
 	}
 
 	public function komentar_unlock($id = '')
 	{
-		if (!$this->auth) $this->redirect_auth();
 		$this->web_komentar_model->komentar_lock($id, 2);
 		redirect("lapor/index/$p/$o");
 	}

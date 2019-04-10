@@ -36,6 +36,7 @@
 
 	private function grup_sql()
 	{
+		// Kontributor hanya dapat melihat artikel yg dibuatnya sendiri
 		if ($_SESSION['grup'] == 4)
 		{
 			$kf = $_SESSION['user'];
@@ -167,6 +168,7 @@
 		$data['id_kategori'] = $cat;
 		$data['id_user'] = $_SESSION['user'];
 
+		// Kontributor tidak dapat mengaktifkan artikel
 		if ($_SESSION['grup'] == 4)
 		{
 			$data['enabled'] = 2;
@@ -177,11 +179,12 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
+	  $ext = get_extension($nama_file);
 		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
-			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)))
+			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) or !in_array($ext, unserialize(EXT_DOKUMEN)))
 			{
 				unset($data['link_dokumen']);
 				$_SESSION['error_msg'] .= " -> Jenis file salah: " . $tipe_file;
@@ -307,11 +310,12 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
+	  $ext = get_extension($nama_file);
 		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
-			if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)))
+			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) or !in_array($ext, unserialize(EXT_DOKUMEN)))
 			{
 				unset($data['link_dokumen']);
 				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
@@ -577,7 +581,8 @@
 
 	public function boleh_ubah($id, $user)
 	{
+		// Kontributor hanya boleh mengubah artikel yg ditulisnya sendiri
 		$id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
-		return ($user == $id_user or $_SESSION['grup'] == 1);
+		return ($user == $id_user or $_SESSION['grup'] != 4);
 	}
 }

@@ -54,7 +54,7 @@
 		$bulan = $_SESSION['bulanku'];
 		if ( ! empty($bulan))
 		{
-			return " AND bulan = '".$bulan."'";
+			return " AND cast(bulan as signed) = '".$bulan."'";
 		}
 	}
 
@@ -115,8 +115,8 @@
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='5') as cacat_fisik_mental,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='6') as cacat_lainnya,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='7') as tidak_cacat,
-			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='1') as sakit_L,
-			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='2') as sakit_P,
+			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and sakit_menahun_id <>'14' and id_cluster=c.id and sex='1') as sakit_L,
+			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and sakit_menahun_id <>'14' and id_cluster=c.id and sex='2') as sakit_P,
 			(select count(id) from penduduk_hidup where hamil='1' and id_cluster=c.id) as hamil
 			from  tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) from tweb_penduduk where id_cluster=c.id)>0 ";
 

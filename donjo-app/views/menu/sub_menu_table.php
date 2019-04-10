@@ -47,10 +47,8 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																		  <?php if ($_SESSION['grup']==1): ?>
-																				<a href="<?= site_url("menu/urut/$tip/$data[id]/1/$menu")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-																				<a href="<?= site_url("menu/urut/$tip/$data[id]/2/$menu")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
-                                      <?php endif; ?>
+																			<a href="<?= site_url("menu/urut/$tip/$data[id]/1/$menu")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																			<a href="<?= site_url("menu/urut/$tip/$data[id]/2/$menu")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
                                       <a href="<?=site_url("menu/ajax_add_sub_menu/$tip/$menu/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['enabled'] == '2'): ?>
 																				<a href="<?= site_url("menu/menu_lock_sub_menu/$tip/$menu/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>

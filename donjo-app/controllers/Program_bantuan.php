@@ -1,21 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Program_bantuan extends CI_Controller {
+class Program_bantuan extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->modul_ini = 6;
@@ -140,6 +130,7 @@ class Program_bantuan extends CI_Controller {
 
 	public function hapus_peserta($id, $peserta_id)
 	{
+		$this->redirect_hak_akses('h', "program_bantuan/detail/1/$id");
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
 		redirect("program_bantuan/detail/1/$id");
 	}
@@ -221,6 +212,7 @@ class Program_bantuan extends CI_Controller {
 
 	public function hapus($id)
 	{
+		$this->redirect_hak_akses('h', "program_bantuan/");
 		$this->program_bantuan_model->hapus_program($id);
 		redirect("program_bantuan/");
 	}

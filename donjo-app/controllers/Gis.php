@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Gis extends CI_Controller {
+class Gis extends Admin_Controller {
 
 	public function __construct()
 	{
@@ -14,23 +14,11 @@ class Gis extends CI_Controller {
 			redirect('hom_desa');
 			exit;
 		}
-
-		$this->load->model('user_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
 		$this->load->model('header_model');
-
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->modul_ini = 9;
 		$this->load->database();
 	}

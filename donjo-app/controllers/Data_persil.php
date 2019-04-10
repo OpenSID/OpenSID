@@ -1,22 +1,12 @@
 <?php
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Data_persil extends CI_Controller {
+class Data_persil extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('config_model');
 		$this->load->model('data_persil_model');
@@ -186,6 +176,7 @@ class Data_persil extends CI_Controller {
 	}
 
 	public function hapus_persil_jenis($id){
+		$this->redirect_hak_akses('h', "data_persil/persil_jenis");
 		$this->data_persil_model->hapus_jenis($id);
 		redirect("data_persil/persil_jenis");
 	}
@@ -235,12 +226,14 @@ class Data_persil extends CI_Controller {
 
 	public function hapus_persil_peruntukan($id)
 	{
+		$this->redirect_hak_akses('h', "data_persil/persil_peruntukan");
 		$this->data_persil_model->hapus_peruntukan($id);
 		redirect("data_persil/persil_peruntukan");
 	}
 
 	public function hapus($id)
 	{
+		$this->redirect_hak_akses('h', "data_persil");
 		$this->data_persil_model->hapus_persil($id);
 		redirect("data_persil");
 	}

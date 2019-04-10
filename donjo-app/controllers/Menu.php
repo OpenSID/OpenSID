@@ -1,21 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Menu extends CI_Controller {
+class Menu extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2 AND $grup != 3)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('web_menu_model');
 		$this->load->model('laporan_penduduk_model');
@@ -166,6 +156,7 @@ class Menu extends CI_Controller {
 
 	public function delete($tip = 1, $id = '')
 	{
+		$this->redirect_hak_akses('h', "menu/index/$tip");
 		$_SESSION['success'] = 1;
 		$this->web_menu_model->delete($id);
 		redirect("menu/index/$tip");
@@ -173,6 +164,7 @@ class Menu extends CI_Controller {
 
 	public function delete_all($tip = 1, $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h', "menu/index/$tip/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_menu_model->delete_all();
 		redirect("menu/index/$tip/$p/$o");
@@ -204,12 +196,14 @@ class Menu extends CI_Controller {
 
 	public function delete_sub_menu($tip = '', $menu = '', $id = 0)
 	{
+		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
 		$this->web_menu_model->delete($id);
 		redirect("menu/sub_menu/$tip/$menu");
 	}
 
 	public function delete_all_sub_menu($tip = 1, $menu = '')
 	{
+		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
 		$this->web_menu_model->delete_all();
 		redirect("menu/sub_menu/$tip/$menu");
 	}
@@ -228,11 +222,6 @@ class Menu extends CI_Controller {
 
 	public function urut($tip = 1, $id = 0, $arah = 0, $menu = '')
 	{
-		if ($_SESSION['grup'] != 1)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect('menu'); // hanya untuk administrator
-		}
 		$this->web_menu_model->urut($id, $arah, $tip, $menu);
 		if ($menu != '')
 			redirect("menu/sub_menu/$tip/$menu");

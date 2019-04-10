@@ -1,21 +1,11 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Kelompok_master extends CI_Controller {
+class Kelompok_master extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('kelompok_master_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
@@ -130,12 +120,14 @@ class Kelompok_master extends CI_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h', "kelompok_master/index/$p/$o");
 		$this->kelompok_master_model->delete($id);
 		redirect("kelompok_master/index/$p/$o");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h', "kelompok_master/index/$p/$o");
 		$this->kelompok_master_model->delete_all();
 		redirect("kelompok_master/index/$p/$o");
 	}

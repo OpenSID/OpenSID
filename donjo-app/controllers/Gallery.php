@@ -1,21 +1,11 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Gallery extends CI_Controller {
+class Gallery extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2 AND $grup != 3 AND $grup != 4)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('web_gallery_model');
 		$this->modul_ini = 13;
@@ -130,6 +120,7 @@ class Gallery extends CI_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h', "gallery/index/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_gallery_model->delete_gallery($id);
 		redirect("gallery/index/$p/$o");
@@ -137,6 +128,7 @@ class Gallery extends CI_Controller {
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h', "gallery/index/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_gallery_model->delete_all_gallery();
 		redirect("gallery/index/$p/$o");
@@ -247,6 +239,7 @@ class Gallery extends CI_Controller {
 
 	public function delete_sub_gallery($gallery='', $id='')
 	{
+		$this->redirect_hak_akses('h', "gallery/sub_gallery/$gallery");
 		$_SESSION['success']=1;
 		$this->web_gallery_model->delete($id);
 		redirect("gallery/sub_gallery/$gallery");
@@ -254,6 +247,7 @@ class Gallery extends CI_Controller {
 
 	public function delete_all_sub_gallery($gallery='')
 	{
+		$this->redirect_hak_akses('h', "gallery/sub_gallery/$gallery");
 		$_SESSION['success']=1;
 		$this->web_gallery_model->delete_all();
 		redirect("gallery/sub_gallery/$gallery");

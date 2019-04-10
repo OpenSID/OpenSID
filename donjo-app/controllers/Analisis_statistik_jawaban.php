@@ -1,6 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Analisis_statistik_jawaban extends CI_Controller {
+class Analisis_statistik_jawaban extends Admin_Controller {
 
 	function __construct()
 	{
@@ -8,17 +8,7 @@ class Analisis_statistik_jawaban extends CI_Controller {
 		session_start();
 		$this->load->model('analisis_statistik_jawaban_model');
 		$this->load->model('analisis_respon_model');
-		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$_SESSION['submenu'] = "Statistik Jawaban";
 		$_SESSION['asubmenu'] = "analisis_statistik_jawaban";
 		$this->modul_ini = 5;
@@ -406,12 +396,14 @@ class Analisis_statistik_jawaban extends CI_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h', "analisis_statistik_jawaban/index/$p/$o");
 		$this->analisis_statistik_jawaban_model->delete($id);
 		redirect("analisis_statistik_jawaban/index/$p/$o");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h', "analisis_statistik_jawaban/index/$p/$o");
 		$this->analisis_statistik_jawaban_model->delete_all();
 		redirect("analisis_statistik_jawaban/index/$p/$o");
 	}

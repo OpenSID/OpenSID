@@ -54,7 +54,7 @@
 		<!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 	</head>
-	<body class="skin-purple sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
+	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">
 			<header class="main-header">
 				<a href="<?=site_url()?>first"  target="_blank" class="logo">
@@ -67,12 +67,14 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
-							<?php if (in_array($this->session->grup, array('1', '2', '3'))): ?>
+							<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
 								<li>
 									<a href="<?=site_url()?>komentar">
 										<i class="fa fa-commenting fa-lg" title="Komentar baru"></i><span class="badge" id="b_komentar"></span>
 									</a>
 								</li>
+							<?php endif; ?>
+							<?php if ($this->CI->cek_hak_akses('b', 'lapor')): ?>
 								<li>
 									<a href="<?=site_url()?>lapor">
 										<i class="fa fa-envelope fa-lg" title="Laporan mandiri baru"></i><span class="badge" id="b_lapor"></span>

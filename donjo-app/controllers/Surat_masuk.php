@@ -1,6 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Surat_masuk extends CI_Controller {
+class Surat_masuk extends Admin_Controller {
 
 	public function __construct()
 	{
@@ -8,16 +8,6 @@ class Surat_masuk extends CI_Controller {
 		session_start();
 		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != (1 or 2))
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('surat_masuk_model');
 		$this->load->model('klasifikasi_model');
 		$this->load->model('config_model');
@@ -26,7 +16,6 @@ class Surat_masuk extends CI_Controller {
 		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 15;
 		$this->tab_ini = 2;
-		$this->controller = 'surat_masuk';
 	}
 
 	public function clear($id = 0)
@@ -153,12 +142,14 @@ class Surat_masuk extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h', "surat_masuk/index/$p/$o");
 		$this->surat_masuk_model->delete($id);
 		redirect("surat_masuk/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h', "surat_masuk/index/$p/$o");
 		$this->surat_masuk_model->delete_all();
 		redirect("surat_masuk/index/$p/$o");
 	}

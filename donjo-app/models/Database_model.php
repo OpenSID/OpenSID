@@ -23,8 +23,7 @@
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
 		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
 		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
-		'19.04' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.05'),
-		'19.05' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => NULL),
+		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -133,71 +132,67 @@
 
   private function _migrasi_db_cri()
   {
-	$this->migrasi_cri_lama();
-	$this->migrasi_03_ke_04();
-	$this->migrasi_08_ke_081();
-	$this->migrasi_082_ke_09();
-	$this->migrasi_092_ke_010();
-	$this->migrasi_010_ke_10();
-	$this->migrasi_10_ke_11();
-	$this->migrasi_111_ke_12();
-	$this->migrasi_124_ke_13();
-	$this->migrasi_13_ke_14();
-	$this->migrasi_14_ke_15();
-	$this->migrasi_15_ke_16();
-	$this->migrasi_16_ke_17();
-	$this->migrasi_17_ke_18();
-	$this->migrasi_18_ke_19();
-	$this->migrasi_19_ke_110();
-	$this->migrasi_110_ke_111();
-	$this->migrasi_111_ke_112();
-	$this->migrasi_112_ke_113();
-	$this->migrasi_113_ke_114();
-	$this->migrasi_114_ke_115();
-	$this->migrasi_115_ke_116();
-	$this->migrasi_116_ke_117();
-	$this->migrasi_117_ke_20();
-	$this->migrasi_20_ke_21();
-	$this->migrasi_21_ke_22();
-	$this->migrasi_22_ke_23();
-	$this->migrasi_23_ke_24();
-	$this->migrasi_24_ke_25();
-	$this->migrasi_25_ke_26();
-	$this->migrasi_26_ke_27();
-	$this->migrasi_27_ke_28();
-	$this->migrasi_28_ke_29();
-	$this->migrasi_29_ke_210();
-	$this->migrasi_210_ke_211();
-	$this->migrasi_211_ke_1806();
-	$this->migrasi_1806_ke_1807();
-	$this->migrasi_1808_ke_1809();
-	$this->migrasi_1809_ke_1810();
-	$this->migrasi_1810_ke_1811();
-	$this->migrasi_1811_ke_1812();
-	$this->migrasi_1812_ke_1901();
-	$this->migrasi_1901_ke_1902();
-	$this->migrasi_1903_ke_1904();
-	$this->migrasi_1904_ke_1905();
-	$this->migrasi_1905_ke_1906();
+		$this->migrasi_cri_lama();
+		$this->migrasi_03_ke_04();
+		$this->migrasi_08_ke_081();
+		$this->migrasi_082_ke_09();
+		$this->migrasi_092_ke_010();
+		$this->migrasi_010_ke_10();
+		$this->migrasi_10_ke_11();
+		$this->migrasi_111_ke_12();
+		$this->migrasi_124_ke_13();
+		$this->migrasi_13_ke_14();
+		$this->migrasi_14_ke_15();
+		$this->migrasi_15_ke_16();
+		$this->migrasi_16_ke_17();
+		$this->migrasi_17_ke_18();
+		$this->migrasi_18_ke_19();
+		$this->migrasi_19_ke_110();
+		$this->migrasi_110_ke_111();
+		$this->migrasi_111_ke_112();
+		$this->migrasi_112_ke_113();
+		$this->migrasi_113_ke_114();
+		$this->migrasi_114_ke_115();
+		$this->migrasi_115_ke_116();
+		$this->migrasi_116_ke_117();
+		$this->migrasi_117_ke_20();
+		$this->migrasi_20_ke_21();
+		$this->migrasi_21_ke_22();
+		$this->migrasi_22_ke_23();
+		$this->migrasi_23_ke_24();
+		$this->migrasi_24_ke_25();
+		$this->migrasi_25_ke_26();
+		$this->migrasi_26_ke_27();
+		$this->migrasi_27_ke_28();
+		$this->migrasi_28_ke_29();
+		$this->migrasi_29_ke_210();
+		$this->migrasi_210_ke_211();
+		$this->migrasi_211_ke_1806();
+		$this->migrasi_1806_ke_1807();
+		$this->migrasi_1808_ke_1809();
+		$this->migrasi_1809_ke_1810();
+		$this->migrasi_1810_ke_1811();
+		$this->migrasi_1811_ke_1812();
+		$this->migrasi_1812_ke_1901();
+		$this->migrasi_1901_ke_1902();
+		$this->migrasi_1903_ke_1904();
+		$this->migrasi_1904_ke_1905();
   }
 
-	private function migrasi_1904_ke_1905()
-	{
-		$this->db->truncate('widget');
+  private function migrasi_1904_ke_1905()
+  {
+		$this->db->where('id', 62)->update('setting_modul', array('url'=>'gis/clear', 'aktif'=>'1'));
+
 	  $query = "
-		INSERT INTO setting_modul (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES
-		('16', 'keuangan.php', '1', 'Keuangan', '1', '15', 'keuangan/widget', '');
+			INSERT INTO setting_modul (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES
+			('16', 'keuangan.php', '1', 'Keuangan', '1', '15', 'keuangan/widget', '');
 	  ";
 	  $this->db->query($query);
-	}
-	private function migrasi_1904_ke_1905()
-	{
-		$this->db->truncate('setting_modul');
 	  $query = "
-		INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
-		('201', 'Keuangan', 'keuangan', '1', 'fa-balance-scale', '6', '2', '0', '0', 'fa-balance-scale'),
-		('202', 'Impor Data', 'keuangan/import_data', '1', 'fa-cloud-upload', '6', '2', '201', '0', 'fa-cloud-upload'),
-		('203', 'Widget', 'keuangan/widget', '1', 'fa-bar-chart', '6', '2', '201', '0', 'fa-bar-chart');
+			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
+			('201', 'Keuangan', 'keuangan', '1', 'fa-balance-scale', '6', '2', '0', '0', 'fa-balance-scale'),
+			('202', 'Impor Data', 'keuangan/import_data', '1', 'fa-cloud-upload', '6', '2', '201', '0', 'fa-cloud-upload'),
+			('203', 'Widget', 'keuangan/widget', '1', 'fa-bar-chart', '6', '2', '201', '0', 'fa-bar-chart');
 	  ";
 	  $this->db->query($query);
 	}
@@ -263,6 +258,36 @@
 				gambar = VALUES(gambar),
 				nama = VALUES(nama)";
 		$this->db->query($query);
+		// Tambahkan setting aplikasi untuk mengubah warna tema komponen Admin
+		$query = $this->db->select('1')->where('key', 'warna_tema_admin')->get('setting_aplikasi');
+		if (!$query->result())
+		{
+			$data = array(
+				'key' => 'warna_tema_admin',
+				'value' => $setting->value ?: 'skin-purple',
+				'jenis' => 'option-value',
+				'keterangan' => 'Warna dasar tema komponen Admin'
+			);
+			$this->db->insert('setting_aplikasi', $data);
+			$setting_id = $this->db->insert_id();
+			$this->db->insert_batch(
+				'setting_aplikasi_options',
+				array(
+					array('id_setting'=>$setting_id, 'value'=>'skin-blue'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-blue-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-yellow'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-yellow-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-green'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-green-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-purple'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-purple-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-red'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-red-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-black'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-black-light')
+				)
+			);
+		}
   }
 
   private function migrasi_1901_ke_1902()
@@ -3272,6 +3297,8 @@
 			"ref_pindah",
 			"setting_modul",
 			"setting_aplikasi",
+			"setting_aplikasi_options",
+			"skin_sid",
 			"tweb_cacat",
 			"tweb_cara_kb",
 			"tweb_golongan_darah",

@@ -1,25 +1,13 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Point extends CI_Controller {
+class Point extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
-
 		$this->load->model('header_model');
 		$this->load->model('plan_point_model');
-
 		$this->load->database();
 		$this->modul_ini = 9;
 	}
@@ -158,12 +146,14 @@ class Point extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h', "point/index/$p/$o");
 		$this->plan_point_model->delete($id);
 		redirect("point/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h', "point/index/$p/$o");
 		$this->plan_point_model->delete_all();
 		redirect("point/index/$p/$o");
 	}
@@ -194,12 +184,14 @@ class Point extends CI_Controller {
 
 	public function delete_sub_point($point = '', $id = '')
 	{
+		$this->redirect_hak_akses('h', "point/sub_point/$point");
 		$this->plan_point_model->delete_sub_point($id);
 		redirect("point/sub_point/$point");
 	}
 
 	public function delete_all_sub_point($point = '')
 	{
+		$this->redirect_hak_akses('h', "point/sub_point/$point");
 		$this->plan_point_model->delete_all_sub_point();
 		redirect("point/sub_point/$point");
 	}

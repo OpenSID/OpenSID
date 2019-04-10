@@ -655,6 +655,124 @@ class User_model extends CI_Model {
 		return (!empty($uploadData)) ? $uploadData['file_name'] : NULL;
 	}
 
+	/*
+	 * Hak akses setiap controller.
+	 * TODO: pindahkan menggunakan authentication/authorisation library
+	*/
+	public function hak_akses($group, $controller, $akses)
+	{
+		// Group admin punya akses global
+		// b = baca; u = ubah; h= hapus
+		if ($group == 1) return true;
+		// Controller yang boleh diakses oleh semua pengguna yg telah login
+		$controller = explode('/', $controller);
+		if ($group and in_array($controller[0], array('user_setting'))) return true;
+
+		$hak_akses = array(
+			// Operator
+			2 => array(
+				// home
+				'hom_sid' => array('b','u'),
+				// info desa
+				'hom_desa' => array('b','u'),
+				'pengurus' => array('b','u'),
+				'sid_core' => array('b','u'),
+				// kependudukan
+				'dpt' => array('b','u'),
+				'keluarga' => array('b','u'),
+				'kelompok' => array('b','u'),
+				'kelompok_master' => array('b','u'),
+				'penduduk' => array('b','u'),
+				'penduduk_log' => array('b','u'),
+				'rtm' => array('b','u'),
+				'suplemen' => array('b','u'),
+				// statistik
+				'laporan' => array('b','u'),
+				'laporan_rentan' => array('b','u'),
+				'statistik' => array('b','u'),
+				// analisis
+				'analisis_indikator' => array('b','u'),
+				'analisis_kategori' => array('b','u'),
+				'analisis_klasifikasi' => array('b','u'),
+				'analisis_laporan' => array('b','u'),
+				'analisis_master' => array('b','u'),
+				'analisis_periode' => array('b','u'),
+				'analisis_respon' => array('b','u'),
+				'analisis_statistik_jawaban' => array('b','u'),
+				// bantuan
+				'program_bantuan' => array('b','u'),
+				// inventaris
+				'api_inventaris_asset' => array('b','u'),
+				'api_inventaris_gedung' => array('b','u'),
+				'api_inventaris_jalan' => array('b','u'),
+				'api_inventaris_kontruksi' => array('b','u'),
+				'api_inventaris_peralatan' => array('b','u'),
+				'api_inventaris_tanah' => array('b','u'),
+				'inventaris_asset' => array('b','u'),
+				'inventaris_gedung' => array('b','u'),
+				'inventaris_jalan' => array('b','u'),
+				'inventaris_kontruksi' => array('b','u'),
+				'inventaris_peralatan' => array('b','u'),
+				'inventaris_tanah' => array('b','u'),
+				'laporan_inventaris' => array('b','u'),
+				// pemetaan
+				'area' => array('b','u'),
+				'garis' => array('b','u'),
+				'gis' => array('b','u'),
+				'line' => array('b','u'),
+				'plan' => array('b','u'),
+				'point' => array('b','u'),
+				'polygon' => array('b','u'),
+				// sms
+				'sms' => array('b','u'),
+				// pertanahan
+				'data_persil' => array('b','u'),
+				// admin web
+				'dokumen' => array('b','u'),
+				'gallery' => array('b','u'),
+				'kategori' => array('b','u'),
+				'komentar' => array('b','u','h'),
+				'menu' => array('b','u'),
+				'sosmed' => array('b','u'),
+				'web' => array('b','u'),
+				'web_widget' => array('b','u'),
+				// pengaturan
+				'modul' => array('b','u'),
+				// sekretariat
+				'sekretariat' => array('b','u'),
+				'surat_masuk' => array('b','u'),
+				'surat_keluar' => array('b','u'),
+				'dokumen_sekretariat' => array('b','u'),
+				// layanan surat
+				'keluar' => array('b','u'),
+				'surat' => array('b','u'),
+				'surat_master' => array('b','u'),
+				// layanan mandiri
+				'lapor' => array('b','u'),
+				'mandiri' => array('b','u'),
+				// notifikasi
+				'notif' => array('b','u')
+			),
+			// Redaktur
+			3 => array(
+				// admin web
+				'komentar' => array('b','u'),
+				'web' => array('b','u'),
+				// notifikasi
+				'notif' => array('b','u')
+			),
+			// Kontributor
+			4 => array(
+				// admin web
+				'komentar' => array('b','u'),
+				'web' => array('b','u'),
+				// notifikasi
+				'notif' => array('b','u')
+			)
+		);
+		return in_array($akses, $hak_akses[$group][$controller[0]]);
+	}
+
 }
 
 ?>

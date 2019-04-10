@@ -27,7 +27,7 @@
 							<a href="<?= site_url("gallery/form_sub_gallery/$gallery")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Album">
 								<i class="fa fa-plus"></i> Tambah Gambar Baru
             	</a>
-							<?php if ($_SESSION['grup']<4): ?>
+							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("gallery/delete_all_sub_gallery/$gallery")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 							<a href="<?= site_url("gallery")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Album">
@@ -100,7 +100,7 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("gallery/form_sub_gallery/$gallery/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php if ($_SESSION['grup']<4): ?>
+																			<?php if ($this->CI->cek_hak_akses('h')): ?>
                                         <?php if ($data['enabled'] == '2'): ?>
                                           <a href="<?= site_url("gallery/gallery_lock/".$data['id']."/$gallery")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Gambar"><i class="fa fa-lock">&nbsp;</i></a>
                                         <?php elseif ($data['enabled'] == '1'): ?>

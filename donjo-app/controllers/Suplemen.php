@@ -1,21 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Suplemen extends CI_Controller {
+class Suplemen extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('suplemen_model');
 		$this->modul_ini = 2;
@@ -141,6 +131,7 @@ class Suplemen extends CI_Controller {
 
 	public function hapus_terdata($id_suplemen, $terdata_id)
 	{
+		$this->redirect_hak_akses('h', "suplemen/rincian/1/$id_suplemen");
 		$this->suplemen_model->hapus_terdata($terdata_id);
 		redirect("suplemen/rincian/1/$id_suplemen");
 	}
@@ -219,6 +210,7 @@ class Suplemen extends CI_Controller {
 
 	public function hapus($id)
 	{
+		$this->redirect_hak_akses('h', "suplemen/");
 		$this->suplemen_model->hapus($id);
 		redirect("suplemen/");
 	}

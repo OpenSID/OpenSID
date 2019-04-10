@@ -1,23 +1,15 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class Keluarga extends CI_Controller {
+
+class Keluarga extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('wilayah_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('referensi_model');
 		$this->modul_ini = 2;
@@ -88,7 +80,6 @@ class Keluarga extends CI_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		$data['grup']	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging'] = $this->keluarga_model->paging($p,$o);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->keluarga_model->autocomplete();
@@ -275,6 +266,9 @@ class Keluarga extends CI_Controller {
 	public function edit_nokk($p=1, $o=0, $id=0)
 	{
 		$data['kk'] = $this->keluarga_model->get_keluarga($id);
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['rw'] = $this->wilayah_model->list_rw($data['kk']['dusun']);
+		$data['rt'] = $this->wilayah_model->list_rt($data['kk']['dusun'], $data['kk']['rw']);
 		$data['program'] = $this->program_bantuan_model->list_program_keluarga($id);
 		$data['keluarga_sejahtera'] = $this->referensi_model->list_data('tweb_keluarga_sejahtera');
 		$data['form_action'] = site_url("keluarga/update_nokk/$id");
@@ -396,12 +390,14 @@ class Keluarga extends CI_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h', 'keluarga');
 		$this->keluarga_model->delete($id);
 		redirect('keluarga');
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h', 'keluarga');
 		$this->keluarga_model->delete_all();
 		redirect('keluarga');
 	}
@@ -529,64 +525,16 @@ class Keluarga extends CI_Controller {
 
 	public function delete_anggota($p=1, $o=0, $kk=0, $id='')
 	{
+		$this->redirect_hak_akses('h', "keluarga/anggota/$p/$o/$kk");
 		$this->keluarga_model->rem_anggota($kk,$id);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
 
 	public function delete_all_anggota($p=1, $o=0, $kk=0)
 	{
+		$this->redirect_hak_akses('h', "keluarga/anggota/$p/$o/$kk");
 		$this->keluarga_model->rem_all_anggota($kk);
 		redirect("keluarga/anggota/$p/$o/$kk");
-	}
-
-	public function pindah_proses($id=0)
-	{
-		$id_cluster = $_POST['id_cluster'];
-		$alamat = $_POST['alamat'];
-		$this->keluarga_model->pindah_proses($id,$id_cluster,$alamat);
-		redirect("keluarga");
-	}
-
-	public function ajax_penduduk_pindah($id=0)
-	{
-		$data['kepala_keluarga'] = $this->keluarga_model->get_kepala_kk($id);
-		$data['alamat_wilayah'] = $this->keluarga_model->get_alamat_wilayah($id);
-		$data['dusun'] = $this->penduduk_model->list_dusun();
-
-		$data['form_action'] = site_url("keluarga/pindah_proses/$id");
-		$this->load->view('sid/kependudukan/ajax_pindah_form', $data);
-	}
-
-	public function ajax_penduduk_pindah_rw($dusun='')
-	{
-		$dusun = urldecode($dusun);
-		$rw = $this->penduduk_model->list_rw($dusun);
-		//$this->load->view("sid/kependudukan/ajax_penduduk_pindah_form_rw", $data);
-		echo"<td>RW</td>
-		<td><select name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
-		<option value=''>Pilih RW&nbsp;</option>";
-		foreach ($rw as $data)
-		{
-			echo "<option>".$data['rw']."</option>";
-		}
-		echo"</select>
-		</td>";
-	}
-
-	public function ajax_penduduk_pindah_rt($dusun='', $rw='')
-	{
-		$dusun = urldecode($dusun);
-		$rt = $this->penduduk_model->list_rt($dusun,$rw);
-		//$this->load->view("sid/kependudukan/ajax_penduduk_pindah_form_rt", $data);
-		echo "<td>RT</td>
-		<td><select name='id_cluster'>
-		<option value=''>Pilih RT&nbsp;</option>";
-		foreach ($rt as $data)
-		{
-			echo "<option value=".$data['rt'].">".$data['rt']."</option>";
-		}
-		echo"</select>
-		</td>";
 	}
 
 	public function statistik($tipe=0, $nomor=0, $sex=null, $p=1, $o=0)

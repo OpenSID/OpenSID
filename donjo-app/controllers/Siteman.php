@@ -40,14 +40,18 @@ class Siteman extends CI_Controller {
 		{
 			$this->user_model->validate_admin_has_changed_password();
 			$_SESSION['dari_login'] = '1';
-			if (isset($_SESSION['request_uri']))
+			// Notif bisa dipanggil sewaktu-waktu dan tidak digunakan untuk redirect
+			if (isset($_SESSION['request_uri']) and strpos($_SESSION['request_uri'], 'notif/') === false)
 			{
 				$request_awal = str_replace(parse_url(site_url(), PHP_URL_PATH), '', $_SESSION['request_uri']);
 				unset($_SESSION['request_uri']);
 				redirect($request_awal);
 			}
 			else
+			{
+				unset($_SESSION['request_uri']);
 				redirect('main');
+			}
 		}
 		else
 			redirect('siteman');

@@ -1,22 +1,11 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Dpt extends CI_Controller {
+class Dpt extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
-
 		$this->load->model('penduduk_model');
 		$this->load->model('dpt_model');
 		$this->load->model('header_model');
@@ -138,7 +127,6 @@ class Dpt extends CI_Controller {
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['grup']	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging'] = $this->dpt_model->paging($p, $o);
 		$data['main'] = $this->dpt_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->dpt_model	->autocomplete();

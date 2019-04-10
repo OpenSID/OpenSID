@@ -1,21 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Sid_Core extends CI_Controller {
+class Sid_Core extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
@@ -46,7 +36,6 @@ class Sid_Core extends CI_Controller {
 			$_SESSION['per_page'] = $_POST['per_page'];
 
 		$data['per_page'] = $_SESSION['per_page'];
-		$data['grup'] = $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging'] = $this->wilayah_model->paging($p, $o);
 		$data['main'] = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->wilayah_model->autocomplete();
@@ -137,6 +126,7 @@ class Sid_Core extends CI_Controller {
 
 	public function delete($id = '')
 	{
+		$this->redirect_hak_akses('h', 'sid_core');
 		$this->wilayah_model->delete($id);
 		redirect('sid_core');
 	}
@@ -239,6 +229,7 @@ class Sid_Core extends CI_Controller {
 
 	public function delete_rw($id_dusun = '', $id = '')
 	{
+		$this->redirect_hak_akses('h', "sid_core/sub_rw/$id_dusun");
 		$this->wilayah_model->delete_rw($id);
 		redirect("sid_core/sub_rw/$id_dusun");
 	}
@@ -363,6 +354,7 @@ class Sid_Core extends CI_Controller {
 
 	public function delete_rt($id_cluster = '')
 	{
+		$this->redirect_hak_akses('h', "sid_core/sub_rt/$id_dusun/$rw");
 		$temp = $this->wilayah_model->cluster_by_id($id_cluster);
 		$id_dusun = $temp['id_dusun'];
 		$rw = $temp['rw'];
