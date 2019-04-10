@@ -27,7 +27,11 @@ class MY_Controller extends CI_Controller {
         } else {
 	        $this->theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
 	        $this->theme_folder = preg_match("/desa\//", strtolower($this->setting->web_theme)) ? "desa/themes" : "themes";
-        }
+		}
+		// define Theme URL & Theme Directory
+		define('THEME_URL', base_url($this->theme_folder . '/' . $this->theme) );
+		define('THEME_DIR', realpath(FCPATH . $this->theme_folder . DIRECTORY_SEPARATOR . $this->theme));
+
         // declare main template
         $this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
 		}
