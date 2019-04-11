@@ -29,9 +29,9 @@
 										<tr>
 											<td class="top" width="60%">
 												<div class="nowrap">
-													<label style="width: 100px;">Laporan. No</label>
+													<label style="width: 150px;">Laporan. No</label>
 													<label>:</label>
-													<span><?= date("d-m-Y")?>-00001</span>
+													<span><?= $laporan_no?></span>
 												</div>
 											</td>
 											<td class="top">
@@ -54,7 +54,8 @@
 										<tr>
 											<td class="top">
 												<div class="nowrap">
-													<span style="width: 150px;"> <?= $stat?></span>
+													<label style="width: 150px;"> <?= $stat?></label>
+													<label>:</label>
 													<span></span>
 													<strong style="font-size: 13px;"></strong>
 												</div>
@@ -62,18 +63,6 @@
 													<span style="width: 150px;"></span>
 													<span></span>
 													<strong style="font-size: 14px;font-style:italic"></strong>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								<table class="noborder">
-									<tbody>
-										<tr>
-											<td class="top">
-												<div class="nowrap">
-													<span></span>
-													<span>:</span>
 												</div>
 											</td>
 										</tr>
@@ -137,34 +126,22 @@
 											</td>
 											<td class="top" align="center" width="30%">
 												<div class="nowrap"><label>&nbsp;</label></div>
-												<div class="nowrap"><label><br>KEPALA <?= (strtoupper($this->setting->sebutan_desa)." ".strtoupper($config['nama_desa']))?></label></div>
+												<div class="nowrap"><label><?= ucwords($this->setting->sebutan_desa)?> <?= $config['nama_desa']?>, 
+													<?= tgl_indo(date("Y m d"))?><br>KEPALA DESA/LURAH <?= (strtoupper($config['nama_desa']))?><br>
+												</div>
 												<div style="height: 50px;"></div>
 												<div class="nowrap"><strong style="text-transform: uppercase;"></strong></div>
-												<div class="nowrap"><label>NIP. </label></div>
+												<div class="nowrap">( <?= $pamong_ttd['pamong_nama']?> )<br>NIP <?= $pamong_ttd['pamong_niap_nip']?></div>
 											</td>
 										</tr>
 									</tbody>
 								</table>
 								<br>
-								<table class="noborder">
-									<tbody>
-										<tr>
-											<td class="top">
-												<div class="nowrap" style="font-style:italic;">
-													<label></label>
-													<label>:</label>
-													<strong>-</strong>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-									</table>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date("Y m d"))?>
 		</div>
 	</body>
 </html>
