@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Diki Siswanto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Agung Sugiarto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.04-pasca:
 
