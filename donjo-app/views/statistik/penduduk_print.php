@@ -36,18 +36,6 @@
 													<span><?= $laporan_no?></span>
 												</div>
 											</td>
-											<td class="top">
-												<div class="nowrap">
-													<label style="width: 100px;"></label>
-													<label>:</label>
-													<span>-</span>
-												</div>
-												<div class="nowrap">
-													<label style="width: 100px;"></label>
-													<label>:</label>
-													<span>-</span>
-												</div>
-											</td>
 										</tr>
 									</tbody>
 								</table>
