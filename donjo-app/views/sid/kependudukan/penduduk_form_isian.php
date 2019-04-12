@@ -55,9 +55,26 @@
 				break;
 		}
 	}
+	function ubah_dusun(dusun)
+	{
+		$('#isi_rt').hide();
+		var rw = $('#rw');
+		select_options(rw, dusun);
+	}
+
+	function ubah_rw(dusun, rw)
+	{
+		$('#isi_rt').show();
+		var rt = $('#id_cluster');
+		var params = dusun + '/' + rw;
+		select_options(rt, params);
+	}
 </script>
 
 <div class="col-md-3">
+	<?php if (!$kk_baru): ?>
+		<input name="no_kk" type="hidden" value="<?= $penduduk['no_kk'] ?>">
+	<?php endif; ?>
 	<div class="box box-primary">
 		<div class="box-body box-profile">
 			<?php if ($penduduk['foto']): ?>
@@ -394,6 +411,58 @@
 				<div class='col-sm-12'>
 					<div class="form-group subtitle_head">
 						<label class="text-right"><strong>ALAMAT :</strong></label>
+					</div>
+				</div>
+				<?php if (!empty($penduduk['no_kk']) or $kk_baru) : ?>
+					<div class='col-sm-12'>
+						<div class='form-group'>
+							<label for="telepon">Alamat KK </label>
+							<input id="alamat"  name="alamat"  class="form-control input-sm" type="text" placeholder="Alamat di Kartu Keluarga" size="20" value="<?= $penduduk['alamat']?>"></input>
+						</div>
+					</div>
+				<?php endif; ?>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class='form-group col-sm-3'>
+							<label><?= ucwords($this->setting->sebutan_dusun)?> <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+							<select name="dusun" class="form-control input-sm required" onchange="ubah_dusun($(this).val())">
+								<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
+								<?php foreach ($dusun as $data): ?>
+									<option value="<?= $data['dusun']?>" <?php selected($penduduk['dusun'], $data['dusun']) ?>><?= $data['dusun']?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class='form-group col-sm-2'>
+							<label>RW <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+							<select
+							  id="rw"
+							  class="form-control input-sm required"
+							  name="rw"
+							  data-source="<?= site_url()?>wilayah/list_rw/"
+							  data-valueKey="rw"
+							  data-displayKey="rw"
+							  onchange="ubah_rw($('select[name=dusun]').val(), $(this).val())">
+								<option class="placeholder" value="">Pilih RW</option>
+								<?php foreach ($rw as $data): ?>
+									<option value="<?= $data['rw']?>" <?php selected($penduduk['rw'], $data['rw']) ?>><?= $data['rw']?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div id='isi_rt' class='form-group col-sm-2'>
+							<label>RT <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+							<select
+							  id="id_cluster"
+							  class="form-control input-sm required"
+							  name="id_cluster"
+							  data-source="<?= site_url()?>wilayah/list_rt/"
+							  data-valueKey="id"
+							  data-displayKey="rt">
+								<option class="placeholder" value="">Pilih RT </option>
+								<?php foreach ($rt as $data): ?>
+									<option value="<?= $data['id']?>" <?php selected($penduduk['id_cluster'], $data['id']) ?>><?= $data['rt']?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
 					</div>
 				</div>
 				<div class='col-sm-4'>

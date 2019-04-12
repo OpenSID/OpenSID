@@ -461,6 +461,30 @@ function cari_nik()
 	});
 }
 
+// Ganti pilihan RW dan RT di form penduduk
+function select_options(select, params)
+{
+	var url_data = select.attr('data-source') + params;
+	select
+		.find('option').not('.placeholder')
+		.remove()
+		.end();
+
+  $.ajax({
+    url: url_data,
+  }).then(function(options) {
+    JSON.parse(options).forEach((option) => {
+      var option_elem = $('<option>');
+
+      option_elem
+        .val(option[select.attr('data-valueKey')])
+        .text(option[select.attr('data-displayKey')]);
+
+      select.append(option_elem);
+    });
+  });
+}
+
 $(function(){
 	$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'0.5px solid #7a82eb'});
 	$('#op_item input').change(function()
