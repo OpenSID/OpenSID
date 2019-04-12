@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Diki Siswanto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.04-pasca:
 
@@ -13,5 +13,6 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 7. Error Cetak Biodata dan Cetak KK di Layanan Mandiri telah diperbaiki. [bug-fix]
 8. #1998: Sekarang semua ikon submodul di menu navigasi utama komponen Admin muncul kembali. [bug-fix]
 9. #1982: Sekarang bisa ubah alamat/dusun/rw/rt keluarga di form Ubah Data KK dan di form Ubah Biodata anggota keluarga. Juga bisa ubah alamat/dusun/rw/rt penduduk lepas di form Ubah Biodata.
+10. #2000: Sediakan form untuk mengisi penandatangan dan nomor untuk cetak/unduh laporan statistik kependudukan.
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
