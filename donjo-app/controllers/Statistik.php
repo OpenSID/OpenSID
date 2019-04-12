@@ -114,6 +114,14 @@ class Statistik extends Admin_Controller {
 		$this->load->view('statistik/ajax_cetak', $data);
 	}
 
+	public function dialog_unduh($lap = 0)
+	{
+		$data['aksi'] = "Unduh";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['form_action'] = site_url("statistik/unduh/$lap");
+		$this->load->view('statistik/ajax_cetak', $data);
+	}
+
 	public function cetak($lap = 0)
 	{
 		$data['lap'] = $lap;
@@ -125,12 +133,15 @@ class Statistik extends Admin_Controller {
 		$this->load->view('statistik/penduduk_print', $data);
 	}
 
-	public function excel($lap = 0)
+	public function unduh($lap = 0)
 	{
+		$data['aksi'] = 'unduh';
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['config']  = $this->laporan_penduduk_model->get_config();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['laporan_no'] = $this->input->post('laporan_no');
 		$this->load->view('statistik/penduduk_excel', $data);
 	}
 

@@ -13,7 +13,9 @@
 					<tbody>
 						<tr>
 							<td align="center" >
-								<img src="<?= LogoDesa($config['logo']);?>" alt="" style="float: left;">
+								<?php if ($aksi != 'unduh'): ?>
+									<img src="<?= LogoDesa($config['logo']);?>" alt="" style="float: left;">
+								<?php endif; ?>
 								<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($config['nama_kabupaten'])?> </h1>
 								<h1 style="text-transform: uppercase;"></h1>
 								<h1><?= strtoupper($this->setting->sebutan_kecamatan)?> <?= strtoupper($config['nama_kecamatan'])?> </h1>
@@ -49,31 +51,12 @@
 										</tr>
 									</tbody>
 								</table>
-								<table class="noborder">
-									<tbody>
-										<tr>
-											<td class="top">
-												<div class="nowrap">
-													<label style="width: 150px;"> <?= $stat?></label>
-													<label>:</label>
-													<span></span>
-													<strong style="font-size: 13px;"></strong>
-												</div>
-												<div class="nowrap">
-													<span style="width: 150px;"></span>
-													<span></span>
-													<strong style="font-size: 14px;font-style:italic"></strong>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
 								<br>
 								<table class="border thick data">
 									<thead>
 										<tr class="thick">
 											<th class="thick">No</th>
-											<th class="thick">Statistik</th>
+											<th class="thick"><?= $stat?></th>
 											<th class="thick">Jumlah</th>
 											<?php if ($lap<20): ?>
 												<th class="thick" width="60">Laki-laki</th>
@@ -126,7 +109,7 @@
 											</td>
 											<td class="top" align="center" width="30%">
 												<div class="nowrap"><label>&nbsp;</label></div>
-												<div class="nowrap"><label><?= ucwords($this->setting->sebutan_desa)?> <?= $config['nama_desa']?>, 
+												<div class="nowrap"><label><?= ucwords($this->setting->sebutan_desa)?> <?= $config['nama_desa']?>,
 													<?= tgl_indo(date("Y m d"))?><br>KEPALA DESA/LURAH <?= (strtoupper($config['nama_desa']))?><br>
 												</div>
 												<div style="height: 50px;"></div>
