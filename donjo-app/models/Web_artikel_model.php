@@ -157,7 +157,7 @@
 		foreach ($list_gambar as $gambar)
 		{
 		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
+		  $nama_file   = $fp."_".$_FILES[$gambar]['name'];
 		  if (!empty($lokasi_file))
 		  {
 			  $tipe_file = TipeFile($_FILES[$gambar]);
@@ -273,7 +273,7 @@
 		foreach ($list_gambar as $gambar)
 		{
 		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
+		  $nama_file   = $fp."_".$_FILES[$gambar]['name'];
 
 		  if (!empty($lokasi_file))
 		  {
