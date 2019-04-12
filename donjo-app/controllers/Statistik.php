@@ -7,6 +7,7 @@ class Statistik extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('laporan_penduduk_model');
+		$this->load->model('pamong_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('header_model');
 		$_SESSION['per_page'] = 500;
@@ -105,12 +106,22 @@ class Statistik extends Admin_Controller {
 		}
 	}
 
+	public function dialog_cetak($lap = 0)
+	{
+		$data['aksi'] = "Cetak";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['form_action'] = site_url("statistik/cetak/$lap");
+		$this->load->view('statistik/ajax_cetak', $data);
+	}
+
 	public function cetak($lap = 0)
 	{
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['config'] = $this->laporan_penduduk_model->get_config();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['laporan_no'] = $this->input->post('laporan_no');
 		$this->load->view('statistik/penduduk_print', $data);
 	}
 
