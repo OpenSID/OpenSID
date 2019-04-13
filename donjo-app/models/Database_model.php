@@ -182,6 +182,19 @@
   private function migrasi_1904_ke_1905()
   {
 		$this->db->where('id', 62)->update('setting_modul', array('url'=>'gis/clear', 'aktif'=>'1'));
+		// Tambah surat keterangan penghasilan orangtua
+		$data = array(
+			'nama'=>'Keterangan Penghasilan Orangtua',
+			'url_surat'=>'surat_ket_penghasilan_orangtua',
+			'kode_surat'=>'S-42',
+			'jenis'=>1);
+		$sql = $this->db->insert_string('tweb_surat_format', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				nama = VALUES(nama),
+				url_surat = VALUES(url_surat),
+				kode_surat = VALUES(kode_surat),
+				jenis = VALUES(jenis)";
+		$this->db->query($sql);
   }
 
   private function migrasi_1903_ke_1904()
