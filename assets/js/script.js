@@ -290,8 +290,8 @@ $(document).ready(function()
 		$(this).closest('.form-group').find('.hari').val(hari[i]);
 	});
 
-$('[checked="checked"]').parent().addClass('active')
-	//Fortmat Tabel
+	$('[checked="checked"]').parent().addClass('active');
+	//Format Tabel
   $('#tabel1').DataTable();
   $('#tabel2').DataTable({
 		'paging'      : false,
@@ -336,7 +336,35 @@ $('[checked="checked"]').parent().addClass('active')
 	$('select[name=pamong_ttd]').trigger('change');
 	$('select[name=pamong_ketahui]').trigger('change');
 
+	// Untuk input rupiah di form surat
+	// Tambahkan 'Rp.' pada saat form di ketik
+	// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+	$('.rupiah').keyup(function(e) {
+		var nilai = formatRupiah($(this).val(), 'Rp. ');
+		$(this).val(nilai);
+	});
+
 });
+
+/* Fungsi formatRupiah untuk form surat */
+function formatRupiah(angka, prefix, nol_sen=true)
+{
+	var number_string = angka.replace(/[^,\d]/g, '').toString(),
+	split = number_string.split(','),
+	sisa = split[0].length % 3,
+	rupiah = split[0].substr(0, sisa),
+	ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+	// tambahkan titik jika yang di input sudah menjadi angka ribuan
+	if (ribuan)
+	{
+		separator = sisa ? '.' : '';
+		rupiah += separator + ribuan.join('.');
+	}
+
+	rupiah = split[1] != undefined ? rupiah + (nol_sen ? '' : ',' + split[1]) : rupiah;
+	return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+}
 
 function scrollTampil(elem)
 {
