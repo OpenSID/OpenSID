@@ -87,7 +87,6 @@
 	public function insert()
 	{
 		$data = $_POST;
-		$data['dusun'] = underscore($_POST['dusun']);
 		$this->db->insert('tweb_wil_clusterdesa', $data);
 
 		$rw = $data;
