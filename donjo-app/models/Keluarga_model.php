@@ -4,6 +4,7 @@
 	{
 		parent::__construct();
 		$this->load->model('program_bantuan_model');
+		$this->load->model('penduduk_model');
 	}
 
 	public function autocomplete()
@@ -236,7 +237,6 @@
 		$this->db->where('id', $data['nik_kepala']);
 		$this->db->update('tweb_penduduk', $default);
 
-		$this->load->model('penduduk_model');
 		$this->penduduk_model->tulis_log_penduduk($kk_id, '9', date('m'), date('Y'));
 
 		$log['id_pend'] = 1;
@@ -249,20 +249,6 @@
 
 		if($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-	}
-
-	private function validasi_data_penduduk($data)
-	{
-		$valid = array();
-		if (!ctype_digit($data['nik']))
-			array_push($valid, "NIK hanya berisi angka");
-		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
-			array_push($valid, "NIK panjangnya harus 16 atau 0");
-		if ($this->db->select('nik')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row()->nik)
-			array_push($valid, "NIK {$data['nik']} sudah digunakan");
-		if (!empty($valid))
-			$_SESSION['validation_error'] = true;
-		return $valid;
 	}
 
 	private function validasi_data_keluarga($data)
@@ -289,7 +275,7 @@
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
 
-		$error_validasi = array_merge($this->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
+		$error_validasi = array_merge($this->penduduk_model->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
@@ -519,7 +505,6 @@
 			$outp = $this->db->update('tweb_keluarga', $temp2);
 		}
 
-		$this->load->model('penduduk_model');
 		$this->penduduk_model->tulis_log_penduduk($id, '7', date('m'), date('Y'));
 	}
 
@@ -732,7 +717,7 @@
 		}
 		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
 
-		$error_validasi = array_merge($this->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
+		$error_validasi = array_merge($this->penduduk_model->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
@@ -748,7 +733,6 @@
 		if (!$outp) $_SESSION = -1;
 
     $id_pend = $this->db->insert_id();
-		$this->load->model('penduduk_model');
 		$this->penduduk_model->tulis_log_penduduk($id_pend, $id_detail, $blnskrg, $thnskrg);
 	}
 

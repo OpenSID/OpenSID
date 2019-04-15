@@ -18,5 +18,6 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 12. #1979: Perbaiki supaya nama file foto artikel yg diunggah bisa berisi karakter seperti '('. [bug-fix]
 13. Perbaiki supaya view penduduk_hidup tidak terhapus pada menu Pengaturan > Database > Kosongkan DB. [bug-fix]
 14. #1004: Tambah Surat Keterangan Penghasilan Orangtua beserta fungsi helper penampilan tulisan bilangan rupiah.
+15. #2006: Sekarang nomor KITAS tidak tampil sebagai '0' kalau kosong, dan juga sekarang selalu kosong bagi WNI. [bug-fix]
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
