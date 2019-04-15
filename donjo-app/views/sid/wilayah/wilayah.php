@@ -86,8 +86,8 @@
 																				<a href="#" data-href="<?= site_url("sid_core/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
 																		</td>
-																		<td><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
-																		<td nowrap><strong><?= strtoupper(unpenetration($data['nama_kadus']))?></strong> - <?= $data['nik_kadus']?></td>
+																		<td><?= strtoupper($data['dusun'])?></td>
+																		<td nowrap><strong><?= strtoupper($data['nama_kadus'])?></strong> - <?= $data['nik_kadus']?></td>
 																		<td><a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rw']?></a></td>
 																		<td><?= $data['jumlah_rt']?></td>
 																		<td><a href="<?= site_url("sid_core/warga_kk/$data[id]")?>"><?= $data['jumlah_kk']?></a></td>

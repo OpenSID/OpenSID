@@ -74,7 +74,7 @@
 																			<a href="<?= site_url("sms/form/$p/$o/2/$data[ID]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lihat Pesan" title="Tampilkan dan Balas"><i class="fa fa-reply"></i></a>
 																			<a href="#" data-href="<?= site_url("sms/delete/$p/$o/2/$data[ID]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     </td>
-                                    <td nowrap><?=unpenetration($data['nama'])?></td>
+                                    <td nowrap><?=$data['nama']?></td>
 																		<td><?=$data['DestinationNumber']?></td>
 																		<td width="40%"><?=$data['TextDecoded']?></td>
 																		<td nowrap><?=tgl_indo2($data['SendingDateTime'])?></td>

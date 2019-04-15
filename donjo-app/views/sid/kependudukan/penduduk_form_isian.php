@@ -156,7 +156,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="no_kk_sebelumnya">Nomor KK Sebelumnya</label>
-						<input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper(unpenetration($penduduk['no_kk_sebelumnya']))?>"></input>
+						<input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper($penduduk['no_kk_sebelumnya'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-4'>
@@ -393,7 +393,7 @@
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="nama_ayah">Nama Ayah </label>
-						<input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper(unpenetration($penduduk['nama_ayah']))?>"></input>
+						<input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper($penduduk['nama_ayah'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-4'>
@@ -405,7 +405,7 @@
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="nama_ibu">Nama Ibu </label>
-						<input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper(unpenetration($penduduk['nama_ibu']))?>"></input>
+						<input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper($penduduk['nama_ibu'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>

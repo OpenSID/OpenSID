@@ -25,13 +25,13 @@
 										<div class="form-group">
                       <label class="col-sm-2 control-label" for="kelurahan"><?= ucwords($this->setting->sebutan_desa)?>/Kelurahan</label>
                       <div class="col-sm-7 col-md-5">
-                        <input type="text" class="form-control input-sm" value="<?= unpenetration($data['nama_desa'])?>" disabled/></input>
+                        <input type="text" class="form-control input-sm" value="<?= $data['nama_desa']?>" disabled/></input>
                       </div>
                     </div>
                     <div class="form-group">
                       <label class="col-sm-2 control-label" for="kecamatan"><?= ucwords($this->setting->sebutan_kecamatan)?></label>
                       <div class="col-sm-7 col-md-5">
-                        <input type="text" class="form-control input-sm" value="<?= unpenetration($data['nama_kecamatan'])?>" disabled/></input>
+                        <input type="text" class="form-control input-sm" value="<?= $data['nama_kecamatan']?>" disabled/></input>
                       </div>
                     </div>
                    <?php endforeach; ?>

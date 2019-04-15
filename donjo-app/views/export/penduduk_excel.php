@@ -70,7 +70,7 @@
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= strtoupper($data['alamat'])?></td>
-							<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+							<td><?= strtoupper($data['dusun'])?></td>
 							<td><?= $data['rw']?></td>
 							<td><?= $data['rt']?></td>
 							<td><?= strtoupper($data['nama'])?></td>

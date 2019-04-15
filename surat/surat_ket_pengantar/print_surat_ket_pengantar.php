@@ -10,9 +10,9 @@
 							<img src="<?= LogoDesa($desa['logo']);?>" alt=""  width="100" height="80" class="logo">
 						</tr>
 						<div class="header">
-							<h4 class="kop">PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
-							<h4 class="kop">KECAMATAN <?= strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
-							<h4 class="kop"><?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper(unpenetration($desa['nama_desa']))?></h4>
+							<h4 class="kop">PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($desa['nama_kabupaten'])?> </h4>
+							<h4 class="kop">KECAMATAN <?= strtoupper($desa['nama_kecamatan'])?> </h4>
+							<h4 class="kop"><?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa'])?></h4>
 							<h5 class="kop2"><?= ($desa['alamat_kantor'])?> </h5>
 							<div style="text-align: center;"><hr></div>
 						</div>
@@ -21,8 +21,8 @@
 					</table>
 					<table width="100%">
 						<tr>
-							<td class="indentasi">Yang bertanda tangan dibawah ini <?= unpenetration($input['jabatan'])?> <?= unpenetration($desa['nama_desa'])?>, Kecamatan <?= unpenetration($desa['nama_kecamatan'])?>,
-								<?= ucwords($this->setting->sebutan_kabupaten)?> <?= unpenetration($desa['nama_kabupaten'])?>, Provinsi <?= unpenetration($desa['nama_propinsi'])?> menerangkan dengan sebenarnya bahwa:
+							<td class="indentasi">Yang bertanda tangan dibawah ini <?= $input['jabatan']?> <?= $desa['nama_desa']?>, Kecamatan <?= $desa['nama_kecamatan']?>,
+								<?= ucwords($this->setting->sebutan_kabupaten)?> <?= $desa['nama_kabupaten']?>, Provinsi <?= $desa['nama_propinsi']?> menerangkan dengan sebenarnya bahwa:
 							</td>
 						</tr>
 					</table>
@@ -33,11 +33,11 @@
 						<tr>
 							<td>
 								<table width="100%">
-									<tr><td width="20%">Nama Lengkap</td><td width="2%">:</td><td width="64%"><?= unpenetration($data['nama'])?></td></tr>
+									<tr><td width="20%">Nama Lengkap</td><td width="2%">:</td><td width="64%"><?= $data['nama']?></td></tr>
 									<tr><td>Nomor KTP</td><td>:</td><td><?= $data['nik']?></td></tr>
 									<tr><td>Tempat dan Tgl. Lahir </td><td>:</td><td><?= ($data['tempatlahir'])?>, <?= tgl_indo($data['tanggallahir'])?> </td></tr>
 									<tr><td>Jenis Kelamin</td><td>:</td><td><?= $data['sex']?></td></tr>
-									<tr><td>Alamat/ Tempat Tinggal</td><td>:</td><td>RT. <?= $data['rt']?>, RW. <?= $data['rw']?>, Dusun <?= ununderscore(unpenetration($data['dusun']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, Kec. <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?></td></tr>
+									<tr><td>Alamat/ Tempat Tinggal</td><td>:</td><td>RT. <?= $data['rt']?>, RW. <?= $data['rw']?>, Dusun <?= $data['dusun']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, Kec. <?= $desa['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= $desa['nama_kabupaten']?></td></tr>
 									<tr><td>Agama</td><td>:</td><td><?= $data['agama']?></td></tr>
 									<tr><td>Status</td><td>:</td><td><?= $data['status_kawin']?></td></tr>
 									<tr><td>Pendidikan</td><td>:</td><td><?= $data['pendidikan']?></td></tr>
@@ -68,8 +68,8 @@
 						<tr></tr>
 						<tr></tr>
 						<tr></tr>
-						<tr><td></td><td width="30%"></td><td  align="center"><?= unpenetration($desa['nama_desa'])?>, <?= $tanggal_sekarang?></td></tr>
-						<tr><td></td><td width="30%"></td><td align="center"><?= unpenetration($input['jabatan'])?> <?= unpenetration($desa['nama_desa'])?></td></tr>
+						<tr><td></td><td width="30%"></td><td  align="center"><?= $desa['nama_desa']?>, <?= $tanggal_sekarang?></td></tr>
+						<tr><td></td><td width="30%"></td><td align="center"><?= $input['jabatan']?> <?= $desa['nama_desa']?></td></tr>
 						<tr></tr>
 						<tr></tr>
 						<tr></tr>
@@ -102,7 +102,7 @@
 						<tr></tr>
 						<tr></tr>
 						<tr></tr>
-						<tr><td> <td></td><td align="center">( <?= unpenetration($input['pamong'])?> )</td></tr>
+						<tr><td> <td></td><td align="center">( <?= $input['pamong']?> )</td></tr>
 					</table>
 				</div>
 			</div>

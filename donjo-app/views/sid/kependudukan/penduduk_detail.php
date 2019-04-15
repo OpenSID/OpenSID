@@ -182,7 +182,7 @@
 													<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat'])?></td>
 												</tr>
 												<tr>
-													<td>Dusun</td><td >:</td><td><?= strtoupper(ununderscore($penduduk['dusun']))?></td>
+													<td>Dusun</td><td >:</td><td><?= strtoupper($penduduk['dusun'])?></td>
 												</tr>
 												<tr>
 													<td>RT/ RW</td><td >:</td><td><?= strtoupper($penduduk['rt'])?> / <?= $penduduk['rw']?></td>

@@ -22,7 +22,7 @@
 						</div>
 						<div class="box-header">
 							<h3 class="text-center"><strong>KARTU RUMAH TANGGA</strong></h3>
-							<h5 class="text-center"><strong>No.  <?= unpenetration($kepala_kk['no_kk'])?> </strong></h5>
+							<h5 class="text-center"><strong>No.  <?= $kepala_kk['no_kk']?> </strong></h5>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -30,7 +30,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">ALAMAT</label>
 										<div class="col-sm-8">
-											<p class="text-muted">: <?= strtoupper(ununderscore($kepala_kk['dusun']))?></p>
+											<p class="text-muted">: <?= strtoupper($kepala_kk['dusun'])?></p>
 										</div>
 									</div>
 									<div class="form-group">
@@ -42,13 +42,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">DESA / KELURAHAN</label>
 										<div class="col-sm-9">
-											<p class="text-muted">: <?= strtoupper(unpenetration($desa['nama_desa'])) ?></p>
+											<p class="text-muted">: <?= strtoupper($desa['nama_desa']) ?></p>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label">KECAMATAN</label>
 										<div class="col-sm-9">
-											<p class="text-muted">: <?= strtoupper(unpenetration($desa['nama_kecamatan'])) ?></p>
+											<p class="text-muted">: <?= strtoupper($desa['nama_kecamatan']) ?></p>
 										</div>
 									</div>
 								</div>
@@ -56,7 +56,7 @@
 									<div class="form-group">
 										<label class="col-sm-5 control-label">KABUPATEN</label>
 										<div class="col-sm-7">
-											<p class="text-muted">: <?= strtoupper(unpenetration($desa['nama_kabupaten'])) ?></p>
+											<p class="text-muted">: <?= strtoupper($desa['nama_kabupaten']) ?></p>
 										</div>
 									</div>
 									<div class="form-group">
@@ -68,7 +68,7 @@
 									<div class="form-group">
 										<label class="col-sm-5 control-label">PROVINSI</label>
 										<div class="col-sm-7">
-											<p class="text-muted">: <?= strtoupper(unpenetration($desa['nama_propinsi'])) ?></p>
+											<p class="text-muted">: <?= strtoupper($desa['nama_propinsi']) ?></p>
 										</div>
 									</div>
 									<div class="form-group">
@@ -101,7 +101,7 @@
 												<?php foreach ($main as $key => $data): ?>
 												<tr>
 													<td><?= $data['no']?></td>
-													<td><?= strtoupper(unpenetration($data['nama']))?></td>
+													<td><?= strtoupper($data['nama'])?></td>
 													<td><?= $data['nik']?></td>
 													<td><?= $data['no_kk']?></td>
 													<td><?= $data['sex']?></td>

@@ -56,7 +56,7 @@
 								<?= $data['no_kk']?>
 								<?= " / ".$data['nama_kk']?>
 							</td>
-							<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+							<td><?= strtoupper($data['dusun'])?></td>
 							<td><?= $data['rw']?></td>
 							<td><?= $data['rt']?></td>
 							<td align="right"><?= $data['umur_pada_peristiwa']?></td>

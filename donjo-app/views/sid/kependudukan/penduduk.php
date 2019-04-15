@@ -90,7 +90,7 @@
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<?php if ($dusun): ?>
@@ -226,7 +226,7 @@
 																<!-- tambah kolom orang tua-->
 																<td><a href="<?= site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?= $data['no_rtm']?></a></td>
 																<td><?= strtoupper($data['alamat'])?></td>
-																<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+																<td><?= strtoupper($data['dusun'])?></td>
 																<td><?= $data['rw']?></td>
 																<td><?= $data['rt']?></td>
 																<td><?= $data['pendidikan']?></td>

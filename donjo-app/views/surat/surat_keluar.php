@@ -120,7 +120,7 @@
 																	<td><?= $data['format']?></td>
 																	<td>
 																		<?php if ($data['nama']): ?>
-																			<?= unpenetration($data['nama']); ?>
+																			<?= $data['nama']; ?>
 																		<?php elseif ($data['nama_non_warga']): ?>
 																			<strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
 																			<strong>NIK: </strong><?= $data['nik_non_warga']; ?>

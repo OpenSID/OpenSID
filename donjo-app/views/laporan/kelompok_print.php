@@ -13,7 +13,7 @@
 					<table  width="100%">
 						<tbody>
 							<tr align="center">
-								<td width="100%"><h3>PEMERINTAH KABUPATEN/KOTA <?= strtoupper(unpenetration($data['nama_kabupaten'])) ?></h3></td>
+								<td width="100%"><h3>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($data['nama_kabupaten']) ?></h3></td>
 							</tr>
 							<tr align="center">
 								<td width="100%"><h4>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN (LAMPIRAN A - 9)</h4></td>
@@ -26,13 +26,13 @@
 							<tr>
 								<td><?= ucwords($this->setting->sebutan_desa)?>/Kelurahan</td>
 								<td width="3%">:</td>
-								<td width="38.5%"><?= unpenetration($data['nama_desa'])?></h4></td>
+								<td width="38.5%"><?= $data['nama_desa']?></h4></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><?= ucwords($this->setting->sebutan_kecamatan)?></td>
 								<td width="3%">:</td>
-								<td width="38.5%"><?= unpenetration($data['nama_kecamatan'])?></td>
+								<td width="38.5%"><?= $data['nama_kecamatan']?></td>
 								<td></td>
 							</tr>
 							<tr>

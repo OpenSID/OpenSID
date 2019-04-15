@@ -15,7 +15,7 @@
 	{
 		if (isset($_SESSION['cari']))
 		{
-			$cari = penetration($_SESSION['cari']);
+			$cari = $this->db->escape_like_str($_SESSION['cari']);
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND u.dusun LIKE '$kw'";
@@ -87,7 +87,7 @@
 	public function insert()
 	{
 		$data = $_POST;
-		$data['dusun'] = underscore($_POST['dusun']);
+		$data['dusun'] = $_POST['dusun'];
 		$this->db->insert('tweb_wil_clusterdesa', $data);
 
 		$rw = $data;
@@ -380,7 +380,7 @@
 	{
 		$data = $this->db->
 			where('rt', '0')->
-			where('dusun', $dusun)->
+			where('dusun', urldecode($dusun))->
 			where('rw <>', '0')->
 			order_by('rw')->
 			get('tweb_wil_clusterdesa')->
@@ -399,7 +399,7 @@
 	{
 		$data = $this->db->
 			where('rt <>', '0')->
-			where('dusun', $dusun)->
+			where('dusun', urldecode($dusun))->
 			where('rw', $rw)->
 			order_by('rt')->
 			get('tweb_wil_clusterdesa')->
