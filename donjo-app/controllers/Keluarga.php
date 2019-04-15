@@ -107,87 +107,45 @@ class Keluarga extends Admin_Controller {
 		$this->load->view('sid/kependudukan/keluarga_excel', $data);
 	}
 
-	public function form($p=1, $o=0, $id=0, $new=1)
+	/*
+	 * Masukkan KK baru
+	 */
+	public function form($p=1, $o=0)
 	{
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
 		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 				unset($_SESSION['validation_error']);
 
-		if ($new == 1)
+		$data['kk_baru'] = true;
+
+		// Validasi dilakukan di keluarga_model sewaktu insert dan update
+		if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error'])
 		{
-			if (isset($_POST['dusun']))
+			// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
+			if ($_SESSION['dari_internal'])
 			{
-				$data['dus_sel'] = $_POST['dusun'];
+				$data['penduduk'] = $_SESSION['post'];
 			}
 			else
-				$data['dus_sel'] = '';
-
-			if (isset($_POST['rw']))
 			{
-				$data['rw_sel'] = $_POST['rw'];
+				$data['penduduk'] = $_POST;
 			}
-			else
-				$data['rw_sel'] = '';
-
-			if (isset($_POST['rt']))
-				$data['rt_sel'] = $_POST['rt'];
-			else
-				$data['rt_sel'] = '';
-
-			$data['new'] = $new;
+			// Di penduduk_isian_form memakai 'sex' sesuai dengan nama kolom
+			// tapi pengisian nilai sebelumnya menggunakan 'id_sex'
+			$data['penduduk']['id_sex'] = $data['penduduk']['sex'];
 		}
 		else
-		{
-			$data['new'] = 0;
-			$data['dus_sel'] = '';
-			$data['rw_sel'] = '';
-			$data['rt_sel'] = '';
-		}
-		if ($id > 0)
-		{
-			$data['kk']          = $this->keluarga_model->get_keluarga($id);
-			$data['form_action'] = site_url("keluarga/update/$id");
-		}
-		elseif ($new > 0)
-		{
-			// Validasi dilakukan di keluarga_model sewaktu insert dan update
-			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error'])
-			{
-				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
-				if ($_SESSION['dari_internal'])
-				{
-					$data['penduduk'] = $_SESSION['post'];
-					$data['dus_sel'] = $_SESSION['post']['dusun'];
-					$data['rw_sel'] = $_SESSION['post']['rw'];
-					$data['rt_sel'] = $_SESSION['post']['rt'];
-				}
-				else
-				{
-					$data['penduduk'] = $_POST;
-				}
-				// Di penduduk_isian_form memakai 'sex' sesuai dengan nama kolom
-				// tapi pengisian nilai sebelumnya menggunakan 'id_sex'
-				$data['penduduk']['id_sex'] = $data['penduduk']['sex'];
-			}
-			else
-				$data['penduduk'] = null;
-			$data['kk'] = null;
-			$data['form_action'] = site_url("keluarga/insert_new");
-
-		}
-		else
-		{
-			$data['kk'] = null;
-			$data['form_action'] = site_url("keluarga/insert");
-		}
+			$data['penduduk'] = null;
+		$data['kk'] = null;
+		$data['form_action'] = site_url("keluarga/insert_new");
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 22;
 
 		$data['penduduk_lepas'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['rw'] = $this->penduduk_model->list_rw($data['dus_sel']);
-		$data['rt'] = $this->penduduk_model->list_rt($data['dus_sel'], $data['rw_sel']);
+		$data['rw'] = $this->penduduk_model->list_rw($data['penduduk']['dusun']);
+		$data['rt'] = $this->penduduk_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
@@ -339,6 +297,9 @@ class Keluarga extends Admin_Controller {
 		redirect('keluarga');
 	}
 
+	/*
+	 * Tambah KK dengan memilih dari penduduk yg sudah ada
+	 */
 	public function insert()
 	{
 		$this->keluarga_model->insert();
@@ -362,6 +323,9 @@ class Keluarga extends Admin_Controller {
 		}
 	}
 
+	/*
+	 * Tambah KK dengan mengisi form penduduk kepala keluarga baru
+	 */
 	public function insert_new()
 	{
 		$this->keluarga_model->insert_new();
