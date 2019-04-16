@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 14. #1004: Tambah Surat Keterangan Penghasilan Orangtua beserta fungsi helper penampilan tulisan bilangan rupiah.
 15. #2006: Sekarang nomor KITAS tidak tampil sebagai '0' kalau kosong, dan juga sekarang selalu kosong bagi WNI. [bug-fix]
 16. #2005: Sekarang nama dusun terdiri dari lebih dari satu kata tidak diberi underscore.
+17. Pengaturan > Database > Restore sekarang tidak bisa dijalankan kalau belum ada file yg dipilih. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

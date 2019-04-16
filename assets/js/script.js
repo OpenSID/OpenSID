@@ -88,6 +88,14 @@ $(document).ready(function()
 	$('#file').change(function()
 	{
 		$('#file_path').val($(this).val());
+		if ($(this).val() == '')
+		{
+			$('#'+$(this).data('submit')).attr('disabled','disabled');
+		}
+		else
+		{
+			$('#'+$(this).data('submit')).removeAttr('disabled');;
+		}
 	});
 	$('#file_path').click(function()
 	{
