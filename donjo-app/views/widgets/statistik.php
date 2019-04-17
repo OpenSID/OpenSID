@@ -4,7 +4,7 @@
   <div class="box-header">
     <h3 class="box-title"><a href="<?php echo site_url("first/statistik/1")?>"><i class="fa fa-bar-chart"></i> Statistik <?php echo ucwords($this->setting->sebutan_desa),' ', $desa["nama_desa"];?></a></h3>
   </div>
-  <div class="box-body" width="100%" height="100%">
+  <div class="box-body">
     <script type="text/javascript">
     $(function () {
         var chart_widget;
