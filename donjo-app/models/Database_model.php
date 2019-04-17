@@ -109,7 +109,9 @@
 			'value' => $versi
 		);
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
-	 $_SESSION['success'] = 1;
+		$this->load->model('track_model');
+		$this->track_model->kirim_data();
+	 	$_SESSION['success'] = 1;
   }
 
   private function getCurrentVersion()
