@@ -221,7 +221,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_penduduk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, o.nama, o.tempatlahir, o.tanggallahir, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
 		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
@@ -242,7 +242,8 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['terdata_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
-				$data[$i]['tanggal_lahir'] = $data[$i]['tanggallahir'];
+				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
+				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;
@@ -261,11 +262,12 @@ class Suplemen_model extends CI_Model {
 		return $sql;
 	}
 
+
 	private function get_kk_terdata($suplemen_id, $p)
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_suplemen as nama, o.nik_kepala, o.no_kk, q.nama, q.tempatlahir, q.tanggallahir, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, s.id_suplemen as nama, o.nik_kepala, o.no_kk, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
 		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
@@ -286,7 +288,8 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['terdata_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
-				$data[$i]['tanggal_lahir'] = $data[$i]['tanggallahir'];
+				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
+				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;

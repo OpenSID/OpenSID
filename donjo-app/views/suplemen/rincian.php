@@ -59,6 +59,7 @@
 																<th><?= $suplemen["judul_terdata_info"]?></th>
 																<th>Tempat Lahir</th>
 																<th>Tanggal Lahir</th>
+																<th>Jenis-kelamin</th>
 																<th>Alamat</th>
 																<th>Keterangan</th>
 															</tr>
@@ -82,6 +83,7 @@
 																	<td nowrap><a href="<?= site_url('suplemen/data_terdata/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
 																	<td><?= $item["tempat_lahir"] ?></td>
 																	<td><?= $item["tanggal_lahir"] ?></td>
+																	<td><?= strtoupper($item['sex'])?></td>
 																	<td><?= $item["info"];?></td>
 																	<td width="25%"><?= $item["keterangan"];?></td>
 																</tr>
