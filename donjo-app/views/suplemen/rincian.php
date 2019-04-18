@@ -83,7 +83,7 @@
 																	<td nowrap><a href="<?= site_url('suplemen/data_terdata/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
 																	<td><?= $item["tempat_lahir"] ?></td>
 																	<td><?= $item["tanggal_lahir"] ?></td>
-																<td><?= strtoupper($item['sex'])?></td>
+																	<td><?= strtoupper($item['sex'])?></td>
 																	<td><?= $item["info"];?></td>
 																	<td width="25%"><?= $item["keterangan"];?></td>
 																</tr>

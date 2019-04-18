@@ -243,11 +243,7 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
 				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
-				$data[$i]['sex'] = $data[$i]['sex'];
-					if ($data[$i]['sex'] == 1)
-						$data[$i]['sex'] = "LAKI-LAKI";
-		        	else
-						$data[$i]['sex'] = "PEREMPUAN";
+				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;
@@ -265,7 +261,7 @@ class Suplemen_model extends CI_Model {
 			WHERE s.id_suplemen=".$suplemen_id;
 		return $sql;
 	}
-	
+
 
 	private function get_kk_terdata($suplemen_id, $p)
 	{
@@ -293,11 +289,7 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
 				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
-				$data[$i]['sex'] = $data[$i]['sex'];
-					if ($data[$i]['sex'] == 1)
-						$data[$i]['sex'] = "LAKI-LAKI";
-		        	else
-					$data[$i]['sex'] = "PEREMPUAN";
+				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;
