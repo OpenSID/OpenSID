@@ -1,3 +1,12 @@
+
+// https://stackoverflow.com/questions/13261970/how-to-get-the-absolute-path-of-the-current-javascript-file-name/13262027#13262027
+// Untuk mendapatkan base_url, karena aplikasi bisa terinstall di subfolder
+var scripts = document.getElementsByTagName('script');
+var last_script = scripts[scripts.length - 1];
+var file_ini = last_script.src;
+// Harus mengetahui lokasi & nama file script ini
+var base_url = file_ini.replace('assets/js/script.js','');
+
 $( window ).on( "load", function() {
 	// Scroll ke menu aktif perlu dilakukan di onload sesudah semua loading halaman selesai
 	// Tidak bisa di document.ready
@@ -11,6 +20,8 @@ $( window ).on( "load", function() {
 
 $(document).ready(function()
 {
+
+
 	//CheckBox All Selected
 	checkAll();
   $("input[name='id_cb[]'").click(function(){
@@ -351,6 +362,28 @@ $(document).ready(function()
 		var nilai = formatRupiah($(this).val(), 'Rp. ');
 		$(this).val(nilai);
 	});
+
+
+
+	// Penggunaan datatable di inventaris
+	var t = $('#tabel4').DataTable({
+		'paging'      : true,
+    'lengthChange': true,
+    'searching'   : true,
+    'ordering'    : true,
+    'info'        : true,
+    'autoWidth'   : false,
+		'language' 		: {
+				'url': base_url + '/assets/bootstrap/js/dataTables.indonesian.lang'
+		}
+	});
+	t.on('order.dt search.dt', function()
+	{
+		t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
+		{
+			cell.innerHTML = i+1;
+		});
+	}).draw();
 
 });
 
