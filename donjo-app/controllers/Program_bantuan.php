@@ -82,6 +82,7 @@ class Program_bantuan extends Admin_Controller {
 	{
 		$header = $this->header_model->get_data();
 		$nav['act'] = 6;
+		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

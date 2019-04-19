@@ -67,6 +67,9 @@
 															<th rowspan="2" class="text-center">No</th>
 															<th rowspan="2" class="text-center">Aksi</th>
 															<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta"]?></th>
+															<?php if (!empty($detail['judul_peserta_plus'])): ?>
+																<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_plus"]?></th>
+															<?php endif ;?>
 															<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_info"]?></th>
 															<th rowspan="2" class="text-center">Alamat</th>
 															<th colspan="6" class="text-center">Identitas di Kartu Peserta</th>
@@ -91,8 +94,11 @@
 																		<a href="#" data-href="<?= site_url("program_bantuan/hapus_peserta/$detail[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																	<?php $id_peserta = ($detail['sasaran'] == 4) ? $item['peserta'] : $item['nik'] ?>
-																	<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta/")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>																	
-																	<td nowrap><?= $item["peserta_info"]?></td>																	
+																	<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta/")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
+																	<?php if (!empty($item['peserta_plus'])): ?>
+																		<td nowrap><?= $item["peserta_plus"]?></td>
+																	<?php endif; ?>
+																	<td nowrap><?= $item["peserta_info"]?></td>
 																	<td nowrap><?= $item["info"];?></td>
 																	<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/data_peserta/$item[id]")?>" title="Data peserta"><?= $item['no_id_kartu'];?></a></td>
 																	<td class="text-center"><?= $item["kartu_nik"];?></td>
