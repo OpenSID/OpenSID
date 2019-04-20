@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 19. #2010: Tambahkan keterangan di widget Statistik penduduk.
 20. #1307: Indonesiakan tulisan dataTables di semua menu Sekretariat > Inventaris.
 21. #1902: Ubah format tanggal lahir di rincian Program Bantuan dan tambah NIK/No. KK untuk rincian sasaran Keluarga/Penduduk.
+22. #1904: Perbaiki tampilan bilangan di halaman Wilayah Administratif.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

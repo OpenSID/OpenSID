@@ -377,3 +377,9 @@ img.profile-user-img.penduduk
 	max-width: 200px;
 }
 
+/* Tabel umum */
+td.bilangan, th.bilangan, td.no_urut
+{
+	text-align: center;
+}
+
