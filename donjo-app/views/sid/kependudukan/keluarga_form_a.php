@@ -86,7 +86,7 @@
                       <div class='form-group'>
                         <label for="nama">Status Kepemilikan KTP</label>
                         <div class="table-responsive">
-                          <table id="tabel4" class="table table-bordered table-hover">
+                          <table class="table table-bordered table-hover">
                             <thead class="bg-gray disabled color-palette">
                               <tr>
                                 <th width='50%'>Wajib KTP</th>
