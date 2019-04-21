@@ -183,6 +183,29 @@
 
   private function migrasi_1904_ke_1905()
   {
+  	// Konversi data suplemen terdata ke id
+  	$jml = $this->db->select('count(id) as jml')
+  		->where('id_terdata <>', '0')
+  		->where('char_length(id_terdata) <> 16')
+  		->get('suplemen_terdata')
+  		->row()->jml;
+  	if ($jml == 0)
+  	{
+	  	$terdata = $this->db->select('s.id as s_id, s.id_terdata, s.sasaran,
+	  		(case when s.sasaran = 1 then p.id else k.id end) as id')
+	  		->from('suplemen_terdata s')
+	  		->join('tweb_keluarga k', 'k.no_kk = s.id_terdata', 'left')
+	  		->join('tweb_penduduk p', 'p.nik = s.id_terdata', 'left')
+	  		->get()
+	  		->result_array();
+	  	foreach ($terdata as $data)
+	  	{
+				$this->db
+					->where('id', $data['s_id'])
+					->update('suplemen_terdata', array('id_terdata' => $data['id']));
+	   	}
+	  }
+
 		$this->db->where('id', 62)->update('setting_modul', array('url'=>'gis/clear', 'aktif'=>'1'));
 		// Tambah surat keterangan penghasilan orangtua
 		$data = array(

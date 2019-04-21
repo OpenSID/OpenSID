@@ -210,7 +210,7 @@ class Suplemen_model extends CI_Model {
 	{
 		# Data penduduk
 		$sql = " FROM suplemen_terdata s
-			LEFT JOIN tweb_penduduk o ON s.id_terdata = o.nik
+			LEFT JOIN tweb_penduduk o ON s.id_terdata = o.id
 			LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
 			LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 			WHERE s.id_suplemen=".$suplemen_id;
@@ -221,7 +221,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_penduduk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun,
+		$select_sql = "SELECT s.*, s.id_terdata as terdata_id, o.nik as id_terdata, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun,
 			(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
 		 ";
 		$sql = $select_sql.$get_terdata_sql;
@@ -257,7 +257,7 @@ class Suplemen_model extends CI_Model {
 	{
 		# Data KK
 		$sql = " FROM suplemen_terdata s
-			LEFT JOIN tweb_keluarga o ON s.id_terdata = o.no_kk
+			LEFT JOIN tweb_keluarga o ON s.id_terdata = o.id
 			LEFT JOIN tweb_penduduk q ON o.nik_kepala = q.id
 			LEFT JOIN tweb_wil_clusterdesa w ON w.id = q.id_cluster
 			WHERE s.id_suplemen=".$suplemen_id;
@@ -269,7 +269,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_suplemen as nama, o.nik_kepala, o.no_kk, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, s.id_terdata as terdata_id, o.no_kk as id_terdata, s.id_suplemen as nama, o.nik_kepala, o.no_kk, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
 		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
@@ -302,14 +302,14 @@ class Suplemen_model extends CI_Model {
 	/*
 		Mengambil data individu terdata
 	*/
-	public function get_terdata($id_terdata,$sasaran)
+	public function get_terdata($id_terdata, $sasaran)
 	{
 		$this->load->model('surat_model');
 		switch ($sasaran)
 		{
 			case 1:
 				# Data penduduk
-				$sql   = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
+				$sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
 				u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
 				(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 				from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
@@ -324,14 +324,14 @@ class Suplemen_model extends CI_Model {
 				left join tweb_wil_clusterdesa c on u.id_cluster = c.id
 				left join tweb_keluarga k on u.id_kk = k.id
 				left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
-				WHERE u.nik = ?";
+				WHERE u.id = ?";
 				$query = $this->db->query($sql, $id_terdata);
 				$data  = $query->row_array();
 				$data['alamat_wilayah']= $this->surat_model->get_alamat_wilayah($data);
 				break;
 			case 2:
 				# Data KK
-				$data = $this->keluarga_model->get_kepala_kk($id_terdata, true);
+				$data = $this->keluarga_model->get_kepala_kk($id_terdata);
 				$data['nik'] = $data['no_kk']; // no_kk digunakan sebagai id terdata
 				break;
 
@@ -410,13 +410,13 @@ class Suplemen_model extends CI_Model {
 			case 1:
 				$data['judul_terdata_nama'] = 'NIK';
 				$data['judul_terdata_info'] = 'Nama Terdata';
-				$data['terdata_nama'] = $data['id_terdata'];
+				$data['terdata_nama'] = $terdata['nik'];
 				$data['terdata_info'] = $terdata['nama'];
 				break;
 			case 2:
 				$data['judul_terdata_nama'] = 'No. KK';
 				$data['judul_terdata_info'] = 'Kepala Keluarga';
-				$data['terdata_nama'] = $data['id_terdata'];
+				$data['terdata_nama'] = $terdata['no_kk'];
 				$data['terdata_info'] = $terdata['nama'];
 				break;
 			default:
@@ -450,7 +450,7 @@ class Suplemen_model extends CI_Model {
 				$strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun
 					FROM tweb_penduduk o
 				 	LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-				 	WHERE o.nik = '".$id_terdata."'";
+				 	WHERE o.id = '".$id_terdata."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
 				{
@@ -472,7 +472,7 @@ class Suplemen_model extends CI_Model {
 					FROM tweb_keluarga o
 					LEFT JOIN tweb_penduduk p ON o.nik_kepala = p.id
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-					WHERE o.no_kk = '".$id_terdata."'";
+					WHERE o.id = '".$id_terdata."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
 				{
