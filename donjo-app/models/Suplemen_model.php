@@ -209,10 +209,10 @@ class Suplemen_model extends CI_Model {
 	private function get_penduduk_terdata_sql($suplemen_id)
 	{
 		# Data penduduk
-		if (!$jumlah) $select_sql = "p.*,o.nama,w.rt,w.rw,w.dusun";
 		$sql = " FROM suplemen_terdata s
-			LEFT JOIN tweb_penduduk o ON s.id_terdata=o.nik
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
+			LEFT JOIN tweb_penduduk o ON s.id_terdata = o.nik
+			LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
+			LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 			WHERE s.id_suplemen=".$suplemen_id;
 		return $sql;
 	}
@@ -221,7 +221,9 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_penduduk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun,
+			(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
+		 ";
 		$sql = $select_sql.$get_terdata_sql;
 		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
@@ -244,7 +246,7 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
 				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
 				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
-				$data[$i]['info'] = $data[$i]['tempat_lahir'] . " "  .  "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ". "Dusun " . strtoupper($data[$i]['dusun']);
+				$data[$i]['info'] = $data[$i]['alamat'] . " "  .  "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ". "Dusun " . strtoupper($data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;
 		}
