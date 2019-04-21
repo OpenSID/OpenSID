@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 22. #1904: Perbaiki tampilan bilangan di halaman Wilayah Administratif.
 23. #1905: Perbaiki tampilan bilangan di Laporan Kependudukan Bulanan.
 24. #1906: Perbaiki tampilan bilangan di cetak Laporan Kependudukan Bulanan.
+25. #2009: Tampilkan alamat lengkap di daftar rincian Data Suplemen.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
