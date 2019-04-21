@@ -51,7 +51,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_pos">Berkas Scan Surat Masuk</label>
 								<div class="col-sm-8">
-									<div class="input-group input-group-sm col-sm-8 col-lg-6">
+									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path">
 										<input type="file" class="hidden" id="file" name="satuan">
 										<span class="input-group-btn">
