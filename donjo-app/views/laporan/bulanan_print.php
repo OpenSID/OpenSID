@@ -199,9 +199,7 @@
             <td class="bilangan"><?= show_zero_as($rincian_pindah['TOTAL_KK_P'],'-')?></td>
             <td class="bilangan"><?= show_zero_as(($rincian_pindah['TOTAL_KK_L']+$rincian_pindah['TOTAL_KK_P']),'-')?></td>
           </tr>
-          <tr>
-            <td colspan="8" class="no-border-kecuali-atas">&nbsp;</td>
-          </tr>
+          
         </table>
       </div>
     </div>
