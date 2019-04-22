@@ -45,7 +45,8 @@
   						</div>
   					</div>
   					<div class="modal-footer">
-  						<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button>
+  						<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok" ><i class='fa fa-check'></i> Simpan</button>
+  						<!-- <button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button> -->
   					</div>
   				</div>
   			</div>
