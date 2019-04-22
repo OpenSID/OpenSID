@@ -30,6 +30,7 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 24. #1906: Perbaiki tampilan bilangan di cetak Laporan Kependudukan Bulanan.
 25. #2009: Tampilkan alamat lengkap di daftar rincian Data Suplemen.
 26. #2024, #2045: Data suplemen sekarang bisa menangani kasus NIK = 0 dan No.KK = 0. [bug-fix]
+27. #1907: Hilangkan baris tidak diperlukan pada tampilan cetak Laporan Kependudukan Bulanan.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
