@@ -69,14 +69,14 @@ class Suplemen_model extends CI_Model {
 	private function get_id_terdata_penduduk($id_suplemen)
 	{
 		$hasil = array();
-		$sql = "SELECT p.nik
+		$sql = "SELECT p.id
 			FROM tweb_penduduk p
-			LEFT JOIN suplemen_terdata t ON p.nik = t.id_terdata
+			LEFT JOIN suplemen_terdata t ON p.id = t.id_terdata
 			WHERE t.id_suplemen = ?";
 		$data = $this->db->query($sql, $id_suplemen)->result_array();
 		foreach ($data as $item)
 		{
-			$hasil[] = $item['nik'];
+			$hasil[] = $item['id'];
 		}
 		return $hasil;
 	}
@@ -90,20 +90,18 @@ class Suplemen_model extends CI_Model {
 		{
 			$terdata .= ",".$value;
 		}
-		$terdata = ltrim($terdata,",");
-
-		// Daftar penduduk, tidak termasuk penduduk yang sudah terdata
-		$strSQL = "SELECT p.nik as id, p.nama as nama, w.rt, w.rw, w.dusun
-			FROM tweb_penduduk p
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-			WHERE p.nik NOT IN (?)";
+		$terdata = ltrim($terdata, ",");
+		$data = $this->db->select('p.id as id, p.nik as nik, p.nama, w.rt, w.rw, w.dusun')
+			->from('tweb_penduduk p')
+			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
+			->where("p.id NOT IN ($terdata)")
+			->get()->result_array();
 		$hasil = array();
-		$data = $this->db->query($strSQL, $terdata)->result_array();
-		foreach($data as $item){
+		foreach ($data as $item)
+		{
 			$penduduk = array(
 				'id' => $item['id'],
-				'nik' => $item['id'],
-				'nama' => strtoupper($item['nama']) ." [".$item['id']."]",
+				'nama' => strtoupper($item['nama']) ." [".$item['nik']."]",
 				'info' => "RT/RW ". $item['rt']."/".$item['rw']." - ".strtoupper($item['dusun'])
 			);
 			$hasil[] = $penduduk;
@@ -114,14 +112,14 @@ class Suplemen_model extends CI_Model {
 	private function get_id_terdata_kk($id_suplemen)
 	{
 		$hasil = array();
-		$sql = "SELECT k.no_kk
+		$sql = "SELECT k.id
 			FROM tweb_keluarga k
-			LEFT JOIN suplemen_terdata t ON k.no_kk = t.id_terdata
+			LEFT JOIN suplemen_terdata t ON k.id = t.id_terdata
 			WHERE t.id_suplemen = ?";
 		$data = $this->db->query($sql, $id_suplemen)->result_array();
 		foreach ($data as $item)
 		{
-			$hasil[] = $item['no_kk'];
+			$hasil[] = $item['id'];
 		}
 		return $hasil;
 	}
@@ -135,23 +133,21 @@ class Suplemen_model extends CI_Model {
 		{
 			$terdata .= ",".$value;
 		}
-		$terdata = ltrim($terdata,",");
-
+		$terdata = ltrim($terdata, ",");
 		// Daftar keluarga, tidak termasuk keluarga yang sudah terdata
-		$strSQL = "SELECT k.no_kk as id, p.nama as nama, w.rt ,w.rw, w.dusun
-			FROM tweb_keluarga k
-			LEFT JOIN tweb_penduduk p ON p.id = k.nik_kepala
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-			WHERE k.no_kk NOT IN (?)";
+		$data = $this->db->select('k.id as id, k.no_kk, p.nama, w.rt, w.rw, w.dusun')
+			->from('tweb_keluarga k')
+			->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
+			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
+			->where("k.id NOT IN ($terdata)")
+			->get()->result_array();
 		$hasil = array();
-		$data = $this->db->query($strSQL,$terdata)->result_array();
 		foreach ($data as $item)
 		{
 			$item['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $item['id']); //hapus non_alpha di no_kk
 			$kk = array(
 				'id' => $item['id'],
-				'nik' => $item['id'],
-				'nama' => strtoupper($item['nama']) ." [".$item['id']."]",
+				'nama' => strtoupper($item['nama']) ." [".$item['no_kk']."]",
 				'info' => "RT/RW ". $item['rt']."/".$item['rw']." - ".strtoupper($item['dusun'])
 			);
 			$hasil[] = $kk;
@@ -221,7 +217,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_penduduk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_terdata as terdata_id, o.nik as id_terdata, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun,
+		$select_sql = "SELECT s.*, s.id_terdata, o.nik as terdata_id, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun,
 			(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
 		 ";
 		$sql = $select_sql.$get_terdata_sql;
@@ -239,8 +235,7 @@ class Suplemen_model extends CI_Model {
 			for ($i=0; $i<count($data); $i++)
 			{
 				$data[$i]['id'] = $data[$i]['id'];
-				$data[$i]['nik'] = $data[$i]['id_terdata'];
-				$data[$i]['terdata_nama'] = $data[$i]['id_terdata'];
+				$data[$i]['terdata_nama'] = $data[$i]['terdata_id'];
 				$data[$i]['terdata_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
@@ -269,7 +264,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_terdata as terdata_id, o.no_kk as id_terdata, s.id_suplemen as nama, o.nik_kepala, o.no_kk, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, s.id_terdata, o.no_kk as terdata_id, s.id_suplemen as nama, o.nik_kepala, o.no_kk, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
 		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
@@ -285,7 +280,6 @@ class Suplemen_model extends CI_Model {
 			for ($i=0; $i<count($data); $i++)
 			{
 				$data[$i]['id'] = $data[$i]['id'];
-				$data[$i]['nik'] = $data[$i]['no_kk'];
 				$data[$i]['terdata_nama'] = $data[$i]['no_kk'];
 				$data[$i]['terdata_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
@@ -332,7 +326,7 @@ class Suplemen_model extends CI_Model {
 			case 2:
 				# Data KK
 				$data = $this->keluarga_model->get_kepala_kk($id_terdata);
-				$data['nik'] = $data['no_kk']; // no_kk digunakan sebagai id terdata
+				$data['id'] = $data['id_kk']; // id_kk digunakan sebagai id terdata
 				break;
 
 			default:
@@ -362,11 +356,11 @@ class Suplemen_model extends CI_Model {
 		$_SESSION["success"] = $hasil ? 1 : -1;
 	}
 
-	public function add_terdata($post,$id)
+	public function add_terdata($post, $id)
 	{
-		$nik = $post['nik'];
-		$sasaran = $this->db->select('sasaran')->where('id',$id)->get('suplemen')->row()->sasaran;
-		$hasil = $this->db->where('id_suplemen',$id)->where('id_terdata',$nik)->get('suplemen_terdata');
+		$id_terdata = $post['id_terdata'];
+		$sasaran = $this->db->select('sasaran')->where('id', $id)->get('suplemen')->row()->sasaran;
+		$hasil = $this->db->where('id_suplemen', $id)->where('id_terdata', $id_terdata)->get('suplemen_terdata');
 		if ($hasil->num_rows() > 0)
 		{
 			return false;
@@ -375,7 +369,7 @@ class Suplemen_model extends CI_Model {
 		{
 			$data = array(
 				'id_suplemen' => $id,
-				'id_terdata' => $nik,
+				'id_terdata' => $id_terdata,
 				'sasaran' => $sasaran,
 				'keterangan' => $post['keterangan']
 			);
@@ -383,9 +377,9 @@ class Suplemen_model extends CI_Model {
 		}
 	}
 
-	public function hapus_terdata($terdata_id)
+	public function hapus_terdata($id_terdata)
 	{
-		$this->db->where('id', $terdata_id);
+		$this->db->where('id', $id_terdata);
 		$this->db->delete('suplemen_terdata');
 	}
 
