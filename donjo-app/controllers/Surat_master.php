@@ -1,21 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Surat_master extends CI_Controller {
+class Surat_master extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('surat_master_model');
 		$this->load->model('klasifikasi_model');
 		$this->load->model('header_model');
@@ -132,12 +122,14 @@ class Surat_master extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h', "surat_master/index/$p/$o");
 		$this->surat_master_model->delete($id);
 		redirect("surat_master/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h', "surat_master/index/$p/$o");
 		$this->surat_master_model->delete_all();
 		redirect("surat_master/index/$p/$o");
 	}
@@ -156,12 +148,14 @@ class Surat_master extends CI_Controller {
 
 	public function p_delete($in = '', $id = '')
 	{
+		$this->redirect_hak_akses('h', "surat_master/atribut/$in");
 		$this->surat_master_model->p_delete($id);
 		redirect("surat_master/atribut/$in");
 	}
 
 	public function p_delete_all()
 	{
+		$this->redirect_hak_akses('h', "surat_master/atribut/$in");
 		$this->surat_master_model->p_delete_all();
 		redirect("surat_master/atribut/$in");
 	}

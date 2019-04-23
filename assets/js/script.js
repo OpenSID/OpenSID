@@ -1,3 +1,12 @@
+
+// https://stackoverflow.com/questions/13261970/how-to-get-the-absolute-path-of-the-current-javascript-file-name/13262027#13262027
+// Untuk mendapatkan base_url, karena aplikasi bisa terinstall di subfolder
+var scripts = document.getElementsByTagName('script');
+var last_script = scripts[scripts.length - 1];
+var file_ini = last_script.src;
+// Harus mengetahui lokasi & nama file script ini
+var base_url = file_ini.replace('assets/js/script.js','');
+
 $( window ).on( "load", function() {
 	// Scroll ke menu aktif perlu dilakukan di onload sesudah semua loading halaman selesai
 	// Tidak bisa di document.ready
@@ -11,6 +20,8 @@ $( window ).on( "load", function() {
 
 $(document).ready(function()
 {
+
+
 	//CheckBox All Selected
 	checkAll();
   $("input[name='id_cb[]'").click(function(){
@@ -88,6 +99,14 @@ $(document).ready(function()
 	$('#file').change(function()
 	{
 		$('#file_path').val($(this).val());
+		if ($(this).val() == '')
+		{
+			$('#'+$(this).data('submit')).attr('disabled','disabled');
+		}
+		else
+		{
+			$('#'+$(this).data('submit')).removeAttr('disabled');;
+		}
 	});
 	$('#file_path').click(function()
 	{
@@ -200,7 +219,7 @@ $(document).ready(function()
 		$('#tgljam_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
-	$('#tgl_jam').datetimepicker(
+	$('.tgl_jam').datetimepicker(
 	{
 		format: 'DD-MM-YYYY HH:mm:ss',
 		locale:'id'
@@ -278,8 +297,20 @@ $(document).ready(function()
 		html: true,
 		trigger:"hover"
 	});
-$('[checked="checked"]').parent().addClass('active')
-	//Fortmat Tabel
+
+	/* set otomatis hari */
+	$('.datepicker.data_hari').change(function()
+	{
+		var hari = {
+			0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
+		};
+		var t = $(this).datepicker('getDate');
+		var i = t.getDay();
+		$(this).closest('.form-group').find('.hari').val(hari[i]);
+	});
+
+	$('[checked="checked"]').parent().addClass('active');
+	//Format Tabel
   $('#tabel1').DataTable();
   $('#tabel2').DataTable({
 		'paging'      : false,
@@ -312,7 +343,69 @@ $('[checked="checked"]').parent().addClass('active')
 		setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
 	});
 
+	// ========== Tanda tangan laporan dan surat
+	$('select[name=pamong_ttd]').change(function(e)
+	{
+		$('input[name=jabatan_ttd]').val($(this).find(':selected').data('jabatan'));
+	});
+	$('select[name=pamong_ketahui]').change(function(e)
+	{
+		$('input[name=jabatan_ketahui]').val($(this).find(':selected').data('jabatan'));
+	});
+	$('select[name=pamong_ttd]').trigger('change');
+	$('select[name=pamong_ketahui]').trigger('change');
+
+	// Untuk input rupiah di form surat
+	// Tambahkan 'Rp.' pada saat form di ketik
+	// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+	$('.rupiah').keyup(function(e) {
+		var nilai = formatRupiah($(this).val(), 'Rp. ');
+		$(this).val(nilai);
+	});
+
+
+
+	// Penggunaan datatable di inventaris
+	var t = $('#tabel4').DataTable({
+		'paging'      : true,
+    'lengthChange': true,
+    'searching'   : true,
+    'ordering'    : true,
+    'info'        : true,
+    'autoWidth'   : false,
+		'language' 		: {
+				'url': base_url + '/assets/bootstrap/js/dataTables.indonesian.lang'
+		}
+	});
+	t.on('order.dt search.dt', function()
+	{
+		t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
+		{
+			cell.innerHTML = i+1;
+		});
+	}).draw();
+
 });
+
+/* Fungsi formatRupiah untuk form surat */
+function formatRupiah(angka, prefix, nol_sen=true)
+{
+	var number_string = angka.replace(/[^,\d]/g, '').toString(),
+	split = number_string.split(','),
+	sisa = split[0].length % 3,
+	rupiah = split[0].substr(0, sisa),
+	ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+	// tambahkan titik jika yang di input sudah menjadi angka ribuan
+	if (ribuan)
+	{
+		separator = sisa ? '.' : '';
+		rupiah += separator + ribuan.join('.');
+	}
+
+	rupiah = split[1] != undefined ? rupiah + (nol_sen ? '' : ',' + split[1]) : rupiah;
+	return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+}
 
 function scrollTampil(elem)
 {
@@ -344,7 +437,7 @@ function checkAll(id = "#checkall")
 
 function enableHapusTerpilih()
 {
-  if ($("input[name='id_cb[]']:checked").length <= 0)
+  if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0)
   {
     $(".hapus-terpilih").addClass('disabled');
     $(".hapus-terpilih").attr('href','#');
@@ -435,6 +528,30 @@ function cari_nik()
 	{
 		$('#'+'main').submit();
 	});
+}
+
+// Ganti pilihan RW dan RT di form penduduk
+function select_options(select, params)
+{
+	var url_data = select.attr('data-source') + params;
+	select
+		.find('option').not('.placeholder')
+		.remove()
+		.end();
+
+  $.ajax({
+    url: url_data,
+  }).then(function(options) {
+    JSON.parse(options).forEach((option) => {
+      var option_elem = $('<option>');
+
+      option_elem
+        .val(option[select.attr('data-valueKey')])
+        .text(option[select.attr('data-displayKey')]);
+
+      select.append(option_elem);
+    });
+  });
 }
 
 $(function(){

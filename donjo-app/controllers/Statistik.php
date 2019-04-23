@@ -1,23 +1,14 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Statistik extends CI_Controller {
+class Statistik extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
 		$this->load->model('laporan_penduduk_model');
+		$this->load->model('pamong_model');
 		$this->load->model('program_bantuan_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2 AND $grup != 3)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$_SESSION['per_page'] = 500;
 		$this->modul_ini = 3;
@@ -115,21 +106,42 @@ class Statistik extends CI_Controller {
 		}
 	}
 
+	public function dialog_cetak($lap = 0)
+	{
+		$data['aksi'] = "Cetak";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['form_action'] = site_url("statistik/cetak/$lap");
+		$this->load->view('statistik/ajax_cetak', $data);
+	}
+
+	public function dialog_unduh($lap = 0)
+	{
+		$data['aksi'] = "Unduh";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['form_action'] = site_url("statistik/unduh/$lap");
+		$this->load->view('statistik/ajax_cetak', $data);
+	}
+
 	public function cetak($lap = 0)
 	{
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['config'] = $this->laporan_penduduk_model->get_config();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['laporan_no'] = $this->input->post('laporan_no');
 		$this->load->view('statistik/penduduk_print', $data);
 	}
 
-	public function excel($lap = 0)
+	public function unduh($lap = 0)
 	{
+		$data['aksi'] = 'unduh';
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['config']  = $this->laporan_penduduk_model->get_config();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['laporan_no'] = $this->input->post('laporan_no');
 		$this->load->view('statistik/penduduk_excel', $data);
 	}
 
@@ -180,12 +192,14 @@ class Statistik extends CI_Controller {
 
 	public function rentang_delete($id = 0)
 	{
+		$this->redirect_hak_akses('h', 'statistik/rentang_umur');
 		$this->laporan_penduduk_model->delete_rentang($id);
 		redirect('statistik/rentang_umur');
 	}
 
 	public function delete_all_rentang()
 	{
+		$this->redirect_hak_akses('h', 'statistik/rentang_umur');
 		$this->laporan_penduduk_model->delete_all_rentang();
 		redirect('statistik/rentang_umur');
 	}

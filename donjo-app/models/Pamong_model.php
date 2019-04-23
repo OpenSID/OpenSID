@@ -86,15 +86,16 @@
 
 	private function filter_sql($aktif=false)
 	{
-    if ($aktif)
-    	return " AND u.pamong_status = '1'";
-    else
-			if (!empty($_SESSION['filter']))
-			{
-				$kf = $_SESSION['filter'];
-				$filter_sql = " AND u.pamong_status = $kf";
-				return $filter_sql;
-			}
+		if ($aktif)
+		{
+			return " AND u.pamong_status = '1'";
+		}
+		if (!empty($_SESSION['filter']))
+		{
+			$kf = $_SESSION['filter'];
+			$filter_sql = " AND u.pamong_status = $kf";
+			return $filter_sql;
+		}
 	}
 
 	public function get_data($id=0)
@@ -105,10 +106,12 @@
 			WHERE pamong_id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
-		$data['pamong_niap_nip'] = (!empty($data['pamong_nip'] and $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap']);
+		$data['pamong_niap_nip'] = (!empty($data['pamong_nip']) and $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
 		if (!empty($data['id_pend']))
+		{
 			// Dari database penduduk
 			$data['pamong_nama'] = $data['nama'];
+		}
 		return $data;
 	 }
 

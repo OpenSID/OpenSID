@@ -16,9 +16,9 @@
               <div class="box box-primary">
                 <div class="box-body box-profile">
                   <?php if ($penduduk['foto']): ?>
-                    <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+                    <img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
                   <?php else: ?>
-                    <img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+                    <img class="penduduk profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
                   <?php endif; ?>
                   <br/>
                   <p class="text-muted text-center"> (Kosongkan jika tidak ingin mengubah foto)</p>
@@ -55,13 +55,13 @@
                     <div class='col-sm-8'>
                       <div class='form-group'>
                         <label>Kepala KK</label>
-                        <input class="form-control input-sm" type="text" value="<?= unpenetration($kk['nama'])?>" disabled></input>
+                        <input class="form-control input-sm" type="text" value="<?= $kk['nama']?>" disabled></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>
                       <div class='form-group'>
                         <label>Alamat </label>
-                        <input class="form-control input-sm" type="text" value="<?= $kk['alamat']?> Dusun <?= ununderscore(unpenetration($kk['dusun']))?> - RW <?= $kk['rw']?> - RT <?= $kk['rt']?>" disabled></input>
+                        <input class="form-control input-sm" type="text" value="<?= $kk['alamat']?> Dusun <?= $kk['dusun']?> - RW <?= $kk['rw']?> - RT <?= $kk['rt']?>" disabled></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>
@@ -79,14 +79,14 @@
                     <div class='col-sm-8'>
                       <div class='form-group'>
                         <label for="nama">Nama Lengkap <code> (Tanpa Gelar )</code> </label>
-                        <input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" value="<?= strtoupper(unpenetration($penduduk['nama']))?>"></input>
+                        <input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" value="<?= strtoupper($penduduk['nama'])?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>
                       <div class='form-group'>
                         <label for="nama">Status Kepemilikan KTP</label>
                         <div class="table-responsive">
-                          <table id="tabel4" class="table table-bordered table-hover">
+                          <table class="table table-bordered table-hover">
                             <thead class="bg-gray disabled color-palette">
                               <tr>
                                 <th width='50%'>Wajib KTP</th>
@@ -122,7 +122,7 @@
                     <div class='col-sm-4'>
                       <div class='form-group'>
                         <label for="no_kk_sebelumnya">Nomor KK Sebelumnya</label>
-                        <input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper(unpenetration($penduduk['no_kk_sebelumnya']))?>"></input>
+                        <input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper($penduduk['no_kk_sebelumnya'])?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -356,7 +356,7 @@
                     <div class='col-sm-8'>
                       <div class='form-group'>
                         <label for="nama_ayah">Nama Ayah </label>
-                        <input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper(unpenetration($penduduk['nama_ayah']))?>"></input>
+                        <input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper($penduduk['nama_ayah'])?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -368,7 +368,7 @@
                     <div class='col-sm-8'>
                       <div class='form-group'>
                         <label for="nama_ibu">Nama Ibu </label>
-                        <input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper(unpenetration($penduduk['nama_ibu']))?>"></input>
+                        <input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper($penduduk['nama_ibu'])?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>
@@ -377,9 +377,11 @@
                       </div>
                     </div>
                     <div class='col-sm-4'>
+
                       <div class='form-group'>
                         <label for="lokasi">Lokasi Tempat Tinggal </label>
-                        <a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]")?>" title="Lokasi <?= $penduduk['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+
+                        <a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/1")?>" title="Lokasi <?= $penduduk['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
 
                       </div>
                     </div>

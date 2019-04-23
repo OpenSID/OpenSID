@@ -7,7 +7,7 @@
 	<section class='content-header'>
 		<h1>Tentang OpenSID</h1>
 		<ol class='breadcrumb'>
-			<li><a href='<?site_url()?>'><i class='fa fa-home'></i> Home</a></li>
+			<li><a href='<?=site_url()?>'><i class='fa fa-home'></i> Home</a></li>
 			<li class='active'>Tentang OpenSID</li>
 		</ol>
 	</section>
@@ -82,7 +82,7 @@
 									<i class="ion ion-ios-pie"></i>
 								</div>
 								<div class="small-box-footer">
-									<?php if ($_SESSION['grup'] == 1 ): ?>
+									<?php if ($this->CI->cek_hak_akses('u')): ?>
 										<a href="<?= site_url("{$this->controller}/dialog_pengaturan")?>" class="inner text-white pengaturan" title="Pengaturan Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Program Bantuan"><i class="fa fa-gear"></i></a>
 									<?php endif; ?>
 									<a href="<?=site_url().$miskin['link_detail']?>" class="inner text-white">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>

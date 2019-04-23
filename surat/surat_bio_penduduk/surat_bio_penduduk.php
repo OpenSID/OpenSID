@@ -64,7 +64,7 @@
 														<tr>
 															<td><?= $i?></td>
 															<td><?= $data['nik']?></td>
-															<td><?= unpenetration($data['nama'])?></td>
+															<td><?= $data['nama']?></td>
 															<td><?= $data['sex']?></td>
 															<td><?= $data['umur']?></td>
 															<td><?= $data['hubungan']?></td>

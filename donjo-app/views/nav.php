@@ -8,41 +8,48 @@
 				<strong><?= ucwords($this->setting->sebutan_desa." ".$desa['nama_desa']);?></strong>
 				</br>
 				<?php
-					$nam_kec = strlen(unpenetration($desa['nama_kecamatan']));
-					$nam_kab = strlen(unpenetration($desa['nama_kabupaten']));
+					$nam_kec = strlen($desa['nama_kecamatan']);
+					$nam_kab = strlen($desa['nama_kabupaten']);
 				?>
 				<?php	if ($nam_kec<=12 AND $nam_kab<=12): ?>
-					<?=ucwords($this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']));?>
+					<?=ucwords($this->setting->sebutan_kecamatan." ".$desa['nama_kecamatan']);?>
 					</br>
-					<?=ucwords($this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']));?>
+					<?=ucwords($this->setting->sebutan_kabupaten." ".$desa['nama_kabupaten']);?>
 				<?php	else: ?>
-					<?=ucwords(substr($this->setting->sebutan_kecamatan,0,3).". ".unpenetration($desa['nama_kecamatan']));?>
+					<?=ucwords(substr($this->setting->sebutan_kecamatan,0,3).". ".$desa['nama_kecamatan']);?>
 					</br>
-					<?=ucwords(substr($this->setting->sebutan_kabupaten,0,3).". ".unpenetration($desa['nama_kabupaten']));?>
+					<?=ucwords(substr($this->setting->sebutan_kabupaten,0,3).". ".$desa['nama_kabupaten']);?>
 				<?php	endif; ?>
 			</div>
 		</div>
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">MENU UTAMA</li>
 			<?php foreach ($modul AS $mod): ?>
-				<li class="<?php if (count($mod['submodul'])>0): ?>treeview<?php endif ?> <?php if ($this->modul_ini==$mod['id']): ?>active<?php endif ?>">
-					<a href="<?= site_url()?><?=$mod['url']?>">
-						<i class="fa <?= $mod['ikon']?> <?php if ($this->modul_ini==$mod['id']): ?>text-aqua<?php endif ?>"></i> <span><?=$mod['modul']?></span>
-						<span class="pull-right-container"><?php if (count($mod['submodul'])>0): ?><i class='fa fa-angle-left pull-right'></i><?php endif ?> </span>
-					</a>
-					<?php if (count($mod['submodul'])>0): ?>
-						<ul class="treeview-menu <?php if ($this->modul_ini==$mod['id']): ?>active<?php endif ?>">
+				<?php if (count($mod['submodul'])==0): ?>
+					<li class="<?php ($this->modul_ini==$mod['id']) and print('active')?>">
+						<a href="<?= site_url()?><?=$mod['url']?>">
+							<i class="fa <?= $mod['ikon']?> <?php ($this->modul_ini==$mod['id']) and print('text-aqua')?>"></i> <span><?=$mod['modul']?></span>
+							<span class="pull-right-container"></span>
+						</a>
+					</li>
+				<?php else : ?>
+					<li class="treeview <?php ($this->modul_ini==$mod['id']) and print('active')?>">
+						<a href="<?= site_url()?><?=$mod['url']?>">
+							<i class="fa <?= $mod['ikon']?> <?php ($this->modul_ini==$mod['id']) and print('text-aqua')?>"></i> <span><?=$mod['modul']?></span>
+							<span class="pull-right-container"><i class='fa fa-angle-left pull-right'></i></span>
+						</a>
+						<ul class="treeview-menu <?php ($this->modul_ini==$mod['id']) and print('active')?>">
 							<?php foreach ($mod['submodul'] as $submod): ?>
-								<li class="<?php if ($act_sub==$submod['id']): ?>active<?php endif ?>">
+								<li class="<?php ($act_sub==$submod['id']) and print('active')?>">
 									<a href="<?= site_url()?><?=$submod['url']?>">
-										<i class="fa <?php if ($submod['ikon']!=NULL): ?><?=$submod['ikon']?><?php else: ?> fa-circle-o<?php endif ?> <?php if ($act_sub==$submod['id']): ?>text-red<?php endif ?>"></i>
+										<i class="fa <?= ($submod['ikon'] != NULL) ? $submod['ikon'] : 'fa-circle-o'?> <?php ($act_sub==$submod['id']) and print('text-red')?>"></i>
 										<?=$submod['modul']?>
 									</a>
 								</li>
 							<?php endforeach; ?>
 						</ul>
-					<?php endif; ?>
-				</li>
+					</li>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
 	</section>

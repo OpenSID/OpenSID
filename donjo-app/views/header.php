@@ -6,7 +6,7 @@
 		<title>
 			<?=$this->setting->admin_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']):  '')
+				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa']:  '')
 				. get_dynamic_title_page_from_path();
 			?>
 		</title>
@@ -47,6 +47,10 @@
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.pm.css" />
+		<!-- Untuk ubahan style desa -->
+		<?php if (is_file("desa/css/siteman.css")): ?>
+			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
+		<?php endif; ?>
 		<!-- OpenStreetMap Js-->
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
     <script src="<?= base_url()?>assets/js/turf.min.js"></script>
@@ -54,7 +58,7 @@
 		<!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 	</head>
-	<body class="skin-purple sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
+	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">
 			<header class="main-header">
 				<a href="<?=site_url()?>first"  target="_blank" class="logo">
@@ -67,6 +71,20 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
+							<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
+								<li>
+									<a href="<?=site_url()?>komentar">
+										<i class="fa fa-commenting fa-lg" title="Komentar baru"></i><span class="badge" id="b_komentar"></span>
+									</a>
+								</li>
+							<?php endif; ?>
+							<?php if ($this->CI->cek_hak_akses('b', 'lapor')): ?>
+								<li>
+									<a href="<?=site_url()?>lapor">
+										<i class="fa fa-envelope fa-lg" title="Laporan mandiri baru"></i><span class="badge" id="b_lapor"></span>
+									</a>
+								</li>
+							<?php endif; ?>
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<?php if ($foto): ?>

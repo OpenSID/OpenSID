@@ -396,7 +396,7 @@
 																<input id="ktp_berlaku<?= ($i)?>" type="hidden" name="ktp_berlaku[]" type="text" value="Seumur Hidup"/>
 																<input disabled="disabled" type="text" value="Seumur Hidup" class="inputbox" size="20"/>
 															</td>
-															<td><?= unpenetration($data['nama'])?></td>
+															<td><?= $data['nama']?></td>
 															<td><?= $data['sex']?></td>
 															<td><?= $data['umur']?></td>
 															<td><?= $data['status_kawin']?></td>

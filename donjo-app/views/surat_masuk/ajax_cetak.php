@@ -1,5 +1,15 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript">
+	$('document').ready(function()
+	{
+		$('#validasi').submit(function()
+		{
+			if ($('#validasi').valid())
+				$('#modalBox').modal('hide');
+		});
+	});
+</script>
 <form action="<?= $form_action?>" method="post" id="validasi" target="_blank">
 	<div class="modal-body">
 		<div class="row">
@@ -40,6 +50,6 @@
 	</div>
 	<div class="modal-footer">
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok" data-dismiss="modal" onclick="$('#validasi').submit();"><i class='fa fa-check'></i> <?= $aksi?></button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> <?= $aksi?></button>
 	</div>
 </form>

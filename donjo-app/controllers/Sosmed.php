@@ -1,21 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Sosmed extends CI_Controller {
+class Sosmed extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2 AND $grup != 3)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('web_sosmed_model');
 		$this->modul_ini = 13;
@@ -93,6 +83,19 @@ class Sosmed extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function whatsapp()
+	{
+		$data['main'] = $this->web_sosmed_model->get_sosmed(6);
+		$data['form_action'] = site_url("sosmed/update/6");
+		$header = $this->header_model->get_data();
+		$nav['act'] = 13;
+		$nav['act_sub'] = 53;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('sosmed/whatsapp', $data);
+		$this->load->view('footer');
+	}
+
 	public function update($id = '')
 	{
 		$this->web_sosmed_model->update($id);
@@ -112,6 +115,9 @@ class Sosmed extends CI_Controller {
 				break;
 			case '5':
 				redirect("sosmed/instagram");
+				break;
+			case '6':
+				redirect("sosmed/whatsapp");
 				break;
 			default:
 				redirect("sosmed");

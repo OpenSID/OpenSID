@@ -153,6 +153,47 @@
 							</div>
 						</div>
 					</div>
+					<?php if ($cat == 1000): ?>
+						<input type="hidden" name="id_agenda" value="<?= $artikel['id_agenda']?>">
+						<div class="box box-info">
+							<div class="box-header with-border">
+								<h3 class="box-title">Pengaturan Agenda Desa</h3>
+								<div class="box-tools">
+									<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+								</div>
+							</div>
+							<div class="box-body no-padding">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="control-label" for="tgl_agenda">Tanggal Kegiatan</label>
+										<div class="input-group input-group-sm date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar-check-o"></i>
+											</div>
+											<input class="form-control input-sm pull-right tgl_jam" name="tgl_agenda" type="text" value="<?= $artikel['tgl_agenda']?>">
+										</div>
+										<span class="help-block"><code>(Isikan Tanggal Kegiatan)</code></span>
+										<label class="control-label" for="lokasi_kegiatan">Lokasi Kegiatan</label>
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-map-marker"></i>
+											</div>
+											<input class="form-control input-sm pull-right" name="lokasi_kegiatan" type="text" placeholder="Masukan lokasi tempat dilakukan kegiatan" value="<?= $artikel['lokasi_kegiatan']?>">
+										</div>
+										<span class="help-block"><code>(Isikan Lokasi Tempat Dilakukan Kegiatan)</code></span>
+										<label class="control-label" for="koordinator_kegiatan">Koordinator Kegiatan</label>
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-user"></i>
+											</div>
+											<input class="form-control input-sm pull-right" name="koordinator_kegiatan" type="text" placeholder="Masukan nama koordinator" value="<?= $artikel['koordinator_kegiatan']?>">
+										</div>
+										<span class="help-block"><code>(Isikan Koordinator Kegiatan)</code></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
 					<div class="box box-info">
 						<div class="box-header with-border">
 							<h3 class="box-title">Pengaturan Lainnya</h3>
@@ -185,12 +226,12 @@
 									<span class="help-block"><code>(Nantinya akan menjadi link unduh/download)</code></span>
 								</div>
 								<div class="form-group">
-									<label class="control-label" for="tgl_post">Tanggal Posting</label>
+									<label class="control-label" for="tgl_upload">Tanggal Posting</label>
 									<div class="input-group input-group-sm date">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right" id="tgl_jam" name="tgl_upload" type="text" value="<?= $artikel['tgl_upload']?>">
+										<input class="form-control input-sm pull-right tgl_jam" name="tgl_upload" type="text" value="<?= $artikel['tgl_upload']?>">
 									</div>
 									<span class="help-block"><code>(Kosongkan jika ingin langsung di post, bisa digunakan untuk artikel terjadwal)</code></span>
               	</div>

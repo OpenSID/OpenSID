@@ -1,21 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Program_bantuan extends CI_Controller {
+class Program_bantuan extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->modul_ini = 6;
@@ -23,7 +13,14 @@ class Program_bantuan extends CI_Controller {
 
 	public function clear($id = 0)
 	{
-		$_SESSION['per_page'] = 50;
+		$_SESSION['per_page'] = 20;
+		$this->session->sasaran = '';
+		redirect('program_bantuan');
+	}
+
+	public function filter($filter)
+	{
+		$_SESSION[$filter] = $this->input->post($filter);
 		redirect('program_bantuan');
 	}
 
@@ -39,7 +36,7 @@ class Program_bantuan extends CI_Controller {
 		$this->load->view('nav', $nav);
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
-
+		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$this->load->view('program_bantuan/program', $data);
@@ -81,24 +78,11 @@ class Program_bantuan extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function sasaran($sasaran = 0)
-	{
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$nav['act']= 6;
-
-		$this->load->view('nav', $nav);
-		$data['tampil'] = $sasaran;
-		$data['program'] = $this->program_bantuan_model->list_program($sasaran);
-
-		$this->load->view('program_bantuan/program', $data);
-		$this->load->view('footer');
-	}
-
 	public function detail($p = 1, $id)
 	{
 		$header = $this->header_model->get_data();
 		$nav['act'] = 6;
+		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -147,6 +131,7 @@ class Program_bantuan extends CI_Controller {
 
 	public function hapus_peserta($id, $peserta_id)
 	{
+		$this->redirect_hak_akses('h', "program_bantuan/detail/1/$id");
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
 		redirect("program_bantuan/detail/1/$id");
 	}
@@ -228,6 +213,7 @@ class Program_bantuan extends CI_Controller {
 
 	public function hapus($id)
 	{
+		$this->redirect_hak_akses('h', "program_bantuan/");
 		$this->program_bantuan_model->hapus_program($id);
 		redirect("program_bantuan/");
 	}

@@ -1,22 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Polygon extends CI_Controller {
+class Polygon extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
-
 		$this->load->model('header_model');
 		$this->load->model('plan_polygon_model');
 		$this->load->database();
@@ -152,12 +141,14 @@ class Polygon extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h', "polygon/index/$p/$o");
 		$this->plan_polygon_model->delete($id);
 		redirect("polygon/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h', "polygon/index/$p/$o");
 		$this->plan_polygon_model->delete_all();
 		redirect("polygon/index/$p/$o");
 	}
@@ -188,12 +179,14 @@ class Polygon extends CI_Controller {
 
 	public function delete_sub_polygon($polygon = '', $id = '')
 	{
+		$this->redirect_hak_akses('h', "polygon/sub_polygon/$polygon");
 		$this->plan_polygon_model->delete_sub_polygon($id);
 		redirect("polygon/sub_polygon/$polygon");
 	}
 
 	public function delete_all_sub_polygon($polygon = '')
 	{
+		$this->redirect_hak_akses('h', "polygon/sub_polygon/$polygon");
 		$this->plan_polygon_model->delete_all_sub_polygon();
 		redirect("polygon/sub_polygon/$polygon");
 	}

@@ -1,21 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Plan extends CI_Controller {
+class Plan extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('plan_lokasi_model');
 		$this->load->database();
@@ -177,12 +167,14 @@ class Plan extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h', "plan/index/$p/$o");
 		$this->plan_lokasi_model->delete($id);
 		redirect("plan/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h', "plan/index/$p/$o");
 		$this->plan_lokasi_model->delete_all();
 		redirect("plan/index/$p/$o");
 	}

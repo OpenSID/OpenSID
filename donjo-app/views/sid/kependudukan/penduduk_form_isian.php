@@ -55,15 +55,32 @@
 				break;
 		}
 	}
+	function ubah_dusun(dusun)
+	{
+		$('#isi_rt').hide();
+		var rw = $('#rw');
+		select_options(rw, dusun);
+	}
+
+	function ubah_rw(dusun, rw)
+	{
+		$('#isi_rt').show();
+		var rt = $('#id_cluster');
+		var params = dusun + '/' + rw;
+		select_options(rt, params);
+	}
 </script>
 
 <div class="col-md-3">
+	<?php if (!$kk_baru): ?>
+		<input name="no_kk" type="hidden" value="<?= $penduduk['no_kk'] ?>">
+	<?php endif; ?>
 	<div class="box box-primary">
 		<div class="box-body box-profile">
 			<?php if ($penduduk['foto']): ?>
-				 <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+				 <img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
 			<?php else: ?>
-				<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+				<img class="penduduk profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
 			<?php endif; ?>
 			<br/>
 			<p class="text-muted text-center"> (Kosongkan jika tidak ingin mengubah foto)</p>
@@ -103,7 +120,7 @@
 					<div class='form-group'>
 						<label for="nama">Status Kepemilikan KTP</label>
 						<div class="table-responsive">
-							<table id="tabel4" class="table table-bordered table-hover">
+							<table class="table table-bordered table-hover">
 								<thead class="bg-gray disabled color-palette">
 									<tr>
 										<th width='33%'>Wajib KTP</th>
@@ -139,7 +156,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="no_kk_sebelumnya">Nomor KK Sebelumnya</label>
-						<input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper(unpenetration($penduduk['no_kk_sebelumnya']))?>"></input>
+						<input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper($penduduk['no_kk_sebelumnya'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-4'>
@@ -376,7 +393,7 @@
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="nama_ayah">Nama Ayah </label>
-						<input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper(unpenetration($penduduk['nama_ayah']))?>"></input>
+						<input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper($penduduk['nama_ayah'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-4'>
@@ -388,7 +405,7 @@
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="nama_ibu">Nama Ibu </label>
-						<input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper(unpenetration($penduduk['nama_ibu']))?>"></input>
+						<input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper($penduduk['nama_ibu'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>
@@ -396,10 +413,63 @@
 						<label class="text-right"><strong>ALAMAT :</strong></label>
 					</div>
 				</div>
+				<?php if (!empty($penduduk['no_kk']) or $kk_baru) : ?>
+					<div class='col-sm-12'>
+						<div class='form-group'>
+							<label for="telepon">Alamat KK </label>
+							<input id="alamat"  name="alamat"  class="form-control input-sm" type="text" placeholder="Alamat di Kartu Keluarga" size="20" value="<?= $penduduk['alamat']?>"></input>
+						</div>
+					</div>
+				<?php endif; ?>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class='form-group col-sm-3'>
+							<label><?= ucwords($this->setting->sebutan_dusun)?> <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+							<select name="dusun" class="form-control input-sm required" onchange="ubah_dusun($(this).val())">
+								<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
+								<?php foreach ($dusun as $data): ?>
+									<option value="<?= $data['dusun']?>" <?php selected($penduduk['dusun'], $data['dusun']) ?>><?= $data['dusun']?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class='form-group col-sm-2'>
+							<label>RW <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+							<select
+							  id="rw"
+							  class="form-control input-sm required"
+							  name="rw"
+							  data-source="<?= site_url()?>wilayah/list_rw/"
+							  data-valueKey="rw"
+							  data-displayKey="rw"
+							  onchange="ubah_rw($('select[name=dusun]').val(), $(this).val())">
+								<option class="placeholder" value="">Pilih RW</option>
+								<?php foreach ($rw as $data): ?>
+									<option value="<?= $data['rw']?>" <?php selected($penduduk['rw'], $data['rw']) ?>><?= $data['rw']?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div id='isi_rt' class='form-group col-sm-2'>
+							<label>RT <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+							<select
+							  id="id_cluster"
+							  class="form-control input-sm required"
+							  name="id_cluster"
+							  data-source="<?= site_url()?>wilayah/list_rt/"
+							  data-valueKey="id"
+							  data-displayKey="rt">
+								<option class="placeholder" value="">Pilih RT </option>
+								<?php foreach ($rt as $data): ?>
+									<option value="<?= $data['id']?>" <?php selected($penduduk['id_cluster'], $data['id']) ?>><?= $data['rt']?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+					</div>
+				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="lokasi">Lokasi Tempat Tinggal </label>
-						<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]")?>" title="Lokasi <?= $penduduk['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+
+						<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/1")?>" title="Lokasi <?= $penduduk['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
 					</div>
 				</div>
 				<div class='col-sm-12'>

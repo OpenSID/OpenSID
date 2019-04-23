@@ -25,11 +25,11 @@
 							<div class="form-group">
 								<label class="col-sm-2 col-md-1 control-label" for="kelurahan"><?= ucwords($this->setting->sebutan_desa)?>/Kel</label>
 								<div class="col-sm-4 col-md-2">
-									<input type="text" class="form-control input-sm" value="<?= unpenetration($data['nama_desa'])?>" disabled/></input>
+									<input type="text" class="form-control input-sm" value="<?= $data['nama_desa']?>" disabled/></input>
 								</div>
 								<label class="col-sm-2 col-md-1 control-label" for="kecamatan"><?= ucwords($this->setting->sebutan_kecamatan)?></label>
 								<div class="col-sm-4 col-md-2">
-									<input type="text" class="form-control input-sm" value="<?= unpenetration($data['nama_kecamatan'])?>" disabled/></input>
+									<input type="text" class="form-control input-sm" value="<?= $data['nama_kecamatan']?>" disabled/></input>
 								</div>
 							<?php endforeach; ?>
 							<?php $bln = date("m");?>
@@ -42,7 +42,7 @@
 									<select class="form-control input-sm" name="dusun" onchange="formAction('mainform','<?= site_url('laporan_rentan/dusun')?>')">
 										<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 										<?php foreach ($list_dusun as $data): ?>
-											<option value="<?= $data['dusun']?>" <?php if ($dusun==$data['dusun']): ?>selected<?php endif; ?>><?= ununderscore(unpenetration($data['dusun']))?></option>
+											<option value="<?= $data['dusun']?>" <?php if ($dusun==$data['dusun']): ?>selected<?php endif; ?>><?= $data['dusun']?></option>
 										<?php endforeach;?>
 									</select>
 								</div>

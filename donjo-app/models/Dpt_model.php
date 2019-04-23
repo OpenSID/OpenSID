@@ -67,13 +67,6 @@
 		}
 	}
 
-	/*
-		Syarat calon pemilih:
-		1. Status dasar = HIDUP
-		2. Status penduduk = TETAP
-		3. Warganegara = WNI
-		4. Umur >= 17 tahun pada tanggal pemilihan ATAU sudah/pernah kawain (status kawin = KAWIN, CERAI HIDUP atau CERAI MATI)
-	*/
 	public function tanggal_pemilihan()
 	{
 		if ($this->input->post('tanggal_pemilihan'))
@@ -93,11 +86,21 @@
 		return $tanggal_pemilihan;
 	}
 
+	/*
+		Syarat calon pemilih:
+		1. Status dasar = HIDUP
+		2. Status penduduk = TETAP
+		3. Warganegara = WNI
+		4. Umur >= 17 tahun pada tanggal pemilihan ATAU sudah/pernah kawin (status kawin = KAWIN, CERAI HIDUP atau CERAI MATI)
+		5. Pekerjaan bukan TNI atau POLRI
+	*/
 	private function syarat_dpt_sql()
 	{
 		$tanggal_pemilihan = $this->tanggal_pemilihan();
 		$sql = " AND u.status_dasar = 1 AND u.status = 1 AND u.warganegara_id = 1 ";
 		$sql .= " AND (((SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= 17) OR u.status_kawin IN (2,3,4))";
+		$sql .= " AND u.pekerjaan_id NOT IN ('6', '7') ";
+
 		return $sql;
 	}
 
@@ -119,13 +122,13 @@
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-	// Penduduk dengan pekerjaan sebagai TNI atau POLRI tidak masuk dalam daftar calon pemilih
 	private function list_data_sql($log)
 	{
 		$sql = "
 		FROM tweb_penduduk u
 		LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
 		LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
+		LEFT JOIN tweb_wil_clusterdesa a2 ON u.id_cluster = a2.id
 		LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
 		LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id
 		LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
@@ -138,7 +141,7 @@
 		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
 		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend
-		WHERE u.pekerjaan_id NOT IN ('6', '7') ";
+		WHERE 1 ";
 
 		$sql .= $this->syarat_dpt_sql();
 		$sql .= $this->search_sql();

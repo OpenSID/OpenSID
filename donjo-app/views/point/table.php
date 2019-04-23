@@ -29,7 +29,7 @@
 							<a href="<?=site_url("point/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Jenis Lokasi Baru">
 								<i class="fa fa-plus"></i>Tambah Jenis Lokasi Baru
             	</a>
-							<?php if ($_SESSION['grup']<4): ?>
+							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("point/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 						</div>

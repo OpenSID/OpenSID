@@ -1,23 +1,13 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Analisis_klasifikasi extends CI_Controller {
+class Analisis_klasifikasi extends Admin_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
 		session_start();
 		$this->load->model('analisis_klasifikasi_model');
-		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$_SESSION['submenu'] = "Data Klasifikasi";
 		$_SESSION['asubmenu'] = "analisis_klasifikasi";
 		$this->modul_ini = 5;
@@ -106,12 +96,14 @@ class Analisis_klasifikasi extends CI_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h', "analisis_klasifikasi/index/$p/$o");
 		$this->analisis_klasifikasi_model->delete($id);
 		redirect("analisis_klasifikasi/index/$p/$o");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h', "analisis_klasifikasi/index/$p/$o");
 		$this->analisis_klasifikasi_model->delete_all();
 		redirect("analisis_klasifikasi/index/$p/$o");
 	}

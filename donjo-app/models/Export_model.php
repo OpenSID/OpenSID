@@ -80,7 +80,7 @@
 		// semua views ditambah di belakang.
 		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup');
 		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
-		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk');
+		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk', 'agenda');
 		$prefs = array(
 				'format'      => 'sql',
 				'tables'			=> $ada_foreign_key,
@@ -136,10 +136,13 @@
 
 	public function restore()
 	{
+		$filename = $_FILES['userfile']['tmp_name'];
+		if ($filename =='') return;
+
 		$db = $this->db->database;
 		$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '$db'";
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 		foreach ($data AS $dat)
 		{
 			$tbl = $dat["TABLE_NAME"];
@@ -147,34 +150,30 @@
 		}
 
 		$_SESSION['success'] = 1;
-		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename!='')
+		$lines = file($filename);
+		$query = "";
+		foreach ($lines as $sql_line)
 		{
-			$lines = file($filename);
-			$query = "";
-			foreach ($lines as $sql_line)
-			{
-				// Abaikan baris apabila kosong atau komentar
-				$sql_line = trim($sql_line);
-			  if ($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0) && $sql_line[0] != '#')
-			  {
-					$query .= $sql_line;
-					if (substr(rtrim($query), -1) == ';')
-					{
-					  $result = $this->db->simple_query($query) ;
-					  if (!$result)
-					  {
-					  	$_SESSION['success'] = -1;
-					  	$error = $this->db->error();
-					  	echo "<br><br>>>>>>>>> Error: ".$query.'<br>';
-					  	echo $error['message'].'<br>'; // (mysql_error equivalent)
-							echo $error['code'].'<br>'; // (mysql_errno equivalent)
-					  }
-					  $query = "";
-					}
-			  }
-		 	}
-		}
+			// Abaikan baris apabila kosong atau komentar
+			$sql_line = trim($sql_line);
+		  if ($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0) && $sql_line[0] != '#')
+		  {
+				$query .= $sql_line;
+				if (substr(rtrim($query), -1) == ';')
+				{
+				  $result = $this->db->simple_query($query) ;
+				  if (!$result)
+				  {
+				  	$_SESSION['success'] = -1;
+				  	$error = $this->db->error();
+				  	echo "<br><br>>>>>>>>> Error: ".$query.'<br>';
+				  	echo $error['message'].'<br>'; // (mysql_error equivalent)
+						echo $error['code'].'<br>'; // (mysql_errno equivalent)
+				  }
+				  $query = "";
+				}
+		  }
+	 	}
 	}
 
 	private function _build_schema($nama_tabel, $nama_tanda) {

@@ -6,22 +6,16 @@
 * Time: 06:59
 */
 
-class Api_inventaris_gedung extends CI_Controller
+class Api_inventaris_gedung extends Admin_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			redirect('siteman');
-		}
 		$this->load->model('inventaris_gedung_model');
 		$this->modul_ini = 16;
 		$this->tab_ini = 3;
-		$this->controller = 'inventaris_gedung';
+		// $this->controller = 'inventaris_gedung';
 	}
 
 	public function add()
@@ -109,6 +103,7 @@ class Api_inventaris_gedung extends CI_Controller
 
 	public function delete($id)
 	{
+		$this->redirect_hak_akses('h', 'inventaris_gedung');
 		$data = $this->inventaris_gedung_model->delete($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -117,6 +112,7 @@ class Api_inventaris_gedung extends CI_Controller
 
 	public function delete_mutasi($id)
 	{
+		$this->redirect_hak_akses('h', 'inventaris_gedung/mutasi');
 		$data = $this->inventaris_gedung_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

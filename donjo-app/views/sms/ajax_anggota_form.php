@@ -21,7 +21,7 @@
 										<tr>
 											<td><input type="checkbox" name="id_cb[]" value="<?=$data['id_kontak']?>" /></td>
 											<td><?= $no;?></td>
-											<td><?= unpenetration($data['nama'])?></td>
+											<td><?= $data['nama']?></td>
 											<td><?= $data['sex']?></td>
 											<td><?= $data['alamat_sekarang']?></td>
 											<td><?= $data['no_hp']?></td>

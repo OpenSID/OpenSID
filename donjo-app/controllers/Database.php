@@ -1,22 +1,12 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Database extends CI_Controller {
+class Database extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
 		$this->load->dbforge();
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('import_model');
 		$this->load->model('export_model');
@@ -164,11 +154,6 @@ class Database extends CI_Controller {
 
 	public function kosongkan_db()
 	{
-		if ($_SESSION['grup'] !=1 )
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect('database/backup'); // hanya untuk administrator
-		}
 		$this->database_model->kosongkan_db();
 		redirect('database/kosongkan');
 	}
@@ -186,14 +171,8 @@ class Database extends CI_Controller {
 
 	public function restore()
 	{
-		if ($_SESSION['grup'] != 1)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect('database/backup'); // hanya untuk administrator
-		}
 		$this->export_model->restore();
-		if ($_SESSION['success'] == 1)
-			redirect('database/backup');
+		redirect('database/backup');
 	}
 
 	public function export_csv()

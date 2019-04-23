@@ -1,27 +1,16 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Keluar extends CI_Controller {
+class Keluar extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
 		$this->load->model('keluar_model');
 		$this->load->model('surat_model');
-		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($this->grup != 1 AND $this->grup != 2 AND $this->grup != 3)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
         $this->load->helper('download');
 		$this->modul_ini = 4;
-		$this->controller = 'keluar';
 	}
 
 	public function clear()
@@ -72,12 +61,8 @@ class Keluar extends CI_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h', "keluar/index/$p/$o");
 		session_error_clear();
-		if ($this->grup != 1)
-		{
-			session_error('Anda tidak mempunyai izin melakukan ini');
-			redirect("keluar/index/$p/$o"); // Batasi hanya admin yang boleh hapus
-		}
 		$this->keluar_model->delete($id);
 		redirect("keluar/index/$p/$o");
 	}

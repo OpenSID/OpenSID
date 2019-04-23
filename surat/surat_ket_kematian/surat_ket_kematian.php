@@ -2,55 +2,52 @@
 <script language="javascript" type="text/javascript">
 	function ubah_saksi1(asal)
 	{
-		$('#saksi1').val(asal);
 		if (asal == 1)
 		{
 			$('.saksi1_desa').show();
 			$('.saksi1_luar_desa').hide();
+			$('input[name=anchor').val('a_saksi1');
 		}
 		else
 		{
 			$('.saksi1_desa').hide();
 			$('.saksi1_luar_desa').show();
-			$('#id_saksi1').val(''); // Hapus $id_wanita
-			submit_form_ambil_data();
+			$('#id_saksi1').val('*'); // Hapus $id_saksi1
+			submit_form_ambil_data('a_saksi1');
 		}
-		$('input[name=anchor').val('saksi1');
 	}
 
 	function ubah_saksi2(asal)
 	{
-		$('#saksi2').val(asal);
 		if (asal == 1)
 		{
 			$('.saksi2_desa').show();
 			$('.saksi2_luar_desa').hide();
+			$('input[name=anchor').val('a_saksi2');
 		}
 		else
 		{
 			$('.saksi2_desa').hide();
 			$('.saksi2_luar_desa').show();
-			$('#id_saksi2').val(''); // Hapus $id_wanita
-			submit_form_ambil_data();
+			$('#id_saksi2').val('*'); // Hapus $id_saksi2
+			submit_form_ambil_data('a_saksi2');
 		}
-		$('input[name=anchor').val('saksi2');
 	}
 
 	function ubah_pelapor(asal){
-		$('#pelapor').val(asal);
 		if (asal == 1)
 		{
 			$('.pelapor_desa').show();
 			$('.pelapor_luar_desa').hide();
+			$('input[name=anchor').val('a_pelapor');
 		}
 		else
 		{
 			$('.pelapor_desa').hide();
 			$('.pelapor_luar_desa').show();
-			$('#id_pelapor').val(''); // Hapus $id_wanita
-			submit_form_ambil_data();
+			$('#id_pelapor').val('*'); // Hapus $id_pelapor
+			submit_form_ambil_data('a_pelapor');
 		}
-		$('input[name=anchor').val('pelapor');
 	}
 
 	function _calculateAge(birthday)
@@ -69,18 +66,18 @@
 		}
 	}
 
- 	function submit_form_ambil_data()
+ 	function submit_form_ambil_data(jenis)
 	{
+		$('input[name=anchor').val(jenis);
 		$('input').removeClass('required');
 		$('select').removeClass('required');
 		$('#'+'validasi').attr('action','');
 		$('#'+'validasi').attr('target','');
 		$('#'+'validasi').submit();
 	}
+
 	$('document').ready(function()
 	{
-		/* pergi ke bagian halaman sesudah mengisi warga desa */
-		location.hash = "#" + $('input[name=anchor]').val();
 		/* set otomatis hari */
 		$('input[name=tanggal_mati]').change(function(){
 			var hari = {
@@ -90,6 +87,8 @@
 			var i = t.getDay();
 			$(this).closest('.form-group').find('[name=hari]').val(hari[i]);
 		});
+		/* pergi ke bagian halaman sesudah mengisi warga desa */
+		setTimeout(function() {location.hash = "#" + $('input[name=anchor]').val();}, 500);
 	});
 </script>
 <div class="content-wrapper">
@@ -139,9 +138,6 @@
 										<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
 									</div>
 								</div>
-								<input id="id_saksi1_validasi" name="id_saksi1" type="hidden" value="<?= $_SESSION['id_saksi1']?>"/>
-								<input id="id_saksi2_validasi" name="id_saksi2" type="hidden" value="<?= $_SESSION['id_saksi2']?>"/>
-								<input id="id_pelapor_validasi" name="id_pelapor" type="hidden" value="<?= $_SESSION['id_pelapor']?>"/>
 								<input name="anchor" type="hidden" value="<?= $anchor; ?>"/>
 								<?php if ($individu): ?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
@@ -330,7 +326,7 @@
 								<?php endif; ?>
 								<?php if ($jenazah and empty($ibu)): ?>
 									<div class="form-group ibu_luar_desa" >
-										<label for="ayah_desa"  class="col-sm-3 control-label text-red" ><strong>DATA IBU TIDAK TERDATA</strong></label>
+										<label class="col-sm-3 control-label text-red" ><strong>DATA IBU TIDAK TERDATA</strong></label>
 									</div>
 									<div class="form-group ibu_luar_desa">
 										<label for="nama_ibu"  class="col-sm-3 control-label">Nama Ibu</label>
@@ -414,8 +410,8 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<div class="form-group subtitle_head">
-									<label class="col-sm-3 control-label" for="status">PELAPOR</label>
+								<div class="form-group subtitle_head" id="a_pelapor">
+									<label class="col-sm-3 control-label" >PELAPOR</label>
 									<div class="btn-group col-sm-8" data-toggle="buttons">
 										<label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($pelapor)): ?>active<?php endif ?>">
 											<input id="pelapor_1" type="radio" name="pelapor" class="form-check-input" type="radio" value="1" <?php if (!empty($pelapor)): ?>checked<?php endif; ?> autocomplete="off" onchange="ubah_pelapor(this.value);"> Warga Desa
@@ -429,9 +425,9 @@
 									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA PELAPOR WARGA DESA</strong></label>
 								</div>
 								<div class="form-group pelapor_desa" <?php if (empty($pelapor)): ?>style="display: none;"<?php endif; ?>>
-									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
+									<label for="id_pelapor" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control  input-sm select2-nik" id="id_pelapor" name="id_pelapor" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
+										<select class="form-control  input-sm select2-nik" id="id_pelapor" name="id_pelapor" style ="width:100%;"  onchange="submit_form_ambil_data('a_pelapor');">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
 												<option value="<?= $data['id']?>" <?php selected($pelapor['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
@@ -445,10 +441,10 @@
 								<?php	endif; ?>
 								<?php if (empty($pelapor)): ?>
 									<div class="form-group pelapor_luar_desa" >
-										<label for="ayah_desa"  class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA PELAPOR LUAR DESA</strong></label>
+										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA PELAPOR LUAR DESA</strong></label>
 									</div>
 									<div class="form-group pelapor_luar_desa">
-										<label for="nama_pelapor"  class="col-sm-3 control-label">Nama Pelapor</label>
+										<label for="nama_pelapor" class="col-sm-3 control-label">Nama Pelapor</label>
 										<div class="col-sm-8">
 											<input  class="form-control input-sm required" type="text" placeholder="Nama Pelapor" name="nama_pelapor" value="<?= $_SESSION['post']['nama_pelapor']?>">
 										</div>
@@ -533,7 +529,7 @@
 										<input class="form-control input-sm required" type="text" placeholder="Hubungan pelapor dengan yang mati" name="hubungan_pelapor" value="<?= $_SESSION['post']['hubungan_pelapor']?>">
 									</div>
 								</div>
-								<div class="form-group subtitle_head">
+								<div class="form-group subtitle_head" id="a_saksi1">
 									<label class="col-sm-3 control-label" for="status">SAKSI 1</label>
 									<div class="btn-group col-sm-8" data-toggle="buttons">
 										<label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($saksi1)): ?>active<?php endif ?>">
@@ -550,7 +546,7 @@
 								<div class="form-group saksi1_desa" <?php if (empty($saksi1)): ?>style="display: none;"<?php endif; ?>>
 									<label for="saksi1_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control input-sm select2-nik" id="id_saksi1" name="id_saksi1" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
+										<select class="form-control input-sm select2-nik" id="id_saksi1" name="id_saksi1" style ="width:100%;"  onchange="submit_form_ambil_data('a_saksi1');">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
 												<option value="<?= $data['id']?>" <?php selected($saksi1['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
@@ -564,10 +560,10 @@
 								<?php	endif; ?>
 								<?php if (empty($saksi1)): ?>
 									<div class="form-group saksi1_luar_desa" >
-										<label for="ayah_desa"  class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA SAKSI 1 LUAR DESA</strong></label>
+										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA SAKSI 1 LUAR DESA</strong></label>
 									</div>
 									<div class="form-group saksi1_luar_desa">
-										<label for="nama_saksi1"  class="col-sm-3 control-label">Nama Saksi</label>
+										<label for="nama_saksi1" class="col-sm-3 control-label">Nama Saksi</label>
 										<div class="col-sm-8">
 											<input  class="form-control input-sm required" type="text" placeholder="Nama Saksi" name="nama_saksi1" value="<?= $_SESSION['post']['nama_saksi1']?>">
 										</div>
@@ -646,7 +642,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<div class="form-group subtitle_head">
+								<div class="form-group subtitle_head" id="a_saksi2">
 									<label class="col-sm-3 control-label" for="status">SAKSI 2</label>
 									<div class="btn-group col-sm-8" data-toggle="buttons">
 										<label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($saksi2)): ?>active<?php endif ?>">
@@ -663,7 +659,7 @@
 								<div class="form-group saksi2_desa" <?php if (empty($saksi2)): ?>style="display: none;"<?php endif; ?>>
 									<label for="saksi2_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
-										<select class="form-control input-sm select2-nik" id="id_saksi2" name="id_saksi2" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
+										<select class="form-control input-sm select2-nik" id="id_saksi2" name="id_saksi2" style ="width:100%;"  onchange="submit_form_ambil_data('a_saksi2');">
 											<option value="">--  Cari NIK / Nama Penduduk--</option>
 											<?php foreach ($penduduk as $data): ?>
 												<option value="<?= $data['id']?>" <?php selected($saksi2['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
@@ -677,7 +673,7 @@
 								<?php	endif; ?>
 								<?php if (empty($saksi2)): ?>
 									<div class="form-group saksi2_luar_desa" >
-										<label for="ayah_desa"  class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA SAKSI 2 LUAR DESA</strong></label>
+										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA SAKSI 2 LUAR DESA</strong></label>
 									</div>
 									<div class="form-group saksi2_luar_desa">
 										<label for="nama_saksi2"  class="col-sm-3 control-label">Nama Saksi</label>

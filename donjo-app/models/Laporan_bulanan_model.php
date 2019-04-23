@@ -54,7 +54,7 @@
 		$bulan = $_SESSION['bulanku'];
 		if ( ! empty($bulan))
 		{
-			return " AND bulan = '".$bulan."'";
+			return " AND cast(bulan as signed) = '".$bulan."'";
 		}
 	}
 
@@ -107,6 +107,7 @@
 			(select count(id) from penduduk_hidup where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=13 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=15  and id_cluster=c.id ) as smp,
 			(select count(id) from penduduk_hidup where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=16 and (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=18  and id_cluster=c.id ) as sma,
 			(select count(id) from penduduk_hidup where (DATE_FORMAT( FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>60 and id_cluster=c.id ) as lansia,
+			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id) as cacat,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='1') as cacat_fisik,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='2') as cacat_netra,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='3') as cacat_rungu,
@@ -114,8 +115,8 @@
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='5') as cacat_fisik_mental,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='6') as cacat_lainnya,
 			(select count(id) from penduduk_hidup where cacat_id is not null and cacat_id <>'0'  and id_cluster=c.id and cacat_id='7') as tidak_cacat,
-			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='1') as sakit_L,
-			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and id_cluster=c.id and sex='2') as sakit_P,
+			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and sakit_menahun_id <>'14' and id_cluster=c.id and sex='1') as sakit_L,
+			(select count(id) from penduduk_hidup where sakit_menahun_id is not null and sakit_menahun_id <>'0' and sakit_menahun_id <>'14' and id_cluster=c.id and sex='2') as sakit_P,
 			(select count(id) from penduduk_hidup where hamil='1' and id_cluster=c.id) as hamil
 			from  tweb_wil_clusterdesa c WHERE rw<>'0' AND rt<>'0' AND (select count(id) from tweb_penduduk where id_cluster=c.id)>0 ";
 

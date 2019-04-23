@@ -6,21 +6,15 @@
 * Time: 06:59
 */
 
-class Api_inventaris_kontruksi extends CI_Controller
+class Api_inventaris_kontruksi extends Admin_Controller
 {
 	function __construct(){
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2) {
-			$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			redirect('siteman');
-		}
 		$this->load->model('inventaris_kontruksi_model');
 		$this->modul_ini = 16;
 		$this->tab_ini = 6;
-		$this->controller = 'inventaris_kontruksi';
+		// $this->controller = 'inventaris_kontruksi';
 	}
 
 	public function add()
@@ -104,6 +98,7 @@ class Api_inventaris_kontruksi extends CI_Controller
 
 	public function delete($id)
 	{
+		$this->redirect_hak_akses('h', 'inventaris_kontruksi');
 		$data = $this->inventaris_kontruksi_model->delete($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -112,6 +107,7 @@ class Api_inventaris_kontruksi extends CI_Controller
 
 	public function delete_mutasi($id)
 	{
+		$this->redirect_hak_akses('h', 'inventaris_kontruksi/mutasi');
 		$data = $this->inventaris_kontruksi_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

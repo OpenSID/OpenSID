@@ -42,7 +42,7 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?=site_url('penduduk/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Penduduk Domisili</a>
-						<?php if ($grup==1): ?>
+						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?=site_url("penduduk/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
 						<div class="btn-group-vertical">
@@ -90,7 +90,7 @@
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<?php if ($dusun): ?>
@@ -195,13 +195,10 @@
 																					<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
 																				</li>
 																				<li>
-																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?= $data['nama']?>" data-title="Lokasi <?= $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/0")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?= $data['nama']?>" data-title="Lokasi <?= $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
 																				</li>
 																				<li>
 																					<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
-																				</li>
-																				<li>
-																					<a href="<?= site_url("penduduk/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah/Pindah Alamat Penduduk Lepas" class="btn btn-social btn-flat btn-block btn-sm"  title="Ubah Alamat/Pindah Penduduk dalam Desa"><i class="fa fa-location-arrow"></i> Pindah Penduduk Dalam Desa</a>
 																				</li>
 																				<li>
 																					<a href="<?= site_url("penduduk/dokumen/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
@@ -209,7 +206,7 @@
 																				<li>
 																					<a href="<?= site_url("penduduk/cetak_biodata/$data[id]")?>"  target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
 																				</li>
-																				<?php if ($grup==1): ?>
+																				<?php if ($this->CI->cek_hak_akses('h')): ?>
 																					<li>
 																						<a href="#" data-href="<?= site_url("penduduk/delete/$p/$o/$data[id]")?>"  class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
 																					</li>
@@ -229,7 +226,7 @@
 																<!-- tambah kolom orang tua-->
 																<td><a href="<?= site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?= $data['no_rtm']?></a></td>
 																<td><?= strtoupper($data['alamat'])?></td>
-																<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+																<td><?= strtoupper($data['dusun'])?></td>
 																<td><?= $data['rw']?></td>
 																<td><?= $data['rt']?></td>
 																<td><?= $data['pendidikan']?></td>

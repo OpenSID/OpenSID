@@ -12,6 +12,7 @@
       <li class="<?php if ($media == 'google'): ?>active<?php endif; ?>"><a href="<?= site_url('sosmed/google')?>"><i class="fa fa-google"></i> Google</a></li>
       <li class="<?php if ($media == 'youtube'): ?>active<?php endif; ?>"><a href="<?= site_url('sosmed/youtube')?>"><i class="fa fa-youtube"></i> Youtube</a></li>
       <li class="<?php if ($media == 'instagram'): ?>active<?php endif; ?>"><a href="<?= site_url('sosmed/instagram')?>"><i class="fa fa-instagram"></i> Instagram</a></li>
+		  <li class="<?php if ($media == 'whatsapp'): ?>active<?php endif; ?>"><a href="<?= site_url('sosmed/whatsapp')?>"><i class="fa fa-whatsapp"></i> WhatsApp</a></li>
 		</ul>
 	</div>
 </div>

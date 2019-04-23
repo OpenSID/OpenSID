@@ -64,10 +64,17 @@
             <div class="box-header with-border">
 							<?php if ($cat > 0): ?>
 								<a href="<?=site_url("web/form/$cat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-										<i class="fa fa-plus"></i>Tambah <?php if ($kategori): ?><?=$kategori['kategori'];?><?php else: ?>Artikel Statis<?php endif; ?> Baru
+										<i class="fa fa-plus"></i>Tambah
+											<?php if ($kategori): ?>
+												<?=$kategori['kategori'];?>
+											<?php elseif ($cat == 1000): ?>
+												Agenda
+											<?php else: ?>
+												Artikel Statis
+											<?php endif; ?> Baru
 	            	</a>
 							<?php endif; ?>
-							<?php if ($_SESSION['grup']<4): ?>
+							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("web/delete_all/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 							<?php if ($cat > 0 and $cat < 999): ?>
@@ -133,18 +140,20 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" <?php $data['boleh_ubah'] or print('disabled')?> /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?=site_url("web/form/$cat/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
-																			<a href="<?=site_url("web/ubah_kategori_form/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori" title="Ubah Kategori"><i class="fa fa-folder-open"></i></a>
-																			<?php if ($data['boleh_komentar']): ?>
-																				<a href="<?=site_url("web/komentar_lock/$cat/$data[id]")?>" class="btn bg-info btn-flat btn-sm" title="Tutup komentar artikel"><i class="fa fa-comment-o"></i></a>
-																			<?php else: ?>
-																				<a href="<?=site_url("web/komentar_unlock/$cat/$data[id]")?>" class="btn bg-info btn-flat btn-sm" title="Buka komentar artikel"><i class="fa fa-comment"></i></a>
-																			<?php endif; ?>
-																			<?php if ($_SESSION['grup']<4): ?>
-																				<a href="#" data-href="<?=site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php if ($data['boleh_ubah']): ?>
+																				<a href="<?=site_url("web/form/$cat/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
+																				<a href="<?=site_url("web/ubah_kategori_form/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori" title="Ubah Kategori"><i class="fa fa-folder-open"></i></a>
+																				<?php if ($data['boleh_komentar']): ?>
+																					<a href="<?=site_url("web/komentar_lock/$cat/$data[id]")?>" class="btn bg-info btn-flat btn-sm" title="Tutup komentar artikel"><i class="fa fa-comment-o"></i></a>
+																				<?php else: ?>
+																					<a href="<?=site_url("web/komentar_unlock/$cat/$data[id]")?>" class="btn bg-info btn-flat btn-sm" title="Buka komentar artikel"><i class="fa fa-comment"></i></a>
+																				<?php endif; ?>
+																				<?php if ($this->CI->cek_hak_akses('h')): ?>
+																					<a href="#" data-href="<?=site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																				<?php endif; ?>
 																				<?php if ($data['enabled'] == '2'): ?>
 																					<a href="<?=site_url("web/artikel_lock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock">&nbsp;</i></a>
 																				<?php elseif ($data['enabled'] == '1'): ?>

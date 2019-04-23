@@ -1,31 +1,21 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Dokumen_sekretariat extends CI_Controller {
+class Dokumen_sekretariat extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2 AND $grup!=3 AND $grup!=4) {
-			if(empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
 		$this->modul_ini = 15;
-		$this->controller = 'dokumen_sekretariat';
 	}
 
-	public function clear()
+	public function clear($kat=1)
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
-		redirect('dokumen_sekretariat');
+		redirect("dokumen_sekretariat/index/$kat");
 	}
 
 	public function index($kat=1, $p=1, $o=0)
@@ -132,6 +122,7 @@ class Dokumen_sekretariat extends CI_Controller {
 
 	public function delete($kat=1, $p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen_sekretariat/index/$kat/$p/$o");
@@ -139,6 +130,7 @@ class Dokumen_sekretariat extends CI_Controller {
 
 	public function delete_all($kat=1, $p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen_sekretariat/index/$kat/$p/$o");

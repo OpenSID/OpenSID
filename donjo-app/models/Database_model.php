@@ -21,7 +21,9 @@
 		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
 		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => '19.01'),
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
-		'19.02' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
+		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
+		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -107,7 +109,9 @@
 			'value' => $versi
 		);
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
-	 $_SESSION['success'] = 1;
+		$this->load->model('track_model');
+		$this->track_model->kirim_data();
+	 	$_SESSION['success'] = 1;
   }
 
   private function getCurrentVersion()
@@ -121,6 +125,11 @@
 	  $result = $_result->value;
 	}
 	return $result;
+  }
+
+  private function nop()
+  {
+  	// Tidak lakukan apa-apa
   }
 
   private function _migrasi_db_cri()
@@ -168,6 +177,142 @@
 	$this->migrasi_1811_ke_1812();
 	$this->migrasi_1812_ke_1901();
 	$this->migrasi_1901_ke_1902();
+	$this->migrasi_1903_ke_1904();
+	$this->migrasi_1904_ke_1905();
+  }
+
+  private function migrasi_1904_ke_1905()
+  {
+  	// Konversi data suplemen terdata ke id
+  	$jml = $this->db->select('count(id) as jml')
+  		->where('id_terdata <>', '0')
+  		->where('char_length(id_terdata) <> 16')
+  		->get('suplemen_terdata')
+  		->row()->jml;
+  	if ($jml == 0)
+  	{
+	  	$terdata = $this->db->select('s.id as s_id, s.id_terdata, s.sasaran,
+	  		(case when s.sasaran = 1 then p.id else k.id end) as id')
+	  		->from('suplemen_terdata s')
+	  		->join('tweb_keluarga k', 'k.no_kk = s.id_terdata', 'left')
+	  		->join('tweb_penduduk p', 'p.nik = s.id_terdata', 'left')
+	  		->get()
+	  		->result_array();
+	  	foreach ($terdata as $data)
+	  	{
+				$this->db
+					->where('id', $data['s_id'])
+					->update('suplemen_terdata', array('id_terdata' => $data['id']));
+	   	}
+	  }
+
+		$this->db->where('id', 62)->update('setting_modul', array('url'=>'gis/clear', 'aktif'=>'1'));
+		// Tambah surat keterangan penghasilan orangtua
+		$data = array(
+			'nama'=>'Keterangan Penghasilan Orangtua',
+			'url_surat'=>'surat_ket_penghasilan_orangtua',
+			'kode_surat'=>'S-42',
+			'jenis'=>1);
+		$sql = $this->db->insert_string('tweb_surat_format', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				nama = VALUES(nama),
+				url_surat = VALUES(url_surat),
+				kode_surat = VALUES(kode_surat),
+				jenis = VALUES(jenis)";
+		$this->db->query($sql);
+  }
+
+  private function migrasi_1903_ke_1904()
+  {
+		$this->db->where('id', 59)->update('setting_modul', array('url'=>'dokumen_sekretariat/clear/2', 'aktif'=>'1'));
+		$this->db->where('id', 60)->update('setting_modul', array('url'=>'dokumen_sekretariat/clear/3', 'aktif'=>'1'));
+  	// Tambah tabel agenda
+		$tb = 'agenda';
+		if (!$this->db->table_exists($tb))
+		{
+			$this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'auto_increment' => TRUE
+				),
+				'id_artikel' => array(
+					'type' => 'INT',
+					'constraint' => 11
+				),
+				'tgl_agenda' => array(
+					'type' => 'timestamp'
+				),
+				'koordinator_kegiatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50
+				),
+				'lokasi_kegiatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100
+				)
+			));
+			$this->dbforge->add_key('id', true);
+			$this->dbforge->create_table($tb, false, array('ENGINE' => $this->engine));
+			$this->dbforge->add_column(
+				'agenda',
+				array('CONSTRAINT `id_artikel_fk` FOREIGN KEY (`id_artikel`) REFERENCES `artikel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE')
+			);
+		}
+		// Pindahkan tgl_agenda kalau sudah sempat membuatnya
+  	if ($this->db->field_exists('tgl_agenda', 'artikel'))
+  	{
+  		$data = $this->db->select('id, tgl_agenda')->where('id_kategori', AGENDA)
+  			->get('artikel')
+  			->result_array();
+  		if (count($data))
+  		{
+	  		$artikel_agenda = array();
+	  		foreach ($data as $agenda)
+	  		{
+	  			$artikel_agenda[] = array('id_artikel'=>$agenda['id'], 'tgl_agenda'=>$agenda['tgl_agenda']);
+	  		}
+	  		$this->db->insert_batch('agenda', $artikel_agenda);
+  		}
+			$this->dbforge->drop_column('artikel', 'tgl_agenda');
+  	}
+		// Tambah tombol media sosial whatsapp
+		$query = "
+			INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('6', 'wa.png', '', 'WhatsApp', '1')
+			ON DUPLICATE KEY UPDATE
+				gambar = VALUES(gambar),
+				nama = VALUES(nama)";
+		$this->db->query($query);
+		// Tambahkan setting aplikasi untuk mengubah warna tema komponen Admin
+		$query = $this->db->select('1')->where('key', 'warna_tema_admin')->get('setting_aplikasi');
+		if (!$query->result())
+		{
+			$data = array(
+				'key' => 'warna_tema_admin',
+				'value' => $setting->value ?: 'skin-purple',
+				'jenis' => 'option-value',
+				'keterangan' => 'Warna dasar tema komponen Admin'
+			);
+			$this->db->insert('setting_aplikasi', $data);
+			$setting_id = $this->db->insert_id();
+			$this->db->insert_batch(
+				'setting_aplikasi_options',
+				array(
+					array('id_setting'=>$setting_id, 'value'=>'skin-blue'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-blue-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-yellow'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-yellow-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-green'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-green-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-purple'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-purple-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-red'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-red-light'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-black'),
+					array('id_setting'=>$setting_id, 'value'=>'skin-black-light')
+				)
+			);
+		}
   }
 
   private function migrasi_1901_ke_1902()
@@ -3162,10 +3307,10 @@
 	public function kosongkan_db()
 	{
 		// Views tidak perlu dikosongkan.
-		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup');
+		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup');
 		// Tabel dengan foreign key akan terkosongkan secara otomatis melalui delete
 		// tabel rujukannya
-		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah');
+		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk');
 		$table_lookup = array(
 			"analisis_ref_state",
 			"analisis_ref_subjek",
@@ -3174,8 +3319,11 @@
 			"gis_simbol",
 			"media_sosial", //?
 			"provinsi",
+			"ref_pindah",
 			"setting_modul",
 			"setting_aplikasi",
+			"setting_aplikasi_options",
+			"skin_sid",
 			"tweb_cacat",
 			"tweb_cara_kb",
 			"tweb_golongan_darah",
@@ -3193,6 +3341,7 @@
 			"tweb_rtm_hubungan",
 			"tweb_sakit_menahun",
 			"tweb_status_dasar",
+			"tweb_status_ktp",
 			"tweb_surat_format",
 			"user",
 			"user_grup",
@@ -3211,7 +3360,7 @@
 		$this->db->where("id_kategori !=", "1003");
 		$query = $this->db->delete('artikel');
 		// Kosongkan semua tabel kecuali table lookup dan views
-	// Tabel yang ada foreign key akan dikosongkan secara otomatis
+		// Tabel yang ada foreign key akan dikosongkan secara otomatis
 		$semua_table = $this->db->list_tables();
 		foreach ($semua_table as $table)
 		{

@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Web_widget extends CI_Controller {
+class Web_widget extends Admin_Controller {
 
 	public function __construct()
 	{
@@ -15,16 +15,6 @@ class Web_widget extends CI_Controller {
 			exit;
 		}
 
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2 AND $grup != 3 AND $grup != 4)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('web_widget_model');
 		$this->modul_ini = 13;
@@ -157,12 +147,14 @@ class Web_widget extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h', "web_widget");
 		$this->web_widget_model->delete($id);
 		redirect("web_widget");
 	}
 
 	public function delete_all($p = 1,$o = 0)
 	{
+		$this->redirect_hak_akses('h', "web_widget");
 		$this->web_widget_model->delete_all();
 		redirect("web_widget");
 	}

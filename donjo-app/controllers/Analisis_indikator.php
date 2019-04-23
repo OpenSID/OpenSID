@@ -1,23 +1,13 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Analisis_indikator extends CI_Controller{
+class Analisis_indikator extends Admin_Controller{
 
 	function __construct()
 	{
 		parent::__construct();
 		session_start();
 		$this->load->model('analisis_indikator_model');
-		$this->load->model('user_model');
 		$this->load->model('header_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$_SESSION['submenu'] = "Data Indikator";
 		$_SESSION['asubmenu'] = "analisis_indikator";
 		$this->modul_ini = 5;
@@ -187,11 +177,13 @@ class Analisis_indikator extends CI_Controller{
 	}
 
 	public function delete($p=1, $o=0, $id=''){
+		$this->redirect_hak_akses('h', "analisis_indikator/index/$p/$o");
 		$this->analisis_indikator_model->delete($id);
 		redirect("analisis_indikator/index/$p/$o");
 	}
 
 	public function delete_all($p=1, $o=0){
+		$this->redirect_hak_akses('h', "analisis_indikator/index/$p/$o");
 		$this->analisis_indikator_model->delete_all();
 		redirect("analisis_indikator/index/$p/$o");
 	}
@@ -210,12 +202,14 @@ class Analisis_indikator extends CI_Controller{
 
 	public function p_delete($in='', $id='')
 	{
+		$this->redirect_hak_akses('h', "analisis_indikator/parameter/$in");
 		$this->analisis_indikator_model->p_delete($id);
 		redirect("analisis_indikator/parameter/$in");
 	}
 
 	public function p_delete_all($in='')
 	{
+		$this->redirect_hak_akses('h', "analisis_indikator/parameter/$in");
 		$this->analisis_indikator_model->p_delete_all();
 		redirect("analisis_indikator/parameter/$in");
 	}

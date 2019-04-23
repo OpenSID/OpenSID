@@ -1,25 +1,14 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Komentar extends CI_Controller {
+class Komentar extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2 AND $grup != 3)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
 		$this->modul_ini = 13;
-		$this->controller = 'komentar';
 	}
 
 	public function clear()
@@ -120,12 +109,14 @@ class Komentar extends CI_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('h', "komentar/index/$p/$o");
 		$this->web_komentar_model->delete($id);
 		redirect("komentar/index/$p/$o");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h', "komentar/index/$p/$o");
 		$this->web_komentar_model->delete_all();
 		redirect("komentar/index/$p/$o");
 	}

@@ -23,7 +23,10 @@
 							<?php if ($penduduk['status_dasar_id']==1): ?>
 								<a href="<?= site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Biodata</a>
 							<?php endif; ?>
-              <a href="<?= site_url("penduduk/cetak_biodata/$penduduk[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
+							<a href="<?= site_url("penduduk/cetak_biodata/$penduduk[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
+							<?php if ($penduduk['status_dasar_id'] == 1 and !empty($penduduk['id_kk'])): ?>
+								<a href="<?= site_url("keluarga/anggota/$p/$o/$penduduk[id_kk]")?>" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Anggota Keluarga" ><i class="fa fa-users"></i> Anggota Keluarga</a>
+							<?php endif; ?>
 							<a href="<?= site_url("penduduk/clear")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Penduduk">
 								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Penduduk
 							</a>
@@ -41,9 +44,9 @@
 											<tr>
 												<td colspan="3">
 													<?php if ($penduduk['foto']): ?>
-														 <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+														 <img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
 													<?php else: ?>
-														<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+														<img class="penduduk profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
   												<?php endif; ?>
 												</td>
 											</tr>
@@ -179,7 +182,7 @@
 													<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat'])?></td>
 												</tr>
 												<tr>
-													<td>Dusun</td><td >:</td><td><?= strtoupper(ununderscore($penduduk['dusun']))?></td>
+													<td>Dusun</td><td >:</td><td><?= strtoupper($penduduk['dusun'])?></td>
 												</tr>
 												<tr>
 													<td>RT/ RW</td><td >:</td><td><?= strtoupper($penduduk['rt'])?> / <?= $penduduk['rw']?></td>

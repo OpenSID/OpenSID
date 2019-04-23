@@ -1,31 +1,22 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Penduduk extends CI_Controller {
+class Penduduk extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
-
 		$this->load->model('penduduk_model');
+		$this->load->model('wilayah_model');
 		$this->load->model('referensi_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
 	}
 
-	public function clear()
+	private function clear_session()
 	{
+		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		unset($_SESSION['status_dasar']);
@@ -51,6 +42,11 @@ class Penduduk extends CI_Controller {
 		unset($_SESSION['cara_kb_id']);
 		unset($_SESSION['akta_kelahiran']);
 		unset($_SESSION['status_ktp']);
+	}
+
+	public function clear()
+	{
+		$this->clear_session();
 		$_SESSION['per_page'] = 50;
 		redirect('penduduk');
 	}
@@ -151,7 +147,6 @@ class Penduduk extends CI_Controller {
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
-		$data['grup'] = $this->user_model->sesi_grup($_SESSION['sesi']);
 		$data['paging'] = $this->penduduk_model->paging($p, $o);
 		$data['main'] = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();
@@ -178,21 +173,6 @@ class Penduduk extends CI_Controller {
 
 		$data['p'] = $p;
 		$data['o'] = $o;
-
-		if (isset($_POST['dusun']))
-			$data['dus_sel'] = $_POST['dusun'];
-		else
-			$data['dus_sel'] = '';
-
-		if (isset($_POST['rw']))
-			$data['rw_sel'] = $_POST['rw'];
-		else
-			$data['rw_sel'] = '';
-
-		if (isset($_POST['rt']))
-			$data['rt_sel'] = $_POST['rt'];
-		else
-			$data['rt_sel'] = '';
 
 		if ($id)
 		{
@@ -229,9 +209,6 @@ class Penduduk extends CI_Controller {
 				if ($_SESSION['dari_internal'])
 				{
 					$data['penduduk'] = $_SESSION['post'];
-					$data['dus_sel'] = $_SESSION['post']['dusun'];
-					$data['rw_sel'] = $_SESSION['post']['rw'];
-					$data['rt_sel'] = $_SESSION['post']['rt'];
 				}
 				else
 				{
@@ -245,9 +222,9 @@ class Penduduk extends CI_Controller {
 
 		$header = $this->header_model->get_data();
 
-		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['rw'] = $this->penduduk_model->list_rw($data['dus_sel']);
-		$data['rt'] = $this->penduduk_model->list_rt($data['dus_sel'], $data['rw_sel']);
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
+		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
@@ -346,6 +323,7 @@ class Penduduk extends CI_Controller {
 
 	public function delete_dokumen($id_pend = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("penduduk/dokumen/$id_pend");
@@ -353,6 +331,7 @@ class Penduduk extends CI_Controller {
 
 	public function delete_all_dokumen($id_pend = 0)
 	{
+		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("penduduk/dokumen/$id_pend");
@@ -471,12 +450,14 @@ class Penduduk extends CI_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('h', "penduduk/index/$p/$o");
 		$this->penduduk_model->delete($id);
 		redirect("penduduk/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('h', "penduduk/index/$p/$o");
 		$this->penduduk_model->delete_all();
 		redirect("penduduk/index/$p/$o");
 	}
@@ -575,17 +556,6 @@ class Penduduk extends CI_Controller {
 		redirect('penduduk');
 	}
 
-	public function ajax_penduduk_pindah($id = 0)
-	{
-		$data['kepala_keluarga'] = $this->penduduk_model->get_penduduk($id);
-		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($id);
-		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['is_anggota_keluarga'] = $this->penduduk_model->is_anggota_keluarga($id);
-
-		$data['form_action'] = site_url("penduduk/pindah_proses/$id");
-		$this->load->view('sid/kependudukan/ajax_pindah_form', $data);
-	}
-
 	public function ajax_penduduk_pindah_rw($dusun = '')
 	{
 		$dusun = urldecode($dusun);
@@ -627,22 +597,15 @@ class Penduduk extends CI_Controller {
 		</td>";
 	}
 
-	public function pindah_proses($id = 0)
-	{
-		$id_cluster = $_POST['id_cluster'];
-		$alamat = $_POST['alamat'];
-		$this->penduduk_model->pindah_proses($id, $id_cluster, $alamat);
-		redirect("penduduk");
-	}
-
-	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '')
+	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '', $edit = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
+		$data['id'] = $id;
+		$data['edit'] = $edit;
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
 		$data['desa'] = $this->penduduk_model->get_desa();
-
 		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id");
 
 		$this->load->view("sid/kependudukan/maps", $data);
@@ -689,28 +652,7 @@ class Penduduk extends CI_Controller {
 	public function statistik($tipe = 0, $nomor = 0, $sex = NULL)
 	{
 		$_SESSION['per_page'] = 50;
-		unset($_SESSION['log']);
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['warganegara']);
-		unset($_SESSION['cacat']);
-		unset($_SESSION['menahun']);
-		unset($_SESSION['golongan_darah']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['agama']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['pekerjaan_id']);
-		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_sedang_id']);
-		unset($_SESSION['pendidikan_kk_id']);
-		unset($_SESSION['status_penduduk']);
-		unset($_SESSION['umurx']);
-		unset($_SESSION['cara_kb_id']);
-		unset($_SESSION['akta_kelahiran']);
-		unset($_SESSION['status_ktp']);
+		$this->clear_session();
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		// kecuali untuk laporan wajib KTP
 		if ($sex == NULL AND $tipe <> 18)
@@ -774,17 +716,7 @@ class Penduduk extends CI_Controller {
 
 	public function lap_statistik($id_cluster = 0, $tipe = 0, $nomor = 0)
 	{
-		unset($_SESSION['sex']);
-		unset($_SESSION['cacat']);
-		unset($_SESSION['menahun']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['hamil']);
-		unset($_SESSION['status']);
-		unset($_SESSION['warganegara']);
+		$this->clear_session();
 		$cluster = $this->penduduk_model->get_cluster($id_cluster);
 		switch ($tipe)
 		{
@@ -860,7 +792,7 @@ class Penduduk extends CI_Controller {
 				$pre = $stat['nama'];
 				break;
 			case 10:
-				$_SESSION['menahun'] = '14';
+				$_SESSION['menahun'] = '90';
 				$_SESSION['sex'] = '1';
 				$_SESSION['dusun'] = $cluster['dusun'];
 				$_SESSION['rw'] = $cluster['rw'];
@@ -868,7 +800,7 @@ class Penduduk extends CI_Controller {
 				$pre = "SAKIT MENAHUN LAKI-LAKI ";
 				break;
 			case 11:
-				$_SESSION['menahun'] = '14';
+				$_SESSION['menahun'] = '90';
 				$_SESSION['sex'] = '2';
 				$_SESSION['dusun'] = $cluster['dusun'];
 				$_SESSION['rw'] = $cluster['rw'];

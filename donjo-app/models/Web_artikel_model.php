@@ -3,6 +3,7 @@
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('agenda_model');
 	}
 
 	public function autocomplete()
@@ -35,6 +36,7 @@
 
 	private function grup_sql()
 	{
+		// Kontributor hanya dapat melihat artikel yg dibuatnya sendiri
 		if ($_SESSION['grup'] == 4)
 		{
 			$kf = $_SESSION['user'];
@@ -91,7 +93,7 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT a.*,k.kategori AS kategori " . $this->list_data_sql($cat);
+		$sql = "SELECT a.*, k.kategori AS kategori " . $this->list_data_sql($cat);
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -107,6 +109,7 @@
 				$data[$i]['aktif'] = "Ya";
 			else
 				$data[$i]['aktif'] = "Tidak";
+			$data[$i]['boleh_ubah'] = $this->boleh_ubah($data[$i]['id'], $this->session->user);
 
 			$j++;
 		}
@@ -126,13 +129,13 @@
 
 	public function get_kategori_artikel($id)
 	{
-		return $this->db->select('id_kategori')->where('id',$id)->get('artikel')->row_array();
+		return $this->db->select('id_kategori')->where('id', $id)->get('artikel')->row_array();
 	}
 
 	public function get_kategori($cat=0)
 	{
 		$sql = "SELECT kategori FROM kategori WHERE id = ?";
-		$query = $this->db->query($sql,$cat);
+		$query = $this->db->query($sql, $cat);
 		return  $query->row_array();
 	}
 
@@ -154,7 +157,7 @@
 		foreach ($list_gambar as $gambar)
 		{
 		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
+		  $nama_file   = $fp."_".$_FILES[$gambar]['name'];
 		  if (!empty($lokasi_file))
 		  {
 			  $tipe_file = TipeFile($_FILES[$gambar]);
@@ -165,6 +168,7 @@
 		$data['id_kategori'] = $cat;
 		$data['id_user'] = $_SESSION['user'];
 
+		// Kontributor tidak dapat mengaktifkan artikel
 		if ($_SESSION['grup'] == 4)
 		{
 			$data['enabled'] = 2;
@@ -175,11 +179,12 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
+	  $ext = get_extension($nama_file);
 		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
-			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)))
+			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) or !in_array($ext, unserialize(EXT_DOKUMEN)))
 			{
 				unset($data['link_dokumen']);
 				$_SESSION['error_msg'] .= " -> Jenis file salah: " . $tipe_file;
@@ -199,17 +204,55 @@
 			unset($data['old_'.$gambar]);
 		}
 		if ($data['tgl_upload'] == '')
-		{
 			unset($data['tgl_upload']);
-		}
 		else
 		{
 			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
 			$data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
 		}
+		if ($data['tgl_agenda'] == '')
+			unset($data['tgl_agenda']);
+		else
+		{
+			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_agenda']);
+			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
+		}
 
-		$outp = $this->db->insert('artikel', $data);
+		if ($cat == AGENDA)
+		{
+			$outp = $this->insert_agenda($data);
+		}
+		else
+		{
+			$outp = $this->db->insert('artikel', $data);
+		}
 		if (!$outp) $_SESSION['success'] = -1;
+	}
+
+	private function ambil_data_agenda(&$data)
+	{
+		$agenda = array();
+		$agenda['tgl_agenda'] = $data['tgl_agenda'];
+		unset($data['tgl_agenda']);
+		$agenda['koordinator_kegiatan'] = $data['koordinator_kegiatan'];
+		unset($data['koordinator_kegiatan']);
+		$agenda['lokasi_kegiatan'] = $data['lokasi_kegiatan'];
+		unset($data['lokasi_kegiatan']);
+		return $agenda;
+	}
+
+	private function insert_agenda($data)
+	{
+		$agenda = $this->ambil_data_agenda($data);
+		unset($data['id_agenda']);
+		$outp = $this->db->insert('artikel', $data);
+		if ($outp)
+		{
+			$insert_id = $this->db->insert_id();
+			$agenda['id_artikel'] = $insert_id;
+			$this->agenda_model->insert($agenda);
+		}
+		return $outp;
 	}
 
 	public function update($cat, $id=0)
@@ -230,7 +273,7 @@
 		foreach ($list_gambar as $gambar)
 		{
 		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = urlencode($fp."_".$_FILES[$gambar]['name']);
+		  $nama_file   = $fp."_".$_FILES[$gambar]['name'];
 
 		  if (!empty($lokasi_file))
 		  {
@@ -267,11 +310,12 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
+	  $ext = get_extension($nama_file);
 		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
-			if(!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)))
+			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) or !in_array($ext, unserialize(EXT_DOKUMEN)))
 			{
 				unset($data['link_dokumen']);
 				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
@@ -291,18 +335,51 @@
 			unset($data['old_'.$gambar]);
 		}
 		if ($data['tgl_upload'] == '')
-		{
 			unset($data['tgl_upload']);
-		}
 		else
 		{
 			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
 			$data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
 		}
+		if ($data['tgl_agenda'] == '')
+			unset($data['tgl_agenda']);
+		else
+		{
+			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_agenda']);
+			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
+		}
 
-		$this->db->where('id',$id);
-		$outp = $this->db->update('artikel', $data);
+		if ($cat == AGENDA)
+		{
+			$outp = $this->update_agenda($id, $data);
+		}
+		else
+		{
+			$this->db->where('id', $id);
+			$outp = $this->db->update('artikel', $data);
+		}
 		if (!$outp) $_SESSION['success'] = -1;
+	}
+
+	private function update_agenda($id_artikel, $data)
+	{
+		$agenda = $this->ambil_data_agenda($data);
+		$id = $data['id_agenda'];
+		unset($data['id_agenda']);
+		$outp = $this->db->where('id', $id_artikel)->update('artikel', $data);
+		if ($outp)
+		{
+			if (empty($id))
+			{
+				$agenda['id_artikel'] = $id_artikel;
+				$this->agenda_model->insert($agenda);
+			}
+			else
+			{
+				$this->agenda_model->update($id, $agenda);
+			}
+		}
+		return $outp;
 	}
 
 	public function update_kategori($id, $id_kategori)
@@ -330,8 +407,11 @@
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$outp = $this->delete($id);
-			if (!$outp) $_SESSION['success'] = -1;
+			if ($this->boleh_ubah($id, $_SESSION['user']))
+			{
+				$outp = $this->delete($id);
+				if (!$outp) $_SESSION['success'] = -1;
+			}
 		}
 	}
 
@@ -362,9 +442,10 @@
 
 	public function get_artikel($id=0)
 	{
-		$sql = "SELECT a.*, u.nama AS owner
+		$sql = "SELECT a.*, g.*, g.id as id_agenda, u.nama AS owner
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
+			LEFT JOIN agenda g ON g.id_artikel = a.id
 			WHERE a.id = ?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
@@ -375,6 +456,14 @@
 		//digunakan untuk timepicker
 		$tempTgl = date_create_from_format('Y-m-d H:i:s', $data['tgl_upload']);
 		$data['tgl_upload'] = $tempTgl->format('d-m-Y H:i:s');
+		// Data artikel terkait agenda
+		if (!empty($data['tgl_agenda']))
+		{
+			$tempTgl = date_create_from_format('Y-m-d H:i:s', $data['tgl_agenda']);
+			$data['tgl_agenda'] = $tempTgl->format('d-m-Y H:i:s');
+		}
+		else
+			$data['tgl_agenda'] = date('d-m-Y H:i:s');
 
 		return $data;
 	}
@@ -488,5 +577,12 @@
 	{
 		$jml = $this->db->select('count(*) as jml')->get('artikel')->row()->jml;
 		return $jml;
+	}
+
+	public function boleh_ubah($id, $user)
+	{
+		// Kontributor hanya boleh mengubah artikel yg ditulisnya sendiri
+		$id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
+		return ($user == $id_user or $_SESSION['grup'] != 4);
 	}
 }

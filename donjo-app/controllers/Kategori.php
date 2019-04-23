@@ -1,20 +1,11 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class Kategori extends CI_Controller {
+
+class Kategori extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if ($grup != 1 AND $grup != 2 AND $grup != 3)
-		{
-			if (empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('web_kategori_model');
 		$this->modul_ini = 13;
@@ -150,12 +141,14 @@ class Kategori extends CI_Controller {
 
 	public function delete($id='')
 	{
+		$this->redirect_hak_akses('h', "kategori/index");
 		$this->web_kategori_model->delete($id);
 		redirect("kategori/index");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
+		$this->redirect_hak_akses('h', "kategori/index/$p/$o");
 		$this->web_kategori_model->delete_all();
 		redirect("kategori/index/$p/$o");
 	}
@@ -210,11 +203,6 @@ class Kategori extends CI_Controller {
 
 	public function urut($id=0, $arah=0, $kategori='')
 	{
-		if ($_SESSION['grup'] != 1)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect('kategori'); // hanya untuk administrator
-		}
 		$this->web_kategori_model->urut($id,$arah,$kategori);
 		if ($kategori != '')
 			redirect("kategori/sub_kategori/$kategori");

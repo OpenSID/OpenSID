@@ -50,8 +50,8 @@
 								<div class="col-sm-6 col-lg-4">
 									<select class="form-control input-sm" name="atas_nama">
 										<option value="">Atas Nama</option>
-										<option value="An. Kepala Desa <?= unpenetration($desa['nama_desa'])?>"> An. Kepala Desa <?= unpenetration($desa['nama_desa'])?> </option>
-										<option value="Ub. Kepala Desa <?= unpenetration($desa['nama_desa'])?>"> Ub. Kepala Desa <?= unpenetration($desa['nama_desa'])?> </option>
+										<option value="An. Kepala Desa <?= $desa['nama_desa']?>"> An. Kepala Desa <?= $desa['nama_desa']?> </option>
+										<option value="Ub. Kepala Desa <?= $desa['nama_desa']?>"> Ub. Kepala Desa <?= $desa['nama_desa']?> </option>
 									</select>
 								</div>
 							</div>
