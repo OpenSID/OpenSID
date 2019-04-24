@@ -29,8 +29,13 @@
 			data-cycle-overlay-fx-out="slideUp"
 			data-cycle-overlay-fx-in="slideDown"
 			>
-			<div class="cycle-caption"></div>
-			<div class="cycle-overlay"></div>
+
+			<?php if ($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true): ?>
+				<div class="cycle-caption"></div>
+				<div class="cycle-overlay"></div>
+			<?php else: ?>
+			  <span class="cycle-pager"></span>  <!-- Untuk membuat tanda bulat atau link pada slider -->
+			<?php endif; ?>
 
 		  <?php foreach($aparatur_desa as $data) : ?>
 		  	<?php if(AmbilFoto($data['foto'],"besar") AND is_file(LOKASI_USER_PICT.$data['foto'])) : ?>

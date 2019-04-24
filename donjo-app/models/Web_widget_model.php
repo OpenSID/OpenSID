@@ -243,13 +243,14 @@
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-	public function get_setting($widget)
+	public function get_setting($widget, $opsi='')
 	{
 	  // Data di kolom setting dalam format json
 		$setting = $this->db->select('setting')->
 			where('isi',$widget.'.php')->
 			get('widget')->row_array();
-		return json_decode($setting['setting'], true);
+		$setting = json_decode($setting['setting'], true);
+		return empty($opsi) ? $setting : $setting[$opsi];
 	}
 
 	protected function filter_setting($k)
