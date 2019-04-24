@@ -183,6 +183,8 @@
 
   private function migrasi_1904_ke_1905()
   {
+  	// Tambah form admin aparatur desa
+		$this->db->where('isi','aparatur_desa.php')->update('widget',array('form_admin'=>'web_widget/admin/aparatur_desa'));
   	// Konversi data suplemen terdata ke id
   	$jml = $this->db->select('count(id) as jml')
   		->where('id_terdata <>', '0')
