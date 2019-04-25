@@ -22,16 +22,280 @@ class Keuangan_model extends CI_model {
 				$data      = $this->upload->data();
 				$zip_file  = new ZipArchive;
 				$full_path = $data['full_path'];
-		if ($zip_file->open($full_path) === TRUE){
-			mkdir('desa/upload/keuangan/'.$_FILES['keuangan']['name']);
-			$zip_file->extractTo(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name']);
-			$zip_file->close();
-			$_SESSION['success'] = 1;
-			$_SESSION['error_msg'] = 'Berhasil1';
-		}else{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = 'gagal2';
-		}		redirect('keuangan/import_data');
+				$zip_file->extractTo(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name']);
+				$handle = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ref_Version.csv', "r");
+				$header = fgetcsv($handle);
+				$jml_kolom = count($header);
+				while (($csv = fgetcsv($handle)) !== FALSE)
+				{
+					for ($c=0; $c < $jml_kolom; $c++)
+					{
+						$dataku[$header[$c]] = $csv[$c];
+					}
+				}
+				$data2['versi_database'] = $dataku['Versi'];
+				$data2['tahun_anggaran'] = $_POST['tahun_anggaran'];
+				$data2['aktif'] = 1;
+				if ($this->db->insert('keuangan_master', $data2)) {
+						$id_master_keuangan = $this->db->insert_id();
+						//insert ref desa
+						$csvLines= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ref_Desa.csv', "r");
+				    while (($data3 = fgetcsv($csvLines)) !== FALSE) {
+									$rows[] = $data3;
+				    }
+						foreach ($rows as $value) {
+										$data_ref_desa['id_keuangan_master'] = $id_master_keuangan;
+										$data_ref_desa['kd_kec'] = $value[0];
+										$data_ref_desa['kd_desa'] = $value[1];
+										$data_ref_desa['nama_desa'] = $value[2];
+										$this->db->insert('keuangan_ref_desa', $data_ref_desa);
+						}
+						//insert ta desa
+						$csvTaDesa= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Desa.csv', "r");
+				    while (($dataTaDesa = fgetcsv($csvTaDesa)) !== FALSE) {
+									$ta_desa[] = $dataTaDesa;
+				    }
+						$i2 = 1;
+						foreach ($ta_desa as $value) {
+							if ($i2 > 1) {
+								//insert ta desa
+								$data_ta_desa['id_keuangan_master'] = $id_master_keuangan;
+								$data_ta_desa['kd_desa'] = $value[1];
+								$data_ta_desa['nm_kades'] = $value[2];
+								$data_ta_desa['jbt_kades'] = $value[3];
+								$data_ta_desa['nm_sekdes'] = $value[4];
+								$data_ta_desa['nip_sekdes'] = $value[5];
+								$data_ta_desa['jbt_sekdes'] = $value[6];
+								$data_ta_desa['nm_kaur_keu'] = $value[7];
+								$data_ta_desa['jbt_kaur_keu'] = $value[8];
+								$data_ta_desa['nm_bendahara'] = $value[9];
+								$data_ta_desa['jbt_bendahara'] = $value[10];
+								$data_ta_desa['no_perdes'] = $value[11];
+								$data_ta_desa['tgl_perdes'] = $value[12];
+								$data_ta_desa['no_perdes_pb'] = $value[13];
+								$data_ta_desa['tgl_perdes_pb'] = $value[14];
+								$data_ta_desa['no_predes_pj'] = $value[15];
+								$data_ta_desa['tgl_perdes_pj'] = $value[16];
+								$data_ta_desa['alamat'] = $value[17];
+								$data_ta_desa['ibukota'] = $value[18];
+								$data_ta_desa['status'] = $value[19];
+								$data_ta_desa['npwp'] = $value[10];
+								$this->db->insert('keuangan_ta_desa', $data_ta_desa);
+							}
+							$i2++;
+						}
+						//insert Ref Rek 4
+						$csvRef4= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ref_Rek4.csv', "r");
+				    while (($dataRef4 = fgetcsv($csvRef4)) !== FALSE) {
+									$ref_rek4[] = $dataRef4;
+				    }
+						$i3 = 1;
+						foreach ($ref_rek4 as $value) {
+							if ($i3 > 1) {
+								//insert ta desa
+								$data_ref_rek4['id_keuangan_master'] = $id_master_keuangan;
+								$data_ref_rek4['jenis'] = $value[0];
+								$data_ref_rek4['obyek'] = $value[1];
+								$data_ref_rek4['nama_obyek'] = $value[2];
+								$data_ref_rek4['peraturan'] = $value[3];
+								$this->db->insert('keuangan_ref_rek4', $data_ref_rek4);
+							}
+							$i3++;
+						}
+
+						$i3 = 1;
+						foreach ($ref_rek4 as $value) {
+							if ($i3 > 1) {
+								//insert ta desa
+								$data_ref_rek4['id_keuangan_master'] = $id_master_keuangan;
+								$data_ref_rek4['jenis'] = $value[0];
+								$data_ref_rek4['obyek'] = $value[1];
+								$data_ref_rek4['nama_obyek'] = $value[2];
+								$data_ref_rek4['peraturan'] = $value[3];
+								$this->db->insert('keuangan_ref_rek4', $data_ref_rek4);
+							}
+							$i3++;
+						}
+
+						//insert TBP Rinci
+						$csvTBPRinci= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_TBPRinci.csv', "r");
+						while (($data_tbp_rinci = fgetcsv($csvTBPRinci)) !== FALSE) {
+									$ta_tbrinci[] = $data_tbp_rinci;
+						}
+						$i4 = 1;
+						foreach ($ta_tbrinci as $value) {
+							if ($i4 > 1) {
+								$data_tbrinci['id_keuangan_master'] = $id_master_keuangan;
+								$data_tbrinci['no_bukti'] = $value[1];
+								$data_tbrinci['kd_desa'] = $value[2];
+								$data_tbrinci['kd_keg'] = $value[3];
+								$data_tbrinci['kd_rincian'] = $value[4];
+								$data_tbrinci['rincian_sd'] = $value[5];
+								$data_tbrinci['sumber_dana'] = $value[6];
+								$data_tbrinci['nilai'] = $value[7];
+								$this->db->insert('keuangan_tbp_rinci', $data_tbrinci);
+							}
+							$i4++;
+						}
+
+						//insert Ta STS
+						$csvTa_STS= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_STS.csv', "r");
+						while (($data_ta_sts = fgetcsv($csvTa_STS)) !== FALSE) {
+									$ta_sts[] = $data_ta_sts;
+						}
+						$i5 = 1;
+						foreach ($ta_sts as $value) {
+							if ($i5 > 1) {
+								//insert ta desa
+								$data_sts['id_keuangan_master'] = $id_master_keuangan;
+								$data_sts['no_bukti'] = $value[1];
+								$data_sts['tgl_bukti'] = $value[2];
+								$data_sts['kd_desa'] = $value[3];
+								$data_sts['uraian'] = $value[4];
+								$data_sts['no_rek_bank'] = $value[5];
+								$data_sts['nama_bank'] = $value[6];
+								$data_sts['jumlah'] = $value[7];
+								$data_sts['nm_bendahara'] = $value[8];
+								$data_sts['jbt_bendahara'] = $value[9];
+								$this->db->insert('keuangan_sts', $data_sts);
+							}
+							$i5++;
+						}
+
+						//insert Ta Mutasi
+						$csvTa_Mutasi= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Mutasi.csv', "r");
+						while (($data_ta_mutasi = fgetcsv($csvTa_Mutasi)) !== FALSE) {
+									$ta_mutasi[] = $data_ta_mutasi;
+						}
+						$i6 = 1;
+						foreach ($ta_mutasi as $value) {
+							if ($i6 > 1) {
+								//insert ta desa
+								$data_mutasi['id_keuangan_master'] = $id_master_keuangan;
+								$data_mutasi['kd_desa'] = $value[1];
+								$data_mutasi['no_bukti'] = $value[2];
+								$data_mutasi['tgl_bukti'] = $value[3];
+								$data_mutasi['keterangan'] = $value[4];
+								$data_mutasi['kd_bank'] = $value[5];
+								$data_mutasi['kd_rincian'] = $value[6];
+								$data_mutasi['kd_keg'] = $value[7];
+								$data_mutasi['sumberdana'] = $value[8];
+								$data_mutasi['kd_mutasi'] = $value[9];
+								$data_mutasi['nilai'] = $value[10];
+								$this->db->insert('keuangan_mutasi', $data_mutasi);
+							}
+							$i6++;
+						}
+
+						//insert TA Pencairan
+						$csvTa_Pencairan= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Pencairan.csv', "r");
+						while (($data_ta_pencairan = fgetcsv($csvTa_Mutasi)) !== FALSE) {
+									$ta_pencairan[] = $data_ta_pencairan;
+						}
+						$i7 = 1;
+						foreach ($ta_pencairan as $value) {
+							if ($i7 > 1) {
+								//insert ta desa
+								$data_pencairan['id_keuangan_master'] = $id_master_keuangan;
+								$data_pencairan['no_cek'] = $value[1];
+								$data_pencairan['no_spp'] = $value[2];
+								$data_pencairan['tgl_cek'] = $value[3];
+								$data_pencairan['kd_desa'] = $value[4];
+								$data_pencairan['keterangan'] = $value[5];
+								$data_pencairan['jumlah'] = $value[6];
+								$data_pencairan['potongan'] = $value[7];
+								$data_pencairan['kdbayar'] = $value[8];
+								$this->db->insert('keuangan_pencairan', $data_pencairan);
+							}
+							$i7++;
+						}
+
+						//insert Ta SPPBukti
+						$csvTa_SPPBukti= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_SPPBukti.csv', "r");
+						while (($data_ta_sppbukti = fgetcsv($csvTa_SPPBukti)) !== FALSE) {
+									$ta_sppbukti[] = $data_ta_sppbukti;
+						}
+						$i8 = 1;
+						foreach ($ta_sppbukti as $value) {
+							if ($i8 > 1) {
+								//insert ta desa
+								$data_sppbukti['id_keuangan_master'] = $id_master_keuangan;
+								$data_sppbukti['kd_desa'] = $value[1];
+								$data_sppbukti['no_spp'] = $value[2];
+								$data_sppbukti['kd_keg'] = $value[3];
+								$data_sppbukti['kd_rincian'] = $value[4];
+								$data_sppbukti['sumberdana'] = $value[5];
+								$data_sppbukti['no_bukti'] = $value[6];
+								$data_sppbukti['tgl_bukti'] = $value[7];
+								$data_sppbukti['nm_penerima'] = $value[8];
+								$data_sppbukti['alamat'] = $value[9];
+								$data_sppbukti['rek_bank'] = $value[10];
+								$data_sppbukti['nm_bank'] = $value[11];
+								$data_sppbukti['npwp'] = $value[12];
+								$data_sppbukti['keterangan'] = $value[13];
+								$data_sppbukti['nilai'] = $value[14];
+								$this->db->insert('keuangan_sppbukti', $data_sppbukti);
+							}
+							$i8++;
+						}
+
+						//insert Ta TBP
+						$csvTa_TBP= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_TBP.csv', "r");
+						while (($data_ta_tbp = fgetcsv($csvTa_TBP)) !== FALSE) {
+									$ta_tbp[] = $data_ta_tbp;
+						}
+						$i9 = 1;
+						foreach ($ta_tbp as $value) {
+							if ($i9 > 1) {
+								//insert ta desa
+								$data_tbp['id_keuangan_master'] = $id_master_keuangan;
+								$data_tbp['no_bukti'] = $value[1];
+								$data_tbp['tgl_bukti'] = $value[2];
+								$data_tbp['kd_desa'] = $value[3];
+								$data_tbp['uraian'] = $value[4];
+								$data_tbp['nm_penyetor'] = $value[5];
+								$data_tbp['alamat_penyetor'] = $value[6];
+								$data_tbp['ttd_penyetor'] = $value[7];
+								$data_tbp['norek_bank'] = $value[8];
+								$data_tbp['nama_bank'] = $value[9];
+								$data_tbp['jumlah'] = $value[10];
+								$data_tbp['nm_bendahara'] = $value[11];
+								$data_tbp['jbt_bendahara'] = $value[12];
+								$data_tbp['status'] = $value[13];
+								$data_tbp['kdbayar'] = $value[14];
+								$data_tbp['ref_bayar'] = $value[14];
+								$this->db->insert('keuangan_tbp', $data_tbp);
+							}
+							$i9++;
+						}
+						//insert Ta SPPPot
+						$csvTa_SPPPot= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_SPPPot.csv', "r");
+						while (($data_ta_spppot = fgetcsv($csvTa_SPPPot)) !== FALSE) {
+									$ta_spppot[] = $data_ta_spppot;
+						}
+						$i10 = 1;
+						foreach ($ta_spppot as $value) {
+							if ($i10 > 1) {
+								//insert ta desa
+								$data_spppot['id_keuangan_master'] = $id_master_keuangan;
+								$data_spppot['kd_desa'] = $value[1];
+								$data_spppot['no_spp'] = $value[2];
+								$data_spppot['kd_keg'] = $value[3];
+								$data_spppot['no_bukti'] = $value[4];
+								$data_spppot['kd_rincian'] = $value[5];
+								$data_spppot['nilai'] = $value[6];
+								$this->db->insert('keuangan_spppot', $data_spppot);
+							}
+							$i10++;
+						}
+
+						fclose($handle);
+						$zip_file->close();
+						$_SESSION['success'] = 1;
+						$_SESSION['error_msg'] = 'Berhasil';
+
+				}
+
 		}else{
 					$uploadError = $this->upload->display_errors(NULL, NULL);
 					$_SESSION['success'] = -1;
@@ -40,474 +304,6 @@ class Keuangan_model extends CI_model {
 		}
 	}
 
-	public function convertMDE($inputFiles,$data)
-	{
-		$inputFiles = [$inputFiles];
-		$cek = $this->keuangan_model->cekMasterKeuangan('V'.$_POST['versi_database'],$_POST['tahun_anggaran']);
-		if ($cek) {
-			$tables = $client->getDatabaseTables($inputFiles);
-				$id_master_keuangan = $cek->id;
-				$ref_desa = $client->getDatabaseTableRows($inputFiles,'Ref_Desa');
-				if ($ref_desa) {
-					$i = 1;
-					foreach ($ref_desa as $value) {
-						if ($i > 1) {
-							//insert ref desa
-							$data_ref_desa['id_keuangan_master'] = $id_master_keuangan;
-							$data_ref_desa['kd_kec'] = $value[0];
-							$data_ref_desa['kd_desa'] = $value[1];
-							$data_ref_desa['nama_desa'] = $value[2];
-							$this->db->insert('keuangan_ref_desa', $data_ref_desa);
-						}
-						$i++;
-					}
-
-					$ta_desa = $client->getDatabaseTableRows($inputFiles,'Ta_Desa');
-					$i2 = 1;
-					foreach ($ta_desa as $value) {
-						if ($i2 > 1) {
-							//insert ta desa
-							$data_ta_desa['id_keuangan_master'] = $id_master_keuangan;
-							$data_ta_desa['kd_desa'] = $value[1];
-							$data_ta_desa['nm_kades'] = $value[2];
-							$data_ta_desa['jbt_kades'] = $value[3];
-							$data_ta_desa['nm_sekdes'] = $value[4];
-							$data_ta_desa['nip_sekdes'] = $value[5];
-							$data_ta_desa['jbt_sekdes'] = $value[6];
-							$data_ta_desa['nm_kaur_keu'] = $value[7];
-							$data_ta_desa['jbt_kaur_keu'] = $value[8];
-							$data_ta_desa['nm_bendahara'] = $value[9];
-							$data_ta_desa['jbt_bendahara'] = $value[10];
-							$data_ta_desa['no_perdes'] = $value[11];
-							$data_ta_desa['tgl_perdes'] = $value[12];
-							$data_ta_desa['no_perdes_pb'] = $value[13];
-							$data_ta_desa['tgl_perdes_pb'] = $value[14];
-							$data_ta_desa['no_predes_pj'] = $value[15];
-							$data_ta_desa['tgl_perdes_pj'] = $value[16];
-							$data_ta_desa['alamat'] = $value[17];
-							$data_ta_desa['ibukota'] = $value[18];
-							$data_ta_desa['status'] = $value[19];
-							$data_ta_desa['npwp'] = $value[10];
-							$this->db->insert('keuangan_ta_desa', $data_ta_desa);
-						}
-						$i2++;
-					}
-
-					$ref_rek4 = $client->getDatabaseTableRows($inputFiles,'Ref_Rek4');
-					$i3 = 1;
-					foreach ($ref_rek4 as $value) {
-						if ($i3 > 1) {
-							//insert ta desa
-							$data_ref_rek4['id_keuangan_master'] = $id_master_keuangan;
-							$data_ref_rek4['jenis'] = $value[0];
-							$data_ref_rek4['obyek'] = $value[1];
-							$data_ref_rek4['nama_obyek'] = $value[2];
-							$data_ref_rek4['peraturan'] = $value[3];
-							$this->db->insert('keuangan_ref_rek4', $data_ref_rek4);
-						}
-						$i3++;
-					}
-
-					$ta_tbrinci = $client->getDatabaseTableRows($inputFiles,'Ta_TBPRinci');
-					$i4 = 1;
-					foreach ($ta_tbrinci as $value) {
-						if ($i4 > 1) {
-							//insert ta desa
-							$data_tbrinci['id_keuangan_master'] = $id_master_keuangan;
-							$data_tbrinci['no_bukti'] = $value[1];
-							$data_tbrinci['kd_desa'] = $value[2];
-							$data_tbrinci['kd_keg'] = $value[3];
-							$data_tbrinci['kd_rincian'] = $value[4];
-							$data_tbrinci['rincian_sd'] = $value[5];
-							$data_tbrinci['sumber_dana'] = $value[6];
-							$data_tbrinci['nilai'] = $value[7];
-							$this->db->insert('keuangan_tbp_rinci', $data_tbrinci);
-						}
-						$i4++;
-					}
-
-					$ta_sts = $client->getDatabaseTableRows($inputFiles,'Ta_STS');
-					$i5 = 1;
-					foreach ($ta_sts as $value) {
-						if ($i5 > 1) {
-							//insert ta desa
-							$data_sts['id_keuangan_master'] = $id_master_keuangan;
-							$data_sts['no_bukti'] = $value[1];
-							$data_sts['tgl_bukti'] = $value[2];
-							$data_sts['kd_desa'] = $value[3];
-							$data_sts['uraian'] = $value[4];
-							$data_sts['no_rek_bank'] = $value[5];
-							$data_sts['nama_bank'] = $value[6];
-							$data_sts['jumlah'] = $value[7];
-							$data_sts['nm_bendahara'] = $value[8];
-							$data_sts['jbt_bendahara'] = $value[9];
-							$this->db->insert('keuangan_sts', $data_sts);
-						}
-						$i5++;
-					}
-
-					$ta_mutasi = $client->getDatabaseTableRows($inputFiles,'Ta_Mutasi');
-					$i6 = 1;
-					foreach ($ta_mutasi as $value) {
-						if ($i6 > 1) {
-							//insert ta desa
-							$data_mutasi['id_keuangan_master'] = $id_master_keuangan;
-							$data_mutasi['kd_desa'] = $value[1];
-							$data_mutasi['no_bukti'] = $value[2];
-							$data_mutasi['tgl_bukti'] = $value[3];
-							$data_mutasi['keterangan'] = $value[4];
-							$data_mutasi['kd_bank'] = $value[5];
-							$data_mutasi['kd_rincian'] = $value[6];
-							$data_mutasi['kd_keg'] = $value[7];
-							$data_mutasi['sumberdana'] = $value[8];
-							$data_mutasi['kd_mutasi'] = $value[9];
-							$data_mutasi['nilai'] = $value[10];
-							$this->db->insert('keuangan_mutasi', $data_mutasi);
-						}
-						$i6++;
-					}
-
-					$ta_pencairan = $client->getDatabaseTableRows($inputFiles,'Ta_Pencairan');
-					$i7 = 1;
-					foreach ($ta_pencairan as $value) {
-						if ($i7 > 1) {
-							//insert ta desa
-							$data_pencairan['id_keuangan_master'] = $id_master_keuangan;
-							$data_pencairan['no_cek'] = $value[1];
-							$data_pencairan['no_spp'] = $value[2];
-							$data_pencairan['tgl_cek'] = $value[3];
-							$data_pencairan['kd_desa'] = $value[4];
-							$data_pencairan['keterangan'] = $value[5];
-							$data_pencairan['jumlah'] = $value[6];
-							$data_pencairan['potongan'] = $value[7];
-							$data_pencairan['kdbayar'] = $value[8];
-							$this->db->insert('keuangan_pencairan', $data_pencairan);
-						}
-						$i7++;
-					}
-
-					$ta_sppbukti = $client->getDatabaseTableRows($inputFiles,'Ta_SPPBukti');
-					$i8 = 1;
-					foreach ($ta_sppbukti as $value) {
-						if ($i8 > 1) {
-							//insert ta desa
-							$data_sppbukti['id_keuangan_master'] = $id_master_keuangan;
-							$data_sppbukti['kd_desa'] = $value[1];
-							$data_sppbukti['no_spp'] = $value[2];
-							$data_sppbukti['kd_keg'] = $value[3];
-							$data_sppbukti['kd_rincian'] = $value[4];
-							$data_sppbukti['sumberdana'] = $value[5];
-							$data_sppbukti['no_bukti'] = $value[6];
-							$data_sppbukti['tgl_bukti'] = $value[7];
-							$data_sppbukti['nm_penerima'] = $value[8];
-							$data_sppbukti['alamat'] = $value[9];
-							$data_sppbukti['rek_bank'] = $value[10];
-							$data_sppbukti['nm_bank'] = $value[11];
-							$data_sppbukti['npwp'] = $value[12];
-							$data_sppbukti['keterangan'] = $value[13];
-							$data_sppbukti['nilai'] = $value[14];
-							$this->db->insert('keuangan_sppbukti', $data_sppbukti);
-						}
-						$i8++;
-					}
-
-					$ta_tbp = $client->getDatabaseTableRows($inputFiles,'Ta_TBP');
-					$i9 = 1;
-					foreach ($ta_tbp as $value) {
-						if ($i9 > 1) {
-							//insert ta desa
-							$data_tbp['id_keuangan_master'] = $id_master_keuangan;
-							$data_tbp['no_bukti'] = $value[1];
-							$data_tbp['tgl_bukti'] = $value[2];
-							$data_tbp['kd_desa'] = $value[3];
-							$data_tbp['uraian'] = $value[4];
-							$data_tbp['nm_penyetor'] = $value[5];
-							$data_tbp['alamat_penyetor'] = $value[6];
-							$data_tbp['ttd_penyetor'] = $value[7];
-							$data_tbp['norek_bank'] = $value[8];
-							$data_tbp['nama_bank'] = $value[9];
-							$data_tbp['jumlah'] = $value[10];
-							$data_tbp['nm_bendahara'] = $value[11];
-							$data_tbp['jbt_bendahara'] = $value[12];
-							$data_tbp['status'] = $value[13];
-							$data_tbp['kdbayar'] = $value[14];
-							$data_tbp['ref_bayar'] = $value[14];
-							$this->db->insert('keuangan_tbp', $data_tbp);
-						}
-						$i9++;
-					}
-
-
-					$ta_spppot = $client->getDatabaseTableRows($inputFiles,'Ta_SPPPot');
-					$i10 = 1;
-					foreach ($ta_spppot as $value) {
-						if ($i10 > 1) {
-							//insert ta desa
-							$data_spppot['id_keuangan_master'] = $id_master_keuangan;
-							$data_spppot['kd_desa'] = $value[1];
-							$data_spppot['no_spp'] = $value[2];
-							$data_spppot['kd_keg'] = $value[3];
-							$data_spppot['no_bukti'] = $value[4];
-							$data_spppot['kd_rincian'] = $value[5];
-							$data_spppot['nilai'] = $value[6];
-							$this->db->insert('keuangan_spppot', $data_spppot);
-						}
-						$i10++;
-					}
-			}
-
-			$_SESSION['success'] = 1;
-			$_SESSION['error_msg'] = '';
-			return;
-		}else{
-			$client = new Client('freemium');
-	  	$tables = $client->getDatabaseTables($inputFiles);
-			if ($tables) {
-				$versi_siskeudes = $client->getDatabaseTableRows($inputFiles,'Ref_Version');
-				if ($versi_siskeudes) {
-					$data2['versi_database'] = $versi_siskeudes[1][0];
-					$data2['tahun_anggaran'] = $data['tahun_anggaran'];
-					$data2['aktif'] = 1;
-					if ($this->db->insert('keuangan_master', $data2)) {
-						$id_master_keuangan = $this->db->insert_id();
-						$ref_desa = $client->getDatabaseTableRows($inputFiles,'Ref_Desa');
-						if ($ref_desa) {
-							$i = 1;
-							foreach ($ref_desa as $value) {
-								if ($i > 1) {
-									//insert ref desa
-									$data_ref_desa['id_keuangan_master'] = $id_master_keuangan;
-									$data_ref_desa['kd_kec'] = $value[0];
-									$data_ref_desa['kd_desa'] = $value[1];
-									$data_ref_desa['nama_desa'] = $value[2];
-									$this->db->insert('keuangan_ref_desa', $data_ref_desa);
-								}
-								$i++;
-							}
-
-							$ta_desa = $client->getDatabaseTableRows($inputFiles,'Ta_Desa');
-							$i2 = 1;
-							foreach ($ta_desa as $value) {
-								if ($i2 > 1) {
-									//insert ta desa
-									$data_ta_desa['id_keuangan_master'] = $id_master_keuangan;
-									$data_ta_desa['kd_desa'] = $value[1];
-									$data_ta_desa['nm_kades'] = $value[2];
-									$data_ta_desa['jbt_kades'] = $value[3];
-									$data_ta_desa['nm_sekdes'] = $value[4];
-									$data_ta_desa['nip_sekdes'] = $value[5];
-									$data_ta_desa['jbt_sekdes'] = $value[6];
-									$data_ta_desa['nm_kaur_keu'] = $value[7];
-									$data_ta_desa['jbt_kaur_keu'] = $value[8];
-									$data_ta_desa['nm_bendahara'] = $value[9];
-									$data_ta_desa['jbt_bendahara'] = $value[10];
-									$data_ta_desa['no_perdes'] = $value[11];
-									$data_ta_desa['tgl_perdes'] = $value[12];
-									$data_ta_desa['no_perdes_pb'] = $value[13];
-									$data_ta_desa['tgl_perdes_pb'] = $value[14];
-									$data_ta_desa['no_predes_pj'] = $value[15];
-									$data_ta_desa['tgl_perdes_pj'] = $value[16];
-									$data_ta_desa['alamat'] = $value[17];
-									$data_ta_desa['ibukota'] = $value[18];
-									$data_ta_desa['status'] = $value[19];
-									$data_ta_desa['npwp'] = $value[10];
-									$this->db->insert('keuangan_ta_desa', $data_ta_desa);
-								}
-								$i2++;
-							}
-
-							$ref_rek4 = $client->getDatabaseTableRows($inputFiles,'Ref_Rek4');
-							$i3 = 1;
-							foreach ($ref_rek4 as $value) {
-								if ($i3 > 1) {
-									//insert ta desa
-									$data_ref_rek4['id_keuangan_master'] = $id_master_keuangan;
-									$data_ref_rek4['jenis'] = $value[0];
-									$data_ref_rek4['obyek'] = $value[1];
-									$data_ref_rek4['nama_obyek'] = $value[2];
-									$data_ref_rek4['peraturan'] = $value[3];
-									$this->db->insert('keuangan_ref_rek4', $data_ref_rek4);
-								}
-								$i3++;
-							}
-
-							$ta_tbrinci = $client->getDatabaseTableRows($inputFiles,'Ta_TBPRinci');
-							$i4 = 1;
-							foreach ($ta_tbrinci as $value) {
-								if ($i4 > 1) {
-									//insert ta desa
-									$data_tbrinci['id_keuangan_master'] = $id_master_keuangan;
-									$data_tbrinci['no_bukti'] = $value[1];
-									$data_tbrinci['kd_desa'] = $value[2];
-									$data_tbrinci['kd_keg'] = $value[3];
-									$data_tbrinci['kd_rincian'] = $value[4];
-									$data_tbrinci['rincian_sd'] = $value[5];
-									$data_tbrinci['sumber_dana'] = $value[6];
-									$data_tbrinci['nilai'] = $value[7];
-									$this->db->insert('keuangan_tbp_rinci', $data_tbrinci);
-								}
-								$i4++;
-							}
-
-							$ta_sts = $client->getDatabaseTableRows($inputFiles,'Ta_STS');
-							$i5 = 1;
-							foreach ($ta_sts as $value) {
-								if ($i5 > 1) {
-									//insert ta desa
-									$data_sts['id_keuangan_master'] = $id_master_keuangan;
-									$data_sts['no_bukti'] = $value[1];
-									$data_sts['tgl_bukti'] = $value[2];
-									$data_sts['kd_desa'] = $value[3];
-									$data_sts['uraian'] = $value[4];
-									$data_sts['no_rek_bank'] = $value[5];
-									$data_sts['nama_bank'] = $value[6];
-									$data_sts['jumlah'] = $value[7];
-									$data_sts['nm_bendahara'] = $value[8];
-									$data_sts['jbt_bendahara'] = $value[9];
-									$this->db->insert('keuangan_sts', $data_sts);
-								}
-								$i5++;
-							}
-
-							$ta_mutasi = $client->getDatabaseTableRows($inputFiles,'Ta_Mutasi');
-							$i6 = 1;
-							foreach ($ta_mutasi as $value) {
-								if ($i6 > 1) {
-									//insert ta desa
-									$data_mutasi['id_keuangan_master'] = $id_master_keuangan;
-									$data_mutasi['kd_desa'] = $value[1];
-									$data_mutasi['no_bukti'] = $value[2];
-									$data_mutasi['tgl_bukti'] = $value[3];
-									$data_mutasi['keterangan'] = $value[4];
-									$data_mutasi['kd_bank'] = $value[5];
-									$data_mutasi['kd_rincian'] = $value[6];
-									$data_mutasi['kd_keg'] = $value[7];
-									$data_mutasi['sumberdana'] = $value[8];
-									$data_mutasi['kd_mutasi'] = $value[9];
-									$data_mutasi['nilai'] = $value[10];
-									$this->db->insert('keuangan_mutasi', $data_mutasi);
-								}
-								$i6++;
-							}
-
-							$ta_pencairan = $client->getDatabaseTableRows($inputFiles,'Ta_Pencairan');
-							$i7 = 1;
-							foreach ($ta_pencairan as $value) {
-								if ($i7 > 1) {
-									//insert ta desa
-									$data_pencairan['id_keuangan_master'] = $id_master_keuangan;
-									$data_pencairan['no_cek'] = $value[1];
-									$data_pencairan['no_spp'] = $value[2];
-									$data_pencairan['tgl_cek'] = $value[3];
-									$data_pencairan['kd_desa'] = $value[4];
-									$data_pencairan['keterangan'] = $value[5];
-									$data_pencairan['jumlah'] = $value[6];
-									$data_pencairan['potongan'] = $value[7];
-									$data_pencairan['kdbayar'] = $value[8];
-									$this->db->insert('keuangan_pencairan', $data_pencairan);
-								}
-								$i7++;
-							}
-
-							$ta_sppbukti = $client->getDatabaseTableRows($inputFiles,'Ta_SPPBukti');
-							$i8 = 1;
-							foreach ($ta_sppbukti as $value) {
-								if ($i8 > 1) {
-									//insert ta desa
-									$data_sppbukti['id_keuangan_master'] = $id_master_keuangan;
-									$data_sppbukti['kd_desa'] = $value[1];
-									$data_sppbukti['no_spp'] = $value[2];
-									$data_sppbukti['kd_keg'] = $value[3];
-									$data_sppbukti['kd_rincian'] = $value[4];
-									$data_sppbukti['sumberdana'] = $value[5];
-									$data_sppbukti['no_bukti'] = $value[6];
-									$data_sppbukti['tgl_bukti'] = $value[7];
-									$data_sppbukti['nm_penerima'] = $value[8];
-									$data_sppbukti['alamat'] = $value[9];
-									$data_sppbukti['rek_bank'] = $value[10];
-									$data_sppbukti['nm_bank'] = $value[11];
-									$data_sppbukti['npwp'] = $value[12];
-									$data_sppbukti['keterangan'] = $value[13];
-									$data_sppbukti['nilai'] = $value[14];
-									$this->db->insert('keuangan_sppbukti', $data_sppbukti);
-								}
-								$i8++;
-							}
-
-							$ta_tbp = $client->getDatabaseTableRows($inputFiles,'Ta_TBP');
-							$i9 = 1;
-							foreach ($ta_tbp as $value) {
-								if ($i9 > 1) {
-									//insert ta desa
-									$data_tbp['id_keuangan_master'] = $id_master_keuangan;
-									$data_tbp['no_bukti'] = $value[1];
-									$data_tbp['tgl_bukti'] = $value[2];
-									$data_tbp['kd_desa'] = $value[3];
-									$data_tbp['uraian'] = $value[4];
-									$data_tbp['nm_penyetor'] = $value[5];
-									$data_tbp['alamat_penyetor'] = $value[6];
-									$data_tbp['ttd_penyetor'] = $value[7];
-									$data_tbp['norek_bank'] = $value[8];
-									$data_tbp['nama_bank'] = $value[9];
-									$data_tbp['jumlah'] = $value[10];
-									$data_tbp['nm_bendahara'] = $value[11];
-									$data_tbp['jbt_bendahara'] = $value[12];
-									$data_tbp['status'] = $value[13];
-									$data_tbp['kdbayar'] = $value[14];
-									$data_tbp['ref_bayar'] = $value[14];
-									$this->db->insert('keuangan_tbp', $data_tbp);
-								}
-								$i9++;
-							}
-
-
-							$ta_spppot = $client->getDatabaseTableRows($inputFiles,'Ta_SPPPot');
-							$i10 = 1;
-							foreach ($ta_spppot as $value) {
-								if ($i10 > 1) {
-									//insert ta desa
-									$data_spppot['id_keuangan_master'] = $id_master_keuangan;
-									$data_spppot['kd_desa'] = $value[1];
-									$data_spppot['no_spp'] = $value[2];
-									$data_spppot['kd_keg'] = $value[3];
-									$data_spppot['no_bukti'] = $value[4];
-									$data_spppot['kd_rincian'] = $value[5];
-									$data_spppot['nilai'] = $value[6];
-									$this->db->insert('keuangan_spppot', $data_spppot);
-								}
-								$i10++;
-							}
-
-
-						}
-
-					}
-
-					$_SESSION['success'] = 1;
-					$_SESSION['error_msg'] = '';
-					return;
-
-				}else{
-					$_SESSION['success'] = -1;
-					$_SESSION['error_msg'] = 'File Berhasil Di import';
-					return;
-				}
-			}else{
-				$_SESSION['success'] = -1;
-				$_SESSION['error_msg'] = 'File Tidak Ada';
-				return;
-			}
-		}
-
-
-
-	}
-	public function tahun_anggaran()
-	{
-		$this->db->select('tahun_anggaran');
-		$result = $this->db->get('keuangan_master')->row();
-		return $result->tahun_anggaran;
-	}
 
 	public function anggaran_keuangan()
 	{
