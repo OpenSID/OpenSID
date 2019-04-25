@@ -169,6 +169,7 @@
 	{
 		if (empty($data['id_pend']))
 		{
+			unset($data['id_pend']);
 			$data['pamong_nama'] = $this->input->post('pamong_nama');
 			$data['pamong_nik'] = $this->input->post('pamong_nik');
 			$data['pamong_tempatlahir'] = $this->input->post('pamong_tempatlahir');
