@@ -33,6 +33,7 @@ Lengkapnya, isi rilis versi 19.04-pasca:
 27. #1907: Hilangkan baris tidak diperlukan pada tampilan cetak Laporan Kependudukan Bulanan.
 28. #493: Tampilkan nama dan jabatan pamong desa secara otomatis di widget Aparatur Desa. Tambahkan setting untuk menampilkan/sembunyikan nama/jabatan.
 29. Perbaiki error update Pemerintah Desa tidak terdata (yaitu bukan penduduk) di hosting dengan setting database ketat. [bug-fix]
+30. #1765: Jabatan staf penandatangan sekarang otomatis diisi di Laporan Kependudukan Bulanan. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
