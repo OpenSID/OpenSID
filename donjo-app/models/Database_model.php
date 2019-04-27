@@ -23,7 +23,8 @@
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
 		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
 		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
-		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => NULL)
+		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => '19.05'),
+		'19.04' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => NULL),
 	);
 
 	public function __construct()
@@ -177,7 +178,1167 @@
 		$this->migrasi_1901_ke_1902();
 		$this->migrasi_1903_ke_1904();
 		$this->migrasi_1904_ke_1905();
+		$this->migrasi_1905_ke_1906();
   }
+
+  private function migrasi_1905_ke_1906()
+  {
+		//insert tabel-tabel keuangan
+		if (!$this->db->table_exists('keuangan_master') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_master` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`versi_database` varchar(50) NOT NULL,
+				`tahun_anggaran` varchar(250) NOT NULL,
+				`aktif` int(2) NOT NULL DEFAULT '1',
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+		//insert keuangan_ref_bank_desa
+		if (!$this->db->table_exists('keuangan_ref_bank_desa') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_bank_desa` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(50) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`NoRek_Bank` varchar(100) NOT NULL,
+				`Nama_Bank` varchar(250) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_bel_operasional
+		if (!$this->db->table_exists('keuangan_ref_bel_operasional') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_bel_operasional` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`id_keg` int(11) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_bidang
+		if (!$this->db->table_exists('keuangan_ref_bidang') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_bidang` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_bid` varchar(50) NOT NULL,
+				`nama_bidang` varchar(250) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_bel_operasional
+		if (!$this->db->table_exists('keuangan_ref_bel_operasional') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_bel_operasional` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_bid` varchar(50) NOT NULL,
+				`nama_bidang` varchar(250) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_bunga
+		if (!$this->db->table_exists('keuangan_ref_bunga') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_bunga` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Bunga` varchar(50) NOT NULL,
+				`Kd_Admin` varchar(50) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_desa
+		if (!$this->db->table_exists('keuangan_ref_desa') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_desa` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_kec` varchar(100) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`nama_desa` varchar(250) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_kecamatan
+		if (!$this->db->table_exists('keuangan_ref_kecamatan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_kecamatan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_kec` varchar(100) NOT NULL,
+				`Nama_Kecamatan` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_kegiatan
+		if (!$this->db->table_exists('keuangan_ref_kegiatan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_kegiatan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Bid` varchar(100) NOT NULL,
+				`ID_Keg` varchar(100) NOT NULL,
+				`Nama_Kegiatan` varchar(250) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_korolari
+		if (!$this->db->table_exists('keuangan_ref_korolari') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_korolari` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Kd_RekDB` varchar(100) NOT NULL,
+				`Kd_RekKD` varchar(250) NOT NULL,
+				`Jenis` int(11) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_neraca_close
+		if (!$this->db->table_exists('keuangan_ref_neraca_close') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_neraca_close` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Kelompok` varchar(250) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_perangkat
+		if (!$this->db->table_exists('keuangan_ref_perangkat') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_perangkat` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kode` varchar(100) NOT NULL,
+				`Nama_Perangkat` varchar(250) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_potongan
+		if (!$this->db->table_exists('keuangan_ref_potongan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_potongan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Kd_Potongan` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_potongan
+		if (!$this->db->table_exists('keuangan_ref_rek1') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_rek1` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Akun` varchar(100) NOT NULL,
+				`Nama_Akun` varchar(100) NOT NULL,
+				`NoLap` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_rek2
+		if (!$this->db->table_exists('keuangan_ref_rek2') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_rek2` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Akun` varchar(100) NOT NULL,
+				`Kelompok` varchar(100) NOT NULL,
+				`Nama_Kelompok` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_rek3
+		if (!$this->db->table_exists('keuangan_ref_rek3') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_rek3` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kelompok` varchar(100) NOT NULL,
+				`Jenis` varchar(100) NOT NULL,
+				`Nama_Jenis` varchar(100) NOT NULL,
+				`Formula`int(11) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_rek4
+		if (!$this->db->table_exists('keuangan_ref_rek4') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_rek4` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`jenis` varchar(100) NOT NULL,
+				`obyek` varchar(100) NOT NULL,
+				`nama_obyek` varchar(100) NOT NULL,
+				`peraturan` varchar(250) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_sbu
+		if (!$this->db->table_exists('keuangan_ref_sbu') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_sbu` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Kode_SBU` varchar(100) NOT NULL,
+				`NoUrut_SBU` varchar(100) NOT NULL,
+				`Nama_SBU` varchar(100) NOT NULL,
+				`Nilai` varchar(100) NOT NULL,
+				`Satuan` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ref_sumber
+		if (!$this->db->table_exists('keuangan_ref_sumber') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ref_sumber` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kode` varchar(100) NOT NULL,
+				`Nama_Sumber` varchar(100) NOT NULL,
+				`Urut` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_anggaran
+		if (!$this->db->table_exists('keuangan_ta_anggaran') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_anggaran` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`KURincianSD` varchar(100) NOT NULL,
+				`KD_Rincian` varchar(100) NOT NULL,
+				`RincianSD` varchar(100) NOT NULL,
+				`anggaran` varchar(100) NOT NULL,
+				`anggaranPAK` varchar(100) NOT NULL,
+				`anggaranStlhPAK` varchar(100) NOT NULL,
+				`Belanja` varchar(100) NOT NULL,
+				`Kd_keg` varchar(100) NOT NULL,
+				`SumberDana` varchar(100) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`tgl_posting` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert  keuangan_ta_anggaran_log
+		if (!$this->db->table_exists(' keuangan_ta_anggaran_log') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_anggaran_log` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`KdPosting` varchar(100) NOT NULL,
+				`Tahun` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`No_Perdes` varchar(100) NOT NULL,
+				`TglPosting` varchar(100) NOT NULL,
+				`anggaranStlhPAK` varchar(100) NOT NULL,
+				`UserID` int(11) NOT NULL,
+				`Kunci` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_anggaran_rinci
+		if (!$this->db->table_exists('keuangan_ta_anggaran_rinci') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_anggaran_rinci` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`KdPosting` varchar(100) NOT NULL,
+				`Tahun` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Kd_SubRinci` varchar(100) NOT NULL,
+				`No_Urut` varchar(100) NOT NULL,
+				`Uraian` varchar(100) NOT NULL,
+				`SumberDana` varchar(100) NOT NULL,
+				`JmlSatuan` varchar(100) NOT NULL,
+				`HrgSatuan` varchar(100) NOT NULL,
+				`Satuan` varchar(100) NOT NULL,
+				`Anggaran` varchar(100) NOT NULL,
+				`JmlSatuanPAK` varchar(100) NOT NULL,
+				`HrgSatuanPAK` varchar(100) NOT NULL,
+				`AnggaranStlhPAK` varchar(100) NOT NULL,
+				`AnggaranPAK` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_bidang
+		if (!$this->db->table_exists('keuangan_ta_bidang') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_bidang` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Bid` varchar(100) NOT NULL,
+				`Nama_Bidang` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_desa
+		if (!$this->db->table_exists('keuangan_ta_desa') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_desa` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`nm_kades` varchar(100) NOT NULL,
+				`jbt_kades` varchar(100) NOT NULL,
+				`nm_sekdes` varchar(100) NOT NULL,
+				`nip_sekdes` varchar(100) NOT NULL,
+				`jbt_sekdes` varchar(100) NOT NULL,
+				`nm_kaur_keu` varchar(100) NOT NULL,
+				`jbt_kaur_keu` varchar(100) NOT NULL,
+				`nm_bendahara` varchar(100) NOT NULL,
+				`nm_bendahara` varchar(100) NOT NULL,
+				`no_perdes` varchar(100) NOT NULL,
+				`tgl_perdes` varchar(100) NOT NULL,
+				`no_perdes_pb` varchar(100) NOT NULL,
+				`tgl_perdes_pb` varchar(100) NOT NULL,
+				`no_predes_pj` varchar(100) NOT NULL,
+				`tgl_perdes_pj` varchar(100) NOT NULL,
+				`alamat` varchar(250) NOT NULL,
+				`ibukota` varchar(100) NOT NULL,
+				`status` varchar(100) NOT NULL,
+				`npwp` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_jurnal_umum
+		if (!$this->db->table_exists('keuangan_ta_jurnal_umum') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_jurnal_umum` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`KdBuku` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Tanggal` varchar(100) NOT NULL,
+				`JnsBukti` varchar(100) NOT NULL,
+				`NoBukti` varchar(100) NOT NULL,
+				`Keterangan` varchar(100) NOT NULL,
+				`DK` varchar(100) NOT NULL,
+				`Debet` varchar(100) NOT NULL,
+				`Kredit` varchar(100) NOT NULL,
+				`Jenis` varchar(100) NOT NULL,
+				`Posted` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_jurnal_umum_rinci
+		if (!$this->db->table_exists('keuangan_ta_jurnal_umum_rinci') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_jurnal_umum_rinci` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`NoBukti` varchar(100) NOT NULL,
+				`RincianSD` varchar(100) NOT NULL,
+				`NoID` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Akun` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Sumberdana` varchar(100) NOT NULL,
+				`DK` varchar(100) NOT NULL,
+				`Debet` varchar(100) NOT NULL,
+				`Kredit` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_kegiatan
+		if (!$this->db->table_exists('keuangan_ta_kegiatan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_kegiatan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Bid` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`ID_Keg` varchar(100) NOT NULL,
+				`Nama_Kegiatan` varchar(100) NOT NULL,
+				`Pagu` varchar(100) NOT NULL,
+				`Pagu_PAK` varchar(100) NOT NULL,
+				`Nm_PPTKD` varchar(100) NOT NULL,
+				`NIP_PPTKD` varchar(100) NOT NULL,
+				`Lokasi` varchar(100) NOT NULL,
+				`Waktu` varchar(100) NOT NULL,
+				`Keluaran` varchar(100) NOT NULL,
+				`Sumberdana` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_mutasi
+		if (!$this->db->table_exists('keuangan_ta_mutasi') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_mutasi` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`no_bukti` varchar(100) NOT NULL,
+				`tgl_bukti` varchar(100) NOT NULL,
+				`keterangan` varchar(100) NOT NULL,
+				`kd_bank` varchar(100) NOT NULL,
+				`kd_rincian` varchar(100) NOT NULL,
+				`kd_keg` varchar(100) NOT NULL,
+				`sumberdana` varchar(100) NOT NULL,
+				`kd_mutasi` varchar(100) NOT NULL,
+				`nilai` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_pajak
+		if (!$this->db->table_exists('keuangan_ta_pajak') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_pajak` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`No_SSP` varchar(100) NOT NULL,
+				`Tgl_SSP` varchar(100) NOT NULL,
+				`keterangan` varchar(100) NOT NULL,
+				`Nama_WP` varchar(100) NOT NULL,
+				`Alamat_WP` varchar(100) NOT NULL,
+				`NPWP` varchar(100) NOT NULL,
+				`Kd_MAP` varchar(100) NOT NULL,
+				`Nm_Penyetor` varchar(100) NOT NULL,
+				`Jn_Transaksi` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Jumlah` varchar(100) NOT NULL,
+				`KdBayar` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_pajak_rinci
+		if (!$this->db->table_exists('keuangan_ta_pajak_rinci') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_pajak_rinci` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`No_SSP` varchar(100) NOT NULL,
+				`No_Bukti` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Nilai` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_pemda
+		if (!$this->db->table_exists('keuangan_ta_pemda') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_pemda` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Prov` varchar(100) NOT NULL,
+				`Kd_Kab` varchar(100) NOT NULL,
+				`Nama_Pemda` varchar(100) NOT NULL,
+				`Nama_Provinsi` varchar(100) NOT NULL,
+				`Ibukota` varchar(100) NOT NULL,
+				`Alamat` varchar(100) NOT NULL,
+				`Nm_Bupati` varchar(100) NOT NULL,
+				`Jbt_Bupati` varchar(100) NOT NULL,
+				`Logo` varchar(100) NOT NULL,
+				`C_Kode` varchar(100) NOT NULL,
+				`C_Pemda` varchar(100) NOT NULL,
+				`C_Data` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_pencairan
+		if (!$this->db->table_exists('keuangan_ta_pencairan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_pencairan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`no_cek` varchar(100) NOT NULL,
+				`no_spp` varchar(100) NOT NULL,
+				`tgl_cek` varchar(100) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`keterangan` varchar(100) NOT NULL,
+				`jumlah` varchar(100) NOT NULL,
+				`potongan` varchar(100) NOT NULL,
+				`kdbayar` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_perangkat
+		if (!$this->db->table_exists('keuangan_ta_perangkat') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_perangkat` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Jabatan` varchar(100) NOT NULL,
+				`No_ID` varchar(100) NOT NULL,
+				`Nama_Perangkat` varchar(100) NOT NULL,
+				`Alamat_Perangkat` varchar(100) NOT NULL,
+				`Nomor_HP` varchar(100) NOT NULL,
+				`Rek_Bank` varchar(100) NOT NULL,
+				`Nama_Bank` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rab
+		if (!$this->db->table_exists('keuangan_ta_rab') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rab` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`kd_keg` varchar(100) NOT NULL,
+				`kd_rincian` varchar(100) NOT NULL,
+				`anggaran` varchar(100) NOT NULL,
+				`anggaranPAK` varchar(100) NOT NULL,
+				`anggaranStlhPAK` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rab_rinci
+		if (!$this->db->table_exists('keuangan_ta_rab_rinci') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rab_rinci` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Kd_SubRinci` varchar(100) NOT NULL,
+				`No_Urut` varchar(100) NOT NULL,
+				`SumberDana` varchar(100) NOT NULL,
+				`Uraian` varchar(100) NOT NULL,
+				`Satuan` varchar(100) NOT NULL,
+				`JmlSatuan` varchar(100) NOT NULL,
+				`HrgSatuan` varchar(100) NOT NULL,
+				`Anggaran` varchar(100) NOT NULL,
+				`JmlSatuanPAK` varchar(100) NOT NULL,
+				`HrgSatuanPAK` varchar(100) NOT NULL,
+				`AnggaranStlhPAK` varchar(100) NOT NULL,
+				`AnggaranPAK` varchar(100) NOT NULL,
+				`Kode_SBU` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rab_sub
+		if (!$this->db->table_exists('keuangan_ta_rab_sub') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rab_sub` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Kd_SubRinci` varchar(100) NOT NULL,
+				`Nama_SubRinci` varchar(100) NOT NULL,
+				`Anggaran` varchar(100) NOT NULL,
+				`AnggaranPAK` varchar(100) NOT NULL,
+				`AnggaranStlhPAK` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rpjm_bidang
+		if (!$this->db->table_exists('keuangan_ta_rpjm_bidang') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rpjm_bidang` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Bid` varchar(100) NOT NULL,
+				`Nama_Bidang` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rpjm_kegiatan
+		if (!$this->db->table_exists('keuangan_ta_rpjm_kegiatan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rpjm_kegiatan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Bid` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`ID_Keg` varchar(100) NOT NULL,
+				`Nama_Kegiatan` varchar(100) NOT NULL,
+				`Lokasi` varchar(100) NOT NULL,
+				`Keluaran` varchar(100) NOT NULL,
+				`Kd_Sas` varchar(100) NOT NULL,
+				`Sasaran` varchar(100) NOT NULL,
+				`Tahun1` varchar(100) NOT NULL,
+				`Tahun2` varchar(100) NOT NULL,
+				`Tahun3` varchar(100) NOT NULL,
+				`Tahun4` varchar(100) NOT NULL,
+				`Tahun5` varchar(100) NOT NULL,
+				`Tahun6` varchar(100) NOT NULL,
+				`Swakelola` varchar(100) NOT NULL,
+				`Kerjasama` varchar(100) NOT NULL,
+				`Pihak_Ketiga` varchar(100) NOT NULL,
+				`Sumberdana` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rpjm_misi
+		if (!$this->db->table_exists('keuangan_ta_rpjm_misi') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rpjm_misi` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`ID_Misi` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`ID_Visi` varchar(100) NOT NULL,
+				`No_Misi` varchar(100) NOT NULL,
+				`Uraian_Misi` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rpjm_pagu_indikatif
+		if (!$this->db->table_exists('keuangan_ta_rpjm_pagu_indikatif') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rpjm_pagu_indikatif` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`Kd_Sumber` varchar(100) NOT NULL,
+				`Tahun1` varchar(100) NOT NULL,
+				`Tahun2` varchar(100) NOT NULL,
+				`Tahun3` varchar(100) NOT NULL,
+				`Tahun4` varchar(100) NOT NULL,
+				`Tahun5` varchar(100) NOT NULL,
+				`Tahun6` varchar(100) NOT NULL,
+				`Pola` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rpjm_pagu_tahunan
+		if (!$this->db->table_exists('keuangan_ta_rpjm_pagu_tahunan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rpjm_pagu_tahunan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`Kd_Tahun` varchar(100) NOT NULL,
+				`Kd_Sumber` varchar(100) NOT NULL,
+				`Biaya` varchar(100) NOT NULL,
+				`Volume` varchar(100) NOT NULL,
+				`Satuan` varchar(100) NOT NULL,
+				`Lokasi_Spesifik` varchar(100) NOT NULL,
+				`Jml_Sas_Pria` varchar(100) NOT NULL,
+				`Jml_Sas_Wanita` varchar(100) NOT NULL,
+				`Jml_Sas_ARTM` varchar(100) NOT NULL,
+				`Waktu` varchar(100) NOT NULL,
+				`Mulai` varchar(100) NOT NULL,
+				`Selesai` varchar(100) NOT NULL,
+				`Pola_Kegiatan` varchar(100) NOT NULL,
+				`Pelaksana` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rpjm_sasaran
+		if (!$this->db->table_exists('keuangan_ta_rpjm_sasaran') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rpjm_sasaran` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`ID_Sasaran` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`ID_Tujuan` varchar(100) NOT NULL,
+				`No_Sasaran` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rpjm_tujuan
+		if (!$this->db->table_exists('keuangan_ta_rpjm_tujuan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rpjm_tujuan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`ID_Tujuan` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`ID_Misi` varchar(100) NOT NULL,
+				`No_Tujuan` varchar(100) NOT NULL,
+				`Uraian_Tujuan` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_rpjm_visi
+		if (!$this->db->table_exists('keuangan_ta_rpjm_visi') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_rpjm_visi` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`ID_Visi` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`No_Visi` varchar(100) NOT NULL,
+				`Uraian_Visi` varchar(100) NOT NULL,
+				`TahunA` varchar(100) NOT NULL,
+				`TahunN` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_saldo_awal
+		if (!$this->db->table_exists('keuangan_ta_saldo_awal') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_saldo_awal` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Jenis` varchar(100) NOT NULL,
+				`Anggaran` varchar(100) NOT NULL,
+				`Debet` varchar(100) NOT NULL,
+				`Kredit` varchar(100) NOT NULL,
+				`Tgl_Bukti` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_spj
+		if (!$this->db->table_exists('keuangan_ta_spj') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_spj` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`No_SPJ` varchar(100) NOT NULL,
+				`Tgl_SPJ` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`No_SPP` varchar(100) NOT NULL,
+				`Keterangan` varchar(100) NOT NULL,
+				`Jumlah` varchar(100) NOT NULL,
+				`Potongan` varchar(100) NOT NULL,
+				`Status` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_spjpot
+		if (!$this->db->table_exists('keuangan_ta_spjpot') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_spjpot` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`no_spj` varchar(100) NOT NULL,
+				`kd_keg` varchar(100) NOT NULL,
+				`no_bukti` varchar(100) NOT NULL,
+				`kd_rincian` varchar(100) NOT NULL,
+				`nilai` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_spj_bukti
+		if (!$this->db->table_exists('keuangan_ta_spj_bukti') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_spj_bukti` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`No_SPJ` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`No_Bukti` varchar(100) NOT NULL,
+				`Tgl_Bukti` varchar(100) NOT NULL,
+				`Sumberdana` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Nm_Penerima` varchar(100) NOT NULL,
+				`Alamat` varchar(100) NOT NULL,
+				`Rek_Bank` varchar(100) NOT NULL,
+				`Nm_Bank` varchar(100) NOT NULL,
+				`NPWP` varchar(100) NOT NULL,
+				`Keterangan` varchar(100) NOT NULL,
+				`Nilai` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_spj_rinci
+		if (!$this->db->table_exists('keuangan_ta_spj_rinci') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_spj_rinci` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`No_SPJ` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Sumberdana` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`No_SPP` varchar(100) NOT NULL,
+				`JmlCair` varchar(100) NOT NULL,
+				`Nilai` varchar(100) NOT NULL,
+				`Alamat` varchar(100) NOT NULL,
+				`Sisa` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_spj_sisa
+		if (!$this->db->table_exists('keuangan_ta_spj_sisa') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_spj_sisa` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`no_bukti` varchar(100) NOT NULL,
+				`tgl_bukti` varchar(100) NOT NULL,
+				`no_spj` varchar(100) NOT NULL,
+				`tgl_spj` varchar(100) NOT NULL,
+				`no_spp` varchar(100) NOT NULL,
+				`tgl_spp` varchar(100) NOT NULL,
+				`kd_keg` varchar(100) NOT NULL,
+				`keterangan` varchar(100) NOT NULL,
+				`nilai` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_spp
+		if (!$this->db->table_exists('keuangan_ta_spp') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_spp` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`No_SPP` varchar(100) NOT NULL,
+				`Tgl_SPP` varchar(100) NOT NULL,
+				`Jn_SPP` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Keterangan` varchar(100) NOT NULL,
+				`Jumlah` varchar(100) NOT NULL,
+				`Potongan` varchar(100) NOT NULL,
+				`Status` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_sppbukti
+		if (!$this->db->table_exists('keuangan_ta_sppbukti') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_sppbukti` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`no_spp` varchar(100) NOT NULL,
+				`kd_keg` varchar(100) NOT NULL,
+				`kd_rincian` varchar(100) NOT NULL,
+				`sumberdana` varchar(100) NOT NULL,
+				`no_bukti` varchar(100) NOT NULL,
+				`tgl_bukti` varchar(100) NOT NULL,
+				`nm_penerima` varchar(100) NOT NULL,
+				`alamat` varchar(100) NOT NULL,
+				`rek_bank` varchar(100) NOT NULL,
+				`nm_bank` varchar(100) NOT NULL,
+				`keterangan` varchar(100) NOT NULL,
+				`nilai` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_spppot
+		if (!$this->db->table_exists('keuangan_ta_spppot') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_spppot` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`no_spp` varchar(100) NOT NULL,
+				`kd_keg` varchar(100) NOT NULL,
+				`no_bukti` varchar(100) NOT NULL,
+				`kd_rincian` varchar(100) NOT NULL,
+				`nilai` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_sts
+		if (!$this->db->table_exists('keuangan_ta_sts') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_sts` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`no_bukti` varchar(100) NOT NULL,
+				`tgl_bukti` varchar(100) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`uraian` varchar(100) NOT NULL,
+				`no_rek_bank` varchar(100) NOT NULL,
+				`nama_bank` varchar(100) NOT NULL,
+				`jumlah` varchar(100) NOT NULL,
+				`nm_bendahara` varchar(100) NOT NULL,
+				`jbt_bendahara` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_sts_rinci
+		if (!$this->db->table_exists('keuangan_ta_sts_rinci') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_sts_rinci` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`No_Bukti` varchar(100) NOT NULL,
+				`No_TBP` varchar(100) NOT NULL,
+				`Uraian` varchar(100) NOT NULL,
+				`Nilai` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_tbp
+		if (!$this->db->table_exists('keuangan_ta_tbp') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_tbp` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`no_bukti` varchar(100) NOT NULL,
+				`tgl_bukti` varchar(100) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`uraian` varchar(100) NOT NULL,
+				`nm_penyetor` varchar(100) NOT NULL,
+				`alamat_penyetor` varchar(100) NOT NULL,
+				`ttd_penyetor` varchar(100) NOT NULL,
+				`norek_bank` varchar(100) NOT NULL,
+				`nama_bank` varchar(100) NOT NULL,
+				`jumlah` varchar(100) NOT NULL,
+				`nm_bendahara` varchar(100) NOT NULL,
+				`jbt_bendahara` varchar(100) NOT NULL,
+				`status` varchar(100) NOT NULL,
+				`kdbayar` varchar(100) NOT NULL,
+				`ref_bayar` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_tbp_rinci
+		if (!$this->db->table_exists('keuangan_ta_tbp_rinci') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_tbp_rinci` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`no_bukti` varchar(100) NOT NULL,
+				`kd_desa` varchar(100) NOT NULL,
+				`kd_keg` varchar(100) NOT NULL,
+				`kd_rincian` varchar(100) NOT NULL,
+				`rincian_sd` varchar(100) NOT NULL,
+				`sumber_dana` varchar(100) NOT NULL,
+				`nilai` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_triwulan
+		if (!$this->db->table_exists('keuangan_ta_triwulan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_triwulan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`KURincianSD` varchar(100) NOT NULL,
+				`Tahun` varchar(100) NOT NULL,
+				`Sifat` varchar(100) NOT NULL,
+				`SumberDana` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Anggaran` varchar(100) NOT NULL,
+				`AnggaranPAK ` varchar(100) NOT NULL,
+				`Tw1Rinci ` varchar(100) NOT NULL,
+				`Tw2Rinci ` varchar(100) NOT NULL,
+				`Tw3Rinci ` varchar(100) NOT NULL,
+				`Tw4Rinci ` varchar(100) NOT NULL,
+				`KunciData ` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+		//insert keuangan_ta_triwulan
+		if (!$this->db->table_exists('keuangan_ta_triwulan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_triwulan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_keuangan_master` int(11) NOT NULL,
+				`KdPosting` varchar(100) NOT NULL,
+				`KURincianSD` varchar(100) NOT NULL,
+				`Tahun` varchar(100) NOT NULL,
+				`Sifat` varchar(100) NOT NULL,
+				`SumberDana` varchar(100) NOT NULL,
+				`Kd_Desa` varchar(100) NOT NULL,
+				`Kd_Keg` varchar(100) NOT NULL,
+				`Kd_Rincian` varchar(100) NOT NULL,
+				`Anggaran` varchar(100) NOT NULL,
+				`AnggaranPAK ` varchar(100) NOT NULL,
+				`Tw1Rinci ` varchar(100) NOT NULL,
+				`Tw2Rinci ` varchar(100) NOT NULL,
+				`Tw3Rinci ` varchar(100) NOT NULL,
+				`Tw4Rinci ` varchar(100) NOT NULL,
+				`KunciData ` varchar(100) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+
+	}
 
   private function migrasi_1904_ke_1905()
   {
@@ -198,7 +1359,7 @@
 			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
 			('201', 'Keuangan', 'keuangan', '1', 'fa-balance-scale', '6', '2', '0', '0', 'fa-balance-scale'),
 			('202', 'Impor Data', 'keuangan/import_data', '1', 'fa-cloud-upload', '6', '2', '201', '0', 'fa-cloud-upload'),
-			('203', 'Widget', 'keuangan/widget', '1', 'fa-bar-chart', '6', '2', '201', '0', 'fa-bar-chart')
+			('203', 'Widget', 'widget/keuangan', '1', 'fa-bar-chart', '6', '2', '201', '0', 'fa-bar-chart')
 			ON DUPLICATE KEY UPDATE url = VALUES(url);
 	  ";
 	  $this->db->query($query);
