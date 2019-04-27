@@ -627,6 +627,743 @@ class Keuangan_model extends CI_model {
 							$i29++;
 						}
 
+						//insert Ta_Anggaran
+						$csvTa_Anggaran= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Anggaran.csv', "r");
+						while (($data_Ta_Anggaran = fgetcsv($csvTa_Anggaran)) !== FALSE) {
+									$Ta_Anggaran[] = $data_Ta_Anggaranr;
+						}
+						$i30 = 1;
+						foreach ($Ta_Anggaran as $value) {
+							if ($i30 > 1) {
+								$insert_Ta_Anggaran['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_Anggaran['KURincianSD'] = $value[2];
+								$insert_Ta_Anggaran['KD_Rincian'] = $value[3];
+								$insert_Ta_Anggaran['RincianSD'] = $value[4];
+								$insert_Ta_Anggaran['anggaran'] = $value[5];
+								$insert_Ta_Anggaran['anggaranPAK'] = $value[6];
+								$insert_Ta_Anggaran['anggaranStlhPAK'] = $value[7];
+								$insert_Ta_Anggaran['Belanja'] = $value[8];
+								$insert_Ta_Anggaran['Kd_keg'] = $value[9];
+								$insert_Ta_Anggaran['SumberDana'] = $value[10];
+								$insert_Ta_Anggaran['kd_desa'] = $value[11];
+								$insert_Ta_Anggaran['tgl_posting'] = $value[12];
+								$this->db->insert('keuangan_ta_anggaran', $insert_Ta_Anggaran);
+							}
+							$i30++;
+						}
+
+						//insert Ta_AnggaranLog
+						$csvTa_AnggaranLog= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_AnggaranLog.csv', "r");
+						while (($data_Ta_AnggaranLog = fgetcsv($csvTa_AnggaranLog)) !== FALSE) {
+									$Ta_AnggaranLog[] = $data_Ta_AnggaranLog;
+						}
+						$i31 = 1;
+						foreach ($Ta_AnggaranLog as $value) {
+							if ($i31 > 1) {
+								$insert_Ta_AnggaranLog['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_AnggaranLog['KdPosting'] = $value[0];
+								$insert_Ta_AnggaranLog['Tahun'] = $value[1];
+								$insert_Ta_AnggaranLog['Kd_Desa'] = $value[2];
+								$insert_Ta_AnggaranLog['No_Perdes'] = $value[3];
+								$insert_Ta_AnggaranLog['TglPosting'] = $value[4];
+								$insert_Ta_AnggaranLog['UserID'] = $value[5];
+								$insert_Ta_AnggaranLog['Kunci'] = $value[6];
+								$this->db->insert('keuangan_ta_anggaran_log', $insert_Ta_AnggaranLog);
+							}
+							$i31++;
+						}
+
+						//insert Ta_AnggaranLog
+						$csvTa_AnggaranLog= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_AnggaranLog.csv', "r");
+						while (($data_Ta_AnggaranLog = fgetcsv($csvTa_AnggaranLog)) !== FALSE) {
+									$Ta_AnggaranLog[] = $data_Ta_AnggaranLog;
+						}
+						$i31 = 1;
+						foreach ($Ta_AnggaranLog as $value) {
+							if ($i31 > 1) {
+								$insert_Ta_AnggaranLog['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_AnggaranLog['KdPosting'] = $value[0];
+								$insert_Ta_AnggaranLog['Tahun'] = $value[1];
+								$insert_Ta_AnggaranLog['Kd_Desa'] = $value[2];
+								$insert_Ta_AnggaranLog['No_Perdes'] = $value[3];
+								$insert_Ta_AnggaranLog['TglPosting'] = $value[4];
+								$insert_Ta_AnggaranLog['UserID'] = $value[5];
+								$insert_Ta_AnggaranLog['Kunci'] = $value[6];
+								$this->db->insert('keuangan_ta_anggaran_log', $insert_Ta_AnggaranLog);
+							}
+							$i31++;
+						}
+
+						//insert Ta_AnggaranRinci
+						$csvTa_AnggaranRinci= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_AnggaranRinci.csv', "r");
+						while (($data_Ta_AnggaranRinci = fgetcsv($csvTa_AnggaranRinci)) !== FALSE) {
+									$Ta_AnggaranRinci[] = $data_Ta_AnggaranRinci;
+						}
+						$i32 = 1;
+						foreach ($Ta_AnggaranRinci as $value) {
+							if ($i32 > 1) {
+								$insert_Ta_AnggaranRinci['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_AnggaranRinci['KdPosting'] = $value[0];
+								$insert_Ta_AnggaranRinci['Tahun'] = $value[1];
+								$insert_Ta_AnggaranRinci['Kd_Desa'] = $value[2];
+								$insert_Ta_AnggaranRinci['Kd_Keg'] = $value[3];
+								$insert_Ta_AnggaranRinci['Kd_Rincian'] = $value[4];
+								$insert_Ta_AnggaranRinci['Kd_SubRinci'] = $value[5];
+								$insert_Ta_AnggaranRinci['No_Urut'] = $value[6];
+								$insert_Ta_AnggaranRinci['Uraian'] = $value[7];
+								$insert_Ta_AnggaranRinci['SumberDana'] = $value[8];
+								$insert_Ta_AnggaranRinci['JmlSatuan'] = $value[9];
+								$insert_Ta_AnggaranRinci['HrgSatuan'] = $value[10];
+								$insert_Ta_AnggaranRinci['Satuan'] = $value[11];
+								$insert_Ta_AnggaranRinci['Anggaran'] = $value[12];
+								$insert_Ta_AnggaranRinci['JmlSatuanPAK'] = $value[13];
+								$insert_Ta_AnggaranRinci['HrgSatuanPAK'] = $value[14];
+								$insert_Ta_AnggaranRinci['AnggaranStlhPAK'] = $value[15];
+								$insert_Ta_AnggaranRinci['AnggaranPAK'] = $value[16];
+								$this->db->insert('keuangan_ta_anggaran_rinci', $insert_Ta_AnggaranRinci);
+							}
+							$i32++;
+						}
+
+						//insert Ta_Bidang
+						$csvTa_Bidang= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Bidang.csv', "r");
+						while (($data_Ta_Bidang = fgetcsv($csvTa_Bidang)) !== FALSE) {
+									$Ta_Bidang[] = $data_Ta_Bidang;
+						}
+						$i33 = 1;
+						foreach ($Ta_Bidang as $value) {
+							if ($i33 > 1) {
+								$insert_Ta_Bidang['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_Bidang['Kd_Desa'] = $value[1];
+								$insert_Ta_Bidang['Kd_Bid'] = $value[2];
+								$insert_Ta_Bidang['Nama_Bidang'] = $value[3];
+								$this->db->insert('keuangan_ta_bidang', $insert_Ta_Bidang);
+							}
+							$i33++;
+						}
+
+						//insert Ta_JurnalUmum
+						$csvTa_JurnalUmum= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_JurnalUmum.csv', "r");
+						while (($data_Ta_JurnalUmum = fgetcsv($csvTa_JurnalUmum)) !== FALSE) {
+									$Ta_JurnalUmum = $data_Ta_JurnalUmum;
+						}
+						$i34 = 1;
+						foreach ($Ta_JurnalUmum as $value) {
+							if ($i34 > 1) {
+								$insert_Ta_JurnalUmum['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_JurnalUmum['KdBuku'] = $value[1];
+								$insert_Ta_JurnalUmum['Kd_Desa'] = $value[2];
+								$insert_Ta_JurnalUmum['Tanggal'] = $value[3];
+								$insert_Ta_JurnalUmum['JnsBukti'] = $value[4];
+								$insert_Ta_JurnalUmum['NoBukti'] = $value[5];
+								$insert_Ta_JurnalUmum['Keterangan'] = $value[6];
+								$insert_Ta_JurnalUmum['DK'] = $value[7];
+								$insert_Ta_JurnalUmum['Debet'] = $value[8];
+								$insert_Ta_JurnalUmum['Kredit'] = $value[9];
+								$insert_Ta_JurnalUmum['Jenis'] = $value[10];
+								$insert_Ta_JurnalUmum['Posted'] = $value[11];
+								$this->db->insert('keuangan_ta_jurnal_umum', $insert_Ta_JurnalUmum);
+							}
+							$i34++;
+						}
+
+						//insert Ta_JurnalUmumRinci
+						$csvTa_JurnalUmumRinci= fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_JurnalUmumRinci.csv', "r");
+						while (($data_Ta_JurnalUmumRinci = fgetcsv($csvTa_JurnalUmumRinci)) !== FALSE) {
+									$Ta_JurnalUmumRinci = $data_Ta_JurnalUmumRinci;
+						}
+						$i35 = 1;
+						foreach ($Ta_JurnalUmumRinci as $value) {
+							if ($i35 > 1) {
+								$insert_Ta_JurnalUmumRinci['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_JurnalUmumRinci['NoBukti'] = $value[1];
+								$insert_Ta_JurnalUmumRinci['Kd_Keg'] = $value[2];
+								$insert_Ta_JurnalUmumRinci['RincianSD'] = $value[3];
+								$insert_Ta_JurnalUmumRinci['NoID'] = $value[4];
+								$insert_Ta_JurnalUmumRinci['Kd_Desa'] = $value[5];
+								$insert_Ta_JurnalUmumRinci['Akun'] = $value[6];
+								$insert_Ta_JurnalUmumRinci['Kd_Rincian'] = $value[7];
+								$insert_Ta_JurnalUmumRinci['Sumberdana'] = $value[8];
+								$insert_Ta_JurnalUmumRinci['DK'] = $value[9];
+								$insert_Ta_JurnalUmumRinci['Debet'] = $value[10];
+								$insert_Ta_JurnalUmumRinci['Kredit'] = $value[11];
+								$this->db->insert('keuangan_ta_jurnal_umum_rinci', $insert_Ta_JurnalUmumRinci);
+							}
+							$i35++;
+						}
+
+						//insert Ta_Kegiatan
+						$csvTa_Kegiatan = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Kegiatan.csv', "r");
+						while (($data_Ta_Kegiatan = fgetcsv($csvTa_Kegiatan)) !== FALSE) {
+									$Ta_Kegiatan = $data_Ta_Kegiatan;
+						}
+						$i36 = 1;
+						foreach ($Ta_Kegiatan as $value) {
+							if ($i36 > 1) {
+								$insert_Ta_Kegiatan['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_Kegiatan['Kd_Desa'] = $value[1];
+								$insert_Ta_Kegiatan['Kd_Bid'] = $value[2];
+								$insert_Ta_Kegiatan['Kd_Keg'] = $value[3];
+								$insert_Ta_Kegiatan['ID_Keg'] = $value[4];
+								$insert_Ta_Kegiatan['Nama_Kegiatan'] = $value[5];
+								$insert_Ta_Kegiatan['Pagu'] = $value[6];
+								$insert_Ta_Kegiatan['Pagu_PAK'] = $value[7];
+								$insert_Ta_Kegiatan['Nm_PPTKD'] = $value[8];
+								$insert_Ta_Kegiatan['NIP_PPTKD'] = $value[9];
+								$insert_Ta_Kegiatan['Lokasi'] = $value[10];
+								$insert_Ta_Kegiatan['Waktu'] = $value[11];
+								$insert_Ta_Kegiatan['Keluaran'] = $value[12];
+								$insert_Ta_Kegiatan['Sumberdana'] = $value[13];
+								$this->db->insert('keuangan_ta_kegiatan', $insert_Ta_Kegiatan);
+							}
+							$i36++;
+						}
+
+						//insert Ta_Pajak
+						$csvTa_Pajak = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Pajak.csv', "r");
+						while (($data_Ta_Pajak = fgetcsv($csvTa_Pajak)) !== FALSE) {
+									$Ta_Pajak = $data_Ta_Pajak;
+						}
+						$i37 = 1;
+						foreach ($Ta_Pajak as $value) {
+							if ($i37 > 1) {
+								$insert_Ta_Pajak['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_Pajak['Kd_Desa'] = $value[1];
+								$insert_Ta_Pajak['No_SSP'] = $value[2];
+								$insert_Ta_Pajak['Tgl_SSP'] = $value[3];
+								$insert_Ta_Pajak['Keterangan'] = $value[4];
+								$insert_Ta_Pajak['Nama_WP'] = $value[5];
+								$insert_Ta_Pajak['Alamat_WP'] = $value[6];
+								$insert_Ta_Pajak['NPWP'] = $value[7];
+								$insert_Ta_Pajak['Kd_MAP'] = $value[8];
+								$insert_Ta_Pajak['Nm_Penyetor'] = $value[9];
+								$insert_Ta_Pajak['Jn_Transaksi'] = $value[10];
+								$insert_Ta_Pajak['Kd_Rincian'] = $value[11];
+								$insert_Ta_Pajak['Jumlah'] = $value[12];
+								$insert_Ta_Pajak['KdBayar'] = $value[13];
+								$this->db->insert('keuangan_ta_pajak', $insert_Ta_Pajak);
+							}
+							$i37++;
+						}
+
+						//insert Ta_PajakRinci
+						$csvTa_PajakRinci = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_PajakRinci.csv', "r");
+						while (($data_Ta_PajakRinci = fgetcsv($csvTa_PajakRinci)) !== FALSE) {
+									$Ta_PajakRinci = $data_Ta_PajakRinci;
+						}
+						$i38 = 1;
+						foreach ($Ta_PajakRinci as $value) {
+							if ($i38 > 1) {
+								$insert_Ta_PajakRinci['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_PajakRinci['Kd_Desa'] = $value[1];
+								$insert_Ta_PajakRinci['No_SSP'] = $value[2];
+								$insert_Ta_PajakRinci['No_Bukti'] = $value[3];
+								$insert_Ta_PajakRinci['Kd_Rincian'] = $value[4];
+								$insert_Ta_PajakRinci['Nilai'] = $value[5];
+								$this->db->insert('keuangan_ta_pajak_rinci', $insert_Ta_PajakRinci);
+							}
+							$i38++;
+						}
+
+						//insert Ta_Pemda
+						$csvTa_Pemda = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Pemda.csv', "r");
+						while (($data_Ta_Pemda = fgetcsv($csvTa_Pemda)) !== FALSE) {
+									$Ta_Pemda = $data_Ta_Pemda;
+						}
+						$i39 = 1;
+						foreach ($Ta_Pemda as $value) {
+							if ($i39 > 1) {
+								$insert_Ta_Pemda['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_Pemda['Kd_Prov'] = $value[1];
+								$insert_Ta_Pemda['Kd_Kab'] = $value[2];
+								$insert_Ta_Pemda['Nama_Pemda'] = $value[3];
+								$insert_Ta_Pemda['Nama_Provinsi'] = $value[4];
+								$insert_Ta_Pemda['Ibukota'] = $value[5];
+								$insert_Ta_Pemda['Alamat'] = $value[6];
+								$insert_Ta_Pemda['Nm_Bupati'] = $value[7];
+								$insert_Ta_Pemda['Jbt_Bupati'] = $value[8];
+								$insert_Ta_Pemda['Logo'] = $value[9];
+								$insert_Ta_Pemda['C_Kode'] = $value[10];
+								$insert_Ta_Pemda['C_Pemda'] = $value[11];
+								$insert_Ta_Pemda['C_Data'] = $value[12];
+								$this->db->insert('keuangan_ta_pemda', $insert_Ta_Pemda);
+							}
+							$i39++;
+						}
+
+						//insert Ta_Perangkat
+						$csvTa_Perangkat = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Perangkat.csv', "r");
+						while (($data_Ta_Perangkat = fgetcsv($csvTa_Perangkat)) !== FALSE) {
+									$Ta_Perangkat = $data_Ta_Perangkat;
+						}
+						$i40 = 1;
+						foreach ($Ta_Perangkat as $value) {
+							if ($i40 > 1) {
+								$insert_Ta_Perangkat['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_Perangkat['Kd_Desa'] = $value[1];
+								$insert_Ta_Perangkat['Kd_Jabatan'] = $value[2];
+								$insert_Ta_Perangkat['No_ID'] = $value[3];
+								$insert_Ta_Perangkat['Nama_Perangkat'] = $value[4];
+								$insert_Ta_Perangkat['Alamat_Perangkat'] = $value[5];
+								$insert_Ta_Perangkat['Nomor_HP'] = $value[6];
+								$insert_Ta_Perangkat['Rek_Bank'] = $value[7];
+								$insert_Ta_Perangkat['Nama_Bank'] = $value[8];
+								$this->db->insert('keuangan_ta_perangkat', $insert_Ta_Perangkat);
+							}
+							$i40++;
+						}
+
+						//insert Ta_RABRinci
+						$csvTa_RABRinci = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RABRinci.csv', "r");
+						while (($data_ta_RABRinci = fgetcsv($csvTa_RABRinci)) !== FALSE) {
+									$Ta_RABRinci = $data_ta_RABRinci;
+						}
+						$i41 = 1;
+						foreach ($Ta_RABRinci as $value) {
+							if ($i41 > 1) {
+								$insert_Ta_RABRinci['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RABRinci['Kd_Desa'] = $value[1];
+								$insert_Ta_RABRinci['Kd_Keg'] = $value[2];
+								$insert_Ta_RABRinci['Kd_Rincian'] = $value[3];
+								$insert_Ta_RABRinci['Kd_SubRinci'] = $value[4];
+								$insert_Ta_RABRinci['No_Urut'] = $value[5];
+								$insert_Ta_RABRinci['SumberDana'] = $value[6];
+								$insert_Ta_RABRinci['Uraian'] = $value[7];
+								$insert_Ta_RABRinci['Satuan'] = $value[8];
+								$insert_Ta_RABRinci['JmlSatuan'] = $value[9];
+								$insert_Ta_RABRinci['HrgSatuan'] = $value[10];
+								$insert_Ta_RABRinci['Anggaran'] = $value[11];
+								$insert_Ta_RABRinci['JmlSatuanPAK'] = $value[12];
+								$insert_Ta_RABRinci['HrgSatuanPAK'] = $value[13];
+								$insert_Ta_RABRinci['AnggaranStlhPAK'] = $value[14];
+								$insert_Ta_RABRinci['AnggaranPAK'] = $value[15];
+								$insert_Ta_RABRinci['Kode_SBU'] = $value[16];
+
+								$this->db->insert('keuangan_ta_rab_rinci', $insert_Ta_RABRinci);
+							}
+							$i41++;
+						}
+
+						//insert Ta_RABSub
+						$csvTa_RABSub = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RABSub.csv', "r");
+						while (($data_Ta_RABSub = fgetcsv($csvTa_RABSub)) !== FALSE) {
+									$Ta_RABSub = $data_Ta_RABSub;
+						}
+						$i42 = 1;
+						foreach ($Ta_RABSub as $value) {
+							if ($i42 > 1) {
+								$insert_Ta_RABSub['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RABSub['Kd_Desa'] = $value[1];
+								$insert_Ta_RABSub['Kd_Keg'] = $value[2];
+								$insert_Ta_RABSub['Kd_Rincian'] = $value[3];
+								$insert_Ta_RABSub['Kd_SubRinci'] = $value[4];
+								$insert_Ta_RABSub['Nama_SubRinci'] = $value[5];
+								$insert_Ta_RABSub['Anggaran'] = $value[6];
+								$insert_Ta_RABSub['AnggaranPAK'] = $value[7];
+								$insert_Ta_RABSub['AnggaranStlhPAK'] = $value[8];
+								$this->db->insert('keuangan_ta_rab_sub', $insert_Ta_RABSub);
+							}
+							$i42++;
+						}
+
+						//insert Ta_RPJM_Bidang
+						$csvTa_RPJM_Bidang = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RPJM_Bidang.csv', "r");
+						while (($data_Ta_RPJM_Bidang = fgetcsv($csvTa_RPJM_Bidang)) !== FALSE) {
+									$Ta_RPJM_Bidang = $data_Ta_RPJM_Bidang;
+						}
+						$i43 = 1;
+						foreach ($Ta_RPJM_Bidang as $value) {
+							if ($i43 > 1) {
+								$insert_Ta_RPJM_Bidang['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RPJM_Bidang['Kd_Desa'] = $value[0];
+								$insert_Ta_RPJM_Bidang['Kd_Bid'] = $value[1];
+								$insert_Ta_RPJM_Bidang['Nama_Bidang'] = $value[2];
+								$this->db->insert('keuangan_ta_rpjm_bidang', $insert_Ta_RPJM_Bidang);
+							}
+							$i43++;
+						}
+
+						//insert Ta_RPJM_Kegiatan
+						$csvTa_RPJM_Kegiatan = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RPJM_Kegiatan.csv', "r");
+						while (($data_Ta_RPJM_Kegiatan = fgetcsv($csvTa_RPJM_Kegiatan)) !== FALSE) {
+									$Ta_RPJM_Kegiatan = $data_Ta_RPJM_Kegiatan;
+						}
+						$i44 = 1;
+						foreach ($Ta_RPJM_Kegiatan as $value) {
+							if ($i44 > 1) {
+								$insert_Ta_RPJM_Kegiatan['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RPJM_Kegiatan['Kd_Desa'] = $value[0];
+								$insert_Ta_RPJM_Kegiatan['Kd_Bid'] = $value[1];
+								$insert_Ta_RPJM_Kegiatan['Kd_Keg'] = $value[2];
+								$insert_Ta_RPJM_Kegiatan['ID_Keg'] = $value[3];
+								$insert_Ta_RPJM_Kegiatan['Nama_Kegiatan'] = $value[4];
+								$insert_Ta_RPJM_Kegiatan['Lokasi'] = $value[5];
+								$insert_Ta_RPJM_Kegiatan['Keluaran'] = $value[6];
+								$insert_Ta_RPJM_Kegiatan['Kd_Sas'] = $value[7];
+								$insert_Ta_RPJM_Kegiatan['Sasaran'] = $value[8];
+								$insert_Ta_RPJM_Kegiatan['Tahun1'] = $value[9];
+								$insert_Ta_RPJM_Kegiatan['Tahun2'] = $value[10];
+								$insert_Ta_RPJM_Kegiatan['Tahun3'] = $value[11];
+								$insert_Ta_RPJM_Kegiatan['Tahun4'] = $value[12];
+								$insert_Ta_RPJM_Kegiatan['Tahun5'] = $value[13];
+								$insert_Ta_RPJM_Kegiatan['Tahun6'] = $value[14];
+								$insert_Ta_RPJM_Kegiatan['Swakelola'] = $value[15];
+								$insert_Ta_RPJM_Kegiatan['Kerjasama'] = $value[16];
+								$insert_Ta_RPJM_Kegiatan['Pihak_Ketiga'] = $value[17];
+								$insert_Ta_RPJM_Kegiatan['Sumberdana'] = $value[18];
+								$insert_Ta_RPJM_Kegiatan['Kode_SBU'] = $value[19];
+								$this->db->insert('keuangan_ta_rpjm_kegiatan', $insert_Ta_RPJM_Kegiatan);
+							}
+							$i44++;
+						}
+
+						//insert Ta_RPJM_Misi
+						$csvTa_RPJM_Misi  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RPJM_Misi.csv', "r");
+						while (($data_Ta_RPJM_Misi = fgetcsv($csvTa_RPJM_Misi)) !== FALSE) {
+									$Ta_RPJM_Misi = $data_Ta_RPJM_Misi;
+						}
+						$i45 = 1;
+						foreach ($Ta_RPJM_Misi as $value) {
+							if ($i45 > 1) {
+								$insert_Ta_RPJM_Misi['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RPJM_Misi['ID_Misi'] = $value[0];
+								$insert_Ta_RPJM_Misi['Kd_Desa'] = $value[1];
+								$insert_Ta_RPJM_Misi['ID_Visi'] = $value[2];
+								$insert_Ta_RPJM_Misi['No_Misi'] = $value[3];
+								$insert_Ta_RPJM_Misi['Uraian_Misi'] = $value[4];
+								$this->db->insert('keuangan_ta_rpjm_misi', $insert_Ta_RPJM_Misi);
+							}
+							$i45++;
+						}
+
+						//insert Ta_RPJM_Pagu_Indikatif
+						$csvTa_RPJM_Pagu_Indikatif  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RPJM_Pagu_Indikatif.csv', "r");
+						while (($data_Ta_RPJM_Pagu_Indikatif = fgetcsv($csvTa_RPJM_Pagu_Indikatif)) !== FALSE) {
+									$Ta_RPJM_Pagu_Indikatif = $data_Ta_RPJM_Pagu_Indikatif;
+						}
+						$i46 = 1;
+						foreach ($Ta_RPJM_Pagu_Indikatif as $value) {
+							if ($i46 > 1) {
+								$insert_Ta_RPJM_Pagu_Indikatif['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RPJM_Pagu_Indikatif['Kd_Desa'] = $value[0];
+								$insert_Ta_RPJM_Pagu_Indikatif['Kd_Keg'] = $value[1];
+								$insert_Ta_RPJM_Pagu_Indikatif['Kd_Sumber'] = $value[2];
+								$insert_Ta_RPJM_Pagu_Indikatif['Tahun1'] = $value[3];
+								$insert_Ta_RPJM_Pagu_Indikatif['Tahun2'] = $value[4];
+								$insert_Ta_RPJM_Pagu_Indikatif['Tahun3'] = $value[5];
+								$insert_Ta_RPJM_Pagu_Indikatif['Tahun4'] = $value[6];
+								$insert_Ta_RPJM_Pagu_Indikatif['Tahun5'] = $value[7];
+								$insert_Ta_RPJM_Pagu_Indikatif['Tahun6'] = $value[8];
+								$insert_Ta_RPJM_Pagu_Indikatif['Pola'] = $value[9];
+								$this->db->insert('keuangan_ta_rpjm_pagu_indikatif', $insert_Ta_RPJM_Pagu_Indikatif);
+							}
+							$i46++;
+						}
+
+						//insert Ta_RPJM_Pagu_Tahunan
+						$csvTa_RPJM_Pagu_Tahunan  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RPJM_Pagu_Tahunan.csv', "r");
+						while (($data_Ta_RPJM_Pagu_Tahunan = fgetcsv($csvTa_RPJM_Pagu_Tahunan)) !== FALSE) {
+									$Ta_RPJM_Pagu_Tahunan = $data_Ta_RPJM_Pagu_Tahunan;
+						}
+						$i47 = 1;
+						foreach ($Ta_RPJM_Pagu_Tahunan as $value) {
+							if ($i47 > 1) {
+								$insert_Ta_RPJM_Pagu_Tahunan['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RPJM_Pagu_Tahunan['Kd_Desa'] = $value[0];
+								$insert_Ta_RPJM_Pagu_Tahunan['Kd_Keg'] = $value[1];
+								$insert_Ta_RPJM_Pagu_Tahunan['Kd_Tahun'] = $value[2];
+								$insert_Ta_RPJM_Pagu_Tahunan['Kd_Sumber'] = $value[3];
+								$insert_Ta_RPJM_Pagu_Tahunan['Biaya'] = $value[4];
+								$insert_Ta_RPJM_Pagu_Tahunan['Volume'] = $value[5];
+								$insert_Ta_RPJM_Pagu_Tahunan['Satuan'] = $value[6];
+								$insert_Ta_RPJM_Pagu_Tahunan['Lokasi_Spesifik'] = $value[7];
+								$insert_Ta_RPJM_Pagu_Tahunan['Jml_Sas_Pria'] = $value[8];
+								$insert_Ta_RPJM_Pagu_Tahunan['Jml_Sas_Wanita'] = $value[9];
+								$insert_Ta_RPJM_Pagu_Tahunan['Jml_Sas_ARTM'] = $value[10];
+								$insert_Ta_RPJM_Pagu_Tahunan['Waktu'] = $value[11];
+								$insert_Ta_RPJM_Pagu_Tahunan['Mulai'] = $value[12];
+								$insert_Ta_RPJM_Pagu_Tahunan['Selesai'] = $value[13];
+								$insert_Ta_RPJM_Pagu_Tahunan['Pola_Kegiatan'] = $value[14];
+								$insert_Ta_RPJM_Pagu_Tahunan['Pelaksana'] = $value[15];
+								$this->db->insert('keuangan_ta_rpjm_pagu_tahunan', $insert_Ta_RPJM_Pagu_Tahunan);
+							}
+							$i47++;
+						}
+
+						//insert Ta_RPJM_Sasaran
+						$csvTa_RPJM_Sasaran  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RPJM_Sasaran.csv', "r");
+						while (($data_Ta_RPJM_Sasaran = fgetcsv($csvTa_RPJM_Sasaran)) !== FALSE) {
+									$Ta_RPJM_Sasaran = $data_Ta_RPJM_Sasaran;
+						}
+						$i48 = 1;
+						foreach ($Ta_RPJM_Sasaran as $value) {
+							if ($i48 > 1) {
+								$insert_Ta_RPJM_Sasaran['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RPJM_Sasaran['ID_Sasaran '] = $value[0];
+								$insert_Ta_RPJM_Sasaran['Kd_Desa'] = $value[1];
+								$insert_Ta_RPJM_Sasaran['ID_Tujuan'] = $value[2];
+								$insert_Ta_RPJM_Sasaran['No_Sasaran'] = $value[3];
+								$insert_Ta_RPJM_Sasaran['Uraian_Sasaran'] = $value[4];
+								$this->db->insert('keuangan_ta_rpjm_sasaran', $insert_Ta_RPJM_Sasaran);
+							}
+							$i48++;
+						}
+
+						//insert Ta_RPJM_Tujuan
+						$csvTa_RPJM_Tujuan  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RPJM_Tujuan.csv', "r");
+						while (($data_Ta_RPJM_Tujuan = fgetcsv($csvTa_RPJM_Tujuan)) !== FALSE) {
+									$Ta_RPJM_Tujuan = $data_Ta_RPJM_Tujuan;
+						}
+						$i49 = 1;
+						foreach ($Ta_RPJM_Tujuan as $value) {
+							if ($i49 > 1) {
+								$insert_Ta_RPJM_Tujuan['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RPJM_Sasaran['ID_Tujuan '] = $value[0];
+								$insert_Ta_RPJM_Sasaran['Kd_Desa'] = $value[1];
+								$insert_Ta_RPJM_Sasaran['ID_Misi'] = $value[2];
+								$insert_Ta_RPJM_Sasaran['No_Tujuan'] = $value[3];
+								$insert_Ta_RPJM_Sasaran['Uraian_Tujuan'] = $value[4];
+								$this->db->insert('keuangan_ta_rpjm_tujuan', $insert_Ta_RPJM_Tujuan);
+							}
+							$i49++;
+						}
+
+						//insert Ta_RPJM_Visi
+						$csvTa_RPJM_Visi  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_RPJM_Visi.csv', "r");
+						while (($data_Ta_RPJM_Visi = fgetcsv($csvTa_RPJM_Visi)) !== FALSE) {
+									$Ta_RPJM_Visi = $data_Ta_RPJM_Visi;
+						}
+						$i50 = 1;
+						foreach ($Ta_RPJM_Visi as $value) {
+							if ($i50 > 1) {
+								$insert_Ta_RPJM_Visi['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_RPJM_Visi['ID_Visi '] = $value[0];
+								$insert_Ta_RPJM_Visi['Kd_Desa'] = $value[1];
+								$insert_Ta_RPJM_Visi['No_Visi'] = $value[2];
+								$insert_Ta_RPJM_Visi['Uraian_Visi'] = $value[3];
+								$insert_Ta_RPJM_Visi['TahunA'] = $value[4];
+								$insert_Ta_RPJM_Visi['TahunN'] = $value[5];
+								$this->db->insert('keuangan_ta_rpjm_visi', $insert_Ta_RPJM_Visi);
+							}
+							$i50++;
+						}
+
+						//insert Ta_SaldoAwal
+						$csvTa_SaldoAwal  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_SaldoAwal.csv', "r");
+						while (($data_Ta_SaldoAwal = fgetcsv($csvTa_SaldoAwal)) !== FALSE) {
+									$Ta_SaldoAwal = $data_Ta_SaldoAwal;
+						}
+						$i51 = 1;
+						foreach ($Ta_SaldoAwal as $value) {
+							if ($i51 > 1) {
+								$insert_Ta_SaldoAwal['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_SaldoAwal['Kd_Desa '] = $value[1];
+								$insert_Ta_SaldoAwal['Kd_Rincian'] = $value[2];
+								$insert_Ta_SaldoAwal['Jenis'] = $value[3];
+								$insert_Ta_SaldoAwal['Anggaran'] = $value[4];
+								$insert_Ta_SaldoAwal['Debet'] = $value[5];
+								$insert_Ta_SaldoAwal['Kredit'] = $value[6];
+								$insert_Ta_SaldoAwal['Tgl_Bukti'] = $value[7];
+								$this->db->insert('keuangan_ta_saldo_awal', $insert_Ta_SaldoAwal);
+							}
+							$i51++;
+						}
+
+						//insert Ta_SPJ
+						$csvTa_SPJ  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_SPJ.csv', "r");
+						while (($data_Ta_SPJ = fgetcsv($csvTa_SPJ)) !== FALSE) {
+									$Ta_SPJ = $data_Ta_SPJ;
+						}
+						$i52 = 1;
+						foreach ($Ta_SPJ as $value) {
+							if ($i52 > 1) {
+								$insert_Ta_SPJ['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_SPJ['No_SPJ'] = $value[1];
+								$insert_Ta_SPJ['Tgl_SPJ'] = $value[2];
+								$insert_Ta_SPJ['Kd_Desa'] = $value[3];
+								$insert_Ta_SPJ['No_SPP'] = $value[4];
+								$insert_Ta_SPJ['Keterangan'] = $value[5];
+								$insert_Ta_SPJ['Jumlah'] = $value[6];
+								$insert_Ta_SPJ['Potongan'] = $value[7];
+								$insert_Ta_SPJ['Status'] = $value[78;
+								$this->db->insert('keuangan_ta_spj', $insert_Ta_SPJ);
+							}
+							$i52++;
+						}
+
+						//insert Ta_SPJBukti
+						$csvTa_SPJBukti  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_SPJBukti.csv', "r");
+						while (($data_Ta_SPJBukti = fgetcsv($csvTa_SPJBukti)) !== FALSE) {
+									$Ta_SPJBukti = $data_Ta_SPJBukti;
+						}
+						$i53 = 1;
+						foreach ($Ta_SPJBukti as $value) {
+							if ($i53 > 1) {
+								$insert_Ta_SPJBukti['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_SPJBukti['No_SPJ'] = $value[1];
+								$insert_Ta_SPJBukti['Kd_Keg'] = $value[2];
+								$insert_Ta_SPJBukti['Kd_Rincian'] = $value[3];
+								$insert_Ta_SPJBukti['No_Bukti'] = $value[4];
+								$insert_Ta_SPJBukti['Tgl_Bukti'] = $value[5];
+								$insert_Ta_SPJBukti['Sumberdana'] = $value[6];
+								$insert_Ta_SPJBukti['Kd_Desa'] = $value[7];
+								$insert_Ta_SPJBukti['Nm_Penerima'] = $value[8];
+								$insert_Ta_SPJBukti['Alamat'] = $value[9];
+								$insert_Ta_SPJBukti['Rek_Bank'] = $value[10];
+								$insert_Ta_SPJBukti['Nm_Bank'] = $value[11];
+								$insert_Ta_SPJBukti['NPWP'] = $value[12];
+								$insert_Ta_SPJBukti['Keterangan'] = $value[13];
+								$insert_Ta_SPJBukti['Nilai'] = $value[14];
+								$this->db->insert('keuangan_ta_spj_bukti', $insert_Ta_SPJBukti);
+							}
+							$i53++;
+						}
+
+						//insert Ta_SPJRinci
+						$csvTa_SPJRinci  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_SPJRinci.csv', "r");
+						while (($data_Ta_SPJRinci = fgetcsv($csvTa_SPJRinci)) !== FALSE) {
+									$Ta_SPJRinci = $data_Ta_SPJRinci;
+						}
+						$i54 = 1;
+						foreach ($Ta_SPJRinci as $value) {
+							if ($i54 > 1) {
+								$insert_Ta_SPJRinci['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_SPJRinci['No_SPJ'] = $value[1];
+								$insert_Ta_SPJRinci['Kd_Keg'] = $value[2];
+								$insert_Ta_SPJRinci['Kd_Rincian'] = $value[3];
+								$insert_Ta_SPJRinci['Sumberdana'] = $value[4];
+								$insert_Ta_SPJRinci['Kd_Desa'] = $value[5];
+								$insert_Ta_SPJRinci['Sumberdana'] = $value[6];
+								$insert_Ta_SPJRinci['No_SPP'] = $value[7];
+								$insert_Ta_SPJRinci['JmlCair'] = $value[8];
+								$insert_Ta_SPJRinci['Nilai'] = $value[9];
+								$insert_Ta_SPJRinci['Sisa'] = $value[10];
+								$this->db->insert('keuangan_ta_spj_rinci', $insert_Ta_SPJRinci);
+							}
+							$i54++;
+						}
+
+						//insert Ta_SPP
+						$csvTa_SPP  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_SPP.csv', "r");
+						while (($data_Ta_SPP = fgetcsv($csvTa_SPP)) !== FALSE) {
+									$Ta_SPP = $data_Ta_SPP;
+						}
+						$i55 = 1;
+						foreach ($Ta_SPP as $value) {
+							if ($i55 > 1) {
+								$insert_Ta_SPP['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_SPP['No_SPP'] = $value[1];
+								$insert_Ta_SPP['Tgl_SPP'] = $value[2];
+								$insert_Ta_SPP['Jn_SPP'] = $value[3];
+								$insert_Ta_SPP['Kd_Desa'] = $value[4];
+								$insert_Ta_SPP['Keterangan'] = $value[5];
+								$insert_Ta_SPP['Jumlah'] = $value[6];
+								$insert_Ta_SPP['Potongan'] = $value[7];
+								$insert_Ta_SPP['Status'] = $value[8];
+
+								$this->db->insert('keuangan_ta_spp', $insert_Ta_SPJRinci);
+							}
+							$i55++;
+						}
+
+						//insert Ta_SPPRinci
+						$csvTa_SPPRinci  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_SPPRinci.csv', "r");
+						while (($data_Ta_SPPRinci = fgetcsv($csvTa_SPPRinci)) !== FALSE) {
+									$Ta_SPPRinci = $data_Ta_SPPRinci;
+						}
+						$i56 = 1;
+						foreach ($Ta_SPPRinci as $value) {
+							if ($i56 > 1) {
+								$insert_Ta_SPPRinci['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_SPPRinci['Kd_Desa'] = $value[1];
+								$insert_Ta_SPPRinci['No_SPP'] = $value[2];
+								$insert_Ta_SPPRinci['Kd_Keg'] = $value[3];
+								$insert_Ta_SPPRinci['Kd_Rincian'] = $value[4];
+								$insert_Ta_SPPRinci['Sumberdana'] = $value[5];
+								$insert_Ta_SPPRinci['Nilai'] = $value[6];
+
+
+								$this->db->insert('keuangan_ta_spp_rinci', $insert_Ta_SPPRinci);
+							}
+							$i56++;
+						}
+
+						//insert Ta_STSRinci
+						$csvTa_STSRinci  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_STSRinci.csv', "r");
+						while (($data_Ta_STSRinci = fgetcsv($csvTa_STSRinci)) !== FALSE) {
+									$Ta_STSRinci = $data_Ta_STSRinci;
+						}
+						$i57 = 1;
+						foreach ($Ta_STSRinci as $value) {
+							if ($i56 > 1) {
+								$insert_Ta_STSRinci['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_STSRinci['Kd_Desa'] = $value[1];
+								$insert_Ta_STSRinci['No_Bukti'] = $value[2];
+								$insert_Ta_STSRinci['No_TBP'] = $value[3];
+								$insert_Ta_STSRinci['Uraian'] = $value[4];
+								$insert_Ta_STSRinci['Nilai'] = $value[5];
+								$this->db->insert('keuangan_ta_sts_rinci', $insert_Ta_STSRinci);
+							}
+							$i56++;
+						}
+
+						//insert Ta_Triwulan
+						$csvTa_Triwulan  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_Triwulan.csv', "r");
+						while (($data_Ta_Triwulan = fgetcsv($csvTa_Triwulan)) !== FALSE) {
+									$Ta_Triwulan = $data_Ta_Triwulan;
+						}
+						$i58 = 1;
+						foreach ($Ta_Triwulan as $value) {
+							if ($i58 > 1) {
+								$insert_Ta_Triwulan['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_Triwulan['KURincianSD'] = $value[0];
+								$insert_Ta_Triwulan['Tahun'] = $value[1];
+								$insert_Ta_Triwulan['Sifat'] = $value[2];
+								$insert_Ta_Triwulan['SumberDana'] = $value[3];
+								$insert_Ta_Triwulan['Kd_Desa'] = $value[4];
+								$insert_Ta_Triwulan['Kd_Keg'] = $value[4];
+								$insert_Ta_Triwulan['Kd_Rincian'] = $value[5];
+								$insert_Ta_Triwulan['Anggaran'] = $value[6];
+								$insert_Ta_Triwulan['AnggaranPAK'] = $value[7];
+								$insert_Ta_Triwulan['Tw1Rinci'] = $value[8];
+								$insert_Ta_Triwulan['Tw2Rinci'] = $value[9];
+								$insert_Ta_Triwulan['Tw3Rinci'] = $value[10];
+								$insert_Ta_Triwulan['Tw4Rinci'] = $value[11];
+								$insert_Ta_Triwulan['KunciData'] = $value[12];
+								$this->db->insert('keuangan_ta_triwulan', $insert_Ta_Triwulan);
+							}
+							$i58++;
+						}
+
+						//insert Ta_TriwulanArsip
+						$csvTa_TriwulanArsip  = fopen(LOKASI_KEUANGAN_ZIP.'/'.$_FILES['keuangan']['name'].'/'.'Ta_TriwulanArsip.csv', "r");
+						while (($data_Ta_TriwulanArsip = fgetcsv($csvTa_TriwulanArsip)) !== FALSE) {
+									$Ta_TriwulanArsip = $data_Ta_TriwulanArsip;
+						}
+						$i59 = 1;
+						foreach ($Ta_TriwulanArsip as $value) {
+							if ($i59 > 1) {
+								$insert_Ta_TriwulanArsip['id_keuangan_master'] = $id_master_keuangan;
+								$insert_Ta_TriwulanArsip['KdPosting'] = $value[0];
+								$insert_Ta_TriwulanArsip['KURincianSD'] = $value[1];
+								$insert_Ta_TriwulanArsip['Tahun'] = $value[3];
+								$insert_Ta_TriwulanArsip['Sifat'] = $value[4];
+								$insert_Ta_TriwulanArsip['SumberDana'] = $value[5];
+								$insert_Ta_TriwulanArsip['Kd_Desa'] = $value[6];
+								$insert_Ta_TriwulanArsip['Kd_Keg'] = $value[7];
+								$insert_Ta_TriwulanArsip['Kd_Rincian'] = $value[8];
+								$insert_Ta_TriwulanArsip['Anggaran'] = $value[9];
+								$insert_Ta_TriwulanArsip['AnggaranPAK'] = $value[10];
+								$insert_Ta_TriwulanArsip['Tw1Rinci'] = $value[11];
+								$insert_Ta_TriwulanArsip['Tw2Rinci'] = $value[12];
+								$insert_Ta_TriwulanArsip['Tw3Rinci'] = $value[13];
+								$insert_Ta_TriwulanArsip['Tw4Rinci'] = $value[14];
+								$insert_Ta_TriwulanArsip['KunciData'] = $value[15];
+								$this->db->insert('keuangan_ta_triwulan_arsip', $insert_Ta_TriwulanArsip);
+							}
+							$i59++;
+						}
+
 
 
 						fclose($handle);
