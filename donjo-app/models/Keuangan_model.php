@@ -1185,7 +1185,7 @@ class Keuangan_model extends CI_model {
 								$insert_Ta_SPJ['Keterangan'] = $value[5];
 								$insert_Ta_SPJ['Jumlah'] = $value[6];
 								$insert_Ta_SPJ['Potongan'] = $value[7];
-								$insert_Ta_SPJ['Status'] = $value[78;
+								$insert_Ta_SPJ['Status'] = $value[8];
 								$this->db->insert('keuangan_ta_spj', $insert_Ta_SPJ);
 							}
 							$i52++;
