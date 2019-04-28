@@ -92,6 +92,7 @@
                                 <th width='50%'>Wajib KTP</th>
                                 <th>KTP Elektrtonik</th>
                                 <th>Status Rekam</th>
+                                <th>Tag ID Card</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -112,6 +113,9 @@
                                     <option value="<?= $id?>" <?php if (strtolower($penduduk['status_rekam'])==$nama): ?>selected<?php endif; ?>><?= strtoupper($nama)?></option>
                                   <?php endforeach;?>
                                   </select>
+                                </td>
+                                <td>
+                                  <input name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
                                 </td>
                               </tr>
                             </tbody>

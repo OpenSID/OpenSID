@@ -138,6 +138,7 @@
 															<?php else: ?>
 																<th><a href="<?= site_url("penduduk/index/$p/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
 															<?php endif; ?>
+															<th>Tag ID Card</th>
 															<?php if ($o==4): ?>
 																<th nowrap><a href="<?= site_url("penduduk/index/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
 															<?php elseif ($o==3): ?>
@@ -218,6 +219,7 @@
 																<td>
 																	<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
 																</td>
+																<td nowrap><?= $data['tag_id_card']?></td>
 																<td nowrap><?= strtoupper($data['nama'])?></td>
 																<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
 																<!-- tambah kolom orang tua-->

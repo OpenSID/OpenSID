@@ -183,6 +183,18 @@
 
   private function migrasi_1904_ke_1905()
   {
+  	// Tambah kolom penduduk
+  	if (!$this->db->field_exists('tag_id_card', 'tweb_penduduk'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['tag_id_card'] = array(
+					'type' => 'VARCHAR',
+					'constraint' => 15,
+					'default' => NULL
+			);
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+		}
   	// Tambah form admin aparatur desa
 		$this->db->where('isi','aparatur_desa.php')->update('widget',array('form_admin'=>'web_widget/admin/aparatur_desa'));
   	// Konversi data suplemen terdata ke id

@@ -133,6 +133,7 @@
                                   <th nowrap><a href="<?= site_url("keluarga/index/$p/3")?>">Kepala Keluarga <i class='fa fa-sort fa-sm'></i></a></th>
                                 <?php endif; ?>
 																<th>NIK</th>
+																<th>Tag ID Card</th>
 																<th>Jumlah Anggota</th>
 																<th>Jenis Kelamin</th>
 																<th>Alamat</th>
@@ -159,6 +160,7 @@
 																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"><?= $data['no_kk']?></a></td>
 																	<td nowrap><?= strtoupper($data['kepala_kk'])?></td>
 																	<td><?= strtoupper($data['nik'])?></td>
+																	<td><?= $data['tag_id_card']?></td>
 																	<td><a href="<?= site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?= $data['jumlah_anggota']?></a></td>
 																	<td><?= strtoupper($data['sex'])?></td>
 																	<td><?= strtoupper($data['alamat'])?></td>

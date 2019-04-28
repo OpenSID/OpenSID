@@ -70,11 +70,13 @@
 																<th>Wajib KTP</th>
 																<th>KTP-EL</th>
 																<th>Status Rekam</th>
+																<th>Tag ID Card</th>
 															</tr>
 															<tr>
 																<td><?= strtoupper($penduduk['wajib_ktp'])?></td>
 																<td><?= strtoupper($penduduk['ktp_el'])?></td>
 																<td><?= strtoupper($penduduk['status_rekam'])?></td>
+																<td><?= $penduduk['tag_id_card']?></td>
 															</tr>
 														</table>
 													</td>
