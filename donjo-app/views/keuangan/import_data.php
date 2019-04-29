@@ -11,6 +11,8 @@
 	</section>
 	<section class="content" id="maincontent">
     <form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="jenis_import" id="jenis_import" value="baru">
+			<input type="hidden" name="id_keuangan_master" id="id_keuangan_master" value="0">
   	<div class='modal-body'>
   		<div class="row">
   			<div class="col-sm-12">
@@ -45,8 +47,8 @@
   						</div>
   					</div>
   					<div class="modal-footer">
-  						<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok" ><i class='fa fa-check'></i> Simpan</button>
-  						<!-- <button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button> -->
+  						<!-- <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok" ><i class='fa fa-check'></i> Simpan</button> -->
+  						<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button>
   					</div>
   				</div>
   			</div>
@@ -77,7 +79,6 @@
         </div>
 
 <script type="text/javascript">
-
 		function simpan() {
 			if ($("#versi_database").val() == '') {
 				alert('Pilih Versi Database!');
@@ -95,18 +96,18 @@
 							datatype:"json",
 						 data: $('#validasi').serialize(),
 						 success: function(response) {
-								 if (response == 1) {
-									 $("#getCodeModal").modal('show');
+								 if (response == 0) {
+									  $('#validasi').submit();
 								 }else{
-										 $('#validasi').submit();
+									 $("#id_keuangan_master").val(response);
+									 $("#getCodeModal").modal('show');
 								 }
 						 }
 				 });
 			}
 		}
 		function simpanDataUpdate() {
+			$("#jenis_import").val('update');
 			$('#validasi').submit();
 		}
-
-
 </script>
