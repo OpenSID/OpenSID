@@ -1311,11 +1311,11 @@
 			$this->db->query($query);
 		}
 
-		//insert keuangan_ta_triwulan
-		if (!$this->db->table_exists('keuangan_ta_triwulan') )
+		//insert keuangan_ta_triwulan_rinci
+		if (!$this->db->table_exists('keuangan_ta_triwulan_rinci') )
 		{
 			$query = "
-			CREATE TABLE IF NOT EXISTS `keuangan_ta_triwulan` (
+			CREATE TABLE IF NOT EXISTS `keuangan_ta_triwulan_rinci` (
 				`id` int(11) NOT NULL AUTO_INCREMENT,
 				`id_keuangan_master` int(11) NOT NULL,
 				`KdPosting` varchar(100) NOT NULL,
