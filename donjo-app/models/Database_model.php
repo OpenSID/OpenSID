@@ -1401,6 +1401,11 @@
 	  ";
 	  $this->db->query($query);
 	  $this->data_siskeudes();
+		// Buat folder desa/upload/keuangan apabila belum ada
+		if (!file_exists(LOKASI_KEUANGAN_ZIP))
+		{
+			mkdir(LOKASI_KEUANGAN_ZIP, 0755);
+		}
 
 		// Tambah surat keterangan penghasilan orangtua
 		$data = array(
