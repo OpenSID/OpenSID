@@ -567,7 +567,6 @@
 				`nm_kaur_keu` varchar(100) NOT NULL,
 				`jbt_kaur_keu` varchar(100) NOT NULL,
 				`nm_bendahara` varchar(100) NOT NULL,
-				`nm_bendahara` varchar(100) NOT NULL,
 				`no_perdes` varchar(100) NOT NULL,
 				`tgl_perdes` varchar(100) NOT NULL,
 				`no_perdes_pb` varchar(100) NOT NULL,
@@ -1300,12 +1299,12 @@
 				`Kd_Keg` varchar(100) NOT NULL,
 				`Kd_Rincian` varchar(100) NOT NULL,
 				`Anggaran` varchar(100) NOT NULL,
-				`AnggaranPAK ` varchar(100) NOT NULL,
-				`Tw1Rinci ` varchar(100) NOT NULL,
-				`Tw2Rinci ` varchar(100) NOT NULL,
-				`Tw3Rinci ` varchar(100) NOT NULL,
-				`Tw4Rinci ` varchar(100) NOT NULL,
-				`KunciData ` varchar(100) NOT NULL,
+				`AnggaranPAK` varchar(100) NOT NULL,
+				`Tw1Rinci` varchar(100) NOT NULL,
+				`Tw2Rinci` varchar(100) NOT NULL,
+				`Tw3Rinci` varchar(100) NOT NULL,
+				`Tw4Rinci` varchar(100) NOT NULL,
+				`KunciData` varchar(100) NOT NULL,
 				PRIMARY KEY (`id`)
 			)";
 			$this->db->query($query);
@@ -1327,12 +1326,12 @@
 				`Kd_Keg` varchar(100) NOT NULL,
 				`Kd_Rincian` varchar(100) NOT NULL,
 				`Anggaran` varchar(100) NOT NULL,
-				`AnggaranPAK ` varchar(100) NOT NULL,
-				`Tw1Rinci ` varchar(100) NOT NULL,
-				`Tw2Rinci ` varchar(100) NOT NULL,
-				`Tw3Rinci ` varchar(100) NOT NULL,
-				`Tw4Rinci ` varchar(100) NOT NULL,
-				`KunciData ` varchar(100) NOT NULL,
+				`AnggaranPAK` varchar(100) NOT NULL,
+				`Tw1Rinci` varchar(100) NOT NULL,
+				`Tw2Rinci` varchar(100) NOT NULL,
+				`Tw3Rinci` varchar(100) NOT NULL,
+				`Tw4Rinci` varchar(100) NOT NULL,
+				`KunciData` varchar(100) NOT NULL,
 				PRIMARY KEY (`id`)
 			)";
 			$this->db->query($query);
