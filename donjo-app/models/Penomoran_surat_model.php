@@ -81,6 +81,7 @@ class Penomoran_surat_model extends CI_Model {
 		$surat['no_surat'] OR $surat['no_surat'] = $surat['nomor_urut'];
 		$surat['tanggal_surat'] OR $surat['tanggal_surat'] = $surat['tanggal'];
 		$surat['tanggal'] OR $surat['tanggal'] = $surat['tanggal_surat'];
+		$surat['tanggal'] = tgl_indo2($surat['tanggal']);
 
 		return $surat;
 	}

@@ -11,38 +11,15 @@
 	{
 		$('#isi_rt').hide();
 		var rw = $('#rw');
-		select_options(rw, dusun);
+		select_options(rw, encodeURI(dusun));
 	}
 
 	function ubah_rw(dusun, rw)
 	{
 		$('#isi_rt').show();
 		var rt = $('#id_cluster');
-		var params = dusun + '/' + rw;
+		var params = encodeURI(dusun) + '/' + rw;
 		select_options(rt, params);
-	}
-
-	function select_options(select, params)
-	{
-		var url_data = select.attr('data-source') + params;
-		select
-			.find('option').not('.placeholder')
-			.remove()
-			.end();
-
-	  $.ajax({
-	    url: url_data,
-	  }).then(function(options) {
-	    JSON.parse(options).forEach((option) => {
-	      var option_elem = $('<option>');
-
-	      option_elem
-	        .val(option[select.attr('data-valueKey')])
-	        .text(option[select.attr('data-displayKey')]);
-
-	      select.append(option_elem);
-	    });
-	  });
 	}
 </script>
 <style type="text/css">

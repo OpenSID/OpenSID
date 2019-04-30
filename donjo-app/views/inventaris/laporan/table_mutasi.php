@@ -30,7 +30,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table id="tabel4" class="table table-bordered table-striped dataTable table-hover">
+														<table id="tabel4-laporan" class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray">
 																<tr>
 																	<th class="text-center" rowspan="3">No</th>
@@ -334,7 +334,7 @@
 </div>
 <script>
 	$(document).ready(function(){
-		var t = $('#tabel4').DataTable( {
+		var t = $('#tabel-laporan').DataTable( {
 			'paging'      : false,
       'lengthChange': false,
       'searching'   : false,

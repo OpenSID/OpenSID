@@ -69,14 +69,14 @@
 																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path" name="userfile">
-																								<input type="file" class="hidden" id="file" name="userfile" accept="application/sql">
+																								<input type="file" class="hidden" id="file" name="userfile" data-submit="restore" accept="application/sql">
 																								<span class="input-group-btn">
-																									<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+																									<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 																								</span>
 																							</div>
 																						</div>
 																						<div class="col-sm-12 col-md-3 col-lg-2">
-																							<button type="submit" class="btn btn-block btn-success btn-sm"><i class="fa fa-spin fa-refresh"></i>  Restore</button>
+																							<button type="submit" id="restore" class="btn btn-block btn-success btn-sm" disabled="disabled"><i class="fa fa-spin fa-refresh"></i>  Restore</button>
 																						</div>
 																					</div>
 																				</td>

@@ -110,7 +110,7 @@
 																<input id="check<?= $key+1?>" type="checkbox" name="id_cb[]" value="'<?= $data['nik']?>'" onchange="pilih_anggota($(this), <?= $key+1?>);" />
 															</td>
 															<td><?= $data['nik']?></td>
-															<td><?= unpenetration($data['nama'])?></td>
+															<td><?= $data['nama']?></td>
 															<td><?= $data['sex']?></td>
 															<td><?= $data['tempatlahir']?>, <?= tgl_indo($data['tanggallahir'])?></td>
 															<td><?= $data['hubungan']?></td>
@@ -177,8 +177,8 @@
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2" id="atas_nama" name="atas_nama" style ="width:100%;">
 											<option value="">--  Atas Nama --</option>
-											<option value="An. Kepala Desa <?= unpenetration($desa['nama_desa'])?>"> An. Kepala Desa <?= unpenetration($desa['nama_desa'])?> </option>
-											<option value="Ub. Kepala Desa <?= unpenetration($desa['nama_desa'])?>"> Ub. Kepala Desa <?= unpenetration($desa['nama_desa'])?> </option>
+											<option value="An. Kepala Desa <?= $desa['nama_desa']?>"> An. Kepala Desa <?= $desa['nama_desa']?> </option>
+											<option value="Ub. Kepala Desa <?= $desa['nama_desa']?>"> Ub. Kepala Desa <?= $desa['nama_desa']?> </option>
 										</select>
 									</div>
 								</div>

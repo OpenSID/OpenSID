@@ -61,7 +61,7 @@
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk_log/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<?php if ($dusun): ?>
@@ -159,13 +159,13 @@
                                       <a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
                                     </td>
                                     <td>
-                                      <a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>"><?= strtoupper(unpenetration($data['nama']))?></a>
+                                      <a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>"><?= strtoupper($data['nama'])?></a>
                                     </td>
                                     <td>
                                       <a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a> <br>
                                       <?= $data['nama_kk']?>
                                     </td>
-                                    <td><?= unpenetration($data['dusun'])?></td>
+                                    <td><?= $data['dusun']?></td>
                                     <td><?= $data['rw']?></td>
                                     <td><?= $data['rt']?></td>
                                     <td><?= $data['umur_pada_peristiwa']?></td>

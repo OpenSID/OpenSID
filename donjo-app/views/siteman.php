@@ -5,7 +5,7 @@
 		<title>
 			<?=$this->setting->login_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']): '')
+				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa']: '')
 				. get_dynamic_title_page_from_path();
 			?>
 		</title>
@@ -30,10 +30,10 @@
 						<div class="col-sm-6 col-sm-offset-3 form-box">
 							<div class="form-top">
 								<a href="<?=site_url(); ?>first/"><img src="<?=LogoDesa($desa['logo']);?>" alt="<?=$desa['nama_desa']?>" class="img-responsive" /></a>
-								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=unpenetration($desa['nama_desa'])?></h1>
+								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$desa['nama_desa']?></h1>
 									<h3>
 										<br /><?=$desa['alamat_kantor']?><br />Kodepos <?=$desa['kode_pos']?>
-										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=unpenetration($desa['nama_kecamatan'])?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=unpenetration($desa['nama_kabupaten'])?>
+										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$desa['nama_kecamatan']?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$desa['nama_kabupaten']?>
 									</h3>
 								</div>
 								<hr />

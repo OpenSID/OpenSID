@@ -6,7 +6,7 @@
 		<title>
 			<?=$this->setting->admin_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']):  '')
+				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa']:  '')
 				. get_dynamic_title_page_from_path();
 			?>
 		</title>
@@ -47,6 +47,10 @@
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.pm.css" />
+		<!-- Untuk ubahan style desa -->
+		<?php if (is_file("desa/css/siteman.css")): ?>
+			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
+		<?php endif; ?>
 		<!-- OpenStreetMap Js-->
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
     <script src="<?= base_url()?>assets/js/turf.min.js"></script>

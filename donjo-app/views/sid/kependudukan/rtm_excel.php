@@ -40,7 +40,7 @@
 						<td class="textx"><?= strtoupper($data['nik'])?></td>
 						<td><?= $data['jumlah_anggota']?></td>
 						<td><?= strtoupper($data['alamat'])?></td>
-						<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+						<td><?= strtoupper($data['dusun'])?></td>
 						<td><?= strtoupper($data['rw'])?></td>
 						<td><?= strtoupper($data['rt'])?></td>
 						<td><?= tgl_indo($data['tgl_daftar'])?></td>

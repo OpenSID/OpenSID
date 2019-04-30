@@ -55,13 +55,13 @@
                     <div class='col-sm-8'>
                       <div class='form-group'>
                         <label>Kepala KK</label>
-                        <input class="form-control input-sm" type="text" value="<?= unpenetration($kk['nama'])?>" disabled></input>
+                        <input class="form-control input-sm" type="text" value="<?= $kk['nama']?>" disabled></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>
                       <div class='form-group'>
                         <label>Alamat </label>
-                        <input class="form-control input-sm" type="text" value="<?= $kk['alamat']?> Dusun <?= ununderscore(unpenetration($kk['dusun']))?> - RW <?= $kk['rw']?> - RT <?= $kk['rt']?>" disabled></input>
+                        <input class="form-control input-sm" type="text" value="<?= $kk['alamat']?> Dusun <?= $kk['dusun']?> - RW <?= $kk['rw']?> - RT <?= $kk['rt']?>" disabled></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>
@@ -79,19 +79,20 @@
                     <div class='col-sm-8'>
                       <div class='form-group'>
                         <label for="nama">Nama Lengkap <code> (Tanpa Gelar )</code> </label>
-                        <input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" value="<?= strtoupper(unpenetration($penduduk['nama']))?>"></input>
+                        <input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" value="<?= strtoupper($penduduk['nama'])?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>
                       <div class='form-group'>
                         <label for="nama">Status Kepemilikan KTP</label>
                         <div class="table-responsive">
-                          <table id="tabel4" class="table table-bordered table-hover">
+                          <table class="table table-bordered table-hover">
                             <thead class="bg-gray disabled color-palette">
                               <tr>
                                 <th width='50%'>Wajib KTP</th>
                                 <th>KTP Elektrtonik</th>
                                 <th>Status Rekam</th>
+                                <th>Tag ID Card</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -113,6 +114,9 @@
                                   <?php endforeach;?>
                                   </select>
                                 </td>
+                                <td>
+                                  <input name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -122,7 +126,7 @@
                     <div class='col-sm-4'>
                       <div class='form-group'>
                         <label for="no_kk_sebelumnya">Nomor KK Sebelumnya</label>
-                        <input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper(unpenetration($penduduk['no_kk_sebelumnya']))?>"></input>
+                        <input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper($penduduk['no_kk_sebelumnya'])?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -356,7 +360,7 @@
                     <div class='col-sm-8'>
                       <div class='form-group'>
                         <label for="nama_ayah">Nama Ayah </label>
-                        <input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper(unpenetration($penduduk['nama_ayah']))?>"></input>
+                        <input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper($penduduk['nama_ayah'])?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-4'>
@@ -368,7 +372,7 @@
                     <div class='col-sm-8'>
                       <div class='form-group'>
                         <label for="nama_ibu">Nama Ibu </label>
-                        <input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper(unpenetration($penduduk['nama_ibu']))?>"></input>
+                        <input id="nama_ibu" name="nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu"  value="<?= strtoupper($penduduk['nama_ibu'])?>"></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>

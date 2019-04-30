@@ -172,8 +172,7 @@ class Database extends Admin_Controller {
 	public function restore()
 	{
 		$this->export_model->restore();
-		if ($_SESSION['success'] == 1)
-			redirect('database/backup');
+		redirect('database/backup');
 	}
 
 	public function export_csv()

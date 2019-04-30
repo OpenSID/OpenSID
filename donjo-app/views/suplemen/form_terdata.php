@@ -51,13 +51,13 @@
 									<form action="" id="main" name="main" method="POST"  class="form-horizontal">
 										<?php if ($suplemen["sasaran"] == 1): ?>
 											<div class="form-group" >
-												<label class="col-sm-3 control-label required"  for="nik">NIK / Nama</label>
+												<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
 												<div class="col-sm-8">
-													<select class="form-control select2" id="nik" name="nik"  onchange="formAction('main')" >
+													<select class="form-control select2" id="terdata" name="terdata"  onchange="formAction('main')" >
 														<option value="">-- Silakan Masukan NIK / Nama--</option>
 														<?php foreach ($list_sasaran as $item):
 															if (strlen($item["id"])>0): ?>
-																<option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
+																<option value="<?= $item['id']?>" <?php if ($individu['id']==$item['id']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
 															<?php endif;
 														endforeach; ?>
 													</select>
@@ -65,13 +65,13 @@
 											</div>
 										<?php elseif ($suplemen["sasaran"] == 2): ?>
 											<div class="form-group" >
-												<label for="no_id_kartu" class="col-sm-3 control-label">No. KK / Nama KK</label>
+												<label for="terdata" class="col-sm-3 control-label">No. KK / Nama KK</label>
 												<div class="col-sm-7">
-													<select class="form-control select2 required" id="nik" name="nik"  onchange="formAction('main')" >
+													<select class="form-control select2 required" id="terdata" name="terdata"  onchange="formAction('main')" >
 														<option selected="selected">-- Silakan Masukan No. KK / Nama KK --</option>
 														<?php foreach ($list_sasaran as $item):
 															if (strlen($item["id"])>0): ?>
-																<option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']): ?>selected<?php endif; ?>>Nama :<?= $item['nama']." - ".$item['info']?></option>
+																<option value="<?= $item['id']?>" <?php if ($individu['id']==$item['id']): ?>selected<?php endif; ?>>Nama :<?= $item['nama']." - ".$item['info']?></option>
 															<?php endif;
 														endforeach; ?>
 													</select>
@@ -84,7 +84,7 @@
 											<div class="form-group">
 												<label  class="col-sm-3 control-label"></label>
 												<div class="col-sm-8">
-													 <input type="hidden" name="nik" value="<?= $individu['nik']?>" class="form-control input-sm required">
+													 <input type="hidden" name="id_terdata" value="<?= $individu['id']?>" class="form-control input-sm required">
 												 </div>
 											</div>
 											<?php if ($individu): ?>

@@ -67,7 +67,7 @@
 																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><?=$data['no']?></td>
-                                    <td nowrap><?=unpenetration($data['nama'])?></td>
+                                    <td nowrap><?=$data['nama']?></td>
 																		<td><?=$data['DestinationNumber']?></td>
 																		<td width="50%"><?=$data['TextDecoded']?></td>
 																		<td nowrap><?=tgl_indo2($data['SendingDateTime'])?></td>

@@ -7,6 +7,7 @@ class Penduduk extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('penduduk_model');
+		$this->load->model('wilayah_model');
 		$this->load->model('referensi_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('header_model');
@@ -173,21 +174,6 @@ class Penduduk extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_POST['dusun']))
-			$data['dus_sel'] = $_POST['dusun'];
-		else
-			$data['dus_sel'] = '';
-
-		if (isset($_POST['rw']))
-			$data['rw_sel'] = $_POST['rw'];
-		else
-			$data['rw_sel'] = '';
-
-		if (isset($_POST['rt']))
-			$data['rt_sel'] = $_POST['rt'];
-		else
-			$data['rt_sel'] = '';
-
 		if ($id)
 		{
 			$data['id'] = $id;
@@ -223,9 +209,6 @@ class Penduduk extends Admin_Controller {
 				if ($_SESSION['dari_internal'])
 				{
 					$data['penduduk'] = $_SESSION['post'];
-					$data['dus_sel'] = $_SESSION['post']['dusun'];
-					$data['rw_sel'] = $_SESSION['post']['rw'];
-					$data['rt_sel'] = $_SESSION['post']['rt'];
 				}
 				else
 				{
@@ -239,9 +222,9 @@ class Penduduk extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 
-		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['rw'] = $this->penduduk_model->list_rw($data['dus_sel']);
-		$data['rt'] = $this->penduduk_model->list_rt($data['dus_sel'], $data['rw_sel']);
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
+		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
@@ -573,17 +556,6 @@ class Penduduk extends Admin_Controller {
 		redirect('penduduk');
 	}
 
-	public function ajax_penduduk_pindah($id = 0)
-	{
-		$data['kepala_keluarga'] = $this->penduduk_model->get_penduduk($id);
-		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($id);
-		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['is_anggota_keluarga'] = $this->penduduk_model->is_anggota_keluarga($id);
-
-		$data['form_action'] = site_url("penduduk/pindah_proses/$id");
-		$this->load->view('sid/kependudukan/ajax_pindah_form', $data);
-	}
-
 	public function ajax_penduduk_pindah_rw($dusun = '')
 	{
 		$dusun = urldecode($dusun);
@@ -623,14 +595,6 @@ class Penduduk extends Admin_Controller {
 		}
 		echo"</select>
 		</td>";
-	}
-
-	public function pindah_proses($id = 0)
-	{
-		$id_cluster = $_POST['id_cluster'];
-		$alamat = $_POST['alamat'];
-		$this->penduduk_model->pindah_proses($id, $id_cluster, $alamat);
-		redirect("penduduk");
 	}
 
 	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '', $edit = '')

@@ -59,7 +59,7 @@
 		if (isset($_SESSION['cari']))
 		{
 			$cari = $_SESSION['cari'];
-			$kw = penetration($this->db->escape_like_str($cari));
+			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND t.nama LIKE '$kw'";
 			return $search_sql;
@@ -374,7 +374,7 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-			$data[$i]['alamat'] = "Dusun ".ununderscore($data[$i]['dusun']).", RW ".$data[$i]['rw'].", RT ".$data[$i]['rt'];
+			$data[$i]['alamat'] = "Dusun ".$data[$i]['dusun'].", RW ".$data[$i]['rw'].", RT ".$data[$i]['rt'];
 			$data[$i]['tanggallahir'] = tgl_indo($data[$i]['tanggallahir']);
 		}
 		return $data;

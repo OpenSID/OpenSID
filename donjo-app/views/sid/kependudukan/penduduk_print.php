@@ -63,7 +63,7 @@
 							<td><?= strtoupper($data['nama'])?></td>
 							<td class="textx"><?= $data['nik']?></td>
 							<td><?= strtoupper($data['alamat'])?></td>
-							<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+							<td><?= strtoupper($data['dusun'])?></td>
 							<td><?= $data['rw']?></td>
 							<td><?= $data['rt']?></td>
 							<td><?= $data['sex']?></td>

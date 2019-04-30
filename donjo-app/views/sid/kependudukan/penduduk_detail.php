@@ -70,11 +70,13 @@
 																<th>Wajib KTP</th>
 																<th>KTP-EL</th>
 																<th>Status Rekam</th>
+																<th>Tag ID Card</th>
 															</tr>
 															<tr>
 																<td><?= strtoupper($penduduk['wajib_ktp'])?></td>
 																<td><?= strtoupper($penduduk['ktp_el'])?></td>
 																<td><?= strtoupper($penduduk['status_rekam'])?></td>
+																<td><?= $penduduk['tag_id_card']?></td>
 															</tr>
 														</table>
 													</td>
@@ -182,7 +184,7 @@
 													<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat'])?></td>
 												</tr>
 												<tr>
-													<td>Dusun</td><td >:</td><td><?= strtoupper(ununderscore($penduduk['dusun']))?></td>
+													<td>Dusun</td><td >:</td><td><?= strtoupper($penduduk['dusun'])?></td>
 												</tr>
 												<tr>
 													<td>RT/ RW</td><td >:</td><td><?= strtoupper($penduduk['rt'])?> / <?= $penduduk['rw']?></td>

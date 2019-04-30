@@ -23,8 +23,7 @@
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
 		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
 		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
-		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => '19.05'),
-		'19.04' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => NULL),
+		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => NULL),
 	);
 
 	public function __construct()
@@ -110,7 +109,9 @@
 			'value' => $versi
 		);
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
-	 $_SESSION['success'] = 1;
+		$this->load->model('track_model');
+		$this->track_model->kirim_data();
+	 	$_SESSION['success'] = 1;
   }
 
   private function getCurrentVersion()
@@ -178,10 +179,9 @@
 		$this->migrasi_1901_ke_1902();
 		$this->migrasi_1903_ke_1904();
 		$this->migrasi_1904_ke_1905();
-		$this->migrasi_1905_ke_1906();
   }
 
-  private function migrasi_1905_ke_1906()
+  private function data_siskeudes()
   {
 		//insert tabel-tabel keuangan
 		if (!$this->db->table_exists('keuangan_master') )
@@ -1342,6 +1342,43 @@
 
   private function migrasi_1904_ke_1905()
   {
+  	// Tambah kolom penduduk
+  	if (!$this->db->field_exists('tag_id_card', 'tweb_penduduk'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['tag_id_card'] = array(
+					'type' => 'VARCHAR',
+					'constraint' => 15,
+					'default' => NULL
+			);
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+		}
+  	// Tambah form admin aparatur desa
+		$this->db->where('isi','aparatur_desa.php')->update('widget',array('form_admin'=>'web_widget/admin/aparatur_desa'));
+  	// Konversi data suplemen terdata ke id
+  	$jml = $this->db->select('count(id) as jml')
+  		->where('id_terdata <>', '0')
+  		->where('char_length(id_terdata) <> 16')
+  		->get('suplemen_terdata')
+  		->row()->jml;
+  	if ($jml == 0)
+  	{
+	  	$terdata = $this->db->select('s.id as s_id, s.id_terdata, s.sasaran,
+	  		(case when s.sasaran = 1 then p.id else k.id end) as id')
+	  		->from('suplemen_terdata s')
+	  		->join('tweb_keluarga k', 'k.no_kk = s.id_terdata', 'left')
+	  		->join('tweb_penduduk p', 'p.nik = s.id_terdata', 'left')
+	  		->get()
+	  		->result_array();
+	  	foreach ($terdata as $data)
+	  	{
+				$this->db
+					->where('id', $data['s_id'])
+					->update('suplemen_terdata', array('id_terdata' => $data['id']));
+	   	}
+	  }
+
 		$this->db->where('id', 62)->update('setting_modul', array('url'=>'gis/clear', 'aktif'=>'1'));
 
 		// Penambahan widget keuangan
@@ -1363,7 +1400,22 @@
 			ON DUPLICATE KEY UPDATE url = VALUES(url);
 	  ";
 	  $this->db->query($query);
-	}
+	  $this->data_siskeudes();
+
+		// Tambah surat keterangan penghasilan orangtua
+		$data = array(
+			'nama'=>'Keterangan Penghasilan Orangtua',
+			'url_surat'=>'surat_ket_penghasilan_orangtua',
+			'kode_surat'=>'S-42',
+			'jenis'=>1);
+		$sql = $this->db->insert_string('tweb_surat_format', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				nama = VALUES(nama),
+				url_surat = VALUES(url_surat),
+				kode_surat = VALUES(kode_surat),
+				jenis = VALUES(jenis)";
+		$this->db->query($sql);
+  }
 
   private function migrasi_1903_ke_1904()
   {
@@ -4450,7 +4502,7 @@
 	public function kosongkan_db()
 	{
 		// Views tidak perlu dikosongkan.
-		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup');
+		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup');
 		// Tabel dengan foreign key akan terkosongkan secara otomatis melalui delete
 		// tabel rujukannya
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk');
