@@ -127,7 +127,7 @@
 													<td>Penolong Kelahiran</td><td >:</td><td><?= $penduduk['penolong_kelahiran_nama'] ?></td>
 												</tr>
 												<tr>
-													<td>Berat Lahir</td><td >:</td><td><?= $penduduk['berat_lahir']?> Kg</td>
+													<td>Berat Lahir</td><td >:</td><td><?= $penduduk['berat_lahir']?> Gram</td>
 												</tr>
 												<tr>
 													<td>Panjang Lahir</td><td >:</td><td><?= $penduduk['panjang_lahir']?> cm</td>
