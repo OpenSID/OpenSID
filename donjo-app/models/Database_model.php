@@ -183,6 +183,31 @@
 
   private function data_siskeudes()
   {
+		// Penambahan widget keuangan
+		$widget = $this->db->select('id, isi')->where('isi', 'keuangan.php')->get('widget')->row();
+		if (empty($widget))
+		{
+		  $query = "
+				INSERT INTO widget (`isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES
+				('keuangan.php', '1', 'Keuangan', '1', '15', 'keuangan/widget', '');
+		  ";
+		  $this->db->query($query);
+		}
+		// Tambah menu navigasi untuk keuangan
+	  $query = "
+			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
+			('201', 'Keuangan', 'keuangan', '1', 'fa-balance-scale', '6', '2', '0', '0', 'fa-balance-scale'),
+			('202', 'Impor Data', 'keuangan/import_data', '1', 'fa-cloud-upload', '6', '2', '201', '0', 'fa-cloud-upload'),
+			('203', 'Widget', 'widget/keuangan', '1', 'fa-bar-chart', '6', '2', '201', '0', 'fa-bar-chart')
+			ON DUPLICATE KEY UPDATE url = VALUES(url);
+	  ";
+	  $this->db->query($query);
+	  $this->data_siskeudes();
+		// Buat folder desa/upload/keuangan apabila belum ada
+		if (!file_exists(LOKASI_KEUANGAN_ZIP))
+		{
+			mkdir(LOKASI_KEUANGAN_ZIP, 0755);
+		}
 		//insert tabel-tabel keuangan
 		if (!$this->db->table_exists('keuangan_master') )
 		{
@@ -1379,32 +1404,6 @@
 	  }
 
 		$this->db->where('id', 62)->update('setting_modul', array('url'=>'gis/clear', 'aktif'=>'1'));
-
-		// Penambahan widget keuangan
-		$widget = $this->db->select('id, isi')->where('isi', 'keuangan.php')->get('widget')->row();
-		if (empty($widget))
-		{
-		  $query = "
-				INSERT INTO widget (`isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES
-				('keuangan.php', '1', 'Keuangan', '1', '15', 'keuangan/widget', '');
-		  ";
-		  $this->db->query($query);
-		}
-		// Tambah menu navigasi untuk keuangan
-	  $query = "
-			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
-			('201', 'Keuangan', 'keuangan', '1', 'fa-balance-scale', '6', '2', '0', '0', 'fa-balance-scale'),
-			('202', 'Impor Data', 'keuangan/import_data', '1', 'fa-cloud-upload', '6', '2', '201', '0', 'fa-cloud-upload'),
-			('203', 'Widget', 'widget/keuangan', '1', 'fa-bar-chart', '6', '2', '201', '0', 'fa-bar-chart')
-			ON DUPLICATE KEY UPDATE url = VALUES(url);
-	  ";
-	  $this->db->query($query);
-	  $this->data_siskeudes();
-		// Buat folder desa/upload/keuangan apabila belum ada
-		if (!file_exists(LOKASI_KEUANGAN_ZIP))
-		{
-			mkdir(LOKASI_KEUANGAN_ZIP, 0755);
-		}
 
 		// Tambah surat keterangan penghasilan orangtua
 		$data = array(
