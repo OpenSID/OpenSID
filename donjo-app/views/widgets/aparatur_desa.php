@@ -40,7 +40,7 @@
 		  <?php foreach($aparatur_desa as $data) : ?>
 		  	<?php if(AmbilFoto($data['foto'],"besar") AND is_file(LOKASI_USER_PICT.$data['foto'])) : ?>
 					<img src="<?php echo AmbilFoto($data['foto'],"besar") ?>"
-						data-cycle-title="<span class='cycle-overlay-title'><?= $data['pamong_nama'] ?></span>"
+						data-cycle-title="<span class='cycle-overlay-title'><?= $data['nama'] ?></span>"
 						data-cycle-desc="<?= $data['jabatan'] ?>"
 					>
 				<?php endif; ?>
