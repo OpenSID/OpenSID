@@ -294,7 +294,7 @@
 					<div class='row'>
 						<div class='col-sm-4'>
 							<div class='form-group'>
-								<label for="berat_lahir">Berat Lahir <code>( Kg )</code></label>
+								<label for="berat_lahir">Berat Lahir <code>( Gram )</code></label>
 								<input id="berat_lahir" name="berat_lahir" class="form-control input-sm" type="text" placeholder="Berat Lahir" value="<?= strtoupper($penduduk['berat_lahir'])?>"></input>
 							</div>
 						</div>
