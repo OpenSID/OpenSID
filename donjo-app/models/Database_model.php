@@ -24,7 +24,7 @@
 		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
 		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
 		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => '19.05'),
-		'19.05' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -180,6 +180,31 @@
 	$this->migrasi_1901_ke_1902();
 	$this->migrasi_1903_ke_1904();
 	$this->migrasi_1904_ke_1905();
+	$this->migrasi_1905_ke_1906();
+  }
+
+  private function migrasi_1905_ke_1906()
+  {
+  	$fields = $this->db->field_data('tweb_penduduk');
+  	$lookup = array_column($fields, NULL, 'name');   // re-index by 'name'
+  	$field_berat_lahir = $lookup['berat_lahir'];
+  	if (strtolower($field_berat_lahir->type) == 'varchar')
+  	{
+	  	// Ubah berat lahir dari kg menjadi gram
+	  	$list_penduduk = $this->db->select('id, berat_lahir')->get('tweb_penduduk')->result_array();
+	  	foreach ($list_penduduk as $penduduk)
+	  	{
+	  		// Kolom berat_lahir tersimpan sebagai varchar
+	  		$berat_lahir = (float)str_replace(',', '.', preg_replace('/[^0-9,\.]/','', $penduduk['berat_lahir']));
+	  		if ($berat_lahir < 100.0)
+	  		{
+	  			$berat_lahir = (int)($berat_lahir * 1000.0);
+	  			$this->db->where('id', $penduduk['id'])->update('tweb_penduduk', array('berat_lahir' => $berat_lahir));
+	  		}
+	  	}
+	  	// Ganti kolom berat_lahir menjadi bilangan
+		  $this->dbforge->modify_column('tweb_penduduk', array('berat_lahir' => array('type' =>  'SMALLINT')));
+  	}
   }
 
   private function migrasi_1904_ke_1905()
