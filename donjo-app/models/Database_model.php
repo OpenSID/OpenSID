@@ -205,6 +205,10 @@
 	  	// Ganti kolom berat_lahir menjadi bilangan
 		  $this->dbforge->modify_column('tweb_penduduk', array('berat_lahir' => array('type' =>  'SMALLINT')));
   	}
+  	// Ubah struktur tabel tweb_penduduk
+  	$query = "ALTER TABLE `tweb_penduduk` CHANGE `kelahiran_anak_ke` `kelahiran_anak_ke` TINYINT(2) NULL DEFAULT NULL";
+		$this->db->query($query);
+  	
   }
 
   private function migrasi_1904_ke_1905()
