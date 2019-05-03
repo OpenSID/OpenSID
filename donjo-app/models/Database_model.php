@@ -185,6 +185,10 @@
 
   private function migrasi_1905_ke_1906()
   {
+  	// Hapus menu SID dan Donasi
+		$this->db->where('id', 16)->delete('setting_modul');
+		$this->db->where('id', 19)->delete('setting_modul');
+
   	$fields = $this->db->field_data('tweb_penduduk');
   	$lookup = array_column($fields, NULL, 'name');   // re-index by 'name'
   	$field_berat_lahir = $lookup['berat_lahir'];
