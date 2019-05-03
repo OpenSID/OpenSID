@@ -19,7 +19,7 @@
 
     <url>
 
-        <loc><?php echo base_url()."artikel/".$artikel->id ?></loc>
+        <loc><?php echo base_url()."first/artikel/".$artikel->id ?></loc>
 
         <priority>0.5</priority>
 
