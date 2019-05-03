@@ -207,8 +207,10 @@
 	  		}
 	  	}
 	  	// Ganti kolom berat_lahir menjadi bilangan
-		  $this->dbforge->modify_column('tweb_penduduk', array('berat_lahir' => array('type' =>  'SMALLINT')));
+		  $this->dbforge->modify_column('tweb_penduduk', array('berat_lahir' => array('type' => 'SMALLINT')));
   	}
+  	// Di tweb_penduduk ubah kelahiran_anak_ke supaya default NULL
+	  $this->dbforge->modify_column('tweb_penduduk', array('kelahiran_anak_ke' => array('type' => 'TINYINT', 'constraint' => 2, 'default' => NULL)));
   }
 
   private function migrasi_1904_ke_1905()
