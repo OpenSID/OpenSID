@@ -1,151 +1,208 @@
-<div id="pageC">
-	<table class="inner">
-	<tr style="vertical-align:top">
-		<td class="side-menu">
-			<div class="lmenu">
-				<ul>
-					<li class="selected"><a href="<?php echo site_url('keluar')?>">Surat Keluar</a></li>
-					<li ><a href="<?php echo site_url('keluar/perorangan')?>">Rekam Surat Perorangan</a></li>
-					<li ><a href="<?php echo site_url('keluar/graph')?>">Grafik Surat keluar</a></li>
-				</ul>
-			</div>
-		</td>
-		<td style="background:#fff;padding:5px;">
-			<div class="content-header">
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Arsip Layanan Surat</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Arsip Layanan Surat</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?= site_url('keluar/perorangan_clear')?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
+						<a href="<?= site_url('keluar/graph')?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
+						<a href="<?= site_url('keluar/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+						<a href="<?= site_url('keluar/excel')?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-download"></i> Unduh</a>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<form id="mainform" name="mainform" action="" method="post">
+										<div class="row">
+											<div class="col-sm-9">
+												<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
+													<option value="">Tahun</option>
+													<?php foreach ($tahun_surat as $tahun): ?>
+														<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
+													<?php endforeach; ?>
+												</select>
+												<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/jenis')?>')">
+													<option value="">Pilih Jenis Surat</option>
+													<?php foreach ($jenis_surat as $data): ?>
+														<option value="<?= $data['nama_surat']?>" <?php selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>
+													<?php endforeach; ?>
+												</select>
+											</div>
+											<div class="col-sm-3">
+												<div class="box-tools">
+													<div class="input-group input-group-sm pull-right">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();}">
+														<div class="input-group-btn">
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered dataTable table-striped table-hover">
+														<thead class="bg-gray disabled color-palette">
+															<tr>
+																<th>No</th>
+																<th >Aksi</th>
+																<?php if ($o==2): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/1")?>">Nomor Surat <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==1): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/2")?>">Nomor Surat <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/1")?>">Nomor Surat <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
+																<th>Jenis Surat</th>
+																<?php if ($o==4): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/3")?>">Nama Penduduk <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==3): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/4")?>">Nama Penduduk <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/3")?>">Nama Penduduk <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
+																<th nowrap>Ditandatangani Oleh</th>
+																<?php if ($o==6): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/5")?>">Tanggal <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==5): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/6")?>">Tanggal <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/5")?>">Tanggal <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
+																<th>User</th>
+															</tr>
+														</thead>
+														<tbody>
+															<?php	foreach ($main as $data):
+																if ($data['nama_surat']):
+																	$berkas = $data['nama_surat'];
+																else:
+																	$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
+																endif;
 
-			</div>
-			<div id="contentpane">
-			<div class="ui-layout-north panel">
-			<h3>Manajemen Surat Keluar</h3>
-			</div>
-
-			<div class="ui-layout-north panel">
-			</div>
-			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-				<table class="list">
-					<thead>
-						<tr>
-							<th>No</th>
-							<th width="150px">Aksi</th>
-							<?php  if($o==2): ?>
-							<th align="left">Nomor Surat</th>
-							<?php  elseif($o==1): ?>
-							<th align="left">Nomor Surat</th>
-							<?php  else: ?>
-							<th align="left">Nomor Surat</th>
-							<?php  endif; ?>
-
-							<th align="left">Jenis Surat</th>
-
-							 <?php  if($o==4): ?>
-							<th align="left">Nama Penduduk</th>
-							<?php  elseif($o==3): ?>
-							<th align="left">Nama Penduduk</th>
-							<?php  else: ?>
-							<th align="left">Nama Penduduk</th>
-							<?php  endif; ?>
-
-							<th align="left">Ditandatangani Oleh</th>
-
-							<?php  if($o==6): ?>
-							<th align="left" width='160'>Tanggal</th>
-							<?php  elseif($o==5): ?>
-							<th align="left" width='160'>Tanggal</th>
-							<?php  else: ?>
-							<th align="left" width='160'>Tanggal</th>
-							<?php  endif; ?>
-
-							<th align="left">User</th>
-
-						</tr>
-					</thead>
-					<tbody>
-						<?php
-						foreach($main as $data):
-							if ($data['nama_surat']):
-								$berkas = $data['nama_surat'];
-							else:
-								$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
-							endif;
-							$theFile = FCPATH.LOKASI_ARSIP.$berkas;
-							$lampiran = FCPATH.LOKASI_ARSIP.$data['lampiran'];
-							?>
-							<tr>
-								<td align="center" width="2"><?php echo $data['no']?></td>
-								<td>
-									<div class="uibutton-group">
-										<?php
-											if(is_file($theFile)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$berkas)?>" class="uibutton tipsy south fa-tipis" title="Cetak"><span class="fa fa-download"></span> Cetak</a>
-										<?php	}?>
-										<?php
-											if(is_file($lampiran)){?>
-												<a href="<?php echo base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="uibutton tipsy south fa-tipis" title="Lampiran"><span class="fa fa-download"></span> Lampiran</a>
-										<?php	}?>
-										<a href="<?php echo site_url("keluar/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
+																$theFile = FCPATH.LOKASI_ARSIP.$berkas;
+																$lampiran = FCPATH.LOKASI_ARSIP.$data['lampiran'];
+															?>
+																<tr>
+																	<td><?= $data['no']?></td>
+																	<td nowrap>
+																		<?php
+																			if (is_file($theFile)): ?>
+																				<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm" title="Unduh Surat" target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>
+																			<?php	endif; ?>
+																		<?php
+																			if (is_file($lampiran)): ?>
+																				<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
+																			<?php	endif; ?>
+																		<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	</td>
+																	<td><?= $data['no_surat']?></td>
+																	<td><?= $data['format']?></td>
+																	<td>
+																		<?php if ($data['nama']): ?>
+																			<?= $data['nama']; ?>
+																		<?php elseif ($data['nama_non_warga']): ?>
+																			<strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
+																			<strong>NIK: </strong><?= $data['nik_non_warga']; ?>
+																		<?php endif; ?>
+																	</td>
+																	<td><?= $data['pamong']?></td>
+																	<td nowrap><?= tgl_indo2($data['tanggal'])?></td>
+																	<td><?= $data['nama_user']?></td>
+																</tr>
+															<?php endforeach; ?>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</form>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="dataTables_length">
+												<form id="paging" action="<?= site_url("keluar")?>" method="post" class="form-horizontal">
+													<label>
+														Tampilkan
+														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+															<option value="20" <?php selected($per_page,20); ?> >20</option>
+															<option value="50" <?php selected($per_page,50); ?> >50</option>
+															<option value="100" <?php selected($per_page,100); ?> >100</option>
+														</select>
+														Dari
+														<strong><?= $paging->num_rows?></strong>
+														Total Data
+													</label>
+												</form>
+											</div>
+										</div>
+										<div class="col-sm-6">
+                      <div class="dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                          <?php if ($paging->start_link): ?>
+                            <li><a href="<?=site_url("keluar/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                          <?php endif; ?>
+                          <?php if ($paging->prev): ?>
+                            <li><a href="<?=site_url("keluar/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                          <?php endif; ?>
+                          <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+               	            <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("keluar/index/$i/$o")?>"><?= $i?></a></li>
+                          <?php endfor; ?>
+                          <?php if ($paging->next): ?>
+                            <li><a href="<?=site_url("keluar/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                          <?php endif; ?>
+                          <?php if ($paging->end_link): ?>
+                            <li><a href="<?=site_url("keluar/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                          <?php endif; ?>
+                        </ul>
+                      </div>
+                    </div>
 									</div>
-								</td>
-								<td><?php echo $data['no_surat']?></td>
-								<td><?php echo $data['format']?></td>
-								<td>
-									<?php if($data['nama']) {
-										echo unpenetration($data['nama']);
-									} elseif($data['nama_non_warga']) {
-										echo "<strong>Non-warga: </strong>".$data['nama_non_warga']."<br>".
-											"<strong>NIK: </strong>".$data['nik_non_warga'];
-									} ?>
-								</td>
-								<td><?php echo $data['pamong']?></td>
-								<td><?php echo tgl_indo2($data['tanggal'])?></td>
-								<td><?php echo $data['nama_user']?></td>
-							</tr>
-						<?php
-						endforeach;
-						?>
-					</tbody>
-				</table>
-			</div>
-			<div class="ui-layout-south panel bottom">
-				<div class="left">
-					<div class="table-info">
-					<form id="paging" action="<?php echo site_url('keluar')?>" method="post">
-						<label>Tampilkan</label>
-						<select name="per_page" onchange="$('#paging').submit()" >
-							<option value="20" <?php  selected($per_page,20); ?> >20</option>
-							<option value="50" <?php  selected($per_page,50); ?> >50</option>
-							<option value="100" <?php  selected($per_page,100); ?> >100</option>
-						</select>
-						<label>Dari</label>
-						<label><strong><?php echo $paging->num_rows?></strong></label>
-						<label>Total Data</label>
-					</form>
-					</div>
-				</div>
-				<div class="right">
-					<div class="uibutton-group">
-						<?php  if($paging->start_link): ?>
-						<a href="<?php echo site_url("keluar/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
-						<?php  endif; ?>
-						<?php  if($paging->prev): ?>
-						<a href="<?php echo site_url("keluar/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
-						<?php  endif; ?>
-					</div>
-					<div class="uibutton-group">
-						<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-						<a href="<?php echo site_url("keluar/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-						<?php  endfor; ?>
+								</div>
 							</div>
-							<div class="uibutton-group">
-						<?php  if($paging->next): ?>
-						<a href="<?php echo site_url("keluar/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
-						<?php  endif; ?>
-						<?php  if($paging->end_link): ?>
-									<a href="<?php echo site_url("keluar/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
-						<?php  endif; ?>
+						</div>
+						<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+									</div>
+									<div class='modal-body btn-info'>
+										Apakah Anda yakin ingin menghapus data ini?
+									</div>
+									<div class='modal-footer'>
+										<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+										<a class='btn-ok'>
+											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		</td></tr>
-	</table>
+	</section>
 </div>
+

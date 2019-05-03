@@ -1,0 +1,22 @@
+/*
+ * File ini berisi CSS ubahan desa untuk tampilan siteman
+ * Letakkan file ini di: desa/css/siteman.css
+*/
+
+/* Sebagai contoh:
+ * - Perubahan css di bawah memungkinkan penggunaan gambar untuk latar belakang halaman siteman.
+ *   Gambar yang digunakan harus ditempatkan di desa/css/images/img1.jpg
+ *
+*/
+body.login{
+  background: url(images/img1.jpg) no-repeat center fixed; /*gambar background */
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+}
+/* Contoh mengubah warna latar belakang deretan tombol menu utama
+*/
+div.contentm{
+	background-color: #f4f4da; /* misalnya coba ganti menjadi #c8f1c8 */
+}

@@ -1,35 +1,34 @@
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-<td style="background:#fff;padding:0px;"> 
-<div id="contentpane">
-<form id="validasi" action="<?php echo $form_action?>" method="POST" enctype="multipart/form-data">
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-<table class="form">
-<tr>
-<th width="100">Nama polygon</th>
-<td><input class="inputbox" type="text" name="nama" value="<?php echo $polygon['nama']?>" size="40"/></td>
-</tr>
-<tr>
-	<th>Warna</th>
-	<td>
-		<input class="color inputbox" size="7" value="<?php echo $polygon['color']?>" name="color">
-	</td>
-</tr>
-</table>
-</div>
-   
-<div class="ui-layout-south panel bottom">
-<div class="left">
-<a href="<?php echo site_url()?>polygon" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-<button class="uibutton confirm" type="submit" ><span class="fa fa-save"></span> Simpan</button>
-</div>
-</div>
-</div> </form>
-</div>
-</td></tr></table>
-</div>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script>
+ 	$('.my-colorpicker2').colorpicker();
+</script>
+<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box box-danger">
+					<div class="box-body">
+						<div class="form-group">
+							<label class="control-label">Nama Kategori Area</label>
+							<input name="nama" class="form-control input-sm" type="text" value="<?=$polygon['nama']?>"></input>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Warna</label>
+							<div class="input-group my-colorpicker2">
+								<div class="input-group-addon input-sm">
+									<i></i>
+								</div>
+								<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?= $polygon['color']?>">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		</div>
+	</div>
+</form>

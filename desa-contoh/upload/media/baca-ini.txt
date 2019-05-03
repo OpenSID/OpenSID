@@ -1,0 +1,5 @@
+*******************************
+Folder: desa/upload/media
+*******************************
+
+Folder ini tempat menyimpan semua file media yang diunggah melalui File Manager (di form artikel).

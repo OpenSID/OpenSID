@@ -1,121 +1,165 @@
-<?php
-/*
- * Copyright 2015 Isnu Suntoro <isnusun@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
-
-?>
 <script>
-	$(function() {
-		var keyword = <?php echo $keyword?> ;
-		$( "#cari" ).autocomplete({
-			source: keyword
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
 		});
 	});
 </script>
-<div id="pageC">
-<table class="inner">
-	<tr style="vertical-align:top">
-		<td class="side-menu">
-		<?php
-		$this->load->view('data_persil/menu_kiri.php')
-		?>
-		</td>
-		<td class="contentpane">
-			<legend>Daftar Data Persil <?php echo $desa["nama_desa"];?></legend>
-			<div id="contentpane">
-				<div id="maincontent" class="ui-layout-center" style="padding:0 3em 0 0;">
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Daftar Persil <?= ucwords($this->setting->sebutan_desa)?> <?= $desa["nama_desa"];?></h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Daftar Persil</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-4 col-lg-3">
+          <?php $this->load->view('data_persil/menu_kiri.php')?>
+				</div>
+				<div class="col-md-8 col-lg-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?= site_url("data_persil/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+								<i class="fa fa-print"></i>Cetak
+            	</a>
+						  <a href="<?= site_url("data_persil/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank">
+								<i class="fa fa-download"></i>Unduh
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<form id="mainform" name="mainform" action="" method="post">
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="box-tools">
+														<div class="input-group input-group-sm pull-right">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("data_persil/search")?>');$('#'+'mainform').submit();}">
+															<div class="input-group-btn">
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("data_persil/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered table-striped dataTable table-hover">
+															<thead class="bg-gray disabled color-palette">
+																<tr>
+																	<th>No</th>
+																	<th>Aksi</th>
+																	<th>Nama Pemilik</th>
+																	<th>NIK</th>
+																	<th nowrap>No. Persil</th>
+																	<th nowrap>Luas (m<sup>2</sup>)</th>
+																	<th nowrap>Nomor SPPT PBB</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php foreach ($persil as $item): ?>
+																	<tr>
+																		<td><?= $item['no']?></td>
+																		<td nowrap>
+																			<a href="<?= site_url("data_persil/detail/".$item["id"])?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class="fa fa-bars"></i></a>
+																				<?php if ($item['jenis_pemilik'] == '2'): ?>
+																				<a href="<?= site_url("data_persil/create_ext/".$item["id"])?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+																			<?php else: ?>
+																				<a href="<?= site_url("data_persil/create/".$item["id"])?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+                                      <?php endif; ?>
 
-					<form id="mainform" name="mainform" action="" method="post">
-							<div class="left">
-								<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('data_persil/search')?>');$('#'+'mainform').submit();}" />
-								<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('data_persil/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
+																			<a href="#" data-href="<?= site_url("data_persil/hapus/".$item["id"])?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	  </td>
+                                    <td width="40%"><?= $item["namapemilik"] ?></td>
+																		<td><?= $item["nik"] ?></td>
+																		<td><?= $item["nopersil"] ?></td>
+																		<td><?= $item["luas"] ?></td>
+																		<td><?= $item["no_sppt_pbb"] ?></a></td>
+
+																	</tr>
+																<?php endforeach; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</form>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="dataTables_length">
+                          <form id="paging" action="<?= site_url("data_persil/index/$kat/$mana")?>" method="post" class="form-horizontal">
+                            <label>
+                              Tampilkan
+                              <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
+                              </select>
+                              Dari
+                              <strong><?= $paging->num_rows?></strong>
+                              Total Data
+                            </label>
+                          </form>
+                        </div>
+                      </div>
+											<div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                          <ul class="pagination">
+                            <?php if ($paging->start_link): ?>
+                              <li><a href="<?= site_url("data_persil/index/$kat/$mana/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
+                              <li><a href="<?= site_url("data_persil/index/$kat/$mana/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                              <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("data_persil/index/$kat/$mana/$i/$o")?>"><?= $i?></a></li>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
+                              <li><a href="<?= site_url("data_persil/index/$kat/$mana/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
+                              <li><a href="<?= site_url("data_persil/index/$kat/$mana/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                            <?php endif; ?>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+									</div>
+								</div>
 							</div>
-					</form>
-			<?php
-			if($_SESSION["success"]==1){
-				echo "<div>".$_SESSION["pesan"]."</div>";
-				$_SESSION["success"]=0;
-				$_SESSION["pesan"]="";
-			}
-			?>
-
-<?php
-/*
- * List Data
- *
- * */
-
-if($persil){
-	if(count($persil)>0){
-		echo "
-			<div class=\"table-panel top\">
-				<table class=\"list\">
-					<thead><tr><th>#</th><th style=\"width:120px;\"></th>
-					<th>Nama Pemilik</th><th>NIK</th>
-					<th>NO Persil</th>
-					<th>Luas (m<sup>2</sup>)</th>
-					<th>Nomor SPPT PBB</th>
-					</tr></thead>
-					<tbody>
-		";
-		$nomer =0;
-		foreach($persil as $key=>$item){
-			$nomer++;
-			echo "<tr>
-			<td class=\"angka\">".$nomer."</td>
-			<td><div class=\"uibutton-group\">
-					<a class=\"uibutton tipsy south fa-tipis\" href=\"". site_url("data_persil/detail/".$item["id"])."\" title=\"Rincian\"><span class=\"fa fa-list\"></span> Rincian</a>
-					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/create/".$item["id"])."\" title=\"Ubah\"><span class=\"fa fa-pencil\"></span></a>
-					<a class=\"uibutton tipsy south\" href=\"". site_url("data_persil/hapus/".$item["id"])."\" title=\"Hapus Data\" target=\"confirm\" message=\"Apakah Anda Yakin?\" header=\"Hapus Data\"><span class=\"fa fa-trash\"></span></a>
-				</div></td>
-			<td>".$item["namapemilik"]."</td>
-			<td>".$item["nik"]."</td>
-			<td>".$item["nopersil"]."</td>
-			<td>".$item["luas"]."</td>
-			<td><a href=\"#\">".$item["no_sppt_pbb"]."</a></td>
-			</tr>";
-		}
-		echo "
-					</tbody>
-				</table>
-			</div>
-		";
-	}
-}else{
-	echo "
-	<div class=\"box box-warning\">
-		<h3 class=\"box-header\">Belum ada Data</h3>
-		<div class=\"box-body\">Silakan ditambahkan data persil dengan menggunakan formulir dari menu <a href=\"".site_url("data_persil/create")."\"><i class=\"fa fa-plus\"></i> Tambah Data Persil Baru</a></div>
-	</div>
-	";
-}
-?>
-				<div style="height:10em;"></div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		</td>
-		<td style="width:250px;" class="contentpane">
-		<?php
-		$this->load->view('data_persil/panduan.php');
-		?>
-		</td>
-	</tr>
-</table>
+		</form>
+	</section>
 </div>
+

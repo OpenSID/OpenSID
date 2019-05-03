@@ -93,21 +93,46 @@
 		if($rp != 0){return "$rp";}else{return "-";}
 	}
 
+	function to_rupiah($inp=''){
+		$outp = str_replace('.', '', $inp);
+		$outp = str_replace(',', '.', $outp);
+		return $outp;
+	}
+
+	function rp($inp=0){
+		return number_format($inp, 2, ',', '.');
+	}
+
+	function rupiah24($angka)
+	{
+		$hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+		return $hasil_rupiah;
+	}
+
 	function jecho($a,$b,$str){
 		if($a==$b){
 			echo $str;
 		}
 	}
 
-	function selected($a,$b,$opt=0){
-		if($a==$b){
-			if($opt)
+	function selected($a, $b, $opt=0)
+	{
+		if ($a == $b)
+		{
+			if ($opt)
 				echo "checked='checked'";
 			else echo "selected='selected'";
 		}
 	}
 
-	function rev_tgl($tgl){
+	function date_is_empty($tgl) {
+		return (is_null($tgl) || substr($tgl, 0, 10)=='0000-00-00');
+	}
+
+	function rev_tgl($tgl, $replace_with='-'){
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
 		$ar=explode('-',$tgl);
 		$o=$ar[2].'-'.$ar[1].'-'.$ar[0];
 		return $o;
@@ -235,6 +260,14 @@
 		return $o;
 	}
 
+	function hari($tgl){
+    $hari = array(
+      0 => 'Minggu', 1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu'
+    );
+		$dayofweek = date('w', $tgl);
+    return $hari[$dayofweek];
+	}
+
 	function dua_digit($i){
 		if($i<10) $o='0'.$i;
 			else $o=$i;
@@ -246,16 +279,6 @@
 		else if($i<100) $o='0'.$i;
 			else $o=$i;
 		return $o;
-	}
-
-	function to_rupiah($inp=''){
-		$outp = str_replace('.', '', $inp);
-		$outp = str_replace(',', '.', $outp);
-		return $outp;
-	}
-
-	function rp($inp=0){
-		return number_format($inp, 2, ',', '.');
 	}
 
 	function pertumbuhan($a=1,$b=1,$c=1,$d=1){
@@ -278,12 +301,16 @@
 	else $a = number_format($a,0, ',', '.');
 	return $a;
 	}
-	function tgl_indo2($tgl){
-			$tanggal = substr($tgl,8,2);
-			$jam = substr($tgl,11,8);
-			$bulan = getBulan(substr($tgl,5,2));
-			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun.' '.$jam.' WIB';
+
+	function tgl_indo2($tgl, $replace_with='-') {
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
+		$tanggal = substr($tgl,8,2);
+		$jam = substr($tgl,11,8);
+		$bulan = getBulan(substr($tgl,5,2));
+		$tahun = substr($tgl,0,4);
+		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam;
 	}
 
 	function tgl_indo_dari_str($tgl_str) {
@@ -291,15 +318,22 @@
 		return $tanggal;
 	}
 
-	function tgl_indo($tgl){
-			$tanggal = substr($tgl,8,2);
-			$bulan = getBulan(substr($tgl,5,2));
-			$tahun = substr($tgl,0,4);
-			return $tanggal.' '.$bulan.' '.$tahun;
+	function tgl_indo($tgl, $replace_with='-') {
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
+		$tanggal = substr($tgl,8,2);
+		$bulan = getBulan(substr($tgl,5,2));
+		$tahun = substr($tgl,0,4);
+		return $tanggal.' '.$bulan.' '.$tahun;
 	}
 
-	function tgl_indo_out($tgl){
-		if($tgl){
+	function tgl_indo_out($tgl, $replace_with='-') {
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
+
+		if($tgl) {
 			$tanggal = substr($tgl,8,2);
 			$bulan = substr($tgl,5,2);
 			$tahun = substr($tgl,0,4);
@@ -307,13 +341,16 @@
 		}
 	}
 
-	function tgl_indo_in($tgl){
-			$tanggal = substr($tgl,0,2);
-			$bulan = substr($tgl,3,2);
-			$tahun = substr($tgl,6,4);
-			$jam = substr($tgl,11);
-			$jam = empty($jam) ? '' : ' '.$jam;
-			return $tahun.'-'.$bulan.'-'.$tanggal.$jam;
+	function tgl_indo_in($tgl, $replace_with='-') {
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
+		$tanggal = substr($tgl,0,2);
+		$bulan = substr($tgl,3,2);
+		$tahun = substr($tgl,6,4);
+		$jam = substr($tgl,11);
+		$jam = empty($jam) ? '' : ' '.$jam;
+		return $tahun.'-'.$bulan.'-'.$tanggal.$jam;
 	}
 
 	function waktu_ind($time){
@@ -399,7 +436,7 @@ function cek_login(){
 
 //time out Mandiri set 3 login per 5 menit
 function mandiri_timer(){
-	$time=90;  //300 detik
+	$time=300;  //300 detik
 	$_SESSION['mandiri_try'] = 4;
 	$_SESSION['mandiri_wait']=0;
 	$_SESSION['mandiri_timeout']=time()+$time;
@@ -412,11 +449,27 @@ function mandiri_timeout(){
 	}
 }
 
-function get_identitas(){
+//time out Admin set 3 login per 5 menit
+function siteman_timer(){
+	$time=300;  //300 detik
+	$_SESSION['siteman_try'] = 4;
+	$_SESSION['siteman_wait']=0;
+	$_SESSION['siteman_timeout']=time()+$time;
+}
+
+function siteman_timeout(){
+	(isset($_SESSION['siteman_timeout'])) ? $timeout=$_SESSION['siteman_timeout'] : $timeout = null;
+	if(time()>$timeout){
+		siteman_timer();
+	}
+}
+
+function get_identitas()
+{
 	$ci =& get_instance();
-	$sql="SELECT * FROM config";
-	$a=$ci->db->query($sql);
-	$hsl=$a->row_array();
+	$sql = "SELECT * FROM config";
+	$a = $ci->db->query($sql);
+	$hsl = $a->row_array();
 	//print_r($hsl);
 	$string = ucwords($ci->setting->sebutan_desa)." : ".$hsl['nama_desa']." ".ucwords($ci->setting->sebutan_kecamatan_singkat)." : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
@@ -491,10 +544,107 @@ function potong_teks($teks, $panjang) {
 	return $abstrak;
 }
 
-	function hash_pin($pin=""){
-		$pin = strrev($pin);
-		$pin = $pin*77;
-		$pin .= "!#@$#%";
-		$pin = md5($pin);
-		return $pin;
+function hash_pin($pin="")
+{
+	$pin = strrev($pin);
+	$pin = $pin*77;
+	$pin .= "!#@$#%";
+	$pin = md5($pin);
+	return $pin;
+}
+
+/*
+ * =======================================
+ * Rupiah terbilang
+ */
+function number_to_words($number, $nol_sen=true)
+{
+	$before_comma = trim(to_word($number));
+	$after_comma = trim(comma($number));
+	$result = $before_comma . ($nol_sen ? '' : ' koma ' . $after_comma);
+	return ucwords($result . ' Rupiah');
+}
+
+function to_word($number)
+{
+	$words = "";
+	$arr_number = array(
+		"",
+		"satu",
+		"dua",
+		"tiga",
+		"empat",
+		"lima",
+		"enam",
+		"tujuh",
+		"delapan",
+		"sembilan",
+		"sepuluh",
+		"sebelas");
+
+	if ($number < 12)
+	{
+		$words = " ".$arr_number[$number];
 	}
+	else if ($number < 20)
+	{
+		$words = to_word($number - 10)." belas";
+	}
+	else if ($number < 100)
+	{
+		$words = to_word($number / 10)." puluh".to_word($number % 10);
+	}
+	else if ($number < 200)
+	{
+		$words = "seratus ".to_word($number - 100);
+	}
+	else if ($number < 1000)
+	{
+		$words = to_word($number / 100)." ratus".to_word($number % 100);
+	}
+	else if ($number < 2000)
+	{
+		$words = "seribu ".to_word($number - 1000);
+	}
+	else if ($number < 1000000)
+	{
+		$words = to_word($number / 1000)." ribu".to_word($number % 1000);
+	}
+	else if ($number < 1000000000)
+	{
+		$words = to_word($number / 1000000)." juta".to_word($number % 1000000);
+	}
+	else
+	{
+		$words = "undefined";
+	}
+	return $words;
+}
+
+function comma($number)
+{
+	$after_comma = stristr($number, ',');
+	$arr_number = array(
+		"nol",
+		"satu",
+		"dua",
+		"tiga",
+		"empat",
+		"lima",
+		"enam",
+		"tujuh",
+		"delapan",
+		"sembilan");
+
+	$results = "";
+	$length = strlen($after_comma);
+	$i = 1;
+	while ($i < $length)
+	{
+		$get = substr($after_comma, $i, 1);
+		$results .= " ".$arr_number[$get];
+		$i++;
+	}
+	return $results;
+}
+// =======================================

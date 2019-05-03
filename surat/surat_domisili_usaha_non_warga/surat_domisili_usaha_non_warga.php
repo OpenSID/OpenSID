@@ -1,141 +1,150 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');?>
-
-<style>
-table.form.detail th{
-	padding:5px;
-	background:#fafafa;
-	border-right:1px solid #eee;
-}
-table.form.detail td{
-	padding:5px;
-}
-table.form span.judul{
-	padding-left: 10px;
-	padding-right: 5px;
-}
-</style>
-
-<div id="pageC">
-	<table class="inner">
-	<tr style="vertical-align:top">
-
-	<td style="background:#fff;">
-		<div id="contentpane">
-			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-				<h3>Formulir Layanan : Surat Domisili Usaha Non Warga</h3>
-				<div id="form-cari-pemohon">
-					<form action="" id="main" name="main" method="POST" class="formular">
-					<table class="form">
-						<tr>
-							<th>Nomor Surat</th>
-							<td>
-							<input name="nomor" type="text" class="inputbox required" size="12"/><span style="padding-left: 10px;">Terakhir: <?php echo $surat_terakhir['no_surat'];?> (tgl: <?php echo $surat_terakhir['tanggal']?>)</span>
-							</td>
-						</tr>
-						<tr>
-							<th>Nama</th>
-							<td><input name="nama_non_warga" type="text" class="inputbox required" size="80"/></td>
-						</tr>
-						<tr>
-							<th>Identitas</th>
-							<td>
-								<span class="judul" style="padding-left: 0px;">NIK KTP </span><input name="nik_non_warga" type="text" class="inputbox required" size="30"/>
-								<span class="judul"> No. KK </span><input name="kk_non_warga" type="text" class="inputbox required" size="30"/>
-							</td>
-						<tr>
-							<th>Tempat Lahir</th>
-							<td>
-								<input name="tempatlahir" type="text" class="inputbox required" size="30"/>
-								<span class="judul"> Tanggal Lahir </span><input name="tanggallahir" type="text" class="inputbox required datepicker" size="20"/>
-								<span class="judul"> Jenis Kelamin </span>
-						    <select name="sex" class="required">
-						      <option value="">Pilih jenis kelamin</option>
-						      <?php foreach($sex as $data){?>
-						        <option value="<?php echo ucwords(strtolower($data['nama']))?>"><?php echo $data['nama']?></option>
-						      <?php }?>
-							  </select>
-							</td>
-						</tr>
-						<tr>
-							<th>Warga Negara</th>
-							<td>
-						    <select name="warga_negara" class="required">
-						      <option value="">Pilih warganegara</option>
-						      <?php foreach($warganegara as $data){?>
-						        <option value="<?php echo $data['id']=='3' ? ucwords(strtolower($data['nama'])) : strtoupper($data['nama'])?>"><?php echo $data['nama']?></option>
-						      <?php }?>
-							  </select>
-							</td>
-						</tr>
-						<tr>
-							<th>Agama</th>
-							<td>
-						    <select name="agama" class="required">
-						      <option value="">Pilih Agama</option>
-						      <?php foreach($agama as $data){?>
-						        <option value="<?php echo $data['id']=='7' ? $data['nama'] : ucwords(strtolower($data['nama']))?>"><?php echo $data['nama']?></option>
-						      <?php }?>
-						    </select>
-								<span class="judul"> Pekerjaan </span>
-						    <select name="pekerjaan" class="required">
-						      <option value="">Pilih Pekerjaan</option>
-						      <?php  foreach($pekerjaan as $data){?>
-						        <option value="<?php echo $data['nama']?>"><?php echo $data['nama']?></option>
-						      <?php }?>
-						    </select>
-							</td>
-						</tr>
-						<tr>
-							<th>Tempat Tinggal</th>
-							<td><input name="alamat" type="text" class="inputbox required" size="140"/></td>
-						</tr>
-						<tr>
-							<th>Nama Usaha</th>
-							<td>
-							<input name="nama_usaha" type="text" class="inputbox required" size="40"/><span class="judul"> Jenis Usaha </span>
-							<input name="usaha" type="text" class="inputbox required" size="40"/>
-							</td>
-						</tr>
-						<tr>
-							<th>Nomor Akta / Tahun / Notaris</th>
-							<td>
-							<input name="akta_usaha" type="text" class="inputbox required" size="40"/><span class="judul"> Tahun </span><input name="akta_tahun" type="text" class="inputbox required" size="10"/><span class="judul"> Nama Notaris </span><input name="notaris" type="text" class="inputbox required" size="40"/>
-							</td>
-						</tr>
-						<tr>
-							<th>Jenis Bangunan</th>
-							<td>
-							<input name="bangunan" type="text" class="inputbox required" size="40"/><span class="judul"> Peruntukan Bangunan </span><input name="peruntukan_bangunan" type="text" class="inputbox required" size="40"/><span class="judul"> Status Bangunan </span><input name="status_bangunan" type="text" class="inputbox required" size="40"/>
-							</td>
-						</tr>
-						<tr>
-							<th>Alamat Usaha</th>
-							<td>
-							<input name="alamat_usaha" type="text" class="inputbox required" size="140"/>
-							</td>
-						</tr>
-						<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
-					</table>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Surat Domisili Usaha Non Warga</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
+			<li class="active">Surat Domisili Usaha Non Warga</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
+           	</a>
+					</div>
+					<div class="box-body">
+						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
+							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
+							<div class="form-group">
+								<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
+								<div class="col-sm-8">
+									<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $surat_terakhir['no_surat_berikutnya'];?>">
+									<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="nama_non_warga"  class="col-sm-3 control-label">Nama</label>
+								<div class="col-sm-8">
+									<input  id="nama_non_warga" class="form-control input-sm required" type="text" placeholder="Nama" name="nama_non_warga">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="nik_non_warga"  class="col-sm-3 control-label">Identitas (KTP / KK)</label>
+								<div class="col-sm-4">
+									<input class="form-control input-sm required" placeholder="Nomor KTP" name="nik_non_warga" type="text"/>
+								</div>
+								<div class="col-sm-4">
+									<input class="form-control input-sm required" placeholder="Nomor KK" name="kk_non_warga"  type="text"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lahir"  class="col-sm-3 control-label">Tempat / Tanggal Lahir</label>
+								<div class="col-sm-5 col-lg-4">
+									<input type="text"  name="tempatlahir" class="form-control input-sm required" placeholder="Tempat Lahir"></input>
+								</div>
+								<div class="col-sm-3 col-lg-2">
+									<div class="input-group input-group-sm date">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input title="Pilih Tanggal" class="form-control input-sm datepicker required" name="tanggallahir" type="text"/>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+                <label for="sex" class="col-sm-3 control-label" >Jenis Kelamin / Warga Negara / Agama</label>
+                <div class="col-sm-3">
+                  <select class="form-control input-sm" name="sex" id="sex">
+										<option value="">Pilih Jenis Kelamin</option>
+										<?php foreach ($sex as $data): ?>
+											<option value="<?= ucwords(strtolower($data['nama']))?>"><?= $data['nama']?></option>
+										<?php endforeach;?>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <select class="form-control input-sm" name="warga_negara" id="warga_negara">
+										<option value="">Pilih Warganegara</option>
+										<?php foreach ($warganegara as $data): ?>
+											<option value="<?= $data['id']=='3' ? ucwords(strtolower($data['nama'])): strtoupper($data['nama'])?>"><?= $data['nama']?></option>
+										<?php endforeach;?>
+                  </select>
+                </div>
+                <div class="col-sm-3">
+                  <select class="form-control input-sm" name="agama" id="agama">
+										<option value="">Pilih Agama</option>
+										<?php foreach ($agama as $data): ?>
+											<option value="<?= $data['id']=='7' ? $data['nama'] : ucwords(strtolower($data['nama']))?>"><?= $data['nama']?></option>
+										<?php endforeach;?>
+                  </select>
+                </div>
+              </div>
+							<div class="form-group">
+                <label for="pekerjaan" class="col-sm-3 control-label" >Pekerjaan</label>
+                <div class="col-sm-4">
+                  <select class="form-control input-sm" name="pekerjaan" id="pekerjaan">
+										<option value="">Pilih Pekerjaan</option>
+										<?php foreach ($pekerjaan as $data): ?>
+											<option value="<?= $data['nama']?>"><?= $data['nama']?></option>
+										<?php endforeach;?>
+                  </select>
+                </div>
+              </div>
+							<div class="form-group">
+								<label for="alamat"  class="col-sm-3 control-label">Tempat Tinggal</label>
+								<div class="col-sm-8">
+									<input  id="alamat" class="form-control input-sm required" type="text" placeholder="Tempat Tinggal" name="alamat">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="nama_usaha"  class="col-sm-3 control-label">Nama Usaha / Jenis Usaha</label>
+								<div class="col-sm-4">
+									<input id="nama_usaha" class="form-control input-sm required" type="text" placeholder="Nama Usaha" name="nama_usaha">
+								</div>
+								<div class="col-sm-4">
+									<input id="usaha" class="form-control input-sm required" type="text" placeholder="Jenis Usaha" name="usaha">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="akta_usaha"  class="col-sm-3 control-label">Nomor Akta / Tahun / Notaris</label>
+								<div class="col-sm-3">
+									<input id="akta_usaha" class="form-control input-sm required" type="text" placeholder="Nomor Akta" name="akta_usaha">
+								</div>
+								<div class="col-sm-2">
+									<input id="akta_tahun" class="form-control input-sm required" type="text" placeholder="Tahun" name="akta_tahun">
+								</div>
+								<div class="col-sm-3">
+									<input id="notaris" class="form-control input-sm required" type="text" placeholder="Notaris" name="notaris">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="bangunan"  class="col-sm-3 control-label">Jenis Bangunan / Peruntukan Bangunan / Status Bangunan</label>
+								<div class="col-sm-3">
+									<input id="bangunan" class="form-control input-sm required" type="text" placeholder="Jenis Bangunan" name="bangunan">
+								</div>
+								<div class="col-sm-3">
+									<input id="peruntukan_bangunan" class="form-control input-sm required" type="text" placeholder="Peruntukan Bangunan" name="peruntukan_bangunan">
+								</div>
+								<div class="col-sm-2">
+									<input id="status_bangunan" class="form-control input-sm required" type="text" placeholder="Status Bangunan" name="status_bangunan">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="alamat_usaha"  class="col-sm-3 control-label">Alamat Usaha</label>
+								<div class="col-sm-8">
+									<input  id="alamat_usaha" class="form-control input-sm required" type="text" placeholder="Alamat Usaha" name="alamat_usaha">
+								</div>
+							</div>
+							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
+						</form>
+					</div>
+					<?php include("donjo-app/views/surat/form/tombol_cetak.php"); ?>
 				</div>
 			</div>
-				<div class="ui-layout-south panel bottom">
-					<div class="left">
-						<a href="<?php echo site_url()?>surat" class="uibutton icon prev">Kembali</a>
-					</div>
-					<div class="right">
-						<div class="uibutton-group">
-							<button class="uibutton" type="reset"><span class="fa fa-refresh"></span> Bersihkan</button>
-							<?php if (SuratCetak($url)) { ?>
-								<button type="button" onclick="$('#'+'main').attr('action','<?php echo $form_action?>');$('#'+'main').submit();" class="uibutton special"><span class="fa fa-print">&nbsp;</span>Cetak</button>
-							<?php } ?>
-							<?php if (SuratExport($url)) { ?>
-								<button type="button" onclick="$('#'+'main').attr('action','<?php echo $form_action2?>');$('#'+'main').submit();" class="uibutton confirm"><span class="fa fa-file-text">&nbsp;</span>Export Doc</button>
-							<?php } ?>
-						</div>
-					</div>
-				</div>
-			</form>
-			</td>
-		</tr>
-	</table>
+		</div>
+	</section>
 </div>

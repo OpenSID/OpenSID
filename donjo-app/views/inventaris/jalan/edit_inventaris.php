@@ -1,0 +1,167 @@
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Ubah Data Inventaris Jalan, Irigasi dan Jaringan</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Jalan, Irigasi dan Jaringan</a></li>
+			<li class="active">Ubah Data</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form class="form-horizontal" id="validasi" name="form_jalan" method="post" action="<?= site_url("api_inventaris_jalan/update/$main->id"); ?>">
+			<div class="row">
+				<div class="col-md-3">
+          <?php	$this->load->view('inventaris/jalan/menu_kiri.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+            <div class="box-header with-border">
+						<a href="<?= site_url() ?>inventaris_jalan" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi dan Jaringan</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="col-sm-3 control-label " style="text-align:left;" for="nama_barang">Nama Barang / Jenis Barang</label>
+										<div class="col-sm-8">
+											<input type="hidden" id="id" name="id" value="<?= $main->id; ?>">
+											<input maxlength="50" value="<?= $main->nama_barang; ?>" class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Kode Barang</label>
+										<div class="col-sm-8">
+											<input maxlength="50" value="<?= $main->kode_barang; ?>" class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
+										<div class="col-sm-8">
+											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kondisi">Kondisi Bangunan</label>
+										<div class="col-sm-4">
+											<select name="kondisi" id="kondisi" class="form-control input-sm required" >
+												<option value="<?= $main->kondisi; ?>"> <?= $main->kondisi; ?> </option>
+												<option value="Baik">Baik</option>
+												<option value="Rusak Ringan">Rusak Ringan</option>
+												<option value="Rusak Sedang">Rusak Sedang</option>
+												<option value="Rusak Berat">Rusak Berat</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Kontruksi</label>
+										<div class="col-sm-8">
+											<textarea class="form-control input-sm required" name="kontruksi" id="kontruksi" ><?= $main->kontruksi; ?></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label " style="text-align:left;" for="panjang">Panjang</label>
+										<div class="col-sm-4">
+											<div class="input-group">
+												<input value="<?= (!empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm number required" id="panjang" name="panjang" type="text"/>
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Km</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="lebar">Lebar</label>
+										<div class="col-sm-4">
+										<div class="input-group">
+											<input value="<?= (!empty($main->lebar) ? $main->lebar : '0'); ?>"  class="form-control input-sm number required" id="lebar" name="lebar" type="text"/>
+											<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
+										</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label " style="text-align:left;" for="luas">Luas</label>
+										<div class="col-sm-4">
+											<div class="input-group">
+												<input value="<?= (!empty($main->luas) ? $main->luas : '0'); ?>"  class="form-control input-sm number required" id="luas" name="luas" type="text"/>
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="alamat">Letak / Lokasi </label>
+										<div class="col-sm-8">
+											<textarea class="form-control input-sm required" name="alamat" id="alamat" ><?= $main->letak; ?></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label " style="text-align:left;" for="no_bangunan">Nomor Kepemilikan</label>
+										<div class="col-sm-8">
+											<input maxlength="50" value="<?= (!empty($main->no_dokument) ? $main->no_dokument : '-'); ?>" class="form-control input-sm required" name="no_bangunan" id="no_bangunan" type="text"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label " style="text-align:left;" for="tanggal_bangunan">Tanggal Dokumen Kepemilikan</label>
+										<div class="col-sm-4">
+											<input maxlength="50" type="date" value="<?= $main->tanggal_dokument;?>" class="form-control input-sm required" name="tanggal_bangunan" id="tanggal_bangunan" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label " style="text-align:left;" for="status_tanah">Status Tanah</label>
+										<div class="col-sm-8">
+											<select name="status_tanah" id="status_tanah" class="form-control input-sm required">
+												<option value="<?= $main->status_tanah; ?>"> <?= $main->status_tanah; ?> </option>
+												<option value="Tanah milik Pemda">Tanah milik Pemda</option>
+												<option value="Tanah Negara">Tanah Negara (Tanah yang dikuasai langsung oleh Negara)</option>
+												<option value="Tanah Hak Ulayat">Tanah Hak Ulayat (Tanah masyarakat Hukum Adat)</option>
+												<option value="Tanah Hak">Tanah Hak (Tanah kepunyaan perorangan atau Badan Hukum)</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label " style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
+										<div class="col-sm-8">
+											<input maxlength="50"value="<?= (!empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>"  class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label " style="text-align:left;" for="asal">Asal Usul </label>
+										<div class="col-sm-8">
+											<select name="asal" id="asal" class="form-control input-sm required" >
+												<option value="<?= $main->asal; ?>"> <?= $main->asal; ?> </option>
+												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
+												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>
+												<option value="Bantuan Provinsi">Bantuan Provinsi</option>
+												<option value="Pembelian Sendiri">Pembelian Sendiri</option>
+												<option value="Sumbangan">Sumbangan</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="harga">Harga</label>
+										<div class="col-sm-4">
+											<div class="input-group">
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Rp</span>
+												<input type="text"  value="<?= $main->harga; ?>" class="form-control input-sm number required" id="harga" name="harga" />
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
+										<div class="col-sm-8">
+											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" ><?= $main->keterangan; ?></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="box-footer">
+							<div class="col-xs-12">
+								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+

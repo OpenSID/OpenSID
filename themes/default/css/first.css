@@ -33,7 +33,7 @@ body{
   background: #b50303; /*warna header atas/ background kepala web*/
 }
 #mainmenu{
-  margin-left: -6px;
+  margin-left: -7px;
   width: 101.6%;
 }
 nav.navbar.navbar-inverse{
@@ -58,6 +58,11 @@ nav.navbar.navbar-inverse{
 }
 
 #menu_vert a.dropdown-toggle{
+  padding-top: 5px;
+  height: 30px;
+}
+
+#mainmenu a.dropdown-toggle{
   padding-top: 5px;
   height: 30px;
 }
@@ -109,9 +114,50 @@ nav.navbar.navbar-inverse{
 .artikel .kecil{font-size:.8em;color:#040404;font-style:italic;font-weight:400;margin-bottom:.5em;}
 .artikel .teks{font-size:1em; margin-right:.5em;}
 .artikel .sampul{margin: 1em 0; display:block;width:100%;}
-.artikel .teks img{margin-right: 7px; margin-bottom: 5px; float: left;width:260px;background:#ccc;border:solid 1px #aaa;padding:.5em;}
 .gb{border-bottom:solid 2px #eee;}
 .btn-block {
     display: block;
     width: 100%;
     margin-top: 5px;
+}
+/*
+ * Ubah penampilan navbar bootstrap
+ */
+
+/* Menu beranda */
+#menu-left ul.nav > li > a{
+  padding-top: 5px;
+  padding-bottom: 0px;
+}
+
+ul.nav.navbar-nav {
+  text-transform: none;
+}
+
+#ul-menu {
+    list-style-type: disc;
+  margin-left: 20px;
+  margin-bottom: 0px;
+}
+ul.submenu {
+    list-style: disc;
+    margin-left: 20px;
+}
+#ul-agenda {
+    list-style-type: none;
+}
+#table-agenda {
+	margin-bottom: 10px;
+}
+#label-meta-agenda {
+    color: #ca0b0b;
+    font-size: 12px;
+	margin-bottom: 0px;
+}
+#isi-meta-agenda {
+    font-weight: bold;
+    color: #ca0b0b;
+    font-size: 11.3px;
+	margin-bottom: 0px;
+}
+

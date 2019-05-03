@@ -1,103 +1,103 @@
 
-<?php if($detail["sasaran"] == 1): ?>
-  <tr>
-    <th>Alamat</th>
-    <td>
-      <?php echo $individu['alamat_wilayah']; ?>
-    </td>
-  </tr>
-  <tr>
-    <th>Tempat Tanggal Lahir (Umur)</th>
-    <td>
-      <?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
-    </td>
-  </tr>
-  <tr>
-    <th>Pendidikan</th>
-    <td>
-      <?php echo $individu['pendidikan']?>
-    </td>
-  </tr>
-  <tr>
-    <th>Warganegara / Agama</th>
-    <td>
-      <?php echo $individu['warganegara']?> / <?php echo $individu['agama']?>
-    </td>
-  </tr>
-<?php elseif($detail["sasaran"] == 2): ?>
-  <tr>
-    <th>Alamat Keluarga</th>
-    <td>
-      <?php echo $individu['alamat_wilayah']; ?>
-    </td>
-  </tr>
-  <tr>
-    <th>Tempat Tanggal Lahir (Umur) KK</th>
-    <td>
-      <?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
-    </td>
-  </tr>
-  <tr>
-    <th>Pendidikan KK</th>
-    <td>
-      <?php echo $individu['pendidikan']?>
-    </td>
-  </tr>
-  <tr>
-    <th>Warganegara / Agama KK</th>
-    <td>
-      <?php echo $individu['warganegara']?> / <?php echo $individu['agama']?>
-    </td>
-  </tr>
-<?php elseif($detail["sasaran"] == 3): ?>
-  <tr>
-    <th>Alamat Kepala Rumah Tangga</th>
-    <td>
-      <?php echo $individu['alamat_wilayah']; ?>
-    </td>
-  </tr>
-  <tr>
-    <th>Tempat Tanggal Lahir (Umur) Kepala RTM</th>
-    <td>
-      <?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
-    </td>
-  </tr>
-  <tr>
-    <th>Pendidikan Kepala RTM</th>
-    <td>
-      <?php echo $individu['pendidikan']?>
-    </td>
-  </tr>
-  <tr>
-    <th>Warganegara / Agama Kepala RTM</th>
-    <td>
-      <?php echo $individu['warganegara']?> / <?php echo $individu['agama']?>
-    </td>
-  </tr>
-<?php elseif($detail["sasaran"] == 4): ?>
-  <tr>
-    <th>Alamat Ketua Kelompok</th>
-    <td>
-      <?php echo $individu['alamat_wilayah']; ?>
-    </td>
-  </tr>
-  <tr>
-    <th>Tempat Tanggal Lahir (Umur) Ketua Kelompok</th>
-    <td>
-      <?php echo $individu['tempatlahir']?> <?php echo tgl_indo($individu['tanggallahir'])?> (<?php echo $individu['umur']?> Tahun)
-    </td>
-  </tr>
-  <tr>
-    <th>Pendidikan Ketua Kelompok</th>
-    <td>
-      <?php echo $individu['pendidikan']?>
-    </td>
-  </tr>
-  <tr>
-    <th>Warganegara / Agama Ketua Kelompok</th>
-    <td>
-      <?php echo $individu['warganegara']?> / <?php echo $individu['agama']?>
-    </td>
-  </tr>
+<?php if ($detail["sasaran"] == 1): ?>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Alamat</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['alamat_wilayah'];?>">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Tempat Tanggal Lahir (Umur)</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['tempatlahir']?> <?= tgl_indo($individu['tanggallahir'])?> (<?= $individu['umur']?> Tahun)">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Pendidikan</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['pendidikan']?>">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Warganegara / Agama</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
+		</div>
+	</div>
+<?php elseif ($detail["sasaran"] == 2): ?>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Alamat Keluarga</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['alamat_wilayah']; ?>">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Tempat Tanggal Lahir (Umur) KK</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['tempatlahir']?> <?= tgl_indo($individu['tanggallahir'])?> (<?= $individu['umur']?> Tahun)">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Pendidikan KK</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['pendidikan']?>">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Warganegara / Agama KK</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
+		</div>
+	</div>
+<?php elseif ($detail["sasaran"] == 4): ?>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Alamat Kepala Rumah Tangga</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['alamat_wilayah']; ?>">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Tempat Tanggal Lahir (Umur) Kepala RTM</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['tempatlahir']?> <?= tgl_indo($individu['tanggallahir'])?> (<?= $individu['umur']?> Tahun)">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Pendidikan Kepala RTM</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['pendidikan']?>">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Warganegara / Agama Kepala RTM</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
+		</div>
+	</div>
+<?php elseif ($detail["sasaran"] == 4): ?>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Alamat Ketua Kelompok</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['alamat_wilayah']; ?>">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Tempat Tanggal Lahir (Umur) Ketua Kelompok</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['tempatlahir']?> <?= tgl_indo($individu['tanggallahir'])?> (<?= $individu['umur']?> Tahun)">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Pendidikan Ketua Kelompok</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['pendidikan']?>">
+		</div>
+	</div>
+  <div class="form-group">
+		<label class="col-sm-4 col-lg-2 control-label">Warganegara / Agama Ketua Kelompok</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
+		</div>
+	</div>
 
 <?php endif; ?>

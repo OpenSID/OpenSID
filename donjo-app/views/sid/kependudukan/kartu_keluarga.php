@@ -1,214 +1,194 @@
-<script>
-$(function(){
-var nik = {};
-nik.results = [
-<?php foreach($penduduk as $data){?>
-   {id:'<?php echo $data['id']?>',name:"<?php echo $data['nik']." - ".($data['nama'])?>",info:"<?php echo ($data['alamat'])?>"},
-<?php }?>
-];
-nik.total = nik.results.length;
-
-$('#nik').flexbox(nik, {
-resultTemplate: '<div><label>No nik : </label>{name}</div><div>{info}</div>',
-watermark: 'Ketik nama / nik di sini..',
-width: 260,
-noResultsText :'Tidak ada nama / nik yang sesuai..',
-onSelect: function() {
-$('#'+'main').submit();
-}
-});
-});
-</script>
-
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-
-<td style="background:#fff;padding:0px;">
-
-<div class="content-header">
-<h3>Form Manajemen KK : <?php echo $kepala_kk['nama']?></h3>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Salinan Kartu Keluarga</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
+			<li><a href="<?= site_url("keluarga/anggota/$p/$o/$id_kk")?>"> Daftar Anggota Keluarga</a></li>
+			<li class="active">Kartu Keluarga</li>
+		</ol>
+	</section>
+	<section class="content"  id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<a href="<?= site_url("keluarga/form_a/$p/$o/$id_kk")?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Anggota</a>
+							<a href="<?= site_url("keluarga/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
+							<a href="<?= site_url("keluarga/doc_kk/$id_kk")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
+							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Anggota Keluarga">
+								<i class="fa fa-arrow-circle-left "></i>Daftar Anggota Keluarga
+							</a>
+							<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Anggota Keluarga">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
+							</a>
+						</div>
+						<div class="box-header">
+							<h3 class="text-center"><strong>SALINAN KARTU KELUARGA</strong></h3>
+							<h5 class="text-center"><strong>No.  <?= $kepala_kk['no_kk']?> </strong></h5>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-8">
+									<div class="form-group">
+										<label class="col-sm-3 control-label">ALAMAT</label>
+										<div class="col-sm-8">
+											<p class="text-muted">: <?= strtoupper($kepala_kk['alamat_plus_dusun'])?></p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">RT/RW</label>
+										<div class="col-sm-9">
+											<p class="text-muted">: <?=$kepala_kk['rt']  ?> / <?= $kepala_kk['rw']  ?></p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">DESA / KELURAHAN</label>
+										<div class="col-sm-9">
+											<p class="text-muted">: <?= strtoupper($desa['nama_desa']) ?></p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">KECAMATAN</label>
+										<div class="col-sm-9">
+											<p class="text-muted">: <?= strtoupper($desa['nama_kecamatan']) ?></p>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-sm-5 control-label">KABUPATEN</label>
+										<div class="col-sm-7">
+											<p class="text-muted">: <?= strtoupper($desa['nama_kabupaten']) ?></p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-5 control-label">KODE POS</label>
+										<div class="col-sm-7">
+											<p class="text-muted">: <?= $desa['kode_pos'] ?></p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-5 control-label">PROVINSI</label>
+										<div class="col-sm-7">
+											<p class="text-muted">: <?= strtoupper($desa['nama_propinsi']) ?></p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-5 control-label">JUMLAH ANGGOTA</label>
+										<div class="col-sm-7">
+											<p class="text-muted">: <?= count($main)?></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="table-responsive">
+										<table class="table table-bordered table-hover ">
+											<thead class="bg-gray disabled color-palette">
+												<tr>
+													<th class="text-center">No</th>
+													<th class="text-center">Nama Lengkap</th>
+													<th class="text-center">NIK</th>
+													<th class="text-center">Jenis Kelamin</th>
+													<th class="text-center">Tempat Lahir</th>
+													<th class="text-center">Tanggal Lahir</th>
+													<th class="text-center">Agama</th>
+													<th class="text-center">Pendidikan</th>
+													<th class="text-center">Jenis Pekerjaan</th>
+													<th class="text-center">Golongan Darah</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php foreach ($main as $key => $data): ?>
+												<tr>
+													<td class="text-center" ><?= $key+1?></td>
+													<td><?= strtoupper($data['nama'])?></td>
+													<td><?= $data['nik']?></td>
+													<td><?= $data['sex']?></td>
+													<td><?= $data['tempatlahir']?></td>
+													<td><?= tgl_indo_out($data['tanggallahir'])?></td>
+													<td><?= $data['agama']?></td>
+													<td><?= $data['pendidikan']?></td>
+													<td><?= $data['pekerjaan']?></td>
+													<td><?= $data['golongan_darah']?></td>
+												</tr>
+												<?php endforeach; ?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="table-responsive">
+										<table class="table table-bordered table-hover ">
+											<thead class="bg-gray disabled color-palette">
+												<tr>
+													<th class="text-center">No</th>
+													<th class="text-center">Status Perkawinan</th>
+													<th class="text-center">Tanggal Perkawinan</th>
+													<th class="text-center">Status Hubungan Dalam Keluarga</th>
+													<th class="text-center">Kewarganegaraan</th>
+													<th class="text-center">No. Paspor</th>
+													<th class="text-center">No. KITAS / KITAP</th>
+													<th class="text-center">Nama Ayah</th>
+													<th class="text-center">Nama Ibu</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php foreach ($main as $key => $data): ?>
+												<tr>
+													<td class="text-center" ><?= $key+1?></td>
+													<td><?= $data['status_kawin']?></td>
+													<td class="text-center"><?= tgl_indo_out($data['tanggalperkawinan'])?></td>
+													<td><?= $data['hubungan']?></td>
+													<td><?= $data['warganegara']?></td>
+													<td><?= $data['dokumen_pasport']?></td>
+													<td><?= $data['dokumen_kitas']?></td>
+													<td><?= strtoupper($data['nama_ayah'])?></td>
+													<td><?= strtoupper($data['nama_ibu'])?></td>
+												</tr>
+												<?php endforeach; ?>
+											</tbody>
+										</table>
+									</div>
+									<div class="table-responsive">
+										<table class="table no-border">
+											<tbody>
+												<tr>
+													<td width="25%">&nbsp;</td>
+													<td width="50%">&nbsp;</td>
+													<td class="text-center" width="25%"><?= $desa['nama_desa'] ?>, <?= tgl_indo(date("Y m d"))?></td>
+												</tr>
+												<tr>
+													<td class="text-center">KEPALA KELUARGA</td>
+													<td>&nbsp;</td>
+													<td class="text-center">KEPALA <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?></td>
+												</tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+												<tr>
+													<td class="text-center"><?= strtoupper($kepala_kk['nama'])?></td>
+													<td width="50%">&nbsp;</td>
+													<td class="text-center"><?= strtoupper($desa['nama_kepala_desa']) ?></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>
-<div id="contentpane">
-<form id="mainform" name="mainform" action="<?php echo $form_action?>" method="post" enctype="multipart/form-data">
-   <div class="ui-layout-north panel">
-        <div class="left">
-            <div class="uibutton-group">
-<a href="<?php echo site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="uibutton icon prev">Daftar Anggota</a>
-<a href="<?php echo site_url("keluarga/form_a/$p/$o/$id_kk")?>" class="uibutton icon next">Tambah Anggota</a>
-
-
-</div>
-        </div>
-</div>
-
-<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 
 
 
-
-
-
-<table width="100%" cellpadding="3" cellspacing="4">
-<div align="center">
-<h3> KARTU KELUARGA </h3>
-<h4> SALINAN </h4>
-<h4>No. <?php echo unpenetration($kepala_kk['no_kk'])?> </h4>
-</div>
-<tr>
-<td width="100">Alamat</td>
-<td width="200">: <?php if(isset($kepala_kk['alamat_plus_dusun'])) echo strtoupper($kepala_kk['alamat_plus_dusun'])  ?></td>
-<td width="120">Kabupaten/Kota</td>
-<td width="150">: <?php echo strtoupper(unpenetration($desa['nama_kabupaten'])) ?></td>
-</tr>
-<tr>
-<td>RT/RW</td>
-<td>: <?php echo unpenetration($kepala_kk['rt'])  ?> / <?php echo unpenetration($kepala_kk['rw'])  ?> </td>
-<td>Kode Pos</td>
-<td>: <?php echo $desa['kode_pos'] ?></td>
-</tr>
-<tr>
-<td>Kelurahan/Desa</td>
-<td>: <?php echo strtoupper(unpenetration($desa['nama_desa'])) ?></td>
-<td>Propinsi</td>
-<td>: <?php echo strtoupper(unpenetration($desa['nama_propinsi'])) ?></td>
-</tr>
-<tr>
-<td><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
-<td>: <?php echo strtoupper(unpenetration($desa['nama_kecamatan'])) ?></td>
-<td>Jumlah Anggota Keluarga</td>
-<td>: <?php echo count($main)?></td>
-</tr>
-</table>
-<p style="font-family:verdana,arial,sans-serif;font-size:10px;"></p>
-
-
-
-<table class="list"  style="width:100%">
-<thead>
-<tr>
-<th>No</th>
-<th align="left" width='180'>Nama</th>
-<th align="left">NIK</th>
-<th align="left" width='100'>Jenis Kelamin</th>
-<th align="left" width='100'>Tempat Lahir</th>
-<th align="left" width='80'>Tanggal Lahir</th>
-<th align="left" width='100'>Agama</th>
-<th align="left" width='100'>Pendidikan</th>
-<th align="left" width='100'>Pekerjaan</th>
-</tr>
-</thead>
-<tbody>
-
-
-<?php  foreach($main as $key => $data): ?>
-
-<tr>
-<td align="center" width="2"><?php echo $key+1?></td>
-<td><?php echo strtoupper(unpenetration($data['nama']))?></td>
-<td><?php echo $data['nik']?></td>
-<td><?php echo $data['sex']?></td>
-<td><?php echo $data['tempatlahir']?></td>
-<td><?php echo tgl_indo($data['tanggallahir'])?></td>
-<td><?php echo $data['agama']?></td>
-<td><?php echo $data['pendidikan']?></td>
-<td><?php echo $data['pekerjaan']?></td>
-</tr>
-<?php  endforeach; ?>
-</tbody>
-</table>
-
-
-<table class="list"  style="width:100%">
-<thead>
-<tr>
-<th>No</th>
-<th align="left" width='100'>Status Perkawinan</th>
-<th align="left" width='130'>Status Hubungan dalam Keluarga</th>
-<th align="left" width='100'>Kewarganegaraan</th>
-<th align="left" width='100'>No. Paspor</th>
-<th align="left" width='100'>No. KITAS / KITAP</th>
-<th align="left" width='100'>Nama Ayah</th>
-<th align="left" width='100'>Nama Ibu</th>
-<th align="left" width='100'>Golongan darah</th>
-
-</tr>
-</thead>
-
-
-<tbody>
-<?php  foreach($main as $key => $data): ?>
-<tr>
-<td align="center" width="2"><?php echo $key+1?></td>
-<td><?php echo $data['status_kawin']?></td>
-<td><?php echo $data['hubungan']?></td>
-<td><?php echo $data['warganegara']?></td>
-<td><?php echo $data['dokumen_pasport']?></td>
-<td><?php echo $data['dokumen_kitas']?></td>
-<td><?php echo strtoupper($data['nama_ayah'])?></td>
-<td><?php echo strtoupper($data['nama_ibu'])?></td>
-<td><?php echo $data['golongan_darah']?></td>
-</tr>
-<?php  endforeach; ?>
-</tbody>
-</table>
-
-
-
-<table width="100%" cellpadding="3" cellspacing="4">
-
-<tr></tr>
-<tr></tr>
-<tr></tr>
-<tr></tr>
-<tr></tr>
-<tr></tr>
-<tr></tr>
-
-<tr>
-<td width="100"></td>
-<td width="400"></td>
-<td align="center" width="150"><?php echo unpenetration($desa['nama_desa']) ?>, <?php echo tgl_indo(date("Y m d"))?></td>
-</tr>
-<tr>
-	<td width="25%" align="center">KEPALA KELUARGA</td>
-	<td width="50%"></td>
-	<td align="center" width="150">KEPALA <?php echo strtoupper($this->setting->sebutan_desa)?> <?php echo strtoupper($desa['nama_desa']) ?></td>
-	</tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr>
-	<td width="25%" align="center"><?php echo strtoupper($kepala_kk['nama'])?></td>
-	<td width="50%"></td>
-	<td width="25%" align="center" width="150"><?php echo strtoupper($desa['nama_kepala_desa']) ?></td>
-	</tr>
-
-<tr></tr>
-<tr></tr>
-<tr></tr>
-<tr></tr>
-</table>
-
-<p style="font-family:verdana,arial,sans-serif;font-size:10px;"></p>
-
-
-</div>
-<div class="ui-layout-south panel bottom">
-<div class="left">
-<a href="<?php echo site_url()?>keluarga" class="uibutton icon prev">Kembali</a>
-</div>
-<div class="right">
-<div class="uibutton-group">
-
-<a href="<?php echo site_url("keluarga/cetak_kk/$id_kk")?>" target="_blank" class="uibutton special"><span class="fa fa-print"></span> Cetak</a>
-<a href="<?php echo site_url("keluarga/doc_kk/$id_kk")?>" target="_blank" class="uibutton confirm"><span class="fa fa-file-text"></span> Export</a>
-</div>
-</div>
-</div>
-</form>
-</div>
-</td></tr>
-</table>
-</div>

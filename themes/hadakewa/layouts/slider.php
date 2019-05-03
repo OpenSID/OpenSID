@@ -4,7 +4,9 @@
 <script type="text/javascript">
 	$(document).ready(function() {
     $('.slider').cycle({
-			pauseOnHover: true
+			pauseOnHover: true,
+			// Untuk menghilangkan titik-titik di cycle pager
+			pagerTemplate: '<span></span>'
 		});
 	});
 	function tampil_artikel(id_artikel){

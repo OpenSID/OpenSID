@@ -1,0 +1,12 @@
+Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Gali Arta yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 19.05-pasca:
+
+1. #1417: Ubah perekaman data berat lahir dari kg menjadi gram supaya sesuai dengan buku Posyandu.
+2. Gabung menu Donasi dan SID ke menu Home.
+3. Perbaiki error pada waktu menambah data terdata pada Data Suplemen yang masih kosong. [bug-fix]
+
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.05-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

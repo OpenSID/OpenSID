@@ -1,140 +1,223 @@
-<script>
-	$(function() {
-		var keyword = <?php echo $keyword?> ;
-		$( "#cari" ).autocomplete({
-			source: keyword
+<script type="text/javascript">
+	var baseURL = "<?= base_url(); ?>";
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
 		});
 	});
 </script>
-
-<div id="pageC">
-<table class="inner">
-<tr style="vertical-align:top">
-	<td style="background:#fff;padding:0px;">
-<div class="content-header">
-    <h3>Manajemen Dokumen</h3>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1><?= $kat_nama?></h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active"><?= $kat_nama?></li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<?php if ($this->modul_ini <> 15): ?>
+					<div class="col-md-3">
+						<div class="box box-info">
+							<div class="box-header with-border">
+								<h3 class="box-title">Kategori Dokumen</h3>
+								<div class="box-tools">
+									<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+								</div>
+							</div>
+							<div class="box-body no-padding">
+								<ul class="nav nav-pills nav-stacked">
+									<li class="active"><a href="<?= site_url('dokumen/index/1')?>">Umum</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				<?php endif; ?>
+				<div class="<?php if ($this->modul_ini <> 15): ?>col-md-9<?php else: ?>col-md-12<?php endif; ?>">
+					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?= site_url("{$this->controller}/form/$kat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Menu Baru">
+								<i class="fa fa-plus"></i>Tambah <?= $kat_nama?> Baru
+            	</a>
+							<?php if ($this->CI->cek_hak_akses('h')): ?>
+								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("{$this->controller}/delete_all/$kat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<?php endif; ?>
+							<a href="<?= site_url("{$this->controller}/dialog_cetak/$kat")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Cetak Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan">
+								<i class="fa fa-print"></i>Cetak
+            	</a>
+							<a href="<?= site_url("{$this->controller}/dialog_excel/$kat")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan">
+								<i class="fa fa-download"></i>Unduh
+            	</a>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+										<form id="mainform" name="mainform" action="" method="post">
+											<input name="kategori" type="hidden" value="<?= $kat?>">
+											<div class="row">
+												<div class="col-sm-6">
+													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
+														<option value="">Semua</option>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
+													</select>
+												</div>
+												<div class="col-sm-6">
+													<div class="box-tools">
+														<div class="input-group input-group-sm pull-right">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();}">
+															<div class="input-group-btn">
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered table-striped dataTable table-hover">
+															<thead class="bg-gray disabled color-palette">
+																<tr>
+																	<th><input type="checkbox" id="checkall"/></th>
+																	<th>No</th>
+																	<th>Aksi</th>
+																	<?php if ($o==2): ?>
+                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                  <?php elseif ($o==1): ?>
+                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/2")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                  <?php else: ?>
+                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+                                  <?php endif; ?>
+																	<?php if ($kat == 2): ?>
+																		<th nowrap>Nomor Dan Tanggal Keputusan</th>
+																		<th nowrap>Uraian Singkat</th>
+																	<?php elseif ($kat == 3): ?>
+																		<th nowrap>Nomor Dan Tanggal Ditetapkan</th>
+																		<th nowrap>Uraian Singkat</th>
+																	<?php endif; ?>
+                                  <?php if ($o==4): ?>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                  <?php elseif ($o==3): ?>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                  <?php else: ?>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
+                                  <?php endif; ?>
+																	<?php if ($o==6): ?>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/5")?>">Dimuat Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                  <?php elseif ($o==5): ?>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/6")?>">Dimuat Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                  <?php else: ?>
+                                    <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/5")?>">Dimuat Pada <i class='fa fa-sort fa-sm'></i></a></th>
+                                  <?php endif; ?>
+																</tr>
+															</thead>
+															<tbody>
+																<?php foreach ($main as $data): ?>
+																	<tr>
+																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<td><?=$data['no']?></td>
+																		<td nowrap>
+																			<a href="<?= site_url("{$this->controller}/form/$kat/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																			<?php if ($data['enabled'] == '2'): ?>
+																				<a href="<?= site_url($this->controller.'/dokumen_lock/'.$kat.'/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																			<?php elseif ($data['enabled'] == '1'): ?>
+																				<a href="<?= site_url($this->controller.'/dokumen_unlock/'.$kat.'/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+                                      <?php endif ?>
+																			<a href="<?= base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																			<a href="#" data-href="<?= site_url("{$this->controller}/delete/$kat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	  </td>
+																		<td width="30%"><?= $data['nama']?></td>
+																		<?php if ($kat == 2): ?>
+																			<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
+																			<td><?= $data['attr']['uraian']?></td>
+																		<?php elseif ($kat == 3): ?>
+																			<td><?= $data['attr']['no_ditetapkan']." / ".$data['attr']['tgl_ditetapkan']?></td>
+																			<td width="30%"><?= $data['attr']['uraian']?></td>
+																		<?php endif; ?>
+																		<td><?= $data['aktif']?></td>
+																		<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>
+																	</tr>
+																<?php endforeach; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</form>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="dataTables_length">
+                          <form id="paging" action="<?= site_url($this->controller.'/index/'.$kat)?>" method="post" class="form-horizontal">
+                            <label>
+                              Tampilkan
+                              <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
+                              </select>
+                              Dari
+                              <strong><?= $paging->num_rows?></strong>
+                              Total Data
+                            </label>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                          <ul class="pagination">
+                            <?php if ($paging->start_link): ?>
+                              <li><a href="<?= site_url("{$this->controller}/index/$kat/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                            <?php endif; ?>
+                            <?php if ($paging->prev): ?>
+                              <li><a href="<?= site_url("{$this->controller}/index/$kat/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <?php endif; ?>
+                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+                              <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("{$this->controller}/index/$kat/$i/$o")?>"><?= $i?></a></li>
+                            <?php endfor; ?>
+                            <?php if ($paging->next): ?>
+                              <li><a href="<?= site_url("{$this->controller}/index/$kat/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                            <?php endif; ?>
+                            <?php if ($paging->end_link): ?>
+                              <li><a href="<?= site_url("{$this->controller}/index/$kat/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                            <?php endif; ?>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 </div>
-<div id="contentpane">
-	<form id="mainform" name="mainform" action="" method="post">
-    <div class="ui-layout-north panel">
-        <div class="left">
-            <div class="uibutton-group">
-                <a href="<?php echo site_url('dokumen/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Dokumen Baru</a>
-                <button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("dokumen/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Data</button>
-            </div>
-        </div>
-    </div>
-    <div class="ui-layout-center" id="maincontent" style="padding: 5px;">
-        <div class="table-panel top">
-            <div class="left">
-                <select name="filter" onchange="formAction('mainform','<?php echo site_url('dokumen/filter')?>')">
-                    <option value="">Semua</option>
-                    <option value="1" <?php if($filter==1) :?>selected<?php endif?>>Enabled</option>
-                    <option value="2" <?php if($filter==2) :?>selected<?php endif?>>Disabled</option>
-                </select>
-            </div>
-            <div class="right">
-                <input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('dokumen/search')?>');$('#'+'mainform').submit();}" />
-                <button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('dokumen/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
-            </div>
-        </div>
-        <table class="list">
-		<thead>
-            <tr>
-                <th>No</th>
-                <th><input type="checkbox" class="checkall"/></th>
-                <th width="120">Aksi</th>
 
-	 		<?php  if($o==2): ?>
-				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/1")?>">Judul Dokumen <span class="fa fa-sort-asc fa-sm">
-			<?php  elseif($o==1): ?>
-				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/2")?>">Judul Dokumen <span class="fa fa-sort-desc fa-sm">
-			<?php  else: ?>
-				<th align="left"><a href="<?php echo site_url("dokumen/index/$p/1")?>">Judul Dokumen <span class="fa fa-sort fa-sm">
-			<?php  endif; ?>&nbsp;</span></a></th>
-
-			<?php  if($o==4): ?>
-				<th align="center"><a href="<?php echo site_url("dokumen/index/$p/3")?>">Enabled/Disabled <span class="fa fa-sort-asc fa-sm">
-			<?php  elseif($o==3): ?>
-				<th align="center"><a href="<?php echo site_url("dokumen/index/$p/4")?>">Enabled/Disabled <span class="fa fa-sort-desc fa-sm">
-			<?php  else: ?>
-				<th align="center"><a href="<?php echo site_url("dokumen/index/$p/3")?>">Enabled/Disabled <span class="fa fa-sort fa-sm">
-			<?php  endif; ?>&nbsp;</span></a></th>
-
-			<?php  if($o==6): ?>
-				<th align="center" width='200'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diupload pada <span class="fa fa-sort-asc fa-sm">
-			<?php  elseif($o==5): ?>
-				<th align="center" width='200'><a href="<?php echo site_url("dokumen/index/$p/6")?>">Diupload pada <span class="fa fa-sort-desc fa-sm">
-			<?php  else: ?>
-				<th align="center" width='200'><a href="<?php echo site_url("dokumen/index/$p/5")?>">Diupload pada <span class="fa fa-sort fa-sm">
-			<?php  endif; ?>&nbsp;</span></a></th>
-            <th width="200">File</th>
-			</tr>
-		</thead>
-		<tbody>
-        <?php foreach($main as $data){?>
-		<tr>
-			<td align="center" width="2"><?php echo $data['no']?></td>
-			<td align="center" width="5">
-				<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" />
-			</td>
-			<td><div class="uibutton-group">
-				<a href="<?php echo site_url("dokumen/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a><a href="<?php echo site_url("dokumen/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"><span></a><?php if($data['enabled'] == '2'):?><a href="<?php echo site_url('dokumen/dokumen_lock/'.$data['id'])?>" class="uibutton tipsy south" title="Aktivasi dokumen"><span class="fa fa-lock"></span></a><?php elseif($data['enabled'] == '1'): ?><a href="<?php echo site_url('dokumen/dokumen_unlock/'.$data['id'])?>" class="uibutton tipsy south" title="Non-aktifkan dokumen"><span class="fa fa-unlock"><span></a>
-			<?php endif?></div>
-			  </td>
-			  <td><?php echo $data['nama']?></td>
-			  <td align="center" width="120"><?php echo $data['aktif']?></td>
-			  <td align="center" width="200"><?php echo tgl_indo2($data['tgl_upload'])?></td>
-<td><a href="<?php echo base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" ><?php echo $data['satuan']?></a></td>
-		</tr>
-        <?php }?>
-		</tbody>
-    </table>
-    </div>
-	</form>
-    <div class="ui-layout-south panel bottom">
-        <div class="left">
-		<div class="table-info">
-          <form id="paging" action="<?php echo site_url('dokumen')?>" method="post">
-		  <label>Tampilkan</label>
-            <select name="per_page" onchange="$('#paging').submit()" >
-              <option value="20" <?php  selected($per_page,20); ?> >20</option>
-              <option value="50" <?php  selected($per_page,50); ?> >50</option>
-              <option value="100" <?php  selected($per_page,100); ?> >100</option>
-            </select>
-            <label>Dari</label>
-            <label><strong><?php echo $paging->num_rows?></strong></label>
-            <label>Total Data</label>
-          </form>
-          </div>
-        </div>
-        <div class="right">
-            <div class="uibutton-group">
-            <?php  if($paging->start_link): ?>
-				<a href="<?php echo site_url("dokumen/index/$paging->start_link/$o")?>" class="uibutton"  ><span class="fa fa-fast-backward"></span> Awal</a>
-			<?php  endif; ?>
-			<?php  if($paging->prev): ?>
-				<a href="<?php echo site_url("dokumen/index/$paging->prev/$o")?>" class="uibutton"  ><span class="fa fa-step-backward"></span> Prev</a>
-			<?php  endif; ?>
-            </div>
-            <div class="uibutton-group">
-
-				<?php  for($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-				<a href="<?php echo site_url("dokumen/index/$i/$o")?>" <?php  jecho($p,$i,"class='uibutton special'")?> class="uibutton"><?php echo $i?></a>
-				<?php  endfor; ?>
-            </div>
-            <div class="uibutton-group">
-			<?php  if($paging->next): ?>
-				<a href="<?php echo site_url("dokumen/index/$paging->next/$o")?>" class="uibutton">Next <span class="fa fa-step-forward"></span></a>
-			<?php  endif; ?>
-			<?php  if($paging->end_link): ?>
-                <a href="<?php echo site_url("dokumen/index/$paging->end_link/$o")?>" class="uibutton">Akhir <span class="fa fa-fast-forward"></span></a>
-			<?php  endif; ?>
-            </div>
-        </div>
-    </div>
-</div>
-</td>
-</tr>
-</table>
-</div>

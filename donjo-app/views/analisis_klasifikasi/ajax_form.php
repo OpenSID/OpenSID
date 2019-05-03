@@ -1,23 +1,30 @@
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/validasi.js"></script>
-<form action="<?php echo $form_action?>" method="post" id="validasi">
-	<table class="form">
-		<tr>
-			<th>Klasifikasi</th>
-			<td><input name="nama" type="text" class="inputbox" size="40" value="<?php echo $analisis_klasifikasi['nama']?>"/></td>
-		</tr>
-		<tr>
-			<th>Nilai Minimal</th>
-			<td><input name="minval" type="text" class="inputbox" size="10" value="<?php echo $analisis_klasifikasi['minval']?>"/></td>
-		</tr>
-		<tr>
-			<th>Nilai Maksimal</th>
-			<td><input name="maxval" type="text" class="inputbox" size="10" value="<?php echo $analisis_klasifikasi['maxval']?>"/></td>
-		</tr>
-	</table>
-	<div class="buttonpane" style="text-align: right; width:420px;position:absolute;bottom:0px;">
-		<div class="uibutton-group">
-			<button class="uibutton confirm" type="submit"><span class="fa fa-save"></span> Simpan</button>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<form id="validasi" action="<?= $form_action?>" method="post">
+	<div class='modal-body'>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box-body">
+					<div class="form-group">
+						<label class="control-label" for="nama">Klasifikasi</label>
+						<input  id="nama" class="form-control input-sm required" type="text" placeholder="Klasifikasi" name="nama" value="<?= $analisis_klasifikasi['nama']?>">
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="minval">Nilai Minimal</label>
+						<input  id="minval" class="form-control input-sm required" type="text" placeholder="Nilai Minimal" name="minval" value="<?= $analisis_klasifikasi['minval']?>">
+						<p class="small text-maroon"> Gunakan tanda titik (.) untuk bilangan pencahan.</p>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="minval">Nilai Maksimal</label>
+						<input  id="maxval" class="form-control input-sm required" type="text" placeholder="Nilai Maksimal" name="maxval" value="<?= $analisis_klasifikasi['maxval']?>">
+						<p class="small text-maroon"> Gunakan tanda titik (.) untuk bilangan pencahan.</p>
+					</div>
+				</div>
+			</div>
 		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

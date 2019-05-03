@@ -1,0 +1,11 @@
+*******************************
+Folder: desa/themes
+*******************************
+
+Folder ini tempat menyimpan berkas tema yang ditambahkan desa.
+Buat sub-folder untuk setiap tema yang akan ditambahkan.
+
+Aktifkan di halaman Pengaturan dengan memasukkan tema dengan prefix "desa/",
+misalnya "desa/tema_saya", di mana sub-folder desa/themes/tema-saya berisi berkas tema 'tema_saya'.
+
+Berkas tema bisa menggunakan folder themes/default atau themes/hadakewa sebagai contoh.
