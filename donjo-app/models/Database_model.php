@@ -185,6 +185,58 @@
 
   private function migrasi_1905_ke_1906()
   {
+  	// Tambah menu teks berjalan
+		$data = array(
+			'id' => '64',
+			'modul' => 'Teks Berjalan',
+			'url' => 'web/teks_berjalan',
+			'aktif' => '1',
+			'ikon' => 'fa-ellipsis-h',
+			'urut' => '9',
+			'level' => '2',
+			'parent' => '13',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa-ellipsis-h'
+		);
+		$sql = $this->db->insert_string('setting_modul', $data) . " ON DUPLICATE KEY UPDATE url = VALUES(url), ikon = VALUES(ikon), ikon_kecil = VALUES(ikon_kecil)";
+		$this->db->query($sql);
+		$pilihan_sumber = $this->db->select('id')->where('key','isi_teks_berjalan')->get('setting_aplikasi')->row()->id;
+		if (!$pilihan_sumber)
+		{
+			$data = array(
+				'key' => 'isi_teks_berjalan',
+				'keterangan' => 'Isi Teks Berjalan di Web',
+				'jenis' => 'area',
+				'kategori' => 'web'
+			);
+			$this->db->insert('setting_aplikasi', $data);
+		}
+
+		$id_kategori = $this->db->select('id')->where('kategori', 'teks_berjalan')->limit(1)->get('kategori')->row()->id;
+		if ($id_kategori)
+		{
+			// Pindahkan teks berjalan di artikel ke setting teks_berjalan
+			$teks = $this->db->select('a.isi')
+				->from('artikel a')
+				->join('kategori k', 'a.id_kategori = k.id', 'left')
+				->where('k.kategori', 'teks_berjalan')
+				->where('k.enabled', 1)
+				->where('a.enabled', 1)
+				->get()->result_array();
+			$isi_teks = "";
+			foreach ($teks as $data)
+			{
+				$isi_teks .= strip_tags($data['isi']);
+			}
+			if (!empty($isi_teks))
+			{
+				$this->db->where('key', 'isi_teks_berjalan')->update('setting_aplikasi', array('value' => $isi_teks));
+			}
+			// Hapus artikel dan kategori teks berjalan
+			$this->db->where('id_kategori', $id_kategori)->delete('artikel');
+			$this->db->where('kategori', 'teks_berjalan')->delete('kategori');
+		}
+
   	// Hapus menu SID dan Donasi
 		$this->db->where('id', 16)->delete('setting_modul');
 		$this->db->where('id', 19)->delete('setting_modul');

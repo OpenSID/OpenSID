@@ -103,6 +103,14 @@ class Setting_model extends CI_Model {
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
+	public function update_teks_berjalan()
+	{
+		$_SESSION['success'] = 1;
+		$this->setting->isi_teks_berjalan = $this->input->post('isi_teks_berjalan');
+		$outp = $this->db->where('key','isi_teks_berjalan')->update('setting_aplikasi', array('value'=>$this->input->post('isi_teks_berjalan')));
+		if (!$outp) $_SESSION['success'] = -1;
+	}
+
 	public function load_options()
 	{
 		foreach ($this->list_setting as $i => $set)

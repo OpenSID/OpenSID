@@ -24,8 +24,6 @@
 	});
 </script>
 <div id="scroller" style="margin-bottom: 0px;">
-  <?php foreach ($teks_berjalan AS $data): ?>
-  	<span style="vertical-align: middle; color: white; font: bold 8pt Arial; padding-right: 200px;"><?= $data['isi']?></span>
-  <?php endforeach; ?>
+	<span style="vertical-align: middle; color: white; font: bold 8pt Arial; padding-right: 200px;"><?= $teks_berjalan?></span>
   <span>&nbsp;</span>
 </div>
