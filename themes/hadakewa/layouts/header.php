@@ -40,7 +40,7 @@
 		<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<link type='text/css' href="<?php echo base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
-        
+
         <script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/layout.js"></script>
@@ -94,9 +94,9 @@
 
 						<br class="clearboth"/>
 					</div>
-					<?php if(count($teks_berjalan)>0){
-						$this->load->view($folder_themes.'/layouts/teks_berjalan.php');
-					} ?>
+					<?php if (!empty($teks_berjalan)): ?>
+						<?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php'); ?>
+					<?php endif; ?>
 				<div class="innertube">
 
 
