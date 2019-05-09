@@ -176,7 +176,7 @@
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar,
+		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar, t.id as id_pend,
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
 			c.dusun, c.rw, c.rt ";
 		$sql .= $this->list_data_sql();
@@ -321,13 +321,6 @@
 		// Simpan alamat keluarga sebelum menulis penduduk
 		$data2['alamat'] = $data['alamat'];
 		UNSET($data['alamat']);
-
-		if ($data['tanggallahir'] == '') unset($data['tanggallahir']);
-		else $data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
-		if ($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
-		else $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
-		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
-		else $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
 
 		// Tulis penduduk baru sebagai kepala keluarga
 		$data['kk_level'] = 1;
@@ -715,7 +708,6 @@
 		{
 			$id_detail='5';
 		}
-		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
 
 		$error_validasi = array_merge($this->penduduk_model->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
 		if (!empty($error_validasi))
