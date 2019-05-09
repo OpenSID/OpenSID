@@ -35,8 +35,17 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url('keluarga/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data KK Baru"><i class="fa fa-plus"></i> Tambah KK Baru</a>
-						<a href="<?= site_url('keluarga/form_old')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data KK dari keluarga yang sudah ter-input" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Kepala Keluarga"><i class="fa fa-plus"></i> Tambah KK</a>
+						<div class="btn-group btn-group-vertical">
+							<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah KK Baru</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<a href="<?= site_url('keluarga/form')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data KK Baru"><i class="fa fa-plus"></i> Tambah Penduduk Baru</a>
+								</li>
+								<li>
+									<a href="<?= site_url('keluarga/form_old')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data KK dari keluarga yang sudah ter-input" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Kepala Keluarga"><i class="fa fa-plus"></i> Dari Penduduk Sudah Ada</a>
+								</li>
+							</ul>
+						</div>
 						<a href="<?= site_url("keluarga/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url("keluarga/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						<div class="btn-group btn-group-vertical">
@@ -159,7 +168,7 @@
 																	</td>
 																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"><?= $data['no_kk']?></a></td>
 																	<td nowrap><?= strtoupper($data['kepala_kk'])?></td>
-																	<td><?= strtoupper($data['nik'])?></td>
+																	<td><a href="<?= site_url("penduduk/detail/1/0/$data[id_pend]")?>"><?= strtoupper($data['nik'])?></a></td>
 																	<td><?= $data['tag_id_card']?></td>
 																	<td><a href="<?= site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?= $data['jumlah_anggota']?></a></td>
 																	<td><?= strtoupper($data['sex'])?></td>
