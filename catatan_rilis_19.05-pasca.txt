@@ -11,6 +11,7 @@ Lengkapnya, isi rilis versi 19.05-pasca:
 5. #938: Ubah penerapan teks berjalan di web supaya dikelola terpisah dari artikel.
 6. #2042: Sekarang tanggal lahir tersimpan betul pada input data KK baru atau menambah anggota keluarga baru. [bug-fix]
 7. Gabung tombol Tambah KK Baru supaya lebih jelas membuat penduduk baru atau mengambil dari penduduk yang sudah ada.
+8. #2014: Sekarang daftar keluarga bisa diurut berdasarkan Tanggal Terdaftar.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.05-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -149,7 +149,13 @@
 																<th><?= ucwords($this->setting->sebutan_dusun)?></th>
 																<th>RW</th>
 																<th>RT</th>
-																<th nowrap>Tanggal Terdaftar</th>
+                                <?php if ($o==6): ?>
+																	<th nowrap><a href="<?= site_url("keluarga/index/$p/5")?>">Tanggal Terdaftar <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                <?php elseif ($o==5): ?>
+																	<th nowrap><a href="<?= site_url("keluarga/index/$p/6")?>">Tanggal Terdaftar <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                <?php else: ?>
+																	<th nowrap><a href="<?= site_url("keluarga/index/$p/6")?>">Tanggal Terdaftar <i class='fa fa-sort fa-sm'></i></a></th>
+                                <?php endif; ?>
 																<th nowrap>Tanggal Cetak KK</th>
 															</tr>
 														</thead>

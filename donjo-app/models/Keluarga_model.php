@@ -168,8 +168,8 @@
 			case 2: $order_sql = ' ORDER BY u.no_kk DESC'; break;
 			case 3: $order_sql = ' ORDER BY kepala_kk'; break;
 			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
-			case 5: $order_sql = ' ORDER BY g.nama'; break;
-			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
+			case 5: $order_sql = ' ORDER BY u.tgl_daftar'; break;
+			case 6: $order_sql = ' ORDER BY u.tgl_daftar DESC'; break;
 			default:$order_sql = ' ORDER BY u.no_kk DESC';
 		}
 
