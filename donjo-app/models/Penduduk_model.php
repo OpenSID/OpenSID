@@ -720,6 +720,8 @@
     unset($data['file_foto']);
     unset($data['old_foto']);
 
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
     $this->db->where('id', $id);
     $outp = $this->db->update('tweb_penduduk', $data);
 
@@ -771,6 +773,8 @@
 	public function update_status_dasar($id=0)
 	{
 		$data['status_dasar'] = $_POST['status_dasar'];
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
 		$this->db->where('id',$id);
 		$this->db->update('tweb_penduduk', $data);
 		$penduduk = $this->get_penduduk($id);
@@ -807,6 +811,8 @@
 	{
 		$_SESSION['success'] = 1;
 		$data['status_dasar'] = 1; // status dasar hidup
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
 		if (!$this->db->where('id', $id)->update('tweb_penduduk', $data))
 			$_SESSION['success'] = - 1;
 	}
@@ -877,7 +883,7 @@
 	public function get_penduduk($id=0)
 	{
 		$sql = "SELECT u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
-			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster,
+			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah,
 			(CASE when u.status_kawin <> 2
 				then k.nama
 				else
@@ -911,6 +917,7 @@
 			LEFT JOIN tweb_cara_kb kb ON u.cara_kb_id = kb.id
 			LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id
 			LEFT JOIN log_penduduk log ON u.id = log.id_pend
+			LEFT JOIN user ux ON u.updated_by = ux.id
 			WHERE u.id=?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();

@@ -383,3 +383,6 @@ td.bilangan, th.bilangan, td.no_urut
 	text-align: center;
 }
 
+.kecil{font-size:.8em;color:#888;font-style:italic;font-weight:400;margin-bottom:.5em;}
+
+

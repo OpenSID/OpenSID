@@ -355,6 +355,8 @@ class Import_model extends CI_Model {
 				if ($data['status_dasar'] != -1)
 				{
 					// Hanya update apabila status dasar valid (data SIAK)
+					$data['updated_at'] = date('Y-m-d H:i:s');
+					$data['updated_by'] = $this->session->user;
 					$id = $res['id'];
 					$this->db->where('id',$id);
 					$hasil = $this->db->update('tweb_penduduk', $data);
@@ -557,6 +559,8 @@ class Import_model extends CI_Model {
 			{
 				$upd['id_rtm'] = $id_rtm;
 				$upd['rtm_level'] = $rtm_level;
+				$upd['updated_at'] = date('Y-m-d H:i:s');
+				$upd['updated_by'] = $this->session->user;
 
 				$this->db->where('nik', $nik);
 				$outp = $this->db->update('tweb_penduduk', $upd);

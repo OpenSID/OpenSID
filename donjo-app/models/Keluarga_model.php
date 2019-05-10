@@ -234,6 +234,8 @@
 		$default['id_kk'] = $kk_id;
 		$default['kk_level'] = 1;
 		$default['status'] = 1; // statusnya menjadi tetap
+		$default['updated_at'] = date('Y-m-d H:i:s');
+		$default['updated_by'] = $this->session->user;
 		$this->db->where('id', $data['nik_kepala']);
 		$this->db->update('tweb_penduduk', $default);
 
@@ -337,6 +339,8 @@
 		$kk_id = $this->db->insert_id();
 
 		// Update penduduk kaitkan dengan KK
+		$default['updated_at'] = date('Y-m-d H:i:s');
+		$default['updated_by'] = $this->session->user;
 		$default['id_kk'] = $kk_id;
 		$this->db->where('id', $id_pend);
 		$this->db->update('tweb_penduduk', $default);
@@ -432,6 +436,8 @@
 
 		$temp['id_kk'] = $id;
 		$temp['kk_level'] = $data['kk_level'];
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 
 		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
@@ -447,6 +453,8 @@
 		{
     	// Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
 			$lvl['kk_level'] = 11;
+			$lvl['updated_at'] = date('Y-m-d H:i:s');
+			$lvl['updated_by'] = $this->session->user;
 			$this->db->where('id_kk', $id_kk);
 			$this->db->where('kk_level', 1);
 			$this->db->update('tweb_penduduk', $lvl);
@@ -476,6 +484,8 @@
 		$this->update_kk_level($id, $pend['id_kk'], $data['kk_level'], $data['kk_level_lama']);
     unset($data['kk_level_lama']);
 
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 
@@ -489,6 +499,8 @@
 		$temp['no_kk_sebelumnya'] = $this->db->select('no_kk')->where('id',$kk)->get('tweb_keluarga')->row()->no_kk;
 		$temp['id_kk'] = 0;
 		$temp['kk_level'] = 0;
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 		$this->db->where('id',$id);
 		$outp = $this->db->update('tweb_penduduk', $temp);
 		if ($pend['kk_level'] == '1')
@@ -812,6 +824,8 @@
 		{
 			$this->db->where('id_kk', $id_kk);
 			$data['id_cluster'] = $id_cluster;
+			$data['updated_at'] = date('Y-m-d H:i:s');
+			$data['updated_by'] = $this->session->user;
 			$outp = $this->db->update('tweb_penduduk', $data);
 
 			// Tulis log pindah untuk setiap anggota keluarga
