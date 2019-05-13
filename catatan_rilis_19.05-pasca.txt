@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 19.05-pasca:
 8. #2014: Sekarang daftar keluarga bisa diurut berdasarkan Tanggal Terdaftar.
 9. #2040: Sekarang pengguna Operator bisa mengisi RW/RT di semua form isian keluarga dan penduduk. [bug-fix]
 10. Rekam tgl dan pengguna yg terakhir mengubah data penduduk. Tampilkan di halaman biodata penduduk.
+11. Sesuaikan ekspor data penduduk supaya bisa diimpor ke database OpenDK tanpa perubahan.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.05-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
