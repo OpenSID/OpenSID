@@ -49,20 +49,14 @@
 		<div class="btn-group" role="group" aria-label="Bagikan ke teman anda" style="clear:both;">
 		    <a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?php echo site_url().'first/artikel/'.$single_artikel['id']?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Facebook'><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-facebook-square fa-2x"></i></button></a>
 			<a href="http://twitter.com/share?source=sharethiscom&text=<?php echo $single_artikel["judul"];?>%0A&url=<?php echo site_url().'first/artikel/'.$single_artikel['id'].'&via=ariandii'?>" class="twitter-share-button" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Twitter'><button type="button" class="btn btn-info btn-sm"><i class="fa fa-twitter fa-2x"></i></button></a>
-			<a href="https://plus.google.com/share?url=<?php echo site_url().'first/artikel/'.$single_artikel['id'].'&hl=id'?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Google'><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-google-plus fa-2x"></i></button></a>
-		    <a href="tg://msg?text=<?php echo $single_artikel["judul"];?>%0A<?php echo site_url().'first/artikel/'.$single_artikel['id']?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Whatsapp'><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-telegram fa-2x"></i></button></a>
-		    <a href="whatsapp://send?text=<?php echo $single_artikel["judul"];?>%0A<?php echo site_url().'first/artikel/'.$single_artikel['id']?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Whatsapp'><button type="button" class="btn btn-success btn-sm"><i class="fa fa-whatsapp fa-2x"></i></button></a>
-
-            <!--
-		    <a id="button" onClick="window.open('http://www.facebook.com/sharer.php?s=100&p[title]=<?php echo $single_artikel['judul']; ?>&p[summary]=<?php echo $single_artikel['judul'];?>&p[url]=<?php echo site_url().'first/artikel/'.$single_artikel['id']?>&p[images][0]=<?php echo AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>', 'sharer', 'toolbar=0,status=0,width=550,height=400');" target="_parent" href="javascript: void(0)">s</a>
-			<a href="https://plus.google.com/share?url=<?php echo site_url().'first/artikel/'.$single_artikel['id'].'&hl=id'?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Google'><button type="button" class="btn btn-danger"><i class="fa fa-google-plus" style="color:red"></i>&nbsp;Bagikan</button></a>
-		    <script src=\"http://static.ak.fbcdn.net/connect.php/js/FB.Share\" type=\"text/javascript\"></script>
-			<script src=\"http://platform.twitter.com/widgets.js\" type=\"text/javascript\"></script>
-			-->
+			<a href="mailto:?subject=<?php echo $single_artikel["judul"];?>&body=<?php echo potong_teks($single_artikel["isi"], 1000);?> ... Selengkapnya di <?php echo site_url().'first/artikel/'.$single_artikel['id']?>" title='Email'><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-envelope fa-2x"></i></button></a>
+		    <a href="https://telegram.me/share/url?url=<?php echo site_url().'first/artikel/'.$single_artikel['id']?>&text=<?php echo $single_artikel["judul"];?>%0A" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Telegram'><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-telegram fa-2x"></i></button></a>
+		    <a href="https://api.whatsapp.com/send?text=<?php echo $single_artikel["judul"];?>%0A<?php echo site_url().'first/artikel/'.$single_artikel['id']?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Whatsapp'><button type="button" class="btn btn-success btn-sm"><i class="fa fa-whatsapp fa-2x"></i></button></a>
         </div>
 		</div>
+		<?php if($single_artikel['boleh_komentar']): ?>
 		    <div class="fb-comments" data-href="<?php echo site_url().'first/artikel/'.$single_artikel['id']?>" width="100%" data-numposts="5"></div>
-
+		<?php endif; ?>
 		<div class="contact_bottom">
 			<?php if(is_array($komentar)): ?>
 				<div class="contact_bottom">
