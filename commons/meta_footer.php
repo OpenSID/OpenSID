@@ -7,8 +7,8 @@
     (function () {
         var options = {
             whatsapp: "+628115222660",
-            facebook: "ariandi",
-            telegram: "natairaya",
+            facebook: "kulinersemut",
+            telegram: "ariandi",
             email: "natai.raya@mail.com",
             sms: "+628115222660",
             call: "+628115222660",
