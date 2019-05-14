@@ -18,7 +18,7 @@
             </li> -->
 			<?php }?>
 			<?php foreach($menu_atas as $data){?>
-			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo $data['link']?>"><?php echo $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
+			<li class="dropdown"><a class="dropdown-toggle" href="<?php echo $data['link']?>"><?php echo $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
 			<?php if(count($data['submenu'])>0): ?>
 			    <ul class="dropdown-menu">
 			        <?php foreach($data['submenu'] as $submenu): ?>
