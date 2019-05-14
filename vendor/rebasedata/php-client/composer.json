@@ -1,0 +1,13 @@
+{
+    "name": "rebasedata/php-client",
+    "type": "library",
+    "description": "RebaseData API client for PHP",
+    "require": {
+        "php": ">=5.5",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": { "RebaseData\\": "src/" }
+    }
+}
