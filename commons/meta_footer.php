@@ -12,8 +12,8 @@
             email: "natai.raya@mail.com",
             sms: "+628115222660",
             call: "+628115222660",
-            company_logo_url: "http://natairaya.mtk.web.id/desa/logo/LOGO__sid__D3NPt4a.png", // URL of company logo (png, jpg, gif)
-            //greeting_message: "Selamat Datang di Website Sistem Informasi Desa Natai Raya.",
+            company_logo_url: "<?php echo LogoDesa($desa['logo']);?>", // URL of company logo (png, jpg, gif)
+            greeting_message: "Selamat Datang di Website <?php echo ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>.",
             //call_to_action: "Kontak",
             button_color: "#e64946",
             position: "left", // Position may be 'right' or 'left'
