@@ -23,7 +23,7 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
 		. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '');
 ?></title>
 
-<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+<link rel="shortcut icon" type='image/vnd.microsoft.icon' href="<?php echo base_url("$this->theme_folder/natra/images/favicon.png"); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url("$this->theme_folder/natra/assets/css/bootstrap.min.css"); ?>">
 <link rel="stylesheet" type="text/css" href="<?php echo base_url("$this->theme_folder/natra/assets/css/font-awesome.min.css"); ?>">
 <link rel="stylesheet" type="text/css" href="<?php echo base_url("$this->theme_folder/natra/assets/css/animate.css"); ?>">
