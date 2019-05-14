@@ -4,7 +4,7 @@
 <h2 class='post_titile'>Layanan Masyarakat</h2>
 
 <?php if($_SESSION['sukses']==1){echo "Data telah terkirim, dan akan segera kami proses";unset($_SESSION['sukses']);} ?>
-<form class='contact_form' id="validasi" action="<?= site_url()?>lapor/insert" method="POST" enctype="multipart/form-data">
+<form class='contact_form' id="validasi" action="<?= site_url()?>lapor_web/insert" method="POST" enctype="multipart/form-data">
 
 <div class="single_bottom_rightbar wow fadeInDown animated"> 
 	<h2>Kirim Laporan</h2> </div>
