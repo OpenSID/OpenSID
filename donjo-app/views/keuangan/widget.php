@@ -25,22 +25,26 @@
 			<div class="col-md-12">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h4>Informasi Anggaran  <?= $tahun_anggaran ?> </h4>
+						<h4>Informasi Anggaran
+							<select class="" name="tahun_anggaran" id="tahun_anggaran">
+								<option value="<?= $tahun_anggaran ?>"><?= $tahun_anggaran ?></option>
+							</select>
+					</h4>
 					</div>
 					<div class="box-body">
 						<div class="box box-danger">
 							<div class="box-header with-border">
 								<div class="col-md-4">
 									<h5>Anggaran</h5>
-									<h4><b>Rp . <?= $anggaran_keuangan ?></b></h4>
+									<h4><b>Rp . <?= number_format($data_anggaran->Anggaran) ?></b></h4>
 								</div>
 								<div class="col-md-4">
 									<h5>Anggaran PAK</h5>
-									<h4><b>Rp . <?= $anggaranPAK ?></b></h4>
+									<h4><b>Rp . <?= number_format($data_anggaran->AnggaranPAK) ?></b></h4>
 								</div>
 								<div class="col-md-4">
 									<h5>Anggaran Setelah PAK</h5>
-									<h4><b>Rp . <?= $anggaranStlhPAK ?></b></h4>
+									<h4><b>Rp . <?= number_format($data_anggaran->AnggaranStlhPAK) ?></b></h4>
 								</div>
 							</div>
 							<div class="box-body">
@@ -76,7 +80,7 @@
 		        text: 'Pagu Anggaran (PA)'
 		    },
 		    subtitle: {
-		        text: 'Tahun <?= $tahun_anggaran?>'
+		        text: 'Tahun <?= $tahun_anggaran ?>'
 		    },
 		    xAxis: {
 		        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
@@ -87,7 +91,7 @@
 		    yAxis: {
 		        min: 0,
 		        title: {
-		            text: 'Population (millions)',
+		            text: 'Juta',
 		            align: 'high'
 		        },
 		        labels: {
@@ -95,7 +99,7 @@
 		        }
 		    },
 		    tooltip: {
-		        valueSuffix: ' millions'
+		        valueSuffix: ''
 		    },
 		    plotOptions: {
 		        bar: {
@@ -106,10 +110,10 @@
 		    },
 		    legend: {
 		        layout: 'vertical',
-		        align: 'right',
-		        verticalAlign: 'top',
-		        x: -40,
-		        y: 80,
+		        align: 'bottom',
+		        verticalAlign: 'bottom',
+		        x: 0,
+		        y: 0,
 		        floating: true,
 		        borderWidth: 1,
 		        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
@@ -120,12 +124,15 @@
 		    },
 		    series: [{
 		        name: 'Anggaran',
-		        data: [107, 31, 635]
+						color: '#2E8B57',
+		        data: [<?= $pendapatan_desa->AnggaranStlhPAK ?>, 31, 635]
 		    }, {
 		        name: 'Realisasi',
-		        data: [133, 156, 947]
+						color: '#FFD700',
+		        data: [<?= $realisasi_pendapatan_desa->AnggaranStlhPAK ?>, 156, 947]
 		    }]
 		});
+
 		Highcharts.chart('chart2', {
 		    chart: {
 		        type: 'bar'

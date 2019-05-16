@@ -215,4 +215,44 @@ class Keuangan_model extends CI_model {
 		}
 		return $data;
   }
+
+	public function tahun_anggaran()
+	{
+		$data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->row();
+		return $data->tahun_anggaran;
+	}
+
+	public function data_id_keuangan_master()
+	{
+		$data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->row();
+		return $data->id;
+	}
+
+	public function data_anggaran($id_keuangan_master)
+	{
+		$this->db->select_sum('Anggaran');
+		$this->db->select_sum('AnggaranPAK');
+		$this->db->select_sum('AnggaranStlhPAK');
+		$this->db->where('id_keuangan_master', $id_keuangan_master);
+		$result = $this->db->get('keuangan_ta_anggaran')->row();
+		return $result;
+	}
+
+	public function pendapatan_desa($id_keuangan_master)
+	{
+		$this->db->select_sum('AnggaranStlhPAK');
+		$this->db->where('id_keuangan_master', $id_keuangan_master);
+		$this->db->like('KD_Rincian', '4.1.', 'after');
+		$result = $this->db->get('keuangan_ta_anggaran')->row();
+		return $result;
+	}
+
+	public function realisasi_pendapatan_desa($id_keuangan_master)
+	{
+		$this->db->select_sum('AnggaranStlhPAK');
+		$this->db->where('id_keuangan_master', $id_keuangan_master);
+		$this->db->like('Kd_Rincian', '4.1.', 'after');
+		$result = $this->db->get('keuangan_ta_rab')->row();
+		return $result;
+	}
 }

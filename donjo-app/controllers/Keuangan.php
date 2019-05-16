@@ -13,6 +13,12 @@ class Keuangan extends Admin_Controller {
 
   public function widget()
   {
+    $data['tahun_anggaran'] = $this->keuangan_model->tahun_anggaran();
+    $data['id_keuangan_master'] = $this->keuangan_model->data_id_keuangan_master();
+    $data['data_anggaran'] = $this->keuangan_model->data_anggaran($data['id_keuangan_master']);
+    $data['pendapatan_desa'] = $this->keuangan_model->pendapatan_desa($data['id_keuangan_master']);
+    $data['realisasi_pendapatan_desa'] = $this->keuangan_model->realisasi_pendapatan_desa($data['id_keuangan_master']);
+    // print_r($data['pendapatan_desa']);die();
     $header = $this->header_model->get_data();
     $nav['act_sub'] = 203;
     $this->load->view('header', $header);
