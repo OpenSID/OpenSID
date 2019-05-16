@@ -7,20 +7,26 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="validasi" action="<?= site_url('web/update_teks_berjalan')?>" method="POST">
+		<form id="validasi" action="<?= $form_action?>" method="POST">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
+            <div class="box-header with-border">
+							<a href="<?= site_url().$this->controller?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Teks
+            	</a>
+						</div>
 						<div class="box-body">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label class="control-label" for="isi_teks_berjalan">Isi teks berjalan</label>
-									<textarea id="isi_teks_berjalan" class="form-control input-sm required" placeholder="Isi teks berjalan" name="isi_teks_berjalan"><?= $this->setting->isi_teks_berjalan?></textarea>
+									<textarea id="teks" class="form-control input-sm required" placeholder="Isi teks berjalan" name="teks"><?= $teks['teks']?></textarea>
 								</div>
 							</div>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>

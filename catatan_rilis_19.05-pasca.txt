@@ -8,7 +8,7 @@ Lengkapnya, isi rilis versi 19.05-pasca:
 2. Gabung menu Donasi dan SID ke menu Home.
 3. #2036: Perbaiki error pada waktu menambah data terdata pada Data Suplemen yang masih kosong. [bug-fix]
 4. #2034: Pada form isian penduduk, kolom isian 'Kelahiran Anak Ke' sekarang default kosong kalau belum ada data (tidak lagi '0') [bug-fix]
-5. #938: Ubah penerapan teks berjalan di web supaya dikelola terpisah dari artikel.
+5. #938, #2044: Ubah penerapan teks berjalan di web supaya dikelola terpisah dari artikel. Teks berjalan bisa terdiri dari beberapa baris.
 6. #2042: Sekarang tanggal lahir tersimpan betul pada input data KK baru atau menambah anggota keluarga baru. [bug-fix]
 7. Gabung tombol Tambah KK Baru supaya lebih jelas membuat penduduk baru atau mengambil dari penduduk yang sudah ada.
 8. #2014: Sekarang daftar keluarga bisa diurut berdasarkan Tanggal Terdaftar.

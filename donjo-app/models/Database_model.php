@@ -207,7 +207,7 @@
 		$data = array(
 			'id' => '64',
 			'modul' => 'Teks Berjalan',
-			'url' => 'web/teks_berjalan',
+			'url' => 'teks_berjalan',
 			'aktif' => '1',
 			'ikon' => 'fa-ellipsis-h',
 			'urut' => '9',
@@ -218,41 +218,65 @@
 		);
 		$sql = $this->db->insert_string('setting_modul', $data) . " ON DUPLICATE KEY UPDATE url = VALUES(url), ikon = VALUES(ikon), ikon_kecil = VALUES(ikon_kecil)";
 		$this->db->query($sql);
-		$pilihan_sumber = $this->db->select('id')->where('key','isi_teks_berjalan')->get('setting_aplikasi')->row()->id;
-		if (!$pilihan_sumber)
-		{
-			$data = array(
-				'key' => 'isi_teks_berjalan',
-				'keterangan' => 'Isi Teks Berjalan di Web',
-				'jenis' => 'area',
-				'kategori' => 'web'
-			);
-			$this->db->insert('setting_aplikasi', $data);
-		}
 
-		$id_kategori = $this->db->select('id')->where('kategori', 'teks_berjalan')->limit(1)->get('kategori')->row()->id;
-		if ($id_kategori)
+		if (!$this->db->table_exists('teks_berjalan'))
 		{
-			// Pindahkan teks berjalan di artikel ke setting teks_berjalan
-			$teks = $this->db->select('a.isi')
-				->from('artikel a')
-				->join('kategori k', 'a.id_kategori = k.id', 'left')
-				->where('k.kategori', 'teks_berjalan')
-				->where('k.enabled', 1)
-				->where('a.enabled', 1)
-				->get()->result_array();
-			$isi_teks = "";
-			foreach ($teks as $data)
+			$query = "
+			CREATE TABLE `teks_berjalan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`teks` text,
+				`urut` int(5),
+				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`created_by` int(11) NOT NULL,
+				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_by` int(11),
+				`status` int(1) NOT NULL DEFAULT '0',
+				PRIMARY KEY (id)
+			)
+			";
+			$this->db->query($query);
+
+			$setting_teks_berjalan = $this->db->select('id, value')->where('key','isi_teks_berjalan')->get('setting_aplikasi')->row();
+			if ($setting_teks_berjalan)
 			{
-				$isi_teks .= strip_tags($data['isi']);
+				// ambil teks, tulis ke tabel teks_berjalan
+				// hapus setting
+				$isi_teks = $setting_teks_berjalan->value;
+				$data = array(
+					'teks' => $isi_teks,
+					'created_by' => $this->session->user
+				);
+				$this->db->insert('teks_berjalan', $data);
+				$this->db->where('key','isi_teks_berjalan')->delete('setting_aplikasi');
 			}
-			if (!empty($isi_teks))
+			else
 			{
-				$this->db->where('key', 'isi_teks_berjalan')->update('setting_aplikasi', array('value' => $isi_teks));
+				// ambil teks dari artikel, tulis ke tabel teks_berjalan
+				// hapus artikel
+				$id_kategori = $this->db->select('id')->where('kategori', 'teks_berjalan')->limit(1)->get('kategori')->row()->id;
+				if ($id_kategori)
+				{
+					// Ambil teks dari artikel
+					$teks = $this->db->select('a.isi, a.enabled')
+						->from('artikel a')
+						->join('kategori k', 'a.id_kategori = k.id', 'left')
+						->where('k.kategori', 'teks_berjalan')
+						->get()->result_array();
+					foreach ($teks as $data)
+					{
+						$isi_teks = strip_tags($data['isi']);
+						$isi = array(
+							'teks' => $isi_teks,
+							'status' => $data['enabled'],
+							'created_by' => $this->session->user
+						);
+						$this->db->insert('teks_berjalan', $isi);
+					}
+					// Hapus artikel dan kategori teks berjalan
+					$this->db->where('id_kategori', $id_kategori)->delete('artikel');
+					$this->db->where('kategori', 'teks_berjalan')->delete('kategori');
+				}
 			}
-			// Hapus artikel dan kategori teks berjalan
-			$this->db->where('id_kategori', $id_kategori)->delete('artikel');
-			$this->db->where('kategori', 'teks_berjalan')->delete('kategori');
 		}
 
   	// Hapus menu SID dan Donasi

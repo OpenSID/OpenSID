@@ -734,6 +734,7 @@ class User_model extends CI_Model {
 				'komentar' => array('b','u','h'),
 				'menu' => array('b','u'),
 				'sosmed' => array('b','u'),
+				'teks_berjalan' => array('b','u'),
 				'web' => array('b','u'),
 				'web_widget' => array('b','u'),
 				// pengaturan

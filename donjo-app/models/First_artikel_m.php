@@ -26,7 +26,8 @@ class First_artikel_m extends CI_Model {
 
 	public function get_teks_berjalan()
 	{
-		return $this->setting->isi_teks_berjalan;
+		$this->load->model('teks_berjalan_model');
+		return $this->teks_berjalan_model->isi_teks_berjalan();
 	}
 
 	public function get_widget()
