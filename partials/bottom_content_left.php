@@ -14,7 +14,7 @@
         <div class="single_category wow fadeInDown">
             <div class="archive_style_1">
                 <div style="margin-top:10px;">
-                    <marquee style="font-family: Oswald"><?= $teks_berjalan?></marquee>
+                    <marquee style="font-family: Oswald"><?php foreach($teks_berjalan AS $isi) {?><?php echo $isi?><?php }?></marquee>
                 </div>
                 <?php if ($headline): ?>
             	<?php $abstrak_headline = potong_teks($headline['isi'], 550) ?>
