@@ -308,6 +308,23 @@
 		";
 		$this->db->query($query);
 		$this->data_siskeudes();
+		$this->data_siskeudes_2018();
+	}
+
+	private function data_siskeudes_2018()
+	{
+  	if ($this->db->field_exists('Alamat_Pemilik', 'keuangan_ref_bank_desa')) return;
+
+		// Tambah kolom
+		$fields = array();
+		$fields['Nama_Bank'] = array('type' => 'VARCHAR', 'constraint' => 9);
+		$fields['Kantor_Cabang'] = array('type' => 'VARCHAR', 'constraint' => 13);
+		$fields['Nama_Pemilik'] = array('type' => 'VARCHAR', 'constraint' => 21);
+		$fields['Alamat_Pemilik'] = array('type' => 'VARCHAR', 'constraint' => 12);
+		$fields['No_Identitas'] = array('type' => 'INT');
+		$fields['No_Telepon'] = array('type' => 'INT');
+		$this->dbforge->add_column('keuangan_ref_bank_desa', $fields);
+
 	}
 
 	private function data_siskeudes()
