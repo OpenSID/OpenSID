@@ -3,6 +3,7 @@
 <script src="<?php echo base_url("$this->theme_folder/natra/assets/js/wow.min.js"); ?>"></script> 
 <script src="<?php echo base_url("$this->theme_folder/natra/assets/js/slick.min.js"); ?>"></script> 
 <script src="<?php echo base_url("$this->theme_folder/natra/assets/js/custom.js"); ?>"></script>
+<!--
 <script type="text/javascript">
     (function () {
         var options = {
@@ -26,3 +27,4 @@
         var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
     })();
   </script>
+-->
