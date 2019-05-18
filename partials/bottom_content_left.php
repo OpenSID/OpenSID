@@ -14,7 +14,7 @@
         <div class="single_category wow fadeInDown">
             <div class="archive_style_1">
                 <div style="margin-top:10px;">
-                    <marquee>
+                    <marquee onmouseover="this.stop()" onmouseout="this.start()">
                         <?php foreach ($teks_berjalan AS $isi): ?>
                         <?php $pecah = explode(" ", $isi);
                         for ($i=0; $i<=sizeof($pecah)-1; $i++)
