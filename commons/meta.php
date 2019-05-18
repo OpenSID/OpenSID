@@ -8,12 +8,11 @@
 <meta name='theme' content='Natra' />
 <meta name='designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:designer' content='Ariandi Ryan Kahfi, S.Pd.' />
-<meta name='theme:version' content='3.2' />
+<meta name='theme:version' content='4.1' />
 <meta name="keywords" content="<?php echo $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>" />
 <meta property="og:site_name" content="<?php echo ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 <meta property="og:type" content="article"/>
 <meta property="fb:app_id" content="147912828718">
-
 <title><?php
 if ($single_artikel["judul"] == "")
 	echo $this->setting->website_title
@@ -23,17 +22,22 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
 		. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '');
 ?></title>
 
-<link rel="shortcut icon" type='image/vnd.microsoft.icon' href="<?php echo base_url("$this->theme_folder/natra/images/favicon.png"); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo base_url("$this->theme_folder/natra/assets/css/bootstrap.min.css"); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url("$this->theme_folder/natra/assets/css/font-awesome.min.css"); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url("$this->theme_folder/natra/assets/css/animate.css"); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url("$this->theme_folder/natra/assets/css/slick.css"); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url("$this->theme_folder/natra/assets/css/theme.css"); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url("$this->theme_folder/natra/assets/css/style.css"); ?>">
+<link rel="apple-touch-icon" sizes="144x144" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-144x144.png") ?>" />
+<link rel="apple-touch-icon" sizes="114x114" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-114x114.png") ?>" />
+<link rel="apple-touch-icon" sizes="72x72" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-72x72.png") ?>" />
+<link rel="apple-touch-icon" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon.png"); ?>" />
+<link rel="shortcut icon" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/favicon.png") ?>" />
+
+<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/bootstrap.min.css"); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/font-awesome.min.css"); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/animate.css"); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/slick.css"); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/theme.css"); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.css"); ?>">
 
 <!-- nambah baru lagi 
-<link type='text/css' href="<?php echo base_url('Xassets/bootstrap/css/bootstrap.min.css'); ?>" rel='stylesheet' />-->
-<link type='text/css' href="<?php echo base_url('assets/css/font-awesome.min.css'); ?>" rel='stylesheet' />
+<link type='text/css' href="<?php echo base_url()?>Xassets/bootstrap/css/bootstrap.min.css" rel='stylesheet' />-->
+<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='stylesheet' />
 <link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
 
 <?php if(isset($single_artikel)): ?>
@@ -52,17 +56,13 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
 <script language='javascript' src="<?php echo base_url('assets/bootstrap/js/bootstrap.js'); ?>"></script>
 <script language='javascript' src="<?php echo base_url('assets/js/jquery.cycle2.min.js') ?>"></script>
 <script language='javascript' src="<?php echo base_url('assets/js/jquery.cycle2.carousel.js') ?>"></script>
-<script src="<?php echo base_url("$this->theme_folder/natra/assets/js/bootstrap.min.js"); ?>"></script> 
+<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script> 
 <script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
 
 <script type="text/javascript">
 window.setTimeout("renderDate()",1);
-days = new Array(
-"Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu"
-);
-months = new Array(
-"Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"
-);
+days = new Array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+months = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
 function renderDate(){
 var mydate = new Date();
 var year = mydate.getYear();
@@ -100,6 +100,6 @@ setTimeout("renderDate()",1000)
 </style><div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.2&appId=147912828718&autoLogAppEvents=1"></script>
 <!--[if lt IE 9]>
-<script src="<?php echo base_url("$this->theme_folder/natra/assets/js/html5shiv.min.js"); ?>"></script>
-<script src="<?php echo base_url("$this->theme_folder/natra/assets/js/respond.min.js"); ?>"></script>
+<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/html5shiv.min.js"); ?>"></script>
+<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/respond.min.js"); ?>"></script>
 <![endif]-->
