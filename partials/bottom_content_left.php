@@ -82,7 +82,7 @@
 		                        <?php else: ?>
 		                        <div class="catgimg2_container">
 		                            <a href="<?= site_url("first/artikel/$data[id]") ?>" title="Baca Selengkapnya">
-		                                <img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?php echo base_url().'desa/themes/natra/images/noimage.png'?>"/>
+		                                <img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
 		                            </a>
 		                        </div>
 		                        <?php endif;?>
@@ -90,7 +90,7 @@
 		                        <?php else: ?>
 		                        <div class="catgimg2_container">
 		                            <a href="<?= site_url("first/artikel/$data[id]") ?>" title="Baca Selengkapnya">
-		                                <img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?php echo base_url().'desa/themes/natra/images/noimage.png'?>"/>
+		                                <img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
 		                            </a><!--
 		                            <p style="text-align: justify;"><?= $abstrak ?> ...
 		                            <a href="<?= site_url("first/artikel/".$data["id"]) ?>">
