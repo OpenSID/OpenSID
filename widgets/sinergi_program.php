@@ -25,7 +25,6 @@
 </style>
 <div class="single_bottom_rightbar">
   <h2 class="box-title"><i class="fa fa-external-link"></i> Sinergi Program</h2>
-  </div>
   <div id="sinergi_program" class="box-body">
     <table>
       <?php foreach($sinergi_program as $key => $program) {
@@ -46,3 +45,4 @@
       <?php endforeach; ?>
     </table>
   </div>
+</div>
