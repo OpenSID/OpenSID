@@ -11,7 +11,6 @@
 <?php endif; ?>
 <div>
     <div class="content_bottom_left">
-        <div class="single_category wow fadeInDown">
             <div class="archive_style_1">
                 <div style="margin-top:10px;">
                     <marquee onmouseover="this.stop()" onmouseout="this.start()">
@@ -47,12 +46,13 @@
             			<?php endif; ?>
             			<div class="post">
             				<div style="text-align: justify;"><?= $abstrak_headline ?> ...
-            				<a href="<?= site_url('first/artikel/'.$headline['id']) ?>">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
+            				<a href="<?= site_url('first/artikel/'.$headline['id']) ?>"><button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button></a></div>
             			</div>
             		</div>
             	</div>
             <?php endif; ?>
 			</div>	
+        <div class="single_category wow fadeInDown">
             <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text"><?= $title ?></span> </h2> 
 		</div>
 		<?php if ($artikel): ?>
@@ -120,9 +120,8 @@
 				</div>
 			</div>
 		<?php endif; ?>
-			
-
-	<?php if ($artikel): ?>
+	          </div>
+	          	<?php if ($artikel): ?>
 		<div class="pagination_area">
 			<ul class="pagination">
 				<?php if ($paging->start_link): ?>
@@ -159,5 +158,4 @@
 			</ul>
 		</div>
 	<?php endif; ?>
-	          </div>
 </div>
