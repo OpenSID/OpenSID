@@ -2,7 +2,21 @@
 
 <?php if($single_artikel["id"]) : ?>
 	<div class="single_page_area" id="<?php echo 'artikel-'.$single_artikel['judul']?>">
-		<h2 class="judul"><?php echo $single_artikel["judul"]?></h2>
+	    <marquee onmouseover="this.stop()" onmouseout="this.start()">
+	        <?php foreach ($teks_berjalan AS $isi): ?>
+	        <?php $pecah = explode(" ", $isi);
+	        for ($i=0; $i<=sizeof($pecah)-1; $i++)
+	        {
+	            if ((substr($pecah[$i], 0, 3) == 'www') && ($pecah[$i] != 'www'))
+	            $isi = str_replace($pecah[$i], "<a href='http://".$pecah[$i]."'>Selengkapnya...</a>", $isi);
+	        } ?>
+	        <span style="font-family: Oswald; padding-right: 50px;"><?= $isi?></span>
+	        <?php endforeach; ?>
+	    </marquee>
+        <div class="single_category wow fadeInDown">
+            <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Artikel</span> </h2> 
+		</div>
+		<h4 class="catg_titile" style="font-family: Oswald"><font color="#FFFFFF"><?php echo $single_artikel["judul"]?></font></h4>
 		<div class="post_commentbox">
 			<i class="fa fa-clock-o"></i> <a><?php echo tgl_indo2($single_artikel['tgl_upload']);?></a>
 			<i class="fa fa-user"></i> <a><?php echo $single_artikel['owner']?></a>
