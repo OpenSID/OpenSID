@@ -4,14 +4,14 @@ include "apbdesa.php";
 <div class="col-md-12" align="center">
 <div align="center"><h2>Statistik Desa</h2></div><hr>
 <div class="col-md-6">
-	<a href="<?php echo site_url(); ?>first/wilayah"><img alt="Statistik Wilayah" width="30%" src="<?php echo base_url("$this->theme_folder/natra/images/statistik_wil.png"); ?>" /></a> 
-    <a href="<?php echo site_url(); ?>first/statistik/0"><img alt="Statistik Pendidikan" width="30%" src="<?php echo base_url("$this->theme_folder/natra/images/statistik_pend.png"); ?>" /></a>
-	<a href="<?php echo site_url(); ?>first/statistik/1"><img alt="Statistik Pekerjaan" width="30%" src="<?php echo base_url("$this->theme_folder/natra/images/statistik_pekerjaan.png"); ?>" /></a> 
+	<a href="<?php echo site_url(); ?>first/wilayah"><img alt="Statistik Wilayah" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_wil.png") ?>" /></a> 
+    <a href="<?php echo site_url(); ?>first/statistik/0"><img alt="Statistik Pendidikan" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_pend.png") ?>" /></a>
+	<a href="<?php echo site_url(); ?>first/statistik/1"><img alt="Statistik Pekerjaan" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_pekerjaan.png") ?>" /></a> 
 <hr></div>
 <div class="col-md-6">
-    <a href="<?php echo site_url(); ?>first/statistik/3"><img alt="Statistik Agama" width="30%" src="<?php echo base_url("$this->theme_folder/natra/images/statistik_agama.png"); ?>" /></a>
-	<a href="<?php echo site_url(); ?>first/statistik/4"><img alt="Statistik Jenis Kelamin" width="30%" src="<?php echo base_url("$this->theme_folder/natra/images/statistik_kelamin.png"); ?>" /></a>
-	<a href="<?php echo site_url(); ?>first/statistik/13"><img alt="Statistik Umur" width="30%" src="<?php echo base_url("$this->theme_folder/natra/images/statistik_umur.png"); ?>" /></a>
+    <a href="<?php echo site_url(); ?>first/statistik/3"><img alt="Statistik Agama" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_agama.png") ?>" /></a>
+	<a href="<?php echo site_url(); ?>first/statistik/4"><img alt="Statistik Jenis Kelamin" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_kelamin.png") ?>" /></a>
+	<a href="<?php echo site_url(); ?>first/statistik/13"><img alt="Statistik Umur" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_umur.png") ?>" /></a>
 <hr></div>
 </div>
 
