@@ -26,34 +26,20 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
             <div class="tab-content">
               <div id="mostPopular3" class="tab-pane fade in active" role="tabpanel">
                 <form class="contact_form" action="<?php echo site_url('first/auth')?>" method="post">
-                    <table id="mandiri" width="100%" border="0" cellspacing="0" cellpadding="0">
-                    	<tr>
-                        <td width="15%">NIK</td>
-                        <td width="5%" class="titik">:</td>
-                        <td width="80%"><input name="nik" type="text" placeholder="Ketik Nomor KTP" maxlength="16" class="form-control" value="" required></td>
-                      </tr>
-                      <tr>
-                        <td>PIN</td>
-                        <td class="titik">:</td>
-                        <td><input name="pin" type="password" placeholder="Ketik Kode PIN" value="" maxlength="6" class="form-control" required></td>
-                      </tr>
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td><button type="submit" id="but" class="btn btn-primary btn-block">Masuk</button></td>
-                      </tr>
-                    </table><br>
+                    <input style="margin-bottom:10px;" name="nik" type="text" placeholder="Ketik Nomor KTP" maxlength="16" class="form-control" value="" required>
+                    <input style="margin-bottom:10px;" name="pin" type="password" placeholder="Ketik Kode PIN" value="" maxlength="6" class="form-control" required>
+                    <button type="submit" id="but" class="btn btn-primary btn-block">Masuk</button>
                       <?php  if($_SESSION['mandiri_try'] AND isset($_SESSION['mandiri']) AND $_SESSION['mandiri']==-1){ ?>
-                      <div id="note" align="center">
+                      <div id="note" align="center" style="margin-top:10px;" >
                         <font color="red">Kesempatan mencoba <?php echo ($_SESSION['mandiri_try']-1); ?> kali lagi.</font>
                       </div>
                       <?php }?>
                       <?php  if(isset($_SESSION['mandiri']) AND $_SESSION['mandiri']==-1){ ?>
-                      <div id="note" align="center">
+                      <div id="note" align="center" style="margin-top:10px;" >
                         <font color="red">Login Gagal. NIK atau PIN yang Anda masukkan salah!</font>
                       </div>
                       <?php }?>
-                    </form>
+                </form>
               </div>
                <div id="recentComent3" class="tab-pane fade" role="tabpanel">
                 <ul id="ul-menu">
