@@ -14,7 +14,17 @@
         <div class="single_category wow fadeInDown">
             <div class="archive_style_1">
                 <div style="margin-top:10px;">
-                    <marquee><?php foreach($teks_berjalan AS $isi) {?><span style="font-family: Oswald; padding-right: 50px;"><?php echo $isi?></span><?php }?></marquee>
+                    <marquee>
+                        <?php foreach ($teks_berjalan AS $isi): ?>
+                        <?php $pecah = explode(" ", $isi);
+                        for ($i=0; $i<=sizeof($pecah)-1; $i++)
+                        {
+                          if ((substr($pecah[$i], 0, 3) == 'www') && ($pecah[$i] != 'www'))
+                             $isi = str_replace($pecah[$i], "<a href='".$pecah[$i]."'>Selengkapnya...</a>", $isi);
+                        } ?>
+                        <span style="font-family: Oswald; padding-right: 50px;"><?= $isi?></span>
+  	                    <?php endforeach; ?>
+                    </marquee>
                 </div>
                 <?php if ($headline): ?>
             	<?php $abstrak_headline = potong_teks($headline['isi'], 550) ?>
