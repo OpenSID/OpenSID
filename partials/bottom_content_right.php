@@ -8,7 +8,7 @@
 if($w_cos){
 	foreach($w_cos as $data){
 		if($data["jenis_widget"] == 1){
-			include("desa/themes/natra/widgets/".trim($data['isi']));
+			include("$this->theme_folder/$this->theme/widgets/".trim($data['isi']));
 		} elseif($data["jenis_widget"] == 2){
 			include(LOKASI_WIDGET.trim($data['isi']));
 		} else {
