@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 19.05-pasca:
 9. #2040: Sekarang pengguna Operator bisa mengisi RW/RT di semua form isian keluarga dan penduduk. [bug-fix]
 10. Rekam tgl dan pengguna yg terakhir mengubah data penduduk. Tampilkan di halaman biodata penduduk.
 11. Sesuaikan ekspor data penduduk supaya bisa diimpor ke database OpenDK tanpa perubahan.
+12. Tambah sitemap.xml otomatis untuk mempermudah mesin pencari seperti google mengindex artikel pada website
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.05-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
