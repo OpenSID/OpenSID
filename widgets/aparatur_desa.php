@@ -17,7 +17,7 @@
 <!-- widget Aparatur Desa -->
 <div class="single_bottom_rightbar">
     <h2 class="box-title"><i class="fa fa-user"></i> Aparatur <?= ucwords($this->setting->sebutan_desa)?></h2>
-	<div class="box-body">
+	<div class="box-body"><div class="content_middle_middle">
 		<div id="aparatur_desa" class="cycle-slideshow"
 			data-cycle-pause-on-hover=true
 			data-cycle-fx=scrollHorz
@@ -43,5 +43,5 @@
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</div>
-	</div>
+	</div></div>
 </div>

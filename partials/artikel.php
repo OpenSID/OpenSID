@@ -2,17 +2,13 @@
 
 <?php if($single_artikel["id"]) : ?>
 	<div class="single_page_area" id="<?php echo 'artikel-'.$single_artikel['judul']?>">
-	    <marquee onmouseover="this.stop()" onmouseout="this.start()">
-	        <?php foreach ($teks_berjalan AS $isi): ?>
-	        <?php $pecah = explode(" ", $isi);
-	        for ($i=0; $i<=sizeof($pecah)-1; $i++)
-	        {
-	            if ((substr($pecah[$i], 0, 3) == 'www') && ($pecah[$i] != 'www'))
-	            $isi = str_replace($pecah[$i], "<a href='http://".$pecah[$i]."'>Selengkapnya...</a>", $isi);
-	        } ?>
-	        <span style="font-family: Oswald; padding-right: 50px;"><?= $isi?></span>
-	        <?php endforeach; ?>
-	    </marquee>
+        <div style="margin-top:0px;">
+            <?php if (!empty($teks_berjalan)): ?>
+            <marquee onmouseover="this.stop()" onmouseout="this.start()">
+                <?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php'); ?>
+	        </marquee>
+	        <?php endif; ?>
+	    </div>
         <div class="single_category wow fadeInDown">
             <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Artikel</span> </h2> 
 		</div>
@@ -166,7 +162,7 @@
           <h1>404</h1>
           <h2>Maaf</h2>
           <h3>Halaman ini belum tersedia atau sedang dalam perbaikan</h3>
-          <p class="wow fadeInLeftBig">Silahkan kembali lagi ke halaman <a href="/first">Beranda</a></p>
+          <p class="wow fadeInLeftBig">Silahkan kembali lagi ke halaman <a href="<?php echo site_url(); ?>first">Beranda</a></p>
         </div>
       </div>
 	</div>
