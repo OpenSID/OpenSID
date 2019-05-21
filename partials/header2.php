@@ -44,10 +44,10 @@
             -->
             <div class="carousel-inner">
                 <div class="item active">
-                    <img class="tlClogo" src="<?php echo base_url()?>desa/themes/natra/images/header.jpg">
+                    <img class="tlClogo" src="<?= base_url("$this->theme_folder/$this->theme/images/header.jpg") ?>">
                 </div>
                 <div class="item">
-                    <img class="tlClogo" src="<?php echo base_url()?>desa/themes/natra/images/header2.jpeg">
+                    <img class="tlClogo" src="<?= base_url("$this->theme_folder/$this->theme/images/header2.jpeg") ?>">
                 </div>
             </div>
             <!-- Carousel controls -->
