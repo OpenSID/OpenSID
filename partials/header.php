@@ -6,13 +6,21 @@
           <div class="header_top_left"style="margin-bottom:10px;">
             <ul class="top_nav">
               <li>
-              <img class="tlClogo" src="<?php echo LogoDesa($desa['logo']);?>" width="30" valign="top" alt="<?php echo $desa['nama_desa']?>"/>
-              <a href="<?php echo site_url(); ?>first">		<font size="4"><?php
-			echo $this->setting->website_title
-				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '')
-				;
-		?></font></a></li>
+              <table>
+                  <tr>
+                      <td><img class="tlClogo" src="<?php echo LogoDesa($desa['logo']);?>" width="30" valign="top" alt="<?php echo $desa['nama_desa']?>"/></td>
+                      <td>
+                          <a href="<?php echo site_url(); ?>first">
+                            <font size="4"><?php
+                              echo $this->setting->website_title. ' ' . ucwords($this->setting->sebutan_desa). (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : ''); ?>
+                              </font><br /><font size="2">
+                              <?php echo ucwords($this->setting->sebutan_kecamatan_singkat." ".$desa['nama_kecamatan'])?> <?php echo ucwords($this->setting->sebutan_kabupaten_singkat." ".$desa['nama_kabupaten'])?>
+                            </font>
+                          </a>
+                      </td>
+                  </tr>
+              </table>
+			  </li>
             </ul>
           </div>
           <div class="header_top_right">
