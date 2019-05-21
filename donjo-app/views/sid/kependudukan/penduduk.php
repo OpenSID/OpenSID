@@ -172,6 +172,13 @@
 															<?php endif; ?>
 															<th >Pekerjaan</th>
 															<th>Kawin</th>
+															<?php if ($o==10): ?>
+																<th nowrap><a href="<?= site_url("penduduk/index/$p/9")?>">Tgl Terdaftar <i class='fa fa-sort-asc fa-sm'></i></a></th>
+															<?php elseif ($o==9): ?>
+																<th nowrap><a href="<?= site_url("penduduk/index/$p/10")?>">Tgl Terdaftar <i class='fa fa-sort-desc fa-sm'></i></a></th>
+															<?php else: ?>
+																<th nowrap><a href="<?= site_url("penduduk/index/$p/10")?>">Tgl Terdaftar <i class='fa fa-sort fa-sm'></i></a></th>
+															<?php endif; ?>
 														</tr>
 														</thead>
 														<tbody>
@@ -235,6 +242,7 @@
 																<td><?= $data['umur']?></td>
 																<td><?= $data['pekerjaan']?></td>
 																<td><?= $data['kawin']?></td>
+																<td><?= tgl_indo($data['created_at'])?></td>
 															</tr>
 														<?php endforeach; ?>
 														</tbody>

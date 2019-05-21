@@ -37,6 +37,18 @@
 									<div class="box-header with-border">
 										<h3 class="box-title">Biodata Penduduk (NIK : <?= $penduduk['nik']?>)</h3>
 										<br>
+										<?php if (!empty($penduduk['nama_pendaftar'])): ?>
+											<p class="kecil">
+												Terdaftar pada:
+												<i class="fa fa-clock-o"></i><?= tgl_indo2($penduduk['created_at']);?>
+												<i class="fa fa-user"></i> <?= $penduduk['nama_pengubah']?>
+											</p>
+										<?php else: ?>
+											<p class="kecil">
+												Terdaftar sebelum:
+												<i class="fa fa-clock-o"></i><?= tgl_indo2($penduduk['created_at']);?>
+											</p>
+										<?php endif; ?>
 										<?php if (!empty($penduduk['nama_pengubah'])): ?>
 											<p class="kecil">
 												Terakhir diubah:

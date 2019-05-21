@@ -186,6 +186,22 @@
   private function migrasi_1905_ke_1906()
   {
   	// Tambah kolom waktu update dan user pengupdate
+  	if (!$this->db->field_exists('created_at', 'tweb_penduduk'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['created_at'] = array(
+					'type' => 'timestamp',
+					'default CURRENT_TIMESTAMP',
+				  'null' => FALSE,
+			);
+			$fields['created_by'] = array(
+					'type' => 'int',
+					'constraint' => 11,
+				  'null' => FALSE,
+			);
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+		}
   	if (!$this->db->field_exists('updated_at', 'tweb_penduduk'))
   	{
 			// Tambah kolom

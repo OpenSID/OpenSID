@@ -333,7 +333,7 @@
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
-		$select_sql = "SELECT DISTINCT u.id, u.nik, u.tanggallahir, u.tempatlahir, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card,
+		$select_sql = "SELECT DISTINCT u.id, u.nik, u.tanggallahir, u.tempatlahir, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at,
 			(CASE when u.status_kawin <> 2
 				then k.nama
 				else
@@ -361,6 +361,8 @@
 			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
 			case 7: $order_sql = ' ORDER BY umur'; break;
 			case 8: $order_sql = ' ORDER BY umur DESC'; break;
+			case 9: $order_sql = ' ORDER BY created_at'; break;
+			case 10: $order_sql = ' ORDER BY created_at DESC'; break;
 			default:$order_sql = ' ORDER BY CONCAT(d.no_kk, u.kk_level)';
 		}
 
@@ -589,6 +591,8 @@
 		unset($data['rw']);
 		unset($data['no_kk']);
 
+		$data['created_at'] = date('Y-m-d H:i:s');
+		$data['created_by'] = $this->session->user;
 		if ($data['tanggallahir'] == '') unset($data['tanggallahir']);
 		if ($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
 		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
@@ -883,7 +887,7 @@
 	public function get_penduduk($id=0)
 	{
 		$sql = "SELECT u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
-			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah,
+			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah, ucreate.nama as nama_pendaftar,
 			(CASE when u.status_kawin <> 2
 				then k.nama
 				else
@@ -918,6 +922,7 @@
 			LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id
 			LEFT JOIN log_penduduk log ON u.id = log.id_pend
 			LEFT JOIN user ux ON u.updated_by = ux.id
+			LEFT JOIN user ucreate ON u.created_by = ucreate.id
 			WHERE u.id=?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
