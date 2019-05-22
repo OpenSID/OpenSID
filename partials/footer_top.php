@@ -22,7 +22,7 @@ include "apbdesa.php";
           <div class="single_footer_top wow fadeInRight">
             <h2><?php echo ucwords($this->setting->sebutan_desa." ")?> <?php echo ucwords($desa['nama_desa'])?></h2>
 			<p><?php echo $desa['alamat_kantor']?><br><?php echo ucwords($this->setting->sebutan_kecamatan." ".$desa['nama_kecamatan'])?> <?php echo ucwords($this->setting->sebutan_kabupaten." ".$desa['nama_kabupaten'])?> Provinsi <?php echo $desa['nama_propinsi']?> Kode Pos <?php echo $desa['kode_pos']?></p>
-			<p>E-mail: <?php echo $desa['email_desa']?> <?php echo $desa['telepon']?></p>
+			<p><?php if (!empty($desa['email_desa'])): ?>Email: <?php echo $desa['email_desa']?><?php endif; ?><br /><?php if (!empty($desa['telepon'])): ?>Telp: <?php echo $desa['telepon']?><?php endif; ?></p>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
