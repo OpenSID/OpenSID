@@ -218,7 +218,7 @@ class Keuangan_model extends CI_model {
 
 	public function tahun_anggaran()
 	{
-		$data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->row();
+		$data = $this->db->select('*')->get('keuangan_master')->row();
 		return $data->tahun_anggaran;
 	}
 
@@ -254,5 +254,26 @@ class Keuangan_model extends CI_model {
 		$this->db->like('Kd_Rincian', '4.1.', 'after');
 		$result = $this->db->get('keuangan_ta_rab')->row();
 		return $result;
+	}
+
+	public function widget_keuangan()
+	{
+		$this->db->where('aktif', 1);
+		$keuangan_master = $this->db->select('*')->get('keuangan_master')->row();
+
+		$this->db->select_sum('AnggaranStlhPAK');
+		$this->db->where('id_keuangan_master', $keuangan_master->id);
+		$this->db->like('KD_Rincian', '4.1.', 'after');
+		$pendapatan_desa = $this->db->get('keuangan_ta_anggaran')->row();
+
+		$this->db->select_sum('AnggaranStlhPAK');
+		$this->db->where('id_keuangan_master', $keuangan_master->id);
+		$this->db->like('Kd_Rincian', '4.1.', 'after');
+		$realisasi_pendapatan_desa = $this->db->get('keuangan_ta_rab')->row();
+
+		$data['realisasi_pendapatan_desa'] = $realisasi_pendapatan_desa->AnggaranStlhPAK;
+		$data['pendapatan_desa'] = $pendapatan_desa->AnggaranStlhPAK;
+		$data['tahun_anggaran'] = $keuangan_master->tahun_anggaran;
+		return $data;
 	}
 }
