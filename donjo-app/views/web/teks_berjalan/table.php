@@ -34,6 +34,8 @@
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<th>Teks</th>
+																	<th>Tautan ke artikel</th>
+																	<th>Judul Tautan</th>
                                   <th>Aktif</th>
 																</tr>
 															</thead>
@@ -56,6 +58,12 @@
                                       <?php endif; ?>
                                     </td>
                                     <td><?=$data['teks']?></td>
+                                    <td>
+                                    	<?php if ($data['tautan']): ?>
+	                                    	<?=$data['tautan'].': '.$data['judul']?>
+	                                    <?php endif; ?>
+                                  	</td>
+                                    <td><?=$data['judul_tautan']?></td>
                                     <td><?=$data['aktif']?></td>
 																	</tr>
 																<?php endforeach; ?>

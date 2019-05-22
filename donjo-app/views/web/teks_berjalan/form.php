@@ -23,6 +23,23 @@
 									<textarea id="teks" class="form-control input-sm required" placeholder="Isi teks berjalan" name="teks"><?= $teks['teks']?></textarea>
 								</div>
 							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label">Tautan ke artikel</label>
+									<select class="form-control select2 " id="tautan" name="tautan">
+										<option value="">-- Cari Judul Artikel--</option>
+										<?php foreach ($list_artikel as $artikel): ?>
+											<option value="<?= $artikel['id']?>" <?php selected($artikel['id'],$teks['tautan']); ?>><?= $artikel['id'].' ('.tgl_indo($artikel['tgl_upload']).'): '.$artikel['judul']?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="control-label">Judul tautan</label>
+									<input class="form-control input-sm required" placeholder="Judul tautan ke artikel atau url" name="judul_tautan" value="<?= $teks['judul_tautan'] ? $teks['judul_tautan'] : '-- selengkapnya...' ?>"></input>
+								</div>
+							</div>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>

@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 19.05-pasca:
 12. Tambah sitemap.xml otomatis untuk mempermudah mesin pencari seperti google mengindex artikel pada website
 13. #2050: Sekarang daftar Penduduk bisa diurut berdasarkan Tanggal Terdaftar.
 14. Rekam tgl dan pengguna yg mendaftarkan data penduduk. Tampilkan di halaman biodata penduduk.
+15. #2045: Teks berjalan sekarang bisa ditambahkan tautan ke artikel terkait.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.05-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

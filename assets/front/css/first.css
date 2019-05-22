@@ -1548,6 +1548,14 @@ blockquote p {
   margin-bottom: 0px;
 }
 
-
+/* Teks berjalan */
+#scroller.teks_berjalan a {color: pink; padding-left: 5px;}
+#scroller.teks_berjalan a:visited {color: pink;}
+#scroller.teks_berjalan span.teks {
+	vertical-align: middle;
+	color: white;
+	font: bold 8pt Arial;
+	padding-right: 200px;
+}
 
 

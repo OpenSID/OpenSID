@@ -185,6 +185,22 @@
 
   private function migrasi_1905_ke_1906()
   {
+  	// Tambah tautan pada teks berjalan
+  	if (!$this->db->field_exists('tautan', 'teks_berjalan'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['tautan'] = array(
+					'type' => 'varchar',
+					'constraint' => 150,
+			);
+			$fields['judul_tautan'] = array(
+					'type' => 'varchar',
+					'constraint' => 150,
+			);
+			$this->dbforge->add_column('teks_berjalan', $fields);
+		}
+
   	// Tambah kolom waktu update dan user pengupdate
   	if (!$this->db->field_exists('created_at', 'tweb_penduduk'))
   	{

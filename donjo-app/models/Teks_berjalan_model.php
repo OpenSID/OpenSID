@@ -10,19 +10,20 @@
 	*/
 	public function isi_teks_berjalan()
 	{
-		$data = $this->db->select('teks')
+		$data = $this->db->select('teks, tautan, judul_tautan')
 			->where('status', 1)
 			->order_by('urut')
 			->get('teks_berjalan')->result_array();
-		$isi = array();
-		foreach ($data as $teks)
-			$isi[] = $teks['teks'];
-		return $isi;
+		return $data;
 	}
 
 	public function get_teks($id='')
 	{
-		$data = $this->db->where('id', $id)->get('teks_berjalan')->row_array();
+		$data = $this->db->select('t.*, a.judul')
+			->where('t.id', $id)
+			->from('teks_berjalan t')
+			->join('artikel a', 'a.id = t.tautan', 'left')
+			->get()->row_array();
 		$data['teks'] = strip_tags($data['teks']);
 		return $data;
 	}
@@ -37,7 +38,9 @@
 
 	private function list_data_sql()
 	{
-		$sql = " FROM teks_berjalan WHERE 1";
+		$sql = " FROM teks_berjalan t
+			LEFT JOIN artikel a ON a.id = t.tautan
+			WHERE 1";
 		return $sql;
 	}
 
@@ -45,7 +48,7 @@
 	{
 		$order_sql = ' ORDER BY urut';
 
-		$sql = "SELECT * " . $this->list_data_sql();
+		$sql = "SELECT t.*, a.judul " . $this->list_data_sql();
 		$sql .= $order_sql;
 
 		$query = $this->db->query($sql);
@@ -161,9 +164,17 @@
 
 		// insert baru diberi urutan terakhir
 		$data['urut'] = $this->urut_max() + 1;
+		$data = $this->sanitise_data($data);
 
 		$outp = $this->db->insert('teks_berjalan', $data);
 		if (!$outp) $this->session->success = -1;
+	}
+
+	private function sanitise_data($data)
+	{
+		$data['teks'] = strip_tags($data['teks']);
+		$data['judul_tautan'] = $data['tautan'] ? strip_tags($data['judul_tautan']) : '';
+		return $data;
 	}
 
 	public function update($id=0)
@@ -173,6 +184,7 @@
 
 		$data = $this->input->post();
 
+		$data = $this->sanitise_data($data);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('teks_berjalan', $data);
 		if (!$outp) $this->session->success = -1;

@@ -67,6 +67,11 @@
 			$sql = "FROM artikel a
 				LEFT JOIN kategori k ON a.id_kategori = k.id
 				WHERE id_kategori = ? ";
+		elseif ($cat == -1)
+			// Semua artikel
+			$sql = "FROM artikel a
+				LEFT JOIN kategori k ON a.id_kategori = k.id
+				WHERE 1 ";
 		else
 			// Artikel dinamis tidak berkategori
 			$sql = "FROM artikel a
