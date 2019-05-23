@@ -37,7 +37,7 @@ class Program_bantuan extends Admin_Controller {
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
-		$data['per_page'] = $_SESSION['per_page'];
+		$data['per_page'] = 1;
 
 		$this->load->view('program_bantuan/program', $data);
 		$this->load->view('footer');
@@ -80,6 +80,11 @@ class Program_bantuan extends Admin_Controller {
 
 	public function detail($p = 1, $id)
 	{
+		if (isset($_SESSION['cari'])){
+			$cari = $_SESSION['cari'];
+		}else{ 
+			$cari = '';
+		}
 		$header = $this->header_model->get_data();
 		$nav['act'] = 6;
 		$header['minsidebar'] = 1;
@@ -90,10 +95,17 @@ class Program_bantuan extends Admin_Controller {
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 
-		$data['per_page'] = $_SESSION['per_page'];
-
-		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
+		//$data['per_page'] = $_SESSION['per_page'];
+		if ($cari != ''){
+			$data['program'] = $this->program_bantuan_model->get_program($p, $id, $cari);
+		}else{
+			$data['program'] = $this->program_bantuan_model->get_program($p, $id);
+		}
+		
+		//echo $this->db->last_query();
 		$data['paging'] = $data['program'][0]['paging'];
+		
+		$this->session->unset_userdata("cari");
 		$this->load->view('program_bantuan/detail', $data);
 		$this->load->view('footer');
 	}
@@ -238,5 +250,14 @@ class Program_bantuan extends Admin_Controller {
 			$_SESSION['per_page'] = $temp;
 			$this->load->view('program_bantuan/unduh-sheet', $data);
 		}
+	}
+	
+	public function search()
+	{
+		$cari = $this->input->post('cari');
+		if ($cari != '')
+			$_SESSION['cari'] = $cari;
+		else unset($_SESSION['cari']);
+		redirect("program_bantuan/detail/1/".$this->input->post('id'));
 	}
 }

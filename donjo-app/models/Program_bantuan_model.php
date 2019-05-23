@@ -164,7 +164,9 @@ class Program_bantuan_model extends CI_Model {
 					LEFT JOIN tweb_keluarga o ON p.peserta = o.no_kk
 					LEFT JOIN tweb_penduduk q ON o.nik_kepala = q.id
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = q.id_cluster
-					WHERE p.program_id =".$slug;
+					WHERE nama like '%". $_SESSION['cari'] ."%'
+					and p.program_id =".$slug;
+				
 				break;
 			case 3:
 				# Data RTM
