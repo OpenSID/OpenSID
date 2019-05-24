@@ -37,7 +37,7 @@ class Program_bantuan extends Admin_Controller {
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
-		$data['per_page'] = 1;
+		$data['per_page'] = $_SESSION['per_page'];
 
 		$this->load->view('program_bantuan/program', $data);
 		$this->load->view('footer');
@@ -78,13 +78,23 @@ class Program_bantuan extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function detail($p = 1, $id)
+	private function detail_clear()
 	{
-		if (isset($_SESSION['cari'])){
-			$cari = $_SESSION['cari'];
-		}else{ 
-			$cari = '';
+		unset($_SESSION['cari_peserta']);
+		$_SESSION['per_page'] = 20;
+	}
+
+	public function detail($p = 1, $id, $clear=false)
+	{
+		if ($clear)
+			$this->detail_clear();
+		else
+		{
+			if (isset($_SESSION['cari_peserta']))
+				$data['cari_peserta'] = $_SESSION['cari_peserta'];
+			else $data['cari_peserta'] = '';
 		}
+
 		$header = $this->header_model->get_data();
 		$nav['act'] = 6;
 		$header['minsidebar'] = 1;
@@ -95,17 +105,9 @@ class Program_bantuan extends Admin_Controller {
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 
-		//$data['per_page'] = $_SESSION['per_page'];
-		if ($cari != ''){
-			$data['program'] = $this->program_bantuan_model->get_program($p, $id, $cari);
-		}else{
-			$data['program'] = $this->program_bantuan_model->get_program($p, $id);
-		}
-		
-		//echo $this->db->last_query();
+		$data['per_page'] = $_SESSION['per_page'];
+		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
 		$data['paging'] = $data['program'][0]['paging'];
-		
-		$this->session->unset_userdata("cari");
 		$this->load->view('program_bantuan/detail', $data);
 		$this->load->view('footer');
 	}
@@ -138,14 +140,14 @@ class Program_bantuan extends Admin_Controller {
 	public function add_peserta($id)
 	{
 		$this->program_bantuan_model->add_peserta($_POST, $id);
-		redirect("program_bantuan/detail/1/$id");
+		redirect("program_bantuan/detail/1/$id/1");
 	}
 
 	public function hapus_peserta($id, $peserta_id)
 	{
 		$this->redirect_hak_akses('h', "program_bantuan/detail/1/$id");
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
-		redirect("program_bantuan/detail/1/$id");
+		redirect("program_bantuan/detail/1/$id/1");
 	}
 
 	public function edit_peserta($id)
@@ -251,13 +253,13 @@ class Program_bantuan extends Admin_Controller {
 			$this->load->view('program_bantuan/unduh-sheet', $data);
 		}
 	}
-	
-	public function search()
+
+	public function search_peserta()
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+			$_SESSION['cari_peserta'] = $cari;
+		else unset($_SESSION['cari_peserta']);
 		redirect("program_bantuan/detail/1/".$this->input->post('id'));
 	}
 }

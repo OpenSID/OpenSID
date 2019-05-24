@@ -59,7 +59,7 @@
 															<tr>
 																<td><?= $nomer?></td>
 																<td nowrap><?= fTampilTgl($item["sdate"],$item["edate"]);?></td>
-																<td nowrap><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/');?>"><?= $item["nama"] ?></a></td>
+																<td nowrap><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/');?>/1"><?= $item["nama"] ?></a></td>
 																<td nowrap width="60%"><?= $item["ndesc"];?></td>
 															</tr>
 														<?php endforeach; ?>
