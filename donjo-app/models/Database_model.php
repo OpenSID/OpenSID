@@ -185,32 +185,12 @@
 
   private function migrasi_1905_ke_1906()
   {
-  	// Tambah tautan pada teks berjalan
-  	if (!$this->db->field_exists('tautan', 'teks_berjalan'))
-  	{
-			// Tambah kolom
-			$fields = array();
-			$fields['tautan'] = array(
-					'type' => 'varchar',
-					'constraint' => 150,
-			);
-			$fields['judul_tautan'] = array(
-					'type' => 'varchar',
-					'constraint' => 150,
-			);
-			$this->dbforge->add_column('teks_berjalan', $fields);
-		}
-
   	// Tambah kolom waktu update dan user pengupdate
   	if (!$this->db->field_exists('created_at', 'tweb_penduduk'))
   	{
 			// Tambah kolom
+			$this->dbforge->add_field("created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
 			$fields = array();
-			$fields['created_at'] = array(
-					'type' => 'timestamp',
-					'default CURRENT_TIMESTAMP',
-				  'null' => FALSE,
-			);
 			$fields['created_by'] = array(
 					'type' => 'int',
 					'constraint' => 11,
@@ -221,12 +201,8 @@
   	if (!$this->db->field_exists('updated_at', 'tweb_penduduk'))
   	{
 			// Tambah kolom
+			$this->dbforge->add_field("updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
 			$fields = array();
-			$fields['updated_at'] = array(
-					'type' => 'timestamp',
-					'default CURRENT_TIMESTAMP',
-				  'null' => FALSE,
-			);
 			$fields['updated_by'] = array(
 					'type' => 'int',
 					'constraint' => 11,
@@ -309,6 +285,21 @@
 					$this->db->where('kategori', 'teks_berjalan')->delete('kategori');
 				}
 			}
+		}
+  	// Tambah tautan pada teks berjalan
+  	if (!$this->db->field_exists('tautan', 'teks_berjalan'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['tautan'] = array(
+					'type' => 'varchar',
+					'constraint' => 150,
+			);
+			$fields['judul_tautan'] = array(
+					'type' => 'varchar',
+					'constraint' => 150,
+			);
+			$this->dbforge->add_column('teks_berjalan', $fields);
 		}
 
   	// Hapus menu SID dan Donasi
