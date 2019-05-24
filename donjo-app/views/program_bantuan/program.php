@@ -53,11 +53,11 @@
 															<tr>
 																<td><?= $nomer?></td>
 																<td nowrap>
-																	<a href="<?= site_url("program_bantuan/detail/1/$item[id]/")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class="fa fa-list"></i></a>
+																	<a href="<?= site_url("program_bantuan/detail/1/$item[id]/")?>/1" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class="fa fa-list"></i></a>
 																	<a href="<?= site_url("program_bantuan/edit/$item[id]/")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																	<a href="#" data-href="<?= site_url("program_bantuan/hapus/$item[id]/")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
-																<td width="60%"><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/')?>"><?= $item["nama"] ?></a></td>
+																<td width="60%"><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/')?>/1"><?= $item["nama"] ?></a></td>
 																<td nowrap><?= fTampilTgl($item["sdate"],$item["edate"]);?></td>
 																<td nowrap><?= $sasaran[$item["sasaran"]]?></td>
 															</tr>

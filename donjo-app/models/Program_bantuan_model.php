@@ -142,6 +142,19 @@ class Program_bantuan_model extends CI_Model {
 		return $data;
 	}
 
+	private function search_peserta_sql()
+	{
+		if (isset($_SESSION['cari_peserta']))
+		{
+			$cari = $_SESSION['cari_peserta'];
+			$kw = $this->db->escape_like_str($cari);
+			$kw = '%' .$kw. '%';
+			$search_sql = " AND (nama LIKE '$kw')";
+			return $search_sql;
+		}
+	}
+
+
 	// Query dibuat pada satu tempat, supaya penghitungan baris untuk paging selalu
 	// konsisten dengan data yang diperoleh
 	private function get_peserta_sql($slug, $sasaran, $jumlah=false)
@@ -165,6 +178,7 @@ class Program_bantuan_model extends CI_Model {
 					LEFT JOIN tweb_penduduk q ON o.nik_kepala = q.id
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = q.id_cluster
 					WHERE p.program_id =".$slug;
+
 				break;
 			case 3:
 				# Data RTM
@@ -188,6 +202,7 @@ class Program_bantuan_model extends CI_Model {
 			default:
 				break;
 		}
+		$strSQL .= $this->search_peserta_sql();
 		return $strSQL;
 	}
 

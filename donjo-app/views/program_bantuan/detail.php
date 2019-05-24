@@ -1,3 +1,33 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+			{
+				source: keyword,
+				maxShowItems: 10,
+			});
+	});
+
+</script>
+<style>
+	.input-sm
+	{
+		padding: 4px 4px;
+	}
+	@media (max-width:780px)
+	{
+		.btn-group-vertical
+		{
+			display: block;
+		}
+	}
+	.table-responsive
+	{
+		min-height:275px;
+	}
+	}
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Rincian Program Bantuan</h1>
@@ -27,6 +57,8 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+								<form id="mainform" name="mainform" action="" method="post">
+								<input type="hidden" name="id" value="<?php echo $this->uri->segment(4) ?>">
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="box-header with-border">
@@ -56,10 +88,24 @@
 											</div>
 										</div>
 										<div class="col-sm-12">
-											<div class="box-header with-border">
-												<h3 class="box-title">Daftar Peserta Program</h3>
+											<div class="row">
+												<div class="col-sm-9">
+													<div class="box-header with-border">
+														<h3 class="box-title">Daftar Peserta Program</h3>
+													</div>
+												</div>
+												<div class="col-sm-3">
+													<div class="input-group input-group-sm pull-right">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari_peserta)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search_peserta")?>');$('#'+'mainform').submit();}">
+														<div class="input-group-btn">
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search_peserta")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														</div>
+													</div>
+												</div>
 											</div>
-											<?php $peserta = $program[1];?>
+										</div>
+										<div class="col-sm-12">
+										<?php $peserta = $program[1];?>
 											<div class="table-responsive">
 												<table class="table table-bordered table-striped dataTable table-hover">
 													<thead class="bg-gray disabled color-palette">
@@ -113,6 +159,7 @@
 												</table>
 											</div>
 										</div>
+
 									</div>
                   <div class="row">
                     <div class="col-sm-6">
@@ -154,6 +201,7 @@
                       </div>
                     </div>
                   </div>
+								</form>
 								</div>
 							</div>
 						</div>
