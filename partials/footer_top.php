@@ -36,14 +36,18 @@ include "apbdesa.php";
           </div>
         </div>
 	    <div class="col-lg-4 col-md-4 col-sm-4">
-          <div class="single_footer_top wow fadeInRight">
-              <a href="<?php echo $sosmed[nested_array_search('Facebook',$sosmed)]['link']?>" target="_blank"><span style="color:#fff" ><i class="fa fa-facebook-square fa-3x"></i></span></a>
-              <a href="<?php echo $sosmed[nested_array_search('Twitter',$sosmed)]['link']?>" target="_blank"><span style="color:#fff"><i class="fa fa-twitter-square fa-3x"></i></span></a>
-              <a href="<?php echo $sosmed[nested_array_search('YouTube',$sosmed)]['link']?>" target="_blank"><span style="color:#fff"><i class="fa fa-youtube-square fa-3x"></i></span></a>
-              <a href="<?php echo $sosmed[nested_array_search('Google Plus',$sosmed)]['link']?>" target="_blank"><span style="color:#fff"><i class="fa fa-google-plus-square fa-3x"></i></span></a>
-              <a href="<?php echo $sosmed[nested_array_search('Instagram',$sosmed)]['link']?>" target="_blank"><span style="color:#fff"><i class="fa fa-instagram fa-3x"></i></span></a>
-          </div>
+	        <div class="single_footer_top wow fadeInRight">
+	            <?php foreach ($sosmed As $data): ?>
+	            <?php if (!empty($data["link"])): ?>
+	            <a href="<?= $data['link']?>" target="_blank">
+	                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?>-square fa-3x"></i></span>
+	                <?php if (strtolower($data["nama"]) == 'whatsapp' OR strtolower($data["nama"]) == 'instagram'): ?>
+	                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?> fa-3x"></i></span>
+	                <?php endif; ?>
+	            </a>
+	            <?php endif; ?>
+	            <?php endforeach; ?>
+	        </div>
         </div>
-      </div>
     </div>
   </div>
