@@ -1558,4 +1558,7 @@ blockquote p {
 	padding-right: 200px;
 }
 
-
+/* Widget arsip artikel */
+#arsip_artikel.active a {background-color: honeydew;}
+#arsip_artikel .tab-content {margin-top: 10px; }
+#arsip_artikel .nav > li > a {padding: 5px 8px;}

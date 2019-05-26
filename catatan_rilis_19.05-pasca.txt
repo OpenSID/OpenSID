@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Gali Arta yang terus berkontribusi. Terima kasih pula pada Wildan Agissa Rusadi yang baru mulai berkontribusi.
+Terima kasih pada Gali Arta yang terus berkontribusi. Terima kasih pula pada Wildan Agissa Rusadi dan Ariandi Ryan Kahfi yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.05-pasca:
 
@@ -20,6 +20,8 @@ Lengkapnya, isi rilis versi 19.05-pasca:
 14. Rekam tgl dan pengguna yg mendaftarkan data penduduk. Tampilkan di halaman biodata penduduk.
 15. #2045: Teks berjalan sekarang bisa ditambahkan tautan ke artikel terkait.
 16. #870: Tambah fitur cari untuk daftar peserta Program Bantuan.
+17. #2058: Sekarang Youtube dapat dikosongkan pada pengaturan widget Sosial Media. [bug-fix]
+18. #2060: Widget Arsip Artikel sekarang juga menampilkan artikel secara acak.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.05-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
