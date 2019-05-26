@@ -155,8 +155,8 @@
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
-		$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
-		$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
+		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? $this->input->post('pamong_nohenti') : '';
+		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ? tgl_indo_in($this->input->post('pamong_tglhenti')) : date('Y-m-d', strtotime('+60 years'));
 		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
 		$data['pamong_tgl_terdaftar'] = date('Y-m-d');
 		$data['foto'] = $nama_file;
@@ -224,8 +224,8 @@
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
-		$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
-		$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
+		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? $this->input->post('pamong_nohenti') : '';
+		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ? tgl_indo_in($this->input->post('pamong_tglhenti')) : date('Y-m-d', strtotime('+60 years'));
 		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
 		if (!empty($nama_file))
 		{
