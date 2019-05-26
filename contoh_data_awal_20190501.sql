@@ -7029,7 +7029,7 @@ INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (12, 'sinergi_program.php', 1, 'Sinergi Program', 1, 6, 'web_widget/admin/sinergi_program', '[]');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (13, 'menu_kategori.php', 1, 'Menu Kategori', 1, 3, '', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (14, 'peta_wilayah_desa.php', 1, 'Peta Wilayah Desa', 1, 1, 'hom_desa/konfigurasi', '');
-
+INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (15, 'acak_artikel.php', 1, 'Random Artikel', 1, 15, '', '');
 
 #
 # TABLE STRUCTURE FOR: suplemen_terdata
