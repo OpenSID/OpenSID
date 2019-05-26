@@ -51,7 +51,7 @@
 														<select class="form-control select2 input-sm" style="width: 100%;" id="id_kepala" name="id_kepala">
 															<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
 															<?php foreach ($penduduk as $data): ?>
-																<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
+																<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['dusun']?></option>
 															<?php endforeach; ?>
 														</select>
 													</div>
