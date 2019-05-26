@@ -158,7 +158,7 @@
 		$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
 		$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
 		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
-		$data['pamong_tgl_terdaftar'] = NOW();
+		$data['pamong_tgl_terdaftar'] = date('Y-m-d');
 		$data['foto'] = $nama_file;
 		$outp = $this->db->insert('tweb_desa_pamong', $data);
 
