@@ -495,6 +495,17 @@
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
 		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
+		$data['ktp_el'] = $data['ktp_el'] ? $data['ktp_el'] : 0;
+		$data['status_rekam'] = $data['status_rekam'] ? $data['status_rekam'] : 0;
+		$data['tempat_dilahirkan'] = $data['tempat_dilahirkan'] ? $data['tempat_dilahirkan'] : 0;
+		$data['jenis_kelahiran'] = $data['jenis_kelahiran'] ? $data['jenis_kelahiran'] : 0;
+		$data['kelahiran_anak_ke'] = $data['kelahiran_anak_ke'] ? $data['kelahiran_anak_ke'] : 1;
+		$data['penolong_kelahiran'] = $data['penolong_kelahiran'] ? $data['penolong_kelahiran'] : 0;
+		$data['cacat_id'] = $data['cacat_id'] ? $data['cacat_id'] : 0;
+		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ? $data['sakit_menahun_id'] : 0;
+		$data['cara_kb_id'] = $data['cara_kb_id'] ? $data['cara_kb_id'] : 0;
+
+
 		if ($data['sex'] == 1) $data['hamil'] = 0;
 		if (empty($data['kelahiran_anak_ke'])) $data['kelahiran_anak_ke'] = NULL;
 		if ($data['warganegara_id'] == 1 or empty($data['dokumen_kitas']))
