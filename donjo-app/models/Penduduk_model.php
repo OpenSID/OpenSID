@@ -493,15 +493,16 @@
 		$data['tanggalperkawinan'] = empty($data['tanggalperkawinan']) ? NULL : tgl_indo_in($data['tanggalperkawinan']);
 		$data['tanggalperceraian'] = empty($data['tanggalperceraian']) ? NULL : tgl_indo_in($data['tanggalperceraian']);
 
-		$data['ktp_el'] = $data['ktp_el'] ? $data['ktp_el'] : NULL;
-		$data['status_rekam'] = $data['status_rekam'] ? $data['status_rekam'] : NULL;
-		$data['berat_lahir'] = $data['berat_lahir'] ? $data['berat_lahir'] : NULL;
-		$data['tempat_dilahirkan'] = $data['tempat_dilahirkan'] ? $data['tempat_dilahirkan'] : NULL;
-		$data['jenis_kelahiran'] = $data['jenis_kelahiran'] ? $data['jenis_kelahiran'] : NULL;
-		$data['penolong_kelahiran'] = $data['penolong_kelahiran'] ? $data['penolong_kelahiran'] : NULL;
-		$data['panjang_lahir'] = $data['panjang_lahir'] ? $data['panjang_lahir'] : NULL;
-		$data['cacat_id'] = $data['cacat_id'] ? $data['cacat_id'] : NULL;
-		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ? $data['sakit_menahun_id'] : NULL;
+
+		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
+		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
+		$data['berat_lahir'] = $data['berat_lahir'] ?: NULL;
+		$data['tempat_dilahirkan'] = $data['tempat_dilahirkan'] ?: NULL;
+		$data['jenis_kelahiran'] = $data['jenis_kelahiran'] ?: NULL;
+		$data['penolong_kelahiran'] = $data['penolong_kelahiran'] ?: NULL;
+		$data['panjang_lahir'] = $data['panjang_lahir'] ?: NULL;
+		$data['cacat_id'] = $data['cacat_id'] ?: NULL;
+		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ?: NULL;
 
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
 		if ($data['status_kawin'] != 2 or empty($data['cara_kb_id'])) $data['cara_kb_id'] = NULL;
