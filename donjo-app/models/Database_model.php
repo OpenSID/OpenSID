@@ -328,6 +328,52 @@
   	}
   	// Di tweb_penduduk ubah kelahiran_anak_ke supaya default NULL
 	  $this->dbforge->modify_column('tweb_penduduk', array('kelahiran_anak_ke' => array('type' => 'TINYINT', 'constraint' => 2, 'default' => NULL)));
+
+	  // Ubah kolom tweb_penduduk supaya boleh null
+		$fields = array();
+		$fields['ktp_el'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 4,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['status_rekam'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 4,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['tempat_dilahirkan'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 2,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['jenis_kelahiran'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 2,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['penolong_kelahiran'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 2,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['panjang_lahir'] = array(
+				'type' => 'VARCHAR',
+				'constraint' => 10,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['sakit_menahun_id'] = array(
+				'type' => 'INT',
+				'constraint' => 11,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+	  $this->dbforge->modify_column('tweb_penduduk', $fields);
   }
 
   private function migrasi_1904_ke_1905()
