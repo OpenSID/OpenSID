@@ -84,7 +84,7 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->keluarga_model->autocomplete();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		
+
 		$nav['act'] = 2;
 		$nav['act_sub'] = 22;
 		$header = $this->header_model->get_data();

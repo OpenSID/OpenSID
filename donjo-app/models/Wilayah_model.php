@@ -313,10 +313,15 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function list_penduduk()
+	public function list_penduduk($ex_id=0)
 	{
-		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1";
-		$query = $this->db->query($sql);
+		$sql = "SELECT p.id, p.nik, p.nama, c.dusun
+			FROM tweb_penduduk p
+			LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
+			WHERE p.status = 1";
+		if ($ex_id)
+			$sql .= ' AND p.id NOT IN(?)';
+		$query = $this->db->query($sql, $ex_id);
 		$data = $query->result_array();
 
 		//Formating Output
@@ -329,16 +334,7 @@
 
 	public function list_penduduk_ex($id=0)
 	{
-		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE status = 1 AND id NOT IN(?)";
-		$query = $this->db->query($sql, $id);
-		$data = $query->result_array();
-
-		//Formating Output
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
-		}
-		return $data;
+		return $this->list_penduduk($id);
 	}
 
 	public function list_dusun_rt($dusun='')

@@ -492,20 +492,20 @@
 		$data['tanggal_akhir_paspor'] = empty($data['tanggal_akhir_paspor']) ? NULL : tgl_indo_in($data['tanggal_akhir_paspor']);
 		$data['tanggalperkawinan'] = empty($data['tanggalperkawinan']) ? NULL : tgl_indo_in($data['tanggalperkawinan']);
 		$data['tanggalperceraian'] = empty($data['tanggalperceraian']) ? NULL : tgl_indo_in($data['tanggalperceraian']);
+
+		$data['ktp_el'] = $data['ktp_el'] ? $data['ktp_el'] : NULL;
+		$data['status_rekam'] = $data['status_rekam'] ? $data['status_rekam'] : NULL;
+		$data['berat_lahir'] = $data['berat_lahir'] ? $data['berat_lahir'] : NULL;
+		$data['tempat_dilahirkan'] = $data['tempat_dilahirkan'] ? $data['tempat_dilahirkan'] : NULL;
+		$data['jenis_kelahiran'] = $data['jenis_kelahiran'] ? $data['jenis_kelahiran'] : NULL;
+		$data['penolong_kelahiran'] = $data['penolong_kelahiran'] ? $data['penolong_kelahiran'] : NULL;
+		$data['panjang_lahir'] = $data['panjang_lahir'] ? $data['panjang_lahir'] : NULL;
+		$data['cacat_id'] = $data['cacat_id'] ? $data['cacat_id'] : NULL;
+		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ? $data['sakit_menahun_id'] : NULL;
+
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
-		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
+		if ($data['status_kawin'] != 2 or empty($data['cara_kb_id'])) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
-		$data['ktp_el'] = $data['ktp_el'] ? $data['ktp_el'] : 0;
-		$data['status_rekam'] = $data['status_rekam'] ? $data['status_rekam'] : 0;
-		$data['tempat_dilahirkan'] = $data['tempat_dilahirkan'] ? $data['tempat_dilahirkan'] : 0;
-		$data['jenis_kelahiran'] = $data['jenis_kelahiran'] ? $data['jenis_kelahiran'] : 0;
-		$data['kelahiran_anak_ke'] = $data['kelahiran_anak_ke'] ? $data['kelahiran_anak_ke'] : 1;
-		$data['penolong_kelahiran'] = $data['penolong_kelahiran'] ? $data['penolong_kelahiran'] : 0;
-		$data['cacat_id'] = $data['cacat_id'] ? $data['cacat_id'] : 0;
-		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ? $data['sakit_menahun_id'] : 0;
-		$data['cara_kb_id'] = $data['cara_kb_id'] ? $data['cara_kb_id'] : 0;
-
-
 		if ($data['sex'] == 1) $data['hamil'] = 0;
 		if (empty($data['kelahiran_anak_ke'])) $data['kelahiran_anak_ke'] = NULL;
 		if ($data['warganegara_id'] == 1 or empty($data['dokumen_kitas']))

@@ -144,8 +144,19 @@
 			}
 		}
 
+		$data = array();
+		$data = $this->siapkan_data($data);
 		// Beri urutan terakhir
 		$data['urut'] = $this->urut_max() + 1;
+		$data['pamong_tgl_terdaftar'] = date('Y-m-d');
+
+		$outp = $this->db->insert('tweb_desa_pamong', $data);
+
+		if (!$outp) $_SESSION['success'] = -1;
+	}
+
+	private function siapkan_data($data)
+	{
 		$data['id_pend'] = $this->input->post('id_pend');
 		$this->data_pamong_asal($data);
 		$data['pamong_nip'] = $this->input->post('pamong_nip');
@@ -155,14 +166,14 @@
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
-		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? $this->input->post('pamong_nohenti') : '';
-		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ? tgl_indo_in($this->input->post('pamong_tglhenti')) : date('Y-m-d', strtotime('+60 years'));
+		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? $this->input->post('pamong_nohenti') : NULL;
+		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ?tgl_indo_in($this->input->post('pamong_tglhenti')) : NULL;
 		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
-		$data['pamong_tgl_terdaftar'] = date('Y-m-d');
-		$data['foto'] = $nama_file;
-		$outp = $this->db->insert('tweb_desa_pamong', $data);
-
-		if (!$outp) $_SESSION['success'] = -1;
+		if (!empty($_FILES['foto']['name']))
+		{
+			$data['foto'] = $nama_file;
+		}
+		return $data;
 	}
 
 	private function data_pamong_asal(&$data)
@@ -214,23 +225,8 @@
 			}
 		}
 
-		$data['id_pend'] = $this->input->post('id_pend');
-		$this->data_pamong_asal($data);
-		$data['pamong_nip'] = $this->input->post('pamong_nip');
-		$data['pamong_niap'] = $this->input->post('pamong_niap');
-		$data['jabatan'] = $this->input->post('jabatan');
-		$data['jabatan'] = $this->input->post('jabatan');
-		$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
-		$data['pamong_status'] = $this->input->post('pamong_status');
-		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
-		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
-		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? $this->input->post('pamong_nohenti') : '';
-		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ? tgl_indo_in($this->input->post('pamong_tglhenti')) : date('Y-m-d', strtotime('+60 years'));
-		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
-		if (!empty($nama_file))
-		{
-			$data['foto'] = $nama_file;
-		}
+		$data = array();
+		$data = $this->siapkan_data($data);
 		$this->db->where("pamong_id", $id)->update('tweb_desa_pamong', $data);
 	}
 
