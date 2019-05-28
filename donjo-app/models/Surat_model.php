@@ -912,4 +912,13 @@
 		return $data;
 	}
 
+	public function surat_total()
+	{
+		$jml = $this->db->select('COUNT(id) as jml')
+			->get('log_surat')
+			->row()->jml;
+		return $jml;
+	}
+
+
 }

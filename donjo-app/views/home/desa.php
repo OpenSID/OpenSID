@@ -59,6 +59,32 @@
 							</div>
 						</div>
 						<div class="col-lg-6 col-xs-6">
+							<div class="small-box bg-blue">
+								<div class="inner">
+										<h3><?=$jumlah_surat?></h3>
+									<p>Cetak Surat</p>
+								</div>
+								<div class="icon">
+									<i class="ion-ios-paper"></i>
+								</div>
+								<a href="<?=site_url('keluar/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<div class="col-lg-4 col-xs-4">
+							<div class="small-box bg-red">
+								<div class="inner">
+									<?php foreach ($kelompok as $data): ?>
+										<h3><?=$data['jumlah']?></h3>
+									<?php endforeach; ?>
+									<p>Kelompok</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-android-people"></i>
+								</div>
+								<a href="<?=site_url('kelompok/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<div class="col-lg-4 col-xs-4">
 							<div class="small-box bg-gray">
 								<div class="inner">
 									<?php foreach ($rtm as $data): ?>
@@ -87,34 +113,6 @@
 									<?php endif; ?>
 									<a href="<?=site_url().$miskin['link_detail']?>" class="inner text-white">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-xs-4">
-							<div class="small-box bg-red">
-								<div class="inner">
-									<?php foreach ($kelompok as $data): ?>
-										<h3><?=$data['jumlah']?></h3>
-									<?php endforeach; ?>
-									<p>Kelompok</p>
-								</div>
-								<div class="icon">
-									<i class="ion ion-android-people"></i>
-								</div>
-								<a href="<?=site_url('kelompok/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
-							</div>
-						</div>
-						<div class="col-lg-4 col-xs-4">
-							<div class="small-box bg-blue">
-								<div class="inner">
-									<?php foreach ($surat as $data): ?>
-										<h3><?=$data['jumlah']?></h3>
-									<?php endforeach; ?>
-									<p>Cetak Surat</p>
-								</div>
-								<div class="icon">
-									<i class="ion-ios-paper"></i>
-								</div>
-								<a href="<?=site_url('surat')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
 					</div>
