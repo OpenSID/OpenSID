@@ -7,11 +7,11 @@
 													<div class="box-body">
 														<div class="row">
 															<div class="col-sm-12">
-																<p>Biasanya pada saat menginstall SID, desa mengimpor data awal yang merupakan
+																<p>Biasanya pada saat menginstall SID, <?php echo ($this->setting->sebutan_desa); ?> mengimpor data awal yang merupakan
 																  contoh yang disediakan agar pengguna dapat mempelajari fitur SID.
-																  Data awal tersebut tentunya mengandung data contoh yang bukan data desa.</p>
-																<p>Sebelum memasukkan data desa yang sebenarnya ke dalam database SID, data contoh tersebut perlu dikosongkan dulu.</p>
-																<p>Klik tomboh <em>Kosongkan DB</em> di bawah untuk mengosongkan database SID siap untuk diisi dengan data desa.</p>
+																  Data awal tersebut tentunya mengandung data contoh yang bukan data <?php echo ($this->setting->sebutan_desa); ?>.</p>
+																<p>Sebelum memasukkan data <?php echo ($this->setting->sebutan_desa); ?> yang sebenarnya ke dalam database SID, data contoh tersebut perlu dikosongkan dulu.</p>
+																<p>Klik tomboh <em>Kosongkan DB</em> di bawah untuk mengosongkan database SID siap untuk diisi dengan data <?php echo ($this->setting->sebutan_desa); ?>.</p>
 																<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
 																	<small><strong><i class="fa fa-info-circle text-red"></i> Sebelum melalukan proses ini, backup dulu database SID.</strong></small>
 																</p>
