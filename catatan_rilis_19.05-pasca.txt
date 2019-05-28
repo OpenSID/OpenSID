@@ -23,6 +23,7 @@ Lengkapnya, isi rilis versi 19.05-pasca:
 17. #2058: Sekarang Youtube dapat dikosongkan pada pengaturan widget Sosial Media. [bug-fix]
 18. #2060: Widget Arsip Artikel sekarang juga menampilkan artikel secara acak.
 19. #1942: Tampilkan jumlah surat tercetak di dashboard komponen Admin.
+20. #1454: Tampilkan foto penduduk di halaman daftar penduduk.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.05-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
