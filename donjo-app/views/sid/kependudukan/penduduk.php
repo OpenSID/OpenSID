@@ -131,6 +131,7 @@
 															<th><input type="checkbox" id="checkall"/></th>
 															<th>No</th>
 															<th >Aksi</th>
+															<th >Foto</th>
 															<?php if ($o==2): ?>
 																<th><a href="<?= site_url("penduduk/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
 															<?php elseif ($o==1): ?>
@@ -221,6 +222,17 @@
 																				<?php endif; ?>
 																			<?php endif; ?>
 																		</ul>
+																	</div>
+																</td>
+																<td nowrap>
+																	<div class="user-panel">
+																		<div class="image2">
+																			<?php if ($data['foto']): ?>
+																				<img src="<?=AmbilFoto($data['foto'])?>" class="img-circle" alt="User Image"/>
+																			<?php else: ?>
+																				<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
+																			<?php endif ?>
+																		</div>
 																	</div>
 																</td>
 																<td>
