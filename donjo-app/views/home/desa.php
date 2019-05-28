@@ -72,7 +72,7 @@
 								<a href="<?=site_url('rtm/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
-						<div class="col-lg-6 col-xs-6">
+						<div class="col-lg-4 col-xs-4">
 							<div class="small-box bg-yellow">
 								<div class="inner">
 									<h3><?=$miskin['jumlah']?></h3>
@@ -89,7 +89,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-6 col-xs-6">
+						<div class="col-lg-4 col-xs-4">
 							<div class="small-box bg-red">
 								<div class="inner">
 									<?php foreach ($kelompok as $data): ?>
@@ -101,6 +101,20 @@
 									<i class="ion ion-android-people"></i>
 								</div>
 								<a href="<?=site_url('kelompok/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<div class="col-lg-4 col-xs-4">
+							<div class="small-box bg-blue">
+								<div class="inner">
+									<?php foreach ($surat as $data): ?>
+										<h3><?=$data['jumlah']?></h3>
+									<?php endforeach; ?>
+									<p>Cetak Surat</p>
+								</div>
+								<div class="icon">
+									<i class="ion-ios-paper"></i>
+								</div>
+								<a href="<?=site_url('surat')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
 					</div>

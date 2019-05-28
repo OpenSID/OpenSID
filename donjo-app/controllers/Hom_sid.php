@@ -22,6 +22,7 @@ class Hom_sid extends Admin_Controller {
 		$data['kelompok'] = $this->header_model->kelompok_total();
 		$data['rtm'] = $this->header_model->rtm_total();
 		$data['dusun'] = $this->header_model->dusun_total();
+		$data['surat'] = $this->header_model->surat_total();
 		// Menampilkan menu dan sub menu aktif
 		$nav['act'] = 1;
 		$nav['act_sub'] = 16;
