@@ -227,11 +227,7 @@
 																<td nowrap>
 																	<div class="user-panel">
 																		<div class="image2">
-																			<?php if ($data['foto']): ?>
-																				<img src="<?=AmbilFoto($data['foto'])?>" class="img-circle" alt="User Image"/>
-																			<?php else: ?>
-																				<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
-																			<?php endif ?>
+																			<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
 																		</div>
 																	</div>
 																</td>
