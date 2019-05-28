@@ -123,14 +123,15 @@
 							<table class="table table-bordered table-hover">
 								<thead class="bg-gray disabled color-palette">
 									<tr>
-										<th width='33%'>Wajib KTP</th>
+										<th width='25%'>Wajib KTP</th>
 										<th>KTP Elektrtonik</th>
 										<th>Status Rekam</th>
+										<th>Tag ID Card</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td width='33%'><?= strtoupper($penduduk['wajib_ktp'])?></td>
+										<td width='25%'><?= strtoupper($penduduk['wajib_ktp'])?></td>
 										<td>
 										  <select name="ktp_el" class="form-control input-sm">
 											<option value="">Pilih KTP-EL</option>
@@ -139,13 +140,16 @@
 											<?php endforeach;?>
 										  </select>
 										</td>
-										<td width='33%'>
+										<td width='25%'>
 										  <select name="status_rekam" class="form-control input-sm">
 											<option value="">Pilih Status Rekam</option>
 											<?php foreach ($status_rekam as $id => $nama): ?>
 											  <option value="<?= $id?>" <?php selected(strtolower($penduduk['status_rekam']), $nama); ?>><?= strtoupper($nama)?></option>
 											<?php endforeach;?>
 										  </select>
+										</td>
+										<td width='25%'>
+										  <input name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
 										</td>
 									</tr>
 								</tbody>
@@ -290,7 +294,7 @@
 					<div class='row'>
 						<div class='col-sm-4'>
 							<div class='form-group'>
-								<label for="berat_lahir">Berat Lahir <code>( Kg )</code></label>
+								<label for="berat_lahir">Berat Lahir <code>( Gram )</code></label>
 								<input id="berat_lahir" name="berat_lahir" class="form-control input-sm" type="text" placeholder="Berat Lahir" value="<?= strtoupper($penduduk['berat_lahir'])?>"></input>
 							</div>
 						</div>

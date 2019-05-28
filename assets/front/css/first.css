@@ -1548,6 +1548,17 @@ blockquote p {
   margin-bottom: 0px;
 }
 
+/* Teks berjalan */
+#scroller.teks_berjalan a {color: pink; padding-left: 5px;}
+#scroller.teks_berjalan a:visited {color: pink;}
+#scroller.teks_berjalan span.teks {
+	vertical-align: middle;
+	color: white;
+	font: bold 8pt Arial;
+	padding-right: 200px;
+}
 
-
-
+/* Widget arsip artikel */
+#arsip_artikel.active a {background-color: honeydew;}
+#arsip_artikel .tab-content {margin-top: 10px; }
+#arsip_artikel .nav > li > a {padding: 5px 8px;}

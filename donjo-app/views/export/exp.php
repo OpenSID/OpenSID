@@ -2,16 +2,22 @@
 											<div class="row">
 												<div class="col-md-12">
 													<div class="box-header with-border">
-														<h3 class="box-title"><strong>Ekspor Data Desa</strong></h3>
+														<h3 class="box-title"><strong>Ekspor Data <?= ucwords($this->setting->sebutan_desa); ?></strong></h3>
 													</div>
 													<div class="box-body">
 														<div class="row">
 															<div class="col-md-8">
 																<table class="table table-striped table-hover">
 																	<tr>
-																		<td class="col-sm-10">Ekspor Data Keluarga (Format .xls untuk di impor ke database SID melalui menu Impor Database)</td>
+																		<td class="col-sm-10">Ekspor Data Penduduk (Format .xls untuk di impor ke database SID melalui menu Impor Database)</td>
 																		<td class="col-sm-2">
 																			<a href="<?= site_url("database")?>/export_excel" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Unduh</a>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td class="col-sm-10">Ekspor Data Penduduk untuk diimpor ke database OpenDK</td>
+																		<td class="col-sm-2">
+																			<a href="<?= site_url("database")?>/export_excel/opendk" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Unduh</a>
 																		</td>
 																	</tr>
 																	<tr>

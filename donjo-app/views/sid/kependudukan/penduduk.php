@@ -131,6 +131,7 @@
 															<th><input type="checkbox" id="checkall"/></th>
 															<th>No</th>
 															<th >Aksi</th>
+															<th >Foto</th>
 															<?php if ($o==2): ?>
 																<th><a href="<?= site_url("penduduk/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
 															<?php elseif ($o==1): ?>
@@ -138,6 +139,7 @@
 															<?php else: ?>
 																<th><a href="<?= site_url("penduduk/index/$p/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
 															<?php endif; ?>
+															<th>Tag ID Card</th>
 															<?php if ($o==4): ?>
 																<th nowrap><a href="<?= site_url("penduduk/index/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
 															<?php elseif ($o==3): ?>
@@ -171,6 +173,13 @@
 															<?php endif; ?>
 															<th >Pekerjaan</th>
 															<th>Kawin</th>
+															<?php if ($o==10): ?>
+																<th nowrap><a href="<?= site_url("penduduk/index/$p/9")?>">Tgl Terdaftar <i class='fa fa-sort-asc fa-sm'></i></a></th>
+															<?php elseif ($o==9): ?>
+																<th nowrap><a href="<?= site_url("penduduk/index/$p/10")?>">Tgl Terdaftar <i class='fa fa-sort-desc fa-sm'></i></a></th>
+															<?php else: ?>
+																<th nowrap><a href="<?= site_url("penduduk/index/$p/10")?>">Tgl Terdaftar <i class='fa fa-sort fa-sm'></i></a></th>
+															<?php endif; ?>
 														</tr>
 														</thead>
 														<tbody>
@@ -215,9 +224,17 @@
 																		</ul>
 																	</div>
 																</td>
+																<td nowrap>
+																	<div class="user-panel">
+																		<div class="image2">
+																			<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																		</div>
+																	</div>
+																</td>
 																<td>
 																	<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
 																</td>
+																<td nowrap><?= $data['tag_id_card']?></td>
 																<td nowrap><?= strtoupper($data['nama'])?></td>
 																<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
 																<!-- tambah kolom orang tua-->
@@ -233,6 +250,7 @@
 																<td><?= $data['umur']?></td>
 																<td><?= $data['pekerjaan']?></td>
 																<td><?= $data['kawin']?></td>
+																<td><?= tgl_indo($data['created_at'])?></td>
 															</tr>
 														<?php endforeach; ?>
 														</tbody>

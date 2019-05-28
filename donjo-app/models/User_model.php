@@ -734,6 +734,7 @@ class User_model extends CI_Model {
 				'komentar' => array('b','u','h'),
 				'menu' => array('b','u'),
 				'sosmed' => array('b','u'),
+				'teks_berjalan' => array('b','u'),
 				'web' => array('b','u'),
 				'web_widget' => array('b','u'),
 				// pengaturan
@@ -751,7 +752,9 @@ class User_model extends CI_Model {
 				'lapor' => array('b','u'),
 				'mandiri' => array('b','u'),
 				// notifikasi
-				'notif' => array('b','u')
+				'notif' => array('b','u'),
+				// wilayah
+				'wilayah' => array('b')
 			),
 			// Redaktur
 			3 => array(

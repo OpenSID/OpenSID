@@ -26,14 +26,8 @@ class First_artikel_m extends CI_Model {
 
 	public function get_teks_berjalan()
 	{
-    //update text berjalan yang kategori dan artikelnya enable
-		$sql = "SELECT a.isi
-			FROM artikel a
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE k.kategori = 'teks_berjalan' AND k.enabled = 1 AND a.tgl_upload < NOW() AND a.enabled = 1 ";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		return $data;
+		$this->load->model('teks_berjalan_model');
+		return $this->teks_berjalan_model->isi_teks_berjalan();
 	}
 
 	public function get_widget()
@@ -122,11 +116,18 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function arsip_show()
+	public function arsip_show($rand = false)
 	{
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
-			AND a.tgl_upload < NOW()
-		 ORDER BY a.tgl_upload DESC LIMIT 7 ";
+		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori
+			FROM artikel a
+			LEFT JOIN user u ON a.id_user = u.id
+			LEFT JOIN kategori k ON a.id_kategori = k.id
+			WHERE a.enabled = ?
+			AND a.tgl_upload < NOW() ";
+		if ($rand)
+			$sql .= "	ORDER BY RAND() DESC LIMIT 7 ";
+		else
+			$sql .= "	ORDER BY a.tgl_upload DESC LIMIT 7 ";
 		$query = $this->db->query($sql, 1);
 		$data = $query->result_array();
 
@@ -140,6 +141,11 @@ class First_artikel_m extends CI_Model {
 			$data[$i]['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>baca selengkapnya</a>";
 		}
 		return $data;
+	}
+
+	public function arsip_rand()
+	{
+		return $this->arsip_show($rand = true);
 	}
 
 	public function paging_arsip($p=1)

@@ -33,10 +33,10 @@
 							<div class="form-group col-sm-12" >
 				  			<label class="col-sm-4 col-lg-2 control-label" for="id_pend">NIK / Nama Penduduk </label>
 								<div class="col-sm-7">
-									<select class="form-contr	ol select2 input-sm" id="id_pend" name="id_pend"  onchange="formAction('main')" style="width:100%" >
+									<select class="form-control select2 input-sm" id="id_pend" name="id_pend"  onchange="formAction('main')" style="width:100%" >
 										<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
 										<?php foreach ($penduduk as $data): ?>
-											<option value="<?= $data['id']?>" <?php if ($individu['id']==$data['id']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+											<option value="<?= $data['id']?>" <?php if ($individu['id']==$data['id']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']." - ".$data['dusun']?></option>
 										<?php endforeach;?>
 									</select>
 								</div>

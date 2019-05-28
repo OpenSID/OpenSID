@@ -91,10 +91,11 @@ class Suplemen_model extends CI_Model {
 			$terdata .= ",".$value;
 		}
 		$terdata = ltrim($terdata, ",");
+		if (!empty($terdata))
+			$this->db->where("p.id NOT IN ($terdata)");
 		$data = $this->db->select('p.id as id, p.nik as nik, p.nama, w.rt, w.rw, w.dusun')
 			->from('tweb_penduduk p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
-			->where("p.id NOT IN ($terdata)")
 			->get()->result_array();
 		$hasil = array();
 		foreach ($data as $item)
@@ -134,12 +135,13 @@ class Suplemen_model extends CI_Model {
 			$terdata .= ",".$value;
 		}
 		$terdata = ltrim($terdata, ",");
+		if (!empty($terdata))
+			$this->db->where("k.id NOT IN ($terdata)");
 		// Daftar keluarga, tidak termasuk keluarga yang sudah terdata
 		$data = $this->db->select('k.id as id, k.no_kk, p.nama, w.rt, w.rw, w.dusun')
 			->from('tweb_keluarga k')
 			->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
-			->where("k.id NOT IN ($terdata)")
 			->get()->result_array();
 		$hasil = array();
 		foreach ($data as $item)

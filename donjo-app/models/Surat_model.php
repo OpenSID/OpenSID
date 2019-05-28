@@ -60,7 +60,7 @@
 	public function list_penduduk()
 	{
 		$this->db
-				->select('u.id,nik,nama,w.dusun,w.rw,w.rt,u.sex')
+				->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
 				->from('tweb_penduduk u')
 				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
 				->where('status_dasar', '1');
@@ -71,7 +71,7 @@
 		{
 			$data[$i]['nama'] = addslashes($row['nama']);
 			$data[$i]['alamat'] = addslashes("Alamat: RT-{$row[rt]}, RW-{$row[rw]} {$row[dusun]}");
-			$data[$i]['info_pilihan_penduduk'] = "NIK : {$data[$i]['nik']} - {$data[$i]['nama']}\n{$data[$i]['alamat']}";
+			$data[$i]['info_pilihan_penduduk'] = "NIK/Tag ID Card : {$data[$i]['nik']}/{$data[$i]['tag_id_card']} - {$data[$i]['nama']}\n{$data[$i]['alamat']}";
 		}
 		return $data;
 	}
@@ -911,5 +911,14 @@
 
 		return $data;
 	}
+
+	public function surat_total()
+	{
+		$jml = $this->db->select('COUNT(id) as jml')
+			->get('log_surat')
+			->row()->jml;
+		return $jml;
+	}
+
 
 }

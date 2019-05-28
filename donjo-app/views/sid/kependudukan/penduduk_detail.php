@@ -36,6 +36,26 @@
 								<div class="col-md-12">
 									<div class="box-header with-border">
 										<h3 class="box-title">Biodata Penduduk (NIK : <?= $penduduk['nik']?>)</h3>
+										<br>
+										<?php if (!empty($penduduk['nama_pendaftar'])): ?>
+											<p class="kecil">
+												Terdaftar pada:
+												<i class="fa fa-clock-o"></i><?= tgl_indo2($penduduk['created_at']);?>
+												<i class="fa fa-user"></i> <?= $penduduk['nama_pengubah']?>
+											</p>
+										<?php else: ?>
+											<p class="kecil">
+												Terdaftar sebelum:
+												<i class="fa fa-clock-o"></i><?= tgl_indo2($penduduk['created_at']);?>
+											</p>
+										<?php endif; ?>
+										<?php if (!empty($penduduk['nama_pengubah'])): ?>
+											<p class="kecil">
+												Terakhir diubah:
+												<i class="fa fa-clock-o"></i><?= tgl_indo2($penduduk['updated_at']);?>
+												<i class="fa fa-user"></i> <?= $penduduk['nama_pengubah']?>
+											</p>
+										<?php endif; ?>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -70,11 +90,13 @@
 																<th>Wajib KTP</th>
 																<th>KTP-EL</th>
 																<th>Status Rekam</th>
+																<th>Tag ID Card</th>
 															</tr>
 															<tr>
 																<td><?= strtoupper($penduduk['wajib_ktp'])?></td>
 																<td><?= strtoupper($penduduk['ktp_el'])?></td>
 																<td><?= strtoupper($penduduk['status_rekam'])?></td>
+																<td><?= $penduduk['tag_id_card']?></td>
 															</tr>
 														</table>
 													</td>
@@ -125,7 +147,7 @@
 													<td>Penolong Kelahiran</td><td >:</td><td><?= $penduduk['penolong_kelahiran_nama'] ?></td>
 												</tr>
 												<tr>
-													<td>Berat Lahir</td><td >:</td><td><?= $penduduk['berat_lahir']?> Kg</td>
+													<td>Berat Lahir</td><td >:</td><td><?= $penduduk['berat_lahir']?> Gram</td>
 												</tr>
 												<tr>
 													<td>Panjang Lahir</td><td >:</td><td><?= $penduduk['panjang_lahir']?> cm</td>
