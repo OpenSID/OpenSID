@@ -70,15 +70,15 @@
       <table cellpadding="0" cellspacing="0" class="counter" width="100%">
       <tr>
         <td valign="middle" width="50%"> Hari ini</td>
-        <td valign="middle" width="50%" align="right"><?php echo num_toimage($today,6); ?></td>
+        <td valign="middle" width="50%" align="right"><?= num_toimage($today,6); ?></td>
       </tr>
       <tr>
         <td valign="middle" height="20">Kemarin </td>
-        <td valign="middle" align="right"><?php echo num_toimage($yesterday,6); ?></td>
+        <td valign="middle" align="right"><?= num_toimage($yesterday,6); ?></td>
       </tr>
       <tr>
         <td valign="middle" height="20">Jumlah Pengunjung</td>
-        <td valign="middle" align="right"><?php echo num_toimage($total,6); ?></td>
+        <td valign="middle" align="right"><?= num_toimage($total,6); ?></td>
       </tr>
       </table>
     </div>

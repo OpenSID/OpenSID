@@ -36,7 +36,7 @@ $(function () {
                 data: [
 						<?php  foreach($stat as $data){?>
 							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
-								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+								['<?= $data['nama']?>',<?= $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
                 ]
@@ -75,7 +75,7 @@ $(function () {
                 data: [
 						<?php  foreach($stat as $data){?>
 							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
-								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+								['<?= $data['nama']?>',<?= $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
                 ]
@@ -86,9 +86,9 @@ $(function () {
 });
 </script>
 <?php }?>
-<script src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
-<script src="<?php echo base_url()?>assets/js/highcharts/highcharts-more.js"></script>
-<script src="<?php echo base_url()?>assets/js/highcharts/exporting.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 <style>
 	tr.lebih{
 		display:none;

@@ -8,13 +8,13 @@
               <li>
               <table>
                   <tr>
-                      <td><img class="tlClogo" src="<?php echo LogoDesa($desa['logo']);?>" width="30" valign="top" alt="<?php echo $desa['nama_desa']?>"/></td>
+                      <td><img class="tlClogo" src="<?= LogoDesa($desa['logo']);?>" width="30" valign="top" alt="<?= $desa['nama_desa']?>"/></td>
                       <td>
-                          <a href="<?php echo site_url(); ?>first">
+                          <a href="<?= site_url(); ?>first">
                             <font size="4"><?php
                               echo $this->setting->website_title. ' ' . ucwords($this->setting->sebutan_desa). (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : ''); ?>
                               </font><br /><font size="2">
-                              <?php echo ucwords($this->setting->sebutan_kecamatan_singkat." ".$desa['nama_kecamatan'])?> <?php echo ucwords($this->setting->sebutan_kabupaten_singkat." ".$desa['nama_kabupaten'])?>
+                              <?= ucwords($this->setting->sebutan_kecamatan_singkat." ".$desa['nama_kecamatan'])?> <?= ucwords($this->setting->sebutan_kabupaten_singkat." ".$desa['nama_kabupaten'])?>
                             </font>
                           </a>
                       </td>
@@ -24,8 +24,8 @@
             </ul>
           </div>
           <div class="header_top_right">
-        	<form method=get action="<?php echo site_url('first');?>" class="form-inline">
-        		<table align="center"><tr><td><input type="text" name="cari" maxlength="50" class="form-control" value="<?php echo $_GET['cari']; ?>" placeholder="Cari Artikel"></td>
+        	<form method=get action="<?= site_url('first');?>" class="form-inline">
+        		<table align="center"><tr><td><input type="text" name="cari" maxlength="50" class="form-control" value="<?= $_GET['cari']; ?>" placeholder="Cari Artikel"></td>
         		<td>&nbsp;</td><td><button type="submit" class="btn btn-primary">Cari</button></td></tr></table>
         	</form>	
           </div>

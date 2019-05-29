@@ -48,8 +48,8 @@
 							</div>
 							<?php foreach($list_indikator AS $data){?>
 								<div class="box-header">
-									<a href="<?php echo site_url()?>first/data_analisis/<?php echo $data['id']?>/<?php echo $data['subjek_tipe']?>/<?php echo $data['id_periode']?>">
-									<h4><?php echo $data['indikator']?></h4>
+									<a href="<?= site_url()?>first/data_analisis/<?= $data['id']?>/<?= $data['subjek_tipe']?>/<?= $data['id_periode']?>">
+									<h4><?= $data['indikator']?></h4>
 									</a>
 								</div>
 								<div class="box-body" style="font-size:12px;">
@@ -57,17 +57,17 @@
 										<tr>
 											<td width="100">Pendataan </td>
 											<td width="20"> :</td>
-											<td> <?php echo $data['master']?></td>
+											<td> <?= $data['master']?></td>
 										</tr>
 										<tr>
 											<td>Subjek </td>
 											<td> : </td>
-											<td> <?php echo $data['subjek']?></td>
+											<td> <?= $data['subjek']?></td>
 										</tr>
 										<tr>
 											<td>Tahun </td>
 											<td> :</td>
-											<td> <?php echo $data['tahun']?></td>
+											<td> <?= $data['tahun']?></td>
 										</tr>
 									</table>
 								</div>

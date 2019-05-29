@@ -66,7 +66,7 @@
 		                        <?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$data['gambar'])): ?>
 		                        <div class="catgimg2_container">
 		                            <a href="<?= site_url("first/artikel/$data[id]") ?>" title="Baca Selengkapnya">
-		                                <img src="<?php echo AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
+		                                <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
 		                            </a><!--
 		                            <p style="text-align: justify;"><?= $abstrak ?> ...
 		                            <a href="<?= site_url("first/artikel/".$data["id"]) ?>">

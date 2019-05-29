@@ -18,11 +18,11 @@
 		<tbody>
 			<?php foreach($surat_keluar as $data): ?>
 				<tr>
-					<td align="center" width="2"><?php echo $data['no']?></td>
-					<td><?php echo $data['no_surat']?></td>
-					<td><?php echo $data['format']?></td>
-					<td><?php echo $data['pamong']?></td>
-					<td><?php echo tgl_indo2($data['tanggal'])?></td>
+					<td align="center" width="2"><?= $data['no']?></td>
+					<td><?= $data['no_surat']?></td>
+					<td><?= $data['format']?></td>
+					<td><?= $data['pamong']?></td>
+					<td><?= tgl_indo2($data['tanggal'])?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>

@@ -1,7 +1,7 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php if($single_artikel["id"]) : ?>
-	<div class="single_page_area" id="<?php echo 'artikel-'.$single_artikel['judul']?>">
+	<div class="single_page_area" id="<?= 'artikel-'.$single_artikel['judul']?>">
         <div style="margin-top:0px;">
             <?php if (!empty($teks_berjalan)): ?>
             <marquee onmouseover="this.stop()" onmouseout="this.start()">
@@ -12,60 +12,60 @@
         <div class="single_category wow fadeInDown">
             <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Artikel</span> </h2> 
 		</div>
-		<h4 class="catg_titile" style="font-family: Oswald"><font color="#FFFFFF"><?php echo $single_artikel["judul"]?></font></h4>
+		<h4 class="catg_titile" style="font-family: Oswald"><font color="#FFFFFF"><?= $single_artikel["judul"]?></font></h4>
 		<div class="post_commentbox">
-			<i class="fa fa-clock-o"></i> <a><?php echo tgl_indo2($single_artikel['tgl_upload']);?></a>
-			<i class="fa fa-user"></i> <a><?php echo $single_artikel['owner']?></a>
+			<i class="fa fa-clock-o"></i> <a><?= tgl_indo2($single_artikel['tgl_upload']);?></a>
+			<i class="fa fa-user"></i> <a><?= $single_artikel['owner']?></a>
 			<?php if (trim($single_artikel['kategori']) != '') : ?>
-				<i class='fa fa-tag'></i> <a href="<?php echo site_url('first/kategori/'.$single_artikel['id_kategori'])?>"><?php echo $single_artikel['kategori']?></a>
+				<i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$single_artikel['id_kategori'])?>"><?= $single_artikel['kategori']?></a>
 			<?php endif; ?>
 		</div>
 		<div class="single_page_content" style="margin-bottom:10px;">	
 		<?php if($single_artikel["isi"]!='<p>&nbsp;&nbsp;</p>'): ?>
 		<?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
 		<div class="sampul">
-				<img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?php echo AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
+				<img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
 			</div>
 		<?php endif; ?>
 		<?php endif; ?>
 		<?php if($single_artikel["isi"]=='<p>&nbsp;&nbsp;</p>'): ?>
 			<div class="sampul">
-				<img width="100%" class="img-fluid img-thumbnail" src="<?php echo AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
+				<img width="100%" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
 			</div>
 		<?php endif; ?>
 		
-		<div class="teks"><?php echo $single_artikel["isi"]?></div>
+		<div class="teks"><?= $single_artikel["isi"]?></div>
 
 		<?php	if($single_artikel['dokumen']!='' and is_file(LOKASI_DOKUMEN.$single_artikel['dokumen'])): ?>
-			<p>Dokumen Lampiran : <a href="<?php echo base_url().LOKASI_DOKUMEN.$single_artikel['dokumen']?>" title=""><?php echo $single_artikel['link_dokumen']?></a></p>
+			<p>Dokumen Lampiran : <a href="<?= base_url().LOKASI_DOKUMEN.$single_artikel['dokumen']?>" title=""><?= $single_artikel['link_dokumen']?></a></p>
 			<br/>
 		<?php endif; ?>
 		<?php if($single_artikel['gambar1']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar1'])): ?>
 			<div class="sampul">
-				<img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?php echo AmbilFotoArtikel($single_artikel['gambar1'],'sedang')?>"/>
+				<img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar1'],'sedang')?>"/>
 			</div>
 		<?php endif; ?>
 		<?php if($single_artikel['gambar2']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar2'])): ?>
 			<div class="sampul">
-				<img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?php echo AmbilFotoArtikel($single_artikel['gambar2'],'sedang')?>"/>
+				<img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar2'],'sedang')?>"/>
 			</div>
 		<?php endif; ?>
 		<?php if($single_artikel['gambar3']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar3'])): ?>
 			<div class="sampul">
-				<img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?php echo AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>"/>
+				<img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>"/>
 			</div>
 		<?php endif; ?>
 		</div>
 		<div class="btn-group" role="group" aria-label="Bagikan ke teman anda" style="clear:both;">
-		    <a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?php echo site_url().'first/artikel/'.$single_artikel['id']?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Facebook'><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-facebook-square fa-2x"></i></button></a>
-			<a href="http://twitter.com/share?source=sharethiscom&text=<?php echo $single_artikel["judul"];?>%0A&url=<?php echo site_url().'first/artikel/'.$single_artikel['id'].'&via=ariandii'?>" class="twitter-share-button" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Twitter'><button type="button" class="btn btn-info btn-sm"><i class="fa fa-twitter fa-2x"></i></button></a>
-			<a href="mailto:?subject=<?php echo $single_artikel["judul"];?>&body=<?php echo potong_teks($single_artikel["isi"], 1000);?> ... Selengkapnya di <?php echo site_url().'first/artikel/'.$single_artikel['id']?>" title='Email'><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-envelope fa-2x"></i></button></a>
-		    <a href="https://telegram.me/share/url?url=<?php echo site_url().'first/artikel/'.$single_artikel['id']?>&text=<?php echo $single_artikel["judul"];?>%0A" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Telegram'><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-telegram fa-2x"></i></button></a>
-		    <a href="https://api.whatsapp.com/send?text=<?php echo $single_artikel["judul"];?>%0A<?php echo site_url().'first/artikel/'.$single_artikel['id']?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Whatsapp'><button type="button" class="btn btn-success btn-sm"><i class="fa fa-whatsapp fa-2x"></i></button></a>
+		    <a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?= site_url().'first/artikel/'.$single_artikel['id']?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Facebook'><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-facebook-square fa-2x"></i></button></a>
+			<a href="http://twitter.com/share?source=sharethiscom&text=<?= $single_artikel["judul"];?>%0A&url=<?= site_url().'first/artikel/'.$single_artikel['id'].'&via=ariandii'?>" class="twitter-share-button" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Twitter'><button type="button" class="btn btn-info btn-sm"><i class="fa fa-twitter fa-2x"></i></button></a>
+			<a href="mailto:?subject=<?= $single_artikel["judul"];?>&body=<?= potong_teks($single_artikel["isi"], 1000);?> ... Selengkapnya di <?= site_url().'first/artikel/'.$single_artikel['id']?>" title='Email'><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-envelope fa-2x"></i></button></a>
+		    <a href="https://telegram.me/share/url?url=<?= site_url().'first/artikel/'.$single_artikel['id']?>&text=<?= $single_artikel["judul"];?>%0A" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Telegram'><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-telegram fa-2x"></i></button></a>
+		    <a href="https://api.whatsapp.com/send?text=<?= $single_artikel["judul"];?>%0A<?= site_url().'first/artikel/'.$single_artikel['id']?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='nofollow' target='_blank' title='Whatsapp'><button type="button" class="btn btn-success btn-sm"><i class="fa fa-whatsapp fa-2x"></i></button></a>
         </div>
 		</div>
 		<?php if($single_artikel['boleh_komentar']): ?>
-		    <div class="fb-comments" data-href="<?php echo site_url().'first/artikel/'.$single_artikel['id']?>" width="100%" data-numposts="5"></div>
+		    <div class="fb-comments" data-href="<?= site_url().'first/artikel/'.$single_artikel['id']?>" width="100%" data-numposts="5"></div>
 		<?php endif; ?>
 		<div class="contact_bottom">
 			<?php if(is_array($komentar)): ?>
@@ -73,14 +73,20 @@
 					<div class="box-body">
 						<?php foreach($komentar AS $data): ?>
 							<?php if($data['enabled']==1): ?>
-								<div class="kom-box">
-									<div>
-										<i class="fa fa-clock-o"></i> <?php echo tgl_indo2($data['tgl_upload'])?>
-									</div>
-									<div>
-										<blockquote><?php echo $data['owner']?> : <?php echo $data['komentar']?></blockquote>
-									</div>
-								</div>
+								<table class="table table-bordered table-striped dataTable table-hover nowrap">
+                                    <thead class="bg-gray disabled color-palette">
+                                        <tr>
+                                            <th><i class="fa fa-comment"></i> <?= $data['owner']?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <font color='green'><small><?= tgl_indo2($data['tgl_upload'])?></small></font><br/><?= $data['komentar']?>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 							<?php endif; ?>
 						<?php endforeach; ?>
 					</div>
@@ -93,50 +99,50 @@
 				<div class="box box-default">
 					<!-- Tampilkan hanya jika 'flash_message' ada -->
 					<div class="box-header">
-						<h2 class="box-title">Tinggalkan Pesan</h2>
-					</div><hr>
+						<h2 class="box-title">Kirim Komentar</h2>
+					</div><hr />
 					
 					<?php $label = !empty($_SESSION['validation_error']) ? 'label-danger' : 'label-info'; ?>
 					<?php if ($flash_message): ?>
-						<div class="box-header <?php echo $label?>"><?php echo $flash_message?></div>
+						<div class="box-header <?= $label?>"><?= $flash_message?></div>
 					<?php endif; ?>
 					<div class="contact_bottom">
-						<form class="contact_form" id="form-komentar" name="form" action="<?php echo site_url('first/add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
+						<form class="contact_form" id="form-komentar" name="form" action="<?= site_url('first/add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
 							<table width="100%">
 								<tr class="komentar nama">
 									<td width="20%">Nama</td>
 									<td>
-										<input class="form-group" type="text" name="owner" maxlength="100" placeholder="ketik di sini" value="<?php echo !empty($_SESSION['post']['owner']) ? $_SESSION['post']['owner'] : $_SESSION['nama'] ?>">
+										<input class="form-group" type="text" name="owner" maxlength="100" placeholder="ketik di sini" value="<?= !empty($_SESSION['post']['owner']) ? $_SESSION['post']['owner'] : $_SESSION['nama'] ?>">
 									</td>
 								</tr>
 								<tr class="komentar alamat">
 									<td>No. Hp</td>
 									<td>
-										<input class="form-group" type="text" name="no_hp" maxlength="15" placeholder="ketik di sini" value="<?php echo $_SESSION['post']['no_hp'] ?>">
+										<input class="form-group" type="text" name="no_hp" maxlength="15" placeholder="ketik di sini" value="<?= $_SESSION['post']['no_hp'] ?>">
 									</td>
 								</tr><!--
 								<tr class="komentar alamat">
 									<td>E-mail</td>
 									<td>
-										<input class="form-group" type="text" name="email" maxlength="100" placeholder="email@gmail.com" value="<?php echo $_SESSION['post']['email'] ?>">
+										<input class="form-group" type="text" name="email" maxlength="100" placeholder="email@gmail.com" value="<?= $_SESSION['post']['email'] ?>">
 									</td>
 								</tr>-->
 								<tr class="komentar pesan">
 									<td valign="top">Isi Pesan</td>
 									<td>
-										<textarea name="komentar"><?php echo $_SESSION['post']['komentar']?></textarea>
+										<textarea name="komentar"><?= $_SESSION['post']['komentar']?></textarea>
 									</td>
 								</tr>
 								<tr class="captcha"><td>&nbsp;</td>
 									<td>
-										<img id="captcha" src="<?php echo base_url().'securimage/securimage_show.php'?>" alt="CAPTCHA Image"/>
-										<a href="#" onclick="document.getElementById('captcha').src = '<?php echo base_url()."securimage/securimage_show.php?"?>' + Math.random(); return false">[ Ganti gambar ]</a>
+										<img id="captcha" src="<?= base_url().'securimage/securimage_show.php'?>" alt="CAPTCHA Image"/>
+										<a href="#" onclick="document.getElementById('captcha').src = '<?= base_url()."securimage/securimage_show.php?"?>' + Math.random(); return false">[ Ganti gambar ]</a>
 									</td>
 								</tr>
 								<tr class="captcha_code">
 									<td>&nbsp;</td>
 									<td>
-										<input type="text" name="captcha_code" maxlength="6" value="<?php echo $_SESSION['post']['captcha_code']?>"/> Isikan kode di gambar
+										<input type="text" name="captcha_code" maxlength="6" value="<?= $_SESSION['post']['captcha_code']?>"/> Isikan kode di gambar
 									</td>
 								</tr>
 								<tr class="submit">
@@ -162,7 +168,7 @@
           <h1>404</h1>
           <h2>Maaf</h2>
           <h3>Halaman ini belum tersedia atau sedang dalam perbaikan</h3>
-          <p class="wow fadeInLeftBig">Silahkan kembali lagi ke halaman <a href="<?php echo site_url(); ?>first">Beranda</a></p>
+          <p class="wow fadeInLeftBig">Silahkan kembali lagi ke halaman <a href="<?= site_url(); ?>first">Beranda</a></p>
         </div>
       </div>
 	</div>

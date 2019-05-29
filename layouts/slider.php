@@ -16,7 +16,7 @@
                     overflow: hidden;
                 }
             </style>
-            <img class="tlClogo" src="<?php echo base_url().$slider_gambar['lokasi'].'sedang_'.$gambar['gambar']?>" data-artikel="<?php echo $gambar['id']?>" onclick="tampil_artikel($(this).data('artikel'));">
+            <img class="tlClogo" src="<?= base_url().$slider_gambar['lokasi'].'sedang_'.$gambar['gambar']?>" data-artikel="<?= $gambar['id']?>" onclick="tampil_artikel($(this).data('artikel'));">
         </div>
         <?php endif; ?>
     <?php endforeach; ?>

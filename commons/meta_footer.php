@@ -13,8 +13,8 @@
             email: "natai.raya@mail.com",
             //sms: "+628115222660",
             //call: "+628115222660",
-            company_logo_url: "<?php echo LogoDesa($desa['logo']);?>", // URL of company logo (png, jpg, gif)
-            greeting_message: "Selamat Datang di <?php echo ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>.",
+            company_logo_url: "<?= LogoDesa($desa['logo']);?>", // URL of company logo (png, jpg, gif)
+            greeting_message: "Selamat Datang di <?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>.",
             //call_to_action: "Kontak",
             button_color: "#e64946",
             position: "left", // Position may be 'right' or 'left'

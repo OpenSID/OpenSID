@@ -1,6 +1,6 @@
 <!-- widget Komentar-->
     <div class="single_bottom_rightbar">
-        <h2><i class="fa fa-comments"></i> Tinggalkan Pesan</h2>
+        <h2><i class="fa fa-comments"></i> Komentar Terkini</h2>
             <div class="tab-content">
               <div id="mostPopular2" class="tab-pane fade in active" role="tabpanel">
                 <ul id="ul-menu">
@@ -9,8 +9,20 @@
                       <ul class="sidebar-latest" id="li-komentar">
                         <?php foreach($komen As $data){?>
                           <li>
-                            <i class="fa fa-comment"></i> <?php echo $data['owner']?> : <br /><?php echo $data['komentar']?><br /><small>dikirim pada <?php echo tgl_indo2($data['tgl_upload'])?></small>
-                            <hr />
+                            <table class="table table-bordered table-striped dataTable table-hover nowrap">
+                                <thead class="bg-gray disabled color-palette">
+                                    <tr>
+                                        <th><i class="fa fa-comment"></i> <?= $data['owner']?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color='green'><small><?= tgl_indo2($data['tgl_upload'])?></small></font><br/><?= $data['komentar']?>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                           </li>
                         <?php }?>
                       </ul>

@@ -12,12 +12,12 @@
 
 <tr>
 <th width="20%">Pengirim </th>
-<td> <input class="form-group" type="text" readonly="readonly" name="owner" value="<?php echo $_SESSION['nama']?>" size="30"/></td>
+<td> <input class="form-group" type="text" readonly="readonly" name="owner" value="<?= $_SESSION['nama']?>" size="30"/></td>
 </tr>
 
 <tr>
 <th>NIK</th>
-<td> <input class="form-group" type="text" readonly="readonly" name="email" value="<?php echo $_SESSION['nik']?>" size="30"/></td>
+<td> <input class="form-group" type="text" readonly="readonly" name="email" value="<?= $_SESSION['nik']?>" size="30"/></td>
 </tr>
 
 <tr>

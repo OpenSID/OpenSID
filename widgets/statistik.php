@@ -7,7 +7,7 @@
       <?php
       $cowok1 = $this->db->query('SELECT sex FROM tweb_penduduk WHERE sex = 1');
       $cewek1 = $this->db->query('SELECT sex FROM tweb_penduduk WHERE sex = 2');
-      $kk1 = $this->db->query('SELECT * FROM tweb_keluarga');
+      $kk1 = $this->db->query('SELECT * FROM tweb_keluarga WHERE id_cluster != 0');
       
       $cowok = $cowok1->num_rows();
       $cewek = $cewek1->num_rows();
@@ -15,17 +15,17 @@
       $kk = $kk1->num_rows(); ?>
         <div class="progress-group">
             LAKI-LAKI
-            <div class="progress progress-sm active" align="right"><small><b><?php echo number_format($cowok);?> Jiwa</small></b>&nbsp;
-                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"  style="width: <?php echo $cowok/$dua*100; ?>%"></div>
+            <div class="progress progress-sm active" align="right"><small><b><?= number_format($cowok);?> Jiwa</small></b>&nbsp;
+                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"  style="width: <?= $cowok/$dua*100; ?>%"></div>
             </div>
         </div>
         <div class="progress-group">
             PEREMPUAN
-            <div class="progress progress-sm active" align="right"><small><b><?php echo number_format($cewek);?> Jiwa</small></b>&nbsp;
-                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: <?php echo $cewek/$dua*100; ?>%"></div>
+            <div class="progress progress-sm active" align="right"><small><b><?= number_format($cewek);?> Jiwa</small></b>&nbsp;
+                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: <?= $cewek/$dua*100; ?>%"></div>
             </div>
         </div><hr>
         <div class="progress-group">
-            <button type="button" class="btn btn-success btn-block">Jumlah <?php echo number_format($kk);?> KK | <?php echo number_format($dua);?> Jiwa</button>
+            <button type="button" class="btn btn-success btn-block">Jumlah <?= number_format($kk);?> KK | <?= number_format($dua);?> Jiwa</button>
         </div>
   </div>

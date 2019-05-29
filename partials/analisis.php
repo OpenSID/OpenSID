@@ -1,8 +1,8 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-	<script src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
-	<script src="<?php echo base_url()?>assets/js/highcharts/highcharts-more.js"></script>
-	<script src="<?php echo base_url()?>assets/js/highcharts/exporting.js"></script>
+	<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+	<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+	<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {hiRes ();});
 		var chart;
@@ -51,7 +51,7 @@
 					<?php foreach($list_jawab as $data){?>
 					 <?php if($data['jawaban'] != "TOTAL"){?>
 					 <?php if($data['nilai'] != "-"){?>
-							<?php echo $data['nilai']?>,
+							<?= $data['nilai']?>,
 						<?php }?>
 						<?php }?>
 					<?php }?>]
@@ -71,7 +71,7 @@ font-weight:bold;
 h3{ margin-left: 10px; }
 </style>
 
-<h2><?php echo $indikator?></h2><br>
+<h2><?= $indikator?></h2><br>
 <div class="" style="padding: 5px;">
 <div id="contentpane">
 <div class="ui-layout-center" id="chart" style="padding: 5px;"></div>
@@ -86,15 +86,15 @@ h3{ margin-left: 10px; }
 	<tbody>
 	<?php foreach($list_jawab as $data): ?>
 		<tr>
-		<td><?php echo $data['no']?></td>
-		<td><?php echo $data['jawaban']?></td>
-		<td><?php echo $data['nilai']?></td>
+		<td><?= $data['no']?></td>
+		<td><?= $data['jawaban']?></td>
+		<td><?= $data['nilai']?></td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>
 </table>
 <div>
-	<a href="<?php echo site_url()?>first/data_analisis" class="uibutton icon prev">Kembali</a>
+	<a href="<?= site_url()?>first/data_analisis" class="uibutton icon prev">Kembali</a>
 </div>
 </div>
 </div>

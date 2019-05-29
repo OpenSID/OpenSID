@@ -1,6 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 <script type="text/javascript">
 			var chart;
 			$(document).ready(function() {
@@ -18,7 +18,7 @@
 						},
                         categories: [
 						<?php  $i=0;foreach($main as $data){$i++;?>
-						  <?php echo "'$data[nama]',";?>
+						  <?= "'$data[nama]',";?>
 						<?php }?>
 						]
 					},
@@ -57,7 +57,7 @@
 						name: 'Populasi',
 						data: [
 						<?php  foreach($main as $data){?>
-						  <?php echo $data['jumlah'].",";?>
+						  <?= $data['jumlah'].",";?>
 						<?php }?>]
 
 					}]

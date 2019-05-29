@@ -14,7 +14,7 @@
 	<h2>KARTU KELUARGA PENDUDUK</h2> </div></b></th>
     </tr>
 	  <tr>
-		  <td colspan="3" class="button" scope="col"><a href="<?php echo site_url("first/cetak_kk/$penduduk[id]/1"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK KARTU KELUARGA</button></a></td>
+		  <td colspan="3" class="button" scope="col"><a href="<?= site_url("first/cetak_kk/$penduduk[id]/1"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK KARTU KELUARGA</button></a></td>
     </tr>
   </table><br>
 
@@ -26,112 +26,112 @@
     <tr>
       <td width="36%">Nama</td>
       <td width="2%">:</td>
-      <td width="62%"><?php echo strtoupper(unpenetration($penduduk['nama']))?></td>
+      <td width="62%"><?= strtoupper(unpenetration($penduduk['nama']))?></td>
     </tr>
     <tr class="shaded">
       <td>NIK</td>
       <td>:</td>
-      <td><?php echo $penduduk['nik']?></td>
+      <td><?= $penduduk['nik']?></td>
     </tr>
     <tr>
       <td>No KK</td>
       <td>:</td>
-      <td><?php echo $penduduk['no_kk']?></td>
+      <td><?= $penduduk['no_kk']?></td>
     </tr>
     <tr class="shaded">
       <td>Akta Kelahiran</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['akta_lahir'])?></td>
+      <td><?= strtoupper($penduduk['akta_lahir'])?></td>
     </tr>
     <tr>
-      <td><?php echo ucwords($this->setting->sebutan_dusun)?></td>
+      <td><?= ucwords($this->setting->sebutan_dusun)?></td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['dusun'])?></td>
+      <td><?= strtoupper($penduduk['dusun'])?></td>
     </tr>
     <tr class="shaded">
       <td>RT/RW</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['rt'])?>/<?php echo $penduduk['rw']?></td>
+      <td><?= strtoupper($penduduk['rt'])?>/<?= $penduduk['rw']?></td>
     </tr>
     <tr>
       <td>Jenis Kelamin</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['sex'])?></td>
+      <td><?= strtoupper($penduduk['sex'])?></td>
     </tr>
     <tr class="shaded">
       <td>Tempat, Tanggal Lahir</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['tempatlahir'])?>, <?php echo strtoupper($penduduk['tanggallahir'])?></td>
+      <td><?= strtoupper($penduduk['tempatlahir'])?>, <?= strtoupper($penduduk['tanggallahir'])?></td>
     </tr>
     <tr>
       <td>Agama</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['agama'])?></td>
+      <td><?= strtoupper($penduduk['agama'])?></td>
     </tr>
     <tr class="shaded">
       <td>Pendidikan Dalam KK</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['pendidikan_kk'])?></td>
+      <td><?= strtoupper($penduduk['pendidikan_kk'])?></td>
     </tr>
     <tr>
       <td>Pendidikan yang sedang ditempuh</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['pendidikan_sedang'])?></td>
+      <td><?= strtoupper($penduduk['pendidikan_sedang'])?></td>
     </tr>
     <tr class="shaded">
       <td>Pekerjaan</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['pekerjaan'])?></td>
+      <td><?= strtoupper($penduduk['pekerjaan'])?></td>
     </tr>
     <tr>
       <td>Status Perkawinan</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['kawin'])?></td>
+      <td><?= strtoupper($penduduk['kawin'])?></td>
     </tr>
     <tr class="shaded">
       <td>Warga Negara</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['warganegara'])?></td>
+      <td><?= strtoupper($penduduk['warganegara'])?></td>
     </tr>
     <tr>
       <td>Dokumen Paspor</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['dokumen_pasport'])?></td>
+      <td><?= strtoupper($penduduk['dokumen_pasport'])?></td>
     </tr>
     <tr class="shaded">
       <td>Dokumen Kitas</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['dokumen_kitas'])?></td>
+      <td><?= strtoupper($penduduk['dokumen_kitas'])?></td>
     </tr>
     <tr>
       <td>Alamat Sebelumnya</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['alamat_sebelumnya'])?></td>
+      <td><?= strtoupper($penduduk['alamat_sebelumnya'])?></td>
     </tr>
     <tr class="shaded">
       <td>Alamat Sekarang</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['alamat'])?></td>
+      <td><?= strtoupper($penduduk['alamat'])?></td>
     </tr>
     <tr>
       <td>Akta Perkawinan</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['akta_perkawinan'])?></td>
+      <td><?= strtoupper($penduduk['akta_perkawinan'])?></td>
     </tr>
     <tr class="shaded">
       <td>Tanggal Perkawinan</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['tanggalperkawinan'])?></td>
+      <td><?= strtoupper($penduduk['tanggalperkawinan'])?></td>
     </tr>
     <tr>
       <td>Akta Perceraian</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['akta_perceraian'])?></td>
+      <td><?= strtoupper($penduduk['akta_perceraian'])?></td>
     </tr>
     <tr class="shaded">
       <td>Tanggal Perceraian</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['tanggalperceraian'])?></td>
+      <td><?= strtoupper($penduduk['tanggalperceraian'])?></td>
     </tr>
     <tr class="judul">
       <td><b>Data Orang Tua</b></td>
@@ -141,35 +141,35 @@
     <tr>
       <td>NIK Ayah</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['ayah_nik'])?></td>
+      <td><?= strtoupper($penduduk['ayah_nik'])?></td>
     </tr>
     <tr class="shaded">
       <td>Nama Ayah</td>
       <td>:</td>
-      <td><?php echo strtoupper(unpenetration($penduduk['nama_ayah']))?></td>
+      <td><?= strtoupper(unpenetration($penduduk['nama_ayah']))?></td>
     </tr>
     <tr>
       <td>NIK Ibu</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['ibu_nik'])?></td>
+      <td><?= strtoupper($penduduk['ibu_nik'])?></td>
     </tr>
     <tr class="shaded">
       <td>Nama Ibu</td>
       <td>:</td>
-      <td><?php echo strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
+      <td><?= strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
     </tr>
     <tr>
       <td>Cacat</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['cacat'])?></td>
+      <td><?= strtoupper($penduduk['cacat'])?></td>
     </tr>
     <tr class="shaded">
       <td>Status</td>
       <td>:</td>
-      <td><?php echo strtoupper($penduduk['status'])?></td>
+      <td><?= strtoupper($penduduk['status'])?></td>
     </tr><br>
     <tr>
-      <td colspan="3" class="button" scope="col"><a href="<?php echo site_url("first/cetak_biodata/$penduduk[id]"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK BIODATA</button></a></td>
+      <td colspan="3" class="button" scope="col"><a href="<?= site_url("first/cetak_biodata/$penduduk[id]"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK BIODATA</button></a></td>
     </tr>
   </table><br>
 
@@ -186,9 +186,9 @@
       </tr>
       <?php $no=1; foreach($list_kelompok as $kel){?>
         <tr>
-          <td align="center" width="2"><?php echo $no;?></td>
-          <td><?php echo $kel['nama']?></td>
-          <td><?php echo $kel['kategori']?></td>
+          <td align="center" width="2"><?= $no;?></td>
+          <td><?= $kel['nama']?></td>
+          <td><?= $kel['kategori']?></td>
           <td></td>
         </tr>
         <?php $no++;
@@ -212,10 +212,10 @@
     <tbody>
       <?php foreach($list_dokumen as $data){?>
         <tr>
-          <td align="center" width="2"><?php echo $data['no']?></td>
-          <td><?php echo $data['nama']?></td>
-          <td><a href="<?php echo base_url().LOKASI_DOKUMEN?><?php echo urlencode($data['satuan'])?>" ><?php echo $data['satuan']?></a></td>
-          <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
+          <td align="center" width="2"><?= $data['no']?></td>
+          <td><?= $data['nama']?></td>
+          <td><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" ><?= $data['satuan']?></a></td>
+          <td><?= tgl_indo2($data['tgl_upload'])?></td>
           <td></td>
         </tr>
       <?php }?>

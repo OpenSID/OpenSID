@@ -9,8 +9,8 @@
 <meta name='designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:version' content='4.1' />
-<meta name="keywords" content="<?php echo $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>" />
-<meta property="og:site_name" content="<?php echo ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
+<meta name="keywords" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>" />
+<meta property="og:site_name" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 <meta property="og:type" content="article"/>
 <meta property="fb:app_id" content="147912828718">
 <title><?php
@@ -36,28 +36,28 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.css"); ?>">
 
 <!-- nambah baru lagi 
-<link type='text/css' href="<?php echo base_url()?>Xassets/bootstrap/css/bootstrap.min.css" rel='stylesheet' />-->
-<link type='text/css' href="<?php echo base_url()?>assets/css/font-awesome.min.css" rel='stylesheet' />
-<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
+<link type='text/css' href="<?= base_url()?>Xassets/bootstrap/css/bootstrap.min.css" rel='stylesheet' />-->
+<link type='text/css' href="<?= base_url()?>assets/css/font-awesome.min.css" rel='stylesheet' />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 
 <?php if(isset($single_artikel)): ?>
-    <meta property="og:title" content="<?php echo $single_artikel["judul"];?>"/>
-    <meta property="og:url" content="<?php echo site_url()?>first/artikel/<?php echo $single_artikel['id'];?>"/>
-    <meta property="og:image" content="<?php echo base_url()?><?php echo LOKASI_FOTO_ARTIKEL?>sedang_<?php echo $single_artikel['gambar'];?>"/>
-    <meta property="og:description" content="<?php echo potong_teks($single_artikel['isi'], 300)?> ..."/>
+    <meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
+    <meta property="og:url" content="<?= site_url()?>first/artikel/<?= $single_artikel['id'];?>"/>
+    <meta property="og:image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
+    <meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
 <?php else: ?>
-    <meta property="og:title" content="<?php echo ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
-    <meta property="og:url" content="<?php echo site_url()?>"/>
-    <meta property="og:image" content="<?php echo LogoDesa($desa['logo']);?>"/>
-    <meta property="og:description" content="<?php echo $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
+    <meta property="og:title" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
+    <meta property="og:url" content="<?= site_url()?>"/>
+    <meta property="og:image" content="<?= LogoDesa($desa['logo']);?>"/>
+    <meta property="og:description" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 <?php endif; ?>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<script language='javascript' src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
-<script language='javascript' src="<?php echo base_url('assets/bootstrap/js/bootstrap.js'); ?>"></script>
-<script language='javascript' src="<?php echo base_url('assets/js/jquery.cycle2.min.js') ?>"></script>
-<script language='javascript' src="<?php echo base_url('assets/js/jquery.cycle2.carousel.js') ?>"></script>
+<script language='javascript' src="<?= base_url('assets/js/jquery.min.js'); ?>"></script>
+<script language='javascript' src="<?= base_url('assets/bootstrap/js/bootstrap.js'); ?>"></script>
+<script language='javascript' src="<?= base_url('assets/js/jquery.cycle2.min.js') ?>"></script>
+<script language='javascript' src="<?= base_url('assets/js/jquery.cycle2.carousel.js') ?>"></script>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script> 
-<script src="<?php echo base_url()?>assets/js/leaflet.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 
 <script type="text/javascript">
 window.setTimeout("renderDate()",1);

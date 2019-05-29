@@ -78,44 +78,44 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
     <div align="center"><h2>Anggaran Tahun 2019</h2></div><hr>
     <div class="progress-group" style="margin-bottom:15px;">
         Jumlah Rencana Penerimaan TA 2019<br>
-        <b>Rp. <?php echo number_format($total19); ?></b>
+        <b>Rp. <?= number_format($total19); ?></b>
     </div>
     <div class="progress-group">
         Alokasi Dana Desa (ADD)<br>
-		<b>Rp. <?php echo number_format($add19); ?></b>
-        <div class="progress progress-sm active" align="right"><small><b><?php echo $prosenADD19; ?>%</b></small>&nbsp;
-            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?php echo $panjangADD19; ?>%"></div>
+		<b>Rp. <?= number_format($add19); ?></b>
+        <div class="progress progress-sm active" align="right"><small><b><?= $prosenADD19; ?>%</b></small>&nbsp;
+            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?= $panjangADD19; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Dana Desa (DD)<br>
-		<b>Rp. <?php echo number_format($dd19); ?></b>
-        <div class="progress progress-sm active" align="right"><small><b><?php echo $prosenDD19; ?>%</b></small>&nbsp;
-            <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: <?php echo $panjangDD19; ?>%"></div>
+		<b>Rp. <?= number_format($dd19); ?></b>
+        <div class="progress progress-sm active" align="right"><small><b><?= $prosenDD19; ?>%</b></small>&nbsp;
+            <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: <?= $panjangDD19; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Bagi Hasil Pajak & Retribusi Daerah (PBH)<br>
-		<b>Rp. <?php echo number_format($pbh19); ?></b>
-        <div class="progress progress-sm active" align="right"><small><b><?php echo $prosenPBH19; ?>%</b></small>&nbsp;
-            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: <?php echo $panjangPBH19; ?>%"></div>
+		<b>Rp. <?= number_format($pbh19); ?></b>
+        <div class="progress progress-sm active" align="right"><small><b><?= $prosenPBH19; ?>%</b></small>&nbsp;
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: <?= $panjangPBH19; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Pendapatan Asli Desa (PAD)<br>
-		<b>Rp. <?php echo number_format($dll19); ?></b>
-        <div class="progress progress-sm active" align="right"><small><b><?php echo $prosenDLL19; ?>%</b></small>&nbsp;
-            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?php echo $panjangDLL19; ?>%"></div>
+		<b>Rp. <?= number_format($dll19); ?></b>
+        <div class="progress progress-sm active" align="right"><small><b><?= $prosenDLL19; ?>%</b></small>&nbsp;
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?= $panjangDLL19; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Penerimaan Pembiayaan<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($pembiayaan19); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenPB19; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($pembiayaan19); ?></b></span>
+            <small class="pull-right"><b><?= $prosenPB19; ?>%&nbsp;</b></small>
         </div>
 		<div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" style="width: <?php echo $panjangPB19; ?>%"></div>
+            <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" style="width: <?= $panjangPB19; ?>%"></div>
         </div>
     </div><hr>
 </div>
@@ -124,56 +124,56 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
     <div class="progress-group" style="margin-bottom:15px;">
         Realisasi Pendapatan Desa TA 2018<br>
         <span class="pull-left"><b>Rp. <?php $persennya = number_format($total/1810851261 * 100,2); echo number_format($total); ?></b></span>
-        <span class="pull-right"><b><?php echo $persennya; ?>%&nbsp;</b></span>
+        <span class="pull-right"><b><?= $persennya; ?>%&nbsp;</b></span>
     </div><br>
     <div class="progress-group">
         Alokasi Dana Desa (ADD)<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($add); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenADD; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($add); ?></b></span>
+            <small class="pull-right"><b><?= $prosenADD; ?>%&nbsp;</b></small>
         </div>
 		<div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?php echo $panjangADD; ?>%"></div>
+            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?= $panjangADD; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Dana Desa (DD)<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($dd); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenDD; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($dd); ?></b></span>
+            <small class="pull-right"><b><?= $prosenDD; ?>%&nbsp;</b></small>
         </div>
 		<div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: <?php echo $panjangDD; ?>%"></div>
+            <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: <?= $panjangDD; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Bagi Hasil Pajak & Retribusi Daerah (PBH)<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($pbh); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenPBH; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($pbh); ?></b></span>
+            <small class="pull-right"><b><?= $prosenPBH; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: <?php echo $panjangPBH; ?>%"></div>
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: <?= $panjangPBH; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Pendapatan Lain-Lain (DLL)<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($dll); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenDLL; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($dll); ?></b></span>
+            <small class="pull-right"><b><?= $prosenDLL; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?php echo $panjangDLL; ?>%"></div>
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?= $panjangDLL; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Penerimaan Pembiayaan<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($pembiayaan); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenPB; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($pembiayaan); ?></b></span>
+            <small class="pull-right"><b><?= $prosenPB; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" style="width: <?php echo $panjangPB; ?>%"></div>
+            <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" style="width: <?= $panjangPB; ?>%"></div>
         </div>
     </div><hr>
 </div>
@@ -182,56 +182,56 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
     <div class="progress-group" style="margin-bottom:15px;">
         Realisasi Belanja Desa TA 2018<br>
         <span class="pull-left"><b>Rp. <?php $persennya2 = number_format($total2/1814731911 * 100,2); echo number_format($total2); ?></b></span>
-        <span class="pull-right"><b><?php echo $persennya2; ?>%&nbsp;</b></span>
+        <span class="pull-right"><b><?= $persennya2; ?>%&nbsp;</b></span>
     </div><br>
     <div class="progress-group">
         Penyelenggaraan Pemerintahan Desa<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($satu); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenSatu; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($satu); ?></b></span>
+            <small class="pull-right"><b><?= $prosenSatu; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?php echo $panjangSatu; ?>%"></div>
+            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?= $panjangSatu; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Pembangunan Desa<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($dua); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenDua; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($dua); ?></b></span>
+            <small class="pull-right"><b><?= $prosenDua; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: <?php echo $panjangDua; ?>%"></div>
+            <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: <?= $panjangDua; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Pembinaan Kemasyarakatan Desa<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($tiga); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenTiga; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($tiga); ?></b></span>
+            <small class="pull-right"><b><?= $prosenTiga; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: <?php echo $panjangTiga; ?>%"></div>
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: <?= $panjangTiga; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Pemberdayaan Masyarakat Desa<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($empat); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenEmpat; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($empat); ?></b></span>
+            <small class="pull-right"><b><?= $prosenEmpat; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?php echo $panjangEmpat; ?>%"></div>
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?= $panjangEmpat; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
         Bidang Tak Terduga<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?php echo number_format($lima); ?></b></span>
-            <small class="pull-right"><b><?php echo $prosenLima; ?>%&nbsp;</b></small>
+            <span class="pull-left"><b>Rp. <?= number_format($lima); ?></b></span>
+            <small class="pull-right"><b><?= $prosenLima; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
-            <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" style="width: <?php echo $panjangLima; ?>%"></div>
+            <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" style="width: <?= $panjangLima; ?>%"></div>
         </div>
     </div><hr>
 </div>

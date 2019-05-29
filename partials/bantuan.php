@@ -1,7 +1,7 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<link rel="stylesheet" href="<?php echo base_url()?>assets/css/jquery-ui-1.12.1.css">
-<script src="<?php echo base_url()?>assets/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="<?= base_url()?>assets/css/jquery-ui-1.12.1.css">
+<script src="<?= base_url()?>assets/js/jquery-ui.min.js"></script>
 <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
 
 <script>
@@ -46,12 +46,12 @@
       <tbody>
       <?php foreach ($daftar_bantuan as $bantuan) : ?>
         <tr>
-          <td><?php echo $bantuan['nama']?></td>
-          <td><?php echo tgl_indo($bantuan['sdate'])?></td>
-          <td><?php echo tgl_indo($bantuan['edate'])?></td>
+          <td><?= $bantuan['nama']?></td>
+          <td><?= tgl_indo($bantuan['sdate'])?></td>
+          <td><?= tgl_indo($bantuan['edate'])?></td>
           <td>
             <?php if($bantuan['no_id_kartu']) : ?>
-              <button type="button" target="kartu_peserta" title="Kartu Peserta" href="<?php echo site_url('first/kartu_peserta/'.$bantuan['id'])?>" onclick="show_kartu_peserta($(this));" class="uibutton special"><span class="fa fa-print">&nbsp;</span><?php echo $bantuan['no_id_kartu']?></button>
+              <button type="button" target="kartu_peserta" title="Kartu Peserta" href="<?= site_url('first/kartu_peserta/'.$bantuan['id'])?>" onclick="show_kartu_peserta($(this));" class="uibutton special"><span class="fa fa-print">&nbsp;</span><?= $bantuan['no_id_kartu']?></button>
             <?php endif; ?>
           </td>
         </tr>
