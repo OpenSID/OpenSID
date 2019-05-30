@@ -51,7 +51,7 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
     <meta property="og:image" content="<?= LogoDesa($desa['logo']);?>"/>
     <meta property="og:description" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 <?php endif; ?>
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ if (window.scrollY == 0) window.scrollTo(0,1); } </script>
 <script language='javascript' src="<?= base_url('assets/js/jquery.min.js'); ?>"></script>
 <script language='javascript' src="<?= base_url('assets/bootstrap/js/bootstrap.js'); ?>"></script>
 <script language='javascript' src="<?= base_url('assets/js/jquery.cycle2.min.js') ?>"></script>
