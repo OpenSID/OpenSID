@@ -1,0 +1,24 @@
+Catatan pra rilis versi 4.1:
+
+1. Mengatasi menu yang tidak berfungsi saat di klik jika bukan submenu. [bug-fix]
+2. Perbaiki gagal kirim pada laporan layanan mandiri. [bug-fix]
+3. Sesuaikan company_logo_url dengan logo pada website.
+4. Komentar facebook muncul sesuai status komentar pada artikel.
+5. Teks berjalan otomatis berhenti saat ada cursor. [new]
+6. #1 Perbaiki script widget sinergi program yang tidak muncul. [bug-fix]
+7. #2 Teks berjalan ada juga di setiap artikel. [new]
+8. #3 Perbaiki tampilan Headline. [bug-fix]
+9. Tambah widget peta lokasi kantor desa. [new]
+10. #4 Modifikasi tampilan form login layanan mandiri.
+11. #5 Sesuaikan widget Aparatur Desa menggunakan library cycle2.
+12. Perubahan base_url menjadi site_url pada link Statisik Desa. [bug-fix]
+13. Tambah widget info media sosial. [new]
+14. Sekarang script tema dapat menyesuaikan nama folder. [bug-fix]
+15. #9 Tambah info nama Kecamatan & Kabupaten diheader. [new]
+16. Menyesuaikan teks berjalan pada OpenSID versi 19.05-pasca.
+17. #13 Icon muncul sesuai status widget sosial media. [bug-fix]
+18. Menyesuaikan aturan penulisan script dari <?php echo menjadi <?=.
+19. Memperbaiki auto scroll saat reload halaman website. [bug-fix]
+
+****************************************************************
+
