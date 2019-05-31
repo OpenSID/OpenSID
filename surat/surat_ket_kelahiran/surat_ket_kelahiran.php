@@ -520,7 +520,7 @@
 									<div class="col-sm-2">
 										<div class="input-group input-group-sm">
 											<input class="form-control input-sm data_lahir" placeholder="Berat Bayi" name="berat_lahir" id="input_group" type="text"  value="<?= $_SESSION['post']['berat_lahir']?>"/>
-											<div class="input-group-addon" style="width:40px;">Kg</div>
+											<div class="input-group-addon" style="width:40px;">gram</div>
 										</div>
 									</div>
 								</div>

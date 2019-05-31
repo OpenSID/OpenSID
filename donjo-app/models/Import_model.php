@@ -365,6 +365,7 @@ class Import_model extends CI_Model {
 			else
 			{
 				if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
+				$data['created_by'] = $this->session->user;
 				$hasil = $this->db->insert('tweb_penduduk', $data);
 				$id = $this->db->insert_id();
 				$penduduk_baru = $id;
@@ -373,6 +374,7 @@ class Import_model extends CI_Model {
 		else
 		{
 			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
+			$data['created_by'] = $this->session->user;
 			$hasil = $this->db->insert('tweb_penduduk', $data);
 			$id = $this->db->insert_id();
 			$penduduk_baru = $id;
@@ -577,6 +579,7 @@ class Import_model extends CI_Model {
 				$penduduk['nik'] = $nik;
 				$penduduk['id_rtm']	= $id_rtm;
 				$penduduk['rtm_level'] = $rtm_level;
+				$penduduk['created_by'] = $this->session->user;
 
 				$outp = $this->db->insert('tweb_penduduk', $penduduk);
 

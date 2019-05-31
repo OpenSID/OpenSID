@@ -326,6 +326,7 @@
 
 		// Tulis penduduk baru sebagai kepala keluarga
 		$data['kk_level'] = 1;
+		$data['created_by'] = $this->session->user;
 		$outp = $this->db->insert('tweb_penduduk', $data);
 		$id_pend = $this->db->insert_id();
 		if ($outp) $_SESSION['success'] = 1;
@@ -733,6 +734,7 @@
 			return;
 		}
 
+		$data['created_by'] = $this->session->user;
 		$outp = $this->db->insert('tweb_penduduk', $data);
 		if (!$outp) $_SESSION = -1;
 

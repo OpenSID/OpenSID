@@ -210,6 +210,17 @@
 			);
 			$this->dbforge->add_column('tweb_penduduk', $fields);
 		}
+		else
+		{
+			$fields = array();
+			$fields['updated_by'] = array(
+					'type' => 'INT',
+					'constraint' => 11,
+				  'null' => TRUE,
+					'default' => NULL
+			);
+		  $this->dbforge->modify_column('tweb_penduduk', $fields);
+		}
 
   	// Tambah menu teks berjalan
 		$data = array(
