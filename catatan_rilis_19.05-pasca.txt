@@ -1,10 +1,10 @@
-Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini merekam tanggal dan pengguna yang memasukkan atau mengubah data penduduk. Teks berjalan sekarang bisa diberi tautan ke artikel terkait. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Gali Arta yang terus berkontribusi. Terima kasih pula pada Wildan Agissa Rusadi dan Ariandi Ryan Kahfi yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.05-pasca:
 
-1. #1417: Ubah perekaman data berat lahir dari kg menjadi gram supaya sesuai dengan buku Posyandu.
+1. #1417: Ubah perekaman data berat lahir dari kg menjadi gram supaya sesuai dengan buku Posyandu. Sesuaikan di Surat Keterangan Kelahiran dan F-2.01.
 2. Gabung menu Donasi dan SID ke menu Home.
 3. #2036: Perbaiki error pada waktu menambah data terdata pada Data Suplemen yang masih kosong. [bug-fix]
 4. #2034: Pada form isian penduduk, kolom isian 'Kelahiran Anak Ke' sekarang default kosong kalau belum ada data (tidak lagi '0') [bug-fix]
@@ -17,7 +17,7 @@ Lengkapnya, isi rilis versi 19.05-pasca:
 11. Sesuaikan ekspor data penduduk supaya bisa diimpor ke database OpenDK tanpa perubahan.
 12. Tambah sitemap.xml otomatis untuk mempermudah mesin pencari seperti google mengindex artikel pada website
 13. #2050: Sekarang daftar Penduduk bisa diurut berdasarkan Tanggal Terdaftar.
-14. Rekam tgl dan pengguna yg mendaftarkan data penduduk. Tampilkan di halaman biodata penduduk.
+14. Rekam tgl dan pengguna yg mendaftarkan atau mengimpor data penduduk. Tampilkan di halaman biodata penduduk.
 15. #2045: Teks berjalan sekarang bisa ditambahkan tautan ke artikel terkait.
 16. #870: Tambah fitur cari untuk daftar peserta Program Bantuan.
 17. #2058: Sekarang Youtube dapat dikosongkan pada pengaturan widget Sosial Media. [bug-fix]
