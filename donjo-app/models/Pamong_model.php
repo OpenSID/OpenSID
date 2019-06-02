@@ -145,6 +145,7 @@
 		}
 
 		$data = array();
+		$data['foto'] = $nama_file;
 		$data = $this->siapkan_data($data);
 		// Beri urutan terakhir
 		$data['urut'] = $this->urut_max() + 1;
@@ -169,10 +170,6 @@
 		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? $this->input->post('pamong_nohenti') : NULL;
 		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ?tgl_indo_in($this->input->post('pamong_tglhenti')) : NULL;
 		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
-		if (!empty($_FILES['foto']['name']))
-		{
-			$data['foto'] = $nama_file;
-		}
 		return $data;
 	}
 
@@ -226,6 +223,7 @@
 		}
 
 		$data = array();
+		$data['foto'] = $nama_file;
 		$data = $this->siapkan_data($data);
 		$this->db->where("pamong_id", $id)->update('tweb_desa_pamong', $data);
 	}
