@@ -617,7 +617,8 @@
 				"[tgl_surat]" => "$tgl",
 				"[tgl_surat_hijri]" => $tgl_hijri,
 				"[tahun]" => "$thn",
-				"[bulan_romawi]" => bulan_romawi((int)date("m"))
+				"[bulan_romawi]" => bulan_romawi((int)date("m")),
+				"[format_nomor_surat]" => $surat['format_nomor_surat']
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
@@ -775,7 +776,7 @@
 
 	// Kode isian nomor_surat bisa ditentukan panjangnya, diisi dengan '0' di sebelah kiri
 	// Misalnya [nomor_surat, 3] akan menghasilkan seperti '012'
-  private function substitusi_nomor_surat($nomor, &$buffer)
+  public function substitusi_nomor_surat($nomor, &$buffer)
   {
 		$buffer = str_replace("[nomor_surat]","$nomor", $buffer);
 		if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $buffer, $matches))
@@ -835,6 +836,7 @@
 		// Ambil data
 		$data['config'] = $this->get_data_desa();
 		$data['surat'] = $this->get_surat($url);
+		$data['surat']['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
 		switch ($url)
 		{
 			default:

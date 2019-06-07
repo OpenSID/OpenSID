@@ -165,6 +165,20 @@ class Penomoran_surat_model extends CI_Model {
 		return !empty($surat);
 	}
 
+	public function format_penomoran_surat($data)
+	{
+		$this->load->model('surat_model');
+		$thn = date('Y');
+		$setting = $this->setting->format_nomor_surat;
+		$this->surat_model->substitusi_nomor_surat($data['input']['nomor'], $setting);
+		$array_replace = array(
+              "[kode_surat]" => $data['surat']['kode_surat'],
+              "[tahun]" => $thn,
+		);
+		$setting = str_replace(array_keys($array_replace), array_values($array_replace), $setting);
+		return $setting;
+	}
+
 }
 
 ?>

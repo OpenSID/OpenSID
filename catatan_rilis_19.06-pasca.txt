@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 Lengkapnya, isi rilis versi 19.06-pasca:
 
 1. Sekarang perubahan foto Pemerintahan Desa bisa disimpan lagi. [bug-fix]
+2. #2080: Format penomoran surat sekarang bisa ditentukan pada setting aplikasi.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

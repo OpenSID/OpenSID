@@ -194,6 +194,17 @@
 				'default' => NULL
 		);
 	  $this->dbforge->modify_column('tweb_penduduk', $fields);
+		// Tambahkan setting aplikasi untuk format penomoran surat
+		$query = $this->db->select('1')->where('key', 'format_nomor_surat')->get('setting_aplikasi');
+		if (!$query->result())
+		{
+			$data = array(
+				'key' => 'format_nomor_surat',
+				'value' => '[kode_surat]/[nomor_surat, 3]/PEM/[tahun]',
+				'keterangan' => 'Fomat penomoran surat'
+			);
+			$this->db->insert('setting_aplikasi', $data);
+		}
   }
 
   private function migrasi_1905_ke_1906()
