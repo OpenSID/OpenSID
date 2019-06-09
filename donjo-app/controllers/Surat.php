@@ -181,6 +181,10 @@ class Surat extends Admin_Controller {
 	private function get_data_untuk_form($url, &$data)
 	{
 		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
+		$data['surat'] = $this->surat_model->get_surat($url);
+		$data['input'] = $this->input->post();
+		$data['input']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
+		$data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
 		$data['lokasi'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
@@ -196,6 +200,19 @@ class Surat extends Admin_Controller {
 		$this->load->model('surat_master_model');
 		$this->surat_master_model->favorit($id, $k);
 		redirect("surat");
+	}
+
+	/*
+		Ajax POST data:
+		url -- url surat
+		nomor -- nomor surat
+	*/
+	public function format_nomor_surat()
+	{
+		$data['surat'] = $this->surat_model->get_surat($this->input->post('url'));
+		$data['input']['nomor'] = $this->input->post('nomor');
+		$format_nomor = $this->penomoran_surat_model->format_penomoran_surat($data);
+		echo json_encode($format_nomor);
 	}
 
 }
