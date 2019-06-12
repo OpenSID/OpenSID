@@ -169,11 +169,13 @@ class Penomoran_surat_model extends CI_Model {
 	{
 		$this->load->model('surat_model');
 		$thn = date('Y');
+		$bln_romawi = bulan_romawi((int)date('m'));
 		$setting = $this->setting->format_nomor_surat;
 		$this->surat_model->substitusi_nomor_surat($data['input']['nomor'], $setting);
 		$array_replace = array(
-              "[kode_surat]" => $data['surat']['kode_surat'],
-              "[tahun]" => $thn,
+              	"[kode_surat]" => $data['surat']['kode_surat'],
+              	"[tahun]" => $thn,
+		"[bulan_romawi]" => $bln_romawi,
 		);
 		$setting = str_replace(array_keys($array_replace), array_values($array_replace), $setting);
 		return $setting;
