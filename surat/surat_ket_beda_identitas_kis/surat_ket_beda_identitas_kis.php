@@ -166,15 +166,8 @@
 										<textarea name="keperluan" class="form-control input-sm required" placeholder="Keperluan"></textarea>
 									</div>
 								</div>
-								<div class="form-group">
-									<label for="atas_nama"  class="col-sm-3 control-label">Tertanda Atas Nama</label>
-									<div class="col-sm-6 col-lg-4">
-										<select class="form-control  input-sm select2" id="atas_nama" name="atas_nama" style ="width:100%;">
-											<option value="">--  Atas Nama --</option>
-											<option value="An. Kepala Desa <?= $desa['nama_desa']?>"> An. Kepala Desa <?= $desa['nama_desa']?> </option>
-											<option value="Ub. Kepala Desa <?= $desa['nama_desa']?>"> Ub. Kepala Desa <?= $desa['nama_desa']?> </option>
-										</select>
-									</div>
+								<div class="form-group subtitle_head">
+									<label class="col-sm-3 text-right"><strong>PENANDA TANGAN</strong></label>
 								</div>
 								<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 							</div>

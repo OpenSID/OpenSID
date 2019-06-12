@@ -1025,6 +1025,9 @@
 										<input name="tempat_nikah" class="form-control input-sm required" type="text" placeholder="Tempat" value="<?= $_SESSION['post']['tempat_nikah']?>">
 									</div>
 								</div>
+								<div class="form-group" >
+									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>D. PENANDA TANGAN </strong></label>
+								</div>
 								<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 							</div>
 						</form>

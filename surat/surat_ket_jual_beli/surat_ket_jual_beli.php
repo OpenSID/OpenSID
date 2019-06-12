@@ -117,6 +117,11 @@
 											<input type="text" name="ketua_adat" class="form-control input-sm" placeholder="Nama Ketua Adat" ></input>
 										</div>
 									</div>
+								</div>
+								<div class="form-group subtitle_head">
+									<label class="col-sm-3 text-right"><strong>PENANDA TANGAN</strong></label>
+								</div>
+								<div class="row">
 									<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 								</div>
 							</div>
