@@ -205,6 +205,8 @@
 			);
 			$this->db->insert('setting_aplikasi', $data);
 		}
+		// Ubah setting aplikasi current_version menjadi readonly
+		$this->db->where('key', 'current_version')->update('setting_aplikasi', array('kategori' => 'readonly'));
   }
 
   private function migrasi_1905_ke_1906()
