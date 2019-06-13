@@ -189,8 +189,8 @@ class Surat extends Admin_Controller {
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
-		$str_desa = ucwords($this->setting->sebutan_desa.' '.$data['lokasi']['nama_desa']);
-		$data['atas_nama'] = array("An. Kepala $str_desa","Ub. Kepala $str_desa");
+		$str_desa = ucwords($this->setting->sebutan_pimpinan_desa.' '.$data['lokasi']['nama_desa']);
+		$data['atas_nama'] = array("a.n. $str_desa","u.b. $str_desa");
 
 		$data_form = $this->surat_model->get_data_form($url);
 		if (is_file($data_form))

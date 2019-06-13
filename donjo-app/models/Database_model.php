@@ -207,6 +207,18 @@
 		}
 		// Ubah setting aplikasi current_version menjadi readonly
 		$this->db->where('key', 'current_version')->update('setting_aplikasi', array('kategori' => 'readonly'));
+		// Tambahkan setting aplikasi untuk jabatan pimpinan desa
+		$query = $this->db->select('1')->where('key', 'sebutan_pimpinan_desa')->get('setting_aplikasi');
+		if (!$query->result())
+		{
+			$data = array(
+				'key' => 'sebutan_pimpinan_desa',
+				'value' => 'Kepala Desa',
+				'keterangan' => 'Sebutan pimpinan desa',
+				'kategori' => 'pemerintahan'
+			);
+			$this->db->insert('setting_aplikasi', $data);
+		}
   }
 
   private function migrasi_1905_ke_1906()
