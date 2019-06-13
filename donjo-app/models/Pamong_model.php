@@ -266,6 +266,12 @@
 		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ttd'=>$val));
 	}
 
+	public function get_ttd()
+	{
+		$ttd = $this->db->where('pamong_ttd', 1)->get('tweb_desa_pamong')->row_array();
+		return $ttd;
+	}
+
   private function urut_max()
   {
     $this->db->select_max('urut');

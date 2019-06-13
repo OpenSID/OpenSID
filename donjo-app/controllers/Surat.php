@@ -94,6 +94,7 @@ class Surat extends Admin_Controller {
 		$id = $_POST['nik'];
 		$log_surat['id_pend'] = $id;
 		$data['input'] = $_POST;
+		$data['input']['atas_nama'] = preg_replace('/\(.+\)/', '', $data['input']['pilih_atas_nama']);
 		$data['tanggal_sekarang'] = tgl_indo(date("Y m d"));
 
 		$data['data'] = $this->surat_model->get_data_surat($id);
@@ -180,6 +181,7 @@ class Surat extends Admin_Controller {
 
 	private function get_data_untuk_form($url, &$data)
 	{
+		$this->load->model('pamong_model');
 		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
 		$data['surat'] = $this->surat_model->get_surat($url);
 		$data['input'] = $this->input->post();
@@ -188,9 +190,10 @@ class Surat extends Admin_Controller {
 		$data['lokasi'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
+		$pamong_ttd = $this->pamong_model->get_ttd();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
 		$str_desa = ucwords($this->setting->sebutan_pimpinan_desa.' '.$data['lokasi']['nama_desa']);
-		$data['atas_nama'] = array("a.n. $str_desa","u.b. $str_desa");
+		$data['atas_nama'] = array("a.n. {$str_desa} (pimpinan desa) ","u.b. {$pamong_ttd['jabatan']} (pamong TTD)");
 
 		$data_form = $this->surat_model->get_data_form($url);
 		if (is_file($data_form))

@@ -572,6 +572,23 @@
 		return $str;
 	}
 
+	private function atas_nama($data)
+	{
+		//Data penandatangan
+		$input = $data['input'];
+		if (empty($input['pilih_atas_nama'])) return '';
+
+		$config = $data['config'];
+		$this->load->model('pamong_model');
+		$pamong_ttd = $this->pamong_model->get_ttd();
+		$atas_nama = 'a.n. ' . ucwords($this->setting->sebutan_pimpinan_desa.' '.$config['nama_desa']);
+		if (strpos($input['pilih_atas_nama'], 'u.b.') !== false)
+		{
+			$atas_nama .= ' \par '.$pamong_ttd['jabatan'].' \par'.' u.b.';
+		}
+		return $atas_nama;
+	}
+
 	public function surat_rtf($data)
 	{
 		$this->load->library('date_conv');
@@ -621,6 +638,9 @@
 				"[format_nomor_surat]" => $surat['format_nomor_surat']
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+
+			//Data penandatangan
+			$buffer = str_replace("[atas_nama]", $this->atas_nama($data), $buffer);
 
 			//DATA DARI KONFIGURASI DESA
 			$buffer = $this->case_replace("[sebutan_kabupaten]", $this->setting->sebutan_kabupaten,$buffer);
