@@ -357,8 +357,8 @@
 			case 2: $order_sql = ' ORDER BY u.nik DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.nama'; break;
 			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY d.no_kk'; break;
-			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
+			case 5: $order_sql = ' ORDER BY CONCAT(d.no_kk, u.kk_level)'; break;
+			case 6: $order_sql = ' ORDER BY d.no_kk DESC, u.kk_level'; break;
 			case 7: $order_sql = ' ORDER BY umur'; break;
 			case 8: $order_sql = ' ORDER BY umur DESC'; break;
 			case 9: $order_sql = ' ORDER BY created_at'; break;
