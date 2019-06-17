@@ -1,0 +1,12 @@
+
+
+/* DEMO 3 */
+
+.wrapper-dropdown-3:focus
+
+ .dropdown {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
