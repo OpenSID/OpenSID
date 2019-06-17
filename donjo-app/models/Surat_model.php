@@ -196,7 +196,7 @@
 	{
 		$sql = "SELECT u.*, g.nama AS gol_darah, x.nama AS sex, u.sex as sex_id,
 			(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-			w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat, m.nama as cacat,
+			w.nama AS status_kawin, u.status_kawin as status_kawin_id, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat, m.nama as cacat,
 			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
 			(select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
@@ -572,6 +572,27 @@
 		return $str;
 	}
 
+	private function atas_nama($data)
+	{
+		//Data penandatangan
+		$input = $data['input'];
+		$config = $data['config'];
+		$this->load->model('pamong_model');
+		$atas_nama = '';
+		if (!empty($input['pilih_atas_nama']))
+		{
+			$atas_nama = 'a.n. ' . ucwords($this->setting->sebutan_pimpinan_desa.' '.$config['nama_desa']);
+			if (strpos($input['pilih_atas_nama'], 'u.b.') !== false)
+			{
+				$pamong_ttd = $this->pamong_model->get_ttd();
+				$atas_nama .= ' \par '.$pamong_ttd['jabatan'].' \par'.' u.b.';
+			}
+			$atas_nama .= ' \par ';
+		}
+		$atas_nama .= $input['jabatan'].' '.$config['nama_desa'];
+		return $atas_nama;
+	}
+
 	public function surat_rtf($data)
 	{
 		$this->load->library('date_conv');
@@ -621,6 +642,9 @@
 				"[format_nomor_surat]" => $surat['format_nomor_surat']
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+
+			//Data penandatangan
+			$buffer = str_replace("[penandatangan]", $this->atas_nama($data), $buffer);
 
 			//DATA DARI KONFIGURASI DESA
 			$buffer = $this->case_replace("[sebutan_kabupaten]", $this->setting->sebutan_kabupaten,$buffer);
