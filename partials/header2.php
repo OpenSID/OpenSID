@@ -11,10 +11,11 @@
                       <td><img class="tlClogo" src="<?= LogoDesa($desa['logo']);?>" width="30" valign="top" alt="<?= $desa['nama_desa']?>"/></td>
                       <td>
                           <a href="<?= site_url(); ?>first">
-                            <font size="4"><?php
-                              echo $this->setting->website_title. ' ' . ucwords($this->setting->sebutan_desa). (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : ''); ?>
+                            <font size="4"><?= $this->setting->website_title. ' ' . ucwords($this->setting->sebutan_desa). (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : ''); ?>
                               </font><br /><font size="2">
-                              <?= ucwords($this->setting->sebutan_kecamatan_singkat." ".$desa['nama_kecamatan'])?> <?= ucwords($this->setting->sebutan_kabupaten_singkat." ".$desa['nama_kabupaten'])?>
+                              <?= ucwords($this->setting->sebutan_kecamatan_singkat." ".$desa['nama_kecamatan'])?>
+							  <?= ucwords($this->setting->sebutan_kabupaten_singkat." ".$desa['nama_kabupaten'])?>
+							  <?= ucwords("Prov. ".$desa['nama_propinsi'])?>
                             </font>
                           </a>
                       </td>
