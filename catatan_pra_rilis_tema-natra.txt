@@ -21,5 +21,6 @@ Catatan pra rilis versi 4.1:
 19. Memperbaiki auto scroll saat reload halaman website. [bug-fix]
 20. #14 Tambah Info Nama provinsi dibawah nama Desa
 21. #15 Sesuaikan Style Ganti Password pada Layanan Mandiri
+22. Penerapan Fancybox pada Foto Artikel
 
 ****************************************************************
