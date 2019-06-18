@@ -19,6 +19,7 @@ Catatan pra rilis versi 4.1:
 17. #13 Icon muncul sesuai status widget sosial media. [bug-fix]
 18. Menyesuaikan aturan penulisan script dari <?php echo menjadi <?=.
 19. Memperbaiki auto scroll saat reload halaman website. [bug-fix]
+20. #14 Tambah Info Nama provinsi dibawah nama Desa
+21. #15 Sesuaikan Style Ganti Password pada Layanan Mandiri
 
 ****************************************************************
-
