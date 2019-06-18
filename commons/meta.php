@@ -39,7 +39,7 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
 <link type='text/css' href="<?= base_url()?>Xassets/bootstrap/css/bootstrap.min.css" rel='stylesheet' />-->
 <link type='text/css' href="<?= base_url()?>assets/css/font-awesome.min.css" rel='stylesheet' />
 <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 <?php if(isset($single_artikel)): ?>
     <meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
     <meta property="og:url" content="<?= site_url()?>first/artikel/<?= $single_artikel['id'];?>"/>
@@ -58,6 +58,7 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
 <script language='javascript' src="<?= base_url('assets/js/jquery.cycle2.carousel.js') ?>"></script>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script> 
 <script src="<?= base_url()?>assets/js/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
 <script type="text/javascript">
 window.setTimeout("renderDate()",1);
