@@ -73,7 +73,7 @@
 											</div>
 										<?php else : ?>
 											<div class="col-sm-12 col-md-4">
-												<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') or print 'digits'?>" type="text"  value="<?= $setting->value?>"></input>
+												<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') or print 'digits'?>" type="text"  value="<?= $setting->value?>" <?php ($setting->kategori != 'readonly') or print 'disabled'?>></input>
 											</div>
 										<?php endif; ?>
 										<label class="col-sm-12 col-md-5 pull-left" for="nama"><?= $setting->keterangan?></label>

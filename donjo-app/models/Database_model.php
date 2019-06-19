@@ -24,7 +24,8 @@
 		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
 		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
 		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => '19.05'),
-		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => NULL)
+		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.06'),
+		'19.06' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -181,6 +182,43 @@
 	$this->migrasi_1903_ke_1904();
 	$this->migrasi_1904_ke_1905();
 	$this->migrasi_1905_ke_1906();
+	$this->migrasi_1906_ke_1907();
+  }
+
+  private function migrasi_1906_ke_1907()
+  {
+		$fields['berat_lahir'] = array(
+				'type' => 'SMALLINT',
+				'constraint' => 6,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+	  $this->dbforge->modify_column('tweb_penduduk', $fields);
+		// Tambahkan setting aplikasi untuk format penomoran surat
+		$query = $this->db->select('1')->where('key', 'format_nomor_surat')->get('setting_aplikasi');
+		if (!$query->result())
+		{
+			$data = array(
+				'key' => 'format_nomor_surat',
+				'value' => '[kode_surat]/[nomor_surat, 3]/PEM/[tahun]',
+				'keterangan' => 'Fomat penomoran surat'
+			);
+			$this->db->insert('setting_aplikasi', $data);
+		}
+		// Ubah setting aplikasi current_version menjadi readonly
+		$this->db->where('key', 'current_version')->update('setting_aplikasi', array('kategori' => 'readonly'));
+		// Tambahkan setting aplikasi untuk jabatan pimpinan desa
+		$query = $this->db->select('1')->where('key', 'sebutan_pimpinan_desa')->get('setting_aplikasi');
+		if (!$query->result())
+		{
+			$data = array(
+				'key' => 'sebutan_pimpinan_desa',
+				'value' => 'Kepala Desa',
+				'keterangan' => 'Sebutan pimpinan desa',
+				'kategori' => 'pemerintahan'
+			);
+			$this->db->insert('setting_aplikasi', $data);
+		}
   }
 
   private function migrasi_1905_ke_1906()
@@ -209,6 +247,17 @@
 				  'null' => FALSE,
 			);
 			$this->dbforge->add_column('tweb_penduduk', $fields);
+		}
+		else
+		{
+			$fields = array();
+			$fields['updated_by'] = array(
+					'type' => 'INT',
+					'constraint' => 11,
+				  'null' => TRUE,
+					'default' => NULL
+			);
+		  $this->dbforge->modify_column('tweb_penduduk', $fields);
 		}
 
   	// Tambah menu teks berjalan

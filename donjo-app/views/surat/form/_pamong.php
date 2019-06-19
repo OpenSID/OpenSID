@@ -1,4 +1,17 @@
 <div class="form-group">
+	<label class="col-sm-3 control-label">Tertanda Atas Nama</label>
+	<div class="col-sm-6 col-lg-4">
+		<select class="form-control input-sm select2" name="pilih_atas_nama">
+			<option value="">-- Atas Nama --</option>
+			<?php foreach ($atas_nama as $data): ?>
+				<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['atas_nama']): ?>selected<?php endif; ?>>
+					<?= $data?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+	</div>
+</div>
+<div class="form-group">
 	<label class="col-sm-3 control-label">Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control required input-sm" id="pamong" name="pamong" onchange="ambil_pamong($(this).find(':selected'))">

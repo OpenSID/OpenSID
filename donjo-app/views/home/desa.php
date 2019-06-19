@@ -62,7 +62,7 @@
 							<div class="small-box bg-blue">
 								<div class="inner">
 										<h3><?=$jumlah_surat?></h3>
-									<p>Cetak Surat</p>
+									<p>Surat Tercetak</p>
 								</div>
 								<div class="icon">
 									<i class="ion-ios-paper"></i>
