@@ -501,6 +501,23 @@
 	  return $buffer_out;
 	}
 
+	private function sisipkan_kop_surat($buffer)
+	{
+		$kop_surat = file_get_contents('surat/raw/kop_surat_auto.rtf');
+		$buffer = str_replace('[kop_surat]', $kop_surat, $buffer);
+		return $buffer;
+	}
+
+	private function sisipkan_logo($nama_logo, $buffer)
+	{
+		// Ganti logo placeholder dengan logo desa
+		$placeholder_logo = '/89504.*49454e44ae426082/s';
+		$logo_bytes = file_get_contents(LOKASI_LOGO_DESA . $nama_logo);
+		$logo_hex = implode(unpack("H*", $logo_bytes));;
+		$buffer = preg_replace($placeholder_logo, $logo_hex, $buffer);
+		return $buffer;
+	}
+
 	public function get_data_form($surat)
 	{
 		$data_form = LOKASI_SURAT_DESA.$surat."/data_form_".$surat.".php";
@@ -624,6 +641,8 @@
 			$handle = fopen($file, 'r');
 			$buffer = stream_get_contents($handle);
 			$buffer = $this->bersihkan_kode_isian($buffer);
+			$buffer = $this->sisipkan_kop_surat($buffer);
+			$buffer = $this->sisipkan_logo($config['logo'], $buffer);
 
 			//PRINSIP FUNGSI
 			//-> [kata_template] -> akan digantikan dengan data di bawah ini (sebelah kanan)
