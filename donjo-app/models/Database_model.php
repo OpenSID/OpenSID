@@ -219,6 +219,11 @@
 			);
 			$this->db->insert('setting_aplikasi', $data);
 		}
+		// Tambah folder desa untuk menyimpan kop surat
+		if (!file_exists('/desa/surat/raw'))
+		{
+			mkdir('desa/surat/raw');
+		}
   }
 
   private function migrasi_1905_ke_1906()
