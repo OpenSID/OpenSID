@@ -11,11 +11,12 @@
 	  Kolom: c.dusun,c.rw,c.rt,p.nama,k.no_kk,p.nik,p.sex,p.tempatlahir,p.tanggallahir,p.agama_id,p.pendidikan_kk_id,p.pendidikan_sedang_id,p.pekerjaan_id,p.status_kawin,p.kk_level,p.warganegara_id,p.nama_ayah,p.nama_ibu,p.golongan_darah_id
 	*/
 
-  private function bersihkanData(&$str,$key)
+  private function bersihkanData(&$str, $key)
   {
     if (strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
     // Kode yang tersimpan sebagai '0' harus '' untuk dibaca oleh Import Excel
-    if ($str == "0") $str = "";
+    $kecuali = array('nik', 'no_kk');
+    if ($str == "0" and !in_array($key, $kecuali)) $str = "";
   }
 
   // Export data penduduk ke format Import Excel
