@@ -151,6 +151,11 @@ class Database extends Admin_Controller {
 		if ($opendk)
 		{
 			$data['judul'] = array_values($judul);
+			// Kolom tambahan khusus OpenDK
+			$data['judul'][] = 'id';
+			$data['judul'][] = 'status_dasar';
+			$data['judul'][] = 'created_at';
+			$data['judul'][] = 'updated_at';
 			$data['nama_file'] = 'penduduk_'.$tgl.'_opendk';
 		}
 		else
@@ -158,6 +163,7 @@ class Database extends Admin_Controller {
 			$data['judul'] = array_keys($judul);
 			$data['nama_file'] = 'penduduk_'.$tgl;
 		}
+		$data['opendk'] = $opendk;
 		$this->load->view('export/penduduk_excel', $data);
 	}
 
