@@ -185,17 +185,17 @@
 											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control input-sm required" placeholder="Hak Tanah" required>
 											<?php
 												$value = '';
-												if(substr($main->kode_barang,14,2)==01){
+												if(substr($main->kode_barang,-7,2)==01){
 													$value = 'Pemerintah Desa';
-												}elseif(substr($main->kode_barang,14,2)==02){
+												}elseif(substr($main->kode_barang,-7,2)==02){
 													$value = 'Badan Permusyawaratan Daerah';
-												}elseif(substr($main->kode_barang,14,2)==03){
+												}elseif(substr($main->kode_barang,-7,2)==03){
 													$value = 'PKK';
-												}elseif(substr($main->kode_barang,14,2)==04){
+												}elseif(substr($main->kode_barang,-7,2)==04){
 													$value = 'LKMD';
-												}elseif(substr($main->kode_barang,14,2)==05){
+												}elseif(substr($main->kode_barang,-7,2)==05){
 													$value = 'Karang Taruna';
-												}elseif(substr($main->kode_barang,14,2)==07){
+												}elseif(substr($main->kode_barang,-7,2)==07){
 													$value = 'RW';
 												}
 											?>
