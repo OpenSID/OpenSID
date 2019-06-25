@@ -224,6 +224,19 @@
 		{
 			mkdir('desa/surat/raw');
 		}
+		// Tambah Surat Pengantar Permohonan Penerbitan Buku Pas Lintas
+		$data = array(
+			'nama'=>'Pengantar Permohonan Penerbitan Buku Pas Lintas',
+			'url_surat'=>'surat_permohonan_penerbitan_buku_pas_lintas',
+			'kode_surat'=>'S-43',
+			'jenis'=>1);
+		$sql = $this->db->insert_string('tweb_surat_format', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				nama = VALUES(nama),
+				url_surat = VALUES(url_surat),
+				kode_surat = VALUES(kode_surat),
+				jenis = VALUES(jenis)";
+		$this->db->query($sql);
   }
 
   private function migrasi_1905_ke_1906()
