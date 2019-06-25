@@ -3,26 +3,6 @@
 		color: #dd4b39;
 	}
 </style>
-<script>
-	function change_all()
-	{
-		for (var i=1; i > 1; i++) {
-			$('#check'+i).change();
-		}
-	}
-	function ket_(centang, urut)
-	{
-		// ktp_berlaku sekarang selalu 'Seumur Hidup' dan tidak diubah
-		if (centang)
-		{
-			$('#anggota' + urut).attr('disabled', 'disabled');
-		}
-		else
-		{
-			$('#anggota' + urut).removeAttr('disabled');
-		}
-	}
-</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Surat Pengantar Permohonan Penerbitan Buku Pas Lintas</h1>
@@ -50,13 +30,13 @@
 							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<?php if ($individu): ?>
 								<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
-							<div class="row jar_form">
-								<label for="nomor" class="col-sm-3"></label>
-								<div class="col-sm-8">
-									<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
+								<div class="row jar_form">
+									<label for="nomor" class="col-sm-3"></label>
+									<div class="col-sm-8">
+										<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
+									</div>
 								</div>
-							</div>
-							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
+								<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Anak usia dibawah 18 tahun</label>
 									<div class="col-sm-8">
@@ -64,7 +44,7 @@
 											<table class="table table-bordered dataTable table-hover">
 												<thead class="bg-gray disabled color-palette">
 													<tr>
-														<th><input type="checkbox" id="checkall" onchange="change_all(<?= count($anggota);?>);"/></th>
+														<th><input type="checkbox" id="checkall"/></th>
 														<th>NIK</th>
 														<th>Nama</th>
 														<th>Jenis Kelamin</th>
@@ -75,28 +55,25 @@
 													</tr>
 												</thead>
 												<tbody>
-												<?php if ($anggota!=NULL): ?>
-													<input id='jumlah_anggota' type='hidden' disabled='disabled' value="<?= count($anggota);?>">
-													<?php $i=0;?>
-													<?php foreach ($anggota AS $data): $i++; ?>
-													<?php if ($data['umur'] <18 ) { ?>
-														<tr>
-															<td>
-																<input id='anggota<?= $i?>' type="hidden" name="id_cb[]" disabled="disabled" value="'<?= $data['id']?>'"/>
-																<input id='anggota_show<?= $i?>' type="checkbox" value="'<?= $data['nik']?>'" onchange="ket_($(this).is(':unchecked'),'<?= $i;?>');"/>
-															</td>
-															<td><?= $data['nik']?></td>
-															<td><?= $data['nama']?></td>
-															<td><?= $data['sex']?></td>
-															<td><?= $data['tempatlahir']?></td>
-															<td><?= $data['tanggallahir']?></td>
-															<td><?= $data['umur']?></td>
-															<td><?= $data['hubungan']?></td>
-														</tr>
-													<?php } ?>
-													<?php endforeach;?>
-												<?php endif; ?>
-											</tbody>
+													<?php if ($anggota != NULL): ?>
+														<?php foreach ($anggota AS $data): ?>
+															<?php if ($data['umur'] < 18 ): ?>
+																<tr>
+																	<td>
+																		<input type="checkbox" name="id_cb[]" value="'<?= $data['id']?>'"/>
+																	</td>
+																	<td><?= $data['nik']?></td>
+																	<td><?= $data['nama']?></td>
+																	<td><?= $data['sex']?></td>
+																	<td><?= $data['tempatlahir']?></td>
+																	<td><?= $data['tanggallahir']?></td>
+																	<td><?= $data['umur']?></td>
+																	<td><?= $data['hubungan']?></td>
+																</tr>
+															<?php endif; ?>
+														<?php endforeach; ?>
+													<?php endif; ?>
+												</tbody>
 											</table>
 										</div>
 									</div>
