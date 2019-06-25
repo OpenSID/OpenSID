@@ -21,7 +21,7 @@ class Api_inventaris_jalan extends Admin_Controller
 	public function add()
 	{
 		$data = $this->inventaris_jalan_model->add(array(
-			'nama_barang' => $this->input->post('nama_barang'),
+			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
 			'register' => $this->input->post('register'),
 			'kondisi' => $this->input->post('kondisi'),
@@ -63,7 +63,7 @@ class Api_inventaris_jalan extends Admin_Controller
 	public function update($id)
 	{
 		$data = $this->inventaris_jalan_model->update($id,array(
-			'nama_barang' => $this->input->post('nama_barang'),
+			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
 			'register' => $this->input->post('register'),
 			'kondisi' => $this->input->post('kondisi'),
