@@ -224,6 +224,20 @@
 		{
 			mkdir('desa/surat/raw');
 		}
+		// Tambah surat keterangan penghasilan ayah
+		$data = array(
+			'nama'=>'Keterangan Penghasilan Ayah',
+			'url_surat'=>'surat_keterangan_penghasilan_ayah',
+			'kode_surat'=>'S-44',
+			'jenis'=>1);
+		$sql = $this->db->insert_string('tweb_surat_format', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				nama = VALUES(nama),
+				url_surat = VALUES(url_surat),
+				kode_surat = VALUES(kode_surat),
+				jenis = VALUES(jenis)";
+		$this->db->query($sql);
+
   }
 
   private function migrasi_1905_ke_1906()
