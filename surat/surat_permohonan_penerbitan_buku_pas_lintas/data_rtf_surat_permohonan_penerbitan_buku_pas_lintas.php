@@ -14,7 +14,7 @@
 			"[bpl_tempat_$nomor]" => ucwords(strtolower($penduduk['tempatlahir'])),
 			"[bpl_tanggal_$nomor]" => ucwords(strtolower($penduduk['tanggallahir'])),
 			"[bpl_shdk_$nomor]" => ucwords(strtolower($penduduk['hubungan'])),
-			"[ket_$nomor]"  => $input['ket_'][$i],
+			"[ket_$nomor]"  => $input["ket_$id"],
         	);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 		}
@@ -36,7 +36,7 @@
 	$buffer = str_replace("[s1]", $individu['sex_id'], $buffer);
 	$buffer = str_replace("[s2]", $individu['status_kawin_id'], $buffer);
 	$buffer = str_replace("[s3]", $individu['agama_id'], $buffer);
-	
+
 	$Pecah = explode('-', $individu['tanggallahir']);
 	$kode_provinsi = str_split($config['kode_propinsi']);
 	$kode_kabupaten = str_split($config['kode_kabupaten']);
@@ -59,7 +59,7 @@
 		$buffer = str_replace("[des{$i}]", $kode_desa[$i-1], $buffer);
 		$buffer = str_replace("[thn{$i}]", $thn[$i-1], $buffer);
 	}
-		
+
 	$ktp = str_split($individu['nik']);
 	$kk = str_split($individu['no_kk']);
 	for ($i=1; $i<=16; $i++)

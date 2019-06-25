@@ -3,6 +3,20 @@
 		color: #dd4b39;
 	}
 </style>
+<script>
+	function ket_(centang, urut)
+	{
+		if (centang)
+		{
+			$('#ket_' + urut).attr('disabled', 'disabled');
+			$('#ket_' + urut).val('');
+		}
+		else
+		{
+			$('#ket_' + urut).removeAttr('disabled');
+		}
+	}
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Surat Pengantar Permohonan Penerbitan Buku Pas Lintas</h1>
@@ -52,15 +66,16 @@
 														<th>Tanggal Lahir</th>
 														<th>Umur</th>
 														<th>SHDK</th>
+														<th>Keterangan</th>
 													</tr>
 												</thead>
 												<tbody>
 													<?php if ($anggota != NULL): ?>
-														<?php foreach ($anggota AS $data): ?>
+														<?php foreach ($anggota as $data): ?>
 															<?php if ($data['umur'] < 18 ): ?>
 																<tr>
 																	<td>
-																		<input type="checkbox" name="id_cb[]" value="'<?= $data['id']?>'"/>
+																		<input type="checkbox" name="id_cb[]" value="'<?= $data['id']?>'" onchange="ket_($(this).is(':unchecked'),'<?= $data['id'];?>');"/>
 																	</td>
 																	<td><?= $data['nik']?></td>
 																	<td><?= $data['nama']?></td>
@@ -69,6 +84,7 @@
 																	<td><?= $data['tanggallahir']?></td>
 																	<td><?= $data['umur']?></td>
 																	<td><?= $data['hubungan']?></td>
+																	<td><input id="ket_<?= $data['id'] ?>" name="ket_<?= $data['id'] ?>" value="" disabled="disabled"></td>
 																</tr>
 															<?php endif; ?>
 														<?php endforeach; ?>
