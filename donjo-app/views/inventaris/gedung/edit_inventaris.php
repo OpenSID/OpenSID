@@ -1,3 +1,33 @@
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="opensidInventaris" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+		    <div class="modal-header">
+	        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            	<h4 class="modal-title" id="opensidInventaris">Kode Yang Terdaftar</h4>
+          	</div>
+          	<div class="modal-body">
+		  		<div class="row">
+            		<div class="col-sm-12">
+        				<ul class="list-group">
+							<?php
+							foreach($kd_reg as $reg){
+								if(strlen($reg->register) == 21){
+									echo '<li class="list-group-item" data-position-id="123">
+											<div class="companyPosItem">
+												<span class="companyPosLabel">'.substr($reg->register,-6).'</span>
+											</div>
+										</li>';
+								}
+							}
+							?>
+        				</ul>
+        			</div>
+        		</div>
+          	</div>
+        </div>
+    </div>
+</div>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Ubah Data Inventaris Gedung Dan Bangunan</h1>
@@ -25,7 +55,18 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nama_barang">Nama Barang / Jenis Barang</label>
 										<div class="col-sm-8">
 											<input maxlength="50" value="<?= $main->id; ?>" class="form-control input-sm required" name="id" id="id" type="hidden"/>
-											<input maxlength="50" value="<?= $main->nama_barang; ?>" class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text" />
+											<input type="hidden" name="nama_barang_save" id="nama_barang_save" value="<?= $main->nama_barang; ?>">
+											<input type="hidden" name="kode_propinsi" id="kode_propinsi" value="<?=$get_kode["kode_propinsi"]?>">
+											<input type="hidden" name="kode_kabupaten" id="kode_kabupaten" value="<?=$get_kode["kode_kabupaten"]?>">
+											<input type="hidden" name="kode_kecamatan" id="kode_kecamatan" value="<?=$get_kode["kode_kecamatan"]?>">
+											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=$get_kode["kode_desa"]?>">
+											<!-- <input maxlength="50" value="<?= $main->nama_barang; ?>" class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text" /> -->
+											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
+												<option value="<?= $main->nama_barang; ?>"><?= $main->nama_barang; ?></option>
+												<?php foreach ($aset as $data): ?>
+													<option value="<?=  $data['nama']."_".$data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok'].".".$hasil?>">Kode Reg : <?= $data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok']." - ".$data['nama']?></option>
+												<?php endforeach; ?>
+											</select>
 										</div>
 									</div>
 									<div class="form-group">
@@ -35,9 +76,12 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="register">Nomor Register</label>
-										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text" />
+										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
+										<div class="col-sm-5">
+											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text" placeholder="Nomor Register"/>
+										</div>
+										<div class="col-sm-3">
+											<a style="cursor: pointer;" id="view_modal" name="view_modal" >Lihat Kode yang terdaftar</a>
 										</div>
 									</div>
 									<div class="form-group">
@@ -86,6 +130,17 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun_pengadaan">Tahun Pembelian</label>
+										<div class="col-sm-4">
+											<select name="tahun_pengadaan" id="tahun_pengadaan" class="form-control input-sm required">
+												<option value="<?= date('Y',strtotime($main->tanggal_dokument)); ?>"><?= date('Y',strtotime($main->tanggal_dokument)); ?></option>
+												<?php for ($i=date("Y"); $i>=1900; $i--): ?>
+													<option value="<?= $i ?>"><?= $i ?></option>
+												<?php endfor; ?>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="no_bangunan">Nomor Bangunan</label>
 										<div class="col-sm-8">
 											<input maxlength="50" class="form-control input-sm required" name="no_bangunan" id="no_bangunan" type="text"  value="<?= (!empty($main->no_dokument) ? $main->no_dokument : '-'); ?>"/>
@@ -125,6 +180,36 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label class="col-sm-3 control-label required" style="text-align:left;" for="hak_tanah">Penggunaan Barang </label>
+										<div class="col-sm-4">
+											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control input-sm required" placeholder="Hak Tanah" required>
+											<?php
+												$value = '';
+												if(substr($main->kode_barang,14,2)==01){
+													$value = 'Pemerintah Desa';
+												}elseif(substr($main->kode_barang,14,2)==02){
+													$value = 'Badan Permusyawaratan Daerah';
+												}elseif(substr($main->kode_barang,14,2)==03){
+													$value = 'PKK';
+												}elseif(substr($main->kode_barang,14,2)==04){
+													$value = 'LKMD';
+												}elseif(substr($main->kode_barang,14,2)==05){
+													$value = 'Karang Taruna';
+												}elseif(substr($main->kode_barang,14,2)==07){
+													$value = 'RW';
+												}
+											?>
+												<option value="<?=substr($main->kode_barang,14,2);?>"><?=$value;?></option>
+												<option value="01">Pemerintah Desa</option>
+												<option value="02">Badan Permusyawaratan Daerah</option>
+												<option value="03">PKK</option>
+												<option value="04">LKMD</option>
+												<option value="05">Karang Taruna</option>
+												<option value="06">RW</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="asal">Asal Usul </label>
 										<div class="col-sm-4">
 											<select name="asal" id="asal" class="form-control input-sm required" >
@@ -142,7 +227,12 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Rp</span>
-												<input class="form-control input-sm number required" id="harga" name="harga" value="<?= $main->harga; ?>" />
+												<input onkeyup="price()"  class="form-control input-sm number required" id="harga" name="harga" value="<?= $main->harga; ?>" />
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="input-group">
+												<input type="text" class="form-control input-sm required" id="output" name="output" placeholder="" disabled/>
 											</div>
 										</div>
 									</div>
@@ -168,3 +258,46 @@
 	</section>
 </div>
 
+
+<script>
+	$( document ).ready(function() {
+
+		$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
+		$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+
+		$("#tahun_pengadaan").change(function(){
+			$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
+			$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+		});
+
+		$("#penggunaan_barang").change(function(){
+			$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
+			$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+		});
+		$('#output').val(numeral($('#harga').val()).format('Rp0,0'));
+
+		$("#nama_barang").change(function(){
+            if($('#register').val().length != 21){
+                $('#register').val($('#nama_barang').val().split('_').pop());
+                $('#nama_barang_save').val($('#nama_barang').val().slice(0,-16));
+            }else{
+                $('#register').val($('#nama_barang').val().split('_').pop() + $('#register').val().slice(-6));
+                $('#nama_barang_save').val($('#nama_barang').val().slice(0,-16));
+            }
+        });
+	});
+
+	function price() {
+		$('#output').val(numeral($('#harga').val()).format('Rp0,0'));
+	}
+
+	$(function(){
+		$('.select2').select2();
+	})
+
+	$("#view_modal").click(function(event){
+		$('#modal').modal("show");
+	});
+
+
+</script>
