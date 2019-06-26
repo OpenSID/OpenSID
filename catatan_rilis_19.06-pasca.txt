@@ -12,6 +12,7 @@ Lengkapnya, isi rilis versi 19.06-pasca:
 6. Ganti logo placeholder di template surat RTF secara otomatis ke logo desa.
 7. Sekarang ekspor data penduduk mengekspor NIK dan No KK bernilai '0' (nol). [bug-fix]
 8. #2074: Tambah Surat Pengantar Permohonan Penerbitan Buku Pas Lintas.
+9. #2072: Tambah Surat Keterangan Penghasilan Ayah.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
