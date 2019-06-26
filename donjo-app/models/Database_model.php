@@ -225,18 +225,28 @@
 			mkdir('desa/surat/raw');
 		}
 		// Tambah Surat Pengantar Permohonan Penerbitan Buku Pas Lintas
-		$data = array(
+		$data = array();
+		$data[] = array(
 			'nama'=>'Pengantar Permohonan Penerbitan Buku Pas Lintas',
 			'url_surat'=>'surat_permohonan_penerbitan_buku_pas_lintas',
 			'kode_surat'=>'S-43',
 			'jenis'=>1);
-		$sql = $this->db->insert_string('tweb_surat_format', $data);
-		$sql .= " ON DUPLICATE KEY UPDATE
-				nama = VALUES(nama),
-				url_surat = VALUES(url_surat),
-				kode_surat = VALUES(kode_surat),
-				jenis = VALUES(jenis)";
-		$this->db->query($sql);
+		// Tambah surat keterangan penghasilan ayah
+		$data[] = array(
+			'nama'=>'Keterangan Penghasilan Ayah',
+			'url_surat'=>'surat_ket_penghasilan_ayah',
+			'kode_surat'=>'S-44',
+			'jenis'=>1);
+		foreach ($data as $surat)
+		{
+			$sql = $this->db->insert_string('tweb_surat_format', $surat);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					nama = VALUES(nama),
+					url_surat = VALUES(url_surat),
+					kode_surat = VALUES(kode_surat),
+					jenis = VALUES(jenis)";
+			$this->db->query($sql);
+		}
   }
 
   private function migrasi_1905_ke_1906()
