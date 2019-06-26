@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 19.06-pasca:
 9. #2072: Tambah Surat Keterangan Penghasilan Ayah.
 10. #2073: Surat Keterangan Penghasilan Ibu.
 11. Unduh data penduduk sekarang menampilkan RW dan RT sebagai teks, termasuk awalan '0'. [bug-fix]
+12. Batasi judul artikel menggunakan teks polos. [security-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
