@@ -237,6 +237,12 @@
 			'url_surat'=>'surat_ket_penghasilan_ayah',
 			'kode_surat'=>'S-44',
 			'jenis'=>1);
+		// Tambah surat keterangan penghasilan ibu
+		$data[] = array(
+			'nama'=>'Keterangan Penghasilan Ibu',
+			'url_surat'=>'surat_ket_penghasilan_ibu',
+			'kode_surat'=>'S-45',
+			'jenis'=>1);
 		foreach ($data as $surat)
 		{
 			$sql = $this->db->insert_string('tweb_surat_format', $surat);
