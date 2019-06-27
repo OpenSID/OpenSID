@@ -510,9 +510,11 @@
 
 	private function sisipkan_logo($nama_logo, $buffer)
 	{
-		// Ganti logo placeholder dengan logo desa
+		// Ganti logo placeholder dengan logo desa kalau ada
+		$file_logo = APPPATH . '../' . LOKASI_LOGO_DESA . $nama_logo;
+		if (!is_file($file_logo)) return $buffer;
 		$placeholder_logo = '/89504.*49454e44ae426082/s';
-		$logo_bytes = file_get_contents(LOKASI_LOGO_DESA . $nama_logo);
+		$logo_bytes = file_get_contents($file_logo);
 		$logo_hex = implode(unpack("H*", $logo_bytes));;
 		$buffer = preg_replace($placeholder_logo, $logo_hex, $buffer);
 		return $buffer;

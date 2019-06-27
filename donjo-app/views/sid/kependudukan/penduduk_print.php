@@ -17,6 +17,7 @@
 		td,th
 		{
 			font-size:6.5pt;
+		  mso-number-format:"\@";
 		}
 	</style>
 	</head>
@@ -59,16 +60,16 @@
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
-							<td class="textx"><?= $data['no_kk']?> </td>
+							<td><?= $data['no_kk']?> </td>
 							<td><?= strtoupper($data['nama'])?></td>
-							<td class="textx"><?= $data['nik']?></td>
+							<td><?= $data['nik']?></td>
 							<td><?= strtoupper($data['alamat'])?></td>
 							<td><?= strtoupper($data['dusun'])?></td>
 							<td><?= $data['rw']?></td>
 							<td><?= $data['rt']?></td>
 							<td><?= $data['sex']?></td>
 							<td><?= $data['tempatlahir']?></td>
-							<td class="textx"><?= tgl_indo($data['tanggallahir'])?></td>
+							<td><?= tgl_indo($data['tanggallahir'])?></td>
 							<td align="right"><?= $data['umur']?></td>
 							<td><?= $data['agama']?></td>
 							<td><?= $data['pendidikan']?></td>
