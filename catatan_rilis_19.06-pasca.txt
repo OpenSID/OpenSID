@@ -14,7 +14,7 @@ Lengkapnya, isi rilis versi 19.06-pasca:
 8. #2074: Tambah Surat Pengantar Permohonan Penerbitan Buku Pas Lintas.
 9. #2072: Tambah Surat Keterangan Penghasilan Ayah.
 10. #2073: Surat Keterangan Penghasilan Ibu.
-11. Unduh data penduduk sekarang menampilkan RW dan RT sebagai teks, termasuk awalan '0'. [bug-fix]
+11. #2105: Unduh data penduduk, data keluarga dan log penduduk sekarang menampilkan RW dan RT sebagai teks, termasuk awalan '0'. [bug-fix]
 12. Batasi judul artikel menggunakan teks polos. [security-fix]
 
 

@@ -17,6 +17,7 @@
 		td,th
 		{
 			font-size:6.5pt;
+			mso-number-format:"\@";
 		}
 		</style>
 	</head>
@@ -50,9 +51,9 @@
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
-							<td class="textx"><?= $data['nik']?></td>
+							<td><?= $data['nik']?></td>
 							<td><?= strtoupper($data['nama'])?></td>
-							<td class="textx">
+							<td>
 								<?= $data['no_kk']?>
 								<?= " / ".$data['nama_kk']?>
 							</td>
