@@ -102,19 +102,20 @@
 												<div class="form-group">
 													<label for="kartu_nik"  class="col-sm-4 col-lg-2 control-label">NIK</label>
 													<div class="col-sm-7">
-														<input  id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  >
+														<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  value="<?= $individu['nik']?>">
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="kartu_nama"  class="col-sm-4 col-lg-2 control-label">Nama</label>
 													<div class="col-sm-7">
-														<input  id="kartu_nama" class="form-control input-sm" type="text" placeholder="Nama Peserta" name="kartu_nama" >
+														<input id="kartu_nama" class="form-control input-sm" type="text" placeholder="Nama Peserta" name="kartu_nama"  value="<?= $individu['nama']?>">
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="kartu_tempat_lahir"  class="col-sm-4 col-lg-2 control-label">Tempat Lahir</label>
 													<div class="col-sm-7">
-														<input  id="kartu_tempat_lahir" class="form-control input-sm" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir">
+													<input id="kartu_tempat_lahir" class="form-control input-sm" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir"  value="<?= $individu['tempatlahir']?>">
+
 													</div>
 												</div>
 												<div class="form-group">
@@ -124,14 +125,15 @@
 															<div class="input-group-addon">
 																<i class="fa fa-calendar"></i>
 															</div>
-															<input class="form-control input-sm pull-right" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text">
+														
+															<input class="form-control input-sm pull-right" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= $individu['tanggallahir']?>">
 														</div>
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="kartu_alamat"  class="col-sm-4 col-lg-2 control-label">Alamat</label>
 													<div class="col-sm-7">
-											  		<input  id="kartu_alamat" class="form-control input-sm" type="text" placeholder="Alamat" name="kartu_alamat">
+											  		<input  id="kartu_alamat" class="form-control input-sm" type="text" placeholder="Alamat" name="kartu_alamat" value="<?= $individu['alamat_wilayah'];?>">
 													</div>
 												</div>
 												<div class="box-footer">
