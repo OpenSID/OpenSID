@@ -304,6 +304,7 @@ class User_model extends CI_Model {
 		$data['session'] = md5(now());
 
 		$data['foto'] = $this->urusFoto();
+		$data['nama'] = strip_tags($data['nama']);
 
 		if (!$this->db->insert('user', $data))
 		{
@@ -351,6 +352,7 @@ class User_model extends CI_Model {
 		}
 
 		$data['foto'] = $this->urusFoto($idUser);
+		$data['nama'] = strip_tags($data['nama']);
 
 		if (!$this->db->where('id', $idUser)->update('user', $data))
 		{
