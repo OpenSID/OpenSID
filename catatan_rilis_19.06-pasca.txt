@@ -16,7 +16,7 @@ Lengkapnya, isi rilis versi 19.06-pasca:
 10. #2073: Surat Keterangan Penghasilan Ibu.
 11. #2105: Unduh data penduduk, data keluarga, daftar calon pemilih, data rumah tangga dan log penduduk sekarang menampilkan RW dan RT sebagai teks, termasuk awalan '0'. [bug-fix]
 12. #2090: Batasi judul artikel dan nama pengguna menggunakan teks polos. [security-fix]
-13. #2101: Data Peserta Bantuan diisi otomatis sesuai sata penduduk.
+13. #2101: Data Peserta Bantuan diisi otomatis sesuai data penduduk.
 14. Perbaikan penulisan nama dan kode barang beserta kode registrasi pada modul Inventaris.
 
 
