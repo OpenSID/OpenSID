@@ -125,7 +125,6 @@
 															<div class="input-group-addon">
 																<i class="fa fa-calendar"></i>
 															</div>
-														
 															<input class="form-control input-sm pull-right" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= $individu['tanggallahir']?>">
 														</div>
 													</div>

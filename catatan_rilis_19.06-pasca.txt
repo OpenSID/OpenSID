@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada Uncu yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.06-pasca:
 
@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 19.06-pasca:
 10. #2073: Surat Keterangan Penghasilan Ibu.
 11. #2105: Unduh data penduduk, data keluarga, daftar calon pemilih, data rumah tangga dan log penduduk sekarang menampilkan RW dan RT sebagai teks, termasuk awalan '0'. [bug-fix]
 12. #2090: Batasi judul artikel dan nama pengguna menggunakan teks polos. [security-fix]
+13. #2101: Data Peserta Bantuan diisi otomatis sesuai sata penduduk.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
