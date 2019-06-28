@@ -25,7 +25,7 @@ class Api_inventaris_asset extends Admin_Controller {
 	public function add()
 	{
 		$data = $this->inventaris_asset_model->add(array(
-			'nama_barang' => $this->input->post('nama_barang'),
+			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
 			'register' => $this->input->post('nomor_register'),
 			'jenis' => $this->input->post('jenis_asset'),
@@ -69,9 +69,9 @@ class Api_inventaris_asset extends Admin_Controller {
 	public function update($id)
 	{
 		$data = $this->inventaris_asset_model->update($id,array(
-			'nama_barang' => $this->input->post('nama_barang'),
+			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
-			'register' => $this->input->post('nomor_register'),
+			'register' => $this->input->post('register'),
 			'jenis' => $this->input->post('jenis_asset'),
 			'judul_buku' => $this->input->post('judul'),
 			'spesifikasi_buku' => $this->input->post('spesifikasi'),

@@ -21,7 +21,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 	public function add()
 	{
 		$data = $this->inventaris_peralatan_model->add(array(
-			'nama_barang' => $this->input->post('nama_barang'),
+			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
 			'register' => $this->input->post('register'),
 			'merk' => $this->input->post('merk'),
@@ -62,7 +62,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 	public function update($id)
 	{
 		$data = $this->inventaris_peralatan_model->update($id, array(
-			'nama_barang' => $this->input->post('nama_barang'),
+			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
 			'register' => $this->input->post('register'),
 			'merk' => $this->input->post('merk'),

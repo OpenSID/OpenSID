@@ -187,72 +187,8 @@
 
   private function migrasi_1906_ke_1907()
   {
-		$fields['berat_lahir'] = array(
-				'type' => 'SMALLINT',
-				'constraint' => 6,
-			  'null' => TRUE,
-				'default' => NULL
-		);
-	  $this->dbforge->modify_column('tweb_penduduk', $fields);
-		// Tambahkan setting aplikasi untuk format penomoran surat
-		$query = $this->db->select('1')->where('key', 'format_nomor_surat')->get('setting_aplikasi');
-		if (!$query->result())
-		{
-			$data = array(
-				'key' => 'format_nomor_surat',
-				'value' => '[kode_surat]/[nomor_surat, 3]/PEM/[tahun]',
-				'keterangan' => 'Fomat penomoran surat'
-			);
-			$this->db->insert('setting_aplikasi', $data);
-		}
-		// Ubah setting aplikasi current_version menjadi readonly
-		$this->db->where('key', 'current_version')->update('setting_aplikasi', array('kategori' => 'readonly'));
-		// Tambahkan setting aplikasi untuk jabatan pimpinan desa
-		$query = $this->db->select('1')->where('key', 'sebutan_pimpinan_desa')->get('setting_aplikasi');
-		if (!$query->result())
-		{
-			$data = array(
-				'key' => 'sebutan_pimpinan_desa',
-				'value' => 'Kepala Desa',
-				'keterangan' => 'Sebutan pimpinan desa',
-				'kategori' => 'pemerintahan'
-			);
-			$this->db->insert('setting_aplikasi', $data);
-		}
-		// Tambah folder desa untuk menyimpan kop surat
-		if (!file_exists('/desa/surat/raw'))
-		{
-			mkdir('desa/surat/raw');
-		}
-		// Tambah Surat Pengantar Permohonan Penerbitan Buku Pas Lintas
-		$data = array();
-		$data[] = array(
-			'nama'=>'Pengantar Permohonan Penerbitan Buku Pas Lintas',
-			'url_surat'=>'surat_permohonan_penerbitan_buku_pas_lintas',
-			'kode_surat'=>'S-43',
-			'jenis'=>1);
-		// Tambah surat keterangan penghasilan ayah
-		$data[] = array(
-			'nama'=>'Keterangan Penghasilan Ayah',
-			'url_surat'=>'surat_ket_penghasilan_ayah',
-			'kode_surat'=>'S-44',
-			'jenis'=>1);
-		// Tambah surat keterangan penghasilan ibu
-		$data[] = array(
-			'nama'=>'Keterangan Penghasilan Ibu',
-			'url_surat'=>'surat_ket_penghasilan_ibu',
-			'kode_surat'=>'S-45',
-			'jenis'=>1);
-		foreach ($data as $surat)
-		{
-			$sql = $this->db->insert_string('tweb_surat_format', $surat);
-			$sql .= " ON DUPLICATE KEY UPDATE
-					nama = VALUES(nama),
-					url_surat = VALUES(url_surat),
-					kode_surat = VALUES(kode_surat),
-					jenis = VALUES(jenis)";
-			$this->db->query($sql);
-		}
+  	$this->load->model('migrations/migrasi_1906_ke_1907');
+  	$this->migrasi_1906_ke_1907->up();
   }
 
   private function migrasi_1905_ke_1906()
