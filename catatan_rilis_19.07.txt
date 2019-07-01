@@ -1,8 +1,8 @@
-Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini penambahan surat dan perbaikan template surat Ekspor Dok. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada Uncu yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 19.06-pasca:
+Lengkapnya, isi rilis versi 19.07:
 
 1. Sekarang perubahan foto Pemerintahan Desa bisa disimpan lagi. [bug-fix]
 2. #2080: Format penomoran surat sekarang bisa ditentukan pada setting aplikasi.
@@ -23,4 +23,4 @@ Lengkapnya, isi rilis versi 19.06-pasca:
 17. #2125: Format tanggal lahir pada kartu identitas di daftar peserta program bantuan sekarang dd-mm-yyyy.
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
