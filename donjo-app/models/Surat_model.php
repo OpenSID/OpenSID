@@ -600,15 +600,19 @@
 		$atas_nama = '';
 		if (!empty($input['pilih_atas_nama']))
 		{
-			$atas_nama = 'a.n. ' . ucwords($this->setting->sebutan_pimpinan_desa.' '.$config['nama_desa']);
-			if (strpos($input['pilih_atas_nama'], 'u.b.') !== false)
+			$atas_nama = 'a.n ' . ucwords($this->setting->sebutan_pimpinan_desa.' '.$config['nama_desa']);
+			if (strpos($input['pilih_atas_nama'], 'u.b') !== false)
 			{
 				$pamong_ttd = $this->pamong_model->get_ttd();
-				$atas_nama .= ' \par '.$pamong_ttd['jabatan'].' \par'.' u.b.';
+				$atas_nama .= ' \par '.$pamong_ttd['jabatan'].' \par'.' u.b';
 			}
 			$atas_nama .= ' \par ';
+			$atas_nama .= $input['jabatan'];
 		}
-		$atas_nama .= $input['jabatan'].' '.$config['nama_desa'];
+		else
+		{
+			$atas_nama .= $input['jabatan'].' '.$config['nama_desa'];
+		}
 		return $atas_nama;
 	}
 

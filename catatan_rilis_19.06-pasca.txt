@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 19.06-pasca:
 14. Perbaikan penulisan nama dan kode barang beserta kode registrasi pada modul Inventaris.
 15. #2118: Tutup celah XSS di form Profil User dan di form Pamong. [ security-fix]
 16. #2122: Batasi isian di form Pengaturan > Modul menggunakan teks polos. [security-fix]
+17. #2125: Format tanggal lahir pada kartu identitas di daftar peserta program bantuan sekarang dd-mm-yyyy.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.06-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
