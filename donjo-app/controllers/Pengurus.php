@@ -135,6 +135,18 @@ class Pengurus extends Admin_Controller {
 		redirect('pengurus');
 	}
 
+	public function ub_on($id = '')
+	{
+		$this->pamong_model->ub($id, 1);
+		redirect('pengurus');
+	}
+
+	public function ub_off($id = '')
+	{
+		$this->pamong_model->ub($id, 0);
+		redirect('pengurus');
+	}
+
 	public function dialog_cetak($o = 0)
 	{
 		$data['aksi'] = "Cetak";

@@ -597,14 +597,15 @@
 		$input = $data['input'];
 		$config = $data['config'];
 		$this->load->model('pamong_model');
+		$pamong_ttd = $this->pamong_model->get_ttd();
 		$atas_nama = '';
 		if (!empty($input['pilih_atas_nama']))
 		{
-			$atas_nama = 'a.n ' . ucwords($this->setting->sebutan_pimpinan_desa.' '.$config['nama_desa']);
+			$atas_nama = 'a.n ' . ucwords($pamong_ttd['jabatan'].' '.$config['nama_desa']);
 			if (strpos($input['pilih_atas_nama'], 'u.b') !== false)
 			{
-				$pamong_ttd = $this->pamong_model->get_ttd();
-				$atas_nama .= ' \par '.$pamong_ttd['jabatan'].' \par'.' u.b';
+				$pamong_ub = $this->pamong_model->get_ub();
+				$atas_nama .= ' \par '.$pamong_ub['jabatan'].' \par'.' u.b';
 			}
 			$atas_nama .= ' \par ';
 			$atas_nama .= $input['jabatan'];

@@ -260,16 +260,32 @@
 	{
 		if ($val == 1)
 		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd default
+			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / default
 			$this->db->where('pamong_ttd', 1)->update('tweb_desa_pamong', array('pamong_ttd'=>0));
 		}
 		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ttd'=>$val));
+	}
+
+	public function ub($id='', $val=0)
+	{
+		if ($val == 1)
+		{
+			// Hanya satu pamong yang boleh digunakan sebagai ttd u.b
+			$this->db->where('pamong_ub', 1)->update('tweb_desa_pamong', array('pamong_ub'=>0));
+		}
+		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ub'=>$val));
 	}
 
 	public function get_ttd()
 	{
 		$ttd = $this->db->where('pamong_ttd', 1)->get('tweb_desa_pamong')->row_array();
 		return $ttd;
+	}
+
+	public function get_ub()
+	{
+		$ub = $this->db->where('pamong_ub', 1)->get('tweb_desa_pamong')->row_array();
+		return $ub;
 	}
 
   private function urut_max()
