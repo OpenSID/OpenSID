@@ -84,9 +84,17 @@
 		return $data;
 	}
 
+	private function bersihkan_data($data)
+	{
+		if (empty((int)$data['id_kepala']))
+			unset($data['id_kepala']);
+		$data['dusun'] = strip_tags($data['dusun']);
+		return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
+		$data = $this->bersihkan_data($_POST);
 		$data['dusun'] = $_POST['dusun'];
 		$this->db->insert('tweb_wil_clusterdesa', $data);
 
