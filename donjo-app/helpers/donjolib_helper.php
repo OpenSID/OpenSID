@@ -340,7 +340,7 @@
 			return $tanggal.'-'.$bulan.'-'.$tahun;
 		}
 	}
-	function tgl_indo_bantuan($tgl, $replace_with='-'){
+	function tgl_indo_bntu($tgl, $replace_with='-'){
 		if (date_is_empty($tgl)) {
 			return $replace_with;
 		}
