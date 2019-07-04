@@ -231,6 +231,8 @@
 		$penduduk = array();
 		$penduduk['id_rtm'] = $rtm;
 		$penduduk['rtm_level'] = $rtm_level;
+		$penduduk['updated_at'] = date('Y-m-d H:i:s');
+		$penduduk['updated_by'] = $this->session->user;
 		$this->db->where('nik', $nik)->update('tweb_penduduk', $penduduk);
 		$penduduk['id_penduduk'] = $query->row()->id;
 		return $penduduk;

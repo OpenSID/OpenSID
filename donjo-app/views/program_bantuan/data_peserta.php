@@ -4,7 +4,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
-			<li><a href="<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?>"> Rincian Program Bantuan</a></li>
+			<li><a href="<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?>/1"> Rincian Program Bantuan</a></li>
 			<li class="active">Data Peserta Program Bantuan</li>
 		</ol>
 	</section>
@@ -14,7 +14,7 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
-						<a href="<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
+						<a href="<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?>/1" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
 					</div>
 					<div class="box-body">
 						<div class="row">

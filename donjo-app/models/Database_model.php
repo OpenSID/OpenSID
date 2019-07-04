@@ -24,7 +24,9 @@
 		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
 		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
 		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => '19.05'),
-		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => NULL)
+		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.06'),
+		'19.06' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => '19.07'),
+		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -181,10 +183,152 @@
 	$this->migrasi_1903_ke_1904();
 	$this->migrasi_1904_ke_1905();
 	$this->migrasi_1905_ke_1906();
+	$this->migrasi_1906_ke_1907();
+	$this->migrasi_1907_ke_1908();
+  }
+
+  private function migrasi_1907_ke_1908()
+  {
+  	$this->load->model('migrations/migrasi_1907_ke_1908');
+  	$this->migrasi_1907_ke_1908->up();
+  }
+
+  private function migrasi_1906_ke_1907()
+  {
+  	$this->load->model('migrations/migrasi_1906_ke_1907');
+  	$this->migrasi_1906_ke_1907->up();
   }
 
   private function migrasi_1905_ke_1906()
   {
+  	// Tambah kolom waktu update dan user pengupdate
+  	if (!$this->db->field_exists('created_at', 'tweb_penduduk'))
+  	{
+			// Tambah kolom
+			$this->dbforge->add_field("created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
+			$fields = array();
+			$fields['created_by'] = array(
+					'type' => 'int',
+					'constraint' => 11,
+				  'null' => FALSE,
+			);
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+		}
+  	if (!$this->db->field_exists('updated_at', 'tweb_penduduk'))
+  	{
+			// Tambah kolom
+			$this->dbforge->add_field("updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
+			$fields = array();
+			$fields['updated_by'] = array(
+					'type' => 'int',
+					'constraint' => 11,
+				  'null' => FALSE,
+			);
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+		}
+		else
+		{
+			$fields = array();
+			$fields['updated_by'] = array(
+					'type' => 'INT',
+					'constraint' => 11,
+				  'null' => TRUE,
+					'default' => NULL
+			);
+		  $this->dbforge->modify_column('tweb_penduduk', $fields);
+		}
+
+  	// Tambah menu teks berjalan
+		$data = array(
+			'id' => '64',
+			'modul' => 'Teks Berjalan',
+			'url' => 'teks_berjalan',
+			'aktif' => '1',
+			'ikon' => 'fa-ellipsis-h',
+			'urut' => '9',
+			'level' => '2',
+			'parent' => '13',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa-ellipsis-h'
+		);
+		$sql = $this->db->insert_string('setting_modul', $data) . " ON DUPLICATE KEY UPDATE url = VALUES(url), ikon = VALUES(ikon), ikon_kecil = VALUES(ikon_kecil)";
+		$this->db->query($sql);
+
+		if (!$this->db->table_exists('teks_berjalan'))
+		{
+			$query = "
+			CREATE TABLE `teks_berjalan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`teks` text,
+				`urut` int(5),
+				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`created_by` int(11) NOT NULL,
+				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_by` int(11),
+				`status` int(1) NOT NULL DEFAULT '0',
+				PRIMARY KEY (id)
+			)
+			";
+			$this->db->query($query);
+
+			$setting_teks_berjalan = $this->db->select('id, value')->where('key','isi_teks_berjalan')->get('setting_aplikasi')->row();
+			if ($setting_teks_berjalan)
+			{
+				// ambil teks, tulis ke tabel teks_berjalan
+				// hapus setting
+				$isi_teks = $setting_teks_berjalan->value;
+				$data = array(
+					'teks' => $isi_teks,
+					'created_by' => $this->session->user
+				);
+				$this->db->insert('teks_berjalan', $data);
+				$this->db->where('key','isi_teks_berjalan')->delete('setting_aplikasi');
+			}
+			else
+			{
+				// ambil teks dari artikel, tulis ke tabel teks_berjalan
+				// hapus artikel
+				$id_kategori = $this->db->select('id')->where('kategori', 'teks_berjalan')->limit(1)->get('kategori')->row()->id;
+				if ($id_kategori)
+				{
+					// Ambil teks dari artikel
+					$teks = $this->db->select('a.isi, a.enabled')
+						->from('artikel a')
+						->join('kategori k', 'a.id_kategori = k.id', 'left')
+						->where('k.kategori', 'teks_berjalan')
+						->get()->result_array();
+					foreach ($teks as $data)
+					{
+						$isi_teks = strip_tags($data['isi']);
+						$isi = array(
+							'teks' => $isi_teks,
+							'status' => $data['enabled'],
+							'created_by' => $this->session->user
+						);
+						$this->db->insert('teks_berjalan', $isi);
+					}
+					// Hapus artikel dan kategori teks berjalan
+					$this->db->where('id_kategori', $id_kategori)->delete('artikel');
+					$this->db->where('kategori', 'teks_berjalan')->delete('kategori');
+				}
+			}
+		}
+  	// Tambah tautan pada teks berjalan
+  	if (!$this->db->field_exists('tautan', 'teks_berjalan'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['tautan'] = array(
+					'type' => 'varchar',
+					'constraint' => 150,
+			);
+			$fields['judul_tautan'] = array(
+					'type' => 'varchar',
+					'constraint' => 150,
+			);
+			$this->dbforge->add_column('teks_berjalan', $fields);
+		}
+
   	// Hapus menu SID dan Donasi
 		$this->db->where('id', 16)->delete('setting_modul');
 		$this->db->where('id', 19)->delete('setting_modul');
@@ -207,8 +351,56 @@
 	  		}
 	  	}
 	  	// Ganti kolom berat_lahir menjadi bilangan
-		  $this->dbforge->modify_column('tweb_penduduk', array('berat_lahir' => array('type' =>  'SMALLINT')));
+		  $this->dbforge->modify_column('tweb_penduduk', array('berat_lahir' => array('type' => 'SMALLINT')));
   	}
+  	// Di tweb_penduduk ubah kelahiran_anak_ke supaya default NULL
+	  $this->dbforge->modify_column('tweb_penduduk', array('kelahiran_anak_ke' => array('type' => 'TINYINT', 'constraint' => 2, 'default' => NULL)));
+
+	  // Ubah kolom tweb_penduduk supaya boleh null
+		$fields = array();
+		$fields['ktp_el'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 4,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['status_rekam'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 4,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['tempat_dilahirkan'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 2,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['jenis_kelahiran'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 2,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['penolong_kelahiran'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 2,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['panjang_lahir'] = array(
+				'type' => 'VARCHAR',
+				'constraint' => 10,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['sakit_menahun_id'] = array(
+				'type' => 'INT',
+				'constraint' => 11,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+	  $this->dbforge->modify_column('tweb_penduduk', $fields);
   }
 
   private function migrasi_1904_ke_1905()

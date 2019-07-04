@@ -99,7 +99,7 @@
 						</div>
 					</div>
 
-					<?php if (count($teks_berjalan) > 0): ?>
+					<?php if (!empty($teks_berjalan)): ?>
 						<?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php');?>
 					<?php endif; ?>
 

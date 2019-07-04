@@ -363,7 +363,7 @@ table#kode
 			<td colspan="10">11. Berat Bayi</td>
 			<td>:</td>
 			<td colspan="3" class="kotak"><?= $input['berat_lahir']?></td>
-			<td> Kg</td>
+			<td> gram</td>
 			<td colspan="21">&nbsp;</td>
 		</tr>
 		<tr>

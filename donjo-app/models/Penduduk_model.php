@@ -333,7 +333,7 @@
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
-		$select_sql = "SELECT DISTINCT u.id, u.nik, u.tanggallahir, u.tempatlahir, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card,
+		$select_sql = "SELECT DISTINCT u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at,
 			(CASE when u.status_kawin <> 2
 				then k.nama
 				else
@@ -357,10 +357,12 @@
 			case 2: $order_sql = ' ORDER BY u.nik DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.nama'; break;
 			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY d.no_kk'; break;
-			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
+			case 5: $order_sql = ' ORDER BY CONCAT(d.no_kk, u.kk_level)'; break;
+			case 6: $order_sql = ' ORDER BY d.no_kk DESC, u.kk_level'; break;
 			case 7: $order_sql = ' ORDER BY umur'; break;
 			case 8: $order_sql = ' ORDER BY umur DESC'; break;
+			case 9: $order_sql = ' ORDER BY created_at'; break;
+			case 10: $order_sql = ' ORDER BY created_at DESC'; break;
 			default:$order_sql = ' ORDER BY CONCAT(d.no_kk, u.kk_level)';
 		}
 
@@ -486,16 +488,27 @@
 
 	public function validasi_data_penduduk(&$data)
 	{
-		if ($data['tanggallahir'] == '') $data['tanggallahir'] = NULL;
-		if ($data['tanggallahir']) $data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
-		if ($data['tanggal_akhir_paspor'] == '') $data['tanggal_akhir_paspor'] = NULL;
-		if ($data['tanggal_akhir_paspor']) $data['tanggal_akhir_paspor'] = tgl_indo_in($data['tanggal_akhir_paspor']);
-		if (!empty($data['tanggalperkawinan'])) $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
-		if (!empty($data['tanggalperceraian'])) $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
+		$data['tanggallahir'] = empty($data['tanggallahir']) ? NULL : tgl_indo_in($data['tanggallahir']);
+		$data['tanggal_akhir_paspor'] = empty($data['tanggal_akhir_paspor']) ? NULL : tgl_indo_in($data['tanggal_akhir_paspor']);
+		$data['tanggalperkawinan'] = empty($data['tanggalperkawinan']) ? NULL : tgl_indo_in($data['tanggalperkawinan']);
+		$data['tanggalperceraian'] = empty($data['tanggalperceraian']) ? NULL : tgl_indo_in($data['tanggalperceraian']);
+
+
+		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
+		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
+		$data['berat_lahir'] = $data['berat_lahir'] ?: NULL;
+		$data['tempat_dilahirkan'] = $data['tempat_dilahirkan'] ?: NULL;
+		$data['jenis_kelahiran'] = $data['jenis_kelahiran'] ?: NULL;
+		$data['penolong_kelahiran'] = $data['penolong_kelahiran'] ?: NULL;
+		$data['panjang_lahir'] = $data['panjang_lahir'] ?: NULL;
+		$data['cacat_id'] = $data['cacat_id'] ?: NULL;
+		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ?: NULL;
+
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
-		if ($data['status_kawin'] != 2) $data['cara_kb_id'] = NULL;
+		if ($data['status_kawin'] != 2 or empty($data['cara_kb_id'])) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
 		if ($data['sex'] == 1) $data['hamil'] = 0;
+		if (empty($data['kelahiran_anak_ke'])) $data['kelahiran_anak_ke'] = NULL;
 		if ($data['warganegara_id'] == 1 or empty($data['dokumen_kitas']))
 			$data['dokumen_kitas'] = NULL;
 		switch ($data['status_kawin']) {
@@ -590,6 +603,8 @@
 		unset($data['rw']);
 		unset($data['no_kk']);
 
+		$data['created_at'] = date('Y-m-d H:i:s');
+		$data['created_by'] = $this->session->user;
 		if ($data['tanggallahir'] == '') unset($data['tanggallahir']);
 		if ($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
 		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
@@ -721,6 +736,8 @@
     unset($data['file_foto']);
     unset($data['old_foto']);
 
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
     $this->db->where('id', $id);
     $outp = $this->db->update('tweb_penduduk', $data);
 
@@ -772,6 +789,8 @@
 	public function update_status_dasar($id=0)
 	{
 		$data['status_dasar'] = $_POST['status_dasar'];
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
 		$this->db->where('id',$id);
 		$this->db->update('tweb_penduduk', $data);
 		$penduduk = $this->get_penduduk($id);
@@ -808,6 +827,8 @@
 	{
 		$_SESSION['success'] = 1;
 		$data['status_dasar'] = 1; // status dasar hidup
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
 		if (!$this->db->where('id', $id)->update('tweb_penduduk', $data))
 			$_SESSION['success'] = - 1;
 	}
@@ -878,7 +899,7 @@
 	public function get_penduduk($id=0)
 	{
 		$sql = "SELECT u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
-			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster,
+			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah, ucreate.nama as nama_pendaftar,
 			(CASE when u.status_kawin <> 2
 				then k.nama
 				else
@@ -912,6 +933,8 @@
 			LEFT JOIN tweb_cara_kb kb ON u.cara_kb_id = kb.id
 			LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id
 			LEFT JOIN log_penduduk log ON u.id = log.id_pend
+			LEFT JOIN user ux ON u.updated_by = ux.id
+			LEFT JOIN user ucreate ON u.created_by = ucreate.id
 			WHERE u.id=?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
