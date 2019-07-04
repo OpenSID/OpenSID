@@ -5,6 +5,9 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 Lengkapnya, isi rilis versi 19.07-pasca:
 
 1. Pilih penandatangan a.n dan u.b di Info Desa > Pemerintah Desa. Hapus setting aplikasi sebutan_pimpinan_desa.
+2. #2127: Tanggal lahir di kartu peserta sekarang tampil benar di Program Bantuan. [bug-fix]
+3. Nama dusun sekarang dibatasi data polos saja. [security-fix].
+4. Ubah tweb_wil_clusterdesa supaya semua kolom memiliki nilai default. [teknis]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
