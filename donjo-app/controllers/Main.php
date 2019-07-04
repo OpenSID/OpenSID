@@ -6,6 +6,7 @@ class Main extends CI_Controller {
 	{
 		parent::__construct();
 		session_start();
+		$this->load->model('config_model');
 	}
 
 	public function index()
@@ -35,13 +36,24 @@ class Main extends CI_Controller {
 
 		// Jika offline_mode aktif, tidak perlu menampilkan halaman website
 		}
-		else if ($this->setting->offline_mode > 0)
+		elseif ($this->setting->offline_mode == 2)
 		{
-			redirect('siteman');
+			$data['main'] = $this->config_model->get_data();
+			$this->load->view('offline_mode', $data);
 		}
-		else
+		elseif ($this->setting->offline_mode == 1)
 		{
-			redirect('first');
+			// Jangan tampilkan website jika bukan admin/operator/redaksi
+			$this->load->model('user_model');
+			$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+			if ($grup != 1 AND $grup != 2 AND $grup != 3)
+			{
+				if (empty($grup))
+					$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+				else
+					unset($_SESSION['request_uri']);
+				redirect('siteman');
+			}
 		}
 	}
 }
