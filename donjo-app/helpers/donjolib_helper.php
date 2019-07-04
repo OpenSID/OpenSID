@@ -352,6 +352,16 @@
 		$jam = empty($jam) ? '' : ' '.$jam;
 		return $tahun.'-'.$bulan.'-'.$tanggal.$jam;
 	}
+	function tgl_indo_bantuan($tgl, $replace_with='-') {
+		if (date_is_empty($tgl)) {
+			return $replace_with;
+		}
+		
+		if ($tgl) {
+			$tanggal = explode('-', $tgl);
+			return $tanggal[0].'-'.$tanggal[1].'-'.$tanggal[2];
+		}
+	}
 
 	function waktu_ind($time){
 		$str ="";
