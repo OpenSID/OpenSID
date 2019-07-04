@@ -333,13 +333,13 @@ class Program_bantuan_model extends CI_Model {
 			$data = $query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
-				$data[$i]['id']=$data[$i]['id'];
-				$data[$i]['nik']=$data[$i]['peserta'];
+				$data[$i]['id'] = $data[$i]['id'];
+				$data[$i]['nik'] = $data[$i]['peserta'];
 				$data[$i]['peserta_plus'] = $data[$i]['no_kk'];
-				$data[$i]['peserta_nama']=$data[$i]['peserta'];
-				$data[$i]['peserta_info']=$data[$i]['nama'];
-				$data[$i]['nama']=strtoupper($data[$i]['nama']);
-				$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+				$data[$i]['peserta_nama'] = $data[$i]['peserta'];
+				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
+				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil1 = $data;
 		}
@@ -388,12 +388,12 @@ class Program_bantuan_model extends CI_Model {
 			$data=$query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
-				$data[$i]['id']=$data[$i]['id'];
-				$data[$i]['nik']=$data[$i]['peserta'];
-				$data[$i]['peserta_nama']=$data[$i]['no_kk'];
-				$data[$i]['peserta_info']=$data[$i]['nama'];
-				$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['nik']." - ".$data[$i]['no_kk']."]";
-				$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+				$data[$i]['id'] = $data[$i]['id'];
+				$data[$i]['nik'] = $data[$i]['peserta'];
+				$data[$i]['peserta_nama'] = $data[$i]['no_kk'];
+				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nik']." - ".$data[$i]['no_kk']."]";
+				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil1 = $data;
 		}
