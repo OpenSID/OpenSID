@@ -510,13 +510,26 @@
 
 	private function sisipkan_logo($nama_logo, $buffer)
 	{
-		// Ganti logo placeholder dengan logo desa kalau ada
 		$file_logo = APPPATH . '../' . LOKASI_LOGO_DESA . $nama_logo;
 		if (!is_file($file_logo)) return $buffer;
-		$placeholder_logo = '/89504.*49454e44ae426082/s';
+		$akhiran_logo = 'e33874670000000049454e44ae426082';
+		$akhiran_sementara = 'akhiran_logo';
+		$jml_logo = substr_count($buffer, $akhiran_logo);
+		if ($jml_logo <= 0) return $buffer; // tidak ada logo placeholder
+
+		// Ganti logo placeholder dengan logo desa kalau ada, satu per satu
 		$logo_bytes = file_get_contents($file_logo);
 		$logo_hex = implode(unpack("H*", $logo_bytes));;
-		$buffer = preg_replace($placeholder_logo, $logo_hex, $buffer);
+		for ($i=0; $i<$jml_logo; $i++)
+		{
+			// Ganti akhiran logo supaya preg_replace hanya memproses logo yg ditemukan
+			// Cari logo berikutnya, kalau ada
+			$pos = strpos($buffer, $akhiran_logo);
+	    $buffer = substr_replace($buffer, $akhiran_sementara, $pos, strlen($akhiran_logo));
+			$placeholder_logo = '/89504e470d0a1a0a0000000d4948445200000040000000400806000000aa.*'.$akhiran_sementara.'/s';
+			// Ganti logo yang ditemukan
+			$buffer = preg_replace($placeholder_logo, $logo_hex, $buffer);
+		}
 		return $buffer;
 	}
 

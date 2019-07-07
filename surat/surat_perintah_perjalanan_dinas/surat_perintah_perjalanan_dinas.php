@@ -1,10 +1,10 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Surat Perjalanan Dinas</h1>
+		<h1>Surat Perintah Perjalanan Dinas</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
-			<li class="active">Surat Perjalanan Dinas</li>
+			<li class="active">Surat Perintah Perjalanan Dinas</li>
 		</ol>
 	</section>
 	<section class="content">
@@ -49,75 +49,69 @@
 									<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 								</div>
 							</div>
-
 							<div class="form-group">
 								<label for="pangkat_gol"  class="col-sm-3 control-label">Pangkat dan Golongan</label>
 								<div class="col-sm-8">
-									<textarea name="pangkat_gol" class="form-control input-sm required" placeholder="Pangkat dan Golongan"></textarea>
-								</div>
-								</div>
-
-								<div class="form-group">
-								<label for="jabatan1"  class="col-sm-3 control-label">Jabatan/Instansi</label>
-								<div class="col-sm-8">
-								<textarea name="jabatan1" class="form-control input-sm required" placeholder="Jabatan/Instansi"></textarea>
+									<input name="pangkat_gol" class="form-control input-sm required" placeholder="Pangkat dan Golongan"></input>
 								</div>
 							</div>
-							
+							<div class="form-group">
+								<label for="jabatan1"  class="col-sm-3 control-label">Jabatan/Instansi</label>
+								<div class="col-sm-8">
+									<input name="jabatan1" class="form-control input-sm required" placeholder="Jabatan/Instansi"></input>
+								</div>
+							</div>
 							<div class="form-group">
 								<label for="biaya"  class="col-sm-3 control-label">Tingkat Biaya Perjalanan</label>
 								<div class="col-sm-8">
-									<textarea name="biaya" class="form-control input-sm required" placeholder="Tingkat Biaya Perjalanan"></textarea>
+									<input name="biaya" class="form-control input-sm required" placeholder="Tingkat Biaya Perjalanan"></input>
 								</div>
-								</div>
+							</div>
 							<div class="form-group">
 								<label for="keperluan"  class="col-sm-3 control-label">Maksud Perjalanan Dinas</label>
 								<div class="col-sm-8">
 									<textarea name="keperluan" class="form-control input-sm required" placeholder="Maksud Perjalanan Dinas"></textarea>
 								</div>
-								</div>
-								<div class="form-group">
+							</div>
+							<div class="form-group">
 								<label for="tujuan"  class="col-sm-3 control-label">Tempat Tujuan</label>
 								<div class="col-sm-8">
-								<textarea name="tujuan" class="form-control input-sm required" placeholder="Tempat Tujuan"></textarea>
+									<input name="tujuan" class="form-control input-sm required" placeholder="Tempat Tujuan"></input>
 								</div>
 							</div>
-							
 							<div class="form-group">
 								<label for="alat_angkut"  class="col-sm-3 control-label">Alat Angkut Yang Digunakan</label>
 								<div class="col-sm-8">
-									<textarea  id="alat_angkut" class="form-control input-sm required" placeholder="Alat Angkut Yang Digunakan" name="alat_angkut"></textarea>
+									<input id="alat_angkut" class="form-control input-sm required" placeholder="Alat Angkut Yang Digunakan" name="alat_angkut"></input>
 								</div>
-								
 							</div>
 							<div class="form-group">
 								<label for="nama_pengikut"  class="col-sm-3 control-label">Nama Pengikut</label>
 								<div class="col-sm-4">
-								<input  id="anggota_i" name="anggota_i" class="form-control input-sm " type="text" placeholder="Nama Pengikut I ">
+									<input  id="anggota_i" name="anggota_i" class="form-control input-sm " type="text" placeholder="Nama Pengikut I ">
 								</div>
 								<div class="col-sm-4">
-								<input  id="anggota_ii" name="anggota_ii" class="form-control input-sm " type="text" placeholder="Nama Pengikut II "> 
-								</div>
-								</div>
-								<div class="form-group">
-								<label for="nama_pengikut"  class="col-sm-3 control-label"></label>
-								<div class="col-sm-4">
-								<input  id="anggota_iii" name="anggota_iii" class="form-control input-sm " type="text" placeholder="Nama Pengikut III "> 
-								</div>
-								<div class="col-sm-4">
-								<input  id="anggota_iv" name="anggota_iv" class="form-control input-sm " type="text" placeholder="Nama Pengikut IV "> 
-								</div>
-								</div>
-								<div class="form-group">
-								<label for="nama_pengikut"  class="col-sm-3 control-label"></label>
-								<div class="col-sm-4">
-								<input  id="anggota_v" name="anggota_v" class="form-control input-sm " type="text" placeholder="Nama Pengikut V "> 
-								</div>
-								<div class="col-sm-4">
-								<input  id="anggota_vi" name="anggota_vi" class="form-control input-sm " type="text" placeholder="Nama Pengikut VI "> 
+									<input  id="anggota_ii" name="anggota_ii" class="form-control input-sm " type="text" placeholder="Nama Pengikut II ">
 								</div>
 							</div>
-
+							<div class="form-group">
+								<label for="nama_pengikut"  class="col-sm-3 control-label"></label>
+								<div class="col-sm-4">
+									<input  id="anggota_iii" name="anggota_iii" class="form-control input-sm " type="text" placeholder="Nama Pengikut III ">
+								</div>
+								<div class="col-sm-4">
+									<input  id="anggota_iv" name="anggota_iv" class="form-control input-sm " type="text" placeholder="Nama Pengikut IV ">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="nama_pengikut"  class="col-sm-3 control-label"></label>
+								<div class="col-sm-4">
+									<input  id="anggota_v" name="anggota_v" class="form-control input-sm " type="text" placeholder="Nama Pengikut V ">
+								</div>
+								<div class="col-sm-4">
+									<input  id="anggota_vi" name="anggota_vi" class="form-control input-sm " type="text" placeholder="Nama Pengikut VI ">
+								</div>
+							</div>
 							<div class="form-group">
 								<label for="ket_lain"  class="col-sm-3 control-label">Keterangan Lain</label>
 								<div class="col-sm-8">
@@ -134,14 +128,14 @@
 										<input title="Pilih Tanggal" id="tgl_mulai" class="form-control input-sm required" name="berlaku_dari" type="text"/>
 									</div>
 								</div>
-								</div>
-								<div class="form-group">
+							</div>
+							<div class="form-group">
 								<label for="berlaku_sampai"class="col-sm-3 control-label">Tanggal Kembali</label>
 								<div class="col-sm-3 col-lg-2">
 									<div class="input-group input-group-sm date">
 										<div class="input-group-addon">
-											<i class="fa fa-calendar"></i> 
-										</div> 
+											<i class="fa fa-calendar"></i>
+										</div>
 										<input title="Pilih Tanggal" id="tgl_akhir" class="form-control input-sm required" name="berlaku_sampai" type="text"/>
 									</div>
 								</div>
