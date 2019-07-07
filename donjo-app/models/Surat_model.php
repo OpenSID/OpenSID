@@ -512,7 +512,9 @@
 	{
 		$file_logo = APPPATH . '../' . LOKASI_LOGO_DESA . $nama_logo;
 		if (!is_file($file_logo)) return $buffer;
+		// Akhiran dan awalan agak panjang supaya unik
 		$akhiran_logo = 'e33874670000000049454e44ae426082';
+		$awalan_logo = '89504e470d0a1a0a0000000d4948445200000040000000400806000000aa';
 		$akhiran_sementara = 'akhiran_logo';
 		$jml_logo = substr_count($buffer, $akhiran_logo);
 		if ($jml_logo <= 0) return $buffer; // tidak ada logo placeholder
@@ -526,7 +528,7 @@
 			// Cari logo berikutnya, kalau ada
 			$pos = strpos($buffer, $akhiran_logo);
 	    $buffer = substr_replace($buffer, $akhiran_sementara, $pos, strlen($akhiran_logo));
-			$placeholder_logo = '/89504e470d0a1a0a0000000d4948445200000040000000400806000000aa.*'.$akhiran_sementara.'/s';
+			$placeholder_logo = '/'.$awalan_logo.'.*'.$akhiran_sementara.'/s';
 			// Ganti logo yang ditemukan
 			$buffer = preg_replace($placeholder_logo, $logo_hex, $buffer);
 		}
