@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada Rismawan Junandia yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.07-pasca:
 
@@ -9,6 +9,7 @@ Lengkapnya, isi rilis versi 19.07-pasca:
 3. Nama dusun sekarang dibatasi data polos saja. [security-fix].
 4. Ubah tweb_wil_clusterdesa supaya semua kolom memiliki nilai default. [teknis]
 5. Setting aplikasi offline_mode tidak lagi membatasi akses ke menu Pemetaan > Peta.
+6. #2095: Tampilkan halaman 'maintenance mode' bagi pengunjung web apabila setting aplikasi offline_mode adalah 'Web hanya bisa diakses oleh petugas web'.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

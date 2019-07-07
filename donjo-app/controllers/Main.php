@@ -6,6 +6,22 @@ class Main extends CI_Controller {
 	{
 		parent::__construct();
 		session_start();
+		$this->load->model('config_model');
+	}
+
+	public function maintenance_mode()
+	{
+		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1)
+			redirect('main');
+
+		$this->load->model('config_model');
+		$this->load->model('pamong_model');
+		$data['main'] = $this->config_model->get_data();
+		$data['pamong_kades'] = $this->pamong_model->get_ttd();
+		if (file_exists(FCPATH.'desa/offline_mode.php'))
+			$this->load->view('../../desa/offline_mode', $data);
+		else
+			$this->load->view('offline_mode', $data);
 	}
 
 	public function index()
@@ -23,10 +39,10 @@ class Main extends CI_Controller {
 				default : redirect('siteman');
 			}
 
-		// Jika offline_mode aktif, tidak perlu menampilkan halaman website
 		}
 		else if ($this->setting->offline_mode > 0)
 		{
+			// Jika website hanya bisa diakses user, maka harus login dulu
 			redirect('siteman');
 		}
 		else
