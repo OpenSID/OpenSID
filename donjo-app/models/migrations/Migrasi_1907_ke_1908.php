@@ -48,5 +48,20 @@ class Migrasi_1907_ke_1908 extends CI_model {
 				array('id_setting'=>$setting_id, 'kode'=>'2', 'value'=>'Web non-aktif sama sekali'),
 			)
 		);
+	  // Tambah Surat Perintah Perjalanan Dinas
+		// Tambah surat keterangan penghasilan orangtua
+		$data = array(
+			'nama'=>'Perintah Perjalanan Dinas',
+			'url_surat'=>'surat_perintah_perjalanan_dinas',
+			'kode_surat'=>'S-46',
+			'jenis'=>1);
+		$sql = $this->db->insert_string('tweb_surat_format', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				nama = VALUES(nama),
+				url_surat = VALUES(url_surat),
+				kode_surat = VALUES(kode_surat),
+				jenis = VALUES(jenis)";
+		$this->db->query($sql);
+
   }
 }
