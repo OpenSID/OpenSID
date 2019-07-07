@@ -9,10 +9,9 @@ class First extends Web_Controller {
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
-		if ($this->setting->offline_mode >= 2)
+		if ($this->setting->offline_mode == 2)
 		{
-			redirect('siteman');
-			exit;
+			redirect('main');
 		}
 		elseif ($this->setting->offline_mode == 1)
 		{
