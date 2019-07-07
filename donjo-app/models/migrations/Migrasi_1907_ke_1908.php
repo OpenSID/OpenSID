@@ -44,7 +44,7 @@ class Migrasi_1907_ke_1908 extends CI_model {
 			'setting_aplikasi_options',
 			array(
 				array('id_setting'=>$setting_id, 'kode'=>'0', 'value'=>'Web bisa diakses publik'),
-				array('id_setting'=>$setting_id, 'kode'=>'1', 'value'=>'Web hanya bisa diakses admin'),
+				array('id_setting'=>$setting_id, 'kode'=>'1', 'value'=>'Web hanya bisa diakses petugas web'),
 				array('id_setting'=>$setting_id, 'kode'=>'2', 'value'=>'Web non-aktif sama sekali'),
 			)
 		);

@@ -9,6 +9,21 @@ class Main extends CI_Controller {
 		$this->load->model('config_model');
 	}
 
+	public function maintenance_mode()
+	{
+		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1)
+			redirect('main');
+
+		$this->load->model('config_model');
+		$this->load->model('pamong_model');
+		$data['main'] = $this->config_model->get_data();
+		$data['pamong_kades'] = $this->pamong_model->get_ttd();
+		if (file_exists(FCPATH.'desa/offline_mode.php'))
+			$this->load->view('../../desa/offline_mode', $data);
+		else
+			$this->load->view('offline_mode', $data);
+	}
+
 	public function index()
 	{
 		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1)
@@ -24,26 +39,15 @@ class Main extends CI_Controller {
 				default : redirect('siteman');
 			}
 
-		// Jika offline_mode aktif, tidak perlu menampilkan halaman website
 		}
-		elseif ($this->setting->offline_mode == 2)
+		else if ($this->setting->offline_mode > 0)
 		{
-			$data['main'] = $this->config_model->get_data();
-			$this->load->view('offline_mode', $data);
+			// Jika website hanya bisa diakses user, maka harus login dulu
+			redirect('siteman');
 		}
-		elseif ($this->setting->offline_mode == 1)
+		else
 		{
-			// Jangan tampilkan website jika bukan admin/operator/redaksi
-			$this->load->model('user_model');
-			$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-			if ($grup != 1 AND $grup != 2 AND $grup != 3)
-			{
-				if (empty($grup))
-					$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-				else
-					unset($_SESSION['request_uri']);
-				redirect('siteman');
-			}
+			redirect('first');
 		}
 	}
 }
