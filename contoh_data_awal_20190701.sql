@@ -11200,6 +11200,7 @@ INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampi
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (164, 'Raw', 'raw', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (165, 'Baru', 'surat_baru', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (166, 'Non Warga Baru', 'surat_non_warga_baru', '', NULL, 0, 0, 2);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (167, 'SPPD', 'surat_perintah_perjalanan_dinas', '090', NULL, 0, 0, 1);
 
 
 #
