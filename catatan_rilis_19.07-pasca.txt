@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 19.07-pasca:
 7. #720: Tambah Surat Perintah Perjalanan Dinas.
 8. Sekarang bisa ganti lebih dari satu logo-placeholder di template surat Ekspor Dok. [bug-fix]
 9. #2076: Tambah blok 'diketahui camat' pada bagian penandatangan lampiran Surat Keterangan Pindah Penduduk.
+10. #2075: Tambah blok 'diketahui camat' pada bagian penandatangan lampiran Surat Keterangan Kelahiran (F-2.01).
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
