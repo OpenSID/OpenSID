@@ -33,7 +33,14 @@
 		});
 	});
 </script>
-<div id="scroller" style="margin-bottom: 0px; padding-bottom: 3px;">
-	<span style="vertical-align: middle; color: white; font: bold 8pt Arial; padding-right: 200px;"><?= $teks_berjalan?></span>
+<div id="scroller" class="teks_berjalan" style="margin-bottom: 0px; padding-bottom: 3px;">
+  <?php foreach ($teks_berjalan AS $teks): ?>
+  	<span class="teks">
+  		<?= $teks['teks']?>
+  		<?php if ($teks['tautan']): ?>
+	  		<a href="<?= site_url('first/artikel/'.$teks['tautan']) ?>"><?= $teks['judul_tautan']?></a>
+	  	<?php endif; ?>
+  	</span>
+  <?php endforeach; ?>
   <span>&nbsp;</span>
 </div>

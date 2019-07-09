@@ -9,23 +9,19 @@ class First extends Web_Controller {
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
-		if ($this->setting->offline_mode >= 2)
+		if ($this->setting->offline_mode == 2)
 		{
-			redirect('siteman');
-			exit;
+			redirect('main');
 		}
 		elseif ($this->setting->offline_mode == 1)
 		{
-			// Jangan tampilkan website jika bukan admin/operator/redaksi
+			// Hanya tampilkan website jika user mempunyai akses ke menu admin/web
+			// Tampilkan 'maintenance mode' bagi pengunjung website
 			$this->load->model('user_model');
 			$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-			if ($grup != 1 AND $grup != 2 AND $grup != 3)
+			if (!$this->user_model->hak_akses($grup, 'web', 'b'))
 			{
-				if (empty($grup))
-					$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-				else
-					unset($_SESSION['request_uri']);
-				redirect('siteman');
+				redirect('main/maintenance_mode');
 			}
 		}
 

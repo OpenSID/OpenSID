@@ -304,6 +304,7 @@ class User_model extends CI_Model {
 		$data['session'] = md5(now());
 
 		$data['foto'] = $this->urusFoto();
+		$data['nama'] = strip_tags($data['nama']);
 
 		if (!$this->db->insert('user', $data))
 		{
@@ -351,6 +352,7 @@ class User_model extends CI_Model {
 		}
 
 		$data['foto'] = $this->urusFoto($idUser);
+		$data['nama'] = strip_tags($data['nama']);
 
 		if (!$this->db->where('id', $idUser)->update('user', $data))
 		{
@@ -445,7 +447,7 @@ class User_model extends CI_Model {
 	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
-		$data['nama'] = $this->input->post('nama');
+		$data['nama'] = strip_tags($this->input->post('nama'));
 		$password = $this->input->post('pass_lama');
 		$pass_baru = $this->input->post('pass_baru');
 		$pass_baru1 = $this->input->post('pass_baru1');
@@ -734,6 +736,7 @@ class User_model extends CI_Model {
 				'komentar' => array('b','u','h'),
 				'menu' => array('b','u'),
 				'sosmed' => array('b','u'),
+				'teks_berjalan' => array('b','u'),
 				'web' => array('b','u'),
 				'web_widget' => array('b','u'),
 				// pengaturan

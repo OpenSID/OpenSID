@@ -109,7 +109,7 @@
 								<div class="checkbox">
 									<label>
 										<input type="checkbox" name="id_program[]" value="<?= $bantuan['id']?>"/<?php if ($bantuan['peserta'] != ''): ?>checked <?php endif; ?>>
-										<a href="<?= site_url('program_bantuan/detail/1/'.$bantuan['id'])?>" target="_blank"><?= $bantuan['nama']?></a>
+										<a href="<?= site_url('program_bantuan/detail/1/'.$bantuan['id'])?>/1" target="_blank"><?= $bantuan['nama']?></a>
 									</label>
 								</div>
 							<?php endforeach; ?>

@@ -67,6 +67,11 @@
 			$sql = "FROM artikel a
 				LEFT JOIN kategori k ON a.id_kategori = k.id
 				WHERE id_kategori = ? ";
+		elseif ($cat == -1)
+			// Semua artikel
+			$sql = "FROM artikel a
+				LEFT JOIN kategori k ON a.id_kategori = k.id
+				WHERE 1 ";
 		else
 			// Artikel dinamis tidak berkategori
 			$sql = "FROM artikel a
@@ -151,6 +156,8 @@
 		  $_SESSION['success'] = -1;
 		  return;
 		}
+		// Batasi judul menggunakan teks polos
+		$data['judul'] = strip_tags($data['judul']);
 
 		$fp = time();
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
@@ -267,6 +274,8 @@
 		  $_SESSION['success'] = -1;
 		  return;
 		}
+		// Batasi judul menggunakan teks polos
+		$data['judul'] = strip_tags($data['judul']);
 
 	  $fp = time();
 		$list_gambar = array('gambar', 'gambar1', 'gambar2', 'gambar3');

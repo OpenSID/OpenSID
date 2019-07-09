@@ -1,0 +1,18 @@
+Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada Rismawan Junandia yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 19.07-pasca:
+
+1. Pilih penandatangan a.n dan u.b di Info Desa > Pemerintah Desa. Hapus setting aplikasi sebutan_pimpinan_desa.
+2. #2127: Tanggal lahir di kartu peserta sekarang tampil benar di Program Bantuan. [bug-fix]
+3. Nama dusun sekarang dibatasi data polos saja. [security-fix].
+4. Ubah tweb_wil_clusterdesa supaya semua kolom memiliki nilai default. [teknis]
+5. Setting aplikasi offline_mode tidak lagi membatasi akses ke menu Pemetaan > Peta.
+6. #2095: Tampilkan halaman 'maintenance mode' bagi pengunjung web apabila setting aplikasi offline_mode adalah 'Web hanya bisa diakses oleh petugas web'.
+7. #720: Tambah Surat Perintah Perjalanan Dinas.
+8. Sekarang bisa ganti lebih dari satu logo-placeholder di template surat Ekspor Dok. [bug-fix]
+9. #2076: Tambah blok 'diketahui camat' pada bagian penandatangan lampiran Surat Keterangan Pindah Penduduk.
+
+
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

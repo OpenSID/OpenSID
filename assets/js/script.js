@@ -430,6 +430,7 @@ function checkAll(id = "#checkall")
 				$(this).prop("checked", false);
 			});
 		}
+		$(".table input[type=checkbox]").change();
 		enableHapusTerpilih();
 	});
 	$("[data-toggle=tooltip]").tooltip();

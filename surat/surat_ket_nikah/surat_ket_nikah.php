@@ -126,13 +126,7 @@
 							<input type="hidden" name="sex_pria" value="Laki-laki">
 							<input type="hidden" name="sex_wanita" value="Perempuan">
 							<div class="col-md-12">
-								<div class="form-group">
-									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
-									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>">
-										<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
-									</div>
-								</div>
+								<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 								<?php $jenis_pasangan = "Istri"; ?>
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 control-label" for="status">A. CALON PASANGAN PRIA</label>
@@ -1030,6 +1024,9 @@
 									<div class="col-sm-8">
 										<input name="tempat_nikah" class="form-control input-sm required" type="text" placeholder="Tempat" value="<?= $_SESSION['post']['tempat_nikah']?>">
 									</div>
+								</div>
+								<div class="form-group" >
+									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>D. PENANDA TANGAN </strong></label>
 								</div>
 								<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 							</div>

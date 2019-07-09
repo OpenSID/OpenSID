@@ -103,39 +103,23 @@ class Setting_model extends CI_Model {
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-	public function update_teks_berjalan()
-	{
-		$_SESSION['success'] = 1;
-		$this->setting->isi_teks_berjalan = $this->input->post('isi_teks_berjalan');
-		$outp = $this->db->where('key','isi_teks_berjalan')->update('setting_aplikasi', array('value'=>$this->input->post('isi_teks_berjalan')));
-		if (!$outp) $_SESSION['success'] = -1;
-	}
-
 	public function load_options()
 	{
 		foreach ($this->list_setting as $i => $set)
 		{
-			if ($set->jenis == 'option' or $set->jenis == 'option-value')
+			if (in_array($set->jenis, array('option', 'option-value', 'option-kode')))
 			{
 				$this->list_setting[$i]->options = $this->get_options($set->id);
 			}
 		}
-
 	}
 
 	private function get_options($id)
 	{
-		$result = array();
-		$rows = $this->db->select('id,value')
+		$rows = $this->db->select('id, kode, value')
 		                 ->where('id_setting', $id)
 		                 ->get('setting_aplikasi_options')
 		                 ->result();
-
-		foreach ($rows as $row)
-		{
-			$result[$row->id] = $row->value;
-		}
-
-		return $result;
+		return $rows;
 	}
 }

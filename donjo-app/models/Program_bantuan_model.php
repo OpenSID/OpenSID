@@ -142,6 +142,19 @@ class Program_bantuan_model extends CI_Model {
 		return $data;
 	}
 
+	private function search_peserta_sql()
+	{
+		if (isset($_SESSION['cari_peserta']))
+		{
+			$cari = $_SESSION['cari_peserta'];
+			$kw = $this->db->escape_like_str($cari);
+			$kw = '%' .$kw. '%';
+			$search_sql = " AND (nama LIKE '$kw')";
+			return $search_sql;
+		}
+	}
+
+
 	// Query dibuat pada satu tempat, supaya penghitungan baris untuk paging selalu
 	// konsisten dengan data yang diperoleh
 	private function get_peserta_sql($slug, $sasaran, $jumlah=false)
@@ -165,6 +178,7 @@ class Program_bantuan_model extends CI_Model {
 					LEFT JOIN tweb_penduduk q ON o.nik_kepala = q.id
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = q.id_cluster
 					WHERE p.program_id =".$slug;
+
 				break;
 			case 3:
 				# Data RTM
@@ -188,6 +202,7 @@ class Program_bantuan_model extends CI_Model {
 			default:
 				break;
 		}
+		$strSQL .= $this->search_peserta_sql();
 		return $strSQL;
 	}
 
@@ -235,6 +250,334 @@ class Program_bantuan_model extends CI_Model {
 		return $sql;
 	}
 
+	private function get_program_data($p, $slug)
+	{
+		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status
+			FROM program p
+			WHERE p.id = ".$slug;
+		$query = $this->db->query($strSQL);
+		$hasil0 = $query->row_array();
+
+		$hasil0["paging"] = $this->paging_peserta($p, $slug, $hasil0["sasaran"]);
+
+		switch ($hasil0["sasaran"])
+		{
+			case 1:
+				/*
+				 * Data penduduk
+				 * */
+				$hasil0['judul_peserta'] = 'NIK';
+				$hasil0['judul_peserta_plus'] = 'No. KK';
+				$hasil0['judul_peserta_info'] = 'Nama Peserta';
+				$hasil0['judul_cari_peserta'] = 'NIK / Nama Peserta';
+				break;
+			case 2:
+				/*
+				 * Data KK
+				 * */
+				$hasil0['judul_peserta'] = 'NO. KK';
+				$hasil0['judul_peserta_plus'] = 'NIK';
+				$hasil0['judul_peserta_info'] = 'Kepala Keluarga';
+				$hasil0['judul_cari_peserta'] = 'No. KK / Nama Kepala Keluarga';
+				break;
+			case 3:
+				/*
+				 * Data RTM
+				 * */
+				$hasil0['judul_peserta'] = 'NO. Rumah Tangga';
+				$hasil0['judul_peserta_info'] = 'Kepala Rumah Tangga';
+				$hasil0['judul_cari_peserta'] = 'No. RT / Nama Kepala Rumah Tangga';
+				break;
+			case 4:
+				/*
+				 * Data Kelompok
+				 * */
+				$hasil0['judul_peserta'] = 'Nama Kelompok';
+				$hasil0['judul_peserta_info'] = 'Ketua Kelompok';
+				$hasil0['judul_cari_peserta'] = 'Nama Kelompok / Nama Kepala Keluarga';
+		}
+
+		return $hasil0;
+	}
+
+	private function get_data_peserta($hasil0, $slug)
+	{
+		$paging_sql = ' LIMIT ' .$hasil0["paging"]->offset. ',' .$hasil0["paging"]->per_page;
+		$strSQL = $this->get_peserta_sql($slug,$hasil0["sasaran"]);
+		$strSQL .= $paging_sql;
+		$query = $this->db->query($strSQL);
+
+		switch ($hasil0["sasaran"])
+		{
+			case 1:
+				return $this->get_data_peserta_penduduk($query);
+				break;
+			case 2:
+				return $this->get_data_peserta_kk($query);
+				break;
+			case 3:
+				return $this->get_data_peserta_rumah_tangga($query);
+				break;
+			case 4:
+				return $this->get_data_peserta_kelompok($query);
+		}
+	}
+
+	private function get_data_peserta_penduduk($query)
+	{
+		/*
+		 * Data penduduk
+		 * */
+		if ($query->num_rows()>0)
+		{
+			$data = $query->result_array();
+			for ($i=0; $i<count($data); $i++)
+			{
+				$data[$i]['id'] = $data[$i]['id'];
+				$data[$i]['nik'] = $data[$i]['peserta'];
+				$data[$i]['peserta_plus'] = $data[$i]['no_kk'];
+				$data[$i]['peserta_nama'] = $data[$i]['peserta'];
+				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
+				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+			}
+			$hasil1 = $data;
+		}
+		else
+		{
+			$hasil1 = false;
+		}
+		return $hasil1;
+	}
+
+	private function get_data_peserta_kk($query)
+	{
+		/*
+		 * Data KK
+		 * */
+		if ($query->num_rows()>0)
+		{
+			$data = $query->result_array();
+			for ($i=0; $i<count($data); $i++)
+			{
+				$data[$i]['id'] = $data[$i]['id'];
+				$data[$i]['nik'] = $data[$i]['no_kk'];
+				$data[$i]['peserta_plus'] = $data[$i]['nik'];
+				$data[$i]['peserta_nama'] = $data[$i]['no_kk'];
+				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
+
+				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+			}
+			$hasil1 = $data;
+		}
+		else
+		{
+			$hasil1 = false;
+		}
+		return $hasil1;
+	}
+
+	private function get_data_peserta_rumah_tangga($query)
+	{
+		/*
+		 * Data RTM
+		 * */
+		if ($query->num_rows()>0)
+		{
+			$data=$query->result_array();
+			for ($i=0; $i<count($data); $i++)
+			{
+				$data[$i]['id'] = $data[$i]['id'];
+				$data[$i]['nik'] = $data[$i]['peserta'];
+				$data[$i]['peserta_nama'] = $data[$i]['no_kk'];
+				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nik']." - ".$data[$i]['no_kk']."]";
+				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+			}
+			$hasil1 = $data;
+		}
+		else
+		{
+			$hasil1 = false;
+		}
+		return $hasil1;
+	}
+
+	private function get_data_peserta_kelompok($query)
+	{
+		/*
+		 * Data Kelompok
+		 * */
+		if ($query->num_rows()>0)
+		{
+			$data = $query->result_array();
+			for ($i=0; $i<count($data); $i++)
+			{
+				$data[$i]['id'] = $data[$i]['id'];
+				$data[$i]['nik'] = $data[$i]['nama_kelompok'];
+				$data[$i]['peserta_nama'] = $data[$i]['nama_kelompok'];
+				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
+				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+			}
+			$hasil1 = $data;
+		}
+		else
+		{
+			$hasil1 = false;
+		}
+		return $hasil1;
+	}
+
+	private function get_pilihan_penduduk($filter)
+	{
+		/*
+		 * Data penduduk
+		 * */
+		$strSQL = "SELECT p.nik, p.nama, w.rt, w.rw, w.dusun
+			FROM penduduk_hidup p
+			LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
+			WHERE 1 ORDER BY nama";
+		$query = $this->db->query($strSQL);
+		$data = "";
+		$data = $query->result_array();
+		if ($query->num_rows() > 0)
+		{
+			$j = 0;
+			for ($i=0; $i<count($data); $i++)
+			{
+				// Abaikan penduduk yang sudah terdaftar pada program
+				if (!in_array($data[$i]['nik'], $filter))
+				{
+					if($data[$i]['nik'] != ""){
+						$data1[$j]['id'] = $data[$i]['nik'];
+						$data1[$j]['nik'] = $data[$i]['nik'];
+						$data1[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nik']."]";
+						$data1[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+						$j++;
+					}
+				}
+			}
+			$hasil2 = $data1;
+		}
+		else
+		{
+			$hasil2 = false;
+		}
+		return $hasil2;
+	}
+
+	private function get_pilihan_kk($filter)
+	{
+		/*
+		 * Data KK
+		 * */
+		// Daftar keluarga, tidak termasuk keluarga yang sudah menjadi peserta
+		$strSQL = "SELECT k.no_kk as id, p.nama as nama, w.rt, w.rw, w.dusun
+			FROM tweb_keluarga k
+			LEFT JOIN tweb_penduduk p ON p.id = k.nik_kepala
+			LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
+			WHERE p.status_dasar = 1";
+		$query = $this->db->query($strSQL);
+		$hasil2 = array();
+		$data = $query->result_array();
+		if ($query->num_rows() > 0)
+		{
+			$j = 0;
+			for ($i=0; $i<count($data); $i++)
+			{
+				// Abaikan keluarga yang sudah terdaftar pada program
+				if(!in_array($data[$i]['id'], $filter))
+				{
+					$data[$i]['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $data[$i]['id']); //Hapus karakter non alpha di no_kk
+					$hasil2[$j]['id'] = $data[$i]['id'];
+					$hasil2[$j]['nik'] = $data[$i]['id'];
+					$hasil2[$j]['nama'] = strtoupper($data[$i]['nama']) ." [".$data[$i]['id']."]";
+					$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+					$j++;
+				}
+			}
+		}
+		else
+		{
+			$hasil2 = false;
+		}
+		return $hasil2;
+	}
+
+	private function get_pilihan_rumah_tangga($filter)
+	{
+		/*
+		 * Data RTM
+		 * */
+
+		$strSQL = "SELECT r.no_kk as id, o.nama, w.rt, w.rw, w.dusun  FROM tweb_rtm r
+			LEFT JOIN tweb_penduduk o ON o.id = r.nik_kepala
+			LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+			WHERE 1
+			";
+		$query = $this->db->query($strSQL);
+		$hasil2 = array();;
+		$data = $query->result_array();
+		if ($query->num_rows() > 0)
+		{
+			$j = 0;
+			for ($i=0; $i<count($data); $i++)
+			{
+				// Abaikan RTM yang sudah terdaftar pada program
+				if (!in_array($data[$i]['id'], $filter))
+				{
+					$hasil2[$j]['id'] = $data[$i]['id'];
+					$hasil2[$j]['nik'] = $data[$i]['id'];
+					$hasil2[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['id']."]";
+					$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+					$j++;
+				}
+			}
+		}
+		else
+		{
+			$hasil2 = false;
+		}
+		return $hasil2;
+	}
+
+	private function get_pilihan_kelompok($filter)
+	{
+		/*
+		 * Data Kelompok
+		 * */
+		$strSQL = "SELECT k.id,k.nama as nama_kelompok, o.nama, w.rt, w.rw, w.dusun FROM kelompok k
+			LEFT JOIN tweb_penduduk o ON o.id = k.id_ketua
+			LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+			WHERE 1";
+		$query = $this->db->query($strSQL);
+		$hasil2 = array();
+		$data = $query->result_array();
+		if ($query->num_rows() > 0)
+		{
+			$j = 0;
+			for ($i=0; $i<count($data); $i++)
+			{
+				// Abaikan kelompok yang sudah terdaftar pada program
+				if (!in_array($data[$i]['id'], $filter))
+				{
+					$hasil2[$j]['id'] = $data[$i]['id'];
+					$hasil2[$j]['nik'] = $data[$i]['id'];
+					$hasil2[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nama_kelompok']."]";
+					$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+					$j++;
+				}
+			}
+		}
+		else
+		{
+			$hasil2 = false;
+		}
+		return $hasil2;
+	}
+
 	public function get_program($p, $slug)
 	{
 		if ($slug === false)
@@ -252,256 +595,29 @@ class Program_bantuan_model extends CI_Model {
 		{
 			// Untuk program bantuan, $slug berbentuk '50<program_id>'
 			$slug = preg_replace("/^50/", "", $slug);
-			$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status FROM program p WHERE p.id = ".$slug;
-			$query = $this->db->query($strSQL);
-			$hasil0 = $query->row_array();
-
-			$hasil0["paging"] = $this->paging_peserta($p, $slug, $hasil0["sasaran"]);
-			$paging_sql = ' LIMIT ' .$hasil0["paging"]->offset. ',' .$hasil0["paging"]->per_page;
-			$strSQL = $this->get_peserta_sql($slug,$hasil0["sasaran"]);
-			$strSQL .= $paging_sql;
-			$query = $this->db->query($strSQL);
+			$hasil0 = $this->get_program_data($p, $slug);
+			$hasil1 = $this->get_data_peserta($hasil0, $slug);
+			$filter = array();
+			foreach ($hasil1 as $data)
+			{
+				$filter[] = $data['peserta'];
+			}
 
 			switch ($hasil0["sasaran"])
 			{
 				case 1:
-					/*
-					 * Data penduduk
-					 * */
-					$hasil0['judul_peserta'] = 'NIK';
-					$hasil0['judul_peserta_plus'] = 'No. KK';
-					$hasil0['judul_peserta_info'] = 'Nama Peserta';
-					$hasil0['judul_cari_peserta'] = 'NIK / Nama Peserta';
-					$filter = array();
-					if ($query->num_rows()>0)
-					{
-						$data = $query->result_array();
-						for ($i=0; $i<count($data); $i++)
-						{
-							$data[$i]['id']=$data[$i]['id'];
-							$data[$i]['nik']=$data[$i]['peserta'];
-							$data[$i]['peserta_plus'] = $data[$i]['no_kk'];
-							$data[$i]['peserta_nama']=$data[$i]['peserta'];
-							$data[$i]['peserta_info']=$data[$i]['nama'];
-							$filter[] = $data[$i]['peserta'];
-							$data[$i]['nama']=strtoupper($data[$i]['nama']);
-							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-						}
-						$hasil1 = $data;
-					}
-					else
-					{
-						$hasil1 = false;
-					}
-
-					$strSQL = "SELECT p.nik, p.nama, w.rt, w.rw, w.dusun
-						FROM penduduk_hidup p
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-						WHERE 1 ORDER BY nama";
-					$query = $this->db->query($strSQL);
-					$data = "";
-					$data = $query->result_array();
-					if ($query->num_rows() > 0)
-					{
-						$j = 0;
-						for ($i=0; $i<count($data); $i++)
-						{
-							// Abaikan penduduk yang sudah terdaftar pada program
-							if (!in_array($data[$i]['nik'], $filter))
-							{
-								if($data[$i]['nik'] != ""){
-									$data1[$j]['id'] = $data[$i]['nik'];
-									$data1[$j]['nik'] = $data[$i]['nik'];
-									$data1[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nik']."]";
-									$data1[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-									$j++;
-								}
-							}
-						}
-						$hasil2 = $data1;
-					}
-					else
-					{
-						$hasil2 = false;
-					}
+					$hasil2 = $this->get_pilihan_penduduk($filter);
 					break;
 				case 2:
-					/*
-					 * Data KK
-					 * */
-					$hasil0['judul_peserta'] = 'NO. KK';
-					$hasil0['judul_peserta_plus'] = 'NIK';
-					$hasil0['judul_peserta_info'] = 'Kepala Keluarga';
-					$hasil0['judul_cari_peserta'] = 'No. KK / Nama Kepala Keluarga';
-					$filter = array();
-					if ($query->num_rows()>0)
-					{
-						$data = $query->result_array();
-						for ($i=0; $i<count($data); $i++)
-						{
-							$data[$i]['id'] = $data[$i]['id'];
-							$data[$i]['nik'] = $data[$i]['no_kk'];
-							$data[$i]['peserta_plus'] = $data[$i]['nik'];
-							$data[$i]['peserta_nama'] = $data[$i]['no_kk'];
-							$data[$i]['peserta_info'] = $data[$i]['nama'];
-							$filter[] = $data[$i]['no_kk'];
-							$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
-
-							$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-							$data[$i]['kartu_tanggal_lahir'] = tgl_indo_out($data[$i]['kartu_tanggal_lahir']);
-						}
-						$hasil1 = $data;
-					}
-					else
-					{
-						$hasil1 = false;
-					}
-					// Daftar keluarga, tidak termasuk keluarga yang sudah menjadi peserta
-					$strSQL = "SELECT k.no_kk as id, p.nama as nama, w.rt, w.rw, w.dusun
-						FROM tweb_keluarga k
-						LEFT JOIN tweb_penduduk p ON p.id = k.nik_kepala
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-						WHERE p.status_dasar = 1";
-					$query = $this->db->query($strSQL);
-					$hasil2 = array();
-					$data = $query->result_array();
-					if ($query->num_rows() > 0)
-					{
-						$j = 0;
-						for ($i=0; $i<count($data); $i++)
-						{
-							// Abaikan keluarga yang sudah terdaftar pada program
-							if(!in_array($data[$i]['id'], $filter)){
-								$data[$i]['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $data[$i]['id']); //Hapus karakter non alpha di no_kk
-								$hasil2[$j]['id'] = $data[$i]['id'];
-								$hasil2[$j]['nik'] = $data[$i]['id'];
-								$hasil2[$j]['nama'] = strtoupper($data[$i]['nama']) ." [".$data[$i]['id']."]";
-								$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-								$j++;
-							}
-						}
-					}
-					else
-					{
-						$hasil2 = false;
-					}
+					$hasil2 = $this->get_pilihan_kk($filter);
 					break;
 				case 3:
-					/*
-					 * Data RTM
-					 * */
-					$hasil0['judul_peserta'] = 'NO. Rumah Tangga';
-					$hasil0['judul_peserta_info'] = 'Kepala Rumah Tangga';
-					$hasil0['judul_cari_peserta'] = 'No. RT / Nama Kepala Rumah Tangga';
-					$filter = array();
-					if ($query->num_rows()>0)
-					{
-						$data=$query->result_array();
-						for ($i=0; $i<count($data); $i++)
-						{
-							$data[$i]['id']=$data[$i]['id'];
-							$data[$i]['nik']=$data[$i]['peserta'];
-							$data[$i]['peserta_nama']=$data[$i]['no_kk'];
-							$data[$i]['peserta_info']=$data[$i]['nama'];
-							$filter[] = $data[$i]['peserta'];
-							$data[$i]['nama']=strtoupper($data[$i]['nama'])." [".$data[$i]['nik']." - ".$data[$i]['no_kk']."]";
-							$data[$i]['info']= "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-						}
-						$hasil1 = $data;
-					}
-					else
-					{
-						$hasil1 = false;
-					}
-
-					$strSQL = "SELECT r.no_kk as id, o.nama, w.rt, w.rw, w.dusun  FROM tweb_rtm r
-						LEFT JOIN tweb_penduduk o ON o.id = r.nik_kepala
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-						WHERE 1
-						";
-					$query = $this->db->query($strSQL);
-					$hasil2 = array();;
-					$data = $query->result_array();
-					if ($query->num_rows() > 0)
-					{
-						$j = 0;
-						for ($i=0; $i<count($data); $i++)
-						{
-							// Abaikan RTM yang sudah terdaftar pada program
-							if (!in_array($data[$i]['id'], $filter))
-							{
-								$hasil2[$j]['id'] = $data[$i]['id'];
-								$hasil2[$j]['nik'] = $data[$i]['id'];
-								$hasil2[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['id']."]";
-								$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-								$j++;
-							}
-						}
-					}
-					else
-					{
-						$hasil2 = false;
-					}
+					$hasil2 = $this->get_pilihan_rumah_tangga($filter);
 					break;
 				case 4:
-					/*
-					 * Data Kelompok
-					 * */
-
-					$hasil0['judul_peserta'] = 'Nama Kelompok';
-					$hasil0['judul_peserta_info'] = 'Ketua Kelompok';
-					$hasil0['judul_cari_peserta'] = 'Nama Kelompok / Nama Kepala Keluarga';
-					$filter = array();
-					if ($query->num_rows()>0)
-					{
-						$data = $query->result_array();
-						for ($i=0; $i<count($data); $i++)
-						{
-							$data[$i]['id'] = $data[$i]['id'];
-							$data[$i]['nik'] = $data[$i]['nama_kelompok'];
-							$data[$i]['peserta_nama'] = $data[$i]['nama_kelompok'];
-							$data[$i]['peserta_info'] = $data[$i]['nama'];
-							$filter[] = $data[$i]['peserta'];
-							$data[$i]['nama'] = strtoupper($data[$i]['nama']);
-							$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-						}
-						$hasil1 = $data;
-					}
-					else
-					{
-						$hasil1 = false;
-					}
-
-					$strSQL = "SELECT k.id,k.nama as nama_kelompok, o.nama, w.rt, w.rw, w.dusun FROM kelompok k
-						LEFT JOIN tweb_penduduk o ON o.id = k.id_ketua
-						LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-						WHERE 1";
-					$query = $this->db->query($strSQL);
-					$hasil2 = array();
-					$data = $query->result_array();
-					if ($query->num_rows() > 0)
-					{
-						$j = 0;
-						for ($i=0; $i<count($data); $i++)
-						{
-							// Abaikan kelompok yang sudah terdaftar pada program
-							if (!in_array($data[$i]['id'], $filter))
-							{
-								$hasil2[$j]['id'] = $data[$i]['id'];
-								$hasil2[$j]['nik'] = $data[$i]['id'];
-								$hasil2[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nama_kelompok']."]";
-								$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
-								$j++;
-							}
-						}
-					}
-					else
-					{
-						$hasil2 = false;
-					}
+					$hasil2 = $this->get_pilihan_kelompok($filter);
 					break;
 				default:
-
 			}
 			$hasil = array($hasil0, $hasil1, $hasil2);
 			return $hasil;

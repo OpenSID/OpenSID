@@ -79,13 +79,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="form-group">
-									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
-									<div class="col-sm-8">
-										<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $_SESSION['post']['nomor']; ?>">
-										<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
-									</div>
-								</div>
+								<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 text-right"><strong>PIHAK YANG DIBERI IZIN</strong></label>
 								</div>
@@ -151,17 +145,6 @@
 								</div>
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 text-right"><strong>PENANDA TANGAN</strong></label>
-								</div>
-								<div class="form-group">
-									<label for="nik"  class="col-sm-3 control-label">Tertanda Atas Nama</label>
-									<div class="col-sm-6 col-lg-4">
-										<select class="form-control input-sm select2" id="atas_nama" name="atas_nama" style ="width:100%;">
-											<option value="">-- Atas Nama --</option>
-											<?php foreach ($atas_nama as $data): ?>
-												<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['atas_nama']): ?>selected<?php endif; ?>><?= $data?></option>
-											<?php endforeach;?>
-										</select>
-									</div>
 								</div>
 								<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 							</div>
