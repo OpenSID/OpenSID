@@ -196,9 +196,13 @@
                             <tr>
 															<td style="padding-top : 10px;padding-bottom : 10px;" >Tanggal Lahir</td>
 															<td> : <?= tgl_indo($peserta["kartu_tanggal_lahir"])?></td>
+															</tr>
+                            <tr>
+															<td style="padding-top : 10px;padding-bottom : 10px;" >Nama Ibu Kandung</td>
+															<td> : <?= $peserta["kartu_nama_ibu"]?></td>
 														</tr>
                             <tr>
-															<td style="padding-top : 10px;padding-bottom : 10px;" >AlamatNama</td>
+															<td style="padding-top : 10px;padding-bottom : 10px;" >Alamat Nama</td>
 															<td> : <?= $peserta["kartu_alamat"]?></td>
 														</tr>
 													</tbody>
