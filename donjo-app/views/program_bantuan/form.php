@@ -130,6 +130,12 @@
 													</div>
 												</div>
 												<div class="form-group">
+													<label for="kartu_nama_ibu"  class="col-sm-4 col-lg-2 control-label">Nama Ibu Kandung </label>
+													<div class="col-sm-7">
+											  		<input  id="kartu_nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu Kandung" name="kartu_nama_ibu" value="<?= $individu['nama_ibu'];?>">
+													</div>
+												</div>
+												<div class="form-group">
 													<label for="kartu_alamat"  class="col-sm-4 col-lg-2 control-label">Alamat</label>
 													<div class="col-sm-7">
 											  		<input  id="kartu_alamat" class="form-control input-sm" type="text" placeholder="Alamat" name="kartu_alamat" value="<?= $individu['alamat_wilayah'];?>">
