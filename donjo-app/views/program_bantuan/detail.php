@@ -118,7 +118,7 @@
 															<?php endif ;?>
 															<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_info"]?></th>
 															<th rowspan="2" class="text-center">Alamat</th>
-															<th colspan="6" class="text-center">Identitas di Kartu Peserta</th>
+															<th colspan="7" class="text-center">Identitas di Kartu Peserta</th>
 														</tr>
 														<tr>
 															<th rowspan="2" nowrap class="text-center">No. Kartu Peserta</th>
@@ -126,6 +126,7 @@
 															<th class="text-center">Nama</th>
 															<th class="text-center" nowrap>Tempat Lahir</th>
 															<th class="text-center" nowrap>Tanggal Lahir</th>
+															<th class="text-center">Nama Ibu</th>
 															<th class="text-center">Alamat</th>
 														</tr>
 													</thead>
@@ -151,6 +152,7 @@
 																	<td><?= $item["kartu_nama"];?></td>
 																	<td nowrap><?= $item["kartu_tempat_lahir"];?></td>
 																	<td nowrap class="text-center"><?= tgl_indo_out($item["kartu_tanggal_lahir"]);?></td>
+																	<td nowrap><?= $item["kartu_nama_ibu"];?></td>
 																	<td><?= $item["kartu_alamat"];?></td>
 																</tr>
 															<?php endforeach; ?>
@@ -165,7 +167,7 @@
                     <div class="col-sm-6">
                       <div class="dataTables_length">
                         <form id="paging" action="<?= site_url("program_bantuan/detail/1/$detail[id]")?>" method="post" class="form-horizontal">
-                          <label>
+                      <label>
                             Tampilkan
                             <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
       	                      <option value="20" <?php selected($per_page, 20); ?> >20</option>
