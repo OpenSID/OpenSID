@@ -38,13 +38,14 @@
 							<th rowspan="2">No. Kartu Peserta</th>
 							<th rowspan="2"><?= $peserta[0]["judul_peserta_info"]?></th>
 							<th rowspan="2">Alamat</th>
-							<th colspan="5" style="text-align: center;">Identitas di Kartu Peserta</th>
+							<th colspan="6" style="text-align: center;">Identitas di Kartu Peserta</th>
 						</tr>
 						<tr>
 							<th>NIK</th>
 							<th>Nama</th>
 							<th>Tempat Lahir</th>
 							<th>Tanggal Lahir</th>
+							<th>Nama Ibu</th>
 							<th>Alamat</th>
 						</tr>
 					</thead>
@@ -60,6 +61,7 @@
 									<td><?=$item["kartu_nama"]?></td>
 									<td><?=$item["kartu_tempat_lahir"]?></td>
 									<td class='textx'><?= tgl_indo_out($item["kartu_tanggal_lahir"])?></td>
+									<td><?=$item["kartu_nama_ibu"]?></td>
 									<td><?=$item["kartu_alamat"]?></td>
 								</tr>
 							<?php $i++; endforeach;?>
