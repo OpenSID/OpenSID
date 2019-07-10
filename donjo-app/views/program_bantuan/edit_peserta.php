@@ -110,9 +110,15 @@
 															<div class="input-group-addon">
 																<i class="fa fa-calendar"></i>
 															</div>
-															<input class="form-control input-sm pull-right" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= date_format(date_create($kartu_tanggal_lahir),"d-m-Y")?>">
+															<input class="form-control input-sm pull-right" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= date_format(date_create($kartu_tanggal_lahir),"dd-mm-Yyyy")?>">
 														</div>
 													</div>
+												</div>
+													<div class="form-group">
+													<label for="kartu_nama_ibu"  class="col-sm-4 control-label">Nama Ibu Kandung</label>
+													<div class="col-sm-7">
+											  		<input  id="kartu_nama_ibu" class="form-control input-sm" type="text" placeholder="Nama Ibu Kandung" name="kartu_nama_ibu" value="<?= $kartu_nama_ibu?>">
+													</div>													
 												</div>
 												<div class="form-group">
 													<label for="kartu_alamat"  class="col-sm-4 control-label">Alamat</label>
