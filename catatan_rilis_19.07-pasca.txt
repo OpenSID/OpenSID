@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 19.07-pasca:
 8. Sekarang bisa ganti lebih dari satu logo-placeholder di template surat Ekspor Dok. [bug-fix]
 9. #2076: Tambah blok 'diketahui camat' pada bagian penandatangan lampiran Surat Keterangan Pindah Penduduk.
 10. #2106: Tambah Fungsi Pencarian Data di Rincian Program Bantuan untuk beberapa data
+11. #2103:Tampilkan nama ibu kandung pada saat tambah peserta program bantuan
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
