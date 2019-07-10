@@ -1173,7 +1173,7 @@ table#kode
 		<!-- Untuk memaksa penampilan setiap kolom -->
 		<tr style="line-height: 1px; height: 1px; margin-bottom: -10px;">
 			<?php for ($i=0; $i<48; $i++): ?>
-				<td style="line-height: 1px; height: 1px; padding: 0px;"></td>
+				<td style="line-height: 1px; height: 1px; padding: -10px;"></td>
 			<?php endfor; ?>
 		</tr>
 	</table>
@@ -1194,7 +1194,7 @@ table#kode
 		<tr>
 			<td colspan="3">&nbsp;</td>
 			<td colspan="15" style="text-align: center;">Camat <?= $config['nama_kecamatan']; ?></td>
-			<td colspan="15" style="text-align: center;"><?= $this->atas_nama($data);?></td>
+			<td colspan="15" style="text-align: center;"><?= $this->penandatangan($data);?></td>
 			<td colspan="15" style="text-align: center;">&nbsp;</td>
 		</tr>
 		<tr><td colspan="48">&nbsp;</td></tr>
