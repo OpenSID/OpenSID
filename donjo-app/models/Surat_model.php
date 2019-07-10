@@ -632,6 +632,27 @@
 		return $atas_nama;
 	}
 
+	private function penandatangan($data)
+	{
+		//Data penandatangan
+		$input = $data['input'];
+		$config = $data['config'];
+		$this->load->model('pamong_model');
+		$pamong_ttd = $this->pamong_model->get_ttd();
+		$penandatangan = '';
+		if (!empty($input['pilih_atas_nama']))
+		{
+			$penandatangan = 'a.n. ' . ucwords($pamong_ttd['jabatan'].' '.$config['nama_desa']);
+			$penandatangan .= ' <br> ';
+			$penandatangan .= $input['jabatan'];
+		}
+		else
+		{
+			$penandatangan .= $input['jabatan'].' '.$config['nama_desa'];
+		}
+		return $penandatangan;
+	}
+	
 	public function surat_rtf($data)
 	{
 		$this->load->library('date_conv');
