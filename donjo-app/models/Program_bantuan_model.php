@@ -794,6 +794,7 @@ class Program_bantuan_model extends CI_Model {
 				'kartu_nama' => $post['kartu_nama'],
 				'kartu_tempat_lahir' => $post['kartu_tempat_lahir'],
 				'kartu_tanggal_lahir' => tgl_indo_in($post['kartu_tanggal_lahir']),
+				'kartu_nama_ibu' => $post['kartu_nama_ibu'],
 				'kartu_alamat' => $post['kartu_alamat']
 			);
 			$file_gambar = $this->_upload_gambar();
