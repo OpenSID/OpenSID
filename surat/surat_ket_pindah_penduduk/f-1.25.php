@@ -461,7 +461,7 @@
 		</tr>
 		<tr>
 			<td>Camat <?= $config['nama_kecamatan']; ?></td>
-			<td><?= $this->atas_nama($data);?></td>
+			<td><?= $this->penandatangan_lampiran($data);?></td>
 			<td></td>
 		</tr>
 		<tr style="font-size: 20mm; line-height: normal;">
