@@ -1194,7 +1194,7 @@ table#kode
 		<tr>
 			<td colspan="3">&nbsp;</td>
 			<td colspan="15" style="text-align: center;">Camat <?= $config['nama_kecamatan']; ?></td>
-			<td colspan="15" style="text-align: center;"><?= $this->penandatangan($data);?></td>
+			<td colspan="15" style="text-align: center;"><?= $this->penandatangan_lampiran($data);?></td>
 			<td colspan="15" style="text-align: center;">&nbsp;</td>
 		</tr>
 		<tr><td colspan="48">&nbsp;</td></tr>

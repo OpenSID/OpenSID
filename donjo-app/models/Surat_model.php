@@ -631,8 +631,8 @@
 		}
 		return $atas_nama;
 	}
-	
-	private function penandatangan($data)
+
+	private function penandatangan_lampiran($data)
 	{
 		//Data penandatangan
 		$input = $data['input'];
