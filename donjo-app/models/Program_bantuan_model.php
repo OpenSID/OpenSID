@@ -243,16 +243,18 @@ class Program_bantuan_model extends CI_Model {
 		}
 	}
 
+	// Perubahan query SQL untuk join jml_peserta per id program bantuan
 	private function get_program_sql()
 	{
-		$sql = ' FROM program p WHERE 1 ';
+		$sql = ' FROM program p ';
 		$sql .= $this->sasaran_sql();
 		return $sql;
 	}
 
+	// Penambahan select field status dan asaldana untuk return ke edit data program
 	private function get_program_data($p, $slug)
 	{
-		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status
+		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana, p.status
 			FROM program p
 			WHERE p.id = ".$slug;
 		$query = $this->db->query($strSQL);
@@ -582,9 +584,15 @@ class Program_bantuan_model extends CI_Model {
 	{
 		if ($slug === false)
 		{
+			//Penambahan query expiration status program
+			$expirySQL = "UPDATE program SET status = IF(edate < CURRENT_DATE(), 0, IF(edate > CURRENT_DATE(), 1, status)) WHERE status IS NOT NULL";
+			$expiryQuery = $this->db->query($expirySQL);
+			// end of line
+
 			$response['paging'] = $this->paging_bantuan($p);
-			$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status";
+			$strSQL = "SELECT COUNT(v.program_id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana"; //Penambahan field jml_peserta, asaldana, status dengan pilihan (APBN, APBD, Hibah, Dana Alokasi Khusus (DAK)) disesuaikan dari form create program
 			$strSQL .= $this->get_program_sql();
+			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id GROUP BY p.id"; //Penambahan query join untuk mengambil jumlah peserta per program_id
 			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
 			$query = $this->db->query($strSQL);
 			$data = $query->result_array();
@@ -755,7 +763,9 @@ class Program_bantuan_model extends CI_Model {
 			'ndesc' => fixSQL($this->input->post('ndesc')),
 			'userid' =>  $_SESSION['user'],
 			'sdate' => date("Y-m-d",strtotime($this->input->post('sdate'))),
-			'edate' => date("Y-m-d",strtotime($this->input->post('edate')))
+			'edate' => date("Y-m-d",strtotime($this->input->post('edate'))),
+			'asaldana' => $this->input->post('asaldana'),
+			'status' => $this->input->post('status')
 		);
 		return $this->db->insert('program', $data);
 	}
@@ -890,12 +900,14 @@ class Program_bantuan_model extends CI_Model {
 	public function update_program($id)
 	{
 		// TODO: kolom 'status' belum digunakan, jadi di-comment dulu
+		// UPDATED: kolom 'status' dan 'asaldana' sudah digunakan
 		$strSQL = "UPDATE `program` SET `sasaran`='".$this->input->post('cid')."',
 		`nama`='".fixSQL($this->input->post('nama'))."',
 		`ndesc`='".fixSQL($this->input->post('ndesc'))."',
 		`sdate`='".date("Y-m-d",strtotime($this->input->post('sdate')))."',
-		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."'
-		-- `status`='".$this->input->post('status')."'
+		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."',
+		`status`='".$this->input->post('status')."',
+		`asaldana`='".$this->input->post('asaldana')."'
 		 WHERE id=".$id;
 
 		$hasil = $this->db->query($strSQL);

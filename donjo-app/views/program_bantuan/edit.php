@@ -45,6 +45,20 @@
 									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Isi Keterangan" style="height: 200px;"><?= $data["ndesc"]; ?></textarea>
 								</div>
 							</div>
+							<?php $data= $program[0]; $asaldana = $data["asaldana"]; ?>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="asaldana">Asal Dana</label>
+								<div class="col-sm-3">
+									<select class="form-control input-sm required" name="asaldana" id="asaldana">
+										<option value="">Sumber Dana</option>
+										<option value="Pusat" <?php if ($asaldana == 'Pusat'): ?>selected<?php endif; ?>>Pusat</option>
+										<option value="Provinsi" <?php if ($asaldana == 'Provinsi'): ?>selected<?php endif; ?>>Provinsi</option>
+										<option value="Kab/Kota" <?php if ($asaldana == 'Kab/Kota'): ?>selected<?php endif; ?>>Kab/Kota</option>
+										<option value="Dana Desa" <?php if ($asaldana == 'Dana Desa'): ?>selected<?php endif; ?>>Dana Desa</option>
+										<option value="Lain-lain (Hibah)" <?php if ($asaldana == 'Lain-lain (Hibah)'): ?>selected<?php endif; ?>>Lain-lain (Hibah)</option>
+									</select>
+								</div>
+							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="tgl_post">Rentang Waktu Program</label>
 								<div class="col-sm-4">
@@ -63,7 +77,18 @@
 										<input class="form-control input-sm pull-right" id="tgl_2" name="edate" placeholder="Tgl. Akhir" type="text" value="<?= date("d/m/Y",strtotime($data["edate"])); ?>">
 									</div>
 								</div>
-             	</div>
+			             	</div>
+			             	<?php $data= $program[0]; $status = $data["status"]; ?>			             	
+			             	<div class="form-group">
+								<label class="col-sm-3 control-label" for="status">Status</label>
+								<div class="col-sm-3">
+									<select class="form-control input-sm required" name="status" id="status">
+										<option value="1" <?php if ($status == 1): ?>selected<?php endif; ?>>Aktif</option>
+										<option value="0" <?php if ($status == 0): ?>selected<?php endif; ?>>Tidak Aktif</option>
+										<!-- Default Value Aktif -->
+									</select>
+								</div>
+							</div>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>

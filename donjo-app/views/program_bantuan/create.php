@@ -24,7 +24,7 @@
 							<?php $cid = @$_REQUEST["cid"]; ?>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Sasaran Program</label>
-								<div class="col-sm-8">
+								<div class="col-sm-3">
 									<select class="form-control input-sm required" name="cid" id="cid">
 										<option value="">Pilih Sasaran Program <?= $cid;?></option>
 										<option value="1" <?php if ($cid == 1): ?>selected<?php endif; ?>>Penduduk Perorangan</option>
@@ -47,6 +47,19 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-3 control-label" for="asaldana">Asal Dana</label>
+								<div class="col-sm-3">
+									<select class="form-control input-sm required" name="asaldana" id="asaldana">
+										<option value="">Sumber Dana</option>
+										<option value="Pusat">Pusat</option>
+										<option value="Provinsi">Provinsi</option>
+										<option value="Kab/Kota">Kab/Kota</option>
+										<option value="Dana Desa">Dana Desa</option>
+										<option value="Lain-lain (Hibah)">Lain-lain (Hibah)</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-3 control-label" for="tgl_post">Rentang Waktu Program</label>
 								<div class="col-sm-4">
 									<div class="input-group input-group-sm date">
@@ -64,7 +77,17 @@
 										<input class="form-control input-sm pull-right required" id="tgl_2" name="edate" placeholder="Tgl. Akhir" type="text">
 									</div>
 								</div>
-             	</div>
+			             	</div>
+			             	<div class="form-group">
+								<label class="col-sm-3 control-label" for="status">Status</label>
+								<div class="col-sm-3">
+									<select class="form-control input-sm required" name="status" id="status">
+										<option value="1">Aktif</option>
+										<option value="0">Tidak Aktif</option>
+										<!-- Default Value Aktif -->
+									</select>
+								</div>
+							</div>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
