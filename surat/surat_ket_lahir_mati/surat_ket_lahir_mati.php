@@ -37,14 +37,14 @@
 								<div class="form-group">
 									<label for="ttl"  class="col-sm-3 control-label">Hari / Tanggal Mati</label>
 									<div class="col-sm-3 col-lg-4">
-										<input  id="hari"  class="form-control input-sm" type="text" placeholder="Hari Mati" name="hari">
+										<input  id="hari"  class="form-control input-sm" type="text" placeholder="Hari Mati" name="hari" value="<?= hari(date('d')) ?>">
 									</div>
 									<div class="col-sm-3 col-lg-2">
 										<div class="input-group input-group-sm date">
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input title="Pilih Tanggal" class="form-control input-sm datepicker required" name="tanggal_mati" type="text"/>
+											<input title="Pilih Tanggal" class="form-control input-sm datepicker required" name="tanggal_mati" type="text" value="<?= tgl_indo_out(date('Y-m-d')) ?>" />
 										</div>
 									</div>
 								</div>
