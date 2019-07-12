@@ -695,7 +695,7 @@
 
 			//DATA SURAT
 			$array_replace = array(
-				"[kode_surat]" => "$surat[kode_surat]",
+				"[kode_surat]" => $surat['kode_surat'],
 				"[judul_surat]" => strtoupper("surat ".$surat['nama']),
 				"[tgl_surat]" => "$tgl",
 				"[tgl_surat_hijri]" => $tgl_hijri,
@@ -714,40 +714,40 @@
 			$buffer = $this->case_replace("[sebutan_desa]", $this->setting->sebutan_desa,$buffer);
 			$buffer = $this->case_replace("[sebutan_dusun]", $this->setting->sebutan_dusun,$buffer);
 			$buffer = $this->case_replace("[sebutan_camat]", $this->setting->sebutan_camat,$buffer);
-			if (!empty($config[email_desa]))
+			if (!empty($config['email_desa']))
 			{
-				$alamat_desa = "$config[alamat_kantor] Email: $config[email_desa] Kode Pos: $config[kode_pos]";
-				$alamat_surat = "$config[alamat_kantor] Telp. $config[telepon] Kode Pos: $config[kode_pos] \par Website: $config[website] Email: $config[email_desa]";
+				$alamat_desa = "{$config['alamat_kantor']} Email: {$config['email_desa']} Kode Pos: {$config['kode_pos']}";
+				$alamat_surat = "{$config['alamat_kantor']} Telp. {$config['telepon']} Kode Pos: {$config['kode_pos']} \par Website: {$config['website']} Email: {$config['email_desa']}";
 			}
 			else
 			{
-				$alamat_desa = "$config[alamat_kantor] Kode Pos: $config[kode_pos]";
-				$alamat_surat = "$config[alamat_kantor] Telp. $config[telepon] Kode Pos: $config[kode_pos]";
+				$alamat_desa = "{$config['alamat_kantor']} Kode Pos: {$config['kode_pos']}";
+				$alamat_surat = "{$config['alamat_kantor']} Telp. {$config['telepon']} Kode Pos: {$config['kode_pos']}";
 			}
 			$array_replace = array(
                 "[alamat_des]"        => $alamat_desa,
                 "[alamat_desa]"       => $alamat_desa,
                 "[alamat_surat]"      => $alamat_surat,
-                "[alamat_kantor]"     => "$config[alamat_kantor]",
-                "[email_desa]"        => "$config[email_desa]",
-                "[kode_desa]"         => "$config[kode_desa]",
-                "[kode_kecamatan]"    => "$config[kode_kecamatan]",
-                "[kode_kabupaten]"    => "$config[kode_kabupaten]",
-                "[kode_pos]"          => "$config[kode_pos]",
-                "[kode_provinsi]"     => "$config[kode_propinsi]",
-                "[nama_des]"          => "$config[nama_desa]",
-                "[nama_kab]"          => "$config[nama_kabupaten]",
-                "[nama_kabupaten]"    => "$config[nama_kabupaten]",
-                "[nama_kec]"          => "$config[nama_kecamatan]",
-                "[nama_kecamatan]"    => "$config[nama_kecamatan]",
-                "[nama_provinsi]"     => "$config[nama_propinsi]",
-                "[nama_kepala_camat]" => "$config[nama_kepala_camat]",
-                "[nama_kepala_desa]"  => "$config[nama_kepala_desa]",
-                "[nip_kepala_camat]"  => "$config[nip_kepala_camat]",
-                "[nip_kepala_desa]"   => "$config[nip_kepala_desa]",
-                "[pos]"               => "$config[kode_pos]",
-                "[telepon_desa]"      => "$config[telepon]",
-                "[website_desa]"      => "$config[website]",
+                "[alamat_kantor]"     => $config['alamat_kantor'],
+                "[email_desa]"        => $config['email_desa'],
+                "[kode_desa]"         => $config['kode_desa'],
+                "[kode_kecamatan]"    => $config['kode_kecamatan'],
+                "[kode_kabupaten]"    => $config['kode_kabupaten'],
+                "[kode_pos]"          => $config['kode_pos'],
+                "[kode_provinsi]"     => $config['kode_propinsi'],
+                "[nama_des]"          => $config['nama_desa'],
+                "[nama_kab]"          => $config['nama_kabupaten'],
+                "[nama_kabupaten]"    => $config['nama_kabupaten'],
+                "[nama_kec]"          => $config['nama_kecamatan'],
+                "[nama_kecamatan]"    => $config['nama_kecamatan'],
+                "[nama_provinsi]"     => $config['nama_propinsi'],
+                "[nama_kepala_camat]" => $config['nama_kepala_camat'],
+                "[nama_kepala_desa]"  => $config['nama_kepala_desa'],
+                "[nip_kepala_camat]"  => $config['nip_kepala_camat'],
+                "[nip_kepala_desa]"   => $config['nip_kepala_desa'],
+                "[pos]"               => $config['kode_pos'],
+                "[telepon_desa]"      => $config['telepon'],
+                "[website_desa]"      => $config['website'],
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
