@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada Rismawan Junandia yang baru mulai berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi dan Parso Widodo yang terus berkontribusi. Terima kasih pula pada Rismawan Junandia dan Ammar Alifian Fahdan yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.07-pasca:
 
@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 19.07-pasca:
 9. #2076: Tambah blok 'diketahui camat' pada bagian penandatangan lampiran Surat Keterangan Pindah Penduduk.
 10. #2075: Tambah blok 'diketahui camat' pada bagian penandatangan lampiran Surat Keterangan Kelahiran (F-2.01).
 11. Tampilkan gambar artikel di widget Arsip Artikel.
+12. #2102: Masalah paginasi di rincian program bantuan telah diperbaiki. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
