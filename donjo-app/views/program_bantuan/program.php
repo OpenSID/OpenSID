@@ -34,7 +34,7 @@
 										</div>
 										<div class="col-sm-12">
 											<div class="table-responsive">
-												<table class="table table-bordered table-striped dataTable table-hover">
+												<table class="table table-bordered table-striped dataTable table-hover" id="table-program">
 													<thead class="bg-gray disabled color-palette">
 														<tr>
 															<th>No</th>
@@ -58,7 +58,6 @@
 																<td nowrap>
 																	<a href="<?= site_url("program_bantuan/detail/1/$item[id]/")?>/1" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class="fa fa-list"></i></a>
 																	<a href="<?= site_url("program_bantuan/edit/$item[id]/")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																	<!-- Condition Jika Jml_peserta == 0 maka icon trash tidak ada -->
 																	<?php if ($item['jml_peserta'] != 0): ?>
 																		<a href="#" class="btn bg-maroon btn-flat btn-sm disabled"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif ?>

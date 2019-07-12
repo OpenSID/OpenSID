@@ -43,6 +43,13 @@ class Program_bantuan extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
+	public function tes($p = 1)
+	{
+		// $data = $this->program_bantuan_model->get_program($p, FALSE);
+		// echo json_encode($data);
+		echo $_SESSION['sasaran'];
+	}
+
 	public function form($program_id)
 	{
 		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
@@ -178,7 +185,8 @@ class Program_bantuan extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 6;
+		$nav['act'] = 6;		
+		$data['asaldana'] = unserialize(ASALDANA);
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		if ($this->form_validation->run() === FALSE){

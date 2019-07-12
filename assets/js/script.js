@@ -332,13 +332,13 @@ $(document).ready(function()
 	});
 
 	// formatting datatable Program Bantuan
-	$('.dataTable').DataTable({
+	$('#table-program').DataTable({
 		"paging":   false,
         "info":     false,
         "searching": false,
         "columnDefs": [ 
 	        {
-			  "targets": [0,1,3,4,5,6],
+			  "targets": [0,1,3,4,5,6,7],
 			  "orderable": false
 			},
 			{

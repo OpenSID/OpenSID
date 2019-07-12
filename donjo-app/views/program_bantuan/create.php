@@ -50,12 +50,10 @@
 								<label class="col-sm-3 control-label" for="asaldana">Asal Dana</label>
 								<div class="col-sm-3">
 									<select class="form-control input-sm required" name="asaldana" id="asaldana">
-										<option value="">Sumber Dana</option>
-										<option value="Pusat">Pusat</option>
-										<option value="Provinsi">Provinsi</option>
-										<option value="Kab/Kota">Kab/Kota</option>
-										<option value="Dana Desa">Dana Desa</option>
-										<option value="Lain-lain (Hibah)">Lain-lain (Hibah)</option>
+										<option value="">Asal Dana</option>
+										<?php foreach ($asaldana AS $ad): ?>
+											<option value="<?= $ad?>"><?= $ad?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
