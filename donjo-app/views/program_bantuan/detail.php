@@ -1,7 +1,7 @@
 <script>
 	$(function()
 	{
-		var keyword = <?= $keyword?> ;
+		var keyword = <?= $keyword != '' ? $keyword : '""' ?> ;
 		$( "#cari" ).autocomplete(
 			{
 				source: keyword,
@@ -165,9 +165,9 @@
                     <div class="col-sm-6">
                       <div class="dataTables_length">
                         <form id="paging" action="<?= site_url("program_bantuan/detail/1/$detail[id]")?>" method="post" class="form-horizontal">
-                          <label>
+                         <label>
                             Tampilkan
-                            <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+                            <select name="per_page" class="form-control input-sm" onchange="$('#mainform').submit();" id="per_page_input">
       	                      <option value="20" <?php selected($per_page, 20); ?> >20</option>
                               <option value="50" <?php selected($per_page, 50); ?> >50</option>
                               <option value="100" <?php selected($per_page, 100); ?> >100</option>
