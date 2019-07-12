@@ -37,14 +37,14 @@
 								<div class="form-group">
 									<label for="ttl"  class="col-sm-3 control-label">Hari / Tanggal Mati</label>
 									<div class="col-sm-3 col-lg-4">
-										<input  id="hari"  class="form-control input-sm" type="text" placeholder="Hari Mati" name="hari" value="<?= hari_ini() ?>">
+										<input class="form-control input-sm required hari" type="text" name="hari" id="hari" readonly="readonly" placeholder="Hari Mati" value="<?= $_SESSION['post']['hari']?>">
 									</div>
 									<div class="col-sm-3 col-lg-2">
 										<div class="input-group input-group-sm date">
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input title="Pilih Tanggal" class="form-control input-sm datepicker required" name="tanggal_mati" type="text" value="<?= tgl_indo_out(date('Y-m-d')) ?>" />
+											<input title="Pilih Tanggal"  class="form-control input-sm datepicker data_hari required" name="tanggal_mati" type="text" placeholder="Tgl. Mati" value="<?= $_SESSION['post']['tanggal_mati']?>"/>
 										</div>
 									</div>
 								</div>

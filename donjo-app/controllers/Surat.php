@@ -188,11 +188,7 @@ class Surat extends Admin_Controller {
 		$data['input']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 		$data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
 		$data['lokasi'] = $this->config_model->get_data();
-		if ($this->uri->segment(3) == "surat_ket_lahir_mati") {
-			$data['penduduk'] = $this->surat_model->list_penduduk_perempuan();
-		}else{
-			$data['penduduk'] = $this->surat_model->list_penduduk();
-		}
+		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();
