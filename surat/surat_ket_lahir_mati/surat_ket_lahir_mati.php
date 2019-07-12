@@ -37,7 +37,7 @@
 								<div class="form-group">
 									<label for="ttl"  class="col-sm-3 control-label">Hari / Tanggal Mati</label>
 									<div class="col-sm-3 col-lg-4">
-										<input  id="hari"  class="form-control input-sm" type="text" placeholder="Hari Mati" name="hari" value="<?= hari(date('d')) ?>">
+										<input  id="hari"  class="form-control input-sm" type="text" placeholder="Hari Mati" name="hari" value="<?= hari_ini() ?>">
 									</div>
 									<div class="col-sm-3 col-lg-2">
 										<div class="input-group input-group-sm date">
