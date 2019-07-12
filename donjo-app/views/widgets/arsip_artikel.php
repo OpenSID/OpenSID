@@ -2,8 +2,8 @@
 
 <style type="text/css">
   #arsip_artikel .nav > li.active > a { color: green }
-  img { width: 30%; margin:0 6px 4px 0; float: left;}
-  td { padding-bottom: 2px; }
+  #arsip_artikel img { width: 30%; margin:0 6px 4px 0; float: left;}
+  #arsip_artikel td { padding-bottom: 2px; }
 </style>
 <div class="box box-primary box-solid">
   <div class="box-header">
