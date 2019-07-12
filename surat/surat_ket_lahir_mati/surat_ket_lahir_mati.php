@@ -19,17 +19,7 @@
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
 							<div class="col-md-12">
-								<div class="form-group">
-									<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
-									<div class="col-sm-6 col-lg-4">
-								    	<select class="form-control required input-sm select2-nik" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-											<option value="">--  Cari NIK / Tag ID Card / Nama Penduduk --</option>
-												<?php foreach ($perempuan as $data): ?>
-													<option value="<?= $data['id']?>" <?php selected($individu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
-												<?php endforeach;?>
-										</select>
-									</div>
-								</div>
+								<?php $this->load->view("surat/form/_cari_nik.php", array('penduduk' => $perempuan, 'individu' => $individu)); ?>
 							</form>
 							<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
 								<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
