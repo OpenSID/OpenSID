@@ -877,6 +877,22 @@
 		}
   }
 
+  private function get_file_data_lampiran($url_surat, $lokasi_rtf)
+  {
+  	$file = FCPATH.$lokasi_rtf.'get_data_lampiran.php';
+  	if (!file_exists($file))
+  		$file = FCPATH.'surat/'.$url_surat.'/get_data_lampiran.php';
+  	return $file;
+  }
+
+  private function get_file_lampiran($url_surat, $lokasi_rtf, $format_lampiran)
+  {
+  	$file = FCPATH.$lokasi_rtf.$format_lampiran;
+  	if (!file_exists($file))
+  		$file = FCPATH.'surat/'.$url_surat.'/'.$format_lampiran;
+  	return $file;
+  }
+
 	public function lampiran($data, $nama_surat, &$lampiran)
 	{
 		$surat = $data['surat'];
@@ -887,14 +903,14 @@
 		$input = $data['input'];
 		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
 		$daftar_lampiran = explode(",", $surat['lampiran']);
-    include(FCPATH.$surat['lokasi_rtf'].'get_data_lampiran.php');
+    include($this->get_file_data_lampiran($surat['url_surat'], $surat['lokasi_rtf']));
 		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
 
     // get the HTML using output buffer
     ob_start();
     foreach($daftar_lampiran as $format_lampiran)
     {
-	    include(FCPATH.$surat['lokasi_rtf'].$format_lampiran);
+	    include($this->get_file_lampiran($surat['url_surat'], $surat['lokasi_rtf'], $format_lampiran));
     }
     $content = ob_get_clean();
 
