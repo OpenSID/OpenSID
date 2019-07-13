@@ -591,7 +591,7 @@ class Program_bantuan_model extends CI_Model {
 			$strSQL = "SELECT COUNT(v.program_id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana FROM program p ";
 			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id WHERE 1 ";
 			$strSQL .= $this->sasaran_sql();
-			$strSQL .= " GROUP BY p.id";
+			$strSQL .= " GROUP BY p.id ";
 			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
 			$query = $this->db->query($strSQL);
 			$data = $query->result_array();
