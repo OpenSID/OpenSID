@@ -217,6 +217,13 @@ define("SASARAN", serialize(array(
 	"3" => "Rumah Tangga",
 	"4" => "Kelompok/Organisasi Kemasyarakatan"
 )));
+define("ASALDANA", serialize(array(
+	"Pusat" => "Pusat",
+	"Provinsi" => "Provinsi",
+	"Kab/Kota" => "Kab/Kota",
+	"Dana Desa" => "Dana Desa",
+	"Lain-lain (Hibah)" => "Lain-lain (Hibah)"
+)));
 define("KTP_EL", serialize(array(
 	strtolower("BELUM") => "1",
 	strtolower("KTP-EL") => "2"

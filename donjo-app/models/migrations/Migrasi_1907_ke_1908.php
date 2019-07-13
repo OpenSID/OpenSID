@@ -2,6 +2,29 @@
 class Migrasi_1907_ke_1908 extends CI_model {
 
   public function up() {
+  	// Tabah kolom asaldana dan modify kolom status
+  	if (!$this->db->field_exists('asaldana', 'program')){
+  		$fields = array(
+		        'asaldana' => array(
+		        	'type' => 'char',
+		        	'constraint' => 30,
+		        )
+		);
+		$this->dbforge->add_column('program', $fields);
+  	}  	
+
+	if (!$this->db->field_exists('status', 'program'))
+  	{
+		$fields = array();
+		$fields['status'] = array(
+					'type' => 'tinyint',
+					'constraint' => 1,
+					'null' => FALSE,
+					'default' => 0
+				);
+		$this->dbforge->add_column('program', $fields);
+	}
+
   	// Tambah kolom pengurus untuk ttd u.b
 	 	if (!$this->db->field_exists('pamong_ub', 'tweb_desa_pamong'))
   	{

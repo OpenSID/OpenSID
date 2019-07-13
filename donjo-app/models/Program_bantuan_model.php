@@ -250,9 +250,10 @@ class Program_bantuan_model extends CI_Model {
 		return $sql;
 	}
 
+	// Penambahan select field status dan asaldana untuk return ke edit data program
 	private function get_program_data($p, $slug)
 	{
-		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status
+		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana, p.status
 			FROM program p
 			WHERE p.id = ".$slug;
 		$query = $this->db->query($strSQL);
@@ -582,9 +583,15 @@ class Program_bantuan_model extends CI_Model {
 	{
 		if ($slug === false)
 		{
+			//Query untuk expiration status, jika end date sudah melebihi dari datenow maka status otomatis menjadi tidak aktif
+			$expirySQL = "UPDATE program SET status = IF(edate < CURRENT_DATE(), 0, IF(edate > CURRENT_DATE(), 1, status)) WHERE status IS NOT NULL";
+			$expiryQuery = $this->db->query($expirySQL);
+
 			$response['paging'] = $this->paging_bantuan($p);
-			$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status";
-			$strSQL .= $this->get_program_sql();
+			$strSQL = "SELECT COUNT(v.program_id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana FROM program p ";
+			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id WHERE 1 ";
+			$strSQL .= $this->sasaran_sql();
+			$strSQL .= " GROUP BY p.id ";
 			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
 			$query = $this->db->query($strSQL);
 			$data = $query->result_array();
@@ -755,7 +762,9 @@ class Program_bantuan_model extends CI_Model {
 			'ndesc' => fixSQL($this->input->post('ndesc')),
 			'userid' =>  $_SESSION['user'],
 			'sdate' => date("Y-m-d",strtotime($this->input->post('sdate'))),
-			'edate' => date("Y-m-d",strtotime($this->input->post('edate')))
+			'edate' => date("Y-m-d",strtotime($this->input->post('edate'))),
+			'asaldana' => $this->input->post('asaldana'),
+			'status' => $this->input->post('status')
 		);
 		return $this->db->insert('program', $data);
 	}
@@ -894,8 +903,9 @@ class Program_bantuan_model extends CI_Model {
 		`nama`='".fixSQL($this->input->post('nama'))."',
 		`ndesc`='".fixSQL($this->input->post('ndesc'))."',
 		`sdate`='".date("Y-m-d",strtotime($this->input->post('sdate')))."',
-		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."'
-		-- `status`='".$this->input->post('status')."'
+		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."',
+		`status`='".$this->input->post('status')."',
+		`asaldana`='".$this->input->post('asaldana')."'
 		 WHERE id=".$id;
 
 		$hasil = $this->db->query($strSQL);
@@ -910,19 +920,38 @@ class Program_bantuan_model extends CI_Model {
 		}
 	}
 
+	private function jml_peserta_program($id)
+	{
+	   $jml_peserta = $this->db->select('count(v.program_id) as jml')->
+	          from('program p')->
+	          join('program_peserta v', 'p.id = v.program_id', 'left')->
+	          where('p.id', $id)->
+	          get()->row()->jml;
+	   return $jml_peserta;
+	}
+
+	/*
+		result dari jml_peserta diambil per program_id kemudian dicek kembali
+		jika jml_peserta == 0 maka query menghapus executed
+		else set session gagal
+	*/
 	public function hapus_program($id)
 	{
-		$strSQL = "DELETE FROM `program` WHERE id=".$id;
-		$hasil = $this->db->query($strSQL);
-		if ($hasil)
-		{
-			$_SESSION["success"] = 1;
-			$_SESSION["pesan"] = "Data program telah dihapus";
-		}
-		else
-		{
+		if ($this->jml_peserta_program($id) == 0) {
+			$strSQL = "DELETE FROM `program` WHERE id=".$id;
+			$hasil = $this->db->query($strSQL);
+			if ($hasil)
+			{
+				$_SESSION["success"] = 1;
+				$_SESSION["pesan"] = "Data program telah dihapus";
+			}
+			else
+			{
+				$_SESSION["success"] = -1;
+			}
+		} else {
 			$_SESSION["success"] = -1;
-		}
+		}		
 	}
 
 	/* Mendapatkan daftar bantuan yang diterima oleh penduduk

@@ -34,14 +34,17 @@
 										</div>
 										<div class="col-sm-12">
 											<div class="table-responsive">
-												<table class="table table-bordered table-striped dataTable table-hover">
+												<table class="table table-bordered table-striped dataTable table-hover" id="table-program">
 													<thead class="bg-gray disabled color-palette">
 														<tr>
 															<th>No</th>
 															<th>Aksi</th>
 															<th nowrap>Nama Program</th>
+															<th>Asal Dana</th>
+															<th>Jumlah Peserta</th>
 															<th nowrap>Masa Berlaku</th>
 															<th>Sasaran</th>
+															<th>Status</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -55,11 +58,19 @@
 																<td nowrap>
 																	<a href="<?= site_url("program_bantuan/detail/1/$item[id]/")?>/1" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class="fa fa-list"></i></a>
 																	<a href="<?= site_url("program_bantuan/edit/$item[id]/")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																	<a href="#" data-href="<?= site_url("program_bantuan/hapus/$item[id]/")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php if ($item['jml_peserta'] != 0): ?>
+																		<a href="#" class="btn bg-maroon btn-flat btn-sm disabled"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php endif ?>
+																	<?php if ($item['jml_peserta'] == 0): ?>
+																		<a href="#" data-href="<?= site_url("program_bantuan/hapus/$item[id]/")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php endif ?>
 																</td>
 																<td width="60%"><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/')?>/1"><?= $item["nama"] ?></a></td>
+																<td><?= $item['asaldana']?></td>
+																<td><?= $item['jml_peserta']?></td>
 																<td nowrap><?= fTampilTgl($item["sdate"],$item["edate"]);?></td>
 																<td nowrap><?= $sasaran[$item["sasaran"]]?></td>
+																<td><?= $item['status'] ?></td>
 															</tr>
 														<?php endforeach; ?>
 													</tbody>
