@@ -333,11 +333,11 @@ $(document).ready(function()
 
 	// formatting datatable Program Bantuan
 	$('#table-program').DataTable({
-		"paging":   false,
-        "info":     false,
-        "searching": false,
-        "columnDefs": [ 
-	        {
+		"paging": false,
+    "info": false,
+    "searching": false,
+    "columnDefs": [
+      {
 			  "targets": [0,1,3,4,5,6,7],
 			  "orderable": false
 			},
@@ -347,11 +347,12 @@ $(document).ready(function()
 			},
 			{
 				"targets": [7],
-				"render": function ( data, type, full, meta ) {
+				"render": function ( data, type, full, meta )
+				{
 					if (data == 0) {
 						return "Tidak Aktif"
 					}
-					return "Aktif"
+				return "Aktif"
 				}
 			}
 		]
@@ -388,8 +389,6 @@ $(document).ready(function()
 		var nilai = formatRupiah($(this).val(), 'Rp. ');
 		$(this).val(nilai);
 	});
-
-
 
 	// Penggunaan datatable di inventaris
 	var t = $('#tabel4').DataTable({

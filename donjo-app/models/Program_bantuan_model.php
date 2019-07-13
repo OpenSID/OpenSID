@@ -250,7 +250,6 @@ class Program_bantuan_model extends CI_Model {
 		return $sql;
 	}
 
-	// Penambahan select field status dan asaldana untuk return ke edit data program
 	private function get_program_data($p, $slug)
 	{
 		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana, p.status
@@ -898,7 +897,6 @@ class Program_bantuan_model extends CI_Model {
 
 	public function update_program($id)
 	{
-		// TODO: kolom 'status' belum digunakan, jadi di-comment dulu
 		$strSQL = "UPDATE `program` SET `sasaran`='".$this->input->post('cid')."',
 		`nama`='".fixSQL($this->input->post('nama'))."',
 		`ndesc`='".fixSQL($this->input->post('ndesc'))."',
@@ -922,36 +920,35 @@ class Program_bantuan_model extends CI_Model {
 
 	private function jml_peserta_program($id)
 	{
-	   $jml_peserta = $this->db->select('count(v.program_id) as jml')->
-	          from('program p')->
-	          join('program_peserta v', 'p.id = v.program_id', 'left')->
-	          where('p.id', $id)->
-	          get()->row()->jml;
-	   return $jml_peserta;
+		$jml_peserta = $this->db->select('count(v.program_id) as jml')->
+		  from('program p')->
+		  join('program_peserta v', 'p.id = v.program_id', 'left')->
+		  where('p.id', $id)->
+		  get()->row()->jml;
+		return $jml_peserta;
 	}
 
 	/*
-		result dari jml_peserta diambil per program_id kemudian dicek kembali
-		jika jml_peserta == 0 maka query menghapus executed
-		else set session gagal
+		Program yang sudah ada pesertanya tidak boleh dihapus
 	*/
 	public function hapus_program($id)
 	{
-		if ($this->jml_peserta_program($id) == 0) {
-			$strSQL = "DELETE FROM `program` WHERE id=".$id;
-			$hasil = $this->db->query($strSQL);
-			if ($hasil)
-			{
-				$_SESSION["success"] = 1;
-				$_SESSION["pesan"] = "Data program telah dihapus";
-			}
-			else
-			{
-				$_SESSION["success"] = -1;
-			}
-		} else {
+		if ($this->jml_peserta_program($id) > 0)
+		{
 			$_SESSION["success"] = -1;
-		}		
+			return;
+		}
+
+		$hasil = $this->db->where('id', $id)->delete('program');
+		if ($hasil)
+		{
+			$_SESSION["success"] = 1;
+			$_SESSION["pesan"] = "Data program telah dihapus";
+		}
+		else
+		{
+			$_SESSION["success"] = -1;
+		}
 	}
 
 	/* Mendapatkan daftar bantuan yang diterima oleh penduduk
