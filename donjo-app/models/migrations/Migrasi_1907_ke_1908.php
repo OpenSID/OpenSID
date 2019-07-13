@@ -2,6 +2,30 @@
 class Migrasi_1907_ke_1908 extends CI_model {
 
   public function up() {
+  	// Tambah kolom asaldana dan modify kolom status
+  	if (!$this->db->field_exists('asaldana', 'program'))
+  	{
+  		$fields = array();
+  		$fields['asaldana'] = array(
+	        	'type' => 'char',
+	        	'constraint' => 30,
+	        	'null' => TRUE,
+	        	'default' => NULL
+	        );
+			$this->dbforge->add_column('program', $fields);
+  	}
+		$fields = array();
+		$fields['status'] = array(
+					'type' => 'tinyint',
+					'constraint' => 1,
+					'null' => FALSE,
+					'default' => 0
+				);
+		if (!$this->db->field_exists('status', 'program'))
+			$this->dbforge->add_column('program', $fields);
+		else
+			$this->dbforge->modify_column('program', $fields);
+
   	// Tambah kolom pengurus untuk ttd u.b
 	 	if (!$this->db->field_exists('pamong_ub', 'tweb_desa_pamong'))
   	{
@@ -10,7 +34,7 @@ class Migrasi_1907_ke_1908 extends CI_model {
 					'type' => 'tinyint',
 					'constraint' => 1,
 				  'null' => FALSE,
-				  'defualt' => 0
+				  'default' => 0
 			);
 			$this->dbforge->add_column('tweb_desa_pamong', $fields);
 			// Pindahkan setting sebutan_pimpinan_desa ke tweb_desa_pamong, terus hapus

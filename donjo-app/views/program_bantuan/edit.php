@@ -26,10 +26,10 @@
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" name="cid" id="cid">
 										<option value="">Pilih Sasaran Program <?= $cid;?></option>
-										<option value="1" <?php if ($cid == 1): ?>selected<?php endif; ?>>Penduduk Perorangan</option>
-										<option value="2" <?php if ($cid == 2): ?>selected<?php endif; ?>>Keluarga - KK</option>
-										<option value="3" <?php if ($cid == 3): ?>selected<?php endif; ?>>Rumah Tangga</option>
-										<option value="4" <?php if ($cid == 4): ?>selected<?php endif; ?>>Kelompok / Organisasi</option>
+										<option value="1" <?php selected($cid, 1); ?>>Penduduk Perorangan</option>
+										<option value="2" <?php selected($cid, 2); ?>>Keluarga - KK</option>
+										<option value="3" <?php selected($cid, 3); ?>>Rumah Tangga</option>
+										<option value="4" <?php selected($cid, 4); ?>>Kelompok / Organisasi</option>
 									</select>
 								</div>
 							</div>
@@ -43,6 +43,18 @@
 								<label class="col-sm-3 control-label" for="ndesc">Keterangan</label>
 								<div class="col-sm-8">
 									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Isi Keterangan" style="height: 200px;"><?= $data["ndesc"]; ?></textarea>
+								</div>
+							</div>
+							<?php $data= $program[0]; $val = $data["asaldana"]; ?>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="asaldana">Asal Dana</label>
+								<div class="col-sm-3">
+									<select class="form-control input-sm required" name="asaldana" id="asaldana">
+										<option value="">Sumber Dana</option>
+										<?php foreach ($asaldana AS $ad): ?>
+											<option value="<?= $ad?>" <?php selected($val, $ad); ?>><?= $ad?></option>
+										<?php endforeach; ?>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">
@@ -63,7 +75,18 @@
 										<input class="form-control input-sm pull-right" id="tgl_2" name="edate" placeholder="Tgl. Akhir" type="text" value="<?= date("d/m/Y",strtotime($data["edate"])); ?>">
 									</div>
 								</div>
-             	</div>
+			             	</div>
+			             	<?php $data= $program[0]; $status = $data["status"]; ?>
+			             	<div class="form-group">
+								<label class="col-sm-3 control-label" for="status">Status</label>
+								<div class="col-sm-3">
+									<select class="form-control input-sm required" name="status" id="status">
+										<option value="1" <?php selected($status, 1); ?>>Aktif</option>
+										<option value="0" <?php selected($status, 0); ?>>Tidak Aktif</option>
+										<!-- Default Value Aktif -->
+									</select>
+								</div>
+							</div>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>

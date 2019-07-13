@@ -331,6 +331,33 @@ $(document).ready(function()
 		'scrollX'			: true
 	});
 
+	// formatting datatable Program Bantuan
+	$('#table-program').DataTable({
+		"paging": false,
+    "info": false,
+    "searching": false,
+    "columnDefs": [
+      {
+			  "targets": [0,1,3,4,5,6,7],
+			  "orderable": false
+			},
+			{
+				"targets": [4],
+				"className": "text-center"
+			},
+			{
+				"targets": [7],
+				"render": function ( data, type, full, meta )
+				{
+					if (data == 0) {
+						return "Tidak Aktif"
+					}
+				return "Aktif"
+				}
+			}
+		]
+	});
+
 	//color picker with addon
   $('.my-colorpicker2').colorpicker();
 	//Text Editor with addon
@@ -362,8 +389,6 @@ $(document).ready(function()
 		var nilai = formatRupiah($(this).val(), 'Rp. ');
 		$(this).val(nilai);
 	});
-
-
 
 	// Penggunaan datatable di inventaris
 	var t = $('#tabel4').DataTable({
