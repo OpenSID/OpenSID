@@ -22,7 +22,7 @@ class Migrasi_1907_ke_1908 extends CI_model {
 					'null' => FALSE,
 					'default' => 0
 				);
-		$this->dbforge->modify_column('program', $fields);
+		$this->dbforge->add_column('program', $fields);
 	}
 
   	// Tambah kolom pengurus untuk ttd u.b
