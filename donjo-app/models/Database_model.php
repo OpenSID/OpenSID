@@ -26,7 +26,7 @@
 		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => '19.05'),
 		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.06'),
 		'19.06' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => '19.07'),
-		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => '19.08')
+		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -185,21 +185,6 @@
 	$this->migrasi_1905_ke_1906();
 	$this->migrasi_1906_ke_1907();
 	$this->migrasi_1907_ke_1908();
-  }
-
-  private function migrasi_1908_ke_1909()
-  {
-  	$query = "
-			ALTER TABLE `program` 
-				ADD COLUMN `asaldana` char(30);
-		";
-		$this->db->query($query);
-
-	$query = "
-			ALTER TABLE `program` 
-				MODIFY `status` tinyint(1);
-		";
-		$this->db->query($query);		
   }
 
   private function migrasi_1907_ke_1908()
