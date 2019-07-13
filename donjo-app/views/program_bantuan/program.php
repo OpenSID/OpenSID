@@ -40,11 +40,11 @@
 															<th>No</th>
 															<th>Aksi</th>
 															<th nowrap>Nama Program</th>
-															<th>Asal Dana</th> <!-- Penambahan th baru -->
-															<th>Jumlah Peserta</th> <!-- Penambahan th baru -->
+															<th>Asal Dana</th>
+															<th>Jumlah Peserta</th>
 															<th nowrap>Masa Berlaku</th>
 															<th>Sasaran</th>
-															<th>Status</th> <!-- Penambahan th baru -->
+															<th>Status</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -66,11 +66,11 @@
 																	<?php endif ?>
 																</td>
 																<td width="60%"><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/')?>/1"><?= $item["nama"] ?></a></td>
-																<td><?= $item['asaldana']?></td> <!-- Penambahan td baru -->
-																<td><?= $item['jml_peserta']?></td> <!-- Penambahan td baru -->
+																<td><?= $item['asaldana']?></td>
+																<td><?= $item['jml_peserta']?></td>
 																<td nowrap><?= fTampilTgl($item["sdate"],$item["edate"]);?></td>
 																<td nowrap><?= $sasaran[$item["sasaran"]]?></td>
-																<td><?= $item['status'] ?></td> <!-- Penambahan td baru -->
+																<td><?= $item['status'] ?></td>
 															</tr>
 														<?php endforeach; ?>
 													</tbody>

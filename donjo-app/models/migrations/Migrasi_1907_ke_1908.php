@@ -3,13 +3,15 @@ class Migrasi_1907_ke_1908 extends CI_model {
 
   public function up() {
   	// Tabah kolom asaldana dan modify kolom status
-  	$fields = array(
+  	if (!$this->db->field_exists('asaldana', 'program')){
+  		$fields = array(
 		        'asaldana' => array(
 		        	'type' => 'char',
 		        	'constraint' => 30,
 		        )
 		);
-	$this->dbforge->add_column('program', $fields);
+		$this->dbforge->add_column('program', $fields);
+  	}  	
 
 	if (!$this->db->field_exists('status', 'program'))
   	{

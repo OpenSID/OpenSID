@@ -45,17 +45,15 @@
 									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Isi Keterangan" style="height: 200px;"><?= $data["ndesc"]; ?></textarea>
 								</div>
 							</div>
-							<?php $data= $program[0]; $asaldana = $data["asaldana"]; ?>
+							<?php $data= $program[0]; $val = $data["asaldana"]; ?>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="asaldana">Asal Dana</label>
 								<div class="col-sm-3">
 									<select class="form-control input-sm required" name="asaldana" id="asaldana">
 										<option value="">Sumber Dana</option>
-										<option value="Pusat" <?php if ($asaldana == 'Pusat'): ?>selected<?php endif; ?>>Pusat</option>
-										<option value="Provinsi" <?php if ($asaldana == 'Provinsi'): ?>selected<?php endif; ?>>Provinsi</option>
-										<option value="Kab/Kota" <?php if ($asaldana == 'Kab/Kota'): ?>selected<?php endif; ?>>Kab/Kota</option>
-										<option value="Dana Desa" <?php if ($asaldana == 'Dana Desa'): ?>selected<?php endif; ?>>Dana Desa</option>
-										<option value="Lain-lain (Hibah)" <?php if ($asaldana == 'Lain-lain (Hibah)'): ?>selected<?php endif; ?>>Lain-lain (Hibah)</option>
+										<?php foreach ($asaldana AS $ad): ?>
+											<option value="<?= $ad?>" <?php if ($val == $ad): ?>selected<?php endif; ?>><?= $ad?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
