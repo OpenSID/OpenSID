@@ -920,6 +920,16 @@ class Program_bantuan_model extends CI_Model {
 		}
 	}
 
+	private function jml_peserta_program($id)
+	{
+	   $jml_peserta = $this->db->select('count(v.program_id) as jml')->
+	          from('program p')->
+	          join('program_peserta v', 'p.id = v.program_id', 'left')->
+	          where('p.id', $id)->
+	          get()->row()->jml;
+	   return $jml_peserta;
+	}
+
 	/*
 		result dari jml_peserta diambil per program_id kemudian dicek kembali
 		jika jml_peserta == 0 maka query menghapus executed
@@ -927,12 +937,7 @@ class Program_bantuan_model extends CI_Model {
 	*/
 	public function hapus_program($id)
 	{
-		$strSQL = "SELECT COUNT(v.program_id) AS jml_peserta FROM program p ";
-		$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id ";
-		$strSQL .= "WHERE p.id=" . $id;
-		$query = $this->db->query($strSQL);
-		$data = $query->result_array();
-		if ($data[0]['jml_peserta'] == 0) {
+		if ($this->jml_peserta_program($id) == 0) {
 			$strSQL = "DELETE FROM `program` WHERE id=".$id;
 			$hasil = $this->db->query($strSQL);
 			if ($hasil)
