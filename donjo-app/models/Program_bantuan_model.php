@@ -149,7 +149,7 @@ class Program_bantuan_model extends CI_Model {
 			$cari = $_SESSION['cari_peserta'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (nama LIKE '$kw')";
+			$search_sql = " AND (nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw')";
 			return $search_sql;
 		}
 	}
