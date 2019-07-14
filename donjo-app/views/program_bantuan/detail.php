@@ -1,7 +1,7 @@
 <script>
 	$(function()
 	{
-		var keyword = <?= $keyword?> ;
+		var keyword = <?= $keyword != '' ? $keyword : '""' ?> ;
 		$( "#cari" ).autocomplete(
 			{
 				source: keyword,
@@ -43,7 +43,7 @@
 				<?php $detail = $program[0];?>
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<?php if ($program[0]["status"] == 0): ?>
+						<?php if ($program[0]["status"] == 1): ?>
 							<a href="<?=site_url("program_bantuan/form/".$program[0]['id'])?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Peserta Baru">
 								<i class="fa fa-plus"></i>Tambah Peserta Baru
 							</a>
@@ -165,9 +165,9 @@
                     <div class="col-sm-6">
                       <div class="dataTables_length">
                         <form id="paging" action="<?= site_url("program_bantuan/detail/1/$detail[id]")?>" method="post" class="form-horizontal">
-                          <label>
+                         <label>
                             Tampilkan
-                            <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+                            <select name="per_page" class="form-control input-sm" onchange="$('#mainform').submit();" id="per_page_input">
       	                      <option value="20" <?php selected($per_page, 20); ?> >20</option>
                               <option value="50" <?php selected($per_page, 50); ?> >50</option>
                               <option value="100" <?php selected($per_page, 100); ?> >100</option>

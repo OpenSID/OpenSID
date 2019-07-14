@@ -149,7 +149,7 @@ class Program_bantuan_model extends CI_Model {
 			$cari = $_SESSION['cari_peserta'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (nama LIKE '$kw')";
+			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -172,11 +172,11 @@ class Program_bantuan_model extends CI_Model {
 				break;
 			case 2:
 				# Data KK
-				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, o.nik_kepala, o.no_kk, q.nik, q.nama, w.rt ,w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik, o.nama, w.rt, w.rw, w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
-					LEFT JOIN tweb_keluarga o ON p.peserta = o.no_kk
-					LEFT JOIN tweb_penduduk q ON o.nik_kepala = q.id
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = q.id_cluster
+					LEFT JOIN tweb_keluarga k ON p.peserta = k.no_kk
+					LEFT JOIN tweb_penduduk o ON k.nik_kepala = o.id
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id =".$slug;
 
 				break;
@@ -191,11 +191,12 @@ class Program_bantuan_model extends CI_Model {
 				break;
 			case 4:
 				# Data Kelompok
-				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, r.nama as nama_kelompok, w.rt, w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN kelompok r ON r.id = p.peserta
-					LEFT JOIN tweb_penduduk o ON o.id=r.id_ketua
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
+					LEFT JOIN tweb_penduduk o ON o.id = r.id_ketua
+					LEFT JOIN tweb_keluarga k on k.id = o.id_kk
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id=".$slug;
 				break;
 
@@ -252,7 +253,7 @@ class Program_bantuan_model extends CI_Model {
 
 	private function get_program_data($p, $slug)
 	{
-		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status
+		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana, p.status
 			FROM program p
 			WHERE p.id = ".$slug;
 		$query = $this->db->query($strSQL);
@@ -361,10 +362,10 @@ class Program_bantuan_model extends CI_Model {
 			for ($i=0; $i<count($data); $i++)
 			{
 				$data[$i]['id'] = $data[$i]['id'];
-				$data[$i]['nik'] = $data[$i]['no_kk'];
 				$data[$i]['peserta_plus'] = $data[$i]['nik'];
 				$data[$i]['peserta_nama'] = $data[$i]['no_kk'];
 				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['nik'] = $data[$i]['no_kk'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
 
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
@@ -582,9 +583,15 @@ class Program_bantuan_model extends CI_Model {
 	{
 		if ($slug === false)
 		{
+			//Query untuk expiration status, jika end date sudah melebihi dari datenow maka status otomatis menjadi tidak aktif
+			$expirySQL = "UPDATE program SET status = IF(edate < CURRENT_DATE(), 0, IF(edate > CURRENT_DATE(), 1, status)) WHERE status IS NOT NULL";
+			$expiryQuery = $this->db->query($expirySQL);
+
 			$response['paging'] = $this->paging_bantuan($p);
-			$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status";
-			$strSQL .= $this->get_program_sql();
+			$strSQL = "SELECT COUNT(v.program_id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana FROM program p ";
+			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id WHERE 1 ";
+			$strSQL .= $this->sasaran_sql();
+			$strSQL .= " GROUP BY p.id ";
 			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
 			$query = $this->db->query($strSQL);
 			$data = $query->result_array();
@@ -755,7 +762,9 @@ class Program_bantuan_model extends CI_Model {
 			'ndesc' => fixSQL($this->input->post('ndesc')),
 			'userid' =>  $_SESSION['user'],
 			'sdate' => date("Y-m-d",strtotime($this->input->post('sdate'))),
-			'edate' => date("Y-m-d",strtotime($this->input->post('edate')))
+			'edate' => date("Y-m-d",strtotime($this->input->post('edate'))),
+			'asaldana' => $this->input->post('asaldana'),
+			'status' => $this->input->post('status')
 		);
 		return $this->db->insert('program', $data);
 	}
@@ -889,13 +898,13 @@ class Program_bantuan_model extends CI_Model {
 
 	public function update_program($id)
 	{
-		// TODO: kolom 'status' belum digunakan, jadi di-comment dulu
 		$strSQL = "UPDATE `program` SET `sasaran`='".$this->input->post('cid')."',
 		`nama`='".fixSQL($this->input->post('nama'))."',
 		`ndesc`='".fixSQL($this->input->post('ndesc'))."',
 		`sdate`='".date("Y-m-d",strtotime($this->input->post('sdate')))."',
-		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."'
-		-- `status`='".$this->input->post('status')."'
+		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."',
+		`status`='".$this->input->post('status')."',
+		`asaldana`='".$this->input->post('asaldana')."'
 		 WHERE id=".$id;
 
 		$hasil = $this->db->query($strSQL);
@@ -910,10 +919,28 @@ class Program_bantuan_model extends CI_Model {
 		}
 	}
 
+	private function jml_peserta_program($id)
+	{
+		$jml_peserta = $this->db->select('count(v.program_id) as jml')->
+		  from('program p')->
+		  join('program_peserta v', 'p.id = v.program_id', 'left')->
+		  where('p.id', $id)->
+		  get()->row()->jml;
+		return $jml_peserta;
+	}
+
+	/*
+		Program yang sudah ada pesertanya tidak boleh dihapus
+	*/
 	public function hapus_program($id)
 	{
-		$strSQL = "DELETE FROM `program` WHERE id=".$id;
-		$hasil = $this->db->query($strSQL);
+		if ($this->jml_peserta_program($id) > 0)
+		{
+			$_SESSION["success"] = -1;
+			return;
+		}
+
+		$hasil = $this->db->where('id', $id)->delete('program');
 		if ($hasil)
 		{
 			$_SESSION["success"] = 1;

@@ -1,5 +1,5 @@
 <div class="form-group">
-	<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
+	<label for="nik"  class="col-sm-3 control-label">NIK / Nama <?= $pemohon?></label>
 	<div class="col-sm-6 col-lg-4">
     	<select class="form-control required input-sm select2-nik" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
 			<option value="">--  Cari NIK / Tag ID Card / Nama Penduduk --</option>

@@ -221,25 +221,18 @@
   	{
 			// Tambah kolom
 			$this->dbforge->add_field("updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
-			$fields = array();
-			$fields['updated_by'] = array(
-					'type' => 'int',
-					'constraint' => 11,
-				  'null' => FALSE,
-			);
+		}
+		$fields = array();
+		$fields['updated_by'] = array(
+				'type' => 'int',
+				'constraint' => 11,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+  	if (!$this->db->field_exists('updated_by', 'tweb_penduduk'))
 			$this->dbforge->add_column('tweb_penduduk', $fields);
-		}
 		else
-		{
-			$fields = array();
-			$fields['updated_by'] = array(
-					'type' => 'INT',
-					'constraint' => 11,
-				  'null' => TRUE,
-					'default' => NULL
-			);
 		  $this->dbforge->modify_column('tweb_penduduk', $fields);
-		}
 
   	// Tambah menu teks berjalan
 		$data = array(

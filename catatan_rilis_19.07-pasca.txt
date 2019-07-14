@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada Rismawan Junandia yang baru mulai berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi, Nur Hidayat dan Parso Widodo yang terus berkontribusi. Terima kasih pula pada Rismawan Junandia, Eka Satria Bahari dan Ammar Alifian Fahdan yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.07-pasca:
 
@@ -13,6 +13,13 @@ Lengkapnya, isi rilis versi 19.07-pasca:
 7. #720: Tambah Surat Perintah Perjalanan Dinas.
 8. Sekarang bisa ganti lebih dari satu logo-placeholder di template surat Ekspor Dok. [bug-fix]
 9. #2076: Tambah blok 'diketahui camat' pada bagian penandatangan lampiran Surat Keterangan Pindah Penduduk.
+10. #2075: Tambah blok 'diketahui camat' pada bagian penandatangan lampiran Surat Keterangan Kelahiran (F-2.01).
+11. Tampilkan gambar artikel di widget Arsip Artikel.
+12. #2102: Masalah paginasi di rincian program bantuan telah diperbaiki. [bug-fix]
+13. #2138: Tambah kode isian [alamat_kantor] dan [alamat_surat] untuk template RTF Ekspor Dok.
+14. #1496: Perbaiki form Surat Keterangan Lahir Mati supaya pilihan penduduk dibatasi perempuan dan hari mati diisi otomatis berdasarkan tanggal mati.
+15. #1909: Program bantuan sekarang menampilkan asal dana, jumlah peserta dan status. Program yang sudah ada pesertanya tidak dapat dihapus.
+16. #2106: Sekarang peserta program bantuan bisa dicari menggunakan Nomor Kartu Peserta, NIK atau No. KK peserta.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

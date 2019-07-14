@@ -1562,3 +1562,8 @@ blockquote p {
 #arsip_artikel.active a {background-color: honeydew;}
 #arsip_artikel .tab-content {margin-top: 10px; }
 #arsip_artikel .nav > li > a {padding: 5px 8px;}
+
+span.meta_date, span.meta_comment, span.meta_more{display:inline-block; margin-right:8px; color:#aaa; font-size:12px}
+span.meta_date:before{content:" "; font-family:FontAwesome; font-style:normal; font-weight:normal; padding-right:4px; text-decoration:inherit}
+span.meta_date:hover, span.meta_comment:hover, span.meta_more:hover, span.meta_comment a:hover, span.meta_more a:hover{color:#e64946}
+
