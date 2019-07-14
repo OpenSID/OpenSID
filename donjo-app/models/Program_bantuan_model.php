@@ -149,7 +149,7 @@ class Program_bantuan_model extends CI_Model {
 			$cari = $_SESSION['cari_peserta'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw')";
+			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -172,11 +172,11 @@ class Program_bantuan_model extends CI_Model {
 				break;
 			case 2:
 				# Data KK
-				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, o.nik_kepala, o.no_kk, q.nik, q.nama, w.rt ,w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik, o.nama, w.rt, w.rw, w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
-					LEFT JOIN tweb_keluarga o ON p.peserta = o.no_kk
-					LEFT JOIN tweb_penduduk q ON o.nik_kepala = q.id
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = q.id_cluster
+					LEFT JOIN tweb_keluarga k ON p.peserta = k.no_kk
+					LEFT JOIN tweb_penduduk o ON k.nik_kepala = o.id
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id =".$slug;
 
 				break;
@@ -191,11 +191,12 @@ class Program_bantuan_model extends CI_Model {
 				break;
 			case 4:
 				# Data Kelompok
-				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, r.nama as nama_kelompok, w.rt, w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN kelompok r ON r.id = p.peserta
-					LEFT JOIN tweb_penduduk o ON o.id=r.id_ketua
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id=o.id_cluster
+					LEFT JOIN tweb_penduduk o ON o.id = r.id_ketua
+					LEFT JOIN tweb_keluarga k on k.id = o.id_kk
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id=".$slug;
 				break;
 
@@ -361,10 +362,10 @@ class Program_bantuan_model extends CI_Model {
 			for ($i=0; $i<count($data); $i++)
 			{
 				$data[$i]['id'] = $data[$i]['id'];
-				$data[$i]['nik'] = $data[$i]['no_kk'];
 				$data[$i]['peserta_plus'] = $data[$i]['nik'];
 				$data[$i]['peserta_nama'] = $data[$i]['no_kk'];
 				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['nik'] = $data[$i]['no_kk'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
 
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
