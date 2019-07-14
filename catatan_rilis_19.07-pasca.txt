@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ariandi Ryan Kahfi, Uncu dan Parso Widodo yang terus berkontribusi. Terima kasih pula pada Rismawan Junandia, Eka Satria Bahari dan Ammar Alifian Fahdan yang baru mulai berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi, Nur Hidayat dan Parso Widodo yang terus berkontribusi. Terima kasih pula pada Rismawan Junandia, Eka Satria Bahari dan Ammar Alifian Fahdan yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.07-pasca:
 
