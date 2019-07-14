@@ -43,7 +43,7 @@
 				<?php $detail = $program[0];?>
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<?php if ($program[0]["status"] == 0): ?>
+						<?php if ($program[0]["status"] == 1): ?>
 							<a href="<?=site_url("program_bantuan/form/".$program[0]['id'])?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Peserta Baru">
 								<i class="fa fa-plus"></i>Tambah Peserta Baru
 							</a>

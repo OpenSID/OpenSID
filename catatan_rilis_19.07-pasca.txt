@@ -19,6 +19,7 @@ Lengkapnya, isi rilis versi 19.07-pasca:
 13. #2138: Tambah kode isian [alamat_kantor] dan [alamat_surat] untuk template RTF Ekspor Dok.
 14. #1496: Perbaiki form Surat Keterangan Lahir Mati supaya pilihan penduduk dibatasi perempuan dan hari mati diisi otomatis berdasarkan tanggal mati.
 15. #1909: Program bantuan sekarang menampilkan asal dana, jumlah peserta dan status. Program yang sudah ada pesertanya tidak dapat dihapus.
+16. #2106: Sekarang peserta program bantuan bisa dicari menggunakan Nomor Kartu Peserta, NIK atau No. KK peserta.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

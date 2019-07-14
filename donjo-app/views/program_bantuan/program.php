@@ -65,7 +65,7 @@
 																		<a href="#" data-href="<?= site_url("program_bantuan/hapus/$item[id]/")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif ?>
 																</td>
-																<td width="60%"><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/')?>/1"><?= $item["nama"] ?></a></td>
+																<td nowrap><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/')?>/1"><?= $item["nama"] ?></a></td>
 																<td><?= $item['asaldana']?></td>
 																<td><?= $item['jml_peserta']?></td>
 																<td nowrap><?= fTampilTgl($item["sdate"],$item["edate"]);?></td>
