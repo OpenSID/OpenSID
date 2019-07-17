@@ -7,15 +7,16 @@
     <h3 class="box-title"><a href="<?= site_url("first/keuangan/1")?>"><i class="fa fa-bar-chart"></i> Statistik Keuangan Desa</a></h3>
   </div>
   <div class="box-body">
-          <div id="chart"></div>
-          <br>
-          <hr>
-          <div id="realisasi"></div>
+    <select id="keuangan-selector">
+      <option value="chart">Pagu Anggaran (PA)</option>
+      <option value="realisasi">Realisasi Pendapatan Desa</option>
+    </select>
+    <div id="chart"></div>
+    <div id="realisasi"></div>
   </div>
 </div>
 
 <script type="text/javascript">
-
 	$(document).ready(function ()
 	{
 		Highcharts.chart('chart', {
@@ -81,9 +82,6 @@
       },
       xAxis: {
           categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
-          // title: {
-          //     text: null
-          // }
       },
       yAxis: {
           min: 0,
@@ -118,6 +116,21 @@
           data: [<?= $realisasi_pendapatan_desa->AnggaranStlhPAK ?>, 156, 947]
       }]
   });
+
+</script>
+<script type="text/javascript">
+  $("#keuangan-selector").change(function(){
+    var sel = $("#keuangan-selector").val();
+    if(sel == "chart"){
+      $("#chart").show();
+      $("#realisasi").hide();
+    }else if(sel == "realisasi"){
+      $("#chart").hide();
+      $("#realisasi").show();
+    }
+  });
+
+  $("#realisasi").hide();
 </script>
 <!-- Highcharts -->
 <script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
