@@ -198,7 +198,19 @@ class Penduduk_log extends Admin_Controller {
 		$this->penduduk_log_model->kembalikan_status_all();
 		redirect("penduduk_log");
 	}
+	public function delete($p = 1, $o = 0, $id = '')
+	{
+		$this->redirect_hak_akses('h', "penduduk_log/index/$p/$o");
+		$this->penduduk_log_model->delete($id);
+		redirect("penduduk_log/index/$p/$o");
+	}
 
+	public function delete_all($p = 1, $o = 0)
+	{
+		$this->redirect_hak_akses('h', "penduduk_log/index/$p/$o");
+		$this->penduduk_log_model->delete_all();
+		redirect("penduduk_log/index/$p/$o");
+	}
 	public function cetak($o = 0)
 	{
 		$data['main'] = $this->penduduk_log_model->list_data($o, 0, 10000);
