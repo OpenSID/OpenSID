@@ -430,7 +430,6 @@
 
 		// Tambah kolom
 		$fields = array();
-		$fields['Nama_Bank'] = array('type' => 'VARCHAR', 'constraint' => 9);
 		$fields['Kantor_Cabang'] = array('type' => 'VARCHAR', 'constraint' => 13);
 		$fields['Nama_Pemilik'] = array('type' => 'VARCHAR', 'constraint' => 21);
 		$fields['Alamat_Pemilik'] = array('type' => 'VARCHAR', 'constraint' => 12);
