@@ -204,7 +204,6 @@ class Penduduk_log extends Admin_Controller {
 		$this->penduduk_log_model->delete($id);
 		redirect("penduduk_log/index/$p/$o");
 	}
-
 	public function delete_all($p = 1, $o = 0)
 	{
 		$this->redirect_hak_akses('h', "penduduk_log/index/$p/$o");
