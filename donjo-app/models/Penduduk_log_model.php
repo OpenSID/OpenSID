@@ -74,6 +74,32 @@
 		}
 	}
 
+	public function delete($id='')
+	{
+		$sql = "DELETE FROM log_penduduk WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+	public function delete_all()
+	{
+		$id_cb = $_POST['id_cb'];
+
+		if (count($id_cb))
+		{
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM log_penduduk WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
+			}
+		}
+		else $outp = false;
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
 	private function search_sql()
 	{
 		if (isset($_SESSION['cari']))
