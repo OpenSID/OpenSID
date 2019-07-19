@@ -26,9 +26,10 @@
 				</div>
 				<table class="border thick">
 					<thead>
-						<tr class="border thick">
+						<tr class="border thick">							
 							<th>Nomor Urut</th>
 							<th>Nomor Surat</th>
+							<th>Kode/Klasifikasi Surat</th>
 							<th>Tanggal Surat</th>
 							<th>Ditujukan Kepada</th>
 							<th>Isi Singkat</th>
@@ -36,9 +37,10 @@
 					</thead>
 					<tbody>
 						<?php foreach ($main as $data): ?>
-						<tr>
+						<tr>							
 							<td><?= $data['nomor_urut']?></td>
 							<td><?= $data['nomor_surat']?></td>
+							<td><?= $data['kode_surat']?></td>
 							<td><?= tgl_indo($data['tanggal_surat'])?></td>
 							<td><?= $data['tujuan']?></td>
 							<td><?= $data['isi_singkat']?></td>
