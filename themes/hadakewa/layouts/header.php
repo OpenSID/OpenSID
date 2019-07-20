@@ -24,13 +24,9 @@
 	  <?php else: ?>
 			<meta name="description" content="Website <?php echo ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 		<?php endif; ?>
-		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-			<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
-		<?php else: ?>
-			<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
-		<?php endif; ?>
-	  <link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
-      <link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
+		<link rel="shortcut icon" href="<?php echo base_url()?>desa/logo/<?php echo $desa['logo']?>" />
+	  	<link type='text/css' href="<?php echo base_url()?>assets/front/css/first.css" rel='Stylesheet' />
+		<link rel="stylesheet" href="<?php echo base_url()?>assets/css/leaflet.css" />
 
 	  <!-- Styles untuk tema dan penyesuaiannya di folder desa -->
 	  <link type='text/css' href="<?php echo base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
