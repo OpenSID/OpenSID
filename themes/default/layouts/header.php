@@ -23,11 +23,7 @@
 		<?php else: ?>
 			<meta name="description" content="Website <?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 		<?php endif; ?>
-		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
-		<?php else: ?>
-			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
-		<?php endif; ?>
+		<link rel="shortcut icon" href="<?php echo base_url()?>desa/logo/<?php echo $desa['logo']?>" />
 		<link type='text/css' href="<?= base_url()?>assets/front/css/first.css" rel='Stylesheet' />
 
 		<!-- Styles untuk tema dan penyesuaiannya di folder desa -->
