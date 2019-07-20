@@ -46,7 +46,7 @@
 		        }
 		    },
 		    tooltip: {
-		        valueSuffix: 'juta'
+		        valueSuffix: ' juta'
 		    },
 		    plotOptions: {
 		        bar: {

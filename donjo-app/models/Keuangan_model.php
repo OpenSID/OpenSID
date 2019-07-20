@@ -256,24 +256,56 @@ class Keuangan_model extends CI_model {
 		return $result;
 	}
 
-	public function widget_keuangan()
-	{
-		$this->db->where('aktif', 1);
-		$keuangan_master = $this->db->select('*')->get('keuangan_master')->row();
+	// public function widget_keuangan()
+	// {
+	// 	$this->db->where('aktif', 1);
+	// 	$keuangan_master = $this->db->select('*')->get('keuangan_master')->row();
 
-		$this->db->select_sum('AnggaranStlhPAK');
-		$this->db->where('id_keuangan_master', $keuangan_master->id);
-		$this->db->like('KD_Rincian', '4.1.', 'after');
-		$pendapatan_desa = $this->db->get('keuangan_ta_anggaran')->row();
+	// 	$this->db->select_sum('AnggaranStlhPAK');
+	// 	$this->db->where('id_keuangan_master', $keuangan_master->id);
+	// 	$this->db->like('KD_Rincian', '4.1.', 'after');
+	// 	$pendapatan_desa = $this->db->get('keuangan_ta_anggaran')->row();
 
-		$this->db->select_sum('AnggaranStlhPAK');
-		$this->db->where('id_keuangan_master', $keuangan_master->id);
-		$this->db->like('Kd_Rincian', '4.1.', 'after');
-		$realisasi_pendapatan_desa = $this->db->get('keuangan_ta_rab')->row();
+	// 	$this->db->select_sum('AnggaranStlhPAK');
+	// 	$this->db->where('id_keuangan_master', $keuangan_master->id);
+	// 	$this->db->like('Kd_Rincian', '4.1.', 'after');
+	// 	$realisasi_pendapatan_desa = $this->db->get('keuangan_ta_rab')->row();
 
-		$data['realisasi_pendapatan_desa'] = $realisasi_pendapatan_desa->AnggaranStlhPAK;
-		$data['pendapatan_desa'] = $pendapatan_desa->AnggaranStlhPAK;
-		$data['tahun_anggaran'] = $keuangan_master->tahun_anggaran;
-		return $data;
-	}
+	// 	$data['realisasi_pendapatan_desa'] = $realisasi_pendapatan_desa->AnggaranStlhPAK;
+	// 	$data['pendapatan_desa'] = $pendapatan_desa->AnggaranStlhPAK;
+	// 	$data['tahun_anggaran'] = $keuangan_master->tahun_anggaran;
+
+	// 	return $data;
+	// }
+
+  public function widget_keuangan()
+  {
+    // $this->db->where('aktif', 1);
+    $keuangan_master = $this->db->get('keuangan_master')->result_array();
+    // var_dump($keuangan_master);
+    $data = array();
+
+    foreach ($keuangan_master as $row_keuangan) 
+    {
+      $this->db->select_sum('AnggaranStlhPAK');
+      $this->db->where('id_keuangan_master', $row_keuangan->id);
+      $this->db->like('KD_Rincian', '4.1.', 'after');
+      $pendapatan_desa = $this->db->get('keuangan_ta_anggaran')->row();
+
+      $this->db->select_sum('AnggaranStlhPAK');
+      $this->db->where('id_keuangan_master', $keuangan_master->id);
+      $this->db->like('Kd_Rincian', '4.1.', 'after');
+      $realisasi_pendapatan_desa = $this->db->get('keuangan_ta_rab')->row();
+
+
+    }
+
+    $data = array(
+      2016 => array("realisasi" => 500, "pagu" => 1000),
+      2017 => array("realisasi" => 750, "pagu" => 2200)
+    );
+    $data = json_encode($data);
+
+    return $data;
+  }
 }

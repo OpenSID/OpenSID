@@ -415,7 +415,6 @@ class First extends Web_Controller {
 		{
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
-
 	}
 
 }
