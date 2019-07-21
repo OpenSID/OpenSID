@@ -122,6 +122,7 @@
 												<option value="04">LKMD</option>
 												<option value="05">Karang Taruna</option>
 												<option value="06">RW</option>
+												<option value="07">PUSKESDES</option>
 											</select>
 										</div>
 									</div>
