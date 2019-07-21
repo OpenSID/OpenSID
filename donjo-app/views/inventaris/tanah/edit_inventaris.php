@@ -135,8 +135,10 @@
 													$value = 'LKMD';
 												}elseif(substr($main->kode_barang,14,2)==05){
 													$value = 'Karang Taruna';
-												}elseif(substr($main->kode_barang,14,2)==07){
+												}elseif(substr($main->kode_barang,14,2)==06){
 													$value = 'RW';
+												}elseif(substr($main->kode_barang,14,2)==07){
+													$value = 'PUSKESDES';
 												}
 											?>
 												<option value="<?=substr($main->kode_barang,14,2);?>"><?=$value;?></option>
@@ -146,6 +148,7 @@
 												<option value="04">LKMD</option>
 												<option value="05">Karang Taruna</option>
 												<option value="06">RW</option>
+												<option value="07">PUSKESDES</option>
 											</select>
 										</div>
 									</div>
