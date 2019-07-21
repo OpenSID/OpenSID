@@ -301,8 +301,14 @@ class Keuangan_model extends CI_model {
     }
 
     $data = array(
-      2016 => array("realisasi" => 500, "pagu" => 1000),
-      2017 => array("realisasi" => 750, "pagu" => 2200)
+      2016 => array(
+        "pendapatan" => array("realisasi" => 500, "pagu" => 1000),
+        "belanja" => array("realisasi" => 700, "pagu" => 950)
+      ),
+      2017 => array(
+        "pendapatan" => array("realisasi" => 1000, "pagu" => 1200),
+        "belanja" => array("realisasi" => 600, "pagu" => 900)
+      ),
     );
     $data = json_encode($data);
 
