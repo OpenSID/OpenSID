@@ -4,7 +4,7 @@
 	$data['agama'] = $this->penduduk_model->list_agama();
 	$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan('ucwords');
 	$data['sex'] = $this->penduduk_model->list_sex();
-	
+
 	$_SESSION['post'] = $_POST;
 	$_SESSION['post']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 
@@ -25,7 +25,7 @@
 		unset($_SESSION['id_penerima_kuasa']);
 	}
 	// -- Akhir Penerima Kuasa
-	
+
 	// -- Pemberi Kuasa
 	if ($this->input->post('pemberi_kuasa')==2) unset($_SESSION['id_pemberi_kuasa']);
 	if ($_POST['id_pemberi_kuasa'] != '' AND $_POST['id_pemberi_kuasa'] !='*')
@@ -43,5 +43,5 @@
 		unset($_SESSION['id_pemberi_kuasa']);
 	}
 	// -- Akhir Pemberi Kuasa
-	
+
 ?>
