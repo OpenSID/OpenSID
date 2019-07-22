@@ -193,6 +193,8 @@ class First extends Web_Controller {
 		$data['paging']  = $this->first_artikel_m->paging($p);
 		$data['artikel'] = $this->first_artikel_m->list_artikel(0,$data['paging']->offset, $data['paging']->per_page);
 		$data['single_artikel'] = $this->first_artikel_m->get_artikel($id);
+		// replace isi artikel dengan shortcodify
+		$data['single_artikel']['isi'] = $this->shortcode($data['single_artikel']['isi']);
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
 		$this->_get_common_data($data);
 
@@ -418,4 +420,225 @@ class First extends Web_Controller {
 
 	}
 
+	// Ambil jenis shortcode
+	public function shortcode($str = '')
+	{
+		$regex = "/\[\[(.*?)\]\]/";
+		return preg_replace_callback($regex, function ($matches) {
+			$result = array();
+
+			$params_explode = explode(",", $matches[1]);
+			$fnName = 'extract_shortcode';
+			return $this->extract_shortcode($params_explode[0],$params_explode[1],$params_explode[2]);
+		}, $str);
+	}
+
+	private function extract_shortcode($type, $smt, $thn)
+	{
+		if ($type == 'grafik-RP-APBD') {
+			$data = $this->keuangan_model->rp_apbd($smt, $thn);
+			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
+			"<script type=\"text/javascript\">".
+				"$(document).ready(function (){".
+					"Highcharts.chart('".$type . "-" . $smt . "-" . $thn."', {
+					    chart: {
+					        type: 'bar'
+					    },
+					    title: {
+					        text: 'Realisasi APBDesa'
+					    },
+					    subtitle: {
+					        text: 'Tahun ".$thn."'
+					    },
+					    xAxis: {
+					        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
+					    },
+					    yAxis: {
+					        min: 0,
+					        title: {
+					            text: 'Rupiah',
+					            align: 'high'
+					        },
+					        labels: {
+					            overflow: 'justify'
+					        }
+					    },
+					    tooltip: {
+					        valueSuffix: ''
+					    },
+					    plotOptions: {
+					        bar: {
+					            dataLabels: {
+					                enabled: true
+					            }
+					        }
+					    },
+					    legend: {
+					        layout: 'vertical',
+					        align: 'bottom',
+					        verticalAlign: 'bottom',
+					        x: 0,
+					        y: 0,
+					        floating: true,
+					        borderWidth: 1,
+					        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+					        shadow: true
+					    },
+					    credits: {
+					        enabled: false
+					    },
+					    series: [{
+					        name: 'Anggaran',
+									color: '#2E8B57',
+					        data: [100,98,60]
+					    }]".
+					"});".
+				"});".
+			"</script>".
+			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
+			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
+			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
+		} elseif ($type == 'grafik-R-PD') {
+			$data = $this->keuangan_model->rp_apbd($smt, $thn);
+			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
+			"<script type=\"text/javascript\">".
+				"$(document).ready(function (){".
+					"Highcharts.chart('".$type . "-" . $smt . "-" . $thn."', {
+					    chart: {
+					        type: 'bar'
+					    },
+					    title: {
+					        text: 'Realisasi APBDesa'
+					    },
+					    subtitle: {
+					        text: 'Tahun ".$thn."'
+					    },
+					    xAxis: {
+					        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
+					    },
+					    yAxis: {
+					        min: 0,
+					        title: {
+					            text: 'Rupiah',
+					            align: 'high'
+					        },
+					        labels: {
+					            overflow: 'justify'
+					        }
+					    },
+					    tooltip: {
+					        valueSuffix: ''
+					    },
+					    plotOptions: {
+					        bar: {
+					            dataLabels: {
+					                enabled: true
+					            }
+					        }
+					    },
+					    legend: {
+					        layout: 'vertical',
+					        align: 'bottom',
+					        verticalAlign: 'bottom',
+					        x: 0,
+					        y: 0,
+					        floating: true,
+					        borderWidth: 1,
+					        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+					        shadow: true
+					    },
+					    credits: {
+					        enabled: false
+					    },
+					    series: [{
+					        name: 'Anggaran',
+									color: '#2E8B57',
+					        data: [100,98,60]
+					    }]".
+					"});".
+				"});".
+			"</script>".
+			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
+			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
+			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
+		} elseif ($type == 'grafik-R-BD') {
+			$data = $this->keuangan_model->r_bd($smt, $thn);
+			$bidang = array();
+			foreach ($data['bidang'] as $b) {$bidang[] = "'". $b['Nama_Bidang']. "'";}
+			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
+			"<script type=\"text/javascript\">".
+				"$(document).ready(function (){".
+					"Highcharts.chart('".$type . "-" . $smt . "-" . $thn."', {
+					    chart: {
+					        type: 'bar'
+					    },
+					    title: {
+					        text: 'Realisasi Belanja Desa'
+					    },
+					    subtitle: {
+					        text: 'Tahun ".$thn."'
+					    },
+					    xAxis: {
+					        categories: [". join($bidang, ",")."],
+					    },
+					    yAxis: {
+					        min: 0,
+					        title: {
+					            text: 'Rupiah',
+					            align: 'high'
+					        },
+					        labels: {
+					            overflow: 'justify'
+					        }
+					    },
+					    tooltip: {
+					        valueSuffix: ''
+					    },
+					    plotOptions: {
+					        bar: {
+					            dataLabels: {
+					                enabled: true
+					            }
+					        }
+					    },
+					    legend: {
+					        layout: 'vertical',
+					        align: 'bottom',
+					        verticalAlign: 'bottom',
+					        x: 0,
+					        y: 0,
+					        floating: true,
+					        borderWidth: 1,
+					        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+					        shadow: true
+					    },
+					    credits: {
+					        enabled: false
+					    },
+					    series: [{
+					        name: 'Anggaran',
+									color: '#2E8B57',
+					        data: [100,98,60,75,80]
+					    }]".
+					"});".
+				"});".
+			"</script>".
+			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
+			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
+			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
+		}else{
+			echo " ";
+		}
+	}
+
+	public function tes($smt, $thn)
+	{
+		$data = $this->keuangan_model->r_bd($smt, $thn);
+		
+		// echo json_encode($data['bidang']);
+		$bidang = array();
+		foreach ($data['bidang'] as $b) {$bidang[] = "'". $b['Nama_Bidang']. "'";}
+		// print_r($data['bidang']);
+		print_r(join($bidang, ","));
+	}
 }
