@@ -276,4 +276,30 @@ class Keuangan_model extends CI_model {
 		$data['tahun_anggaran'] = $keuangan_master->tahun_anggaran;
 		return $data;
 	}
+
+  // Post Format Transparansi Anggaran Data
+  public function rp_apbd($smt, $thn)
+  {
+    $this->db->join('keuangan_ref_sumber', 'keuangan_ref_sumber.Kode = keuangan_ta_anggaran_rinci.SumberDana', 'left');
+    $this->db->select_sum('AnggaranStlhPAK');
+    $this->db->group_by('Kode');
+    $this->db->order_by('keuangan_ref_sumber.id', 'asc');
+    $this->db->where('Tahun', $thn);
+    $data['anggaran_by_sumber'] = $this->db->get('keuangan_ta_anggaran_rinci')->result();
+    return $data;
+  }
+
+  public function r_bd($smt, $thn)
+  {
+    $this->db->join('keuangan_ta_bidang', 'keuangan_ta_bidang.Kd_Bid = keuangan_ta_kegiatan.Kd_Bid', 'left');
+    $this->db->select_sum('Pagu');
+    $this->db->group_by('keuangan_ta_kegiatan.Kd_Bid');
+    $this->db->where('keuangan_ta_kegiatan.Tahun', $thn);
+    $data['anggaran_by_bidang'] = $this->db->get('keuangan_ta_kegiatan')->result();
+
+    $this->db->select('Nama_Bidang');
+    $this->db->order_by('Kd_Bid', 'asc');
+    $data['bidang'] = $this->db->get('keuangan_ta_bidang')->result_array();
+    return $data;
+  }
 }
