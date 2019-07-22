@@ -630,4 +630,21 @@ class First extends Web_Controller {
 			echo " ";
 		}
 	}
+
+	public function tes($smt, $thn)
+	{
+		$data = $this->keuangan_model->tes($smt, $thn);
+		$i=0;
+		foreach ($data as $d) {
+			echo "<ul>".
+			"<li>".$i++."</li>".
+			"<li>".$d['Kd_Keg']."</li>".
+			"<li>".$d['Kd_Rincian']."</li>".
+			"<li>".$d['Tgl_Spj']."</li>".
+			"<li>".$d['Jumlah']."</li>".
+			"<li>".$d['Tahun']."</li>".
+			"<li>".$d['Sumberdana']."</li>".
+			"</ul>";
+		}
+	}
 }

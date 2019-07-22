@@ -304,4 +304,15 @@ class Keuangan_model extends CI_model {
     $data['bidang'] = $this->db->get('keuangan_ta_bidang')->result_array();
     return $data;
   }
+
+  public function tes($smt, $thn)
+  {
+    $this->db->select('keuangan_ta_spj_rinci.Kd_Keg, keuangan_ta_spj_rinci.Kd_Rincian, Jumlah, Tgl_Spj, keuangan_ta_spj.Tahun, keuangan_ta_spj_rinci.Sumberdana');
+    $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.No_Spj = keuangan_ta_spj.No_Spj', 'left');
+    // $this->db->join('keuangan_ta_anggaran_rinci', 'keuangan_ta_anggaran_rinci.Kd_Keg = keuangan_ta_spj_rinci.Kd_Keg', 'left');
+    $this->db->where('keuangan_ta_spj.Tahun', $thn);
+    $this->db->group_by('keuangan_ta_spj_rinci.No_Spj');
+    $data = $this->db->get('keuangan_ta_spj')->result_array();
+    return $data;
+  }
 }
