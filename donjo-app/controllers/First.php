@@ -630,15 +630,4 @@ class First extends Web_Controller {
 			echo " ";
 		}
 	}
-
-	public function tes($smt, $thn)
-	{
-		$data = $this->keuangan_model->r_bd($smt, $thn);
-		
-		// echo json_encode($data['bidang']);
-		$bidang = array();
-		foreach ($data['bidang'] as $b) {$bidang[] = "'". $b['Nama_Bidang']. "'";}
-		// print_r($data['bidang']);
-		print_r(join($bidang, ","));
-	}
 }
