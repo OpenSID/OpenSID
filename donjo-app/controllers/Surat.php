@@ -34,7 +34,9 @@ class Surat extends Admin_Controller {
 		unset($_SESSION['id_pelapor']);
 		unset($_SESSION['id_diberi_izin']);
 		unset($_SESSION['post']);
-
+		unset($_SESSION['id_pemberi_kuasa'];
+		unset($_SESSION['id_penerima_kuasa'];
+		      
 		$nav['act'] = 4;
 		$nav['act_sub'] = 31;
 		$this->load->view('header', $header);
