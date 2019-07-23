@@ -57,8 +57,8 @@
 						</a>
 					</div>
 
-					<div class="box-body">														
-					
+					<div class="box-body">
+
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
 							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
 							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
@@ -75,17 +75,7 @@
 								<!-- pemberi kuasa -->
 								<div class="form-group subtitle_head" id="a_pemberi_kuasa">
 									<label class="col-sm-3 control-label" for="status">PEMBERI KUASA</label>
-									<div class="btn-group col-sm-8" data-toggle="buttons">
-										<label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label active">
-											<input id="pemberi_kuasa_1" type="radio" name="pemberi_kuasa" class="form-check-input" type="radio" value="1" checked> Warga Desa
-										</label>
-									</div>
 								</div>
-								
-								<div class="form-group pemberi_kuasa_desa">
-									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA PEMBERI KUASA DARI DATABASE</strong></label>
-								</div>
-								
 								<div class="form-group pemberi_kuasa_desa">
 									<label for="pemberi_kuasa_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
@@ -97,12 +87,12 @@
 										</select>
 									</div>
 								</div>
-                
+
 								<?php  if ($pemberi_kuasa): ?>
 									<?php $individu = $pemberi_kuasa;?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 								<?php endif; ?>
-	
+
 								<!-- akhir pemberi kuasa -->
 
 								<!-- penerima kuasa -->
@@ -255,7 +245,7 @@
 									<li>Surat Kuasa</li>
 
 								</ol>
-								<p>Aturan Pembuatan Surat Kuasa,  </p>
+								<p>Aturan Pembuatan Surat Kuasa:  </p>
 								<p>Pihak PEMBERI KUASA hanya warga desa yang terdata (bagi yang belum, mohon di data terlebih dahulu </p>
 								<p>Pihak PENERIMA KUASA boleh warga desa sendiri atau warga luar desa.</p>
 							</div>
