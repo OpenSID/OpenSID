@@ -106,11 +106,65 @@ class Database extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function export_excel()
+	/*
+		$opendk - tidak kosong untuk header sesuai dengan format impor OpenDK
+	*/
+	public function export_excel($opendk = '')
 	{
+		$judul = array(
+			'Alamat' => 'alamat',
+			'Dusun' => 'dusun',
+			'RW' => 'rw',
+			'RT' => 'rt',
+			'Nama' => 'nama',
+			'Nomor KK' => 'nomor_kk',
+			'Nomor NIK' => 'nomor_nik',
+			'Jenis Kelamin' => 'jenis_kelamin',
+			'Tempat Lahir' => 'tempat_lahir',
+			'Tanggal Lahir' => 'tanggal_lahir',
+			'Agama' => 'agama',
+			'Pendidikan (dlm KK)' => 'pendidikan_dlm_kk',
+			'Pendidikan (sdg ditempuh)' => 'pendidikan_sdg_ditempuh',
+			'Pekerjaan' => 'pekerjaan',
+			'Kawin' => 'kawin',
+			'Hub. Keluarga' => 'hubungan_keluarga',
+			'Kewarganegaraan' => 'kewarganegaraan',
+			'Nama Ayah' => 'nama_ayah',
+			'Nama Ibu' => 'nama_ibu',
+			'Gol. Darah' => 'gol_darah',
+			'Akta Lahir' => 'akta_lahir',
+			'Nomor Dokumen Paspor' => 'nomor_dokumen_pasport',
+			'Tanggal Akhir Paspor' => 'tanggal_akhir_pasport',
+			'Nomor Dokumen KITAS' => 'nomor_dokumen_kitas',
+			'NIK Ayah' => 'nik_ayah',
+			'NIK Ibu' => 'nik_ibu',
+			'Nomor Akta Perkawinan' => 'nomor_akta_perkawinan',
+			'Tanggal Perkawinan' => 'tanggal_perkawinan',
+			'Nomor Akta Perceraian' => 'nomor_akta_perceraian',
+			'Tanggal Perceraian' => 'tanggal_perceraian',
+			'Cacat' => 'cacat',
+			'Cara KB' => 'cara_kb',
+			'Hamil' => 'hamil'
+		);
 		$data['main'] = $this->export_model->export_excel();
+		$tgl =  date('d_m_Y');
+		if ($opendk)
+		{
+			$data['judul'] = array_values($judul);
+			// Kolom tambahan khusus OpenDK
+			$data['judul'][] = 'id';
+			$data['judul'][] = 'status_dasar';
+			$data['judul'][] = 'created_at';
+			$data['judul'][] = 'updated_at';
+			$data['nama_file'] = 'penduduk_'.$tgl.'_opendk';
+		}
+		else
+		{
+			$data['judul'] = array_keys($judul);
+			$data['nama_file'] = 'penduduk_'.$tgl;
+		}
+		$data['opendk'] = $opendk;
 		$this->load->view('export/penduduk_excel', $data);
-
 	}
 
 	public function export_dasar()
@@ -172,8 +226,7 @@ class Database extends Admin_Controller {
 	public function restore()
 	{
 		$this->export_model->restore();
-		if ($_SESSION['success'] == 1)
-			redirect('database/backup');
+		redirect('database/backup');
 	}
 
 	public function export_csv()

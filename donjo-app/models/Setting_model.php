@@ -107,27 +107,19 @@ class Setting_model extends CI_Model {
 	{
 		foreach ($this->list_setting as $i => $set)
 		{
-			if ($set->jenis == 'option' or $set->jenis == 'option-value')
+			if (in_array($set->jenis, array('option', 'option-value', 'option-kode')))
 			{
 				$this->list_setting[$i]->options = $this->get_options($set->id);
 			}
 		}
-
 	}
 
 	private function get_options($id)
 	{
-		$result = array();
-		$rows = $this->db->select('id,value')
+		$rows = $this->db->select('id, kode, value')
 		                 ->where('id_setting', $id)
 		                 ->get('setting_aplikasi_options')
 		                 ->result();
-
-		foreach ($rows as $row)
-		{
-			$result[$row->id] = $row->value;
-		}
-
-		return $result;
+		return $rows;
 	}
 }

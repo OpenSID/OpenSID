@@ -69,6 +69,10 @@ class Inventaris_jalan extends Admin_Controller {
 	public function edit($id)
 	{
 		$data['main'] = $this->inventaris_jalan_model->view($id);
+		$data['aset'] = $this->inventaris_jalan_model->list_aset();
+		$data['count_reg'] = $this->inventaris_jalan_model->count_reg();
+		$data['get_kode'] = $this->config_model->get_data();
+		$data['kd_reg'] = $this->inventaris_jalan_model->list_inventaris_kd_register();
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
@@ -100,6 +104,9 @@ class Inventaris_jalan extends Admin_Controller {
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
+		$data['main'] = $this->config_model->get_data();
+		$data['aset'] = $this->inventaris_jalan_model->list_aset();
+		$data['count_reg'] = $this->inventaris_jalan_model->count_reg();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

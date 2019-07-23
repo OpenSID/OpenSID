@@ -1,3 +1,12 @@
+
+// https://stackoverflow.com/questions/13261970/how-to-get-the-absolute-path-of-the-current-javascript-file-name/13262027#13262027
+// Untuk mendapatkan base_url, karena aplikasi bisa terinstall di subfolder
+var scripts = document.getElementsByTagName('script');
+var last_script = scripts[scripts.length - 1];
+var file_ini = last_script.src;
+// Harus mengetahui lokasi & nama file script ini
+var base_url = file_ini.replace('assets/js/script.js','');
+
 $( window ).on( "load", function() {
 	// Scroll ke menu aktif perlu dilakukan di onload sesudah semua loading halaman selesai
 	// Tidak bisa di document.ready
@@ -11,6 +20,8 @@ $( window ).on( "load", function() {
 
 $(document).ready(function()
 {
+
+
 	//CheckBox All Selected
 	checkAll();
   $("input[name='id_cb[]'").click(function(){
@@ -88,6 +99,14 @@ $(document).ready(function()
 	$('#file').change(function()
 	{
 		$('#file_path').val($(this).val());
+		if ($(this).val() == '')
+		{
+			$('#'+$(this).data('submit')).attr('disabled','disabled');
+		}
+		else
+		{
+			$('#'+$(this).data('submit')).removeAttr('disabled');;
+		}
 	});
 	$('#file_path').click(function()
 	{
@@ -290,8 +309,8 @@ $(document).ready(function()
 		$(this).closest('.form-group').find('.hari').val(hari[i]);
 	});
 
-$('[checked="checked"]').parent().addClass('active')
-	//Fortmat Tabel
+	$('[checked="checked"]').parent().addClass('active');
+	//Format Tabel
   $('#tabel1').DataTable();
   $('#tabel2').DataTable({
 		'paging'      : false,
@@ -310,6 +329,33 @@ $('[checked="checked"]').parent().addClass('active')
     'info'        : true,
     'autoWidth'   : false,
 		'scrollX'			: true
+	});
+
+	// formatting datatable Program Bantuan
+	$('#table-program').DataTable({
+		"paging": false,
+    "info": false,
+    "searching": false,
+    "columnDefs": [
+      {
+			  "targets": [0,1,3,4,5,6,7],
+			  "orderable": false
+			},
+			{
+				"targets": [4],
+				"className": "text-center"
+			},
+			{
+				"targets": [7],
+				"render": function ( data, type, full, meta )
+				{
+					if (data == 0) {
+						return "Tidak Aktif"
+					}
+				return "Aktif"
+				}
+			}
+		]
 	});
 
 	//color picker with addon
@@ -336,7 +382,55 @@ $('[checked="checked"]').parent().addClass('active')
 	$('select[name=pamong_ttd]').trigger('change');
 	$('select[name=pamong_ketahui]').trigger('change');
 
+	// Untuk input rupiah di form surat
+	// Tambahkan 'Rp.' pada saat form di ketik
+	// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+	$('.rupiah').keyup(function(e) {
+		var nilai = formatRupiah($(this).val(), 'Rp. ');
+		$(this).val(nilai);
+	});
+
+	// Penggunaan datatable di inventaris
+	var t = $('#tabel4').DataTable({
+		'paging'      : true,
+    'lengthChange': true,
+    'searching'   : true,
+    'ordering'    : true,
+    'info'        : true,
+    'autoWidth'   : false,
+		'language' 		: {
+				'url': base_url + '/assets/bootstrap/js/dataTables.indonesian.lang'
+		}
+	});
+	t.on('order.dt search.dt', function()
+	{
+		t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
+		{
+			cell.innerHTML = i+1;
+		});
+	}).draw();
+
 });
+
+/* Fungsi formatRupiah untuk form surat */
+function formatRupiah(angka, prefix, nol_sen=true)
+{
+	var number_string = angka.replace(/[^,\d]/g, '').toString(),
+	split = number_string.split(','),
+	sisa = split[0].length % 3,
+	rupiah = split[0].substr(0, sisa),
+	ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+	// tambahkan titik jika yang di input sudah menjadi angka ribuan
+	if (ribuan)
+	{
+		separator = sisa ? '.' : '';
+		rupiah += separator + ribuan.join('.');
+	}
+
+	rupiah = split[1] != undefined ? rupiah + (nol_sen ? '' : ',' + split[1]) : rupiah;
+	return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+}
 
 function scrollTampil(elem)
 {
@@ -361,6 +455,7 @@ function checkAll(id = "#checkall")
 				$(this).prop("checked", false);
 			});
 		}
+		$(".table input[type=checkbox]").change();
 		enableHapusTerpilih();
 	});
 	$("[data-toggle=tooltip]").tooltip();
@@ -505,3 +600,19 @@ $(function(){
 		$(this).prev().trigger('click');
 	})
 });
+
+function _calculateAge(birthday)
+{ // birthday is a date (dd-mm-yyyy)
+	if (birthday)
+	{
+		var parts = birthday.split('-');
+		// Ubah menjadi format ISO yyyy-mm-dd
+		// please put attention to the month (parts[0]), Javascript counts months from 0:
+		// January - 0, February - 1, etc
+		// https://stackoverflow.com/questions/5619202/converting-string-to-date-in-js
+		var birthdate = new Date(parts[2],parts[1]-1,parts[0]);
+		var ageDifMs = (new Date()).getTime() - birthdate.getTime();
+		var ageDate = new Date(ageDifMs); // miliseconds from epoch
+		return Math.abs(ageDate.getUTCFullYear() - 1970);
+	}
+}

@@ -1,22 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');?>
 <script language="javascript" type="text/javascript">
-	
-	function ubah_pemberi_kuasa(asal)
-	{
-		if (asal == 1)
-		{
-			$('.pemberi_kuasa_desa').show();
-			$('.pemberi_kuasa_luar_desa').hide();
-			$('input[name=anchor').val('a_pemberi_kuasa');
-		}
-		else
-		{
-			$('.pemberi_kuasa_desa').hide();
-			$('.pemberi_kuasa_luar_desa').show();
-			$('#id_pemberi_kuasa').val('*'); // Hapus $id_pemberi_kuasa
-			submit_form_ambil_data('a_pemberi_kuasa');
-		}
-	}
 
 	function ubah_penerima_kuasa(asal)
 	{
@@ -44,23 +27,6 @@
 		$('#'+'validasi').attr('target','');
 		$('#'+'validasi').submit();
 	}
-
-	function _calculateAge(birthday)
-	{ // birthday is a date (dd-mm-yyyy)
-		if (birthday)
-		{
-			var parts = birthday.split('-');
-			// Ubah menjadi format ISO yyyy-mm-dd
-			// please put attention to the month (parts[0]), Javascript counts months from 0:
-			// January - 0, February - 1, etc
-			// https://stackoverflow.com/questions/5619202/converting-string-to-date-in-js
-			var birthdate = new Date(parts[2],parts[1]-1,parts[0]);
-			var ageDifMs = (new Date()).getTime() - birthdate.getTime();
-			var ageDate = new Date(ageDifMs); // miliseconds from epoch
-			return Math.abs(ageDate.getUTCFullYear() - 1970);
-		}
-	}
-
 
 	$('document').ready(function()
 	{
@@ -90,13 +56,14 @@
 						 	<i class="fa fa-info-circle"></i> Info Isian Surat
 						</a>
 					</div>
+
 					<div class="box-body">														
-											
+					
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
 							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
 							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<div class="col-md-12">
-								
+
 								<div class="form-group">
 									<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
 									<div class="col-sm-8">
@@ -104,7 +71,7 @@
 										<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
 									</div>
 								</div>
-								
+
 								<!-- pemberi kuasa -->
 								<div class="form-group subtitle_head" id="a_pemberi_kuasa">
 									<label class="col-sm-3 control-label" for="status">PEMBERI KUASA</label>
@@ -130,14 +97,14 @@
 										</select>
 									</div>
 								</div>
-																
+                
 								<?php  if ($pemberi_kuasa): ?>
 									<?php $individu = $pemberi_kuasa;?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 								<?php endif; ?>
-								
+	
 								<!-- akhir pemberi kuasa -->
-						
+
 								<!-- penerima kuasa -->
 								<div class="form-group subtitle_head" id="a_penerima_kuasa">
 									<label class="col-sm-3 control-label" for="status">PENERIMA KUASA</label>
@@ -150,11 +117,11 @@
 										</label>
 									</div>
 								</div>
-								
+
 								<div class="form-group penerima_kuasa_desa" <?php if (empty($penerima_kuasa)): ?>style="display: none;"<?php endif; ?>>
 									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA PENERIMA KUASA DARI DATABASE</strong></label>
 								</div>
-								
+
 								<div class="form-group penerima_kuasa_desa" <?php if (empty($penerima_kuasa)): ?>style="display: none;"<?php endif; ?>>
 									<label for="penerima_kuasa_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
@@ -166,12 +133,12 @@
 										</select>
 									</div>
 								</div>
-								
+
 								<?php if ($penerima_kuasa): ?>
 									<?php $individu = $penerima_kuasa;?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 								<?php endif; ?>
-								
+
 								<?php if (empty($penerima_kuasa)): ?>
 									<div class="form-group penerima_kuasa_luar_desa" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA PENERIMA KUASA DARI LUAR DESA</strong></label>
@@ -191,7 +158,7 @@
 									<div class="form-group penerima_kuasa_luar_desa">
 										<label for="tempat_lahir_penerima_kuasa"  class="col-sm-3 control-label">Tempat  / Tanggal Lahir / Umur</label>
 										<div class="col-sm-3 col-lg-4">
-											<input class="form-control input-sm required" type="text" name="tempat_lahir_penerima_kuasa" id="tempat_lahir_penerima_kuasa" placeholder="Tempat Lahir Saksi" value="<?= $_SESSION['post']['tempat_lahir_penerima_kuasa']?>">
+											<input class="form-control input-sm required" type="text" name="tempat_lahir_penerima_kuasa" id="tempat_lahir_penerima_kuasa" placeholder="Tempat Lahir Penerima Kuasa" value="<?= $_SESSION['post']['tempat_lahir_penerima_kuasa']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
 											<div class="input-group input-group-sm date">
@@ -205,7 +172,7 @@
 											<input class="form-control input-sm required" name="umur_penerima_kuasa" readonly="readonly" placeholder="Umur (Tahun)" type="text" value="<?= $_SESSION['post']['umur_penerima_kuasa']?>">
 										</div>
 									</div>
-									
+
 									<div class="form-group penerima_kuasa_luar_desa">
 										<label for="jkpenerima_kuasa" class="col-sm-3 control-label" ><strong>Jenis Kelamin / Pekerjaan</strong></label>
 										<div class="col-sm-4">
@@ -213,7 +180,7 @@
 											<select class="form-control input-sm required" name="jkpenerima_kuasa" id="jkpenerima_kuasa" onchange="$('input[name=jkid_penerima_kuasa]').val($(this).find(':selected').data('jkid'));">
 												<option value="">-- Jenis Kelamin --</option>
 												<?php foreach ($sex as $data): ?>
-													<option value="<?= ucwords(strtolower($data['nama']))?>" data-jkid="<?= $data['id']?>" <?php if ($data['nama']==$_SESSION['post']['jkpenerima_kuasa']): ?>selected<?php endif; ?>><?= ucwords($data['nama'])?></option>
+													<option value="<?= ucwords(strtolower($data['nama']))?>" data-jkid="<?= $data['id']?>" <?php selected(ucwords(strtolower($data['nama'])), $_SESSION['post']['jkpenerima_kuasa']) ?>><?= ucwords($data['nama'])?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -259,7 +226,7 @@
 									</div>
 								<?php endif; ?>
 								<!-- akhir penerima kuasa -->
-								
+
 								<div class="form-group">
 									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>PENANDA TANGAN</strong></label>
 								</div>
@@ -286,10 +253,10 @@
 								<h5><strong>Form ini menghasilkan:</strong></h5>
 								<ol>
 									<li>Surat Kuasa</li>
-									
+
 								</ol>
 								<p>Aturan Pembuatan Surat Kuasa,  </p>
-								<p>Pihak PEMBERI KUASA bisa warga desa yang terdata atau yang belum terdata</p>
+								<p>Pihak PEMBERI KUASA hanya warga desa yang terdata (bagi yang belum, mohon di data terlebih dahulu </p>
 								<p>Pihak PENERIMA KUASA boleh warga desa sendiri atau warga luar desa.</p>
 							</div>
 							<div class='modal-footer btn-default'>

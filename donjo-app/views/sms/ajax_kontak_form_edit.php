@@ -14,7 +14,7 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="nama">Nama</label>
-							<input name="no_hp" class="form-control input-sm" type="text" value="<?=unpenetration($kontak['nama']);?>" disabled=""></input>
+							<input name="no_hp" class="form-control input-sm" type="text" value="<?=$kontak['nama'];?>" disabled=""></input>
 							<input name="id_kontak" type="hidden" value="<?=$kontak['id_kontak']?>"></input>
 						</div>
 						<div class="form-group">

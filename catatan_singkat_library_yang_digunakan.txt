@@ -16,6 +16,7 @@ Library Javascript yang digunakan:
 - https://jqueryvalidation.org/documentation/, untuk validasi form
 - http://eonasdan.github.io/bootstrap-datetimepicker/, untuk memilih tanggal/waktu di form
 - https://momentjs.com/, setting waktu yang diperlukan bootstrap-datetimepicker
+- http://jquery.malsup.com/cycle2/, untuk semua slideshow termasuk teks berjalan, widget aparatur desa
 
 Library PHP yang digunakan:
 

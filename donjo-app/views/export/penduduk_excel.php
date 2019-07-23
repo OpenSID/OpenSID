@@ -1,8 +1,6 @@
 <?php
-	$tgl =  date('d_m_Y');
-
-	header("Content-type: application/octet-stream");
-	header("Content-Disposition: attachment; filename=penduduk_$tgl.xls");
+	header("Content-type: application/xls");
+	header("Content-Disposition: attachment; filename={$nama_file}.xls");
 	header("Pragma: no-cache");
 	header("Expires: 0");
 ?>
@@ -31,46 +29,16 @@
 				<table border=1 class="border thick">
 					<thead>
 						<tr class="border thick">
-							<th>Alamat</th>
-							<th>Dusun</th>
-							<th>RW</th>
-							<th>RT</th>
-							<th>Nama</th>
-							<th>Nomor KK</th>
-							<th>Nomor NIK</th>
-							<th>Jenis Kelamin</th>
-							<th>Tempat Lahir</th>
-							<th>Tanggal Lahir</th>
-							<th>Agama</th>
-							<th>Pendidikan (dLm KK)</th>
-							<th>Pendidikan (sdg ditemph)</th>
-							<th>Pekerjaan</th>
-							<th>Kawin</th>
-							<th>Hub. Keluarga</th>
-							<th>Kewarganegaraan</th>
-							<th>Nama Ayah</th>
-							<th>Nama Ibu</th>
-							<th>Gol. Darah</th>
-							<th>Akta Lahir</th>
-							<th>Nomor Dokumen Paspor</th>
-							<th>Tanggal Akhir Paspor</th>
-							<th>Nomor Dokumen KITAS</th>
-							<th>NIK Ayah</th>
-							<th>NIK Ibu</th>
-							<th>Nomor Akta Perkawinan</th>
-							<th>Tanggal Perkawinan</th>
-							<th>Nomor Akta Perceraian</th>
-							<th>Tanggal Perceraian</th>
-							<th>Cacat</th>
-							<th>Cara KB</th>
-							<th>Hamil</th>
+							<?php foreach ($judul as $kolom): ?>
+								<th><?= $kolom ?></th>
+							<?php endforeach; ?>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= strtoupper($data['alamat'])?></td>
-							<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+							<td><?= strtoupper($data['dusun'])?></td>
 							<td><?= $data['rw']?></td>
 							<td><?= $data['rt']?></td>
 							<td><?= strtoupper($data['nama'])?></td>
@@ -102,6 +70,12 @@
 							<td><?= $data['cacat_id']?></td>
 							<td><?= $data['cara_kb_id']?></td>
 							<td><?= $data['hamil']?></td>
+							<?php if (!empty($opendk)): ?>
+								<td><?= $data['id']?></td>
+								<td><?= $data['status_dasar']?></td>
+								<td><?= $data['created_at']?></td>
+								<td><?= $data['updated_at']?></td>
+							<?php endif; ?>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

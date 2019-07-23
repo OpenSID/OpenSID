@@ -69,7 +69,7 @@
 													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/dusun')?>')">
 														<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 														<?php foreach ($list_dusun AS $data): ?>
-															<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+															<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 														<?php endforeach;?>
 													</select>
 													<?php if ($dusun): ?>

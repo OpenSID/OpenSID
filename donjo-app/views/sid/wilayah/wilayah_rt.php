@@ -21,7 +21,7 @@
            	</a>
 					</div>
 					<div class="box-header with-border">
-						<strong>RW <?= $rw?> / <?= ucwords($this->setting->sebutan_dusun)?> <?= unpenetration(ununderscore($dusun))?>  </strong>
+						<strong>RW <?= $rw?> / <?= ucwords($this->setting->sebutan_dusun)?> <?= $dusun?>  </strong>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -58,7 +58,7 @@
 																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['rt']?></td>
-																	<td nowrap><strong><?= unpenetration($data['nama_ketua'])?></strong></td>
+																	<td nowrap><strong><?= $data['nama_ketua']?></strong></td>
 																	<td nowrap><?= $data['nik_ketua']?></td>
 																	<td><?= $data['jumlah_kk']?></td>
 																	<td><?= $data['jumlah_warga']?></td>

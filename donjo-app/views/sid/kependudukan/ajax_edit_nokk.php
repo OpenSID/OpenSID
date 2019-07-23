@@ -11,14 +11,14 @@
 	{
 		$('#isi_rt').hide();
 		var rw = $('#rw');
-		select_options(rw, dusun);
+		select_options(rw, encodeURI(dusun));
 	}
 
 	function ubah_rw(dusun, rw)
 	{
 		$('#isi_rt').show();
 		var rt = $('#id_cluster');
-		var params = dusun + '/' + rw;
+		var params = encodeURI(dusun) + '/' + rw;
 		select_options(rt, params);
 	}
 </script>
@@ -109,7 +109,7 @@
 								<div class="checkbox">
 									<label>
 										<input type="checkbox" name="id_program[]" value="<?= $bantuan['id']?>"/<?php if ($bantuan['peserta'] != ''): ?>checked <?php endif; ?>>
-										<a href="<?= site_url('program_bantuan/detail/1/'.$bantuan['id'])?>" target="_blank"><?= $bantuan['nama']?></a>
+										<a href="<?= site_url('program_bantuan/detail/1/'.$bantuan['id'])?>/1" target="_blank"><?= $bantuan['nama']?></a>
 									</label>
 								</div>
 							<?php endforeach; ?>

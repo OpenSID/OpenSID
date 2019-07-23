@@ -12,6 +12,33 @@ class Inventaris_tanah_Model extends CI_Model
 		parent::__construct();
 	}
 
+	public function list_aset()
+	{
+		$this->db
+				->select('*')
+				->from('tweb_aset u')
+				->where('golongan',1);
+		$data = $this->db->get()->result_array();
+		return $data;
+	}
+
+	function count_reg()
+	{
+		$this->db->select('count(id) AS count');
+		$this->db->from($this->table);
+		$data = $this->db->get()->row();
+		return $data;
+	}
+
+	function list_inventaris_kd_register()
+	{
+		$this->db->select($this->table.'.register');
+		$this->db->from($this->table);
+		// $this->db->where($this->table.'.visible',1);
+		$data = $this->db->get()->result();
+		return $data;
+	}
+
 	public function list_inventaris()
 	{
 		$this->db->select('*');

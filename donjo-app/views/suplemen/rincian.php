@@ -59,6 +59,7 @@
 																<th><?= $suplemen["judul_terdata_info"]?></th>
 																<th>Tempat Lahir</th>
 																<th>Tanggal Lahir</th>
+																<th>Jenis-kelamin</th>
 																<th>Alamat</th>
 																<th>Keterangan</th>
 															</tr>
@@ -78,10 +79,11 @@
 																			<a href="#" data-href="<?= site_url('suplemen/hapus_terdata/'.$suplemen["id"].'/'.$item["id"])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
-																	<td nowrap><a href="<?= site_url('suplemen/terdata/'.$suplemen["sasaran"].'/'.$item["nik"].'/')?>" title="Daftar suplemen untuk terdata"><?= $item["terdata_nama"] ?></a></td>
+																	<td nowrap><a href="<?= site_url('suplemen/terdata/'.$suplemen["sasaran"].'/'.$item["id_terdata"].'/')?>" title="Daftar suplemen untuk terdata"><?= $item["terdata_nama"] ?></a></td>
 																	<td nowrap><a href="<?= site_url('suplemen/data_terdata/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
 																	<td><?= $item["tempat_lahir"] ?></td>
 																	<td><?= $item["tanggal_lahir"] ?></td>
+																	<td><?= strtoupper($item['sex'])?></td>
 																	<td><?= $item["info"];?></td>
 																	<td width="25%"><?= $item["keterangan"];?></td>
 																</tr>

@@ -9,10 +9,10 @@
 			<table width="100%">
 				<tr> <img src="<?= LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 				<div class="header">
-					<h4 class="kop">PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
-					<h4 class="kop">KECAMATAN <?= strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
-					<h4 class="kop"><?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper(unpenetration($desa['nama_desa']))?></h4>
-					<h5 class="kop2"><?= (unpenetration($desa['alamat_kantor']))?> </h5>
+					<h4 class="kop">PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($desa['nama_kabupaten'])?> </h4>
+					<h4 class="kop">KECAMATAN <?= strtoupper($desa['nama_kecamatan'])?> </h4>
+					<h4 class="kop"><?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa'])?></h4>
+					<h5 class="kop2"><?= ($desa['alamat_kantor'])?> </h5>
 					<div style="text-align: center;"><hr /></div>
 				</div>
 				<div align="center"><u><h4 class="kop">BIODATA PENDUDUK</h4></u></div>
@@ -22,14 +22,14 @@
 			<div id="isi">
 				<table width="100%">
 					<tr><td><b>I. DATA KELUARGA</b></td></tr>
-					<tr><td width="40%">Nama Kepala Keluarga</td><td width="3%">:</td><td width="64%"><?= unpenetration($kk['kepala_kk'])?></td></tr>
+					<tr><td width="40%">Nama Kepala Keluarga</td><td width="3%">:</td><td width="64%"><?= $kk['kepala_kk']?></td></tr>
 					<tr><td>Nomor Kartu Keluarga</td><td>:</td><td><?= $kk['no_kk']?></td></tr>
-					<tr><td>Alamat Keluarga</td><td>:</td><td>RT. <?= $kk['rt']?>, RW. <?= $kk['rw']?>, Dusun <?= ununderscore(unpenetration($kk['dusun']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, Kec. <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?> </td></tr>
+					<tr><td>Alamat Keluarga</td><td>:</td><td>RT. <?= $kk['rt']?>, RW. <?= $kk['rw']?>, Dusun <?= $kk['dusun']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, Kec. <?= $desa['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= $desa['nama_kabupaten']?> </td></tr>
 				</table>
 				<br/>
 				<table width="100%">
 					<tr><td ><b>II.	DATA INDIVIDU</b></td></tr>
-					<tr><td width="40%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?= unpenetration($data['nama'])?></td></tr>
+					<tr><td width="40%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?= $data['nama']?></td></tr>
 					<tr><td >NIK</td><td>:</td><td><?= $data['nik']?></td></tr>
 					<tr><td>Alamat Sebelumnya</td><td>:</td><td><?= $input['alamat_sebelumnya']?></td></tr>
 					<tr><td>Nomor Paspor</td><td>:</td><td><?= $input['no_paspor']?></td></tr>
@@ -56,9 +56,9 @@
 				<table width="100%">
 					<tr></tr>
 					<tr><td colspan="3"><b>III.	DATA ORANG TUA</b></td></tr>
-					<tr><td width="40%">Nama Ibu</td><td width="3%">:</td><td width="64%"><?= unpenetration($pribadi['nama_ibu'])?></td></tr>
+					<tr><td width="40%">Nama Ibu</td><td width="3%">:</td><td width="64%"><?= $pribadi['nama_ibu']?></td></tr>
 					<tr><td>NIK Ibu</td><td>:</td><td><?= $pribadi['ibu_nik']?></td></tr>
-					<tr><td>Nama Ayah</td><td>:</td><td><?= unpenetration($pribadi['nama_ayah'])?> </td></tr>
+					<tr><td>Nama Ayah</td><td>:</td><td><?= $pribadi['nama_ayah']?> </td></tr>
 					<tr><td>NIK Ayah</td><td>:</td><td><?= $pribadi['ayah_nik']?> </td></tr>
 				</table>
 				<table width="100%">
@@ -67,8 +67,8 @@
 				</table>
 				<table width="100%">
 					<tr></tr>
-					<tr><td></td><td width="50%"></td><td  align="center"><?= unpenetration($desa['nama_desa'])?>, <?= $tanggal_sekarang?></td></tr>
-					<tr><td></td><td width="50%"></td><td align="center"><?= unpenetration($input['jabatan'])?> <?= unpenetration($desa['nama_desa'])?></td></tr>
+					<tr><td></td><td width="50%"></td><td  align="center"><?= $desa['nama_desa']?>, <?= $tanggal_sekarang?></td></tr>
+					<tr><td></td><td width="50%"></td><td align="center"><?= $input['jabatan']?> <?= $desa['nama_desa']?></td></tr>
 					<tr></tr>
 					<tr></tr>
 					<tr></tr>
@@ -104,7 +104,7 @@
 					<tr></tr>
 					<tr></tr>
 					<tr></tr>
-					<tr><td> <td></td><td align="center">( <?= unpenetration($input['pamong'])?> )</td></tr>
+					<tr><td> <td></td><td align="center">( <?= $input['pamong']?> )</td></tr>
 				</table>
 			</div>
 		</div>

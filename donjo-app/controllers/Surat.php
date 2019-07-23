@@ -34,9 +34,9 @@ class Surat extends Admin_Controller {
 		unset($_SESSION['id_pelapor']);
 		unset($_SESSION['id_diberi_izin']);
 		unset($_SESSION['post']);
-		unset($_SESSION['id_pemberi_kuasa'];
-		unset($_SESSION['id_penerima_kuasa'];
-		      
+		unset($_SESSION['id_pemberi_kuasa']);
+		unset($_SESSION['id_penerima_kuasa']);
+
 		$nav['act'] = 4;
 		$nav['act_sub'] = 31;
 		$this->load->view('header', $header);
@@ -96,6 +96,7 @@ class Surat extends Admin_Controller {
 		$id = $_POST['nik'];
 		$log_surat['id_pend'] = $id;
 		$data['input'] = $_POST;
+		$data['input']['atas_nama'] = preg_replace('/\(.+\)/', '', $data['input']['pilih_atas_nama']);
 		$data['tanggal_sekarang'] = tgl_indo(date("Y m d"));
 
 		$data['data'] = $this->surat_model->get_data_surat($id);
@@ -135,6 +136,11 @@ class Surat extends Admin_Controller {
 				// id-nya calon pasangan pria atau wanita
 				if (!$id) $id = $_POST['id_pria'];
 				if (!$id) $id = $_POST['id_wanita'];
+				break;
+			case 'surat_kuasa':
+				// id-nya pemberi kuasa atau penerima kuasa
+				if (!$id) $id = $_POST['id_pemberi_kuasa'];
+				if (!$id) $id = $_POST['id_penerima_kuasa'];
 				break;
 			default:
 				# code...
@@ -182,12 +188,25 @@ class Surat extends Admin_Controller {
 
 	private function get_data_untuk_form($url, &$data)
 	{
+		$this->load->model('pamong_model');
 		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
+		$data['surat'] = $this->surat_model->get_surat($url);
+		$data['input'] = $this->input->post();
+		$data['input']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
+		$data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
 		$data['lokasi'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
+		$pamong_ttd = $this->pamong_model->get_ttd();
+		$pamong_ub = $this->pamong_model->get_ub();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
-
+		if ($pamong_ttd)
+		{
+			$str_ttd = ucwords($pamong_ttd['jabatan'].' '.$data['lokasi']['nama_desa']);
+			$data['atas_nama'][] = "a.n {$str_ttd}";
+			if ($pamong_ub)
+				$data['atas_nama'][] = "u.b {$pamong_ub['jabatan']}";
+		}
 		$data_form = $this->surat_model->get_data_form($url);
 		if (is_file($data_form))
 			include($data_form);
@@ -198,6 +217,19 @@ class Surat extends Admin_Controller {
 		$this->load->model('surat_master_model');
 		$this->surat_master_model->favorit($id, $k);
 		redirect("surat");
+	}
+
+	/*
+		Ajax POST data:
+		url -- url surat
+		nomor -- nomor surat
+	*/
+	public function format_nomor_surat()
+	{
+		$data['surat'] = $this->surat_model->get_surat($this->input->post('url'));
+		$data['input']['nomor'] = $this->input->post('nomor');
+		$format_nomor = $this->penomoran_surat_model->format_penomoran_surat($data);
+		echo json_encode($format_nomor);
 	}
 
 }

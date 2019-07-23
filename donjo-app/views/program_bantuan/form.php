@@ -9,7 +9,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
-      <li><a href="<?= site_url("program_bantuan/detail/1/$detail[id]")?>"> Rincian Program Bantuan</a></li>
+      <li><a href="<?= site_url("program_bantuan/detail/1/$detail[id]")?>/1"> Rincian Program Bantuan</a></li>
 			<li class="active">Peserta Program Bantuan</li>
 		</ol>
 	</section>
@@ -20,7 +20,7 @@
 					<div class="box-body">
 						<div class="box-header with-border">
 							<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
-							<a href="<?= site_url("program_bantuan/detail/1/$detail[id]")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
+							<a href="<?= site_url("program_bantuan/detail/1/$detail[id]")?>/1" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
@@ -102,19 +102,20 @@
 												<div class="form-group">
 													<label for="kartu_nik"  class="col-sm-4 col-lg-2 control-label">NIK</label>
 													<div class="col-sm-7">
-														<input  id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  >
+														<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  value="<?= $individu['nik']?>">
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="kartu_nama"  class="col-sm-4 col-lg-2 control-label">Nama</label>
 													<div class="col-sm-7">
-														<input  id="kartu_nama" class="form-control input-sm" type="text" placeholder="Nama Peserta" name="kartu_nama" >
+														<input id="kartu_nama" class="form-control input-sm" type="text" placeholder="Nama Peserta" name="kartu_nama"  value="<?= $individu['nama']?>">
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="kartu_tempat_lahir"  class="col-sm-4 col-lg-2 control-label">Tempat Lahir</label>
 													<div class="col-sm-7">
-														<input  id="kartu_tempat_lahir" class="form-control input-sm" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir">
+													<input id="kartu_tempat_lahir" class="form-control input-sm" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir"  value="<?= $individu['tempatlahir']?>">
+
 													</div>
 												</div>
 												<div class="form-group">
@@ -124,14 +125,14 @@
 															<div class="input-group-addon">
 																<i class="fa fa-calendar"></i>
 															</div>
-															<input class="form-control input-sm pull-right" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text">
+															<input class="form-control input-sm pull-right" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= tgl_indo_out($individu['tanggallahir'])?>">
 														</div>
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="kartu_alamat"  class="col-sm-4 col-lg-2 control-label">Alamat</label>
 													<div class="col-sm-7">
-											  		<input  id="kartu_alamat" class="form-control input-sm" type="text" placeholder="Alamat" name="kartu_alamat">
+											  		<input  id="kartu_alamat" class="form-control input-sm" type="text" placeholder="Alamat" name="kartu_alamat" value="<?= $individu['alamat_wilayah'];?>">
 													</div>
 												</div>
 												<div class="box-footer">

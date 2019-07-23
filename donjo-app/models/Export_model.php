@@ -11,22 +11,23 @@
 	  Kolom: c.dusun,c.rw,c.rt,p.nama,k.no_kk,p.nik,p.sex,p.tempatlahir,p.tanggallahir,p.agama_id,p.pendidikan_kk_id,p.pendidikan_sedang_id,p.pekerjaan_id,p.status_kawin,p.kk_level,p.warganegara_id,p.nama_ayah,p.nama_ibu,p.golongan_darah_id
 	*/
 
-  private function bersihkanData(&$str,$key)
+  private function bersihkanData(&$str, $key)
   {
     if (strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
     // Kode yang tersimpan sebagai '0' harus '' untuk dibaca oleh Import Excel
-    if ($str == "0") $str = "";
+    $kecuali = array('nik', 'no_kk');
+    if ($str == "0" and !in_array($key, $kecuali)) $str = "";
   }
 
   // Export data penduduk ke format Import Excel
-	public function export_excel()
+	public function export_excel($tgl_update = '')
 	{
-		$sql = "SELECT k.alamat, c.dusun,c.rw,c.rt,p.nama,k.no_kk,p.nik,p.sex,p.tempatlahir,p.tanggallahir,p.agama_id,p.pendidikan_kk_id,p.pendidikan_sedang_id,p.pekerjaan_id,p.status_kawin,p.kk_level,p.warganegara_id,p.nama_ayah,p.nama_ibu,p.golongan_darah_id,p.akta_lahir,p.dokumen_pasport,p.tanggal_akhir_paspor,p.dokumen_kitas,p.ayah_nik,p.ibu_nik,p.akta_perkawinan,p.tanggalperkawinan,p.akta_perceraian,p.tanggalperceraian,p.cacat_id,p.cara_kb_id,p.hamil
+		$sql = "SELECT k.alamat, c.dusun, c.rw, c.rt, p.nama, k.no_kk, p.nik, p.sex, p.tempatlahir, p.tanggallahir, p.agama_id, p.pendidikan_kk_id, p.pendidikan_sedang_id, p.pekerjaan_id, p.status_kawin, p.kk_level, p.warganegara_id, p.nama_ayah, p.nama_ibu, p.golongan_darah_id, p.akta_lahir, p.dokumen_pasport, p.tanggal_akhir_paspor, p.dokumen_kitas, p.ayah_nik, p.ibu_nik, p.akta_perkawinan, p.tanggalperkawinan, p.akta_perceraian, p.tanggalperceraian, p.cacat_id, p.cara_kb_id, p.hamil, p.id, p.status_dasar, p.created_at, p.updated_at
 
 			FROM tweb_penduduk p
 			LEFT JOIN tweb_keluarga k on k.id = p.id_kk
 			LEFT JOIN tweb_wil_clusterdesa c on p.id_cluster = c.id
-			ORDER BY k.no_kk
+			ORDER BY k.no_kk, p.kk_level
 		";
 		$q = $this->db->query($sql);
 		$data = $q->result_array();
@@ -136,10 +137,13 @@
 
 	public function restore()
 	{
+		$filename = $_FILES['userfile']['tmp_name'];
+		if ($filename =='') return;
+
 		$db = $this->db->database;
 		$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '$db'";
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 		foreach ($data AS $dat)
 		{
 			$tbl = $dat["TABLE_NAME"];
@@ -147,34 +151,30 @@
 		}
 
 		$_SESSION['success'] = 1;
-		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename!='')
+		$lines = file($filename);
+		$query = "";
+		foreach ($lines as $sql_line)
 		{
-			$lines = file($filename);
-			$query = "";
-			foreach ($lines as $sql_line)
-			{
-				// Abaikan baris apabila kosong atau komentar
-				$sql_line = trim($sql_line);
-			  if ($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0) && $sql_line[0] != '#')
-			  {
-					$query .= $sql_line;
-					if (substr(rtrim($query), -1) == ';')
-					{
-					  $result = $this->db->simple_query($query) ;
-					  if (!$result)
-					  {
-					  	$_SESSION['success'] = -1;
-					  	$error = $this->db->error();
-					  	echo "<br><br>>>>>>>>> Error: ".$query.'<br>';
-					  	echo $error['message'].'<br>'; // (mysql_error equivalent)
-							echo $error['code'].'<br>'; // (mysql_errno equivalent)
-					  }
-					  $query = "";
-					}
-			  }
-		 	}
-		}
+			// Abaikan baris apabila kosong atau komentar
+			$sql_line = trim($sql_line);
+		  if ($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0) && $sql_line[0] != '#')
+		  {
+				$query .= $sql_line;
+				if (substr(rtrim($query), -1) == ';')
+				{
+				  $result = $this->db->simple_query($query) ;
+				  if (!$result)
+				  {
+				  	$_SESSION['success'] = -1;
+				  	$error = $this->db->error();
+				  	echo "<br><br>>>>>>>>> Error: ".$query.'<br>';
+				  	echo $error['message'].'<br>'; // (mysql_error equivalent)
+						echo $error['code'].'<br>'; // (mysql_errno equivalent)
+				  }
+				  $query = "";
+				}
+		  }
+	 	}
 	}
 
 	private function _build_schema($nama_tabel, $nama_tanda) {
