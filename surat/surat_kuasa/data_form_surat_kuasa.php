@@ -9,15 +9,15 @@
 	$_SESSION['post']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 
 	// -- Penerima Kuasa
-	if ($this->input->post('penerima_kuasa')==2) unset($_SESSION['id_penerima_kuasa']);
+	if ($this->input->post('penerima_kuasa') == 2) unset($_SESSION['id_penerima_kuasa']);
 	if ($_POST['id_penerima_kuasa'] != '' AND $_POST['id_penerima_kuasa'] !='*')
 	{
-		$data['penerima_kuasa']=$this->surat_model->get_penduduk($_POST['id_penerima_kuasa']);
+		$data['penerima_kuasa'] = $this->surat_model->get_penduduk($_POST['id_penerima_kuasa']);
 		$_SESSION['id_penerima_kuasa'] = $_POST['id_penerima_kuasa'];
 	}
 	elseif ($_POST['id_penerima_kuasa'] !='*' AND isset($_SESSION['id_penerima_kuasa']))
 	{
-		$data['penerima_kuasa']=$this->surat_model->get_penduduk($_SESSION['id_penerima_kuasa']);
+		$data['penerima_kuasa'] = $this->surat_model->get_penduduk($_SESSION['id_penerima_kuasa']);
 	}
 	else
 	{
@@ -27,15 +27,15 @@
 	// -- Akhir Penerima Kuasa
 
 	// -- Pemberi Kuasa
-	if ($this->input->post('pemberi_kuasa')==2) unset($_SESSION['id_pemberi_kuasa']);
+	if ($this->input->post('pemberi_kuasa') == 2) unset($_SESSION['id_pemberi_kuasa']);
 	if ($_POST['id_pemberi_kuasa'] != '' AND $_POST['id_pemberi_kuasa'] !='*')
 	{
-		$data['pemberi_kuasa']=$this->surat_model->get_penduduk($_POST['id_pemberi_kuasa']);
+		$data['pemberi_kuasa'] = $this->surat_model->get_penduduk($_POST['id_pemberi_kuasa']);
 		$_SESSION['id_pemberi_kuasa'] = $_POST['id_pemberi_kuasa'];
 	}
 	elseif ($_POST['id_pemberi_kuasa'] !='*' AND isset($_SESSION['id_pemberi_kuasa']))
 	{
-		$data['pemberi_kuasa']=$this->surat_model->get_penduduk($_SESSION['id_pemberi_kuasa']);
+		$data['pemberi_kuasa'] = $this->surat_model->get_penduduk($_SESSION['id_pemberi_kuasa']);
 	}
 	else
 	{
