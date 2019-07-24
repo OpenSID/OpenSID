@@ -437,6 +437,12 @@ class First extends Web_Controller {
 	{
 		if ($type == 'grafik-RP-APBD') {
 			$data = $this->keuangan_model->rp_apbd($smt, $thn);
+			$jenisbelanja = array();
+			foreach ($data['jenis_belanja'] as $j) {$jenisbelanja[] = "'". $j['Nama_Akun']. "'";}
+			$anggaran = array();
+			foreach ($data['anggaran'] as $p) {$anggaran[] = $p['AnggaranStlhPAK'];}
+			$realisasi = array();
+			foreach ($data['realisasi'] as $s) { if(!empty($s['Nilai']) || !is_null($s['Nilai'])){ $realisasi[] =  $s['Nilai']; }else{ $realisasi[] =  0; }}
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
 			"<script type=\"text/javascript\">".
 				"$(document).ready(function (){".
@@ -448,7 +454,7 @@ class First extends Web_Controller {
 					        text: 'Realisasi APBDesa'
 					    },
 					    subtitle: {
-					        text: 'Tahun ".$thn."'
+					        text: 'Semester ".$smt." Tahun ".$thn."'
 					    },
 					    xAxis: {
 					        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
@@ -489,8 +495,12 @@ class First extends Web_Controller {
 					    },
 					    series: [{
 					        name: 'Anggaran',
-									color: '#2E8B57',
-					        data: [100,98,60]
+									color: '#2df013',
+					        data: [". join($anggaran, ",")."]
+						}, {
+						    name: 'Realisasi',
+									color: '#0324fc',
+					        data: [". join($realisasi, ",")."]
 					    }]".
 					"});".
 				"});".
@@ -565,6 +575,10 @@ class First extends Web_Controller {
 			$data = $this->keuangan_model->r_bd($smt, $thn);
 			$bidang = array();
 			foreach ($data['bidang'] as $b) {$bidang[] = "'". $b['Nama_Bidang']. "'";}
+			$anggaran = array();
+			foreach ($data['anggaran'] as $a) {$anggaran[] = $a['Pagu'];}
+			$realisasi = array();
+			foreach ($data['realisasi'] as $r) { if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ $realisasi[] =  $r['Nilai']; }else{ $realisasi[] =  0; }}
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
 			"<script type=\"text/javascript\">".
 				"$(document).ready(function (){".
@@ -576,7 +590,7 @@ class First extends Web_Controller {
 					        text: 'Realisasi Belanja Desa'
 					    },
 					    subtitle: {
-					        text: 'Tahun ".$thn."'
+					        text: 'Semester ".$smt." Tahun ".$thn."'
 					    },
 					    xAxis: {
 					        categories: [". join($bidang, ",")."],
@@ -618,7 +632,11 @@ class First extends Web_Controller {
 					    series: [{
 					        name: 'Anggaran',
 									color: '#2E8B57',
-					        data: [100,98,60,75,80]
+					        data: [". join($anggaran, ",")."]
+						},{
+					        name: 'Realisasi',
+									color: '#3461eb',
+					        data: [". join($realisasi, ",")."]
 					    }]".
 					"});".
 				"});".
@@ -628,23 +646,6 @@ class First extends Web_Controller {
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
 		}else{
 			echo " ";
-		}
-	}
-
-	public function tes($smt, $thn)
-	{
-		$data = $this->keuangan_model->tes($smt, $thn);
-		$i=0;
-		foreach ($data as $d) {
-			echo "<ul>".
-			"<li>".$i++."</li>".
-			"<li>".$d['Kd_Keg']."</li>".
-			"<li>".$d['Kd_Rincian']."</li>".
-			"<li>".$d['Tgl_Spj']."</li>".
-			"<li>".$d['Jumlah']."</li>".
-			"<li>".$d['Tahun']."</li>".
-			"<li>".$d['Sumberdana']."</li>".
-			"</ul>";
 		}
 	}
 }
