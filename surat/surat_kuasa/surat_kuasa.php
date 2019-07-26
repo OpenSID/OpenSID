@@ -1,23 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');?>
 <script language="javascript" type="text/javascript">
 
-	function ubah_pemberi_kuasa(asal)
-	{
-		if (asal == 1)
-		{
-			$('.pemberi_kuasa_desa').show();
-			$('.pemberi_kuasa_luar_desa').hide();
-			$('input[name=anchor').val('a_pemberi_kuasa');
-		}
-		else
-		{
-			$('.pemberi_kuasa_desa').hide();
-			$('.pemberi_kuasa_luar_desa').show();
-			$('#id_pemberi_kuasa').val('*'); // Hapus $id_pemberi_kuasa
-			submit_form_ambil_data('a_pemberi_kuasa');
-		}
-	}
-
 	function ubah_penerima_kuasa(asal)
 	{
 		if (asal == 1)
@@ -73,7 +56,9 @@
 						 	<i class="fa fa-info-circle"></i> Info Isian Surat
 						</a>
 					</div>
+
 					<div class="box-body">
+
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
 							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
 							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
@@ -90,21 +75,8 @@
 								<!-- pemberi kuasa -->
 								<div class="form-group subtitle_head" id="a_pemberi_kuasa">
 									<label class="col-sm-3 control-label" for="status">PEMBERI KUASA</label>
-									<div class="btn-group col-sm-8" data-toggle="buttons">
-										<label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($pemberi_kuasa)): ?>active<?php endif ?>">
-											<input id="pemberi_kuasa_1" type="radio" name="pemberi_kuasa" class="form-check-input" type="radio" value="1" <?php if (!empty($pemberi_kuasa)): ?>checked<?php endif; ?> autocomplete="off" onchange="ubah_pemberi_kuasa(this.value);"> Warga Desa
-										</label>
-										<label id="label_pemberi_kuasa_2"  class="btn btn-info btn-flat btn-sm col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (empty($pemberi_kuasa)): ?>active<?php endif; ?>">
-											<input id="pemberi_kuasa_2" type="radio" name="pemberi_kuasa" class="form-check-input" type="radio" value="2" <?php if (empty($pemberi_kuasa)): ?>checked<?php endif; ?> autocomplete="off" onchange="ubah_pemberi_kuasa(this.value);"> Warga Luar Desa
-										</label>
-									</div>
 								</div>
-
-								<div class="form-group pemberi_kuasa_desa" <?php if (empty($pemberi_kuasa)): ?>style="display: none;"<?php endif; ?>>
-									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA PEMBERI KUASA DARI DATABASE</strong></label>
-								</div>
-
-								<div class="form-group pemberi_kuasa_desa" <?php if (empty($pemberi_kuasa)): ?>style="display: none;"<?php endif; ?>>
+								<div class="form-group pemberi_kuasa_desa">
 									<label for="pemberi_kuasa_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control input-sm select2-nik" id="id_pemberi_kuasa" name="id_pemberi_kuasa" style ="width:100%;"  onchange="submit_form_ambil_data('a_pemberi_kuasa');">
@@ -116,98 +88,11 @@
 									</div>
 								</div>
 
-								<?php if ($pemberi_kuasa): ?>
+								<?php  if ($pemberi_kuasa): ?>
 									<?php $individu = $pemberi_kuasa;?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 								<?php endif; ?>
 
-								<?php if (empty($pemberi_kuasa)): ?>
-									<div class="form-group pemberi_kuasa_luar_desa" >
-										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA PEMBERI KUASA DARI LUAR DESA</strong></label>
-									</div>
-									<div class="form-group pemberi_kuasa_luar_desa">
-										<label for="nama_pemberi_kuasa" class="col-sm-3 control-label">Nama Pemberi Kuasa</label>
-										<div class="col-sm-8">
-											<input  class="form-control input-sm required" type="text" placeholder="Nama Pemberi Kuasa" name="nama_pemberi_kuasa" value="<?= $_SESSION['post']['nama_pemberi_kuasa']?>">
-										</div>
-									</div>
-									<div class="form-group pemberi_kuasa_luar_desa">
-										<label for="nik_pemberi_kuasa"  class="col-sm-3 control-label">NIK Pemberi Kuasa</label>
-										<div class="col-sm-8">
-											<input  class="form-control input-sm required" type="text" placeholder="NIK Pemberi Kuasa" name="nik_pemberi_kuasa" value="<?= $_SESSION['post']['nik_pemberi_kuasa']?>">
-										</div>
-									</div>
-									<div class="form-group pemberi_kuasa_luar_desa">
-										<label for="tempat_lahir_pemberi_kuasa"  class="col-sm-3 control-label">Tempat  / Tanggal Lahir / Umur</label>
-										<div class="col-sm-3 col-lg-4">
-											<input class="form-control input-sm required" type="text" name="tempat_lahir_pemberi_kuasa" id="tempat_lahir_pemberi_kuasa" placeholder="Tempat Lahir Pemberi Kuasa" value="<?= $_SESSION['post']['tempat_lahir_pemberi_kuasa']?>">
-										</div>
-										<div class="col-sm-3 col-lg-2">
-											<div class="input-group input-group-sm date">
-												<div class="input-group-addon">
-													<i class="fa fa-calendar"></i>
-												</div>
-												<input title="Pilih Tanggal" class="form-control input-sm required datepicker" name="tanggal_lahir_pemberi_kuasa" type="text" placeholder="Tgl. Lahir" value="<?= $_SESSION['post']['tanggal_lahir_pemberi_kuasa']?>" onchange="$('input[name=umur_pemberi_kuasa]').val(_calculateAge($(this).val()));"/>
-											</div>
-										</div>
-										<div class="col-sm-2">
-											<input class="form-control input-sm required" name="umur_pemberi_kuasa" readonly="readonly" placeholder="Umur (Tahun)" type="text" value="<?= $_SESSION['post']['umur_pemberi_kuasa']?>">
-										</div>
-									</div>
-
-									<div class="form-group pemberi_kuasa_luar_desa">
-										<label for="jkpemberi_kuasa" class="col-sm-3 control-label" ><strong>Jenis Kelamin / Pekerjaan</strong></label>
-										<div class="col-sm-4">
-											<input type="hidden" name="jkid_pemberi_kuasa">
-											<select class="form-control input-sm required" name="jkpemberi_kuasa" id="jkpemberi_kuasa" onchange="$('input[name=jkid_pemberi_kuasa]').val($(this).find(':selected').data('jkid'));">
-												<option value="">-- Jenis Kelamin --</option>
-												<?php foreach ($sex as $data): ?>
-													<option value="<?= ucwords(strtolower($data['nama']))?>" data-jkid="<?= $data['id']?>" <?php selected(ucwords(strtolower($data['nama'])), $_SESSION['post']['jkpemberi_kuasa']) ?>><?= $data['nama']?></option>
-												<?php endforeach;?>
-											</select>
-										</div>
-										<div class="col-sm-4">
-											<input type="hidden" name="pekerjaanid_pemberi_kuasa">
-											<select class="form-control input-sm required" name="pekerjaanpemberi_kuasa" id="pekerjaanpemberi_kuasa" onchange="$('input[name=pekerjaanid_pemberi_kuasa]').val($(this).find(':selected').data('pekerjaanid'));">
-												<option value="">-- Pekerjaan --</option>
-												<?php foreach ($pekerjaan as $data): ?>
-													<option value="<?= $data['nama']?>" data-pekerjaanid="<?= $data['id']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaanpemberi_kuasa']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
-												<?php endforeach;?>
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group pemberi_kuasa_luar_desa">
-										<label for="alamat_pemberi_kuasa"  class="col-sm-3 control-label">Alamat / RT / RW</label>
-										<div class="col-sm-4">
-											<input class="form-control input-sm required" type="text" name="alamat_pemberi_kuasa" id="alamat_pemberi_kuasa" placeholder="Alamat" value="<?= $_SESSION['post']['alamat_pemberi_kuasa']?>">
-										</div>
-										<div class="col-sm-2">
-											<input class="form-control input-sm required" type="text" name="rt_pemberi_kuasa" id="rt_pemberi_kuasa" placeholder="RT" value="<?= $_SESSION['post']['rt_pemberi_kuasa']?>">
-										</div>
-										<div class="col-sm-2">
-											<input class="form-control input-sm required" name="rw_pemberi_kuasa" id="rw_pemberi_kuasa"  type="text" placeholder="RW" value="<?= $_SESSION['post']['rw_pemberi_kuasa']?>">
-										</div>
-									</div>
-									<div class="form-group pemberi_kuasa_luar_desa">
-										<label for="alamat_pemberi_kuasa"  class="col-sm-3 control-label">Desa / Kecamatan</label>
-										<div class="col-sm-4">
-											<input class="form-control input-sm required" type="text" name="desapemberi_kuasa" id="desapemberi_kuasa" placeholder="Desa" value="<?= $_SESSION['post']['desapemberi_kuasa']?>">
-										</div>
-										<div class="col-sm-4">
-											<input class="form-control input-sm required" type="text" name="kecpemberi_kuasa" id="kecpemberi_kuasa" placeholder="Kecamatan" value="<?= $_SESSION['post']['kecpemberi_kuasa']?>">
-										</div>
-									</div>
-									<div class="form-group pemberi_kuasa_luar_desa">
-										<label for="alamat_pemberi_kuasa"  class="col-sm-3 control-label">Kabupaten / Provinsi</label>
-										<div class="col-sm-4">
-											<input class="form-control input-sm required" type="text" name="kabpemberi_kuasa" id="kabpemberi_kuasa" placeholder="Kabupaten" value="<?= $_SESSION['post']['kabpemberi_kuasa']?>">
-										</div>
-										<div class="col-sm-4">
-											<input class="form-control input-sm required" type="text" name="provinsipemberi_kuasa" id="provinsipemberi_kuasa" placeholder="Provinsi" value="<?= $_SESSION['post']['provinsipemberi_kuasa']?>">
-										</div>
-									</div>
-								<?php endif; ?>
 								<!-- akhir pemberi kuasa -->
 
 								<!-- penerima kuasa -->
@@ -360,8 +245,8 @@
 									<li>Surat Kuasa</li>
 
 								</ol>
-								<p>Aturan Pembuatan Surat Kuasa,  </p>
-								<p>Pihak PEMBERI KUASA bisa warga desa yang terdata atau yang belum terdata</p>
+								<p>Aturan Pembuatan Surat Kuasa:  </p>
+								<p>Pihak PEMBERI KUASA hanya warga desa yang terdata (bagi yang belum, mohon di data terlebih dahulu </p>
 								<p>Pihak PENERIMA KUASA boleh warga desa sendiri atau warga luar desa.</p>
 							</div>
 							<div class='modal-footer btn-default'>
