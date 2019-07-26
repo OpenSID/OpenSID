@@ -304,7 +304,26 @@ class Keuangan_model extends CI_model {
 
   public function r_pd($smt, $thn)
   {
-    # code...
+    $this->db->select('Kelompok, Jenis, Nama_Jenis');
+    $this->db->like('Kelompok', '4.', 'after');
+    $data['jenis_pendapatan'] = $this->db->get('keuangan_ref_rek3')->result_array();
+
+    $this->db->select('LEFT(Kd_Rincian, 6) AS jenis_pendapatan, SUM(AnggaranStlhPAK) AS Pagu');
+    $this->db->like('Kd_Rincian', '4.', 'after');
+    $this->db->order_by('Kd_Rincian', 'asc');
+    $this->db->group_by('jenis_pendapatan');
+    $this->db->where('Tahun', $thn);
+    $data['anggaran'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
+
+    $this->db->select('LEFT(keuangan_ta_anggaran_rinci.Kd_Rincian, 6) AS jenis_pendapatan, SUM(Nilai) AS Nilai');
+    $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Rincian = keuangan_ta_anggaran_rinci.Kd_Rincian', 'left');
+    $this->db->like('keuangan_ta_anggaran_rinci.Kd_Rincian', '4.', 'after');
+    $this->db->order_by('keuangan_ta_anggaran_rinci.Kd_Rincian', 'asc');
+    $this->db->group_by('jenis_pendapatan');
+    $this->db->where('keuangan_ta_anggaran_rinci.Tahun', $thn);
+    $data['realisasi'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
+
+    return $data;
   }
 
   public function r_bd($smt, $thn)
@@ -332,5 +351,103 @@ class Keuangan_model extends CI_model {
     $this->db->where('keuangan_ta_bidang.Tahun', $thn);
     $data['realisasi'] = $this->db->get('keuangan_ta_bidang')->result_array();
     return $data;
+  }
+
+  public function lap_rp_apbd($smt, $thn)
+  {
+    $this->db->select('Akun, Nama_Akun');
+    $this->db->where("Akun = '4.' OR Akun = '5.' OR Akun = '6.'");
+    $data['laporan'] = $this->db->get('keuangan_ref_rek1')->result_array();
+    $i=0;
+    foreach ($data['laporan'] as $p) {
+      $data['laporan'][$i]['anggaran'] = $this->pagu_akun($p['Akun'], $thn);
+      $data['laporan'][$i]['realisasi'] = $this->real_akun($p['Akun'], $thn);
+      $data['laporan'][$i]['sub_pendapatan'] = $this->getSubVal($p['Akun'], $thn);
+      $i++;
+    }
+    return $data;
+  }
+
+  private function pagu_akun($akun, $thn)
+  {
+    $this->db->select('Kd_Rincian, SUM(AnggaranStlhPAK) AS pagu');
+    $this->db->like('Kd_Rincian', $akun, 'after');
+    $this->db->where('Tahun', $thn);
+    $this->db->group_by('LEFT(Kd_Rincian, 2)');
+    return $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
+  }
+
+  private function real_akun($akun, $thn)
+  {
+    $this->db->select('Kd_Rincian, SUM(Nilai) AS realisasi');
+    $this->db->like('Kd_Rincian', $akun, 'after');
+    $this->db->where('Tahun', $thn);
+    $this->db->group_by('LEFT(Kd_Rincian, 2)');
+    return $this->db->get('keuangan_ta_spj_rinci')->result_array();
+  }
+
+  private function getSubVal($akun, $thn)
+  {
+    $this->db->select('Kelompok, Nama_Kelompok');
+    $this->db->where('Akun', $akun);
+    $data = $this->db->get('keuangan_ref_rek2')->result_array();
+    $i=0;
+    foreach ($data as $d) {
+      $data[$i]['anggaran'] = $this->pagu_subval($d['Kelompok'], $thn);
+      $data[$i]['realisasi'] = $this->real_subval($d['Kelompok'], $thn);
+      $data[$i]['sub_pendapatan2'] = $this->sub_pendapatan2($d['Kelompok'], $thn);
+      $i++;
+    }
+    return $data;
+  }
+
+  private function pagu_subval($kelompok, $thn)
+  {
+    $this->db->select('Kd_Rincian, SUM(AnggaranStlhPAK) AS pagu');
+    $this->db->like('Kd_Rincian', $kelompok, 'after');
+    $this->db->where('Tahun', $thn);
+    $this->db->group_by('LEFT(Kd_Rincian, 4)');
+    return $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
+  }
+
+  private function real_subval($kelompok, $thn)
+  {
+    $this->db->select('Kd_Rincian, SUM(Nilai) AS realisasi');
+    $this->db->like('Kd_Rincian', $kelompok, 'after');
+    $this->db->where('Tahun', $thn);
+    $this->db->group_by('LEFT(Kd_Rincian, 4)');
+    return $this->db->get('keuangan_ta_spj_rinci')->result_array();
+  }
+
+  private function sub_pendapatan2($kelompok, $thn)
+  {
+    $this->db->select('Kelompok, Jenis, Nama_Jenis');
+    $this->db->where('Kelompok', $kelompok);
+    $data = $this->db->get('keuangan_ref_rek3')->result_array();
+    $i=0;
+    foreach ($data as $d) {
+      $data[$i]['anggaran'] = $this->pagu_pendapatan2($d['Jenis'], $thn);
+      $data[$i]['realisasi'] = $this->real_pendapatan2($d['Jenis'], $thn);
+      $i++;
+    }
+    return $data;
+  }
+
+  private function pagu_pendapatan2($jenis, $thn)
+  {
+    $this->db->select('Kd_Rincian, SUM(AnggaranStlhPAK) AS pagu');
+    $this->db->like('Kd_Rincian', $jenis, 'after');
+    $this->db->where('Tahun', $thn);
+    $this->db->group_by('LEFT(Kd_Rincian, 6)');
+    return $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
+  }
+
+  private function real_pendapatan2($jenis, $thn)
+  {
+    $this->db->select('Kd_Rincian, SUM(Nilai) AS realisasi');
+    $this->db->like('Kd_Rincian', $jenis, 'after');
+    $this->db->where('Tahun', $thn);
+    $this->db->group_by('LEFT(Kd_Rincian, 6)');
+    return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
 }
