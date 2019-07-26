@@ -280,26 +280,57 @@ class Keuangan_model extends CI_model {
   // Post Format Transparansi Anggaran Data
   public function rp_apbd($smt, $thn)
   {
-    $this->db->join('keuangan_ref_sumber', 'keuangan_ref_sumber.Kode = keuangan_ta_anggaran_rinci.SumberDana', 'left');
+    $this->db->select('Akun, Nama_Akun');
+    $this->db->where("Akun = '4.' OR Akun = '5.' OR Akun = '6.'");
+    $data['jenis_belanja'] = $this->db->get('keuangan_ref_rek1')->result_array();
+
+    $this->db->select("LEFT(Kd_Rincian, 2) AS jenis_belanja");
     $this->db->select_sum('AnggaranStlhPAK');
-    $this->db->group_by('Kode');
-    $this->db->order_by('keuangan_ref_sumber.id', 'asc');
     $this->db->where('Tahun', $thn);
-    $data['anggaran_by_sumber'] = $this->db->get('keuangan_ta_anggaran_rinci')->result();
+    $this->db->group_by('jenis_belanja');
+    $data['anggaran'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
+
+    $this->db->select('Akun');  
+    $this->db->select_sum('Nilai');  
+    $this->db->join('keuangan_ta_spj_rinci', 'LEFT(keuangan_ta_spj_rinci.Kd_Rincian, 2) = keuangan_ref_rek1.Akun', 'left');
+    $this->db->where("Akun = '4.' OR Akun = '5.' OR Akun = '6.'");
+    $this->db->where('keuangan_ta_spj_rinci.Tahun', $thn);
+    $this->db->group_by('Akun');
+    $this->db->order_by('Akun', 'asc');
+    $data['realisasi'] = $this->db->get('keuangan_ref_rek1')->result_array();
+
     return $data;
+  }
+
+  public function r_pd($smt, $thn)
+  {
+    # code...
   }
 
   public function r_bd($smt, $thn)
   {
-    $this->db->join('keuangan_ta_bidang', 'keuangan_ta_bidang.Kd_Bid = keuangan_ta_kegiatan.Kd_Bid', 'left');
-    $this->db->select_sum('Pagu');
-    $this->db->group_by('keuangan_ta_kegiatan.Kd_Bid');
-    $this->db->where('keuangan_ta_kegiatan.Tahun', $thn);
-    $data['anggaran_by_bidang'] = $this->db->get('keuangan_ta_kegiatan')->result();
-
     $this->db->select('Nama_Bidang');
+    $this->db->where('Tahun', $thn);
     $this->db->order_by('Kd_Bid', 'asc');
     $data['bidang'] = $this->db->get('keuangan_ta_bidang')->result_array();
+
+    $this->db->select('keuangan_ta_bidang.Kd_Bid');
+    $this->db->select_sum('Pagu');
+    $this->db->join('keuangan_ta_kegiatan', 'keuangan_ta_kegiatan.Kd_Bid = keuangan_ta_bidang.Kd_Bid', 'left');
+    $this->db->group_by('keuangan_ta_bidang.Kd_Bid');
+    $this->db->order_by('keuangan_ta_bidang.Kd_Bid', 'asc');
+    $this->db->where('keuangan_ta_bidang.Tahun', $thn);
+    $data['anggaran'] = $this->db->get('keuangan_ta_bidang')->result_array();
+
+    $this->db->select("keuangan_ta_spj_rinci.Kd_Keg");
+    $this->db->select_sum('Nilai');
+    $this->db->join('keuangan_ta_kegiatan', 'keuangan_ta_kegiatan.Kd_Bid = keuangan_ta_bidang.Kd_Bid', 'left');
+    $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Keg = keuangan_ta_kegiatan.Kd_Keg', 'left');  
+    $this->db->join('keuangan_ta_spj', 'keuangan_ta_spj.No_Spj = keuangan_ta_spj_rinci.No_Spj', 'left');    
+    $this->db->group_by('keuangan_ta_kegiatan.Kd_Bid');
+    $this->db->order_by('keuangan_ta_bidang.Kd_Bid', 'asc');
+    $this->db->where('keuangan_ta_bidang.Tahun', $thn);
+    $data['realisasi'] = $this->db->get('keuangan_ta_bidang')->result_array();
     return $data;
   }
 }
