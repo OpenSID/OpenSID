@@ -23,6 +23,7 @@ Lengkapnya, isi rilis versi 19.07-pasca:
 17. #2123: Tambah Surat Kuasa.
 18. #2093: Gunakan lambang desa sebagai icon pada tab browser.
 19. Sekarang pilihan RW tampil pada waktu memilih dusun yang namanya berisi tanda kurung '()' di form penduduk dan keluarga. [bug-fix]
+20. #2133: Sekarang hasil ekspor database menggunakan phpmyadmin dapat di-restore menggunakan Pengaturan > Database > Restore.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
