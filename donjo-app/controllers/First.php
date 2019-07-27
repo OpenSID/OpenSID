@@ -451,7 +451,7 @@ class First extends Web_Controller {
 					        type: 'bar'
 					    },
 					    title: {
-					        text: 'Realisasi APBDesa'
+					        text: 'Realisasi Pelaksanaan APBDesa'
 					    },
 					    subtitle: {
 					        text: 'Semester ".$smt." Tahun ".$thn."'

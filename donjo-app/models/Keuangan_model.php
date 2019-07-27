@@ -278,6 +278,7 @@ class Keuangan_model extends CI_model {
 	}
 
   // Post Format Transparansi Anggaran Data
+  // Query Grafik
   public function rp_apbd($smt, $thn)
   {
     $this->db->select('Akun, Nama_Akun');
@@ -328,7 +329,7 @@ class Keuangan_model extends CI_model {
 
   public function r_bd($smt, $thn)
   {
-    $this->db->select('Nama_Bidang');
+    $this->db->select('Kd_Bid, Nama_Bidang');
     $this->db->where('Tahun', $thn);
     $this->db->order_by('Kd_Bid', 'asc');
     $data['bidang'] = $this->db->get('keuangan_ta_bidang')->result_array();
@@ -341,18 +342,40 @@ class Keuangan_model extends CI_model {
     $this->db->where('keuangan_ta_bidang.Tahun', $thn);
     $data['anggaran'] = $this->db->get('keuangan_ta_bidang')->result_array();
 
-    $this->db->select("keuangan_ta_spj_rinci.Kd_Keg");
+    $this->db->select("keuangan_ta_kegiatan.Kd_Bid, keuangan_ta_spj_rinci.Kd_Keg");
     $this->db->select_sum('Nilai');
     $this->db->join('keuangan_ta_kegiatan', 'keuangan_ta_kegiatan.Kd_Bid = keuangan_ta_bidang.Kd_Bid', 'left');
     $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Keg = keuangan_ta_kegiatan.Kd_Keg', 'left');  
     $this->db->join('keuangan_ta_spj', 'keuangan_ta_spj.No_Spj = keuangan_ta_spj_rinci.No_Spj', 'left');    
     $this->db->group_by('keuangan_ta_kegiatan.Kd_Bid');
-    $this->db->order_by('keuangan_ta_bidang.Kd_Bid', 'asc');
+    $this->db->order_by('keuangan_ta_kegiatan.Kd_Bid', 'asc');
     $this->db->where('keuangan_ta_bidang.Tahun', $thn);
     $data['realisasi'] = $this->db->get('keuangan_ta_bidang')->result_array();
     return $data;
   }
 
+  public function r_pembiayaan($smt, $thn)
+  {
+    $this->db->select('Nama_Kelompok');
+    $this->db->like('Kelompok', '6.', 'after');
+    $data['pembiayaan'] = $this->db->get('keuangan_ref_rek2')->result_array();
+
+    $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(AnggaranStlhPAK) AS Pagu');
+    $this->db->like('LEFT(Kd_Rincian, 2)', '6.', 'after');
+    $this->db->group_by('Kelompok');
+    $this->db->order_by('Kelompok', 'asc');
+    $data['anggaran'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
+
+    $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai) AS realisasi');
+    $this->db->like('LEFT(Kd_Rincian, 2)', '6.', 'after');
+    $this->db->group_by('Kelompok');
+    $this->db->order_by('Kelompok', 'asc');
+    $data['realisasi'] = $this->db->get('keuangan_ta_spj_rinci')->result_array();
+
+    return $data;
+  }
+
+  //Query Laporan Pelaksanaan Realisasi
   public function lap_rp_apbd($smt, $thn)
   {
     $this->db->select('Akun, Nama_Akun');
