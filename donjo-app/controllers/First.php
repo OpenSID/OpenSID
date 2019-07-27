@@ -451,7 +451,7 @@ class First extends Web_Controller {
 					        type: 'bar'
 					    },
 					    title: {
-					        text: 'Realisasi APBDesa'
+					        text: 'Realisasi Pelaksanaan APBDesa'
 					    },
 					    subtitle: {
 					        text: 'Semester ".$smt." Tahun ".$thn."'
@@ -495,11 +495,11 @@ class First extends Web_Controller {
 					    },
 					    series: [{
 					        name: 'Anggaran',
-									color: '#2df013',
+									color: '#16a085',
 					        data: [". join($anggaran, ",")."]
 						}, {
 						    name: 'Realisasi',
-									color: '#0324fc',
+									color: '#f1c40f',
 					        data: [". join($realisasi, ",")."]
 					    }]".
 					"});".
@@ -509,7 +509,13 @@ class First extends Web_Controller {
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
 		} elseif ($type == 'grafik-R-PD') {
-			$data = $this->keuangan_model->rp_apbd($smt, $thn);
+			$data = $this->keuangan_model->r_pd($smt, $thn);
+			$jp = array();
+			foreach ($data['jenis_pendapatan'] as $b) {$jp[] = "'". $b['Nama_Jenis']. "'";}
+			$anggaran = array();
+			foreach ($data['anggaran'] as $a) {$anggaran[] = $a['Pagu'];}
+			$realisasi = array();
+			foreach ($data['realisasi'] as $r) { if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ $realisasi[] =  $r['Nilai']; }else{ $realisasi[] =  0; }}
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
 			"<script type=\"text/javascript\">".
 				"$(document).ready(function (){".
@@ -518,13 +524,13 @@ class First extends Web_Controller {
 					        type: 'bar'
 					    },
 					    title: {
-					        text: 'Realisasi APBDesa'
+					        text: 'Realisasi Pendapatan Desa'
 					    },
 					    subtitle: {
-					        text: 'Tahun ".$thn."'
+					        text: 'Semester ".$smt." Tahun ".$thn."'
 					    },
 					    xAxis: {
-					        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
+					        categories: [".join($jp, ",")."],
 					    },
 					    yAxis: {
 					        min: 0,
@@ -562,8 +568,12 @@ class First extends Web_Controller {
 					    },
 					    series: [{
 					        name: 'Anggaran',
-									color: '#2E8B57',
-					        data: [100,98,60]
+									color: '#3498db',
+					        data: [".join($anggaran, ",")."]
+				        },{
+					        name: 'Realisasi',
+									color: '#e67e22',
+					        data: [".join($realisasi, ",")."]
 					    }]".
 					"});".
 				"});".
@@ -644,8 +654,77 @@ class First extends Web_Controller {
 			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		}else{
-			echo " ";
+		}elseif($type == 'lap-RP-APBD'){
+			$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
+			return "<div id='" . $type . "-" . $smt . "-" . $thn . "'>" ."</div>".
+			// "<style>.table, th, td {border: 1px solid black;}</style>".
+			"<table class='table' width='100%'>".
+			"<tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr>";
+			foreach ($data['laporan'] as $l) {
+				$i=0;
+				"<tr>".
+				"<td colspan='3'>".$l['Nama_Akun']."</td>".
+				"<td align='right'>".number_format($l['anggaran'][0]['pagu'])."</td>".
+				"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>";
+				foreach ($l['sub_pendapatan'] as $s) {
+					$j=0;
+						"<tr>".
+						"<td>".$i++."</td><td colspan='2'>".$s['Nama_Kelompok']."</td>".
+						"<td align='right'>".number_format($s['anggaran'][0]['pagu'])."</td>".
+						"<td align='right'>".number_format($s['realisasi'][0]['realisasi'])."</td>".
+						"</tr>";
+						foreach ($s['sub_pendapatan2'] as $q) {
+							echo "<tr>".
+							"<td></td><td>".$j++."</td>".
+							"<td>".$q['Nama_Jenis']."</td>".
+							"<td align='right'>".number_format($q['anggaran'][0]['pagu'])."</td>".
+							"<td align='right'>".number_format($q['realisasi'][0]['realisasi'])."</td>".
+							"</tr>";
+						};
+						$j++;
+				};			
+				"</tr>";
+				$i++;
+			}
+			"</table>";
+			
 		}
+	}
+
+	public function laporan($smt, $thn)
+	{
+		$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
+		echo "<style>table, th, td {border: 1px solid black;}</style>".
+		"<table width='100%'>".
+		"<tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr>";
+		foreach ($data['laporan'] as $l) {
+			$i=0;
+			echo "<tr>".
+			"<td colspan='3'>".$l['Nama_Akun']."</td>".
+			"<td align='right'>".number_format($l['anggaran'][0]['pagu'])."</td>".
+			"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>";
+			foreach ($l['sub_pendapatan'] as $s) {
+				$j=0;
+				echo "<tr>".
+					"<td>-</td><td colspan='2'>".$s['Nama_Kelompok']."</td>".
+					"<td align='right'>".number_format($s['anggaran'][0]['pagu'])."</td>".
+					"<td align='right'>".number_format($s['realisasi'][0]['realisasi'])."</td>".
+					"</tr>";
+					foreach ($s['sub_pendapatan2'] as $q) {
+						echo "<tr>".
+						"<td></td><td>-</td>".
+						"<td>".$q['Nama_Jenis']."</td>".
+						"<td align='right'>".number_format($q['anggaran'][0]['pagu'])."</td>".
+						"<td align='right'>".number_format($q['realisasi'][0]['realisasi'])."</td>".
+						"</tr>";
+					};
+					$j++;
+			};			
+			echo "</tr>";
+			$i++;
+		};
+		echo "</table>";
+
+		// print_r($data['laporan']);
 	}
 }
