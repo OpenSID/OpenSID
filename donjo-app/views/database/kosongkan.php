@@ -11,7 +11,7 @@
 																  contoh yang disediakan agar pengguna dapat mempelajari fitur SID.
 																  Data awal tersebut tentunya mengandung data contoh yang bukan data <?= $this->setting->sebutan_desa ?>.</p>
 																<p>Sebelum memasukkan data <?= $this->setting->sebutan_desa ?> yang sebenarnya ke dalam database SID, data contoh tersebut perlu dikosongkan dulu.</p>
-																<p>Klik tomboh <em>Kosongkan DB</em> di bawah untuk mengosongkan database SID siap untuk diisi dengan data <?= $this->setting->sebutan_desa ?>.</p>
+																<p>Klik tombol <em>Kosongkan DB</em> di bawah untuk mengosongkan database SID siap untuk diisi dengan data <?= $this->setting->sebutan_desa ?>.</p>
 																<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
 																	<small><strong><i class="fa fa-info-circle text-red"></i> Sebelum melalukan proses ini, backup dulu database SID.</strong></small>
 																</p>

@@ -510,11 +510,28 @@
 
 	private function sisipkan_logo($nama_logo, $buffer)
 	{
-		// Ganti logo placeholder dengan logo desa
-		$placeholder_logo = '/89504.*49454e44ae426082/s';
-		$logo_bytes = file_get_contents(LOKASI_LOGO_DESA . $nama_logo);
+		$file_logo = APPPATH . '../' . LOKASI_LOGO_DESA . $nama_logo;
+		if (!is_file($file_logo)) return $buffer;
+		// Akhiran dan awalan agak panjang supaya unik
+		$akhiran_logo = 'e33874670000000049454e44ae426082';
+		$awalan_logo = '89504e470d0a1a0a0000000d4948445200000040000000400806000000aa';
+		$akhiran_sementara = 'akhiran_logo';
+		$jml_logo = substr_count($buffer, $akhiran_logo);
+		if ($jml_logo <= 0) return $buffer; // tidak ada logo placeholder
+
+		// Ganti logo placeholder dengan logo desa kalau ada, satu per satu
+		$logo_bytes = file_get_contents($file_logo);
 		$logo_hex = implode(unpack("H*", $logo_bytes));;
-		$buffer = preg_replace($placeholder_logo, $logo_hex, $buffer);
+		for ($i=0; $i<$jml_logo; $i++)
+		{
+			// Ganti akhiran logo supaya preg_replace hanya memproses logo yg ditemukan
+			// Cari logo berikutnya, kalau ada
+			$pos = strpos($buffer, $akhiran_logo);
+	    $buffer = substr_replace($buffer, $akhiran_sementara, $pos, strlen($akhiran_logo));
+			$placeholder_logo = '/'.$awalan_logo.'.*'.$akhiran_sementara.'/s';
+			// Ganti logo yang ditemukan
+			$buffer = preg_replace($placeholder_logo, $logo_hex, $buffer);
+		}
 		return $buffer;
 	}
 
@@ -595,19 +612,45 @@
 		$input = $data['input'];
 		$config = $data['config'];
 		$this->load->model('pamong_model');
+		$pamong_ttd = $this->pamong_model->get_ttd();
 		$atas_nama = '';
 		if (!empty($input['pilih_atas_nama']))
 		{
-			$atas_nama = 'a.n. ' . ucwords($this->setting->sebutan_pimpinan_desa.' '.$config['nama_desa']);
-			if (strpos($input['pilih_atas_nama'], 'u.b.') !== false)
+			$atas_nama = 'a.n ' . ucwords($pamong_ttd['jabatan'].' '.$config['nama_desa']);
+			if (strpos($input['pilih_atas_nama'], 'u.b') !== false)
 			{
-				$pamong_ttd = $this->pamong_model->get_ttd();
-				$atas_nama .= ' \par '.$pamong_ttd['jabatan'].' \par'.' u.b.';
+				$pamong_ub = $this->pamong_model->get_ub();
+				$atas_nama .= ' \par '.$pamong_ub['jabatan'].' \par'.' u.b';
 			}
 			$atas_nama .= ' \par ';
+			$atas_nama .= $input['jabatan'];
 		}
-		$atas_nama .= $input['jabatan'].' '.$config['nama_desa'];
+		else
+		{
+			$atas_nama .= $input['jabatan'].' '.$config['nama_desa'];
+		}
 		return $atas_nama;
+	}
+
+	private function penandatangan_lampiran($data)
+	{
+		//Data penandatangan
+		$input = $data['input'];
+		$config = $data['config'];
+		$this->load->model('pamong_model');
+		$pamong_ttd = $this->pamong_model->get_ttd();
+		$penandatangan = '';
+		if (!empty($input['pilih_atas_nama']))
+		{
+			$penandatangan = 'a.n. ' . ucwords($pamong_ttd['jabatan'].' '.$config['nama_desa']);
+			$penandatangan .= ' <br> ';
+			$penandatangan .= $input['jabatan'];
+		}
+		else
+		{
+			$penandatangan .= $input['jabatan'].' '.$config['nama_desa'];
+		}
+		return $penandatangan;
 	}
 
 	public function surat_rtf($data)
@@ -652,7 +695,7 @@
 
 			//DATA SURAT
 			$array_replace = array(
-				"[kode_surat]" => "$surat[kode_surat]",
+				"[kode_surat]" => $surat['kode_surat'],
 				"[judul_surat]" => strtoupper("surat ".$surat['nama']),
 				"[tgl_surat]" => "$tgl",
 				"[tgl_surat_hijri]" => $tgl_hijri,
@@ -671,32 +714,40 @@
 			$buffer = $this->case_replace("[sebutan_desa]", $this->setting->sebutan_desa,$buffer);
 			$buffer = $this->case_replace("[sebutan_dusun]", $this->setting->sebutan_dusun,$buffer);
 			$buffer = $this->case_replace("[sebutan_camat]", $this->setting->sebutan_camat,$buffer);
-			if (!empty($config[email_desa]))
-				$alamat_desa = "$config[alamat_kantor] Email: $config[email_desa] Kode Pos: $config[kode_pos]";
+			if (!empty($config['email_desa']))
+			{
+				$alamat_desa = "{$config['alamat_kantor']} Email: {$config['email_desa']} Kode Pos: {$config['kode_pos']}";
+				$alamat_surat = "{$config['alamat_kantor']} Telp. {$config['telepon']} Kode Pos: {$config['kode_pos']} \par Website: {$config['website']} Email: {$config['email_desa']}";
+			}
 			else
-				$alamat_desa = "$config[alamat_kantor] Kode Pos: $config[kode_pos]";
+			{
+				$alamat_desa = "{$config['alamat_kantor']} Kode Pos: {$config['kode_pos']}";
+				$alamat_surat = "{$config['alamat_kantor']} Telp. {$config['telepon']} Kode Pos: {$config['kode_pos']}";
+			}
 			$array_replace = array(
                 "[alamat_des]"        => $alamat_desa,
                 "[alamat_desa]"       => $alamat_desa,
-                "[email_desa]"        => "$config[email_desa]",
-                "[kode_desa]"         => "$config[kode_desa]",
-                "[kode_kecamatan]"    => "$config[kode_kecamatan]",
-                "[kode_kabupaten]"    => "$config[kode_kabupaten]",
-                "[kode_pos]"          => "$config[kode_pos]",
-                "[kode_provinsi]"     => "$config[kode_propinsi]",
-                "[nama_des]"          => "$config[nama_desa]",
-                "[nama_kab]"          => "$config[nama_kabupaten]",
-                "[nama_kabupaten]"    => "$config[nama_kabupaten]",
-                "[nama_kec]"          => "$config[nama_kecamatan]",
-                "[nama_kecamatan]"    => "$config[nama_kecamatan]",
-                "[nama_provinsi]"     => "$config[nama_propinsi]",
-                "[nama_kepala_camat]" => "$config[nama_kepala_camat]",
-                "[nama_kepala_desa]"  => "$config[nama_kepala_desa]",
-                "[nip_kepala_camat]"  => "$config[nip_kepala_camat]",
-                "[nip_kepala_desa]"   => "$config[nip_kepala_desa]",
-                "[pos]"               => "$config[kode_pos]",
-                "[telepon_desa]"      => "$config[telepon]",
-                "[website_desa]"      => "$config[website]",
+                "[alamat_surat]"      => $alamat_surat,
+                "[alamat_kantor]"     => $config['alamat_kantor'],
+                "[email_desa]"        => $config['email_desa'],
+                "[kode_desa]"         => $config['kode_desa'],
+                "[kode_kecamatan]"    => $config['kode_kecamatan'],
+                "[kode_kabupaten]"    => $config['kode_kabupaten'],
+                "[kode_pos]"          => $config['kode_pos'],
+                "[kode_provinsi]"     => $config['kode_propinsi'],
+                "[nama_des]"          => $config['nama_desa'],
+                "[nama_kab]"          => $config['nama_kabupaten'],
+                "[nama_kabupaten]"    => $config['nama_kabupaten'],
+                "[nama_kec]"          => $config['nama_kecamatan'],
+                "[nama_kecamatan]"    => $config['nama_kecamatan'],
+                "[nama_provinsi]"     => $config['nama_propinsi'],
+                "[nama_kepala_camat]" => $config['nama_kepala_camat'],
+                "[nama_kepala_desa]"  => $config['nama_kepala_desa'],
+                "[nip_kepala_camat]"  => $config['nip_kepala_camat'],
+                "[nip_kepala_desa]"   => $config['nip_kepala_desa'],
+                "[pos]"               => $config['kode_pos'],
+                "[telepon_desa]"      => $config['telepon'],
+                "[website_desa]"      => $config['website'],
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
@@ -834,6 +885,22 @@
 		}
   }
 
+  private function get_file_data_lampiran($url_surat, $lokasi_rtf)
+  {
+  	$file = FCPATH.$lokasi_rtf.'get_data_lampiran.php';
+  	if (!file_exists($file))
+  		$file = FCPATH.'surat/'.$url_surat.'/get_data_lampiran.php';
+  	return $file;
+  }
+
+  private function get_file_lampiran($url_surat, $lokasi_rtf, $format_lampiran)
+  {
+  	$file = FCPATH.$lokasi_rtf.$format_lampiran;
+  	if (!file_exists($file))
+  		$file = FCPATH.'surat/'.$url_surat.'/'.$format_lampiran;
+  	return $file;
+  }
+
 	public function lampiran($data, $nama_surat, &$lampiran)
 	{
 		$surat = $data['surat'];
@@ -844,14 +911,14 @@
 		$input = $data['input'];
 		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
 		$daftar_lampiran = explode(",", $surat['lampiran']);
-    include(FCPATH.$surat['lokasi_rtf'].'get_data_lampiran.php');
+    include($this->get_file_data_lampiran($surat['url_surat'], $surat['lokasi_rtf']));
 		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
 
     // get the HTML using output buffer
     ob_start();
     foreach($daftar_lampiran as $format_lampiran)
     {
-	    include(FCPATH.$surat['lokasi_rtf'].$format_lampiran);
+	    include($this->get_file_lampiran($surat['url_surat'], $surat['lokasi_rtf'], $format_lampiran));
     }
     $content = ob_get_clean();
 

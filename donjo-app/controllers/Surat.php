@@ -34,6 +34,8 @@ class Surat extends Admin_Controller {
 		unset($_SESSION['id_pelapor']);
 		unset($_SESSION['id_diberi_izin']);
 		unset($_SESSION['post']);
+		unset($_SESSION['id_pemberi_kuasa']);
+		unset($_SESSION['id_penerima_kuasa']);
 
 		$nav['act'] = 4;
 		$nav['act_sub'] = 31;
@@ -135,6 +137,11 @@ class Surat extends Admin_Controller {
 				if (!$id) $id = $_POST['id_pria'];
 				if (!$id) $id = $_POST['id_wanita'];
 				break;
+			case 'surat_kuasa':
+				// id-nya pemberi kuasa atau penerima kuasa
+				if (!$id) $id = $_POST['id_pemberi_kuasa'];
+				if (!$id) $id = $_POST['id_penerima_kuasa'];
+				break;
 			default:
 				# code...
 				break;
@@ -191,10 +198,15 @@ class Surat extends Admin_Controller {
 		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$pamong_ttd = $this->pamong_model->get_ttd();
+		$pamong_ub = $this->pamong_model->get_ub();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
-		$str_desa = ucwords($this->setting->sebutan_pimpinan_desa.' '.$data['lokasi']['nama_desa']);
-		$data['atas_nama'] = array("a.n. {$str_desa} (pimpinan desa) ","u.b. {$pamong_ttd['jabatan']} (pamong TTD)");
-
+		if ($pamong_ttd)
+		{
+			$str_ttd = ucwords($pamong_ttd['jabatan'].' '.$data['lokasi']['nama_desa']);
+			$data['atas_nama'][] = "a.n {$str_ttd}";
+			if ($pamong_ub)
+				$data['atas_nama'][] = "u.b {$pamong_ub['jabatan']}";
+		}
 		$data_form = $this->surat_model->get_data_form($url);
 		if (is_file($data_form))
 			include($data_form);

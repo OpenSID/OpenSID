@@ -17,6 +17,7 @@
 			td,th
 			{
 				font-size:6.5pt;
+				mso-number-format:"\@";
 			}
 		</style>
 	</head>

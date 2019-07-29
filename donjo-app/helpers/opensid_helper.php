@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '19.06-pasca');
+define("VERSION", '19.07-pasca');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -216,6 +216,13 @@ define("SASARAN", serialize(array(
 	"2" => "Keluarga / KK",
 	"3" => "Rumah Tangga",
 	"4" => "Kelompok/Organisasi Kemasyarakatan"
+)));
+define("ASALDANA", serialize(array(
+	"Pusat" => "Pusat",
+	"Provinsi" => "Provinsi",
+	"Kab/Kota" => "Kab/Kota",
+	"Dana Desa" => "Dana Desa",
+	"Lain-lain (Hibah)" => "Lain-lain (Hibah)"
 )));
 define("KTP_EL", serialize(array(
 	strtolower("BELUM") => "1",

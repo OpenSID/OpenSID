@@ -70,6 +70,12 @@
 							<td><?= $data['cacat_id']?></td>
 							<td><?= $data['cara_kb_id']?></td>
 							<td><?= $data['hamil']?></td>
+							<?php if (!empty($opendk)): ?>
+								<td><?= $data['id']?></td>
+								<td><?= $data['status_dasar']?></td>
+								<td><?= $data['created_at']?></td>
+								<td><?= $data['updated_at']?></td>
+							<?php endif; ?>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

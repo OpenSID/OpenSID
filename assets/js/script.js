@@ -331,6 +331,33 @@ $(document).ready(function()
 		'scrollX'			: true
 	});
 
+	// formatting datatable Program Bantuan
+	$('#table-program').DataTable({
+		"paging": false,
+    "info": false,
+    "searching": false,
+    "columnDefs": [
+      {
+			  "targets": [0,1,3,4,5,6,7],
+			  "orderable": false
+			},
+			{
+				"targets": [4],
+				"className": "text-center"
+			},
+			{
+				"targets": [7],
+				"render": function ( data, type, full, meta )
+				{
+					if (data == 0) {
+						return "Tidak Aktif"
+					}
+				return "Aktif"
+				}
+			}
+		]
+	});
+
 	//color picker with addon
   $('.my-colorpicker2').colorpicker();
 	//Text Editor with addon
@@ -362,8 +389,6 @@ $(document).ready(function()
 		var nilai = formatRupiah($(this).val(), 'Rp. ');
 		$(this).val(nilai);
 	});
-
-
 
 	// Penggunaan datatable di inventaris
 	var t = $('#tabel4').DataTable({
@@ -430,6 +455,7 @@ function checkAll(id = "#checkall")
 				$(this).prop("checked", false);
 			});
 		}
+		$(".table input[type=checkbox]").change();
 		enableHapusTerpilih();
 	});
 	$("[data-toggle=tooltip]").tooltip();
@@ -574,3 +600,36 @@ $(function(){
 		$(this).prev().trigger('click');
 	})
 });
+
+function _calculateAge(birthday)
+{ // birthday is a date (dd-mm-yyyy)
+	if (birthday)
+	{
+		var parts = birthday.split('-');
+		// Ubah menjadi format ISO yyyy-mm-dd
+		// please put attention to the month (parts[0]), Javascript counts months from 0:
+		// January - 0, February - 1, etc
+		// https://stackoverflow.com/questions/5619202/converting-string-to-date-in-js
+		var birthdate = new Date(parts[2],parts[1]-1,parts[0]);
+		var ageDifMs = (new Date()).getTime() - birthdate.getTime();
+		var ageDate = new Date(ageDifMs); // miliseconds from epoch
+		return Math.abs(ageDate.getUTCFullYear() - 1970);
+	}
+}
+
+// https://stackoverflow.com/questions/332872/encode-url-in-javascript
+// Menyamakan dengan PHP urlencode supaya kurung '()' juga diencode
+// Digunakan untuk mengirim nama dusun sebagai parameter url query
+function urlencode(str) {
+  str = (str + '').toString();
+
+  // Tilde should be allowed unescaped in future versions of PHP (as reflected below), but if you want to reflect current
+  // PHP behavior, you would need to add ".replace(/~/g, '%7E');" to the following.
+  return encodeURIComponent(str)
+    .replace(/!/g, '%21')
+    .replace(/'/g, '%27')
+    .replace(/\(/g, '%28')
+    .replace(/\)/g, '%29')
+    .replace(/\*/g, '%2A');
+    // .replace(/%20/g, '+');
+}

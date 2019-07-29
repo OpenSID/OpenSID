@@ -16,27 +16,27 @@
 								<?php if ($setting->kategori != 'development' OR ($this->config->item("environment") == 'development' )): ?>
 									<div class="form-group">
 										<label class="col-sm-12 col-md-3" for="nama"><?= $setting->key?></label>
-										<?php if ($setting->key == 'offline_mode'): ?>
-											<div class="col-sm-12 col-md-4">
-												<select class="form-control input-sm" id="<?= $setting->key?>" name="<?= $setting->key?>">
-													<option value="0" <?php if ($setting->value==0): ?>selected<?php endif; ?>>Web bisa diakses publik</option>
-													<option value="1" <?php if ($setting->value==1): ?>selected<?php endif; ?>>Web dan peta hanya bisa diakses admin/operator/redaksi</option>
-													<option value="2" <?php if ($setting->value==2): ?>selected<?php endif; ?>>Web dan peta non-aktif sama sekali</option>
-												</select>
-											</div>
-										<?php elseif ($setting->jenis == 'option'): ?>
+										<?php if ($setting->jenis == 'option'): ?>
 											<div class="col-sm-12 col-md-4">
 												<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
-													<?php foreach ($setting->options as $key => $label): ?>
-													<option value="<?= $key ?>" <?php ($setting->value == $key) and print('selected') ?>><?= $label ?></option>
+													<?php foreach ($setting->options as $option): ?>
+													<option value="<?= $option->id ?>" <?php ($setting->value == $option->id) and print('selected') ?>><?= $option->value ?></option>
+													<?php endforeach ?>
+												</select>
+											</div>
+										<?php elseif ($setting->jenis == 'option-kode'): ?>
+											<div class="col-sm-12 col-md-4">
+												<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
+													<?php foreach ($setting->options as $option): ?>
+													<option value="<?= $option->kode ?>" <?php ($setting->value == $option->kode) and print('selected') ?>><?= $option->value ?></option>
 													<?php endforeach ?>
 												</select>
 											</div>
 										<?php elseif ($setting->jenis == 'option-value'): ?>
 											<div class="col-sm-12 col-md-4">
 												<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
-													<?php foreach ($setting->options as $key => $label): ?>
-													<option value="<?= $label ?>" <?php ($setting->value == $label) and print('selected') ?>><?= $label ?></option>
+													<?php foreach ($setting->options as $option): ?>
+													<option value="<?= $option->value ?>" <?php ($setting->value == $option->value) and print('selected') ?>><?= $option->value ?></option>
 													<?php endforeach ?>
 												</select>
 											</div>

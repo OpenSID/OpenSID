@@ -160,16 +160,16 @@
 	{
 		$data['id_pend'] = $this->input->post('id_pend');
 		$this->data_pamong_asal($data);
-		$data['pamong_nip'] = $this->input->post('pamong_nip');
-		$data['pamong_niap'] = $this->input->post('pamong_niap');
-		$data['jabatan'] = $this->input->post('jabatan');
-		$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
+		$data['pamong_nip'] = strip_tags($this->input->post('pamong_nip'));
+		$data['pamong_niap'] = strip_tags($this->input->post('pamong_niap'));
+		$data['jabatan'] = strip_tags($this->input->post('jabatan'));
+		$data['pamong_pangkat'] = strip_tags($this->input->post('pamong_pangkat'));
 		$data['pamong_status'] = $this->input->post('pamong_status');
-		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
+		$data['pamong_nosk'] = strip_tags($this->input->post('pamong_nosk'));
 		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
-		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? $this->input->post('pamong_nohenti') : NULL;
+		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? strip_tags($this->input->post('pamong_nohenti')) : NULL;
 		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ?tgl_indo_in($this->input->post('pamong_tglhenti')) : NULL;
-		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
+		$data['pamong_masajab'] = strip_tags($this->input->post('pamong_masajab'));
 		return $data;
 	}
 
@@ -178,9 +178,9 @@
 		if (empty($data['id_pend']))
 		{
 			unset($data['id_pend']);
-			$data['pamong_nama'] = $this->input->post('pamong_nama');
-			$data['pamong_nik'] = $this->input->post('pamong_nik');
-			$data['pamong_tempatlahir'] = $this->input->post('pamong_tempatlahir');
+			$data['pamong_nama'] = strip_tags($this->input->post('pamong_nama'));
+			$data['pamong_nik'] = strip_tags($this->input->post('pamong_nik'));
+			$data['pamong_tempatlahir'] = strip_tags($this->input->post('pamong_tempatlahir'));
 			$data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir'));
 			$data['pamong_sex'] = $this->input->post('pamong_sex');
 			$data['pamong_pendidikan'] = $this->input->post('pamong_pendidikan');
@@ -260,16 +260,32 @@
 	{
 		if ($val == 1)
 		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd default
+			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / default
 			$this->db->where('pamong_ttd', 1)->update('tweb_desa_pamong', array('pamong_ttd'=>0));
 		}
 		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ttd'=>$val));
+	}
+
+	public function ub($id='', $val=0)
+	{
+		if ($val == 1)
+		{
+			// Hanya satu pamong yang boleh digunakan sebagai ttd u.b
+			$this->db->where('pamong_ub', 1)->update('tweb_desa_pamong', array('pamong_ub'=>0));
+		}
+		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ub'=>$val));
 	}
 
 	public function get_ttd()
 	{
 		$ttd = $this->db->where('pamong_ttd', 1)->get('tweb_desa_pamong')->row_array();
 		return $ttd;
+	}
+
+	public function get_ub()
+	{
+		$ub = $this->db->where('pamong_ub', 1)->get('tweb_desa_pamong')->row_array();
+		return $ub;
 	}
 
   private function urut_max()

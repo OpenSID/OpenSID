@@ -5,6 +5,12 @@
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+		<style>
+			td, th
+			{
+				mso-number-format: "\@";
+			}
+		</style>
 	</head>
 	<body>
 		<div id="container">
@@ -22,7 +28,7 @@
 							<th width="150" >Nomor Rumah Tangga</th>
 							<th width="200">Kepala Rumah Tangga</th>
 							<th width="100">NIK</th>
-							<th width="100"  >Jumlah Anggota</th>
+							<th width="100">Jumlah Anggota</th>
 							<th width="100">Alamat</th>
 							<th width="100"><?= ucwords($this->setting->sebutan_dusun)?></th>
 							<th width="30">RW</th>

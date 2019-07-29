@@ -11,14 +11,14 @@
 	{
 		$('#isi_rt').hide();
 		var rw = $('#rw');
-		select_options(rw, encodeURI(dusun));
+		select_options(rw, urlencode(dusun));
 	}
 
 	function ubah_rw(dusun, rw)
 	{
 		$('#isi_rt').show();
 		var rt = $('#id_cluster');
-		var params = encodeURI(dusun) + '/' + rw;
+		var params = urlencode(dusun) + '/' + rw;
 		select_options(rt, params);
 	}
 </script>
