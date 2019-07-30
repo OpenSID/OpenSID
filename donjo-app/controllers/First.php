@@ -837,7 +837,5 @@ class First extends Web_Controller {
 			$i++;
 		};
 		echo "</table>";
-
-		// print_r($data['laporan']);
 	}
 }
