@@ -342,7 +342,7 @@ class Keuangan_model extends CI_model {
     $this->db->where('keuangan_ta_bidang.Tahun', $thn);
     $data['anggaran'] = $this->db->get('keuangan_ta_bidang')->result_array();
 
-    $this->db->select("keuangan_ta_kegiatan.Kd_Bid, keuangan_ta_spj_rinci.Kd_Keg");
+    $this->db->select("keuangan_ta_kegiatan.Kd_Bid");
     $this->db->select_sum('Nilai');
     $this->db->join('keuangan_ta_kegiatan', 'keuangan_ta_kegiatan.Kd_Bid = keuangan_ta_bidang.Kd_Bid', 'left');
     $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Keg = keuangan_ta_kegiatan.Kd_Keg', 'left');  
@@ -393,19 +393,19 @@ class Keuangan_model extends CI_model {
 
   private function pagu_akun($akun, $thn)
   {
-    $this->db->select('Kd_Rincian, SUM(AnggaranStlhPAK) AS pagu');
+    $this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(AnggaranStlhPAK) AS pagu');
     $this->db->like('Kd_Rincian', $akun, 'after');
     $this->db->where('Tahun', $thn);
-    $this->db->group_by('LEFT(Kd_Rincian, 2)');
+    $this->db->group_by('Akun');
     return $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
   }
 
   private function real_akun($akun, $thn)
   {
-    $this->db->select('Kd_Rincian, SUM(Nilai) AS realisasi');
+    $this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(Nilai) AS realisasi');
     $this->db->like('Kd_Rincian', $akun, 'after');
     $this->db->where('Tahun', $thn);
-    $this->db->group_by('LEFT(Kd_Rincian, 2)');
+    $this->db->group_by('Akun');
     return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
 
@@ -426,19 +426,19 @@ class Keuangan_model extends CI_model {
 
   private function pagu_subval($kelompok, $thn)
   {
-    $this->db->select('Kd_Rincian, SUM(AnggaranStlhPAK) AS pagu');
+    $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(AnggaranStlhPAK) AS pagu');
     $this->db->like('Kd_Rincian', $kelompok, 'after');
     $this->db->where('Tahun', $thn);
-    $this->db->group_by('LEFT(Kd_Rincian, 4)');
+    $this->db->group_by('Kelompok');
     return $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
   }
 
   private function real_subval($kelompok, $thn)
   {
-    $this->db->select('Kd_Rincian, SUM(Nilai) AS realisasi');
+    $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai) AS realisasi');
     $this->db->like('Kd_Rincian', $kelompok, 'after');
     $this->db->where('Tahun', $thn);
-    $this->db->group_by('LEFT(Kd_Rincian, 4)');
+    $this->db->group_by('Kelompok');
     return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
 
@@ -458,19 +458,19 @@ class Keuangan_model extends CI_model {
 
   private function pagu_pendapatan2($jenis, $thn)
   {
-    $this->db->select('Kd_Rincian, SUM(AnggaranStlhPAK) AS pagu');
+    $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(AnggaranStlhPAK) AS pagu');
     $this->db->like('Kd_Rincian', $jenis, 'after');
     $this->db->where('Tahun', $thn);
-    $this->db->group_by('LEFT(Kd_Rincian, 6)');
+    $this->db->group_by('Jenis');
     return $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
   }
 
   private function real_pendapatan2($jenis, $thn)
   {
-    $this->db->select('Kd_Rincian, SUM(Nilai) AS realisasi');
+    $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai) AS realisasi');
     $this->db->like('Kd_Rincian', $jenis, 'after');
     $this->db->where('Tahun', $thn);
-    $this->db->group_by('LEFT(Kd_Rincian, 6)');
+    $this->db->group_by('Jenis');
     return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
 }

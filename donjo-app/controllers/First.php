@@ -807,35 +807,26 @@ class First extends Web_Controller {
 	public function laporan($smt, $thn)
 	{
 		$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
-		echo "<style>table, th, td {border: 1px solid black;}</style>".
-		"<table width='100%'>".
-		"<tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr>";
-		foreach ($data['laporan'] as $l) {
-			$i=0;
-			echo "<tr>".
-			"<td colspan='3'>".$l['Nama_Akun']."</td>".
-			"<td align='right'>".number_format($l['anggaran'][0]['pagu'])."</td>".
-			"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>";
-			foreach ($l['sub_pendapatan'] as $s) {
-				$j=0;
-				echo "<tr>".
-					"<td>-</td><td colspan='2'>".$s['Nama_Kelompok']."</td>".
-					"<td align='right'>".number_format($s['anggaran'][0]['pagu'])."</td>".
-					"<td align='right'>".number_format($s['realisasi'][0]['realisasi'])."</td>".
-					"</tr>";
-					foreach ($s['sub_pendapatan2'] as $q) {
-						echo "<tr>".
-						"<td></td><td>-</td>".
-						"<td>".$q['Nama_Jenis']."</td>".
-						"<td align='right'>".number_format($q['anggaran'][0]['pagu'])."</td>".
-						"<td align='right'>".number_format($q['realisasi'][0]['realisasi'])."</td>".
-						"</tr>";
-					};
-					$j++;
-			};			
-			echo "</tr>";
-			$i++;
-		};
-		echo "</table>";
+		$json = json_encode($data['laporan']);
+		echo "<script src='https://code.jquery.com/jquery-3.4.1.js' integrity='sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=' crossorigin='anonymous'></script>".
+			"<table class='table' width='100%'><thead><tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr></thead><tbody id='table-" . $smt . "-" . $thn . "'></tbody>".
+			"<script type=\"text/javascript\">".
+				"$(document).ready(function (){".
+					"var html='';".
+					"var i;".
+					"var data=" . $json .";".
+					"for(i=0; i<data.length; i++){
+						html += '<tr>'+
+								'<td>'+data.[i].Nama_Akun+'</td>'+
+								'<td>'+data.[i].anggaran[0].pagu+'</td>'+
+								'<td>'+data.[i].realisasi[0].realisasi+'</td>'+
+								'</tr>';					
+					}".
+					"$('#table-" . $smt . "-" . $thn . "').append(table);".
+				"});".
+			"</script>";
+
+		// echo $json;
+
 	}
 }
