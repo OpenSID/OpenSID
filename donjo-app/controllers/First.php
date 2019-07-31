@@ -438,11 +438,21 @@ class First extends Web_Controller {
 		if ($type == 'grafik-RP-APBD') {
 			$data = $this->keuangan_model->rp_apbd($smt, $thn);
 			$jenisbelanja = array();
-			foreach ($data['jenis_belanja'] as $j) {$jenisbelanja[] = "'". $j['Nama_Akun']. "'";}
+			foreach ($data['jenis_belanja'] as $j) {
+				$jenisbelanja[] = "'". $j['Nama_Akun']. "'";
+			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $p) {$anggaran[] = $p['AnggaranStlhPAK'];}
+			foreach ($data['anggaran'] as $p) {
+				$anggaran[] = $p['AnggaranStlhPAK'];
+			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $s) { if(!empty($s['Nilai']) || !is_null($s['Nilai'])){ $realisasi[] =  $s['Nilai']; }else{ $realisasi[] =  0; }}
+			foreach ($data['realisasi'] as $s) { 
+				if(!empty($s['Nilai']) || !is_null($s['Nilai'])){ 
+					$realisasi[] =  $s['Nilai']; 
+				}else{ 
+					$realisasi[] =  0; 
+				}
+			}
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
 			"<script type=\"text/javascript\">".
 				"$(document).ready(function (){".
@@ -511,11 +521,21 @@ class First extends Web_Controller {
 		} elseif ($type == 'grafik-R-PD') {
 			$data = $this->keuangan_model->r_pd($smt, $thn);
 			$jp = array();
-			foreach ($data['jenis_pendapatan'] as $b) {$jp[] = "'". $b['Nama_Jenis']. "'";}
+			foreach ($data['jenis_pendapatan'] as $b) {
+				$jp[] = "'". $b['Nama_Jenis']. "'";
+			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $a) {$anggaran[] = $a['Pagu'];}
+			foreach ($data['anggaran'] as $a) {
+				$anggaran[] = $a['Pagu'];
+			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $r) { if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ $realisasi[] =  $r['Nilai']; }else{ $realisasi[] =  0; }}
+			foreach ($data['realisasi'] as $r) { 
+				if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ 
+					$realisasi[] =  $r['Nilai']; 
+				}else{ 
+					$realisasi[] =  0; 
+				}
+			}
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
 			"<script type=\"text/javascript\">".
 				"$(document).ready(function (){".
@@ -584,11 +604,21 @@ class First extends Web_Controller {
 		} elseif ($type == 'grafik-R-BD') {
 			$data = $this->keuangan_model->r_bd($smt, $thn);
 			$bidang = array();
-			foreach ($data['bidang'] as $b) {$bidang[] = "'". $b['Nama_Bidang']. "'";}
+			foreach ($data['bidang'] as $b) {
+				$bidang[] = "'". $b['Nama_Bidang']. "'";
+			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $a) {$anggaran[] = $a['Pagu'];}
+			foreach ($data['anggaran'] as $a) {
+				$anggaran[] = $a['Pagu'];
+			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $r) { if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ $realisasi[] =  $r['Nilai']; }else{ $realisasi[] =  0; }}
+			foreach ($data['realisasi'] as $r) { 
+				if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ 
+					$realisasi[] =  $r['Nilai']; 
+				}else{ 
+					$realisasi[] =  0; 
+				}
+			}
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
 			"<script type=\"text/javascript\">".
 				"$(document).ready(function (){".
@@ -654,7 +684,90 @@ class First extends Web_Controller {
 			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		}elseif($type == 'lap-RP-APBD'){
+		} elseif($type == 'grafik-R-PEMDES') {
+			$data = $this->keuangan_model->r_pembiayaan($smt, $thn);
+			$pembiayaan = array();
+			foreach ($data['pembiayaan'] as $d) {
+				$pembiayaan[] = "'". $d['Nama_Kelompok']. "'";
+			}
+			$anggaran = array();
+			foreach ($data['anggaran'] as $a) {
+				$anggaran[] = $a['Pagu'];
+			}
+			$realisasi = array();
+			foreach ($data['realisasi'] as $r) { 
+				if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ 
+					$realisasi[] =  $r['Nilai']; 
+				}else{ 
+					$realisasi[] =  0; 
+				}
+			}
+			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
+			"<script type=\"text/javascript\">".
+				"$(document).ready(function (){".
+					"Highcharts.chart('".$type . "-" . $smt . "-" . $thn."', {
+					    chart: {
+					        type: 'bar'
+					    },
+					    title: {
+					        text: 'Pembiyaan Desa'
+					    },
+					    subtitle: {
+					        text: 'Semester ".$smt." Tahun ".$thn."'
+					    },
+					    xAxis: {
+					        categories: [". join($pembiayaan, ",")."],
+					    },
+					    yAxis: {
+					        min: 0,
+					        title: {
+					            text: 'Rupiah',
+					            align: 'high'
+					        },
+					        labels: {
+					            overflow: 'justify'
+					        }
+					    },
+					    tooltip: {
+					        valueSuffix: ''
+					    },
+					    plotOptions: {
+					        bar: {
+					            dataLabels: {
+					                enabled: true
+					            }
+					        }
+					    },
+					    legend: {
+					        layout: 'vertical',
+					        align: 'bottom',
+					        verticalAlign: 'bottom',
+					        x: 0,
+					        y: 0,
+					        floating: true,
+					        borderWidth: 1,
+					        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+					        shadow: true
+					    },
+					    credits: {
+					        enabled: false
+					    },
+					    series: [{
+					        name: 'Anggaran',
+									color: '#2E8B57',
+					        data: [". join($anggaran, ",")."]
+						},{
+					        name: 'Realisasi',
+									color: '#3461eb',
+					        data: [". join($realisasi, ",")."]
+					    }]".
+					"});".
+				"});".
+			"</script>".
+			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
+			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
+			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
+		} elseif($type == 'lap-RP-APBD') {
 			$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "'>" ."</div>".
 			// "<style>.table, th, td {border: 1px solid black;}</style>".
@@ -694,37 +807,26 @@ class First extends Web_Controller {
 	public function laporan($smt, $thn)
 	{
 		$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
-		echo "<style>table, th, td {border: 1px solid black;}</style>".
-		"<table width='100%'>".
-		"<tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr>";
-		foreach ($data['laporan'] as $l) {
-			$i=0;
-			echo "<tr>".
-			"<td colspan='3'>".$l['Nama_Akun']."</td>".
-			"<td align='right'>".number_format($l['anggaran'][0]['pagu'])."</td>".
-			"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>";
-			foreach ($l['sub_pendapatan'] as $s) {
-				$j=0;
-				echo "<tr>".
-					"<td>-</td><td colspan='2'>".$s['Nama_Kelompok']."</td>".
-					"<td align='right'>".number_format($s['anggaran'][0]['pagu'])."</td>".
-					"<td align='right'>".number_format($s['realisasi'][0]['realisasi'])."</td>".
-					"</tr>";
-					foreach ($s['sub_pendapatan2'] as $q) {
-						echo "<tr>".
-						"<td></td><td>-</td>".
-						"<td>".$q['Nama_Jenis']."</td>".
-						"<td align='right'>".number_format($q['anggaran'][0]['pagu'])."</td>".
-						"<td align='right'>".number_format($q['realisasi'][0]['realisasi'])."</td>".
-						"</tr>";
-					};
-					$j++;
-			};			
-			echo "</tr>";
-			$i++;
-		};
-		echo "</table>";
+		$json = json_encode($data['laporan']);
+		echo "<script src='https://code.jquery.com/jquery-3.4.1.js' integrity='sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=' crossorigin='anonymous'></script>".
+			"<table class='table' width='100%'><thead><tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr></thead><tbody id='table-" . $smt . "-" . $thn . "'></tbody>".
+			"<script type=\"text/javascript\">".
+				"$(document).ready(function (){".
+					"var html='';".
+					"var i;".
+					"var data=" . $json .";".
+					"for(i=0; i<data.length; i++){
+						html += '<tr>'+
+								'<td>'+data.[i].Nama_Akun+'</td>'+
+								'<td>'+data.[i].anggaran[0].pagu+'</td>'+
+								'<td>'+data.[i].realisasi[0].realisasi+'</td>'+
+								'</tr>';					
+					}".
+					"$('#table-" . $smt . "-" . $thn . "').append(table);".
+				"});".
+			"</script>";
 
-		// print_r($data['laporan']);
+		// echo $json;
+
 	}
 }
