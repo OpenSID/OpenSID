@@ -144,7 +144,7 @@
 		        text: 'Tahun <?= $tahun_anggaran?>'
 		    },
 		    xAxis: {
-		        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
+		        // categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
 		        // title: {
 		        //     text: null
 		        // }
