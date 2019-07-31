@@ -1,8 +1,8 @@
-Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini penandatangan a.n dan u.b bisa dipilih di Info Desa > Pemerintah Desa. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Ariandi Ryan Kahfi, Rudi Purwanto, Nur Hidayat dan Parso Widodo yang terus berkontribusi. Terima kasih pula pada Rismawan Junandia, Eka Satria Bahari dan Ammar Alifian Fahdan yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 19.07-pasca:
+Lengkapnya, isi rilis versi 19.08:
 
 1. Pilih penandatangan a.n dan u.b di Info Desa > Pemerintah Desa. Hapus setting aplikasi sebutan_pimpinan_desa.
 2. #2127: Tanggal lahir di kartu peserta sekarang tampil benar di Program Bantuan. [bug-fix]
@@ -27,4 +27,4 @@ Lengkapnya, isi rilis versi 19.07-pasca:
 21. #2167: Pekerjaan saksi 2 sekarang tampil benar di lampiran F-2.29 surat keterangan kematian. [bug-fix]
 
 
-Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.07-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.08, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
