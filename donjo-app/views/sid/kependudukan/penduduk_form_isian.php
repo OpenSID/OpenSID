@@ -55,18 +55,19 @@
 				break;
 		}
 	}
+
 	function ubah_dusun(dusun)
 	{
 		$('#isi_rt').hide();
 		var rw = $('#rw');
-		select_options(rw, dusun);
+		select_options(rw, urlencode(dusun));
 	}
 
 	function ubah_rw(dusun, rw)
 	{
 		$('#isi_rt').show();
 		var rt = $('#id_cluster');
-		var params = dusun + '/' + rw;
+		var params = urlencode(dusun) + '/' + rw;
 		select_options(rt, params);
 	}
 </script>
