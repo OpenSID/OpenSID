@@ -23,11 +23,12 @@
 
   #widget-keuangan-container h3{
     font-size: 20px;
-    font-weight: bold;
+    /*font-weight: bold;*/
   }
 
   #widget-keuangan-container p{
     font-size: 12px;
+    margin-bottom: 20px;
   }
 </style>
 <div class="box box-info box-solid">
@@ -36,6 +37,16 @@
   </div>
   <div class="box-body">
     <div id="widget-keuangan-container">
+      <div class="dropdown" style="float: right;">
+        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          &#x25bc;
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li><a class="dropdown-item" onclick="displayPelaksanaan()">Realisasi Pelaksanaan APBDesa</a></li>
+          <li><a class="dropdown-item" onclick="displayPendapatan()">Realisasi Pendapatan Desa</a></li>
+          <li><a class="dropdown-item" onclick="displayBelanja()">Realisasi Belanja Desa</a></li>
+        </ul>
+      </div>
       <h3></h3>
       <p>Tahun 2016 Semester 1</p>
       <!-- <div class="col-md-12 keuangan-selector" style="text-align: center; padding-bottom: 20px">
@@ -102,6 +113,7 @@
 
 <script type="text/javascript">
   function displayPelaksanaan(){
+    resetContainer();
     $("#widget-keuangan-container h3").text("Realisasi Pelaksanaan APBDesa");
     <?php $i = 0; foreach ($res_pelaksanaan as $data):?>
       $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
@@ -162,6 +174,7 @@
   }
 
   function displayPendapatan() {
+    resetContainer();
     $("#widget-keuangan-container h3").text("Realisasi Pendapatan Desa");
     <?php $i = 0; foreach ($res_pendapatan as $data):?>
       $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
@@ -222,6 +235,7 @@
   }
 
   function displayBelanja(){
+    resetContainer();
     $("#widget-keuangan-container h3").text("Realisasi Belanja Desa");
     <?php $i = 0; foreach ($res_belanja as $data):?>
       $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
