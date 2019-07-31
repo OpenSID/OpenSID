@@ -28,9 +28,10 @@
 
   .highcharts-subtitle {
     font-family: 'Courier New', monospace;
-    font-style: italic;
+    /*font-style: italic;*/
+    font-size: 10px;
     padding-bottom: 20px;
-    /*fill: #7cb5ec;*/
+    /*fill: #000;*/
   }
 </style>
 <div class="box box-info box-solid">
@@ -44,59 +45,86 @@
         <option value="2017">2017</option>
       </select>
     </div>
-    <div id="graph-0"></div>
-    <div id="graph-1"></div>
-    <div id="graph-2"></div>
+    <div id="graph-container">
+    </div>
   </div>
 </div>
 
 <?php
+  //Realisasi Pelaksanaan APBD
   $raw_data = $this->keuangan_model->rp_apbd('1', '2016');
-  // var_dump($raw_data);
-  $res = array();
+  
+  $res_pelaksanaan = array();
+  $nama = array(
+    'PENDAPATAN' => '(PA) Pendapatan Desa',
+    'BELANJA' => '(PA) Belanja Desa', 
+    'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
+  );
   for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++) { 
     $row = array(
       'jenis_belanja' => $raw_data['jenis_belanja'][$i]['Nama_Akun'],
       'anggaran' => $raw_data['anggaran'][$i]['AnggaranStlhPAK'],
       'realisasi' => $raw_data['realisasi'][$i]['Nilai'],
     );
-    array_push($res, $row);
+    array_push($res_pelaksanaan, $row);
+  }
+
+  //Pendapatan APBD
+  $raw_data = $this->keuangan_model->r_pd('1', '2016');
+  $res_pendapatan = array();
+  foreach ($raw_data['jenis_pendapatan'] as $r){
+    $res_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
+  }
+
+  foreach ($raw_data['anggaran'] as $r) {
+    $res_pendapatan[$r['jenis_pendapatan']]['anggaran'] = $r['Pagu'];
+  }
+
+  foreach ($raw_data['realisasi'] as $r) {
+    $res_pendapatan[$r['jenis_pendapatan']]['realisasi'] = $r['Pagu'];
+  }
+
+  //Belanja APBD
+  $raw_data = $this->keuangan_model->r_bd('1', '2016');
+  $res_belanja = array();
+  foreach ($raw_data['bidang'] as $r){
+    $res_belanja[$r['Kd_Bid']]['nama'] = $r['Nama_Bidang'];
+  }
+
+  foreach ($raw_data['anggaran'] as $r) {
+    $res_belanja[$r['Kd_Bid']]['anggaran'] = $r['Pagu'];
+  }
+
+  foreach ($raw_data['realisasi'] as $r) {
+    $res_belanja[$r['Kd_Bid']]['realisasi'] = $r['Nilai'];
   }
 ?>
 
 <script type="text/javascript">
-	$(document).ready(function (){
-    //Realisasi Pelaksanaan APBD
-    <?php $i = 0; foreach ($res as $data):?>
+  function displayPelaksanaan(){
+    <?php $i = 0; foreach ($res_pelaksanaan as $data):?>
+      $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
       Highcharts.chart('graph-<?= $i ?>', {
           chart: {
               type: 'bar',
               margin: 0,
-              height: 100
+              height: 140
           },
           title: {
               text: ''
           },
           subtitle: {
-              text: '<?= $data['jenis_belanja'] ?>',
+            text: '<?= $nama[$data['jenis_belanja']] ?>',
+            y: 4,
+            style: {"color" : "#000"},
           },
 
           xAxis: {
               visible: false,
-              categories: ['Anggaran', 'Realisasi'],
+              categories: ['<?= $nama[$data['jenis_belanja']] ?>'],
           },
-          // yAxis: {
-          //     min: 0,
-          //     title: {
-          //         text: 'Juta',
-          //         align: 'high'
-          //     },
-          //     labels: {
-          //         overflow: 'justify'
-          //     }
-          // },
           tooltip: {
-              valueSuffix: 'juta'
+              valueSuffix: ''
           },
           plotOptions: {
               bar: {
@@ -130,6 +158,131 @@
           }]
       });
     <?php $i++; endforeach; ?>
+  }
+
+  function displayPendapatan() {
+    <?php $i = 0; foreach ($res_pendapatan as $data):?>
+      $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
+      Highcharts.chart('graph-<?= $i ?>', {
+          chart: {
+              type: 'bar',
+              margin: 0,
+              height: 120
+          },
+          title: {
+              text: ''
+          },
+          subtitle: {
+            text: '<?= $data['nama'] ?>',
+            y: -2,
+            style: {"color" : "#000"},
+          },
+
+          xAxis: {
+              visible: false,
+              categories: ['<?= $data['nama'] ?>'],
+          },
+          tooltip: {
+              valueSuffix: ''
+          },
+          plotOptions: {
+              bar: {
+                  dataLabels: {
+                      enabled: true
+                  }
+              }
+          },
+          credits: {
+            enabled: false
+          },
+          yAxis: {
+            visible: false
+          },
+          exporting: {
+            enabled: false
+          },
+          legend: {
+            enabled: false
+          },
+          series: [{
+              name: 'Anggaran',
+              color: '#2E8B57',
+              data: [<?= $data['anggaran'] ? $data['anggaran'] : 0 ?>]
+              // data: 100,
+          }, {
+              name: 'Realisasi',
+              color: '#FFD700',
+              data: [<?= $data['realisasi'] ? $data['realisasi'] : 0 ?>],
+              // data: 200,
+          }]
+      });
+    <?php $i++; endforeach; ?>
+  }
+
+  function displayBelanja(){
+    <?php $i = 0; foreach ($res_belanja as $data):?>
+      $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
+      Highcharts.chart('graph-<?= $i ?>', {
+          chart: {
+              type: 'bar',
+              margin: 0,
+              height: 120
+          },
+          title: {
+              text: ''
+          },
+          subtitle: {
+            text: '<?= $data['nama'] ?>',
+            y: -2,
+            style: {"color" : "#000"},
+          },
+
+          xAxis: {
+              visible: false,
+              categories: ['<?= $data['nama'] ?>'],
+          },
+          tooltip: {
+              valueSuffix: ''
+          },
+          plotOptions: {
+              bar: {
+                  dataLabels: {
+                      enabled: true
+                  }
+              }
+          },
+          credits: {
+            enabled: false
+          },
+          yAxis: {
+            visible: false
+          },
+          exporting: {
+            enabled: false
+          },
+          legend: {
+            enabled: false
+          },
+          series: [{
+              name: 'Anggaran',
+              color: '#2E8B57',
+              data: [<?= $data['anggaran'] ? $data['anggaran'] : 0 ?>],
+          }, {
+              name: 'Realisasi',
+              color: '#FFD700',
+              data: [<?= $data['realisasi'] ? $data['realisasi'] : 0 ?>],
+          }]
+      });
+    <?php $i++; endforeach; ?>
+  }
+
+  function resetContainer(){
+    $("#graph-container").html("");
+  }
+
+	$(document).ready(function (){
+    //Realisasi Pelaksanaan APBD
+    displayBelanja();
 	});
 </script>
 <!-- Highcharts -->
