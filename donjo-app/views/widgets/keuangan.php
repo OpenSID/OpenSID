@@ -1,23 +1,6 @@
-
-<?php error_reporting(E_ALL); ?>
 <!-- widget Statistik -->
 <style type="text/css">
   .highcharts-xaxis-labels tspan {font-size: 8px;}
-  .keuangan-chart-label{
-    color: #333;
-    text-align: center;
-    width: 100%;
-    min-height: 40px;
-    padding: 0;
-  }
-
-  g{
-    /*display: none;*/
-  }
-
-  g.highcharts-series-group{
-    /*display: inline;*/
-  }
 
   #keuangan-title{
     font-size: 18px;
@@ -33,19 +16,36 @@
     padding-bottom: 20px;
     /*fill: #000;*/
   }
+
+  #widget-keuangan-container{
+    text-align: center;
+  }
+
+  #widget-keuangan-container h3{
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  #widget-keuangan-container p{
+    font-size: 12px;
+  }
 </style>
 <div class="box box-info box-solid">
   <div class="box-header">
     <h3 class="box-title"><a href="<?= site_url("first/keuangan/1")?>"><i class="fa fa-bar-chart"></i> Statistik Keuangan Desa</a></h3>
   </div>
   <div class="box-body">
-    <div class="col-md-12 keuangan-selector" style="text-align: center; padding-bottom: 20px">
-      Data tahun <select id="keuangan-selector">
-        <option value="2016">2016</option>
-        <option value="2017">2017</option>
-      </select>
-    </div>
-    <div id="graph-container">
+    <div id="widget-keuangan-container">
+      <h3></h3>
+      <p>Tahun 2016 Semester 1</p>
+      <!-- <div class="col-md-12 keuangan-selector" style="text-align: center; padding-bottom: 20px">
+        Data tahun <select id="keuangan-selector">
+          <option value="2016">2016</option>
+          <option value="2017">2017</option>
+        </select>
+      </div> -->
+      <div id="graph-container">
+      </div>
     </div>
   </div>
 </div>
@@ -102,6 +102,7 @@
 
 <script type="text/javascript">
   function displayPelaksanaan(){
+    $("#widget-keuangan-container h3").text("Realisasi Pelaksanaan APBDesa");
     <?php $i = 0; foreach ($res_pelaksanaan as $data):?>
       $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
       Highcharts.chart('graph-<?= $i ?>', {
@@ -161,6 +162,7 @@
   }
 
   function displayPendapatan() {
+    $("#widget-keuangan-container h3").text("Realisasi Pendapatan Desa");
     <?php $i = 0; foreach ($res_pendapatan as $data):?>
       $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
       Highcharts.chart('graph-<?= $i ?>', {
@@ -220,6 +222,7 @@
   }
 
   function displayBelanja(){
+    $("#widget-keuangan-container h3").text("Realisasi Belanja Desa");
     <?php $i = 0; foreach ($res_belanja as $data):?>
       $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
       Highcharts.chart('graph-<?= $i ?>', {
