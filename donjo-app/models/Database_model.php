@@ -27,7 +27,7 @@
 		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.06'),
 		'19.06' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => '19.07'),
 		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => '19.08'),
-		'19.08' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'19.08' => array('migrate' => 'migrasi_1908_ke_1909', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -186,13 +186,17 @@
 		$this->migrasi_1905_ke_1906();
 		$this->migrasi_1906_ke_1907();
 		$this->migrasi_1907_ke_1908();
+		$this->migrasi_1908_ke_1909();
+  }
+
+  private function migrasi_1908_ke_1909()
+  {
+  	// Tambah modul Keuangan
+  	$this->modul_keuangan();
   }
 
   private function migrasi_1907_ke_1908()
   {
-  	// Tambah modul Keuangan
-  	$this->modul_keuangan();
-
   	$this->load->model('migrations/migrasi_1907_ke_1908');
   	$this->migrasi_1907_ke_1908->up();
   }
