@@ -435,21 +435,28 @@ class First extends Web_Controller {
 
 	private function extract_shortcode($type, $smt, $thn)
 	{
-		if ($type == 'grafik-RP-APBD') {
+		if ($type == 'grafik-RP-APBD') 
+		{
 			$data = $this->keuangan_model->rp_apbd($smt, $thn);
 			$jenisbelanja = array();
-			foreach ($data['jenis_belanja'] as $j) {
+			foreach ($data['jenis_belanja'] as $j) 
+			{
 				$jenisbelanja[] = "'". $j['Nama_Akun']. "'";
 			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $p) {
+			foreach ($data['anggaran'] as $p) 
+			{
 				$anggaran[] = $p['AnggaranStlhPAK'];
 			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $s) { 
-				if(!empty($s['Nilai']) || !is_null($s['Nilai'])){ 
+			foreach ($data['realisasi'] as $s) 
+			{ 
+				if(!empty($s['Nilai']) || !is_null($s['Nilai']))
+				{ 
 					$realisasi[] =  $s['Nilai']; 
-				}else{ 
+				}
+				else
+				{ 
 					$realisasi[] =  0; 
 				}
 			}
@@ -518,21 +525,29 @@ class First extends Web_Controller {
 			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		} elseif ($type == 'grafik-R-PD') {
+		} 
+		elseif ($type == 'grafik-R-PD') 
+		{
 			$data = $this->keuangan_model->r_pd($smt, $thn);
 			$jp = array();
-			foreach ($data['jenis_pendapatan'] as $b) {
+			foreach ($data['jenis_pendapatan'] as $b) 
+			{
 				$jp[] = "'". $b['Nama_Jenis']. "'";
 			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $a) {
+			foreach ($data['anggaran'] as $a) 
+			{
 				$anggaran[] = $a['Pagu'];
 			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $r) { 
-				if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ 
+			foreach ($data['realisasi'] as $r) 
+			{ 
+				if(!empty($r['Nilai']) || !is_null($r['Nilai']))
+				{ 
 					$realisasi[] =  $r['Nilai']; 
-				}else{ 
+				}
+				else
+				{ 
 					$realisasi[] =  0; 
 				}
 			}
@@ -601,21 +616,29 @@ class First extends Web_Controller {
 			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		} elseif ($type == 'grafik-R-BD') {
+		} 
+		elseif ($type == 'grafik-R-BD') 
+		{
 			$data = $this->keuangan_model->r_bd($smt, $thn);
 			$bidang = array();
-			foreach ($data['bidang'] as $b) {
+			foreach ($data['bidang'] as $b) 
+			{
 				$bidang[] = "'". $b['Nama_Bidang']. "'";
 			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $a) {
+			foreach ($data['anggaran'] as $a) 
+			{
 				$anggaran[] = $a['Pagu'];
 			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $r) { 
-				if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ 
+			foreach ($data['realisasi'] as $r) 
+			{ 
+				if(!empty($r['Nilai']) || !is_null($r['Nilai']))
+				{ 
 					$realisasi[] =  $r['Nilai']; 
-				}else{ 
+				}
+				else
+				{ 
 					$realisasi[] =  0; 
 				}
 			}
@@ -684,21 +707,29 @@ class First extends Web_Controller {
 			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		} elseif($type == 'grafik-R-PEMDES') {
+		} 
+		elseif($type == 'grafik-R-PEMDES') 
+		{
 			$data = $this->keuangan_model->r_pembiayaan($smt, $thn);
 			$pembiayaan = array();
-			foreach ($data['pembiayaan'] as $d) {
+			foreach ($data['pembiayaan'] as $d) 
+			{
 				$pembiayaan[] = "'". $d['Nama_Kelompok']. "'";
 			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $a) {
+			foreach ($data['anggaran'] as $a) 
+			{
 				$anggaran[] = $a['Pagu'];
 			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $r) { 
-				if(!empty($r['Nilai']) || !is_null($r['Nilai'])){ 
+			foreach ($data['realisasi'] as $r) 
+			{ 
+				if(!empty($r['Nilai']) || !is_null($r['Nilai']))
+				{ 
 					$realisasi[] =  $r['Nilai']; 
-				}else{ 
+				}
+				else
+				{ 
 					$realisasi[] =  0; 
 				}
 			}
@@ -767,26 +798,31 @@ class First extends Web_Controller {
 			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		} elseif($type == 'lap-RP-APBD') {
+		} 
+		elseif($type == 'lap-RP-APBD') 
+		{
 			$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "'>" ."</div>".
 			// "<style>.table, th, td {border: 1px solid black;}</style>".
 			"<table class='table' width='100%'>".
 			"<tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr>";
-			foreach ($data['laporan'] as $l) {
+			foreach ($data['laporan'] as $l) 
+			{
 				$i=0;
 				"<tr>".
 				"<td colspan='3'>".$l['Nama_Akun']."</td>".
 				"<td align='right'>".number_format($l['anggaran'][0]['pagu'])."</td>".
 				"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>";
-				foreach ($l['sub_pendapatan'] as $s) {
+				foreach ($l['sub_pendapatan'] as $s) 
+				{
 					$j=0;
 						"<tr>".
 						"<td>".$i++."</td><td colspan='2'>".$s['Nama_Kelompok']."</td>".
 						"<td align='right'>".number_format($s['anggaran'][0]['pagu'])."</td>".
 						"<td align='right'>".number_format($s['realisasi'][0]['realisasi'])."</td>".
 						"</tr>";
-						foreach ($s['sub_pendapatan2'] as $q) {
+						foreach ($s['sub_pendapatan2'] as $q) 
+						{
 							echo "<tr>".
 							"<td></td><td>".$j++."</td>".
 							"<td>".$q['Nama_Jenis']."</td>".
@@ -799,8 +835,7 @@ class First extends Web_Controller {
 				"</tr>";
 				$i++;
 			}
-			"</table>";
-			
+			"</table>";			
 		}
 	}
 
@@ -809,7 +844,7 @@ class First extends Web_Controller {
 		$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
 		$json = json_encode($data['laporan']);
 		echo "<script src='https://code.jquery.com/jquery-3.4.1.js' integrity='sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=' crossorigin='anonymous'></script>".
-			"<table class='table' width='100%'><thead><tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr></thead><tbody id='table-" . $smt . "-" . $thn . "'></tbody>".
+			"<table class='table' border='1' width='100%'><thead><tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr></thead><tbody id='table-" . $smt . "-" . $thn . "'></tbody>".
 			"<script type=\"text/javascript\">".
 				"$(document).ready(function (){".
 					"var html='';".
@@ -817,16 +852,22 @@ class First extends Web_Controller {
 					"var data=" . $json .";".
 					"for(i=0; i<data.length; i++){
 						html += '<tr>'+
-								'<td>'+data.[i].Nama_Akun+'</td>'+
-								'<td>'+data.[i].anggaran[0].pagu+'</td>'+
-								'<td>'+data.[i].realisasi[0].realisasi+'</td>'+
+								'<td colspan=3>'+data[i].Nama_Akun+'</td>'+
+								'<td>'+data[i].anggaran[0].pagu+'</td>'+
+								'<td>'+data[i].realisasi[0].realisasi+'</td>'+
 								'</tr>';					
-					}".
-					"$('#table-" . $smt . "-" . $thn . "').append(table);".
+					};".
+					"$('#table-" . $smt . "-" . $thn . "').html(html);".
 				"});".
 			"</script>";
 
 		// echo $json;
 
+	}
+
+	public function tes($smt, $thn)
+	{
+		$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
+		print_r($data);
 	}
 }
