@@ -384,12 +384,28 @@ class Keuangan_model extends CI_model {
     $i=0;
     foreach ($data['laporan'] as $p) 
     {
+      $data['laporan'][$i]['total_anggaran'] = $this->total_anggaran($thn);
+      $data['laporan'][$i]['total_realisasi'] = $this->total_realisasi($thn);
       $data['laporan'][$i]['anggaran'] = $this->pagu_akun($p['Akun'], $thn);
       $data['laporan'][$i]['realisasi'] = $this->real_akun($p['Akun'], $thn);
       $data['laporan'][$i]['sub_pendapatan'] = $this->getSubVal($p['Akun'], $thn);
       $i++;
     }
     return $data;
+  }
+
+  private function total_anggaran($thn)
+  {
+    $this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(AnggaranStlhPAK) AS pagu');
+    $this->db->where('Tahun', $thn);
+    return $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
+  }
+
+  private function total_realisasi($thn)
+  {
+    $this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(Nilai) AS realisasi');
+    $this->db->where('Tahun', $thn);
+    return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
 
   private function pagu_akun($akun, $thn)

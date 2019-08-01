@@ -802,29 +802,70 @@ class First extends Web_Controller {
 		elseif($type == 'lap-RP-APBD') 
 		{
 			$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
-			return "<div id='" . $type . "-" . $smt . "-" . $thn . "'>" ."</div>".
-			// "<style>.table, th, td {border: 1px solid black;}</style>".
-			"<table class='table' width='100%'>".
-			"<tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr>";
+			ob_start();
+			echo "<style>
+					table.blueTable {
+					  border: 1px solid #1C6EA4;
+					  background-color: #EEEEEE;
+					  width: 100%;
+					  text-align: left;
+					  border-collapse: collapse;
+					}
+					table.blueTable td, table.blueTable th {
+					  border: 1px solid #AAAAAA;
+					  padding: 3px 2px;
+					}
+					table.blueTable tbody td {
+					  font-size: 13px;
+					}
+					table.blueTable tr:nth-child(even) {
+					  background: #D0E4F5;
+					}
+					table.blueTable thead {
+					  background: #1C6EA4;
+					  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+					  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+					  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+					  border-bottom: 2px solid #444444;
+					}
+					table.blueTable thead th {
+					  font-size: 15px;
+					  font-weight: bold;
+					  color: #FFFFFF;
+					  text-align: center;
+					  border-left: 2px solid #D0E4F5;
+					}
+					table.blueTable thead th:first-child {
+					  border-left: none;
+					}
+					.bold{
+						font-weight: bold;
+					}
+					.highlighted{
+						background-color: #FFFF00
+					}
+					</style>".
+			"<table class='blueTable' width='100%'>".
+			"<thead><tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr></thead>";
 			foreach ($data['laporan'] as $l) 
 			{
 				$i=0;
-				"<tr>".
+				echo "<tr class='bold highlighted'>".
 				"<td colspan='3'>".$l['Nama_Akun']."</td>".
 				"<td align='right'>".number_format($l['anggaran'][0]['pagu'])."</td>".
 				"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>";
 				foreach ($l['sub_pendapatan'] as $s) 
 				{
 					$j=0;
-						"<tr>".
-						"<td>".$i++."</td><td colspan='2'>".$s['Nama_Kelompok']."</td>".
+						echo "<tr class='bold highlighted'>".
+						"<td></td><td colspan='2'>".$s['Nama_Kelompok']."</td>".
 						"<td align='right'>".number_format($s['anggaran'][0]['pagu'])."</td>".
 						"<td align='right'>".number_format($s['realisasi'][0]['realisasi'])."</td>".
 						"</tr>";
 						foreach ($s['sub_pendapatan2'] as $q) 
 						{
 							echo "<tr>".
-							"<td></td><td>".$j++."</td>".
+							"<td></td><td></td>".
 							"<td>".$q['Nama_Jenis']."</td>".
 							"<td align='right'>".number_format($q['anggaran'][0]['pagu'])."</td>".
 							"<td align='right'>".number_format($q['realisasi'][0]['realisasi'])."</td>".
@@ -832,42 +873,13 @@ class First extends Web_Controller {
 						};
 						$j++;
 				};			
-				"</tr>";
+				echo "</tr>";
 				$i++;
 			}
-			"</table>";			
+			echo "<tr class='bold highlighted'><td colspan='3'>TOTAL</td><td align='right'>".number_format($data['laporan'][0]['total_anggaran'][0]['pagu'])."</td><td align='right'>".number_format($data['laporan'][0]['total_realisasi'][0]['realisasi'])."</td></tr>".
+			"</table>";
+			$output = ob_get_clean();
+			return $output;			
 		}
-	}
-
-	public function laporan($smt, $thn)
-	{
-		$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
-		$json = json_encode($data['laporan']);
-		echo "<script src='https://code.jquery.com/jquery-3.4.1.js' integrity='sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=' crossorigin='anonymous'></script>".
-			"<table class='table' border='1' width='100%'><thead><tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr></thead><tbody id='table-" . $smt . "-" . $thn . "'></tbody>".
-			"<script type=\"text/javascript\">".
-				"$(document).ready(function (){".
-					"var html='';".
-					"var i;".
-					"var data=" . $json .";".
-					"for(i=0; i<data.length; i++){
-						html += '<tr>'+
-								'<td colspan=3>'+data[i].Nama_Akun+'</td>'+
-								'<td>'+data[i].anggaran[0].pagu+'</td>'+
-								'<td>'+data[i].realisasi[0].realisasi+'</td>'+
-								'</tr>';					
-					};".
-					"$('#table-" . $smt . "-" . $thn . "').html(html);".
-				"});".
-			"</script>";
-
-		// echo $json;
-
-	}
-
-	public function tes($smt, $thn)
-	{
-		$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
-		print_r($data);
 	}
 }
