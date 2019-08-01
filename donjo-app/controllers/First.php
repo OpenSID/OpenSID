@@ -846,14 +846,16 @@ class First extends Web_Controller {
 					}
 					</style>".
 			"<table class='blueTable' width='100%'>".
-			"<thead><tr><th colspan='3'>Uraian</th><th>Pagu</th><th>Realisasi</th></tr></thead>";
+			"<thead><tr><th colspan='3'>Uraian</th><th>Anggaran</th><th>Realisasi</th><th>Sisa Anggaran</th><th>Persentase (%)</th></tr></thead>";
 			foreach ($data['laporan'] as $l) 
 			{
 				$i=0;
 				echo "<tr class='bold highlighted'>".
 				"<td colspan='3'>".$l['Nama_Akun']."</td>".
 				"<td align='right'>".number_format($l['anggaran'][0]['pagu'])."</td>".
-				"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>";
+				"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>".
+				"<td align='right'>".number_format($l['anggaran'][0]['pagu'] - $l['realisasi'][0]['realisasi'])."</td>".
+				"<td align='right'>".number_format($l['realisasi'][0]['realisasi']/$l['anggaran'][0]['pagu']*100, 2)."</td>";
 				foreach ($l['sub_pendapatan'] as $s) 
 				{
 					$j=0;
@@ -861,6 +863,8 @@ class First extends Web_Controller {
 						"<td></td><td colspan='2'>".$s['Nama_Kelompok']."</td>".
 						"<td align='right'>".number_format($s['anggaran'][0]['pagu'])."</td>".
 						"<td align='right'>".number_format($s['realisasi'][0]['realisasi'])."</td>".
+						"<td align='right'>".number_format($s['anggaran'][0]['pagu']-$s['realisasi'][0]['realisasi'])."</td>".
+						"<td align='right'>".number_format($s['realisasi'][0]['realisasi']/$s['anggaran'][0]['pagu']*100, 2)."</td>".
 						"</tr>";
 						foreach ($s['sub_pendapatan2'] as $q) 
 						{
@@ -869,6 +873,8 @@ class First extends Web_Controller {
 							"<td>".$q['Nama_Jenis']."</td>".
 							"<td align='right'>".number_format($q['anggaran'][0]['pagu'])."</td>".
 							"<td align='right'>".number_format($q['realisasi'][0]['realisasi'])."</td>".
+							"<td align='right'>".number_format($q['anggaran'][0]['pagu']-$q['realisasi'][0]['realisasi'])."</td>".
+							"<td align='right'>".number_format($q['realisasi'][0]['realisasi']/$q['anggaran'][0]['pagu']*100, 2)."</td>".
 							"</tr>";
 						};
 						$j++;
@@ -876,7 +882,7 @@ class First extends Web_Controller {
 				echo "</tr>";
 				$i++;
 			}
-			echo "<tr class='bold highlighted'><td colspan='3'>TOTAL</td><td align='right'>".number_format($data['laporan'][0]['total_anggaran'][0]['pagu'])."</td><td align='right'>".number_format($data['laporan'][0]['total_realisasi'][0]['realisasi'])."</td></tr>".
+			echo "<tr class='bold highlighted'><td colspan='3' align='center'>TOTAL</td><td align='right'>".number_format($data['laporan'][0]['total_anggaran'][0]['pagu'])."</td><td align='right'>".number_format($data['laporan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['laporan'][0]['total_anggaran'][0]['pagu']-$data['laporan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['laporan'][0]['total_realisasi'][0]['realisasi']/$data['laporan'][0]['total_anggaran'][0]['pagu']*100, 2)."</td></tr>".
 			"</table>";
 			$output = ob_get_clean();
 			return $output;			
