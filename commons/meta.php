@@ -8,7 +8,7 @@
 <meta name='theme' content='Natra' />
 <meta name='designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:designer' content='Ariandi Ryan Kahfi, S.Pd.' />
-<meta name='theme:version' content='4.1' />
+<meta name='theme:version' content='4.1.08' />
 <meta name="keywords" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>" />
 <meta property="og:site_name" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 <meta property="og:type" content="article"/>
@@ -22,11 +22,11 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
 		. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '');
 ?></title>
 
-<link rel="apple-touch-icon" sizes="144x144" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-144x144.png") ?>" />
-<link rel="apple-touch-icon" sizes="114x114" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-114x114.png") ?>" />
-<link rel="apple-touch-icon" sizes="72x72" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-72x72.png") ?>" />
-<link rel="apple-touch-icon" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon.png"); ?>" />
-<link rel="shortcut icon" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/favicon.png") ?>" />
+<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
+<?php else: ?>
+<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
+<?php endif; ?>
 
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/bootstrap.min.css"); ?>">
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/font-awesome.min.css"); ?>">
