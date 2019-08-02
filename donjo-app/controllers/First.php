@@ -846,12 +846,12 @@ class First extends Web_Controller {
 					}
 					</style>".
 			"<table class='blueTable' width='100%'>".
-			"<thead><tr><th colspan='3'>Uraian</th><th>Anggaran</th><th>Realisasi</th><th>Sisa Anggaran</th><th>Persentase (%)</th></tr></thead>";
-			foreach ($data['laporan'] as $l) 
+			"<thead><tr><th colspan='5'>Uraian</th><th>Anggaran</th><th>Realisasi</th><th>Sisa Anggaran</th><th>Persentase (%)</th></tr></thead>";
+			foreach ($data['pendapatan'] as $l) 
 			{
 				$i=0;
 				echo "<tr class='bold highlighted'>".
-				"<td colspan='3'>".$l['Nama_Akun']."</td>".
+				"<td colspan='5'>".$l['Akun']." ".$l['Nama_Akun']."</td>".
 				"<td align='right'>".number_format($l['anggaran'][0]['pagu'])."</td>".
 				"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>".
 				"<td align='right'>".number_format($l['anggaran'][0]['pagu'] - $l['realisasi'][0]['realisasi'])."</td>".
@@ -859,33 +859,87 @@ class First extends Web_Controller {
 				foreach ($l['sub_pendapatan'] as $s) 
 				{
 					$j=0;
-						echo "<tr class='bold highlighted'>".
-						"<td></td><td colspan='2'>".$s['Nama_Kelompok']."</td>".
-						"<td align='right'>".number_format($s['anggaran'][0]['pagu'])."</td>".
-						"<td align='right'>".number_format($s['realisasi'][0]['realisasi'])."</td>".
-						"<td align='right'>".number_format($s['anggaran'][0]['pagu']-$s['realisasi'][0]['realisasi'])."</td>".
-						"<td align='right'>".number_format($s['realisasi'][0]['realisasi']/$s['anggaran'][0]['pagu']*100, 2)."</td>".
+					echo "<tr class='bold'>".
+					"<td>".$s['Kelompok']."</td><td colspan='4'>".$s['Nama_Kelompok']."</td>".
+					"<td align='right'>".number_format($s['anggaran'][0]['pagu'])."</td>".
+					"<td align='right'>".number_format($s['realisasi'][0]['realisasi'])."</td>".
+					"<td align='right'>".number_format($s['anggaran'][0]['pagu']-$s['realisasi'][0]['realisasi'])."</td>".
+					"<td align='right'>".number_format($s['realisasi'][0]['realisasi']/$s['anggaran'][0]['pagu']*100, 2)."</td>".
+					"</tr>";
+					foreach ($s['sub_pendapatan2'] as $q) 
+					{
+						echo "<tr>".
+						"<td></td><td colspan='3'>".$q['Jenis']."</td>".
+						"<td>".$q['Nama_Jenis']."</td>".
+						"<td align='right'>".number_format($q['anggaran'][0]['pagu'])."</td>".
+						"<td align='right'>".number_format($q['realisasi'][0]['realisasi'])."</td>".
+						"<td align='right'>".number_format($q['anggaran'][0]['pagu']-$q['realisasi'][0]['realisasi'])."</td>".
+						"<td align='right'>".number_format($q['realisasi'][0]['realisasi']/$q['anggaran'][0]['pagu']*100, 2)."</td>".
 						"</tr>";
-						foreach ($s['sub_pendapatan2'] as $q) 
-						{
-							echo "<tr>".
-							"<td></td><td></td>".
-							"<td>".$q['Nama_Jenis']."</td>".
-							"<td align='right'>".number_format($q['anggaran'][0]['pagu'])."</td>".
-							"<td align='right'>".number_format($q['realisasi'][0]['realisasi'])."</td>".
-							"<td align='right'>".number_format($q['anggaran'][0]['pagu']-$q['realisasi'][0]['realisasi'])."</td>".
-							"<td align='right'>".number_format($q['realisasi'][0]['realisasi']/$q['anggaran'][0]['pagu']*100, 2)."</td>".
-							"</tr>";
-						};
-						$j++;
+					};
+					$j++;
 				};			
 				echo "</tr>";
 				$i++;
 			}
-			echo "<tr class='bold highlighted'><td colspan='3' align='center'>TOTAL</td><td align='right'>".number_format($data['laporan'][0]['total_anggaran'][0]['pagu'])."</td><td align='right'>".number_format($data['laporan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['laporan'][0]['total_anggaran'][0]['pagu']-$data['laporan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['laporan'][0]['total_realisasi'][0]['realisasi']/$data['laporan'][0]['total_anggaran'][0]['pagu']*100, 2)."</td></tr>".
+			foreach ($data['belanja'] as $b) 
+			{
+				$k=0;
+				echo "<tr class='bold highlighted'>".
+				"<td colspan='5'>".$b['Akun']." ".$b['Nama_Akun']."</td>".
+				"<td align='right'>".number_format($b['anggaran'][0]['pagu'])."</td>".
+				"<td align='right'>".number_format($b['realisasi'][0]['realisasi'])."</td>".
+				"<td align='right'>".number_format($b['anggaran'][0]['pagu'] - $b['realisasi'][0]['realisasi'])."</td>".
+				"<td align='right'>".number_format($b['realisasi'][0]['realisasi']/$b['anggaran'][0]['pagu']*100, 2)."</td>";
+				foreach ($b['sub_belanja'] as $sb) 
+				{
+					$l=0;
+					echo "<tr class='bold'>".
+					"<td align='right'>".substr($sb['Kd_Bid'], 6)."."."</td><td colspan='4'>".$sb['Nama_Bidang']."</td>".
+					"<td align='right'>".number_format($sb['anggaran'][0]['pagu'])."</td>".
+					"<td align='right'>".number_format($sb['realisasi'][0]['realisasi'])."</td>".
+					"<td align='right'>".number_format($sb['anggaran'][0]['pagu']-$sb['realisasi'][0]['realisasi'])."</td>".
+					"<td align='right'>".number_format($sb['realisasi'][0]['realisasi']/$sb['anggaran'][0]['pagu']*100, 2)."</td>".
+					"</tr>";
+					$l++;
+					foreach ($sb['sub_belanja2'] as $sb2) 
+					{
+						$l=0;
+						echo "<tr class='bold'>".
+						"<td></td><td align='right'>".substr($sb2['Kd_Keg'], 6)."</td><td colspan='3'>".$sb2['Nama_Kegiatan']."</td>".
+						"<td align='right'>".number_format($sb2['anggaran'][0]['pagu'])."</td>".
+						"<td align='right'>".number_format($sb2['realisasi'][0]['realisasi'])."</td>".
+						"<td align='right'>".number_format($sb2['anggaran'][0]['pagu']-$sb2['realisasi'][0]['realisasi'])."</td>".
+						"<td align='right'>".number_format($sb2['realisasi'][0]['realisasi']/$sb2['anggaran'][0]['pagu']*100, 2)."</td>".
+						"</tr>";
+						$l++;
+						foreach ($sb2['sub_belanja3'] as $sb3) 
+						{
+							$m=0;
+							echo "<tr class=''>".
+							"<td></td><td></td><td align='right'>".$sb3['Jenis']."</td><td colspan='2'>".$sb3['Nama_Jenis']."</td>".
+							"<td align='right'>".number_format($sb3['anggaran'][0]['pagu'])."</td>".
+							"<td align='right'>".number_format($sb3['realisasi'][0]['realisasi'])."</td>".
+							"<td align='right'>".number_format($sb3['anggaran'][0]['pagu']-$sb3['realisasi'][0]['realisasi'])."</td>".
+							"<td align='right'>".number_format($sb3['realisasi'][0]['realisasi']/$sb3['anggaran'][0]['pagu']*100, 2)."</td>".
+							"</tr>";
+							$m++;
+						};
+					};
+				};
+				echo "</tr>";
+				$k++;
+			}
+			echo "<tr class='bold highlighted'><td colspan='5' align='center'>TOTAL</td><td align='right'>".number_format($data['pendapatan'][0]['total_anggaran'][0]['pagu'])."</td><td align='right'>".number_format($data['pendapatan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['pendapatan'][0]['total_anggaran'][0]['pagu']-$data['pendapatan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['pendapatan'][0]['total_realisasi'][0]['realisasi']/$data['pendapatan'][0]['total_anggaran'][0]['pagu']*100, 2)."</td></tr>".
 			"</table>";
 			$output = ob_get_clean();
 			return $output;			
 		}
+	}
+
+	public function tes($smt, $thn)
+	{
+		$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
+		print_r($data);
 	}
 }
