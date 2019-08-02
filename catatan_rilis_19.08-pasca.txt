@@ -6,6 +6,7 @@ Lengkapnya, isi rilis versi 19.08-pasca:
 
 1. #2174: Sekarang lokasi tempat tinggal penduduk di peta defaultnya ke lokasi kantor desa.
 2. #2160: Sekarang persentase KK di statistik program bantuan sasaran keluarga berdasarkan KK Aktif saja. [bug-fix]
+3. #2116: Sekarang form biodata dan form isian penduduk yang anggota KK tidak lagi menampilkan kolom isian 'Alamat Sekarang'.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
