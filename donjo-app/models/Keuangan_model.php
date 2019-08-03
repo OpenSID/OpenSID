@@ -258,23 +258,82 @@ class Keuangan_model extends CI_model {
 
 	public function widget_keuangan()
 	{
-		$this->db->where('aktif', 1);
-		$keuangan_master = $this->db->select('*')->get('keuangan_master')->row();
+		//Fetch seluruh tahun yang memungkinkan
+    $this->db->select('tahun_anggaran');
+    $data = $this->db->get('keuangan_master')->result_array();
 
-		$this->db->select_sum('AnggaranStlhPAK');
-		$this->db->where('id_keuangan_master', $keuangan_master->id);
-		$this->db->like('KD_Rincian', '4.1.', 'after');
-		$pendapatan_desa = $this->db->get('keuangan_ta_anggaran')->row();
+    //Loop tahun dan dapatkan array masing-masing
+    foreach ($data as $subdata) {
+      $tahun = $subdata['tahun_anggaran'];
 
-		$this->db->select_sum('AnggaranStlhPAK');
-		$this->db->where('id_keuangan_master', $keuangan_master->id);
-		$this->db->like('Kd_Rincian', '4.1.', 'after');
-		$realisasi_pendapatan_desa = $this->db->get('keuangan_ta_rab')->row();
+      //Realisasi Pelaksanaan APBD
+      $raw_data = $this->rp_apbd('1', $tahun);
+      
+      $res_pelaksanaan = array();
+      $nama = array(
+        'PENDAPATAN' => '(PA) Pendapatan Desa',
+        'BELANJA' => '(PA) Belanja Desa', 
+        'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
+      );
+      for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++) { 
+        $row = array(
+          'nama' => $nama[$raw_data['jenis_belanja'][$i]['Nama_Akun']],
+          'anggaran' => $raw_data['anggaran'][$i]['AnggaranStlhPAK'],
+          'realisasi' => $raw_data['realisasi'][$i]['Nilai'],
+        );
+        array_push($res_pelaksanaan, $row);
+      }
 
-		$data['realisasi_pendapatan_desa'] = $realisasi_pendapatan_desa->AnggaranStlhPAK;
-		$data['pendapatan_desa'] = $pendapatan_desa->AnggaranStlhPAK;
-		$data['tahun_anggaran'] = $keuangan_master->tahun_anggaran;
-		return $data;
+      //Pendapatan APBD
+      $raw_data = $this->r_pd('1', $tahun);
+      $res_pendapatan = array();
+      $tmp_pendapatan = array();
+      foreach ($raw_data['jenis_pendapatan'] as $r){
+        $tmp_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
+      }
+
+      foreach ($raw_data['anggaran'] as $r) {
+        $tmp_pendapatan[$r['jenis_pendapatan']]['anggaran'] = $r['Pagu'];
+      }
+
+      foreach ($raw_data['realisasi'] as $r) {
+        $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = $r['Pagu'];
+      }
+
+      foreach ($tmp_pendapatan as $key => $value){
+        array_push($res_pendapatan, $value);
+      }
+
+      //Belanja APBD
+      $raw_data = $this->r_bd('1', $tahun);
+      $res_belanja = array();
+      $tmp_belanja = array();
+      foreach ($raw_data['bidang'] as $r){
+        $tmp_belanja[$r['Kd_Bid']]['nama'] = $r['Nama_Bidang'];
+      }
+
+      foreach ($raw_data['anggaran'] as $r) {
+        $tmp_belanja[$r['Kd_Bid']]['anggaran'] = $r['Pagu'];
+      }
+
+      foreach ($raw_data['realisasi'] as $r) {
+        $tmp_belanja[$r['Kd_Bid']]['realisasi'] = $r['Nilai'];
+      }
+
+      foreach ($tmp_belanja as $key => $value){
+        array_push($res_belanja, $value);
+      }
+
+      //Satukan result dalam satu array
+      $res[$tahun]['res_pelaksanaan'] = $res_pelaksanaan;
+      $res[$tahun]['res_pendapatan'] = $res_pendapatan;
+      $res[$tahun]['res_belanja'] = $res_belanja;
+    }
+    //Encode ke JSON
+
+    $result = json_encode($res);
+    var_dump($result);
+    return $result;
 	}
 
   // Post Format Transparansi Anggaran Data
@@ -374,6 +433,7 @@ class Keuangan_model extends CI_model {
 
     return $data;
   }
+
 
   //Query Laporan Pelaksanaan Realisasi
   public function lap_rp_apbd($smt, $thn)

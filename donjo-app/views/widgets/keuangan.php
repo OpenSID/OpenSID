@@ -9,11 +9,11 @@
     padding-bottom: 16px;
   }
 
-  .highcharts-subtitle {
+  .graph-sub {
     font-family: 'Courier New', monospace;
     /*font-style: italic;*/
     font-size: 10px;
-    padding-bottom: 20px;
+    /*padding-bottom: 40px;*/
     /*fill: #000;*/
   }
 
@@ -30,6 +30,14 @@
     font-size: 12px;
     margin-bottom: 20px;
   }
+
+  #graph-container{
+    /*background-color: #999*/
+  }
+
+  .graph{
+    height: 100px;
+  }
 </style>
 <div class="box box-info box-solid">
   <div class="box-header">
@@ -42,160 +50,71 @@
           &#x25bc;
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
-          <li><a class="dropdown-item" onclick="displayPelaksanaan()">Realisasi Pelaksanaan APBDesa</a></li>
-          <li><a class="dropdown-item" onclick="displayPendapatan()">Realisasi Pendapatan Desa</a></li>
-          <li><a class="dropdown-item" onclick="displayBelanja()">Realisasi Belanja Desa</a></li>
+          <li><a class="dropdown-item" onclick="displayChart('2016', 'pelaksanaan')">Realisasi Pelaksanaan APBDesa</a></li>
+          <li><a class="dropdown-item" onclick="displayChart('2016', 'pendapatan')">Realisasi Pendapatan Desa</a></li>
+          <li><a class="dropdown-item" onclick="displayChart('2016', 'belanja')">Realisasi Belanja Desa</a></li>
         </ul>
       </div>
       <h3></h3>
-      <p>Tahun 2016 Semester 1</p>
-      <!-- <div class="col-md-12 keuangan-selector" style="text-align: center; padding-bottom: 20px">
+      <p></p>
+      <div class="col-md-12 keuangan-selector" style="text-align: center; padding-bottom: 20px">
         Data tahun <select id="keuangan-selector">
-          <option value="2016">2016</option>
-          <option value="2017">2017</option>
+          <option value="2016-1">Tahun 2016</option>
+          <option value="2016-2">Tahun 2016</option>
         </select>
-      </div> -->
+      </div>
       <div id="graph-container">
       </div>
     </div>
   </div>
 </div>
 
-<?php
-  //Realisasi Pelaksanaan APBD
-  $raw_data = $this->keuangan_model->rp_apbd('1', '2016');
-  
-  $res_pelaksanaan = array();
-  $nama = array(
-    'PENDAPATAN' => '(PA) Pendapatan Desa',
-    'BELANJA' => '(PA) Belanja Desa', 
-    'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
-  );
-  for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++) { 
-    $row = array(
-      'jenis_belanja' => $raw_data['jenis_belanja'][$i]['Nama_Akun'],
-      'anggaran' => $raw_data['anggaran'][$i]['AnggaranStlhPAK'],
-      'realisasi' => $raw_data['realisasi'][$i]['Nilai'],
-    );
-    array_push($res_pelaksanaan, $row);
-  }
-
-  //Pendapatan APBD
-  $raw_data = $this->keuangan_model->r_pd('1', '2016');
-  $res_pendapatan = array();
-  foreach ($raw_data['jenis_pendapatan'] as $r){
-    $res_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
-  }
-
-  foreach ($raw_data['anggaran'] as $r) {
-    $res_pendapatan[$r['jenis_pendapatan']]['anggaran'] = $r['Pagu'];
-  }
-
-  foreach ($raw_data['realisasi'] as $r) {
-    $res_pendapatan[$r['jenis_pendapatan']]['realisasi'] = $r['Pagu'];
-  }
-
-  //Belanja APBD
-  $raw_data = $this->keuangan_model->r_bd('1', '2016');
-  $res_belanja = array();
-  foreach ($raw_data['bidang'] as $r){
-    $res_belanja[$r['Kd_Bid']]['nama'] = $r['Nama_Bidang'];
-  }
-
-  foreach ($raw_data['anggaran'] as $r) {
-    $res_belanja[$r['Kd_Bid']]['anggaran'] = $r['Pagu'];
-  }
-
-  foreach ($raw_data['realisasi'] as $r) {
-    $res_belanja[$r['Kd_Bid']]['realisasi'] = $r['Nilai'];
-  }
-?>
-
 <script type="text/javascript">
-  function displayPelaksanaan(){
+  var rawData = <?= $widget_keuangan; ?>;
+  function displayChart(tahun, tipe){
     resetContainer();
-    $("#widget-keuangan-container h3").text("Realisasi Pelaksanaan APBDesa");
-    <?php $i = 0; foreach ($res_pelaksanaan as $data):?>
-      $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
-      Highcharts.chart('graph-<?= $i ?>', {
+    switch(tipe){
+      case "pelaksanaan":
+        var judulGrafik = 'Realisasi Pelaksanaan APBDesa';
+        var tipeGrafik = 'res_pelaksanaan';
+        break;
+
+      case "belanja":
+        var judulGrafik = 'Realisasi Belanja Desa';
+        var tipeGrafik = 'res_belanja';
+        break;
+
+      case "pendapatan":
+        var judulGrafik = 'Realisasi Pendapatan Desa';
+        var tipeGrafik = 'res_pendapatan';
+        break;
+    }
+    var chartData = rawData[tahun][tipeGrafik];
+    $("#widget-keuangan-container h3").text(judulGrafik);
+    //Eksekusi chart dengan for loop
+    chartData.forEach(function(subData, idx){
+      // var chartOption = option(subData['anggaran'], subData['realisasi']);
+      $("#graph-container").append(
+          "<div class='graph-sub'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"'></div>");
+      Highcharts.chart("graph-"+ idx, {
           chart: {
               type: 'bar',
               margin: 0,
-              height: 140
+              height: 90,
+              backgroundColor: "rgba(0,0,0,0)",
           },
           title: {
               text: ''
           },
           subtitle: {
-            text: '<?= $nama[$data['jenis_belanja']] ?>',
-            y: 4,
-            style: {"color" : "#000"},
-          },
-
-          xAxis: {
-              visible: false,
-              categories: ['<?= $nama[$data['jenis_belanja']] ?>'],
-          },
-          tooltip: {
-              valueSuffix: ''
-          },
-          plotOptions: {
-              bar: {
-                  dataLabels: {
-                      enabled: true
-                  }
-              }
-          },
-          credits: {
-            enabled: false
-          },
-          yAxis: {
-            visible: false
-          },
-          exporting: {
-            enabled: false
-          },
-          legend: {
-            enabled: false
-          },
-          series: [{
-              name: 'Anggaran',
-              color: '#2E8B57',
-              data: [<?= $data['anggaran'] ? $data['anggaran'] : 0 ?>]
-              // data: 100,
-          }, {
-              name: 'Realisasi',
-              color: '#FFD700',
-              data: [<?= $data['realisasi'] ? $data['realisasi'] : 0 ?>],
-              // data: 200,
-          }]
-      });
-    <?php $i++; endforeach; ?>
-  }
-
-  function displayPendapatan() {
-    resetContainer();
-    $("#widget-keuangan-container h3").text("Realisasi Pendapatan Desa");
-    <?php $i = 0; foreach ($res_pendapatan as $data):?>
-      $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
-      Highcharts.chart('graph-<?= $i ?>', {
-          chart: {
-              type: 'bar',
-              margin: 0,
-              height: 120
-          },
-          title: {
-              text: ''
-          },
-          subtitle: {
-            text: '<?= $data['nama'] ?>',
             y: -2,
             style: {"color" : "#000"},
+            text: '',
           },
 
           xAxis: {
               visible: false,
-              categories: ['<?= $data['nama'] ?>'],
+              categories: [''],
           },
           tooltip: {
               valueSuffix: ''
@@ -222,75 +141,14 @@
           series: [{
               name: 'Anggaran',
               color: '#2E8B57',
-              data: [<?= $data['anggaran'] ? $data['anggaran'] : 0 ?>]
-              // data: 100,
+              data: [parseInt(subData['anggaran'])],
           }, {
               name: 'Realisasi',
               color: '#FFD700',
-              data: [<?= $data['realisasi'] ? $data['realisasi'] : 0 ?>],
-              // data: 200,
+              data: [parseInt(subData['realisasi'])],
           }]
       });
-    <?php $i++; endforeach; ?>
-  }
-
-  function displayBelanja(){
-    resetContainer();
-    $("#widget-keuangan-container h3").text("Realisasi Belanja Desa");
-    <?php $i = 0; foreach ($res_belanja as $data):?>
-      $("#graph-container").append("<div id='graph-<?= $i ?>'></div>");
-      Highcharts.chart('graph-<?= $i ?>', {
-          chart: {
-              type: 'bar',
-              margin: 0,
-              height: 120
-          },
-          title: {
-              text: ''
-          },
-          subtitle: {
-            text: '<?= $data['nama'] ?>',
-            y: -2,
-            style: {"color" : "#000"},
-          },
-
-          xAxis: {
-              visible: false,
-              categories: ['<?= $data['nama'] ?>'],
-          },
-          tooltip: {
-              valueSuffix: ''
-          },
-          plotOptions: {
-              bar: {
-                  dataLabels: {
-                      enabled: true
-                  }
-              }
-          },
-          credits: {
-            enabled: false
-          },
-          yAxis: {
-            visible: false
-          },
-          exporting: {
-            enabled: false
-          },
-          legend: {
-            enabled: false
-          },
-          series: [{
-              name: 'Anggaran',
-              color: '#2E8B57',
-              data: [<?= $data['anggaran'] ? $data['anggaran'] : 0 ?>],
-          }, {
-              name: 'Realisasi',
-              color: '#FFD700',
-              data: [<?= $data['realisasi'] ? $data['realisasi'] : 0 ?>],
-          }]
-      });
-    <?php $i++; endforeach; ?>
+    })
   }
 
   function resetContainer(){
@@ -299,7 +157,7 @@
 
 	$(document).ready(function (){
     //Realisasi Pelaksanaan APBD
-    displayBelanja();
+    displayChart("2016", "pelaksanaan");
 	});
 </script>
 <!-- Highcharts -->
