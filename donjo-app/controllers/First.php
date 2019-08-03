@@ -846,7 +846,7 @@ class First extends Web_Controller {
 					}
 					</style>".
 			"<table class='blueTable' width='100%'>".
-			"<thead><tr><th colspan='5'>Uraian</th><th>Anggaran</th><th>Realisasi</th><th>Sisa Anggaran</th><th>Persentase (%)</th></tr></thead>";
+			"<thead><tr><th colspan='5'>Uraian</th><th>Anggaran (Rp)</th><th>Realisasi (Rp)</th><th>Sisa Anggaran (Rp)</th><th>Persentase (%)</th></tr></thead>";
 			foreach ($data['pendapatan'] as $l) 
 			{
 				$i=0;
@@ -886,11 +886,11 @@ class First extends Web_Controller {
 			{
 				$k=0;
 				echo "<tr class='bold highlighted'>".
-				"<td colspan='5'>".$b['Akun']." ".$b['Nama_Akun']."</td>".
-				"<td align='right'>".number_format($b['anggaran'][0]['pagu'])."</td>".
-				"<td align='right'>".number_format($b['realisasi'][0]['realisasi'])."</td>".
-				"<td align='right'>".number_format($b['anggaran'][0]['pagu'] - $b['realisasi'][0]['realisasi'])."</td>".
-				"<td align='right'>".number_format($b['realisasi'][0]['realisasi']/$b['anggaran'][0]['pagu']*100, 2)."</td>";
+				"<td colspan='5' class='bold highlighted'>".$b['Akun']." ".$b['Nama_Akun']."</td>".
+				"<td align='right' class='bold highlighted'>".number_format($b['anggaran'][0]['pagu'])."</td>".
+				"<td align='right' class='bold highlighted'>".number_format($b['realisasi'][0]['realisasi'])."</td>".
+				"<td align='right' class='bold highlighted'>".number_format($b['anggaran'][0]['pagu'] - $b['realisasi'][0]['realisasi'])."</td>".
+				"<td align='right' class='bold highlighted'>".number_format($b['realisasi'][0]['realisasi']/$b['anggaran'][0]['pagu']*100, 2)."</td>";
 				foreach ($b['sub_belanja'] as $sb) 
 				{
 					$l=0;

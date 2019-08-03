@@ -588,20 +588,34 @@ class Keuangan_model extends CI_model {
     $i=0;
     foreach ($data as $d) 
     {
-      $data[$i]['anggaran'] = $this->pagu_belanja3($d['Kd_Keg'], $thn);
-      // $data[$i]['realisasi'] = $this->real_belanja3($d['Jenis'], $thn);
+      $data[$i]['anggaran'] = $this->pagu_belanja3($d['Kd_Keg'], $d['Jenis'], $thn);
+      $data[$i]['realisasi'] = $this->real_belanja3($d['Kd_Keg'], $d['Jenis'], $thn);
       $i++;
     }
     return $data;
   }
 
-  public function pagu_belanja3($kd_keg, $thn)
+  public function pagu_belanja3($kd_keg, $jenis, $thn)
   {
     $this->db->select('Kd_Keg, LEFT(Kd_Rincian, 6) AS Jenis, SUM(AnggaranStlhPAK) AS pagu');
     $this->db->where('Kd_Keg', $kd_keg);
+    $this->db->like('Kd_Rincian', $jenis, 'after');
     $this->db->where('Tahun', $thn);
     $this->db->group_by('Kd_Keg');
     $this->db->group_by('Jenis');
     return $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
   }
+
+  private function real_belanja3($kd_keg, $jenis, $thn)
+  {
+    $this->db->select('Kd_Keg, LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai) AS realisasi');
+    $this->db->where('Kd_Keg', $kd_keg);
+    $this->db->like('Kd_Rincian', $jenis, 'after');
+    $this->db->where('Tahun', $thn);
+    $this->db->group_by('Kd_Keg');
+    $this->db->group_by('Jenis');
+    return $this->db->get('keuangan_ta_spj_rinci')->result_array();
+  }
+
+  
 }
