@@ -50,20 +50,27 @@
           &#x25bc;
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
-          <li><a class="dropdown-item" onclick="displayChart('2016', 'pelaksanaan')">Realisasi Pelaksanaan APBDesa</a></li>
-          <li><a class="dropdown-item" onclick="displayChart('2016', 'pendapatan')">Realisasi Pendapatan Desa</a></li>
-          <li><a class="dropdown-item" onclick="displayChart('2016', 'belanja')">Realisasi Belanja Desa</a></li>
+          <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan')">Realisasi Pelaksanaan APBDesa</a></li>
+          <li><a class="dropdown-item" onclick="gantiTipe('pendapatan')">Realisasi Pendapatan Desa</a></li>
+          <li><a class="dropdown-item" onclick="gantiTipe('belanja')">Realisasi Belanja Desa</a></li>
         </ul>
       </div>
       <h3></h3>
-      <p></p>
+      <p id="grafik-tahun"></p>
       <div class="col-md-12 keuangan-selector" style="text-align: center; padding-bottom: 20px">
         Data tahun <select id="keuangan-selector">
-          <option value="2016-1">Tahun 2016</option>
-          <option value="2016-2">Tahun 2016</option>
+          <?php 
+            foreach (json_decode($widget_keuangan) as $key => $value):
+          ?>
+          <option value="<?= $key ?>"><?= $key ?></option>
+          <?php 
+            endforeach;
+          ?>
         </select>
+<!--         <input type="hidden" value="" id="type"/>
+        <input type="hidden" value="2016" id="tahun"/> -->
       </div>
-      <div id="graph-container">
+      <div id="grafik-container">
       </div>
     </div>
   </div>
@@ -71,6 +78,7 @@
 
 <script type="text/javascript">
   var rawData = <?= $widget_keuangan; ?>;
+
   function displayChart(tahun, tipe){
     resetContainer();
     switch(tipe){
@@ -94,7 +102,7 @@
     //Eksekusi chart dengan for loop
     chartData.forEach(function(subData, idx){
       // var chartOption = option(subData['anggaran'], subData['realisasi']);
-      $("#graph-container").append(
+      $("#grafik-container").append(
           "<div class='graph-sub'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"'></div>");
       Highcharts.chart("graph-"+ idx, {
           chart: {
@@ -152,12 +160,29 @@
   }
 
   function resetContainer(){
-    $("#graph-container").html("");
+    $("#grafik-container").html("");
   }
+
+  var year = "2016";
+  var type = "pelaksanaan"
+
+  function gantiTahun(newThn){
+    year = newThn;
+    displayChart(year, type);
+  }
+
+  function gantiTipe(newType){
+    type = newType;
+    displayChart(year, type);
+  }
+
+  $("#keuangan-selector").change(function(){
+    gantiTahun($("#keuangan-selector").val());
+  })
 
 	$(document).ready(function (){
     //Realisasi Pelaksanaan APBD
-    displayChart("2016", "pelaksanaan");
+    displayChart(year, type);
 	});
 </script>
 <!-- Highcharts -->

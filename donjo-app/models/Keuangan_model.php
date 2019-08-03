@@ -332,7 +332,7 @@ class Keuangan_model extends CI_model {
     //Encode ke JSON
 
     $result = json_encode($res);
-    var_dump($result);
+    // var_dump($result);
     return $result;
 	}
 
