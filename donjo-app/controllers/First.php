@@ -930,6 +930,41 @@ class First extends Web_Controller {
 				echo "</tr>";
 				$k++;
 			}
+			foreach ($data['pembiayaan'] as $a) 
+			{
+				$o=0;
+				echo "<tr class='bold highlighted'>".
+				"<td colspan='5'>".$a['Akun']." ".$a['Nama_Akun']."</td>".
+				"<td align='right'>".number_format($a['anggaran'][0]['pagu'])."</td>".
+				"<td align='right'>".number_format($a['realisasi'][0]['realisasi'])."</td>".
+				"<td align='right'>".number_format($a['anggaran'][0]['pagu'] - $l['realisasi'][0]['realisasi'])."</td>".
+				"<td align='right'>".number_format($a['realisasi'][0]['realisasi']/$a['anggaran'][0]['pagu']*100, 2)."</td>";
+				foreach ($a['sub_pembiayaan'] as $b) 
+				{
+					$p=0;
+					echo "<tr class='bold'>".
+					"<td>".$b['Kelompok']."</td><td colspan='4'>".$b['Nama_Kelompok']."</td>".
+					"<td align='right'>".number_format($b['anggaran'][0]['pagu'])."</td>".
+					"<td align='right'>".number_format($b['realisasi'][0]['realisasi'])."</td>".
+					"<td align='right'>".number_format($b['anggaran'][0]['pagu']-$b['realisasi'][0]['realisasi'])."</td>".
+					"<td align='right'>".number_format($b['realisasi'][0]['realisasi']/$b['anggaran'][0]['pagu']*100, 2)."</td>".
+					"</tr>";
+					foreach ($b['sub_pendapatan2'] as $c) 
+					{
+						echo "<tr>".
+						"<td></td><td colspan='3'>".$c['Jenis']."</td>".
+						"<td>".$c['Nama_Jenis']."</td>".
+						"<td align='right'>".number_format($c['anggaran'][0]['pagu'])."</td>".
+						"<td align='right'>".number_format($c['realisasi'][0]['realisasi'])."</td>".
+						"<td align='right'>".number_format($c['anggaran'][0]['pagu']-$c['realisasi'][0]['realisasi'])."</td>".
+						"<td align='right'>".number_format($c['realisasi'][0]['realisasi']/$c['anggaran'][0]['pagu']*100, 2)."</td>".
+						"</tr>";
+					};
+					$p++;
+				};			
+				echo "</tr>";
+				$o++;
+			}
 			echo "<tr class='bold highlighted'><td colspan='5' align='center'>TOTAL</td><td align='right'>".number_format($data['pendapatan'][0]['total_anggaran'][0]['pagu'])."</td><td align='right'>".number_format($data['pendapatan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['pendapatan'][0]['total_anggaran'][0]['pagu']-$data['pendapatan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['pendapatan'][0]['total_realisasi'][0]['realisasi']/$data['pendapatan'][0]['total_anggaran'][0]['pagu']*100, 2)."</td></tr>".
 			"</table>";
 			$output = ob_get_clean();

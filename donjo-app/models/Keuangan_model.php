@@ -404,6 +404,18 @@ class Keuangan_model extends CI_model {
       $j++;
     }
 
+    $this->db->select('Akun, Nama_Akun');
+    $this->db->where("Akun = '6.'");
+    $data['pembiayaan'] = $this->db->get('keuangan_ref_rek1')->result_array();
+    $k=0;
+    foreach ($data['pembiayaan'] as $c) 
+    {
+      $data['pembiayaan'][$k]['anggaran'] = $this->pagu_akun($c['Akun'], $thn);
+      $data['pembiayaan'][$k]['realisasi'] = $this->real_akun($c['Akun'], $thn);
+      $data['pembiayaan'][$k]['sub_pembiayaan'] = $this->getSubVal($c['Akun'], $thn);
+      $k++;
+    }
+
     return $data;
   }
 
@@ -617,5 +629,5 @@ class Keuangan_model extends CI_model {
     return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
 
-  
+
 }
