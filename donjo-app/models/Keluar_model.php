@@ -70,7 +70,7 @@
 		}
 	}
 
-	private function filterku_sql($nik=0)
+	private function filterku_sql($nik='')
 	{
 		if (empty($nik)) return "";
 		$kf = $nik;
@@ -157,13 +157,17 @@
 		return $data;
 	}
 
-	public function paging_perorangan($nik=0, $p=1, $o=0)
+	public function paging_perorangan($nik='', $p=1, $o=0)
 	{
-		$sql = "SELECT count(*) as jml " . $this->list_data_perorangan_sql($nik);
-
-		$query  = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['jml'];
+		if (!empty($nik))
+		{
+			$sql = "SELECT count(*) as jml " . $this->list_data_perorangan_sql($nik);
+			$query  = $this->db->query($sql);
+			$row = $query->row_array();
+			$jml_data = $row['jml'];
+		}
+		else
+			$jml_data = 0;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -186,8 +190,10 @@
 		return $sql;
 	}
 
-	public function list_data_perorangan($nik=0, $o=0, $offset=0, $limit=500)
+	public function list_data_perorangan($nik='', $o=0, $offset=0, $limit=500)
 	{
+		if (empty($nik)) return array();
+
 		//Ordering SQL
 		switch ($o)
 		{

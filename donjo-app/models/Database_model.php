@@ -193,6 +193,9 @@
   {
   	// Tambah modul Keuangan
   	$this->modul_keuangan();
+
+  	$this->load->model('migrations/migrasi_1908_ke_1909');
+  	$this->migrasi_1908_ke_1909->up();
   }
 
   private function migrasi_1907_ke_1908()
