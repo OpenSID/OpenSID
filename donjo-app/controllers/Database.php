@@ -225,6 +225,7 @@ class Database extends Admin_Controller {
 
 	public function restore()
 	{
+		$this->redirect_hak_akses('h', "database/backup");
 		$this->export_model->restore();
 		redirect('database/backup');
 	}
