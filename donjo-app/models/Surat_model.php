@@ -55,6 +55,41 @@
 
 	/*
 	 * Mengambil semua data penduduk untuk pilihan di form surat
+	 */
+	public function list_penduduk_ajax($cari='', $page=0)
+	{
+		$this->db
+				->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
+				->from('tweb_penduduk u')
+				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+				->where('status_dasar', 1);
+		if ($cari)
+		{
+			$this->db->where("(nik like '%{$cari}%' or nama like '%{$cari}%' or tag_id_card like '%{$cari}%')");
+		}
+		else
+		{
+			// Daftar pilihan default
+			$this->db->limit(10);
+		}
+		$data = $this->db->get()->result_array();
+
+		//Formating Output untuk nilai variabel di javascript, di form surat
+		$penduduk = array();
+		foreach($data as $row)
+		{
+			$nama = addslashes($row['nama']);
+			$alamat = addslashes("Alamat: RT-{$row['rt']}, RW-{$row['rw']} {$row['dusun']}");
+			$info_pilihan_penduduk = "NIK/Tag ID Card : {$row['nik']}/{$row['tag_id_card']} - {$nama}\n{$alamat}";
+			$penduduk[] = array('id' => $row['id'], 'text' => $info_pilihan_penduduk);
+		}
+
+		$penduduk = array('results' => $penduduk);
+		return $penduduk;
+	}
+
+	/*
+	 * Mengambil semua data penduduk untuk pilihan di form surat
 	 * Digunakan juga oleh method lain dengan tambahan kriteria penduduk
 	 */
 	public function list_penduduk()

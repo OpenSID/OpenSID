@@ -232,4 +232,17 @@ class Surat extends Admin_Controller {
 		echo json_encode($format_nomor);
 	}
 
+	/*
+		Ajax url query data:
+		q -- kata pencarian
+		page -- nomor paginasi
+	*/
+	public function list_penduduk_ajax()
+	{
+		$cari = $this->input->get('q');
+		$page = $this->input->get('page');
+		$penduduk = $this->surat_model->list_penduduk_ajax($cari, $page);
+		echo json_encode($penduduk);
+	}
+
 }

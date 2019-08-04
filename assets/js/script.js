@@ -63,6 +63,49 @@ $(document).ready(function()
 	// Select2 dengan fitur pencarian
 	$('.select2').select2();
 
+	$('.select2-nik-ajax').select2({
+	  ajax: {
+	    url: function () {
+	      return $(this).data('url');
+	    },
+	    dataType: 'json',
+	    delay: 250,
+	    data: function (params) {
+	      return {
+	        q: params.term, // search term
+	        page: params.page,
+	        // selected: $(this).data('selected')
+	      };
+	    },
+	    processResults: function (data, params) {
+	      // parse the results into the format expected by Select2
+	      // since we are using custom formatting functions we do not need to
+	      // alter the remote JSON data, except to indicate that infinite
+	      // scrolling can be used
+	      params.page = params.page || 1;
+
+	      return {
+	        results: data.results,
+	        pagination: {
+	          more: (params.page * 30) < data.total_count
+	        }
+	      };
+	    },
+	    cache: true
+	  },
+		templateResult: function (penduduk) {
+			if (!penduduk.id) {
+			  return penduduk.text;
+			}
+			var _tmpPenduduk = penduduk.text.split('\n');
+			var $penduduk = $(
+			  '<div>'+_tmpPenduduk[0]+'</div><div>'+_tmpPenduduk[1]+'</div>'
+			);
+			return $penduduk;
+		},
+	  placeholder: '== Cari NIK/Nama Penduduk ==',
+	  minimumInputLength: 0,
+	});
 
 	$('.select2-nik').select2({
 		templateResult: function (penduduk) {
