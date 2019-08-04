@@ -154,9 +154,9 @@
 					";
 				//Total Sasaran
 				$sql_sasaran = "SELECT
-					(SELECT COUNT(s.id) FROM tweb_keluarga s) AS jumlah,
-					(SELECT COUNT(s.id) FROM tweb_keluarga s) AS laki,
-					(SELECT COUNT(s.id) FROM tweb_keluarga s) AS perempuan";
+					(SELECT COUNT(s.id) FROM keluarga_aktif s) AS jumlah,
+					(SELECT COUNT(s.id) FROM keluarga_aktif s) AS laki,
+					(SELECT COUNT(s.id) FROM keluarga_aktif s) AS perempuan";
 				break;
 			case 3:
 				# Data Rumah Tangga
