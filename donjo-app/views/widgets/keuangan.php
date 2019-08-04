@@ -37,6 +37,7 @@
   }
 
   .graph{
+    text-align: left;
     /*height: 100px;*/
   }
 
@@ -55,6 +56,11 @@
 
   .dropdown-toggle{
     border: none;
+  }
+
+  .keuangan-selector{
+    text-align: left;
+    padding-left: 0;
   }
 </style>
 <div class="box box-info box-solid">
@@ -76,22 +82,23 @@
           <li><a class="dropdown-item" onclick="gantiTipe('belanja')">Realisasi Belanja Desa</a></li>
         </ul>
       </div>
-      <h3></h3>
-      <p id="grafik-tahun">
-        <div class="col-md-12 keuangan-selector" style="text-align: center; padding-bottom: 20px">
-          Data tahun <select class="form-control col-md-3" id="keuangan-selector">
-            <?php 
-              foreach ($widget_keuangan['tahun'] as $key):
-            ?>
-            <option value="<?= $key ?>"><?= $key ?></option>
-            <?php 
-              endforeach;
-            ?>
-          </select>
-  <!--         <input type="hidden" value="" id="type"/>
-          <input type="hidden" value="2016" id="tahun"/> -->
-        </div>
-      </p>
+      <div id="grafik-judul">
+        <h3></h3>
+        <!-- <p id="grafik-tahun"></p> -->
+      <div class="col-md-12 keuangan-selector" style="padding-bottom: 20px; padding=top: 5px;">
+        <select class="col-md-12 form-control" id="keuangan-selector">
+          <?php 
+            foreach ($widget_keuangan['tahun'] as $key):
+          ?>
+          <option value="<?= $key ?>">Tahun <?= $key ?></option>
+          <?php 
+            endforeach;
+          ?>
+        </select>
+<!--         <input type="hidden" value="" id="type"/>
+        <input type="hidden" value="2016" id="tahun"/> -->
+      </div>
+      </div>
       <div id="grafik-container">
       </div>
     </div>
@@ -214,6 +221,7 @@
 
 	$(document).ready(function (){
     //Realisasi Pelaksanaan APBD
+    $("#keuangan-selector").val("<?= $widget_keuangan['tahun_terbaru']?>")
     displayChart(year, type);
 	});
 </script>

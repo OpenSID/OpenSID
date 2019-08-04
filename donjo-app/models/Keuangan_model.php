@@ -346,8 +346,6 @@ class Keuangan_model extends CI_model {
       'tahun_terbaru' => $tahun_terbaru,
     );
 
-    var_dump($tahun);
-
     return $result;
 	}
 
