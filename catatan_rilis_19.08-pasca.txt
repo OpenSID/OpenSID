@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 19.08-pasca:
 2. #2160: Sekarang persentase KK di statistik program bantuan sasaran keluarga berdasarkan KK Aktif saja. [bug-fix]
 3. #2116: Sekarang form biodata dan form isian penduduk yang anggota KK tidak lagi menampilkan kolom isian 'Alamat Sekarang'.
 4. Memilih penduduk di Arsip Layanan > Rekam Surat Perorangan sekarang dilakukan menggunakan ajax untuk menangani jumlah penduduk besar. [teknis]
+5. #2161: Memilih penduduk pada form surat sekarang dilakukan menggunakan ajax untuk menganani jumlah penduduk besar. [teknis]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

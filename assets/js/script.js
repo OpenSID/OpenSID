@@ -74,7 +74,7 @@ $(document).ready(function()
 	      return {
 	        q: params.term, // search term
 	        page: params.page,
-	        // selected: $(this).data('selected')
+	        filter_sex: $(this).data('filter-sex')
 	      };
 	    },
 	    processResults: function (data, params) {
@@ -103,7 +103,7 @@ $(document).ready(function()
 			);
 			return $penduduk;
 		},
-	  placeholder: '== Cari NIK/Nama Penduduk ==',
+	  placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
 	  minimumInputLength: 0,
 	});
 

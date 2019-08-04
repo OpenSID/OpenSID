@@ -56,13 +56,14 @@
 	/*
 	 * Mengambil semua data penduduk untuk pilihan di form surat
 	 */
-	public function list_penduduk_ajax($cari='', $page=0)
+	public function list_penduduk_ajax($cari='', $filter_sex='', $page=0)
 	{
 		$this->db
 				->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
 				->from('tweb_penduduk u')
 				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
 				->where('status_dasar', 1);
+		if ($filter_sex) $this->db->where('sex', $filter_sex);
 		if ($cari)
 		{
 			$this->db->where("(nik like '%{$cari}%' or nama like '%{$cari}%' or tag_id_card like '%{$cari}%')");

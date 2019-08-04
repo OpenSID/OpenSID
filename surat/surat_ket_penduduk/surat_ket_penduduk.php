@@ -12,23 +12,13 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-body">
+						<div class="box-header with-border">
+							<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
+							</a>
+						</div>
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
-							<div class="box-header with-border">
-								<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
-									<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
-								</a>
-							</div>
-							<div class="form-group">
-								<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
-								<div class="col-sm-6 col-lg-4">
-									<select class="form-control  input-sm select2-nik" id="cari_nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-										<option value="">--  Cari NIK / Nama Penduduk--</option>
-										<?php foreach ($penduduk as $data): ?>
-											<option value="<?= $data['id']?>" <?php selected($individu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
-										<?php endforeach;?>
-									</select>
-								</div>
-							</div>
+							<?php include("donjo-app/views/surat/form/_cari_nik.php"); ?>
 						</form>
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
 							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
