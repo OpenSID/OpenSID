@@ -671,7 +671,10 @@ class User_model extends CI_Model {
 		if (config_item('demo'))
 		{
 			if (in_array($akses, $this->larangan_demo[$controller[0]]))
+			{
+				log_message('error', '==Akses Demo Terlarang: '.print_r($_SERVER, true));
 				return false;
+			}
 		}
 		// Group admin punya akses global
 		// b = baca; u = ubah; h= hapus
