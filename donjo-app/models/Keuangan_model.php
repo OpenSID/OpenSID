@@ -278,8 +278,8 @@ class Keuangan_model extends CI_model {
       for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++) { 
         $row = array(
           'nama' => $nama[$raw_data['jenis_belanja'][$i]['Nama_Akun']],
-          'anggaran' => $raw_data['anggaran'][$i]['AnggaranStlhPAK'],
-          'realisasi' => $raw_data['realisasi'][$i]['Nilai'],
+          'anggaran' => ($raw_data['anggaran'][$i]['AnggaranStlhPAK'] ? $raw_data['anggaran'][$i]['AnggaranStlhPAK'] : 0),
+          'realisasi' => ($raw_data['realisasi'][$i]['Nilai'] ? $raw_data['realisasi'][$i]['Nilai'] : 0),
         );
         array_push($res_pelaksanaan, $row);
       }
@@ -293,11 +293,11 @@ class Keuangan_model extends CI_model {
       }
 
       foreach ($raw_data['anggaran'] as $r) {
-        $tmp_pendapatan[$r['jenis_pendapatan']]['anggaran'] = $r['Pagu'];
+        $tmp_pendapatan[$r['jenis_pendapatan']]['anggaran'] = ($r['Pagu'] ? $r['Pagu'] : 0);
       }
 
       foreach ($raw_data['realisasi'] as $r) {
-        $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = $r['Pagu'];
+        $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = ($r['Pagu'] ? $r['Pagu'] : 0);
       }
 
       foreach ($tmp_pendapatan as $key => $value){
@@ -313,11 +313,11 @@ class Keuangan_model extends CI_model {
       }
 
       foreach ($raw_data['anggaran'] as $r) {
-        $tmp_belanja[$r['Kd_Bid']]['anggaran'] = $r['Pagu'];
+        $tmp_belanja[$r['Kd_Bid']]['anggaran'] = ($r['Pagu'] ? $r['Pagu'] : 0);
       }
 
       foreach ($raw_data['realisasi'] as $r) {
-        $tmp_belanja[$r['Kd_Bid']]['realisasi'] = $r['Nilai'];
+        $tmp_belanja[$r['Kd_Bid']]['realisasi'] = ($r['Nilai'] ? $r['Nilai'] : 0);
       }
 
       foreach ($tmp_belanja as $key => $value){
@@ -331,8 +331,23 @@ class Keuangan_model extends CI_model {
     }
     //Encode ke JSON
 
-    $result = json_encode($res);
-    // var_dump($result);
+    //Cari tahun anggaran terbaru (terbesar secara value)
+    $this->db->order_by('tahun_anggaran', 'desc');
+    $q = $this->db->get('keuangan_master')->result_array();
+    $tahun = array();
+    foreach ($q as $row) {
+      array_push($tahun, $row['tahun_anggaran']);
+    }
+    $tahun_terbaru = $tahun[0];
+    // $result['tahun_anggaran'] = $this->tahun_anggaran();
+    $result = array(
+      'data' => json_encode($res),
+      'tahun' => $tahun,
+      'tahun_terbaru' => $tahun_terbaru,
+    );
+
+    var_dump($tahun);
+
     return $result;
 	}
 

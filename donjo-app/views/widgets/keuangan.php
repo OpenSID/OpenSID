@@ -24,6 +24,7 @@
   #widget-keuangan-container h3{
     font-size: 20px;
     /*font-weight: bold;*/
+    padding-top: 5px;
   }
 
   #widget-keuangan-container p{
@@ -31,12 +32,29 @@
     margin-bottom: 20px;
   }
 
-  #graph-container{
-    /*background-color: #999*/
+  #grafik-container{
+    /*background-color: #999*/ 
   }
 
   .graph{
-    height: 100px;
+    /*height: 100px;*/
+  }
+
+  .keuangan-selector{
+    font-size: 12px;
+  }
+
+  span.icon-bar{
+    display: block;
+    height: 3px;
+    margin-bottom: 4px;
+    width: 22px;
+    background: #333;
+    border-radius: 1px;
+  }
+
+  .dropdown-toggle{
+    border: none;
   }
 </style>
 <div class="box box-info box-solid">
@@ -46,9 +64,12 @@
   <div class="box-body">
     <div id="widget-keuangan-container">
       <div class="dropdown" style="float: right;">
-        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          &#x25bc;
-        </a>
+        <button class="dropdown-toggle btn btn-default" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="sr-only">Toogle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <ul class="dropdown-menu dropdown-menu-right">
           <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan')">Realisasi Pelaksanaan APBDesa</a></li>
           <li><a class="dropdown-item" onclick="gantiTipe('pendapatan')">Realisasi Pendapatan Desa</a></li>
@@ -56,20 +77,21 @@
         </ul>
       </div>
       <h3></h3>
-      <p id="grafik-tahun"></p>
-      <div class="col-md-12 keuangan-selector" style="text-align: center; padding-bottom: 20px">
-        Data tahun <select id="keuangan-selector">
-          <?php 
-            foreach (json_decode($widget_keuangan) as $key => $value):
-          ?>
-          <option value="<?= $key ?>"><?= $key ?></option>
-          <?php 
-            endforeach;
-          ?>
-        </select>
-<!--         <input type="hidden" value="" id="type"/>
-        <input type="hidden" value="2016" id="tahun"/> -->
-      </div>
+      <p id="grafik-tahun">
+        <div class="col-md-12 keuangan-selector" style="text-align: center; padding-bottom: 20px">
+          Data tahun <select class="form-control col-md-3" id="keuangan-selector">
+            <?php 
+              foreach ($widget_keuangan['tahun'] as $key):
+            ?>
+            <option value="<?= $key ?>"><?= $key ?></option>
+            <?php 
+              endforeach;
+            ?>
+          </select>
+  <!--         <input type="hidden" value="" id="type"/>
+          <input type="hidden" value="2016" id="tahun"/> -->
+        </div>
+      </p>
       <div id="grafik-container">
       </div>
     </div>
@@ -77,7 +99,10 @@
 </div>
 
 <script type="text/javascript">
-  var rawData = <?= $widget_keuangan; ?>;
+  var rawData = <?= $widget_keuangan['data']; ?>;
+
+  var year = "<?= $widget_keuangan['tahun_terbaru'] ?>";
+  var type = "pelaksanaan"
 
   function displayChart(tahun, tipe){
     resetContainer();
@@ -101,19 +126,21 @@
     $("#widget-keuangan-container h3").text(judulGrafik);
     //Eksekusi chart dengan for loop
     chartData.forEach(function(subData, idx){
-      // var chartOption = option(subData['anggaran'], subData['realisasi']);
       $("#grafik-container").append(
-          "<div class='graph-sub'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"'></div>");
+          "<div class='graph-sub'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph'></div>");
       Highcharts.chart("graph-"+ idx, {
           chart: {
-              type: 'bar',
-              margin: 0,
-              height: 90,
-              backgroundColor: "rgba(0,0,0,0)",
+            type: 'bar',
+            margin: 0,
+            height: 50,
+            backgroundColor: "rgba(0,0,0,0)",
+            spacingBottom: 0,
           },
+
           title: {
-              text: ''
+            text: ''
           },
+
           subtitle: {
             y: -2,
             style: {"color" : "#000"},
@@ -121,50 +148,55 @@
           },
 
           xAxis: {
-              visible: false,
-              categories: [''],
+            visible: false,
+            categories: [''],
           },
+          
           tooltip: {
-              valueSuffix: ''
+            valueSuffix: ''
           },
+          
           plotOptions: {
-              bar: {
-                  dataLabels: {
-                      enabled: true
-                  }
+            bar: {
+              dataLabels: {
+                enabled: true
               }
+            }
           },
+          
           credits: {
             enabled: false
           },
+          
           yAxis: {
             visible: false
           },
+          
           exporting: {
             enabled: false
           },
+          
           legend: {
             enabled: false
           },
+          
           series: [{
-              name: 'Anggaran',
-              color: '#2E8B57',
-              data: [parseInt(subData['anggaran'])],
+            name: 'Anggaran',
+            color: '#2E8B57',
+            data: [parseInt(subData['anggaran'])],
           }, {
-              name: 'Realisasi',
-              color: '#FFD700',
-              data: [parseInt(subData['realisasi'])],
+            name: 'Realisasi',
+            color: '#FFD700',
+            data: [parseInt(subData['realisasi'])],
           }]
       });
-    })
+    });
+    $("p#grafik-tahun").text("Tahun " + year);
   }
 
   function resetContainer(){
     $("#grafik-container").html("");
   }
-
-  var year = "2016";
-  var type = "pelaksanaan"
 
   function gantiTahun(newThn){
     year = newThn;
