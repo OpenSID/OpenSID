@@ -53,13 +53,9 @@
 		return $str;
 	}
 
-	/*
-	 * Mengambil semua data penduduk untuk pilihan di form surat
-	 */
-	public function list_penduduk_ajax($cari='', $filter_sex='', $page=0)
+	private function list_penduduk_ajax_sql($cari='', $filter_sex='')
 	{
 		$this->db
-				->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
 				->from('tweb_penduduk u')
 				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
 				->where('status_dasar', 1);
@@ -68,14 +64,29 @@
 		{
 			$this->db->where("(nik like '%{$cari}%' or nama like '%{$cari}%' or tag_id_card like '%{$cari}%')");
 		}
-		else
-		{
-			// Daftar pilihan default
-			$this->db->limit(10);
-		}
+	}
+
+	/*
+	 * Mengambil semua data penduduk untuk pilihan di form surat
+	 */
+	public function list_penduduk_ajax($cari='', $filter_sex='', $page=1)
+	{
+		// Hitung jumlah total
+		$this->list_penduduk_ajax_sql($cari, $filter_sex);
+		$jml = $this->db->select('count(u.id) as jml')
+				->get()->row()->jml;
+
+		// Ambil penduduk sebatas paginasi
+    $resultCount = 25;
+    $offset = ($page - 1) * $resultCount;
+
+    $this->list_penduduk_ajax_sql($cari, $filter_sex);
+		$this->db
+				->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
+				->limit($resultCount, $offset);
 		$data = $this->db->get()->result_array();
 
-		//Formating Output untuk nilai variabel di javascript, di form surat
+		//Format untuk daftar pilihan select2 di form surat
 		$penduduk = array();
 		foreach($data as $row)
 		{
@@ -85,8 +96,17 @@
 			$penduduk[] = array('id' => $row['id'], 'text' => $info_pilihan_penduduk);
 		}
 
-		$penduduk = array('results' => $penduduk);
-		return $penduduk;
+    $endCount = $offset + $resultCount;
+    $morePages = $endCount > $count;
+
+    $hasil = array(
+      "results" => $penduduk,
+      "pagination" => array(
+        "more" => $morePages
+      )
+    );
+
+		return $hasil;
 	}
 
 	/*

@@ -72,9 +72,9 @@ $(document).ready(function()
 	    delay: 250,
 	    data: function (params) {
 	      return {
-	        q: params.term, // search term
-	        page: params.page,
-	        filter_sex: $(this).data('filter-sex')
+	        q: params.term || '', // search term
+	        page: params.page || 1,
+ 	        filter_sex: $(this).data('filter-sex')
 	      };
 	    },
 	    processResults: function (data, params) {
@@ -82,13 +82,11 @@ $(document).ready(function()
 	      // since we are using custom formatting functions we do not need to
 	      // alter the remote JSON data, except to indicate that infinite
 	      // scrolling can be used
-	      params.page = params.page || 1;
+	      // params.page = params.page || 1;
 
 	      return {
 	        results: data.results,
-	        pagination: {
-	          more: (params.page * 30) < data.total_count
-	        }
+	        pagination: data.pagination
 	      };
 	    },
 	    cache: true
