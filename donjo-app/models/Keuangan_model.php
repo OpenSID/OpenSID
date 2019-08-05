@@ -357,17 +357,21 @@ class Keuangan_model extends CI_model {
   public function r_pembiayaan($smt, $thn)
   {
     $this->db->select('Nama_Kelompok');
+    $this->db->join('keuangan_ref_rek2', 'keuangan_ref_rek2.id_keuangan_master = keuangan_master.id', 'left');
+    $this->db->where('tahun_anggaran', $thn);
     $this->db->like('Kelompok', '6.', 'after');
-    $data['pembiayaan'] = $this->db->get('keuangan_ref_rek2')->result_array();
+    $data['pembiayaan'] = $this->db->get('keuangan_master')->result_array();
 
     $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(AnggaranStlhPAK) AS Pagu');
     $this->db->like('LEFT(Kd_Rincian, 2)', '6.', 'after');
+    $this->db->where('Tahun', $thn);
     $this->db->group_by('Kelompok');
     $this->db->order_by('Kelompok', 'asc');
     $data['anggaran'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
 
     $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai) AS realisasi');
     $this->db->like('LEFT(Kd_Rincian, 2)', '6.', 'after');
+    $this->db->where('Tahun', $thn);
     $this->db->group_by('Kelompok');
     $this->db->order_by('Kelompok', 'asc');
     $data['realisasi'] = $this->db->get('keuangan_ta_spj_rinci')->result_array();
