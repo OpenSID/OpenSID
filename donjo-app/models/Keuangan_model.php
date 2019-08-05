@@ -278,6 +278,14 @@ class Keuangan_model extends CI_model {
   }
 
   // Post Format Transparansi Anggaran Data
+  // Cek tahun anggaran untuk dropdown shortcode
+  public function cek_tahun()
+  {
+    $this->db->select('tahun_anggaran');
+    $data = $this->db->get('keuangan_master')->result_array();
+    return $data;
+  }
+
   // Query Grafik
   public function rp_apbd($smt, $thn)
   {
@@ -609,6 +617,7 @@ class Keuangan_model extends CI_model {
     $this->db->select('Kd_Keg, Jenis, Nama_Jenis');
     $this->db->join('keuangan_ref_rek3', 'keuangan_ref_rek3.Jenis = LEFT(keuangan_ta_anggaran_rinci.Kd_Rincian, 6)', 'left');
     $this->db->where('Kd_Keg', $kd_keg);
+    $this->db->group_by('Kd_Keg');
     $this->db->group_by('Jenis');
     $this->db->group_by('Nama_Jenis');
     $data = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
