@@ -406,7 +406,7 @@ class First extends Web_Controller {
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
-	  $data['widget_keuangan'] = $this->keuangan_model->widget_keuangan();
+	 	$data['widget_keuangan'] = $this->keuangan_model->widget_keuangan();
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
 		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
 		$list_kolom = array(
