@@ -208,6 +208,7 @@ class Database extends Admin_Controller {
 
 	public function kosongkan_db()
 	{
+		$this->redirect_hak_akses('h', "database/kosongkan");
 		$this->database_model->kosongkan_db();
 		redirect('database/kosongkan');
 	}
