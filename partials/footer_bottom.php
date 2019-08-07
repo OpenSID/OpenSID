@@ -11,9 +11,8 @@
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="footer_bottom_right">
-             &copy; <a target="_blank" href="https://opendesa.id/">OpenDesa</a>
-             <a target="_blank" href="https://github.com/OpenSID/OpenSID">OpenSID <?= AmbilVersi()?></a>
-             <a target="_blank" href="<?= site_url(); ?>siteman"> Natra 4.1.08</a>
+		   <a target="_blank" href="https://github.com/OpenSID/OpenSID">OpenSID <?= AmbilVersi()?></a>
+		   <a target="_blank" href="<?= site_url(); ?>siteman"> &copy; 2018 Tema Natra 4.1.8</a>
           </div>
         </div>
       </div>
