@@ -77,7 +77,8 @@ if (!function_exists('shortcode'))
 					    plotOptions: {
 					        bar: {
 					            dataLabels: {
-					                enabled: true
+					                enabled: true,
+					                inside: true
 					            }
 					        }
 					    },
@@ -97,11 +98,18 @@ if (!function_exists('shortcode'))
 					    },
 					    series: [{
 					        name: 'Anggaran',
-									color: '#16a085',
+							color: '#16a085',
 					        data: [". join($anggaran, ",")."]
 						}, {
 						    name: 'Realisasi',
-									color: '#f1c40f',
+						    dataLabels: {
+							    formatter: function () {
+							    	var point = this.series.data.indexOf( this.point );
+							    	console.log(this.percentage);
+							    	return Highcharts.numberFormat(this.y) + ' (' +	this.percentage + ' %'+')';
+							    }
+						    },
+							color: '#f1c40f',
 					        data: [". join($realisasi, ",")."]
 					    }]".
 					"});".
