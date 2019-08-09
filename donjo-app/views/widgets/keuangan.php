@@ -218,13 +218,18 @@
               name: 'Anggaran',
               color: '#2E8B57',
               data: [parseInt(subData['anggaran'])],
+              dataLabels: {
+                style: {"textOutline": "1px contrast"},
+                color: "#ffffff",
+              },
             }, {
               name: 'Realisasi',
               color: '#FFD700',
               dataLabels: {
                 formatter: function(){
                   return parseInt(subData['realisasi']) + " (Realisasi : " + persentase + "%)";
-                } 
+                },
+                style: {"textOutline": "none",}
               },
               data: [parseInt(subData['realisasi'])],
             }]
