@@ -57,6 +57,10 @@
 		<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 		<!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
+		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
+		<script type="text/javascript">
+			var BASE_URL = "<?= base_url(); ?>";
+		</script>
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">

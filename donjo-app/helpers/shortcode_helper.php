@@ -77,7 +77,8 @@ if (!function_exists('shortcode'))
 					    plotOptions: {
 					        bar: {
 					            dataLabels: {
-					                enabled: true
+					                enabled: true,
+					                inside: true
 					            }
 					        }
 					    },
@@ -97,11 +98,19 @@ if (!function_exists('shortcode'))
 					    },
 					    series: [{
 					        name: 'Anggaran',
-									color: '#16a085',
+							color: '#16a085',
 					        data: [". join($anggaran, ",")."]
 						}, {
 						    name: 'Realisasi',
-									color: '#f1c40f',
+						    dataLabels: {
+							    formatter: function () {
+							    	var index = this.series.index;
+							    	var pointB = this.series.chart.series[0].data[index].y;
+							    	var percent = Highcharts.numberFormat(this.y / pointB * 100);
+							    	return Highcharts.numberFormat(this.y) + ' (' +	percent + ' %'+')';
+							    }
+						    },
+							color: '#f1c40f',
 					        data: [". join($realisasi, ",")."]
 					    }]".
 					"});".
@@ -188,11 +197,19 @@ if (!function_exists('shortcode'))
 					    },
 					    series: [{
 					        name: 'Anggaran',
-									color: '#3498db',
+							color: '#3498db',
 					        data: [".join($anggaran, ",")."]
 				        },{
 					        name: 'Realisasi',
-									color: '#e67e22',
+					        dataLabels: {
+							    formatter: function () {
+							    	var index = this.series.index;
+							    	var pointB = this.series.chart.series[0].data[index].y;
+							    	var percent = Highcharts.numberFormat(this.y / pointB * 100);
+							    	return Highcharts.numberFormat(this.y) + ' (' +	percent + ' %'+')';
+							    }
+						    },
+							color: '#e67e22',
 					        data: [".join($realisasi, ",")."]
 					    }]".
 					"});".
@@ -279,11 +296,19 @@ if (!function_exists('shortcode'))
 					    },
 					    series: [{
 					        name: 'Anggaran',
-									color: '#2E8B57',
+							color: '#2E8B57',
 					        data: [". join($anggaran, ",")."]
 						},{
 					        name: 'Realisasi',
-									color: '#3461eb',
+					        dataLabels: {
+							    formatter: function () {
+							    	var index = this.series.index;
+							    	var pointB = this.series.chart.series[0].data[index].y;
+							    	var percent = Highcharts.numberFormat(this.y / pointB * 100);
+							    	return Highcharts.numberFormat(this.y) + ' (' +	percent + ' %'+')';
+							    }
+						    },
+							color: '#3461eb',
 					        data: [". join($realisasi, ",")."]
 					    }]".
 					"});".
@@ -370,11 +395,19 @@ if (!function_exists('shortcode'))
 					    },
 					    series: [{
 					        name: 'Anggaran',
-									color: '#2E8B57',
+							color: '#2E8B57',
 					        data: [". join($anggaran, ",")."]
 						},{
 					        name: 'Realisasi',
-									color: '#3461eb',
+					        dataLabels: {
+							    formatter: function () {
+							    	var index = this.series.index;
+							    	var pointB = this.series.chart.series[0].data[index].y;
+							    	var percent = Highcharts.numberFormat(this.y / pointB * 100);
+							    	return Highcharts.numberFormat(this.y) + ' (' +	percent + ' %'+')';
+							    }
+						    },
+							color: '#3461eb',
 					        data: [". join($realisasi, ",")."]
 					    }]".
 					"});".
