@@ -420,10 +420,4 @@ class First extends Web_Controller {
 		}
 
 	}
-
-	public function tes($smt, $thn)
-	{
-		$data = $this->keuangan_model->lap_rp_apbd($smt, $thn);
-		print_r($data);
-	}
 }

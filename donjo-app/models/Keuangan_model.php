@@ -475,7 +475,7 @@ class Keuangan_model extends CI_model {
       $data['pendapatan'][$i]['total_realisasi'] = $this->total_realisasi($thn);
       $data['pendapatan'][$i]['anggaran'] = $this->pagu_akun($p['Akun'], $thn);
       $data['pendapatan'][$i]['realisasi'] = $this->real_akun($p['Akun'], $thn);
-      $data['pendapatan'][$i]['sub_pendapatan'] = $this->getSubVal($p['id_keuangan_master'], $p['Akun'], $thn);
+      $data['pendapatan'][$i]['sub_pendapatan'] = $this->get_subval($p['id_keuangan_master'], $p['Akun'], $thn);
       $i++;
     }
 
@@ -489,7 +489,7 @@ class Keuangan_model extends CI_model {
     {
       $data['belanja'][$j]['anggaran'] = $this->pagu_akun($b['Akun'], $thn);
       $data['belanja'][$j]['realisasi'] = $this->real_akun($b['Akun'], $thn);
-      $data['belanja'][$j]['sub_belanja'] = $this->getSubVal2($b['id_keuangan_master'], $b['Akun'], $thn);
+      $data['belanja'][$j]['sub_belanja'] = $this->get_subval2($b['id_keuangan_master'], $b['Akun'], $thn);
       $j++;
     }
 
@@ -503,7 +503,7 @@ class Keuangan_model extends CI_model {
     {
       $data['pembiayaan'][$k]['anggaran'] = $this->pagu_akun($c['Akun'], $thn);
       $data['pembiayaan'][$k]['realisasi'] = $this->real_akun($c['Akun'], $thn);
-      $data['pembiayaan'][$k]['sub_pembiayaan'] = $this->getSubVal($c['id_keuangan_master'], $c['Akun'], $thn);
+      $data['pembiayaan'][$k]['sub_pembiayaan'] = $this->get_subval($c['id_keuangan_master'], $c['Akun'], $thn);
       $k++;
     }
 
@@ -542,7 +542,7 @@ class Keuangan_model extends CI_model {
     return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
 
-  private function getSubVal($id_keuangan_master, $akun, $thn)
+  private function get_subval($id_keuangan_master, $akun, $thn)
   {
     $this->db->select('Kelompok, Nama_Kelompok');
     $this->db->where('Akun', $akun);
@@ -559,7 +559,7 @@ class Keuangan_model extends CI_model {
     return $data;
   }
 
-  private function getSubVal2($id_keuangan_master, $akun, $thn)
+  private function get_subval2($id_keuangan_master, $akun, $thn)
   {
     $this->db->select('Kd_Bid, Nama_Bidang');
     $this->db->where('Tahun', $thn);
@@ -569,8 +569,8 @@ class Keuangan_model extends CI_model {
     $i=0;
     foreach ($data as $d) 
     {
-      $data[$i]['anggaran'] = $this->pagu_subBelanja($d['Kd_Bid'], $thn);
-      $data[$i]['realisasi'] = $this->real_subBelanja($d['Kd_Bid'], $thn);
+      $data[$i]['anggaran'] = $this->pagu_sub_belanja($d['Kd_Bid'], $thn);
+      $data[$i]['realisasi'] = $this->real_sub_belanja($d['Kd_Bid'], $thn);
       $data[$i]['sub_belanja2'] = $this->sub_belanja2($id_keuangan_master, $d['Kd_Bid'], $thn);
       $i++;
     }
@@ -586,7 +586,7 @@ class Keuangan_model extends CI_model {
     return $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
   }
 
-  private function pagu_subBelanja($kd_bid, $thn)
+  private function pagu_sub_belanja($kd_bid, $thn)
   {
     $this->db->select('LEFT(Kd_Keg, 8) AS Kd_Bid, SUM(AnggaranStlhPAK) AS pagu');
     $this->db->like('Kd_Keg', $kd_bid, 'after');
@@ -604,7 +604,7 @@ class Keuangan_model extends CI_model {
     return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
 
-  private function real_subBelanja($kd_bid, $thn)
+  private function real_sub_belanja($kd_bid, $thn)
   {
     $this->db->select('LEFT(Kd_Keg, 8) AS Kd_Bid, SUM(Nilai) AS realisasi');
     $this->db->like('Kd_Keg', $kd_bid, 'after');
@@ -725,6 +725,5 @@ class Keuangan_model extends CI_model {
     $this->db->group_by('Jenis');
     return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
-
 
 }
