@@ -140,100 +140,106 @@
     $("#widget-keuangan-container h3").text(judulGrafik);
     //Eksekusi chart dengan for loop
     chartData.forEach(function(subData, idx){
-      if(!subData['realisasi'] && !subData['anggaran']){
-        $("#grafik-container").append(
-            "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph-not-available'>Data tidak tersedia.</div>");
-      }else{
-        var persentase = parseInt(subData['realisasi']) / (parseInt(subData['realisasi']) + parseInt(subData['anggaran'])) * 100;
-        if(isNaN(persentase)){
-          persentase = 0;
+      if(subData['nama']){
+        if((!subData['realisasi'] && !subData['anggaran'])){
+          $("#grafik-container").append(
+              "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph-not-available'>Data tidak tersedia.</div>");
+        }else{
+          var persentase = parseInt(subData['realisasi']) / (parseInt(subData['realisasi']) + parseInt(subData['anggaran'])) * 100;
+          if(isNaN(persentase)){
+            persentase = 0;
+          }
+          persentase = persentase.toFixed(2);
+          $("#grafik-container").append(
+              "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph'></div>");
+          Highcharts.chart("graph-"+ idx, {
+              chart: {
+                type: 'bar',
+                margin: 0,
+                height: 30,
+                backgroundColor: "rgba(0,0,0,0)",
+                spacingBottom: 0,
+              },
+
+              title: {
+                text: ''
+              },
+
+              subtitle: {
+                y: -2,
+                style: {"color" : "#000"},
+                text: '',
+              },
+
+              xAxis: {
+                visible: false,
+                categories: [''],
+              },
+              
+              tooltip: {
+                valueSuffix: ''
+              },
+              
+              plotOptions: {
+                bar: {
+                  dataLabels: {
+                    enabled: true
+                  }
+                },
+
+                series: {
+                  pointPadding: 0,
+                  groupPadding: 0,
+                  dataLabels: {
+                    align: 'left',
+                    inside: true,
+                    shadow: false,
+                    color: '#000',
+                  },
+                },
+              },
+              
+              credits: {
+                enabled: false
+              },
+              
+              yAxis: {
+                visible: false
+              },
+              
+              exporting: {
+                enabled: false
+              },
+              
+              legend: {
+                enabled: false
+              },
+              
+              series: [{
+                name: 'Anggaran',
+                color: '#2E8B57',
+                data: [parseInt(subData['anggaran'])],
+                dataLabels: {
+                  style: {"textOutline": "1px contrast"},
+                  color: "#ffffff",
+                },
+              }, {
+                name: 'Realisasi',
+                color: '#FFD700',
+                dataLabels: {
+                  formatter: function(){
+                    if(parseInt(subData['realisasi']) > parseInt(subData['anggaran'])){
+                      return parseInt(subData['realisasi']);
+                    }else{
+                      return parseInt(subData['realisasi']) + " (Realisasi : " + persentase + "%)";
+                    }
+                  },
+                  style: {"textOutline": "none",}
+                },
+                data: [parseInt(subData['realisasi'])],
+              }]
+          });
         }
-        persentase = persentase.toFixed(2);
-        $("#grafik-container").append(
-            "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph'></div>");
-        Highcharts.chart("graph-"+ idx, {
-            chart: {
-              type: 'bar',
-              margin: 0,
-              height: 30,
-              backgroundColor: "rgba(0,0,0,0)",
-              spacingBottom: 0,
-            },
-
-            title: {
-              text: ''
-            },
-
-            subtitle: {
-              y: -2,
-              style: {"color" : "#000"},
-              text: '',
-            },
-
-            xAxis: {
-              visible: false,
-              categories: [''],
-            },
-            
-            tooltip: {
-              valueSuffix: ''
-            },
-            
-            plotOptions: {
-              bar: {
-                dataLabels: {
-                  enabled: true
-                }
-              },
-
-              series: {
-                pointPadding: 0,
-                groupPadding: 0,
-                dataLabels: {
-                  align: 'left',
-                  inside: true,
-                  shadow: false,
-                  color: '#000',
-                },
-              },
-            },
-            
-            credits: {
-              enabled: false
-            },
-            
-            yAxis: {
-              visible: false
-            },
-            
-            exporting: {
-              enabled: false
-            },
-            
-            legend: {
-              enabled: false
-            },
-            
-            series: [{
-              name: 'Anggaran',
-              color: '#2E8B57',
-              data: [parseInt(subData['anggaran'])],
-              dataLabels: {
-                style: {"textOutline": "1px contrast"},
-                color: "#ffffff",
-              },
-            }, {
-              name: 'Realisasi',
-              color: '#FFD700',
-              dataLabels: {
-                formatter: function(){
-                  return parseInt(subData['realisasi']) + " (Realisasi : " + persentase + "%)";
-                },
-                style: {"textOutline": "none",}
-              },
-              data: [parseInt(subData['realisasi'])],
-            }]
-        });
       }
     });
     $("p#grafik-tahun").text("Tahun " + year);

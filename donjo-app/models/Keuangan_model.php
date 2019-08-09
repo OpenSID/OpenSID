@@ -306,6 +306,7 @@ class Keuangan_model extends CI_model {
 
       //Belanja APBD
       $raw_data = $this->r_bd('1', $tahun);
+      var_dump($raw_data);
       $res_belanja = array();
       $tmp_belanja = array();
       foreach ($raw_data['bidang'] as $r){
@@ -313,7 +314,7 @@ class Keuangan_model extends CI_model {
       }
 
       foreach ($raw_data['anggaran'] as $r) {
-        $tmp_belanja[$r['Kd_Bid']]['anggaran'] = ($r['Pagu'] ? $r['Pagu'] : 0);
+        $tmp_belanja[$r['Kode_Bid']]['anggaran'] = ($r['Pagu'] ? $r['Pagu'] : 0);
       }
 
       foreach ($raw_data['realisasi'] as $r) {
