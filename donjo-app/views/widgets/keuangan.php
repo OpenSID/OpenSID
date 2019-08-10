@@ -1,7 +1,5 @@
 <!-- widget Statistik -->
 <style type="text/css">
-  .highcharts-xaxis-labels tspan {font-size: 8px;}
-
   #grafik-judul{
     font-size: 18px;
     font-weight: bold;
@@ -11,23 +9,17 @@
 
   .graph-sub {
     font-family: 'Courier New', monospace;
-    /*font-style: italic;*/
     font-size: 10px;
-    /*fill: #000;*/
-  }
-
-  #widget-keuangan-container{
-    /*text-align: center;*/
+    color: #333;
+    font-weight: bold;
   }
 
   #widget-keuangan-container h3{
     font-size: 16px;
-    /*font-weight: bold;*/
-    padding-top: 40px;
+    padding-top: 10px;
   }
 
   #grafik-container{
-    /*background-color: #999 */
     overflow-y: auto;
     overflow-x: auto;
     max-height: 500px;
@@ -90,18 +82,7 @@
   </div>
   <div class="box-body">
     <div id="widget-keuangan-container">
-      <!-- <div class="dropdown" style="float: right;">
-        <button class="dropdown-toggle btn btn-default" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toogle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right">
-        </ul>
-      </div> -->
-
-      <div class="dropdown" style="float: left; width: 100%; ">
+      <div class="dropdown" style="position: absolute;">
         <button class="dropdown-toggle btn btn-default" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="sr-only">Toogle navigation</span>
           <span class="icon-bar"></span>
@@ -112,7 +93,7 @@
           <?php 
             foreach ($widget_keuangan['tahun'] as $key):
           ?>
-          <li><a class="dropdown-item" onclick="gantiTahun('<?= $key ?>')"><b><?= $key ?></b></a></li>
+          <li><a class="dropdown-item"><b><?= $key ?></b></a></li>
           <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan'); gantiTahun('<?= $key ?>')">Realisasi Pelaksanaan APBDesa</a></li>
           <li><a class="dropdown-item" onclick="gantiTipe('pendapatan'); gantiTahun('<?= $key ?>')">Realisasi Pendapatan Desa</a></li>
           <li><a class="dropdown-item" onclick="gantiTipe('belanja'); gantiTahun('<?= $key ?>')">Realisasi Belanja Desa</a></li>
@@ -141,17 +122,17 @@
     resetContainer();
     switch(tipe){
       case "pelaksanaan":
-        var judulGrafik = 'Realisasi Pelaksanaan APBDesa';
+        var judulGrafik = 'Pelaksanaan APBDesa';
         var tipeGrafik = 'res_pelaksanaan';
         break;
 
       case "belanja":
-        var judulGrafik = 'Realisasi Belanja Desa';
+        var judulGrafik = 'Belanja Desa';
         var tipeGrafik = 'res_belanja';
         break;
 
       case "pendapatan":
-        var judulGrafik = 'Realisasi Pendapatan Desa';
+        var judulGrafik = 'Pendapatan Desa';
         var tipeGrafik = 'res_pendapatan';
         break;
     }
@@ -159,95 +140,106 @@
     $("#widget-keuangan-container h3").text(judulGrafik);
     //Eksekusi chart dengan for loop
     chartData.forEach(function(subData, idx){
-      if(!subData['realisasi'] && !subData['anggaran']){
-        $("#grafik-container").append(
-            "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph-not-available'>Data tidak tersedia.</div>");
-      }else{
-        var persentase = parseInt(subData['realisasi']) / (parseInt(subData['realisasi']) + parseInt(subData['anggaran'])) * 100;
-        if(isNaN(persentase)){
-          persentase = 0;
-        }
-        persentase = persentase.toFixed(2);
-        $("#grafik-container").append(
-            "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph'></div>");
-        Highcharts.chart("graph-"+ idx, {
-            chart: {
-              type: 'bar',
-              margin: 0,
-              height: 30,
-              backgroundColor: "rgba(0,0,0,0)",
-              spacingBottom: 0,
-            },
-
-            title: {
-              text: ''
-            },
-
-            subtitle: {
-              y: -2,
-              style: {"color" : "#000"},
-              text: '',
-            },
-
-            xAxis: {
-              visible: false,
-              categories: [''],
-            },
-            
-            tooltip: {
-              valueSuffix: ''
-            },
-            
-            plotOptions: {
-              bar: {
-                dataLabels: {
-                  enabled: true
-                }
+      if(subData['nama']){
+        if((!subData['realisasi'] && !subData['anggaran'])){
+          $("#grafik-container").append(
+              "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph-not-available'>Data tidak tersedia.</div>");
+        }else{
+          var persentase = parseInt(subData['realisasi']) / (parseInt(subData['realisasi']) + parseInt(subData['anggaran'])) * 100;
+          if(isNaN(persentase)){
+            persentase = 0;
+          }
+          persentase = persentase.toFixed(2);
+          $("#grafik-container").append(
+              "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph'></div>");
+          Highcharts.chart("graph-"+ idx, {
+              chart: {
+                type: 'bar',
+                margin: 0,
+                height: 30,
+                backgroundColor: "rgba(0,0,0,0)",
+                spacingBottom: 0,
               },
 
-              series: {
-                pointPadding: 0,
-                groupPadding: 0,
-                dataLabels: {
-                  align: 'left',
-                  inside: true,
-                  shadow: false,
-                  color: '#000',
+              title: {
+                text: ''
+              },
+
+              subtitle: {
+                y: -2,
+                style: {"color" : "#000"},
+                text: '',
+              },
+
+              xAxis: {
+                visible: false,
+                categories: [''],
+              },
+              
+              tooltip: {
+                valueSuffix: ''
+              },
+              
+              plotOptions: {
+                bar: {
+                  dataLabels: {
+                    enabled: true
+                  }
+                },
+
+                series: {
+                  pointPadding: 0,
+                  groupPadding: 0,
+                  dataLabels: {
+                    align: 'left',
+                    inside: true,
+                    shadow: false,
+                    color: '#000',
+                  },
                 },
               },
-            },
-            
-            credits: {
-              enabled: false
-            },
-            
-            yAxis: {
-              visible: false
-            },
-            
-            exporting: {
-              enabled: false
-            },
-            
-            legend: {
-              enabled: false
-            },
-            
-            series: [{
-              name: 'Anggaran',
-              color: '#2E8B57',
-              data: [parseInt(subData['anggaran'])],
-            }, {
-              name: 'Realisasi',
-              color: '#FFD700',
-              dataLabels: {
-                formatter: function(){
-                  return parseInt(subData['realisasi']) + " (Realisasi : " + persentase + "%)";
-                } 
+              
+              credits: {
+                enabled: false
               },
-              data: [parseInt(subData['realisasi'])],
-            }]
-        });
+              
+              yAxis: {
+                visible: false
+              },
+              
+              exporting: {
+                enabled: false
+              },
+              
+              legend: {
+                enabled: false
+              },
+              
+              series: [{
+                name: 'Anggaran',
+                color: '#2E8B57',
+                data: [parseInt(subData['anggaran'])],
+                dataLabels: {
+                  style: {"textOutline": "1px contrast"},
+                  color: "#ffffff",
+                },
+              }, {
+                name: 'Realisasi',
+                color: '#FFD700',
+                dataLabels: {
+                  formatter: function(){
+                    if(parseInt(subData['realisasi']) > parseInt(subData['anggaran'])){
+                      return parseInt(subData['realisasi']);
+                    }else{
+                      return parseInt(subData['realisasi']) + " (Realisasi : " + persentase + "%)";
+                    }
+                  },
+                  style: {"textOutline": "none",}
+                },
+                data: [parseInt(subData['realisasi'])],
+              }]
+          });
+        }
       }
     });
     $("p#grafik-tahun").text("Tahun " + year);
