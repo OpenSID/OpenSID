@@ -89,8 +89,8 @@ if (!function_exists('shortcode'))
 					    },
 					    legend: {
 					        layout: 'vertical',
-					        align: 'bottom',
-					        verticalAlign: 'bottom',
+					        align: 'right',
+					        verticalAlign: 'top',
 					        x: 0,
 					        y: 0,
 					        floating: true,
@@ -194,8 +194,8 @@ if (!function_exists('shortcode'))
 					    },
 					    legend: {
 					        layout: 'vertical',
-					        align: 'bottom',
-					        verticalAlign: 'bottom',
+					        align: 'right',
+					        verticalAlign: 'top',
 					        x: 0,
 					        y: 0,
 					        floating: true,
@@ -299,8 +299,8 @@ if (!function_exists('shortcode'))
 					    },
 					    legend: {
 					        layout: 'vertical',
-					        align: 'bottom',
-					        verticalAlign: 'bottom',
+					        align: 'right',
+					        verticalAlign: 'top',
 					        x: 0,
 					        y: 0,
 					        floating: true,
@@ -374,7 +374,7 @@ if (!function_exists('shortcode'))
 					        type: 'bar'
 					    },
 					    title: {
-					        text: 'Pembiyaan Desa'
+					        text: 'Pembiayaan Desa'
 					    },
 					    subtitle: {
 					        text: 'Semester ".$smt." Tahun ".$thn."'
@@ -404,8 +404,8 @@ if (!function_exists('shortcode'))
 					    },
 					    legend: {
 					        layout: 'vertical',
-					        align: 'bottom',
-					        verticalAlign: 'bottom',
+					        align: 'right',
+					        verticalAlign: 'top',
 					        x: 0,
 					        y: 0,
 					        floating: true,
