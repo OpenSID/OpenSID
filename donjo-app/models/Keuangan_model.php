@@ -268,14 +268,14 @@ class Keuangan_model extends CI_model {
 
       //Realisasi Pelaksanaan APBD
       $raw_data = $this->rp_apbd('1', $tahun);
-      
+
       $res_pelaksanaan = array();
       $nama = array(
         'PENDAPATAN' => '(PA) Pendapatan Desa',
-        'BELANJA' => '(PA) Belanja Desa', 
+        'BELANJA' => '(PA) Belanja Desa',
         'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
       );
-      for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++) { 
+      for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++) {
         $row = array(
           'nama' => $nama[$raw_data['jenis_belanja'][$i]['Nama_Akun']],
           'anggaran' => ($raw_data['anggaran'][$i]['AnggaranStlhPAK'] ? $raw_data['anggaran'][$i]['AnggaranStlhPAK'] : 0),
@@ -306,7 +306,7 @@ class Keuangan_model extends CI_model {
 
       //Belanja APBD
       $raw_data = $this->r_bd('1', $tahun);
-      var_dump($raw_data);
+      // var_dump($raw_data);
       $res_belanja = array();
       $tmp_belanja = array();
       foreach ($raw_data['bidang'] as $r){
@@ -372,8 +372,8 @@ class Keuangan_model extends CI_model {
     $this->db->group_by('jenis_belanja');
     $data['anggaran'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
 
-    $this->db->select('Akun');  
-    $this->db->select_sum('Nilai');  
+    $this->db->select('Akun');
+    $this->db->select_sum('Nilai');
     $this->db->join('keuangan_ta_spj_rinci', 'LEFT(keuangan_ta_spj_rinci.Kd_Rincian, 2) = keuangan_ref_rek1.Akun', 'left');
     $this->db->where("Akun = '4.' OR Akun = '5.' OR Akun = '6.'");
     $this->db->where('keuangan_ta_spj_rinci.Tahun', $thn);
@@ -426,8 +426,8 @@ class Keuangan_model extends CI_model {
     $this->db->select("keuangan_ta_kegiatan.Kd_Bid");
     $this->db->select_sum('Nilai');
     $this->db->join('keuangan_ta_kegiatan', 'keuangan_ta_kegiatan.Kd_Bid = keuangan_ta_bidang.Kd_Bid', 'left');
-    $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Keg = keuangan_ta_kegiatan.Kd_Keg', 'left');  
-    $this->db->join('keuangan_ta_spj', 'keuangan_ta_spj.No_Spj = keuangan_ta_spj_rinci.No_Spj', 'left');    
+    $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Keg = keuangan_ta_kegiatan.Kd_Keg', 'left');
+    $this->db->join('keuangan_ta_spj', 'keuangan_ta_spj.No_Spj = keuangan_ta_spj_rinci.No_Spj', 'left');
     $this->db->group_by('keuangan_ta_kegiatan.Kd_Bid');
     $this->db->order_by('keuangan_ta_kegiatan.Kd_Bid', 'asc');
     $this->db->where('keuangan_ta_bidang.Tahun', $thn);
@@ -470,7 +470,7 @@ class Keuangan_model extends CI_model {
     $this->db->where('tahun_anggaran', $thn);
     $data['pendapatan'] = $this->db->get('keuangan_master')->result_array();
     $i=0;
-    foreach ($data['pendapatan'] as $p) 
+    foreach ($data['pendapatan'] as $p)
     {
       $data['pendapatan'][$i]['total_anggaran'] = $this->total_anggaran($thn);
       $data['pendapatan'][$i]['total_realisasi'] = $this->total_realisasi($thn);
@@ -486,7 +486,7 @@ class Keuangan_model extends CI_model {
     $this->db->where('tahun_anggaran', $thn);
     $data['belanja'] = $this->db->get('keuangan_master')->result_array();
     $j=0;
-    foreach ($data['belanja'] as $b) 
+    foreach ($data['belanja'] as $b)
     {
       $data['belanja'][$j]['anggaran'] = $this->pagu_akun($b['Akun'], $thn);
       $data['belanja'][$j]['realisasi'] = $this->real_akun($b['Akun'], $thn);
@@ -500,7 +500,7 @@ class Keuangan_model extends CI_model {
     $this->db->where('tahun_anggaran', $thn);
     $data['pembiayaan'] = $this->db->get('keuangan_master')->result_array();
     $k=0;
-    foreach ($data['pembiayaan'] as $c) 
+    foreach ($data['pembiayaan'] as $c)
     {
       $data['pembiayaan'][$k]['anggaran'] = $this->pagu_akun($c['Akun'], $thn);
       $data['pembiayaan'][$k]['realisasi'] = $this->real_akun($c['Akun'], $thn);
@@ -550,7 +550,7 @@ class Keuangan_model extends CI_model {
     $this->db->where('id_keuangan_master', $id_keuangan_master);
     $data = $this->db->get('keuangan_ref_rek2')->result_array();
     $i=0;
-    foreach ($data as $d) 
+    foreach ($data as $d)
     {
       $data[$i]['anggaran'] = $this->pagu_subval($d['Kelompok'], $thn);
       $data[$i]['realisasi'] = $this->real_subval($d['Kelompok'], $thn);
@@ -568,7 +568,7 @@ class Keuangan_model extends CI_model {
     $this->db->group_by('Nama_Bidang');
     $data = $this->db->get('keuangan_ta_bidang')->result_array();
     $i=0;
-    foreach ($data as $d) 
+    foreach ($data as $d)
     {
       $data[$i]['anggaran'] = $this->pagu_sub_belanja($d['Kd_Bid'], $thn);
       $data[$i]['realisasi'] = $this->real_sub_belanja($d['Kd_Bid'], $thn);
@@ -621,7 +621,7 @@ class Keuangan_model extends CI_model {
     $this->db->where('id_keuangan_master', $id_keuangan_master);
     $data = $this->db->get('keuangan_ref_rek3')->result_array();
     $i=0;
-    foreach ($data as $d) 
+    foreach ($data as $d)
     {
       $data[$i]['anggaran'] = $this->pagu_pendapatan2($d['Jenis'], $thn);
       $data[$i]['realisasi'] = $this->real_pendapatan2($d['Jenis'], $thn);
@@ -640,7 +640,7 @@ class Keuangan_model extends CI_model {
     $this->db->group_by('Nama_Kegiatan');
     $data = $this->db->get('keuangan_ta_kegiatan')->result_array();
     $i=0;
-    foreach ($data as $d) 
+    foreach ($data as $d)
     {
       $data[$i]['anggaran'] = $this->pagu_belanja2($d['Kd_Keg'], $thn);
       $data[$i]['realisasi'] = $this->real_belanja2($d['Kd_Keg'], $thn);
@@ -696,7 +696,7 @@ class Keuangan_model extends CI_model {
     $this->db->group_by('Nama_Jenis');
     $data = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
     $i=0;
-    foreach ($data as $d) 
+    foreach ($data as $d)
     {
       $data[$i]['anggaran'] = $this->pagu_belanja3($d['Kd_Keg'], $d['Jenis'], $thn);
       $data[$i]['realisasi'] = $this->real_belanja3($d['Kd_Keg'], $d['Jenis'], $thn);
