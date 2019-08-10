@@ -16,7 +16,7 @@
 							<label for="nama">Nama</label>
 							<select class="form-control input-sm select2 required"  id="id_pend" name="id_pend" style="width:100%;">
 								<?php foreach ($nama AS $data): ?>
-									<option value="<?=$data['id'] ?>" ><?= unpenetration($data['nama'])?></option>
+									<option value="<?=$data['id'] ?>" ><?= $data['nama']?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>

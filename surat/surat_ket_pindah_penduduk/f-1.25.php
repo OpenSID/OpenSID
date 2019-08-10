@@ -446,28 +446,38 @@
 	 </table>
 
 	 <table class="ttd">
-		<col style="width:45%">
-		<col style="width:10%">
-		<col style="width:45%">
+		<col style="width:35%">
+		<col style="width:30%">
+		<col style="width:35%">
 		<tr>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>............................, ........................</td>
+			<td><?= $config['nama_desa']?>, <?= tgl_indo(date("Y m d")); ?></td>
 		</tr>
 		<tr>
-			<td>Petugas Registrasi</td>
-			<td>&nbsp;</td>
-			<td>Pemohon</td>
+			<td>Mengetahui,</td>
+			<td>Mengetahui,</td>
+			<td>Pemohon,</td>
 		</tr>
-		<tr style="font-size: 30mm; line-height: normal;">
+		<tr>
+			<td>Camat <?= $config['nama_kecamatan']; ?></td>
+			<td><?= $this->penandatangan_lampiran($data);?></td>
+			<td></td>
+		</tr>
+		<tr style="font-size: 20mm; line-height: normal;">
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td>(...............................................)</td>
-			<td>&nbsp;</td>
-			<td>(...............................................)</td>
+			<td><?= $config['nama_kepala_camat']; ?></td>
+			<td><?= $input['pamong']?></td>
+			<td><?= $individu['nama']?></td>
+		</tr>
+		<tr>
+			<td>NIP : <?= $config['nip_kepala_camat']; ?></td>
+			<td></td>
+			<td></td>
 		</tr>
 	</table>
 	<p>

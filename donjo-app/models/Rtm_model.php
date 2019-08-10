@@ -59,7 +59,7 @@
 		if (isset($_SESSION['cari']))
 		{
 			$cari = $_SESSION['cari'];
-			$kw = penetration($this->db->escape_like_str($cari));
+			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND t.nama LIKE '$kw'";
 			return $search_sql;
@@ -178,6 +178,8 @@
 
 		$default['id_rtm'] = $kk['id'];
 		$default['rtm_level'] = 1;
+		$default['updated_at'] = date('Y-m-d H:i:s');
+		$default['updated_by'] = $this->session->user;
 		$this->db->where('id', $nik);
 		$this->db->update('tweb_penduduk', $default);
 
@@ -189,6 +191,8 @@
 	{
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 
 		$this->db->where('id_rtm', $id);
 		$outp = $this->db->update('tweb_penduduk', $temp);
@@ -196,32 +200,17 @@
 		$sql = "DELETE FROM tweb_rtm WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if (!$outp) $this->session->success = -1;
 	}
 
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM tweb_rtm WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-
-				$default['id_rtm'] = "";
-				$default['rtm_level'] = "";
-
-				$this->db->where('id_rtm',$id);
-				$this->db->update('tweb_penduduk', $default);
-			}
+			$this->delete($id);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function add_anggota($id=0)
@@ -229,6 +218,8 @@
 		$data = $_POST;
 		$temp['id_rtm'] = $id;
 		$temp['rtm_level'] = 2;
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 
 		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
@@ -248,6 +239,8 @@
 	{
 		$data = $_POST;
 
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 		// Kalau menjadi kepala rumah tangga, tweb_rtm perlu diupdate juga
@@ -264,6 +257,8 @@
 	{
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 
 		$pend = $this->rtm_model->get_anggota($id);
 		$this->db->where('id', $id);
@@ -275,28 +270,16 @@
 			$outp = $this->db->update('tweb_rtm', $temp2);
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if (!$outp) $this->session->success = -1;
 	}
 
 	public function rem_all_anggota($kk)
 	{
 		$id_cb = $_POST['id_cb'];
-		$temp['id_rtm'] = 0;
-		$temp['rtm_level'] = 0;
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->db->where('id', $id);
-				$outp = $this->db->update('tweb_penduduk', $temp);
-			}
+			$this->rem_anggota($kk, $id);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function get_dusun($id=0)
@@ -374,7 +357,7 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-			$data[$i]['alamat'] = "Dusun ".ununderscore($data[$i]['dusun']).", RW ".$data[$i]['rw'].", RT ".$data[$i]['rt'];
+			$data[$i]['alamat'] = "Dusun ".$data[$i]['dusun'].", RW ".$data[$i]['rw'].", RT ".$data[$i]['rt'];
 			$data[$i]['tanggallahir'] = tgl_indo($data[$i]['tanggallahir']);
 		}
 		return $data;

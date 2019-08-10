@@ -150,6 +150,8 @@
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data['modul'] = strip_tags($data['modul']);
+		$data['ikon'] = strip_tags($data['ikon']);
 		$this->db->where('id',$id);
 		$outp = $this->db->update('setting_modul', $data);
 		if ($outp) $_SESSION['success'] = 1;

@@ -54,11 +54,11 @@ body{
 #footer-left{
   text-align: left;
     padding: 10px;
-    width: 47%;
+    width: 53%;
 }
 #footer-right{
     padding: 10px;
-    width: 53%;
+    width: 47%;
     float: right;
     margin-top: -50px;
 }

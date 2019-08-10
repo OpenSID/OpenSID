@@ -88,7 +88,7 @@
 }
 .user-panel
 {
-	padding: 10px 10px 25px 10px;
+	padding: 5px 0px 0px 0px;
 }
 .user-panel > .info
 {
@@ -376,4 +376,13 @@ img.profile-user-img.penduduk
 	max-height: 250px;
 	max-width: 200px;
 }
+
+/* Tabel umum */
+td.bilangan, th.bilangan, td.no_urut
+{
+	text-align: center;
+}
+
+.kecil{font-size:.8em;color:#888;font-style:italic;font-weight:400;margin-bottom:.5em;}
+
 

@@ -34,7 +34,7 @@
 														<tr>
 															<td width="300">Nama Penduduk</td>
 															<td width="1">:</td>
-															<td><?= strtoupper(unpenetration($persil_detail["namapemilik"]))?></td>
+															<td><?= strtoupper($persil_detail["namapemilik"])?></td>
 														</tr>
 														<tr>
 															<td>NIK</td>
@@ -53,7 +53,7 @@
 														<tr>
 															<td width="300">Nama Pemilik</td>
 															<td width="1">:</td>
-															<td><?= strtoupper(unpenetration($persil_detail["namapemilik"]))?></td>
+															<td><?= strtoupper($persil_detail["namapemilik"])?></td>
 														</tr>
 														<tr>
 															<td>Alamat</td>

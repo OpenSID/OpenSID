@@ -66,7 +66,7 @@
 																		<td>
 																			<?=$data['nik'];?>
 																		</td>
-																		<td width="50%"><?=unpenetration($data['nama'])?></td>
+																		<td width="50%"><?=$data['nama']?></td>
 																		<td nowrap><?=tgl_indo2($data['tanggal_buat'])?></td>
 																		<td nowrap><?=tgl_indo2($data['last_login'])?></td>
 																	</tr>

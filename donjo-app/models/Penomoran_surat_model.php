@@ -81,6 +81,7 @@ class Penomoran_surat_model extends CI_Model {
 		$surat['no_surat'] OR $surat['no_surat'] = $surat['nomor_urut'];
 		$surat['tanggal_surat'] OR $surat['tanggal_surat'] = $surat['tanggal'];
 		$surat['tanggal'] OR $surat['tanggal'] = $surat['tanggal_surat'];
+		$surat['tanggal'] = tgl_indo2($surat['tanggal']);
 
 		return $surat;
 	}
@@ -162,6 +163,21 @@ class Penomoran_surat_model extends CI_Model {
 		}
 		$surat = $this->db->get()->row_array();
 		return !empty($surat);
+	}
+
+	public function format_penomoran_surat($data)
+	{
+		$this->load->model('surat_model');
+		$thn = date('Y');
+		$setting = $this->setting->format_nomor_surat;
+		$this->surat_model->substitusi_nomor_surat($data['input']['nomor'], $setting);
+		$array_replace = array(
+        "[kode_surat]" => $data['surat']['kode_surat'],
+        "[tahun]" => $thn,
+			  "[bulan_romawi]" => bulan_romawi((int)date("m")),
+		);
+		$setting = str_replace(array_keys($array_replace), array_values($array_replace), $setting);
+		return $setting;
 	}
 
 }

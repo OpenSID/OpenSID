@@ -90,12 +90,6 @@ class Modul extends Admin_Controller {
 		redirect('modul');
 	}
 
-	public function insert()
-	{
-		$this->modul_model->insert();
-		redirect('modul');
-	}
-
 	public function update($id = '')
 	{
 		$this->modul_model->update($id);

@@ -85,7 +85,7 @@ class Keluar extends Admin_Controller {
 		redirect('keluar/perorangan');
 	}
 
-	public function perorangan($nik=0, $p=1, $o=0)
+	public function perorangan($nik='', $p=1, $o=0)
 	{
 		if (isset($_POST['nik']))
 		{
@@ -110,7 +110,6 @@ class Keluar extends Admin_Controller {
 		$data['paging'] = $this->keluar_model->paging_perorangan($nik, $p, $o);
 		$data['main'] = $this->keluar_model->list_data_perorangan($nik, $o, $data['paging']->offset, $data['paging']->per_page);
 
-		$data['penduduk'] = $this->surat_model->list_penduduk();
 		$data['form_action'] = site_url("sid_surat_keluar/perorangan/$nik");
 		$data['nik']['no'] = $nik;
 

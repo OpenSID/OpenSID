@@ -93,6 +93,22 @@
 		if($rp != 0){return "$rp";}else{return "-";}
 	}
 
+	function to_rupiah($inp=''){
+		$outp = str_replace('.', '', $inp);
+		$outp = str_replace(',', '.', $outp);
+		return $outp;
+	}
+
+	function rp($inp=0){
+		return number_format($inp, 2, ',', '.');
+	}
+
+	function rupiah24($angka)
+	{
+		$hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+		return $hasil_rupiah;
+	}
+
 	function jecho($a,$b,$str){
 		if($a==$b){
 			echo $str;
@@ -263,16 +279,6 @@
 		else if($i<100) $o='0'.$i;
 			else $o=$i;
 		return $o;
-	}
-
-	function to_rupiah($inp=''){
-		$outp = str_replace('.', '', $inp);
-		$outp = str_replace(',', '.', $outp);
-		return $outp;
-	}
-
-	function rp($inp=0){
-		return number_format($inp, 2, ',', '.');
 	}
 
 	function pertumbuhan($a=1,$b=1,$c=1,$d=1){
@@ -547,3 +553,98 @@ function hash_pin($pin="")
 	return $pin;
 }
 
+/*
+ * =======================================
+ * Rupiah terbilang
+ */
+function number_to_words($number, $nol_sen=true)
+{
+	$before_comma = trim(to_word($number));
+	$after_comma = trim(comma($number));
+	$result = $before_comma . ($nol_sen ? '' : ' koma ' . $after_comma);
+	return ucwords($result . ' Rupiah');
+}
+
+function to_word($number)
+{
+	$words = "";
+	$arr_number = array(
+		"",
+		"satu",
+		"dua",
+		"tiga",
+		"empat",
+		"lima",
+		"enam",
+		"tujuh",
+		"delapan",
+		"sembilan",
+		"sepuluh",
+		"sebelas");
+
+	if ($number < 12)
+	{
+		$words = " ".$arr_number[$number];
+	}
+	else if ($number < 20)
+	{
+		$words = to_word($number - 10)." belas";
+	}
+	else if ($number < 100)
+	{
+		$words = to_word($number / 10)." puluh".to_word($number % 10);
+	}
+	else if ($number < 200)
+	{
+		$words = "seratus ".to_word($number - 100);
+	}
+	else if ($number < 1000)
+	{
+		$words = to_word($number / 100)." ratus".to_word($number % 100);
+	}
+	else if ($number < 2000)
+	{
+		$words = "seribu ".to_word($number - 1000);
+	}
+	else if ($number < 1000000)
+	{
+		$words = to_word($number / 1000)." ribu".to_word($number % 1000);
+	}
+	else if ($number < 1000000000)
+	{
+		$words = to_word($number / 1000000)." juta".to_word($number % 1000000);
+	}
+	else
+	{
+		$words = "undefined";
+	}
+	return $words;
+}
+
+function comma($number)
+{
+	$after_comma = stristr($number, ',');
+	$arr_number = array(
+		"nol",
+		"satu",
+		"dua",
+		"tiga",
+		"empat",
+		"lima",
+		"enam",
+		"tujuh",
+		"delapan",
+		"sembilan");
+
+	$results = "";
+	$length = strlen($after_comma);
+	$i = 1;
+	while ($i < $length)
+	{
+		$get = substr($after_comma, $i, 1);
+		$results .= " ".$arr_number[$get];
+		$i++;
+	}
+	return $results;
+}
+// =======================================

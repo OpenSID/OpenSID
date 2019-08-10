@@ -169,7 +169,7 @@ class Import_model extends CI_Model {
 		$isi_baris['rt'] = ltrim(trim($data->val($i, $kolom_impor_keluarga['rt'])), "'");
 
 		$nama = trim($data->val($i, $kolom_impor_keluarga['nama']));
-		$nama = preg_replace('/[^a-zA-Z0-9,\.]/', ' ', $nama);
+		$nama = preg_replace('/[^a-zA-Z0-9,\.\']/', ' ', $nama);
 		$isi_baris['nama'] = $nama;
 
 		// Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
@@ -355,6 +355,8 @@ class Import_model extends CI_Model {
 				if ($data['status_dasar'] != -1)
 				{
 					// Hanya update apabila status dasar valid (data SIAK)
+					$data['updated_at'] = date('Y-m-d H:i:s');
+					$data['updated_by'] = $this->session->user;
 					$id = $res['id'];
 					$this->db->where('id',$id);
 					$hasil = $this->db->update('tweb_penduduk', $data);
@@ -363,6 +365,7 @@ class Import_model extends CI_Model {
 			else
 			{
 				if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
+				$data['created_by'] = $this->session->user;
 				$hasil = $this->db->insert('tweb_penduduk', $data);
 				$id = $this->db->insert_id();
 				$penduduk_baru = $id;
@@ -371,6 +374,7 @@ class Import_model extends CI_Model {
 		else
 		{
 			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
+			$data['created_by'] = $this->session->user;
 			$hasil = $this->db->insert('tweb_penduduk', $data);
 			$id = $this->db->insert_id();
 			$penduduk_baru = $id;
@@ -557,6 +561,8 @@ class Import_model extends CI_Model {
 			{
 				$upd['id_rtm'] = $id_rtm;
 				$upd['rtm_level'] = $rtm_level;
+				$upd['updated_at'] = date('Y-m-d H:i:s');
+				$upd['updated_by'] = $this->session->user;
 
 				$this->db->where('nik', $nik);
 				$outp = $this->db->update('tweb_penduduk', $upd);
@@ -573,6 +579,7 @@ class Import_model extends CI_Model {
 				$penduduk['nik'] = $nik;
 				$penduduk['id_rtm']	= $id_rtm;
 				$penduduk['rtm_level'] = $rtm_level;
+				$penduduk['created_by'] = $this->session->user;
 
 				$outp = $this->db->insert('tweb_penduduk', $penduduk);
 

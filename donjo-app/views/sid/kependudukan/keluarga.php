@@ -35,8 +35,17 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url('keluarga/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data KK Baru"><i class="fa fa-plus"></i> Tambah KK Baru</a>
-						<a href="<?= site_url('keluarga/form_old')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data KK dari keluarga yang sudah ter-input" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Kepala Keluarga"><i class="fa fa-plus"></i> Tambah KK</a>
+						<div class="btn-group btn-group-vertical">
+							<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah KK Baru</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<a href="<?= site_url('keluarga/form')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data KK Baru"><i class="fa fa-plus"></i> Tambah Penduduk Baru</a>
+								</li>
+								<li>
+									<a href="<?= site_url('keluarga/form_old')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data KK dari keluarga yang sudah ter-input" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Kepala Keluarga"><i class="fa fa-plus"></i> Dari Penduduk Sudah Ada</a>
+								</li>
+							</ul>
+						</div>
 						<a href="<?= site_url("keluarga/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url("keluarga/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						<div class="btn-group btn-group-vertical">
@@ -77,7 +86,7 @@
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('keluarga/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 													<?php endforeach;?>
 												</select>
 												<?php if ($dusun): ?>
@@ -133,13 +142,20 @@
                                   <th nowrap><a href="<?= site_url("keluarga/index/$p/3")?>">Kepala Keluarga <i class='fa fa-sort fa-sm'></i></a></th>
                                 <?php endif; ?>
 																<th>NIK</th>
+																<th>Tag ID Card</th>
 																<th>Jumlah Anggota</th>
 																<th>Jenis Kelamin</th>
 																<th>Alamat</th>
 																<th><?= ucwords($this->setting->sebutan_dusun)?></th>
 																<th>RW</th>
 																<th>RT</th>
-																<th nowrap>Tanggal Terdaftar</th>
+                                <?php if ($o==6): ?>
+																	<th nowrap><a href="<?= site_url("keluarga/index/$p/5")?>">Tanggal Terdaftar <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                <?php elseif ($o==5): ?>
+																	<th nowrap><a href="<?= site_url("keluarga/index/$p/6")?>">Tanggal Terdaftar <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                <?php else: ?>
+																	<th nowrap><a href="<?= site_url("keluarga/index/$p/6")?>">Tanggal Terdaftar <i class='fa fa-sort fa-sm'></i></a></th>
+                                <?php endif; ?>
 																<th nowrap>Tanggal Cetak KK</th>
 															</tr>
 														</thead>
@@ -152,18 +168,18 @@
 																		<a href="<?= site_url("keluarga/anggota/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Anggota Keluarga (KK)"><i class="fa fa-list-ol"></i></a>
 																		<a href="<?= site_url("keluarga/form_a/$p/$o/$data[id]")?>" class="btn btn-success btn-flat btn-sm " title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> </a>
 																		<a href="<?= site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data KK" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-																		<a href="<?= site_url("keluarga/ajax_penduduk_pindah/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Alamat/Pindah Keluarga (KK) Dalam Desa" class="btn bg-navy btn-flat btn-sm"  title="Ubah Alamat/Pindah Keluarga dalam Desa"><i class="fa fa-location-arrow"></i></a>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
 																			<a href="#" data-href="<?= site_url("keluarga/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus/Keluar Dari Daftar Keluarga" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
 																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"><?= $data['no_kk']?></a></td>
-																	<td nowrap><?= strtoupper(unpenetration($data['kepala_kk']))?></td>
-																	<td><?= strtoupper(unpenetration($data['nik']))?></td>
+																	<td nowrap><?= strtoupper($data['kepala_kk'])?></td>
+																	<td><a href="<?= site_url("penduduk/detail/1/0/$data[id_pend]")?>"><?= strtoupper($data['nik'])?></a></td>
+																	<td><?= $data['tag_id_card']?></td>
 																	<td><a href="<?= site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?= $data['jumlah_anggota']?></a></td>
 																	<td><?= strtoupper($data['sex'])?></td>
 																	<td><?= strtoupper($data['alamat'])?></td>
-																	<td><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></td>
+																	<td><?= strtoupper($data['dusun'])?></td>
 																	<td><?= strtoupper($data['rw'])?></td>
 																	<td><?= strtoupper($data['rt'])?></td>
 																	<td><?= tgl_indo($data['tgl_daftar'])?></td>

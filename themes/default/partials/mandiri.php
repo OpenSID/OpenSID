@@ -23,7 +23,7 @@
     <tr>
       <td width="36%">Nama</td>
       <td width="2%">:</td>
-      <td width="62%"><?php echo strtoupper(unpenetration($penduduk['nama']))?></td>
+      <td width="62%"><?php echo strtoupper($penduduk['nama'])?></td>
     </tr>
     <tr class="shaded">
       <td>NIK</td>
@@ -147,7 +147,7 @@
     <tr class="shaded">
       <td>Nama Ayah</td>
       <td>:</td>
-      <td><?php echo strtoupper(unpenetration($penduduk['nama_ayah']))?></td>
+      <td><?php echo strtoupper($penduduk['nama_ayah'])?></td>
     </tr>
     <tr>
       <td>NIK Ibu</td>
@@ -157,7 +157,7 @@
     <tr class="shaded">
       <td>Nama Ibu</td>
       <td>:</td>
-      <td><?php echo strtoupper(unpenetration($penduduk['nama_ibu']))?></td>
+      <td><?php echo strtoupper($penduduk['nama_ibu'])?></td>
     </tr>
     <tr>
       <td>Cacat</td>

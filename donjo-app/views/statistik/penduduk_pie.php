@@ -103,7 +103,7 @@
 										</thead>
 										<tbody>
 											<?php foreach ($main as $data): ?>
-											<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap"); ?>
+											<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap/1"); ?>
 												<tr>
 													<td><?= $data['no']?></td>
 													<td><?= strtoupper($data['nama']);?></td>
