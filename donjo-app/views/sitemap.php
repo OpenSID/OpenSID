@@ -10,9 +10,9 @@
     </url>
 
     <!-- Sitemap -->
-    <?php foreach($artikel as $satu_artikel): ?>
+    <?php foreach($artikel as $a): ?>
     <url>
-        <loc><?= base_url()."first/artikel/".$satu_artikel->id ?></loc>
+        <loc><?= base_url()."index.php/first/artikel/".$a->thn."/".$a->bln."/".$a->hri."/".$a->slug ?></loc>
         <priority>0.5</priority>
         <changefreq>weekly</changefreq>
     </url>
