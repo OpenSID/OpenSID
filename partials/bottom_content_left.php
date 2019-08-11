@@ -25,13 +25,13 @@
             	<div id="headline" class="box box-danger" style="margin-bottom:20px;">
             		<div class="box-header with-border">
             			<h3 class="catg_titile" style="font-family: Oswald">
-            				<a href="<?= site_url("first/artikel/$headline[id]") ?>"> <?= $headline['judul'] ?></a>
+            				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>"> <?= $headline['judul'] ?></a>
             			</h3>
             		</div>
             		<div class="box-body">
             			<?php if ($headline["gambar"] != ""): ?>
             				<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
-            					<a href="<?= site_url('first/artikel/'.$headline['id']) ?>">
+            					<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
             					    <img width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>" src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" />
             					</a>
             				<?php else: ?>
@@ -40,7 +40,10 @@
             			<?php endif; ?>
             			<div class="post">
             				<div style="text-align: justify;"><?= $abstrak_headline ?> ...
-            				<a href="<?= site_url('first/artikel/'.$headline['id']) ?>"><button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button></a></div>
+								<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
+									<button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button>
+								</a>
+							</div>
             			</div>
             		</div>
             	</div>
@@ -58,24 +61,26 @@
 		            <ul class="fashion_catgnav">
 		                <li>
 		                    <div class="catgimg2_container">
-		                        <h2 class="catg_titile"><a href="<?= site_url("first/artikel/$data[id]") ?>" title="Baca Selengkapnya"><?= $data["judul"] ?></a></h2>
+		                        <h2 class="catg_titile">
+		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya"><?= $data["judul"] ?></a>
+		                        </h2>
 		                        <div class="comments_box"> <span class="meta_date"><?= tgl_indo2($data['tgl_upload']) ?></span> <span class="meta_comment"> <?= $data['owner'] ?></span> <?php if (trim($data['kategori']) != ''): ?>
 		                        <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['id_kategori']) ?>"><?= $data['kategori'] ?></a>
 		                        <?php endif; ?></div>
 		                        <?php if ($data['gambar']!=''): ?>
 		                        <?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$data['gambar'])): ?>
 		                        <div class="catgimg2_container">
-		                            <a href="<?= site_url("first/artikel/$data[id]") ?>" title="Baca Selengkapnya">
+									<a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
 		                                <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
 		                            </a><!--
 		                            <p style="text-align: justify;"><?= $abstrak ?> ...
-		                            <a href="<?= site_url("first/artikel/".$data["id"]) ?>">
+		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
 										<div class="readmore"> Selengkapnya <i class="fa fa-arrow-right"></i></div>
 									</a></p>-->
 		                        </div>
 		                        <?php else: ?>
 		                        <div class="catgimg2_container">
-		                            <a href="<?= site_url("first/artikel/$data[id]") ?>" title="Baca Selengkapnya">
+		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
 		                                <img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
 		                            </a>
 		                        </div>
@@ -83,12 +88,12 @@
 		                        
 		                        <?php else: ?>
 		                        <div class="catgimg2_container">
-		                            <a href="<?= site_url("first/artikel/$data[id]") ?>" title="Baca Selengkapnya">
+		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
 		                                <img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
 		                            </a><!--
 		                            <p style="text-align: justify;"><?= $abstrak ?> ...
-		                            <a href="<?= site_url("first/artikel/".$data["id"]) ?>">
-										<div class="readmore"> Selengkapnya <i class="fa fa-arrow-right"></i></div>
+		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
+		                            	<div class="readmore"> Selengkapnya <i class="fa fa-arrow-right"></i></div>
 									</a></p>-->
 		                        </div>
 		                        <?php endif; ?>
