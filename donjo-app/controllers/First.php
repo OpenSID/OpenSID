@@ -80,7 +80,7 @@ class First extends Web_Controller {
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 
-		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
+		$data['artikel'] = $this->first_artikel_m->artikel_show(0, $data['paging']->offset, $data['paging']->per_page);
 		$data['headline'] = $this->first_artikel_m->get_headline();
 
 		$cari = trim($this->input->get('cari'));
@@ -185,7 +185,7 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function artikel($id=0, $p=1)
+	public function artikel($thn, $bln, $hri, $slug = NULL, $p=1)
 	{
 		$this->load->helper('shortcode');
 		$data = $this->includes;
@@ -193,7 +193,18 @@ class First extends Web_Controller {
 		$data['p'] = $p;
 		$data['paging']  = $this->first_artikel_m->paging($p);
 		$data['artikel'] = $this->first_artikel_m->list_artikel(0,$data['paging']->offset, $data['paging']->per_page);
-		$data['single_artikel'] = $this->first_artikel_m->get_artikel($id);
+
+		if (empty($slug))
+		{
+			// Kalau slug kosong, parameter pertama adalah id artikel
+			$id = $thn;
+			$data['single_artikel'] = $this->first_artikel_m->get_artikel($id, true);
+		}
+		else
+		{
+			$data['single_artikel'] = $this->first_artikel_m->get_artikel($slug);
+			$id = $data['single_artikel']['id'];
+		}
 		// replace isi artikel dengan shortcodify
 		$data['single_artikel']['isi'] = shortcode($data['single_artikel']['isi']);
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);

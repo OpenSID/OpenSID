@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Agung Sugiarto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Agung Sugiarto dan Diki Siswanto yang terus berkontribusi. Terima kasih pula pada adlersentinel yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.08-pasca:
 
@@ -10,6 +10,9 @@ Lengkapnya, isi rilis versi 19.08-pasca:
 4. Memilih penduduk di Arsip Layanan > Rekam Surat Perorangan sekarang dilakukan menggunakan ajax untuk menangani jumlah penduduk besar. [teknis]
 5. #2161, #2180: Memilih penduduk pada form surat sekarang dilakukan menggunakan ajax berpaginasi untuk menangani jumlah penduduk besar. [teknis]
 6. Menu tertentu di situs demo sekarang tidak dapat diakses. [security-fix]
+7. #2194: Sekarang impor data penduduk dalam format Excel mempertahankan tanda kutip (') di dalam nama. [bug-fix]
+8. #2193: Tambahkan kolom KTP-el dan Status Rekam di ekspor penduduk dalam format siap impor.
+9. #1911, #1645: Sekarang artikel bisa ditampilkan menggunakan id artikel atau tulisan yg berasal dari judul artikel.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

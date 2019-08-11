@@ -54,3 +54,5 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['sitemap\.xml'] = "Sitemap/index";
+$route['first/(:any)'] = 'first/artikel/$thn/$bln/$hri/$1'; // Buat router untuk slug
+$route['first'] = 'first'; // Menambahkan Router untuk artikel
