@@ -10,7 +10,11 @@ class First_artikel_m extends CI_Model {
 
 	public function get_headline()
 	{
-		$sql   = "SELECT a.*,u.nama AS owner FROM artikel a LEFT JOIN user u ON a.id_user = u.id WHERE headline = 1 AND a.tgl_upload < NOW() ORDER BY tgl_upload DESC LIMIT 1 ";
+		$sql = "SELECT a.*, u.nama AS owner, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
+			FROM artikel a
+			LEFT JOIN user u ON a.id_user = u.id
+			WHERE headline = 1 AND a.tgl_upload < NOW()
+			ORDER BY tgl_upload DESC LIMIT 1 ";
 		$query = $this->db->query($sql);
 		$data  = $query->row_array();
 		if (empty($data))
@@ -86,16 +90,19 @@ class First_artikel_m extends CI_Model {
 	{
 		if ($id > 0)
 		{
-			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a
+			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
+				FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND a.id = ".$id;
 		}
 		else
 		{
 			// Penampilan daftar artikel di halaman depan tidak terbatas pada artikel dinamis saja
-			$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a
+			$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
+				FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
-				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1";
+				LEFT JOIN kategori k ON a.id_kategori = k.id
+				WHERE a.enabled = 1 AND headline <> 1";
 			$cari = trim($this->input->get('cari'));
 			if ( ! empty($cari))
 			{
@@ -299,14 +306,29 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function get_artikel($id=0)
+	public function get_artikel($slug, $is_id=false)
 	{
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.id=? AND a.tgl_upload < NOW()";
-		$query = $this->db->query($sql,$id);
-		if ($query->num_rows()>0)
+		$this->db->select('a.*, u.nama AS owner, k.kategori')
+			->from('artikel a')
+			->join('user u', 'a.id_user = u.id', 'left')
+			->join('kategori k', 'a.id_kategori = k.id', 'left')
+			->where('tgl_upload < NOW()');
+
+		if ($is_id)
+		{
+			// $slug adalah id
+			$this->db->where('a.id', $slug);
+		}
+		else
+		{
+			$this->db->where('slug', $slug);
+		}
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0)
 		{
 			$data = $query->row_array();
-			$data['judul'] = $this->security->xss_clean($data['judul']);
+			$data['slug'] = $this->security->xss_clean($data['slug']);
 			if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
 				$data['isi'] = $this->security->xss_clean($data['isi']);
 		}
@@ -320,7 +342,11 @@ class First_artikel_m extends CI_Model {
 	public function list_artikel($offset=0, $limit=50, $id=0)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND a.tgl_upload < NOW() ";
+		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
+			FROM artikel a
+			LEFT JOIN user u ON a.id_user = u.id
+			LEFT JOIN kategori k ON a.id_kategori = k.id
+			WHERE a.enabled = 1 AND a.tgl_upload < NOW() ";
 		if ($id!=0)
 			$sql .= "AND id_kategori = $id OR parrent = $id";
 		$sql .= " ORDER BY a.tgl_upload DESC ";

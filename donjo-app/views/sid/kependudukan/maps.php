@@ -23,7 +23,7 @@
 			var posisi = [<?= $penduduk['lat'].",".$penduduk['lng']; ?>];
 			var zoom = <?= $desa['zoom'] ?: 10; ?>;
 		<?php else: ?>
-			var posisi = [-7.885619783139936, 110.39893195996092];
+			var posisi = [<?= $desa['lat'].",".$desa['lng']; ?>];
 			var zoom = 10;
 		<?php	endif; ?>
 		//Inisialisasi tampilan peta

@@ -29,7 +29,7 @@
 							<select class="" name="tahun_anggaran" id="tahun_anggaran">
 								<option value="<?= $tahun_anggaran ?>"><?= $tahun_anggaran ?></option>
 							</select>
-					</h4>
+						</h4>
 					</div>
 					<div class="box-body">
 						<div class="box box-danger">
@@ -144,7 +144,7 @@
 		        text: 'Tahun <?= $tahun_anggaran?>'
 		    },
 		    xAxis: {
-		        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
+		        // categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
 		        // title: {
 		        //     text: null
 		        // }

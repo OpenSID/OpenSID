@@ -5091,7 +5091,7 @@ CREATE TABLE `log_bulanan` (
   `wna_lk` int(11) DEFAULT NULL,
   `wna_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=268 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=358 DEFAULT CHARSET=latin1;
 
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1, 97, 46, 51, 37, '2017-04-11 02:01:54', 28, 9, NULL, NULL);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (2, 97, 46, 51, 37, '2017-05-10 21:03:26', 28, 9, NULL, NULL);
@@ -5360,6 +5360,96 @@ INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (265, 97, 46, 51, 37, '2019-04-30 23:18:26', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (266, 97, 46, 51, 37, '2019-05-28 22:45:23', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (267, 97, 46, 51, 37, '2019-07-01 03:44:18', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (268, 97, 46, 51, 37, '2019-07-31 23:50:22', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (269, 97, 46, 51, 37, '2019-07-31 23:50:22', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (270, 97, 46, 51, 37, '2019-07-31 23:50:25', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (271, 97, 46, 51, 37, '2019-07-31 23:50:25', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (272, 97, 46, 51, 37, '2019-07-31 23:50:28', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (273, 97, 46, 51, 37, '2019-07-31 23:50:28', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (274, 97, 46, 51, 37, '2019-07-31 23:50:31', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (275, 97, 46, 51, 37, '2019-07-31 23:50:31', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (276, 97, 46, 51, 37, '2019-07-31 23:50:34', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (277, 97, 46, 51, 37, '2019-07-31 23:50:34', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (278, 97, 46, 51, 37, '2019-07-31 23:50:37', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (279, 97, 46, 51, 37, '2019-07-31 23:50:37', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (280, 97, 46, 51, 37, '2019-07-31 23:50:40', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (281, 97, 46, 51, 37, '2019-07-31 23:50:40', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (282, 97, 46, 51, 37, '2019-07-31 23:50:43', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (283, 97, 46, 51, 37, '2019-07-31 23:50:43', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (284, 97, 46, 51, 37, '2019-07-31 23:50:46', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (285, 97, 46, 51, 37, '2019-07-31 23:50:46', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (286, 97, 46, 51, 37, '2019-07-31 23:50:49', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (287, 97, 46, 51, 37, '2019-07-31 23:50:49', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (288, 97, 46, 51, 37, '2019-07-31 23:50:52', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (289, 97, 46, 51, 37, '2019-07-31 23:50:52', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (290, 97, 46, 51, 37, '2019-07-31 23:50:55', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (291, 97, 46, 51, 37, '2019-07-31 23:50:55', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (292, 97, 46, 51, 37, '2019-07-31 23:50:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (293, 97, 46, 51, 37, '2019-07-31 23:50:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (294, 97, 46, 51, 37, '2019-07-31 23:51:01', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (295, 97, 46, 51, 37, '2019-07-31 23:51:01', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (296, 97, 46, 51, 37, '2019-07-31 23:51:04', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (297, 97, 46, 51, 37, '2019-07-31 23:51:04', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (298, 97, 46, 51, 37, '2019-07-31 23:51:07', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (299, 97, 46, 51, 37, '2019-07-31 23:51:07', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (300, 97, 46, 51, 37, '2019-07-31 23:51:10', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (301, 97, 46, 51, 37, '2019-07-31 23:51:10', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (302, 97, 46, 51, 37, '2019-07-31 23:51:13', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (303, 97, 46, 51, 37, '2019-07-31 23:51:13', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (304, 97, 46, 51, 37, '2019-07-31 23:51:16', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (305, 97, 46, 51, 37, '2019-07-31 23:51:16', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (306, 97, 46, 51, 37, '2019-07-31 23:51:21', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (307, 97, 46, 51, 37, '2019-07-31 23:51:21', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (308, 97, 46, 51, 37, '2019-07-31 23:51:22', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (309, 97, 46, 51, 37, '2019-07-31 23:51:22', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (310, 97, 46, 51, 37, '2019-07-31 23:51:25', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (311, 97, 46, 51, 37, '2019-07-31 23:51:25', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (312, 97, 46, 51, 37, '2019-07-31 23:51:28', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (313, 97, 46, 51, 37, '2019-07-31 23:51:28', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (314, 97, 46, 51, 37, '2019-07-31 23:51:31', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (315, 97, 46, 51, 37, '2019-07-31 23:51:31', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (316, 97, 46, 51, 37, '2019-07-31 23:51:34', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (317, 97, 46, 51, 37, '2019-07-31 23:51:34', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (318, 97, 46, 51, 37, '2019-07-31 23:51:37', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (319, 97, 46, 51, 37, '2019-07-31 23:51:37', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (320, 97, 46, 51, 37, '2019-07-31 23:51:40', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (321, 97, 46, 51, 37, '2019-07-31 23:51:40', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (322, 97, 46, 51, 37, '2019-07-31 23:51:42', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (323, 97, 46, 51, 37, '2019-07-31 23:51:43', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (324, 97, 46, 51, 37, '2019-07-31 23:51:43', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (325, 97, 46, 51, 37, '2019-07-31 23:51:46', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (326, 97, 46, 51, 37, '2019-07-31 23:51:46', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (327, 97, 46, 51, 37, '2019-07-31 23:51:49', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (328, 97, 46, 51, 37, '2019-07-31 23:51:49', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (329, 97, 46, 51, 37, '2019-07-31 23:51:52', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (330, 97, 46, 51, 37, '2019-07-31 23:51:52', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (331, 97, 46, 51, 37, '2019-07-31 23:51:55', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (332, 97, 46, 51, 37, '2019-07-31 23:51:55', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (333, 97, 46, 51, 37, '2019-07-31 23:51:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (334, 97, 46, 51, 37, '2019-07-31 23:51:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (335, 97, 46, 51, 37, '2019-07-31 23:52:01', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (336, 97, 46, 51, 37, '2019-07-31 23:52:01', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (337, 97, 46, 51, 37, '2019-07-31 23:52:04', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (338, 97, 46, 51, 37, '2019-07-31 23:52:04', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (339, 97, 46, 51, 37, '2019-07-31 23:52:07', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (340, 97, 46, 51, 37, '2019-07-31 23:52:07', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (341, 97, 46, 51, 37, '2019-07-31 23:52:10', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (342, 97, 46, 51, 37, '2019-07-31 23:52:10', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (343, 97, 46, 51, 37, '2019-07-31 23:52:13', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (344, 97, 46, 51, 37, '2019-07-31 23:52:13', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (345, 97, 46, 51, 37, '2019-07-31 23:52:16', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (346, 97, 46, 51, 37, '2019-07-31 23:52:16', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (347, 97, 46, 51, 37, '2019-07-31 23:52:19', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (348, 97, 46, 51, 37, '2019-07-31 23:52:19', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (349, 97, 46, 51, 37, '2019-07-31 23:52:22', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (350, 97, 46, 51, 37, '2019-07-31 23:52:22', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (351, 97, 46, 51, 37, '2019-07-31 23:52:22', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (352, 97, 46, 51, 37, '2019-07-31 23:52:23', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (353, 97, 46, 51, 37, '2019-07-31 23:52:23', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (354, 97, 46, 51, 37, '2019-07-31 23:52:24', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (355, 97, 46, 51, 37, '2019-07-31 23:52:25', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (356, 97, 46, 51, 37, '2019-07-31 23:52:25', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (357, 97, 46, 51, 37, '2019-07-31 23:52:25', 28, 9, 0, 0);
 
 
 #
@@ -5658,15 +5748,16 @@ CREATE TABLE `program` (
   `sdate` date NOT NULL,
   `edate` date NOT NULL,
   `userid` mediumint(9) NOT NULL,
-  `status` int(10) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `asaldana` char(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (1, 'BPNT', 2, 'Bantuan Pemerintah Non Tunai', '2015-12-13', '2017-12-13', 0, NULL);
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (2, 'BLSM', 2, '', '2015-12-13', '2017-12-13', 0, NULL);
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (3, 'PKH', 2, '', '2015-12-13', '2017-12-13', 0, NULL);
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (4, 'Bedah Rumah', 2, '', '2015-12-13', '2017-12-13', 0, NULL);
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`) VALUES (5, 'JAMKESMAS', 1, '', '2015-12-13', '2017-12-13', 0, NULL);
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (1, 'BPNT', 2, 'Bantuan Pemerintah Non Tunai', '2015-12-13', '2017-12-13', 0, 0, NULL);
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (2, 'BLSM', 2, '', '2015-12-13', '2017-12-13', 0, 0, NULL);
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (3, 'PKH', 2, '', '2015-12-13', '2017-12-13', 0, 0, NULL);
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (4, 'Bedah Rumah', 2, '', '2015-12-13', '2017-12-13', 0, 0, NULL);
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (5, 'JAMKESMAS', 1, '', '2015-12-13', '2017-12-13', 0, 0, NULL);
 
 
 #
@@ -5828,14 +5919,14 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (9, 'login_title', 'OpenSID', 'Judul tab browser halaman login modul administrasi', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (10, 'admin_title', 'Sistem Informasi Desa', 'Judul tab browser modul administrasi', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (11, 'web_theme', 'default', 'Tema penampilan modul web', '', 'web');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (12, 'offline_mode', '0', 'Apakah modul web akan ditampilkan atau tidak', '', '');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (12, 'offline_mode', '0', 'Apakah modul web akan ditampilkan atau tidak', 'option-kode', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (13, 'enable_track', '1', 'Apakah akan mengirimkan data statistik ke tracker', 'boolean', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (14, 'dev_tracker', '', 'Host untuk tracker pada development', '', 'development');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (16, 'google_key', '', 'Google API Key untuk Google Maps', '', 'web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '19.07', 'Versi sekarang untuk migrasi', NULL, 'readonly');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '19.08', 'Versi sekarang untuk migrasi', NULL, 'readonly');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (22, 'tombol_cetak_surat', '0', 'Tampilkan tombol cetak langsung di form surat', 'boolean', NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
@@ -5844,7 +5935,6 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (26, 'panjang_nomor_surat', '', 'Nomor akan diisi \'0\' di sebelah kiri, kalau perlu', 'int', 'surat');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (27, 'warna_tema_admin', 'skin-purple', 'Warna dasar tema komponen Admin', 'option-value', NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (28, 'format_nomor_surat', '[kode_surat]/[nomor_surat, 3]/PEM/[tahun]', 'Fomat penomoran surat', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (29, 'sebutan_pimpinan_desa', 'Kepala Desa', 'Sebutan pimpinan desa', NULL, 'pemerintahan');
 
 
 #
@@ -10415,16 +10505,17 @@ CREATE TABLE `tweb_desa_pamong` (
   `pamong_pangkat` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nohenti` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_tglhenti` date DEFAULT NULL,
+  `pamong_ub` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pamong_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`) VALUES (14, 'Muhammad Ilham ', '', '', 'Kepala Desa', '1', '2014-04-20', 1, 'CjR9Xl_kades.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`) VALUES (20, 'Mustahiq S.Adm', '197905062010011007', '5201140506790001', 'Sekretaris Desa', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`) VALUES (21, 'Syafruddin ', '-', '5201140911720004', 'Kaur Pemerintahan ', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`) VALUES (22, 'Supardi Rustam ', '-', '5201140101710003', 'Kaur Umum ', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`) VALUES (23, 'Mardiana ', '-', '5201145203810001', 'Kaur Keuangan', '1', '2016-08-23', NULL, 'cNzva0_bendahara.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`) VALUES (24, 'Syafi-i. SE ', '-', '5201140506730002', 'Kaur Pembangunan ', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`) VALUES (25, 'Mahrup ', '', '', 'Kaur Keamanan dan Ketertiban', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`) VALUES (14, 'Muhammad Ilham ', '', '', 'Kepala Desa', '1', '2014-04-20', 1, 'CjR9Xl_kades.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`) VALUES (20, 'Mustahiq S.Adm', '197905062010011007', '5201140506790001', 'Sekretaris Desa', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`) VALUES (21, 'Syafruddin ', '-', '5201140911720004', 'Kaur Pemerintahan ', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`) VALUES (22, 'Supardi Rustam ', '-', '5201140101710003', 'Kaur Umum ', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`) VALUES (23, 'Mardiana ', '-', '5201145203810001', 'Kaur Keuangan', '1', '2016-08-23', NULL, 'cNzva0_bendahara.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`) VALUES (24, 'Syafi-i. SE ', '-', '5201140506730002', 'Kaur Pembangunan ', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`) VALUES (25, 'Mahrup ', '', '', 'Kaur Keamanan dan Ketertiban', '1', '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 
 #
@@ -11156,7 +11247,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8;
 
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (1, 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, 0, 0, 1);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (2, 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, 0, 0, 1);
@@ -11200,6 +11291,8 @@ INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampi
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (164, 'Raw', 'raw', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (165, 'Baru', 'surat_baru', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (166, 'Non Warga Baru', 'surat_non_warga_baru', '', NULL, 0, 0, 2);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (167, 'Perintah Perjalanan Dinas', 'surat_perintah_perjalanan_dinas', 'S-46', NULL, 0, 0, 1);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (168, 'Kuasa', 'surat_kuasa', 'S-43', NULL, 0, 0, 1);
 
 
 #
@@ -11213,12 +11306,12 @@ CREATE TABLE `tweb_wil_clusterdesa` (
   `rt` varchar(10) NOT NULL DEFAULT '0',
   `rw` varchar(10) NOT NULL DEFAULT '0',
   `dusun` varchar(50) NOT NULL DEFAULT '0',
-  `id_kepala` int(11) NOT NULL,
-  `lat` varchar(20) NOT NULL,
-  `lng` varchar(20) NOT NULL,
-  `zoom` int(5) NOT NULL,
-  `path` text NOT NULL,
-  `map_tipe` varchar(20) NOT NULL,
+  `id_kepala` int(11) DEFAULT NULL,
+  `lat` varchar(20) DEFAULT NULL,
+  `lng` varchar(20) DEFAULT NULL,
+  `zoom` int(11) DEFAULT NULL,
+  `path` tinytext,
+  `map_tipe` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `rt` (`rt`,`rw`,`dusun`),
   KEY `id_kepala` (`id_kepala`)
@@ -11577,26 +11670,30 @@ CREATE TABLE `setting_aplikasi_options` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_setting` int(11) NOT NULL,
   `value` varchar(512) NOT NULL,
+  `kode` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_setting_fk` (`id_setting`),
   CONSTRAINT `id_setting_fk` FOREIGN KEY (`id_setting`) REFERENCES `setting_aplikasi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (1, 24, 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (2, 24, 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (3, 24, 'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (4, 27, 'skin-blue');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (5, 27, 'skin-blue-light');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (6, 27, 'skin-yellow');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (7, 27, 'skin-yellow-light');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (8, 27, 'skin-green');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (9, 27, 'skin-green-light');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (10, 27, 'skin-purple');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (11, 27, 'skin-purple-light');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (12, 27, 'skin-red');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (13, 27, 'skin-red-light');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (14, 27, 'skin-black');
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`) VALUES (15, 27, 'skin-black-light');
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (1, 24, 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (2, 24, 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (3, 24, 'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (4, 27, 'skin-blue', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (5, 27, 'skin-blue-light', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (6, 27, 'skin-yellow', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (7, 27, 'skin-yellow-light', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (8, 27, 'skin-green', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (9, 27, 'skin-green-light', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (10, 27, 'skin-purple', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (11, 27, 'skin-purple-light', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (12, 27, 'skin-red', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (13, 27, 'skin-red-light', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (14, 27, 'skin-black', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (15, 27, 'skin-black-light', NULL);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (16, 12, 'Web bisa diakses publik', 0);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (17, 12, 'Web hanya bisa diakses petugas web', 1);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (18, 12, 'Web non-aktif sama sekali', 2);
 
 
 #

@@ -22,7 +22,7 @@
   // Export data penduduk ke format Import Excel
 	public function export_excel($tgl_update = '')
 	{
-		$sql = "SELECT k.alamat, c.dusun, c.rw, c.rt, p.nama, k.no_kk, p.nik, p.sex, p.tempatlahir, p.tanggallahir, p.agama_id, p.pendidikan_kk_id, p.pendidikan_sedang_id, p.pekerjaan_id, p.status_kawin, p.kk_level, p.warganegara_id, p.nama_ayah, p.nama_ibu, p.golongan_darah_id, p.akta_lahir, p.dokumen_pasport, p.tanggal_akhir_paspor, p.dokumen_kitas, p.ayah_nik, p.ibu_nik, p.akta_perkawinan, p.tanggalperkawinan, p.akta_perceraian, p.tanggalperceraian, p.cacat_id, p.cara_kb_id, p.hamil, p.id, p.status_dasar, p.created_at, p.updated_at
+		$sql = "SELECT k.alamat, c.dusun, c.rw, c.rt, p.nama, k.no_kk, p.nik, p.sex, p.tempatlahir, p.tanggallahir, p.agama_id, p.pendidikan_kk_id, p.pendidikan_sedang_id, p.pekerjaan_id, p.status_kawin, p.kk_level, p.warganegara_id, p.nama_ayah, p.nama_ibu, p.golongan_darah_id, p.akta_lahir, p.dokumen_pasport, p.tanggal_akhir_paspor, p.dokumen_kitas, p.ayah_nik, p.ibu_nik, p.akta_perkawinan, p.tanggalperkawinan, p.akta_perceraian, p.tanggalperceraian, p.cacat_id, p.cara_kb_id, p.hamil, p.id, p.status_dasar, p.ktp_el, p.status_rekam, p.created_at, p.updated_at
 
 			FROM tweb_penduduk p
 			LEFT JOIN tweb_keluarga k on k.id = p.id_kk
@@ -79,7 +79,7 @@
 	{
 		// Tabel dengan foreign key dan
 		// semua views ditambah di belakang.
-		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup');
+		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup', 'keluarga_aktif');
 		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk', 'agenda');
 		$prefs = array(
@@ -135,11 +135,9 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function restore()
+	private function drop_tables()
 	{
-		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename =='') return;
-
+		$this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
 		$db = $this->db->database;
 		$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '$db'";
 		$query = $this->db->query($sql);
@@ -147,16 +145,42 @@
 		foreach ($data AS $dat)
 		{
 			$tbl = $dat["TABLE_NAME"];
-			$this->db->simple_query("DROP TABLE $tbl");
+			$this->db->simple_query("DROP TABLE ".$tbl);
 		}
+		$this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
+	}
+
+	private function drop_views()
+	{
+		$this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
+		$db = $this->db->database;
+		$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'VIEW' AND TABLE_SCHEMA = '$db'";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		foreach ($data AS $dat)
+		{
+			$tbl = $dat["TABLE_NAME"];
+			$this->db->simple_query("DROP VIEW ".$tbl);
+		}
+		$this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
+	}
+
+	public function restore()
+	{
+		$filename = $_FILES['userfile']['tmp_name'];
+		if ($filename =='') return;
+
+		$this->drop_views();
+		$this->drop_tables();
 
 		$_SESSION['success'] = 1;
 		$lines = file($filename);
 		$query = "";
-		foreach ($lines as $sql_line)
+		foreach ($lines as $key => $sql_line)
 		{
 			// Abaikan baris apabila kosong atau komentar
 			$sql_line = trim($sql_line);
+			$sql_line = preg_replace("/ALGORITHM=UNDEFINED DEFINER=.* SQL SECURITY DEFINER /", "", $sql_line);
 		  if ($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0) && $sql_line[0] != '#')
 		  {
 				$query .= $sql_line;
@@ -167,7 +191,7 @@
 				  {
 				  	$_SESSION['success'] = -1;
 				  	$error = $this->db->error();
-				  	echo "<br><br>>>>>>>>> Error: ".$query.'<br>';
+				  	echo "<br><br>[".$key."]>>>>>>>> Error: ".$query.'<br>';
 				  	echo $error['message'].'<br>'; // (mysql_error equivalent)
 						echo $error['code'].'<br>'; // (mysql_errno equivalent)
 				  }

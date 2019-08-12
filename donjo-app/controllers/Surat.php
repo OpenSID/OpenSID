@@ -34,6 +34,8 @@ class Surat extends Admin_Controller {
 		unset($_SESSION['id_pelapor']);
 		unset($_SESSION['id_diberi_izin']);
 		unset($_SESSION['post']);
+		unset($_SESSION['id_pemberi_kuasa']);
+		unset($_SESSION['id_penerima_kuasa']);
 
 		$nav['act'] = 4;
 		$nav['act_sub'] = 31;
@@ -135,6 +137,11 @@ class Surat extends Admin_Controller {
 				if (!$id) $id = $_POST['id_pria'];
 				if (!$id) $id = $_POST['id_wanita'];
 				break;
+			case 'surat_kuasa':
+				// id-nya pemberi kuasa atau penerima kuasa
+				if (!$id) $id = $_POST['id_pemberi_kuasa'];
+				if (!$id) $id = $_POST['id_penerima_kuasa'];
+				break;
 			default:
 				# code...
 				break;
@@ -223,6 +230,21 @@ class Surat extends Admin_Controller {
 		$data['input']['nomor'] = $this->input->post('nomor');
 		$format_nomor = $this->penomoran_surat_model->format_penomoran_surat($data);
 		echo json_encode($format_nomor);
+	}
+
+	/*
+		Ajax url query data:
+		q -- kata pencarian
+		page -- nomor paginasi
+	*/
+	public function list_penduduk_ajax()
+	{
+		$cari = $this->input->get('q');
+		$page = $this->input->get('page');
+		$filter_sex = $this->input->get('filter_sex');
+		if ($filter_sex == 'perempuan') $filter_sex = 2;
+		$penduduk = $this->surat_model->list_penduduk_ajax($cari, $filter_sex, $page);
+		echo json_encode($penduduk);
 	}
 
 }

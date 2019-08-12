@@ -26,7 +26,8 @@
 		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => '19.05'),
 		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.06'),
 		'19.06' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => '19.07'),
-		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => NULL)
+		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => '19.08'),
+		'19.08' => array('migrate' => 'migrasi_1908_ke_1909', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -185,13 +186,20 @@
 		$this->migrasi_1905_ke_1906();
 		$this->migrasi_1906_ke_1907();
 		$this->migrasi_1907_ke_1908();
+		$this->migrasi_1908_ke_1909();
   }
 
-  private function migrasi_1907_ke_1908()
+  private function migrasi_1908_ke_1909()
   {
   	// Tambah modul Keuangan
   	$this->modul_keuangan();
 
+  	$this->load->model('migrations/migrasi_1908_ke_1909');
+  	$this->migrasi_1908_ke_1909->up();
+  }
+
+  private function migrasi_1907_ke_1908()
+  {
   	$this->load->model('migrations/migrasi_1907_ke_1908');
   	$this->migrasi_1907_ke_1908->up();
   }
@@ -221,25 +229,18 @@
   	{
 			// Tambah kolom
 			$this->dbforge->add_field("updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
-			$fields = array();
-			$fields['updated_by'] = array(
-					'type' => 'int',
-					'constraint' => 11,
-				  'null' => FALSE,
-			);
+		}
+		$fields = array();
+		$fields['updated_by'] = array(
+				'type' => 'int',
+				'constraint' => 11,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+  	if (!$this->db->field_exists('updated_by', 'tweb_penduduk'))
 			$this->dbforge->add_column('tweb_penduduk', $fields);
-		}
 		else
-		{
-			$fields = array();
-			$fields['updated_by'] = array(
-					'type' => 'INT',
-					'constraint' => 11,
-				  'null' => TRUE,
-					'default' => NULL
-			);
 		  $this->dbforge->modify_column('tweb_penduduk', $fields);
-		}
 
   	// Tambah menu teks berjalan
 		$data = array(
@@ -437,7 +438,6 @@
 
 		// Tambah kolom
 		$fields = array();
-		$fields['Nama_Bank'] = array('type' => 'VARCHAR', 'constraint' => 9);
 		$fields['Kantor_Cabang'] = array('type' => 'VARCHAR', 'constraint' => 13);
 		$fields['Nama_Pemilik'] = array('type' => 'VARCHAR', 'constraint' => 21);
 		$fields['Alamat_Pemilik'] = array('type' => 'VARCHAR', 'constraint' => 12);
@@ -4785,7 +4785,7 @@
 	public function kosongkan_db()
 	{
 		// Views tidak perlu dikosongkan.
-		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup');
+		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup', 'keluarga_aktif');
 		// Tabel dengan foreign key akan terkosongkan secara otomatis melalui delete
 		// tabel rujukannya
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk');

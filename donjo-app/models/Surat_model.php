@@ -53,6 +53,62 @@
 		return $str;
 	}
 
+	private function list_penduduk_ajax_sql($cari='', $filter_sex='')
+	{
+		$this->db
+				->from('tweb_penduduk u')
+				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+				->where('status_dasar', 1);
+		if ($filter_sex) $this->db->where('sex', $filter_sex);
+		if ($cari)
+		{
+			$this->db->where("(nik like '%{$cari}%' or nama like '%{$cari}%' or tag_id_card like '%{$cari}%')");
+		}
+	}
+
+	/*
+	 * Mengambil semua data penduduk untuk pilihan di form surat
+	 */
+	public function list_penduduk_ajax($cari='', $filter_sex='', $page=1)
+	{
+		// Hitung jumlah total
+		$this->list_penduduk_ajax_sql($cari, $filter_sex);
+		$jml = $this->db->select('count(u.id) as jml')
+				->get()->row()->jml;
+
+		// Ambil penduduk sebatas paginasi
+    $resultCount = 25;
+    $offset = ($page - 1) * $resultCount;
+
+    $this->list_penduduk_ajax_sql($cari, $filter_sex);
+		$this->db
+				->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
+				->limit($resultCount, $offset);
+		$data = $this->db->get()->result_array();
+
+		//Format untuk daftar pilihan select2 di form surat
+		$penduduk = array();
+		foreach($data as $row)
+		{
+			$nama = addslashes($row['nama']);
+			$alamat = addslashes("Alamat: RT-{$row['rt']}, RW-{$row['rw']} {$row['dusun']}");
+			$info_pilihan_penduduk = "NIK/Tag ID Card : {$row['nik']}/{$row['tag_id_card']} - {$nama}\n{$alamat}";
+			$penduduk[] = array('id' => $row['id'], 'text' => $info_pilihan_penduduk);
+		}
+
+    $endCount = $offset + $resultCount;
+    $morePages = $endCount > $count;
+
+    $hasil = array(
+      "results" => $penduduk,
+      "pagination" => array(
+        "more" => $morePages
+      )
+    );
+
+		return $hasil;
+	}
+
 	/*
 	 * Mengambil semua data penduduk untuk pilihan di form surat
 	 * Digunakan juga oleh method lain dengan tambahan kriteria penduduk
@@ -632,6 +688,27 @@
 		return $atas_nama;
 	}
 
+	private function penandatangan_lampiran($data)
+	{
+		//Data penandatangan
+		$input = $data['input'];
+		$config = $data['config'];
+		$this->load->model('pamong_model');
+		$pamong_ttd = $this->pamong_model->get_ttd();
+		$penandatangan = '';
+		if (!empty($input['pilih_atas_nama']))
+		{
+			$penandatangan = 'a.n. ' . ucwords($pamong_ttd['jabatan'].' '.$config['nama_desa']);
+			$penandatangan .= ' <br> ';
+			$penandatangan .= $input['jabatan'];
+		}
+		else
+		{
+			$penandatangan .= $input['jabatan'].' '.$config['nama_desa'];
+		}
+		return $penandatangan;
+	}
+
 	public function surat_rtf($data)
 	{
 		$this->load->library('date_conv');
@@ -674,7 +751,7 @@
 
 			//DATA SURAT
 			$array_replace = array(
-				"[kode_surat]" => "$surat[kode_surat]",
+				"[kode_surat]" => $surat['kode_surat'],
 				"[judul_surat]" => strtoupper("surat ".$surat['nama']),
 				"[tgl_surat]" => "$tgl",
 				"[tgl_surat_hijri]" => $tgl_hijri,
@@ -693,32 +770,40 @@
 			$buffer = $this->case_replace("[sebutan_desa]", $this->setting->sebutan_desa,$buffer);
 			$buffer = $this->case_replace("[sebutan_dusun]", $this->setting->sebutan_dusun,$buffer);
 			$buffer = $this->case_replace("[sebutan_camat]", $this->setting->sebutan_camat,$buffer);
-			if (!empty($config[email_desa]))
-				$alamat_desa = "$config[alamat_kantor] Email: $config[email_desa] Kode Pos: $config[kode_pos]";
+			if (!empty($config['email_desa']))
+			{
+				$alamat_desa = "{$config['alamat_kantor']} Email: {$config['email_desa']} Kode Pos: {$config['kode_pos']}";
+				$alamat_surat = "{$config['alamat_kantor']} Telp. {$config['telepon']} Kode Pos: {$config['kode_pos']} \par Website: {$config['website']} Email: {$config['email_desa']}";
+			}
 			else
-				$alamat_desa = "$config[alamat_kantor] Kode Pos: $config[kode_pos]";
+			{
+				$alamat_desa = "{$config['alamat_kantor']} Kode Pos: {$config['kode_pos']}";
+				$alamat_surat = "{$config['alamat_kantor']} Telp. {$config['telepon']} Kode Pos: {$config['kode_pos']}";
+			}
 			$array_replace = array(
                 "[alamat_des]"        => $alamat_desa,
                 "[alamat_desa]"       => $alamat_desa,
-                "[email_desa]"        => "$config[email_desa]",
-                "[kode_desa]"         => "$config[kode_desa]",
-                "[kode_kecamatan]"    => "$config[kode_kecamatan]",
-                "[kode_kabupaten]"    => "$config[kode_kabupaten]",
-                "[kode_pos]"          => "$config[kode_pos]",
-                "[kode_provinsi]"     => "$config[kode_propinsi]",
-                "[nama_des]"          => "$config[nama_desa]",
-                "[nama_kab]"          => "$config[nama_kabupaten]",
-                "[nama_kabupaten]"    => "$config[nama_kabupaten]",
-                "[nama_kec]"          => "$config[nama_kecamatan]",
-                "[nama_kecamatan]"    => "$config[nama_kecamatan]",
-                "[nama_provinsi]"     => "$config[nama_propinsi]",
-                "[nama_kepala_camat]" => "$config[nama_kepala_camat]",
-                "[nama_kepala_desa]"  => "$config[nama_kepala_desa]",
-                "[nip_kepala_camat]"  => "$config[nip_kepala_camat]",
-                "[nip_kepala_desa]"   => "$config[nip_kepala_desa]",
-                "[pos]"               => "$config[kode_pos]",
-                "[telepon_desa]"      => "$config[telepon]",
-                "[website_desa]"      => "$config[website]",
+                "[alamat_surat]"      => $alamat_surat,
+                "[alamat_kantor]"     => $config['alamat_kantor'],
+                "[email_desa]"        => $config['email_desa'],
+                "[kode_desa]"         => $config['kode_desa'],
+                "[kode_kecamatan]"    => $config['kode_kecamatan'],
+                "[kode_kabupaten]"    => $config['kode_kabupaten'],
+                "[kode_pos]"          => $config['kode_pos'],
+                "[kode_provinsi]"     => $config['kode_propinsi'],
+                "[nama_des]"          => $config['nama_desa'],
+                "[nama_kab]"          => $config['nama_kabupaten'],
+                "[nama_kabupaten]"    => $config['nama_kabupaten'],
+                "[nama_kec]"          => $config['nama_kecamatan'],
+                "[nama_kecamatan]"    => $config['nama_kecamatan'],
+                "[nama_provinsi]"     => $config['nama_propinsi'],
+                "[nama_kepala_camat]" => $config['nama_kepala_camat'],
+                "[nama_kepala_desa]"  => $config['nama_kepala_desa'],
+                "[nip_kepala_camat]"  => $config['nip_kepala_camat'],
+                "[nip_kepala_desa]"   => $config['nip_kepala_desa'],
+                "[pos]"               => $config['kode_pos'],
+                "[telepon_desa]"      => $config['telepon'],
+                "[website_desa]"      => $config['website'],
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
@@ -856,6 +941,22 @@
 		}
   }
 
+  private function get_file_data_lampiran($url_surat, $lokasi_rtf)
+  {
+  	$file = FCPATH.$lokasi_rtf.'get_data_lampiran.php';
+  	if (!file_exists($file))
+  		$file = FCPATH.'surat/'.$url_surat.'/get_data_lampiran.php';
+  	return $file;
+  }
+
+  private function get_file_lampiran($url_surat, $lokasi_rtf, $format_lampiran)
+  {
+  	$file = FCPATH.$lokasi_rtf.$format_lampiran;
+  	if (!file_exists($file))
+  		$file = FCPATH.'surat/'.$url_surat.'/'.$format_lampiran;
+  	return $file;
+  }
+
 	public function lampiran($data, $nama_surat, &$lampiran)
 	{
 		$surat = $data['surat'];
@@ -866,14 +967,14 @@
 		$input = $data['input'];
 		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
 		$daftar_lampiran = explode(",", $surat['lampiran']);
-    include(FCPATH.$surat['lokasi_rtf'].'get_data_lampiran.php');
+    include($this->get_file_data_lampiran($surat['url_surat'], $surat['lokasi_rtf']));
 		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
 
     // get the HTML using output buffer
     ob_start();
     foreach($daftar_lampiran as $format_lampiran)
     {
-	    include(FCPATH.$surat['lokasi_rtf'].$format_lampiran);
+	    include($this->get_file_lampiran($surat['url_surat'], $surat['lokasi_rtf'], $format_lampiran));
     }
     $content = ob_get_clean();
 

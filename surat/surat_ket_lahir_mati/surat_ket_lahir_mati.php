@@ -19,8 +19,10 @@
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
 							<div class="col-md-12">
-								<?php include("donjo-app/views/surat/form/_cari_nik.php"); ?>
-							</form>
+								<?php $this->load->view("surat/form/_cari_nik.php", array('filter_sex' => 'perempuan', 'individu' => $individu, 'pemohon'=>'Ibu')); ?>
+							</div>
+						</form>
+						<div class="col-md-12">
 							<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
 								<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
 								<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
@@ -37,14 +39,14 @@
 								<div class="form-group">
 									<label for="ttl"  class="col-sm-3 control-label">Hari / Tanggal Mati</label>
 									<div class="col-sm-3 col-lg-4">
-										<input  id="hari"  class="form-control input-sm" type="text" placeholder="Hari Mati" name="hari">
+										<input class="form-control input-sm required hari" type="text" name="hari" id="hari" readonly="readonly" placeholder="Hari Mati" value="<?= $_SESSION['post']['hari']?>">
 									</div>
 									<div class="col-sm-3 col-lg-2">
 										<div class="input-group input-group-sm date">
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input title="Pilih Tanggal" class="form-control input-sm datepicker required" name="tanggal_mati" type="text"/>
+											<input title="Pilih Tanggal"  class="form-control input-sm datepicker data_hari required" name="tanggal_mati" type="text" placeholder="Tgl. Mati" value="<?= $_SESSION['post']['tanggal_mati']?>"/>
 										</div>
 									</div>
 								</div>
@@ -61,7 +63,7 @@
 									</div>
 								</div>
 								<div class="form-group subtitle_head">
-									<label class="col-sm-3 text-right"><strong>IDENTITAS PELAPOR :</strong></label>
+									<label class="col-sm-3"><strong>IDENTITAS PELAPOR :</strong></label>
 								</div>
 								<div class="form-group">
 									<label for="nama_pelapor"  class="col-sm-3 control-label">Nama Pelapor</label>
@@ -76,7 +78,7 @@
 									</div>
 								</div>
 								<div class="form-group subtitle_head">
-									<label class="col-sm-3 text-right"><strong>PENANDA TANGAN :</strong></label>
+									<label class="col-sm-3"><strong>PENANDA TANGAN :</strong></label>
 								</div>
 								<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 							</div>

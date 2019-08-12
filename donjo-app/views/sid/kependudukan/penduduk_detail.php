@@ -213,9 +213,6 @@
 													<td>Alamat Sebelumnya</td><td >:</td><td><?= strtoupper($penduduk['alamat_sebelumnya'])?></td>
 												</tr>
 												<tr>
-													<td>Alamat Sekarang</td><td >:</td><td><?= strtoupper($penduduk['alamat_sekarang'])?></td>
-												</tr>
-												<tr>
 													<th colspan="3" class="subtitle_head"><strong>STATUS KAWIN</strong></th>
 												</tr>
 												<tr>

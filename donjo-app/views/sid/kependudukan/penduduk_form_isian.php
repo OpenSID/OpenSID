@@ -55,18 +55,19 @@
 				break;
 		}
 	}
+
 	function ubah_dusun(dusun)
 	{
 		$('#isi_rt').hide();
 		var rw = $('#rw');
-		select_options(rw, dusun);
+		select_options(rw, urlencode(dusun));
 	}
 
 	function ubah_rw(dusun, rw)
 	{
 		$('#isi_rt').show();
 		var rt = $('#id_cluster');
-		var params = dusun + '/' + rw;
+		var params = urlencode(dusun) + '/' + rw;
 		select_options(rt, params);
 	}
 </script>
@@ -488,12 +489,14 @@
 						<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm" type="text" placeholder="Alamat Sebelumnya" value="<?= strtoupper($penduduk['alamat_sebelumnya'])?>"></input>
 					</div>
 				</div>
-				<div class='col-sm-12'>
-					<div class='form-group'>
-						<label for="alamat_sekarang">Alamat Sekarang </label>
-						<input id="alamat_sekarang" name="alamat_sekarang" class="form-control input-sm" type="text" placeholder="Alamat Sekarang" value="<?= strtoupper($penduduk['alamat_sekarang'])?>"></input>
+				<?php if (!$penduduk['no_kk'] and !$kk_baru): ?>
+					<div class='col-sm-12'>
+						<div class='form-group'>
+							<label for="alamat_sekarang">Alamat Sekarang </label>
+							<input id="alamat_sekarang" name="alamat_sekarang" class="form-control input-sm" type="text" placeholder="Alamat Sekarang" value="<?= strtoupper($penduduk['alamat_sekarang'])?>"></input>
+						</div>
 					</div>
-				</div>
+				<?php endif; ?>
 				<div class='col-sm-12'>
 					<div class="form-group subtitle_head">
 						<label class="text-right"><strong>STATUS PERKAWINAN :</strong></label>

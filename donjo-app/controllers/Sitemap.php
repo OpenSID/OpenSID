@@ -7,16 +7,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Sitemap extends CI_Controller {
 
-    /**
-     * Index Page for this controller.
-     *
-     */
-    public function index()
-    {
-        $this->load->database();
-        $query = $this->db->get("artikel");
-        $data['artikel'] = $query->result();
+	/**
+	 * Index Page for this controller.
+	 *
+	 */
+	public function index()
+	{
+		$this->load->database();
+		$query = $this->db
+			->select('a.*, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+			->from("artikel a")
+			->get();
+		$data['artikel'] = $query->result();
 
-        $this->load->view('sitemap', $data);
-    }
+		$this->load->view('sitemap', $data);
+	}
 }

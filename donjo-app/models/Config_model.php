@@ -28,6 +28,7 @@
 			$tipe_file = TipeFile($_FILES['logo']);
 			$dimensi = array("width"=>100, "height"=>100);
 			resizeImage(LOKASI_LOGO_DESA.$data['logo'], $tipe_file, $dimensi);
+			resizeImage(LOKASI_LOGO_DESA.$data['logo'], $tipe_file, array("width"=>16, "height"=>16), LOKASI_LOGO_DESA.'favicon.ico');
 		}
 		else
 		{
@@ -64,6 +65,7 @@
 			$tipe_file = TipeFile($_FILES['logo']);
 			$dimensi = array("width"=>100, "height"=>100);
 			resizeImage(LOKASI_LOGO_DESA.$data['logo'], $tipe_file, $dimensi);
+			resizeImage(LOKASI_LOGO_DESA.$data['logo'], $tipe_file, array("width"=>16, "height"=>16), LOKASI_LOGO_DESA.'favicon.ico');
 			// Hapus berkas logo lama
 		  if (!empty($data['old_logo'])) unlink(LOKASI_LOGO_DESA.$data['old_logo']);
 		}
