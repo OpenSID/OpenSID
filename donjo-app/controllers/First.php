@@ -70,6 +70,7 @@ class First extends Web_Controller {
 
 	public function index($p=1)
 	{
+		$this->load->helper('shortcode');
 		$data = $this->includes;
 
 		$data['p'] = $p;
@@ -81,6 +82,14 @@ class First extends Web_Controller {
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
+		// replace shortcode menjadi icon
+		$i=0;
+		foreach ($data['artikel'] as $d) 
+		{
+			$data['artikel'][$i]['isi'] = convert_sc_list($d['isi']);
+			$i++;
+		}
+
 		$data['headline'] = $this->first_artikel_m->get_headline();
 
 		$cari = trim($this->input->get('cari'));
