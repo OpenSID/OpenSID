@@ -255,18 +255,22 @@ class First_artikel_m extends CI_Model {
 
 	public function komentar_show()
 	{
-		$sql = "SELECT * FROM komentar WHERE enabled=? AND id_artikel <> 775 order by tgl_upload desc limit 10";
+		$sql = "SELECT * FROM komentar a INNER JOIN artikel b ON  a.id_artikel = b.id WHERE a.enabled=? AND a.id_artikel <> 775 order by a.tgl_upload desc limit 10 ";
 		$query = $this->db->query($sql,1);
 		$data = $query->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
 			$id = $data[$i]['id_artikel'];
+			$slug = $data[$i]['slug'];
+			$thn = date('Y',strtotime($data[$i]['tgl_upload']));
+			$bln = date('m',strtotime($data[$i]['tgl_upload']));
+			$hri = date('d',strtotime($data[$i]['tgl_upload']));
 			$pendek = str_split($data[$i]['komentar'], 25);
 			$pendek2 = str_split($pendek[0], 90);
 			$data[$i]['komentar_short'] = $pendek2[0]."...";
 			$panjang = str_split($data[$i]['komentar'], 50);
-			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("first/artikel/$id")."'>baca selengkapnya</a>";
+			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("first/artikel/$thn/$bln/$hri/$slug/")."'>baca selengkapnya</a>";
 		}
 		return $data;
 	}
