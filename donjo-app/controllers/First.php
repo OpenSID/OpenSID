@@ -365,6 +365,20 @@ class First extends Web_Controller {
 
 	public function add_comment($id=0)
 	{
+
+		$sql = "SELECT * FROM artikel ";
+			$query = $this->db->query($sql,1);
+			$data = $query->result_array();
+			
+			for ($i=0;$i<count($data); $i++)
+			{
+				$slug = $data[$i]['slug'];
+				$thn = date('Y',strtotime($data[$i]['tgl_upload']));
+				$bln = date('m',strtotime($data[$i]['tgl_upload']));
+				$hri = date('d',strtotime($data[$i]['tgl_upload']));
+
+			}
+			
 		// Periksa isian captcha
 		include FCPATH . 'securimage/securimage.php';
 		$securimage = new Securimage();
@@ -374,7 +388,7 @@ class First extends Web_Controller {
 			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
 			$_SESSION['post'] = $_POST;
 			$_SESSION['validation_error'] = true;
-			redirect("first/artikel/$id#kolom-komentar");
+			redirect("first/artikel/$thn/$bln/$hri/$slug/#kolom-komentar");
 		}
 
 		$res = $this->first_artikel_m->insert_comment($id);
@@ -394,7 +408,7 @@ class First extends Web_Controller {
 		}
 
 		$_SESSION['sukses'] = 1;
-		redirect("first/artikel/$id#kolom-komentar");
+		redirect("first/artikel/$thn/$bln/$hri/$slug/#kolom-komentar");
 	}
 
 	private function _get_common_data(&$data)
