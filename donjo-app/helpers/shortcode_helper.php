@@ -7,7 +7,7 @@
 
 if (!function_exists('shortcode'))
 {
-	// Ambil jenis shortcode
+	// Shortcode untuk isi artikel
 	function shortcode($str = '')
 	{
 		$regex = "/\[\[(.*?)\]\]/";
@@ -618,4 +618,49 @@ if (!function_exists('shortcode'))
 		}
 	}
 
+}
+
+if (!function_exists('convert_sc_list'))
+{
+	// Shortcode untuk list artikel
+	function convert_sc_list($str = '')
+	{
+		$regex = "/\[\[(.*?)\]\]/";
+		return preg_replace_callback($regex, function ($matches) {
+			$result = array();
+
+			$params_explode = explode(",", $matches[1]);
+			$fnName = 'converted_sc_list';
+			return converted_sc_list($params_explode[0],$params_explode[1],$params_explode[2]);
+		}, $str);
+	}
+
+	function converted_sc_list($type, $smt, $thn)
+	{
+		if ($type == "lap-RP-APBD") 
+		{
+			$output = "<i class='fa fa-table'></i> Tabel Laporan Realisasi Pelaksanaan APBDes Smt " . $smt . " TA. " . $thn . ", ";
+			return $output;
+		}
+		elseif ($type == "grafik-RP-APBD")
+		{
+			$output = "<i class='fa fa-bar-chart'></i> Realisasi Pelaksanaan APBDes Smt " . $smt . " TA. " . $thn . ", ";
+			return $output;
+		}
+		elseif ($type == "grafik-R-PD")
+		{
+			$output = "<i class='fa fa-bar-chart'></i> Realisasi Pendapatan Desa Smt " . $smt . " TA. " . $thn . ", ";
+			return $output;
+		}
+		elseif ($type == "grafik-R-BD")
+		{
+			$output = "<i class='fa fa-bar-chart'></i> Realisasi Belanja Bidang Desa Smt " . $smt . " TA. " . $thn . ", ";
+			return $output;
+		}
+		elseif ($type == "grafik-R-PEMDES")
+		{
+			$output = "<i class='fa fa-bar-chart'></i> Realisasi Pembiayaan Desa Smt " . $smt . " TA. " . $thn . ", ";
+			return $output;
+		}
+	}
 }
