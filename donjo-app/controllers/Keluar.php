@@ -9,6 +9,8 @@ class Keluar extends Admin_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('surat_model');
 		$this->load->model('header_model');
+		$this->load->model('pamong_model');
+		$this->load->model('config_model');
         $this->load->helper('download');
 		$this->modul_ini = 4;
 	}
@@ -165,8 +167,21 @@ class Keluar extends Admin_Controller {
     ambilBerkas($berkas->lampiran, 'keluar');
   }
 
+
+  public function dialog_cetak($o = 0)
+  {
+	  $data['aksi'] = "Cetak";
+	  $data['pamong'] = $this->pamong_model->list_data(true);
+	  $data['form_action'] = site_url("keluar/cetak/$o");
+	  $this->load->view('surat/ajax_cetak', $data);
+  }
+
   public function cetak($o=0)
   {
+	  $data['input'] = $_POST;
+	  $data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+	  $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+	  $data['desa'] = $this->config_model->get_data();
 	  $data['main'] = $this->keluar_model->list_data();
 	  $this->load->view('surat/keluar_print', $data);
   }
