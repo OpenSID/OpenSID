@@ -328,11 +328,10 @@ class Web extends Admin_Controller {
 	{
 		$this->load->model('keuangan_model');
 		$data = $this->keuangan_model->cek_tahun();
-		$i=0;
-		foreach ($data as $d) {
-			$data[$i]['text'] = $d['tahun_anggaran'];
-			$data[$i]['value'] = $d['tahun_anggaran'];
-			$i++;
+		foreach ($data as $key => $d)
+		{
+			$data[$key]['text'] = $d['tahun_anggaran'];
+			$data[$key]['value'] = $d['tahun_anggaran'];
 		}
 		echo json_encode($data);
 	}

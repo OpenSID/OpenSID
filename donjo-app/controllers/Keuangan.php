@@ -11,7 +11,7 @@ class Keuangan extends Admin_Controller {
 		$this->modul_ini = 201;
 	}
 
-  public function widget()
+  public function laporan()
   {
     $data['tahun_anggaran'] = $this->keuangan_model->tahun_anggaran();
     $data['id_keuangan_master'] = $this->keuangan_model->data_id_keuangan_master();
@@ -23,7 +23,7 @@ class Keuangan extends Admin_Controller {
     $nav['act_sub'] = 203;
     $this->load->view('header', $header);
     $this->load->view('nav', $nav);
-    $this->load->view('keuangan/widget',$data);
+    $this->load->view('keuangan/laporan',$data);
     $this->load->view('footer');
   }
 
