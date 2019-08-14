@@ -324,16 +324,4 @@ class Web extends Admin_Controller {
 		redirect("web/teks_berjalan");
 	}
 
-	public function cek_tahun()
-	{
-		$this->load->model('keuangan_model');
-		$data = $this->keuangan_model->cek_tahun();
-		foreach ($data as $key => $d)
-		{
-			$data[$key]['text'] = $d['tahun_anggaran'];
-			$data[$key]['value'] = $d['tahun_anggaran'];
-		}
-		echo json_encode($data);
-	}
-
 }
