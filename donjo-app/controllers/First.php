@@ -70,6 +70,7 @@ class First extends Web_Controller {
 
 	public function index($p=1)
 	{
+		$this->load->model('keuangan_grafik_model');
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
@@ -85,11 +86,9 @@ class First extends Web_Controller {
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
 
 		// replace shortcode menjadi icon
-		$i=0;
-		foreach ($data['artikel'] as $d)
+		foreach ($data['artikel'] as $key => $d)
 		{
-			$data['artikel'][$i]['isi'] = $this->shortcode_model->convert_sc_list($d['isi']);
-			$i++;
+			$data['artikel'][$key]['isi'] = $this->shortcode_model->convert_sc_list($d['isi']);
 		}
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
@@ -203,6 +202,7 @@ class First extends Web_Controller {
 	*/
 	public function artikel($thn, $bln = '', $hri = '', $slug = NULL)
 	{
+		$this->load->model('keuangan_grafik_model');
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
