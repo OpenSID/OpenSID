@@ -183,8 +183,9 @@ class First extends Web_Controller {
 		$this->set_template('layouts/mandiri.php');
 		$this->load->view($this->template, $data);
 	}
-
-	public function artikel($thn, $bln, $hri, $slug = NULL, $p=1)
+	
+	// tambah parameter default karena pada php versi 7.1 keatas jika tidak ada value pada parameter ketika akses page artikel dengan menggunakan id terjadi error 500 ini terjadi saat redirect setelah mengirim komentar
+	public function artikel($thn, $bln = '', $hri = '', $slug = NULL, $p=1)
 	{
 		$data = $this->includes;
 
