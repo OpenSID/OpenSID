@@ -5,27 +5,6 @@
     position: relative;
   }
 
-  #grafik-judul{
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    padding-bottom: 6px;
-  }
-
-  .graph-sub {
-    font-family: 'Courier New', monospace;
-    font-size: 10px;
-    color: #333;
-    font-weight: bold;
-  }
-
-  #widget-keuangan-container h3{
-    font-size: 16px;
-    padding-top: 14px;
-    display: inline-block;
-    /*position: absolute;*/
-  }
-
   #grafik-container{
     overflow-y: auto;
     overflow-x: auto;
@@ -33,24 +12,10 @@
     padding-bottom: 20px;
   }
 
-  .graph-sub{
-    text-align: left;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    white-space: nowrap;
-    /*height: 100px;*/
-    /*overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;*/
-  }
-
-  .graph, .graph-sub{
-    padding: 0 12px;
-    padding-top: 4px;
-  }
-
-  .keuangan-selector{
-    font-size: 12px;
+  #widget-keuangan-container h3{
+    font-size: 16px;
+    padding-top: 14px;
+    display: inline-block;
   }
 
   span.icon-bar{
@@ -67,23 +32,17 @@
     background: transparent;
   }
 
-  .dropdown{
-    /*width: 32px;*/
-    /*height: 30px;*/
-    /*bottom: 32.75px;*/
-    /*position: relative;*/
-    vertical-align: center;
-  }
-
   .keuangan-selector{
     text-align: left;
     padding-left: 0;
+    font-size: 12px;
   }
 
-  .graph-not-available{
+  #grafik-judul{
+    font-size: 18px;
+    font-weight: bold;
     text-align: center;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
+    padding-bottom: 6px;
   }
 
   #grafik-tahun{
@@ -91,8 +50,28 @@
     margin-bottom: 10px;
   }
 
+  .graph, .graph-sub{
+    padding: 0 12px;
+    padding-top: 4px;
+  }
+
+  .graph-sub {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: #333;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+  }
+
   .graph{
     padding-top: 4px;
+  }  
+
+  .graph-not-available{
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
   }
 </style>
 <div class="box box-info box-solid">
