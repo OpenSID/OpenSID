@@ -159,35 +159,33 @@ class Shortcode_model extends Keuangan_model {
 
 	private function grafik_r_pd($type, $smt, $thn)
 	{
+		$data = $this->r_pd($smt, $thn);
+		$jp = array();
+		foreach ($data['jenis_pendapatan'] as $b)
 		{
-			$data = $this->r_pd($smt, $thn);
-			$jp = array();
-			foreach ($data['jenis_pendapatan'] as $b)
-			{
-				$jp[] = "'". $b['Nama_Jenis']. "'";
-			}
-			$anggaran = array();
-			foreach ($data['anggaran'] as $a)
-			{
-				$anggaran[] = $a['Pagu'];
-			}
-			$realisasi = array();
-			foreach ($data['realisasi'] as $r)
-			{
-				if(!empty($r['Nilai']) || !is_null($r['Nilai']))
-				{
-					$realisasi[] =  $r['Nilai'];
-				}
-				else
-				{
-					$realisasi[] =  0;
-				}
-			}
-			ob_start();
-				include("donjo-app/views/keuangan/grafik_r_pd_chart.php");
-			$elem = ob_get_clean();
-			return $elem;
+			$jp[] = "'". $b['Nama_Jenis']. "'";
 		}
+		$anggaran = array();
+		foreach ($data['anggaran'] as $a)
+		{
+			$anggaran[] = $a['Pagu'];
+		}
+		$realisasi = array();
+		foreach ($data['realisasi'] as $r)
+		{
+			if(!empty($r['Nilai']) || !is_null($r['Nilai']))
+			{
+				$realisasi[] =  $r['Nilai'];
+			}
+			else
+			{
+				$realisasi[] =  0;
+			}
+		}
+		ob_start();
+			include("donjo-app/views/keuangan/grafik_r_pd_chart.php");
+		$elem = ob_get_clean();
+		return $elem;
 	}
 
 	private function grafik_r_bd($type, $smt, $thn)
