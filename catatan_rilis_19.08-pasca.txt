@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Agung Sugiarto dan Diki Siswanto yang terus berkontribusi. Terima kasih pula pada adlersentinel yang baru mulai berkontribusi.
+Terima kasih pada Agung Sugiarto dan Diki Siswanto yang terus berkontribusi. Terima kasih pula pada adlersentinel dan Kusmanto Pratama yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.08-pasca:
 
