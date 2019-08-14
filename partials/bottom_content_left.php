@@ -40,10 +40,8 @@
             			<?php endif; ?>
             			<div class="post">
             				<div style="text-align: justify;"><?= $abstrak_headline ?> ...
-								<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
-									<button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button>
-								</a>
-							</div>
+            				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
+            				    <button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button></a></div>
             			</div>
             		</div>
             	</div>
@@ -70,7 +68,7 @@
 		                        <?php if ($data['gambar']!=''): ?>
 		                        <?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$data['gambar'])): ?>
 		                        <div class="catgimg2_container">
-									<a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
+		                                <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
 		                                <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
 		                            </a><!--
 		                            <p style="text-align: justify;"><?= $abstrak ?> ...
@@ -133,7 +131,7 @@
 				-->
 
 				<?php foreach ($pages as $i): ?>
-					<li <?= ($p == $i) ? 'class=""' : "" ?>>
+					<li class="<?php ($p != $i) or print('active');?>">
 						<a href="<?= site_url("first/".$paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
 					</li>
 				<?php endforeach; ?>

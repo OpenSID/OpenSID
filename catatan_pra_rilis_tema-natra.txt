@@ -1,4 +1,4 @@
-Catatan pra rilis versi 4.1:
+Catatan pra rilis versi 4.1.8:
 
 1. Mengatasi menu yang tidak berfungsi saat di klik jika bukan submenu. [bug-fix]
 2. Perbaiki gagal kirim pada laporan layanan mandiri. [bug-fix]
@@ -19,9 +19,11 @@ Catatan pra rilis versi 4.1:
 17. #13 Icon muncul sesuai status widget sosial media. [bug-fix]
 18. Menyesuaikan aturan penulisan script dari <?php echo menjadi <?=.
 19. Memperbaiki auto scroll saat reload halaman website. [bug-fix]
-20. #14 Tambah Info Nama provinsi dibawah nama Desa
-21. #15 Sesuaikan Style Ganti Password pada Layanan Mandiri
-22. Penerapan Fancybox pada Foto Artikel
+20. #14 Tambah Info Nama provinsi dibawah nama Desa.
+21. #15 Sesuaikan Style Ganti Password pada Layanan Mandiri.
+22. Penerapan Fancybox pada Foto Artikel. [new]
 23. Gunakan lambang desa sebagai icon pada tab browser.
+24. Sekarang artikel bisa ditampilkan menggunakan id artikel atau tulisan yg berasal dari judul artikel.
+25. Sekarang halaman arsip menampilkan semua artikel. [bug-fix]
 
 ****************************************************************
