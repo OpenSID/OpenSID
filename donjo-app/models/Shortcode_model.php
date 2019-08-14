@@ -1,14 +1,19 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+class Shortcode_model extends Keuangan_model {
 
-/**
- * Menghasilkan grafik & tabel dari database
- * konversi isi artikel yang berisi kode_tampilan
- */
+  public function __construct()
+  {
+    parent::__construct();
+  }
 
-if (!function_exists('shortcode'))
-{
+
+	/**
+	 * Menghasilkan grafik & tabel dari database
+	 * konversi isi artikel yang berisi kode_tampilan
+	 */
+
 	// Shortcode untuk isi artikel
-	function shortcode($str = '')
+	public function shortcode($str = '')
 	{
 		$regex = "/\[\[(.*?)\]\]/";
 		return preg_replace_callback($regex, function ($matches) {
@@ -16,38 +21,39 @@ if (!function_exists('shortcode'))
 
 			$params_explode = explode(",", $matches[1]);
 			$fnName = 'extract_shortcode';
-			return extract_shortcode($params_explode[0],$params_explode[1],$params_explode[2]);
+			return $this->extract_shortcode($params_explode[0],$params_explode[1],$params_explode[2]);
 		}, $str);
 	}
 
-	function extract_shortcode($type, $smt, $thn)
+	private function extract_shortcode($type, $smt, $thn)
 	{
-		$CI =& get_instance();
-		$CI->load->model('keuangan_model');
-		
-		if ($type == 'grafik-RP-APBD') 
+		if ($type == 'grafik-RP-APBD')
 		{
-			$data = $CI->keuangan_model->rp_apbd($smt, $thn);
-			$jenisbelanja = array();
-			foreach ($data['jenis_belanja'] as $j) 
+			return $this->grafik_rp_apbd($type, $smt, $thn);
+		}
+		elseif ($type == 'grafik-R-PD')
+		{
+			$data = $this->r_pd($smt, $thn);
+			$jp = array();
+			foreach ($data['jenis_pendapatan'] as $b)
 			{
-				$jenisbelanja[] = "'". $j['Nama_Akun']. "'";
+				$jp[] = "'". $b['Nama_Jenis']. "'";
 			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $p) 
+			foreach ($data['anggaran'] as $a)
 			{
-				$anggaran[] = $p['AnggaranStlhPAK'];
+				$anggaran[] = $a['Pagu'];
 			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $s) 
-			{ 
-				if(!empty($s['Nilai']) || !is_null($s['Nilai']))
-				{ 
-					$realisasi[] =  $s['Nilai']; 
+			foreach ($data['realisasi'] as $r)
+			{
+				if(!empty($r['Nilai']) || !is_null($r['Nilai']))
+				{
+					$realisasi[] =  $r['Nilai'];
 				}
 				else
-				{ 
-					$realisasi[] =  0; 
+				{
+					$realisasi[] =  0;
 				}
 			}
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
@@ -59,13 +65,13 @@ if (!function_exists('shortcode'))
 					        type: 'bar'
 					    },
 					    title: {
-					        text: 'Realisasi Pelaksanaan APBDesa'
+					        text: 'Realisasi Pendapatan Desa'
 					    },
 					    subtitle: {
 					        text: 'Semester ".$smt." Tahun ".$thn."'
 					    },
 					    xAxis: {
-					        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
+					        categories: [".join($jp, ",")."],
 					    },
 					    yAxis: {
 					        min: 0,
@@ -108,111 +114,6 @@ if (!function_exists('shortcode'))
 					        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
 					        	}
 					        },
-							color: '#16a085',
-					        data: [". join($anggaran, ",")."]
-						}, {
-						    name: 'Realisasi',
-						    dataLabels: {
-							    formatter: function () {
-							    	var index = this.series.index;
-							    	var pointB = this.series.chart.series[0].data[index].y;
-							    	var percent = Highcharts.numberFormat(this.y / pointB * 100, '.', ',');
-							    	return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
-							    }
-						    },
-							color: '#f1c40f',
-					        data: [". join($realisasi, ",")."]
-					    }]".
-					"});".
-				"});".
-			"</script>".
-			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
-			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
-			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		} 
-		elseif ($type == 'grafik-R-PD') 
-		{
-			$data = $CI->keuangan_model->r_pd($smt, $thn);
-			$jp = array();
-			foreach ($data['jenis_pendapatan'] as $b) 
-			{
-				$jp[] = "'". $b['Nama_Jenis']. "'";
-			}
-			$anggaran = array();
-			foreach ($data['anggaran'] as $a) 
-			{
-				$anggaran[] = $a['Pagu'];
-			}
-			$realisasi = array();
-			foreach ($data['realisasi'] as $r) 
-			{ 
-				if(!empty($r['Nilai']) || !is_null($r['Nilai']))
-				{ 
-					$realisasi[] =  $r['Nilai']; 
-				}
-				else
-				{ 
-					$realisasi[] =  0; 
-				}
-			}
-			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
-			"<script type=\"text/javascript\">".
-				"$(document).ready(function (){".
-					"Highcharts.setOptions({lang: {thousandsSep: '.'}});".
-					"Highcharts.chart('".$type . "-" . $smt . "-" . $thn."', {
-					    chart: {
-					        type: 'bar'
-					    },
-					    title: {
-					        text: 'Realisasi Pendapatan Desa'
-					    },
-					    subtitle: {
-					        text: 'Semester ".$smt." Tahun ".$thn."'
-					    },
-					    xAxis: {
-					        categories: [".join($jp, ",")."],
-					    },
-					    yAxis: {
-					        min: 0,					        
-					        title: {
-					            text: 'Realisasi'
-					        },
-					        labels: {
-					            overflow: 'justify',
-					            enabled: false
-					        }
-					    },
-					    tooltip: {
-					        valueSuffix: ''
-					    },
-					    plotOptions: {
-					        bar: {
-					            dataLabels: {
-					                enabled: true
-					            }
-					        }
-					    },
-					    legend: {
-					        layout: 'vertical',
-					        align: 'right',
-					        verticalAlign: 'top',
-					        x: 0,
-					        y: 0,
-					        floating: true,
-					        borderWidth: 1,
-					        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-					        shadow: true
-					    },
-					    credits: {
-					        enabled: false
-					    },
-					    series: [{
-					        name: 'Anggaran',					        
-					        dataLabels: {
-					        	formatter: function () {
-					        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
-					        	}
-					        },
 							color: '#3498db',
 					        data: [".join($anggaran, ",")."]
 				        },{
@@ -234,30 +135,30 @@ if (!function_exists('shortcode'))
 			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		} 
-		elseif ($type == 'grafik-R-BD') 
+		}
+		elseif ($type == 'grafik-R-BD')
 		{
-			$data = $CI->keuangan_model->r_bd($smt, $thn);
+			$data = $this->r_bd($smt, $thn);
 			$bidang = array();
-			foreach ($data['bidang'] as $b) 
+			foreach ($data['bidang'] as $b)
 			{
 				$bidang[] = "'". $b['Nama_Bidang']. "'";
 			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $a) 
+			foreach ($data['anggaran'] as $a)
 			{
 				$anggaran[] = $a['Pagu'];
 			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $r) 
-			{ 
+			foreach ($data['realisasi'] as $r)
+			{
 				if(!empty($r['Nilai']) || !is_null($r['Nilai']))
-				{ 
-					$realisasi[] =  $r['Nilai']; 
+				{
+					$realisasi[] =  $r['Nilai'];
 				}
 				else
-				{ 
-					$realisasi[] =  0; 
+				{
+					$realisasi[] =  0;
 				}
 			}
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
@@ -339,30 +240,30 @@ if (!function_exists('shortcode'))
 			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		} 
-		elseif($type == 'grafik-R-PEMDES') 
+		}
+		elseif($type == 'grafik-R-PEMDES')
 		{
-			$data = $CI->keuangan_model->r_pembiayaan($smt, $thn);
+			$data = $this->r_pembiayaan($smt, $thn);
 			$pembiayaan = array();
-			foreach ($data['pembiayaan'] as $d) 
+			foreach ($data['pembiayaan'] as $d)
 			{
 				$pembiayaan[] = "'". $d['Nama_Kelompok']. "'";
 			}
 			$anggaran = array();
-			foreach ($data['anggaran'] as $a) 
+			foreach ($data['anggaran'] as $a)
 			{
 				$anggaran[] = $a['Pagu'];
 			}
 			$realisasi = array();
-			foreach ($data['realisasi'] as $r) 
-			{ 
+			foreach ($data['realisasi'] as $r)
+			{
 				if(!empty($r['Nilai']) || !is_null($r['Nilai']))
-				{ 
-					$realisasi[] =  $r['Nilai']; 
+				{
+					$realisasi[] =  $r['Nilai'];
 				}
 				else
-				{ 
-					$realisasi[] =  0; 
+				{
+					$realisasi[] =  0;
 				}
 			}
 			return "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
@@ -444,10 +345,10 @@ if (!function_exists('shortcode'))
 			"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
 			"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
-		} 
-		elseif($type == 'lap-RP-APBD') 
+		}
+		elseif($type == 'lap-RP-APBD')
 		{
-			$data = $CI->keuangan_model->lap_rp_apbd($smt, $thn);
+			$data = $this->lap_rp_apbd($smt, $thn);
 			ob_start();
 			echo "<style>
 					table.blueTable {
@@ -493,7 +394,7 @@ if (!function_exists('shortcode'))
 					</style>".
 			"<table class='blueTable' width='100%'>".
 			"<thead><tr><th colspan='5'>Uraian</th><th>Anggaran (Rp)</th><th>Realisasi (Rp)</th><th>Sisa Anggaran (Rp)</th><th>Persentase (%)</th></tr></thead>";
-			foreach ($data['pendapatan'] as $l) 
+			foreach ($data['pendapatan'] as $l)
 			{
 				$i=0;
 				echo "<tr class='bold highlighted'>".
@@ -502,7 +403,7 @@ if (!function_exists('shortcode'))
 				"<td align='right'>".number_format($l['realisasi'][0]['realisasi'])."</td>".
 				"<td align='right'>".number_format($l['anggaran'][0]['pagu'] - $l['realisasi'][0]['realisasi'])."</td>".
 				"<td align='right'>".number_format($l['realisasi'][0]['realisasi']/$l['anggaran'][0]['pagu']*100, 2)."</td>";
-				foreach ($l['sub_pendapatan'] as $s) 
+				foreach ($l['sub_pendapatan'] as $s)
 				{
 					$j=0;
 					echo "<tr class='bold'>".
@@ -512,7 +413,7 @@ if (!function_exists('shortcode'))
 					"<td align='right'>".number_format($s['anggaran'][0]['pagu']-$s['realisasi'][0]['realisasi'])."</td>".
 					"<td align='right'>".number_format($s['realisasi'][0]['realisasi']/$s['anggaran'][0]['pagu']*100, 2)."</td>".
 					"</tr>";
-					foreach ($s['sub_pendapatan2'] as $q) 
+					foreach ($s['sub_pendapatan2'] as $q)
 					{
 						echo "<tr>".
 						"<td></td><td colspan='3'>".$q['Jenis']."</td>".
@@ -524,11 +425,11 @@ if (!function_exists('shortcode'))
 						"</tr>";
 					};
 					$j++;
-				};			
+				};
 				echo "</tr>";
 				$i++;
 			}
-			foreach ($data['belanja'] as $b) 
+			foreach ($data['belanja'] as $b)
 			{
 				$k=0;
 				echo "<tr class='bold highlighted'>".
@@ -537,7 +438,7 @@ if (!function_exists('shortcode'))
 				"<td align='right' class='bold highlighted'>".number_format($b['realisasi'][0]['realisasi'])."</td>".
 				"<td align='right' class='bold highlighted'>".number_format($b['anggaran'][0]['pagu'] - $b['realisasi'][0]['realisasi'])."</td>".
 				"<td align='right' class='bold highlighted'>".number_format($b['realisasi'][0]['realisasi']/$b['anggaran'][0]['pagu']*100, 2)."</td>";
-				foreach ($b['sub_belanja'] as $sb) 
+				foreach ($b['sub_belanja'] as $sb)
 				{
 					$l=0;
 					echo "<tr class='bold'>".
@@ -548,7 +449,7 @@ if (!function_exists('shortcode'))
 					"<td align='right'>".number_format($sb['realisasi'][0]['realisasi']/$sb['anggaran'][0]['pagu']*100, 2)."</td>".
 					"</tr>";
 					$l++;
-					foreach ($sb['sub_belanja2'] as $sb2) 
+					foreach ($sb['sub_belanja2'] as $sb2)
 					{
 						$l=0;
 						echo "<tr class='bold'>".
@@ -559,7 +460,7 @@ if (!function_exists('shortcode'))
 						"<td align='right'>".number_format($sb2['realisasi'][0]['realisasi']/$sb2['anggaran'][0]['pagu']*100, 2)."</td>".
 						"</tr>";
 						$l++;
-						foreach ($sb2['sub_belanja3'] as $sb3) 
+						foreach ($sb2['sub_belanja3'] as $sb3)
 						{
 							$m=0;
 							echo "<tr class=''>".
@@ -576,7 +477,7 @@ if (!function_exists('shortcode'))
 				echo "</tr>";
 				$k++;
 			}
-			foreach ($data['pembiayaan'] as $a) 
+			foreach ($data['pembiayaan'] as $a)
 			{
 				$o=0;
 				echo "<tr class='bold highlighted'>".
@@ -585,7 +486,7 @@ if (!function_exists('shortcode'))
 				"<td align='right'>".number_format($a['realisasi'][0]['realisasi'])."</td>".
 				"<td align='right'>".number_format($a['anggaran'][0]['pagu'] - $l['realisasi'][0]['realisasi'])."</td>".
 				"<td align='right'>".number_format($a['realisasi'][0]['realisasi']/$a['anggaran'][0]['pagu']*100, 2)."</td>";
-				foreach ($a['sub_pembiayaan'] as $b) 
+				foreach ($a['sub_pembiayaan'] as $b)
 				{
 					$p=0;
 					echo "<tr class='bold'>".
@@ -595,7 +496,7 @@ if (!function_exists('shortcode'))
 					"<td align='right'>".number_format($b['anggaran'][0]['pagu']-$b['realisasi'][0]['realisasi'])."</td>".
 					"<td align='right'>".number_format($b['realisasi'][0]['realisasi']/$b['anggaran'][0]['pagu']*100, 2)."</td>".
 					"</tr>";
-					foreach ($b['sub_pendapatan2'] as $c) 
+					foreach ($b['sub_pendapatan2'] as $c)
 					{
 						echo "<tr>".
 						"<td></td><td colspan='3'>".$c['Jenis']."</td>".
@@ -607,23 +508,128 @@ if (!function_exists('shortcode'))
 						"</tr>";
 					};
 					$p++;
-				};			
+				};
 				echo "</tr>";
 				$o++;
 			}
 			echo "<tr class='bold highlighted'><td colspan='5' align='center'>TOTAL</td><td align='right'>".number_format($data['pendapatan'][0]['total_anggaran'][0]['pagu'])."</td><td align='right'>".number_format($data['pendapatan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['pendapatan'][0]['total_anggaran'][0]['pagu']-$data['pendapatan'][0]['total_realisasi'][0]['realisasi'])."</td><td align='right'>".number_format($data['pendapatan'][0]['total_realisasi'][0]['realisasi']/$data['pendapatan'][0]['total_anggaran'][0]['pagu']*100, 2)."</td></tr>".
 			"</table>";
 			$output = ob_get_clean();
-			return $output;			
+			return $output;
 		}
 	}
 
-}
+	private function grafik_rp_apbd($type, $smt, $thn)
+	{
+		$data = $this->rp_apbd($smt, $thn);
+		$jenisbelanja = array();
+		foreach ($data['jenis_belanja'] as $j)
+		{
+			$jenisbelanja[] = "'". $j['Nama_Akun']. "'";
+		}
+		$anggaran = array();
+		foreach ($data['anggaran'] as $p)
+		{
+			$anggaran[] = $p['AnggaranStlhPAK'];
+		}
+		$realisasi = array();
+		foreach ($data['realisasi'] as $s)
+		{
+			if(!empty($s['Nilai']) || !is_null($s['Nilai']))
+			{
+				$realisasi[] =  $s['Nilai'];
+			}
+			else
+			{
+				$realisasi[] =  0;
+			}
+		}
+		$elem = "<div id='" . $type . "-" . $smt . "-" . $thn . "' ></div>" .
+		"<script type=\"text/javascript\">".
+			"$(document).ready(function (){".
+				"Highcharts.setOptions({lang: {thousandsSep: '.'}});".
+				"Highcharts.chart('".$type . "-" . $smt . "-" . $thn."', {
+				    chart: {
+				        type: 'bar'
+				    },
+				    title: {
+				        text: 'Realisasi Pelaksanaan APBDesa'
+				    },
+				    subtitle: {
+				        text: 'Semester ".$smt." Tahun ".$thn."'
+				    },
+				    xAxis: {
+				        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
+				    },
+				    yAxis: {
+				        min: 0,
+				        title: {
+				            text: 'Realisasi'
+				        },
+				        labels: {
+				            overflow: 'justify',
+				            enabled: false
+				        }
+				    },
+				    tooltip: {
+				        valueSuffix: ''
+				    },
+				    plotOptions: {
+				        bar: {
+				            dataLabels: {
+				                enabled: true
+				            }
+				        }
+				    },
+				    legend: {
+				        layout: 'vertical',
+				        align: 'right',
+				        verticalAlign: 'top',
+				        x: 0,
+				        y: 0,
+				        floating: true,
+				        borderWidth: 1,
+				        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+				        shadow: true
+				    },
+				    credits: {
+				        enabled: false
+				    },
+				    series: [{
+				        name: 'Anggaran',
+				        dataLabels: {
+				        	formatter: function () {
+				        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
+				        	}
+				        },
+						color: '#16a085',
+				        data: [". join($anggaran, ",")."]
+					}, {
+					    name: 'Realisasi',
+					    dataLabels: {
+						    formatter: function () {
+						    	var index = this.series.index;
+						    	var pointB = this.series.chart.series[0].data[index].y;
+						    	var percent = Highcharts.numberFormat(this.y / pointB * 100, '.', ',');
+						    	return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
+						    }
+					    },
+						color: '#f1c40f',
+				        data: [". join($realisasi, ",")."]
+				    }]".
+				"});".
+			"});".
+		"</script>".
+		"<script src='". base_url() . "assets/js/highcharts/highcharts.js"."'></script>".
+		"<script src='". base_url() . "assets/js/highcharts/exporting.js"."'></script>".
+		"<script src='". base_url() . "assets/js/highcharts/highcharts-more.js"."'></script>";
 
-if (!function_exists('convert_sc_list'))
-{
+		return $elem;
+	}
+
+
 	// Shortcode untuk list artikel
-	function convert_sc_list($str = '')
+	public function convert_sc_list($str = '')
 	{
 		$regex = "/\[\[(.*?)\]\]/";
 		return preg_replace_callback($regex, function ($matches) {
@@ -631,13 +637,13 @@ if (!function_exists('convert_sc_list'))
 
 			$params_explode = explode(",", $matches[1]);
 			$fnName = 'converted_sc_list';
-			return converted_sc_list($params_explode[0],$params_explode[1],$params_explode[2]);
+			return $this->converted_sc_list($params_explode[0],$params_explode[1],$params_explode[2]);
 		}, $str);
 	}
 
-	function converted_sc_list($type, $smt, $thn)
+	private function converted_sc_list($type, $smt, $thn)
 	{
-		if ($type == "lap-RP-APBD") 
+		if ($type == "lap-RP-APBD")
 		{
 			$output = "<i class='fa fa-table'></i> Tabel Laporan Realisasi Pelaksanaan APBDes Smt " . $smt . " TA. " . $thn . ", ";
 			return $output;
@@ -663,4 +669,5 @@ if (!function_exists('convert_sc_list'))
 			return $output;
 		}
 	}
+
 }

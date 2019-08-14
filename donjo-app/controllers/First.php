@@ -70,7 +70,7 @@ class First extends Web_Controller {
 
 	public function index($p=1)
 	{
-		$this->load->helper('shortcode');
+		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
 		$data['p'] = $p;
@@ -83,12 +83,12 @@ class First extends Web_Controller {
 
 
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0,$data['paging']->offset,$data['paging']->per_page);
-		
+
 		// replace shortcode menjadi icon
 		$i=0;
-		foreach ($data['artikel'] as $d) 
+		foreach ($data['artikel'] as $d)
 		{
-			$data['artikel'][$i]['isi'] = convert_sc_list($d['isi']);
+			$data['artikel'][$i]['isi'] = $this->shortcode_model->convert_sc_list($d['isi']);
 			$i++;
 		}
 
@@ -203,7 +203,7 @@ class First extends Web_Controller {
 	*/
 	public function artikel($thn, $bln = '', $hri = '', $slug = NULL)
 	{
-		$this->load->helper('shortcode');
+		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
 		if (empty($slug))
@@ -218,7 +218,7 @@ class First extends Web_Controller {
 			$id = $data['single_artikel']['id'];
 		}
 		// replace isi artikel dengan shortcodify
-		$data['single_artikel']['isi'] = shortcode($data['single_artikel']['isi']);
+		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
 		$this->_get_common_data($data);
 
