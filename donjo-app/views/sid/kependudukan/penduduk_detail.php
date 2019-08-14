@@ -256,6 +256,9 @@
 														<td>Status Kehamilan</td><td >:</td><td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'?></td>
 													</tr>
 												<?php endif; ?>
+												<tr>
+													<td>No BPJS Kesehatan</td><td >:</td><td><?= strtoupper($penduduk['bpjs'])?></td>
+												</tr>
 											</thead>
 										</table>
 									</div>

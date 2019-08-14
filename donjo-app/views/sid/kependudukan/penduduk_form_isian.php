@@ -107,7 +107,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="nik">NIK </label>
-						<input id="nik"  name="nik" class="form-control input-sm required" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>"></input>
+						<input id="nik"  name="nik" class="form-control input-sm required" type="text" placeholder="Nomor NIK" maxlength="16" value="<?= $penduduk['nik']?>"></input>
 						<input name="nik_lama" type="hidden" value="<?= $_SESSION['nik_lama']?>"/>
 					</div>
 				</div>
@@ -392,7 +392,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="ayah_nik"> NIK Ayah </label>
-						<input id="ayah_nik"  name="ayah_nik"  class="form-control input-sm" type="text" placeholder="Nomor NIK Ayah"  value="<?= $penduduk['ayah_nik']?>"></input>
+						<input id="ayah_nik"  name="ayah_nik"  class="form-control input-sm" maxlength="16" type="text" placeholder="Nomor NIK Ayah"  value="<?= $penduduk['ayah_nik']?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-8'>
@@ -404,7 +404,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="ibu_nik"> NIK Ibu </label>
-						<input id="ibu_nik"  name="ibu_nik"  class="form-control input-sm" type="text" placeholder="Nomor NIK Ibu" value="<?= $penduduk['ibu_nik']?>"></input>
+						<input id="ibu_nik"  name="ibu_nik"  class="form-control input-sm" maxlength="16" type="text" placeholder="Nomor NIK Ibu" value="<?= $penduduk['ibu_nik']?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-8'>
@@ -614,6 +614,12 @@
 							<option value="0" <?php selected($penduduk['hamil'], '0'); ?>>Tidak Hamil</option>
 							<option value="1" <?php selected($penduduk['hamil'], '1'); ?> >Hamil</option>
 						</select>
+					</div>
+				</div>
+				<div id='bpjs' class='col-sm-4'>
+					<div class='form-group'>
+						<label for="bpjs">BPJS Kesehatan </label>
+						<input id="bpjs" name="bpjs" class="form-control input-sm" type="text" maxlength="13" placeholder="Nomor BPJS Kesehatan" value="<?= $penduduk['bpjs']?>"></input>
 					</div>
 				</div>
 			</div>
