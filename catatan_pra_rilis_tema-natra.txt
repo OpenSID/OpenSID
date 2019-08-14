@@ -25,5 +25,6 @@ Catatan pra rilis versi 4.1.8:
 23. Gunakan lambang desa sebagai icon pada tab browser.
 24. Sekarang artikel bisa ditampilkan menggunakan id artikel atau tulisan yg berasal dari judul artikel.
 25. Sekarang halaman arsip menampilkan semua artikel. [bug-fix]
+26. #16 Tambah sumber dana pada grafik APBDesa.
 
 ****************************************************************

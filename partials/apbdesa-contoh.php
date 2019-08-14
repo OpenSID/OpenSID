@@ -1,57 +1,69 @@
 <?php
-//Anggaran Pendapatan Tahun 2019
-$add19          = 760071000;      //Ketik Anggaran ADD
-$dd19           = 848172000;      //Ketik Anggaran Dana Desa
-$pbh19          = 93472500+26678200;       //Ketik Anggaran PBH
-$dll19          = 9867952;        //Ketik Anggaran DLL
-$pembiayaan19   = 329324456;
+//Anggaran Pendapatan Tahun Ini
+$add19          = 760071000;      		//Ketik Anggaran ADD
+$dd19           = 848172000;      		//Ketik Anggaran Dana Desa
+$pbh19          = 93472500+26678200;	//Ketik Anggaran PBH
+$pad19          = 9867952;				//Ketik Anggaran PAD
+$dll19          = 100000000;			//Ketik Anggaran DLL
+$bp19			= 200000000;			//Ketik Anggaran Bantuan Provinsi
+$pembiayaan19   = 329324456;			//Ketik Silpa Tahun Sebelumnya
 
-//Realisasi Pendapatan Tahun 2018
-$add        = 682242000;      //Ketik Besaran ADD
-$dd         = 737089000;      //Ketik Besaran DD
-$pbh        = 44174000+46217200;       //Ketik Besaran PBH
-$dll        = 8617690;        //Ketik Besaran DLL
-$pembiayaan = 254380746;      //Ketik Besaran SiLPA
+//Realisasi Pendapatan Tahun Sebelumnya
+$add        = 682242000;      			//Ketik Besaran ADD
+$dd         = 737089000;      			//Ketik Besaran DD
+$pbh        = 44174000+46217200;		//Ketik Besaran PBH
+$pad        = 100000000;        		//Ketik Besaran PAD
+$dll        = 8617690;        			//Ketik Besaran DLL
+$bp         = 100000000;        		//Ketik Besaran Bantuan Provinsi
+$pembiayaan = 254380746;      			//Ketik Besaran SiLPA
 
-//Realisasi Belanja Tahun 2018
-$satu       = 502790673;      //Ketik Realisasi Bidang 1
-$dua        = 720427689;      //Ketik Realisasi Bidang 2
-$tiga       = 52724000;       //Ketik Realisasi Bidang 3
-$empat      = 167453818;      //Ketik Realisasi Bidang 4
-$lima       = 0;              //Ketik Realisasi Bidang 5
+//Realisasi Belanja Tahun Sebelumnya
+$satu       = 502790673;      			//Ketik Realisasi Bidang 1
+$dua        = 720427689;      			//Ketik Realisasi Bidang 2
+$tiga       = 52724000;       			//Ketik Realisasi Bidang 3
+$empat      = 167453818;      			//Ketik Realisasi Bidang 4
+$lima       = 0;              			//Ketik Realisasi Bidang 5
 
 // menghitung total pendapatan
-$total19 = $add19 + $dd19 + $pbh19 + $dll19;
+$total19 = $add19 + $dd19 + $pbh19 + $pad19 + $dll19 + $bp19 + $pembiayaan19;
 
 // menghitung prosentase
 $prosenADD19 = number_format($add19/$total19 * 100,2);
 $prosenDD19 = number_format($dd19/$total19 * 100,2);
 $prosenPBH19 = number_format($pbh19/$total19 * 100,2);
+$prosenPAD19 = number_format($pad19/$total19 * 100,2);
 $prosenDLL19 = number_format($dll19/$total19 * 100,2);
+$prosenBP19 = number_format($bp19/$total19 * 100,2);
 $prosenPB19 = number_format(100,2);
 
 // menentukan panjang grafik batang berdasarkan prosentase
 $panjangADD19 = $prosenADD19 * 100 / 100;
 $panjangDD19 = $prosenDD19 * 100 / 100;
 $panjangPBH19 = $prosenPBH19 * 100 / 100;
+$panjangPAD19 = $prosenPAD19 * 100 / 100;
 $panjangDLL19 = $prosenDLL19 * 100 / 100;
+$panjangBP19 = $prosenBP19 * 100 / 100;
 $panjangPB19 = $prosenPB19 * 100 / 100;
 
 // menghitung total pendapatan
-$total = $add + $dd + $pbh + $dll + $pembiayaan;
+$total = $add + $dd + $pbh + $pad + $dll + $bp + $pembiayaan;
 
 // menghitung prosentase
-$prosenADD = number_format($add/694538200 * 100,2);
-$prosenDD = number_format($dd/737089000 * 100,2);
-$prosenPBH = number_format($pbh/113052900 * 100,2);
-$prosenDLL = number_format($dll/11790415 * 100,2);
+$prosenADD = number_format($add/694538200 * 100,2);		//Anggaran ADD sebagai pembagi
+$prosenDD = number_format($dd/737089000 * 100,2);		//Anggaran DD sebagai pembagi
+$prosenPBH = number_format($pbh/113052900 * 100,2);		//Anggaran PBH sebagai pembagi
+$prosenPAD = number_format($pad/100000000 * 100,2);		//Anggaran DLL sebagai pembagi
+$prosenDLL = number_format($dll/11790415 * 100,2);		//Anggaran DLL sebagai pembagi
+$prosenBP = number_format($bp/100000000 * 100,2);		//Anggaran Provinsi sebagai pembagi
 $prosenPB = number_format(100,2);
 
 // menentukan panjang grafik batang berdasarkan prosentase
 $panjangADD = $prosenADD * 100 / 100;
 $panjangDD = $prosenDD * 100 / 100;
 $panjangPBH = $prosenPBH * 100 / 100;
+$panjangPAD = $prosenPAD * 100 / 100;
 $panjangDLL = $prosenDLL * 100 / 100;
+$panjangBP = $prosenBP * 100 / 100;
 $panjangPB = $prosenPB * 100 / 100;
 
 // menghitung total pengeluaran
@@ -77,7 +89,7 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
 <div class="col-md-4">
     <div align="center"><h2>Anggaran Tahun 2019</h2></div><hr>
     <div class="progress-group" style="margin-bottom:15px;">
-        Jumlah Rencana Penerimaan TA 2019<br>
+        Anggaran Pendapatan TA 2019<br>
         <b>Rp. <?= number_format($total19); ?></b>
     </div>
     <div class="progress-group">
@@ -103,13 +115,27 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
     </div>
     <div class="progress-group">
         Pendapatan Asli Desa (PAD)<br>
+		<b>Rp. <?= number_format($pad19); ?></b>
+        <div class="progress progress-sm active" align="right"><small><b><?= $prosenPAD19; ?>%</b></small>&nbsp;
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?= $panjangPAD19; ?>%"></div>
+        </div>
+    </div>
+    <div class="progress-group">
+        Pendapatan Lain-Lain (DLL)<br>
 		<b>Rp. <?= number_format($dll19); ?></b>
         <div class="progress progress-sm active" align="right"><small><b><?= $prosenDLL19; ?>%</b></small>&nbsp;
             <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?= $panjangDLL19; ?>%"></div>
         </div>
     </div>
     <div class="progress-group">
-        Penerimaan Pembiayaan<br>
+        Bantuan Provinsi<br>
+		<b>Rp. <?= number_format($bp19); ?></b>
+        <div class="progress progress-sm active" align="right"><small><b><?= $prosenBP19; ?>%</b></small>&nbsp;
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?= $panjangBP19; ?>%"></div>
+        </div>
+    </div>
+    <div class="progress-group">
+        Silpa Tahun Sebelumnya<br>
         <div class="clearfix">
             <span class="pull-left"><b>Rp. <?= number_format($pembiayaan19); ?></b></span>
             <small class="pull-right"><b><?= $prosenPB19; ?>%&nbsp;</b></small>
@@ -123,7 +149,7 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
     <div align="center"><h2>Pendapatan Tahun 2018</h2></div><hr>
     <div class="progress-group" style="margin-bottom:15px;">
         Realisasi Pendapatan Desa TA 2018<br>
-        <span class="pull-left"><b>Rp. <?php $persennya = number_format($total/1810851261 * 100,2); echo number_format($total); ?></b></span>
+        <span class="pull-left"><b>Rp. <?php $persennya = number_format($total/2010851261 * 100,2); echo number_format($total); ?></b></span>
         <span class="pull-right"><b><?= $persennya; ?>%&nbsp;</b></span>
     </div><br>
     <div class="progress-group">
@@ -157,6 +183,16 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
         </div>
     </div>
     <div class="progress-group">
+        Pendapatan Asli Desa (PAD)<br>
+        <div class="clearfix">
+            <span class="pull-left"><b>Rp. <?= number_format($pad); ?></b></span>
+            <small class="pull-right"><b><?= $prosenPAD; ?>%&nbsp;</b></small>
+        </div>
+        <div class="progress sm" align="right">
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?= $panjangPAD; ?>%"></div>
+        </div>
+    </div>
+    <div class="progress-group">
         Pendapatan Lain-Lain (DLL)<br>
         <div class="clearfix">
             <span class="pull-left"><b>Rp. <?= number_format($dll); ?></b></span>
@@ -167,7 +203,17 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
         </div>
     </div>
     <div class="progress-group">
-        Penerimaan Pembiayaan<br>
+        Bantuan Provinsi<br>
+        <div class="clearfix">
+            <span class="pull-left"><b>Rp. <?= number_format($bp); ?></b></span>
+            <small class="pull-right"><b><?= $prosenBP; ?>%&nbsp;</b></small>
+        </div>
+        <div class="progress sm" align="right">
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: <?= $panjangBP; ?>%"></div>
+        </div>
+    </div>
+    <div class="progress-group">
+        Silpa Tahun Sebelumnya<br>
         <div class="clearfix">
             <span class="pull-left"><b>Rp. <?= number_format($pembiayaan); ?></b></span>
             <small class="pull-right"><b><?= $prosenPB; ?>%&nbsp;</b></small>
