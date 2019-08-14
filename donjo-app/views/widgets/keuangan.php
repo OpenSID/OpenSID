@@ -1,5 +1,10 @@
 <!-- widget Statistik -->
 <style type="text/css">
+
+  .box-body, .box.box-info.box-solid{
+    position: relative;
+  }
+
   #grafik-judul{
     font-size: 18px;
     font-weight: bold;
@@ -16,7 +21,9 @@
 
   #widget-keuangan-container h3{
     font-size: 16px;
-    padding-top: 10px;
+    padding-top: 14px;
+    display: inline-block;
+    /*position: absolute;*/
   }
 
   #grafik-container{
@@ -39,7 +46,7 @@
 
   .graph, .graph-sub{
     padding: 0 12px;
-    padding-top: 8px;
+    padding-top: 4px;
   }
 
   .keuangan-selector{
@@ -60,6 +67,14 @@
     background: transparent;
   }
 
+  .dropdown{
+    /*width: 32px;*/
+    /*height: 30px;*/
+    /*bottom: 32.75px;*/
+    /*position: relative;*/
+    vertical-align: center;
+  }
+
   .keuangan-selector{
     text-align: left;
     padding-left: 0;
@@ -75,6 +90,10 @@
     font-size: 12px;
     margin-bottom: 10px;
   }
+
+  .graph{
+    padding-top: 4px;
+  }
 </style>
 <div class="box box-info box-solid">
   <div class="box-header">
@@ -82,27 +101,27 @@
   </div>
   <div class="box-body">
     <div id="widget-keuangan-container">
-      <div class="dropdown" style="position: absolute;">
-        <button class="dropdown-toggle btn btn-default" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toogle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-left">
-          <?php 
-            foreach ($widget_keuangan['tahun'] as $key):
-          ?>
-          <li><a class="dropdown-item"><b><?= $key ?></b></a></li>
-          <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan'); gantiTahun('<?= $key ?>')">Realisasi Pelaksanaan APBDesa</a></li>
-          <li><a class="dropdown-item" onclick="gantiTipe('pendapatan'); gantiTahun('<?= $key ?>')">Realisasi Pendapatan Desa</a></li>
-          <li><a class="dropdown-item" onclick="gantiTipe('belanja'); gantiTahun('<?= $key ?>')">Realisasi Belanja Desa</a></li>
-          <?php 
-            endforeach;
-          ?>
-        </ul>
-      </div>
-      <div id="grafik-judul" style="width: 100%">
+      <div id="grafik-judul" style="width: 100%; position: static;">
+        <div class="dropdown" style="position: absolute; top: 14px;">
+          <button class="dropdown-toggle btn btn-default" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 0">
+            <span class="sr-only">Toogle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-left">
+            <?php 
+              foreach ($widget_keuangan['tahun'] as $key):
+            ?>
+            <li><a class="dropdown-item"><b><?= $key ?></b></a></li>
+            <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan'); gantiTahun('<?= $key ?>')">Realisasi Pelaksanaan APBDesa</a></li>
+            <li><a class="dropdown-item" onclick="gantiTipe('pendapatan'); gantiTahun('<?= $key ?>')">Realisasi Pendapatan Desa</a></li>
+            <li><a class="dropdown-item" onclick="gantiTipe('belanja'); gantiTahun('<?= $key ?>')">Realisasi Belanja Desa</a></li>
+            <?php 
+              endforeach;
+            ?>
+          </ul>
+        </div>
         <h3></h3>
         <p id="grafik-tahun"></p>
       </div>
