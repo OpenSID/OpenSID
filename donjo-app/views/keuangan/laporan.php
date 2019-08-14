@@ -22,7 +22,10 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-3">
+				<?php $this->load->view('keuangan/menu_laporan');?>
+			</div>
+			<div class="col-md-9">
 				<div class="box box-danger">
 					<div class="box-header with-border">
 						<h4>Informasi Anggaran
