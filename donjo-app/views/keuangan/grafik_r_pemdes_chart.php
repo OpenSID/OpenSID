@@ -12,13 +12,13 @@
 		        type: 'bar'
 		    },
 		    title: {
-		        text: 'Realisasi Pendapatan Desa'
+		        text: 'Pembiayaan Desa'
 		    },
 		    subtitle: {
 		        text: "<?= 'Semester '.$smt.' Tahun '.$thn ?>"
 		    },
 		    xAxis: {
-		        categories: [<?= join($jp, ',')?>],
+		        categories: [<?= join($pembiayaan, ',')?>],
 		    },
 		    yAxis: {
 		        min: 0,
@@ -61,7 +61,7 @@
 		        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
 		        	}
 		        },
-				color: '#3498db',
+				color: '#2E8B57',
 		        data: [<?= join($anggaran, ',') ?>]
 	        },{
 		        name: 'Realisasi',
@@ -73,7 +73,7 @@
 				    	return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
 				    }
 			    },
-				color: '#e67e22',
+				color: '#3461eb',
 		        data: [<?= join($realisasi, ',') ?>]
 		    }]
 		});
