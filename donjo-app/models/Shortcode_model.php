@@ -1,5 +1,5 @@
 <?php
-class Shortcode_model extends Keuangan_model {
+class Shortcode_model extends Keuangan_grafik_model {
 
   public function __construct()
   {
